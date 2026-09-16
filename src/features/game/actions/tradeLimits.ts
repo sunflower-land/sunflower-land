@@ -40,8 +40,9 @@ export type TradeResource = Extract<
       | "Wild Mushroom"
       | "Magic Mushroom"
       | "Chicken"
+      | "Mud"
     >
-  | AnimalResource
+  | Exclude<AnimalResource, "Rawhide" | "Truffle">
   | FactionEmblem
   | Exclude<PetResourceName, "Acorn" | "Fossil Shell">
   | FermentationBait

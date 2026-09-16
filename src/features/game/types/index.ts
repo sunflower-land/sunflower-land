@@ -1622,6 +1622,19 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Champion Rarecrow": 3081,
   "OG Rarecrow": 3082,
   "Loyal Rarecrow": 3083,
+
+  // Chapter 16 resources
+  "Brown Beetle": 3084,
+  "Blue Beetle": 3085,
+  "Pink Beetle": 3086,
+  "Amber Beetle": 3087,
+  Mud: 3088,
+  Rawhide: 3089,
+  Truffle: 3090,
+  "Brown Beetle Feed": 3091,
+  "Blue Beetle Feed": 3092,
+  "Pink Beetle Feed": 3093,
+  "Amber Beetle Feed": 3094,
 };
 
 // The reverse of above

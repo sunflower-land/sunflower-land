@@ -15110,6 +15110,118 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Bronze Slime Trophy",
   },
+
+  // Chapter 16 resources
+  "Brown Beetle": {
+    description: "A common beetle.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Brown Beetle",
+  },
+  "Blue Beetle": {
+    description: "An uncommon beetle.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Blue Beetle",
+  },
+  "Pink Beetle": {
+    description: "A rare beetle.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Pink Beetle",
+  },
+  "Amber Beetle": {
+    description: "The rarest beetle.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Amber Beetle",
+  },
+  Mud: {
+    description: "Rich, sticky mud.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Mud",
+  },
+  Rawhide: {
+    description: "A tough animal hide.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Rawhide",
+  },
+  Truffle: {
+    description: "A prized truffle.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Truffle",
+  },
+  "Brown Beetle Feed": {
+    description: "Beetle-assisted animal feed.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Brown Beetle Feed",
+  },
+  "Blue Beetle Feed": {
+    description: "Beetle-assisted animal feed.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Blue Beetle Feed",
+  },
+  "Pink Beetle Feed": {
+    description: "Beetle-assisted animal feed.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Pink Beetle Feed",
+  },
+  "Amber Beetle Feed": {
+    description: "Beetle-assisted animal feed.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Amber Beetle Feed",
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
