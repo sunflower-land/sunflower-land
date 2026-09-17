@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { CONFIG } from "lib/config";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import { BUILDINGS } from "features/game/types/buildings";
 import { TEST_FARM } from "../../lib/constants";
@@ -670,6 +671,16 @@ describe("Construct building", () => {
 });
 
 describe("constructBuilding: Pigpen gating", () => {
+  // FE jest runs on amoy, where `betaFeatureFlag` is unconditionally true - so
+  // the flag-OFF path is only reachable by pretending to be mainnet.
+  const originalNetwork = CONFIG.NETWORK;
+  beforeEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+  });
+  afterEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+  });
+
   const dateNow = Date.now();
 
   const farm: GameState = {

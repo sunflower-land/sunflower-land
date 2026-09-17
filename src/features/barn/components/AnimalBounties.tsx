@@ -11,7 +11,11 @@ import {
   generateBountyTicket,
 } from "features/game/events/landExpansion/sellBounty";
 import { Context, useGame } from "features/game/GameProvider";
-import { getAnimalLevel } from "features/game/lib/animals";
+import {
+  getAnimalLevel,
+  makeAnimalBuildingKey,
+} from "features/game/lib/animals";
+import { ANIMALS, type AnimalType } from "features/game/types/animals";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { weekResetsAt } from "features/game/lib/factions";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -217,9 +221,14 @@ export const AnimalDeal: React.FC<{
   const getAnimal = (state: GameState) => {
     if (!deal || !animalId) return undefined;
 
-    return deal.name === "Chicken"
-      ? state.henHouse.animals[animalId]
-      : state.barn.animals[animalId];
+    // `deal` is any BountyRequest, so a non-animal name has no building.
+    if (!(deal.name in ANIMALS)) return undefined;
+
+    const buildingKey = makeAnimalBuildingKey(
+      ANIMALS[deal.name as AnimalType].buildingRequired,
+    );
+
+    return state[buildingKey].animals[animalId];
   };
 
   const activeAnimalOverride =

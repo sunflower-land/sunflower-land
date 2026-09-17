@@ -4272,6 +4272,7 @@
   "upgrade.intro.agingShed": "Hey there Bumpkin! Looking to upgrade your {{building}} to increase your slots in your aging, fermentation and spice racks?",
   "upgrade.sheep.cows": "sheep and cows",
   "upgrade.chickens": "chickens",
+  "upgrade.pigs": "pigs",
   "upgrade.unlockAllPlots": "Unlocks all plot fertility",
   "upgrade.plusPlotFertility": "+{{amount}} plot fertility",
   "upgrade.capacityIncrease": "+{{amount}} capacity",

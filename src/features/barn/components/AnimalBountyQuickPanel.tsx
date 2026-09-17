@@ -19,6 +19,8 @@ import { getChapterTicket } from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
 import { getKeys } from "lib/object";
+import { makeAnimalBuildingKey } from "features/game/lib/animals";
+import { ANIMALS } from "features/game/types/animals";
 
 const _game = (state: MachineState) => state.context.state;
 const CARD_SIZE = PIXEL_SCALE * 28;
@@ -88,8 +90,8 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
     const ids = new Set<string>();
 
     deals.forEach((deal) => {
-      const animals =
-        deal.name === "Chicken" ? state.henHouse.animals : state.barn.animals;
+      const { animals } =
+        state[makeAnimalBuildingKey(ANIMALS[deal.name].buildingRequired)];
 
       if (
         Object.values(animals).some((animal) =>

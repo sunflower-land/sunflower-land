@@ -29,6 +29,7 @@ import { getWearableImage } from "features/game/lib/getWearableImage";
 import Decimal from "decimal.js-light";
 import {
   ANIMAL_FOODS,
+  type AnimalBuildingType,
   type AnimalType,
   type Feed,
   type FeedType,
@@ -43,7 +44,7 @@ import { BulkMixModal } from "./BulkMixModal";
 interface Props {
   show: boolean;
   onClose: () => void;
-  building: "Hen House" | "Barn";
+  building: AnimalBuildingType;
 }
 
 type BulkMixItem = AnimalFoodName | AnimalMedicineName;

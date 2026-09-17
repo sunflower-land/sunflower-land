@@ -28,6 +28,7 @@ import {
   ANIMAL_FOODS,
   ANIMAL_LEVELS,
   type AnimalLevel,
+  type AnimalBuildingType,
   type AnimalType,
   type FeedType,
 } from "features/game/types/animals";
@@ -257,7 +258,7 @@ const getBuildingRequests = ({
 
 export function getBulkMixRequirements(
   game: GameState,
-  building: "Hen House" | "Barn",
+  building: AnimalBuildingType,
   now: number,
 ) {
   const buildingKey = makeAnimalBuildingKey(building);

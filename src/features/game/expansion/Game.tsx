@@ -67,6 +67,7 @@ import { Transaction } from "features/island/hud/Transaction";
 import { Gems } from "./components/Gems";
 import { HenHouseInside } from "features/henHouse/HenHouseInside";
 import { BarnInside } from "features/barn/BarnInside";
+import { PigpenInside } from "features/pigpen/PigpenInside";
 import { PetHouseInside } from "features/petHouse/PetHouseInside";
 import {
   STATE_MACHINE_EFFECTS,
@@ -368,6 +369,8 @@ const GameContent: React.FC = () => {
       !!game.buildings.Greenhouse && isBuildingReady(game.buildings.Greenhouse),
     Barn: (game) =>
       !!game.buildings.Barn && isBuildingReady(game.buildings.Barn),
+    Pigpen: (game) =>
+      !!game.buildings.Pigpen && isBuildingReady(game.buildings.Pigpen),
     HenHouse: (game) =>
       !!game.buildings["Hen House"] &&
       isBuildingReady(game.buildings["Hen House"]),
@@ -445,6 +448,9 @@ const GameContent: React.FC = () => {
             <Route path="/greenhouse" element={<GreenhouseInside />} />
           )}
           {hasAccess("Barn") && <Route path="/barn" element={<BarnInside />} />}
+          {hasAccess("Pigpen") && (
+            <Route path="/pigpen" element={<PigpenInside />} />
+          )}
           {hasAccess("HenHouse") && (
             <Route path="/hen-house" element={<HenHouseInside />} />
           )}

@@ -347,6 +347,7 @@ const _season = (state: MachineState) => state.context.state.season.season;
 const _henHouseLevel = (state: MachineState) =>
   state.context.state.henHouse.level;
 const _barnLevel = (state: MachineState) => state.context.state.barn.level;
+const _pigpenLevel = (state: MachineState) => state.context.state.pigpen.level;
 
 const MoveableBuilding: React.FC<Prop> = (props) => {
   const { gameService } = useContext(Context);
@@ -354,12 +355,14 @@ const MoveableBuilding: React.FC<Prop> = (props) => {
   const season = useSelector(gameService, _season);
   const henHouseLevel = useSelector(gameService, _henHouseLevel);
   const barnLevel = useSelector(gameService, _barnLevel);
+  const pigpenLevel = useSelector(gameService, _pigpenLevel);
   const landscaping = useSelector(gameService, isLandscaping);
   const BuildingPlaced = READONLY_BUILDINGS({
     island,
     season,
     henHouseLevel,
     barnLevel,
+    pigpenLevel,
   })[props.name];
 
   const now = useNow(); // just capture "now" once

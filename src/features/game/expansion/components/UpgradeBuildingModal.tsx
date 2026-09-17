@@ -22,6 +22,7 @@ import { InlineDialogue } from "features/world/ui/TypingMessage";
 import powerup from "assets/icons/level_up.png";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { BARN_IMAGES } from "features/island/buildings/components/building/barn/Barn";
+import { PIGPEN_IMAGES } from "features/island/buildings/components/building/pigpen/Pigpen";
 import {
   HEN_HOUSE_VARIANTS,
   PET_HOUSE_VARIANTS,
@@ -155,6 +156,10 @@ export const UpgradeBuildingContent: React.FC<Omit<Props, "show">> = ({
 
     const biome: LandBiomeName = getCurrentBiome(state.island);
 
+    if (buildingName === "Pigpen") {
+      return PIGPEN_IMAGES[biome][state.season.season][nextLevel];
+    }
+
     return BARN_IMAGES[biome][state.season.season][nextLevel];
   };
 
@@ -200,6 +205,11 @@ export const UpgradeBuildingContent: React.FC<Omit<Props, "show">> = ({
       return t("upgrade.intro", {
         building: buildingLabel,
         animals: t("upgrade.sheep.cows"),
+      });
+    if (buildingName === "Pigpen")
+      return t("upgrade.intro", {
+        building: buildingLabel,
+        animals: t("upgrade.pigs"),
       });
 
     // Hen House
