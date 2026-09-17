@@ -10,6 +10,7 @@ import type { Coordinates } from "features/game/expansion/components/MapPlacemen
 import { translate, translateForBubble } from "lib/i18n/translate";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { CONFIG } from "lib/config";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import type { BumpkinContainer } from "../containers/BumpkinContainer";
@@ -128,6 +129,13 @@ import {
 } from "../lib/loveKraken";
 
 const BUMPKINS: NPCBumpkin[] = [];
+
+/**
+ * Only without an MMO (art mode) do the puzzles fake a crowd. With one, a
+ * room that hasn't published a puzzle - still connecting, or an older
+ * server - shows nothing rather than bots solving it for a prize.
+ */
+const SIMULATE_LOVE_ISLAND = !CONFIG.ROOM_URL;
 
 /** Centre of the island clearing where the daily puzzle lives. */
 const CENTRE = { x: 615, y: 566 };
@@ -410,8 +418,8 @@ const LOSE_COLOUR = 0xe57373;
  * day), the buttons flash, and 10s later they land somewhere new. The HUD
  * shows how many buttons are pressed and how many players are standing on
  * one, so the island can tell when it's spread too thin or doubling up.
- * The room publishes `state.loveButtons`; until it does a simulated crowd
- * fills all but one button, leaving the last for you.
+ * The room publishes `state.loveButtons`. Without an MMO at all (art mode)
+ * a simulated crowd fills all but one button, leaving the last for you.
  *
  * Lover's Push: four boulders start out toward the corners of the island
  * and have to be rolled into four squares in the middle of the clearing -
@@ -1341,8 +1349,11 @@ export class LoveIslandScene extends BaseScene {
       : undefined;
   }
 
-  /** The current round, from the room when it has one, else simulated. */
-  private getPushRound(now: number): LovePushRound {
+  /**
+   * The current round, from the room when it has one. Simulated only when
+   * there is no MMO at all - otherwise nothing until the room publishes.
+   */
+  private getPushRound(now: number): LovePushRound | undefined {
     const remote = this.remotePush;
 
     if (remote) {
@@ -1391,6 +1402,8 @@ export class LoveIslandScene extends BaseScene {
           : {}),
       };
     }
+
+    if (!SIMULATE_LOVE_ISLAND) return undefined;
 
     this.localPush = tickLovePushLocalRound({
       round: this.localPush ?? createLovePushLocalRound(now),
@@ -1444,6 +1457,7 @@ export class LoveIslandScene extends BaseScene {
     if (Math.cos(radians) * delta.x + Math.sin(radians) * delta.y <= 0) return;
 
     const round = this.getPushRound(now);
+    if (!round) return;
 
     if (round.solved) {
       if (now - this.lastPushBubbleAt > PUSH_BUBBLE_COOLDOWN_MS) {
@@ -1788,6 +1802,7 @@ export class LoveIslandScene extends BaseScene {
   updateLovePush() {
     const now = Date.now();
     const round = this.getPushRound(now);
+    if (!round) return;
 
     // Fresh boulders - snap everything into place
     if (this.pushRoundId !== round.roundId) {
@@ -2086,8 +2101,11 @@ export class LoveIslandScene extends BaseScene {
       : undefined;
   }
 
-  /** The current round, from the room when it has one, else simulated. */
-  private getButtonsRound(now: number): LoveButtonsRound {
+  /**
+   * The current round, from the room when it has one. Simulated only when
+   * there is no MMO at all - otherwise nothing until the room publishes.
+   */
+  private getButtonsRound(now: number): LoveButtonsRound | undefined {
     const remote = this.remoteButtons;
 
     if (remote) {
@@ -2125,6 +2143,8 @@ export class LoveIslandScene extends BaseScene {
           : {}),
       };
     }
+
+    if (!SIMULATE_LOVE_ISLAND) return undefined;
 
     this.localButtons = tickLoveButtonsLocalRound({
       round: this.localButtons ?? createLoveButtonsLocalRound(now),
@@ -2352,6 +2372,12 @@ export class LoveIslandScene extends BaseScene {
     const now = Date.now();
     let round = this.getButtonsRound(now);
 
+    // The room hasn't published the buttons (yet) - nothing to show
+    if (!round) {
+      this.hideLoveButtons();
+      return;
+    }
+
     // Fresh buttons - deal them out and start over
     if (this.buttonsRoundId !== round.roundId) {
       this.buttonsRoundId = round.roundId;
@@ -2406,6 +2432,19 @@ export class LoveIslandScene extends BaseScene {
       this.solvedButtonsRoundId = round.roundId;
       this.solveButtons(round, this.sawButtonsUnsolved);
     }
+  }
+
+  /** Put the buttons away while the room has none, and start over when it does. */
+  private hideLoveButtons() {
+    if (this.buttonsRoundId === undefined) return;
+
+    this.buttonsRoundId = undefined;
+    this.myButton = LOVE_BUTTONS_NONE;
+    this.myHold = undefined;
+    this.renderedButtonsPressed = [];
+    this.hideButtonLamps();
+    this.loveButtons.forEach((image) => image.setVisible(false));
+    hideLoveButtonsHud();
   }
 
   /** The last button just went down - celebrate and settle up. */
@@ -2594,8 +2633,11 @@ export class LoveIslandScene extends BaseScene {
     return remote && remote.hits > 0 ? remote : undefined;
   }
 
-  /** The current boulder, from the room when it has one, else simulated. */
-  private getBoulderRound(now: number): LoveBoulderRound {
+  /**
+   * The current boulder, from the room when it has one. Simulated only when
+   * there is no MMO at all - otherwise nothing until the room publishes.
+   */
+  private getBoulderRound(now: number): LoveBoulderRound | undefined {
     const remote = this.remoteBoulder;
 
     if (remote) {
@@ -2620,6 +2662,8 @@ export class LoveIslandScene extends BaseScene {
       };
     }
 
+    if (!SIMULATE_LOVE_ISLAND) return undefined;
+
     this.localBoulder = tickLoveBoulderLocalRound({
       round: this.localBoulder ?? createLoveBoulderLocalRound(now),
       now,
@@ -2641,7 +2685,7 @@ export class LoveIslandScene extends BaseScene {
     const round = this.getBoulderRound(now);
     const player = this.currentPlayer;
 
-    if (!this.boulder || !player || round.broken) return;
+    if (!this.boulder || !player || !round || round.broken) return;
 
     if (!this.checkDistanceToSprite(this.boulder, BOULDER_REACH)) {
       player.speak(translateForBubble("base.iam.far.away"));
@@ -2738,6 +2782,7 @@ export class LoveIslandScene extends BaseScene {
     }
 
     const round = this.getBoulderRound(now);
+    if (!round) return;
 
     // Fresh boulder
     if (this.boulderRoundId !== round.roundId) {
@@ -2872,7 +2917,7 @@ export class LoveIslandScene extends BaseScene {
     const round = this.getBoulderRound(now);
     const player = this.currentPlayer;
 
-    if (!this.boulder || !player) return;
+    if (!this.boulder || !player || !round) return;
     if (!isLoveBoulderRewardOpen({ round, now })) return;
 
     if (!this.checkDistanceToSprite(this.boulder, BOULDER_REACH)) {
@@ -3060,8 +3105,11 @@ export class LoveIslandScene extends BaseScene {
     return remote && remote.health > 0 ? remote : undefined;
   }
 
-  /** The current Marvel, from the room when it has one, else simulated. */
-  private getKrakenRound(now: number): LoveKrakenRound {
+  /**
+   * The current Marvel, from the room when it has one. Simulated only when
+   * there is no MMO at all - otherwise nothing until the room publishes.
+   */
+  private getKrakenRound(now: number): LoveKrakenRound | undefined {
     const remote = this.remoteKraken;
 
     if (remote) {
@@ -3083,6 +3131,8 @@ export class LoveIslandScene extends BaseScene {
         }),
       };
     }
+
+    if (!SIMULATE_LOVE_ISLAND) return undefined;
 
     this.localKraken = tickLoveKrakenLocalRound({
       round: this.localKraken ?? createLoveKrakenLocalRound(now),
@@ -3245,7 +3295,7 @@ export class LoveIslandScene extends BaseScene {
     const round = this.getKrakenRound(now);
 
     // Nothing to reel in while the prize is floating there
-    if (round.caught) return;
+    if (!round || round.caught) return;
 
     // Every tap presses the button, landed or not, in reach or not
     this.pressKrakenButton();
@@ -3387,6 +3437,7 @@ export class LoveIslandScene extends BaseScene {
   updateLoveKraken() {
     const now = Date.now();
     const round = this.getKrakenRound(now);
+    if (!round) return;
 
     // Fresh Marvel - a new line, so the ring starts over at the top
     if (this.krakenRoundId !== round.roundId) {
@@ -3676,7 +3727,7 @@ export class LoveIslandScene extends BaseScene {
     const round = this.getKrakenRound(now);
     const player = this.currentPlayer;
 
-    if (!this.kraken || !player) return;
+    if (!this.kraken || !player || !round) return;
     if (!isLoveKrakenRewardOpen({ round, now })) return;
     if (this.claimedKrakenRoundId === round.roundId) return;
 
