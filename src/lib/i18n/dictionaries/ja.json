@@ -8625,5 +8625,12 @@
   "animalFood.brownBeetleFeed": "ブラウンビートルフィード",
   "animalFood.blueBeetleFeed": "ブルービートルフィード",
   "animalFood.pinkBeetleFeed": "ピンクビートルフィード",
-  "animalFood.amberBeetleFeed": "アンバービートルフィード"
+  "animalFood.amberBeetleFeed": "アンバービートルフィード",
+  "loveButtons.didNotHelp": "次回はボタンを押して賞品を獲得しましょう！",
+  "loveButtons.alreadyClaimed": "今日すでに請求されました。明日戻ってきて！",
+  "loveButtons.prize": "ブロンズラブボックスを獲得しました！",
+  "loveButtons.guide.title": "ラブボタン",
+  "loveButtons.guide.stand": "{{count}} ボタンは島中に点在しています。1つだけ立って押してください。島ではすべてのボタンに同時にバンプキンが必要です。",
+  "loveButtons.guide.counter": "画面上部のカウンターには、押されたボタンの数が表示されます。広げてみると、2 対 1 のボタンは 1 回しか押せません。",
+  "loveButtons.guide.prizes": "最後のボタンがダウンしたときにボタンの上に立っている全員が、{{amount}} {{item}} を1日1回獲得します。"
 }

@@ -8625,5 +8625,12 @@
   "animalFood.brownBeetleFeed": "Alimento para escarabajos marrones",
   "animalFood.blueBeetleFeed": "Alimento para escarabajos azules",
   "animalFood.pinkBeetleFeed": "Alimento para escarabajos rosados",
-  "animalFood.amberBeetleFeed": "Alimento para escarabajos ámbar"
+  "animalFood.amberBeetleFeed": "Alimento para escarabajos ámbar",
+  "loveButtons.didNotHelp": "¡Presiona un botón la próxima vez para ganar el premio!",
+  "loveButtons.alreadyClaimed": "Ya lo reclamé hoy. ¡Regresa mañana!",
+  "loveButtons.prize": "¡Has ganado una Love Box de bronce!",
+  "loveButtons.guide.title": "Botones de amor",
+  "loveButtons.guide.stand": "Los botones {{count}} están repartidos por toda la isla. Párate sobre uno de ellos para presionarlo. La isla necesita un búho en cada botón al mismo tiempo.",
+  "loveButtons.guide.counter": "El contador de la parte superior de la pantalla muestra cuántos botones se han pulsado. Extiéndete: ¡el botón dos contra uno solo lo presionas una vez!",
+  "loveButtons.guide.prizes": "Todos los que estén de pie sobre un botón cuando se caiga el último botón ganan {{amount}} {{item}}, una vez al día."
 }

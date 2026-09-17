@@ -8625,5 +8625,12 @@
   "animalFood.brownBeetleFeed": "Mangime per scarabei bruni",
   "animalFood.blueBeetleFeed": "Mangime per scarabei blu",
   "animalFood.pinkBeetleFeed": "Mangime per scarabei rosa",
-  "animalFood.amberBeetleFeed": "Mangime per scarabei ambrati"
+  "animalFood.amberBeetleFeed": "Mangime per scarabei ambrati",
+  "loveButtons.didNotHelp": "La prossima volta premi un pulsante per vincere il premio!",
+  "loveButtons.alreadyClaimed": "Già richiesto oggi. Torna domani!",
+  "loveButtons.prize": "Hai vinto una Love Box in bronzo!",
+  "loveButtons.guide.title": "Bottoni d'amore",
+  "loveButtons.guide.stand": "I pulsanti {{count}} sono sparsi in tutta l'isola. Mettiti in piedi su uno per premerlo: l'isola ha bisogno di un Bumpkin su ogni pulsante contemporaneamente.",
+  "loveButtons.guide.counter": "Il contatore nella parte superiore dello schermo mostra quanti pulsanti vengono premuti. Distribuisci: due volte su un pulsante lo premi una sola volta!",
+  "loveButtons.guide.prizes": "Chiunque stia premendo un pulsante quando l'ultimo pulsante scende guadagna {{amount}} {{item}}, una volta al giorno."
 }

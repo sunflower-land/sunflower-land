@@ -8625,5 +8625,12 @@
   "animalFood.brownBeetleFeed": "Nourriture pour coléoptères bruns",
   "animalFood.blueBeetleFeed": "Nourriture pour coléoptères bleus",
   "animalFood.pinkBeetleFeed": "Nourriture pour coléoptères roses",
-  "animalFood.amberBeetleFeed": "Nourriture pour coléoptères ambrés"
+  "animalFood.amberBeetleFeed": "Nourriture pour coléoptères ambrés",
+  "loveButtons.didNotHelp": "La prochaine fois, appuies sur un bouton pour gagner le prix !",
+  "loveButtons.alreadyClaimed": "Déjà réclamé aujourd'hui. Revenez demain !",
+  "loveButtons.prize": "Vous avez gagné une Love Box en bronze !",
+  "loveButtons.guide.title": "Boutons d'amour",
+  "loveButtons.guide.stand": "Les boutons {{count}} sont éparpillés sur toute l'île. Placez-vous sur l'un d'eux pour appuyer dessus. L'île a besoin d'un bouton Bumpkin sur chaque bouton en même temps.",
+  "loveButtons.guide.counter": "Le compteur en haut de l'écran indique le nombre de boutons pressés. Étalez : appuyez une seule fois sur le bouton deux en un !",
+  "loveButtons.guide.prizes": "Tous ceux qui appuient sur un bouton lorsque le dernier bouton tombe en panne gagnent {{amount}} {{item}}, une fois par jour."
 }

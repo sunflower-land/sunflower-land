@@ -8625,5 +8625,12 @@
   "animalFood.brownBeetleFeed": "Kahverengi Böcek Yemi",
   "animalFood.blueBeetleFeed": "Mavi Böcek Yemi",
   "animalFood.pinkBeetleFeed": "Pembe Böcek Yemi",
-  "animalFood.amberBeetleFeed": "Amber Böceği Yemi"
+  "animalFood.amberBeetleFeed": "Amber Böceği Yemi",
+  "loveButtons.didNotHelp": "Bir dahaki sefere ödülü kazanmak için bir düğmenin üzerinde durun!",
+  "loveButtons.alreadyClaimed": "Bugün zaten talep etti. Yarın geri gel!",
+  "loveButtons.prize": "Bronz Aşk Kutusu kazandın!",
+  "loveButtons.guide.title": "Aşk Düğmeleri",
+  "loveButtons.guide.stand": "{{count}} düğmeleri adanın her yerine dağılmış durumda. Basmak için bir tane üzerinde durun - adanın her düğmede aynı anda bir Bumpkin'e ihtiyacı var.",
+  "loveButtons.guide.counter": "Ekranın üst kısmındaki sayaç kaç düğmeye basıldığını gösterir. Yayılın - tek bir düğme sadece bir kez basar!",
+  "loveButtons.guide.prizes": "Sonuncusu düştüğünde bir düğmenin üzerinde duran herkes günde bir kez {{amount}} {{item}} kazanır."
 }

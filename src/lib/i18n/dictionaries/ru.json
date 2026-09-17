@@ -8625,5 +8625,12 @@
   "animalFood.brownBeetleFeed": "Brown Beetle Feed",
   "animalFood.blueBeetleFeed": "Blue Beetle Feed",
   "animalFood.pinkBeetleFeed": "Pink Beetle Feed",
-  "animalFood.amberBeetleFeed": "Amber Beetle Feed"
+  "animalFood.amberBeetleFeed": "Amber Beetle Feed",
+  "loveButtons.didNotHelp": "Stand on a button next time to earn the prize!",
+  "loveButtons.alreadyClaimed": "Already claimed today. Come back tomorrow!",
+  "loveButtons.prize": "You won a Bronze Love Box!",
+  "loveButtons.guide.title": "Love Buttons",
+  "loveButtons.guide.stand": "{{count}} buttons are scattered across the island. Stand on one to press it - the island needs a Bumpkin on every button at the same time.",
+  "loveButtons.guide.counter": "The counter at the top of the screen shows how many buttons are pressed. Spread out - two on one button only presses it once!",
+  "loveButtons.guide.prizes": "Everyone standing on a button when the last one goes down earns {{amount}} {{item}}, once a day."
 }

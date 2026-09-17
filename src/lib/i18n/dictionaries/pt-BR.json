@@ -8625,5 +8625,12 @@
   "animalFood.brownBeetleFeed": "Alimentação de besouro marrom",
   "animalFood.blueBeetleFeed": "Alimentação de besouro azul",
   "animalFood.pinkBeetleFeed": "Alimentação de besouro rosa",
-  "animalFood.amberBeetleFeed": "Alimentação para besouros âmbar"
+  "animalFood.amberBeetleFeed": "Alimentação para besouros âmbar",
+  "loveButtons.didNotHelp": "Aperte um botão na próxima vez para ganhar o prêmio!",
+  "loveButtons.alreadyClaimed": "Já reivindicou hoje. Volte amanhã!",
+  "loveButtons.prize": "Você ganhou uma Caixa de Amor de Bronze!",
+  "loveButtons.guide.title": "Botões de amor",
+  "loveButtons.guide.stand": "Os botões {{count}} estão espalhados pela ilha. Suba em um deles para pressioná-lo - a ilha precisa de um Bumpkin em cada botão ao mesmo tempo.",
+  "loveButtons.guide.counter": "O contador na parte superior da tela mostra quantos botões são pressionados. Espalhe - o botão dois em um pressiona apenas uma vez!",
+  "loveButtons.guide.prizes": "Todo mundo que apertar um botão quando o último cair ganha {{amount}} {{item}}, uma vez por dia."
 }

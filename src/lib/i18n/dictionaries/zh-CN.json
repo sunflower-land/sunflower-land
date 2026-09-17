@@ -8625,5 +8625,12 @@
   "animalFood.brownBeetleFeed": "棕甲虫饲料",
   "animalFood.blueBeetleFeed": "蓝甲虫饲料",
   "animalFood.pinkBeetleFeed": "粉甲虫饲料",
-  "animalFood.amberBeetleFeed": "琥珀甲虫饲料"
+  "animalFood.amberBeetleFeed": "琥珀甲虫饲料",
+  "loveButtons.didNotHelp": "下次按下按钮即可获得奖品！",
+  "loveButtons.alreadyClaimed": "今天已经申请了。明天回来！",
+  "loveButtons.prize": "你赢得了铜牌爱心盒子！",
+  "loveButtons.guide.title": "爱心纽扣",
+  "loveButtons.guide.stand": "{{count}} 按钮散落在岛上。站在一个上面按下它——岛上的每个按钮都需要同时开一个 Bumpkin。",
+  "loveButtons.guide.counter": "屏幕顶部的计数器显示按下了多少个按钮。分开-二合一按钮只能按一次！",
+  "loveButtons.guide.prizes": "当最后一个按钮掉线时，每个按下按钮的人每天赚一次 {{amount}} {{item}}。"
 }

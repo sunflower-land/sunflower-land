@@ -8625,5 +8625,12 @@
   "animalFood.brownBeetleFeed": "Pakan Kumbang Coklat",
   "animalFood.blueBeetleFeed": "Pakan Kumbang Biru",
   "animalFood.pinkBeetleFeed": "Pakan Kumbang Merah Muda",
-  "animalFood.amberBeetleFeed": "Pakan Kumbang Amber"
+  "animalFood.amberBeetleFeed": "Pakan Kumbang Amber",
+  "loveButtons.didNotHelp": "Berdirilah di tombol lain kali untuk mendapatkan hadiah!",
+  "loveButtons.alreadyClaimed": "Sudah diklaim hari ini. Kembalilah besok!",
+  "loveButtons.prize": "Anda memenangkan Kotak Cinta Perunggu!",
+  "loveButtons.guide.title": "Tombol Cinta",
+  "loveButtons.guide.stand": "Tombol {{count}} tersebar di seluruh pulau. Berdirilah di atas satu untuk menekannya - pulau ini membutuhkan Bumpkin di setiap tombol pada saat yang bersamaan.",
+  "loveButtons.guide.counter": "Penghitung di bagian atas layar menunjukkan berapa banyak tombol yang ditekan. Sebarkan - dua pada satu tombol hanya menekannya sekali!",
+  "loveButtons.guide.prizes": "Setiap orang yang berdiri di atas tombol ketika yang terakhir turun menghasilkan {{amount}} {{item}}, sekali sehari."
 }

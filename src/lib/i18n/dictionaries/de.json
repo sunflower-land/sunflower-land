@@ -8625,5 +8625,12 @@
   "animalFood.brownBeetleFeed": "Futter für braune Käfer",
   "animalFood.blueBeetleFeed": "Blaukäferfutter",
   "animalFood.pinkBeetleFeed": "Futter für rosa Käfer",
-  "animalFood.amberBeetleFeed": "Bernsteinkäferfutter"
+  "animalFood.amberBeetleFeed": "Bernsteinkäferfutter",
+  "loveButtons.didNotHelp": "Stell dich das nächste Mal auf einen Button, um dir den Preis zu sichern!",
+  "loveButtons.alreadyClaimed": "Heute schon beansprucht. Komm morgen wieder!",
+  "loveButtons.prize": "Du hast eine Bronze Love Box gewonnen!",
+  "loveButtons.guide.title": "Liebesknöpfe",
+  "loveButtons.guide.stand": "Die Buttons {{count}} sind auf der ganzen Insel verstreut. Stell dich auf eine, um sie zu drücken — die Insel braucht auf jeder Taste gleichzeitig einen Bumpkin.",
+  "loveButtons.guide.counter": "Der Zähler oben auf dem Bildschirm zeigt an, wie viele Tasten gedrückt werden. Verteilen Sie es — zwei auf einer Taste drücken Sie sie nur einmal!",
+  "loveButtons.guide.prizes": "Jeder, der auf einem Button steht, wenn der letzte ausfällt, verdient einmal am Tag {{amount}} {{item}}."
 }
