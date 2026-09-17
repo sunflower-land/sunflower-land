@@ -167,8 +167,10 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
             <Label
               type="warning"
               icon={SUNNYSIDE.ui.coinsImg}
-              className="absolute -bottom-1 text-center p-1"
+              className="absolute text-center p-1"
               style={{
+                // Sit on the card's bottom outline, leaving its shadow line visible.
+                bottom: `${PIXEL_SCALE * -3}px`,
                 left: `${PIXEL_SCALE * -3}px`,
                 right: `${PIXEL_SCALE * -3}px`,
                 width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
@@ -184,8 +186,10 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
               key={name}
               type="warning"
               icon={ITEM_DETAILS[name].image}
-              className="absolute -bottom-1 text-center p-1"
+              className="absolute text-center p-1"
               style={{
+                // Sit on the card's bottom outline, leaving its shadow line visible.
+                bottom: `${PIXEL_SCALE * -3}px`,
                 left: `${PIXEL_SCALE * -3}px`,
                 right: `${PIXEL_SCALE * -3}px`,
                 width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
@@ -216,13 +220,13 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
   return (
     <InnerPanel
       className="flex w-full flex-none flex-col overflow-hidden"
-      style={{ height: `${CARD_SIZE * 1.15 + PIXEL_SCALE * 12}px` }}
+      style={{ height: `${CARD_SIZE * 1.15 + PIXEL_SCALE * 15}px` }}
     >
       {activeDeals.length > 0 || (!hideCompleted && soldDeals.length > 0) ? (
         // Just the cards: a single scrolling row keeps the panel as short as
         // possible. Top/bottom padding leaves room for the cards' overhanging
         // level and reward labels.
-        <div className="scrollable flex flex-nowrap items-start gap-x-3 overflow-x-auto overflow-y-hidden pl-3 pr-1 pt-2.5 pb-1.5">
+        <div className="scrollable flex flex-nowrap items-start gap-x-3 overflow-x-auto overflow-y-hidden pl-3 pr-1 pt-2.5 pb-3.5">
           {activeDeals.map((deal) => renderDealCard(deal))}
           {!hideCompleted &&
             soldDeals.map((deal, index) =>

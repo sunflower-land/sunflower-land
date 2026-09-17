@@ -8,7 +8,6 @@ export interface CheckboxProps {
   checked: boolean;
   onChange: (checked: boolean) => void;
   disabled?: boolean;
-  size?: number;
   "aria-label"?: string;
 }
 
@@ -16,7 +15,6 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   checked,
   onChange,
   disabled = false,
-  size = PIXEL_SCALE * 10,
   "aria-label": ariaLabel,
 }) => {
   const handleClick = () => {
@@ -46,8 +44,8 @@ export const Checkbox: React.FC<CheckboxProps> = ({
           "bg-brown-100 cursor-not-allowed opacity-75": disabled,
         })}
         style={{
-          width: `${size}px`,
-          height: `${size}px`,
+          width: `${PIXEL_SCALE * 10}px`,
+          height: `${PIXEL_SCALE * 10}px`,
           ...pixelLightBorderStyle,
         }}
       />
@@ -55,12 +53,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         <img
           src={SUNNYSIDE.icons.confirm}
           alt="checked"
-          className="absolute"
-          style={{
-            width: `${size * 0.8}px`,
-            left: `${size * 0.1}px`,
-            bottom: `${size * 0.1}px`,
-          }}
+          className="absolute left-1 bottom-1 w-8"
         />
       )}
     </div>
