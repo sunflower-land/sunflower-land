@@ -295,6 +295,19 @@ img {
   animation: pulsate 1s infinite;
 }
 
+/* A counter that just went up - one quick pop (see tailwind `animate-bump`). */
+@keyframes bump {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 /* 7 frame sparkle spritesheet. The frame width is set by the component so the
    sprite always steps a whole frame at a time. */
 @keyframes sparkle-burst {
