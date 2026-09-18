@@ -128,6 +128,7 @@ export function makeGame(farm: any): GameState {
     transaction: farm.transaction,
     henHouse: farm.henHouse,
     barn: farm.barn,
+    pigpen: farm.pigpen,
     waterWell: farm.waterWell,
     agingShed: farm.agingShed,
     petHouse: farm.petHouse,

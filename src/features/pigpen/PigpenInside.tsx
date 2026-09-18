@@ -10,9 +10,9 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "lib/object";
-import { ANIMALS, type AnimalType } from "features/game/types/animals";
-import { Cow } from "./components/Cow";
-import { Sheep } from "./components/Sheep";
+import { ANIMALS } from "features/game/types/animals";
+import { Pig } from "./components/Pig";
+import { EXTERIOR_ISLAND_BG } from "features/barn/BarnInside";
 import shopDisc from "assets/icons/shop_disc.png";
 
 import {
@@ -25,14 +25,16 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
 import { ANIMAL_HOUSE_IMAGES } from "features/henHouse/HenHouseInside";
 import type { AnimalBounty } from "features/game/types/game";
-import { AnimalDeal, ExchangeHud } from "./components/AnimalBounties";
-import { AnimalBountySellPanel } from "./components/AnimalBountySellPanel";
+import {
+  AnimalDeal,
+  ExchangeHud,
+} from "features/barn/components/AnimalBounties";
+import { AnimalBountySellPanel } from "features/barn/components/AnimalBountySellPanel";
 import { Modal } from "components/ui/Modal";
 import classNames from "classnames";
 import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { ANIMAL_HOUSE_BOUNDS } from "features/game/expansion/placeable/lib/collisionDetection";
-import type { LandBiomeName } from "features/island/biomes/biomes";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { PlayerModal } from "features/social/PlayerModal";
 import { hasFeatureAccess } from "lib/flags";
@@ -40,20 +42,7 @@ import { Context as AuthContext } from "features/auth/lib/Provider";
 import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { isBuildingDestroyed } from "features/island/buildings/components/building/Building";
 
-export const EXTERIOR_ISLAND_BG: Record<LandBiomeName, string> = {
-  "Basic Biome": SUNNYSIDE.land.basic_building_bg,
-  "Spring Biome": SUNNYSIDE.land.spring_building_bg,
-  "Desert Biome": SUNNYSIDE.land.desert_building_bg,
-  "Volcano Biome": SUNNYSIDE.land.volcano_building_bg,
-  "Swamp Biome": SUNNYSIDE.land.basic_building_bg,
-  // Ascension biomes (spooky onward) reuse the swamp art for now.
-  "Spooky Biome": SUNNYSIDE.land.basic_building_bg,
-  "Crystal Biome": SUNNYSIDE.land.basic_building_bg,
-  "Galaxy Biome": SUNNYSIDE.land.basic_building_bg,
-  "Marble Age Biome": SUNNYSIDE.land.basic_building_bg,
-};
-
-const _barn = (state: MachineState) => state.context.state.barn;
+const _pigpen = (state: MachineState) => state.context.state.pigpen;
 const _game = (state: MachineState) => state.context.state;
 const _island = (state: MachineState) => state.context.state.island;
 const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
@@ -64,25 +53,13 @@ const _hasAirdropAccess = (state: MachineState) =>
     state.context.visitorState ?? state.context.state,
     "AIRDROP_PLAYER",
   );
-const _isBarnDestroyed = (state: MachineState) =>
+const _isPigpenDestroyed = (state: MachineState) =>
   isBuildingDestroyed({
-    name: "Barn",
+    name: "Pigpen",
     calendar: state.context.state.calendar,
   });
 
-// An allowlist, not `Exclude<AnimalType, "Chicken">`: the Barn houses Cows and
-// Sheep specifically, and should not silently claim every animal added later.
-type BarnAnimal = Extract<AnimalType, "Cow" | "Sheep">;
-
-const BARN_ANIMAL_COMPONENTS: Record<
-  BarnAnimal,
-  React.FC<{ id: string; disabled: boolean }>
-> = {
-  Cow: Cow,
-  Sheep: Sheep,
-};
-
-export const BarnInside: React.FC = () => {
+export const PigpenInside: React.FC = () => {
   const { gameService } = useContext(Context);
   const [showModal, setShowModal] = useState(!hasReadGuide());
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
@@ -94,13 +71,13 @@ export const BarnInside: React.FC = () => {
   const { authService } = useContext(AuthContext);
   const loggedInFarmId = useSelector(gameService, _loggedInFarmId);
   const hasAirdropAccess = useSelector(gameService, _hasAirdropAccess);
-  const isDestroyed = useSelector(gameService, _isBarnDestroyed);
 
   const token = useSelector(authService, _token);
-  const barn = useSelector(gameService, _barn);
+  const pigpen = useSelector(gameService, _pigpen);
+  const isDestroyed = useSelector(gameService, _isPigpenDestroyed);
   const game = useSelector(gameService, _game);
   const island = useSelector(gameService, _island);
-  const level = barn.level;
+  const level = pigpen.level;
 
   const [scrollIntoView] = useScrollIntoView();
   const navigate = useNavigate();
@@ -118,21 +95,21 @@ export const BarnInside: React.FC = () => {
     y: floorY,
     height: floorHeight,
     width: floorWidth,
-  } = ANIMAL_HOUSE_BOUNDS.barn[level];
+  } = ANIMAL_HOUSE_BOUNDS.pigpen[level];
 
   /**
    * Positions must not move while the player is in the room, so the order is
    * recomputed only when the herd's MEMBERSHIP changes - never when an
    * animal's experience does. Keyed on the id list rather than its length, so
    * selling one animal and buying another cannot leave a stale id behind.
-   * Groups by type (Cow, then Sheep) first, then by experience.
+   * One animal type lives here, so this orders purely by experience.
    */
-  const animalIds = getKeys(barn.animals).sort().join(",");
+  const animalIds = getKeys(pigpen.animals).sort().join(",");
 
   const sortedAnimalIds = useMemo(
     () =>
-      getKeys(barn.animals)
-        .map((id) => barn.animals[id])
+      getKeys(pigpen.animals)
+        .map((id) => pigpen.animals[id])
         .sort((a, b) =>
           a.type === b.type
             ? b.experience - a.experience
@@ -143,15 +120,15 @@ export const BarnInside: React.FC = () => {
     [animalIds],
   );
 
-  // Organize the animals neatly in the barn
+  // Organize the animals neatly in the pigpen
   const organizedAnimals = useMemo(() => {
-    const maxAnimalsPerRow = Math.floor(floorWidth / ANIMALS.Cow.width);
+    const maxAnimalsPerRow = Math.floor(floorWidth / ANIMALS.Pig.width);
     const verticalGap = 0.5; // Add a 0.5 grid unit gap between rows
 
     // Reads through `sortedAnimalIds` so the order is fixed, but depends on
-    // `barn.animals` so the records it renders (experience, state) are fresh.
+    // `pigpen.animals` so the records it renders (experience, state) are fresh.
     return sortedAnimalIds
-      .map((id) => barn.animals[id])
+      .map((id) => pigpen.animals[id])
       .filter(Boolean)
       .map((animal, index) => {
         const row = Math.floor(index / maxAnimalsPerRow);
@@ -159,12 +136,12 @@ export const BarnInside: React.FC = () => {
         return {
           ...animal,
           coordinates: {
-            x: col * ANIMALS.Cow.width,
-            y: row * (ANIMALS.Cow.height + verticalGap),
+            x: col * ANIMALS.Pig.width,
+            y: row * (ANIMALS.Pig.height + verticalGap),
           },
         };
       });
-  }, [sortedAnimalIds, barn.animals, floorWidth]);
+  }, [sortedAnimalIds, pigpen.animals, floorWidth]);
   const currentBiome = getCurrentBiome(island);
 
   const validAnimalsCount = useMemo(() => {
@@ -180,7 +157,7 @@ export const BarnInside: React.FC = () => {
     if (!deal) return;
 
     const currentGame = gameService.getSnapshot().context.state;
-    const animal = currentGame.barn.animals[animalId];
+    const animal = currentGame.pigpen.animals[animalId];
     const isCompleted = currentGame.bounties.completed.some(
       (completed) => completed.id === deal.id,
     );
@@ -213,7 +190,7 @@ export const BarnInside: React.FC = () => {
     <>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <AnimalBuildingModal
-          buildingName="Barn"
+          buildingName="Pigpen"
           onClose={() => setShowModal(false)}
           onExchanging={(deal) => {
             setShowModal(false);
@@ -224,7 +201,7 @@ export const BarnInside: React.FC = () => {
 
       {showSellPanel && (
         <AnimalBountySellPanel
-          animalTypes={["Cow", "Sheep"]}
+          animalTypes={["Pig"]}
           selectedDeal={deal}
           onSelect={setDeal}
           onClose={() => {
@@ -235,7 +212,7 @@ export const BarnInside: React.FC = () => {
       )}
 
       <UpgradeBuildingModal
-        buildingName="Barn"
+        buildingName="Pigpen"
         currentLevel={level}
         nextLevel={nextLevel}
         show={showUpgradeModal}
@@ -293,11 +270,11 @@ export const BarnInside: React.FC = () => {
                   transform: "translateX(-50%)",
                 }}
               >
-                <FeederMachine building="Barn" />
+                <FeederMachine building="Pigpen" />
               </div>
 
               <div className="absolute -top-[11px] left-1/2 translate-x-[58px]">
-                <FeedAllButton building="Barn" />
+                <FeedAllButton building="Pigpen" />
               </div>
 
               <MapPlacement
@@ -309,8 +286,6 @@ export const BarnInside: React.FC = () => {
                 <div className="flex flex-wrap w-full h-full">
                   {organizedAnimals.map((animal) => {
                     const isValid = deal && isValidDeal({ animal, deal, game });
-                    const Component =
-                      BARN_ANIMAL_COMPONENTS[animal.type as BarnAnimal];
                     const { width, height } = ANIMALS[animal.type];
 
                     return (
@@ -342,7 +317,7 @@ export const BarnInside: React.FC = () => {
                           }
                         }}
                       >
-                        <Component id={animal.id} disabled={!!deal} />
+                        <Pig id={animal.id} disabled={!!deal} />
                       </div>
                     );
                   })}

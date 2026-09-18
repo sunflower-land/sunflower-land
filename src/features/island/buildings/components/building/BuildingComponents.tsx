@@ -38,6 +38,7 @@ import {
 import { Greenhouse } from "./greenhouse/Greenhouse";
 import { CropMachine } from "./cropMachine/CropMachine";
 import { Barn, BARN_IMAGES } from "./barn/Barn";
+import { Pigpen, PIGPEN_IMAGES } from "./pigpen/Pigpen";
 import { CraftingBox } from "./craftingBox/CraftingBox";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { PetHouse } from "./petHouse/PetHouse";
@@ -102,6 +103,7 @@ export const BUILDING_COMPONENTS: Record<
   Toolshed: Toolshed,
   "Hen House": ChickenHouse,
   Barn: Barn,
+  Pigpen: Pigpen,
   "Compost Bin": () => <Composter name="Compost Bin" />,
   "Turbo Composter": () => <Composter name="Turbo Composter" />,
   "Premium Composter": () => <Composter name="Premium Composter" />,
@@ -122,6 +124,7 @@ type ReadonlyBuildingArgs = {
   season: TemperateSeasonName;
   henHouseLevel: number;
   barnLevel: number;
+  pigpenLevel: number;
 };
 
 export const READONLY_BUILDINGS: ({
@@ -129,11 +132,13 @@ export const READONLY_BUILDINGS: ({
   season,
   henHouseLevel,
   barnLevel,
+  pigpenLevel,
 }: ReadonlyBuildingArgs) => Record<BuildingName, React.FC<BuildingProps>> = ({
   island,
   season,
   henHouseLevel,
   barnLevel,
+  pigpenLevel,
 }) => {
   const biome = getCurrentBiome(island);
 
@@ -291,6 +296,18 @@ export const READONLY_BUILDINGS: ({
           src={BARN_IMAGES[biome][season][barnLevel]}
           className="absolute bottom-0"
           style={{ width: `${PIXEL_SCALE * 64}px` }}
+        />
+      </div>
+    ),
+    Pigpen: () => (
+      <div
+        className="absolute bottom-0"
+        style={{ width: `${PIXEL_SCALE * 50}px` }}
+      >
+        <img
+          src={PIGPEN_IMAGES[biome][season][pigpenLevel]}
+          className="absolute bottom-0"
+          style={{ width: `${PIXEL_SCALE * 50}px` }}
         />
       </div>
     ),

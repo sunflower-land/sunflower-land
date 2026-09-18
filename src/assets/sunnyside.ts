@@ -662,6 +662,9 @@ export const SUNNYSIDE = {
     sheepSleeping: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/sleeping.webp`,
     sheepFed: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/fed.webp`,
     sheepSick: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/sick.webp`,
+    // TODO(Chapter 16 art): only the idle sprite exists so far; ready,
+    // sleeping and sick land later and get their own entries here.
+    pigIdle: `${CONFIG.PROTECTED_IMAGE_URL}/animals/pigs/idle.png`,
 
     bird: `${CONFIG.PROTECTED_IMAGE_URL}/animals/bird_sheet.png`,
   },
@@ -750,6 +753,8 @@ export const SUNNYSIDE = {
     warehouse: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/warehouse.png`,
     fruitPatchDirt: `${CONFIG.PROTECTED_IMAGE_URL}/fruit/fruit_patch.png`,
     barn: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/barn_sm.webp`,
+    // TODO(Chapter 16 art): one sprite covers every biome, season and level.
+    pigpen: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/pigpen.png`,
     feederMachine: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/feeder_machine.webp`,
     petHouse1: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/pet_house_red.webp`,
     petHouse2: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/pet_house_blue.webp`,

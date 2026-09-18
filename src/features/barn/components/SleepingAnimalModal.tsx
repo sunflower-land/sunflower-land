@@ -181,7 +181,11 @@ export const SleepingAnimalModal = ({
     );
   }
 
-  const favouriteFood = getAnimalFavoriteFood(animal.type, animal.experience);
+  const favouriteFood = getAnimalFavoriteFood(
+    animal.type,
+    animal.experience,
+    state,
+  );
 
   // Get the XP for the current love item
   const { animalXP } = getAnimalXP({
@@ -192,8 +196,8 @@ export const SleepingAnimalModal = ({
 
   const hasTool = getCountAndType(state, animal.item).count.gt(0);
 
-  const level = getAnimalLevel(animal.experience, animal.type);
-  const isMaxLevel = isMaxAnimalLevel(animal.type, level);
+  const level = getAnimalLevel(animal.experience, animal.type, state);
+  const isMaxLevel = isMaxAnimalLevel(animal.type, level, state);
   const production = Object.entries(
     ANIMAL_RESOURCE_DROP[animal.type][level],
   ).map(([resource, baseAmount]) => {

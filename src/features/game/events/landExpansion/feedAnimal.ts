@@ -18,6 +18,7 @@ import type {
 import {
   getAnimalFavoriteFood,
   getAnimalLevel,
+  getAnimalMaxLevel,
   getAnimalReadyAt,
   getBoostedFoodQuantity,
   makeAnimalBuildingKey,
@@ -35,6 +36,8 @@ export const REQUIRED_FOOD_QTY: Record<AnimalType, number> = {
   Chicken: 1,
   Sheep: 3,
   Cow: 5,
+  // TODO(Chapter 16): placeholder - Pig sits between Sheep and Cow.
+  Pig: 4,
 };
 
 export type FeedAnimalAction = {
@@ -50,11 +53,14 @@ type Options = {
   createdAt?: number;
 };
 
-export function isMaxLevel(animal: AnimalType, experience: number) {
-  const maxLevel = (getKeys(ANIMAL_LEVELS[animal]).length - 1) as AnimalLevel;
-  const maxLevelXP = ANIMAL_LEVELS[animal][maxLevel];
-
-  return experience >= maxLevelXP;
+export function isMaxLevel(
+  animal: AnimalType,
+  experience: number,
+  // The Pigpen's level caps a Pig below the top of its XP table.
+  maxLevel: AnimalLevel = (getKeys(ANIMAL_LEVELS[animal]).length -
+    1) as AnimalLevel,
+) {
+  return experience >= ANIMAL_LEVELS[animal][maxLevel];
 }
 
 const handleAnimalExperience = (
@@ -62,11 +68,12 @@ const handleAnimalExperience = (
   animalType: AnimalType,
   beforeFeedXp: number,
   foodXp: number,
+  maxLevel: AnimalLevel,
 ): boolean => {
   animal.experience += foodXp;
 
   // Handle non-max level animal
-  if (!isMaxLevel(animalType, beforeFeedXp)) {
+  if (!isMaxLevel(animalType, beforeFeedXp, maxLevel)) {
     if (
       getAnimalLevel(beforeFeedXp, animalType) !==
       getAnimalLevel(animal.experience, animalType)
@@ -77,15 +84,16 @@ const handleAnimalExperience = (
   }
 
   // Handle max level cycle completion
-  const maxLevel = (getKeys(ANIMAL_LEVELS[animalType]).length -
-    1) as AnimalLevel;
   const levelBeforeMax = (maxLevel - 1) as AnimalLevel;
   const maxLevelXp = ANIMAL_LEVELS[animalType][maxLevel];
   const levelBeforeMaxXp = ANIMAL_LEVELS[animalType][levelBeforeMax];
   const cycleXP = maxLevelXp - levelBeforeMaxXp;
   const excessXpBeforeFeed = Math.max(beforeFeedXp - maxLevelXp, 0);
   const currentCycleProgress = excessXpBeforeFeed % cycleXP;
-
+  // XP keeps accruing at the cap rather than being held inside one cycle:
+  // rewriting it would destroy the excess of any animal already above its cap,
+  // and banking it is what makes upgrading the building pay off. The cap is
+  // applied when the level is DERIVED, in `getAnimalLevel`.
   return currentCycleProgress + foodXp >= cycleXP;
 };
 
@@ -102,20 +110,27 @@ const handleFreeFeeding = ({
 }) => {
   const beforeFeedXp = animal.experience;
   const nextLevel = (level + 1) as AnimalLevel;
+  const maxLevel = getAnimalMaxLevel(animalType, copy);
   let isReady = false;
 
-  // Is max level
-  if (nextLevel > 15) {
-    const maxLevelXp = ANIMAL_LEVELS[animalType][15];
+  // Is max level (or capped there by its building)
+  if (nextLevel > maxLevel) {
+    const maxLevelXp = ANIMAL_LEVELS[animalType][maxLevel];
     const currentCycleProgress = beforeFeedXp % maxLevelXp;
     const xpDiff = maxLevelXp - currentCycleProgress;
 
-    isReady = handleAnimalExperience(animal, animalType, beforeFeedXp, xpDiff);
+    isReady = handleAnimalExperience(
+      animal,
+      animalType,
+      beforeFeedXp,
+      xpDiff,
+      maxLevel,
+    );
   } else {
     const nextLevelXp = ANIMAL_LEVELS[animalType][nextLevel];
     const xpDiff = nextLevelXp - beforeFeedXp;
 
-    const favouriteFood = getAnimalFavoriteFood(animalType, beforeFeedXp);
+    const favouriteFood = getAnimalFavoriteFood(animalType, beforeFeedXp, copy);
 
     const { foodXp } = handleFoodXP({
       state: copy,
@@ -131,6 +146,7 @@ const handleFreeFeeding = ({
       animalType,
       beforeFeedXp,
       xpToFeed,
+      maxLevel,
     );
   }
 
@@ -258,7 +274,7 @@ export function feedAnimal({
       throw new Error("Cannot feed a sick animal");
     }
 
-    const level = getAnimalLevel(animal.experience, animal.type);
+    const level = getAnimalLevel(animal.experience, animal.type, copy);
     const food = action.item as AnimalFoodName;
     const hasGoldenEggPlaced = isCollectibleBuilt({
       name: "Gold Egg",
@@ -275,6 +291,7 @@ export function feedAnimal({
     const favouriteFood = getAnimalFavoriteFood(
       action.animal,
       animal.experience,
+      copy,
     );
 
     // Handle Golden Egg Free Food
@@ -360,6 +377,7 @@ export function feedAnimal({
       action.animal,
       beforeFeedXp,
       foodXp,
+      getAnimalMaxLevel(action.animal, copy),
     );
 
     // Only set happy/sad state if animal isn't ready

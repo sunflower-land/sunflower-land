@@ -169,6 +169,13 @@ const FEATURE_FLAGS = {
     (game.wardrobe["Streamer Hat"] ?? 0) > 0 || testnetFeatureFlag(),
 
   // Temporary Feature Flags
+
+  /**
+   * Chapter 16's Pigpen building and the Pig animal. Remove once Chapter 16
+   * ships and the Pigpen gates on its own unlock level instead.
+   */
+  PIGPEN: testnetFeatureFlag,
+
   FACE_RECOGNITION_TEST: betaFeatureFlag,
   // The developer-options button that forces a captcha on your own farm
   TRIGGER_CAPTCHA: betaFeatureFlag,

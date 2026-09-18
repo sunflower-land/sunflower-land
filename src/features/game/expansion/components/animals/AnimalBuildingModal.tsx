@@ -325,7 +325,11 @@ export const AnimalBuildingModal: React.FC<Props> = ({
 
       {currentTab === "sell" && (
         <AnimalBounties
-          type={buildingName === "Barn" ? ["Cow", "Sheep"] : ["Chicken"]}
+          // Derived from ANIMALS rather than listed per building, so a new
+          // animal shows its bounties in its own house automatically.
+          type={getKeys(ANIMALS).filter(
+            (animal) => ANIMALS[animal].buildingRequired === buildingName,
+          )}
           onExchanging={onExchanging}
         />
       )}

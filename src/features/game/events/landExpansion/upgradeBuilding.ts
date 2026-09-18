@@ -100,6 +100,36 @@ export const BUILDING_UPGRADES: Record<
       },
     },
   },
+  // TODO(Chapter 16): placeholder costs - Barn's curve plus Mud, which the
+  // ticket requires in the Pigpen's upgrade costs. Mud has no producer until
+  // the Cave ships, so level 2 is deliberately unreachable until then.
+  Pigpen: {
+    1: {
+      coins: 0,
+      items: {},
+    },
+    2: {
+      coins: 10000,
+      items: {
+        Wood: new Decimal(1000),
+        Iron: new Decimal(100),
+        Gold: new Decimal(75),
+        Crimstone: new Decimal(30),
+        Mud: new Decimal(25),
+      },
+    },
+    3: {
+      coins: 75000,
+      items: {
+        Wood: new Decimal(5000),
+        Iron: new Decimal(300),
+        Gold: new Decimal(200),
+        Crimstone: new Decimal(125),
+        Oil: new Decimal(250),
+        Mud: new Decimal(100),
+      },
+    },
+  },
   "Water Well": {
     1: {
       coins: 0,

@@ -10,8 +10,12 @@ import {
   generateBountyCoins,
   generateBountyTicket,
 } from "features/game/events/landExpansion/sellBounty";
-import { Context, useGame } from "features/game/GameProvider";
-import { getAnimalLevel } from "features/game/lib/animals";
+import { Context } from "features/game/GameProvider";
+import {
+  getAnimalLevel,
+  makeAnimalBuildingKey,
+} from "features/game/lib/animals";
+import { ANIMALS, type AnimalType } from "features/game/types/animals";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { weekResetsAt } from "features/game/lib/factions";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -43,6 +47,7 @@ import chapterPoints from "assets/icons/red_medal_short.webp";
 
 import { getChapterTaskPoints } from "features/game/types/tracks";
 const _exchange = (state: MachineState) => state.context.state.bounties;
+const _game = (state: MachineState) => state.context.state;
 
 interface Props {
   type: InventoryItemName[];
@@ -202,8 +207,8 @@ export const AnimalDeal: React.FC<{
   onClose: () => void;
   onSold: () => void;
 }> = ({ deal, animalId, onClose, onSold }) => {
-  const { gameService, gameState } = useGame();
-  const state = gameState.context.state;
+  const { gameService } = useContext(Context);
+  const state = useSelector(gameService, _game);
   const [animalOverride, setAnimalOverride] = useState<{
     animalId: string;
     animal: Animal;
@@ -217,9 +222,14 @@ export const AnimalDeal: React.FC<{
   const getAnimal = (state: GameState) => {
     if (!deal || !animalId) return undefined;
 
-    return deal.name === "Chicken"
-      ? state.henHouse.animals[animalId]
-      : state.barn.animals[animalId];
+    // `deal` is any BountyRequest, so a non-animal name has no building.
+    if (!(deal.name in ANIMALS)) return undefined;
+
+    const buildingKey = makeAnimalBuildingKey(
+      ANIMALS[deal.name as AnimalType].buildingRequired,
+    );
+
+    return state[buildingKey].animals[animalId];
   };
 
   const activeAnimalOverride =
@@ -392,7 +402,7 @@ export const AnimalDeal: React.FC<{
                 className="mr-2"
               >
                 {t("bounties.animal.levelLabel", {
-                  level: getAnimalLevel(animal.experience, animal.type),
+                  level: getAnimalLevel(animal.experience, animal.type, state),
                   animal: getTranslatedItemName(animal.type),
                 })}
               </Label>

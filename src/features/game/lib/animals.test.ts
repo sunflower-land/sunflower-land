@@ -1,17 +1,26 @@
 import Decimal from "decimal.js-light";
 import {
   getAnimalFavoriteFood,
+  getAnimalLevel,
   getFeedItem,
   getAnimalReadyAt,
   getBoostedAwakeAt,
   getBoostedFoodQuantity,
   getResourceDropAmount,
+  makeAnimalBuildingKey,
+  ANIMAL_BUILDING_KEYS,
 } from "../lib/animals";
 import {
+  ANIMALS,
   ANIMAL_LEVELS,
+  ANIMAL_FOOD_EXPERIENCE,
+  ANIMAL_RESOURCE_DROP,
+  isAnimalBuildingType,
   type AnimalLevel,
   type AnimalType,
 } from "../types/animals";
+import { REQUIRED_FOOD_QTY } from "../events/landExpansion/feedAnimal";
+import { getKeys } from "lib/object";
 import { INITIAL_FARM } from "./constants";
 import type { Animal, GameState } from "../types/game";
 import { ANIMAL_SLEEP_DURATION } from "../events/landExpansion/feedAnimal";
@@ -635,5 +644,97 @@ describe("getFeedItem", () => {
     });
 
     expect(item).toBe("Axe");
+  });
+});
+
+describe("animal building seam", () => {
+  it("camelCases each animal building into its GameState key", () => {
+    // The one-word "Pigpen" spelling is load-bearing: "Pig Pen" would produce
+    // "pigPen", which is not the AnimalBuildingKey the GameState field uses.
+    expect(makeAnimalBuildingKey("Hen House")).toEqual("henHouse");
+    expect(makeAnimalBuildingKey("Barn")).toEqual("barn");
+    expect(makeAnimalBuildingKey("Pigpen")).toEqual("pigpen");
+  });
+
+  it("exposes every animal building key, in a stable order", () => {
+    // Order matters: checkAnimalHealth draws random numbers per building, and
+    // its tests stub the generator with fixed sequences.
+    expect(ANIMAL_BUILDING_KEYS).toEqual(["henHouse", "barn", "pigpen"]);
+  });
+
+  it("recognises animal buildings and nothing else", () => {
+    expect(isAnimalBuildingType("Pigpen")).toBe(true);
+    expect(isAnimalBuildingType("Barn")).toBe(true);
+    expect(isAnimalBuildingType("Bakery")).toBe(false);
+  });
+
+  it("houses every animal in a building that exists in GameState", () => {
+    getKeys(ANIMALS).forEach((animal) => {
+      const key = makeAnimalBuildingKey(ANIMALS[animal].buildingRequired);
+
+      expect(ANIMAL_BUILDING_KEYS).toContain(key);
+      expect(INITIAL_FARM[key]).toBeDefined();
+    });
+  });
+});
+
+describe("animal data tables", () => {
+  it.each(getKeys(ANIMALS))("has a complete set of tables for %s", (animal) => {
+    expect(ANIMAL_LEVELS[animal]).toBeDefined();
+    expect(ANIMAL_FOOD_EXPERIENCE[animal]).toBeDefined();
+    expect(ANIMAL_RESOURCE_DROP[animal]).toBeDefined();
+    expect(REQUIRED_FOOD_QTY[animal]).toBeGreaterThan(0);
+
+    // Every level 0-15 present in each per-level table.
+    Array.from({ length: 16 }, (_, level) => level as AnimalLevel).forEach(
+      (level) => {
+        expect(ANIMAL_LEVELS[animal][level]).toBeDefined();
+        expect(ANIMAL_FOOD_EXPERIENCE[animal][level]).toBeDefined();
+        expect(ANIMAL_RESOURCE_DROP[animal][level]).toBeDefined();
+      },
+    );
+  });
+
+  it.each(getKeys(ANIMALS))(
+    "resolves exactly one favourite food at every level for %s",
+    (animal) => {
+      // getAnimalFavoriteFood throws "No favourite food" at RUNTIME when a
+      // level has two joint-max non-Omnifeed foods - not a compile error.
+      Array.from({ length: 16 }, (_, level) => level as AnimalLevel).forEach(
+        (level) => {
+          expect(() =>
+            getAnimalFavoriteFood(animal, ANIMAL_LEVELS[animal][level]),
+          ).not.toThrow();
+        },
+      );
+    },
+  );
+
+  it.each(getKeys(ANIMALS))(
+    "round-trips every XP threshold for %s",
+    (animal) => {
+      Array.from({ length: 16 }, (_, level) => level as AnimalLevel).forEach(
+        (level) => {
+          expect(getAnimalLevel(ANIMAL_LEVELS[animal][level], animal)).toEqual(
+            level,
+          );
+        },
+      );
+    },
+  );
+
+  it("drops Rawhide from level 1 and Truffle only from level 5", () => {
+    const drops = ANIMAL_RESOURCE_DROP.Pig;
+
+    expect(drops[0]).toEqual({});
+
+    Array.from({ length: 15 }, (_, i) => (i + 1) as AnimalLevel).forEach(
+      (level) => {
+        expect(drops[level].Rawhide?.toNumber()).toBeGreaterThan(0);
+
+        if (level < 5) expect(drops[level].Truffle).toBeUndefined();
+        else expect(drops[level].Truffle?.toNumber()).toBeGreaterThan(0);
+      },
+    );
   });
 });

@@ -1,5 +1,10 @@
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { buyAnimal, getBoostedAnimalCapacity } from "./buyAnimal";
+import {
+  buyAnimal,
+  getAnimalBuildingCapacity,
+  getBoostedAnimalCapacity,
+  getOverCapacityAnimalIds,
+} from "./buyAnimal";
 import type { Animal } from "features/game/types/game";
 import type { AnimalType } from "features/game/types/animals";
 
@@ -307,5 +312,72 @@ describe("getAnimalCapacity", () => {
         },
       }).capacity,
     ).toBe(35);
+  });
+});
+
+describe("getAnimalCapacity: Pigpen", () => {
+  const atLevel = (level: number) =>
+    getBoostedAnimalCapacity("pigpen", {
+      ...TEST_FARM,
+      collectibles: {},
+      pigpen: { level, animals: {} },
+    }).capacity;
+
+  it.each([
+    [1, 3],
+    [2, 6],
+    [3, 9],
+  ])(
+    "returns %i -> %i, its own table rather than the shared formula",
+    (level, expected) => {
+      expect(atLevel(level)).toBe(expected);
+    },
+  );
+
+  it("is not lifted by the Chicken Coop or Barn Blueprint", () => {
+    expect(
+      getBoostedAnimalCapacity("pigpen", {
+        ...TEST_FARM,
+        pigpen: { level: 1, animals: {} },
+        collectibles: {
+          "Chicken Coop": [
+            { coordinates: { x: 0, y: 0 }, createdAt: 0, id: "1", readyAt: 0 },
+          ],
+          "Barn Blueprint": [
+            { coordinates: { x: 2, y: 2 }, createdAt: 0, id: "2", readyAt: 0 },
+          ],
+        },
+      }).capacity,
+    ).toBe(3);
+  });
+
+  it("locks a Pig over capacity, oldest first", () => {
+    const game = {
+      ...TEST_FARM,
+      collectibles: {},
+      pigpen: { level: 1, animals: makeAnimals(4, "Pig") },
+    };
+
+    // Four Pigs in a capacity-3 pen: the oldest is dormant, the rest feedable.
+    expect(getOverCapacityAnimalIds("pigpen", game)).toEqual(new Set(["0"]));
+  });
+});
+
+describe("getAnimalBuildingCapacity", () => {
+  // The upgrade modal advertises the delta between two levels of this, so a
+  // building whose table does not step by 5 must not borrow the shared formula.
+  it("steps the Pigpen by 3", () => {
+    expect(
+      [1, 2, 3].map((level) => getAnimalBuildingCapacity("pigpen", level)),
+    ).toEqual([3, 6, 9]);
+  });
+
+  it("steps the Barn and Hen House by 5", () => {
+    expect(
+      [1, 2, 3].map((level) => getAnimalBuildingCapacity("barn", level)),
+    ).toEqual([10, 15, 20]);
+    expect(
+      [1, 2, 3].map((level) => getAnimalBuildingCapacity("henHouse", level)),
+    ).toEqual([10, 15, 20]);
   });
 });

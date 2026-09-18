@@ -23,6 +23,8 @@ import {
   getCropPlotBoostWindows,
   getSunshowerGuardianWindows,
   getSunshowerWindows,
+  getAnimalBoostWindows,
+  ANIMAL_BOOST_SPEED,
   type BoostWindow,
 } from "./boostWindows";
 import { GUARDIAN_BOOST } from "./getActiveGuardian";
@@ -1766,5 +1768,55 @@ describe("getGreenhouseGlowWindows", () => {
         name: "Greenhouse Glow",
       } as unknown as GreenhouseFertiliser),
     ).toEqual([]);
+  });
+});
+
+describe("getAnimalBoostWindows", () => {
+  const createdAt = 1_000_000;
+
+  const withShrine = (name: "Collie Shrine" | "Bantam Shrine"): GameState => ({
+    ...TEST_FARM,
+    collectibles: {
+      ...TEST_FARM.collectibles,
+      [name]: [{ id: "1", coordinates: { x: 0, y: 0 }, createdAt }],
+    },
+  });
+
+  it("covers Cows and Sheep with the Collie Shrine", () => {
+    const game = withShrine("Collie Shrine");
+    const expected = {
+      from: createdAt,
+      to: createdAt + getExpiryCooldown("Collie Shrine", TEST_FARM),
+      speed: ANIMAL_BOOST_SPEED["Collie Shrine"],
+    };
+
+    expect(getAnimalBoostWindows(game, "Cow")).toContainEqual(expected);
+    expect(getAnimalBoostWindows(game, "Sheep")).toContainEqual(expected);
+  });
+
+  it("covers Chickens with the Bantam Shrine", () => {
+    const game = withShrine("Bantam Shrine");
+
+    expect(getAnimalBoostWindows(game, "Chicken")).toContainEqual({
+      from: createdAt,
+      to: createdAt + getExpiryCooldown("Bantam Shrine", TEST_FARM),
+      speed: ANIMAL_BOOST_SPEED["Bantam Shrine"],
+    });
+  });
+
+  it("gives Pigs NO windows from the Collie Shrine", () => {
+    // The Collie Shrine's own buff copy advertises Cows and Sheep only. An
+    // animal with no shrine of its own must fall through to no windows rather
+    // than inheriting the Collie's, which a `Chicken ? Bantam : Collie`
+    // ternary would silently do.
+    expect(getAnimalBoostWindows(withShrine("Collie Shrine"), "Pig")).toEqual(
+      [],
+    );
+  });
+
+  it("gives Pigs NO windows from the Bantam Shrine either", () => {
+    expect(getAnimalBoostWindows(withShrine("Bantam Shrine"), "Pig")).toEqual(
+      [],
+    );
   });
 });
