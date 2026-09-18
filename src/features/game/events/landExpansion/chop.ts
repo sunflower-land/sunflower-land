@@ -29,7 +29,7 @@ import type {
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { produce } from "immer";
 import { prngChance } from "lib/prng";
-import { mfTrack } from "lib/moonforgeAnalytics";
+import { mfEconomy } from "lib/moonforgeAnalytics";
 
 export enum CHOP_ERRORS {
   MISSING_AXE = "No axe",
@@ -530,6 +530,8 @@ export function chop({
     inventory.Axe = axeAmount.sub(requiredAxes);
     inventory.Wood = woodAmount.add(woodHarvested);
 
+    const coinsBefore = stateCopy.coins;
+
     // Apply reward: honor legacy stored reward OR calculate new one via PRNG
     const { reward: treeReward, boostsUsed: rewardBoostsUsed } = tree.wood
       .reward
@@ -546,11 +548,20 @@ export function chop({
         stateCopy.coins + treeReward.coins * (tree.multiplier ?? 1);
     }
 
+    // Reward items are a faucet in their own right, so each one is recorded
+    // as an output with the balances either side of the credit.
+    const rewardRows: { type: string; before?: number; after?: number }[] = [];
+
     if (treeReward?.items) {
       treeReward.items.forEach((item) => {
-        stateCopy.inventory[item.name] = (
-          stateCopy.inventory[item.name] || new Decimal(0)
-        ).add(item.amount);
+        const before = stateCopy.inventory[item.name] || new Decimal(0);
+        const after = before.add(item.amount);
+        stateCopy.inventory[item.name] = after;
+        rewardRows.push({
+          type: item.name,
+          before: before.toNumber(),
+          after: after.toNumber(),
+        });
       });
     }
 
@@ -565,9 +576,32 @@ export function chop({
       stateCopy.farmActivity,
     );
 
-    mfTrack("resource_collected", {
-      resource_type: "Wood",
-      amount: Number(woodHarvested),
+    const chopOutputs: { type: string; before?: number; after?: number }[] = [
+      {
+        type: "Wood",
+        before: woodAmount.toNumber(),
+        after: inventory.Wood.toNumber(),
+      },
+    ];
+    if (stateCopy.coins !== coinsBefore) {
+      chopOutputs.push({
+        type: "Coin",
+        before: coinsBefore,
+        after: stateCopy.coins,
+      });
+    }
+    chopOutputs.push(...rewardRows);
+    mfEconomy("chop_tree", {
+      inputs: new Decimal(requiredAxes).gt(0)
+        ? [
+            {
+              type: "Axe",
+              before: axeAmount.toNumber(),
+              after: inventory.Axe.toNumber(),
+            },
+          ]
+        : undefined,
+      outputs: chopOutputs,
     });
 
     delete tree.wood.amount;

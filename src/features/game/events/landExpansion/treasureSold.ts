@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { mfEconomy } from "lib/moonforgeAnalytics";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { EXOTIC_CROPS, type ExoticCropName } from "features/game/types/beans";
 import { trackFarmActivity } from "features/game/types/farmActivity";
@@ -96,6 +97,17 @@ export function sellTreasure({ state, action }: Options) {
       game,
       boostNames: boostsUsed,
       createdAt: Date.now(),
+    });
+
+    mfEconomy("sell_treasure", {
+      inputs: [
+        {
+          type: item,
+          before: count.toNumber(),
+          after: (game.inventory[item] ?? new Decimal(0)).toNumber(),
+        },
+      ],
+      outputs: [{ type: "Coin", before: coins, after: game.coins }],
     });
 
     return game;

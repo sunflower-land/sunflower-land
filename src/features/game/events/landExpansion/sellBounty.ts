@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { mfEconomy } from "lib/moonforgeAnalytics";
 import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { DOLLS, RECIPE_CRAFTABLES } from "features/game/lib/crafting";
@@ -223,6 +224,8 @@ export function sellBounty({
     });
 
     const item = draft.inventory[request.name] ?? new Decimal(0);
+    const coinsBefore = draft.coins;
+    const balanceBefore = draft.balance;
 
     if (BOUNTY_CATEGORIES["Mark Bounties"](request)) {
       draft.inventory[request.name] = item.minus(request.quantity);
@@ -251,6 +254,36 @@ export function sellBounty({
     if (BOUNTY_CATEGORIES["Obsidian Bounties"](request)) {
       draft.balance = draft.balance.add(request.sfl ?? 0);
     }
+
+    const sellBountyOutputs: {
+      type: string;
+      before?: number;
+      after?: number;
+    }[] = [];
+    if (draft.coins !== coinsBefore) {
+      sellBountyOutputs.push({
+        type: "Coin",
+        before: coinsBefore,
+        after: draft.coins,
+      });
+    }
+    if (!draft.balance.eq(balanceBefore)) {
+      sellBountyOutputs.push({
+        type: "SFL",
+        before: balanceBefore.toNumber(),
+        after: draft.balance.toNumber(),
+      });
+    }
+    mfEconomy("sell_bounty", {
+      inputs: [
+        {
+          type: request.name,
+          before: item.toNumber(),
+          after: (draft.inventory[request.name] ?? new Decimal(0)).toNumber(),
+        },
+      ],
+      outputs: sellBountyOutputs,
+    });
 
     // Mark bounty as completed
     draft.bounties.completed.push({

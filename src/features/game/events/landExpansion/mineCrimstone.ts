@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { mfEconomy } from "lib/moonforgeAnalytics";
 import { CRIMSTONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { canMine } from "features/game/lib/resourceNodes";
@@ -282,6 +283,25 @@ export function mineCrimstone({
       game: stateCopy,
       boostNames: [...boostsUsed, ...minedAtBoostsUsed, ...pickaxeBoosts],
       createdAt,
+    });
+
+    mfEconomy("mine_resource", {
+      inputs: hasCrimstoneSpikes
+        ? undefined
+        : [
+            {
+              type: "Gold Pickaxe",
+              before: toolAmount.toNumber(),
+              after: toolAmount.sub(1).toNumber(),
+            },
+          ],
+      outputs: [
+        {
+          type: "Crimstone",
+          before: amountInInventory.toNumber(),
+          after: stateCopy.inventory.Crimstone.toNumber(),
+        },
+      ],
     });
 
     return stateCopy;

@@ -24,7 +24,7 @@ import {
   type PetShopItemName,
 } from "features/game/types/petShop";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { mfTrack } from "lib/moonforgeAnalytics";
+import { mfEconomy } from "lib/moonforgeAnalytics";
 
 type CraftableCollectibleItem =
   | HeliosBlacksmithItem
@@ -185,6 +185,7 @@ export function craftCollectible({
       });
     }
 
+    const coinsBefore = stateCopy.coins;
     stateCopy.coins = stateCopy.coins - price;
 
     stateCopy.farmActivity = trackFarmActivity(
@@ -231,7 +232,33 @@ export function craftCollectible({
       };
     }
 
-    mfTrack("item_crafted", { item_id: action.name, cost_coins: price });
+    const craftInputs: { type: string; before?: number; after?: number }[] = [];
+    if (price > 0) {
+      craftInputs.push({
+        type: "Coin",
+        before: coinsBefore,
+        after: stateCopy.coins,
+      });
+    }
+    getKeys(item.ingredients).forEach((ingredientName) => {
+      const spent = item.ingredients[ingredientName] ?? new Decimal(0);
+      const after = subtractedInventory[ingredientName] ?? new Decimal(0);
+      craftInputs.push({
+        type: ingredientName,
+        before: after.add(spent).toNumber(),
+        after: after.toNumber(),
+      });
+    });
+    mfEconomy("craft_collectible", {
+      inputs: craftInputs,
+      outputs: [
+        {
+          type: action.name,
+          before: oldAmount.toNumber(),
+          after: oldAmount.add(1).toNumber(),
+        },
+      ],
+    });
 
     return stateCopy;
   });

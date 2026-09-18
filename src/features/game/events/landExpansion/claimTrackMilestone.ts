@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
+import { mfCurrencyChange } from "lib/moonforgeAnalytics";
 import type { GameState, InventoryItemName } from "../../types/game";
 import { CHAPTER_TRACKS, type TrackName } from "features/game/types/tracks";
 import {
@@ -80,6 +81,9 @@ export function claimTrackMilestone({
       });
     }
 
+    const coinsBefore = game.coins;
+    const sflBefore = game.balance.toNumber();
+
     if (rewards.coins) {
       game.coins += rewards.coins;
     }
@@ -102,6 +106,11 @@ export function claimTrackMilestone({
       track: action.track,
       milestone: nextMilestone + 1,
       daysSinceStart,
+    });
+
+    mfCurrencyChange("track_milestone", "grant", {
+      coin: { before: coinsBefore, after: game.coins },
+      sfl: { before: sflBefore, after: game.balance.toNumber() },
     });
 
     return game;

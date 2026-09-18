@@ -40,7 +40,7 @@ import { getCountAndType } from "features/island/hud/components/inventory/utils/
 import { getChapterTaskPoints } from "features/game/types/tracks";
 import { handleChapterAnalytics } from "features/game/lib/trackAnalytics";
 import { hasTimeBasedFeatureAccess } from "lib/flags";
-import { mfTrack } from "lib/moonforgeAnalytics";
+import { mfEconomy, mfTrack } from "lib/moonforgeAnalytics";
 
 export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   "pumpkin' pete": 1,
@@ -438,6 +438,9 @@ export function deliverOrder({
       throw new Error("Order is already completed");
     }
 
+    const deliveryCoinsBefore = game.coins;
+    const deliverySflBefore = game.balance.toNumber();
+
     const ticketTasksAreFrozen = areBumpkinsOnHoliday(createdAt);
 
     const isQuestTicketOrder = !!TICKET_REWARDS[order.from as QuestNPCName];
@@ -687,6 +690,45 @@ export function deliverOrder({
       npc_id: order.from,
       reward_coins: order.reward.coins ?? 0,
       reward_tickets: ticketsToAward,
+    });
+
+    const deliveryInputs: { type: string; before?: number; after?: number }[] =
+      getKeys(order.items)
+        .filter((name) => name !== "coins" && name !== "sfl")
+        .map((name) => ({ type: name }));
+    const deliveryOutputs: { type: string; before?: number; after?: number }[] =
+      [];
+    const coinDelta = game.coins - deliveryCoinsBefore;
+    if (coinDelta > 0) {
+      deliveryOutputs.push({
+        type: "Coin",
+        before: deliveryCoinsBefore,
+        after: game.coins,
+      });
+    } else if (coinDelta < 0) {
+      deliveryInputs.push({
+        type: "Coin",
+        before: deliveryCoinsBefore,
+        after: game.coins,
+      });
+    }
+    const sflAfter = game.balance.toNumber();
+    if (sflAfter > deliverySflBefore) {
+      deliveryOutputs.push({
+        type: "SFL",
+        before: deliverySflBefore,
+        after: sflAfter,
+      });
+    } else if (sflAfter < deliverySflBefore) {
+      deliveryInputs.push({
+        type: "SFL",
+        before: deliverySflBefore,
+        after: sflAfter,
+      });
+    }
+    mfEconomy("fulfill_delivery", {
+      inputs: deliveryInputs,
+      outputs: deliveryOutputs,
     });
 
     return game;

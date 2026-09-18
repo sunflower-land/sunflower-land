@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { mfEconomy } from "lib/moonforgeAnalytics";
 import { getAnimalLevel, getAnimalReadyAt } from "features/game/lib/animals";
 import { getKeys } from "lib/object";
 import { trackFarmActivity } from "features/game/types/farmActivity";
@@ -105,6 +106,7 @@ export function sellAnimal({
     }
 
     const isSick = animal.state === "sick";
+    const coinsBefore = game.coins;
 
     delete animals[action.animalId];
 
@@ -167,6 +169,14 @@ export function sellAnimal({
       `${animal.type} Bountied`,
       game.farmActivity,
     );
+
+    mfEconomy("sell_animal", {
+      inputs: [{ type: animal.type }],
+      outputs:
+        game.coins !== coinsBefore
+          ? [{ type: "Coin", before: coinsBefore, after: game.coins }]
+          : undefined,
+    });
 
     return game;
   });

@@ -1,5 +1,6 @@
 import { v4 as randomUUID } from "uuid";
 import Decimal from "decimal.js-light";
+import { mfEconomy } from "lib/moonforgeAnalytics";
 import {
   EXPANSION_ORIGINS,
   LAND_SIZE,
@@ -78,11 +79,20 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
 
     const { inventory } = game;
 
+    const basicLandBefore = (
+      inventory["Basic Land"] ?? new Decimal(0)
+    ).toNumber();
     inventory["Basic Land"] = (inventory["Basic Land"] ?? new Decimal(0)).add(
       1,
     );
 
     const landCount = inventory["Basic Land"].toNumber();
+
+    mfEconomy("expand_land_complete", {
+      outputs: [
+        { type: "Basic Land", before: basicLandBefore, after: landCount },
+      ],
+    });
     const origin = EXPANSION_ORIGINS[landCount - 1];
 
     delete game.expansionConstruction;
