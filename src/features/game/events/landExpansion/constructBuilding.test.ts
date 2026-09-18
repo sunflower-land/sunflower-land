@@ -9,6 +9,7 @@ import {
   CONSTRUCT_BUILDING_ERRORS,
 } from "./constructBuilding";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
+import { makeAnimalBuildingKey } from "features/game/lib/animals";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -572,6 +573,44 @@ describe("Construct building", () => {
     expect(state.inventory.Iron).toEqual(new Decimal(1));
     expect(state.inventory.Gold).toEqual(new Decimal(1));
   });
+
+  it.each(["Barn", "Hen House"] as const)(
+    "does not re-seed a %s that already has its starter herd",
+    (name) => {
+      // Hen House and Barn are seeded by INITIAL_FARM at account creation, so
+      // an existing player's herd is already in state before the building is
+      // ever built. The empty-record guard must leave it alone - otherwise
+      // constructing the building would hand them a second herd.
+      const buildingKey = makeAnimalBuildingKey(name);
+      const before = GAME_STATE[buildingKey].animals;
+
+      expect(Object.keys(before)).toHaveLength(3);
+
+      const state = constructBuilding({
+        state: {
+          ...GAME_STATE,
+          buildings: {},
+          coins: 8000,
+          inventory: {
+            Wood: new Decimal(1000),
+            Iron: new Decimal(100),
+            Gold: new Decimal(100),
+            "Basic Land": new Decimal(5),
+          },
+          bumpkin: { ...TEST_BUMPKIN, experience: LEVEL_EXPERIENCE[64] },
+        },
+        action: {
+          type: "building.constructed",
+          id: "123",
+          name,
+          coordinates: { x: 1, y: 1 },
+        },
+        createdAt: dateNow,
+      });
+
+      expect(state[buildingKey].animals).toEqual(before);
+    },
+  );
 
   it("gives the player 5 Kernel Blend when a barn is constructed", () => {
     const state = constructBuilding({
