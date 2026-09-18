@@ -46,6 +46,13 @@ const _pigpen = (state: MachineState) => state.context.state.pigpen;
 const _game = (state: MachineState) => state.context.state;
 const _island = (state: MachineState) => state.context.state.island;
 const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
+const _loggedInFarmId = (state: MachineState) =>
+  state.context.visitorId ?? state.context.farmId;
+const _hasAirdropAccess = (state: MachineState) =>
+  hasFeatureAccess(
+    state.context.visitorState ?? state.context.state,
+    "AIRDROP_PLAYER",
+  );
 const _isPigpenDestroyed = (state: MachineState) =>
   isBuildingDestroyed({
     name: "Pigpen",
@@ -62,13 +69,8 @@ export const PigpenInside: React.FC = () => {
   const [selectedAnimalId, setSelectedAnimalId] = useState<string>();
   const [deal, setDeal] = useState<AnimalBounty>();
   const { authService } = useContext(AuthContext);
-  const context = gameService.getSnapshot().context;
-  const loggedInFarmId = context.visitorId ?? context.farmId;
-
-  const hasAirdropAccess = hasFeatureAccess(
-    context.visitorState ?? context.state,
-    "AIRDROP_PLAYER",
-  );
+  const loggedInFarmId = useSelector(gameService, _loggedInFarmId);
+  const hasAirdropAccess = useSelector(gameService, _hasAirdropAccess);
 
   const token = useSelector(authService, _token);
   const pigpen = useSelector(gameService, _pigpen);

@@ -10,7 +10,7 @@ import {
   generateBountyCoins,
   generateBountyTicket,
 } from "features/game/events/landExpansion/sellBounty";
-import { Context, useGame } from "features/game/GameProvider";
+import { Context } from "features/game/GameProvider";
 import {
   getAnimalLevel,
   makeAnimalBuildingKey,
@@ -47,6 +47,7 @@ import chapterPoints from "assets/icons/red_medal_short.webp";
 
 import { getChapterTaskPoints } from "features/game/types/tracks";
 const _exchange = (state: MachineState) => state.context.state.bounties;
+const _game = (state: MachineState) => state.context.state;
 
 interface Props {
   type: InventoryItemName[];
@@ -206,8 +207,8 @@ export const AnimalDeal: React.FC<{
   onClose: () => void;
   onSold: () => void;
 }> = ({ deal, animalId, onClose, onSold }) => {
-  const { gameService, gameState } = useGame();
-  const state = gameState.context.state;
+  const { gameService } = useContext(Context);
+  const state = useSelector(gameService, _game);
   const [animalOverride, setAnimalOverride] = useState<{
     animalId: string;
     animal: Animal;
