@@ -18,6 +18,7 @@ import type {
 import {
   getAnimalFavoriteFood,
   getAnimalLevel,
+  getAnimalMaxLevel,
   getAnimalReadyAt,
   getBoostedFoodQuantity,
   makeAnimalBuildingKey,
@@ -52,11 +53,14 @@ type Options = {
   createdAt?: number;
 };
 
-export function isMaxLevel(animal: AnimalType, experience: number) {
-  const maxLevel = (getKeys(ANIMAL_LEVELS[animal]).length - 1) as AnimalLevel;
-  const maxLevelXP = ANIMAL_LEVELS[animal][maxLevel];
-
-  return experience >= maxLevelXP;
+export function isMaxLevel(
+  animal: AnimalType,
+  experience: number,
+  // The Pigpen's level caps a Pig below the top of its XP table.
+  maxLevel: AnimalLevel = (getKeys(ANIMAL_LEVELS[animal]).length -
+    1) as AnimalLevel,
+) {
+  return experience >= ANIMAL_LEVELS[animal][maxLevel];
 }
 
 const handleAnimalExperience = (
@@ -64,11 +68,12 @@ const handleAnimalExperience = (
   animalType: AnimalType,
   beforeFeedXp: number,
   foodXp: number,
+  maxLevel: AnimalLevel,
 ): boolean => {
   animal.experience += foodXp;
 
   // Handle non-max level animal
-  if (!isMaxLevel(animalType, beforeFeedXp)) {
+  if (!isMaxLevel(animalType, beforeFeedXp, maxLevel)) {
     if (
       getAnimalLevel(beforeFeedXp, animalType) !==
       getAnimalLevel(animal.experience, animalType)
@@ -79,7 +84,7 @@ const handleAnimalExperience = (
   }
 
   // Handle max level cycle completion
-  const maxLevel = (getKeys(ANIMAL_LEVELS[animalType]).length -
+  const tableMax = (getKeys(ANIMAL_LEVELS[animalType]).length -
     1) as AnimalLevel;
   const levelBeforeMax = (maxLevel - 1) as AnimalLevel;
   const maxLevelXp = ANIMAL_LEVELS[animalType][maxLevel];
@@ -87,8 +92,18 @@ const handleAnimalExperience = (
   const cycleXP = maxLevelXp - levelBeforeMaxXp;
   const excessXpBeforeFeed = Math.max(beforeFeedXp - maxLevelXp, 0);
   const currentCycleProgress = excessXpBeforeFeed % cycleXP;
+  const cycleComplete = currentCycleProgress + foodXp >= cycleXP;
 
-  return currentCycleProgress + foodXp >= cycleXP;
+  // A cap BELOW the animal's table max (a Pig in an un-upgraded Pigpen) has a
+  // next level to creep into, unlike level 15. Hold the excess inside one
+  // cycle so every level-derived read - drops, feed bands, bounty eligibility,
+  // the level badge - stays at the cap until the pen is upgraded.
+  if (cycleComplete && maxLevel < tableMax) {
+    animal.experience =
+      maxLevelXp + ((currentCycleProgress + foodXp) % cycleXP);
+  }
+
+  return cycleComplete;
 };
 
 const handleFreeFeeding = ({
@@ -104,15 +119,22 @@ const handleFreeFeeding = ({
 }) => {
   const beforeFeedXp = animal.experience;
   const nextLevel = (level + 1) as AnimalLevel;
+  const maxLevel = getAnimalMaxLevel(animalType, copy);
   let isReady = false;
 
-  // Is max level
-  if (nextLevel > 15) {
-    const maxLevelXp = ANIMAL_LEVELS[animalType][15];
+  // Is max level (or capped there by its building)
+  if (nextLevel > maxLevel) {
+    const maxLevelXp = ANIMAL_LEVELS[animalType][maxLevel];
     const currentCycleProgress = beforeFeedXp % maxLevelXp;
     const xpDiff = maxLevelXp - currentCycleProgress;
 
-    isReady = handleAnimalExperience(animal, animalType, beforeFeedXp, xpDiff);
+    isReady = handleAnimalExperience(
+      animal,
+      animalType,
+      beforeFeedXp,
+      xpDiff,
+      maxLevel,
+    );
   } else {
     const nextLevelXp = ANIMAL_LEVELS[animalType][nextLevel];
     const xpDiff = nextLevelXp - beforeFeedXp;
@@ -133,6 +155,7 @@ const handleFreeFeeding = ({
       animalType,
       beforeFeedXp,
       xpToFeed,
+      maxLevel,
     );
   }
 
@@ -362,6 +385,7 @@ export function feedAnimal({
       action.animal,
       beforeFeedXp,
       foodXp,
+      getAnimalMaxLevel(action.animal, copy),
     );
 
     // Only set happy/sad state if animal isn't ready

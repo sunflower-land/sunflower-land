@@ -3,13 +3,13 @@ import {
   ANIMAL_FOOD_EXPERIENCE,
   ANIMAL_FOODS,
   ANIMAL_LEVELS,
+  PIGPEN_MAX_ANIMAL_LEVEL,
   ANIMAL_BUILDING_TYPES,
   type AnimalBuildingType,
   type AnimalLevel,
   ANIMALS,
   type AnimalType,
 } from "../types/animals";
-import type { BuildingName } from "../types/buildings";
 import { getKeys } from "lib/object";
 import type {
   Animal,
@@ -106,6 +106,23 @@ export function makeAnimalBuilding(
     level: 1,
     animals: defaultAnimals,
   };
+}
+
+/**
+ * The highest level this animal can currently reach. Normally the top of its
+ * XP table; for a Pig it is whatever its Pigpen's level allows.
+ */
+export function getAnimalMaxLevel(
+  animal: AnimalType,
+  game: GameState,
+): AnimalLevel {
+  const tableMax = Math.max(
+    ...getKeys(ANIMAL_LEVELS[animal]).map(Number),
+  ) as AnimalLevel;
+
+  if (animal !== "Pig") return tableMax;
+
+  return PIGPEN_MAX_ANIMAL_LEVEL[game.pigpen.level] ?? tableMax;
 }
 
 export const isMaxLevel = (animal: AnimalType, level: AnimalLevel) => {

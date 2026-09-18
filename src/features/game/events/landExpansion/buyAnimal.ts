@@ -33,6 +33,17 @@ type Options = {
   createdAt?: number;
 };
 
+/**
+ * Animal buildings whose capacity is a per-level table rather than the shared
+ * `10 + 5*(level-1)` formula. The Pigpen is deliberately much tighter.
+ * TODO(Chapter 16): 3/6/9 is the agreed value, not a spec'd one.
+ */
+const ANIMAL_BUILDING_CAPACITY: Partial<
+  Record<AnimalBuildingKey, Record<number, number>>
+> = {
+  pigpen: { 1: 3, 2: 6, 3: 9 },
+};
+
 export const getBaseAnimalCapacity = (level: number): number => {
   const DEFAULT_CAPACITY = 10;
   const EXTRA_CAPACITY_PER_LEVEL = 5;
@@ -53,7 +64,9 @@ export const getBoostedAnimalCapacity = (
 
   const building = game[buildingKey] as AnimalBuilding;
   const level = building.level;
-  const baseCapacity = getBaseAnimalCapacity(level);
+  const baseCapacity =
+    ANIMAL_BUILDING_CAPACITY[buildingKey as AnimalBuildingKey]?.[level] ??
+    getBaseAnimalCapacity(level);
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (buildingKey === "henHouse") {

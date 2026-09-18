@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { ANIMAL_SLEEP_DURATION, feedAnimal, handleFoodXP } from "./feedAnimal";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { ANIMAL_LEVELS } from "features/game/types/animals";
+import { getAnimalLevel } from "features/game/lib/animals";
 import type { Animal, GameState } from "features/game/types/game";
 
 describe("feedAnimal", () => {
@@ -2364,5 +2365,92 @@ describe("feedAnimal", () => {
       });
       expect(fed.henHouse.animals["a-0"].experience).toBe(10);
     });
+  });
+});
+
+describe("feedAnimal: Pigpen level caps Pig level", () => {
+  const now = Date.now();
+
+  const pig = (experience: number): Animal => ({
+    id: "1",
+    type: "Pig",
+    state: "idle",
+    createdAt: 0,
+    experience,
+    asleepAt: 0,
+    awakeAt: 0,
+    lovedAt: 0,
+    item: "Petting Hand",
+  });
+
+  const farm = (penLevel: number, experience: number): GameState => ({
+    ...INITIAL_FARM,
+    inventory: {
+      ...INITIAL_FARM.inventory,
+      Hay: new Decimal(1000),
+      "Kernel Blend": new Decimal(1000),
+      NutriBarley: new Decimal(1000),
+      "Mixed Grain": new Decimal(1000),
+    },
+    buildings: {
+      ...INITIAL_FARM.buildings,
+      Pigpen: [
+        { coordinates: { x: 0, y: 0 }, createdAt: 0, id: "0", readyAt: 0 },
+      ],
+    },
+    pigpen: { level: penLevel, animals: { "1": pig(experience) } },
+  });
+
+  // Feed until the animal stops gaining levels, then report where it settled.
+  const feedRepeatedly = (penLevel: number, times: number) => {
+    let state = farm(penLevel, ANIMAL_LEVELS.Pig[4]);
+
+    for (let i = 0; i < times; i++) {
+      state = feedAnimal({
+        state: {
+          ...state,
+          pigpen: {
+            ...state.pigpen,
+            animals: {
+              "1": { ...state.pigpen.animals["1"], state: "idle", awakeAt: 0 },
+            },
+          },
+        },
+        action: {
+          type: "animal.fed",
+          animal: "Pig",
+          id: "1",
+          item: "Mixed Grain",
+        },
+        createdAt: now,
+      });
+    }
+
+    return state.pigpen.animals["1"];
+  };
+
+  it("holds a Pig at level 5 in a level-1 pen, however much it is fed", () => {
+    const fed = feedRepeatedly(1, 200);
+
+    expect(getAnimalLevel(fed.experience, "Pig")).toBe(5);
+    // Never reaches level 6's threshold, so nothing downstream (drops, feed
+    // bands, bounty eligibility) can see a level above the cap.
+    expect(fed.experience).toBeLessThan(ANIMAL_LEVELS.Pig[6]);
+  });
+
+  it("still cycles produce at the cap, like a level 15 animal", () => {
+    // Repeating level 5 is the point: the Pig keeps becoming claimable.
+    expect(feedRepeatedly(1, 200).state).toBe("ready");
+  });
+
+  it("lifts the cap to 10 when the pen is level 2", () => {
+    const fed = feedRepeatedly(2, 200);
+
+    expect(getAnimalLevel(fed.experience, "Pig")).toBe(10);
+    expect(fed.experience).toBeLessThan(ANIMAL_LEVELS.Pig[11]);
+  });
+
+  it("allows the full 15 in a level-3 pen", () => {
+    expect(getAnimalLevel(feedRepeatedly(3, 200).experience, "Pig")).toBe(15);
   });
 });

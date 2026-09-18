@@ -105,6 +105,18 @@ export type AnimalLevel =
   | 14
   | 15;
 
+/**
+ * The highest level a Pig can reach, by Pigpen level. A capped Pig repeats its
+ * cap the way any animal repeats level 15 - it keeps cycling produce there
+ * until the pen is upgraded.
+ * TODO(Chapter 16): 5/10/15 is the agreed value, not a spec'd one.
+ */
+export const PIGPEN_MAX_ANIMAL_LEVEL: Record<number, AnimalLevel> = {
+  1: 5,
+  2: 10,
+  3: 15,
+};
+
 export const ANIMAL_LEVELS: Record<AnimalType, Record<AnimalLevel, number>> = {
   Chicken: {
     0: 0,

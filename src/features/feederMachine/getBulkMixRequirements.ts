@@ -9,6 +9,7 @@ import { isAnimalFeedable } from "features/game/events/landExpansion/buyAnimal";
 import {
   getAnimalFavoriteFood,
   getAnimalLevel,
+  getAnimalMaxLevel,
   getAnimalReadyAt,
   getBoostedFoodQuantity,
   makeAnimalBuildingKey,
@@ -111,21 +112,24 @@ const isReadyAfterFoodXP = ({
   animal,
   experience,
   foodXp,
+  // A Pig capped by its Pigpen cycles at the cap, so the mixer must treat it
+  // as max level there rather than planning feed toward a level it cannot hit.
+  maxLevel,
 }: {
   animal: AnimalType;
   experience: number;
   foodXp: number;
+  maxLevel: AnimalLevel;
 }) => {
   const nextExperience = experience + foodXp;
 
-  if (!isMaxLevel(animal, experience)) {
+  if (!isMaxLevel(animal, experience, maxLevel)) {
     return (
       getAnimalLevel(experience, animal) !==
       getAnimalLevel(nextExperience, animal)
     );
   }
 
-  const maxLevel = (getKeys(ANIMAL_LEVELS[animal]).length - 1) as AnimalLevel;
   const levelBeforeMax = (maxLevel - 1) as AnimalLevel;
   const maxLevelXp = ANIMAL_LEVELS[animal][maxLevel];
   const levelBeforeMaxXp = ANIMAL_LEVELS[animal][levelBeforeMax];
@@ -180,6 +184,7 @@ const getFeedRequestsUntilReady = ({
         animal: animal.type,
         experience,
         foodXp,
+        maxLevel: getAnimalMaxLevel(animal.type, game),
       })
     ) {
       break;
