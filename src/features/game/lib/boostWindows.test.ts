@@ -21,6 +21,7 @@ import {
   OIL_BOOST_SPEED,
   appendBoostHistory,
   getCropPlotBoostWindows,
+  getPowerHourWindows,
   getSunshowerGuardianWindows,
   getSunshowerWindows,
   type BoostWindow,
@@ -477,6 +478,79 @@ describe("appendBoostHistory", () => {
     const game = { ...TEST_FARM, boostHistory: {} } as GameState;
     appendBoostHistory(game, "Sparrow Shrine", { from: 2000, to: 2000 }, 2000);
     expect(game.boostHistory?.["Sparrow Shrine"]).toBeUndefined();
+  });
+});
+
+describe("getPowerHourWindows", () => {
+  const startedAt = Date.UTC(2026, 8, 13);
+  const speed = CROP_PLOT_BOOST_SPEED["Power hour"];
+
+  const powerHourFarm = (overrides: Partial<GameState> = {}): GameState =>
+    ({
+      ...TEST_FARM,
+      boostHistory: undefined,
+      buffs: { "Power hour": { startedAt, durationMS: HOUR } },
+      ...overrides,
+    }) as GameState;
+
+  it("runs the live Power Hour for its duration", () => {
+    expect(getPowerHourWindows(powerHourFarm())).toEqual([
+      { from: startedAt, to: startedAt + HOUR, speed },
+    ]);
+  });
+
+  it("includes archived Power Hour windows", () => {
+    const game = powerHourFarm({
+      boostHistory: {
+        "Power hour": [
+          { from: startedAt - 48 * HOUR, to: startedAt - 47 * HOUR },
+        ],
+      },
+    });
+
+    expect(getPowerHourWindows(game)).toEqual([
+      { from: startedAt - 48 * HOUR, to: startedAt - 47 * HOUR, speed },
+      { from: startedAt, to: startedAt + HOUR, speed },
+    ]);
+  });
+
+  it("does not double-count an archived window that is still live", () => {
+    const game = powerHourFarm({
+      boostHistory: {
+        "Power hour": [{ from: startedAt, to: startedAt + HOUR }],
+      },
+    });
+
+    expect(getPowerHourWindows(game)).toEqual([
+      { from: startedAt, to: startedAt + HOUR, speed },
+    ]);
+  });
+
+  it("merges overlapping Power Hour windows instead of stacking them", () => {
+    const game = powerHourFarm({
+      boostHistory: {
+        "Power hour": [
+          { from: startedAt - HOUR / 2, to: startedAt + HOUR / 2 },
+        ],
+      },
+    });
+
+    expect(getPowerHourWindows(game)).toEqual([
+      { from: startedAt - HOUR / 2, to: startedAt + HOUR, speed },
+    ]);
+  });
+
+  it("reads archived windows without a live Power Hour", () => {
+    const game = powerHourFarm({
+      buffs: undefined,
+      boostHistory: {
+        "Power hour": [{ from: startedAt, to: startedAt + HOUR }],
+      },
+    });
+
+    expect(getPowerHourWindows(game)).toEqual([
+      { from: startedAt, to: startedAt + HOUR, speed },
+    ]);
   });
 });
 

@@ -210,17 +210,32 @@ export const CROP_MACHINE_BOOST_SPEED = {
   "Tortoise Shrine": 10 / 9,
 } as const;
 
-/** Window for the Power Hour buff (1h from activation), if active. */
+/**
+ * Every Power Hour window: the current buff (1h from activation) plus earlier
+ * ones archived into `boostHistory` when a new Power Hour replaced them (see
+ * `applyBuff`). An archived window matching the current buff isn't counted
+ * twice, and overlaps merge rather than stack.
+ */
 export const getPowerHourWindows = (game: GameState): BoostWindow[] => {
+  const speed = CROP_PLOT_BOOST_SPEED["Power hour"];
   const buff = game.buffs?.["Power hour"];
-  if (buff?.startedAt === undefined) return [];
-  return [
-    {
-      from: buff.startedAt,
-      to: buff.startedAt + buff.durationMS,
-      speed: CROP_PLOT_BOOST_SPEED["Power hour"],
-    },
-  ];
+
+  const live =
+    buff?.startedAt === undefined
+      ? []
+      : [
+          {
+            from: buff.startedAt,
+            to: buff.startedAt + buff.durationMS,
+            speed,
+          },
+        ];
+
+  const history = (game.boostHistory?.["Power hour"] ?? [])
+    .filter((window) => window.from !== buff?.startedAt)
+    .map(({ from, to }) => ({ from, to, speed }));
+
+  return mergeWindows([...live, ...history].filter((w) => w.to > w.from));
 };
 
 /**
@@ -790,8 +805,8 @@ function getEarliestLedgerAnchor(game: GameState): number | undefined {
 
 /**
  * Record a finalised active window for a temporary boost collectible — or a
- * sunshower or a season Guardian's placed period (see `syncGuardianPlacements`)
- * — into `game.boostHistory` so its contribution survives its source going
+ * sunshower, a season Guardian's placed period or a replaced Power Hour (see
+ * `syncGuardianPlacements`, `applyBuff`) — into `game.boostHistory` so its contribution survives its source going
  * away. Mutates `game` in place (immer-draft friendly). Recorded for ALL
  * temporary collectibles — most have a time effect that will be windowed
  * eventually, so this is future-proof; entries for boosts no window engine reads
@@ -800,7 +815,11 @@ function getEarliestLedgerAnchor(game: GameState): number | undefined {
  */
 export function appendBoostHistory(
   game: GameState,
-  name: TemporaryCollectibleName | SeasonGuardianName | "Sunshower",
+  name:
+    | TemporaryCollectibleName
+    | SeasonGuardianName
+    | "Sunshower"
+    | "Power hour",
   window: BoostHistoryWindow,
   now: number,
 ): void {
