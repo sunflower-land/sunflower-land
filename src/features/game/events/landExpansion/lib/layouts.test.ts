@@ -80,6 +80,62 @@ const applyLayout = ({
 // Tests the shared layouts lib (snapshotFarm + applyFarmLayout) directly —
 // the layout effects persist to the `layouts` collection around this core.
 describe("layouts lib (applyFarmLayout)", () => {
+  describe("limited items (hourglasses, totems, shrines)", () => {
+    // Removal restrictions do not let a player lift these; applying a layout
+    // must not do it behind their back either, or they come back as unplaced
+    // instances with a stale clock that expire the moment they are re-placed.
+    const createdAt = 1_700_000_000_000;
+    const placedHourglass = (): GameState => ({
+      ...withInventory({ "Gourmet Hourglass": 1 }),
+      collectibles: {
+        "Gourmet Hourglass": [
+          { id: "hg", coordinates: { x: 0, y: 0 }, createdAt },
+        ],
+      },
+    });
+
+    it("leaves a placed hourglass where it is when the layout does not mention it", () => {
+      const state = placedHourglass();
+      const layout = makeLayout(baseFarm);
+
+      applyFarmLayout(state, layout, createdAt + 1000);
+
+      expect(state.collectibles["Gourmet Hourglass"]![0]).toEqual({
+        id: "hg",
+        coordinates: { x: 0, y: 0 },
+        createdAt,
+      });
+    });
+
+    it("moves a hourglass the layout names by id and keeps its clock", () => {
+      const state = placedHourglass();
+      const layout = makeLayout(state);
+      layout.collectibles["Gourmet Hourglass"]![0].coordinates = { x: 2, y: 2 };
+
+      const counts = applyFarmLayout(state, layout, createdAt + 1000);
+
+      expect(counts.applied).toBe(1);
+      expect(state.collectibles["Gourmet Hourglass"]![0]).toEqual({
+        id: "hg",
+        coordinates: { x: 2, y: 2 },
+        createdAt,
+      });
+    });
+
+    it("never places a hourglass from the chest for an id the player does not own", () => {
+      const state = withInventory({ "Gourmet Hourglass": 1 });
+      const layout = makeLayout(baseFarm);
+      layout.collectibles["Gourmet Hourglass"] = [
+        { id: "someone-elses", coordinates: { x: 1, y: 1 } },
+      ];
+
+      const counts = applyFarmLayout(state, layout, createdAt);
+
+      expect(counts.skipped).toBe(1);
+      expect(state.collectibles["Gourmet Hourglass"] ?? []).toHaveLength(0);
+    });
+  });
+
   it("places an owned collectible at its saved position and flip", () => {
     const saved = withSavedLayout({
       ...withInventory({ "Wicker Man": 1 }),
