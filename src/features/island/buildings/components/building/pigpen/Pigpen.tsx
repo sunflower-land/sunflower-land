@@ -18,10 +18,38 @@ import { isAnimalCoveredByGoldenAsset } from "features/game/events/landExpansion
 import classNames from "classnames";
 import { saveIslandScrollPosition } from "features/game/expansion/lib/islandScroll";
 import { BARN_IMAGES } from "../barn/Barn";
+import { getKeys } from "lib/object";
+import type { TemperateSeasonName } from "features/game/types/game";
+import type { LandBiomeName } from "features/island/biomes/biomes";
 
-// TODO(Chapter 16 art): the Pigpen reuses the Barn's per-biome, per-season,
-// per-level art until its own exists. Swap this alias for a real table then.
-export const PIGPEN_IMAGES = BARN_IMAGES;
+// TODO(Chapter 16 art): one Pigpen sprite covers every biome, season and
+// building level for now (Elias 2026-09-18), so upgrading does not change the
+// building's look. Replace entries here as per-level or per-biome art lands.
+const PIGPEN_LEVELS: Record<number, string> = {
+  1: SUNNYSIDE.building.pigpen,
+  2: SUNNYSIDE.building.pigpen,
+  3: SUNNYSIDE.building.pigpen,
+};
+
+const PIGPEN_SEASONS: Record<TemperateSeasonName, Record<number, string>> = {
+  spring: PIGPEN_LEVELS,
+  summer: PIGPEN_LEVELS,
+  autumn: PIGPEN_LEVELS,
+  winter: PIGPEN_LEVELS,
+};
+
+// Biomes are taken from BARN_IMAGES rather than listed, so a new land biome
+// cannot leave the Pigpen with a missing entry.
+export const PIGPEN_IMAGES: Record<
+  LandBiomeName,
+  Record<TemperateSeasonName, Record<number, string>>
+> = getKeys(BARN_IMAGES).reduce(
+  (images, biome) => ({ ...images, [biome]: PIGPEN_SEASONS }),
+  {} as Record<
+    LandBiomeName,
+    Record<TemperateSeasonName, Record<number, string>>
+  >,
+);
 
 const _hasHungryAnimals = (state: MachineState) => {
   const game = state.context.state;
@@ -126,7 +154,9 @@ export const Pigpen: React.FC<BuildingProps> = ({
         src={PIGPEN_IMAGES[getCurrentBiome(island)][season][buildingLevel]}
         className="absolute bottom-0 pointer-events-none"
         style={{
-          width: `${PIXEL_SCALE * 64}px`,
+          // The art's own width, like the Hen House - the Pigpen sprite is
+          // 50x54, so the Barn's 64 would upscale it by a fractional factor.
+          width: `${PIXEL_SCALE * 50}px`,
         }}
       />
     </BuildingImageWrapper>

@@ -302,12 +302,12 @@ export const READONLY_BUILDINGS: ({
     Pigpen: () => (
       <div
         className="absolute bottom-0"
-        style={{ width: `${PIXEL_SCALE * 64}px` }}
+        style={{ width: `${PIXEL_SCALE * 50}px` }}
       >
         <img
           src={PIGPEN_IMAGES[biome][season][pigpenLevel]}
           className="absolute bottom-0"
-          style={{ width: `${PIXEL_SCALE * 64}px` }}
+          style={{ width: `${PIXEL_SCALE * 50}px` }}
         />
       </div>
     ),

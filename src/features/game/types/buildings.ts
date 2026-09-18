@@ -331,8 +331,9 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   Greenhouse: { width: 4, height: 4 },
   "Crop Machine": { width: 5, height: 4 },
   Barn: { width: 4, height: 4 },
-  // TODO(Chapter 16): placeholder footprint, cloned from Barn.
-  Pigpen: { width: 4, height: 4 },
+  // TODO(Chapter 16): placeholder footprint. 3x3 (48px) rather than the Barn's
+  // 4x4, to sit under the 50x54 Pigpen sprite (Elias 2026-09-18).
+  Pigpen: { width: 3, height: 3 },
   "Fish Market": { width: 3, height: 3 },
   "Crafting Box": { width: 3, height: 2 },
   "Pet House": { width: 3, height: 3 },

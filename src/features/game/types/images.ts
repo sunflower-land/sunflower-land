@@ -2716,7 +2716,7 @@ export const ITEM_DETAILS: Items = {
     translatedName: translate("building.barn"),
   },
   Pigpen: {
-    image: SUNNYSIDE.building.barn, // TODO(Chapter 16 art)
+    image: SUNNYSIDE.building.pigpen,
     description: translate("description.pigpen"),
     translatedName: translate("building.pigpen"),
   },
