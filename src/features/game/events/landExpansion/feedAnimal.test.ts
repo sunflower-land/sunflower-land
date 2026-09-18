@@ -3,7 +3,11 @@ import { ANIMAL_SLEEP_DURATION, feedAnimal, handleFoodXP } from "./feedAnimal";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { ANIMAL_LEVELS } from "features/game/types/animals";
 import { getAnimalLevel } from "features/game/lib/animals";
-import type { Animal, GameState } from "features/game/types/game";
+import type {
+  Animal,
+  AnimalFoodName,
+  GameState,
+} from "features/game/types/game";
 
 describe("feedAnimal", () => {
   const now = Date.now();
@@ -2473,5 +2477,35 @@ describe("feedAnimal: Pigpen level caps Pig level", () => {
     expect(
       getAnimalLevel(feedRepeatedly(3, 200).experience, "Pig", farm(3)),
     ).toBe(15);
+  });
+
+  describe("favourite food follows the capped level", () => {
+    // 1,650 XP is level 6 on the Pig's own table, but a level-1 pen holds the
+    // Pig at 5 - and the two levels have DIFFERENT favourites (Hay at 5,
+    // NutriBarley at 6). Deriving the favourite from uncapped XP therefore
+    // pays the capped level's XP while labelling the wrong feed as the treat.
+    const state = farm(1, ANIMAL_LEVELS.Pig[6]);
+
+    const feed = (item: AnimalFoodName) =>
+      feedAnimal({
+        state,
+        action: { type: "animal.fed", animal: "Pig", id: "1", item },
+        createdAt: now,
+      }).pigpen.animals["1"];
+
+    it("is happy when fed the capped level's favourite", () => {
+      const pig = feed("Hay");
+
+      expect(pig.state).toBe("happy");
+      // Level 5's Hay, which is also the best XP available to a capped Pig.
+      expect(pig.experience).toBe(ANIMAL_LEVELS.Pig[6] + 60);
+    });
+
+    it("is sad when fed the uncapped level's favourite", () => {
+      const pig = feed("NutriBarley");
+
+      expect(pig.state).toBe("sad");
+      expect(pig.experience).toBe(ANIMAL_LEVELS.Pig[6] + 20);
+    });
   });
 });

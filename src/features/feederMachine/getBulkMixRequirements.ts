@@ -154,7 +154,7 @@ const getFeedRequestsUntilReady = ({
 
   for (let step = 0; step < MAX_FEED_STEPS_TO_READY; step += 1) {
     const level = getAnimalLevel(experience, animal.type, game);
-    const favouriteFood = getAnimalFavoriteFood(animal.type, experience);
+    const favouriteFood = getAnimalFavoriteFood(animal.type, experience, game);
     const { foodXp } = handleFoodXP({
       state: game,
       animal: animal.type,

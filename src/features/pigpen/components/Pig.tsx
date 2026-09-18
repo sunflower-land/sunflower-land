@@ -200,7 +200,7 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pig.state, pig.experience]);
 
-  const favFood = getAnimalFavoriteFood("Pig", pig.experience);
+  const favFood = getAnimalFavoriteFood("Pig", pig.experience, game);
   const sleeping = pigMachineState === "sleeping";
   const needsLove = pigMachineState === "needsLove";
   const ready = pigMachineState === "ready";

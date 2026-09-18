@@ -130,7 +130,7 @@ const handleFreeFeeding = ({
     const nextLevelXp = ANIMAL_LEVELS[animalType][nextLevel];
     const xpDiff = nextLevelXp - beforeFeedXp;
 
-    const favouriteFood = getAnimalFavoriteFood(animalType, beforeFeedXp);
+    const favouriteFood = getAnimalFavoriteFood(animalType, beforeFeedXp, copy);
 
     const { foodXp } = handleFoodXP({
       state: copy,
@@ -291,6 +291,7 @@ export function feedAnimal({
     const favouriteFood = getAnimalFavoriteFood(
       action.animal,
       animal.experience,
+      copy,
     );
 
     // Handle Golden Egg Free Food

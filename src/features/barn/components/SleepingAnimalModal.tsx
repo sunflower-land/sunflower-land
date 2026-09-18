@@ -181,7 +181,11 @@ export const SleepingAnimalModal = ({
     );
   }
 
-  const favouriteFood = getAnimalFavoriteFood(animal.type, animal.experience);
+  const favouriteFood = getAnimalFavoriteFood(
+    animal.type,
+    animal.experience,
+    state,
+  );
 
   // Get the XP for the current love item
   const { animalXP } = getAnimalXP({
