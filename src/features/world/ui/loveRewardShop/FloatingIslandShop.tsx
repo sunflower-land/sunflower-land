@@ -28,6 +28,7 @@ import shopIcon from "assets/icons/shop.png";
 import guideIcon from "assets/icons/tier1_book.webp";
 import { getKeys } from "lib/object";
 import { Box } from "components/ui/Box";
+import { getItemDescription as getGameItemDescription } from "features/game/lib/getItemDescription";
 
 export const getItemImage = (item: FloatingShopItem | null): string => {
   if (!item) return "";
@@ -51,14 +52,17 @@ export const getItemBuffLabel = (
 
   return COLLECTIBLE_BUFF_LABELS[item.name]?.(state);
 };
-export const getItemDescription = (item: FloatingShopItem | null): string => {
+export const getItemDescription = (
+  item: FloatingShopItem | null,
+  game: GameState,
+): string => {
   if (!item) return "";
 
   if (!isFloatingShopCollectible(item)) {
     return OPEN_SEA_WEARABLES[item.name].description;
   }
 
-  return ITEM_DETAILS[item.name].description;
+  return getGameItemDescription({ item: item.name, game });
 };
 
 export const Shop: React.FC = () => {
@@ -125,6 +129,7 @@ export const Shop: React.FC = () => {
 };
 
 const Guide: React.FC = () => {
+  const { gameState } = useGame();
   const items = getKeys(FLOATING_ISLAND_SHOP_ITEMS);
   return (
     <div className="max-h-[300px] overflow-y-auto scrollable">
@@ -134,7 +139,10 @@ const Guide: React.FC = () => {
           <div className="flex-1 overflow-hidden">
             <p>{item}</p>
             <p className="whitespace-nowrap text-xs text-ellipsis overflow-hidden">
-              {getItemDescription(FLOATING_ISLAND_SHOP_ITEMS[item])}
+              {getItemDescription(
+                FLOATING_ISLAND_SHOP_ITEMS[item],
+                gameState.context.state,
+              )}
             </p>
           </div>
         </div>
