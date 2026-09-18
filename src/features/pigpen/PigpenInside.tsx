@@ -4,12 +4,12 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { Hud } from "features/island/hud/Hud";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { getKeys, getValues } from "lib/object";
+import { getKeys } from "lib/object";
 import { ANIMALS } from "features/game/types/animals";
 import { Pig } from "./components/Pig";
 import { EXTERIOR_ISLAND_BG } from "features/barn/BarnInside";
@@ -46,6 +46,11 @@ const _pigpen = (state: MachineState) => state.context.state.pigpen;
 const _game = (state: MachineState) => state.context.state;
 const _island = (state: MachineState) => state.context.state.island;
 const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
+const _isPigpenDestroyed = (state: MachineState) =>
+  isBuildingDestroyed({
+    name: "Pigpen",
+    calendar: state.context.state.calendar,
+  });
 
 export const PigpenInside: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -67,6 +72,7 @@ export const PigpenInside: React.FC = () => {
 
   const token = useSelector(authService, _token);
   const pigpen = useSelector(gameService, _pigpen);
+  const isDestroyed = useSelector(gameService, _isPigpenDestroyed);
   const game = useSelector(gameService, _game);
   const island = useSelector(gameService, _island);
   const level = pigpen.level;
@@ -89,10 +95,7 @@ export const PigpenInside: React.FC = () => {
     width: floorWidth,
   } = ANIMAL_HOUSE_BOUNDS.pigpen[level];
 
-  // Sort order will remain the same as long as animals are not added or removed
   // One animal type lives here, so this orders purely by experience
-  const animalCount = getKeys(pigpen.animals).length;
-
   const sortedAnimalIds = useMemo(
     () =>
       getKeys(pigpen.animals)
@@ -103,15 +106,10 @@ export const PigpenInside: React.FC = () => {
             : a.type.localeCompare(b.type),
         )
         .map((animal) => animal.id),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [getKeys(pigpen.animals).length],
+    [pigpen.animals],
   );
 
   // Organize the animals neatly in the pigpen
-  const sickAnimalCount = getValues(pigpen.animals).filter(
-    (animal) => animal.state === "sick",
-  ).length;
-
   const organizedAnimals = useMemo(() => {
     const maxAnimalsPerRow = Math.floor(floorWidth / ANIMALS.Pig.width);
     const verticalGap = 0.5; // Add a 0.5 grid unit gap between rows
@@ -129,8 +127,7 @@ export const PigpenInside: React.FC = () => {
           },
         };
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [animalCount, sickAnimalCount, floorWidth]);
+  }, [sortedAnimalIds, pigpen.animals, floorWidth]);
   const currentBiome = getCurrentBiome(island);
 
   const validAnimalsCount = useMemo(() => {
@@ -171,13 +168,8 @@ export const PigpenInside: React.FC = () => {
     setDeal(undefined);
   };
 
-  const calendarEvent = isBuildingDestroyed({
-    name: "Pigpen",
-    calendar: context.state.calendar,
-  });
-
-  if (calendarEvent) {
-    navigate("/");
+  if (isDestroyed) {
+    return <Navigate to="/" replace />;
   }
 
   return (
