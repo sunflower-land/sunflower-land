@@ -152,7 +152,12 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
       Wood: new Decimal(150),
       Iron: new Decimal(10),
       Gold: new Decimal(10),
+      // TODO(Chapter 16): placeholder quantity. Mud is a construction input as
+      // well as an upgrade one, so the Pigpen needs the Cave before it can be
+      // raised at all.
+      Mud: new Decimal(10),
     },
+    requiredIsland: "spring",
   },
   "Fish Market": {
     unlocksAtLevel: { ascension: 0, level: 10 },

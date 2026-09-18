@@ -687,11 +687,13 @@ describe("constructBuilding: Pigpen gating", () => {
     ...GAME_STATE,
     bumpkin: { ...TEST_BUMPKIN, experience: 1_000_000 },
     coins: 100_000,
+    island: { ...GAME_STATE.island, type: "spring" },
     inventory: {
       ...GAME_STATE.inventory,
       Wood: new Decimal(1000),
       Iron: new Decimal(100),
       Gold: new Decimal(100),
+      Mud: new Decimal(100),
     },
   };
 
@@ -711,6 +713,31 @@ describe("constructBuilding: Pigpen gating", () => {
     expect(() => build(farm)).toThrow(
       CONSTRUCT_BUILDING_ERRORS.NO_FEATURE_ACCESS,
     );
+  });
+
+  it("requires Spring Island", () => {
+    // The spec houses Pigs on Spring Island, so the Pigpen cannot be raised on
+    // the starting island even by a player who is otherwise eligible.
+    expect(() =>
+      build({
+        ...farm,
+        island: { ...farm.island, type: "basic" },
+        inventory: { ...farm.inventory, "Beta Pass": new Decimal(1) },
+      }),
+    ).toThrow("You do not have the required island expansion");
+  });
+
+  it("requires Mud to construct", () => {
+    expect(() =>
+      build({
+        ...farm,
+        inventory: {
+          ...farm.inventory,
+          Mud: new Decimal(0),
+          "Beta Pass": new Decimal(1),
+        },
+      }),
+    ).toThrow("Insufficient ingredient: Mud");
   });
 
   it("builds a Pigpen with the PIGPEN feature flag", () => {
