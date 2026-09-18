@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/set-state-in-effect */
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AnimatedBar } from "components/ui/ProgressBar";
 import {
   ANIMAL_LEVELS,
@@ -11,7 +11,9 @@ import {
   getAnimalMaxLevel,
   isMaxLevel,
 } from "features/game/lib/animals";
-import { useGame } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import { Context } from "features/game/GameProvider";
+import type { MachineState } from "features/game/lib/gameMachine";
 import type { TState } from "features/game/lib/animalMachine";
 import { Transition } from "@headlessui/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -39,6 +41,8 @@ const getMaxLevelCycleProgress = (
   return ((excessXPoverMax % cycleXP) / cycleXP) * 100;
 };
 
+const _game = (state: MachineState) => state.context.state;
+
 export const LevelProgress = ({
   experience,
   animal,
@@ -46,6 +50,9 @@ export const LevelProgress = ({
   className,
   onLevelUp,
 }: Props) => {
+  const { gameService } = useContext(Context);
+  const game = useSelector(gameService, _game);
+
   const [prevAnimalState, setPrevAnimalState] = useState(animalState);
   const [showLevelUp, setShowLevelUp] = useState(false);
   const [displayExperience, setDisplayExperience] = useState(experience);
@@ -80,8 +87,6 @@ export const LevelProgress = ({
     }
   }, [experience, isLevelingUp]);
 
-  const { gameState } = useGame();
-  const game = gameState.context.state;
   const level = getAnimalLevel(experience, animal.type, game);
 
   // An animal get xp on every feed so they may already be in the next level
