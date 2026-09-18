@@ -4,7 +4,7 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { Hud } from "features/island/hud/Hud";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
@@ -57,6 +57,18 @@ const _barn = (state: MachineState) => state.context.state.barn;
 const _game = (state: MachineState) => state.context.state;
 const _island = (state: MachineState) => state.context.state.island;
 const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
+const _loggedInFarmId = (state: MachineState) =>
+  state.context.visitorId ?? state.context.farmId;
+const _hasAirdropAccess = (state: MachineState) =>
+  hasFeatureAccess(
+    state.context.visitorState ?? state.context.state,
+    "AIRDROP_PLAYER",
+  );
+const _isBarnDestroyed = (state: MachineState) =>
+  isBuildingDestroyed({
+    name: "Barn",
+    calendar: state.context.state.calendar,
+  });
 
 // An allowlist, not `Exclude<AnimalType, "Chicken">`: the Barn houses Cows and
 // Sheep specifically, and should not silently claim every animal added later.
@@ -80,13 +92,9 @@ export const BarnInside: React.FC = () => {
   const [selectedAnimalId, setSelectedAnimalId] = useState<string>();
   const [deal, setDeal] = useState<AnimalBounty>();
   const { authService } = useContext(AuthContext);
-  const context = gameService.getSnapshot().context;
-  const loggedInFarmId = context.visitorId ?? context.farmId;
-
-  const hasAirdropAccess = hasFeatureAccess(
-    context.visitorState ?? context.state,
-    "AIRDROP_PLAYER",
-  );
+  const loggedInFarmId = useSelector(gameService, _loggedInFarmId);
+  const hasAirdropAccess = useSelector(gameService, _hasAirdropAccess);
+  const isDestroyed = useSelector(gameService, _isBarnDestroyed);
 
   const token = useSelector(authService, _token);
   const barn = useSelector(gameService, _barn);
@@ -194,13 +202,8 @@ export const BarnInside: React.FC = () => {
     setDeal(undefined);
   };
 
-  const calendarEvent = isBuildingDestroyed({
-    name: "Barn",
-    calendar: context.state.calendar,
-  });
-
-  if (calendarEvent) {
-    navigate("/");
+  if (isDestroyed) {
+    return <Navigate to="/" replace />;
   }
 
   return (
