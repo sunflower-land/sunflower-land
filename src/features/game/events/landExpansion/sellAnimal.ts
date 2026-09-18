@@ -1,5 +1,9 @@
 import Decimal from "decimal.js-light";
-import { getAnimalLevel, getAnimalReadyAt } from "features/game/lib/animals";
+import {
+  getAnimalLevel,
+  getAnimalReadyAt,
+  isMaxLevel,
+} from "features/game/lib/animals";
 import { getKeys } from "lib/object";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import type {
@@ -29,18 +33,21 @@ export function isValidDeal({
     return false;
   }
 
-  /**
-   * If animal is ready, it would normally show its previous level until they claim yield.
-   * Hence we should check their effective level to be the previous level.
-   */
-  if (
-    animal.state === "ready" &&
-    getAnimalLevel(animal.experience, animal.type) - 1 < deal.level
-  ) {
-    return false;
-  }
+  const level = getAnimalLevel(animal.experience, animal.type);
 
-  if (getAnimalLevel(animal.experience, animal.type) < deal.level) {
+  /**
+   * A ready animal normally shows its previous level until the yield is
+   * claimed, so its effective level for a bounty is one lower. At max level
+   * there is no next level to transition into - "ready" only means a produce
+   * cycle completed - so the adjustment does not apply. This mirrors the
+   * badge, which guards its own `- 1` with `isMaxLevel`.
+   */
+  const effectiveLevel =
+    animal.state === "ready" && !isMaxLevel(animal.type, level)
+      ? level - 1
+      : level;
+
+  if (effectiveLevel < deal.level) {
     return false;
   }
 
