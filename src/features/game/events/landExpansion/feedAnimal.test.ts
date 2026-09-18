@@ -8,12 +8,24 @@ import type {
   AnimalFoodName,
   GameState,
 } from "features/game/types/game";
+import { makeAnimalBuilding } from "features/game/lib/animals";
+
+/**
+ * INITIAL_FARM ships animal buildings EMPTY - `constructBuilding` seeds the
+ * starter herd - so these tests, which assume a farm that already has animals,
+ * build one explicitly.
+ */
+const FARM_WITH_HERDS: GameState = {
+  ...INITIAL_FARM,
+  henHouse: makeAnimalBuilding("Hen House"),
+  barn: makeAnimalBuilding("Barn"),
+};
 
 describe("feedAnimal", () => {
   const now = Date.now();
 
   const GAME_STATE: GameState = {
-    ...INITIAL_FARM,
+    ...FARM_WITH_HERDS,
     buildings: {
       "Hen House": [
         { coordinates: { x: 0, y: 0 }, createdAt: 0, id: "0", readyAt: 0 },
@@ -2391,16 +2403,16 @@ describe("feedAnimal: Pigpen level caps Pig level", () => {
     penLevel: number,
     experience: number = ANIMAL_LEVELS.Pig[4],
   ): GameState => ({
-    ...INITIAL_FARM,
+    ...FARM_WITH_HERDS,
     inventory: {
-      ...INITIAL_FARM.inventory,
+      ...FARM_WITH_HERDS.inventory,
       Hay: new Decimal(1000),
       "Kernel Blend": new Decimal(1000),
       NutriBarley: new Decimal(1000),
       "Mixed Grain": new Decimal(1000),
     },
     buildings: {
-      ...INITIAL_FARM.buildings,
+      ...FARM_WITH_HERDS.buildings,
       Pigpen: [
         { coordinates: { x: 0, y: 0 }, createdAt: 0, id: "0", readyAt: 0 },
       ],

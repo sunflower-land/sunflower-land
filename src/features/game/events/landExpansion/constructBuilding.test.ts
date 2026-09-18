@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { CONFIG } from "lib/config";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import { BUILDINGS } from "features/game/types/buildings";
-import { TEST_FARM } from "../../lib/constants";
+import { INITIAL_FARM, TEST_FARM } from "../../lib/constants";
 import type { GameState } from "../../types/game";
 import {
   constructBuilding,
@@ -573,6 +573,46 @@ describe("Construct building", () => {
     expect(state.inventory.Iron).toEqual(new Decimal(1));
     expect(state.inventory.Gold).toEqual(new Decimal(1));
   });
+
+  it.each(["Barn", "Hen House"] as const)(
+    "seeds a new account's %s with its starter herd on construction",
+    (name) => {
+      const buildingKey = makeAnimalBuildingKey(name);
+
+      // A new account ships with empty animal buildings; the herd arrives when
+      // the player builds the building.
+      expect(INITIAL_FARM[buildingKey].animals).toEqual({});
+
+      const state = constructBuilding({
+        state: {
+          ...INITIAL_FARM,
+          buildings: {},
+          coins: 8000,
+          inventory: {
+            Wood: new Decimal(1000),
+            Iron: new Decimal(100),
+            Gold: new Decimal(100),
+            "Basic Land": new Decimal(5),
+          },
+          bumpkin: { ...TEST_BUMPKIN, experience: LEVEL_EXPERIENCE[64] },
+        },
+        action: {
+          type: "building.constructed",
+          id: "123",
+          name,
+          coordinates: { x: 1, y: 1 },
+        },
+        createdAt: dateNow,
+      });
+
+      const animals = Object.values(state[buildingKey].animals);
+
+      expect(animals).toHaveLength(3);
+      expect(animals.every((animal) => animal.createdAt === dateNow)).toBe(
+        true,
+      );
+    },
+  );
 
   it.each(["Barn", "Hen House"] as const)(
     "does not re-seed a %s that already has its starter herd",

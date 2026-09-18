@@ -686,8 +686,12 @@ export const INITIAL_FARM: GameState = {
       patterns: [],
     },
   },
-  henHouse: makeAnimalBuilding("Hen House"),
-  barn: makeAnimalBuilding("Barn"),
+  // Animal buildings start EMPTY and are seeded with their starter herd by
+  // `constructBuilding`. Seeding here would also hand every existing farm a
+  // free herd, because the API hydrates a missing animal building from
+  // INITIAL_FARM - which is why `pigpen` has always been empty.
+  henHouse: { level: 1, animals: {} },
+  barn: { level: 1, animals: {} },
   // Deliberately NOT makeAnimalBuilding("Pigpen"): that seeds 3 starter
   // animals, and the API hydrates a missing `pigpen` from INITIAL_FARM - so
   // every existing farm would be granted 3 free Pigs on its first load.
@@ -1213,8 +1217,12 @@ export const EMPTY: GameState = {
       grid: [],
     },
   },
-  henHouse: makeAnimalBuilding("Hen House"),
-  barn: makeAnimalBuilding("Barn"),
+  // Animal buildings start EMPTY and are seeded with their starter herd by
+  // `constructBuilding`. Seeding here would also hand every existing farm a
+  // free herd, because the API hydrates a missing animal building from
+  // INITIAL_FARM - which is why `pigpen` has always been empty.
+  henHouse: { level: 1, animals: {} },
+  barn: { level: 1, animals: {} },
   // Deliberately NOT makeAnimalBuilding("Pigpen"): that seeds 3 starter
   // animals, and the API hydrates a missing `pigpen` from INITIAL_FARM - so
   // every existing farm would be granted 3 free Pigs on its first load.
