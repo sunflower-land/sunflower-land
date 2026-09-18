@@ -84,26 +84,17 @@ const handleAnimalExperience = (
   }
 
   // Handle max level cycle completion
-  const tableMax = (getKeys(ANIMAL_LEVELS[animalType]).length -
-    1) as AnimalLevel;
   const levelBeforeMax = (maxLevel - 1) as AnimalLevel;
   const maxLevelXp = ANIMAL_LEVELS[animalType][maxLevel];
   const levelBeforeMaxXp = ANIMAL_LEVELS[animalType][levelBeforeMax];
   const cycleXP = maxLevelXp - levelBeforeMaxXp;
   const excessXpBeforeFeed = Math.max(beforeFeedXp - maxLevelXp, 0);
   const currentCycleProgress = excessXpBeforeFeed % cycleXP;
-  const cycleComplete = currentCycleProgress + foodXp >= cycleXP;
-
-  // A cap BELOW the animal's table max (a Pig in an un-upgraded Pigpen) has a
-  // next level to creep into, unlike level 15. Hold the excess inside one
-  // cycle so every level-derived read - drops, feed bands, bounty eligibility,
-  // the level badge - stays at the cap until the pen is upgraded.
-  if (cycleComplete && maxLevel < tableMax) {
-    animal.experience =
-      maxLevelXp + ((currentCycleProgress + foodXp) % cycleXP);
-  }
-
-  return cycleComplete;
+  // XP keeps accruing at the cap rather than being held inside one cycle:
+  // rewriting it would destroy the excess of any animal already above its cap,
+  // and banking it is what makes upgrading the building pay off. The cap is
+  // applied when the level is DERIVED, in `getAnimalLevel`.
+  return currentCycleProgress + foodXp >= cycleXP;
 };
 
 const handleFreeFeeding = ({
@@ -283,7 +274,7 @@ export function feedAnimal({
       throw new Error("Cannot feed a sick animal");
     }
 
-    const level = getAnimalLevel(animal.experience, animal.type);
+    const level = getAnimalLevel(animal.experience, animal.type, copy);
     const food = action.item as AnimalFoodName;
     const hasGoldenEggPlaced = isCollectibleBuilt({
       name: "Gold Egg",

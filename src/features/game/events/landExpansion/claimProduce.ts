@@ -54,7 +54,7 @@ export function claimProduce({
       throw new Error("Animal is not ready to claim produce");
     }
 
-    const level = getAnimalLevel(animal.experience, action.animal);
+    const level = getAnimalLevel(animal.experience, action.animal, copy);
 
     getKeys(ANIMAL_RESOURCE_DROP[action.animal][level]).forEach((resource) => {
       const baseAmount = ANIMAL_RESOURCE_DROP[action.animal][level][

@@ -125,12 +125,27 @@ export function getAnimalMaxLevel(
   return PIGPEN_MAX_ANIMAL_LEVEL[game.pigpen.level] ?? tableMax;
 }
 
-export const isMaxLevel = (animal: AnimalType, level: AnimalLevel) => {
-  const maxLevel = Math.max(...Object.keys(ANIMAL_LEVELS[animal]).map(Number));
-  return level === maxLevel;
+export const isMaxLevel = (
+  animal: AnimalType,
+  level: AnimalLevel,
+  // Pass game so a Pig counts as maxed at its Pigpen's cap, not only at 15.
+  game?: GameState,
+) => {
+  if (game) return level >= getAnimalMaxLevel(animal, game);
+
+  return level === Math.max(...Object.keys(ANIMAL_LEVELS[animal]).map(Number));
 };
 
-export function getAnimalLevel(experience: number, animal: AnimalType) {
+export function getAnimalLevel(
+  experience: number,
+  animal: AnimalType,
+  /**
+   * Pass game to clamp the result to the animal's building cap - a Pig cannot
+   * read above the level its Pigpen allows, however much XP it has banked.
+   * Omit it only where the animal can never be a Pig.
+   */
+  game?: GameState,
+) {
   const levels = ANIMAL_LEVELS[animal];
 
   let currentLevel: AnimalLevel = 0;
@@ -144,7 +159,9 @@ export function getAnimalLevel(experience: number, animal: AnimalType) {
     }
   }
 
-  return currentLevel;
+  if (!game) return currentLevel;
+
+  return Math.min(currentLevel, getAnimalMaxLevel(animal, game)) as AnimalLevel;
 }
 
 export function getAnimalFavoriteFood(type: AnimalType, animalXP: number) {

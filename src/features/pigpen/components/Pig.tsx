@@ -554,7 +554,7 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
 
   if (pigMachineState === "initial") return null;
 
-  const level = getAnimalLevel(pig.experience, "Pig");
+  const level = getAnimalLevel(pig.experience, "Pig", game);
   const xpIndicatorColor =
     favFood === selectedItem || selectedItem === "Omnifeed" || hasGoldenPig
       ? "#71e358"

@@ -2383,7 +2383,10 @@ describe("feedAnimal: Pigpen level caps Pig level", () => {
     item: "Petting Hand",
   });
 
-  const farm = (penLevel: number, experience: number): GameState => ({
+  const farm = (
+    penLevel: number,
+    experience: number = ANIMAL_LEVELS.Pig[4],
+  ): GameState => ({
     ...INITIAL_FARM,
     inventory: {
       ...INITIAL_FARM.inventory,
@@ -2432,10 +2435,27 @@ describe("feedAnimal: Pigpen level caps Pig level", () => {
   it("holds a Pig at level 5 in a level-1 pen, however much it is fed", () => {
     const fed = feedRepeatedly(1, 200);
 
-    expect(getAnimalLevel(fed.experience, "Pig")).toBe(5);
-    // Never reaches level 6's threshold, so nothing downstream (drops, feed
-    // bands, bounty eligibility) can see a level above the cap.
-    expect(fed.experience).toBeLessThan(ANIMAL_LEVELS.Pig[6]);
+    expect(getAnimalLevel(fed.experience, "Pig", farm(1))).toBe(5);
+  });
+
+  it("keeps accruing XP at the cap so upgrading the pen pays off", () => {
+    const fed = feedRepeatedly(1, 200);
+
+    // XP banks past the cap's threshold rather than being discarded...
+    expect(fed.experience).toBeGreaterThan(ANIMAL_LEVELS.Pig[6]);
+    // ...but the level a capped Pig reports never moves.
+    expect(getAnimalLevel(fed.experience, "Pig", farm(1))).toBe(5);
+  });
+
+  it("caps a Pig that already has XP far above its pen's level", () => {
+    // A Pig with 10,000 XP would read level 15 from its XP alone; its
+    // level-1 Pigpen must still hold it at 5, for drops and the badge alike.
+    const overfed = { ...farm(1), pigpen: { level: 1, animals: {} } };
+
+    expect(getAnimalLevel(10_000, "Pig")).toBe(15);
+    expect(getAnimalLevel(10_000, "Pig", overfed)).toBe(5);
+    expect(getAnimalLevel(10_000, "Pig", farm(2))).toBe(10);
+    expect(getAnimalLevel(10_000, "Pig", farm(3))).toBe(15);
   });
 
   it("still cycles produce at the cap, like a level 15 animal", () => {
@@ -2446,11 +2466,12 @@ describe("feedAnimal: Pigpen level caps Pig level", () => {
   it("lifts the cap to 10 when the pen is level 2", () => {
     const fed = feedRepeatedly(2, 200);
 
-    expect(getAnimalLevel(fed.experience, "Pig")).toBe(10);
-    expect(fed.experience).toBeLessThan(ANIMAL_LEVELS.Pig[11]);
+    expect(getAnimalLevel(fed.experience, "Pig", farm(2))).toBe(10);
   });
 
   it("allows the full 15 in a level-3 pen", () => {
-    expect(getAnimalLevel(feedRepeatedly(3, 200).experience, "Pig")).toBe(15);
+    expect(
+      getAnimalLevel(feedRepeatedly(3, 200).experience, "Pig", farm(3)),
+    ).toBe(15);
   });
 });

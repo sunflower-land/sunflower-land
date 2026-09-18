@@ -40,12 +40,12 @@ export function isValidDeal({
    */
   if (
     animal.state === "ready" &&
-    getAnimalLevel(animal.experience, animal.type) - 1 < deal.level
+    getAnimalLevel(animal.experience, animal.type, game) - 1 < deal.level
   ) {
     return false;
   }
 
-  if (getAnimalLevel(animal.experience, animal.type) < deal.level) {
+  if (getAnimalLevel(animal.experience, animal.type, game) < deal.level) {
     return false;
   }
 
