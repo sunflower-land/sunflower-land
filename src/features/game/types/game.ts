@@ -837,11 +837,19 @@ export type PlantedFruit = {
   criticalHit?: CriticalHit;
   amount?: number;
   /**
-   * Work (ms) banked when the patch was lifted mid-grow/replenish (windowed
-   * fruit freeze accrued WORK, not wall-clock progress, while the patch sits in
-   * inventory). Display-only: the patch UI folds it into the progress bar;
-   * readiness ignores it — the banked work is already subtracted from
-   * `baseDurationMs`. Reset when a new phase begins (harvest → replenish).
+   * Display-only in both models (readiness ignores it), but it carries a
+   * different quantity in each — the patch UI branches on `baseDurationMs`:
+   * - Windowed: WORK (ms) banked when the patch was lifted mid-grow/replenish
+   *   (windowed fruit freeze accrued WORK, not wall-clock progress, while the
+   *   patch sits in inventory). Already subtracted from `baseDurationMs`, so
+   *   the bar folds it back into its total.
+   * - Legacy: the total DISCOUNT (ms) baked in by back-dating the active
+   *   phase's start — plant/replenish-time boosts plus any mid-cycle
+   *   Turbofruit Mix. It is NOT growth already done, so the bar un-back-dates
+   *   with it; without that a heavily boosted patch opens its bar near-full.
+   *   Same meaning (and reason) as `PlantedCrop.boostedTime`.
+   * Replaced when a new phase begins (harvest → replenish); absent when the
+   *   phase had no boost at all.
    */
   boostedTime?: number;
   /**
@@ -948,11 +956,17 @@ export type GreenhousePlant = {
   criticalHit?: CriticalHit;
   amount?: number;
   /**
-   * Work (ms) banked when the Greenhouse building was moved mid-grow (windowed
-   * plants freeze accrued WORK, not wall-clock progress, while the building
-   * sits in inventory). Display-only: the pot UI folds it into the progress
-   * bar; readiness ignores it — the banked work is already subtracted from
-   * `baseDurationMs`.
+   * Display-only in both models (readiness ignores it), but it carries a
+   * different quantity in each — the pot UI branches on `baseDurationMs`:
+   * - Windowed: WORK (ms) banked when the Greenhouse building was moved
+   *   mid-grow (windowed plants freeze accrued WORK, not wall-clock progress,
+   *   while the building sits in inventory). Already subtracted from
+   *   `baseDurationMs`, so the bar folds it back into its total.
+   * - Legacy: the total DISCOUNT (ms) baked in by back-dating `plantedAt` —
+   *   plant-time boosts plus any mid-grow Greenhouse Glow. It is NOT growth
+   *   already done, so the bar un-back-dates with it; without that a heavily
+   *   boosted plant opens its bar near-full. Same meaning (and same reason) as
+   *   `PlantedCrop.boostedTime`. Absent when nothing boosted the grow.
    */
   boostedTime?: number;
   /**
@@ -1885,11 +1899,18 @@ export type PlantedFlower = {
   criticalHit?: CriticalHit;
   amount?: number;
   /**
-   * Work (ms) banked when the flower bed was lifted mid-grow (windowed flowers
-   * freeze accrued WORK, not wall-clock progress, while the bed sits in
-   * inventory). Display-only: the bed UI folds it into the progress bar;
-   * readiness ignores it — the banked work is already subtracted from
-   * `baseDurationMs`. Flowers are one-shot, so it never needs resetting.
+   * Display-only in both models (readiness ignores it), but it carries a
+   * different quantity in each — the bed UI branches on `baseDurationMs`:
+   * - Windowed: WORK (ms) banked when the bed was lifted mid-grow (windowed
+   *   flowers freeze accrued WORK, not wall-clock progress, while the bed sits
+   *   in inventory). Already subtracted from `baseDurationMs`, so the bar folds
+   *   it back into its total.
+   * - Legacy: the total DISCOUNT (ms) baked in by back-dating `plantedAt` —
+   *   plant-time boosts, plus the full grow time on an insta-grow. It is NOT
+   *   growth already done, so the bar un-back-dates with it; without that a
+   *   heavily boosted flower opens its bar near-full. Same meaning (and reason)
+   *   as `PlantedCrop.boostedTime`.
+   * Flowers are one-shot, so it never needs resetting; absent when unboosted.
    */
   boostedTime?: number;
   /**
