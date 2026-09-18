@@ -671,16 +671,6 @@ describe("Construct building", () => {
 });
 
 describe("constructBuilding: Pigpen gating", () => {
-  // FE jest runs on amoy, where `betaFeatureFlag` is unconditionally true - so
-  // the flag-OFF path is only reachable by pretending to be mainnet.
-  const originalNetwork = CONFIG.NETWORK;
-  beforeEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-  });
-  afterEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-  });
-
   const dateNow = Date.now();
 
   const farm: GameState = {
@@ -709,21 +699,17 @@ describe("constructBuilding: Pigpen gating", () => {
       createdAt: dateNow,
     });
 
-  it("throws without the PIGPEN feature flag", () => {
-    expect(() => build(farm)).toThrow(
-      CONSTRUCT_BUILDING_ERRORS.NO_FEATURE_ACCESS,
-    );
+  // The Pigpen is testnet-only, and jest runs on amoy, so the flag is on for
+  // every test below without any inventory item granting it.
+  it("builds a Pigpen on testnet", () => {
+    expect(build(farm).buildings.Pigpen).toHaveLength(1);
   });
 
   it("requires Spring Island", () => {
     // The spec houses Pigs on Spring Island, so the Pigpen cannot be raised on
     // the starting island even by a player who is otherwise eligible.
     expect(() =>
-      build({
-        ...farm,
-        island: { ...farm.island, type: "basic" },
-        inventory: { ...farm.inventory, "Beta Pass": new Decimal(1) },
-      }),
+      build({ ...farm, island: { ...farm.island, type: "basic" } }),
     ).toThrow("You do not have the required island expansion");
   });
 
@@ -731,22 +717,9 @@ describe("constructBuilding: Pigpen gating", () => {
     expect(() =>
       build({
         ...farm,
-        inventory: {
-          ...farm.inventory,
-          Mud: new Decimal(0),
-          "Beta Pass": new Decimal(1),
-        },
+        inventory: { ...farm.inventory, Mud: new Decimal(0) },
       }),
     ).toThrow("Insufficient ingredient: Mud");
-  });
-
-  it("builds a Pigpen with the PIGPEN feature flag", () => {
-    const state = build({
-      ...farm,
-      inventory: { ...farm.inventory, "Beta Pass": new Decimal(1) },
-    });
-
-    expect(state.buildings.Pigpen).toHaveLength(1);
   });
 
   it("seeds the empty pigpen with three Pigs on construction", () => {
@@ -754,12 +727,7 @@ describe("constructBuilding: Pigpen gating", () => {
     // field lands; the starter herd arrives when the player actually builds it.
     expect(farm.pigpen.animals).toEqual({});
 
-    const state = build({
-      ...farm,
-      inventory: { ...farm.inventory, "Beta Pass": new Decimal(1) },
-    });
-
-    const pigs = Object.values(state.pigpen.animals);
+    const pigs = Object.values(build(farm).pigpen.animals);
 
     expect(pigs).toHaveLength(3);
     expect(pigs.every((pig) => pig.type === "Pig")).toBe(true);
@@ -772,7 +740,6 @@ describe("constructBuilding: Pigpen gating", () => {
     const existing = { ...farm.pigpen.animals };
     const state = build({
       ...farm,
-      inventory: { ...farm.inventory, "Beta Pass": new Decimal(1) },
       pigpen: {
         level: 1,
         animals: {
@@ -794,5 +761,36 @@ describe("constructBuilding: Pigpen gating", () => {
     expect(existing).toEqual({});
     expect(Object.keys(state.pigpen.animals)).toEqual(["9"]);
     expect(state.pigpen.animals["9"].experience).toEqual(500);
+  });
+
+  describe("off testnet", () => {
+    // jest runs on amoy, so the flag-off path is only reachable by pretending
+    // to be mainnet.
+    const originalNetwork = CONFIG.NETWORK;
+
+    beforeEach(() => {
+      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+    });
+
+    afterEach(() => {
+      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+    });
+
+    it("throws without the PIGPEN feature flag", () => {
+      expect(() => build(farm)).toThrow(
+        CONSTRUCT_BUILDING_ERRORS.NO_FEATURE_ACCESS,
+      );
+    });
+
+    it("is not unlocked by a Beta Pass", () => {
+      // PIGPEN is a testnet flag, which has no Beta Pass escape hatch - unlike
+      // betaFeatureFlag, which this gate used to use.
+      expect(() =>
+        build({
+          ...farm,
+          inventory: { ...farm.inventory, "Beta Pass": new Decimal(1) },
+        }),
+      ).toThrow(CONSTRUCT_BUILDING_ERRORS.NO_FEATURE_ACCESS);
+    });
   });
 });

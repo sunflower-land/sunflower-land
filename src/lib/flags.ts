@@ -174,7 +174,7 @@ const FEATURE_FLAGS = {
    * Chapter 16's Pigpen building and the Pig animal. Remove once Chapter 16
    * ships and the Pigpen gates on its own unlock level instead.
    */
-  PIGPEN: betaFeatureFlag,
+  PIGPEN: testnetFeatureFlag,
 
   FACE_RECOGNITION_TEST: betaFeatureFlag,
   // The developer-options button that forces a captcha on your own farm
