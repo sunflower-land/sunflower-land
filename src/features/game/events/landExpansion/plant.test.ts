@@ -2,7 +2,12 @@ import Decimal from "decimal.js-light";
 import { CROPS } from "features/game/types/crops";
 import { INITIAL_FARM } from "../../lib/constants";
 import type { GameState, CropPlot } from "../../types/game";
-import { getCropPlotTime, getCropTime, plant } from "./plant";
+import {
+  getAffectedWeather,
+  getCropPlotTime,
+  getCropTime,
+  plant,
+} from "./plant";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { CONFIG } from "lib/config";
 import { CROP_PLOT_BOOST_SPEED } from "features/game/lib/boostWindows";
@@ -1794,5 +1799,58 @@ describe("plant", () => {
       expect(crop?.boostedTime).toBe(sunflowerTime * 0.25);
       expect(crop?.plantedAt).toBe(dateNow - sunflowerTime * 0.25);
     });
+  });
+});
+
+/**
+ * A spec-compliant sort that is not V8's TimSort - stands in for the
+ * algorithms other engines (e.g. Firefox's SpiderMonkey) use.
+ */
+function insertionSort<T>(this: T[], compare: (a: T, b: T) => number) {
+  for (let i = 1; i < this.length; i++) {
+    for (let j = i; j > 0 && compare(this[j - 1], this[j]) > 0; j--) {
+      [this[j - 1], this[j]] = [this[j], this[j - 1]];
+    }
+  }
+
+  return this;
+}
+
+describe("getAffectedWeather", () => {
+  const crops: GameState["crops"] = {
+    a: { createdAt: 1, x: 0, y: 0 },
+    b: { createdAt: 1, x: 1, y: 0 },
+    c: { createdAt: 5, x: 2, y: 0 },
+    d: { createdAt: 5, x: 3, y: 0 },
+    e: { createdAt: 5, x: 4, y: 0 },
+    f: { createdAt: 5, x: 5, y: 0 },
+  };
+  const game: GameState = {
+    ...INITIAL_FARM,
+    crops,
+    calendar: {
+      dates: [],
+      greatFreeze: { startedAt: 1, triggeredAt: 1, protected: false },
+    },
+  };
+
+  const frozen = () =>
+    Object.keys(crops).filter((id) => getAffectedWeather({ id, game }));
+
+  it("freezes the oldest half, keeping tied plots in insertion order", () => {
+    expect(frozen()).toEqual(["a", "b", "c"]);
+  });
+
+  it("freezes the same plots regardless of the engine's sort algorithm", () => {
+    const nativeSort = Array.prototype.sort;
+    // eslint-disable-next-line no-extend-native
+    Array.prototype.sort = insertionSort as typeof nativeSort;
+
+    try {
+      expect(frozen()).toEqual(["a", "b", "c"]);
+    } finally {
+      // eslint-disable-next-line no-extend-native
+      Array.prototype.sort = nativeSort;
+    }
   });
 });

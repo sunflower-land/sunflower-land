@@ -105,9 +105,13 @@ export const INITIAL_SUPPORTED_PLOTS = (island: IslandType) =>
 const WELL_PLOT_SUPPORT = 8;
 
 function isCropDestroyed({ id, game }: { id: string; game: GameState }) {
-  // Sort oldest to newest
-  const crops = getKeys(game.crops).sort((a, b) =>
-    game.crops[b].createdAt > game.crops[a].createdAt ? -1 : 1,
+  // Sort oldest to newest. Plots revealed together often share a createdAt, so
+  // ties must compare as equal: the old `? -1 : 1` comparator was inconsistent
+  // and each JS engine broke ties differently, so the client (e.g. Firefox)
+  // and the server (Node) disagreed on which plots were destroyed. Returning 0
+  // keeps the sort stable, which matches what V8 already produced.
+  const crops = getKeys(game.crops).sort(
+    (a, b) => game.crops[a].createdAt - game.crops[b].createdAt,
   );
   const cropsToRemove = crops.slice(0, Math.floor(crops.length / 2));
 
