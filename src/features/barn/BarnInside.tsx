@@ -9,7 +9,7 @@ import { Hud } from "features/island/hud/Hud";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { getKeys, getValues } from "lib/object";
+import { getKeys } from "lib/object";
 import { ANIMALS, type AnimalType } from "features/game/types/animals";
 import { Cow } from "./components/Cow";
 import { Sheep } from "./components/Sheep";
@@ -120,9 +120,14 @@ export const BarnInside: React.FC = () => {
     width: floorWidth,
   } = ANIMAL_HOUSE_BOUNDS.barn[level];
 
-  // Sort order will remain the same as long as animals are not added or removed
-  // Group animals by type (Cow, then Sheep) first, then sort by experience
-  const animalCount = getKeys(barn.animals).length;
+  /**
+   * Positions must not move while the player is in the room, so the order is
+   * recomputed only when the herd's MEMBERSHIP changes - never when an
+   * animal's experience does. Keyed on the id list rather than its length, so
+   * selling one animal and buying another cannot leave a stale id behind.
+   * Groups by type (Cow, then Sheep) first, then by experience.
+   */
+  const animalIds = getKeys(barn.animals).sort().join(",");
 
   const sortedAnimalIds = useMemo(
     () =>
@@ -135,20 +140,19 @@ export const BarnInside: React.FC = () => {
         )
         .map((animal) => animal.id),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [getKeys(barn.animals).length],
+    [animalIds],
   );
 
   // Organize the animals neatly in the barn
-  const sickAnimalCount = getValues(barn.animals).filter(
-    (animal) => animal.state === "sick",
-  ).length;
-
   const organizedAnimals = useMemo(() => {
     const maxAnimalsPerRow = Math.floor(floorWidth / ANIMALS.Cow.width);
     const verticalGap = 0.5; // Add a 0.5 grid unit gap between rows
 
+    // Reads through `sortedAnimalIds` so the order is fixed, but depends on
+    // `barn.animals` so the records it renders (experience, state) are fresh.
     return sortedAnimalIds
       .map((id) => barn.animals[id])
+      .filter(Boolean)
       .map((animal, index) => {
         const row = Math.floor(index / maxAnimalsPerRow);
         const col = index % maxAnimalsPerRow;
@@ -160,8 +164,7 @@ export const BarnInside: React.FC = () => {
           },
         };
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [animalCount, sickAnimalCount, floorWidth]);
+  }, [sortedAnimalIds, barn.animals, floorWidth]);
   const currentBiome = getCurrentBiome(island);
 
   const validAnimalsCount = useMemo(() => {

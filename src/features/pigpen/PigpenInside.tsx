@@ -97,7 +97,15 @@ export const PigpenInside: React.FC = () => {
     width: floorWidth,
   } = ANIMAL_HOUSE_BOUNDS.pigpen[level];
 
-  // One animal type lives here, so this orders purely by experience
+  /**
+   * Positions must not move while the player is in the room, so the order is
+   * recomputed only when the herd's MEMBERSHIP changes - never when an
+   * animal's experience does. Keyed on the id list rather than its length, so
+   * selling one animal and buying another cannot leave a stale id behind.
+   * One animal type lives here, so this orders purely by experience.
+   */
+  const animalIds = getKeys(pigpen.animals).sort().join(",");
+
   const sortedAnimalIds = useMemo(
     () =>
       getKeys(pigpen.animals)
@@ -108,7 +116,8 @@ export const PigpenInside: React.FC = () => {
             : a.type.localeCompare(b.type),
         )
         .map((animal) => animal.id),
-    [pigpen.animals],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [animalIds],
   );
 
   // Organize the animals neatly in the pigpen
@@ -116,8 +125,11 @@ export const PigpenInside: React.FC = () => {
     const maxAnimalsPerRow = Math.floor(floorWidth / ANIMALS.Pig.width);
     const verticalGap = 0.5; // Add a 0.5 grid unit gap between rows
 
+    // Reads through `sortedAnimalIds` so the order is fixed, but depends on
+    // `pigpen.animals` so the records it renders (experience, state) are fresh.
     return sortedAnimalIds
       .map((id) => pigpen.animals[id])
+      .filter(Boolean)
       .map((animal, index) => {
         const row = Math.floor(index / maxAnimalsPerRow);
         const col = index % maxAnimalsPerRow;
