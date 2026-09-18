@@ -8632,5 +8632,16 @@
   "loveButtons.guide.title": "Aşk Düğmeleri",
   "loveButtons.guide.stand": "{{count}} düğmeleri adanın her yerine dağılmış durumda. Basmak için bir tane üzerinde durun - adanın her düğmede aynı anda bir Bumpkin'e ihtiyacı var.",
   "loveButtons.guide.counter": "Ekranın üst kısmındaki sayaç kaç düğmeye basıldığını gösterir. Yayılın - tek bir düğme sadece bir kez basar!",
-  "loveButtons.guide.prizes": "Sonuncusu düştüğünde bir düğmenin üzerinde duran herkes günde bir kez {{amount}} {{item}} kazanır."
+  "loveButtons.guide.prizes": "Sonuncusu düştüğünde bir düğmenin üzerinde duran herkes günde bir kez {{amount}} {{item}} kazanır.",
+  "description.time.warp.totem.speed": "Mahsuller, ağaçlar, meyveler, yemek pişirme ve mineraller için 2x hız. Yalnızca {{hours}} saat sürer",
+  "description.turbo.sprout.boost.speed": "Serada 2x Büyüme Hızı",
+  "compost.turbofruitMix.speed": "Turbofruit Mix, meyve yaması veriminizi +0.1 artırır ve meyve yamalarını 1.25 kat daha hızlı büyütür.",
+  "compost.turbofruitMixBoosted.speed": "Turbofruit Mix, meyve yaması veriminizi +0.2 artırır ve meyve yamalarını 1.25 kat daha hızlı büyütür.",
+  "description.turbo.sprout.speed": "Seranın mahsullerini 2 kat daha hızlı büyüten bir motor.",
+  "description.factionShop.cookingBoost.speed": "Yiyecekleri {{hours}} saat boyunca 2 kat daha hızlı pişirir.",
+  "description.factionShop.cropBoost.speed": "{{hours}} saat boyunca mahsulleri 1,35 kat daha hızlı büyütür.",
+  "description.factionShop.woodBoost.speed": "Ağaçları {{hours}} saat boyunca 1,35 kat daha hızlı kurtarır.",
+  "description.factionShop.mineralBoost.speed": "Mineralleri {{hours}} saat boyunca 2 kat daha hızlı geri kazanır.",
+  "description.factionShop.fruitBoost.speed": "Meyveyi {{hours}} saat boyunca 1,35 kat daha hızlı büyütür.",
+  "description.factionShop.flowerBoost.speed": "Çiçekleri {{hours}} saat boyunca 1,35 kat daha hızlı büyütür."
 }

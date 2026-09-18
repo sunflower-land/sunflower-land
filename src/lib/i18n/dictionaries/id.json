@@ -8632,5 +8632,16 @@
   "loveButtons.guide.title": "Tombol Cinta",
   "loveButtons.guide.stand": "Tombol {{count}} tersebar di seluruh pulau. Berdirilah di atas satu untuk menekannya - pulau ini membutuhkan Bumpkin di setiap tombol pada saat yang bersamaan.",
   "loveButtons.guide.counter": "Penghitung di bagian atas layar menunjukkan berapa banyak tombol yang ditekan. Sebarkan - dua pada satu tombol hanya menekannya sekali!",
-  "loveButtons.guide.prizes": "Setiap orang yang berdiri di atas tombol ketika yang terakhir turun menghasilkan {{amount}} {{item}}, sekali sehari."
+  "loveButtons.guide.prizes": "Setiap orang yang berdiri di atas tombol ketika yang terakhir turun menghasilkan {{amount}} {{item}}, sekali sehari.",
+  "description.time.warp.totem.speed": "Kecepatan 2x untuk tanaman, pohon, buah-buahan, memasak & mineral. Hanya berlangsung selama {{hours}} jam",
+  "description.turbo.sprout.boost.speed": "Kecepatan Pertumbuhan 2x di Rumah Kaca",
+  "compost.turbofruitMix.speed": "Campuran Turbofruit meningkatkan hasil petak buah Anda sebesar +0,1 dan menumbuhkan bercak buah 1,25x lebih cepat.",
+  "compost.turbofruitMixBoosted.speed": "Campuran Turbofruit meningkatkan hasil petak buah Anda sebesar +0,2 dan menumbuhkan bercak buah 1,25x lebih cepat.",
+  "description.turbo.sprout.speed": "Mesin yang menumbuhkan tanaman Rumah Kaca 2x lebih cepat.",
+  "description.factionShop.cookingBoost.speed": "Memasak makanan 2x lebih cepat selama {{hours}} jam.",
+  "description.factionShop.cropBoost.speed": "Menanam tanaman 1,35x lebih cepat selama {{hours}} jam.",
+  "description.factionShop.woodBoost.speed": "Memulihkan pohon 1,35x lebih cepat selama {{hours}} jam.",
+  "description.factionShop.mineralBoost.speed": "Memulihkan mineral 2x lebih cepat selama {{hours}} jam.",
+  "description.factionShop.fruitBoost.speed": "Menumbuhkan buah 1,35x lebih cepat selama {{hours}} jam.",
+  "description.factionShop.flowerBoost.speed": "Tumbuhkan bunga 1,35x lebih cepat selama {{hours}} jam."
 }

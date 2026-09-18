@@ -8632,5 +8632,16 @@
   "loveButtons.guide.title": "Bottoni d'amore",
   "loveButtons.guide.stand": "I pulsanti {{count}} sono sparsi in tutta l'isola. Mettiti in piedi su uno per premerlo: l'isola ha bisogno di un Bumpkin su ogni pulsante contemporaneamente.",
   "loveButtons.guide.counter": "Il contatore nella parte superiore dello schermo mostra quanti pulsanti vengono premuti. Distribuisci: due volte su un pulsante lo premi una sola volta!",
-  "loveButtons.guide.prizes": "Chiunque stia premendo un pulsante quando l'ultimo pulsante scende guadagna {{amount}} {{item}}, una volta al giorno."
+  "loveButtons.guide.prizes": "Chiunque stia premendo un pulsante quando l'ultimo pulsante scende guadagna {{amount}} {{item}}, una volta al giorno.",
+  "description.time.warp.totem.speed": "Velocità doppia per colture, alberi, frutta, cucina e minerali. Dura solo {{hours}} ore",
+  "description.turbo.sprout.boost.speed": "Velocità di crescita raddoppiata in serra",
+  "compost.turbofruitMix.speed": "Turbofruit Mix aumenta la resa degli appezzamenti di frutta di +0,1 e fa crescere gli appezzamenti di frutta 1,25 volte più velocemente.",
+  "compost.turbofruitMixBoosted.speed": "Turbofruit Mix aumenta la resa degli appezzamenti di frutta di +0,2 e fa crescere gli appezzamenti di frutta 1,25 volte più velocemente.",
+  "description.turbo.sprout.speed": "Un motore che fa crescere i raccolti della serra 2 volte più velocemente.",
+  "description.factionShop.cookingBoost.speed": "Cuoce il cibo 2 volte più velocemente per {{hours}} ore.",
+  "description.factionShop.cropBoost.speed": "Fa crescere i raccolti 1,35 volte più velocemente per {{hours}} ore.",
+  "description.factionShop.woodBoost.speed": "Recupera gli alberi 1,35 volte più velocemente per {{hours}} ore.",
+  "description.factionShop.mineralBoost.speed": "Recupera i minerali 2 volte più velocemente per {{hours}} ore.",
+  "description.factionShop.fruitBoost.speed": "Fa crescere i frutti 1,35 volte più velocemente per {{hours}} ore.",
+  "description.factionShop.flowerBoost.speed": "Fa crescere i fiori 1,35 volte più velocemente per {{hours}} ore."
 }

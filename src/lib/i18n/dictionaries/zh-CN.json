@@ -8632,5 +8632,16 @@
   "loveButtons.guide.title": "爱心纽扣",
   "loveButtons.guide.stand": "{{count}} 按钮散落在岛上。站在一个上面按下它——岛上的每个按钮都需要同时开一个 Bumpkin。",
   "loveButtons.guide.counter": "屏幕顶部的计数器显示按下了多少个按钮。分开-二合一按钮只能按一次！",
-  "loveButtons.guide.prizes": "当最后一个按钮掉线时，每个按下按钮的人每天赚一次 {{amount}} {{item}}。"
+  "loveButtons.guide.prizes": "当最后一个按钮掉线时，每个按下按钮的人每天赚一次 {{amount}} {{item}}。",
+  "description.time.warp.totem.speed": "作物、树木、水果、烹饪和矿物质的速度为 2 倍。仅持续 {{hours}} 小时",
+  "description.turbo.sprout.boost.speed": "温室生长速度的 2 倍",
+  "compost.turbofruitMix.speed": "Turbofruit Mix 可将您的水果地产量提高 +0.1，水果地的生长速度加快 1.25 倍。",
+  "compost.turbofruitMixBoosted.speed": "Turbofruit Mix 可将水果地产量提高 +0.2，水果地的生长速度加快 1.25 倍。",
+  "description.turbo.sprout.speed": "一款能将温室农作物的生长速度提高两倍的引擎。",
+  "description.factionShop.cookingBoost.speed": "在 {{hours}} 小时内，烹饪食物的速度提高了 2 倍。",
+  "description.factionShop.cropBoost.speed": "在 {{hours}} 小时内，作物的生长速度提高了 1.35 倍。",
+  "description.factionShop.woodBoost.speed": "在 {{hours}} 小时内，恢复树木的速度提高了 1.35 倍。",
+  "description.factionShop.mineralBoost.speed": "在 {{hours}} 小时内恢复矿物质的速度加快 2 倍。",
+  "description.factionShop.fruitBoost.speed": "在 {{hours}} 小时内，水果的生长速度提高了 1.35 倍。",
+  "description.factionShop.flowerBoost.speed": "在 {{hours}} 小时内，花朵的生长速度提高了 1.35 倍。"
 }

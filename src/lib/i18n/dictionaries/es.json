@@ -8632,5 +8632,16 @@
   "loveButtons.guide.title": "Botones de amor",
   "loveButtons.guide.stand": "Los botones {{count}} están repartidos por toda la isla. Párate sobre uno de ellos para presionarlo. La isla necesita un búho en cada botón al mismo tiempo.",
   "loveButtons.guide.counter": "El contador de la parte superior de la pantalla muestra cuántos botones se han pulsado. Extiéndete: ¡el botón dos contra uno solo lo presionas una vez!",
-  "loveButtons.guide.prizes": "Todos los que estén de pie sobre un botón cuando se caiga el último botón ganan {{amount}} {{item}}, una vez al día."
+  "loveButtons.guide.prizes": "Todos los que estén de pie sobre un botón cuando se caiga el último botón ganan {{amount}} {{item}}, una vez al día.",
+  "description.time.warp.totem.speed": "El doble de velocidad para cultivos, árboles, frutas, alimentos y minerales. Solo dura {{hours}} horas",
+  "description.turbo.sprout.boost.speed": "El doble de velocidad de crecimiento en invernadero",
+  "compost.turbofruitMix.speed": "Turbofruit Mix aumenta el rendimiento de sus huertos frutales en un +0,1 y los cultiva 1,25 veces más rápido.",
+  "compost.turbofruitMixBoosted.speed": "Turbofruit Mix aumenta el rendimiento de sus huertos frutales en un +0,2 y los cultiva 1,25 veces más rápido.",
+  "description.turbo.sprout.speed": "Un motor que hace crecer los cultivos del invernadero 2 veces más rápido.",
+  "description.factionShop.cookingBoost.speed": "Cocina los alimentos 2 veces más rápido durante {{hours}} horas.",
+  "description.factionShop.cropBoost.speed": "Cultiva las cosechas 1,35 veces más rápido durante {{hours}} horas.",
+  "description.factionShop.woodBoost.speed": "Recupera árboles 1,35 veces más rápido durante {{hours}} horas.",
+  "description.factionShop.mineralBoost.speed": "Recupera minerales 2 veces más rápido durante {{hours}} horas.",
+  "description.factionShop.fruitBoost.speed": "Cultiva fruta 1,35 veces más rápido durante {{hours}} horas.",
+  "description.factionShop.flowerBoost.speed": "Hace crecer las flores 1,35 veces más rápido durante {{hours}} horas."
 }

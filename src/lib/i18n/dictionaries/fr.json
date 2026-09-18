@@ -8632,5 +8632,16 @@
   "loveButtons.guide.title": "Boutons d'amour",
   "loveButtons.guide.stand": "Les boutons {{count}} sont éparpillés sur toute l'île. Placez-vous sur l'un d'eux pour appuyer dessus. L'île a besoin d'un bouton Bumpkin sur chaque bouton en même temps.",
   "loveButtons.guide.counter": "Le compteur en haut de l'écran indique le nombre de boutons pressés. Étalez : appuyez une seule fois sur le bouton deux en un !",
-  "loveButtons.guide.prizes": "Tous ceux qui appuient sur un bouton lorsque le dernier bouton tombe en panne gagnent {{amount}} {{item}}, une fois par jour."
+  "loveButtons.guide.prizes": "Tous ceux qui appuient sur un bouton lorsque le dernier bouton tombe en panne gagnent {{amount}} {{item}}, une fois par jour.",
+  "description.time.warp.totem.speed": "Vitesse 2 fois supérieure pour les cultures, les arbres, les fruits, la cuisine et les minéraux. Ne dure que {{hours}} heures",
+  "description.turbo.sprout.boost.speed": "Vitesse de croissance multipliée par deux en serre",
+  "compost.turbofruitMix.speed": "Turbofruit Mix augmente le rendement de vos parcelles fruitières de +0,1 % et fait pousser les parcelles fruitières 1,25 fois plus vite.",
+  "compost.turbofruitMixBoosted.speed": "Turbofruit Mix augmente le rendement de vos parcelles de fruits de +0,2 et fait pousser les parcelles de fruits 1,25 fois plus vite.",
+  "description.turbo.sprout.speed": "Un moteur qui fait pousser les récoltes de la serre deux fois plus vite.",
+  "description.factionShop.cookingBoost.speed": "Cuit les aliments 2 fois plus vite pendant {{hours}} heures.",
+  "description.factionShop.cropBoost.speed": "Fait pousser des récoltes 1,35 fois plus vite pendant {{hours}} heures.",
+  "description.factionShop.woodBoost.speed": "Restaure les arbres 1,35 fois plus vite pendant {{hours}} heures.",
+  "description.factionShop.mineralBoost.speed": "Récupère les minéraux 2 fois plus vite pendant {{hours}} heures.",
+  "description.factionShop.fruitBoost.speed": "Fait pousser des fruits 1,35 fois plus vite pendant {{hours}} heures.",
+  "description.factionShop.flowerBoost.speed": "Fait pousser des fleurs 1,35 fois plus vite pendant {{hours}} heures."
 }

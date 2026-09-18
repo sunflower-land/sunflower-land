@@ -8632,5 +8632,16 @@
   "loveButtons.guide.title": "Botões de amor",
   "loveButtons.guide.stand": "Os botões {{count}} estão espalhados pela ilha. Suba em um deles para pressioná-lo - a ilha precisa de um Bumpkin em cada botão ao mesmo tempo.",
   "loveButtons.guide.counter": "O contador na parte superior da tela mostra quantos botões são pressionados. Espalhe - o botão dois em um pressiona apenas uma vez!",
-  "loveButtons.guide.prizes": "Todo mundo que apertar um botão quando o último cair ganha {{amount}} {{item}}, uma vez por dia."
+  "loveButtons.guide.prizes": "Todo mundo que apertar um botão quando o último cair ganha {{amount}} {{item}}, uma vez por dia.",
+  "description.time.warp.totem.speed": "Velocidade 2x para plantações, árvores, frutas, culinária e minerais. Dura apenas {{hours}} horas",
+  "description.turbo.sprout.boost.speed": "2x a velocidade de crescimento em estufa",
+  "compost.turbofruitMix.speed": "O Turbofruit Mix aumenta o rendimento do seu canteiro de frutas em +0,1 e cresce em canteiros 1,25 vezes mais rápido.",
+  "compost.turbofruitMixBoosted.speed": "O Turbofruit Mix aumenta o rendimento do seu canteiro de frutas em +0,2 e cresce em canteiros 1,25 vezes mais rápido.",
+  "description.turbo.sprout.speed": "Um motor que faz as colheitas da Estufa crescerem duas vezes mais rápido.",
+  "description.factionShop.cookingBoost.speed": "Cozinha comida 2x mais rápido por {{hours}} horas.",
+  "description.factionShop.cropBoost.speed": "Cultiva safras 1,35 vezes mais rápido por {{hours}} horas.",
+  "description.factionShop.woodBoost.speed": "Recupera árvores 1,35 vezes mais rápido por {{hours}} horas.",
+  "description.factionShop.mineralBoost.speed": "Recupera minerais 2x mais rápido por {{hours}} horas.",
+  "description.factionShop.fruitBoost.speed": "Produz frutas 1,35 vezes mais rápido por {{hours}} horas.",
+  "description.factionShop.flowerBoost.speed": "Cresce flores 1,35 vezes mais rápido por {{hours}} horas."
 }

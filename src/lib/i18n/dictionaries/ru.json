@@ -8632,5 +8632,16 @@
   "loveButtons.guide.title": "Love Buttons",
   "loveButtons.guide.stand": "{{count}} buttons are scattered across the island. Stand on one to press it - the island needs a Bumpkin on every button at the same time.",
   "loveButtons.guide.counter": "The counter at the top of the screen shows how many buttons are pressed. Spread out - two on one button only presses it once!",
-  "loveButtons.guide.prizes": "Everyone standing on a button when the last one goes down earns {{amount}} {{item}}, once a day."
+  "loveButtons.guide.prizes": "Everyone standing on a button when the last one goes down earns {{amount}} {{item}}, once a day.",
+  "description.time.warp.totem.speed": "2x speed for crops, trees, fruits, cooking & minerals. Only lasts for {{hours}} hours",
+  "description.turbo.sprout.boost.speed": "2x Growth Speed in Greenhouse",
+  "compost.turbofruitMix.speed": "Turbofruit Mix increases your fruit patch yield by +0.1 and grows fruit patches 1.25x faster.",
+  "compost.turbofruitMixBoosted.speed": "Turbofruit Mix increases your fruit patch yield by +0.2 and grows fruit patches 1.25x faster.",
+  "description.turbo.sprout.speed": "An engine that grows the Greenhouse's crops 2x faster.",
+  "description.factionShop.cookingBoost.speed": "Cooks food 2x faster for {{hours}} hours.",
+  "description.factionShop.cropBoost.speed": "Grows crops 1.35x faster for {{hours}} hours.",
+  "description.factionShop.woodBoost.speed": "Recovers trees 1.35x faster for {{hours}} hours.",
+  "description.factionShop.mineralBoost.speed": "Recovers minerals 2x faster for {{hours}} hours.",
+  "description.factionShop.fruitBoost.speed": "Grows fruit 1.35x faster for {{hours}} hours.",
+  "description.factionShop.flowerBoost.speed": "Grows flowers 1.35x faster for {{hours}} hours."
 }

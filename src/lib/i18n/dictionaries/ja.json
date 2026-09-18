@@ -8632,5 +8632,16 @@
   "loveButtons.guide.title": "ラブボタン",
   "loveButtons.guide.stand": "{{count}} ボタンは島中に点在しています。1つだけ立って押してください。島ではすべてのボタンに同時にバンプキンが必要です。",
   "loveButtons.guide.counter": "画面上部のカウンターには、押されたボタンの数が表示されます。広げてみると、2 対 1 のボタンは 1 回しか押せません。",
-  "loveButtons.guide.prizes": "最後のボタンがダウンしたときにボタンの上に立っている全員が、{{amount}} {{item}} を1日1回獲得します。"
+  "loveButtons.guide.prizes": "最後のボタンがダウンしたときにボタンの上に立っている全員が、{{amount}} {{item}} を1日1回獲得します。",
+  "description.time.warp.totem.speed": "作物、樹木、果物、料理、ミネラルを2倍のスピードで処理。{{hours}} 時間しか持続しません",
+  "description.turbo.sprout.boost.speed": "温室の2倍の成長速度",
+  "compost.turbofruitMix.speed": "ターボフルーツミックスはフルーツパッチの収穫量を+0.1増やし、フルーツパッチを1.25倍速く成長させます。",
+  "compost.turbofruitMixBoosted.speed": "ターボフルーツミックスは、フルーツパッチの収穫量を+0.2増加させ、フルーツパッチを1.25倍速く成長させます。",
+  "description.turbo.sprout.speed": "グリーンハウスの作物を2倍速く育てるエンジン。",
+  "description.factionShop.cookingBoost.speed": "{{hours}} 時間の間、食品を2倍速く調理します。",
+  "description.factionShop.cropBoost.speed": "{{hours}} 時間の間、1.35倍速く作物を育てます。",
+  "description.factionShop.woodBoost.speed": "{{hours}} 時間の間、樹木を1.35倍速く回復します。",
+  "description.factionShop.mineralBoost.speed": "{{hours}} 時間の間、ミネラルを2倍速く回収します。",
+  "description.factionShop.fruitBoost.speed": "{{hours}} 時間の間、フルーツを1.35倍速く成長させます。",
+  "description.factionShop.flowerBoost.speed": "{{hours}} 時間の間、1.35倍速く花を育てます。"
 }
