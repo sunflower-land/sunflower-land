@@ -401,7 +401,7 @@ export const AnimalDeal: React.FC<{
                 className="mr-2"
               >
                 {t("bounties.animal.levelLabel", {
-                  level: getAnimalLevel(animal.experience, animal.type),
+                  level: getAnimalLevel(animal.experience, animal.type, state),
                   animal: getTranslatedItemName(animal.type),
                 })}
               </Label>

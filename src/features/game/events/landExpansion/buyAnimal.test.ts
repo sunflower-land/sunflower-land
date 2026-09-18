@@ -1,6 +1,7 @@
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import {
   buyAnimal,
+  getAnimalBuildingCapacity,
   getBoostedAnimalCapacity,
   getOverCapacityAnimalIds,
 } from "./buyAnimal";
@@ -359,5 +360,24 @@ describe("getAnimalCapacity: Pigpen", () => {
 
     // Four Pigs in a capacity-3 pen: the oldest is dormant, the rest feedable.
     expect(getOverCapacityAnimalIds("pigpen", game)).toEqual(new Set(["0"]));
+  });
+});
+
+describe("getAnimalBuildingCapacity", () => {
+  // The upgrade modal advertises the delta between two levels of this, so a
+  // building whose table does not step by 5 must not borrow the shared formula.
+  it("steps the Pigpen by 3", () => {
+    expect(
+      [1, 2, 3].map((level) => getAnimalBuildingCapacity("pigpen", level)),
+    ).toEqual([3, 6, 9]);
+  });
+
+  it("steps the Barn and Hen House by 5", () => {
+    expect(
+      [1, 2, 3].map((level) => getAnimalBuildingCapacity("barn", level)),
+    ).toEqual([10, 15, 20]);
+    expect(
+      [1, 2, 3].map((level) => getAnimalBuildingCapacity("henHouse", level)),
+    ).toEqual([10, 15, 20]);
   });
 });

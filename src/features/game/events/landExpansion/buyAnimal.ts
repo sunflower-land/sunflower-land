@@ -44,6 +44,18 @@ const ANIMAL_BUILDING_CAPACITY: Partial<
   pigpen: { 1: 3, 2: 6, 3: 9 },
 };
 
+/**
+ * An animal building's base capacity at a given level, before collectible
+ * bonuses. Exported so the upgrade modal can advertise the real delta rather
+ * than assuming the shared formula's +5.
+ */
+export const getAnimalBuildingCapacity = (
+  buildingKey: AnimalBuildingKey,
+  level: number,
+): number =>
+  ANIMAL_BUILDING_CAPACITY[buildingKey]?.[level] ??
+  getBaseAnimalCapacity(level);
+
 export const getBaseAnimalCapacity = (level: number): number => {
   const DEFAULT_CAPACITY = 10;
   const EXTRA_CAPACITY_PER_LEVEL = 5;
@@ -64,9 +76,10 @@ export const getBoostedAnimalCapacity = (
 
   const building = game[buildingKey] as AnimalBuilding;
   const level = building.level;
-  const baseCapacity =
-    ANIMAL_BUILDING_CAPACITY[buildingKey as AnimalBuildingKey]?.[level] ??
-    getBaseAnimalCapacity(level);
+  const baseCapacity = getAnimalBuildingCapacity(
+    buildingKey as AnimalBuildingKey,
+    level,
+  );
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (buildingKey === "henHouse") {
