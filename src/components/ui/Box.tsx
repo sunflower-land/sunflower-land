@@ -361,7 +361,14 @@ export const Box: React.FC<BoxProps> = ({
               visibility: tooltipPosition ? "visible" : "hidden",
             }}
           >
-            <Label type="default" className="text-xxs whitespace-nowrap">
+            <Label
+              type="default"
+              className="text-xxs whitespace-normal break-words text-center"
+              style={{
+                boxSizing: "border-box",
+                maxWidth: `calc(100vw - ${PIXEL_SCALE * 4}px)`,
+              }}
+            >
               {tooltip}
             </Label>
           </div>,
