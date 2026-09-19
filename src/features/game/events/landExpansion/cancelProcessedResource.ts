@@ -31,20 +31,13 @@ type Options = {
 };
 
 function getCurrentProcessingItem({
-  building,
+  queue,
   createdAt,
 }: {
-  building: { processing?: BuildingProduct[] };
+  queue: BuildingProduct[];
   createdAt: number;
 }) {
-  const queue = building.processing;
-  const sortedByReadyAt = queue?.sort(
-    (a: BuildingProduct, b: BuildingProduct) => a.readyAt - b.readyAt,
-  );
-
-  if (!queue) return;
-
-  return sortedByReadyAt?.find((item) => item.readyAt > createdAt);
+  return queue.find((item) => item.readyAt > createdAt);
 }
 
 export function assertProcessedFood(name: string): ProcessedResource {
@@ -129,7 +122,12 @@ export function cancelProcessedResource({
       throw new Error("Required building does not exist");
     }
 
-    const queue = building.processing ?? [];
+    // Server-loaded processing arrays are not guaranteed to be chronological.
+    // Work from an ordered copy so queue indices stay stable while identifying
+    // the active and cancelled products, and so recalculation preserves the chain.
+    const queue = [...(building.processing ?? [])].sort(
+      (a, b) => a.readyAt - b.readyAt,
+    );
 
     if (!queue.length) {
       throw new Error("No queue exists");
@@ -144,7 +142,7 @@ export function cancelProcessedResource({
     }
 
     const currentProcessingItem = getCurrentProcessingItem({
-      building,
+      queue,
       createdAt,
     });
 
