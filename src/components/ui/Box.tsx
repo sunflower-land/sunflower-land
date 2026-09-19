@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import classNames from "classnames";
 import type Decimal from "decimal.js-light";
 
-import type { LabelType } from "./Label";
+import { Label, type LabelType } from "./Label";
 import { useLongPress } from "lib/utils/hooks/useLongPress";
 import { setPrecision } from "lib/utils/formatNumber";
 import { isMobile } from "mobile-device-detect";
@@ -72,6 +73,10 @@ export interface BoxProps {
    * When provided, this is shown instead of the image.
    */
   children?: React.ReactNode;
+  /**
+   * Optional short label shown above the box on mouse hover.
+   */
+  tooltip?: string;
 }
 
 export const Box: React.FC<BoxProps> = ({
@@ -99,8 +104,32 @@ export const Box: React.FC<BoxProps> = ({
   onPointerDown,
   style,
   children,
+  tooltip,
 }) => {
   const [isHover, setIsHover] = useState(false);
+  const [tooltipPosition, setTooltipPosition] = useState<
+    { left: number; top: number } | undefined
+  >();
+  const boxRef = useRef<HTMLDivElement>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    if (!isHover || !tooltip || !boxRef.current || !tooltipRef.current) return;
+
+    const boxRect = boxRef.current.getBoundingClientRect();
+    const tooltipRect = tooltipRef.current.getBoundingClientRect();
+    const viewportPadding = PIXEL_SCALE * 2;
+    const preferredLeft = boxRect.left + boxRect.width / 2;
+    const left = Math.min(
+      Math.max(preferredLeft, viewportPadding + tooltipRect.width / 2),
+      window.innerWidth - viewportPadding - tooltipRect.width / 2,
+    );
+
+    setTooltipPosition({
+      left,
+      top: boxRect.top - PIXEL_SCALE,
+    });
+  }, [isHover, tooltip]);
 
   const precisionCount = setPrecision(count ?? 0, 2);
 
@@ -123,9 +152,16 @@ export const Box: React.FC<BoxProps> = ({
 
   return (
     <div
+      ref={boxRef}
       className={`relative ${className}`}
-      onMouseEnter={() => setIsHover(true)}
-      onMouseLeave={() => setIsHover(false)}
+      onMouseEnter={() => {
+        setTooltipPosition(undefined);
+        setIsHover(true);
+      }}
+      onMouseLeave={() => {
+        setIsHover(false);
+        setTooltipPosition(undefined);
+      }}
       onPointerDown={onPointerDown}
       style={style}
     >
@@ -311,6 +347,26 @@ export const Box: React.FC<BoxProps> = ({
           <span className="text-xxs whitespace-nowrap">{progress.label}</span>
         </div>
       )}
+      {isHover &&
+        !isMobile &&
+        tooltip &&
+        createPortal(
+          <div
+            ref={tooltipRef}
+            className="fixed z-[9999] pointer-events-none"
+            style={{
+              left: tooltipPosition?.left ?? 0,
+              top: tooltipPosition?.top ?? 0,
+              transform: "translate(-50%, -100%)",
+              visibility: tooltipPosition ? "visible" : "hidden",
+            }}
+          >
+            <Label type="default" className="text-xxs whitespace-nowrap">
+              {tooltip}
+            </Label>
+          </div>,
+          document.body,
+        )}
     </div>
   );
 };
