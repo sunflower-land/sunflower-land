@@ -3,11 +3,13 @@ import { produce } from "immer";
 import type { GameState } from "features/game/types/game";
 import { isMuddy, MUD_FEEDS } from "features/game/lib/animals";
 import { hasFeatureAccess } from "lib/flags";
+import { isAnimalFeedable } from "./buyAnimal";
 
 export enum APPLY_MUD_ERRORS {
   NO_FEATURE_ACCESS = "You do not have access to Mud",
   SICK = "Cannot apply Mud while the Pig is sick",
   ALREADY_MUDDY = "Pig already has Mud",
+  OVER_CAPACITY = "Pig exceeds building capacity and cannot receive Mud",
   NOT_ENOUGH = "Not enough Mud",
   NO_PIGS = "No pigs need Mud",
 }
@@ -54,6 +56,11 @@ export function applyMud({ state, action }: Options): GameState {
 
     if (pig.state === "sick") {
       throw new Error(APPLY_MUD_ERRORS.SICK);
+    }
+
+    // A locked Pig cannot be fed, so its Mud would never be used.
+    if (!isAnimalFeedable("pigpen", copy, pig.id)) {
+      throw new Error(APPLY_MUD_ERRORS.OVER_CAPACITY);
     }
 
     // Rejected rather than topped up, so a stray click never wastes Mud.

@@ -446,6 +446,12 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
     // Mud is checked before the sleeping branch, like a treat, so it can be
     // applied to a sleeping Pig ahead of its next feeds.
     if (selectedItem === "Mud") {
+      // A locked Pig cannot be fed, so it would never use its Mud.
+      if (isLocked) {
+        setShowLockedDetails(true);
+        return;
+      }
+
       const mudCount = inventory.Mud ?? new Decimal(0);
       if (!isMuddy(pig) && mudCount.gte(1)) {
         gameService.send({ type: "animal.mudApplied", id: pig.id });

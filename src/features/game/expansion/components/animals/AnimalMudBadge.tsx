@@ -3,6 +3,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import type { AnimalMud } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { isMuddy } from "features/game/lib/animals";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type Props = {
   mud: AnimalMud | undefined;
@@ -13,6 +14,8 @@ type Props = {
  * slot, so a muddy Pig can carry a treat badge at the same time.
  */
 export const AnimalMudBadge: React.FC<Props> = ({ mud }) => {
+  const { t } = useAppTranslation();
+
   if (!isMuddy({ mud })) return null;
 
   return (
@@ -25,7 +28,7 @@ export const AnimalMudBadge: React.FC<Props> = ({ mud }) => {
         bottom: 0,
         left: 0,
       }}
-      alt="Mud"
+      alt={t("resource.mud")}
     />
   );
 };

@@ -88,6 +88,24 @@ describe("applyMud", () => {
     ).toThrow(APPLY_MUD_ERRORS.ALREADY_MUDDY);
   });
 
+  it("rejects a Pig over the pen's capacity, which cannot be fed", () => {
+    // A level-1 Pigpen houses 3 Pigs, and the OLDEST beyond that is locked -
+    // Mud on it would be spent with no feed to boost.
+    const animals = {
+      a: pig("a", { createdAt: 0 }),
+      b: pig("b", { createdAt: 1 }),
+      c: pig("c", { createdAt: 2 }),
+      d: pig("d", { createdAt: 3 }),
+    };
+
+    expect(() => apply(farm(animals), "a")).toThrow(
+      APPLY_MUD_ERRORS.OVER_CAPACITY,
+    );
+    expect(apply(farm(animals), "d").pigpen.animals.d.mud).toEqual({
+      feedsRemaining: 3,
+    });
+  });
+
   it("throws without Mud", () => {
     expect(() => apply(farm(undefined, 0))).toThrow(
       APPLY_MUD_ERRORS.NOT_ENOUGH,
