@@ -416,6 +416,27 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (sick) return onSickClick();
 
+    // Mud is checked before the love and sleeping branches: applyMud accepts a
+    // sleeping Pig that wants petting, so selecting Mud should apply it rather
+    // than fall into the love flow.
+    if (selectedItem === "Mud") {
+      // A locked Pig cannot be fed, so it would never use its Mud.
+      if (isLocked) {
+        setShowLockedDetails(true);
+        return;
+      }
+
+      const mudCount = inventory.Mud ?? new Decimal(0);
+      if (!isMuddy(pig) && mudCount.gte(1)) {
+        gameService.send({ type: "animal.mudApplied", id: pig.id });
+        playFeedAnimal();
+        return;
+      }
+
+      await showNoFoodPrompt();
+      return;
+    }
+
     if (needsLove) {
       if (!hasGoldenPig) return onLoveClick();
 
@@ -435,26 +456,6 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
           id: pig.id,
           item: buffItem,
         });
-        playFeedAnimal();
-        return;
-      }
-
-      await showNoFoodPrompt();
-      return;
-    }
-
-    // Mud is checked before the sleeping branch, like a treat, so it can be
-    // applied to a sleeping Pig ahead of its next feeds.
-    if (selectedItem === "Mud") {
-      // A locked Pig cannot be fed, so it would never use its Mud.
-      if (isLocked) {
-        setShowLockedDetails(true);
-        return;
-      }
-
-      const mudCount = inventory.Mud ?? new Decimal(0);
-      if (!isMuddy(pig) && mudCount.gte(1)) {
-        gameService.send({ type: "animal.mudApplied", id: pig.id });
         playFeedAnimal();
         return;
       }
