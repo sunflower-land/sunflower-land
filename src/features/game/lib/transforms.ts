@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 
-import type { GameState, InventoryItemName } from "../types/game";
+import type { Buildings, GameState, InventoryItemName } from "../types/game";
 
 /**
  * Converts API response into a game state
@@ -71,7 +71,7 @@ export function makeGame(farm: any): GameState {
     gems: farm.gems,
     flower: farm.flower,
     bumpkin: farm.bumpkin,
-    buildings: farm.buildings,
+    buildings: makeBuildings(farm.buildings),
     fishing: farm.fishing ?? { wharf: {}, beach: {} },
     crabTraps: farm.crabTraps ?? { trapSpots: {} },
     farmActivity: farm.farmActivity ?? {},
@@ -154,4 +154,61 @@ export function makeGame(farm: any): GameState {
     sculptures: farm.sculptures,
     tcsAcknowledged: farm.tcsAcknowledged,
   };
+}
+
+/**
+ * Accepts every shape an API Decimal can take: a string (a serialised
+ * Decimal) or the raw `{ s, e, d }` internals that decimal.js-light instances
+ * were persisted as when nested in a queue.
+ */
+function makeDecimal(value: unknown): Decimal {
+  if (value instanceof Decimal) return value;
+
+  if (typeof value === "string" || typeof value === "number") {
+    return new Decimal(value);
+  }
+
+  const raw = value as { s?: unknown; e?: unknown; d?: unknown } | null;
+  if (
+    raw &&
+    typeof raw.s === "number" &&
+    typeof raw.e === "number" &&
+    Array.isArray(raw.d)
+  ) {
+    // Restore the internals verbatim - reproduces the original value exactly.
+    return Object.assign(new Decimal(0), { s: raw.s, e: raw.e, d: [...raw.d] });
+  }
+
+  throw new Error(`Invalid Decimal: ${JSON.stringify(value)}`);
+}
+
+/**
+ * Fish Market queue requirements are refunded on cancel, so they must be real
+ * Decimals rather than whatever shape the API returned them in.
+ */
+export function makeBuildings(buildings: Buildings = {}): Buildings {
+  return Object.fromEntries(
+    Object.entries(buildings).map(([name, placed]) => [
+      name,
+      placed?.map((building) =>
+        building.processing
+          ? {
+              ...building,
+              processing: building.processing.map((product) =>
+                product.requirements
+                  ? {
+                      ...product,
+                      requirements: Object.fromEntries(
+                        Object.entries(product.requirements).map(
+                          ([item, amount]) => [item, makeDecimal(amount)],
+                        ),
+                      ),
+                    }
+                  : product,
+              ),
+            }
+          : building,
+      ),
+    ]),
+  );
 }
