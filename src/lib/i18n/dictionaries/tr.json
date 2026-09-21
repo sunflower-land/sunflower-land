@@ -8666,5 +8666,7 @@
   "pete.expandAgain": "İyi görünüyorsun, Bumpkin! Şimdi biraz Odun ve birkaç Para toplayın, sonra toprağınızı tekrar genişletin.",
   "pete.teaser.zero": "Eksenler Satın Alın",
   "upgrade.pigs": "domuzlar",
-  "building.pigpen": "Domuz Köpeği"
+  "building.pigpen": "Domuz Köpeği",
+  "pigs.applyMud": "İhtiyacı olan her Domuza Çamur uygulayın",
+  "sleepingAnimal.mudFeedsLeft": "+ {{percent}} %besleme XP · kalan beslemeler: {{count}}"
 }

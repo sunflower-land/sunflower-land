@@ -8502,12 +8502,9 @@
   "loveDilemma.guide.redPlatform": "Красная платформа",
   "loveDilemma.guide.redPlatform.description": "Самая людная платформа. Здесь никто не получает приз - а если по количеству игроков лидируют сразу две платформы, проигрывают обе.",
   "loveDilemma.oneAttemptLeft": "Осталась 1 попытка на сегодня",
-  "gameOptions.generalSettings.actualTime": "Показывать реальное время",
-  "description.boostedSpeed": "Ускорение: {{speed}}x",
   "loveBoulder.didNotHelp": "Ударь по валуну, чтобы получить приз!",
   "loveBoulder.alreadyClaimed": "Уже получено сегодня. Возвращайся завтра!",
   "loveBoulder.dailyLimit": "Дневной лимит жетонов любви исчерпан",
-  "description.boostedReadyAt": "Будет готово в {{time}}",
   "lovePush.waitForNextPuzzle": "Решено! Дождись следующей головоломки",
   "lovePush.didNotHelp": "Помоги толкнуть валун, чтобы получить приз!",
   "lovePush.alreadyClaimed": "Уже получено сегодня. Возвращайся завтра!",
@@ -8669,5 +8666,7 @@
   "pete.expandAgain": "Отлично выглядит, бампкин! Теперь собери немного древесины и монет, а затем снова расширь свою территорию.",
   "pete.teaser.zero": "Купи топоры",
   "upgrade.pigs": "свиньи",
-  "building.pigpen": "Свинарник"
+  "building.pigpen": "Свинарник",
+  "pigs.applyMud": "Apply Mud to every Pig that needs it",
+  "sleepingAnimal.mudFeedsLeft": "+{{percent}}% feed XP · feeds left: {{count}}"
 }

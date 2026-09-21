@@ -8666,5 +8666,7 @@
   "pete.expandAgain": "看起来不错，Bumpkin！现在收集一些木头和一些硬币，然后再次扩大你的土地。",
   "pete.teaser.zero": "购买斧头",
   "upgrade.pigs": "猪",
-  "building.pigpen": "小猪圈"
+  "building.pigpen": "小猪圈",
+  "pigs.applyMud": "将泥浆涂抹在每只需要它的猪身上",
+  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% feed XP · 向左喂食：{{count}}"
 }

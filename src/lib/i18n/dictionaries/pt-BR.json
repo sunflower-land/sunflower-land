@@ -8666,5 +8666,7 @@
   "pete.expandAgain": "Está ótimo, Bumpkin! Agora pegue um pouco de madeira e algumas moedas e expanda sua terra novamente.",
   "pete.teaser.zero": "Compre Axes",
   "upgrade.pigs": "porcos",
-  "building.pigpen": "Pigpen"
+  "building.pigpen": "Pigpen",
+  "pigs.applyMud": "Aplique lama em cada porco que precisar",
+  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% de XP de alimentação · feeds restantes: {{count}}"
 }

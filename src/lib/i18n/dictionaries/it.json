@@ -8666,5 +8666,7 @@
   "pete.expandAgain": "Stai bene, Bumpkin! Ora raccogli del legno e delle monete, poi espandi nuovamente la tua terra.",
   "pete.teaser.zero": "Acquista Axes",
   "upgrade.pigs": "maiali",
-  "building.pigpen": "Pigpen"
+  "building.pigpen": "Pigpen",
+  "pigs.applyMud": "Applica il fango a tutti i maiali che ne hanno bisogno",
+  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% feed XP · feed rimasti: {{count}}"
 }

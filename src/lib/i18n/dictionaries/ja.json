@@ -8666,5 +8666,7 @@
   "pete.expandAgain": "よさそうだ、バンプキン！さあ、木とコインを集めて、土地をもう一度広げよう。",
   "pete.teaser.zero": "軸を購入",
   "upgrade.pigs": "豚",
-  "building.pigpen": "ピッグペン"
+  "building.pigpen": "ピッグペン",
+  "pigs.applyMud": "必要な豚全員に泥を塗る",
+  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% フィード XP · 残りフィード:{{count}}"
 }

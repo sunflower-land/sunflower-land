@@ -8666,5 +8666,7 @@
   "pete.expandAgain": "Sieht gut aus, Bumpkin! Sammle jetzt etwas Holz und ein paar Münzen und erweitere dann dein Land erneut.",
   "pete.teaser.zero": "Äxte kaufen",
   "upgrade.pigs": "Schweine",
-  "building.pigpen": "Schweinestall"
+  "building.pigpen": "Schweinestall",
+  "pigs.applyMud": "Trage Schlamm auf jedes Schwein auf, das ihn braucht",
+  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% feed XP · verbleibende Feeds: {{count}}"
 }

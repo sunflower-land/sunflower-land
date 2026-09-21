@@ -8666,5 +8666,7 @@
   "pete.expandAgain": "Terlihat bagus, Bumpkin! Sekarang kumpulkan beberapa Kayu dan beberapa Koin, lalu perluas tanah Anda lagi.",
   "pete.teaser.zero": "Beli Sumbu",
   "upgrade.pigs": "babi",
-  "building.pigpen": "Pigpen"
+  "building.pigpen": "Pigpen",
+  "pigs.applyMud": "Terapkan Lumpur untuk setiap Babi yang membutuhkannya",
+  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% umpan XP · umpan tersisa: {{count}}"
 }

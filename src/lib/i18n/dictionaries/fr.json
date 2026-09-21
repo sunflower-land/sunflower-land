@@ -8666,5 +8666,7 @@
   "pete.expandAgain": "Ça a l'air bien, Bumpkin ! Rassemblez maintenant du bois et quelques pièces, puis agrandissez à nouveau votre terrain.",
   "pete.teaser.zero": "Acheter des haches",
   "upgrade.pigs": "les cochons",
-  "building.pigpen": "Porcherie"
+  "building.pigpen": "Porcherie",
+  "pigs.applyMud": "Appliquez de la boue sur tous les cochons qui en ont besoin",
+  "sleepingAnimal.mudFeedsLeft": "+ {{percent}} % feed XP · fils restants : {{count}}"
 }

@@ -8666,5 +8666,7 @@
   "pete.expandAgain": "¡Te ves bien, Bumpkin! Ahora reúne un poco de madera y algunas monedas, y luego vuelve a expandir tu tierra.",
   "pete.teaser.zero": "Comprar Axes",
   "upgrade.pigs": "cerdos",
-  "building.pigpen": "Pigpen"
+  "building.pigpen": "Pigpen",
+  "pigs.applyMud": "Aplica barro a cada cerdo que lo necesite",
+  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% feed XP · feeds restantes: {{count}}"
 }
