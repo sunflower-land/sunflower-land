@@ -6783,6 +6783,7 @@
   "sleepingAnimal.xp": "XP: {{experience}}",
   "sleepingAnimal.xpToNextLevel": "+{{xpToNext}} to Lvl {{level}}",
   "sleepingAnimal.xpToNextCycle": "+{{xpToNext}} XP to next cycle",
+  "sleepingAnimal.levelCapped": "Upgrade the {{building}} to raise this level cap. XP keeps building up in the meantime.",
   "sleepingAnimal.production": "Production:",
   "description.bonusBracelet.boost": "+1 Bracelet",
   "description.architectRuler.boost": "x0.75 Crafting Box Time",

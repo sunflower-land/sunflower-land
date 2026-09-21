@@ -32,6 +32,7 @@ import {
 import {
   ANIMAL_LEVELS,
   ANIMAL_RESOURCE_DROP,
+  ANIMALS,
   type AnimalLevel,
 } from "features/game/types/animals";
 import {
@@ -200,6 +201,10 @@ export const SleepingAnimalModal = ({
 
   const level = getAnimalLevel(animal.experience, animal.type, state);
   const isMaxLevel = isMaxAnimalLevel(animal.type, level, state);
+  // At MAX but below the top of its XP table: held there by its building's
+  // level (a Pig by its Pigpen), so an upgrade still raises it.
+  const isCappedByBuilding =
+    isMaxLevel && level < Object.keys(ANIMAL_LEVELS[animal.type]).length - 1;
   const production = Object.entries(
     ANIMAL_RESOURCE_DROP[animal.type][level],
   ).map(([resource, baseAmount]) => {
@@ -304,6 +309,15 @@ export const SleepingAnimalModal = ({
             )}
           </div>
         </div>
+        {isCappedByBuilding && (
+          <p className="text-xs px-1 pb-1">
+            {t("sleepingAnimal.levelCapped", {
+              building: getTranslatedItemName(
+                ANIMALS[animal.type].buildingRequired,
+              ),
+            })}
+          </p>
+        )}
         <div className="flex text-sm p-1 items-center">
           <img
             src={ITEM_DETAILS[favouriteFood].image}
