@@ -6,7 +6,10 @@ import {
   getSkillLevel,
   isUpgradeableSkillName,
 } from "features/game/types/bumpkinSkills";
-import { getAnimalReadyAt } from "features/game/lib/animals";
+import {
+  ANIMAL_BUILDING_KEYS,
+  getAnimalReadyAt,
+} from "features/game/lib/animals";
 import { getKeys } from "lib/object";
 import type {
   GameState,
@@ -16,7 +19,6 @@ import type {
   FlowerBeds,
   OilReserve,
   InventoryItemName,
-  AnimalBuildingKey,
   AOE,
 } from "features/game/types/game";
 import { produce } from "immer";
@@ -241,10 +243,8 @@ function useBarnyardRouse({
   game: GameState;
   createdAt?: number;
 }): GameState {
-  // Get all animal buildings
-  const buildings: AnimalBuildingKey[] = ["henHouse", "barn"];
-
-  buildings.forEach((building) => {
+  // Every animal building, derived so a new one cannot be missed here.
+  ANIMAL_BUILDING_KEYS.forEach((building) => {
     const { animals } = game[building];
     if (!animals) return;
 
@@ -318,10 +318,13 @@ export function powerSkillDisabledConditions({
     buildings,
     inventory,
     fruitPatches,
-    henHouse: { animals: henHouseAnimals },
-    barn: { animals: barnAnimals },
     flowers: { flowerBeds },
   } = state;
+
+  // Every animal across every animal building, derived rather than listed.
+  const allAnimals = ANIMAL_BUILDING_KEYS.flatMap((key) =>
+    Object.values(state[key].animals),
+  );
   const { previousPowerUseAt } = bumpkin;
 
   const { name: skillName, requirements } = skillTree as {
@@ -491,7 +494,7 @@ export function powerSkillDisabledConditions({
 
     case "Barnyard Rouse": {
       if (
-        Object.values({ ...henHouseAnimals, ...barnAnimals }).every(
+        allAnimals.every(
           (animal) => getAnimalReadyAt(animal, state) < createdAt,
         )
       ) {

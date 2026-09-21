@@ -11,6 +11,7 @@ import type { GreenHouseFruitName } from "../types/fruits";
 import type { AnimalType } from "../types/animals";
 import {
   ANIMAL_BOOST_SPEED,
+  ANIMAL_SLEEP_SHRINE,
   COOKING_BOOST_SPEED,
   CRAFTING_BOOST_SPEED,
   CROP_MACHINE_BOOST_SPEED,
@@ -129,14 +130,16 @@ const flower = (game: GameState, at: number): BoostContribution[] => [
 ];
 
 /**
- * Animal sleep has exactly one temporary boost, decided by the animal's type, so
- * there is nothing for the totem merge to do here — mirrors `getAnimalBoostWindows`.
+ * Animal sleep has at most one temporary boost, decided by the animal's type
+ * (Pigs have none), so there is nothing for the totem merge to do here —
+ * mirrors `getAnimalBoostWindows`.
  */
 const animal = (
   game: GameState,
   animalType: AnimalType,
 ): BoostContribution[] => {
-  const name = animalType === "Chicken" ? "Bantam Shrine" : "Collie Shrine";
+  const name = ANIMAL_SLEEP_SHRINE[animalType];
+  if (!name) return [];
 
   return [collectible(game, name, ANIMAL_BOOST_SPEED[name])];
 };

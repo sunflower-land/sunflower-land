@@ -21,7 +21,11 @@ import {
 import { InlineDialogue } from "features/world/ui/TypingMessage";
 import powerup from "assets/icons/level_up.png";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { isAnimalBuildingType } from "features/game/types/animals";
+import { makeAnimalBuildingKey } from "features/game/lib/animals";
+import { getAnimalBuildingCapacity } from "features/game/events/landExpansion/buyAnimal";
 import { BARN_IMAGES } from "features/island/buildings/components/building/barn/Barn";
+import { PIGPEN_IMAGES } from "features/island/buildings/components/building/pigpen/Pigpen";
 import {
   HEN_HOUSE_VARIANTS,
   PET_HOUSE_VARIANTS,
@@ -155,6 +159,10 @@ export const UpgradeBuildingContent: React.FC<Omit<Props, "show">> = ({
 
     const biome: LandBiomeName = getCurrentBiome(state.island);
 
+    if (buildingName === "Pigpen") {
+      return PIGPEN_IMAGES[biome][state.season.season][nextLevel];
+    }
+
     return BARN_IMAGES[biome][state.season.season][nextLevel];
   };
 
@@ -168,7 +176,21 @@ export const UpgradeBuildingContent: React.FC<Omit<Props, "show">> = ({
     buildingName === "Barn" &&
     isCollectibleBuilt({ name: "Barn Blueprint", game: state });
 
-  const capacityIncrease = hasChickenCoopBonus || hasBarnBonus ? 10 : 5;
+  // The collectible bonus is 5 per building level, so an upgrade adds 5 more of
+  // it on top of the base delta. The base delta is per-building: the Pigpen's
+  // 3/6/9 table steps by 3, not the shared formula's 5.
+  const collectibleBonusIncrease = hasChickenCoopBonus || hasBarnBonus ? 5 : 0;
+  const baseCapacityIncrease = isAnimalBuildingType(buildingName)
+    ? getAnimalBuildingCapacity(
+        makeAnimalBuildingKey(buildingName),
+        nextLevel,
+      ) -
+      getAnimalBuildingCapacity(
+        makeAnimalBuildingKey(buildingName),
+        nextLevel - 1,
+      )
+    : 5;
+  const capacityIncrease = baseCapacityIncrease + collectibleBonusIncrease;
 
   const getUpgradeLabel = () => {
     if (buildingName === "Water Well") {
@@ -200,6 +222,11 @@ export const UpgradeBuildingContent: React.FC<Omit<Props, "show">> = ({
       return t("upgrade.intro", {
         building: buildingLabel,
         animals: t("upgrade.sheep.cows"),
+      });
+    if (buildingName === "Pigpen")
+      return t("upgrade.intro", {
+        building: buildingLabel,
+        animals: t("upgrade.pigs"),
       });
 
     // Hen House

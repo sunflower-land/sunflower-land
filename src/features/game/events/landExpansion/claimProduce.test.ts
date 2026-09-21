@@ -4,11 +4,23 @@ import { INITIAL_FARM } from "features/game/lib/constants";
 import { ANIMAL_SLEEP_DURATION } from "./feedAnimal";
 import type { GameState } from "features/game/types/game";
 import { CONFIG } from "lib/config";
+import { makeAnimalBuilding } from "features/game/lib/animals";
+
+/**
+ * INITIAL_FARM ships animal buildings EMPTY - `constructBuilding` seeds the
+ * starter herd - so these tests, which assume a farm that already has animals,
+ * build one explicitly.
+ */
+const FARM_WITH_HERDS: GameState = {
+  ...INITIAL_FARM,
+  henHouse: makeAnimalBuilding("Hen House"),
+  barn: makeAnimalBuilding("Barn"),
+};
 
 describe("claimProduce", () => {
   const now = Date.now();
   const GAME_STATE: GameState = {
-    ...INITIAL_FARM,
+    ...FARM_WITH_HERDS,
     buildings: {
       "Hen House": [
         {
@@ -2391,7 +2403,7 @@ describe("claimProduce", () => {
     it("reduces the sleep time by 25% if a Collie Shrine is placed and ready", () => {
       const state = claimProduce({
         state: {
-          ...INITIAL_FARM,
+          ...FARM_WITH_HERDS,
           buildings: {
             Barn: [
               {
@@ -2406,7 +2418,7 @@ describe("claimProduce", () => {
             level: 3,
             animals: {
               "0": {
-                ...INITIAL_FARM.barn.animals["0"],
+                ...FARM_WITH_HERDS.barn.animals["0"],
                 state: "ready",
                 type: "Sheep",
                 experience: 60,
@@ -2439,7 +2451,7 @@ describe("claimProduce", () => {
     it("does not reduce the sleep time of chickens by 25% if a Collie Shrine is placed and ready", () => {
       const state = claimProduce({
         state: {
-          ...INITIAL_FARM,
+          ...FARM_WITH_HERDS,
           buildings: {
             "Hen House": [
               {
@@ -2454,7 +2466,7 @@ describe("claimProduce", () => {
             level: 3,
             animals: {
               "0": {
-                ...INITIAL_FARM.henHouse.animals["0"],
+                ...FARM_WITH_HERDS.henHouse.animals["0"],
                 state: "ready",
                 type: "Chicken",
                 experience: 60,
@@ -2487,7 +2499,7 @@ describe("claimProduce", () => {
     it("reduces the sleep time of chickens by 25% if a Bantam Shrine is placed and ready", () => {
       const state = claimProduce({
         state: {
-          ...INITIAL_FARM,
+          ...FARM_WITH_HERDS,
           buildings: {
             "Hen House": [
               {
@@ -2502,7 +2514,7 @@ describe("claimProduce", () => {
             level: 3,
             animals: {
               "0": {
-                ...INITIAL_FARM.henHouse.animals["0"],
+                ...FARM_WITH_HERDS.henHouse.animals["0"],
                 state: "ready",
                 type: "Chicken",
                 experience: 60,
@@ -2554,7 +2566,7 @@ describe("claimProduce", () => {
             level: 3,
             animals: {
               "0": {
-                ...INITIAL_FARM.henHouse.animals["0"],
+                ...FARM_WITH_HERDS.henHouse.animals["0"],
                 state: "ready",
                 type: "Chicken",
                 experience: 60,
@@ -2567,7 +2579,7 @@ describe("claimProduce", () => {
       }).henHouse.animals["0"];
 
     it("stores the real asleepAt + a permanent-only baseDurationMs", () => {
-      const animal = sleepingChicken(INITIAL_FARM);
+      const animal = sleepingChicken(FARM_WITH_HERDS);
 
       expect(animal.asleepAt).toEqual(now);
       expect(animal.baseDurationMs).toEqual(ANIMAL_SLEEP_DURATION);
@@ -2575,7 +2587,7 @@ describe("claimProduce", () => {
 
     it("leaves the Bantam Shrine out of baseDurationMs and caches the projection", () => {
       const animal = sleepingChicken({
-        ...INITIAL_FARM,
+        ...FARM_WITH_HERDS,
         collectibles: {
           "Bantam Shrine": [
             {
@@ -2597,12 +2609,12 @@ describe("claimProduce", () => {
       (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
       try {
         const animal = sleepingChicken({
-          ...INITIAL_FARM,
+          ...FARM_WITH_HERDS,
           henHouse: {
-            ...INITIAL_FARM.henHouse,
+            ...FARM_WITH_HERDS.henHouse,
             animals: {
               "0": {
-                ...INITIAL_FARM.henHouse.animals["0"],
+                ...FARM_WITH_HERDS.henHouse.animals["0"],
                 baseDurationMs: ANIMAL_SLEEP_DURATION,
               },
             },

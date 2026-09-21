@@ -131,6 +131,20 @@ export const ANIMAL_BOOST_SPEED = {
 } as const;
 
 /**
+ * The shrine covering each animal's sleep. Partial on purpose: an animal with
+ * no entry (Pigs) gets NO windows. Do not reintroduce a fallback - each
+ * shrine's buff copy names the animals it covers, so inheriting another
+ * animal's shrine would grant a boost the UI never advertises.
+ */
+export const ANIMAL_SLEEP_SHRINE: Partial<
+  Record<AnimalType, keyof typeof ANIMAL_BOOST_SPEED>
+> = {
+  Chicken: "Bantam Shrine",
+  Cow: "Collie Shrine",
+  Sheep: "Collie Shrine",
+};
+
+/**
  * Speed multipliers for the windowed cooking boosts — the single place to tune
  * them. Stacking is multiplicative; Super & Time Warp Totem share the same 2× and
  * merge so they don't stack with each other. Each value is the reciprocal of the
@@ -427,8 +441,8 @@ export const getOilBoostWindows = (game: GameState): BoostWindow[] =>
   });
 
 /**
- * The windowed speed boosts that apply to an animal's sleep. Exactly one shrine
- * can ever cover an animal (Chickens → Bantam, Cows/Sheep → Collie), and no
+ * The windowed speed boosts that apply to an animal's sleep. At most one shrine
+ * covers an animal (Chickens → Bantam, Cows/Sheep → Collie, Pigs none), and no
  * totems apply. Only the sleep-TIME half is windowed; the shrines' ×0.95
  * feed-cost half stays baked. Empty set (no shrine) makes `computeReadyAt`
  * reduce to `asleepAt + baseDurationMs`.
@@ -437,7 +451,8 @@ export const getAnimalBoostWindows = (
   game: GameState,
   animalType: AnimalType,
 ): BoostWindow[] => {
-  const name = animalType === "Chicken" ? "Bantam Shrine" : "Collie Shrine";
+  const name = ANIMAL_SLEEP_SHRINE[animalType];
+  if (!name) return [];
 
   return getBoostWindows({ game, name, speed: ANIMAL_BOOST_SPEED[name] });
 };

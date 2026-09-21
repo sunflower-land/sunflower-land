@@ -3,12 +3,13 @@ import {
   ANIMAL_FOOD_EXPERIENCE,
   ANIMAL_FOODS,
   ANIMAL_LEVELS,
+  PIGPEN_MAX_ANIMAL_LEVEL,
+  ANIMAL_BUILDING_TYPES,
   type AnimalBuildingType,
   type AnimalLevel,
   ANIMALS,
   type AnimalType,
 } from "../types/animals";
-import type { BuildingName } from "../types/buildings";
 import { getKeys } from "lib/object";
 import type {
   Animal,
@@ -34,7 +35,7 @@ import Decimal from "decimal.js-light";
 import { getSkillLevel, SKILL_RANKS } from "../types/bumpkinSkills";
 
 export const makeAnimalBuildingKey = (
-  buildingName: Extract<BuildingName, "Hen House" | "Barn">,
+  buildingName: AnimalBuildingType,
 ): AnimalBuildingKey => {
   return buildingName
     .replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) => {
@@ -43,23 +44,60 @@ export const makeAnimalBuildingKey = (
     .replace(/\s+/g, "") as AnimalBuildingKey;
 };
 
+/**
+ * Every animal building's GameState key, in AnimalBuildingType order. Derived
+ * so a new animal building cannot be forgotten by a loop; the order is stable
+ * because `checkAnimalHealth` draws random numbers per building.
+ */
+export const ANIMAL_BUILDING_KEYS: AnimalBuildingKey[] =
+  ANIMAL_BUILDING_TYPES.map(makeAnimalBuildingKey);
+
+/**
+ * Starting XP for the animals a new building is seeded with. Arbitrary data,
+ * not derivable from ANIMAL_LEVELS - 40 and 80 both resolve to level 0 for
+ * their animals.
+ */
+const DEFAULT_ANIMAL_EXPERIENCE: Record<AnimalType, number> = {
+  Chicken: 40,
+  Cow: 80,
+  Sheep: 80,
+  // TODO(Chapter 16): unused while the Pigpen starts empty - see INITIAL_FARM.
+  Pig: 80,
+};
+
+/**
+ * How many animals a building is seeded with when it is constructed. Exhaustive
+ * so a new animal building has to make the choice deliberately.
+ *
+ * The Pigpen gets ONE, not three: it holds only 3 animals at level 1, so a
+ * three-Pig herd would fill it on construction and make every Pig purchase
+ * throw until the pen was upgraded.
+ */
+const STARTER_HERD_SIZE: Record<AnimalBuildingType, number> = {
+  "Hen House": 3,
+  Barn: 3,
+  Pigpen: 1,
+};
+
 export function makeAnimalBuilding(
   building: AnimalBuildingType,
+  createdAt = Date.now(),
 ): AnimalBuilding {
-  const DEFAULT_ANIMAL_COUNT = 3;
+  const count = STARTER_HERD_SIZE[building];
 
   const animalType = getKeys(ANIMALS).find(
     (animal) => ANIMALS[animal].buildingRequired === building,
   );
   const { width } = ANIMALS[animalType as AnimalType];
 
-  const positions = [
-    { x: -width, y: 0 },
-    { x: 0, y: 0 },
-    { x: width, y: 0 },
-  ];
+  // Centred on the origin, so the row reads the same whatever its size: three
+  // animals sit at -width / 0 / +width exactly as before, one sits at 0.
+  const positions = Array.from({ length: count }, (_, index) => ({
+    x: (index - (count - 1) / 2) * width,
+    y: 0,
+  }));
 
-  const defaultAnimals = new Array(DEFAULT_ANIMAL_COUNT)
+  const defaultAnimals = new Array(count)
     .fill(0)
     .reduce<Record<string, Animal>>((animals, _, index) => {
       return {
@@ -70,8 +108,8 @@ export function makeAnimalBuilding(
           state: "idle",
           coordinates: positions[index],
           asleepAt: 0,
-          experience: animalType === "Chicken" ? 40 : 80,
-          createdAt: Date.now(),
+          experience: DEFAULT_ANIMAL_EXPERIENCE[animalType as AnimalType],
+          createdAt,
           item: "Petting Hand",
           lovedAt: 0,
           awakeAt: 0,
@@ -85,12 +123,44 @@ export function makeAnimalBuilding(
   };
 }
 
-export const isMaxLevel = (animal: AnimalType, level: AnimalLevel) => {
-  const maxLevel = Math.max(...Object.keys(ANIMAL_LEVELS[animal]).map(Number));
-  return level === maxLevel;
+/**
+ * The highest level this animal can currently reach. Normally the top of its
+ * XP table; for a Pig it is whatever its Pigpen's level allows.
+ */
+export function getAnimalMaxLevel(
+  animal: AnimalType,
+  game: GameState,
+): AnimalLevel {
+  const tableMax = Math.max(
+    ...getKeys(ANIMAL_LEVELS[animal]).map(Number),
+  ) as AnimalLevel;
+
+  if (animal !== "Pig") return tableMax;
+
+  return PIGPEN_MAX_ANIMAL_LEVEL[game.pigpen.level] ?? tableMax;
+}
+
+export const isMaxLevel = (
+  animal: AnimalType,
+  level: AnimalLevel,
+  // Pass game so a Pig counts as maxed at its Pigpen's cap, not only at 15.
+  game?: GameState,
+) => {
+  if (game) return level >= getAnimalMaxLevel(animal, game);
+
+  return level === Math.max(...Object.keys(ANIMAL_LEVELS[animal]).map(Number));
 };
 
-export function getAnimalLevel(experience: number, animal: AnimalType) {
+export function getAnimalLevel(
+  experience: number,
+  animal: AnimalType,
+  /**
+   * Pass game to clamp the result to the animal's building cap - a Pig cannot
+   * read above the level its Pigpen allows, however much XP it has banked.
+   * Omit it only where the animal can never be a Pig.
+   */
+  game?: GameState,
+) {
   const levels = ANIMAL_LEVELS[animal];
 
   let currentLevel: AnimalLevel = 0;
@@ -104,11 +174,23 @@ export function getAnimalLevel(experience: number, animal: AnimalType) {
     }
   }
 
-  return currentLevel;
+  if (!game) return currentLevel;
+
+  return Math.min(currentLevel, getAnimalMaxLevel(animal, game)) as AnimalLevel;
 }
 
-export function getAnimalFavoriteFood(type: AnimalType, animalXP: number) {
-  const level = getAnimalLevel(animalXP, type);
+export function getAnimalFavoriteFood(
+  type: AnimalType,
+  animalXP: number,
+  /**
+   * Pass game for the same reason as {@link getAnimalLevel}: a capped Pig's
+   * favourite food is the one for the level it can actually reach. Levels 5
+   * and 6 have different favourites, so an uncapped lookup pays the capped
+   * level's XP while labelling the wrong feed as the treat.
+   */
+  game?: GameState,
+) {
+  const level = getAnimalLevel(animalXP, type, game);
   const levelFood = ANIMAL_FOOD_EXPERIENCE[type][level];
   const maxXp = Math.max(...Object.values(levelFood));
 

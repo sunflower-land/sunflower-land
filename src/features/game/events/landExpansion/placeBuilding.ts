@@ -1,6 +1,8 @@
 import Decimal from "decimal.js-light";
 // import { randomUUID } from "crypto";
 import type { BuildingName } from "../../types/buildings";
+import { isAnimalBuildingType } from "../../types/animals";
+import { makeAnimalBuildingKey } from "../../lib/animals";
 import type {
   CompostBuilding,
   CropMachineBuilding,
@@ -176,12 +178,9 @@ export function placeBuilding({
         });
       }
 
-      // Henhouse & Barn
-      if (
-        (action.name === "Hen House" || action.name === "Barn") &&
-        !isSecondBuilding
-      ) {
-        const buildingKey = action.name === "Hen House" ? "henHouse" : "barn";
+      // Animal buildings (Hen House, Barn, Pigpen)
+      if (isAnimalBuildingType(action.name) && !isSecondBuilding) {
+        const buildingKey = makeAnimalBuildingKey(action.name);
         const { animals } = stateCopy[buildingKey];
 
         Object.values(animals).forEach((animal) => {

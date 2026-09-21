@@ -83,7 +83,7 @@ export function wakeAnimal({
       throw new Error("Animal not asleep");
     }
 
-    const level = getAnimalLevel(animal.experience, animal.type);
+    const level = getAnimalLevel(animal.experience, animal.type, copy);
 
     if (level >= 15) {
       throw new Error("Animal is too old to wake up");

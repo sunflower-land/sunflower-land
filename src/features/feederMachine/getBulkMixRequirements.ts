@@ -9,6 +9,7 @@ import { isAnimalFeedable } from "features/game/events/landExpansion/buyAnimal";
 import {
   getAnimalFavoriteFood,
   getAnimalLevel,
+  getAnimalMaxLevel,
   getAnimalReadyAt,
   getBoostedFoodQuantity,
   makeAnimalBuildingKey,
@@ -28,6 +29,7 @@ import {
   ANIMAL_FOODS,
   ANIMAL_LEVELS,
   type AnimalLevel,
+  type AnimalBuildingType,
   type AnimalType,
   type FeedType,
 } from "features/game/types/animals";
@@ -69,7 +71,9 @@ const isAnimalAwakeAndRequestingFood = (
 };
 
 // Collectible that feeds each animal type for free (no mixing needed).
-const FREE_FEED_COLLECTIBLE: Record<AnimalType, CollectibleName> = {
+// Partial: there is no Golden Pig, and an animal with no entry simply has no
+// free feed rather than inheriting another animal's collectible.
+const FREE_FEED_COLLECTIBLE: Partial<Record<AnimalType, CollectibleName>> = {
   Chicken: "Gold Egg",
   Cow: "Golden Cow",
   Sheep: "Golden Sheep",
@@ -84,8 +88,11 @@ export type FreeFeedBoost =
   | { source: "collectible"; item: CollectibleName; animalType: AnimalType }
   | { source: "wearable"; item: BumpkinItem };
 
-const hasFreeFeedBoost = (animalType: AnimalType, game: GameState) =>
-  isCollectibleBuilt({ name: FREE_FEED_COLLECTIBLE[animalType], game });
+const hasFreeFeedBoost = (animalType: AnimalType, game: GameState) => {
+  const name = FREE_FEED_COLLECTIBLE[animalType];
+
+  return !!name && isCollectibleBuilt({ name, game });
+};
 
 const addToTotals = (
   totals: RequestTotals,
@@ -105,21 +112,24 @@ const isReadyAfterFoodXP = ({
   animal,
   experience,
   foodXp,
+  // A Pig capped by its Pigpen cycles at the cap, so the mixer must treat it
+  // as max level there rather than planning feed toward a level it cannot hit.
+  maxLevel,
 }: {
   animal: AnimalType;
   experience: number;
   foodXp: number;
+  maxLevel: AnimalLevel;
 }) => {
   const nextExperience = experience + foodXp;
 
-  if (!isMaxLevel(animal, experience)) {
+  if (!isMaxLevel(animal, experience, maxLevel)) {
     return (
       getAnimalLevel(experience, animal) !==
       getAnimalLevel(nextExperience, animal)
     );
   }
 
-  const maxLevel = (getKeys(ANIMAL_LEVELS[animal]).length - 1) as AnimalLevel;
   const levelBeforeMax = (maxLevel - 1) as AnimalLevel;
   const maxLevelXp = ANIMAL_LEVELS[animal][maxLevel];
   const levelBeforeMaxXp = ANIMAL_LEVELS[animal][levelBeforeMax];
@@ -143,8 +153,8 @@ const getFeedRequestsUntilReady = ({
   let experience = animal.experience;
 
   for (let step = 0; step < MAX_FEED_STEPS_TO_READY; step += 1) {
-    const level = getAnimalLevel(experience, animal.type);
-    const favouriteFood = getAnimalFavoriteFood(animal.type, experience);
+    const level = getAnimalLevel(experience, animal.type, game);
+    const favouriteFood = getAnimalFavoriteFood(animal.type, experience, game);
     const { foodXp } = handleFoodXP({
       state: game,
       animal: animal.type,
@@ -174,6 +184,7 @@ const getFeedRequestsUntilReady = ({
         animal: animal.type,
         experience,
         foodXp,
+        maxLevel: getAnimalMaxLevel(animal.type, game),
       })
     ) {
       break;
@@ -252,7 +263,7 @@ const getBuildingRequests = ({
 
 export function getBulkMixRequirements(
   game: GameState,
-  building: "Hen House" | "Barn",
+  building: AnimalBuildingType,
   now: number,
 ) {
   const buildingKey = makeAnimalBuildingKey(building);
@@ -267,13 +278,14 @@ export function getBulkMixRequirements(
   // Free boosts feeding/curing this building's animals, surfaced to explain
   // why there are no requests.
   const animalTypesPresent = [...new Set(animals.map((animal) => animal.type))];
-  const freeFeedBoosts: FreeFeedBoost[] = animalTypesPresent
-    .filter((animalType) => hasFreeFeedBoost(animalType, game))
-    .map((animalType) => ({
-      source: "collectible",
-      item: FREE_FEED_COLLECTIBLE[animalType],
-      animalType,
-    }));
+  const freeFeedBoosts: FreeFeedBoost[] = animalTypesPresent.flatMap(
+    (animalType) => {
+      const item = FREE_FEED_COLLECTIBLE[animalType];
+      if (!item || !isCollectibleBuilt({ name: item, game })) return [];
+
+      return [{ source: "collectible" as const, item, animalType }];
+    },
+  );
 
   // Oracle Syringe cures sick animals for free (Barn Delight cost 0), so when
   // a sick animal would otherwise request it, surface the syringe instead.

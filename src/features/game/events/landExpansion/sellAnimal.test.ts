@@ -1,15 +1,28 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { sellAnimal } from "./sellAnimal";
 import Decimal from "decimal.js-light";
+import { makeAnimalBuilding } from "features/game/lib/animals";
+import type { GameState } from "features/game/types/game";
+
+/**
+ * INITIAL_FARM ships animal buildings EMPTY - `constructBuilding` seeds the
+ * starter herd - so these tests, which assume a farm that already has animals,
+ * build one explicitly.
+ */
+const FARM_WITH_HERDS: GameState = {
+  ...INITIAL_FARM,
+  henHouse: makeAnimalBuilding("Hen House"),
+  barn: makeAnimalBuilding("Barn"),
+};
 
 describe("animal.sold", () => {
   it("requires deal exists", () => {
     expect(() =>
       sellAnimal({
-        state: INITIAL_FARM,
+        state: FARM_WITH_HERDS,
         action: {
           requestId: "123",
-          animalId: Object.keys(INITIAL_FARM.henHouse.animals)[0],
+          animalId: Object.keys(FARM_WITH_HERDS.henHouse.animals)[0],
           type: "animal.sold",
         },
       }),
@@ -20,7 +33,7 @@ describe("animal.sold", () => {
     expect(() =>
       sellAnimal({
         state: {
-          ...INITIAL_FARM,
+          ...FARM_WITH_HERDS,
           bounties: {
             completed: [
               {
@@ -41,7 +54,7 @@ describe("animal.sold", () => {
         },
         action: {
           requestId: "123",
-          animalId: Object.keys(INITIAL_FARM.henHouse.animals)[0],
+          animalId: Object.keys(FARM_WITH_HERDS.henHouse.animals)[0],
 
           type: "animal.sold",
         },
@@ -53,7 +66,7 @@ describe("animal.sold", () => {
     expect(() =>
       sellAnimal({
         state: {
-          ...INITIAL_FARM,
+          ...FARM_WITH_HERDS,
           bounties: {
             completed: [],
             requests: [
@@ -80,7 +93,7 @@ describe("animal.sold", () => {
     expect(() =>
       sellAnimal({
         state: {
-          ...INITIAL_FARM,
+          ...FARM_WITH_HERDS,
           henHouse: {
             level: 1,
             animals: {
@@ -123,7 +136,7 @@ describe("animal.sold", () => {
     expect(() =>
       sellAnimal({
         state: {
-          ...INITIAL_FARM,
+          ...FARM_WITH_HERDS,
           henHouse: {
             level: 1,
             animals: {
@@ -166,7 +179,7 @@ describe("animal.sold", () => {
     expect(() =>
       sellAnimal({
         state: {
-          ...INITIAL_FARM,
+          ...FARM_WITH_HERDS,
           bounties: {
             completed: [],
             requests: [
@@ -182,7 +195,7 @@ describe("animal.sold", () => {
         },
         action: {
           requestId: "123",
-          animalId: Object.keys(INITIAL_FARM.henHouse.animals)[0],
+          animalId: Object.keys(FARM_WITH_HERDS.henHouse.animals)[0],
 
           type: "animal.sold",
         },
@@ -192,16 +205,16 @@ describe("animal.sold", () => {
 
   // Success
   it("removes a chicken", () => {
-    const animalId = Object.keys(INITIAL_FARM.henHouse.animals)[0];
+    const animalId = Object.keys(FARM_WITH_HERDS.henHouse.animals)[0];
     const state = sellAnimal({
       state: {
-        ...INITIAL_FARM,
+        ...FARM_WITH_HERDS,
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...FARM_WITH_HERDS.henHouse,
           animals: {
-            ...INITIAL_FARM.henHouse.animals,
+            ...FARM_WITH_HERDS.henHouse.animals,
             [animalId]: {
-              ...INITIAL_FARM.henHouse.animals[animalId],
+              ...FARM_WITH_HERDS.henHouse.animals[animalId],
               experience: 1000,
             },
           },
@@ -232,16 +245,16 @@ describe("animal.sold", () => {
   });
 
   it("exchanges coins", () => {
-    const animalId = Object.keys(INITIAL_FARM.henHouse.animals)[0];
+    const animalId = Object.keys(FARM_WITH_HERDS.henHouse.animals)[0];
     const state = sellAnimal({
       state: {
-        ...INITIAL_FARM,
+        ...FARM_WITH_HERDS,
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...FARM_WITH_HERDS.henHouse,
           animals: {
-            ...INITIAL_FARM.henHouse.animals,
+            ...FARM_WITH_HERDS.henHouse.animals,
             [animalId]: {
-              ...INITIAL_FARM.henHouse.animals[animalId],
+              ...FARM_WITH_HERDS.henHouse.animals[animalId],
               experience: 1000,
             },
           },
@@ -271,16 +284,16 @@ describe("animal.sold", () => {
   });
 
   it("exchanges tickets", () => {
-    const animalId = Object.keys(INITIAL_FARM.henHouse.animals)[0];
+    const animalId = Object.keys(FARM_WITH_HERDS.henHouse.animals)[0];
     const state = sellAnimal({
       state: {
-        ...INITIAL_FARM,
+        ...FARM_WITH_HERDS,
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...FARM_WITH_HERDS.henHouse,
           animals: {
-            ...INITIAL_FARM.henHouse.animals,
+            ...FARM_WITH_HERDS.henHouse.animals,
             [animalId]: {
-              ...INITIAL_FARM.henHouse.animals[animalId],
+              ...FARM_WITH_HERDS.henHouse.animals[animalId],
               experience: 1000,
             },
           },
@@ -312,16 +325,16 @@ describe("animal.sold", () => {
 
   it("marks as sold", () => {
     const now = Date.now();
-    const animalId = Object.keys(INITIAL_FARM.henHouse.animals)[0];
+    const animalId = Object.keys(FARM_WITH_HERDS.henHouse.animals)[0];
     const state = sellAnimal({
       state: {
-        ...INITIAL_FARM,
+        ...FARM_WITH_HERDS,
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...FARM_WITH_HERDS.henHouse,
           animals: {
-            ...INITIAL_FARM.henHouse.animals,
+            ...FARM_WITH_HERDS.henHouse.animals,
             [animalId]: {
-              ...INITIAL_FARM.henHouse.animals[animalId],
+              ...FARM_WITH_HERDS.henHouse.animals[animalId],
               experience: 1000,
             },
           },
@@ -353,22 +366,22 @@ describe("animal.sold", () => {
   });
 
   it("gives 50% more coins when selling bountiful bounties", () => {
-    const animalId = Object.keys(INITIAL_FARM.henHouse.animals)[0];
+    const animalId = Object.keys(FARM_WITH_HERDS.henHouse.animals)[0];
     const state = sellAnimal({
       state: {
-        ...INITIAL_FARM,
+        ...FARM_WITH_HERDS,
         bumpkin: {
-          ...INITIAL_FARM.bumpkin,
+          ...FARM_WITH_HERDS.bumpkin,
           skills: {
             "Bountiful Bounties": 1,
           },
         },
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...FARM_WITH_HERDS.henHouse,
           animals: {
-            ...INITIAL_FARM.henHouse.animals,
+            ...FARM_WITH_HERDS.henHouse.animals,
             [animalId]: {
-              ...INITIAL_FARM.henHouse.animals[animalId],
+              ...FARM_WITH_HERDS.henHouse.animals[animalId],
               experience: 1000,
             },
           },
@@ -398,16 +411,16 @@ describe("animal.sold", () => {
   });
 
   it("gives 25% less coins when selling sick animals", () => {
-    const animalId = Object.keys(INITIAL_FARM.henHouse.animals)[0];
+    const animalId = Object.keys(FARM_WITH_HERDS.henHouse.animals)[0];
     const state = sellAnimal({
       state: {
-        ...INITIAL_FARM,
+        ...FARM_WITH_HERDS,
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...FARM_WITH_HERDS.henHouse,
           animals: {
-            ...INITIAL_FARM.henHouse.animals,
+            ...FARM_WITH_HERDS.henHouse.animals,
             [animalId]: {
-              ...INITIAL_FARM.henHouse.animals[animalId],
+              ...FARM_WITH_HERDS.henHouse.animals[animalId],
               experience: 60,
               state: "sick",
             },
@@ -438,16 +451,16 @@ describe("animal.sold", () => {
   });
 
   it("gives approx 25% less items (rounded down) when selling sick animals", () => {
-    const animalId = Object.keys(INITIAL_FARM.henHouse.animals)[0];
+    const animalId = Object.keys(FARM_WITH_HERDS.henHouse.animals)[0];
     const state = sellAnimal({
       state: {
-        ...INITIAL_FARM,
+        ...FARM_WITH_HERDS,
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...FARM_WITH_HERDS.henHouse,
           animals: {
-            ...INITIAL_FARM.henHouse.animals,
+            ...FARM_WITH_HERDS.henHouse.animals,
             [animalId]: {
-              ...INITIAL_FARM.henHouse.animals[animalId],
+              ...FARM_WITH_HERDS.henHouse.animals[animalId],
               experience: 60,
               state: "sick",
             },
@@ -484,14 +497,14 @@ describe("animal.sold", () => {
     const mockDate = new Date(2024, 11, 11);
     jest.useFakeTimers();
     jest.setSystemTime(mockDate);
-    const animalId = Object.keys(INITIAL_FARM.henHouse.animals)[0];
+    const animalId = Object.keys(FARM_WITH_HERDS.henHouse.animals)[0];
     const state = sellAnimal({
       state: {
-        ...INITIAL_FARM,
+        ...FARM_WITH_HERDS,
         bumpkin: {
-          ...INITIAL_FARM.bumpkin,
+          ...FARM_WITH_HERDS.bumpkin,
           equipped: {
-            ...INITIAL_FARM.bumpkin.equipped,
+            ...FARM_WITH_HERDS.bumpkin.equipped,
             hat: "Cowboy Hat",
           },
         },
@@ -523,14 +536,14 @@ describe("animal.sold", () => {
     const mockDate = new Date(2024, 11, 11);
     jest.useFakeTimers();
     jest.setSystemTime(mockDate);
-    const animalId = Object.keys(INITIAL_FARM.henHouse.animals)[0];
+    const animalId = Object.keys(FARM_WITH_HERDS.henHouse.animals)[0];
     const state = sellAnimal({
       state: {
-        ...INITIAL_FARM,
+        ...FARM_WITH_HERDS,
         bumpkin: {
-          ...INITIAL_FARM.bumpkin,
+          ...FARM_WITH_HERDS.bumpkin,
           equipped: {
-            ...INITIAL_FARM.bumpkin.equipped,
+            ...FARM_WITH_HERDS.bumpkin.equipped,
             hat: "Cowboy Hat",
             shirt: "Cowboy Shirt",
             pants: "Cowboy Trouser",
@@ -563,14 +576,14 @@ describe("animal.sold", () => {
     const mockDate = new Date(2025, 2, 5);
     jest.useFakeTimers();
     jest.setSystemTime(mockDate);
-    const animalId = Object.keys(INITIAL_FARM.henHouse.animals)[0];
+    const animalId = Object.keys(FARM_WITH_HERDS.henHouse.animals)[0];
     const state = sellAnimal({
       state: {
-        ...INITIAL_FARM,
+        ...FARM_WITH_HERDS,
         bumpkin: {
-          ...INITIAL_FARM.bumpkin,
+          ...FARM_WITH_HERDS.bumpkin,
           equipped: {
-            ...INITIAL_FARM.bumpkin.equipped,
+            ...FARM_WITH_HERDS.bumpkin.equipped,
             hat: "Acorn Hat",
           },
         },
@@ -602,14 +615,14 @@ describe("animal.sold", () => {
     const mockDate = new Date(2025, 2, 5);
     jest.useFakeTimers();
     jest.setSystemTime(mockDate);
-    const animalId = Object.keys(INITIAL_FARM.henHouse.animals)[0];
+    const animalId = Object.keys(FARM_WITH_HERDS.henHouse.animals)[0];
     const state = sellAnimal({
       state: {
-        ...INITIAL_FARM,
+        ...FARM_WITH_HERDS,
         bumpkin: {
-          ...INITIAL_FARM.bumpkin,
+          ...FARM_WITH_HERDS.bumpkin,
           equipped: {
-            ...INITIAL_FARM.bumpkin.equipped,
+            ...FARM_WITH_HERDS.bumpkin.equipped,
             hat: "Acorn Hat",
           },
         },
