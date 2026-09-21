@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { getPurchaseCost } from "../lib/planToolPurchases";
+import { needsFirstAxes, TUTORIAL_AXE_COUNT } from "../lib/onboarding";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 import Decimal from "decimal.js-light";
 
 import { Modal } from "components/ui/Modal";
@@ -155,6 +157,7 @@ export const ToolBatchBuyModal: React.FC<Props> = ({
   stock,
 }) => {
   const { gameService } = useContext(Context);
+  const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
 
   // Maximum affordable amount per tool, as computed by the shared planner -
@@ -279,6 +282,9 @@ export const ToolBatchBuyModal: React.FC<Props> = ({
 
   const buyAllTools = () => {
     const purchaseFailures: WorkbenchToolName[] = [];
+    const wasBuyingFirstAxes = needsFirstAxes(
+      gameService.getSnapshot().context.state,
+    );
 
     purchasesToMake.forEach(({ toolName }) => {
       const amount = amountDraft[toolName] ?? 0;
@@ -307,6 +313,17 @@ export const ToolBatchBuyModal: React.FC<Props> = ({
 
     setFailures(purchaseFailures);
     showConfirmBatchBuyModal(false);
+
+    // Tutorial: Buy All can hand over the free Axes too, so it has to make the
+    // same transition as crafting them one tool at a time.
+    if (
+      wasBuyingFirstAxes &&
+      gameService
+        .getSnapshot()
+        .context.state.inventory.Axe?.greaterThanOrEqualTo(TUTORIAL_AXE_COUNT)
+    ) {
+      openModal("PETE_CHOP");
+    }
 
     // Keep the modal open on a partial failure so the player can see which
     // tools didn't get bought (the failure Label below) - only close on a

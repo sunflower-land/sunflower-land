@@ -721,6 +721,7 @@ describe("tutorial free axes", () => {
     inventory: {},
     farmActivity: {},
     stock: { ...GAME_STATE.stock, Axe: new Decimal(200) },
+    createdAt: new Date("2026-10-01T00:00:00.000Z").getTime(),
   };
 
   const craftAxes = (state: GameState, amount: number) =>
@@ -776,6 +777,23 @@ describe("tutorial free axes", () => {
       }),
     ).toEqual(20);
     expect(getToolPrice(WORKBENCH_TOOLS.Axe, 15, NEW_FARM)).toEqual(100);
+  });
+
+  it("is only for farms created from the tutorial rework onwards", () => {
+    // Older tutorial-island farms were given 10 starter Axes and have no
+    // crafts recorded, so without this gate they would get 10 more for free.
+    const justBefore = new Date("2026-09-21T02:59:59.999Z").getTime();
+    const launch = new Date("2026-09-21T03:00:00.000Z").getTime();
+
+    expect(
+      getToolPrice(WORKBENCH_TOOLS.Axe, 1, {
+        ...NEW_FARM,
+        createdAt: justBefore,
+      }),
+    ).toEqual(20);
+    expect(
+      getToolPrice(WORKBENCH_TOOLS.Axe, 1, { ...NEW_FARM, createdAt: launch }),
+    ).toEqual(0);
   });
 
   it("is only for the tutorial island", () => {

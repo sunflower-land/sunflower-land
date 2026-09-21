@@ -110,11 +110,16 @@ export const FirePitModal: React.FC<Props> = ({
   }, [firePitRecipes, getGame, itemInProgress]);
 
   const [selected, setSelected] = useState<Cookable | undefined>(undefined);
+  // This modal stays mounted between opens, so a recipe tapped on an earlier
+  // visit would otherwise still be selected when the first-cook tutorial
+  // starts. Only a choice made during the tutorial is allowed to override it.
+  const [selectedDuringFirstCook, setSelectedDuringFirstCook] = useState(false);
 
   const setSelectedCookable = useCallback<
     React.Dispatch<React.SetStateAction<Cookable>>
   >(
     (next) => {
+      setSelectedDuringFirstCook(needsFirstCook(getGame()));
       setSelected((prev) => {
         const fallback = getDefaultSelection() ?? firePitRecipes[0];
         const current = prev ?? fallback;
@@ -122,7 +127,7 @@ export const FirePitModal: React.FC<Props> = ({
         return typeof next === "function" ? next(current) : next;
       });
     },
-    [firePitRecipes, getDefaultSelection],
+    [firePitRecipes, getDefaultSelection, getGame],
   );
 
   const effectiveSelected = useMemo(() => {
@@ -130,12 +135,21 @@ export const FirePitModal: React.FC<Props> = ({
 
     const isValidSelection =
       !!selected && firePitRecipes.some((r) => r.name === selected.name);
+    const isStaleForFirstCook =
+      isOpen && needsFirstCook(getGame()) && !selectedDuringFirstCook;
 
-    if (isValidSelection) return selected;
+    if (isValidSelection && !isStaleForFirstCook) return selected;
     if (!isOpen) return selected; // don't "select" while closed
 
     return getDefaultSelection();
-  }, [firePitRecipes, getDefaultSelection, isOpen, selected]);
+  }, [
+    firePitRecipes,
+    getDefaultSelection,
+    getGame,
+    isOpen,
+    selected,
+    selectedDuringFirstCook,
+  ]);
 
   return (
     <Modal show={isOpen} onHide={onClose}>

@@ -60,11 +60,22 @@ const isPickaxe = (name: WorkbenchToolName): boolean => {
 export const TUTORIAL_FREE_AXES = 10;
 
 /**
+ * Farms created before the tutorial rework were given 10 starter Axes and have
+ * no crafts recorded, so they must not also qualify for the free ones. Set
+ * ahead of the release on purpose: a farm created in between still gets the
+ * old starter Axes, so no farm can end up with neither.
+ */
+export const TUTORIAL_FREE_AXES_FROM = new Date(
+  "2026-09-21T03:00:00.000Z",
+).getTime();
+
+/**
  * How many free Axes a tutorial island player has left. Counted from lifetime
  * crafts, not inventory, so chopping does not top the allowance back up.
  */
 export function getFreeAxesLeft(game: Readonly<GameState>): number {
   if (game.island.type !== "basic") return 0;
+  if (game.createdAt < TUTORIAL_FREE_AXES_FROM) return 0;
 
   const crafted = game.farmActivity?.["Axe Crafted"] ?? 0;
 
