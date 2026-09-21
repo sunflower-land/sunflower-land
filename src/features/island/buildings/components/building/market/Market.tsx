@@ -5,6 +5,7 @@ import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import type { BuildingProps } from "../Building";
 import { Modal } from "components/ui/Modal";
 import { ShopItems } from "./ShopItems";
+import { needsFirstCropSale, needsFirstSeedPurchase } from "./lib/onboarding";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { useActor, useSelector } from "@xstate/react";
@@ -157,6 +158,8 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, island }) => {
           onClose={() => setIsOpen(false)}
           hasSoldBefore={hasSoldBefore}
           showBuyHelper={showBuyHelper}
+          showBuyTabHelper={needsFirstSeedPurchase(gameState.context.state)}
+          showSellHelper={needsFirstCropSale(gameState.context.state)}
         />
         {isCropShortage && (
           <Label

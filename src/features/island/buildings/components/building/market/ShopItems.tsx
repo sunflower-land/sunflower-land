@@ -5,34 +5,20 @@ import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import type { ConversationName } from "features/game/types/announcements";
 import { NPC_WEARABLES } from "lib/npcs";
-import { SpeakingText } from "features/game/components/SpeakingModal";
-import { OuterPanel, Panel } from "components/ui/Panel";
+import { OuterPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SeasonalSeeds } from "./SeasonalSeeds";
 import { SeasonalCrops } from "./SeasonalCrops";
 import book from "assets/icons/tier1_book.webp";
 import { CropGuide } from "./CropGuide";
-const host = window.location.host.replace(/^www\./, "");
-const LOCAL_STORAGE_KEY = `betty-read.${host}-${window.location.pathname}`;
-const INTRO_LOCAL_STORAGE_KEY = `betty-intro-read.${host}-${window.location.pathname}`;
-
-function acknowledgeIntroRead() {
-  localStorage.setItem(INTRO_LOCAL_STORAGE_KEY, new Date().toString());
-}
-
-function hasReadIntro() {
-  return !!localStorage.getItem(INTRO_LOCAL_STORAGE_KEY);
-}
-
-function acknowledgeRead() {
-  localStorage.setItem(LOCAL_STORAGE_KEY, new Date().toString());
-}
 
 interface Props {
   onClose: () => void;
   conversation?: ConversationName;
   hasSoldBefore?: boolean;
   showBuyHelper?: boolean;
+  showSellHelper?: boolean;
+  showBuyTabHelper?: boolean;
   cropShortage?: boolean;
 }
 
@@ -40,47 +26,16 @@ export const ShopItems: React.FC<Props> = ({
   onClose,
   hasSoldBefore,
   showBuyHelper,
+  showSellHelper,
+  showBuyTabHelper,
 }) => {
   type Tab = "buy" | "sell" | "guide";
-  const [tab, setTab] = useState<Tab>("buy");
-  const [showIntro, setShowIntro] = React.useState(!hasReadIntro());
+  // Open a new player straight onto the Sell tab for their first Sunflowers,
+  // the way the Workbench opens onto the scarecrow. The market modal unmounts
+  // when closed, so this default re-evaluates on every open.
+  const [tab, setTab] = useState<Tab>(showSellHelper ? "sell" : "buy");
   const { t } = useAppTranslation();
   const bumpkinParts: Partial<Equipped> = NPC_WEARABLES.betty;
-
-  if (showIntro) {
-    return (
-      <Panel bumpkinParts={NPC_WEARABLES.betty}>
-        <SpeakingText
-          message={[
-            {
-              text: t("betty.welcome"),
-              actions: [
-                {
-                  text: t("betty.buySeeds"),
-                  cb: () => {
-                    setTab("buy");
-                    acknowledgeIntroRead();
-                    setShowIntro(false);
-                  },
-                },
-                {
-                  text: t("betty.sellCrops"),
-                  cb: () => {
-                    setTab("sell");
-                    acknowledgeIntroRead();
-                    setShowIntro(false);
-                  },
-                },
-              ],
-            },
-          ]}
-          onClose={() => {
-            acknowledgeRead();
-          }}
-        />
-      </Panel>
-    );
-  }
 
   return (
     <CloseButtonPanel
@@ -91,6 +46,7 @@ export const ShopItems: React.FC<Props> = ({
           icon: SUNNYSIDE.icons.seeds,
           name: t("buy"),
           unread: showBuyHelper,
+          helper: showBuyTabHelper,
         },
         {
           id: "sell",

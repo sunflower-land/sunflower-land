@@ -56,11 +56,38 @@ const isPickaxe = (name: WorkbenchToolName): boolean => {
   return pickaxes.includes(name);
 };
 
-export function getToolPrice(
-  tool: Tool,
-  amount: number,
-  game: Readonly<GameState>,
-) {
+/** A new player's first Axes are on the house, so they learn to buy tools. */
+export const TUTORIAL_FREE_AXES = 10;
+
+/**
+ * Farms created before the tutorial rework were given 10 starter Axes and have
+ * no crafts recorded, so they must not also qualify for the free ones. Set
+ * ahead of the release on purpose: a farm created in between still gets the
+ * old starter Axes, so no farm can end up with neither.
+ */
+export const TUTORIAL_FREE_AXES_FROM = new Date(
+  "2026-09-21T03:00:00.000Z",
+).getTime();
+
+/**
+ * How many free Axes a tutorial island player has left. Counted from lifetime
+ * crafts, not inventory, so chopping does not top the allowance back up.
+ */
+export function getFreeAxesLeft(game: Readonly<GameState>): number {
+  if (game.island.type !== "basic") return 0;
+  if (game.createdAt < TUTORIAL_FREE_AXES_FROM) return 0;
+
+  const crafted = game.farmActivity?.["Axe Crafted"] ?? 0;
+
+  return Math.max(0, TUTORIAL_FREE_AXES - crafted);
+}
+
+/**
+ * Coin price of a single tool after every discount, ignoring the free tutorial
+ * Axes. The Workbench needs this to work out how many it can afford, since a
+ * batch that includes free Axes is not simply one price times the amount.
+ */
+export function getToolUnitPrice(tool: Tool, game: Readonly<GameState>) {
   const { name } = tool;
   const { bumpkin, inventory } = game;
 
@@ -107,8 +134,25 @@ export function getToolPrice(
     price = price * 0.9;
   }
 
+  return price;
+}
+
+/** How many of this tool the player can still craft for free. */
+export function getFreeToolAmount(tool: Tool, game: Readonly<GameState>) {
+  return tool.name === "Axe" ? getFreeAxesLeft(game) : 0;
+}
+
+export function getToolPrice(
+  tool: Tool,
+  amount: number,
+  game: Readonly<GameState>,
+) {
+  // The free tutorial Axes come off the front of the batch, so a batch that
+  // straddles the allowance only pays for the Axes beyond it.
+  const paidAmount = Math.max(0, amount - getFreeToolAmount(tool, game));
+
   // Return the price for the amount of tools
-  return price * amount;
+  return getToolUnitPrice(tool, game) * paidAmount;
 }
 
 export function craftTool({ state, action }: Options) {

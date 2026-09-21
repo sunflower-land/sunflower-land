@@ -12,11 +12,16 @@ import { getCurrentBiome } from "features/island/biomes/biomes";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import type { MachineState } from "features/game/lib/gameMachine";
-import { needsBasicScarecrow, needsWaterWell } from "./lib/onboarding";
+import {
+  needsBasicScarecrow,
+  needsFirstAxes,
+  needsWaterWell,
+} from "./lib/onboarding";
 
 const _needsWell = (state: MachineState) => needsWaterWell(state.context.state);
 const _needsScarecrow = (state: MachineState) =>
   needsBasicScarecrow(state.context.state);
+const _needsAxes = (state: MachineState) => needsFirstAxes(state.context.state);
 
 export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, island }) => {
   // TODO: feat/crafting-box - remove this
@@ -28,7 +33,8 @@ export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, island }) => {
 
   const needsWell = useSelector(gameService, _needsWell);
   const needsScarecrow = useSelector(gameService, _needsScarecrow);
-  const showHelper = isBuilt && (needsWell || needsScarecrow);
+  const needsAxes = useSelector(gameService, _needsAxes);
+  const showHelper = isBuilt && (needsWell || needsScarecrow || needsAxes);
 
   const handleClick = () => {
     if (isBuilt) {

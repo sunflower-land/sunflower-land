@@ -5,6 +5,13 @@ import React, {
   useState,
 } from "react";
 import { useSelector } from "@xstate/react";
+import {
+  hasCollectedFirstTart,
+  needsFirstCook,
+  TUTORIAL_RECIPE,
+} from "./firePit/lib/onboarding";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
@@ -132,6 +139,10 @@ export const Recipes: React.FC<Props> = ({
   const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
   const state = useSelector(gameService, (state) => state.context.state);
+
+  // Tutorial: walk a new player through cooking their first Rhubarb Tart.
+  const showCookHelper =
+    buildingName === "Fire Pit" && !cooking && needsFirstCook(state);
   const { inventory, buildings, bumpkin } = state;
   const [showQueueInformation, setShowQueueInformation] = useState(false);
   const [showBoosts, setShowBoosts] = useState(false);
@@ -244,21 +255,36 @@ export const Recipes: React.FC<Props> = ({
   const cook = () => onCook(selected.name);
 
   const collect = () => {
-    gameService.send("recipes.collected", {
+    const before = gameService.getSnapshot().context.state;
+
+    const after = gameService.send("recipes.collected", {
       buildingId,
       building: buildingName,
     });
+
+    // Tutorial: first tart in hand, Bruce tells the player to eat it.
+    if (hasCollectedFirstTart(before, after.context.state)) {
+      openModal("FIREPIT_EAT");
+    }
   };
 
   const handleInstantCook = (
     cost: number,
     paymentMethod: "gems" | "coins" = "gems",
   ) => {
-    gameService.send("recipe.spedUp", {
+    const before = gameService.getSnapshot().context.state;
+
+    const after = gameService.send("recipe.spedUp", {
       buildingId,
       buildingName,
       paymentMethod,
     });
+
+    // Tutorial: speeding up puts the food straight into the inventory with no
+    // collect step, so this is the third way a first tart can arrive.
+    if (hasCollectedFirstTart(before, after.context.state)) {
+      openModal("FIREPIT_EAT");
+    }
 
     gameAnalytics.trackSink({
       currency: paymentMethod === "coins" ? "Coins" : "Gem",
@@ -348,22 +374,37 @@ export const Recipes: React.FC<Props> = ({
                       {t("sceneDialogues.chefIsBusy")}
                     </p>
                   )}
-                  <Button
-                    disabled={
-                      lessIngredients() || selected.disabled || isQueueFull
-                    }
-                    className="text-xxs sm:text-sm mt-1 whitespace-nowrap relative"
-                    onClick={!cooking ? cook : handleAddToQueue}
-                  >
-                    {cooking && (
+                  <div className="relative">
+                    <Button
+                      disabled={
+                        lessIngredients() || selected.disabled || isQueueFull
+                      }
+                      className="text-xxs sm:text-sm mt-1 whitespace-nowrap relative"
+                      onClick={!cooking ? cook : handleAddToQueue}
+                    >
+                      {cooking && (
+                        <img
+                          src={vipIcon}
+                          alt="VIP"
+                          className="absolute w-6 sm:w-4 -top-[1px] -right-[2px]"
+                        />
+                      )}
+                      <span>
+                        {cooking ? t("recipes.addToQueue") : t("cook")}
+                      </span>
+                    </Button>
+                    {showCookHelper && selected.name === TUTORIAL_RECIPE && (
                       <img
-                        src={vipIcon}
-                        alt="VIP"
-                        className="absolute w-6 sm:w-4 -top-[1px] -right-[2px]"
+                        className="absolute pointer-events-none z-30 animate-pulsate"
+                        src={SUNNYSIDE.icons.click_icon}
+                        style={{
+                          width: `${PIXEL_SCALE * 18}px`,
+                          right: `${PIXEL_SCALE * -4}px`,
+                          top: `${PIXEL_SCALE * 4}px`,
+                        }}
                       />
                     )}
-                    <span>{cooking ? t("recipes.addToQueue") : t("cook")}</span>
-                  </Button>
+                  </div>
                   <Button
                     disabled={readyRecipes.length === 0}
                     className="text-xxs sm:text-sm mt-1 whitespace-nowrap"

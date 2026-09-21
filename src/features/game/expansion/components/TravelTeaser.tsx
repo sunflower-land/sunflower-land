@@ -40,6 +40,10 @@ const hint = (state: MachineState) => {
   }
 
   const choppedTrees = activity["Tree Chopped"] ?? 0;
+  if (choppedTrees === 0 && !inventory.Axe?.gt(0)) {
+    return translate("pete.teaser.zero");
+  }
+
   if (choppedTrees < 3) {
     return translate("pete.teaser.one");
   }

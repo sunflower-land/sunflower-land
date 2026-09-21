@@ -12,10 +12,8 @@ import {
   isFishCookable,
 } from "features/game/types/consumables";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { OuterPanel, Panel } from "components/ui/Panel";
+import { OuterPanel } from "components/ui/Panel";
 import { NPC_WEARABLES } from "lib/npcs";
-import { SpeakingText } from "features/game/components/SpeakingModal";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import type { BuildingProduct } from "features/game/types/game";
 import { getCurrentChapter } from "features/game/types/chapters";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -27,17 +25,7 @@ import {
 import { Context } from "features/game/GameProvider";
 import { getCookingRequirements } from "features/game/events/landExpansion/cook";
 import type { InventoryItemName } from "features/game/types/game";
-
-const host = window.location.host.replace(/^www\./, "");
-const LOCAL_STORAGE_KEY = `bruce-read.${host}-${window.location.pathname}`;
-
-function acknowledgeRead() {
-  localStorage.setItem(LOCAL_STORAGE_KEY, new Date().toString());
-}
-
-function hasRead() {
-  return !!localStorage.getItem(LOCAL_STORAGE_KEY);
-}
+import { needsFirstCook, TUTORIAL_RECIPE } from "./lib/onboarding";
 
 interface Props {
   isOpen: boolean;
@@ -59,8 +47,6 @@ export const FirePitModal: React.FC<Props> = ({
   queue,
   readyRecipes,
 }) => {
-  const [showIntro, setShowIntro] = React.useState(!hasRead());
-  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const now = useNow({
     live: true,
@@ -101,6 +87,14 @@ export const FirePitModal: React.FC<Props> = ({
     );
     if (inProgress) return inProgress;
 
+    // Tutorial: open a new player straight onto their first meal.
+    if (needsFirstCook(game)) {
+      const tutorialRecipe = firePitRecipes.find(
+        (recipe) => recipe.name === TUTORIAL_RECIPE,
+      );
+      if (tutorialRecipe) return tutorialRecipe;
+    }
+
     const canCook = (recipe: Cookable) => {
       const requirements = getCookingRequirements({
         state: game,
@@ -116,11 +110,16 @@ export const FirePitModal: React.FC<Props> = ({
   }, [firePitRecipes, getGame, itemInProgress]);
 
   const [selected, setSelected] = useState<Cookable | undefined>(undefined);
+  // This modal stays mounted between opens, so a recipe tapped on an earlier
+  // visit would otherwise still be selected when the first-cook tutorial
+  // starts. Only a choice made during the tutorial is allowed to override it.
+  const [selectedDuringFirstCook, setSelectedDuringFirstCook] = useState(false);
 
   const setSelectedCookable = useCallback<
     React.Dispatch<React.SetStateAction<Cookable>>
   >(
     (next) => {
+      setSelectedDuringFirstCook(needsFirstCook(getGame()));
       setSelected((prev) => {
         const fallback = getDefaultSelection() ?? firePitRecipes[0];
         const current = prev ?? fallback;
@@ -128,7 +127,7 @@ export const FirePitModal: React.FC<Props> = ({
         return typeof next === "function" ? next(current) : next;
       });
     },
-    [firePitRecipes, getDefaultSelection],
+    [firePitRecipes, getDefaultSelection, getGame],
   );
 
   const effectiveSelected = useMemo(() => {
@@ -136,57 +135,45 @@ export const FirePitModal: React.FC<Props> = ({
 
     const isValidSelection =
       !!selected && firePitRecipes.some((r) => r.name === selected.name);
+    const isStaleForFirstCook =
+      isOpen && needsFirstCook(getGame()) && !selectedDuringFirstCook;
 
-    if (isValidSelection) return selected;
+    if (isValidSelection && !isStaleForFirstCook) return selected;
     if (!isOpen) return selected; // don't "select" while closed
 
     return getDefaultSelection();
-  }, [firePitRecipes, getDefaultSelection, isOpen, selected]);
+  }, [
+    firePitRecipes,
+    getDefaultSelection,
+    getGame,
+    isOpen,
+    selected,
+    selectedDuringFirstCook,
+  ]);
 
   return (
     <Modal show={isOpen} onHide={onClose}>
-      {showIntro && (
-        <Panel bumpkinParts={NPC_WEARABLES.bruce}>
-          <SpeakingText
-            message={[
-              {
-                text: t("bruce-intro.three"),
-              },
-              {
-                text: t("bruce-intro.two"),
-              },
-            ]}
-            onClose={() => {
-              acknowledgeRead();
-              setShowIntro(false);
-            }}
+      <CloseButtonPanel
+        tabs={[{ id: "firePit", icon: chefHat, name: "Fire Pit" }]}
+        onClose={onClose}
+        bumpkinParts={NPC_WEARABLES.bruce}
+        container={OuterPanel}
+      >
+        {!!effectiveSelected && (
+          <Recipes
+            selected={effectiveSelected}
+            setSelected={setSelectedCookable}
+            recipes={firePitRecipes}
+            onCook={onCook}
+            onClose={onClose}
+            cooking={cooking}
+            buildingName="Fire Pit"
+            buildingId={buildingId}
+            queue={queue}
+            readyRecipes={readyRecipes}
           />
-        </Panel>
-      )}
-
-      {!showIntro && (
-        <CloseButtonPanel
-          tabs={[{ id: "firePit", icon: chefHat, name: "Fire Pit" }]}
-          onClose={onClose}
-          bumpkinParts={NPC_WEARABLES.bruce}
-          container={OuterPanel}
-        >
-          {!!effectiveSelected && (
-            <Recipes
-              selected={effectiveSelected}
-              setSelected={setSelectedCookable}
-              recipes={firePitRecipes}
-              onCook={onCook}
-              onClose={onClose}
-              cooking={cooking}
-              buildingName="Fire Pit"
-              buildingId={buildingId}
-              queue={queue}
-              readyRecipes={readyRecipes}
-            />
-          )}
-        </CloseButtonPanel>
-      )}
+        )}
+      </CloseButtonPanel>
     </Modal>
   );
 };

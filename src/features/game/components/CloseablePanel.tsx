@@ -15,12 +15,14 @@ import { useSound } from "lib/utils/hooks/useSound";
  * @id The unique identifier of the tab. (Compulsory for string-based tabs)
  * @unread Whether the tab has unread content.
  * @alert Whether the tab has an alert.
+ * @helper Whether to point an onboarding hand at the tab while it is not active.
  */
 export interface PanelTabs<T extends string> {
   icon: string;
   name: string;
   unread?: boolean;
   alert?: boolean;
+  helper?: boolean;
   id: T;
 }
 
@@ -118,6 +120,19 @@ export const CloseButtonPanel = <T extends string>({
                 >
                   {tab.name}
                 </span>
+                {tab.helper && activeTab !== tab.id && (
+                  <img
+                    className="absolute pointer-events-none z-30 animate-pulsate"
+                    src={SUNNYSIDE.icons.click_icon}
+                    style={{
+                      // Kept inside the tab: the tab strip scrolls
+                      // horizontally, so anything hanging outside is clipped.
+                      width: `${PIXEL_SCALE * 10}px`,
+                      right: `${PIXEL_SCALE * -1}px`,
+                      top: `${PIXEL_SCALE * 3}px`,
+                    }}
+                  />
+                )}
                 {tab.alert && (
                   <img
                     src={SUNNYSIDE.icons.expression_alerted}
