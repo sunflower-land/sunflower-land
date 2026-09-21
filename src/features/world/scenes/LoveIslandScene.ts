@@ -2469,7 +2469,7 @@ export class LoveIslandScene extends BaseScene {
       this.myButton !== LOVE_BUTTONS_NONE ||
       (!!this.myHold && now < this.myHold.until);
     if (!wasStanding) {
-      if (animate) player.speak(translateForBubble("loveButtons.didNotHelp"));
+      if (animate) player.speak(translate("loveButtons.didNotHelp"));
       return;
     }
 
@@ -2484,7 +2484,7 @@ export class LoveIslandScene extends BaseScene {
       })
     ) {
       if (hasClaimedLoveButtonsToday({ state, now })) {
-        player.speak(translateForBubble("loveButtons.alreadyClaimed"));
+        player.speak(translate("loveButtons.alreadyClaimed"));
       }
       return;
     }
@@ -2501,7 +2501,7 @@ export class LoveIslandScene extends BaseScene {
     });
 
     this.celebrate(player);
-    player.speak(translateForBubble("loveButtons.prize"));
+    player.speak(translate("loveButtons.prize"));
   }
 
   // ---------------------------------------------------------------------
