@@ -2035,6 +2035,14 @@ export type AnimalFeedBuff = {
   harvestsRemaining: number;
 };
 
+/**
+ * A Pig's Mud: 1 Mud grants a few feeds of bonus XP. A separate slot from
+ * `feedBuff`, so a spice-rack treat can run on top of it.
+ */
+export type AnimalMud = {
+  feedsRemaining: number;
+};
+
 export type Animal = {
   id: string;
   type: AnimalType;
@@ -2062,6 +2070,7 @@ export type Animal = {
   multiplier?: number;
   reward?: Reward;
   feedBuff?: AnimalFeedBuff;
+  mud?: AnimalMud;
 };
 
 export type AnimalBuilding = UpgradableBuilding & {

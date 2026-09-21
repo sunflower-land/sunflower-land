@@ -52,6 +52,20 @@ export const makeAnimalBuildingKey = (
 export const ANIMAL_BUILDING_KEYS: AnimalBuildingKey[] =
   ANIMAL_BUILDING_TYPES.map(makeAnimalBuildingKey);
 
+// TODO(Chapter 16): the spec gives 48h of protection per Mud; these replace it
+// (Elias, 2026-09-21) and are unspecced placeholders.
+/** Feeds of bonus XP that 1 Mud gives a Pig. */
+export const MUD_FEEDS = 3;
+/**
+ * Final feeding-XP multiplier for a muddy Pig. The Pig XP table is 0.8x what it
+ * was, so a muddy Pig earns exactly the old XP and a Pig without Mud earns
+ * 0.8x - the spec's upkeep penalty, framed as a bonus.
+ */
+export const MUD_XP_MULTIPLIER = 1.25;
+
+export const isMuddy = (animal: Pick<Animal, "mud">): boolean =>
+  (animal.mud?.feedsRemaining ?? 0) > 0;
+
 /**
  * Starting XP for the animals a new building is seeded with. Arbitrary data,
  * not derivable from ANIMAL_LEVELS - 40 and 80 both resolve to level 0 for

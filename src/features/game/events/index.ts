@@ -519,6 +519,11 @@ import {
   applyAnimalFeedBuff,
   type ApplyAnimalFeedBuffAction,
 } from "./landExpansion/applyAnimalFeedBuff";
+import { applyMud, type ApplyMudAction } from "./landExpansion/applyMud";
+import {
+  bulkApplyMud,
+  type BulkApplyMudAction,
+} from "./landExpansion/bulkApplyMud";
 import { sellBounty, type SellBountyAction } from "./landExpansion/sellBounty";
 import {
   bulkSellBounty,
@@ -991,6 +996,8 @@ export type PlayingEvent =
   | CompleteNPCChoreAction
   | ClaimProduceAction
   | ApplyAnimalFeedBuffAction
+  | ApplyMudAction
+  | BulkApplyMudAction
   | BuyChapterItemAction
   | ClaimPurchaseAction
   | RedeemTradeRewardsAction
@@ -1298,6 +1305,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "chore.fulfilled": completeNPCChore,
   "produce.claimed": claimProduce,
   "animal.feedBuffApplied": applyAnimalFeedBuff,
+  "animal.mudApplied": applyMud,
+  "pigs.bulkMudApplied": bulkApplyMud,
   "chapterItem.bought": buyChapterItem,
   "purchase.claimed": claimPurchase,
   "reward.redeemed": redeemTradeReward,
