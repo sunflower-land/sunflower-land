@@ -12,6 +12,7 @@ import type {
   Animal,
   AnimalFoodName,
   AnimalMedicineName,
+  AnimalMud,
   BoostName,
   GameState,
 } from "features/game/types/game";
@@ -21,7 +22,9 @@ import {
   getAnimalMaxLevel,
   getAnimalReadyAt,
   getBoostedFoodQuantity,
+  isMuddy,
   makeAnimalBuildingKey,
+  MUD_XP_MULTIPLIER,
 } from "features/game/lib/animals";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { trackFarmActivity } from "features/game/types/farmActivity";
@@ -162,11 +165,13 @@ export function handleFoodXP({
   animal,
   level,
   food,
+  mud,
 }: {
   state: GameState;
   animal: AnimalType;
   level: AnimalLevel;
   food: AnimalFoodName;
+  mud?: AnimalMud;
 }) {
   let foodXp = ANIMAL_FOOD_EXPERIENCE[animal][level][food];
 
@@ -174,6 +179,12 @@ export function handleFoodXP({
   if (chonkyFeedLevel) {
     // Every ANIMAL_FOOD_EXPERIENCE value is even, so the 2.5x rank stays integral.
     foodXp *= SKILL_RANKS["Chonky Feed"].xp[chonkyFeedLevel - 1];
+  }
+
+  // Mud is the FINAL multiplier, after every other feed-XP modifier. Pig values
+  // are multiples of 8, so 1.25x stays integral on top of Chonky Feed.
+  if (isMuddy({ mud })) {
+    foodXp *= MUD_XP_MULTIPLIER;
   }
 
   return { foodXp };
@@ -349,6 +360,7 @@ export function feedAnimal({
       animal: action.animal,
       level,
       food,
+      mud: animal.mud,
     });
 
     const foodQuantity = REQUIRED_FOOD_QTY[action.animal];
@@ -379,6 +391,12 @@ export function feedAnimal({
       foodXp,
       getAnimalMaxLevel(action.animal, copy),
     );
+
+    // Each feed that earned Mud's bonus spends one of its uses.
+    if (animal.mud) {
+      animal.mud.feedsRemaining -= 1;
+      if (animal.mud.feedsRemaining <= 0) delete animal.mud;
+    }
 
     // Only set happy/sad state if animal isn't ready
     if (!isReady) {

@@ -9,7 +9,10 @@ import {
   getResourceDropAmount,
   makeAnimalBuildingKey,
   ANIMAL_BUILDING_KEYS,
+  isMuddy,
+  MUD_XP_MULTIPLIER,
 } from "../lib/animals";
+import { SKILL_RANKS } from "../types/bumpkinSkills";
 import {
   ANIMALS,
   ANIMAL_LEVELS,
@@ -736,5 +739,30 @@ describe("animal data tables", () => {
         else expect(drops[level].Truffle?.toNumber()).toBeGreaterThan(0);
       },
     );
+  });
+});
+
+describe("Mud XP bonus", () => {
+  const LEVELS = Array.from({ length: 16 }, (_, i) => i as AnimalLevel);
+  const CHONKY = [1, ...SKILL_RANKS["Chonky Feed"].xp];
+
+  it("keeps every Pig feed XP whole, with and without Mud and Chonky Feed", () => {
+    // Pig XP is 0.8x its old table so that Mud's 1.25x restores it exactly -
+    // which only holds while every value stays a multiple of 8.
+    LEVELS.forEach((level) => {
+      Object.values(ANIMAL_FOOD_EXPERIENCE.Pig[level]).forEach((xp) => {
+        CHONKY.forEach((chonky) => {
+          [1, MUD_XP_MULTIPLIER].forEach((mud) => {
+            expect(Number.isInteger(xp * chonky * mud)).toBe(true);
+          });
+        });
+      });
+    });
+  });
+
+  it("recognises a muddy animal only while it has feeds left", () => {
+    expect(isMuddy({ ...ANIMAL, mud: { feedsRemaining: 1 } })).toBe(true);
+    expect(isMuddy({ ...ANIMAL, mud: { feedsRemaining: 0 } })).toBe(false);
+    expect(isMuddy(ANIMAL)).toBe(false);
   });
 });

@@ -1,7 +1,10 @@
 import Decimal from "decimal.js-light";
 import { ANIMAL_SLEEP_DURATION, feedAnimal, handleFoodXP } from "./feedAnimal";
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { ANIMAL_LEVELS } from "features/game/types/animals";
+import {
+  ANIMAL_FOOD_EXPERIENCE,
+  ANIMAL_LEVELS,
+} from "features/game/types/animals";
 import { getAnimalLevel } from "features/game/lib/animals";
 import type {
   Animal,
@@ -2510,14 +2513,139 @@ describe("feedAnimal: Pigpen level caps Pig level", () => {
 
       expect(pig.state).toBe("happy");
       // Level 5's Hay, which is also the best XP available to a capped Pig.
-      expect(pig.experience).toBe(ANIMAL_LEVELS.Pig[6] + 60);
+      expect(pig.experience).toBe(
+        ANIMAL_LEVELS.Pig[6] + ANIMAL_FOOD_EXPERIENCE.Pig[5].Hay,
+      );
     });
 
     it("is sad when fed the uncapped level's favourite", () => {
       const pig = feed("NutriBarley");
 
       expect(pig.state).toBe("sad");
-      expect(pig.experience).toBe(ANIMAL_LEVELS.Pig[6] + 20);
+      expect(pig.experience).toBe(
+        ANIMAL_LEVELS.Pig[6] + ANIMAL_FOOD_EXPERIENCE.Pig[5].NutriBarley,
+      );
     });
+  });
+});
+
+describe("feedAnimal: Mud", () => {
+  const now = Date.now();
+
+  const farm = (overrides: Partial<Animal> = {}, skills = {}): GameState => ({
+    ...INITIAL_FARM,
+    bumpkin: { ...INITIAL_FARM.bumpkin, skills },
+    inventory: {
+      ...INITIAL_FARM.inventory,
+      Hay: new Decimal(1000),
+      "Barn Delight": new Decimal(10),
+    },
+    buildings: {
+      ...INITIAL_FARM.buildings,
+      Pigpen: [
+        { coordinates: { x: 0, y: 0 }, createdAt: 0, id: "0", readyAt: 0 },
+      ],
+    },
+    pigpen: {
+      level: 1,
+      animals: {
+        "1": {
+          id: "1",
+          type: "Pig",
+          state: "idle",
+          createdAt: 0,
+          // Level 4, whose favourite is Hay; far enough from level 5 that a
+          // few feeds never make it ready.
+          experience: ANIMAL_LEVELS.Pig[4],
+          asleepAt: 0,
+          awakeAt: 0,
+          lovedAt: 0,
+          item: "Petting Hand",
+          ...overrides,
+        },
+      },
+    },
+  });
+
+  const feed = (
+    state: GameState,
+    item: AnimalFoodName | "Barn Delight" = "Hay",
+  ) =>
+    feedAnimal({
+      state,
+      action: { type: "animal.fed", animal: "Pig", id: "1", item },
+      createdAt: now,
+    });
+
+  const gained = (state: GameState) =>
+    feed(state).pigpen.animals["1"].experience - ANIMAL_LEVELS.Pig[4];
+
+  it("grants a Pig without Mud the base XP, which is 0.8x the old table", () => {
+    // Pig XP was lowered to 0.8x so that Mud's 1.25x bonus lands exactly on
+    // the pre-Mud value: 60 -> 48 base, 60 with Mud.
+    expect(gained(farm())).toEqual(48);
+  });
+
+  it("grants a muddy Pig 1.25x XP", () => {
+    expect(gained(farm({ mud: { feedsRemaining: 3 } }))).toEqual(60);
+  });
+
+  it("spends one use per feed and drops the Mud after the third", () => {
+    let state = farm({ mud: { feedsRemaining: 3 } });
+
+    [2, 1].forEach((left) => {
+      state = feed(state);
+      expect(state.pigpen.animals["1"].mud).toEqual({ feedsRemaining: left });
+    });
+
+    state = feed(state);
+    expect(state.pigpen.animals["1"].mud).toBeUndefined();
+
+    const before = state.pigpen.animals["1"].experience;
+    state = feed(state);
+    expect(state.pigpen.animals["1"].experience - before).toEqual(48);
+  });
+
+  it("applies after Chonky Feed", () => {
+    // 48 x 2.5 (rank 2) x 1.25
+    expect(
+      gained(farm({ mud: { feedsRemaining: 3 } }, { "Chonky Feed": 2 })),
+    ).toEqual(150);
+  });
+
+  it("runs independently of a spice-rack treat", () => {
+    const feedBuff = { name: "Salt Lick" as const, harvestsRemaining: 3 };
+    const state = feed(farm({ mud: { feedsRemaining: 3 }, feedBuff }));
+
+    expect(state.pigpen.animals["1"].experience - ANIMAL_LEVELS.Pig[4]).toEqual(
+      60,
+    );
+    // Treats count down on harvest, not on feeding.
+    expect(state.pigpen.animals["1"].feedBuff).toEqual(feedBuff);
+    expect(state.pigpen.animals["1"].mud).toEqual({ feedsRemaining: 2 });
+  });
+
+  it("does not spend a use when curing a sick Pig", () => {
+    const state = feed(
+      farm({ state: "sick", mud: { feedsRemaining: 3 } }),
+      "Barn Delight",
+    );
+
+    expect(state.pigpen.animals["1"].mud).toEqual({ feedsRemaining: 3 });
+  });
+
+  it("scales handleFoodXP for the previews too", () => {
+    const xp = (mud?: Animal["mud"]) =>
+      handleFoodXP({
+        state: INITIAL_FARM,
+        animal: "Pig",
+        level: 4,
+        food: "Hay",
+        mud,
+      }).foodXp;
+
+    expect(xp()).toEqual(48);
+    expect(xp({ feedsRemaining: 1 })).toEqual(60);
+    expect(xp({ feedsRemaining: 0 })).toEqual(48);
   });
 });

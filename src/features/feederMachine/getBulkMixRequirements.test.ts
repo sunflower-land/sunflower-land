@@ -446,4 +446,42 @@ describe("getBulkMixRequirements", () => {
     expect(kernelBlend?.ingredients).toEqual({});
     expect(missingRequests["Kernel Blend"]).toBeUndefined();
   });
+
+  describe("Mud", () => {
+    // A level-0 Pig 30 XP in needs 120 more for level 1. Kernel Blend gives
+    // 48 XP, or 60 with Mud, at 4 per feed.
+    const pigRequests = (mud?: Animal["mud"]) =>
+      getBulkMixRequirements(
+        {
+          ...INITIAL_FARM,
+          inventory: {},
+          pigpen: {
+            level: 1,
+            animals: {
+              "0": {
+                ...animal({ state: "idle", type: "Pig" }),
+                experience: 30,
+                mud,
+              },
+            },
+          },
+        },
+        "Pigpen",
+        Date.now(),
+      ).requests["Kernel Blend"];
+
+    it("plans three feeds for a Pig without Mud", () => {
+      expect(pigRequests()).toEqual(new Decimal(12));
+    });
+
+    it("plans fewer feeds for a muddy Pig", () => {
+      expect(pigRequests({ feedsRemaining: 3 })).toEqual(new Decimal(8));
+    });
+
+    it("stops counting Mud's bonus once its uses run out mid-plan", () => {
+      // 60 + 48 = 108 falls short of 120; a plan that kept the bonus on every
+      // feed would stop at 2.
+      expect(pigRequests({ feedsRemaining: 1 })).toEqual(new Decimal(12));
+    });
+  });
 });
