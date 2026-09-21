@@ -325,7 +325,13 @@ export const Tools: React.FC = () => {
 
   const ANIMAL_TOOLS = getKeys(LOVE_ANIMAL_TOOLS);
 
-  const buyAllEnabled = state.settings.toolShop?.buyAllEnabled ?? true;
+  // Buy All is a convenience for established farms. On the tutorial island the
+  // player is learning to buy tools one at a time, so it stays hidden until
+  // they reach Petal Paradise. Uses the expansion check so later islands and
+  // ascensions count too.
+  const buyAllEnabled =
+    (state.settings.toolShop?.buyAllEnabled ?? true) &&
+    hasRequiredIslandExpansion(state.island.type, "spring");
 
   const buyAllPlan = useMemo(
     () =>
