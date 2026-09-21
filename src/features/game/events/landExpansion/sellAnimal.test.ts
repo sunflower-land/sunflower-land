@@ -1,8 +1,13 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { sellAnimal } from "./sellAnimal";
+import { isValidDeal, sellAnimal } from "./sellAnimal";
 import Decimal from "decimal.js-light";
 import { makeAnimalBuilding } from "features/game/lib/animals";
-import type { GameState } from "features/game/types/game";
+import { ANIMAL_LEVELS } from "features/game/types/animals";
+import type {
+  Animal,
+  BountyRequest,
+  GameState,
+} from "features/game/types/game";
 
 /**
  * INITIAL_FARM ships animal buildings EMPTY - `constructBuilding` seeds the
@@ -666,5 +671,75 @@ describe("animal.sold", () => {
     });
 
     expect(state.inventory["Timeshard"]).toEqual(new Decimal(10));
+  });
+});
+
+describe("isValidDeal: the ready-state level adjustment", () => {
+  const cow = (experience: number, state: Animal["state"]): Animal => ({
+    id: "1",
+    type: "Cow",
+    state,
+    createdAt: 0,
+    experience,
+    asleepAt: 0,
+    awakeAt: 0,
+    lovedAt: 0,
+    item: "Petting Hand",
+  });
+
+  const deal = (level: number): BountyRequest => ({
+    id: "1",
+    name: "Cow",
+    level,
+    coins: 100,
+  });
+
+  const valid = (animal: Animal, level: number) =>
+    isValidDeal({ animal, deal: deal(level), game: INITIAL_FARM });
+
+  it("counts a ready animal as one level lower mid-table", () => {
+    // Fed past the level 6 threshold but not claimed: the badge still reads 5,
+    // so a level 6 bounty has to wait for the claim.
+    const animal = cow(ANIMAL_LEVELS.Cow[6], "ready");
+
+    expect(valid(animal, 6)).toBe(false);
+    expect(valid(animal, 5)).toBe(true);
+  });
+
+  it("does not demote a ready animal at max level", () => {
+    // At 15 there is no next level to transition into, so "ready" only means a
+    // produce cycle completed. `LevelProgress` guards its own -1 with
+    // `isMaxLevel` and shows 15, so eligibility must agree.
+    expect(valid(cow(ANIMAL_LEVELS.Cow[15], "ready"), 15)).toBe(true);
+  });
+
+  it("does not demote an animal banked above max level", () => {
+    expect(valid(cow(ANIMAL_LEVELS.Cow[15] * 3, "ready"), 15)).toBe(true);
+  });
+
+  it("does not demote a ready Pig at its Pigpen's cap", () => {
+    // A level-1 Pigpen caps Pigs at 5, so a Pig cycling produce there is at
+    // its max level even though its XP table runs to 15. The XP sits PAST the
+    // cap but SHORT of 15 - a Pig that has banked progress it cannot use yet -
+    // so the cap is the only thing that makes it read as maxed.
+    expect(INITIAL_FARM.pigpen.level).toBe(1);
+
+    const pig: Animal = {
+      ...cow(ANIMAL_LEVELS.Pig[8], "ready"),
+      type: "Pig",
+    };
+
+    expect(
+      isValidDeal({
+        animal: pig,
+        deal: { id: "1", name: "Pig", level: 5, coins: 100 },
+        game: INITIAL_FARM,
+      }),
+    ).toBe(true);
+  });
+
+  it("still requires the level when the animal is not ready", () => {
+    expect(valid(cow(ANIMAL_LEVELS.Cow[5], "idle"), 5)).toBe(true);
+    expect(valid(cow(ANIMAL_LEVELS.Cow[5], "idle"), 6)).toBe(false);
   });
 });
