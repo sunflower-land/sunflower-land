@@ -65,24 +65,39 @@ const DEFAULT_ANIMAL_EXPERIENCE: Record<AnimalType, number> = {
   Pig: 80,
 };
 
+/**
+ * How many animals a building is seeded with when it is constructed. Exhaustive
+ * so a new animal building has to make the choice deliberately.
+ *
+ * The Pigpen gets ONE, not three: it holds only 3 animals at level 1, so a
+ * three-Pig herd would fill it on construction and make every Pig purchase
+ * throw until the pen was upgraded.
+ */
+const STARTER_HERD_SIZE: Record<AnimalBuildingType, number> = {
+  "Hen House": 3,
+  Barn: 3,
+  Pigpen: 1,
+};
+
 export function makeAnimalBuilding(
   building: AnimalBuildingType,
   createdAt = Date.now(),
 ): AnimalBuilding {
-  const DEFAULT_ANIMAL_COUNT = 3;
+  const count = STARTER_HERD_SIZE[building];
 
   const animalType = getKeys(ANIMALS).find(
     (animal) => ANIMALS[animal].buildingRequired === building,
   );
   const { width } = ANIMALS[animalType as AnimalType];
 
-  const positions = [
-    { x: -width, y: 0 },
-    { x: 0, y: 0 },
-    { x: width, y: 0 },
-  ];
+  // Centred on the origin, so the row reads the same whatever its size: three
+  // animals sit at -width / 0 / +width exactly as before, one sits at 0.
+  const positions = Array.from({ length: count }, (_, index) => ({
+    x: (index - (count - 1) / 2) * width,
+    y: 0,
+  }));
 
-  const defaultAnimals = new Array(DEFAULT_ANIMAL_COUNT)
+  const defaultAnimals = new Array(count)
     .fill(0)
     .reduce<Record<string, Animal>>((animals, _, index) => {
       return {

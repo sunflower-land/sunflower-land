@@ -10,6 +10,7 @@ import {
 } from "./constructBuilding";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { makeAnimalBuildingKey } from "features/game/lib/animals";
+import { getBoostedAnimalCapacity } from "./buyAnimal";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -801,16 +802,27 @@ describe("constructBuilding: Pigpen gating", () => {
     ).toThrow("Insufficient ingredient: Mud");
   });
 
-  it("seeds the empty pigpen with three Pigs on construction", () => {
+  it("seeds the empty pigpen with one Pig on construction", () => {
     // game.pigpen ships EMPTY so no existing farm is handed free Pigs when the
     // field lands; the starter herd arrives when the player actually builds it.
     expect(farm.pigpen.animals).toEqual({});
 
     const pigs = Object.values(build(farm).pigpen.animals);
 
-    expect(pigs).toHaveLength(3);
+    expect(pigs).toHaveLength(1);
     expect(pigs.every((pig) => pig.type === "Pig")).toBe(true);
     expect(pigs.every((pig) => pig.createdAt === dateNow)).toBe(true);
+  });
+
+  it("leaves room to buy Pigs in a level-1 Pigpen", () => {
+    // The invariant the herd size exists to satisfy: a Pigpen holds 3 at level
+    // 1, so a 3-Pig starter herd would fill it on construction and make every
+    // Pig purchase throw. Asserted against the capacity rather than a literal
+    // so it still holds if either number is retuned.
+    const state = build(farm);
+    const { capacity } = getBoostedAnimalCapacity("pigpen", state);
+
+    expect(Object.keys(state.pigpen.animals).length).toBeLessThan(capacity);
   });
 
   it("does not disturb an existing herd when the building is constructed", () => {
