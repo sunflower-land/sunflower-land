@@ -8668,5 +8668,6 @@
   "upgrade.pigs": "porcos",
   "building.pigpen": "Pigpen",
   "pigs.applyMud": "Aplique lama em cada porco que precisar",
-  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% de XP de alimentação · feeds restantes: {{count}}"
+  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% de XP de alimentação · feeds restantes: {{count}}",
+  "sleepingAnimal.levelCapped": "Atualize o {{building}} para aumentar esse limite de nível. Enquanto isso, o XP continua crescendo."
 }

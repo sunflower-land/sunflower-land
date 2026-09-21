@@ -8668,5 +8668,6 @@
   "upgrade.pigs": "猪",
   "building.pigpen": "小猪圈",
   "pigs.applyMud": "将泥浆涂抹在每只需要它的猪身上",
-  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% feed XP · 向左喂食：{{count}}"
+  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% feed XP · 向左喂食：{{count}}",
+  "sleepingAnimal.levelCapped": "升级 {{building}} 以提高此等级上限。在此期间，XP 一直在积累。"
 }

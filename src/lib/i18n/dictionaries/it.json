@@ -8668,5 +8668,6 @@
   "upgrade.pigs": "maiali",
   "building.pigpen": "Pigpen",
   "pigs.applyMud": "Applica il fango a tutti i maiali che ne hanno bisogno",
-  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% feed XP · feed rimasti: {{count}}"
+  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% feed XP · feed rimasti: {{count}}",
+  "sleepingAnimal.levelCapped": "Aggiorna {{building}} per aumentare questo limite di livello. Nel frattempo, gli XP continuano ad aumentare."
 }
