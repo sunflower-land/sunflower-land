@@ -19,6 +19,8 @@ import { RoundButton } from "components/ui/RoundButton";
 import { isMobile } from "mobile-device-detect";
 
 const _delivery = (state: MachineState) => state.context.state.delivery;
+const _isTutorialIsland = (state: MachineState) =>
+  state.context.state.island.type === "basic";
 const _hasDeliveryLevel = (state: MachineState) =>
   meetsLevelRequirement(
     getAscensionLevel({
@@ -30,6 +32,9 @@ const _hasDeliveryLevel = (state: MachineState) =>
 
 export const CodexButton: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  // Session only on purpose: after a reload the hand comes back as a reminder,
+  // and it stops for good once the first delivery is made.
+  const [hasOpened, setHasOpened] = useState(false);
 
   const { gameService } = useContext(Context);
 
@@ -41,6 +46,15 @@ export const CodexButton: React.FC = () => {
     (hasNewOrders(deliveries) && hasDeliveryLevel) ||
     // For new players, always show until they fulfill a delivery
     (hasDeliveryLevel && deliveries.fulfilledCount === 0);
+
+  // Tutorial: after the first level up Pete sends the player here, so point
+  // at the button until they open it or make their first delivery.
+  const isTutorialIsland = useSelector(gameService, _isTutorialIsland);
+  const showHelper =
+    isTutorialIsland &&
+    hasDeliveryLevel &&
+    deliveries.fulfilledCount === 0 &&
+    !hasOpened;
 
   const { t } = useAppTranslation();
 
@@ -57,6 +71,7 @@ export const CodexButton: React.FC = () => {
           e.stopPropagation();
           e.preventDefault();
           setIsOpen(true);
+          setHasOpened(true);
         }}
         buttonSize={isMobile ? 15 : 18}
       >
@@ -74,6 +89,18 @@ export const CodexButton: React.FC = () => {
             }}
           />
         </div>
+
+        {showHelper && (
+          <img
+            className="absolute pointer-events-none z-30 animate-pulsate"
+            src={SUNNYSIDE.icons.click_icon}
+            style={{
+              width: `${PIXEL_SCALE * 16}px`,
+              left: `${PIXEL_SCALE * (isMobile ? 6 : 8)}px`,
+              top: `${PIXEL_SCALE * (isMobile ? 8 : 10)}px`,
+            }}
+          />
+        )}
 
         {hasDeliveries && (
           <>

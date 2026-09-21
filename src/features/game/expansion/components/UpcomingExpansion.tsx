@@ -268,7 +268,7 @@ export const UpcomingExpansion: React.FC = () => {
     }
 
     if (expansions === 5) {
-      openModal("FIREPIT");
+      openModal("FIREPIT_RHUBARB");
     }
   };
 

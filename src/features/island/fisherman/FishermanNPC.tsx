@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import type { GameState } from "features/game/types/game";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useSelector } from "@xstate/react";
 
@@ -242,15 +243,21 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
 
   const claim = () => {
     if (fishing.wharf.caught) {
-      const state = gameService.send("rod.reeled");
+      const countFishCaught = (activity: GameState["farmActivity"]) =>
+        getKeys(FISH).reduce(
+          (total, name) => total + (activity[`${name} Caught`] ?? 0),
+          0,
+        );
 
-      const totalFishCaught = getKeys(FISH).reduce(
-        (total, name) =>
-          total + (state.context.state.farmActivity[`${name} Caught`] ?? 0),
-        0,
+      const caughtBefore = countFishCaught(
+        gameService.getSnapshot().context.state.farmActivity,
       );
+      const state = gameService.send("rod.reeled");
+      const caughtAfter = countFishCaught(state.context.state.farmActivity);
 
-      if (totalFishCaught === 1) {
+      // Catches are counted in units, so a first reel that lands 2 fish would
+      // skip a check for a total of exactly 1.
+      if (caughtBefore === 0 && caughtAfter > 0) {
         gameAnalytics.trackMilestone({
           event: "Tutorial:Fishing:Completed",
         });

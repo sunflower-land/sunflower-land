@@ -25,6 +25,9 @@ import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { BulkSellModal } from "components/ui/BulkSellModal";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { needsFirstCropSale } from "./lib/onboarding";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { SEASONAL_SEEDS, SEEDS } from "features/game/types/seeds";
 import { SEASON_ICONS } from "./SeasonalSeeds";
@@ -43,6 +46,19 @@ import { SpecialEventPanel } from "../SpecialEventPanel";
 
 const _state = (state: MachineState) => state.context.state;
 
+/** Pulsing hand over the button that sells everything (tutorial nudge). */
+const SellHelper: React.FC = () => (
+  <img
+    className="absolute pointer-events-none z-30 animate-pulsate"
+    src={SUNNYSIDE.icons.click_icon}
+    style={{
+      width: `${PIXEL_SCALE * 18}px`,
+      right: `${PIXEL_SCALE * -4}px`,
+      top: `${PIXEL_SCALE * 2}px`,
+    }}
+  />
+);
+
 export const SeasonalCrops: React.FC = () => {
   const [selected, setSelected] = useState<
     Crop | PatchFruit | ExoticCrop | GreenHouseFruit | GreenHouseCrop
@@ -53,6 +69,7 @@ export const SeasonalCrops: React.FC = () => {
   const [isCustomSellModalOpen, showCustomSellModal] = useState(false);
 
   const { gameService } = useContext(Context);
+  const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
 
   const state = useSelector(gameService, _state);
@@ -64,6 +81,10 @@ export const SeasonalCrops: React.FC = () => {
   const isCropWeek = isChapterCropWeekActive(now);
 
   const { island, season } = state;
+
+  // Nudge a new player to sell all of their first Sunflowers.
+  const showSellHelper =
+    selected.name === "Sunflower" && needsFirstCropSale(state);
   const { type: islandType } = island;
 
   const divRef = useRef<HTMLDivElement>(null);
@@ -75,12 +96,26 @@ export const SeasonalCrops: React.FC = () => {
         amount,
       });
     } else {
-      const state = gameService.send("crop.sold", {
+      // Read before the sale lands: afterwards the nudge is already cleared.
+      const before = gameService.getSnapshot().context.state;
+      const isFirstSale = needsFirstCropSale(before);
+      const isFirstSunflowerSale =
+        selected.name === "Sunflower" &&
+        !before.farmActivity?.["Sunflower Sold"];
+
+      gameService.send("crop.sold", {
         crop: selected.name,
         amount: setPrecision(amount, 2),
       });
 
-      if (state.context.state.farmActivity?.["Sunflower Sold"] === 1) {
+      // Tutorial: with coins in hand, Betty points the player at her seeds.
+      if (isFirstSale) {
+        openModal("BETTY_BUY");
+      }
+
+      // "Sunflower Sold" counts units, not sales, so compare against the
+      // state before the sale rather than checking for a total of 1.
+      if (isFirstSunflowerSale) {
         gameAnalytics.trackMilestone({
           event: "Tutorial:SunflowerSold:Completed",
         });
@@ -179,37 +214,47 @@ export const SeasonalCrops: React.FC = () => {
                         </Button>
                       )}
                       {cropAmount.greaterThan(0) && (
-                        <Button
-                          onClick={() =>
-                            handleSell(
+                        <div className="relative w-full">
+                          <Button
+                            onClick={() =>
+                              handleSell(
+                                cropAmount.greaterThan(10)
+                                  ? new Decimal(10)
+                                  : cropAmount,
+                              )
+                            }
+                          >
+                            {t(
                               cropAmount.greaterThan(10)
-                                ? new Decimal(10)
-                                : cropAmount,
-                            )
-                          }
-                        >
-                          {t(
-                            cropAmount.greaterThan(10)
-                              ? "sell.ten"
-                              : "sell.amount",
-                            { amount: cropAmount },
-                          )}
-                        </Button>
+                                ? "sell.ten"
+                                : "sell.amount",
+                              { amount: cropAmount },
+                            )}
+                          </Button>
+                          {/* With 10 or fewer, this button sells the lot */}
+                          {showSellHelper &&
+                            cropAmount.lessThanOrEqualTo(10) && <SellHelper />}
+                        </div>
                       )}
                     </div>
-                    <div>
+                    <div className="relative">
                       {cropAmount.greaterThan(10) && (
-                        <Button
-                          onClick={
-                            islandType !== "basic"
-                              ? openBulkSellModal
-                              : openConfirmationModal
-                          }
-                        >
-                          {t(
-                            islandType !== "basic" ? "sell.inBulk" : "sell.all",
-                          )}
-                        </Button>
+                        <>
+                          <Button
+                            onClick={
+                              islandType !== "basic"
+                                ? openBulkSellModal
+                                : openConfirmationModal
+                            }
+                          >
+                            {t(
+                              islandType !== "basic"
+                                ? "sell.inBulk"
+                                : "sell.all",
+                            )}
+                          </Button>
+                          {showSellHelper && <SellHelper />}
+                        </>
                       )}
                     </div>
                     {cropAmount.lessThanOrEqualTo(0) && (

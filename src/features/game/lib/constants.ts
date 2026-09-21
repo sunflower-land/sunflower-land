@@ -407,7 +407,6 @@ export const INITIAL_FARM: GameState = {
     "Crop Plot": new Decimal(getKeys(INITIAL_RESOURCES.crops).length),
     Tree: new Decimal(getKeys(INITIAL_RESOURCES.trees).length),
     "Stone Rock": new Decimal(getKeys(INITIAL_RESOURCES.stones).length),
-    Axe: new Decimal(10),
     Gem: new Decimal(1 * BB_TO_GEM_RATIO),
     Rug: new Decimal(1),
     Wardrobe: new Decimal(1),

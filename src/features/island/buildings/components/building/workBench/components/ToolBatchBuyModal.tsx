@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
+import { getPurchaseCost } from "../lib/planToolPurchases";
 import Decimal from "decimal.js-light";
 
 import { Modal } from "components/ui/Modal";
@@ -222,10 +223,13 @@ export const ToolBatchBuyModal: React.FC<Props> = ({
       !excluded.has(toolName) && (amountDraft[toolName] ?? 0) > 0,
   );
 
-  const totalCost = purchasesToMake.reduce((sum, { toolName, price }) => {
-    const amount = amountDraft[toolName] ?? 0;
-    return sum + price * amount;
-  }, 0);
+  const totalCost = purchasesToMake.reduce(
+    (sum, { toolName, price, freeAmount }) => {
+      const amount = amountDraft[toolName] ?? 0;
+      return sum + getPurchaseCost({ amount, price, freeAmount });
+    },
+    0,
+  );
 
   const totalIngredients = purchasesToMake.reduce(
     (totals, { toolName, ingredients }) => {

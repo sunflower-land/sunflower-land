@@ -1,5 +1,6 @@
 import { Box } from "components/ui/Box";
 import { ResizableBar } from "components/ui/ProgressBar";
+import { isCookingFirstTart } from "./firePit/lib/onboarding";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { type CookableName, COOKABLES } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -142,12 +143,25 @@ export const InProgressInfo: React.FC<Props> = ({
           // gate has to allow either method through — otherwise a player with
           // no gems can never reach the coin option.
           disabled={!payment.canAffordAnyMethod}
-          className="w-36 sm:w-44 px-3 h-12 mr-[6px]"
+          className="relative w-36 sm:w-44 px-3 h-12 mr-[6px]"
           onClick={() => {
             payment.resetPaymentMethod();
             setShowConfirmation(true);
           }}
         >
+          {/* Tutorial hand lives inside the button so the button stays the
+              flex item and can still shrink to fit a narrow panel. */}
+          {isCookingFirstTart(state, product.name) && (
+            <img
+              className="absolute pointer-events-none z-30 animate-pulsate"
+              src={SUNNYSIDE.icons.click_icon}
+              style={{
+                width: `${PIXEL_SCALE * 18}px`,
+                right: `${PIXEL_SCALE * -4}px`,
+                top: `${PIXEL_SCALE * 4}px`,
+              }}
+            />
+          )}
           <div className="flex items-center justify-center gap-1 mx-2">
             <img src={fastForward} className="h-5" />
             {!payment.canPayWithCoins && (

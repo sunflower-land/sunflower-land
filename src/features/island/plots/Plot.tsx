@@ -41,6 +41,15 @@ import {
 } from "features/game/types/seeds";
 import { CHAPTER_CROP_WEEK_SEED } from "features/game/types/chapterCropWeek";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import {
+  getTotalCropsHarvested,
+  getTotalCropsPlanted,
+  getTutorialHarvestPlot,
+  getTutorialPlantPlot,
+  isHarvestingFirstRhubarb,
+  TUTORIAL_PLOT_COUNT,
+  TUTORIAL_RHUBARB_COUNT,
+} from "./lib/tutorialPlots";
 import { getKeys } from "lib/object";
 import { Transition } from "@headlessui/react";
 import { formatNumber } from "lib/utils/formatNumber";
@@ -81,9 +90,6 @@ const selectPlants = (state: MachineState) =>
     0,
   );
 
-const selectCropsSold = (state: MachineState) =>
-  state.context.state.farmActivity?.["Sunflower Sold"] ?? 0;
-
 interface Props {
   id: string;
 }
@@ -104,7 +110,6 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
   const harvestCount = useSelector(gameService, selectHarvests);
   const plantCount = useSelector(gameService, selectPlants);
-  const soldCount = useSelector(gameService, selectCropsSold);
   const [showHarvested, setShowHarvested] = useState(false);
   const [cropAmount, setCropAmount] = useState(0);
 
@@ -122,7 +127,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
   const state = useSelector(gameService, selectGameState);
   const verified = useSelector(gameService, selectVerified);
-  const { inventory, waterWell, season } = state;
+  const { waterWell, season } = state;
   const crop = crops?.[id]?.crop;
   const fertiliser = crops?.[id]?.fertiliser;
 
@@ -130,6 +135,15 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
   const now = useNow({ live: true });
   const isSeasoned = isSeasonedPlayer({ game: state, verified, now });
+
+  // Tutorial: a single arrow walks the first crops in a snake, one plot at a
+  // time. The cheap count check keeps established farms off the plot sort.
+  const showHarvestArrow =
+    (harvestCount < TUTORIAL_PLOT_COUNT || isHarvestingFirstRhubarb(state)) &&
+    getTutorialHarvestPlot({ game: state, now }) === id;
+  const showPlantArrow =
+    plantCount < TUTORIAL_PLOT_COUNT &&
+    getTutorialPlantPlot({ game: state, now }) === id;
 
   // Union the plot's own Rapid Root / Sproutroot Surprise fertiliser window
   // (per-plot, keyed off fertilisedAt) with the game-global crop boost windows,
@@ -214,6 +228,26 @@ export const Plot: React.FC<Props> = ({ id }) => {
       gameAnalytics.trackMilestone({
         event: "Tutorial:SunflowerHarvested:Completed",
       });
+    }
+
+    // Tutorial: once the last of the first crops is in, Betty sends the player
+    // to her market.
+    if (
+      newState.context.state.island.type === "basic" &&
+      getTotalCropsHarvested(newState.context.state) === TUTORIAL_PLOT_COUNT
+    ) {
+      openModal("BETTY_SELL");
+    }
+
+    // Tutorial: the last of the first Rhubarb is Bruce's cue to get the player
+    // cooking. Read from the state before the harvest so it fires exactly once.
+    if (
+      plot.crop.name === "Rhubarb" &&
+      isHarvestingFirstRhubarb(state) &&
+      (newState.context.state.farmActivity?.["Rhubarb Harvested"] ?? 0) >=
+        TUTORIAL_RHUBARB_COUNT
+    ) {
+      openModal("FIREPIT");
     }
 
     setCropAmount(cropAmount);
@@ -304,10 +338,11 @@ export const Plot: React.FC<Props> = ({ id }) => {
         });
       }
 
+      // Tutorial: with the first field replanted, the blacksmith offers a
+      // scarecrow. Keyed on the exact planting so it only ever fires once.
       if (
-        planted >= 3 &&
-        seed === "Sunflower Seed" &&
-        !newState.context.state.inventory["Sunflower Seed"]?.gt(0) &&
+        newState.context.state.island.type === "basic" &&
+        getTotalCropsPlanted(newState.context.state) === TUTORIAL_PLOT_COUNT &&
         !newState.context.state.inventory["Basic Scarecrow"]
       ) {
         openModal("BLACKSMITH");
@@ -343,22 +378,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
       </Modal>
 
       <div onClick={() => onClick()} className="w-full h-full relative">
-        {harvestCount < 3 &&
-          harvestCount + 1 === Number(id) &&
-          !!inventory.Shovel && (
-            <img
-              className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
-              src={SUNNYSIDE.icons.dig_icon}
-              onClick={() => onClick()}
-              style={{
-                width: `${PIXEL_SCALE * 18}px`,
-                right: `${PIXEL_SCALE * -8}px`,
-                top: `${PIXEL_SCALE * -14}px`,
-              }}
-            />
-          )}
-
-        {plantCount < 3 && plantCount + 1 === Number(id) && soldCount > 0 && (
+        {(showHarvestArrow || showPlantArrow) && (
           <img
             className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
             src={SUNNYSIDE.icons.click_icon}
