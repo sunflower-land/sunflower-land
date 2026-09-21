@@ -21,6 +21,7 @@ import {
 } from "features/game/expansion/components/animals/AnimalBuildingModal";
 import { FeederMachine } from "features/feederMachine/FeederMachine";
 import { FeedAllButton } from "features/game/expansion/components/animals/FeedAllButton";
+import { ApplyMudButton } from "./components/ApplyMudButton";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
 import { ANIMAL_HOUSE_IMAGES } from "features/henHouse/HenHouseInside";
@@ -275,6 +276,11 @@ export const PigpenInside: React.FC = () => {
 
               <div className="absolute -top-[11px] left-1/2 translate-x-[58px]">
                 <FeedAllButton building="Pigpen" />
+              </div>
+
+              {/* Mirrors the Feed All slot on the feeder's other side. */}
+              <div className="absolute -top-[11px] right-1/2 -translate-x-[58px]">
+                <ApplyMudButton />
               </div>
 
               <MapPlacement

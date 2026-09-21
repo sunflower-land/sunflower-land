@@ -17,6 +17,7 @@ import {
   getBoostedFoodQuantity,
   getFeedItem,
   isAnimalFood,
+  isMuddy,
   resolveAnimal,
 } from "features/game/lib/animals";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -34,6 +35,7 @@ import type {
 } from "features/game/types/game";
 import { isAnimalFeedBuffItem } from "features/game/events/landExpansion/applyAnimalFeedBuff";
 import { AnimalFeedBuffBadge } from "features/game/expansion/components/animals/AnimalFeedBuffBadge";
+import { AnimalMudBadge } from "features/game/expansion/components/animals/AnimalMudBadge";
 import { Transition } from "@headlessui/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
@@ -103,6 +105,9 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
   const pigMachineState = useSelector(pigService, _animalState);
   const inventory = useSelector(gameService, _inventory);
   const [showFeedXP, setShowFeedXP] = useState(false);
+  // Captured BEFORE the feed: Mud spends a use on it, so re-deriving the XP
+  // afterwards would show the next feed's figure, not the one just earned.
+  const [feedXPAmount, setFeedXPAmount] = useState(0);
   const [showLoveItem, setShowLoveItem] = useState<LoveAnimalItem>();
   const [showMutantAnimalModal, setShowMutantAnimalModal] = useState(false);
 
@@ -232,6 +237,8 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
   const { name: mutantName } = pig.reward?.items?.[0] ?? {};
 
   const feedPig = (item?: InventoryItemName) => {
+    setFeedXPAmount(getAnimalXPEarned(item));
+
     const updatedState = gameService.send({
       type: "animal.fed",
       animal: "Pig",
@@ -436,6 +443,20 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
       return;
     }
 
+    // Mud is checked before the sleeping branch, like a treat, so it can be
+    // applied to a sleeping Pig ahead of its next feeds.
+    if (selectedItem === "Mud") {
+      const mudCount = inventory.Mud ?? new Decimal(0);
+      if (!isMuddy(pig) && mudCount.gte(1)) {
+        gameService.send({ type: "animal.mudApplied", id: pig.id });
+        playFeedAnimal();
+        return;
+      }
+
+      await showNoFoodPrompt();
+      return;
+    }
+
     if (sleeping) {
       handleShowDetails();
       return;
@@ -497,12 +518,13 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
       return t("animal.notEnoughFood", { amount: requiredFoodQty });
   };
 
-  const getAnimalXPEarned = () => {
+  const getAnimalXPEarned = (item?: InventoryItemName) => {
     const { foodXp } = handleFoodXP({
       state: game,
       animal: "Pig",
       level,
-      food: hasGoldenPig ? favFood : (selectedItem as AnimalFoodName),
+      food: hasGoldenPig ? favFood : (item as AnimalFoodName),
+      mud: pig.mud,
     });
 
     return foodXp;
@@ -559,7 +581,6 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
     favFood === selectedItem || selectedItem === "Omnifeed" || hasGoldenPig
       ? "#71e358"
       : "#fff";
-  const xpIndicatorAmount = getAnimalXPEarned();
 
   const { animalXP } = getAnimalXP({
     state: game,
@@ -589,6 +610,7 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
       >
         <div className="relative w-full h-full">
           <AnimalFeedBuffBadge feedBuff={pig.feedBuff} />
+          <AnimalMudBadge mud={pig.mud} />
           {showDrops && (
             <ProduceDrops
               animal={pig}
@@ -715,7 +737,7 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
               color: xpIndicatorColor,
             }}
           >
-            {!!xpIndicatorAmount && `+${xpIndicatorAmount}`}
+            {!!feedXPAmount && `+${feedXPAmount}`}
           </span>
         </Transition>
         <Transition
