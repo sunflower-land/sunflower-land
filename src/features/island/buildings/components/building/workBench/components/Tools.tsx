@@ -274,7 +274,11 @@ export const Tools: React.FC = () => {
             </div>
           )}
         </div>
-        {stock.greaterThan(bulkToolCraftAmount) &&
+        {/* Craft-max is for established farms. On the tutorial island it
+            only duplicates the bulk button (10 free Axes, no coins), so it
+            waits for Petal Paradise like the seeds tab's bulk button does. */}
+        {hasRequiredIslandExpansion(state.island.type, "spring") &&
+          stock.greaterThan(bulkToolCraftAmount) &&
           (() => {
             const craftAllAmount = maxAffordableAmount();
             const stockAmount = stock
