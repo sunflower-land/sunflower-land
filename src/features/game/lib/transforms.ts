@@ -157,34 +157,8 @@ export function makeGame(farm: any): GameState {
 }
 
 /**
- * Accepts every shape an API Decimal can take: a string (a serialised
- * Decimal) or the raw `{ s, e, d }` internals that decimal.js-light instances
- * were persisted as when nested in a queue.
- */
-function makeDecimal(value: unknown): Decimal {
-  if (value instanceof Decimal) return value;
-
-  if (typeof value === "string" || typeof value === "number") {
-    return new Decimal(value);
-  }
-
-  const raw = value as { s?: unknown; e?: unknown; d?: unknown } | null;
-  if (
-    raw &&
-    typeof raw.s === "number" &&
-    typeof raw.e === "number" &&
-    Array.isArray(raw.d)
-  ) {
-    // Restore the internals verbatim - reproduces the original value exactly.
-    return Object.assign(new Decimal(0), { s: raw.s, e: raw.e, d: [...raw.d] });
-  }
-
-  throw new Error(`Invalid Decimal: ${JSON.stringify(value)}`);
-}
-
-/**
- * Fish Market queue requirements are refunded on cancel, so they must be real
- * Decimals rather than whatever shape the API returned them in.
+ * Fish Market queue requirements are refunded on cancel, so parse the strings
+ * the API serialises them as back into Decimals.
  */
 export function makeBuildings(buildings: Buildings = {}): Buildings {
   return Object.fromEntries(
@@ -200,7 +174,12 @@ export function makeBuildings(buildings: Buildings = {}): Buildings {
                       ...product,
                       requirements: Object.fromEntries(
                         Object.entries(product.requirements).map(
-                          ([item, amount]) => [item, makeDecimal(amount)],
+                          ([item, amount]) => [
+                            item,
+                            typeof amount === "string"
+                              ? new Decimal(amount)
+                              : amount,
+                          ],
                         ),
                       ),
                     }

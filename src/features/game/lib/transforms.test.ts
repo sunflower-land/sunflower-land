@@ -7,8 +7,7 @@ import { makeBuildings } from "./transforms";
 
 const now = Date.now();
 
-// The Fish Market queue exactly as the API returns it: requirements that were
-// persisted as raw decimal.js-light internals rather than as amounts.
+// The Fish Market queue as the API returns it: Decimals serialised as JSON.
 const apiBuildings = (requirements: unknown) =>
   JSON.parse(
     JSON.stringify({
@@ -38,21 +37,6 @@ const apiBuildings = (requirements: unknown) =>
   ) as Buildings;
 
 describe("makeBuildings", () => {
-  it("rehydrates requirements persisted as raw Decimal internals", () => {
-    const buildings = makeBuildings(
-      apiBuildings({
-        Tuna: { s: 1, e: 0, d: [8] },
-        "Blue Marlin": { s: 1, e: 1, d: [1, 2345678] },
-      }),
-    );
-
-    const requirements =
-      buildings["Fish Market"]?.[0].processing?.[0].requirements;
-    expect(requirements?.Tuna).toBeInstanceOf(Decimal);
-    expect(requirements?.Tuna?.toString()).toEqual("8");
-    expect(requirements?.["Blue Marlin"]?.toString()).toEqual("12345678");
-  });
-
   it("rehydrates requirements serialised as strings", () => {
     const buildings = makeBuildings(apiBuildings({ Tuna: "8" }));
 
@@ -67,7 +51,7 @@ describe("makeBuildings", () => {
       ...INITIAL_FARM,
       bumpkin: INITIAL_BUMPKIN,
       inventory: { Tuna: new Decimal(1) },
-      buildings: makeBuildings(apiBuildings({ Tuna: { s: 1, e: 0, d: [8] } })),
+      buildings: makeBuildings(apiBuildings({ Tuna: "8" })),
     };
 
     const updated = cancelProcessedResource({
