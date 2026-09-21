@@ -26,6 +26,8 @@ import {
   getAnimalLevel,
   getResourceDropAmount,
   isMaxLevel as isMaxAnimalLevel,
+  isMuddy,
+  MUD_XP_MULTIPLIER,
 } from "features/game/lib/animals";
 import {
   ANIMAL_LEVELS,
@@ -376,6 +378,27 @@ export const SleepingAnimalModal = ({
               <span className="text-xs -top-0.5 relative">
                 {t("sleepingAnimal.harvestsLeft", {
                   count: animal.feedBuff.harvestsRemaining,
+                })}
+              </span>
+            </div>
+          </div>
+        )}
+
+        {animal.mud && isMuddy(animal) && (
+          <div className="flex text-sm p-1 items-center">
+            <img
+              src={ITEM_DETAILS.Mud.image}
+              alt={getTranslatedItemName("Mud")}
+              className="w-6 mr-2"
+            />
+            <div>
+              <p className="text-sm font-secondary">
+                {getTranslatedItemName("Mud")}
+              </p>
+              <span className="text-xs -top-0.5 relative">
+                {t("sleepingAnimal.mudFeedsLeft", {
+                  count: animal.mud.feedsRemaining,
+                  percent: Math.round((MUD_XP_MULTIPLIER - 1) * 100),
                 })}
               </span>
             </div>
