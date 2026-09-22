@@ -13,6 +13,7 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { getKeys } from "lib/object";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { CAVE_BUILD_REQUIREMENTS } from "features/game/events/landExpansion/buildCave";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const _island = (state: MachineState) => state.context.state.island;
 const _coins = (state: MachineState) => state.context.state.coins;
@@ -30,6 +31,7 @@ export const CaveEntrance: React.FC<{
   onBuilt: () => void;
 }> = ({ show, onHide, onBuilt }) => {
   const { gameService } = useContext(Context);
+  const { t } = useAppTranslation();
 
   const island = useSelector(gameService, _island);
   const coins = useSelector(gameService, _coins);
@@ -59,22 +61,16 @@ export const CaveEntrance: React.FC<{
       gameService.send({ type: "cave.built" });
       onBuilt();
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Build failed");
+      setError(e instanceof Error ? e.message : t("cave.buildError"));
     }
   };
 
   return (
     <Modal show={show} onHide={onHide}>
-      <CloseButtonPanel onClose={onHide} title="The Cave">
+      <CloseButtonPanel onClose={onHide} title={t("cave.title")}>
         <div className="p-2 flex flex-col gap-3 mb-1">
-          <p className="text-sm">
-            {"Dig up beetles and mushrooms in the depths of the Cave."}
-          </p>
-          {!onSpring && (
-            <Label type="danger">
-              {"Reach Petal Paradise (Spring) to build the Cave"}
-            </Label>
-          )}
+          <p className="text-sm">{t("cave.description")}</p>
+          {!onSpring && <Label type="danger">{t("cave.requiresSpring")}</Label>}
           <div className="flex flex-col gap-1">
             <RequirementLabel
               type="coins"
@@ -96,7 +92,7 @@ export const CaveEntrance: React.FC<{
           {error && <div className="text-red-500 text-sm">{error}</div>}
         </div>
         <Button disabled={!canAfford} onClick={onConfirm}>
-          {canAfford ? "Build" : "Not enough resources"}
+          {canAfford ? t("build") : t("cave.notEnough")}
         </Button>
       </CloseButtonPanel>
     </Modal>

@@ -1881,9 +1881,9 @@ export type Interior = {
  * sits directly above its own 5x5 digging patch. Empty for now — batch fields
  * (inputs, startedAt, the hidden Beetle board) are added by a later ticket.
  */
-export type CaveMachine = {
-  // Intentionally empty until the batch ticket adds fields.
-};
+// Intentionally has no fields until the batch ticket adds them; `object`
+// (rather than `{}`) satisfies @typescript-eslint/no-empty-object-type.
+export type CaveMachine = object;
 
 /**
  * The Cave: a React interior room entered from the world-map node. Absent

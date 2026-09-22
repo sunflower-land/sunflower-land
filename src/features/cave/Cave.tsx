@@ -7,6 +7,7 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   CAVE_MACHINE_SIZE,
   CAVE_PATCH_SIZE,
@@ -28,6 +29,7 @@ const _cave = (state: MachineState) => state.context.state.cave;
 export const Cave: React.FC = () => {
   const { gameService } = useContext(Context);
   const navigate = useNavigate();
+  const { t } = useAppTranslation();
 
   const cave = useSelector(gameService, _cave);
 
@@ -60,9 +62,10 @@ export const Cave: React.FC = () => {
         {/* Placeholder room floor until the art team supplies the room image. */}
         <div className="absolute inset-0 bg-[#3a2a3f] border-4 border-[#241521] rounded-sm" />
 
-        {/* Ladder (exit) top-left. */}
-        <div
-          className="absolute cursor-pointer flex flex-col items-center"
+        {/* Ladder (exit) top-left. Native button so keyboard users can leave. */}
+        <button
+          type="button"
+          className="absolute cursor-pointer flex flex-col items-center bg-transparent border-0 p-0"
           style={{ left: `${leftPx(0)}px`, top: `${topPx(bounds.height)}px` }}
           onClick={() => navigate("/")}
         >
@@ -70,8 +73,8 @@ export const Cave: React.FC = () => {
             src={SUNNYSIDE.icons.arrow_up}
             style={{ width: `${PIXEL_SCALE * 11}px` }}
           />
-          <span className="text-white text-xxs">{"Exit"}</span>
-        </div>
+          <span className="text-white text-xxs">{t("exit")}</span>
+        </button>
 
         {slots.map((id) => {
           const slot = CAVE_SLOTS[id];
@@ -87,7 +90,7 @@ export const Cave: React.FC = () => {
                   height: `${CAVE_MACHINE_SIZE.height * GRID_WIDTH_PX}px`,
                 }}
               >
-                <Label type="default">{`Machine ${id}`}</Label>
+                <Label type="default">{t("cave.machine", { id })}</Label>
               </div>
 
               {/* Empty 5x5 digging patch. */}
