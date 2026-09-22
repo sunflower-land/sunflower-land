@@ -8669,5 +8669,6 @@
   "building.pigpen": "Porcherie",
   "pigs.applyMud": "Appliquez de la boue sur tous les cochons qui en ont besoin",
   "sleepingAnimal.mudFeedsLeft": "+ {{percent}} % feed XP · fils restants : {{count}}",
-  "sleepingAnimal.levelCapped": "Améliorez le {{building}} pour augmenter ce niveau maximum. L'XP continue de s'accumuler entre-temps."
+  "sleepingAnimal.levelCapped": "Améliorez le {{building}} pour augmenter ce niveau maximum. L'XP continue de s'accumuler entre-temps.",
+  "extend.collectible.maxReached": "Maximum de 30 jours atteint"
 }

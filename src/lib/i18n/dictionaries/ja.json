@@ -8669,5 +8669,6 @@
   "building.pigpen": "ピッグペン",
   "pigs.applyMud": "必要な豚全員に泥を塗る",
   "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% フィード XP · 残りフィード:{{count}}",
-  "sleepingAnimal.levelCapped": "{{building}} をアップグレードすると、このレベル上限が上がります。その間、XPは増え続けます。"
+  "sleepingAnimal.levelCapped": "{{building}} をアップグレードすると、このレベル上限が上がります。その間、XPは増え続けます。",
+  "extend.collectible.maxReached": "最大 30 日間に達しました"
 }

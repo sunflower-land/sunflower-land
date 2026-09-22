@@ -8669,5 +8669,6 @@
   "building.pigpen": "Свинарник",
   "pigs.applyMud": "Apply Mud to every Pig that needs it",
   "sleepingAnimal.mudFeedsLeft": "+{{percent}}% feed XP · feeds left: {{count}}",
-  "sleepingAnimal.levelCapped": "Upgrade the {{building}} to raise this level cap. XP keeps building up in the meantime."
+  "sleepingAnimal.levelCapped": "Upgrade the {{building}} to raise this level cap. XP keeps building up in the meantime.",
+  "extend.collectible.maxReached": "Max 30 days reached"
 }
