@@ -485,7 +485,19 @@ describe("upgradeFarm", () => {
   });
 
   it("preserves the cave across ascension", () => {
-    const cave = { builtAt: 123, tier: 1, machines: { "1": {} } };
+    const cave = {
+      builtAt: 123,
+      tier: 1,
+      machines: {
+        "1": {
+          batch: {
+            recipe: "Mushroom" as const,
+            startedAt: 100,
+            readyAt: 100 + 12 * 60 * 60 * 1000,
+          },
+        },
+      },
+    };
     const state = upgrade({
       farmId,
       action: {

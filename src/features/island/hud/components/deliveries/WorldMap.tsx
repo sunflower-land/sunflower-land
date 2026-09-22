@@ -13,6 +13,8 @@ import {
   meetsLevelRequirement,
 } from "features/game/lib/level";
 import { Label } from "components/ui/Label";
+import { getKeys } from "lib/object";
+import { useNow } from "lib/utils/hooks/useNow";
 import { isMobile } from "mobile-device-detect";
 import { useSelector } from "@xstate/react";
 import { hasFeatureAccess } from "lib/flags";
@@ -37,6 +39,14 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   const hasCaveAccess = hasFeatureAccess(state, "CAVE");
   const caveBuilt = !!state.cave;
+
+  const now = useNow({ live: caveBuilt });
+  const readyPatchCount = state.cave
+    ? getKeys(state.cave.machines).filter((id) => {
+        const batch = state.cave?.machines[id].batch;
+        return !!batch && batch.readyAt <= now;
+      }).length
+    : 0;
 
   const ascension = getAscensionLevel({
     experience: state.bumpkin.experience ?? 0,
@@ -167,6 +177,15 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             src={SUNNYSIDE.icons.lock}
             className="h-4 sm:h-6 ml-1 img-highlight"
           />
+        )}
+        {readyPatchCount > 0 && (
+          <Label
+            type="success"
+            className="absolute -top-1 -right-1"
+            style={{ pointerEvents: "none" }}
+          >
+            {readyPatchCount}
+          </Label>
         )}
       </div>
 

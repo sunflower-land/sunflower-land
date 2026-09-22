@@ -52,6 +52,14 @@ import {
   type UpgradeInteriorAction,
 } from "./landExpansion/upgradeInterior";
 import { buildCave, type CaveBuiltAction } from "./landExpansion/buildCave";
+import {
+  startCaveBatch,
+  type StartCaveBatchAction,
+} from "./landExpansion/startCaveBatch";
+import {
+  speedUpCaveBatch,
+  type SpeedUpCaveBatchAction,
+} from "./landExpansion/speedUpCaveBatch";
 import { cook, type RecipeCookedAction } from "./landExpansion/cook";
 import {
   collectRecipe,
@@ -1058,7 +1066,9 @@ export type PlayingEvent =
   | StartTrialAction
   | UpgradeSaltSculptureAction
   | UpgradeInteriorAction
-  | CaveBuiltAction;
+  | CaveBuiltAction
+  | StartCaveBatchAction
+  | SpeedUpCaveBatchAction;
 
 export type LocalVisitingEvent =
   | CollectGarbageAction
@@ -1364,6 +1374,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "saltSculpture.upgraded": upgradeSaltSculpture,
   "interior.upgrade": upgradeInterior,
   "cave.built": buildCave,
+  "cave.batchStarted": startCaveBatch,
+  "cave.batchSpedUp": speedUpCaveBatch,
 };
 
 export const LOCAL_VISITING_EVENTS: Handlers<LocalVisitingEvent> = {
