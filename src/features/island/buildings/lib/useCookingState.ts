@@ -3,7 +3,6 @@ import { useSelector } from "@xstate/react";
 
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
-import type { BuildingProduct } from "features/game/types/game";
 import {
   areBoostWindowsEqual,
   getCookingBoostWindows,

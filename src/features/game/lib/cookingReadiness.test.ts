@@ -2,7 +2,6 @@ import {
   getCookingQueueReadyAts,
   pauseCookingQueue,
   resolveCookingQueue,
-  resolveCookingQueueTimings,
   getCookingOilAt,
   getCookingSpeedAt,
   settleCookingBuilding,

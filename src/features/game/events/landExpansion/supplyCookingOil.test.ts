@@ -280,7 +280,7 @@ describe("supplyCookingOil exploit guards", () => {
 describe("supplyCookingOil retroactive speed boost", () => {
   const HOUR = 60 * 60 * 1000;
 
-  const firePitWithEgg = (now: number): GameState => ({
+  const firePitWithEgg = (): GameState => ({
     ...GAME_STATE,
     inventory: {
       Egg: new Decimal(10),
@@ -305,7 +305,7 @@ describe("supplyCookingOil retroactive speed boost", () => {
 
     // Cook with an EMPTY tank: the egg cooks at 1x (no oil boost).
     const cooked = cook({
-      state: firePitWithEgg(now),
+      state: firePitWithEgg(),
       action: { type: "recipe.cooked", item: "Boiled Eggs", buildingId: "1" },
       farmId: 1,
       createdAt: now,
@@ -341,7 +341,7 @@ describe("supplyCookingOil retroactive speed boost", () => {
     const now = 1_700_000_000_000;
 
     let state = cook({
-      state: firePitWithEgg(now),
+      state: firePitWithEgg(),
       action: { type: "recipe.cooked", item: "Boiled Eggs", buildingId: "1" },
       farmId: 1,
       createdAt: now,
