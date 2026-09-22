@@ -66,13 +66,35 @@ export function useCookingState(
 
   const resolved = useMemo(
     () =>
-      // Preserve object identity where the derived time matches the cache, so
-      // downstream memos only invalidate for recipes that actually moved.
-      crafting.map((recipe, index) =>
-        timings[index].readyAt === recipe.readyAt
-          ? recipe
-          : { ...recipe, readyAt: timings[index].readyAt },
-      ),
+      crafting.map((recipe, index) => {
+        const timing = timings[index];
+        // Building oil is a live speed boost, not a boost window, so the shared
+        // countdown (`useNodeTimer`) can't see it — it recomputes readyAt from
+        // `baseDurationMs` + windows alone. Substitute the OIL-ADJUSTED effective
+        // work (`baseDurationMs - covered·p`) so the timer, which then computes
+        // `computeReadyAt(startedAt, effective, windows)`, matches the resolver
+        // and reflects a mid-cook top-up. `baseDurationMs` stays the stored,
+        // oil-free value on disk; this substitution is display-only.
+        const effectiveBaseDurationMs =
+          recipe.baseDurationMs === undefined
+            ? recipe.baseDurationMs
+            : recipe.baseDurationMs -
+              timing.oilCoveredWorkMs * timing.oilPercent;
+
+        // Preserve object identity where nothing moved, so downstream memos only
+        // invalidate for recipes that actually changed.
+        if (
+          timing.readyAt === recipe.readyAt &&
+          effectiveBaseDurationMs === recipe.baseDurationMs
+        ) {
+          return recipe;
+        }
+        return {
+          ...recipe,
+          readyAt: timing.readyAt,
+          baseDurationMs: effectiveBaseDurationMs,
+        };
+      }),
     [crafting, timings],
   );
 
