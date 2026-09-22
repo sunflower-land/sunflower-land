@@ -20,6 +20,7 @@ import {
 } from "features/game/lib/boostWindows";
 import {
   convertCookingToLazyOil,
+  getCookingOilAt,
   getCookingQueueReadyAts,
   refreshCookingCaches,
   settleCookingBuilding,
@@ -168,7 +169,16 @@ export const getReadyAt = ({
   game,
 }: GetReadyAtArgs) => {
   const buildingName = COOKABLES[item].building;
-  const boostsWindowed = hasFeatureAccess(game, "SPEED_BOOSTS");
+  const building = game.buildings?.[buildingName as CookingBuildingName]?.find(
+    (b) => b.id === buildingId,
+  );
+  // Key off the per-building `oilSettledAt` marker as well as the flag: a building
+  // already converted to the lazy model stays on it even if SPEED_BOOSTS is later
+  // rolled back, so its tank and recipes keep resolving consistently (the read path
+  // keys off the marker too). Matches every other speed-boost activity.
+  const boostsWindowed =
+    hasFeatureAccess(game, "SPEED_BOOSTS") ||
+    building?.oilSettledAt !== undefined;
 
   if (boostsWindowed) {
     // Permanent-only work — oil is NOT baked in, it is a live speed boost.
@@ -187,12 +197,16 @@ export const getReadyAt = ({
     const oilPerWorkMs =
       baseDurationMs > 0 ? oilConsumption / baseDurationMs : 0;
 
-    // Best-effort preview off the current tank's coverage; the true cache is set
-    // by the queue resolve in `cook`.
-    const oilRemaining =
-      game.buildings?.[buildingName as CookingBuildingName]?.find(
-        (b) => b.id === buildingId,
-      )?.oil ?? 0;
+    // Preview off the oil that will be LEFT when this recipe starts — the recipes
+    // already queued ahead of it drain the tank first. `getCookingOilAt` at the
+    // recipe's start returns exactly that remainder (0 queued ⇒ the full tank).
+    const oilRemaining = building
+      ? getCookingOilAt({
+          building,
+          windows: getCookingBoostWindows(game),
+          at: createdAt,
+        })
+      : 0;
     const coveredWorkMs =
       oilPerWorkMs > 0
         ? Math.min(baseDurationMs, oilRemaining / oilPerWorkMs)
@@ -409,7 +423,12 @@ export function cook({
       throw new Error(translate("error.noAvailableSlots"));
     }
 
-    const boostsWindowed = hasFeatureAccess(stateCopy, "SPEED_BOOSTS");
+    // Stay on the lazy model once the building carries `oilSettledAt`, even if the
+    // flag is later rolled back — otherwise the write path would deduct oil from a
+    // tank the read path still treats as a live-draining cache (see `getReadyAt`).
+    const boostsWindowed =
+      hasFeatureAccess(stateCopy, "SPEED_BOOSTS") ||
+      building.oilSettledAt !== undefined;
 
     // Legacy oil is deducted up front and baked into the recipe; under the lazy
     // model nothing is deducted here — the tank drains as the recipe cooks.

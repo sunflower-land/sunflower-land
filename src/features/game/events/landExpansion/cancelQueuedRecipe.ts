@@ -153,7 +153,10 @@ export function recalculateQueue({
     (_, index) => readyAts[index] > createdAt,
   );
 
-  if (hasFeatureAccess(game, "SPEED_BOOSTS")) {
+  if (
+    hasFeatureAccess(game, "SPEED_BOOSTS") ||
+    building?.oilSettledAt !== undefined
+  ) {
     const rebuilt = upcomingRecipes.map((recipe, index) => {
       // The recipe already cooking keeps its own timer — it is mid-cook and must not
       // be restarted. An instant cook removed the previous head, so whatever is
@@ -297,7 +300,10 @@ export function cancelQueuedRecipe({
 
     // Bring the tank up to `createdAt` so oil already burned by the recipes still
     // cooking is banked before the queue is rewritten.
-    if (hasFeatureAccess(game, "SPEED_BOOSTS")) {
+    if (
+      hasFeatureAccess(game, "SPEED_BOOSTS") ||
+      building.oilSettledAt !== undefined
+    ) {
       convertCookingToLazyOil({ building, now: createdAt });
       settleCookingBuilding({
         building,

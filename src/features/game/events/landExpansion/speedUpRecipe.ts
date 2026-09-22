@@ -71,7 +71,10 @@ export function speedUpRecipe({
     }
 
     // Bring the tank up to `createdAt` before the recipe is force-completed.
-    if (hasFeatureAccess(game, "SPEED_BOOSTS")) {
+    if (
+      hasFeatureAccess(game, "SPEED_BOOSTS") ||
+      building.oilSettledAt !== undefined
+    ) {
       convertCookingToLazyOil({ building, now: createdAt });
       settleCookingBuilding({
         building,

@@ -209,7 +209,10 @@ function useInstantGratification({
     if (!building || !queue) return;
 
     // Bring the tank up to `createdAt` before force-completing the recipe.
-    if (hasFeatureAccess(game, "SPEED_BOOSTS")) {
+    if (
+      hasFeatureAccess(game, "SPEED_BOOSTS") ||
+      building.oilSettledAt !== undefined
+    ) {
       convertCookingToLazyOil({ building, now: createdAt });
       settleCookingBuilding({
         building,

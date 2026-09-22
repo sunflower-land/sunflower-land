@@ -74,7 +74,11 @@ export function supplyCookingOil({
       throw new Error(translate("error.notEnoughOil"));
     }
 
-    const boostsWindowed = hasFeatureAccess(stateCopy, "SPEED_BOOSTS");
+    // Stay on the lazy model once the building carries `oilSettledAt`, even after a
+    // flag rollback — the tank keeps draining as a live cache either way.
+    const boostsWindowed =
+      hasFeatureAccess(stateCopy, "SPEED_BOOSTS") ||
+      building.oilSettledAt !== undefined;
 
     // On the lazy model, bring the tank down to `createdAt` first so the capacity
     // check and the top-up both work off the CURRENT (drained) level. Adding oil

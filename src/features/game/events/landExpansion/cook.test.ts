@@ -1,3 +1,4 @@
+import { CONFIG } from "lib/config";
 import Decimal from "decimal.js-light";
 import {
   INITIAL_BUMPKIN,
@@ -306,6 +307,50 @@ describe("cook", () => {
     );
     // No baked oil discount to refund on cancel.
     expect(recipe?.boost?.Oil).toBeUndefined();
+  });
+
+  // A building already converted to the lazy model keeps resolving as lazy even if
+  // SPEED_BOOSTS is rolled back — the read path keys off `oilSettledAt`, so the write
+  // path must too, or a legacy cook would deduct from a tank the resolver is still
+  // draining live.
+  it("keeps a converted building on the lazy model after the flag is rolled back", () => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+    try {
+      const state = cook({
+        state: {
+          ...GAME_STATE,
+          inventory: { Egg: new Decimal(20) },
+          buildings: {
+            "Fire Pit": [
+              {
+                coordinates: { x: 2, y: 3 },
+                readyAt: 1000,
+                createdAt: 1000,
+                id: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
+                oil: 10,
+                // Already converted before the rollback.
+                oilSettledAt: createdAt - 1000,
+              },
+            ],
+          },
+        },
+        action: {
+          type: "recipe.cooked",
+          item: "Boiled Eggs",
+          buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
+        },
+        farmId: 1,
+        createdAt,
+      });
+
+      const building = state.buildings["Fire Pit"]?.[0];
+      // Lazy path even with SPEED_BOOSTS off: oil not deducted, recipe keeps markers.
+      expect(building?.oil).toEqual(10);
+      expect(building?.crafting?.[0].oilPercent).toEqual(0.2);
+      expect(building?.crafting?.[0].boost?.Oil).toBeUndefined();
+    } finally {
+      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
+    }
   });
 
   it("applies partial boost if not enough oil", () => {
@@ -1034,6 +1079,53 @@ describe("getReadyAt", () => {
     const readyAt = now + COOKABLES["Boiled Eggs"].cookingSeconds * 0.8 * 1000;
 
     expect(result).toEqual(readyAt);
+  });
+
+  // The preview must not hand the whole tank to a second dish — the recipe already
+  // cooking drains it first. With exactly enough oil for one egg, previewing a
+  // second egg gets NO oil boost (full, un-oiled duration).
+  it("previews a queued recipe off the oil left after the queue, not the full tank", () => {
+    const now = createdAt;
+    const EGG_S = COOKABLES["Boiled Eggs"].cookingSeconds;
+    const oneEggOil = getOilConsumption("Fire Pit", "Boiled Eggs");
+
+    const { createdAt: result } = getReadyAt({
+      buildingId: "1",
+      item: "Boiled Eggs",
+      // A second egg would start when the first finishes.
+      createdAt: now + EGG_S * 0.8 * 1000,
+      game: {
+        ...TEST_FARM,
+        buildings: {
+          "Fire Pit": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: now,
+              id: "1",
+              readyAt: now,
+              // Lazy building with just enough oil for the recipe already cooking.
+              oil: oneEggOil,
+              oilSettledAt: now,
+              crafting: [
+                {
+                  id: "head",
+                  name: "Boiled Eggs",
+                  startedAt: now,
+                  baseDurationMs: EGG_S * 1000,
+                  oilPercent: 0.2,
+                  oilPerWorkMs: oneEggOil / (EGG_S * 1000),
+                  readyAt: now + EGG_S * 0.8 * 1000,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    });
+
+    // The head consumed the tank, so the second egg gets the full un-oiled time.
+    const start = now + EGG_S * 0.8 * 1000;
+    expect(result).toEqual(start + EGG_S * 1000);
   });
 
   it("applies Gourmet Hourglass boost of +50% cooking speed for 4 hours", () => {

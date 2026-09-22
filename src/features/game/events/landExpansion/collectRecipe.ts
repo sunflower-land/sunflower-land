@@ -155,7 +155,10 @@ export function collectRecipe({
     // Bring the tank up to `createdAt` so oil burned by the recipes being collected
     // is banked, and each completed recipe is frozen (its oil folded in) before it
     // is removed from the queue.
-    if (hasFeatureAccess(game, "SPEED_BOOSTS")) {
+    if (
+      hasFeatureAccess(game, "SPEED_BOOSTS") ||
+      building.oilSettledAt !== undefined
+    ) {
       convertCookingToLazyOil({ building, now: createdAt });
       settleCookingBuilding({
         building,
