@@ -65,33 +65,34 @@ export const InProgressInfo: React.FC<Props> = ({
 
   const totalSeconds = getProductTotalSeconds();
 
-  // One timer for both models. A windowed recipe (`baseDurationMs` set) derives
-  // its ready time live from the boost windows; anything else — fish processing,
-  // and recipes queued before the speed model — falls through to the plain
-  // countdown on `readyAt`.
+  // Only drive the windowed model when we actually have the recipe's start. A
+  // windowed recipe (`baseDurationMs` set) derives its ready time live from the
+  // boost windows; anything else — fish processing, recipes queued before the
+  // speed model, and a malformed windowed head that lost its anchor — falls
+  // through to the plain countdown on the stored `readyAt`.
+  //
+  // Without a resolved `startedAt` we deliberately do NOT reconstruct one: a
+  // start of `readyAt - baseDurationMs` mixes units, because `baseDurationMs` is
+  // un-boosted work while the stored `readyAt` already has the boost baked in, so
+  // `computeReadyAt` would apply the boost a second time and drift the countdown
+  // off the real ready time. The stored `readyAt` is exact, so use it directly.
+  const windowed =
+    startedAt !== undefined && product.baseDurationMs !== undefined;
   const { readyAt, workLeftSeconds, countdownSeconds } = useNodeTimer({
-    // With no resolved `startedAt` (a legacy recipe, or a malformed windowed head
-    // that lost its anchor), reconstruct the start from the recipe's own duration.
-    // For a windowed recipe that is `readyAt - baseDurationMs` — both boosted — so
-    // the derived ready time lands back on the stored `readyAt`; subtracting the
-    // UNBOOSTED `cookingSeconds` instead put it far in the past, which showed as
-    // "0 secs" with a full bar.
-    startedAt:
-      startedAt ??
-      product.readyAt - (product.baseDurationMs ?? totalSeconds * 1000),
-    baseDurationMs: product.baseDurationMs,
+    startedAt: startedAt ?? product.readyAt,
+    baseDurationMs: windowed ? product.baseDurationMs : undefined,
     windows,
     legacyReadyAt: product.readyAt,
   });
 
   // How full the bar is tracks remaining WORK, which does not drain at
-  // wall-clock rate while a boost window is running.
+  // wall-clock rate while a boost window is running. A startless head has no
+  // work model, so it falls back to the wall-clock countdown against its total.
   const progressTotalSeconds =
     product.baseDurationMs === undefined
       ? totalSeconds
       : product.baseDurationMs / 1000;
-  const progressLeftSeconds =
-    product.baseDurationMs === undefined ? countdownSeconds : workLeftSeconds;
+  const progressLeftSeconds = windowed ? workLeftSeconds : countdownSeconds;
 
   // Price the instant-finish off the LIVE ready time, not the stored one: the
   // reducer charges via getCurrentCookingItem, which derives readyAt from the
