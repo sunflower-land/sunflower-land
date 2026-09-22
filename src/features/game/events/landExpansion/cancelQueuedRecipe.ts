@@ -25,8 +25,11 @@ import { getObjectEntries } from "lib/object";
 import { hasFeatureAccess } from "lib/flags";
 import { getCookingBoostWindows } from "features/game/lib/boostWindows";
 import {
+  convertCookingToLazyOil,
+  getCookingOilContext,
   getCookingQueueReadyAts,
   resolveCookingQueue,
+  settleCookingBuilding,
 } from "features/game/lib/cookingReadiness";
 
 export type CancelQueuedRecipeAction = {
@@ -122,12 +125,17 @@ export function recalculateQueue({
   buildingName,
   game,
   isInstantCook,
+  building,
 }: {
   queue: BuildingProduct[];
   createdAt: number;
   buildingName: CookingBuildingName;
   isInstantCook?: boolean;
   game: GameState;
+  // The building the queue belongs to, so oil is threaded through the resolve.
+  // Its `crafting` is ignored — `queue` is the (possibly filtered) array to
+  // rebuild — but its oil tank/anchor drive coverage.
+  building?: PlacedItem;
 }): BuildingProduct[] {
   // Readiness comes from the DERIVED chain, not each recipe's stored `readyAt`. That
   // value is only a cache, and it can only ever be stale-FUTURE (a boost window is
@@ -135,7 +143,7 @@ export function recalculateQueue({
   // finished in the upcoming half - where an instant cook re-anchors it and restarts
   // a cook the player already paid for. With no `baseDurationMs` the derived value
   // is the stored one, so the legacy paths below are unaffected.
-  const readyAts = getCookingQueueReadyAts({ crafting: queue, game });
+  const readyAts = getCookingQueueReadyAts({ crafting: queue, game, building });
 
   // Keep only ready recipes
   const readyRecipes = queue.filter((_, index) => readyAts[index] <= createdAt);
@@ -180,6 +188,7 @@ export function recalculateQueue({
     const readyAts = resolveCookingQueue({
       crafting: nextQueue,
       windows: getCookingBoostWindows(game),
+      oil: building && getCookingOilContext(building),
     });
 
     // Refresh the cached `readyAt` on every entry so the persisted value matches
@@ -264,7 +273,7 @@ export function getCurrentCookingItem({
 
   if (!queue?.length) return;
 
-  const readyAts = getCookingQueueReadyAts({ crafting: queue, game });
+  const readyAts = getCookingQueueReadyAts({ crafting: queue, game, building });
   const index = readyAts.findIndex((readyAt) => readyAt > createdAt);
 
   if (index === -1) return;
@@ -284,6 +293,17 @@ export function cancelQueuedRecipe({
 
     if (!building) {
       throw new Error("Building does not exist");
+    }
+
+    // Bring the tank up to `createdAt` so oil already burned by the recipes still
+    // cooking is banked before the queue is rewritten.
+    if (hasFeatureAccess(game, "SPEED_BOOSTS")) {
+      convertCookingToLazyOil({ building, now: createdAt });
+      settleCookingBuilding({
+        building,
+        windows: getCookingBoostWindows(game),
+        now: createdAt,
+      });
     }
 
     const queue = building.crafting;
@@ -352,6 +372,7 @@ export function cancelQueuedRecipe({
       buildingName: buildingName as CookingBuildingName,
       isInstantCook: false,
       game,
+      building,
     });
 
     return game;

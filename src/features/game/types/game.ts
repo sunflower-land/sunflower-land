@@ -1007,6 +1007,24 @@ export type BuildingProduct = {
    * flag — matching every other activity.
    */
   baseDurationMs?: number;
+  /**
+   * Building oil expressed as a speed boost rather than a baked discount (the
+   * retroactive-oil model). Present only on recipes queued under that model:
+   *
+   * - `oilPercent` (`p`): the oil speed boost, snapshotted at cook time so a
+   *   later skill respec can't reshape the queue. While oil covers the recipe it
+   *   cooks at `1/(1-p)`.
+   * - `oilPerWorkMs`: oil burned per ms of BASE work — `getOilConsumption / B`
+   *   where `B` is the recipe's permanent-only work at cook time. Constant as
+   *   `baseDurationMs` is banked down; the oil a recipe draws is derived from it,
+   *   never reserved (see `cookingReadiness`).
+   *
+   * Their absence (with `baseDurationMs` set) selects a slice-1 recipe whose oil
+   * was baked into `baseDurationMs` and deducted from the tank at cook time — it
+   * draws no further oil, so a queue part-way through migration resolves cleanly.
+   */
+  oilPercent?: number;
+  oilPerWorkMs?: number;
   requirements?: Inventory;
 };
 
@@ -1038,6 +1056,16 @@ export type PlacedItem = {
   crafting?: BuildingProduct[];
   processing?: BuildingProduct[];
   oil?: number;
+  /**
+   * Present ⇒ the building's oil follows the retroactive speed-boost model, and
+   * `oil` is the tank level AS OF this instant (a cache, like each recipe's
+   * `readyAt`). Oil then drains as recipes do covered WORK rather than being
+   * deducted up front, so oil added mid-cook speeds up the recipe in the oven and
+   * everything queued. Absent ⇒ the slice-1 model (oil deducted and baked at cook
+   * time). Keyed off the marker, not the `SPEED_BOOSTS` flag — matching every
+   * other activity. See `settleCookingBuilding` / `convertCookingToLazyOil`.
+   */
+  oilSettledAt?: number;
   flipped?: boolean;
   /**
    * Weather-protection collectible (e.g. Tornado Pinwheel) consumed by its

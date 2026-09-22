@@ -18,10 +18,18 @@ import {
   computeReadyAt,
   getCookingBoostWindows,
 } from "features/game/lib/boostWindows";
-import { getCookingQueueReadyAts } from "features/game/lib/cookingReadiness";
+import {
+  convertCookingToLazyOil,
+  getCookingQueueReadyAts,
+  refreshCookingCaches,
+  settleCookingBuilding,
+} from "features/game/lib/cookingReadiness";
 import { setPrecision } from "lib/utils/formatNumber";
 import { translate } from "lib/i18n/translate";
-import type { CookingBuildingName } from "features/game/types/buildings";
+import type {
+  BuildingName,
+  CookingBuildingName,
+} from "features/game/types/buildings";
 import { produce } from "immer";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
@@ -139,16 +147,19 @@ export function getCookingOilBoost(
  * Legacy: every boost is baked into `reducedSecs` and the ready time is simply
  * `createdAt + reducedSecs`.
  *
- * Speed-rate model (SPEED_BOOSTS): `getCookingTime` returns the PERMANENT-only
- * duration — wearables, Desert Gnome, the cooking skills and (for now) the building
- * oil discount — which becomes the recipe's `baseDurationMs`. The temporary boosts
- * are applied live as speed windows, so the ready time is derived rather than
- * frozen and a boost placed mid-cook pulls it forward.
+ * Speed-rate model (SPEED_BOOSTS): building oil becomes a live SPEED boost rather
+ * than a baked discount. `getCookingTime` returns the PERMANENT-only duration
+ * (wearables, Desert Gnome, the cooking skills — NOT oil), which becomes the
+ * recipe's `baseDurationMs`. Oil is snapshotted as `oilPercent` (`p`) and
+ * `oilPerWorkMs` (its cost per ms of base work) and drawn live from the tank by
+ * the queue resolver, so a top-up speeds up the recipe in the oven and everything
+ * queued. The temporary boosts stay live speed windows.
  *
- * NOTE the derived time here assumes the recipe starts at `createdAt`. For a recipe
- * QUEUED behind others the real start is the previous recipe's (also derived) ready
- * time, so the queue as a whole must be resolved with `getCookingQueueReadyAts` —
- * the value returned here is that chain's input, not its answer.
+ * NOTE the derived time here assumes the recipe starts at `createdAt` with the
+ * whole tank to itself; it is a best-effort preview. For a recipe QUEUED behind
+ * others the real start AND the oil left for it come from the recipes ahead, so
+ * the queue as a whole must be resolved with `getCookingQueueReadyAts` — the value
+ * returned here is that chain's input, not its answer.
  */
 export const getReadyAt = ({
   buildingId,
@@ -156,6 +167,73 @@ export const getReadyAt = ({
   createdAt,
   game,
 }: GetReadyAtArgs) => {
+  const buildingName = COOKABLES[item].building;
+  const boostsWindowed = hasFeatureAccess(game, "SPEED_BOOSTS");
+
+  if (boostsWindowed) {
+    // Permanent-only work — oil is NOT baked in, it is a live speed boost.
+    const { reducedSecs, boostsUsed } = getCookingTime({
+      seconds: COOKABLES[item].cookingSeconds,
+      item,
+      game,
+      cookStartAt: createdAt,
+    });
+
+    const baseDurationMs = reducedSecs * 1000;
+    const oilPercent = getBuildingOilPercent(item, game, buildingName);
+    const oilConsumption = isCookingBuilding(buildingName)
+      ? getOilConsumption(buildingName, item)
+      : 0;
+    const oilPerWorkMs =
+      baseDurationMs > 0 ? oilConsumption / baseDurationMs : 0;
+
+    // Best-effort preview off the current tank's coverage; the true cache is set
+    // by the queue resolve in `cook`.
+    const oilRemaining =
+      game.buildings?.[buildingName as CookingBuildingName]?.find(
+        (b) => b.id === buildingId,
+      )?.oil ?? 0;
+    const coveredWorkMs =
+      oilPerWorkMs > 0
+        ? Math.min(baseDurationMs, oilRemaining / oilPerWorkMs)
+        : 0;
+    // Effective work for the PREVIEW: base work minus the time the current tank's
+    // oil coverage removes. `baseDurationMs` (the stored value) stays oil-free.
+    const previewDurationMs = baseDurationMs - coveredWorkMs * oilPercent;
+    const readyAt = computeReadyAt({
+      startedAt: createdAt,
+      baseDurationMs: previewDurationMs,
+      windows: getCookingBoostWindows(game),
+    });
+
+    // The oil boost as it would show for THIS preview (its effective % given the
+    // current tank), for the recipe boost panel. Kept out of `boostsUsed` so it
+    // never lands in `boostsUsedAt` — oil is drawn live, not "used" at cook time.
+    const previewOilPercent =
+      baseDurationMs > 0 ? (coveredWorkMs * oilPercent) / baseDurationMs : 0;
+    const oilBoostEntry =
+      previewOilPercent > 0
+        ? [
+            {
+              name: "Building Oil" as const,
+              value: "x" + setPrecision(1 - previewOilPercent, 2),
+            },
+          ]
+        : [];
+
+    return {
+      createdAt: readyAt,
+      reducedSecs,
+      baseDurationMs,
+      previewDurationMs,
+      oilPercent,
+      oilPerWorkMs,
+      oilBoostEntry,
+      boostsUsed,
+    };
+  }
+
+  // Legacy: oil is a baked % discount deducted at cook time.
   const oilBoostResult = getCookingOilBoost(item, game, buildingId);
 
   const { reducedSecs, boostsUsed } = getCookingTime({
@@ -175,25 +253,37 @@ export const getReadyAt = ({
         ]
       : [];
 
-  const boostsWindowed = hasFeatureAccess(game, "SPEED_BOOSTS");
-  const baseDurationMs = boostsWindowed ? reducedSecs * 1000 : undefined;
-
-  const readyAt =
-    baseDurationMs === undefined
-      ? createdAt + reducedSecs * 1000
-      : computeReadyAt({
-          startedAt: createdAt,
-          baseDurationMs,
-          windows: getCookingBoostWindows(game),
-        });
-
   return {
-    createdAt: readyAt,
+    createdAt: createdAt + reducedSecs * 1000,
     reducedSecs,
-    baseDurationMs,
+    baseDurationMs: undefined as number | undefined,
+    previewDurationMs: undefined as number | undefined,
+    oilPercent: undefined as number | undefined,
+    oilPerWorkMs: undefined as number | undefined,
+    oilBoostEntry: [] as { name: "Building Oil"; value: string }[],
     boostsUsed: [...oilEntry, ...boostsUsed],
   };
 };
+
+/**
+ * The building's oil speed boost `p` at FULL coverage — the fraction of cook time
+ * a full tank removes, snapshotted onto a recipe as `oilPercent`. Skill-scaled
+ * (Swift Sizzle / Turbo Fry / Fry Frenzy), and capped for the event recipe.
+ * 0 on a non-cooking building. Unlike `getCookingOilBoost` it ignores the current
+ * tank — partial coverage is derived live from the tank by the queue resolver.
+ */
+export function getBuildingOilPercent(
+  item: CookableName,
+  game: GameState,
+  buildingName: BuildingName,
+): number {
+  if (!isCookingBuilding(buildingName)) return 0;
+  const oilSkills =
+    item === CHAPTER_CROP_WEEK_RECIPE
+      ? downgradeChapterCropWeekSkills(game.bumpkin.skills)
+      : game.bumpkin.skills;
+  return BUILDING_OIL_BOOSTS(oilSkills)[buildingName];
+}
 
 export const BUILDING_DAILY_OIL_CONSUMPTION: Record<
   CookingBuildingName,
@@ -319,7 +409,13 @@ export function cook({
       throw new Error(translate("error.noAvailableSlots"));
     }
 
-    const { oilConsumed } = getCookingOilBoost(item, stateCopy, buildingId);
+    const boostsWindowed = hasFeatureAccess(stateCopy, "SPEED_BOOSTS");
+
+    // Legacy oil is deducted up front and baked into the recipe; under the lazy
+    // model nothing is deducted here — the tank drains as the recipe cooks.
+    const { oilConsumed } = boostsWindowed
+      ? { oilConsumed: 0 }
+      : getCookingOilBoost(item, stateCopy, buildingId);
 
     stateCopy.inventory = Object.entries(ingredients).reduce(
       (inventory, [ingredient, amount]) => {
@@ -370,6 +466,18 @@ export function cook({
       return stateCopy;
     }
 
+    // Under the lazy oil model, bring the building's tank up to `createdAt`
+    // (converting it on first touch) BEFORE reading the queue, so the resolve
+    // below sees the current oil level and the head's banked progress.
+    if (boostsWindowed) {
+      convertCookingToLazyOil({ building, now: createdAt });
+      settleCookingBuilding({
+        building,
+        windows: getCookingBoostWindows(stateCopy),
+        now: createdAt,
+      });
+    }
+
     // Start the new recipe when the last recipe is ready or now (createdAt). The
     // queue ahead is resolved live rather than read off the stored `readyAt`s: under
     // the speed-rate model those are a cache, and a boost placed since the last
@@ -377,6 +485,7 @@ export function cook({
     const queueReadyAts = getCookingQueueReadyAts({
       crafting,
       game: stateCopy,
+      building,
     });
     const lastRecipeReadyAt =
       queueReadyAts[queueReadyAts.length - 1] ?? createdAt;
@@ -389,6 +498,8 @@ export function cook({
     const {
       createdAt: readyAt,
       baseDurationMs,
+      oilPercent,
+      oilPerWorkMs,
       boostsUsed,
     } = getReadyAt({
       buildingId: buildingId,
@@ -405,7 +516,9 @@ export function cook({
         // `plant.ts`'s cropId) with a server-side fallback.
         id: action.recipeId ?? uuidv4().slice(0, 8),
         name: item,
-        boost: { Oil: oilConsumed },
+        // Legacy oil is baked in and recorded here for the cancel refund; under
+        // the lazy model oil is drawn live so there is nothing to refund.
+        boost: boostsWindowed ? {} : { Oil: oilConsumed },
         // Marks whether the Double Nom skill was applied at the time of cooking
         skills: { "Double Nom": getSkillLevel(cookSkills, "Double Nom") },
         // Anchored only when this recipe starts cooking right now; a queued recipe
@@ -413,13 +526,23 @@ export function cook({
         // time of the recipe ahead of it.
         startedAt: isChained ? undefined : recipeStartAt,
         baseDurationMs,
+        oilPercent,
+        oilPerWorkMs,
         readyAt,
       },
     ];
 
-    const previousOilRemaining = building.oil || 0;
-
-    building.oil = previousOilRemaining - oilConsumed;
+    if (boostsWindowed) {
+      // Refresh the readyAt caches so the queued recipe's stored time reflects the
+      // oil the tank actually has for it (getReadyAt's preview assumed the whole
+      // tank; the recipes ahead may have spent it).
+      refreshCookingCaches({
+        building,
+        windows: getCookingBoostWindows(stateCopy),
+      });
+    } else {
+      building.oil = (building.oil || 0) - oilConsumed;
+    }
 
     // Delete cancelled property since no longer used
     delete building.cancelled;

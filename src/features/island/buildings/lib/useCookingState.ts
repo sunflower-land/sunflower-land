@@ -8,7 +8,11 @@ import {
   areBoostWindowsEqual,
   getCookingBoostWindows,
 } from "features/game/lib/boostWindows";
-import { resolveCookingQueueTimings } from "features/game/lib/cookingReadiness";
+import {
+  getCookingOilContext,
+  resolveCookingQueueTimings,
+} from "features/game/lib/cookingReadiness";
+import type { PlacedItem } from "features/game/types/game";
 import { useQueueState } from "./useQueueState";
 
 const _cookingBoostWindows = (state: MachineState) =>
@@ -29,7 +33,9 @@ const _cookingBoostWindows = (state: MachineState) =>
  * temporary boosts and deliberately stays on `useProcessingState`, reading stored
  * ready times.
  */
-export function useCookingState(building: { crafting?: BuildingProduct[] }) {
+export function useCookingState(
+  building: Pick<PlacedItem, "crafting" | "oil" | "oilSettledAt">,
+) {
   const { gameService } = useContext(Context);
 
   // Recomputed from full state but only re-rendering when the windows actually
@@ -42,9 +48,21 @@ export function useCookingState(building: { crafting?: BuildingProduct[] }) {
 
   const crafting = useMemo(() => building.crafting ?? [], [building.crafting]);
 
+  // Thread the building's oil so the derived ready times reflect the tank draining
+  // (and top-ups pulling the queue forward), the same as the reducers.
+  const oilLevel = building.oil;
+  const oilSettledAt = building.oilSettledAt;
+  const oil = useMemo(
+    () =>
+      oilSettledAt === undefined
+        ? undefined
+        : getCookingOilContext({ oil: oilLevel, oilSettledAt }),
+    [oilLevel, oilSettledAt],
+  );
+
   const timings = useMemo(
-    () => resolveCookingQueueTimings({ crafting, windows }),
-    [crafting, windows],
+    () => resolveCookingQueueTimings({ crafting, windows, oil }),
+    [crafting, windows, oil],
   );
 
   const resolved = useMemo(

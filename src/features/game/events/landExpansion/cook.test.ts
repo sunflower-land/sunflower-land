@@ -258,7 +258,10 @@ describe("cook", () => {
     );
   });
 
-  it("subtracts oil from building", () => {
+  // Under the lazy oil model (SPEED_BOOSTS), oil is NOT deducted at cook time — the
+  // tank drains as the recipe actually cooks, so a top-up speeds up in-flight and
+  // queued recipes. The recipe snapshots its oil as a live speed boost instead.
+  it("does not deduct oil at cook time; snapshots it as a live speed boost", () => {
     const state = cook({
       state: {
         ...GAME_STATE,
@@ -289,8 +292,20 @@ describe("cook", () => {
       createdAt,
     });
 
-    const oilconsumed = getOilConsumption("Fire Pit", "Boiled Eggs");
-    expect(state.buildings["Fire Pit"]?.[0].oil).toEqual(10 - oilconsumed);
+    const building = state.buildings["Fire Pit"]?.[0];
+    // Tank untouched at queue time; the building is now on the lazy model.
+    expect(building?.oil).toEqual(10);
+    expect(building?.oilSettledAt).toEqual(createdAt);
+
+    const recipe = building?.crafting?.[0];
+    // Fire Pit's base oil boost is 20%, priced over the recipe's base work.
+    const oilConsumption = getOilConsumption("Fire Pit", "Boiled Eggs");
+    expect(recipe?.oilPercent).toEqual(0.2);
+    expect(recipe?.oilPerWorkMs).toBeCloseTo(
+      oilConsumption / (recipe!.baseDurationMs as number),
+    );
+    // No baked oil discount to refund on cancel.
+    expect(recipe?.boost?.Oil).toBeUndefined();
   });
 
   it("applies partial boost if not enough oil", () => {

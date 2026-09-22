@@ -30,6 +30,13 @@ import { canChop } from "./chop";
 import { canDrillOilReserve } from "./drillOilReserve";
 import { isReadyToHarvest } from "./harvest";
 import { getCurrentCookingItem, recalculateQueue } from "./cancelQueuedRecipe";
+import { hasFeatureAccess } from "lib/flags";
+import { getCookingBoostWindows } from "features/game/lib/boostWindows";
+import {
+  consumeRemainingRecipeOil,
+  convertCookingToLazyOil,
+  settleCookingBuilding,
+} from "features/game/lib/cookingReadiness";
 import { FLOWER_SEEDS, FLOWERS } from "features/game/types/flowers";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 import { isWearableActive } from "features/game/lib/wearables";
@@ -201,6 +208,16 @@ function useInstantGratification({
 
     if (!building || !queue) return;
 
+    // Bring the tank up to `createdAt` before force-completing the recipe.
+    if (hasFeatureAccess(game, "SPEED_BOOSTS")) {
+      convertCookingToLazyOil({ building, now: createdAt });
+      settleCookingBuilding({
+        building,
+        windows: getCookingBoostWindows(game),
+        now: createdAt,
+      });
+    }
+
     const currentlyCooking = getCurrentCookingItem({
       building: building,
       createdAt,
@@ -211,12 +228,19 @@ function useInstantGratification({
 
     const recipeIndex = currentlyCooking.index;
 
+    // Finishing instantly skips the rest of the cook, so burn the oil the recipe
+    // would still have drawn (keeps the sink exact), before zeroing its work.
+    consumeRemainingRecipeOil({ building, recipe: queue[recipeIndex] });
+
     queue[recipeIndex].readyAt = createdAt;
     // Windowed (`baseDurationMs` set): also zero the remaining work, or the queue
     // resolver would re-derive this recipe's ready time from its start + duration and
     // undo the instant completion (mirrors the oil reserve above / instaGrowFlower).
     if (queue[recipeIndex].baseDurationMs !== undefined) {
       queue[recipeIndex].baseDurationMs = 0;
+      // The recipe is done — it no longer draws oil, so drop its lazy markers.
+      delete queue[recipeIndex].oilPerWorkMs;
+      delete queue[recipeIndex].oilPercent;
       // Complete at activation, not at the old start: `recalculateQueue` splits
       // ready/upcoming on the DERIVED chain, and a zero-work recipe derives
       // `readyAt = startedAt`, so a stale start would drag every chained recipe
@@ -230,6 +254,7 @@ function useInstantGratification({
       buildingName,
       game,
       isInstantCook: true,
+      building,
     });
   });
 

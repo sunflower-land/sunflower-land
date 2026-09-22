@@ -2,8 +2,12 @@ import type { BuildingName } from "features/game/types/buildings";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import type { CropMachineBuilding, GameState } from "features/game/types/game";
 import { produce } from "immer";
-import { getCropMachineBoostWindows } from "features/game/lib/boostWindows";
+import {
+  getCookingBoostWindows,
+  getCropMachineBoostWindows,
+} from "features/game/lib/boostWindows";
 import { settleCropMachine } from "features/game/lib/cropMachineReadiness";
+import { settleCookingBuilding } from "features/game/lib/cookingReadiness";
 export enum REMOVE_BUILDING_ERRORS {
   INVALID_BUILDING = "This building does not exist",
   NO_BUMPKIN = "You do not have a Bumpkin",
@@ -86,6 +90,20 @@ export function removeBuilding({
           }
         });
       }
+    }
+
+    // A lazy-oil cooking building banks its in-flight work and burns the oil
+    // consumed through the lift, exactly like the crop machine. `removedAt` (set
+    // above) marks the pause; `placeBuilding` resumes across the downtime, so the
+    // lifted interval costs neither cooking progress nor oil, and window credit
+    // earned before the lift stays banked even if the boost expires meanwhile.
+    // Slice-1 / legacy queues keep the old pauseCookingQueue path (in place).
+    if (buildingToRemove.oilSettledAt !== undefined) {
+      settleCookingBuilding({
+        building: buildingToRemove,
+        windows: getCookingBoostWindows(stateCopy),
+        now: createdAt,
+      });
     }
 
     stateCopy.farmActivity = trackFarmActivity(

@@ -4,6 +4,13 @@ import type { CookingBuildingName } from "features/game/types/buildings";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import { getKeys } from "lib/object";
+import { hasFeatureAccess } from "lib/flags";
+import { getCookingBoostWindows } from "features/game/lib/boostWindows";
+import {
+  convertCookingToLazyOil,
+  refreshCookingCaches,
+  settleCookingBuilding,
+} from "features/game/lib/cookingReadiness";
 
 export type SupplyCookingOilAction = {
   type: "cookingOil.supplied";
@@ -67,6 +74,21 @@ export function supplyCookingOil({
       throw new Error(translate("error.notEnoughOil"));
     }
 
+    const boostsWindowed = hasFeatureAccess(stateCopy, "SPEED_BOOSTS");
+
+    // On the lazy model, bring the tank down to `createdAt` first so the capacity
+    // check and the top-up both work off the CURRENT (drained) level. Adding oil
+    // then applies retroactively: the queue resolve below speeds up the recipe in
+    // the oven and everything queued behind it.
+    if (boostsWindowed) {
+      convertCookingToLazyOil({ building, now: createdAt });
+      settleCookingBuilding({
+        building,
+        windows: getCookingBoostWindows(stateCopy),
+        now: createdAt,
+      });
+    }
+
     const oilCapacity = BUILDING_DAILY_OIL_CAPACITY[action.building];
     const oilInBuilding = building.oil || 0;
 
@@ -77,6 +99,14 @@ export function supplyCookingOil({
     stateCopy.inventory["Oil"] = oilInInventory.sub(action.oilQuantity);
 
     building.oil = oilInBuilding + action.oilQuantity;
+
+    if (boostsWindowed) {
+      // Retroactively pull forward every recipe the new oil now covers.
+      refreshCookingCaches({
+        building,
+        windows: getCookingBoostWindows(stateCopy),
+      });
+    }
 
     return stateCopy;
   });
