@@ -39,6 +39,9 @@ export function makeGame(farm: any): GameState {
     island: farm.island,
     bank: farm.bank,
     home: farm.home,
+    // Absent until the player builds the Cave — a straight passthrough so the
+    // fallback can never fabricate one for a farm that hasn't built it.
+    cave: farm.cave,
     // Interior is a new, entirely separate placement surface. Seed it with an
     // empty ground level for any player coming back from the API who does not
     // yet have this field — the feature is front-end-only for v1 and they opt
