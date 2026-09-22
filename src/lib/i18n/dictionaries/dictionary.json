@@ -36,6 +36,7 @@
   "alreadyPlaced.temporaryCollectible": "Already placed. Only one can be on your farm at a time.",
   "extend.collectible.message": "Top up {{name}} before it runs out. The extra time is added on top of whatever is left, so nothing is wasted.",
   "extend.collectible.added": "+{{time}} added",
+  "extend.collectible.maxReached": "Max 30 days reached",
   "extend.collectible.payWith": "Pay with",
   "extend.collectible.becomes": "Becomes a {{name}}",
   "confirm.extend": "Confirm Extend",
