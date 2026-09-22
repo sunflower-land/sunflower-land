@@ -484,6 +484,26 @@ describe("upgradeFarm", () => {
     });
   });
 
+  it("preserves the cave across ascension", () => {
+    const cave = { builtAt: 123, tier: 1, machines: { "1": {} } };
+    const state = upgrade({
+      farmId,
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          "Basic Land": new Decimal(9),
+          Gold: new Decimal(15),
+        },
+        cave,
+      },
+    });
+
+    expect(state.cave).toEqual(cave);
+  });
+
   it("upgrades to spring island", () => {
     const state = upgrade({
       farmId,

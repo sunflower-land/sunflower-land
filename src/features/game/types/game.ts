@@ -1876,6 +1876,27 @@ export type Interior = {
   expansion?: HomeExpansionTier;
 };
 
+/**
+ * A Myco-Composter machine inside the Cave. One is created with each tier; it
+ * sits directly above its own 5x5 digging patch. Empty for now — batch fields
+ * (inputs, startedAt, the hidden Beetle board) are added by a later ticket.
+ */
+export type CaveMachine = {
+  // Intentionally empty until the batch ticket adds fields.
+};
+
+/**
+ * The Cave: a React interior room entered from the world-map node. Absent
+ * until the player builds it, so the `toDomain` fallback can never create one.
+ * `tier` unlocks additional machine + patch slots; `machines` are explicit
+ * records keyed by slot id ("1"–"8").
+ */
+export type Cave = {
+  builtAt: number;
+  tier: number;
+  machines: Record<string, CaveMachine>;
+};
+
 export type PlantedFlower = {
   name: FlowerName;
   plantedAt: number;
@@ -2247,6 +2268,7 @@ export type FarmHands = {
 export interface GameState {
   home: Home;
   interior: Interior;
+  cave?: Cave;
   bank: Bank;
 
   buffs?: Partial<Record<BuffName, Buff>>;

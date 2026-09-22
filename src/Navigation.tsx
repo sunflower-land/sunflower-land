@@ -33,6 +33,7 @@ import { EconomyHub } from "features/economyHub/EconomyHub";
 import { GameWrapper } from "features/game/expansion/Game";
 import { Interior } from "features/interior/Interior";
 import { LevelOne } from "features/interior/LevelOne";
+import { Cave } from "features/cave/Cave";
 import { ModalProvider } from "features/game/components/modal/ModalProvider";
 import { FeedProvider } from "features/social/FeedContext";
 import { MinigameDashboard } from "features/minigame/MinigameDashboard";
@@ -281,6 +282,14 @@ export const Navigation: React.FC = () => {
                                   element={
                                     <GameWrapper>
                                       <LevelOne />
+                                    </GameWrapper>
+                                  }
+                                />
+                                <Route
+                                  path="/cave"
+                                  element={
+                                    <GameWrapper>
+                                      <Cave />
                                     </GameWrapper>
                                   }
                                 />

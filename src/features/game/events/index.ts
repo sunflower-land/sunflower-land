@@ -51,6 +51,7 @@ import {
   upgradeInterior,
   type UpgradeInteriorAction,
 } from "./landExpansion/upgradeInterior";
+import { buildCave, type CaveBuiltAction } from "./landExpansion/buildCave";
 import { cook, type RecipeCookedAction } from "./landExpansion/cook";
 import {
   collectRecipe,
@@ -1056,7 +1057,8 @@ export type PlayingEvent =
   | ClaimTrackMilestoneAction
   | StartTrialAction
   | UpgradeSaltSculptureAction
-  | UpgradeInteriorAction;
+  | UpgradeInteriorAction
+  | CaveBuiltAction;
 
 export type LocalVisitingEvent =
   | CollectGarbageAction
@@ -1361,6 +1363,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "farmhand.promoted": promoteFarmhand,
   "saltSculpture.upgraded": upgradeSaltSculpture,
   "interior.upgrade": upgradeInterior,
+  "cave.built": buildCave,
 };
 
 export const LOCAL_VISITING_EVENTS: Handlers<LocalVisitingEvent> = {

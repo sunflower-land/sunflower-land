@@ -176,6 +176,13 @@ const FEATURE_FLAGS = {
    */
   PIGPEN: testnetFeatureFlag,
 
+  /**
+   * Chapter 16's Cave: the world-map entrance node, the `/cave` interior room
+   * and the `cave.built` event. Remove once Chapter 16 ships and the Cave
+   * gates on its own unlock instead.
+   */
+  CAVE: testnetFeatureFlag,
+
   FACE_RECOGNITION_TEST: betaFeatureFlag,
   // The developer-options button that forces a captcha on your own farm
   TRIGGER_CAPTCHA: betaFeatureFlag,
