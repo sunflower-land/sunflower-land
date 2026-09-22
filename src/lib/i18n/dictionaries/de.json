@@ -8670,5 +8670,12 @@
   "pigs.applyMud": "Trage Schlamm auf jedes Schwein auf, das ihn braucht",
   "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% feed XP · verbleibende Feeds: {{count}}",
   "sleepingAnimal.levelCapped": "Verbessere {{building}}, um diese Levelobergrenze zu erhöhen. In der Zwischenzeit baut sich XP weiter auf.",
-  "extend.collectible.maxReached": "Max. 30 Tage erreicht"
+  "extend.collectible.maxReached": "Max. 30 Tage erreicht",
+  "world.cave": "Höhle",
+  "cave.title": "Die Höhle",
+  "cave.description": "Grabe tief in der Höhle nach verborgenen Schätzen.",
+  "cave.requiresSpring": "Erreiche das Blütenparadies, um die Höhle zu bauen",
+  "cave.buildError": "Build ist fehlgeschlagen",
+  "cave.notEnough": "Nicht genug Ressourcen",
+  "cave.machine": "Maschine {{id}}"
 }

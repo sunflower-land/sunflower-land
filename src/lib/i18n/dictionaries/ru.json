@@ -8670,5 +8670,12 @@
   "pigs.applyMud": "Apply Mud to every Pig that needs it",
   "sleepingAnimal.mudFeedsLeft": "+{{percent}}% feed XP · feeds left: {{count}}",
   "sleepingAnimal.levelCapped": "Upgrade the {{building}} to raise this level cap. XP keeps building up in the meantime.",
-  "extend.collectible.maxReached": "Max 30 days reached"
+  "extend.collectible.maxReached": "Max 30 days reached",
+  "world.cave": "Cave",
+  "cave.title": "The Cave",
+  "cave.description": "Dig for hidden treasures deep in the Cave.",
+  "cave.requiresSpring": "Reach Petal Paradise to build the Cave",
+  "cave.buildError": "Build failed",
+  "cave.notEnough": "Not enough resources",
+  "cave.machine": "Machine {{id}}"
 }

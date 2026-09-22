@@ -8670,5 +8670,12 @@
   "pigs.applyMud": "Aplica barro a cada cerdo que lo necesite",
   "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% feed XP · feeds restantes: {{count}}",
   "sleepingAnimal.levelCapped": "Mejora el {{building}} para aumentar este límite de nivel. Mientras tanto, la XP sigue aumentando.",
-  "extend.collectible.maxReached": "Se alcanzó el máximo de 30 días"
+  "extend.collectible.maxReached": "Se alcanzó el máximo de 30 días",
+  "world.cave": "Cueva",
+  "cave.title": "La cueva",
+  "cave.description": "Busca tesoros escondidos en las profundidades de la cueva.",
+  "cave.requiresSpring": "Llega a Petal Paradise para construir la cueva",
+  "cave.buildError": "Fallo en la compilación",
+  "cave.notEnough": "No hay suficientes recursos",
+  "cave.machine": "Máquina {{id}}"
 }

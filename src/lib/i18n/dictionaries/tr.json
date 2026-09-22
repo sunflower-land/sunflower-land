@@ -8670,5 +8670,12 @@
   "pigs.applyMud": "İhtiyacı olan her Domuza Çamur uygulayın",
   "sleepingAnimal.mudFeedsLeft": "+ {{percent}} %besleme XP · kalan beslemeler: {{count}}",
   "sleepingAnimal.levelCapped": "Bu seviye sınırını yükseltmek için {{building}} değerini yükseltin. Bu arada XP artmaya devam ediyor.",
-  "extend.collectible.maxReached": "Maksimum 30 güne ulaşıldı"
+  "extend.collectible.maxReached": "Maksimum 30 güne ulaşıldı",
+  "world.cave": "Mağara",
+  "cave.title": "Mağara",
+  "cave.description": "Mağaranın derinliklerinde gizli hazineleri kazın.",
+  "cave.requiresSpring": "Mağarayı inşa etmek için Petal Paradise'a ulaşın",
+  "cave.buildError": "Oluşturma başarısız oldu",
+  "cave.notEnough": "Yeterli kaynak yok",
+  "cave.machine": "Makine {{id}}"
 }

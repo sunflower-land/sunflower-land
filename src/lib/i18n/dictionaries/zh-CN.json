@@ -8670,5 +8670,12 @@
   "pigs.applyMud": "将泥浆涂抹在每只需要它的猪身上",
   "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% feed XP · 向左喂食：{{count}}",
   "sleepingAnimal.levelCapped": "升级 {{building}} 以提高此等级上限。在此期间，XP 一直在积累。",
-  "extend.collectible.maxReached": "已达到最多 30 天"
+  "extend.collectible.maxReached": "已达到最多 30 天",
+  "world.cave": "洞穴",
+  "cave.title": "洞穴",
+  "cave.description": "在洞穴深处挖掘隐藏的宝藏。",
+  "cave.requiresSpring": "到达花瓣天堂建造洞穴",
+  "cave.buildError": "构建失败",
+  "cave.notEnough": "资源不足",
+  "cave.machine": "机器 {{id}}"
 }

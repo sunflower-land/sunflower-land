@@ -8670,5 +8670,12 @@
   "pigs.applyMud": "Terapkan Lumpur untuk setiap Babi yang membutuhkannya",
   "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% umpan XP · umpan tersisa: {{count}}",
   "sleepingAnimal.levelCapped": "Tingkatkan {{building}} untuk menaikkan batas level ini. XP terus berkembang sementara itu.",
-  "extend.collectible.maxReached": "Maks 30 hari tercapai"
+  "extend.collectible.maxReached": "Maks 30 hari tercapai",
+  "world.cave": "Gua",
+  "cave.title": "Gua",
+  "cave.description": "Gali harta karun tersembunyi jauh di dalam Gua.",
+  "cave.requiresSpring": "Mencapai Petal Paradise untuk membangun Gua",
+  "cave.buildError": "Pembuatan gagal",
+  "cave.notEnough": "Tidak cukup sumber daya",
+  "cave.machine": "Mesin {{id}}"
 }

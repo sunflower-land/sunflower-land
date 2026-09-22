@@ -8670,5 +8670,12 @@
   "pigs.applyMud": "必要な豚全員に泥を塗る",
   "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% フィード XP · 残りフィード:{{count}}",
   "sleepingAnimal.levelCapped": "{{building}} をアップグレードすると、このレベル上限が上がります。その間、XPは増え続けます。",
-  "extend.collectible.maxReached": "最大 30 日間に達しました"
+  "extend.collectible.maxReached": "最大 30 日間に達しました",
+  "world.cave": "ケーブ",
+  "cave.title": "ザ・ケーブ",
+  "cave.description": "洞窟の奥深くに隠された宝物を掘りましょう。",
+  "cave.requiresSpring": "ペタルパラダイスに到達して洞窟を建てよう",
+  "cave.buildError": "ビルド失敗",
+  "cave.notEnough": "リソースが不十分",
+  "cave.machine": "マシン {{id}}"
 }

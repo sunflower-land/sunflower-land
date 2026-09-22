@@ -8670,5 +8670,12 @@
   "pigs.applyMud": "Appliquez de la boue sur tous les cochons qui en ont besoin",
   "sleepingAnimal.mudFeedsLeft": "+ {{percent}} % feed XP · fils restants : {{count}}",
   "sleepingAnimal.levelCapped": "Améliorez le {{building}} pour augmenter ce niveau maximum. L'XP continue de s'accumuler entre-temps.",
-  "extend.collectible.maxReached": "Maximum de 30 jours atteint"
+  "extend.collectible.maxReached": "Maximum de 30 jours atteint",
+  "world.cave": "Grotte",
+  "cave.title": "La Grotte",
+  "cave.description": "Creusez pour trouver des trésors cachés au plus profond de la grotte.",
+  "cave.requiresSpring": "Atteignez Petal Paradise pour construire la grotte",
+  "cave.buildError": "Échec de la construction",
+  "cave.notEnough": "Ressources insuffisantes",
+  "cave.machine": "Appareil {{id}}"
 }
