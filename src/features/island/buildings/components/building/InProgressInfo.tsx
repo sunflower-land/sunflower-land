@@ -70,7 +70,15 @@ export const InProgressInfo: React.FC<Props> = ({
   // and recipes queued before the speed model — falls through to the plain
   // countdown on `readyAt`.
   const { readyAt, workLeftSeconds, countdownSeconds } = useNodeTimer({
-    startedAt: startedAt ?? product.readyAt - totalSeconds * 1000,
+    // With no resolved `startedAt` (a legacy recipe, or a malformed windowed head
+    // that lost its anchor), reconstruct the start from the recipe's own duration.
+    // For a windowed recipe that is `readyAt - baseDurationMs` — both boosted — so
+    // the derived ready time lands back on the stored `readyAt`; subtracting the
+    // UNBOOSTED `cookingSeconds` instead put it far in the past, which showed as
+    // "0 secs" with a full bar.
+    startedAt:
+      startedAt ??
+      product.readyAt - (product.baseDurationMs ?? totalSeconds * 1000),
     baseDurationMs: product.baseDurationMs,
     windows,
     legacyReadyAt: product.readyAt,

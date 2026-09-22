@@ -140,6 +140,52 @@ describe("cancelQueuedRecipe", () => {
     );
   });
 
+  it("throws an error if the recipe has already finished cooking", () => {
+    const now = new Date("2025-01-01").getTime();
+    // A finished-but-uncollected head. It is NOT the "currently cooking" item
+    // (that is the first not-ready recipe, Cornbread), so it slips past that
+    // guard. Cancelling it used to strip the head anchor and leave the promoted
+    // recipe as a startless windowed head — the stuck-at-0-secs kitchen bug.
+    const finishedHead = {
+      name: "Honey Cake",
+      readyAt: now - 1000,
+    } as BuildingProduct;
+
+    expect(() =>
+      cancelQueuedRecipe({
+        state: {
+          ...INITIAL_FARM,
+          buildings: {
+            Bakery: [
+              {
+                id: "1",
+                coordinates: { x: 0, y: 0 },
+                readyAt: 0,
+                createdAt: 0,
+                crafting: [
+                  finishedHead,
+                  {
+                    name: "Cornbread",
+                    readyAt: now + 1000,
+                  },
+                ],
+              },
+            ],
+          },
+        },
+        action: {
+          type: "recipe.cancelled",
+          buildingName: "Bakery",
+          buildingId: "1",
+          queueItem: finishedHead,
+        },
+        createdAt: now,
+      }),
+    ).toThrow(
+      `Recipe ${finishedHead.name} has already finished cooking and cannot be cancelled`,
+    );
+  });
+
   it("cancels the recipe", () => {
     const now = new Date("2025-01-01").getTime();
     const carrotCakeReadyAt = now + 60 * 1000;

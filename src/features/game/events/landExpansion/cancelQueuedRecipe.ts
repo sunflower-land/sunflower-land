@@ -325,6 +325,22 @@ export function cancelQueuedRecipe({
       );
     }
 
+    // A recipe that has already finished cooking cannot be cancelled — it is
+    // collected, not aborted. Readiness comes from the DERIVED chain, not the
+    // stored `readyAt` cache. The `currentCookingItem` guard above only blocks the
+    // recipe ACTIVELY cooking (the first not-ready one); a recipe that finished
+    // while its follow-ups were still queued sits BEFORE it and slips past. Letting
+    // it be cancelled removes the anchored head and promotes a chained recipe with
+    // no `startedAt` of its own — a windowed head the resolver can only paper over
+    // by freezing its stored `readyAt`, which the cooking modal then renders as
+    // "0 secs" with a full bar (the reported stuck-kitchen bug).
+    const readyAts = getCookingQueueReadyAts({ crafting: queue, game });
+    if (readyAts[recipeIndex] <= createdAt) {
+      throw new Error(
+        `Recipe ${queueItem.name} has already finished cooking and cannot be cancelled`,
+      );
+    }
+
     // return resources consumed by the recipe
     const cookableName = assertCookableName(recipe.name);
 
