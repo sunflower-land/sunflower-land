@@ -39,7 +39,9 @@ const CaveHudComponent: React.FC = () => {
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [showBuyCurrencies, setShowBuyCurrencies] = useState(false);
 
-  const handleDeposit = (args: Pick<DepositArgs, "itemIds" | "itemAmounts">) => {
+  const handleDeposit = (
+    args: Pick<DepositArgs, "itemIds" | "itemAmounts">,
+  ) => {
     gameService.send("DEPOSIT", args);
   };
 
