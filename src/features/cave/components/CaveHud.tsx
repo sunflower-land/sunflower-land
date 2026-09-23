@@ -21,7 +21,10 @@ import { CurrenciesModal } from "features/island/hud/components/CurrenciesModal"
 import { HudBumpkin } from "features/island/hud/components/bumpkinProfile/HudBumpkin";
 import { MarketplaceButton } from "features/island/hud/components/MarketplaceButton";
 import { PowerSkillsButton } from "features/island/hud/components/PowerSkillsButton";
-import { TravelButton } from "features/island/hud/components/deliveries/TravelButton";
+import { RoundButton } from "components/ui/RoundButton";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { useNavigate } from "react-router";
 import { DepositGameItemsModal } from "features/goblins/bank/components/DepositGameItems";
 import { Feed } from "features/social/Feed";
 import { WorldFeedButton } from "features/social/components/WorldFeedButton";
@@ -36,11 +39,12 @@ const _isTutorial = (state: MachineState) =>
 /**
  * A pared-down HUD for the Cave interior: the standard basics (Bumpkin,
  * balances, inventory, save, settings) plus the bottom-left button cluster
- * (feed, power skills, marketplace, travel). The Travel button opens the world
- * map — the in-room ladder still leaves straight back to the farm.
+ * (feed, power skills, marketplace), with a back arrow in place of the world
+ * button that returns to the farm.
  */
 const CaveHudComponent: React.FC = () => {
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
+  const navigate = useNavigate();
 
   const autosaving = useSelector(gameService, _autosaving);
   const farmAddress = useSelector(gameService, _farmAddress);
@@ -95,7 +99,25 @@ const CaveHudComponent: React.FC = () => {
         <WorldFeedButton showFeed={showFeed} setShowFeed={setShowFeed} />
         {hasPowerSkills && <PowerSkillsButton />}
         <MarketplaceButton />
-        <TravelButton />
+        {/* Back arrow in place of the world button (VisitingHud pattern). */}
+        <RoundButton
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            navigate("/");
+          }}
+        >
+          <img
+            src={SUNNYSIDE.icons.arrow_left}
+            alt="Leave the Cave"
+            className="absolute group-active:translate-y-[2px]"
+            style={{
+              width: `${PIXEL_SCALE * 12}px`,
+              left: `${PIXEL_SCALE * 5}px`,
+              top: `${PIXEL_SCALE * 4}px`,
+            }}
+          />
+        </RoundButton>
       </div>
 
       <div className="absolute right-0 top-0 p-2.5">
