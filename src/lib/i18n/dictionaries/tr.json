@@ -8677,5 +8677,16 @@
   "cave.requiresSpring": "Mağarayı inşa etmek için Petal Paradise'a ulaşın",
   "cave.buildError": "Oluşturma başarısız oldu",
   "cave.notEnough": "Yeterli kaynak yok",
-  "cave.machine": "Makine {{id}}"
+  "cave.machine": "Makine {{id}}",
+  "cave.recipe.Mushroom": "Mantar Karışımı",
+  "cave.recipe.Beetle": "Böcek Karışımı",
+  "cave.recipe.Mud": "Çamur Karışımı",
+  "cave.batch.chooseRecipe": "Büyümek için bir karışım seçin",
+  "cave.batch.buried": "Yamaya gömülü",
+  "cave.batch.start": "Başlat",
+  "cave.batch.growing": "Büyüyen",
+  "cave.batch.ready": "Kazmaya hazır!",
+  "cave.batch.readyDescription": "Kazmak için bir Kum Küreği ile geri gel.",
+  "cave.batch.finishNow": "Şimdi bitirin",
+  "cave.batch.confirmFinish": "Bu partiyi anında bitirdin mi?"
 }

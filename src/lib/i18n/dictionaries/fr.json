@@ -8677,5 +8677,16 @@
   "cave.requiresSpring": "Atteignez Petal Paradise pour construire la grotte",
   "cave.buildError": "Échec de la construction",
   "cave.notEnough": "Ressources insuffisantes",
-  "cave.machine": "Appareil {{id}}"
+  "cave.machine": "Appareil {{id}}",
+  "cave.recipe.Mushroom": "Mélange de champignons",
+  "cave.recipe.Beetle": "Beetle Mix",
+  "cave.recipe.Mud": "Mélange de boue",
+  "cave.batch.chooseRecipe": "Choisissez un mélange à cultiver",
+  "cave.batch.buried": "Enterré dans le patch",
+  "cave.batch.start": "Démarrer",
+  "cave.batch.growing": "En croissance",
+  "cave.batch.ready": "Prêt à creuser !",
+  "cave.batch.readyDescription": "Revenez avec une pelle à sable pour le déterrer.",
+  "cave.batch.finishNow": "Terminez maintenant",
+  "cave.batch.confirmFinish": "Terminer ce lot instantanément ?"
 }

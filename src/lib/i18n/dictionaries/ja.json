@@ -8677,5 +8677,16 @@
   "cave.requiresSpring": "ペタルパラダイスに到達して洞窟を建てよう",
   "cave.buildError": "ビルド失敗",
   "cave.notEnough": "リソースが不十分",
-  "cave.machine": "マシン {{id}}"
+  "cave.machine": "マシン {{id}}",
+  "cave.recipe.Mushroom": "マッシュルームミックス",
+  "cave.recipe.Beetle": "ビートルミックス",
+  "cave.recipe.Mud": "マッドミックス",
+  "cave.batch.chooseRecipe": "ミックスを選んで育てよう",
+  "cave.batch.buried": "パッチに埋もれている",
+  "cave.batch.start": "[開始]",
+  "cave.batch.growing": "成長",
+  "cave.batch.ready": "掘る準備ができました！",
+  "cave.batch.readyDescription": "サンドショベルを持って戻ってきて掘り起こしてください。",
+  "cave.batch.finishNow": "今すぐ終了",
+  "cave.batch.confirmFinish": "このバッチをすぐに終了しますか？"
 }

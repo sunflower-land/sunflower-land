@@ -8677,5 +8677,16 @@
   "cave.requiresSpring": "Erreiche das Blütenparadies, um die Höhle zu bauen",
   "cave.buildError": "Build ist fehlgeschlagen",
   "cave.notEnough": "Nicht genug Ressourcen",
-  "cave.machine": "Maschine {{id}}"
+  "cave.machine": "Maschine {{id}}",
+  "cave.recipe.Mushroom": "Pilz-Mischung",
+  "cave.recipe.Beetle": "Käfer-Mix",
+  "cave.recipe.Mud": "Schlammmischung",
+  "cave.batch.chooseRecipe": "Wähle eine Mischung zum Wachsen",
+  "cave.batch.buried": "Im Patch vergraben",
+  "cave.batch.start": "Starten",
+  "cave.batch.growing": "Wachsend",
+  "cave.batch.ready": "Bereit zum Graben!",
+  "cave.batch.readyDescription": "Komm mit einer Sandschaufel zurück, um es auszugraben.",
+  "cave.batch.finishNow": "Jetzt fertig",
+  "cave.batch.confirmFinish": "Diesen Stapel sofort fertigstellen?"
 }

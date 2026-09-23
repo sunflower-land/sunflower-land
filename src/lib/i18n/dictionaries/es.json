@@ -8677,5 +8677,16 @@
   "cave.requiresSpring": "Llega a Petal Paradise para construir la cueva",
   "cave.buildError": "Fallo en la compilación",
   "cave.notEnough": "No hay suficientes recursos",
-  "cave.machine": "Máquina {{id}}"
+  "cave.machine": "Máquina {{id}}",
+  "cave.recipe.Mushroom": "Mezcla de hongos",
+  "cave.recipe.Beetle": "Mezcla de escarabajos",
+  "cave.recipe.Mud": "Mezcla de barro",
+  "cave.batch.chooseRecipe": "Elige una mezcla para crecer",
+  "cave.batch.buried": "Enterrado en el parche",
+  "cave.batch.start": "Comenzar",
+  "cave.batch.growing": "Creciendo",
+  "cave.batch.ready": "¡Listo para cavar!",
+  "cave.batch.readyDescription": "Regresa con una pala de arena para desenterrarlo.",
+  "cave.batch.finishNow": "Termina ahora",
+  "cave.batch.confirmFinish": "¿Terminar este lote al instante?"
 }

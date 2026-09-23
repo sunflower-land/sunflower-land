@@ -8677,5 +8677,16 @@
   "cave.requiresSpring": "到达花瓣天堂建造洞穴",
   "cave.buildError": "构建失败",
   "cave.notEnough": "资源不足",
-  "cave.machine": "机器 {{id}}"
+  "cave.machine": "机器 {{id}}",
+  "cave.recipe.Mushroom": "蘑菇混合物",
+  "cave.recipe.Beetle": "甲壳虫混合物",
+  "cave.recipe.Mud": "泥浆混合物",
+  "cave.batch.chooseRecipe": "选择一种组合来成长",
+  "cave.batch.buried": "埋在补丁里",
+  "cave.batch.start": "开始",
+  "cave.batch.growing": "成长",
+  "cave.batch.ready": "准备挖掘了！",
+  "cave.batch.readyDescription": "带着沙铲回来把它挖出来。",
+  "cave.batch.finishNow": "立即完成",
+  "cave.batch.confirmFinish": "立即完成这批？"
 }

@@ -8677,5 +8677,16 @@
   "cave.requiresSpring": "Mencapai Petal Paradise untuk membangun Gua",
   "cave.buildError": "Pembuatan gagal",
   "cave.notEnough": "Tidak cukup sumber daya",
-  "cave.machine": "Mesin {{id}}"
+  "cave.machine": "Mesin {{id}}",
+  "cave.recipe.Mushroom": "Campuran Jamur",
+  "cave.recipe.Beetle": "Campuran Kumbang",
+  "cave.recipe.Mud": "Campuran Lumpur",
+  "cave.batch.chooseRecipe": "Pilih campuran untuk tumbuh",
+  "cave.batch.buried": "Terkubur di tambalan",
+  "cave.batch.start": "Mulai",
+  "cave.batch.growing": "Tumbuh",
+  "cave.batch.ready": "Siap menggali!",
+  "cave.batch.readyDescription": "Kembalilah dengan Sekop Pasir untuk menggalinya.",
+  "cave.batch.finishNow": "Selesaikan sekarang",
+  "cave.batch.confirmFinish": "Segera menyelesaikan batch ini?"
 }

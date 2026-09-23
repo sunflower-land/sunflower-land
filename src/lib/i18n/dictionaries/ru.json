@@ -8677,5 +8677,16 @@
   "cave.requiresSpring": "Reach Petal Paradise to build the Cave",
   "cave.buildError": "Build failed",
   "cave.notEnough": "Not enough resources",
-  "cave.machine": "Machine {{id}}"
+  "cave.machine": "Machine {{id}}",
+  "cave.recipe.Mushroom": "Mushroom Mix",
+  "cave.recipe.Beetle": "Beetle Mix",
+  "cave.recipe.Mud": "Mud Mix",
+  "cave.batch.chooseRecipe": "Choose a mix to grow",
+  "cave.batch.buried": "Buried in the patch",
+  "cave.batch.start": "Start",
+  "cave.batch.growing": "Growing",
+  "cave.batch.ready": "Ready to dig!",
+  "cave.batch.readyDescription": "Come back with a Sand Shovel to dig it up.",
+  "cave.batch.finishNow": "Finish now",
+  "cave.batch.confirmFinish": "Instantly finish this batch?"
 }

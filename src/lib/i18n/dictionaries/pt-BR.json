@@ -8677,5 +8677,16 @@
   "cave.requiresSpring": "Chegue ao Petal Paradise para construir a caverna",
   "cave.buildError": "Falha na compilação",
   "cave.notEnough": "Recursos insuficientes",
-  "cave.machine": "Máquina {{id}}"
+  "cave.machine": "Máquina {{id}}",
+  "cave.recipe.Mushroom": "Mistura de cogumelos",
+  "cave.recipe.Beetle": "Mistura de besouros",
+  "cave.recipe.Mud": "Mistura de lama",
+  "cave.batch.chooseRecipe": "Escolha uma mistura para crescer",
+  "cave.batch.buried": "Enterrado no remendo",
+  "cave.batch.start": "Iniciar",
+  "cave.batch.growing": "Crescendo",
+  "cave.batch.ready": "Pronto para cavar!",
+  "cave.batch.readyDescription": "Volte com uma pá de areia para desenterrá-la.",
+  "cave.batch.finishNow": "Termine agora",
+  "cave.batch.confirmFinish": "Concluir instantaneamente este lote?"
 }
