@@ -18,7 +18,7 @@ import {
   caveSlotsForTier,
 } from "features/game/expansion/placeable/lib/caveLayout";
 import { CaveMachineModal } from "./components/CaveMachineModal";
-import { CaveHud } from "./components/CaveHud";
+import { Hud } from "features/island/hud/Hud";
 
 const _cave = (state: MachineState) => state.context.state.cave;
 
@@ -166,7 +166,9 @@ export const Cave: React.FC = () => {
         />
       )}
 
-      <CaveHud />
+      {/* Same HUD as the other interiors (barn, greenhouse, …): the travel slot
+          becomes a "back to farm" button for non-farm locations. */}
+      <Hud isFarming={false} location="home" />
     </div>
   );
 };
