@@ -56,3 +56,21 @@ export const CAVE_RECIPES: Record<CaveRecipeName, CaveRecipe> = {
     ingredients: { Wood: new Decimal(10) },
   },
 };
+
+/**
+ * The effective tile counts buried in a patch. When no chapter artefact is
+ * active the single Artefact tile falls back to Mud, so the batch preview and
+ * the server generator always agree on what the player will find.
+ */
+export function getCaveTileCounts(
+  recipe: CaveRecipeName,
+  artefactActive: boolean,
+): Record<CaveTileType, number> {
+  const { composition } = CAVE_RECIPES[recipe];
+  if (artefactActive) return { ...composition };
+  return {
+    ...composition,
+    Artefact: 0,
+    Mud: composition.Mud + composition.Artefact,
+  };
+}

@@ -178,7 +178,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             className="h-4 sm:h-6 ml-1 img-highlight"
           />
         )}
-        {readyPatchCount > 0 && (
+        {hasCaveAccess && readyPatchCount > 0 && (
           <Label
             type="success"
             className="absolute -top-1 -right-1"

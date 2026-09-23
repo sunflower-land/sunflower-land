@@ -8,7 +8,10 @@ import type {
   CaveRecipeName,
   CaveTileType,
 } from "features/game/types/caveRecipes";
-import { CAVE_RECIPES } from "features/game/types/caveRecipes";
+import {
+  CAVE_RECIPES,
+  getCaveTileCounts,
+} from "features/game/types/caveRecipes";
 import type { InventoryItemName } from "features/game/types/game";
 import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -103,8 +106,10 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
               {t("cave.batch.buried")}
             </Label>
             <div className="flex flex-wrap justify-center gap-1 mb-2">
-              {getKeys(CAVE_RECIPES[selected].composition).map((tile) => {
-                const count = CAVE_RECIPES[selected].composition[tile];
+              {/* No chapter artefact exists yet, so the Artefact tile shows as
+                  Mud — mirrors the server generator. TODO(Chapter 16 artefact). */}
+              {getKeys(getCaveTileCounts(selected, false)).map((tile) => {
+                const count = getCaveTileCounts(selected, false)[tile];
                 if (count <= 0) return null;
                 return (
                   <Label key={tile} type="default" icon={TILE_IMAGE[tile]}>
