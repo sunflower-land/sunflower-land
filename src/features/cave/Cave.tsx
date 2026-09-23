@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
 import { Navigate, useNavigate } from "react-router";
 
@@ -8,6 +8,8 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useNow } from "lib/utils/hooks/useNow";
+import { secondsToString } from "lib/utils/time";
 import {
   CAVE_MACHINE_SIZE,
   CAVE_PATCH_SIZE,
@@ -15,16 +17,18 @@ import {
   CAVE_SLOTS,
   caveSlotsForTier,
 } from "features/game/expansion/placeable/lib/caveLayout";
+import { CaveMachineModal } from "./components/CaveMachineModal";
+import { Hud } from "features/island/hud/Hud";
 
 const _cave = (state: MachineState) => state.context.state.cave;
 
 /**
  * The Cave interior room, mounted at `/cave`. Placeholder art for now — the
  * art team supplies a room image per tier size later. Renders the unlocked
- * slots (Tier I = slot 1): each Myco-Composter machine idle above its own
- * empty 5x5 digging patch. The ladder (top-left) leaves the Cave.
- *
- * Digging, batches and the merchant arrive in later slices.
+ * slots (Tier I = slot 1): each Myco-Composter machine above its own 5x5
+ * digging patch. Clicking a machine opens the batch popover. A growing patch is
+ * covered; a ready one is highlighted (digging arrives in a later slice). The
+ * ladder (top-left) leaves the Cave.
  */
 export const Cave: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -32,6 +36,8 @@ export const Cave: React.FC = () => {
   const { t } = useAppTranslation();
 
   const cave = useSelector(gameService, _cave);
+  const now = useNow({ live: true });
+  const [selectedMachine, setSelectedMachine] = useState<string>();
 
   // Reached by URL without a Cave built — send the player back to the farm.
   if (!cave) {
@@ -78,22 +84,33 @@ export const Cave: React.FC = () => {
 
         {slots.map((id) => {
           const slot = CAVE_SLOTS[id];
+          const batch = cave.machines[String(id)]?.batch;
+          const growing = !!batch && batch.readyAt > now;
+          const ready = !!batch && batch.readyAt <= now;
+
           return (
             <React.Fragment key={`slot-${id}`}>
-              {/* Myco-Composter machine (placeholder). */}
-              <div
-                className="absolute bg-[#6d5a3f] border border-[#3a2f22] flex items-center justify-center"
+              {/* Myco-Composter machine (placeholder) — opens the batch popover. */}
+              <button
+                type="button"
+                className="absolute cursor-pointer bg-[#6d5a3f] border border-[#3a2f22] flex items-center justify-center p-0"
                 style={{
                   left: `${leftPx(slot.machine.x)}px`,
                   top: `${topPx(slot.machine.y)}px`,
                   width: `${CAVE_MACHINE_SIZE.width * GRID_WIDTH_PX}px`,
                   height: `${CAVE_MACHINE_SIZE.height * GRID_WIDTH_PX}px`,
                 }}
+                onClick={() => setSelectedMachine(String(id))}
               >
-                <Label type="default">{t("cave.machine", { id })}</Label>
-              </div>
+                <Label
+                  type={growing ? "warning" : ready ? "success" : "default"}
+                >
+                  {t("cave.machine", { id })}
+                </Label>
+              </button>
 
-              {/* Empty 5x5 digging patch. */}
+              {/* 5x5 digging patch. Covered while growing; nothing is revealed
+                  when ready (the hidden layout never reaches the client). */}
               <div
                 className="absolute grid"
                 style={{
@@ -115,11 +132,43 @@ export const Cave: React.FC = () => {
                     />
                   ),
                 )}
+
+                {growing && batch && (
+                  <div className="absolute inset-0 bg-[#241521]/70 flex flex-col items-center justify-center">
+                    <img
+                      src={SUNNYSIDE.icons.stopwatch}
+                      style={{ width: `${PIXEL_SCALE * 8}px` }}
+                    />
+                    <span className="text-white text-xxs mt-0.5">
+                      {secondsToString(
+                        Math.max(0, (batch.readyAt - now) / 1000),
+                        { length: "short" },
+                      )}
+                    </span>
+                  </div>
+                )}
+
+                {ready && (
+                  <div className="absolute inset-0 flex items-start justify-center pt-0.5 pointer-events-none">
+                    <Label type="success">{t("cave.batch.ready")}</Label>
+                  </div>
+                )}
               </div>
             </React.Fragment>
           );
         })}
       </div>
+
+      {selectedMachine && (
+        <CaveMachineModal
+          machineId={selectedMachine}
+          onClose={() => setSelectedMachine(undefined)}
+        />
+      )}
+
+      {/* Same HUD as the other interiors (barn, greenhouse, …): the travel slot
+          becomes a "back to farm" button for non-farm locations. */}
+      <Hud isFarming={false} location="home" />
     </div>
   );
 };

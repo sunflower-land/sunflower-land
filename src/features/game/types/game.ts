@@ -1876,14 +1876,29 @@ export type Interior = {
   expansion?: HomeExpansionTier;
 };
 
+/** The three Myco-Composter recipes; see `CAVE_RECIPES` for their composition. */
+export type CaveRecipeName = "Mushroom" | "Beetle" | "Mud";
+
+/**
+ * A running (or finished) Myco-Composter batch. Only the recipe and timer are
+ * public: the full 25-tile dig layout lives solely in the encrypted `Seed`, and
+ * every tile count is fixed by the recipe (see `CAVE_RECIPES`), so nothing
+ * positional or count-related is stored here. `readyAt = startedAt + 12h`.
+ */
+export type CaveBatch = {
+  recipe: CaveRecipeName;
+  startedAt: number;
+  readyAt: number;
+};
+
 /**
  * A Myco-Composter machine inside the Cave. One is created with each tier; it
- * sits directly above its own 5x5 digging patch. Empty for now — batch fields
- * (inputs, startedAt, the hidden Beetle board) are added by a later ticket.
+ * sits directly above its own 5x5 digging patch. `batch` is present while a
+ * batch is growing or ready, until the patch is dug out in a later ticket.
  */
-// Intentionally has no fields until the batch ticket adds them; `object`
-// (rather than `{}`) satisfies @typescript-eslint/no-empty-object-type.
-export type CaveMachine = object;
+export type CaveMachine = {
+  batch?: CaveBatch;
+};
 
 /**
  * The Cave: a React interior room entered from the world-map node. Absent
