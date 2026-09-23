@@ -18,6 +18,7 @@ import {
   caveSlotsForTier,
 } from "features/game/expansion/placeable/lib/caveLayout";
 import { CaveMachineModal } from "./components/CaveMachineModal";
+import { CaveHud } from "./components/CaveHud";
 
 const _cave = (state: MachineState) => state.context.state.cave;
 
@@ -164,6 +165,8 @@ export const Cave: React.FC = () => {
           onClose={() => setSelectedMachine(undefined)}
         />
       )}
+
+      <CaveHud />
     </div>
   );
 };
