@@ -15,6 +15,7 @@ import {
 import type { InventoryItemName } from "features/game/types/game";
 import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { getChapterArtefact } from "features/game/types/chapters";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -40,11 +41,12 @@ const RECIPE_IMAGE: Record<CaveRecipeName, InventoryItemName> = {
   Beetle: "Brown Beetle",
   Mud: "Mud",
 };
-const TILE_IMAGE: Record<CaveTileType, string> = {
+// The Artefact tile's icon is the current chapter's artefact, resolved per
+// render; the rest are fixed representative images.
+const TILE_IMAGE: Record<Exclude<CaveTileType, "Artefact">, string> = {
   Mushroom: ITEM_DETAILS["Wild Mushroom"].image,
   Beetle: ITEM_DETAILS["Brown Beetle"].image,
   Mud: ITEM_DETAILS["Mud"].image,
-  Artefact: SUNNYSIDE.icons.expression_confused,
 };
 
 const _game = (state: MachineState) => state.context.state;
@@ -74,6 +76,11 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
 
   const isReady = !!batch && batch.readyAt <= now;
   const isGrowing = !!batch && !isReady;
+
+  // Every chapter has an artefact, so a patch always buries one; the preview
+  // shows the current chapter's artefact (awarded when the tile is dug in 430).
+  const artefact = getChapterArtefact(now);
+  const buriedCounts = getCaveTileCounts(selected, true);
 
   return (
     <Modal show onHide={onClose}>
@@ -106,13 +113,15 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
               {t("cave.batch.buried")}
             </Label>
             <div className="flex flex-wrap justify-center gap-1 mb-2">
-              {/* No chapter artefact exists yet, so the Artefact tile shows as
-                  Mud — mirrors the server generator. TODO(Chapter 16 artefact). */}
-              {getKeys(getCaveTileCounts(selected, false)).map((tile) => {
-                const count = getCaveTileCounts(selected, false)[tile];
+              {getKeys(buriedCounts).map((tile) => {
+                const count = buriedCounts[tile];
                 if (count <= 0) return null;
+                const icon =
+                  tile === "Artefact"
+                    ? ITEM_DETAILS[artefact].image
+                    : TILE_IMAGE[tile];
                 return (
-                  <Label key={tile} type="default" icon={TILE_IMAGE[tile]}>
+                  <Label key={tile} type="default" icon={icon}>
                     {count}
                   </Label>
                 );
