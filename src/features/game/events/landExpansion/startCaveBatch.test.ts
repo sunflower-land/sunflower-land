@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
-import type { GameState } from "features/game/types/game";
+import type { CaveDugTile, GameState } from "features/game/types/game";
 import {
   CAVE_BATCH_DURATION_MS,
   CAVE_RECIPES,
@@ -31,6 +31,33 @@ const start = (
     createdAt,
   });
 
+/** A dug map covering the first `count` tiles of the 5x5 patch. */
+const dugTiles = (count: number): Record<string, CaveDugTile> =>
+  Object.fromEntries(
+    Array.from({ length: count }, (_, index) => [
+      `${index % 5},${Math.floor(index / 5)}`,
+      { dugAt: 1 },
+    ]),
+  );
+
+const dugOutState = (count: number): GameState => ({
+  ...caveState(),
+  cave: {
+    builtAt: 1,
+    tier: 1,
+    machines: {
+      "1": {
+        batch: {
+          recipe: "Mud",
+          startedAt: 0,
+          readyAt: 1,
+          dug: dugTiles(count),
+        },
+      },
+    },
+  },
+});
+
 describe("startCaveBatch (cave.batchStarted)", () => {
   it("consumes the recipe ingredients", () => {
     const before = caveState();
@@ -60,6 +87,22 @@ describe("startCaveBatch (cave.batchStarted)", () => {
   it("rejects a machine that already has a batch", () => {
     const once = start(caveState(), "1", "Mushroom");
     expect(() => start(once, "1", "Mushroom")).toThrow(
+      START_CAVE_BATCH_ERRORS.BATCH_IN_PROGRESS,
+    );
+  });
+
+  it("restarts a machine once every tile of its patch has been dug", () => {
+    const now = 1_700_000_000_000;
+    const next = start(dugOutState(25), "1", "Beetle", now);
+    expect(next.cave?.machines["1"].batch).toEqual({
+      recipe: "Beetle",
+      startedAt: now,
+      readyAt: now + CAVE_BATCH_DURATION_MS,
+    });
+  });
+
+  it("rejects restarting a patch that still has undug tiles", () => {
+    expect(() => start(dugOutState(24), "1", "Beetle")).toThrow(
       START_CAVE_BATCH_ERRORS.BATCH_IN_PROGRESS,
     );
   });

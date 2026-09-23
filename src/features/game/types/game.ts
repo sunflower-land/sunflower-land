@@ -1880,21 +1880,30 @@ export type Interior = {
 export type CaveRecipeName = "Mushroom" | "Beetle" | "Mud";
 
 /**
- * A running (or finished) Myco-Composter batch. Only the recipe and timer are
- * public: the full 25-tile dig layout lives solely in the encrypted `Seed`, and
- * every tile count is fixed by the recipe (see `CAVE_RECIPES`), so nothing
- * positional or count-related is stored here. `readyAt = startedAt + 12h`.
+ * A running (or finished) Myco-Composter batch. The 25-tile board is derived
+ * from `seed`, and every tile count is fixed by the recipe (see `CAVE_RECIPES`).
+ * `readyAt = startedAt + 12h`.
  */
 export type CaveBatch = {
   recipe: CaveRecipeName;
   startedAt: number;
   readyAt: number;
+  /**
+   * Server-rolled layout seed; the board is `generateCavePatch(recipe, seed)`.
+   * Owner-only: stripped from visitor and community payloads. Absent on the
+   * client until the save that follows `cave.batchStarted` returns.
+   */
+  seed?: number;
+  /** Dug tiles keyed "x,y"; what each held is derived from the seed. */
+  dug?: Record<string, CaveDugTile>;
 };
+
+export type CaveDugTile = { dugAt: number };
 
 /**
  * A Myco-Composter machine inside the Cave. One is created with each tier; it
  * sits directly above its own 5x5 digging patch. `batch` is present while a
- * batch is growing or ready, until the patch is dug out in a later ticket.
+ * batch is growing, ready or being dug, until the next batch replaces it.
  */
 export type CaveMachine = {
   batch?: CaveBatch;

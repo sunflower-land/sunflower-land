@@ -9,9 +9,12 @@ import type {
   CaveTileType,
 } from "features/game/types/caveRecipes";
 import {
+  CAVE_BATCH_DURATION_MS,
   CAVE_RECIPES,
   getCaveTileCounts,
+  isCavePatchCleared,
 } from "features/game/types/caveRecipes";
+import { getCaveBeetleProgress } from "features/game/types/cavePatch";
 import type { InventoryItemName } from "features/game/types/game";
 import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -57,9 +60,9 @@ interface Props {
 }
 
 /**
- * The Myco-Composter batch popover. Three states: idle (pick a mix and start),
- * growing (12h timer + gem finish), and ready (dig it up later — 430). The
- * hidden dig layout never reaches the client, so the patch shows nothing here.
+ * The Myco-Composter batch popover. Three states: idle (pick a mix and start,
+ * also once the patch is fully dug), growing (12h timer + gem finish), and
+ * ready (being dug).
  */
 export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
   const { gameService } = useContext(Context);
@@ -74,11 +77,14 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
   const now = useNow({ live: true, autoEndAt: batch?.readyAt });
   const payment = useSpeedUpPayment({ readyAt: batch?.readyAt ?? 0, game });
 
-  const isReady = !!batch && batch.readyAt <= now;
-  const isGrowing = !!batch && !isReady;
+  // A fully dug patch is back to idle: the player can start the next batch.
+  const isIdle = !batch || isCavePatchCleared(batch);
+  const isReady = !!batch && !isIdle && batch.readyAt <= now;
+  const isGrowing = !!batch && !isIdle && !isReady;
+  const beetles = batch ? getCaveBeetleProgress(batch) : undefined;
 
   // Every chapter has an artefact, so a patch always buries one; the preview
-  // shows the current chapter's artefact (awarded when the tile is dug in 430).
+  // shows the current chapter's artefact.
   const artefact = getChapterArtefact(now);
   const buriedCounts = getCaveTileCounts(selected, true);
 
@@ -88,7 +94,7 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
         onClose={onClose}
         title={t("cave.machine", { id: machineId })}
       >
-        {!batch && (
+        {isIdle && (
           <div className="flex flex-col items-center p-1">
             <Label type="default" className="mb-2">
               {t("cave.batch.chooseRecipe")}
@@ -142,7 +148,7 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
               ))}
               <RequirementLabel
                 type="time"
-                waitSeconds={(batch ? 0 : 12 * 60 * 60) as number}
+                waitSeconds={CAVE_BATCH_DURATION_MS / 1000}
               />
             </div>
 
@@ -159,6 +165,8 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
                   machineId,
                   recipe: selected,
                 });
+                // The server rolls the patch's board; fetch it straight away.
+                gameService.send("SAVE");
                 onClose();
               }}
             >
@@ -226,6 +234,7 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
                   machineId,
                   paymentMethod: payment.paymentMethod,
                 });
+                gameService.send("SAVE");
                 setShowConfirm(false);
                 onClose();
               }}
@@ -237,10 +246,19 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
           </div>
         )}
 
-        {isReady && (
+        {isReady && beetles && (
           <div className="flex flex-col items-center p-2">
             <Label type="success" className="mb-2">
               {t("cave.batch.ready")}
+            </Label>
+            <Label
+              type={beetles.found >= beetles.total ? "success" : "default"}
+              icon={ITEM_DETAILS["Brown Beetle"].image}
+              className="mb-2"
+            >
+              {beetles.found >= beetles.total
+                ? t("cave.dig.allBeetlesFound")
+                : t("cave.dig.beetlesFound", beetles)}
             </Label>
             <span className="text-xs text-center">
               {t("cave.batch.readyDescription")}

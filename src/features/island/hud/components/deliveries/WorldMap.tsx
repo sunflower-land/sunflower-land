@@ -14,6 +14,7 @@ import {
 } from "features/game/lib/level";
 import { Label } from "components/ui/Label";
 import { getKeys } from "lib/object";
+import { isCavePatchCleared } from "features/game/types/caveRecipes";
 import { useNow } from "lib/utils/hooks/useNow";
 import { isMobile } from "mobile-device-detect";
 import { useSelector } from "@xstate/react";
@@ -44,7 +45,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const readyPatchCount = state.cave
     ? getKeys(state.cave.machines).filter((id) => {
         const batch = state.cave?.machines[id].batch;
-        return !!batch && batch.readyAt <= now;
+        return !!batch && batch.readyAt <= now && !isCavePatchCleared(batch);
       }).length
     : 0;
 

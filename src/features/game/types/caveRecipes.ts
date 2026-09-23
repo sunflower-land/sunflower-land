@@ -1,10 +1,14 @@
 import Decimal from "decimal.js-light";
-import type { CaveRecipeName, InventoryItemName } from "./game";
+import type { CaveBatch, CaveRecipeName, InventoryItemName } from "./game";
 
 export type { CaveRecipeName };
 
 /** Every Myco-Composter patch is a 5x5 grid — 25 buried tiles. */
-export const CAVE_PATCH_TILE_COUNT = 25;
+export const CAVE_PATCH_WIDTH = 5;
+export const CAVE_PATCH_TILE_COUNT = CAVE_PATCH_WIDTH * CAVE_PATCH_WIDTH;
+
+/** Sand Shovels spent per Cave dig. Fixed — no wearable or boost changes it. */
+export const CAVE_DIG_SHOVEL_COST = 1;
 
 /**
  * How long a batch grows before its patch is ready to dig. Fixed 12h — existing
@@ -35,9 +39,8 @@ export type CaveRecipe = {
 };
 
 /**
- * The three Myco-Composter recipes. `composition` describes what the BE buries
- * in the hidden 5x5 layout; the FE never sees positions, only reads counts from
- * here. Both repos keep this file byte-identical.
+ * The three Myco-Composter recipes. `composition` describes what a patch buries
+ * (see `generateCavePatch`). Both repos keep this file byte-identical.
  */
 export const CAVE_RECIPES: Record<CaveRecipeName, CaveRecipe> = {
   Mushroom: {
@@ -73,4 +76,26 @@ export function getCaveTileCounts(
     Artefact: 0,
     Mud: composition.Mud + composition.Artefact,
   };
+}
+
+/** The "x,y" key of a tile in local patch coordinates (0..4 each). */
+export function caveTileKey(x: number, y: number): string {
+  return `${x},${y}`;
+}
+
+/** True for integer patch coordinates within the 5x5 grid. */
+export function isCaveTileInPatch(x: number, y: number): boolean {
+  return (
+    Number.isInteger(x) &&
+    Number.isInteger(y) &&
+    x >= 0 &&
+    y >= 0 &&
+    x < CAVE_PATCH_WIDTH &&
+    y < CAVE_PATCH_WIDTH
+  );
+}
+
+/** Every tile of the patch has been dug, so a new batch may start. */
+export function isCavePatchCleared(batch: CaveBatch): boolean {
+  return Object.keys(batch.dug ?? {}).length >= CAVE_PATCH_TILE_COUNT;
 }

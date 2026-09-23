@@ -6,6 +6,7 @@ import { getKeys } from "lib/object";
 import {
   CAVE_BATCH_DURATION_MS,
   CAVE_RECIPES,
+  isCavePatchCleared,
   type CaveRecipeName,
 } from "features/game/types/caveRecipes";
 
@@ -55,7 +56,8 @@ export function startCaveBatch({
       throw new Error(START_CAVE_BATCH_ERRORS.NO_MACHINE);
     }
 
-    if (machine.batch) {
+    // A fully dug patch can be restarted.
+    if (machine.batch && !isCavePatchCleared(machine.batch)) {
       throw new Error(START_CAVE_BATCH_ERRORS.BATCH_IN_PROGRESS);
     }
 
