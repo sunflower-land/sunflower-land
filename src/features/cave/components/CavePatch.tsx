@@ -10,6 +10,7 @@ import {
 import {
   generateCavePatch,
   getCaveBeetleProgress,
+  isCaveSeed,
   resolveCaveTile,
   type ResolvedCaveTile,
 } from "features/game/types/cavePatch";
@@ -81,7 +82,7 @@ export const CavePatch: React.FC<Props> = ({
   const seed = batch?.seed;
   const layout = useMemo(
     () =>
-      recipe && seed !== undefined
+      recipe && isCaveSeed(seed)
         ? generateCavePatch({ recipe, seed })
         : undefined,
     [recipe, seed],

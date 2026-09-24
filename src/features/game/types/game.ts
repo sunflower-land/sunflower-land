@@ -1889,11 +1889,12 @@ export type CaveBatch = {
   startedAt: number;
   readyAt: number;
   /**
-   * Server-rolled layout seed; the board is `generateCavePatch(recipe, seed)`.
-   * Owner-only: stripped from visitor and community payloads. Absent on the
-   * client until the save that follows `cave.batchStarted` returns.
+   * Server-rolled 128-bit layout seed (32 hex chars); the board is
+   * `generateCavePatch(recipe, seed)`. Owner-only: stripped from visitor and
+   * community payloads. Absent on the client until the save that follows
+   * `cave.batchStarted` returns.
    */
-  seed?: number;
+  seed?: string;
   /** Dug tiles keyed "x,y"; what each held is derived from the seed. */
   dug?: Record<string, CaveDugTile>;
 };

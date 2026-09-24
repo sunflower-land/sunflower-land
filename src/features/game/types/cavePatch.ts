@@ -44,18 +44,41 @@ const MUSHROOM_YIELD = 1;
 const BEETLE_YIELD = 1;
 const ARTEFACT_YIELD = 1;
 
+/** A Cave board seed: 128 random bits as 32 lowercase hex characters. */
+export function isCaveSeed(seed: unknown): seed is string {
+  return typeof seed === "string" && /^[0-9a-f]{32}$/.test(seed);
+}
+
 /**
- * mulberry32: a small 32-bit PRNG. Integer-only maths (`Math.imul`, shifts), so
- * every JS engine produces the same stream from the same seed.
+ * sfc32 seeded with the seed's four 32-bit words (128 bits of state), so the
+ * seed cannot be recovered by trying every value. Integer-only maths, so every
+ * JS engine produces the same stream from the same seed.
  */
-export function createCaveRandom(seed: number): () => number {
-  let state = seed >>> 0;
-  return () => {
-    state = (state + 0x6d2b79f5) | 0;
-    let t = Math.imul(state ^ (state >>> 15), 1 | state);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+export function createCaveRandom(seed: string): () => number {
+  if (!isCaveSeed(seed)) {
+    throw new Error("Invalid Cave seed");
+  }
+
+  const word = (i: number) => parseInt(seed.slice(i * 8, i * 8 + 8), 16) | 0;
+  let a = word(0);
+  let b = word(1);
+  let c = word(2);
+  let d = word(3);
+
+  const next = () => {
+    const t = (((a + b) | 0) + d) | 0;
+    d = (d + 1) | 0;
+    a = b ^ (b >>> 9);
+    b = (c + (c << 3)) | 0;
+    c = (c << 21) | (c >>> 11);
+    c = (c + t) | 0;
+    return (t >>> 0) / 4294967296;
   };
+
+  // Mix the seed in before use, as sfc32 recommends.
+  for (let i = 0; i < 15; i += 1) next();
+
+  return next;
 }
 
 function rollBeetle(random: () => number): BeetleName {
@@ -77,7 +100,7 @@ export function generateCavePatch({
   seed,
 }: {
   recipe: CaveRecipeName;
-  seed: number;
+  seed: string;
 }): CavePatchLayout {
   const random = createCaveRandom(seed);
   const { mudYieldMultiplier } = CAVE_RECIPES[recipe];
@@ -189,7 +212,7 @@ export function getCaveBeetleProgress(batch: CaveBatch): {
   total: number;
 } {
   const total = CAVE_RECIPES[batch.recipe].composition.Beetle;
-  if (batch.seed === undefined) return { found: 0, total };
+  if (!isCaveSeed(batch.seed)) return { found: 0, total };
 
   const layout = generateCavePatch({ recipe: batch.recipe, seed: batch.seed });
   const found = Object.keys(batch.dug ?? {}).filter(

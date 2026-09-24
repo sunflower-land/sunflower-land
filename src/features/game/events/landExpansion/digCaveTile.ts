@@ -9,6 +9,7 @@ import {
 } from "features/game/types/caveRecipes";
 import {
   generateCavePatch,
+  isCaveSeed,
   resolveCaveTile,
 } from "features/game/types/cavePatch";
 
@@ -70,7 +71,7 @@ export function digCaveTile({
       throw new Error(DIG_CAVE_TILE_ERRORS.NOT_READY);
     }
 
-    if (batch.seed === undefined) {
+    if (!isCaveSeed(batch.seed)) {
       throw new Error(DIG_CAVE_TILE_ERRORS.NO_SEED);
     }
 

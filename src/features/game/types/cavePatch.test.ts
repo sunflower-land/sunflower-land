@@ -2,6 +2,7 @@ import { CAVE_RECIPES, type CaveRecipeName } from "./caveRecipes";
 import {
   generateCavePatch,
   getCaveBeetleProgress,
+  isCaveSeed,
   getCaveTileClue,
   resolveCaveTile,
   type CavePatchLayout,
@@ -12,6 +13,12 @@ import {
 // FE and BE build the same board from the same seed.
 
 const RECIPES = Object.keys(CAVE_RECIPES) as CaveRecipeName[];
+
+/** A 128-bit seed (32 hex chars) from a small number, for loops. */
+const hexSeed = (n: number) => n.toString(16).padStart(32, "0");
+
+const MUSHROOM_SEED = "00112233445566778899aabbccddeeff";
+const BEETLE_SEED = "ffeeddccbbaa99887766554433221100";
 
 /** One letter per tile, row by row (y = 0..4): M, D (Mud), X (Artefact), or
  * the Beetle's initial (b = Brown, u = Blue, p = Pink, a = Amber). */
@@ -60,27 +67,50 @@ function layoutFromRows(rows: string[]): CavePatchLayout {
 describe("generateCavePatch", () => {
   it("builds the same golden board from the same seed in both repos", () => {
     expect(
-      toRows(generateCavePatch({ recipe: "Mushroom", seed: 12345 })),
-    ).toEqual(GOLDEN_MUSHROOM_12345);
+      toRows(generateCavePatch({ recipe: "Mushroom", seed: MUSHROOM_SEED })),
+    ).toEqual(GOLDEN_MUSHROOM);
     expect(
-      toRows(generateCavePatch({ recipe: "Beetle", seed: 4000000000 })),
-    ).toEqual(GOLDEN_BEETLE_4000000000);
+      toRows(generateCavePatch({ recipe: "Beetle", seed: BEETLE_SEED })),
+    ).toEqual(GOLDEN_BEETLE);
   });
 
   it("is deterministic for a seed", () => {
-    expect(generateCavePatch({ recipe: "Mud", seed: 7 })).toEqual(
-      generateCavePatch({ recipe: "Mud", seed: 7 }),
+    expect(generateCavePatch({ recipe: "Mud", seed: hexSeed(7) })).toEqual(
+      generateCavePatch({ recipe: "Mud", seed: hexSeed(7) }),
     );
   });
 
   it("builds a different board for a different seed", () => {
-    expect(generateCavePatch({ recipe: "Mud", seed: 7 })).not.toEqual(
-      generateCavePatch({ recipe: "Mud", seed: 8 }),
+    expect(generateCavePatch({ recipe: "Mud", seed: hexSeed(7) })).not.toEqual(
+      generateCavePatch({ recipe: "Mud", seed: hexSeed(8) }),
     );
   });
 
+  it("uses every 32-bit word of the seed", () => {
+    const base = "00000000000000000000000000000000";
+    const boards = new Set(
+      [
+        base,
+        "10000000000000000000000000000000",
+        "00000000100000000000000000000000",
+        "00000000000000001000000000000000",
+        "00000000000000000000000010000000",
+      ].map((seed) =>
+        JSON.stringify(generateCavePatch({ recipe: "Beetle", seed })),
+      ),
+    );
+    expect(boards.size).toBe(5);
+  });
+
+  it("rejects a seed that is not 32 hex characters", () => {
+    expect(() => generateCavePatch({ recipe: "Mud", seed: "12345" })).toThrow();
+    expect(() =>
+      generateCavePatch({ recipe: "Mud", seed: "z".repeat(32) }),
+    ).toThrow();
+  });
+
   it("fills exactly 25 tiles keyed by 0..4 coordinates", () => {
-    const layout = generateCavePatch({ recipe: "Beetle", seed: 1 });
+    const layout = generateCavePatch({ recipe: "Beetle", seed: hexSeed(1) });
     expect(Object.keys(layout)).toHaveLength(25);
     for (let x = 0; x < 5; x += 1) {
       for (let y = 0; y < 5; y += 1) {
@@ -91,14 +121,14 @@ describe("generateCavePatch", () => {
 
   it.each(RECIPES)("matches the recipe composition (%s)", (recipe) => {
     for (let seed = 1; seed <= 20; seed += 1) {
-      expect(countByType(generateCavePatch({ recipe, seed }))).toEqual(
-        CAVE_RECIPES[recipe].composition,
-      );
+      expect(
+        countByType(generateCavePatch({ recipe, seed: hexSeed(seed) })),
+      ).toEqual(CAVE_RECIPES[recipe].composition);
     }
   });
 
   it("stamps each Mud tile with the recipe's yield multiplier", () => {
-    const layout = generateCavePatch({ recipe: "Mud", seed: 3 });
+    const layout = generateCavePatch({ recipe: "Mud", seed: hexSeed(3) });
     for (const tile of Object.values(layout)) {
       if (tile.type === "Mud")
         expect(tile.amount).toBe(CAVE_RECIPES.Mud.mudYieldMultiplier);
@@ -114,7 +144,10 @@ describe("generateCavePatch", () => {
     };
     // The Beetle recipe buries 4 Beetles per patch; 2500 patches ≈ 10k rolls.
     for (let seed = 1; seed <= 2500; seed += 1) {
-      const layout = generateCavePatch({ recipe: "Beetle", seed });
+      const layout = generateCavePatch({
+        recipe: "Beetle",
+        seed: hexSeed(seed),
+      });
       for (const tile of Object.values(layout)) {
         if (tile.type === "Beetle") tally[tile.beetle] += 1;
       }
@@ -222,9 +255,25 @@ describe("resolveCaveTile", () => {
   });
 });
 
+describe("isCaveSeed", () => {
+  it("accepts 32 lowercase hex characters", () => {
+    expect(isCaveSeed(MUSHROOM_SEED)).toBe(true);
+  });
+
+  it.each([
+    12345,
+    "12345",
+    "Z".repeat(32),
+    MUSHROOM_SEED.toUpperCase(),
+    undefined,
+  ])("rejects %s", (seed) => {
+    expect(isCaveSeed(seed)).toBe(false);
+  });
+});
+
 describe("getCaveBeetleProgress", () => {
   it("counts dug Beetle tiles against the recipe total", () => {
-    const seed = 99;
+    const seed = hexSeed(99);
     const layout = generateCavePatch({ recipe: "Beetle", seed });
     const beetleKeys = Object.keys(layout).filter(
       (key) => layout[key].type === "Beetle",
@@ -244,6 +293,18 @@ describe("getCaveBeetleProgress", () => {
     ).toEqual({ found: 1, total: CAVE_RECIPES.Beetle.composition.Beetle });
   });
 
+  it("finds nothing for a batch without a valid seed", () => {
+    expect(
+      getCaveBeetleProgress({
+        recipe: "Mud",
+        startedAt: 0,
+        readyAt: 1,
+        seed: 12345 as unknown as string,
+        dug: { "0,0": { dugAt: 1 } },
+      }),
+    ).toEqual({ found: 0, total: CAVE_RECIPES.Mud.composition.Beetle });
+  });
+
   it("finds nothing before the seed arrives", () => {
     expect(
       getCaveBeetleProgress({ recipe: "Mud", startedAt: 0, readyAt: 1 }),
@@ -251,5 +312,5 @@ describe("getCaveBeetleProgress", () => {
   });
 });
 
-const GOLDEN_MUSHROOM_12345 = ["MDDDM", "DMDMM", "DDDDD", "DDDMu", "DDDbX"];
-const GOLDEN_BEETLE_4000000000 = ["DbMXD", "DDDMp", "DuDDD", "DDDMD", "pDDDD"];
+const GOLDEN_MUSHROOM = ["DMDMD", "MMMDD", "DDDDD", "DDMbD", "DDDuX"];
+const GOLDEN_BEETLE = ["DMDDb", "DDDDb", "MMbDD", "DuDDD", "DXDDD"];

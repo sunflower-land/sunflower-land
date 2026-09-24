@@ -15,13 +15,13 @@ import { DIG_CAVE_TILE_ERRORS, digCaveTile } from "./digCaveTile";
 // Inside the Ascension Age chapter, whose artefact is the Otter Pebble.
 const NOW = new Date("2026-09-23T00:00:00.000Z").getTime();
 
-// Seed 12345 on the Mushroom mix (golden board in cavePatch.test.ts):
-//   y0 MDDDM
-//   y1 DMDMM
+// This seed on the Mushroom mix (golden board in cavePatch.test.ts):
+//   y0 DMDMD
+//   y1 MMMDD
 //   y2 DDDDD
-//   y3 DDDMu   (4,3) Blue Beetle
-//   y4 DDDbX   (3,4) Brown Beetle, (4,4) Artefact
-const SEED = 12345;
+//   y3 DDMbD   (3,3) Brown Beetle
+//   y4 DDDuX   (3,4) Blue Beetle, (4,4) Artefact
+const SEED = "00112233445566778899aabbccddeeff";
 
 const readyState = ({
   batch = {},
@@ -95,10 +95,10 @@ describe("digCaveTile (cave.dug)", () => {
   });
 
   it.each([
-    [0, 0, "Wild Mushroom", 1],
-    [4, 3, "Blue Beetle", 1],
-    [3, 4, "Brown Beetle", 1],
-    [1, 0, "Mud", 1],
+    [1, 0, "Wild Mushroom", 1],
+    [3, 3, "Brown Beetle", 1],
+    [3, 4, "Blue Beetle", 1],
+    [0, 0, "Mud", 1],
     [4, 4, "Otter Pebble", 1],
   ] as const)("awards tile %s,%s: %s x%s", (x, y, item, amount) => {
     const next = dig(readyState(), x, y);
@@ -142,12 +142,12 @@ describe("digCaveTile (cave.dug)", () => {
 
   it("keeps a tile's clue after a neighbouring Beetle is dug", () => {
     const layout = generateCavePatch({ recipe: "Mushroom", seed: SEED });
-    const clueBefore = resolveCaveTile(layout, 3, 3, NOW).clue;
-    const afterBeetle = dig(readyState(), 3, 4);
-    const next = dig(afterBeetle, 3, 3);
-    expect(clueBefore).toBe(2);
+    const clueBefore = resolveCaveTile(layout, 2, 3, NOW).clue;
+    const afterBeetle = dig(readyState(), 3, 3);
+    const next = dig(afterBeetle, 2, 3);
+    expect(clueBefore).toBe(1);
     expect(next.cave?.machines["1"].batch?.seed).toBe(SEED);
-    expect(resolveCaveTile(layout, 3, 3, NOW).clue).toBe(clueBefore);
+    expect(resolveCaveTile(layout, 2, 3, NOW).clue).toBe(clueBefore);
   });
 
   it("rejects a tile that was already dug", () => {
@@ -168,6 +168,13 @@ describe("digCaveTile (cave.dug)", () => {
 
   it("rejects a batch without its seed", () => {
     const state = readyState({ batch: { seed: undefined } });
+    expect(() => dig(state, 1, 0)).toThrow(DIG_CAVE_TILE_ERRORS.NO_SEED);
+  });
+
+  it("rejects a batch whose seed is not a 128-bit hex seed", () => {
+    const state = readyState({
+      batch: { seed: 12345 as unknown as string },
+    });
     expect(() => dig(state, 1, 0)).toThrow(DIG_CAVE_TILE_ERRORS.NO_SEED);
   });
 
