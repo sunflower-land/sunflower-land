@@ -244,8 +244,8 @@ const NextDrop: React.FC<{ auctions: AuctionItems; game: GameState }> = ({
 };
 
 /**
- * iOS → Apple Calendar via the API's .ics, Android → default calendar app,
- * otherwise Google Calendar
+ * iOS → Apple Calendar via the API's .ics, Android → a calendar app that
+ * accepts the intent (else Google Calendar web), otherwise Google Calendar
  */
 const getCalendarUrl = (drop: Auction, title: string) => {
   if (isIOS && CONFIG.API_URL) {

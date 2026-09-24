@@ -34,9 +34,10 @@ export const getGoogleCalendarUrl = ({
 };
 
 /**
- * Asks Android to open the player's default calendar app on a prefilled new
- * event (CalendarContract ACTION_INSERT). If no app accepts the intent, Chrome
- * opens the Google Calendar web page instead.
+ * Asks Android to open a calendar app on a prefilled new event
+ * (CalendarContract ACTION_INSERT). Whether that works depends on the browser
+ * dispatching the intent and a calendar app accepting it from the web; when it
+ * doesn't, Chrome opens the Google Calendar web page instead.
  */
 export const getAndroidCalendarIntentUrl = (event: CalendarEvent) => {
   const extras = [
