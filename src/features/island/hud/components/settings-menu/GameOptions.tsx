@@ -70,6 +70,7 @@ import { LandscapingExperimentSettings } from "./experiments-settings/Landscapin
 import { ToolShopBuyAllExperimentSettings } from "./experiments-settings/ToolShopBuyAllExperimentSettings";
 import { CustomCursorExperimentSettings } from "./experiments-settings/CustomCursorExperimentSettings";
 import { StatsLeaderboardExperimentSettings } from "./experiments-settings/StatsLeaderboardExperimentSettings";
+import { AuctionCalendarExperimentSettings } from "./experiments-settings/AuctionCalendarExperimentSettings";
 import type { ContentComponentProps, SettingMenuId } from "./types";
 import { TwitterRewards } from "features/auth/components/Twitter/Twitter";
 import { TelegramBody } from "features/auth/components/Telegram/Telegram";
@@ -430,6 +431,11 @@ export const SETTING_MENUS: Record<SettingMenuId, SettingMenu> = {
     title: translate("gameOptions.experiments.statsLeaderboard"),
     parent: "experiments",
     content: StatsLeaderboardExperimentSettings,
+  },
+  auctionCalendar: {
+    title: translate("gameOptions.experiments.auctionCalendar"),
+    parent: "experiments",
+    content: AuctionCalendarExperimentSettings,
   },
   betaFeatures: {
     title: translate("gameOptions.betaFeatures"),
