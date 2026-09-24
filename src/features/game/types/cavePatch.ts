@@ -4,6 +4,7 @@ import {
   CAVE_RECIPES,
   caveTileKey,
   getCaveTileCounts,
+  isCavePatchCleared,
   isCaveTileInPatch,
   type CaveRecipeName,
   type CaveTileType,
@@ -220,4 +221,34 @@ export function getCaveBeetleProgress(batch: CaveBatch): {
   ).length;
 
   return { found, total };
+}
+
+/** What is still buried in a patch, by tile type (all zero without a seed). */
+export function getUndugCaveTiles(
+  batch: CaveBatch,
+): Record<CaveTileType, number> {
+  const undug: Record<CaveTileType, number> = {
+    Mushroom: 0,
+    Beetle: 0,
+    Mud: 0,
+    Artefact: 0,
+  };
+  if (!isCaveSeed(batch.seed)) return undug;
+
+  const layout = generateCavePatch({ recipe: batch.recipe, seed: batch.seed });
+  for (const [key, tile] of Object.entries(layout)) {
+    if (!batch.dug?.[key]) undug[tile.type] += 1;
+  }
+  return undug;
+}
+
+/**
+ * A new batch may replace this one once every tile is dug, or once every
+ * Beetle has been found (whatever else is still buried is discarded).
+ */
+export function canRestartCaveBatch(batch: CaveBatch): boolean {
+  if (isCavePatchCleared(batch)) return true;
+
+  const { found, total } = getCaveBeetleProgress(batch);
+  return isCaveSeed(batch.seed) && found >= total;
 }

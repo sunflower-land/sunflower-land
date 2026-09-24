@@ -58,6 +58,26 @@ const dugOutState = (count: number): GameState => ({
   },
 });
 
+/** A ready Mushroom batch on a known board with the given tiles dug. */
+const beetleHuntState = (dugKeys: string[]): GameState => ({
+  ...caveState(),
+  cave: {
+    builtAt: 1,
+    tier: 1,
+    machines: {
+      "1": {
+        batch: {
+          recipe: "Mushroom",
+          startedAt: 0,
+          readyAt: 1,
+          seed: "00112233445566778899aabbccddeeff",
+          dug: Object.fromEntries(dugKeys.map((key) => [key, { dugAt: 2 }])),
+        },
+      },
+    },
+  },
+});
+
 describe("startCaveBatch (cave.batchStarted)", () => {
   it("consumes the recipe ingredients", () => {
     const before = caveState();
@@ -99,6 +119,20 @@ describe("startCaveBatch (cave.batchStarted)", () => {
       startedAt: now,
       readyAt: now + CAVE_BATCH_DURATION_MS,
     });
+  });
+
+  it("restarts a patch once every Beetle is found, discarding the rest", () => {
+    // Beetles at (3,3) and (3,4) on this seed's Mushroom board.
+    const state = beetleHuntState(["3,3", "3,4"]);
+    const next = start(state, "1", "Beetle");
+    expect(next.cave?.machines["1"].batch?.recipe).toBe("Beetle");
+    expect(next.cave?.machines["1"].batch?.dug).toBeUndefined();
+  });
+
+  it("rejects restarting while a Beetle is still buried", () => {
+    expect(() => start(beetleHuntState(["3,3"]), "1", "Beetle")).toThrow(
+      START_CAVE_BATCH_ERRORS.BATCH_IN_PROGRESS,
+    );
   });
 
   it("rejects restarting a patch that still has undug tiles", () => {

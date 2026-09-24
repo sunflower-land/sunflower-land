@@ -1,7 +1,9 @@
 import { CAVE_RECIPES, type CaveRecipeName } from "./caveRecipes";
 import {
+  canRestartCaveBatch,
   generateCavePatch,
   getCaveBeetleProgress,
+  getUndugCaveTiles,
   isCaveSeed,
   getCaveTileClue,
   resolveCaveTile,
@@ -309,6 +311,66 @@ describe("getCaveBeetleProgress", () => {
     expect(
       getCaveBeetleProgress({ recipe: "Mud", startedAt: 0, readyAt: 1 }),
     ).toEqual({ found: 0, total: CAVE_RECIPES.Mud.composition.Beetle });
+  });
+});
+
+// MUSHROOM_SEED's golden board has its two Beetles at (3,3) and (3,4), the
+// artefact at (4,4) and Mushrooms at (1,0), (3,0), (0,1), (1,1), (2,1), (2,3).
+const mushroomBatch = (dugKeys: string[]) => ({
+  recipe: "Mushroom" as const,
+  startedAt: 0,
+  readyAt: 1,
+  seed: MUSHROOM_SEED,
+  dug: Object.fromEntries(dugKeys.map((key) => [key, { dugAt: 1 }])),
+});
+
+describe("canRestartCaveBatch", () => {
+  it("is false before any tile is dug", () => {
+    expect(canRestartCaveBatch(mushroomBatch([]))).toBe(false);
+  });
+
+  it("is false while a Beetle is still buried", () => {
+    expect(canRestartCaveBatch(mushroomBatch(["3,3", "0,0"]))).toBe(false);
+  });
+
+  it("is true once every Beetle is found, even with tiles left", () => {
+    expect(canRestartCaveBatch(mushroomBatch(["3,3", "3,4"]))).toBe(true);
+  });
+
+  it("is true once every tile is dug", () => {
+    const all = Array.from(
+      { length: 25 },
+      (_, i) => `${i % 5},${Math.floor(i / 5)}`,
+    );
+    expect(canRestartCaveBatch(mushroomBatch(all))).toBe(true);
+  });
+
+  it("is false for a partly dug batch without a valid seed", () => {
+    expect(
+      canRestartCaveBatch({
+        ...mushroomBatch(["3,3", "3,4"]),
+        seed: 12345 as unknown as string,
+      }),
+    ).toBe(false);
+  });
+});
+
+describe("getUndugCaveTiles", () => {
+  it("counts what is still buried, by tile type", () => {
+    expect(
+      getUndugCaveTiles(mushroomBatch(["3,3", "3,4", "1,0", "0,0"])),
+    ).toEqual({
+      Mushroom: 5,
+      Beetle: 0,
+      Mud: 15,
+      Artefact: 1,
+    });
+  });
+
+  it("is empty without a valid seed", () => {
+    expect(
+      getUndugCaveTiles({ recipe: "Mud", startedAt: 0, readyAt: 1 }),
+    ).toEqual({ Mushroom: 0, Beetle: 0, Mud: 0, Artefact: 0 });
   });
 });
 

@@ -14,7 +14,11 @@ import {
   getCaveTileCounts,
   isCavePatchCleared,
 } from "features/game/types/caveRecipes";
-import { getCaveBeetleProgress } from "features/game/types/cavePatch";
+import {
+  canRestartCaveBatch,
+  getCaveBeetleProgress,
+  getUndugCaveTiles,
+} from "features/game/types/cavePatch";
 import type { InventoryItemName } from "features/game/types/game";
 import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -73,12 +77,16 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
 
   const [selected, setSelected] = useState<CaveRecipeName>("Mushroom");
   const [showConfirm, setShowConfirm] = useState(false);
+  const [showReplaceConfirm, setShowReplaceConfirm] = useState(false);
 
   const now = useNow({ live: true, autoEndAt: batch?.readyAt });
   const payment = useSpeedUpPayment({ readyAt: batch?.readyAt ?? 0, game });
 
-  // A fully dug patch is back to idle: the player can start the next batch.
-  const isIdle = !batch || isCavePatchCleared(batch);
+  // The recipe picker shows once the patch is fully dug, or once every Beetle
+  // is found (the player may keep digging or start the next batch).
+  const isCleared = !!batch && isCavePatchCleared(batch);
+  const canReplace = !!batch && !isCleared && canRestartCaveBatch(batch);
+  const isIdle = !batch || isCleared || canReplace;
   const isReady = !!batch && !isIdle && batch.readyAt <= now;
   const isGrowing = !!batch && !isIdle && !isReady;
   const beetles = batch ? getCaveBeetleProgress(batch) : undefined;
@@ -88,6 +96,22 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
   const artefact = getChapterArtefact(now);
   const buriedCounts = getCaveTileCounts(selected, true);
 
+  // Mushrooms and the artefact left in a replaced patch are lost; ask first.
+  // Leftover Mud alone is not worth a warning.
+  const undug = canReplace && batch ? getUndugCaveTiles(batch) : undefined;
+  const hasLeftovers = !!undug && (undug.Mushroom > 0 || undug.Artefact > 0);
+
+  const startBatch = () => {
+    gameService.send({
+      type: "cave.batchStarted",
+      machineId,
+      recipe: selected,
+    });
+    // The server rolls the patch's board; fetch it straight away.
+    gameService.send("SAVE");
+    onClose();
+  };
+
   return (
     <Modal show onHide={onClose}>
       <CloseButtonPanel
@@ -96,6 +120,20 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
       >
         {isIdle && (
           <div className="flex flex-col items-center p-1">
+            {canReplace && (
+              <>
+                <Label
+                  type="success"
+                  icon={ITEM_DETAILS["Brown Beetle"].image}
+                  className="mb-1"
+                >
+                  {t("cave.dig.allBeetlesFound")}
+                </Label>
+                <span className="text-xs text-center mb-2">
+                  {t("cave.batch.replaceHint")}
+                </span>
+              </>
+            )}
             <Label type="default" className="mb-2">
               {t("cave.batch.chooseRecipe")}
             </Label>
@@ -159,19 +197,38 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
                     CAVE_RECIPES[selected].ingredients[item] ?? new Decimal(0),
                   ),
               )}
-              onClick={() => {
-                gameService.send({
-                  type: "cave.batchStarted",
-                  machineId,
-                  recipe: selected,
-                });
-                // The server rolls the patch's board; fetch it straight away.
-                gameService.send("SAVE");
-                onClose();
-              }}
+              onClick={() =>
+                hasLeftovers ? setShowReplaceConfirm(true) : startBatch()
+              }
             >
               {t("cave.batch.start")}
             </Button>
+
+            <ConfirmationModal
+              show={showReplaceConfirm}
+              onHide={() => setShowReplaceConfirm(false)}
+              onCancel={() => setShowReplaceConfirm(false)}
+              onConfirm={() => {
+                setShowReplaceConfirm(false);
+                startBatch();
+              }}
+              messages={[t("cave.batch.confirmReplace")]}
+              confirmButtonLabel={t("cave.batch.start")}
+              bodyContent={
+                <div className="flex flex-wrap justify-center gap-1">
+                  {!!undug?.Mushroom && (
+                    <Label type="danger" icon={TILE_IMAGE.Mushroom}>
+                      {undug.Mushroom}
+                    </Label>
+                  )}
+                  {!!undug?.Artefact && (
+                    <Label type="danger" icon={ITEM_DETAILS[artefact].image}>
+                      {undug.Artefact}
+                    </Label>
+                  )}
+                </div>
+              }
+            />
           </div>
         )}
 

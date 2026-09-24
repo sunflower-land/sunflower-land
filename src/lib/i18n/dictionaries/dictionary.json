@@ -4017,6 +4017,8 @@
   "cave.batch.readyDescription": "Dig the patch with Sand Shovels. Each number shows how many Beetles are hiding next to that tile.",
   "cave.batch.finishNow": "Finish now",
   "cave.batch.confirmFinish": "Instantly finish this batch?",
+  "cave.batch.replaceHint": "Keep digging, or start a new batch. Anything still buried will be lost.",
+  "cave.batch.confirmReplace": "Start a new batch? These are still buried and will be lost:",
   "cave.dig.beetlesFound": "Beetles found: {{found}}/{{total}}",
   "cave.dig.allBeetlesFound": "All Beetles found!",
   "cave.dig.cleared": "Patch cleared",
