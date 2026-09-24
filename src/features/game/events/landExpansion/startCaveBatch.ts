@@ -8,6 +8,7 @@ import {
   CAVE_RECIPES,
   type CaveRecipeName,
 } from "features/game/types/caveRecipes";
+import { canRestartCaveBatch } from "features/game/types/cavePatch";
 
 export type StartCaveBatchAction = {
   type: "cave.batchStarted";
@@ -55,7 +56,9 @@ export function startCaveBatch({
       throw new Error(START_CAVE_BATCH_ERRORS.NO_MACHINE);
     }
 
-    if (machine.batch) {
+    // A running batch, or one with Beetles still buried, blocks a new one. Once
+    // every Beetle is found the patch can be replaced; what is left is lost.
+    if (machine.batch && !canRestartCaveBatch(machine.batch)) {
       throw new Error(START_CAVE_BATCH_ERRORS.BATCH_IN_PROGRESS);
     }
 

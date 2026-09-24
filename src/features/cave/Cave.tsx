@@ -8,8 +8,8 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { hasFeatureAccess } from "lib/flags";
 import { useNow } from "lib/utils/hooks/useNow";
-import { secondsToString } from "lib/utils/time";
 import {
   CAVE_MACHINE_SIZE,
   CAVE_PATCH_SIZE,
@@ -17,18 +17,24 @@ import {
   CAVE_SLOTS,
   caveSlotsForTier,
 } from "features/game/expansion/placeable/lib/caveLayout";
+import { isCavePatchCleared } from "features/game/types/caveRecipes";
+import { ITEM_DETAILS } from "features/game/types/images";
 import { CaveMachineModal } from "./components/CaveMachineModal";
+import { CavePatch } from "./components/CavePatch";
 import { Hud } from "features/island/hud/Hud";
 
 const _cave = (state: MachineState) => state.context.state.cave;
+const _hasCaveAccess = (state: MachineState) =>
+  hasFeatureAccess(state.context.state, "CAVE");
+const _shovels = (state: MachineState) =>
+  state.context.state.inventory["Sand Shovel"]?.toNumber() ?? 0;
 
 /**
  * The Cave interior room, mounted at `/cave`. Placeholder art for now — the
  * art team supplies a room image per tier size later. Renders the unlocked
  * slots (Tier I = slot 1): each Myco-Composter machine above its own 5x5
- * digging patch. Clicking a machine opens the batch popover. A growing patch is
- * covered; a ready one is highlighted (digging arrives in a later slice). The
- * ladder (top-left) leaves the Cave.
+ * digging patch. Clicking a machine opens the batch popover; a ready patch is
+ * dug tile by tile. The ladder (top-left) leaves the Cave.
  */
 export const Cave: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -36,11 +42,14 @@ export const Cave: React.FC = () => {
   const { t } = useAppTranslation();
 
   const cave = useSelector(gameService, _cave);
+  const hasCaveAccess = useSelector(gameService, _hasCaveAccess);
+  const shovels = useSelector(gameService, _shovels);
   const now = useNow({ live: true });
   const [selectedMachine, setSelectedMachine] = useState<string>();
 
-  // Reached by URL without a Cave built — send the player back to the farm.
-  if (!cave) {
+  // Reached by URL without access or without a Cave built — send the player
+  // back to the farm.
+  if (!hasCaveAccess || !cave) {
     return <Navigate to="/" replace />;
   }
 
@@ -82,11 +91,22 @@ export const Cave: React.FC = () => {
           <span className="text-white text-xxs">{t("exit")}</span>
         </button>
 
+        {/* Sand Shovels left to dig with. */}
+        <div className="absolute top-1 right-1">
+          <Label
+            type={shovels > 0 ? "default" : "danger"}
+            icon={ITEM_DETAILS["Sand Shovel"].image}
+          >
+            {shovels}
+          </Label>
+        </div>
+
         {slots.map((id) => {
           const slot = CAVE_SLOTS[id];
           const batch = cave.machines[String(id)]?.batch;
           const growing = !!batch && batch.readyAt > now;
-          const ready = !!batch && batch.readyAt <= now;
+          const ready =
+            !!batch && batch.readyAt <= now && !isCavePatchCleared(batch);
 
           return (
             <React.Fragment key={`slot-${id}`}>
@@ -109,50 +129,22 @@ export const Cave: React.FC = () => {
                 </Label>
               </button>
 
-              {/* 5x5 digging patch. Covered while growing; nothing is revealed
-                  when ready (the hidden layout never reaches the client). */}
+              {/* 5x5 digging patch. */}
               <div
-                className="absolute grid"
+                className="absolute"
                 style={{
                   left: `${leftPx(slot.patch.x)}px`,
                   top: `${topPx(slot.patch.y)}px`,
                   width: `${CAVE_PATCH_SIZE * GRID_WIDTH_PX}px`,
                   height: `${CAVE_PATCH_SIZE * GRID_WIDTH_PX}px`,
-                  gridTemplateColumns: `repeat(${CAVE_PATCH_SIZE}, 1fr)`,
-                  gridTemplateRows: `repeat(${CAVE_PATCH_SIZE}, 1fr)`,
                 }}
               >
-                {Array.from({ length: CAVE_PATCH_SIZE * CAVE_PATCH_SIZE }).map(
-                  (_, i) => (
-                    <img
-                      key={`tile-${id}-${i}`}
-                      src={SUNNYSIDE.soil.sand_dug}
-                      className="w-full h-full"
-                      style={{ imageRendering: "pixelated" }}
-                    />
-                  ),
-                )}
-
-                {growing && batch && (
-                  <div className="absolute inset-0 bg-[#241521]/70 flex flex-col items-center justify-center">
-                    <img
-                      src={SUNNYSIDE.icons.stopwatch}
-                      style={{ width: `${PIXEL_SCALE * 8}px` }}
-                    />
-                    <span className="text-white text-xxs mt-0.5">
-                      {secondsToString(
-                        Math.max(0, (batch.readyAt - now) / 1000),
-                        { length: "short" },
-                      )}
-                    </span>
-                  </div>
-                )}
-
-                {ready && (
-                  <div className="absolute inset-0 flex items-start justify-center pt-0.5 pointer-events-none">
-                    <Label type="success">{t("cave.batch.ready")}</Label>
-                  </div>
-                )}
+                <CavePatch
+                  machineId={String(id)}
+                  batch={batch}
+                  now={now}
+                  hasShovel={shovels > 0}
+                />
               </div>
             </React.Fragment>
           );

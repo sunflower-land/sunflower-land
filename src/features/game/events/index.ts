@@ -60,6 +60,10 @@ import {
   speedUpCaveBatch,
   type SpeedUpCaveBatchAction,
 } from "./landExpansion/speedUpCaveBatch";
+import {
+  digCaveTile,
+  type DigCaveTileAction,
+} from "./landExpansion/digCaveTile";
 import { cook, type RecipeCookedAction } from "./landExpansion/cook";
 import {
   collectRecipe,
@@ -1068,7 +1072,8 @@ export type PlayingEvent =
   | UpgradeInteriorAction
   | CaveBuiltAction
   | StartCaveBatchAction
-  | SpeedUpCaveBatchAction;
+  | SpeedUpCaveBatchAction
+  | DigCaveTileAction;
 
 export type LocalVisitingEvent =
   | CollectGarbageAction
@@ -1376,6 +1381,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "cave.built": buildCave,
   "cave.batchStarted": startCaveBatch,
   "cave.batchSpedUp": speedUpCaveBatch,
+  "cave.dug": digCaveTile,
 };
 
 export const LOCAL_VISITING_EVENTS: Handlers<LocalVisitingEvent> = {
