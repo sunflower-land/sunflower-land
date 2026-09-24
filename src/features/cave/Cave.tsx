@@ -8,6 +8,7 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { hasFeatureAccess } from "lib/flags";
 import { useNow } from "lib/utils/hooks/useNow";
 import {
   CAVE_MACHINE_SIZE,
@@ -23,6 +24,8 @@ import { CavePatch } from "./components/CavePatch";
 import { Hud } from "features/island/hud/Hud";
 
 const _cave = (state: MachineState) => state.context.state.cave;
+const _hasCaveAccess = (state: MachineState) =>
+  hasFeatureAccess(state.context.state, "CAVE");
 const _shovels = (state: MachineState) =>
   state.context.state.inventory["Sand Shovel"]?.toNumber() ?? 0;
 
@@ -39,12 +42,14 @@ export const Cave: React.FC = () => {
   const { t } = useAppTranslation();
 
   const cave = useSelector(gameService, _cave);
+  const hasCaveAccess = useSelector(gameService, _hasCaveAccess);
   const shovels = useSelector(gameService, _shovels);
   const now = useNow({ live: true });
   const [selectedMachine, setSelectedMachine] = useState<string>();
 
-  // Reached by URL without a Cave built — send the player back to the farm.
-  if (!cave) {
+  // Reached by URL without access or without a Cave built — send the player
+  // back to the farm.
+  if (!hasCaveAccess || !cave) {
     return <Navigate to="/" replace />;
   }
 
