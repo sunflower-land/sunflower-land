@@ -2046,7 +2046,7 @@
   "gameOptions.experiments.communityGamesDescription": "Play the community mini-games we run during the weekly streams — race, log chop and egg catch. Join whatever's live, or view recent results.",
   "gameOptions.experiments.statsLeaderboard": "Stats leaderboards",
   "gameOptions.experiments.auctionCalendar": "Auction calendar",
-  "gameOptions.experiments.auctionCalendarDescription": "Add auction drops to your calendar. Tap the calendar icon next to an upcoming drop in the auction schedule to add it to your phone's calendar, or to Google Calendar on desktop.",
+  "gameOptions.experiments.auctionCalendarDescription": "Add auction drops to your calendar. Tap the calendar icon next to an upcoming drop in the auction schedule to add it to a supported phone calendar, or to Google Calendar in your browser.",
   "gameOptions.experiments.auctionCalendarToggle": "Enable auction calendar",
   "gameOptions.experiments.statsLeaderboardDescription": "Daily top 100 boards for coins, XP, crops, fish, animals and deliveries. Ranked over players active in the last 30 days.",
   "statsLeaderboard.previousDay": "Previous day",
