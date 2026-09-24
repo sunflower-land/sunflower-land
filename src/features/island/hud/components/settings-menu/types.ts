@@ -29,6 +29,7 @@ export type SettingMenuId =
   | "toolShopBuyAll"
   | "customCursor"
   | "statsLeaderboard"
+  | "auctionCalendar"
   | "betaFeatures"
   | "admin"
   | "faceRecognition"

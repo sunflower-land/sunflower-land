@@ -24,6 +24,12 @@ export const EXPERIMENT_DEFAULTS = {
    * cancel, and the layouts button is hidden.
    */
   newLandscaping: false,
+  /**
+   * Calendar icon on each upcoming drop in the auction schedule: iOS opens
+   * Apple Calendar via the API's `/auction/:id/calendar`, Android the default
+   * calendar app (Google Calendar web fallback), desktop Google Calendar.
+   */
+  auctionCalendar: false,
 } satisfies Record<string, boolean>;
 
 export type ExperimentName = keyof typeof EXPERIMENT_DEFAULTS;
