@@ -8688,5 +8688,10 @@
   "cave.batch.ready": "准备挖掘了！",
   "cave.batch.readyDescription": "带着沙铲回来把它挖出来。",
   "cave.batch.finishNow": "立即完成",
-  "cave.batch.confirmFinish": "立即完成这批？"
+  "cave.batch.confirmFinish": "立即完成这批？",
+  "auction.addToCalendar": "添加到日历",
+  "auction.calendarEventTitle": "向日葵地拍卖：{{item}}",
+  "gameOptions.experiments.auctionCalendar": "拍卖日历",
+  "gameOptions.experiments.auctionCalendarDescription": "将拍卖掉落添加到您的日历中。轻触即将发布的拍卖日程表旁边的日历图标，将其添加到支持的手机日历中，或在浏览器中将其添加到 Google 日历中。",
+  "gameOptions.experiments.auctionCalendarToggle": "启用拍卖日历"
 }

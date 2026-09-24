@@ -8688,5 +8688,10 @@
   "cave.batch.ready": "Pronti a scavare!",
   "cave.batch.readyDescription": "Torna con una pala da sabbia per dissotterrarlo.",
   "cave.batch.finishNow": "Finisci ora",
-  "cave.batch.confirmFinish": "Finisci subito questo lotto?"
+  "cave.batch.confirmFinish": "Finisci subito questo lotto?",
+  "auction.addToCalendar": "Aggiungi al calendario",
+  "auction.calendarEventTitle": "Asta Sunflower Land: {{item}}",
+  "gameOptions.experiments.auctionCalendar": "Calendario delle aste",
+  "gameOptions.experiments.auctionCalendarDescription": "Aggiungi offerte d'asta al tuo calendario. Tocca l'icona del calendario accanto a un annuncio imminente nel programma delle aste per aggiungerlo a un calendario telefonico supportato o a Google Calendar nel tuo browser.",
+  "gameOptions.experiments.auctionCalendarToggle": "Abilita il calendario delle aste"
 }

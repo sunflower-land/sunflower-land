@@ -8688,5 +8688,10 @@
   "cave.batch.ready": "Prêt à creuser !",
   "cave.batch.readyDescription": "Revenez avec une pelle à sable pour le déterrer.",
   "cave.batch.finishNow": "Terminez maintenant",
-  "cave.batch.confirmFinish": "Terminer ce lot instantanément ?"
+  "cave.batch.confirmFinish": "Terminer ce lot instantanément ?",
+  "auction.addToCalendar": "Ajouter au calendrier",
+  "auction.calendarEventTitle": "Vente aux enchères de Sunflower Land : {{item}}",
+  "gameOptions.experiments.auctionCalendar": "Calendrier des ventes",
+  "gameOptions.experiments.auctionCalendarDescription": "Ajoutez des mises aux enchères à votre calendrier. Appuyez sur l'icône du calendrier à côté d'une annonce à venir dans le calendrier des enchères pour l'ajouter à un calendrier téléphonique compatible ou à Google Agenda dans votre navigateur.",
+  "gameOptions.experiments.auctionCalendarToggle": "Activer le calendrier des enchères"
 }

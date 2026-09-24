@@ -8688,5 +8688,10 @@
   "cave.batch.ready": "Ready to dig!",
   "cave.batch.readyDescription": "Come back with a Sand Shovel to dig it up.",
   "cave.batch.finishNow": "Finish now",
-  "cave.batch.confirmFinish": "Instantly finish this batch?"
+  "cave.batch.confirmFinish": "Instantly finish this batch?",
+  "auction.addToCalendar": "Add to calendar",
+  "auction.calendarEventTitle": "Sunflower Land auction: {{item}}",
+  "gameOptions.experiments.auctionCalendar": "Auction calendar",
+  "gameOptions.experiments.auctionCalendarDescription": "Add auction drops to your calendar. Tap the calendar icon next to an upcoming drop in the auction schedule to add it to a supported phone calendar, or to Google Calendar in your browser.",
+  "gameOptions.experiments.auctionCalendarToggle": "Enable auction calendar"
 }

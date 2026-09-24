@@ -8688,5 +8688,10 @@
   "cave.batch.ready": "Siap menggali!",
   "cave.batch.readyDescription": "Kembalilah dengan Sekop Pasir untuk menggalinya.",
   "cave.batch.finishNow": "Selesaikan sekarang",
-  "cave.batch.confirmFinish": "Segera menyelesaikan batch ini?"
+  "cave.batch.confirmFinish": "Segera menyelesaikan batch ini?",
+  "auction.addToCalendar": "Tambahkan ke kalender",
+  "auction.calendarEventTitle": "Lelang Tanah Bunga Matahari: {{item}}",
+  "gameOptions.experiments.auctionCalendar": "Kalender lelang",
+  "gameOptions.experiments.auctionCalendarDescription": "Tambahkan drop lelang ke kalender Anda. Ketuk ikon kalender di samping jadwal pelelangan yang akan datang untuk menambahkannya ke kalender telepon yang didukung, atau ke Kalender Google di browser Anda.",
+  "gameOptions.experiments.auctionCalendarToggle": "Aktifkan kalender lelang"
 }

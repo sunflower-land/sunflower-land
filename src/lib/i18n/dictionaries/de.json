@@ -8688,5 +8688,10 @@
   "cave.batch.ready": "Bereit zum Graben!",
   "cave.batch.readyDescription": "Komm mit einer Sandschaufel zurück, um es auszugraben.",
   "cave.batch.finishNow": "Jetzt fertig",
-  "cave.batch.confirmFinish": "Diesen Stapel sofort fertigstellen?"
+  "cave.batch.confirmFinish": "Diesen Stapel sofort fertigstellen?",
+  "auction.addToCalendar": "Zum Kalender hinzufügen",
+  "auction.calendarEventTitle": "Auktion Sonnenblumenland: {{item}}",
+  "gameOptions.experiments.auctionCalendar": "Auktionskalender",
+  "gameOptions.experiments.auctionCalendarDescription": "Füge Auktionstermine zu deinem Kalender hinzu. Tippe auf das Kalendersymbol neben einem bevorstehenden Termin im Auktionsplan, um ihn einem unterstützten Telefonkalender oder dem Google-Kalender in deinem Browser hinzuzufügen.",
+  "gameOptions.experiments.auctionCalendarToggle": "Auktionskalender aktivieren"
 }

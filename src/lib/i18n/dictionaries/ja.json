@@ -8688,5 +8688,10 @@
   "cave.batch.ready": "掘る準備ができました！",
   "cave.batch.readyDescription": "サンドショベルを持って戻ってきて掘り起こしてください。",
   "cave.batch.finishNow": "今すぐ終了",
-  "cave.batch.confirmFinish": "このバッチをすぐに終了しますか？"
+  "cave.batch.confirmFinish": "このバッチをすぐに終了しますか？",
+  "auction.addToCalendar": "カレンダーに追加",
+  "auction.calendarEventTitle": "ひまわりランドオークション:{{item}}",
+  "gameOptions.experiments.auctionCalendar": "オークションカレンダー",
+  "gameOptions.experiments.auctionCalendarDescription": "カレンダーにオークションドロップを追加します。オークションスケジュールで予定されているドロップの横にあるカレンダーアイコンをタップして、対応している電話カレンダーまたはブラウザの Google カレンダーに追加します。",
+  "gameOptions.experiments.auctionCalendarToggle": "オークションカレンダーを有効にする"
 }

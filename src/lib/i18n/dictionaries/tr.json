@@ -8688,5 +8688,10 @@
   "cave.batch.ready": "Kazmaya hazır!",
   "cave.batch.readyDescription": "Kazmak için bir Kum Küreği ile geri gel.",
   "cave.batch.finishNow": "Şimdi bitirin",
-  "cave.batch.confirmFinish": "Bu partiyi anında bitirdin mi?"
+  "cave.batch.confirmFinish": "Bu partiyi anında bitirdin mi?",
+  "auction.addToCalendar": "Takvime ekle",
+  "auction.calendarEventTitle": "Ayçiçeği Toprağı müzayedesi: {{item}}",
+  "gameOptions.experiments.auctionCalendar": "Açık artırma takvimi",
+  "gameOptions.experiments.auctionCalendarDescription": "Takviminize açık artırma damlaları ekleyin. Desteklenen bir telefon takvimine veya tarayıcınızdaki Google Takvim'e eklemek için açık artırma programındaki yaklaşan bir açılışın yanındaki takvim simgesine dokunun.",
+  "gameOptions.experiments.auctionCalendarToggle": "Açık artırma takvimini etkinleştir"
 }

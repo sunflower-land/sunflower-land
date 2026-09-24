@@ -8688,5 +8688,10 @@
   "cave.batch.ready": "¡Listo para cavar!",
   "cave.batch.readyDescription": "Regresa con una pala de arena para desenterrarlo.",
   "cave.batch.finishNow": "Termina ahora",
-  "cave.batch.confirmFinish": "¿Terminar este lote al instante?"
+  "cave.batch.confirmFinish": "¿Terminar este lote al instante?",
+  "auction.addToCalendar": "Añadir al calendario",
+  "auction.calendarEventTitle": "Subasta Sunflower Land: {{item}}",
+  "gameOptions.experiments.auctionCalendar": "Calendario de subastas",
+  "gameOptions.experiments.auctionCalendarDescription": "Añade los lanzamientos de subastas a tu calendario. Pulsa el icono del calendario que aparece junto a la próxima edición del calendario de subastas para añadirla a un calendario de teléfono compatible o a Google Calendar en tu navegador.",
+  "gameOptions.experiments.auctionCalendarToggle": "Activar el calendario de subastas"
 }

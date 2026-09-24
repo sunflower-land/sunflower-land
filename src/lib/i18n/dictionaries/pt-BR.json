@@ -8688,5 +8688,10 @@
   "cave.batch.ready": "Pronto para cavar!",
   "cave.batch.readyDescription": "Volte com uma pá de areia para desenterrá-la.",
   "cave.batch.finishNow": "Termine agora",
-  "cave.batch.confirmFinish": "Concluir instantaneamente este lote?"
+  "cave.batch.confirmFinish": "Concluir instantaneamente este lote?",
+  "auction.addToCalendar": "Adicionar ao calendário",
+  "auction.calendarEventTitle": "Leilão de Sunflower Land: {{item}}",
+  "gameOptions.experiments.auctionCalendar": "Calendário de leilões",
+  "gameOptions.experiments.auctionCalendarDescription": "Adicione leilões ao seu calendário. Toque no ícone do calendário ao lado de uma próxima entrega na agenda do leilão para adicioná-lo a um calendário de telefone compatível ou ao Google Agenda em seu navegador.",
+  "gameOptions.experiments.auctionCalendarToggle": "Ativar calendário de leilões"
 }
