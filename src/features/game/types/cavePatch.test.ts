@@ -152,9 +152,14 @@ describe("getCaveTileClue", () => {
     expect(getCaveTileClue(layout, 4, 3)).toBe(1);
   });
 
-  it("counts all eight neighbours of a centre tile", () => {
-    expect(getCaveTileClue(layout, 1, 1)).toBe(3);
-    expect(getCaveTileClue(layout, 3, 3)).toBe(2);
+  it("counts the four orthogonal neighbours of a centre tile", () => {
+    expect(getCaveTileClue(layout, 1, 1)).toBe(2);
+    expect(getCaveTileClue(layout, 2, 1)).toBe(1);
+  });
+
+  it("ignores diagonal Beetles", () => {
+    // (3,3) touches the Beetles at (2,2) and (4,4) only diagonally.
+    expect(getCaveTileClue(layout, 3, 3)).toBe(0);
   });
 
   it("does not count the tile itself", () => {
@@ -165,7 +170,7 @@ describe("getCaveTileClue", () => {
     const mixed = layoutFromRows(["BB...", "B....", ".....", ".....", "....."]);
     mixed["1,0"] = { type: "Beetle", beetle: "Amber Beetle" };
     mixed["0,1"] = { type: "Beetle", beetle: "Pink Beetle" };
-    expect(getCaveTileClue(mixed, 1, 1)).toBe(3);
+    expect(getCaveTileClue(mixed, 1, 1)).toBe(2);
   });
 });
 
@@ -200,7 +205,7 @@ describe("resolveCaveTile", () => {
     expect(resolveCaveTile(layout, 4, 4, NOW)).toEqual({
       type: "Mud",
       items: { Mud: 2 },
-      clue: 1,
+      clue: 0,
     });
   });
 
@@ -208,7 +213,7 @@ describe("resolveCaveTile", () => {
     expect(resolveCaveTile(layout, 2, 2, NOW)).toEqual({
       type: "Artefact",
       items: { "Otter Pebble": 1 },
-      clue: 1,
+      clue: 0,
     });
     const pawPrints = new Date("2025-12-10T00:00:00.000Z").getTime();
     expect(resolveCaveTile(layout, 2, 2, pawPrints).items).toEqual({

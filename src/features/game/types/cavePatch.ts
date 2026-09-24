@@ -122,9 +122,17 @@ export function generateCavePatch({
   return layout;
 }
 
+/** Orthogonal neighbours only: up, down, left and right (no diagonals). */
+const CLUE_NEIGHBOURS = [
+  [0, -1],
+  [0, 1],
+  [-1, 0],
+  [1, 0],
+] as const;
+
 /**
- * How many of a tile's (up to) eight neighbours in the same patch hold a
- * Beetle, whatever the rarity. Read from the board, which digging never
+ * How many of a tile's (up to) four orthogonal neighbours in the same patch
+ * hold a Beetle, whatever the rarity. Read from the board, which digging never
  * changes, so a clue stays the same after Beetles are dug.
  */
 export function getCaveTileClue(
@@ -133,14 +141,11 @@ export function getCaveTileClue(
   y: number,
 ): number {
   let count = 0;
-  for (let dx = -1; dx <= 1; dx += 1) {
-    for (let dy = -1; dy <= 1; dy += 1) {
-      if (dx === 0 && dy === 0) continue;
-      const nx = x + dx;
-      const ny = y + dy;
-      if (!isCaveTileInPatch(nx, ny)) continue;
-      if (layout[caveTileKey(nx, ny)]?.type === "Beetle") count += 1;
-    }
+  for (const [dx, dy] of CLUE_NEIGHBOURS) {
+    const nx = x + dx;
+    const ny = y + dy;
+    if (!isCaveTileInPatch(nx, ny)) continue;
+    if (layout[caveTileKey(nx, ny)]?.type === "Beetle") count += 1;
   }
   return count;
 }
