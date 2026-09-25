@@ -3,6 +3,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { InnerPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { getTranslatedItemName } from "features/game/types/images";
 
 import fullOilReserve from "assets/resources/oil/oil_reserve_full.webp";
 import spurtingWell from "assets/resources/oil/spurting_well.webp";
@@ -105,7 +106,7 @@ export const RecoveredOilReserve: React.FC<Props> = ({
         >
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="text-xs mx-1 p-1">
-              <span>{`${t("craft")} oil drill`}</span>
+              <span>{`${t("craft")} ${getTranslatedItemName("Oil Drill").toLowerCase()}`}</span>
             </div>
           </InnerPanel>
         </div>

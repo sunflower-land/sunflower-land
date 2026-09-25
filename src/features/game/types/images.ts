@@ -1946,12 +1946,12 @@ export const ITEM_DETAILS: Items = {
   Salt: {
     image: salt,
     description: COMMODITIES.Salt.description,
-    translatedName: "Salt",
+    translatedName: translate("resource.salt"),
   },
   "Refined Salt": {
     image: refinedSalt,
     description: COMMODITIES["Refined Salt"].description,
-    translatedName: "Refined Salt",
+    translatedName: translate("resource.refinedSalt"),
   },
   Sunstone: {
     image: sunstone,
@@ -2061,7 +2061,7 @@ export const ITEM_DETAILS: Items = {
   "Salt Rake": {
     image: SUNNYSIDE.tools.salt_rake,
     description: WORKBENCH_TOOLS["Salt Rake"].description,
-    translatedName: "Salt Rake",
+    translatedName: translate("tool.saltRake"),
   },
   "Crab Pot": {
     image: SUNNYSIDE.tools.crab_pot,

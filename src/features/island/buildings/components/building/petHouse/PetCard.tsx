@@ -204,7 +204,7 @@ export const PetCard: React.FC<Props> = ({
         style={{ display: display === "feeding" ? "flex" : "none" }}
       >
         <div className="flex flex-row gap-1 items-center justify-between">
-          <Label type="default">{`Today's Requests`}</Label>
+          <Label type="default">{t("pets.todaysRequests")}</Label>
           <p
             className="underline font-secondary text-xxs pb-1 -mt-1 mr-1 cursor-pointer hover:text-blue-500"
             onClick={() => setShowResetRequests(true)}

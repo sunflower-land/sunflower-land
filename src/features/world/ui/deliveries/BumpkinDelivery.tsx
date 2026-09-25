@@ -21,7 +21,10 @@ import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { getKeys } from "lib/object";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { FLOWERS, type FlowerName } from "features/game/types/flowers";
 import { Box } from "components/ui/Box";
@@ -587,7 +590,7 @@ export const Gifts: React.FC<{
               className="mb-1 ml-1"
               icon={ITEM_DETAILS[selected].image}
             >
-              {selected}
+              {getTranslatedItemName(selected)}
             </Label>
           )}
         </div>

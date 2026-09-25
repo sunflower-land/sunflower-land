@@ -246,9 +246,9 @@ export const ListViewCard: React.FC<Props> = ({
 
           {lastSalePrice?.gt(0) && (
             <p className="text-xxs truncate pb-0.5">
-              {`Last sale: ${formatNumber(lastSalePrice, {
-                decimalPlaces: 4,
-              })} FLOWER`}
+              {t("marketplace.lastSale", {
+                price: formatNumber(lastSalePrice, { decimalPlaces: 4 }),
+              })}
             </p>
           )}
         </div>
