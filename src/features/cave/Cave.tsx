@@ -28,13 +28,17 @@ const _hasCaveAccess = (state: MachineState) =>
   hasFeatureAccess(state.context.state, "CAVE");
 const _shovels = (state: MachineState) =>
   state.context.state.inventory["Sand Shovel"]?.toNumber() ?? 0;
+const _drills = (state: MachineState) =>
+  state.context.state.inventory["Sand Drill"]?.toNumber() ?? 0;
 
 /**
  * The Cave interior room, mounted at `/cave`. Placeholder art for now — the
  * art team supplies a room image per tier size later. Renders the unlocked
  * slots (Tier I = slot 1): each Myco-Composter machine above its own 5x5
  * digging patch. Clicking a machine opens the batch popover; a ready patch is
- * dug tile by tile. The ladder (top-left) leaves the Cave.
+ * dug tile by tile with the Sand Shovel, or a 2x2 square at a time with the
+ * Sand Drill when it is the selected item. The ladder (top-left) leaves the
+ * Cave.
  */
 export const Cave: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -44,6 +48,7 @@ export const Cave: React.FC = () => {
   const cave = useSelector(gameService, _cave);
   const hasCaveAccess = useSelector(gameService, _hasCaveAccess);
   const shovels = useSelector(gameService, _shovels);
+  const drills = useSelector(gameService, _drills);
   const now = useNow({ live: true });
   const [selectedMachine, setSelectedMachine] = useState<string>();
 
@@ -144,6 +149,7 @@ export const Cave: React.FC = () => {
                   batch={batch}
                   now={now}
                   hasShovel={shovels > 0}
+                  hasDrill={drills > 0}
                 />
               </div>
             </React.Fragment>
