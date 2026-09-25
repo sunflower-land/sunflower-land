@@ -19,9 +19,9 @@ import Decimal from "decimal.js-light";
 import classNames from "classnames";
 import {
   getProjectReward,
+  hasProjectRaffle,
   isHelpComplete,
   type MonumentName,
-  RAFFLE_REWARDS,
   REQUIRED_CHEERS,
   REWARD_ITEMS,
   type VillageProjectName,
@@ -251,7 +251,7 @@ const ProjectComplete: React.FC<{
         </span>
       </div>
 
-      {isProjectComplete && RAFFLE_REWARDS[project] && !!winner && (
+      {isProjectComplete && hasProjectRaffle(project) && !!winner && (
         <>
           <div className="flex justify-between flex-wrap">
             <Label
@@ -591,13 +591,25 @@ export const Project: React.FC<ProjectProps> = (input) => {
   const [showHelped, setShowHelped] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
 
-  const handleComplete = async () => {
-    gameService.send("project.completed", {
-      effect: {
-        type: "project.completed",
-        project: input.project,
-      },
-    });
+  const handleComplete = () => {
+    /**
+     * A raffle project also pays out the winner, which is another player's
+     * farm, so it has to be settled server side. Everything else is purely the
+     * owner's own state: complete it locally and let autosave catch up.
+     */
+    if (hasProjectRaffle(input.project)) {
+      gameService.send("project.completed", {
+        effect: {
+          type: "project.completed",
+          project: input.project,
+        },
+      });
+
+      return;
+    }
+
+    gameService.send("project.collected", { project: input.project });
+    setShowDetails(false);
   };
 
   const handleStartProject = () => {
