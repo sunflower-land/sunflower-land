@@ -157,10 +157,13 @@ function usePetalBlessed({
           flower.baseDurationMs = 0;
           flower.plantedAt = createdAt;
         } else {
-          // Legacy: back-date so plantedAt + base grow time === createdAt.
+          // Legacy: back-date so plantedAt + base grow time === createdAt, and
+          // bank the full grow time as boostedTime so the total back-date the
+          // progress bar undoes stays accurate (mirrors useInstantGrowth).
           const growTime =
             FLOWER_SEEDS[FLOWERS[flower.name].seed].plantSeconds * 1000;
           flower.plantedAt = createdAt - growTime;
+          flower.boostedTime = growTime;
         }
       }
     });

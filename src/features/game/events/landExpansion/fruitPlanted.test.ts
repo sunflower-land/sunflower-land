@@ -389,6 +389,74 @@ describe("fruitPlanted", () => {
     );
   });
 
+  it("records the back-date offset as boostedTime so the progress bar starts empty", () => {
+    const patchIndex = "1";
+
+    const state = plantFruit({
+      state: {
+        ...GAME_STATE,
+        bumpkin: INITIAL_BUMPKIN,
+        inventory: {
+          "Orange Seed": new Decimal(5),
+          "Squirrel Monkey": new Decimal(1),
+        },
+        season: {
+          season: "spring",
+          startedAt: 0,
+        },
+        collectibles: {
+          "Squirrel Monkey": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "fruit.planted",
+        index: patchIndex,
+        seed: "Orange Seed",
+      },
+    });
+
+    const fruit = (state.fruitPatches as Record<number, FruitPatch>)[patchIndex]
+      .fruit!;
+    const offset = (PATCH_FRUIT_SEEDS["Orange Seed"].plantSeconds * 1000) / 2;
+
+    // The offset is the DISCOUNT, not growth already done: un-back-dating with
+    // it recovers the real plant time and the real (boosted) grow duration.
+    expect(fruit.boostedTime).toEqual(offset);
+    expect(fruit.plantedAt + fruit.boostedTime!).toEqual(dateNow);
+  });
+
+  it("omits boostedTime when nothing boosts the grow time", () => {
+    const patchIndex = "1";
+
+    const state = plantFruit({
+      state: {
+        ...GAME_STATE,
+        bumpkin: INITIAL_BUMPKIN,
+        inventory: { "Apple Seed": new Decimal(5) },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "fruit.planted",
+        index: patchIndex,
+        seed: "Apple Seed",
+      },
+    });
+
+    const fruit = (state.fruitPatches as Record<number, FruitPatch>)[patchIndex]
+      .fruit!;
+
+    expect(fruit.plantedAt).toEqual(dateNow);
+    expect(fruit.boostedTime).toBeUndefined();
+  });
+
   it("gives a 50% growth time reduction when Lemon Tea Bath is placed", () => {
     const seedAmount = new Decimal(5);
 
