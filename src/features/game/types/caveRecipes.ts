@@ -10,6 +10,9 @@ export const CAVE_PATCH_TILE_COUNT = CAVE_PATCH_WIDTH * CAVE_PATCH_WIDTH;
 /** Sand Shovels spent per Cave dig. Fixed — no wearable or boost changes it. */
 export const CAVE_DIG_SHOVEL_COST = 1;
 
+/** Sand Drills spent per Cave drill (a 2x2 square). Fixed, like the shovel. */
+export const CAVE_DRILL_COST = 1;
+
 /**
  * How long a batch grows before its patch is ready to dig. Fixed 12h — existing
  * time boosts (shrines, hourglasses, SPEED_BOOSTS) do NOT apply; only the future
@@ -93,6 +96,42 @@ export function isCaveTileInPatch(x: number, y: number): boolean {
     x < CAVE_PATCH_WIDTH &&
     y < CAVE_PATCH_WIDTH
   );
+}
+
+/**
+ * True for four distinct tiles forming a 2x2 square, in any order. Says
+ * nothing about the patch bounds — check each tile with `isCaveTileInPatch`.
+ */
+export function isCave2x2Square(coords: { x: number; y: number }[]): boolean {
+  if (coords.length !== 4) return false;
+  if (new Set(coords.map(({ x, y }) => caveTileKey(x, y))).size !== 4) {
+    return false;
+  }
+
+  const xs = [...new Set(coords.map(({ x }) => x))].sort((a, b) => a - b);
+  const ys = [...new Set(coords.map(({ y }) => y))].sort((a, b) => a - b);
+  const isConsecutive = (values: number[]) =>
+    values.length === 2 && values[1] === values[0] + 1;
+
+  return isConsecutive(xs) && isConsecutive(ys);
+}
+
+/**
+ * The 2x2 square a Sand Drill digs from tile (x, y): (x, y) is its top-left,
+ * pulled in from the right and bottom edges so the square stays in the patch.
+ */
+export function getCaveDrillSquare(
+  x: number,
+  y: number,
+): { x: number; y: number }[] {
+  const left = Math.min(Math.max(x, 0), CAVE_PATCH_WIDTH - 2);
+  const top = Math.min(Math.max(y, 0), CAVE_PATCH_WIDTH - 2);
+  return [
+    { x: left, y: top },
+    { x: left + 1, y: top },
+    { x: left, y: top + 1 },
+    { x: left + 1, y: top + 1 },
+  ];
 }
 
 /** Every tile of the patch has been dug, so a new batch may start. */

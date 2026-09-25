@@ -1,10 +1,11 @@
-import React, { useContext, useMemo } from "react";
+import React, { useContext, useMemo, useState } from "react";
 
 import { Context } from "features/game/GameProvider";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import type { CaveBatch } from "features/game/types/game";
 import {
   caveTileKey,
+  getCaveDrillSquare,
   isCavePatchCleared,
 } from "features/game/types/caveRecipes";
 import {
@@ -27,6 +28,7 @@ interface Props {
   batch?: CaveBatch;
   now: number;
   hasShovel: boolean;
+  hasDrill: boolean;
 }
 
 const DugTile: React.FC<{ tile: ResolvedCaveTile }> = ({ tile }) => {
@@ -67,16 +69,20 @@ const DugTile: React.FC<{ tile: ResolvedCaveTile }> = ({ tile }) => {
 
 /**
  * A Myco-Composter's 5x5 patch. Covered while growing; once ready each tile
- * can be dug with a Sand Shovel and shows what it held straight away.
+ * can be dug with a Sand Shovel, or a 2x2 square when the Sand Drill is the
+ * selected item, and shows what it held straight away.
  */
 export const CavePatch: React.FC<Props> = ({
   machineId,
   batch,
   now,
   hasShovel,
+  hasDrill,
 }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, selectedItem, shortcutItem } = useContext(Context);
   const { t } = useAppTranslation();
+  // The tile under the pointer; the drill's square grows from it.
+  const [hovered, setHovered] = useState<{ x: number; y: number }>();
 
   const recipe = batch?.recipe;
   const seed = batch?.seed;
@@ -93,10 +99,32 @@ export const CavePatch: React.FC<Props> = ({
   const cleared = !!batch && isCavePatchCleared(batch);
   const beetles = batch ? getCaveBeetleProgress(batch) : undefined;
 
+  const drilling = ready && selectedItem === "Sand Drill";
+  const drillSquare =
+    drilling && hovered
+      ? new Set(
+          getCaveDrillSquare(hovered.x, hovered.y).map(({ x, y }) =>
+            caveTileKey(x, y),
+          ),
+        )
+      : undefined;
+
   return (
     <>
       <div
         className="absolute inset-0 grid"
+        onPointerEnter={() => {
+          // Digging needs a tool in hand: pick up the shovel unless a Cave
+          // tool is already selected.
+          if (
+            ready &&
+            selectedItem !== "Sand Shovel" &&
+            selectedItem !== "Sand Drill"
+          ) {
+            shortcutItem("Sand Shovel");
+          }
+        }}
+        onPointerLeave={() => setHovered(undefined)}
         style={{
           gridTemplateColumns: `repeat(${CAVE_PATCH_SIZE}, 1fr)`,
           gridTemplateRows: `repeat(${CAVE_PATCH_SIZE}, 1fr)`,
@@ -106,7 +134,45 @@ export const CavePatch: React.FC<Props> = ({
           (_, i) => {
             const x = i % CAVE_PATCH_SIZE;
             const y = Math.floor(i / CAVE_PATCH_SIZE);
-            const dug = batch?.dug?.[caveTileKey(x, y)];
+            const key = caveTileKey(x, y);
+            const dug = batch?.dug?.[key];
+
+            if (drilling) {
+              const square = getCaveDrillSquare(x, y);
+              const allDug = square.every(
+                (tile) => !!batch?.dug?.[caveTileKey(tile.x, tile.y)],
+              );
+
+              return (
+                <button
+                  key={`tile-${i}`}
+                  type="button"
+                  disabled={!hasDrill || !layout || allDug}
+                  className="relative w-full h-full p-0 border-0 bg-transparent cursor-pointer disabled:cursor-not-allowed"
+                  onPointerEnter={() => setHovered({ x, y })}
+                  onClick={() =>
+                    gameService.send({
+                      type: "cave.drilled",
+                      machineId,
+                      coords: square,
+                    })
+                  }
+                >
+                  {dug && layout ? (
+                    <DugTile tile={resolveCaveTile(layout, x, y, dug.dugAt)} />
+                  ) : (
+                    <img
+                      src={SUNNYSIDE.soil.sand_hill}
+                      className="w-full h-full"
+                      style={{ imageRendering: "pixelated" }}
+                    />
+                  )}
+                  {drillSquare?.has(key) && (
+                    <div className="absolute inset-0 bg-white/30 pointer-events-none" />
+                  )}
+                </button>
+              );
+            }
 
             if (dug && layout) {
               return (
