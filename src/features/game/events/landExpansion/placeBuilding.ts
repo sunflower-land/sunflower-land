@@ -20,7 +20,10 @@ import {
   getGreenhouseGlowWindows,
   pauseWindowedTimer,
 } from "features/game/lib/boostWindows";
-import { pauseCookingQueue } from "features/game/lib/cookingReadiness";
+import {
+  pauseCookingQueue,
+  resumeCookingBuilding,
+} from "features/game/lib/cookingReadiness";
 import { pauseCraftingQueue } from "features/game/lib/craftingReadiness";
 import { refreshCropMachineCaches } from "features/game/lib/cropMachineReadiness";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
@@ -83,14 +86,26 @@ export function placeBuilding({
       // Assign the coordinates to the building
       existingBuilding.coordinates = action.coordinates;
 
-      // Pause the queue for Cooking buildings
+      // Resume the queue for Cooking buildings across the downtime.
       if (existingBuilding.crafting && existingBuilding.removedAt) {
-        pauseCookingQueue({
-          crafting: existingBuilding.crafting,
-          removedAt: existingBuilding.removedAt,
-          placedAt: createdAt,
-          windows: getCookingBoostWindows(stateCopy),
-        });
+        if (existingBuilding.oilSettledAt !== undefined) {
+          // Lazy-oil building: removeBuilding banked its work and burned its oil
+          // at the lift, so resuming just moves the anchors forward — the lifted
+          // interval costs neither cooking progress nor oil.
+          resumeCookingBuilding({
+            building: existingBuilding,
+            windows: getCookingBoostWindows(stateCopy),
+            removedAt: existingBuilding.removedAt,
+            placedAt: createdAt,
+          });
+        } else {
+          pauseCookingQueue({
+            crafting: existingBuilding.crafting,
+            removedAt: existingBuilding.removedAt,
+            placedAt: createdAt,
+            windows: getCookingBoostWindows(stateCopy),
+          });
+        }
       }
 
       // Update the readyAt for Composters

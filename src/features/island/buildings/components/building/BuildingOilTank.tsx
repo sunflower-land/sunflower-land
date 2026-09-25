@@ -25,7 +25,10 @@ import { formatNumber } from "lib/utils/formatNumber";
 import Decimal from "decimal.js-light";
 import { Box } from "components/ui/Box";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import { useNow } from "lib/utils/hooks/useNow";
 import { isCookingBuilding } from "features/game/events/landExpansion/isCookingBuilding";
+import { getCookingOilAt } from "features/game/lib/cookingReadiness";
+import { getCookingBoostWindows } from "features/game/lib/boostWindows";
 
 interface OilTankProps {
   buildingName: BuildingName;
@@ -49,7 +52,18 @@ export const BuildingOilTank: React.FC<OilTankProps> = ({
     (building) => building.id === buildingId,
   );
 
-  const oilRemainingInBuilding = building?.oil ?? 0;
+  const now = useNow({ live: true });
+
+  // On the lazy-oil model `building.oil` is the tank AS OF the last settle, so
+  // derive the live level (it drains while food cooks) for the display.
+  const oilRemainingInBuilding =
+    building && building.oilSettledAt !== undefined
+      ? getCookingOilAt({
+          building,
+          windows: getCookingBoostWindows(game),
+          at: now,
+        })
+      : (building?.oil ?? 0);
 
   const incrementOil = () => {
     setTotalOilToAdd((prev) => prev + OIL_INCREMENT_AMOUNT);
