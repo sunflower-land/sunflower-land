@@ -403,11 +403,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (sick) return onSickClick();
 
-    if (needsLove) {
-      if (!hasGoldenSheep) return onLoveClick();
-
-      handleShowDetails();
-      return;
+    if (needsLove && !hasGoldenSheep) {
+      return onLoveClick();
     }
 
     const hasBuffSelected = selectedItem && isAnimalFeedBuffItem(selectedItem);
@@ -427,6 +424,11 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       }
 
       await showNoFoodPrompt();
+      return;
+    }
+
+    if (needsLove && hasGoldenSheep) {
+      handleShowDetails();
       return;
     }
 
