@@ -1916,10 +1916,18 @@ export type CaveMachine = {
  * `tier` unlocks additional machine + patch slots; `machines` are explicit
  * records keyed by slot id ("1"–"8").
  */
+/** The next tier being built. Its machine appears once it is completed. */
+export type CaveConstruction = {
+  tier: number;
+  startedAt: number;
+  readyAt: number;
+};
+
 export type Cave = {
   builtAt: number;
   tier: number;
   machines: Record<string, CaveMachine>;
+  construction?: CaveConstruction;
 };
 
 export type PlantedFlower = {
