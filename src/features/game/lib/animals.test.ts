@@ -583,6 +583,113 @@ describe("getFeedItem", () => {
     expect(item).toBe("Omnifeed");
   });
 
+  it("keeps a selected Beetle Feed that replaces the favourite food", () => {
+    const item = getFeedItem({
+      selectedItem: "Brown Beetle Feed",
+      favouriteFood: "Kernel Blend",
+      inventory: {
+        "Kernel Blend": new Decimal(5),
+        "Brown Beetle Feed": new Decimal(1),
+      },
+      requiredQty,
+    });
+
+    expect(item).toBe("Brown Beetle Feed");
+  });
+
+  it("keeps the selected favourite food even when its Beetle Feed is held", () => {
+    const item = getFeedItem({
+      selectedItem: "Kernel Blend",
+      favouriteFood: "Kernel Blend",
+      inventory: {
+        "Kernel Blend": new Decimal(5),
+        "Brown Beetle Feed": new Decimal(1),
+      },
+      requiredQty,
+    });
+
+    expect(item).toBe("Kernel Blend");
+  });
+
+  it("switches from a different food to the favourite's Beetle Feed when held", () => {
+    const item = getFeedItem({
+      selectedItem: "Hay",
+      favouriteFood: "Kernel Blend",
+      inventory: {
+        Hay: new Decimal(5),
+        "Kernel Blend": new Decimal(5),
+        "Brown Beetle Feed": new Decimal(1),
+      },
+      requiredQty,
+    });
+
+    expect(item).toBe("Brown Beetle Feed");
+  });
+
+  it("switches to the favourite's Beetle Feed when nothing is selected", () => {
+    const item = getFeedItem({
+      selectedItem: undefined,
+      favouriteFood: "Kernel Blend",
+      inventory: { "Brown Beetle Feed": new Decimal(1) },
+      requiredQty,
+    });
+
+    expect(item).toBe("Brown Beetle Feed");
+  });
+
+  it("switches from a Beetle Feed that does not replace the favourite food to the one that does", () => {
+    const item = getFeedItem({
+      selectedItem: "Blue Beetle Feed",
+      favouriteFood: "Kernel Blend",
+      inventory: {
+        "Blue Beetle Feed": new Decimal(1),
+        "Brown Beetle Feed": new Decimal(1),
+      },
+      requiredQty,
+    });
+
+    expect(item).toBe("Brown Beetle Feed");
+  });
+
+  it("keeps Omnifeed when it is selected even if the favourite's Beetle Feed is held", () => {
+    const item = getFeedItem({
+      selectedItem: "Omnifeed",
+      favouriteFood: "Kernel Blend",
+      inventory: {
+        Omnifeed: new Decimal(1),
+        "Brown Beetle Feed": new Decimal(1),
+      },
+      requiredQty,
+    });
+
+    expect(item).toBe("Omnifeed");
+  });
+
+  it("switches from a Beetle Feed that does not replace the favourite food", () => {
+    const item = getFeedItem({
+      selectedItem: "Blue Beetle Feed",
+      favouriteFood: "Kernel Blend",
+      inventory: {
+        "Kernel Blend": new Decimal(5),
+        "Blue Beetle Feed": new Decimal(1),
+      },
+      requiredQty,
+    });
+
+    expect(item).toBe("Kernel Blend");
+  });
+
+  it("feeds nothing with a Beetle Feed that does not replace the favourite food, when the favourite is not held", () => {
+    const item = getFeedItem({
+      selectedItem: "Blue Beetle Feed",
+      favouriteFood: "Kernel Blend",
+      inventory: { "Blue Beetle Feed": new Decimal(1) },
+      requiredQty,
+    });
+
+    expect(item).toBeUndefined();
+  });
+
   it("switches from a different food to the favourite food when enough is held", () => {
     const item = getFeedItem({
       selectedItem: "Hay",

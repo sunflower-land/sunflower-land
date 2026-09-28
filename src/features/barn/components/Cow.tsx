@@ -1,4 +1,8 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import {
+  BEETLE_FEED_REPLACES,
+  isBeetleFeed,
+} from "features/game/types/beetleFeeds";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
@@ -18,6 +22,7 @@ import {
   getBoostedFoodQuantity,
   getFeedItem,
   isAnimalFood,
+  getFeedQuantity,
   resolveAnimal,
 } from "features/game/lib/animals";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -500,7 +505,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (hasFoodSelected) {
       const foodCount = inventory[feedItem as AnimalFoodName] ?? new Decimal(0);
-      if (foodCount.lt(requiredFoodQty)) {
+      if (foodCount.lt(getFeedQuantity(feedItem, requiredFoodQty))) {
         setShowNotEnoughFood(true);
         await new Promise((resolve) => setTimeout(resolve, 1000));
         setShowNotEnoughFood(false);
@@ -518,7 +523,9 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     if (showNoFoodSelected) return t("animal.noFoodMessage");
     if (showNoMedicine) return t("animal.noMedicine");
     if (showNotEnoughFood)
-      return t("animal.notEnoughFood", { amount: requiredFoodQty });
+      return t("animal.notEnoughFood", {
+        amount: getFeedQuantity(selectedItem, requiredFoodQty),
+      });
   };
 
   const getAnimalXPEarned = () => {
@@ -580,7 +587,12 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
   const level = getAnimalLevel(cow.experience, "Cow");
   const xpIndicatorColor =
-    favFood === selectedItem || selectedItem === "Omnifeed" || hasGoldenCow
+    favFood === selectedItem ||
+    selectedItem === "Omnifeed" ||
+    (!!selectedItem &&
+      isBeetleFeed(selectedItem) &&
+      BEETLE_FEED_REPLACES[selectedItem] === favFood) ||
+    hasGoldenCow
       ? "#71e358"
       : "#fff";
   const xpIndicatorAmount = getAnimalXPEarned();

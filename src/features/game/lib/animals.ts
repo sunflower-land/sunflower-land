@@ -31,6 +31,7 @@ import { getBudYieldBoosts } from "./getBudYieldBoosts";
 import { isWearableActive } from "./wearables";
 import { computeReadyAt, getAnimalBoostWindows } from "./boostWindows";
 import { hasFeatureAccess } from "lib/flags";
+import { BEETLE_FEED_REPLACES, isBeetleFeed } from "../types/beetleFeeds";
 import Decimal from "decimal.js-light";
 import { getSkillLevel, SKILL_RANKS } from "../types/bumpkinSkills";
 
@@ -227,10 +228,12 @@ export function isAnimalFood(item: InventoryItemName): item is AnimalFoodName {
  * Resolves which item a click on an animal should feed.
  *
  * Players can accidentally feed the wrong food (e.g. walking from cows with
- * Hay selected to chickens that want Kernel Blend). If the animal's favourite
- * food is held in sufficient quantity, we switch to it. Omnifeed is an explicit
- * "happy" choice, so it is never overridden. If the favourite is not held, the
- * selection is left alone so players can still feed whatever they actioned.
+ * Hay selected to chickens that want Kernel Blend). We switch to the Beetle
+ * Feed standing in for the favourite if one is held, otherwise to the
+ * favourite if enough is held. The favourite, Omnifeed and that Beetle Feed
+ * are explicit choices, so they are never overridden. If neither is held, the
+ * selection is left alone so players can still feed whatever they actioned -
+ * unless it is a Beetle Feed for another favourite, which cannot be fed.
  */
 export function getFeedItem({
   selectedItem,
@@ -243,8 +246,21 @@ export function getFeedItem({
   inventory: Inventory;
   requiredQty: Decimal;
 }): InventoryItemName | undefined {
-  if (selectedItem === favouriteFood || selectedItem === "Omnifeed") {
+  if (
+    selectedItem === favouriteFood ||
+    selectedItem === "Omnifeed" ||
+    (selectedItem &&
+      isBeetleFeed(selectedItem) &&
+      BEETLE_FEED_REPLACES[selectedItem] === favouriteFood)
+  ) {
     return selectedItem;
+  }
+
+  const beetleFeed = getKeys(BEETLE_FEED_REPLACES).find(
+    (feed) => BEETLE_FEED_REPLACES[feed] === favouriteFood,
+  );
+  if (beetleFeed && (inventory[beetleFeed] ?? new Decimal(0)).gte(1)) {
+    return beetleFeed;
   }
 
   const favouriteCount = inventory[favouriteFood] ?? new Decimal(0);
@@ -252,7 +268,20 @@ export function getFeedItem({
     return favouriteFood;
   }
 
+  // Any other Beetle Feed cannot be fed to this animal.
+  if (selectedItem && isBeetleFeed(selectedItem)) {
+    return undefined;
+  }
+
   return selectedItem;
+}
+
+/** How many of `item` one feeding uses - a Beetle Feed is always one. */
+export function getFeedQuantity(
+  item: InventoryItemName | undefined,
+  requiredQty: Decimal,
+): Decimal {
+  return item && isBeetleFeed(item) ? new Decimal(1) : requiredQty;
 }
 
 export function isAnimalMedicine(

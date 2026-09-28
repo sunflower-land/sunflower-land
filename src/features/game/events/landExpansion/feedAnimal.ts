@@ -32,7 +32,11 @@ import { getKeys } from "lib/object";
 import { isWearableActive } from "features/game/lib/wearables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { isAnimalFeedable } from "./buyAnimal";
-import { isBeetleFeed } from "features/game/types/beetleFeeds";
+import {
+  BEETLE_FEED_REPLACES,
+  isBeetleFeed,
+} from "features/game/types/beetleFeeds";
+import { hasFeatureAccess } from "lib/flags";
 
 export const ANIMAL_SLEEP_DURATION = 24 * 60 * 60 * 1000;
 
@@ -161,6 +165,28 @@ const handleFreeFeeding = ({
   return copy;
 };
 
+// One level's worth of XP, or one produce cycle at the max level.
+function getBeetleFeedXP({
+  state,
+  animal,
+  level,
+  mud,
+}: {
+  state: GameState;
+  animal: AnimalType;
+  level: AnimalLevel;
+  mud?: AnimalMud;
+}) {
+  const levels = ANIMAL_LEVELS[animal];
+  const maxLevel = getAnimalMaxLevel(animal, state);
+  const xp =
+    level >= maxLevel
+      ? levels[maxLevel] - levels[(maxLevel - 1) as AnimalLevel]
+      : levels[(level + 1) as AnimalLevel] - levels[level];
+
+  return isMuddy({ mud }) ? Math.floor(xp * MUD_XP_MULTIPLIER) : xp;
+}
+
 export function handleFoodXP({
   state,
   animal,
@@ -174,8 +200,9 @@ export function handleFoodXP({
   food: AnimalFoodName;
   mud?: AnimalMud;
 }) {
-  // Beetle Feeds cannot be fed yet, so they earn no XP.
-  if (isBeetleFeed(food)) return { foodXp: 0 };
+  if (isBeetleFeed(food)) {
+    return { foodXp: getBeetleFeedXP({ state, animal, level, mud }) };
+  }
 
   let foodXp = ANIMAL_FOOD_EXPERIENCE[animal][level][food];
 
@@ -291,8 +318,8 @@ export function feedAnimal({
 
     const level = getAnimalLevel(animal.experience, animal.type, copy);
     const food = action.item as AnimalFoodName;
-    if (food && isBeetleFeed(food)) {
-      throw new Error("Beetle Feed cannot be fed yet");
+    if (food && isBeetleFeed(food) && !hasFeatureAccess(copy, "BEETLE_FEED")) {
+      throw new Error("Beetle Feed is not available");
     }
 
     const hasGoldenEggPlaced = isCollectibleBuilt({
@@ -363,6 +390,10 @@ export function feedAnimal({
       throw new Error("No food provided");
     }
 
+    if (isBeetleFeed(food) && BEETLE_FEED_REPLACES[food] !== favouriteFood) {
+      throw new Error(`${food} does not replace ${favouriteFood}`);
+    }
+
     const { foodXp } = handleFoodXP({
       state: copy,
       animal: action.animal,
@@ -371,15 +402,17 @@ export function feedAnimal({
       mud: animal.mud,
     });
 
-    const foodQuantity = REQUIRED_FOOD_QTY[action.animal];
+    // A Beetle Feed is always one per feeding, with no feed-saving boosts.
     const { foodQuantity: boostedFoodQuantity, boostsUsed: foodBoostsUsed } =
-      getBoostedFoodQuantity({
-        animalType: action.animal,
-        foodQuantity,
-        game: copy,
-        animal,
-        now: createdAt,
-      });
+      isBeetleFeed(food)
+        ? { foodQuantity: new Decimal(1), boostsUsed: [] }
+        : getBoostedFoodQuantity({
+            animalType: action.animal,
+            foodQuantity: REQUIRED_FOOD_QTY[action.animal],
+            game: copy,
+            animal,
+            now: createdAt,
+          });
 
     // Take food from inventory
     const inventoryAmount = copy.inventory[food] ?? new Decimal(0);
