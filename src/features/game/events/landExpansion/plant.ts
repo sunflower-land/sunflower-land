@@ -141,7 +141,7 @@ export const getSupportedPlots = ({
   }
 
   if (!hasPlacedWell) return plots;
-  if (effectiveWellLevel >= 4) return 99;
+  if (effectiveWellLevel >= 4) return Infinity;
 
   plots =
     effectiveWellLevel * WELL_PLOT_SUPPORT + INITIAL_SUPPORTED_PLOTS(island);

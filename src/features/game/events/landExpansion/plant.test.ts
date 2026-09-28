@@ -6,6 +6,7 @@ import {
   getAffectedWeather,
   getCropPlotTime,
   getCropTime,
+  isPlotFertile,
   plant,
 } from "./plant";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
@@ -1852,5 +1853,53 @@ describe("getAffectedWeather", () => {
       // eslint-disable-next-line no-extend-native
       Array.prototype.sort = nativeSort;
     }
+  });
+});
+
+describe("isPlotFertile", () => {
+  const crops: GameState["crops"] = Object.fromEntries(
+    Array.from({ length: 150 }, (_, i) => [
+      `${i + 1}`,
+      { x: 0, y: 0, createdAt: i + 1 },
+    ]),
+  );
+  const buildings: GameState["buildings"] = {
+    "Water Well": [
+      { id: "1", coordinates: { x: 0, y: 0 }, createdAt: 0, readyAt: 0 },
+    ],
+  };
+
+  it("waters every plot at well level 4", () => {
+    expect(
+      isPlotFertile({
+        plotIndex: "150",
+        crops,
+        wellLevel: 4,
+        buildings,
+        island: "desert",
+      }),
+    ).toBe(true);
+  });
+
+  it("does not water plots beyond the level 3 limit", () => {
+    // 18 initial plots + 3 * 8 well plots = 42
+    expect(
+      isPlotFertile({
+        plotIndex: "42",
+        crops,
+        wellLevel: 3,
+        buildings,
+        island: "desert",
+      }),
+    ).toBe(true);
+    expect(
+      isPlotFertile({
+        plotIndex: "43",
+        crops,
+        wellLevel: 3,
+        buildings,
+        island: "desert",
+      }),
+    ).toBe(false);
   });
 });
