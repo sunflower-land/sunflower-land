@@ -142,6 +142,16 @@ describe("buyCaveMerchantOffer (cave.merchantOfferBought)", () => {
     });
   });
 
+  it("rejects a purchase from a week that has already ended", () => {
+    // Late events from the previous week must not wipe the new week's counts.
+    const state = caveState({
+      merchant: { purchases: { [NEXT_WEEK_KEY]: { [TIER_V_OFFER]: 1 } } },
+    });
+    expect(() => buy(state)).toThrow(
+      BUY_CAVE_MERCHANT_OFFER_ERRORS.PERIOD_ENDED,
+    );
+  });
+
   it("rejects before the shop opens", () => {
     expect(() => buy(caveState({ tier: CAVE_MERCHANT_TIER - 1 }))).toThrow(
       BUY_CAVE_MERCHANT_OFFER_ERRORS.MERCHANT_CLOSED,

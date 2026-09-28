@@ -29,13 +29,15 @@ export enum BUY_CAVE_MERCHANT_OFFER_ERRORS {
   UNKNOWN_OFFER = "The Goblin Cave Merchant has no such offer",
   OFFER_LOCKED = "The offer needs a later Cave tier",
   LIMIT_REACHED = "The offer's limit has been reached",
+  PERIOD_ENDED = "The offer's limit period has already ended",
   INSUFFICIENT_COINS = "Not enough coins for the offer",
   INSUFFICIENT_ITEMS = "Not enough items for the offer",
 }
 
 /**
  * Trade with the Goblin Cave Merchant. Each offer has a per-player limit that
- * resets weekly for now; only the current week's purchases are kept.
+ * resets weekly for now; only the latest week's purchases are kept, and
+ * purchases dated in an earlier week are rejected.
  */
 export function buyCaveMerchantOffer({
   state,
@@ -67,6 +69,13 @@ export function buyCaveMerchantOffer({
     }
 
     const periodKey = getWeekKey({ date: new Date(createdAt) });
+    // Week keys are ISO dates, so they sort chronologically. Autosave accepts
+    // slightly old events; one from an earlier week must not replace (and so
+    // reset) the current week's counts.
+    const periods = Object.keys(cave.merchant?.purchases ?? {});
+    if (periods.some((period) => period > periodKey)) {
+      throw new Error(BUY_CAVE_MERCHANT_OFFER_ERRORS.PERIOD_ENDED);
+    }
     const left = getCaveMerchantOffersLeft({
       merchant: cave.merchant,
       offerId,
