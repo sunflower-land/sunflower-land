@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { CONFIG } from "lib/config";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import type { GameState } from "features/game/types/game";
 import { bulkMixFeed } from "./bulkMixFeed";
@@ -228,5 +229,43 @@ describe("bulkMixFeed", () => {
         },
       }),
     ).toThrow("Invalid bulk mix entries");
+  });
+});
+
+describe("bulkMixFeed - Beetle Feed", () => {
+  const BEETLE_FARM: GameState = {
+    ...INITIAL_FARM,
+    inventory: {
+      "Brown Beetle": new Decimal(2),
+      Corn: new Decimal(10),
+    },
+  };
+
+  const bulkMixBrownBeetleFeed = () =>
+    bulkMixFeed({
+      state: BEETLE_FARM,
+      action: {
+        type: "feeds.bulkMixed",
+        feeds: [{ item: "Brown Beetle Feed", amount: 2 }],
+      },
+    });
+
+  it("mixes Beetle Feeds in bulk", () => {
+    const state = bulkMixBrownBeetleFeed();
+
+    expect(state.inventory["Brown Beetle Feed"]).toEqual(new Decimal(2));
+    expect(state.inventory["Brown Beetle"]).toEqual(new Decimal(0));
+    expect(state.inventory.Corn).toEqual(new Decimal(6));
+  });
+
+  it("does not mix Beetle Feeds in bulk off testnet", () => {
+    const previousNetwork = CONFIG.NETWORK;
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+
+    try {
+      expect(bulkMixBrownBeetleFeed).toThrow("Beetle Feed is not available");
+    } finally {
+      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
+    }
   });
 });

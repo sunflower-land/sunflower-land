@@ -1,6 +1,6 @@
 /**
  * Beetle Feeds are Beetle-assisted alternatives to the existing animal feeds.
- * They join `AnimalFoodName` together with their recipes and XP values.
+ * They are part of `AnimalFoodName` and mixed in the Feeder Machine.
  */
 export const BEETLE_FEEDS = [
   "Brown Beetle Feed",
@@ -10,3 +10,7 @@ export const BEETLE_FEEDS = [
 ] as const;
 
 export type BeetleFeedName = (typeof BEETLE_FEEDS)[number];
+
+export function isBeetleFeed(item: string): item is BeetleFeedName {
+  return (BEETLE_FEEDS as readonly string[]).includes(item);
+}

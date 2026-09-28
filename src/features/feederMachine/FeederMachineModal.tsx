@@ -40,6 +40,8 @@ import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails
 import { getBulkMixRequirements } from "./getBulkMixRequirements";
 import { formatNumber } from "lib/utils/formatNumber";
 import { BulkMixModal } from "./BulkMixModal";
+import { isBeetleFeed } from "features/game/types/beetleFeeds";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   show: boolean;
@@ -120,17 +122,20 @@ export const FeederMachineModal: React.FC<Props> = ({
     toggleFeed(item);
   };
 
-  const groupedItems = getKeys(ANIMAL_FOODS).reduce(
-    (acc, item) => {
-      const type = ANIMAL_FOODS[item].type;
-      if (!acc[type]) {
-        acc[type] = [];
-      }
-      acc[type].push(ANIMAL_FOODS[item]);
-      return acc;
-    },
-    {} as Record<FeedType, Feed[]>,
-  );
+  const hasBeetleFeed = hasFeatureAccess(state, "BEETLE_FEED");
+  const groupedItems = getKeys(ANIMAL_FOODS)
+    .filter((item) => hasBeetleFeed || !isBeetleFeed(item))
+    .reduce(
+      (acc, item) => {
+        const type = ANIMAL_FOODS[item].type;
+        if (!acc[type]) {
+          acc[type] = [];
+        }
+        acc[type].push(ANIMAL_FOODS[item]);
+        return acc;
+      },
+      {} as Record<FeedType, Feed[]>,
+    );
 
   const onSelect = (item: AnimalFoodName | AnimalMedicineName) => {
     setSelectedName(item);

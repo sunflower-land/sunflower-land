@@ -183,6 +183,12 @@ const FEATURE_FLAGS = {
    */
   CAVE: testnetFeatureFlag,
 
+  /**
+   * Chapter 16's Beetle Feeds in the Feeder Machine. Remove once Chapter 16
+   * ships.
+   */
+  BEETLE_FEED: testnetFeatureFlag,
+
   FACE_RECOGNITION_TEST: betaFeatureFlag,
   // The developer-options button that forces a captcha on your own farm
   TRIGGER_CAPTCHA: betaFeatureFlag,
