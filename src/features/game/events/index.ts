@@ -77,6 +77,10 @@ import {
   completeCaveExpansion,
   type CompleteCaveExpansionAction,
 } from "./landExpansion/completeCaveExpansion";
+import {
+  buyCaveMerchantOffer,
+  type BuyCaveMerchantOfferAction,
+} from "./landExpansion/buyCaveMerchantOffer";
 import { cook, type RecipeCookedAction } from "./landExpansion/cook";
 import {
   collectRecipe,
@@ -1090,7 +1094,8 @@ export type PlayingEvent =
   | DrillCaveTilesAction
   | ExpandCaveAction
   | SpeedUpCaveExpansionAction
-  | CompleteCaveExpansionAction;
+  | CompleteCaveExpansionAction
+  | BuyCaveMerchantOfferAction;
 
 export type LocalVisitingEvent =
   | CollectGarbageAction
@@ -1403,6 +1408,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "cave.expanded": expandCave,
   "cave.expansionSpedUp": speedUpCaveExpansion,
   "cave.expansionCompleted": completeCaveExpansion,
+  "cave.merchantOfferBought": buyCaveMerchantOffer,
 };
 
 export const LOCAL_VISITING_EVENTS: Handlers<LocalVisitingEvent> = {

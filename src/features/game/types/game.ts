@@ -1910,12 +1910,6 @@ export type CaveMachine = {
   batch?: CaveBatch;
 };
 
-/**
- * The Cave: a React interior room entered from the world-map node. Absent
- * until the player builds it, so the `toDomain` fallback can never create one.
- * `tier` unlocks additional machine + patch slots; `machines` are explicit
- * records keyed by slot id ("1"–"8").
- */
 /** The next tier being built. Its machine appears once it is completed. */
 export type CaveConstruction = {
   tier: number;
@@ -1923,11 +1917,34 @@ export type CaveConstruction = {
   readyAt: number;
 };
 
+/** The Goblin Cave Merchant's offers; see `CAVE_MERCHANT_OFFERS`. */
+export type CaveMerchantOfferId =
+  | "sand-drills"
+  | "truffles"
+  | "rawhide"
+  | "crimstone"
+  | "obsidian";
+
+/**
+ * What the player has bought from the Goblin Cave Merchant, keyed by limit
+ * period (the week key for now). Only the current period is kept.
+ */
+export type CaveMerchant = {
+  purchases: Record<string, Partial<Record<CaveMerchantOfferId, number>>>;
+};
+
+/**
+ * The Cave: a React interior room entered from the world-map node. Absent
+ * until the player builds it, so the `toDomain` fallback can never create one.
+ * `tier` unlocks additional machine + patch slots; `machines` are explicit
+ * records keyed by slot id ("1"–"8").
+ */
 export type Cave = {
   builtAt: number;
   tier: number;
   machines: Record<string, CaveMachine>;
   construction?: CaveConstruction;
+  merchant?: CaveMerchant;
 };
 
 export type PlantedFlower = {

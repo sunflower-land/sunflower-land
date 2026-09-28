@@ -1,5 +1,7 @@
 import {
   CAVE_MACHINE_SIZE,
+  CAVE_MERCHANT_STALL,
+  CAVE_MERCHANT_STALL_SIZE,
   CAVE_PATCH_SIZE,
   CAVE_ROOM_TOP_Y,
   CAVE_SLOTS,
@@ -59,6 +61,25 @@ describe("caveLayout", () => {
           expect(CAVE_ROOM_TOP_Y - y).toBeLessThan(height);
         }
       }
+    }
+  });
+
+  it("keeps the merchant stall inside the Tier I room, clear of every slot", () => {
+    const stall = cells(
+      CAVE_MERCHANT_STALL,
+      CAVE_MERCHANT_STALL_SIZE.width,
+      CAVE_MERCHANT_STALL_SIZE.height,
+    );
+    const { width, height } = getCaveRoomBounds(1);
+    const slots = new Set(
+      TIERS.flatMap(slotCells).map(({ x, y }) => `${x},${y}`),
+    );
+    for (const { x, y } of stall) {
+      expect(slots.has(`${x},${y}`)).toBe(false);
+      expect(x).toBeGreaterThanOrEqual(0);
+      expect(x).toBeLessThan(width);
+      expect(CAVE_ROOM_TOP_Y - y).toBeGreaterThanOrEqual(0);
+      expect(CAVE_ROOM_TOP_Y - y).toBeLessThan(height);
     }
   });
 
