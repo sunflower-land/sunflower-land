@@ -12,6 +12,8 @@ import { hasFeatureAccess } from "lib/flags";
 import { useNow } from "lib/utils/hooks/useNow";
 import {
   CAVE_MACHINE_SIZE,
+  CAVE_MERCHANT_STALL,
+  CAVE_MERCHANT_STALL_SIZE,
   CAVE_PATCH_SIZE,
   CAVE_ROOM_TOP_Y,
   CAVE_SLOTS,
@@ -20,10 +22,16 @@ import {
 } from "features/game/expansion/placeable/lib/caveLayout";
 import { isCavePatchCleared } from "features/game/types/caveRecipes";
 import { getNextCaveTier } from "features/game/types/caveTiers";
+import { CAVE_MERCHANT_TIER } from "features/game/types/caveMerchant";
+import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { secondsToString } from "lib/utils/time";
 import { CaveMachineModal } from "./components/CaveMachineModal";
 import { CaveExpansionModal } from "./components/CaveExpansionModal";
+import {
+  CAVE_MERCHANT_PARTS,
+  CaveMerchantModal,
+} from "./components/CaveMerchantModal";
 import { CavePatch } from "./components/CavePatch";
 import { Hud } from "features/island/hud/Hud";
 
@@ -43,7 +51,8 @@ const _drills = (state: MachineState) =>
  * dug tile by tile with the Sand Shovel, or a 2x2 square at a time with the
  * Sand Drill when it is the selected item. The next tier's slot shows an
  * expansion sign: expand, wait out the construction (or finish it with Gems),
- * then click the finished site to open the new slot. The ladder (top-left)
+ * then click the finished site to open the new slot. The Goblin Cave
+ * Merchant's stall on the top wall opens at its tier. The ladder (top-left)
  * leaves the Cave.
  */
 export const Cave: React.FC = () => {
@@ -58,6 +67,7 @@ export const Cave: React.FC = () => {
   const now = useNow({ live: true });
   const [selectedMachine, setSelectedMachine] = useState<string>();
   const [showExpansion, setShowExpansion] = useState(false);
+  const [showMerchant, setShowMerchant] = useState(false);
 
   // Reached by URL without access or without a Cave built — send the player
   // back to the farm.
@@ -81,6 +91,7 @@ export const Cave: React.FC = () => {
   const nextSlot = nextTier ? CAVE_SLOTS[nextTier] : undefined;
   const construction = cave.construction;
   const constructionReady = !!construction && construction.readyAt <= now;
+  const merchantOpen = cave.tier >= CAVE_MERCHANT_TIER;
 
   return (
     <div className="absolute inset-0 bg-[#181425] overflow-hidden">
@@ -113,6 +124,34 @@ export const Cave: React.FC = () => {
               style={{ width: `${PIXEL_SCALE * 11}px` }}
             />
             <span className="text-white text-xxs">{t("exit")}</span>
+          </button>
+
+          {/* Goblin Cave Merchant stall (placeholder shelves). Closed, with no
+              goblin, until the merchant's tier. */}
+          <button
+            type="button"
+            disabled={!merchantOpen}
+            className="absolute bg-[#4a3526] border border-[#2a1d15] p-0 flex items-end justify-center enabled:cursor-pointer"
+            style={{
+              left: `${leftPx(CAVE_MERCHANT_STALL.x)}px`,
+              top: `${topPx(CAVE_MERCHANT_STALL.y)}px`,
+              width: `${CAVE_MERCHANT_STALL_SIZE.width * GRID_WIDTH_PX}px`,
+              height: `${CAVE_MERCHANT_STALL_SIZE.height * GRID_WIDTH_PX}px`,
+            }}
+            onClick={() => setShowMerchant(true)}
+          >
+            {merchantOpen ? (
+              <div
+                className="absolute top-0"
+                style={{ left: `${GRID_WIDTH_PX}px` }}
+              >
+                <NPCPlaceable parts={CAVE_MERCHANT_PARTS} />
+              </div>
+            ) : (
+              <Label type="default" className="mb-1">
+                {t("cave.merchant.closed", { tier: CAVE_MERCHANT_TIER })}
+              </Label>
+            )}
           </button>
 
           {/* Sand Shovels left to dig with. */}
@@ -232,6 +271,10 @@ export const Cave: React.FC = () => {
 
       {showExpansion && (
         <CaveExpansionModal onClose={() => setShowExpansion(false)} />
+      )}
+
+      {showMerchant && merchantOpen && (
+        <CaveMerchantModal onClose={() => setShowMerchant(false)} />
       )}
 
       {selectedMachine && (

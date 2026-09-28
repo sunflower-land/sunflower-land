@@ -75,6 +75,18 @@ export const CAVE_SLOTS: Record<number, CaveSlot> = {
 };
 
 /**
+ * The Goblin Cave Merchant's stall on the top wall, beside the first machine.
+ * It sits in the Tier I room but only opens at the merchant's tier.
+ */
+export const CAVE_MERCHANT_STALL: CaveCoordinates = {
+  x: CAVE_SLOTS[1].machine.x + CAVE_MACHINE_SIZE.width,
+  y: CAVE_ROOM_TOP_Y,
+};
+
+/** The stall footprint (tiles). */
+export const CAVE_MERCHANT_STALL_SIZE = { width: 3, height: 2 } as const;
+
+/**
  * Room size (in tiles) at a tier — how far the walls reach as slots unlock,
  * measured right and down from the top-left corner (`CAVE_ROOM_TOP_Y`). Tiers
  * I–IV widen the top row; tier V adds the bottom row at full width. A
