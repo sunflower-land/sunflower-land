@@ -8705,5 +8705,12 @@
   "cave.expand.building": "Expansión",
   "cave.expand.confirmFinish": "¿Terminar esta expansión al instante?",
   "cave.expand.ready": "¡Listo para la expansión!",
-  "cave.expand.complete": "Ábrelo"
+  "cave.expand.complete": "Ábrelo",
+  "cave.merchant.title": "Comerciante de Goblin Cave",
+  "cave.merchant.description": "Psst... ¿tienes escarabajos? Tengo cosas que no vas a desenterrar.",
+  "cave.merchant.closed": "Se abre en el nivel de cueva {{tier}}",
+  "cave.merchant.left": "{{left}}/{{limit}} izquierda",
+  "cave.merchant.trade": "Comercio",
+  "cave.merchant.resets": "Se restablece en {{time}}",
+  "cave.merchant.moreOffers": "Más ofertas en el nivel Cave {{tier}}"
 }

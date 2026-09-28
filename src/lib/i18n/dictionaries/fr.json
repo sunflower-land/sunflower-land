@@ -8705,5 +8705,12 @@
   "cave.expand.building": "Expansion",
   "cave.expand.confirmFinish": "Finir cette extension instantanément ?",
   "cave.expand.ready": "Expansion prête !",
-  "cave.expand.complete": "Ouvre-le"
+  "cave.expand.complete": "Ouvre-le",
+  "cave.merchant.title": "Marchand des grottes gobelins",
+  "cave.merchant.description": "Psst... Vous avez des scarabées ? J'ai des choses que tu ne vas pas découvrir.",
+  "cave.merchant.closed": "Ouvre au niveau de la grotte {{tier}}",
+  "cave.merchant.left": "{{left}}/{{limit}} gauche",
+  "cave.merchant.trade": "Commerce",
+  "cave.merchant.resets": "Se réinitialise dans {{time}}",
+  "cave.merchant.moreOffers": "Plus d'offres chez Cave tier {{tier}}"
 }

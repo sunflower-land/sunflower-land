@@ -8705,5 +8705,12 @@
   "cave.expand.building": "Expandieren",
   "cave.expand.confirmFinish": "Diese Erweiterung sofort beenden?",
   "cave.expand.ready": "Erweiterung bereit!",
-  "cave.expand.complete": "Öffne es"
+  "cave.expand.complete": "Öffne es",
+  "cave.merchant.title": "Goblinhöhlenhändler",
+  "cave.merchant.description": "Psst... hast du Käfer? Ich habe Dinge, die du nicht ausgraben wirst.",
+  "cave.merchant.closed": "Öffnet auf Höhlenebene {{tier}}",
+  "cave.merchant.left": "{{left}}/{{limit}} übrig",
+  "cave.merchant.trade": "Handel",
+  "cave.merchant.resets": "Setzt in {{time}} zurück",
+  "cave.merchant.moreOffers": "Weitere Angebote auf der Höhlenebene {{tier}}"
 }

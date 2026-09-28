@@ -8705,5 +8705,12 @@
   "cave.expand.building": "拡張中",
   "cave.expand.confirmFinish": "この拡張パックをすぐに終わらせる？",
   "cave.expand.ready": "拡張準備完了！",
-  "cave.expand.complete": "開けて"
+  "cave.expand.complete": "開けて",
+  "cave.merchant.title": "ゴブリンの洞窟の商人",
+  "cave.merchant.description": "うーん... カブトムシを捕まえた？君が掘り起こさないものがあるんだ。",
+  "cave.merchant.closed": "ケーブティアで開きます {{tier}}",
+  "cave.merchant.left": "{{left}}/{{limit}} 左",
+  "cave.merchant.trade": "トレード",
+  "cave.merchant.resets": "{{time}} でリセット",
+  "cave.merchant.moreOffers": "ケーブティアでのその他のオファー {{tier}}"
 }

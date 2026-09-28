@@ -8705,5 +8705,12 @@
   "cave.expand.building": "Memperluas",
   "cave.expand.confirmFinish": "Segera menyelesaikan ekspansi ini?",
   "cave.expand.ready": "Ekspansi siap!",
-  "cave.expand.complete": "Buka"
+  "cave.expand.complete": "Buka",
+  "cave.merchant.title": "Pedagang Gua Goblin",
+  "cave.merchant.description": "Psst... punya Beetles? Aku punya hal-hal yang tidak akan kau gali.",
+  "cave.merchant.closed": "Buka di tingkat Gua {{tier}}",
+  "cave.merchant.left": "{{left}}/{{limit}} tersisa",
+  "cave.merchant.trade": "Perdagangan",
+  "cave.merchant.resets": "Mengatur ulang di {{time}}",
+  "cave.merchant.moreOffers": "Penawaran lainnya di Cave tier {{tier}}"
 }

@@ -8705,5 +8705,12 @@
   "cave.expand.building": "In espansione",
   "cave.expand.confirmFinish": "Finisci subito questa espansione?",
   "cave.expand.ready": "L'espansione è pronta!",
-  "cave.expand.complete": "Aprirlo"
+  "cave.expand.complete": "Aprirlo",
+  "cave.merchant.title": "Mercante delle caverne dei Goblin",
+  "cave.merchant.description": "Psst... hai Beetles? Ho cose che non scoprirai.",
+  "cave.merchant.closed": "Apre al livello Cave {{tier}}",
+  "cave.merchant.left": "{{left}}/{{limit}} a sinistra",
+  "cave.merchant.trade": "Commercio",
+  "cave.merchant.resets": "Reimposta in {{time}}",
+  "cave.merchant.moreOffers": "Altre offerte presso Cave tier {{tier}}"
 }

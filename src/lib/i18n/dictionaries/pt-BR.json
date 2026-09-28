@@ -8705,5 +8705,12 @@
   "cave.expand.building": "Expandindo",
   "cave.expand.confirmFinish": "Concluir instantaneamente essa expansão?",
   "cave.expand.ready": "Pronto para expansão!",
-  "cave.expand.complete": "Abra-o"
+  "cave.expand.complete": "Abra-o",
+  "cave.merchant.title": "Mercador da Caverna dos Goblins",
+  "cave.merchant.description": "Psst... tem besouros? Eu tenho coisas que você não vai desenterrar.",
+  "cave.merchant.closed": "Abre no nível da caverna {{tier}}",
+  "cave.merchant.left": "{{left}}/{{limit}} à esquerda",
+  "cave.merchant.trade": "Comércio",
+  "cave.merchant.resets": "Reinicializa em {{time}}",
+  "cave.merchant.moreOffers": "Mais ofertas no nível Cave {{tier}}"
 }

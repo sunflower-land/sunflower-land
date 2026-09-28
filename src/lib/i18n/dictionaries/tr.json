@@ -8705,5 +8705,12 @@
   "cave.expand.building": "Genişleyen",
   "cave.expand.confirmFinish": "Bu genişletmeyi anında bitirmek mi?",
   "cave.expand.ready": "Genişletme hazır!",
-  "cave.expand.complete": "Aç şunu"
+  "cave.expand.complete": "Aç şunu",
+  "cave.merchant.title": "Goblin Mağarası Tüccarı",
+  "cave.merchant.description": "Psst... Böcekler var mı? Bulamayacağın şeyler var.",
+  "cave.merchant.closed": "Mağara katmanında açılır {{tier}}",
+  "cave.merchant.left": "{{left}}/{{limit}} kaldı",
+  "cave.merchant.trade": "Ticaret",
+  "cave.merchant.resets": "{{time}} içinde sıfırlanır",
+  "cave.merchant.moreOffers": "Mağara katmanında daha fazla teklif {{tier}}"
 }

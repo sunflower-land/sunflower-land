@@ -8705,5 +8705,12 @@
   "cave.expand.building": "扩大",
   "cave.expand.confirmFinish": "立即完成这个扩展？",
   "cave.expand.ready": "扩展准备好了！",
-  "cave.expand.complete": "把它打开"
+  "cave.expand.complete": "把它打开",
+  "cave.merchant.title": "哥布林洞穴商人",
+  "cave.merchant.description": "Psst... 有甲壳虫吗？我有些东西你不会挖的",
+  "cave.merchant.closed": "在洞穴等级 {{tier}} 开启",
+  "cave.merchant.left": "{{left}}/{{limit}} 向左",
+  "cave.merchant.trade": "贸易",
+  "cave.merchant.resets": "在 {{time}} 中重置",
+  "cave.merchant.moreOffers": "洞穴等级的更多优惠 {{tier}}"
 }
