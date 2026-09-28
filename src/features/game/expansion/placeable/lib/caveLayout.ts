@@ -33,8 +33,18 @@ export type CaveSlot = {
 const COLUMN_STRIDE = CAVE_PATCH_SIZE + 2; // patch width + gutter
 const LEFT_MARGIN = 1;
 // The top row's patches sit high; the bottom row is one room-height down.
-const ROW_STRIDE = CAVE_MACHINE_SIZE.height + CAVE_PATCH_SIZE + 2;
+// Each row is machine + gap + patch + room for the patch's labels below it.
+const ROW_STRIDE = CAVE_MACHINE_SIZE.height + CAVE_PATCH_SIZE + 3;
 const TOP_ROW_PATCH_TOP_Y = 13;
+const COLUMNS = 4;
+
+/**
+ * The room's top wall, level with the top of the first row's machines. The
+ * room grows right (tiers I–IV) and then down (V–VIII) from here, so slots
+ * already unlocked never move.
+ */
+export const CAVE_ROOM_TOP_Y =
+  TOP_ROW_PATCH_TOP_Y + CAVE_MACHINE_SIZE.height + 1;
 
 function slotAt(column: number, row: number): CaveSlot {
   const patchX = LEFT_MARGIN + column * COLUMN_STRIDE;
@@ -65,15 +75,23 @@ export const CAVE_SLOTS: Record<number, CaveSlot> = {
 };
 
 /**
- * Room bounds (in tiles) per tier — how far the walls reach as slots unlock.
- * Only Tier I is defined here (one slot, top-left); the tiers II–VIII bounds
- * arrive with the tier-expansion ticket.
+ * Room size (in tiles) at a tier — how far the walls reach as slots unlock,
+ * measured right and down from the top-left corner (`CAVE_ROOM_TOP_Y`). Tiers
+ * I–IV widen the top row; tier V adds the bottom row at full width. A
+ * placeholder rectangle until the art team supplies a room per size.
  */
-export const CAVE_ROOM_BOUNDS: Partial<
-  Record<number, { width: number; height: number }>
-> = {
-  1: { width: COLUMN_STRIDE + LEFT_MARGIN, height: TOP_ROW_PATCH_TOP_Y + 3 },
-};
+export function getCaveRoomBounds(tier: number): {
+  width: number;
+  height: number;
+} {
+  const unlocked = Math.min(Math.max(tier, 1), COLUMNS * 2);
+  const columns = Math.min(unlocked, COLUMNS);
+  const rows = unlocked > COLUMNS ? 2 : 1;
+  return {
+    width: LEFT_MARGIN + columns * COLUMN_STRIDE,
+    height: rows * ROW_STRIDE,
+  };
+}
 
 /** How many slots are unlocked at a given tier (tier N unlocks slot N). */
 export function caveSlotsForTier(tier: number): number[] {
