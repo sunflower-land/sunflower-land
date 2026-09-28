@@ -329,6 +329,55 @@ describe("feedAnimal", () => {
     ).toThrow("Beetle Feed cannot be fed yet");
   });
 
+  it("does not feed a Beetle Feed through Golden Egg free feeding", () => {
+    const chickenId = "xyz";
+
+    expect(() =>
+      feedAnimal({
+        createdAt: now,
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            ...GAME_STATE.inventory,
+            "Gold Egg": new Decimal(1),
+          },
+          collectibles: {
+            "Gold Egg": [
+              {
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                id: "1",
+                readyAt: 0,
+              },
+            ],
+          },
+          henHouse: {
+            ...GAME_STATE.henHouse,
+            animals: {
+              [chickenId]: {
+                id: chickenId,
+                type: "Chicken",
+                createdAt: 0,
+                state: "idle",
+                experience: 0,
+                asleepAt: 0,
+                awakeAt: 0,
+                lovedAt: 0,
+                item: "Petting Hand",
+              },
+            },
+          },
+        },
+        action: {
+          type: "animal.fed",
+          animal: "Chicken",
+          id: chickenId,
+          item: "Brown Beetle Feed",
+        },
+      }),
+    ).toThrow("Beetle Feed cannot be fed yet");
+  });
+
   it("subtracts food from player inventory", () => {
     const cowId = "123";
 

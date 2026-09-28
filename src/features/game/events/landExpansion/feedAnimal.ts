@@ -291,6 +291,10 @@ export function feedAnimal({
 
     const level = getAnimalLevel(animal.experience, animal.type, copy);
     const food = action.item as AnimalFoodName;
+    if (food && isBeetleFeed(food)) {
+      throw new Error("Beetle Feed cannot be fed yet");
+    }
+
     const hasGoldenEggPlaced = isCollectibleBuilt({
       name: "Gold Egg",
       game: copy,
@@ -357,10 +361,6 @@ export function feedAnimal({
     // Regular feeding logic
     if (!food) {
       throw new Error("No food provided");
-    }
-
-    if (isBeetleFeed(food)) {
-      throw new Error("Beetle Feed cannot be fed yet");
     }
 
     const { foodXp } = handleFoodXP({
