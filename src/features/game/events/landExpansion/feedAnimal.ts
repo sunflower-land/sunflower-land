@@ -32,6 +32,7 @@ import { getKeys } from "lib/object";
 import { isWearableActive } from "features/game/lib/wearables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { isAnimalFeedable } from "./buyAnimal";
+import { isBeetleFeed } from "features/game/types/beetleFeeds";
 
 export const ANIMAL_SLEEP_DURATION = 24 * 60 * 60 * 1000;
 
@@ -173,6 +174,9 @@ export function handleFoodXP({
   food: AnimalFoodName;
   mud?: AnimalMud;
 }) {
+  // Beetle Feeds cannot be fed yet, so they earn no XP.
+  if (isBeetleFeed(food)) return { foodXp: 0 };
+
   let foodXp = ANIMAL_FOOD_EXPERIENCE[animal][level][food];
 
   const chonkyFeedLevel = getSkillLevel(state.bumpkin.skills, "Chonky Feed");
@@ -353,6 +357,10 @@ export function feedAnimal({
     // Regular feeding logic
     if (!food) {
       throw new Error("No food provided");
+    }
+
+    if (isBeetleFeed(food)) {
+      throw new Error("Beetle Feed cannot be fed yet");
     }
 
     const { foodXp } = handleFoodXP({
