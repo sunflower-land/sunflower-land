@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
-import type { GameState, InventoryItemName } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
 import {
   CAVE_DRILL_COST,
@@ -13,6 +13,7 @@ import {
   isCaveSeed,
   resolveCaveTile,
 } from "features/game/types/cavePatch";
+import { awardCaveTile } from "./digCaveTile";
 
 export type DrillCaveTilesAction = {
   type: "cave.drilled";
@@ -104,13 +105,11 @@ export function drillCaveTiles({
     });
     const dug = { ...batch.dug };
     for (const { x, y } of undug) {
-      const { items } = resolveCaveTile(layout, x, y, createdAt);
-      for (const [name, amount] of Object.entries(items)) {
-        const item = name as InventoryItemName;
-        game.inventory[item] = (game.inventory[item] ?? new Decimal(0)).add(
-          amount ?? 0,
-        );
-      }
+      awardCaveTile({
+        game,
+        tile: resolveCaveTile(layout, x, y, createdAt),
+        createdAt,
+      });
       dug[caveTileKey(x, y)] = { dugAt: createdAt };
     }
 
