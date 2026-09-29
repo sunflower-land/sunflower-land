@@ -316,3 +316,59 @@ describe("digCaveTile: Mushroom Bud", () => {
     expect(next.boostsUsedAt?.["Bud #1"]).toBeUndefined();
   });
 });
+
+describe("getCaveMushroomYield: Wild Mushroom boosts", () => {
+  const PLACED = [
+    { id: "1", createdAt: 0, coordinates: { x: 0, y: 0 }, readyAt: 0 },
+  ];
+
+  const withHat = (game: GameState): GameState => ({
+    ...game,
+    bumpkin: {
+      ...game.bumpkin,
+      equipped: { ...game.bumpkin.equipped, hat: "Mushroom Hat" },
+    },
+  });
+
+  const allBoosts = (): GameState =>
+    withHat({
+      ...readyState(),
+      buds: { 1: mushroomBud() },
+      collectibles: { "Mushroom House": PLACED, "Fairy Circle": PLACED },
+    });
+
+  it.each([
+    ["Mushroom House", 1.2],
+    ["Fairy Circle", 1.2],
+  ] as const)("adds a placed %s's bonus", (name, amount) => {
+    expect(
+      getCaveMushroomYield({
+        game: { ...readyState(), buds: {}, collectibles: { [name]: PLACED } },
+      }).amount,
+    ).toBe(amount);
+  });
+
+  it("adds the Mushroom Hat's bonus", () => {
+    expect(
+      getCaveMushroomYield({ game: withHat({ ...readyState(), buds: {} }) })
+        .amount,
+    ).toBe(1.1);
+  });
+
+  it("stacks every Wild Mushroom boost exactly", () => {
+    // 1 + 0.2 + 0.2 + 0.1 + 0.3
+    expect(getCaveMushroomYield({ game: allBoosts() }).amount).toBe(1.8);
+  });
+
+  it("records every boost used when digging a Mushroom tile", () => {
+    const next = dig(allBoosts(), 1, 0);
+
+    expect(next.inventory["Wild Mushroom"]?.toNumber()).toBe(1.8);
+    expect(next.boostsUsedAt).toMatchObject({
+      "Mushroom House": NOW,
+      "Fairy Circle": NOW,
+      "Mushroom Hat": NOW,
+      "Bud #1": NOW,
+    });
+  });
+});
