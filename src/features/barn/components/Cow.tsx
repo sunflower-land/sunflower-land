@@ -3,6 +3,7 @@ import {
   BEETLE_FEED_REPLACES,
   isBeetleFeed,
 } from "features/game/types/beetleFeeds";
+import { hasFeatureAccess } from "lib/flags";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
@@ -133,6 +134,8 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const cowMachineState = useSelector(cowService, _animalState);
   const inventory = useSelector(gameService, _inventory);
   const [showFeedXP, setShowFeedXP] = useState(false);
+  // Captured when feeding: a level-up changes what the same feed is worth.
+  const [feedXPAmount, setFeedXPAmount] = useState(0);
   const [showLoveItem, setShowLoveItem] = useState<LoveAnimalItem>();
   const [showMutantAnimalModal, setShowMutantAnimalModal] = useState(false);
 
@@ -261,6 +264,8 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const { name: mutantName } = cow.reward?.items?.[0] ?? {};
 
   const feedCow = (item?: InventoryItemName) => {
+    setFeedXPAmount(getAnimalXPEarned(item));
+
     const updatedState = gameService.send({
       type: "animal.fed",
       animal: "Cow",
@@ -496,6 +501,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       favouriteFood: favFood,
       inventory,
       requiredQty: requiredFoodQty,
+      hasBeetleFeedAccess: hasFeatureAccess(game, "BEETLE_FEED"),
     });
     if (feedItem && feedItem !== selectedItem) {
       shortcutItem(feedItem);
@@ -528,12 +534,12 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       });
   };
 
-  const getAnimalXPEarned = () => {
+  const getAnimalXPEarned = (item?: InventoryItemName) => {
     const { foodXp } = handleFoodXP({
       state: game,
       animal: "Cow",
       level,
-      food: hasGoldenCow ? favFood : (selectedItem as AnimalFoodName),
+      food: hasGoldenCow ? favFood : (item as AnimalFoodName),
     });
 
     return foodXp;
@@ -595,7 +601,6 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     hasGoldenCow
       ? "#71e358"
       : "#fff";
-  const xpIndicatorAmount = getAnimalXPEarned();
 
   const { animalXP } = getAnimalXP({
     state: game,
@@ -751,7 +756,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
               color: xpIndicatorColor,
             }}
           >
-            {!!xpIndicatorAmount && `+${xpIndicatorAmount}`}
+            {!!feedXPAmount && `+${feedXPAmount}`}
           </span>
         </Transition>
         <Transition

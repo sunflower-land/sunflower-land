@@ -567,6 +567,7 @@ describe("getFeedItem", () => {
       favouriteFood: "Kernel Blend",
       inventory: { "Kernel Blend": new Decimal(5), Hay: new Decimal(5) },
       requiredQty,
+      hasBeetleFeedAccess: true,
     });
 
     expect(item).toBe("Kernel Blend");
@@ -578,6 +579,7 @@ describe("getFeedItem", () => {
       favouriteFood: "Kernel Blend",
       inventory: { "Kernel Blend": new Decimal(5), Omnifeed: new Decimal(5) },
       requiredQty,
+      hasBeetleFeedAccess: true,
     });
 
     expect(item).toBe("Omnifeed");
@@ -592,6 +594,7 @@ describe("getFeedItem", () => {
         "Brown Beetle Feed": new Decimal(1),
       },
       requiredQty,
+      hasBeetleFeedAccess: true,
     });
 
     expect(item).toBe("Brown Beetle Feed");
@@ -606,6 +609,7 @@ describe("getFeedItem", () => {
         "Brown Beetle Feed": new Decimal(1),
       },
       requiredQty,
+      hasBeetleFeedAccess: true,
     });
 
     expect(item).toBe("Kernel Blend");
@@ -621,6 +625,7 @@ describe("getFeedItem", () => {
         "Brown Beetle Feed": new Decimal(1),
       },
       requiredQty,
+      hasBeetleFeedAccess: true,
     });
 
     expect(item).toBe("Brown Beetle Feed");
@@ -632,6 +637,7 @@ describe("getFeedItem", () => {
       favouriteFood: "Kernel Blend",
       inventory: { "Brown Beetle Feed": new Decimal(1) },
       requiredQty,
+      hasBeetleFeedAccess: true,
     });
 
     expect(item).toBe("Brown Beetle Feed");
@@ -646,6 +652,7 @@ describe("getFeedItem", () => {
         "Brown Beetle Feed": new Decimal(1),
       },
       requiredQty,
+      hasBeetleFeedAccess: true,
     });
 
     expect(item).toBe("Brown Beetle Feed");
@@ -660,6 +667,7 @@ describe("getFeedItem", () => {
         "Brown Beetle Feed": new Decimal(1),
       },
       requiredQty,
+      hasBeetleFeedAccess: true,
     });
 
     expect(item).toBe("Omnifeed");
@@ -674,6 +682,7 @@ describe("getFeedItem", () => {
         "Blue Beetle Feed": new Decimal(1),
       },
       requiredQty,
+      hasBeetleFeedAccess: true,
     });
 
     expect(item).toBe("Kernel Blend");
@@ -685,6 +694,7 @@ describe("getFeedItem", () => {
       favouriteFood: "Kernel Blend",
       inventory: { "Blue Beetle Feed": new Decimal(1) },
       requiredQty,
+      hasBeetleFeedAccess: true,
     });
 
     expect(item).toBeUndefined();
@@ -696,6 +706,7 @@ describe("getFeedItem", () => {
       favouriteFood: "Kernel Blend",
       inventory: { "Kernel Blend": new Decimal(1), Hay: new Decimal(5) },
       requiredQty,
+      hasBeetleFeedAccess: true,
     });
 
     expect(item).toBe("Kernel Blend");
@@ -707,6 +718,7 @@ describe("getFeedItem", () => {
       favouriteFood: "Kernel Blend",
       inventory: { "Kernel Blend": new Decimal(1), Axe: new Decimal(1) },
       requiredQty,
+      hasBeetleFeedAccess: true,
     });
 
     expect(item).toBe("Kernel Blend");
@@ -718,6 +730,7 @@ describe("getFeedItem", () => {
       favouriteFood: "Kernel Blend",
       inventory: { "Kernel Blend": new Decimal(1) },
       requiredQty,
+      hasBeetleFeedAccess: true,
     });
 
     expect(item).toBe("Kernel Blend");
@@ -729,6 +742,7 @@ describe("getFeedItem", () => {
       favouriteFood: "Kernel Blend",
       inventory: { Hay: new Decimal(5) },
       requiredQty,
+      hasBeetleFeedAccess: true,
     });
 
     expect(item).toBe("Hay");
@@ -740,6 +754,7 @@ describe("getFeedItem", () => {
       favouriteFood: "Kernel Blend",
       inventory: { "Kernel Blend": new Decimal(2), Hay: new Decimal(5) },
       requiredQty: new Decimal(3),
+      hasBeetleFeedAccess: true,
     });
 
     expect(item).toBe("Hay");
@@ -751,9 +766,40 @@ describe("getFeedItem", () => {
       favouriteFood: "Kernel Blend",
       inventory: { Axe: new Decimal(1) },
       requiredQty,
+      hasBeetleFeedAccess: true,
     });
 
     expect(item).toBe("Axe");
+  });
+
+  it("does not switch to the favourite's Beetle Feed without Beetle Feed access", () => {
+    const item = getFeedItem({
+      selectedItem: "Hay",
+      favouriteFood: "Kernel Blend",
+      inventory: {
+        "Kernel Blend": new Decimal(5),
+        "Brown Beetle Feed": new Decimal(1),
+      },
+      requiredQty,
+      hasBeetleFeedAccess: false,
+    });
+
+    expect(item).toBe("Kernel Blend");
+  });
+
+  it("does not keep a selected Beetle Feed without Beetle Feed access", () => {
+    const item = getFeedItem({
+      selectedItem: "Brown Beetle Feed",
+      favouriteFood: "Kernel Blend",
+      inventory: {
+        "Kernel Blend": new Decimal(5),
+        "Brown Beetle Feed": new Decimal(1),
+      },
+      requiredQty,
+      hasBeetleFeedAccess: false,
+    });
+
+    expect(item).toBe("Kernel Blend");
   });
 });
 

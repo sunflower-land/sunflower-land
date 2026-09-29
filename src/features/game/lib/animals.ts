@@ -240,25 +240,29 @@ export function getFeedItem({
   favouriteFood,
   inventory,
   requiredQty,
+  hasBeetleFeedAccess,
 }: {
   selectedItem?: InventoryItemName;
   favouriteFood: AnimalFoodName;
   inventory: Inventory;
   requiredQty: Decimal;
+  hasBeetleFeedAccess: boolean;
 }): InventoryItemName | undefined {
+  // The only Beetle Feed this animal can eat right now, if any.
+  const beetleFeed = hasBeetleFeedAccess
+    ? getKeys(BEETLE_FEED_REPLACES).find(
+        (feed) => BEETLE_FEED_REPLACES[feed] === favouriteFood,
+      )
+    : undefined;
+
   if (
     selectedItem === favouriteFood ||
     selectedItem === "Omnifeed" ||
-    (selectedItem &&
-      isBeetleFeed(selectedItem) &&
-      BEETLE_FEED_REPLACES[selectedItem] === favouriteFood)
+    (!!beetleFeed && selectedItem === beetleFeed)
   ) {
     return selectedItem;
   }
 
-  const beetleFeed = getKeys(BEETLE_FEED_REPLACES).find(
-    (feed) => BEETLE_FEED_REPLACES[feed] === favouriteFood,
-  );
   if (beetleFeed && (inventory[beetleFeed] ?? new Decimal(0)).gte(1)) {
     return beetleFeed;
   }

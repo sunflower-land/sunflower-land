@@ -3,6 +3,7 @@ import {
   BEETLE_FEED_REPLACES,
   isBeetleFeed,
 } from "features/game/types/beetleFeeds";
+import { hasFeatureAccess } from "lib/flags";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
@@ -500,6 +501,7 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
       favouriteFood: favFood,
       inventory,
       requiredQty: requiredFoodQty,
+      hasBeetleFeedAccess: hasFeatureAccess(game, "BEETLE_FEED"),
     });
     if (feedItem && feedItem !== selectedItem) {
       shortcutItem(feedItem);

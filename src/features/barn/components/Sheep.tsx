@@ -3,6 +3,7 @@ import {
   BEETLE_FEED_REPLACES,
   isBeetleFeed,
 } from "features/game/types/beetleFeeds";
+import { hasFeatureAccess } from "lib/flags";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -107,6 +108,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const [showNoMedicine, setShowNoMedicine] = useState(false);
   const [showLockedDetails, setShowLockedDetails] = useState(false);
   const [showFeedXP, setShowFeedXP] = useState(false);
+  // Captured when feeding: a level-up changes what the same feed is worth.
+  const [feedXPAmount, setFeedXPAmount] = useState(0);
   const [showLoveItem, setShowLoveItem] = useState<LoveAnimalItem>();
   const [showMutantAnimalModal, setShowMutantAnimalModal] = useState(false);
 
@@ -231,6 +234,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   }, [sheep.state, sheep.experience]);
 
   const feedSheep = (item?: InventoryItemName) => {
+    setFeedXPAmount(getAnimalXPEarned(item));
+
     const updatedState = gameService.send({
       type: "animal.fed",
       animal: "Sheep",
@@ -466,6 +471,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       favouriteFood: favFood,
       inventory,
       requiredQty: requiredFoodQty,
+      hasBeetleFeedAccess: hasFeatureAccess(game, "BEETLE_FEED"),
     });
     if (feedItem && feedItem !== selectedItem) {
       shortcutItem(feedItem);
@@ -498,12 +504,12 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       });
   };
 
-  const getAnimalXPEarned = () => {
+  const getAnimalXPEarned = (item?: InventoryItemName) => {
     const { foodXp } = handleFoodXP({
       state: game,
       animal: "Sheep",
       level,
-      food: hasGoldenSheep ? favFood : (selectedItem as AnimalFoodName),
+      food: hasGoldenSheep ? favFood : (item as AnimalFoodName),
     });
 
     return foodXp;
@@ -566,7 +572,6 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     hasGoldenSheep
       ? "#71e358"
       : "#fff";
-  const xpIndicatorAmount = getAnimalXPEarned();
 
   const { animalXP } = getAnimalXP({
     state: game,
@@ -724,7 +729,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
               color: xpIndicatorColor,
             }}
           >
-            {!!xpIndicatorAmount && `+${xpIndicatorAmount}`}
+            {!!feedXPAmount && `+${feedXPAmount}`}
           </span>
         </Transition>
         <Transition
