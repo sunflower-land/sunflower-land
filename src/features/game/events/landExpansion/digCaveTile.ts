@@ -1,10 +1,6 @@
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
-import type {
-  BoostName,
-  GameState,
-  InventoryItemName,
-} from "features/game/types/game";
+import type { GameState, InventoryItemName } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
 import {
   CAVE_DIG_SHOVEL_COST,
@@ -12,14 +8,13 @@ import {
   isCaveTileInPatch,
 } from "features/game/types/caveRecipes";
 import {
-  CAVE_MUSHROOM_YIELD,
   generateCavePatch,
   isCaveSeed,
   type ResolvedCaveTile,
   resolveCaveTile,
 } from "features/game/types/cavePatch";
-import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { getMushroomYield } from "features/game/lib/mushrooms";
 
 export type DigCaveTileAction = {
   type: "cave.dug";
@@ -46,19 +41,9 @@ export enum DIG_CAVE_TILE_ERRORS {
   NO_SHOVEL = "Missing Sand Shovel",
 }
 
-/** Wild Mushrooms from one Cave Mushroom tile, with its yield boosts. */
+/** Wild Mushrooms from one Cave Mushroom tile: the same yield as the island. */
 export function getCaveMushroomYield({ game }: { game: GameState }) {
-  let amount = new Decimal(CAVE_MUSHROOM_YIELD);
-  const boostsUsed: { name: BoostName; value: string }[] = [];
-
-  const { yieldBoost, budUsed } = getBudYieldBoosts(
-    game.buds ?? {},
-    "Wild Mushroom",
-  );
-  amount = amount.add(yieldBoost);
-  if (budUsed) boostsUsed.push({ name: budUsed, value: `+${yieldBoost}` });
-
-  return { amount: amount.toNumber(), boostsUsed };
+  return getMushroomYield({ name: "Wild Mushroom", game });
 }
 
 /**
