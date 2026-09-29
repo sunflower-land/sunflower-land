@@ -9,6 +9,7 @@ import { FISH, CHUM_AMOUNTS } from "features/game/types/fishing";
 import { COOKABLES } from "features/game/types/consumables";
 import { EXOTIC_CROPS } from "features/game/types/beans";
 import { ANIMAL_FOODS } from "features/game/types/animals";
+import { isBeetleFeed } from "features/game/types/beetleFeeds";
 import { WORKBENCH_TOOLS } from "features/game/types/tools";
 import { PATCH_FRUIT_SEEDS } from "features/game/types/fruits";
 import { BUILDINGS } from "features/game/types/buildings";
@@ -161,9 +162,10 @@ const GREENHOUSE_NAMES = Object.keys(
   GREENHOUSE_CROPS,
 ) as (keyof typeof GREENHOUSE_CROPS)[];
 const CHUM_NAMES = Object.keys(CHUM_AMOUNTS) as (keyof typeof CHUM_AMOUNTS)[];
-const ANIMAL_FOOD_NAMES = Object.keys(
-  ANIMAL_FOODS,
-) as (keyof typeof ANIMAL_FOODS)[];
+// Beetle Feeds are unreleased chapter content.
+const ANIMAL_FOOD_NAMES = (
+  Object.keys(ANIMAL_FOODS) as (keyof typeof ANIMAL_FOODS)[]
+).filter((name) => !isBeetleFeed(name));
 const CHAPTER_NAMES = Object.keys(
   CHAPTER_ORDER,
 ) as (keyof typeof CHAPTER_ORDER)[];

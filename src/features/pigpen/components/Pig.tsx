@@ -1,4 +1,9 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import {
+  BEETLE_FEED_REPLACES,
+  isBeetleFeed,
+} from "features/game/types/beetleFeeds";
+import { hasFeatureAccess } from "lib/flags";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
@@ -17,6 +22,7 @@ import {
   getBoostedFoodQuantity,
   getFeedItem,
   isAnimalFood,
+  getFeedQuantity,
   isMuddy,
   resolveAnimal,
 } from "features/game/lib/animals";
@@ -495,6 +501,7 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
       favouriteFood: favFood,
       inventory,
       requiredQty: requiredFoodQty,
+      hasBeetleFeedAccess: hasFeatureAccess(game, "BEETLE_FEED"),
     });
     if (feedItem && feedItem !== selectedItem) {
       shortcutItem(feedItem);
@@ -504,7 +511,7 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (hasFoodSelected) {
       const foodCount = inventory[feedItem as AnimalFoodName] ?? new Decimal(0);
-      if (foodCount.lt(requiredFoodQty)) {
+      if (foodCount.lt(getFeedQuantity(feedItem, requiredFoodQty))) {
         setShowNotEnoughFood(true);
         await new Promise((resolve) => setTimeout(resolve, 1000));
         setShowNotEnoughFood(false);
@@ -522,7 +529,9 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
     if (showNoFoodSelected) return t("animal.noFoodMessage");
     if (showNoMedicine) return t("animal.noMedicine");
     if (showNotEnoughFood)
-      return t("animal.notEnoughFood", { amount: requiredFoodQty });
+      return t("animal.notEnoughFood", {
+        amount: getFeedQuantity(selectedItem, requiredFoodQty),
+      });
   };
 
   const getAnimalXPEarned = (item?: InventoryItemName) => {
@@ -585,7 +594,12 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
 
   const level = getAnimalLevel(pig.experience, "Pig", game);
   const xpIndicatorColor =
-    favFood === selectedItem || selectedItem === "Omnifeed" || hasGoldenPig
+    favFood === selectedItem ||
+    selectedItem === "Omnifeed" ||
+    (!!selectedItem &&
+      isBeetleFeed(selectedItem) &&
+      BEETLE_FEED_REPLACES[selectedItem] === favFood) ||
+    hasGoldenPig
       ? "#71e358"
       : "#fff";
 

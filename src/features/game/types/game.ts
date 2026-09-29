@@ -1379,7 +1379,8 @@ export type AnimalFoodName =
   | "Kernel Blend"
   | "NutriBarley"
   | "Mixed Grain"
-  | "Omnifeed";
+  | "Omnifeed"
+  | BeetleFeedName;
 
 export type AnimalMedicineName = "Barn Delight";
 

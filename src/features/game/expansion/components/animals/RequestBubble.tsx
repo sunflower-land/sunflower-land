@@ -6,12 +6,17 @@ import type {
   AnimalMedicineName,
   LoveAnimalItem,
 } from "features/game/types/game";
+import type { BeetleFeedName } from "features/game/types/beetleFeeds";
 
 import { ITEM_DETAILS } from "features/game/types/images";
 import { formatNumber } from "lib/utils/formatNumber";
 // TODO: Add love items
 
-type RequestItem = AnimalFoodName | AnimalMedicineName | LoveAnimalItem;
+// Animals only ever request their favourite food, never a Beetle Feed.
+type RequestItem =
+  | Exclude<AnimalFoodName, BeetleFeedName>
+  | AnimalMedicineName
+  | LoveAnimalItem;
 
 type RequestBubbleProps = {
   top: number;
