@@ -11,6 +11,7 @@ import {
   isCave2x2Square,
 } from "features/game/types/caveRecipes";
 import { DRILL_CAVE_TILES_ERRORS, drillCaveTiles } from "./drillCaveTiles";
+import type { Bud } from "features/game/types/buds";
 
 // Inside the Ascension Age chapter, whose artefact is the Otter Pebble.
 const NOW = new Date("2026-09-23T00:00:00.000Z").getTime();
@@ -387,5 +388,26 @@ describe("drillCaveTiles (cave.drilled)", () => {
         }),
       ).toThrow(DRILL_CAVE_TILES_ERRORS.NO_FEATURE_ACCESS);
     });
+  });
+});
+
+// A placed Bud with the Mushroom stem, whose only boost is +0.3 Wild Mushroom.
+const mushroomBud = (overrides: Partial<Bud> = {}): Bud => ({
+  type: "Plaza",
+  colour: "Blue",
+  ears: "No Ears",
+  aura: "No Aura",
+  stem: "Mushroom",
+  coordinates: { x: 0, y: 0 },
+  ...overrides,
+});
+
+describe("drillCaveTiles: Mushroom Bud", () => {
+  it("awards a drilled Mushroom tile's Wild Mushrooms with the Bud bonus", () => {
+    const next = drill({ ...readyState(), buds: { 1: mushroomBud() } });
+
+    expect(next.inventory["Wild Mushroom"]?.toNumber()).toBe(1.3);
+    expect(next.inventory.Mud?.toNumber()).toBe(1);
+    expect(next.boostsUsedAt?.["Bud #1"]).toBe(NOW);
   });
 });

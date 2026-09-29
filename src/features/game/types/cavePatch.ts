@@ -41,7 +41,8 @@ const BEETLE_RARITY_WEIGHTS: Record<BeetleName, number> = {
 };
 
 // TODO(Cave balance 435): placeholder per-tile yields.
-const MUSHROOM_YIELD = 1;
+/** Wild Mushrooms from one Mushroom tile before boosts. */
+export const CAVE_MUSHROOM_YIELD = 1;
 const BEETLE_YIELD = 1;
 const ARTEFACT_YIELD = 1;
 
@@ -187,7 +188,7 @@ export function resolveCaveTile(
     case "Mushroom":
       return {
         type: "Mushroom",
-        items: { "Wild Mushroom": MUSHROOM_YIELD },
+        items: { "Wild Mushroom": CAVE_MUSHROOM_YIELD },
         clue: getCaveTileClue(layout, x, y),
       };
     case "Beetle":

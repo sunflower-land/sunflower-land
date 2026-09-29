@@ -10,7 +10,12 @@ import {
   generateCavePatch,
   resolveCaveTile,
 } from "features/game/types/cavePatch";
-import { DIG_CAVE_TILE_ERRORS, digCaveTile } from "./digCaveTile";
+import {
+  DIG_CAVE_TILE_ERRORS,
+  digCaveTile,
+  getCaveMushroomYield,
+} from "./digCaveTile";
+import type { Bud } from "features/game/types/buds";
 
 // Inside the Ascension Age chapter, whose artefact is the Otter Pebble.
 const NOW = new Date("2026-09-23T00:00:00.000Z").getTime();
@@ -247,5 +252,67 @@ describe("digCaveTile (cave.dug)", () => {
         ),
       ).toThrow(DIG_CAVE_TILE_ERRORS.NO_FEATURE_ACCESS);
     });
+  });
+});
+
+// A placed Bud with the Mushroom stem, whose only boost is +0.3 Wild Mushroom.
+const mushroomBud = (overrides: Partial<Bud> = {}): Bud => ({
+  type: "Plaza",
+  colour: "Blue",
+  ears: "No Ears",
+  aura: "No Aura",
+  stem: "Mushroom",
+  coordinates: { x: 0, y: 0 },
+  ...overrides,
+});
+
+describe("getCaveMushroomYield", () => {
+  it("is 1 Wild Mushroom without a Bud", () => {
+    expect(
+      getCaveMushroomYield({ game: { ...readyState(), buds: {} } }).amount,
+    ).toBe(1);
+  });
+
+  it("adds a placed Mushroom-stem Bud's bonus", () => {
+    expect(
+      getCaveMushroomYield({
+        game: { ...readyState(), buds: { 1: mushroomBud() } },
+      }).amount,
+    ).toBe(1.3);
+  });
+
+  it("multiplies the Bud's bonus by its aura", () => {
+    expect(
+      getCaveMushroomYield({
+        game: { ...readyState(), buds: { 1: mushroomBud({ aura: "Rare" }) } },
+      }).amount,
+    ).toBe(1.6);
+  });
+
+  it("ignores a Bud that is not placed", () => {
+    expect(
+      getCaveMushroomYield({
+        game: {
+          ...readyState(),
+          buds: { 1: mushroomBud({ coordinates: undefined }) },
+        },
+      }).amount,
+    ).toBe(1);
+  });
+});
+
+describe("digCaveTile: Mushroom Bud", () => {
+  it("awards a Mushroom tile's Wild Mushrooms with the Bud bonus", () => {
+    const next = dig({ ...readyState(), buds: { 1: mushroomBud() } }, 1, 0);
+
+    expect(next.inventory["Wild Mushroom"]?.toNumber()).toBe(1.3);
+    expect(next.boostsUsedAt?.["Bud #1"]).toBe(NOW);
+  });
+
+  it("does not add the Bud bonus to other tiles", () => {
+    const next = dig({ ...readyState(), buds: { 1: mushroomBud() } }, 0, 0);
+
+    expect(next.inventory.Mud?.toNumber()).toBe(1);
+    expect(next.boostsUsedAt?.["Bud #1"]).toBeUndefined();
   });
 });
