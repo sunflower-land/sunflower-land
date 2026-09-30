@@ -6,11 +6,7 @@ import {
   type BeetleName,
 } from "features/game/types/beetles";
 import { INITIAL_FARM } from "features/game/lib/constants";
-import {
-  ANIMAL_FOOD_EXPERIENCE,
-  ANIMAL_LEVELS,
-  type AnimalType,
-} from "features/game/types/animals";
+import { ANIMAL_LEVELS, type AnimalType } from "features/game/types/animals";
 import { getAnimalLevel } from "features/game/lib/animals";
 import type {
   Animal,
@@ -2393,32 +2389,15 @@ describe("feedAnimal", () => {
   });
 });
 
-describe("feedAnimal: Pigpen level caps Pig level", () => {
+describe("feedAnimal: Pig level is not capped by the Pigpen", () => {
   const now = Date.now();
 
-  const pig = (experience: number): Animal => ({
-    id: "1",
-    type: "Pig",
-    state: "idle",
-    createdAt: 0,
-    experience,
-    asleepAt: 0,
-    awakeAt: 0,
-    lovedAt: 0,
-    item: "Petting Hand",
-  });
-
-  const farm = (
-    penLevel: number,
-    experience: number = ANIMAL_LEVELS.Pig[4],
-  ): GameState => ({
+  const farm = (experience: number): GameState => ({
     ...FARM_WITH_HERDS,
     inventory: {
       ...FARM_WITH_HERDS.inventory,
-      Hay: new Decimal(1000),
-      "Kernel Blend": new Decimal(1000),
-      NutriBarley: new Decimal(1000),
-      "Mixed Grain": new Decimal(1000),
+      NutriBarley: new Decimal(50),
+      Hay: new Decimal(50),
     },
     buildings: {
       ...FARM_WITH_HERDS.buildings,
@@ -2426,112 +2405,45 @@ describe("feedAnimal: Pigpen level caps Pig level", () => {
         { coordinates: { x: 0, y: 0 }, createdAt: 0, id: "0", readyAt: 0 },
       ],
     },
-    pigpen: { level: penLevel, animals: { "1": pig(experience) } },
-  });
-
-  // Feed until the animal stops gaining levels, then report where it settled.
-  const feedRepeatedly = (penLevel: number, times: number) => {
-    let state = farm(penLevel, ANIMAL_LEVELS.Pig[4]);
-
-    for (let i = 0; i < times; i++) {
-      state = feedAnimal({
-        state: {
-          ...state,
-          pigpen: {
-            ...state.pigpen,
-            animals: {
-              "1": { ...state.pigpen.animals["1"], state: "idle", awakeAt: 0 },
-            },
-          },
-        },
-        action: {
-          type: "animal.fed",
-          animal: "Pig",
+    pigpen: {
+      level: 1,
+      animals: {
+        "1": {
           id: "1",
-          item: "Mixed Grain",
+          type: "Pig",
+          state: "idle",
+          createdAt: 0,
+          experience,
+          asleepAt: 0,
+          awakeAt: 0,
+          lovedAt: 0,
+          item: "Petting Hand",
         },
-        createdAt: now,
-      });
-    }
-
-    return state.pigpen.animals["1"];
-  };
-
-  it("holds a Pig at level 5 in a level-1 pen, however much it is fed", () => {
-    const fed = feedRepeatedly(1, 200);
-
-    expect(getAnimalLevel(fed.experience, "Pig", farm(1))).toBe(5);
+      },
+    },
   });
 
-  it("keeps accruing XP at the cap so upgrading the pen pays off", () => {
-    const fed = feedRepeatedly(1, 200);
-
-    // XP banks past the cap's threshold rather than being discarded...
-    expect(fed.experience).toBeGreaterThan(ANIMAL_LEVELS.Pig[6]);
-    // ...but the level a capped Pig reports never moves.
-    expect(getAnimalLevel(fed.experience, "Pig", farm(1))).toBe(5);
-  });
-
-  it("caps a Pig that already has XP far above its pen's level", () => {
-    // A Pig with 10,000 XP would read level 15 from its XP alone; its
-    // level-1 Pigpen must still hold it at 5, for drops and the badge alike.
-    const overfed = { ...farm(1), pigpen: { level: 1, animals: {} } };
-
-    expect(getAnimalLevel(10_000, "Pig")).toBe(15);
-    expect(getAnimalLevel(10_000, "Pig", overfed)).toBe(5);
-    expect(getAnimalLevel(10_000, "Pig", farm(2))).toBe(10);
-    expect(getAnimalLevel(10_000, "Pig", farm(3))).toBe(15);
-  });
-
-  it("still cycles produce at the cap, like a level 15 animal", () => {
-    // Repeating level 5 is the point: the Pig keeps becoming claimable.
-    expect(feedRepeatedly(1, 200).state).toBe("ready");
-  });
-
-  it("lifts the cap to 10 when the pen is level 2", () => {
-    const fed = feedRepeatedly(2, 200);
-
-    expect(getAnimalLevel(fed.experience, "Pig", farm(2))).toBe(10);
-  });
-
-  it("allows the full 15 in a level-3 pen", () => {
-    expect(
-      getAnimalLevel(feedRepeatedly(3, 200).experience, "Pig", farm(3)),
-    ).toBe(15);
-  });
-
-  describe("favourite food follows the capped level", () => {
-    // 1,650 XP is level 6 on the Pig's own table, but a level-1 pen holds the
-    // Pig at 5 - and the two levels have DIFFERENT favourites (Hay at 5,
-    // NutriBarley at 6). Deriving the favourite from uncapped XP therefore
-    // pays the capped level's XP while labelling the wrong feed as the treat.
-    const state = farm(1, ANIMAL_LEVELS.Pig[6]);
-
-    const feed = (item: AnimalFoodName) =>
-      feedAnimal({
-        state,
-        action: { type: "animal.fed", animal: "Pig", id: "1", item },
-        createdAt: now,
-      }).pigpen.animals["1"];
-
-    it("is happy when fed the capped level's favourite", () => {
-      const pig = feed("Hay");
-
-      expect(pig.state).toBe("happy");
-      // Level 5's Hay, which is also the best XP available to a capped Pig.
-      expect(pig.experience).toBe(
-        ANIMAL_LEVELS.Pig[6] + ANIMAL_FOOD_EXPERIENCE.Pig[5].Hay,
-      );
+  const feed = (state: GameState, item: AnimalFoodName) =>
+    feedAnimal({
+      state,
+      action: { type: "animal.fed", animal: "Pig", id: "1", item },
+      createdAt: now,
     });
 
-    it("is sad when fed the uncapped level's favourite", () => {
-      const pig = feed("NutriBarley");
+  it("levels a Pig past 5 in a level 1 Pigpen", () => {
+    // Just short of level 6: one favourite feed crosses the threshold.
+    const state = feed(farm(ANIMAL_LEVELS.Pig[6] - 1), "Hay");
+    const pig = state.pigpen.animals["1"];
 
-      expect(pig.state).toBe("sad");
-      expect(pig.experience).toBe(
-        ANIMAL_LEVELS.Pig[6] + ANIMAL_FOOD_EXPERIENCE.Pig[5].NutriBarley,
-      );
-    });
+    expect(getAnimalLevel(pig.experience, "Pig")).toBe(6);
+    expect(pig.state).toBe("ready");
+  });
+
+  it("uses the favourite food of the Pig's real level, not the pen's", () => {
+    // A level 7 Pig wants NutriBarley; Hay is a sad feed at that level.
+    const state = feed(farm(ANIMAL_LEVELS.Pig[7]), "Hay");
+
+    expect(state.pigpen.animals["1"].state).toBe("sad");
   });
 });
 

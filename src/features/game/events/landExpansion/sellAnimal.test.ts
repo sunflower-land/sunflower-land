@@ -717,27 +717,6 @@ describe("isValidDeal: the ready-state level adjustment", () => {
     expect(valid(cow(ANIMAL_LEVELS.Cow[15] * 3, "ready"), 15)).toBe(true);
   });
 
-  it("does not demote a ready Pig at its Pigpen's cap", () => {
-    // A level-1 Pigpen caps Pigs at 5, so a Pig cycling produce there is at
-    // its max level even though its XP table runs to 15. The XP sits PAST the
-    // cap but SHORT of 15 - a Pig that has banked progress it cannot use yet -
-    // so the cap is the only thing that makes it read as maxed.
-    expect(INITIAL_FARM.pigpen.level).toBe(1);
-
-    const pig: Animal = {
-      ...cow(ANIMAL_LEVELS.Pig[8], "ready"),
-      type: "Pig",
-    };
-
-    expect(
-      isValidDeal({
-        animal: pig,
-        deal: { id: "1", name: "Pig", level: 5, coins: 100 },
-        game: INITIAL_FARM,
-      }),
-    ).toBe(true);
-  });
-
   it("still requires the level when the animal is not ready", () => {
     expect(valid(cow(ANIMAL_LEVELS.Cow[5], "idle"), 5)).toBe(true);
     expect(valid(cow(ANIMAL_LEVELS.Cow[5], "idle"), 6)).toBe(false);

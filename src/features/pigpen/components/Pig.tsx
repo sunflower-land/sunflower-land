@@ -208,7 +208,7 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pig.state, pig.experience]);
 
-  const favFood = getAnimalFavoriteFood("Pig", pig.experience, game);
+  const favFood = getAnimalFavoriteFood("Pig", pig.experience);
   const sleeping = pigMachineState === "sleeping";
   const needsLove = pigMachineState === "needsLove";
   const ready = pigMachineState === "ready";
@@ -596,7 +596,7 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
 
   if (pigMachineState === "initial") return null;
 
-  const level = getAnimalLevel(pig.experience, "Pig", game);
+  const level = getAnimalLevel(pig.experience, "Pig");
   const xpIndicatorColor =
     favFood === selectedItem ||
     selectedItem === "Omnifeed" ||

@@ -65,7 +65,6 @@ type Options = {
 export function isMaxLevel(
   animal: AnimalType,
   experience: number,
-  // The Pigpen's level caps a Pig below the top of its XP table.
   maxLevel: AnimalLevel = (getKeys(ANIMAL_LEVELS[animal]).length -
     1) as AnimalLevel,
 ) {
@@ -99,10 +98,9 @@ const handleAnimalExperience = (
   const cycleXP = maxLevelXp - levelBeforeMaxXp;
   const excessXpBeforeFeed = Math.max(beforeFeedXp - maxLevelXp, 0);
   const currentCycleProgress = excessXpBeforeFeed % cycleXP;
-  // XP keeps accruing at the cap rather than being held inside one cycle:
-  // rewriting it would destroy the excess of any animal already above its cap,
-  // and banking it is what makes upgrading the building pay off. The cap is
-  // applied when the level is DERIVED, in `getAnimalLevel`.
+  // XP keeps accruing past the max level rather than being held inside one
+  // cycle, so an animal's excess is never rewritten; the level itself is
+  // derived from it in `getAnimalLevel`.
   return currentCycleProgress + foodXp >= cycleXP;
 };
 
@@ -119,7 +117,7 @@ const handleFreeFeeding = ({
 }) => {
   const beforeFeedXp = animal.experience;
   const nextLevel = (level + 1) as AnimalLevel;
-  const maxLevel = getAnimalMaxLevel(animalType, copy);
+  const maxLevel = getAnimalMaxLevel(animalType);
   let isReady = false;
 
   // Is max level (or capped there by its building)
@@ -139,7 +137,7 @@ const handleFreeFeeding = ({
     const nextLevelXp = ANIMAL_LEVELS[animalType][nextLevel];
     const xpDiff = nextLevelXp - beforeFeedXp;
 
-    const favouriteFood = getAnimalFavoriteFood(animalType, beforeFeedXp, copy);
+    const favouriteFood = getAnimalFavoriteFood(animalType, beforeFeedXp);
 
     const { foodXp } = handleFoodXP({
       state: copy,
@@ -300,7 +298,7 @@ export function feedAnimal({
       throw new Error("Cannot feed a sick animal");
     }
 
-    const level = getAnimalLevel(animal.experience, animal.type, copy);
+    const level = getAnimalLevel(animal.experience, animal.type);
     const food = action.item as AnimalFoodName | BeetleName;
     if (food && isBeetle(food) && !hasFeatureAccess(copy, "BEETLE_FEEDING")) {
       throw new Error("Beetle feeding is not available");
@@ -321,7 +319,6 @@ export function feedAnimal({
     const favouriteFood = getAnimalFavoriteFood(
       action.animal,
       animal.experience,
-      copy,
     );
 
     // Handle Golden Egg Free Food
@@ -410,7 +407,7 @@ export function feedAnimal({
       action.animal,
       beforeFeedXp,
       foodXp,
-      getAnimalMaxLevel(action.animal, copy),
+      getAnimalMaxLevel(action.animal),
     );
 
     // Each feed that earned Mud's bonus spends one of its uses.
