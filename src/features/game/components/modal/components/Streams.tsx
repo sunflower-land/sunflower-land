@@ -53,19 +53,69 @@ export const STREAMS_CONFIG = {
 };
 
 const SYDNEY = "Australia/Sydney";
+const DAY_MS = 24 * 60 * 60 * 1000;
 
-/** Get YYYY-MM-DD for a timestamp in Sydney. */
-function getSydneyDateString(ms: number): string {
-  const parts = new Intl.DateTimeFormat("en-CA", {
+type SydneyClock = {
+  year: number;
+  month: number; // 1-12
+  day: number; // 1-31
+  weekday: number; // 0 = Sunday, 1 = Monday, etc.
+  hour: number;
+  minute: number;
+};
+
+const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+/** Sydney wall-clock components for a timestamp. */
+function getSydneyClock(ms: number): SydneyClock {
+  const parts = new Intl.DateTimeFormat("en-US", {
     timeZone: SYDNEY,
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
+    weekday: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
   }).formatToParts(new Date(ms));
-  const y = parts.find((p) => p.type === "year")?.value ?? "";
-  const m = parts.find((p) => p.type === "month")?.value ?? "";
-  const d = parts.find((p) => p.type === "day")?.value ?? "";
-  return `${y}-${m}-${d}`;
+  const get = (type: Intl.DateTimeFormatPartTypes) =>
+    parts.find((p) => p.type === type)?.value ?? "";
+
+  return {
+    year: Number(get("year")),
+    month: Number(get("month")),
+    day: Number(get("day")),
+    weekday: WEEKDAYS.indexOf(get("weekday")),
+    hour: Number(get("hour")),
+    minute: Number(get("minute")),
+  };
+}
+
+/** Get YYYY-MM-DD for a timestamp in Sydney. */
+function getSydneyDateString(ms: number): string {
+  const { year, month, day } = getSydneyClock(ms);
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${year}-${pad(month)}-${pad(day)}`;
+}
+
+/** Sydney's UTC offset (ms) at a given timestamp. */
+function getSydneyOffsetMs(ms: number): number {
+  const { year, month, day, hour, minute } = getSydneyClock(ms);
+  const asUtc = Date.UTC(year, month - 1, day, hour, minute);
+  return asUtc - Math.floor(ms / 60000) * 60000;
+}
+
+/**
+ * Timestamp for a Sydney wall-clock date/time. `dayNumber` is a calendar day
+ * count (Date.UTC(y, m, d) / DAY_MS) so callers can step whole days without
+ * DST changing the time of day.
+ */
+function sydneyWallClockToMs(dayNumber: number, hour: number, minute: number) {
+  const asUtc = dayNumber * DAY_MS + (hour * 60 + minute) * 60000;
+  // Two passes: the offset guessed from the UTC instant may straddle a DST
+  // switch, so re-read it from the corrected instant.
+  const guess = asUtc - getSydneyOffsetMs(asUtc);
+  return asUtc - getSydneyOffsetMs(guess);
 }
 
 /** True if this stream date (YYYY-MM-DD) falls on an "on" week for bi-weekly. */
@@ -76,8 +126,8 @@ function isOnIntervalWeek(
 ): boolean {
   const [ay, am, ad] = anchorDate.split("-").map(Number);
   const [sy, sm, sd] = streamDateStr.split("-").map(Number);
-  const anchorDays = Date.UTC(ay, am - 1, ad) / (24 * 60 * 60 * 1000);
-  const streamDays = Date.UTC(sy, sm - 1, sd) / (24 * 60 * 60 * 1000);
+  const anchorDays = Date.UTC(ay, am - 1, ad) / DAY_MS;
+  const streamDays = Date.UTC(sy, sm - 1, sd) / DAY_MS;
   const weeksSince = Math.floor((streamDays - anchorDays) / 7);
   return weeksSince >= 0 && weeksSince % intervalWeeks === 0;
 }
@@ -85,104 +135,64 @@ function isOnIntervalWeek(
 type GetNextStreamTimeOptions = {
   intervalWeeks?: number;
   anchorDate?: string;
+  now?: number;
 };
 
 export const getNextStreamTime = (
   schedule: StreamSchedule,
   options?: GetNextStreamTimeOptions,
 ): { startTime: number; isOngoing: boolean } => {
-  const { intervalWeeks = 1, anchorDate } = options ?? {};
+  const { intervalWeeks = 1, anchorDate, now = Date.now() } = options ?? {};
 
-  // Create a date object in Sydney timezone
-  const sydneyTime = new Date();
-  const sydneyDate = new Date(
-    sydneyTime.toLocaleString("en-US", { timeZone: SYDNEY }),
-  );
+  const today = getSydneyClock(now);
+  const todayNumber = Date.UTC(today.year, today.month - 1, today.day) / DAY_MS;
 
-  // Get current day, hour and minute in Sydney
-  const currentDay = sydneyDate.getDay();
-  const currentHour = sydneyDate.getHours();
-  const currentMinute = sydneyDate.getMinutes();
+  const isOnWeek = (dayNumber: number) => {
+    const dateStr = getSydneyDateString(dayNumber * DAY_MS);
+    if (NO_STREAM_DATES.includes(dateStr)) return false;
+    if (!anchorDate || intervalWeeks === 1) return true;
+    return isOnIntervalWeek(dateStr, anchorDate, intervalWeeks);
+  };
 
-  // Calculate minutes until next stream (next occurrence of this day/time)
-  let minutesUntilStream = 0;
-  let isOngoing = false;
+  let daysUntilStream = (schedule.day - today.weekday + 7) % 7;
 
-  const onRightDay =
-    currentDay === schedule.day &&
-    (currentHour > schedule.hour ||
-      (currentHour === schedule.hour && currentMinute >= schedule.minute));
-
-  if (onRightDay) {
+  if (daysUntilStream === 0) {
     const minutesSinceStart =
-      (currentHour - schedule.hour) * 60 + (currentMinute - schedule.minute);
-    if (minutesSinceStart < 60) {
-      const todayStr = getSydneyDateString(sydneyTime.getTime());
+      (today.hour - schedule.hour) * 60 + (today.minute - schedule.minute);
+
+    if (minutesSinceStart >= 0 && minutesSinceStart < 60) {
       const onWeek =
         !anchorDate ||
         intervalWeeks === 1 ||
-        isOnIntervalWeek(todayStr, anchorDate, intervalWeeks);
+        isOnIntervalWeek(getSydneyDateString(now), anchorDate, intervalWeeks);
       if (onWeek) {
-        isOngoing = true;
-        minutesUntilStream = -minutesSinceStart;
-      } else {
-        minutesUntilStream =
-          7 * 24 * 60 -
-          (currentHour * 60 + currentMinute) +
-          (schedule.hour * 60 + schedule.minute);
+        return {
+          startTime: sydneyWallClockToMs(
+            todayNumber,
+            schedule.hour,
+            schedule.minute,
+          ),
+          isOngoing: true,
+        };
       }
-    } else {
-      minutesUntilStream =
-        7 * 24 * 60 -
-        (currentHour * 60 + currentMinute) +
-        (schedule.hour * 60 + schedule.minute);
     }
-  } else {
-    const daysUntilStream = (schedule.day - currentDay + 7) % 7;
-    minutesUntilStream =
-      daysUntilStream * 24 * 60 +
-      (schedule.hour * 60 + schedule.minute) -
-      (currentHour * 60 + currentMinute);
+
+    // Today's stream has already started (or is on an off week)
+    if (minutesSinceStart >= 0) daysUntilStream = 7;
   }
 
-  let nextStreamTime = new Date(
-    sydneyTime.getTime() + minutesUntilStream * 60000,
-  );
-
-  // Skip NO_STREAM_DATES
-  let nextStreamDate = getSydneyDateString(nextStreamTime.getTime());
-  while (NO_STREAM_DATES.includes(nextStreamDate)) {
-    minutesUntilStream += 7 * 24 * 60;
-    nextStreamTime = new Date(
-      sydneyTime.getTime() + minutesUntilStream * 60000,
-    );
-    nextStreamDate = getSydneyDateString(nextStreamTime.getTime());
+  let streamDayNumber = todayNumber + daysUntilStream;
+  while (!isOnWeek(streamDayNumber)) {
+    streamDayNumber += 7;
   }
-
-  // Bi-weekly: advance by 7 days until we hit an "on" week (and not a NO_STREAM date)
-  if (anchorDate && intervalWeeks > 1) {
-    for (;;) {
-      nextStreamDate = getSydneyDateString(nextStreamTime.getTime());
-      const onWeek = isOnIntervalWeek(
-        nextStreamDate,
-        anchorDate,
-        intervalWeeks,
-      );
-      const skipped = NO_STREAM_DATES.includes(nextStreamDate);
-      if (onWeek && !skipped) break;
-      minutesUntilStream += 7 * 24 * 60;
-      nextStreamTime = new Date(
-        sydneyTime.getTime() + minutesUntilStream * 60000,
-      );
-    }
-  }
-
-  nextStreamTime.setSeconds(0);
-  nextStreamTime.setMilliseconds(0);
 
   return {
-    startTime: nextStreamTime.getTime(),
-    isOngoing,
+    startTime: sydneyWallClockToMs(
+      streamDayNumber,
+      schedule.hour,
+      schedule.minute,
+    ),
+    isOngoing: false,
   };
 };
 
