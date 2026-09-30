@@ -230,6 +230,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sheep.state, sheep.experience]);
 
+  const hasBeetleFeedingAccess = hasFeatureAccess(game, "BEETLE_FEEDING");
+
   const feedSheep = (item?: InventoryItemName) => {
     setFeedXPAmount(getAnimalXPEarned(item));
 
@@ -468,14 +470,18 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       favouriteFood: favFood,
       inventory,
       requiredQty: requiredFoodQty,
-      hasBeetleFeedingAccess: hasFeatureAccess(game, "BEETLE_FEEDING"),
+      hasBeetleFeedingAccess,
     });
     if (feedItem && feedItem !== selectedItem) {
       shortcutItem(feedItem);
     }
 
+    // Without access a Beetle is not food here, so the click falls through to
+    // the no-food prompt instead of an event the reducer would reject.
     const hasFoodSelected =
-      feedItem && (isAnimalFood(feedItem) || isBeetle(feedItem));
+      feedItem &&
+      (isAnimalFood(feedItem) ||
+        (hasBeetleFeedingAccess && isBeetle(feedItem)));
 
     if (hasFoodSelected) {
       const foodCount = inventory[feedItem as AnimalFoodName] ?? new Decimal(0);
@@ -564,7 +570,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const xpIndicatorColor =
     favFood === selectedItem ||
     selectedItem === "Omnifeed" ||
-    (!!selectedItem && isBeetle(selectedItem)) ||
+    (hasBeetleFeedingAccess && !!selectedItem && isBeetle(selectedItem)) ||
     hasGoldenSheep
       ? "#71e358"
       : "#fff";

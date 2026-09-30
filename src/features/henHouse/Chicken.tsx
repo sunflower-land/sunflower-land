@@ -283,6 +283,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   // Check if the chicken has a mutant
   const { name: mutantName } = chicken.reward?.items?.[0] ?? {};
 
+  const hasBeetleFeedingAccess = hasFeatureAccess(game, "BEETLE_FEEDING");
+
   const feedChicken = (item?: InventoryItemName) => {
     setFeedXPAmount(getAnimalXPEarned(item));
 
@@ -520,14 +522,18 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       favouriteFood: favFood,
       inventory,
       requiredQty: requiredFoodQty,
-      hasBeetleFeedingAccess: hasFeatureAccess(game, "BEETLE_FEEDING"),
+      hasBeetleFeedingAccess,
     });
     if (feedItem && feedItem !== selectedItem) {
       shortcutItem(feedItem);
     }
 
+    // Without access a Beetle is not food here, so the click falls through to
+    // the no-food prompt instead of an event the reducer would reject.
     const hasFoodSelected =
-      feedItem && (isAnimalFood(feedItem) || isBeetle(feedItem));
+      feedItem &&
+      (isAnimalFood(feedItem) ||
+        (hasBeetleFeedingAccess && isBeetle(feedItem)));
 
     if (hasFoodSelected) {
       const foodCount = inventory[feedItem as AnimalFoodName] ?? new Decimal(0);
@@ -615,7 +621,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const xpIndicatorColor =
     favFood === selectedItem ||
     selectedItem === "Omnifeed" ||
-    (!!selectedItem && isBeetle(selectedItem)) ||
+    (hasBeetleFeedingAccess && !!selectedItem && isBeetle(selectedItem)) ||
     hasGoldEgg
       ? "#71e358"
       : "#fff";
