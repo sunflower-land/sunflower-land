@@ -30,15 +30,15 @@ const NO_STREAM_DATES = [
 ];
 
 export const STREAMS_CONFIG = {
-  /** Discord stream: every second Thursday, same time. Starting next week. */
-  thursday: {
-    day: 4,
+  /** Discord stream: every second Wednesday at 15:30 Sydney (04:30 UTC during AEDT). */
+  wednesday: {
+    day: 3,
     startHour: 15,
     startMinute: 30,
     durationMinutes: 60,
     notifyMinutesBefore: 10,
     intervalWeeks: 2,
-    anchorDate: "2026-02-19",
+    anchorDate: "2026-02-18",
   } as StreamConfig,
   /** Twitch stream: every second Friday. Starting today. */
   friday: {
@@ -234,16 +234,16 @@ export function getStream(): StreamNotification | null {
 
 export const StreamsContent: React.FC = () => {
   const { t } = useAppTranslation();
-  const { startTime: thursdayStream, isOngoing: thursdayOngoing } =
+  const { startTime: wednesdayStream, isOngoing: wednesdayOngoing } =
     getNextStreamTime(
       {
-        day: STREAMS_CONFIG.thursday.day,
-        hour: STREAMS_CONFIG.thursday.startHour,
-        minute: STREAMS_CONFIG.thursday.startMinute,
+        day: STREAMS_CONFIG.wednesday.day,
+        hour: STREAMS_CONFIG.wednesday.startHour,
+        minute: STREAMS_CONFIG.wednesday.startMinute,
       },
       {
-        intervalWeeks: STREAMS_CONFIG.thursday.intervalWeeks,
-        anchorDate: STREAMS_CONFIG.thursday.anchorDate,
+        intervalWeeks: STREAMS_CONFIG.wednesday.intervalWeeks,
+        anchorDate: STREAMS_CONFIG.wednesday.anchorDate,
       },
     );
   const { startTime: fridayStream, isOngoing: fridayOngoing } =
@@ -282,13 +282,13 @@ export const StreamsContent: React.FC = () => {
               timeZone,
             })}
           </Label>
-          {(thursdayOngoing || fridayOngoing) && (
+          {(wednesdayOngoing || fridayOngoing) && (
             <Label
               type="success"
               icon={SUNNYSIDE.icons.stopwatch}
               className="mb-1"
             >
-              {t(`streams.${thursdayOngoing ? "thursday" : "friday"}.ongoing`)}
+              {t(`streams.${wednesdayOngoing ? "thursday" : "friday"}.ongoing`)}
             </Label>
           )}
           <Label
@@ -297,7 +297,7 @@ export const StreamsContent: React.FC = () => {
             className="mb-2 ml-2"
           >
             {`${t("streams.discord")} - ${new Date(
-              thursdayStream,
+              wednesdayStream,
             ).toLocaleString("en-AU", timeOptions)}`}
           </Label>
           <Label
