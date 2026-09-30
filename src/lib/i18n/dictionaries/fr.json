@@ -8609,7 +8609,6 @@
   "description.pinkBeetle": "Un scarabée rare",
   "description.amberBeetle": "Le scarabée le plus rare",
   "description.mud": "Boue riche et collante",
-  "description.rawhide": "Une peau d'animal résistante",
   "description.truffle": "Une truffe prisée",
   "description.brownBeetleFeed": "Alimentation animale assistée par les coléoptères",
   "description.blueBeetleFeed": "Alimentation animale assistée par les coléoptères",
@@ -8620,7 +8619,6 @@
   "resource.pinkBeetle": "Scarabée rose",
   "resource.amberBeetle": "Scarabée ambré",
   "resource.mud": "Boue",
-  "resource.rawhide": "Cuir brut",
   "resource.truffle": "Truffe",
   "animalFood.brownBeetleFeed": "Nourriture pour coléoptères bruns",
   "animalFood.blueBeetleFeed": "Nourriture pour coléoptères bleus",
@@ -8712,5 +8710,7 @@
   "cave.merchant.left": "{{left}}/{{limit}} gauche",
   "cave.merchant.trade": "Commerce",
   "cave.merchant.resets": "Se réinitialise dans {{time}}",
-  "cave.merchant.moreOffers": "Plus d'offres chez Cave tier {{tier}}"
+  "cave.merchant.moreOffers": "Plus d'offres chez Cave tier {{tier}}",
+  "description.pigBristles": "Poils grossiers provenant d'un cochon.",
+  "resource.pigBristles": "Poils de porc"
 }

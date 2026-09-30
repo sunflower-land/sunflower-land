@@ -8609,7 +8609,6 @@
   "description.pinkBeetle": "珍しいカブトムシ",
   "description.amberBeetle": "最も希少なカブトムシ",
   "description.mud": "濃厚で粘り気のある泥",
-  "description.rawhide": "丈夫な動物の皮",
   "description.truffle": "貴重なトリュフ",
   "description.brownBeetleFeed": "カブトムシ補助動物飼料",
   "description.blueBeetleFeed": "カブトムシ補助動物飼料",
@@ -8620,7 +8619,6 @@
   "resource.pinkBeetle": "ピンクビートル",
   "resource.amberBeetle": "アンバービートル",
   "resource.mud": "泥",
-  "resource.rawhide": "ローハイド",
   "resource.truffle": "トリュフ",
   "animalFood.brownBeetleFeed": "ブラウンビートルフィード",
   "animalFood.blueBeetleFeed": "ブルービートルフィード",
@@ -8712,5 +8710,7 @@
   "cave.merchant.left": "{{left}}/{{limit}} 左",
   "cave.merchant.trade": "トレード",
   "cave.merchant.resets": "{{time}} でリセット",
-  "cave.merchant.moreOffers": "ケーブティアでのその他のオファー {{tier}}"
+  "cave.merchant.moreOffers": "ケーブティアでのその他のオファー {{tier}}",
+  "description.pigBristles": "豚の粗い毛。",
+  "resource.pigBristles": "ピッグ・ブリストル"
 }

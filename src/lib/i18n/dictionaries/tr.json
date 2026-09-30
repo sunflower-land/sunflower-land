@@ -8609,7 +8609,6 @@
   "description.pinkBeetle": "Nadir bir böcek",
   "description.amberBeetle": "En nadir böcek",
   "description.mud": "Zengin, yapışkan çamur",
-  "description.rawhide": "Sert bir hayvan derisi",
   "description.truffle": "Değerli bir trüf mantarı",
   "description.brownBeetleFeed": "Böcek destekli hayvan yemi",
   "description.blueBeetleFeed": "Böcek destekli hayvan yemi",
@@ -8620,7 +8619,6 @@
   "resource.pinkBeetle": "Pembe Böcek",
   "resource.amberBeetle": "Amber Böceği",
   "resource.mud": "Çamur",
-  "resource.rawhide": "Ham deri",
   "resource.truffle": "Trüf",
   "animalFood.brownBeetleFeed": "Kahverengi Böcek Yemi",
   "animalFood.blueBeetleFeed": "Mavi Böcek Yemi",
@@ -8712,5 +8710,7 @@
   "cave.merchant.left": "{{left}}/{{limit}} kaldı",
   "cave.merchant.trade": "Ticaret",
   "cave.merchant.resets": "{{time}} içinde sıfırlanır",
-  "cave.merchant.moreOffers": "Mağara katmanında daha fazla teklif {{tier}}"
+  "cave.merchant.moreOffers": "Mağara katmanında daha fazla teklif {{tier}}",
+  "description.pigBristles": "Bir Domuzdan Kaba Kıllar.",
+  "resource.pigBristles": "Domuz Kılları"
 }

@@ -8609,7 +8609,6 @@
   "description.pinkBeetle": "Kumbang langka",
   "description.amberBeetle": "Kumbang paling langka",
   "description.mud": "Lumpur yang kaya dan lengket",
-  "description.rawhide": "Kulit binatang yang tangguh",
   "description.truffle": "Truffle yang berharga",
   "description.brownBeetleFeed": "Pakan ternak yang dibantu kumbang",
   "description.blueBeetleFeed": "Pakan ternak yang dibantu kumbang",
@@ -8620,7 +8619,6 @@
   "resource.pinkBeetle": "Kumbang Merah Muda",
   "resource.amberBeetle": "Kumbang Amber",
   "resource.mud": "Lumpur",
-  "resource.rawhide": "Kulit mentah",
   "resource.truffle": "Truffle",
   "animalFood.brownBeetleFeed": "Pakan Kumbang Coklat",
   "animalFood.blueBeetleFeed": "Pakan Kumbang Biru",
@@ -8712,5 +8710,7 @@
   "cave.merchant.left": "{{left}}/{{limit}} tersisa",
   "cave.merchant.trade": "Perdagangan",
   "cave.merchant.resets": "Mengatur ulang di {{time}}",
-  "cave.merchant.moreOffers": "Penawaran lainnya di Cave tier {{tier}}"
+  "cave.merchant.moreOffers": "Penawaran lainnya di Cave tier {{tier}}",
+  "description.pigBristles": "Bulu kasar dari Babi.",
+  "resource.pigBristles": "Bulu Babi"
 }

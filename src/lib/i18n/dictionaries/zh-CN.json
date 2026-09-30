@@ -8609,7 +8609,6 @@
   "description.pinkBeetle": "稀有的甲虫",
   "description.amberBeetle": "最珍稀的甲虫",
   "description.mud": "肥沃而黏稠的泥土",
-  "description.rawhide": "坚韧的生兽皮",
   "description.truffle": "珍贵的松露",
   "description.brownBeetleFeed": "加入了甲虫的动物饲料",
   "description.blueBeetleFeed": "加入了甲虫的动物饲料",
@@ -8620,7 +8619,6 @@
   "resource.pinkBeetle": "粉色甲虫",
   "resource.amberBeetle": "琥珀甲虫",
   "resource.mud": "泥土",
-  "resource.rawhide": "生皮",
   "resource.truffle": "松露",
   "animalFood.brownBeetleFeed": "棕色甲虫饲料",
   "animalFood.blueBeetleFeed": "蓝色甲虫饲料",
@@ -8712,5 +8710,7 @@
   "cave.merchant.left": "剩余 {{left}}/{{limit}}",
   "cave.merchant.trade": "交易",
   "cave.merchant.resets": "将在 {{time}} 后重置",
-  "cave.merchant.moreOffers": "在洞穴等级达到 {{tier}} 时解锁更多商品"
+  "cave.merchant.moreOffers": "在洞穴等级达到 {{tier}} 时解锁更多商品",
+  "description.pigBristles": "猪的粗糙刷毛。",
+  "resource.pigBristles": "猪毛"
 }

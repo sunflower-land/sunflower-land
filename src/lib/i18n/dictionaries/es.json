@@ -8609,7 +8609,6 @@
   "description.pinkBeetle": "Un escarabajo raro",
   "description.amberBeetle": "El escarabajo más raro",
   "description.mud": "Barro rico y pegajoso",
-  "description.rawhide": "Una piel de animal resistente",
   "description.truffle": "Una trufa preciada",
   "description.brownBeetleFeed": "Alimentación animal asistida por escarabajos",
   "description.blueBeetleFeed": "Alimentación animal asistida por escarabajos",
@@ -8620,7 +8619,6 @@
   "resource.pinkBeetle": "Escarabajo rosa",
   "resource.amberBeetle": "Escarabajo ámbar",
   "resource.mud": "Barro",
-  "resource.rawhide": "Cuero crudo",
   "resource.truffle": "Trufa",
   "animalFood.brownBeetleFeed": "Alimento para escarabajos marrones",
   "animalFood.blueBeetleFeed": "Alimento para escarabajos azules",
@@ -8712,5 +8710,7 @@
   "cave.merchant.left": "{{left}}/{{limit}} izquierda",
   "cave.merchant.trade": "Comercio",
   "cave.merchant.resets": "Se restablece en {{time}}",
-  "cave.merchant.moreOffers": "Más ofertas en el nivel Cave {{tier}}"
+  "cave.merchant.moreOffers": "Más ofertas en el nivel Cave {{tier}}",
+  "description.pigBristles": "Cerdas gruesas de cerdo.",
+  "resource.pigBristles": "Cerdas de cerdo"
 }

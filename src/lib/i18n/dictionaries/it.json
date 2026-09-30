@@ -8609,7 +8609,6 @@
   "description.pinkBeetle": "Un raro scarabeo",
   "description.amberBeetle": "Lo scarabeo più raro",
   "description.mud": "Fango ricco e appiccicoso",
-  "description.rawhide": "Una robusta pelle di animale",
   "description.truffle": "Un tartufo pregiato",
   "description.brownBeetleFeed": "Alimenti per animali assistiti da coleotteri",
   "description.blueBeetleFeed": "Alimenti per animali assistiti da coleotteri",
@@ -8620,7 +8619,6 @@
   "resource.pinkBeetle": "Scarabeo rosa",
   "resource.amberBeetle": "Scarabeo ambrato",
   "resource.mud": "fango",
-  "resource.rawhide": "Pelle grezza",
   "resource.truffle": "Tartufo",
   "animalFood.brownBeetleFeed": "Mangime per scarabei bruni",
   "animalFood.blueBeetleFeed": "Mangime per scarabei blu",
@@ -8712,5 +8710,7 @@
   "cave.merchant.left": "{{left}}/{{limit}} a sinistra",
   "cave.merchant.trade": "Commercio",
   "cave.merchant.resets": "Reimposta in {{time}}",
-  "cave.merchant.moreOffers": "Altre offerte presso Cave tier {{tier}}"
+  "cave.merchant.moreOffers": "Altre offerte presso Cave tier {{tier}}",
+  "description.pigBristles": "Setole grossolane di maiale.",
+  "resource.pigBristles": "Setole di maiale"
 }

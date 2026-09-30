@@ -8609,7 +8609,6 @@
   "description.pinkBeetle": "Ein seltener Käfer",
   "description.amberBeetle": "Der seltenste Käfer",
   "description.mud": "Reichhaltiger, klebriger Schlamm",
-  "description.rawhide": "Eine robuste Tierhaut",
   "description.truffle": "Ein wertvoller Trüffel",
   "description.brownBeetleFeed": "Käferunterstütztes Tierfutter",
   "description.blueBeetleFeed": "Käferunterstütztes Tierfutter",
@@ -8620,7 +8619,6 @@
   "resource.pinkBeetle": "Rosafarbener Käfer",
   "resource.amberBeetle": "Bernsteinkäfer",
   "resource.mud": "Schlamm",
-  "resource.rawhide": "Rohleder",
   "resource.truffle": "Trüffel",
   "animalFood.brownBeetleFeed": "Futter für braune Käfer",
   "animalFood.blueBeetleFeed": "Blaukäferfutter",
@@ -8712,5 +8710,7 @@
   "cave.merchant.left": "{{left}}/{{limit}} übrig",
   "cave.merchant.trade": "Handel",
   "cave.merchant.resets": "Setzt in {{time}} zurück",
-  "cave.merchant.moreOffers": "Weitere Angebote auf der Höhlenebene {{tier}}"
+  "cave.merchant.moreOffers": "Weitere Angebote auf der Höhlenebene {{tier}}",
+  "description.pigBristles": "Grobe Borsten von einem Schwein.",
+  "resource.pigBristles": "Schweineborsten"
 }
