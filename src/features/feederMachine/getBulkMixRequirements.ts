@@ -112,8 +112,6 @@ const isReadyAfterFoodXP = ({
   animal,
   experience,
   foodXp,
-  // A Pig capped by its Pigpen cycles at the cap, so the mixer must treat it
-  // as max level there rather than planning feed toward a level it cannot hit.
   maxLevel,
 }: {
   animal: AnimalType;
@@ -155,8 +153,8 @@ const getFeedRequestsUntilReady = ({
   let mudFeeds = animal.mud?.feedsRemaining ?? 0;
 
   for (let step = 0; step < MAX_FEED_STEPS_TO_READY; step += 1) {
-    const level = getAnimalLevel(experience, animal.type, game);
-    const favouriteFood = getAnimalFavoriteFood(animal.type, experience, game);
+    const level = getAnimalLevel(experience, animal.type);
+    const favouriteFood = getAnimalFavoriteFood(animal.type, experience);
     const { foodXp } = handleFoodXP({
       state: game,
       animal: animal.type,
@@ -187,7 +185,7 @@ const getFeedRequestsUntilReady = ({
         animal: animal.type,
         experience,
         foodXp,
-        maxLevel: getAnimalMaxLevel(animal.type, game),
+        maxLevel: getAnimalMaxLevel(animal.type),
       })
     ) {
       break;

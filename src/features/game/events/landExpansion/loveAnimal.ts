@@ -112,7 +112,7 @@ export function loveAnimal({
       throw new Error(`Missing item, ${action.item}`);
     }
 
-    const level = getAnimalLevel(animal.experience, animal.type, copy);
+    const level = getAnimalLevel(animal.experience, animal.type);
 
     const { animalXP } = getAnimalXP({
       name: action.item,
@@ -124,11 +124,11 @@ export function loveAnimal({
     animal.lovedAt = createdAt;
 
     animal.item = getAnimalItem(
-      getAnimalLevel(animal.experience, action.animal, copy),
+      getAnimalLevel(animal.experience, action.animal),
       Math.random,
     );
 
-    if (level !== getAnimalLevel(animal.experience, animal.type, copy)) {
+    if (level !== getAnimalLevel(animal.experience, animal.type)) {
       animal.state = "ready";
     }
 

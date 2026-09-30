@@ -35,9 +35,7 @@ export function isValidDeal({
     return false;
   }
 
-  // `game` goes to both calls: a Pig is capped by its Pigpen, so its level and
-  // its max level are both the pen's, not its XP table's.
-  const level = getAnimalLevel(animal.experience, animal.type, game);
+  const level = getAnimalLevel(animal.experience, animal.type);
 
   /**
    * A ready animal normally shows its previous level until the yield is
@@ -47,7 +45,7 @@ export function isValidDeal({
    * badge, which guards its own `- 1` with `isMaxLevel`.
    */
   const effectiveLevel =
-    animal.state === "ready" && !isMaxLevel(animal.type, level, game)
+    animal.state === "ready" && !isMaxLevel(animal.type, level)
       ? level - 1
       : level;
 
