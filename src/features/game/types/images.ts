@@ -6190,26 +6190,6 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.truffle"),
     translatedName: translate("resource.truffle"),
   },
-  "Brown Beetle Feed": {
-    image: SUNNYSIDE.animalFoods.kernel_blend, // TODO(Chapter 16 art)
-    description: translate("description.brownBeetleFeed"),
-    translatedName: translate("animalFood.brownBeetleFeed"),
-  },
-  "Blue Beetle Feed": {
-    image: SUNNYSIDE.animalFoods.hay, // TODO(Chapter 16 art)
-    description: translate("description.blueBeetleFeed"),
-    translatedName: translate("animalFood.blueBeetleFeed"),
-  },
-  "Pink Beetle Feed": {
-    image: SUNNYSIDE.animalFoods.nutribarley, // TODO(Chapter 16 art)
-    description: translate("description.pinkBeetleFeed"),
-    translatedName: translate("animalFood.pinkBeetleFeed"),
-  },
-  "Amber Beetle Feed": {
-    image: SUNNYSIDE.animalFoods.mixed_grain, // TODO(Chapter 16 art)
-    description: translate("description.amberBeetleFeed"),
-    translatedName: translate("animalFood.amberBeetleFeed"),
-  },
   Hay: {
     image: SUNNYSIDE.animalFoods.hay,
     description: ANIMAL_FOODS.Hay.description,

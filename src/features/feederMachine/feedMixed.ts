@@ -9,8 +9,6 @@ import { trackFarmActivity } from "features/game/types/farmActivity";
 import { getKeys } from "lib/object";
 import { ANIMAL_FOODS } from "features/game/types/animals";
 import { produce } from "immer";
-import { isBeetleFeed } from "features/game/types/beetleFeeds";
-import { hasFeatureAccess } from "lib/flags";
 
 export type FeedMixedAction = {
   type: "feed.mixed";
@@ -109,10 +107,6 @@ export function applyMix(
   const selectedItem = ANIMAL_FOODS[item];
   if (!selectedItem) {
     throw new Error("Item is not a feed!");
-  }
-
-  if (isBeetleFeed(item) && !hasFeatureAccess(copy, "BEETLE_FEED")) {
-    throw new Error("Beetle Feed is not available");
   }
 
   const { coins } = selectedItem;

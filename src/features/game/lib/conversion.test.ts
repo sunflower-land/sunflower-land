@@ -14,8 +14,6 @@ describe("getItemUnit", () => {
     expect(getItemUnit("Mud")).toEqual("ether");
     expect(getItemUnit("Pig Bristles")).toEqual("ether");
     expect(getItemUnit("Truffle")).toEqual("ether");
-    expect(getItemUnit("Brown Beetle Feed")).toEqual("ether");
-    expect(getItemUnit("Amber Beetle Feed")).toEqual("ether");
   });
 
   it("uses 1 decimal for collectibles", () => {

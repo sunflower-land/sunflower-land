@@ -15193,46 +15193,6 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Truffle",
   },
-  "Brown Beetle Feed": {
-    description: "Beetle-assisted animal feed.",
-    decimals: 18,
-    attributes: [
-      { trait_type: "Purpose", value: "Resource" },
-      { trait_type: "Tradable", value: "No" },
-    ],
-    external_url: "https://docs.sunflower-land.com/getting-started/about",
-    name: "Brown Beetle Feed",
-  },
-  "Blue Beetle Feed": {
-    description: "Beetle-assisted animal feed.",
-    decimals: 18,
-    attributes: [
-      { trait_type: "Purpose", value: "Resource" },
-      { trait_type: "Tradable", value: "No" },
-    ],
-    external_url: "https://docs.sunflower-land.com/getting-started/about",
-    name: "Blue Beetle Feed",
-  },
-  "Pink Beetle Feed": {
-    description: "Beetle-assisted animal feed.",
-    decimals: 18,
-    attributes: [
-      { trait_type: "Purpose", value: "Resource" },
-      { trait_type: "Tradable", value: "No" },
-    ],
-    external_url: "https://docs.sunflower-land.com/getting-started/about",
-    name: "Pink Beetle Feed",
-  },
-  "Amber Beetle Feed": {
-    description: "Beetle-assisted animal feed.",
-    decimals: 18,
-    attributes: [
-      { trait_type: "Purpose", value: "Resource" },
-      { trait_type: "Tradable", value: "No" },
-    ],
-    external_url: "https://docs.sunflower-land.com/getting-started/about",
-    name: "Amber Beetle Feed",
-  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {

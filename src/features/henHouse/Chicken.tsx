@@ -1,8 +1,5 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
-import {
-  BEETLE_FEED_REPLACES,
-  isBeetleFeed,
-} from "features/game/types/beetleFeeds";
+import { isBeetle } from "features/game/types/beetles";
 import { hasFeatureAccess } from "lib/flags";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
@@ -523,13 +520,14 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       favouriteFood: favFood,
       inventory,
       requiredQty: requiredFoodQty,
-      hasBeetleFeedAccess: hasFeatureAccess(game, "BEETLE_FEED"),
+      hasBeetleFeedingAccess: hasFeatureAccess(game, "BEETLE_FEEDING"),
     });
     if (feedItem && feedItem !== selectedItem) {
       shortcutItem(feedItem);
     }
 
-    const hasFoodSelected = feedItem && isAnimalFood(feedItem);
+    const hasFoodSelected =
+      feedItem && (isAnimalFood(feedItem) || isBeetle(feedItem));
 
     if (hasFoodSelected) {
       const foodCount = inventory[feedItem as AnimalFoodName] ?? new Decimal(0);
@@ -617,9 +615,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const xpIndicatorColor =
     favFood === selectedItem ||
     selectedItem === "Omnifeed" ||
-    (!!selectedItem &&
-      isBeetleFeed(selectedItem) &&
-      BEETLE_FEED_REPLACES[selectedItem] === favFood) ||
+    (!!selectedItem && isBeetle(selectedItem)) ||
     hasGoldEgg
       ? "#71e358"
       : "#fff";

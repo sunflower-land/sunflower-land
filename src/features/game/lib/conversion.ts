@@ -14,7 +14,6 @@ import { FLOWER_SEEDS } from "../types/flowers";
 import { ANIMAL_FOODS } from "../types/animals";
 import { RECIPE_CRAFTABLES } from "./crafting";
 import { BEETLES } from "../types/beetles";
-import { BEETLE_FEEDS } from "../types/beetleFeeds";
 
 /**
  * Tradeable items use 18 decimals for decimal point storage
@@ -37,8 +36,7 @@ export function getItemUnit(name: InventoryItemName) {
     name in FERTILISERS ||
     name in ANIMAL_FOODS ||
     name in RECIPE_CRAFTABLES ||
-    (BEETLES as readonly InventoryItemName[]).includes(name) ||
-    (BEETLE_FEEDS as readonly InventoryItemName[]).includes(name)
+    (BEETLES as readonly InventoryItemName[]).includes(name)
   ) {
     return "ether";
   }

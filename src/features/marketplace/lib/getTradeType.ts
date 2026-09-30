@@ -1543,10 +1543,6 @@ export const ITEM_TRADE_TYPES: {
     Mud: "instant",
     "Pig Bristles": "instant",
     Truffle: "instant",
-    "Brown Beetle Feed": "instant",
-    "Blue Beetle Feed": "instant",
-    "Pink Beetle Feed": "instant",
-    "Amber Beetle Feed": "instant",
   },
   wearables: {
     "Walrus Onesie": "instant",
