@@ -15172,15 +15172,15 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Mud",
   },
-  Rawhide: {
-    description: "A tough animal hide.",
+  "Pig Bristles": {
+    description: "Coarse bristles from a Pig.",
     decimals: 18,
     attributes: [
       { trait_type: "Purpose", value: "Resource" },
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    name: "Rawhide",
+    name: "Pig Bristles",
   },
   Truffle: {
     description: "A prized truffle.",

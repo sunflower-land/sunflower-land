@@ -23,7 +23,8 @@ export type CaveTier = {
 const HOUR_MS = 60 * 60 * 1000;
 
 // TODO(Cave balance 465): placeholder costs and build times. Input types follow
-// the spec; quantities and durations are invented.
+// the spec (v0.5: Leather from tier III, Truffles from tier VI, never Pig
+// Bristles); quantities and durations are invented.
 export const CAVE_TIERS: Record<CaveExpansionTier, CaveTier> = {
   2: {
     island: "desert",
@@ -34,7 +35,7 @@ export const CAVE_TIERS: Record<CaveExpansionTier, CaveTier> = {
   3: {
     island: "volcano",
     coins: 25_000,
-    ingredients: { Mud: new Decimal(40), Rawhide: new Decimal(10) },
+    ingredients: { Mud: new Decimal(40), Leather: new Decimal(10) },
     buildMs: 8 * HOUR_MS,
   },
   4: {
@@ -42,6 +43,7 @@ export const CAVE_TIERS: Record<CaveExpansionTier, CaveTier> = {
     coins: 0,
     ingredients: {
       Mud: new Decimal(60),
+      Leather: new Decimal(15),
       Iron: new Decimal(50),
       Gold: new Decimal(20),
     },
@@ -52,7 +54,7 @@ export const CAVE_TIERS: Record<CaveExpansionTier, CaveTier> = {
     coins: 0,
     ingredients: {
       Mud: new Decimal(80),
-      Rawhide: new Decimal(25),
+      Leather: new Decimal(25),
       Crimstone: new Decimal(5),
     },
     buildMs: 24 * HOUR_MS,
@@ -63,7 +65,7 @@ export const CAVE_TIERS: Record<CaveExpansionTier, CaveTier> = {
     coins: 0,
     ingredients: {
       Mud: new Decimal(100),
-      Rawhide: new Decimal(40),
+      Leather: new Decimal(40),
       Truffle: new Decimal(10),
     },
     buildMs: 36 * HOUR_MS,
@@ -73,7 +75,7 @@ export const CAVE_TIERS: Record<CaveExpansionTier, CaveTier> = {
     coins: 75_000,
     ingredients: {
       Mud: new Decimal(120),
-      Rawhide: new Decimal(50),
+      Leather: new Decimal(50),
       Truffle: new Decimal(20),
     },
     buildMs: 48 * HOUR_MS,
@@ -83,7 +85,7 @@ export const CAVE_TIERS: Record<CaveExpansionTier, CaveTier> = {
     coins: 150_000,
     ingredients: {
       Mud: new Decimal(150),
-      Rawhide: new Decimal(60),
+      Leather: new Decimal(60),
       Truffle: new Decimal(30),
     },
     buildMs: 72 * HOUR_MS,

@@ -12,7 +12,7 @@ describe("getItemUnit", () => {
     expect(getItemUnit("Brown Beetle")).toEqual("ether");
     expect(getItemUnit("Amber Beetle")).toEqual("ether");
     expect(getItemUnit("Mud")).toEqual("ether");
-    expect(getItemUnit("Rawhide")).toEqual("ether");
+    expect(getItemUnit("Pig Bristles")).toEqual("ether");
     expect(getItemUnit("Truffle")).toEqual("ether");
     expect(getItemUnit("Brown Beetle Feed")).toEqual("ether");
     expect(getItemUnit("Amber Beetle Feed")).toEqual("ether");

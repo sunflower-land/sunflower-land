@@ -1922,7 +1922,7 @@ export type CaveConstruction = {
 export type CaveMerchantOfferId =
   | "sand-drills"
   | "truffles"
-  | "rawhide"
+  | "leather"
   | "crimstone"
   | "obsidian";
 
@@ -2096,7 +2096,7 @@ export type AnimalResource =
   | "Merino Wool"
   | "Feather"
   | "Milk"
-  | "Rawhide"
+  | "Pig Bristles"
   | "Truffle";
 export type AnimalState = "idle" | "happy" | "sad" | "ready" | "sick";
 

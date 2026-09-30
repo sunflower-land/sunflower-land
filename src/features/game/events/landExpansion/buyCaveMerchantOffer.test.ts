@@ -80,6 +80,15 @@ describe("CAVE_MERCHANT_OFFERS", () => {
     );
   });
 
+  it("rewards Leather from the leather offer, never a Pig resource", () => {
+    expect(CAVE_MERCHANT_OFFERS.leather.reward).toEqual({
+      Leather: new Decimal(3),
+    });
+    getKeys(CAVE_MERCHANT_OFFERS).forEach((id) => {
+      expect(CAVE_MERCHANT_OFFERS[id].reward["Pig Bristles"]).toBeUndefined();
+    });
+  });
+
   it("stocks nothing before the shop opens", () => {
     expect(getCaveMerchantOffers(CAVE_MERCHANT_TIER - 1)).toEqual([]);
   });

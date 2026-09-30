@@ -1630,7 +1630,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Pink Beetle": 3086,
   "Amber Beetle": 3087,
   Mud: 3088,
-  Rawhide: 3089,
+  "Pig Bristles": 3089,
   Truffle: 3090,
   "Brown Beetle Feed": 3091,
   "Blue Beetle Feed": 3092,

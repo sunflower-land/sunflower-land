@@ -6180,10 +6180,10 @@ export const ITEM_DETAILS: Items = {
     description: COMMODITIES.Mud.description,
     translatedName: translate("resource.mud"),
   },
-  Rawhide: {
-    image: SUNNYSIDE.resource.leather, // TODO(Chapter 16 art)
-    description: translate("description.rawhide"),
-    translatedName: translate("resource.rawhide"),
+  "Pig Bristles": {
+    image: SUNNYSIDE.resource.feather, // TODO(Chapter 16 art)
+    description: translate("description.pigBristles"),
+    translatedName: translate("resource.pigBristles"),
   },
   Truffle: {
     image: SUNNYSIDE.resource.wild_mushroom, // TODO(Chapter 16 art)
