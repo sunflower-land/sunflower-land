@@ -39,7 +39,7 @@ const richState = ({
     Iron: new Decimal(100_000),
     Gold: new Decimal(100_000),
     Crimstone: new Decimal(100_000),
-    Rawhide: new Decimal(100_000),
+    Leather: new Decimal(100_000),
     Truffle: new Decimal(100_000),
   },
   cave: {
@@ -60,6 +60,24 @@ describe("CAVE_TIERS", () => {
   it("covers tiers II to VIII", () => {
     expect(TIERS).toEqual([2, 3, 4, 5, 6, 7, 8]);
     expect(CAVE_MAX_TIER).toBe(8);
+  });
+
+  it("never charges Pig Bristles - they are not an expansion input", () => {
+    getKeys(CAVE_TIERS).forEach((tier) => {
+      expect(CAVE_TIERS[tier].ingredients["Pig Bristles"]).toBeUndefined();
+    });
+  });
+
+  it("charges Leather from tier III onwards", () => {
+    getKeys(CAVE_TIERS).forEach((tier) => {
+      if (tier >= 3) {
+        expect(
+          CAVE_TIERS[tier].ingredients.Leather?.toNumber(),
+        ).toBeGreaterThan(0);
+      } else {
+        expect(CAVE_TIERS[tier].ingredients.Leather).toBeUndefined();
+      }
+    });
   });
 
   it("unlocks each tier on the next island in order", () => {

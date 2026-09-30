@@ -57,9 +57,9 @@ export const CAVE_MERCHANT_OFFERS: Record<
     limit: 5,
     requiresTier: CAVE_MERCHANT_TIER,
   },
-  rawhide: {
+  leather: {
     cost: { coins: 500, items: { "Pink Beetle": new Decimal(3) } },
-    reward: { Rawhide: new Decimal(3) },
+    reward: { Leather: new Decimal(3) },
     limit: 3,
     requiresTier: CAVE_MERCHANT_TIER,
   },

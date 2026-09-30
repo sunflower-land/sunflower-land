@@ -948,67 +948,27 @@ export const ANIMAL_RESOURCE_DROP: Record<
       "Merino Wool": new Decimal(4),
     },
   },
-  // TODO(Chapter 16): placeholder. Rawhide follows the same cadence as Cow's
-  // Milk / Sheep's Wool; Truffle is gated at level 5 per the ticket. Level 0
-  // drops nothing, matching every other animal.
+  // TODO(Chapter 16): placeholder curve, owned by the Pig balance ticket.
+  // Truffles are the Pig's only produce, from level 1 (spec v0.5); level 0
+  // drops nothing, matching every other animal. Pig Bristles are never
+  // produce - they come only from trading a Pig in.
   Pig: {
     0: {},
-    1: {
-      Rawhide: new Decimal(1),
-    },
-    2: {
-      Rawhide: new Decimal(1),
-    },
-    3: {
-      Rawhide: new Decimal(1),
-    },
-    4: {
-      Rawhide: new Decimal(2),
-    },
-    5: {
-      Rawhide: new Decimal(2),
-      Truffle: new Decimal(1),
-    },
-    6: {
-      Rawhide: new Decimal(2),
-      Truffle: new Decimal(1),
-    },
-    7: {
-      Rawhide: new Decimal(2),
-      Truffle: new Decimal(1),
-    },
-    8: {
-      Rawhide: new Decimal(3),
-      Truffle: new Decimal(1),
-    },
-    9: {
-      Rawhide: new Decimal(3),
-      Truffle: new Decimal(1),
-    },
-    10: {
-      Rawhide: new Decimal(3),
-      Truffle: new Decimal(2),
-    },
-    11: {
-      Rawhide: new Decimal(3),
-      Truffle: new Decimal(2),
-    },
-    12: {
-      Rawhide: new Decimal(3),
-      Truffle: new Decimal(2),
-    },
-    13: {
-      Rawhide: new Decimal(3),
-      Truffle: new Decimal(2),
-    },
-    14: {
-      Rawhide: new Decimal(3),
-      Truffle: new Decimal(2),
-    },
-    15: {
-      Rawhide: new Decimal(4),
-      Truffle: new Decimal(3),
-    },
+    1: { Truffle: new Decimal(1) },
+    2: { Truffle: new Decimal(1) },
+    3: { Truffle: new Decimal(1) },
+    4: { Truffle: new Decimal(1) },
+    5: { Truffle: new Decimal(1) },
+    6: { Truffle: new Decimal(2) },
+    7: { Truffle: new Decimal(2) },
+    8: { Truffle: new Decimal(2) },
+    9: { Truffle: new Decimal(2) },
+    10: { Truffle: new Decimal(2) },
+    11: { Truffle: new Decimal(3) },
+    12: { Truffle: new Decimal(3) },
+    13: { Truffle: new Decimal(3) },
+    14: { Truffle: new Decimal(3) },
+    15: { Truffle: new Decimal(4) },
   },
 };
 

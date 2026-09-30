@@ -1541,7 +1541,7 @@ export const ITEM_TRADE_TYPES: {
     "Pink Beetle": "instant",
     "Amber Beetle": "instant",
     Mud: "instant",
-    Rawhide: "instant",
+    "Pig Bristles": "instant",
     Truffle: "instant",
     "Brown Beetle Feed": "instant",
     "Blue Beetle Feed": "instant",

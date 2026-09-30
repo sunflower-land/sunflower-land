@@ -117,7 +117,7 @@ export const ANIMAL_RESOURCES: Record<AnimalResource, Commodity> = {
   Milk: {
     description: "",
   },
-  Rawhide: {
+  "Pig Bristles": {
     description: "",
   },
   Truffle: {

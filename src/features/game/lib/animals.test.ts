@@ -879,19 +879,36 @@ describe("animal data tables", () => {
     },
   );
 
-  it("drops Rawhide from level 1 and Truffle only from level 5", () => {
+  it("drops only Truffles, from level 1, never fewer at a higher level", () => {
     const drops = ANIMAL_RESOURCE_DROP.Pig;
 
     expect(drops[0]).toEqual({});
 
     Array.from({ length: 15 }, (_, i) => (i + 1) as AnimalLevel).forEach(
       (level) => {
-        expect(drops[level].Rawhide?.toNumber()).toBeGreaterThan(0);
-
-        if (level < 5) expect(drops[level].Truffle).toBeUndefined();
-        else expect(drops[level].Truffle?.toNumber()).toBeGreaterThan(0);
+        expect(getKeys(drops[level])).toEqual(["Truffle"]);
+        expect(drops[level].Truffle?.toNumber()).toBeGreaterThan(0);
+        if (level > 1) {
+          expect(
+            drops[level].Truffle?.gte(
+              drops[(level - 1) as AnimalLevel].Truffle!,
+            ),
+          ).toBe(true);
+        }
       },
     );
+
+    expect(drops[15].Truffle?.gt(drops[1].Truffle!)).toBe(true);
+  });
+
+  it("never drops Pig Bristles - they come only from trading a Pig in", () => {
+    getKeys(ANIMAL_RESOURCE_DROP).forEach((animal) => {
+      getKeys(ANIMAL_RESOURCE_DROP[animal]).forEach((level) => {
+        expect(ANIMAL_RESOURCE_DROP[animal][level]["Pig Bristles"]).toBe(
+          undefined,
+        );
+      });
+    });
   });
 });
 

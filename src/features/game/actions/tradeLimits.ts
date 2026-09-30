@@ -42,7 +42,7 @@ export type TradeResource = Extract<
       | "Chicken"
       | "Mud"
     >
-  | Exclude<AnimalResource, "Rawhide" | "Truffle">
+  | Exclude<AnimalResource, "Pig Bristles" | "Truffle">
   | FactionEmblem
   | Exclude<PetResourceName, "Acorn" | "Fossil Shell">
   | FermentationBait
