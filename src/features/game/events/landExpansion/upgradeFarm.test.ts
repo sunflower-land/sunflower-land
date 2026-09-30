@@ -115,7 +115,6 @@ describe("upgradeFarm", () => {
         mushrooms: {
           mushrooms: {
             1: {
-              amount: 1,
               name: "Wild Mushroom",
               x: 1,
               y: 1,
@@ -293,9 +292,9 @@ describe("upgradeFarm", () => {
           spawnedAt: 1234,
           mushrooms: {
             // On the main land
-            1: { amount: 1, name: "Wild Mushroom", x: 1, y: 1 },
+            1: { name: "Wild Mushroom", x: 1, y: 1 },
             // Stranded on the previous island
-            2: { amount: 2, name: "Magic Mushroom", x: -9, y: 5 },
+            2: { name: "Magic Mushroom", x: -9, y: 5 },
           },
         },
       },
@@ -315,9 +314,9 @@ describe("upgradeFarm", () => {
     // spawnedAt carries across the upgrade
     expect(state.mushrooms?.spawnedAt).toEqual(1234);
 
-    // Names & amounts are preserved
-    expect(mushrooms["1"]).toMatchObject({ name: "Wild Mushroom", amount: 1 });
-    expect(mushrooms["2"]).toMatchObject({ name: "Magic Mushroom", amount: 2 });
+    // Names are preserved
+    expect(mushrooms["1"]).toMatchObject({ name: "Wild Mushroom" });
+    expect(mushrooms["2"]).toMatchObject({ name: "Magic Mushroom" });
 
     // Every mushroom now sits on a distinct island spawn tile
     const positions = entries.map((m) => `${m.x},${m.y}`);
@@ -414,8 +413,8 @@ describe("upgradeFarm", () => {
           spawnedAt: 1234,
           mushrooms: {
             // Sitting on the source (25-expansion) island's tiles
-            1: { amount: 1, name: "Wild Mushroom", ...sourceTiles[0] },
-            2: { amount: 2, name: "Magic Mushroom", ...sourceTiles[1] },
+            1: { name: "Wild Mushroom", ...sourceTiles[0] },
+            2: { name: "Magic Mushroom", ...sourceTiles[1] },
           },
         },
         socialFarming: {

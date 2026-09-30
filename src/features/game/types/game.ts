@@ -1323,7 +1323,6 @@ export type FarmHand = {
 
 export type Mushroom = {
   name: MushroomName;
-  amount: number;
   x: number;
   y: number;
 };
