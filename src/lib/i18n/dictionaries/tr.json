@@ -8608,7 +8608,6 @@
   "description.blueBeetle": "Sıradışı bir böcek",
   "description.pinkBeetle": "Nadir bir böcek",
   "description.amberBeetle": "En nadir böcek",
-  "description.mud": "Zengin, yapışkan çamur",
   "description.truffle": "Değerli bir trüf mantarı",
   "description.brownBeetleFeed": "Böcek destekli hayvan yemi",
   "description.blueBeetleFeed": "Böcek destekli hayvan yemi",
@@ -8666,7 +8665,6 @@
   "upgrade.pigs": "domuzlar",
   "building.pigpen": "Domuz Köpeği",
   "pigs.applyMud": "İhtiyacı olan her Domuza Çamur uygulayın",
-  "sleepingAnimal.mudFeedsLeft": "+ {{percent}} %besleme XP · kalan beslemeler: {{count}}",
   "sleepingAnimal.levelCapped": "Bu seviye sınırını yükseltmek için {{building}} değerini yükseltin. Bu arada XP artmaya devam ediyor.",
   "extend.collectible.maxReached": "Maksimum 30 güne ulaşıldı",
   "world.cave": "Mağara",
@@ -8712,5 +8710,7 @@
   "cave.merchant.resets": "{{time}} içinde sıfırlanır",
   "cave.merchant.moreOffers": "Mağara katmanında daha fazla teklif {{tier}}",
   "description.pigBristles": "Bir Domuzdan Kaba Kıllar.",
-  "resource.pigBristles": "Domuz Kılları"
+  "resource.pigBristles": "Domuz Kılları",
+  "description.mud": "Zengin, yapışkan çamur. Bir Domuzu fazladan yem DP'si için kaplar ve hastalanmasını önler.",
+  "sleepingAnimal.mudFeedsLeft": "+ {{percent}} %yem DP'si · hastalık yok · yem kaldı: {{count}}"
 }

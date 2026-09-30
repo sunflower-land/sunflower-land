@@ -8608,7 +8608,6 @@
   "description.blueBeetle": "珍しいカブトムシ",
   "description.pinkBeetle": "珍しいカブトムシ",
   "description.amberBeetle": "最も希少なカブトムシ",
-  "description.mud": "濃厚で粘り気のある泥",
   "description.truffle": "貴重なトリュフ",
   "description.brownBeetleFeed": "カブトムシ補助動物飼料",
   "description.blueBeetleFeed": "カブトムシ補助動物飼料",
@@ -8666,7 +8665,6 @@
   "upgrade.pigs": "豚",
   "building.pigpen": "ピッグペン",
   "pigs.applyMud": "必要な豚全員に泥を塗る",
-  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% フィード XP · 残りフィード:{{count}}",
   "sleepingAnimal.levelCapped": "{{building}} をアップグレードすると、このレベル上限が上がります。その間、XPは増え続けます。",
   "extend.collectible.maxReached": "最大 30 日間に達しました",
   "world.cave": "ケーブ",
@@ -8712,5 +8710,7 @@
   "cave.merchant.resets": "{{time}} でリセット",
   "cave.merchant.moreOffers": "ケーブティアでのその他のオファー {{tier}}",
   "description.pigBristles": "豚の粗い毛。",
-  "resource.pigBristles": "ピッグ・ブリストル"
+  "resource.pigBristles": "ピッグ・ブリストル",
+  "description.mud": "濃厚で粘り気のある泥。豚をコーティングして餌XPを増やし、体調を崩さないようにする。",
+  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% フィード XP · 病気なし·残りフィード:{{count}}"
 }

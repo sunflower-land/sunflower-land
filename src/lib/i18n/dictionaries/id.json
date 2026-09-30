@@ -8608,7 +8608,6 @@
   "description.blueBeetle": "Kumbang yang tidak biasa",
   "description.pinkBeetle": "Kumbang langka",
   "description.amberBeetle": "Kumbang paling langka",
-  "description.mud": "Lumpur yang kaya dan lengket",
   "description.truffle": "Truffle yang berharga",
   "description.brownBeetleFeed": "Pakan ternak yang dibantu kumbang",
   "description.blueBeetleFeed": "Pakan ternak yang dibantu kumbang",
@@ -8666,7 +8665,6 @@
   "upgrade.pigs": "babi",
   "building.pigpen": "Pigpen",
   "pigs.applyMud": "Terapkan Lumpur untuk setiap Babi yang membutuhkannya",
-  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% umpan XP · umpan tersisa: {{count}}",
   "sleepingAnimal.levelCapped": "Tingkatkan {{building}} untuk menaikkan batas level ini. XP terus berkembang sementara itu.",
   "extend.collectible.maxReached": "Maks 30 hari tercapai",
   "world.cave": "Gua",
@@ -8712,5 +8710,7 @@
   "cave.merchant.resets": "Mengatur ulang di {{time}}",
   "cave.merchant.moreOffers": "Penawaran lainnya di Cave tier {{tier}}",
   "description.pigBristles": "Bulu kasar dari Babi.",
-  "resource.pigBristles": "Bulu Babi"
+  "resource.pigBristles": "Bulu Babi",
+  "description.mud": "Lumpur yang kaya dan lengket. Melapisi Babi untuk XP pakan ekstra dan mencegahnya jatuh sakit.",
+  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% umpan XP · tidak ada penyakit · umpan tersisa: {{count}}"
 }

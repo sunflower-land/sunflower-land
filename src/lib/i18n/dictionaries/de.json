@@ -8608,7 +8608,6 @@
   "description.blueBeetle": "Ein ungewöhnlicher Käfer",
   "description.pinkBeetle": "Ein seltener Käfer",
   "description.amberBeetle": "Der seltenste Käfer",
-  "description.mud": "Reichhaltiger, klebriger Schlamm",
   "description.truffle": "Ein wertvoller Trüffel",
   "description.brownBeetleFeed": "Käferunterstütztes Tierfutter",
   "description.blueBeetleFeed": "Käferunterstütztes Tierfutter",
@@ -8666,7 +8665,6 @@
   "upgrade.pigs": "Schweine",
   "building.pigpen": "Schweinestall",
   "pigs.applyMud": "Trage Schlamm auf jedes Schwein auf, das ihn braucht",
-  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% feed XP · verbleibende Feeds: {{count}}",
   "sleepingAnimal.levelCapped": "Verbessere {{building}}, um diese Levelobergrenze zu erhöhen. In der Zwischenzeit baut sich XP weiter auf.",
   "extend.collectible.maxReached": "Max. 30 Tage erreicht",
   "world.cave": "Höhle",
@@ -8712,5 +8710,7 @@
   "cave.merchant.resets": "Setzt in {{time}} zurück",
   "cave.merchant.moreOffers": "Weitere Angebote auf der Höhlenebene {{tier}}",
   "description.pigBristles": "Grobe Borsten von einem Schwein.",
-  "resource.pigBristles": "Schweineborsten"
+  "resource.pigBristles": "Schweineborsten",
+  "description.mud": "Reichhaltiger, klebriger Schlamm. Überzieht ein Schwein um zusätzliche Futter-XP und verhindert, dass es krank wird.",
+  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% Futter-XP · keine Krankheit · verbleibende Feeds: {{count}}"
 }

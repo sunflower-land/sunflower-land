@@ -8608,7 +8608,6 @@
   "description.blueBeetle": "Um besouro incomum",
   "description.pinkBeetle": "Um besouro raro",
   "description.amberBeetle": "O besouro mais raro",
-  "description.mud": "Lama rica e pegajosa",
   "description.truffle": "Uma trufa valiosa",
   "description.brownBeetleFeed": "Alimentação animal assistida por besouros",
   "description.blueBeetleFeed": "Alimentação animal assistida por besouros",
@@ -8666,7 +8665,6 @@
   "upgrade.pigs": "porcos",
   "building.pigpen": "Pigpen",
   "pigs.applyMud": "Aplique lama em cada porco que precisar",
-  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% de XP de alimentação · feeds restantes: {{count}}",
   "sleepingAnimal.levelCapped": "Atualize o {{building}} para aumentar esse limite de nível. Enquanto isso, o XP continua crescendo.",
   "extend.collectible.maxReached": "Máximo de 30 dias atingidos",
   "world.cave": "Caverna",
@@ -8712,5 +8710,7 @@
   "cave.merchant.resets": "Reinicializa em {{time}}",
   "cave.merchant.moreOffers": "Mais ofertas no nível Cave {{tier}}",
   "description.pigBristles": "Cerdas grossas de um porco.",
-  "resource.pigBristles": "Cerdas de porco"
+  "resource.pigBristles": "Cerdas de porco",
+  "description.mud": "Lama rica e pegajosa. Cubra um porco para obter mais XP de alimentação e evita que ele adoeça.",
+  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% de XP de alimentação · nenhuma doença · feeds restantes: {{count}}"
 }

@@ -8608,7 +8608,6 @@
   "description.blueBeetle": "Необычный жук",
   "description.pinkBeetle": "Редкий жук",
   "description.amberBeetle": "Самый редкий жук",
-  "description.mud": "Густая, липкая грязь",
   "description.truffle": "Ценный трюфель",
   "description.brownBeetleFeed": "Корм для животных, приготовленный с помощью жука",
   "description.blueBeetleFeed": "Корм для животных, приготовленный с помощью жука",
@@ -8666,7 +8665,6 @@
   "upgrade.pigs": "свиньи",
   "building.pigpen": "Свинарник",
   "pigs.applyMud": "Apply Mud to every Pig that needs it",
-  "sleepingAnimal.mudFeedsLeft": "+{{percent}}% feed XP · feeds left: {{count}}",
   "sleepingAnimal.levelCapped": "Upgrade the {{building}} to raise this level cap. XP keeps building up in the meantime.",
   "extend.collectible.maxReached": "Max 30 days reached",
   "world.cave": "Cave",
@@ -8712,5 +8710,7 @@
   "cave.merchant.resets": "Resets in {{time}}",
   "cave.merchant.moreOffers": "More offers at Cave tier {{tier}}",
   "description.pigBristles": "Coarse bristles from a Pig.",
-  "resource.pigBristles": "Pig Bristles"
+  "resource.pigBristles": "Pig Bristles",
+  "description.mud": "Rich, sticky mud. Coats a Pig for extra feed XP and keeps it from falling sick.",
+  "sleepingAnimal.mudFeedsLeft": "+{{percent}}% feed XP · no sickness · feeds left: {{count}}"
 }

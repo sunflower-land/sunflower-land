@@ -8608,7 +8608,6 @@
   "description.blueBeetle": "罕见的甲虫",
   "description.pinkBeetle": "稀有的甲虫",
   "description.amberBeetle": "最珍稀的甲虫",
-  "description.mud": "肥沃而黏稠的泥土",
   "description.truffle": "珍贵的松露",
   "description.brownBeetleFeed": "加入了甲虫的动物饲料",
   "description.blueBeetleFeed": "加入了甲虫的动物饲料",
@@ -8666,7 +8665,6 @@
   "upgrade.pigs": "猪",
   "building.pigpen": "猪圈",
   "pigs.applyMud": "为每一头需要的猪涂抹泥土",
-  "sleepingAnimal.mudFeedsLeft": "+{{percent}}% 喂食经验值 · 剩余喂食次数：{{count}}",
   "sleepingAnimal.levelCapped": "升级{{building}}以提高此等级上限。在此期间经验值仍会持续累积。",
   "extend.collectible.maxReached": "已达 30 天上限",
   "world.cave": "洞穴",
@@ -8712,5 +8710,7 @@
   "cave.merchant.resets": "将在 {{time}} 后重置",
   "cave.merchant.moreOffers": "在洞穴等级达到 {{tier}} 时解锁更多商品",
   "description.pigBristles": "猪的粗糙刷毛。",
-  "resource.pigBristles": "猪毛"
+  "resource.pigBristles": "猪毛",
+  "description.mud": "丰富、粘稠的泥浆。给猪涂上外套以获得额外的饲料经验值并防止它生病。",
+  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% 喂食经验值·没有生病·左边喂食：{{count}}"
 }

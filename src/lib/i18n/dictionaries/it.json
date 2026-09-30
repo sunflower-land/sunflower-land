@@ -8608,7 +8608,6 @@
   "description.blueBeetle": "Un coleottero non comune",
   "description.pinkBeetle": "Un raro scarabeo",
   "description.amberBeetle": "Lo scarabeo più raro",
-  "description.mud": "Fango ricco e appiccicoso",
   "description.truffle": "Un tartufo pregiato",
   "description.brownBeetleFeed": "Alimenti per animali assistiti da coleotteri",
   "description.blueBeetleFeed": "Alimenti per animali assistiti da coleotteri",
@@ -8666,7 +8665,6 @@
   "upgrade.pigs": "maiali",
   "building.pigpen": "Pigpen",
   "pigs.applyMud": "Applica il fango a tutti i maiali che ne hanno bisogno",
-  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% feed XP · feed rimasti: {{count}}",
   "sleepingAnimal.levelCapped": "Aggiorna {{building}} per aumentare questo limite di livello. Nel frattempo, gli XP continuano ad aumentare.",
   "extend.collectible.maxReached": "Raggiunto un massimo di 30 giorni",
   "world.cave": "grotta",
@@ -8712,5 +8710,7 @@
   "cave.merchant.resets": "Reimposta in {{time}}",
   "cave.merchant.moreOffers": "Altre offerte presso Cave tier {{tier}}",
   "description.pigBristles": "Setole grossolane di maiale.",
-  "resource.pigBristles": "Setole di maiale"
+  "resource.pigBristles": "Setole di maiale",
+  "description.mud": "Fango ricco e appiccicoso. Ricopre un maiale per aumentare i punti esperienza e impedirgli di ammalarsi.",
+  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% feed XP · nessuna malattia · feed rimasti: {{count}}"
 }

@@ -8608,7 +8608,6 @@
   "description.blueBeetle": "Un coléoptère peu commun",
   "description.pinkBeetle": "Un scarabée rare",
   "description.amberBeetle": "Le scarabée le plus rare",
-  "description.mud": "Boue riche et collante",
   "description.truffle": "Une truffe prisée",
   "description.brownBeetleFeed": "Alimentation animale assistée par les coléoptères",
   "description.blueBeetleFeed": "Alimentation animale assistée par les coléoptères",
@@ -8666,7 +8665,6 @@
   "upgrade.pigs": "les cochons",
   "building.pigpen": "Porcherie",
   "pigs.applyMud": "Appliquez de la boue sur tous les cochons qui en ont besoin",
-  "sleepingAnimal.mudFeedsLeft": "+ {{percent}} % feed XP · fils restants : {{count}}",
   "sleepingAnimal.levelCapped": "Améliorez le {{building}} pour augmenter ce niveau maximum. L'XP continue de s'accumuler entre-temps.",
   "extend.collectible.maxReached": "Maximum de 30 jours atteint",
   "world.cave": "Grotte",
@@ -8712,5 +8710,7 @@
   "cave.merchant.resets": "Se réinitialise dans {{time}}",
   "cave.merchant.moreOffers": "Plus d'offres chez Cave tier {{tier}}",
   "description.pigBristles": "Poils grossiers provenant d'un cochon.",
-  "resource.pigBristles": "Poils de porc"
+  "resource.pigBristles": "Poils de porc",
+  "description.mud": "Boue riche et collante. Enduit un cochon pour lui donner plus d'expérience alimentaire et l'empêche de tomber malade.",
+  "sleepingAnimal.mudFeedsLeft": "+ {{percent}} % d'expérience d'alimentation · aucune maladie · fils restants : {{count}}"
 }

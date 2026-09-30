@@ -8608,7 +8608,6 @@
   "description.blueBeetle": "Un escarabajo poco común",
   "description.pinkBeetle": "Un escarabajo raro",
   "description.amberBeetle": "El escarabajo más raro",
-  "description.mud": "Barro rico y pegajoso",
   "description.truffle": "Una trufa preciada",
   "description.brownBeetleFeed": "Alimentación animal asistida por escarabajos",
   "description.blueBeetleFeed": "Alimentación animal asistida por escarabajos",
@@ -8666,7 +8665,6 @@
   "upgrade.pigs": "cerdos",
   "building.pigpen": "Pigpen",
   "pigs.applyMud": "Aplica barro a cada cerdo que lo necesite",
-  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% feed XP · feeds restantes: {{count}}",
   "sleepingAnimal.levelCapped": "Mejora el {{building}} para aumentar este límite de nivel. Mientras tanto, la XP sigue aumentando.",
   "extend.collectible.maxReached": "Se alcanzó el máximo de 30 días",
   "world.cave": "Cueva",
@@ -8712,5 +8710,7 @@
   "cave.merchant.resets": "Se restablece en {{time}}",
   "cave.merchant.moreOffers": "Más ofertas en el nivel Cave {{tier}}",
   "description.pigBristles": "Cerdas gruesas de cerdo.",
-  "resource.pigBristles": "Cerdas de cerdo"
+  "resource.pigBristles": "Cerdas de cerdo",
+  "description.mud": "Barro rico y pegajoso. Recubre a un cerdo para darle más puntos de experiencia y evitar que se enferme.",
+  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% de XP de alimentación · no hay enfermedad · quedan comidas: {{count}}"
 }
