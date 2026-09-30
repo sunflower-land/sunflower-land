@@ -33,9 +33,10 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { isAnimalFeedable } from "./buyAnimal";
 import {
-  BEETLE_FEED_REPLACES,
-  isBeetleFeed,
-} from "features/game/types/beetleFeeds";
+  BEETLE_FEEDING_XP,
+  type BeetleName,
+  isBeetle,
+} from "features/game/types/beetles";
 import { hasFeatureAccess } from "lib/flags";
 
 export const ANIMAL_SLEEP_DURATION = 24 * 60 * 60 * 1000;
@@ -52,7 +53,7 @@ export type FeedAnimalAction = {
   type: "animal.fed";
   animal: AnimalType;
   id: string;
-  item?: AnimalFoodName | AnimalMedicineName;
+  item?: AnimalFoodName | AnimalMedicineName | BeetleName;
 };
 
 type Options = {
@@ -165,28 +166,6 @@ const handleFreeFeeding = ({
   return copy;
 };
 
-// One level's worth of XP, or one produce cycle at the max level.
-function getBeetleFeedXP({
-  state,
-  animal,
-  level,
-  mud,
-}: {
-  state: GameState;
-  animal: AnimalType;
-  level: AnimalLevel;
-  mud?: AnimalMud;
-}) {
-  const levels = ANIMAL_LEVELS[animal];
-  const maxLevel = getAnimalMaxLevel(animal, state);
-  const xp =
-    level >= maxLevel
-      ? levels[maxLevel] - levels[(maxLevel - 1) as AnimalLevel]
-      : levels[(level + 1) as AnimalLevel] - levels[level];
-
-  return isMuddy({ mud }) ? Math.floor(xp * MUD_XP_MULTIPLIER) : xp;
-}
-
 export function handleFoodXP({
   state,
   animal,
@@ -197,14 +176,13 @@ export function handleFoodXP({
   state: GameState;
   animal: AnimalType;
   level: AnimalLevel;
-  food: AnimalFoodName;
+  food: AnimalFoodName | BeetleName;
   mud?: AnimalMud;
 }) {
-  if (isBeetleFeed(food)) {
-    return { foodXp: getBeetleFeedXP({ state, animal, level, mud }) };
-  }
-
-  let foodXp = ANIMAL_FOOD_EXPERIENCE[animal][level][food];
+  // A Beetle fed directly is a food like any other, with a fixed base XP.
+  let foodXp = isBeetle(food)
+    ? BEETLE_FEEDING_XP[food]
+    : ANIMAL_FOOD_EXPERIENCE[animal][level][food];
 
   const chonkyFeedLevel = getSkillLevel(state.bumpkin.skills, "Chonky Feed");
   if (chonkyFeedLevel) {
@@ -216,6 +194,12 @@ export function handleFoodXP({
   // are multiples of 8, so 1.25x stays integral on top of Chonky Feed.
   if (isMuddy({ mud })) {
     foodXp *= MUD_XP_MULTIPLIER;
+  }
+
+  // Beetle XP is not a multiple of 8, so Chonky Feed x Mud can leave a
+  // fraction (100 x 2.5 x 1.25 = 312.5). Round it down.
+  if (isBeetle(food)) {
+    foodXp = Math.floor(foodXp);
   }
 
   return { foodXp };
@@ -317,9 +301,9 @@ export function feedAnimal({
     }
 
     const level = getAnimalLevel(animal.experience, animal.type, copy);
-    const food = action.item as AnimalFoodName;
-    if (food && isBeetleFeed(food) && !hasFeatureAccess(copy, "BEETLE_FEED")) {
-      throw new Error("Beetle Feed is not available");
+    const food = action.item as AnimalFoodName | BeetleName;
+    if (food && isBeetle(food) && !hasFeatureAccess(copy, "BEETLE_FEEDING")) {
+      throw new Error("Beetle feeding is not available");
     }
 
     const hasGoldenEggPlaced = isCollectibleBuilt({
@@ -390,10 +374,6 @@ export function feedAnimal({
       throw new Error("No food provided");
     }
 
-    if (isBeetleFeed(food) && BEETLE_FEED_REPLACES[food] !== favouriteFood) {
-      throw new Error(`${food} does not replace ${favouriteFood}`);
-    }
-
     const { foodXp } = handleFoodXP({
       state: copy,
       animal: action.animal,
@@ -402,9 +382,9 @@ export function feedAnimal({
       mud: animal.mud,
     });
 
-    // A Beetle Feed is always one per feeding, with no feed-saving boosts.
+    // A Beetle is always one per feeding, with no feed-saving boosts.
     const { foodQuantity: boostedFoodQuantity, boostsUsed: foodBoostsUsed } =
-      isBeetleFeed(food)
+      isBeetle(food)
         ? { foodQuantity: new Decimal(1), boostsUsed: [] }
         : getBoostedFoodQuantity({
             animalType: action.animal,
@@ -442,7 +422,9 @@ export function feedAnimal({
     // Only set happy/sad state if animal isn't ready
     if (!isReady) {
       animal.state =
-        favouriteFood === food || food === "Omnifeed" ? "happy" : "sad";
+        favouriteFood === food || food === "Omnifeed" || isBeetle(food)
+          ? "happy"
+          : "sad";
     } else {
       animal.state = "ready";
     }

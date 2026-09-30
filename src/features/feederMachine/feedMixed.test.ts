@@ -1,8 +1,7 @@
 import Decimal from "decimal.js-light";
 import { feedMixed, getMaxFeedMixAmount } from "./feedMixed";
 import { INITIAL_FARM } from "features/game/lib/constants";
-import type { AnimalFoodName, GameState } from "features/game/types/game";
-import { CONFIG } from "lib/config";
+import type { AnimalFoodName } from "features/game/types/game";
 
 describe("feedMixed", () => {
   it.each([0, -1, 1.5, Number.POSITIVE_INFINITY])(
@@ -161,109 +160,6 @@ describe("feedMixed", () => {
     expect(state.inventory.Wheat).toEqual(new Decimal(10));
     expect(state.inventory.Barley).toEqual(new Decimal(10));
     expect(state.inventory.Kale).toEqual(new Decimal(7));
-  });
-});
-
-describe("Beetle Feed", () => {
-  const BEETLE_FARM: GameState = {
-    ...INITIAL_FARM,
-    coins: 0,
-    inventory: {
-      "Brown Beetle": new Decimal(1),
-      "Blue Beetle": new Decimal(1),
-      "Pink Beetle": new Decimal(1),
-      "Amber Beetle": new Decimal(1),
-      Corn: new Decimal(10),
-      Wheat: new Decimal(10),
-      Barley: new Decimal(10),
-    },
-  };
-
-  const mix = (state: GameState, item: AnimalFoodName) =>
-    feedMixed({ state, action: { type: "feed.mixed", item, amount: 1 } });
-
-  it.each([
-    ["Brown Beetle Feed", "Brown Beetle", { Corn: 8, Wheat: 10, Barley: 10 }],
-    ["Blue Beetle Feed", "Blue Beetle", { Corn: 10, Wheat: 8, Barley: 10 }],
-    ["Pink Beetle Feed", "Pink Beetle", { Corn: 10, Wheat: 10, Barley: 8 }],
-    ["Amber Beetle Feed", "Amber Beetle", { Corn: 8, Wheat: 8, Barley: 8 }],
-  ] as const)(
-    "mixes %s from 1 %s and 2 of each crop",
-    (item, beetle, crops) => {
-      const state = mix(BEETLE_FARM, item);
-
-      expect(state.inventory[item]).toEqual(new Decimal(1));
-      expect(state.inventory[beetle]).toEqual(new Decimal(0));
-      expect(state.inventory.Corn).toEqual(new Decimal(crops.Corn));
-      expect(state.inventory.Wheat).toEqual(new Decimal(crops.Wheat));
-      expect(state.inventory.Barley).toEqual(new Decimal(crops.Barley));
-    },
-  );
-
-  it("does not mix a Beetle Feed without its Beetle", () => {
-    expect(() =>
-      mix(
-        { ...INITIAL_FARM, inventory: { Corn: new Decimal(10) } },
-        "Brown Beetle Feed",
-      ),
-    ).toThrow("Insufficient Ingredient: Brown Beetle");
-  });
-
-  it("does not apply Kale Mix to Amber Beetle Feed", () => {
-    const state = mix(
-      {
-        ...BEETLE_FARM,
-        bumpkin: { ...INITIAL_FARM.bumpkin, skills: { "Kale Mix": 1 } },
-        inventory: { ...BEETLE_FARM.inventory, Kale: new Decimal(10) },
-      },
-      "Amber Beetle Feed",
-    );
-
-    expect(state.inventory["Amber Beetle Feed"]).toEqual(new Decimal(1));
-    expect(state.inventory.Kale).toEqual(new Decimal(10));
-    expect(state.inventory.Corn).toEqual(new Decimal(8));
-  });
-
-  describe("off testnet", () => {
-    // jest runs on amoy, so the flag-off path is only reachable by pretending
-    // to be mainnet.
-    let previousNetwork: (typeof CONFIG)["NETWORK"];
-
-    beforeEach(() => {
-      previousNetwork = CONFIG.NETWORK;
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-    });
-
-    afterEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
-    });
-
-    it("does not mix a Beetle Feed without the BEETLE_FEED feature flag", () => {
-      expect(() => mix(BEETLE_FARM, "Brown Beetle Feed")).toThrow(
-        "Beetle Feed is not available",
-      );
-    });
-
-    it("is not unlocked by holding a Beta Pass", () => {
-      expect(() =>
-        mix(
-          {
-            ...BEETLE_FARM,
-            inventory: {
-              ...BEETLE_FARM.inventory,
-              "Beta Pass": new Decimal(1),
-            },
-          },
-          "Brown Beetle Feed",
-        ),
-      ).toThrow("Beetle Feed is not available");
-    });
-
-    it("still mixes the existing feeds", () => {
-      const state = mix(BEETLE_FARM, "Kernel Blend");
-
-      expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(1));
-    });
   });
 });
 

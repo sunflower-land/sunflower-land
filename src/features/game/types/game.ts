@@ -89,7 +89,6 @@ import type {
 import type { FermentationProductName } from "./fermentationProducts";
 import type { SpiceRackProductName } from "./spiceRackProducts";
 import type { BeetleName } from "./beetles";
-import type { BeetleFeedName } from "./beetleFeeds";
 import type { PickledCropName } from "./pickled";
 import { translate } from "lib/i18n/translate";
 import { capitalize } from "lib/utils/capitalize";
@@ -757,8 +756,7 @@ export type InventoryItemName =
   | PickledCropName
   | FermentationProductName
   | SpiceRackProductName
-  | BeetleName
-  | BeetleFeedName;
+  | BeetleName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -1379,8 +1377,7 @@ export type AnimalFoodName =
   | "Kernel Blend"
   | "NutriBarley"
   | "Mixed Grain"
-  | "Omnifeed"
-  | BeetleFeedName;
+  | "Omnifeed";
 
 export type AnimalMedicineName = "Barn Delight";
 

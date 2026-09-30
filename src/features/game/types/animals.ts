@@ -8,7 +8,6 @@ import type {
   AnimalResource,
   Inventory,
 } from "./game";
-import type { BeetleFeedName } from "./beetleFeeds";
 import { translate } from "lib/i18n/translate";
 import { getKeys } from "lib/object";
 import type { LevelRequirement } from "features/game/lib/level";
@@ -247,52 +246,11 @@ export const ANIMAL_FOODS: Record<AnimalFoodName | AnimalMedicineName, Feed> = {
       Gem: new Decimal(1),
     },
   },
-  "Brown Beetle Feed": {
-    name: "Brown Beetle Feed",
-    type: "food",
-    description: translate("description.brownBeetleFeed"),
-    ingredients: {
-      "Brown Beetle": new Decimal(1),
-      Corn: new Decimal(2),
-    },
-  },
-  "Blue Beetle Feed": {
-    name: "Blue Beetle Feed",
-    type: "food",
-    description: translate("description.blueBeetleFeed"),
-    ingredients: {
-      "Blue Beetle": new Decimal(1),
-      Wheat: new Decimal(2),
-    },
-  },
-  "Pink Beetle Feed": {
-    name: "Pink Beetle Feed",
-    type: "food",
-    description: translate("description.pinkBeetleFeed"),
-    ingredients: {
-      "Pink Beetle": new Decimal(1),
-      Barley: new Decimal(2),
-    },
-  },
-  "Amber Beetle Feed": {
-    name: "Amber Beetle Feed",
-    type: "food",
-    description: translate("description.amberBeetleFeed"),
-    ingredients: {
-      "Amber Beetle": new Decimal(1),
-      Corn: new Decimal(2),
-      Wheat: new Decimal(2),
-      Barley: new Decimal(2),
-    },
-  },
 };
 
 export const ANIMAL_FOOD_EXPERIENCE: Record<
   AnimalType,
-  Record<
-    AnimalLevel,
-    Record<Exclude<AnimalFoodName, "Barn Delight" | BeetleFeedName>, number>
-  >
+  Record<AnimalLevel, Record<Exclude<AnimalFoodName, "Barn Delight">, number>>
 > = {
   Chicken: {
     0: {
