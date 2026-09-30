@@ -8657,7 +8657,6 @@
   "upgrade.pigs": "Schweine",
   "building.pigpen": "Schweinestall",
   "pigs.applyMud": "Trage Schlamm auf jedes Schwein auf, das ihn braucht",
-  "sleepingAnimal.levelCapped": "Verbessere {{building}}, um diese Levelobergrenze zu erhöhen. In der Zwischenzeit baut sich XP weiter auf.",
   "extend.collectible.maxReached": "Max. 30 Tage erreicht",
   "world.cave": "Höhle",
   "cave.title": "Die Höhle",

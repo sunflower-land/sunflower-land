@@ -8657,7 +8657,6 @@
   "upgrade.pigs": "豚",
   "building.pigpen": "ピッグペン",
   "pigs.applyMud": "必要な豚全員に泥を塗る",
-  "sleepingAnimal.levelCapped": "{{building}} をアップグレードすると、このレベル上限が上がります。その間、XPは増え続けます。",
   "extend.collectible.maxReached": "最大 30 日間に達しました",
   "world.cave": "ケーブ",
   "cave.title": "ザ・ケーブ",

@@ -8657,7 +8657,6 @@
   "upgrade.pigs": "maiali",
   "building.pigpen": "Pigpen",
   "pigs.applyMud": "Applica il fango a tutti i maiali che ne hanno bisogno",
-  "sleepingAnimal.levelCapped": "Aggiorna {{building}} per aumentare questo limite di livello. Nel frattempo, gli XP continuano ad aumentare.",
   "extend.collectible.maxReached": "Raggiunto un massimo di 30 giorni",
   "world.cave": "grotta",
   "cave.title": "La grotta",

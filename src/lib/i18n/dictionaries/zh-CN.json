@@ -8657,7 +8657,6 @@
   "upgrade.pigs": "猪",
   "building.pigpen": "猪圈",
   "pigs.applyMud": "为每一头需要的猪涂抹泥土",
-  "sleepingAnimal.levelCapped": "升级{{building}}以提高此等级上限。在此期间经验值仍会持续累积。",
   "extend.collectible.maxReached": "已达 30 天上限",
   "world.cave": "洞穴",
   "cave.title": "洞穴",
