@@ -15163,7 +15163,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     name: "Amber Beetle",
   },
   Mud: {
-    description: "Rich, sticky mud.",
+    description:
+      "Rich, sticky mud. Coats a Pig for extra feed XP and keeps it from falling sick.",
     decimals: 18,
     attributes: [
       { trait_type: "Purpose", value: "Resource" },
