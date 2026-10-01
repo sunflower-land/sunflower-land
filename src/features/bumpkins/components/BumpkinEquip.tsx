@@ -208,7 +208,6 @@ export const BumpkinEquip: React.FC<Props> = ({
           {bumpkinIds.length > 1 && (
             <div className="flex gap-1 mb-1">
               <Button
-                variant="secondary"
                 className="w-1/2 h-9"
                 aria-label={`${t("equip")}: ${bumpkinName(bumpkinIds[selectedIndex - 1])}`}
                 disabled={selectedIndex === 0}
@@ -217,7 +216,6 @@ export const BumpkinEquip: React.FC<Props> = ({
                 <img src={SUNNYSIDE.icons.arrow_left} className="h-5" alt="" />
               </Button>
               <Button
-                variant="secondary"
                 className="w-1/2 h-9"
                 aria-label={`${t("equip")}: ${bumpkinName(bumpkinIds[selectedIndex + 1])}`}
                 disabled={selectedIndex === bumpkinIds.length - 1}
@@ -230,15 +228,14 @@ export const BumpkinEquip: React.FC<Props> = ({
           <Button disabled={!isDirty} onClick={() => finish(equipped)}>
             <div className="flex">{t("save")}</div>
           </Button>
-          {localFarmHandId && (
-            <Button
-              onClick={() => {
-                setShowPromoteConfirm(true);
-              }}
-            >
-              {t("setAsBumpkin")}
-            </Button>
-          )}
+          <Button
+            disabled={!localFarmHandId}
+            onClick={() => {
+              setShowPromoteConfirm(true);
+            }}
+          >
+            {t("setAsBumpkin")}
+          </Button>
         </div>
         <div className="w-full sm:w-1/3 flex flex-col gap-2">
           <Label type="default">{t("required")}</Label>
