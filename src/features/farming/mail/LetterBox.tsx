@@ -33,10 +33,15 @@ import {
   preloadDiscordNews,
 } from "./actions/discordNews";
 
+// The news tab is hidden for now; flip this to bring it (and its alert) back
+const SHOW_NEWS_TAB = false;
+
 export const LetterBox: React.FC = () => {
   const { gameService, showAnimations } = useContext(Context);
   const { authState } = useAuth();
-  const [tab, setTab] = useState<"news" | "dailyGift" | "community">("news");
+  const [tab, setTab] = useState<"news" | "dailyGift" | "community">(
+    SHOW_NEWS_TAB ? "news" : "dailyGift",
+  );
   const [isOpen, setIsOpen] = useState(false);
   const [showAddPost, setShowAddPost] = useState(false);
   // Bumped after a post is showcased to remount the feed so the new post loads.
@@ -82,7 +87,7 @@ export const LetterBox: React.FC = () => {
   );
 
   useEffect(() => {
-    if (isVisiting) return;
+    if (isVisiting || !SHOW_NEWS_TAB) return;
 
     const token = authState.context.user.rawToken as string | undefined;
     if (!token) return;
@@ -96,7 +101,8 @@ export const LetterBox: React.FC = () => {
     (!discordNewsReadAt || discordNewsLatestAt > discordNewsReadAt)
   );
 
-  const shouldShowNewsAlert = hasUnreadDiscordUpdate && !isVisiting;
+  const shouldShowNewsAlert =
+    SHOW_NEWS_TAB && hasUnreadDiscordUpdate && !isVisiting;
 
   return (
     <>
@@ -138,13 +144,17 @@ export const LetterBox: React.FC = () => {
         <CloseButtonPanel
           onClose={close}
           tabs={[
-            {
-              icon: newsIcon,
-              name: t("news.title"),
-              alert: shouldShowNewsAlert,
-              unread: shouldShowNewsAlert,
-              id: "news",
-            },
+            ...(SHOW_NEWS_TAB
+              ? [
+                  {
+                    icon: newsIcon,
+                    name: t("news.title"),
+                    alert: shouldShowNewsAlert,
+                    unread: shouldShowNewsAlert,
+                    id: "news" as const,
+                  },
+                ]
+              : []),
             {
               icon: giftIcon,
               name: t("mailbox.dailyGift"),
