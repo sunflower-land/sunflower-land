@@ -17,6 +17,7 @@ import lightning from "assets/icons/lightning.png";
 
 import { Label } from "components/ui/Label";
 import classNames from "classnames";
+import isEqual from "lodash.isequal";
 import {
   BUMPKIN_ITEM_BUFF_LABELS,
   SPECIAL_ITEM_LABELS,
@@ -142,10 +143,19 @@ export const BumpkinEquip: React.FC<Props> = ({
 
   const finish = (equipment: BumpkinParts) => {
     onEquip(equipment, localFarmHandId);
-    setBaseEquipment(equipment); // Reset dirty baseline when saving
+
+    const state = gameService.getSnapshot().context.state;
+    const appliedEquipment = localFarmHandId
+      ? state.farmHands.bumpkins[localFarmHandId]?.equipped
+      : state.bumpkin?.equipped;
+
+    if (!isEqual(appliedEquipment, equipment)) return false;
+
+    setBaseEquipment(equipment); // Reset dirty baseline only after the event applies
+    return true;
   };
 
-  const isDirty = JSON.stringify(equipped) !== JSON.stringify(baseEquipment);
+  const isDirty = !isEqual(equipped, baseEquipment);
 
   const switchBumpkin = (index: number) => {
     if (index < 0 || index >= bumpkinIds.length) return;
@@ -157,7 +167,7 @@ export const BumpkinEquip: React.FC<Props> = ({
     if (!nextEquipment) return;
 
     // Keep edits when moving through the wardrobe, just as the Save button does.
-    if (isDirty) finish(equipped);
+    if (isDirty && !finish(equipped)) return;
     setLocalFarmHandId(nextId);
     setEquipped(nextEquipment);
     setBaseEquipment(nextEquipment);
