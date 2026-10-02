@@ -67,7 +67,10 @@ import {
   getCookingBoostWindows,
 } from "features/game/lib/boostWindows";
 import { getPreActionDisplay } from "features/game/lib/timerDisplay";
-import { resolveCookingQueueTimings } from "features/game/lib/cookingReadiness";
+import {
+  getCookingOilContext,
+  resolveCookingQueueTimings,
+} from "features/game/lib/cookingReadiness";
 import {
   getBoostContributionEntries,
   getCookingBoostContributions,
@@ -195,6 +198,8 @@ export const Recipes: React.FC<Props> = ({
   const {
     reducedSecs: cookingTime,
     baseDurationMs,
+    previewDurationMs,
+    oilBoostEntry,
     boostsUsed: timeBoostsUsed,
   } = getReadyAt({
     buildingId: buildingId ?? "",
@@ -202,6 +207,10 @@ export const Recipes: React.FC<Props> = ({
     createdAt: recipeStartAt,
     game: state,
   });
+
+  // The preview duration reflects the building oil covering this cook (derived
+  // live from the tank); `baseDurationMs` stays oil-free (that is the stored work).
+  const displayDurationMs = previewDurationMs ?? baseDurationMs;
 
   const baseTimeSeconds = COOKABLES[selected.name].cookingSeconds;
 
@@ -215,9 +224,13 @@ export const Recipes: React.FC<Props> = ({
     );
     if (index === -1) return undefined;
 
+    const cookingBuilding = state.buildings[buildingName]?.find(
+      (b) => b.id === buildingId,
+    );
     return resolveCookingQueueTimings({
       crafting: buildingCraftingQueue,
       windows: cookingBoostWindows,
+      oil: cookingBuilding && getCookingOilContext(cookingBuilding),
     })[index].startedAt;
   })();
 
@@ -236,16 +249,20 @@ export const Recipes: React.FC<Props> = ({
             secondsToString(seconds, { length: "medium" }),
         });
 
-  const allTimeBoostsUsed = [...timeBoostsUsed, ...cookingWindowedBoosts];
+  const allTimeBoostsUsed = [
+    ...timeBoostsUsed,
+    ...oilBoostEntry,
+    ...cookingWindowedBoosts,
+  ];
 
   // Project the preview from when this recipe would actually START — the end of the
   // current queue, not now. A boost running today may well have expired by the time
   // a recipe queued behind three others begins, and the projection has to say so.
   const timeDisplay =
-    baseDurationMs === undefined
+    displayDurationMs === undefined
       ? undefined
       : getPreActionDisplay({
-          seconds: baseDurationMs / 1000,
+          seconds: displayDurationMs / 1000,
           baseSeconds: baseTimeSeconds,
           namedBoostCount: allTimeBoostsUsed.length,
           windows: cookingBoostWindows,

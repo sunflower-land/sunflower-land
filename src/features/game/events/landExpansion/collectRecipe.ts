@@ -21,7 +21,13 @@ import {
   downgradeChapterCropWeekSkills,
 } from "features/game/types/bumpkinSkills";
 import { CHAPTER_CROP_WEEK_RECIPE } from "features/game/types/chapterCropWeek";
-import { getCookingQueueReadyAts } from "features/game/lib/cookingReadiness";
+import {
+  convertCookingToLazyOil,
+  getCookingQueueReadyAts,
+  settleCookingBuilding,
+} from "features/game/lib/cookingReadiness";
+import { hasFeatureAccess } from "lib/flags";
+import { getCookingBoostWindows } from "features/game/lib/boostWindows";
 
 /**
  * The Double Nom rank a recipe was cooked at, so its +food collects at the rank
@@ -146,10 +152,29 @@ export function collectRecipe({
       throw new Error(translate("error.buildingNotCooking"));
     }
 
+    // Bring the tank up to `createdAt` so oil burned by the recipes being collected
+    // is banked, and each completed recipe is frozen (its oil folded in) before it
+    // is removed from the queue.
+    if (
+      hasFeatureAccess(game, "SPEED_BOOSTS") ||
+      building.oilSettledAt !== undefined
+    ) {
+      convertCookingToLazyOil({ building, now: createdAt });
+      settleCookingBuilding({
+        building,
+        windows: getCookingBoostWindows(game),
+        now: createdAt,
+      });
+    }
+
     // Readiness comes from the DERIVED chain, not each recipe's stored `readyAt` —
     // that value is a cache, and a boost placed since the queue was last rewritten
     // will have pulled the real ready time forward.
-    const readyAts = getCookingQueueReadyAts({ crafting: recipes, game });
+    const readyAts = getCookingQueueReadyAts({
+      crafting: recipes,
+      game,
+      building,
+    });
 
     const nothingReady = readyAts.every((readyAt) => readyAt > createdAt);
     if (nothingReady) {
