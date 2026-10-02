@@ -320,8 +320,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
           options={getKeys(PATCH_FRUIT_SEEDS)
             .filter(
               (seed) =>
-                SEASONAL_SEEDS[game.season.season].includes(seed) ||
-                isFullMoonBerry(seed),
+                SEASONAL_SEEDS[game.season.season].includes(seed),
             )
             .map((seed) => ({
               name: seed as InventoryItemName,
