@@ -377,13 +377,12 @@ export const DeliveryOrders: React.FC<Props> = ({
           <p className="my-2 ml-1 text-xs">{t("deliveries.intro")}</p>
         </div>
 
-        <Label
-          type="default"
-          className="ml-2 mb-2"
-          icon={SUNNYSIDE.ui.coinsImg}
-        >
-          {t("coins")}
-        </Label>
+        <div className="flex items-center ml-2 mb-2">
+          <Label type="default" icon={SUNNYSIDE.ui.coinsImg}>
+            {t("coins")}
+          </Label>
+          <img src={chapterPointsIcon} className="h-5 ml-0.5" />
+        </div>
         <div className="grid grid-cols-3 sm:grid-cols-4 w-full ml-1">
           {coinOrders.map((order) => {
             return (
@@ -451,9 +450,12 @@ export const DeliveryOrders: React.FC<Props> = ({
 
         <div className="px-2 mt-2">
           <div className="flex justify-between">
-            <Label type="default" icon={token} className="mb-2">
-              {`FLOWER`}
-            </Label>
+            <div className="flex items-center mb-2">
+              <Label type="default" icon={token}>
+                {`FLOWER`}
+              </Label>
+              <img src={chapterPointsIcon} className="h-5 ml-0.5" />
+            </div>
           </div>
           {isBelowLevel({ ascension: 0, level: 13 }) && (
             <span className="text-xs mb-2">
