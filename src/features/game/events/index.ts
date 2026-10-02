@@ -786,6 +786,10 @@ import {
   type StartProjectAction,
 } from "./landExpansion/startProject";
 import {
+  collectProject,
+  type CollectProjectAction,
+} from "./landExpansion/collectProject";
+import {
   instaGrowFlower,
   type InstaGrowFlowerAction,
 } from "./landExpansion/instaGrowFlower";
@@ -1062,6 +1066,7 @@ export type PlayingEvent =
   | BurnClutterAction
   | InstantGrowProjectAction
   | StartProjectAction
+  | CollectProjectAction
   | InstaGrowFlowerAction
   | UpgradeRockAction
   | UpgradeTreeAction
@@ -1382,6 +1387,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "clutter.burned": burnClutter,
   "project.instantGrow": instantGrowProject,
   "project.started": startProject,
+  "project.collected": collectProject,
   "trial.started": startTrial,
   "rock.upgraded": upgradeRock,
   "tree.upgraded": upgradeTree,
