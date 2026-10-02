@@ -70,8 +70,13 @@ export function instaGrowFlower({
       flower.plantedAt = createdAt;
     } else {
       // Legacy: back-date plantedAt so plantedAt + base grow time === createdAt.
-      flower.plantedAt =
-        createdAt - FLOWER_SEEDS[FLOWERS[flower.name].seed].plantSeconds * 1000;
+      // `boostedTime` tracks the TOTAL back-date (the bar un-back-dates with
+      // it), so it has to absorb this one too rather than keep the plant-time
+      // value.
+      const growTimeMs =
+        FLOWER_SEEDS[FLOWERS[flower.name].seed].plantSeconds * 1000;
+      flower.plantedAt = createdAt - growTimeMs;
+      flower.boostedTime = growTimeMs;
     }
 
     stateCopy.beehives = updateBeehives({ game: stateCopy, createdAt });

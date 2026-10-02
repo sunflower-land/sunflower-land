@@ -24,7 +24,14 @@ function applyGreenhouseGlowToRemainingGrowTime(
   const readyAt = getGreenhouseReadyAt(plant, game);
   if (now < readyAt) {
     const timeReduction = (readyAt - now) * 0.2;
-    return { ...plant, plantedAt: plant.plantedAt - timeReduction };
+    return {
+      ...plant,
+      plantedAt: plant.plantedAt - timeReduction,
+      // Bank the back-date alongside it: `boostedTime` is the running total of
+      // the DISCOUNT, which the pot's progress bar un-back-dates with. Without
+      // this the bar would jump forward the moment the Glow is applied.
+      boostedTime: (plant.boostedTime ?? 0) + timeReduction,
+    };
   }
   return plant;
 }

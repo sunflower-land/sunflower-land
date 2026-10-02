@@ -167,6 +167,34 @@ describe("fertiliseFruitPatch", () => {
         plantedAt - remainingMs * 0.2,
       );
     });
+
+    it("accumulates the back-date into boostedTime", () => {
+      const plantedAt = dateNow - appleMs / 2;
+      const offsetAtPlant = 1_000;
+      const state = fertiliseFruitPatch({
+        state: withPatch({
+          name: "Apple",
+          plantedAt,
+          boostedTime: offsetAtPlant,
+          harvestedAt: 0,
+          harvestsLeft: 3,
+        }),
+        action: {
+          type: "fruitPatch.fertilised",
+          patchID: "0",
+          fertiliser: "Turbofruit Mix",
+        },
+        createdAt: dateNow,
+      });
+
+      const remainingMs = plantedAt + appleMs - dateNow;
+
+      // Every back-date has to land in boostedTime, or the bar jumps forward by
+      // the discount the moment the fertiliser is applied.
+      expect(state.fruitPatches["0"].fruit?.boostedTime).toEqual(
+        offsetAtPlant + remainingMs * 0.2,
+      );
+    });
   });
 
   describe("Turbofruit Mix — SPEED_BOOSTS (amoy, live window)", () => {
