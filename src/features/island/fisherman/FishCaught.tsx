@@ -1,7 +1,7 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import lightning from "assets/icons/lightning.png";
 import { Button } from "components/ui/Button";
-import { Label } from "components/ui/Label";
+import { Label, LABEL_STYLES } from "components/ui/Label";
 import { getKeys } from "lib/object";
 import { FISH, type MarineMarvelName } from "features/game/types/fishing";
 import type {
@@ -42,7 +42,12 @@ const CatchBoost: React.FC<{
       <button
         ref={anchorRef}
         type="button"
-        className="flex shrink-0 items-center gap-0.5 text-xs text-brown-500 cursor-pointer"
+        className="flex shrink-0 items-center gap-0.5 px-1 text-xs whitespace-nowrap cursor-pointer"
+        style={{
+          ...LABEL_STYLES.vibrant.borderStyle,
+          background: LABEL_STYLES.vibrant.background,
+          color: LABEL_STYLES.vibrant.textColour,
+        }}
         aria-label={`${t("faction.boostsApplied")} +${shrimpBonus + otterBonus}`}
         aria-expanded={showBoosts}
         onClick={() => setShowBoosts((show) => !show)}
