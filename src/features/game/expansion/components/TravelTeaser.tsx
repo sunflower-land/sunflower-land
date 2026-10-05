@@ -23,19 +23,38 @@ import { CROPS } from "features/game/types/crops";
 import { translate } from "lib/i18n/translate";
 import { Guide } from "features/helios/components/hayseedHank/components/Guide";
 import type { GuidePath } from "features/helios/components/hayseedHank/lib/guide";
+import {
+  hasFulfilledFirstDelivery,
+  needsFirstDelivery,
+} from "features/island/delivery/lib/onboarding";
+import { needsFirstCropSale } from "features/island/buildings/components/building/market/lib/onboarding";
 
 const expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 0;
 
 const hint = (state: MachineState) => {
-  const activity = state.context.state.farmActivity;
-  const inventory = state.context.state.inventory;
+  const game = state.context.state;
+  const activity = game.farmActivity;
+  const inventory = game.inventory;
   const ascension = getAscensionLevel({
-    experience: state.context.state.bumpkin.experience ?? 0,
-    ascensionLevel: state.context.state.island.ascensionLevel ?? 0,
+    experience: game.bumpkin.experience ?? 0,
+    ascensionLevel: game.island.ascensionLevel ?? 0,
   });
 
   if (meetsLevelRequirement(ascension, { ascension: 0, level: 2 })) {
+    // Peggy's first order asks for the spare tutorial Rhubarb Tart
+    if (
+      game.island.type === "basic" &&
+      hasFulfilledFirstDelivery(game) &&
+      (game.npcs?.peggy?.deliveryCount ?? 0) === 0
+    ) {
+      return translate("pete.teaser.deliverTart");
+    }
+
+    if (needsFirstCropSale(game)) {
+      return translate("pete.teaser.sell");
+    }
+
     return "Explore";
   }
 
@@ -61,21 +80,21 @@ const hint = (state: MachineState) => {
     return translate("pete.teaser.three");
   }
 
+  if (needsFirstDelivery(game)) {
+    return translate("pete.teaser.deliver");
+  }
+
   const soldCrops = getKeys(CROPS).reduce(
     (total, crop) => total + (activity?.[`${crop} Sold`] ?? 0),
     0,
   );
-
-  if (inventory.Sunflower && soldCrops < 3) {
-    return translate("pete.teaser.four");
-  }
 
   const boughtCrops = getKeys(CROPS).reduce(
     (total, crop) => total + (activity?.[`${crop} Seed Bought`] ?? 0),
     0,
   );
 
-  if (soldCrops > 0 && boughtCrops === 0) {
+  if ((hasFulfilledFirstDelivery(game) || soldCrops > 0) && boughtCrops === 0) {
     return translate("pete.teaser.five");
   }
 

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router";
+import { useSelector } from "@xstate/react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "components/ui/Modal";
 import { WorldMap } from "./WorldMap";
@@ -7,6 +8,9 @@ import { RoundButton } from "components/ui/RoundButton";
 import { SUNNYSIDE } from "assets/sunnyside";
 import type { PlaceableLocation } from "features/game/types/collectibles";
 import farmIcon from "assets/icons/farm.webp";
+import { Context } from "features/game/GameProvider";
+import type { MachineState } from "features/game/lib/gameMachine";
+import { needsFirstDelivery } from "features/island/delivery/lib/onboarding";
 
 interface Props {
   location?: PlaceableLocation;
@@ -24,9 +28,15 @@ interface Props {
  * pages also keep their bottom Exit button; the new /interior route relies on
  * this HUD button as its only way out.
  */
+const _needsFirstDelivery = (state: MachineState) =>
+  needsFirstDelivery(state.context.state);
+
 export const Travel: React.FC<Props> = ({ location }) => {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+
+  const { gameService } = useContext(Context);
+  const showDeliveryHelper = useSelector(gameService, _needsFirstDelivery);
 
   const onClose = () => {
     setShowModal(false);
@@ -77,6 +87,18 @@ export const Travel: React.FC<Props> = ({ location }) => {
           }}
           className="absolute group-active:translate-y-[2px]"
         />
+        {/* Tutorial: the first delivery is made at the Plaza */}
+        {showDeliveryHelper && (
+          <img
+            className="absolute z-30 animate-pulsate pointer-events-none"
+            src={SUNNYSIDE.icons.click_icon}
+            style={{
+              width: `${PIXEL_SCALE * 14}px`,
+              right: `${PIXEL_SCALE * -4}px`,
+              top: `${PIXEL_SCALE * -6}px`,
+            }}
+          />
+        )}
       </RoundButton>
       <Modal show={showModal} dialogClassName="md:max-w-3xl" onHide={onClose}>
         <WorldMap onClose={onClose} />

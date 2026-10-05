@@ -624,37 +624,39 @@ export const INITIAL_FARM: GameState = {
         from: "betty",
         reward: {
           items: {},
-          coins: 64,
+          coins: 65,
         },
         id: "1",
         items: {
-          Sunflower: 30,
+          Sunflower: 9,
         },
       },
       {
         createdAt: Date.now(),
         readyAt: Date.now(),
-        from: "grubnuk",
+        from: "blacksmith",
         reward: {
           items: {},
-          coins: 64,
+          coins: 81,
         },
         id: "2",
         items: {
-          "Pumpkin Soup": 1,
+          Wood: 1,
         },
       },
+      // On live farms Peggy's order only generates once the player reaches
+      // level 2 by eating a tutorial Rhubarb Tart - she asks for the spare one
       {
         createdAt: Date.now(),
         readyAt: Date.now(),
-        from: "grimbly",
+        from: "peggy",
         reward: {
           items: {},
-          coins: 48,
+          coins: 65,
         },
         id: "3",
         items: {
-          "Mashed Potato": 2,
+          "Rhubarb Tart": 1,
         },
       },
     ],

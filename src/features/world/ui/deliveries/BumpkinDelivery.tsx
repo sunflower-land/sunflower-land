@@ -1,5 +1,6 @@
 import type { NPCName } from "lib/npcs";
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { gameAnalytics } from "lib/gameAnalytics";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
@@ -919,10 +920,19 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const isHoliday = holiday === today;
 
   const deliver = () => {
+    // Tutorial: the first delivery is the new player's first coin task.
+    const isFirstDelivery = (game.delivery.fulfilledCount ?? 0) === 0;
+
     gameService.send("order.delivered", {
       id: delivery?.id,
       friendship: true,
     });
+
+    if (isFirstDelivery) {
+      gameAnalytics.trackMilestone({
+        event: "Tutorial:FirstDeliveryCompleted",
+      });
+    }
   };
 
   const hasDelivery = getKeys(delivery?.items ?? {}).every((name) => {

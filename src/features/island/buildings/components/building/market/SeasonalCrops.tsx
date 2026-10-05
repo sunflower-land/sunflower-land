@@ -25,7 +25,7 @@ import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { BulkSellModal } from "components/ui/BulkSellModal";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { needsFirstCropSale } from "./lib/onboarding";
+import { hasBoughtCropSeeds, needsFirstCropSale } from "./lib/onboarding";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -108,8 +108,9 @@ export const SeasonalCrops: React.FC = () => {
         amount: setPrecision(amount, 2),
       });
 
-      // Tutorial: with coins in hand, Betty points the player at her seeds.
-      if (isFirstSale) {
+      // Tutorial: with coins in hand, Betty points the player at her seeds -
+      // unless the sell lesson came after they already own some.
+      if (isFirstSale && !hasBoughtCropSeeds(before)) {
         openModal("BETTY_BUY");
       }
 

@@ -231,12 +231,12 @@ export const Plot: React.FC<Props> = ({ id }) => {
     }
 
     // Tutorial: once the last of the first crops is in, Betty sends the player
-    // to her market.
+    // to the Plaza to deliver them.
     if (
       newState.context.state.island.type === "basic" &&
       getTotalCropsHarvested(newState.context.state) === TUTORIAL_PLOT_COUNT
     ) {
-      openModal("BETTY_SELL");
+      openModal("BETTY_DELIVERY");
     }
 
     // Tutorial: the last of the first Rhubarb is Bruce's cue to get the player

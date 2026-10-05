@@ -1,6 +1,11 @@
 import type { GameState } from "features/game/types/game";
 import { CROPS } from "features/game/types/crops";
 import { getKeys } from "lib/object";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
+import { hasFulfilledFirstDelivery } from "features/island/delivery/lib/onboarding";
 
 /**
  * Shared onboarding predicates for Betty's market, kept in one place so the
@@ -8,21 +13,34 @@ import { getKeys } from "lib/object";
  * does the same in workBench/lib/onboarding.ts).
  */
 
+/** Whether the player has ever sold a crop to Betty. */
+const hasSoldAnyCrop = (game: GameState): boolean =>
+  getKeys(CROPS).some((crop) => (game.farmActivity?.[`${crop} Sold`] ?? 0) > 0);
+
+const hasLevelTwo = (game: GameState): boolean =>
+  meetsLevelRequirement(
+    getAscensionLevel({
+      experience: game.bumpkin.experience ?? 0,
+      ascensionLevel: game.island.ascensionLevel ?? 0,
+    }),
+    { ascension: 0, level: 2 },
+  );
+
 /**
- * Nudge a new player to sell their first Sunflowers: they are on the tutorial
- * island, are holding Sunflowers and have never sold a crop.
+ * The one-off sell lesson: a small side income shown once deliveries - the
+ * primary coin loop - have been learned. The delivery term also stops a new
+ * player selling the 9 tutorial Sunflowers their first order asks for; the
+ * never-sold term makes the lesson one-shot.
  */
 export const needsFirstCropSale = (game: GameState): boolean => {
   if (game.island.type !== "basic") return false;
+  if (!hasFulfilledFirstDelivery(game)) return false;
+  if (!hasLevelTwo(game)) return false;
 
   const hasSunflowers = game.inventory.Sunflower?.greaterThan(0) ?? false;
   if (!hasSunflowers) return false;
 
-  const hasSoldCrops = getKeys(CROPS).some(
-    (crop) => (game.farmActivity?.[`${crop} Sold`] ?? 0) > 0,
-  );
-
-  return !hasSoldCrops;
+  return !hasSoldAnyCrop(game);
 };
 
 /** Whether the player has ever bought a crop seed from Betty. */
@@ -40,12 +58,11 @@ export const isFirstSeedPurchase = (game: GameState): boolean =>
 
 /**
  * Nudge a new player to buy their first seeds: they are on the tutorial island,
- * have sold a crop and have never bought a crop seed.
+ * have fulfilled their first delivery (or, for farms from before deliveries
+ * led the tutorial, sold a crop) and have never bought a crop seed.
  */
 export const needsFirstSeedPurchase = (game: GameState): boolean => {
   if (!isFirstSeedPurchase(game)) return false;
 
-  return getKeys(CROPS).some(
-    (crop) => (game.farmActivity?.[`${crop} Sold`] ?? 0) > 0,
-  );
+  return hasFulfilledFirstDelivery(game) || hasSoldAnyCrop(game);
 };

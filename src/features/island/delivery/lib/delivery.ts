@@ -278,7 +278,9 @@ export const NPC_DELIVERY_LEVELS: Record<DeliveryNpcName, LevelRequirement> = {
   // Coins
   betty: { ascension: 0, level: 1 },
   blacksmith: { ascension: 0, level: 1 },
-  peggy: { ascension: 0, level: 3 },
+  // Level 2 so the spare tutorial Rhubarb Tart becomes the second delivery,
+  // and only after the player has eaten one to level up
+  peggy: { ascension: 0, level: 2 },
   corale: { ascension: 0, level: 7 },
   tango: { ascension: 0, level: 13 },
   "old salty": { ascension: 0, level: 15 },

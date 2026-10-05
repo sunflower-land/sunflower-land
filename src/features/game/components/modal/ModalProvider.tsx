@@ -27,7 +27,7 @@ type GlobalModal =
   | "SECOND_LEVEL"
   | "FIREPIT"
   | "BETTY"
-  | "BETTY_SELL"
+  | "BETTY_DELIVERY"
   | "BETTY_BUY"
   | "BETTY_PLANT"
   | "FIREPIT_RHUBARB"
@@ -172,11 +172,14 @@ export const ModalProvider: FC<React.PropsWithChildren> = ({ children }) => {
         />
       </Modal>
 
-      <Modal show={opened === "BETTY_SELL"}>
+      <Modal show={opened === "BETTY_DELIVERY"}>
         <SpeakingModal
           message={[
             {
-              text: translate("betty.market-intro.sell"),
+              text: translate("betty.market-intro.delivery.one"),
+            },
+            {
+              text: translate("betty.market-intro.delivery.two"),
             },
           ]}
           onClose={handleClose}
