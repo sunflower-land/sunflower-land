@@ -28,6 +28,7 @@ import {
   needsFirstDelivery,
 } from "features/island/delivery/lib/onboarding";
 import { needsFirstCropSale } from "features/island/buildings/components/building/market/lib/onboarding";
+import { getTutorialNudge } from "features/island/lib/tutorialNudge";
 
 const expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 0;
@@ -86,6 +87,15 @@ const hint = (state: MachineState) => {
   if (needsFirstDelivery(game)) {
     return translate("pete.teaser.deliver");
   }
+
+  // After the first delivery the coins fund the next expansion - say the
+  // same thing the farm's pointer shows (see getTutorialNudge)
+  const nudge = getTutorialNudge(game);
+  if (nudge === "workbench-axes" && hasFulfilledFirstDelivery(game)) {
+    return translate("pete.teaser.zero");
+  }
+  if (nudge === "chop-trees") return translate("pete.teaser.one");
+  if (nudge === "expand-land") return translate("expand.land");
 
   const soldCrops = getKeys(CROPS).reduce(
     (total, crop) => total + (activity?.[`${crop} Sold`] ?? 0),
