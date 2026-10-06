@@ -9,6 +9,7 @@ import Decimal from "decimal.js-light";
 import { ANIMAL_SLEEP_DURATION } from "./feedAnimal";
 import { getAnimalReadyAt } from "features/game/lib/animals";
 import type { Animal, GameState } from "features/game/types/game";
+import { ANIMAL_LEVELS } from "features/game/types/animals";
 
 describe("loveAnimal", () => {
   const now = Date.now();
@@ -290,6 +291,146 @@ describe("loveAnimal", () => {
     });
 
     expect(state.barn.animals["1"].item).toBe("Petting Hand");
+  });
+
+  describe("at max level", () => {
+    const sleeping = {
+      asleepAt: now - 9 * 60 * 60 * 1000,
+      awakeAt: now - 9 * 60 * 60 * 1000 + ANIMAL_SLEEP_DURATION,
+      lovedAt: 0,
+      createdAt: 0,
+      item: "Petting Hand" as const,
+    };
+
+    const chickenMaxXp = ANIMAL_LEVELS.Chicken[15];
+    const chickenCycleXp = chickenMaxXp - ANIMAL_LEVELS.Chicken[14];
+    const cowMaxXp = ANIMAL_LEVELS.Cow[15];
+    const cowCycleXp = cowMaxXp - ANIMAL_LEVELS.Cow[14];
+
+    it("sets a level 15 chicken to ready when a pet completes its XP cycle", () => {
+      const state = loveAnimal({
+        state: {
+          ...INITIAL_FARM,
+          inventory: { "Petting Hand": new Decimal(1) },
+          henHouse: {
+            level: 1,
+            animals: {
+              "1": {
+                ...sleeping,
+                id: "1",
+                type: "Chicken",
+                // 10 XP short of the cycle; a Petting Hand gives 25
+                experience: chickenMaxXp + chickenCycleXp - 10,
+                state: "happy",
+              },
+            },
+          },
+        },
+        action: {
+          type: "animal.loved",
+          animal: "Chicken",
+          id: "1",
+          item: "Petting Hand",
+        },
+        createdAt: now,
+      });
+
+      expect(state.henHouse.animals["1"].state).toBe("ready");
+      expect(state.henHouse.animals["1"].experience).toBe(
+        chickenMaxXp + chickenCycleXp + 15,
+      );
+    });
+
+    it("sets a level 15 cow to ready when a pet completes its XP cycle", () => {
+      const state = loveAnimal({
+        state: {
+          ...INITIAL_FARM,
+          inventory: { "Petting Hand": new Decimal(1) },
+          barn: {
+            level: 1,
+            animals: {
+              "1": {
+                ...sleeping,
+                id: "1",
+                type: "Cow",
+                // Already two cycles in; 5 XP short of the third
+                experience: cowMaxXp + cowCycleXp * 3 - 5,
+                state: "happy",
+              },
+            },
+          },
+        },
+        action: {
+          type: "animal.loved",
+          animal: "Cow",
+          id: "1",
+          item: "Petting Hand",
+        },
+        createdAt: now,
+      });
+
+      expect(state.barn.animals["1"].state).toBe("ready");
+    });
+
+    it("leaves a level 15 animal as it was when a pet does not complete the cycle", () => {
+      const state = loveAnimal({
+        state: {
+          ...INITIAL_FARM,
+          inventory: { "Petting Hand": new Decimal(1) },
+          henHouse: {
+            level: 1,
+            animals: {
+              "1": {
+                ...sleeping,
+                id: "1",
+                type: "Chicken",
+                experience: chickenMaxXp + chickenCycleXp - 30,
+                state: "happy",
+              },
+            },
+          },
+        },
+        action: {
+          type: "animal.loved",
+          animal: "Chicken",
+          id: "1",
+          item: "Petting Hand",
+        },
+        createdAt: now,
+      });
+
+      expect(state.henHouse.animals["1"].state).toBe("happy");
+    });
+
+    it("sets a below-max animal to ready when a pet levels it up", () => {
+      const state = loveAnimal({
+        state: {
+          ...INITIAL_FARM,
+          inventory: { "Petting Hand": new Decimal(1) },
+          henHouse: {
+            level: 1,
+            animals: {
+              "1": {
+                ...sleeping,
+                id: "1",
+                type: "Chicken",
+                experience: ANIMAL_LEVELS.Chicken[14] - 10,
+                state: "happy",
+              },
+            },
+          },
+        },
+        action: {
+          type: "animal.loved",
+          animal: "Chicken",
+          id: "1",
+          item: "Petting Hand",
+        },
+        createdAt: now,
+      });
+
+      expect(state.henHouse.animals["1"].state).toBe("ready");
+    });
   });
 
   it("give +10 XP to Cow if the Baby Cow is placed", () => {
