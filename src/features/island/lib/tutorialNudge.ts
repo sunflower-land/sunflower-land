@@ -10,7 +10,6 @@ import {
   needsFirstAxes,
   needsWaterWell,
 } from "features/island/buildings/components/building/workBench/lib/onboarding";
-import { needsFirstCropSale } from "features/island/buildings/components/building/market/lib/onboarding";
 import { needsFirstCook } from "features/island/buildings/components/building/firePit/lib/onboarding";
 import { needsFirstDelivery } from "features/island/delivery/lib/onboarding";
 
@@ -23,7 +22,6 @@ export type TutorialNudge =
   | "plant-plot"
   | "workbench-scarecrow"
   | "firepit-cook"
-  | "market-sell"
   | "workbench-well";
 
 /**
@@ -48,8 +46,8 @@ const needsPostDeliveryExpansion = (game: GameState): boolean =>
  *
  * Ordered by the tutorial's own sequence: claim axes, harvest the preloaded
  * crops, deliver them, spend the coins on the next expansion (chopping the
- * Wood for it first), cook, replant, craft a scarecrow, then the one-shot
- * sell lesson, with the (non-tutorial) water well hint last.
+ * Wood for it first), cook, replant, craft a scarecrow, with the
+ * (non-tutorial) water well hint last.
  *
  * Deliberately time-independent: the plot phases are coarse gates (crops
  * pending, not crops ready this second) so the answer only changes with the
@@ -81,7 +79,6 @@ export function getTutorialNudge(game: GameState): TutorialNudge | undefined {
   if (needsFirstCook(game)) return "firepit-cook";
   if (isTutorialPlantPhase(game)) return "plant-plot";
   if (needsBasicScarecrow(game)) return "workbench-scarecrow";
-  if (needsFirstCropSale(game)) return "market-sell";
   if (needsWaterWell(game)) return "workbench-well";
 
   return undefined;

@@ -30,7 +30,6 @@ import {
   hasFulfilledFirstDelivery,
   needsFirstDelivery,
 } from "features/island/delivery/lib/onboarding";
-import { needsFirstCropSale } from "features/island/buildings/components/building/market/lib/onboarding";
 import { getTutorialNudge } from "features/island/lib/tutorialNudge";
 
 const expansions = (state: MachineState) =>
@@ -88,8 +87,10 @@ const hint = (state: MachineState) => {
         : translate("pete.teaser.moreDeliveries");
     }
 
-    if (needsFirstCropSale(game)) {
-      return translate("pete.teaser.sell");
+    // The post-expansion work cycle: deliveries bankroll the Water Well
+    // while the Rhubarb regrows
+    if (game.island.type === "basic" && !game.buildings["Water Well"]?.length) {
+      return translate("pete.teaser.moreDeliveries");
     }
 
     return "Explore";

@@ -25,9 +25,8 @@ import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { BulkSellModal } from "components/ui/BulkSellModal";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { hasBoughtCropSeeds, needsFirstCropSale } from "./lib/onboarding";
+import { hasBoughtCropSeeds, hasSoldAnyCrop } from "./lib/onboarding";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { SEASONAL_SEEDS, SEEDS } from "features/game/types/seeds";
 import { SEASON_ICONS } from "./SeasonalSeeds";
@@ -45,19 +44,6 @@ import { useNow } from "lib/utils/hooks/useNow";
 import { SpecialEventPanel } from "../SpecialEventPanel";
 
 const _state = (state: MachineState) => state.context.state;
-
-/** Pulsing hand over the button that sells everything (tutorial nudge). */
-const SellHelper: React.FC = () => (
-  <img
-    className="absolute pointer-events-none z-30 animate-pulsate"
-    src={SUNNYSIDE.icons.click_icon}
-    style={{
-      width: `${PIXEL_SCALE * 18}px`,
-      right: `${PIXEL_SCALE * -4}px`,
-      top: `${PIXEL_SCALE * 2}px`,
-    }}
-  />
-);
 
 export const SeasonalCrops: React.FC = () => {
   const [selected, setSelected] = useState<
@@ -82,10 +68,6 @@ export const SeasonalCrops: React.FC = () => {
 
   const { island, season } = state;
 
-  // Nudge a new player to sell the first crops they bring to market.
-  const showSellHelper =
-    needsFirstCropSale(state) &&
-    (state.inventory[selected.name]?.greaterThan(0) ?? false);
   const { type: islandType } = island;
 
   const divRef = useRef<HTMLDivElement>(null);
@@ -97,9 +79,10 @@ export const SeasonalCrops: React.FC = () => {
         amount,
       });
     } else {
-      // Read before the sale lands: afterwards the nudge is already cleared.
+      // Read before the sale lands: afterwards the activity is already set.
       const before = gameService.getSnapshot().context.state;
-      const isFirstSale = needsFirstCropSale(before);
+      const isFirstSale =
+        before.island.type === "basic" && !hasSoldAnyCrop(before);
       const isFirstSunflowerSale =
         selected.name === "Sunflower" &&
         !before.farmActivity?.["Sunflower Sold"];
@@ -233,9 +216,6 @@ export const SeasonalCrops: React.FC = () => {
                               { amount: cropAmount },
                             )}
                           </Button>
-                          {/* With 10 or fewer, this button sells the lot */}
-                          {showSellHelper &&
-                            cropAmount.lessThanOrEqualTo(10) && <SellHelper />}
                         </div>
                       )}
                     </div>
@@ -255,7 +235,6 @@ export const SeasonalCrops: React.FC = () => {
                                 : "sell.all",
                             )}
                           </Button>
-                          {showSellHelper && <SellHelper />}
                         </>
                       )}
                     </div>

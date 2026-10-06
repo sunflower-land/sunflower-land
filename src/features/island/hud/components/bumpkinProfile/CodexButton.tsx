@@ -47,13 +47,16 @@ export const CodexButton: React.FC = () => {
     // For new players, always show until they fulfill a delivery
     (hasDeliveryLevel && deliveries.fulfilledCount === 0);
 
-  // Tutorial: after the first level up Pete sends the player here, so point
-  // at the button until they open it or make their first delivery.
+  // Tutorial: after the first level up Pete mentions the Codex, so point at
+  // the button until they open it. A new player reaches level 2 with a
+  // couple of deliveries already made (the Sunflower opener and the spare
+  // tart), so the pointer stays through the early delivery cycle rather
+  // than stopping at the first fulfilment.
   const isTutorialIsland = useSelector(gameService, _isTutorialIsland);
   const showHelper =
     isTutorialIsland &&
     hasDeliveryLevel &&
-    deliveries.fulfilledCount === 0 &&
+    deliveries.fulfilledCount <= 3 &&
     !hasOpened;
 
   const { t } = useAppTranslation();
