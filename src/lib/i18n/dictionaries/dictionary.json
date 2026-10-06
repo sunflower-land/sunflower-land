@@ -5,7 +5,7 @@
   "waterTools": "Water Tools",
   "animalTools": "Animal Tools",
   "tools.freeLeft": "{{amount}} free",
-  "tools.freeAxesAtNextLevel": "Level up to earn more free Axes!",
+  "tools.freeAxesAtNextLevel": "Level up to restock Axes!",
   "market.deliveryWarning": "Hold on - one of your deliveries still needs those {{name}}s. Sell them anyway?",
   "sell.anyway": "Sell anyway",
   "tools.buyAllPartialFailure": "Couldn't buy: {{tools}}. Your other tools were still purchased.",

@@ -112,11 +112,12 @@ export const INITIAL_STOCK = (
     );
   }
 
-  // Tutorial farms (through the Water Well era): cap the paid tool stock so
-  // a new player cannot blow their delivery coins on tools they don't need.
-  // No paid Axes at all - every tutorial Axe is a free one (getFreeAxesLeft,
-  // refreshed by the early level-ups, and free Axes don't draw from stock) -
-  // and two Pickaxes a day cover the Stone the early expansions ask for.
+  // Tutorial farms (through the Water Well era): cap the tool stock so a
+  // new player cannot blow their delivery coins on tools they don't need.
+  // Axes bypass the daily stock entirely during this phase - the free batch
+  // plus a small per-level paid budget govern them instead (see craftTool's
+  // getPaidTutorialAxesLeft) - and two Pickaxes a day cover the Stone the
+  // early expansions ask for.
   if (state && isTutorialToolStockPhase(state)) {
     tools.Axe = new Decimal(0);
     tools.Pickaxe = new Decimal(Math.min(tools.Pickaxe.toNumber(), 2));

@@ -72,38 +72,61 @@ export const TUTORIAL_FREE_AXES_FROM = new Date(
 /**
  * How many free Axes a tutorial island player has left. Counted from lifetime
  * crafts, not inventory, so chopping does not top the allowance back up.
- *
- * The allowance grows with the first level-ups (another batch at levels 2
- * and 3), so the onboarding's wood economy - expansions, the Water Well and
- * the Blacksmith's wood deliveries - never runs out of chops. Paid Axes are
- * off the menu entirely during this phase (see isTutorialToolStockPhase),
- * making it impossible to sink delivery coins into Axes.
  */
 export function getFreeAxesLeft(game: Readonly<GameState>): number {
   if (game.island.type !== "basic") return 0;
   if (game.createdAt < TUTORIAL_FREE_AXES_FROM) return 0;
 
-  const { level } = getAscensionLevel({
-    experience: game.bumpkin.experience ?? 0,
-    ascensionLevel: game.island.ascensionLevel ?? 0,
-  });
-  const allowance = TUTORIAL_FREE_AXES * Math.min(level, 3);
   const crafted = game.farmActivity?.["Axe Crafted"] ?? 0;
 
-  return Math.max(0, allowance - crafted);
+  return Math.max(0, TUTORIAL_FREE_AXES - crafted);
 }
 
 /**
  * While the early tutorial runs (a basic island up to the Water Well era),
- * the Workbench's paid tool stock is capped so a new player cannot sink the
- * coins their next expansion needs into tools: no paid Axes at all (every
- * Axe is a free one) and at most two Pickaxes a day.
+ * the Workbench's tool availability is capped so a new player cannot sink
+ * the coins their next expansion needs into tools: Axes beyond the free
+ * batch are budgeted per level (see getPaidTutorialAxesLeft) and at most
+ * two Pickaxes a day are sold.
  */
 export function isTutorialToolStockPhase(game: Readonly<GameState>): boolean {
   return (
     game.island.type === "basic" &&
     (game.inventory["Basic Land"]?.toNumber() ?? 3) <= 6
   );
+}
+
+/** Paid Axes purchasable per level during the tutorial phase. */
+export const TUTORIAL_PAID_AXES_PER_LEVEL = 3;
+
+/**
+ * How many PAID Axes a tutorial-phase player can still buy. The free batch
+ * teaches chopping; these teach the coins -> Axe -> Wood loop - so they stay
+ * purchasable at full price but are budgeted (three per level, growing until
+ * level five) rather than stock-metered. Level-ups refresh the budget, and
+ * because an Axe spent on a Blacksmith wood order earns its coins back, a
+ * player can never buy themselves into a hole they cannot chop out of.
+ *
+ * Only meaningful during isTutorialToolStockPhase - outside it the normal
+ * daily stock governs and this returns 0.
+ */
+export function getPaidTutorialAxesLeft(game: Readonly<GameState>): number {
+  if (!isTutorialToolStockPhase(game)) return 0;
+
+  const { level } = getAscensionLevel({
+    experience: game.bumpkin.experience ?? 0,
+    ascensionLevel: game.island.ascensionLevel ?? 0,
+  });
+  const budget = TUTORIAL_PAID_AXES_PER_LEVEL * Math.min(level, 5);
+
+  const crafted = game.farmActivity?.["Axe Crafted"] ?? 0;
+  const paidCrafted = Math.max(
+    0,
+    crafted -
+      (game.createdAt < TUTORIAL_FREE_AXES_FROM ? 0 : TUTORIAL_FREE_AXES),
+  );
+
+  return Math.max(0, budget - paidCrafted);
 }
 
 /**
@@ -212,12 +235,21 @@ export function craftTool({ state, action }: Options) {
     throw new Error("You do not have the required island expansion");
   }
 
-  // Free tutorial Axes don't draw from the day's stock - stock only meters
-  // paid tools, so a level-up's refreshed allowance stays craftable after
-  // the paid stock has run dry. Read before the craft is tracked below.
+  // Tutorial Axes don't draw from the day's stock: the free batch costs
+  // nothing, and the paid ones beyond it are metered by a per-level budget
+  // (getPaidTutorialAxesLeft) so level-ups refresh what the shop sells.
+  // Read before the craft is tracked below.
   const freeAmount =
     action.tool === "Axe" ? Math.min(amount, getFreeAxesLeft(stateCopy)) : 0;
-  const stockedAmount = amount - freeAmount;
+  let stockedAmount = amount - freeAmount;
+
+  if (action.tool === "Axe" && isTutorialToolStockPhase(stateCopy)) {
+    if (stockedAmount > getPaidTutorialAxesLeft(stateCopy)) {
+      throw new Error("Not enough stock");
+    }
+
+    stockedAmount = 0;
+  }
 
   if (stateCopy.stock[action.tool]?.lt(stockedAmount)) {
     throw new Error("Not enough stock");
