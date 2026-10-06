@@ -82,9 +82,10 @@ export const SeasonalCrops: React.FC = () => {
 
   const { island, season } = state;
 
-  // Nudge a new player to sell all of their first Sunflowers.
+  // Nudge a new player to sell the first crops they bring to market.
   const showSellHelper =
-    selected.name === "Sunflower" && needsFirstCropSale(state);
+    needsFirstCropSale(state) &&
+    (state.inventory[selected.name]?.greaterThan(0) ?? false);
   const { type: islandType } = island;
 
   const divRef = useRef<HTMLDivElement>(null);

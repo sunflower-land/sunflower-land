@@ -42,7 +42,6 @@ import {
 import { CHAPTER_CROP_WEEK_SEED } from "features/game/types/chapterCropWeek";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import {
-  getTotalCropsHarvested,
   getTotalCropsPlanted,
   getTutorialHarvestPlot,
   getTutorialPlantPlot,
@@ -230,11 +229,13 @@ export const Plot: React.FC<Props> = ({ id }) => {
       });
     }
 
-    // Tutorial: once the last of the first crops is in, Betty sends the player
-    // to the Plaza to deliver them.
+    // Tutorial: once the last of the first Sunflowers is in, Betty sends the
+    // player to the Plaza to deliver them. Counted on Sunflowers so the
+    // trigger matches the harvest that unlocks the Plaza (hasPlazaAccess).
     if (
       newState.context.state.island.type === "basic" &&
-      getTotalCropsHarvested(newState.context.state) === TUTORIAL_PLOT_COUNT
+      (newState.context.state.farmActivity?.["Sunflower Harvested"] ?? 0) ===
+        TUTORIAL_PLOT_COUNT
     ) {
       openModal("BETTY_DELIVERY");
     }

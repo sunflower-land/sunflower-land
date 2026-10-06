@@ -37,8 +37,10 @@ export const needsFirstCropSale = (game: GameState): boolean => {
   if (!hasFulfilledFirstDelivery(game)) return false;
   if (!hasLevelTwo(game)) return false;
 
-  const hasSunflowers = game.inventory.Sunflower?.greaterThan(0) ?? false;
-  if (!hasSunflowers) return false;
+  const hasCrops = getKeys(CROPS).some((crop) =>
+    game.inventory[crop]?.greaterThan(0),
+  );
+  if (!hasCrops) return false;
 
   return !hasSoldAnyCrop(game);
 };
