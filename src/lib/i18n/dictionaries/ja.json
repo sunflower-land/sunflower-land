@@ -8703,5 +8703,6 @@
   "description.pigBristles": "豚の粗い毛。",
   "resource.pigBristles": "ピッグ・ブリストル",
   "description.mud": "濃厚で粘り気のある泥。豚をコーティングして餌XPを増やし、体調を崩さないようにする。",
-  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% フィード XP · 病気なし·残りフィード:{{count}}"
+  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% フィード XP · 病気なし·残りフィード:{{count}}",
+  "walletWall.withdrawWalletMismatch": "別のウォレットを選択しました。接続されているウォレットとリンクされたウォレットが一致しないため、出金できません。"
 }

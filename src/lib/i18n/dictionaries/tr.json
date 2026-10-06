@@ -8703,5 +8703,6 @@
   "description.pigBristles": "Bir Domuzdan Kaba Kıllar.",
   "resource.pigBristles": "Domuz Kılları",
   "description.mud": "Zengin, yapışkan çamur. Bir Domuzu fazladan yem DP'si için kaplar ve hastalanmasını önler.",
-  "sleepingAnimal.mudFeedsLeft": "+ {{percent}} %yem DP'si · hastalık yok · yem kaldı: {{count}}"
+  "sleepingAnimal.mudFeedsLeft": "+ {{percent}} %yem DP'si · hastalık yok · yem kaldı: {{count}}",
+  "walletWall.withdrawWalletMismatch": "Farklı bir cüzdan seçtiniz. Bağlı ve bağlı cüzdanlarınız eşleşmiyor, bu nedenle para çekemezsiniz."
 }
