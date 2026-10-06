@@ -178,10 +178,7 @@ export const ModalProvider: FC<React.PropsWithChildren> = ({ children }) => {
         <SpeakingModal
           message={[
             {
-              text: translate("betty.market-intro.delivery.one"),
-            },
-            {
-              text: translate("betty.market-intro.delivery.two"),
+              text: translate("betty.market-intro.delivery"),
             },
           ]}
           onClose={handleClose}

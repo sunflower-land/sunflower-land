@@ -49,7 +49,7 @@ import {
   TUTORIAL_PLOT_COUNT,
   TUTORIAL_RHUBARB_COUNT,
 } from "./lib/tutorialPlots";
-import { getKeys } from "lib/object";
+import { getTutorialNudge } from "features/island/lib/tutorialNudge";
 import { Transition } from "@headlessui/react";
 import { formatNumber } from "lib/utils/formatNumber";
 import { useSound } from "lib/utils/hooks/useSound";
@@ -74,21 +74,6 @@ export function getYieldColour(yieldAmount: number) {
 
 const _crops = (state: MachineState) => state.context.state.crops;
 
-const selectHarvests = (state: MachineState) => {
-  return getKeys(CROPS).reduce(
-    (total, crop) =>
-      total + (state.context.state.farmActivity?.[`${crop} Harvested`] ?? 0),
-    0,
-  );
-};
-
-const selectPlants = (state: MachineState) =>
-  getKeys(CROPS).reduce(
-    (total, crop) =>
-      total + (state.context.state.farmActivity?.[`${crop} Planted`] ?? 0),
-    0,
-  );
-
 interface Props {
   id: string;
 }
@@ -107,8 +92,6 @@ export const Plot: React.FC<Props> = ({ id }) => {
     return JSON.stringify(prev[id]) === JSON.stringify(next[id]);
   });
 
-  const harvestCount = useSelector(gameService, selectHarvests);
-  const plantCount = useSelector(gameService, selectPlants);
   const [showHarvested, setShowHarvested] = useState(false);
   const [cropAmount, setCropAmount] = useState(0);
 
@@ -136,12 +119,17 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const isSeasoned = isSeasonedPlayer({ game: state, verified, now });
 
   // Tutorial: a single arrow walks the first crops in a snake, one plot at a
-  // time. The cheap count check keeps established farms off the plot sort.
+  // time. Gated on the farm-wide nudge so a plot never pulses while another
+  // step (e.g. the first delivery) owns the pointer; the nudge check also
+  // keeps established farms off the plot sort.
+  const activeNudge = useSelector(gameService, (machineState) =>
+    getTutorialNudge(machineState.context.state),
+  );
   const showHarvestArrow =
-    (harvestCount < TUTORIAL_PLOT_COUNT || isHarvestingFirstRhubarb(state)) &&
+    activeNudge === "harvest-plot" &&
     getTutorialHarvestPlot({ game: state, now }) === id;
   const showPlantArrow =
-    plantCount < TUTORIAL_PLOT_COUNT &&
+    activeNudge === "plant-plot" &&
     getTutorialPlantPlot({ game: state, now }) === id;
 
   // Union the plot's own Rapid Root / Sproutroot Surprise fertiliser window

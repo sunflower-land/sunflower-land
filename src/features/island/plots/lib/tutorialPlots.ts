@@ -61,14 +61,20 @@ export function isHarvestingFirstRhubarb(game: GameState): boolean {
 /**
  * Whether the player is still working through the tutorial's harvest walks
  * (the preloaded Sunflowers, then the Rhubarb). A coarse, time-independent
- * companion to getTutorialHarvestPlot for nudge priority: true while any walk
+ * companion to getTutorialHarvestPlot for nudge priority: true while a walk
  * is pending, even between harvests while crops regrow.
+ *
+ * The Rhubarb walk only counts once Rhubarb is actually on the farm - before
+ * that expansion the player is off delivering their Sunflowers, and claiming
+ * the walk early would keep the first-delivery nudge from ever showing.
  */
 export function isTutorialHarvestPhase(game: GameState): boolean {
+  if (game.island.type !== "basic") return false;
+  if (getTotalCropsHarvested(game) < TUTORIAL_PLOT_COUNT) return true;
+
   return (
-    game.island.type === "basic" &&
-    (getTotalCropsHarvested(game) < TUTORIAL_PLOT_COUNT ||
-      isHarvestingFirstRhubarb(game))
+    isHarvestingFirstRhubarb(game) &&
+    Object.values(game.crops).some((plot) => plot.crop?.name === "Rhubarb")
   );
 }
 
