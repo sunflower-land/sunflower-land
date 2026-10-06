@@ -618,10 +618,12 @@ export const INITIAL_FARM: GameState = {
   delivery: {
     fulfilledCount: 0,
     orders: [
+      // The tutorial's first delivery. On live farms Peggy's next order (the
+      // spare Rhubarb Tart) regenerates the moment this one is fulfilled.
       {
         createdAt: Date.now(),
         readyAt: Date.now(),
-        from: "betty",
+        from: "peggy",
         reward: {
           items: {},
           coins: 65,
@@ -644,19 +646,19 @@ export const INITIAL_FARM: GameState = {
           Wood: 1,
         },
       },
-      // On live farms Peggy's order only generates once the player reaches
-      // level 2 by eating a tutorial Rhubarb Tart - she asks for the spare one
+      // On live farms Betty's orders only generate from level 2, once the
+      // tutorial no longer points at Peggy
       {
         createdAt: Date.now(),
         readyAt: Date.now(),
-        from: "peggy",
+        from: "betty",
         reward: {
           items: {},
-          coins: 65,
+          coins: 21,
         },
         id: "3",
         items: {
-          "Rhubarb Tart": 1,
+          Sunflower: 5,
         },
       },
     ],

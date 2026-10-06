@@ -6,6 +6,7 @@ import type { BuildingProps } from "../Building";
 import { Modal } from "components/ui/Modal";
 import { ShopItems } from "./ShopItems";
 import { needsFirstCropSale, needsFirstSeedPurchase } from "./lib/onboarding";
+import { getTutorialNudge } from "features/island/lib/tutorialNudge";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { useActor, useSelector } from "@xstate/react";
@@ -82,7 +83,9 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, island }) => {
   );
   const showBuyHelper = needsFirstSeedPurchase(gameState.context.state);
 
-  const showHelper = needsFirstCropSale(gameState.context.state);
+  // One nudge at a time across the whole farm - see getTutorialNudge
+  const showHelper =
+    getTutorialNudge(gameState.context.state) === "market-sell";
 
   const { totalSeconds: cropShortageSecondsLeft } = useCountdown(
     gameState.context.state.createdAt + CROP_SHORTAGE_HOURS * 60 * 60 * 1000,

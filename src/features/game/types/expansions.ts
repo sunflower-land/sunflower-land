@@ -2306,7 +2306,9 @@ const LAND_5_REQUIREMENTS: Requirements = {
   },
   seconds: 5,
   bumpkinLevel: { ascension: 0, level: 1 },
-  coins: 0.25,
+  // Priced so the tutorial's first delivery (65 coins) is the only realistic
+  // way to afford it - market-selling the tutorial crops yields ~2 coins.
+  coins: 60,
 };
 
 const LAND_6_REQUIREMENTS: Requirements = {

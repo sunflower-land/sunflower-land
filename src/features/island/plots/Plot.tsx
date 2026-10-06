@@ -231,13 +231,16 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
     // Tutorial: once the last of the first Sunflowers is in, Betty sends the
     // player to the Plaza to deliver them. Counted on Sunflowers so the
-    // trigger matches the harvest that unlocks the Plaza (hasPlazaAccess).
+    // trigger matches the harvest that unlocks the Plaza (hasPlazaAccess),
+    // and gated on this harvest being a Sunflower so later harvests of other
+    // crops can never re-fire it while the count sits at the threshold.
     if (
+      plot.crop.name === "Sunflower" &&
       newState.context.state.island.type === "basic" &&
       (newState.context.state.farmActivity?.["Sunflower Harvested"] ?? 0) ===
         TUTORIAL_PLOT_COUNT
     ) {
-      openModal("BETTY_DELIVERY");
+      openModal("FIRST_DELIVERY");
     }
 
     // Tutorial: the last of the first Rhubarb is Bruce's cue to get the player

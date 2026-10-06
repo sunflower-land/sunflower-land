@@ -276,11 +276,14 @@ export function acknowledgeOrders(delivery: Delivery) {
 
 export const NPC_DELIVERY_LEVELS: Record<DeliveryNpcName, LevelRequirement> = {
   // Coins
-  betty: { ascension: 0, level: 1 },
+  // Peggy takes the tutorial's first delivery (the 9 preloaded Sunflowers).
+  // She only exists at the Plaza, so she can never be confused with Betty's
+  // market stall on the farm; her second order is the spare Rhubarb Tart.
+  peggy: { ascension: 0, level: 1 },
   blacksmith: { ascension: 0, level: 1 },
-  // Level 2 so the spare tutorial Rhubarb Tart becomes the second delivery,
-  // and only after the player has eaten one to level up
-  peggy: { ascension: 0, level: 2 },
+  // Level 2 so Betty's near-identical crop orders stay off the board while
+  // the tutorial points at Peggy
+  betty: { ascension: 0, level: 2 },
   corale: { ascension: 0, level: 7 },
   tango: { ascension: 0, level: 13 },
   "old salty": { ascension: 0, level: 15 },

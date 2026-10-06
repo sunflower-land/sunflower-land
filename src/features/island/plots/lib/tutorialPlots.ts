@@ -59,6 +59,34 @@ export function isHarvestingFirstRhubarb(game: GameState): boolean {
 }
 
 /**
+ * Whether the player is still working through the tutorial's harvest walks
+ * (the preloaded Sunflowers, then the Rhubarb). A coarse, time-independent
+ * companion to getTutorialHarvestPlot for nudge priority: true while any walk
+ * is pending, even between harvests while crops regrow.
+ */
+export function isTutorialHarvestPhase(game: GameState): boolean {
+  return (
+    game.island.type === "basic" &&
+    (getTotalCropsHarvested(game) < TUTORIAL_PLOT_COUNT ||
+      isHarvestingFirstRhubarb(game))
+  );
+}
+
+/**
+ * Whether the player is still replanting their first field: seeds in hand and
+ * fewer plantings than the first field holds. The coarse, time-independent
+ * companion to getTutorialPlantPlot for nudge priority.
+ */
+export function isTutorialPlantPhase(game: GameState): boolean {
+  if (game.island.type !== "basic") return false;
+  if (getTotalCropsPlanted(game) >= TUTORIAL_PLOT_COUNT) return false;
+
+  return getKeys(CROPS).some((crop) =>
+    game.inventory[`${crop} Seed`]?.greaterThan(0),
+  );
+}
+
+/**
  * The one plot the tutorial arrow points at while a new player harvests their
  * first crops: the earliest plot in the snake that is ready to harvest. Derived
  * from the farm, not from stored progress, so it survives a reload and copes

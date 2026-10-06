@@ -22,6 +22,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { FIRE_PIT_VARIANTS } from "features/island/lib/alternateArt";
 import shadow from "assets/npcs/shadow.png";
 import type { MachineState } from "features/game/lib/gameMachine";
+import { getTutorialNudge } from "features/island/lib/tutorialNudge";
 import { useSound } from "lib/utils/hooks/useSound";
 import { ReadyRecipes } from "../ReadyRecipes";
 import { useCookingState } from "features/island/buildings/lib/useCookingState";
@@ -39,6 +40,8 @@ const _rhubarbTartCooked = (state: MachineState) =>
   state.context.state.farmActivity["Rhubarb Tart Cooked"] ?? 0;
 const _needsFirstCook = (state: MachineState) =>
   needsFirstCook(state.context.state);
+const _activeNudge = (state: MachineState) =>
+  getTutorialNudge(state.context.state);
 const _season = (state: MachineState) => state.context.state.season.season;
 const _firePit = (id: string) => (state: MachineState) =>
   state.context.state.buildings["Fire Pit"]?.find((b) => b.id === id);
@@ -50,6 +53,7 @@ export const FirePit: React.FC<Props> = ({ buildingId, isBuilt, island }) => {
 
   const rhubarbTartCooked = useSelector(gameService, _rhubarbTartCooked);
   const isFirstCook = useSelector(gameService, _needsFirstCook);
+  const activeNudge = useSelector(gameService, _activeNudge);
   const season = useSelector(gameService, _season);
   const firePit = useSelector(gameService, _firePit(buildingId));
 
@@ -113,7 +117,8 @@ export const FirePit: React.FC<Props> = ({ buildingId, isBuilt, island }) => {
     }
   };
 
-  const showHelper = isFirstCook && !cooking;
+  // One nudge at a time across the whole farm - see getTutorialNudge
+  const showHelper = activeNudge === "firepit-cook" && !cooking;
 
   return (
     <>

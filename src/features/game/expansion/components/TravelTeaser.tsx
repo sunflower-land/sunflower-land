@@ -42,12 +42,15 @@ const hint = (state: MachineState) => {
   });
 
   if (meetsLevelRequirement(ascension, { ascension: 0, level: 2 })) {
-    // Peggy's first order asks for the spare tutorial Rhubarb Tart
-    if (
-      game.island.type === "basic" &&
-      hasFulfilledFirstDelivery(game) &&
-      (game.npcs?.peggy?.deliveryCount ?? 0) === 0
-    ) {
+    // Peggy's order after the tutorial Sunflowers asks for the spare Rhubarb
+    // Tart - keyed on the open order itself, not her delivery count
+    const hasOpenTartOrder = game.delivery.orders.some(
+      (order) =>
+        order.from === "peggy" &&
+        !!order.items["Rhubarb Tart"] &&
+        !order.completedAt,
+    );
+    if (game.island.type === "basic" && hasOpenTartOrder) {
       return translate("pete.teaser.deliverTart");
     }
 
