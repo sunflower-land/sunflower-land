@@ -17,6 +17,16 @@ import {
   isBasicFruitSeed,
 } from "../events/landExpansion/fruitPlanted";
 
+// Established farms are past the Stone expansion, keeping these fixtures
+// clear of the tutorial tool-stock cap in INITIAL_STOCK.
+const ESTABLISHED_FARM = {
+  ...TEST_FARM,
+  inventory: {
+    ...TEST_FARM.inventory,
+    "Basic Land": new Decimal(6),
+  },
+};
+
 describe("getSeedInventoryLimitMultiplier", () => {
   it.each([
     ["Sunflower Seed", 2.5],
@@ -29,9 +39,44 @@ describe("getSeedInventoryLimitMultiplier", () => {
 });
 
 describe("INITIAL_STOCK", () => {
+  it("caps Axe and Pickaxe stock on tutorial farms", () => {
+    const tutorial = {
+      ...TEST_FARM,
+      island: { type: "basic" as const },
+      inventory: {
+        ...TEST_FARM.inventory,
+        "Basic Land": new Decimal(4),
+      },
+      createdAt: Date.now(),
+    };
+
+    expect(INITIAL_STOCK(tutorial).Axe).toEqual(new Decimal(10));
+    expect(INITIAL_STOCK(tutorial).Pickaxe).toEqual(new Decimal(2));
+  });
+
+  it("keeps one paid Axe a day once the free allowance is spent", () => {
+    const tutorial = {
+      ...TEST_FARM,
+      island: { type: "basic" as const },
+      inventory: {
+        ...TEST_FARM.inventory,
+        "Basic Land": new Decimal(4),
+      },
+      farmActivity: { "Axe Crafted": 10 },
+      createdAt: Date.now(),
+    };
+
+    expect(INITIAL_STOCK(tutorial).Axe).toEqual(new Decimal(1));
+  });
+
+  it("lifts the tutorial cap after the Stone expansion", () => {
+    expect(INITIAL_STOCK(ESTABLISHED_FARM).Axe).toEqual(new Decimal(200));
+    expect(INITIAL_STOCK(ESTABLISHED_FARM).Pickaxe).toEqual(new Decimal(60));
+  });
+
   it("does not increase stock of tools if Toolshed is placed but NOT ready", () => {
     const state = {
-      ...TEST_FARM,
+      ...ESTABLISHED_FARM,
       buildings: {
         Toolshed: [
           {
@@ -54,7 +99,7 @@ describe("INITIAL_STOCK", () => {
 
   it("increases stock of tools if Toolshed is placed and ready", () => {
     const state = {
-      ...TEST_FARM,
+      ...ESTABLISHED_FARM,
       buildings: {
         Toolshed: [
           {
@@ -78,27 +123,27 @@ describe("INITIAL_STOCK", () => {
 
   it("increases Axe stock by the More Axes rank bonus (rank 1 +50, rank 2 +100, rank 3 +150)", () => {
     const rank1 = {
-      ...TEST_FARM,
+      ...ESTABLISHED_FARM,
       bumpkin: {
-        ...TEST_FARM.bumpkin,
+        ...ESTABLISHED_FARM.bumpkin,
         skills: { "More Axes": 1 },
       },
     };
     expect(INITIAL_STOCK(rank1).Axe).toEqual(new Decimal(250));
 
     const rank2 = {
-      ...TEST_FARM,
+      ...ESTABLISHED_FARM,
       bumpkin: {
-        ...TEST_FARM.bumpkin,
+        ...ESTABLISHED_FARM.bumpkin,
         skills: { "More Axes": 2 },
       },
     };
     expect(INITIAL_STOCK(rank2).Axe).toEqual(new Decimal(300));
 
     const rank3 = {
-      ...TEST_FARM,
+      ...ESTABLISHED_FARM,
       bumpkin: {
-        ...TEST_FARM.bumpkin,
+        ...ESTABLISHED_FARM.bumpkin,
         skills: { "More Axes": 3 },
       },
     };
@@ -107,9 +152,9 @@ describe("INITIAL_STOCK", () => {
 
   it("increases Tomato & Lemon Seed stock by the Crime Fruit rank bonus (rank 1 +10, rank 2 +25, rank 3 +50)", () => {
     const rank1 = {
-      ...TEST_FARM,
+      ...ESTABLISHED_FARM,
       bumpkin: {
-        ...TEST_FARM.bumpkin,
+        ...ESTABLISHED_FARM.bumpkin,
         skills: { "Crime Fruit": 1 },
       },
     };
@@ -117,9 +162,9 @@ describe("INITIAL_STOCK", () => {
     expect(INITIAL_STOCK(rank1)["Lemon Seed"]).toEqual(new Decimal(30));
 
     const rank2 = {
-      ...TEST_FARM,
+      ...ESTABLISHED_FARM,
       bumpkin: {
-        ...TEST_FARM.bumpkin,
+        ...ESTABLISHED_FARM.bumpkin,
         skills: { "Crime Fruit": 2 },
       },
     };
@@ -127,9 +172,9 @@ describe("INITIAL_STOCK", () => {
     expect(INITIAL_STOCK(rank2)["Lemon Seed"]).toEqual(new Decimal(45));
 
     const rank3 = {
-      ...TEST_FARM,
+      ...ESTABLISHED_FARM,
       bumpkin: {
-        ...TEST_FARM.bumpkin,
+        ...ESTABLISHED_FARM.bumpkin,
         skills: { "Crime Fruit": 3 },
       },
     };
@@ -139,9 +184,9 @@ describe("INITIAL_STOCK", () => {
 
   it("increases stock of tools if More Picks skills is active", () => {
     const state = {
-      ...TEST_FARM,
+      ...ESTABLISHED_FARM,
       bumpkin: {
-        ...TEST_FARM.bumpkin,
+        ...ESTABLISHED_FARM.bumpkin,
         skills: {
           "More Picks": 1,
         },
@@ -156,9 +201,9 @@ describe("INITIAL_STOCK", () => {
 
   it("increases pickaxe stock by the More Picks rank 2 bonus (+140/+40/+14/+4)", () => {
     const state = {
-      ...TEST_FARM,
+      ...ESTABLISHED_FARM,
       bumpkin: {
-        ...TEST_FARM.bumpkin,
+        ...ESTABLISHED_FARM.bumpkin,
         skills: { "More Picks": 2 },
       },
     };
@@ -171,9 +216,9 @@ describe("INITIAL_STOCK", () => {
 
   it("increases pickaxe stock by the More Picks rank 3 bonus (+280/+80/+28/+8)", () => {
     const state = {
-      ...TEST_FARM,
+      ...ESTABLISHED_FARM,
       bumpkin: {
-        ...TEST_FARM.bumpkin,
+        ...ESTABLISHED_FARM.bumpkin,
         skills: { "More Picks": 3 },
       },
     };
@@ -186,9 +231,9 @@ describe("INITIAL_STOCK", () => {
 
   it("increases stock of tools if Toolshed is placed and ready and More Picks skill is active", () => {
     const state = {
-      ...TEST_FARM,
+      ...ESTABLISHED_FARM,
       bumpkin: {
-        ...TEST_FARM.bumpkin,
+        ...ESTABLISHED_FARM.bumpkin,
         skills: {
           "More Picks": 1,
         },
@@ -216,7 +261,7 @@ describe("INITIAL_STOCK", () => {
 
   it("does not increase stock of seeds if Warehouse is placed but NOT ready", () => {
     const state = {
-      ...TEST_FARM,
+      ...ESTABLISHED_FARM,
       buildings: {
         Warehouse: [
           {
@@ -265,7 +310,7 @@ describe("INITIAL_STOCK", () => {
 
   it("increases stock of seeds if Warehouse is placed and ready", () => {
     const state = {
-      ...TEST_FARM,
+      ...ESTABLISHED_FARM,
       buildings: {
         Warehouse: [
           {
@@ -316,7 +361,7 @@ describe("INITIAL_STOCK", () => {
 describe("INVENTORY_LIMIT", () => {
   it("does not increase inventory limit of seeds if Warehouse is placed but NOT ready", () => {
     const state = {
-      ...TEST_FARM,
+      ...ESTABLISHED_FARM,
       buildings: {
         Warehouse: [
           {
@@ -370,7 +415,7 @@ describe("INVENTORY_LIMIT", () => {
 
   it("increases inventory limit of seeds if Warehouse is placed and ready", () => {
     const state = {
-      ...TEST_FARM,
+      ...ESTABLISHED_FARM,
       buildings: {
         Warehouse: [
           {

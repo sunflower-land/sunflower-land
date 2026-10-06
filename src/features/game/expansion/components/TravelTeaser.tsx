@@ -18,8 +18,11 @@ import { MapPlacement } from "./MapPlacement";
 import { getWharfCoordinates } from "../lib/constants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
+import Decimal from "decimal.js-light";
 import { getKeys } from "lib/object";
 import { CROPS } from "features/game/types/crops";
+import { EXPANSION_REQUIREMENTS } from "features/game/types/expansions";
+import { WORKBENCH_TOOLS } from "features/game/types/tools";
 import { translate } from "lib/i18n/translate";
 import { Guide } from "features/helios/components/hayseedHank/components/Guide";
 import type { GuidePath } from "features/helios/components/hayseedHank/lib/guide";
@@ -53,6 +56,36 @@ const hint = (state: MachineState) => {
     );
     if (game.island.type === "basic" && hasOpenTartOrder) {
       return translate("pete.teaser.deliverTart");
+    }
+
+    // Working toward the Stone expansion: deliveries fund the Pickaxe and
+    // the expansion's coins, then the Stone gets mined. Keyed off whatever
+    // the next expansion actually asks for, so the ate-both-tarts path
+    // (level 2 before the fifth expansion) gets the right cue too.
+    const basicLand = inventory["Basic Land"]?.toNumber() ?? 3;
+    const requirements = EXPANSION_REQUIREMENTS.basic[basicLand + 1];
+    if (game.island.type === "basic" && basicLand <= 5 && requirements) {
+      const resources = requirements.resources;
+      const missing = getKeys(resources).filter((name) =>
+        (inventory[name] ?? new Decimal(0)).lt(resources[name] ?? 0),
+      );
+
+      if (missing.includes("Wood")) {
+        return translate("pete.teaser.one");
+      }
+
+      if (missing.includes("Stone")) {
+        const pickaxeCoins = inventory.Pickaxe?.gt(0)
+          ? 0
+          : WORKBENCH_TOOLS.Pickaxe.price;
+        return game.coins >= (requirements.coins ?? 0) + pickaxeCoins
+          ? translate("pete.teaser.mineStone")
+          : translate("pete.teaser.moreDeliveries");
+      }
+
+      return game.coins >= (requirements.coins ?? 0)
+        ? translate("expand.land")
+        : translate("pete.teaser.moreDeliveries");
     }
 
     if (needsFirstCropSale(game)) {

@@ -11,11 +11,22 @@ import {
 } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 
-const GAME_STATE: GameState = {
+// Established farms are past the Stone expansion, keeping these fixtures
+// clear of the tutorial tool-stock cap in INITIAL_STOCK.
+const ESTABLISHED_FARM = {
   ...TEST_FARM,
+  inventory: {
+    ...TEST_FARM.inventory,
+    "Basic Land": new Decimal(6),
+  },
+};
+
+const GAME_STATE: GameState = {
+  ...ESTABLISHED_FARM,
   bumpkin: INITIAL_BUMPKIN,
   inventory: {
     Gem: new Decimal(1 * BB_TO_GEM_RATIO),
+    "Basic Land": new Decimal(6),
   },
 };
 

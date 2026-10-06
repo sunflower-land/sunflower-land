@@ -26,6 +26,7 @@ import {
   isBasicFruitSeed,
 } from "../events/landExpansion/fruitPlanted";
 import type { PatchFruitSeedName } from "../types/fruits";
+import { getFreeAxesLeft } from "../events/landExpansion/craftTool";
 import {
   type TreasureToolName,
   WORKBENCH_TOOLS,
@@ -109,6 +110,20 @@ export const INITIAL_STOCK = (
         );
       },
     );
+  }
+
+  // Tutorial farms (up to the Stone expansion): cap the tool stock so a new
+  // player cannot blow their delivery coins on tools they don't need. The
+  // Axe cap tracks the free-Axe allowance (one paid Axe a day as a safety
+  // valve) and two Pickaxes cover the Stone the early expansions ask for.
+  if (
+    state?.island.type === "basic" &&
+    (state.inventory["Basic Land"]?.toNumber() ?? 3) <= 5
+  ) {
+    tools.Axe = new Decimal(
+      Math.min(tools.Axe.toNumber(), Math.max(getFreeAxesLeft(state), 1)),
+    );
+    tools.Pickaxe = new Decimal(Math.min(tools.Pickaxe.toNumber(), 2));
   }
 
   const seeds: Record<SeedName, Decimal> = {

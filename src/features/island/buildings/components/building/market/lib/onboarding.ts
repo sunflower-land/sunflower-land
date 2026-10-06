@@ -36,6 +36,9 @@ export const needsFirstCropSale = (game: GameState): boolean => {
   if (game.island.type !== "basic") return false;
   if (!hasFulfilledFirstDelivery(game)) return false;
   if (!hasLevelTwo(game)) return false;
+  // Deliveries own the level-2 guidance until the Stone expansion is done -
+  // Pete points at them and the mining instead (see TravelTeaser)
+  if ((game.inventory["Basic Land"]?.toNumber() ?? 3) < 6) return false;
 
   const hasCrops = getKeys(CROPS).some((crop) =>
     game.inventory[crop]?.greaterThan(0),
