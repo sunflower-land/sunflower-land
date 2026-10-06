@@ -3,6 +3,7 @@ import { WORKBENCH_TOOLS } from "features/game/types/tools";
 import { TEST_FARM } from "../../lib/constants";
 import type { GameState } from "../../types/game";
 import { craftTool, getToolPrice, TUTORIAL_FREE_AXES } from "./craftTool";
+import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 
 // Past the free tutorial Axes, so these tests exercise normal pricing. The
 // allowance itself is covered in "tutorial free axes" below.
@@ -800,6 +801,54 @@ describe("tutorial free axes", () => {
     expect(() =>
       craftAxes({ ...NEW_FARM, island: { type: "spring" } }, 1),
     ).toThrow("Insufficient Coins");
+  });
+
+  it("refreshes the allowance at the early level-ups", () => {
+    const levelTwo: GameState = {
+      ...NEW_FARM,
+      bumpkin: {
+        ...NEW_FARM.bumpkin,
+        experience: LEVEL_EXPERIENCE[2],
+      },
+      farmActivity: { "Axe Crafted": 10 },
+    };
+
+    // The first batch is spent, but level 2 grants another ten
+    const state = craftAxes(levelTwo, 10);
+
+    expect(state.coins).toEqual(0);
+    expect(state.inventory.Axe).toEqual(new Decimal(10));
+  });
+
+  it("caps the allowance at level 3", () => {
+    const levelled: GameState = {
+      ...NEW_FARM,
+      bumpkin: {
+        ...NEW_FARM.bumpkin,
+        // Far past level 3 - the allowance stops growing there
+        experience: LEVEL_EXPERIENCE[7],
+      },
+      farmActivity: { "Axe Crafted": 30 },
+    };
+
+    // The fixture carries paid stock, so the craft falls through to the
+    // paid path and fails on the empty wallet - proof the free allowance
+    // stopped growing at level 3.
+    expect(() => craftAxes(levelled, 1)).toThrow("Insufficient Coins");
+  });
+
+  it("crafts free Axes even when the paid stock is empty", () => {
+    const drained: GameState = {
+      ...NEW_FARM,
+      stock: { ...NEW_FARM.stock, Axe: new Decimal(0) },
+    };
+
+    const state = craftAxes(drained, 10);
+
+    expect(state.coins).toEqual(0);
+    expect(state.inventory.Axe).toEqual(new Decimal(10));
+    // Free Axes never draw from the paid stock
+    expect(state.stock.Axe).toEqual(new Decimal(0));
   });
 
   it("does not make other tools free", () => {

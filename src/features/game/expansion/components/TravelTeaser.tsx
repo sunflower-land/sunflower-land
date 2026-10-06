@@ -57,6 +57,15 @@ const hint = (state: MachineState) => {
       return translate("pete.teaser.deliverTart");
     }
 
+    // Pete never promises deliveries that don't exist: with an empty board
+    // (the server's onboarding rescue aside) he falls back to exploring.
+    const hasOpenDelivery = game.delivery.orders.some(
+      (order) => !order.completedAt,
+    );
+    const moreDeliveries = hasOpenDelivery
+      ? translate("pete.teaser.moreDeliveries")
+      : "Explore";
+
     // Working toward the Stone expansion: deliveries fund the Pickaxe and
     // the expansion's coins, then the Stone gets mined. Keyed off whatever
     // the next expansion actually asks for, so the ate-both-tarts path
@@ -79,18 +88,18 @@ const hint = (state: MachineState) => {
           : WORKBENCH_TOOLS.Pickaxe.price;
         return game.coins >= (requirements.coins ?? 0) + pickaxeCoins
           ? translate("pete.teaser.mineStone")
-          : translate("pete.teaser.moreDeliveries");
+          : moreDeliveries;
       }
 
       return game.coins >= (requirements.coins ?? 0)
         ? translate("expand.land")
-        : translate("pete.teaser.moreDeliveries");
+        : moreDeliveries;
     }
 
     // The post-expansion work cycle: deliveries bankroll the Water Well
     // while the Rhubarb regrows
     if (game.island.type === "basic" && !game.buildings["Water Well"]?.length) {
-      return translate("pete.teaser.moreDeliveries");
+      return moreDeliveries;
     }
 
     return "Explore";

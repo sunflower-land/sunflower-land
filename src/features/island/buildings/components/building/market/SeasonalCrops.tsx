@@ -28,6 +28,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { hasBoughtCropSeeds, hasSoldAnyCrop } from "./lib/onboarding";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 
+import { COOKABLES } from "features/game/types/consumables";
 import { SEASONAL_SEEDS, SEEDS } from "features/game/types/seeds";
 import { SEASON_ICONS } from "./SeasonalSeeds";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -53,6 +54,9 @@ export const SeasonalCrops: React.FC = () => {
 
   const [customAmount, setCustomAmount] = useState(new Decimal(0));
   const [isCustomSellModalOpen, showCustomSellModal] = useState(false);
+  // Tutorial guard: a sale that would break an open delivery waits here
+  // for the player to confirm it
+  const [pendingSale, setPendingSale] = useState<Decimal>();
 
   const { gameService } = useContext(Context);
   const { openModal } = useContext(ModalContext);
@@ -130,7 +134,47 @@ export const SeasonalCrops: React.FC = () => {
     2,
   );
 
-  const handleSell = (amount: Decimal) => {
+  /**
+   * Tutorial guard against the one-click dark path: selling crops an open
+   * delivery still needs (e.g. the 9 Sunflowers Peggy is waiting for). The
+   * tart order reserves the Rhubarb it is cooked from while no tart is held.
+   */
+  const blocksOpenDelivery = (amount: Decimal): boolean => {
+    if (islandType !== "basic") return false;
+
+    const remaining = cropAmount.sub(amount);
+
+    return state.delivery.orders.some((order) => {
+      if (order.completedAt) return false;
+
+      const direct = order.items[selected.name];
+      if (direct && remaining.lt(direct)) return true;
+
+      const tartsOrdered = order.items["Rhubarb Tart"] ?? 0;
+      if (selected.name === "Rhubarb" && tartsOrdered) {
+        const tartsHeld = state.inventory["Rhubarb Tart"] ?? new Decimal(0);
+        const tartsShort = new Decimal(tartsOrdered).sub(tartsHeld);
+        const rhubarbPerTart =
+          COOKABLES["Rhubarb Tart"].ingredients.Rhubarb ?? new Decimal(3);
+
+        return (
+          tartsShort.greaterThan(0) &&
+          remaining.lt(tartsShort.mul(rhubarbPerTart))
+        );
+      }
+
+      return false;
+    });
+  };
+
+  const handleSell = (amount: Decimal, bypassDeliveryGuard = false) => {
+    if (!bypassDeliveryGuard && blocksOpenDelivery(amount)) {
+      setShowConfirmationModal(false);
+      showCustomSellModal(false);
+      setPendingSale(amount);
+      return;
+    }
+
     sell(amount);
     setShowConfirmationModal(false);
     setCustomAmount(new Decimal(0));
@@ -319,6 +363,20 @@ export const SeasonalCrops: React.FC = () => {
             </div>
           </div>
         }
+      />
+      {/* Tutorial guard: the sale would leave too little for an open
+          delivery - make the player say it twice */}
+      <ConfirmationModal
+        show={!!pendingSale}
+        onHide={() => setPendingSale(undefined)}
+        messages={[t("market.deliveryWarning", { name: selected.name })]}
+        onCancel={() => setPendingSale(undefined)}
+        onConfirm={() => {
+          if (pendingSale) handleSell(pendingSale, true);
+          setPendingSale(undefined);
+        }}
+        confirmButtonLabel={t("sell.anyway")}
+        bumpkinParts={NPC_WEARABLES.betty}
       />
       <ConfirmationModal
         show={showConfirmationModal}

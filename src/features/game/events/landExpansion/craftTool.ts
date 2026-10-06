@@ -72,14 +72,38 @@ export const TUTORIAL_FREE_AXES_FROM = new Date(
 /**
  * How many free Axes a tutorial island player has left. Counted from lifetime
  * crafts, not inventory, so chopping does not top the allowance back up.
+ *
+ * The allowance grows with the first level-ups (another batch at levels 2
+ * and 3), so the onboarding's wood economy - expansions, the Water Well and
+ * the Blacksmith's wood deliveries - never runs out of chops. Paid Axes are
+ * off the menu entirely during this phase (see isTutorialToolStockPhase),
+ * making it impossible to sink delivery coins into Axes.
  */
 export function getFreeAxesLeft(game: Readonly<GameState>): number {
   if (game.island.type !== "basic") return 0;
   if (game.createdAt < TUTORIAL_FREE_AXES_FROM) return 0;
 
+  const { level } = getAscensionLevel({
+    experience: game.bumpkin.experience ?? 0,
+    ascensionLevel: game.island.ascensionLevel ?? 0,
+  });
+  const allowance = TUTORIAL_FREE_AXES * Math.min(level, 3);
   const crafted = game.farmActivity?.["Axe Crafted"] ?? 0;
 
-  return Math.max(0, TUTORIAL_FREE_AXES - crafted);
+  return Math.max(0, allowance - crafted);
+}
+
+/**
+ * While the early tutorial runs (a basic island up to the Water Well era),
+ * the Workbench's paid tool stock is capped so a new player cannot sink the
+ * coins their next expansion needs into tools: no paid Axes at all (every
+ * Axe is a free one) and at most two Pickaxes a day.
+ */
+export function isTutorialToolStockPhase(game: Readonly<GameState>): boolean {
+  return (
+    game.island.type === "basic" &&
+    (game.inventory["Basic Land"]?.toNumber() ?? 3) <= 6
+  );
 }
 
 /**
@@ -188,7 +212,14 @@ export function craftTool({ state, action }: Options) {
     throw new Error("You do not have the required island expansion");
   }
 
-  if (stateCopy.stock[action.tool]?.lt(amount)) {
+  // Free tutorial Axes don't draw from the day's stock - stock only meters
+  // paid tools, so a level-up's refreshed allowance stays craftable after
+  // the paid stock has run dry. Read before the craft is tracked below.
+  const freeAmount =
+    action.tool === "Axe" ? Math.min(amount, getFreeAxesLeft(stateCopy)) : 0;
+  const stockedAmount = amount - freeAmount;
+
+  if (stateCopy.stock[action.tool]?.lt(stockedAmount)) {
     throw new Error("Not enough stock");
   }
 
@@ -254,7 +285,7 @@ export function craftTool({ state, action }: Options) {
 
   const stock = stateCopy.stock[action.tool];
   if (stock !== undefined) {
-    stateCopy.stock[action.tool] = stock.minus(amount);
+    stateCopy.stock[action.tool] = stock.minus(stockedAmount);
   }
 
   return stateCopy;

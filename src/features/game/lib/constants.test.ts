@@ -17,13 +17,13 @@ import {
   isBasicFruitSeed,
 } from "../events/landExpansion/fruitPlanted";
 
-// Established farms are past the Stone expansion, keeping these fixtures
+// Established farms are past the Water Well era, keeping these fixtures
 // clear of the tutorial tool-stock cap in INITIAL_STOCK.
 const ESTABLISHED_FARM = {
   ...TEST_FARM,
   inventory: {
     ...TEST_FARM.inventory,
-    "Basic Land": new Decimal(6),
+    "Basic Land": new Decimal(7),
   },
 };
 
@@ -39,7 +39,7 @@ describe("getSeedInventoryLimitMultiplier", () => {
 });
 
 describe("INITIAL_STOCK", () => {
-  it("caps Axe and Pickaxe stock on tutorial farms", () => {
+  it("sells no paid Axes and two Pickaxes on tutorial farms", () => {
     const tutorial = {
       ...TEST_FARM,
       island: { type: "basic" as const },
@@ -50,26 +50,11 @@ describe("INITIAL_STOCK", () => {
       createdAt: Date.now(),
     };
 
-    expect(INITIAL_STOCK(tutorial).Axe).toEqual(new Decimal(10));
+    expect(INITIAL_STOCK(tutorial).Axe).toEqual(new Decimal(0));
     expect(INITIAL_STOCK(tutorial).Pickaxe).toEqual(new Decimal(2));
   });
 
-  it("keeps one paid Axe a day once the free allowance is spent", () => {
-    const tutorial = {
-      ...TEST_FARM,
-      island: { type: "basic" as const },
-      inventory: {
-        ...TEST_FARM.inventory,
-        "Basic Land": new Decimal(4),
-      },
-      farmActivity: { "Axe Crafted": 10 },
-      createdAt: Date.now(),
-    };
-
-    expect(INITIAL_STOCK(tutorial).Axe).toEqual(new Decimal(1));
-  });
-
-  it("lifts the tutorial cap after the Stone expansion", () => {
+  it("lifts the tutorial cap after the Water Well era", () => {
     expect(INITIAL_STOCK(ESTABLISHED_FARM).Axe).toEqual(new Decimal(200));
     expect(INITIAL_STOCK(ESTABLISHED_FARM).Pickaxe).toEqual(new Decimal(60));
   });

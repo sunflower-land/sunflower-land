@@ -11,13 +11,13 @@ import {
 } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 
-// Established farms are past the Stone expansion, keeping these fixtures
+// Established farms are past the Water Well era, keeping these fixtures
 // clear of the tutorial tool-stock cap in INITIAL_STOCK.
 const ESTABLISHED_FARM = {
   ...TEST_FARM,
   inventory: {
     ...TEST_FARM.inventory,
-    "Basic Land": new Decimal(6),
+    "Basic Land": new Decimal(7),
   },
 };
 
@@ -26,7 +26,7 @@ const GAME_STATE: GameState = {
   bumpkin: INITIAL_BUMPKIN,
   inventory: {
     Gem: new Decimal(1 * BB_TO_GEM_RATIO),
-    "Basic Land": new Decimal(6),
+    "Basic Land": new Decimal(7),
   },
 };
 

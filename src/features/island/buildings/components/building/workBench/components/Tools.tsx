@@ -38,6 +38,7 @@ import {
   getFreeToolAmount,
   getToolPrice,
   getToolUnitPrice,
+  isTutorialToolStockPhase,
 } from "features/game/events/landExpansion/craftTool";
 import { Restock } from "../../market/restock/Restock";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -159,7 +160,11 @@ export const Tools: React.FC = () => {
     shortcutItem(selectedName);
   };
 
-  const stock = state.stock[selectedName] || new Decimal(0);
+  // Free tutorial Axes don't draw from the (paid) stock, so the craftable
+  // amount the UI works with is the paid stock plus the free allowance -
+  // during the tutorial phase the paid Axe stock is zero and every craft
+  // comes off the allowance.
+  const stock = (state.stock[selectedName] || new Decimal(0)).add(freeAmount);
 
   const bulkToolCraftAmount = makeBulkBuyTools(stock);
   const { t } = useAppTranslation();
@@ -232,6 +237,16 @@ export const Tools: React.FC = () => {
     }
 
     if (stock.equals(0)) {
+      // During the tutorial phase there are no paid Axes to restock - the
+      // free allowance refreshes at the next level-up instead.
+      if (selectedName === "Axe" && isTutorialToolStockPhase(state)) {
+        return (
+          <Label type="info" className="mx-auto">
+            {t("tools.freeAxesAtNextLevel")}
+          </Label>
+        );
+      }
+
       return <Restock npc={"blacksmith"} />;
     }
 
