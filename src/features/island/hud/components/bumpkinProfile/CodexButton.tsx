@@ -48,10 +48,11 @@ export const CodexButton: React.FC = () => {
     (hasDeliveryLevel && deliveries.fulfilledCount === 0);
 
   // Tutorial: after the first level up Pete mentions the Codex, so point at
-  // the button until they open it. A new player reaches level 2 with a
-  // couple of deliveries already made (the Sunflower opener and the spare
-  // tart), so the pointer stays through the early delivery cycle rather
-  // than stopping at the first fulfilment.
+  // the button until they open it. The bound is the most deliveries a
+  // player can have fulfilled by the time the mention lands: the Sunflower
+  // opener, the Blacksmith's first Wood order, and the spare tart delivered
+  // right after levelling - three. Past that they are into the work cycle
+  // and the pointer would be a fourth simultaneous nudge.
   const isTutorialIsland = useSelector(gameService, _isTutorialIsland);
   const showHelper =
     isTutorialIsland &&
