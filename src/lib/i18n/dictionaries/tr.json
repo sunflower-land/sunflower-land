@@ -6445,7 +6445,6 @@
   "bounties.board": "Hayvan Ödülleri",
   "waterTrap.placeTrap": "{{crustacean}} tuzağı yerleştirin",
   "waterTrap.noChumsAvailable": "Mevcut arkadaş yok",
-  "waterTrap.noChumSelected": "Arkadaş seçilmedi",
   "guide.crustacean.availableChums": "Mevcut Arkadaşlar",
   "bumpkinTrade.floorPrice": "Kat: {{price}} ÇIÇEK",
   "marketplace.totalItems": "Toplam öğeler",
@@ -8704,5 +8703,7 @@
   "resource.pigBristles": "Domuz Kılları",
   "description.mud": "Zengin, yapışkan çamur. Bir Domuzu fazladan yem DP'si için kaplar ve hastalanmasını önler.",
   "sleepingAnimal.mudFeedsLeft": "+ {{percent}} %yem DP'si · hastalık yok · yem kaldı: {{count}}",
-  "walletWall.withdrawWalletMismatch": "Farklı bir cüzdan seçtiniz. Bağlı ve bağlı cüzdanlarınız eşleşmiyor, bu nedenle para çekemezsiniz."
+  "walletWall.withdrawWalletMismatch": "Farklı bir cüzdan seçtiniz. Bağlı ve bağlı cüzdanlarınız eşleşmiyor, bu nedenle para çekemezsiniz.",
+  "waterTrap.noChumSelected": "Chum olmadan",
+  "waterTrap.withoutChumDescription": "Temiz su başlı başına bir ödül olabilir."
 }

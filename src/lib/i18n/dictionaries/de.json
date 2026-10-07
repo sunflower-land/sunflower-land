@@ -6445,7 +6445,6 @@
   "bounties.board": "Tierprämien",
   "waterTrap.placeTrap": "Platziere {{crustacean}} Falle",
   "waterTrap.noChumsAvailable": "Keine Kumpel verfügbar",
-  "waterTrap.noChumSelected": "Kein Kumpel ausgewählt",
   "guide.crustacean.availableChums": "Verfügbare Kumpel",
   "bumpkinTrade.floorPrice": "Etage: {{price}} FLOWER",
   "marketplace.totalItems": "Artikel insgesamt",
@@ -8704,5 +8703,7 @@
   "resource.pigBristles": "Schweineborsten",
   "description.mud": "Reichhaltiger, klebriger Schlamm. Überzieht ein Schwein um zusätzliche Futter-XP und verhindert, dass es krank wird.",
   "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% Futter-XP · keine Krankheit · verbleibende Feeds: {{count}}",
-  "walletWall.withdrawWalletMismatch": "Sie haben eine andere Brieftasche ausgewählt. Deine verbundenen und verknüpften Wallets stimmen nicht überein, sodass du keine Auszahlungen vornehmen kannst."
+  "walletWall.withdrawWalletMismatch": "Sie haben eine andere Brieftasche ausgewählt. Deine verbundenen und verknüpften Wallets stimmen nicht überein, sodass du keine Auszahlungen vornehmen kannst.",
+  "waterTrap.noChumSelected": "Ohne Kumpel",
+  "waterTrap.withoutChumDescription": "Klares Wasser kann an sich schon eine Belohnung sein."
 }

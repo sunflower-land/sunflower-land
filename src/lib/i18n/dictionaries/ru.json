@@ -6475,7 +6475,6 @@
   "bounties.board": "Заказы на животных",
   "waterTrap.placeTrap": "Поставить ловушку для {{crustacean}}",
   "waterTrap.noChumsAvailable": "Нет доступной прикормки",
-  "waterTrap.noChumSelected": "Прикормка не выбрана",
   "guide.crustacean.availableChums": "Доступная прикормка",
   "marketplace.totalItems": "Всего предметов",
   "marketplace.totalListings": "Всего объявлений",
@@ -8704,5 +8703,7 @@
   "resource.pigBristles": "Pig Bristles",
   "description.mud": "Rich, sticky mud. Coats a Pig for extra feed XP and keeps it from falling sick.",
   "sleepingAnimal.mudFeedsLeft": "+{{percent}}% feed XP · no sickness · feeds left: {{count}}",
-  "walletWall.withdrawWalletMismatch": "You selected a different wallet. Your connected and linked wallets don't match, so you cannot withdraw."
+  "walletWall.withdrawWalletMismatch": "You selected a different wallet. Your connected and linked wallets don't match, so you cannot withdraw.",
+  "waterTrap.noChumSelected": "Without chum",
+  "waterTrap.withoutChumDescription": "Clear water may be a reward in itself."
 }

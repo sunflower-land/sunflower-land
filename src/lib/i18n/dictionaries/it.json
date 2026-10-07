@@ -6445,7 +6445,6 @@
   "bounties.board": "Taglie per animali",
   "waterTrap.placeTrap": "Posiziona la trappola {{crustacean}}",
   "waterTrap.noChumsAvailable": "Non ci sono amici disponibili",
-  "waterTrap.noChumSelected": "Nessun amico selezionato",
   "guide.crustacean.availableChums": "Chums disponibili",
   "bumpkinTrade.floorPrice": "Pavimento: {{price}} FIORE",
   "marketplace.totalItems": "Totale articoli",
@@ -8704,5 +8703,7 @@
   "resource.pigBristles": "Setole di maiale",
   "description.mud": "Fango ricco e appiccicoso. Ricopre un maiale per aumentare i punti esperienza e impedirgli di ammalarsi.",
   "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% feed XP · nessuna malattia · feed rimasti: {{count}}",
-  "walletWall.withdrawWalletMismatch": "Hai selezionato un portafoglio diverso. I tuoi portafogli connessi e collegati non corrispondono, quindi non puoi effettuare prelievi."
+  "walletWall.withdrawWalletMismatch": "Hai selezionato un portafoglio diverso. I tuoi portafogli connessi e collegati non corrispondono, quindi non puoi effettuare prelievi.",
+  "waterTrap.noChumSelected": "Senza amico",
+  "waterTrap.withoutChumDescription": "L'acqua limpida può essere di per sé una ricompensa."
 }

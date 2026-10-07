@@ -6445,7 +6445,6 @@
   "bounties.board": "Primes pour animaux",
   "waterTrap.placeTrap": "Placer le piège {{crustacean}}",
   "waterTrap.noChumsAvailable": "Aucun copain disponible",
-  "waterTrap.noChumSelected": "Aucun ami sélectionné",
   "guide.crustacean.availableChums": "Chums disponibles",
   "bumpkinTrade.floorPrice": "Étage : {{price}} FLOWER",
   "marketplace.totalItems": "Nombre total d'articles",
@@ -8704,5 +8703,7 @@
   "resource.pigBristles": "Poils de porc",
   "description.mud": "Boue riche et collante. Enduit un cochon pour lui donner plus d'expérience alimentaire et l'empêche de tomber malade.",
   "sleepingAnimal.mudFeedsLeft": "+ {{percent}} % d'expérience d'alimentation · aucune maladie · fils restants : {{count}}",
-  "walletWall.withdrawWalletMismatch": "Vous avez sélectionné un autre portefeuille. Vos portefeuilles connectés et associés ne correspondent pas, vous ne pouvez donc pas effectuer de retrait."
+  "walletWall.withdrawWalletMismatch": "Vous avez sélectionné un autre portefeuille. Vos portefeuilles connectés et associés ne correspondent pas, vous ne pouvez donc pas effectuer de retrait.",
+  "waterTrap.noChumSelected": "Sans copain",
+  "waterTrap.withoutChumDescription": "L'eau claire peut être une récompense en soi."
 }
