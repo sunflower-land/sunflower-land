@@ -116,11 +116,11 @@ export const INITIAL_STOCK = (
   // new player cannot blow their delivery coins on tools they don't need.
   // Axes bypass the daily stock entirely during this phase - the free batch
   // plus a small per-level paid budget govern them instead (see craftTool's
-  // getPaidTutorialAxesLeft) - and four Pickaxes a day cover the Stone the
-  // early expansions and the stretch expansion ask for.
+  // getPaidTutorialAxesLeft) - and two Pickaxes a day cover the single
+  // bought mine the gifted Pickaxes leave over (see the pickaxe ledger).
   if (state && isTutorialToolStockPhase(state)) {
     tools.Axe = new Decimal(0);
-    tools.Pickaxe = new Decimal(Math.min(tools.Pickaxe.toNumber(), 4));
+    tools.Pickaxe = new Decimal(Math.min(tools.Pickaxe.toNumber(), 2));
   }
 
   const seeds: Record<SeedName, Decimal> = {
