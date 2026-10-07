@@ -1,4 +1,15 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
+
+// Established farms are past the Water Well era, keeping these fixtures
+// clear of the tutorial tool-stock cap in INITIAL_STOCK.
+const ESTABLISHED_FARM = {
+  ...INITIAL_FARM,
+  inventory: {
+    ...INITIAL_FARM.inventory,
+    "Basic Land": new Decimal(7),
+  },
+};
+
 import { npcRestock } from "./npcRestock";
 import Decimal from "decimal.js-light";
 import type { PlacedItem } from "features/game/types/game";
@@ -8,9 +19,9 @@ describe("npcRestock", () => {
     expect(() => {
       npcRestock({
         state: {
-          ...INITIAL_FARM,
+          ...ESTABLISHED_FARM,
           inventory: {
-            ...INITIAL_FARM.inventory,
+            ...ESTABLISHED_FARM.inventory,
             Gem: new Decimal(0),
           },
         },
@@ -25,13 +36,13 @@ describe("npcRestock", () => {
   it("restocks only the market", () => {
     const state = npcRestock({
       state: {
-        ...INITIAL_FARM,
+        ...ESTABLISHED_FARM,
         inventory: {
-          ...INITIAL_FARM.inventory,
+          ...ESTABLISHED_FARM.inventory,
           Gem: new Decimal(30),
         },
         stock: {
-          ...INITIAL_FARM.stock,
+          ...ESTABLISHED_FARM.stock,
           "Sunflower Seed": new Decimal(0),
           Axe: new Decimal(100),
         },
@@ -48,13 +59,13 @@ describe("npcRestock", () => {
   it("restocks only the workbench", () => {
     const state = npcRestock({
       state: {
-        ...INITIAL_FARM,
+        ...ESTABLISHED_FARM,
         inventory: {
-          ...INITIAL_FARM.inventory,
+          ...ESTABLISHED_FARM.inventory,
           Gem: new Decimal(30),
         },
         stock: {
-          ...INITIAL_FARM.stock,
+          ...ESTABLISHED_FARM.stock,
           "Sunflower Seed": new Decimal(200),
           Axe: new Decimal(0),
         },
@@ -71,13 +82,13 @@ describe("npcRestock", () => {
   it("restocks only the treasure shop tools", () => {
     const state = npcRestock({
       state: {
-        ...INITIAL_FARM,
+        ...ESTABLISHED_FARM,
         inventory: {
-          ...INITIAL_FARM.inventory,
+          ...ESTABLISHED_FARM.inventory,
           Gem: new Decimal(30),
         },
         stock: {
-          ...INITIAL_FARM.stock,
+          ...ESTABLISHED_FARM.stock,
           "Sunflower Seed": new Decimal(200),
           Axe: new Decimal(100),
           "Sand Shovel": new Decimal(0),
@@ -103,13 +114,13 @@ describe("npcRestock", () => {
     };
     const state = npcRestock({
       state: {
-        ...INITIAL_FARM,
+        ...ESTABLISHED_FARM,
         inventory: {
-          ...INITIAL_FARM.inventory,
+          ...ESTABLISHED_FARM.inventory,
           Gem: new Decimal(30),
         },
         stock: {
-          ...INITIAL_FARM.stock,
+          ...ESTABLISHED_FARM.stock,
           "Sunflower Seed": new Decimal(0),
           Axe: new Decimal(100),
           "Sand Shovel": new Decimal(25),
@@ -138,13 +149,13 @@ describe("npcRestock", () => {
     };
     const state = npcRestock({
       state: {
-        ...INITIAL_FARM,
+        ...ESTABLISHED_FARM,
         inventory: {
-          ...INITIAL_FARM.inventory,
+          ...ESTABLISHED_FARM.inventory,
           Gem: new Decimal(30),
         },
         stock: {
-          ...INITIAL_FARM.stock,
+          ...ESTABLISHED_FARM.stock,
           "Sunflower Seed": new Decimal(480),
           Axe: new Decimal(0),
           "Sand Shovel": new Decimal(25),
@@ -173,13 +184,13 @@ describe("npcRestock", () => {
     };
     const state = npcRestock({
       state: {
-        ...INITIAL_FARM,
+        ...ESTABLISHED_FARM,
         inventory: {
-          ...INITIAL_FARM.inventory,
+          ...ESTABLISHED_FARM.inventory,
           Gem: new Decimal(30),
         },
         stock: {
-          ...INITIAL_FARM.stock,
+          ...ESTABLISHED_FARM.stock,
           "Sunflower Seed": new Decimal(480),
           Axe: new Decimal(0),
           "Sand Shovel": new Decimal(25),

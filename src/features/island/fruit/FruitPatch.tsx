@@ -318,10 +318,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
       >
         <QuickSelect
           options={getKeys(PATCH_FRUIT_SEEDS)
-            .filter(
-              (seed) =>
-                SEASONAL_SEEDS[game.season.season].includes(seed),
-            )
+            .filter((seed) => SEASONAL_SEEDS[game.season.season].includes(seed))
             .map((seed) => ({
               name: seed as InventoryItemName,
               icon: PATCH_FRUIT_SEEDS[seed].yield as InventoryItemName,

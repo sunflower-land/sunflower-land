@@ -3,6 +3,7 @@ import { WORKBENCH_TOOLS } from "features/game/types/tools";
 import { TEST_FARM } from "../../lib/constants";
 import type { GameState } from "../../types/game";
 import { craftTool, getToolPrice, TUTORIAL_FREE_AXES } from "./craftTool";
+import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 
 // Past the free tutorial Axes, so these tests exercise normal pricing. The
 // allowance itself is covered in "tutorial free axes" below.
@@ -144,6 +145,8 @@ describe("craftTool", () => {
       craftTool({
         state: {
           ...GAME_STATE,
+          // Off the tutorial island, where the daily stock governs Axes
+          island: { type: "spring" },
           stock: {
             Axe: new Decimal(0),
           },
@@ -750,7 +753,12 @@ describe("tutorial free axes", () => {
 
   it("charges only for the Axes beyond the free allowance", () => {
     const state = craftAxes(
-      { ...NEW_FARM, coins: 140, farmActivity: { "Axe Crafted": 7 } },
+      {
+        ...NEW_FARM,
+        coins: 140,
+        bumpkin: { ...NEW_FARM.bumpkin, experience: LEVEL_EXPERIENCE[3] },
+        farmActivity: { "Axe Crafted": 7 },
+      },
       10,
     );
 
@@ -762,7 +770,12 @@ describe("tutorial free axes", () => {
   it("still needs the coins for the paid part of a batch", () => {
     expect(() =>
       craftAxes(
-        { ...NEW_FARM, coins: 139, farmActivity: { "Axe Crafted": 7 } },
+        {
+          ...NEW_FARM,
+          coins: 139,
+          bumpkin: { ...NEW_FARM.bumpkin, experience: LEVEL_EXPERIENCE[3] },
+          farmActivity: { "Axe Crafted": 7 },
+        },
         10,
       ),
     ).toThrow("Insufficient Coins");
@@ -800,6 +813,73 @@ describe("tutorial free axes", () => {
     expect(() =>
       craftAxes({ ...NEW_FARM, island: { type: "spring" } }, 1),
     ).toThrow("Insufficient Coins");
+  });
+
+  it("sells paid Axes from a per-level budget", () => {
+    const spent: GameState = {
+      ...NEW_FARM,
+      coins: 300,
+      farmActivity: { "Axe Crafted": 10 },
+    };
+
+    // Level 1 budgets ten paid Axes
+    const state = craftAxes(spent, 10);
+    expect(state.coins).toEqual(100);
+    expect(state.inventory.Axe).toEqual(new Decimal(10));
+
+    expect(() => craftAxes(state, 1)).toThrow("Not enough stock");
+  });
+
+  it("refreshes the paid budget at level-ups", () => {
+    // The free batch and level 1's paid budget are both spent
+    const drained: GameState = {
+      ...NEW_FARM,
+      coins: 100,
+      farmActivity: { "Axe Crafted": 20 },
+    };
+
+    expect(() => craftAxes(drained, 1)).toThrow("Not enough stock");
+
+    const levelTwo: GameState = {
+      ...drained,
+      bumpkin: {
+        ...drained.bumpkin,
+        experience: LEVEL_EXPERIENCE[2],
+      },
+    };
+
+    const state = craftAxes(levelTwo, 3);
+    expect(state.coins).toEqual(40);
+    expect(state.inventory.Axe).toEqual(new Decimal(3));
+  });
+
+  it("stops growing the paid budget at level 5", () => {
+    const levelled: GameState = {
+      ...NEW_FARM,
+      coins: 100,
+      bumpkin: {
+        ...NEW_FARM.bumpkin,
+        experience: LEVEL_EXPERIENCE[7],
+      },
+      // Free batch plus level 5's full budget of fifty
+      farmActivity: { "Axe Crafted": 60 },
+    };
+
+    expect(() => craftAxes(levelled, 1)).toThrow("Not enough stock");
+  });
+
+  it("crafts free Axes even when the paid stock is empty", () => {
+    const drained: GameState = {
+      ...NEW_FARM,
+      stock: { ...NEW_FARM.stock, Axe: new Decimal(0) },
+    };
+
+    const state = craftAxes(drained, 10);
+
+    expect(state.coins).toEqual(0);
+    expect(state.inventory.Axe).toEqual(new Decimal(10));
+    // Free Axes never draw from the paid stock
+    expect(state.stock.Axe).toEqual(new Decimal(0));
   });
 
   it("does not make other tools free", () => {

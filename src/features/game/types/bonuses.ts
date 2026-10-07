@@ -23,6 +23,9 @@ export const BONUSES: Record<BonusName, Bonus> = {
       wearables: {},
       inventory: {
         Gem: 50,
+        // Covers the Stone expansion's first mine - see the tutorial
+        // pickaxe ledger (Tutorial_Dark_Path_Analysis.md)
+        Pickaxe: 1,
       },
     },
   },

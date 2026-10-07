@@ -25,10 +25,10 @@ import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { BulkSellModal } from "components/ui/BulkSellModal";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { needsFirstCropSale } from "./lib/onboarding";
+import { hasBoughtCropSeeds, hasSoldAnyCrop } from "./lib/onboarding";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 
+import { COOKABLES } from "features/game/types/consumables";
 import { SEASONAL_SEEDS, SEEDS } from "features/game/types/seeds";
 import { SEASON_ICONS } from "./SeasonalSeeds";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -46,19 +46,6 @@ import { SpecialEventPanel } from "../SpecialEventPanel";
 
 const _state = (state: MachineState) => state.context.state;
 
-/** Pulsing hand over the button that sells everything (tutorial nudge). */
-const SellHelper: React.FC = () => (
-  <img
-    className="absolute pointer-events-none z-30 animate-pulsate"
-    src={SUNNYSIDE.icons.click_icon}
-    style={{
-      width: `${PIXEL_SCALE * 18}px`,
-      right: `${PIXEL_SCALE * -4}px`,
-      top: `${PIXEL_SCALE * 2}px`,
-    }}
-  />
-);
-
 export const SeasonalCrops: React.FC = () => {
   const [selected, setSelected] = useState<
     Crop | PatchFruit | ExoticCrop | GreenHouseFruit | GreenHouseCrop
@@ -67,6 +54,9 @@ export const SeasonalCrops: React.FC = () => {
 
   const [customAmount, setCustomAmount] = useState(new Decimal(0));
   const [isCustomSellModalOpen, showCustomSellModal] = useState(false);
+  // Tutorial guard: a sale that would break an open delivery waits here
+  // for the player to confirm it
+  const [pendingSale, setPendingSale] = useState<Decimal>();
 
   const { gameService } = useContext(Context);
   const { openModal } = useContext(ModalContext);
@@ -82,9 +72,6 @@ export const SeasonalCrops: React.FC = () => {
 
   const { island, season } = state;
 
-  // Nudge a new player to sell all of their first Sunflowers.
-  const showSellHelper =
-    selected.name === "Sunflower" && needsFirstCropSale(state);
   const { type: islandType } = island;
 
   const divRef = useRef<HTMLDivElement>(null);
@@ -96,9 +83,10 @@ export const SeasonalCrops: React.FC = () => {
         amount,
       });
     } else {
-      // Read before the sale lands: afterwards the nudge is already cleared.
+      // Read before the sale lands: afterwards the activity is already set.
       const before = gameService.getSnapshot().context.state;
-      const isFirstSale = needsFirstCropSale(before);
+      const isFirstSale =
+        before.island.type === "basic" && !hasSoldAnyCrop(before);
       const isFirstSunflowerSale =
         selected.name === "Sunflower" &&
         !before.farmActivity?.["Sunflower Sold"];
@@ -108,8 +96,9 @@ export const SeasonalCrops: React.FC = () => {
         amount: setPrecision(amount, 2),
       });
 
-      // Tutorial: with coins in hand, Betty points the player at her seeds.
-      if (isFirstSale) {
+      // Tutorial: with coins in hand, Betty points the player at her seeds -
+      // unless the sell lesson came after they already own some.
+      if (isFirstSale && !hasBoughtCropSeeds(before)) {
         openModal("BETTY_BUY");
       }
 
@@ -145,7 +134,47 @@ export const SeasonalCrops: React.FC = () => {
     2,
   );
 
-  const handleSell = (amount: Decimal) => {
+  /**
+   * Tutorial guard against the one-click dark path: selling crops an open
+   * delivery still needs (e.g. the 9 Sunflowers Peggy is waiting for). The
+   * tart order reserves the Rhubarb it is cooked from while no tart is held.
+   */
+  const blocksOpenDelivery = (amount: Decimal): boolean => {
+    if (islandType !== "basic") return false;
+
+    const remaining = cropAmount.sub(amount);
+
+    return state.delivery.orders.some((order) => {
+      if (order.completedAt) return false;
+
+      const direct = order.items[selected.name];
+      if (direct && remaining.lt(direct)) return true;
+
+      const tartsOrdered = order.items["Rhubarb Tart"] ?? 0;
+      if (selected.name === "Rhubarb" && tartsOrdered) {
+        const tartsHeld = state.inventory["Rhubarb Tart"] ?? new Decimal(0);
+        const tartsShort = new Decimal(tartsOrdered).sub(tartsHeld);
+        const rhubarbPerTart =
+          COOKABLES["Rhubarb Tart"].ingredients.Rhubarb ?? new Decimal(3);
+
+        return (
+          tartsShort.greaterThan(0) &&
+          remaining.lt(tartsShort.mul(rhubarbPerTart))
+        );
+      }
+
+      return false;
+    });
+  };
+
+  const handleSell = (amount: Decimal, bypassDeliveryGuard = false) => {
+    if (!bypassDeliveryGuard && blocksOpenDelivery(amount)) {
+      setShowConfirmationModal(false);
+      showCustomSellModal(false);
+      setPendingSale(amount);
+      return;
+    }
+
     sell(amount);
     setShowConfirmationModal(false);
     setCustomAmount(new Decimal(0));
@@ -231,9 +260,6 @@ export const SeasonalCrops: React.FC = () => {
                               { amount: cropAmount },
                             )}
                           </Button>
-                          {/* With 10 or fewer, this button sells the lot */}
-                          {showSellHelper &&
-                            cropAmount.lessThanOrEqualTo(10) && <SellHelper />}
                         </div>
                       )}
                     </div>
@@ -253,7 +279,6 @@ export const SeasonalCrops: React.FC = () => {
                                 : "sell.all",
                             )}
                           </Button>
-                          {showSellHelper && <SellHelper />}
                         </>
                       )}
                     </div>
@@ -338,6 +363,20 @@ export const SeasonalCrops: React.FC = () => {
             </div>
           </div>
         }
+      />
+      {/* Tutorial guard: the sale would leave too little for an open
+          delivery - make the player say it twice */}
+      <ConfirmationModal
+        show={!!pendingSale}
+        onHide={() => setPendingSale(undefined)}
+        messages={[t("market.deliveryWarning", { name: selected.name })]}
+        onCancel={() => setPendingSale(undefined)}
+        onConfirm={() => {
+          if (pendingSale) handleSell(pendingSale, true);
+          setPendingSale(undefined);
+        }}
+        confirmButtonLabel={t("sell.anyway")}
+        bumpkinParts={NPC_WEARABLES.betty}
       />
       <ConfirmationModal
         show={showConfirmationModal}

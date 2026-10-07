@@ -26,6 +26,7 @@ import {
   isBasicFruitSeed,
 } from "../events/landExpansion/fruitPlanted";
 import type { PatchFruitSeedName } from "../types/fruits";
+import { isTutorialToolStockPhase } from "../events/landExpansion/craftTool";
 import {
   type TreasureToolName,
   WORKBENCH_TOOLS,
@@ -109,6 +110,17 @@ export const INITIAL_STOCK = (
         );
       },
     );
+  }
+
+  // Tutorial farms (through the Water Well era): cap the tool stock so a
+  // new player cannot blow their delivery coins on tools they don't need.
+  // Axes bypass the daily stock entirely during this phase - the free batch
+  // plus a small per-level paid budget govern them instead (see craftTool's
+  // getPaidTutorialAxesLeft) - and two Pickaxes a day cover the single
+  // bought mine the gifted Pickaxes leave over (see the pickaxe ledger).
+  if (state && isTutorialToolStockPhase(state)) {
+    tools.Axe = new Decimal(0);
+    tools.Pickaxe = new Decimal(Math.min(tools.Pickaxe.toNumber(), 2));
   }
 
   const seeds: Record<SeedName, Decimal> = {
@@ -618,43 +630,47 @@ export const INITIAL_FARM: GameState = {
   delivery: {
     fulfilledCount: 0,
     orders: [
+      // The tutorial's first delivery. On live farms Peggy's next order (the
+      // spare Rhubarb Tart) regenerates the moment this one is fulfilled.
+      {
+        createdAt: Date.now(),
+        readyAt: Date.now(),
+        from: "peggy",
+        reward: {
+          items: {},
+          coins: 65,
+        },
+        id: "1",
+        items: {
+          Sunflower: 9,
+        },
+      },
+      {
+        createdAt: Date.now(),
+        readyAt: Date.now(),
+        from: "blacksmith",
+        reward: {
+          items: {},
+          coins: 81,
+        },
+        id: "2",
+        items: {
+          Wood: 1,
+        },
+      },
+      // On live farms Betty's orders only generate from level 2, once the
+      // tutorial no longer points at Peggy
       {
         createdAt: Date.now(),
         readyAt: Date.now(),
         from: "betty",
         reward: {
           items: {},
-          coins: 64,
-        },
-        id: "1",
-        items: {
-          Sunflower: 30,
-        },
-      },
-      {
-        createdAt: Date.now(),
-        readyAt: Date.now(),
-        from: "grubnuk",
-        reward: {
-          items: {},
-          coins: 64,
-        },
-        id: "2",
-        items: {
-          "Pumpkin Soup": 1,
-        },
-      },
-      {
-        createdAt: Date.now(),
-        readyAt: Date.now(),
-        from: "grimbly",
-        reward: {
-          items: {},
-          coins: 48,
+          coins: 21,
         },
         id: "3",
         items: {
-          "Mashed Potato": 2,
+          Sunflower: 5,
         },
       },
     ],

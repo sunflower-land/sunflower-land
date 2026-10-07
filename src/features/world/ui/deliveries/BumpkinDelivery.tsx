@@ -1,5 +1,7 @@
 import type { NPCName } from "lib/npcs";
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router";
+import { gameAnalytics } from "lib/gameAnalytics";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
@@ -881,6 +883,11 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const [showFlowers, setShowFlowers] = useState(false);
   const [showSkipDialog, setShowSkipDialog] = useState(false);
   const [gift, setGift] = useState<Airdrop>();
+  // Tutorial: after the first-ever delivery the player is told what to do
+  // next - head home and spend the coins on an expansion.
+  const [firstDeliveryFulfilled, setFirstDeliveryFulfilled] = useState(false);
+
+  const navigate = useNavigate();
 
   const delivery = game.delivery.orders.find((order) => order.from === npc);
 
@@ -919,10 +926,20 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const isHoliday = holiday === today;
 
   const deliver = () => {
+    // Tutorial: the first delivery is the new player's first coin task.
+    const isFirstDelivery = (game.delivery.fulfilledCount ?? 0) === 0;
+
     gameService.send("order.delivered", {
       id: delivery?.id,
       friendship: true,
     });
+
+    if (isFirstDelivery) {
+      gameAnalytics.trackMilestone({
+        event: "Tutorial:FirstDeliveryCompleted",
+      });
+      setFirstDeliveryFulfilled(true);
+    }
   };
 
   const hasDelivery = getKeys(delivery?.items ?? {}).every((name) => {
@@ -1016,6 +1033,30 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const hasClaimedBonus =
     !!completedAt &&
     new Date(completedAt).toISOString().substring(0, 10) === dateKey;
+
+  if (firstDeliveryFulfilled) {
+    return (
+      <InnerPanel>
+        <div className="p-2">
+          <div className="flex justify-between items-center mb-2">
+            <Label type="success" icon={coinsImg}>
+              {t("firstDelivery.title")}
+            </Label>
+            {onClose && (
+              <img
+                src={SUNNYSIDE.icons.close}
+                className="h-7 cursor-pointer"
+                onClick={onClose}
+              />
+            )}
+          </div>
+          <p className="text-sm mb-2">{t("firstDelivery.coins")}</p>
+          <p className="text-sm mb-1">{t("firstDelivery.expand")}</p>
+        </div>
+        <Button onClick={() => navigate("/")}>{t("firstDelivery.home")}</Button>
+      </InnerPanel>
+    );
+  }
 
   if (gift) {
     return (

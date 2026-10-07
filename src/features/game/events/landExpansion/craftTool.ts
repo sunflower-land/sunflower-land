@@ -83,6 +83,61 @@ export function getFreeAxesLeft(game: Readonly<GameState>): number {
 }
 
 /**
+ * While the early tutorial runs (a basic island up to the Water Well era),
+ * the Workbench's tool availability is capped so a new player cannot sink
+ * the coins their next expansion needs into tools: Axes beyond the free
+ * batch are budgeted per level (see getPaidTutorialAxesLeft) and at most
+ * two Pickaxes a day are sold.
+ */
+export function isTutorialToolStockPhase(game: Readonly<GameState>): boolean {
+  return (
+    game.island.type === "basic" &&
+    (game.inventory["Basic Land"]?.toNumber() ?? 3) <= 6
+  );
+}
+
+/**
+ * Paid Axes purchasable per level during the tutorial phase.
+ *
+ * Sized from the phase's actual wood ledger, not from caution alone:
+ * expansions 4 and 5 cost 8 Wood, four Pickaxes cost 12 (3 each!), the
+ * Water Well 5, and the Blacksmith's three wood orders - the coin loop
+ * itself - another 9. That is ~34 chops against 10 free Axes, so the paid
+ * budget must reach ~24 by level 3, with slack for extra order cycles.
+ */
+export const TUTORIAL_PAID_AXES_PER_LEVEL = 10;
+
+/**
+ * How many PAID Axes a tutorial-phase player can still buy. The free batch
+ * teaches chopping; these teach the coins -> Axe -> Wood loop - so they stay
+ * purchasable at full price but are budgeted (ten per level, growing until
+ * level five) rather than stock-metered. Level-ups refresh the budget, and
+ * because an Axe spent on a Blacksmith wood order earns its coins back, a
+ * player can never buy themselves into a hole they cannot chop out of.
+ *
+ * Only meaningful during isTutorialToolStockPhase - outside it the normal
+ * daily stock governs and this returns 0.
+ */
+export function getPaidTutorialAxesLeft(game: Readonly<GameState>): number {
+  if (!isTutorialToolStockPhase(game)) return 0;
+
+  const { level } = getAscensionLevel({
+    experience: game.bumpkin.experience ?? 0,
+    ascensionLevel: game.island.ascensionLevel ?? 0,
+  });
+  const budget = TUTORIAL_PAID_AXES_PER_LEVEL * Math.min(level, 5);
+
+  const crafted = game.farmActivity?.["Axe Crafted"] ?? 0;
+  const paidCrafted = Math.max(
+    0,
+    crafted -
+      (game.createdAt < TUTORIAL_FREE_AXES_FROM ? 0 : TUTORIAL_FREE_AXES),
+  );
+
+  return Math.max(0, budget - paidCrafted);
+}
+
+/**
  * Coin price of a single tool after every discount, ignoring the free tutorial
  * Axes. The Workbench needs this to work out how many it can afford, since a
  * batch that includes free Axes is not simply one price times the amount.
@@ -188,7 +243,23 @@ export function craftTool({ state, action }: Options) {
     throw new Error("You do not have the required island expansion");
   }
 
-  if (stateCopy.stock[action.tool]?.lt(amount)) {
+  // Tutorial Axes don't draw from the day's stock: the free batch costs
+  // nothing, and the paid ones beyond it are metered by a per-level budget
+  // (getPaidTutorialAxesLeft) so level-ups refresh what the shop sells.
+  // Read before the craft is tracked below.
+  const freeAmount =
+    action.tool === "Axe" ? Math.min(amount, getFreeAxesLeft(stateCopy)) : 0;
+  let stockedAmount = amount - freeAmount;
+
+  if (action.tool === "Axe" && isTutorialToolStockPhase(stateCopy)) {
+    if (stockedAmount > getPaidTutorialAxesLeft(stateCopy)) {
+      throw new Error("Not enough stock");
+    }
+
+    stockedAmount = 0;
+  }
+
+  if (stateCopy.stock[action.tool]?.lt(stockedAmount)) {
     throw new Error("Not enough stock");
   }
 
@@ -254,7 +325,7 @@ export function craftTool({ state, action }: Options) {
 
   const stock = stateCopy.stock[action.tool];
   if (stock !== undefined) {
-    stateCopy.stock[action.tool] = stock.minus(amount);
+    stateCopy.stock[action.tool] = stock.minus(stockedAmount);
   }
 
   return stateCopy;

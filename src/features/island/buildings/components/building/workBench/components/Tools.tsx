@@ -36,8 +36,10 @@ import type { IslandType, LoveAnimalItem } from "features/game/types/game";
 import { getIslandName } from "features/game/types/game";
 import {
   getFreeToolAmount,
+  getPaidTutorialAxesLeft,
   getToolPrice,
   getToolUnitPrice,
+  isTutorialToolStockPhase,
 } from "features/game/events/landExpansion/craftTool";
 import { Restock } from "../../market/restock/Restock";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -159,7 +161,15 @@ export const Tools: React.FC = () => {
     shortcutItem(selectedName);
   };
 
-  const stock = state.stock[selectedName] || new Decimal(0);
+  // Tutorial Axes don't draw from the daily stock, so the craftable amount
+  // the UI works with is the stored stock plus the free batch plus the
+  // per-level paid budget - during the tutorial phase the stored Axe stock
+  // is zero and every craft comes off those allowances.
+  const paidBudget =
+    selectedName === "Axe" ? getPaidTutorialAxesLeft(state) : 0;
+  const stock = (state.stock[selectedName] || new Decimal(0))
+    .add(freeAmount)
+    .add(paidBudget);
 
   const bulkToolCraftAmount = makeBulkBuyTools(stock);
   const { t } = useAppTranslation();
@@ -232,6 +242,16 @@ export const Tools: React.FC = () => {
     }
 
     if (stock.equals(0)) {
+      // During the tutorial phase Axes aren't gem-restockable - the paid
+      // budget refreshes at the next level-up instead.
+      if (selectedName === "Axe" && isTutorialToolStockPhase(state)) {
+        return (
+          <Label type="info" className="mx-auto">
+            {t("tools.freeAxesAtNextLevel")}
+          </Label>
+        );
+      }
+
       return <Restock npc={"blacksmith"} />;
     }
 

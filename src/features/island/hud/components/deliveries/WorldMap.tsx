@@ -20,6 +20,7 @@ import { isMobile } from "mobile-device-detect";
 import { useSelector } from "@xstate/react";
 import { hasFeatureAccess } from "lib/flags";
 import { CaveEntrance } from "features/cave/components/CaveEntrance";
+import { hasPlazaAccess } from "features/island/delivery/lib/onboarding";
 
 const showDebugBorders = false;
 
@@ -55,6 +56,8 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   });
   const hasLevel = (level: number) =>
     meetsLevelRequirement(ascension, { ascension: 0, level });
+  // The plaza opens early for tutorial players with Sunflowers to deliver
+  const plazaAccess = hasPlazaAccess(state);
   const hasFaction = state.faction;
   const canTeleportToFactionHouse = hasLevel(7) && hasFaction;
 
@@ -77,7 +80,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     <OuterPanel className="w-full relative shadow-xl">
       <img src={worldMap} className="w-full" />
 
-      {!hasLevel(2) && (
+      {!plazaAccess && (
         <Label
           type="danger"
           className="absolute bottom-2"
@@ -219,16 +222,16 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           bottom: "20%",
         }}
         className={`flex justify-center items-center ${
-          hasLevel(2) ? "cursor-pointer" : "cursor-not-allowed"
+          plazaAccess ? "cursor-pointer" : "cursor-not-allowed"
         }`}
         onClick={() => {
-          if (!hasLevel(2)) return;
+          if (!plazaAccess) return;
           travel.play();
           navigate("/world/plaza");
           onClose();
         }}
       >
-        {!hasLevel(2) ? (
+        {!plazaAccess ? (
           isMobile ? (
             <img
               src={SUNNYSIDE.icons.lock}
