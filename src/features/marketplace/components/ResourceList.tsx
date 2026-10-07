@@ -25,10 +25,9 @@ import { getResourceTax } from "features/game/types/marketplace";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { InnerPanel } from "components/ui/Panel";
 import { useNow } from "lib/utils/hooks/useNow";
+import { MAX_RESOURCE_LISTINGS } from "../lib/tradeLimits";
 
 const LISTING_MULTIPLE_MIN = 1;
-const MAX_LISTINGS_OF_RESOURCE_FOR_BULK = 20;
-
 type Props = {
   inventoryCount: Decimal;
   itemName: TradeResource;
@@ -359,7 +358,7 @@ export const ResourceList: React.FC<Props> = ({
               <InnerPanel>
                 <p className="text-xxs w-40 px-0.5">
                   {t("marketplace.maxBulk", {
-                    max: MAX_LISTINGS_OF_RESOURCE_FOR_BULK,
+                    max: MAX_RESOURCE_LISTINGS,
                   })}
                 </p>
               </InnerPanel>
