@@ -2066,10 +2066,12 @@ export const ITEM_DETAILS: Items = {
   "Crab Pot": {
     image: SUNNYSIDE.tools.crab_pot,
     description: TOOLS["Crab Pot"].description,
+    translatedName: translate("crustaceans.crabPot"),
   },
   "Mariner Pot": {
     image: SUNNYSIDE.tools.mariner_pot,
     description: TOOLS["Mariner Pot"].description,
+    translatedName: translate("crustaceans.marinerPot"),
   },
   "Petting Hand": {
     image: pettingHand,
@@ -7905,66 +7907,82 @@ export const ITEM_DETAILS: Items = {
   Isopod: {
     image: SUNNYSIDE.crustaceans.isopod,
     description: translate("description.isopod"),
+    translatedName: translate("crustaceans.isopod"),
   },
   "Blue Crab": {
     image: SUNNYSIDE.crustaceans.blueCrab,
     description: translate("description.blueCrab"),
+    translatedName: translate("crustaceans.blueCrab"),
   },
   Lobster: {
     image: SUNNYSIDE.crustaceans.lobster,
     description: translate("description.lobster"),
+    translatedName: translate("crustaceans.lobster"),
   },
   "Hermit Crab": {
     image: SUNNYSIDE.crustaceans.hermitCrab,
     description: translate("description.hermitCrab"),
+    translatedName: translate("crustaceans.hermitCrab"),
   },
   Shrimp: {
     image: SUNNYSIDE.crustaceans.shrimp,
     description: translate("description.shrimp"),
+    translatedName: translate("crustaceans.shrimp"),
   },
   Mussel: {
     image: SUNNYSIDE.crustaceans.mussel,
     description: translate("description.mussel"),
+    translatedName: translate("crustaceans.mussel"),
   },
   Oyster: {
     image: SUNNYSIDE.crustaceans.oyster,
     description: translate("description.oyster"),
+    translatedName: translate("crustaceans.oyster"),
   },
   Anemone: {
     image: SUNNYSIDE.crustaceans.anemone,
     description: translate("description.anemone"),
+    translatedName: translate("crustaceans.anemone"),
   },
   Barnacle: {
     image: SUNNYSIDE.crustaceans.barnacle,
     description: translate("description.barnacle"),
+    translatedName: translate("crustaceans.barnacle"),
   },
   "Sea Slug": {
     image: SUNNYSIDE.crustaceans.seaSlug,
     description: translate("description.seaSlug"),
+    translatedName: translate("crustaceans.seaSlug"),
   },
   "Sea Snail": {
     image: SUNNYSIDE.crustaceans.seaSnail,
     description: translate("description.seaSnail"),
+    translatedName: translate("crustaceans.seaSnail"),
   },
   "Garden Eel": {
     image: SUNNYSIDE.crustaceans.gardenEel,
     description: translate("description.gardenEel"),
+    translatedName: translate("crustaceans.gardenEel"),
   },
   "Sea Grapes": {
     image: SUNNYSIDE.crustaceans.seaGrapes,
     description: translate("description.seaGrapes"),
+    translatedName: translate("crustaceans.seaGrapes"),
   },
   Octopus: {
     image: SUNNYSIDE.crustaceans.octopus,
     description: translate("description.octopus"),
+    translatedName: translate("crustaceans.octopus"),
   },
   "Sea Urchin": {
     image: SUNNYSIDE.crustaceans.seaUrchin,
     description: translate("description.seaUrchin"),
+    translatedName: translate("crustaceans.seaUrchin"),
   },
   "Horseshoe Crab": {
     image: SUNNYSIDE.crustaceans.horseshoeCrab,
     description: translate("description.horseshoeCrab"),
+    translatedName: translate("crustaceans.horseshoeCrab"),
   },
   "Paw Prints Raffle Ticket": {
     image: pawPrintsRaffleTicket,
