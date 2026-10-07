@@ -1,6 +1,9 @@
 import React from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  getTranslatedItemName,
+  ITEM_DETAILS,
+} from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CRUSTACEAN_CHUM_AMOUNTS } from "features/game/types/crustaceans";
 import { getKeys } from "lib/object";
@@ -85,7 +88,7 @@ export const CrustaceanGuide = () => {
                 className="text-xxs mr-1"
                 icon={ITEM_DETAILS[chum].image}
               >
-                {`${chum} (${CRUSTACEAN_CHUM_AMOUNTS[chum]})`}
+                {`${getTranslatedItemName(chum)} (${CRUSTACEAN_CHUM_AMOUNTS[chum]})`}
               </Label>
             );
           })}
