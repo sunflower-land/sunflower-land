@@ -21,6 +21,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import Decimal from "decimal.js-light";
 import { getKeys } from "lib/object";
 import { CROPS } from "features/game/types/crops";
+import { BUILDINGS } from "features/game/types/buildings";
 import { EXPANSION_REQUIREMENTS } from "features/game/types/expansions";
 import { WORKBENCH_TOOLS } from "features/game/types/tools";
 import { translate } from "lib/i18n/translate";
@@ -66,13 +67,27 @@ const hint = (state: MachineState) => {
       ? translate("pete.teaser.moreDeliveries")
       : "Explore";
 
-    // Working toward the Stone expansion: deliveries fund the Pickaxe and
-    // the expansion's coins, then the Stone gets mined. Keyed off whatever
-    // the next expansion actually asks for, so the ate-both-tarts path
-    // (level 2 before the fifth expansion) gets the right cue too.
     const basicLand = inventory["Basic Land"]?.toNumber() ?? 3;
+
+    // The post-expansion work cycle: deliveries bankroll the Water Well
+    // while the Rhubarb regrows, then Pete points at the Well itself.
+    // (Before the sixth expansion the next-expansion cues below apply.)
+    if (
+      game.island.type === "basic" &&
+      basicLand >= 6 &&
+      !game.buildings["Water Well"]?.length
+    ) {
+      return game.coins >= (BUILDINGS["Water Well"].coins ?? 0)
+        ? translate("pete.teaser.waterWell")
+        : moreDeliveries;
+    }
+
+    // Working toward the next expansion (the Stone expansion, then the
+    // stretch expansion): deliveries fund the Pickaxes and the coins, then
+    // the Stone gets mined. Keyed off whatever the expansion actually asks
+    // for, so the ate-both-tarts path gets the right cue too.
     const requirements = EXPANSION_REQUIREMENTS.basic[basicLand + 1];
-    if (game.island.type === "basic" && basicLand <= 5 && requirements) {
+    if (game.island.type === "basic" && basicLand <= 6 && requirements) {
       const resources = requirements.resources;
       const missing = getKeys(resources).filter((name) =>
         (inventory[name] ?? new Decimal(0)).lt(resources[name] ?? 0),
@@ -83,9 +98,14 @@ const hint = (state: MachineState) => {
       }
 
       if (missing.includes("Stone")) {
-        const pickaxeCoins = inventory.Pickaxe?.gt(0)
-          ? 0
-          : WORKBENCH_TOOLS.Pickaxe.price;
+        const stoneShort =
+          (resources.Stone ?? 0) - (inventory.Stone?.toNumber() ?? 0);
+        const pickaxesNeeded = Math.max(
+          0,
+          Math.ceil(stoneShort) - (inventory.Pickaxe?.toNumber() ?? 0),
+        );
+        const pickaxeCoins = pickaxesNeeded * WORKBENCH_TOOLS.Pickaxe.price;
+
         return game.coins >= (requirements.coins ?? 0) + pickaxeCoins
           ? translate("pete.teaser.mineStone")
           : moreDeliveries;
@@ -94,12 +114,6 @@ const hint = (state: MachineState) => {
       return game.coins >= (requirements.coins ?? 0)
         ? translate("expand.land")
         : moreDeliveries;
-    }
-
-    // The post-expansion work cycle: deliveries bankroll the Water Well
-    // while the Rhubarb regrows
-    if (game.island.type === "basic" && !game.buildings["Water Well"]?.length) {
-      return moreDeliveries;
     }
 
     return "Explore";

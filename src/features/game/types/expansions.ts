@@ -2320,14 +2320,17 @@ const LAND_6_REQUIREMENTS: Requirements = {
   bumpkinLevel: { ascension: 0, level: 2 },
 };
 
+// The tutorial's "task stretch": a few delivery cycles fund the Water Well
+// (100 coins) and this expansion, and the 3 Stone fit the fresh rocks the
+// island actually has (four unmined, one stone each). Iron waits for the
+// next expansion, where the hours-long node rhythms become the game.
 const LAND_7_REQUIREMENTS: Requirements = {
   resources: {
-    Stone: 5,
-    Iron: 1,
+    Stone: 3,
   },
   coins: 100,
-  seconds: 30 * 60,
-  bumpkinLevel: { ascension: 0, level: 5 },
+  seconds: 5 * 60,
+  bumpkinLevel: { ascension: 0, level: 3 },
 };
 
 const LAND_8_REQUIREMENTS: Requirements = {

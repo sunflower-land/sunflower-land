@@ -87,7 +87,7 @@ export function getFreeAxesLeft(game: Readonly<GameState>): number {
  * the Workbench's tool availability is capped so a new player cannot sink
  * the coins their next expansion needs into tools: Axes beyond the free
  * batch are budgeted per level (see getPaidTutorialAxesLeft) and at most
- * two Pickaxes a day are sold.
+ * four Pickaxes a day are sold.
  */
 export function isTutorialToolStockPhase(game: Readonly<GameState>): boolean {
   return (

@@ -301,8 +301,8 @@ export const UpcomingExpansion: React.FC = () => {
   const showHelper =
     (canExpand &&
       (state.farmActivity["Tree Chopped"] ?? 0) >= 3 &&
-      // Only pulsate first 5 times
-      (state.inventory["Basic Land"]?.lte(4) ?? false)) ||
+      // Pulsate through the tutorial expansions (up to the stretch one)
+      (state.inventory["Basic Land"]?.lte(6) ?? false)) ||
     getTutorialNudge(state) === "expand-land";
 
   const islandType = state.island.type;

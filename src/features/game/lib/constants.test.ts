@@ -39,7 +39,7 @@ describe("getSeedInventoryLimitMultiplier", () => {
 });
 
 describe("INITIAL_STOCK", () => {
-  it("sells no paid Axes and two Pickaxes on tutorial farms", () => {
+  it("sells no paid Axes and four Pickaxes on tutorial farms", () => {
     const tutorial = {
       ...TEST_FARM,
       island: { type: "basic" as const },
@@ -51,7 +51,7 @@ describe("INITIAL_STOCK", () => {
     };
 
     expect(INITIAL_STOCK(tutorial).Axe).toEqual(new Decimal(0));
-    expect(INITIAL_STOCK(tutorial).Pickaxe).toEqual(new Decimal(2));
+    expect(INITIAL_STOCK(tutorial).Pickaxe).toEqual(new Decimal(4));
   });
 
   it("lifts the tutorial cap after the Water Well era", () => {
