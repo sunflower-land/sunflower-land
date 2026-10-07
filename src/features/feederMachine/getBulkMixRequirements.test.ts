@@ -133,8 +133,8 @@ describe("getBulkMixRequirements", () => {
     const barnDelight = feeds.find((feed) => feed.item === "Barn Delight");
 
     expect(kernelBlend?.type).toBe("food");
-    expect(kernelBlend?.missing).toEqual(new Decimal(1));
-    expect(kernelBlend?.ingredients.Corn).toEqual(new Decimal(1));
+    expect(kernelBlend?.missing).toEqual(new Decimal(2));
+    expect(kernelBlend?.ingredients.Corn).toEqual(new Decimal(2));
 
     expect(barnDelight?.type).toBe("medicine");
     expect(barnDelight?.missing).toEqual(new Decimal(1));
@@ -142,7 +142,51 @@ describe("getBulkMixRequirements", () => {
     expect(barnDelight?.ingredients.Honey).toEqual(new Decimal(3));
   });
 
-  it("excludes feeds an item makes free to mix (Oracle Syringe cures for free)", () => {
+  it("includes the normal feed an awake sick animal needs after its cure", () => {
+    const { requests, missingRequests } = getBulkMixRequirements(
+      {
+        ...INITIAL_FARM,
+        inventory: {},
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "0": chicken("sick"),
+          },
+        },
+      },
+      "Hen House",
+      Date.now(),
+    );
+
+    expect(requests["Barn Delight"]).toEqual(new Decimal(1));
+    expect(requests["Kernel Blend"]).toEqual(new Decimal(1));
+    expect(missingRequests["Barn Delight"]).toEqual(new Decimal(1));
+    expect(missingRequests["Kernel Blend"]).toEqual(new Decimal(1));
+  });
+
+  it("does not include post-cure feed while a sick animal is asleep", () => {
+    const now = Date.now();
+    const sleeping = { ...chicken("sick"), awakeAt: now + 60_000 };
+    const { requests } = getBulkMixRequirements(
+      {
+        ...INITIAL_FARM,
+        inventory: {},
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "0": sleeping,
+          },
+        },
+      },
+      "Hen House",
+      now,
+    );
+
+    expect(requests["Barn Delight"]).toEqual(new Decimal(1));
+    expect(requests["Kernel Blend"]).toBeUndefined();
+  });
+
+  it("excludes medicine made free by Oracle Syringe but includes post-cure feed", () => {
     const { requests, feeds } = getBulkMixRequirements(
       {
         ...INITIAL_FARM,
@@ -167,6 +211,10 @@ describe("getBulkMixRequirements", () => {
 
     expect(requests["Barn Delight"]).toBeUndefined();
     expect(feeds.find((feed) => feed.item === "Barn Delight")).toBeUndefined();
+    expect(requests["Kernel Blend"]).toEqual(new Decimal(1));
+    expect(feeds.find((feed) => feed.item === "Kernel Blend")?.missing).toEqual(
+      new Decimal(1),
+    );
   });
 
   it("surfaces the free-feed collectibles feeding a building's animals", () => {
