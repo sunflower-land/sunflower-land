@@ -228,7 +228,7 @@ function applyReward(
   }
 
   if (reward.buff) {
-    const buffedGame = applyBuff({ buff: reward.buff, game });
+    const buffedGame = applyBuff({ buff: reward.buff, game, now });
     Object.assign(game, buffedGame);
   }
 }

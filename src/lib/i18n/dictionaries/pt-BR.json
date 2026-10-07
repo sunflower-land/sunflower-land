@@ -6445,7 +6445,6 @@
   "bounties.board": "Recompensas para animais",
   "waterTrap.placeTrap": "Coloque a armadilha {{crustacean}}",
   "waterTrap.noChumsAvailable": "Não há amigos disponíveis",
-  "waterTrap.noChumSelected": "Nenhum amigo selecionado",
   "guide.crustacean.availableChums": "Camaradas disponíveis",
   "bumpkinTrade.floorPrice": "Piso: {{price}} FLOWER",
   "marketplace.totalItems": "Total de itens",
@@ -8703,5 +8702,8 @@
   "description.pigBristles": "Cerdas grossas de um porco.",
   "resource.pigBristles": "Cerdas de porco",
   "description.mud": "Lama rica e pegajosa. Cubra um porco para obter mais XP de alimentação e evita que ele adoeça.",
-  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% de XP de alimentação · nenhuma doença · feeds restantes: {{count}}"
+  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% de XP de alimentação · nenhuma doença · feeds restantes: {{count}}",
+  "walletWall.withdrawWalletMismatch": "Você selecionou uma carteira diferente. Suas carteiras conectadas e vinculadas não coincidem, então você não pode sacar.",
+  "waterTrap.noChumSelected": "Sem amigo",
+  "waterTrap.withoutChumDescription": "A água limpa pode ser uma recompensa por si só."
 }

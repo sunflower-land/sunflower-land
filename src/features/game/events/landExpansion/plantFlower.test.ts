@@ -298,6 +298,65 @@ describe("plantFlower", () => {
     );
   });
 
+  it("records the back-date offset as boostedTime so the progress bar starts empty", () => {
+    const bedIndex = "1";
+
+    const state = plantFlower({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          equipped: { ...TEST_BUMPKIN.equipped, hat: "Flower Crown" },
+        },
+        inventory: {
+          "Sunpetal Seed": new Decimal(5),
+          Sunflower: new Decimal(100),
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "flower.planted",
+        id: bedIndex,
+        seed: "Sunpetal Seed",
+        crossbreed: "Sunflower",
+      },
+    });
+
+    const flower = state.flowers.flowerBeds[bedIndex].flower!;
+    const offset = (FLOWER_SEEDS["Sunpetal Seed"].plantSeconds * 1000) / 2;
+
+    // The offset is the DISCOUNT, not growth already done: un-back-dating with
+    // it recovers the real plant time and the real (boosted) grow duration.
+    expect(flower.boostedTime).toEqual(offset);
+    expect(flower.plantedAt + flower.boostedTime!).toEqual(dateNow);
+  });
+
+  it("omits boostedTime when nothing boosts the grow time", () => {
+    const bedIndex = "1";
+
+    const state = plantFlower({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Sunpetal Seed": new Decimal(5),
+          Sunflower: new Decimal(100),
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "flower.planted",
+        id: bedIndex,
+        seed: "Sunpetal Seed",
+        crossbreed: "Sunflower",
+      },
+    });
+
+    const flower = state.flowers.flowerBeds[bedIndex].flower!;
+
+    expect(flower.plantedAt).toEqual(dateNow);
+    expect(flower.boostedTime).toBeUndefined();
+  });
+
   it("reduces flower harvest time in 10% if Flower Fox is built ", () => {
     const seedAmount = new Decimal(5);
 

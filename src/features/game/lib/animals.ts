@@ -162,6 +162,44 @@ export function getAnimalLevel(experience: number, animal: AnimalType) {
   return currentLevel;
 }
 
+/**
+ * Whether gaining `gainedXp` on top of `beforeXp` earns the animal its produce:
+ * a level-up below the top of the table, or, at max level, one more full cycle
+ * of the final level's XP. Shared by feeding and petting so EITHER can flip the
+ * animal to "ready" - petting alone used to check only for a level change, so
+ * a max-level animal whose pet crossed the cycle line kept accruing XP but
+ * never produced, and the next feed restarted the cycle from the wrap-around.
+ *
+ * XP keeps accruing past max level rather than being held inside one cycle,
+ * so progress is always `excess % cycleXP` and nothing is ever rewritten.
+ */
+export function hasAnimalCompletedCycle({
+  animalType,
+  beforeXp,
+  gainedXp,
+}: {
+  animalType: AnimalType;
+  beforeXp: number;
+  gainedXp: number;
+}): boolean {
+  const maxLevel = getAnimalMaxLevel(animalType);
+  const maxLevelXp = ANIMAL_LEVELS[animalType][maxLevel];
+
+  if (beforeXp < maxLevelXp) {
+    return (
+      getAnimalLevel(beforeXp, animalType) !==
+      getAnimalLevel(beforeXp + gainedXp, animalType)
+    );
+  }
+
+  const levelBeforeMaxXp =
+    ANIMAL_LEVELS[animalType][(maxLevel - 1) as AnimalLevel];
+  const cycleXP = maxLevelXp - levelBeforeMaxXp;
+  const currentCycleProgress = (beforeXp - maxLevelXp) % cycleXP;
+
+  return currentCycleProgress + gainedXp >= cycleXP;
+}
+
 export function getAnimalFavoriteFood(type: AnimalType, animalXP: number) {
   const level = getAnimalLevel(animalXP, type);
   const levelFood = ANIMAL_FOOD_EXPERIENCE[type][level];

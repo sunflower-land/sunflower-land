@@ -22,6 +22,7 @@ import {
   getAnimalMaxLevel,
   getAnimalReadyAt,
   getBoostedFoodQuantity,
+  hasAnimalCompletedCycle,
   isMuddy,
   makeAnimalBuildingKey,
   MUD_XP_MULTIPLIER,
@@ -71,37 +72,20 @@ export function isMaxLevel(
   return experience >= ANIMAL_LEVELS[animal][maxLevel];
 }
 
+/** Applies the feed's XP and reports whether it earned produce. */
 const handleAnimalExperience = (
   animal: Animal,
   animalType: AnimalType,
   beforeFeedXp: number,
   foodXp: number,
-  maxLevel: AnimalLevel,
 ): boolean => {
   animal.experience += foodXp;
 
-  // Handle non-max level animal
-  if (!isMaxLevel(animalType, beforeFeedXp, maxLevel)) {
-    if (
-      getAnimalLevel(beforeFeedXp, animalType) !==
-      getAnimalLevel(animal.experience, animalType)
-    ) {
-      return true;
-    }
-    return false;
-  }
-
-  // Handle max level cycle completion
-  const levelBeforeMax = (maxLevel - 1) as AnimalLevel;
-  const maxLevelXp = ANIMAL_LEVELS[animalType][maxLevel];
-  const levelBeforeMaxXp = ANIMAL_LEVELS[animalType][levelBeforeMax];
-  const cycleXP = maxLevelXp - levelBeforeMaxXp;
-  const excessXpBeforeFeed = Math.max(beforeFeedXp - maxLevelXp, 0);
-  const currentCycleProgress = excessXpBeforeFeed % cycleXP;
-  // XP keeps accruing past the max level rather than being held inside one
-  // cycle, so an animal's excess is never rewritten; the level itself is
-  // derived from it in `getAnimalLevel`.
-  return currentCycleProgress + foodXp >= cycleXP;
+  return hasAnimalCompletedCycle({
+    animalType,
+    beforeXp: beforeFeedXp,
+    gainedXp: foodXp,
+  });
 };
 
 const handleFreeFeeding = ({
@@ -126,13 +110,7 @@ const handleFreeFeeding = ({
     const currentCycleProgress = beforeFeedXp % maxLevelXp;
     const xpDiff = maxLevelXp - currentCycleProgress;
 
-    isReady = handleAnimalExperience(
-      animal,
-      animalType,
-      beforeFeedXp,
-      xpDiff,
-      maxLevel,
-    );
+    isReady = handleAnimalExperience(animal, animalType, beforeFeedXp, xpDiff);
   } else {
     const nextLevelXp = ANIMAL_LEVELS[animalType][nextLevel];
     const xpDiff = nextLevelXp - beforeFeedXp;
@@ -153,7 +131,6 @@ const handleFreeFeeding = ({
       animalType,
       beforeFeedXp,
       xpToFeed,
-      maxLevel,
     );
   }
 
@@ -407,7 +384,6 @@ export function feedAnimal({
       action.animal,
       beforeFeedXp,
       foodXp,
-      getAnimalMaxLevel(action.animal),
     );
 
     // Each feed that earned Mud's bonus spends one of its uses.

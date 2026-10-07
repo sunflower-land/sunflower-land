@@ -6445,7 +6445,6 @@
   "bounties.board": "Recompensas por animales",
   "waterTrap.placeTrap": "Coloca la trampa {{crustacean}}",
   "waterTrap.noChumsAvailable": "No hay amigos disponibles",
-  "waterTrap.noChumSelected": "No se ha seleccionado ningún amigo",
   "guide.crustacean.availableChums": "Acompaneros disponibles",
   "bumpkinTrade.floorPrice": "Planta: {{price}} FLOR",
   "marketplace.totalItems": "Total de artículos",
@@ -8703,5 +8702,8 @@
   "description.pigBristles": "Cerdas gruesas de cerdo.",
   "resource.pigBristles": "Cerdas de cerdo",
   "description.mud": "Barro rico y pegajoso. Recubre a un cerdo para darle más puntos de experiencia y evitar que se enferme.",
-  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% de XP de alimentación · no hay enfermedad · quedan comidas: {{count}}"
+  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% de XP de alimentación · no hay enfermedad · quedan comidas: {{count}}",
+  "walletWall.withdrawWalletMismatch": "Has seleccionado un monedero diferente. Tus monederos conectados y enlazados no coinciden, por lo que no puedes realizar retiros.",
+  "waterTrap.noChumSelected": "Sin amigo",
+  "waterTrap.withoutChumDescription": "El agua limpia puede ser una recompensa en sí misma."
 }

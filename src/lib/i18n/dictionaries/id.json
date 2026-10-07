@@ -6445,7 +6445,6 @@
   "bounties.board": "Hadiah Hewan",
   "waterTrap.placeTrap": "Tempatkan perangkap {{crustacean}}",
   "waterTrap.noChumsAvailable": "Tidak ada teman yang tersedia",
-  "waterTrap.noChumSelected": "Tidak ada teman yang dipilih",
   "guide.crustacean.availableChums": "Teman yang Tersedia",
   "bumpkinTrade.floorPrice": "LanTAI: {{price}} BUNGA",
   "marketplace.totalItems": "Jumlah item",
@@ -8703,5 +8702,8 @@
   "description.pigBristles": "Bulu kasar dari Babi.",
   "resource.pigBristles": "Bulu Babi",
   "description.mud": "Lumpur yang kaya dan lengket. Melapisi Babi untuk XP pakan ekstra dan mencegahnya jatuh sakit.",
-  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% umpan XP · tidak ada penyakit · umpan tersisa: {{count}}"
+  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% umpan XP · tidak ada penyakit · umpan tersisa: {{count}}",
+  "walletWall.withdrawWalletMismatch": "Anda memilih dompet yang berbeda. Dompet Anda yang terhubung dan tertaut tidak cocok, jadi Anda tidak dapat menarik.",
+  "waterTrap.noChumSelected": "Tanpa teman",
+  "waterTrap.withoutChumDescription": "Air jernih bisa menjadi hadiah tersendiri."
 }

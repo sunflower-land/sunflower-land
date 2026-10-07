@@ -367,6 +367,7 @@ export function harvestFruit({
     const {
       plantedAt: newPlantedAt,
       baseDurationMs: newBaseDurationMs,
+      boostedTime: newBoostedTime,
       boostsUsed: fruitPlantedBoostsUsed,
     } = getPlantedAt(
       seed,
@@ -376,8 +377,14 @@ export function harvestFruit({
       forceWindowed,
     );
     delete patch.fruit.amount;
-    // New replenish phase starts with a fresh progress bar (no banked work yet).
-    delete patch.fruit.boostedTime;
+    // New replenish phase starts with a fresh progress bar: drop the previous
+    // phase's value (banked work when windowed, back-date when legacy) and, for
+    // a legacy replenish, record THIS phase's back-date so the bar starts empty.
+    if (newBoostedTime !== undefined) {
+      patch.fruit.boostedTime = newBoostedTime;
+    } else {
+      delete patch.fruit.boostedTime;
+    }
     patch.fruit.harvestedAt = newPlantedAt;
     // Windowed replenish stores the real harvestedAt + a permanent-boost-only
     // base recovery; a legacy (never-windowed) fruit under flag-off back-dates

@@ -37,7 +37,10 @@ import {
 } from "features/game/types/buildings";
 import { isPetNFTRevealed, PET_TYPES } from "features/game/types/pets";
 import { Box, type BoxProps } from "components/ui/Box";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  getTranslatedItemName,
+  ITEM_DETAILS,
+} from "features/game/types/images";
 import {
   getCollectiblesAcrossLocations,
   getPlacementGroup,
@@ -616,6 +619,7 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
         <Box
           count={chestMap[name]}
           image={image}
+          tooltip={getTranslatedItemName(name)}
           disabled={alreadyPlaced}
           // Bottom-right cross, so a greyed tile reads as "can't place this"
           // rather than as a loading or locked state.

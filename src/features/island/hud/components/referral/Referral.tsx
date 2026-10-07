@@ -40,6 +40,7 @@ import classNames from "classnames";
 import { getRelativeTime } from "lib/utils/time";
 import { useNow } from "lib/utils/hooks/useNow";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
+import { playerModalManager } from "features/social/lib/playerModalManager";
 
 interface ReferralProps {
   onHide: () => void;
@@ -118,9 +119,15 @@ export const Referrees: React.FC = () => {
             <tr
               key={index}
               style={{ border: "1px solid #b96f50" }}
-              className={classNames({
+              className={classNames("cursor-pointer", {
                 "bg-[#ead4aa]": index % 2 === 0,
               })}
+              onClick={() =>
+                playerModalManager.open({
+                  farmId: id,
+                  username,
+                })
+              }
             >
               <td className="p-1.5 flex">
                 <img
