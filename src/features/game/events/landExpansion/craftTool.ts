@@ -96,13 +96,21 @@ export function isTutorialToolStockPhase(game: Readonly<GameState>): boolean {
   );
 }
 
-/** Paid Axes purchasable per level during the tutorial phase. */
-export const TUTORIAL_PAID_AXES_PER_LEVEL = 3;
+/**
+ * Paid Axes purchasable per level during the tutorial phase.
+ *
+ * Sized from the phase's actual wood ledger, not from caution alone:
+ * expansions 4 and 5 cost 8 Wood, four Pickaxes cost 12 (3 each!), the
+ * Water Well 5, and the Blacksmith's three wood orders - the coin loop
+ * itself - another 9. That is ~34 chops against 10 free Axes, so the paid
+ * budget must reach ~24 by level 3, with slack for extra order cycles.
+ */
+export const TUTORIAL_PAID_AXES_PER_LEVEL = 10;
 
 /**
  * How many PAID Axes a tutorial-phase player can still buy. The free batch
  * teaches chopping; these teach the coins -> Axe -> Wood loop - so they stay
- * purchasable at full price but are budgeted (three per level, growing until
+ * purchasable at full price but are budgeted (ten per level, growing until
  * level five) rather than stock-metered. Level-ups refresh the budget, and
  * because an Axe spent on a Blacksmith wood order earns its coins back, a
  * player can never buy themselves into a hole they cannot chop out of.

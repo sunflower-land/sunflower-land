@@ -815,31 +815,37 @@ describe("tutorial free axes", () => {
     ).toThrow("Insufficient Coins");
   });
 
-  it("sells paid Axes from a small per-level budget", () => {
+  it("sells paid Axes from a per-level budget", () => {
     const spent: GameState = {
       ...NEW_FARM,
-      coins: 100,
+      coins: 300,
       farmActivity: { "Axe Crafted": 10 },
     };
 
-    // Level 1 budgets three paid Axes
-    const state = craftAxes(spent, 3);
-    expect(state.coins).toEqual(40);
-    expect(state.inventory.Axe).toEqual(new Decimal(3));
+    // Level 1 budgets ten paid Axes
+    const state = craftAxes(spent, 10);
+    expect(state.coins).toEqual(100);
+    expect(state.inventory.Axe).toEqual(new Decimal(10));
 
     expect(() => craftAxes(state, 1)).toThrow("Not enough stock");
   });
 
   it("refreshes the paid budget at level-ups", () => {
-    const levelTwo: GameState = {
+    // The free batch and level 1's paid budget are both spent
+    const drained: GameState = {
       ...NEW_FARM,
       coins: 100,
+      farmActivity: { "Axe Crafted": 20 },
+    };
+
+    expect(() => craftAxes(drained, 1)).toThrow("Not enough stock");
+
+    const levelTwo: GameState = {
+      ...drained,
       bumpkin: {
-        ...NEW_FARM.bumpkin,
+        ...drained.bumpkin,
         experience: LEVEL_EXPERIENCE[2],
       },
-      // The free batch and level 1's paid budget are spent
-      farmActivity: { "Axe Crafted": 13 },
     };
 
     const state = craftAxes(levelTwo, 3);
@@ -855,8 +861,8 @@ describe("tutorial free axes", () => {
         ...NEW_FARM.bumpkin,
         experience: LEVEL_EXPERIENCE[7],
       },
-      // Free batch plus level 5's full budget of fifteen
-      farmActivity: { "Axe Crafted": 25 },
+      // Free batch plus level 5's full budget of fifty
+      farmActivity: { "Axe Crafted": 60 },
     };
 
     expect(() => craftAxes(levelled, 1)).toThrow("Not enough stock");

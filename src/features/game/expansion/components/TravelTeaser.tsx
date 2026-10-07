@@ -46,15 +46,19 @@ const hint = (state: MachineState) => {
   });
 
   if (meetsLevelRequirement(ascension, { ascension: 0, level: 2 })) {
-    // Peggy's order after the tutorial Sunflowers asks for the spare Rhubarb
-    // Tart - keyed on the open order itself, not her delivery count
-    const hasOpenTartOrder = game.delivery.orders.some(
+    // Peggy's tart orders recur through the work cycle, so only call one
+    // out while a tart is actually in hand - while the Rhubarb is still
+    // growing, the well/mine/expand cues below own the guidance.
+    const hasDeliverableTart = game.delivery.orders.some(
       (order) =>
         order.from === "peggy" &&
+        !order.completedAt &&
         !!order.items["Rhubarb Tart"] &&
-        !order.completedAt,
+        (inventory["Rhubarb Tart"] ?? new Decimal(0)).gte(
+          order.items["Rhubarb Tart"] ?? 0,
+        ),
     );
-    if (game.island.type === "basic" && hasOpenTartOrder) {
+    if (game.island.type === "basic" && hasDeliverableTart) {
       return translate("pete.teaser.deliverTart");
     }
 
