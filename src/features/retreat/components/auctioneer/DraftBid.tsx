@@ -39,11 +39,13 @@ export const DraftBid: React.FC<Props> = ({
   const [showConfirm, setShowConfirm] = useState(false);
   const end = useCountdown(auction.endAt);
 
+  const paidIngredients = getKeys(auction.ingredients).filter(
+    (name) => (auction.ingredients[name] ?? 0) > 0,
+  );
   const isMultiIngredientAuction =
-    getKeys(auction.ingredients).length + Number(auction.sfl > 0) > 1;
-  const isSFLAuction =
-    auction.sfl > 0 && getKeys(auction.ingredients).length === 0;
-  const ingredient = getKeys(auction.ingredients)[0];
+    paidIngredients.length + Number(auction.sfl > 0) > 1;
+  const isSFLAuction = auction.sfl > 0 && paidIngredients.length === 0;
+  const ingredient = paidIngredients[0];
 
   // Validators for multi ingredient auctions. These auctions go up in multiples of tickets
   const missingSFL = gameState.balance.lt(auction.sfl * tickets);
@@ -86,7 +88,7 @@ export const DraftBid: React.FC<Props> = ({
                 <img src={sflIcon} className="h-5" />
               </div>
             )}
-            {getKeys(auction.ingredients).map((name) => (
+            {paidIngredients.map((name) => (
               <div className="flex items-center mb-1 mr-3" key={name}>
                 <div>
                   <p className={classNames("mr-1 text-right text-sm")}>
@@ -164,7 +166,7 @@ export const DraftBid: React.FC<Props> = ({
                   <img src={sflIcon} className="h-5" />
                 </div>
               )}
-              {getKeys(auction.ingredients).map((name) => (
+              {paidIngredients.map((name) => (
                 <div className="flex items-center mb-1 mr-3" key={name}>
                   <div>
                     <p
@@ -234,7 +236,7 @@ export const DraftBid: React.FC<Props> = ({
                 <img src={sflIcon} alt="FLOWER" className="h-4" />
               </span>
             )}
-            {getKeys(auction.ingredients).map((name) => (
+            {paidIngredients.map((name) => (
               <span key={name} className="inline-flex items-center gap-1">
                 {formatNumber(gameState.inventory[name] ?? 0)}
                 <img
