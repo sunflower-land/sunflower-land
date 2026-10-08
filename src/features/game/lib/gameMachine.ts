@@ -102,7 +102,10 @@ import {
   sellMarketResourceRequest,
 } from "../actions/sellMarketResource";
 import { setCachedMarketPrices } from "features/world/ui/market/lib/marketCache";
-import { OFFLINE_FARM } from "./landData";
+import {
+  applyPreviewLocalStorage,
+  getPreviewFarm,
+} from "./preview/previewState";
 import { mergeLocalVisitProgress } from "./mergeLocalVisitProgress";
 import { isValidRedirect } from "features/portal/lib/portalUtil";
 import {
@@ -1183,9 +1186,15 @@ export function startGame(authContext: AuthContext) {
             {
               target: "notifying",
               cond: () => ART_MODE,
-              actions: assign({
-                state: (_context) => OFFLINE_FARM,
-              }),
+              // ART_MODE boots the offline farm, optionally shaped by the
+              // PR-preview URL params (?fixture, ?patch, ?ls). See
+              // lib/preview/previewLink.ts.
+              actions: [
+                () => applyPreviewLocalStorage(),
+                assign({
+                  state: (_context) => getPreviewFarm(),
+                }),
+              ],
             },
           ],
           invoke: {

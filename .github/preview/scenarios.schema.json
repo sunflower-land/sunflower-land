@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PR preview scenarios",
+  "description": "Test scenarios for a pull request. Each one becomes a link into the ART_MODE preview build with the described game state pre-loaded.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["summary", "scenarios"],
+  "properties": {
+    "summary": {
+      "type": "string",
+      "description": "One or two sentences: what the PR changes from a tester's point of view."
+    },
+    "scenarios": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["title", "why", "route", "fixture", "patch", "steps"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Short name, max ~60 characters, e.g. 'Hungry chicken, one Hen House'."
+          },
+          "why": {
+            "type": "string",
+            "description": "One sentence: which part of the diff this exercises and what should be observed."
+          },
+          "route": {
+            "type": "string",
+            "description": "Hash route to open, e.g. '/' for the farm or '/world/plaza'. Must start with '/'. Never a full URL."
+          },
+          "fixture": {
+            "type": "string",
+            "description": "Base farm the patch is merged over: default, new, test, static, basic, spring, desert, volcano, swamp, spooky, crystal, galaxy, marble."
+          },
+          "patch": {
+            "type": "object",
+            "description": "Partial GameState deep-merged over the fixture. null deletes a key, arrays replace, numbers over Decimal fields become Decimals, strings like '$now-2h' become timestamps.",
+            "additionalProperties": true
+          },
+          "localStorage": {
+            "type": "object",
+            "description": "Optional localStorage keys to seed before boot. Values may use '$date' tokens for ISO dates.",
+            "additionalProperties": true
+          },
+          "steps": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 8,
+            "items": { "type": "string" },
+            "description": "What the tester should click and what they should expect to see."
+          }
+        }
+      }
+    }
+  }
+}
