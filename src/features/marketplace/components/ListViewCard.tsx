@@ -225,9 +225,11 @@ export const ListViewCard: React.FC<Props> = ({
               <img src={SUNNYSIDE.icons.stopwatch} className="h-4 mr-1" />
               <p className="text-xs truncate pb-0.5">
                 {" "}
-                {`${secondsToString((expiresAt - now) / 1000, {
-                  length: "short",
-                })} left`}
+                {t("vipExpiry.timeLeft", {
+                  time: secondsToString((expiresAt - now) / 1000, {
+                    length: "short",
+                  }),
+                })}
               </p>
             </div>
           )}

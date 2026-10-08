@@ -10,7 +10,10 @@ import vip from "assets/icons/vip.webp";
 import xpIcon from "assets/icons/xp.png";
 import recipeIcon from "assets/decorations/page.png";
 import { getKeys } from "lib/object";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  getTranslatedItemName,
+  ITEM_DETAILS,
+} from "features/game/types/images";
 import { getItemDescription } from "features/game/lib/getItemDescription";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
@@ -236,7 +239,7 @@ export const Rewards: React.FC<{
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-wrap items-start">
                     <Label type="default" className="mr-1 mb-1">
-                      {`${formatNumber(reward.items[name] ?? 1)} x ${name}`}
+                      {`${formatNumber(reward.items[name] ?? 1)} x ${getTranslatedItemName(name)}`}
                     </Label>
                     {isVipGift && (
                       <img

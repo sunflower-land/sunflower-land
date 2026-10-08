@@ -479,9 +479,11 @@ export const TradeableDescription: React.FC<{
           {tradeable?.expiresAt && !hideLimited && (
             <div className="p-2 pl-0 pb-0">
               <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-                {`${secondsToString((tradeable.expiresAt - now) / 1000, {
-                  length: "short",
-                })} left`}
+                {t("vipExpiry.timeLeft", {
+                  time: secondsToString((tradeable.expiresAt - now) / 1000, {
+                    length: "short",
+                  }),
+                })}
               </Label>
             </div>
           )}
