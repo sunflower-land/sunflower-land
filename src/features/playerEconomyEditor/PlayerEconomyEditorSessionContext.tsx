@@ -12,6 +12,7 @@ import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { Modal } from "components/ui/Modal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useLocation, useNavigate } from "react-router";
 
 import type {
   EditorFormState,
@@ -22,8 +23,20 @@ import { EMPTY_FORM } from "./lib/types";
 import { configToForm } from "./lib/configToForm";
 import { formToConfig } from "./lib/formToConfig";
 import { useEditorApi } from "./lib/useEditorApi";
+import { extractPrivateKeyFromEventData } from "./lib/editorApi";
 
 /* ─── Single session state (editor only; not the game machine) ─── */
+
+/** Economy secret API key status. The API stores only a hash. */
+export type EconomyApiKeyState = {
+  hasKey: boolean;
+  createdAt?: string;
+  /** Plaintext key, only known right after create / rotate in this session. */
+  revealed?: string;
+};
+
+/** Router `state` passed from the create view so the new key can be shown once. */
+export type PlayerEconomyEditorLocationState = { privateKey?: string };
 
 export type PlayerEconomyEditorSessionState = {
   phase: "loading" | "ready" | "failed";
@@ -34,6 +47,7 @@ export type PlayerEconomyEditorSessionState = {
   baseline: EditorFormState | null;
   /** S3 `index.html` for hosted minigame site; from economy-editor list API. */
   hostedSiteIndex: HostedMinigameSiteIndexInfo | null;
+  apiKey: EconomyApiKeyState;
   loadError: string | null;
   syncError: string | null;
   savedFlash: boolean;
@@ -48,8 +62,10 @@ export type PlayerEconomyEditorSessionAction =
       type: "LOAD_OK";
       form: EditorFormState;
       hostedSiteIndex: HostedMinigameSiteIndexInfo | null;
+      apiKey: EconomyApiKeyState;
     }
   | { type: "LOAD_FAIL"; message: string }
+  | { type: "SET_API_KEY"; apiKey: EconomyApiKeyState }
   | {
       type: "SET_HOSTED_SITE_INDEX";
       hostedSiteIndex: HostedMinigameSiteIndexInfo | null;
@@ -76,6 +92,7 @@ function sessionInit(
       form: f,
       baseline: structuredClone(f),
       hostedSiteIndex: null,
+      apiKey: { hasKey: false },
       loadError: null,
       syncError: null,
       savedFlash: false,
@@ -91,6 +108,7 @@ function sessionInit(
     form: null,
     baseline: null,
     hostedSiteIndex: null,
+    apiKey: { hasKey: false },
     loadError: null,
     syncError: null,
     savedFlash: false,
@@ -112,8 +130,12 @@ function sessionReducer(
         form: action.form,
         baseline: structuredClone(action.form),
         hostedSiteIndex: action.hostedSiteIndex,
+        // Keep a key revealed earlier this session (e.g. passed in from create).
+        apiKey: { ...action.apiKey, revealed: state.apiKey.revealed },
         loadError: null,
       };
+    case "SET_API_KEY":
+      return { ...state, apiKey: action.apiKey };
     case "SET_HOSTED_SITE_INDEX":
       return { ...state, hostedSiteIndex: action.hostedSiteIndex };
     case "LOAD_FAIL":
@@ -175,6 +197,8 @@ export type PlayerEconomyEditorSessionContextValue = {
   /** Re-fetch list row metadata (e.g. S3 `index.html` last modified) without touching the form. */
   refreshHostedSiteMetadata: () => Promise<void>;
   submitEvent: ReturnType<typeof useEditorApi>["submitEvent"];
+  /** Rotates the economy secret API key; the new key is revealed in `state.apiKey`. */
+  rotateApiKey: () => Promise<void>;
 };
 
 const PlayerEconomyEditorSessionContext =
@@ -198,11 +222,32 @@ export function PlayerEconomyEditorSessionProvider({
     requestItemImageUploadUrl,
     prepareEconomySiteUploads,
   } = useEditorApi();
+  const location = useLocation();
+  const createdPrivateKey = (
+    location.state as PlayerEconomyEditorLocationState | null
+  )?.privateKey;
   const [state, dispatch] = useReducer(
     sessionReducer,
     { mode, slug },
-    ({ mode: m, slug: s }) => sessionInit(m, s),
+    ({ mode: m, slug: s }) => {
+      const init = sessionInit(m, s);
+      return createdPrivateKey
+        ? {
+            ...init,
+            apiKey: { hasKey: true, revealed: createdPrivateKey },
+          }
+        : init;
+    },
   );
+
+  // Drop the one-time key from history so a reload (or a later rotate) never
+  // shows a stale key; it now lives only in session state.
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!createdPrivateKey) return;
+    navigate(location.pathname, { replace: true, state: null });
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- run once on mount
+  }, []);
 
   const loadGenRef = useRef(0);
   const saveInFlightRef = useRef(false);
@@ -227,6 +272,10 @@ export function PlayerEconomyEditorSessionProvider({
           type: "LOAD_OK",
           form: configToForm(slug, row.config),
           hostedSiteIndex: row.hostedSiteIndex ?? null,
+          apiKey: {
+            hasKey: row.hasPrivateKey === true,
+            createdAt: row.privateKeyCreatedAt,
+          },
         });
       } catch (e) {
         if (cancelled || gen !== loadGenRef.current) return;
@@ -282,6 +331,25 @@ export function PlayerEconomyEditorSessionProvider({
     }
   }, [mode, slug, loadRows]);
 
+  const rotateApiKey = useCallback(async () => {
+    const result = await submitEvent({
+      type: "economy.privateKeyReset",
+      slug: slug.trim(),
+    });
+    const revealed = extractPrivateKeyFromEventData(result.data);
+    if (!revealed) {
+      throw new Error(t("playerEconomyEditor.apiKey.rotateFailed"));
+    }
+    dispatch({
+      type: "SET_API_KEY",
+      apiKey: {
+        hasKey: true,
+        createdAt: result.savedRow?.privateKeyCreatedAt,
+        revealed,
+      },
+    });
+  }, [slug, submitEvent, t]);
+
   const commitSaveLocalAndQueueSync = useCallback(
     (form: EditorFormState) => {
       if (saveInFlightRef.current) return;
@@ -336,6 +404,7 @@ export function PlayerEconomyEditorSessionProvider({
       prepareEconomySiteUploads,
       refreshHostedSiteMetadata,
       submitEvent,
+      rotateApiKey,
     }),
     [
       state,
@@ -347,6 +416,7 @@ export function PlayerEconomyEditorSessionProvider({
       prepareEconomySiteUploads,
       refreshHostedSiteMetadata,
       submitEvent,
+      rotateApiKey,
     ],
   );
 

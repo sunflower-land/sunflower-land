@@ -215,6 +215,7 @@ export function useEditorApi() {
           config,
         });
         return {
+          data: { privateKey: `sk_economy_mock_${Date.now()}` },
           savedConfig: config,
           savedRow: mockStore[mockStore.length - 1],
         };
@@ -241,6 +242,11 @@ export function useEditorApi() {
         // Mock branch: server-side runtime state isn't tracked here, so a
         // successful no-op response is enough for local development.
         return {};
+      }
+
+      if (ev.type === "economy.privateKeyReset" && ev.slug) {
+        // Mock branch: fake key so the API key panel can be exercised locally.
+        return { data: { privateKey: `sk_economy_mock_${Date.now()}` } };
       }
 
       if (ev.type === "economy.invalidated" && ev.slug) {
