@@ -1,0 +1,54 @@
+# Delete a PR's preview files from the S3 bucket when the PR closes. See
+# docs/PR_PREVIEWS.md.
+#
+# `pull_request_target` runs main's workflow with secrets. It is safe here
+# because the only thing taken from the event is the PR number, and nothing
+# from the PR is checked out.
+name: Preview cleanup
+
+on:
+  pull_request_target:
+    types: [closed]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+env:
+  PREVIEW_BUCKET: sunflower-land-ci-preview
+  AWS_REGION: ap-southeast-2
+
+jobs:
+  cleanup:
+    environment: develop
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 10
+    env:
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+      PREFIX: pr-${{ github.event.pull_request.number }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Delete s3://${{ env.PREVIEW_BUCKET }}/pr-${{ github.event.pull_request.number }}/
+        run: |
+          set -uo pipefail
+          aws s3 rm "s3://${PREVIEW_BUCKET}/${PREFIX}/" --recursive --only-show-errors \
+            || echo "Nothing to delete under ${PREFIX}/"
+
+      - name: Update the preview comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const upsert = require(`${process.env.GITHUB_WORKSPACE}/.github/preview/upsert-comment.js`);
+            await upsert(
+              { github, context, core },
+              Number(process.env.PR_NUMBER),
+              "### 🔍 PR preview\n\nThe preview for this pull request has been removed because the PR was closed.",
+            );

@@ -1,0 +1,271 @@
+# PR previews, step 2 of 2: publish the artifact built by preview-build.yml to
+# a per-PR prefix in the preview S3 bucket, ask an LLM for test scenarios and
+# post the links on the PR.
+#
+# `workflow_run` always executes THIS file as it exists on main, with secrets.
+# The PR's code is never checked out or executed here: the build is treated as
+# inert static files, the S3 prefix comes from the verified PR number, and the
+# scenario generator reads the PR through `git show` only. See
+# docs/PR_PREVIEWS.md for the threat model.
+name: Preview deploy
+
+on:
+  workflow_run:
+    workflows: ["Preview build"]
+    types: [completed]
+
+permissions:
+  contents: read
+  pull-requests: write
+  actions: read
+
+env:
+  PREVIEW_BUCKET: sunflower-land-ci-preview
+  AWS_REGION: ap-southeast-2
+
+concurrency:
+  group: preview-deploy-${{ github.event.workflow_run.head_repository.full_name }}-${{ github.event.workflow_run.head_branch }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    if: >-
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.conclusion == 'success'
+    environment: develop
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 15
+    outputs:
+      pr: ${{ steps.pr.outputs.number }}
+      url: ${{ steps.deploy.outputs.url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: preview-dist
+          path: preview-dist
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+
+      - name: Download preview metadata
+        uses: actions/download-artifact@v4
+        with:
+          name: preview-meta
+          path: preview-meta
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+
+      # The metadata was written by the untrusted build. Only trust it once
+      # every field agrees with GitHub's own record of the PR and of the run
+      # that triggered us.
+      - name: Verify which PR this build belongs to
+        id: pr
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require("fs");
+            const meta = JSON.parse(fs.readFileSync("preview-meta/preview-meta.json", "utf8"));
+            const number = Number(meta.pr);
+            if (!Number.isInteger(number) || number <= 0) {
+              core.setFailed(`Invalid PR number in metadata: ${meta.pr}`);
+              return;
+            }
+
+            const run = context.payload.workflow_run;
+            const { data: pr } = await github.rest.pulls.get({
+              ...context.repo,
+              pull_number: number,
+            });
+
+            const problems = [];
+            if (pr.head.sha !== run.head_sha) problems.push(`PR head ${pr.head.sha} != run head ${run.head_sha} (stale build)`);
+            if (meta.headSha !== run.head_sha) problems.push(`metadata head ${meta.headSha} != run head ${run.head_sha}`);
+            if (pr.base.repo.full_name !== `${context.repo.owner}/${context.repo.repo}`) problems.push("PR does not target this repository");
+            if (pr.base.ref !== "main") problems.push(`PR targets ${pr.base.ref}, not main`);
+            if (pr.state !== "open") problems.push(`PR is ${pr.state}`);
+
+            if (problems.length) {
+              core.setFailed(`Refusing to deploy preview for #${number}: ${problems.join("; ")}`);
+              return;
+            }
+
+            core.setOutput("number", String(number));
+            core.setOutput("head", pr.head.sha);
+            core.setOutput("base", pr.base.sha);
+            core.info(`Deploying preview for #${number} (${pr.head.sha})`);
+
+      - name: Sanitise the artifact
+        run: |
+          set -euo pipefail
+          test -f preview-dist/index.html
+          find preview-dist -type l -print -delete
+          echo "files: $(find preview-dist -type f | wc -l), size: $(du -sh preview-dist | cut -f1)"
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      # One prefix per PR. `--delete` drops files from the previous push so a
+      # stale chunk never lingers. index.html is no-cache so a re-push shows
+      # up immediately; everything else is content-hashed by vite.
+      - name: Upload to s3://${{ env.PREVIEW_BUCKET }}/pr-${{ steps.pr.outputs.number }}/
+        id: deploy
+        env:
+          PREFIX: pr-${{ steps.pr.outputs.number }}
+        run: |
+          set -euo pipefail
+          aws s3 sync preview-dist "s3://${PREVIEW_BUCKET}/${PREFIX}/" --delete --no-progress \
+            --exclude index.html --cache-control "public, max-age=31536000, immutable"
+          aws s3 cp preview-dist/index.html "s3://${PREVIEW_BUCKET}/${PREFIX}/index.html" \
+            --cache-control "no-cache" --content-type "text/html; charset=utf-8"
+
+          URL="https://${PREVIEW_BUCKET}.s3.${AWS_REGION}.amazonaws.com/${PREFIX}/index.html"
+          echo "Preview: $URL"
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+
+      # Post the bare link straight away; the scenarios job replaces this
+      # comment once the LLM has finished.
+      - name: Comment the preview link
+        uses: actions/github-script@v7
+        env:
+          PR_NUMBER: ${{ steps.pr.outputs.number }}
+          PREVIEW_URL: ${{ steps.deploy.outputs.url }}
+          HEAD_SHA: ${{ steps.pr.outputs.head }}
+        with:
+          script: |
+            const upsert = require(`${process.env.GITHUB_WORKSPACE}/.github/preview/upsert-comment.js`);
+            const { PR_NUMBER, PREVIEW_URL, HEAD_SHA } = process.env;
+            await upsert({ github, context, core }, Number(PR_NUMBER), [
+              `### 🔍 PR preview`,
+              ``,
+              `**${PREVIEW_URL}** — UI-only build of ${HEAD_SHA.slice(0, 7)} (no server, offline farm).`,
+              ``,
+              `⏳ Generating test scenarios…`,
+            ].join("\n"));
+
+  scenarios:
+    needs: deploy
+    environment: develop
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 30
+    env:
+      PR_NUMBER: ${{ needs.deploy.outputs.pr }}
+      PREVIEW_URL: ${{ needs.deploy.outputs.url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Fetch the PR head into a ref that is never checked out. Codex reads it
+      # with `git show`; nothing from it ever lands in the working tree.
+      - name: Fetch the PR head (read only)
+        id: refs
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "pull/${PR_NUMBER}/head:refs/preview/pr-head"
+          HEAD_SHA="$(git rev-parse refs/preview/pr-head)"
+          MERGE_BASE="$(git merge-base origin/main refs/preview/pr-head)"
+          mkdir -p .preview
+          git diff --name-status "$MERGE_BASE" "$HEAD_SHA" > .preview/changed-files.txt
+          git diff "$MERGE_BASE" "$HEAD_SHA" > .preview/diff.patch
+          echo "head=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+          echo "merge_base=$MERGE_BASE" >> "$GITHUB_OUTPUT"
+          wc -l .preview/changed-files.txt .preview/diff.patch
+
+      - name: Write the PR description (untrusted data for the prompt)
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require("fs");
+            const { data: pr } = await github.rest.pulls.get({
+              ...context.repo,
+              pull_number: Number(process.env.PR_NUMBER),
+            });
+            fs.writeFileSync(".preview/pr-description.md", `# ${pr.title}\n\n${pr.body ?? ""}\n`);
+
+      - name: Render the prompt
+        env:
+          HEAD_SHA: ${{ steps.refs.outputs.head }}
+          MERGE_BASE: ${{ steps.refs.outputs.merge_base }}
+        run: |
+          node -e '
+            const fs = require("fs");
+            const vars = {
+              PR_NUMBER: process.env.PR_NUMBER,
+              REPOSITORY: process.env.GITHUB_REPOSITORY,
+              HEAD_SHA: process.env.HEAD_SHA,
+              MERGE_BASE: process.env.MERGE_BASE,
+            };
+            let prompt = fs.readFileSync(".github/preview/scenarios.prompt.md", "utf8");
+            for (const [key, value] of Object.entries(vars)) {
+              prompt = prompt.split(`{{${key}}}`).join(value);
+            }
+            fs.writeFileSync(".preview/prompt.md", prompt);
+          '
+
+      # allow-users "*" because the triggering actor is the PR author, who
+      # usually has no write access. That is safe here only because the PR's
+      # code is never executed: Codex sees it as git objects and text files.
+      - name: Generate scenarios with Codex
+        id: codex
+        continue-on-error: true
+        uses: openai/codex-action@v1.11
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          model: gpt-5.6-sol
+          effort: medium
+          allow-users: "*"
+          prompt-file: .preview/prompt.md
+          output-schema-file: .github/preview/scenarios.schema.json
+          output-file: .preview/scenarios.json
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install dependencies
+        run: yarn install
+
+      # Validates every scenario against main's item lists and the patch
+      # format, builds the links itself (the LLM never emits URLs) and writes
+      # the comment. Always succeeds: a broken scenario is dropped with a
+      # note, a missing scenarios file yields the bare-link comment.
+      - name: Validate scenarios and build the comment
+        env:
+          HEAD_SHA: ${{ steps.refs.outputs.head }}
+        run: |
+          NODE_PATH=./src NODE_ENV=metadata yarn vite-node --project metadata/node.tsconfig.json \
+            _scripts/preview/buildPreviewComment.ts \
+            --scenarios .preview/scenarios.json \
+            --base "$PREVIEW_URL" \
+            --pr "$PR_NUMBER" \
+            --head "$HEAD_SHA" \
+            --out .preview/comment.md
+          cat .preview/comment.md
+
+      - name: Upload scenario artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: preview-scenarios-${{ env.PR_NUMBER }}
+          path: |
+            .preview/scenarios.json
+            .preview/comment.md
+            .preview/prompt.md
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Post the comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require("fs");
+            const upsert = require(`${process.env.GITHUB_WORKSPACE}/.github/preview/upsert-comment.js`);
+            const body = fs.readFileSync(".preview/comment.md", "utf8");
+            await upsert({ github, context, core }, Number(process.env.PR_NUMBER), body);
