@@ -16,7 +16,7 @@ permissions:
 
 env:
   PREVIEW_BUCKET: sunflower-land-ci-preview
-  AWS_REGION: ap-southeast-2
+  AWS_REGION: us-east-1
 
 jobs:
   cleanup:

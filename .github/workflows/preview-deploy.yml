@@ -21,7 +21,7 @@ permissions:
 
 env:
   PREVIEW_BUCKET: sunflower-land-ci-preview
-  AWS_REGION: ap-southeast-2
+  AWS_REGION: us-east-1
 
 concurrency:
   group: preview-deploy-${{ github.event.workflow_run.head_repository.full_name }}-${{ github.event.workflow_run.head_branch }}
