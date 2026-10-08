@@ -8717,5 +8717,20 @@
   "pete.teaser.deliverTart": "Livrez la tarte à la rhubarbe",
   "pete.teaser.moreDeliveries": "Terminez les livraisons pour obtenir plus de pièces !",
   "pete.teaser.mineStone": "Minez les pierres",
-  "pete.teaser.waterWell": "Construire un puits d'eau"
+  "pete.teaser.waterWell": "Construire un puits d'eau",
+  "playerEconomyEditor.apiKey.title": "Clé API secrète",
+  "playerEconomyEditor.apiKey.requireToggle": "Exiger une clé API secrète",
+  "playerEconomyEditor.apiKey.requireHint": "Lorsque cette option est activée, chaque requête adressée à l'API des économies (actions, soumission des scores au classement et collecte) doit inclure votre clé secrète dans l'en-tête {{header}}. Les demandes qui n'en contiennent pas sont rejetées avec la mention « Clé privée manquante ».",
+  "playerEconomyEditor.apiKey.serverOnlyHint": "Envoyez ces demandes depuis votre propre serveur de jeu. Ne saisissez jamais cette clé dans le code du navigateur de votre jeu, ne la partagez jamais avec des joueurs ou ne l'inscrivez jamais à un dépôt public. Toute personne possédant la clé peut publier des actions pour vos joueurs.",
+  "playerEconomyEditor.apiKey.noKeyWarning": "Cette économie n'a pas encore de clé secrète, donc chaque action échouera. Générez une clé ci-dessous.",
+  "playerEconomyEditor.apiKey.copyNow": "Copiez cette clé maintenant. Pour des raisons de sécurité, il ne sera plus affiché.",
+  "playerEconomyEditor.apiKey.copy": "Clé de copie",
+  "playerEconomyEditor.apiKey.hidden": "Votre clé est cachée pour des raisons de sécurité. Faites-le pivoter si vous l'avez perdu ou si vous pensez qu'il a fuité.",
+  "playerEconomyEditor.apiKey.hiddenSince": "Votre clé (créée {{date}}) est masquée pour des raisons de sécurité. Faites-le pivoter si vous l'avez perdu ou si vous pensez qu'il a fuité.",
+  "playerEconomyEditor.apiKey.none": "Cette économie n'a pas encore de clé secrète.",
+  "playerEconomyEditor.apiKey.rotate": "Touche de rotation",
+  "playerEconomyEditor.apiKey.generate": "Générer une clé",
+  "playerEconomyEditor.apiKey.rotateConfirm": "Cela crée une nouvelle clé secrète et l'ancienne cesse de fonctionner immédiatement. Mettez à jour votre serveur de jeu avec la nouvelle clé juste après.",
+  "playerEconomyEditor.apiKey.generateConfirm": "Cela crée une clé secrète pour votre économie. Vous ne le verrez qu'une seule fois, alors copiez-le dans un endroit sûr.",
+  "playerEconomyEditor.apiKey.rotateFailed": "Impossible de faire pivoter la touche. Veuillez réessayer."
 }

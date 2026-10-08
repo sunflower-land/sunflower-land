@@ -8717,5 +8717,20 @@
   "pete.teaser.deliverTart": "Entrega la tarta de ruibarbo",
   "pete.teaser.moreDeliveries": "¡Completa las entregas para conseguir más monedas!",
   "pete.teaser.mineStone": "Extrae las piedras",
-  "pete.teaser.waterWell": "Construye un pozo de agua"
+  "pete.teaser.waterWell": "Construye un pozo de agua",
+  "playerEconomyEditor.apiKey.title": "Clave API secreta",
+  "playerEconomyEditor.apiKey.requireToggle": "Requerir clave de API secreta",
+  "playerEconomyEditor.apiKey.requireHint": "Cuando está activada, todas las solicitudes a la API de economías (acciones, envío de puntuaciones en la tabla clasificatoria y recopilación) deben incluir tu clave secreta en el encabezado {{header}}. Las solicitudes sin ella se rechazan si dicen que falta la clave privada.",
+  "playerEconomyEditor.apiKey.serverOnlyHint": "Envía estas solicitudes desde tu propio servidor de juegos. Nunca pongas esta clave en el código del navegador de tu juego, ni la compartas con los jugadores ni la guardes en un repositorio público. Cualquier persona que tenga la clave puede publicar acciones para tus jugadores.",
+  "playerEconomyEditor.apiKey.noKeyWarning": "Esta economía aún no tiene una clave secreta, por lo que cualquier acción fracasará. Genere una clave a continuación.",
+  "playerEconomyEditor.apiKey.copyNow": "Copia esta clave ahora. Por motivos de seguridad, no se volverá a mostrar.",
+  "playerEconomyEditor.apiKey.copy": "Copiar clave",
+  "playerEconomyEditor.apiKey.hidden": "La clave está oculta por motivos de seguridad. Gírala si la has perdido o crees que se ha filtrado.",
+  "playerEconomyEditor.apiKey.hiddenSince": "Tu clave (creada {{date}}) está oculta por motivos de seguridad. Gírala si la has perdido o crees que se ha filtrado.",
+  "playerEconomyEditor.apiKey.none": "Esta economía aún no tiene una clave secreta.",
+  "playerEconomyEditor.apiKey.rotate": "Tecla de rotación",
+  "playerEconomyEditor.apiKey.generate": "Generar clave",
+  "playerEconomyEditor.apiKey.rotateConfirm": "Esto crea una nueva clave secreta y la antigua deja de funcionar de inmediato. Actualiza tu servidor de juegos con la nueva clave inmediatamente después.",
+  "playerEconomyEditor.apiKey.generateConfirm": "Esto crea una clave secreta para su economía. Solo la verás una vez, así que cópiala en un lugar seguro.",
+  "playerEconomyEditor.apiKey.rotateFailed": "No se pudo girar la llave. Por favor, inténtelo de nuevo."
 }

@@ -8717,5 +8717,20 @@
   "pete.teaser.deliverTart": "Consegna la crostata al rabarbaro",
   "pete.teaser.moreDeliveries": "Completa le consegne per ottenere più monete!",
   "pete.teaser.mineStone": "Estrai le pietre",
-  "pete.teaser.waterWell": "Costruisci un pozzo d'acqua"
+  "pete.teaser.waterWell": "Costruisci un pozzo d'acqua",
+  "playerEconomyEditor.apiKey.title": "Chiave API segreta",
+  "playerEconomyEditor.apiKey.requireToggle": "Richiedi una chiave API segreta",
+  "playerEconomyEditor.apiKey.requireHint": "Quando è attiva, ogni richiesta all'API delle economie (azioni, invio dei punteggi della classifica e raccolta) deve includere la tua chiave segreta nell'intestazione {{header}}. Le richieste prive di tale chiave vengono respinte con la dicitura «Chiave privata mancante».",
+  "playerEconomyEditor.apiKey.serverOnlyHint": "Invia queste richieste dal tuo server di gioco. Non inserire mai questa chiave nel codice del browser del gioco, condividerla con i giocatori o salvarla in un repository pubblico. Chiunque possieda la chiave può pubblicare azioni per i tuoi giocatori.",
+  "playerEconomyEditor.apiKey.noKeyWarning": "Questa economia non ha ancora una chiave segreta, quindi ogni azione fallirà. Genera una chiave qui sotto.",
+  "playerEconomyEditor.apiKey.copyNow": "Copia questa chiave adesso. Per motivi di sicurezza non verrà più mostrata.",
+  "playerEconomyEditor.apiKey.copy": "Copia chiave",
+  "playerEconomyEditor.apiKey.hidden": "La tua chiave è nascosta per motivi di sicurezza. Ruotala se l'hai persa o pensi che sia trapelata.",
+  "playerEconomyEditor.apiKey.hiddenSince": "La tua chiave (creata {{date}}) è nascosta per motivi di sicurezza. Ruotala se l'hai persa o pensi che sia trapelata.",
+  "playerEconomyEditor.apiKey.none": "Questa economia non ha ancora una chiave segreta.",
+  "playerEconomyEditor.apiKey.rotate": "Tasto di rotazione",
+  "playerEconomyEditor.apiKey.generate": "Genera chiave",
+  "playerEconomyEditor.apiKey.rotateConfirm": "Questo crea una nuova chiave segreta e quella vecchia smette di funzionare immediatamente. Aggiorna subito dopo il tuo server di gioco con la nuova chiave.",
+  "playerEconomyEditor.apiKey.generateConfirm": "Questo crea una chiave segreta per la tua economia. La vedrai solo una volta, quindi copiala in un posto sicuro.",
+  "playerEconomyEditor.apiKey.rotateFailed": "Impossibile ruotare la chiave. Per favore riprova."
 }

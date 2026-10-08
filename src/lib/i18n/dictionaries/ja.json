@@ -8717,5 +8717,20 @@
   "pete.teaser.deliverTart": "ルバーブタルトを届けて",
   "pete.teaser.moreDeliveries": "配達を完了してより多くのコインを獲得しましょう！",
   "pete.teaser.mineStone": "マイン・ザ・ストーンズ",
-  "pete.teaser.waterWell": "井戸を建てよう"
+  "pete.teaser.waterWell": "井戸を建てよう",
+  "playerEconomyEditor.apiKey.title": "シークレット API キー",
+  "playerEconomyEditor.apiKey.requireToggle": "シークレットの API キーが必要",
+  "playerEconomyEditor.apiKey.requireHint": "オンにすると、エコノミー API へのすべてのリクエスト (アクション、リーダーボードスコアの送信、収集) に {{header}} ヘッダーにシークレットキーを含める必要があります。これがないリクエストは「プライベートキーが見つかりません」として拒否されます。",
+  "playerEconomyEditor.apiKey.serverOnlyHint": "これらのリクエストを自分のゲームサーバーから送信します。このキーをゲームのブラウザコードに入れたり、プレイヤーと共有したり、公開リポジトリにコミットしたりしないでください。キーを持っている人なら誰でもプレイヤーのためにアクションを投稿できます。",
+  "playerEconomyEditor.apiKey.noKeyWarning": "この経済にはまだ秘密鍵がないので、すべての行動は失敗します。以下で鍵を生成してください。",
+  "playerEconomyEditor.apiKey.copyNow": "このキーを今すぐコピーしてください。セキュリティ上の理由から、今後は表示されません。",
+  "playerEconomyEditor.apiKey.copy": "キーをコピー",
+  "playerEconomyEditor.apiKey.hidden": "鍵はセキュリティのため隠されています。紛失した場合や漏れたと思われる場合は、回転させてください。",
+  "playerEconomyEditor.apiKey.hiddenSince": "キー (作成 {{date}}) はセキュリティのため非表示になっています。紛失した場合や漏れたと思われる場合は、ローテーションしてください。",
+  "playerEconomyEditor.apiKey.none": "この経済にはまだ秘密鍵がありません。",
+  "playerEconomyEditor.apiKey.rotate": "キーを回転",
+  "playerEconomyEditor.apiKey.generate": "キーを生成",
+  "playerEconomyEditor.apiKey.rotateConfirm": "これにより新しい秘密鍵が作成され、古い秘密鍵はすぐに機能しなくなります。その直後にゲームサーバーを新しいキーで更新してください。",
+  "playerEconomyEditor.apiKey.generateConfirm": "これにより、経済の秘密鍵が作成されます。一度しか表示されないので、安全な場所にコピーしてください。",
+  "playerEconomyEditor.apiKey.rotateFailed": "キーを回転できませんでした。もう一度試してください。"
 }

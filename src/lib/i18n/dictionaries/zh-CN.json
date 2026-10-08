@@ -8717,5 +8717,20 @@
   "pete.teaser.deliverTart": "交付大黄馅饼",
   "pete.teaser.moreDeliveries": "完成配送以获得更多金币！",
   "pete.teaser.mineStone": "开采石头",
-  "pete.teaser.waterWell": "建一口水井"
+  "pete.teaser.waterWell": "建一口水井",
+  "playerEconomyEditor.apiKey.title": "秘密 API 密钥",
+  "playerEconomyEditor.apiKey.requireToggle": "需要机密 API 密钥",
+  "playerEconomyEditor.apiKey.requireHint": "开启后，对经济 API 的每项请求（操作、排行榜分数提交和收集）都必须在 {{header}} 标题中包含您的密钥。没有密钥的请求会被拒绝，理由是 “缺少私钥”。",
+  "playerEconomyEditor.apiKey.serverOnlyHint": "从你自己的游戏服务器发送这些请求。切勿将此密钥放入游戏的浏览器代码中，与玩家共享或将其提交到公共存储库中。任何拥有密钥的人都可以为你的玩家发布动作。",
+  "playerEconomyEditor.apiKey.noKeyWarning": "这个经济体还没有密钥，所以每一个行动都会失败。在下面生成密钥。",
+  "playerEconomyEditor.apiKey.copyNow": "立即复制此密钥。为了安全起见，它不会再次显示。",
+  "playerEconomyEditor.apiKey.copy": "复制密钥",
+  "playerEconomyEditor.apiKey.hidden": "为了安全起见，您的密钥已隐藏。如果你丢失了或认为它泄露了，可以旋转它。",
+  "playerEconomyEditor.apiKey.hiddenSince": "出于安全考虑，您的密钥（创建 {{date}}）处于隐藏状态。如果你丢失了或认为它泄露了，可以旋转它。",
+  "playerEconomyEditor.apiKey.none": "这个经济体还没有密钥。",
+  "playerEconomyEditor.apiKey.rotate": "旋转密钥",
+  "playerEconomyEditor.apiKey.generate": "生成密钥",
+  "playerEconomyEditor.apiKey.rotateConfirm": "这会创建一个新的密钥，而旧的密钥会立即停止工作。之后立即使用新密钥更新游戏服务器。",
+  "playerEconomyEditor.apiKey.generateConfirm": "这为您的经济创建了密钥。你只会看到一次，所以把它复制到一个安全的地方。",
+  "playerEconomyEditor.apiKey.rotateFailed": "无法旋转密钥。请再试一次。"
 }

@@ -8717,5 +8717,20 @@
   "pete.teaser.deliverTart": "Ravent Tartını Teslim Et",
   "pete.teaser.moreDeliveries": "Daha fazla jeton almak için teslimatları tamamlayın!",
   "pete.teaser.mineStone": "Taşları Madencilik",
-  "pete.teaser.waterWell": "Bir Su Kuyusu İnşa Et"
+  "pete.teaser.waterWell": "Bir Su Kuyusu İnşa Et",
+  "playerEconomyEditor.apiKey.title": "Gizli API anahtarı",
+  "playerEconomyEditor.apiKey.requireToggle": "Gizli API anahtarı gerektirir",
+  "playerEconomyEditor.apiKey.requireHint": "Açık olduğunda, ekonomi API'sine yapılan her istek (eylemler, skor tablosu gönderimleri ve toplama) gizli anahtarınızı {{header}} başlığında içermelidir. Onsuz istekler “Eksik özel anahtar” ile reddedilir.",
+  "playerEconomyEditor.apiKey.serverOnlyHint": "Bu istekleri kendi oyun sunucunuzdan gönderin. Bu anahtarı asla oyununuzun tarayıcı koduna koymayın, oyuncularla paylaşmayın veya herkese açık bir depoya taahhüt etmeyin. Anahtarı olan herkes oyuncularınız için eylemler yayınlayabilir.",
+  "playerEconomyEditor.apiKey.noKeyWarning": "Bu ekonominin henüz gizli bir anahtarı yok, bu yüzden her eylem başarısız olacak. Aşağıda bir anahtar oluşturun.",
+  "playerEconomyEditor.apiKey.copyNow": "Şimdi bu anahtarı kopyala. Güvenlik için tekrar gösterilmeyecektir.",
+  "playerEconomyEditor.apiKey.copy": "Anahtarı kopyala",
+  "playerEconomyEditor.apiKey.hidden": "Anahtarınız güvenlik için gizlidir. Kaybettiyseniz veya sızdığını düşünüyorsanız döndürün.",
+  "playerEconomyEditor.apiKey.hiddenSince": "Anahtarınız (oluşturulan {{date}}) güvenlik için gizlenmiştir. Kaybettiyseniz veya sızdığını düşünüyorsanız döndürün.",
+  "playerEconomyEditor.apiKey.none": "Bu ekonominin henüz gizli bir anahtarı yok.",
+  "playerEconomyEditor.apiKey.rotate": "Döndür tuşu",
+  "playerEconomyEditor.apiKey.generate": "Anahtar oluştur",
+  "playerEconomyEditor.apiKey.rotateConfirm": "Bu yeni bir gizli anahtar oluşturur ve eskisi hemen çalışmayı durdurur. Oyun sunucunuzu hemen sonra yeni anahtarla güncelleyin.",
+  "playerEconomyEditor.apiKey.generateConfirm": "Bu, ekonominiz için gizli bir anahtar oluşturur. Sadece bir kez göreceksiniz, bu yüzden güvenli bir yere kopyalayın.",
+  "playerEconomyEditor.apiKey.rotateFailed": "Anahtar döndürülemedi. Lütfen tekrar deneyin."
 }

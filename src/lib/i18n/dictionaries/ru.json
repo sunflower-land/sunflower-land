@@ -8717,5 +8717,20 @@
   "pete.teaser.deliverTart": "Deliver the Rhubarb Tart",
   "pete.teaser.moreDeliveries": "Complete deliveries to get more coins!",
   "pete.teaser.mineStone": "Mine the Stones",
-  "pete.teaser.waterWell": "Build a Water Well"
+  "pete.teaser.waterWell": "Build a Water Well",
+  "playerEconomyEditor.apiKey.title": "Secret API key",
+  "playerEconomyEditor.apiKey.requireToggle": "Require secret API key",
+  "playerEconomyEditor.apiKey.requireHint": "When on, every request to the economies API (actions, leaderboard score submissions and collecting) must include your secret key in the {{header}} header. Requests without it are rejected with \"Missing private key\".",
+  "playerEconomyEditor.apiKey.serverOnlyHint": "Send these requests from your own game server. Never put this key in your game's browser code, share it with players or commit it to a public repo. Anyone with the key can post actions for your players.",
+  "playerEconomyEditor.apiKey.noKeyWarning": "This economy has no secret key yet, so every action will fail. Generate a key below.",
+  "playerEconomyEditor.apiKey.copyNow": "Copy this key now. For security it will not be shown again.",
+  "playerEconomyEditor.apiKey.copy": "Copy key",
+  "playerEconomyEditor.apiKey.hidden": "Your key is hidden for security. Rotate it if you lost it or think it leaked.",
+  "playerEconomyEditor.apiKey.hiddenSince": "Your key (created {{date}}) is hidden for security. Rotate it if you lost it or think it leaked.",
+  "playerEconomyEditor.apiKey.none": "This economy does not have a secret key yet.",
+  "playerEconomyEditor.apiKey.rotate": "Rotate key",
+  "playerEconomyEditor.apiKey.generate": "Generate key",
+  "playerEconomyEditor.apiKey.rotateConfirm": "This creates a new secret key and the old one stops working straight away. Update your game server with the new key right after.",
+  "playerEconomyEditor.apiKey.generateConfirm": "This creates a secret key for your economy. You will only see it once, so copy it somewhere safe.",
+  "playerEconomyEditor.apiKey.rotateFailed": "Could not rotate the key. Please try again."
 }

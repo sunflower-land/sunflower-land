@@ -8717,5 +8717,20 @@
   "pete.teaser.deliverTart": "Kirimkan Rhubarb Tart",
   "pete.teaser.moreDeliveries": "Pengiriman lengkap untuk mendapatkan lebih banyak koin!",
   "pete.teaser.mineStone": "Tambang Batu",
-  "pete.teaser.waterWell": "Membangun Sumur Air"
+  "pete.teaser.waterWell": "Membangun Sumur Air",
+  "playerEconomyEditor.apiKey.title": "Kunci API rahasia",
+  "playerEconomyEditor.apiKey.requireToggle": "Memerlukan kunci API rahasia",
+  "playerEconomyEditor.apiKey.requireHint": "Saat aktif, setiap permintaan ke API ekonomi (tindakan, pengiriman skor papan peringkat, dan pengumpulan) harus menyertakan kunci rahasia Anda di header {{header}}. Permintaan tanpa itu ditolak dengan “Kunci pribadi hilang”.",
+  "playerEconomyEditor.apiKey.serverOnlyHint": "Kirim permintaan ini dari server game Anda sendiri. Jangan pernah memasukkan kunci ini ke dalam kode browser game Anda, membagikannya dengan pemain atau memasukkannya ke repo publik. Siapa pun yang memiliki kunci dapat memposting tindakan untuk pemain Anda.",
+  "playerEconomyEditor.apiKey.noKeyWarning": "Ekonomi ini belum memiliki kunci rahasia, jadi setiap tindakan akan gagal. Buat kunci di bawah ini.",
+  "playerEconomyEditor.apiKey.copyNow": "Salin kunci ini sekarang. Untuk keamanan itu tidak akan ditampilkan lagi.",
+  "playerEconomyEditor.apiKey.copy": "Salin kunci",
+  "playerEconomyEditor.apiKey.hidden": "Kunci Anda disembunyikan untuk keamanan. Putar jika Anda kehilangannya atau mengira bocor.",
+  "playerEconomyEditor.apiKey.hiddenSince": "Kunci Anda (dibuat {{date}}) disembunyikan untuk keamanan. Putar jika Anda kehilangannya atau mengira bocor.",
+  "playerEconomyEditor.apiKey.none": "Ekonomi ini belum memiliki kunci rahasia.",
+  "playerEconomyEditor.apiKey.rotate": "Putar tombol",
+  "playerEconomyEditor.apiKey.generate": "Hasilkan kunci",
+  "playerEconomyEditor.apiKey.rotateConfirm": "Ini menciptakan kunci rahasia baru dan yang lama berhenti bekerja segera. Perbarui server game Anda dengan kunci baru segera setelahnya.",
+  "playerEconomyEditor.apiKey.generateConfirm": "Ini menciptakan kunci rahasia untuk ekonomi Anda. Anda hanya akan melihatnya sekali, jadi salin di tempat yang aman.",
+  "playerEconomyEditor.apiKey.rotateFailed": "Tidak dapat memutar kunci. Silakan coba lagi."
 }

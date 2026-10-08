@@ -8717,5 +8717,20 @@
   "pete.teaser.deliverTart": "Liefere die Rhabarbertorte",
   "pete.teaser.moreDeliveries": "Schließe Lieferungen ab, um mehr Münzen zu erhalten!",
   "pete.teaser.mineStone": "Minen Sie die Steine ab",
-  "pete.teaser.waterWell": "Baue einen Wasserbrunnen"
+  "pete.teaser.waterWell": "Baue einen Wasserbrunnen",
+  "playerEconomyEditor.apiKey.title": "Geheimer API-Schlüssel",
+  "playerEconomyEditor.apiKey.requireToggle": "Geheimer API-Schlüssel erforderlich",
+  "playerEconomyEditor.apiKey.requireHint": "Wenn diese Option aktiviert ist, muss jede Anfrage an die Economys-API (Aktionen, Übermitteln und Sammeln der Bestenlisten) deinen geheimen Schlüssel in der Kopfzeile {{header}} enthalten. Anfragen ohne diesen werden mit dem Hinweis „Fehlender privater Schlüssel“ abgelehnt.",
+  "playerEconomyEditor.apiKey.serverOnlyHint": "Sende diese Anfragen von deinem eigenen Spieleserver aus. Füge diesen Schlüssel niemals in den Browsercode deines Spiels ein, teile ihn niemals mit Spielern oder übertrage ihn in ein öffentliches Repo. Jeder, der den Schlüssel besitzt, kann Aktionen für deine Spieler posten.",
+  "playerEconomyEditor.apiKey.noKeyWarning": "Diese Wirtschaft hat noch keinen geheimen Schlüssel, daher wird jede Aktion scheitern. Generieren Sie unten einen Schlüssel.",
+  "playerEconomyEditor.apiKey.copyNow": "Kopiere diesen Schlüssel jetzt. Aus Sicherheitsgründen wird er nicht erneut angezeigt.",
+  "playerEconomyEditor.apiKey.copy": "Schlüssel kopieren",
+  "playerEconomyEditor.apiKey.hidden": "Ihr Schlüssel ist aus Sicherheitsgründen versteckt. Drehe ihn, wenn du ihn verloren hast oder glaubst, dass er durchgesickert ist.",
+  "playerEconomyEditor.apiKey.hiddenSince": "Ihr Schlüssel (erstellt {{date}}) ist aus Sicherheitsgründen versteckt. Drehe ihn, wenn du ihn verloren hast oder glaubst, dass er durchgesickert ist.",
+  "playerEconomyEditor.apiKey.none": "Diese Wirtschaft hat noch keinen geheimen Schlüssel.",
+  "playerEconomyEditor.apiKey.rotate": "Schlüssel drehen",
+  "playerEconomyEditor.apiKey.generate": "Schlüssel generieren",
+  "playerEconomyEditor.apiKey.rotateConfirm": "Dadurch wird ein neuer geheimer Schlüssel erstellt und der alte funktioniert sofort nicht mehr. Aktualisiere deinen Spieleserver gleich danach mit dem neuen Schlüssel.",
+  "playerEconomyEditor.apiKey.generateConfirm": "Dadurch entsteht ein geheimer Schlüssel für Ihre Wirtschaft. Du wirst ihn nur einmal sehen, also kopiere ihn an einen sicheren Ort.",
+  "playerEconomyEditor.apiKey.rotateFailed": "Der Schlüssel konnte nicht gedreht werden. Bitte versuchen Sie es erneut."
 }

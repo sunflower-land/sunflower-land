@@ -8717,5 +8717,20 @@
   "pete.teaser.deliverTart": "Entregue a torta de ruibarbo",
   "pete.teaser.moreDeliveries": "Conclua as entregas para conseguir mais moedas!",
   "pete.teaser.mineStone": "Minere as Pedras",
-  "pete.teaser.waterWell": "Construa um poço de água"
+  "pete.teaser.waterWell": "Construa um poço de água",
+  "playerEconomyEditor.apiKey.title": "Chave secreta da API",
+  "playerEconomyEditor.apiKey.requireToggle": "Exigir chave secreta da API",
+  "playerEconomyEditor.apiKey.requireHint": "Quando ativada, cada solicitação à API de economias (ações, envio e coleta de pontuações na tabela de classificação) deve incluir sua chave secreta no cabeçalho {{header}}. Solicitações sem ela são rejeitadas com “Chave privada ausente”.",
+  "playerEconomyEditor.apiKey.serverOnlyHint": "Envie essas solicitações do seu próprio servidor de jogo. Nunca coloque essa chave no código do navegador do seu jogo, compartilhe-a com os jogadores ou a envie para um repositório público. Qualquer pessoa com a chave pode publicar ações para seus jogadores.",
+  "playerEconomyEditor.apiKey.noKeyWarning": "Essa economia ainda não tem uma chave secreta, então todas as ações falharão. Gere uma chave abaixo.",
+  "playerEconomyEditor.apiKey.copyNow": "Copie essa chave agora. Por motivos de segurança, ele não será exibido novamente.",
+  "playerEconomyEditor.apiKey.copy": "Copiar chave",
+  "playerEconomyEditor.apiKey.hidden": "Sua chave está escondida por motivos de segurança. Rotacione-o se você o perdeu ou acha que vazou.",
+  "playerEconomyEditor.apiKey.hiddenSince": "Sua chave (criada em {{date}}) está oculta por motivos de segurança. Rotacione-o se você o perdeu ou acha que vazou.",
+  "playerEconomyEditor.apiKey.none": "Essa economia ainda não tem uma chave secreta.",
+  "playerEconomyEditor.apiKey.rotate": "Tecla de rotação",
+  "playerEconomyEditor.apiKey.generate": "Gerar chave",
+  "playerEconomyEditor.apiKey.rotateConfirm": "Isso cria uma nova chave secreta e a antiga para de funcionar imediatamente. Atualize seu servidor de jogo com a nova chave logo em seguida.",
+  "playerEconomyEditor.apiKey.generateConfirm": "Isso cria uma chave secreta para sua economia. Você só o verá uma vez, então copie-o em algum lugar seguro.",
+  "playerEconomyEditor.apiKey.rotateFailed": "Não foi possível girar a chave. Por favor, tente novamente."
 }
