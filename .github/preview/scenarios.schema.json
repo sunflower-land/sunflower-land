@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "PR preview scenarios",
-  "description": "Test scenarios for a pull request. Each one becomes a link into the ART_MODE preview build with the described game state pre-loaded.",
+  "description": "Test scenarios for a pull request. Each one becomes a link into the ART_MODE preview build with the described game state pre-loaded. Written for OpenAI strict structured outputs: every object has additionalProperties:false, every property is required (optional ones are nullable), and the free-form game-state patch travels as a JSON string.",
   "type": "object",
   "additionalProperties": false,
   "required": ["summary", "scenarios"],
@@ -12,12 +12,19 @@
     },
     "scenarios": {
       "type": "array",
-      "minItems": 1,
-      "maxItems": 6,
+      "description": "1 to 6 scenarios. Do not pad.",
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["title", "why", "route", "fixture", "patch", "steps"],
+        "required": [
+          "title",
+          "why",
+          "route",
+          "fixture",
+          "patch",
+          "localStorage",
+          "steps"
+        ],
         "properties": {
           "title": {
             "type": "string",
@@ -33,24 +40,35 @@
           },
           "fixture": {
             "type": "string",
-            "description": "Base farm the patch is merged over: default, new, test, static, basic, spring, desert, volcano, swamp, spooky, crystal, galaxy, marble."
+            "enum": [
+              "default",
+              "new",
+              "test",
+              "static",
+              "basic",
+              "spring",
+              "desert",
+              "volcano",
+              "swamp",
+              "spooky",
+              "crystal",
+              "galaxy",
+              "marble"
+            ],
+            "description": "Base farm the patch is merged over."
           },
           "patch": {
-            "type": "object",
-            "description": "Partial GameState deep-merged over the fixture. null deletes a key, arrays replace, numbers over Decimal fields become Decimals, strings like '$now-2h' become timestamps.",
-            "additionalProperties": true
+            "type": "string",
+            "description": "A JSON object literal, as a string, holding the partial GameState deep-merged over the fixture. Example: \"{\\\"coins\\\":500,\\\"henHouse\\\":{\\\"animals\\\":{\\\"0\\\":{\\\"awakeAt\\\":\\\"$now-2h\\\"}}}}\". null deletes a key, arrays replace, numbers over Decimal fields become Decimals, strings like '$now-2h' become timestamps. Use \"{}\" for no patch."
           },
           "localStorage": {
-            "type": "object",
-            "description": "Optional localStorage keys to seed before boot. Values may use '$date' tokens for ISO dates.",
-            "additionalProperties": true
+            "type": ["string", "null"],
+            "description": "Optional JSON object literal, as a string, of localStorage keys to seed before boot. Values may use '$date' tokens for ISO dates. null when not needed."
           },
           "steps": {
             "type": "array",
-            "minItems": 1,
-            "maxItems": 8,
             "items": { "type": "string" },
-            "description": "What the tester should click and what they should expect to see."
+            "description": "2 to 6 lines: what the tester should click and what they should expect to see."
           }
         }
       }

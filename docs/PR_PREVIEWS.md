@@ -98,7 +98,7 @@ checked out), writes the diff and changed-file list to `.preview/`, and runs
 `openai/codex-action` with `scenarios.prompt.md`. The model reads PR files
 through `git show`, mines the PR's own unit tests for state setups, and
 answers with JSON matching the schema: a summary plus up to six scenarios of
-`{ title, why, route, fixture, patch, localStorage?, steps }`.
+`{ title, why, route, fixture, patch, localStorage, steps }`, where `patch` and `localStorage` are JSON object literals carried as strings (OpenAI strict structured outputs forbid free-form objects, so every object in the schema has `additionalProperties: false` and every property is required).
 
 `buildPreviewComment.ts` then:
 

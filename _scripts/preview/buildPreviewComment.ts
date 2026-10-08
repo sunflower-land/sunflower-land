@@ -87,6 +87,15 @@ const str = (value: unknown, max: number): string | undefined =>
     ? value.trim()
     : undefined;
 
+/** A JSON-encoded string → value; objects pass through; null/empty → undefined. */
+function parseJsonField(value: unknown): unknown {
+  if (value === null || value === undefined) return undefined;
+  if (typeof value !== "string") return value;
+  const trimmed = value.trim();
+  if (!trimmed) return undefined;
+  return JSON.parse(trimmed);
+}
+
 /** Walk a patch: reject malformed `$` tokens, collect name warnings. */
 function inspectPatch(
   value: unknown,
@@ -144,8 +153,6 @@ function validate(raw: unknown, index: number): Validated | Rejected {
   const route = typeof raw.route === "string" ? raw.route.trim() : "/";
   const fixture =
     typeof raw.fixture === "string" && raw.fixture ? raw.fixture : "default";
-  const patch = raw.patch ?? {};
-  const localStorage = raw.localStorage;
   const steps = Array.isArray(raw.steps)
     ? raw.steps.filter((s): s is string => typeof s === "string" && !!s.trim())
     : [];
@@ -158,6 +165,21 @@ function validate(raw: unknown, index: number): Validated | Rejected {
     return {
       title,
       reason: `unknown fixture "${fixture}" (known: ${PREVIEW_FIXTURE_NAMES.join(", ")})`,
+    };
+  }
+
+  // The schema carries `patch` / `localStorage` as JSON *strings*: OpenAI's
+  // strict structured outputs forbid free-form objects. Accept objects too so
+  // hand-written files keep working.
+  let patch: unknown;
+  let localStorage: unknown;
+  try {
+    patch = parseJsonField(raw.patch) ?? {};
+    localStorage = parseJsonField(raw.localStorage);
+  } catch (error) {
+    return {
+      title,
+      reason: `patch is not valid JSON: ${error instanceof Error ? error.message : String(error)}`,
     };
   }
   if (!isPlainObject(patch))
