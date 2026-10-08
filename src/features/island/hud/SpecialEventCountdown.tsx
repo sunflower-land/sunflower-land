@@ -94,9 +94,11 @@ export const SpecialEventCountdown: React.FC = () => {
             type="info"
             className="ml-1 mt-1"
           >
-            {`${secondsToString((specialEvent.endAt - now) / 1000, {
-              length: "short",
-            })} left`}
+            {t("vipExpiry.timeLeft", {
+              time: secondsToString((specialEvent.endAt - now) / 1000, {
+                length: "short",
+              }),
+            })}
           </Label>
         </div>
       </div>

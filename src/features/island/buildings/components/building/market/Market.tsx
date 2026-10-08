@@ -134,9 +134,11 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, island }) => {
               wordSpacing: 0,
             }}
           >
-            {`${t("2x.sale")}: ${secondsToString(cropShortageSecondsLeft, {
-              length: "medium",
-            })} left`}
+            {`${t("2x.sale")}: ${t("vipExpiry.timeLeft", {
+              time: secondsToString(cropShortageSecondsLeft, {
+                length: "medium",
+              }),
+            })}`}
           </Label>
         )}
         {boostItem && (

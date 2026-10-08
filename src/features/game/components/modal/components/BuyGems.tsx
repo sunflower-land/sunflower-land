@@ -711,9 +711,11 @@ export const BuyGems: React.FC<Props> = ({
             <div className="flex justify-between items-center">
               <Label type="vibrant">{t("transaction.starterOffer")}</Label>
               <Label icon={SUNNYSIDE.icons.stopwatch} type="info">
-                {`${secondsToString(starterOfferSecondsLeft, {
-                  length: "short",
-                })} left`}
+                {t("vipExpiry.timeLeft", {
+                  time: secondsToString(starterOfferSecondsLeft, {
+                    length: "short",
+                  }),
+                })}
               </Label>
             </div>
             <div className="flex w-full">

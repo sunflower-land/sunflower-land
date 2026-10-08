@@ -406,8 +406,13 @@ export const formatRaffleWindow = (raffle: RaffleDefinition) =>
   `${formatRaffleDate(raffle.startAt)} - ${formatRaffleDate(raffle.endAt)}`;
 
 const CountdownLabel: React.FC<{ raffle: RaffleDefinition }> = ({ raffle }) => {
+  const { t } = useAppTranslation();
   const countdown = useCountdown(raffle.endAt);
-  return <Label type="info">{`${formatCountdown(countdown)} left`}</Label>;
+  return (
+    <Label type="info">
+      {t("vipExpiry.timeLeft", { time: formatCountdown(countdown) })}
+    </Label>
+  );
 };
 
 export const RaffleCard: React.FC<{
