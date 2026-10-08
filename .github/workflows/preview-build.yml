@@ -31,10 +31,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # `cache: yarn` restores the yarn download cache keyed on yarn.lock, so
+      # the install only links packages instead of fetching them.
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "24"
+          cache: yarn
 
       - name: Install dependencies
         run: yarn install
