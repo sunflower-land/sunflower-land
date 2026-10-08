@@ -7,7 +7,10 @@ import {
 import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { formatNumber } from "lib/utils/formatNumber";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  getTranslatedItemName,
+  ITEM_DETAILS,
+} from "features/game/types/images";
 import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import type { InventoryItemName } from "features/game/types/game";
 import { Label } from "./Label";
@@ -96,7 +99,9 @@ const MultipleRewardsRow: React.FC<{
                   iconClassName={reward.wearables ? "scale-[1.1]" : ""}
                 />
                 <div className="flex-1 ml-1">
-                  <p>{rewardName}</p>
+                  <p>
+                    {getTranslatedItemName(rewardName as InventoryItemName)}
+                  </p>
                   <p className="text-[#862935] text-xxs mt-0.5">
                     {reward.wearables
                       ? t("wearable")
