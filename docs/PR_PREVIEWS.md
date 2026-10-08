@@ -8,7 +8,7 @@ without running their code locally.
 
 A preview comment looks like this:
 
-> **https://sunflower-land-ci-preview.s3.ap-southeast-2.amazonaws.com/pr-7730/index.html**
+> **https://sunflower-land-ci-preview.s3.us-east-1.amazonaws.com/pr-7730/index.html**
 > — UI-only build of `a1b2c3d` (no server, offline farm).
 >
 > 1. **[Hungry chicken, one Hen House](…)** — exercises the new feed check.
@@ -131,7 +131,7 @@ Contributors' code is treated as hostile. The design holds because:
    head == run head == metadata head, PR open, targets `main` in this repo),
    so one PR can never overwrite another's preview, let alone testnet.
 3. **Previews live on a different origin from the game.** The bucket's
-   `*.s3.ap-southeast-2.amazonaws.com` hostname shares no cookies or
+   `*.s3.us-east-1.amazonaws.com` hostname shares no cookies or
    localStorage with sunflower-land.com, so a malicious preview cannot read a
    tester's real session. ART_MODE has no token anyway. All PR previews do
    share the bucket origin with each other, which only matters for
@@ -158,7 +158,7 @@ One S3 bucket, created by hand. The name and region are the `PREVIEW_BUCKET`
 / `AWS_REGION` env values at the top of `preview-deploy.yml` and
 `preview-cleanup.yml`:
 
-- Bucket `sunflower-land-ci-preview` in `ap-southeast-2`.
+- Bucket `sunflower-land-ci-preview` in `us-east-1`.
 - Public read for objects: turn off "Block public access" and attach
 
   ```json
