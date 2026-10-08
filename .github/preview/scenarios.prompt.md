@@ -25,7 +25,7 @@ The preview runs in **ART_MODE**: there is no server. Auth starts connected and 
 - `static` — the hand-authored snapshot in `src/features/game/lib/landDataStatic.ts`.
 - `basic`, `spring`, `desert`, `volcano`, `swamp`, `spooky`, `crystal`, `galaxy`, `marble` — a fully expanded farm on that island (level 11 Bumpkin).
 
-**Patch semantics** (`patch` is a partial `GameState`, see `src/features/game/types/game.ts`):
+**Patch semantics** (`patch` is a partial `GameState`, see `src/features/game/types/game.ts`, written as a **JSON object literal inside a string** — e.g. `"patch": "{\"coins\":500}"` — because the output schema cannot describe a free-form object; `"{}"` means no patch, and `localStorage` is the same or `null`):
 
 - Objects deep-merge. Arrays replace the whole array. `null` deletes the key.
 - Inventory, wardrobe-style records and balances use `Decimal` in the real state; **write plain numbers** (`"Sunflower": 10`) and they are converted.
@@ -53,4 +53,4 @@ Aim for 3–5 scenarios. Do not pad: a PR that only changes one tooltip needs on
 
 ## Output
 
-Respond with JSON only, matching the provided schema. `summary` is one or two sentences describing the change from a tester's point of view. No markdown, no commentary outside the JSON.
+Respond with JSON only, matching the provided schema. `summary` is one or two sentences describing the change from a tester's point of view. `patch` and `localStorage` are JSON encoded as strings (escape the inner quotes); `localStorage` is `null` when unused. No markdown, no commentary outside the JSON.
