@@ -18,6 +18,10 @@ export type PlayerEconomyConfigRow = {
   /** ISO time of last CDN cache refresh (`economy.invalidated`). */
   invalidatedAt?: string;
   hostedSiteIndex?: HostedMinigameSiteIndexInfo | null;
+  /** Whether a secret API key exists. The key itself is only returned on create / rotate. */
+  hasPrivateKey?: boolean;
+  /** ISO time the current secret API key was generated. */
+  privateKeyCreatedAt?: string;
 };
 
 /* ─── Form primitives ─────────────────────────────────────────── */
@@ -152,6 +156,8 @@ export type EditorFormState = {
   playUrl: string;
   /** Listed in Economy Hub and minigames marketplace when true. */
   enabled: boolean;
+  /** Every minigames API action must send the economy secret key (`requirePrivateKey`). */
+  requirePrivateKey: boolean;
   /** `items` token key (`String(id)`); empty = auto primary currency among tradeable items. */
   mainCurrencyToken: string;
   descriptionTitle: string;
@@ -224,6 +230,7 @@ export const EMPTY_FORM: EditorFormState = {
   slug: "",
   playUrl: "",
   enabled: false,
+  requirePrivateKey: false,
   mainCurrencyToken: "",
   descriptionTitle: "",
   descriptionSubtitle: "",
