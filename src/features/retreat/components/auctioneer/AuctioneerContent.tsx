@@ -97,7 +97,6 @@ export const AuctioneerContent: React.FC<Props> = ({
       <DraftBid
         gameState={gameState}
         auction={auction}
-        maxTickets={9999999} // TODO
         onBid={(tickets: number) => {
           auctionService.send("BID", { auctionId: auction.auctionId, tickets });
         }}

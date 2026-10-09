@@ -1,7 +1,11 @@
-import React, { type ChangeEvent, useState } from "react";
+import React, { useState } from "react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
+import { NumberInput } from "components/ui/NumberInput";
+import { Label } from "components/ui/Label";
+import { formatNumber } from "lib/utils/formatNumber";
+import { getMaxAuctionTickets } from "./lib/getMaxAuctionTickets";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -16,36 +20,8 @@ import { TimerDisplay } from "./AuctionDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getAuctionItemType } from "./lib/getAuctionItemType";
 
-const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
-const INPUT_MAX_CHAR = 10;
-
-/**
- * If they have enough resources, default the bid to 5 tickets
- */
-function getInitialTickets(auction: Auction, gameState: GameState) {
-  const defaultTickets = 5;
-
-  if (gameState.balance.lt(auction.sfl * defaultTickets)) {
-    return 1;
-  }
-
-  if (
-    getKeys(auction.ingredients).some(
-      (name) =>
-        !gameState.inventory[name]?.gt(
-          (auction.ingredients[name] ?? 0) * defaultTickets,
-        ),
-    )
-  ) {
-    return 1;
-  }
-
-  return defaultTickets;
-}
-
 interface Props {
   auction: Auction;
-  maxTickets: number;
   onBid: (auctionTickers: number) => void;
   gameState: GameState;
   onBack: () => void;
@@ -53,65 +29,50 @@ interface Props {
 export const DraftBid: React.FC<Props> = ({
   auction,
   onBid,
-  maxTickets,
   gameState,
   onBack,
 }) => {
   const { t } = useAppTranslation();
 
-  const minTickets = getInitialTickets(auction, gameState);
-  const [tickets, setTickets] = useState(minTickets);
+  const maxTickets = getMaxAuctionTickets(auction, gameState);
+  const [tickets, setTickets] = useState(Math.min(5, maxTickets) || 1);
   const [showConfirm, setShowConfirm] = useState(false);
   const end = useCountdown(auction.endAt);
 
-  const isMultiIngredientAuction = getKeys(auction.ingredients).length > 1;
-  const isSFLAuction =
-    auction.sfl > 0 && getKeys(auction.ingredients).length === 0;
-  const ingredient = getKeys(auction.ingredients)[0];
+  const paidIngredients = getKeys(auction.ingredients).filter(
+    (name) => (auction.ingredients[name] ?? 0) > 0,
+  );
+  const isMultiIngredientAuction =
+    paidIngredients.length + Number(auction.sfl > 0) > 1;
+  const isSFLAuction = auction.sfl > 0 && paidIngredients.length === 0;
+  const ingredient = paidIngredients[0];
 
   // Validators for multi ingredient auctions. These auctions go up in multiples of tickets
   const missingSFL = gameState.balance.lt(auction.sfl * tickets);
-  const missingIngredients = getKeys(auction.ingredients).some((name) =>
-    gameState.inventory[name]?.lt((auction.ingredients[name] ?? 0) * tickets),
-  );
 
   const getInputErrorMessage = () => {
-    if (tickets < minTickets) {
-      if (isSFLAuction) {
-        return `Minimum bid is ${minTickets} FLOWER`;
-      }
-
-      return `Minimum bid is ${minTickets} ${ingredient}s`;
+    if (end.totalSeconds === 0) return t("auction.closed");
+    if (!Number.isInteger(tickets) || tickets < 1) {
+      return `${t("minimum")}: 1`;
     }
-
-    if (isSFLAuction && gameState.balance.lt(tickets)) {
-      return `You don't have enough FLOWER`;
-    }
-
-    if (gameState.inventory[ingredient]?.lt(tickets)) {
-      return `You don't have enough ${ingredient}'s`;
-    }
-
-    if (Date.now() > auction.endAt) {
-      return `Auction has ended`;
-    }
-
+    if (tickets > maxTickets) return t("cave.notEnough");
     return null;
   };
 
+  const countdown = (
+    <Label
+      type={end.totalSeconds < 60 ? "danger" : "info"}
+      icon={SUNNYSIDE.icons.stopwatch}
+      className="ml-auto whitespace-nowrap"
+    >
+      <TimerDisplay time={end} />
+    </Label>
+  );
+
   if (showConfirm) {
     return (
-      <div
-        className="flex flex-col justify-center items-center relative"
-        style={{ height: "200px" }}
-      >
-        <div className="absolute -top-1 right-0">
-          {TimerDisplay({
-            time: end,
-            fontSize: 32,
-            color: end.minutes < 1 ? "red" : "#3e2731",
-          })}
-        </div>
+      <div className="flex flex-col items-center">
+        <div className="flex w-full p-2">{countdown}</div>
         <div className="p-2 flex-1 flex flex-col items-center justify-center">
           <p className="text-sm text-center mb-2">
             {t("getInputErrorMessage.place.bid")}
@@ -127,7 +88,7 @@ export const DraftBid: React.FC<Props> = ({
                 <img src={sflIcon} className="h-5" />
               </div>
             )}
-            {getKeys(auction.ingredients).map((name) => (
+            {paidIngredients.map((name) => (
               <div className="flex items-center mb-1 mr-3" key={name}>
                 <div>
                   <p className={classNames("mr-1 text-right text-sm")}>
@@ -141,11 +102,10 @@ export const DraftBid: React.FC<Props> = ({
 
           <p className="text-xs mb-2">{t("getInputErrorMessage.cannot.bid")}</p>
         </div>
-        <div className="flex w-full">
-          <Button className="mr-1" onClick={() => setShowConfirm(false)}>
-            {t("back")}
-          </Button>
+        <div className="flex w-full gap-1">
+          <Button onClick={() => setShowConfirm(false)}>{t("back")}</Button>
           <Button
+            disabled={!!getInputErrorMessage()}
             onClick={() => {
               onBid(tickets);
             }}
@@ -162,22 +122,14 @@ export const DraftBid: React.FC<Props> = ({
   return (
     <>
       <div className="p-2 relative">
-        <div className="flex items-center justify-between w-full border-b border-opacity-50 pb-1 mb-2">
+        <div className="flex flex-wrap items-center gap-2 w-full border-b border-opacity-50 pb-2 mb-2">
           <img
             onClick={onBack}
             src={SUNNYSIDE.icons.arrow_left}
-            className="h-8 cursor-pointer"
+            className="h-6 cursor-pointer"
           />
-          <p className="-ml-5">{t("place.bid")}</p>
-          <div />
-        </div>
-
-        <div className="absolute -top-1 right-0">
-          {TimerDisplay({
-            time: end,
-            fontSize: 32,
-            color: end.minutes < 1 ? "red" : "#3e2731",
-          })}
+          <p className="flex-1 text-sm">{t("place.bid")}</p>
+          {countdown}
         </div>
 
         {/* If there are more than one ingredient inc FLOWER */}
@@ -185,7 +137,7 @@ export const DraftBid: React.FC<Props> = ({
           <div className="flex items-center justify-center mb-1">
             <Button
               className="w-10 h-10 mr-2 relative cursor-pointer"
-              disabled={tickets === 1}
+              disabled={tickets <= 1}
               longPress
               onClick={() => setTickets((prev) => (prev > 1 ? prev - 1 : prev))}
               longPressInterval={10}
@@ -214,7 +166,7 @@ export const DraftBid: React.FC<Props> = ({
                   <img src={sflIcon} className="h-5" />
                 </div>
               )}
-              {getKeys(auction.ingredients).map((name) => (
+              {paidIngredients.map((name) => (
                 <div className="flex items-center mb-1 mr-3" key={name}>
                   <div>
                     <p
@@ -234,7 +186,7 @@ export const DraftBid: React.FC<Props> = ({
 
             <Button
               className="w-10 h-10 mr-2 relative cursor-pointer"
-              disabled={tickets === maxTickets}
+              disabled={tickets >= maxTickets}
               onClick={() =>
                 setTickets((prev) => (prev >= maxTickets ? prev : prev + 1))
               }
@@ -252,51 +204,53 @@ export const DraftBid: React.FC<Props> = ({
           </div>
         )}
 
-        {/* If there is only one ingredient/FLOWER */}
-        {!isMultiIngredientAuction && (
-          <div className="relative flex flex-col items-center mb-[14px]">
-            <div className="relative inline-block">
-              <input
-                style={{
-                  boxShadow: "#b96e50 0px 1px 1px 1px inset",
-                  border: "2px solid #ead4aa",
-                }}
-                type="number"
-                value={tickets}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  // Strip the leading zero from numbers
-                  if (
-                    /^0+(?!\.)/.test(e.target.value) &&
-                    e.target.value.length > 1
-                  ) {
-                    e.target.value = e.target.value.replace(/^0/, "");
+        <div className="mb-3">
+          <div className="flex items-center gap-2">
+            {!isMultiIngredientAuction && (
+              <div className="flex-1 min-w-0">
+                <NumberInput
+                  value={tickets}
+                  maxDecimalPlaces={0}
+                  isOutOfRange={!!getInputErrorMessage()}
+                  onValueChange={(value) => setTickets(value.toNumber())}
+                  icon={
+                    isSFLAuction ? sflIcon : ITEM_DETAILS[ingredient]?.image
                   }
-
-                  if (VALID_NUMBER.test(e.target.value)) {
-                    const amount = Number(
-                      e.target.value.slice(0, INPUT_MAX_CHAR),
-                    );
-                    setTickets(amount);
-                  }
-                }}
-                className={classNames(
-                  "my-1 text-shadow rounded-sm shadow-inner shadow-black bg-brown-200 p-2 h-10",
-                  {
-                    "text-error": !!getInputErrorMessage(),
-                  },
-                )}
-              />
-              <img
-                src={isSFLAuction ? sflIcon : ITEM_DETAILS[ingredient].image}
-                alt="Currency"
-                className="absolute right-2 top-1/2 -translate-y-1/2 h-5"
-              />
-            </div>
-            <p className="absolute -bottom-4 text-error text-[11px] font-error">
-              {getInputErrorMessage()}
-            </p>
+                  className="!pr-8"
+                />
+              </div>
+            )}
+            <Button
+              className="w-auto px-2 whitespace-nowrap"
+              disabled={maxTickets < 1 || end.totalSeconds === 0}
+              onClick={() => setTickets(maxTickets)}
+            >
+              {t("max")}
+            </Button>
           </div>
-        )}
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs mt-1">
+            <span>{`${t("available")}:`}</span>
+            {auction.sfl > 0 && (
+              <span className="inline-flex items-center gap-1">
+                {formatNumber(gameState.balance)}
+                <img src={sflIcon} alt="FLOWER" className="h-4" />
+              </span>
+            )}
+            {paidIngredients.map((name) => (
+              <span key={name} className="inline-flex items-center gap-1">
+                {formatNumber(gameState.inventory[name] ?? 0)}
+                <img
+                  src={ITEM_DETAILS[name].image}
+                  alt={name}
+                  className="h-4"
+                />
+              </span>
+            ))}
+          </div>
+          {getInputErrorMessage() && (
+            <p className="text-error text-xs mt-1">{getInputErrorMessage()}</p>
+          )}
+        </div>
 
         <div className="text-xxs text-center underline mb-3  hover:text-blue-500">
           <a
@@ -339,11 +293,7 @@ export const DraftBid: React.FC<Props> = ({
       </div>
       <Button
         onClick={() => setShowConfirm(true)}
-        disabled={
-          isMultiIngredientAuction
-            ? missingSFL || missingIngredients || Date.now() > auction.endAt
-            : !!getInputErrorMessage()
-        }
+        disabled={!!getInputErrorMessage()}
       >
         {t("bid")}
       </Button>
