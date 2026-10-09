@@ -17,7 +17,7 @@ import Decimal from "decimal.js-light";
 import { BAKERY_COOKABLES, COOKABLES } from "features/game/types/consumables";
 import type { GameState } from "features/game/types/game";
 import { supplyCookingOil } from "./supplyCookingOil";
-import { cook, getCookingOilBoost } from "./cook";
+import { cook } from "./cook";
 
 describe("instantCook", () => {
   beforeEach(() => {
@@ -567,12 +567,6 @@ describe("instantCook", () => {
 
     expect(afterOilAddedState.buildings["Deli"]?.[0].oil).toBe(10);
 
-    const boostedCookingTime = getCookingOilBoost(
-      "Fermented Fish",
-      afterOilAddedState,
-      "123",
-    );
-
     const afterFermentedFishCookedState = cook({
       state: afterOilAddedState,
       farmId: 1,
@@ -584,19 +578,16 @@ describe("instantCook", () => {
       createdAt: now,
     });
 
-    const sixteenHours = 16 * 60 * 60;
-    const sixteenHoursInMs = sixteenHours * 1000;
-    const fishShouldBeReadyAt = now + twentyMinutesMs + sixteenHoursInMs;
+    // Lazy model: oil is NOT deducted at cook time — it drains as the fish cooks.
+    // The queued fish snapshots the Deli's 40% oil boost as a live speed boost.
+    const deli = afterFermentedFishCookedState.buildings["Deli"]?.[0];
+    expect(deli?.oil).toBe(10);
+    const fish = deli?.crafting?.[1];
+    expect(fish?.oilPercent).toBe(0.4);
+    expect(fish?.oilPerWorkMs).toBeGreaterThan(0);
+    expect(fish?.baseDurationMs).toBeGreaterThan(0);
 
-    // Fermented fish should be ready 16 hours after 10 oil consumption
-    expect(boostedCookingTime.timeToCook).toEqual(sixteenHours); // 16 hours;
-    expect(afterFermentedFishCookedState.buildings["Deli"]?.[0].oil).toBe(0);
-    expect(
-      afterFermentedFishCookedState.buildings["Deli"]?.[0].crafting?.[1]
-        .readyAt,
-    ).toBe(fishShouldBeReadyAt);
-
-    // Speed up the recipe
+    // Speed up the head (Cheese) — the queued fish's oil boost must be untouched.
     const afterSpeedUpCheeseState = speedUpRecipe({
       farmId,
       state: afterFermentedFishCookedState,
@@ -608,11 +599,12 @@ describe("instantCook", () => {
       createdAt: now,
     });
 
-    const result =
-      afterSpeedUpCheeseState.buildings["Deli"]?.[0].crafting?.[0].readyAt;
-
-    // Ready at for the fish should now be minus the milk cooking time
-    expect(result).toBe(fishShouldBeReadyAt - twentyMinutesMs);
+    const promotedFish =
+      afterSpeedUpCheeseState.buildings["Deli"]?.[0].crafting?.[0];
+    expect(promotedFish?.oilPercent).toBe(0.4);
+    expect(promotedFish?.oilPerWorkMs).toBe(fish?.oilPerWorkMs);
+    // Cheese charged no oil (it was a legacy recipe), so the tank is intact.
+    expect(afterSpeedUpCheeseState.buildings["Deli"]?.[0].oil).toBe(10);
   });
 
   it("doesn't remove other ready recipes when speeding up the current recipe", () => {
