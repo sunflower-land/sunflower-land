@@ -877,6 +877,7 @@ const NextHolidayLabel: React.FC<{
   holiday: string | undefined;
   now: number;
 }> = ({ holiday }) => {
+  const { t } = useAppTranslation();
   const { totalSeconds: secondsRemaining } = useCountdown(
     new Date(holiday ?? 0).getTime(),
   );
@@ -886,9 +887,11 @@ const NextHolidayLabel: React.FC<{
   if (secondsRemaining > 0 && secondsRemaining < 24 * 60 * 60) {
     return (
       <Label type="danger" icon={lock} className="mt-1">
-        {`${secondsToString(secondsRemaining, {
-          length: "medium",
-        })} left`}
+        {t("vipExpiry.timeLeft", {
+          time: secondsToString(secondsRemaining, {
+            length: "medium",
+          }),
+        })}
       </Label>
     );
   }

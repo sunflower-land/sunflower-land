@@ -21,7 +21,10 @@ import {
   caughtCrustacean,
 } from "features/game/types/crustaceans";
 import { TimerPopover } from "features/island/common/TimerPopover";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  getTranslatedItemName,
+  ITEM_DETAILS,
+} from "features/game/types/images";
 import crabSpot1 from "assets/wharf/crab_spot_1.webp";
 import crabSpot2 from "assets/wharf/crab_spot_2.webp";
 import { getKeys } from "lib/object";
@@ -169,7 +172,7 @@ export const WaterTrapSpot: React.FC<Props> = ({ id }) => {
                   ? ITEM_DETAILS[caughtItem].image
                   : SUNNYSIDE.icons.expression_confused
               }
-              description={caughtItem ? caughtItem : ""}
+              description={caughtItem ? getTranslatedItemName(caughtItem) : ""}
               showPopover={showTimerPopover}
               timeLeft={secondsLeft}
               secondaryImage={

@@ -9,7 +9,10 @@ import type {
   GameState,
   InventoryItemName,
 } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  getTranslatedItemName,
+  ITEM_DETAILS,
+} from "features/game/types/images";
 import React, { useRef, useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InnerPanel } from "components/ui/Panel";
@@ -208,10 +211,12 @@ export const FishCaught: React.FC<Props> = ({
                         <img
                           src={ITEM_DETAILS[name]?.image}
                           className="h-6 shrink-0"
-                          alt={name}
+                          alt={getTranslatedItemName(name)}
                         />
                         <div className="flex min-w-0 justify-between items-center flex-1 pr-1 gap-1">
-                          <span className="text-xs truncate">{name}</span>
+                          <span className="text-xs truncate">
+                            {getTranslatedItemName(name)}
+                          </span>
                           <div className="flex shrink-0 items-center gap-1">
                             <CatchBoost
                               shrimpBonus={shrimpBonus}
@@ -253,10 +258,12 @@ export const FishCaught: React.FC<Props> = ({
                         <img
                           src={ITEM_DETAILS[fish.name]?.image}
                           className="h-6 grayscale"
-                          alt={fish.name}
+                          alt={getTranslatedItemName(fish.name)}
                         />
                         <div className="flex justify-between items-center w-full pr-2">
-                          <span className="text-xs">{fish.name}</span>
+                          <span className="text-xs">
+                            {getTranslatedItemName(fish.name)}
+                          </span>
                         </div>
                       </div>
                       <span className="text-sm whitespace-nowrap">{`x ${fish.amount}`}</span>
@@ -294,7 +301,9 @@ export const FishCaught: React.FC<Props> = ({
                   {t("fishermanQuest.Newfish")}
                 </Label>
               )}
-              <span className="text-sm mb-2">{name}</span>
+              <span className="text-sm mb-2">
+                {getTranslatedItemName(name)}
+              </span>
               {(shrimpBonus > 0 || otterBonus > 0) && (
                 <div className="mb-2">
                   <CatchBoost

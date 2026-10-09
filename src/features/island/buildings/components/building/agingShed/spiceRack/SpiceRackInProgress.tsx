@@ -151,7 +151,10 @@ export const SpiceRackInProgress: React.FC<Props> = ({
 
         {getRefinedSaltChance(state) > 0 && (
           <Label type="vibrant" className="text-xxs mx-2 mb-1">
-            {`${getRefinedSaltChance(state)}% Chance of +1 Refined Salt`}
+            {t("agingShed.spice.bonusChance", {
+              chance: getRefinedSaltChance(state),
+              item: getTranslatedItemName("Refined Salt"),
+            })}
           </Label>
         )}
 

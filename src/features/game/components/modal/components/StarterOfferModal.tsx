@@ -50,9 +50,11 @@ export const StarterOfferModal: React.FC = () => {
         <Label type="vibrant">{t("transaction.starterOffer")}</Label>
         <div className="flex items-center gap-2">
           <Label icon={SUNNYSIDE.icons.stopwatch} type="info">
-            {`${secondsToString(starterOfferSecondsLeft, {
-              length: "short",
-            })} left`}
+            {t("vipExpiry.timeLeft", {
+              time: secondsToString(starterOfferSecondsLeft, {
+                length: "short",
+              }),
+            })}
           </Label>
           <img
             src={SUNNYSIDE.icons.close}

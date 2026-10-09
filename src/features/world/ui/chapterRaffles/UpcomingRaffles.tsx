@@ -15,6 +15,7 @@ import { Context as GameContext, useGame } from "features/game/GameProvider";
 
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { secondsToString } from "lib/utils/time";
 import { randomID } from "lib/utils/random";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -378,18 +379,6 @@ export const UpcomingRaffles: React.FC = () => {
   );
 };
 
-const formatCountdown = (countdown: ReturnType<typeof useCountdown>) => {
-  if (countdown.days > 0) {
-    return `${countdown.days}d ${countdown.hours}h`;
-  }
-
-  if (countdown.hours > 0) {
-    return `${countdown.hours}h ${countdown.minutes}m`;
-  }
-
-  return `${countdown.minutes}m ${countdown.seconds}s`;
-};
-
 const formatRaffleDate = (timestamp: number) => {
   const date = new Date(timestamp);
   const day = toOrdinalSuffix(date.getDate());
@@ -406,8 +395,15 @@ export const formatRaffleWindow = (raffle: RaffleDefinition) =>
   `${formatRaffleDate(raffle.startAt)} - ${formatRaffleDate(raffle.endAt)}`;
 
 const CountdownLabel: React.FC<{ raffle: RaffleDefinition }> = ({ raffle }) => {
+  const { t } = useAppTranslation();
   const countdown = useCountdown(raffle.endAt);
-  return <Label type="info">{`${formatCountdown(countdown)} left`}</Label>;
+  return (
+    <Label type="info">
+      {t("vipExpiry.timeLeft", {
+        time: secondsToString(countdown.totalSeconds, { length: "medium" }),
+      })}
+    </Label>
+  );
 };
 
 export const RaffleCard: React.FC<{

@@ -10,7 +10,10 @@ import {
   GREENHOUSE_SEEDS,
   type GreenHouseCropSeedName,
 } from "features/game/types/crops";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { Decimal } from "decimal.js-light";
 import {
   FULL_MOON_SEEDS,
@@ -727,7 +730,7 @@ export const SeasonalSeeds: React.FC = () => {
                 <div className="w-full max-h-32 overflow-y-auto scrollable mt-1">
                   {buyAllPlan.purchases.map(({ seedName, amount }) => (
                     <p key={seedName} className="text-xs w-full text-left">
-                      {`${amount} x ${seedName}`}
+                      {`${amount} x ${getTranslatedItemName(seedName)}`}
                     </p>
                   ))}
                 </div>

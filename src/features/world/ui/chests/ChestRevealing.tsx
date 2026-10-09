@@ -11,7 +11,11 @@ import {
   MANEKI_NEKO_REWARDS,
   FESTIVE_TREE_REWARDS,
 } from "features/game/types/chests";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  getTranslatedItemName,
+  ITEM_DETAILS,
+} from "features/game/types/images";
+import { translate } from "lib/i18n/translate";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 
 import sfl from "assets/icons/flower_token.webp";
@@ -100,14 +104,14 @@ export const ChestRevealing: React.FC<Props> = ({ type }) => {
           if (randomItem.flower) {
             return {
               image: sfl,
-              label: `${randomItem.flower} FLOWER`,
+              label: `${randomItem.flower} ${translate("flower")}`,
             };
           }
 
           if (randomItem.coins) {
             return {
               image: coins,
-              label: `${randomItem.coins} Coins`,
+              label: `${randomItem.coins} ${translate("coins")}`,
             };
           }
 
@@ -117,7 +121,7 @@ export const ChestRevealing: React.FC<Props> = ({ type }) => {
             if (randomWearable) {
               return {
                 image: getImageUrl(ITEM_IDS[randomWearable]),
-                label: randomWearable,
+                label: getTranslatedItemName(randomWearable),
               };
             }
           }
@@ -131,7 +135,10 @@ export const ChestRevealing: React.FC<Props> = ({ type }) => {
               return {
                 image: ITEM_DETAILS[first].image,
                 label: names
-                  .map((name) => `${randomItem.items?.[name]} ${name}`)
+                  .map(
+                    (name) =>
+                      `${randomItem.items?.[name]} ${getTranslatedItemName(name)}`,
+                  )
                   .join(" - "),
               };
             }

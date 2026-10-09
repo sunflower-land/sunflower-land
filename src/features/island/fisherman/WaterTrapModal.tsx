@@ -11,7 +11,10 @@ import { Label } from "components/ui/Label";
 import { DropdownPanel } from "components/ui/DropdownPanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CHUM_DETAILS } from "features/game/types/fishing";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  getTranslatedItemName,
+  ITEM_DETAILS,
+} from "features/game/types/images";
 import {
   getBasketItems,
   getChestItems,
@@ -253,7 +256,7 @@ export const WaterTrapModal: React.FC<Props> = ({
                   value: "Crab Pot",
                   label: (
                     <div className="flex flex-col gap-1">
-                      <p className="text-xs">{`Crab Pot (${
+                      <p className="text-xs">{`${t("crustaceans.crabPot")} (${
                         state.inventory["Crab Pot"]?.toString() ?? 0
                       })`}</p>
                       <p className="text-xxs">
@@ -269,7 +272,7 @@ export const WaterTrapModal: React.FC<Props> = ({
                         value: "Mariner Pot",
                         label: (
                           <div className="flex flex-col gap-1">
-                            <p className="text-xs">{`Mariner Pot (${
+                            <p className="text-xs">{`${t("crustaceans.marinerPot")} (${
                               state.inventory["Mariner Pot"]?.toString() ?? 0
                             })`}</p>
                             <p className="text-xxs">
@@ -297,7 +300,13 @@ export const WaterTrapModal: React.FC<Props> = ({
             ) : (
               !hasTrap && (
                 <Label className="ml-1" type="danger">
-                  {t("fishing.dont.have.enough.bait", { bait: selectedTrap })}
+                  {t("fishing.dont.have.enough.bait", {
+                    bait: t(
+                      selectedTrap === "Crab Pot"
+                        ? "crustaceans.crabPot"
+                        : "crustaceans.marinerPot",
+                    ),
+                  })}
                 </Label>
               )
             )}
@@ -332,7 +341,7 @@ export const WaterTrapModal: React.FC<Props> = ({
                       className="mb-1 ml-1"
                       icon={ITEM_DETAILS[selectedChum].image}
                     >
-                      {`${CRUSTACEAN_CHUM_AMOUNTS[selectedChum]} ${selectedChum}`}
+                      {`${CRUSTACEAN_CHUM_AMOUNTS[selectedChum]} ${getTranslatedItemName(selectedChum)}`}
                     </Label>
                   ) : (
                     <Label
@@ -349,7 +358,7 @@ export const WaterTrapModal: React.FC<Props> = ({
                       className="mb-1 ml-1"
                       icon={ITEM_DETAILS[catchForSelectedChum].image}
                     >
-                      {catchForSelectedChum}
+                      {getTranslatedItemName(catchForSelectedChum)}
                     </Label>
                   ) : (
                     <Label
@@ -375,7 +384,7 @@ export const WaterTrapModal: React.FC<Props> = ({
                       className="mb-1 ml-1"
                       icon={ITEM_DETAILS[catchForSelectedChum].image}
                     >
-                      {catchForSelectedChum}
+                      {getTranslatedItemName(catchForSelectedChum)}
                     </Label>
                   ) : (
                     <Label
