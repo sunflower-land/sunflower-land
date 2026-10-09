@@ -128,7 +128,7 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
 
   const isVip = useVipAccess({ game: state });
   const currentSeason = state.season.season;
-  const now = useNow({ live: true, intervalMs: 60_000 });
+  const now = useNow({ live: true });
 
   const getGuaranteedOptions = (bait: FishingBait) => {
     return isGuaranteedBait(bait) ? getSeasonalGuaranteedCatch(bait) : [];
