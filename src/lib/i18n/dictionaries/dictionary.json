@@ -1669,7 +1669,7 @@
   "fishing.lookingMoreReels": "Ahhh you're looking for more reels? No worries! You can select a multiplier on the fish tab and purchase more reels with gems just before you cast. Or you can check out the boost options below!",
   "fishing.buyReels.confirmation": "Are you sure you want to buy {{reels}} reels for {{gemPrice}}?",
   "fishing.extraReels": "Extra Reels",
-  "fishing.gemsSpentOnReelsToday": "Gems spent on reels today",
+  "fishing.extraReelsPurchased": "Extra Reels Purchased",
   "fishing.cast": "Cast",
   "fishing.buyMoreReels": "Buy {{reels}} reels for {{price}}",
   "fishing.guaranteedCatch.title": "Guaranteed fish",

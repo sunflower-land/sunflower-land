@@ -5,7 +5,6 @@ import lightning from "assets/icons/lightning.png";
 import { Label, LABEL_STYLES } from "components/ui/Label";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
-import { getReelPackPrice } from "features/game/events/landExpansion/castRod";
 import type { GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getDailyFishingLimit } from "features/game/types/fishing";
@@ -25,12 +24,7 @@ export const ReelsRemainingBadge: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const [showBoosts, setShowBoosts] = useState(false);
   const anchorRef = useRef<HTMLButtonElement>(null);
-  const today = new Date(now).toISOString().split("T")[0];
   const extraReels = state.fishing.extraReels?.count ?? 0;
-  const packsBoughtToday = state.fishing.extraReels?.timesBought?.[today] ?? 0;
-  const gemsSpentToday = Array.from({ length: packsBoughtToday }, (_, index) =>
-    getReelPackPrice(index),
-  ).reduce((total, price) => total + price, 0);
   const boosts: React.ComponentProps<typeof BoostsDisplay>["boosts"] = [
     ...getDailyFishingLimit(state, now).boostsUsed,
   ];
@@ -39,16 +33,7 @@ export const ReelsRemainingBadge: React.FC<Props> = ({
     boosts.push({
       name: "Gem",
       value: `+${extraReels}`,
-      label: t("fishing.extraReels"),
-      icon: ITEM_DETAILS.Gem.image,
-    });
-  }
-
-  if (packsBoughtToday > 0) {
-    boosts.push({
-      name: "Gem",
-      value: `${gemsSpentToday}`,
-      label: t("fishing.gemsSpentOnReelsToday"),
+      label: t("fishing.extraReelsPurchased"),
       icon: ITEM_DETAILS.Gem.image,
     });
   }
