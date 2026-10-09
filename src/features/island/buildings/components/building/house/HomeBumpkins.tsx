@@ -157,11 +157,15 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
           <BumpkinEquip
             farmHandId={selectedFarmHandId}
             equipment={farmHands[selectedFarmHandId as string]?.equipped}
-            onEquip={(equipment) => {
-              gameService.send("farmHand.equipped", {
-                id: selectedFarmHandId,
-                equipment,
-              });
+            onEquip={(equipment, farmHandId) => {
+              if (farmHandId) {
+                gameService.send("farmHand.equipped", {
+                  id: farmHandId,
+                  equipment,
+                });
+              } else {
+                gameService.send("bumpkin.equipped", { equipment });
+              }
             }}
           />
         </CloseButtonPanel>
