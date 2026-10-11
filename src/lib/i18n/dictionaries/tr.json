@@ -8654,12 +8654,6 @@
   "building.pigpen": "Domuz Köpeği",
   "pigs.applyMud": "İhtiyacı olan her Domuza Çamur uygulayın",
   "extend.collectible.maxReached": "Maksimum 30 güne ulaşıldı",
-  "world.cave": "Mağara",
-  "cave.title": "Mağara",
-  "cave.description": "Mağaranın derinliklerinde gizli hazineleri kazın.",
-  "cave.requiresSpring": "Mağarayı inşa etmek için Petal Paradise'a ulaşın",
-  "cave.buildError": "Oluşturma başarısız oldu",
-  "cave.notEnough": "Yeterli kaynak yok",
   "cave.machine": "Makine {{id}}",
   "cave.recipe.Mushroom": "Mantar Karışımı",
   "cave.recipe.Beetle": "Böcek Karışımı",
@@ -8732,5 +8726,7 @@
   "playerEconomyEditor.apiKey.generate": "Anahtar oluştur",
   "playerEconomyEditor.apiKey.rotateConfirm": "Bu yeni bir gizli anahtar oluşturur ve eskisi hemen çalışmayı durdurur. Oyun sunucunuzu hemen sonra yeni anahtarla güncelleyin.",
   "playerEconomyEditor.apiKey.generateConfirm": "Bu, ekonominiz için gizli bir anahtar oluşturur. Sadece bir kez göreceksiniz, bu yüzden güvenli bir yere kopyalayın.",
-  "playerEconomyEditor.apiKey.rotateFailed": "Anahtar döndürülemedi. Lütfen tekrar deneyin."
+  "playerEconomyEditor.apiKey.rotateFailed": "Anahtar döndürülemedi. Lütfen tekrar deneyin.",
+  "description.cave": "Karanlıkta mantarların yetiştiği nemli bir mağara.",
+  "building.cave": "Mağara"
 }

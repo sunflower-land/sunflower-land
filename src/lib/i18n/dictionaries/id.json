@@ -8654,12 +8654,6 @@
   "building.pigpen": "Pigpen",
   "pigs.applyMud": "Terapkan Lumpur untuk setiap Babi yang membutuhkannya",
   "extend.collectible.maxReached": "Maks 30 hari tercapai",
-  "world.cave": "Gua",
-  "cave.title": "Gua",
-  "cave.description": "Gali harta karun tersembunyi jauh di dalam Gua.",
-  "cave.requiresSpring": "Mencapai Petal Paradise untuk membangun Gua",
-  "cave.buildError": "Pembuatan gagal",
-  "cave.notEnough": "Tidak cukup sumber daya",
   "cave.machine": "Mesin {{id}}",
   "cave.recipe.Mushroom": "Campuran Jamur",
   "cave.recipe.Beetle": "Campuran Kumbang",
@@ -8732,5 +8726,7 @@
   "playerEconomyEditor.apiKey.generate": "Hasilkan kunci",
   "playerEconomyEditor.apiKey.rotateConfirm": "Ini menciptakan kunci rahasia baru dan yang lama berhenti bekerja segera. Perbarui server game Anda dengan kunci baru segera setelahnya.",
   "playerEconomyEditor.apiKey.generateConfirm": "Ini menciptakan kunci rahasia untuk ekonomi Anda. Anda hanya akan melihatnya sekali, jadi salin di tempat yang aman.",
-  "playerEconomyEditor.apiKey.rotateFailed": "Tidak dapat memutar kunci. Silakan coba lagi."
+  "playerEconomyEditor.apiKey.rotateFailed": "Tidak dapat memutar kunci. Silakan coba lagi.",
+  "description.cave": "Gua lembap tempat jamur tumbuh dalam gelap.",
+  "building.cave": "Gua"
 }

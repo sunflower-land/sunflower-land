@@ -8654,12 +8654,6 @@
   "building.pigpen": "Свинарник",
   "pigs.applyMud": "Apply Mud to every Pig that needs it",
   "extend.collectible.maxReached": "Max 30 days reached",
-  "world.cave": "Cave",
-  "cave.title": "The Cave",
-  "cave.description": "Dig for hidden treasures deep in the Cave.",
-  "cave.requiresSpring": "Reach Petal Paradise to build the Cave",
-  "cave.buildError": "Build failed",
-  "cave.notEnough": "Not enough resources",
   "cave.machine": "Machine {{id}}",
   "cave.recipe.Mushroom": "Mushroom Mix",
   "cave.recipe.Beetle": "Beetle Mix",
@@ -8732,5 +8726,7 @@
   "playerEconomyEditor.apiKey.generate": "Generate key",
   "playerEconomyEditor.apiKey.rotateConfirm": "This creates a new secret key and the old one stops working straight away. Update your game server with the new key right after.",
   "playerEconomyEditor.apiKey.generateConfirm": "This creates a secret key for your economy. You will only see it once, so copy it somewhere safe.",
-  "playerEconomyEditor.apiKey.rotateFailed": "Could not rotate the key. Please try again."
+  "playerEconomyEditor.apiKey.rotateFailed": "Could not rotate the key. Please try again.",
+  "description.cave": "A damp cavern where mushrooms grow in the dark.",
+  "building.cave": "Cave"
 }

@@ -8654,12 +8654,6 @@
   "building.pigpen": "Porcherie",
   "pigs.applyMud": "Appliquez de la boue sur tous les cochons qui en ont besoin",
   "extend.collectible.maxReached": "Maximum de 30 jours atteint",
-  "world.cave": "Grotte",
-  "cave.title": "La Grotte",
-  "cave.description": "Creusez pour trouver des trésors cachés au plus profond de la grotte.",
-  "cave.requiresSpring": "Atteignez Petal Paradise pour construire la grotte",
-  "cave.buildError": "Échec de la construction",
-  "cave.notEnough": "Ressources insuffisantes",
   "cave.machine": "Appareil {{id}}",
   "cave.recipe.Mushroom": "Mélange de champignons",
   "cave.recipe.Beetle": "Beetle Mix",
@@ -8732,5 +8726,7 @@
   "playerEconomyEditor.apiKey.generate": "Générer une clé",
   "playerEconomyEditor.apiKey.rotateConfirm": "Cela crée une nouvelle clé secrète et l'ancienne cesse de fonctionner immédiatement. Mettez à jour votre serveur de jeu avec la nouvelle clé juste après.",
   "playerEconomyEditor.apiKey.generateConfirm": "Cela crée une clé secrète pour votre économie. Vous ne le verrez qu'une seule fois, alors copiez-le dans un endroit sûr.",
-  "playerEconomyEditor.apiKey.rotateFailed": "Impossible de faire pivoter la touche. Veuillez réessayer."
+  "playerEconomyEditor.apiKey.rotateFailed": "Impossible de faire pivoter la touche. Veuillez réessayer.",
+  "description.cave": "Une caverne humide où les champignons poussent dans le noir.",
+  "building.cave": "Grotte"
 }

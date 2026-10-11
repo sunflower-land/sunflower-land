@@ -8654,12 +8654,6 @@
   "building.pigpen": "Schweinestall",
   "pigs.applyMud": "Trage Schlamm auf jedes Schwein auf, das ihn braucht",
   "extend.collectible.maxReached": "Max. 30 Tage erreicht",
-  "world.cave": "Höhle",
-  "cave.title": "Die Höhle",
-  "cave.description": "Grabe tief in der Höhle nach verborgenen Schätzen.",
-  "cave.requiresSpring": "Erreiche das Blütenparadies, um die Höhle zu bauen",
-  "cave.buildError": "Build ist fehlgeschlagen",
-  "cave.notEnough": "Nicht genug Ressourcen",
   "cave.machine": "Maschine {{id}}",
   "cave.recipe.Mushroom": "Pilz-Mischung",
   "cave.recipe.Beetle": "Käfer-Mix",
@@ -8732,5 +8726,7 @@
   "playerEconomyEditor.apiKey.generate": "Schlüssel generieren",
   "playerEconomyEditor.apiKey.rotateConfirm": "Dadurch wird ein neuer geheimer Schlüssel erstellt und der alte funktioniert sofort nicht mehr. Aktualisiere deinen Spieleserver gleich danach mit dem neuen Schlüssel.",
   "playerEconomyEditor.apiKey.generateConfirm": "Dadurch entsteht ein geheimer Schlüssel für Ihre Wirtschaft. Du wirst ihn nur einmal sehen, also kopiere ihn an einen sicheren Ort.",
-  "playerEconomyEditor.apiKey.rotateFailed": "Der Schlüssel konnte nicht gedreht werden. Bitte versuchen Sie es erneut."
+  "playerEconomyEditor.apiKey.rotateFailed": "Der Schlüssel konnte nicht gedreht werden. Bitte versuchen Sie es erneut.",
+  "description.cave": "Eine feuchte Höhle, in der Pilze im Dunkeln wachsen.",
+  "building.cave": "Höhle"
 }

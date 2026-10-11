@@ -8654,12 +8654,6 @@
   "building.pigpen": "Pigpen",
   "pigs.applyMud": "Aplica barro a cada cerdo que lo necesite",
   "extend.collectible.maxReached": "Se alcanzó el máximo de 30 días",
-  "world.cave": "Cueva",
-  "cave.title": "La cueva",
-  "cave.description": "Busca tesoros escondidos en las profundidades de la cueva.",
-  "cave.requiresSpring": "Llega a Petal Paradise para construir la cueva",
-  "cave.buildError": "Fallo en la compilación",
-  "cave.notEnough": "No hay suficientes recursos",
   "cave.machine": "Máquina {{id}}",
   "cave.recipe.Mushroom": "Mezcla de hongos",
   "cave.recipe.Beetle": "Mezcla de escarabajos",
@@ -8732,5 +8726,7 @@
   "playerEconomyEditor.apiKey.generate": "Generar clave",
   "playerEconomyEditor.apiKey.rotateConfirm": "Esto crea una nueva clave secreta y la antigua deja de funcionar de inmediato. Actualiza tu servidor de juegos con la nueva clave inmediatamente después.",
   "playerEconomyEditor.apiKey.generateConfirm": "Esto crea una clave secreta para su economía. Solo la verás una vez, así que cópiala en un lugar seguro.",
-  "playerEconomyEditor.apiKey.rotateFailed": "No se pudo girar la llave. Por favor, inténtelo de nuevo."
+  "playerEconomyEditor.apiKey.rotateFailed": "No se pudo girar la llave. Por favor, inténtelo de nuevo.",
+  "description.cave": "Una caverna húmeda donde crecen hongos en la oscuridad.",
+  "building.cave": "Cueva"
 }

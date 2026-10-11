@@ -8654,12 +8654,6 @@
   "building.pigpen": "Pigpen",
   "pigs.applyMud": "Applica il fango a tutti i maiali che ne hanno bisogno",
   "extend.collectible.maxReached": "Raggiunto un massimo di 30 giorni",
-  "world.cave": "grotta",
-  "cave.title": "La grotta",
-  "cave.description": "Scava alla ricerca di tesori nascosti nelle profondità della grotta.",
-  "cave.requiresSpring": "Raggiungi Petal Paradise per costruire la grotta",
-  "cave.buildError": "Compilazione fallita",
-  "cave.notEnough": "Risorse insufficienti",
   "cave.machine": "Macchina {{id}}",
   "cave.recipe.Mushroom": "Miscela di funghi",
   "cave.recipe.Beetle": "Mix per coleotteri",
@@ -8732,5 +8726,7 @@
   "playerEconomyEditor.apiKey.generate": "Genera chiave",
   "playerEconomyEditor.apiKey.rotateConfirm": "Questo crea una nuova chiave segreta e quella vecchia smette di funzionare immediatamente. Aggiorna subito dopo il tuo server di gioco con la nuova chiave.",
   "playerEconomyEditor.apiKey.generateConfirm": "Questo crea una chiave segreta per la tua economia. La vedrai solo una volta, quindi copiala in un posto sicuro.",
-  "playerEconomyEditor.apiKey.rotateFailed": "Impossibile ruotare la chiave. Per favore riprova."
+  "playerEconomyEditor.apiKey.rotateFailed": "Impossibile ruotare la chiave. Per favore riprova.",
+  "description.cave": "Una caverna umida dove i funghi crescono al buio.",
+  "building.cave": "grotta"
 }

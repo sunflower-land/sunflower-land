@@ -8654,12 +8654,6 @@
   "building.pigpen": "猪圈",
   "pigs.applyMud": "为每一头需要的猪涂抹泥土",
   "extend.collectible.maxReached": "已达 30 天上限",
-  "world.cave": "洞穴",
-  "cave.title": "洞穴",
-  "cave.description": "深入洞穴探寻埋藏的宝藏。",
-  "cave.requiresSpring": "达到春花岛以建造洞穴",
-  "cave.buildError": "建造失败",
-  "cave.notEnough": "资源不足",
   "cave.machine": "{{id}} 号机器",
   "cave.recipe.Mushroom": "蘑菇混合培养料",
   "cave.recipe.Beetle": "甲虫混合培养料",
@@ -8732,5 +8726,7 @@
   "playerEconomyEditor.apiKey.generate": "生成密钥",
   "playerEconomyEditor.apiKey.rotateConfirm": "这会创建一个新的密钥，而旧的密钥会立即停止工作。之后立即使用新密钥更新游戏服务器。",
   "playerEconomyEditor.apiKey.generateConfirm": "这为您的经济创建了密钥。你只会看到一次，所以把它复制到一个安全的地方。",
-  "playerEconomyEditor.apiKey.rotateFailed": "无法旋转密钥。请再试一次。"
+  "playerEconomyEditor.apiKey.rotateFailed": "无法旋转密钥。请再试一次。",
+  "description.cave": "一个潮湿的洞穴，蘑菇在黑暗中生长。",
+  "building.cave": "洞穴"
 }

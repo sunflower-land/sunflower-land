@@ -8654,12 +8654,6 @@
   "building.pigpen": "ピッグペン",
   "pigs.applyMud": "必要な豚全員に泥を塗る",
   "extend.collectible.maxReached": "最大 30 日間に達しました",
-  "world.cave": "ケーブ",
-  "cave.title": "ザ・ケーブ",
-  "cave.description": "洞窟の奥深くに隠された宝物を掘りましょう。",
-  "cave.requiresSpring": "ペタルパラダイスに到達して洞窟を建てよう",
-  "cave.buildError": "ビルド失敗",
-  "cave.notEnough": "リソースが不十分",
   "cave.machine": "マシン {{id}}",
   "cave.recipe.Mushroom": "マッシュルームミックス",
   "cave.recipe.Beetle": "ビートルミックス",
@@ -8732,5 +8726,7 @@
   "playerEconomyEditor.apiKey.generate": "キーを生成",
   "playerEconomyEditor.apiKey.rotateConfirm": "これにより新しい秘密鍵が作成され、古い秘密鍵はすぐに機能しなくなります。その直後にゲームサーバーを新しいキーで更新してください。",
   "playerEconomyEditor.apiKey.generateConfirm": "これにより、経済の秘密鍵が作成されます。一度しか表示されないので、安全な場所にコピーしてください。",
-  "playerEconomyEditor.apiKey.rotateFailed": "キーを回転できませんでした。もう一度試してください。"
+  "playerEconomyEditor.apiKey.rotateFailed": "キーを回転できませんでした。もう一度試してください。",
+  "description.cave": "暗闇の中でキノコが生える湿気の多い洞窟。",
+  "building.cave": "ケーブ"
 }
