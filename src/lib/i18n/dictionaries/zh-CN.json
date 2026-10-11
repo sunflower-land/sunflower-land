@@ -8726,5 +8726,6 @@
   "playerEconomyEditor.apiKey.rotateFailed": "无法旋转密钥。请再试一次。",
   "description.cave": "一个潮湿的洞穴，蘑菇在黑暗中生长。",
   "building.cave": "洞穴",
-  "gameOptions.generalSettings.customCursor": "自定义光标"
+  "gameOptions.generalSettings.customCursor": "自定义光标",
+  "cave.batch.chooseCrop": "选择要堆肥的作物"
 }

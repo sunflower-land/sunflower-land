@@ -8726,5 +8726,6 @@
   "playerEconomyEditor.apiKey.rotateFailed": "キーを回転できませんでした。もう一度試してください。",
   "description.cave": "暗闇の中でキノコが生える湿気の多い洞窟。",
   "building.cave": "ケーブ",
-  "gameOptions.generalSettings.customCursor": "カスタムカーソル"
+  "gameOptions.generalSettings.customCursor": "カスタムカーソル",
+  "cave.batch.chooseCrop": "堆肥にする作物を選ぶ"
 }

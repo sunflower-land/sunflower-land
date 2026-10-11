@@ -8726,5 +8726,6 @@
   "playerEconomyEditor.apiKey.rotateFailed": "Could not rotate the key. Please try again.",
   "description.cave": "A damp cavern where mushrooms grow in the dark.",
   "building.cave": "Cave",
-  "gameOptions.generalSettings.customCursor": "Custom cursor"
+  "gameOptions.generalSettings.customCursor": "Custom cursor",
+  "cave.batch.chooseCrop": "Choose a crop to compost"
 }

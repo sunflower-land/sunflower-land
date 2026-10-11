@@ -8726,5 +8726,6 @@
   "playerEconomyEditor.apiKey.rotateFailed": "Impossibile ruotare la chiave. Per favore riprova.",
   "description.cave": "Una caverna umida dove i funghi crescono al buio.",
   "building.cave": "grotta",
-  "gameOptions.generalSettings.customCursor": "Cursore personalizzato"
+  "gameOptions.generalSettings.customCursor": "Cursore personalizzato",
+  "cave.batch.chooseCrop": "Scegli un raccolto da compostare"
 }

@@ -8726,5 +8726,6 @@
   "playerEconomyEditor.apiKey.rotateFailed": "Não foi possível girar a chave. Por favor, tente novamente.",
   "description.cave": "Uma caverna úmida onde os cogumelos crescem no escuro.",
   "building.cave": "Caverna",
-  "gameOptions.generalSettings.customCursor": "Cursor personalizado"
+  "gameOptions.generalSettings.customCursor": "Cursor personalizado",
+  "cave.batch.chooseCrop": "Escolha uma cultura para compostar"
 }

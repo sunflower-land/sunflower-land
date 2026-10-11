@@ -8726,5 +8726,6 @@
   "playerEconomyEditor.apiKey.rotateFailed": "Impossible de faire pivoter la touche. Veuillez réessayer.",
   "description.cave": "Une caverne humide où les champignons poussent dans le noir.",
   "building.cave": "Grotte",
-  "gameOptions.generalSettings.customCursor": "Curseur personnalisé"
+  "gameOptions.generalSettings.customCursor": "Curseur personnalisé",
+  "cave.batch.chooseCrop": "Choisissez une culture à composter"
 }

@@ -8726,5 +8726,6 @@
   "playerEconomyEditor.apiKey.rotateFailed": "Tidak dapat memutar kunci. Silakan coba lagi.",
   "description.cave": "Gua lembap tempat jamur tumbuh dalam gelap.",
   "building.cave": "Gua",
-  "gameOptions.generalSettings.customCursor": "Kursor kustom"
+  "gameOptions.generalSettings.customCursor": "Kursor kustom",
+  "cave.batch.chooseCrop": "Pilih tanaman untuk membuat kompos"
 }

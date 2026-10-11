@@ -8726,5 +8726,6 @@
   "playerEconomyEditor.apiKey.rotateFailed": "Anahtar döndürülemedi. Lütfen tekrar deneyin.",
   "description.cave": "Karanlıkta mantarların yetiştiği nemli bir mağara.",
   "building.cave": "Mağara",
-  "gameOptions.generalSettings.customCursor": "Özel imleç"
+  "gameOptions.generalSettings.customCursor": "Özel imleç",
+  "cave.batch.chooseCrop": "Kompost yapmak için bir mahsul seçin"
 }

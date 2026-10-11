@@ -8726,5 +8726,6 @@
   "playerEconomyEditor.apiKey.rotateFailed": "No se pudo girar la llave. Por favor, inténtelo de nuevo.",
   "description.cave": "Una caverna húmeda donde crecen hongos en la oscuridad.",
   "building.cave": "Cueva",
-  "gameOptions.generalSettings.customCursor": "Cursor personalizado"
+  "gameOptions.generalSettings.customCursor": "Cursor personalizado",
+  "cave.batch.chooseCrop": "Elige un cultivo para compostar"
 }

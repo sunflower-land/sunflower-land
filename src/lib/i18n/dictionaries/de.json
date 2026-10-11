@@ -8726,5 +8726,6 @@
   "playerEconomyEditor.apiKey.rotateFailed": "Der Schlüssel konnte nicht gedreht werden. Bitte versuchen Sie es erneut.",
   "description.cave": "Eine feuchte Höhle, in der Pilze im Dunkeln wachsen.",
   "building.cave": "Höhle",
-  "gameOptions.generalSettings.customCursor": "Benutzerdefinierter Mauszeiger"
+  "gameOptions.generalSettings.customCursor": "Benutzerdefinierter Mauszeiger",
+  "cave.batch.chooseCrop": "Wählen Sie eine Pflanze zum Kompostieren"
 }
