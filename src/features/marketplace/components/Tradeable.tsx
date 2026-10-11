@@ -223,7 +223,7 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
 
   const isStoneBeetle = collection === "collectibles" && Number(id) === 2129;
 
-  // Chapter Crop Week crop (Saltwort) trading is only available while the event
+  // Chapter Crop Week crop (Crystal Leaf) trading is only available while the event
   // is active. Everyone else sees a "Coming Soon" page instead of the details.
   const isChapterCropWeekLocked =
     display.name === CHAPTER_CROP_WEEK_CROP && !isChapterCropWeekActive();

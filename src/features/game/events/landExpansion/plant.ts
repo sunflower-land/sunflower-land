@@ -224,7 +224,7 @@ export function getCropTime({
   let multiplier = 1;
   const boostsUsed: { name: BoostName; value: string }[] = [];
   const { inventory, buds = {}, bumpkin } = game;
-  // Saltwort is the CHAPTER_CROP_WEEK event crop: neutralise upgraded Crops skills
+  // Crystal Leaf is the CHAPTER_CROP_WEEK event crop: neutralise upgraded Crops skills
   // (they still apply at rank 1) so the event crop isn't boosted by ascension ranks.
   const skills =
     crop === CHAPTER_CROP_WEEK_CROP
@@ -326,7 +326,7 @@ export const getCropPlotTime = ({
   boostsUsed: { name: BoostName; value: string }[];
 } => {
   const { aoe } = game;
-  // Saltwort (the CHAPTER_CROP_WEEK event crop) ignores upgraded Crops-skill ranks.
+  // Crystal Leaf (the CHAPTER_CROP_WEEK event crop) ignores upgraded Crops-skill ranks.
   const skills =
     crop === CHAPTER_CROP_WEEK_CROP
       ? downgradeChapterCropWeekSkills(game.bumpkin.skills)

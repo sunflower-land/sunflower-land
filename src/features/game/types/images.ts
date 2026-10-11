@@ -400,6 +400,7 @@ import beetrootBlaze from "assets/food/beetroot_blaze.png";
 import shroomSyrup from "assets/food/shroom_syrup.png";
 import rapidRoast from "assets/food/rapid_roast.png";
 import saltSnack from "assets/food/salt_snack.png";
+import crystalCookie from "assets/food/crystal_cookie.png";
 import theLot from "assets/food/the_lot.webp";
 import antipasto from "assets/food/antipasto.webp";
 import carrotJuice from "assets/food/carrot_juice.webp";
@@ -1486,6 +1487,11 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.saltwort"),
     translatedName: translate("crop.saltwort"),
   },
+  "Crystal Leaf": {
+    image: CROP_LIFECYCLE["Basic Biome"]["Crystal Leaf"].crop,
+    description: translate("description.crystalLeaf"),
+    translatedName: translate("crop.crystalLeaf"),
+  },
   Rhubarb: {
     image: CROP_LIFECYCLE["Basic Biome"].Rhubarb.crop,
     description: translate("description.rhubarb"),
@@ -1607,6 +1613,11 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE["Basic Biome"].Saltwort.seed,
     description: translate("description.saltwort"),
     translatedName: translate("seed.saltwort"),
+  },
+  "Crystal Leaf Seed": {
+    image: CROP_LIFECYCLE["Basic Biome"]["Crystal Leaf"].seed,
+    description: translate("description.crystalLeaf"),
+    translatedName: translate("seed.crystalLeaf"),
   },
   "Rhubarb Seed": {
     image: CROP_LIFECYCLE["Basic Biome"].Rhubarb.seed,
@@ -5492,6 +5503,11 @@ export const ITEM_DETAILS: Items = {
     image: saltSnack,
     description: CONSUMABLES["Saltbite"].description,
     translatedName: translate("food.saltbite"),
+  },
+  "Crystal Cookie": {
+    image: crystalCookie,
+    description: CONSUMABLES["Crystal Cookie"].description,
+    translatedName: translate("food.crystalCookie"),
   },
   "Shroom Syrup": {
     image: shroomSyrup,

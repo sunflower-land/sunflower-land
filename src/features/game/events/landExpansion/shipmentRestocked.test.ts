@@ -99,7 +99,7 @@ describe("shipmentRestocked", () => {
     expect(state.stock["Eggplant Seed"]).toEqual(new Decimal(50));
   });
 
-  it("restocks the Saltwort event seed for free", () => {
+  it("restocks the Crystal Leaf event seed for free", () => {
     const now = Date.now();
     const state = shipmentRestock({
       action: {
@@ -109,7 +109,7 @@ describe("shipmentRestocked", () => {
         ...INITIAL_FARM,
         stock: {
           ...INITIAL_FARM.stock,
-          "Saltwort Seed": new Decimal(5),
+          "Crystal Leaf Seed": new Decimal(5),
         },
         shipments: {
           restockedAt: new Date("2023-04-04").getTime(),
@@ -118,8 +118,8 @@ describe("shipmentRestocked", () => {
       createdAt: now,
     });
 
-    expect(state.stock["Saltwort Seed"]).toEqual(
-      new Decimal((SHIPMENT_STOCK["Saltwort Seed"] ?? 0) + 5),
+    expect(state.stock["Crystal Leaf Seed"]).toEqual(
+      new Decimal((SHIPMENT_STOCK["Crystal Leaf Seed"] ?? 0) + 5),
     );
   });
 

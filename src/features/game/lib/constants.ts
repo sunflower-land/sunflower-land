@@ -148,8 +148,9 @@ export const INITIAL_STOCK = (
     "Artichoke Seed": new Decimal(60),
     "Barley Seed": new Decimal(60),
 
-    // Chapter Crop Week (limited-time event seed)
+    // Chapter Crop Week (limited-time event seeds)
     "Saltwort Seed": new Decimal(30),
+    "Crystal Leaf Seed": new Decimal(30),
 
     "Grape Seed": new Decimal(10),
     "Olive Seed": new Decimal(10),

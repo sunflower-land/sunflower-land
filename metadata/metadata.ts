@@ -949,6 +949,38 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Crystal Leaf Seed": {
+    name: "Crystal Leaf Seed",
+    description:
+      "A glistening seed available only during Chapter Crop Week.\n\nYou can buy crystal leaf seeds in game at the market during the event.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Crystal Leaf": {
+    name: "Crystal Leaf",
+    description: "A glistening crop harvested during Chapter Crop Week.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Crop" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  "Crystal Cookie": {
+    name: "Crystal Cookie",
+    description:
+      "A sparkling cookie baked at the Fire Pit during Chapter Crop Week.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   "Apple Seed": {
     name: "Apple Seed",
     description:

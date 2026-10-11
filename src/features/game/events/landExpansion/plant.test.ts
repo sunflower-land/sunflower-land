@@ -1505,10 +1505,10 @@ describe("plant", () => {
       expect(time).toEqual(baseHarvestSeconds * 0.925);
     });
 
-    it("neutralises a rank 3 Green Thumb on the Saltwort event crop (x0.95, not x0.925)", () => {
-      const baseHarvestSeconds = CROPS["Saltwort"].harvestSeconds;
+    it("neutralises a rank 3 Green Thumb on the Crystal Leaf event crop (x0.95, not x0.925)", () => {
+      const baseHarvestSeconds = CROPS["Crystal Leaf"].harvestSeconds;
       const { time } = getCropPlotTime({
-        crop: "Saltwort",
+        crop: "Crystal Leaf",
         game: {
           ...FARM_WITH_PLOTS,
           collectibles: {},
@@ -1523,7 +1523,7 @@ describe("plant", () => {
         createdAt: dateNow,
       });
 
-      // Saltwort (event crop) uses the rank-1 multiplier (x0.95); Corn above
+      // Crystal Leaf (event crop) uses the rank-1 multiplier (x0.95); Corn above
       // (a non-event crop) still gets the full rank-3 x0.925.
       expect(time).toEqual(baseHarvestSeconds * 0.95);
     });

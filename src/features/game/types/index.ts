@@ -1563,7 +1563,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Salt Doll": 3023,
   "Jacuzzi Bear": 3024,
   "Design Trophy": 3026,
-  // Chapter Crop Week (limited-time event)
+  // Chapter Crop Week (limited-time event) — July 2026
   Saltwort: 3027,
   "Saltwort Seed": 3028,
   Saltbite: 3029,
@@ -1633,6 +1633,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Mud: 3088,
   "Pig Bristles": 3089,
   Truffle: 3090,
+  // Chapter Crop Week (limited-time event) — October 2026
+  "Crystal Leaf": 3091,
+  "Crystal Leaf Seed": 3092,
+  "Crystal Cookie": 3093,
 };
 
 // The reverse of above

@@ -463,7 +463,7 @@ const PlantSection: React.FC<{
     (seed) => SEEDS[seed].plantingSpot === "Crop Plot",
   ) as CropSeedName[];
 
-  // Include the limited-time Chapter Crop Week seed (Saltwort) while the event
+  // Include the limited-time Chapter Crop Week seed (Crystal Leaf) while the event
   // is active, even though it is not part of the current season.
   const plantableSeeds: CropSeedName[] = isChapterCropWeekActive(now)
     ? [...seasonalSeeds, CHAPTER_CROP_WEEK_SEED as CropSeedName]
