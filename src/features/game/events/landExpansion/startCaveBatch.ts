@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import type { GameState } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
+import { isCaveBuildingReady } from "features/game/lib/cave";
 import { getKeys } from "lib/object";
 import {
   CAVE_BATCH_DURATION_MS,
@@ -47,7 +48,7 @@ export function startCaveBatch({
     }
 
     const cave = game.cave;
-    if (!cave) {
+    if (!cave || !isCaveBuildingReady(game, createdAt)) {
       throw new Error(START_CAVE_BATCH_ERRORS.NO_CAVE);
     }
 

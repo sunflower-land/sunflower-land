@@ -63,6 +63,10 @@ const getValidBuildings = (state: GameState): BuildingName[] => {
     UNSORTED_BUILDINGS.push("Pigpen");
   }
 
+  if (hasFeatureAccess(state, "CAVE")) {
+    UNSORTED_BUILDINGS.push("Cave");
+  }
+
   const VALID_BUILDINGS = [...UNSORTED_BUILDINGS].sort(
     (a, b) =>
       levelRequirementToTotal(BUILDINGS[a].unlocksAtLevel) -

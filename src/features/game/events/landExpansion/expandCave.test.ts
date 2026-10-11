@@ -10,6 +10,14 @@ import { getKeys } from "lib/object";
 import { CONFIG } from "lib/config";
 import { EXPAND_CAVE_ERRORS, expandCave } from "./expandCave";
 
+// The Cave building, placed and finished: every cave.* event requires it.
+const READY_CAVE = {
+  id: "cave",
+  coordinates: { x: 0, y: 0 },
+  createdAt: 0,
+  readyAt: 0,
+};
+
 const NOW = 1_700_000_000_000;
 
 // Islands in unlock order; a tier's gate island and the one just below it.
@@ -30,6 +38,7 @@ const richState = ({
   island = "marble",
 }: { tier?: number; island?: IslandType } = {}): GameState => ({
   ...TEST_FARM,
+  buildings: { ...TEST_FARM.buildings, Cave: [READY_CAVE] },
   island: { ...TEST_FARM.island, type: island },
   coins: 10_000_000,
   inventory: {
@@ -94,6 +103,20 @@ describe("CAVE_TIERS", () => {
 });
 
 describe("expandCave (cave.expanded)", () => {
+  it("throws while the Cave building is under construction", () => {
+    const state = richState();
+
+    expect(() =>
+      expand({
+        ...state,
+        buildings: {
+          ...state.buildings,
+          Cave: [{ ...READY_CAVE, readyAt: Number.MAX_SAFE_INTEGER }],
+        },
+      }),
+    ).toThrow(EXPAND_CAVE_ERRORS.NO_CAVE);
+  });
+
   it.each(TIERS)("starts building tier %s", (tier) => {
     const next = expand(richState({ tier: tier - 1 }));
     expect(next.cave?.construction).toEqual({

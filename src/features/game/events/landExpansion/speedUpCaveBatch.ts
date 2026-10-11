@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import type { GameState } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
+import { isCaveBuildingReady } from "features/game/lib/cave";
 import {
   chargeCoinsForSpeedUp,
   getInstantGems,
@@ -23,6 +24,7 @@ type Options = {
 
 export enum SPEED_UP_CAVE_BATCH_ERRORS {
   NO_FEATURE_ACCESS = "The Cave is not available for this player",
+  NO_CAVE = "The Cave has not been built",
   NO_BATCH = "That Myco-Composter has no batch to finish",
   ALREADY_READY = "That batch is already ready",
   INSUFFICIENT_GEMS = "Insufficient Gems",
@@ -40,6 +42,10 @@ export function speedUpCaveBatch({
   return produce(state, (game) => {
     if (!hasFeatureAccess(game, "CAVE")) {
       throw new Error(SPEED_UP_CAVE_BATCH_ERRORS.NO_FEATURE_ACCESS);
+    }
+
+    if (!game.cave || !isCaveBuildingReady(game, createdAt)) {
+      throw new Error(SPEED_UP_CAVE_BATCH_ERRORS.NO_CAVE);
     }
 
     const batch = game.cave?.machines[action.machineId]?.batch;

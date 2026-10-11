@@ -2720,6 +2720,11 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.pigpen"),
     translatedName: translate("building.pigpen"),
   },
+  Cave: {
+    image: SUNNYSIDE.building.cave,
+    description: translate("description.cave"),
+    translatedName: translate("building.cave"),
+  },
   Deli: {
     image: SUNNYSIDE.building.deli,
     description: translate("description.deli"),

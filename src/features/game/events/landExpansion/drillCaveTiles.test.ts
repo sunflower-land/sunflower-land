@@ -13,6 +13,14 @@ import {
 import { DRILL_CAVE_TILES_ERRORS, drillCaveTiles } from "./drillCaveTiles";
 import type { Bud } from "features/game/types/buds";
 
+// The Cave building, placed and finished: every cave.* event requires it.
+const READY_CAVE = {
+  id: "cave",
+  coordinates: { x: 0, y: 0 },
+  createdAt: 0,
+  readyAt: 0,
+};
+
 // Inside the Ascension Age chapter, whose artefact is the Otter Pebble.
 const NOW = new Date("2026-09-23T00:00:00.000Z").getTime();
 
@@ -44,6 +52,7 @@ const readyState = ({
   shovels?: number;
 } = {}): GameState => ({
   ...TEST_FARM,
+  buildings: { ...TEST_FARM.buildings, Cave: [READY_CAVE] },
   island: { ...TEST_FARM.island, type: "spring" },
   inventory: {
     ...TEST_FARM.inventory,
@@ -155,6 +164,20 @@ describe("getCaveDrillSquare", () => {
 });
 
 describe("drillCaveTiles (cave.drilled)", () => {
+  it("throws while the Cave building is under construction", () => {
+    const state = readyState();
+
+    expect(() =>
+      drill({
+        ...state,
+        buildings: {
+          ...state.buildings,
+          Cave: [{ ...READY_CAVE, readyAt: Number.MAX_SAFE_INTEGER }],
+        },
+      }),
+    ).toThrow(DRILL_CAVE_TILES_ERRORS.NO_CAVE);
+  });
+
   it("spends one Sand Drill and no Sand Shovels", () => {
     const next = drill(readyState({ drills: 3, shovels: 5 }));
     expect(next.inventory["Sand Drill"]?.toNumber()).toBe(2);

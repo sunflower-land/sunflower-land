@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import type { GameState, InventoryItemName } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
+import { isCaveBuildingReady } from "features/game/lib/cave";
 import {
   CAVE_DIG_SHOVEL_COST,
   caveTileKey,
@@ -94,7 +95,7 @@ export function digCaveTile({
     }
 
     const cave = game.cave;
-    if (!cave) {
+    if (!cave || !isCaveBuildingReady(game, createdAt)) {
       throw new Error(DIG_CAVE_TILE_ERRORS.NO_CAVE);
     }
 

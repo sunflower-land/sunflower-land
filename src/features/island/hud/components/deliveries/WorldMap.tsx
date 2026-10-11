@@ -13,13 +13,8 @@ import {
   meetsLevelRequirement,
 } from "features/game/lib/level";
 import { Label } from "components/ui/Label";
-import { getKeys } from "lib/object";
-import { isCavePatchCleared } from "features/game/types/caveRecipes";
-import { useNow } from "lib/utils/hooks/useNow";
 import { isMobile } from "mobile-device-detect";
 import { useSelector } from "@xstate/react";
-import { hasFeatureAccess } from "lib/flags";
-import { CaveEntrance } from "features/cave/components/CaveEntrance";
 import { hasPlazaAccess } from "features/island/delivery/lib/onboarding";
 
 const showDebugBorders = false;
@@ -36,19 +31,6 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [showPopup, setShowPopup] = useState(false);
 
   const [reqLvl, setReqLvl] = useState(1);
-
-  const [showCaveEntrance, setShowCaveEntrance] = useState(false);
-
-  const hasCaveAccess = hasFeatureAccess(state, "CAVE");
-  const caveBuilt = !!state.cave;
-
-  const now = useNow({ live: caveBuilt });
-  const readyPatchCount = state.cave
-    ? getKeys(state.cave.machines).filter((id) => {
-        const batch = state.cave?.machines[id].batch;
-        return !!batch && batch.readyAt <= now && !isCavePatchCleared(batch);
-      }).length
-    : 0;
 
   const ascension = getAscensionLevel({
     experience: state.bumpkin.experience ?? 0,
@@ -147,8 +129,6 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           </span>
         )}
       </div>
-      {/* Cave (Chapter 16). Unused locked-chest island until the CAVE flag is
-          on; then it becomes the Cave entrance / navigation node. */}
       <div
         style={{
           width: "18%",
@@ -158,39 +138,12 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           left: "78.5%",
           bottom: "52%",
         }}
-        className={`flex justify-center items-center ${
-          hasCaveAccess ? "cursor-pointer" : ""
-        }`}
-        onClick={() => {
-          if (!hasCaveAccess) return;
-          if (caveBuilt) {
-            travel.play();
-            navigate("/cave");
-            onClose();
-          } else {
-            setShowCaveEntrance(true);
-          }
-        }}
+        className="flex justify-center items-center"
       >
-        {hasCaveAccess ? (
-          <span className="map-text text-xxs sm:text-sm">
-            {t("world.cave")}
-          </span>
-        ) : (
-          <img
-            src={SUNNYSIDE.icons.lock}
-            className="h-4 sm:h-6 ml-1 img-highlight"
-          />
-        )}
-        {hasCaveAccess && readyPatchCount > 0 && (
-          <Label
-            type="success"
-            className="absolute -top-1 -right-1"
-            style={{ pointerEvents: "none" }}
-          >
-            {readyPatchCount}
-          </Label>
-        )}
+        <img
+          src={SUNNYSIDE.icons.lock}
+          className="h-4 sm:h-6 ml-1 img-highlight"
+        />
       </div>
 
       <div
@@ -524,19 +477,6 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               : t("warning.level.required", { lvl: reqLvl })}
           </span>
         </Label>
-      )}
-
-      {hasCaveAccess && (
-        <CaveEntrance
-          show={showCaveEntrance}
-          onHide={() => setShowCaveEntrance(false)}
-          onBuilt={() => {
-            setShowCaveEntrance(false);
-            travel.play();
-            navigate("/cave");
-            onClose();
-          }}
-        />
       )}
     </OuterPanel>
   );

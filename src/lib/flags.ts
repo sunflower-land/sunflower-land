@@ -177,9 +177,9 @@ const FEATURE_FLAGS = {
   PIGPEN: testnetFeatureFlag,
 
   /**
-   * Chapter 16's Cave: the world-map entrance node, the `/cave` interior room
-   * and the `cave.built` event. Remove once Chapter 16 ships and the Cave
-   * gates on its own unlock instead.
+   * Chapter 16's Cave: the Cave building in the Workbench shop and the `/cave`
+   * interior room. Remove once Chapter 16 ships and the Cave gates on its own
+   * unlock instead.
    */
   CAVE: testnetFeatureFlag,
 

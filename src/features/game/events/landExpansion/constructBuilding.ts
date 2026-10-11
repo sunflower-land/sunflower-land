@@ -31,6 +31,7 @@ export enum CONSTRUCT_BUILDING_ERRORS {
  */
 const BUILDING_FEATURE_FLAGS: Partial<Record<BuildingName, FeatureName>> = {
   Pigpen: "PIGPEN",
+  Cave: "CAVE",
 };
 
 export type ConstructBuildingAction = {
@@ -156,6 +157,16 @@ export function constructBuilding({
           createdAt,
         ).animals;
       }
+    }
+
+    // The cave.* events all require game.cave, so the Tier I Cave opens with
+    // the building. Guarded so an existing Cave is never reset.
+    if (action.name === "Cave" && !stateCopy.cave) {
+      stateCopy.cave = {
+        builtAt: createdAt,
+        tier: 1,
+        machines: { "1": {} },
+      };
     }
 
     return stateCopy;

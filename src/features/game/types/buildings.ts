@@ -35,6 +35,7 @@ export type BuildingName =
   | "Crop Machine"
   | "Barn"
   | "Pigpen"
+  | "Cave"
   | "Fish Market"
   | "Crafting Box"
   | "Pet House"
@@ -156,6 +157,19 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
       // well as an upgrade one, so the Pigpen needs the Cave before it can be
       // raised at all.
       Mud: new Decimal(10),
+    },
+    requiredIsland: "spring",
+  },
+  // TODO(Chapter 16): unlock level and build time are placeholders (Elias
+  // 2026-10-11). Level 11 is the Bumpkin level of the 9th basic expansion,
+  // which unlocks Spring Island. The cost is the discussion #7721 entrance cost.
+  Cave: {
+    unlocksAtLevel: { ascension: 0, level: 11 },
+    coins: 200,
+    constructionSeconds: 60 * 60 * 2,
+    ingredients: {
+      Wood: new Decimal(20),
+      Stone: new Decimal(5),
     },
     requiredIsland: "spring",
   },
@@ -339,6 +353,8 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   // TODO(Chapter 16): placeholder footprint. 3x3 (48px) rather than the Barn's
   // 4x4, to sit under the 50x54 Pigpen sprite (Elias 2026-09-18).
   Pigpen: { width: 3, height: 3 },
+  // TODO(Chapter 16): placeholder footprint, sized to the 50x55 Cave sprite.
+  Cave: { width: 3, height: 3 },
   "Fish Market": { width: 3, height: 3 },
   "Crafting Box": { width: 3, height: 2 },
   "Pet House": { width: 3, height: 3 },
