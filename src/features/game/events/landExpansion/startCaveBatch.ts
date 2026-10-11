@@ -6,7 +6,8 @@ import { isCaveBuildingReady } from "features/game/lib/cave";
 import { getKeys } from "lib/object";
 import {
   CAVE_BATCH_DURATION_MS,
-  CAVE_RECIPES,
+  getCaveBatchIngredients,
+  type CaveMudCropName,
   type CaveRecipeName,
 } from "features/game/types/caveRecipes";
 import { canRestartCaveBatch } from "features/game/types/cavePatch";
@@ -15,6 +16,8 @@ export type StartCaveBatchAction = {
   type: "cave.batchStarted";
   machineId: string;
   recipe: CaveRecipeName;
+  /** The crop a Mud batch is fed; Mushroom and Beetle batches take none. */
+  crop?: CaveMudCropName;
 };
 
 type Options = {
@@ -28,6 +31,7 @@ export enum START_CAVE_BATCH_ERRORS {
   NO_CAVE = "The Cave has not been built",
   NO_MACHINE = "That Myco-Composter does not exist",
   BATCH_IN_PROGRESS = "That Myco-Composter already has a batch",
+  INVALID_CROP = "That crop cannot feed this batch",
   INSUFFICIENT_INGREDIENTS = "Not enough resources to start the batch",
 }
 
@@ -63,7 +67,11 @@ export function startCaveBatch({
       throw new Error(START_CAVE_BATCH_ERRORS.BATCH_IN_PROGRESS);
     }
 
-    const { ingredients } = CAVE_RECIPES[action.recipe];
+    const ingredients = getCaveBatchIngredients(action.recipe, action.crop);
+    if (!ingredients) {
+      throw new Error(START_CAVE_BATCH_ERRORS.INVALID_CROP);
+    }
+
     for (const item of getKeys(ingredients)) {
       const required = ingredients[item] ?? new Decimal(0);
       const owned = game.inventory[item] ?? new Decimal(0);

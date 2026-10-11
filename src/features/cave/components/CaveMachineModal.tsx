@@ -5,12 +5,15 @@ import Decimal from "decimal.js-light";
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import type {
+  CaveMudCropName,
   CaveRecipeName,
   CaveTileType,
 } from "features/game/types/caveRecipes";
 import {
   CAVE_BATCH_DURATION_MS,
+  CAVE_MUD_CROPS,
   CAVE_RECIPES,
+  getCaveBatchIngredients,
   getCaveTileCounts,
   isCavePatchCleared,
 } from "features/game/types/caveRecipes";
@@ -19,7 +22,7 @@ import {
   getCaveBeetleProgress,
   getUndugCaveTiles,
 } from "features/game/types/cavePatch";
-import type { InventoryItemName } from "features/game/types/game";
+import type { Inventory, InventoryItemName } from "features/game/types/game";
 import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getChapterArtefact } from "features/game/types/chapters";
@@ -41,6 +44,16 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import fastForward from "assets/icons/fast_forward.png";
 
 const RECIPE_NAMES = getKeys(CAVE_RECIPES);
+const MUD_CROPS = getKeys(CAVE_MUD_CROPS);
+
+const canAffordMudCrop = (inventory: Inventory, crop: CaveMudCropName) =>
+  (inventory[crop] ?? new Decimal(0)).gte(CAVE_MUD_CROPS[crop]);
+
+/** Every Mud crop in table order, the ones the player can afford first. */
+const sortMudCrops = (inventory: Inventory) => [
+  ...MUD_CROPS.filter((crop) => canAffordMudCrop(inventory, crop)),
+  ...MUD_CROPS.filter((crop) => !canAffordMudCrop(inventory, crop)),
+];
 
 /** A representative item image for each recipe / buried tile kind. */
 const RECIPE_IMAGE: Record<CaveRecipeName, InventoryItemName> = {
@@ -76,6 +89,10 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
   const batch = game.cave?.machines[machineId]?.batch;
 
   const [selected, setSelected] = useState<CaveRecipeName>("Mushroom");
+  const [crop, setCrop] = useState<CaveMudCropName>(() => {
+    const [first] = sortMudCrops(game.inventory);
+    return canAffordMudCrop(game.inventory, first) ? first : "Carrot";
+  });
   const [showConfirm, setShowConfirm] = useState(false);
   const [showReplaceConfirm, setShowReplaceConfirm] = useState(false);
 
@@ -96,6 +113,15 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
   const artefact = getChapterArtefact(now);
   const buriedCounts = getCaveTileCounts(selected, true);
 
+  // Only a Mud batch takes a crop; the others have fixed inputs.
+  const batchCrop = selected === "Mud" ? crop : undefined;
+  const ingredients = getCaveBatchIngredients(selected, batchCrop) ?? {};
+  const canAfford = getKeys(ingredients).every((item) =>
+    (game.inventory[item] ?? new Decimal(0)).gte(
+      ingredients[item] ?? new Decimal(0),
+    ),
+  );
+
   // Mushrooms and the artefact left in a replaced patch are lost; ask first.
   // Leftover Mud alone is not worth a warning.
   const undug = canReplace && batch ? getUndugCaveTiles(batch) : undefined;
@@ -106,6 +132,7 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
       type: "cave.batchStarted",
       machineId,
       recipe: selected,
+      crop: batchCrop,
     });
     // The server rolls the patch's board; fetch it straight away.
     gameService.send("SAVE");
@@ -172,16 +199,33 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
               })}
             </div>
 
+            {selected === "Mud" && (
+              <>
+                <Label type="default" className="mt-1 mb-1">
+                  {t("cave.batch.chooseCrop")}
+                </Label>
+                <div className="flex flex-wrap justify-center mb-2">
+                  {sortMudCrops(game.inventory).map((name) => (
+                    <Box
+                      key={name}
+                      image={ITEM_DETAILS[name].image}
+                      count={game.inventory[name]}
+                      isSelected={crop === name}
+                      onClick={() => setCrop(name)}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+
             <div className="flex flex-col items-center w-full mb-2">
-              {getKeys(CAVE_RECIPES[selected].ingredients).map((item) => (
+              {getKeys(ingredients).map((item) => (
                 <RequirementLabel
                   key={item}
                   type="item"
                   item={item}
                   balance={game.inventory[item] ?? new Decimal(0)}
-                  requirement={
-                    CAVE_RECIPES[selected].ingredients[item] ?? new Decimal(0)
-                  }
+                  requirement={ingredients[item] ?? new Decimal(0)}
                 />
               ))}
               <RequirementLabel
@@ -191,12 +235,7 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
             </div>
 
             <Button
-              disabled={getKeys(CAVE_RECIPES[selected].ingredients).some(
-                (item) =>
-                  (game.inventory[item] ?? new Decimal(0)).lt(
-                    CAVE_RECIPES[selected].ingredients[item] ?? new Decimal(0),
-                  ),
-              )}
+              disabled={!canAfford}
               onClick={() =>
                 hasLeftovers ? setShowReplaceConfirm(true) : startBatch()
               }

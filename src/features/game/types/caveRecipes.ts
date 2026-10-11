@@ -35,8 +35,9 @@ export type CaveRecipe = {
   /** Yield multiplier applied to each Mud tile when dug (Mud recipe = 2). */
   mudYieldMultiplier: number;
   /**
-   * Inputs consumed to start a batch. Placeholder values — TODO(Cave balance
-   * 425): one simple item per recipe until the balance pass sets real costs.
+   * Fixed inputs consumed to start a batch. Empty for the Mud recipe, whose
+   * input is one crop the player picks (`CAVE_MUD_CROPS`) — read a batch's
+   * cost through `getCaveBatchIngredients`, never from here directly.
    */
   ingredients: Partial<Record<InventoryItemName, Decimal>>;
 };
@@ -49,7 +50,7 @@ export const CAVE_RECIPES: Record<CaveRecipeName, CaveRecipe> = {
   Mushroom: {
     composition: { Mushroom: 6, Beetle: 2, Mud: 16, Artefact: 1 },
     mudYieldMultiplier: 1,
-    ingredients: { Carrot: new Decimal(10) },
+    ingredients: { Wood: new Decimal(10) },
   },
   Beetle: {
     composition: { Mushroom: 3, Beetle: 4, Mud: 17, Artefact: 1 },
@@ -59,9 +60,69 @@ export const CAVE_RECIPES: Record<CaveRecipeName, CaveRecipe> = {
   Mud: {
     composition: { Mushroom: 3, Beetle: 2, Mud: 19, Artefact: 1 },
     mudYieldMultiplier: 2,
-    ingredients: { Wood: new Decimal(10) },
+    ingredients: {},
   },
 };
+
+/**
+ * The Mud recipe's input: ONE crop per batch, in the amount worth 10 Carrots
+ * (#7721 equivalency table). Owning the crop is the only restriction — the
+ * table grants no access to seasonal or event crops.
+ */
+export const CAVE_MUD_CROPS = {
+  Sunflower: 500,
+  Potato: 80,
+  Rhubarb: 40,
+  Pumpkin: 20,
+  Zucchini: 20,
+  Carrot: 10,
+  Yam: 10,
+  Cabbage: 5,
+  Broccoli: 5,
+  Soybean: 3,
+  Beetroot: 3,
+  Pepper: 3,
+  Cauliflower: 2,
+  Parsnip: 2,
+  Eggplant: 2,
+  Corn: 2,
+  Onion: 2,
+  Wheat: 2,
+  Turnip: 2,
+  Radish: 2,
+  Kale: 2,
+  Artichoke: 2,
+  Barley: 2,
+  Rice: 1,
+  Olive: 1,
+} satisfies Partial<Record<InventoryItemName, number>>;
+
+export type CaveMudCropName = keyof typeof CAVE_MUD_CROPS;
+
+/** Own-key check, so inherited names like "constructor" never pass. */
+export function isCaveMudCrop(item: unknown): item is CaveMudCropName {
+  return (
+    typeof item === "string" &&
+    Object.prototype.hasOwnProperty.call(CAVE_MUD_CROPS, item)
+  );
+}
+
+/**
+ * What a batch costs: the recipe's fixed inputs, or for Mud the chosen crop.
+ * `undefined` when the crop does not fit the recipe — Mud needs a table crop,
+ * the other recipes take none.
+ */
+export function getCaveBatchIngredients(
+  recipe: CaveRecipeName,
+  crop?: string,
+): Partial<Record<InventoryItemName, Decimal>> | undefined {
+  if (recipe !== "Mud") {
+    return crop === undefined ? CAVE_RECIPES[recipe].ingredients : undefined;
+  }
+
+  if (!isCaveMudCrop(crop)) return undefined;
+  return { [crop]: new Decimal(CAVE_MUD_CROPS[crop]) };
+}
 
 /**
  * The effective tile counts buried in a patch. When no chapter artefact is
