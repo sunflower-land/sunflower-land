@@ -1699,7 +1699,7 @@ th {
 }
 
 /* Custom pixel art cursor (Sunnyside). On by default; turn it off via
-   Settings -> Preferences -> Behaviour. The `custom-cursor` class is toggled
+   Settings -> Preferences -> Appearance. The `custom-cursor` class is toggled
    on <html> once by lib/utils/customCursor.ts when the setting changes.
 
    Deliberately no custom properties and no per-click state on <html>/<body>:

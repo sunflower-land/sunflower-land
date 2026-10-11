@@ -1,11 +1,7 @@
 import Switch from "components/ui/Switch";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import {
-  isCustomCursorEnabled,
-  setCustomCursorEnabled,
-} from "lib/utils/customCursor";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
 export const BehaviourSettings: React.FC = () => {
   const { t } = useAppTranslation();
@@ -17,13 +13,6 @@ export const BehaviourSettings: React.FC = () => {
     showTimers,
     toggleTimers,
   } = useContext(Context);
-  const [customCursor, setCustomCursor] = useState(isCustomCursorEnabled);
-
-  const toggleCustomCursor = () => {
-    const next = !customCursor;
-    setCustomCursor(next);
-    setCustomCursorEnabled(next);
-  };
 
   return (
     <div className="flex flex-col items-start gap-2 p-2">
@@ -41,11 +30,6 @@ export const BehaviourSettings: React.FC = () => {
         label={"Quick Select"}
       />
       <Switch checked={showTimers} onChange={toggleTimers} label={"Timers"} />
-      <Switch
-        checked={customCursor}
-        onChange={toggleCustomCursor}
-        label={t("gameOptions.generalSettings.customCursor")}
-      />
     </div>
   );
 };
