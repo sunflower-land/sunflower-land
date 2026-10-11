@@ -8324,9 +8324,6 @@
   "confirmation.enterAmountToFeed": "Beslenecek Miktarı Girin:",
   "description.skillResetTicketWarning": "Mücevher sıfırlama fiyatını etkilemez; ücretsiz zamanlayıcı değişmedi.",
   "withdraw.flower.dailyLimit": "Günde maksimum 50.000 ÇIÇEK çekme.",
-  "gameOptions.experiments.customCursor": "Özel imleç",
-  "gameOptions.experiments.customCursorDescription": "Piksel sanat imlecini deneyin. Tıkladığınızda aşağı basar ve tıklanabilir herhangi bir şeyin üzerinde yanar.",
-  "gameOptions.experiments.customCursorToggle": "Özel imleci etkinleştir",
   "giveaway.pop.title": "Balkabağı Pop",
   "giveaway.pop.banked": "{{count}} bankaya alındı",
   "giveaway.pop.rules": "Balkabağınızı büyütmek için SU musluğunu kullanın. En büyük sular patlıyor ve etrafta hiçbir şey birikmiyor - diğer herkes sularını saklıyor. Beş turdan sonra en büyük toplam kazanır!",
@@ -8728,5 +8725,6 @@
   "playerEconomyEditor.apiKey.generateConfirm": "Bu, ekonominiz için gizli bir anahtar oluşturur. Sadece bir kez göreceksiniz, bu yüzden güvenli bir yere kopyalayın.",
   "playerEconomyEditor.apiKey.rotateFailed": "Anahtar döndürülemedi. Lütfen tekrar deneyin.",
   "description.cave": "Karanlıkta mantarların yetiştiği nemli bir mağara.",
-  "building.cave": "Mağara"
+  "building.cave": "Mağara",
+  "gameOptions.generalSettings.customCursor": "Özel imleç"
 }

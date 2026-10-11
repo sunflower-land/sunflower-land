@@ -8324,9 +8324,6 @@
   "confirmation.enterAmountToFeed": "供給量を入力:",
   "description.skillResetTicketWarning": "ジェムリセット価格には影響しません。フリータイマーは変わりません。",
   "withdraw.flower.dailyLimit": "1日あたり最大5万本のフラワーを引き出すことができます。",
-  "gameOptions.experiments.customCursor": "カスタムカーソル",
-  "gameOptions.experiments.customCursorDescription": "ピクセルアートカーソルを試してみてください。クリックすると押し下げられ、クリック可能なものの上からライトが点灯します。",
-  "gameOptions.experiments.customCursorToggle": "カスタムカーソルを有効にする",
   "giveaway.pop.title": "パンプキンポップ",
   "giveaway.pop.banked": "{{count}} 銀行に預けられています",
   "giveaway.pop.rules": "水をタップしてカボチャを育ててください。一番大きな水やり者は飛び出して、その周りには何も溜めません。他のみんなは水を溜めます。5ラウンド後に最大の合計が勝ちます！",
@@ -8728,5 +8725,6 @@
   "playerEconomyEditor.apiKey.generateConfirm": "これにより、経済の秘密鍵が作成されます。一度しか表示されないので、安全な場所にコピーしてください。",
   "playerEconomyEditor.apiKey.rotateFailed": "キーを回転できませんでした。もう一度試してください。",
   "description.cave": "暗闇の中でキノコが生える湿気の多い洞窟。",
-  "building.cave": "ケーブ"
+  "building.cave": "ケーブ",
+  "gameOptions.generalSettings.customCursor": "カスタムカーソル"
 }

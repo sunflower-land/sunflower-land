@@ -8324,9 +8324,6 @@
   "confirmation.enterAmountToFeed": "输入喂食数量：",
   "description.skillResetTicketWarning": "不会影响钻石重置价格；免费重置倒计时保持不变。",
   "withdraw.flower.dailyLimit": "每日最多可提取 50,000 个 FLOWER。",
-  "gameOptions.experiments.customCursor": "自定义光标",
-  "gameOptions.experiments.customCursorDescription": "体验像素风光标。点击时会下按，悬停在任何可点击元素上时会发光。",
-  "gameOptions.experiments.customCursorToggle": "启用自定义光标",
   "giveaway.pop.title": "南瓜爆爆乐",
   "giveaway.pop.banked": "已存入 {{count}} 点",
   "giveaway.pop.rules": "点击“浇水”让您的南瓜长大。浇水最多的玩家南瓜会爆掉，本轮颗粒无收——其余所有人都能存下浇水点数。五轮过后总点数最高者获胜！",
@@ -8728,5 +8725,6 @@
   "playerEconomyEditor.apiKey.generateConfirm": "这为您的经济创建了密钥。你只会看到一次，所以把它复制到一个安全的地方。",
   "playerEconomyEditor.apiKey.rotateFailed": "无法旋转密钥。请再试一次。",
   "description.cave": "一个潮湿的洞穴，蘑菇在黑暗中生长。",
-  "building.cave": "洞穴"
+  "building.cave": "洞穴",
+  "gameOptions.generalSettings.customCursor": "自定义光标"
 }

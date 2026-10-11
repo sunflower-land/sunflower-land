@@ -8324,9 +8324,6 @@
   "confirmation.enterAmountToFeed": "Masukkan Jumlah untuk Umpan:",
   "description.skillResetTicketWarning": "Tidak mempengaruhi harga reset permata; timer gratis tidak berubah.",
   "withdraw.flower.dailyLimit": "Penarikan maksimum 50.000 FLOWER per hari.",
-  "gameOptions.experiments.customCursor": "Kursor kustom",
-  "gameOptions.experiments.customCursorDescription": "Coba kursor seni piksel. Ini menekan ke bawah ketika Anda mengklik dan menyala di atas apa pun yang dapat diklik.",
-  "gameOptions.experiments.customCursorToggle": "Aktifkan kursor kustom",
   "giveaway.pop.title": "Pumpkin Pop",
   "giveaway.pop.banked": "{{count}} dibankir",
   "giveaway.pop.rules": "Keran AIR untuk menumbuhkan labu Anda. Penyiram terbesar meledak dan tidak ada yang mengelilinginya — semua orang membanjiri perairan mereka. Total terbesar setelah lima putaran menang!",
@@ -8728,5 +8725,6 @@
   "playerEconomyEditor.apiKey.generateConfirm": "Ini menciptakan kunci rahasia untuk ekonomi Anda. Anda hanya akan melihatnya sekali, jadi salin di tempat yang aman.",
   "playerEconomyEditor.apiKey.rotateFailed": "Tidak dapat memutar kunci. Silakan coba lagi.",
   "description.cave": "Gua lembap tempat jamur tumbuh dalam gelap.",
-  "building.cave": "Gua"
+  "building.cave": "Gua",
+  "gameOptions.generalSettings.customCursor": "Kursor kustom"
 }

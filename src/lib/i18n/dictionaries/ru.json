@@ -8324,9 +8324,6 @@
   "confirmation.enterAmountToFeed": "Введи количество для кормления:",
   "description.skillResetTicketWarning": "Не влияет на цену сброса за гемы; бесплатный таймер не меняется.",
   "withdraw.flower.dailyLimit": "Максимум 50 000 FLOWER на вывод в день.",
-  "gameOptions.experiments.customCursor": "Свой курсор",
-  "gameOptions.experiments.customCursorDescription": "Попробуй пиксель-арт курсор. Он нажимается при клике и подсвечивается над всем, на что можно нажать.",
-  "gameOptions.experiments.customCursorToggle": "Включить свой курсор",
   "giveaway.pop.title": "Взрыв тыквы",
   "giveaway.pop.banked": "Сохранено: {{count}}",
   "giveaway.pop.rules": "Нажимай «ПОЛИТЬ», чтобы растить тыкву. У тех, кто полил больше всех, тыква лопнет, и они ничего не сохранят за раунд - остальные сохранят свои поливы. Побеждает тот, у кого больше всего за пять раундов!",
@@ -8728,5 +8725,6 @@
   "playerEconomyEditor.apiKey.generateConfirm": "This creates a secret key for your economy. You will only see it once, so copy it somewhere safe.",
   "playerEconomyEditor.apiKey.rotateFailed": "Could not rotate the key. Please try again.",
   "description.cave": "A damp cavern where mushrooms grow in the dark.",
-  "building.cave": "Cave"
+  "building.cave": "Cave",
+  "gameOptions.generalSettings.customCursor": "Custom cursor"
 }
