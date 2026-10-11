@@ -51,7 +51,6 @@ import {
   upgradeInterior,
   type UpgradeInteriorAction,
 } from "./landExpansion/upgradeInterior";
-import { buildCave, type CaveBuiltAction } from "./landExpansion/buildCave";
 import {
   startCaveBatch,
   type StartCaveBatchAction,
@@ -1092,7 +1091,6 @@ export type PlayingEvent =
   | StartTrialAction
   | UpgradeSaltSculptureAction
   | UpgradeInteriorAction
-  | CaveBuiltAction
   | StartCaveBatchAction
   | SpeedUpCaveBatchAction
   | DigCaveTileAction
@@ -1406,7 +1404,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "farmhand.promoted": promoteFarmhand,
   "saltSculpture.upgraded": upgradeSaltSculpture,
   "interior.upgrade": upgradeInterior,
-  "cave.built": buildCave,
   "cave.batchStarted": startCaveBatch,
   "cave.batchSpedUp": speedUpCaveBatch,
   "cave.dug": digCaveTile,

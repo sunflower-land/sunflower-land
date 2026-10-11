@@ -36,6 +36,8 @@ import { CavePatch } from "./components/CavePatch";
 import { Hud } from "features/island/hud/Hud";
 
 const _cave = (state: MachineState) => state.context.state.cave;
+const _caveBuilding = (state: MachineState) =>
+  state.context.state.buildings.Cave;
 const _hasCaveAccess = (state: MachineState) =>
   hasFeatureAccess(state.context.state, "CAVE");
 const _shovels = (state: MachineState) =>
@@ -61,6 +63,7 @@ export const Cave: React.FC = () => {
   const { t } = useAppTranslation();
 
   const cave = useSelector(gameService, _cave);
+  const caveBuilding = useSelector(gameService, _caveBuilding);
   const hasCaveAccess = useSelector(gameService, _hasCaveAccess);
   const shovels = useSelector(gameService, _shovels);
   const drills = useSelector(gameService, _drills);
@@ -69,9 +72,14 @@ export const Cave: React.FC = () => {
   const [showExpansion, setShowExpansion] = useState(false);
   const [showMerchant, setShowMerchant] = useState(false);
 
+  // Like /barn: the Cave building has to be placed and finished constructing.
+  const isCaveBuildingReady = !!caveBuilding?.some(
+    (building) => (building.readyAt ?? 0) <= now && !!building.coordinates,
+  );
+
   // Reached by URL without access or without a Cave built — send the player
   // back to the farm.
-  if (!hasCaveAccess || !cave) {
+  if (!hasCaveAccess || !isCaveBuildingReady || !cave) {
     return <Navigate to="/" replace />;
   }
 
