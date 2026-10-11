@@ -3,6 +3,7 @@ import { produce } from "immer";
 import type { CaveMerchantOfferId, GameState } from "features/game/types/game";
 import { getWeekKey } from "features/game/lib/factions";
 import { hasFeatureAccess } from "lib/flags";
+import { isCaveBuildingReady } from "features/game/lib/cave";
 import { getKeys } from "lib/object";
 import {
   CAVE_MERCHANT_OFFERS,
@@ -50,7 +51,7 @@ export function buyCaveMerchantOffer({
     }
 
     const cave = game.cave;
-    if (!cave) {
+    if (!cave || !isCaveBuildingReady(game, createdAt)) {
       throw new Error(BUY_CAVE_MERCHANT_OFFER_ERRORS.NO_CAVE);
     }
 

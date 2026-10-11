@@ -3,6 +3,7 @@ import { produce } from "immer";
 import type { GameState } from "features/game/types/game";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { hasFeatureAccess } from "lib/flags";
+import { isCaveBuildingReady } from "features/game/lib/cave";
 import { getKeys } from "lib/object";
 import { CAVE_TIERS, getNextCaveTier } from "features/game/types/caveTiers";
 
@@ -41,7 +42,7 @@ export function expandCave({
     }
 
     const cave = game.cave;
-    if (!cave) {
+    if (!cave || !isCaveBuildingReady(game, createdAt)) {
       throw new Error(EXPAND_CAVE_ERRORS.NO_CAVE);
     }
 

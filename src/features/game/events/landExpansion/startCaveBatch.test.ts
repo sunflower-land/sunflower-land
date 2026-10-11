@@ -7,8 +7,17 @@ import {
 } from "features/game/types/caveRecipes";
 import { START_CAVE_BATCH_ERRORS, startCaveBatch } from "./startCaveBatch";
 
+// The Cave building, placed and finished: every cave.* event requires it.
+const READY_CAVE = {
+  id: "cave",
+  coordinates: { x: 0, y: 0 },
+  createdAt: 0,
+  readyAt: 0,
+};
+
 const caveState = (): GameState => ({
   ...TEST_FARM,
+  buildings: { ...TEST_FARM.buildings, Cave: [READY_CAVE] },
   island: { ...TEST_FARM.island, type: "spring" },
   inventory: {
     ...TEST_FARM.inventory,
@@ -79,6 +88,20 @@ const beetleHuntState = (dugKeys: string[]): GameState => ({
 });
 
 describe("startCaveBatch (cave.batchStarted)", () => {
+  it("throws while the Cave building is under construction", () => {
+    const state = caveState();
+
+    expect(() =>
+      start({
+        ...state,
+        buildings: {
+          ...state.buildings,
+          Cave: [{ ...READY_CAVE, readyAt: Number.MAX_SAFE_INTEGER }],
+        },
+      }),
+    ).toThrow(START_CAVE_BATCH_ERRORS.NO_CAVE);
+  });
+
   it("consumes the recipe ingredients", () => {
     const before = caveState();
     const next = start(before, "1", "Mushroom");

@@ -19,6 +19,14 @@ import {
   buyCaveMerchantOffer,
 } from "./buyCaveMerchantOffer";
 
+// The Cave building, placed and finished: every cave.* event requires it.
+const READY_CAVE = {
+  id: "cave",
+  coordinates: { x: 0, y: 0 },
+  createdAt: 0,
+  readyAt: 0,
+};
+
 // Tuesday 29 September 2026; its week starts on Monday the 28th.
 const NOW = Date.UTC(2026, 8, 29, 12);
 const WEEK_KEY = "2026-09-28";
@@ -48,6 +56,7 @@ const caveState = ({
   merchant?: CaveMerchant;
 } = {}): GameState => ({
   ...TEST_FARM,
+  buildings: { ...TEST_FARM.buildings, Cave: [READY_CAVE] },
   coins,
   inventory: {
     ...TEST_FARM.inventory,
@@ -105,6 +114,20 @@ describe("CAVE_MERCHANT_OFFERS", () => {
 });
 
 describe("buyCaveMerchantOffer (cave.merchantOfferBought)", () => {
+  it("throws while the Cave building is under construction", () => {
+    const state = caveState();
+
+    expect(() =>
+      buy({
+        ...state,
+        buildings: {
+          ...state.buildings,
+          Cave: [{ ...READY_CAVE, readyAt: Number.MAX_SAFE_INTEGER }],
+        },
+      }),
+    ).toThrow(BUY_CAVE_MERCHANT_OFFER_ERRORS.NO_CAVE);
+  });
+
   it.each(OFFER_IDS)("charges and rewards %s exactly", (offerId) => {
     const { cost, reward } = CAVE_MERCHANT_OFFERS[offerId];
     const state = caveState({ tier: CAVE_MERCHANT_OFFERS_TIER });
