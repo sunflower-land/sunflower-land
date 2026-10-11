@@ -4031,6 +4031,7 @@
   "cave.recipe.Beetle": "Beetle Mix",
   "cave.recipe.Mud": "Mud Mix",
   "cave.batch.chooseRecipe": "Choose a mix to grow",
+  "cave.batch.chooseCrop": "Choose a crop to compost",
   "cave.batch.buried": "Buried in the patch",
   "cave.batch.start": "Start",
   "cave.batch.growing": "Growing",
