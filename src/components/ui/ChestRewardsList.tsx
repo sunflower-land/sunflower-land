@@ -27,6 +27,7 @@ import { useSelector } from "@xstate/react";
 import {
   REWARD_BOXES,
   getRewardBoxRewardsForDisplay,
+  getRewardPoolForPlayer,
   isDisplayableRewardBoxName,
   type RewardBoxName,
   type RewardBoxReward,
@@ -146,12 +147,41 @@ export const ChestRewardsList: React.FC<{
       ? getRewardBoxRewardsForDisplay({ name: type })
       : REWARD_BOXES[type].rewards;
 
+  // Boxes with a VIP pool: VIP players only roll the VIP rewards and everyone
+  // else only rolls the rest, so each pool gets its own list and chances.
+  const hasVipPool = rewards.some((reward) => reward.vip);
+  const rewardPools: { title: React.ReactNode; rewards: RewardBoxReward[] }[] =
+    hasVipPool
+      ? [
+          {
+            title: (
+              <Label type="default">{t("chestRewardsList.withoutVip")}</Label>
+            ),
+            rewards: getRewardPoolForPlayer(rewards, false),
+          },
+          {
+            title: (
+              <Label type="vibrant" icon={vipIcon} className="ml-2">
+                {t("vip")}
+              </Label>
+            ),
+            rewards: getRewardPoolForPlayer(rewards, true),
+          },
+        ]
+      : [
+          {
+            title: (
+              <Label type="default">
+                {listTitle ?? t("chestRewardsList.listTitle1")}
+              </Label>
+            ),
+            rewards,
+          },
+        ];
+
   // Based on total weighting for each list
-  const rewardChance = (weigthing: number) => {
-    const totalWeigthing = rewards.reduce(
-      (acc, curr) => acc + curr.weighting,
-      0,
-    );
+  const rewardChance = (weigthing: number, pool: RewardBoxReward[]) => {
+    const totalWeigthing = pool.reduce((acc, curr) => acc + curr.weighting, 0);
     const rewardChance = formatNumber(
       Math.ceil((weigthing / totalWeigthing) * 10000) / 100,
     );
@@ -182,59 +212,63 @@ export const ChestRewardsList: React.FC<{
           />
         </div>
       )}
-      <div className="flex justify-between my-2 ml-0">
-        <Label type="default">
-          {listTitle ?? t("chestRewardsList.listTitle1")}
-        </Label>
-        {!isSubsequentInMultiList && (
-          <Label type="default">{t("chestRewardsList.listTitle2")}</Label>
-        )}
-      </div>
-      {[...rewards]
-        .sort((a, b) => b.weighting - a.weighting) // Sort by weighting descending
-        .map((reward, index) => {
-          return (
-            <div key={index}>
-              {!!reward.coins && (
-                <RewardRow
-                  rewardName={t("coins")}
-                  amount={reward.coins ?? 0}
-                  chance={`${rewardChance(reward.weighting)}%`}
-                  icon={SUNNYSIDE.ui.coins}
-                  secondBG={index % 2 === 0}
-                />
-              )}
+      {rewardPools.map((pool, poolIndex) => (
+        <div key={poolIndex}>
+          <div className="flex justify-between my-2 ml-0">
+            {pool.title}
+            {!isSubsequentInMultiList && (
+              <Label type="default">{t("chestRewardsList.listTitle2")}</Label>
+            )}
+          </div>
+          {[...pool.rewards]
+            .sort((a, b) => b.weighting - a.weighting) // Sort by weighting descending
+            .map((reward, index) => {
+              const chance = `${rewardChance(reward.weighting, pool.rewards)}%`;
 
-              {!!reward.flower && (
-                <RewardRow
-                  rewardName={t("flower")}
-                  amount={reward.flower}
-                  chance={`${rewardChance(reward.weighting)}%`}
-                  icon={flowerIcon}
-                  secondBG={index % 2 === 0}
-                />
-              )}
+              return (
+                <div key={index}>
+                  {!!reward.coins && (
+                    <RewardRow
+                      rewardName={t("coins")}
+                      amount={reward.coins ?? 0}
+                      chance={chance}
+                      icon={SUNNYSIDE.ui.coins}
+                      secondBG={index % 2 === 0}
+                    />
+                  )}
 
-              {!!reward.vipDays && (
-                <RewardRow
-                  rewardName={t("vipDays")}
-                  amount={reward.vipDays}
-                  chance={`${rewardChance(reward.weighting)}%`}
-                  icon={vipIcon}
-                  secondBG={index % 2 === 0}
-                />
-              )}
+                  {!!reward.flower && (
+                    <RewardRow
+                      rewardName={t("flower")}
+                      amount={reward.flower}
+                      chance={chance}
+                      icon={flowerIcon}
+                      secondBG={index % 2 === 0}
+                    />
+                  )}
 
-              {(reward.items || reward.wearables) && (
-                <MultipleRewardsRow
-                  reward={reward}
-                  chance={`${rewardChance(reward.weighting)}%`}
-                  secondBG={index % 2 === 0}
-                />
-              )}
-            </div>
-          );
-        })}
+                  {!!reward.vipDays && (
+                    <RewardRow
+                      rewardName={t("vipDays")}
+                      amount={reward.vipDays}
+                      chance={chance}
+                      icon={vipIcon}
+                      secondBG={index % 2 === 0}
+                    />
+                  )}
+
+                  {(reward.items || reward.wearables) && (
+                    <MultipleRewardsRow
+                      reward={reward}
+                      chance={chance}
+                      secondBG={index % 2 === 0}
+                    />
+                  )}
+                </div>
+              );
+            })}
+        </div>
+      ))}
     </div>
   );
 };
