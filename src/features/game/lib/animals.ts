@@ -670,6 +670,16 @@ export function getResourceDropAmount({
   if (budUsed)
     boostsUsed.push({ name: budUsed, value: `+${yieldBoost.toString()}` });
 
+  // Truffle Yield (#7721) scales the Truffles after the flat produce boosts.
+  const truffleYieldLevel = getSkillLevel(bumpkin.skills, "Truffle Yield");
+  if (animalType === "Pig" && resource === "Truffle" && truffleYieldLevel) {
+    const bonus = new Decimal(1).plus(
+      SKILL_RANKS["Truffle Yield"].ranks[truffleYieldLevel - 1],
+    );
+    amount = amount.mul(bonus);
+    boostsUsed.push({ name: "Truffle Yield", value: `x${bonus.toNumber()}` });
+  }
+
   if (multiplier) {
     amount = amount.mul(multiplier);
     if (multiplier !== 1) {
@@ -756,6 +766,7 @@ export function getBoostedFoodQuantity({
     "Clucky Grazing": "Chicken",
     "Sheepwise Diet": "Sheep",
     "Cow-Smart Nutrition": "Cow",
+    "Swill Savvy": "Pig",
   } as const;
 
   for (const skill of getKeys(DIET_SKILLS)) {

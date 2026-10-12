@@ -12,7 +12,7 @@ import {
   isMuddy,
   MUD_XP_MULTIPLIER,
 } from "../lib/animals";
-import { SKILL_RANKS } from "../types/bumpkinSkills";
+import { BUMPKIN_REVAMP_SKILL_TREE, SKILL_RANKS } from "../types/bumpkinSkills";
 import {
   ANIMALS,
   ANIMAL_LEVELS,
@@ -353,6 +353,140 @@ describe("Animals skill ranks", () => {
       });
 
       expect(foodQuantity).toEqual(new Decimal(100 * debuff));
+    });
+  });
+
+  describe("Swill Savvy", () => {
+    it.each([
+      [1, 0.75],
+      [2, 0.65],
+      [3, 0.5],
+    ])("cuts Pig feed at rank %s to x%s", (rank, buff) => {
+      const { foodQuantity, boostsUsed } = getBoostedFoodQuantity({
+        now: Date.now(),
+        animalType: "Pig",
+        foodQuantity: 100,
+        game: withSkills({ "Swill Savvy": rank }),
+        animal: { ...ANIMAL, type: "Pig" },
+      });
+
+      expect(foodQuantity).toEqual(new Decimal(100 * buff));
+      expect(boostsUsed).toContainEqual({
+        name: "Swill Savvy",
+        value: `x${buff}`,
+      });
+    });
+
+    it.each([
+      [1, 1.5],
+      [2, 1.55],
+      [3, 1.65],
+    ])("raises Cow feed at rank %s to x%s", (rank, debuff) => {
+      const { foodQuantity } = getBoostedFoodQuantity({
+        now: Date.now(),
+        animalType: "Cow",
+        foodQuantity: 100,
+        game: withSkills({ "Swill Savvy": rank }),
+        animal: { ...ANIMAL, type: "Cow" },
+      });
+
+      expect(foodQuantity).toEqual(new Decimal(100 * debuff));
+    });
+
+    it("stacks with another diet skill's penalty on a Pig", () => {
+      // Cow-Smart Nutrition rank 1 (x1.5 on every other animal) x Swill Savvy
+      // rank 1 (x0.75 on Pigs).
+      const { foodQuantity } = getBoostedFoodQuantity({
+        now: Date.now(),
+        animalType: "Pig",
+        foodQuantity: 100,
+        game: withSkills({ "Swill Savvy": 1, "Cow-Smart Nutrition": 1 }),
+        animal: { ...ANIMAL, type: "Pig" },
+      });
+
+      expect(foodQuantity).toEqual(new Decimal(112.5));
+    });
+  });
+
+  describe("Truffle Yield", () => {
+    const truffles = (skills: GameState["bumpkin"]["skills"], baseAmount = 2) =>
+      getResourceDropAmount({
+        game: withSkills(skills),
+        animalType: "Pig",
+        resource: "Truffle",
+        baseAmount,
+        multiplier: 1,
+        animal: { ...ANIMAL, type: "Pig" },
+      });
+
+    it.each([
+      [1, 2.2],
+      [2, 2.4],
+      [3, 2.6],
+    ])("adds a share of the Truffles at rank %s (2 -> %s)", (rank, amount) => {
+      const { amount: total, boostsUsed } = truffles({ "Truffle Yield": rank });
+
+      expect(total).toEqual(amount);
+      expect(boostsUsed).toContainEqual({
+        name: "Truffle Yield",
+        value: `x${1 + rank / 10}`,
+      });
+    });
+
+    it("leaves Truffles alone without the skill", () => {
+      expect(truffles({}).amount).toEqual(2);
+    });
+
+    it("applies after the flat produce boosts", () => {
+      // (1 + Barn Manager 0.1) x 1.3
+      const { amount } = getResourceDropAmount({
+        game: {
+          ...withSkills({ "Truffle Yield": 3 }),
+          inventory: { "Barn Manager": new Decimal(1) },
+        },
+        animalType: "Pig",
+        resource: "Truffle",
+        baseAmount: 1,
+        multiplier: 1,
+        animal: { ...ANIMAL, type: "Pig" },
+      });
+
+      expect(amount).toEqual(1.43);
+    });
+
+    it("does not boost other produce", () => {
+      const { amount } = getResourceDropAmount({
+        game: withSkills({ "Truffle Yield": 3 }),
+        animalType: "Cow",
+        resource: "Milk",
+        baseAmount: 2,
+        multiplier: 1,
+        animal: { ...ANIMAL, type: "Cow" },
+      });
+
+      expect(amount).toEqual(2);
+    });
+  });
+
+  describe("Pig skill definitions (#7721)", () => {
+    it("gives Truffle Yield and Bristle Payout +10% / +20% / +30%", () => {
+      expect(SKILL_RANKS["Truffle Yield"].ranks).toEqual([0.1, 0.2, 0.3]);
+      expect(SKILL_RANKS["Bristle Payout"].ranks).toEqual([0.1, 0.2, 0.3]);
+    });
+
+    it("places them in the Animals tree with the standard tier costs", () => {
+      const tiers = (
+        ["Swill Savvy", "Truffle Yield", "Bristle Payout"] as const
+      ).map((name) => {
+        const { tree, requirements } = BUMPKIN_REVAMP_SKILL_TREE[name];
+        return [name, tree, requirements.tier, requirements.points];
+      });
+
+      expect(tiers).toEqual([
+        ["Swill Savvy", "Animals", 3, 3],
+        ["Truffle Yield", "Animals", 2, 2],
+        ["Bristle Payout", "Animals", 3, 3],
+      ]);
     });
   });
 
