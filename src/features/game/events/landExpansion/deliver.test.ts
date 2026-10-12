@@ -29,9 +29,9 @@ jest.mock("lib/flags", () => {
   };
 });
 
-// esbuild-runner/jest does not hoist `jest.mock` above imports. Load the
-// flags module and the SUT via require *after* the mock is registered so
-// the SUT binds the jest.fn wrapper rather than the real function.
+// Load the flags module and the SUT via require *after* the mock is
+// registered so the SUT binds the jest.fn wrapper rather than the real
+// function.
 const flags = require("lib/flags") as typeof FlagsModule & {
   hasTimeBasedFeatureAccess: jest.Mock;
 };

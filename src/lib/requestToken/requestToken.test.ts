@@ -7,8 +7,7 @@ const signRequest = jest.fn(
 );
 let codeSet = false;
 
-// esbuild-runner does not hoist jest.mock, so register the mock explicitly
-// before requiring the module under test.
+// Register the mock explicitly before requiring the module under test.
 jest.doMock("./loader", () => ({
   SIGNER_URL: "https://sunflower-land.com/wasm",
   loadTokenModule: () =>
