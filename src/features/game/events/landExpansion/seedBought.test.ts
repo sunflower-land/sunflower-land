@@ -78,6 +78,23 @@ describe("seedBought", () => {
       expect(state.inventory["Crystal Leaf Seed"]).toEqual(new Decimal(1));
     });
 
+    it("never sells a seed from a previous Chapter Crop Week, even in stock", () => {
+      const retiredInStock: GameState = {
+        ...stocked,
+        wardrobe: { ...stocked.wardrobe, "Gift Giver": 1 },
+        inventory: { ...stocked.inventory, "Beta Pass": new Decimal(1) },
+        stock: { ...stocked.stock, "Saltwort Seed": new Decimal(10) },
+      };
+
+      expect(() =>
+        seedBought({
+          state: retiredInStock,
+          action: { type: "seed.bought", item: "Saltwort Seed", amount: 1 },
+          createdAt: CHAPTER_CROP_WEEK.startDate.getTime(),
+        }),
+      ).toThrow("This seed is no longer available");
+    });
+
     it("cannot be bought by anyone after the event ends", () => {
       const admin: GameState = {
         ...stocked,

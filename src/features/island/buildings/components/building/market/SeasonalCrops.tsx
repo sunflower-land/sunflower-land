@@ -39,6 +39,7 @@ import {
   CHAPTER_CROP_WEEK,
   CHAPTER_CROP_WEEK_CROP,
   hasChapterCropWeekAccess,
+  isRetiredChapterCropWeekItem,
 } from "features/game/types/chapterCropWeek";
 import { hasUpgradedChapterCropWeekSkill } from "features/game/types/bumpkinSkills";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -345,6 +346,13 @@ export const SeasonalCrops: React.FC = () => {
               {getKeys(crops)
                 .filter((name) => !seasonal.includes(name))
                 .filter((name) => name !== CHAPTER_CROP_WEEK_CROP)
+                // Crops from previous Chapter Crop Week runs only stay listed
+                // while the player still holds some to sell
+                .filter(
+                  (name) =>
+                    !isRetiredChapterCropWeekItem(name) ||
+                    getCountAndType(state, name).count.gt(0),
+                )
                 .filter((name) => !!crops[name].sellPrice)
                 .map((name) => {
                   const { count } = getCountAndType(state, name);

@@ -21,6 +21,7 @@ import {
   CHAPTER_CROP_WEEK,
   CHAPTER_CROP_WEEK_RECIPE,
   hasChapterCropWeekAccess,
+  isRetiredChapterCropWeekItem,
 } from "features/game/types/chapterCropWeek";
 import { Context } from "features/game/GameProvider";
 import { getCookingRequirements } from "features/game/events/landExpansion/cook";
@@ -60,6 +61,9 @@ export const FirePitModal: React.FC<Props> = ({
   const firePitRecipes = useMemo(() => {
     return Object.values(FIRE_PIT_COOKABLES)
       .filter((recipe) => {
+        // Recipes from previous Chapter Crop Week runs never come back
+        if (isRetiredChapterCropWeekItem(recipe.name)) return false;
+
         // Chapter Crop Week event recipe only appears while the event is active
         // (admin testers get early access)
         if (recipe.name === CHAPTER_CROP_WEEK_RECIPE) {

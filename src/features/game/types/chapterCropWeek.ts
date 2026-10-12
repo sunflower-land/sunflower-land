@@ -30,6 +30,32 @@ export const CHAPTER_CROP_WEEK_CROP: CropName = "Crystal Leaf";
 export const CHAPTER_CROP_WEEK_RECIPE: CookableName = "Crystal Cookie";
 
 /**
+ * Items from previous Chapter Crop Week runs. They stay defined (players still
+ * hold them) but are never shown in the seed shop, Fire Pit or marketplace
+ * again, and can't be bought or cooked. Move the current run's items here when
+ * the next run is set up.
+ */
+export const RETIRED_CHAPTER_CROP_WEEK_SEEDS: readonly SeedName[] = [
+  "Saltwort Seed",
+];
+export const RETIRED_CHAPTER_CROP_WEEK_CROPS: readonly CropName[] = [
+  "Saltwort",
+];
+export const RETIRED_CHAPTER_CROP_WEEK_RECIPES: readonly CookableName[] = [
+  "Saltbite",
+];
+
+const RETIRED_CHAPTER_CROP_WEEK_ITEMS: ReadonlySet<string> = new Set<string>([
+  ...RETIRED_CHAPTER_CROP_WEEK_SEEDS,
+  ...RETIRED_CHAPTER_CROP_WEEK_CROPS,
+  ...RETIRED_CHAPTER_CROP_WEEK_RECIPES,
+]);
+
+/** Whether `name` is a seed, crop or recipe from a previous Chapter Crop Week. */
+export const isRetiredChapterCropWeekItem = (name: string): boolean =>
+  RETIRED_CHAPTER_CROP_WEEK_ITEMS.has(name);
+
+/**
  * Whether the Chapter Crop Week event is currently running.
  * @param now Unix timestamp (ms) to check against. Defaults to Date.now().
  */

@@ -30,6 +30,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import {
   CHAPTER_CROP_WEEK_CROP,
   hasChapterCropWeekAccess,
+  isRetiredChapterCropWeekItem,
 } from "features/game/types/chapterCropWeek";
 import { TradeableStats } from "./TradeableStats";
 import { getKeys } from "lib/object";
@@ -229,7 +230,12 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
   const isChapterCropWeekLocked =
     display.name === CHAPTER_CROP_WEEK_CROP && !hasChapterCropWeekAccess(state);
 
-  if (isChapterCropWeekLocked) {
+  // Crops from previous Chapter Crop Week runs are never tradeable again.
+  const isRetiredChapterCropWeekCrop = isRetiredChapterCropWeekItem(
+    display.name,
+  );
+
+  if (isChapterCropWeekLocked || isRetiredChapterCropWeekCrop) {
     return (
       <div className="flex flex-col w-full sm:w-1/3 mr-1 mb-1">
         <InnerPanel
@@ -244,12 +250,25 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
           </div>
         </InnerPanel>
         <InnerPanel className="p-4 flex flex-col items-center justify-center gap-2">
-          <Label type="vibrant" icon={SUNNYSIDE.icons.stopwatch}>
-            {t("coming.soon")}
-          </Label>
-          <p className="text-xs text-center">
-            {t("chapterCropWeek.comingSoon")}
-          </p>
+          {isRetiredChapterCropWeekCrop ? (
+            <>
+              <Label type="danger" icon={SUNNYSIDE.icons.cancel}>
+                {t("chapterCropWeek.retired")}
+              </Label>
+              <p className="text-xs text-center">
+                {t("chapterCropWeek.retiredDescription")}
+              </p>
+            </>
+          ) : (
+            <>
+              <Label type="vibrant" icon={SUNNYSIDE.icons.stopwatch}>
+                {t("coming.soon")}
+              </Label>
+              <p className="text-xs text-center">
+                {t("chapterCropWeek.comingSoon")}
+              </p>
+            </>
+          )}
         </InnerPanel>
       </div>
     );
