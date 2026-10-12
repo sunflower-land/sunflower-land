@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { CONFIG } from "lib/config";
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { MUD_FEEDS } from "features/game/lib/animals";
+import { MUD_FEEDS, MUD_PER_APPLICATION } from "features/game/lib/animals";
 import type { Animal, GameState } from "features/game/types/game";
 import { applyMud, APPLY_MUD_ERRORS } from "./applyMud";
 
@@ -20,7 +20,7 @@ const pig = (id: string, overrides: Partial<Animal> = {}): Animal => ({
 
 const farm = (
   animals: Record<string, Animal> = { "1": pig("1") },
-  mud = 1,
+  mud = 10,
 ): GameState => ({
   ...INITIAL_FARM,
   inventory: { ...INITIAL_FARM.inventory, Mud: new Decimal(mud) },
@@ -41,10 +41,11 @@ const apply = (state: GameState, id = "1") =>
   });
 
 describe("applyMud", () => {
-  it("consumes one Mud and grants three muddy feeds", () => {
-    const state = apply(farm());
+  it("consumes ten Mud and grants three muddy feeds", () => {
+    const state = apply(farm(undefined, 12));
 
-    expect(state.inventory.Mud).toEqual(new Decimal(0));
+    expect(MUD_PER_APPLICATION).toEqual(10);
+    expect(state.inventory.Mud).toEqual(new Decimal(2));
     expect(MUD_FEEDS).toEqual(3);
     expect(state.pigpen.animals["1"].mud).toEqual({ feedsRemaining: 3 });
   });
@@ -108,6 +109,12 @@ describe("applyMud", () => {
 
   it("throws without Mud", () => {
     expect(() => apply(farm(undefined, 0))).toThrow(
+      APPLY_MUD_ERRORS.NOT_ENOUGH,
+    );
+  });
+
+  it("throws with less than one application of Mud", () => {
+    expect(() => apply(farm(undefined, 9))).toThrow(
       APPLY_MUD_ERRORS.NOT_ENOUGH,
     );
   });

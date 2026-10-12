@@ -8689,7 +8689,6 @@
   "cave.merchant.moreOffers": "Mağara katmanında daha fazla teklif {{tier}}",
   "description.pigBristles": "Bir Domuzdan Kaba Kıllar.",
   "resource.pigBristles": "Domuz Kılları",
-  "description.mud": "Zengin, yapışkan çamur. Bir Domuzu fazladan yem DP'si için kaplar ve hastalanmasını önler.",
   "sleepingAnimal.mudFeedsLeft": "+ {{percent}} %yem DP'si · hastalık yok · yem kaldı: {{count}}",
   "walletWall.withdrawWalletMismatch": "Farklı bir cüzdan seçtiniz. Bağlı ve bağlı cüzdanlarınız eşleşmiyor, bu nedenle para çekemezsiniz.",
   "waterTrap.noChumSelected": "Chum olmadan",
@@ -8727,5 +8726,6 @@
   "description.cave": "Karanlıkta mantarların yetiştiği nemli bir mağara.",
   "building.cave": "Mağara",
   "gameOptions.generalSettings.customCursor": "Özel imleç",
-  "cave.batch.chooseCrop": "Kompost yapmak için bir mahsul seçin"
+  "cave.batch.chooseCrop": "Kompost yapmak için bir mahsul seçin",
+  "description.mud": "Zengin, yapışkan çamur. 10 Çamur, ekstra yem Deneyimi için bir Domuzu kaplar ve hastalanmasını önler."
 }

@@ -8689,7 +8689,6 @@
   "cave.merchant.moreOffers": "Más ofertas en el nivel Cave {{tier}}",
   "description.pigBristles": "Cerdas gruesas de cerdo.",
   "resource.pigBristles": "Cerdas de cerdo",
-  "description.mud": "Barro rico y pegajoso. Recubre a un cerdo para darle más puntos de experiencia y evitar que se enferme.",
   "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% de XP de alimentación · no hay enfermedad · quedan comidas: {{count}}",
   "walletWall.withdrawWalletMismatch": "Has seleccionado un monedero diferente. Tus monederos conectados y enlazados no coinciden, por lo que no puedes realizar retiros.",
   "waterTrap.noChumSelected": "Sin amigo",
@@ -8727,5 +8726,6 @@
   "description.cave": "Una caverna húmeda donde crecen hongos en la oscuridad.",
   "building.cave": "Cueva",
   "gameOptions.generalSettings.customCursor": "Cursor personalizado",
-  "cave.batch.chooseCrop": "Elige un cultivo para compostar"
+  "cave.batch.chooseCrop": "Elige un cultivo para compostar",
+  "description.mud": "Barro rico y pegajoso. 10 capas de barro cubren a un cerdo para obtener más puntos de experiencia y evitar que se enferme."
 }

@@ -791,6 +791,25 @@ describe("animal data tables", () => {
     },
   );
 
+  it("drops the #7721 Truffle curve: 1 / 2 / 3 / 4 at L1-3 / 4-7 / 8-14 / 15", () => {
+    const truffles = Array.from({ length: 16 }, (_, level) =>
+      (
+        ANIMAL_RESOURCE_DROP.Pig[level as AnimalLevel].Truffle ?? new Decimal(0)
+      ).toNumber(),
+    );
+
+    expect(truffles).toEqual([0, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 4]);
+  });
+
+  it("uses the Cow's XP thresholds for Pigs", () => {
+    expect(ANIMAL_LEVELS.Pig).toEqual(ANIMAL_LEVELS.Cow);
+    expect(ANIMAL_LEVELS.Pig[15]).toEqual(8160);
+  });
+
+  it("costs 100 coins to buy a Pig", () => {
+    expect(ANIMALS.Pig.coins).toEqual(100);
+  });
+
   it("drops only Truffles, from level 1, never fewer at a higher level", () => {
     const drops = ANIMAL_RESOURCE_DROP.Pig;
 

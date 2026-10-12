@@ -8689,7 +8689,6 @@
   "cave.merchant.moreOffers": "More offers at Cave tier {{tier}}",
   "description.pigBristles": "Coarse bristles from a Pig.",
   "resource.pigBristles": "Pig Bristles",
-  "description.mud": "Rich, sticky mud. Coats a Pig for extra feed XP and keeps it from falling sick.",
   "sleepingAnimal.mudFeedsLeft": "+{{percent}}% feed XP · no sickness · feeds left: {{count}}",
   "walletWall.withdrawWalletMismatch": "You selected a different wallet. Your connected and linked wallets don't match, so you cannot withdraw.",
   "waterTrap.noChumSelected": "Without chum",
@@ -8727,5 +8726,6 @@
   "description.cave": "A damp cavern where mushrooms grow in the dark.",
   "building.cave": "Cave",
   "gameOptions.generalSettings.customCursor": "Custom cursor",
-  "cave.batch.chooseCrop": "Choose a crop to compost"
+  "cave.batch.chooseCrop": "Choose a crop to compost",
+  "description.mud": "Rich, sticky mud. 10 Mud coats a Pig for extra feed XP and keeps it from falling sick."
 }

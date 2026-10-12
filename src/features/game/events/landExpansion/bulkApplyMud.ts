@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import type { GameState } from "features/game/types/game";
-import { isMuddy } from "features/game/lib/animals";
+import { isMuddy, MUD_PER_APPLICATION } from "features/game/lib/animals";
 import { isAnimalFeedable } from "./buyAnimal";
 import { applyMud, APPLY_MUD_ERRORS, assertCanApplyMud } from "./applyMud";
 
@@ -32,7 +32,7 @@ export function getPigsNeedingMud(state: GameState): string[] {
 }
 
 /**
- * Applies 1 Mud to each Pig that needs it. With too little Mud for all of
+ * Applies one Mud application to each Pig that needs it. With too little Mud for all of
  * them, muds as many as it covers rather than failing.
  */
 export function bulkApplyMud({ state, createdAt }: Options): GameState {
@@ -46,7 +46,8 @@ export function bulkApplyMud({ state, createdAt }: Options): GameState {
   const mud = (state.inventory.Mud ?? new Decimal(0)).toNumber();
 
   // One source of truth: every Pig goes through the single-Pig event.
-  return eligible.slice(0, Math.floor(mud)).reduce<GameState>(
+  const applications = Math.floor(mud / MUD_PER_APPLICATION);
+  return eligible.slice(0, applications).reduce<GameState>(
     (game, id) =>
       applyMud({
         state: game,

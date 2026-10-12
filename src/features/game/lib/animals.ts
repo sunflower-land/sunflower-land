@@ -54,7 +54,9 @@ export const ANIMAL_BUILDING_KEYS: AnimalBuildingKey[] =
 
 // TODO(Chapter 16): the spec gives 48h of protection per Mud; these replace it
 // (Elias, 2026-09-21) and are unspecced placeholders.
-/** Feeds of bonus XP that 1 Mud gives a Pig. */
+/** Mud spent per application (#7721 Balance Update). */
+export const MUD_PER_APPLICATION = 10;
+/** Feeds of bonus XP that one Mud application gives a Pig. */
 export const MUD_FEEDS = 3;
 /**
  * Final feeding-XP multiplier for a muddy Pig. The Pig XP table is 0.8x what it
@@ -75,7 +77,6 @@ const DEFAULT_ANIMAL_EXPERIENCE: Record<AnimalType, number> = {
   Chicken: 40,
   Cow: 80,
   Sheep: 80,
-  // TODO(Chapter 16): unused while the Pigpen starts empty - see INITIAL_FARM.
   Pig: 80,
 };
 
@@ -83,14 +84,13 @@ const DEFAULT_ANIMAL_EXPERIENCE: Record<AnimalType, number> = {
  * How many animals a building is seeded with when it is constructed. Exhaustive
  * so a new animal building has to make the choice deliberately.
  *
- * The Pigpen gets ONE, not three: it holds only 3 animals at level 1, so a
- * three-Pig herd would fill it on construction and make every Pig purchase
- * throw until the pen was upgraded.
+ * The Pigpen's three (#7721) fill its level-1 capacity of 3, so buying a Pig
+ * waits for the first upgrade - accepted by Elias, 2026-10-12.
  */
 const STARTER_HERD_SIZE: Record<AnimalBuildingType, number> = {
   "Hen House": 3,
   Barn: 3,
-  Pigpen: 1,
+  Pigpen: 3,
 };
 
 export function makeAnimalBuilding(

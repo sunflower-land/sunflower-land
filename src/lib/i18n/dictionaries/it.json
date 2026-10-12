@@ -8689,7 +8689,6 @@
   "cave.merchant.moreOffers": "Altre offerte presso Cave tier {{tier}}",
   "description.pigBristles": "Setole grossolane di maiale.",
   "resource.pigBristles": "Setole di maiale",
-  "description.mud": "Fango ricco e appiccicoso. Ricopre un maiale per aumentare i punti esperienza e impedirgli di ammalarsi.",
   "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% feed XP · nessuna malattia · feed rimasti: {{count}}",
   "walletWall.withdrawWalletMismatch": "Hai selezionato un portafoglio diverso. I tuoi portafogli connessi e collegati non corrispondono, quindi non puoi effettuare prelievi.",
   "waterTrap.noChumSelected": "Senza amico",
@@ -8727,5 +8726,6 @@
   "description.cave": "Una caverna umida dove i funghi crescono al buio.",
   "building.cave": "grotta",
   "gameOptions.generalSettings.customCursor": "Cursore personalizzato",
-  "cave.batch.chooseCrop": "Scegli un raccolto da compostare"
+  "cave.batch.chooseCrop": "Scegli un raccolto da compostare",
+  "description.mud": "Fango ricco e appiccicoso. 10 Fango ricopre un maiale per aumentare i punti esperienza di alimentazione e impedirgli di ammalarsi."
 }

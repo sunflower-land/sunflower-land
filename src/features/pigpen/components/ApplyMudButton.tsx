@@ -9,11 +9,12 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import type { GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getPigsNeedingMud } from "features/game/events/landExpansion/bulkApplyMud";
+import { MUD_PER_APPLICATION } from "features/game/lib/animals";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
 
 const canApplyMud = (game: GameState) =>
-  (game.inventory.Mud ?? new Decimal(0)).gte(1) &&
+  (game.inventory.Mud ?? new Decimal(0)).gte(MUD_PER_APPLICATION) &&
   getPigsNeedingMud(game).length > 0;
 
 // Boolean, so the button re-renders only when it flips between states.

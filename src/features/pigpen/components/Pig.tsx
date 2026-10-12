@@ -21,6 +21,7 @@ import {
   isAnimalFood,
   getFeedQuantity,
   isMuddy,
+  MUD_PER_APPLICATION,
   resolveAnimal,
 } from "features/game/lib/animals";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -432,7 +433,7 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
       }
 
       const mudCount = inventory.Mud ?? new Decimal(0);
-      if (!isMuddy(pig) && mudCount.gte(1)) {
+      if (!isMuddy(pig) && mudCount.gte(MUD_PER_APPLICATION)) {
         gameService.send({ type: "animal.mudApplied", id: pig.id });
         playFeedAnimal();
         return;
