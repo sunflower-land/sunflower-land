@@ -8755,5 +8755,7 @@
   "animalFood.basicSlop": "Temel Eğim",
   "animalFood.heartySlop": "Doyurucu Slop",
   "animalFood.richSlop": "Zengin Slop",
-  "animalFood.gourmetSlop": "Gurme Slop"
+  "animalFood.gourmetSlop": "Gurme Slop",
+  "chapterCropWeek.retired": "Artık takas edilemez",
+  "chapterCropWeek.retiredDescription": "Bu öğe önceki Bölüm Mahsul Haftası'nın bir parçasıydı ve artık takas edilemez."
 }

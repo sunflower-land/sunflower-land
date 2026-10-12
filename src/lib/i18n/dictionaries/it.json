@@ -8755,5 +8755,7 @@
   "animalFood.basicSlop": "Pista base",
   "animalFood.heartySlop": "Hearty Slop",
   "animalFood.richSlop": "Rich Slop",
-  "animalFood.gourmetSlop": "Gourmet Shop"
+  "animalFood.gourmetSlop": "Gourmet Shop",
+  "chapterCropWeek.retired": "Non più negoziabile",
+  "chapterCropWeek.retiredDescription": "Questo articolo faceva parte di una precedente Chapter Crop Week e non può più essere scambiato."
 }

@@ -8755,5 +8755,7 @@
   "animalFood.basicSlop": "ベーシックスロップ",
   "animalFood.heartySlop": "ハーティスロップ",
   "animalFood.richSlop": "リッチスロップ",
-  "animalFood.gourmetSlop": "グルメスロップ"
+  "animalFood.gourmetSlop": "グルメスロップ",
+  "chapterCropWeek.retired": "取引できなくなった",
+  "chapterCropWeek.retiredDescription": "このアイテムは前のチャプタークロップウィークの一部だったため、取引できなくなりました。"
 }

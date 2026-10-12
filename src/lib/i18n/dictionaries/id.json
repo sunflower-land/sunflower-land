@@ -8755,5 +8755,7 @@
   "animalFood.basicSlop": "Slop Dasar",
   "animalFood.heartySlop": "Heat Slop",
   "animalFood.richSlop": "Kaya Slop",
-  "animalFood.gourmetSlop": "Gourmet Slop"
+  "animalFood.gourmetSlop": "Gourmet Slop",
+  "chapterCropWeek.retired": "Tidak lagi dapat diperdagangkan",
+  "chapterCropWeek.retiredDescription": "Item ini adalah bagian dari Chapter Crop Week sebelumnya dan tidak dapat lagi diperdagangkan."
 }

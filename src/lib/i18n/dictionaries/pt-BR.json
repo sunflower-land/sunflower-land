@@ -8755,5 +8755,7 @@
   "animalFood.basicSlop": "Inclinação básica",
   "animalFood.heartySlop": "Slop saudável",
   "animalFood.richSlop": "Rich Slop",
-  "animalFood.gourmetSlop": "Slop gourmet"
+  "animalFood.gourmetSlop": "Slop gourmet",
+  "chapterCropWeek.retired": "Não é mais negociável",
+  "chapterCropWeek.retiredDescription": "Este item fazia parte de um capítulo anterior da Semana da Colheita e não pode mais ser negociado."
 }

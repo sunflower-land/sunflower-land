@@ -8755,5 +8755,7 @@
   "animalFood.basicSlop": "Basic Slop",
   "animalFood.heartySlop": "Hearty Slop",
   "animalFood.richSlop": "Rich Slop",
-  "animalFood.gourmetSlop": "Gourmet Slop"
+  "animalFood.gourmetSlop": "Gourmet Slop",
+  "chapterCropWeek.retired": "No longer tradeable",
+  "chapterCropWeek.retiredDescription": "This item was part of a previous Chapter Crop Week and can no longer be traded."
 }

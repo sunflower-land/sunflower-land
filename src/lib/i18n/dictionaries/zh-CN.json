@@ -8755,5 +8755,7 @@
   "animalFood.basicSlop": "Basic Slop",
   "animalFood.heartySlop": "Hearty Slop",
   "animalFood.richSlop": "Rich Slop",
-  "animalFood.gourmetSlop": "Gourmet Sl"
+  "animalFood.gourmetSlop": "Gourmet Sl",
+  "chapterCropWeek.retired": "不再可以交易了",
+  "chapterCropWeek.retiredDescription": "此物品是之前的章节作物周的一部分，无法再进行交易。"
 }

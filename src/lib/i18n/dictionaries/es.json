@@ -8755,5 +8755,7 @@
   "animalFood.basicSlop": "Pendiente básica",
   "animalFood.heartySlop": "Abundante basura",
   "animalFood.richSlop": "Rich Slop",
-  "animalFood.gourmetSlop": "Delicado gourmet"
+  "animalFood.gourmetSlop": "Delicado gourmet",
+  "chapterCropWeek.retired": "Ya no es negociable",
+  "chapterCropWeek.retiredDescription": "Este objeto formaba parte de una semana de cosecha de capítulos anterior y ya no se puede intercambiar."
 }

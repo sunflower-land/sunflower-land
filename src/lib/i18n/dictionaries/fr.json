@@ -8755,5 +8755,7 @@
   "animalFood.basicSlop": "Slop de base",
   "animalFood.heartySlop": "Savourez une soupe copieuse",
   "animalFood.richSlop": "Riche Slop",
-  "animalFood.gourmetSlop": "Gourmet Slop"
+  "animalFood.gourmetSlop": "Gourmet Slop",
+  "chapterCropWeek.retired": "N'est plus échangeable",
+  "chapterCropWeek.retiredDescription": "Cet objet faisait partie d'une précédente Chapter Crop Week et ne peut plus être échangé."
 }

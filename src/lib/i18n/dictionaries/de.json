@@ -8755,5 +8755,7 @@
   "animalFood.basicSlop": "Basic Slop",
   "animalFood.heartySlop": "Herzhafter Schlund",
   "animalFood.richSlop": "Rich Slop",
-  "animalFood.gourmetSlop": "Gourmet-Slop"
+  "animalFood.gourmetSlop": "Gourmet-Slop",
+  "chapterCropWeek.retired": "Nicht mehr handelbar",
+  "chapterCropWeek.retiredDescription": "Dieser Gegenstand war Teil einer früheren Chapter Crop Week und kann nicht mehr gehandelt werden."
 }
