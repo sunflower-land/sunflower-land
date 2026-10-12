@@ -8727,5 +8727,16 @@
   "building.cave": "Cave",
   "gameOptions.generalSettings.customCursor": "Custom cursor",
   "cave.batch.chooseCrop": "Choose a crop to compost",
-  "description.mud": "Rich, sticky mud. 10 Mud coats a Pig for extra feed XP and keeps it from falling sick."
+  "description.mud": "Rich, sticky mud. 10 Mud coats a Pig for extra feed XP and keeps it from falling sick.",
+  "description.crystalLeaf": "A glistening, slow-growing leaf that only sprouts during Chapter Crop Week.",
+  "description.crystalCookie": "A sparkling cookie baked from Crystal Leaves during Chapter Crop Week.",
+  "chapterCropWeek.leaderboard.title": "Top Cooks",
+  "chapterCropWeek.leaderboard.description": "The 100 players who have cooked the most {{recipe}} during Chapter Crop Week. Rewards are cosmetic only.",
+  "chapterCropWeek.leaderboard.notPublished": "The board hasn't been published yet. Check back soon!",
+  "chapterCropWeek.leaderboard.yourRank": "You are ranked {{rank}} with {{count}} cooked",
+  "chapterCropWeek.leaderboard.unranked": "Cook {{recipe}} at the Fire Pit to climb into the top 100",
+  "chapterCropWeek.leaderboard.rankingUpdated": "Ranking refreshes hourly",
+  "crop.crystalLeaf": "Crystal Leaf",
+  "seed.crystalLeaf": "Crystal Leaf Seed",
+  "food.crystalCookie": "Crystal Cookie"
 }

@@ -8727,5 +8727,16 @@
   "building.cave": "Mağara",
   "gameOptions.generalSettings.customCursor": "Özel imleç",
   "cave.batch.chooseCrop": "Kompost yapmak için bir mahsul seçin",
-  "description.mud": "Zengin, yapışkan çamur. 10 Çamur, ekstra yem Deneyimi için bir Domuzu kaplar ve hastalanmasını önler."
+  "description.mud": "Zengin, yapışkan çamur. 10 Çamur, ekstra yem Deneyimi için bir Domuzu kaplar ve hastalanmasını önler.",
+  "description.crystalLeaf": "Sadece Bölüm Mahsul Haftası sırasında filizlenen parıldayan, yavaş büyüyen bir yaprak.",
+  "description.crystalCookie": "Bölüm Mahsul Haftasında Kristal Yapraklardan pişirilen köpüklü bir kurabiye.",
+  "chapterCropWeek.leaderboard.title": "En İyi Aşçılar",
+  "chapterCropWeek.leaderboard.description": "Bölüm Mahsul Haftası'nda en çok {{recipe}} yemek yapan 100 oyuncu. Ödüller sadece kozmetiktir.",
+  "chapterCropWeek.leaderboard.notPublished": "Yönetim kurulu henüz yayınlanmadı. Yakında tekrar kontrol edin!",
+  "chapterCropWeek.leaderboard.yourRank": "{{count}} pişmiş olarak {{rank}} sıralamasınız",
+  "chapterCropWeek.leaderboard.unranked": "İlk 100'e tırmanmak için Ateş Çukurunda {{recipe}} pişirin",
+  "chapterCropWeek.leaderboard.rankingUpdated": "Sıralama saatlik olarak yenilenir",
+  "crop.crystalLeaf": "Kristal Yaprak",
+  "seed.crystalLeaf": "Kristal Yaprak Tohumu",
+  "food.crystalCookie": "Kristal Kurabiye"
 }

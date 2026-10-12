@@ -8727,5 +8727,16 @@
   "building.cave": "Cueva",
   "gameOptions.generalSettings.customCursor": "Cursor personalizado",
   "cave.batch.chooseCrop": "Elige un cultivo para compostar",
-  "description.mud": "Barro rico y pegajoso. 10 capas de barro cubren a un cerdo para obtener más puntos de experiencia y evitar que se enferme."
+  "description.mud": "Barro rico y pegajoso. 10 capas de barro cubren a un cerdo para obtener más puntos de experiencia y evitar que se enferme.",
+  "description.crystalLeaf": "Una hoja reluciente de crecimiento lento que solo brota durante la Semana de la Cosecha Capitular.",
+  "description.crystalCookie": "Una galleta espumosa horneada con hojas de cristal durante la Semana de la Cosecha Capitular.",
+  "chapterCropWeek.leaderboard.title": "Los mejores cocineros",
+  "chapterCropWeek.leaderboard.description": "Los 100 jugadores que más {{recipe}} han cocinado durante la Semana de la Cosecha de Capítulos. Las recompensas son solo cosméticas.",
+  "chapterCropWeek.leaderboard.notPublished": "La pizarra aún no se ha publicado. ¡Vuelve pronto!",
+  "chapterCropWeek.leaderboard.yourRank": "Estás en la posición {{rank}} con {{count}} cocinado",
+  "chapterCropWeek.leaderboard.unranked": "Cocina {{recipe}} en la hoguera para entrar entre los 100 mejores",
+  "chapterCropWeek.leaderboard.rankingUpdated": "La clasificación se actualiza cada hora",
+  "crop.crystalLeaf": "Hoja de cristal",
+  "seed.crystalLeaf": "Semilla de hoja de cristal",
+  "food.crystalCookie": "Galleta de cristal"
 }

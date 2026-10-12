@@ -8727,5 +8727,16 @@
   "building.cave": "洞穴",
   "gameOptions.generalSettings.customCursor": "自定义光标",
   "cave.batch.chooseCrop": "选择要堆肥的作物",
-  "description.mud": "丰富、粘稠的泥浆。10 个泥可以覆盖一只小猪，以获得额外的饲料经验值并防止它生病。"
+  "description.mud": "丰富、粘稠的泥浆。10 个泥可以覆盖一只小猪，以获得额外的饲料经验值并防止它生病。",
+  "description.crystalLeaf": "一片闪闪发光、生长缓慢的树叶，只在 Chapter Crop Week 期间发芽。",
+  "description.crystalCookie": "在 Chapter Crop Week 期间用水晶叶烤制的起泡饼干。",
+  "chapterCropWeek.leaderboard.title": "顶级厨师",
+  "chapterCropWeek.leaderboard.description": "在 Chapter Crop Week 中烹饪得最多 [0@/美元] 的 100 名玩家。奖励仅是装饰性的。",
+  "chapterCropWeek.leaderboard.notPublished": "该委员会尚未公布。稍后再回来看看！",
+  "chapterCropWeek.leaderboard.yourRank": "你获得 {{count}} 煮熟的排名 {{rank}}",
+  "chapterCropWeek.leaderboard.unranked": "在火坑做饭 {{recipe}} 即可进入前 100 名",
+  "chapterCropWeek.leaderboard.rankingUpdated": "排名每小时刷新一次",
+  "crop.crystalLeaf": "水晶叶",
+  "seed.crystalLeaf": "水晶叶种子",
+  "food.crystalCookie": "水晶饼干"
 }

@@ -8727,5 +8727,16 @@
   "building.cave": "ケーブ",
   "gameOptions.generalSettings.customCursor": "カスタムカーソル",
   "cave.batch.chooseCrop": "堆肥にする作物を選ぶ",
-  "description.mud": "濃厚で粘り気のある泥。10個の泥で豚1匹を覆い、餌のXPを増やし、病気になるのを防ぎます。"
+  "description.mud": "濃厚で粘り気のある泥。10個の泥で豚1匹を覆い、餌のXPを増やし、病気になるのを防ぎます。",
+  "description.crystalLeaf": "チャプター・クロップ・ウィーク中にのみ発芽する、きらきら光る成長の遅い葉。",
+  "description.crystalCookie": "チャプター・クロップ・ウィーク中にクリスタル・リーフを使って焼き上げたスパークリングクッキー。",
+  "chapterCropWeek.leaderboard.title": "トップクック",
+  "chapterCropWeek.leaderboard.description": "チャプタークロップウィーク中に {{recipe}} を最も多く料理した100人のプレイヤー。報酬は装飾アイテムのみです。",
+  "chapterCropWeek.leaderboard.notPublished": "ボードはまだ公開されていません。すぐにもう一度チェックしてください！",
+  "chapterCropWeek.leaderboard.yourRank": "あなたは {{count}} を調理した状態で {{rank}} にランク付けされています",
+  "chapterCropWeek.leaderboard.unranked": "ファイヤーピットで {{recipe}} を作ってトップ100に登ろう",
+  "chapterCropWeek.leaderboard.rankingUpdated": "ランキングは1時間ごとに更新されます",
+  "crop.crystalLeaf": "クリスタルリーフ",
+  "seed.crystalLeaf": "クリスタルリーフシード",
+  "food.crystalCookie": "クリスタルクッキー"
 }

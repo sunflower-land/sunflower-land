@@ -8727,5 +8727,16 @@
   "building.cave": "grotta",
   "gameOptions.generalSettings.customCursor": "Cursore personalizzato",
   "cave.batch.chooseCrop": "Scegli un raccolto da compostare",
-  "description.mud": "Fango ricco e appiccicoso. 10 Fango ricopre un maiale per aumentare i punti esperienza di alimentazione e impedirgli di ammalarsi."
+  "description.mud": "Fango ricco e appiccicoso. 10 Fango ricopre un maiale per aumentare i punti esperienza di alimentazione e impedirgli di ammalarsi.",
+  "description.crystalLeaf": "Una foglia scintillante a crescita lenta che germoglia solo durante la Chapter Crop Week.",
+  "description.crystalCookie": "Un biscotto frizzante cotto con foglie di cristallo durante la Chapter Crop Week.",
+  "chapterCropWeek.leaderboard.title": "I migliori cuochi",
+  "chapterCropWeek.leaderboard.description": "I 100 giocatori che hanno cucinato di più {{recipe}} durante la Chapter Crop Week. Le ricompense sono solo estetiche.",
+  "chapterCropWeek.leaderboard.notPublished": "La scheda non è ancora stata pubblicata. Torna presto!",
+  "chapterCropWeek.leaderboard.yourRank": "Sei classificato {{rank}} con {{count}} cotto",
+  "chapterCropWeek.leaderboard.unranked": "Cuoci {{recipe}} al Fire Pit per entrare nella top 100",
+  "chapterCropWeek.leaderboard.rankingUpdated": "La classifica si aggiorna ogni ora",
+  "crop.crystalLeaf": "Foglia di cristallo",
+  "seed.crystalLeaf": "Semi di foglie di cristallo",
+  "food.crystalCookie": "Biscotto di cristallo"
 }

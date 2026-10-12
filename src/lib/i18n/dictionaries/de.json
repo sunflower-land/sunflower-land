@@ -8727,5 +8727,16 @@
   "building.cave": "Höhle",
   "gameOptions.generalSettings.customCursor": "Benutzerdefinierter Mauszeiger",
   "cave.batch.chooseCrop": "Wählen Sie eine Pflanze zum Kompostieren",
-  "description.mud": "Reichhaltiger, klebriger Schlamm. 10 Schlamm umhüllt ein Schwein für zusätzliche Futter-XP und verhindert, dass es krank wird."
+  "description.mud": "Reichhaltiger, klebriger Schlamm. 10 Schlamm umhüllt ein Schwein für zusätzliche Futter-XP und verhindert, dass es krank wird.",
+  "description.crystalLeaf": "Ein glitzerndes, langsam wachsendes Blatt, das nur während der Chapter Crop Week sprießt.",
+  "description.crystalCookie": "Ein funkelnder Keks, der während der Chapter Crop Week aus Kristallblättern gebacken wurde.",
+  "chapterCropWeek.leaderboard.title": "Top-Köche",
+  "chapterCropWeek.leaderboard.description": "Die 100 Spieler, die während der Chapter Crop Week am meisten {{recipe}} gekocht haben. Die Belohnungen sind nur kosmetischer Natur.",
+  "chapterCropWeek.leaderboard.notPublished": "Das Board wurde noch nicht veröffentlicht. Schau bald wieder vorbei!",
+  "chapterCropWeek.leaderboard.yourRank": "Du stehst auf der Rangliste {{rank}}, wenn {{count}} gekocht ist",
+  "chapterCropWeek.leaderboard.unranked": "Koche {{recipe}} an der Feuerstelle, um in die Top 100 aufzusteigen",
+  "chapterCropWeek.leaderboard.rankingUpdated": "Das Ranking wird stündlich aktualisiert",
+  "crop.crystalLeaf": "Kristallblatt",
+  "seed.crystalLeaf": "Kristallblattsamen",
+  "food.crystalCookie": "Kristall-Keks"
 }

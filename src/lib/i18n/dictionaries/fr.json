@@ -8727,5 +8727,16 @@
   "building.cave": "Grotte",
   "gameOptions.generalSettings.customCursor": "Curseur personnalisé",
   "cave.batch.chooseCrop": "Choisissez une culture à composter",
-  "description.mud": "Boue riche et collante. 10 couches de boue recouvrent un cochon pour lui apporter plus d'expérience alimentaire et l'empêcher de tomber malade."
+  "description.mud": "Boue riche et collante. 10 couches de boue recouvrent un cochon pour lui apporter plus d'expérience alimentaire et l'empêcher de tomber malade.",
+  "description.crystalLeaf": "Une feuille brillante à croissance lente qui ne pousse que pendant la Chapter Crop Week.",
+  "description.crystalCookie": "Un biscuit pétillant cuit à partir de Crystal Leaves pendant la Chapter Crop Week.",
+  "chapterCropWeek.leaderboard.title": "Les meilleurs cuisiniers",
+  "chapterCropWeek.leaderboard.description": "Les 100 joueurs qui ont cuisiné le plus de {{recipe}} pendant la Chapter Crop Week. Les récompenses ne sont que cosmétiques.",
+  "chapterCropWeek.leaderboard.notPublished": "Le forum n'a pas encore été publié. Revenez bientôt !",
+  "chapterCropWeek.leaderboard.yourRank": "Vous êtes classé {{rank}} avec {{count}} cuit",
+  "chapterCropWeek.leaderboard.unranked": "Cuisinez {{recipe}} au Fire Pit pour grimper dans le top 100",
+  "chapterCropWeek.leaderboard.rankingUpdated": "Le classement est actualisé toutes les heures",
+  "crop.crystalLeaf": "Feuille de cristal",
+  "seed.crystalLeaf": "Graine de feuille de cristal",
+  "food.crystalCookie": "Biscuit en cristal"
 }

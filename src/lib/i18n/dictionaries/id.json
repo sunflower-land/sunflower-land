@@ -8727,5 +8727,16 @@
   "building.cave": "Gua",
   "gameOptions.generalSettings.customCursor": "Kursor kustom",
   "cave.batch.chooseCrop": "Pilih tanaman untuk membuat kompos",
-  "description.mud": "Lumpur yang kaya dan lengket. 10 Lumpur melapisi Babi untuk XP pakan ekstra dan mencegahnya jatuh sakit."
+  "description.mud": "Lumpur yang kaya dan lengket. 10 Lumpur melapisi Babi untuk XP pakan ekstra dan mencegahnya jatuh sakit.",
+  "description.crystalLeaf": "Daun yang berkilauan dan tumbuh lambat yang hanya bertunas selama Chapter Crop Week.",
+  "description.crystalCookie": "Kue berkilau yang dipanggang dari Daun Kristal selama Chapter Crop Week.",
+  "chapterCropWeek.leaderboard.title": "Koki Terbaik",
+  "chapterCropWeek.leaderboard.description": "100 pemain yang paling banyak memasak {{recipe}} selama Chapter Crop Week. Hadiah hanya kosmetik.",
+  "chapterCropWeek.leaderboard.notPublished": "Dewan belum dipublikasikan. Periksa kembali segera!",
+  "chapterCropWeek.leaderboard.yourRank": "Anda diberi peringkat {{rank}} dengan {{count}} dimasak",
+  "chapterCropWeek.leaderboard.unranked": "Masak {{recipe}} di Fire Pit untuk naik ke 100 teratas",
+  "chapterCropWeek.leaderboard.rankingUpdated": "Peringkat disegarkan setiap jam",
+  "crop.crystalLeaf": "Daun Kristal",
+  "seed.crystalLeaf": "Benih Daun Kristal",
+  "food.crystalCookie": "Kue Kristal"
 }

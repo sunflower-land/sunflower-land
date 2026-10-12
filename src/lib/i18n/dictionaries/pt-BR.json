@@ -8727,5 +8727,16 @@
   "building.cave": "Caverna",
   "gameOptions.generalSettings.customCursor": "Cursor personalizado",
   "cave.batch.chooseCrop": "Escolha uma cultura para compostar",
-  "description.mud": "Lama rica e pegajosa. 10 Lamas cobrem um porco para aumentar a EXP de alimentação e evita que ele adoeça."
+  "description.mud": "Lama rica e pegajosa. 10 Lamas cobrem um porco para aumentar a EXP de alimentação e evita que ele adoeça.",
+  "description.crystalLeaf": "Uma folha brilhante e de crescimento lento que só brota durante a Semana da Colheita.",
+  "description.crystalCookie": "Um biscoito espumante feito com folhas de cristal durante a Chapter Crop Week.",
+  "chapterCropWeek.leaderboard.title": "Melhores cozinheiros",
+  "chapterCropWeek.leaderboard.description": "Os 100 jogadores que mais cozinharam {{recipe}} durante a Chapter Crop Week. As recompensas são apenas cosméticas.",
+  "chapterCropWeek.leaderboard.notPublished": "O quadro ainda não foi publicado. Volte em breve!",
+  "chapterCropWeek.leaderboard.yourRank": "Você está classificado em {{rank}} com {{count}} cozido",
+  "chapterCropWeek.leaderboard.unranked": "Cozinhe {{recipe}} na fogueira para subir ao top 100",
+  "chapterCropWeek.leaderboard.rankingUpdated": "A classificação é atualizada de hora em hora",
+  "crop.crystalLeaf": "Folha de cristal",
+  "seed.crystalLeaf": "Semente de folha de cristal",
+  "food.crystalCookie": "Cookie de cristal"
 }
