@@ -60,7 +60,7 @@ const caveState = ({
   coins,
   inventory: {
     ...TEST_FARM.inventory,
-    "Brown Beetle": new Decimal(beetles),
+    "Green Beetle": new Decimal(beetles),
     "Blue Beetle": new Decimal(beetles),
     "Pink Beetle": new Decimal(beetles),
     "Amber Beetle": new Decimal(beetles),

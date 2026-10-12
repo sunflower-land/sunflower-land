@@ -58,7 +58,6 @@ export const ApplyMudButton: React.FC = () => {
     >
       <img className="block w-full" src={SUNNYSIDE.icons.disc} alt="" />
       <img
-        // TODO(Chapter 16 art): a proper Apply Mud icon.
         src={ITEM_DETAILS.Mud.image}
         alt=""
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"

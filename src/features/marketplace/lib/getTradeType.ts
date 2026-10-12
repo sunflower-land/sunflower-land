@@ -1544,7 +1544,7 @@ export const ITEM_TRADE_TYPES: {
     "Loyal Rarecrow": "instant",
 
     // Chapter 16 resources
-    "Brown Beetle": "instant",
+    "Green Beetle": "instant",
     "Blue Beetle": "instant",
     "Pink Beetle": "instant",
     "Amber Beetle": "instant",

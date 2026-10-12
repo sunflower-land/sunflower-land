@@ -31,7 +31,7 @@ const NOW = new Date("2026-09-23T00:00:00.000Z").getTime();
 //   y0 DMDMD
 //   y1 GMMDD   (0,1) Magic Mushroom
 //   y2 DDDDD
-//   y3 DDMbD   (3,3) Brown Beetle
+//   y3 DDMbD   (3,3) Green Beetle
 //   y4 DDDpD   (3,4) Pink Beetle
 const SEED = "00112233445566778899aabbccddeeff";
 
@@ -128,7 +128,7 @@ describe("digCaveTile (cave.dug)", () => {
   it.each([
     [1, 0, "Wild Mushroom", 1],
     [0, 1, "Magic Mushroom", 1],
-    [3, 3, "Brown Beetle", 1],
+    [3, 3, "Green Beetle", 1],
     [3, 4, "Pink Beetle", 1],
     [0, 0, "Mud", 1],
     [4, 4, "Mud", 1],

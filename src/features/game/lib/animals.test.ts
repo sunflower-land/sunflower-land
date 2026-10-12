@@ -757,7 +757,7 @@ describe("getFeedItem", () => {
       favouriteFood: "Kernel Blend",
       inventory: {
         "Kernel Blend": new Decimal(5),
-        "Brown Beetle": new Decimal(1),
+        "Green Beetle": new Decimal(1),
       },
       requiredQty,
       hasBeetleFeedingAccess: true,
@@ -771,7 +771,7 @@ describe("getFeedItem", () => {
       animal: "Chicken",
       selectedItem: "Hay",
       favouriteFood: "Kernel Blend",
-      inventory: { Hay: new Decimal(5), "Brown Beetle": new Decimal(1) },
+      inventory: { Hay: new Decimal(5), "Green Beetle": new Decimal(1) },
       requiredQty,
       hasBeetleFeedingAccess: true,
     });
@@ -782,11 +782,11 @@ describe("getFeedItem", () => {
   it("treats a selected Beetle like any other item without Beetle feeding access", () => {
     const item = getFeedItem({
       animal: "Chicken",
-      selectedItem: "Brown Beetle",
+      selectedItem: "Green Beetle",
       favouriteFood: "Kernel Blend",
       inventory: {
         "Kernel Blend": new Decimal(5),
-        "Brown Beetle": new Decimal(1),
+        "Green Beetle": new Decimal(1),
       },
       requiredQty,
       hasBeetleFeedingAccess: false,

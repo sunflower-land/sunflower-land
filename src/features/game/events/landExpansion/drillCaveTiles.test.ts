@@ -27,13 +27,13 @@ const NOW = new Date("2026-09-23T00:00:00.000Z").getTime();
 //   y0 DMDMD
 //   y1 GMMDD   (0,1) Magic Mushroom
 //   y2 DDDDD
-//   y3 DDMbD   (3,3) Brown Beetle
+//   y3 DDMbD   (3,3) Green Beetle
 //   y4 DDDpD   (3,4) Pink Beetle
 const SEED = "00112233445566778899aabbccddeeff";
 
 type Coords = { x: number; y: number }[];
 
-// (2,3) Mushroom, (3,3) Brown Beetle, (2,4) Mud, (3,4) Pink Beetle.
+// (2,3) Mushroom, (3,3) Green Beetle, (2,4) Mud, (3,4) Pink Beetle.
 const BEETLE_SQUARE: Coords = [
   { x: 2, y: 3 },
   { x: 3, y: 3 },
@@ -186,7 +186,7 @@ describe("drillCaveTiles (cave.drilled)", () => {
   it("awards all four tiles of the square", () => {
     const next = drill(readyState());
     expect(next.inventory["Wild Mushroom"]?.toNumber()).toBe(1);
-    expect(next.inventory["Brown Beetle"]?.toNumber()).toBe(1);
+    expect(next.inventory["Green Beetle"]?.toNumber()).toBe(1);
     expect(next.inventory["Pink Beetle"]?.toNumber()).toBe(1);
     expect(next.inventory.Mud?.toNumber()).toBe(1);
   });
@@ -253,7 +253,7 @@ describe("drillCaveTiles (cave.drilled)", () => {
     const next = drill(state);
 
     expect(next.inventory["Sand Drill"]?.toNumber()).toBe(2);
-    expect(next.inventory["Brown Beetle"]).toBeUndefined();
+    expect(next.inventory["Green Beetle"]).toBeUndefined();
     expect(next.inventory.Mud).toBeUndefined();
     expect(next.inventory["Wild Mushroom"]?.toNumber()).toBe(1);
     expect(next.inventory["Pink Beetle"]?.toNumber()).toBe(1);

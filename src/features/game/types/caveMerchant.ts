@@ -46,7 +46,7 @@ export const CAVE_MERCHANT_OFFERS: Record<
   CaveMerchantOffer
 > = {
   "sand-drills": {
-    cost: { items: { "Brown Beetle": new Decimal(6) } },
+    cost: { items: { "Green Beetle": new Decimal(6) } },
     reward: { "Sand Drill": new Decimal(2) },
     limit: 5,
     requiresTier: CAVE_MERCHANT_TIER,
