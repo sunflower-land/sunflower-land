@@ -243,7 +243,6 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
             setFedXP={setFedXP}
             handleRefresh={handleRefresh}
             collectivePet={collectivePet}
-            week={week}
             streak={streak}
           />
         )}
@@ -263,7 +262,6 @@ const FactionPetContent: React.FC<{
   setFedXP: React.Dispatch<React.SetStateAction<number>>;
   handleRefresh: () => Promise<void>;
   collectivePet: CollectivePet | undefined;
-  week: string;
   streak: number;
 }> = ({
   faction,
@@ -272,7 +270,6 @@ const FactionPetContent: React.FC<{
   setFedXP,
   handleRefresh,
   collectivePet,
-  week,
   refreshing,
   fedXP,
   streak,
@@ -343,27 +340,15 @@ const FactionPetContent: React.FC<{
     (request) => getKeys(request.dailyFulfilled).length > 0,
   );
 
-  const lastWeek = getWeekKey({
-    date: new Date(new Date(week).getTime() - 7 * 24 * 60 * 60 * 1000),
-  });
-  const isStreakWeek =
-    (faction?.history[lastWeek]?.collectivePet?.streak ?? 0) >= 2;
   const isBoostCooldown =
     !!faction?.boostCooldownUntil && faction.boostCooldownUntil > now;
+  // Set on week rollover when every request was fed the previous week
+  const contributedLastWeek = pet.qualifiesForBoost ?? false;
   // Mirrors getFactionPetBoostMultiplier: the boost only applies this week
-  // when last week's streak was 2+, every request was fed last week
-  // (`qualifiesForBoost`) and no faction-switch cooldown is running.
-  const boostMultiplier = getFactionPetBoostMultiplier(
-    gameService.getSnapshot().context.state,
-  );
-  const isBoostActive = boostMultiplier > 1;
-  const boostInactiveReason = isBoostCooldown
-    ? t("faction.pet.boost.cooldown", {
-        date: new Date(faction?.boostCooldownUntil ?? 0).toLocaleString(),
-      })
-    : !isStreakWeek
-      ? t("faction.pet.boost.noStreak")
-      : t("faction.pet.boost.notFed");
+  // when last week's streak was 2+, every request was fed last week and no
+  // faction-switch cooldown is running.
+  const isBoostActive =
+    getFactionPetBoostMultiplier(gameService.getSnapshot().context.state) > 1;
   return (
     <div>
       {!showConfirm && (
@@ -384,39 +369,13 @@ const FactionPetContent: React.FC<{
                   })}
                 </Label>
                 {streak > 0 && (
-                  <Label type={streak >= 2 ? "success" : "default"}>
+                  <Label
+                    type={streak >= 2 ? "success" : "default"}
+                    icon={isBoostActive ? powerup : ""}
+                  >
                     {t("faction.pet.streak", { streak })}
                   </Label>
                 )}
-              </div>
-              <div className="flex flex-wrap items-center gap-1">
-                {isBoostActive ? (
-                  <Label type="success" icon={powerup} className="text-xs">
-                    {t("faction.pet.boost.active", {
-                      percent: Math.round((boostMultiplier - 1) * 100),
-                    })}
-                  </Label>
-                ) : (
-                  <Label
-                    type={isBoostCooldown ? "danger" : "default"}
-                    className="text-xs"
-                  >
-                    {boostInactiveReason}
-                  </Label>
-                )}
-                <Label
-                  type={isContributingMemberForThisWeek ? "success" : "default"}
-                  icon={
-                    isContributingMemberForThisWeek
-                      ? SUNNYSIDE.icons.confirm
-                      : ""
-                  }
-                  className="text-xs"
-                >
-                  {isContributingMemberForThisWeek
-                    ? t("faction.pet.nextWeek.ready")
-                    : t("faction.pet.nextWeek.pending")}
-                </Label>
               </div>
               <p className="hidden sm:block text-xs p-1 pb-2">
                 {t("faction.pet.gatherResources")}
@@ -499,16 +458,43 @@ const FactionPetContent: React.FC<{
                 })}
               </div>
               {!!collectivePet?.streak && collectivePet.streak > 0 && (
-                <div className="flex items-center space-x-1">
-                  <p className="text-xs pb-1">{`${t("faction.pet.contributingMember")}: `}</p>
-                  <img
-                    className="w-3"
-                    src={
-                      isContributingMemberForThisWeek
-                        ? SUNNYSIDE.icons.confirm
-                        : SUNNYSIDE.icons.close
-                    }
-                  />
+                <div className="flex flex-col space-y-1">
+                  <div className="flex flex-wrap items-center gap-1">
+                    <p className="text-xs">{`${t("faction.pet.contributedLastWeek")}: `}</p>
+                    <img
+                      className="w-3"
+                      src={
+                        contributedLastWeek
+                          ? SUNNYSIDE.icons.confirm
+                          : SUNNYSIDE.icons.close
+                      }
+                    />
+                    {isBoostCooldown && (
+                      <Label type="warning" className="text-xs">
+                        {t(
+                          contributedLastWeek
+                            ? "faction.pet.cooldown.contributed"
+                            : "faction.pet.cooldown.active",
+                          {
+                            date: new Date(
+                              faction?.boostCooldownUntil ?? 0,
+                            ).toLocaleString(),
+                          },
+                        )}
+                      </Label>
+                    )}
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <p className="text-xs pb-1">{`${t("faction.pet.contributingThisWeek")}: `}</p>
+                    <img
+                      className="w-3"
+                      src={
+                        isContributingMemberForThisWeek
+                          ? SUNNYSIDE.icons.confirm
+                          : SUNNYSIDE.icons.close
+                      }
+                    />
+                  </div>
                 </div>
               )}
             </div>
