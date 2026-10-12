@@ -39,7 +39,12 @@ export const BountyRewardLabel: React.FC<React.PropsWithChildren<Props>> = ({
   return (
     <div
       ref={anchorRef}
-      className={classNames(className, { "cursor-pointer": canOpenBoosts })}
+      className={classNames(className, {
+        "cursor-pointer": canOpenBoosts,
+        // Completed bounty cards disable pointer events on the whole card;
+        // keep the boosts breakdown reachable on their reward label.
+        "pointer-events-auto": canOpenBoosts,
+      })}
       style={style}
       role={canOpenBoosts ? "button" : undefined}
       tabIndex={canOpenBoosts ? 0 : undefined}
