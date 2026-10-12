@@ -48,6 +48,7 @@ import { PetShop } from "features/pets/petShop/PetShop";
 import { LoveIslandNoticeboard } from "./loveRewardShop/LoveIslandNoticeboard";
 import { Rarecrows } from "./Rarecrows";
 import { ChapterRaffles } from "./chapterRaffles/ChapterRaffles";
+import { ChapterCropWeekLeaderboard } from "./chapterCropWeek/ChapterCropWeekLeaderboard";
 import { DesignShowcaseContent } from "features/social/DesignShowcase";
 import { FreeTrial } from "./FreeTrial";
 import { Yakkamon } from "./yakkamon/Yakkamon";
@@ -158,6 +159,7 @@ type InteractableName =
   | "event_noticeboard"
   | "colors_2026"
   | "chapter_raffles"
+  | "chapter_crop_week_leaderboard"
   | "design_showcase"
   | "giveaway_board"
   | "free_trial"
@@ -259,6 +261,12 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       <Modal show={interactable === "chapter_raffles"} onHide={closeModal}>
         {" "}
         <ChapterRaffles onClose={closeModal} />
+      </Modal>
+      <Modal
+        show={interactable === "chapter_crop_week_leaderboard"}
+        onHide={closeModal}
+      >
+        <ChapterCropWeekLeaderboard onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "design_showcase"} onHide={closeModal}>
         <CloseButtonPanel onClose={closeModal}>
