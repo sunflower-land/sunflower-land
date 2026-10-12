@@ -24,6 +24,7 @@ import {
   getWeekKey,
   getFactionWeekEndTime,
   getFactionWeekday,
+  getFactionPetBoostMultiplier,
 } from "features/game/lib/factions";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import classNames from "classnames";
@@ -348,7 +349,21 @@ const FactionPetContent: React.FC<{
   const isStreakWeek =
     (faction?.history[lastWeek]?.collectivePet?.streak ?? 0) >= 2;
   const isBoostCooldown =
-    faction?.boostCooldownUntil && faction.boostCooldownUntil > now;
+    !!faction?.boostCooldownUntil && faction.boostCooldownUntil > now;
+  // Mirrors getFactionPetBoostMultiplier: the boost only applies this week
+  // when last week's streak was 2+, every request was fed last week
+  // (`qualifiesForBoost`) and no faction-switch cooldown is running.
+  const boostMultiplier = getFactionPetBoostMultiplier(
+    gameService.getSnapshot().context.state,
+  );
+  const isBoostActive = boostMultiplier > 1;
+  const boostInactiveReason = isBoostCooldown
+    ? t("faction.pet.boost.cooldown", {
+        date: new Date(faction?.boostCooldownUntil ?? 0).toLocaleString(),
+      })
+    : !isStreakWeek
+      ? t("faction.pet.boost.noStreak")
+      : t("faction.pet.boost.notFed");
   return (
     <div>
       {!showConfirm && (
@@ -368,27 +383,40 @@ const FactionPetContent: React.FC<{
                     totalXP: fedXP.toLocaleString(),
                   })}
                 </Label>
-                {isBoostCooldown && (
-                  <Label type="danger" className="text-xs">
-                    {"XP boost cooldown until:"}{" "}
-                    {new Date(
-                      faction?.boostCooldownUntil ?? 0,
-                    ).toLocaleString()}
-                  </Label>
-                )}
                 {streak > 0 && (
-                  <Label
-                    type={streak >= 2 ? "success" : "default"}
-                    icon={isStreakWeek ? powerup : ""}
-                    secondaryIcon={
-                      isStreakWeek && pet.qualifiesForBoost && !isBoostCooldown
-                        ? SUNNYSIDE.icons.confirm
-                        : ""
-                    }
-                  >
+                  <Label type={streak >= 2 ? "success" : "default"}>
                     {t("faction.pet.streak", { streak })}
                   </Label>
                 )}
+              </div>
+              <div className="flex flex-wrap items-center gap-1">
+                {isBoostActive ? (
+                  <Label type="success" icon={powerup} className="text-xs">
+                    {t("faction.pet.boost.active", {
+                      percent: Math.round((boostMultiplier - 1) * 100),
+                    })}
+                  </Label>
+                ) : (
+                  <Label
+                    type={isBoostCooldown ? "danger" : "default"}
+                    className="text-xs"
+                  >
+                    {boostInactiveReason}
+                  </Label>
+                )}
+                <Label
+                  type={isContributingMemberForThisWeek ? "success" : "default"}
+                  icon={
+                    isContributingMemberForThisWeek
+                      ? SUNNYSIDE.icons.confirm
+                      : ""
+                  }
+                  className="text-xs"
+                >
+                  {isContributingMemberForThisWeek
+                    ? t("faction.pet.nextWeek.ready")
+                    : t("faction.pet.nextWeek.pending")}
+                </Label>
               </div>
               <p className="hidden sm:block text-xs p-1 pb-2">
                 {t("faction.pet.gatherResources")}
