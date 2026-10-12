@@ -296,9 +296,13 @@ export const BarnInside: React.FC = () => {
                 <FeederMachine building="Barn" />
               </div>
 
-              <div className="absolute -top-[11px] left-1/2 translate-x-[58px]">
-                <FeedAllButton building="Barn" />
-              </div>
+              {/* Hidden while selling so animals can't be fed mid-sale. */}
+
+              {!showSellPanel && (
+                <div className="absolute -top-[11px] left-1/2 translate-x-[58px]">
+                  <FeedAllButton building="Barn" />
+                </div>
+              )}
 
               <MapPlacement
                 x={floorX}
@@ -342,7 +346,10 @@ export const BarnInside: React.FC = () => {
                           }
                         }}
                       >
-                        <Component id={animal.id} disabled={!!deal} />
+                        <Component
+                          id={animal.id}
+                          disabled={!!deal || showSellPanel}
+                        />
                       </div>
                     );
                   })}

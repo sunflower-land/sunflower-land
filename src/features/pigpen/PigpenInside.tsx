@@ -274,9 +274,13 @@ export const PigpenInside: React.FC = () => {
                 <FeederMachine building="Pigpen" />
               </div>
 
-              <div className="absolute -top-[11px] left-1/2 translate-x-[58px]">
-                <FeedAllButton building="Pigpen" />
-              </div>
+              {/* Hidden while selling so animals can't be fed mid-sale. */}
+
+              {!showSellPanel && (
+                <div className="absolute -top-[11px] left-1/2 translate-x-[58px]">
+                  <FeedAllButton building="Pigpen" />
+                </div>
+              )}
 
               {/* Mirrors the Feed All slot on the feeder's other side. */}
               <div className="absolute -top-[11px] right-1/2 -translate-x-[58px]">
@@ -323,7 +327,10 @@ export const PigpenInside: React.FC = () => {
                           }
                         }}
                       >
-                        <Pig id={animal.id} disabled={!!deal} />
+                        <Pig
+                          id={animal.id}
+                          disabled={!!deal || showSellPanel}
+                        />
                       </div>
                     );
                   })}
