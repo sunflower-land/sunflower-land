@@ -108,7 +108,7 @@ export function drillCaveTiles({
     for (const { x, y } of undug) {
       awardCaveTile({
         game,
-        tile: resolveCaveTile(layout, x, y, createdAt),
+        tile: resolveCaveTile(layout, x, y),
         createdAt,
       });
       dug[caveTileKey(x, y)] = { dugAt: createdAt };

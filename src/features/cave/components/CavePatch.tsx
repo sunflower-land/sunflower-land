@@ -159,7 +159,7 @@ export const CavePatch: React.FC<Props> = ({
                   }
                 >
                   {dug && layout ? (
-                    <DugTile tile={resolveCaveTile(layout, x, y, dug.dugAt)} />
+                    <DugTile tile={resolveCaveTile(layout, x, y)} />
                   ) : (
                     <img
                       src={SUNNYSIDE.soil.sand_hill}
@@ -178,7 +178,7 @@ export const CavePatch: React.FC<Props> = ({
               return (
                 <DugTile
                   key={`tile-${i}`}
-                  tile={resolveCaveTile(layout, x, y, dug.dugAt)}
+                  tile={resolveCaveTile(layout, x, y)}
                 />
               );
             }

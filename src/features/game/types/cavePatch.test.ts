@@ -1,5 +1,6 @@
 import { CAVE_RECIPES, type CaveRecipeName } from "./caveRecipes";
 import {
+  CAVE_MAGIC_MUSHROOM_CHANCE,
   canRestartCaveBatch,
   generateCavePatch,
   getCaveBeetleProgress,
@@ -22,13 +23,15 @@ const hexSeed = (n: number) => n.toString(16).padStart(32, "0");
 const MUSHROOM_SEED = "00112233445566778899aabbccddeeff";
 const BEETLE_SEED = "ffeeddccbbaa99887766554433221100";
 
-/** One letter per tile, row by row (y = 0..4): M, D (Mud), X (Artefact), or
- * the Beetle's initial (b = Brown, u = Blue, p = Pink, a = Amber). */
+/** One letter per tile, row by row (y = 0..4): M (Wild Mushroom), G (Magic
+ * Mushroom), D (Mud), or the Beetle's initial (b = Brown, u = Blue, p = Pink,
+ * a = Amber). */
 function toRows(layout: CavePatchLayout): string[] {
   const letter = (tile: CaveTile) => {
-    if (tile.type === "Mushroom") return "M";
+    if (tile.type === "Mushroom") {
+      return tile.mushroom === "Magic Mushroom" ? "G" : "M";
+    }
     if (tile.type === "Mud") return "D";
-    if (tile.type === "Artefact") return "X";
     return {
       "Brown Beetle": "b",
       "Blue Beetle": "u",
@@ -46,7 +49,6 @@ function countByType(layout: CavePatchLayout) {
     Mushroom: 0,
     Beetle: 0,
     Mud: 0,
-    Artefact: 0,
   };
   for (const tile of Object.values(layout)) counts[tile.type] += 1;
   return counts;
@@ -121,6 +123,24 @@ describe("generateCavePatch", () => {
     }
   });
 
+  it("buries the #7721 tile counts, with no Chapter Artefact", () => {
+    expect(CAVE_RECIPES.Mushroom.composition).toEqual({
+      Mushroom: 6,
+      Beetle: 2,
+      Mud: 17,
+    });
+    expect(CAVE_RECIPES.Beetle.composition).toEqual({
+      Mushroom: 3,
+      Beetle: 4,
+      Mud: 18,
+    });
+    expect(CAVE_RECIPES.Mud.composition).toEqual({
+      Mushroom: 3,
+      Beetle: 2,
+      Mud: 20,
+    });
+  });
+
   it.each(RECIPES)("matches the recipe composition (%s)", (recipe) => {
     for (let seed = 1; seed <= 20; seed += 1) {
       expect(
@@ -135,6 +155,29 @@ describe("generateCavePatch", () => {
       if (tile.type === "Mud")
         expect(tile.amount).toBe(CAVE_RECIPES.Mud.mudYieldMultiplier);
     }
+  });
+
+  it("rolls a Magic Mushroom on close to 10% of Mushroom tiles", () => {
+    expect(CAVE_MAGIC_MUSHROOM_CHANCE).toBe(0.1);
+
+    let magic = 0;
+    let total = 0;
+    // The Mushroom recipe buries 6 per patch; 2000 patches = 12k rolls.
+    for (let seed = 1; seed <= 2000; seed += 1) {
+      const layout = generateCavePatch({
+        recipe: "Mushroom",
+        seed: hexSeed(seed),
+      });
+      for (const tile of Object.values(layout)) {
+        if (tile.type !== "Mushroom") continue;
+        total += 1;
+        if (tile.mushroom === "Magic Mushroom") magic += 1;
+        else expect(tile.mushroom).toBe("Wild Mushroom");
+      }
+    }
+    expect(total).toBe(2000 * 6);
+    expect((magic / total) * 100).toBeGreaterThan(8);
+    expect((magic / total) * 100).toBeLessThan(12);
   });
 
   it("rolls Beetle rarities close to 40/30/20/10 over many seeds", () => {
@@ -210,49 +253,42 @@ describe("getCaveTileClue", () => {
 });
 
 describe("resolveCaveTile", () => {
-  // Inside the Ascension Age chapter, whose artefact is the Otter Pebble.
-  const NOW = new Date("2026-09-23T00:00:00.000Z").getTime();
-
   const layout: CavePatchLayout = {
     ...layoutFromRows(["B....", ".....", ".....", ".....", "....."]),
-    "1,0": { type: "Mushroom" },
-    "2,2": { type: "Artefact" },
+    "1,0": { type: "Mushroom", mushroom: "Wild Mushroom" },
+    "0,1": { type: "Mushroom", mushroom: "Magic Mushroom" },
     "4,4": { type: "Mud", amount: 2 },
     "3,3": { type: "Beetle", beetle: "Amber Beetle" },
   };
 
   it("awards Wild Mushroom and a clue for a Mushroom tile", () => {
-    expect(resolveCaveTile(layout, 1, 0, NOW)).toEqual({
+    expect(resolveCaveTile(layout, 1, 0)).toEqual({
       type: "Mushroom",
       items: { "Wild Mushroom": 1 },
       clue: 1,
     });
   });
 
+  it("awards Magic Mushroom and a clue for a Magic Mushroom tile", () => {
+    expect(resolveCaveTile(layout, 0, 1)).toEqual({
+      type: "Mushroom",
+      items: { "Magic Mushroom": 1 },
+      clue: 1,
+    });
+  });
+
   it("awards the Beetle and no clue for a Beetle tile", () => {
-    expect(resolveCaveTile(layout, 3, 3, NOW)).toEqual({
+    expect(resolveCaveTile(layout, 3, 3)).toEqual({
       type: "Beetle",
       items: { "Amber Beetle": 1 },
     });
   });
 
   it("awards the tile's Mud amount and a clue for a Mud tile", () => {
-    expect(resolveCaveTile(layout, 4, 4, NOW)).toEqual({
+    expect(resolveCaveTile(layout, 4, 4)).toEqual({
       type: "Mud",
       items: { Mud: 2 },
       clue: 0,
-    });
-  });
-
-  it("awards the artefact of the chapter current at dig time", () => {
-    expect(resolveCaveTile(layout, 2, 2, NOW)).toEqual({
-      type: "Artefact",
-      items: { "Otter Pebble": 1 },
-      clue: 0,
-    });
-    const pawPrints = new Date("2025-12-10T00:00:00.000Z").getTime();
-    expect(resolveCaveTile(layout, 2, 2, pawPrints).items).toEqual({
-      "Moon Crystal": 1,
     });
   });
 });
@@ -314,8 +350,8 @@ describe("getCaveBeetleProgress", () => {
   });
 });
 
-// MUSHROOM_SEED's golden board has its two Beetles at (3,3) and (3,4), the
-// artefact at (4,4) and Mushrooms at (1,0), (3,0), (0,1), (1,1), (2,1), (2,3).
+// MUSHROOM_SEED's golden board has its two Beetles at (3,3) and (3,4), and
+// Mushrooms at (1,0), (3,0), (0,1) (Magic), (1,1), (2,1), (2,3).
 const mushroomBatch = (dugKeys: string[]) => ({
   recipe: "Mushroom" as const,
   startedAt: 0,
@@ -362,17 +398,16 @@ describe("getUndugCaveTiles", () => {
     ).toEqual({
       Mushroom: 5,
       Beetle: 0,
-      Mud: 15,
-      Artefact: 1,
+      Mud: 16,
     });
   });
 
   it("is empty without a valid seed", () => {
     expect(
       getUndugCaveTiles({ recipe: "Mud", startedAt: 0, readyAt: 1 }),
-    ).toEqual({ Mushroom: 0, Beetle: 0, Mud: 0, Artefact: 0 });
+    ).toEqual({ Mushroom: 0, Beetle: 0, Mud: 0 });
   });
 });
 
-const GOLDEN_MUSHROOM = ["DMDMD", "MMMDD", "DDDDD", "DDMbD", "DDDuX"];
-const GOLDEN_BEETLE = ["DMDDb", "DDDDb", "MMbDD", "DuDDD", "DXDDD"];
+const GOLDEN_MUSHROOM = ["DMDMD", "GMMDD", "DDDDD", "DDMbD", "DDDpD"];
+const GOLDEN_BEETLE = ["DMDDb", "DDDDb", "MMbDD", "DuDDD", "DDDDD"];
