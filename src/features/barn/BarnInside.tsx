@@ -26,6 +26,8 @@ import { UpgradeBuildingModal } from "features/game/expansion/components/Upgrade
 import { ANIMAL_HOUSE_IMAGES } from "features/henHouse/HenHouseInside";
 import type { AnimalBounty } from "features/game/types/game";
 import { AnimalDeal, ExchangeHud } from "./components/AnimalBounties";
+import { useBountySaleSelection } from "features/barn/lib/useBountySaleSelection";
+import { PendingSaleTag } from "features/barn/components/AnimalBountyQuickPanel";
 import { AnimalBountySellPanel } from "./components/AnimalBountySellPanel";
 import { Modal } from "components/ui/Modal";
 import classNames from "classnames";
@@ -91,6 +93,13 @@ export const BarnInside: React.FC = () => {
   const [showSellPanel, setShowSellPanel] = useState(false);
   const [selectedAnimalId, setSelectedAnimalId] = useState<string>();
   const [deal, setDeal] = useState<AnimalBounty>();
+  const saleSelection = useBountySaleSelection("barn");
+  const pendingDealIdByAnimal = Object.fromEntries(
+    Object.entries(saleSelection.pending).map(([dealId, animalId]) => [
+      animalId,
+      dealId,
+    ]),
+  );
   const { authService } = useContext(AuthContext);
   const loggedInFarmId = useSelector(gameService, _loggedInFarmId);
   const hasAirdropAccess = useSelector(gameService, _hasAirdropAccess);
@@ -174,8 +183,9 @@ export const BarnInside: React.FC = () => {
     ).length;
   }, [organizedAnimals, deal, game]);
 
-  // Quick-sell (panel) flow: sell on click, only confirming when the sale
-  // deserves a second look (sick animal discount / attached reward).
+  // Quick-sell (panel) flow: a single sale always confirms through
+  // AnimalDeal, so a stray click never sells an animal. Bulk mode marks
+  // pairs instead and sells them together.
   const handleAnimalSale = (animalId: string) => {
     if (!deal) return;
 
@@ -193,16 +203,20 @@ export const BarnInside: React.FC = () => {
       return;
     }
 
-    if (animal.state === "sick" || animal.reward?.items?.[0]?.name) {
-      setSelectedAnimalId(animalId);
+    // Bulk mode marks the pair; it sells from the panel's confirm button.
+    // Sick animals (reduced bounty) and animals with an attached reward
+    // always get the AnimalDeal confirmation.
+    if (
+      saleSelection.bulkMode &&
+      animal.state !== "sick" &&
+      !animal.reward?.items?.[0]?.name
+    ) {
+      saleSelection.select(deal.id, animalId);
+      setDeal(undefined);
       return;
     }
 
-    gameService.send("animal.sold", {
-      requestId: deal.id,
-      animalId,
-    });
-    setDeal(undefined);
+    setSelectedAnimalId(animalId);
   };
 
   if (isDestroyed) {
@@ -226,10 +240,26 @@ export const BarnInside: React.FC = () => {
         <AnimalBountySellPanel
           animalTypes={["Cow", "Sheep"]}
           selectedDeal={deal}
-          onSelect={setDeal}
+          bulkMode={saleSelection.bulkMode}
+          onBulkModeChange={(enabled) => {
+            saleSelection.setBulkMode(enabled);
+            setDeal(undefined);
+          }}
+          pendingSales={saleSelection.pending}
+          onSelect={(selected) => {
+            if (selected && saleSelection.pending[selected.id]) {
+              saleSelection.unselect(selected.id);
+              setDeal(undefined);
+              return;
+            }
+            setDeal(selected);
+          }}
+          onSellPending={saleSelection.sellAll}
+          onClearPending={saleSelection.clear}
           onClose={() => {
             setShowSellPanel(false);
             setDeal(undefined);
+            saleSelection.setBulkMode(false);
           }}
         />
       )}
@@ -308,7 +338,14 @@ export const BarnInside: React.FC = () => {
               >
                 <div className="flex flex-wrap w-full h-full">
                   {organizedAnimals.map((animal) => {
-                    const isValid = deal && isValidDeal({ animal, deal, game });
+                    const isPendingSale = saleSelection.pendingAnimalIds.has(
+                      animal.id.toString(),
+                    );
+                    // An animal already marked for another bounty can't be picked again.
+                    const isValid =
+                      deal &&
+                      !isPendingSale &&
+                      isValidDeal({ animal, deal, game });
                     const Component =
                       BARN_ANIMAL_COMPONENTS[animal.type as BarnAnimal];
                     const { width, height } = ANIMALS[animal.type];
@@ -319,7 +356,8 @@ export const BarnInside: React.FC = () => {
                         key={`${animal.type.toLowerCase()}-${animal.id}`}
                         className={classNames("relative", {
                           "opacity-50": deal && !isValid,
-                          "cursor-pointer": deal && isValid,
+                          "cursor-pointer":
+                            (deal && isValid) || (!deal && isPendingSale),
                           "pointer-events-none": deal && !isValid,
                         })}
                         style={{
@@ -330,6 +368,15 @@ export const BarnInside: React.FC = () => {
                           height: `${height * GRID_WIDTH_PX}px`,
                         }}
                         onClick={(e) => {
+                          // Bulk mode: clicking a marked animal removes its mark.
+                          if (!deal && isPendingSale) {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            saleSelection.unselect(
+                              pendingDealIdByAnimal[animal.id.toString()],
+                            );
+                            return;
+                          }
                           if (deal) {
                             e.stopPropagation();
                             e.preventDefault();
@@ -342,7 +389,15 @@ export const BarnInside: React.FC = () => {
                           }
                         }}
                       >
-                        <Component id={animal.id} disabled={!!deal} />
+                        <Component
+                          id={animal.id}
+                          disabled={!!deal || saleSelection.bulkMode}
+                        />
+                        {isPendingSale && (
+                          <PendingSaleTag
+                            dealId={pendingDealIdByAnimal[animal.id] ?? ""}
+                          />
+                        )}
                       </div>
                     );
                   })}
