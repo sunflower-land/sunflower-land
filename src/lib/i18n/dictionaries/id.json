@@ -8598,12 +8598,10 @@
   "statsLeaderboard.description.diggingStreak": "Hari berturut-turut hadiah penggalian gurun dikumpulkan",
   "bounties.hideCompleted": "Sembunyikan selesai",
   "bounties.completedHidden": "Hadiah yang telah selesai disembunyikan.",
-  "description.brownBeetle": "Kumbang biasa",
   "description.blueBeetle": "Kumbang yang tidak biasa",
   "description.pinkBeetle": "Kumbang langka",
   "description.amberBeetle": "Kumbang paling langka",
   "description.truffle": "Truffle yang berharga",
-  "resource.brownBeetle": "Kumbang Coklat",
   "resource.blueBeetle": "Kumbang Biru",
   "resource.pinkBeetle": "Kumbang Merah Muda",
   "resource.amberBeetle": "Kumbang Amber",
@@ -8757,5 +8755,7 @@
   "animalFood.gourmetSlop": "Gourmet Slop",
   "chapterCropWeek.retired": "Tidak lagi dapat diperdagangkan",
   "chapterCropWeek.retiredDescription": "Item ini adalah bagian dari Chapter Crop Week sebelumnya dan tidak dapat lagi diperdagangkan.",
-  "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% pakan XP · tidak ada penyakit · {{count}} sisa panen"
+  "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% pakan XP · tidak ada penyakit · {{count}} sisa panen",
+  "description.greenBeetle": "Kumbang biasa",
+  "resource.greenBeetle": "Kumbang Hijau"
 }

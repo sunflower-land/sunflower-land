@@ -8598,12 +8598,10 @@
   "statsLeaderboard.description.diggingStreak": "An aufeinanderfolgenden Tagen wurde die Belohnung für das Graben in der Wüste eingesammelt",
   "bounties.hideCompleted": "Ausblenden abgeschlossen",
   "bounties.completedHidden": "Abgeschlossene Kopfgelder sind versteckt.",
-  "description.brownBeetle": "Ein gewöhnlicher Käfer",
   "description.blueBeetle": "Ein ungewöhnlicher Käfer",
   "description.pinkBeetle": "Ein seltener Käfer",
   "description.amberBeetle": "Der seltenste Käfer",
   "description.truffle": "Ein wertvoller Trüffel",
-  "resource.brownBeetle": "Brauner Käfer",
   "resource.blueBeetle": "Blauer Käfer",
   "resource.pinkBeetle": "Rosafarbener Käfer",
   "resource.amberBeetle": "Bernsteinkäfer",
@@ -8757,5 +8755,7 @@
   "animalFood.gourmetSlop": "Gourmet-Slop",
   "chapterCropWeek.retired": "Nicht mehr handelbar",
   "chapterCropWeek.retiredDescription": "Dieser Gegenstand war Teil einer früheren Chapter Crop Week und kann nicht mehr gehandelt werden.",
-  "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% Futter-XP · keine Krankheit · {{count}} verbleibende Ernten"
+  "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% Futter-XP · keine Krankheit · {{count}} verbleibende Ernten",
+  "description.greenBeetle": "Ein gewöhnlicher Käfer",
+  "resource.greenBeetle": "Grüner Käfer"
 }

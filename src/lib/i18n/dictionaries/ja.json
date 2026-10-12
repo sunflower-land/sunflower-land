@@ -8598,12 +8598,10 @@
   "statsLeaderboard.description.diggingStreak": "連続して砂漠を掘った報酬が貯まった",
   "bounties.hideCompleted": "非表示が完了しました",
   "bounties.completedHidden": "完了したバウンティは非表示になります。",
-  "description.brownBeetle": "一般的なカブトムシ",
   "description.blueBeetle": "珍しいカブトムシ",
   "description.pinkBeetle": "珍しいカブトムシ",
   "description.amberBeetle": "最も希少なカブトムシ",
   "description.truffle": "貴重なトリュフ",
-  "resource.brownBeetle": "ブラウンビートル",
   "resource.blueBeetle": "ブルービートル",
   "resource.pinkBeetle": "ピンクビートル",
   "resource.amberBeetle": "アンバービートル",
@@ -8757,5 +8755,7 @@
   "animalFood.gourmetSlop": "グルメスロップ",
   "chapterCropWeek.retired": "取引できなくなった",
   "chapterCropWeek.retiredDescription": "このアイテムは前のチャプタークロップウィークの一部だったため、取引できなくなりました。",
-  "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% フィード経験値・病気なし・{{count}} 残り収穫量"
+  "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% フィード経験値・病気なし・{{count}} 残り収穫量",
+  "description.greenBeetle": "一般的なカブトムシ",
+  "resource.greenBeetle": "グリーンビートル"
 }

@@ -8598,12 +8598,10 @@
   "statsLeaderboard.description.diggingStreak": "连续领取沙漠挖掘奖励的天数",
   "bounties.hideCompleted": "隐藏已完成",
   "bounties.completedHidden": "已隐藏完成的赏金。",
-  "description.brownBeetle": "常见的甲虫",
   "description.blueBeetle": "罕见的甲虫",
   "description.pinkBeetle": "稀有的甲虫",
   "description.amberBeetle": "最珍稀的甲虫",
   "description.truffle": "珍贵的松露",
-  "resource.brownBeetle": "棕色甲虫",
   "resource.blueBeetle": "蓝色甲虫",
   "resource.pinkBeetle": "粉色甲虫",
   "resource.amberBeetle": "琥珀甲虫",
@@ -8757,5 +8755,7 @@
   "animalFood.gourmetSlop": "Gourmet Sl",
   "chapterCropWeek.retired": "不再可以交易了",
   "chapterCropWeek.retiredDescription": "此物品是之前的章节作物周的一部分，无法再进行交易。",
-  "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% 饲料经验值·没有生病·{{count}} 剩余收成"
+  "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% 饲料经验值·没有生病·{{count}} 剩余收成",
+  "description.greenBeetle": "一只普通的甲虫",
+  "resource.greenBeetle": "绿色甲壳虫"
 }

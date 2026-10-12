@@ -8598,12 +8598,10 @@
   "statsLeaderboard.description.diggingStreak": "Días consecutivos se recolectó la recompensa por excavar en el desierto",
   "bounties.hideCompleted": "Ocultar completado",
   "bounties.completedHidden": "Las recompensas completadas están ocultas.",
-  "description.brownBeetle": "Un escarabajo común",
   "description.blueBeetle": "Un escarabajo poco común",
   "description.pinkBeetle": "Un escarabajo raro",
   "description.amberBeetle": "El escarabajo más raro",
   "description.truffle": "Una trufa preciada",
-  "resource.brownBeetle": "Escarabajo pardo",
   "resource.blueBeetle": "Escarabajo azul",
   "resource.pinkBeetle": "Escarabajo rosa",
   "resource.amberBeetle": "Escarabajo ámbar",
@@ -8757,5 +8755,7 @@
   "animalFood.gourmetSlop": "Delicado gourmet",
   "chapterCropWeek.retired": "Ya no es negociable",
   "chapterCropWeek.retiredDescription": "Este objeto formaba parte de una semana de cosecha de capítulos anterior y ya no se puede intercambiar.",
-  "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% de XP de alimentación · no hay enfermedad · Quedan cosechas de {{count}}"
+  "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% de XP de alimentación · no hay enfermedad · Quedan cosechas de {{count}}",
+  "description.greenBeetle": "Un escarabajo común",
+  "resource.greenBeetle": "Escarabajo verde"
 }

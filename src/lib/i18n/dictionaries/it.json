@@ -8598,12 +8598,10 @@
   "statsLeaderboard.description.diggingStreak": "Giorni consecutivi è stata raccolta la ricompensa per gli scavi nel deserto",
   "bounties.hideCompleted": "Nascondi completato",
   "bounties.completedHidden": "Le taglie completate sono nascoste.",
-  "description.brownBeetle": "Un coleottero comune",
   "description.blueBeetle": "Un coleottero non comune",
   "description.pinkBeetle": "Un raro scarabeo",
   "description.amberBeetle": "Lo scarabeo più raro",
   "description.truffle": "Un tartufo pregiato",
-  "resource.brownBeetle": "Scarabeo bruno",
   "resource.blueBeetle": "Scarabeo blu",
   "resource.pinkBeetle": "Scarabeo rosa",
   "resource.amberBeetle": "Scarabeo ambrato",
@@ -8757,5 +8755,7 @@
   "animalFood.gourmetSlop": "Gourmet Shop",
   "chapterCropWeek.retired": "Non più negoziabile",
   "chapterCropWeek.retiredDescription": "Questo articolo faceva parte di una precedente Chapter Crop Week e non può più essere scambiato.",
-  "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% feed XP · nessuna malattia · {{count}} raccolti rimanenti"
+  "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% feed XP · nessuna malattia · {{count}} raccolti rimanenti",
+  "description.greenBeetle": "Un coleottero comune",
+  "resource.greenBeetle": "Scarabeo verde"
 }

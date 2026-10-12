@@ -8598,12 +8598,10 @@
   "statsLeaderboard.description.diggingStreak": "Ardışık günlerde çöl kazma ödülü toplandı",
   "bounties.hideCompleted": "Tamamlandı gizle",
   "bounties.completedHidden": "Tamamlanan ödüller gizlenir.",
-  "description.brownBeetle": "Yaygın bir böcek",
   "description.blueBeetle": "Sıradışı bir böcek",
   "description.pinkBeetle": "Nadir bir böcek",
   "description.amberBeetle": "En nadir böcek",
   "description.truffle": "Değerli bir trüf mantarı",
-  "resource.brownBeetle": "Kahverengi Böcek",
   "resource.blueBeetle": "Mavi Böcek",
   "resource.pinkBeetle": "Pembe Böcek",
   "resource.amberBeetle": "Amber Böceği",
@@ -8757,5 +8755,7 @@
   "animalFood.gourmetSlop": "Gurme Slop",
   "chapterCropWeek.retired": "Artık takas edilemez",
   "chapterCropWeek.retiredDescription": "Bu öğe önceki Bölüm Mahsul Haftası'nın bir parçasıydı ve artık takas edilemez.",
-  "sleepingAnimal.mudHarvestsLeft": "+ {{percent}} %yem DP'si · hastalık yok · {{count}} hasat kaldı"
+  "sleepingAnimal.mudHarvestsLeft": "+ {{percent}} %yem DP'si · hastalık yok · {{count}} hasat kaldı",
+  "description.greenBeetle": "Yaygın bir böcek",
+  "resource.greenBeetle": "Yeşil Böcek"
 }

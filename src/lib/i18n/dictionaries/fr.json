@@ -8598,12 +8598,10 @@
   "statsLeaderboard.description.diggingStreak": "Jours consécutifs, la récompense pour avoir creusé le désert a été collectée",
   "bounties.hideCompleted": "Masquer terminé",
   "bounties.completedHidden": "Les primes terminées sont masquées.",
-  "description.brownBeetle": "Un scarabée commun",
   "description.blueBeetle": "Un coléoptère peu commun",
   "description.pinkBeetle": "Un scarabée rare",
   "description.amberBeetle": "Le scarabée le plus rare",
   "description.truffle": "Une truffe prisée",
-  "resource.brownBeetle": "Scarabée brun",
   "resource.blueBeetle": "Scarabée bleu",
   "resource.pinkBeetle": "Scarabée rose",
   "resource.amberBeetle": "Scarabée ambré",
@@ -8757,5 +8755,7 @@
   "animalFood.gourmetSlop": "Gourmet Slop",
   "chapterCropWeek.retired": "N'est plus échangeable",
   "chapterCropWeek.retiredDescription": "Cet objet faisait partie d'une précédente Chapter Crop Week et ne peut plus être échangé.",
-  "sleepingAnimal.mudHarvestsLeft": "+ {{percent}} % d'expérience d'alimentation · pas de maladie · {{count}} récoltes restantes"
+  "sleepingAnimal.mudHarvestsLeft": "+ {{percent}} % d'expérience d'alimentation · pas de maladie · {{count}} récoltes restantes",
+  "description.greenBeetle": "Un scarabée commun",
+  "resource.greenBeetle": "Scarabée vert"
 }

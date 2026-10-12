@@ -8598,12 +8598,10 @@
   "statsLeaderboard.description.diggingStreak": "Дней подряд, когда была получена награда за раскопки в пустыне",
   "bounties.hideCompleted": "Скрыть выполненные",
   "bounties.completedHidden": "Выполненные заказы скрыты.",
-  "description.brownBeetle": "Обычный жук",
   "description.blueBeetle": "Необычный жук",
   "description.pinkBeetle": "Редкий жук",
   "description.amberBeetle": "Самый редкий жук",
   "description.truffle": "Ценный трюфель",
-  "resource.brownBeetle": "Бурый жук",
   "resource.blueBeetle": "Синий жук",
   "resource.pinkBeetle": "Розовый жук",
   "resource.amberBeetle": "Янтарный жук",
@@ -8757,5 +8755,7 @@
   "animalFood.gourmetSlop": "Gourmet Slop",
   "chapterCropWeek.retired": "No longer tradeable",
   "chapterCropWeek.retiredDescription": "This item was part of a previous Chapter Crop Week and can no longer be traded.",
-  "sleepingAnimal.mudHarvestsLeft": "+{{percent}}% feed XP · no sickness · {{count}} harvests remaining"
+  "sleepingAnimal.mudHarvestsLeft": "+{{percent}}% feed XP · no sickness · {{count}} harvests remaining",
+  "description.greenBeetle": "A common beetle",
+  "resource.greenBeetle": "Green Beetle"
 }
