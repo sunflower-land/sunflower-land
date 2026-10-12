@@ -12,13 +12,11 @@ import { getPigsNeedingMud } from "features/game/events/landExpansion/bulkApplyM
 import { MUD_PER_APPLICATION } from "features/game/lib/animals";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
+import { useNow } from "lib/utils/hooks/useNow";
 
-const canApplyMud = (game: GameState) =>
+const canApplyMud = (game: GameState, now: number) =>
   (game.inventory.Mud ?? new Decimal(0)).gte(MUD_PER_APPLICATION) &&
-  getPigsNeedingMud(game).length > 0;
-
-// Boolean, so the button re-renders only when it flips between states.
-const _canApplyMud = (state: MachineState) => canApplyMud(state.context.state);
+  getPigsNeedingMud(game, now).length > 0;
 
 /**
  * Building-level Apply Mud: muds every Pig that needs it, as far as the Mud
@@ -27,13 +25,19 @@ const _canApplyMud = (state: MachineState) => canApplyMud(state.context.state);
 export const ApplyMudButton: React.FC = () => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
-  const enabled = useSelector(gameService, _canApplyMud);
+  // A sleeping Pig's love window opens on its own, which can leave no Pig the
+  // Mud may go on, so re-check every second.
+  const now = useNow({ live: true, intervalMs: 1000 });
+  // Boolean, so the button re-renders only when it flips between states.
+  const enabled = useSelector(gameService, (state: MachineState) =>
+    canApplyMud(state.context.state, now),
+  );
   const { play: playFeedAnimal } = useSound("feed_animal");
 
   const handleClick = () => {
     // Re-check the live snapshot: a double-tap can land before React
     // re-renders after the first click spent the Mud.
-    if (!canApplyMud(gameService.getSnapshot().context.state)) return;
+    if (!canApplyMud(gameService.getSnapshot().context.state, now)) return;
 
     gameService.send({ type: "pigs.bulkMudApplied" });
     playFeedAnimal();

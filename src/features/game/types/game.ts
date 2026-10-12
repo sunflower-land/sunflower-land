@@ -2133,11 +2133,12 @@ export type AnimalFeedBuff = {
 };
 
 /**
- * A Pig's Mud: 1 Mud grants a few feeds of bonus XP. A separate slot from
- * `feedBuff`, so a spice-rack treat can run on top of it.
+ * A Pig's Mud: bonus feed XP and no sickness until its charges run out. Charges
+ * work exactly like a spice-rack treat's - one is spent per produce claim - but
+ * in a separate slot from `feedBuff`, so a treat can run on top of it.
  */
 export type AnimalMud = {
-  feedsRemaining: number;
+  harvestsRemaining: number;
 };
 
 export type Animal = {

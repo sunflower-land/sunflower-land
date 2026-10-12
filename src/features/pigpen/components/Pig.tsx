@@ -109,8 +109,8 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
   const pigMachineState = useSelector(pigService, _animalState);
   const inventory = useSelector(gameService, _inventory);
   const [showFeedXP, setShowFeedXP] = useState(false);
-  // Captured BEFORE the feed: Mud spends a use on it, so re-deriving the XP
-  // afterwards would show the next feed's figure, not the one just earned.
+  // Captured BEFORE the feed: it can move the Pig into its next level band, so
+  // re-deriving the XP afterwards would show the next feed's figure.
   const [feedXPAmount, setFeedXPAmount] = useState(0);
   const [showLoveItem, setShowLoveItem] = useState<LoveAnimalItem>();
   const [showMutantAnimalModal, setShowMutantAnimalModal] = useState(false);
@@ -422,16 +422,16 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (sick) return onSickClick();
 
-    // Mud is checked before the love and sleeping branches: applyMud accepts a
-    // sleeping Pig that wants petting, so selecting Mud should apply it rather
-    // than fall into the love flow.
-    if (selectedItem === "Mud") {
-      // A locked Pig cannot be fed, so it would never use its Mud.
-      if (isLocked) {
-        setShowLockedDetails(true);
-        return;
-      }
+    if (needsLove) {
+      if (!hasGoldenPig) return onLoveClick();
 
+      handleShowDetails();
+      return;
+    }
+
+    // Mud goes on exactly like a treat: after the love flow (a Pig waiting to
+    // be petted must be petted first) and with no capacity check.
+    if (selectedItem === "Mud") {
       const mudCount = inventory.Mud ?? new Decimal(0);
       if (!isMuddy(pig) && mudCount.gte(MUD_PER_APPLICATION)) {
         gameService.send({ type: "animal.mudApplied", id: pig.id });
@@ -440,13 +440,6 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
       }
 
       await showNoFoodPrompt();
-      return;
-    }
-
-    if (needsLove) {
-      if (!hasGoldenPig) return onLoveClick();
-
-      handleShowDetails();
       return;
     }
 

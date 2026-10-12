@@ -1,19 +1,21 @@
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
-import type { GameState } from "features/game/types/game";
+import type { Animal, GameState } from "features/game/types/game";
 import {
+  getAnimalReadyAt,
   isMuddy,
-  MUD_FEEDS,
   MUD_PER_APPLICATION,
 } from "features/game/lib/animals";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { hasFeatureAccess } from "lib/flags";
-import { isAnimalFeedable } from "./buyAnimal";
+import { getAnimalHarvests } from "./applyAnimalFeedBuff";
+import { isAnimalNeedingLove } from "./loveAnimal";
 
 export enum APPLY_MUD_ERRORS {
   NO_FEATURE_ACCESS = "You do not have access to Mud",
   SICK = "Cannot apply Mud while the Pig is sick",
   ALREADY_MUDDY = "Pig already has Mud",
-  OVER_CAPACITY = "Pig exceeds building capacity and cannot receive Mud",
+  NEEDS_LOVE = "Pet your Pig before using this",
   NOT_ENOUGH = "Not enough Mud",
   NO_PIGS = "No pigs need Mud",
 }
@@ -28,6 +30,19 @@ type Options = {
   action: ApplyMudAction;
   createdAt?: number;
 };
+
+/**
+ * An asleep Pig whose love window has opened must be petted first - the same
+ * rule as a spice-rack treat (`applyAnimalFeedBuff`).
+ */
+export function isPigNeedingLoveForMud(
+  pig: Animal,
+  game: GameState,
+  now: number,
+): boolean {
+  const readyAt = getAnimalReadyAt(pig, game);
+  return now < readyAt && isAnimalNeedingLove(pig, now, readyAt);
+}
 
 /**
  * Checks shared by the single and bulk Mud events. Kept separate from the
@@ -48,7 +63,11 @@ export function assertCanApplyMud(state: GameState) {
   }
 }
 
-export function applyMud({ state, action }: Options): GameState {
+export function applyMud({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options): GameState {
   return produce(state, (copy) => {
     assertCanApplyMud(copy);
 
@@ -62,9 +81,8 @@ export function applyMud({ state, action }: Options): GameState {
       throw new Error(APPLY_MUD_ERRORS.SICK);
     }
 
-    // A locked Pig cannot be fed, so its Mud would never be used.
-    if (!isAnimalFeedable("pigpen", copy, pig.id)) {
-      throw new Error(APPLY_MUD_ERRORS.OVER_CAPACITY);
+    if (isPigNeedingLoveForMud(pig, copy, createdAt)) {
+      throw new Error(APPLY_MUD_ERRORS.NEEDS_LOVE);
     }
 
     // Rejected rather than topped up, so a stray click never wastes Mud.
@@ -75,6 +93,14 @@ export function applyMud({ state, action }: Options): GameState {
     copy.inventory.Mud = (copy.inventory.Mud as Decimal).minus(
       MUD_PER_APPLICATION,
     );
-    pig.mud = { feedsRemaining: MUD_FEEDS };
+    // As many charges as a treat: 3, or 6 with a placed Vibraphone.
+    const { harvests, boostsUsed } = getAnimalHarvests(copy);
+    pig.mud = { harvestsRemaining: harvests };
+
+    copy.boostsUsedAt = updateBoostUsed({
+      game: copy,
+      boostNames: boostsUsed,
+      createdAt,
+    });
   });
 }
