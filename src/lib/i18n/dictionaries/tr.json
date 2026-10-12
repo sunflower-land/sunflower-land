@@ -8689,7 +8689,6 @@
   "cave.merchant.moreOffers": "Mağara katmanında daha fazla teklif {{tier}}",
   "description.pigBristles": "Bir Domuzdan Kaba Kıllar.",
   "resource.pigBristles": "Domuz Kılları",
-  "sleepingAnimal.mudFeedsLeft": "+ {{percent}} %yem DP'si · hastalık yok · yem kaldı: {{count}}",
   "walletWall.withdrawWalletMismatch": "Farklı bir cüzdan seçtiniz. Bağlı ve bağlı cüzdanlarınız eşleşmiyor, bu nedenle para çekemezsiniz.",
   "waterTrap.noChumSelected": "Chum olmadan",
   "waterTrap.withoutChumDescription": "Temiz su başlı başına bir ödül olabilir.",
@@ -8757,5 +8756,6 @@
   "animalFood.richSlop": "Zengin Slop",
   "animalFood.gourmetSlop": "Gurme Slop",
   "chapterCropWeek.retired": "Artık takas edilemez",
-  "chapterCropWeek.retiredDescription": "Bu öğe önceki Bölüm Mahsul Haftası'nın bir parçasıydı ve artık takas edilemez."
+  "chapterCropWeek.retiredDescription": "Bu öğe önceki Bölüm Mahsul Haftası'nın bir parçasıydı ve artık takas edilemez.",
+  "sleepingAnimal.mudHarvestsLeft": "+ {{percent}} %yem DP'si · hastalık yok · {{count}} hasat kaldı"
 }

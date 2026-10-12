@@ -8689,7 +8689,6 @@
   "cave.merchant.moreOffers": "Mais ofertas no nível Cave {{tier}}",
   "description.pigBristles": "Cerdas grossas de um porco.",
   "resource.pigBristles": "Cerdas de porco",
-  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% de XP de alimentação · nenhuma doença · feeds restantes: {{count}}",
   "walletWall.withdrawWalletMismatch": "Você selecionou uma carteira diferente. Suas carteiras conectadas e vinculadas não coincidem, então você não pode sacar.",
   "waterTrap.noChumSelected": "Sem amigo",
   "waterTrap.withoutChumDescription": "A água limpa pode ser uma recompensa por si só.",
@@ -8757,5 +8756,6 @@
   "animalFood.richSlop": "Rich Slop",
   "animalFood.gourmetSlop": "Slop gourmet",
   "chapterCropWeek.retired": "Não é mais negociável",
-  "chapterCropWeek.retiredDescription": "Este item fazia parte de um capítulo anterior da Semana da Colheita e não pode mais ser negociado."
+  "chapterCropWeek.retiredDescription": "Este item fazia parte de um capítulo anterior da Semana da Colheita e não pode mais ser negociado.",
+  "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% de EXP de alimentação · {{count}} colheitas restantes"
 }

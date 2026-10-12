@@ -8689,7 +8689,6 @@
   "cave.merchant.moreOffers": "在洞穴等级达到 {{tier}} 时解锁更多商品",
   "description.pigBristles": "猪的粗糙刷毛。",
   "resource.pigBristles": "猪毛",
-  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% 喂食经验值·没有生病·左边喂食：{{count}}",
   "walletWall.withdrawWalletMismatch": "您选择了不同的钱包。您的关联钱包和关联钱包不匹配，因此您无法提款。",
   "waterTrap.noChumSelected": "没有密友",
   "waterTrap.withoutChumDescription": "清澈的水本身可能是一种回报。",
@@ -8757,5 +8756,6 @@
   "animalFood.richSlop": "Rich Slop",
   "animalFood.gourmetSlop": "Gourmet Sl",
   "chapterCropWeek.retired": "不再可以交易了",
-  "chapterCropWeek.retiredDescription": "此物品是之前的章节作物周的一部分，无法再进行交易。"
+  "chapterCropWeek.retiredDescription": "此物品是之前的章节作物周的一部分，无法再进行交易。",
+  "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% 饲料经验值·没有生病·{{count}} 剩余收成"
 }

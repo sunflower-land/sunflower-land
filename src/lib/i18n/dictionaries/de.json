@@ -8689,7 +8689,6 @@
   "cave.merchant.moreOffers": "Weitere Angebote auf der Höhlenebene {{tier}}",
   "description.pigBristles": "Grobe Borsten von einem Schwein.",
   "resource.pigBristles": "Schweineborsten",
-  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% Futter-XP · keine Krankheit · verbleibende Feeds: {{count}}",
   "walletWall.withdrawWalletMismatch": "Sie haben eine andere Brieftasche ausgewählt. Deine verbundenen und verknüpften Wallets stimmen nicht überein, sodass du keine Auszahlungen vornehmen kannst.",
   "waterTrap.noChumSelected": "Ohne Kumpel",
   "waterTrap.withoutChumDescription": "Klares Wasser kann an sich schon eine Belohnung sein.",
@@ -8757,5 +8756,6 @@
   "animalFood.richSlop": "Rich Slop",
   "animalFood.gourmetSlop": "Gourmet-Slop",
   "chapterCropWeek.retired": "Nicht mehr handelbar",
-  "chapterCropWeek.retiredDescription": "Dieser Gegenstand war Teil einer früheren Chapter Crop Week und kann nicht mehr gehandelt werden."
+  "chapterCropWeek.retiredDescription": "Dieser Gegenstand war Teil einer früheren Chapter Crop Week und kann nicht mehr gehandelt werden.",
+  "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% Futter-XP · keine Krankheit · {{count}} verbleibende Ernten"
 }

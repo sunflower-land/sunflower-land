@@ -8689,7 +8689,6 @@
   "cave.merchant.moreOffers": "Altre offerte presso Cave tier {{tier}}",
   "description.pigBristles": "Setole grossolane di maiale.",
   "resource.pigBristles": "Setole di maiale",
-  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% feed XP · nessuna malattia · feed rimasti: {{count}}",
   "walletWall.withdrawWalletMismatch": "Hai selezionato un portafoglio diverso. I tuoi portafogli connessi e collegati non corrispondono, quindi non puoi effettuare prelievi.",
   "waterTrap.noChumSelected": "Senza amico",
   "waterTrap.withoutChumDescription": "L'acqua limpida può essere di per sé una ricompensa.",
@@ -8757,5 +8756,6 @@
   "animalFood.richSlop": "Rich Slop",
   "animalFood.gourmetSlop": "Gourmet Shop",
   "chapterCropWeek.retired": "Non più negoziabile",
-  "chapterCropWeek.retiredDescription": "Questo articolo faceva parte di una precedente Chapter Crop Week e non può più essere scambiato."
+  "chapterCropWeek.retiredDescription": "Questo articolo faceva parte di una precedente Chapter Crop Week e non può più essere scambiato.",
+  "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% feed XP · nessuna malattia · {{count}} raccolti rimanenti"
 }

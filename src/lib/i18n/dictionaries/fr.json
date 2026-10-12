@@ -8689,7 +8689,6 @@
   "cave.merchant.moreOffers": "Plus d'offres chez Cave tier {{tier}}",
   "description.pigBristles": "Poils grossiers provenant d'un cochon.",
   "resource.pigBristles": "Poils de porc",
-  "sleepingAnimal.mudFeedsLeft": "+ {{percent}} % d'expérience d'alimentation · aucune maladie · fils restants : {{count}}",
   "walletWall.withdrawWalletMismatch": "Vous avez sélectionné un autre portefeuille. Vos portefeuilles connectés et associés ne correspondent pas, vous ne pouvez donc pas effectuer de retrait.",
   "waterTrap.noChumSelected": "Sans copain",
   "waterTrap.withoutChumDescription": "L'eau claire peut être une récompense en soi.",
@@ -8757,5 +8756,6 @@
   "animalFood.richSlop": "Riche Slop",
   "animalFood.gourmetSlop": "Gourmet Slop",
   "chapterCropWeek.retired": "N'est plus échangeable",
-  "chapterCropWeek.retiredDescription": "Cet objet faisait partie d'une précédente Chapter Crop Week et ne peut plus être échangé."
+  "chapterCropWeek.retiredDescription": "Cet objet faisait partie d'une précédente Chapter Crop Week et ne peut plus être échangé.",
+  "sleepingAnimal.mudHarvestsLeft": "+ {{percent}} % d'expérience d'alimentation · pas de maladie · {{count}} récoltes restantes"
 }

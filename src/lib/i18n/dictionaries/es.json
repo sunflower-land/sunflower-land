@@ -8689,7 +8689,6 @@
   "cave.merchant.moreOffers": "Más ofertas en el nivel Cave {{tier}}",
   "description.pigBristles": "Cerdas gruesas de cerdo.",
   "resource.pigBristles": "Cerdas de cerdo",
-  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% de XP de alimentación · no hay enfermedad · quedan comidas: {{count}}",
   "walletWall.withdrawWalletMismatch": "Has seleccionado un monedero diferente. Tus monederos conectados y enlazados no coinciden, por lo que no puedes realizar retiros.",
   "waterTrap.noChumSelected": "Sin amigo",
   "waterTrap.withoutChumDescription": "El agua limpia puede ser una recompensa en sí misma.",
@@ -8757,5 +8756,6 @@
   "animalFood.richSlop": "Rich Slop",
   "animalFood.gourmetSlop": "Delicado gourmet",
   "chapterCropWeek.retired": "Ya no es negociable",
-  "chapterCropWeek.retiredDescription": "Este objeto formaba parte de una semana de cosecha de capítulos anterior y ya no se puede intercambiar."
+  "chapterCropWeek.retiredDescription": "Este objeto formaba parte de una semana de cosecha de capítulos anterior y ya no se puede intercambiar.",
+  "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% de XP de alimentación · no hay enfermedad · Quedan cosechas de {{count}}"
 }

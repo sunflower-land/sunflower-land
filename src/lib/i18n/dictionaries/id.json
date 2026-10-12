@@ -8689,7 +8689,6 @@
   "cave.merchant.moreOffers": "Penawaran lainnya di Cave tier {{tier}}",
   "description.pigBristles": "Bulu kasar dari Babi.",
   "resource.pigBristles": "Bulu Babi",
-  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% umpan XP · tidak ada penyakit · umpan tersisa: {{count}}",
   "walletWall.withdrawWalletMismatch": "Anda memilih dompet yang berbeda. Dompet Anda yang terhubung dan tertaut tidak cocok, jadi Anda tidak dapat menarik.",
   "waterTrap.noChumSelected": "Tanpa teman",
   "waterTrap.withoutChumDescription": "Air jernih bisa menjadi hadiah tersendiri.",
@@ -8757,5 +8756,6 @@
   "animalFood.richSlop": "Kaya Slop",
   "animalFood.gourmetSlop": "Gourmet Slop",
   "chapterCropWeek.retired": "Tidak lagi dapat diperdagangkan",
-  "chapterCropWeek.retiredDescription": "Item ini adalah bagian dari Chapter Crop Week sebelumnya dan tidak dapat lagi diperdagangkan."
+  "chapterCropWeek.retiredDescription": "Item ini adalah bagian dari Chapter Crop Week sebelumnya dan tidak dapat lagi diperdagangkan.",
+  "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% pakan XP · tidak ada penyakit · {{count}} sisa panen"
 }

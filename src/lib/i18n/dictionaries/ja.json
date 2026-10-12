@@ -8689,7 +8689,6 @@
   "cave.merchant.moreOffers": "ケーブティアでのその他のオファー {{tier}}",
   "description.pigBristles": "豚の粗い毛。",
   "resource.pigBristles": "ピッグ・ブリストル",
-  "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% フィード XP · 病気なし·残りフィード:{{count}}",
   "walletWall.withdrawWalletMismatch": "別のウォレットを選択しました。接続されているウォレットとリンクされたウォレットが一致しないため、出金できません。",
   "waterTrap.noChumSelected": "チャムなし",
   "waterTrap.withoutChumDescription": "澄んだ水自体がご褒美になるかもしれません。",
@@ -8757,5 +8756,6 @@
   "animalFood.richSlop": "リッチスロップ",
   "animalFood.gourmetSlop": "グルメスロップ",
   "chapterCropWeek.retired": "取引できなくなった",
-  "chapterCropWeek.retiredDescription": "このアイテムは前のチャプタークロップウィークの一部だったため、取引できなくなりました。"
+  "chapterCropWeek.retiredDescription": "このアイテムは前のチャプタークロップウィークの一部だったため、取引できなくなりました。",
+  "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% フィード経験値・病気なし・{{count}} 残り収穫量"
 }

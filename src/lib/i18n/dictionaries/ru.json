@@ -8689,7 +8689,6 @@
   "cave.merchant.moreOffers": "More offers at Cave tier {{tier}}",
   "description.pigBristles": "Coarse bristles from a Pig.",
   "resource.pigBristles": "Pig Bristles",
-  "sleepingAnimal.mudFeedsLeft": "+{{percent}}% feed XP · no sickness · feeds left: {{count}}",
   "walletWall.withdrawWalletMismatch": "You selected a different wallet. Your connected and linked wallets don't match, so you cannot withdraw.",
   "waterTrap.noChumSelected": "Without chum",
   "waterTrap.withoutChumDescription": "Clear water may be a reward in itself.",
@@ -8757,5 +8756,6 @@
   "animalFood.richSlop": "Rich Slop",
   "animalFood.gourmetSlop": "Gourmet Slop",
   "chapterCropWeek.retired": "No longer tradeable",
-  "chapterCropWeek.retiredDescription": "This item was part of a previous Chapter Crop Week and can no longer be traded."
+  "chapterCropWeek.retiredDescription": "This item was part of a previous Chapter Crop Week and can no longer be traded.",
+  "sleepingAnimal.mudHarvestsLeft": "+{{percent}}% feed XP · no sickness · {{count}} harvests remaining"
 }
