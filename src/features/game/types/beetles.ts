@@ -3,7 +3,7 @@
  * separately - see the trade type and `TradeResource` wiring.
  */
 export const BEETLES = [
-  "Brown Beetle",
+  "Green Beetle",
   "Blue Beetle",
   "Pink Beetle",
   "Amber Beetle",
@@ -21,7 +21,7 @@ export function isBeetle(item: string): item is BeetleName {
  * muddy Pig still gets the Mud bonus.
  */
 export const BEETLE_FEEDING_XP: Record<BeetleName, number> = {
-  "Brown Beetle": 80,
+  "Green Beetle": 80,
   "Blue Beetle": 160,
   "Pink Beetle": 320,
   "Amber Beetle": 640,

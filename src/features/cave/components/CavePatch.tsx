@@ -243,11 +243,11 @@ export const CavePatch: React.FC<Props> = ({
             <Label type="success">{t("cave.batch.ready")}</Label>
           )}
           {beetles.found >= beetles.total ? (
-            <Label type="success" icon={ITEM_DETAILS["Brown Beetle"].image}>
+            <Label type="success" icon={ITEM_DETAILS["Green Beetle"].image}>
               {t("cave.dig.allBeetlesFound")}
             </Label>
           ) : (
-            <Label type="default" icon={ITEM_DETAILS["Brown Beetle"].image}>
+            <Label type="default" icon={ITEM_DETAILS["Green Beetle"].image}>
               {t("cave.dig.beetlesFound", beetles)}
             </Label>
           )}

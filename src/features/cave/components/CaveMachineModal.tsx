@@ -56,12 +56,12 @@ const sortMudCrops = (inventory: Inventory) => [
 /** A representative item image for each recipe / buried tile kind. */
 const RECIPE_IMAGE: Record<CaveRecipeName, InventoryItemName> = {
   Mushroom: "Wild Mushroom",
-  Beetle: "Brown Beetle",
+  Beetle: "Green Beetle",
   Mud: "Mud",
 };
 const TILE_IMAGE: Record<CaveTileType, string> = {
   Mushroom: ITEM_DETAILS["Wild Mushroom"].image,
-  Beetle: ITEM_DETAILS["Brown Beetle"].image,
+  Beetle: ITEM_DETAILS["Green Beetle"].image,
   Mud: ITEM_DETAILS["Mud"].image,
 };
 
@@ -144,7 +144,7 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
               <>
                 <Label
                   type="success"
-                  icon={ITEM_DETAILS["Brown Beetle"].image}
+                  icon={ITEM_DETAILS["Green Beetle"].image}
                   className="mb-1"
                 >
                   {t("cave.dig.allBeetlesFound")}
@@ -333,7 +333,7 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
             </Label>
             <Label
               type={beetles.found >= beetles.total ? "success" : "default"}
-              icon={ITEM_DETAILS["Brown Beetle"].image}
+              icon={ITEM_DETAILS["Green Beetle"].image}
               className="mb-2"
             >
               {beetles.found >= beetles.total

@@ -2659,18 +2659,18 @@ describe("feedAnimal: one-click Pig feeding", () => {
     const state = feedAnimal({
       state: {
         ...farm(),
-        inventory: { ...farm().inventory, "Brown Beetle": new Decimal(5) },
+        inventory: { ...farm().inventory, "Green Beetle": new Decimal(5) },
       },
       action: {
         type: "animal.fed",
         animal: "Pig",
         id: "1",
-        item: "Brown Beetle",
+        item: "Green Beetle",
       },
       createdAt: now,
     });
 
-    expect(state.inventory["Brown Beetle"]).toEqual(new Decimal(4));
+    expect(state.inventory["Green Beetle"]).toEqual(new Decimal(4));
   });
 
   it.each(["Hay", "Omnifeed"] as const)("does not feed a Pig %s", (food) => {
@@ -2797,7 +2797,7 @@ describe("feedAnimal: direct Beetle feeding", () => {
     ...FARM_WITH_HERDS,
     inventory: {
       ...FARM_WITH_HERDS.inventory,
-      "Brown Beetle": new Decimal(5),
+      "Green Beetle": new Decimal(5),
       "Blue Beetle": new Decimal(5),
       "Pink Beetle": new Decimal(5),
       "Amber Beetle": new Decimal(5),
@@ -2842,7 +2842,7 @@ describe("feedAnimal: direct Beetle feeding", () => {
   const feed = (
     state: GameState,
     type: AnimalType = "Cow",
-    item: BeetleName = "Brown Beetle",
+    item: BeetleName = "Green Beetle",
   ) =>
     feedAnimal({
       state,
@@ -2851,7 +2851,7 @@ describe("feedAnimal: direct Beetle feeding", () => {
     });
 
   it.each([
-    ["Brown Beetle", 80],
+    ["Green Beetle", 80],
     ["Blue Beetle", 160],
     ["Pink Beetle", 320],
     ["Amber Beetle", 640],
@@ -2918,18 +2918,18 @@ describe("feedAnimal: direct Beetle feeding", () => {
       cowFarm(0, {
         inventory: {
           ...FARM_WITH_HERDS.inventory,
-          "Brown Beetle": new Decimal(1),
+          "Green Beetle": new Decimal(1),
         },
         collectibles: { "Dr Cow": PLACED },
       }),
     );
 
-    expect(state.inventory["Brown Beetle"]).toEqual(new Decimal(0));
+    expect(state.inventory["Green Beetle"]).toEqual(new Decimal(0));
   });
 
   it("throws without the Beetle", () => {
     expect(() => feed(cowFarm(0, { inventory: {} }))).toThrow(
-      "Player does not have enough Brown Beetle",
+      "Player does not have enough Green Beetle",
     );
   });
 
@@ -2941,7 +2941,7 @@ describe("feedAnimal: direct Beetle feeding", () => {
     );
 
     expect(state.barn.animals["1"].experience).toEqual(80);
-    expect(state.inventory["Brown Beetle"]).toEqual(new Decimal(4));
+    expect(state.inventory["Green Beetle"]).toEqual(new Decimal(4));
   });
 
   it("grants a muddy Pig 1.25x without spending a Mud charge", () => {
@@ -2952,7 +2952,7 @@ describe("feedAnimal: direct Beetle feeding", () => {
   });
 
   it.each([
-    ["Brown Beetle", 100],
+    ["Green Beetle", 100],
     ["Blue Beetle", 200],
     ["Pink Beetle", 400],
     ["Amber Beetle", 800],

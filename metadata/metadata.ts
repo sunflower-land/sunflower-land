@@ -15206,7 +15206,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
 
   // Chapter 16 resources
-  "Brown Beetle": {
+  "Green Beetle": {
     description: "A common beetle.",
     decimals: 18,
     attributes: [
@@ -15214,7 +15214,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    name: "Brown Beetle",
+    name: "Green Beetle",
   },
   "Blue Beetle": {
     description: "An uncommon beetle.",

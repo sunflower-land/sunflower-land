@@ -260,6 +260,12 @@ import celestine from "assets/fruit/celestine/celestine.webp";
 import obsidian from "assets/resources/obsidian.webp";
 import salt from "assets/resources/salt.webp";
 import refinedSalt from "assets/resources/refined_salt.webp";
+import mud from "assets/resources/mud.webp";
+import truffle from "assets/resources/truffle.webp";
+import greenBeetle from "assets/resources/beetles/green_beetle.webp";
+import blueBeetle from "assets/resources/beetles/blue_beetle.webp";
+import pinkBeetle from "assets/resources/beetles/pink_beetle.webp";
+import amberBeetle from "assets/resources/beetles/amber_beetle.webp";
 
 import pickledCabbage from "assets/pickled_crops/pickled_cabbage.webp";
 import pickledOnion from "assets/pickled_crops/pickled_onion.webp";
@@ -6176,28 +6182,28 @@ export const ITEM_DETAILS: Items = {
 
   // Chapter 16 resources. Every image below is reused from an existing item
   // until the art team delivers - see ticket 800.
-  "Brown Beetle": {
-    image: stoneBeetle, // TODO(Chapter 16 art)
-    description: translate("description.brownBeetle"),
-    translatedName: translate("resource.brownBeetle"),
+  "Green Beetle": {
+    image: greenBeetle,
+    description: translate("description.greenBeetle"),
+    translatedName: translate("resource.greenBeetle"),
   },
   "Blue Beetle": {
-    image: stoneBeetle, // TODO(Chapter 16 art)
+    image: blueBeetle,
     description: translate("description.blueBeetle"),
     translatedName: translate("resource.blueBeetle"),
   },
   "Pink Beetle": {
-    image: stoneBeetle, // TODO(Chapter 16 art)
+    image: pinkBeetle,
     description: translate("description.pinkBeetle"),
     translatedName: translate("resource.pinkBeetle"),
   },
   "Amber Beetle": {
-    image: stoneBeetle, // TODO(Chapter 16 art)
+    image: amberBeetle,
     description: translate("description.amberBeetle"),
     translatedName: translate("resource.amberBeetle"),
   },
   Mud: {
-    image: SUNNYSIDE.sfts.dirt, // TODO(Chapter 16 art)
+    image: mud,
     description: COMMODITIES.Mud.description,
     translatedName: translate("resource.mud"),
   },
@@ -6207,7 +6213,7 @@ export const ITEM_DETAILS: Items = {
     translatedName: translate("resource.pigBristles"),
   },
   Truffle: {
-    image: SUNNYSIDE.resource.wild_mushroom, // TODO(Chapter 16 art)
+    image: truffle,
     description: translate("description.truffle"),
     translatedName: translate("resource.truffle"),
   },

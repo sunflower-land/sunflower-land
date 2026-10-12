@@ -33,7 +33,7 @@ function toRows(layout: CavePatchLayout): string[] {
     }
     if (tile.type === "Mud") return "D";
     return {
-      "Brown Beetle": "b",
+      "Green Beetle": "b",
       "Blue Beetle": "u",
       "Pink Beetle": "p",
       "Amber Beetle": "a",
@@ -61,7 +61,7 @@ function layoutFromRows(rows: string[]): CavePatchLayout {
     row.split("").forEach((cell, x) => {
       layout[`${x},${y}`] =
         cell === "B"
-          ? { type: "Beetle", beetle: "Brown Beetle" }
+          ? { type: "Beetle", beetle: "Green Beetle" }
           : { type: "Mud", amount: 1 };
     }),
   );
@@ -182,7 +182,7 @@ describe("generateCavePatch", () => {
 
   it("rolls Beetle rarities close to 40/30/20/10 over many seeds", () => {
     const tally: Record<string, number> = {
-      "Brown Beetle": 0,
+      "Green Beetle": 0,
       "Blue Beetle": 0,
       "Pink Beetle": 0,
       "Amber Beetle": 0,
@@ -200,8 +200,8 @@ describe("generateCavePatch", () => {
     const total = Object.values(tally).reduce((a, b) => a + b, 0);
     expect(total).toBe(2500 * 4);
     const pct = (n: string) => (tally[n] / total) * 100;
-    expect(pct("Brown Beetle")).toBeGreaterThan(35);
-    expect(pct("Brown Beetle")).toBeLessThan(45);
+    expect(pct("Green Beetle")).toBeGreaterThan(35);
+    expect(pct("Green Beetle")).toBeLessThan(45);
     expect(pct("Blue Beetle")).toBeGreaterThan(25);
     expect(pct("Blue Beetle")).toBeLessThan(35);
     expect(pct("Pink Beetle")).toBeGreaterThan(15);

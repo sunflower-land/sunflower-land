@@ -32,7 +32,7 @@ export type ResolvedCaveTile = {
 
 /** Commonest-first Beetle rarity weights (percent). Matches `BEETLES` order. */
 const BEETLE_RARITY_WEIGHTS: Record<BeetleName, number> = {
-  "Brown Beetle": 40,
+  "Green Beetle": 40,
   "Blue Beetle": 30,
   "Pink Beetle": 20,
   "Amber Beetle": 10,
