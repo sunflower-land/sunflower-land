@@ -22,71 +22,84 @@ export type CaveTier = {
 
 const HOUR_MS = 60 * 60 * 1000;
 
-// TODO(Cave balance 465): placeholder costs and build times. Input types follow
-// the spec (v0.5: Leather from tier III, Truffles from tier VI, never Pig
-// Bristles); quantities and durations are invented.
+// Costs: discussion #7721 Balance Update (7 Oct 2026) — Coins, Mud, Wood and
+// Stone every tier, Leather at III–IV, Pig Bristles from V. TODO(Cave balance
+// 465): construction times are still invented placeholders.
 export const CAVE_TIERS: Record<CaveExpansionTier, CaveTier> = {
   2: {
     island: "desert",
-    coins: 10_000,
-    ingredients: { Mud: new Decimal(20), Stone: new Decimal(50) },
+    coins: 500,
+    ingredients: {
+      Mud: new Decimal(200),
+      Wood: new Decimal(25),
+      Stone: new Decimal(10),
+    },
     buildMs: 4 * HOUR_MS,
   },
   3: {
     island: "volcano",
-    coins: 25_000,
-    ingredients: { Mud: new Decimal(40), Leather: new Decimal(10) },
+    coins: 1000,
+    ingredients: {
+      Mud: new Decimal(400),
+      Wood: new Decimal(50),
+      Stone: new Decimal(25),
+      Leather: new Decimal(10),
+    },
     buildMs: 8 * HOUR_MS,
   },
   4: {
     island: "swamp",
-    coins: 0,
+    coins: 2500,
     ingredients: {
-      Mud: new Decimal(60),
+      Mud: new Decimal(600),
+      Wood: new Decimal(75),
+      Stone: new Decimal(50),
       Leather: new Decimal(15),
-      Iron: new Decimal(50),
-      Gold: new Decimal(20),
     },
     buildMs: 12 * HOUR_MS,
   },
   5: {
     island: "spooky",
-    coins: 0,
+    coins: 5000,
     ingredients: {
-      Mud: new Decimal(80),
-      Leather: new Decimal(25),
-      Crimstone: new Decimal(5),
+      Mud: new Decimal(800),
+      Wood: new Decimal(100),
+      Stone: new Decimal(75),
+      "Pig Bristles": new Decimal(20),
     },
     buildMs: 24 * HOUR_MS,
     unlocks: "merchant",
   },
   6: {
     island: "crystal",
-    coins: 0,
+    coins: 10_000,
     ingredients: {
-      Mud: new Decimal(100),
-      Leather: new Decimal(40),
-      Truffle: new Decimal(10),
+      Mud: new Decimal(1000),
+      Wood: new Decimal(150),
+      Stone: new Decimal(100),
+      "Pig Bristles": new Decimal(30),
     },
     buildMs: 36 * HOUR_MS,
   },
   7: {
     island: "galaxy",
-    coins: 75_000,
+    coins: 20_000,
     ingredients: {
-      Mud: new Decimal(120),
-      Leather: new Decimal(50),
-      Truffle: new Decimal(20),
+      Mud: new Decimal(1200),
+      Wood: new Decimal(200),
+      Stone: new Decimal(150),
+      "Pig Bristles": new Decimal(40),
     },
     buildMs: 48 * HOUR_MS,
   },
   8: {
     island: "marble",
-    coins: 150_000,
+    coins: 40_000,
     ingredients: {
-      Mud: new Decimal(150),
-      Leather: new Decimal(60),
-      Truffle: new Decimal(30),
+      Mud: new Decimal(1400),
+      Wood: new Decimal(250),
+      Stone: new Decimal(200),
+      "Pig Bristles": new Decimal(50),
     },
     buildMs: 72 * HOUR_MS,
     unlocks: "merchantOffers",

@@ -44,12 +44,10 @@ const richState = ({
   inventory: {
     ...TEST_FARM.inventory,
     Mud: new Decimal(100_000),
+    Wood: new Decimal(100_000),
     Stone: new Decimal(100_000),
-    Iron: new Decimal(100_000),
-    Gold: new Decimal(100_000),
-    Crimstone: new Decimal(100_000),
     Leather: new Decimal(100_000),
-    Truffle: new Decimal(100_000),
+    "Pig Bristles": new Decimal(100_000),
   },
   cave: {
     builtAt: 1,
@@ -71,21 +69,48 @@ describe("CAVE_TIERS", () => {
     expect(CAVE_MAX_TIER).toBe(8);
   });
 
-  it("never charges Pig Bristles - they are not an expansion input", () => {
-    getKeys(CAVE_TIERS).forEach((tier) => {
-      expect(CAVE_TIERS[tier].ingredients["Pig Bristles"]).toBeUndefined();
-    });
-  });
+  it("charges the #7721 Balance Update costs at every tier", () => {
+    const costs = Object.fromEntries(
+      TIERS.map((tier) => [
+        tier,
+        {
+          coins: CAVE_TIERS[tier].coins,
+          ...Object.fromEntries(
+            getKeys(CAVE_TIERS[tier].ingredients).map((item) => [
+              item,
+              CAVE_TIERS[tier].ingredients[item]!.toNumber(),
+            ]),
+          ),
+        },
+      ]),
+    );
 
-  it("charges Leather from tier III onwards", () => {
-    getKeys(CAVE_TIERS).forEach((tier) => {
-      if (tier >= 3) {
-        expect(
-          CAVE_TIERS[tier].ingredients.Leather?.toNumber(),
-        ).toBeGreaterThan(0);
-      } else {
-        expect(CAVE_TIERS[tier].ingredients.Leather).toBeUndefined();
-      }
+    expect(costs).toEqual({
+      2: { coins: 500, Mud: 200, Wood: 25, Stone: 10 },
+      3: { coins: 1_000, Mud: 400, Wood: 50, Stone: 25, Leather: 10 },
+      4: { coins: 2_500, Mud: 600, Wood: 75, Stone: 50, Leather: 15 },
+      5: { coins: 5_000, Mud: 800, Wood: 100, Stone: 75, "Pig Bristles": 20 },
+      6: {
+        coins: 10_000,
+        Mud: 1_000,
+        Wood: 150,
+        Stone: 100,
+        "Pig Bristles": 30,
+      },
+      7: {
+        coins: 20_000,
+        Mud: 1_200,
+        Wood: 200,
+        Stone: 150,
+        "Pig Bristles": 40,
+      },
+      8: {
+        coins: 40_000,
+        Mud: 1_400,
+        Wood: 250,
+        Stone: 200,
+        "Pig Bristles": 50,
+      },
     });
   });
 
