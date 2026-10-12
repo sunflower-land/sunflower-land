@@ -1061,7 +1061,7 @@ export const LandComponent: React.FC = () => {
     if (!farmHands || Object.keys(farmHands).length === 0) return [];
 
     return Object.entries(farmHands).flatMap(([id, fh]) => {
-      if (!fh.coordinates || fh.location === "home") return [];
+      if (!fh.coordinates || (fh.location ?? "farm") !== "farm") return [];
 
       const { x, y, oX, oY } = fh.coordinates;
 
@@ -1082,7 +1082,8 @@ export const LandComponent: React.FC = () => {
   }, [farmHands]);
 
   const bumpkinElement = useMemo(() => {
-    if (!bumpkin?.coordinates || bumpkin.location === "home") return [];
+    if (!bumpkin?.coordinates || (bumpkin.location ?? "farm") !== "farm")
+      return [];
 
     const { x, y, oX, oY } = bumpkin.coordinates;
 
