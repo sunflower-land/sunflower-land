@@ -237,6 +237,7 @@ export type SkillRankEffect =
   | { kind: "multiplier"; ranks: readonly [number, number, number] } // multiplier on a collectible's base effect (e.g. 2x/3x/4x)
   | { kind: "dailyLimit"; ranks: readonly [number, number, number] } // flat additions to the daily fishing reel limit
   | { kind: "xpBonus"; ranks: readonly [number, number, number] } // fraction: 0.2 = +20% (e.g. Bumpkin XP from fish)
+  | { kind: "yieldBonus"; ranks: readonly [number, number, number] } // fraction: 0.1 = +10% of a produce amount (e.g. Truffles per claim)
   | { kind: "timeReduction"; ranks: readonly [number, number, number] } // fraction 0..1 shaved off a cooking time (0.3 = -30%)
   | { kind: "flatDebuff"; ranks: readonly [number, number, number] } // a debuff magnitude that shrinks with rank (e.g. wood penalty 1/0.5/0)
   | { kind: "oilReduction"; ranks: readonly [number, number, number] } // fraction subtracted from the crop-machine oil-consumption multiplier (0.1 = -10%)
@@ -2044,6 +2045,32 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
   },
 
+  // #7721 Balance Update: Pig produce, +10% / +20% / +30% Truffles per claim.
+  "Truffle Yield": {
+    name: "Truffle Yield",
+    tree: "Animals",
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "yieldBonus", ranks: [0.1, 0.2, 0.3] },
+    },
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.truffleYield"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Truffle.image,
+      },
+    },
+    // TODO(Chapter 16 art): a proper skill icon.
+    image: ITEM_DETAILS.Truffle.image,
+  },
+
   // Animals - Tier 3
   "Clucky Grazing": {
     name: "Clucky Grazing",
@@ -2143,6 +2170,67 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostTypeIcon: redArrowDown,
       },
     },
+  },
+  // #7721: the Pig diet skill (Elias, 2026-10-12), mirroring Cow-Smart
+  // Nutrition: -25% / -35% / -50% feed for Pigs; +50% / +55% / +65% for every
+  // other animal.
+  "Swill Savvy": {
+    name: "Swill Savvy",
+    tree: "Animals",
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "costWithDebuff",
+        buff: [0.75, 0.65, 0.5],
+        debuff: [1.5, 1.55, 1.65],
+      },
+    },
+    disabled: false,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.swillSavvy.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Pig.image,
+      },
+      debuff: {
+        shortDescription: translate("skill.swillSavvy.debuff"),
+        labelType: "danger",
+        boostTypeIcon: redArrowDown,
+      },
+    },
+  },
+  // #7721 Balance Update: +10% / +20% / +30% Pig Bristles from a trade-in,
+  // applied before the 25% sickness reduction. TODO(Chapter 16 390): the
+  // trade-in does not exist yet; 390 must apply this rank.
+  "Bristle Payout": {
+    name: "Bristle Payout",
+    tree: "Animals",
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "yieldBonus", ranks: [0.1, 0.2, 0.3] },
+    },
+    disabled: false,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.bristlePayout"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Pig Bristles"].image,
+      },
+    },
+    // TODO(Chapter 16 art): a proper skill icon.
+    image: ITEM_DETAILS["Pig Bristles"].image,
   },
   "Chonky Feed": {
     name: "Chonky Feed",
@@ -4650,6 +4738,9 @@ export const SKILL_RANKS = {
   "Sheepwise Diet": BUMPKIN_REVAMP_SKILL_TREE["Sheepwise Diet"].upgrade.effect,
   "Cow-Smart Nutrition":
     BUMPKIN_REVAMP_SKILL_TREE["Cow-Smart Nutrition"].upgrade.effect,
+  "Swill Savvy": BUMPKIN_REVAMP_SKILL_TREE["Swill Savvy"].upgrade.effect,
+  "Truffle Yield": BUMPKIN_REVAMP_SKILL_TREE["Truffle Yield"].upgrade.effect,
+  "Bristle Payout": BUMPKIN_REVAMP_SKILL_TREE["Bristle Payout"].upgrade.effect,
   "Chonky Feed": BUMPKIN_REVAMP_SKILL_TREE["Chonky Feed"].upgrade.effect,
   "Leathercraft Mastery":
     BUMPKIN_REVAMP_SKILL_TREE["Leathercraft Mastery"].upgrade.effect,

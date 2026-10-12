@@ -1035,6 +1035,27 @@ export const getSkillRankDescription = (
           value: toPercentDelta(SKILL_RANKS["Cow-Smart Nutrition"].debuff[i]),
         }),
       };
+    case "Swill Savvy":
+      return {
+        buff: t("skill.swillSavvy.buff.ranked", {
+          value: SKILL_RANKS["Swill Savvy"].buff[i],
+        }),
+        debuff: t("skill.swillSavvy.debuff.ranked", {
+          value: toPercentDelta(SKILL_RANKS["Swill Savvy"].debuff[i]),
+        }),
+      };
+    case "Truffle Yield":
+      return {
+        buff: t("skill.truffleYield.ranked", {
+          value: toPercent(SKILL_RANKS["Truffle Yield"].ranks[i]),
+        }),
+      };
+    case "Bristle Payout":
+      return {
+        buff: t("skill.bristlePayout.ranked", {
+          value: toPercent(SKILL_RANKS["Bristle Payout"].ranks[i]),
+        }),
+      };
     case "Chonky Feed":
       return {
         buff: t("skill.chonkyFeed.buff.ranked", {

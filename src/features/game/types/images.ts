@@ -2005,7 +2005,7 @@ export const ITEM_DETAILS: Items = {
     translatedName: translate("animal.sheep"),
   },
   Pig: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.animals.pigIdle,
     description: ANIMALS.Pig.description,
     translatedName: translate("animal.pig"),
   },

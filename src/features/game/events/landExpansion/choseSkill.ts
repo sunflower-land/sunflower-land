@@ -11,6 +11,7 @@ import {
 import type { Bumpkin, GameState } from "features/game/types/game";
 import { populateSaltFarm } from "features/game/types/salt";
 import { produce } from "immer";
+import { hasSkillAccess } from "features/game/lib/skillAccess";
 
 export type ChoseSkillAction = {
   type: "skill.chosen";
@@ -184,6 +185,10 @@ export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
 
     if (disabled) {
       throw new Error("This skill is disabled");
+    }
+
+    if (!hasSkillAccess(stateCopy, action.skill)) {
+      throw new Error("This skill is not available");
     }
 
     if (bumpkinHasSkill) {

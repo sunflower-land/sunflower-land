@@ -4,6 +4,9 @@ import {
   ascensionBaseline,
   levelXp,
 } from "features/game/lib/level";
+import Decimal from "decimal.js-light";
+import { CONFIG } from "lib/config";
+import type { GameState } from "features/game/types/game";
 import { choseSkill, getAvailableBumpkinSkillPoints } from "./choseSkill";
 
 describe("choseSkill", () => {
@@ -205,6 +208,91 @@ describe("choseSkill", () => {
         createdAt: dateNow,
       }),
     ).not.toThrow();
+  });
+
+  describe("Pig skills", () => {
+    // 4 tier-1 + 2 tier-2 Animals skills = 8 points, unlocking Animals tier 3.
+    const ANIMALS_TIER_3 = {
+      "Efficient Feeding": 1,
+      "Restless Animals": 1,
+      "Fine Fibers": 1,
+      "Bountiful Bounties": 1,
+      "Abundant Harvest": 1,
+      "Heartwarming Instruments": 1,
+    };
+
+    const pigFarm = (overrides: Partial<GameState> = {}): GameState => ({
+      ...TEST_FARM,
+      island: { ...TEST_FARM.island, type: "spring" },
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        experience: LEVEL_EXPERIENCE[30],
+        skills: ANIMALS_TIER_3,
+      },
+      ...overrides,
+    });
+
+    const choose = (
+      skill: "Swill Savvy" | "Truffle Yield" | "Bristle Payout",
+      state = pigFarm(),
+    ) =>
+      choseSkill({
+        state,
+        action: { type: "skill.chosen", skill },
+        createdAt: dateNow,
+      });
+
+    // jest runs on amoy, so the testnet-only Pig skills are available.
+    it.each(["Swill Savvy", "Truffle Yield", "Bristle Payout"] as const)(
+      "claims %s on testnet",
+      (skill) => {
+        expect(choose(skill).bumpkin.skills[skill]).toEqual(1);
+      },
+    );
+
+    describe("off testnet", () => {
+      let previousNetwork: (typeof CONFIG)["NETWORK"];
+
+      beforeEach(() => {
+        previousNetwork = CONFIG.NETWORK;
+        (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+      });
+
+      afterEach(() => {
+        (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
+      });
+
+      it.each(["Swill Savvy", "Truffle Yield", "Bristle Payout"] as const)(
+        "rejects %s",
+        (skill) => {
+          expect(() => choose(skill)).toThrow("This skill is not available");
+        },
+      );
+
+      it("rejects a Pig skill even with a Beta Pass", () => {
+        expect(() =>
+          choose(
+            "Truffle Yield",
+            pigFarm({
+              inventory: {
+                ...TEST_FARM.inventory,
+                "Beta Pass": new Decimal(1),
+              },
+            }),
+          ),
+        ).toThrow("This skill is not available");
+      });
+
+      it("still lets other Animals skills be claimed", () => {
+        expect(() =>
+          choseSkill({
+            state: pigFarm(),
+            action: { type: "skill.chosen", skill: "Chonky Feed" },
+            createdAt: dateNow,
+          }),
+        ).not.toThrow();
+      });
+    });
   });
 
   describe("getAvailableBumpkinSkillPoints", () => {
