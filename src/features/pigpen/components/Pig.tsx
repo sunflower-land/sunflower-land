@@ -48,6 +48,7 @@ import { InfoPopover } from "features/island/common/InfoPopover";
 import {
   getBarnDelightCost,
   handleFoodXP,
+  getFeedBatchSize,
   REQUIRED_FOOD_QTY,
 } from "features/game/events/landExpansion/feedAnimal";
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
@@ -220,13 +221,16 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
   // animal) but can still be cured and sold to bounties.
   const isLocked = !isAnimalFeedable("pigpen", game, id);
 
-  const { foodQuantity: requiredFoodQty } = getBoostedFoodQuantity({
+  // One click feeds the whole batch that gets the Pig ready (ticket 396).
+  const feedBatchSize = getFeedBatchSize({ state: game, animal: pig });
+  const { foodQuantity: quantityPerFeed } = getBoostedFoodQuantity({
     animalType: "Pig",
     foodQuantity: REQUIRED_FOOD_QTY.Pig,
     game,
     animal: pig,
     now,
   });
+  const requiredFoodQty = quantityPerFeed.mul(feedBatchSize);
 
   const hasGoldenPig = isAnimalCoveredByGoldenAsset({
     state: game,
@@ -542,7 +546,8 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
       mud: pig.mud,
     });
 
-    return foodXp;
+    // A Beetle is one per click; anything else is the whole batch.
+    return item && isBeetle(item) ? foodXp : foodXp * feedBatchSize;
   };
 
   const animalImageInfo = () => {
