@@ -161,6 +161,26 @@ export function getAnimalLevel(experience: number, animal: AnimalType) {
 }
 
 /**
+ * XP the animal still needs before it is ready: to its next level, or at the
+ * max level to the end of its current produce cycle.
+ */
+export function getXpUntilReady(animalType: AnimalType, xp: number): number {
+  const maxLevel = getAnimalMaxLevel(animalType);
+  const maxLevelXp = ANIMAL_LEVELS[animalType][maxLevel];
+
+  if (xp < maxLevelXp) {
+    const next = (getAnimalLevel(xp, animalType) + 1) as AnimalLevel;
+    return ANIMAL_LEVELS[animalType][next] - xp;
+  }
+
+  const levelBeforeMaxXp =
+    ANIMAL_LEVELS[animalType][(maxLevel - 1) as AnimalLevel];
+  const cycleXP = maxLevelXp - levelBeforeMaxXp;
+
+  return cycleXP - ((xp - maxLevelXp) % cycleXP);
+}
+
+/**
  * Whether gaining `gainedXp` on top of `beforeXp` earns the animal its produce:
  * a level-up below the top of the table, or, at max level, one more full cycle
  * of the final level's XP. Shared by feeding and petting so EITHER can flip the
