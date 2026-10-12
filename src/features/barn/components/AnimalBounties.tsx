@@ -9,6 +9,7 @@ import { getSickAnimalRewardAmount } from "features/game/events/landExpansion/se
 import {
   generateBountyCoins,
   generateBountyTicket,
+  getBountyRewardBoosts,
 } from "features/game/events/landExpansion/sellBounty";
 import { Context } from "features/game/GameProvider";
 import {
@@ -43,6 +44,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { BountyRewardLabel } from "./BountyRewardLabel";
 import chapterPoints from "assets/icons/red_medal_short.webp";
 
 import { getChapterTaskPoints } from "features/game/types/tracks";
@@ -182,6 +184,7 @@ export const AnimalBounties: React.FC<Props> = ({
                     onExchanging={onExchanging}
                     state={state}
                     now={now}
+                    readonly={readonly}
                   />
                 ))}
               </div>
@@ -280,6 +283,12 @@ export const AnimalDeal: React.FC<{
   const { coins } = generateBountyCoins({
     game: state,
     bounty: deal,
+  });
+
+  const rewardBoosts = getBountyRewardBoosts({
+    game: state,
+    bounty: deal,
+    now,
   });
 
   const tickets = deal.items?.[chapterTicket] ?? 0;
@@ -407,16 +416,23 @@ export const AnimalDeal: React.FC<{
                 })}
               </Label>
               {!!deal.coins && (
-                <Label type="warning" icon={SUNNYSIDE.ui.coinsImg}>
+                <BountyRewardLabel
+                  icon={SUNNYSIDE.ui.coinsImg}
+                  boosts={rewardBoosts}
+                  state={state}
+                  interactive
+                >
                   {coins}
-                </Label>
+                </BountyRewardLabel>
               )}
 
               {getKeys(deal.items ?? {}).map((name) => (
-                <Label
+                <BountyRewardLabel
                   key={name}
-                  type="warning"
                   icon={ITEM_DETAILS[name].image}
+                  boosts={name === chapterTicket ? rewardBoosts : []}
+                  state={state}
+                  interactive
                 >
                   {name !== chapterTicket
                     ? deal.items?.[name]
@@ -425,7 +441,7 @@ export const AnimalDeal: React.FC<{
                         bounty: deal,
                         now,
                       })}
-                </Label>
+                </BountyRewardLabel>
               ))}
 
               {!!deal.items?.[chapterTicket] && (
@@ -555,6 +571,8 @@ interface BountyCardProps {
   onExchanging: (deal: AnimalBounty) => void;
   state: MachineState["context"]["state"];
   now: number;
+  /** Read-only board (Codex): the reward label opens the boosts breakdown. */
+  readonly?: boolean;
 }
 
 const BountyCard: React.FC<BountyCardProps> = ({
@@ -562,6 +580,7 @@ const BountyCard: React.FC<BountyCardProps> = ({
   onExchanging,
   state,
   now,
+  readonly,
 }) => {
   const { t } = useAppTranslation();
   const chapterTicket = getChapterTicket(now);
@@ -574,6 +593,17 @@ const BountyCard: React.FC<BountyCardProps> = ({
     game: state,
     bounty: deal,
   });
+  const rewardBoosts = getBountyRewardBoosts({
+    game: state,
+    bounty: deal,
+    now,
+  });
+  const cardRewardStyle: React.CSSProperties = {
+    left: `${PIXEL_SCALE * -3}px`,
+    right: `${PIXEL_SCALE * -3}px`,
+    width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+    height: "25px",
+  };
 
   return (
     <div
@@ -610,34 +640,30 @@ const BountyCard: React.FC<BountyCardProps> = ({
 
         {/* Show coins if it's a coin bounty */}
         {deal.coins && (
-          <Label
-            type="warning"
+          <BountyRewardLabel
             icon={SUNNYSIDE.ui.coinsImg}
-            className="absolute -bottom-2 text-center p-1"
-            style={{
-              left: `${PIXEL_SCALE * -3}px`,
-              right: `${PIXEL_SCALE * -3}px`,
-              width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
-              height: "25px",
-            }}
+            boosts={rewardBoosts}
+            state={state}
+            interactive={readonly}
+            className="absolute -bottom-2"
+            style={cardRewardStyle}
+            labelClassName="w-full h-full text-center p-1"
           >
             {coins}
-          </Label>
+          </BountyRewardLabel>
         )}
 
         {/* Show items if it's an item bounty */}
         {getKeys(deal.items ?? {}).map((name) => (
-          <Label
+          <BountyRewardLabel
             key={name}
-            type="warning"
             icon={ITEM_DETAILS[name].image}
-            className="absolute -bottom-2 text-center p-1"
-            style={{
-              left: `${PIXEL_SCALE * -3}px`,
-              right: `${PIXEL_SCALE * -3}px`,
-              width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
-              height: "25px",
-            }}
+            boosts={name === chapterTicket ? rewardBoosts : []}
+            state={state}
+            interactive={readonly}
+            className="absolute -bottom-2"
+            style={cardRewardStyle}
+            labelClassName="w-full h-full text-center p-1"
           >
             {name !== chapterTicket
               ? deal.items?.[name]
@@ -646,7 +672,7 @@ const BountyCard: React.FC<BountyCardProps> = ({
                   bounty: deal,
                   now,
                 })}
-          </Label>
+          </BountyRewardLabel>
         ))}
       </ButtonPanel>
     </div>
