@@ -8746,5 +8746,14 @@
   "skill.swillSavvy.buff.ranked": "x {{value}} 喂猪的饲料",
   "skill.swillSavvy.debuff.ranked": "+ {{value}}% 用于喂养其他动物的饲料",
   "skill.truffleYield.ranked": "+ {{value}}% 松露产量",
-  "skill.bristlePayout.ranked": "+ {{value}}% 来自猪交易的猪毛"
+  "skill.bristlePayout.ranked": "+ {{value}}% 来自猪交易的猪毛",
+  "feeder.chooseSlopInput": "选择成分",
+  "description.basic.slop": "1 级猪饲料。由一种基本作物混合而成。",
+  "description.hearty.slop": "二级猪饲料。由一种中等作物或水果混合而成。",
+  "description.rich.slop": "3 级猪饲料。由一种高级作物、水果、基本鱼类、野生蘑菇或甲壳类动物混合而成。",
+  "description.gourmet.slop": "一种 4 级猪饲料。由一种温室作物、稀有水果、高级鱼类、魔法蘑菇或甲壳类动物混合而成。",
+  "animalFood.basicSlop": "Basic Slop",
+  "animalFood.heartySlop": "Hearty Slop",
+  "animalFood.richSlop": "Rich Slop",
+  "animalFood.gourmetSlop": "Gourmet Sl"
 }

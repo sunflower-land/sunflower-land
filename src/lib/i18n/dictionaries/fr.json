@@ -8746,5 +8746,14 @@
   "skill.swillSavvy.buff.ranked": "x {{value}} nourriture pour nourrir les porcs",
   "skill.swillSavvy.debuff.ranked": "+ {{value}} % de nourriture pour nourrir d'autres animaux",
   "skill.truffleYield.ranked": "+ {{value}} % Rendement en truffes",
-  "skill.bristlePayout.ranked": "+ {{value}} % de poils de porc provenant du commerce de porcs"
+  "skill.bristlePayout.ranked": "+ {{value}} % de poils de porc provenant du commerce de porcs",
+  "feeder.chooseSlopInput": "Sélectionnez un ingrédient",
+  "description.basic.slop": "Un aliment pour porcs de niveau 1. Mélangé à partir d'une seule culture de base.",
+  "description.hearty.slop": "Un aliment pour porcs de niveau 2. Mélangé à partir d'une récolte ou d'un fruit de taille moyenne.",
+  "description.rich.slop": "Un aliment pour porcs de niveau 3. Mélangé à partir d'une culture avancée, de fruits, de poissons de base, de champignons sauvages ou de crustacés.",
+  "description.gourmet.slop": "Un aliment pour porcs de niveau 4. Mélangé à partir d'une seule culture en serre, de fruits rares, de poissons avancés, de champignons magiques ou de crustacés.",
+  "animalFood.basicSlop": "Slop de base",
+  "animalFood.heartySlop": "Savourez une soupe copieuse",
+  "animalFood.richSlop": "Riche Slop",
+  "animalFood.gourmetSlop": "Gourmet Slop"
 }

@@ -8746,5 +8746,14 @@
   "skill.swillSavvy.buff.ranked": "x{{value}} feed to feed Pigs",
   "skill.swillSavvy.debuff.ranked": "+{{value}}% feed to feed other animals",
   "skill.truffleYield.ranked": "+{{value}}% Truffle yield",
-  "skill.bristlePayout.ranked": "+{{value}}% Pig Bristles from trading in Pigs"
+  "skill.bristlePayout.ranked": "+{{value}}% Pig Bristles from trading in Pigs",
+  "feeder.chooseSlopInput": "Select ingredient",
+  "description.basic.slop": "A tier 1 Pig feed. Mixed from one basic crop.",
+  "description.hearty.slop": "A tier 2 Pig feed. Mixed from one medium crop or fruit.",
+  "description.rich.slop": "A tier 3 Pig feed. Mixed from one advanced crop, fruit, basic fish, Wild Mushroom or crustacean.",
+  "description.gourmet.slop": "A tier 4 Pig feed. Mixed from one greenhouse crop, rare fruit, advanced fish, Magic Mushroom or crustacean.",
+  "animalFood.basicSlop": "Basic Slop",
+  "animalFood.heartySlop": "Hearty Slop",
+  "animalFood.richSlop": "Rich Slop",
+  "animalFood.gourmetSlop": "Gourmet Slop"
 }

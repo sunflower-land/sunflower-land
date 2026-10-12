@@ -8746,5 +8746,14 @@
   "skill.swillSavvy.buff.ranked": "x {{value}} pienso para alimentar a los cerdos",
   "skill.swillSavvy.debuff.ranked": "+ {{value}}% de pienso para alimentar a otros animales",
   "skill.truffleYield.ranked": "+ {{value}}% de rendimiento de trufa",
-  "skill.bristlePayout.ranked": "+ {{value}}% de cerdas de cerdo procedentes del comercio de cerdos"
+  "skill.bristlePayout.ranked": "+ {{value}}% de cerdas de cerdo procedentes del comercio de cerdos",
+  "feeder.chooseSlopInput": "Seleccione el ingrediente",
+  "description.basic.slop": "Un pienso para cerdos de nivel 1. Mezclado a partir de un cultivo básico.",
+  "description.hearty.slop": "Un pienso para cerdos de nivel 2. Mezclado a partir de una cosecha o fruta mediana.",
+  "description.rich.slop": "Un pienso para cerdos de nivel 3. Mezclado a partir de un cultivo avanzado, fruta, pescado básico, hongos silvestres o crustáceos.",
+  "description.gourmet.slop": "Un pienso para cerdos de nivel 4. Mezclado de un cultivo de invernadero, frutas raras, peces avanzados, hongos mágicos o crustáceos.",
+  "animalFood.basicSlop": "Pendiente básica",
+  "animalFood.heartySlop": "Abundante basura",
+  "animalFood.richSlop": "Rich Slop",
+  "animalFood.gourmetSlop": "Delicado gourmet"
 }

@@ -8746,5 +8746,14 @@
   "skill.swillSavvy.buff.ranked": "x {{value}} mangime per nutrire i maiali",
   "skill.swillSavvy.debuff.ranked": "+ {{value}}% mangime per nutrire altri animali",
   "skill.truffleYield.ranked": "+ {{value}}% Rendimento del tartufo",
-  "skill.bristlePayout.ranked": "+ {{value}}% Setole di maiale derivanti dal commercio di maiali"
+  "skill.bristlePayout.ranked": "+ {{value}}% Setole di maiale derivanti dal commercio di maiali",
+  "feeder.chooseSlopInput": "Seleziona ingrediente",
+  "description.basic.slop": "Un mangime per suini di livello 1. Miscelato a partire da una coltura base.",
+  "description.hearty.slop": "Un mangime per maiali di livello 2. Miscelato a partire da un raccolto o da un frutto medio.",
+  "description.rich.slop": "Un mangime per maiali di livello 3. Miscelato a partire da una coltura avanzata, frutta, pesce base, funghi selvatici o crostacei.",
+  "description.gourmet.slop": "Un mangime per maiali di livello 4. Misto da una coltura in serra, frutta rara, pesce avanzato, fungo magico o crostaceo.",
+  "animalFood.basicSlop": "Pista base",
+  "animalFood.heartySlop": "Hearty Slop",
+  "animalFood.richSlop": "Rich Slop",
+  "animalFood.gourmetSlop": "Gourmet Shop"
 }

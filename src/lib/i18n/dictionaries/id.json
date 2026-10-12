@@ -8746,5 +8746,14 @@
   "skill.swillSavvy.buff.ranked": "x {{value}} pakan untuk memberi makan Babi",
   "skill.swillSavvy.debuff.ranked": "+ {{value}}% pakan untuk memberi makan hewan lain",
   "skill.truffleYield.ranked": "+ {{value}}% Hasil truffle",
-  "skill.bristlePayout.ranked": "+ {{value}}% Bulu Babi dari perdagangan Babi"
+  "skill.bristlePayout.ranked": "+ {{value}}% Bulu Babi dari perdagangan Babi",
+  "feeder.chooseSlopInput": "Pilih bahan",
+  "description.basic.slop": "Pakan babi tingkat 1. Dicampur dari satu tanaman dasar.",
+  "description.hearty.slop": "Pakan babi tingkat 2. Dicampur dari satu tanaman atau buah sedang.",
+  "description.rich.slop": "Pakan babi tingkat 3. Dicampur dari satu tanaman maju, buah, ikan dasar, Jamur Liar atau krustasea.",
+  "description.gourmet.slop": "Pakan babi tingkat 4. Dicampur dari satu tanaman rumah kaca, buah langka, ikan tingkat lanjut, Jamur Ajaib atau krustasea.",
+  "animalFood.basicSlop": "Slop Dasar",
+  "animalFood.heartySlop": "Heat Slop",
+  "animalFood.richSlop": "Kaya Slop",
+  "animalFood.gourmetSlop": "Gourmet Slop"
 }

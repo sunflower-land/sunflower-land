@@ -8746,5 +8746,14 @@
   "skill.swillSavvy.buff.ranked": "豚に餌を与えるためのx {{value}} フィード",
   "skill.swillSavvy.debuff.ranked": "+ {{value}}% の飼料で他の動物に餌をやる",
   "skill.truffleYield.ranked": "+ {{value}}% トリュフ収量",
-  "skill.bristlePayout.ranked": "+ {{value}}% 豚の取引による豚毛"
+  "skill.bristlePayout.ranked": "+ {{value}}% 豚の取引による豚毛",
+  "feeder.chooseSlopInput": "材料を選択",
+  "description.basic.slop": "ティア1の豚の飼料。1つの基本農作物から調合したもの。",
+  "description.hearty.slop": "ティア2の豚の飼料。1つの中型作物または果実から混合したもの。",
+  "description.rich.slop": "ティア3の豚の飼料。上級作物、果物、一般魚、野生のキノコ、甲殻類のいずれかを混ぜたものです。",
+  "description.gourmet.slop": "ティア4の豚の飼料。1つの温室作物、希少な果物、上級魚、マジックマッシュルーム、甲殻類などを混ぜたものです。",
+  "animalFood.basicSlop": "ベーシックスロップ",
+  "animalFood.heartySlop": "ハーティスロップ",
+  "animalFood.richSlop": "リッチスロップ",
+  "animalFood.gourmetSlop": "グルメスロップ"
 }

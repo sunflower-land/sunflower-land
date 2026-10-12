@@ -8746,5 +8746,14 @@
   "skill.swillSavvy.buff.ranked": "x {{value}} Futter zum Füttern von Schweinen",
   "skill.swillSavvy.debuff.ranked": "+ {{value}}% Futter für andere Tiere",
   "skill.truffleYield.ranked": "+ {{value}}% Trüffelertrag",
-  "skill.bristlePayout.ranked": "+ {{value}}% Schweineborsten aus dem Handel mit Schweinen"
+  "skill.bristlePayout.ranked": "+ {{value}}% Schweineborsten aus dem Handel mit Schweinen",
+  "feeder.chooseSlopInput": "Zutat wählen",
+  "description.basic.slop": "Ein Tier-1-Schweinefutter. Gemischt aus einer Grundfrucht.",
+  "description.hearty.slop": "Ein Tier-2-Schweinefutter. Gemischt aus einer mittelgroßen Ernte oder Frucht.",
+  "description.rich.slop": "Ein Tier-3-Schweinefutter. Gemischt aus einer fortgeschrittenen Kultur, Obst, Grundfisch, Wildpilzen oder Krebstieren.",
+  "description.gourmet.slop": "Ein Tier-4-Schweinefutter. Gemischt aus einer Gewächshausfrucht, seltenen Früchten, fortgeschrittenen Fischen, Zauberpilzen oder Krebstieren.",
+  "animalFood.basicSlop": "Basic Slop",
+  "animalFood.heartySlop": "Herzhafter Schlund",
+  "animalFood.richSlop": "Rich Slop",
+  "animalFood.gourmetSlop": "Gourmet-Slop"
 }

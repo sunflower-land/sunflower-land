@@ -8746,5 +8746,14 @@
   "skill.swillSavvy.buff.ranked": "x {{value}} Domuzları beslemek için yem",
   "skill.swillSavvy.debuff.ranked": "+ {{value}} diğer hayvanları beslemek için %yem",
   "skill.truffleYield.ranked": "+ {{value}} %Trüf verimi",
-  "skill.bristlePayout.ranked": "Domuz ticaretinden + {{value}} %Domuz Kılları"
+  "skill.bristlePayout.ranked": "Domuz ticaretinden + {{value}} %Domuz Kılları",
+  "feeder.chooseSlopInput": "İçeriği seçin",
+  "description.basic.slop": "1. kademe Domuz yemi. Bir temel üründen karıştırılır.",
+  "description.hearty.slop": "Seviye 2 Domuz yemi. Bir orta boy mahsul veya meyveden karıştırılır.",
+  "description.rich.slop": "Seviye 3 Domuz yemi. Bir gelişmiş mahsul, meyve, temel balık, Yabani Mantar veya kabuklulardan karıştırılır.",
+  "description.gourmet.slop": "Seviye 4 Domuz yemi. Bir sera mahsulü, nadir meyve, gelişmiş balık, Sihirli Mantar veya kabuklulardan karıştırılır.",
+  "animalFood.basicSlop": "Temel Eğim",
+  "animalFood.heartySlop": "Doyurucu Slop",
+  "animalFood.richSlop": "Zengin Slop",
+  "animalFood.gourmetSlop": "Gurme Slop"
 }
