@@ -7,7 +7,12 @@ import type {
   InventoryItemName,
   SavedLayout,
 } from "features/game/types/game";
-import { applyFarmLayout, snapshotFarm } from "./layouts";
+import {
+  applyFarmLayout,
+  layoutItemRects,
+  snapshotFarm,
+  trimSavedLayout,
+} from "./layouts";
 
 const createdAt = 1_700_000_000_000;
 
@@ -726,5 +731,102 @@ describe("layouts lib (applyFarmLayout)", () => {
 
     expect(result.farmHands.bumpkins.z.coordinates).toEqual({ x: 0, y: 0 });
     expect(result.farmHands.bumpkins.a.coordinates).toEqual({ x: 1, y: 0 });
+  });
+});
+
+describe("layouts lib (temporary collectibles)", () => {
+  it("does not snapshot a placed temporary collectible into the layout", () => {
+    const snapshot = snapshotFarm({
+      ...withInventory({ "Super Totem": 1, "Wicker Man": 1 }),
+      collectibles: {
+        "Super Totem": [{ id: "t1", coordinates: { x: 0, y: 0 }, createdAt }],
+        "Wicker Man": [{ id: "w1", coordinates: { x: 2, y: 0 }, createdAt }],
+      },
+    });
+
+    expect(snapshot.collectibles["Super Totem"]).toBeUndefined();
+    expect(snapshot.collectibles["Wicker Man"]).toHaveLength(1);
+  });
+
+  it("skips a temporary collectible listed in an older layout", () => {
+    // A layout saved before boosters were excluded still lists a Super Totem
+    // whose original instance is gone (e.g. dug up before ascending).
+    const state: TestState = {
+      ...withInventory({ "Super Totem": 2, "Wicker Man": 1 }),
+      collectibles: {
+        "Super Totem": [{ id: "t1", coordinates: { x: 5, y: 5 }, createdAt }],
+        "Wicker Man": [{ id: "w1", coordinates: { x: 2, y: 0 }, createdAt }],
+      },
+    };
+    state.__layout = {
+      ...makeLayout(state),
+      collectibles: {
+        "Super Totem": [{ id: "gone", coordinates: { x: 0, y: 0 } }],
+        "Wicker Man": [{ id: "w1", coordinates: { x: 1, y: 0 } }],
+      },
+    };
+
+    const result = applyLayout({ state });
+
+    // No new totem is created from the chest and the active one is neither
+    // lifted nor moved; permanent items still apply.
+    expect(result.collectibles["Super Totem"]).toEqual([
+      { id: "t1", coordinates: { x: 5, y: 5 }, createdAt },
+    ]);
+    expect(result.collectibles["Wicker Man"]![0].coordinates).toEqual({
+      x: 1,
+      y: 0,
+    });
+  });
+
+  it("does not lift an active temporary collectible the layout omits", () => {
+    // A layout saved after boosters were excluded never lists the totem; the
+    // exact-restore pass must not lift it off the map (its boost would keep
+    // running invisibly).
+    const state = withSavedLayout({
+      ...withInventory({ "Super Totem": 1, "Wicker Man": 1 }),
+      collectibles: {
+        "Super Totem": [{ id: "t1", coordinates: { x: 5, y: 5 }, createdAt }],
+        "Wicker Man": [{ id: "w1", coordinates: { x: 2, y: 0 }, createdAt }],
+      },
+    });
+
+    const result = applyLayout({ state });
+
+    expect(result.collectibles["Super Totem"]).toEqual([
+      { id: "t1", coordinates: { x: 5, y: 5 }, createdAt },
+    ]);
+  });
+
+  it("does not preview a temporary collectible listed in an older layout", () => {
+    const layout: SavedLayout = {
+      ...makeLayout(baseFarm),
+      collectibles: {
+        "Super Totem": [{ id: "gone", coordinates: { x: 0, y: 0 } }],
+        "Wicker Man": [{ id: "w1", coordinates: { x: 1, y: 0 } }],
+      },
+    };
+
+    expect(layoutItemRects(layout).map((rect) => rect.name)).not.toContain(
+      "Super Totem",
+    );
+    expect(layoutItemRects(layout).map((rect) => rect.name)).toContain(
+      "Wicker Man",
+    );
+  });
+
+  it("drops a temporary collectible when trimming an older layout", () => {
+    const layout: SavedLayout = {
+      ...makeLayout(baseFarm),
+      collectibles: {
+        "Super Totem": [{ id: "gone", coordinates: { x: 0, y: 0 } }],
+        "Wicker Man": [{ id: "w1", coordinates: { x: 1, y: 0 } }],
+      },
+    };
+
+    const trimmed = trimSavedLayout(layout, 30, baseFarm.island);
+
+    expect(trimmed.collectibles["Super Totem"]).toBeUndefined();
+    expect(trimmed.collectibles["Wicker Man"]).toHaveLength(1);
   });
 });
