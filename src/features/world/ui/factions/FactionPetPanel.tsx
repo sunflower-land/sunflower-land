@@ -46,6 +46,7 @@ import { getFactionPetUpdate } from "./actions/getFactionPetUpdate";
 import { formatNumber } from "lib/utils/formatNumber";
 import { BoostInfoPanel } from "./BoostInfoPanel";
 import { getKeys } from "lib/object";
+import { InfoPopover } from "features/island/common/InfoPopover";
 
 import goblinEmblem from "assets/icons/goblin_emblem.webp";
 import bumpkinEmblem from "assets/icons/bumpkin_emblem.webp";
@@ -289,6 +290,7 @@ const FactionPetContent: React.FC<{
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedRequestIdx, setSelectedRequestIdx] = useState(0);
   const [showBoostInfo, setShowBoostInfo] = useState(false);
+  const [showCooldownInfo, setShowCooldownInfo] = useState(false);
 
   const selectedRequest = pet.requests[selectedRequestIdx] as FactionPetRequest;
 
@@ -459,29 +461,55 @@ const FactionPetContent: React.FC<{
               </div>
               {!!collectivePet?.streak && collectivePet.streak > 0 && (
                 <div className="flex flex-col space-y-1">
-                  <div className="flex flex-wrap items-center gap-1">
+                  <div
+                    className={classNames(
+                      "relative flex items-center space-x-1 w-fit",
+                      { "cursor-pointer": isBoostCooldown },
+                    )}
+                    onPointerOver={(e) => {
+                      if (e.pointerType === "mouse" && isBoostCooldown) {
+                        setShowCooldownInfo(true);
+                      }
+                    }}
+                    onPointerOut={(e) => {
+                      if (e.pointerType === "mouse") {
+                        setShowCooldownInfo(false);
+                      }
+                    }}
+                    onClick={(e) => {
+                      if (!isBoostCooldown) return;
+                      e.stopPropagation();
+                      setShowCooldownInfo((show) => !show);
+                    }}
+                  >
                     <p className="text-xs">{`${t("faction.pet.contributedLastWeek")}: `}</p>
                     <img
                       className="w-3"
                       src={
-                        contributedLastWeek
+                        contributedLastWeek && !isBoostCooldown
                           ? SUNNYSIDE.icons.confirm
                           : SUNNYSIDE.icons.close
                       }
                     />
                     {isBoostCooldown && (
-                      <Label type="warning" className="text-xs">
-                        {t(
-                          contributedLastWeek
-                            ? "faction.pet.cooldown.contributed"
-                            : "faction.pet.cooldown.active",
-                          {
-                            date: new Date(
-                              faction?.boostCooldownUntil ?? 0,
-                            ).toLocaleString(),
-                          },
-                        )}
-                      </Label>
+                      <InfoPopover
+                        showPopover={showCooldownInfo}
+                        onHide={() => setShowCooldownInfo(false)}
+                        className="left-0 bottom-5 max-w-[240px]"
+                      >
+                        <p className="text-xs p-0.5 py-1">
+                          {t(
+                            contributedLastWeek
+                              ? "faction.pet.cooldown.contributed"
+                              : "faction.pet.cooldown.active",
+                            {
+                              date: new Date(
+                                faction?.boostCooldownUntil ?? 0,
+                              ).toLocaleString(),
+                            },
+                          )}
+                        </p>
+                      </InfoPopover>
                     )}
                   </div>
                   <div className="flex items-center space-x-1">
