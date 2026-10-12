@@ -23,6 +23,7 @@ import {
   getAnimalReadyAt,
   getBoostedFoodQuantity,
   hasAnimalCompletedCycle,
+  isFoodForAnimal,
   isMuddy,
   makeAnimalBuildingKey,
   MUD_XP_MULTIPLIER,
@@ -46,8 +47,9 @@ export const REQUIRED_FOOD_QTY: Record<AnimalType, number> = {
   Chicken: 1,
   Sheep: 3,
   Cow: 5,
-  // TODO(Chapter 16): placeholder - Pig sits between Sheep and Cow.
-  Pig: 4,
+  // One Slop per feeding: a Slop's recipe is #7721's "quantity per feeding
+  // action" (types/pigFeeds.ts).
+  Pig: 1,
 };
 
 export type FeedAnimalAction = {
@@ -79,7 +81,7 @@ const handleAnimalExperience = (
   beforeFeedXp: number,
   foodXp: number,
 ): boolean => {
-  animal.experience += foodXp;
+  animal.experience = new Decimal(animal.experience).add(foodXp).toNumber();
 
   return hasAnimalCompletedCycle({
     animalType,
@@ -155,26 +157,26 @@ export function handleFoodXP({
   mud?: AnimalMud;
 }) {
   // A Beetle fed directly is a food like any other, with a fixed base XP.
-  let foodXp = isBeetle(food)
-    ? BEETLE_FEEDING_XP[food]
-    : ANIMAL_FOOD_EXPERIENCE[animal][level][food];
+  // Decimal keeps fractional XP (a muddy Pig's 10 -> 12.5) exact.
+  let foodXp = new Decimal(
+    isBeetle(food)
+      ? BEETLE_FEEDING_XP[food]
+      : (ANIMAL_FOOD_EXPERIENCE[animal][level][food] ?? 0),
+  );
 
   // Chonky Feed never applies to a Beetle (#7721): a Beetle feed is always
   // exactly one Beetle, so there is no extra feed cost to pay for the XP.
   const chonkyFeedLevel = getSkillLevel(state.bumpkin.skills, "Chonky Feed");
   if (chonkyFeedLevel && !isBeetle(food)) {
-    // Every ANIMAL_FOOD_EXPERIENCE value is even, so the 2.5x rank stays integral.
-    foodXp *= SKILL_RANKS["Chonky Feed"].xp[chonkyFeedLevel - 1];
+    foodXp = foodXp.mul(SKILL_RANKS["Chonky Feed"].xp[chonkyFeedLevel - 1]);
   }
 
-  // Mud is the FINAL multiplier, after every other feed-XP modifier. Pig and
-  // Beetle values are multiples of 8, so 1.25x stays integral on top of
-  // Chonky Feed.
+  // Mud is the FINAL multiplier, after every other feed-XP modifier.
   if (isMuddy({ mud })) {
-    foodXp *= MUD_XP_MULTIPLIER;
+    foodXp = foodXp.mul(MUD_XP_MULTIPLIER);
   }
 
-  return { foodXp };
+  return { foodXp: foodXp.toNumber() };
 }
 
 export function getBarnDelightCost({ state }: { state: GameState }): {
@@ -343,6 +345,10 @@ export function feedAnimal({
     // Regular feeding logic
     if (!food) {
       throw new Error("No food provided");
+    }
+
+    if (!isBeetle(food) && !isFoodForAnimal(action.animal, food)) {
+      throw new Error("This animal cannot eat this food");
     }
 
     const { foodXp } = handleFoodXP({

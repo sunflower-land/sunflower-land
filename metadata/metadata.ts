@@ -1291,6 +1291,48 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Basic Slop": {
+    name: "Basic Slop",
+    description: "A tier 1 Pig feed. Mixed from one basic crop.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Feed" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Hearty Slop": {
+    name: "Hearty Slop",
+    description: "A tier 2 Pig feed. Mixed from one medium crop or fruit.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Feed" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Rich Slop": {
+    name: "Rich Slop",
+    description:
+      "A tier 3 Pig feed. Mixed from one advanced crop, fruit, basic fish, Wild Mushroom or crustacean.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Feed" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Gourmet Slop": {
+    name: "Gourmet Slop",
+    description:
+      "A tier 4 Pig feed. Mixed from one greenhouse crop, rare fruit, advanced fish, Magic Mushroom or crustacean.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Feed" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   "Barn Delight": {
     name: "Barn Delight",
     description: "A magical elixir that cures animal sickness.",

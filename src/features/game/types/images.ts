@@ -6236,6 +6236,26 @@ export const ITEM_DETAILS: Items = {
     description: ANIMAL_FOODS.Omnifeed.description,
     translatedName: translate("animalFood.omnifeed"),
   },
+  "Basic Slop": {
+    image: SUNNYSIDE.animalFoods.kernel_blend, // TODO(Chapter 16 art)
+    description: ANIMAL_FOODS["Basic Slop"].description,
+    translatedName: translate("animalFood.basicSlop"),
+  },
+  "Hearty Slop": {
+    image: SUNNYSIDE.animalFoods.hay, // TODO(Chapter 16 art)
+    description: ANIMAL_FOODS["Hearty Slop"].description,
+    translatedName: translate("animalFood.heartySlop"),
+  },
+  "Rich Slop": {
+    image: SUNNYSIDE.animalFoods.nutribarley, // TODO(Chapter 16 art)
+    description: ANIMAL_FOODS["Rich Slop"].description,
+    translatedName: translate("animalFood.richSlop"),
+  },
+  "Gourmet Slop": {
+    image: SUNNYSIDE.animalFoods.mixed_grain, // TODO(Chapter 16 art)
+    description: ANIMAL_FOODS["Gourmet Slop"].description,
+    translatedName: translate("animalFood.gourmetSlop"),
+  },
   "Crafting Box": {
     image: craftingBox,
     description: translate("description.craftingBox"),

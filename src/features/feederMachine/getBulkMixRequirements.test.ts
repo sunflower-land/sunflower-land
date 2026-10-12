@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
-import type { Animal } from "features/game/types/game";
+import type { Animal, GameState } from "features/game/types/game";
 import { getBulkMixRequirements } from "./getBulkMixRequirements";
 
 describe("getBulkMixRequirements", () => {
@@ -495,41 +495,87 @@ describe("getBulkMixRequirements", () => {
     expect(missingRequests["Kernel Blend"]).toBeUndefined();
   });
 
-  describe("Mud", () => {
-    // A level-0 Pig 60 XP in needs 120 more for level 1. Kernel Blend gives
-    // 48 XP, or 60 with Mud, at 4 per feed.
-    const pigRequests = (mud?: Animal["mud"]) =>
-      getBulkMixRequirements(
-        {
-          ...INITIAL_FARM,
-          inventory: {},
-          pigpen: {
-            level: 1,
-            animals: {
-              "0": {
-                ...animal({ state: "idle", type: "Pig" }),
-                experience: 60,
-                mud,
-              },
-            },
+  describe("Pigs", () => {
+    // A level-0 Pig 30 XP in needs 150 more for level 1. Basic Slop gives
+    // 60 XP, or 75 with Mud, at one Slop per feed.
+    const pigFarm = (
+      mud?: Animal["mud"],
+      inventory: GameState["inventory"] = {},
+    ): GameState => ({
+      ...INITIAL_FARM,
+      inventory,
+      pigpen: {
+        level: 1,
+        animals: {
+          "0": {
+            ...animal({ state: "idle", type: "Pig" }),
+            experience: 30,
+            mud,
           },
         },
-        "Pigpen",
-        Date.now(),
-      ).requests["Kernel Blend"];
-
-    it("plans three feeds for a Pig without Mud", () => {
-      expect(pigRequests()).toEqual(new Decimal(12));
+      },
     });
 
-    it("plans fewer feeds for a muddy Pig", () => {
-      expect(pigRequests({ feedsRemaining: 3 })).toEqual(new Decimal(8));
+    const pigRequests = (mud?: Animal["mud"]) =>
+      getBulkMixRequirements(pigFarm(mud), "Pigpen", Date.now()).requests[
+        "Basic Slop"
+      ];
+
+    it("plans three Slops for a Pig without Mud", () => {
+      expect(pigRequests()).toEqual(new Decimal(3));
+    });
+
+    it("plans fewer Slops for a muddy Pig", () => {
+      expect(pigRequests({ feedsRemaining: 3 })).toEqual(new Decimal(2));
     });
 
     it("stops counting Mud's bonus once its uses run out mid-plan", () => {
-      // 60 + 48 = 108 falls short of 120; a plan that kept the bonus on every
-      // feed would stop at 2.
-      expect(pigRequests({ feedsRemaining: 1 })).toEqual(new Decimal(12));
+      // 30 + 75 + 60 = 165 falls short of 180; a plan that kept the bonus on
+      // every feed would stop at 2.
+      expect(pigRequests({ feedsRemaining: 1 })).toEqual(new Decimal(3));
+    });
+
+    it("mixes a Slop from the input the player can make the most of", () => {
+      const { feeds, requirements } = getBulkMixRequirements(
+        pigFarm(undefined, {
+          Sunflower: new Decimal(1000),
+          Potato: new Decimal(400),
+        }),
+        "Pigpen",
+        Date.now(),
+      );
+      const slop = feeds.find((feed) => feed.item === "Basic Slop");
+
+      // Sunflower makes 2 Slops, Potato 5.
+      expect(slop?.ingredient).toEqual("Potato");
+      expect(slop?.ingredients).toEqual({ Potato: new Decimal(240) });
+      expect(requirements.ingredients).toEqual({ Potato: new Decimal(240) });
+    });
+
+    it("falls back to the first input when the player holds none", () => {
+      const { feeds } = getBulkMixRequirements(pigFarm(), "Pigpen", Date.now());
+
+      expect(feeds.find((feed) => feed.item === "Basic Slop")).toMatchObject({
+        ingredient: "Sunflower",
+        ingredients: { Sunflower: new Decimal(1500) },
+      });
+    });
+
+    it("leaves the input off feeds with a fixed recipe", () => {
+      const { feeds } = getBulkMixRequirements(
+        {
+          ...INITIAL_FARM,
+          inventory: {},
+          henHouse: {
+            ...INITIAL_FARM.henHouse,
+            animals: { "0": chicken("idle") },
+          },
+        },
+        "Hen House",
+        Date.now(),
+      );
+
+      expect(feeds[0].ingredient).toBeUndefined();
     });
   });
 });

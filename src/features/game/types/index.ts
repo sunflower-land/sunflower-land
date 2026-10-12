@@ -1637,6 +1637,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Crystal Leaf": 3091,
   "Crystal Leaf Seed": 3092,
   "Crystal Cookie": 3093,
+  "Basic Slop": 3094,
+  "Hearty Slop": 3095,
+  "Rich Slop": 3096,
+  "Gourmet Slop": 3097,
 };
 
 // The reverse of above

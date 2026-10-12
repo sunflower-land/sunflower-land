@@ -2235,8 +2235,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Chonky Feed": {
     name: "Chonky Feed",
     tree: "Animals",
-    // 2x / 2.5x / 3x animal XP from feed; +50% / +75% / +100% feed cost. Every
-    // ANIMAL_FOOD_EXPERIENCE value is even, so the 2.5x rank stays integral.
+    // 2x / 2.5x / 3x animal XP from feed; +50% / +75% / +100% feed cost.
     upgrade: {
       maxLevel: 3,
       effect: {
