@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { claimProduce } from "./claimProduce";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { ANIMAL_SLEEP_DURATION } from "./feedAnimal";
-import type { GameState } from "features/game/types/game";
+import type { Animal, GameState } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 import { makeAnimalBuilding } from "features/game/lib/animals";
 
@@ -2627,5 +2627,62 @@ describe("claimProduce", () => {
         (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
       }
     });
+  });
+});
+
+describe("claimProduce: Mud", () => {
+  const now = Date.now();
+
+  const claim = (mud: Animal["mud"], feedBuff?: Animal["feedBuff"]) =>
+    claimProduce({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        buildings: {
+          ...INITIAL_FARM.buildings,
+          Pigpen: [
+            { coordinates: { x: 0, y: 0 }, createdAt: 0, id: "0", readyAt: 0 },
+          ],
+        },
+        pigpen: {
+          level: 1,
+          animals: {
+            "1": {
+              id: "1",
+              type: "Pig",
+              createdAt: 0,
+              state: "ready",
+              experience: 200,
+              asleepAt: 0,
+              awakeAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+              mud,
+              feedBuff,
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Pig", id: "1" },
+    }).pigpen.animals["1"];
+
+  it("spends one Mud charge per claim, like a treat", () => {
+    expect(claim({ harvestsRemaining: 3 }).mud).toEqual({
+      harvestsRemaining: 2,
+    });
+  });
+
+  it("removes the Mud after its last charge", () => {
+    expect(claim({ harvestsRemaining: 1 }).mud).toBeUndefined();
+  });
+
+  it("counts Mud and a treat down together, once each", () => {
+    const pig = claim(
+      { harvestsRemaining: 3 },
+      { name: "Salt Lick", harvestsRemaining: 2 },
+    );
+
+    expect(pig.mud).toEqual({ harvestsRemaining: 2 });
+    expect(pig.feedBuff).toEqual({ name: "Salt Lick", harvestsRemaining: 1 });
   });
 });

@@ -526,13 +526,12 @@ describe("getBulkMixRequirements", () => {
     });
 
     it("plans fewer Slops for a muddy Pig", () => {
-      expect(pigRequests({ feedsRemaining: 3 })).toEqual(new Decimal(2));
+      expect(pigRequests({ harvestsRemaining: 3 })).toEqual(new Decimal(2));
     });
 
-    it("stops counting Mud's bonus once its uses run out mid-plan", () => {
-      // 30 + 75 + 60 = 165 falls short of 180; a plan that kept the bonus on
-      // every feed would stop at 2.
-      expect(pigRequests({ feedsRemaining: 1 })).toEqual(new Decimal(3));
+    it("keeps Mud's bonus for every feed, since feeding spends no charge", () => {
+      // 30 + 75 + 75 = 180: even a last charge covers the whole plan.
+      expect(pigRequests({ harvestsRemaining: 1 })).toEqual(new Decimal(2));
     });
 
     it("mixes a Slop from the input the player can make the most of", () => {

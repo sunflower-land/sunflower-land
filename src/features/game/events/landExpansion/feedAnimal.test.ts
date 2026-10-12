@@ -2620,36 +2620,31 @@ describe("feedAnimal: Mud", () => {
   });
 
   it("grants a muddy Pig 1.25x XP", () => {
-    expect(gained(farm({ mud: { feedsRemaining: 3 } }))).toEqual(75);
+    expect(gained(farm({ mud: { harvestsRemaining: 3 } }))).toEqual(75);
   });
 
   it("keeps the fraction when 1.25x does not land on a whole number", () => {
     // Basic Slop is worth 10 XP to a level 4 Pig.
-    expect(gained(farm({ mud: { feedsRemaining: 3 } }), "Basic Slop")).toEqual(
-      12.5,
-    );
+    expect(
+      gained(farm({ mud: { harvestsRemaining: 3 } }), "Basic Slop"),
+    ).toEqual(12.5);
   });
 
-  it("spends one use per feed and drops the Mud after the third", () => {
-    let state = farm({ mud: { feedsRemaining: 3 } });
+  it("never spends a Mud charge on feeding", () => {
+    let state = farm({ mud: { harvestsRemaining: 3 } });
 
-    [2, 1].forEach((left) => {
+    [1, 2, 3, 4].forEach(() => {
+      const before = state.pigpen.animals["1"].experience;
       state = feed(state);
-      expect(state.pigpen.animals["1"].mud).toEqual({ feedsRemaining: left });
+      expect(state.pigpen.animals["1"].experience - before).toEqual(75);
+      expect(state.pigpen.animals["1"].mud).toEqual({ harvestsRemaining: 3 });
     });
-
-    state = feed(state);
-    expect(state.pigpen.animals["1"].mud).toBeUndefined();
-
-    const before = state.pigpen.animals["1"].experience;
-    state = feed(state);
-    expect(state.pigpen.animals["1"].experience - before).toEqual(60);
   });
 
   it("applies after Chonky Feed", () => {
     // 60 x 2.5 (rank 2) x 1.25
     expect(
-      gained(farm({ mud: { feedsRemaining: 3 } }, { "Chonky Feed": 2 })),
+      gained(farm({ mud: { harvestsRemaining: 3 } }, { "Chonky Feed": 2 })),
     ).toEqual(187.5);
   });
 
@@ -2657,7 +2652,7 @@ describe("feedAnimal: Mud", () => {
     // 10 x 2.5 x 1.25 = 31.25, with no floating-point drift.
     expect(
       gained(
-        farm({ mud: { feedsRemaining: 3 } }, { "Chonky Feed": 2 }),
+        farm({ mud: { harvestsRemaining: 3 } }, { "Chonky Feed": 2 }),
         "Basic Slop",
       ),
     ).toEqual(31.25);
@@ -2665,23 +2660,23 @@ describe("feedAnimal: Mud", () => {
 
   it("runs independently of a spice-rack treat", () => {
     const feedBuff = { name: "Salt Lick" as const, harvestsRemaining: 3 };
-    const state = feed(farm({ mud: { feedsRemaining: 3 }, feedBuff }));
+    const state = feed(farm({ mud: { harvestsRemaining: 3 }, feedBuff }));
 
     expect(state.pigpen.animals["1"].experience - ANIMAL_LEVELS.Pig[4]).toEqual(
       75,
     );
     // Treats count down on harvest, not on feeding.
     expect(state.pigpen.animals["1"].feedBuff).toEqual(feedBuff);
-    expect(state.pigpen.animals["1"].mud).toEqual({ feedsRemaining: 2 });
+    expect(state.pigpen.animals["1"].mud).toEqual({ harvestsRemaining: 3 });
   });
 
   it("does not spend a use when curing a sick Pig", () => {
     const state = feed(
-      farm({ state: "sick", mud: { feedsRemaining: 3 } }),
+      farm({ state: "sick", mud: { harvestsRemaining: 3 } }),
       "Barn Delight",
     );
 
-    expect(state.pigpen.animals["1"].mud).toEqual({ feedsRemaining: 3 });
+    expect(state.pigpen.animals["1"].mud).toEqual({ harvestsRemaining: 3 });
   });
 
   it("scales handleFoodXP for the previews too", () => {
@@ -2695,8 +2690,8 @@ describe("feedAnimal: Mud", () => {
       }).foodXp;
 
     expect(xp()).toEqual(60);
-    expect(xp({ feedsRemaining: 1 })).toEqual(75);
-    expect(xp({ feedsRemaining: 0 })).toEqual(60);
+    expect(xp({ harvestsRemaining: 1 })).toEqual(75);
+    expect(xp({ harvestsRemaining: 0 })).toEqual(60);
   });
 });
 
@@ -2874,11 +2869,11 @@ describe("feedAnimal: direct Beetle feeding", () => {
     expect(state.inventory["Brown Beetle"]).toEqual(new Decimal(4));
   });
 
-  it("grants a muddy Pig 1.25x and spends a Mud use", () => {
-    const state = feed(pigFarm(0, { mud: { feedsRemaining: 3 } }), "Pig");
+  it("grants a muddy Pig 1.25x without spending a Mud charge", () => {
+    const state = feed(pigFarm(0, { mud: { harvestsRemaining: 3 } }), "Pig");
 
     expect(state.pigpen.animals["1"].experience).toEqual(100);
-    expect(state.pigpen.animals["1"].mud).toEqual({ feedsRemaining: 2 });
+    expect(state.pigpen.animals["1"].mud).toEqual({ harvestsRemaining: 3 });
   });
 
   it.each([
@@ -2891,7 +2886,7 @@ describe("feedAnimal: direct Beetle feeding", () => {
     (item, xp) => {
       const state = feed(
         pigFarm(0, {
-          mud: { feedsRemaining: 3 },
+          mud: { harvestsRemaining: 3 },
           skills: { "Chonky Feed": 2 },
         }),
         "Pig",

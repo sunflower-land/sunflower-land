@@ -109,8 +109,8 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
   const pigMachineState = useSelector(pigService, _animalState);
   const inventory = useSelector(gameService, _inventory);
   const [showFeedXP, setShowFeedXP] = useState(false);
-  // Captured BEFORE the feed: Mud spends a use on it, so re-deriving the XP
-  // afterwards would show the next feed's figure, not the one just earned.
+  // Captured BEFORE the feed: it can move the Pig into its next level band, so
+  // re-deriving the XP afterwards would show the next feed's figure.
   const [feedXPAmount, setFeedXPAmount] = useState(0);
   const [showLoveItem, setShowLoveItem] = useState<LoveAnimalItem>();
   const [showMutantAnimalModal, setShowMutantAnimalModal] = useState(false);

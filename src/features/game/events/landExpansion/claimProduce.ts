@@ -129,6 +129,14 @@ export function claimProduce({
       }
     }
 
+    // Mud's charges count down exactly like a treat's: one per claim.
+    if (animal.mud) {
+      animal.mud.harvestsRemaining -= 1;
+      if (animal.mud.harvestsRemaining <= 0) {
+        delete animal.mud;
+      }
+    }
+
     return copy;
   });
 }

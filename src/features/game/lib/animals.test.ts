@@ -1033,9 +1033,16 @@ describe("isFoodForAnimal", () => {
 });
 
 describe("Mud XP bonus", () => {
-  it("recognises a muddy animal only while it has feeds left", () => {
-    expect(isMuddy({ ...ANIMAL, mud: { feedsRemaining: 1 } })).toBe(true);
-    expect(isMuddy({ ...ANIMAL, mud: { feedsRemaining: 0 } })).toBe(false);
+  it("recognises a muddy animal only while it has charges left", () => {
+    expect(isMuddy({ ...ANIMAL, mud: { harvestsRemaining: 1 } })).toBe(true);
+    expect(isMuddy({ ...ANIMAL, mud: { harvestsRemaining: 0 } })).toBe(false);
+    // Coatings stored the old per-feed way no longer count (testnet only).
+    expect(
+      isMuddy({
+        ...ANIMAL,
+        mud: { feedsRemaining: 3 } as unknown as Animal["mud"],
+      }),
+    ).toBe(false);
     expect(isMuddy(ANIMAL)).toBe(false);
   });
 });

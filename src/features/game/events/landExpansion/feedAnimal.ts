@@ -389,12 +389,6 @@ export function feedAnimal({
       foodXp,
     );
 
-    // Each feed that earned Mud's bonus spends one of its uses.
-    if (animal.mud) {
-      animal.mud.feedsRemaining -= 1;
-      if (animal.mud.feedsRemaining <= 0) delete animal.mud;
-    }
-
     // Only set happy/sad state if animal isn't ready
     if (!isReady) {
       animal.state =

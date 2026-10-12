@@ -52,12 +52,11 @@ export const makeAnimalBuildingKey = (
 export const ANIMAL_BUILDING_KEYS: AnimalBuildingKey[] =
   ANIMAL_BUILDING_TYPES.map(makeAnimalBuildingKey);
 
-// TODO(Chapter 16): the spec gives 48h of protection per Mud; these replace it
-// (Elias, 2026-09-21) and are unspecced placeholders.
-/** Mud spent per application (#7721 Balance Update). */
+/**
+ * Mud spent per application (#7721 Balance Update). Its charges work exactly
+ * like a spice-rack treat's (`getAnimalHarvests`, spent in `claimProduce`).
+ */
 export const MUD_PER_APPLICATION = 10;
-/** Feeds of bonus XP that one Mud application gives a Pig. */
-export const MUD_FEEDS = 3;
 /**
  * Final feeding-XP multiplier for a muddy Pig (#7721: +25% final XP). The
  * result can be fractional (10 -> 12.5); handleFoodXP keeps it exact.
@@ -65,7 +64,7 @@ export const MUD_FEEDS = 3;
 export const MUD_XP_MULTIPLIER = 1.25;
 
 export const isMuddy = (animal: Pick<Animal, "mud">): boolean =>
-  (animal.mud?.feedsRemaining ?? 0) > 0;
+  (animal.mud?.harvestsRemaining ?? 0) > 0;
 
 /**
  * Starting XP for the animals a new building is seeded with. Arbitrary data,

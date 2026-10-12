@@ -180,8 +180,6 @@ const getFeedRequestsUntilReady = ({
 }): FeedRequest[] => {
   const requests: FeedRequest[] = [];
   let experience = animal.experience;
-  // Mud boosts one feed per use, so the plan spends it the way feedAnimal does.
-  let mudFeeds = animal.mud?.feedsRemaining ?? 0;
 
   for (let step = 0; step < MAX_FEED_STEPS_TO_READY; step += 1) {
     const level = getAnimalLevel(experience, animal.type);
@@ -191,7 +189,9 @@ const getFeedRequestsUntilReady = ({
       animal: animal.type,
       level,
       food: favouriteFood,
-      mud: { feedsRemaining: mudFeeds },
+      // Feeding never spends a Mud charge (claiming does), so a muddy animal
+      // keeps the bonus for the whole plan.
+      mud: animal.mud,
     });
 
     if (foodXp <= 0) {
@@ -223,7 +223,6 @@ const getFeedRequestsUntilReady = ({
     }
 
     experience += foodXp;
-    mudFeeds = Math.max(mudFeeds - 1, 0);
   }
 
   return requests;
