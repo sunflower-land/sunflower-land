@@ -12,6 +12,7 @@ import {
 } from "features/game/types/chapterCropWeek";
 
 import { planSeedPurchases } from "./planSeedPurchases";
+import { CONFIG } from "lib/config";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -219,6 +220,10 @@ describe("planSeedPurchases", () => {
   });
 
   it("skips the Chapter Crop Week seed outside of the event window", () => {
+    // adminFeatureFlag is always on for testnet (CI runs with VITE_NETWORK=amoy),
+    // so pin mainnet: a regular player has no early access.
+    const previousNetwork = CONFIG.NETWORK;
+    CONFIG.NETWORK = "mainnet";
     jest.useFakeTimers();
     jest.setSystemTime(CHAPTER_CROP_WEEK.startDate.getTime() - 1);
 
@@ -235,6 +240,32 @@ describe("planSeedPurchases", () => {
     expect(plan.purchases).toHaveLength(0);
 
     jest.useRealTimers();
+    CONFIG.NETWORK = previousNetwork;
+  });
+
+  it("includes the Chapter Crop Week seed for admin testers before the event window", () => {
+    const previousNetwork = CONFIG.NETWORK;
+    CONFIG.NETWORK = "mainnet";
+    jest.useFakeTimers();
+    jest.setSystemTime(CHAPTER_CROP_WEEK.startDate.getTime() - 1);
+
+    const state: GameState = {
+      ...GAME_STATE,
+      wardrobe: { ...GAME_STATE.wardrobe, "Gift Giver": 1 },
+      inventory: { ...GAME_STATE.inventory, "Beta Pass": new Decimal(1) },
+      stock: {
+        ...GAME_STATE.stock,
+        [CHAPTER_CROP_WEEK_SEED]: new Decimal(5),
+      },
+    };
+
+    const plan = planSeedPurchases(state, [CHAPTER_CROP_WEEK_SEED]);
+
+    expect(plan.purchases).toHaveLength(1);
+    expect(plan.purchases[0].seedName).toBe(CHAPTER_CROP_WEEK_SEED);
+
+    jest.useRealTimers();
+    CONFIG.NETWORK = previousNetwork;
   });
 
   it("includes the Chapter Crop Week seed during the event window", () => {

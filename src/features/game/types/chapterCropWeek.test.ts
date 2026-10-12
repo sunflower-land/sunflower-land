@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
+import { CONFIG } from "lib/config";
 import type { GameState } from "./game";
 import {
   CHAPTER_CROP_WEEK,
@@ -34,6 +35,17 @@ describe("isChapterCropWeekActive", () => {
 });
 
 describe("hasChapterCropWeekAccess", () => {
+  // adminFeatureFlag is always on for testnet (CI runs with VITE_NETWORK=amoy),
+  // so pin mainnet to exercise the real Gift Giver + Beta Pass rule.
+  let previousNetwork: (typeof CONFIG)["NETWORK"];
+  beforeEach(() => {
+    previousNetwork = CONFIG.NETWORK;
+    CONFIG.NETWORK = "mainnet";
+  });
+  afterEach(() => {
+    CONFIG.NETWORK = previousNetwork;
+  });
+
   it("blocks regular players before the event starts", () => {
     expect(hasChapterCropWeekAccess(TEST_FARM, beforeStart)).toBe(false);
   });

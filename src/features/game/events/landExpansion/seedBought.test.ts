@@ -11,6 +11,7 @@ import type { GameState } from "features/game/types/game";
 import { getBuyPrice, seedBought } from "./seedBought";
 import { SEEDS } from "features/game/types/seeds";
 import { CHAPTER_CROP_WEEK } from "features/game/types/chapterCropWeek";
+import { CONFIG } from "lib/config";
 
 // TEST_FARM's raw inventory doesn't carry planting-spot counts (Crop Plot,
 // Fruit Patch, Flower Bed, Greenhouse) even though it owns crops/plots -
@@ -31,6 +32,17 @@ describe("seedBought", () => {
   const dateNow = Date.now();
 
   describe("Chapter Crop Week seed", () => {
+    // adminFeatureFlag is always on for testnet (CI runs with VITE_NETWORK=amoy),
+    // so pin mainnet to exercise the real Gift Giver + Beta Pass rule.
+    let previousNetwork: (typeof CONFIG)["NETWORK"];
+    beforeEach(() => {
+      previousNetwork = CONFIG.NETWORK;
+      CONFIG.NETWORK = "mainnet";
+    });
+    afterEach(() => {
+      CONFIG.NETWORK = previousNetwork;
+    });
+
     const beforeStart =
       CHAPTER_CROP_WEEK.startDate.getTime() - 24 * 60 * 60 * 1000;
     const stocked: GameState = {
