@@ -123,6 +123,44 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
     });
   };
 
+  // Harvest every ready pack, one regular harvest event each. Harvesting
+  // removes the pack from the queue, so look up the next ready one each time.
+  const handleHarvestAll = () => {
+    let queue: CropMachineBuilding["queue"] = [];
+
+    for (let i = 0; i < 100; i++) {
+      const machines = gameService.getSnapshot().context.state.buildings[
+        "Crop Machine"
+      ] as CropMachineBuilding[];
+      const machine = machines.find((m) => m.id === id);
+      queue = machine?.queue ?? [];
+
+      const packIndex = queue.findIndex((pack) =>
+        isCropPackReady(pack, Date.now()),
+      );
+      if (packIndex < 0) break;
+
+      const updated = gameService.send({
+        type: "cropMachine.harvested",
+        packIndex,
+        machineId: id,
+      });
+
+      queue =
+        (
+          updated.context.state.buildings[
+            "Crop Machine"
+          ] as CropMachineBuilding[]
+        ).find((m) => m.id === id)?.queue ?? [];
+    }
+
+    cropMachineService.send({
+      type: "HARVEST_CROPS",
+      updatedQueue: queue ?? [],
+      updatedUnallocatedOilTime: cropMachine.unallocatedOilTime ?? 0,
+    });
+  };
+
   const handleHarvestPack = (packIndex: number) => {
     const updated = gameService.send({
       type: "cropMachine.harvested",
@@ -277,6 +315,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
         onClose={() => setShowModal(false)}
         onAddSeeds={handleAddSeeds}
         onHarvestPack={handleHarvestPack}
+        onHarvestAll={handleHarvestAll}
         onRemovePack={handleRemovePack}
         onAddOil={handleAddOil}
       />

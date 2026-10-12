@@ -972,6 +972,7 @@
   "cropMachine.removePack": "Remove pack",
   "cropMachine.seedPacks": "Seed packs",
   "cropMachine.harvestCropPack": "Harvest crop pack",
+  "cropMachine.harvestAll": "Harvest all ({{count}})",
   "cropMachine.addOil": "Add oil",
   "cropMachine.oil.description": "Your machine needs oil to run. Every seed pack will require a certain amount of oil based on how long the crops take to grow. As you add oil you can see how long the machine will run when given that amount.",
   "cropMachine.maxRuntime": "Max runtime: {{time}}",
