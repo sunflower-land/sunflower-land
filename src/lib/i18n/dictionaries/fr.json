@@ -8689,7 +8689,6 @@
   "cave.merchant.moreOffers": "Plus d'offres chez Cave tier {{tier}}",
   "description.pigBristles": "Poils grossiers provenant d'un cochon.",
   "resource.pigBristles": "Poils de porc",
-  "description.mud": "Boue riche et collante. Enduit un cochon pour lui donner plus d'expérience alimentaire et l'empêche de tomber malade.",
   "sleepingAnimal.mudFeedsLeft": "+ {{percent}} % d'expérience d'alimentation · aucune maladie · fils restants : {{count}}",
   "walletWall.withdrawWalletMismatch": "Vous avez sélectionné un autre portefeuille. Vos portefeuilles connectés et associés ne correspondent pas, vous ne pouvez donc pas effectuer de retrait.",
   "waterTrap.noChumSelected": "Sans copain",
@@ -8727,5 +8726,6 @@
   "description.cave": "Une caverne humide où les champignons poussent dans le noir.",
   "building.cave": "Grotte",
   "gameOptions.generalSettings.customCursor": "Curseur personnalisé",
-  "cave.batch.chooseCrop": "Choisissez une culture à composter"
+  "cave.batch.chooseCrop": "Choisissez une culture à composter",
+  "description.mud": "Boue riche et collante. 10 couches de boue recouvrent un cochon pour lui apporter plus d'expérience alimentaire et l'empêcher de tomber malade."
 }

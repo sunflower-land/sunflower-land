@@ -8689,7 +8689,6 @@
   "cave.merchant.moreOffers": "Mais ofertas no nível Cave {{tier}}",
   "description.pigBristles": "Cerdas grossas de um porco.",
   "resource.pigBristles": "Cerdas de porco",
-  "description.mud": "Lama rica e pegajosa. Cubra um porco para obter mais XP de alimentação e evita que ele adoeça.",
   "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% de XP de alimentação · nenhuma doença · feeds restantes: {{count}}",
   "walletWall.withdrawWalletMismatch": "Você selecionou uma carteira diferente. Suas carteiras conectadas e vinculadas não coincidem, então você não pode sacar.",
   "waterTrap.noChumSelected": "Sem amigo",
@@ -8727,5 +8726,6 @@
   "description.cave": "Uma caverna úmida onde os cogumelos crescem no escuro.",
   "building.cave": "Caverna",
   "gameOptions.generalSettings.customCursor": "Cursor personalizado",
-  "cave.batch.chooseCrop": "Escolha uma cultura para compostar"
+  "cave.batch.chooseCrop": "Escolha uma cultura para compostar",
+  "description.mud": "Lama rica e pegajosa. 10 Lamas cobrem um porco para aumentar a EXP de alimentação e evita que ele adoeça."
 }

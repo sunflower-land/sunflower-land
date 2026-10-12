@@ -8689,7 +8689,6 @@
   "cave.merchant.moreOffers": "Weitere Angebote auf der Höhlenebene {{tier}}",
   "description.pigBristles": "Grobe Borsten von einem Schwein.",
   "resource.pigBristles": "Schweineborsten",
-  "description.mud": "Reichhaltiger, klebriger Schlamm. Überzieht ein Schwein um zusätzliche Futter-XP und verhindert, dass es krank wird.",
   "sleepingAnimal.mudFeedsLeft": "+ {{percent}}% Futter-XP · keine Krankheit · verbleibende Feeds: {{count}}",
   "walletWall.withdrawWalletMismatch": "Sie haben eine andere Brieftasche ausgewählt. Deine verbundenen und verknüpften Wallets stimmen nicht überein, sodass du keine Auszahlungen vornehmen kannst.",
   "waterTrap.noChumSelected": "Ohne Kumpel",
@@ -8727,5 +8726,6 @@
   "description.cave": "Eine feuchte Höhle, in der Pilze im Dunkeln wachsen.",
   "building.cave": "Höhle",
   "gameOptions.generalSettings.customCursor": "Benutzerdefinierter Mauszeiger",
-  "cave.batch.chooseCrop": "Wählen Sie eine Pflanze zum Kompostieren"
+  "cave.batch.chooseCrop": "Wählen Sie eine Pflanze zum Kompostieren",
+  "description.mud": "Reichhaltiger, klebriger Schlamm. 10 Schlamm umhüllt ein Schwein für zusätzliche Futter-XP und verhindert, dass es krank wird."
 }
