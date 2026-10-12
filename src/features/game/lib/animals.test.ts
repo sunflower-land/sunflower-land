@@ -9,8 +9,8 @@ import {
   getResourceDropAmount,
   makeAnimalBuildingKey,
   ANIMAL_BUILDING_KEYS,
+  isFoodForAnimal,
   isMuddy,
-  MUD_XP_MULTIPLIER,
 } from "../lib/animals";
 import { BUMPKIN_REVAMP_SKILL_TREE, SKILL_RANKS } from "../types/bumpkinSkills";
 import {
@@ -697,6 +697,7 @@ describe("getFeedItem", () => {
 
   it("keeps the favourite food when it is already selected", () => {
     const item = getFeedItem({
+      animal: "Chicken",
       selectedItem: "Kernel Blend",
       favouriteFood: "Kernel Blend",
       inventory: { "Kernel Blend": new Decimal(5), Hay: new Decimal(5) },
@@ -709,6 +710,7 @@ describe("getFeedItem", () => {
 
   it("keeps Omnifeed when it is selected even if the favourite food is available", () => {
     const item = getFeedItem({
+      animal: "Chicken",
       selectedItem: "Omnifeed",
       favouriteFood: "Kernel Blend",
       inventory: { "Kernel Blend": new Decimal(5), Omnifeed: new Decimal(5) },
@@ -719,8 +721,22 @@ describe("getFeedItem", () => {
     expect(item).toBe("Omnifeed");
   });
 
+  it("switches a Pig off Omnifeed, which Pigs cannot eat", () => {
+    const item = getFeedItem({
+      animal: "Pig",
+      selectedItem: "Omnifeed",
+      favouriteFood: "Basic Slop",
+      inventory: { "Basic Slop": new Decimal(5), Omnifeed: new Decimal(5) },
+      requiredQty,
+      hasBeetleFeedingAccess: true,
+    });
+
+    expect(item).toBe("Basic Slop");
+  });
+
   it("keeps a selected Beetle as an explicit choice", () => {
     const item = getFeedItem({
+      animal: "Chicken",
       selectedItem: "Amber Beetle",
       favouriteFood: "Kernel Blend",
       inventory: {
@@ -736,6 +752,7 @@ describe("getFeedItem", () => {
 
   it("keeps the selected favourite food even when a Beetle is held", () => {
     const item = getFeedItem({
+      animal: "Chicken",
       selectedItem: "Kernel Blend",
       favouriteFood: "Kernel Blend",
       inventory: {
@@ -751,6 +768,7 @@ describe("getFeedItem", () => {
 
   it("never switches to a Beetle on its own", () => {
     const item = getFeedItem({
+      animal: "Chicken",
       selectedItem: "Hay",
       favouriteFood: "Kernel Blend",
       inventory: { Hay: new Decimal(5), "Brown Beetle": new Decimal(1) },
@@ -763,6 +781,7 @@ describe("getFeedItem", () => {
 
   it("treats a selected Beetle like any other item without Beetle feeding access", () => {
     const item = getFeedItem({
+      animal: "Chicken",
       selectedItem: "Brown Beetle",
       favouriteFood: "Kernel Blend",
       inventory: {
@@ -778,6 +797,7 @@ describe("getFeedItem", () => {
 
   it("switches from a different food to the favourite food when enough is held", () => {
     const item = getFeedItem({
+      animal: "Chicken",
       selectedItem: "Hay",
       favouriteFood: "Kernel Blend",
       inventory: { "Kernel Blend": new Decimal(1), Hay: new Decimal(5) },
@@ -790,6 +810,7 @@ describe("getFeedItem", () => {
 
   it("switches from a non-food item to the favourite food when enough is held", () => {
     const item = getFeedItem({
+      animal: "Chicken",
       selectedItem: "Axe",
       favouriteFood: "Kernel Blend",
       inventory: { "Kernel Blend": new Decimal(1), Axe: new Decimal(1) },
@@ -802,6 +823,7 @@ describe("getFeedItem", () => {
 
   it("switches to the favourite food when nothing is selected", () => {
     const item = getFeedItem({
+      animal: "Chicken",
       selectedItem: undefined,
       favouriteFood: "Kernel Blend",
       inventory: { "Kernel Blend": new Decimal(1) },
@@ -814,6 +836,7 @@ describe("getFeedItem", () => {
 
   it("keeps the selected food when the favourite food is not held", () => {
     const item = getFeedItem({
+      animal: "Chicken",
       selectedItem: "Hay",
       favouriteFood: "Kernel Blend",
       inventory: { Hay: new Decimal(5) },
@@ -826,6 +849,7 @@ describe("getFeedItem", () => {
 
   it("keeps the selected food when there is not enough favourite food", () => {
     const item = getFeedItem({
+      animal: "Chicken",
       selectedItem: "Hay",
       favouriteFood: "Kernel Blend",
       inventory: { "Kernel Blend": new Decimal(2), Hay: new Decimal(5) },
@@ -838,6 +862,7 @@ describe("getFeedItem", () => {
 
   it("keeps a non-food selection when the favourite food is not held", () => {
     const item = getFeedItem({
+      animal: "Chicken",
       selectedItem: "Axe",
       favouriteFood: "Kernel Blend",
       inventory: { Axe: new Decimal(1) },
@@ -977,24 +1002,37 @@ describe("animal data tables", () => {
   });
 });
 
-describe("Mud XP bonus", () => {
-  const LEVELS = Array.from({ length: 16 }, (_, i) => i as AnimalLevel);
-  const CHONKY = [1, ...SKILL_RANKS["Chonky Feed"].xp];
+describe("isFoodForAnimal", () => {
+  const SLOPS = [
+    "Basic Slop",
+    "Hearty Slop",
+    "Rich Slop",
+    "Gourmet Slop",
+  ] as const;
 
-  it("keeps every Pig feed XP whole, with and without Mud and Chonky Feed", () => {
-    // Pig XP is 0.8x its old table so that Mud's 1.25x restores it exactly -
-    // which only holds while every value stays a multiple of 8.
-    LEVELS.forEach((level) => {
-      Object.values(ANIMAL_FOOD_EXPERIENCE.Pig[level]).forEach((xp) => {
-        CHONKY.forEach((chonky) => {
-          [1, MUD_XP_MULTIPLIER].forEach((mud) => {
-            expect(Number.isInteger(xp * chonky * mud)).toBe(true);
-          });
-        });
-      });
-    });
+  it("feeds Pigs the four Slops and nothing else", () => {
+    SLOPS.forEach((slop) => expect(isFoodForAnimal("Pig", slop)).toBe(true));
+    (
+      ["Hay", "Kernel Blend", "NutriBarley", "Mixed Grain", "Omnifeed"] as const
+    ).forEach((food) => expect(isFoodForAnimal("Pig", food)).toBe(false));
   });
 
+  it.each(["Chicken", "Sheep", "Cow"] as const)(
+    "never feeds a %s a Slop",
+    (animal) => {
+      SLOPS.forEach((slop) =>
+        expect(isFoodForAnimal(animal, slop)).toBe(false),
+      );
+      expect(isFoodForAnimal(animal, "Omnifeed")).toBe(true);
+    },
+  );
+
+  it("ignores inherited keys", () => {
+    expect(isFoodForAnimal("Pig", "constructor" as "Hay")).toBe(false);
+  });
+});
+
+describe("Mud XP bonus", () => {
   it("recognises a muddy animal only while it has feeds left", () => {
     expect(isMuddy({ ...ANIMAL, mud: { feedsRemaining: 1 } })).toBe(true);
     expect(isMuddy({ ...ANIMAL, mud: { feedsRemaining: 0 } })).toBe(false);

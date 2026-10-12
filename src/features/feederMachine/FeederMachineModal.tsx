@@ -37,9 +37,14 @@ import {
 import { Label } from "components/ui/Label";
 import { getIngredients, getMaxFeedMixAmount } from "./feedMixed";
 import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails";
-import { getBulkMixRequirements } from "./getBulkMixRequirements";
+import {
+  getBulkMixRequirements,
+  getPigFeedIngredientOptions,
+} from "./getBulkMixRequirements";
+import { isPigFeed, type PigFeedName } from "features/game/types/pigFeeds";
 import { formatNumber } from "lib/utils/formatNumber";
 import { BulkMixModal } from "./BulkMixModal";
+import { PigFeedMixer } from "./PigFeedMixer";
 
 interface Props {
   show: boolean;
@@ -58,6 +63,13 @@ const ANIMAL_FEED_BUFFS: AnimalFeedBuffName[] = ["Salt Lick", "Honey Treat"];
 
 type Tab = "food" | "automaticMixer";
 
+/**
+ * The feeds a building's Feeder mixes: the Pigpen mixes only the Pig Slops,
+ * and the other buildings never mix them.
+ */
+const isBuildingFeed = (building: AnimalBuildingType, item: BulkMixItem) =>
+  building === "Pigpen" ? isPigFeed(item) : !isPigFeed(item);
+
 export const FeederMachineModal: React.FC<Props> = ({
   show,
   onClose,
@@ -75,7 +87,11 @@ export const FeederMachineModal: React.FC<Props> = ({
   const now = useNow({ live: show, intervalMs: 1000 });
   const [selectedName, setSelectedName] = useState<
     AnimalFoodName | AnimalMedicineName
-  >("Hay");
+  >(building === "Pigpen" ? "Basic Slop" : "Hay");
+  // The input the player picked for each Slop; unset means the best option.
+  const [pigFeedInputs, setPigFeedInputs] = useState<
+    Partial<Record<PigFeedName, InventoryItemName>>
+  >({});
   const [selectedSpice, setSelectedSpice] =
     useState<AnimalFeedBuffName>("Honey Treat");
   const [isSpiceSelected, setIsSpiceSelected] = useState(false);
@@ -85,8 +101,22 @@ export const FeederMachineModal: React.FC<Props> = ({
   const [customMixAmount, setCustomMixAmount] = useState(new Decimal(0));
   const { coins } = ANIMAL_FOODS[selectedName];
 
-  const { ingredients } = getIngredients({ state, name: selectedName });
-  const maxMixAmount = getMaxFeedMixAmount({ state, name: selectedName });
+  const pigFeedOptions = isPigFeed(selectedName)
+    ? getPigFeedIngredientOptions(selectedName, state.inventory)
+    : [];
+  const ingredient = isPigFeed(selectedName)
+    ? (pigFeedInputs[selectedName] ?? pigFeedOptions[0])
+    : undefined;
+  const { ingredients } = getIngredients({
+    state,
+    name: selectedName,
+    ingredient,
+  });
+  const maxMixAmount = getMaxFeedMixAmount({
+    state,
+    name: selectedName,
+    ingredient,
+  });
   const spices = ANIMAL_FEED_BUFFS.filter((item) =>
     state.inventory[item]?.gt(0),
   );
@@ -100,7 +130,9 @@ export const FeederMachineModal: React.FC<Props> = ({
 
   // Only feeds that still need mixing are listed - a feed the inventory
   // already covers is not something the player has to act on.
-  const mixableFeeds = feeds.filter((feed) => feed.missing.gt(0));
+  const mixableFeeds = feeds.filter(
+    (feed) => feed.missing.gt(0) && isBuildingFeed(building, feed.item),
+  );
 
   // Track which feeds the player has toggled OFF. Everything mixable is
   // selected by default, so storing only the deselections keeps the default
@@ -120,17 +152,19 @@ export const FeederMachineModal: React.FC<Props> = ({
     toggleFeed(item);
   };
 
-  const groupedItems = getKeys(ANIMAL_FOODS).reduce(
-    (acc, item) => {
-      const type = ANIMAL_FOODS[item].type;
-      if (!acc[type]) {
-        acc[type] = [];
-      }
-      acc[type].push(ANIMAL_FOODS[item]);
-      return acc;
-    },
-    {} as Record<FeedType, Feed[]>,
-  );
+  const groupedItems = getKeys(ANIMAL_FOODS)
+    .filter((item) => isBuildingFeed(building, item))
+    .reduce(
+      (acc, item) => {
+        const type = ANIMAL_FOODS[item].type;
+        if (!acc[type]) {
+          acc[type] = [];
+        }
+        acc[type].push(ANIMAL_FOODS[item]);
+        return acc;
+      },
+      {} as Record<FeedType, Feed[]>,
+    );
 
   const onSelect = (item: AnimalFoodName | AnimalMedicineName) => {
     setSelectedName(item);
@@ -159,6 +193,7 @@ export const FeederMachineModal: React.FC<Props> = ({
   const mix = (amount = 1) => {
     gameService.send("feed.mixed", {
       item: selectedName,
+      ingredient,
       amount,
     });
 
@@ -183,7 +218,9 @@ export const FeederMachineModal: React.FC<Props> = ({
     closeBulkMixModal();
   };
 
-  const hasFeedRequests = getKeys(requests).length > 0;
+  const hasFeedRequests = getKeys(requests).some((item) =>
+    isBuildingFeed(building, item),
+  );
   const hasMixableFeeds = mixableFeeds.length > 0;
   // Requests exist, but the player's inventory already covers every one.
   const allCovered = hasFeedRequests && !hasMixableFeeds;
@@ -282,6 +319,7 @@ export const FeederMachineModal: React.FC<Props> = ({
     gameService.send("feeds.bulkMixed", {
       feeds: selectedFeeds.map((feed) => ({
         item: feed.item,
+        ingredient: feed.ingredient,
         amount: feed.missing.toNumber(),
       })),
     });
@@ -327,7 +365,26 @@ export const FeederMachineModal: React.FC<Props> = ({
           currentTab={tab}
           setCurrentTab={setTab}
         >
-          {tab === "food" && (
+          {tab === "food" && building === "Pigpen" && (
+            <PigFeedMixer
+              state={state}
+              selected={isPigFeed(selectedName) ? selectedName : "Basic Slop"}
+              ingredient={ingredient ?? pigFeedOptions[0]}
+              ingredients={ingredients}
+              maxMixAmount={maxMixAmount}
+              onSelect={onSelect}
+              onSelectIngredient={(item) =>
+                isPigFeed(selectedName) &&
+                setPigFeedInputs((prev) => ({
+                  ...prev,
+                  [selectedName]: item,
+                }))
+              }
+              onMix={mix}
+              onMixInBulk={() => setShowBulkMixModal(true)}
+            />
+          )}
+          {tab === "food" && building !== "Pigpen" && (
             <SplitScreenView
               panel={
                 showSpiceDetails ? (

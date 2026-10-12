@@ -19,7 +19,7 @@ import {
   getAnimalLevel,
   getBoostedFoodQuantity,
   getFeedItem,
-  isAnimalFood,
+  isFoodForAnimal,
   getFeedQuantity,
   resolveAnimal,
 } from "features/game/lib/animals";
@@ -496,6 +496,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     // Auto-select the favourite food when it is held so a stale selection
     // (e.g. Hay left over from the barn) never feeds the wrong item.
     const feedItem = getFeedItem({
+      animal: "Cow",
       selectedItem,
       favouriteFood: favFood,
       inventory,
@@ -510,7 +511,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     // the no-food prompt instead of an event the reducer would reject.
     const hasFoodSelected =
       feedItem &&
-      (isAnimalFood(feedItem) ||
+      (isFoodForAnimal("Cow", feedItem) ||
         (hasBeetleFeedingAccess && isBeetle(feedItem)));
 
     if (hasFoodSelected) {

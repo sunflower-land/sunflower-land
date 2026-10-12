@@ -59,9 +59,8 @@ export const MUD_PER_APPLICATION = 10;
 /** Feeds of bonus XP that one Mud application gives a Pig. */
 export const MUD_FEEDS = 3;
 /**
- * Final feeding-XP multiplier for a muddy Pig. The Pig XP table is 0.8x what it
- * was, so a muddy Pig earns exactly the old XP and a Pig without Mud earns
- * 0.8x - the spec's upkeep penalty, framed as a bonus.
+ * Final feeding-XP multiplier for a muddy Pig (#7721: +25% final XP). The
+ * result can be fractional (10 -> 12.5); handleFoodXP keeps it exact.
  */
 export const MUD_XP_MULTIPLIER = 1.25;
 
@@ -203,7 +202,9 @@ export function hasAnimalCompletedCycle({
 export function getAnimalFavoriteFood(type: AnimalType, animalXP: number) {
   const level = getAnimalLevel(animalXP, type);
   const levelFood = ANIMAL_FOOD_EXPERIENCE[type][level];
-  const maxXp = Math.max(...Object.values(levelFood));
+  const maxXp = Math.max(
+    ...getKeys(levelFood).map((food) => levelFood[food] ?? 0),
+  );
 
   const favouriteFoods = getKeys(levelFood)
     .filter((foodName) => levelFood[foodName] === maxXp)
@@ -212,6 +213,20 @@ export function getAnimalFavoriteFood(type: AnimalType, animalXP: number) {
   if (favouriteFoods.length !== 1) throw new Error("No favourite food");
 
   return favouriteFoods[0];
+}
+
+/**
+ * True when `food` is one of `animal`'s foods. Pigs eat only the four Slops;
+ * the other animals never eat a Slop.
+ */
+export function isFoodForAnimal(
+  animal: AnimalType,
+  food: InventoryItemName,
+): food is AnimalFoodName {
+  return Object.prototype.hasOwnProperty.call(
+    ANIMAL_FOOD_EXPERIENCE[animal][0],
+    food,
+  );
 }
 
 export function isAnimalFood(item: InventoryItemName): item is AnimalFoodName {
@@ -231,12 +246,14 @@ export function isAnimalFood(item: InventoryItemName): item is AnimalFoodName {
  * selection is left alone so players can still feed whatever they actioned.
  */
 export function getFeedItem({
+  animal,
   selectedItem,
   favouriteFood,
   inventory,
   requiredQty,
   hasBeetleFeedingAccess,
 }: {
+  animal: AnimalType;
   selectedItem?: InventoryItemName;
   favouriteFood: AnimalFoodName;
   inventory: Inventory;
@@ -245,7 +262,7 @@ export function getFeedItem({
 }): InventoryItemName | undefined {
   if (
     selectedItem === favouriteFood ||
-    selectedItem === "Omnifeed" ||
+    (selectedItem === "Omnifeed" && isFoodForAnimal(animal, selectedItem)) ||
     (hasBeetleFeedingAccess && !!selectedItem && isBeetle(selectedItem))
   ) {
     return selectedItem;

@@ -1385,12 +1385,20 @@ export type LanternName =
   | "Betty Lantern"
   | "Bumpkin Lantern";
 
+/** The four tier feeds only Pigs eat (types/pigFeeds.ts). */
+export type PigFeedName =
+  | "Basic Slop"
+  | "Hearty Slop"
+  | "Rich Slop"
+  | "Gourmet Slop";
+
 export type AnimalFoodName =
   | "Hay"
   | "Kernel Blend"
   | "NutriBarley"
   | "Mixed Grain"
-  | "Omnifeed";
+  | "Omnifeed"
+  | PigFeedName;
 
 export type AnimalMedicineName = "Barn Delight";
 

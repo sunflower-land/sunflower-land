@@ -18,7 +18,7 @@ import {
   getAnimalLevel,
   getBoostedFoodQuantity,
   getFeedItem,
-  isAnimalFood,
+  isFoodForAnimal,
   getFeedQuantity,
   isMuddy,
   MUD_PER_APPLICATION,
@@ -497,6 +497,7 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
     // Auto-select the favourite food when it is held so a stale selection
     // (e.g. Hay left over from another building) never feeds the wrong item.
     const feedItem = getFeedItem({
+      animal: "Pig",
       selectedItem,
       favouriteFood: favFood,
       inventory,
@@ -511,7 +512,7 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
     // the no-food prompt instead of an event the reducer would reject.
     const hasFoodSelected =
       feedItem &&
-      (isAnimalFood(feedItem) ||
+      (isFoodForAnimal("Pig", feedItem) ||
         (hasBeetleFeedingAccess && isBeetle(feedItem)));
 
     if (hasFoodSelected) {
