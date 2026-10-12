@@ -27,7 +27,7 @@ import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
 import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import {
   CHAPTER_CROP_WEEK_SEED,
-  isChapterCropWeekActive,
+  hasChapterCropWeekAccess,
 } from "features/game/types/chapterCropWeek";
 
 export type SeedBoughtAction = {
@@ -147,9 +147,10 @@ export function seedBought({ state, action, createdAt = Date.now() }: Options) {
     }
 
     // Chapter Crop Week event seed is only available while the event is active
+    // (admin testers get early access)
     if (
       item === CHAPTER_CROP_WEEK_SEED &&
-      !isChapterCropWeekActive(createdAt)
+      !hasChapterCropWeekAccess(state, createdAt)
     ) {
       throw new Error("Chapter Crop Week is not active");
     }

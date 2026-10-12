@@ -1,6 +1,8 @@
 import type { SeedName } from "./seeds";
 import type { CookableName } from "./consumables";
 import type { CropName } from "./crops";
+import type { GameState } from "./game";
+import { hasFeatureAccess } from "lib/flags";
 
 /**
  * Chapter Crop Week is a one-week limited-time event that runs inside a chapter.
@@ -34,3 +36,24 @@ export const CHAPTER_CROP_WEEK_RECIPE: CookableName = "Crystal Cookie";
 export const isChapterCropWeekActive = (now: number = Date.now()): boolean =>
   now >= CHAPTER_CROP_WEEK.startDate.getTime() &&
   now < CHAPTER_CROP_WEEK.endDate.getTime();
+
+/**
+ * Whether this player can use the Chapter Crop Week items right now: everyone
+ * once the event window opens, plus admin testers (CHAPTER_CROP_WEEK_EARLY_ACCESS)
+ * ahead of the start date so the run can be tested on mainnet. Nobody keeps
+ * access after the end date. Use this (not `isChapterCropWeekActive`) for every
+ * buy / plant / cook / trade gate; the time-only check is for countdowns.
+ * @param game The player's game state (for the admin flag).
+ * @param now Unix timestamp (ms) to check against. Defaults to Date.now().
+ */
+export const hasChapterCropWeekAccess = (
+  game: GameState,
+  now: number = Date.now(),
+): boolean => {
+  if (now >= CHAPTER_CROP_WEEK.endDate.getTime()) return false;
+
+  return (
+    isChapterCropWeekActive(now) ||
+    hasFeatureAccess(game, "CHAPTER_CROP_WEEK_EARLY_ACCESS")
+  );
+};

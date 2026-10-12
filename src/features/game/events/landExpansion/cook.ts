@@ -35,7 +35,7 @@ import {
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import {
   CHAPTER_CROP_WEEK_RECIPE,
-  isChapterCropWeekActive,
+  hasChapterCropWeekAccess,
 } from "features/game/types/chapterCropWeek";
 
 export type RecipeCookedAction = {
@@ -270,9 +270,10 @@ export function cook({
     const { item, buildingId } = action;
 
     // Chapter Crop Week event recipe is only cookable while the event is active
+    // (admin testers get early access)
     if (
       item === CHAPTER_CROP_WEEK_RECIPE &&
-      !isChapterCropWeekActive(createdAt)
+      !hasChapterCropWeekAccess(state, createdAt)
     ) {
       throw new Error("Chapter Crop Week is not active");
     }
