@@ -8738,5 +8738,13 @@
   "chapterCropWeek.leaderboard.rankingUpdated": "Das Ranking wird stündlich aktualisiert",
   "crop.crystalLeaf": "Kristallblatt",
   "seed.crystalLeaf": "Kristallblattsamen",
-  "food.crystalCookie": "Kristall-Keks"
+  "food.crystalCookie": "Kristall-Keks",
+  "skill.swillSavvy.buff": "x0.75 Futter zum Füttern von Schweinen",
+  "skill.swillSavvy.debuff": "+50% Futter für andere Tiere",
+  "skill.truffleYield": "+10% Trüffelertrag",
+  "skill.bristlePayout": "+10% Schweineborsten durch den Handel mit Schweinen",
+  "skill.swillSavvy.buff.ranked": "x {{value}} Futter zum Füttern von Schweinen",
+  "skill.swillSavvy.debuff.ranked": "+ {{value}}% Futter für andere Tiere",
+  "skill.truffleYield.ranked": "+ {{value}}% Trüffelertrag",
+  "skill.bristlePayout.ranked": "+ {{value}}% Schweineborsten aus dem Handel mit Schweinen"
 }

@@ -8738,5 +8738,13 @@
   "chapterCropWeek.leaderboard.rankingUpdated": "Peringkat disegarkan setiap jam",
   "crop.crystalLeaf": "Daun Kristal",
   "seed.crystalLeaf": "Benih Daun Kristal",
-  "food.crystalCookie": "Kue Kristal"
+  "food.crystalCookie": "Kue Kristal",
+  "skill.swillSavvy.buff": "pakan x0.75 untuk memberi makan Babi",
+  "skill.swillSavvy.debuff": "+50% pakan untuk memberi makan hewan lain",
+  "skill.truffleYield": "+10% hasil Truffle",
+  "skill.bristlePayout": "+10% Bulu Babi dari perdagangan Babi",
+  "skill.swillSavvy.buff.ranked": "x {{value}} pakan untuk memberi makan Babi",
+  "skill.swillSavvy.debuff.ranked": "+ {{value}}% pakan untuk memberi makan hewan lain",
+  "skill.truffleYield.ranked": "+ {{value}}% Hasil truffle",
+  "skill.bristlePayout.ranked": "+ {{value}}% Bulu Babi dari perdagangan Babi"
 }

@@ -8738,5 +8738,13 @@
   "chapterCropWeek.leaderboard.rankingUpdated": "Le classement est actualisé toutes les heures",
   "crop.crystalLeaf": "Feuille de cristal",
   "seed.crystalLeaf": "Graine de feuille de cristal",
-  "food.crystalCookie": "Biscuit en cristal"
+  "food.crystalCookie": "Biscuit en cristal",
+  "skill.swillSavvy.buff": "x0,75 nourriture pour nourrir les porcs",
+  "skill.swillSavvy.debuff": "+50 % de nourriture pour nourrir d'autres animaux",
+  "skill.truffleYield": "+10 % de rendement en truffes",
+  "skill.bristlePayout": "+10 % de poils de porc provenant du commerce de porcs",
+  "skill.swillSavvy.buff.ranked": "x {{value}} nourriture pour nourrir les porcs",
+  "skill.swillSavvy.debuff.ranked": "+ {{value}} % de nourriture pour nourrir d'autres animaux",
+  "skill.truffleYield.ranked": "+ {{value}} % Rendement en truffes",
+  "skill.bristlePayout.ranked": "+ {{value}} % de poils de porc provenant du commerce de porcs"
 }

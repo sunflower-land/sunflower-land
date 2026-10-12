@@ -8738,5 +8738,13 @@
   "chapterCropWeek.leaderboard.rankingUpdated": "Ranking refreshes hourly",
   "crop.crystalLeaf": "Crystal Leaf",
   "seed.crystalLeaf": "Crystal Leaf Seed",
-  "food.crystalCookie": "Crystal Cookie"
+  "food.crystalCookie": "Crystal Cookie",
+  "skill.swillSavvy.buff": "x0.75 feed to feed Pigs",
+  "skill.swillSavvy.debuff": "+50% feed to feed other animals",
+  "skill.truffleYield": "+10% Truffle yield",
+  "skill.bristlePayout": "+10% Pig Bristles from trading in Pigs",
+  "skill.swillSavvy.buff.ranked": "x{{value}} feed to feed Pigs",
+  "skill.swillSavvy.debuff.ranked": "+{{value}}% feed to feed other animals",
+  "skill.truffleYield.ranked": "+{{value}}% Truffle yield",
+  "skill.bristlePayout.ranked": "+{{value}}% Pig Bristles from trading in Pigs"
 }

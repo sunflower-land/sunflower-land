@@ -8738,5 +8738,13 @@
   "chapterCropWeek.leaderboard.rankingUpdated": "La clasificación se actualiza cada hora",
   "crop.crystalLeaf": "Hoja de cristal",
   "seed.crystalLeaf": "Semilla de hoja de cristal",
-  "food.crystalCookie": "Galleta de cristal"
+  "food.crystalCookie": "Galleta de cristal",
+  "skill.swillSavvy.buff": "x0.75 pienso para alimentar cerdos",
+  "skill.swillSavvy.debuff": "Más del 50% de pienso para alimentar a otros animales",
+  "skill.truffleYield": "+10% de rendimiento de trufas",
+  "skill.bristlePayout": "+10% de cerdas de cerdo por el comercio de cerdos",
+  "skill.swillSavvy.buff.ranked": "x {{value}} pienso para alimentar a los cerdos",
+  "skill.swillSavvy.debuff.ranked": "+ {{value}}% de pienso para alimentar a otros animales",
+  "skill.truffleYield.ranked": "+ {{value}}% de rendimiento de trufa",
+  "skill.bristlePayout.ranked": "+ {{value}}% de cerdas de cerdo procedentes del comercio de cerdos"
 }

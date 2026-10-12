@@ -8738,5 +8738,13 @@
   "chapterCropWeek.leaderboard.rankingUpdated": "Sıralama saatlik olarak yenilenir",
   "crop.crystalLeaf": "Kristal Yaprak",
   "seed.crystalLeaf": "Kristal Yaprak Tohumu",
-  "food.crystalCookie": "Kristal Kurabiye"
+  "food.crystalCookie": "Kristal Kurabiye",
+  "skill.swillSavvy.buff": "Domuzları beslemek için x0.75 yem",
+  "skill.swillSavvy.debuff": "Diğer hayvanları beslemek için +% 50 yem",
+  "skill.truffleYield": "+10% Trüf verimi",
+  "skill.bristlePayout": "Domuz ticaretinden %+10 Domuz Kılları",
+  "skill.swillSavvy.buff.ranked": "x {{value}} Domuzları beslemek için yem",
+  "skill.swillSavvy.debuff.ranked": "+ {{value}} diğer hayvanları beslemek için %yem",
+  "skill.truffleYield.ranked": "+ {{value}} %Trüf verimi",
+  "skill.bristlePayout.ranked": "Domuz ticaretinden + {{value}} %Domuz Kılları"
 }

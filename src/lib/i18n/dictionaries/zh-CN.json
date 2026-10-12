@@ -8738,5 +8738,13 @@
   "chapterCropWeek.leaderboard.rankingUpdated": "排名每小时刷新一次",
   "crop.crystalLeaf": "水晶叶",
   "seed.crystalLeaf": "水晶叶种子",
-  "food.crystalCookie": "水晶饼干"
+  "food.crystalCookie": "水晶饼干",
+  "skill.swillSavvy.buff": "x0.75 喂猪的饲料",
+  "skill.swillSavvy.debuff": "+50% 用于喂养其他动物的饲料",
+  "skill.truffleYield": "+10% 松露产量",
+  "skill.bristlePayout": "通过交易猪获得 +10% 的猪刷毛",
+  "skill.swillSavvy.buff.ranked": "x {{value}} 喂猪的饲料",
+  "skill.swillSavvy.debuff.ranked": "+ {{value}}% 用于喂养其他动物的饲料",
+  "skill.truffleYield.ranked": "+ {{value}}% 松露产量",
+  "skill.bristlePayout.ranked": "+ {{value}}% 来自猪交易的猪毛"
 }

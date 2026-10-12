@@ -8738,5 +8738,13 @@
   "chapterCropWeek.leaderboard.rankingUpdated": "La classifica si aggiorna ogni ora",
   "crop.crystalLeaf": "Foglia di cristallo",
   "seed.crystalLeaf": "Semi di foglie di cristallo",
-  "food.crystalCookie": "Biscotto di cristallo"
+  "food.crystalCookie": "Biscotto di cristallo",
+  "skill.swillSavvy.buff": "x0.75 Mangime per nutrire i maiali",
+  "skill.swillSavvy.debuff": "+50% di mangime per nutrire altri animali",
+  "skill.truffleYield": "+10% resa in tartufo",
+  "skill.bristlePayout": "+10% di setole di maiale dal commercio di maiali",
+  "skill.swillSavvy.buff.ranked": "x {{value}} mangime per nutrire i maiali",
+  "skill.swillSavvy.debuff.ranked": "+ {{value}}% mangime per nutrire altri animali",
+  "skill.truffleYield.ranked": "+ {{value}}% Rendimento del tartufo",
+  "skill.bristlePayout.ranked": "+ {{value}}% Setole di maiale derivanti dal commercio di maiali"
 }

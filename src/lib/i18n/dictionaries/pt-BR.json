@@ -8738,5 +8738,13 @@
   "chapterCropWeek.leaderboard.rankingUpdated": "A classificação é atualizada de hora em hora",
   "crop.crystalLeaf": "Folha de cristal",
   "seed.crystalLeaf": "Semente de folha de cristal",
-  "food.crystalCookie": "Cookie de cristal"
+  "food.crystalCookie": "Cookie de cristal",
+  "skill.swillSavvy.buff": "x0,75 de ração para alimentar porcos",
+  "skill.swillSavvy.debuff": "+50% de ração para alimentar outros animais",
+  "skill.truffleYield": "+10% de rendimento de trufas",
+  "skill.bristlePayout": "+10% de cerdas de porco provenientes do comércio de porcos",
+  "skill.swillSavvy.buff.ranked": "x {{value}} ração para alimentar porcos",
+  "skill.swillSavvy.debuff.ranked": "+ {{value}}% de ração para alimentar outros animais",
+  "skill.truffleYield.ranked": "+ {{value}}% Rendimento de trufas",
+  "skill.bristlePayout.ranked": "+ {{value}}% Cerdas de porco provenientes do comércio de porcos"
 }

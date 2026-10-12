@@ -8738,5 +8738,13 @@
   "chapterCropWeek.leaderboard.rankingUpdated": "ランキングは1時間ごとに更新されます",
   "crop.crystalLeaf": "クリスタルリーフ",
   "seed.crystalLeaf": "クリスタルリーフシード",
-  "food.crystalCookie": "クリスタルクッキー"
+  "food.crystalCookie": "クリスタルクッキー",
+  "skill.swillSavvy.buff": "ブタにエサをあげるためのエサ x0.75",
+  "skill.swillSavvy.debuff": "+50% のエサで他の動物にエサをあげる",
+  "skill.truffleYield": "トリュフ生産量 +10%",
+  "skill.bristlePayout": "ピッグトレードで獲得したピッグブリストル +10%",
+  "skill.swillSavvy.buff.ranked": "豚に餌を与えるためのx {{value}} フィード",
+  "skill.swillSavvy.debuff.ranked": "+ {{value}}% の飼料で他の動物に餌をやる",
+  "skill.truffleYield.ranked": "+ {{value}}% トリュフ収量",
+  "skill.bristlePayout.ranked": "+ {{value}}% 豚の取引による豚毛"
 }
