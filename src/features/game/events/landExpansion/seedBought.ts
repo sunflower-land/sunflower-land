@@ -28,6 +28,7 @@ import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import {
   CHAPTER_CROP_WEEK_SEED,
   hasChapterCropWeekAccess,
+  isRetiredChapterCropWeekItem,
 } from "features/game/types/chapterCropWeek";
 
 export type SeedBoughtAction = {
@@ -144,6 +145,11 @@ export function seedBought({ state, action, createdAt = Date.now() }: Options) {
 
     if (isFullMoonBerry(item) && !isFullMoon(state)) {
       throw new Error("Not a full moon");
+    }
+
+    // Seeds from previous Chapter Crop Week runs can never be bought again
+    if (isRetiredChapterCropWeekItem(item)) {
+      throw new Error("This seed is no longer available");
     }
 
     // Chapter Crop Week event seed is only available while the event is active

@@ -4277,6 +4277,8 @@
   "chapterCropWeek.specialEventRecipe": "Special Event Recipe",
   "chapterCropWeek.daysRemaining": "{{days}} days remaining",
   "chapterCropWeek.comingSoon": "This item will be tradeable during Chapter Crop Week. Check back soon!",
+  "chapterCropWeek.retired": "No longer tradeable",
+  "chapterCropWeek.retiredDescription": "This item was part of a previous Chapter Crop Week and can no longer be traded.",
   "chapterCropWeek.ascensionBoostsPaused": "Ascension skill boosts don't apply during Chapter Crop Week",
   "chapterCropWeek.leaderboard.title": "Top Cooks",
   "chapterCropWeek.leaderboard.description": "The 100 players who have cooked the most {{recipe}} during Chapter Crop Week. Rewards are cosmetic only.",

@@ -36,6 +36,7 @@ import { trackFarmActivity } from "features/game/types/farmActivity";
 import {
   CHAPTER_CROP_WEEK_RECIPE,
   hasChapterCropWeekAccess,
+  isRetiredChapterCropWeekItem,
 } from "features/game/types/chapterCropWeek";
 
 export type RecipeCookedAction = {
@@ -268,6 +269,11 @@ export function cook({
 }: Options): GameState {
   return produce(state, (stateCopy) => {
     const { item, buildingId } = action;
+
+    // Recipes from previous Chapter Crop Week runs can never be cooked again
+    if (isRetiredChapterCropWeekItem(item)) {
+      throw new Error("This recipe is no longer available");
+    }
 
     // Chapter Crop Week event recipe is only cookable while the event is active
     // (admin testers get early access)

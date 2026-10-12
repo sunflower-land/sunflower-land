@@ -457,6 +457,36 @@ describe("cook", () => {
     ).toEqual(1);
   });
 
+  it("never cooks a recipe from a previous Chapter Crop Week, even with its ingredients", () => {
+    expect(() =>
+      cook({
+        state: {
+          ...GAME_STATE,
+          inventory: { Saltwort: new Decimal(30) },
+          bumpkin: INITIAL_BUMPKIN,
+          buildings: {
+            "Fire Pit": [
+              {
+                coordinates: { x: 2, y: 3 },
+                readyAt: 1000,
+                createdAt: 1000,
+                id: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
+                oil: 0,
+              },
+            ],
+          },
+        },
+        action: {
+          type: "recipe.cooked",
+          item: "Saltbite",
+          buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
+        },
+        farmId: 1,
+        createdAt: CHAPTER_CROP_WEEK.startDate.getTime(),
+      }),
+    ).toThrow("This recipe is no longer available");
+  });
+
   it("adds another recipe to the building if there is a slot available", () => {
     const state = cook({
       state: {
