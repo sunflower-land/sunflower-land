@@ -26,7 +26,10 @@ import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { getKeys } from "lib/object";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  getTranslatedItemName,
+  ITEM_DETAILS,
+} from "features/game/types/images";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { FLOWERS, type FlowerName } from "features/game/types/flowers";
 import { Box } from "components/ui/Box";
@@ -85,9 +88,11 @@ import { hasTimeBasedFeatureAccess } from "lib/flags";
 const BoostableRewardAmount: React.FC<{
   amount: string;
   icon: string;
+  /** Reward name for screen readers, e.g. "Coins" - the icon has no text. */
+  name: string;
   boosts: { name: BoostName; value: string }[];
   game: GameState;
-}> = ({ amount, icon, boosts, game }) => {
+}> = ({ amount, icon, name, boosts, game }) => {
   const [showBoosts, setShowBoosts] = useState(false);
   const anchorRef = useRef<HTMLDivElement>(null);
   const hasBoosts = boosts.length > 0;
@@ -100,6 +105,7 @@ const BoostableRewardAmount: React.FC<{
       })}
       role={hasBoosts ? "button" : undefined}
       tabIndex={hasBoosts ? 0 : undefined}
+      aria-label={hasBoosts ? `${amount} ${name}` : undefined}
       aria-expanded={hasBoosts ? showBoosts : undefined}
       onClick={(e) => {
         if (!hasBoosts) return;
@@ -114,8 +120,10 @@ const BoostableRewardAmount: React.FC<{
       }}
     >
       <span className="text-xs">{amount}</span>
-      <img src={icon} className="h-4 w-auto ml-1" />
-      {hasBoosts && <img src={lightning} className="h-3 w-auto ml-0.5" />}
+      <img src={icon} alt={name} className="h-4 w-auto ml-1" />
+      {hasBoosts && (
+        <img src={lightning} alt="" className="h-3 w-auto ml-0.5" />
+      )}
       {hasBoosts && showBoosts && (
         <BoostsDisplay
           boosts={boosts}
@@ -287,6 +295,7 @@ const OrderCard: React.FC<{
                         <BoostableRewardAmount
                           amount={makeRewardAmountForLabel(order)}
                           icon={token}
+                          name="FLOWER"
                           boosts={rewardBoostsUsed}
                           game={game}
                         />
@@ -295,6 +304,7 @@ const OrderCard: React.FC<{
                         <BoostableRewardAmount
                           amount={makeRewardAmountForLabel(order)}
                           icon={coinsImg}
+                          name={t("coins")}
                           boosts={rewardBoostsUsed}
                           game={game}
                         />
@@ -303,6 +313,7 @@ const OrderCard: React.FC<{
                         <BoostableRewardAmount
                           amount={`${ticketDisplay}`}
                           icon={ITEM_DETAILS[getChapterTicket(now)].image}
+                          name={getTranslatedItemName(getChapterTicket(now))}
                           boosts={ticketBoostsUsed}
                           game={game}
                         />
