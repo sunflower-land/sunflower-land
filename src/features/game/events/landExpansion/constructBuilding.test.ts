@@ -802,27 +802,26 @@ describe("constructBuilding: Pigpen gating", () => {
     ).toThrow("Insufficient ingredient: Mud");
   });
 
-  it("seeds the empty pigpen with one Pig on construction", () => {
+  it("seeds the empty pigpen with three Pigs on construction", () => {
     // game.pigpen ships EMPTY so no existing farm is handed free Pigs when the
     // field lands; the starter herd arrives when the player actually builds it.
     expect(farm.pigpen.animals).toEqual({});
 
     const pigs = Object.values(build(farm).pigpen.animals);
 
-    expect(pigs).toHaveLength(1);
+    expect(pigs).toHaveLength(3);
     expect(pigs.every((pig) => pig.type === "Pig")).toBe(true);
     expect(pigs.every((pig) => pig.createdAt === dateNow)).toBe(true);
   });
 
-  it("leaves room to buy Pigs in a level-1 Pigpen", () => {
-    // The invariant the herd size exists to satisfy: a Pigpen holds 3 at level
-    // 1, so a 3-Pig starter herd would fill it on construction and make every
-    // Pig purchase throw. Asserted against the capacity rather than a literal
-    // so it still holds if either number is retuned.
+  it("fills a level-1 Pigpen with the starter herd", () => {
+    // #7721 gives three free starter Pigs AND a level-1 capacity of 3, so a new
+    // Pigpen is full: buying a Pig waits for the first upgrade (Elias,
+    // 2026-10-12). Pinned so a retune of either number is a deliberate edit.
     const state = build(farm);
     const { capacity } = getBoostedAnimalCapacity("pigpen", state);
 
-    expect(Object.keys(state.pigpen.animals).length).toBeLessThan(capacity);
+    expect(Object.keys(state.pigpen.animals).length).toEqual(capacity);
   });
 
   it("does not disturb an existing herd when the building is constructed", () => {

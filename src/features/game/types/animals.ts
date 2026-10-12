@@ -76,10 +76,10 @@ export const ANIMALS: Record<AnimalType, AnimalDetail> = {
     height: 2,
     width: 2,
   },
-  // TODO(Chapter 16): coins, level and size are placeholders - the spec lists
-  // "configuration pending" for all of them. Pig sits between Cow and Sheep.
+  // Coins: #7721 Balance Update (provisional). TODO(Chapter 16): level and
+  // size are still placeholders.
   Pig: {
-    coins: 110,
+    coins: 100,
     levelRequired: { ascension: 0, level: 16 },
     buildingRequired: "Pigpen",
     height: 2,
@@ -160,25 +160,24 @@ export const ANIMAL_LEVELS: Record<AnimalType, Record<AnimalLevel, number>> = {
     14: 4800,
     15: 5440,
   },
-  // TODO(Chapter 16): placeholder. Sheep is Chicken x2 and Cow is Chicken x3,
-  // so Pig - which sits between them - is Chicken x2.5. Exact values pending.
+  // #7721 Balance Update: Pigs adopt the Cow's thresholds.
   Pig: {
     0: 0,
-    1: 150,
-    2: 300,
-    3: 600,
-    4: 900,
-    5: 1200,
-    6: 1650,
-    7: 2100,
-    8: 2550,
-    9: 3000,
-    10: 3600,
-    11: 4200,
-    12: 4800,
-    13: 5400,
-    14: 6000,
-    15: 6800,
+    1: 180,
+    2: 360,
+    3: 720,
+    4: 1080,
+    5: 1440,
+    6: 1980,
+    7: 2520,
+    8: 3060,
+    9: 3600,
+    10: 4320,
+    11: 5040,
+    12: 5760,
+    13: 6480,
+    14: 7200,
+    15: 8160,
   },
 };
 
@@ -894,22 +893,22 @@ export const ANIMAL_RESOURCE_DROP: Record<
       "Merino Wool": new Decimal(4),
     },
   },
-  // TODO(Chapter 16): placeholder curve, owned by the Pig balance ticket.
-  // Truffles are the Pig's only produce, from level 1 (spec v0.5); level 0
-  // drops nothing, matching every other animal. Pig Bristles are never
-  // produce - they come only from trading a Pig in.
+  // #7721 Balance Update: 1 / 2 / 3 / 4 Truffles at L1–3 / 4–7 / 8–14 / 15.
+  // Truffles are the Pig's only produce, from level 1; level 0 drops nothing,
+  // matching every other animal. Pig Bristles are never produce - they come
+  // only from trading a Pig in.
   Pig: {
     0: {},
     1: { Truffle: new Decimal(1) },
     2: { Truffle: new Decimal(1) },
     3: { Truffle: new Decimal(1) },
-    4: { Truffle: new Decimal(1) },
-    5: { Truffle: new Decimal(1) },
+    4: { Truffle: new Decimal(2) },
+    5: { Truffle: new Decimal(2) },
     6: { Truffle: new Decimal(2) },
     7: { Truffle: new Decimal(2) },
-    8: { Truffle: new Decimal(2) },
-    9: { Truffle: new Decimal(2) },
-    10: { Truffle: new Decimal(2) },
+    8: { Truffle: new Decimal(3) },
+    9: { Truffle: new Decimal(3) },
+    10: { Truffle: new Decimal(3) },
     11: { Truffle: new Decimal(3) },
     12: { Truffle: new Decimal(3) },
     13: { Truffle: new Decimal(3) },

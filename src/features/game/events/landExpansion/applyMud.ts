@@ -1,7 +1,11 @@
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import type { GameState } from "features/game/types/game";
-import { isMuddy, MUD_FEEDS } from "features/game/lib/animals";
+import {
+  isMuddy,
+  MUD_FEEDS,
+  MUD_PER_APPLICATION,
+} from "features/game/lib/animals";
 import { hasFeatureAccess } from "lib/flags";
 import { isAnimalFeedable } from "./buyAnimal";
 
@@ -39,7 +43,7 @@ export function assertCanApplyMud(state: GameState) {
     throw new Error("Building does not exist");
   }
 
-  if ((state.inventory.Mud ?? new Decimal(0)).lessThan(1)) {
+  if ((state.inventory.Mud ?? new Decimal(0)).lessThan(MUD_PER_APPLICATION)) {
     throw new Error(APPLY_MUD_ERRORS.NOT_ENOUGH);
   }
 }
@@ -68,7 +72,9 @@ export function applyMud({ state, action }: Options): GameState {
       throw new Error(APPLY_MUD_ERRORS.ALREADY_MUDDY);
     }
 
-    copy.inventory.Mud = (copy.inventory.Mud as Decimal).minus(1);
+    copy.inventory.Mud = (copy.inventory.Mud as Decimal).minus(
+      MUD_PER_APPLICATION,
+    );
     pig.mud = { feedsRemaining: MUD_FEEDS };
   });
 }

@@ -159,22 +159,19 @@ export function handleFoodXP({
     ? BEETLE_FEEDING_XP[food]
     : ANIMAL_FOOD_EXPERIENCE[animal][level][food];
 
+  // Chonky Feed never applies to a Beetle (#7721): a Beetle feed is always
+  // exactly one Beetle, so there is no extra feed cost to pay for the XP.
   const chonkyFeedLevel = getSkillLevel(state.bumpkin.skills, "Chonky Feed");
-  if (chonkyFeedLevel) {
+  if (chonkyFeedLevel && !isBeetle(food)) {
     // Every ANIMAL_FOOD_EXPERIENCE value is even, so the 2.5x rank stays integral.
     foodXp *= SKILL_RANKS["Chonky Feed"].xp[chonkyFeedLevel - 1];
   }
 
-  // Mud is the FINAL multiplier, after every other feed-XP modifier. Pig values
-  // are multiples of 8, so 1.25x stays integral on top of Chonky Feed.
+  // Mud is the FINAL multiplier, after every other feed-XP modifier. Pig and
+  // Beetle values are multiples of 8, so 1.25x stays integral on top of
+  // Chonky Feed.
   if (isMuddy({ mud })) {
     foodXp *= MUD_XP_MULTIPLIER;
-  }
-
-  // Beetle XP is not a multiple of 8, so Chonky Feed x Mud can leave a
-  // fraction (100 x 2.5 x 1.25 = 312.5). Round it down.
-  if (isBeetle(food)) {
-    foodXp = Math.floor(foodXp);
   }
 
   return { foodXp };

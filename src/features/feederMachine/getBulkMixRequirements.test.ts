@@ -496,7 +496,7 @@ describe("getBulkMixRequirements", () => {
   });
 
   describe("Mud", () => {
-    // A level-0 Pig 30 XP in needs 120 more for level 1. Kernel Blend gives
+    // A level-0 Pig 60 XP in needs 120 more for level 1. Kernel Blend gives
     // 48 XP, or 60 with Mud, at 4 per feed.
     const pigRequests = (mud?: Animal["mud"]) =>
       getBulkMixRequirements(
@@ -508,7 +508,7 @@ describe("getBulkMixRequirements", () => {
             animals: {
               "0": {
                 ...animal({ state: "idle", type: "Pig" }),
-                experience: 30,
+                experience: 60,
                 mud,
               },
             },
