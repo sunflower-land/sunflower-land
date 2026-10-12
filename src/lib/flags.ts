@@ -218,6 +218,12 @@ const FEATURE_FLAGS = {
   // Beta testers can grab a Yakkamon pre-registration code before the level
   // tiers open to everyone else. The server enforces the same rule.
   YAKKAMON_BETA_ACCESS: betaFeatureFlag,
+
+  // Admin testers (Gift Giver + Beta Pass, or testnet) can buy, grow, cook and
+  // trade the Chapter Crop Week items before CHAPTER_CROP_WEEK.startDate so the
+  // run can be tested on mainnet. Everyone else waits for the event window —
+  // see hasChapterCropWeekAccess. Remove once the event is live for all.
+  CHAPTER_CROP_WEEK_EARLY_ACCESS: adminFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

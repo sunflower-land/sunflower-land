@@ -4663,7 +4663,7 @@ export const isUpgradeableSkillName = (
 ): name is UpgradeableSkillName => name in SKILL_RANKS;
 
 // Upgradeable Cooking/Crops skills whose upgraded rank is neutralised on the
-// CHAPTER_CROP_WEEK event items (the Saltwort crop and the Saltbite recipe).
+// CHAPTER_CROP_WEEK event items (the Crystal Leaf crop and the Crystal Cookie recipe).
 // Derived from the tree (tree === Cooking/Crops + an `upgrade` block) so it can
 // never drift from which skills are actually upgradeable.
 // Module-private so no other module can mutate this shared set (it drives the
@@ -4681,7 +4681,7 @@ const CHAPTER_CROP_WEEK_DOWNGRADED_SKILLS: Set<UpgradeableSkillName> = new Set(
 // (the base skill still applies, but the upgraded rank grants no extra bonus).
 // Used to neutralise upgraded skill effects on the CHAPTER_CROP_WEEK event items
 // WITHOUT mutating the player's real ranks — callers pass the result only into the
-// Saltwort/Saltbite boost math and keep the original ranks everywhere else. Returns
+// Crystal Leaf/Crystal Cookie boost math and keep the original ranks everywhere else. Returns
 // the original object untouched when nothing needs capping (the common case).
 export const downgradeChapterCropWeekSkills = (skills: Skills): Skills => {
   let result: Skills | undefined;
@@ -4695,10 +4695,11 @@ export const downgradeChapterCropWeekSkills = (skills: Skills): Skills => {
 };
 
 // The upgradeable skills whose downgrade actually changes a CHAPTER_CROP_WEEK
-// event item's result: Saltwort is a MEDIUM plot crop and Saltbite is a Fire-Pit
-// (non-cake) recipe, so only the skills that mechanically apply to those are
-// listed — e.g. Frosted Cakes (cakes only) and basic/advanced farmer skills are
-// excluded because they can never affect Saltbite / medium Saltwort.
+// event item's result: Crystal Leaf is an ADVANCED plot crop and Crystal Cookie
+// is a Fire-Pit (non-cake) recipe, so only the skills that mechanically apply to
+// those are listed — e.g. Frosted Cakes (cakes only) and basic/medium farmer
+// skills are excluded because they can never affect Crystal Cookie / advanced
+// Crystal Leaf.
 //
 // `downgradeChapterCropWeekSkills` intentionally caps the WHOLE Crops/Cooking tree
 // (a correct superset — capping an inapplicable skill is a no-op for the event
@@ -4708,15 +4709,17 @@ const CHAPTER_CROP_WEEK_NOTICE_SKILLS: Record<
   "Crops" | "Cooking",
   readonly UpgradeableSkillName[]
 > = {
-  // Green Thumb (growth, all crops), Experienced Farmer (medium yield), Acre Farm
-  // (debuffs medium), Hectare Farm (buffs medium), Horror Mike (Scary Mike AOE,
-  // medium). See getCropYieldAmount / getCropPlotTime for the class gates.
+  // Green Thumb (growth, all crops), Strong Roots (growth, advanced), Old Farmer
+  // (advanced yield), Acre Farm (buffs advanced), Hectare Farm (debuffs
+  // advanced), Laurie's Gains (Laurie the Chuckle Crow AOE, advanced). See
+  // getCropYieldAmount / getCropPlotTime for the class gates.
   Crops: [
     "Green Thumb",
-    "Experienced Farmer",
+    "Strong Roots",
+    "Old Farmer",
     "Acre Farm",
     "Hectare Farm",
-    "Horror Mike",
+    "Laurie's Gains",
   ],
   // Double Nom (cost + food, all recipes), Fast Feasts (Fire Pit time), Swift
   // Sizzle (Fire Pit oil), Fiery Jackpot (Fire Pit crit). See cook / collectRecipe.
@@ -4725,7 +4728,7 @@ const CHAPTER_CROP_WEEK_NOTICE_SKILLS: Record<
 
 // Whether the player owns an UPGRADED (rank 2+) skill that the CHAPTER_CROP_WEEK
 // event actually neutralises for its item. Drives the "ascension boosts paused"
-// notice in the Market (Crops → Saltwort) and Fire Pit (Cooking → Saltbite) — a
+// notice in the Market (Crops → Crystal Leaf) and Fire Pit (Cooking → Crystal Cookie) — a
 // rank-1 skill still applies its base effect, and a skill that can't affect the
 // event item never counts, so the notice only shows a real, suppressed boost.
 export const hasUpgradedChapterCropWeekSkill = (

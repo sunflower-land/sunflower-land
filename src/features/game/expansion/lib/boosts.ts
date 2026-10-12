@@ -322,7 +322,7 @@ export const getCookingTime = ({
     boostsUsed.push({ name: "Desert Gnome", value: "x0.9" });
   }
 
-  // Saltbite (the CHAPTER_CROP_WEEK event recipe) ignores upgraded Cooking-skill
+  // Crystal Cookie (the CHAPTER_CROP_WEEK event recipe) ignores upgraded Cooking-skill
   // ranks — its cook-time reductions cap at rank 1 (base skill still applies).
   const cookSkills =
     item === CHAPTER_CROP_WEEK_RECIPE

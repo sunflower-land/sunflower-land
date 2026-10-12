@@ -10,6 +10,8 @@ import type { GameState } from "features/game/types/game";
 
 import { getBuyPrice, seedBought } from "./seedBought";
 import { SEEDS } from "features/game/types/seeds";
+import { CHAPTER_CROP_WEEK } from "features/game/types/chapterCropWeek";
+import { CONFIG } from "lib/config";
 
 // TEST_FARM's raw inventory doesn't carry planting-spot counts (Crop Plot,
 // Fruit Patch, Flower Bed, Greenhouse) even though it owns crops/plots -
@@ -28,6 +30,65 @@ const GAME_STATE: GameState = {
 
 describe("seedBought", () => {
   const dateNow = Date.now();
+
+  describe("Chapter Crop Week seed", () => {
+    // adminFeatureFlag is always on for testnet (CI runs with VITE_NETWORK=amoy),
+    // so pin mainnet to exercise the real Gift Giver + Beta Pass rule.
+    let previousNetwork: (typeof CONFIG)["NETWORK"];
+    beforeEach(() => {
+      previousNetwork = CONFIG.NETWORK;
+      CONFIG.NETWORK = "mainnet";
+    });
+    afterEach(() => {
+      CONFIG.NETWORK = previousNetwork;
+    });
+
+    const beforeStart =
+      CHAPTER_CROP_WEEK.startDate.getTime() - 24 * 60 * 60 * 1000;
+    const stocked: GameState = {
+      ...GAME_STATE,
+      coins: 1000,
+      stock: { ...GAME_STATE.stock, "Crystal Leaf Seed": new Decimal(10) },
+    };
+    const buy = (state: GameState, createdAt: number) =>
+      seedBought({
+        state,
+        action: { type: "seed.bought", item: "Crystal Leaf Seed", amount: 1 },
+        createdAt,
+      });
+
+    it("cannot be bought by regular players before the event starts", () => {
+      expect(() => buy(stocked, beforeStart)).toThrow(
+        "Chapter Crop Week is not active",
+      );
+    });
+
+    it("can be bought by admin testers before the event starts", () => {
+      const admin: GameState = {
+        ...stocked,
+        wardrobe: { ...stocked.wardrobe, "Gift Giver": 1 },
+        inventory: { ...stocked.inventory, "Beta Pass": new Decimal(1) },
+      };
+      const state = buy(admin, beforeStart);
+      expect(state.inventory["Crystal Leaf Seed"]).toEqual(new Decimal(1));
+    });
+
+    it("can be bought by everyone once the event starts", () => {
+      const state = buy(stocked, CHAPTER_CROP_WEEK.startDate.getTime());
+      expect(state.inventory["Crystal Leaf Seed"]).toEqual(new Decimal(1));
+    });
+
+    it("cannot be bought by anyone after the event ends", () => {
+      const admin: GameState = {
+        ...stocked,
+        wardrobe: { ...stocked.wardrobe, "Gift Giver": 1 },
+        inventory: { ...stocked.inventory, "Beta Pass": new Decimal(1) },
+      };
+      expect(() => buy(admin, CHAPTER_CROP_WEEK.endDate.getTime())).toThrow(
+        "Chapter Crop Week is not active",
+      );
+    });
+  });
 
   it("throws an error if item is not a seed", () => {
     expect(() =>

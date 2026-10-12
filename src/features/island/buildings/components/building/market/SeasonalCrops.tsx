@@ -38,7 +38,7 @@ import { getCountAndType } from "features/island/hud/components/inventory/utils/
 import {
   CHAPTER_CROP_WEEK,
   CHAPTER_CROP_WEEK_CROP,
-  isChapterCropWeekActive,
+  hasChapterCropWeekAccess,
 } from "features/game/types/chapterCropWeek";
 import { hasUpgradedChapterCropWeekSkill } from "features/game/types/bumpkinSkills";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -68,7 +68,7 @@ export const SeasonalCrops: React.FC = () => {
     live: true,
     autoEndAt: CHAPTER_CROP_WEEK.endDate.getTime(),
   });
-  const isCropWeek = isChapterCropWeekActive(now);
+  const isCropWeek = hasChapterCropWeekAccess(state, now);
 
   const { island, season } = state;
 

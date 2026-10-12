@@ -29,7 +29,7 @@ import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import {
   CHAPTER_CROP_WEEK_CROP,
-  isChapterCropWeekActive,
+  hasChapterCropWeekAccess,
 } from "features/game/types/chapterCropWeek";
 import { TradeableStats } from "./TradeableStats";
 import { getKeys } from "lib/object";
@@ -223,10 +223,11 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
 
   const isStoneBeetle = collection === "collectibles" && Number(id) === 2129;
 
-  // Chapter Crop Week crop (Saltwort) trading is only available while the event
-  // is active. Everyone else sees a "Coming Soon" page instead of the details.
+  // Chapter Crop Week crop (Crystal Leaf) trading is only available while the event
+  // is active (admin testers get early access). Everyone else sees a "Coming
+  // Soon" page instead of the details.
   const isChapterCropWeekLocked =
-    display.name === CHAPTER_CROP_WEEK_CROP && !isChapterCropWeekActive();
+    display.name === CHAPTER_CROP_WEEK_CROP && !hasChapterCropWeekAccess(state);
 
   if (isChapterCropWeekLocked) {
     return (

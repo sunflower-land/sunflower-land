@@ -414,12 +414,12 @@ describe("cook", () => {
     ).toEqual(2);
   });
 
-  it("neutralises a rank 3 Double Nom on the Saltbite event recipe (2x cost, stamps rank 1)", () => {
+  it("neutralises a rank 3 Double Nom on the Crystal Cookie event recipe (2x cost, stamps rank 1)", () => {
     const state = cook({
       state: {
         ...GAME_STATE,
         inventory: {
-          Saltwort: new Decimal(30),
+          "Crystal Leaf": new Decimal(30),
         },
         bumpkin: {
           ...INITIAL_BUMPKIN,
@@ -439,18 +439,18 @@ describe("cook", () => {
       },
       action: {
         type: "recipe.cooked",
-        item: "Saltbite",
+        item: "Crystal Cookie",
         buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
       },
       farmId: 1,
-      // Saltbite is only cookable during CHAPTER_CROP_WEEK.
+      // Crystal Cookie is only cookable during CHAPTER_CROP_WEEK.
       createdAt: CHAPTER_CROP_WEEK.startDate.getTime(),
     });
 
-    // Saltbite (event recipe) ignores the upgraded rank: 10 Saltwort base x2
-    // (rank 1) = 20 consumed, not rank 3's x4 = 40. Boiled Eggs above (a non-event
-    // recipe) still pays the full upgraded cost, proving the scoping.
-    expect(state.inventory["Saltwort"]).toEqual(new Decimal(10));
+    // Crystal Cookie (event recipe) ignores the upgraded rank: 10 Crystal Leaf
+    // base x2 (rank 1) = 20 consumed, not rank 3's x4 = 40. Boiled Eggs above (a
+    // non-event recipe) still pays the full upgraded cost, proving the scoping.
+    expect(state.inventory["Crystal Leaf"]).toEqual(new Decimal(10));
     // Recipe is stamped rank 1 so the later collect also honors rank 1.
     expect(
       state.buildings["Fire Pit"]?.[0].crafting?.[0].skills?.["Double Nom"],

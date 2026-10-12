@@ -190,6 +190,9 @@ export const ITEM_TRADE_TYPES: {
     "Saltwort Seed": "instant",
     Saltwort: "instant",
     Saltbite: "instant",
+    "Crystal Leaf Seed": "instant",
+    "Crystal Leaf": "instant",
+    "Crystal Cookie": "instant",
 
     "Thermal Stone": "instant",
     "Protective Pesticide": "instant",

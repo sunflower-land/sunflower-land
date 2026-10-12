@@ -41,7 +41,8 @@ type FirePitCookableName =
   | "Pizza Margherita"
   | "Rhubarb Tart"
   | "Furikake Sprinkle"
-  | "Saltbite";
+  | "Saltbite"
+  | "Crystal Cookie";
 
 type KitchenCookableName =
   | "Surimi Rice Bowl"
@@ -308,7 +309,7 @@ export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
       Pumpkin: new Decimal(40),
     },
   },
-  // Chapter Crop Week (limited-time event recipe)
+  // Chapter Crop Week (limited-time event recipes)
   Saltbite: {
     name: "Saltbite",
     description: translate("description.saltbite"),
@@ -317,6 +318,16 @@ export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
     cookingSeconds: 4 * 60 * 60,
     ingredients: {
       Saltwort: new Decimal(10),
+    },
+  },
+  "Crystal Cookie": {
+    name: "Crystal Cookie",
+    description: translate("description.crystalCookie"),
+    experience: 3000,
+    building: "Fire Pit",
+    cookingSeconds: 4 * 60 * 60,
+    ingredients: {
+      "Crystal Leaf": new Decimal(10),
     },
   },
   "Fried Tofu": {
