@@ -14,7 +14,6 @@ import {
   CAVE_MUD_CROPS,
   CAVE_RECIPES,
   getCaveBatchIngredients,
-  getCaveTileCounts,
   isCavePatchCleared,
 } from "features/game/types/caveRecipes";
 import {
@@ -25,7 +24,6 @@ import {
 import type { Inventory, InventoryItemName } from "features/game/types/game";
 import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { getChapterArtefact } from "features/game/types/chapters";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -61,9 +59,7 @@ const RECIPE_IMAGE: Record<CaveRecipeName, InventoryItemName> = {
   Beetle: "Brown Beetle",
   Mud: "Mud",
 };
-// The Artefact tile's icon is the current chapter's artefact, resolved per
-// render; the rest are fixed representative images.
-const TILE_IMAGE: Record<Exclude<CaveTileType, "Artefact">, string> = {
+const TILE_IMAGE: Record<CaveTileType, string> = {
   Mushroom: ITEM_DETAILS["Wild Mushroom"].image,
   Beetle: ITEM_DETAILS["Brown Beetle"].image,
   Mud: ITEM_DETAILS["Mud"].image,
@@ -108,10 +104,7 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
   const isGrowing = !!batch && !isIdle && !isReady;
   const beetles = batch ? getCaveBeetleProgress(batch) : undefined;
 
-  // Every chapter has an artefact, so a patch always buries one; the preview
-  // shows the current chapter's artefact.
-  const artefact = getChapterArtefact(now);
-  const buriedCounts = getCaveTileCounts(selected, true);
+  const buriedCounts = CAVE_RECIPES[selected].composition;
 
   // Only a Mud batch takes a crop; the others have fixed inputs.
   const batchCrop = selected === "Mud" ? crop : undefined;
@@ -122,10 +115,10 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
     ),
   );
 
-  // Mushrooms and the artefact left in a replaced patch are lost; ask first.
-  // Leftover Mud alone is not worth a warning.
+  // Mushrooms left in a replaced patch are lost; ask first. Leftover Mud alone
+  // is not worth a warning.
   const undug = canReplace && batch ? getUndugCaveTiles(batch) : undefined;
-  const hasLeftovers = !!undug && (undug.Mushroom > 0 || undug.Artefact > 0);
+  const hasLeftovers = !!undug && undug.Mushroom > 0;
 
   const startBatch = () => {
     gameService.send({
@@ -187,12 +180,8 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
               {getKeys(buriedCounts).map((tile) => {
                 const count = buriedCounts[tile];
                 if (count <= 0) return null;
-                const icon =
-                  tile === "Artefact"
-                    ? ITEM_DETAILS[artefact].image
-                    : TILE_IMAGE[tile];
                 return (
-                  <Label key={tile} type="default" icon={icon}>
+                  <Label key={tile} type="default" icon={TILE_IMAGE[tile]}>
                     {count}
                   </Label>
                 );
@@ -258,11 +247,6 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
                   {!!undug?.Mushroom && (
                     <Label type="danger" icon={TILE_IMAGE.Mushroom}>
                       {undug.Mushroom}
-                    </Label>
-                  )}
-                  {!!undug?.Artefact && (
-                    <Label type="danger" icon={ITEM_DETAILS[artefact].image}>
-                      {undug.Artefact}
                     </Label>
                   )}
                 </div>

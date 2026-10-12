@@ -21,20 +21,19 @@ const READY_CAVE = {
   readyAt: 0,
 };
 
-// Inside the Ascension Age chapter, whose artefact is the Otter Pebble.
 const NOW = new Date("2026-09-23T00:00:00.000Z").getTime();
 
 // This seed on the Mushroom mix (golden board in cavePatch.test.ts):
 //   y0 DMDMD
-//   y1 MMMDD
+//   y1 GMMDD   (0,1) Magic Mushroom
 //   y2 DDDDD
 //   y3 DDMbD   (3,3) Brown Beetle
-//   y4 DDDuX   (3,4) Blue Beetle, (4,4) Artefact
+//   y4 DDDpD   (3,4) Pink Beetle
 const SEED = "00112233445566778899aabbccddeeff";
 
 type Coords = { x: number; y: number }[];
 
-// (2,3) Mushroom, (3,3) Brown Beetle, (2,4) Mud, (3,4) Blue Beetle.
+// (2,3) Mushroom, (3,3) Brown Beetle, (2,4) Mud, (3,4) Pink Beetle.
 const BEETLE_SQUARE: Coords = [
   { x: 2, y: 3 },
   { x: 3, y: 3 },
@@ -188,7 +187,15 @@ describe("drillCaveTiles (cave.drilled)", () => {
     const next = drill(readyState());
     expect(next.inventory["Wild Mushroom"]?.toNumber()).toBe(1);
     expect(next.inventory["Brown Beetle"]?.toNumber()).toBe(1);
-    expect(next.inventory["Blue Beetle"]?.toNumber()).toBe(1);
+    expect(next.inventory["Pink Beetle"]?.toNumber()).toBe(1);
+    expect(next.inventory.Mud?.toNumber()).toBe(1);
+  });
+
+  it("awards a drilled Magic Mushroom tile alongside Wild ones", () => {
+    // (0,0) Mud, (1,0) Wild, (0,1) Magic, (1,1) Wild
+    const next = drill(readyState(), getCaveDrillSquare(0, 0));
+    expect(next.inventory["Wild Mushroom"]?.toNumber()).toBe(2);
+    expect(next.inventory["Magic Mushroom"]?.toNumber()).toBe(1);
     expect(next.inventory.Mud?.toNumber()).toBe(1);
   });
 
@@ -203,7 +210,7 @@ describe("drillCaveTiles (cave.drilled)", () => {
         const expected: Partial<Record<keyof GameState["inventory"], number>> =
           {};
         for (const tile of coords) {
-          const { items } = resolveCaveTile(layout, tile.x, tile.y, NOW);
+          const { items } = resolveCaveTile(layout, tile.x, tile.y);
           for (const [name, amount] of Object.entries(items)) {
             const item = name as keyof GameState["inventory"];
             expected[item] = (expected[item] ?? 0) + (amount ?? 0);
@@ -220,15 +227,6 @@ describe("drillCaveTiles (cave.drilled)", () => {
     }
   });
 
-  it("awards the artefact of the chapter active at dig time", () => {
-    const pawPrints = new Date("2025-12-10T00:00:00.000Z").getTime();
-    const next = drill(readyState(), getCaveDrillSquare(3, 3), {
-      createdAt: pawPrints,
-    });
-    expect(next.inventory["Moon Crystal"]?.toNumber()).toBe(1);
-    expect(next.inventory["Otter Pebble"]).toBeUndefined();
-  });
-
   it("records all four tiles as dug", () => {
     const next = drill(readyState());
     expect(next.cave?.machines["1"].batch?.dug).toEqual({
@@ -243,8 +241,8 @@ describe("drillCaveTiles (cave.drilled)", () => {
     const layout = generateCavePatch({ recipe: "Mushroom", seed: SEED });
     const next = drill(readyState());
     expect(next.cave?.machines["1"].batch?.seed).toBe(SEED);
-    expect(resolveCaveTile(layout, 2, 3, NOW).clue).toBe(1);
-    expect(resolveCaveTile(layout, 2, 4, NOW).clue).toBe(1);
+    expect(resolveCaveTile(layout, 2, 3).clue).toBe(1);
+    expect(resolveCaveTile(layout, 2, 4).clue).toBe(1);
   });
 
   it("skips tiles that were already dug and still spends the drill", () => {
@@ -258,7 +256,7 @@ describe("drillCaveTiles (cave.drilled)", () => {
     expect(next.inventory["Brown Beetle"]).toBeUndefined();
     expect(next.inventory.Mud).toBeUndefined();
     expect(next.inventory["Wild Mushroom"]?.toNumber()).toBe(1);
-    expect(next.inventory["Blue Beetle"]?.toNumber()).toBe(1);
+    expect(next.inventory["Pink Beetle"]?.toNumber()).toBe(1);
     expect(next.cave?.machines["1"].batch?.dug).toEqual({
       "3,3": { dugAt: 1 },
       "2,4": { dugAt: 1 },

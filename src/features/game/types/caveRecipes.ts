@@ -21,15 +21,15 @@ export const CAVE_DRILL_COST = 1;
 export const CAVE_BATCH_DURATION_MS = 12 * 60 * 60 * 1000;
 
 /**
- * A buried tile's kind. `Artefact` is the single guaranteed chapter-artefact
- * tile; it becomes a `Mud` tile when no chapter artefact is active.
+ * A buried tile's kind. Cave patches hold no Chapter Artefact (#7721); the
+ * artefact comes from Desert digging only.
  */
-export type CaveTileType = "Mushroom" | "Beetle" | "Mud" | "Artefact";
+export type CaveTileType = "Mushroom" | "Beetle" | "Mud";
 
 export type CaveRecipe = {
   /**
-   * How the 25 buried tiles split by kind. Always sums to `CAVE_PATCH_TILE_COUNT`
-   * (Mushroom + Beetle + Mud + 1 Artefact). Mushroom tiles never hold a Beetle.
+   * How the 25 buried tiles split by kind (#7721). Always sums to
+   * `CAVE_PATCH_TILE_COUNT`. Mushroom tiles never hold a Beetle.
    */
   composition: Record<CaveTileType, number>;
   /** Yield multiplier applied to each Mud tile when dug (Mud recipe = 2). */
@@ -48,17 +48,17 @@ export type CaveRecipe = {
  */
 export const CAVE_RECIPES: Record<CaveRecipeName, CaveRecipe> = {
   Mushroom: {
-    composition: { Mushroom: 6, Beetle: 2, Mud: 16, Artefact: 1 },
+    composition: { Mushroom: 6, Beetle: 2, Mud: 17 },
     mudYieldMultiplier: 1,
     ingredients: { Wood: new Decimal(10) },
   },
   Beetle: {
-    composition: { Mushroom: 3, Beetle: 4, Mud: 17, Artefact: 1 },
+    composition: { Mushroom: 3, Beetle: 4, Mud: 18 },
     mudYieldMultiplier: 1,
     ingredients: { Egg: new Decimal(10) },
   },
   Mud: {
-    composition: { Mushroom: 3, Beetle: 2, Mud: 19, Artefact: 1 },
+    composition: { Mushroom: 3, Beetle: 2, Mud: 20 },
     mudYieldMultiplier: 2,
     ingredients: {},
   },
@@ -122,24 +122,6 @@ export function getCaveBatchIngredients(
 
   if (!isCaveMudCrop(crop)) return undefined;
   return { [crop]: new Decimal(CAVE_MUD_CROPS[crop]) };
-}
-
-/**
- * The effective tile counts buried in a patch. When no chapter artefact is
- * active the single Artefact tile falls back to Mud, so the batch preview and
- * the server generator always agree on what the player will find.
- */
-export function getCaveTileCounts(
-  recipe: CaveRecipeName,
-  artefactActive: boolean,
-): Record<CaveTileType, number> {
-  const { composition } = CAVE_RECIPES[recipe];
-  if (artefactActive) return { ...composition };
-  return {
-    ...composition,
-    Artefact: 0,
-    Mud: composition.Mud + composition.Artefact,
-  };
 }
 
 /** The "x,y" key of a tile in local patch coordinates (0..4 each). */

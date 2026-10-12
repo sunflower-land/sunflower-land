@@ -14,6 +14,7 @@ import {
   type ResolvedCaveTile,
   resolveCaveTile,
 } from "features/game/types/cavePatch";
+import type { MushroomName } from "features/game/types/resources";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getMushroomYield } from "features/game/lib/mushrooms";
 
@@ -42,9 +43,18 @@ export enum DIG_CAVE_TILE_ERRORS {
   NO_SHOVEL = "Missing Sand Shovel",
 }
 
-/** Wild Mushrooms from one Cave Mushroom tile: the same yield as the island. */
-export function getCaveMushroomYield({ game }: { game: GameState }) {
-  return getMushroomYield({ name: "Wild Mushroom", game });
+/**
+ * Mushrooms from one Cave Mushroom tile: the same yield as picking that
+ * mushroom on the island (a Magic Mushroom gets the Bud boost only).
+ */
+export function getCaveMushroomYield({
+  name,
+  game,
+}: {
+  name: MushroomName;
+  game: GameState;
+}) {
+  return getMushroomYield({ name, game });
 }
 
 /**
@@ -63,8 +73,10 @@ export function awardCaveTile({
   let { items } = tile;
 
   if (tile.type === "Mushroom") {
-    const { amount, boostsUsed } = getCaveMushroomYield({ game });
-    items = { "Wild Mushroom": amount };
+    // A Mushroom tile awards exactly one kind: Wild or Magic.
+    const name = Object.keys(items)[0] as MushroomName;
+    const { amount, boostsUsed } = getCaveMushroomYield({ name, game });
+    items = { [name]: amount };
     game.boostsUsedAt = updateBoostUsed({
       game,
       boostNames: boostsUsed,
@@ -140,7 +152,7 @@ export function digCaveTile({
     });
     awardCaveTile({
       game,
-      tile: resolveCaveTile(layout, x, y, createdAt),
+      tile: resolveCaveTile(layout, x, y),
       createdAt,
     });
 

@@ -1,26 +1,24 @@
 import type { CaveBatch, InventoryItemName } from "./game";
+import type { MushroomName } from "./resources";
 import {
   CAVE_PATCH_WIDTH,
   CAVE_RECIPES,
   caveTileKey,
-  getCaveTileCounts,
   isCavePatchCleared,
   isCaveTileInPatch,
   type CaveRecipeName,
   type CaveTileType,
 } from "./caveRecipes";
 import { BEETLES, type BeetleName } from "./beetles";
-import { getChapterArtefact } from "./chapters";
 
 // Both repos keep this file byte-identical: the FE and BE must build the same
 // board from the same seed.
 
 /** A single tile of a Cave patch. */
 export type CaveTile =
-  | { type: "Mushroom" }
+  | { type: "Mushroom"; mushroom: MushroomName }
   | { type: "Beetle"; beetle: BeetleName }
-  | { type: "Mud"; amount: number }
-  | { type: "Artefact" };
+  | { type: "Mud"; amount: number };
 
 /** The 25 tiles of a patch keyed "x,y" (local patch coordinates, 0..4). */
 export type CavePatchLayout = Record<string, CaveTile>;
@@ -40,11 +38,12 @@ const BEETLE_RARITY_WEIGHTS: Record<BeetleName, number> = {
   "Amber Beetle": 10,
 };
 
-// TODO(Cave balance 435): placeholder per-tile yields.
-/** Wild Mushrooms from one Mushroom tile before boosts. */
+/** Mushrooms from one Mushroom tile before boosts (#7721: one). */
 export const CAVE_MUSHROOM_YIELD = 1;
 const BEETLE_YIELD = 1;
-const ARTEFACT_YIELD = 1;
+
+/** Chance a Mushroom tile holds a Magic rather than a Wild Mushroom (#7721). */
+export const CAVE_MAGIC_MUSHROOM_CHANCE = 0.1;
 
 /** A Cave board seed: 128 random bits as 32 lowercase hex characters. */
 export function isCaveSeed(seed: unknown): seed is string {
@@ -105,8 +104,7 @@ export function generateCavePatch({
   seed: string;
 }): CavePatchLayout {
   const random = createCaveRandom(seed);
-  const { mudYieldMultiplier } = CAVE_RECIPES[recipe];
-  const counts = getCaveTileCounts(recipe, true);
+  const { mudYieldMultiplier, composition: counts } = CAVE_RECIPES[recipe];
 
   const bag: CaveTileType[] = [];
   const push = (kind: CaveTileType, count: number) => {
@@ -115,7 +113,6 @@ export function generateCavePatch({
   push("Mushroom", counts.Mushroom);
   push("Beetle", counts.Beetle);
   push("Mud", counts.Mud);
-  push("Artefact", counts.Artefact);
 
   // Fisher-Yates shuffle.
   for (let i = bag.length - 1; i > 0; i -= 1) {
@@ -135,11 +132,14 @@ export function generateCavePatch({
       case "Mud":
         tile = { type: "Mud", amount: mudYieldMultiplier };
         break;
-      case "Artefact":
-        tile = { type: "Artefact" };
-        break;
       default:
-        tile = { type: "Mushroom" };
+        tile = {
+          type: "Mushroom",
+          mushroom:
+            random() < CAVE_MAGIC_MUSHROOM_CHANCE
+              ? "Magic Mushroom"
+              : "Wild Mushroom",
+        };
     }
     layout[caveTileKey(x, y)] = tile;
   });
@@ -175,12 +175,11 @@ export function getCaveTileClue(
   return count;
 }
 
-/** What digging tile (x, y) awards at `dugAt`, and its clue. */
+/** What digging tile (x, y) awards, and its clue. */
 export function resolveCaveTile(
   layout: CavePatchLayout,
   x: number,
   y: number,
-  dugAt: number,
 ): ResolvedCaveTile {
   const tile = layout[caveTileKey(x, y)];
 
@@ -188,7 +187,7 @@ export function resolveCaveTile(
     case "Mushroom":
       return {
         type: "Mushroom",
-        items: { "Wild Mushroom": CAVE_MUSHROOM_YIELD },
+        items: { [tile.mushroom]: CAVE_MUSHROOM_YIELD },
         clue: getCaveTileClue(layout, x, y),
       };
     case "Beetle":
@@ -197,12 +196,6 @@ export function resolveCaveTile(
       return {
         type: "Mud",
         items: { Mud: tile.amount },
-        clue: getCaveTileClue(layout, x, y),
-      };
-    case "Artefact":
-      return {
-        type: "Artefact",
-        items: { [getChapterArtefact(dugAt)]: ARTEFACT_YIELD },
         clue: getCaveTileClue(layout, x, y),
       };
   }
@@ -232,7 +225,6 @@ export function getUndugCaveTiles(
     Mushroom: 0,
     Beetle: 0,
     Mud: 0,
-    Artefact: 0,
   };
   if (!isCaveSeed(batch.seed)) return undug;
 

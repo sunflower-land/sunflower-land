@@ -25,15 +25,14 @@ const READY_CAVE = {
   readyAt: 0,
 };
 
-// Inside the Ascension Age chapter, whose artefact is the Otter Pebble.
 const NOW = new Date("2026-09-23T00:00:00.000Z").getTime();
 
 // This seed on the Mushroom mix (golden board in cavePatch.test.ts):
 //   y0 DMDMD
-//   y1 MMMDD
+//   y1 GMMDD   (0,1) Magic Mushroom
 //   y2 DDDDD
 //   y3 DDMbD   (3,3) Brown Beetle
-//   y4 DDDuX   (3,4) Blue Beetle, (4,4) Artefact
+//   y4 DDDpD   (3,4) Pink Beetle
 const SEED = "00112233445566778899aabbccddeeff";
 
 const readyState = ({
@@ -128,10 +127,11 @@ describe("digCaveTile (cave.dug)", () => {
 
   it.each([
     [1, 0, "Wild Mushroom", 1],
+    [0, 1, "Magic Mushroom", 1],
     [3, 3, "Brown Beetle", 1],
-    [3, 4, "Blue Beetle", 1],
+    [3, 4, "Pink Beetle", 1],
     [0, 0, "Mud", 1],
-    [4, 4, "Otter Pebble", 1],
+    [4, 4, "Mud", 1],
   ] as const)("awards tile %s,%s: %s x%s", (x, y, item, amount) => {
     const next = dig(readyState(), x, y);
     expect(next.inventory[item]?.toNumber()).toBe(amount);
@@ -143,7 +143,7 @@ describe("digCaveTile (cave.dug)", () => {
       for (let y = 0; y < 5; y += 1) {
         const before = readyState();
         const next = dig(before, x, y);
-        const { items } = resolveCaveTile(layout, x, y, NOW);
+        const { items } = resolveCaveTile(layout, x, y);
         for (const [name, amount] of Object.entries(items)) {
           const item = name as keyof GameState["inventory"];
           expect(next.inventory[item]?.toNumber()).toBe(
@@ -165,21 +165,14 @@ describe("digCaveTile (cave.dug)", () => {
     expect(next.inventory.Mud?.toNumber()).toBe(2);
   });
 
-  it("awards the artefact of the chapter active at dig time", () => {
-    const pawPrints = new Date("2025-12-10T00:00:00.000Z").getTime();
-    const next = dig(readyState(), 4, 4, { createdAt: pawPrints });
-    expect(next.inventory["Moon Crystal"]?.toNumber()).toBe(1);
-    expect(next.inventory["Otter Pebble"]).toBeUndefined();
-  });
-
   it("keeps a tile's clue after a neighbouring Beetle is dug", () => {
     const layout = generateCavePatch({ recipe: "Mushroom", seed: SEED });
-    const clueBefore = resolveCaveTile(layout, 2, 3, NOW).clue;
+    const clueBefore = resolveCaveTile(layout, 2, 3).clue;
     const afterBeetle = dig(readyState(), 3, 3);
     const next = dig(afterBeetle, 2, 3);
     expect(clueBefore).toBe(1);
     expect(next.cave?.machines["1"].batch?.seed).toBe(SEED);
-    expect(resolveCaveTile(layout, 2, 3, NOW).clue).toBe(clueBefore);
+    expect(resolveCaveTile(layout, 2, 3).clue).toBe(clueBefore);
   });
 
   it("rejects a tile that was already dug", () => {
@@ -296,13 +289,17 @@ const mushroomBud = (overrides: Partial<Bud> = {}): Bud => ({
 describe("getCaveMushroomYield", () => {
   it("is 1 Wild Mushroom without a Bud", () => {
     expect(
-      getCaveMushroomYield({ game: { ...readyState(), buds: {} } }).amount,
+      getCaveMushroomYield({
+        name: "Wild Mushroom",
+        game: { ...readyState(), buds: {} },
+      }).amount,
     ).toBe(1);
   });
 
   it("adds a placed Mushroom-stem Bud's bonus", () => {
     expect(
       getCaveMushroomYield({
+        name: "Wild Mushroom",
         game: { ...readyState(), buds: { 1: mushroomBud() } },
       }).amount,
     ).toBe(1.3);
@@ -311,6 +308,7 @@ describe("getCaveMushroomYield", () => {
   it("multiplies the Bud's bonus by its aura", () => {
     expect(
       getCaveMushroomYield({
+        name: "Wild Mushroom",
         game: { ...readyState(), buds: { 1: mushroomBud({ aura: "Rare" }) } },
       }).amount,
     ).toBe(1.6);
@@ -319,6 +317,7 @@ describe("getCaveMushroomYield", () => {
   it("ignores a Bud that is not placed", () => {
     expect(
       getCaveMushroomYield({
+        name: "Wild Mushroom",
         game: {
           ...readyState(),
           buds: { 1: mushroomBud({ coordinates: undefined }) },
@@ -370,6 +369,7 @@ describe("getCaveMushroomYield: Wild Mushroom boosts", () => {
   ] as const)("adds a placed %s's bonus", (name, amount) => {
     expect(
       getCaveMushroomYield({
+        name: "Wild Mushroom",
         game: { ...readyState(), buds: {}, collectibles: { [name]: PLACED } },
       }).amount,
     ).toBe(amount);
@@ -377,14 +377,18 @@ describe("getCaveMushroomYield: Wild Mushroom boosts", () => {
 
   it("adds the Mushroom Hat's bonus", () => {
     expect(
-      getCaveMushroomYield({ game: withHat({ ...readyState(), buds: {} }) })
-        .amount,
+      getCaveMushroomYield({
+        name: "Wild Mushroom",
+        game: withHat({ ...readyState(), buds: {} }),
+      }).amount,
     ).toBe(1.1);
   });
 
   it("stacks every Wild Mushroom boost exactly", () => {
     // 1 + 0.2 + 0.2 + 0.1 + 0.3
-    expect(getCaveMushroomYield({ game: allBoosts() }).amount).toBe(1.8);
+    expect(
+      getCaveMushroomYield({ name: "Wild Mushroom", game: allBoosts() }).amount,
+    ).toBe(1.8);
   });
 
   it("records every boost used when digging a Mushroom tile", () => {
@@ -397,5 +401,28 @@ describe("getCaveMushroomYield: Wild Mushroom boosts", () => {
       "Mushroom Hat": NOW,
       "Bud #1": NOW,
     });
+  });
+
+  it("gives a Magic Mushroom tile none of the Wild Mushroom boosts", () => {
+    // allBoosts' Bud has the Mushroom stem, which boosts Wild Mushrooms only.
+    const next = dig(allBoosts(), 0, 1);
+
+    expect(next.inventory["Magic Mushroom"]?.toNumber()).toBe(1);
+    expect(next.inventory["Wild Mushroom"]).toBeUndefined();
+    expect(next.boostsUsedAt?.["Bud #1"]).toBeUndefined();
+    expect(next.boostsUsedAt?.["Mushroom House"]).toBeUndefined();
+    expect(next.boostsUsedAt?.["Fairy Circle"]).toBeUndefined();
+    expect(next.boostsUsedAt?.["Mushroom Hat"]).toBeUndefined();
+  });
+
+  it("gives a Magic Mushroom tile the Magic Mushroom-stem Bud bonus, like the island", () => {
+    const next = dig(
+      { ...allBoosts(), buds: { 1: mushroomBud({ stem: "Magic Mushroom" }) } },
+      0,
+      1,
+    );
+
+    expect(next.inventory["Magic Mushroom"]?.toNumber()).toBe(1.2);
+    expect(next.boostsUsedAt?.["Bud #1"]).toBe(NOW);
   });
 });
