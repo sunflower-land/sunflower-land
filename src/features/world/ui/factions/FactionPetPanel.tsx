@@ -381,7 +381,7 @@ const FactionPetContent: React.FC<{
                     type={streak >= 2 ? "success" : "default"}
                     icon={isStreakWeek ? powerup : ""}
                     secondaryIcon={
-                      isStreakWeek && pet.qualifiesForBoost
+                      isStreakWeek && pet.qualifiesForBoost && !isBoostCooldown
                         ? SUNNYSIDE.icons.confirm
                         : ""
                     }
