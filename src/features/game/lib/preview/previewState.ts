@@ -86,6 +86,9 @@ export function getPreviewFixture(name: string): GameState | undefined {
   return farm;
 }
 
+/** Fallback Bumpkin name so the world does not stop to ask for one. */
+export const PREVIEW_USERNAME = "Tester";
+
 /**
  * Resolve the farm an ART_MODE preview should boot with. Bad params are
  * logged and skipped rather than thrown so a typo never blanks the screen.
@@ -122,9 +125,11 @@ export function getPreviewFarm({
     }
   }
 
-  // Skip the Terms & Conditions and welcome-bonus gates unless the tester
-  // asked to keep them (?intro=1). Both are one-off modals that sit between
-  // the tester and the feature under test.
+  // Skip the one-off boot gates unless the tester asked to keep them
+  // (?intro=1): Terms & Conditions, welcome bonus, today's daily chest and the
+  // "pick a username" prompt in the world. Each only fills a value the fixture
+  // and patch left unset, so a scenario that *is* about one of them patches
+  // that field (e.g. `dailyRewards.chest.collectedAt: "$now-1d"`).
   if (hasPreviewParams(params) && params.intro !== "1") {
     if (farm.tcsAcknowledged === undefined) {
       farm = { ...farm, tcsAcknowledged: now };
@@ -134,6 +139,18 @@ export function getPreviewFarm({
         ...farm,
         farmActivity: { ...farm.farmActivity, "welcome Bonus Claimed": 1 },
       };
+    }
+    if (farm.dailyRewards?.chest === undefined) {
+      farm = {
+        ...farm,
+        dailyRewards: {
+          ...farm.dailyRewards,
+          chest: { collectedAt: now, code: 0 },
+        },
+      };
+    }
+    if (!farm.username) {
+      farm = { ...farm, username: PREVIEW_USERNAME };
     }
   }
 
