@@ -185,8 +185,16 @@ function materialise(value: unknown, now: number, decimal: boolean): unknown {
   return leaf;
 }
 
-const hasDecimalValues = (record: Record<string, unknown>) =>
-  Object.values(record).some((v) => v instanceof Decimal);
+/**
+ * A record is Decimal-valued (inventory, balances…) only when every value is a
+ * Decimal. `some` would also match the top-level `GameState`, which holds a
+ * Decimal `balance` next to plain strings and numbers, and turn a new
+ * `username: "Tester"` into `new Decimal("Tester")` (which throws).
+ */
+const hasDecimalValues = (record: Record<string, unknown>) => {
+  const values = Object.values(record);
+  return values.length > 0 && values.every((v) => v instanceof Decimal);
+};
 
 /**
  * Deep-merge `patch` over `base` without mutating either.
