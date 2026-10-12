@@ -323,7 +323,7 @@ export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
   "Crystal Cookie": {
     name: "Crystal Cookie",
     description: translate("description.crystalCookie"),
-    experience: 3000,
+    experience: 6000,
     building: "Fire Pit",
     cookingSeconds: 4 * 60 * 60,
     ingredients: {

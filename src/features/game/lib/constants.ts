@@ -151,7 +151,7 @@ export const INITIAL_STOCK = (
     // Chapter Crop Week (limited-time event seed). Previous runs' seeds are
     // retired: keep the key (the record is exhaustive) but stock none.
     "Saltwort Seed": new Decimal(0),
-    "Crystal Leaf Seed": new Decimal(30),
+    "Crystal Leaf Seed": new Decimal(36),
 
     "Grape Seed": new Decimal(10),
     "Olive Seed": new Decimal(10),
