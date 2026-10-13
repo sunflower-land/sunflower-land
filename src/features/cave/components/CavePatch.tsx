@@ -179,11 +179,15 @@ export const CavePatch: React.FC<Props> = ({
             }
 
             if (dug && layout) {
+              // A dug tile takes no tool, so the hover box must not sit on it.
               return (
-                <DugTile
+                <div
                   key={`tile-${i}`}
-                  tile={resolveCaveTile(layout, x, y)}
-                />
+                  className="w-full h-full"
+                  onPointerEnter={() => setHovered(undefined)}
+                >
+                  <DugTile tile={resolveCaveTile(layout, x, y)} />
+                </div>
               );
             }
 
@@ -195,9 +199,11 @@ export const CavePatch: React.FC<Props> = ({
                 disabled={!hasShovel || !layout}
                 className="w-full h-full p-0 border-0 bg-transparent cursor-pointer disabled:cursor-not-allowed"
                 onPointerEnter={() => setHovered({ x, y })}
-                onClick={() =>
-                  gameService.send({ type: "cave.dug", machineId, x, y })
-                }
+                onClick={() => {
+                  // The tile becomes a DugTile under the pointer.
+                  setHovered(undefined);
+                  gameService.send({ type: "cave.dug", machineId, x, y });
+                }}
               >
                 <img
                   src={SUNNYSIDE.soil.sand_hill}
@@ -210,7 +216,7 @@ export const CavePatch: React.FC<Props> = ({
         )}
       </div>
 
-      {ready && hoverBox && (
+      {ready && !cleared && hoverBox && (
         <img
           src={hoverBox.size === 2 ? DRILL_SELECT : SHOVEL_SELECT}
           className="absolute pointer-events-none z-10"
