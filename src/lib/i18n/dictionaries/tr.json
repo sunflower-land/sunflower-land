@@ -8648,7 +8648,6 @@
   "building.pigpen": "Domuz Köpeği",
   "pigs.applyMud": "İhtiyacı olan her Domuza Çamur uygulayın",
   "extend.collectible.maxReached": "Maksimum 30 güne ulaşıldı",
-  "cave.machine": "Makine {{id}}",
   "cave.recipe.Mushroom": "Mantar Karışımı",
   "cave.recipe.Beetle": "Böcek Karışımı",
   "cave.recipe.Mud": "Çamur Karışımı",
@@ -8671,7 +8670,6 @@
   "cave.dig.allBeetlesFound": "Tüm Böcekler bulundu!",
   "cave.dig.cleared": "Yama temizlendi",
   "cave.expand.title": "Mağarayı Genişletin",
-  "cave.expand.description": "Makine {{tier}} ve yaması için yer açın.",
   "cave.expand.expand": "Genişletin",
   "cave.expand.building": "Genişleyen",
   "cave.expand.confirmFinish": "Bu genişletmeyi anında bitirmek mi?",
@@ -8722,7 +8720,6 @@
   "description.cave": "Karanlıkta mantarların yetiştiği nemli bir mağara.",
   "building.cave": "Mağara",
   "gameOptions.generalSettings.customCursor": "Özel imleç",
-  "cave.batch.chooseCrop": "Kompost yapmak için bir mahsul seçin",
   "description.mud": "Zengin, yapışkan çamur. 10 Çamur, ekstra yem Deneyimi için bir Domuzu kaplar ve hastalanmasını önler.",
   "description.crystalLeaf": "Sadece Bölüm Mahsul Haftası sırasında filizlenen parıldayan, yavaş büyüyen bir yaprak.",
   "description.crystalCookie": "Bölüm Mahsul Haftasında Kristal Yapraklardan pişirilen köpüklü bir kurabiye.",
@@ -8767,5 +8764,8 @@
   "pigs.tradeIn.noPig": "Domuzların ticaret yapabilmeleri için uyanık ve seviye 3+ olmalıdır.",
   "pigs.tradeIn.confirm": "Bu Domuzu {{amount}} Domuz Kıllarıyla mı takas edeceksiniz?",
   "pigs.tradeIn.sick": "Hasta Domuzlar %25 daha az Domuz Kılı alır.",
-  "pigs.tradeIn.readyWarning": "Bu Domuzun talep edilmemiş ürünleri kaybolacak."
+  "pigs.tradeIn.readyWarning": "Bu Domuzun talep edilmemiş ürünleri kaybolacak.",
+  "cave.machine": "Myco Çöp Kutusu {{id}}",
+  "cave.batch.chooseCrop": "Myco Bin'i beslemek için bir mahsul seçin",
+  "cave.expand.description": "Myco Bin {{tier}} ve yaması için yer kazın."
 }

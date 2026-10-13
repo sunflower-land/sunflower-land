@@ -8648,7 +8648,6 @@
   "building.pigpen": "ピッグペン",
   "pigs.applyMud": "必要な豚全員に泥を塗る",
   "extend.collectible.maxReached": "最大 30 日間に達しました",
-  "cave.machine": "マシン {{id}}",
   "cave.recipe.Mushroom": "マッシュルームミックス",
   "cave.recipe.Beetle": "ビートルミックス",
   "cave.recipe.Mud": "マッドミックス",
@@ -8671,7 +8670,6 @@
   "cave.dig.allBeetlesFound": "すべてのカブトムシが見つかりました！",
   "cave.dig.cleared": "パッチクリア",
   "cave.expand.title": "洞窟を広げよう",
-  "cave.expand.description": "マシン {{tier}} とそのパッチ用のスペースを掘り出してください。",
   "cave.expand.expand": "拡大",
   "cave.expand.building": "拡張中",
   "cave.expand.confirmFinish": "この拡張パックをすぐに終わらせる？",
@@ -8722,7 +8720,6 @@
   "description.cave": "暗闇の中でキノコが生える湿気の多い洞窟。",
   "building.cave": "ケーブ",
   "gameOptions.generalSettings.customCursor": "カスタムカーソル",
-  "cave.batch.chooseCrop": "堆肥にする作物を選ぶ",
   "description.mud": "濃厚で粘り気のある泥。10個の泥で豚1匹を覆い、餌のXPを増やし、病気になるのを防ぎます。",
   "description.crystalLeaf": "チャプター・クロップ・ウィーク中にのみ発芽する、きらきら光る成長の遅い葉。",
   "description.crystalCookie": "チャプター・クロップ・ウィーク中にクリスタル・リーフを使って焼き上げたスパークリングクッキー。",
@@ -8767,5 +8764,8 @@
   "pigs.tradeIn.noPig": "下取りに出すには、豚が覚醒していてレベル3以上である必要があります。",
   "pigs.tradeIn.confirm": "このピッグを {{amount}} ピッグブリストルと交換しますか？",
   "pigs.tradeIn.sick": "病気の豚に与えられる豚の毛は 25% 少なくなります。",
-  "pigs.tradeIn.readyWarning": "この豚の未使用の農産物は失われます。"
+  "pigs.tradeIn.readyWarning": "この豚の未使用の農産物は失われます。",
+  "cave.machine": "マイコビン {{id}}",
+  "cave.batch.chooseCrop": "マイコビンに供給する作物を選んでください",
+  "cave.expand.description": "マイコビン {{tier}} とそのパッチを探してください。"
 }

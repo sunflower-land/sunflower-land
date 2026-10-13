@@ -8648,7 +8648,6 @@
   "building.pigpen": "Pigpen",
   "pigs.applyMud": "Aplica barro a cada cerdo que lo necesite",
   "extend.collectible.maxReached": "Se alcanzó el máximo de 30 días",
-  "cave.machine": "Máquina {{id}}",
   "cave.recipe.Mushroom": "Mezcla de hongos",
   "cave.recipe.Beetle": "Mezcla de escarabajos",
   "cave.recipe.Mud": "Mezcla de barro",
@@ -8671,7 +8670,6 @@
   "cave.dig.allBeetlesFound": "¡Encontraron todos los escarabajos!",
   "cave.dig.cleared": "Parche borrado",
   "cave.expand.title": "Expande la cueva",
-  "cave.expand.description": "Busca espacio para Machine {{tier}} y su parche.",
   "cave.expand.expand": "Expandir",
   "cave.expand.building": "Expansión",
   "cave.expand.confirmFinish": "¿Terminar esta expansión al instante?",
@@ -8722,7 +8720,6 @@
   "description.cave": "Una caverna húmeda donde crecen hongos en la oscuridad.",
   "building.cave": "Cueva",
   "gameOptions.generalSettings.customCursor": "Cursor personalizado",
-  "cave.batch.chooseCrop": "Elige un cultivo para compostar",
   "description.mud": "Barro rico y pegajoso. 10 capas de barro cubren a un cerdo para obtener más puntos de experiencia y evitar que se enferme.",
   "description.crystalLeaf": "Una hoja reluciente de crecimiento lento que solo brota durante la Semana de la Cosecha Capitular.",
   "description.crystalCookie": "Una galleta espumosa horneada con hojas de cristal durante la Semana de la Cosecha Capitular.",
@@ -8767,5 +8764,8 @@
   "pigs.tradeIn.noPig": "Los cerdos deben estar despiertos y tener un nivel superior a 3 para comerciar.",
   "pigs.tradeIn.confirm": "¿Cambiar este cerdo por {{amount}} cerdas de cerdo?",
   "pigs.tradeIn.sick": "Los cerdos enfermos reciben un 25% menos de cerdas de cerdo.",
-  "pigs.tradeIn.readyWarning": "Los productos no reclamados de este cerdo se perderán."
+  "pigs.tradeIn.readyWarning": "Los productos no reclamados de este cerdo se perderán.",
+  "cave.machine": "Myco Bin {{id}}",
+  "cave.batch.chooseCrop": "Elige un cultivo para alimentar el Myco Bin",
+  "cave.expand.description": "Busca espacio para Myco Bin {{tier}} y su parche."
 }

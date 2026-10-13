@@ -8648,7 +8648,6 @@
   "building.pigpen": "Pigpen",
   "pigs.applyMud": "Terapkan Lumpur untuk setiap Babi yang membutuhkannya",
   "extend.collectible.maxReached": "Maks 30 hari tercapai",
-  "cave.machine": "Mesin {{id}}",
   "cave.recipe.Mushroom": "Campuran Jamur",
   "cave.recipe.Beetle": "Campuran Kumbang",
   "cave.recipe.Mud": "Campuran Lumpur",
@@ -8671,7 +8670,6 @@
   "cave.dig.allBeetlesFound": "Semua Kumbang ditemukan!",
   "cave.dig.cleared": "Patch dibersihkan",
   "cave.expand.title": "Perluas Gua",
-  "cave.expand.description": "Gali ruang untuk Mesin {{tier}} dan tambalannya.",
   "cave.expand.expand": "Memperluas",
   "cave.expand.building": "Memperluas",
   "cave.expand.confirmFinish": "Segera menyelesaikan ekspansi ini?",
@@ -8722,7 +8720,6 @@
   "description.cave": "Gua lembap tempat jamur tumbuh dalam gelap.",
   "building.cave": "Gua",
   "gameOptions.generalSettings.customCursor": "Kursor kustom",
-  "cave.batch.chooseCrop": "Pilih tanaman untuk membuat kompos",
   "description.mud": "Lumpur yang kaya dan lengket. 10 Lumpur melapisi Babi untuk XP pakan ekstra dan mencegahnya jatuh sakit.",
   "description.crystalLeaf": "Daun yang berkilauan dan tumbuh lambat yang hanya bertunas selama Chapter Crop Week.",
   "description.crystalCookie": "Kue berkilau yang dipanggang dari Daun Kristal selama Chapter Crop Week.",
@@ -8767,5 +8764,8 @@
   "pigs.tradeIn.noPig": "Babi harus terjaga dan level 3+ untuk diperdagangkan.",
   "pigs.tradeIn.confirm": "Tukarkan Babi ini dengan {{amount}} Bulu Babi?",
   "pigs.tradeIn.sick": "Babi yang Sick menerima 25% lebih sedikit Bulu Babi.",
-  "pigs.tradeIn.readyWarning": "Produk Babi yang tidak diklaim ini akan hilang."
+  "pigs.tradeIn.readyWarning": "Produk Babi yang tidak diklaim ini akan hilang.",
+  "cave.machine": "Tempat Sampah Myco {{id}}",
+  "cave.batch.chooseCrop": "Pilih tanaman untuk memberi makan Myco Bin",
+  "cave.expand.description": "Gali ruang untuk Myco Bin {{tier}} dan tambalannya."
 }

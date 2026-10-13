@@ -8648,7 +8648,6 @@
   "building.pigpen": "Свинарник",
   "pigs.applyMud": "Apply Mud to every Pig that needs it",
   "extend.collectible.maxReached": "Max 30 days reached",
-  "cave.machine": "Machine {{id}}",
   "cave.recipe.Mushroom": "Mushroom Mix",
   "cave.recipe.Beetle": "Beetle Mix",
   "cave.recipe.Mud": "Mud Mix",
@@ -8671,7 +8670,6 @@
   "cave.dig.allBeetlesFound": "All Beetles found!",
   "cave.dig.cleared": "Patch cleared",
   "cave.expand.title": "Expand the Cave",
-  "cave.expand.description": "Dig out room for Machine {{tier}} and its patch.",
   "cave.expand.expand": "Expand",
   "cave.expand.building": "Expanding",
   "cave.expand.confirmFinish": "Instantly finish this expansion?",
@@ -8722,7 +8720,6 @@
   "description.cave": "A damp cavern where mushrooms grow in the dark.",
   "building.cave": "Cave",
   "gameOptions.generalSettings.customCursor": "Custom cursor",
-  "cave.batch.chooseCrop": "Choose a crop to compost",
   "description.mud": "Rich, sticky mud. 10 Mud coats a Pig for extra feed XP and keeps it from falling sick.",
   "description.crystalLeaf": "A glistening, slow-growing leaf that only sprouts during Chapter Crop Week.",
   "description.crystalCookie": "A sparkling cookie baked from Crystal Leaves during Chapter Crop Week.",
@@ -8767,5 +8764,8 @@
   "pigs.tradeIn.noPig": "Pigs must be awake and level 3+ to trade in.",
   "pigs.tradeIn.confirm": "Trade this Pig in for {{amount}} Pig Bristles?",
   "pigs.tradeIn.sick": "Sick Pigs receive 25% fewer Pig Bristles.",
-  "pigs.tradeIn.readyWarning": "This Pig's unclaimed produce will be lost."
+  "pigs.tradeIn.readyWarning": "This Pig's unclaimed produce will be lost.",
+  "cave.machine": "Myco Bin {{id}}",
+  "cave.batch.chooseCrop": "Choose a crop to feed the Myco Bin",
+  "cave.expand.description": "Dig out room for Myco Bin {{tier}} and its patch."
 }

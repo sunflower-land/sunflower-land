@@ -8648,7 +8648,6 @@
   "building.pigpen": "Pigpen",
   "pigs.applyMud": "Aplique lama em cada porco que precisar",
   "extend.collectible.maxReached": "Máximo de 30 dias atingidos",
-  "cave.machine": "Máquina {{id}}",
   "cave.recipe.Mushroom": "Mistura de cogumelos",
   "cave.recipe.Beetle": "Mistura de besouros",
   "cave.recipe.Mud": "Mistura de lama",
@@ -8671,7 +8670,6 @@
   "cave.dig.allBeetlesFound": "Todos os besouros foram encontrados!",
   "cave.dig.cleared": "Patch limpo",
   "cave.expand.title": "Expanda a caverna",
-  "cave.expand.description": "Abra espaço para a Máquina {{tier}} e seu patch.",
   "cave.expand.expand": "Expandir",
   "cave.expand.building": "Expandindo",
   "cave.expand.confirmFinish": "Concluir instantaneamente essa expansão?",
@@ -8722,7 +8720,6 @@
   "description.cave": "Uma caverna úmida onde os cogumelos crescem no escuro.",
   "building.cave": "Caverna",
   "gameOptions.generalSettings.customCursor": "Cursor personalizado",
-  "cave.batch.chooseCrop": "Escolha uma cultura para compostar",
   "description.mud": "Lama rica e pegajosa. 10 Lamas cobrem um porco para aumentar a EXP de alimentação e evita que ele adoeça.",
   "description.crystalLeaf": "Uma folha brilhante e de crescimento lento que só brota durante a Semana da Colheita.",
   "description.crystalCookie": "Um biscoito espumante feito com folhas de cristal durante a Chapter Crop Week.",
@@ -8767,5 +8764,8 @@
   "pigs.tradeIn.noPig": "Os porcos devem estar acordados e estar no nível 3 ou mais para serem negociados.",
   "pigs.tradeIn.confirm": "Troque este Porco por {{amount}} Cerdas de Porco?",
   "pigs.tradeIn.sick": "Porcos doentes recebem 25% menos cerdas de porco.",
-  "pigs.tradeIn.readyWarning": "Os produtos não reclamados deste Porco serão perdidos."
+  "pigs.tradeIn.readyWarning": "Os produtos não reclamados deste Porco serão perdidos.",
+  "cave.machine": "Caixa Myco {{id}}",
+  "cave.batch.chooseCrop": "Escolha uma safra para alimentar o Myco Bin",
+  "cave.expand.description": "Abra espaço para Myco Bin {{tier}} e seu patch."
 }

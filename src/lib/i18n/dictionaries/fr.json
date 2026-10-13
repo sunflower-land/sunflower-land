@@ -8648,7 +8648,6 @@
   "building.pigpen": "Porcherie",
   "pigs.applyMud": "Appliquez de la boue sur tous les cochons qui en ont besoin",
   "extend.collectible.maxReached": "Maximum de 30 jours atteint",
-  "cave.machine": "Appareil {{id}}",
   "cave.recipe.Mushroom": "Mélange de champignons",
   "cave.recipe.Beetle": "Beetle Mix",
   "cave.recipe.Mud": "Mélange de boue",
@@ -8671,7 +8670,6 @@
   "cave.dig.allBeetlesFound": "Tous les coléoptères ont été trouvés !",
   "cave.dig.cleared": "Patch effacé",
   "cave.expand.title": "Agrandir la grotte",
-  "cave.expand.description": "Creusez de la place pour Machine {{tier}} et son patch.",
   "cave.expand.expand": "Élargir",
   "cave.expand.building": "Expansion",
   "cave.expand.confirmFinish": "Finir cette extension instantanément ?",
@@ -8722,7 +8720,6 @@
   "description.cave": "Une caverne humide où les champignons poussent dans le noir.",
   "building.cave": "Grotte",
   "gameOptions.generalSettings.customCursor": "Curseur personnalisé",
-  "cave.batch.chooseCrop": "Choisissez une culture à composter",
   "description.mud": "Boue riche et collante. 10 couches de boue recouvrent un cochon pour lui apporter plus d'expérience alimentaire et l'empêcher de tomber malade.",
   "description.crystalLeaf": "Une feuille brillante à croissance lente qui ne pousse que pendant la Chapter Crop Week.",
   "description.crystalCookie": "Un biscuit pétillant cuit à partir de Crystal Leaves pendant la Chapter Crop Week.",
@@ -8767,5 +8764,8 @@
   "pigs.tradeIn.noPig": "Les porcs doivent être éveillés et être de niveau 3+ pour pouvoir échanger.",
   "pigs.tradeIn.confirm": "Échangez ce cochon contre {{amount}} des poils de porc ?",
   "pigs.tradeIn.sick": "Les porcs malades reçoivent 25 % de poils de porc en moins.",
-  "pigs.tradeIn.readyWarning": "Les produits non réclamés de ce cochon seront perdus."
+  "pigs.tradeIn.readyWarning": "Les produits non réclamés de ce cochon seront perdus.",
+  "cave.machine": "Poubelle Myco {{id}}",
+  "cave.batch.chooseCrop": "Choisissez une culture pour alimenter le Myco Bin",
+  "cave.expand.description": "Creusez de la place pour Myco Bin {{tier}} et son patch."
 }

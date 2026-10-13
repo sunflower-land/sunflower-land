@@ -8648,7 +8648,6 @@
   "building.pigpen": "Pigpen",
   "pigs.applyMud": "Applica il fango a tutti i maiali che ne hanno bisogno",
   "extend.collectible.maxReached": "Raggiunto un massimo di 30 giorni",
-  "cave.machine": "Macchina {{id}}",
   "cave.recipe.Mushroom": "Miscela di funghi",
   "cave.recipe.Beetle": "Mix per coleotteri",
   "cave.recipe.Mud": "Miscela di fango",
@@ -8671,7 +8670,6 @@
   "cave.dig.allBeetlesFound": "Trovati tutti i coleotteri!",
   "cave.dig.cleared": "Patch cancellata",
   "cave.expand.title": "Espandi la grotta",
-  "cave.expand.description": "Fai spazio per Machine {{tier}} e la relativa patch.",
   "cave.expand.expand": "Espandi",
   "cave.expand.building": "In espansione",
   "cave.expand.confirmFinish": "Finisci subito questa espansione?",
@@ -8722,7 +8720,6 @@
   "description.cave": "Una caverna umida dove i funghi crescono al buio.",
   "building.cave": "grotta",
   "gameOptions.generalSettings.customCursor": "Cursore personalizzato",
-  "cave.batch.chooseCrop": "Scegli un raccolto da compostare",
   "description.mud": "Fango ricco e appiccicoso. 10 Fango ricopre un maiale per aumentare i punti esperienza di alimentazione e impedirgli di ammalarsi.",
   "description.crystalLeaf": "Una foglia scintillante a crescita lenta che germoglia solo durante la Chapter Crop Week.",
   "description.crystalCookie": "Un biscotto frizzante cotto con foglie di cristallo durante la Chapter Crop Week.",
@@ -8767,5 +8764,8 @@
   "pigs.tradeIn.noPig": "I maiali devono essere svegli e di livello 3+ per poter essere scambiati.",
   "pigs.tradeIn.confirm": "Scambia questo maiale con {{amount}} Pig Bristles?",
   "pigs.tradeIn.sick": "I maiali malati ricevono il 25% in meno di setole di maiale.",
-  "pigs.tradeIn.readyWarning": "I prodotti non reclamati di questo maiale andranno perduti."
+  "pigs.tradeIn.readyWarning": "I prodotti non reclamati di questo maiale andranno perduti.",
+  "cave.machine": "Cestino Myco {{id}}",
+  "cave.batch.chooseCrop": "Scegli un raccolto per alimentare il Myco Bin",
+  "cave.expand.description": "Fai spazio per Myco Bin {{tier}} e la relativa patch."
 }

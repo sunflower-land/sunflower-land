@@ -8648,7 +8648,6 @@
   "building.pigpen": "猪圈",
   "pigs.applyMud": "为每一头需要的猪涂抹泥土",
   "extend.collectible.maxReached": "已达 30 天上限",
-  "cave.machine": "{{id}} 号机器",
   "cave.recipe.Mushroom": "蘑菇混合培养料",
   "cave.recipe.Beetle": "甲虫混合培养料",
   "cave.recipe.Mud": "泥土混合培养料",
@@ -8671,7 +8670,6 @@
   "cave.dig.allBeetlesFound": "已找到全部甲虫！",
   "cave.dig.cleared": "培养槽已清空",
   "cave.expand.title": "扩建洞穴",
-  "cave.expand.description": "开辟空间以容纳 {{tier}} 级机器及其培养槽。",
   "cave.expand.expand": "扩建",
   "cave.expand.building": "扩建中",
   "cave.expand.confirmFinish": "立即完成本次扩建？",
@@ -8722,7 +8720,6 @@
   "description.cave": "一个潮湿的洞穴，蘑菇在黑暗中生长。",
   "building.cave": "洞穴",
   "gameOptions.generalSettings.customCursor": "自定义光标",
-  "cave.batch.chooseCrop": "选择要堆肥的作物",
   "description.mud": "丰富、粘稠的泥浆。10 个泥可以覆盖一只小猪，以获得额外的饲料经验值并防止它生病。",
   "description.crystalLeaf": "一片闪闪发光、生长缓慢的树叶，只在 Chapter Crop Week 期间发芽。",
   "description.crystalCookie": "在 Chapter Crop Week 期间用水晶叶烤制的起泡饼干。",
@@ -8767,5 +8764,8 @@
   "pigs.tradeIn.noPig": "猪必须处于清醒状态且等级为 3 级以上才能进行以旧换新。",
   "pigs.tradeIn.confirm": "用这只猪换成 {{amount}} 猪毛？",
   "pigs.tradeIn.sick": "生病的猪毛减少了 25%。",
-  "pigs.tradeIn.readyWarning": "这头猪无人认领的农产品将丢失。"
+  "pigs.tradeIn.readyWarning": "这头猪无人认领的农产品将丢失。",
+  "cave.machine": "Myco Bin {{id}}",
+  "cave.batch.chooseCrop": "选择一种作物来喂养 Myco Bin",
+  "cave.expand.description": "为 Myco Bin {{tier}} 及其补丁腾出空间。"
 }

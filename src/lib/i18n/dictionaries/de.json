@@ -8648,7 +8648,6 @@
   "building.pigpen": "Schweinestall",
   "pigs.applyMud": "Trage Schlamm auf jedes Schwein auf, das ihn braucht",
   "extend.collectible.maxReached": "Max. 30 Tage erreicht",
-  "cave.machine": "Maschine {{id}}",
   "cave.recipe.Mushroom": "Pilz-Mischung",
   "cave.recipe.Beetle": "Käfer-Mix",
   "cave.recipe.Mud": "Schlammmischung",
@@ -8671,7 +8670,6 @@
   "cave.dig.allBeetlesFound": "Alle Käfer gefunden!",
   "cave.dig.cleared": "Patch gelöscht",
   "cave.expand.title": "Erweitere die Höhle",
-  "cave.expand.description": "Machen Sie Platz für Maschine {{tier}} und ihren Patch.",
   "cave.expand.expand": "Erweitern",
   "cave.expand.building": "Expandieren",
   "cave.expand.confirmFinish": "Diese Erweiterung sofort beenden?",
@@ -8722,7 +8720,6 @@
   "description.cave": "Eine feuchte Höhle, in der Pilze im Dunkeln wachsen.",
   "building.cave": "Höhle",
   "gameOptions.generalSettings.customCursor": "Benutzerdefinierter Mauszeiger",
-  "cave.batch.chooseCrop": "Wählen Sie eine Pflanze zum Kompostieren",
   "description.mud": "Reichhaltiger, klebriger Schlamm. 10 Schlamm umhüllt ein Schwein für zusätzliche Futter-XP und verhindert, dass es krank wird.",
   "description.crystalLeaf": "Ein glitzerndes, langsam wachsendes Blatt, das nur während der Chapter Crop Week sprießt.",
   "description.crystalCookie": "Ein funkelnder Keks, der während der Chapter Crop Week aus Kristallblättern gebacken wurde.",
@@ -8767,5 +8764,8 @@
   "pigs.tradeIn.noPig": "Schweine müssen wach und Stufe 3+ sein, um eintauschen zu können.",
   "pigs.tradeIn.confirm": "Dieses Schwein gegen {{amount}} Schweineborsten eintauschen?",
   "pigs.tradeIn.sick": "Kranke Schweine erhalten 25% weniger Schweineborsten.",
-  "pigs.tradeIn.readyWarning": "Die nicht abgeholten Produkte dieses Schweins werden verloren gehen."
+  "pigs.tradeIn.readyWarning": "Die nicht abgeholten Produkte dieses Schweins werden verloren gehen.",
+  "cave.machine": "Mülleimer {{id}}",
+  "cave.batch.chooseCrop": "Wähle eine Pflanze, um den Myco Bin zu füttern",
+  "cave.expand.description": "Machen Sie Platz für Myco Bin {{tier}} und seinen Patch."
 }
