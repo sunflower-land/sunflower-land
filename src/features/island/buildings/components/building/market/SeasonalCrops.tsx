@@ -346,13 +346,9 @@ export const SeasonalCrops: React.FC = () => {
               {getKeys(crops)
                 .filter((name) => !seasonal.includes(name))
                 .filter((name) => name !== CHAPTER_CROP_WEEK_CROP)
-                // Crops from previous Chapter Crop Week runs only stay listed
-                // while the player still holds some to sell
-                .filter(
-                  (name) =>
-                    !isRetiredChapterCropWeekItem(name) ||
-                    getCountAndType(state, name).count.gt(0),
-                )
+                // Crops from previous Chapter Crop Week runs can't be sold
+                // (the server rejects them), so they are never listed
+                .filter((name) => !isRetiredChapterCropWeekItem(name))
                 .filter((name) => !!crops[name].sellPrice)
                 .map((name) => {
                   const { count } = getCountAndType(state, name);
