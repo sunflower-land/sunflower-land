@@ -808,6 +808,45 @@ describe("applyArrangement", () => {
       expect(result.pets?.nfts?.[1].coordinates).toEqual({ x: 3, y: 3 });
     });
 
+    it("keeps a bud's pixel offset when only its flip changes", () => {
+      const state: GameState = {
+        ...baseFarm,
+        buds: {
+          1: {
+            ...bud,
+            coordinates: { x: 0, y: 0, oX: 3, oY: -2 },
+            location: "farm",
+          },
+        },
+      };
+      const arrangement = snapshotSurface(state, "farm");
+      arrangement.buds = { 1: { x: 0, y: 0, oX: 3, oY: -2, flipped: true } };
+
+      const result = apply(state, arrangement);
+
+      expect(result.buds?.[1].coordinates).toEqual({
+        x: 0,
+        y: 0,
+        oX: 3,
+        oY: -2,
+      });
+      expect(result.buds?.[1].flipped).toBe(true);
+    });
+
+    it("drops a stale flip when a bud is placed without one", () => {
+      const state: GameState = {
+        ...baseFarm,
+        buds: { 1: { ...bud, flipped: true } },
+      };
+      const arrangement = snapshotSurface(state, "farm");
+      arrangement.buds = { 1: { x: 1, y: 1 } };
+
+      const result = apply(state, arrangement);
+
+      expect(result.buds?.[1].coordinates).toEqual({ x: 1, y: 1 });
+      expect(result.buds?.[1].flipped).toBeUndefined();
+    });
+
     it("places a bud from the chest with its flip", () => {
       const state: GameState = { ...baseFarm, buds: { 1: { ...bud } } };
       const arrangement = snapshotSurface(state, "farm");

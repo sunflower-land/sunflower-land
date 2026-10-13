@@ -1332,14 +1332,15 @@ function moveEntry(
     }
     case "bud": {
       const bud = state.buds![Number(entry.id)];
-      bud.coordinates = point(entry.coordinates);
+      // Keep pixel offsets: a flip-only change must not snap it to the grid.
+      bud.coordinates = withCoordinates(entry.coordinates);
       bud.location = location;
       setFlip(bud);
       return;
     }
     case "pet": {
       const pet = state.pets!.nfts![Number(entry.id)];
-      pet.coordinates = point(entry.coordinates);
+      pet.coordinates = withCoordinates(entry.coordinates);
       pet.location = location;
       setFlip(pet);
       return;
@@ -1530,13 +1531,14 @@ function placeEntry(
           createdAt,
         }),
       );
-      if (entry.flipped !== undefined) {
-        const placed =
-          nft === "Bud"
-            ? next.buds![Number(entry.id)]
-            : next.pets!.nfts![Number(entry.id)];
-        placed.flipped = entry.flipped;
-      }
+      // Removing an NFT keeps its `flipped`, so the arrangement decides it
+      // outright here instead of a re-placed NFT inheriting a stale flip.
+      const placed =
+        nft === "Bud"
+          ? next.buds![Number(entry.id)]
+          : next.pets!.nfts![Number(entry.id)];
+      if (entry.flipped === undefined) delete placed.flipped;
+      else placed.flipped = entry.flipped;
       return next;
     }
     case "farmHand": {
