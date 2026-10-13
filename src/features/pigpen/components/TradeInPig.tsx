@@ -101,7 +101,15 @@ export const TradeInPigModal: React.FC<{
       return;
     }
 
-    gameService.send({ type: "pig.tradedIn", id: pig.id });
+    const nextState = gameService.send({ type: "pig.tradedIn", id: pig.id });
+
+    // Only leave the flow once the Pig is really gone: a rejected event leaves
+    // it in place, so keep the modal open for a second look instead.
+    if (nextState.context.state.pigpen.animals[pig.id]) {
+      setStateChanged(true);
+      return;
+    }
+
     onTradedIn();
   };
 
