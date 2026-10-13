@@ -4090,6 +4090,8 @@
   "marketplace.cancelOffer": "Cancel offer",
   "marketplace.totalItems": "Total items",
   "marketplace.totalListings": "Total listings",
+  "marketplace.bulkTradingFee": "Total trading fee ({{count}} listings)",
+  "marketplace.bulkYouWillReceive": "Total you will receive ({{count}} listings)",
   "marketplace.maxBulk": "You can use the bulk feature until you reach the maximum of {{max}} listings per resource at a time",
   "marketplace.cancelOffer.areYouSure": "Are you sure you want to remove your offer?",
   "kingdom.shop.helmet.currently.equipped": "{{helmet}} currently equipped! Unequip to purchase.",
