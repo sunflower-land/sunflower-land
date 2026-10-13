@@ -8759,5 +8759,13 @@
   "resource.greenBeetle": "グリーンビートル",
   "faction.pet.contributedLastWeek": "先週寄稿しました",
   "faction.pet.contributingThisWeek": "今週の寄稿",
-  "faction.pet.cooldown.active": "ファクションスイッチのクールダウン:"
+  "faction.pet.cooldown.active": "ファクションスイッチのクールダウン:",
+  "pigs.tradeIn": "トレードイン",
+  "pigs.tradeIn.board.info": "豚をいつでも豚の毛と交換できます。ペイアウトはレベルが上がるにつれて増加します。",
+  "pigs.tradeIn.bountyBristles": "このブタは {{amount}} ピッグブリストルにも支払います。",
+  "pigs.tradeIn.select": "ピッグを選んでピッグブリストルと交換しよう。",
+  "pigs.tradeIn.noPig": "下取りに出すには、豚が覚醒していてレベル3以上である必要があります。",
+  "pigs.tradeIn.confirm": "このピッグを {{amount}} ピッグブリストルと交換しますか？",
+  "pigs.tradeIn.sick": "病気の豚に与えられる豚の毛は 25% 少なくなります。",
+  "pigs.tradeIn.readyWarning": "この豚の未使用の農産物は失われます。"
 }

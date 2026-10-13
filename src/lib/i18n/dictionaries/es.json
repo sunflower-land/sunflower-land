@@ -8759,5 +8759,13 @@
   "resource.greenBeetle": "Escarabajo verde",
   "faction.pet.contributedLastWeek": "Contribuyó la semana pasada",
   "faction.pet.contributingThisWeek": "Contribuir esta semana",
-  "faction.pet.cooldown.active": "Tiempo de reutilización del cambio de facción:"
+  "faction.pet.cooldown.active": "Tiempo de reutilización del cambio de facción:",
+  "pigs.tradeIn": "Intercambiar",
+  "pigs.tradeIn.board.info": "Cambia un cerdo por cerdas de cerdo en cualquier momento. El pago aumenta con su nivel.",
+  "pigs.tradeIn.bountyBristles": "Este cerdo también paga {{amount}} Cerdas de cerdo.",
+  "pigs.tradeIn.select": "Selecciona un cerdo para cambiarlo por cerdas de cerdo.",
+  "pigs.tradeIn.noPig": "Los cerdos deben estar despiertos y tener un nivel superior a 3 para comerciar.",
+  "pigs.tradeIn.confirm": "¿Cambiar este cerdo por {{amount}} cerdas de cerdo?",
+  "pigs.tradeIn.sick": "Los cerdos enfermos reciben un 25% menos de cerdas de cerdo.",
+  "pigs.tradeIn.readyWarning": "Los productos no reclamados de este cerdo se perderán."
 }

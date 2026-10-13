@@ -8759,5 +8759,13 @@
   "resource.greenBeetle": "Scarabeo verde",
   "faction.pet.contributedLastWeek": "Ha contribuito la settimana scorsa",
   "faction.pet.contributingThisWeek": "Contribuire questa settimana",
-  "faction.pet.cooldown.active": "Tempo di recupero del cambio di fazione:"
+  "faction.pet.cooldown.active": "Tempo di recupero del cambio di fazione:",
+  "pigs.tradeIn": "Permuta",
+  "pigs.tradeIn.board.info": "Scambia un maiale con Pig Bristles in qualsiasi momento. La vincita cresce con il suo livello.",
+  "pigs.tradeIn.bountyBristles": "Questo maiale paga anche {{amount}} Pig Bristles.",
+  "pigs.tradeIn.select": "Seleziona un maiale da scambiare con Pig Bristles.",
+  "pigs.tradeIn.noPig": "I maiali devono essere svegli e di livello 3+ per poter essere scambiati.",
+  "pigs.tradeIn.confirm": "Scambia questo maiale con {{amount}} Pig Bristles?",
+  "pigs.tradeIn.sick": "I maiali malati ricevono il 25% in meno di setole di maiale.",
+  "pigs.tradeIn.readyWarning": "I prodotti non reclamati di questo maiale andranno perduti."
 }

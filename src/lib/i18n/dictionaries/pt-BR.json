@@ -8759,5 +8759,13 @@
   "resource.greenBeetle": "Besouro verde",
   "faction.pet.contributedLastWeek": "Contribuiu na semana passada",
   "faction.pet.contributingThisWeek": "Contribuindo esta semana",
-  "faction.pet.cooldown.active": "Tempo de recarga do interruptor de facção:"
+  "faction.pet.cooldown.active": "Tempo de recarga do interruptor de facção:",
+  "pigs.tradeIn": "Negocie em",
+  "pigs.tradeIn.board.info": "Troque um porco por cerdas de porco a qualquer momento. O pagamento cresce com seu nível.",
+  "pigs.tradeIn.bountyBristles": "Este porco também paga {{amount}} cerdas de porco.",
+  "pigs.tradeIn.select": "Selecione um porco para trocar por cerdas de porco.",
+  "pigs.tradeIn.noPig": "Os porcos devem estar acordados e estar no nível 3 ou mais para serem negociados.",
+  "pigs.tradeIn.confirm": "Troque este Porco por {{amount}} Cerdas de Porco?",
+  "pigs.tradeIn.sick": "Porcos doentes recebem 25% menos cerdas de porco.",
+  "pigs.tradeIn.readyWarning": "Os produtos não reclamados deste Porco serão perdidos."
 }

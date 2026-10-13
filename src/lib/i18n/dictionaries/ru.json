@@ -8759,5 +8759,13 @@
   "resource.greenBeetle": "Green Beetle",
   "faction.pet.contributedLastWeek": "Contributed last week",
   "faction.pet.contributingThisWeek": "Contributing this week",
-  "faction.pet.cooldown.active": "Faction switch cooldown:"
+  "faction.pet.cooldown.active": "Faction switch cooldown:",
+  "pigs.tradeIn": "Trade in",
+  "pigs.tradeIn.board.info": "Trade a Pig in for Pig Bristles at any time. The payout grows with its level.",
+  "pigs.tradeIn.bountyBristles": "This Pig also pays {{amount}} Pig Bristles.",
+  "pigs.tradeIn.select": "Select a Pig to trade in for Pig Bristles.",
+  "pigs.tradeIn.noPig": "Pigs must be awake and level 3+ to trade in.",
+  "pigs.tradeIn.confirm": "Trade this Pig in for {{amount}} Pig Bristles?",
+  "pigs.tradeIn.sick": "Sick Pigs receive 25% fewer Pig Bristles.",
+  "pigs.tradeIn.readyWarning": "This Pig's unclaimed produce will be lost."
 }

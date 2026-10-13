@@ -8759,5 +8759,13 @@
   "resource.greenBeetle": "Grüner Käfer",
   "faction.pet.contributedLastWeek": "Letzte Woche beigetragen",
   "faction.pet.contributingThisWeek": "Diese Woche beitragen",
-  "faction.pet.cooldown.active": "Abklingzeit des Fraktionswechsels:"
+  "faction.pet.cooldown.active": "Abklingzeit des Fraktionswechsels:",
+  "pigs.tradeIn": "Tauschen Sie ein",
+  "pigs.tradeIn.board.info": "Tauschen Sie jederzeit ein Schwein gegen Schweineborsten ein. Die Auszahlung wächst mit ihrem Level.",
+  "pigs.tradeIn.bountyBristles": "Dieses Schwein zahlt auch {{amount}} Schweineborsten.",
+  "pigs.tradeIn.select": "Wähle ein Schwein aus, das du gegen Schweineborsten eintauschen möchtest.",
+  "pigs.tradeIn.noPig": "Schweine müssen wach und Stufe 3+ sein, um eintauschen zu können.",
+  "pigs.tradeIn.confirm": "Dieses Schwein gegen {{amount}} Schweineborsten eintauschen?",
+  "pigs.tradeIn.sick": "Kranke Schweine erhalten 25% weniger Schweineborsten.",
+  "pigs.tradeIn.readyWarning": "Die nicht abgeholten Produkte dieses Schweins werden verloren gehen."
 }

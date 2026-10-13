@@ -8759,5 +8759,13 @@
   "resource.greenBeetle": "Yeşil Böcek",
   "faction.pet.contributedLastWeek": "Geçen hafta katkıda bulundu",
   "faction.pet.contributingThisWeek": "Bu hafta katkıda bulunmak",
-  "faction.pet.cooldown.active": "Fraksiyon anahtarı bekleme süresi:"
+  "faction.pet.cooldown.active": "Fraksiyon anahtarı bekleme süresi:",
+  "pigs.tradeIn": "Ticaret",
+  "pigs.tradeIn.board.info": "İstediğiniz zaman bir Domuzu Domuz Kılları ile takas edin. Ödeme seviyesi ile artar.",
+  "pigs.tradeIn.bountyBristles": "Bu Domuz ayrıca {{amount}} Domuz Kıllarını da öder.",
+  "pigs.tradeIn.select": "Domuz Kılları ile takas etmek için bir Domuz seçin.",
+  "pigs.tradeIn.noPig": "Domuzların ticaret yapabilmeleri için uyanık ve seviye 3+ olmalıdır.",
+  "pigs.tradeIn.confirm": "Bu Domuzu {{amount}} Domuz Kıllarıyla mı takas edeceksiniz?",
+  "pigs.tradeIn.sick": "Hasta Domuzlar %25 daha az Domuz Kılı alır.",
+  "pigs.tradeIn.readyWarning": "Bu Domuzun talep edilmemiş ürünleri kaybolacak."
 }

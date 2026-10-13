@@ -8759,5 +8759,13 @@
   "resource.greenBeetle": "Scarabée vert",
   "faction.pet.contributedLastWeek": "A contribué la semaine dernière",
   "faction.pet.contributingThisWeek": "Contribuer cette semaine",
-  "faction.pet.cooldown.active": "Temps de recharge du commutateur de faction :"
+  "faction.pet.cooldown.active": "Temps de recharge du commutateur de faction :",
+  "pigs.tradeIn": "Négocier",
+  "pigs.tradeIn.board.info": "Échangez un cochon contre des poils de porc à tout moment. Le paiement augmente avec son niveau.",
+  "pigs.tradeIn.bountyBristles": "Ce cochon paie également {{amount}} Poils de porc.",
+  "pigs.tradeIn.select": "Sélectionnez un cochon à échanger contre des poils de porc.",
+  "pigs.tradeIn.noPig": "Les porcs doivent être éveillés et être de niveau 3+ pour pouvoir échanger.",
+  "pigs.tradeIn.confirm": "Échangez ce cochon contre {{amount}} des poils de porc ?",
+  "pigs.tradeIn.sick": "Les porcs malades reçoivent 25 % de poils de porc en moins.",
+  "pigs.tradeIn.readyWarning": "Les produits non réclamés de ce cochon seront perdus."
 }

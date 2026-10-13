@@ -8759,5 +8759,13 @@
   "resource.greenBeetle": "Kumbang Hijau",
   "faction.pet.contributedLastWeek": "Berkontribusi minggu lalu",
   "faction.pet.contributingThisWeek": "Berkontribusi minggu ini",
-  "faction.pet.cooldown.active": "Cooldown sakelar faksi:"
+  "faction.pet.cooldown.active": "Cooldown sakelar faksi:",
+  "pigs.tradeIn": "Perdagangkan",
+  "pigs.tradeIn.board.info": "Tukarkan Babi dengan Bulu Babi kapan saja. Pembayaran tumbuh dengan levelnya.",
+  "pigs.tradeIn.bountyBristles": "Babi ini juga membayar {{amount}} Bulu Babi.",
+  "pigs.tradeIn.select": "Pilih Babi untuk ditukar dengan Bulu Babi.",
+  "pigs.tradeIn.noPig": "Babi harus terjaga dan level 3+ untuk diperdagangkan.",
+  "pigs.tradeIn.confirm": "Tukarkan Babi ini dengan {{amount}} Bulu Babi?",
+  "pigs.tradeIn.sick": "Babi yang Sick menerima 25% lebih sedikit Bulu Babi.",
+  "pigs.tradeIn.readyWarning": "Produk Babi yang tidak diklaim ini akan hilang."
 }

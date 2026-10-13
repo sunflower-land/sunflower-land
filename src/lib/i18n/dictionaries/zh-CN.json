@@ -8759,5 +8759,13 @@
   "resource.greenBeetle": "绿色甲壳虫",
   "faction.pet.contributedLastWeek": "上周贡献了",
   "faction.pet.contributingThisWeek": "本周投稿",
-  "faction.pet.cooldown.active": "阵营切换冷却时间："
+  "faction.pet.cooldown.active": "阵营切换冷却时间：",
+  "pigs.tradeIn": "以旧换新交易",
+  "pigs.tradeIn.board.info": "随时用一只猪换成猪毛。支出随着水平的增长而增加。",
+  "pigs.tradeIn.bountyBristles": "这只猪还支付 [0@/美元] 猪刷毛。",
+  "pigs.tradeIn.select": "选择一头猪来换取猪毛。",
+  "pigs.tradeIn.noPig": "猪必须处于清醒状态且等级为 3 级以上才能进行以旧换新。",
+  "pigs.tradeIn.confirm": "用这只猪换成 {{amount}} 猪毛？",
+  "pigs.tradeIn.sick": "生病的猪毛减少了 25%。",
+  "pigs.tradeIn.readyWarning": "这头猪无人认领的农产品将丢失。"
 }
