@@ -1,4 +1,5 @@
 import Phaser, { type Physics } from "phaser";
+import { getBaseWorldZoom, getWorldZoom } from "features/world/lib/worldZoom";
 import VirtualJoystick from "phaser3-rex-plugins/plugins/virtualjoystick.js";
 
 import { SQUARE_WIDTH } from "features/game/lib/constants";
@@ -184,7 +185,8 @@ export abstract class BaseScene extends Phaser.Scene {
 
   currentTick = 0;
 
-  zoom = window.innerWidth < 500 ? 3 : 4;
+  // Recomputed for the loaded map in initialiseMap (see getWorldZoom).
+  zoom = getBaseWorldZoom(window.innerWidth);
 
   layers: Record<string, Phaser.Tilemaps.TilemapLayer> = {};
 
@@ -1433,6 +1435,13 @@ export abstract class BaseScene extends Phaser.Scene {
       this.map.width * SQUARE_WIDTH,
       this.map.height * SQUARE_WIDTH,
     );
+
+    this.zoom = getWorldZoom({
+      screenWidth: window.innerWidth,
+      screenHeight: window.innerHeight,
+      mapWidth: this.map.width * SQUARE_WIDTH,
+      mapHeight: this.map.height * SQUARE_WIDTH,
+    });
   }
 
   public initialiseCamera() {
@@ -1448,9 +1457,10 @@ export abstract class BaseScene extends Phaser.Scene {
     camera.setZoom(this.zoom);
 
     // Center it on canvas
-    const offsetX = (window.innerWidth - this.map.width * 4 * SQUARE_WIDTH) / 2;
+    const offsetX =
+      (window.innerWidth - this.map.width * this.zoom * SQUARE_WIDTH) / 2;
     const offsetY =
-      (window.innerHeight - this.map.height * 4 * SQUARE_WIDTH) / 2;
+      (window.innerHeight - this.map.height * this.zoom * SQUARE_WIDTH) / 2;
     camera.setPosition(Math.max(offsetX, 0), Math.max(offsetY, 0));
 
     camera.fadeIn(500);
