@@ -2206,8 +2206,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
   },
   // #7721 Balance Update: +10% / +20% / +30% Pig Bristles from a trade-in,
-  // applied before the 25% sickness reduction. TODO(Chapter 16 390): the
-  // trade-in does not exist yet; 390 must apply this rank.
+  // applied before the 25% sickness reduction (see `getPigBristles`).
   "Bristle Payout": {
     name: "Bristle Payout",
     tree: "Animals",

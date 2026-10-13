@@ -8,6 +8,7 @@ import {
   type AnimalLevel,
   ANIMALS,
   type AnimalType,
+  PIG_BRISTLES_PER_LEVEL,
 } from "../types/animals";
 import { getKeys } from "lib/object";
 import type {
@@ -716,6 +717,21 @@ export function getResourceDropAmount({
     boostsUsed.push({ name: "Truffle Yield", value: `x${bonus.toNumber()}` });
   }
 
+  // Bristle Payout (#7721) scales the Bristles the same way, after the flat
+  // produce boosts and before the sickness cut in `getPigBristles`.
+  const bristlePayoutLevel = getSkillLevel(bumpkin.skills, "Bristle Payout");
+  if (
+    animalType === "Pig" &&
+    resource === "Pig Bristles" &&
+    bristlePayoutLevel
+  ) {
+    const bonus = new Decimal(1).plus(
+      SKILL_RANKS["Bristle Payout"].ranks[bristlePayoutLevel - 1],
+    );
+    amount = amount.mul(bonus);
+    boostsUsed.push({ name: "Bristle Payout", value: `x${bonus.toNumber()}` });
+  }
+
   if (multiplier) {
     amount = amount.mul(multiplier);
     if (multiplier !== 1) {
@@ -1063,4 +1079,91 @@ export function getAnimalMaturityTimeForDisplay({
     maturityTimeMs: baseDurationMs ?? awakeAt - createdAt,
     boostsUsed,
   };
+}
+
+/** The 25% a sick animal loses on bounty rewards and on its Bristles. */
+export const SICK_ANIMAL_REWARD_MULTIPLIER = 0.75;
+
+/**
+ * The level an animal is sold or traded in at. A ready animal shows its
+ * previous level until the yield is claimed, so it counts one level lower. At
+ * the max level there is no next level to transition into - "ready" only means
+ * a produce cycle completed - so the adjustment does not apply. This mirrors
+ * the badge, which guards its own `- 1` the same way.
+ */
+export function getBountyLevel(
+  animal: Pick<Animal, "type" | "experience" | "state">,
+): AnimalLevel {
+  const level = getAnimalLevel(animal.experience, animal.type);
+
+  return animal.state === "ready" && level < getAnimalMaxLevel(animal.type)
+    ? ((level - 1) as AnimalLevel)
+    : level;
+}
+
+/**
+ * Pig Bristles paid when a Pig is traded in or sold to a bounty (#7721): the
+ * level's table amount through the generic produce boosts and Bristle Payout,
+ * then the 25% sickness cut, kept exact to two decimals like produce. A level
+ * whose table amount is 0 pays nothing - boosts have nothing to boost.
+ */
+export function getPigBristles({
+  game,
+  pig,
+}: {
+  game: GameState;
+  pig: Animal;
+}): {
+  amount: number;
+  beforeSickness: number;
+  boostsUsed: { name: BoostName; value: string }[];
+} {
+  const baseAmount = PIG_BRISTLES_PER_LEVEL[getBountyLevel(pig)];
+
+  if (baseAmount === 0) {
+    return { amount: 0, beforeSickness: 0, boostsUsed: [] };
+  }
+
+  const { amount: beforeSickness, boostsUsed } = getResourceDropAmount({
+    game,
+    animalType: "Pig",
+    resource: "Pig Bristles",
+    baseAmount,
+    multiplier: pig.multiplier ?? 0,
+    animal: pig,
+  });
+
+  const amount =
+    pig.state === "sick"
+      ? Number(
+          new Decimal(beforeSickness)
+            .mul(SICK_ANIMAL_REWARD_MULTIPLIER)
+            .toFixed(2),
+        )
+      : beforeSickness;
+
+  return { amount, beforeSickness, boostsUsed };
+}
+
+/**
+ * A Pig can be traded in under the bounty rules - awake, sick or ready included
+ * - as long as its level pays Bristles.
+ */
+export function canTradeInPig({
+  pig,
+  game,
+  now,
+}: {
+  pig: Animal;
+  game: GameState;
+  now: number;
+}): boolean {
+  // Keep the truthiness guard: an animal that has never slept carries
+  // `awakeAt: 0` and no marker, and must stay tradeable.
+  const readyAt = getAnimalReadyAt(pig, game);
+  if (readyAt && readyAt > now) {
+    return false;
+  }
+
+  return PIG_BRISTLES_PER_LEVEL[getBountyLevel(pig)] > 0;
 }

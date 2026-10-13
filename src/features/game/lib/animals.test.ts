@@ -11,6 +11,9 @@ import {
   ANIMAL_BUILDING_KEYS,
   isFoodForAnimal,
   isMuddy,
+  getBountyLevel,
+  getPigBristles,
+  canTradeInPig,
 } from "../lib/animals";
 import { BUMPKIN_REVAMP_SKILL_TREE, SKILL_RANKS } from "../types/bumpkinSkills";
 import {
@@ -18,6 +21,7 @@ import {
   ANIMAL_LEVELS,
   ANIMAL_FOOD_EXPERIENCE,
   ANIMAL_RESOURCE_DROP,
+  PIG_BRISTLES_PER_LEVEL,
   isAnimalBuildingType,
   type AnimalLevel,
   type AnimalType,
@@ -1044,5 +1048,197 @@ describe("Mud XP bonus", () => {
       }),
     ).toBe(false);
     expect(isMuddy(ANIMAL)).toBe(false);
+  });
+});
+
+describe("Pig Bristles trade-in (#7721)", () => {
+  const pigAt = (level: number, overrides: Partial<Animal> = {}): Animal => ({
+    ...ANIMAL,
+    id: "p",
+    type: "Pig",
+    experience: ANIMAL_LEVELS.Pig[level as AnimalLevel],
+    ...overrides,
+  });
+
+  const withCattlegrim = (game: GameState = INITIAL_FARM): GameState => ({
+    ...game,
+    bumpkin: {
+      ...game.bumpkin,
+      equipped: { ...game.bumpkin.equipped, hat: "Cattlegrim" },
+    },
+  });
+
+  describe("getBountyLevel", () => {
+    it("is the Pig's level while idle, sick or asleep", () => {
+      expect(getBountyLevel(pigAt(6))).toEqual(6);
+      expect(getBountyLevel(pigAt(6, { state: "sick" }))).toEqual(6);
+      expect(
+        getBountyLevel(pigAt(6, { awakeAt: Date.now() + 60_000 })),
+      ).toEqual(6);
+    });
+
+    it("counts a ready Pig one level lower, as its badge shows", () => {
+      expect(getBountyLevel(pigAt(6, { state: "ready" }))).toEqual(5);
+    });
+
+    it("keeps a ready max-level Pig at the max level", () => {
+      expect(getBountyLevel(pigAt(15, { state: "ready" }))).toEqual(15);
+    });
+  });
+
+  describe("getPigBristles", () => {
+    it("pays the #7721 curve per level", () => {
+      const curve = Array.from(
+        { length: 16 },
+        (_, level) =>
+          getPigBristles({ game: INITIAL_FARM, pig: pigAt(level) }).amount,
+      );
+
+      expect(curve).toEqual([0, 0, 0, 1, 1, 2, 3, 3, 4, 5, 6, 6, 7, 8, 9, 12]);
+      expect(PIG_BRISTLES_PER_LEVEL[15]).toEqual(12);
+    });
+
+    it("pays a ready Pig for the level below", () => {
+      expect(
+        getPigBristles({
+          game: INITIAL_FARM,
+          pig: pigAt(6, { state: "ready" }),
+        }).amount,
+      ).toEqual(2);
+      expect(
+        getPigBristles({
+          game: INITIAL_FARM,
+          pig: pigAt(15, { state: "ready" }),
+        }).amount,
+      ).toEqual(12);
+    });
+
+    it("adds the generic produce boosts", () => {
+      const game: GameState = {
+        ...withCattlegrim(),
+        inventory: { "Barn Manager": new Decimal(1) },
+      };
+
+      const { amount, boostsUsed } = getPigBristles({ game, pig: pigAt(15) });
+
+      // 12 + Cattlegrim 0.25 + Barn Manager 0.1
+      expect(amount).toEqual(12.35);
+      expect(boostsUsed.map((boost) => boost.name)).toEqual(
+        expect.arrayContaining(["Cattlegrim", "Barn Manager"]),
+      );
+    });
+
+    it.each([
+      [1, 13.2],
+      [2, 14.4],
+      [3, 15.6],
+    ])("Bristle Payout rank %s pays %s at level 15", (rank, expected) => {
+      const { amount, boostsUsed } = getPigBristles({
+        game: withSkills({ "Bristle Payout": rank }),
+        pig: pigAt(15),
+      });
+
+      expect(amount).toEqual(expected);
+      expect(boostsUsed.map((boost) => boost.name)).toContain("Bristle Payout");
+    });
+
+    it("applies Bristle Payout after the flat boosts", () => {
+      const { amount } = getPigBristles({
+        game: withCattlegrim(withSkills({ "Bristle Payout": 1 })),
+        pig: pigAt(15),
+      });
+
+      // (12 + 0.25) x 1.1 = 13.475, kept to 2 dp like produce
+      expect(amount).toEqual(13.48);
+    });
+
+    it("does not scale Truffles with Bristle Payout", () => {
+      const { amount } = getResourceDropAmount({
+        game: withSkills({ "Bristle Payout": 3 }),
+        animalType: "Pig",
+        resource: "Truffle",
+        baseAmount: 4,
+        multiplier: 0,
+        animal: pigAt(15),
+      });
+
+      expect(amount).toEqual(4);
+    });
+
+    it("takes exactly 25% off a sick Pig after boosts", () => {
+      expect(
+        getPigBristles({
+          game: INITIAL_FARM,
+          pig: pigAt(5, { state: "sick" }),
+        }),
+      ).toEqual(expect.objectContaining({ amount: 1.5, beforeSickness: 2 }));
+
+      // 6 x 1.1 = 6.6 -> x 0.75 = 4.95
+      expect(
+        getPigBristles({
+          game: withSkills({ "Bristle Payout": 1 }),
+          pig: pigAt(10, { state: "sick" }),
+        }),
+      ).toEqual(expect.objectContaining({ amount: 4.95, beforeSickness: 6.6 }));
+    });
+
+    it("pays nothing under level 3, boosts included", () => {
+      const { amount, beforeSickness, boostsUsed } = getPigBristles({
+        game: withCattlegrim(withSkills({ "Bristle Payout": 3 })),
+        pig: pigAt(2),
+      });
+
+      expect(amount).toEqual(0);
+      expect(beforeSickness).toEqual(0);
+      expect(boostsUsed).toEqual([]);
+    });
+  });
+
+  describe("canTradeInPig", () => {
+    const now = Date.now();
+
+    it("allows an awake Pig that pays Bristles, sick or ready included", () => {
+      expect(canTradeInPig({ pig: pigAt(3), game: INITIAL_FARM, now })).toBe(
+        true,
+      );
+      expect(
+        canTradeInPig({
+          pig: pigAt(3, { state: "sick" }),
+          game: INITIAL_FARM,
+          now,
+        }),
+      ).toBe(true);
+      expect(
+        canTradeInPig({
+          pig: pigAt(4, { state: "ready" }),
+          game: INITIAL_FARM,
+          now,
+        }),
+      ).toBe(true);
+    });
+
+    it("rejects a sleeping Pig", () => {
+      expect(
+        canTradeInPig({
+          pig: pigAt(10, { asleepAt: now, awakeAt: now + 60_000 }),
+          game: INITIAL_FARM,
+          now,
+        }),
+      ).toBe(false);
+    });
+
+    it("rejects a Pig that would pay nothing", () => {
+      expect(canTradeInPig({ pig: pigAt(2), game: INITIAL_FARM, now })).toBe(
+        false,
+      );
+      // Ready at level 3 counts as level 2.
+      expect(
+        canTradeInPig({
+          pig: pigAt(3, { state: "ready" }),
+          game: INITIAL_FARM,
+          now,
+        }),
+      ).toBe(false);
+    });
   });
 });
