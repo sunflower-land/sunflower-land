@@ -156,7 +156,11 @@ export const CavePatch: React.FC<Props> = ({
                   type="button"
                   disabled={!hasDrill || !layout || allDug}
                   className="relative w-full h-full p-0 border-0 bg-transparent cursor-pointer disabled:cursor-not-allowed"
-                  onPointerEnter={() => setHovered({ x, y })}
+                  // A square with nothing left to drill shows no box; one
+                  // with a dug corner still does, as the drill can still run.
+                  onPointerEnter={() =>
+                    setHovered(allDug ? undefined : { x, y })
+                  }
                   onClick={() =>
                     gameService.send({
                       type: "cave.drilled",
