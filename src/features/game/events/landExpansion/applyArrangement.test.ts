@@ -4,7 +4,6 @@ import { INITIAL_FARM, INITIAL_BUMPKIN } from "features/game/lib/constants";
 import type { GameState, InventoryItemName } from "features/game/types/game";
 import type { PlaceableLocation } from "features/game/types/collectibles";
 import { DEFAULT_HONEY_PRODUCTION_TIME } from "features/game/lib/updateBeehives";
-import { snapshotFarm } from "./lib/layouts";
 import { isOutOfBounds } from "features/game/expansion/placeable/lib/collisionDetection";
 import {
   applyArrangement,
@@ -108,7 +107,7 @@ describe("applyArrangement", () => {
     );
     const before = cloneDeep(state);
 
-    const result = apply(state, snapshotFarm(state));
+    const result = apply(state, snapshotSurface(state, "farm"));
 
     expect(result).toEqual(before);
     expect(state).toEqual(before);
@@ -149,8 +148,8 @@ describe("applyArrangement", () => {
         },
         { "Fire Pit": 1 },
       );
-      const arrangement = snapshotFarm(state);
-      arrangement.buildings["Fire Pit"]![0].coordinates = { x: 0, y: 3 };
+      const arrangement = snapshotSurface(state, "farm");
+      arrangement.buildings!["Fire Pit"]![0].coordinates = { x: 0, y: 3 };
 
       const result = apply(state, arrangement);
 
@@ -174,7 +173,7 @@ describe("applyArrangement", () => {
         },
         { "Basic Bear": 1 },
       );
-      const arrangement = snapshotFarm(state);
+      const arrangement = snapshotSurface(state, "farm");
       arrangement.collectibles["Basic Bear"]![0] = {
         id: "a",
         coordinates: { x: 1, y: 1, oX: 3, oY: -2 },
@@ -211,9 +210,9 @@ describe("applyArrangement", () => {
         },
         { Tree: 2 },
       );
-      const arrangement = snapshotFarm(state);
-      arrangement.resources.trees.t1 = { x: 0, y: 0, oX: 4, oY: 4 };
-      arrangement.resources.trees.t2 = { x: 4, y: 3 };
+      const arrangement = snapshotSurface(state, "farm");
+      arrangement.resources!.trees.t1 = { x: 0, y: 0, oX: 4, oY: 4 };
+      arrangement.resources!.trees.t2 = { x: 4, y: 3 };
 
       const result = apply(state, arrangement);
 
@@ -252,7 +251,7 @@ describe("applyArrangement", () => {
         { Beehive: 1 },
       );
 
-      const result = apply(state, snapshotFarm(state));
+      const result = apply(state, snapshotSurface(state, "farm"));
 
       expect(result.beehives.h1.honey.updatedAt).toBe(0);
     });
@@ -270,7 +269,7 @@ describe("applyArrangement", () => {
         },
         { "Basic Bear": 2 },
       );
-      const arrangement = snapshotFarm(state);
+      const arrangement = snapshotSurface(state, "farm");
       arrangement.collectibles["Basic Bear"] = [
         { id: "a", coordinates: { x: 1, y: 0 } },
         { id: "b", coordinates: { x: 0, y: 0 } },
@@ -305,8 +304,8 @@ describe("applyArrangement", () => {
         },
         { Beehive: 1, Honey: 0 },
       );
-      const arrangement = snapshotFarm(state);
-      arrangement.resources.beehives = {};
+      const arrangement = snapshotSurface(state, "farm");
+      arrangement.resources!.beehives = {};
 
       const result = apply(state, arrangement);
 
@@ -329,7 +328,7 @@ describe("applyArrangement", () => {
         { "Time Warp Totem": 1, "Basic Bear": 1 },
       );
       const before = cloneDeep(state);
-      const arrangement = snapshotFarm(state);
+      const arrangement = snapshotSurface(state, "farm");
       delete arrangement.collectibles["Time Warp Totem"];
       // A valid move in the same commit must not be applied either.
       arrangement.collectibles["Basic Bear"]![0].coordinates = { x: 1, y: 1 };
@@ -346,6 +345,56 @@ describe("applyArrangement", () => {
         },
       ]);
       expect(state).toEqual(before);
+    });
+
+    it("leaves a placed temporary collectible alone when the arrangement keeps it", () => {
+      // The client commits snapshotSurface, which (unlike the layout snapshot)
+      // still lists an in-use totem at its spot: moving something else must
+      // not trip the removal guard on the totem.
+      const state = withInventory(
+        {
+          ...baseFarm,
+          collectibles: {
+            "Time Warp Totem": [
+              { id: "totem", coordinates: { x: 0, y: 0 }, createdAt },
+            ],
+            "Basic Bear": [{ id: "a", coordinates: { x: 2, y: 2 } }],
+          },
+        },
+        { "Time Warp Totem": 1, "Basic Bear": 1 },
+      );
+      const arrangement = snapshotSurface(state, "farm");
+      arrangement.collectibles["Basic Bear"]![0].coordinates = { x: 1, y: 1 };
+
+      const result = apply(state, arrangement);
+
+      expect(result.collectibles["Time Warp Totem"]).toEqual([
+        { id: "totem", coordinates: { x: 0, y: 0 }, createdAt },
+      ]);
+      expect(result.collectibles["Basic Bear"]![0].coordinates).toEqual({
+        x: 1,
+        y: 1,
+      });
+    });
+
+    it("snapshots a placed temporary collectible", () => {
+      // Unlike the layout snapshot (snapshotFarm), which leaves boosters out so
+      // re-applying a layout never starts a fresh boost.
+      const state = withInventory(
+        {
+          ...baseFarm,
+          collectibles: {
+            "Time Warp Totem": [
+              { id: "totem", coordinates: { x: 0, y: 0 }, createdAt },
+            ],
+          },
+        },
+        { "Time Warp Totem": 1 },
+      );
+
+      expect(snapshotSurface(state, "farm").collectibles).toEqual({
+        "Time Warp Totem": [{ id: "totem", coordinates: { x: 0, y: 0 } }],
+      });
     });
 
     it("never removes the Town Center", () => {
@@ -365,7 +414,7 @@ describe("applyArrangement", () => {
         },
         { "Town Center": 1 },
       );
-      const arrangement = snapshotFarm(state);
+      const arrangement = snapshotSurface(state, "farm");
       arrangement.buildings = {};
 
       const conflicts = conflictsOf(() => apply(state, arrangement));
@@ -397,7 +446,7 @@ describe("applyArrangement", () => {
         },
         { "Fire Pit": 1 },
       );
-      const arrangement = snapshotFarm(state);
+      const arrangement = snapshotSurface(state, "farm");
       arrangement.buildings = {};
 
       const conflicts = conflictsOf(() => apply(state, arrangement));
@@ -417,11 +466,11 @@ describe("applyArrangement", () => {
         "Basic Bear": 1,
         "Fire Pit": 1,
       });
-      const arrangement = snapshotFarm(state);
+      const arrangement = snapshotSurface(state, "farm");
       arrangement.collectibles["Basic Bear"] = [
         { id: "new-bear", coordinates: { x: 0, y: 0 } },
       ];
-      arrangement.buildings["Fire Pit"] = [
+      arrangement.buildings!["Fire Pit"] = [
         { id: "new-pit", coordinates: { x: -3, y: 3 } },
       ];
 
@@ -454,8 +503,8 @@ describe("applyArrangement", () => {
         },
         { Tree: 1 },
       );
-      const arrangement = snapshotFarm(state);
-      arrangement.resources.trees.t1 = { x: 0, y: 0 };
+      const arrangement = snapshotSurface(state, "farm");
+      arrangement.resources!.trees.t1 = { x: 0, y: 0 };
 
       const result = apply(state, arrangement);
 
@@ -467,7 +516,7 @@ describe("applyArrangement", () => {
 
     it("reports a placement the player cannot afford", () => {
       const state = withInventory(baseFarm, { "Basic Bear": 0 });
-      const arrangement = snapshotFarm(state);
+      const arrangement = snapshotSurface(state, "farm");
       arrangement.collectibles["Basic Bear"] = [
         { id: "new-bear", coordinates: { x: 0, y: 0 } },
       ];
@@ -486,7 +535,7 @@ describe("applyArrangement", () => {
     });
 
     it("reports an unknown item name", () => {
-      const arrangement = snapshotFarm(baseFarm);
+      const arrangement = snapshotSurface(baseFarm, "farm");
       (arrangement.collectibles as Record<string, unknown>)["Not A Thing"] = [
         { id: "x", coordinates: { x: 0, y: 0 } },
       ];
@@ -515,7 +564,7 @@ describe("applyArrangement", () => {
         },
         { "Basic Bear": 1 },
       );
-      const arrangement = snapshotFarm(state);
+      const arrangement = snapshotSurface(state, "farm");
       arrangement.collectibles["Basic Bear"] = [
         { id: "h", coordinates: { x: 0, y: 0 } },
       ];
@@ -538,7 +587,7 @@ describe("applyArrangement", () => {
     // them on the wire; the reducer stops them for ART_MODE.
     it("rejects a duplicate id within a placement array", () => {
       const state = withInventory(baseFarm, { "Basic Bear": 2 });
-      const arrangement = snapshotFarm(state);
+      const arrangement = snapshotSurface(state, "farm");
       arrangement.collectibles["Basic Bear"] = [
         { id: "a", coordinates: { x: 0, y: 0 } },
         { id: "a", coordinates: { x: 1, y: 1 } },
@@ -564,8 +613,10 @@ describe("applyArrangement", () => {
         },
         { "Fire Pit": 1 },
       );
-      const { buildings: _buildings, ...withoutBuildings } =
-        snapshotFarm(state);
+      const { buildings: _buildings, ...withoutBuildings } = snapshotSurface(
+        state,
+        "farm",
+      );
 
       expect(() => apply(state, withoutBuildings)).toThrow(
         /must include buildings/,
@@ -584,7 +635,7 @@ describe("applyArrangement", () => {
         },
       };
       const { collectibles: _collectibles, ...withoutCollectibles } =
-        snapshotFarm(state);
+        snapshotSurface(state, "farm");
 
       // Every surface holds collectibles, so an omitted bucket is a malformed
       // payload - not an instruction to lift everything placed on the surface.
@@ -618,7 +669,7 @@ describe("applyArrangement", () => {
         },
         { "Basic Bear": 1 },
       );
-      const arrangement = snapshotFarm(state);
+      const arrangement = snapshotSurface(state, "farm");
       arrangement.collectibles["Basic Bear"]![0].coordinates = { x: 50, y: 50 };
 
       const conflicts = conflictsOf(() => apply(state, arrangement));
@@ -646,7 +697,7 @@ describe("applyArrangement", () => {
         },
         { "Basic Bear": 2 },
       );
-      const arrangement = snapshotFarm(state);
+      const arrangement = snapshotSurface(state, "farm");
       arrangement.collectibles["Basic Bear"]![1].coordinates = { x: 0, y: 0 };
 
       const conflicts = conflictsOf(() => apply(state, arrangement));
@@ -673,7 +724,7 @@ describe("applyArrangement", () => {
         },
         { "Basic Bear": 1, Rug: 1 },
       );
-      const arrangement = snapshotFarm(state);
+      const arrangement = snapshotSurface(state, "farm");
       arrangement.collectibles.Rug![0].coordinates = { x: 0, y: 0 };
 
       const result = apply(state, arrangement);
@@ -695,7 +746,7 @@ describe("applyArrangement", () => {
           2: { ...bud, coordinates: { x: 2, y: 2 }, location: "farm" },
         },
       };
-      const arrangement = snapshotFarm(state);
+      const arrangement = snapshotSurface(state, "farm");
       arrangement.buds = { 1: { x: 1, y: 1 } };
 
       const result = apply(state, arrangement);
@@ -710,7 +761,7 @@ describe("applyArrangement", () => {
     });
 
     it("reports a bud the player does not own", () => {
-      const arrangement = snapshotFarm(baseFarm);
+      const arrangement = snapshotSurface(baseFarm, "farm");
       arrangement.buds = { 99: { x: 1, y: 1 } };
 
       const conflicts = conflictsOf(() => apply(baseFarm, arrangement));
@@ -733,7 +784,7 @@ describe("applyArrangement", () => {
           bumpkins: { fh1: { equipped: INITIAL_BUMPKIN.equipped } },
         },
       };
-      const arrangement = snapshotFarm(state);
+      const arrangement = snapshotSurface(state, "farm");
       arrangement.farmHands = { fh1: { x: 0, y: 0, flipped: true } };
 
       const result = apply(state, arrangement);
@@ -755,7 +806,7 @@ describe("applyArrangement", () => {
           location: "farm",
         },
       };
-      const arrangement = snapshotFarm(state);
+      const arrangement = snapshotSurface(state, "farm");
       arrangement.bumpkin = { x: 1, y: 1, flipped: true };
 
       const result = apply(state, arrangement);
@@ -1013,8 +1064,8 @@ describe("applyArrangement", () => {
         },
         { "Flower Bed": 1, Beehive: 1 },
       );
-      const arrangement = snapshotFarm(state);
-      arrangement.resources.flowerBeds.fb = { x: 1, y: 1 };
+      const arrangement = snapshotSurface(state, "farm");
+      arrangement.resources!.flowerBeds.fb = { x: 1, y: 1 };
 
       const result = apply(state, arrangement);
 
@@ -1032,7 +1083,7 @@ describe("applyArrangement", () => {
         },
         { "Basic Bear": 1, Beehive: 1 },
       );
-      const arrangement = snapshotFarm(state);
+      const arrangement = snapshotSurface(state, "farm");
       arrangement.collectibles["Basic Bear"]![0].coordinates = { x: 1, y: 1 };
 
       const result = apply(state, arrangement);
@@ -1063,7 +1114,7 @@ describe("applyArrangement", () => {
         },
         { "Basic Scarecrow": 1, "Basic Bear": 1, "Crop Plot": 1 },
       );
-      const arrangement = snapshotFarm(state);
+      const arrangement = snapshotSurface(state, "farm");
       arrangement.collectibles["Basic Bear"]![0].coordinates = { x: 2, y: 1 };
 
       const result = apply(state, arrangement);
