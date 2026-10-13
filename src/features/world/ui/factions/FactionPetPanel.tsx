@@ -497,7 +497,7 @@ const FactionPetContent: React.FC<{
                         onHide={() => setShowCooldownInfo(false)}
                         className="left-0 bottom-5"
                       >
-                        <div className="flex flex-col items-center space-y-1 p-1 whitespace-nowrap">
+                        <div className="flex flex-col items-start space-y-1 p-1 whitespace-nowrap">
                           <p className="text-xs">
                             {t("faction.pet.cooldown.active")}
                           </p>
