@@ -141,10 +141,13 @@ export const Cave: React.FC = () => {
                 onClick={() => navigate("/")}
               />
 
-              {/* Goblin Cave Merchant beside the entrance arch, under his sign. */}
+              {/* Goblin Cave Merchant beside the entrance arch, under his sign. A
+              native button so keyboard users can reach him. */}
               {merchantOpen && (
-                <div
-                  className="absolute cursor-pointer"
+                <button
+                  type="button"
+                  aria-label={t("cave.merchant.title")}
+                  className="absolute cursor-pointer bg-transparent border-0 p-0"
                   style={{
                     left: `${(CAVE_MERCHANT_ALCOVE.x + 5) * GRID_WIDTH_PX}px`,
                     top: `${(CAVE_MERCHANT_ALCOVE.y + 2) * GRID_WIDTH_PX}px`,
@@ -152,7 +155,7 @@ export const Cave: React.FC = () => {
                   onClick={() => setShowMerchant(true)}
                 >
                   <NPCPlaceable parts={CAVE_MERCHANT_PARTS} />
-                </div>
+                </button>
               )}
 
               {slots.map((id) => {
