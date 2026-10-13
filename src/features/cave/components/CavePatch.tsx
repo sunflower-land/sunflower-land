@@ -20,7 +20,6 @@ import { CAVE_PATCH_SIZE } from "features/game/expansion/placeable/lib/caveLayou
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { getKeys } from "lib/object";
-import { secondsToString } from "lib/utils/time";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
@@ -30,6 +29,11 @@ interface Props {
   hasShovel: boolean;
   hasDrill: boolean;
 }
+
+// The same hover boxes the desert dig site uses: one tile for the shovel,
+// 2x2 for the drill (served from public/world).
+const SHOVEL_SELECT = "world/shovel_select_new.webp";
+const DRILL_SELECT = "world/drill_select_new.webp";
 
 const DugTile: React.FC<{ tile: ResolvedCaveTile }> = ({ tile }) => {
   const item = getKeys(tile.items)[0];
@@ -100,14 +104,17 @@ export const CavePatch: React.FC<Props> = ({
   const beetles = batch ? getCaveBeetleProgress(batch) : undefined;
 
   const drilling = ready && selectedItem === "Sand Drill";
-  const drillSquare =
-    drilling && hovered
-      ? new Set(
-          getCaveDrillSquare(hovered.x, hovered.y).map(({ x, y }) =>
-            caveTileKey(x, y),
-          ),
-        )
-      : undefined;
+  // Where the hover box sits: the 2x2 square's top-left for the drill, the
+  // tile itself for the shovel.
+  const hoverBox = hovered
+    ? drilling
+      ? { ...getCaveDrillSquare(hovered.x, hovered.y)[0], size: 2 }
+      : { ...hovered, size: 1 }
+    : undefined;
+
+  // The room image already draws the bare sand: nothing to add while the
+  // patch is empty or the batch is still growing (Elias).
+  if (!batch || growing) return null;
 
   return (
     <>
@@ -167,9 +174,6 @@ export const CavePatch: React.FC<Props> = ({
                       style={{ imageRendering: "pixelated" }}
                     />
                   )}
-                  {drillSquare?.has(key) && (
-                    <div className="absolute inset-0 bg-white/30 pointer-events-none" />
-                  )}
                 </button>
               );
             }
@@ -183,26 +187,14 @@ export const CavePatch: React.FC<Props> = ({
               );
             }
 
-            if (!ready) {
-              return (
-                <img
-                  key={`tile-${i}`}
-                  src={
-                    batch ? SUNNYSIDE.soil.sand_hill : SUNNYSIDE.soil.sand_dug
-                  }
-                  className="w-full h-full"
-                  style={{ imageRendering: "pixelated" }}
-                />
-              );
-            }
-
             return (
               <button
                 key={`tile-${i}`}
                 type="button"
                 // The board arrives with the save that follows the batch start.
                 disabled={!hasShovel || !layout}
-                className="w-full h-full p-0 border-0 bg-transparent cursor-pointer hover:brightness-110 disabled:cursor-not-allowed"
+                className="w-full h-full p-0 border-0 bg-transparent cursor-pointer disabled:cursor-not-allowed"
+                onPointerEnter={() => setHovered({ x, y })}
                 onClick={() =>
                   gameService.send({ type: "cave.dug", machineId, x, y })
                 }
@@ -218,21 +210,21 @@ export const CavePatch: React.FC<Props> = ({
         )}
       </div>
 
-      {growing && batch && (
-        <div className="absolute inset-0 bg-[#241521]/70 flex flex-col items-center justify-center">
-          <img
-            src={SUNNYSIDE.icons.stopwatch}
-            style={{ width: `${PIXEL_SCALE * 8}px` }}
-          />
-          <span className="text-white text-xxs mt-0.5">
-            {secondsToString(Math.max(0, (batch.readyAt - now) / 1000), {
-              length: "short",
-            })}
-          </span>
-        </div>
+      {ready && hoverBox && (
+        <img
+          src={hoverBox.size === 2 ? DRILL_SELECT : SHOVEL_SELECT}
+          className="absolute pointer-events-none z-10"
+          style={{
+            left: `${hoverBox.x * GRID_WIDTH_PX}px`,
+            top: `${hoverBox.y * GRID_WIDTH_PX}px`,
+            width: `${hoverBox.size * GRID_WIDTH_PX}px`,
+            height: `${hoverBox.size * GRID_WIDTH_PX}px`,
+            imageRendering: "pixelated",
+          }}
+        />
       )}
 
-      {ready && beetles && (
+      {beetles && (
         <div
           className="absolute left-0 right-0 flex flex-col items-center gap-0.5 pointer-events-none"
           style={{ top: `${CAVE_PATCH_SIZE * GRID_WIDTH_PX + 4}px` }}

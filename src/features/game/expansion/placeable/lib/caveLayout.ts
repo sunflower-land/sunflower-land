@@ -1,111 +1,107 @@
 /**
- * Cave interior layout (in tiles).
+ * Cave interior layout, in tiles, over the art team's room renders.
  *
- * The Cave is one room with 8 fixed slots laid out in a 2x4 grid. Each slot is
- * a Myco Bin machine sitting directly ABOVE its own 5x5 digging patch.
- * Slots unlock with tiers: the top row left→right first (slots 1–4), then the
- * bottom row left→right (slots 5–8). The room GROWS with tiers — the walls
- * push out to include each newly unlocked slot, so the art team supplies a
- * room image per size.
- *
- * Coordinate convention mirrors `interiorLayouts.ts`: bottom-left anchored at
- * (0, 0), x increases right, y increases up. A tile (x, y) with size (w, h)
- * occupies cells (x + dx, y - dy) for dx ∈ [0, w), dy ∈ [0, h) — so (x, y) is
- * the TOP-LEFT tile.
+ * The room is drawn as one image per tier (`room_<tier>.webp`, 66x55 tiles
+ * of 16 px cropped from the Tiled map at tile (7, 13)). Everything below is
+ * positioned on that image with a TOP-LEFT origin, x right and y down, in
+ * 16 px tiles. The numbers come from the Tiled map's layers and are pinned
+ * by `caveLayout.test.ts` against the map JSON, so a re-export of the map
+ * that moves a slot fails the test instead of the room.
  */
+
+/** Where the room image was cropped from the Tiled map, in map tiles. */
+export const CAVE_IMAGE_ORIGIN = { x: 7, y: 13 } as const;
+
+/** The room image, in tiles. */
+export const CAVE_IMAGE_SIZE = { width: 66, height: 55 } as const;
 
 /** Every digging patch is 5x5 (25 diggable tiles). */
 export const CAVE_PATCH_SIZE = 5;
 
-/** The Myco Bin machine footprint (tiles). */
-export const CAVE_MACHINE_SIZE = { width: 3, height: 2 } as const;
-
 export type CaveCoordinates = { x: number; y: number };
+export type CaveTileRect = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
 
 export type CaveSlot = {
-  /** Top-left tile of the Myco Bin machine. */
-  machine: CaveCoordinates;
-  /** Top-left tile of the 5x5 digging patch, directly below the machine. */
+  /** The Myco Bin sign drawn on the room: the click target. */
+  sign: CaveTileRect;
+  /** Top-left tile of the 5x5 sand the Bumpkin digs. */
   patch: CaveCoordinates;
 };
 
-// Horizontal gap between the four columns and the room's left margin.
-const COLUMN_STRIDE = CAVE_PATCH_SIZE + 2; // patch width + gutter
-const LEFT_MARGIN = 1;
-// The top row's patches sit high; the bottom row is one room-height down.
-// Each row is machine + gap + patch + room for the patch's labels below it.
-const ROW_STRIDE = CAVE_MACHINE_SIZE.height + CAVE_PATCH_SIZE + 3;
-const TOP_ROW_PATCH_TOP_Y = 13;
-const COLUMNS = 4;
+// A slot on the map is a 7x10 box: sign rows 0-1 (columns 2-4), the fence
+// on row 2, a border, the 5x5 sand at rows 4-8 / columns 1-5, a border.
+const SLOT_BOX = { width: 7, height: 10 } as const;
 
-/**
- * The room's top wall, level with the top of the first row's machines. The
- * room grows right (tiers I–IV) and then down (V–VIII) from here, so slots
- * already unlocked never move.
- */
-export const CAVE_ROOM_TOP_Y =
-  TOP_ROW_PATCH_TOP_Y + CAVE_MACHINE_SIZE.height + 1;
+function slotAt(boxX: number, boxY: number): CaveSlot {
+  const x = boxX - CAVE_IMAGE_ORIGIN.x;
+  const y = boxY - CAVE_IMAGE_ORIGIN.y;
 
-function slotAt(column: number, row: number): CaveSlot {
-  const patchX = LEFT_MARGIN + column * COLUMN_STRIDE;
-  const patchTopY = TOP_ROW_PATCH_TOP_Y - row * ROW_STRIDE;
   return {
-    patch: { x: patchX, y: patchTopY },
-    // Machine is centred over the 5x5 patch, one tile above it.
-    machine: {
-      x: patchX + Math.floor((CAVE_PATCH_SIZE - CAVE_MACHINE_SIZE.width) / 2),
-      y: patchTopY + CAVE_MACHINE_SIZE.height + 1,
-    },
+    sign: { x: x + 2, y, width: 3, height: 2 },
+    patch: { x: x + 1, y: y + 4 },
   };
 }
 
 /**
- * The 8-slot table. Slots 1–4 are the top row (left→right), 5–8 the bottom
- * row (left→right). Keyed by slot id to match `cave.machines`.
+ * The 8 slots keyed by id (= the tier that unlocks them, = `cave.machines`
+ * key). Slots 1-4 run along the top row left to right; 5-8 along the bottom
+ * row RIGHT to left, so the room grows back towards the ladder.
  */
 export const CAVE_SLOTS: Record<number, CaveSlot> = {
-  1: slotAt(0, 0),
-  2: slotAt(1, 0),
-  3: slotAt(2, 0),
-  4: slotAt(3, 0),
-  5: slotAt(0, 1),
-  6: slotAt(1, 1),
-  7: slotAt(2, 1),
-  8: slotAt(3, 1),
+  1: slotAt(20, 32),
+  2: slotAt(29, 32),
+  3: slotAt(38, 32),
+  4: slotAt(47, 32),
+  5: slotAt(47, 45),
+  6: slotAt(38, 45),
+  7: slotAt(29, 45),
+  8: slotAt(20, 45),
+};
+
+export { SLOT_BOX as CAVE_SLOT_BOX };
+
+const rect = (
+  mapX: number,
+  mapY: number,
+  width: number,
+  height: number,
+): CaveTileRect => ({
+  x: mapX - CAVE_IMAGE_ORIGIN.x,
+  y: mapY - CAVE_IMAGE_ORIGIN.y,
+  width,
+  height,
+});
+
+/**
+ * The barrier the room draws where the next slot will open, keyed by the
+ * CURRENT tier: the expansion sign sits on it. None at the last tier.
+ */
+export const CAVE_CONSTRUCTION_SITES: Record<number, CaveTileRect> = {
+  1: rect(29, 34, 1, 10),
+  2: rect(38, 34, 1, 10),
+  3: rect(47, 34, 1, 10),
+  4: rect(45, 45, 11, 1),
+  5: rect(43, 47, 3, 10),
+  6: rect(34, 47, 3, 10),
+  7: rect(25, 47, 3, 10),
 };
 
 /**
- * The Goblin Cave Merchant's stall on the top wall, beside the first machine.
- * It sits in the Tier I room but only opens at the merchant's tier.
+ * The Goblin Cave Merchant's alcove by the entrance arch. The room draws it
+ * from tier V; the goblin stands at its right-hand side.
  */
-export const CAVE_MERCHANT_STALL: CaveCoordinates = {
-  x: CAVE_SLOTS[1].machine.x + CAVE_MACHINE_SIZE.width,
-  y: CAVE_ROOM_TOP_Y,
-};
+export const CAVE_MERCHANT_ALCOVE: CaveTileRect = rect(32, 22, 9, 5);
+export const CAVE_MERCHANT_ALCOVE_TIER = 5;
 
-/** The stall footprint (tiles). */
-export const CAVE_MERCHANT_STALL_SIZE = { width: 3, height: 2 } as const;
-
-/**
- * Room size (in tiles) at a tier — how far the walls reach as slots unlock,
- * measured right and down from the top-left corner (`CAVE_ROOM_TOP_Y`). Tiers
- * I–IV widen the top row; tier V adds the bottom row at full width. A
- * placeholder rectangle until the art team supplies a room per size.
- */
-export function getCaveRoomBounds(tier: number): {
-  width: number;
-  height: number;
-} {
-  const unlocked = Math.min(Math.max(tier, 1), COLUMNS * 2);
-  const columns = Math.min(unlocked, COLUMNS);
-  const rows = unlocked > COLUMNS ? 2 : 1;
-  return {
-    width: LEFT_MARGIN + columns * COLUMN_STRIDE,
-    height: rows * ROW_STRIDE,
-  };
-}
+/** The ladder out, top-left of the first room. */
+export const CAVE_LADDER: CaveTileRect = rect(20, 21, 1, 4);
 
 /** How many slots are unlocked at a given tier (tier N unlocks slot N). */
 export function caveSlotsForTier(tier: number): number[] {
-  return Array.from({ length: tier }, (_, i) => i + 1);
+  return Array.from({ length: Math.min(tier, 8) }, (_, i) => i + 1);
 }
