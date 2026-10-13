@@ -21,6 +21,7 @@ import { produce } from "immer";
 import type { ExoticCrop } from "features/game/types/beans";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { isRetiredChapterCropWeekItem } from "features/game/types/chapterCropWeek";
 
 export type SellableName = CropName | PatchFruitName;
 export type SellableItem =
@@ -63,6 +64,11 @@ export function sellCrop({
 
     if (!(action.crop in SELLABLE)) {
       throw new Error("Not for sale");
+    }
+
+    // Crops from previous Chapter Crop Week runs can never be sold again
+    if (isRetiredChapterCropWeekItem(action.crop)) {
+      throw new Error("This crop is no longer sellable");
     }
 
     const amount = new Decimal(action.amount);
