@@ -64,14 +64,11 @@ import { SleepingAnimalModal } from "features/barn/components/SleepingAnimalModa
 import { LockedAnimalModal } from "features/barn/components/LockedAnimalModal";
 import { ANIMAL_EMOTION_ICONS } from "features/barn/components/Cow";
 
-// The idle sprite stands in for every state until the rest of the art lands
-// (Elias 2026-09-18) - the emotion icon above the sprite still shows sleeping,
-// ready and sick, so no state cue is lost. Repoint an entry as its art arrives.
 const PIG_IMAGES = {
   idle: SUNNYSIDE.animals.pigIdle,
-  ready: SUNNYSIDE.animals.pigIdle, // TODO(Chapter 16 art): pigs/ready
-  sleeping: SUNNYSIDE.animals.pigIdle, // TODO(Chapter 16 art): pigs/sleeping
-  sick: SUNNYSIDE.animals.pigIdle, // TODO(Chapter 16 art): pigs/sick
+  ready: SUNNYSIDE.animals.pigReady,
+  sleeping: SUNNYSIDE.animals.pigSleeping,
+  sick: SUNNYSIDE.animals.pigSick,
 };
 
 const _animalState = (state: AnimalMachineState) =>
