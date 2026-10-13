@@ -105,12 +105,19 @@ export const CavePatch: React.FC<Props> = ({
 
   const drilling = ready && selectedItem === "Sand Drill";
   // Where the hover box sits: the 2x2 square's top-left for the drill, the
-  // tile itself for the shovel.
-  const hoverBox = hovered
-    ? drilling
-      ? { ...getCaveDrillSquare(hovered.x, hovered.y)[0], size: 2 }
-      : { ...hovered, size: 1 }
-    : undefined;
+  // tile itself for the shovel. Derived from the batch, not just the pointer:
+  // once the hovered tile (or the whole drill square) is dug the box goes
+  // away without waiting for the pointer to move.
+  const isDug = (tile: { x: number; y: number }) =>
+    !!batch?.dug?.[caveTileKey(tile.x, tile.y)];
+  const hoverBox = (() => {
+    if (!hovered) return undefined;
+    if (drilling) {
+      const square = getCaveDrillSquare(hovered.x, hovered.y);
+      return square.every(isDug) ? undefined : { ...square[0], size: 2 };
+    }
+    return isDug(hovered) ? undefined : { ...hovered, size: 1 };
+  })();
 
   // The room image already draws the bare sand: nothing to add while the
   // patch is empty or the batch is still growing (Elias).
@@ -156,11 +163,7 @@ export const CavePatch: React.FC<Props> = ({
                   type="button"
                   disabled={!hasDrill || !layout || allDug}
                   className="relative w-full h-full p-0 border-0 bg-transparent cursor-pointer disabled:cursor-not-allowed"
-                  // A square with nothing left to drill shows no box; one
-                  // with a dug corner still does, as the drill can still run.
-                  onPointerEnter={() =>
-                    setHovered(allDug ? undefined : { x, y })
-                  }
+                  onPointerEnter={() => setHovered({ x, y })}
                   onClick={() =>
                     gameService.send({
                       type: "cave.drilled",
