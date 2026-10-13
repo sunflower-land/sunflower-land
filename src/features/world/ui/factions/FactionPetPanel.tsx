@@ -40,7 +40,7 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Button } from "components/ui/Button";
 import Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { secondsToString } from "lib/utils/time";
+import { formatDateTime, secondsToString } from "lib/utils/time";
 import { getFactionPetUpdate } from "./actions/getFactionPetUpdate";
 
 import { formatNumber } from "lib/utils/formatNumber";
@@ -495,20 +495,20 @@ const FactionPetContent: React.FC<{
                       <InfoPopover
                         showPopover={showCooldownInfo}
                         onHide={() => setShowCooldownInfo(false)}
-                        className="left-0 bottom-5 max-w-[240px]"
+                        className="left-0 bottom-5"
                       >
-                        <p className="text-xs p-0.5 py-1">
-                          {t(
-                            contributedLastWeek
-                              ? "faction.pet.cooldown.contributed"
-                              : "faction.pet.cooldown.active",
-                            {
-                              date: new Date(
+                        <div className="flex flex-col items-center space-y-1 p-1 whitespace-nowrap">
+                          <p className="text-xs">
+                            {t("faction.pet.cooldown.active")}
+                          </p>
+                          <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+                            {formatDateTime(
+                              new Date(
                                 faction?.boostCooldownUntil ?? 0,
-                              ).toLocaleString(),
-                            },
-                          )}
-                        </p>
+                              ).toISOString(),
+                            )}
+                          </Label>
+                        </div>
                       </InfoPopover>
                     )}
                   </div>
