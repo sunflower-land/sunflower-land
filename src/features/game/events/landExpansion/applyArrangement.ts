@@ -68,7 +68,9 @@ import { removeLavaPit } from "./removeLavaPit";
 
 /**
  * The full desired arrangement of one location, in the same shape a
- * {@link SavedLayout} stores (produced by `snapshotFarm`). Items are addressed
+ * {@link SavedLayout} stores (produced by {@link snapshotSurface}; the layout
+ * snapshot `snapshotFarm` leaves temporary collectibles out, so it is not a
+ * valid arrangement of a farm with a booster placed). Items are addressed
  * by instance id; ids the server does not know are new placements from the
  * chest, ids it knows but the arrangement omits are removals.
  */
