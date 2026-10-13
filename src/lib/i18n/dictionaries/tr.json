@@ -1998,7 +1998,6 @@
   "faction.leave.sellEmblems": "Ayrılmadan önce amblemlerinizi satmalısınız.",
   "faction.kitchen.gatherResources": "Bu kadar çok yeni asker... hepsini nasıl besleyeceğiz! Biraz kaynak toplamama yardım eder misin?",
   "faction.pet.gatherResources": "Grrrrghhhhhh...",
-  "faction.pet.contributingMember": "Katkıda bulunan üye",
   "faction.kitchen.preparing": "Hala siparişlerimi hazırlıyorum! Lütfen birkaç dakika içinde geri gelin.",
   "faction.kitchen.newRequests": "Yeni istekler: {{time}}",
   "faction.emblems": "Amblemler",
@@ -8757,5 +8756,8 @@
   "chapterCropWeek.retiredDescription": "Bu öğe önceki Bölüm Mahsul Haftası'nın bir parçasıydı ve artık takas edilemez.",
   "sleepingAnimal.mudHarvestsLeft": "+ {{percent}} %yem DP'si · hastalık yok · {{count}} hasat kaldı",
   "description.greenBeetle": "Yaygın bir böcek",
-  "resource.greenBeetle": "Yeşil Böcek"
+  "resource.greenBeetle": "Yeşil Böcek",
+  "faction.pet.contributedLastWeek": "Geçen hafta katkıda bulundu",
+  "faction.pet.contributingThisWeek": "Bu hafta katkıda bulunmak",
+  "faction.pet.cooldown.active": "Fraksiyon anahtarı bekleme süresi:"
 }

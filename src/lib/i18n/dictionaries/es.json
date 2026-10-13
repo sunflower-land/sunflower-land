@@ -795,7 +795,6 @@
   "faction.leave.sellEmblems": "Debes vender tus emblemas antes de partir.",
   "faction.kitchen.gatherResources": "Tantos nuevos reclutas... cómo los alimentaremos a todos! ¿Me pueden ayudar a reunir algunos recursos?",
   "faction.pet.gatherResources": "Grrrrghhhhhh...",
-  "faction.pet.contributingMember": "Miembro contribuyente",
   "faction.kitchen.preparing": "Todavía estoy preparando mis pedidos! Vuelva en unos minutos, por favor.",
   "faction.kitchen.newRequests": "Nuevas solicitudes: {{time}}",
   "faction.emblems": "Emblemas",
@@ -8757,5 +8756,8 @@
   "chapterCropWeek.retiredDescription": "Este objeto formaba parte de una semana de cosecha de capítulos anterior y ya no se puede intercambiar.",
   "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% de XP de alimentación · no hay enfermedad · Quedan cosechas de {{count}}",
   "description.greenBeetle": "Un escarabajo común",
-  "resource.greenBeetle": "Escarabajo verde"
+  "resource.greenBeetle": "Escarabajo verde",
+  "faction.pet.contributedLastWeek": "Contribuyó la semana pasada",
+  "faction.pet.contributingThisWeek": "Contribuir esta semana",
+  "faction.pet.cooldown.active": "Tiempo de reutilización del cambio de facción:"
 }

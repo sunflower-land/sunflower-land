@@ -794,7 +794,6 @@
   "faction.leave.sellEmblems": "Devi vendere i tuoi emblemi prima di partire.",
   "faction.kitchen.gatherResources": "Tante nuove reclute... come faremo a nutrirle tutte! Puoi aiutarmi a raccogliere delle risorse?",
   "faction.pet.gatherResources": "Grrrrghhhhhh...",
-  "faction.pet.contributingMember": "Socio contributore",
   "faction.kitchen.preparing": "Sto ancora preparando i miei ordini! Per favore, torna tra qualche minuto.",
   "faction.kitchen.newRequests": "Nuove richieste: {{time}}",
   "faction.emblems": "Emblemi",
@@ -8757,5 +8756,8 @@
   "chapterCropWeek.retiredDescription": "Questo articolo faceva parte di una precedente Chapter Crop Week e non può più essere scambiato.",
   "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% feed XP · nessuna malattia · {{count}} raccolti rimanenti",
   "description.greenBeetle": "Un coleottero comune",
-  "resource.greenBeetle": "Scarabeo verde"
+  "resource.greenBeetle": "Scarabeo verde",
+  "faction.pet.contributedLastWeek": "Ha contribuito la settimana scorsa",
+  "faction.pet.contributingThisWeek": "Contribuire questa settimana",
+  "faction.pet.cooldown.active": "Tempo di recupero del cambio di fazione:"
 }

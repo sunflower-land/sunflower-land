@@ -802,7 +802,6 @@
   "faction.leave.sellEmblems": "Sie müssen Ihre Embleme verkaufen, bevor Sie gehen.",
   "faction.kitchen.gatherResources": "So viele neue Rekruten... wie werden wir sie alle ernähren! Kannst du mir helfen, einige Ressourcen zu sammeln?",
   "faction.pet.gatherResources": "Grrrrghhhhhh...",
-  "faction.pet.contributingMember": "Mitwirkendes Mitglied",
   "faction.kitchen.preparing": "Ich bereite immer noch meine Bestellungen vor! Bitte kommen Sie in ein paar Minuten zurück.",
   "faction.kitchen.newRequests": "Neue Anfragen: {{time}}",
   "faction.emblems": "Embleme",
@@ -8757,5 +8756,8 @@
   "chapterCropWeek.retiredDescription": "Dieser Gegenstand war Teil einer früheren Chapter Crop Week und kann nicht mehr gehandelt werden.",
   "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% Futter-XP · keine Krankheit · {{count}} verbleibende Ernten",
   "description.greenBeetle": "Ein gewöhnlicher Käfer",
-  "resource.greenBeetle": "Grüner Käfer"
+  "resource.greenBeetle": "Grüner Käfer",
+  "faction.pet.contributedLastWeek": "Letzte Woche beigetragen",
+  "faction.pet.contributingThisWeek": "Diese Woche beitragen",
+  "faction.pet.cooldown.active": "Abklingzeit des Fraktionswechsels:"
 }

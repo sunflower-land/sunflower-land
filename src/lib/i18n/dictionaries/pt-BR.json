@@ -1971,7 +1971,6 @@
   "faction.leave.sellEmblems": "Você deve vender seus emblemas antes de sair.",
   "faction.kitchen.gatherResources": "Tantos novos recrutas... como vamos alimentar todos eles! Você pode me ajudar a reunir alguns recursos?",
   "faction.pet.gatherResources": "Grrrrghhhhhh...",
-  "faction.pet.contributingMember": "Membro colaborador",
   "faction.kitchen.preparing": "Ainda estou preparando meus pedidos! Por favor, volte em alguns minutos.",
   "faction.kitchen.newRequests": "Novas solicitações: {{time}}",
   "faction.emblems": "Emblemas",
@@ -8757,5 +8756,8 @@
   "chapterCropWeek.retiredDescription": "Este item fazia parte de um capítulo anterior da Semana da Colheita e não pode mais ser negociado.",
   "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% de EXP de alimentação · {{count}} colheitas restantes",
   "description.greenBeetle": "Um besouro comum",
-  "resource.greenBeetle": "Besouro verde"
+  "resource.greenBeetle": "Besouro verde",
+  "faction.pet.contributedLastWeek": "Contribuiu na semana passada",
+  "faction.pet.contributingThisWeek": "Contribuindo esta semana",
+  "faction.pet.cooldown.active": "Tempo de recarga do interruptor de facção:"
 }

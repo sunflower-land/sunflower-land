@@ -802,7 +802,6 @@
   "faction.leave.sellEmblems": "出発前にエンブレムを売らなければなりません。",
   "faction.kitchen.gatherResources": "こんなにたくさんの新入社員が... どうやって全員を養うのか！資源を集めるのを手伝ってもらえますか？",
   "faction.pet.gatherResources": "グァーーーーーーーーー...",
-  "faction.pet.contributingMember": "寄稿メンバー",
   "faction.kitchen.preparing": "まだ注文準備中です！数分後に戻ってきてください。",
   "faction.kitchen.newRequests": "新しいリクエスト:{{time}}",
   "faction.emblems": "エンブレム",
@@ -8757,5 +8756,8 @@
   "chapterCropWeek.retiredDescription": "このアイテムは前のチャプタークロップウィークの一部だったため、取引できなくなりました。",
   "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% フィード経験値・病気なし・{{count}} 残り収穫量",
   "description.greenBeetle": "一般的なカブトムシ",
-  "resource.greenBeetle": "グリーンビートル"
+  "resource.greenBeetle": "グリーンビートル",
+  "faction.pet.contributedLastWeek": "先週寄稿しました",
+  "faction.pet.contributingThisWeek": "今週の寄稿",
+  "faction.pet.cooldown.active": "ファクションスイッチのクールダウン:"
 }

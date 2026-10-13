@@ -1128,7 +1128,6 @@
   "faction.leave.sellEmblems": "Ты должен продать свои эмблемы, прежде чем покинуть фракцию.",
   "faction.kitchen.gatherResources": "Так много новобранцев… как же мне накормить их всех? Может, ты мне немного поможешь?",
   "faction.pet.gatherResources": "(урчит живот)...",
-  "faction.pet.contributingMember": "Участник",
   "faction.kitchen.preparing": "Я как раз готовлю заказы, возвращайся через пару минут!",
   "faction.kitchen.newRequests": "Новые заказы: {{time}}",
   "faction.emblems": "Эмблемы",
@@ -8757,5 +8756,8 @@
   "chapterCropWeek.retiredDescription": "This item was part of a previous Chapter Crop Week and can no longer be traded.",
   "sleepingAnimal.mudHarvestsLeft": "+{{percent}}% feed XP · no sickness · {{count}} harvests remaining",
   "description.greenBeetle": "A common beetle",
-  "resource.greenBeetle": "Green Beetle"
+  "resource.greenBeetle": "Green Beetle",
+  "faction.pet.contributedLastWeek": "Contributed last week",
+  "faction.pet.contributingThisWeek": "Contributing this week",
+  "faction.pet.cooldown.active": "Faction switch cooldown:"
 }

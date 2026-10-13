@@ -1544,7 +1544,6 @@
   "faction.pet.sleeping": "帮宠饿到得睡好一周了。等醒了，记得好好喂食，续上我们的连续奖励。",
   "faction.pet.streak": "连续 {{streak}} 周",
   "faction.pet.wakes.in": "离醒来还有 {{time}}",
-  "faction.pet.contributingMember": "贡献成员认证",
   "equip.background": "背景",
   "equip.hair": "头发",
   "equip.body": "皮肤",
@@ -8757,5 +8756,8 @@
   "chapterCropWeek.retiredDescription": "此物品是之前的章节作物周的一部分，无法再进行交易。",
   "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% 饲料经验值·没有生病·{{count}} 剩余收成",
   "description.greenBeetle": "一只普通的甲虫",
-  "resource.greenBeetle": "绿色甲壳虫"
+  "resource.greenBeetle": "绿色甲壳虫",
+  "faction.pet.contributedLastWeek": "上周贡献了",
+  "faction.pet.contributingThisWeek": "本周投稿",
+  "faction.pet.cooldown.active": "阵营切换冷却时间："
 }

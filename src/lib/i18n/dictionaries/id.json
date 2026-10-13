@@ -802,7 +802,6 @@
   "faction.leave.sellEmblems": "Anda harus menjual lambang Anda sebelum pergi.",
   "faction.kitchen.gatherResources": "Begitu banyak rekrutan baru... bagaimana kita akan memberi makan mereka semua! Bisakah Anda membantu saya mengumpulkan beberapa sumber daya?",
   "faction.pet.gatherResources": "Grrrrghhhhhh...",
-  "faction.pet.contributingMember": "Anggota yang berkontribusi",
   "faction.kitchen.preparing": "Saya masih mempersiapkan pesanan saya! Silakan kembali dalam beberapa menit.",
   "faction.kitchen.newRequests": "Permintaan baru: {{time}}",
   "faction.emblems": "Lambang",
@@ -8757,5 +8756,8 @@
   "chapterCropWeek.retiredDescription": "Item ini adalah bagian dari Chapter Crop Week sebelumnya dan tidak dapat lagi diperdagangkan.",
   "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% pakan XP · tidak ada penyakit · {{count}} sisa panen",
   "description.greenBeetle": "Kumbang biasa",
-  "resource.greenBeetle": "Kumbang Hijau"
+  "resource.greenBeetle": "Kumbang Hijau",
+  "faction.pet.contributedLastWeek": "Berkontribusi minggu lalu",
+  "faction.pet.contributingThisWeek": "Berkontribusi minggu ini",
+  "faction.pet.cooldown.active": "Cooldown sakelar faksi:"
 }
