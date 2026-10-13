@@ -22,6 +22,7 @@ import {
   COOKABLES,
   type Cookable,
   type CookableName,
+  isInstantFishRecipe,
 } from "features/game/types/consumables";
 
 import { InProgressInfo } from "./InProgressInfo";
@@ -323,6 +324,10 @@ export const Recipes: React.FC<Props> = ({
   const isVIP = useVipAccess({ game: state });
   const isQueueFull =
     [...readyRecipes, ...queue].length + (cooking ? 1 : 0) >= availableSlots;
+  // Instant recipes skip the chef's queue entirely, so they can always be
+  // cooked straight away, even while the chef is busy or the queue is full.
+  const isInstant = isInstantFishRecipe(selected.name);
+  const isQueuing = !!cooking && !isInstant;
 
   return (
     <>
@@ -369,7 +374,7 @@ export const Recipes: React.FC<Props> = ({
                       })})`}
                     </Label>
                   )}
-                  {cooking && (
+                  {isQueuing && (
                     <p className="sm:text-xs text-center my-1">
                       {t("sceneDialogues.chefIsBusy")}
                     </p>
@@ -377,12 +382,14 @@ export const Recipes: React.FC<Props> = ({
                   <div className="relative">
                     <Button
                       disabled={
-                        lessIngredients() || selected.disabled || isQueueFull
+                        lessIngredients() ||
+                        selected.disabled ||
+                        (isQueueFull && !isInstant)
                       }
                       className="text-xxs sm:text-sm mt-1 whitespace-nowrap relative"
-                      onClick={!cooking ? cook : handleAddToQueue}
+                      onClick={isQueuing ? handleAddToQueue : cook}
                     >
-                      {cooking && (
+                      {isQueuing && (
                         <img
                           src={vipIcon}
                           alt="VIP"
@@ -390,7 +397,7 @@ export const Recipes: React.FC<Props> = ({
                         />
                       )}
                       <span>
-                        {cooking ? t("recipes.addToQueue") : t("cook")}
+                        {isQueuing ? t("recipes.addToQueue") : t("cook")}
                       </span>
                     </Button>
                     {showCookHelper && selected.name === TUTORIAL_RECIPE && (
@@ -405,13 +412,15 @@ export const Recipes: React.FC<Props> = ({
                       />
                     )}
                   </div>
-                  <Button
-                    disabled={readyRecipes.length === 0}
-                    className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
-                    onClick={() => collect()}
-                  >
-                    {t("collect")}
-                  </Button>
+                  {!isInstant && (
+                    <Button
+                      disabled={readyRecipes.length === 0}
+                      className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
+                      onClick={() => collect()}
+                    >
+                      {t("collect")}
+                    </Button>
+                  )}
                 </>
               }
             />
