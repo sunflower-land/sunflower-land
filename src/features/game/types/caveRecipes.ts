@@ -3,7 +3,7 @@ import type { CaveBatch, CaveRecipeName, InventoryItemName } from "./game";
 
 export type { CaveRecipeName };
 
-/** Every Myco-Composter patch is a 5x5 grid — 25 buried tiles. */
+/** Every Myco Bin patch is a 5x5 grid — 25 buried tiles. */
 export const CAVE_PATCH_WIDTH = 5;
 export const CAVE_PATCH_TILE_COUNT = CAVE_PATCH_WIDTH * CAVE_PATCH_WIDTH;
 
@@ -43,7 +43,7 @@ export type CaveRecipe = {
 };
 
 /**
- * The three Myco-Composter recipes. `composition` describes what a patch buries
+ * The three Myco Bin recipes. `composition` describes what a patch buries
  * (see `generateCavePatch`). Both repos keep this file byte-identical.
  */
 export const CAVE_RECIPES: Record<CaveRecipeName, CaveRecipe> = {

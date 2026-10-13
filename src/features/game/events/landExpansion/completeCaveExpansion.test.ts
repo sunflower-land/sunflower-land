@@ -62,7 +62,7 @@ describe("completeCaveExpansion (cave.expansionCompleted)", () => {
     expect(complete(buildingState()).cave?.tier).toBe(3);
   });
 
-  it("adds the new tier's Myco-Composter", () => {
+  it("adds the new tier's Myco Bin", () => {
     expect(complete(buildingState()).cave?.machines["3"]).toEqual({});
   });
 

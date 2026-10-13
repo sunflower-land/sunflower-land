@@ -73,7 +73,7 @@ interface Props {
 }
 
 /**
- * The Myco-Composter batch popover. Three states: idle (pick a mix and start,
+ * The Myco Bin batch popover. Three states: idle (pick a mix and start,
  * also once the patch is fully dug), growing (12h timer + gem finish), and
  * ready (being dug).
  */

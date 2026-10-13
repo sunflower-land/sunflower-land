@@ -29,7 +29,7 @@ export enum EXPAND_CAVE_ERRORS {
 
 /**
  * Start building the Cave's next tier. The cost is paid up front; the tier and
- * its Myco-Composter arrive with `cave.expansionCompleted` once built.
+ * its Myco Bin arrive with `cave.expansionCompleted` once built.
  */
 export function expandCave({
   state,

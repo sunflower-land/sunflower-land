@@ -48,7 +48,7 @@ const _drills = (state: MachineState) =>
 /**
  * The Cave interior room, mounted at `/cave`. Placeholder art for now — the
  * art team supplies a room image per tier size later. Renders the unlocked
- * slots (Tier I = slot 1): each Myco-Composter machine above its own 5x5
+ * slots (Tier I = slot 1): each Myco Bin machine above its own 5x5
  * digging patch. Clicking a machine opens the batch popover; a ready patch is
  * dug tile by tile with the Sand Shovel, or a 2x2 square at a time with the
  * Sand Drill when it is the selected item. The next tier's slot shows an
@@ -176,7 +176,7 @@ export const Cave: React.FC = () => {
 
             return (
               <React.Fragment key={`slot-${id}`}>
-                {/* Myco-Composter machine (placeholder) — opens the batch popover. */}
+                {/* Myco Bin machine (placeholder) — opens the batch popover. */}
                 <button
                   type="button"
                   className="absolute cursor-pointer bg-[#6d5a3f] border border-[#3a2f22] flex items-center justify-center p-0"

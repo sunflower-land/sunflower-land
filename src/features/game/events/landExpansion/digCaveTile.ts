@@ -34,8 +34,8 @@ type Options = {
 export enum DIG_CAVE_TILE_ERRORS {
   NO_FEATURE_ACCESS = "The Cave is not available for this player",
   NO_CAVE = "The Cave has not been built",
-  NO_MACHINE = "That Myco-Composter does not exist",
-  NO_BATCH = "That Myco-Composter has no batch",
+  NO_MACHINE = "That Myco Bin does not exist",
+  NO_BATCH = "That Myco Bin has no batch",
   NOT_READY = "That patch is not ready to dig",
   NO_SEED = "That patch has no board yet",
   INVALID_TILE = "That tile is not in the patch",
