@@ -12,7 +12,10 @@ import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDeta
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useLocalStorage } from "lib/utils/hooks/useLocalStorage";
-import { AnimalBountyQuickPanel } from "./AnimalBountyQuickPanel";
+import {
+  AnimalBountyQuickPanel,
+  type TradeInCardProps,
+} from "./AnimalBountyQuickPanel";
 
 const HIDE_COMPLETED_BOUNTIES_KEY = "animalBounties.hideCompleted";
 
@@ -21,6 +24,7 @@ interface Props {
   selectedDeal?: AnimalBounty;
   onSelect: (deal?: AnimalBounty) => void;
   onClose: () => void;
+  tradeIn?: TradeInCardProps;
 }
 
 export const AnimalBountySellPanel: React.FC<Props> = ({
@@ -28,6 +32,7 @@ export const AnimalBountySellPanel: React.FC<Props> = ({
   selectedDeal,
   onSelect,
   onClose,
+  tradeIn,
 }) => {
   const { t } = useAppTranslation();
   const expiresAt = useCountdown(weekResetsAt());
@@ -90,6 +95,7 @@ export const AnimalBountySellPanel: React.FC<Props> = ({
               selectedDeal={selectedDeal}
               hideCompleted={hideCompleted}
               onSelect={onSelect}
+              tradeIn={tradeIn}
             />
           </div>
         </OuterPanel>

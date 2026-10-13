@@ -549,6 +549,7 @@ import {
   type ApplyAnimalFeedBuffAction,
 } from "./landExpansion/applyAnimalFeedBuff";
 import { applyMud, type ApplyMudAction } from "./landExpansion/applyMud";
+import { tradeInPig, type TradeInPigAction } from "./landExpansion/tradeInPig";
 import {
   bulkApplyMud,
   type BulkApplyMudAction,
@@ -1031,6 +1032,7 @@ export type PlayingEvent =
   | ApplyAnimalFeedBuffAction
   | ApplyMudAction
   | BulkApplyMudAction
+  | TradeInPigAction
   | BuyChapterItemAction
   | ClaimPurchaseAction
   | RedeemTradeRewardsAction
@@ -1349,6 +1351,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "animal.feedBuffApplied": applyAnimalFeedBuff,
   "animal.mudApplied": applyMud,
   "pigs.bulkMudApplied": bulkApplyMud,
+  "pig.tradedIn": tradeInPig,
   "chapterItem.bought": buyChapterItem,
   "purchase.claimed": claimPurchase,
   "reward.redeemed": redeemTradeReward,

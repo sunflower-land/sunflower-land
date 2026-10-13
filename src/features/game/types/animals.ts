@@ -955,3 +955,41 @@ export const isMutantAnimalChapterName = (
     chapter !== "Clash of Factions"
   );
 };
+
+/**
+ * Pig Bristles per trade-in by Pig level (#7721 Balance Update). Bristles are
+ * never produce: a Pig pays them once, when it is traded in or sold to a
+ * bounty. Levels 0-2 pay nothing, so such a Pig cannot be traded in.
+ */
+export const PIG_BRISTLES_PER_LEVEL: Record<AnimalLevel, number> = {
+  0: 0,
+  1: 0,
+  2: 0,
+  3: 1,
+  4: 1,
+  5: 2,
+  6: 3,
+  7: 3,
+  8: 4,
+  9: 5,
+  10: 6,
+  11: 6,
+  12: 7,
+  13: 8,
+  14: 9,
+  15: 12,
+};
+
+/** The lowest Pig level that pays Bristles, so the lowest level that can be traded in. */
+export const PIG_TRADE_IN_MIN_LEVEL = (
+  Object.keys(PIG_BRISTLES_PER_LEVEL).map(Number) as AnimalLevel[]
+).find((level) => PIG_BRISTLES_PER_LEVEL[level] > 0) as AnimalLevel;
+
+/** Lowest and highest trade-in payout across the levels that pay. */
+export const PIG_TRADE_IN_BRISTLES_RANGE = (() => {
+  const payouts = Object.values(PIG_BRISTLES_PER_LEVEL).filter(
+    (amount) => amount > 0,
+  );
+
+  return { min: Math.min(...payouts), max: Math.max(...payouts) };
+})();
