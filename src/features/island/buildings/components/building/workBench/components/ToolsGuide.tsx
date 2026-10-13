@@ -284,7 +284,11 @@ const getToolStockBoosts = (state: GameState, tool: WorkbenchToolName) => {
 
 const StockAmount: React.FC<{ amount: string }> = ({ amount }) => (
   <div className="flex items-center">
-    <img src={stockIcon} className="w-3 mr-1 flex-shrink-0" alt="" />
+    <img
+      src={stockIcon}
+      className="w-3 mr-1 flex-shrink-0"
+      alt={translate("restock")}
+    />
     <span className="text-xs">{amount}</span>
   </div>
 );
@@ -312,6 +316,7 @@ const StockCell: React.FC<{
       type="button"
       className="flex items-center cursor-pointer relative"
       aria-expanded={showBoostsKey === boostsKey}
+      aria-label={`${getTranslatedItemName(toolName)}: ${translate("restock")} ${stock.toString()}. ${translate("boosts")}`}
       onClick={(e) => {
         e.stopPropagation();
         setShowBoostsKey(showBoostsKey === boostsKey ? null : boostsKey);
