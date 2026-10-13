@@ -22,7 +22,7 @@ export enum COMPLETE_CAVE_EXPANSION_ERRORS {
 
 /**
  * Finish a built Cave expansion: the Cave reaches the new tier and gains that
- * tier's Myco-Composter (an empty machine, ready for its first batch).
+ * tier's Myco Bin (an empty machine, ready for its first batch).
  */
 export function completeCaveExpansion({
   state,

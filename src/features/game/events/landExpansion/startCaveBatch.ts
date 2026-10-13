@@ -29,14 +29,14 @@ type Options = {
 export enum START_CAVE_BATCH_ERRORS {
   NO_FEATURE_ACCESS = "The Cave is not available for this player",
   NO_CAVE = "The Cave has not been built",
-  NO_MACHINE = "That Myco-Composter does not exist",
-  BATCH_IN_PROGRESS = "That Myco-Composter already has a batch",
+  NO_MACHINE = "That Myco Bin does not exist",
+  BATCH_IN_PROGRESS = "That Myco Bin already has a batch",
   INVALID_CROP = "That crop cannot feed this batch",
   INSUFFICIENT_INGREDIENTS = "Not enough resources to start the batch",
 }
 
 /**
- * Start a Myco-Composter batch. Mirrors the public part of the BE reducer only:
+ * Start a Myco Bin batch. Mirrors the public part of the BE reducer only:
  * charge the recipe inputs and set the 12h timer. The hidden 25-tile dig layout
  * is generated and stored (encrypted) exclusively on the BE — nothing positional
  * or count-related is client state, so the FE needs no server round-trip.

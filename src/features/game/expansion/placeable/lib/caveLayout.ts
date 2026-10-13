@@ -2,7 +2,7 @@
  * Cave interior layout (in tiles).
  *
  * The Cave is one room with 8 fixed slots laid out in a 2x4 grid. Each slot is
- * a Myco-Composter machine sitting directly ABOVE its own 5x5 digging patch.
+ * a Myco Bin machine sitting directly ABOVE its own 5x5 digging patch.
  * Slots unlock with tiers: the top row left→right first (slots 1–4), then the
  * bottom row left→right (slots 5–8). The room GROWS with tiers — the walls
  * push out to include each newly unlocked slot, so the art team supplies a
@@ -17,13 +17,13 @@
 /** Every digging patch is 5x5 (25 diggable tiles). */
 export const CAVE_PATCH_SIZE = 5;
 
-/** The Myco-Composter machine footprint (tiles). */
+/** The Myco Bin machine footprint (tiles). */
 export const CAVE_MACHINE_SIZE = { width: 3, height: 2 } as const;
 
 export type CaveCoordinates = { x: number; y: number };
 
 export type CaveSlot = {
-  /** Top-left tile of the Myco-Composter machine. */
+  /** Top-left tile of the Myco Bin machine. */
   machine: CaveCoordinates;
   /** Top-left tile of the 5x5 digging patch, directly below the machine. */
   patch: CaveCoordinates;

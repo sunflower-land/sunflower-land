@@ -68,7 +68,7 @@ const DugTile: React.FC<{ tile: ResolvedCaveTile }> = ({ tile }) => {
 };
 
 /**
- * A Myco-Composter's 5x5 patch. Covered while growing; once ready each tile
+ * A Myco Bin's 5x5 patch. Covered while growing; once ready each tile
  * can be dug with a Sand Shovel, or a 2x2 square when the Sand Drill is the
  * selected item, and shows what it held straight away.
  */

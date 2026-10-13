@@ -1895,11 +1895,11 @@ export type Interior = {
   expansion?: HomeExpansionTier;
 };
 
-/** The three Myco-Composter recipes; see `CAVE_RECIPES` for their composition. */
+/** The three Myco Bin recipes; see `CAVE_RECIPES` for their composition. */
 export type CaveRecipeName = "Mushroom" | "Beetle" | "Mud";
 
 /**
- * A running (or finished) Myco-Composter batch. The 25-tile board is derived
+ * A running (or finished) Myco Bin batch. The 25-tile board is derived
  * from `seed`, and every tile count is fixed by the recipe (see `CAVE_RECIPES`).
  * `readyAt = startedAt + 12h`.
  */
@@ -1921,7 +1921,7 @@ export type CaveBatch = {
 export type CaveDugTile = { dugAt: number };
 
 /**
- * A Myco-Composter machine inside the Cave. One is created with each tier; it
+ * A Myco Bin machine inside the Cave. One is created with each tier; it
  * sits directly above its own 5x5 digging patch. `batch` is present while a
  * batch is growing, ready or being dug, until the next batch replaces it.
  */

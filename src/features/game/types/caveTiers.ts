@@ -3,7 +3,7 @@ import type { InventoryItemName, IslandType } from "./game";
 
 // Both repos keep this file byte-identical.
 
-/** The Cave has eight tiers; each adds one Myco-Composter and its patch. */
+/** The Cave has eight tiers; each adds one Myco Bin and its patch. */
 export const CAVE_MAX_TIER = 8;
 
 /** A tier reached by expanding (Tier I comes with building the Cave). */

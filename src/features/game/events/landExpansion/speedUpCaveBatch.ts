@@ -25,7 +25,7 @@ type Options = {
 export enum SPEED_UP_CAVE_BATCH_ERRORS {
   NO_FEATURE_ACCESS = "The Cave is not available for this player",
   NO_CAVE = "The Cave has not been built",
-  NO_BATCH = "That Myco-Composter has no batch to finish",
+  NO_BATCH = "That Myco Bin has no batch to finish",
   ALREADY_READY = "That batch is already ready",
   INSUFFICIENT_GEMS = "Insufficient Gems",
 }
