@@ -12,10 +12,11 @@ import { Panel } from "components/ui/Panel";
 import { PendingTransactionClaimNotice } from "../PendingTransactionClaimNotice";
 
 interface ClaimPurchaseProps {
-  /** Listing price, before the trading fee. */
+  /** Listing price; the trading fee (if passed) is deducted from it. */
   sfl: number;
-  /** Trading fee taken from `sfl` on claim (see `claimPurchase`). */
-  tax: number;
+  /** Trading fee taken from `sfl` on claim (see `claimPurchase`). Omit when
+   * `sfl` is already the amount received. */
+  tax?: number;
   onClaim: () => void;
   onClose: () => void;
   hasPendingTransaction?: boolean;
@@ -23,7 +24,7 @@ interface ClaimPurchaseProps {
 
 export const ClaimPurchase: React.FC<ClaimPurchaseProps> = ({
   sfl,
-  tax,
+  tax = 0,
   onClaim,
   onClose,
   hasPendingTransaction,
@@ -54,11 +55,13 @@ export const ClaimPurchase: React.FC<ClaimPurchaseProps> = ({
             <Label type="warning">
               {`${formatNumber(sfl - tax, { decimalPlaces: 4 })} FLOWER`}
             </Label>
-            <p className="text-xxs mt-0.5">
-              {t("marketplace.afterTradingFee", {
-                fee: formatNumber(tax, { decimalPlaces: 4 }),
-              })}
-            </p>
+            {tax > 0 && (
+              <p className="text-xxs mt-0.5">
+                {t("marketplace.afterTradingFee", {
+                  fee: formatNumber(tax, { decimalPlaces: 4 }),
+                })}
+              </p>
+            )}
             <p className="text-xs mt-0.5">{t("reward.spendWisely")}</p>
           </div>
         </div>
