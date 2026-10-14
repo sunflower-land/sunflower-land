@@ -345,6 +345,13 @@ export const LandComponent: React.FC = () => {
   const showFlowerDashboard = pathname.includes("flower-dashboard");
   const showEconomyDashboard = pathname.includes("economy-dashboard");
   const showRetentionDashboard = pathname.includes("retention-dashboard");
+  // The marketplace and flower dashboard are routed inside this page and mount
+  // their own player modal, so the farm must not keep a second one listening.
+  const showOverlayPage =
+    showMarketplace ||
+    showFlowerDashboard ||
+    showEconomyDashboard ||
+    showRetentionDashboard;
 
   const paused = useSelector(gameService, isPaused);
   const island = useSelector(gameService, _island);
@@ -1372,17 +1379,18 @@ export const LandComponent: React.FC = () => {
 
       {!landscaping && !visiting && <Hud isFarming={true} location="farm" />}
 
-      <PlayerModal
-        loggedInFarmId={loggedInFarmId}
-        token={token}
-        hasAirdropAccess={hasAirdropAccess}
-      />
-      <Discovery />
+      {!showOverlayPage && (
+        <>
+          <PlayerModal
+            loggedInFarmId={loggedInFarmId}
+            token={token}
+            hasAirdropAccess={hasAirdropAccess}
+          />
+          <Discovery />
+        </>
+      )}
 
-      {(showMarketplace ||
-        showFlowerDashboard ||
-        showEconomyDashboard ||
-        showRetentionDashboard) &&
+      {showOverlayPage &&
         createPortal(
           <div
             data-html2canvas-ignore="true"
