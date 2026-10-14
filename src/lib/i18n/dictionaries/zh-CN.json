@@ -8767,5 +8767,14 @@
   "pigs.tradeIn.readyWarning": "这头猪无人认领的农产品将丢失。",
   "cave.machine": "Myco Bin {{id}}",
   "cave.batch.chooseCrop": "选择一种作物来喂养 Myco Bin",
-  "cave.expand.description": "为 Myco Bin {{tier}} 及其补丁腾出空间。"
+  "cave.expand.description": "为 Myco Bin {{tier}} 及其补丁腾出空间。",
+  "description.emberRoastedTrufflePotatoes": "用松露在余烬上烤土豆和野生蘑菇",
+  "description.truffleCake": "一块由松露和蜂蜜组成的丰盛蛋糕",
+  "description.creamyTruffleRisotto": "用牛奶炖煮的米饭配松露和野生蘑菇",
+  "food.emberRoastedTrufflePotatoes": "余烧松露土豆",
+  "food.truffleCake": "松露蛋糕",
+  "food.creamyTruffleRisotto": "奶油松露烩饭",
+  "spiceRack.truffleSeasoning": "松露调味料",
+  "description.truffleSeasoning": "喂一只动物，让它下次睡眠减半。在香料架上制作。",
+  "description.truffle.seasoning.boost": "下次动物睡觉 -50%"
 }

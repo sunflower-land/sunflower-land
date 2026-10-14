@@ -8767,5 +8767,14 @@
   "pigs.tradeIn.readyWarning": "Die nicht abgeholten Produkte dieses Schweins werden verloren gehen.",
   "cave.machine": "Mülleimer {{id}}",
   "cave.batch.chooseCrop": "Wähle eine Pflanze, um den Myco Bin zu füttern",
-  "cave.expand.description": "Machen Sie Platz für Myco Bin {{tier}} und seinen Patch."
+  "cave.expand.description": "Machen Sie Platz für Myco Bin {{tier}} und seinen Patch.",
+  "description.emberRoastedTrufflePotatoes": "Über Glut gebratene Kartoffeln und Waldpilze mit Trüffel",
+  "description.truffleCake": "Ein reichhaltiger Kuchen aus Trüffel und Honig",
+  "description.creamyTruffleRisotto": "In Milch gekochter Reis mit Trüffel und Waldpilzen",
+  "food.emberRoastedTrufflePotatoes": "Mit Glut gebratene Trüffelkartoffeln",
+  "food.truffleCake": "Trüffelkuchen",
+  "food.creamyTruffleRisotto": "Cremiges Trüffelrisotto",
+  "spiceRack.truffleSeasoning": "Trüffelgewürz",
+  "description.truffleSeasoning": "Füttere ein Tier, um seinen nächsten Schlaf zu halbieren. Hergestellt im Gewürzregal.",
+  "description.truffle.seasoning.boost": "-50% nächster Tierschlaf"
 }

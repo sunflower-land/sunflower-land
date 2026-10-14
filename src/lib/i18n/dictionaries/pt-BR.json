@@ -8767,5 +8767,14 @@
   "pigs.tradeIn.readyWarning": "Os produtos não reclamados deste Porco serão perdidos.",
   "cave.machine": "Caixa Myco {{id}}",
   "cave.batch.chooseCrop": "Escolha uma safra para alimentar o Myco Bin",
-  "cave.expand.description": "Abra espaço para Myco Bin {{tier}} e seu patch."
+  "cave.expand.description": "Abra espaço para Myco Bin {{tier}} e seu patch.",
+  "description.emberRoastedTrufflePotatoes": "Batatas e cogumelos silvestres assados sobre brasas com trufa",
+  "description.truffleCake": "Um rico bolo de trufa e mel",
+  "description.creamyTruffleRisotto": "Arroz cozido no leite com trufas e cogumelos silvestres",
+  "food.emberRoastedTrufflePotatoes": "Batatas trufadas assadas em brasa",
+  "food.truffleCake": "Bolo de trufas",
+  "food.creamyTruffleRisotto": "Risoto cremoso de trufas",
+  "spiceRack.truffleSeasoning": "Tempero de trufas",
+  "description.truffleSeasoning": "Alimente um animal para reduzir pela metade seu próximo sono. Feito no Spice Rack.",
+  "description.truffle.seasoning.boost": "-50% no próximo sono do animal"
 }

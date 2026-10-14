@@ -8767,5 +8767,14 @@
   "pigs.tradeIn.readyWarning": "Bu Domuzun talep edilmemiş ürünleri kaybolacak.",
   "cave.machine": "Myco Çöp Kutusu {{id}}",
   "cave.batch.chooseCrop": "Myco Bin'i beslemek için bir mahsul seçin",
-  "cave.expand.description": "Myco Bin {{tier}} ve yaması için yer kazın."
+  "cave.expand.description": "Myco Bin {{tier}} ve yaması için yer kazın.",
+  "description.emberRoastedTrufflePotatoes": "Trüf mantarlı köz üzerinde kavrulmuş patates ve yabani mantar",
+  "description.truffleCake": "Zengin bir Trüf ve Bal pastası",
+  "description.creamyTruffleRisotto": "Trüf ve Yabani Mantarlı Sütte Kaynatılmış Pirinç",
+  "food.emberRoastedTrufflePotatoes": "Kemerli Kavrulmuş Trüf Patates",
+  "food.truffleCake": "Trüflü Kek",
+  "food.creamyTruffleRisotto": "Kremalı Trüf Risotto",
+  "spiceRack.truffleSeasoning": "Trüf Baharatı",
+  "description.truffleSeasoning": "Bir sonraki uykusunu yarıya indirmek için bir hayvanı besleyin. Baharat Rafında hazırlanmış.",
+  "description.truffle.seasoning.boost": "-%50 sonraki Hayvan uykusu"
 }

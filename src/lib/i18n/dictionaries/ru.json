@@ -8767,5 +8767,14 @@
   "pigs.tradeIn.readyWarning": "This Pig's unclaimed produce will be lost.",
   "cave.machine": "Myco Bin {{id}}",
   "cave.batch.chooseCrop": "Choose a crop to feed the Myco Bin",
-  "cave.expand.description": "Dig out room for Myco Bin {{tier}} and its patch."
+  "cave.expand.description": "Dig out room for Myco Bin {{tier}} and its patch.",
+  "description.emberRoastedTrufflePotatoes": "Potatoes and Wild Mushrooms roasted over embers with Truffle",
+  "description.truffleCake": "A rich cake of Truffle and Honey",
+  "description.creamyTruffleRisotto": "Rice simmered in Milk with Truffle and Wild Mushrooms",
+  "food.emberRoastedTrufflePotatoes": "Ember-Roasted Truffle Potatoes",
+  "food.truffleCake": "Truffle Cake",
+  "food.creamyTruffleRisotto": "Creamy Truffle Risotto",
+  "spiceRack.truffleSeasoning": "Truffle Seasoning",
+  "description.truffleSeasoning": "Feed to an animal to halve its next sleep. Crafted at the Spice Rack.",
+  "description.truffle.seasoning.boost": "-50% next Animal sleep"
 }

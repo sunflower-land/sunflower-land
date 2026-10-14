@@ -8767,5 +8767,14 @@
   "pigs.tradeIn.readyWarning": "この豚の未使用の農産物は失われます。",
   "cave.machine": "マイコビン {{id}}",
   "cave.batch.chooseCrop": "マイコビンに供給する作物を選んでください",
-  "cave.expand.description": "マイコビン {{tier}} とそのパッチを探してください。"
+  "cave.expand.description": "マイコビン {{tier}} とそのパッチを探してください。",
+  "description.emberRoastedTrufflePotatoes": "ポテトとワイルドマッシュルームをトリュフで残り火で焼いたもの",
+  "description.truffleCake": "トリュフとハチミツの濃厚ケーキ",
+  "description.creamyTruffleRisotto": "トリュフとワイルドマッシュルームのミルク煮込みご飯",
+  "food.emberRoastedTrufflePotatoes": "エンバーローストトリュフポテト",
+  "food.truffleCake": "トリュフケーキ",
+  "food.creamyTruffleRisotto": "クリーミートリュフリゾット",
+  "spiceRack.truffleSeasoning": "トリュフ調味料",
+  "description.truffleSeasoning": "動物にエサを与えて、次の睡眠時間を半分にする。スパイスラックで作られました。",
+  "description.truffle.seasoning.boost": "次回の動物睡眠は 50%"
 }

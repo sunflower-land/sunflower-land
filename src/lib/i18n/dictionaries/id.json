@@ -8767,5 +8767,14 @@
   "pigs.tradeIn.readyWarning": "Produk Babi yang tidak diklaim ini akan hilang.",
   "cave.machine": "Tempat Sampah Myco {{id}}",
   "cave.batch.chooseCrop": "Pilih tanaman untuk memberi makan Myco Bin",
-  "cave.expand.description": "Gali ruang untuk Myco Bin {{tier}} dan tambalannya."
+  "cave.expand.description": "Gali ruang untuk Myco Bin {{tier}} dan tambalannya.",
+  "description.emberRoastedTrufflePotatoes": "Kentang dan Jamur Liar dipanggang di atas bara api dengan Truffle",
+  "description.truffleCake": "Kue Truffle dan Madu yang kaya",
+  "description.creamyTruffleRisotto": "Nasi direbus dalam Susu dengan Truffle dan Jamur Liar",
+  "food.emberRoastedTrufflePotatoes": "Kentang Truffle Panggang Amber",
+  "food.truffleCake": "Kue Truffle",
+  "food.creamyTruffleRisotto": "Risotto Truffle Krim",
+  "spiceRack.truffleSeasoning": "Bumbu Truffle",
+  "description.truffleSeasoning": "Beri makan hewan untuk mengurangi setengah tidur berikutnya. Dibuat di Rak Rempah.",
+  "description.truffle.seasoning.boost": "-50% berikutnya Tidur hewan"
 }

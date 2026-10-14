@@ -8767,5 +8767,14 @@
   "pigs.tradeIn.readyWarning": "I prodotti non reclamati di questo maiale andranno perduti.",
   "cave.machine": "Cestino Myco {{id}}",
   "cave.batch.chooseCrop": "Scegli un raccolto per alimentare il Myco Bin",
-  "cave.expand.description": "Fai spazio per Myco Bin {{tier}} e la relativa patch."
+  "cave.expand.description": "Fai spazio per Myco Bin {{tier}} e la relativa patch.",
+  "description.emberRoastedTrufflePotatoes": "Patate e funghi selvatici arrostiti alla brace con tartufo",
+  "description.truffleCake": "Una torta ricca di tartufo e miele",
+  "description.creamyTruffleRisotto": "Riso cotto a fuoco lento nel latte con tartufo e funghi selvatici",
+  "food.emberRoastedTrufflePotatoes": "Patate al tartufo alla brace",
+  "food.truffleCake": "Torta al tartufo",
+  "food.creamyTruffleRisotto": "Risotto cremoso al tartufo",
+  "spiceRack.truffleSeasoning": "Condimento al tartufo",
+  "description.truffleSeasoning": "Dai da mangiare a un animale per dimezzare il suo prossimo sonno. Realizzato allo Spice Rack.",
+  "description.truffle.seasoning.boost": "-50% successivo Sonno animale"
 }

@@ -8767,5 +8767,14 @@
   "pigs.tradeIn.readyWarning": "Les produits non réclamés de ce cochon seront perdus.",
   "cave.machine": "Poubelle Myco {{id}}",
   "cave.batch.chooseCrop": "Choisissez une culture pour alimenter le Myco Bin",
-  "cave.expand.description": "Creusez de la place pour Myco Bin {{tier}} et son patch."
+  "cave.expand.description": "Creusez de la place pour Myco Bin {{tier}} et son patch.",
+  "description.emberRoastedTrufflePotatoes": "Pommes de terre et champignons sauvages rôtis à la braise à la truffe",
+  "description.truffleCake": "Un riche gâteau à la truffe et au miel",
+  "description.creamyTruffleRisotto": "Riz mijoté au lait avec truffe et champignons sauvages",
+  "food.emberRoastedTrufflePotatoes": "Pommes de terre aux truffes rôties à la braise",
+  "food.truffleCake": "Gâteau aux truffes",
+  "food.creamyTruffleRisotto": "Risotto crémeux à la truffe",
+  "spiceRack.truffleSeasoning": "Assaisonnement à la truffe",
+  "description.truffleSeasoning": "Nourrissez un animal pour réduire de moitié son prochain sommeil. Fabriqué au Spice Rack.",
+  "description.truffle.seasoning.boost": "-50 % sur le prochain Animal sleep"
 }
