@@ -19,6 +19,7 @@ import {
 import { getCookingTime } from "features/game/expansion/lib/boosts";
 import { CHAPTER_CROP_WEEK } from "features/game/types/chapterCropWeek";
 import { getCookingQueueReadyAts } from "features/game/lib/cookingReadiness";
+import { CONFIG } from "lib/config";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -1844,5 +1845,79 @@ describe("cook (SPEED_BOOSTS windowed)", () => {
     // The new recipe starts NOW, not when the stale one finished.
     expect(queue[1].startedAt).toEqual(now);
     expect(queue[1].readyAt).toEqual(now + EGG_MS);
+  });
+});
+
+describe("cook: Truffle recipes (Chapter 16)", () => {
+  const FIRE_PIT_ID = "fire-pit-1";
+  const INPUTS: GameState["inventory"] = {
+    Truffle: new Decimal(10),
+    Potato: new Decimal(50),
+    "Wild Mushroom": new Decimal(10),
+  };
+
+  const farm = (inventory: GameState["inventory"] = INPUTS): GameState => ({
+    ...GAME_STATE,
+    inventory,
+    buildings: {
+      "Fire Pit": [
+        {
+          coordinates: { x: 2, y: 3 },
+          readyAt: 0,
+          createdAt: 0,
+          id: FIRE_PIT_ID,
+        },
+      ],
+    },
+  });
+
+  const roast = (state: GameState) =>
+    cook({
+      state,
+      action: {
+        type: "recipe.cooked",
+        item: "Ember-Roasted Truffle Potatoes",
+        buildingId: FIRE_PIT_ID,
+      },
+      farmId: 1,
+      createdAt,
+    });
+
+  it("charges 10 Truffle, 50 Potato and 10 Wild Mushroom and queues the roast", () => {
+    const state = roast(farm());
+
+    expect(state.inventory.Truffle).toEqual(new Decimal(0));
+    expect(state.inventory.Potato).toEqual(new Decimal(0));
+    expect(state.inventory["Wild Mushroom"]).toEqual(new Decimal(0));
+    expect(state.buildings["Fire Pit"]?.[0].crafting?.[0]).toMatchObject({
+      name: "Ember-Roasted Truffle Potatoes",
+    });
+  });
+
+  describe("off testnet", () => {
+    // jest runs on amoy, so the flag-off path is only reachable by pretending
+    // to be mainnet.
+    let previousNetwork: (typeof CONFIG)["NETWORK"];
+
+    beforeEach(() => {
+      previousNetwork = CONFIG.NETWORK;
+      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+    });
+
+    afterEach(() => {
+      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
+    });
+
+    it("throws without the PIGPEN feature flag", () => {
+      expect(() => roast(farm())).toThrow(
+        "Truffle recipes are not available yet",
+      );
+    });
+
+    it("is not unlocked by a Beta Pass", () => {
+      expect(() =>
+        roast(farm({ ...INPUTS, "Beta Pass": new Decimal(1) })),
+      ).toThrow("Truffle recipes are not available yet");
+    });
   });
 });

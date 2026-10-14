@@ -1242,3 +1242,49 @@ describe("Pig Bristles trade-in (#7721)", () => {
     });
   });
 });
+
+describe("getBoostedAwakeAt: Truffle Seasoning (Chapter 16)", () => {
+  const now = Date.now();
+  const SEASONING = {
+    name: "Truffle Seasoning",
+    harvestsRemaining: 1,
+  } as const;
+
+  it("halves the sleep of an animal carrying a Truffle Seasoning", () => {
+    const { baseDurationMs, boostsUsed } = getBoostedAwakeAt({
+      animalType: "Cow",
+      createdAt: now,
+      game: INITIAL_FARM,
+      feedBuff: SEASONING,
+    });
+
+    expect(baseDurationMs).toEqual(ANIMAL_SLEEP_DURATION / 2);
+    expect(boostsUsed).toContainEqual({
+      name: "Truffle Seasoning",
+      value: "x0.5",
+    });
+  });
+
+  it("stacks with the permanent sleep boosts", () => {
+    const { baseDurationMs } = getBoostedAwakeAt({
+      animalType: "Cow",
+      createdAt: now,
+      game: { ...INITIAL_FARM, inventory: { Wrangler: new Decimal(1) } },
+      feedBuff: SEASONING,
+    });
+
+    expect(baseDurationMs).toEqual(ANIMAL_SLEEP_DURATION * 0.9 * 0.5);
+  });
+
+  it("ignores the other treats", () => {
+    const { baseDurationMs, boostsUsed } = getBoostedAwakeAt({
+      animalType: "Cow",
+      createdAt: now,
+      game: INITIAL_FARM,
+      feedBuff: { name: "Honey Treat", harvestsRemaining: 3 },
+    });
+
+    expect(baseDurationMs).toEqual(ANIMAL_SLEEP_DURATION);
+    expect(boostsUsed).toEqual([]);
+  });
+});

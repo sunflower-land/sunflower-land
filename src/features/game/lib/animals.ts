@@ -876,15 +876,21 @@ export function getBoostedFoodQuantity({
  * instead, so what remains is the permanent-boost-only base duration returned as
  * `baseDurationMs`. Mirrors `getOilRecoveryTimeForDisplay`; returns no
  * `baseDurationMs` flag-off, so a flag-off re-sleep reverts the animal to legacy.
+ *
+ * `feedBuff` is the treat the animal carries INTO this sleep: a Truffle
+ * Seasoning halves it. `claimProduce` passes the treat before spending its
+ * charge, so the last charge still shortens the sleep it is spent on.
  */
 export function getBoostedAwakeAt({
   animalType,
   createdAt,
   game,
+  feedBuff,
 }: {
   animalType: AnimalType;
   createdAt: number;
   game: GameState;
+  feedBuff?: Animal["feedBuff"];
 }): {
   awakeAt: number;
   baseDurationMs?: number;
@@ -964,6 +970,14 @@ export function getBoostedAwakeAt({
       SKILL_RANKS["Restless Animals"].ranks[restlessAnimalsLevel - 1];
     totalDuration *= value;
     boostsUsed.push({ name: "Restless Animals", value: `x${value}` });
+  }
+
+  // Truffle Seasoning: -50% on the sleep it is spent on. Baked in like the
+  // permanent boosts, so under the speed-rate model the shrines still stack
+  // live on top of it.
+  if (feedBuff?.name === "Truffle Seasoning") {
+    totalDuration *= 0.5;
+    boostsUsed.push({ name: "Truffle Seasoning", value: "x0.5" });
   }
 
   if (

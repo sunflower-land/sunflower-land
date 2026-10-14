@@ -10,12 +10,14 @@ import {
   type CookableName,
   FIRE_PIT_COOKABLES,
   isFishCookable,
+  isTruffleRecipe,
 } from "features/game/types/consumables";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel } from "components/ui/Panel";
 import { NPC_WEARABLES } from "lib/npcs";
 import type { BuildingProduct } from "features/game/types/game";
 import { getCurrentChapter } from "features/game/types/chapters";
+import { hasFeatureAccess } from "lib/flags";
 import { useNow } from "lib/utils/hooks/useNow";
 import {
   CHAPTER_CROP_WEEK,
@@ -68,6 +70,11 @@ export const FirePitModal: React.FC<Props> = ({
         // (admin testers get early access)
         if (recipe.name === CHAPTER_CROP_WEEK_RECIPE) {
           return hasChapterCropWeekAccess(getGame(), now);
+        }
+
+        // Truffle recipes ride on the Pigs' flag (Truffle only exists behind it)
+        if (isTruffleRecipe(recipe.name)) {
+          return hasFeatureAccess(getGame(), "PIGPEN");
         }
 
         if (getCurrentChapter(now) === "Paw Prints") return true;

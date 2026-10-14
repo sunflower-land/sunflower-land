@@ -549,6 +549,13 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: powerup,
     },
   ],
+  "Truffle Seasoning": () => [
+    {
+      shortDescription: translate("description.truffle.seasoning.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+  ],
 
   // Clash of Factions
   "Turbo Sprout": (game) => [

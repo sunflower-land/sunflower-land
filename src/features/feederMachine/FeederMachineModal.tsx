@@ -1,4 +1,5 @@
 import { useSelector } from "@xstate/react";
+import { ANIMAL_FEED_BUFF_ITEMS } from "features/game/events/landExpansion/applyAnimalFeedBuff";
 import { useNow } from "lib/utils/hooks/useNow";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { Modal } from "components/ui/Modal";
@@ -59,8 +60,6 @@ const FOOD_TYPE_TERMS = {
   medicine: "feeder.foodTypes.medicine",
 } as const;
 
-const ANIMAL_FEED_BUFFS: AnimalFeedBuffName[] = ["Salt Lick", "Honey Treat"];
-
 type Tab = "food" | "automaticMixer";
 
 /**
@@ -117,7 +116,7 @@ export const FeederMachineModal: React.FC<Props> = ({
     name: selectedName,
     ingredient,
   });
-  const spices = ANIMAL_FEED_BUFFS.filter((item) =>
+  const spices = ANIMAL_FEED_BUFF_ITEMS.filter((item) =>
     state.inventory[item]?.gt(0),
   );
   const hasSpices = spices.length > 0;

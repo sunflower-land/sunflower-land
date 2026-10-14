@@ -1,6 +1,7 @@
 export const SPICE_RACK_PRODUCTS = [
   "Salt Lick",
   "Honey Treat",
+  "Truffle Seasoning",
   "Spice Base",
   "Spiced Cheese",
 ] as const;

@@ -2603,6 +2603,17 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Truffle Seasoning": {
+    name: "Truffle Seasoning",
+    description:
+      "A Truffle treat crafted at the Spice Rack.\n\nFeed to an animal to halve its next sleep.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   "Spice Base": {
     name: "Spice Base",
     description:
@@ -15276,6 +15287,39 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Truffle",
+  },
+  "Ember-Roasted Truffle Potatoes": {
+    name: "Ember-Roasted Truffle Potatoes",
+    description:
+      "Potatoes and Wild Mushrooms roasted over embers with Truffle. You can cook this at the Fire Pit",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Food" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Truffle Cake": {
+    name: "Truffle Cake",
+    description:
+      "A rich cake of Truffle and Honey. You can cook this at the Bakery",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Food" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Creamy Truffle Risotto": {
+    name: "Creamy Truffle Risotto",
+    description:
+      "Rice simmered in Milk with Truffle and Wild Mushrooms. You can cook this at the Kitchen",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Food" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
 };
 
