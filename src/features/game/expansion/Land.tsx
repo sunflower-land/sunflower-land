@@ -55,6 +55,11 @@ import { WaterTrapSpot } from "features/island/fisherman/WaterTrapSpot";
 import { getWaterTrapCoordinates } from "features/game/types/crustaceans";
 import { FarmHand } from "features/island/farmhand/FarmHand";
 import { PlacedBumpkin } from "features/island/bumpkin/components/PlacedBumpkin";
+import { PlayerModal } from "features/social/PlayerModal";
+import { Discovery } from "features/social/Discovery";
+import { Context as AuthContext } from "features/auth/lib/Provider";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
+import { hasFeatureAccess } from "lib/flags";
 import { SaltNode } from "./components/salt/SaltNode";
 import { SaltNodePlaceholder } from "./components/salt/SaltNodePlaceholder";
 import {
@@ -262,6 +267,7 @@ const _petNFTPositions = (state: MachineState) => {
 };
 
 const _bumpkinPlacement = (state: MachineState) => state.context.state.bumpkin;
+const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
 
 const _farmHandPositions = (state: MachineState) => {
   const bumpkins = state.context.state.farmHands?.bumpkins;
@@ -319,7 +325,21 @@ const _waterTrapPositions = (state: MachineState) => {
 
 export const LandComponent: React.FC = () => {
   const { gameService } = useContext(Context);
+  const { authService } = useContext(AuthContext);
   const { pathname } = useLocation();
+  const token = useSelector(authService, _token);
+
+  // The world feed and the leaderboards open the player and discovery modals, so
+  // they have to be mounted on the farm itself rather than inside the Bumpkin
+  // sprite, which is not drawn here while the Bumpkin is placed indoors. While
+  // visiting, `farmId` is the visited farm, so the logged-in player is `visitorId`.
+  const { visitorId, farmId, visitorState, state } =
+    gameService.getSnapshot().context;
+  const loggedInFarmId = visitorId ?? farmId;
+  const hasAirdropAccess = hasFeatureAccess(
+    visitorState ?? state,
+    "AIRDROP_PLAYER",
+  );
 
   const showMarketplace = pathname.includes("marketplace");
   const showFlowerDashboard = pathname.includes("flower-dashboard");
@@ -1351,6 +1371,13 @@ export const LandComponent: React.FC = () => {
       {visiting && <VisitingHud />}
 
       {!landscaping && !visiting && <Hud isFarming={true} location="farm" />}
+
+      <PlayerModal
+        loggedInFarmId={loggedInFarmId}
+        token={token}
+        hasAirdropAccess={hasAirdropAccess}
+      />
+      <Discovery />
 
       {(showMarketplace ||
         showFlowerDashboard ||
