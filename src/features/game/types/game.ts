@@ -2125,7 +2125,10 @@ export type AnimalResource =
   | "Truffle";
 export type AnimalState = "idle" | "happy" | "sad" | "ready" | "sick";
 
-export type AnimalFeedBuffName = "Salt Lick" | "Honey Treat";
+export type AnimalFeedBuffName =
+  | "Salt Lick"
+  | "Honey Treat"
+  | "Truffle Seasoning";
 
 export type AnimalFeedBuff = {
   name: AnimalFeedBuffName;

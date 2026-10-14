@@ -4,6 +4,7 @@ import {
   type CookableName,
   COOKABLES,
   isInstantFishRecipe,
+  isTruffleRecipe,
 } from "features/game/types/consumables";
 import type {
   BuildingProduct,
@@ -282,6 +283,11 @@ export function cook({
       !hasChapterCropWeekAccess(state, createdAt)
     ) {
       throw new Error("Chapter Crop Week is not active");
+    }
+
+    // Truffle recipes ride on the Pigs' flag: Truffle only exists behind it
+    if (isTruffleRecipe(item) && !hasFeatureAccess(state, "PIGPEN")) {
+      throw new Error("Truffle recipes are not available yet");
     }
 
     const { building: requiredBuilding } = COOKABLES[item];

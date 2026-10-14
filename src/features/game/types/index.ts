@@ -1641,6 +1641,12 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Hearty Slop": 3095,
   "Rich Slop": 3096,
   "Gourmet Slop": 3097,
+
+  // Chapter 16 — Truffle cooking and the Spice Rack treat
+  "Ember-Roasted Truffle Potatoes": 3098,
+  "Truffle Cake": 3099,
+  "Creamy Truffle Risotto": 3100,
+  "Truffle Seasoning": 3101,
 };
 
 // The reverse of above

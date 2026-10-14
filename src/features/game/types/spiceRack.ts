@@ -38,6 +38,18 @@ const SPICE_RACK_RECIPES_STATIC = {
       "Honey Treat": new Decimal(5),
     },
   },
+  // Chapter 16: rides on the PIGPEN flag (Truffle only exists behind it)
+  "Truffle Seasoning": {
+    durationSeconds: 60 * 60,
+    ingredients: {
+      Truffle: new Decimal(10),
+      "Refined Salt": new Decimal(5),
+      "Wild Mushroom": new Decimal(5),
+    },
+    outputs: {
+      "Truffle Seasoning": new Decimal(5),
+    },
+  },
 } as const satisfies Record<string, SpiceRackRecipeDefinition>;
 
 /**
