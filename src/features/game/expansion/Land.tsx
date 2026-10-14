@@ -332,6 +332,11 @@ export const LandComponent: React.FC = () => {
   const showFlowerDashboard = pathname.includes("flower-dashboard");
   const showEconomyDashboard = pathname.includes("economy-dashboard");
   const showRetentionDashboard = pathname.includes("retention-dashboard");
+  const showNestedPage =
+    showMarketplace ||
+    showFlowerDashboard ||
+    showEconomyDashboard ||
+    showRetentionDashboard;
 
   const paused = useSelector(gameService, isPaused);
   const island = useSelector(gameService, _island);
@@ -1374,19 +1379,21 @@ export const LandComponent: React.FC = () => {
         The world feed opens the player and discovery modals, so they have to
         be mounted on this surface too - same as /home and the interiors. They
         must not depend on the Bumpkin sprite, which is only drawn here while
-        the Bumpkin is placed on the farm.
+        the Bumpkin is placed on the farm. The nested full screen pages below
+        mount their own player modal, so skip these while one of them is open.
       */}
-      <PlayerModal
-        loggedInFarmId={loggedInFarmId}
-        token={token}
-        hasAirdropAccess={hasAirdropAccess}
-      />
-      <Discovery />
+      {!showNestedPage && (
+        <>
+          <PlayerModal
+            loggedInFarmId={loggedInFarmId}
+            token={token}
+            hasAirdropAccess={hasAirdropAccess}
+          />
+          <Discovery />
+        </>
+      )}
 
-      {(showMarketplace ||
-        showFlowerDashboard ||
-        showEconomyDashboard ||
-        showRetentionDashboard) &&
+      {showNestedPage &&
         createPortal(
           <div
             data-html2canvas-ignore="true"
