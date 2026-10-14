@@ -596,6 +596,7 @@
   "cooking.building.oil.description": "You can boost your recipe cooking times by {{boost}}% when adding oil into the {{buildingName}}.",
   "cooking.building.oil.boost": "Oil boost",
   "cooking.building.runtime": "Runtime {{time}}",
+  "bumpkin.recipeCollected": "Recipe collected",
   "bumpkin.delivery.selectFlower": "Select a flower",
   "bumpkin.delivery.noFlowers": "Oh no, you don't have any flowers to gift!",
   "bumpkin.delivery.recentlyGifted": "Recently gifted",
