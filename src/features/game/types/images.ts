@@ -6218,22 +6218,22 @@ export const ITEM_DETAILS: Items = {
     translatedName: translate("resource.truffle"),
   },
   "Ember-Roasted Truffle Potatoes": {
-    image: mashedPotato, // TODO(Chapter 16 art)
+    image: SUNNYSIDE.icons.expression_confused, // TODO(Chapter 16 art)
     description: COOKABLES["Ember-Roasted Truffle Potatoes"].description,
     translatedName: translate("food.emberRoastedTrufflePotatoes"),
   },
   "Truffle Cake": {
-    image: honeyCake, // TODO(Chapter 16 art)
+    image: SUNNYSIDE.icons.expression_confused, // TODO(Chapter 16 art)
     description: COOKABLES["Truffle Cake"].description,
     translatedName: translate("food.truffleCake"),
   },
   "Creamy Truffle Risotto": {
-    image: redRice, // TODO(Chapter 16 art)
+    image: SUNNYSIDE.icons.expression_confused, // TODO(Chapter 16 art)
     description: COOKABLES["Creamy Truffle Risotto"].description,
     translatedName: translate("food.creamyTruffleRisotto"),
   },
   "Truffle Seasoning": {
-    image: saltLick, // TODO(Chapter 16 art)
+    image: SUNNYSIDE.icons.expression_confused, // TODO(Chapter 16 art)
     description: translate("description.truffleSeasoning"),
     translatedName: translate("spiceRack.truffleSeasoning"),
   },
