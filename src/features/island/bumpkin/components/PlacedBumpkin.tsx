@@ -8,7 +8,6 @@ import type { PlaceableLocation } from "features/game/types/collectibles";
 import { PlayerNPC } from "./PlayerNPC";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _isLandscaping = (state: MachineState) => state.matches("landscaping");
@@ -20,7 +19,6 @@ export const PlacedBumpkin: React.FC<{
   const bumpkin = useSelector(gameService, _bumpkin);
   const isLandscaping = useSelector(gameService, _isLandscaping);
   const [showHeart, setShowHeart] = useState(false);
-  const { t } = useAppTranslation();
 
   // Collecting food shows a heart over the Bumpkin. By the house it's drawn
   // by the house itself; once the Bumpkin is placed it follows it here.
@@ -66,9 +64,6 @@ export const PlacedBumpkin: React.FC<{
           />
           <img
             src={SUNNYSIDE.icons.heart}
-            // It's feedback, not decoration - but only while it's shown.
-            alt={showHeart ? t("bumpkin.recipeCollected") : ""}
-            aria-hidden={!showHeart}
             className={
               "absolute transition-opacity pointer-events-none" +
               (showAnimations ? " animate-float" : "")
