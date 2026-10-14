@@ -117,10 +117,12 @@ export const MyListings: React.FC<Props> = ({ fullHeight = false }) => {
   const fulfilledIds = filteredListingIds.filter(
     (id) => !!listings[id].fulfilledAt || !!listings[id].boughtAt,
   );
-  const fulfilledSfl = fulfilledIds.reduce(
-    (total, id) => total + listings[id].sfl,
-    0,
-  );
+  // What the claim credits: each listing's price minus its trading fee, the
+  // same deduction `claimPurchase` makes.
+  const fulfilledSfl = fulfilledIds.reduce((total, id) => {
+    const { sfl, tax } = listings[id];
+    return total + sfl - (tax ?? sfl * MARKETPLACE_TAX);
+  }, 0);
 
   const claim = (tradeIds: string[]) => {
     gameService.send("purchase.claimed", { tradeIds });
