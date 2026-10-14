@@ -36,10 +36,11 @@ export enum START_CAVE_BATCH_ERRORS {
 }
 
 /**
- * Start a Myco Bin batch. Mirrors the public part of the BE reducer only:
- * charge the recipe inputs and set the 12h timer. The hidden 25-tile dig layout
- * is generated and stored (encrypted) exclusively on the BE — nothing positional
- * or count-related is client state, so the FE needs no server round-trip.
+ * Start a Myco Bin batch. Mirrors the BE reducer's public part: charge the
+ * recipe inputs and set the 12h timer. The board itself is a seed the BE rolls
+ * from server-side randomness (`CaveBatch.seed`); it reaches the client with
+ * the save that follows `cave.batchStarted`, and the shared `cavePatch.ts`
+ * lays the 25 tiles out from it on both sides.
  */
 export function startCaveBatch({
   state,

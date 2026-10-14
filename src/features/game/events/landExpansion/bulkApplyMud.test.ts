@@ -66,13 +66,42 @@ describe("bulkApplyMud", () => {
     expect(state.pigpen.animals.c.mud).toEqual({ harvestsRemaining: 3 });
   });
 
-  it("muds as many Pigs as the Mud covers, lowest id first", () => {
-    const state = bulk(farm({ c: pig("c"), a: pig("a"), b: pig("b") }, 29));
+  it("muds as many Pigs as the Mud covers, oldest first", () => {
+    const state = bulk(
+      farm(
+        {
+          c: pig("c", { createdAt: 3 }),
+          a: pig("a", { createdAt: 1 }),
+          b: pig("b", { createdAt: 2 }),
+        },
+        29,
+      ),
+    );
 
     expect(state.inventory.Mud).toEqual(new Decimal(9));
     expect(state.pigpen.animals.a.mud).toEqual({ harvestsRemaining: 3 });
     expect(state.pigpen.animals.b.mud).toEqual({ harvestsRemaining: 3 });
     expect(state.pigpen.animals.c.mud).toBeUndefined();
+  });
+
+  it("muds the oldest Pigs first, whatever their ids look like", () => {
+    // Starter Pigs carry index ids ("0".."2"); bought ones carry uuid
+    // prefixes — so the order follows `createdAt`, not the id string.
+    const state = bulk(
+      farm(
+        {
+          "2": pig("2", { createdAt: 300 }),
+          "10": pig("10", { createdAt: 100 }),
+          a1b2c3d4: pig("a1b2c3d4", { createdAt: 200 }),
+        },
+        29,
+      ),
+    );
+
+    expect(state.inventory.Mud).toEqual(new Decimal(9));
+    expect(state.pigpen.animals["10"].mud).toEqual({ harvestsRemaining: 3 });
+    expect(state.pigpen.animals.a1b2c3d4.mud).toEqual({ harvestsRemaining: 3 });
+    expect(state.pigpen.animals["2"].mud).toBeUndefined();
   });
 
   it("muds Pigs over the pen's capacity too, like a treat", () => {
