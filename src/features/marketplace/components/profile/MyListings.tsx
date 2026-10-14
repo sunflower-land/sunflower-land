@@ -158,13 +158,13 @@ export const MyListings: React.FC<Props> = ({ fullHeight = false }) => {
         {claimId && (
           <ClaimPurchase
             sfl={listings[claimId as string].sfl}
+            onClaim={claim}
+            onClose={() => setClaimId(undefined)}
+            hasPendingTransaction={!!state.transaction}
             tax={
               listings[claimId as string].tax ??
               listings[claimId as string].sfl * MARKETPLACE_TAX
             }
-            onClaim={claim}
-            onClose={() => setClaimId(undefined)}
-            hasPendingTransaction={!!state.transaction}
           />
         )}
       </Modal>
