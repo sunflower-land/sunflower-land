@@ -63,6 +63,11 @@ import {
 } from "features/game/types/salt";
 import { getPendingSaltNodeIdsForUpgrade } from "features/game/types/salt";
 import { hasRequiredIslandExpansion } from "../lib/hasRequiredIslandExpansion";
+import { Context as AuthContext } from "features/auth/lib/Provider";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
+import { hasFeatureAccess } from "lib/flags";
+import { PlayerModal } from "features/social/PlayerModal";
+import { Discovery } from "features/social/Discovery";
 
 export const LAND_WIDTH = 6;
 
@@ -262,6 +267,7 @@ const _petNFTPositions = (state: MachineState) => {
 };
 
 const _bumpkinPlacement = (state: MachineState) => state.context.state.bumpkin;
+const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
 
 const _farmHandPositions = (state: MachineState) => {
   const bumpkins = state.context.state.farmHands?.bumpkins;
@@ -319,6 +325,7 @@ const _waterTrapPositions = (state: MachineState) => {
 
 export const LandComponent: React.FC = () => {
   const { gameService } = useContext(Context);
+  const { authService } = useContext(AuthContext);
   const { pathname } = useLocation();
 
   const showMarketplace = pathname.includes("marketplace");
@@ -417,6 +424,7 @@ export const LandComponent: React.FC = () => {
     comparePositions,
   );
   const bumpkin = useSelector(gameService, _bumpkinPlacement);
+  const token = useSelector(authService, _token);
   const { airdrops } = useSelector(
     gameService,
     _airdropPositions,
@@ -460,6 +468,16 @@ export const LandComponent: React.FC = () => {
   }, [cropPositions, collectiblePositions]);
 
   const { isVisiting: visiting } = useVisiting();
+
+  // While visiting, `farmId` is the visited farm, so the logged-in player is
+  // `visitorId`.
+  const { visitorId, farmId, visitorState, state } =
+    gameService.getSnapshot().context;
+  const loggedInFarmId = visitorId ?? farmId;
+  const hasAirdropAccess = hasFeatureAccess(
+    visitorState ?? state,
+    "AIRDROP_PLAYER",
+  );
 
   // New functions
   const cropElements = useMemo(() => {
@@ -1351,6 +1369,19 @@ export const LandComponent: React.FC = () => {
       {visiting && <VisitingHud />}
 
       {!landscaping && !visiting && <Hud isFarming={true} location="farm" />}
+
+      {/*
+        The world feed opens the player and discovery modals, so they have to
+        be mounted on this surface too - same as /home and the interiors. They
+        must not depend on the Bumpkin sprite, which is only drawn here while
+        the Bumpkin is placed on the farm.
+      */}
+      <PlayerModal
+        loggedInFarmId={loggedInFarmId}
+        token={token}
+        hasAirdropAccess={hasAirdropAccess}
+      />
+      <Discovery />
 
       {(showMarketplace ||
         showFlowerDashboard ||
