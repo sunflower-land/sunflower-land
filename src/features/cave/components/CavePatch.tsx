@@ -105,12 +105,19 @@ export const CavePatch: React.FC<Props> = ({
 
   const drilling = ready && selectedItem === "Sand Drill";
   // Where the hover box sits: the 2x2 square's top-left for the drill, the
-  // tile itself for the shovel.
-  const hoverBox = hovered
-    ? drilling
-      ? { ...getCaveDrillSquare(hovered.x, hovered.y)[0], size: 2 }
-      : { ...hovered, size: 1 }
-    : undefined;
+  // tile itself for the shovel. Derived from the batch, not just the pointer:
+  // once the hovered tile (or the whole drill square) is dug the box goes
+  // away without waiting for the pointer to move.
+  const isDug = (tile: { x: number; y: number }) =>
+    !!batch?.dug?.[caveTileKey(tile.x, tile.y)];
+  const hoverBox = (() => {
+    if (!hovered) return undefined;
+    if (drilling) {
+      const square = getCaveDrillSquare(hovered.x, hovered.y);
+      return square.every(isDug) ? undefined : { ...square[0], size: 2 };
+    }
+    return isDug(hovered) ? undefined : { ...hovered, size: 1 };
+  })();
 
   // The room image already draws the bare sand: nothing to add while the
   // patch is empty or the batch is still growing (Elias).
@@ -179,11 +186,15 @@ export const CavePatch: React.FC<Props> = ({
             }
 
             if (dug && layout) {
+              // A dug tile takes no tool, so the hover box must not sit on it.
               return (
-                <DugTile
+                <div
                   key={`tile-${i}`}
-                  tile={resolveCaveTile(layout, x, y)}
-                />
+                  className="w-full h-full"
+                  onPointerEnter={() => setHovered(undefined)}
+                >
+                  <DugTile tile={resolveCaveTile(layout, x, y)} />
+                </div>
               );
             }
 
@@ -195,9 +206,11 @@ export const CavePatch: React.FC<Props> = ({
                 disabled={!hasShovel || !layout}
                 className="w-full h-full p-0 border-0 bg-transparent cursor-pointer disabled:cursor-not-allowed"
                 onPointerEnter={() => setHovered({ x, y })}
-                onClick={() =>
-                  gameService.send({ type: "cave.dug", machineId, x, y })
-                }
+                onClick={() => {
+                  // The tile becomes a DugTile under the pointer.
+                  setHovered(undefined);
+                  gameService.send({ type: "cave.dug", machineId, x, y });
+                }}
               >
                 <img
                   src={SUNNYSIDE.soil.sand_hill}
@@ -210,7 +223,7 @@ export const CavePatch: React.FC<Props> = ({
         )}
       </div>
 
-      {ready && hoverBox && (
+      {ready && !cleared && hoverBox && (
         <img
           src={hoverBox.size === 2 ? DRILL_SELECT : SHOVEL_SELECT}
           className="absolute pointer-events-none z-10"
