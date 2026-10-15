@@ -174,20 +174,20 @@ const FEATURE_FLAGS = {
    * Chapter 16's Pigpen building and the Pig animal. Remove once Chapter 16
    * ships and the Pigpen gates on its own unlock level instead.
    */
-  PIGPEN: testnetFeatureFlag,
+  PIGPEN: usernameFeatureFlag,
 
   /**
    * Chapter 16's Cave: the Cave building in the Workbench shop and the `/cave`
    * interior room. Remove once Chapter 16 ships and the Cave gates on its own
    * unlock instead.
    */
-  CAVE: testnetFeatureFlag,
+  CAVE: usernameFeatureFlag,
 
   /**
    * Chapter 16's direct Beetle feeding: a Beetle fed straight to an animal.
    * Remove once Chapter 16 ships.
    */
-  BEETLE_FEEDING: testnetFeatureFlag,
+  BEETLE_FEEDING: usernameFeatureFlag,
 
   FACE_RECOGNITION_TEST: betaFeatureFlag,
   // The developer-options button that forces a captcha on your own farm
@@ -200,15 +200,6 @@ const FEATURE_FLAGS = {
 
   MODERATOR: (game) =>
     !!((game.wardrobe.Halo ?? 0) > 0) && !!game.inventory["Beta Pass"]?.gt(0),
-
-  /**
-   * Gates the new home-interior placement system: the /interior route, the
-   * /level_one upgrade route, and the `interior.upgrade` event. Beta-pass /
-   * testnet only until the feature ships to all players.
-   */
-  HOME_EXPANSIONS: betaFeatureFlag,
-
-  BOOSTS_DISPLAY: betaFeatureFlag,
 
   // Speed-rate (Clash-of-Clans potion) model for time-based boosts — starting
   // with the Sparrow Shrine on crops. When on, planting stores the new
