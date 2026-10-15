@@ -13,7 +13,7 @@ import {
   type CaveMerchantOfferId,
 } from "features/game/types/caveMerchant";
 import { ITEM_DETAILS } from "features/game/types/images";
-import type { NPCParts } from "features/island/bumpkin/components/NPC";
+import { NPC_WEARABLES } from "lib/npcs";
 import { getKeys } from "lib/object";
 import { secondsToString } from "lib/utils/time";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -26,16 +26,6 @@ import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { IngredientsPopover } from "components/ui/IngredientsPopover";
-
-// Placeholder look until the art team draws the Goblin Cave Merchant.
-export const CAVE_MERCHANT_PARTS: Partial<NPCParts> = {
-  body: "Goblin Potion",
-  hair: "Buzz Cut",
-  shirt: "SFL T-Shirt",
-  pants: "Farmer Pants",
-  shoes: "Black Farmer Boots",
-  background: "Goblin Retreat Background",
-};
 
 const _game = (state: MachineState) => state.context.state;
 
@@ -70,7 +60,7 @@ export const CaveMerchantModal: React.FC<{ onClose: () => void }> = ({
       <CloseButtonPanel
         onClose={onClose}
         title={t("cave.merchant.title")}
-        bumpkinParts={CAVE_MERCHANT_PARTS}
+        bumpkinParts={NPC_WEARABLES.gloomwick}
       >
         <div className="flex flex-col p-1 gap-2">
           <span className="text-sm">{t("cave.merchant.description")}</span>

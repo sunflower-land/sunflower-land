@@ -2144,6 +2144,8 @@ export const ITEM_TRADE_TYPES: {
     "Marble Pants": "instant",
     "Spooky Coat": "instant",
     "Surfer Hair": "onchain",
+    "Traveling Merchant Suit": "instant",
+    "Traveling Merchant Bag": "instant",
   },
 };
 

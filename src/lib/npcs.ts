@@ -121,7 +121,8 @@ export type NPCName =
   | "neville" // fish market
   | "pirate skeleton" //april fools event portal npc
   | "Slime Jim" // Colors event NPC
-  | "Slime Joe"; // Colors event NPC
+  | "Slime Joe" // Colors event NPC
+  | "gloomwick"; // Goblin Cave Merchant (Chapter 16)
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   streamer: {
@@ -1410,6 +1411,14 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     aura: "Butterfly Aura",
     eyes: "Fun Eyes",
     mouth: "Big Smile",
+  },
+  gloomwick: {
+    body: "Goblin Potion",
+    hair: "Buzz Cut",
+    suit: "Traveling Merchant Suit",
+    wings: "Traveling Merchant Bag",
+    shoes: "Black Farmer Boots",
+    background: "Goblin Retreat Background",
   },
 };
 

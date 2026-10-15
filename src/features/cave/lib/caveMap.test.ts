@@ -41,28 +41,28 @@ describe("caveMap (the artist's Tiled map)", () => {
           slots[id].box.y,
         ]),
       ).toEqual([
-        [20, 32],
-        [29, 32],
-        [38, 32],
-        [47, 32],
-        [47, 45],
-        [38, 45],
-        [29, 45],
-        [20, 45],
+        [20, 31],
+        [29, 31],
+        [38, 31],
+        [47, 31],
+        [47, 43],
+        [38, 43],
+        [29, 43],
+        [20, 43],
       ]);
     });
 
-    it("places the 5x5 dig grid on the sand inside the box and the sign above the fence", () => {
-      // Slot 1 box is tiles 20..26 x 32..41: sign rows 32-33, fence 34,
-      // border 35, sand 36-40 at x 21..25, border 41.
+    it("places the 5x5 dig grid on the sand inside the box and the Myco Bin above the fence", () => {
+      // Slot 1 box is tiles 20..26 x 31..41: Myco Bin rows 31-33 at
+      // x 21..25, fence 34, border 35, sand 36-40 at x 21..25, border 41.
       expect(slots[1].dig).toEqual({ x: 21 * 16, y: 36 * 16 });
       expect(slots[1].sign).toEqual({
-        x: 22 * 16,
-        y: 32 * 16,
-        width: 48,
-        height: 32,
+        x: 21 * 16,
+        y: 31 * 16,
+        width: 80,
+        height: 48,
       });
-      expect(slots[5].dig).toEqual({ x: 48 * 16, y: 49 * 16 });
+      expect(slots[5].dig).toEqual({ x: 48 * 16, y: 48 * 16 });
     });
   });
 
@@ -70,13 +70,13 @@ describe("caveMap (the artist's Tiled map)", () => {
     it("is the barrier strip of the tier's room, in pixels", () => {
       expect(getCaveConstructionSite(map, 1)).toEqual({
         x: 29 * 16,
-        y: 34 * 16,
+        y: 33 * 16,
         width: 16,
         height: 160,
       });
       expect(getCaveConstructionSite(map, 4)).toEqual({
         x: 45 * 16,
-        y: 45 * 16,
+        y: 43 * 16,
         width: 176,
         height: 16,
       });
@@ -88,13 +88,14 @@ describe("caveMap (the artist's Tiled map)", () => {
   });
 
   describe("getCaveMerchantAlcove", () => {
-    it("exists from tier 5", () => {
-      expect(getCaveMerchantAlcove(map, 4)).toBeUndefined();
-      expect(getCaveMerchantAlcove(map, 5)).toEqual({
-        x: 32 * 16,
-        y: 22 * 16,
-        width: 9 * 16,
-        height: 5 * 16,
+    it("is drawn at every tier, from tier 1", () => {
+      [1, 2, 3, 4, 5, 6, 7, 8].forEach((tier) => {
+        expect(getCaveMerchantAlcove(map, tier)).toEqual({
+          x: 32 * 16,
+          y: 22 * 16,
+          width: 9 * 16,
+          height: 5 * 16,
+        });
       });
     });
   });

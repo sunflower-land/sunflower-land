@@ -61,7 +61,7 @@ describe("caveLayout (pinned to the Tiled map)", () => {
     expect(CAVE_CONSTRUCTION_SITES[8]).toBeUndefined();
   });
 
-  it("puts the Merchant in the alcove the room draws from tier V", () => {
+  it("puts the Merchant in the alcove the room draws from tier I", () => {
     expect(
       getCaveMerchantAlcove(map, CAVE_MERCHANT_ALCOVE_TIER - 1),
     ).toBeUndefined();

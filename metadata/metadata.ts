@@ -22115,6 +22115,28 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Surfer Hair",
   },
+  "Traveling Merchant Suit": {
+    description:
+      "The Goblin Cave Merchant's long travelling coat. Every inside pocket is pinned with a Beetle for sale.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Suit" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Traveling Merchant Suit",
+  },
+  "Traveling Merchant Bag": {
+    description:
+      "Everything the Goblin Cave Merchant owns, strapped to one enormous pack. The lantern runs on Beetle glow.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Wings" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Traveling Merchant Bag",
+  },
   "Yellow Slime Puppet": {
     description:
       "A hand puppet made entirely of yellow ooze. It mimics your movements, though it looks slightly sticky.",

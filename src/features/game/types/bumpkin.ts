@@ -553,7 +553,8 @@ export type BumpkinSuit =
   | "Glacierguard Suit"
   | "Research Uniform"
   | "Sweet Devil Dress"
-  | "Spa Robe";
+  | "Spa Robe"
+  | "Traveling Merchant Suit";
 
 export type BumpkinWings =
   | "Angel Wings"
@@ -579,7 +580,8 @@ export type BumpkinWings =
   | "Sweet Devil Wings"
   | "Cardboard Wings"
   | "Rainbow Wings"
-  | "Ascension Wings";
+  | "Ascension Wings"
+  | "Traveling Merchant Bag";
 
 export type BumpkinBeard =
   | "Wise Beard"
@@ -1262,6 +1264,8 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Marble Pants": 584,
   "Spooky Coat": 585,
   "Surfer Hair": 586,
+  "Traveling Merchant Suit": 587,
+  "Traveling Merchant Bag": 588,
 };
 
 // The reverse of above
@@ -1913,6 +1917,8 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Marble Pants": "pants",
   "Spooky Coat": "coat",
   "Surfer Hair": "hair",
+  "Traveling Merchant Suit": "suit",
+  "Traveling Merchant Bag": "wings",
 };
 
 /**Copied from BE just for hoarding checks */
