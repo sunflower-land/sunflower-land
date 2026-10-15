@@ -1,4 +1,5 @@
 import React from "react";
+import Decimal from "decimal.js-light";
 import trade from "assets/icons/trade.png";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -53,7 +54,7 @@ export const ClaimPurchase: React.FC<ClaimPurchaseProps> = ({
           <div>
             {/* What actually lands in the balance: the price minus the fee. */}
             <Label type="warning">
-              {`${formatNumber(sfl - tax, { decimalPlaces: 4 })} FLOWER`}
+              {`${formatNumber(new Decimal(sfl).minus(tax), { decimalPlaces: 4 })} FLOWER`}
             </Label>
             {tax > 0 && (
               <p className="text-xxs mt-0.5">

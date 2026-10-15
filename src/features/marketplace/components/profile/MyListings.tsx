@@ -1,4 +1,5 @@
 import { Label } from "components/ui/Label";
+import Decimal from "decimal.js-light";
 import { InnerPanel } from "components/ui/Panel";
 import React, { useContext, useState } from "react";
 import * as Auth from "features/auth/lib/Provider";
@@ -162,8 +163,11 @@ export const MyListings: React.FC<Props> = ({ fullHeight = false }) => {
             onClose={() => setClaimId(undefined)}
             hasPendingTransaction={!!state.transaction}
             tax={
+              // Decimal, like claimPurchase, so the shown fee matches it.
               listings[claimId as string].tax ??
-              listings[claimId as string].sfl * MARKETPLACE_TAX
+              new Decimal(listings[claimId as string].sfl)
+                .mul(MARKETPLACE_TAX)
+                .toNumber()
             }
           />
         )}
