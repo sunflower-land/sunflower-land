@@ -40,32 +40,50 @@ export const NoAccount: React.FC = () => {
   const [showBumpkinModal, setShowBumpkinModal] = useState(false);
   const [validationState, setValidationState] = useState<ValidationState>();
   const [showClaimAccount, setShowClaimAccount] = useState(false);
-  const [createNewFarm, setCreateNewFarm] = useState(false);
-
   const address = authState.context.user.token?.address ?? "";
   const hasWallet = isAddress(address);
 
-  // Farm NFTs owned by the connected wallet. `undefined` while loading so a
-  // player who already owns a farm is offered it before creating a new one.
-  const [nftTokenIds, setNftTokenIds] = useState<number[] | undefined>(
-    hasWallet ? undefined : [],
-  );
+  // Farm NFTs owned by the connected wallet, so a player who already owns a
+  // farm is offered it before creating a new one. The result is keyed by the
+  // address and attempt it was fetched for, so a stale lookup is never shown.
+  const [nftLookup, setNftLookup] = useState<{
+    address: string;
+    attempt: number;
+    tokenIds?: number[];
+    failed?: boolean;
+  }>();
+  const [nftLookupAttempt, setNftLookupAttempt] = useState(0);
+  const [createNewFarmFor, setCreateNewFarmFor] = useState<string>();
+
+  const currentLookup =
+    nftLookup?.address === address && nftLookup.attempt === nftLookupAttempt
+      ? nftLookup
+      : undefined;
+  const nftTokenIds = hasWallet ? currentLookup?.tokenIds : [];
+  // A failed lookup is not proof that the wallet owns no farm, so creating a
+  // farm stays blocked until the lookup succeeds.
+  const nftLookupFailed = hasWallet && currentLookup?.failed === true;
+  const createNewFarm = createNewFarmFor === address;
 
   useEffect(() => {
     if (!hasWallet) return;
 
     let cancelled = false;
+    const attempt = nftLookupAttempt;
 
     const load = async () => {
       try {
         const farms = await getFarms(address as `0x${string}`);
 
         if (!cancelled) {
-          setNftTokenIds(farms.map((farm) => Number(farm.tokenId)));
+          setNftLookup({
+            address,
+            attempt,
+            tokenIds: farms.map((farm) => Number(farm.tokenId)),
+          });
         }
       } catch {
-        // Fall back to the regular flow if the lookup fails
-        if (!cancelled) setNftTokenIds([]);
+        if (!cancelled) setNftLookup({ address, attempt, failed: true });
       }
     };
 
@@ -74,7 +92,7 @@ export const NoAccount: React.FC = () => {
     return () => {
       cancelled = true;
     };
-  }, [address, hasWallet]);
+  }, [address, hasWallet, nftLookupAttempt]);
 
   const handleCreateFarm = () => {
     if (!referralId) {
@@ -196,6 +214,20 @@ export const NoAccount: React.FC = () => {
     return <SignupBumpkinEquip onSave={handleBumpkinSave} />;
   }
 
+  if (nftLookupFailed) {
+    return (
+      <>
+        <div className="p-2">{t("noaccount.nftLookupFailed")}</div>
+        <div className="flex space-x-1">
+          <Button onClick={() => authService.send("BACK")}>{t("back")}</Button>
+          <Button onClick={() => setNftLookupAttempt((n) => n + 1)}>
+            {t("retry")}
+          </Button>
+        </div>
+      </>
+    );
+  }
+
   if (nftTokenIds === undefined) {
     return <Loading />;
   }
@@ -206,7 +238,7 @@ export const NoAccount: React.FC = () => {
         tokenIds={nftTokenIds}
         message={t("noaccount.nftFarmsFound")}
         backLabel={t("noaccount.createNewFarm")}
-        onBack={() => setCreateNewFarm(true)}
+        onBack={() => setCreateNewFarmFor(address)}
         onClaim={(id) => authService.send("CLAIM", { id })}
       />
     );
@@ -280,8 +312,10 @@ export const ClaimAccount: React.FC<{
   const [authState] = useActor(authService);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [tokenIds, setTokenIds] = useState<number[]>(preloadedTokenIds ?? []);
+  const [loadedTokenIds, setLoadedTokenIds] = useState<number[]>([]);
   const { t } = useAppTranslation();
+
+  const tokenIds = preloadedTokenIds ?? loadedTokenIds;
 
   useEffect(() => {
     if (preloadedTokenIds) return;
@@ -295,7 +329,7 @@ export const ClaimAccount: React.FC<{
 
       const ids = farms.map((farm) => Number(farm.tokenId));
 
-      setTokenIds(ids);
+      setLoadedTokenIds(ids);
 
       setIsLoading(false);
     };
