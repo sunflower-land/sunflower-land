@@ -1,4 +1,5 @@
 import { Label } from "components/ui/Label";
+import Decimal from "decimal.js-light";
 import { InnerPanel } from "components/ui/Panel";
 import React, { useContext, useState } from "react";
 import * as Auth from "features/auth/lib/Provider";
@@ -119,10 +120,14 @@ export const MyListings: React.FC<Props> = ({ fullHeight = false }) => {
   );
   // What the claim credits: each listing's price minus its trading fee, the
   // same deduction `claimPurchase` makes.
-  const fulfilledSfl = fulfilledIds.reduce((total, id) => {
-    const { sfl, tax } = listings[id];
-    return total + sfl - (tax ?? sfl * MARKETPLACE_TAX);
-  }, 0);
+  const fulfilledSfl = fulfilledIds
+    .reduce((total, id) => {
+      const { sfl, tax } = listings[id];
+      return total
+        .plus(sfl)
+        .minus(tax ?? new Decimal(sfl).mul(MARKETPLACE_TAX));
+    }, new Decimal(0))
+    .toNumber();
 
   const claim = (tradeIds: string[]) => {
     gameService.send("purchase.claimed", { tradeIds });
