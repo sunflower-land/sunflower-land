@@ -235,6 +235,7 @@ export type FarmActivityName =
   | "Treasure Dug"
   | "Treasure Searched"
   | "Treasure Drilled"
+  | "Cave Tile Dug"
   | "Love Letter Collected"
   | "Easter Egg Collected"
   | "Chore Completed"

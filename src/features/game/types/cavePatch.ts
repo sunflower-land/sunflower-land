@@ -1,4 +1,4 @@
-import type { CaveBatch, InventoryItemName } from "./game";
+import type { CaveBatch, CaveBatchSkills, InventoryItemName } from "./game";
 import type { MushroomName } from "./resources";
 import {
   CAVE_PATCH_WIDTH,
@@ -30,7 +30,10 @@ export type ResolvedCaveTile = {
   clue?: number;
 };
 
-/** Commonest-first Beetle rarity weights (percent). Matches `BEETLES` order. */
+/**
+ * Commonest-first Beetle rarity weights (percent). Matches `BEETLES` order. The
+ * Rare Breeds skill replaces them with the batch's `skills.beetleRarity`.
+ */
 const BEETLE_RARITY_WEIGHTS: Record<BeetleName, number> = {
   "Green Beetle": 40,
   "Blue Beetle": 30,
@@ -82,29 +85,55 @@ export function createCaveRandom(seed: string): () => number {
   return next;
 }
 
-function rollBeetle(random: () => number): BeetleName {
+function rollBeetle(
+  random: () => number,
+  weights: Record<BeetleName, number>,
+): BeetleName {
   const roll = random() * 100;
   let cumulative = 0;
   for (const beetle of BEETLES) {
-    cumulative += BEETLE_RARITY_WEIGHTS[beetle];
+    cumulative += weights[beetle];
     if (roll < cumulative) return beetle;
   }
   return BEETLES[BEETLES.length - 1];
 }
 
 /**
+ * How a patch's 25 tiles split by kind: the recipe's composition, with the
+ * batch's extra Mushroom and Beetle tiles taken from its Mud.
+ */
+export function getCavePatchComposition(
+  recipe: CaveRecipeName,
+  skills: CaveBatchSkills = {},
+): Record<CaveTileType, number> {
+  const { Mushroom, Beetle, Mud } = CAVE_RECIPES[recipe].composition;
+  const { extraMushroomTiles = 0, extraBeetleTiles = 0 } = skills;
+
+  return {
+    Mushroom: Mushroom + extraMushroomTiles,
+    Beetle: Beetle + extraBeetleTiles,
+    Mud: Mud - extraMushroomTiles - extraBeetleTiles,
+  };
+}
+
+/**
  * Build a patch's board from its seed. The seed is rolled by the server when
- * the batch starts, so it cannot be chosen or ground by the player.
+ * the batch starts, so it cannot be chosen or ground by the player. `skills`
+ * is the batch's snapshot of the board-shaping Cave skills.
  */
 export function generateCavePatch({
   recipe,
   seed,
+  skills,
 }: {
   recipe: CaveRecipeName;
   seed: string;
+  skills?: CaveBatchSkills;
 }): CavePatchLayout {
   const random = createCaveRandom(seed);
-  const { mudYieldMultiplier, composition: counts } = CAVE_RECIPES[recipe];
+  const { mudYieldMultiplier } = CAVE_RECIPES[recipe];
+  const counts = getCavePatchComposition(recipe, skills);
+  const beetleWeights = skills?.beetleRarity ?? BEETLE_RARITY_WEIGHTS;
 
   const bag: CaveTileType[] = [];
   const push = (kind: CaveTileType, count: number) => {
@@ -127,7 +156,7 @@ export function generateCavePatch({
     let tile: CaveTile;
     switch (kind) {
       case "Beetle":
-        tile = { type: "Beetle", beetle: rollBeetle(random) };
+        tile = { type: "Beetle", beetle: rollBeetle(random, beetleWeights) };
         break;
       case "Mud":
         tile = { type: "Mud", amount: mudYieldMultiplier };
@@ -201,15 +230,19 @@ export function resolveCaveTile(
   }
 }
 
-/** Beetles dug so far out of the recipe's fixed total. */
+/** Beetles dug so far out of the batch's fixed total. */
 export function getCaveBeetleProgress(batch: CaveBatch): {
   found: number;
   total: number;
 } {
-  const total = CAVE_RECIPES[batch.recipe].composition.Beetle;
+  const total = getCavePatchComposition(batch.recipe, batch.skills).Beetle;
   if (!isCaveSeed(batch.seed)) return { found: 0, total };
 
-  const layout = generateCavePatch({ recipe: batch.recipe, seed: batch.seed });
+  const layout = generateCavePatch({
+    recipe: batch.recipe,
+    seed: batch.seed,
+    skills: batch.skills,
+  });
   const found = Object.keys(batch.dug ?? {}).filter(
     (key) => layout[key]?.type === "Beetle",
   ).length;
@@ -228,7 +261,11 @@ export function getUndugCaveTiles(
   };
   if (!isCaveSeed(batch.seed)) return undug;
 
-  const layout = generateCavePatch({ recipe: batch.recipe, seed: batch.seed });
+  const layout = generateCavePatch({
+    recipe: batch.recipe,
+    seed: batch.seed,
+    skills: batch.skills,
+  });
   for (const [key, tile] of Object.entries(layout)) {
     if (!batch.dug?.[key]) undug[tile.type] += 1;
   }

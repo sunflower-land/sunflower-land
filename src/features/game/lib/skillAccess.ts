@@ -1,4 +1,5 @@
 import {
+  BUMPKIN_REVAMP_SKILL_TREE,
   type BumpkinRevampSkillName,
   type BumpkinRevampSkillTree,
   getRevampSkills,
@@ -18,12 +19,24 @@ const SKILL_FEATURE_FLAGS: Partial<
   "Bristle Payout": "PIGPEN",
 };
 
+/** Whole trees that follow a feature flag. The Cave is testnet-only. */
+const SKILL_TREE_FEATURE_FLAGS: Partial<
+  Record<BumpkinRevampSkillTree, FeatureName>
+> = {
+  Cave: "CAVE",
+};
+
 export function hasSkillAccess(
   game: GameState,
   skill: BumpkinRevampSkillName,
 ): boolean {
-  const feature = SKILL_FEATURE_FLAGS[skill];
-  return !feature || hasFeatureAccess(game, feature);
+  const features = [
+    SKILL_FEATURE_FLAGS[skill],
+    SKILL_TREE_FEATURE_FLAGS[BUMPKIN_REVAMP_SKILL_TREE[skill].tree],
+  ];
+  return features.every(
+    (feature) => !feature || hasFeatureAccess(game, feature),
+  );
 }
 
 /** A tree's skills, without the ones whose feature flag is off. */

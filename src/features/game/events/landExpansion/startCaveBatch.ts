@@ -2,13 +2,17 @@ import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import type { GameState } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
-import { isCaveBuildingReady } from "features/game/lib/cave";
-import { getKeys } from "lib/object";
 import {
-  CAVE_BATCH_DURATION_MS,
-  getCaveBatchIngredients,
-  type CaveMudCropName,
-  type CaveRecipeName,
+  getCaveBatchCost,
+  getCaveBatchDuration,
+  getCaveBatchSkills,
+  isCaveBuildingReady,
+} from "features/game/lib/cave";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { getKeys } from "lib/object";
+import type {
+  CaveMudCropName,
+  CaveRecipeName,
 } from "features/game/types/caveRecipes";
 import { canRestartCaveBatch } from "features/game/types/cavePatch";
 
@@ -37,7 +41,8 @@ export enum START_CAVE_BATCH_ERRORS {
 
 /**
  * Start a Myco Bin batch. Mirrors the BE reducer's public part: charge the
- * recipe inputs and set the 12h timer. The board itself is a seed the BE rolls
+ * recipe inputs and set the 12h timer (both cut by Cave skills), and stamp the
+ * board-shaping Cave skills onto the batch. The board itself is a seed the BE rolls
  * from server-side randomness (`CaveBatch.seed`); it reaches the client with
  * the save that follows `cave.batchStarted`, and the shared `cavePatch.ts`
  * lays the 25 tiles out from it on both sides.
@@ -68,10 +73,15 @@ export function startCaveBatch({
       throw new Error(START_CAVE_BATCH_ERRORS.BATCH_IN_PROGRESS);
     }
 
-    const ingredients = getCaveBatchIngredients(action.recipe, action.crop);
-    if (!ingredients) {
+    const cost = getCaveBatchCost({
+      game,
+      recipe: action.recipe,
+      crop: action.crop,
+    });
+    if (!cost) {
       throw new Error(START_CAVE_BATCH_ERRORS.INVALID_CROP);
     }
+    const { ingredients } = cost;
 
     for (const item of getKeys(ingredients)) {
       const required = ingredients[item] ?? new Decimal(0);
@@ -86,11 +96,26 @@ export function startCaveBatch({
       game.inventory[item] = owned.minus(required);
     }
 
+    const { duration, boostsUsed: durationBoostsUsed } =
+      getCaveBatchDuration(game);
+    const { skills, boostsUsed: boardBoostsUsed } = getCaveBatchSkills(game);
+
     const startedAt = createdAt;
     machine.batch = {
       recipe: action.recipe,
       startedAt,
-      readyAt: startedAt + CAVE_BATCH_DURATION_MS,
+      readyAt: startedAt + duration,
+      ...(skills && { skills }),
     };
+
+    game.boostsUsedAt = updateBoostUsed({
+      game,
+      boostNames: [
+        ...cost.boostsUsed,
+        ...durationBoostsUsed,
+        ...boardBoostsUsed,
+      ],
+      createdAt,
+    });
   });
 }

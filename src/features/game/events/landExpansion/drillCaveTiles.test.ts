@@ -12,6 +12,8 @@ import {
 } from "features/game/types/caveRecipes";
 import { DRILL_CAVE_TILES_ERRORS, drillCaveTiles } from "./drillCaveTiles";
 import type { Bud } from "features/game/types/buds";
+import { prngChance } from "lib/prng";
+import { KNOWN_IDS } from "features/game/types";
 
 // The Cave building, placed and finished: every cave.* event requires it.
 const READY_CAVE = {
@@ -81,12 +83,14 @@ const drill = (
   {
     machineId = "1",
     createdAt = NOW,
-  }: { machineId?: string; createdAt?: number } = {},
+    farmId = 1,
+  }: { machineId?: string; createdAt?: number; farmId?: number } = {},
 ) =>
   drillCaveTiles({
     state,
     action: { type: "cave.drilled", machineId, coords },
     createdAt,
+    farmId,
   });
 
 describe("isCave2x2Square", () => {
@@ -430,5 +434,84 @@ describe("drillCaveTiles: Mushroom Bud", () => {
     expect(next.inventory["Wild Mushroom"]?.toNumber()).toBe(1.3);
     expect(next.inventory.Mud?.toNumber()).toBe(1);
     expect(next.boostsUsedAt?.["Bud #1"]).toBe(NOW);
+  });
+});
+
+describe("drillCaveTiles: Cave skills", () => {
+  const FARM_ID = 7;
+
+  const withSkills = (
+    skills: GameState["bumpkin"]["skills"],
+    state = readyState(),
+  ): GameState => ({ ...state, bumpkin: { ...state.bumpkin, skills } });
+
+  const withTilesDug = (state: GameState, count: number): GameState => ({
+    ...state,
+    farmActivity: { ...state.farmActivity, "Cave Tile Dug": count },
+  });
+
+  it("counts each tile the drill digs in the farm activity", () => {
+    const next = drill(readyState());
+    expect(next.farmActivity["Cave Tile Dug"]).toBe(4);
+  });
+
+  it("applies Muddy Bounty and Fungal Harvest to drilled tiles", () => {
+    const next = drill(withSkills({ "Muddy Bounty": 3, "Fungal Harvest": 3 }));
+    // (2,3) Mushroom and (2,4) Mud.
+    expect(next.inventory["Wild Mushroom"]?.toNumber()).toBe(1.4);
+    expect(next.inventory.Mud?.toNumber()).toBe(1.3);
+  });
+
+  it("Sturdy Drill keeps the Sand Drill exactly when its roll hits", () => {
+    let hits = 0;
+    for (let counter = 0; counter < 40; counter += 1) {
+      const hit = prngChance({
+        farmId: FARM_ID,
+        itemId: KNOWN_IDS["Sand Drill"],
+        counter,
+        chance: 40,
+        criticalHitName: "Sturdy Drill",
+      });
+      if (hit) hits += 1;
+
+      const next = drill(
+        withTilesDug(withSkills({ "Sturdy Drill": 3 }), counter),
+        BEETLE_SQUARE,
+        { farmId: FARM_ID },
+      );
+      expect(next.inventory["Sand Drill"]?.toNumber()).toBe(hit ? 10 : 9);
+      expect(next.boostsUsedAt?.["Sturdy Drill"]).toBe(hit ? NOW : undefined);
+    }
+    expect(hits).toBeGreaterThan(0);
+    expect(hits).toBeLessThan(40);
+  });
+
+  it("Twin Beetles rolls once for each drilled Beetle", () => {
+    // BEETLE_SQUARE digs (2,3), (3,3) Green, (2,4), (3,4) Pink in that order,
+    // so the two Beetles roll on the 2nd and 4th tile's counter.
+    const roll = (beetle: "Green Beetle" | "Pink Beetle", counter: number) =>
+      prngChance({
+        farmId: FARM_ID,
+        itemId: KNOWN_IDS[beetle],
+        counter,
+        chance: 15,
+        criticalHitName: "Twin Beetles",
+      });
+
+    let hits = 0;
+    for (let start = 0; start < 60; start += 1) {
+      const green = roll("Green Beetle", start + 1);
+      const pink = roll("Pink Beetle", start + 3);
+      hits += Number(green) + Number(pink);
+
+      const next = drill(
+        withTilesDug(withSkills({ "Twin Beetles": 3 }), start),
+        BEETLE_SQUARE,
+        { farmId: FARM_ID },
+      );
+      expect(next.inventory["Green Beetle"]?.toNumber()).toBe(green ? 2 : 1);
+      expect(next.inventory["Pink Beetle"]?.toNumber()).toBe(pink ? 2 : 1);
+    }
+    expect(hits).toBeGreaterThan(0);
   });
 });

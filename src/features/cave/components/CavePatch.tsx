@@ -90,12 +90,13 @@ export const CavePatch: React.FC<Props> = ({
 
   const recipe = batch?.recipe;
   const seed = batch?.seed;
+  const skills = batch?.skills;
   const layout = useMemo(
     () =>
       recipe && isCaveSeed(seed)
-        ? generateCavePatch({ recipe, seed })
+        ? generateCavePatch({ recipe, seed, skills })
         : undefined,
-    [recipe, seed],
+    [recipe, seed, skills],
   );
 
   const growing = !!batch && batch.readyAt > now;

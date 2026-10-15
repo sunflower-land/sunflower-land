@@ -44,6 +44,7 @@ export const SKILL_TREE_ICONS: Record<BumpkinRevampSkillTree, string> = {
   Machinery: ITEM_DETAILS["Crop Machine"].image,
   Compost: ITEM_DETAILS["Premium Composter"].image,
   Aging: ITEM_DETAILS["Salt"].image,
+  Cave: ITEM_DETAILS.Cave.image,
 };
 
 const _state = (state: MachineState) => state.context.state;
@@ -135,7 +136,12 @@ export const SkillCategoryList: React.FC<{
             state.island.type,
             islandType,
           );
-          const categories = getRevampSkillTreeCategoriesByIsland(islandType);
+          // A tree whose skills are all behind a feature flag is hidden.
+          const categories = getRevampSkillTreeCategoriesByIsland(
+            islandType,
+          ).filter(
+            (category) => getAvailableRevampSkills(category, state).length > 0,
+          );
           if (categories.length <= 0) return;
 
           return (
