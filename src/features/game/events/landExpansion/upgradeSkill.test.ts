@@ -297,6 +297,41 @@ describe("upgradeSkill", () => {
     });
   });
 
+  describe("Cave skills off testnet", () => {
+    let previousNetwork: (typeof CONFIG)["NETWORK"];
+
+    beforeEach(() => {
+      previousNetwork = CONFIG.NETWORK;
+      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+    });
+
+    afterEach(() => {
+      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
+    });
+
+    it("rejects upgrading a Cave skill", () => {
+      expect(() =>
+        upgradeSkill({
+          state: {
+            ...TEST_FARM,
+            island: { ...TEST_FARM.island, type: "spring" },
+            inventory: {
+              ...TEST_FARM.inventory,
+              "Ascension Shard": new Decimal(10),
+            },
+            bumpkin: {
+              ...INITIAL_BUMPKIN,
+              experience: LEVEL_EXPERIENCE[30],
+              skills: { "Lean Compost": 1 },
+            },
+          },
+          action: { type: "skill.upgraded", skill: "Lean Compost" },
+          createdAt: dateNow,
+        }),
+      ).toThrow("This skill is not available");
+    });
+  });
+
   describe("power-skill cooldown re-anchoring on upgrade", () => {
     // Instant Growth is a Tier 3 Crops power skill with a cooldown that shrinks
     // per rank: rank 1 = 72h, rank 2 = 60h. Upgrading while it is on cooldown

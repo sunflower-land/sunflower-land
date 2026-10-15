@@ -16,6 +16,9 @@ import {
   getCaveMushroomYield,
 } from "./digCaveTile";
 import type { Bud } from "features/game/types/buds";
+import { prngChance } from "lib/prng";
+import { KNOWN_IDS } from "features/game/types";
+import { getMushroomYield } from "features/game/lib/mushrooms";
 
 // The Cave building, placed and finished: every cave.* event requires it.
 const READY_CAVE = {
@@ -70,12 +73,14 @@ const dig = (
   {
     machineId = "1",
     createdAt = NOW,
-  }: { machineId?: string; createdAt?: number } = {},
+    farmId = 1,
+  }: { machineId?: string; createdAt?: number; farmId?: number } = {},
 ) =>
   digCaveTile({
     state,
     action: { type: "cave.dug", machineId, x, y },
     createdAt,
+    farmId,
   });
 
 describe("digCaveTile (cave.dug)", () => {
@@ -424,5 +429,182 @@ describe("getCaveMushroomYield: Wild Mushroom boosts", () => {
 
     expect(next.inventory["Magic Mushroom"]?.toNumber()).toBe(1.2);
     expect(next.boostsUsedAt?.["Bud #1"]).toBe(NOW);
+  });
+});
+
+describe("digCaveTile: Cave skills", () => {
+  const FARM_ID = 7;
+
+  const withSkills = (
+    skills: GameState["bumpkin"]["skills"],
+    state = readyState(),
+  ): GameState => ({ ...state, bumpkin: { ...state.bumpkin, skills } });
+
+  const withTilesDug = (state: GameState, count: number): GameState => ({
+    ...state,
+    farmActivity: { ...state.farmActivity, "Cave Tile Dug": count },
+  });
+
+  it("counts every tile dug in the farm activity", () => {
+    const once = dig(readyState(), 1, 0);
+    const twice = dig(once, 0, 0);
+    expect(once.farmActivity["Cave Tile Dug"]).toBe(1);
+    expect(twice.farmActivity["Cave Tile Dug"]).toBe(2);
+  });
+
+  it.each([
+    [1, 1.1],
+    [2, 1.2],
+    [3, 1.3],
+  ])("Muddy Bounty rank %s awards %s Mud from a Mud tile", (rank, mud) => {
+    const next = dig(withSkills({ "Muddy Bounty": rank }), 0, 0);
+    expect(next.inventory.Mud?.toNumber()).toBe(mud);
+    expect(next.boostsUsedAt?.["Muddy Bounty"]).toBe(NOW);
+  });
+
+  it("Muddy Bounty multiplies a Mud mix tile's double Mud", () => {
+    const layout = generateCavePatch({ recipe: "Mud", seed: SEED });
+    const mudKey = Object.keys(layout).find(
+      (key) => layout[key].type === "Mud",
+    )!;
+    const [x, y] = mudKey.split(",").map(Number);
+    const next = dig(
+      withSkills(
+        { "Muddy Bounty": 3 },
+        readyState({ batch: { recipe: "Mud" } }),
+      ),
+      x,
+      y,
+    );
+    expect(next.inventory.Mud?.toNumber()).toBe(2.6);
+  });
+
+  it("Muddy Bounty leaves Mushroom tiles alone", () => {
+    const next = dig(withSkills({ "Muddy Bounty": 3 }), 1, 0);
+    expect(next.inventory["Wild Mushroom"]?.toNumber()).toBe(1);
+    expect(next.boostsUsedAt?.["Muddy Bounty"]).toBeUndefined();
+  });
+
+  it.each([
+    [1, 1.2],
+    [2, 1.3],
+    [3, 1.4],
+  ])("Fungal Harvest rank %s yields %s Wild Mushrooms", (rank, amount) => {
+    expect(
+      getCaveMushroomYield({
+        name: "Wild Mushroom",
+        game: withSkills({ "Fungal Harvest": rank }),
+      }).amount,
+    ).toBe(amount);
+  });
+
+  it("Fungal Harvest boosts Magic Mushroom tiles too", () => {
+    const next = dig(withSkills({ "Fungal Harvest": 3 }), 0, 1);
+    expect(next.inventory["Magic Mushroom"]?.toNumber()).toBe(1.4);
+    expect(next.boostsUsedAt?.["Fungal Harvest"]).toBe(NOW);
+  });
+
+  it("Fungal Harvest adds to the Wild Mushroom boosts", () => {
+    const state = withSkills({ "Fungal Harvest": 3 });
+    expect(
+      getCaveMushroomYield({
+        name: "Wild Mushroom",
+        game: {
+          ...state,
+          collectibles: {
+            "Mushroom House": [
+              {
+                id: "1",
+                createdAt: 0,
+                coordinates: { x: 0, y: 0 },
+                readyAt: 0,
+              },
+            ],
+          },
+        },
+      }).amount,
+    ).toBe(1.6);
+  });
+
+  it("Fungal Harvest does not boost island Mushrooms", () => {
+    expect(
+      getMushroomYield({
+        name: "Wild Mushroom",
+        game: withSkills({ "Fungal Harvest": 3 }),
+      }).amount,
+    ).toBe(1);
+  });
+
+  it("Sturdy Shovel keeps the Sand Shovel exactly when its roll hits", () => {
+    let hits = 0;
+    for (let counter = 0; counter < 40; counter += 1) {
+      const hit = prngChance({
+        farmId: FARM_ID,
+        itemId: KNOWN_IDS["Sand Shovel"],
+        counter,
+        chance: 30,
+        criticalHitName: "Sturdy Shovel",
+      });
+      if (hit) hits += 1;
+
+      const next = dig(
+        withTilesDug(withSkills({ "Sturdy Shovel": 3 }), counter),
+        1,
+        0,
+        { farmId: FARM_ID },
+      );
+      expect(next.inventory["Sand Shovel"]?.toNumber()).toBe(hit ? 10 : 9);
+      expect(next.boostsUsedAt?.["Sturdy Shovel"]).toBe(hit ? NOW : undefined);
+    }
+    expect(hits).toBeGreaterThan(0);
+    expect(hits).toBeLessThan(40);
+  });
+
+  it("Sturdy Shovel still needs a Sand Shovel to dig", () => {
+    expect(() =>
+      dig(withSkills({ "Sturdy Shovel": 3 }, readyState({ shovels: 0 })), 1, 0),
+    ).toThrow(DIG_CAVE_TILE_ERRORS.NO_SHOVEL);
+  });
+
+  it("Twin Beetles adds one more of the Beetle exactly when its roll hits", () => {
+    let hits = 0;
+    for (let counter = 0; counter < 60; counter += 1) {
+      const hit = prngChance({
+        farmId: FARM_ID,
+        itemId: KNOWN_IDS["Green Beetle"],
+        counter,
+        chance: 15,
+        criticalHitName: "Twin Beetles",
+      });
+      if (hit) hits += 1;
+
+      // (3,3) is a Green Beetle on this board.
+      const next = dig(
+        withTilesDug(withSkills({ "Twin Beetles": 3 }), counter),
+        3,
+        3,
+        { farmId: FARM_ID },
+      );
+      expect(next.inventory["Green Beetle"]?.toNumber()).toBe(hit ? 2 : 1);
+      expect(next.boostsUsedAt?.["Twin Beetles"]).toBe(hit ? NOW : undefined);
+    }
+    expect(hits).toBeGreaterThan(0);
+    expect(hits).toBeLessThan(60);
+  });
+
+  it("Twin Beetles never doubles a Mushroom or Mud tile", () => {
+    // Twin Beetles at 100% would still only touch Beetle tiles; at rank 3 any
+    // extra item on these tiles would come from it.
+    for (let counter = 0; counter < 20; counter += 1) {
+      const state = withTilesDug(withSkills({ "Twin Beetles": 3 }), counter);
+      expect(
+        dig(state, 1, 0, { farmId: FARM_ID }).inventory[
+          "Wild Mushroom"
+        ]?.toNumber(),
+      ).toBe(1);
+      expect(
+        dig(state, 0, 0, { farmId: FARM_ID }).inventory.Mud?.toNumber(),
+      ).toBe(1);
+    }
   });
 });

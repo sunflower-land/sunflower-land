@@ -4,6 +4,7 @@ import {
   canRestartCaveBatch,
   generateCavePatch,
   getCaveBeetleProgress,
+  getCavePatchComposition,
   getUndugCaveTiles,
   isCaveSeed,
   getCaveTileClue,
@@ -409,5 +410,127 @@ describe("getUndugCaveTiles", () => {
   });
 });
 
+describe("Cave board skills", () => {
+  const SKILLS = { extraMushroomTiles: 2, extraBeetleTiles: 3 };
+  const ALL_AMBER = {
+    "Green Beetle": 0,
+    "Blue Beetle": 0,
+    "Pink Beetle": 0,
+    "Amber Beetle": 100,
+  };
+
+  /** toRows with every Beetle as "B", so rarity changes do not show. */
+  const toShape = (layout: CavePatchLayout) =>
+    toRows(layout).map((row) => row.replace(/[bupa]/g, "B"));
+
+  it.each(RECIPES)("keeps the recipe composition without skills (%s)", (r) => {
+    expect(getCavePatchComposition(r)).toEqual(CAVE_RECIPES[r].composition);
+  });
+
+  it.each(RECIPES)(
+    "adds Mushroom and Beetle tiles in place of Mud (%s)",
+    (recipe) => {
+      const { Mushroom, Beetle, Mud } = CAVE_RECIPES[recipe].composition;
+      const expected = {
+        Mushroom: Mushroom + 2,
+        Beetle: Beetle + 3,
+        Mud: Mud - 5,
+      };
+
+      expect(getCavePatchComposition(recipe, SKILLS)).toEqual(expected);
+      for (let seed = 1; seed <= 20; seed += 1) {
+        expect(
+          countByType(
+            generateCavePatch({ recipe, seed: hexSeed(seed), skills: SKILLS }),
+          ),
+        ).toEqual(expected);
+      }
+    },
+  );
+
+  it("rolls Beetles from the batch's rarity table", () => {
+    for (let seed = 1; seed <= 20; seed += 1) {
+      const layout = generateCavePatch({
+        recipe: "Beetle",
+        seed: hexSeed(seed),
+        skills: { beetleRarity: ALL_AMBER },
+      });
+      for (const tile of Object.values(layout)) {
+        if (tile.type === "Beetle") expect(tile.beetle).toBe("Amber Beetle");
+      }
+    }
+  });
+
+  it("changes only the Beetle rarities, not where tiles lie", () => {
+    for (let seed = 1; seed <= 20; seed += 1) {
+      expect(
+        toShape(
+          generateCavePatch({
+            recipe: "Mushroom",
+            seed: hexSeed(seed),
+            skills: { beetleRarity: ALL_AMBER },
+          }),
+        ),
+      ).toEqual(
+        toShape(generateCavePatch({ recipe: "Mushroom", seed: hexSeed(seed) })),
+      );
+    }
+  });
+
+  it("builds the same skilled golden board in both repos", () => {
+    expect(
+      toRows(
+        generateCavePatch({
+          recipe: "Mushroom",
+          seed: MUSHROOM_SEED,
+          skills: {
+            extraMushroomTiles: 3,
+            extraBeetleTiles: 3,
+            beetleRarity: {
+              "Green Beetle": 25,
+              "Blue Beetle": 25,
+              "Pink Beetle": 25,
+              "Amber Beetle": 25,
+            },
+          },
+        }),
+      ),
+    ).toEqual(GOLDEN_SKILLED_MUSHROOM);
+  });
+
+  it("counts the extra Beetle tiles towards finding every Beetle", () => {
+    const seed = hexSeed(99);
+    const skills = { extraBeetleTiles: 2 };
+    const layout = generateCavePatch({ recipe: "Beetle", seed, skills });
+    const beetleKeys = Object.keys(layout).filter(
+      (key) => layout[key].type === "Beetle",
+    );
+    const batch = (dug: string[]) => ({
+      recipe: "Beetle" as const,
+      startedAt: 0,
+      readyAt: 1,
+      seed,
+      skills,
+      dug: Object.fromEntries(dug.map((key) => [key, { dugAt: 1 }])),
+    });
+
+    expect(beetleKeys).toHaveLength(6);
+    expect(getCaveBeetleProgress(batch(beetleKeys.slice(0, 4)))).toEqual({
+      found: 4,
+      total: 6,
+    });
+    expect(canRestartCaveBatch(batch(beetleKeys.slice(0, 5)))).toBe(false);
+    expect(canRestartCaveBatch(batch(beetleKeys))).toBe(true);
+    expect(getUndugCaveTiles(batch(beetleKeys))).toEqual({
+      Mushroom: 3,
+      Beetle: 0,
+      Mud: 16,
+    });
+  });
+});
+
+// MUSHROOM_SEED at max-rank Mushroom Bloom, Beetle Nest and Rare Breeds:
+// 9 Mushrooms (2 Magic), 5 Beetles and 11 Mud.
+const GOLDEN_SKILLED_MUSHROOM = ["DMpGu", "MMMaD", "DDGDD", "DuMMu", "DDDMD"];
 const GOLDEN_MUSHROOM = ["DMDMD", "GMMDD", "DDDDD", "DDMbD", "DDDpD"];
 const GOLDEN_BEETLE = ["DMDDb", "DDDDb", "MMbDD", "DuDDD", "DDDDD"];

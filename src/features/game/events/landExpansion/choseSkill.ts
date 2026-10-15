@@ -119,6 +119,11 @@ export const SKILL_POINTS_PER_TIER: Record<
     2: 3,
     3: 7,
   },
+  Cave: {
+    1: 0,
+    2: 3,
+    3: 7,
+  },
 };
 
 export const getUnlockedTierForTree = (

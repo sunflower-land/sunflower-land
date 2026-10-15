@@ -10,18 +10,22 @@ import type {
   CaveTileType,
 } from "features/game/types/caveRecipes";
 import {
-  CAVE_BATCH_DURATION_MS,
   CAVE_MUD_CROPS,
   CAVE_RECIPES,
-  getCaveBatchIngredients,
   isCavePatchCleared,
 } from "features/game/types/caveRecipes";
 import {
   canRestartCaveBatch,
   getCaveBeetleProgress,
+  getCavePatchComposition,
   getUndugCaveTiles,
 } from "features/game/types/cavePatch";
-import type { Inventory, InventoryItemName } from "features/game/types/game";
+import type { GameState, InventoryItemName } from "features/game/types/game";
+import {
+  getCaveBatchCost,
+  getCaveBatchDuration,
+  getCaveBatchSkills,
+} from "features/game/lib/cave";
 import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -44,13 +48,18 @@ import fastForward from "assets/icons/fast_forward.png";
 const RECIPE_NAMES = getKeys(CAVE_RECIPES);
 const MUD_CROPS = getKeys(CAVE_MUD_CROPS);
 
-const canAffordMudCrop = (inventory: Inventory, crop: CaveMudCropName) =>
-  (inventory[crop] ?? new Decimal(0)).gte(CAVE_MUD_CROPS[crop]);
+/** Whether the player can feed a Mud batch this crop (after Cave skills). */
+const canAffordMudCrop = (game: GameState, crop: CaveMudCropName) => {
+  const required =
+    getCaveBatchCost({ game, recipe: "Mud", crop })?.ingredients[crop] ??
+    new Decimal(CAVE_MUD_CROPS[crop]);
+  return (game.inventory[crop] ?? new Decimal(0)).gte(required);
+};
 
 /** Every Mud crop in table order, the ones the player can afford first. */
-const sortMudCrops = (inventory: Inventory) => [
-  ...MUD_CROPS.filter((crop) => canAffordMudCrop(inventory, crop)),
-  ...MUD_CROPS.filter((crop) => !canAffordMudCrop(inventory, crop)),
+const sortMudCrops = (game: GameState) => [
+  ...MUD_CROPS.filter((crop) => canAffordMudCrop(game, crop)),
+  ...MUD_CROPS.filter((crop) => !canAffordMudCrop(game, crop)),
 ];
 
 /** A representative item image for each recipe / buried tile kind. */
@@ -86,8 +95,8 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
 
   const [selected, setSelected] = useState<CaveRecipeName>("Mushroom");
   const [crop, setCrop] = useState<CaveMudCropName>(() => {
-    const [first] = sortMudCrops(game.inventory);
-    return canAffordMudCrop(game.inventory, first) ? first : "Carrot";
+    const [first] = sortMudCrops(game);
+    return canAffordMudCrop(game, first) ? first : "Carrot";
   });
   const [showConfirm, setShowConfirm] = useState(false);
   const [showReplaceConfirm, setShowReplaceConfirm] = useState(false);
@@ -104,11 +113,17 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
   const isGrowing = !!batch && !isIdle && !isReady;
   const beetles = batch ? getCaveBeetleProgress(batch) : undefined;
 
-  const buriedCounts = CAVE_RECIPES[selected].composition;
+  // What a new batch would bury and cost, with the player's Cave skills.
+  const buriedCounts = getCavePatchComposition(
+    selected,
+    getCaveBatchSkills(game).skills,
+  );
 
   // Only a Mud batch takes a crop; the others have fixed inputs.
   const batchCrop = selected === "Mud" ? crop : undefined;
-  const ingredients = getCaveBatchIngredients(selected, batchCrop) ?? {};
+  const ingredients =
+    getCaveBatchCost({ game, recipe: selected, crop: batchCrop })
+      ?.ingredients ?? {};
   const canAfford = getKeys(ingredients).every((item) =>
     (game.inventory[item] ?? new Decimal(0)).gte(
       ingredients[item] ?? new Decimal(0),
@@ -194,7 +209,7 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
                   {t("cave.batch.chooseCrop")}
                 </Label>
                 <div className="flex flex-wrap justify-center mb-2">
-                  {sortMudCrops(game.inventory).map((name) => (
+                  {sortMudCrops(game).map((name) => (
                     <Box
                       key={name}
                       image={ITEM_DETAILS[name].image}
@@ -219,7 +234,7 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
               ))}
               <RequirementLabel
                 type="time"
-                waitSeconds={CAVE_BATCH_DURATION_MS / 1000}
+                waitSeconds={getCaveBatchDuration(game).duration / 1000}
               />
             </div>
 

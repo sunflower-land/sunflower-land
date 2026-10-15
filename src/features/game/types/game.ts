@@ -1916,6 +1916,22 @@ export type CaveBatch = {
   seed?: string;
   /** Dug tiles keyed "x,y"; what each held is derived from the seed. */
   dug?: Record<string, CaveDugTile>;
+  /** The board-shaping Cave skills this batch started with. */
+  skills?: CaveBatchSkills;
+};
+
+/**
+ * Cave skills that shape a batch's board, snapshotted when the batch starts so
+ * a board never changes once it is seeded (a later rank-up cannot move tiles
+ * that were already dug). Absent when none applied.
+ */
+export type CaveBatchSkills = {
+  /** Mushroom Bloom: Mushroom tiles added in place of Mud. */
+  extraMushroomTiles?: number;
+  /** Beetle Nest: Beetle tiles added in place of Mud. */
+  extraBeetleTiles?: number;
+  /** Rare Breeds: Beetle rarity weights (percent) replacing the base table. */
+  beetleRarity?: Record<BeetleName, number>;
 };
 
 export type CaveDugTile = { dugAt: number };

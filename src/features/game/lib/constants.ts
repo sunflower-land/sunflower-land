@@ -202,6 +202,25 @@ export const INITIAL_STOCK = (
     );
   }
 
+  const treasureTools: Record<TreasureToolName, Decimal> = {
+    "Sand Shovel": new Decimal(50),
+    "Sand Drill": new Decimal(10),
+  };
+
+  // Tool Hoarder: +50% / +100% / +200% Sand Shovel & Sand Drill stock
+  const toolHoarderLevel = state?.bumpkin
+    ? getSkillLevel(state.bumpkin.skills, "Tool Hoarder")
+    : 0;
+  if (toolHoarderLevel) {
+    const { ranks } = SKILL_RANKS["Tool Hoarder"];
+    treasureTools["Sand Shovel"] = treasureTools["Sand Shovel"].add(
+      ranks["Sand Shovel"]?.[toolHoarderLevel - 1] ?? 0,
+    );
+    treasureTools["Sand Drill"] = treasureTools["Sand Drill"].add(
+      ranks["Sand Drill"]?.[toolHoarderLevel - 1] ?? 0,
+    );
+  }
+
   const restockables: Record<StockableName, Decimal> = {
     // Tools
     ...tools,
@@ -210,8 +229,7 @@ export const INITIAL_STOCK = (
     ...seeds,
 
     // Treasure Tools
-    "Sand Shovel": new Decimal(50),
-    "Sand Drill": new Decimal(10),
+    ...treasureTools,
   };
 
   return restockables;

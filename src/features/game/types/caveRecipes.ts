@@ -14,9 +14,9 @@ export const CAVE_DIG_SHOVEL_COST = 1;
 export const CAVE_DRILL_COST = 1;
 
 /**
- * How long a batch grows before its patch is ready to dig. Fixed 12h — existing
- * time boosts (shrines, hourglasses, SPEED_BOOSTS) do NOT apply; only the future
- * Cave skill will shorten it.
+ * How long a batch grows before its patch is ready to dig, before Cave skills.
+ * Existing time boosts (shrines, hourglasses, SPEED_BOOSTS) do NOT apply; only
+ * the Rapid Mycelium Cave skill shortens it (`getCaveBatchDuration`).
  */
 export const CAVE_BATCH_DURATION_MS = 12 * 60 * 60 * 1000;
 
@@ -37,7 +37,7 @@ export type CaveRecipe = {
   /**
    * Fixed inputs consumed to start a batch. Empty for the Mud recipe, whose
    * input is one crop the player picks (`CAVE_MUD_CROPS`) — read a batch's
-   * cost through `getCaveBatchIngredients`, never from here directly.
+   * cost through `getCaveBatchCost` (Cave skills included), never from here.
    */
   ingredients: Partial<Record<InventoryItemName, Decimal>>;
 };

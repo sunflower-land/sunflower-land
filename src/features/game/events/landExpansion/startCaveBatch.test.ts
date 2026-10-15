@@ -6,6 +6,7 @@ import {
   CAVE_MUD_CROPS,
 } from "features/game/types/caveRecipes";
 import { getKeys } from "lib/object";
+import { getCavePatchComposition } from "features/game/types/cavePatch";
 import {
   START_CAVE_BATCH_ERRORS,
   type StartCaveBatchAction,
@@ -278,5 +279,135 @@ describe("startCaveBatch (cave.batchStarted)", () => {
     expect(() => start(before)).toThrow();
     expect(before.inventory.Wood?.toNumber()).toBe(0);
     expect(before.cave?.machines["1"].batch).toBeUndefined();
+  });
+});
+
+describe("startCaveBatch: Cave skills", () => {
+  const NOW = new Date("2026-10-15T00:00:00.000Z").getTime();
+
+  const skilled = (
+    skills: GameState["bumpkin"]["skills"],
+    inventory: GameState["inventory"] = {},
+  ): GameState => {
+    const state = caveState();
+    return {
+      ...state,
+      bumpkin: { ...state.bumpkin, skills },
+      inventory: { ...state.inventory, ...inventory },
+    };
+  };
+
+  const batchOf = (state: GameState) => state.cave?.machines["1"].batch;
+
+  it.each([
+    [1, 9.5],
+    [2, 9],
+    [3, 8.5],
+  ])(
+    "Lean Compost rank %s charges %s Wood for a Mushroom batch",
+    (rank, wood) => {
+      const next = start(
+        skilled({ "Lean Compost": rank }),
+        "1",
+        "Mushroom",
+        NOW,
+      );
+      expect(next.inventory.Wood?.toNumber()).toBe(100 - wood);
+    },
+  );
+
+  it.each([
+    [1, 475],
+    [2, 450],
+    [3, 425],
+  ])(
+    "Lean Compost rank %s charges %s Sunflowers for a Mud batch",
+    (rank, n) => {
+      const next = startMud(skilled({ "Lean Compost": rank }), "Sunflower");
+      expect(next.inventory.Sunflower?.toNumber()).toBe(1000 - n);
+    },
+  );
+
+  it("Lean Compost lets a batch start with only the reduced ingredients", () => {
+    const state = skilled({ "Lean Compost": 3 }, { Wood: new Decimal(8.5) });
+    const next = start(state, "1", "Mushroom", NOW);
+    expect(next.inventory.Wood?.toNumber()).toBe(0);
+  });
+
+  it.each([
+    [1, 10.8],
+    [2, 9],
+    [3, 6],
+  ])("Rapid Mycelium rank %s grows a batch in %sh", (rank, hours) => {
+    const next = start(skilled({ "Rapid Mycelium": rank }), "1", "Beetle", NOW);
+    expect(batchOf(next)?.readyAt).toBe(NOW + hours * 60 * 60 * 1000);
+  });
+
+  it("snapshots the board-shaping skills onto the batch", () => {
+    const next = start(
+      skilled({ "Mushroom Bloom": 2, "Beetle Nest": 3, "Rare Breeds": 1 }),
+      "1",
+      "Mushroom",
+      NOW,
+    );
+    expect(batchOf(next)?.skills).toEqual({
+      extraMushroomTiles: 2,
+      extraBeetleTiles: 3,
+      beetleRarity: {
+        "Green Beetle": 35,
+        "Blue Beetle": 35,
+        "Pink Beetle": 15,
+        "Amber Beetle": 15,
+      },
+    });
+  });
+
+  it("snapshots only the board-shaping skills the player has", () => {
+    const next = start(skilled({ "Beetle Nest": 1 }), "1", "Mushroom", NOW);
+    expect(batchOf(next)?.skills).toEqual({ extraBeetleTiles: 1 });
+  });
+
+  it("stores no skills on a batch started without any", () => {
+    const next = start(skilled({ "Lean Compost": 1 }), "1", "Mushroom", NOW);
+    expect(batchOf(next)).not.toHaveProperty("skills");
+  });
+
+  it("records the Cave skills used to start a batch", () => {
+    const next = start(
+      skilled({
+        "Lean Compost": 1,
+        "Rapid Mycelium": 1,
+        "Mushroom Bloom": 1,
+        "Beetle Nest": 1,
+        "Rare Breeds": 1,
+      }),
+      "1",
+      "Mushroom",
+      NOW,
+    );
+    expect(next.boostsUsedAt).toMatchObject({
+      "Lean Compost": NOW,
+      "Rapid Mycelium": NOW,
+      "Mushroom Bloom": NOW,
+      "Beetle Nest": NOW,
+      "Rare Breeds": NOW,
+    });
+  });
+
+  it("keeps every patch at 25 tiles with at least one Mud at max ranks", () => {
+    const next = start(
+      skilled({ "Mushroom Bloom": 3, "Beetle Nest": 3 }),
+      "1",
+      "Mushroom",
+      NOW,
+    );
+    for (const recipe of ["Mushroom", "Beetle", "Mud"] as const) {
+      const composition = getCavePatchComposition(
+        recipe,
+        batchOf(next)?.skills,
+      );
+      expect(Object.values(composition).reduce((a, b) => a + b, 0)).toBe(25);
+      expect(composition.Mud).toBeGreaterThan(0);
+    }
   });
 });

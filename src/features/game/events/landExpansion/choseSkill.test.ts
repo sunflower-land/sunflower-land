@@ -295,6 +295,96 @@ describe("choseSkill", () => {
     });
   });
 
+  describe("Cave skills", () => {
+    const caveFarm = (
+      skills: GameState["bumpkin"]["skills"] = {},
+      island: GameState["island"]["type"] = "spring",
+    ): GameState => ({
+      ...TEST_FARM,
+      island: { ...TEST_FARM.island, type: island },
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        experience: LEVEL_EXPERIENCE[30],
+        skills,
+      },
+    });
+
+    const choose = (
+      skill: "Lean Compost" | "Fungal Harvest" | "Rare Breeds",
+      state: GameState,
+    ) =>
+      choseSkill({
+        state,
+        action: { type: "skill.chosen", skill },
+        createdAt: dateNow,
+      });
+
+    it("claims a tier 1 Cave skill on Spring island", () => {
+      expect(
+        choose("Lean Compost", caveFarm()).bumpkin.skills["Lean Compost"],
+      ).toEqual(1);
+    });
+
+    it("is locked before Spring island", () => {
+      expect(() => choose("Lean Compost", caveFarm({}, "basic"))).toThrow(
+        "You are not at the correct island!",
+      );
+    });
+
+    it("needs 3 Cave points spent for tier 2", () => {
+      const twoPoints = { "Lean Compost": 1, "Rapid Mycelium": 1 };
+      expect(() => choose("Fungal Harvest", caveFarm(twoPoints))).toThrow(
+        "You need to unlock tier 2 first",
+      );
+
+      const threePoints = { ...twoPoints, "Mushroom Bloom": 1 };
+      expect(
+        choose("Fungal Harvest", caveFarm(threePoints)).bumpkin.skills[
+          "Fungal Harvest"
+        ],
+      ).toEqual(1);
+    });
+
+    it("needs 7 Cave points spent for tier 3", () => {
+      // 3 tier-1 skills + 1 tier-2 skill = 5 points.
+      const fivePoints = {
+        "Lean Compost": 1,
+        "Rapid Mycelium": 1,
+        "Mushroom Bloom": 1,
+        "Fungal Harvest": 1,
+      };
+      expect(() => choose("Rare Breeds", caveFarm(fivePoints))).toThrow(
+        "You need to unlock tier 3 first",
+      );
+
+      const sevenPoints = { ...fivePoints, "Beetle Nest": 1 };
+      expect(
+        choose("Rare Breeds", caveFarm(sevenPoints)).bumpkin.skills[
+          "Rare Breeds"
+        ],
+      ).toEqual(1);
+    });
+
+    describe("off testnet", () => {
+      let previousNetwork: (typeof CONFIG)["NETWORK"];
+
+      beforeEach(() => {
+        previousNetwork = CONFIG.NETWORK;
+        (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+      });
+
+      afterEach(() => {
+        (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
+      });
+
+      it("rejects every Cave skill", () => {
+        expect(() => choose("Lean Compost", caveFarm())).toThrow(
+          "This skill is not available",
+        );
+      });
+    });
+  });
+
   describe("getAvailableBumpkinSkillPoints", () => {
     it("makes sure level 1 bumpkin with no skills has 1 skill point", () => {
       const result = getAvailableBumpkinSkillPoints({

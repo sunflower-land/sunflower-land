@@ -214,6 +214,35 @@ describe("INITIAL_STOCK", () => {
     expect(INITIAL_STOCK(state)["Gold Pickaxe"]).toEqual(new Decimal(13));
   });
 
+  it("stocks 50 Sand Shovels and 10 Sand Drills without Tool Hoarder", () => {
+    expect(INITIAL_STOCK(ESTABLISHED_FARM)["Sand Shovel"]).toEqual(
+      new Decimal(50),
+    );
+    expect(INITIAL_STOCK(ESTABLISHED_FARM)["Sand Drill"]).toEqual(
+      new Decimal(10),
+    );
+  });
+
+  it.each([
+    [1, 75, 15],
+    [2, 100, 20],
+    [3, 150, 30],
+  ])(
+    "Tool Hoarder rank %s stocks %s Sand Shovels and %s Sand Drills",
+    (rank, shovels, drills) => {
+      const state = {
+        ...ESTABLISHED_FARM,
+        bumpkin: {
+          ...ESTABLISHED_FARM.bumpkin,
+          skills: { "Tool Hoarder": rank },
+        },
+      };
+
+      expect(INITIAL_STOCK(state)["Sand Shovel"]).toEqual(new Decimal(shovels));
+      expect(INITIAL_STOCK(state)["Sand Drill"]).toEqual(new Decimal(drills));
+    },
+  );
+
   it("increases stock of tools if Toolshed is placed and ready and More Picks skill is active", () => {
     const state = {
       ...ESTABLISHED_FARM,

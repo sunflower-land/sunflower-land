@@ -6,6 +6,8 @@ import {
   GOLDEN_SUNFLOWER_DISPLAY,
   type UpgradeableSkillName,
 } from "features/game/types/bumpkinSkills";
+import { BEETLES } from "features/game/types/beetles";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 // Float-safe fraction/multiplier -> percentage. Raw JS drops precision here
 // (e.g. 0.55 * 100 = 55.00000000000001), and the panel interpolates the number
@@ -30,7 +32,13 @@ export const getSkillRankDescription = (
   name: UpgradeableSkillName,
   rank: number,
   t: ReturnType<typeof useAppTranslation>["t"],
-): { buff: string | string[]; debuff?: string } => {
+): {
+  buff: string | string[];
+  // Per-line item icons for a multi-line buff, replacing the skill's single
+  // boosted-item icon (e.g. each Beetle's own image for Rare Breeds).
+  buffIcons?: string[];
+  debuff?: string;
+} => {
   const i = rank - 1;
 
   switch (name) {
@@ -1082,6 +1090,77 @@ export const getSkillRankDescription = (
             isShortFormat: true,
             removeTrailingZeros: true,
           }),
+        }),
+      };
+    case "Lean Compost":
+      return {
+        buff: t("skill.leanCompost.ranked", {
+          value: SKILL_RANKS["Lean Compost"].ranks[i],
+        }),
+      };
+    case "Rapid Mycelium":
+      return {
+        buff: t("skill.rapidMycelium.ranked", {
+          value: SKILL_RANKS["Rapid Mycelium"].ranks[i],
+        }),
+      };
+    case "Mushroom Bloom":
+      return {
+        buff: t("skill.mushroomBloom.ranked", {
+          value: SKILL_RANKS["Mushroom Bloom"].ranks[i],
+        }),
+      };
+    case "Muddy Bounty":
+      return {
+        buff: t("skill.muddyBounty.ranked", {
+          value: toPercent(SKILL_RANKS["Muddy Bounty"].ranks[i]),
+        }),
+      };
+    case "Sturdy Shovel":
+      return {
+        buff: t("skill.sturdyShovel.ranked", {
+          value: SKILL_RANKS["Sturdy Shovel"].ranks[i],
+        }),
+      };
+    case "Fungal Harvest":
+      return {
+        buff: t("skill.fungalHarvest.ranked", {
+          value: SKILL_RANKS["Fungal Harvest"].ranks[i],
+        }),
+      };
+    case "Beetle Nest":
+      return {
+        buff: t("skill.beetleNest.ranked", {
+          value: SKILL_RANKS["Beetle Nest"].ranks[i],
+        }),
+      };
+    case "Sturdy Drill":
+      return {
+        buff: t("skill.sturdyDrill.ranked", {
+          value: SKILL_RANKS["Sturdy Drill"].ranks[i],
+        }),
+      };
+    case "Tool Hoarder":
+      return {
+        buff: t("skill.toolHoarder.ranked", {
+          shovel: SKILL_RANKS["Tool Hoarder"].ranks["Sand Shovel"]?.[i] ?? 0,
+          drill: SKILL_RANKS["Tool Hoarder"].ranks["Sand Drill"]?.[i] ?? 0,
+        }),
+      };
+    case "Rare Breeds": {
+      const odds = SKILL_RANKS["Rare Breeds"].ranks[i];
+      // One label per Beetle, commonest first.
+      return {
+        buff: BEETLES.map((beetle) =>
+          t("skill.rareBreeds.ranked", { beetle, value: odds[beetle] }),
+        ),
+        buffIcons: BEETLES.map((beetle) => ITEM_DETAILS[beetle].image),
+      };
+    }
+    case "Twin Beetles":
+      return {
+        buff: t("skill.twinBeetles.ranked", {
+          value: SKILL_RANKS["Twin Beetles"].ranks[i],
         }),
       };
   }
