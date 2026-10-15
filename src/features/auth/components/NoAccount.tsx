@@ -40,6 +40,42 @@ export const NoAccount: React.FC = () => {
   const [showBumpkinModal, setShowBumpkinModal] = useState(false);
   const [validationState, setValidationState] = useState<ValidationState>();
   const [showClaimAccount, setShowClaimAccount] = useState(false);
+  const [createNewFarm, setCreateNewFarm] = useState(false);
+
+  const address = authState.context.user.token?.address ?? "";
+  const hasWallet = isAddress(address);
+
+  // Farm NFTs owned by the connected wallet. `undefined` while loading so a
+  // player who already owns a farm is offered it before creating a new one.
+  const [nftTokenIds, setNftTokenIds] = useState<number[] | undefined>(
+    hasWallet ? undefined : [],
+  );
+
+  useEffect(() => {
+    if (!hasWallet) return;
+
+    let cancelled = false;
+
+    const load = async () => {
+      try {
+        const farms = await getFarms(address as `0x${string}`);
+
+        if (!cancelled) {
+          setNftTokenIds(farms.map((farm) => Number(farm.tokenId)));
+        }
+      } catch {
+        // Fall back to the regular flow if the lookup fails
+        if (!cancelled) setNftTokenIds([]);
+      }
+    };
+
+    load();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [address, hasWallet]);
+
   const handleCreateFarm = () => {
     if (!referralId) {
       setShowEmptyReferralModal(true);
@@ -160,6 +196,22 @@ export const NoAccount: React.FC = () => {
     return <SignupBumpkinEquip onSave={handleBumpkinSave} />;
   }
 
+  if (nftTokenIds === undefined) {
+    return <Loading />;
+  }
+
+  if (nftTokenIds.length > 0 && !createNewFarm) {
+    return (
+      <ClaimAccount
+        tokenIds={nftTokenIds}
+        message={t("noaccount.nftFarmsFound")}
+        backLabel={t("noaccount.createNewFarm")}
+        onBack={() => setCreateNewFarm(true)}
+        onClaim={(id) => authService.send("CLAIM", { id })}
+      />
+    );
+  }
+
   return (
     <>
       <div className="px-2">
@@ -191,7 +243,7 @@ export const NoAccount: React.FC = () => {
       <div className="flex flex-col space-y-2">
         <span className="px-2 text-sm">{t("noaccount.welcomeMessage")}</span>
         <div className="flex space-x-1 mt-2.5">
-          {isAddress(authState.context.user.token?.address ?? "") && (
+          {hasWallet && (
             <Button onClick={() => setShowClaimAccount(true)}>
               {t("noaccount.haveFarm")}
             </Button>
@@ -219,15 +271,21 @@ export const NoAccount: React.FC = () => {
 export const ClaimAccount: React.FC<{
   onClaim: (id: number) => void;
   onBack: () => void;
-}> = ({ onBack, onClaim }) => {
+  /** Farm NFT ids already loaded by the parent; skips the on-chain lookup */
+  tokenIds?: number[];
+  message?: string;
+  backLabel?: string;
+}> = ({ onBack, onClaim, tokenIds: preloadedTokenIds, message, backLabel }) => {
   const { authService } = useContext(Context);
   const [authState] = useActor(authService);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [tokenIds, setTokenIds] = useState<number[]>([]);
+  const [tokenIds, setTokenIds] = useState<number[]>(preloadedTokenIds ?? []);
   const { t } = useAppTranslation();
 
   useEffect(() => {
+    if (preloadedTokenIds) return;
+
     const load = async () => {
       setIsLoading(true);
 
@@ -259,7 +317,7 @@ export const ClaimAccount: React.FC<{
   return (
     <>
       <div className="p-1">
-        <p className="m-1 text-sm">{t("noaccount.selectNFTID")}</p>
+        <p className="m-1 text-sm">{message ?? t("noaccount.selectNFTID")}</p>
         {tokenIds.map((id) => (
           <OuterPanel
             className={
@@ -272,7 +330,7 @@ export const ClaimAccount: React.FC<{
           </OuterPanel>
         ))}
       </div>
-      <Button onClick={onBack}>{t("back")}</Button>
+      <Button onClick={onBack}>{backLabel ?? t("back")}</Button>
     </>
   );
 };
