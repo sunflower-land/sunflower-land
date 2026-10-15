@@ -26,7 +26,6 @@ import {
 } from "features/game/expansion/placeable/lib/caveLayout";
 import { isCavePatchCleared } from "features/game/types/caveRecipes";
 import { getNextCaveTier } from "features/game/types/caveTiers";
-import { CAVE_MERCHANT_TIER } from "features/game/types/caveMerchant";
 import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import { secondsToString } from "lib/utils/time";
 import { CaveMachineModal } from "./components/CaveMachineModal";
@@ -111,7 +110,6 @@ export const Cave: React.FC = () => {
     : undefined;
   const construction = cave.construction;
   const constructionReady = !!construction && construction.readyAt <= now;
-  const merchantOpen = cave.tier >= CAVE_MERCHANT_TIER;
 
   return (
     <div className="absolute inset-0 bg-[#181425] overflow-hidden">
@@ -158,20 +156,18 @@ export const Cave: React.FC = () => {
 
               {/* Goblin Cave Merchant beside the entrance arch, under his sign. A
               native button so keyboard users can reach him. */}
-              {merchantOpen && (
-                <button
-                  type="button"
-                  aria-label={t("cave.merchant.title")}
-                  className="absolute cursor-pointer bg-transparent border-0 p-0 hover:img-highlight"
-                  style={{
-                    left: `${(CAVE_MERCHANT_ALCOVE.x + 5) * GRID_WIDTH_PX}px`,
-                    top: `${(CAVE_MERCHANT_ALCOVE.y + 2) * GRID_WIDTH_PX}px`,
-                  }}
-                  onClick={() => setShowMerchant(true)}
-                >
-                  <NPCPlaceable parts={NPC_WEARABLES.gloomwick} flipped />
-                </button>
-              )}
+              <button
+                type="button"
+                aria-label={t("cave.merchant.title")}
+                className="absolute cursor-pointer bg-transparent border-0 p-0 hover:img-highlight"
+                style={{
+                  left: `${(CAVE_MERCHANT_ALCOVE.x + 5) * GRID_WIDTH_PX}px`,
+                  top: `${(CAVE_MERCHANT_ALCOVE.y + 2) * GRID_WIDTH_PX}px`,
+                }}
+                onClick={() => setShowMerchant(true)}
+              >
+                <NPCPlaceable parts={NPC_WEARABLES.gloomwick} flipped />
+              </button>
 
               {slots.map((id) => {
                 const slot = CAVE_SLOTS[id];
@@ -278,7 +274,7 @@ export const Cave: React.FC = () => {
         <CaveExpansionModal onClose={() => setShowExpansion(false)} />
       )}
 
-      {showMerchant && merchantOpen && (
+      {showMerchant && (
         <CaveMerchantModal onClose={() => setShowMerchant(false)} />
       )}
 
