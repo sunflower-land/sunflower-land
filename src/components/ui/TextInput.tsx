@@ -67,7 +67,8 @@ export const TextInput: React.FC<Props> = ({
           onValueChange(e.target.value);
         }}
         onKeyDown={(e) => {
-          if (e.key === "Enter" && onEnter) {
+          // Ignore the Enter that confirms an IME candidate.
+          if (e.key === "Enter" && !e.nativeEvent.isComposing && onEnter) {
             e.preventDefault();
             onEnter();
           }
