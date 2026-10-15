@@ -15,6 +15,9 @@ type Props = {
   icon?: string;
   placeholder?: string;
   maxLength?: number;
+  autoFocus?: boolean;
+  /** Called when Enter is pressed in the field. */
+  onEnter?: () => void;
 };
 
 export const TextInput: React.FC<Props> = ({
@@ -25,6 +28,8 @@ export const TextInput: React.FC<Props> = ({
   placeholder,
   onCancel,
   maxLength,
+  autoFocus,
+  onEnter,
 }) => {
   const { t } = useAppTranslation();
 
@@ -57,8 +62,15 @@ export const TextInput: React.FC<Props> = ({
         placeholder={placeholder ?? t("searchHere")}
         value={value}
         maxLength={maxLength}
+        autoFocus={autoFocus}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
           onValueChange(e.target.value);
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" && onEnter) {
+            e.preventDefault();
+            onEnter();
+          }
         }}
         onFocus={() => setIsFocused(true)} // Set focus state to true
         onBlur={() => setIsFocused(false)} // Set focus state to false

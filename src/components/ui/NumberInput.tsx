@@ -18,6 +18,11 @@ type Props = {
   icon?: string;
   readOnly?: boolean;
   allowNegative?: boolean;
+  autoFocus?: boolean;
+  /** Arrow up/down step; defaults to the browser's 1. */
+  step?: number;
+  /** Called when Enter is pressed in the field. */
+  onEnter?: () => void;
 };
 
 export const NumberInput: React.FC<Props> = ({
@@ -30,6 +35,9 @@ export const NumberInput: React.FC<Props> = ({
   icon,
   readOnly,
   allowNegative = false,
+  autoFocus,
+  step,
+  onEnter,
 }) => {
   const VALID_INTEGER = new RegExp(allowNegative ? /^-?\d+$/ : /^\d+$/);
   const VALID_DECIMAL_NUMBER_WITH_PRECISION = new RegExp(
@@ -73,6 +81,14 @@ export const NumberInput: React.FC<Props> = ({
         placeholder="0"
         value={inputValue}
         readOnly={readOnly}
+        autoFocus={autoFocus}
+        step={step}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" && onEnter) {
+            e.preventDefault();
+            onEnter();
+          }
+        }}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
           if (readOnly) return;
 
