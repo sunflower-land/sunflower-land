@@ -452,7 +452,9 @@ export const Gifts: React.FC<{
   onClose: () => void;
   onOpen: () => void;
   name: NPCName;
-}> = ({ game, onClose, onOpen, name }) => {
+  /** The delivery panel's clock, so the picker agrees with its Gift button. */
+  now: number;
+}> = ({ game, onClose, onOpen, name, now }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
@@ -460,8 +462,6 @@ export const Gifts: React.FC<{
   const [message, setMessage] = useState<TranslationKeys>(
     GIFT_RESPONSES[name]?.flowerIntro ?? DEFAULT_DIALOGUE.flowerIntro,
   );
-
-  const now = useNow({ live: true });
 
   const flowers = getKeys(game.inventory)
     .filter(
@@ -1087,6 +1087,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
           game={gameState.context.state}
           onOpen={openReward}
           name={npc}
+          now={now}
         />
       )}
       {!showFlowers && (
