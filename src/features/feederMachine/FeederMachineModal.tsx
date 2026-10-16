@@ -631,7 +631,8 @@ export const FeederMachineModal: React.FC<Props> = ({
                               <button
                                 type="button"
                                 className="flex items-center gap-1 cursor-pointer"
-                                aria-label={t("feeder.chooseSlopInput")}
+                                aria-label={`${t("feeder.chooseSlopInput")}: ${formatIngredientList(feed.ingredients)}`}
+                                aria-expanded={pickingInputFor === slop}
                                 onClick={(event) => {
                                   event.stopPropagation();
                                   setShowMixInfo(false);
