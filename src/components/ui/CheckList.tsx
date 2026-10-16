@@ -106,6 +106,8 @@ const loveIslandBoxStatus = (state: GameState, now = Date.now()) => {
       game,
       createdAt: now,
     });
+    return { game, hasClaimed: claims.length > 0 };
++  });
 
   const totalCount = games.length;
   const claimedCount = games.filter((g) => g.hasClaimed).length;
