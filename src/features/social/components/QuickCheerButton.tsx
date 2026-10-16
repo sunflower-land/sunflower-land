@@ -79,7 +79,8 @@ export const QuickCheerButton: React.FC<Props> = ({
         <img src={cheerIcon} className="w-4 h-4 flex-none" />
         <span
           className={classNames("text-xs", {
-            "hidden sm:inline": hideLabelOnMobile,
+            // Visually hidden, but still the button's accessible name.
+            "sr-only sm:not-sr-only": hideLabelOnMobile,
           })}
         >
           {hasCheeredToday ? t("cheering.farm.success") : t("cheer")}
