@@ -104,7 +104,7 @@ const loveIslandBoxStatus = (state: GameState, now = Date.now()) => {
     const claims = getFloatingIslandGameClaimsToday({
       state,
       game,
-      createdAt: now,
+      createdAt: Date.now(),
     });
     return { game, hasClaimed: claims.length > 0 };
   });
