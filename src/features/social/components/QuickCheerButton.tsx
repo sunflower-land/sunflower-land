@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 
+import classNames from "classnames";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -10,7 +11,9 @@ import { useVisiting } from "lib/utils/visitUtils";
 
 import cheerIcon from "assets/icons/cheer.webp";
 
-const _farmId = (state: MachineState) => state.context.farmId;
+// While visiting, `farmId` is the visited farm and `visitorId` is the player.
+const _farmId = (state: MachineState) =>
+  state.context.visitorId ?? state.context.farmId;
 
 const _hasCheersAvailable = (state: MachineState) =>
   (
@@ -32,6 +35,8 @@ const _isCheering = (state: MachineState) =>
 interface Props {
   farmId: number;
   className?: string;
+  /** Show just the icon on narrow screens, where the bar has no room. */
+  hideLabelOnMobile?: boolean;
 }
 
 /**
@@ -39,7 +44,11 @@ interface Props {
  * player modal there is no confirmation step - being quick is the whole point.
  * Renders nothing on your own posts.
  */
-export const QuickCheerButton: React.FC<Props> = ({ farmId, className }) => {
+export const QuickCheerButton: React.FC<Props> = ({
+  farmId,
+  className,
+  hideLabelOnMobile,
+}) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
   const { visitedFarmId } = useVisiting();
@@ -67,8 +76,12 @@ export const QuickCheerButton: React.FC<Props> = ({ farmId, className }) => {
       disabled={hasCheeredToday || isCheering || !hasCheersAvailable}
     >
       <div className="flex items-center justify-center gap-1">
-        <img src={cheerIcon} className="w-4 h-4" />
-        <span className="text-xs">
+        <img src={cheerIcon} className="w-4 h-4 flex-none" />
+        <span
+          className={classNames("text-xs", {
+            "hidden sm:inline": hideLabelOnMobile,
+          })}
+        >
           {hasCheeredToday ? t("cheering.farm.success") : t("cheer")}
         </span>
       </div>
