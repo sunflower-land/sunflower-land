@@ -100,12 +100,12 @@ const loveIslandBoxStatus = (state: GameState, now = Date.now()) => {
     DAILY_GAME[getLoveIslandDailyGame(now)],
   ];
 
-  const games = todaysGames.map((game) => ({
-    game,
-    hasClaimed:
-      getFloatingIslandGameClaimsToday({ state, game, createdAt: now })
-        .length > 0,
-  }));
+  const games = todaysGames.map((game) => {
+    const claims = getFloatingIslandGameClaimsToday({
+      state,
+      game,
+      createdAt: now,
+    });
 
   const totalCount = games.length;
   const claimedCount = games.filter((g) => g.hasClaimed).length;
@@ -437,26 +437,26 @@ const LoveIslandBox: React.FC<{ ascension: AscensionLevel }> = ({
                 ];
 
               return (
-              <OuterPanel
-                key={game}
-                className="flex justify-between items-center"
-              >
-                <Label type="default">
-                  <p className="text-xxs sm:text-xs">
-                    {nameKey ? t(nameKey) : game}
-                  </p>
-                </Label>
-                <Label
-                  type={gameClaimed ? "success" : "warning"}
-                  secondaryIcon={
-                    gameClaimed ? SUNNYSIDE.icons.confirm : undefined
-                  }
+                <OuterPanel
+                  key={game}
+                  className="flex justify-between items-center"
                 >
-                  <p className="text-xxs sm:text-xs">
-                    {gameClaimed ? t("completed") : `0/1 ${t("completed")}`}
-                  </p>
-                </Label>
-              </OuterPanel>
+                  <Label type="default">
+                    <p className="text-xxs sm:text-xs">
+                      {nameKey ? t(nameKey) : game}
+                    </p>
+                  </Label>
+                  <Label
+                    type={gameClaimed ? "success" : "warning"}
+                    secondaryIcon={
+                      gameClaimed ? SUNNYSIDE.icons.confirm : undefined
+                    }
+                  >
+                    <p className="text-xxs sm:text-xs">
+                      {gameClaimed ? t("completed") : `0/1 ${t("completed")}`}
+                    </p>
+                  </Label>
+                </OuterPanel>
               );
             })}
           </div>
