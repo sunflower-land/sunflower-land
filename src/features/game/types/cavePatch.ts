@@ -186,8 +186,8 @@ const CLUE_NEIGHBOURS = [
 
 /**
  * How many of a tile's (up to) four orthogonal neighbours in the same patch
- * hold a Beetle, whatever the rarity. Read from the board, which digging never
- * changes, so a clue stays the same after Beetles are dug.
+ * hold a Beetle or a Mushroom, whatever the kind. Read from the board, which
+ * digging never changes, so a clue stays the same after they are dug.
  */
 export function getCaveTileClue(
   layout: CavePatchLayout,
@@ -199,7 +199,8 @@ export function getCaveTileClue(
     const nx = x + dx;
     const ny = y + dy;
     if (!isCaveTileInPatch(nx, ny)) continue;
-    if (layout[caveTileKey(nx, ny)]?.type === "Beetle") count += 1;
+    const type = layout[caveTileKey(nx, ny)]?.type;
+    if (type === "Beetle" || type === "Mushroom") count += 1;
   }
   return count;
 }

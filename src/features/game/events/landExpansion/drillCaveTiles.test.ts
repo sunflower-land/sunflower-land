@@ -246,7 +246,8 @@ describe("drillCaveTiles (cave.drilled)", () => {
     const next = drill(readyState());
     expect(next.cave?.machines["1"].batch?.seed).toBe(SEED);
     expect(resolveCaveTile(layout, 2, 3).clue).toBe(1);
-    expect(resolveCaveTile(layout, 2, 4).clue).toBe(1);
+    // A Beetle and a Mushroom both border (2,4).
+    expect(resolveCaveTile(layout, 2, 4).clue).toBe(2);
   });
 
   it("skips tiles that were already dug and still spends the drill", () => {

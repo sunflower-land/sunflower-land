@@ -55,15 +55,21 @@ function countByType(layout: CavePatchLayout) {
   return counts;
 }
 
-/** Build a layout from 5 rows (y = 0..4) of "B" (Beetle) / "." (Mud). */
+/**
+ * Build a layout from 5 rows (y = 0..4) of "B" (Beetle) / "M" (Mushroom) /
+ * "." (Mud).
+ */
 function layoutFromRows(rows: string[]): CavePatchLayout {
   const layout: CavePatchLayout = {};
   rows.forEach((row, y) =>
     row.split("").forEach((cell, x) => {
-      layout[`${x},${y}`] =
-        cell === "B"
-          ? { type: "Beetle", beetle: "Green Beetle" }
-          : { type: "Mud", amount: 1 };
+      if (cell === "B") {
+        layout[`${x},${y}`] = { type: "Beetle", beetle: "Green Beetle" };
+      } else if (cell === "M") {
+        layout[`${x},${y}`] = { type: "Mushroom", mushroom: "Wild Mushroom" };
+      } else {
+        layout[`${x},${y}`] = { type: "Mud", amount: 1 };
+      }
     }),
   );
   return layout;
@@ -250,6 +256,30 @@ describe("getCaveTileClue", () => {
     mixed["1,0"] = { type: "Beetle", beetle: "Amber Beetle" };
     mixed["0,1"] = { type: "Beetle", beetle: "Pink Beetle" };
     expect(getCaveTileClue(mixed, 1, 1)).toBe(2);
+  });
+
+  it("counts Mushrooms as well as Beetles", () => {
+    const withMushrooms = layoutFromRows([
+      ".M...", // y = 0
+      "B.M..", // y = 1
+      ".M...", // y = 2
+      ".....", // y = 3
+      ".....", // y = 4
+    ]);
+    expect(getCaveTileClue(withMushrooms, 0, 0)).toBe(2);
+    expect(getCaveTileClue(withMushrooms, 1, 1)).toBe(4);
+    expect(getCaveTileClue(withMushrooms, 3, 0)).toBe(0);
+  });
+
+  it("counts Magic Mushrooms", () => {
+    const magic = layoutFromRows([".....", ".....", ".....", ".....", "....."]);
+    magic["1,0"] = { type: "Mushroom", mushroom: "Magic Mushroom" };
+    expect(getCaveTileClue(magic, 0, 0)).toBe(1);
+  });
+
+  it("gives a Mushroom tile a clue from its neighbours, not itself", () => {
+    const lone = layoutFromRows([".....", ".....", "..M..", ".....", "....."]);
+    expect(getCaveTileClue(lone, 2, 2)).toBe(0);
   });
 });
 

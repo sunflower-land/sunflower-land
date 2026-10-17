@@ -19,6 +19,8 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { CAVE_PATCH_SIZE } from "features/game/expansion/placeable/lib/caveLayout";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
+import { ProgressBar } from "components/ui/ProgressBar";
+import { getCaveBatchPercentage } from "features/cave/lib/caveBatchProgress";
 import { getKeys } from "lib/object";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
@@ -72,7 +74,8 @@ const DugTile: React.FC<{ tile: ResolvedCaveTile }> = ({ tile }) => {
 };
 
 /**
- * A Myco Bin's 5x5 patch. Covered while growing; once ready each tile
+ * A Myco Bin's 5x5 patch. Shaded with the batch's timer while growing; once
+ * ready each tile
  * can be dug with a Sand Shovel, or a 2x2 square when the Sand Drill is the
  * selected item, and shows what it held straight away.
  */
@@ -120,9 +123,31 @@ export const CavePatch: React.FC<Props> = ({
     return isDug(hovered) ? undefined : { ...hovered, size: 1 };
   })();
 
-  // The room image already draws the bare sand: nothing to add while the
-  // patch is empty or the batch is still growing (Elias).
-  if (!batch || growing) return null;
+  // The room image already draws the bare sand of an empty patch.
+  if (!batch) return null;
+
+  if (growing) {
+    return (
+      <div className="absolute inset-0 pointer-events-none bg-white/20 rounded-md">
+        {/* The plot-style timer and bar, centred on the patch. */}
+        <div
+          className="absolute"
+          style={{
+            left: `calc(50% - ${PIXEL_SCALE * 7.5}px)`,
+            top: `calc(50% - ${PIXEL_SCALE * 3.5}px)`,
+            width: `${PIXEL_SCALE * 15}px`,
+          }}
+        >
+          <ProgressBar
+            percentage={getCaveBatchPercentage(batch, now)}
+            seconds={Math.max(0, (batch.readyAt - now) / 1000)}
+            type="progress"
+            formatLength="medium"
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>

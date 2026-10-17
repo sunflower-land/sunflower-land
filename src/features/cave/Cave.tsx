@@ -24,7 +24,6 @@ import {
   caveSlotsForTier,
   type CaveTileRect,
 } from "features/game/expansion/placeable/lib/caveLayout";
-import { isCavePatchCleared } from "features/game/types/caveRecipes";
 import { getNextCaveTier } from "features/game/types/caveTiers";
 import { CAVE_MERCHANT_TIER } from "features/game/types/caveMerchant";
 import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
@@ -176,9 +175,6 @@ export const Cave: React.FC = () => {
               {slots.map((id) => {
                 const slot = CAVE_SLOTS[id];
                 const batch = cave.machines[String(id)]?.batch;
-                const growing = !!batch && batch.readyAt > now;
-                const ready =
-                  !!batch && batch.readyAt <= now && !isCavePatchCleared(batch);
 
                 return (
                   <React.Fragment key={`slot-${id}`}>
@@ -191,23 +187,6 @@ export const Cave: React.FC = () => {
                       onClick={() => setSelectedMachine(String(id))}
                     >
                       <HoverHighlight src={CAVE_MYCO_BIN_IMAGE} />
-                      {/* Status above the sign. */}
-                      <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 whitespace-nowrap pointer-events-none">
-                        {growing && batch && (
-                          <Label
-                            type="warning"
-                            icon={SUNNYSIDE.icons.stopwatch}
-                          >
-                            {secondsToString(
-                              Math.max(0, (batch.readyAt - now) / 1000),
-                              { length: "short" },
-                            )}
-                          </Label>
-                        )}
-                        {ready && (
-                          <Label type="success">{t("cave.batch.ready")}</Label>
-                        )}
-                      </div>
                     </button>
 
                     {/* 5x5 digging patch on the slot's sand. */}
