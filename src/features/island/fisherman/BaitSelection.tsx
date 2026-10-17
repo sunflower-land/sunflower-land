@@ -29,6 +29,7 @@ import {
   isGuaranteedBait,
 } from "features/game/types/fishing";
 import { isWearableActive } from "features/game/lib/wearables";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   getBasketItems,
@@ -199,20 +200,19 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
   const fishingLimitReached = reelsLeft <= 0 || effectiveMultiplier > reelsLeft;
   const hasAncientRod = isWearableActive({ name: "Ancient Rod", game: state });
 
-  // Shrimp Onesie: every 15th lifetime reel awards +1 of every fish caught on
-  // that reel. The actual bonus is computed server-side in castRod against the
-  // "Rod Casted" farm activity counter; here we just preview how many of the
-  // upcoming reels in this cast would land on a milestone.
-  const SHRIMP_ONESIE_REEL_INTERVAL = 15;
-  const shrimpOnesieActive = isWearableActive({
-    name: "Shrimp Onesie",
-    game: state,
-  });
+  // Shrimp Onesie and Otty the Otter each award +1 random fish on every 15th
+  // lifetime reel, and they stack. The actual bonus is computed server-side in
+  // castRod against the "Rod Casted" farm activity counter; here we just
+  // preview how many of the upcoming reels in this cast would land on a
+  // milestone, and how many fish each of those reels adds.
+  const REEL_BONUS_INTERVAL = 15;
+  const reelBonusFish =
+    (isWearableActive({ name: "Shrimp Onesie", game: state }) ? 1 : 0) +
+    (isCollectibleBuilt({ name: "Otty the Otter", game: state }) ? 1 : 0);
   const previousCasts = state.farmActivity["Rod Casted"] ?? 0;
-  const shrimpOnesieMilestones = shrimpOnesieActive
-    ? Math.floor(
-        (previousCasts + effectiveMultiplier) / SHRIMP_ONESIE_REEL_INTERVAL,
-      ) - Math.floor(previousCasts / SHRIMP_ONESIE_REEL_INTERVAL)
+  const reelBonusMilestones = reelBonusFish
+    ? Math.floor((previousCasts + effectiveMultiplier) / REEL_BONUS_INTERVAL) -
+      Math.floor(previousCasts / REEL_BONUS_INTERVAL)
     : 0;
 
   const { rodCost: rodsRequired } = getRodCost({
@@ -373,12 +373,13 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
                 ? t("fishing.oneReelLeft")
                 : t("fishing.reelsLeft", { reelsLeft })}
             </Label>
-            {shrimpOnesieMilestones > 0 && (
+            {reelBonusMilestones > 0 && (
               <Label icon={lightning} type="vibrant">
-                {shrimpOnesieMilestones === 1
-                  ? t("fishing.shrimpOnesie.singleReel")
-                  : t("fishing.shrimpOnesie.bulkReel", {
-                      reels: shrimpOnesieMilestones,
+                {reelBonusMilestones === 1
+                  ? t("fishing.reelBonus.singleReel", { amount: reelBonusFish })
+                  : t("fishing.reelBonus.bulkReel", {
+                      amount: reelBonusFish,
+                      reels: reelBonusMilestones,
                     })}
               </Label>
             )}
