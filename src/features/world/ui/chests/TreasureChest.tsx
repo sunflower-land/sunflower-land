@@ -21,6 +21,7 @@ import rewardsIcon from "assets/icons/stock.webp";
 import basicChest from "public/world/basic_chest.png";
 import rareChest from "public/world/wooden_chest.png";
 import luxuryChest from "public/world/luxury_chest.png";
+import { formatNumber } from "lib/utils/formatNumber";
 
 interface Props {
   onClose: () => void;
@@ -71,7 +72,8 @@ export const TreasureChest: React.FC<Props> = ({
 
   const [isRevealing, setIsRevealing] = useState(false);
 
-  const hasKey = !!gameState.context.state.inventory[type]?.gte(1);
+  const keyCount = gameState.context.state.inventory[type];
+  const hasKey = !!keyCount?.gte(1);
 
   const open = async () => {
     setIsLoading && setIsLoading(true);
@@ -165,7 +167,7 @@ export const TreasureChest: React.FC<Props> = ({
                 className="mb-2 mr-3 capitalize"
                 secondaryIcon={SUNNYSIDE.icons.confirm}
               >
-                {type}
+                {`${formatNumber(keyCount, { decimalPlaces: 0 })} ${type}`}
               </Label>
             </div>
             <p className="text-xs mb-2">{t("basic.treasure.congratsKey")}</p>
