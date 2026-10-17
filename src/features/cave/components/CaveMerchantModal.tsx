@@ -7,11 +7,11 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import { getWeekKey, weekResetsAt } from "features/game/lib/factions";
 import {
   CAVE_MERCHANT_OFFERS,
-  CAVE_MERCHANT_OFFERS_TIER,
   getCaveMerchantOffers,
   getCaveMerchantOffersLeft,
   type CaveMerchantOfferId,
 } from "features/game/types/caveMerchant";
+import { getNextCaveTier } from "features/game/types/caveTiers";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NPC_WEARABLES } from "lib/npcs";
 import { getKeys } from "lib/object";
@@ -46,6 +46,7 @@ export const CaveMerchantModal: React.FC<{ onClose: () => void }> = ({
   const [ingredientsFor, setIngredientsFor] = useState<CaveMerchantOfferId>();
 
   const tier = game.cave?.tier ?? 0;
+  const nextTier = getNextCaveTier(tier);
   const periodKey = getWeekKey({ date: new Date(now) });
   const resetsIn = Math.max(
     0,
@@ -144,11 +145,10 @@ export const CaveMerchantModal: React.FC<{ onClose: () => void }> = ({
             );
           })}
 
-          {tier < CAVE_MERCHANT_OFFERS_TIER && (
+          {/* Each Cave tier adds one more offer. */}
+          {nextTier && (
             <Label type="default" className="self-center">
-              {t("cave.merchant.moreOffers", {
-                tier: CAVE_MERCHANT_OFFERS_TIER,
-              })}
+              {t("cave.merchant.moreOffers", { tier: nextTier })}
             </Label>
           )}
         </div>
