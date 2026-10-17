@@ -235,7 +235,25 @@ export type EventDecorationName =
   | "Fool's Gold"
   | "Golden Slime Trophy"
   | "Silver Slime Trophy"
-  | "Bronze Slime Trophy";
+  | "Bronze Slime Trophy"
+  | "Corrupted Pumpkin"
+  | "Huge Jack-o'-lantern"
+  | "Haunted TV"
+  | "Zombie Hand Toy"
+  | "Cool Zombie Tombstone"
+  | "Destroyed Sign"
+  | "Skull Candles"
+  | "Plague Crow"
+  | "Skeleton Crow"
+  | "Witch Crow"
+  | "Fisherbird Crow"
+  | "Chained Crow"
+  | "Count Vlad Crow"
+  | "Lual Crow"
+  | "King Crow"
+  | "Devil Crow"
+  | "Pharaoh Crow"
+  | "Cultist Crow";
 
 export type TileName =
   | "Black Tile"
@@ -1874,6 +1892,78 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "Bronze Slime Trophy": {
     width: 1,
     height: 2,
+  },
+  "Corrupted Pumpkin": {
+    width: 2,
+    height: 2,
+  },
+  "Huge Jack-o'-lantern": {
+    width: 2,
+    height: 2,
+  },
+  "Haunted TV": {
+    width: 1,
+    height: 1,
+  },
+  "Zombie Hand Toy": {
+    width: 1,
+    height: 1,
+  },
+  "Cool Zombie Tombstone": {
+    width: 1,
+    height: 2,
+  },
+  "Destroyed Sign": {
+    width: 1,
+    height: 1,
+  },
+  "Skull Candles": {
+    width: 2,
+    height: 2,
+  },
+  "Plague Crow": {
+    width: 1,
+    height: 1,
+  },
+  "Skeleton Crow": {
+    width: 1,
+    height: 1,
+  },
+  "Witch Crow": {
+    width: 1,
+    height: 1,
+  },
+  "Fisherbird Crow": {
+    width: 1,
+    height: 1,
+  },
+  "Chained Crow": {
+    width: 1,
+    height: 1,
+  },
+  "Count Vlad Crow": {
+    width: 1,
+    height: 1,
+  },
+  "Lual Crow": {
+    width: 1,
+    height: 1,
+  },
+  "King Crow": {
+    width: 1,
+    height: 1,
+  },
+  "Devil Crow": {
+    width: 1,
+    height: 1,
+  },
+  "Pharaoh Crow": {
+    width: 1,
+    height: 1,
+  },
+  "Cultist Crow": {
+    width: 1,
+    height: 1,
   },
 };
 

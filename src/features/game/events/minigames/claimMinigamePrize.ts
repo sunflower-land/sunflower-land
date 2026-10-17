@@ -91,7 +91,7 @@ export function claimMinigamePrize({
     }
 
     // Has already claimed
-    if (history.prizeClaimedAt) {
+    if (history.prizeClaimedAt && action.id !== "halloween-2026-game-2") {
       throw new Error(`Already claimed ${action.id} prize`);
     }
 

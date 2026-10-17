@@ -23,7 +23,8 @@ export type BumpkinBackground =
   | "Holiday Feast Background"
   | "Faulty Barrier Background"
   | "Deep Sea Salt Cave Background"
-  | "Slime Wall Background";
+  | "Slime Wall Background"
+  | "Scary Nights Background";
 
 export type BumpkinBody =
   | "Beige Farmer Potion"
@@ -160,7 +161,8 @@ export type BumpkinShirt =
   | "Brasil Jersey"
   | "Blue Slime Shirt"
   | "Slime Splattered Shirt"
-  | "Swamp Armor";
+  | "Swamp Armor"
+  | "Vampire Garments";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -240,7 +242,8 @@ export type BumpkinTool =
   | "Admin Fools Tools"
   | "Pistol Shrimp"
   | "Yellow Slime Puppet"
-  | "Ascension Staff";
+  | "Ascension Staff"
+  | "Hook and Chain";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -270,7 +273,8 @@ export type BumpkinShoe =
   | "Spa Slippers"
   | "Blue Jelly Shoes"
   | "Sad Slime Slippers"
-  | "Crystal Shoes";
+  | "Crystal Shoes"
+  | "Vampire Footwear";
 
 export type BumpkinNecklace =
   | "Sunflower Amulet"
@@ -404,7 +408,10 @@ export type BumpkinHat =
   | "Spa Hat"
   | "Clam Shell Hat"
   | "Sad Slime Hat"
-  | "Swamp Lily Hat";
+  | "Swamp Lily Hat"
+  | "Vampire Headwear"
+  | "Butcher Knife"
+  | "Skeleton Mask";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -453,7 +460,8 @@ export type BumpkinPant =
   | "Sad Slime Pants"
   | "Red Jelly Pants"
   | "Swamp Pants"
-  | "Marble Pants";
+  | "Marble Pants"
+  | "Vampire Breeches";
 
 export type BumpkinDress =
   | "Royal Dress"
@@ -553,7 +561,8 @@ export type BumpkinSuit =
   | "Glacierguard Suit"
   | "Research Uniform"
   | "Sweet Devil Dress"
-  | "Spa Robe";
+  | "Spa Robe"
+  | "Skeleton Costume";
 
 export type BumpkinWings =
   | "Angel Wings"
@@ -579,7 +588,8 @@ export type BumpkinWings =
   | "Sweet Devil Wings"
   | "Cardboard Wings"
   | "Rainbow Wings"
-  | "Ascension Wings";
+  | "Ascension Wings"
+  | "Sky Tearer Wings";
 
 export type BumpkinBeard =
   | "Wise Beard"
@@ -596,7 +606,8 @@ export type BumpkinAura =
   | "Paw Aura"
   | "Glitch Aura"
   | "Bubble Aura"
-  | "Butterfly Aura";
+  | "Butterfly Aura"
+  | "Bat Aura";
 
 export type BumpkinEyes =
   | "Bumpkin Eyes"
@@ -1262,6 +1273,19 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Marble Pants": 584,
   "Spooky Coat": 585,
   "Surfer Hair": 586,
+
+  //Halloween 2026
+  "Vampire Headwear": 587,
+  "Butcher Knife": 588,
+  "Skeleton Mask": 589,
+  "Vampire Breeches": 590,
+  "Scary Nights Background": 591,
+  "Vampire Garments": 592,
+  "Hook and Chain": 593,
+  "Vampire Footwear": 594,
+  "Skeleton Costume": 595,
+  "Sky Tearer Wings": 596,
+  "Bat Aura": 597,
 };
 
 // The reverse of above
@@ -1913,6 +1937,17 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Marble Pants": "pants",
   "Spooky Coat": "coat",
   "Surfer Hair": "hair",
+  "Vampire Headwear": "hat",
+  "Butcher Knife": "hat",
+  "Skeleton Mask": "hat",
+  "Vampire Breeches": "pants",
+  "Scary Nights Background": "background",
+  "Vampire Garments": "shirt",
+  "Hook and Chain": "tool",
+  "Vampire Footwear": "shoes",
+  "Skeleton Costume": "suit",
+  "Sky Tearer Wings": "wings",
+  "Bat Aura": "aura",
 };
 
 /**Copied from BE just for hoarding checks */

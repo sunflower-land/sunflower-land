@@ -514,6 +514,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "April Fools Token 2026": 774,
   "Skill Reset Ticket": 775,
   "Colors Token 2026": 776,
+  "Halloween Token 2026": 777,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
@@ -1192,6 +1193,27 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Silver Slime Trophy": 2373,
   "Bronze Slime Trophy": 2374,
   "Colors Ticket 2026": 2375,
+
+  //Halloween 2026 event items
+  "Corrupted Pumpkin": 2376,
+  "Huge Jack-o'-lantern": 2377,
+  "Haunted TV": 2378,
+  "Zombie Hand Toy": 2379,
+  "Cool Zombie Tombstone": 2380,
+  "Destroyed Sign": 2381,
+  "Skull Candles": 2382,
+  "Plague Crow": 2383,
+  "Skeleton Crow": 2384,
+  "Witch Crow": 2385,
+  "Fisherbird Crow": 2386,
+  "Chained Crow": 2387,
+  "Count Vlad Crow": 2388,
+  "Lual Crow": 2389,
+  "King Crow": 2390,
+  "Devil Crow": 2391,
+  "Pharaoh Crow": 2392,
+  "Cultist Crow": 2393,
+  "Halloween Ticket 2026": 2394,
 
   // Monument Items
   "Big Orange": 2281,

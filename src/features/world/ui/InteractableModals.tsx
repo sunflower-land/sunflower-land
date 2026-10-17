@@ -32,7 +32,7 @@ import { DesertNoticeboard } from "./beach/DesertNoticeboard";
 import { PirateChestModal } from "./chests/PirateChest";
 import { ExampleDonations } from "./donations/ExampleDonations";
 import { WorldMap } from "features/island/hud/components/deliveries/WorldMap";
-import { Colors2026 } from "./portals/Colors2026";
+import { Halloween2026 } from "./portals/Halloween2026";
 import { WeatherShop } from "features/game/expansion/components/temperateSeason/WeatherShop";
 import { PortalChooser } from "./portals/PortalChooser";
 import { EasterEggstravaganza } from "./portals/EasterEggstravaganza";
@@ -155,7 +155,7 @@ type InteractableName =
   | "flower_exchange"
   | "event_store"
   | "event_noticeboard"
-  | "colors_2026"
+  | "halloween_2026"
   | "chapter_raffles"
   | "design_showcase"
   | "giveaway_board"
@@ -593,12 +593,12 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         </CloseButtonPanel>
       </Modal>
 
-      <Modal show={interactable === "colors_2026"}>
+      <Modal show={interactable === "halloween_2026"}>
         <CloseButtonPanel
           onClose={closeModal}
-          bumpkinParts={NPC_WEARABLES["Slime Joe"]}
+          bumpkinParts={NPC_WEARABLES["Skelly Joe"]}
         >
-          <Colors2026 onClose={closeModal} />
+          <Halloween2026 onClose={closeModal} />
         </CloseButtonPanel>
       </Modal>
 

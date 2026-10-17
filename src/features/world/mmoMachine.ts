@@ -48,6 +48,7 @@ export type Scenes = {
   giveaway_jump: Room<PlazaRoomState> | undefined;
   giveaway_trivia: Room<PlazaRoomState> | undefined;
   giveaway_pop: Room<PlazaRoomState> | undefined;
+  halloween_island_2026: Room<PlazaRoomState> | undefined;
 };
 
 export type SceneId = keyof Scenes;

@@ -333,6 +333,8 @@ export type Coupons =
   | "April Fools Ticket 2026"
   | "Colors Token 2026"
   | "Colors Ticket 2026"
+  | "Halloween Token 2026"
+  | "Halloween Ticket 2026"
   | "Cheer"
   | "CluckCoin"
   | Keys
@@ -517,6 +519,12 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   "Colors Ticket 2026": {
     description: translate("description.colorsTicket2026"),
+  },
+  "Halloween Token 2026": {
+    description: translate("description.halloweenToken2025"),
+  },
+  "Halloween Ticket 2026": {
+    description: translate("description.halloweenTicket2025"),
   },
 };
 

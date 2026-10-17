@@ -1530,6 +1530,28 @@ export const ITEM_TRADE_TYPES: {
     "Letter X Tile": "instant",
     "Letter Y Tile": "instant",
     "Letter Z Tile": "instant",
+
+    //Halloween 2026 event
+    "Halloween Token 2026": "instant",
+    "Halloween Ticket 2026": "instant",
+    "Corrupted Pumpkin": "instant",
+    "Huge Jack-o'-lantern": "instant",
+    "Haunted TV": "instant",
+    "Zombie Hand Toy": "instant",
+    "Cool Zombie Tombstone": "instant",
+    "Destroyed Sign": "instant",
+    "Skull Candles": "instant",
+    "Plague Crow": "instant",
+    "Skeleton Crow": "instant",
+    "Witch Crow": "instant",
+    "Fisherbird Crow": "instant",
+    "Chained Crow": "instant",
+    "Count Vlad Crow": "instant",
+    "Lual Crow": "instant",
+    "King Crow": "instant",
+    "Devil Crow": "instant",
+    "Pharaoh Crow": "instant",
+    "Cultist Crow": "instant",
   },
   wearables: {
     "Walrus Onesie": "instant",
@@ -2119,6 +2141,19 @@ export const ITEM_TRADE_TYPES: {
     "Marble Pants": "instant",
     "Spooky Coat": "instant",
     "Surfer Hair": "onchain",
+
+    //Halloween 2026 event
+    "Vampire Garments": "instant",
+    "Vampire Breeches": "instant",
+    "Hook and Chain": "instant",
+    "Vampire Footwear": "instant",
+    "Vampire Headwear": "instant",
+    "Butcher Knife": "instant",
+    "Skeleton Mask": "instant",
+    "Scary Nights Background": "instant",
+    "Skeleton Costume": "instant",
+    "Sky Tearer Wings": "instant",
+    "Bat Aura": "instant",
   },
 };
 

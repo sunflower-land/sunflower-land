@@ -222,4 +222,10 @@ export const SPAWNS: () => SpawnLocation = () => ({
       y: 208,
     },
   },
+  halloween_island_2026: {
+    default: {
+      x: 550,
+      y: 860,
+    },
+  },
 });

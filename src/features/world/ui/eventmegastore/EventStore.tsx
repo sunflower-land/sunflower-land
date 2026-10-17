@@ -3,12 +3,12 @@ import { Label } from "components/ui/Label";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import React, { useState } from "react";
 import {
-  COLORS_2026_EVENT_ITEMS,
+  HALLOWEEN_2026_EVENT_ITEMS,
   type EventStoreCollectible,
   type EventStoreItem,
   type EventStoreTier,
   type EventStoreWearable,
-} from "features/game/types/colors2026EventShop";
+} from "features/game/types/halloween2026EventShop";
 
 import { ItemsList } from "./eventmegastore_components/ItemsList";
 import { ItemDetail } from "./eventmegastore_components/ItemDetail";
@@ -84,8 +84,8 @@ export const EventStore: React.FC<Props> = ({ readonly, state }) => {
   };
 
   const now = useNow({ live: true });
-  const startDate = new Date("2026-07-01T00:00:00.000Z");
-  const endDate = new Date("2026-07-23T00:00:00.000Z");
+  const startDate = new Date("2026-10-22T00:00:00.000Z");
+  const endDate = new Date("2026-11-02T00:00:00.000Z");
 
   const totalSecondsAvailable =
     (endDate.getTime() - startDate.getTime()) / 1000;
@@ -96,7 +96,7 @@ export const EventStore: React.FC<Props> = ({ readonly, state }) => {
     now,
   );
   const { t } = useAppTranslation();
-  const EVENTMEGASTORE = COLORS_2026_EVENT_ITEMS;
+  const EVENTMEGASTORE = HALLOWEEN_2026_EVENT_ITEMS;
 
   // Basic-Epic
   const basicAllItems = EVENTMEGASTORE.basic.items;
