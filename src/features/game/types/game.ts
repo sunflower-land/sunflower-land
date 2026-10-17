@@ -1173,9 +1173,9 @@ export type LayoutPlacement = Pick<PlacedItem, "id" | "flipped"> & {
 };
 
 /**
- * A restorable position for a placeable that can also be flipped (the player's
- * Bumpkin and FarmHands). Buds/Pet NFTs aren't flippable so they store bare
- * {@link LayoutCoordinates} instead.
+ * A restorable position for a placeable that is keyed by id rather than by
+ * name and can also be flipped (the player's Bumpkin, FarmHands, Buds and Pet
+ * NFTs).
  */
 export type LayoutFlippablePlacement = LayoutCoordinates & {
   flipped?: boolean;
@@ -1216,10 +1216,10 @@ export type SavedLayout = {
     flowerBeds: Record<string, LayoutCoordinates>;
     lavaPits: Record<string, LayoutCoordinates>;
   };
-  /** Placed Buds, keyed by bud id (not flippable). Farm-placed only. */
-  buds?: Record<string, LayoutCoordinates>;
-  /** Placed Pet NFTs, keyed by pet nft id (not flippable). Farm-placed only. */
-  petNFTs?: Record<string, LayoutCoordinates>;
+  /** Placed Buds, keyed by bud id. Farm-placed only. */
+  buds?: Record<string, LayoutFlippablePlacement>;
+  /** Placed Pet NFTs, keyed by pet nft id. Farm-placed only. */
+  petNFTs?: Record<string, LayoutFlippablePlacement>;
   /** Placed FarmHands (extra bumpkins), keyed by id. Farm-placed only. */
   farmHands?: Record<string, LayoutFlippablePlacement>;
   /** The player's own Bumpkin (single). Present only when placed on the farm. */

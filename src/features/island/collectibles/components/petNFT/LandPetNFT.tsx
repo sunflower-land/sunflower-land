@@ -87,6 +87,7 @@ export const LandPetNFT: React.FC<{ id: string }> = ({ id }) => {
         isTypeFed={isTypeFed}
         clickable
         onClick={handlePetClick}
+        flipped={petNFTData.flipped}
       />
       <Transition
         appear={true}

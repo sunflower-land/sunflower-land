@@ -287,7 +287,10 @@ export function snapshotSurface(
     const buds: NonNullable<Arrangement["buds"]> = {};
     Object.entries(state.buds ?? {}).forEach(([id, bud]) => {
       if (isOnSurface(bud, location)) {
-        buds[id] = { ...(bud.coordinates as LayoutCoordinates) };
+        buds[id] = {
+          ...(bud.coordinates as LayoutCoordinates),
+          ...(bud.flipped !== undefined ? { flipped: bud.flipped } : {}),
+        };
       }
     });
     arrangement.buds = buds;
@@ -297,7 +300,10 @@ export function snapshotSurface(
     const petNFTs: NonNullable<Arrangement["petNFTs"]> = {};
     Object.entries(state.pets?.nfts ?? {}).forEach(([id, pet]) => {
       if (isOnSurface(pet, location)) {
-        petNFTs[id] = { ...(pet.coordinates as LayoutCoordinates) };
+        petNFTs[id] = {
+          ...(pet.coordinates as LayoutCoordinates),
+          ...(pet.flipped !== undefined ? { flipped: pet.flipped } : {}),
+        };
       }
     });
     arrangement.petNFTs = petNFTs;
@@ -461,6 +467,7 @@ function indexLive(
         name: "Bud",
         id,
         coordinates: bud.coordinates as LayoutCoordinates,
+        flipped: bud.flipped,
         dimensions: BUD_DIMENSIONS,
       });
     });
@@ -474,6 +481,7 @@ function indexLive(
         name: "Pet",
         id,
         coordinates: pet.coordinates as LayoutCoordinates,
+        flipped: pet.flipped,
         dimensions: PET_NFT_DIMENSIONS,
       });
     });
@@ -639,24 +647,26 @@ function indexDesired(
       );
     });
 
-  Object.entries(arrangement.buds ?? {}).forEach(([id, coordinates]) => {
+  Object.entries(arrangement.buds ?? {}).forEach(([id, placement]) => {
     add({
       key: `bud:${id}`,
       category: "bud",
       name: "Bud",
       id,
-      coordinates,
+      coordinates: placement,
+      flipped: placement.flipped,
       dimensions: BUD_DIMENSIONS,
     });
   });
 
-  Object.entries(arrangement.petNFTs ?? {}).forEach(([id, coordinates]) => {
+  Object.entries(arrangement.petNFTs ?? {}).forEach(([id, placement]) => {
     add({
       key: `pet:${id}`,
       category: "pet",
       name: "Pet",
       id,
-      coordinates,
+      coordinates: placement,
+      flipped: placement.flipped,
       dimensions: PET_NFT_DIMENSIONS,
     });
   });
@@ -1322,14 +1332,17 @@ function moveEntry(
     }
     case "bud": {
       const bud = state.buds![Number(entry.id)];
-      bud.coordinates = point(entry.coordinates);
+      // Keep pixel offsets: a flip-only change must not snap it to the grid.
+      bud.coordinates = withCoordinates(entry.coordinates);
       bud.location = location;
+      setFlip(bud);
       return;
     }
     case "pet": {
       const pet = state.pets!.nfts![Number(entry.id)];
-      pet.coordinates = point(entry.coordinates);
+      pet.coordinates = withCoordinates(entry.coordinates);
       pet.location = location;
+      setFlip(pet);
       return;
     }
     case "farmHand": {
@@ -1505,7 +1518,7 @@ function placeEntry(
     case "bud":
     case "pet": {
       const nft = entry.category === "bud" ? "Bud" : "Pet";
-      return thaw(
+      const next = thaw(
         placeNFT({
           state,
           action: {
@@ -1518,6 +1531,15 @@ function placeEntry(
           createdAt,
         }),
       );
+      // Removing an NFT keeps its `flipped`, so the arrangement decides it
+      // outright here instead of a re-placed NFT inheriting a stale flip.
+      const placed =
+        nft === "Bud"
+          ? next.buds![Number(entry.id)]
+          : next.pets!.nfts![Number(entry.id)];
+      if (entry.flipped === undefined) delete placed.flipped;
+      else placed.flipped = entry.flipped;
+      return next;
     }
     case "farmHand": {
       const next = thaw(

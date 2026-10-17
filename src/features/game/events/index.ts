@@ -758,6 +758,7 @@ import {
   flipFarmHand,
   type FlipFarmHandAction,
 } from "./landExpansion/flipFarmHand";
+import { flipNFT, type FlipNFTAction } from "./landExpansion/flipNFT";
 import {
   flipBumpkin,
   type FlipBumpkinAction,
@@ -1167,6 +1168,7 @@ export type PlacementEvent =
   | FlipCollectibleAction
   | FlipFarmHandAction
   | FlipBumpkinAction
+  | FlipNFTAction
   | PlaceFarmHandAction
   | MoveFarmHandAction
   | RemoveFarmHandAction
@@ -1457,6 +1459,7 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "nft.placed": placeNFT,
   "nft.moved": moveBud,
   "nft.removed": removeNFT,
+  "nft.flipped": flipNFT,
   "farmHand.placed": placeFarmHand,
   "farmHand.moved": moveFarmHand,
   "farmHand.removed": removeFarmHand,
