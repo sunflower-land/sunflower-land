@@ -172,7 +172,14 @@ export const UpcomingRaffles: React.FC = () => {
     );
   }
 
-  if (selectedRaffle && showEntry) {
+  if (selectedRaffle) {
+    const display = getPrizeDisplay({ prize: selectedRaffle.prizes[1] });
+    const raffleEntries =
+      game.raffle?.active?.[selectedRaffle.id]?.entries ?? 0;
+
+    const isActiveRaffle =
+      selectedRaffle.endAt > now && selectedRaffle.startAt < now;
+
     const entryRequirements = selectedRaffle.entryRequirements ?? {};
     const entryItems = getKeys(entryRequirements);
     const totalEntryAmount = entryItems.reduce(
@@ -185,89 +192,6 @@ export const UpcomingRaffles: React.FC = () => {
 
       return amount.gt(inventoryCount);
     });
-
-    return (
-      <>
-        <Label className="mb-2" type="info">
-          {t("auction.raffle.labelWithId", { id: selectedRaffle.id })}
-        </Label>
-
-        {entryItems.map((item) => {
-          const amount = entryAmounts[item] ?? new Decimal(0);
-          const inventoryCount = game.inventory[item] ?? new Decimal(0);
-          const isMissing = amount.gt(inventoryCount);
-          const entryValue = entryRequirements[item] ?? 0;
-
-          return (
-            <div key={item} className="flex items-center mb-2">
-              <Box image={ITEM_DETAILS[item].image} count={inventoryCount} />
-              <div className="flex-1">
-                <div className="flex items-center ">
-                  <NumberInput
-                    value={amount}
-                    maxDecimalPlaces={0}
-                    onValueChange={(value) =>
-                      setEntryAmounts((prev) => ({ ...prev, [item]: value }))
-                    }
-                  />
-                  {amount.gt(0) && (
-                    <img
-                      src={SUNNYSIDE.icons.cancel}
-                      className="h-6 cursor-pointer ml-2"
-                      onClick={() =>
-                        setEntryAmounts((prev) => ({
-                          ...prev,
-                          [item]: new Decimal(0),
-                        }))
-                      }
-                    />
-                  )}
-                </div>
-
-                {isMissing ? (
-                  <Label type="danger">
-                    {t("auction.raffle.missingChapterTicket", {
-                      ticket: item,
-                    })}
-                  </Label>
-                ) : (
-                  <div className="flex">
-                    <p className="text-xs ml-1">
-                      {t("auction.raffle.chapterEntryInfo", {
-                        count: Math.max(amount.toNumber(), 1),
-                        ticket: item,
-                        entries: Math.max(
-                          amount.mul(entryValue).toNumber(),
-                          entryValue,
-                        ),
-                      })}
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
-          );
-        })}
-        <Button
-          className="mt-2"
-          disabled={isEntryDisabled || totalEntryAmount.eq(0)}
-          onClick={() => {
-            setShowConfirmation(true);
-          }}
-        >
-          {t("auction.raffle.enterAction")}
-        </Button>
-      </>
-    );
-  }
-
-  if (selectedRaffle) {
-    const display = getPrizeDisplay({ prize: selectedRaffle.prizes[1] });
-    const raffleEntries =
-      game.raffle?.active?.[selectedRaffle.id]?.entries ?? 0;
-
-    const isActiveRaffle =
-      selectedRaffle.endAt > now && selectedRaffle.startAt < now;
 
     const items: Partial<Record<InventoryItemName, number>> = {};
     const wearables: Wardrobe = {};
@@ -299,7 +223,11 @@ export const UpcomingRaffles: React.FC = () => {
             <img
               src={SUNNYSIDE.icons.arrow_left}
               className="h-6 cursor-pointer"
-              onClick={() => setSelectedRaffleId(undefined)}
+              onClick={() => {
+                setSelectedRaffleId(undefined);
+                setShowEntry(false);
+                setEntryAmounts({});
+              }}
             />
             <div className="flex justify-between">
               <Label type="default" className="mr-1">
@@ -334,10 +262,98 @@ export const UpcomingRaffles: React.FC = () => {
           </div>
 
           <div>
-            <div className="max-h-48 overflow-y-auto scrollable pr-1">
+            <div
+              className={`${
+                showEntry ? "max-h-28" : "max-h-48"
+              } overflow-y-auto scrollable pr-1`}
+            >
               <RafflePrizeTable prizes={selectedRaffle.prizes} />
             </div>
           </div>
+
+          {isActiveRaffle && showEntry && (
+            // Entry fields sit under the prize list so players can see what
+            // they are entering for while choosing amounts.
+            <div className="mt-2">
+              {entryItems.map((item) => {
+                const amount = entryAmounts[item] ?? new Decimal(0);
+                const inventoryCount = game.inventory[item] ?? new Decimal(0);
+                const isMissing = amount.gt(inventoryCount);
+                const entryValue = entryRequirements[item] ?? 0;
+
+                return (
+                  <div key={item} className="flex items-center mb-2">
+                    <Box
+                      image={ITEM_DETAILS[item].image}
+                      count={inventoryCount}
+                    />
+                    <div className="flex-1">
+                      <div className="flex items-center">
+                        <NumberInput
+                          value={amount}
+                          maxDecimalPlaces={0}
+                          onValueChange={(value) =>
+                            setEntryAmounts((prev) => ({
+                              ...prev,
+                              [item]: value,
+                            }))
+                          }
+                        />
+                        <Button
+                          className="ml-2 px-1 py-1 w-auto"
+                          disabled={inventoryCount.lt(1)}
+                          onClick={() =>
+                            setEntryAmounts((prev) => ({
+                              ...prev,
+                              [item]: inventoryCount.toDecimalPlaces(
+                                0,
+                                Decimal.ROUND_DOWN,
+                              ),
+                            }))
+                          }
+                        >
+                          {t("max")}
+                        </Button>
+                        {amount.gt(0) && (
+                          <img
+                            src={SUNNYSIDE.icons.cancel}
+                            className="h-6 cursor-pointer ml-2"
+                            onClick={() =>
+                              setEntryAmounts((prev) => ({
+                                ...prev,
+                                [item]: new Decimal(0),
+                              }))
+                            }
+                          />
+                        )}
+                      </div>
+
+                      {isMissing ? (
+                        <Label type="danger">
+                          {t("auction.raffle.missingChapterTicket", {
+                            ticket: item,
+                          })}
+                        </Label>
+                      ) : (
+                        <div className="flex">
+                          <p className="text-xs ml-1">
+                            {t("auction.raffle.chapterEntryInfo", {
+                              count: Math.max(amount.toNumber(), 1),
+                              ticket: item,
+                              entries: Math.max(
+                                amount.mul(entryValue).toNumber(),
+                                entryValue,
+                              ),
+                            })}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
 
           {isActiveRaffle && (
             <>
@@ -349,10 +365,28 @@ export const UpcomingRaffles: React.FC = () => {
             </>
           )}
         </div>
-        {isActiveRaffle && (
+        {isActiveRaffle && !showEntry && (
           <Button onClick={() => setShowEntry(true)}>
             {raffleEntries ? t("auction.raffle.addMore") : t("raffle.enter")}
           </Button>
+        )}
+        {isActiveRaffle && showEntry && (
+          <div className="flex gap-1">
+            <Button
+              onClick={() => {
+                setShowEntry(false);
+                setEntryAmounts({});
+              }}
+            >
+              {t("cancel")}
+            </Button>
+            <Button
+              disabled={isEntryDisabled || totalEntryAmount.eq(0)}
+              onClick={() => setShowConfirmation(true)}
+            >
+              {t("auction.raffle.enterAction")}
+            </Button>
+          </div>
         )}
       </>
     );
