@@ -8663,7 +8663,6 @@
   "gameOptions.experiments.auctionCalendar": "Açık artırma takvimi",
   "gameOptions.experiments.auctionCalendarDescription": "Takviminize açık artırma damlaları ekleyin. Desteklenen bir telefon takvimine veya tarayıcınızdaki Google Takvim'e eklemek için açık artırma programındaki yaklaşan bir açılışın yanındaki takvim simgesine dokunun.",
   "gameOptions.experiments.auctionCalendarToggle": "Açık artırma takvimini etkinleştir",
-  "cave.batch.readyDescription": "Yamayı Kum Kürekleri ile kazın. Her sayı, o döşemenin yanında kaç tane Böceğin saklandığını gösterir.",
   "cave.batch.replaceHint": "Kazmaya devam edin veya yeni bir parti başlatın. Hala gömülü olan her şey kaybolacak.",
   "cave.batch.confirmReplace": "Yeni bir parti başlatmak mı? Bunlar hala gömülü ve kaybolacak:",
   "cave.dig.beetlesFound": "Bulunan böcekler: {{found}}/{{total}}",
@@ -8798,5 +8797,10 @@
   "skill.sturdyDrill.ranked": "{{value}} Mağara matkabının Kum Matkabını tutma şansı %",
   "skill.toolHoarder.ranked": "Artan stok: + {{shovel}} Kum Küreği, + {{drill}} Kum Matkabı",
   "skill.rareBreeds.ranked": "{{value}} %{{beetle}} bahis oranları",
-  "skill.twinBeetles.ranked": "{{value}} Mağarada bir tane kazarken %+1 Böcek şansı"
+  "skill.twinBeetles.ranked": "{{value}} Mağarada bir tane kazarken %+1 Böcek şansı",
+  "cave.recipe.Mushroom.description": "Herhangi bir karışımın en Yabani Mantarları.",
+  "cave.recipe.Beetle.description": "Herhangi bir karışımın en fazla Böceği.",
+  "cave.recipe.mudYield": "x {{multiplier}} Çamur verimi",
+  "cave.batch.readyDescription": "Yamayı Kum Kürekleri ile kazın. Her sayı, o döşemenin yanında kaç tane Böcek ve Mantar saklandığını gösterir.",
+  "cave.batch.leftoverMushrooms": "Gömülü Mantarlar kaybolacak: {{count}}"
 }

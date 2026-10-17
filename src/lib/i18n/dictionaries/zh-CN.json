@@ -8663,7 +8663,6 @@
   "gameOptions.experiments.auctionCalendar": "拍卖日历",
   "gameOptions.experiments.auctionCalendarDescription": "将拍卖掉落物添加到您的日历中。在拍卖日程中点击即将开始的掉落物旁的日历图标，即可将其添加到支持的手机日历，或浏览器中的 Google 日历。",
   "gameOptions.experiments.auctionCalendarToggle": "启用拍卖日历",
-  "cave.batch.readyDescription": "使用沙铲挖掘培养槽。每个数字代表该格相邻地块中隐藏的甲虫数量。",
   "cave.batch.replaceHint": "继续挖掘，或开始新的批次。仍埋藏的所有物品都将丢失。",
   "cave.batch.confirmReplace": "开始新的批次？以下物品仍处于埋藏状态且将会丢失：",
   "cave.dig.beetlesFound": "已找到甲虫：{{found}}/{{total}}",
@@ -8798,5 +8797,10 @@
   "skill.sturdyDrill.ranked": "{{value}} 洞穴钻机保留沙钻的几率百分比",
   "skill.toolHoarder.ranked": "增加的库存：+ {{shovel}} 沙铲，+ {{drill}} 沙钻",
   "skill.rareBreeds.ranked": "{{value}}% {{beetle}} 赔率",
-  "skill.twinBeetles.ranked": "{{value}} 在洞穴中挖出甲壳虫时有% 的几率获得 +1 个甲壳虫"
+  "skill.twinBeetles.ranked": "{{value}} 在洞穴中挖出甲壳虫时有% 的几率获得 +1 个甲壳虫",
+  "cave.recipe.Mushroom.description": "所有混合物中最野生的蘑菇。",
+  "cave.recipe.Beetle.description": "所有组合中最多的甲壳虫。",
+  "cave.recipe.mudYield": "x {{multiplier}} 泥浆产量",
+  "cave.batch.readyDescription": "用沙铲挖补丁。每个数字都显示有多少甲壳虫和蘑菇躲在那个牌旁边。",
+  "cave.batch.leftoverMushrooms": "埋藏的蘑菇会丢失：{{count}}"
 }

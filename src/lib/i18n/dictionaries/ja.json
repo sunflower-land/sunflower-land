@@ -8663,7 +8663,6 @@
   "gameOptions.experiments.auctionCalendar": "オークションカレンダー",
   "gameOptions.experiments.auctionCalendarDescription": "カレンダーにオークションドロップを追加します。オークションスケジュールで予定されているドロップの横にあるカレンダーアイコンをタップして、対応している電話カレンダーまたはブラウザの Google カレンダーに追加します。",
   "gameOptions.experiments.auctionCalendarToggle": "オークションカレンダーを有効にする",
-  "cave.batch.readyDescription": "サンドショベルでパッチを掘ってください。それぞれの数字は、そのタイルの横に何匹のカブトムシが隠れているかを示しています。",
   "cave.batch.replaceHint": "掘り続けるか、新しいバッチを開始してください。まだ埋められているものはすべて失われます。",
   "cave.batch.confirmReplace": "新しいバッチを開始しますか?これらはまだ埋もれていて、失われるでしょう:",
   "cave.dig.beetlesFound": "カブトムシが見つかりました:{{found}}/{{total}}",
@@ -8798,5 +8797,10 @@
   "skill.sturdyDrill.ranked": "ケーブドリルがサンドドリルを維持する確率は {{value}}%",
   "skill.toolHoarder.ranked": "在庫増加:+ {{shovel}} サンドショベル、+ {{drill}} サンドドリル",
   "skill.rareBreeds.ranked": "{{value}}% {{beetle}} オッズ",
-  "skill.twinBeetles.ranked": "洞窟でビートルを掘ると {{value}} %の確率でビートル1個を獲得する"
+  "skill.twinBeetles.ranked": "洞窟でビートルを掘ると {{value}} %の確率でビートル1個を獲得する",
+  "cave.recipe.Mushroom.description": "どのミックスの中でもワイルドマッシュルームの数が最も多い。",
+  "cave.recipe.Beetle.description": "どのミックスの中でも最も多くのビートルズ。",
+  "cave.recipe.mudYield": "x {{multiplier}} マッドイールド",
+  "cave.batch.readyDescription": "サンドショベルでパッチを掘ってください。それぞれの数字は、そのタイルの横に隠れているカブトムシとキノコの数を示しています。",
+  "cave.batch.leftoverMushrooms": "埋められたキノコは失われます:{{count}}"
 }

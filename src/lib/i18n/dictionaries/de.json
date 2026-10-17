@@ -8663,7 +8663,6 @@
   "gameOptions.experiments.auctionCalendar": "Auktionskalender",
   "gameOptions.experiments.auctionCalendarDescription": "Füge Auktionstermine zu deinem Kalender hinzu. Tippe auf das Kalendersymbol neben einem bevorstehenden Termin im Auktionsplan, um ihn einem unterstützten Telefonkalender oder dem Google-Kalender in deinem Browser hinzuzufügen.",
   "gameOptions.experiments.auctionCalendarToggle": "Auktionskalender aktivieren",
-  "cave.batch.readyDescription": "Grabe das Pflaster mit Sandschaufeln aus. Jede Zahl gibt an, wie viele Käfer sich neben diesem Plättchen verstecken.",
   "cave.batch.replaceHint": "Graben Sie weiter oder beginnen Sie mit einer neuen Charge. Alles, was noch vergraben ist, geht verloren.",
   "cave.batch.confirmReplace": "Eine neue Charge starten? Diese sind immer noch vergraben und werden verloren gehen:",
   "cave.dig.beetlesFound": "Gefundene Käfer: {{found}}/{{total}}",
@@ -8798,5 +8797,10 @@
   "skill.sturdyDrill.ranked": "{{value}}% Chance, dass ein Höhlenbohrer seinen Sandbohrer behält",
   "skill.toolHoarder.ranked": "Erhöhter Lagerbestand: + {{shovel}} Sandschaufel, + {{drill}} Sandbohrer",
   "skill.rareBreeds.ranked": "{{value}}% {{beetle}} Gewinnchancen",
-  "skill.twinBeetles.ranked": "{{value}}% Chance auf +1 Käfer, wenn ihr einen in der Höhle ausgräbt"
+  "skill.twinBeetles.ranked": "{{value}}% Chance auf +1 Käfer, wenn ihr einen in der Höhle ausgräbt",
+  "cave.recipe.Mushroom.description": "Die meisten Wildpilze aus jeder Mischung.",
+  "cave.recipe.Beetle.description": "Die meisten Käfer aus jeder Mischung.",
+  "cave.recipe.mudYield": "x {{multiplier}} Schlammausbeute",
+  "cave.batch.readyDescription": "Grabe das Pflaster mit Sandschaufeln aus. Jede Zahl gibt an, wie viele Käfer und Pilze sich neben diesem Feld verstecken.",
+  "cave.batch.leftoverMushrooms": "Vergrabene Pilze gehen verloren: {{count}}"
 }

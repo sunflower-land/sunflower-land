@@ -8663,7 +8663,6 @@
   "gameOptions.experiments.auctionCalendar": "Calendário de leilões",
   "gameOptions.experiments.auctionCalendarDescription": "Adicione leilões ao seu calendário. Toque no ícone do calendário ao lado de uma próxima entrega na agenda do leilão para adicioná-lo a um calendário de telefone compatível ou ao Google Agenda em seu navegador.",
   "gameOptions.experiments.auctionCalendarToggle": "Ativar calendário de leilões",
-  "cave.batch.readyDescription": "Cave o canteiro com pás de areia. Cada número mostra quantos besouros estão escondidos ao lado desse ladrilho.",
   "cave.batch.replaceHint": "Continue cavando ou inicie um novo lote. Qualquer coisa que ainda esteja enterrada será perdida.",
   "cave.batch.confirmReplace": "Começar um novo lote? Eles ainda estão enterrados e serão perdidos:",
   "cave.dig.beetlesFound": "Besouros encontrados: {{found}}/{{total}}",
@@ -8798,5 +8797,10 @@
   "skill.sturdyDrill.ranked": "{{value}}% de chance de uma furadeira de caverna manter sua furadeira de areia",
   "skill.toolHoarder.ranked": "Estoque aumentado: + {{shovel}} Pá de areia, + {{drill}} Broca de areia",
   "skill.rareBreeds.ranked": "{{value}}% {{beetle}} chances",
-  "skill.twinBeetles.ranked": "{{value}}% de chance de +1 besouro ao cavar um na caverna"
+  "skill.twinBeetles.ranked": "{{value}}% de chance de +1 besouro ao cavar um na caverna",
+  "cave.recipe.Mushroom.description": "Os cogumelos mais selvagens de qualquer mistura.",
+  "cave.recipe.Beetle.description": "O maior número de besouros de qualquer mistura.",
+  "cave.recipe.mudYield": "x {{multiplier}} Rendimento de lama",
+  "cave.batch.readyDescription": "Cave o canteiro com pás de areia. Cada número mostra quantos besouros e cogumelos estão escondidos ao lado desse ladrilho.",
+  "cave.batch.leftoverMushrooms": "Cogumelos enterrados serão perdidos: {{count}}"
 }

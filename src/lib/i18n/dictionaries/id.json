@@ -8663,7 +8663,6 @@
   "gameOptions.experiments.auctionCalendar": "Kalender lelang",
   "gameOptions.experiments.auctionCalendarDescription": "Tambahkan drop lelang ke kalender Anda. Ketuk ikon kalender di samping jadwal pelelangan yang akan datang untuk menambahkannya ke kalender telepon yang didukung, atau ke Kalender Google di browser Anda.",
   "gameOptions.experiments.auctionCalendarToggle": "Aktifkan kalender lelang",
-  "cave.batch.readyDescription": "Gali tambalan dengan Sekop Pasir. Setiap angka menunjukkan berapa banyak Kumbang yang bersembunyi di sebelah ubin itu.",
   "cave.batch.replaceHint": "Terus menggali, atau mulai batch baru. Apa pun yang masih terkubur akan hilang.",
   "cave.batch.confirmReplace": "Memulai batch baru? Ini masih terkubur dan akan hilang:",
   "cave.dig.beetlesFound": "Kumbang ditemukan: {{found}}/{{total}}",
@@ -8798,5 +8797,10 @@
   "skill.sturdyDrill.ranked": "{{value}}% kemungkinan bor Gua mempertahankan Bor Pasirnya",
   "skill.toolHoarder.ranked": "Peningkatan stok: + {{shovel}} Sekop Pasir, + {{drill}} Bor Pasir",
   "skill.rareBreeds.ranked": "{{value}}% {{beetle}} peluang",
-  "skill.twinBeetles.ranked": "{{value}}% peluang +1 Kumbang saat menggali satu di Gua"
+  "skill.twinBeetles.ranked": "{{value}}% peluang +1 Kumbang saat menggali satu di Gua",
+  "cave.recipe.Mushroom.description": "Jamur Liar paling banyak dari campuran apa pun.",
+  "cave.recipe.Beetle.description": "Kumbang paling banyak dari campuran apa pun.",
+  "cave.recipe.mudYield": "x {{multiplier}} Hasil lumpur",
+  "cave.batch.readyDescription": "Gali tambalan dengan Sekop Pasir. Setiap angka menunjukkan berapa banyak Kumbang dan Jamur yang bersembunyi di sebelah ubin itu.",
+  "cave.batch.leftoverMushrooms": "Jamur yang Terkubur akan hilang: {{count}}"
 }

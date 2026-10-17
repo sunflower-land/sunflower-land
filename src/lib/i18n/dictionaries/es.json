@@ -8663,7 +8663,6 @@
   "gameOptions.experiments.auctionCalendar": "Calendario de subastas",
   "gameOptions.experiments.auctionCalendarDescription": "Añade los lanzamientos de subastas a tu calendario. Pulsa el icono del calendario que aparece junto a la próxima edición del calendario de subastas para añadirla a un calendario de teléfono compatible o a Google Calendar en tu navegador.",
   "gameOptions.experiments.auctionCalendarToggle": "Activar el calendario de subastas",
-  "cave.batch.readyDescription": "Cava el parche con palas de arena. Cada número muestra cuántos escarabajos se esconden junto a esa casilla.",
   "cave.batch.replaceHint": "Siga investigando o comience un nuevo lote. Todo lo que quede enterrado se perderá.",
   "cave.batch.confirmReplace": "¿Comenzar un nuevo lote? Estas siguen enterradas y se perderán:",
   "cave.dig.beetlesFound": "Escarabajos encontrados: {{found}}/{{total}}",
@@ -8798,5 +8797,10 @@
   "skill.sturdyDrill.ranked": "{{value}}% de probabilidad de que un taladro de cueva conserve su taladro de arena",
   "skill.toolHoarder.ranked": "Mayor stock: + {{shovel}} Sand Shovel, + {{drill}} Sand Drill",
   "skill.rareBreeds.ranked": "Cuotas de {{value}}% {{beetle}}",
-  "skill.twinBeetles.ranked": "{{value}}% de probabilidad de obtener +1 escarabajo al desenterrar uno en la cueva"
+  "skill.twinBeetles.ranked": "{{value}}% de probabilidad de obtener +1 escarabajo al desenterrar uno en la cueva",
+  "cave.recipe.Mushroom.description": "La mayor cantidad de hongos silvestres de cualquier mezcla.",
+  "cave.recipe.Beetle.description": "La mayor cantidad de escarabajos de cualquier mezcla.",
+  "cave.recipe.mudYield": "x {{multiplier}} Rendimiento de lodo",
+  "cave.batch.readyDescription": "Cava el parche con palas de arena. Cada número muestra cuántos escarabajos y hongos se esconden junto a esa casilla.",
+  "cave.batch.leftoverMushrooms": "Los hongos enterrados se perderán: {{count}}"
 }

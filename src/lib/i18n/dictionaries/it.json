@@ -8663,7 +8663,6 @@
   "gameOptions.experiments.auctionCalendar": "Calendario delle aste",
   "gameOptions.experiments.auctionCalendarDescription": "Aggiungi offerte d'asta al tuo calendario. Tocca l'icona del calendario accanto a un annuncio imminente nel programma delle aste per aggiungerlo a un calendario telefonico supportato o a Google Calendar nel tuo browser.",
   "gameOptions.experiments.auctionCalendarToggle": "Abilita il calendario delle aste",
-  "cave.batch.readyDescription": "Scava la toppa con Sand Shovels. Ogni numero mostra quanti scarabei si nascondono accanto a quella tessera.",
   "cave.batch.replaceHint": "Continua a scavare o inizia un nuovo lotto. Tutto ciò che è ancora sepolto andrà perduto.",
   "cave.batch.confirmReplace": "Iniziare un nuovo batch? Questi sono ancora sepolti e andranno perduti:",
   "cave.dig.beetlesFound": "Scarabei trovati: {{found}}/{{total}}",
@@ -8798,5 +8797,10 @@
   "skill.sturdyDrill.ranked": "{{value}}% di probabilità che una perforatrice da caverna mantenga la sua perforatrice a sabbia",
   "skill.toolHoarder.ranked": "Aumento delle scorte: + {{shovel}} Sand Shovel, + {{drill}} Sand Drill",
   "skill.rareBreeds.ranked": "Quote {{value}}% {{beetle}}",
-  "skill.twinBeetles.ranked": "{{value}}% di possibilità di +1 scarabeo quando ne scava uno nella grotta"
+  "skill.twinBeetles.ranked": "{{value}}% di possibilità di +1 scarabeo quando ne scava uno nella grotta",
+  "cave.recipe.Mushroom.description": "I funghi più selvatici di qualsiasi mix.",
+  "cave.recipe.Beetle.description": "Il maggior numero di coleotteri di qualsiasi mix.",
+  "cave.recipe.mudYield": "x {{multiplier}} Rendimento nel fango",
+  "cave.batch.readyDescription": "Scava la toppa con Sand Shovels. Ogni numero mostra quanti Scarabei e Funghi si nascondono accanto a quella tessera.",
+  "cave.batch.leftoverMushrooms": "I funghi sepolti andranno perduti: {{count}}"
 }
