@@ -62,6 +62,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel } from "components/ui/Panel";
 import { SleepingAnimalModal } from "features/barn/components/SleepingAnimalModal";
 import { LockedAnimalModal } from "features/barn/components/LockedAnimalModal";
+import { ANIMAL_EMOTION_ICONS } from "features/barn/components/Cow";
 
 const PIG_IMAGES = {
   idle: SUNNYSIDE.animals.pigIdle,
@@ -652,7 +653,19 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
           />
           {/* Upcoming Mutant Sign */}
           {mutantName && <MutantSparkles />}
-          {/* No emotion overlay: the Pig sprites draw their own status icon. */}
+          {/* Emotion */}
+          {!idle && !needsLove && !sick && (
+            <img
+              src={ANIMAL_EMOTION_ICONS[pigMachineState].icon}
+              alt={`${capitalize(pigMachineState)} Pig`}
+              style={{
+                width: `${ANIMAL_EMOTION_ICONS[pigMachineState].width}px`,
+                top: ANIMAL_EMOTION_ICONS[pigMachineState].top,
+                right: ANIMAL_EMOTION_ICONS[pigMachineState].right,
+              }}
+              className="absolute pointer-events-none"
+            />
+          )}
           {/* Request */}
           {showRequestBubble && (
             <RequestBubble
