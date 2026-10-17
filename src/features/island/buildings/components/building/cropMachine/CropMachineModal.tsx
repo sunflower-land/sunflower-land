@@ -79,6 +79,7 @@ interface Props {
   onClose: () => void;
   onAddSeeds: (seeds: AddSeedsInput) => void;
   onHarvestPack: (packIndex: number) => void;
+  onHarvestAll: () => void;
   onRemovePack: (packIndex: number) => void;
   onAddOil: (oil: number) => void;
 }
@@ -119,6 +120,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
   onClose,
   onAddSeeds,
   onHarvestPack: onHarvestPack,
+  onHarvestAll,
   onRemovePack,
   onAddOil,
 }) => {
@@ -272,6 +274,11 @@ export const CropMachineModalContent: React.FC<Props> = ({
     setSelectedPackIndex(0);
   };
 
+  const handleHarvestAll = () => {
+    onHarvestAll();
+    setSelectedPackIndex(0);
+  };
+
   const handleAddOil = () => {
     onAddOil(totalOil);
     setTotalOil(0);
@@ -284,6 +291,9 @@ export const CropMachineModalContent: React.FC<Props> = ({
   };
 
   const selectedPack = queue[selectedPackIndex];
+  const readyPackCount = queue.filter((pack) =>
+    isCropPackReady(pack, now),
+  ).length;
 
   // The next supplied pack will be windowed if the machine already is, or the
   // moment a flagged player supplies it (the event converts the machine) — so
@@ -686,13 +696,24 @@ export const CropMachineModalContent: React.FC<Props> = ({
         </OuterPanel>
         {/* Queued packs */}
         <div className="flex flex-col">
-          <Label
-            type="default"
-            className="ml-1.5 mt-2 mb-1"
-            icon={SUNNYSIDE.icons.seedling}
-          >
-            {t("cropMachine.seedPacks")}
-          </Label>
+          <div className="flex items-center justify-between mt-2 mb-1">
+            <Label
+              type="default"
+              className="ml-1.5"
+              icon={SUNNYSIDE.icons.seedling}
+            >
+              {t("cropMachine.seedPacks")}
+            </Label>
+            {/* Shown whatever pack is selected, once several are ready. */}
+            {readyPackCount > 1 && (
+              <Button
+                className="w-auto px-2 py-1 whitespace-nowrap"
+                onClick={handleHarvestAll}
+              >
+                {t("cropMachine.harvestAll", { count: readyPackCount })}
+              </Button>
+            )}
+          </div>
           <div className="mt-1 flex flex-wrap gap-2 justify-start">
             {stackedQueue.map((item, index) => {
               return (
@@ -851,6 +872,7 @@ export const CropMachineModal: React.FC<Props> = ({
   onClose,
   onAddSeeds,
   onHarvestPack: onHarvestPack,
+  onHarvestAll,
   onRemovePack,
   onAddOil,
 }) => (
@@ -866,6 +888,7 @@ export const CropMachineModal: React.FC<Props> = ({
       onClose={onClose}
       onAddSeeds={onAddSeeds}
       onHarvestPack={onHarvestPack}
+      onHarvestAll={onHarvestAll}
       onRemovePack={onRemovePack}
       onAddOil={onAddOil}
     />
