@@ -123,7 +123,7 @@ export const getBoostIcon = (boost: BoostName, state: GameState): string => {
 };
 
 export const BoostsDisplay: React.FC<{
-  boosts: { name: BoostName; value: string }[];
+  boosts: { name: BoostName; value: string; label?: string; icon?: string }[];
   show: boolean;
   state: GameState;
   onClick: () => void;
@@ -270,10 +270,10 @@ export const BoostsDisplay: React.FC<{
             <Label
               key={`${buff.name}-${buff.value}-${index}`}
               type="transparent"
-              icon={getBoostIcon(buff.name, state)}
+              icon={buff.icon ?? getBoostIcon(buff.name, state)}
               className="ml-3"
             >
-              {`${buff.value} ${getBoostLabel(buff.name, t)}${getSkillRankSuffix(buff.name, state)}`}
+              {`${buff.value} ${buff.label ?? `${getBoostLabel(buff.name, t)}${getSkillRankSuffix(buff.name, state)}`}`}
             </Label>
           ))}
         </div>

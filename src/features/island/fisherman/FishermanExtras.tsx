@@ -31,6 +31,7 @@ import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 import { getDailyFishingLimit } from "features/game/types/fishing";
 import { getWearableImage } from "features/game/lib/getWearableImage";
 import { useNow } from "lib/utils/hooks/useNow";
+import { ReelsRemainingBadge } from "./ReelsRemainingBadge";
 
 interface BoostReelItem {
   location: string;
@@ -189,10 +190,10 @@ export const FishermanExtras: React.FC<{
 }> = ({ state }) => {
   const { t } = useAppTranslation();
 
-  const reelsLeft = getRemainingReels(state);
   // The daily limit rolls over at UTC midnight, so this must stay live —
   // a captured timestamp would leave the boost highlights stale after a reset.
   const now = useNow({ live: true });
+  const reelsLeft = getRemainingReels(state, new Date(now));
   const { boostsUsed } = getDailyFishingLimit(state, now);
   const activeBoosts = new Set<BoostName>(
     boostsUsed.map((boost) => boost.name),
@@ -203,14 +204,7 @@ export const FishermanExtras: React.FC<{
       <InnerPanel className="mb-1">
         <div className="flex items-center justify-between space-x-1 mb-1">
           <Label type="default">{t("fishing.extraReels")}</Label>
-          <Label
-            type={reelsLeft <= 0 ? "danger" : "default"}
-            icon={SUNNYSIDE.tools.fishing_rod}
-          >
-            {reelsLeft === 1
-              ? t("fishing.oneReelLeft")
-              : t("fishing.reelsLeft", { reelsLeft })}
-          </Label>
+          <ReelsRemainingBadge state={state} reelsLeft={reelsLeft} now={now} />
         </div>
         <span className="flex text-xs ml-1 my-2">
           {t("fishing.lookingMoreReels")}
