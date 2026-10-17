@@ -34,6 +34,7 @@ import {
 } from "features/game/types/monuments";
 import { Feed } from "features/social/Feed";
 import { WorldFeedButton } from "features/social/components/WorldFeedButton";
+import { QuickCheerButton } from "features/social/components/QuickCheerButton";
 import classNames from "classnames";
 import { isMobile } from "mobile-device-detect";
 
@@ -196,6 +197,16 @@ export const VisitingHud: React.FC = () => {
               <span className="text-md">{`${helpRequired.totalCount}`}</span>
               <img src={choreIcon} style={{ width: `20px`, margin: `2px` }} />
             </div>
+          )}
+          {visitedFarmId && (
+            <>
+              <div className="w-px h-[36px] bg-gray-300 mx-3 self-center" />
+              <QuickCheerButton
+                farmId={visitedFarmId}
+                className="w-fit h-9 px-2 self-center"
+                hideLabelOnMobile
+              />
+            </>
           )}
         </InnerPanel>
       )}
