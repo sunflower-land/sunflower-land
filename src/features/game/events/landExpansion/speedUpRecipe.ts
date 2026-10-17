@@ -12,6 +12,13 @@ import {
   type CookableName,
 } from "features/game/types/consumables";
 import { getCookingAmount } from "./collectRecipe";
+import { hasFeatureAccess } from "lib/flags";
+import { getCookingBoostWindows } from "features/game/lib/boostWindows";
+import {
+  consumeRemainingRecipeOil,
+  convertCookingToLazyOil,
+  settleCookingBuilding,
+} from "features/game/lib/cookingReadiness";
 import {
   chargeCoinsForSpeedUp,
   getInstantGems,
@@ -63,6 +70,19 @@ export function speedUpRecipe({
       throw new Error("Building does not exist");
     }
 
+    // Bring the tank up to `createdAt` before the recipe is force-completed.
+    if (
+      hasFeatureAccess(game, "SPEED_BOOSTS") ||
+      building.oilSettledAt !== undefined
+    ) {
+      convertCookingToLazyOil({ building, now: createdAt });
+      settleCookingBuilding({
+        building,
+        windows: getCookingBoostWindows(game),
+        now: createdAt,
+      });
+    }
+
     const queue = building.crafting;
     const cooking = getCurrentCookingItem({ building, createdAt, game });
 
@@ -106,6 +126,10 @@ export function speedUpRecipe({
       game.inventory[cookableName] ?? new Decimal(0)
     ).add(amount);
 
+    // Finishing instantly skips the rest of the cook, so burn the oil the recipe
+    // would still have drawn — keeping the sink identical to letting it cook.
+    consumeRemainingRecipeOil({ building, recipe });
+
     // Drop the sped-up recipe by POSITION. Matching on `id` or `readyAt` removes
     // every entry that shares one, so a player who queued the same recipe twice
     // would lose both while paying for one.
@@ -119,6 +143,7 @@ export function speedUpRecipe({
       buildingName: action.buildingName as CookingBuildingName,
       isInstantCook: true,
       game,
+      building,
     });
 
     game.farmActivity = trackFarmActivity(
