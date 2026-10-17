@@ -4041,7 +4041,7 @@
   "cave.batch.start": "Start",
   "cave.batch.growing": "Growing",
   "cave.batch.ready": "Ready to dig!",
-  "cave.batch.readyDescription": "Dig the patch with Sand Shovels. Each number shows how many Beetles are hiding next to that tile.",
+  "cave.batch.readyDescription": "Dig the patch with Sand Shovels. Each number shows how many Beetles and Mushrooms are hiding next to that tile.",
   "cave.batch.finishNow": "Finish now",
   "cave.batch.confirmFinish": "Instantly finish this batch?",
   "cave.batch.replaceHint": "Keep digging, or start a new batch. Anything still buried will be lost.",
