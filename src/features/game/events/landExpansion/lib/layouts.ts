@@ -12,6 +12,7 @@ import {
 } from "features/game/lib/guardianPlacements";
 import { getChestItemCount } from "features/island/hud/components/inventory/utils/inventory";
 import { isCollectibleWithTimestamps } from "features/game/events/landExpansion/placeCollectible";
+import { isTemporaryCollectible } from "features/game/lib/collectibleBuilt";
 import { getAvailableNodes } from "features/game/lib/resourceNodes";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
@@ -266,6 +267,9 @@ export function snapshotFarm(
   const collectibles: SavedLayout["collectibles"] = {};
   getObjectEntries(state.collectibles).forEach(([name, group]) => {
     if (!group) return;
+    // Time-limited boosters (totems, hourglasses, shrines) are never part of a
+    // layout: re-applying one must not start a fresh boost from the chest.
+    if (isTemporaryCollectible(name)) return;
     const placed = group
       .filter((item) => isKept(item.coordinates, name, maxExpansions))
       .map((item) => ({
@@ -395,7 +399,7 @@ export function trimSavedLayout(
 > {
   const collectibles: SavedLayout["collectibles"] = {};
   getObjectEntries(layout.collectibles).forEach(([name, placements]) => {
-    if (!placements) return;
+    if (!placements || isTemporaryCollectible(name)) return;
     const kept = placements
       .filter((p) => isKept(p.coordinates, name, maxExpansions))
       .map((p) => ({ ...p, coordinates: { ...p.coordinates } }));
@@ -520,7 +524,8 @@ export function layoutItemRects(
 
   getObjectEntries(layout.collectibles).forEach(([name, entries]) => {
     const dimensions = PLACEABLE_DIMENSIONS[name];
-    if (!dimensions || !entries) return;
+    // Older layouts may list temporary collectibles, which apply skips.
+    if (!dimensions || !entries || isTemporaryCollectible(name)) return;
     entries.forEach(({ coordinates, flipped }) =>
       rects.push({
         x: coordinates.x,
@@ -759,8 +764,15 @@ export function applyFarmLayout(
       });
     });
   };
+  // Layouts saved before temporary collectibles were excluded may still list
+  // them; skip those entries so applying never creates or moves a booster.
+  const permanentCollectibles: SavedLayout["collectibles"] = {};
+  getObjectEntries(layout.collectibles).forEach(([name, entries]) => {
+    if (!entries || isTemporaryCollectible(name)) return;
+    permanentCollectibles[name] = entries;
+  });
   addNamedSlots(
-    layout.collectibles,
+    permanentCollectibles,
     (name) => state.collectibles[name],
     (name) => (state.collectibles[name] ??= []),
     (name, id) =>
@@ -1020,8 +1032,10 @@ export function applyFarmLayout(
   // timers) is kept; it simply returns to inventory. Resources are lifted in full
   // above; mirror that for the name/id-keyed categories. The player's own Bumpkin
   // is intentionally left alone — it is the avatar and is always captured on-farm.
+  // Temporary collectibles are never part of a layout, so an active booster
+  // stays exactly where it is.
   getObjectEntries(state.collectibles).forEach(([name, items]) => {
-    if (layout.collectibles[name]) return;
+    if (layout.collectibles[name] || isTemporaryCollectible(name)) return;
     items?.forEach((item) => {
       item.coordinates = undefined;
     });
