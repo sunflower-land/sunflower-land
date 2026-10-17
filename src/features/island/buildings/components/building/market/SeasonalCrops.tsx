@@ -10,7 +10,10 @@ import {
   type GreenHouseCrop,
   type ProduceName,
 } from "features/game/types/crops";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  getTranslatedItemName,
+  ITEM_DETAILS,
+} from "features/game/types/images";
 import { getSellPrice } from "features/game/expansion/lib/boosts";
 import { setPrecision } from "lib/utils/formatNumber";
 import type { GreenHouseFruit, PatchFruit } from "features/game/types/fruits";
@@ -373,7 +376,11 @@ export const SeasonalCrops: React.FC = () => {
       <ConfirmationModal
         show={!!pendingSale}
         onHide={() => setPendingSale(undefined)}
-        messages={[t("market.deliveryWarning", { name: selected.name })]}
+        messages={[
+          t("market.deliveryWarning", {
+            name: getTranslatedItemName(selected.name),
+          }),
+        ]}
         onCancel={() => setPendingSale(undefined)}
         onConfirm={() => {
           if (pendingSale) handleSell(pendingSale, true);
@@ -388,7 +395,7 @@ export const SeasonalCrops: React.FC = () => {
         messages={[
           t("confirmation.sell", {
             amount: islandType !== "basic" ? customAmount : cropAmount,
-            name: selected.name,
+            name: getTranslatedItemName(selected.name),
             coinAmount,
           }),
         ]}
