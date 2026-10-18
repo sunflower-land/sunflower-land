@@ -37,7 +37,7 @@ import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { IngredientsPopover } from "components/ui/IngredientsPopover";
-import { TreasureToolsShop } from "features/world/ui/beach/treasure_shop/TreasureShopBuy";
+import { CaveToolsShop } from "./CaveToolsShop";
 
 const _game = (state: MachineState) => state.context.state;
 
@@ -163,7 +163,7 @@ export const CaveMerchantModal: React.FC<{ onClose: () => void }> = ({
         }}
         container={OuterPanel}
       >
-        {tab === "tools" && <TreasureToolsShop />}
+        {tab === "tools" && <CaveToolsShop />}
 
         {tab === "trades" && !showUpcoming && (
           <div className="flex flex-col gap-1">
