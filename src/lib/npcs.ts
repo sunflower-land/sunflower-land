@@ -123,7 +123,7 @@ export type NPCName =
   | "Slime Jim" // Colors event NPC
   | "Slime Joe" // Colors event NPC
   | "Vampire Jim" // Halloween event NPC
-  | "Skelly Joe"; // Halloween event NPC
+  | "Skelly Joe" // Halloween event NPC
   | "gloomwick"; // Goblin Cave Merchant (Chapter 16)
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
@@ -1433,6 +1433,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Hook and Chain",
     wings: "Sky Tearer Wings",
     aura: "Bat Aura",
+  },
   gloomwick: {
     body: "Goblin Potion",
     hair: "Buzz Cut",
