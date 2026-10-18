@@ -4,7 +4,7 @@ import type {
   CaveMerchantOfferId,
   InventoryItemName,
 } from "./game";
-import { CAVE_TIERS, type CaveExpansionTier, type CaveTier } from "./caveTiers";
+import type { CaveTierLevel } from "./caveTiers";
 
 // Both repos keep this file byte-identical.
 
@@ -19,26 +19,11 @@ export type CaveMerchantOffer = {
   /** How many times each player can take the offer per limit period. */
   limit: number;
   /** The Cave tier that adds the offer to the shop. */
-  requiresTier: CaveExpansionTier;
+  requiresTier: CaveTierLevel;
 };
 
-function getCaveUnlockTier(
-  unlock: NonNullable<CaveTier["unlocks"]>,
-): CaveExpansionTier {
-  const tiers = Object.keys(CAVE_TIERS).map(Number) as CaveExpansionTier[];
-  const tier = tiers.find((tier) => CAVE_TIERS[tier].unlocks === unlock);
-  if (!tier) {
-    throw new Error(`No Cave tier unlocks ${unlock}`);
-  }
-  return tier;
-}
-
-/** The Cave tier that opens the Goblin Cave Merchant's shop. */
-export const CAVE_MERCHANT_TIER = getCaveUnlockTier("merchant");
-
-/** The Cave tier that adds more offers to the same shop. */
-export const CAVE_MERCHANT_OFFERS_TIER = getCaveUnlockTier("merchantOffers");
-
+// The Merchant is open from Cave tier I with one offer, and each tier adds one
+// more (#7721), so tier N stocks the first N offers below.
 // TODO(Cave balance 475): placeholder offers, prices and limits. The spec only
 // says Beetles are spent at the Merchant; everything else is invented.
 export const CAVE_MERCHANT_OFFERS: Record<
@@ -49,31 +34,49 @@ export const CAVE_MERCHANT_OFFERS: Record<
     cost: { items: { "Green Beetle": new Decimal(6) } },
     reward: { "Sand Drill": new Decimal(2) },
     limit: 5,
-    requiresTier: CAVE_MERCHANT_TIER,
+    requiresTier: 1,
   },
   truffles: {
     cost: { items: { "Blue Beetle": new Decimal(4) } },
     reward: { Truffle: new Decimal(2) },
     limit: 5,
-    requiresTier: CAVE_MERCHANT_TIER,
+    requiresTier: 2,
   },
   leather: {
     cost: { coins: 500, items: { "Pink Beetle": new Decimal(3) } },
     reward: { Leather: new Decimal(3) },
     limit: 3,
-    requiresTier: CAVE_MERCHANT_TIER,
+    requiresTier: 3,
+  },
+  iron: {
+    cost: { items: { "Green Beetle": new Decimal(5) } },
+    reward: { Iron: new Decimal(2) },
+    limit: 5,
+    requiresTier: 4,
+  },
+  gold: {
+    cost: { coins: 1_000, items: { "Pink Beetle": new Decimal(3) } },
+    reward: { Gold: new Decimal(1) },
+    limit: 3,
+    requiresTier: 5,
+  },
+  oil: {
+    cost: { items: { "Amber Beetle": new Decimal(2) } },
+    reward: { Oil: new Decimal(10) },
+    limit: 3,
+    requiresTier: 6,
   },
   crimstone: {
     cost: { items: { "Amber Beetle": new Decimal(2) } },
     reward: { Crimstone: new Decimal(1) },
     limit: 2,
-    requiresTier: CAVE_MERCHANT_OFFERS_TIER,
+    requiresTier: 7,
   },
   obsidian: {
     cost: { coins: 5_000, items: { "Amber Beetle": new Decimal(5) } },
     reward: { Obsidian: new Decimal(1) },
     limit: 1,
-    requiresTier: CAVE_MERCHANT_OFFERS_TIER,
+    requiresTier: 8,
   },
 };
 

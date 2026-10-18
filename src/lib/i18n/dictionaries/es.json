@@ -8802,5 +8802,11 @@
   "cave.recipe.Beetle.description": "La mayor cantidad de escarabajos de cualquier mezcla.",
   "cave.recipe.mudYield": "x {{multiplier}} Rendimiento de lodo",
   "cave.batch.readyDescription": "Cava el parche con palas de arena. Cada número muestra cuántos escarabajos y hongos se esconden junto a esa casilla.",
-  "cave.batch.leftoverMushrooms": "Los hongos enterrados se perderán: {{count}}"
+  "cave.batch.leftoverMushrooms": "Los hongos enterrados se perderán: {{count}}",
+  "cave.merchant.trades": "Oficios",
+  "cave.merchant.upcoming": "Próximas ofertas",
+  "cave.merchant.tierProgress": "Nivel de cueva {{tier}} · {{count}} de ofertas de {{total}}",
+  "cave.merchant.soldOut": "Se agotaron esta semana",
+  "cave.merchant.upcomingDescription": "Cava más profundamente la cueva y te traeré mejores productos.",
+  "cave.merchant.tier": "Nivel de cueva {{tier}}"
 }

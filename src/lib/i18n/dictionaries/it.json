@@ -8802,5 +8802,11 @@
   "cave.recipe.Beetle.description": "Il maggior numero di coleotteri di qualsiasi mix.",
   "cave.recipe.mudYield": "x {{multiplier}} Rendimento nel fango",
   "cave.batch.readyDescription": "Scava la toppa con Sand Shovels. Ogni numero mostra quanti Scarabei e Funghi si nascondono accanto a quella tessera.",
-  "cave.batch.leftoverMushrooms": "I funghi sepolti andranno perduti: {{count}}"
+  "cave.batch.leftoverMushrooms": "I funghi sepolti andranno perduti: {{count}}",
+  "cave.merchant.trades": "Negoziazioni",
+  "cave.merchant.upcoming": "Prossime offerte",
+  "cave.merchant.tierProgress": "Offerte di livello Caverna {{tier}} · {{count}} di {{total}}",
+  "cave.merchant.soldOut": "Esaurito questa settimana",
+  "cave.merchant.upcomingDescription": "Scava più a fondo nella caverna e ti porterò merce migliore.",
+  "cave.merchant.tier": "Livello caverna {{tier}}"
 }

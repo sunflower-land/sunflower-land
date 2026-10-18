@@ -1965,6 +1965,9 @@ export type CaveMerchantOfferId =
   | "sand-drills"
   | "truffles"
   | "leather"
+  | "iron"
+  | "gold"
+  | "oil"
   | "crimstone"
   | "obsidian";
 

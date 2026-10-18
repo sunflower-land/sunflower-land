@@ -8802,5 +8802,11 @@
   "cave.recipe.Beetle.description": "所有组合中最多的甲壳虫。",
   "cave.recipe.mudYield": "x {{multiplier}} 泥浆产量",
   "cave.batch.readyDescription": "用沙铲挖补丁。每个数字都显示有多少甲壳虫和蘑菇躲在那个牌旁边。",
-  "cave.batch.leftoverMushrooms": "埋藏的蘑菇会丢失：{{count}}"
+  "cave.batch.leftoverMushrooms": "埋藏的蘑菇会丢失：{{count}}",
+  "cave.merchant.trades": "交易",
+  "cave.merchant.upcoming": "即将推出的优惠",
+  "cave.merchant.tierProgress": "洞穴等级 {{tier}} · {{total}} 优惠中的 {{count}}",
+  "cave.merchant.soldOut": "本周已售罄",
+  "cave.merchant.upcomingDescription": "把洞穴挖得更深，我会带更好的物品。",
+  "cave.merchant.tier": "洞穴等级 {{tier}}"
 }

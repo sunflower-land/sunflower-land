@@ -8802,5 +8802,11 @@
   "cave.recipe.Beetle.description": "The most Beetles of any mix.",
   "cave.recipe.mudYield": "x{{multiplier}} Mud yield",
   "cave.batch.readyDescription": "Dig the patch with Sand Shovels. Each number shows how many Beetles and Mushrooms are hiding next to that tile.",
-  "cave.batch.leftoverMushrooms": "Buried Mushrooms will be lost: {{count}}"
+  "cave.batch.leftoverMushrooms": "Buried Mushrooms will be lost: {{count}}",
+  "cave.merchant.trades": "Trades",
+  "cave.merchant.upcoming": "Upcoming offers",
+  "cave.merchant.tierProgress": "Cave tier {{tier}} · {{count}} of {{total}} offers",
+  "cave.merchant.soldOut": "Sold out this week",
+  "cave.merchant.upcomingDescription": "Dig the Cave deeper and I'll bring better wares.",
+  "cave.merchant.tier": "Cave tier {{tier}}"
 }

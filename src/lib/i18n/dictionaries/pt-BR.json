@@ -8802,5 +8802,11 @@
   "cave.recipe.Beetle.description": "O maior número de besouros de qualquer mistura.",
   "cave.recipe.mudYield": "x {{multiplier}} Rendimento de lama",
   "cave.batch.readyDescription": "Cave o canteiro com pás de areia. Cada número mostra quantos besouros e cogumelos estão escondidos ao lado desse ladrilho.",
-  "cave.batch.leftoverMushrooms": "Cogumelos enterrados serão perdidos: {{count}}"
+  "cave.batch.leftoverMushrooms": "Cogumelos enterrados serão perdidos: {{count}}",
+  "cave.merchant.trades": "Negociações",
+  "cave.merchant.upcoming": "Próximas ofertas",
+  "cave.merchant.tierProgress": "Nível de caverna {{tier}} · {{count}} de {{total}} ofertas",
+  "cave.merchant.soldOut": "Esgotado esta semana",
+  "cave.merchant.upcomingDescription": "Cave a caverna mais fundo e eu trarei produtos melhores.",
+  "cave.merchant.tier": "Nível da caverna {{tier}}"
 }

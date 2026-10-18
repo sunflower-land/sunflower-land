@@ -57,7 +57,7 @@ interface ToolContentProps {
 }
 const _state = (state: MachineState) => state.context.state;
 
-const ToolContent: React.FC<ToolContentProps> = ({ selectedName }) => {
+export const ToolContent: React.FC<ToolContentProps> = ({ selectedName }) => {
   const { t } = useAppTranslation();
 
   const { gameService, shortcutItem } = useContext(Context);

@@ -8802,5 +8802,11 @@
   "cave.recipe.Beetle.description": "どのミックスの中でも最も多くのビートルズ。",
   "cave.recipe.mudYield": "x {{multiplier}} マッドイールド",
   "cave.batch.readyDescription": "サンドショベルでパッチを掘ってください。それぞれの数字は、そのタイルの横に隠れているカブトムシとキノコの数を示しています。",
-  "cave.batch.leftoverMushrooms": "埋められたキノコは失われます:{{count}}"
+  "cave.batch.leftoverMushrooms": "埋められたキノコは失われます:{{count}}",
+  "cave.merchant.trades": "取引",
+  "cave.merchant.upcoming": "今後のオファー",
+  "cave.merchant.tierProgress": "ケーブティア {{tier}} · {{count}} または {{total}} オファー",
+  "cave.merchant.soldOut": "今週は売り切れました",
+  "cave.merchant.upcomingDescription": "洞窟をもっと深く掘って、もっと良いものを持ってきてあげよう。",
+  "cave.merchant.tier": "ケーブタイヤ {{tier}}"
 }
