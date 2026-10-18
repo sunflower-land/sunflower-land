@@ -8802,5 +8802,11 @@
   "cave.recipe.Beetle.description": "Die meisten Käfer aus jeder Mischung.",
   "cave.recipe.mudYield": "x {{multiplier}} Schlammausbeute",
   "cave.batch.readyDescription": "Grabe das Pflaster mit Sandschaufeln aus. Jede Zahl gibt an, wie viele Käfer und Pilze sich neben diesem Feld verstecken.",
-  "cave.batch.leftoverMushrooms": "Vergrabene Pilze gehen verloren: {{count}}"
+  "cave.batch.leftoverMushrooms": "Vergrabene Pilze gehen verloren: {{count}}",
+  "cave.merchant.trades": "Gewerke",
+  "cave.merchant.upcoming": "Kommende Angebote",
+  "cave.merchant.tierProgress": "Angebote der Höhlenstufe {{tier}} · {{count}} von {{total}} -Angeboten",
+  "cave.merchant.soldOut": "Diese Woche ausverkauft",
+  "cave.merchant.upcomingDescription": "Grabe die Höhle tiefer und ich bringe bessere Waren.",
+  "cave.merchant.tier": "Höhlenebene {{tier}}"
 }

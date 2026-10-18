@@ -8802,5 +8802,11 @@
   "cave.recipe.Beetle.description": "Herhangi bir karışımın en fazla Böceği.",
   "cave.recipe.mudYield": "x {{multiplier}} Çamur verimi",
   "cave.batch.readyDescription": "Yamayı Kum Kürekleri ile kazın. Her sayı, o döşemenin yanında kaç tane Böcek ve Mantar saklandığını gösterir.",
-  "cave.batch.leftoverMushrooms": "Gömülü Mantarlar kaybolacak: {{count}}"
+  "cave.batch.leftoverMushrooms": "Gömülü Mantarlar kaybolacak: {{count}}",
+  "cave.merchant.trades": "Ticaretler",
+  "cave.merchant.upcoming": "Yaklaşan teklifler",
+  "cave.merchant.tierProgress": "Mağara katmanı {{tier}} · {{total}} tekliflerinden {{count}}",
+  "cave.merchant.soldOut": "Bu hafta tükendi",
+  "cave.merchant.upcomingDescription": "Mağarayı daha derine kazın, ben de daha iyi eşyalar getireyim.",
+  "cave.merchant.tier": "Mağara katmanı {{tier}}"
 }

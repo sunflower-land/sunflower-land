@@ -8802,5 +8802,11 @@
   "cave.recipe.Beetle.description": "Le plus grand nombre de coléoptères de tous les mélanges.",
   "cave.recipe.mudYield": "x {{multiplier}} Rendement en boue",
   "cave.batch.readyDescription": "Creusez la parcelle avec des pelles à sable. Chaque chiffre indique combien de coléoptères et de champignons se cachent à côté de cette tuile.",
-  "cave.batch.leftoverMushrooms": "Les champignons enterrés seront perdus : {{count}}"
+  "cave.batch.leftoverMushrooms": "Les champignons enterrés seront perdus : {{count}}",
+  "cave.merchant.trades": "Métiers",
+  "cave.merchant.upcoming": "Prochaines offres",
+  "cave.merchant.tierProgress": "Offre de niveau Cave {{tier}} · {{count}} des offres {{total}}",
+  "cave.merchant.soldOut": "Épuisé cette semaine",
+  "cave.merchant.upcomingDescription": "Creusez la grotte plus profondément et j'apporterai de meilleures marchandises.",
+  "cave.merchant.tier": "Niveau de la grotte {{tier}}"
 }
