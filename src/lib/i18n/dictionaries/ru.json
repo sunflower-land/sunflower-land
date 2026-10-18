@@ -8808,5 +8808,6 @@
   "cave.merchant.tierProgress": "Cave tier {{tier}} · {{count}} of {{total}} offers",
   "cave.merchant.soldOut": "Sold out this week",
   "cave.merchant.upcomingDescription": "Dig the Cave deeper and I'll bring better wares.",
-  "cave.merchant.tier": "Cave tier {{tier}}"
+  "cave.merchant.tier": "Cave tier {{tier}}",
+  "noaccount.nftFarmsFound": "This wallet already owns a farm NFT. Select the farm you want to play:"
 }

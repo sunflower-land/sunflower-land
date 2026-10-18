@@ -8808,5 +8808,6 @@
   "cave.merchant.tierProgress": "ケーブティア {{tier}} · {{count}} または {{total}} オファー",
   "cave.merchant.soldOut": "今週は売り切れました",
   "cave.merchant.upcomingDescription": "洞窟をもっと深く掘って、もっと良いものを持ってきてあげよう。",
-  "cave.merchant.tier": "ケーブタイヤ {{tier}}"
+  "cave.merchant.tier": "ケーブタイヤ {{tier}}",
+  "noaccount.nftFarmsFound": "このウォレットはすでにファームNFTを所有しています。プレイしたいファームを選択してください:"
 }

@@ -8808,5 +8808,6 @@
   "cave.merchant.tierProgress": "Offerte di livello Caverna {{tier}} · {{count}} di {{total}}",
   "cave.merchant.soldOut": "Esaurito questa settimana",
   "cave.merchant.upcomingDescription": "Scava più a fondo nella caverna e ti porterò merce migliore.",
-  "cave.merchant.tier": "Livello caverna {{tier}}"
+  "cave.merchant.tier": "Livello caverna {{tier}}",
+  "noaccount.nftFarmsFound": "Questo portafoglio possiede già un NFT agricolo. Seleziona la fattoria in cui vuoi giocare:"
 }

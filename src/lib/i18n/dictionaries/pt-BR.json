@@ -8808,5 +8808,6 @@
   "cave.merchant.tierProgress": "Nível de caverna {{tier}} · {{count}} de {{total}} ofertas",
   "cave.merchant.soldOut": "Esgotado esta semana",
   "cave.merchant.upcomingDescription": "Cave a caverna mais fundo e eu trarei produtos melhores.",
-  "cave.merchant.tier": "Nível da caverna {{tier}}"
+  "cave.merchant.tier": "Nível da caverna {{tier}}",
+  "noaccount.nftFarmsFound": "Essa carteira já possui um NFT de fazenda. Selecione a fazenda que você quer jogar:"
 }

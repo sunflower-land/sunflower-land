@@ -8808,5 +8808,6 @@
   "cave.merchant.tierProgress": "Tingkat gua {{tier}} · {{count}} dari penawaran {{total}}",
   "cave.merchant.soldOut": "Habis terjual minggu ini",
   "cave.merchant.upcomingDescription": "Gali gua lebih dalam dan aku akan membawa barang yang lebih baik.",
-  "cave.merchant.tier": "Tingkat gua {{tier}}"
+  "cave.merchant.tier": "Tingkat gua {{tier}}",
+  "noaccount.nftFarmsFound": "Dompet ini sudah memiliki NFT pertanian. Pilih peternakan yang ingin Anda mainkan:"
 }

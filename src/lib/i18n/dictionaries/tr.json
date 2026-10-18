@@ -8808,5 +8808,6 @@
   "cave.merchant.tierProgress": "Mağara katmanı {{tier}} · {{total}} tekliflerinden {{count}}",
   "cave.merchant.soldOut": "Bu hafta tükendi",
   "cave.merchant.upcomingDescription": "Mağarayı daha derine kazın, ben de daha iyi eşyalar getireyim.",
-  "cave.merchant.tier": "Mağara katmanı {{tier}}"
+  "cave.merchant.tier": "Mağara katmanı {{tier}}",
+  "noaccount.nftFarmsFound": "Bu cüzdanın zaten bir çiftlik NFT'si var. Oynamak istediğiniz çiftliği seçin:"
 }

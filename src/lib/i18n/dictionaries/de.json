@@ -8808,5 +8808,6 @@
   "cave.merchant.tierProgress": "Angebote der Höhlenstufe {{tier}} · {{count}} von {{total}} -Angeboten",
   "cave.merchant.soldOut": "Diese Woche ausverkauft",
   "cave.merchant.upcomingDescription": "Grabe die Höhle tiefer und ich bringe bessere Waren.",
-  "cave.merchant.tier": "Höhlenebene {{tier}}"
+  "cave.merchant.tier": "Höhlenebene {{tier}}",
+  "noaccount.nftFarmsFound": "Diese Wallet besitzt bereits eine Farm NFT. Wähle die Farm aus, die du spielen möchtest:"
 }

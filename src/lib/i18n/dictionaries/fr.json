@@ -8808,5 +8808,6 @@
   "cave.merchant.tierProgress": "Offre de niveau Cave {{tier}} · {{count}} des offres {{total}}",
   "cave.merchant.soldOut": "Épuisé cette semaine",
   "cave.merchant.upcomingDescription": "Creusez la grotte plus profondément et j'apporterai de meilleures marchandises.",
-  "cave.merchant.tier": "Niveau de la grotte {{tier}}"
+  "cave.merchant.tier": "Niveau de la grotte {{tier}}",
+  "noaccount.nftFarmsFound": "Ce portefeuille possède déjà une ferme NFT. Sélectionnez la ferme à laquelle vous voulez jouer :"
 }

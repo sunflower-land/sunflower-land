@@ -8808,5 +8808,6 @@
   "cave.merchant.tierProgress": "洞穴等级 {{tier}} · {{total}} 优惠中的 {{count}}",
   "cave.merchant.soldOut": "本周已售罄",
   "cave.merchant.upcomingDescription": "把洞穴挖得更深，我会带更好的物品。",
-  "cave.merchant.tier": "洞穴等级 {{tier}}"
+  "cave.merchant.tier": "洞穴等级 {{tier}}",
+  "noaccount.nftFarmsFound": "这个钱包已经拥有一个农场 NFT。选择你想玩的农场："
 }
