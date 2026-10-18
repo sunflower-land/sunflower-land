@@ -5878,6 +5878,7 @@
   "vip.benefit.craftingQueue": "Queue up recipes in crafting box",
   "vip.benefit.multicast": "Multi-cast fishing",
   "vip.benefit.stellaDiscounts": "Stella FLOWER discounts (50%)",
+  "vip.benefit.expansionCoinDiscount": "Expansion coin discount: {{coins}} coins or {{percent}}% off, whichever is more",
   "vip.benefit.bonusDelivery": "Bonus Delivery & Chore Rewards",
   "vip.benefit.reputation": "{{points}} Reputation Points",
   "vip.benefit.expansionSpeed": "-10% Expansion time during Ascension Age Chapter (Starts on 10th August 2026 Midnight UTC)",
