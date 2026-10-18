@@ -7,7 +7,6 @@ import { isCaveBuildingReady } from "features/game/lib/cave";
 import { getKeys } from "lib/object";
 import {
   CAVE_MERCHANT_OFFERS,
-  CAVE_MERCHANT_TIER,
   getCaveMerchantOffersLeft,
   isCaveMerchantOfferId,
 } from "features/game/types/caveMerchant";
@@ -26,7 +25,6 @@ type Options = {
 export enum BUY_CAVE_MERCHANT_OFFER_ERRORS {
   NO_FEATURE_ACCESS = "The Cave is not available for this player",
   NO_CAVE = "The Cave has not been built",
-  MERCHANT_CLOSED = "The Goblin Cave Merchant has not opened yet",
   UNKNOWN_OFFER = "The Goblin Cave Merchant has no such offer",
   OFFER_LOCKED = "The offer needs a later Cave tier",
   LIMIT_REACHED = "The offer's limit has been reached",
@@ -53,10 +51,6 @@ export function buyCaveMerchantOffer({
     const cave = game.cave;
     if (!cave || !isCaveBuildingReady(game, createdAt)) {
       throw new Error(BUY_CAVE_MERCHANT_OFFER_ERRORS.NO_CAVE);
-    }
-
-    if (cave.tier < CAVE_MERCHANT_TIER) {
-      throw new Error(BUY_CAVE_MERCHANT_OFFER_ERRORS.MERCHANT_CLOSED);
     }
 
     const { offerId } = action;

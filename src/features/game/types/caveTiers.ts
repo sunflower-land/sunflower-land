@@ -9,6 +9,9 @@ export const CAVE_MAX_TIER = 8;
 /** A tier reached by expanding (Tier I comes with building the Cave). */
 export type CaveExpansionTier = 2 | 3 | 4 | 5 | 6 | 7 | 8;
 
+/** Any Cave tier, I to VIII. */
+export type CaveTierLevel = 1 | CaveExpansionTier;
+
 export type CaveTier = {
   /** The island (or any later one) the player must have reached. */
   island: IslandType;
@@ -16,8 +19,6 @@ export type CaveTier = {
   ingredients: Partial<Record<InventoryItemName, Decimal>>;
   /** How long construction takes before the tier can be completed. */
   buildMs: number;
-  /** What else the tier opens in the Cave. */
-  unlocks?: "merchant" | "merchantOffers";
 };
 
 const HOUR_MS = 60 * 60 * 1000;
@@ -68,7 +69,6 @@ export const CAVE_TIERS: Record<CaveExpansionTier, CaveTier> = {
       "Pig Bristles": new Decimal(20),
     },
     buildMs: 24 * HOUR_MS,
-    unlocks: "merchant",
   },
   6: {
     island: "crystal",
@@ -102,7 +102,6 @@ export const CAVE_TIERS: Record<CaveExpansionTier, CaveTier> = {
       "Pig Bristles": new Decimal(50),
     },
     buildMs: 72 * HOUR_MS,
-    unlocks: "merchantOffers",
   },
 };
 
