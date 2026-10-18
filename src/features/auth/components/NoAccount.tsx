@@ -29,6 +29,9 @@ import type { CreateFarmEvent } from "../lib/authMachine";
 
 type ValidationState = "notFound" | "checking" | "valid" | "error";
 
+/** How long signup waits for the farm NFT lookup before showing the regular page */
+const NFT_LOOKUP_TIMEOUT_MS = 15_000;
+
 export const NoAccount: React.FC = () => {
   const { t } = useAppTranslation();
   const { authService } = useContext(Context);
@@ -45,54 +48,44 @@ export const NoAccount: React.FC = () => {
 
   // Farm NFTs owned by the connected wallet, so a player who already owns a
   // farm is offered it before creating a new one. The result is keyed by the
-  // address and attempt it was fetched for, so a stale lookup is never shown.
+  // address it was fetched for, so a stale lookup is never shown.
   const [nftLookup, setNftLookup] = useState<{
     address: string;
-    attempt: number;
-    tokenIds?: number[];
-    failed?: boolean;
+    tokenIds: number[];
   }>();
-  const [nftLookupAttempt, setNftLookupAttempt] = useState(0);
   const [createNewFarmFor, setCreateNewFarmFor] = useState<string>();
 
-  const currentLookup =
-    nftLookup?.address === address && nftLookup.attempt === nftLookupAttempt
-      ? nftLookup
+  const nftTokenIds = !hasWallet
+    ? []
+    : nftLookup?.address === address
+      ? nftLookup.tokenIds
       : undefined;
-  const nftTokenIds = hasWallet ? currentLookup?.tokenIds : [];
-  // A failed lookup is not proof that the wallet owns no farm, so creating a
-  // farm stays blocked until the lookup succeeds.
-  const nftLookupFailed = hasWallet && currentLookup?.failed === true;
   const createNewFarm = createNewFarmFor === address;
 
   useEffect(() => {
     if (!hasWallet) return;
 
-    let cancelled = false;
-    const attempt = nftLookupAttempt;
-
-    const load = async () => {
-      try {
-        const farms = await getFarms(address as `0x${string}`);
-
-        if (!cancelled) {
-          setNftLookup({
-            address,
-            attempt,
-            tokenIds: farms.map((farm) => Number(farm.tokenId)),
-          });
-        }
-      } catch {
-        if (!cancelled) setNftLookup({ address, attempt, failed: true });
-      }
+    let settled = false;
+    const settle = (tokenIds: number[]) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      setNftLookup({ address, tokenIds });
     };
 
-    load();
+    // A slow or failed lookup must never block signup: fall back to the
+    // regular page, where "I already have a farm" runs its own search.
+    const timer = setTimeout(() => settle([]), NFT_LOOKUP_TIMEOUT_MS);
+
+    getFarms(address as `0x${string}`)
+      .then((farms) => settle(farms.map((farm) => Number(farm.tokenId))))
+      .catch(() => settle([]));
 
     return () => {
-      cancelled = true;
+      settled = true;
+      clearTimeout(timer);
     };
-  }, [address, hasWallet, nftLookupAttempt]);
+  }, [address, hasWallet]);
 
   const handleCreateFarm = () => {
     if (!referralId) {
@@ -212,20 +205,6 @@ export const NoAccount: React.FC = () => {
 
   if (showBumpkinModal) {
     return <SignupBumpkinEquip onSave={handleBumpkinSave} />;
-  }
-
-  if (nftLookupFailed) {
-    return (
-      <>
-        <div className="p-2">{t("noaccount.nftLookupFailed")}</div>
-        <div className="flex space-x-1">
-          <Button onClick={() => authService.send("BACK")}>{t("back")}</Button>
-          <Button onClick={() => setNftLookupAttempt((n) => n + 1)}>
-            {t("retry")}
-          </Button>
-        </div>
-      </>
-    );
   }
 
   if (nftTokenIds === undefined) {
