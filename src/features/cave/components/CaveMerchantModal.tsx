@@ -16,7 +16,10 @@ import {
 } from "features/game/types/caveMerchant";
 import { getNextCaveTier } from "features/game/types/caveTiers";
 import type { InventoryItemName } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { NPC_WEARABLES } from "lib/npcs";
 import { getKeys } from "lib/object";
@@ -95,7 +98,7 @@ const TradeBox: React.FC<{
 const rewardText = (offerId: CaveMerchantOfferId) => {
   const { reward } = CAVE_MERCHANT_OFFERS[offerId];
   return getKeys(reward)
-    .map((item) => `${reward[item]?.toString()} ${item}`)
+    .map((item) => `${reward[item]?.toString()} ${getTranslatedItemName(item)}`)
     .join(", ");
 };
 
