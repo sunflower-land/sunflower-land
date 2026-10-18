@@ -20,8 +20,17 @@ import {
   getOilBoostWindows,
   OIL_BOOST_SPEED,
   appendBoostHistory,
+  getCropPlotBoostWindows,
+  getPowerHourWindows,
+  getSunshowerGuardianWindows,
+  getSunshowerWindows,
+  getAnimalBoostWindows,
+  ANIMAL_BOOST_SPEED,
   type BoostWindow,
 } from "./boostWindows";
+import { GUARDIAN_BOOST } from "./getActiveGuardian";
+import { populateSeason } from "./season";
+import { getObjectEntries } from "lib/object";
 import { getExpiryCooldown } from "./collectibleBuilt";
 import { TEST_FARM } from "./constants";
 import type {
@@ -385,6 +394,80 @@ describe("appendBoostHistory", () => {
     ]);
   });
 
+  it("keeps a window a windowed crop machine's ledger still needs", () => {
+    // A windowed machine banks work forward from `oilSettledAt`, so every
+    // window ending after that anchor is still load-bearing. The anchor only
+    // advances on a crop-machine event or a flagged load, so a flag rollback
+    // (migrateSpeedBoosts returns early) can leave it older than the prune
+    // horizon — and pruning then silently un-does completed growth.
+    const now = 100 * DAY;
+    const anchor = now - 30 * DAY;
+    const game = {
+      ...TEST_FARM,
+      buildings: {
+        "Crop Machine": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            id: "1",
+            readyAt: 0,
+            oilSettledAt: anchor,
+            unallocatedOilTime: 0,
+            queue: [],
+          },
+        ],
+      },
+      boostHistory: {
+        "Tortoise Shrine": [{ from: anchor, to: anchor + HOUR }],
+      },
+    } as unknown as GameState;
+
+    appendBoostHistory(
+      game,
+      "Tortoise Shrine",
+      { from: now - 500, to: now },
+      now,
+    );
+
+    expect(game.boostHistory?.["Tortoise Shrine"]).toEqual([
+      { from: anchor, to: anchor + HOUR },
+      { from: now - 500, to: now },
+    ]);
+  });
+
+  it("still prunes a window that predates even the oldest ledger anchor", () => {
+    const now = 100 * DAY;
+    const anchor = now - 30 * DAY;
+    const game = {
+      ...TEST_FARM,
+      buildings: {
+        "Crop Machine": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            id: "1",
+            readyAt: 0,
+            oilSettledAt: anchor,
+            unallocatedOilTime: 0,
+            queue: [],
+          },
+        ],
+      },
+      boostHistory: { "Tortoise Shrine": [{ from: 0, to: 1000 }] },
+    } as unknown as GameState;
+
+    appendBoostHistory(
+      game,
+      "Tortoise Shrine",
+      { from: now - 500, to: now },
+      now,
+    );
+
+    expect(game.boostHistory?.["Tortoise Shrine"]).toEqual([
+      { from: now - 500, to: now },
+    ]);
+  });
+
   it("records for any temporary collectible (future-proof, even if not windowed yet)", () => {
     const game = { ...TEST_FARM, boostHistory: {} } as GameState;
     appendBoostHistory(game, "Ore Hourglass", { from: 1000, to: 2000 }, 2000);
@@ -397,6 +480,283 @@ describe("appendBoostHistory", () => {
     const game = { ...TEST_FARM, boostHistory: {} } as GameState;
     appendBoostHistory(game, "Sparrow Shrine", { from: 2000, to: 2000 }, 2000);
     expect(game.boostHistory?.["Sparrow Shrine"]).toBeUndefined();
+  });
+});
+
+describe("getPowerHourWindows", () => {
+  const startedAt = Date.UTC(2026, 8, 13);
+  const speed = CROP_PLOT_BOOST_SPEED["Power hour"];
+
+  const powerHourFarm = (overrides: Partial<GameState> = {}): GameState =>
+    ({
+      ...TEST_FARM,
+      boostHistory: undefined,
+      buffs: { "Power hour": { startedAt, durationMS: HOUR } },
+      ...overrides,
+    }) as GameState;
+
+  it("runs the live Power Hour for its duration", () => {
+    expect(getPowerHourWindows(powerHourFarm())).toEqual([
+      { from: startedAt, to: startedAt + HOUR, speed },
+    ]);
+  });
+
+  it("includes archived Power Hour windows", () => {
+    const game = powerHourFarm({
+      boostHistory: {
+        "Power hour": [
+          { from: startedAt - 48 * HOUR, to: startedAt - 47 * HOUR },
+        ],
+      },
+    });
+
+    expect(getPowerHourWindows(game)).toEqual([
+      { from: startedAt - 48 * HOUR, to: startedAt - 47 * HOUR, speed },
+      { from: startedAt, to: startedAt + HOUR, speed },
+    ]);
+  });
+
+  it("does not double-count an archived window that is still live", () => {
+    const game = powerHourFarm({
+      boostHistory: {
+        "Power hour": [{ from: startedAt, to: startedAt + HOUR }],
+      },
+    });
+
+    expect(getPowerHourWindows(game)).toEqual([
+      { from: startedAt, to: startedAt + HOUR, speed },
+    ]);
+  });
+
+  it("merges overlapping Power Hour windows instead of stacking them", () => {
+    const game = powerHourFarm({
+      boostHistory: {
+        "Power hour": [
+          { from: startedAt - HOUR / 2, to: startedAt + HOUR / 2 },
+        ],
+      },
+    });
+
+    expect(getPowerHourWindows(game)).toEqual([
+      { from: startedAt - HOUR / 2, to: startedAt + HOUR, speed },
+    ]);
+  });
+
+  it("reads archived windows without a live Power Hour", () => {
+    const game = powerHourFarm({
+      buffs: undefined,
+      boostHistory: {
+        "Power hour": [{ from: startedAt, to: startedAt + HOUR }],
+      },
+    });
+
+    expect(getPowerHourWindows(game)).toEqual([
+      { from: startedAt, to: startedAt + HOUR, speed },
+    ]);
+  });
+});
+
+describe("sunshower windows", () => {
+  const DAY = 24 * HOUR;
+  // A Sunday: the next UTC day starts a new season week.
+  const eventDay = Date.UTC(2026, 8, 13);
+
+  const guardianFor = (at: number) =>
+    getObjectEntries(GUARDIAN_BOOST).find(
+      ([, { season }]) => season === populateSeason(at).season,
+    )![0];
+
+  const sunshowerFarm = (overrides: Partial<GameState> = {}): GameState =>
+    ({
+      ...TEST_FARM,
+      boostHistory: undefined,
+      collectibles: {},
+      season: populateSeason(eventDay),
+      calendar: {
+        dates: [],
+        sunshower: { startedAt: eventDay, triggeredAt: eventDay },
+      },
+      ...overrides,
+    }) as GameState;
+
+  describe("getSunshowerWindows", () => {
+    it("runs the live sunshower to the next UTC midnight at 2×", () => {
+      expect(getSunshowerWindows(sunshowerFarm())).toEqual([
+        {
+          from: eventDay,
+          to: eventDay + DAY,
+          speed: CROP_PLOT_BOOST_SPEED.sunshower,
+        },
+      ]);
+    });
+
+    it("includes archived sunshower windows", () => {
+      const game = {
+        ...TEST_FARM,
+        calendar: { dates: [] },
+        boostHistory: { Sunshower: [{ from: 0, to: DAY }] },
+      } as GameState;
+
+      expect(getSunshowerWindows(game)).toEqual([
+        { from: 0, to: DAY, speed: CROP_PLOT_BOOST_SPEED.sunshower },
+      ]);
+    });
+
+    it("does not double-count an archived window that is still live", () => {
+      const game = sunshowerFarm({
+        boostHistory: { Sunshower: [{ from: eventDay, to: eventDay + DAY }] },
+      });
+
+      expect(getSunshowerWindows(game)).toEqual([
+        {
+          from: eventDay,
+          to: eventDay + DAY,
+          speed: CROP_PLOT_BOOST_SPEED.sunshower,
+        },
+      ]);
+    });
+  });
+
+  describe("getSunshowerGuardianWindows", () => {
+    const speed = CROP_PLOT_BOOST_SPEED.sunshowerGuardian;
+
+    it("covers the whole sunshower for a Guardian placed before tracking existed", () => {
+      const game = sunshowerFarm({
+        collectibles: {
+          [guardianFor(eventDay)]: [{ id: "1", coordinates: { x: 0, y: 0 } }],
+        },
+      });
+
+      expect(getSunshowerGuardianWindows(game)).toEqual([
+        { from: eventDay, to: eventDay + DAY, speed },
+      ]);
+    });
+
+    it("counts a Guardian placed mid-sunshower only from when it was placed", () => {
+      const game = sunshowerFarm({
+        collectibles: {
+          [guardianFor(eventDay)]: [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              placedAt: eventDay + 6 * HOUR,
+            },
+          ],
+        },
+      });
+
+      expect(getSunshowerGuardianWindows(game)).toEqual([
+        { from: eventDay + 6 * HOUR, to: eventDay + DAY, speed },
+      ]);
+    });
+
+    it("counts archived Guardian placements only while they overlapped the sunshower", () => {
+      const guardian = guardianFor(eventDay);
+      const game = sunshowerFarm({
+        collectibles: { [guardian]: [{ id: "1" }] },
+        boostHistory: {
+          [guardian]: [
+            { from: eventDay - DAY, to: eventDay + 3 * HOUR },
+            { from: eventDay + 10 * HOUR, to: eventDay + 12 * HOUR },
+          ],
+        },
+      });
+
+      expect(getSunshowerGuardianWindows(game)).toEqual([
+        { from: eventDay, to: eventDay + 3 * HOUR, speed },
+        { from: eventDay + 10 * HOUR, to: eventDay + 12 * HOUR, speed },
+      ]);
+    });
+
+    it("uses the Guardian for the sunshower day's season, not the in-game season", () => {
+      const rolledOver = { season: populateSeason(eventDay + DAY) };
+
+      expect(
+        getSunshowerGuardianWindows(
+          sunshowerFarm({
+            ...rolledOver,
+            collectibles: {
+              [guardianFor(eventDay + DAY)]: [
+                { id: "1", coordinates: { x: 0, y: 0 } },
+              ],
+            },
+          }),
+        ),
+      ).toEqual([]);
+
+      expect(
+        getSunshowerGuardianWindows(
+          sunshowerFarm({
+            ...rolledOver,
+            collectibles: {
+              [guardianFor(eventDay)]: [
+                { id: "1", coordinates: { x: 0, y: 0 } },
+              ],
+            },
+          }),
+        ),
+      ).toEqual([{ from: eventDay, to: eventDay + DAY, speed }]);
+    });
+
+    it("does not stack two placed copies of the Guardian", () => {
+      const game = sunshowerFarm({
+        collectibles: {
+          [guardianFor(eventDay)]: [
+            { id: "1", coordinates: { x: 0, y: 0 } },
+            { id: "2", coordinates: { x: 3, y: 0 }, placedAt: eventDay },
+          ],
+        },
+      });
+
+      expect(getSunshowerGuardianWindows(game)).toEqual([
+        { from: eventDay, to: eventDay + DAY, speed },
+      ]);
+    });
+
+    it("limits windows to one Guardian when asked", () => {
+      const game = sunshowerFarm({
+        collectibles: {
+          [guardianFor(eventDay)]: [{ id: "1", coordinates: { x: 0, y: 0 } }],
+        },
+      });
+
+      expect(getSunshowerGuardianWindows(game, guardianFor(eventDay))).toEqual([
+        { from: eventDay, to: eventDay + DAY, speed },
+      ]);
+      expect(
+        getSunshowerGuardianWindows(game, guardianFor(eventDay + DAY)),
+      ).toEqual([]);
+    });
+
+    it("has no windows without a sunshower", () => {
+      const game = sunshowerFarm({
+        calendar: { dates: [] },
+        collectibles: {
+          [guardianFor(eventDay)]: [{ id: "1", coordinates: { x: 0, y: 0 } }],
+        },
+      });
+
+      expect(getSunshowerGuardianWindows(game)).toEqual([]);
+    });
+  });
+
+  describe("getCropPlotBoostWindows", () => {
+    it("stacks a placed Guardian on the sunshower for 4×", () => {
+      const game = sunshowerFarm({
+        collectibles: {
+          [guardianFor(eventDay)]: [{ id: "1", coordinates: { x: 0, y: 0 } }],
+        },
+      });
+
+      // 16h of work planted 4h before midnight: 4h at 4× finishes it.
+      expect(
+        computeReadyAt({
+          startedAt: eventDay + 20 * HOUR,
+          baseDurationMs: 16 * HOUR,
+          windows: getCropPlotBoostWindows(game),
+        }),
+      ).toEqual(eventDay + DAY);
+    });
   });
 });
 
@@ -1482,5 +1842,55 @@ describe("getGreenhouseGlowWindows", () => {
         name: "Greenhouse Glow",
       } as unknown as GreenhouseFertiliser),
     ).toEqual([]);
+  });
+});
+
+describe("getAnimalBoostWindows", () => {
+  const createdAt = 1_000_000;
+
+  const withShrine = (name: "Collie Shrine" | "Bantam Shrine"): GameState => ({
+    ...TEST_FARM,
+    collectibles: {
+      ...TEST_FARM.collectibles,
+      [name]: [{ id: "1", coordinates: { x: 0, y: 0 }, createdAt }],
+    },
+  });
+
+  it("covers Cows and Sheep with the Collie Shrine", () => {
+    const game = withShrine("Collie Shrine");
+    const expected = {
+      from: createdAt,
+      to: createdAt + getExpiryCooldown("Collie Shrine", TEST_FARM),
+      speed: ANIMAL_BOOST_SPEED["Collie Shrine"],
+    };
+
+    expect(getAnimalBoostWindows(game, "Cow")).toContainEqual(expected);
+    expect(getAnimalBoostWindows(game, "Sheep")).toContainEqual(expected);
+  });
+
+  it("covers Chickens with the Bantam Shrine", () => {
+    const game = withShrine("Bantam Shrine");
+
+    expect(getAnimalBoostWindows(game, "Chicken")).toContainEqual({
+      from: createdAt,
+      to: createdAt + getExpiryCooldown("Bantam Shrine", TEST_FARM),
+      speed: ANIMAL_BOOST_SPEED["Bantam Shrine"],
+    });
+  });
+
+  it("gives Pigs NO windows from the Collie Shrine", () => {
+    // The Collie Shrine's own buff copy advertises Cows and Sheep only. An
+    // animal with no shrine of its own must fall through to no windows rather
+    // than inheriting the Collie's, which a `Chicken ? Bantam : Collie`
+    // ternary would silently do.
+    expect(getAnimalBoostWindows(withShrine("Collie Shrine"), "Pig")).toEqual(
+      [],
+    );
+  });
+
+  it("gives Pigs NO windows from the Bantam Shrine either", () => {
+    expect(getAnimalBoostWindows(withShrine("Bantam Shrine"), "Pig")).toEqual(
+      [],
+    );
   });
 });

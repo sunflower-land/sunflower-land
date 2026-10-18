@@ -240,7 +240,7 @@ export function getProjectReward({
   game: GameState;
 }) {
   let newAmount = amount;
-  const boostsUsed: BoostName[] = [];
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (
     isMonumentActive({ game, monument: "Cornucopia" }) &&
@@ -249,7 +249,7 @@ export function getProjectReward({
       project === "Big Banana")
   ) {
     newAmount += 1;
-    boostsUsed.push("Cornucopia");
+    boostsUsed.push({ name: "Cornucopia", value: "+1" });
   }
   return { amount: newAmount, boostsUsed };
 }
@@ -552,14 +552,29 @@ export function hasHitHelpLimit({
   return totalHelpedToday >= getHelpLimit({ game });
 }
 
-export const RAFFLE_REWARDS: Partial<
-  Record<
-    MonumentName,
-    {
-      item: InventoryItemName;
-      amount: number;
-    }
-  >
+/**
+ * Projects whose completion also hands a prize to the raffle winner, which
+ * means writing to *another player's* farm. That can only happen server side,
+ * so these go through the `project.completed` effect.
+ */
+export type RaffleProjectName =
+  | "Basic Cooking Pot"
+  | "Expert Cooking Pot"
+  | "Advanced Cooking Pot";
+
+/**
+ * Projects whose completion touches nothing but the owner's own game state.
+ * These are completed locally by `project.collected` and synced on the next
+ * autosave, so the player gets their reward without a round trip.
+ */
+export type SoloProjectName = Exclude<VillageProjectName, RaffleProjectName>;
+
+export const RAFFLE_REWARDS: Record<
+  RaffleProjectName,
+  {
+    item: InventoryItemName;
+    amount: number;
+  }
 > = {
   "Basic Cooking Pot": {
     item: "Bronze Food Box",
@@ -574,3 +589,15 @@ export const RAFFLE_REWARDS: Partial<
     amount: 1,
   },
 };
+
+export const SOLO_PROJECTS: SoloProjectName[] = [
+  "Big Orange",
+  "Big Apple",
+  "Big Banana",
+];
+
+export function hasProjectRaffle(
+  project: MonumentName,
+): project is RaffleProjectName {
+  return project in RAFFLE_REWARDS;
+}

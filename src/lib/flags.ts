@@ -24,7 +24,7 @@ const usernameFeatureFlag = (game: GameState) => {
   );
 };
 
-const betaFeatureFlag = ({ inventory }: GameState) =>
+export const betaFeatureFlag = ({ inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" || !!inventory?.["Beta Pass"]?.gt(0);
 
 export const testnetFeatureFlag = () => CONFIG.NETWORK === "amoy";
@@ -174,10 +174,30 @@ const FEATURE_FLAGS = {
     (game.wardrobe["Streamer Hat"] ?? 0) > 0 || testnetFeatureFlag(),
 
   // Temporary Feature Flags
-  FACE_RECOGNITION_TEST: betaFeatureFlag,
-  LEDGER: testnetLocalStorageFeatureFlag("ledger"),
 
-  LEAGUES: () => false,
+  /**
+   * Chapter 16's Pigpen building and the Pig animal. Remove once Chapter 16
+   * ships and the Pigpen gates on its own unlock level instead.
+   */
+  PIGPEN: usernameFeatureFlag,
+
+  /**
+   * Chapter 16's Cave: the Cave building in the Workbench shop and the `/cave`
+   * interior room. Remove once Chapter 16 ships and the Cave gates on its own
+   * unlock instead.
+   */
+  CAVE: usernameFeatureFlag,
+
+  /**
+   * Chapter 16's direct Beetle feeding: a Beetle fed straight to an animal.
+   * Remove once Chapter 16 ships.
+   */
+  BEETLE_FEEDING: usernameFeatureFlag,
+
+  FACE_RECOGNITION_TEST: betaFeatureFlag,
+  // The developer-options button that forces a captcha on your own farm
+  TRIGGER_CAPTCHA: betaFeatureFlag,
+  LEDGER: testnetLocalStorageFeatureFlag("ledger"),
 
   EASTER: () => false,
 
@@ -186,36 +206,20 @@ const FEATURE_FLAGS = {
   MODERATOR: (game) =>
     !!((game.wardrobe.Halo ?? 0) > 0) && !!game.inventory["Beta Pass"]?.gt(0),
 
-  /**
-   * Gates the new home-interior placement system: the /interior route, the
-   * /level_one upgrade route, and the `interior.upgrade` event. Beta-pass /
-   * testnet only until the feature ships to all players.
-   */
-  HOME_EXPANSIONS: betaFeatureFlag,
-
-  BOOSTS_DISPLAY: betaFeatureFlag,
-
-  // Saving & re-applying named farm layouts in landscaping mode.
-  SAVED_LAYOUTS: betaFeatureFlag,
-
   // Speed-rate (Clash-of-Clans potion) model for time-based boosts — starting
   // with the Sparrow Shrine on crops. When on, planting stores the new
   // baseDurationMs + true plantedAt model; when off, boosts stay discount-at-start.
-  SPEED_BOOSTS: usernameFeatureFlag,
-
-  // Bulk Mixer tab in the feeder machine: mix the missing feed for every
-  // waiting animal at once. Beta-pass / testnet only until it ships.
-  BULK_MIXER: betaFeatureFlag,
+  SPEED_BOOSTS: betaFeatureFlag,
 
   // Beta testers can grab a Yakkamon pre-registration code before the level
   // tiers open to everyone else. The server enforces the same rule.
   YAKKAMON_BETA_ACCESS: betaFeatureFlag,
 
-  // Surfaces the 3 flowers most recently gifted to each NPC as a quick-pick
-  // shortlist in the gift flow, with no manual favoriting step. Client-side
-  // only (localStorage), but still gated behind beta access while the UX is
-  // validated.
-  RECENT_GIFT_FLOWERS: betaFeatureFlag,
+  // Admin testers (Gift Giver + Beta Pass, or testnet) can buy, grow, cook and
+  // trade the Chapter Crop Week items before CHAPTER_CROP_WEEK.startDate so the
+  // run can be tested on mainnet. Everyone else waits for the event window —
+  // see hasChapterCropWeekAccess. Remove once the event is live for all.
+  CHAPTER_CROP_WEEK_EARLY_ACCESS: adminFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
@@ -223,3 +227,13 @@ export type FeatureName = keyof typeof FEATURE_FLAGS;
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
   return FEATURE_FLAGS[featureName](game);
 };
+
+/**
+ * The feature names currently gated behind `betaFeatureFlag` (Beta Pass /
+ * testnet). Derived from FEATURE_FLAGS by identity so this list can't drift
+ * from the flags it's reporting on - a feature only needs to be flagged with
+ * betaFeatureFlag once to show up here, nothing else to maintain.
+ */
+export const BETA_FEATURE_NAMES = (
+  Object.keys(FEATURE_FLAGS) as FeatureName[]
+).filter((name) => FEATURE_FLAGS[name] === betaFeatureFlag);

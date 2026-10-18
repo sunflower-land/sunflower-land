@@ -69,10 +69,11 @@ export const CreateGiveaway: React.FC<{ onBack: () => void }> = ({
       { from: 4, to: 10, coins: third },
     ];
 
-    // No `endAt` — the admin ends the giveaway manually and the API no longer
-    // accepts it.
+    // No `endAt` — a giveaway stays live until someone finalises it. `minigame`
+    // is what tells the API how long the event actually runs, and so when any
+    // participant (not just the host) is allowed to finish it.
     gameService.send("giveaway.created", {
-      effect: { type: "giveaway.created", title, prizes, startAt },
+      effect: { type: "giveaway.created", title, prizes, startAt, minigame },
       authToken: token,
     });
   };

@@ -48,6 +48,7 @@ import { PetShop } from "features/pets/petShop/PetShop";
 import { LoveIslandNoticeboard } from "./loveRewardShop/LoveIslandNoticeboard";
 import { Rarecrows } from "./Rarecrows";
 import { ChapterRaffles } from "./chapterRaffles/ChapterRaffles";
+import { ChapterCropWeekLeaderboard } from "./chapterCropWeek/ChapterCropWeekLeaderboard";
 import { DesignShowcaseContent } from "features/social/DesignShowcase";
 import { FreeTrial } from "./FreeTrial";
 import { Yakkamon } from "./yakkamon/Yakkamon";
@@ -72,6 +73,7 @@ type InteractableName =
   | "nye_button"
   | "welcome_sign"
   | "bud"
+  | "bud_box_guide"
   | "plaza_statue"
   | "auction_item"
   | "boat_modal"
@@ -157,6 +159,7 @@ type InteractableName =
   | "event_noticeboard"
   | "halloween_2026"
   | "chapter_raffles"
+  | "chapter_crop_week_leaderboard"
   | "design_showcase"
   | "giveaway_board"
   | "free_trial"
@@ -259,6 +262,12 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         {" "}
         <ChapterRaffles onClose={closeModal} />
       </Modal>
+      <Modal
+        show={interactable === "chapter_crop_week_leaderboard"}
+        onHide={closeModal}
+      >
+        <ChapterCropWeekLeaderboard onClose={closeModal} />
+      </Modal>
       <Modal show={interactable === "design_showcase"} onHide={closeModal}>
         <CloseButtonPanel onClose={closeModal}>
           <DesignShowcaseContent />
@@ -326,6 +335,16 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           message={[
             {
               text: t("interactableModals.bud.message"),
+            },
+          ]}
+        />
+      </Modal>
+      <Modal show={interactable === "bud_box_guide"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          message={[
+            {
+              text: t("interactableModals.bud.dailyPrizeAvailable"),
             },
           ]}
         />

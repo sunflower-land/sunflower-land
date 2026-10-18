@@ -37,7 +37,15 @@ import {
 } from "features/game/types/buildings";
 import { isPetNFTRevealed, PET_TYPES } from "features/game/types/pets";
 import { Box, type BoxProps } from "components/ui/Box";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  getTranslatedItemName,
+  ITEM_DETAILS,
+} from "features/game/types/images";
+import {
+  getCollectiblesAcrossLocations,
+  getPlacementGroup,
+  isTemporaryCollectible,
+} from "features/game/lib/collectibleBuilt";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { isMobile } from "mobile-device-detect";
 import { ITEM_ICONS } from "./inventory/Chest";
@@ -92,7 +100,14 @@ const ALL_DIMENSIONS: Record<string, { width: number; height: number }> = {
   Bud: { width: 1, height: 1 },
   Pet: { width: 2, height: 2 },
   FarmHand: { width: 1, height: 1 },
+  Bumpkin: { width: 1, height: 1 },
 };
+
+/**
+ * `LandscapingPlaceableType` requires an id alongside the name for the
+ * Bumpkin, but there is only ever one — matches `PlacedBumpkin`'s moveable id.
+ */
+const BUMPKIN_PLACEABLE_ID = "main";
 
 const getItemDims = (name: string) =>
   ALL_DIMENSIONS[name] ?? { width: 1, height: 1 };
@@ -200,6 +215,13 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
             id: (item as { id: string }).id,
           },
           action: "farmHand.placed",
+          requirements: { coins: 0, ingredients: {} },
+          collisionDetected: false,
+        } as any);
+      } else if (item.name === "Bumpkin") {
+        freshChild.send("SELECT", {
+          placeable: { name: "Bumpkin", id: BUMPKIN_PLACEABLE_ID },
+          action: "bumpkin.placed",
           requirements: { coins: 0, ingredients: {} },
           collisionDetected: false,
         } as any);
@@ -353,6 +375,14 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
   const petsNFTs = getChestPets(state.pets?.nfts ?? {});
   const farmHands =
     location === "petHouse" ? {} : getChestFarmHands(state.farmHands);
+
+  // The interior floors have no floating farm hand row (see LandscapingHud), so
+  // this tab is where the player's own Bumpkin is placed there. Like the farm
+  // hands above, it only appears while it isn't standing somewhere already.
+  const canPlaceBumpkin =
+    (location === "interior" || location === "level_one") &&
+    !!state.bumpkin &&
+    !state.bumpkin.coordinates;
   const chestMap = getChestItems(state);
   const biome = useMemo(() => getCurrentBiome(state.island), [state.island]);
 
@@ -371,7 +401,7 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
   const specialCounts: Record<ChestSpecialCategoryId, number> = {
     buds: getKeys(buds).length,
     petNFTs: getKeys(petsNFTs).length,
-    farmHands: Object.keys(farmHands).length,
+    farmHands: Object.keys(farmHands).length + (canPlaceBumpkin ? 1 : 0),
   };
 
   // ── Tab definitions (mirror the chest categories) ──────────────────────
@@ -424,6 +454,12 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
         action: "farmHand.placed",
         requirements: { coins: 0, ingredients: {} },
       });
+    } else if (item.name === "Bumpkin") {
+      child.send("SELECT", {
+        placeable: { name: "Bumpkin", id: BUMPKIN_PLACEABLE_ID },
+        action: "bumpkin.placed",
+        requirements: { coins: 0, ingredients: {} },
+      });
     } else {
       child.send("SELECT", {
         action: placeEvent(item.name as LandscapingPlaceable, location),
@@ -459,12 +495,16 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
       key: string,
       item: LandscapingPlaceableType,
       boxNode: React.ReactElement<BoxProps>,
+      // Disabled boxes must not start a drag either, or the item could still be
+      // dragged onto the map and have the placement rejected on drop.
+      disabled = false,
     ) =>
       React.cloneElement(boxNode, {
         key,
         style: { touchAction: "none" },
-        onPointerDown: (e: React.PointerEvent<HTMLDivElement>) =>
-          handleDragStart(e, item),
+        onPointerDown: disabled
+          ? undefined
+          : (e: React.PointerEvent<HTMLDivElement>) => handleDragStart(e, item),
       });
 
     if (effectiveTab === "buds") {
@@ -513,7 +553,7 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
     }
 
     if (effectiveTab === "farmHands") {
-      return Object.keys(farmHands).map((id) => {
+      const boxes = Object.keys(farmHands).map((id) => {
         const image = SUNNYSIDE.achievement.farmHand;
         const item: LandscapingPlaceableType = { name: "FarmHand", id };
         return wrapBox(
@@ -527,6 +567,31 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
           </Box>,
         );
       });
+
+      if (canPlaceBumpkin && state.bumpkin) {
+        const item: LandscapingPlaceableType = {
+          name: "Bumpkin",
+          id: BUMPKIN_PLACEABLE_ID,
+        };
+        // The player comes first, ahead of their farm hands.
+        boxes.unshift(
+          wrapBox(
+            "bumpkin",
+            item,
+            <Box
+              image={SUNNYSIDE.icons.player}
+              onClick={() => handleClick(item)}
+            >
+              <NPCPlaceable
+                parts={state.bumpkin.equipped}
+                width={PIXEL_SCALE * 12}
+              />
+            </Box>,
+          ),
+        );
+      }
+
+      return boxes;
     }
 
     const category = categories.find((c) => c.id === effectiveTab);
@@ -537,18 +602,44 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
       const item: LandscapingPlaceableType = {
         name: name as CollectibleName | BuildingName | ResourceName,
       };
+      // Only one temporary collectible of a name may be on the map at a time
+      // (see placeCollectible), so grey out any that already has a placement
+      // rather than letting the player drag out a copy that gets rejected.
+      const alreadyPlaced =
+        isTemporaryCollectible(name) &&
+        getPlacementGroup(name).some((groupName) =>
+          getCollectiblesAcrossLocations(state, groupName).some(
+            (placed) => !!placed.coordinates,
+          ),
+        );
+
       return wrapBox(
         name,
         item,
         <Box
           count={chestMap[name]}
           image={image}
+          tooltip={getTranslatedItemName(name)}
+          disabled={alreadyPlaced}
+          // Bottom-right cross, so a greyed tile reads as "can't place this"
+          // rather than as a loading or locked state.
+          secondaryImage={alreadyPlaced ? SUNNYSIDE.icons.cancel : undefined}
           onClick={() => handleClick(item)}
         />,
+        alreadyPlaced,
       );
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [effectiveTab, chestMap, buds, petsNFTs, farmHands, now]);
+  }, [
+    effectiveTab,
+    chestMap,
+    buds,
+    petsNFTs,
+    farmHands,
+    canPlaceBumpkin,
+    state.bumpkin,
+    now,
+  ]);
 
   const totalPages = Math.ceil(items.length / MOBILE_ITEMS_PER_PAGE);
   const pagedItems = isMobile

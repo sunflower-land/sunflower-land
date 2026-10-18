@@ -11,7 +11,10 @@ import {
   TRADE_MINIMUMS,
   type TradeResource,
 } from "features/game/actions/tradeLimits";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 
@@ -24,6 +27,10 @@ import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { selectGameState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useNow } from "lib/utils/hooks/useNow";
+import {
+  Locked,
+  useIsLocked,
+} from "features/retreat/components/personhood/Locked";
 
 type Props = {
   itemName: TradeResource;
@@ -60,6 +67,8 @@ export const ResourceOffer: React.FC<Props> = ({
     reputation: Reputation.Cropkeeper,
     now,
   });
+  // A hold stops the account trading; say so instead of a form that fails.
+  const locked = useIsLocked();
   const [pricePerUnit, setPricePerUnit] = useState(0);
   const [inputType, setInputType] = useState<"price" | "pricePerUnit">(
     () =>
@@ -87,6 +96,8 @@ export const ResourceOffer: React.FC<Props> = ({
   // For now, keep offchain
   const maxSFL = new Decimal(price).greaterThan(MAX_SFL);
 
+  if (locked) return <Locked />;
+
   return (
     <>
       <div>
@@ -101,9 +112,7 @@ export const ResourceOffer: React.FC<Props> = ({
         <div className="flex justify-between">
           <div className="flex items-center">
             <Box image={ITEM_DETAILS[itemName].image} disabled />
-            <span className="text-sm">
-              {ITEM_DETAILS[itemName].translatedName ?? itemName}
-            </span>
+            <span className="text-sm">{getTranslatedItemName(itemName)}</span>
           </div>
         </div>
 
@@ -276,7 +285,9 @@ export const ResourceOffer: React.FC<Props> = ({
           }}
         >
           <span className="text-xs">
-            {t("bumpkinTrade.pricePerUnit", { resource: itemName })}
+            {t("bumpkinTrade.pricePerUnit", {
+              resource: getTranslatedItemName(itemName),
+            })}
           </span>
           <p className="text-xs font-secondary">
             {new Decimal(quantity).equals(0)

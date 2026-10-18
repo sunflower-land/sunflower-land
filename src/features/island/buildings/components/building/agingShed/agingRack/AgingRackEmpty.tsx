@@ -19,7 +19,10 @@ import type {
   PrimeAgedFishName,
 } from "features/game/types/fishing";
 import type { BoostName, GameState, Inventory } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import {
   getBasketItems,
   getChestItems,
@@ -87,7 +90,7 @@ export const AgingRackEmpty: React.FC<Props> = ({
       const baseXP = getFishBaseXP(fishName);
       const { cost: saltCost } = getBoostedAgingSaltCost(baseXP, gameState);
       const timeMs = getBoostedAgingTimeMs(baseXP, gameState);
-      const saltLabel = ITEM_DETAILS["Salt"]?.translatedName ?? "Salt";
+      const saltLabel = getTranslatedItemName("Salt");
 
       return {
         value: fishName,
@@ -108,7 +111,9 @@ export const AgingRackEmpty: React.FC<Props> = ({
           className="text-xs mb-2 ml-1"
           icon={selectedFish && ITEM_DETAILS[selectedFish]?.image}
         >
-          {selectedFish ?? t("agingShed.agingRack.selectFish")}
+          {selectedFish
+            ? getTranslatedItemName(selectedFish)
+            : t("agingShed.agingRack.selectFish")}
         </Label>
         <div className="flex flex-wrap gap-1 px-1 pb-1 overflow-auto max-h-48 scrollable items-start">
           {fishOptions.map((opt) => {
@@ -175,8 +180,6 @@ const SelectedFishDetails: React.FC<{
   const { t } = useAppTranslation();
   const { chance: primeAgedChance } = getPrimeAgedChance(gameState);
   const agedChance = 100 - primeAgedChance;
-  const selectedFishLabel =
-    ITEM_DETAILS[selectedFish]?.translatedName ?? selectedFish;
   const recipeDef = selectedFish
     ? {
         saltCost: getBoostedAgingSaltCost(
@@ -253,12 +256,10 @@ const SelectedFishDetails: React.FC<{
           <Label
             type="transparent"
             className="text-xs ml-3"
-            icon={ITEM_DETAILS[`Aged ${selectedFish}`]?.image}
+            icon={ITEM_DETAILS[agedFishName]?.image}
           >
             {t("agingShed.agingRack.outputChance", {
-              item: t("agingShed.agingRack.agedFishLabel", {
-                fish: selectedFishLabel,
-              }),
+              item: getTranslatedItemName(agedFishName),
               chance: agedChance,
             })}
           </Label>
@@ -296,12 +297,10 @@ const SelectedFishDetails: React.FC<{
           <Label
             type="transparent"
             className="text-xs ml-3"
-            icon={ITEM_DETAILS[`Prime Aged ${selectedFish}`]?.image}
+            icon={ITEM_DETAILS[primeAgedFishName]?.image}
           >
             {t("agingShed.agingRack.outputChance", {
-              item: t("agingShed.agingRack.primeAgedFishLabel", {
-                fish: selectedFishLabel,
-              }),
+              item: getTranslatedItemName(primeAgedFishName),
               chance: primeAgedChance,
             })}
           </Label>

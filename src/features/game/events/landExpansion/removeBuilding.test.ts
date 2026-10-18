@@ -444,7 +444,7 @@ describe("removeBuilding", () => {
   //   expect(expansions[1].plots?.["4"].crop).not.toBeUndefined();
   // });
 
-  it("stores the time remaining for cooking buildings", () => {
+  it("stamps removedAt and leaves the cooking queue untouched", () => {
     const dateNow = Date.now();
     const state = removeBuilding({
       state: {
@@ -486,18 +486,16 @@ describe("removeBuilding", () => {
       createdAt: dateNow,
     });
 
-    expect(
-      state.buildings["Fire Pit"]?.[0].crafting?.[0].timeRemaining,
-    ).toEqual(60000);
-    expect(
-      state.buildings["Fire Pit"]?.[0].crafting?.[1].timeRemaining,
-    ).toEqual(120000);
-    expect(
-      state.buildings["Fire Pit"]?.[0].crafting?.[2].timeRemaining,
-    ).toEqual(180000);
-    expect(
-      state.buildings["Fire Pit"]?.[0].crafting?.[3].timeRemaining,
-    ).toEqual(240000);
+    // Removal only records WHEN the building was lifted; the queue is paused on
+    // re-place, from that timestamp (see `pauseCookingQueue`). Banking a
+    // `timeRemaining` here would be a cache the resolver ignores.
+    expect(state.buildings["Fire Pit"]?.[0].removedAt).toEqual(dateNow);
+    expect(state.buildings["Fire Pit"]?.[0].crafting).toEqual([
+      { name: "Pizza Margherita", readyAt: dateNow + 60000 },
+      { name: "Pizza Margherita", readyAt: dateNow + 120000 },
+      { name: "Pizza Margherita", readyAt: dateNow + 180000 },
+      { name: "Pizza Margherita", readyAt: dateNow + 240000 },
+    ]);
   });
 
   it("saves the remaining time for each pack in the crop machine", () => {
@@ -571,5 +569,54 @@ describe("removeBuilding", () => {
     expect(
       state.buildings["Crop Machine"]?.[0].queue?.[3].pausedTimeRemaining,
     ).toEqual(200000000);
+  });
+});
+
+describe("removeBuilding (windowed crop machine)", () => {
+  const HOUR = 60 * 60 * 1000;
+
+  it("settles a windowed machine at the lift: work banked, fuel burned, no pausedTimeRemaining", () => {
+    const at = Date.now();
+    const state = removeBuilding({
+      state: {
+        ...GAME_STATE,
+        buildings: {
+          "Crop Machine": [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: 0,
+              coordinates: { x: 1, y: 1 },
+              oilSettledAt: at - HOUR,
+              unallocatedOilTime: 10 * HOUR,
+              queue: [
+                {
+                  crop: "Sunflower",
+                  seeds: 10,
+                  growTimeRemaining: 0,
+                  totalGrowTime: 4 * HOUR,
+                  baseDurationMs: 4 * HOUR,
+                },
+              ],
+            },
+          ],
+        },
+      },
+      action: { type: "building.removed", name: "Crop Machine", id: "123" },
+      createdAt: at,
+    });
+
+    const machine = state.buildings["Crop Machine"]?.[0];
+    const pack = machine?.queue?.[0];
+
+    expect(machine?.removedAt).toBe(at);
+    expect(machine?.oilSettledAt).toBe(at);
+    // 1h of the 4h banked; 1h of fuel burned.
+    expect(pack?.baseDurationMs).toBe(3 * HOUR);
+    expect(machine?.unallocatedOilTime).toBe(9 * HOUR);
+    expect(pack?.pausedTimeRemaining).toBeUndefined();
+    // Paused caches: no projected finish while lifted.
+    expect(pack?.readyAt).toBeUndefined();
+    expect(pack?.growsUntil).toBeUndefined();
   });
 });

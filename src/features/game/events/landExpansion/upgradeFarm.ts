@@ -9,11 +9,9 @@ import type {
   IslandType,
   Inventory,
   InventoryItemName,
-  SavedLayout,
-  Season,
-  TemperateSeasonName,
 } from "features/game/types/game";
 import { ASCENSION_ISLANDS } from "features/game/types/game";
+import { populateSeason } from "features/game/lib/season";
 import { hasTimeBasedFeatureAccess } from "lib/flags";
 import { getAscensionLevel } from "features/game/lib/level";
 import {
@@ -34,7 +32,6 @@ import { placeBeehive } from "./placeBeehive";
 import { placeFlowerBed } from "./placeFlowerBed";
 import { placeLavaPit } from "./placeLavaPit";
 import { removeAll } from "./removeAll";
-import { applyFarmLayout, snapshotFarm } from "./lib/layouts";
 import {
   TOTAL_EXPANSION_NODES,
   getExpansionNodes,
@@ -990,35 +987,6 @@ function ascensionUpgrade(state: GameState, target: UpgradeTarget) {
   return game;
 }
 
-export const SEASON_ROTATION: TemperateSeasonName[] = [
-  "spring",
-  "summer",
-  "autumn",
-  "winter",
-];
-
-const FIRST_WEEK_START_AT = new Date("2024-12-16T00:00:00Z").getTime();
-export const populateSeason = (createdAt: number): Season => {
-  // Get days since first week start
-  const daysSinceStart = Math.floor(
-    (createdAt - FIRST_WEEK_START_AT) / (24 * 60 * 60 * 1000),
-  );
-
-  // Round down to nearest week by getting number of complete weeks
-  const weeksSinceStart = Math.max(Math.floor(daysSinceStart / 7), 0);
-
-  // Calculate start timestamp of current week by adding complete weeks to first week
-  const startAt =
-    FIRST_WEEK_START_AT + weeksSinceStart * 7 * 24 * 60 * 60 * 1000;
-
-  // Get season index (0-3) by taking modulo 4 of weeks passed
-  const seasonIndex = weeksSinceStart % 4;
-
-  const season = SEASON_ROTATION[seasonIndex];
-
-  return { startedAt: startAt, season };
-};
-
 type IslandSetup = {
   /** Expansions (Basic Land) the player starts the new island with. */
   startingExpansions: number;
@@ -1102,9 +1070,10 @@ function pickAscensionChestPosition(
  *
  * Clears the previous farm state, carries forward expansion history and sunstone counts, relocates mushrooms and social farming clutter to the new island's side island, applies target-island-specific setup (home adjustments, resource flooring, airdrops), and initializes all starting land, buildings, and resources. Per-island configurations are determined by `ISLAND_SETUP[target]`.
  *
- * On ascension (swamp onward) the wipe is skipped: the first ascension
- * (volcano→swamp) keeps the player's arrangement in place and saves it as the
- * protected "Ascension Layout"; later ascensions re-apply that saved layout.
+ * On the first ascension (volcano→swamp) the wipe is skipped: the player's
+ * arrangement is kept in place. Later ascensions reset to the initial land —
+ * restoring a saved layout is an explicit player action (the `layout.applied`
+ * effect, offered after the upgrade), not part of this transition.
  *
  * @returns The transitioned game state with the new island fully initialized
  */
@@ -1121,22 +1090,20 @@ function transitionToIsland({
 }): GameState {
   let game = cloneDeep(state);
 
-  // Ascension (swamp onward) preserves the player's arrangement instead of wiping:
-  // - the first ascension (volcano→swamp) keeps every item exactly where it is
-  //   (identical 30-expansion land; a maxed volcano already meets the swamp floor);
-  // - later ascensions re-apply the layout saved at that first ascension.
+  // The first ascension (volcano→swamp) keeps every item exactly where it is
+  // (identical 30-expansion land; a maxed volcano already meets the swamp
+  // floor). Later ascensions reset to the initial land — restoring a saved
+  // layout is an explicit player action (the `layout.applied` effect, offered
+  // by the client after the upgrade), not part of this transition.
   const isAscensionTarget = (ASCENSION_ISLANDS as readonly string[]).includes(
     target,
   );
   const isFirstAscension = isAscensionTarget && game.island.type === "volcano";
-  const storedAscensionLayout = game.layouts?.find((layout) => layout.auto);
   const keepArrangement = isFirstAscension;
-  const reuseSavedLayout =
-    isAscensionTarget && !isFirstAscension && !!storedAscensionLayout;
 
   // Return every placed item to the inventory (skipped when we preserve the
-  // arrangement — `applyFarmLayout` does its own lifting on the reuse path).
-  if (!keepArrangement && !reuseSavedLayout) {
+  // arrangement).
+  if (!keepArrangement) {
     try {
       game = removeAll({
         state: game,
@@ -1239,10 +1206,6 @@ function transitionToIsland({
   if (keepArrangement) {
     // Volcano→Swamp: leave every placed item exactly where it is (no wipe, no
     // re-place) — the land is identical and the arrangement is already correct.
-  } else if (reuseSavedLayout && storedAscensionLayout) {
-    // Later ascensions reset the farm to the layout saved at volcano→swamp
-    // (best-effort; items that no longer fit the land drop back to the chest).
-    applyFarmLayout(game, storedAscensionLayout, createdAt);
   } else {
     game = placeInitialLand({
       state: game,
@@ -1250,23 +1213,6 @@ function transitionToIsland({
       createdAt,
       initialLandCoordinates: setup.initialCoordinates,
     });
-  }
-
-  // Capture the arrangement as the protected, auto-managed "Ascension Layout" the
-  // first time the player ascends (volcano→swamp); it is reused on every later
-  // ascension. Appended once (idempotent guard) and exempt from the manual cap.
-  if (isFirstAscension && !game.layouts?.some((layout) => layout.auto)) {
-    const ascensionLayout: SavedLayout = {
-      ...snapshotFarm(game),
-      name: "Ascension Layout",
-      auto: true,
-      createdAt,
-      updatedAt: createdAt,
-    };
-    // Crystals are single-use and delivered per-upgrade via the reward chest, so
-    // they are never part of the reusable layout.
-    ascensionLayout.resources.ascensionCrystals = {};
-    game.layouts = [...(game.layouts ?? []), ascensionLayout];
   }
 
   // Every island upgrade (basic + ascension) reconciles the player's resources

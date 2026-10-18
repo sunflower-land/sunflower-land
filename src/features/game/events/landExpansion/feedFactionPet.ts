@@ -135,6 +135,11 @@ export function feedFactionPet({
     const request = requests[action.requestIndex];
     const foodBalance = stateCopy.inventory[request.food] ?? new Decimal(0);
     const { amount = 1 } = action;
+
+    if (!Number.isInteger(amount) || amount <= 0) {
+      throw new Error("Invalid amount");
+    }
+
     const requestAmount = request.quantity * amount;
     const week = getWeekKey({ date: new Date(createdAt) });
     const day = getFactionWeekday(createdAt);

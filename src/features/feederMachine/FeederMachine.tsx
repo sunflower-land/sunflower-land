@@ -2,9 +2,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import React, { useState } from "react";
 import { FeederMachineModal } from "./FeederMachineModal";
+import type { AnimalBuildingType } from "features/game/types/animals";
 
 interface Props {
-  building: "Hen House" | "Barn";
+  building: AnimalBuildingType;
 }
 
 export const FeederMachine: React.FC<Props> = ({ building }) => {

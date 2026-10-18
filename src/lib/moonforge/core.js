@@ -139,6 +139,10 @@ export function resetAll() {
   state.cacheToken = null;
   setDistinctId(uuid());
   resetSession();
+  // A reset is a logout: the next player is anonymous again, so buffering must
+  // re-arm. Leaving `identified` set would send their pre-identify events
+  // straight out under the freshly generated anonymous id.
+  resetBuffering();
 }
 
 export function collectAutoFields() {
@@ -173,7 +177,104 @@ async function fetchWithTimeout(url, options) {
   }
 }
 
+/**
+ * Events emitted before the player is identified are held here.
+ *
+ * `session_start` fires the moment `init` runs, while the game cannot call
+ * `identify` until an async session round trip completes. Sending immediately
+ * stamps those events with the anonymous id, and `identify` only takes effect
+ * going forward - so the earliest events of every session were permanently
+ * unattributable to the account that produced them.
+ *
+ * Buffering holds them until the id is known, then rewrites and sends. If
+ * identification never arrives (a logged-out visitor, a failed session call)
+ * the buffer flushes anonymously on a timer, so nothing is lost - it just
+ * carries the id it would have had anyway.
+ */
+const IDENTIFY_GRACE_MS = 10_000;
+const MAX_BUFFERED_EVENTS = 50;
+
+let pendingEvents = [];
+let identified = false;
+let flushTimer = null;
+
+function sendBuffered() {
+  const queued = pendingEvents;
+  pendingEvents = [];
+
+  if (flushTimer) {
+    clearTimeout(flushTimer);
+    flushTimer = null;
+  }
+
+  const id = getDistinctId();
+
+  for (const { payload, opts } of queued) {
+    // Rewrite to the id we know now. The payload was built when the event
+    // happened, so every other field - timestamp included - stays truthful.
+    if (payload?.payload && typeof payload.payload === "object") {
+      payload.payload.id = id;
+    }
+    void deliver(payload, opts);
+  }
+}
+
+/**
+ * Marks the player as identified and releases anything buffered.
+ * Called by `identify`; safe to call more than once.
+ */
+export function markIdentified() {
+  if (identified) return;
+  identified = true;
+  sendBuffered();
+}
+
+/** Test seam: clears buffering state between cases. */
+export function resetBuffering() {
+  pendingEvents = [];
+  identified = false;
+  if (flushTimer) {
+    clearTimeout(flushTimer);
+    flushTimer = null;
+  }
+}
+
 export async function postEvent(payload, { beacon = false } = {}) {
+  if (!state.config) return false;
+
+  // Beacon events fire at page teardown - buffering one loses it outright.
+  // Identify itself must never be buffered; it is what releases the buffer.
+  const bufferable = !identified && !beacon && payload?.type !== "identify";
+
+  if (bufferable) {
+    if (pendingEvents.length >= MAX_BUFFERED_EVENTS) {
+      // Identification is not coming soon enough. Drain what is queued first,
+      // then send this one - delivering the newest immediately while older
+      // events stayed buffered would reorder the stream and split it across
+      // two identities.
+      debugLog("buffer full, flushing anonymously", payload.type);
+      sendBuffered();
+      return deliver(payload, { beacon });
+    }
+
+    pendingEvents.push({ payload, opts: { beacon } });
+
+    if (!flushTimer && typeof setTimeout === "function") {
+      flushTimer = setTimeout(() => {
+        debugLog("identify grace expired, flushing anonymously");
+        sendBuffered();
+      }, IDENTIFY_GRACE_MS);
+      // Never hold a Node process open on account of analytics.
+      flushTimer?.unref?.();
+    }
+
+    return true;
+  }
+
+  return deliver(payload, { beacon });
+}
+
+async function deliver(payload, { beacon = false } = {}) {
   if (!state.config) return false;
   const url = `${state.config.apiEndpoint}/api/send`;
   const body = JSON.stringify(payload);
@@ -194,6 +295,10 @@ export async function postEvent(payload, { beacon = false } = {}) {
   try {
     const res = await fetchWithTimeout(url, {
       method: "POST",
+      // A mobile browser may background or unload the page before an
+      // ordinary fetch completes; keepalive lets the request outlive that,
+      // which is how session_start events from mobile players were being
+      // lost while their gameplay events still arrived.
       keepalive: true,
       headers: {
         "Content-Type": "application/json",

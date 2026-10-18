@@ -33,6 +33,7 @@ import { EconomyHub } from "features/economyHub/EconomyHub";
 import { GameWrapper } from "features/game/expansion/Game";
 import { Interior } from "features/interior/Interior";
 import { LevelOne } from "features/interior/LevelOne";
+import { Cave } from "features/cave/Cave";
 import { ModalProvider } from "features/game/components/modal/ModalProvider";
 import { FeedProvider } from "features/social/FeedContext";
 import { MinigameDashboard } from "features/minigame/MinigameDashboard";
@@ -50,6 +51,13 @@ const World = lazy(() =>
 const GiveawayApp = lazy(() =>
   import("features/giveaway/GiveawayApp").then((m) => ({
     default: m.GiveawayApp,
+  })),
+);
+
+// Only reached from the Kingdom noticeboard, so keep it out of the startup bundle
+const HallOfFame = lazy(() =>
+  import("features/hallOfFame/HallOfFame").then((m) => ({
+    default: m.HallOfFame,
   })),
 );
 
@@ -163,6 +171,14 @@ export const Navigation: React.FC = () => {
                                       </div>
                                     }
                                   />
+                                  <Route
+                                    path="hall-of-fame"
+                                    element={
+                                      <div className="absolute inset-0 z-50">
+                                        <HallOfFame />
+                                      </div>
+                                    }
+                                  />
                                   <Route path=":name" element={null} />
                                 </Route>
                                 <Route
@@ -266,6 +282,14 @@ export const Navigation: React.FC = () => {
                                   element={
                                     <GameWrapper>
                                       <LevelOne />
+                                    </GameWrapper>
+                                  }
+                                />
+                                <Route
+                                  path="/cave"
+                                  element={
+                                    <GameWrapper>
+                                      <Cave />
                                     </GameWrapper>
                                   }
                                 />

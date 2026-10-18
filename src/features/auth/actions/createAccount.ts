@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 
 const host = window.location.host.replace(/^www\./, "");
@@ -32,14 +33,17 @@ export async function checkReferralCode({
   token: string;
   referralCode: string;
 }) {
-  const response = await window.fetch(`${CONFIG.API_URL}/check-referral-code`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json;charset=UTF-8",
-      Authorization: `Bearer ${token}`,
+  const response = await fetchWithRetry(
+    `${CONFIG.API_URL}/check-referral-code`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ referralCode }),
     },
-    body: JSON.stringify({ referralCode }),
-  });
+  );
 
   if (response.status === 409) {
     return { success: false };

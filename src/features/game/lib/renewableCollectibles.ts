@@ -1,6 +1,6 @@
 import type { CollectibleName } from "features/game/types/craftables";
 import type { GameState, PlacedItem } from "features/game/types/game";
-import { getExpiryCooldown } from "./collectibleBuilt";
+import { getCollectibleExpiry, getExpiryCooldown } from "./collectibleBuilt";
 
 export const INVENTORY_RENEWABLE_COLLECTIBLES = [
   "Time Warp Totem",
@@ -35,13 +35,12 @@ export const hasCollectibleExpired = ({
   game: GameState;
   now?: number;
 }) => {
-  // Flag-gated so renewal eligibility uses the same (possibly rebalanced)
-  // duration as the boost window / active check under SPEED_BOOSTS.
-  const cooldown = getExpiryCooldown(name, game);
-
-  if (!cooldown) {
+  // Routed through getCollectibleExpiry so renewal eligibility uses the same
+  // (possibly rebalanced) duration as the boost window / active check under
+  // SPEED_BOOSTS, and honours any time bought via `collectible.extended`.
+  if (!getExpiryCooldown(name, game)) {
     return false;
   }
 
-  return (collectible.createdAt ?? 0) + cooldown <= now;
+  return getCollectibleExpiry({ name, collectible, game }) <= now;
 };

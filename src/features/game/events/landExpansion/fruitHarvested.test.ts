@@ -305,6 +305,58 @@ describe("fruitHarvested", () => {
     expect(fruit?.harvestedAt).toEqual(dateNow);
   });
 
+  it("records the replenish back-date as boostedTime, replacing the grow phase's", () => {
+    const { fruitPatches } = GAME_STATE;
+    const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
+
+    const state = harvestFruit({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Orange: new Decimal(1),
+          "Squirrel Monkey": new Decimal(1),
+        },
+        collectibles: {
+          "Squirrel Monkey": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+        fruitPatches: {
+          0: {
+            ...fruitPatch,
+            fruit: {
+              name: "Orange",
+              plantedAt: dateNow - 30 * 24 * 60 * 60 * 1000,
+              // Stale value from the finished grow phase — must not carry over.
+              boostedTime: 999,
+              harvestsLeft: 3,
+              harvestedAt: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "fruit.harvested",
+        index: "0",
+      },
+      createdAt: dateNow,
+      farmId: 1,
+    });
+
+    const fruit = state.fruitPatches?.[0].fruit;
+    const offset = (PATCH_FRUIT_SEEDS["Orange Seed"].plantSeconds * 1000) / 2;
+
+    // The replenish phase is back-dated by the Squirrel Monkey discount, so the
+    // bar needs THIS phase's offset — not the previous phase's leftover.
+    expect(fruit?.boostedTime).toEqual(offset);
+    expect(fruit!.harvestedAt + fruit!.boostedTime!).toEqual(dateNow);
+  });
+
   it("applies Lady Bug Boost", () => {
     const { fruitPatches } = GAME_STATE;
     const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
@@ -869,6 +921,7 @@ describe("fruitHarvested", () => {
     const farmId = 1;
     it("gives +0.5 full moon fruit yield when Moon Hair is equipped", () => {
       const { amount, boostsUsed } = getFruitYield({
+        now: Date.now(),
         prngArgs: { counter: 0, farmId },
         game: {
           ...TEST_FARM,
@@ -889,6 +942,7 @@ describe("fruitHarvested", () => {
 
     it("does not boost non full moon fruit with Moon Hair equipped", () => {
       const { amount } = getFruitYield({
+        now: Date.now(),
         prngArgs: { counter: 0, farmId },
         game: {
           ...TEST_FARM,
@@ -908,6 +962,7 @@ describe("fruitHarvested", () => {
 
     it("does not boost full moon fruit without Moon Hair equipped", () => {
       const { amount } = getFruitYield({
+        now: Date.now(),
         prngArgs: { counter: 0, farmId },
         game: TEST_FARM,
         name: "Celestine",
@@ -918,6 +973,7 @@ describe("fruitHarvested", () => {
 
     it("provides no bonuses", () => {
       const { amount } = getFruitYield({
+        now: Date.now(),
         prngArgs: { counter: 0, farmId },
         game: TEST_FARM,
         name: "Apple",
@@ -928,6 +984,7 @@ describe("fruitHarvested", () => {
 
     it("gives +.1 basic fruit yield with Fruitful Fumble skill", () => {
       const { amount } = getFruitYield({
+        now: Date.now(),
         prngArgs: { counter: 0, farmId },
         game: {
           ...TEST_FARM,
@@ -945,6 +1002,7 @@ describe("fruitHarvested", () => {
     });
     it("gives +0.15 basic fruit yield with Fruitful Fumble skill at rank 2", () => {
       const { amount } = getFruitYield({
+        now: Date.now(),
         prngArgs: { counter: 0, farmId },
         game: {
           ...TEST_FARM,
@@ -960,6 +1018,7 @@ describe("fruitHarvested", () => {
     });
     it("gives +0.2 basic fruit yield with Fruitful Fumble skill at rank 3", () => {
       const { amount } = getFruitYield({
+        now: Date.now(),
         prngArgs: { counter: 0, farmId },
         game: {
           ...TEST_FARM,
@@ -975,6 +1034,7 @@ describe("fruitHarvested", () => {
     });
     it("give +0.1 fruit yield when macaw is placed", () => {
       const { amount } = getFruitYield({
+        now: Date.now(),
         prngArgs: { counter: 0, farmId },
         game: {
           ...INITIAL_FARM,
@@ -996,6 +1056,7 @@ describe("fruitHarvested", () => {
     });
     it("gives +0.2 fruit yield when macaw is placed AND has Loyal Macaw Skill", () => {
       const { amount } = getFruitYield({
+        now: Date.now(),
         prngArgs: { counter: 0, farmId },
         game: {
           ...INITIAL_FARM,
@@ -1026,6 +1087,7 @@ describe("fruitHarvested", () => {
       "scales Loyal Macaw with Macaw placed at rank %i",
       (rank, expected, boostValue) => {
         const { amount, boostsUsed } = getFruitYield({
+          now: Date.now(),
           prngArgs: { counter: 0, farmId },
           game: {
             ...INITIAL_FARM,
@@ -1056,6 +1118,7 @@ describe("fruitHarvested", () => {
     );
     it("gives +0.2 fruit yield when Fruitful Bounty is claimed and Fruitful Blend is applied", () => {
       const { amount } = getFruitYield({
+        now: Date.now(),
         prngArgs: { counter: 0, farmId },
         game: {
           ...INITIAL_FARM,
@@ -1073,6 +1136,7 @@ describe("fruitHarvested", () => {
 
     it("applies Fruitful Blend buff yield and boosts when Turbofruit Mix is applied without Fruitful Bounty", () => {
       const { amount, boostsUsed } = getFruitYield({
+        now: Date.now(),
         prngArgs: { counter: 0, farmId },
         game: INITIAL_FARM,
         fertiliser: "Turbofruit Mix",
@@ -1085,6 +1149,7 @@ describe("fruitHarvested", () => {
 
     it("applies doubled Fruitful Blend buff when Turbofruit Mix is applied with Fruitful Bounty", () => {
       const { amount, boostsUsed } = getFruitYield({
+        now: Date.now(),
         prngArgs: { counter: 0, farmId },
         game: {
           ...INITIAL_FARM,
@@ -1105,6 +1170,7 @@ describe("fruitHarvested", () => {
     });
     it("gives +1 Lemon yield when Zesty Vibes skill and Lemon", () => {
       const { amount } = getFruitYield({
+        now: Date.now(),
         prngArgs: { counter: 0, farmId },
         game: {
           ...TEST_FARM,
@@ -1119,6 +1185,7 @@ describe("fruitHarvested", () => {
     });
     it("gives -0.25 fruit yield when Zesty Vibes skill and non-Tomato/Lemon patch fruit", () => {
       const { amount } = getFruitYield({
+        now: Date.now(),
         prngArgs: { counter: 0, farmId },
         game: {
           ...TEST_FARM,
@@ -1133,6 +1200,7 @@ describe("fruitHarvested", () => {
     });
     it("gives +1.5 Lemon yield when Zesty Vibes skill at rank 2", () => {
       const { amount } = getFruitYield({
+        now: Date.now(),
         prngArgs: { counter: 0, farmId },
         game: {
           ...TEST_FARM,
@@ -1147,6 +1215,7 @@ describe("fruitHarvested", () => {
     });
     it("gives -0.4 fruit yield for other fruit when Zesty Vibes skill at rank 2", () => {
       const { amount } = getFruitYield({
+        now: Date.now(),
         prngArgs: { counter: 0, farmId },
         game: {
           ...TEST_FARM,
@@ -1178,6 +1247,7 @@ describe("fruitHarvested", () => {
       }
       expect(triggerCounter).not.toBeNull();
       const { amount } = getFruitYield({
+        now: Date.now(),
         prngArgs: { counter: triggerCounter!, farmId },
         game: {
           ...TEST_FARM,
@@ -1215,6 +1285,7 @@ describe("fruitHarvested", () => {
       expect(counter).not.toBeNull();
 
       const rank1 = getFruitYield({
+        now: Date.now(),
         prngArgs: { counter: counter!, farmId },
         game: {
           ...TEST_FARM,
@@ -1228,6 +1299,7 @@ describe("fruitHarvested", () => {
       expect(rank1.amount).toEqual(1);
 
       const rank3 = getFruitYield({
+        now: Date.now(),
         prngArgs: { counter: counter!, farmId },
         game: {
           ...TEST_FARM,
@@ -1242,6 +1314,7 @@ describe("fruitHarvested", () => {
     });
     it("gives +0.25 fruit yield when faction wings equipped", () => {
       const { amount } = getFruitYield({
+        now: Date.now(),
         prngArgs: { counter: 0, farmId },
         game: {
           ...TEST_FARM,

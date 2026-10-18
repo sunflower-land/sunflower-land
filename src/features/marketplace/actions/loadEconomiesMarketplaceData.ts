@@ -7,7 +7,9 @@ import type {
   Tradeable,
 } from "features/game/types/marketplace";
 import { CONFIG } from "lib/config";
-import { ERRORS } from "lib/errors";
+import { fetchWithRetry } from "lib/fetchWithRetry";
+import { apiError } from "lib/apiError";
+import { randomID } from "lib/utils/random";
 
 const API_URL = CONFIG.API_URL;
 
@@ -243,20 +245,22 @@ export async function loadMarketplaceEconomiesPage({
   const url = new URL(`${API_URL}/data`);
   url.searchParams.set("type", "marketplaceEconomies");
 
-  const response = await window.fetch(url.toString(), {
+  const transactionId = randomID();
+  const response = await fetchWithRetry(url.toString(), {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",
+      "X-Transaction-ID": transactionId,
       Authorization: `Bearer ${token}`,
     },
   });
 
-  if (response.status === 429) {
-    throw new Error(ERRORS.TOO_MANY_REQUESTS);
-  }
-
   if (response.status >= 400) {
-    throw new Error(ERRORS.FAILED_REQUEST);
+    throw await apiError(response, {
+      endpoint: "GET /data?type=marketplaceEconomies",
+      transactionId,
+      meta: { hasToken: !!token },
+    });
   }
 
   const body = (await response.json()) as {
@@ -302,20 +306,22 @@ export async function loadEconomiesListPage({
   url.searchParams.set("type", "economies");
   url.searchParams.set("farmId", String(farmId));
 
-  const response = await window.fetch(url.toString(), {
+  const transactionId = randomID();
+  const response = await fetchWithRetry(url.toString(), {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",
+      "X-Transaction-ID": transactionId,
       Authorization: `Bearer ${token}`,
     },
   });
 
-  if (response.status === 429) {
-    throw new Error(ERRORS.TOO_MANY_REQUESTS);
-  }
-
   if (response.status >= 400) {
-    throw new Error(ERRORS.FAILED_REQUEST);
+    throw await apiError(response, {
+      endpoint: "GET /data?type=economies",
+      transactionId,
+      meta: { farmId, hasToken: !!token },
+    });
   }
 
   const body = (await response.json()) as {

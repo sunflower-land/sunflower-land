@@ -2,7 +2,8 @@ import { BED_FARMHAND_COUNT, getPlacedBedNames } from "./beds";
 import { getKeys } from "lib/object";
 import type { Collectibles, PlacedItem } from "./game";
 
-const placed = (): PlacedItem[] => [{ id: "1" }];
+const placed = (): PlacedItem[] => [{ id: "1", coordinates: { x: 0, y: 0 } }];
+const removed = (): PlacedItem[] => [{ id: "1", removedAt: 1 }];
 
 describe("BED_FARMHAND_COUNT", () => {
   it("grants a 12th farmhand slot when Salt Crystal Bed is owned", () => {
@@ -76,6 +77,25 @@ describe("getPlacedBedNames", () => {
     });
 
     expect(result).toEqual(new Set(["Basic Bed"]));
+  });
+
+  it("does not count a bed that was picked up (no coordinates)", () => {
+    const result = getPlacedBedNames({
+      collectibles: {},
+      home: {
+        collectibles: { "Basic Bed": removed(), "Pearl Bed": removed() },
+      },
+      interior: {
+        ground: {
+          collectibles: {
+            "Salt Crystal Bed": removed(),
+            "Cloud Bed": placed(),
+          },
+        },
+      },
+    });
+
+    expect(result).toEqual(new Set(["Cloud Bed"]));
   });
 
   it("returns an empty set when no beds are placed anywhere", () => {

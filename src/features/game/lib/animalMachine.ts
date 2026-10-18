@@ -43,6 +43,11 @@ export type AnimalMachineInterpreter = Interpreter<
   MachineState
 >;
 
+/**
+ * The machine has no access to game state, so it cannot derive a windowed wake
+ * time itself. Components hand it an animal resolved through `resolveAnimal`,
+ * whose `awakeAt` is already the live value — see that helper.
+ */
 const isAnimalSleeping = (context: TContext) => {
   if (!context.animal) return false;
 
@@ -52,7 +57,9 @@ const isAnimalSleeping = (context: TContext) => {
 const isAnimalNeedsLove = (context: TContext) => {
   if (!context.animal) return false;
 
-  return getNextLoveAvailableAt(context.animal) < Date.now();
+  return (
+    getNextLoveAvailableAt(context.animal, context.animal.awakeAt) < Date.now()
+  );
 };
 
 export const animalMachine = createMachine<TContext, TEvent, TState>({

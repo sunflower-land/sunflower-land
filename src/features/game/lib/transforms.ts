@@ -27,6 +27,7 @@ export function makeGame(farm: any): GameState {
     previousWardrobe: farm.previousWardrobe,
     competitions: farm.competitions,
     verified: farm.verified,
+    captcha: farm.captcha,
     stock: Object.keys(farm.stock).reduce(
       (items, item) => ({
         ...items,
@@ -38,6 +39,9 @@ export function makeGame(farm: any): GameState {
     island: farm.island,
     bank: farm.bank,
     home: farm.home,
+    // Absent until the player builds the Cave — a straight passthrough so the
+    // fallback can never fabricate one for a farm that hasn't built it.
+    cave: farm.cave,
     // Interior is a new, entirely separate placement surface. Seed it with an
     // empty ground level for any player coming back from the API who does not
     // yet have this field — the feature is front-end-only for v1 and they opt
@@ -127,6 +131,7 @@ export function makeGame(farm: any): GameState {
     transaction: farm.transaction,
     henHouse: farm.henHouse,
     barn: farm.barn,
+    pigpen: farm.pigpen,
     waterWell: farm.waterWell,
     agingShed: farm.agingShed,
     petHouse: farm.petHouse,
@@ -148,9 +153,8 @@ export function makeGame(farm: any): GameState {
     boostHistory: farm.boostHistory,
     socialFarming: farm.socialFarming,
     pets: farm.pets,
-    prototypes: farm.prototypes,
     saltFarm: farm.saltFarm ?? { level: 0, nodes: {} },
     sculptures: farm.sculptures,
-    layouts: farm.layouts,
+    tcsAcknowledged: farm.tcsAcknowledged,
   };
 }

@@ -215,7 +215,7 @@ export const TradeableImage: React.FC<{
             type="button"
             aria-label={favoriteLabel}
             title={favoriteLabel}
-            className="absolute top-4 right-4 h-8 w-8 cursor-pointer border-0 bg-transparent p-0 hover:img-highlight"
+            className="absolute bottom-4 right-4 h-8 w-8 cursor-pointer border-0 bg-transparent p-0 hover:img-highlight"
             onClick={(event) => {
               event.stopPropagation();
               setFavoriteFeedback(isFavorite ? "removed" : "added");
@@ -227,7 +227,7 @@ export const TradeableImage: React.FC<{
           {favoriteFeedback && (
             <Label
               type={favoriteFeedback === "added" ? "success" : "default"}
-              className="absolute top-14 -right-6 z-[1] pointer-events-none whitespace-nowrap"
+              className="absolute bottom-14 -right-6 z-[1] pointer-events-none whitespace-nowrap"
             >
               {favoriteFeedback === "added"
                 ? t("marketplace.addedToFavourites")

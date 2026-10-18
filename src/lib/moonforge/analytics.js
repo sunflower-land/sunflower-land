@@ -1,17 +1,18 @@
 // MoonForge Web SDK — analytics pipeline (POST /api/send).
 import {
-  isReady,
-  getConfig,
+  clearUserProps,
   collectAutoFields,
-  postEvent,
+  getConfig,
   getDistinctId,
   getSessionId,
-  setDistinctId,
   getUserProps,
-  setUserProp,
+  isReady,
+  markIdentified,
+  postEvent,
   removeUserProp,
-  clearUserProps,
   resetAll,
+  setDistinctId,
+  setUserProp,
   unixSeconds,
   warnLog,
 } from "./core.js";
@@ -56,7 +57,13 @@ export function trackScreenView(name, opts = {}) {
 }
 export function identify(userId, traits = {}) {
   if (!ensure()) return undefined;
-  if (userId) setDistinctId(userId);
+  // Both are gated on a real userId. Marking identified without one would
+  // flush the buffer under the anonymous id, which is exactly what buffering
+  // exists to avoid.
+  if (userId) {
+    setDistinctId(userId);
+    markIdentified();
+  }
   return postEvent({
     type: "identify",
     payload: {

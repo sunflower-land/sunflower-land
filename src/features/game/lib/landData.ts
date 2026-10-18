@@ -17,8 +17,9 @@ import type { GameState } from "../types/game";
  *   always track the canonical expansion data. Change the island / expansion
  *   count in that file to land on a different island or size.
  */
-import { STATIC_OFFLINE_FARM } from "./landDataStatic";
-export const OFFLINE_FARM: GameState = STATIC_OFFLINE_FARM;
+
+import { INITIAL_FARM } from "./constants";
+export const OFFLINE_FARM: GameState = INITIAL_FARM;
 
 // import { STATIC_OFFLINE_FARM } from "./landDataStatic";
 // export const OFFLINE_FARM: GameState = STATIC_OFFLINE_FARM;

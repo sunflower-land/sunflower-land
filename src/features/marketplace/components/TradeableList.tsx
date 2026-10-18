@@ -44,6 +44,11 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { useNow } from "lib/utils/hooks/useNow";
+import { MAX_RESOURCE_LISTINGS } from "../lib/tradeLimits";
+import {
+  Locked,
+  useIsLocked,
+} from "features/retreat/components/personhood/Locked";
 
 type TradeableListItemProps = {
   authToken: string;
@@ -86,6 +91,8 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     reputation: Reputation.Cropkeeper,
     now,
   });
+  // A hold stops the account trading; say so instead of a form that fails.
+  const locked = useIsLocked();
   const accountTradedRecently = useSelector(gameService, (s) =>
     isAccountTradedWithin90Days(s.context),
   );
@@ -130,14 +137,19 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     return count - totalListed;
   };
 
-  // For resources: cap at 20 listings per resource; when at 20, only 1 more allowed.
+  // For resources: cap at 20 listings per resource.
   const currentListingCount = isResource
     ? Object.values(state.trades.listings ?? {}).filter(
         (listing) => (listing.items[display.name] ?? 0) > 0,
       ).length
     : 0;
   const maxMultiple =
-    currentListingCount >= 20 ? 1 : Math.min(20, 20 - currentListingCount);
+    currentListingCount >= MAX_RESOURCE_LISTINGS
+      ? 0
+      : Math.min(
+          MAX_RESOURCE_LISTINGS,
+          MAX_RESOURCE_LISTINGS - currentListingCount,
+        );
 
   // Otherwise show the list item UI
   const submitListing = () => {
@@ -311,6 +323,8 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
       />
     );
   }
+
+  if (locked) return <Locked />;
 
   const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
 

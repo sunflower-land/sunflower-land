@@ -1,6 +1,6 @@
 import { createMachine, type Interpreter, type State, assign } from "xstate";
 import { CONFIG } from "lib/config";
-import { ERRORS, type ErrorCode } from "lib/errors";
+import { ERRORS, type ErrorCode, isSocialLinkError } from "lib/errors";
 
 import {
   saveReferrerId,
@@ -9,6 +9,10 @@ import {
 import { login, type Token, decodeToken } from "../actions/login";
 import { randomID } from "lib/utils/random";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
+import {
+  trackTutorialStep,
+  type TutorialAuthMethod,
+} from "lib/moonforgeTutorial";
 import type { loadSession } from "features/game/actions/loadSession";
 import { getToken, removeJWT, saveJWT } from "../actions/social";
 import { signUp, type UTM } from "../actions/signup";
@@ -17,6 +21,40 @@ import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { removeMinigameJWTs } from "features/world/ui/community/actions/portal";
 
 export const ART_MODE = !CONFIG.API_URL;
+
+/**
+ * Which branch out of the welcome screen the player took, remembered until
+ * authentication actually succeeds.
+ *
+ * `tutorial_step_completed` must fire on completion, not intent. Pressing
+ * SIGN_IN/SIGNUP only says the player tried; the wallet may never connect and
+ * the account may never be created. The branch is therefore recorded here and
+ * the event is emitted from `authorising.onDone`, where a token exists.
+ *
+ * Analytics-only, deliberately outside the machine's context so no game state
+ * or transition behaviour changes.
+ */
+let pendingAuthMethod: TutorialAuthMethod | undefined;
+
+/**
+ * Emit the auth milestone once the chosen path has actually completed.
+ *
+ * The two paths complete at different points. A returning player signing in
+ * with a wallet is done when `login` resolves. A new player signing up is not
+ * - `login` resolving only means they are authorised; the account itself does
+ * not exist until `signUp` resolves in the `creating` state. Emitting both at
+ * `authorising.onDone` would count an account as created for every player who
+ * authorised and then abandoned the farm-creation step.
+ */
+function trackAuthCompleted(method: TutorialAuthMethod) {
+  if (pendingAuthMethod !== method) return;
+
+  trackTutorialStep("auth", { method });
+  pendingAuthMethod = undefined;
+}
+
+const trackWalletAuthCompleted = () => trackAuthCompleted("wallet");
+const trackAccountAuthCompleted = () => trackAuthCompleted("account");
 
 const getFarmIdFromUrl = () => {
   const paths = window.location.href.split("/visit/");
@@ -30,9 +68,21 @@ const getDiscordCode = () => {
   return code;
 };
 
+/**
+ * Errors the API can put on the OAuth redirect for a signed-in player who
+ * was *linking* a social account (Discord / X), as opposed to logging in.
+ * Their error screens need the game context (settings, refresh), so they
+ * are left in the URL for the game machine to pick up in `loading`.
+ */
+const isInGameOAuthError = (code: string) =>
+  isSocialLinkError(code) ||
+  code === ERRORS.DISCORD_USER_EXISTS ||
+  code === ERRORS.DISCORD_NOT_ON_SERVER;
+
 const getUrlErrorCode = (): ErrorCode | undefined => {
   const errorParam = new URLSearchParams(window.location.search).get("error");
   if (!errorParam) return undefined;
+  if (isInGameOAuthError(errorParam)) return undefined;
   // hasOwn — `in` also matches inherited props like `toString`, which
   // would let any URL param masquerade as a valid error code.
   return Object.prototype.hasOwnProperty.call(ERRORS, errorParam)
@@ -258,11 +308,19 @@ export const authMachine = createMachine(
         on: {
           SIGN_IN: {
             target: "signIn",
-            actions: () => onboardingAnalytics.logEvent("connect_wallet"),
+            actions: () => {
+              onboardingAnalytics.logEvent("connect_wallet");
+              // Intent only - the completed event fires from
+              // `authorising.onDone`, once a token actually exists.
+              pendingAuthMethod = "wallet";
+            },
           },
           SIGNUP: {
             target: "signUp",
-            actions: () => onboardingAnalytics.logEvent("create_account"),
+            actions: () => {
+              onboardingAnalytics.logEvent("create_account");
+              pendingAuthMethod = "account";
+            },
           },
         },
       },
@@ -297,7 +355,10 @@ export const authMachine = createMachine(
           onDone: [
             {
               target: "verifying",
-              actions: ["assignToken"],
+              // `login` resolved, which completes the wallet path only. The
+              // account path is not finished until `signUp` resolves in
+              // `creating`, so it is emitted there instead.
+              actions: ["assignToken", trackWalletAuthCompleted],
             },
           ],
           onError: {
@@ -405,7 +466,9 @@ export const authMachine = createMachine(
           onDone: [
             {
               target: "connected",
-              actions: ["assignToken", "saveToken"],
+              // The account now genuinely exists - this is where the account
+              // path's auth milestone completes.
+              actions: ["assignToken", "saveToken", trackAccountAuthCompleted],
             },
           ],
           onError: [

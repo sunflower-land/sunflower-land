@@ -5,6 +5,7 @@ import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import type { BuildingProps } from "../Building";
 import { Modal } from "components/ui/Modal";
 import { ShopItems } from "./ShopItems";
+import { needsFirstSeedPurchase } from "./lib/onboarding";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { useActor, useSelector } from "@xstate/react";
@@ -37,12 +38,6 @@ const _specialEvents = (state: MachineState) =>
 const hasSoldCropsBefore = (farmActivity: GameState["farmActivity"]) => {
   return !!getKeys(CROPS).find((crop) =>
     getKeys(farmActivity).includes(`${crop} Sold`),
-  );
-};
-
-const hasBoughtCropsBefore = (farmActivity: GameState["farmActivity"]) => {
-  return !!getKeys(CROPS).find((crop) =>
-    getKeys(farmActivity).includes(`${crop} Seed Bought`),
   );
 };
 
@@ -85,13 +80,7 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, island }) => {
   const hasSoldBefore = hasSoldCropsBefore(
     gameState.context.state.farmActivity,
   );
-  const showBuyHelper =
-    !hasBoughtCropsBefore(gameState.context.state.farmActivity) &&
-    !!hasSoldBefore;
-
-  const showHelper =
-    gameState.context.state.farmActivity["Sunflower Harvested"] === 9 &&
-    !gameState.context.state.farmActivity["Sunflower Sold"];
+  const showBuyHelper = needsFirstSeedPurchase(gameState.context.state);
 
   const { totalSeconds: cropShortageSecondsLeft } = useCountdown(
     gameState.context.state.createdAt + CROP_SHORTAGE_HOURS * 60 * 60 * 1000,
@@ -128,35 +117,13 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, island }) => {
           className="absolute pointer-events-none"
           style={bettyPosition}
         />
-
-        {showHelper && (
-          <>
-            <img
-              className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
-              src={SUNNYSIDE.icons.click_icon}
-              style={{
-                width: `${PIXEL_SCALE * 18}px`,
-                right: `${PIXEL_SCALE * -8}px`,
-                top: `${PIXEL_SCALE * 20}px`,
-              }}
-            />
-            <img
-              className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
-              src={SUNNYSIDE.icons.money_icon}
-              style={{
-                width: `${PIXEL_SCALE * 18}px`,
-                right: `${PIXEL_SCALE * 8}px`,
-                top: `${PIXEL_SCALE * 20}px`,
-              }}
-            />
-          </>
-        )}
       </BuildingImageWrapper>
       <Modal show={isOpen} onHide={() => setIsOpen(false)}>
         <ShopItems
           onClose={() => setIsOpen(false)}
           hasSoldBefore={hasSoldBefore}
           showBuyHelper={showBuyHelper}
+          showBuyTabHelper={needsFirstSeedPurchase(gameState.context.state)}
         />
         {isCropShortage && (
           <Label

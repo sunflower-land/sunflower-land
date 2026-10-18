@@ -13,6 +13,10 @@ import {
   MinigameCurrencyDisclaimerPanel,
   showsMinigameCurrencyDisclaimer,
 } from "./MinigameCurrencyDisclaimerPanel";
+import {
+  Locked,
+  useIsLocked,
+} from "features/retreat/components/personhood/Locked";
 
 type BulkPurchaseModalContentProps = {
   authToken: string;
@@ -59,6 +63,13 @@ export const BulkPurchaseModalContent: React.FC<
           sfl: price,
           points: 2,
         }).multipliedPoints;
+
+  // Buying is a trade, so a hold stops it here rather than at the API. Gated
+  // in the modal itself so both entry points (the header and the listings
+  // table) are covered by one check.
+  const locked = useIsLocked();
+
+  if (locked) return <Locked />;
 
   return (
     <>

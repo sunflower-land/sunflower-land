@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 export type EconomyLeaderboardPlayer = {
@@ -44,7 +45,7 @@ export async function loadEconomyLeaderboard(
     url.searchParams.set("type", "economyLeaderboard");
     url.searchParams.set("slug", slug);
 
-    const response = await window.fetch(url.toString(), {
+    const response = await fetchWithRetry(url.toString(), {
       method: "GET",
       headers: {
         "content-type": "application/json;charset=UTF-8",

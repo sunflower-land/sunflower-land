@@ -71,7 +71,13 @@ function getIronRecoveryDurationMs(rock: Rock, game: GameState): number {
 /**
  * Single source of truth for iron recovery boosts. Used by both getMinedAt (game) and UI.
  */
-export function getIronRecoveryTimeForDisplay({ game }: { game: GameState }): {
+export function getIronRecoveryTimeForDisplay({
+  game,
+  now,
+}: {
+  game: GameState;
+  now: number;
+}): {
   baseTimeMs: number;
   recoveryTimeMs: number;
   boostsUsed: { name: BoostName; value: string }[];
@@ -89,10 +95,12 @@ export function getIronRecoveryTimeForDisplay({ game }: { game: GameState }): {
   const superTotemActive = isTemporaryCollectibleActive({
     name: "Super Totem",
     game,
+    now,
   });
   const timeWarpTotemActive = isTemporaryCollectibleActive({
     name: "Time Warp Totem",
     game,
+    now,
   });
   if (!boostsWindowed && (superTotemActive || timeWarpTotemActive)) {
     totalSeconds = totalSeconds * 0.5;
@@ -104,7 +112,7 @@ export function getIronRecoveryTimeForDisplay({ game }: { game: GameState }): {
 
   if (
     !boostsWindowed &&
-    isTemporaryCollectibleActive({ name: "Ore Hourglass", game })
+    isTemporaryCollectibleActive({ name: "Ore Hourglass", game, now })
   ) {
     totalSeconds = totalSeconds * 0.5;
     boostsUsed.push({ name: "Ore Hourglass", value: "x0.5" });
@@ -112,7 +120,7 @@ export function getIronRecoveryTimeForDisplay({ game }: { game: GameState }): {
 
   if (
     !boostsWindowed &&
-    isTemporaryCollectibleActive({ name: "Mole Shrine", game })
+    isTemporaryCollectibleActive({ name: "Mole Shrine", game, now })
   ) {
     totalSeconds = totalSeconds * 0.75;
     boostsUsed.push({ name: "Mole Shrine", value: "x0.75" });
@@ -146,7 +154,7 @@ export function getMinedAt({ createdAt, game }: GetMinedAtArgs): {
   boostsUsed: { name: BoostName; value: string }[];
 } {
   const { baseTimeMs, recoveryTimeMs, boostsUsed } =
-    getIronRecoveryTimeForDisplay({ game });
+    getIronRecoveryTimeForDisplay({ game, now: createdAt });
 
   if (hasFeatureAccess(game, "SPEED_BOOSTS")) {
     return { time: createdAt, baseDurationMs: recoveryTimeMs, boostsUsed };
@@ -408,7 +416,7 @@ export function mineIron({
       baseTimeMs,
       recoveryTimeMs,
       boostsUsed: boostedTimeBoostsUsed,
-    } = getIronRecoveryTimeForDisplay({ game: stateCopy });
+    } = getIronRecoveryTimeForDisplay({ game: stateCopy, now: createdAt });
 
     ironRock.stone = { minedAt: time };
     if (baseDurationMs !== undefined) {

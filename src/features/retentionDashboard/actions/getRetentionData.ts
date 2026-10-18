@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 
 export type RetentionRecord = {
   signups?: number;
@@ -41,7 +42,7 @@ export const getRetentionData = async ({
   const url = new URL(RETENTION_API_URL);
   url.searchParams.set("type", "retention");
 
-  const res = await window.fetch(url.toString(), {
+  const res = await fetchWithRetry(url.toString(), {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",

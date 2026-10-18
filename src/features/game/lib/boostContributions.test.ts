@@ -1,0 +1,417 @@
+import {
+  getAnimalBoostContributions,
+  getBoostContributionEntries,
+  getCookingBoostContributions,
+  getCraftingBoostContributions,
+  getCropMachineBoostContributions,
+  getNodeBoostContributions,
+  getSeedBoostContributions,
+} from "./boostContributions";
+import { getNodeBoostWindows, getSeedBoostWindows } from "./seedBoostWindows";
+import { TEST_FARM } from "./constants";
+import { projectSeconds } from "./timerDisplay";
+import type { GameState } from "../types/game";
+import type { SeedName } from "../types/seeds";
+import type { ResourceName } from "../types/resources";
+import type { AnimalType } from "../types/animals";
+import {
+  getAnimalBoostWindows,
+  getCookingBoostWindows,
+  getCraftingBoostWindows,
+  getCropMachineBoostWindows,
+} from "./boostWindows";
+import { CONFIG } from "lib/config";
+import { GUARDIAN_BOOST } from "./getActiveGuardian";
+import { populateSeason } from "./season";
+import { getKeys } from "lib/object";
+
+const setNetwork = (network: "mainnet" | "amoy") => {
+  (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = network;
+};
+
+const createdAt = 1_000_000;
+const at = createdAt + 1000;
+const HOUR = 60 * 60;
+
+const place = (id: string, x: number) => [
+  { id, coordinates: { x, y: 0 }, createdAt },
+];
+
+/** Everything windowed placed at once, so every resolver finds something. */
+const BOOSTED: GameState = {
+  ...TEST_FARM,
+  collectibles: {
+    ...TEST_FARM.collectibles,
+    "Sparrow Shrine": place("1", 0),
+    "Harvest Hourglass": place("2", 1),
+    "Super Totem": place("3", 2),
+    "Timber Hourglass": place("4", 3),
+    "Badger Shrine": place("5", 4),
+    "Ore Hourglass": place("6", 5),
+    "Mole Shrine": place("7", 6),
+    "Orchard Hourglass": place("8", 7),
+    "Toucan Shrine": place("9", 8),
+    "Blossom Hourglass": place("10", 9),
+    "Moth Shrine": place("11", 10),
+    "Stag Shrine": place("12", 11),
+    "Tortoise Shrine": place("13", 12),
+    "Collie Shrine": place("14", 13),
+    "Bantam Shrine": place("15", 14),
+    "Gourmet Hourglass": place("16", 15),
+    "Legendary Shrine": place("17", 16),
+    "Boar Shrine": place("18", 17),
+    "Fox Shrine": place("19", 18),
+  },
+};
+
+// The panel's names must describe the SAME windows the readiness maths uses, or
+// the list would explain a number it didn't produce. These pin the two together.
+describe("contributions match the window builders", () => {
+  // Pins the flag ON rather than relying on `.env`: these accessors return []
+  // without SPEED_BOOSTS, so a developer on VITE_NETWORK=mainnet would see the
+  // parity assertions pass vacuously against a non-empty window list.
+  const networkBeforeParity = CONFIG.NETWORK;
+  beforeEach(() => setNetwork("amoy"));
+  afterAll(() => setNetwork(networkBeforeParity));
+
+  const flatten = (contributions: { windows: unknown[] }[]): unknown[] =>
+    contributions.flatMap(({ windows }) => windows);
+
+  it.each<SeedName>([
+    "Sunflower Seed",
+    "Apple Seed",
+    "Sunpetal Seed",
+    "Rice Seed",
+    "Grape Seed",
+  ])("%s", (seed) => {
+    expect(flatten(getSeedBoostContributions(BOOSTED, seed, at))).toEqual(
+      getSeedBoostWindows(BOOSTED, seed),
+    );
+  });
+
+  it.each<AnimalType>(["Chicken", "Cow", "Sheep"])("%s", (animalType) => {
+    expect(flatten(getAnimalBoostContributions(BOOSTED, animalType))).toEqual(
+      getAnimalBoostWindows(BOOSTED, animalType),
+    );
+  });
+
+  it.each<ResourceName>([
+    "Tree",
+    "Stone Rock",
+    "Iron Rock",
+    "Gold Rock",
+    "Crimstone Rock",
+    "Sunstone Rock",
+    "Oil Reserve",
+  ])("%s", (node) => {
+    expect(flatten(getNodeBoostContributions(BOOSTED, node, at))).toEqual(
+      getNodeBoostWindows(BOOSTED, node),
+    );
+  });
+
+  it("cooking", () => {
+    expect(flatten(getCookingBoostContributions(BOOSTED, at))).toEqual(
+      getCookingBoostWindows(BOOSTED),
+    );
+  });
+
+  it("crafting", () => {
+    expect(flatten(getCraftingBoostContributions(BOOSTED, at))).toEqual(
+      getCraftingBoostWindows(BOOSTED),
+    );
+  });
+
+  it("crop machine", () => {
+    expect(flatten(getCropMachineBoostContributions(BOOSTED))).toEqual(
+      getCropMachineBoostWindows(BOOSTED),
+    );
+  });
+});
+
+describe("getBoostContributionEntries", () => {
+  // These read flag-gated contributions, so pin the flag ON rather than relying
+  // on `.env` (pre-existing: they were silently depending on VITE_NETWORK=amoy).
+  const networkBeforeEntries = CONFIG.NETWORK;
+  beforeEach(() => setNetwork("amoy"));
+  afterAll(() => setNetwork(networkBeforeEntries));
+
+  const format = (seconds: number) => `${Math.round(seconds / 60)}m`;
+  const entries = (seconds = 4 * HOUR) =>
+    getBoostContributionEntries({
+      contributions: getNodeBoostContributions(BOOSTED, "Tree", at),
+      seconds,
+      at,
+      formatSeconds: format,
+    });
+
+  it("shows each booster's time saving", () => {
+    // Trees: merged totems (2×) + Timber Hourglass (1.35×) + Badger Shrine (1.35×).
+    const actual = entries();
+
+    expect(actual.map((entry) => entry.name)).toEqual([
+      "Super Totem",
+      "Timber Hourglass",
+      "Badger Shrine",
+    ]);
+    // Every value is a saving, and the 2× totem saves more than a 1.35× shrine.
+    actual.forEach((entry) => expect(entry.value).toMatch(/^-\d+m$/));
+    const minutes = (value: string) => Number(value.replace(/[-m]/g, ""));
+    expect(minutes(actual[0].value)).toBeGreaterThan(minutes(actual[2].value));
+  });
+
+  it("shrinks the saving as the booster's window runs out", () => {
+    // Same boosts, but a task far longer than the hourglass can cover: the
+    // saving is capped by what is left on the window, not the raw multiplier.
+    const short = entries(4 * HOUR);
+    const long = entries(400 * HOUR);
+    const minutes = (value: string) => Number(value.replace(/[-m]/g, ""));
+
+    // The hourglass cannot save more on the long task than its window is worth.
+    expect(minutes(long[1].value)).toBeLessThan(minutes(long[0].value) * 10);
+    expect(minutes(short[1].value)).toBeGreaterThan(0);
+  });
+
+  // The panel is read as a breakdown: if the listed savings do not account for the
+  // gap between the struck-through base time and the time shown, the numbers look
+  // wrong. Speeds MULTIPLY, so a plain "how much longer without this one" per boost
+  // credits the overlap to neither and silently under-reports the total.
+  it("splits the whole saving between the boosters, leaving nothing unattributed", () => {
+    const seconds = 4 * HOUR;
+    const contributions = getNodeBoostContributions(BOOSTED, "Tree", at);
+
+    const listed = getBoostContributionEntries({
+      contributions,
+      seconds,
+      at,
+      formatSeconds: (value) => String(value),
+    });
+
+    const summed = listed.reduce(
+      (total, entry) => total + Number(entry.value.replace("-", "")),
+      0,
+    );
+
+    const totalSaving =
+      seconds -
+      projectSeconds({
+        seconds,
+        windows: contributions.flatMap(({ windows }) => windows),
+        at,
+      });
+
+    expect(summed).toBeCloseTo(totalSaving, 6);
+  });
+
+  it("leaves out a booster that is no longer running", () => {
+    // Nothing placed → nothing to list.
+    const none = getBoostContributionEntries({
+      contributions: getNodeBoostContributions(TEST_FARM, "Tree", at),
+      seconds: 4 * HOUR,
+      at,
+      formatSeconds: format,
+    });
+
+    expect(none).toEqual([]);
+  });
+});
+
+describe("totem attribution", () => {
+  // These read flag-gated contributions, so pin the flag ON rather than relying
+  // on `.env` (pre-existing: they were silently depending on VITE_NETWORK=amoy).
+  const networkBeforeTotems = CONFIG.NETWORK;
+  beforeEach(() => setNetwork("amoy"));
+  afterAll(() => setNetwork(networkBeforeTotems));
+
+  const format = (seconds: number) => `${Math.round(seconds / 60)}m`;
+
+  it("credits the totem that is actually running, not one burned earlier", () => {
+    // A Super Totem burned last week leaves a finalised interval in
+    // boostHistory. The Time Warp Totem running now must take the credit.
+    const game: GameState = {
+      ...TEST_FARM,
+      collectibles: {
+        ...TEST_FARM.collectibles,
+        "Time Warp Totem": place("1", 0),
+      },
+      boostHistory: {
+        "Super Totem": [
+          { from: createdAt - 8 * 60 * 60 * 1000, to: createdAt - 1000 },
+        ],
+      },
+    };
+
+    const entries = getBoostContributionEntries({
+      contributions: getNodeBoostContributions(game, "Tree", at),
+      seconds: 4 * HOUR,
+      at,
+      formatSeconds: format,
+    });
+
+    expect(entries.map((entry) => entry.name)).toEqual(["Time Warp Totem"]);
+    expect(entries[0].value).toMatch(/^-\d+m$/);
+  });
+
+  it("credits the Super Totem while it is the one running", () => {
+    const game: GameState = {
+      ...TEST_FARM,
+      collectibles: {
+        ...TEST_FARM.collectibles,
+        "Super Totem": place("1", 0),
+        "Time Warp Totem": place("2", 1),
+      },
+    };
+
+    const entries = getBoostContributionEntries({
+      contributions: getNodeBoostContributions(game, "Tree", at),
+      seconds: 4 * HOUR,
+      at,
+      formatSeconds: format,
+    });
+
+    expect(entries.map((entry) => entry.name)).toEqual(["Super Totem"]);
+    expect(entries[0].value).toMatch(/^-\d+m$/);
+  });
+});
+
+describe("sunshower Guardian attribution", () => {
+  const networkBeforeSunshower = CONFIG.NETWORK;
+  beforeEach(() => setNetwork("amoy"));
+  afterAll(() => setNetwork(networkBeforeSunshower));
+
+  const eventDay = Date.UTC(2026, 5, 27);
+  const now = eventDay + 6 * 60 * 60 * 1000;
+  const guardianFor = (time: number) =>
+    getKeys(GUARDIAN_BOOST).find(
+      (name) => GUARDIAN_BOOST[name].season === populateSeason(time).season,
+    )!;
+  const guardian = guardianFor(eventDay);
+
+  const game: GameState = {
+    ...TEST_FARM,
+    season: populateSeason(eventDay),
+    calendar: {
+      dates: [],
+      sunshower: { startedAt: eventDay, triggeredAt: eventDay },
+    },
+    collectibles: {
+      ...TEST_FARM.collectibles,
+      [guardian]: [{ id: "g", coordinates: { x: 0, y: 0 } }],
+    },
+  };
+
+  it("lists the sunshower and the placed Guardian, splitting the saving between them", () => {
+    const seconds = 4 * HOUR;
+
+    const entries = getBoostContributionEntries({
+      contributions: getSeedBoostContributions(game, "Wheat Seed", now),
+      seconds,
+      at: now,
+      formatSeconds: (value) => String(value),
+    });
+
+    expect(entries.map((entry) => entry.name)).toEqual(["sunshower", guardian]);
+
+    // Both are 2× over the whole task (4× together, so 4h takes 1h): the 3h
+    // saving splits evenly between them.
+    const saved = entries.map((entry) => Number(entry.value.replace("-", "")));
+    expect(saved[0]).toBeCloseTo(1.5 * HOUR, 6);
+    expect(saved[1]).toBeCloseTo(1.5 * HOUR, 6);
+  });
+
+  it("does not credit a Guardian from another season", () => {
+    const otherGuardian = getKeys(GUARDIAN_BOOST).find(
+      (name) => name !== guardian,
+    )!;
+
+    const entries = getBoostContributionEntries({
+      contributions: getSeedBoostContributions(
+        {
+          ...game,
+          collectibles: {
+            ...TEST_FARM.collectibles,
+            [otherGuardian]: [{ id: "g", coordinates: { x: 0, y: 0 } }],
+          },
+        },
+        "Wheat Seed",
+        now,
+      ),
+      seconds: 4 * HOUR,
+      at: now,
+      formatSeconds: (value) => String(value),
+    });
+
+    expect(entries.map((entry) => entry.name)).toEqual(["sunshower"]);
+  });
+});
+
+describe("Power Hour attribution", () => {
+  const networkBeforePowerHour = CONFIG.NETWORK;
+  beforeEach(() => setNetwork("amoy"));
+  afterAll(() => setNetwork(networkBeforePowerHour));
+
+  const hour = HOUR * 1000;
+  const game: GameState = {
+    ...TEST_FARM,
+    buffs: { "Power hour": { startedAt: createdAt, durationMS: hour } },
+    boostHistory: {
+      "Power hour": [
+        { from: createdAt - 48 * hour, to: createdAt - 47 * hour },
+      ],
+    },
+  };
+
+  const names = (at: number) =>
+    getBoostContributionEntries({
+      contributions: getSeedBoostContributions(game, "Wheat Seed", at),
+      seconds: 4 * HOUR,
+      at,
+      formatSeconds: (value) => String(value),
+    }).map((entry) => entry.name);
+
+  it("credits the running Power Hour", () => {
+    expect(names(at)).toEqual(["Power hour"]);
+  });
+
+  it("does not credit a replaced Power Hour once the new one has ended", () => {
+    expect(names(createdAt + 2 * hour)).toEqual([]);
+  });
+});
+
+// The contributions name the windows for the boost panel, so they have to
+// disappear with them: without `SPEED_BOOSTS` the boosters are baked into the
+// time and already listed in `boostsUsed`, and a savings row beside that would
+// claim the same boost a second time.
+describe("without SPEED_BOOSTS", () => {
+  const originalNetwork = CONFIG.NETWORK;
+  beforeEach(() => setNetwork("mainnet"));
+  afterAll(() => setNetwork(originalNetwork));
+
+  it("names no boosters for a seed", () => {
+    expect(getSeedBoostContributions(BOOSTED, "Sunpetal Seed", at)).toEqual([]);
+    expect(getSeedBoostContributions(BOOSTED, "Grape Seed", at)).toEqual([]);
+  });
+
+  it("names no boosters for a node", () => {
+    expect(getNodeBoostContributions(BOOSTED, "Tree", at)).toEqual([]);
+  });
+
+  it("names no boosters for cooking or an animal", () => {
+    expect(getCookingBoostContributions(BOOSTED, at)).toEqual([]);
+    expect(getAnimalBoostContributions(BOOSTED, "Chicken")).toEqual([]);
+  });
+
+  it("names no boosters for the crop machine", () => {
+    expect(getCropMachineBoostContributions(BOOSTED)).toEqual([]);
+  });
+
+  it("leaves the panel with nothing to add", () => {
+    expect(
+      getBoostContributionEntries({
+        contributions: getNodeBoostContributions(BOOSTED, "Tree", at),
+        seconds: 4 * HOUR,
+        at,
+        formatSeconds: (seconds) => `${Math.round(seconds / 60)}m`,
+      }),
+    ).toEqual([]);
+  });
+});

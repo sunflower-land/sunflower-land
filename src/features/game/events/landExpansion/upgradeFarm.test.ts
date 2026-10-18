@@ -1,9 +1,5 @@
 import { INITIAL_FARM, TEST_FARM } from "features/game/lib/constants";
-import type {
-  GameState,
-  InventoryItemName,
-  SavedLayout,
-} from "features/game/types/game";
+import type { GameState, InventoryItemName } from "features/game/types/game";
 import {
   upgrade,
   getAscensionUpgradeCost,
@@ -119,7 +115,6 @@ describe("upgradeFarm", () => {
         mushrooms: {
           mushrooms: {
             1: {
-              amount: 1,
               name: "Wild Mushroom",
               x: 1,
               y: 1,
@@ -297,9 +292,9 @@ describe("upgradeFarm", () => {
           spawnedAt: 1234,
           mushrooms: {
             // On the main land
-            1: { amount: 1, name: "Wild Mushroom", x: 1, y: 1 },
+            1: { name: "Wild Mushroom", x: 1, y: 1 },
             // Stranded on the previous island
-            2: { amount: 2, name: "Magic Mushroom", x: -9, y: 5 },
+            2: { name: "Magic Mushroom", x: -9, y: 5 },
           },
         },
       },
@@ -319,9 +314,9 @@ describe("upgradeFarm", () => {
     // spawnedAt carries across the upgrade
     expect(state.mushrooms?.spawnedAt).toEqual(1234);
 
-    // Names & amounts are preserved
-    expect(mushrooms["1"]).toMatchObject({ name: "Wild Mushroom", amount: 1 });
-    expect(mushrooms["2"]).toMatchObject({ name: "Magic Mushroom", amount: 2 });
+    // Names are preserved
+    expect(mushrooms["1"]).toMatchObject({ name: "Wild Mushroom" });
+    expect(mushrooms["2"]).toMatchObject({ name: "Magic Mushroom" });
 
     // Every mushroom now sits on a distinct island spawn tile
     const positions = entries.map((m) => `${m.x},${m.y}`);
@@ -418,8 +413,8 @@ describe("upgradeFarm", () => {
           spawnedAt: 1234,
           mushrooms: {
             // Sitting on the source (25-expansion) island's tiles
-            1: { amount: 1, name: "Wild Mushroom", ...sourceTiles[0] },
-            2: { amount: 2, name: "Magic Mushroom", ...sourceTiles[1] },
+            1: { name: "Wild Mushroom", ...sourceTiles[0] },
+            2: { name: "Magic Mushroom", ...sourceTiles[1] },
           },
         },
         socialFarming: {
@@ -486,6 +481,38 @@ describe("upgradeFarm", () => {
     expect(state.flowers.discovered).toEqual({
       "Blue Balloon Flower": ["Apple"],
     });
+  });
+
+  it("preserves the cave across ascension", () => {
+    const cave = {
+      builtAt: 123,
+      tier: 1,
+      machines: {
+        "1": {
+          batch: {
+            recipe: "Mushroom" as const,
+            startedAt: 100,
+            readyAt: 100 + 12 * 60 * 60 * 1000,
+          },
+        },
+      },
+    };
+    const state = upgrade({
+      farmId,
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          "Basic Land": new Decimal(9),
+          Gold: new Decimal(15),
+        },
+        cave,
+      },
+    });
+
+    expect(state.cave).toEqual(cave);
   });
 
   it("upgrades to spring island", () => {
@@ -1185,15 +1212,6 @@ describe("upgradeFarm", () => {
     });
     expect(state.trees["1"]).toMatchObject({ x: 5, y: 5 });
 
-    // Saves the arrangement as the protected, auto-managed Ascension Layout
-    const ascensionLayout = state.layouts?.find((layout) => layout.auto);
-    expect(ascensionLayout?.name).toEqual("Ascension Layout");
-    expect(ascensionLayout?.resources.ascensionCrystals).toEqual({});
-    expect(ascensionLayout?.buildings.Mansion?.[0].coordinates).toEqual({
-      x: 0,
-      y: 0,
-    });
-
     // Drops the ascension reward chest (Ascension Crystals) on the side island,
     // rather than granting the crystal straight to inventory.
     expect(state.inventory["Ascension Crystal"]).toBeUndefined();
@@ -1726,36 +1744,9 @@ describe("upgradeFarm", () => {
     expect(state.crops["99"]?.crop?.plantedAt).toEqual(plantedAt);
   });
 
-  it("reuses the saved Ascension Layout on later ascensions", () => {
+  it("resets later ascensions to the initial land (re-applying a layout is an explicit effect)", () => {
     const createdAt = SPOOKY_ASCENSION_START;
     const readyXp = ascensionBaseline(1) + bandXp(1);
-    const emptyLayoutResources: SavedLayout["resources"] = {
-      trees: {},
-      stones: {},
-      gold: {},
-      iron: {},
-      crimstones: {},
-      sunstones: {},
-      ascensionCrystals: {},
-      oilReserves: {},
-      crops: {},
-      fruitPatches: {},
-      beehives: {},
-      flowerBeds: {},
-      lavaPits: {},
-    };
-    // The layout captured at volcano->swamp places the statue at { x: 7, y: 7 }.
-    const autoLayout: SavedLayout = {
-      name: "Ascension Layout",
-      auto: true,
-      createdAt,
-      updatedAt: createdAt,
-      collectibles: {
-        "Sunflower Statue": [{ id: "1", coordinates: { x: 7, y: 7 } }],
-      },
-      buildings: {},
-      resources: emptyLayoutResources,
-    };
 
     const state = upgrade({
       farmId,
@@ -1773,7 +1764,6 @@ describe("upgradeFarm", () => {
           Obsidian: new Decimal(10),
           "Sunflower Statue": new Decimal(1),
         },
-        // Current arrangement differs from the saved layout — the statue is elsewhere.
         collectibles: {
           "Sunflower Statue": [
             {
@@ -1784,18 +1774,17 @@ describe("upgradeFarm", () => {
             },
           ],
         },
-        layouts: [autoLayout],
       },
       createdAt,
     });
 
     expect(state.island.type).toEqual("spooky");
     expect(state.island.ascensionLevel).toEqual(2);
-    // Reset to the saved layout: the statue moved back to { x: 7, y: 7 }.
-    expect(state.collectibles["Sunflower Statue"]?.[0].coordinates).toEqual({
-      x: 7,
-      y: 7,
-    });
+    // The arrangement is wiped back to the chest — restoring a saved layout is
+    // the client-driven `layout.applied` effect, not part of the transition.
+    expect(
+      state.collectibles["Sunflower Statue"]?.[0]?.coordinates,
+    ).toBeUndefined();
     // A reward chest is dropped for this ascension too.
     expect(
       state.airdrops?.some(

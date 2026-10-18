@@ -57,6 +57,10 @@ export function supplyCookingOil({
       throw new Error(translate("error.buildingNotExist"));
     }
 
+    if (!Number.isInteger(action.oilQuantity) || action.oilQuantity <= 0) {
+      throw new Error("Invalid oil quantity");
+    }
+
     const oilInInventory = stateCopy.inventory["Oil"] || new Decimal(0);
 
     if (oilInInventory.lessThan(action.oilQuantity)) {

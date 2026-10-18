@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 import { type BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 
@@ -20,7 +21,7 @@ export const getBumpkinImageURL = (bumpkin: Request) => {
 };
 
 export async function buildImageRequest({ fileName }: { fileName: string }) {
-  const response = await window.fetch(
+  const response = await fetchWithRetry(
     `${API_URL}/bumpkins/metadata/${fileName}`,
     {
       method: "GET",

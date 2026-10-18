@@ -1,0 +1,42 @@
+import type { GameState } from "features/game/types/game";
+import { CROPS } from "features/game/types/crops";
+import { getKeys } from "lib/object";
+import { hasFulfilledFirstDelivery } from "features/island/delivery/lib/onboarding";
+
+/**
+ * Shared onboarding predicates for Betty's market, kept in one place so the
+ * default market tab and the buy helpers stay in sync (the Workbench does
+ * the same in workBench/lib/onboarding.ts).
+ *
+ * There is deliberately no sell lesson here: deliveries are the coin loop
+ * the tutorial teaches, and the market sell tab is left for players to
+ * discover on their own.
+ */
+
+/** Whether the player has ever sold a crop to Betty. */
+export const hasSoldAnyCrop = (game: GameState): boolean =>
+  getKeys(CROPS).some((crop) => (game.farmActivity?.[`${crop} Sold`] ?? 0) > 0);
+
+/** Whether the player has ever bought a crop seed from Betty. */
+export const hasBoughtCropSeeds = (game: GameState): boolean =>
+  getKeys(CROPS).some(
+    (crop) => (game.farmActivity?.[`${crop} Seed Bought`] ?? 0) > 0,
+  );
+
+/**
+ * The tutorial island's first seed purchase, which is Betty's cue to send the
+ * player back to their plots.
+ */
+export const isFirstSeedPurchase = (game: GameState): boolean =>
+  game.island.type === "basic" && !hasBoughtCropSeeds(game);
+
+/**
+ * Nudge a new player to buy their first seeds: they are on the tutorial island,
+ * have fulfilled their first delivery (or, for farms from before deliveries
+ * led the tutorial, sold a crop) and have never bought a crop seed.
+ */
+export const needsFirstSeedPurchase = (game: GameState): boolean => {
+  if (!isFirstSeedPurchase(game)) return false;
+
+  return hasFulfilledFirstDelivery(game) || hasSoldAnyCrop(game);
+};

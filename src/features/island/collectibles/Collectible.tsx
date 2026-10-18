@@ -20,7 +20,10 @@ import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { Label } from "components/ui/Label";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { Button } from "components/ui/Button";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import confetti from "canvas-confetti";
@@ -288,11 +291,12 @@ export const Building: React.FC<{
   return (
     <>
       <div className="p-1 ">
-        <Label
-          type="default"
-          icon={SUNNYSIDE.icons.stopwatch}
-        >{`In progress`}</Label>
-        <p className="text-sm my-2">{t("crafting.readySoon", { name })}</p>
+        <Label type="default" icon={SUNNYSIDE.icons.stopwatch}>
+          {t("crafting.inProgress")}
+        </Label>
+        <p className="text-sm my-2">
+          {t("crafting.readySoon", { name: getTranslatedItemName(name) })}
+        </p>
         <div className="flex items-center mb-1">
           <div>
             <div className="relative flex flex-col w-full">

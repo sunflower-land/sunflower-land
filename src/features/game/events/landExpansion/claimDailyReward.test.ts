@@ -204,6 +204,41 @@ describe("claimDailyReward", () => {
     expect(state.inventory[getChapterTicket(now)]).toEqual(new Decimal(1));
   });
 
+  it("archives the previous Power Hour when the weekly buff is claimed again", () => {
+    const now = new Date("2025-02-05T05:00:00.000Z").getTime();
+    const previousStartedAt = now - 2 * 24 * 60 * 60 * 1000;
+    const state = claimDailyReward({
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          experience: LEVEL_3_EXPERIENCE,
+        },
+        buffs: {
+          "Power hour": {
+            startedAt: previousStartedAt,
+            durationMS: 60 * 60 * 1000,
+          },
+        },
+        dailyRewards: {
+          streaks: 1, // claiming weekly day 2 (Growth Boost - buff)
+          chest: {
+            collectedAt: now - 24 * 60 * 60 * 1000,
+            code: 1,
+          },
+        },
+        farmActivity: { "Daily Reward Collected": 10 },
+      },
+      action: { type: "dailyReward.claimed" },
+      createdAt: now,
+    });
+
+    expect(state.buffs?.["Power hour"]?.startedAt).toBe(now);
+    expect(state.boostHistory?.["Power hour"]).toEqual([
+      { from: previousStartedAt, to: previousStartedAt + 60 * 60 * 1000 },
+    ]);
+  });
+
   it("scales weekly tool rewards with higher level", () => {
     const now = new Date("2025-03-01T05:00:00.000Z").getTime();
     const highLevel = 60;

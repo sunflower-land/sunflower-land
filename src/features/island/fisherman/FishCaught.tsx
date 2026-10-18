@@ -1,17 +1,71 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import lightning from "assets/icons/lightning.png";
 import { Button } from "components/ui/Button";
-import { Label } from "components/ui/Label";
+import { Label, LABEL_STYLES } from "components/ui/Label";
 import { getKeys } from "lib/object";
 import { FISH, type MarineMarvelName } from "features/game/types/fishing";
-import type { GameState, InventoryItemName } from "features/game/types/game";
+import type {
+  BoostName,
+  GameState,
+  InventoryItemName,
+} from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InnerPanel } from "components/ui/Panel";
 import { Box } from "components/ui/Box";
 import Decimal from "decimal.js-light";
 import mapIcon from "assets/icons/map.webp";
+import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
+
+const CatchBoost: React.FC<{
+  shrimpBonus: number;
+  otterBonus: number;
+  state: GameState;
+}> = ({ shrimpBonus, otterBonus, state }) => {
+  const { t } = useAppTranslation();
+  const [showBoosts, setShowBoosts] = useState(false);
+  const anchorRef = useRef<HTMLButtonElement>(null);
+  const boosts: { name: BoostName; value: string }[] = [
+    ...(shrimpBonus > 0
+      ? [{ name: "Shrimp Onesie" as const, value: `+${shrimpBonus}` }]
+      : []),
+    ...(otterBonus > 0
+      ? [{ name: "Otty the Otter" as const, value: `+${otterBonus}` }]
+      : []),
+  ];
+
+  if (!boosts.length) return null;
+
+  return (
+    <>
+      <button
+        ref={anchorRef}
+        type="button"
+        className="flex shrink-0 items-center gap-0.5 px-1 text-xs whitespace-nowrap cursor-pointer"
+        style={{
+          ...LABEL_STYLES.vibrant.borderStyle,
+          background: LABEL_STYLES.vibrant.background,
+          color: LABEL_STYLES.vibrant.textColour,
+        }}
+        aria-label={`${t("faction.boostsApplied")} +${shrimpBonus + otterBonus}`}
+        aria-expanded={showBoosts}
+        onClick={() => setShowBoosts((show) => !show)}
+      >
+        <img src={lightning} alt="" className="w-3" />
+        <span>{`+${shrimpBonus + otterBonus}`}</span>
+      </button>
+      <BoostsDisplay
+        boosts={boosts}
+        show={showBoosts}
+        state={state}
+        onClick={() => setShowBoosts(false)}
+        anchorRef={anchorRef}
+        portalAlign="center"
+      />
+    </>
+  );
+};
 
 interface Props {
   maps: Partial<Record<MarineMarvelName, number>>;
@@ -26,6 +80,7 @@ interface Props {
     amount: number;
     difficulty: number;
   }[];
+  state: GameState;
 }
 
 export const FishCaught: React.FC<Props> = ({
@@ -37,6 +92,7 @@ export const FishCaught: React.FC<Props> = ({
   onClaim,
   multiplier = 1,
   difficultCatch,
+  state,
 }) => {
   const { t } = useAppTranslation();
 
@@ -148,29 +204,20 @@ export const FishCaught: React.FC<Props> = ({
                       key={name}
                       className="flex items-center justify-between -mx-1"
                     >
-                      <div className="flex items-center p-1 space-x-1 w-full">
+                      <div className="flex min-w-0 items-center p-1 space-x-1 flex-1">
                         <img
                           src={ITEM_DETAILS[name]?.image}
-                          className="h-6"
+                          className="h-6 shrink-0"
                           alt={name}
                         />
-                        <div className="flex justify-between items-center w-full pr-1">
-                          <span className="text-xs">{name}</span>
-                          <div className="flex items-center gap-1">
-                            {shrimpBonus > 0 && (
-                              <Label type="vibrant" icon={lightning}>
-                                {t("fishing.shrimpOnesie.bonus", {
-                                  amount: shrimpBonus,
-                                })}
-                              </Label>
-                            )}
-                            {otterBonus > 0 && (
-                              <Label type="vibrant" icon={lightning}>
-                                {t("fishing.ottyTheOtter.bonus", {
-                                  amount: otterBonus,
-                                })}
-                              </Label>
-                            )}
+                        <div className="flex min-w-0 justify-between items-center flex-1 pr-1 gap-1">
+                          <span className="text-xs truncate">{name}</span>
+                          <div className="flex shrink-0 items-center gap-1">
+                            <CatchBoost
+                              shrimpBonus={shrimpBonus}
+                              otterBonus={otterBonus}
+                              state={state}
+                            />
                             {isNew && (
                               <Label
                                 type="warning"
@@ -182,7 +229,7 @@ export const FishCaught: React.FC<Props> = ({
                           </div>
                         </div>
                       </div>
-                      <span className="text-sm whitespace-nowrap">{`x ${amount}`}</span>
+                      <span className="text-sm whitespace-nowrap shrink-0">{`x ${amount}`}</span>
                     </InnerPanel>
                   );
                 })}
@@ -248,15 +295,14 @@ export const FishCaught: React.FC<Props> = ({
                 </Label>
               )}
               <span className="text-sm mb-2">{name}</span>
-              {shrimpBonus > 0 && (
-                <Label type="vibrant" icon={lightning} className="mb-2">
-                  {t("fishing.shrimpOnesie.bonus", { amount: shrimpBonus })}
-                </Label>
-              )}
-              {otterBonus > 0 && (
-                <Label type="vibrant" icon={lightning} className="mb-2">
-                  {t("fishing.ottyTheOtter.bonus", { amount: otterBonus })}
-                </Label>
+              {(shrimpBonus > 0 || otterBonus > 0) && (
+                <div className="mb-2">
+                  <CatchBoost
+                    shrimpBonus={shrimpBonus}
+                    otterBonus={otterBonus}
+                    state={state}
+                  />
+                </div>
               )}
               <img src={ITEM_DETAILS[name]?.image} className="h-12 mb-2" />
               <span className="text-xs text-center mb-2">

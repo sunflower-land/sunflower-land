@@ -1,4 +1,6 @@
-import { getActiveGuardian } from "./getActiveGuardian";
+import { GUARDIAN_BOOST, type SeasonGuardianName } from "./getActiveGuardian";
+import { getKeys } from "lib/object";
+import { populateSeason } from "./season";
 import type {
   BoostHistoryWindow,
   CropFertiliser,
@@ -8,10 +10,11 @@ import type {
   PlacedItem,
 } from "../types/game";
 import {
-  getExpiryCooldown,
+  getCollectibleExpiry,
   type TemporaryCollectibleName,
 } from "./collectibleBuilt";
 import { getCollectiblesAcrossLocations } from "./getCollectiblesAcrossLocations";
+import type { AnimalType } from "../types/animals";
 import type { RockName } from "../types/resources";
 import type { GreenHouseCropName } from "../types/crops";
 import type { GreenHouseFruitName } from "../types/fruits";
@@ -35,8 +38,8 @@ export type BoostWindow = { from: number; to: number; speed: number };
 /**
  * Speed multipliers for the windowed crop-plot boosts — the single place to tune
  * them. Stacking is multiplicative (effective speed = product of active boosts).
- * `sunshower` is the base sunshower rate; `sunshowerGuardian` replaces it while a
- * matching season Guardian is built.
+ * `sunshowerGuardian` is a season Guardian's own window during a sunshower; it
+ * stacks on the sunshower's rate (2× × 2× = 4×) while the Guardian is placed.
  */
 export const CROP_PLOT_BOOST_SPEED = {
   "Sparrow Shrine": 1.35,
@@ -49,7 +52,7 @@ export const CROP_PLOT_BOOST_SPEED = {
   "Rapid Root": 2,
   "Sproutroot Surprise": 2,
   sunshower: 2,
-  sunshowerGuardian: 4,
+  sunshowerGuardian: 2,
 } as const;
 
 /**
@@ -115,6 +118,77 @@ export const OIL_BOOST_SPEED = {
 } as const;
 
 /**
+ * Speed multipliers for the windowed animal-sleep boosts — the only two
+ * temporary boosts on an animal's sleep (no totems apply, mirroring oil and
+ * flowers). Which one covers an animal is decided by its type, so they never
+ * stack with each other: Collie Shrine speeds up Cows and Sheep, Bantam Shrine
+ * Chickens. Both are MIXED boosts — only their sleep-TIME half is windowed here;
+ * their ×0.95 feed-cost half stays baked in `getBoostedFoodQuantity`.
+ */
+export const ANIMAL_BOOST_SPEED = {
+  "Collie Shrine": 1.35,
+  "Bantam Shrine": 1.35,
+} as const;
+
+/**
+ * The shrine covering each animal's sleep. Partial on purpose: an animal with
+ * no entry (Pigs) gets NO windows. Do not reintroduce a fallback - each
+ * shrine's buff copy names the animals it covers, so inheriting another
+ * animal's shrine would grant a boost the UI never advertises.
+ */
+export const ANIMAL_SLEEP_SHRINE: Partial<
+  Record<AnimalType, keyof typeof ANIMAL_BOOST_SPEED>
+> = {
+  Chicken: "Bantam Shrine",
+  Cow: "Collie Shrine",
+  Sheep: "Collie Shrine",
+};
+
+/**
+ * Speed multipliers for the windowed cooking boosts — the single place to tune
+ * them. Stacking is multiplicative; Super & Time Warp Totem share the same 2× and
+ * merge so they don't stack with each other. Each value is the reciprocal of the
+ * legacy baked multiplier it replaces, so a boost covering a whole cook produces
+ * exactly the old time (Gourmet Hourglass ×0.5 → 2×, Boar Shrine ×0.8 → 1.25×).
+ * Legendary Shrine and Boar Shrine are MIXED boosts: only their cook-TIME half is
+ * windowed here; their yield halves stay baked. Building oil is NOT here — it is
+ * per-building fuel denominated in WORK, not a wall-clock window.
+ */
+export const COOKING_BOOST_SPEED = {
+  "Super Totem": 2,
+  "Time Warp Totem": 2,
+  "Gourmet Hourglass": 2,
+  "Legendary Shrine": 2,
+  "Boar Shrine": 1.25,
+} as const;
+
+/**
+ * Speed multipliers for the windowed CRAFTING BOX boosts — the single place to
+ * tune them. Stacking is multiplicative; Super & Time Warp Totem share the same 2×
+ * and merge so they don't stack with each other.
+ *
+ * The two rates differ in kind, deliberately. The totems' 2× is the exact
+ * reciprocal of the legacy baked ×0.5. Fox Shrine's 1.35 is NOT the reciprocal of
+ * its legacy ×0.75 (that would be 1.333) — it is the house rate every windowed
+ * ×0.75 boost shipped with (Sparrow, Harvest, Timber, Badger, Mole, Orchard,
+ * Toucan, Blossom, Moth, Stag, Collie, Bantam), so a Fox Shrine covering a whole
+ * craft is marginally faster than the old bake rather than exactly equal to it.
+ *
+ * Fox Shrine's OTHER half is NOT here: the 10% instant-craft proc is a discrete
+ * prng roll at queue time, not a rate over an interval, so it cannot be a window.
+ * It stays a start-time roll yielding `baseDurationMs = 0` (the shape cooking's
+ * Instant Gratification uses) and keeps its `boostsUsed` entry.
+ *
+ * Sol & Luna (×0.5) and Architect Ruler (×0.75) are PERMANENT wearables, so they
+ * stay baked into `baseDurationMs` and stay in `boostsUsed`.
+ */
+export const CRAFTING_BOOST_SPEED = {
+  "Super Totem": 2,
+  "Time Warp Totem": 2,
+  "Fox Shrine": 1.35,
+} as const;
+
+/**
  * Speed multipliers for the windowed greenhouse growth boosts — the single place
  * to tune them. Stacking is multiplicative; Super & Time Warp Totem share the
  * same 2× and merge so they don't stack with each other. Coverage differs by
@@ -123,8 +197,8 @@ export const OIL_BOOST_SPEED = {
  * (Grape). Orchard-on-Grape is a windowed-model ADDITION — the legacy baked
  * path never applied it to greenhouse fruit (hourglasses now cover their whole
  * activity, mirroring Harvest-on-greenhouse-crops). Tortoise Shrine is a
- * MIXED-activity boost: only its greenhouse half is windowed here; its
- * crop-machine ×0.9 stays baked in supplyCropMachine until that slice.
+ * MIXED-activity boost: this is only its greenhouse half; its crop-machine half
+ * is windowed separately in `CROP_MACHINE_BOOST_SPEED`.
  */
 export const GREENHOUSE_BOOST_SPEED = {
   "Super Totem": 2,
@@ -136,28 +210,56 @@ export const GREENHOUSE_BOOST_SPEED = {
   "Greenhouse Glow": 1.25,
 } as const;
 
-/** Window for the Power Hour buff (1h from activation), if active. */
-const getPowerHourWindows = (game: GameState): BoostWindow[] => {
+/**
+ * Speed multiplier for the windowed crop-machine growth boost. The Tortoise
+ * Shrine is the crop machine's ONLY temporary boost (no totems or hourglasses
+ * apply — the Harvest Hourglass does not cover the machine). The value is the
+ * exact reciprocal of the legacy baked ×0.9, so a shrine covering a whole pack
+ * reproduces the old time to the millisecond (deliberately NOT rounded, unlike
+ * the shrine's greenhouse half). Tortoise Shrine is a MIXED-activity boost:
+ * this is its crop-machine half; the greenhouse half lives in
+ * `GREENHOUSE_BOOST_SPEED`.
+ */
+export const CROP_MACHINE_BOOST_SPEED = {
+  "Tortoise Shrine": 10 / 9,
+} as const;
+
+/**
+ * Every Power Hour window: the current buff (1h from activation) plus earlier
+ * ones archived into `boostHistory` when a new Power Hour replaced them (see
+ * `applyBuff`). An archived window matching the current buff isn't counted
+ * twice, and overlaps merge rather than stack.
+ */
+export const getPowerHourWindows = (game: GameState): BoostWindow[] => {
+  const speed = CROP_PLOT_BOOST_SPEED["Power hour"];
   const buff = game.buffs?.["Power hour"];
-  if (buff?.startedAt === undefined) return [];
-  return [
-    {
-      from: buff.startedAt,
-      to: buff.startedAt + buff.durationMS,
-      speed: CROP_PLOT_BOOST_SPEED["Power hour"],
-    },
-  ];
+
+  const live =
+    buff?.startedAt === undefined
+      ? []
+      : [
+          {
+            from: buff.startedAt,
+            to: buff.startedAt + buff.durationMS,
+            speed,
+          },
+        ];
+
+  const history = (game.boostHistory?.["Power hour"] ?? [])
+    .filter((window) => window.from !== buff?.startedAt)
+    .map(({ from, to }) => ({ from, to, speed }));
+
+  return mergeWindows([...live, ...history].filter((w) => w.to > w.from));
 };
 
 /**
- * Window for the sunshower calendar event, if one has started. Sunshower lasts
- * until the END of the (UTC) day it began on — not a rolling 24h — so the window
- * runs from `startedAt` to the next UTC midnight. A built season Guardian doubles
- * the boost (2× → 4×).
+ * Window for the live sunshower calendar event, if one has started. Sunshower
+ * lasts until the END of the (UTC) day it began on — not a rolling 24h — so the
+ * window runs from `startedAt` to the next UTC midnight.
  */
-const getSunshowerWindows = (game: GameState): BoostWindow[] => {
+const getLiveSunshowerWindow = (game: GameState): BoostWindow | undefined => {
   const startedAt = game.calendar?.sunshower?.startedAt;
-  if (startedAt === undefined) return [];
+  if (startedAt === undefined) return undefined;
 
   const day = new Date(startedAt);
   const to = Date.UTC(
@@ -166,18 +268,75 @@ const getSunshowerWindows = (game: GameState): BoostWindow[] => {
     day.getUTCDate() + 1,
   );
 
-  const hasGuardian = !!getActiveGuardian({ game }).activeGuardian;
-
-  return [
-    {
-      from: startedAt,
-      to,
-      speed: hasGuardian
-        ? CROP_PLOT_BOOST_SPEED.sunshowerGuardian
-        : CROP_PLOT_BOOST_SPEED.sunshower,
-    },
-  ];
+  return { from: startedAt, to, speed: CROP_PLOT_BOOST_SPEED.sunshower };
 };
+
+/**
+ * Every recorded sunshower window, plus the live one if it hasn't been recorded.
+ * A sunshower is recorded into `boostHistory` when it triggers, and the record
+ * outlives the calendar entry, which is deleted at the first load after the
+ * sunshower day. The live window only applies to a sunshower triggered before
+ * recording existed. The API does the recording (the FE never deletes calendar
+ * events).
+ */
+export const getSunshowerWindows = (game: GameState): BoostWindow[] => {
+  const history = (game.boostHistory?.Sunshower ?? []).map(({ from, to }) => ({
+    from,
+    to,
+    speed: CROP_PLOT_BOOST_SPEED.sunshower,
+  }));
+
+  const live = getLiveSunshowerWindow(game);
+  if (!live || history.some((window) => window.from === live.from)) {
+    return history;
+  }
+
+  return [live, ...history];
+};
+
+/**
+ * A season Guardian's own speed windows: each period a Guardian for the
+ * sunshower day's season was placed, clipped to that sunshower. They stack on
+ * the sunshower's windows, so a Guardian placed all day gives 4× and one placed,
+ * removed or placed back mid-day only speeds up the time it was actually out.
+ * Placed periods come from each placement's `placedAt` (a Guardian placed
+ * before tracking existed counts as placed since 0) and, once lifted, from
+ * `boostHistory` — see `syncGuardianPlacements`. Copies of the same Guardian
+ * merge rather than stack.
+ * Pass `only` to keep just one Guardian's windows (for attribution); crop timing
+ * takes them all.
+ */
+export const getSunshowerGuardianWindows = (
+  game: GameState,
+  only?: SeasonGuardianName,
+): BoostWindow[] =>
+  mergeWindows(
+    getSunshowerWindows(game).flatMap((sunshower) => {
+      const { season } = populateSeason(sunshower.from);
+      const guardian = getKeys(GUARDIAN_BOOST).find(
+        (name) => GUARDIAN_BOOST[name].season === season,
+      );
+      if (!guardian || (only && guardian !== only)) return [];
+
+      const placed = [
+        ...getCollectiblesAcrossLocations(game, guardian)
+          .filter((placement) => !!placement.coordinates)
+          .map((placement) => ({
+            from: placement.placedAt ?? 0,
+            to: Number.MAX_SAFE_INTEGER,
+          })),
+        ...(game.boostHistory?.[guardian] ?? []),
+      ];
+
+      return placed
+        .map((period) => ({
+          from: Math.max(period.from, sunshower.from),
+          to: Math.min(period.to, sunshower.to),
+          speed: CROP_PLOT_BOOST_SPEED.sunshowerGuardian,
+        }))
+        .filter((window) => window.to > window.from);
+    }),
+  );
 
 /**
  * Merge the Super Totem & Time Warp Totem windows for ONE activity into a single
@@ -217,6 +376,7 @@ export const getCropPlotBoostWindows = (game: GameState): BoostWindow[] => [
   ...getMergedTotemWindows(game, CROP_PLOT_BOOST_SPEED["Super Totem"]),
   ...getPowerHourWindows(game),
   ...getSunshowerWindows(game),
+  ...getSunshowerGuardianWindows(game),
 ];
 
 /**
@@ -293,6 +453,85 @@ export const getOilBoostWindows = (game: GameState): BoostWindow[] =>
     game,
     name: "Stag Shrine",
     speed: OIL_BOOST_SPEED["Stag Shrine"],
+  });
+
+/**
+ * The windowed speed boosts that apply to an animal's sleep. At most one shrine
+ * covers an animal (Chickens → Bantam, Cows/Sheep → Collie, Pigs none), and no
+ * totems apply. Only the sleep-TIME half is windowed; the shrines' ×0.95
+ * feed-cost half stays baked. Empty set (no shrine) makes `computeReadyAt`
+ * reduce to `asleepAt + baseDurationMs`.
+ */
+export const getAnimalBoostWindows = (
+  game: GameState,
+  animalType: AnimalType,
+): BoostWindow[] => {
+  const name = ANIMAL_SLEEP_SHRINE[animalType];
+  if (!name) return [];
+
+  return getBoostWindows({ game, name, speed: ANIMAL_BOOST_SPEED[name] });
+};
+
+/**
+ * The windowed speed boosts that apply to cooking a recipe. Each is its own window
+ * so overlapping boosts stack multiplicatively (Gourmet 2 × Legendary 2 × Boar 1.25
+ * = 5×); the two totems merge so they don't stack with each other (both 2×). Unlike
+ * every other activity these windows are consumed by a QUEUE — see
+ * `getCookingQueueReadyAts`, which chains each recipe off the previous one's derived
+ * ready time so a boost accelerates the whole queue, not just the head.
+ */
+export const getCookingBoostWindows = (game: GameState): BoostWindow[] => [
+  ...getMergedTotemWindows(game, COOKING_BOOST_SPEED["Super Totem"]),
+  ...getBoostWindows({
+    game,
+    name: "Gourmet Hourglass",
+    speed: COOKING_BOOST_SPEED["Gourmet Hourglass"],
+  }),
+  ...getBoostWindows({
+    game,
+    name: "Legendary Shrine",
+    speed: COOKING_BOOST_SPEED["Legendary Shrine"],
+  }),
+  ...getBoostWindows({
+    game,
+    name: "Boar Shrine",
+    speed: COOKING_BOOST_SPEED["Boar Shrine"],
+  }),
+];
+
+/**
+ * The windowed speed boosts that apply to a Crafting Box craft. Each is its own
+ * window so overlapping boosts stack multiplicatively (totem 2 × Fox 1.35 = 2.7×);
+ * the two totems merge so they don't stack with each other (both 2×).
+ *
+ * Like cooking, these windows are consumed by a QUEUE — see
+ * `getCraftingQueueReadyAts`. Unlike cooking, a chained craft follows when the BOX
+ * next frees up rather than the previous entry's ready time, because a Fox Shrine
+ * instant proc sits in the queue without ever occupying the box.
+ */
+export const getCraftingBoostWindows = (game: GameState): BoostWindow[] => [
+  ...getMergedTotemWindows(game, CRAFTING_BOOST_SPEED["Super Totem"]),
+  ...getBoostWindows({
+    game,
+    name: "Fox Shrine",
+    speed: CRAFTING_BOOST_SPEED["Fox Shrine"],
+  }),
+];
+
+/**
+ * The windowed speed boost that applies to crop machine growth — the Tortoise
+ * Shrine alone (no totems, no hourglasses). Empty set (no shrine) makes
+ * `computeReadyAt` reduce to `start + baseDurationMs`. Like cooking, these
+ * windows are consumed by a QUEUE — see `resolveCropMachine` in
+ * `cropMachineReadiness.ts`, which additionally threads the machine's oil
+ * through the chain (fuel burns by the wall clock while a window accelerates
+ * the work, so a boost makes packs both faster and cheaper in oil).
+ */
+export const getCropMachineBoostWindows = (game: GameState): BoostWindow[] =>
+  getBoostWindows({
+    game,
+    name: "Tortoise Shrine",
+    speed: CROP_MACHINE_BOOST_SPEED["Tortoise Shrine"],
   });
 
 /**
@@ -506,7 +745,8 @@ export const getMineBoostWindows = (
 
 /**
  * Build the active windows for a single temporary collectible. Each LIVE placement
- * yields `[createdAt, min(createdAt + cooldown, removedAt)]`; FINALISED intervals
+ * yields `[createdAt, min(expiry, removedAt)]` — where the expiry includes any
+ * paid extension banked on the placement; FINALISED intervals
  * recorded in `game.boostHistory` (when the booster was burned or renewed) are
  * unioned in so the boost's contribution survives the placed record being deleted
  * or its `createdAt` reset. All windows take the given speed; overlapping ones for
@@ -521,8 +761,6 @@ export function getBoostWindows({
   name: TemporaryCollectibleName;
   speed: number;
 }): BoostWindow[] {
-  const cooldown = getExpiryCooldown(name, game);
-
   const live = getCollectiblesAcrossLocations(game, name)
     .filter(
       (
@@ -532,7 +770,7 @@ export function getBoostWindows({
     )
     .map((placed) => {
       const from = placed.createdAt;
-      const expiry = from + cooldown;
+      const expiry = getCollectibleExpiry({ name, collectible: placed, game });
       const to =
         placed.removedAt !== undefined
           ? Math.min(expiry, placed.removedAt)
@@ -554,29 +792,89 @@ export function getBoostWindows({
 const MAX_BOOST_HISTORY_AGE_MS = 7 * 24 * 60 * 60 * 1000;
 
 /**
- * Record a finalised active window for a temporary boost collectible into
- * `game.boostHistory` so its contribution survives the placed record being burned
- * (deleted) or renewed (createdAt reset). Mutates `game` in place (immer-draft
- * friendly). Recorded for ALL temporary collectibles — most have a time effect
- * that will be windowed eventually, so this is future-proof; entries for boosts no
- * window engine reads are inert and pruned. No-op for empty/zero-length windows.
- * Prunes stale intervals as it appends.
+ * The earliest instant any windowed ledger still needs boost history for.
+ *
+ * A windowed crop machine banks work FORWARD from `oilSettledAt`, re-deriving
+ * it from the windows each time, so every window ending after that anchor is
+ * still load-bearing. The anchor normally tracks the last event or flagged
+ * load, but it can fall behind the prune horizon — `migrateSpeedBoosts`
+ * returns early when SPEED_BOOSTS is off, while the prune below is not
+ * flag-gated, so a rollback longer than `MAX_BOOST_HISTORY_AGE_MS` would
+ * otherwise drop windows a still-windowed machine depends on.
+ *
+ * The crop machine is the only activity that needs this: its packs can stall
+ * on an empty tank indefinitely, so its anchor can be arbitrarily old. Every
+ * other windowed node runs to completion on its own schedule.
+ */
+function getEarliestLedgerAnchor(game: GameState): number | undefined {
+  let earliest: number | undefined;
+
+  for (const machine of game.buildings?.["Crop Machine"] ?? []) {
+    const anchor = machine.oilSettledAt;
+    if (anchor === undefined) continue;
+    if (earliest === undefined || anchor < earliest) earliest = anchor;
+  }
+
+  return earliest;
+}
+
+/**
+ * Record a finalised active window for a temporary boost collectible — or a
+ * sunshower, a season Guardian's placed period or a replaced Power Hour (see
+ * `syncGuardianPlacements`, `applyBuff`) — into `game.boostHistory` so its contribution survives its source going
+ * away. Mutates `game` in place (immer-draft friendly). Recorded for ALL
+ * temporary collectibles — most have a time effect that will be windowed
+ * eventually, so this is future-proof; entries for boosts no window engine reads
+ * are inert and pruned. No-op for empty/zero-length windows. Prunes stale
+ * intervals as it appends.
  */
 export function appendBoostHistory(
   game: GameState,
-  name: TemporaryCollectibleName,
+  name:
+    | TemporaryCollectibleName
+    | SeasonGuardianName
+    | "Sunshower"
+    | "Power hour",
   window: BoostHistoryWindow,
   now: number,
 ): void {
   if (window.to <= window.from) return;
 
   if (!game.boostHistory) game.boostHistory = {};
-  const kept = (game.boostHistory[name] ?? []).filter(
-    (w) => w.to >= now - MAX_BOOST_HISTORY_AGE_MS,
+
+  // Never prune below a ledger anchor that still reads this history — losing
+  // such a window would silently un-do growth a machine already completed.
+  const anchor = getEarliestLedgerAnchor(game);
+  const horizon = Math.min(
+    now - MAX_BOOST_HISTORY_AGE_MS,
+    anchor ?? Number.POSITIVE_INFINITY,
   );
+
+  const kept = (game.boostHistory[name] ?? []).filter((w) => w.to >= horizon);
   kept.push({ from: window.from, to: window.to });
   game.boostHistory[name] = kept;
 }
+
+/**
+ * Field comparator for a set of boost windows, so a `useSelector` that recomputes
+ * them from full game state skips re-renders without allocating JSON strings on
+ * every service update. Windows are produced in a stable order per activity, so an
+ * index-wise comparison is sufficient.
+ */
+export const areBoostWindowsEqual = (
+  a: BoostWindow[],
+  b: BoostWindow[],
+): boolean =>
+  a.length === b.length &&
+  a.every((window, index) => {
+    const other = b[index];
+    return (
+      other !== undefined &&
+      window.from === other.from &&
+      window.to === other.to &&
+      window.speed === other.speed
+    );
+  });
 
 /** Merge overlapping/touching same-speed windows into disjoint intervals. */
 function mergeWindows(windows: BoostWindow[]): BoostWindow[] {

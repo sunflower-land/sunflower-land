@@ -187,6 +187,42 @@ describe("fertiliseGreenhouse", () => {
     );
   });
 
+  it("accumulates the mid-grow Glow back-date into boostedTime", () => {
+    const t0 = 5_000_000_000_000;
+    let state = plantGreenhouse({
+      state: placedGreenhouse(),
+      action: {
+        type: "greenhouse.planted",
+        id: 1,
+        seed: "Rice Seed",
+      },
+      createdAt: t0,
+    });
+
+    const plantedAt = state.greenhouse.pots[1].plant!.plantedAt;
+    const offsetAtPlant = state.greenhouse.pots[1].plant!.boostedTime ?? 0;
+    const readyAt = getReadyAt({ plant: "Rice", createdAt: plantedAt });
+    const fertiliseAt = plantedAt + (readyAt - plantedAt) / 2;
+
+    state = fertiliseGreenhouse({
+      state,
+      action: {
+        type: "greenhouse.fertilised",
+        id: 1,
+        fertiliser: "Greenhouse Glow",
+      },
+      createdAt: fertiliseAt,
+    });
+
+    const expectedReduction = (readyAt - fertiliseAt) * 0.2;
+    const plant = state.greenhouse.pots[1].plant!;
+
+    // Every back-date has to land in boostedTime, or the bar jumps forward by
+    // the discount the moment the fertiliser is applied.
+    expect(plant.boostedTime).toEqual(offsetAtPlant + expectedReduction);
+    expect(plant.plantedAt).toEqual(plantedAt - expectedReduction);
+  });
+
   it("adds yield from Greenhouse Goodie on harvest path", () => {
     const { amount, boostsUsed } = getGreenhouseCropYieldAmount({
       crop: "Rice",

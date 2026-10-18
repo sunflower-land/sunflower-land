@@ -1,6 +1,7 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { wakeAnimal } from "./wakeUpAnimal";
 import Decimal from "decimal.js-light";
+import { getAnimalReadyAt } from "features/game/lib/animals";
 
 describe("wakeAnimal", () => {
   it("requires animal exists", () => {
@@ -317,5 +318,51 @@ describe("wakeAnimal", () => {
 
     expect(state.barn.animals["1"].awakeAt).toEqual(now);
     expect(state.inventory["Moo Doll"]).toEqual(new Decimal(1));
+  });
+  // FE + BE jest run amoy, so SPEED_BOOSTS is ON by default here.
+  it("clears the windowed marker so the animal wakes at exactly this instant", () => {
+    const now = Date.now();
+    const state = wakeAnimal({
+      state: {
+        ...INITIAL_FARM,
+        inventory: { ...INITIAL_FARM.inventory, Doll: new Decimal(1) },
+        collectibles: {
+          "Bantam Shrine": [
+            {
+              id: "bantam",
+              createdAt: now,
+              readyAt: now,
+              coordinates: { x: 0, y: 0 },
+            },
+          ],
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            ["1"]: {
+              id: "1",
+              type: "Chicken",
+              createdAt: 0,
+              state: "idle",
+              experience: 0,
+              asleepAt: now,
+              awakeAt: now + 24 * 60 * 60 * 1000,
+              baseDurationMs: 24 * 60 * 60 * 1000,
+              lovedAt: 0,
+              item: "Petting Hand",
+            },
+          },
+        },
+      },
+      action: { type: "animal.wakeUp", animal: "Chicken", id: "1" },
+      createdAt: now,
+    });
+
+    const animal = state.henHouse.animals["1"];
+    expect(animal.baseDurationMs).toBeUndefined();
+    expect(animal.awakeAt).toEqual(now);
+    // Without clearing the marker the shrine windows would re-derive a future
+    // wake time and the doll would have done nothing.
+    expect(getAnimalReadyAt(animal, state)).toEqual(now);
   });
 });

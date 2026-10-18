@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 
 export type YakkamonCodeResponse = {
@@ -28,7 +29,7 @@ export async function getYakkamonCode({
   const url = new URL(`${CONFIG.API_URL}/data`);
   url.searchParams.set("type", "yakkamon.code");
 
-  const response = await window.fetch(url, {
+  const response = await fetchWithRetry(url, {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",

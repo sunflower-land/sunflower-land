@@ -1,22 +1,19 @@
 import React, { useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { TimerPopover } from "features/island/common/TimerPopover";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import type { IronRockName } from "features/game/types/resources";
 import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
 import type { GameState, TemperateSeasonName } from "features/game/types/game";
-import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   season: TemperateSeasonName;
   island: GameState["island"];
   timeLeft: number;
   name: IronRockName;
-  /**
-   * Current effective recovery speed from windowed boosts (e.g. Ore Hourglass).
-   * > 1 shows a lightning marker + the multiplier in the popover.
-   */
-  speed?: number;
 }
 
 const DepletedIronComponent: React.FC<Props> = ({
@@ -24,15 +21,12 @@ const DepletedIronComponent: React.FC<Props> = ({
   island,
   timeLeft,
   name,
-  speed,
 }) => {
-  const { t } = useAppTranslation();
   const [showTimeLeft, setShowTimeLeft] = useState(false);
   const Image = READONLY_RESOURCE_COMPONENTS({
     season,
     island,
   })[name];
-  const boosted = speed !== undefined && speed > 1;
 
   return (
     <div
@@ -44,30 +38,17 @@ const DepletedIronComponent: React.FC<Props> = ({
         <div className="opacity-50">
           <Image />
         </div>
-        {boosted && (
-          <img
-            src={SUNNYSIDE.icons.lightning}
-            alt=""
-            aria-hidden
-            className="absolute animate-pulse"
-            style={{
-              width: `${PIXEL_SCALE * 7}px`,
-              top: `${PIXEL_SCALE * 2}px`,
-              right: `${PIXEL_SCALE * 2}px`,
-            }}
-          />
-        )}
         <div
           className="flex justify-center absolute w-full"
           style={{
             top: `${PIXEL_SCALE * -20}px`,
           }}
         >
-          <TimeLeftPanel
-            text={t("resources.recoversIn")}
+          <TimerPopover
+            image={ITEM_DETAILS["Iron"].image}
+            description={getTranslatedItemName(name)}
+            showPopover={showTimeLeft}
             timeLeft={timeLeft}
-            showTimeLeft={showTimeLeft}
-            speed={speed}
           />
         </div>
       </div>

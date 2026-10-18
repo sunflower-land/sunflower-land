@@ -30,6 +30,7 @@ import {
   type FactionShopItem,
   type FactionShopItemName,
 } from "features/game/types/factionShop";
+import { getSpeedBoostDescription } from "features/game/lib/getItemDescription";
 
 interface ItemOverlayProps {
   item: FactionShopItem | null;
@@ -332,7 +333,12 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                     </div>
 
                     <span className="text-xs leading-none">
-                      {item?.shortDescription}
+                      {(item &&
+                        getSpeedBoostDescription({
+                          item: item.name as InventoryItemName,
+                          game: state,
+                        })) ??
+                        item?.shortDescription}
                     </span>
                     {currency && (
                       <div className="flex flex-1 items-end">

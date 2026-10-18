@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import type { VisitGameState } from "./loadGameStateForVisit";
 
 const API_URL = CONFIG.API_URL;
@@ -52,7 +53,7 @@ export async function loadGameStateForAdmin({
     url.searchParams.set("depositAddress", depositAddress);
   }
 
-  const response = await window.fetch(url, {
+  const response = await fetchWithRetry(url, {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",

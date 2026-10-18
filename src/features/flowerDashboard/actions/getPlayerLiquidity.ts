@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 
 export type LiquidityTableEntry = {
   usd: number;
@@ -31,7 +32,7 @@ export const getPlayerLiquidity = async ({
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const response = await window.fetch(url.toString(), {
+  const response = await fetchWithRetry(url.toString(), {
     method: "GET",
     headers,
   });

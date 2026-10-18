@@ -21,6 +21,7 @@ import {
   downgradeChapterCropWeekSkills,
 } from "features/game/types/bumpkinSkills";
 import { CHAPTER_CROP_WEEK_RECIPE } from "features/game/types/chapterCropWeek";
+import { getCookingQueueReadyAts } from "features/game/lib/cookingReadiness";
 
 /**
  * The Double Nom rank a recipe was cooked at, so its +food collects at the rank
@@ -72,7 +73,7 @@ export const getCookingAmount = ({
   }
 
   // Fiery Jackpot - 20%/25%/30% chance of +1 food from Fire Pit (scales w/ rank).
-  // Saltbite (the CHAPTER_CROP_WEEK event recipe) ignores upgraded ranks — the
+  // Crystal Cookie (the CHAPTER_CROP_WEEK event recipe) ignores upgraded ranks — the
   // live read caps at rank 1 (Double Nom above reads the recipe snapshot instead,
   // so it already reflects the rank paid at cook time).
   const fieryJackpotSkills =
@@ -133,49 +134,88 @@ export function collectRecipe({
       throw new Error("You do not have a Bumpkin!");
     }
 
+    // A lifted building keeps cooking while it sits in the inventory - the pause
+    // is only applied when it is placed back down, so collecting from an
+    // unplaced building would side-step it entirely.
+    if (!building.coordinates) {
+      throw new Error("Building is not placed");
+    }
+
     const recipes = building.crafting ?? [];
     if (!recipes.length) {
       throw new Error(translate("error.buildingNotCooking"));
     }
 
-    const nothingReady = recipes.every((recipe) => recipe.readyAt > createdAt);
+    // Readiness comes from the DERIVED chain, not each recipe's stored `readyAt` —
+    // that value is a cache, and a boost placed since the queue was last rewritten
+    // will have pulled the real ready time forward.
+    const readyAts = getCookingQueueReadyAts({ crafting: recipes, game });
+
+    const nothingReady = readyAts.every((readyAt) => readyAt > createdAt);
     if (nothingReady) {
       throw new Error(translate("error.recipeNotReady"));
     }
 
     // Collect all recipes that are ready
-    building.crafting = (building.crafting ?? []).reduce((acc, recipe) => {
-      if (recipe.readyAt <= createdAt) {
-        const cookableName = assertCookableName(recipe.name);
+    building.crafting = (building.crafting ?? []).reduce(
+      (acc, recipe, index) => {
+        if (readyAts[index] <= createdAt) {
+          const cookableName = assertCookableName(recipe.name);
 
-        const { amount, boostsUsed } = getCookingAmount({
-          building: action.building,
-          game,
-          recipe,
-          farmId,
-          counter: game.farmActivity[`${cookableName} Cooked`] || 0,
-        });
-        const consumableCount = game.inventory[cookableName] || new Decimal(0);
-        game.inventory[cookableName] = consumableCount.add(amount);
-
-        game.farmActivity = trackFarmActivity(
-          `${cookableName} Cooked`,
-          game.farmActivity,
-        );
-
-        if (boostsUsed.length > 0) {
-          game.boostsUsedAt = updateBoostUsed({
+          const { amount, boostsUsed } = getCookingAmount({
+            building: action.building,
             game,
-            boostNames: boostsUsed,
-            createdAt,
+            recipe,
+            farmId,
+            counter: game.farmActivity[`${cookableName} Cooked`] || 0,
           });
+          const consumableCount =
+            game.inventory[cookableName] || new Decimal(0);
+          game.inventory[cookableName] = consumableCount.add(amount);
+
+          game.farmActivity = trackFarmActivity(
+            `${cookableName} Cooked`,
+            game.farmActivity,
+          );
+
+          if (boostsUsed.length > 0) {
+            game.boostsUsedAt = updateBoostUsed({
+              game,
+              boostNames: boostsUsed,
+              createdAt,
+            });
+          }
+
+          return acc;
         }
 
-        return acc;
-      }
+        // An empty accumulator means every recipe ahead of this one was just
+        // collected, so a CHAINED recipe (no `startedAt`, because its start WAS the
+        // derived ready time of the recipe ahead) has nothing left to chain to.
+        // Stamp that ready time on as its anchor: it is in the past, so no progress
+        // is invented or lost, and the resolver never has to guess a start it cannot
+        // recover (see `resolveCookingQueueTimings`).
+        if (
+          acc.length === 0 &&
+          index > 0 &&
+          recipe.startedAt === undefined &&
+          recipe.baseDurationMs !== undefined
+        ) {
+          return [
+            ...acc,
+            {
+              ...recipe,
+              startedAt: readyAts[index - 1],
+              // Keep the cache in step with what the chain now derives.
+              readyAt: readyAts[index],
+            },
+          ];
+        }
 
-      return [...acc, recipe];
-    }, [] as BuildingProduct[]);
+        return [...acc, recipe];
+      },
+      [] as BuildingProduct[],
+    );
 
     return game;
   });

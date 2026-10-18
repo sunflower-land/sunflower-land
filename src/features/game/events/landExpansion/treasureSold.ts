@@ -61,7 +61,7 @@ export function sellTreasure({ state, action }: Options) {
       throw new Error("Not for sale");
     }
 
-    if (!new Decimal(amount).isInteger()) {
+    if (!new Decimal(amount).isInteger() || amount <= 0) {
       throw new Error("Invalid amount");
     }
 

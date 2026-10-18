@@ -40,8 +40,9 @@ export type TradeResource = Extract<
       | "Wild Mushroom"
       | "Magic Mushroom"
       | "Chicken"
+      | "Mud"
     >
-  | AnimalResource
+  | Exclude<AnimalResource, "Pig Bristles" | "Truffle">
   | FactionEmblem
   | Exclude<PetResourceName, "Acorn" | "Fossil Shell">
   | FermentationBait
@@ -73,6 +74,7 @@ export const TRADE_LIMITS: Record<TradeResource, number> = {
   Artichoke: 500,
   Barley: 500,
   Saltwort: 500,
+  "Crystal Leaf": 500,
 
   // Fruits
   Tomato: 400,
@@ -146,6 +148,7 @@ export const TRADE_MINIMUMS: Record<TradeResource, number> = {
   Artichoke: 10,
   Barley: 10,
   Saltwort: 10,
+  "Crystal Leaf": 10,
 
   Tomato: 20,
   Lemon: 10,

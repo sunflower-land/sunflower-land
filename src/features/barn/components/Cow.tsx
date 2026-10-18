@@ -1,8 +1,12 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { isBeetle } from "features/game/types/beetles";
+import { hasFeatureAccess } from "lib/flags";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useInterpret, useSelector } from "@xstate/react";
+import { useNow } from "lib/utils/hooks/useNow";
+import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
 import { capitalize } from "lib/utils/capitalize";
 import {
   animalMachine,
@@ -14,7 +18,10 @@ import {
   getAnimalFavoriteFood,
   getAnimalLevel,
   getBoostedFoodQuantity,
-  isAnimalFood,
+  getFeedItem,
+  isFoodForAnimal,
+  getFeedQuantity,
+  resolveAnimal,
 } from "features/game/lib/animals";
 import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
@@ -102,10 +109,19 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   id,
   disabled,
 }) => {
+  // The Collie Shrine's -5% feed cost only applies while the shrine is active,
+  // so the required-food display needs a LIVE clock — a mount snapshot would
+  // keep showing the discount after the shrine expired. One tick a minute is
+  // enough for a boost that flips at most a few times a day.
+  const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
   const { gameService, selectedItem, shortcutItem } = useContext(Context);
 
-  const cow = useSelector(gameService, _cow(id));
+  const storedCow = useSelector(gameService, _cow(id));
   const game = useSelector(gameService, _game);
+  // The animal machine has no access to game state, so every consumer below —
+  // the machine included — is handed the animal with its live windowed wake time
+  // substituted in. Read-only: nothing here writes an animal back.
+  const cow = useMemo(() => resolveAnimal(storedCow, game), [storedCow, game]);
   const cowService = useInterpret(animalMachine, {
     context: {
       animal: cow,
@@ -115,6 +131,8 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const cowMachineState = useSelector(cowService, _animalState);
   const inventory = useSelector(gameService, _inventory);
   const [showFeedXP, setShowFeedXP] = useState(false);
+  // Captured when feeding: a level-up changes what the same feed is worth.
+  const [feedXPAmount, setFeedXPAmount] = useState(0);
   const [showLoveItem, setShowLoveItem] = useState<LoveAnimalItem>();
   const [showMutantAnimalModal, setShowMutantAnimalModal] = useState(false);
 
@@ -227,6 +245,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     foodQuantity: REQUIRED_FOOD_QTY.Cow,
     game,
     animal: cow,
+    now,
   });
 
   const hasGoldenCow = isAnimalCoveredByGoldenAsset({
@@ -241,7 +260,11 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
   const { name: mutantName } = cow.reward?.items?.[0] ?? {};
 
+  const hasBeetleFeedingAccess = hasFeatureAccess(game, "BEETLE_FEEDING");
+
   const feedCow = (item?: InventoryItemName) => {
+    setFeedXPAmount(getAnimalXPEarned(item));
+
     const updatedState = gameService.send({
       type: "animal.fed",
       animal: "Cow",
@@ -252,7 +275,13 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     setShowFeedXP(true);
     setTimeout(() => setShowFeedXP(false), 700);
 
-    const updatedCow = updatedState.context.state.barn.animals[id];
+    // Resolve before handing it to the machine: the raw record carries the
+    // stale cached `awakeAt`, and the machine's sleep guard has no game state
+    // of its own to re-derive from.
+    const updatedCow = resolveAnimal(
+      updatedState.context.state.barn.animals[id],
+      updatedState.context.state,
+    );
 
     cowService.send({
       type: "FEED",
@@ -283,7 +312,13 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     setShowLoveItem(item as LoveAnimalItem);
     setTimeout(() => setShowLoveItem(undefined), 700);
 
-    const updatedCow = updatedState.context.state.barn.animals[id];
+    // Resolve before handing it to the machine: the raw record carries the
+    // stale cached `awakeAt`, and the machine's sleep guard has no game state
+    // of its own to re-derive from.
+    const updatedCow = resolveAnimal(
+      updatedState.context.state.barn.animals[id],
+      updatedState.context.state,
+    );
 
     cowService.send({
       type: "LOVE",
@@ -300,7 +335,13 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       id: cow.id,
     });
 
-    const updatedCow = updatedState.context.state.barn.animals[id];
+    // Resolve before handing it to the machine: the raw record carries the
+    // stale cached `awakeAt`, and the machine's sleep guard has no game state
+    // of its own to re-derive from.
+    const updatedCow = resolveAnimal(
+      updatedState.context.state.barn.animals[id],
+      updatedState.context.state,
+    );
 
     cowService.send({
       type: "CLAIM_PRODUCE",
@@ -316,7 +357,13 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       id: cow.id,
     });
 
-    const updatedCow = updatedState.context.state.barn.animals[id];
+    // Resolve before handing it to the machine: the raw record carries the
+    // stale cached `awakeAt`, and the machine's sleep guard has no game state
+    // of its own to re-derive from.
+    const updatedCow = resolveAnimal(
+      updatedState.context.state.barn.animals[id],
+      updatedState.context.state,
+    );
 
     cowService.send({
       type: "CURE",
@@ -441,24 +488,42 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       return;
     }
 
-    const hasFoodSelected = selectedItem && isAnimalFood(selectedItem);
-
     if (hasGoldenCow) {
       feedCow();
       return;
     }
 
+    // Auto-select the favourite food when it is held so a stale selection
+    // (e.g. Hay left over from the barn) never feeds the wrong item.
+    const feedItem = getFeedItem({
+      animal: "Cow",
+      selectedItem,
+      favouriteFood: favFood,
+      inventory,
+      requiredQty: requiredFoodQty,
+      hasBeetleFeedingAccess,
+    });
+    if (feedItem && feedItem !== selectedItem) {
+      shortcutItem(feedItem);
+    }
+
+    // Without access a Beetle is not food here, so the click falls through to
+    // the no-food prompt instead of an event the reducer would reject.
+    const hasFoodSelected =
+      feedItem &&
+      (isFoodForAnimal("Cow", feedItem) ||
+        (hasBeetleFeedingAccess && isBeetle(feedItem)));
+
     if (hasFoodSelected) {
-      const foodCount =
-        inventory[selectedItem as AnimalFoodName] ?? new Decimal(0);
-      if (foodCount.lt(requiredFoodQty)) {
+      const foodCount = inventory[feedItem as AnimalFoodName] ?? new Decimal(0);
+      if (foodCount.lt(getFeedQuantity(feedItem, requiredFoodQty))) {
         setShowNotEnoughFood(true);
         await new Promise((resolve) => setTimeout(resolve, 1000));
         setShowNotEnoughFood(false);
         return;
       }
 
-      feedCow(selectedItem);
+      feedCow(feedItem);
       return;
     }
 
@@ -469,15 +534,17 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     if (showNoFoodSelected) return t("animal.noFoodMessage");
     if (showNoMedicine) return t("animal.noMedicine");
     if (showNotEnoughFood)
-      return t("animal.notEnoughFood", { amount: requiredFoodQty });
+      return t("animal.notEnoughFood", {
+        amount: getFeedQuantity(selectedItem, requiredFoodQty),
+      });
   };
 
-  const getAnimalXPEarned = () => {
+  const getAnimalXPEarned = (item?: InventoryItemName) => {
     const { foodXp } = handleFoodXP({
       state: game,
       animal: "Cow",
       level,
-      food: hasGoldenCow ? favFood : (selectedItem as AnimalFoodName),
+      food: hasGoldenCow ? favFood : (item as AnimalFoodName),
     });
 
     return foodXp;
@@ -531,10 +598,12 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
   const level = getAnimalLevel(cow.experience, "Cow");
   const xpIndicatorColor =
-    favFood === selectedItem || selectedItem === "Omnifeed" || hasGoldenCow
+    favFood === selectedItem ||
+    selectedItem === "Omnifeed" ||
+    (hasBeetleFeedingAccess && !!selectedItem && isBeetle(selectedItem)) ||
+    hasGoldenCow
       ? "#71e358"
       : "#fff";
-  const xpIndicatorAmount = getAnimalXPEarned();
 
   const { animalXP } = getAnimalXP({
     state: game,
@@ -690,7 +759,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
               color: xpIndicatorColor,
             }}
           >
-            {!!xpIndicatorAmount && `+${xpIndicatorAmount}`}
+            {!!feedXPAmount && `+${feedXPAmount}`}
           </span>
         </Transition>
         <Transition

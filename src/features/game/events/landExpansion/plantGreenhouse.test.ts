@@ -802,6 +802,95 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Rice",
         plantedAt: now - boostedTime,
+        boostedTime,
+      },
+    });
+  });
+
+  it("records the back-date offset as boostedTime so the progress bar starts empty", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        id: 1,
+        seed: "Rice Seed",
+      },
+      state: {
+        ...farm,
+        inventory: {
+          "Rice Seed": new Decimal(1),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+        collectibles: {
+          "Turbo Sprout": [
+            { id: "1", createdAt: 0, coordinates: { x: 0, y: 0 }, readyAt: 0 },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    const plant = state.greenhouse.pots[1]?.plant;
+    const offset = (GREENHOUSE_CROP_TIME_SECONDS["Rice"] * 1000) / 2;
+
+    // The offset is the DISCOUNT, not growth already done: un-back-dating with
+    // it recovers the real plant time and the real (boosted) grow duration.
+    expect(plant?.boostedTime).toEqual(offset);
+    expect(plant!.plantedAt + plant!.boostedTime!).toEqual(now);
+  });
+
+  it("omits boostedTime when nothing boosts the grow time", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        id: 1,
+        seed: "Rice Seed",
+      },
+      state: {
+        ...farm,
+        inventory: {
+          "Rice Seed": new Decimal(1),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        name: "Rice",
+        plantedAt: now,
       },
     });
   });
@@ -1174,6 +1263,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Rice",
         plantedAt: expect.any(Number),
+        boostedTime: expect.any(Number),
       },
     });
   });
@@ -1331,6 +1421,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Rice",
         plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.5 * 1000,
+        boostedTime: GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.5 * 1000,
       },
     });
   });
@@ -1382,6 +1473,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Rice",
         plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.5 * 1000,
+        boostedTime: GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.5 * 1000,
       },
     });
   });
@@ -1441,6 +1533,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Rice",
         plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.5 * 1000,
+        boostedTime: GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.5 * 1000,
       },
     });
   });
@@ -1495,6 +1588,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Rice",
         plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.1 * 1000,
+        boostedTime: GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.1 * 1000,
       },
     });
   });
@@ -1546,6 +1640,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Grape",
         plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Grape * 0.5 * 1000,
+        boostedTime: GREENHOUSE_CROP_TIME_SECONDS.Grape * 0.5 * 1000,
       },
     });
   });
@@ -1597,6 +1692,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Grape",
         plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Grape * 0.5 * 1000,
+        boostedTime: GREENHOUSE_CROP_TIME_SECONDS.Grape * 0.5 * 1000,
       },
     });
   });
@@ -1644,6 +1740,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Olive",
         plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Olive * 0.1 * 1000,
+        boostedTime: GREENHOUSE_CROP_TIME_SECONDS.Olive * 0.1 * 1000,
       },
     });
   });
@@ -1691,6 +1788,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Rice",
         plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.1 * 1000,
+        boostedTime: GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.1 * 1000,
       },
     });
   });
@@ -1738,6 +1836,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Grape",
         plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Grape * 0.1 * 1000,
+        boostedTime: GREENHOUSE_CROP_TIME_SECONDS.Grape * 0.1 * 1000,
       },
     });
   });

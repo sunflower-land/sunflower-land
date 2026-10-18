@@ -27,7 +27,10 @@ import type {
   Inventory,
   InventoryItemName,
 } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import {
   getBasketItems,
   getChestItems,
@@ -234,9 +237,7 @@ export const FermentationRackPanel: React.FC = () => {
     }
 
     if (selectedRecipeId && insufficientIngredient) {
-      const name =
-        ITEM_DETAILS[insufficientIngredient]?.translatedName ??
-        String(insufficientIngredient);
+      const name = getTranslatedItemName(insufficientIngredient);
 
       return t("agingShed.fermentation.insufficientIngredient", { item: name });
     }

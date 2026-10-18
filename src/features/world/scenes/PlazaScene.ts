@@ -9,7 +9,7 @@ import { PlaceableContainer } from "../containers/PlaceableContainer";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import type { NPCName } from "lib/npcs";
 import type { FactionName } from "features/game/types/game";
-import { translateForBubble } from "lib/i18n/translate";
+import { translate } from "lib/i18n/translate";
 import { capitalize } from "lib/utils/capitalize";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { DogContainer } from "../containers/DogContainer";
@@ -27,6 +27,8 @@ import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { getAnimationUrl } from "../lib/animations";
 import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import type { Player } from "../types/Room";
+import { getDailyBudBoxType } from "features/game/lib/budBox";
+import { hasChapterCropWeekAccess } from "features/game/types/chapterCropWeek";
 
 const CHAPTER_BANNERS: Record<ChapterName, string | undefined> = {
   "Solar Flare": undefined,
@@ -212,6 +214,20 @@ export class PlazaScene extends BaseScene {
     });
   }
 
+  private isBudBoxRewardAvailable(now = Date.now()) {
+    const todayBud = getDailyBudBoxType(now);
+    const hasTodayBud = Object.values(this.gameState.buds ?? {}).some(
+      (bud) => bud.type === todayBud,
+    );
+    const openedAt = this.gameState.pumpkinPlaza.budBox?.openedAt ?? 0;
+    const hasOpenedToday =
+      !!openedAt &&
+      new Date(now).toISOString().substring(0, 10) ===
+        new Date(openedAt).toISOString().substring(0, 10);
+
+    return hasTodayBud && !hasOpenedToday;
+  }
+
   preload() {
     this.load.audio("chime", SOUNDS.notifications.chime);
 
@@ -349,7 +365,7 @@ export class PlazaScene extends BaseScene {
       if (this.checkDistanceToSprite(weatherShop, 75)) {
         interactableModalManager.open("weather_shop");
       } else {
-        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
 
@@ -360,7 +376,7 @@ export class PlazaScene extends BaseScene {
       if (this.checkDistanceToSprite(rarecrows, 75)) {
         interactableModalManager.open("rarecrows");
       } else {
-        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
 
@@ -369,7 +385,7 @@ export class PlazaScene extends BaseScene {
       if (this.checkDistanceToSprite(petShop, 75)) {
         interactableModalManager.open("pet_shop");
       } else {
-        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
 
@@ -378,11 +394,12 @@ export class PlazaScene extends BaseScene {
       if (this.checkDistanceToSprite(prizesChest, 100)) {
         interactableModalManager.open("chapter_raffles");
       } else {
-        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
 
     this.addDesignShowcaseBoard();
+    this.addChapterCropWeekBoard();
 
     this.addYakkamon();
 
@@ -510,7 +527,7 @@ export class PlazaScene extends BaseScene {
       if (this.checkDistanceToSprite(basicChest, 75)) {
         interactableModalManager.open("basic_chest");
       } else {
-        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
 
@@ -527,7 +544,7 @@ export class PlazaScene extends BaseScene {
       if (this.checkDistanceToSprite(luxuryChest, 75)) {
         interactableModalManager.open("luxury_chest");
       } else {
-        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
 
@@ -567,7 +584,7 @@ export class PlazaScene extends BaseScene {
       this.add.sprite(825, 50, "locked_disc").setDepth(1000000000);
     }
 
-    const clubHouseLabel = new Label(this, "CLUBHOUSE", "brown");
+    const clubHouseLabel = new Label(this, "CLUBHOUSE", "brown", "gift_icon");
     clubHouseLabel.setPosition(152, 262);
     clubHouseLabel.setDepth(10000000);
     this.add.existing(clubHouseLabel);
@@ -588,7 +605,7 @@ export class PlazaScene extends BaseScene {
       if (this.checkDistanceToSprite(fatChicken, 75)) {
         interactableModalManager.open("fat_chicken");
       } else {
-        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
 
@@ -610,7 +627,7 @@ export class PlazaScene extends BaseScene {
         if (this.checkDistanceToSprite(bud, 75)) {
           interactableModalManager.open("bud");
         } else {
-          this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+          this.currentPlayer?.speak(translate("base.iam.far.away"));
         }
       });
 
@@ -724,7 +741,7 @@ export class PlazaScene extends BaseScene {
         if (this.checkDistanceToSprite(bud3, 75)) {
           interactableModalManager.open("bud");
         } else {
-          this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+          this.currentPlayer?.speak(translate("base.iam.far.away"));
         }
       });
 
@@ -744,9 +761,11 @@ export class PlazaScene extends BaseScene {
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
         if (this.checkDistanceToSprite(turtle, 75)) {
-          interactableModalManager.open("bud");
+          interactableModalManager.open(
+            this.isBudBoxRewardAvailable() ? "bud_box_guide" : "bud",
+          );
         } else {
-          this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+          this.currentPlayer?.speak(translate("base.iam.far.away"));
         }
       });
 
@@ -771,9 +790,19 @@ export class PlazaScene extends BaseScene {
         if (this.checkDistanceToSprite(chest, 75)) {
           interactableModalManager.open("clubhouse_reward");
         } else {
-          this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+          this.currentPlayer?.speak(translate("base.iam.far.away"));
         }
       });
+
+    const refreshBudBoxIndicator = () => {
+      clubHouseLabel.setIconVisible(this.isBudBoxRewardAvailable());
+    };
+
+    refreshBudBoxIndicator();
+    this.game.events.on("gameStateUpdated", refreshBudBoxIndicator);
+    this.events.once("shutdown", () => {
+      this.game.events.off("gameStateUpdated", refreshBudBoxIndicator);
+    });
 
     if (this.textures.exists("sparkle")) {
       const sparkle = this.add.sprite(567, 191, "sparkle");
@@ -867,6 +896,7 @@ export class PlazaScene extends BaseScene {
 
       snowHornBud.setVisible(!isOpen);
       chest.setVisible(!isOpen);
+      refreshBudBoxIndicator();
 
       if (wasOpen === isOpen) {
         this.mmoService?.state.context.server?.send(0, {
@@ -915,9 +945,46 @@ export class PlazaScene extends BaseScene {
       if (this.checkDistanceToSprite(yakkamon, 75)) {
         interactableModalManager.open("yakkamon");
       } else {
-        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
+  }
+
+  /**
+   * Chapter Crop Week cooking leaderboard noticeboard. It stands in the free
+   * nook just right of the spawn statue (tiles 30-32 x 15-18 of
+   * `seasonal_plaza.json`, outside the 7x7 spawn block centred on the statue)
+   * and opens the top-100 event-recipe cooks modal. Only players with event
+   * access see it: admin testers ahead of the start date, everyone during the
+   * week, nobody after it ends.
+   */
+  addChapterCropWeekBoard() {
+    if (!hasChapterCropWeekAccess(this.gameState)) return;
+
+    const board = this.add.sprite(504, 288, "showcase_board").setDepth(1000000);
+
+    // Only the base of the board blocks movement, so players can walk behind it
+    this.physics.world.enable(board);
+    this.colliders?.add(board);
+    (board.body as Phaser.Physics.Arcade.Body)
+      .setSize(40, 8)
+      .setOffset(0, 22)
+      .setImmovable(true)
+      .setCollideWorldBounds(true);
+
+    board.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      if (!this.checkDistanceToSprite(board, 75)) {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        return;
+      }
+
+      interactableModalManager.open("chapter_crop_week_leaderboard");
+    });
+
+    const label = new Label(this, "TOP COOKS", "gold");
+    label.setPosition(504, 267);
+    label.setDepth(10000000);
+    this.add.existing(label);
   }
 
   /**
@@ -941,7 +1008,7 @@ export class PlazaScene extends BaseScene {
 
     board.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (!this.checkDistanceToSprite(board, 75)) {
-        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
         return;
       }
 
@@ -997,7 +1064,7 @@ export class PlazaScene extends BaseScene {
           );
 
           if (distance > 75) {
-            this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+            this.currentPlayer?.speak(translate("base.iam.far.away"));
             return;
           }
 

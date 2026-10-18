@@ -162,6 +162,11 @@ import vinny from "assets/sfts/vinny.webp";
 import clock from "assets/sfts/clock.webp";
 import volcanoGnome from "assets/sfts/volcano_gnome.webp";
 
+// Rarecrows sunset rewards
+import championRarecrow from "assets/sfts/champion_rarecrow.png";
+import ogRarecrow from "assets/sfts/og_rarecrow.png";
+import loyalRarecrow from "assets/sfts/loyal_rarecrow.png";
+
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
 import emeraldTurtle from "assets/sfts/aoe/emerald_turtle.webp";
@@ -255,6 +260,12 @@ import celestine from "assets/fruit/celestine/celestine.webp";
 import obsidian from "assets/resources/obsidian.webp";
 import salt from "assets/resources/salt.webp";
 import refinedSalt from "assets/resources/refined_salt.webp";
+import mud from "assets/resources/mud.webp";
+import truffle from "assets/resources/truffle.webp";
+import greenBeetle from "assets/resources/beetles/green_beetle.webp";
+import blueBeetle from "assets/resources/beetles/blue_beetle.webp";
+import pinkBeetle from "assets/resources/beetles/pink_beetle.webp";
+import amberBeetle from "assets/resources/beetles/amber_beetle.webp";
 
 import pickledCabbage from "assets/pickled_crops/pickled_cabbage.webp";
 import pickledOnion from "assets/pickled_crops/pickled_onion.webp";
@@ -395,6 +406,7 @@ import beetrootBlaze from "assets/food/beetroot_blaze.png";
 import shroomSyrup from "assets/food/shroom_syrup.png";
 import rapidRoast from "assets/food/rapid_roast.png";
 import saltSnack from "assets/food/salt_snack.png";
+import crystalCookie from "assets/food/crystal_cookie.png";
 import theLot from "assets/food/the_lot.webp";
 import antipasto from "assets/food/antipasto.webp";
 import carrotJuice from "assets/food/carrot_juice.webp";
@@ -1363,6 +1375,7 @@ import {
 
 import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS, GREENHOUSE_SEEDS } from "./crops";
 import { type AchievementName, ACHIEVEMENTS } from "./achievements";
+import type { BumpkinItem } from "./bumpkin";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
@@ -1410,10 +1423,12 @@ export interface ItemDetails {
 }
 
 export const getTranslatedItemName = (
-  itemName: InventoryItemName | AchievementName,
+  itemName: InventoryItemName | AchievementName | BumpkinItem,
 ): string => {
-  const itemDetails = ITEM_DETAILS[itemName];
-  return itemDetails?.translatedName || itemName;
+  const itemDetails = (ITEM_DETAILS as Partial<Record<string, ItemDetails>>)[
+    itemName
+  ];
+  return itemDetails?.translatedName ?? itemName;
 };
 
 type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
@@ -1498,6 +1513,11 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE["Basic Biome"].Saltwort.crop,
     description: translate("description.saltwort"),
     translatedName: translate("crop.saltwort"),
+  },
+  "Crystal Leaf": {
+    image: CROP_LIFECYCLE["Basic Biome"]["Crystal Leaf"].crop,
+    description: translate("description.crystalLeaf"),
+    translatedName: translate("crop.crystalLeaf"),
   },
   Rhubarb: {
     image: CROP_LIFECYCLE["Basic Biome"].Rhubarb.crop,
@@ -1620,6 +1640,11 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE["Basic Biome"].Saltwort.seed,
     description: translate("description.saltwort"),
     translatedName: translate("seed.saltwort"),
+  },
+  "Crystal Leaf Seed": {
+    image: CROP_LIFECYCLE["Basic Biome"]["Crystal Leaf"].seed,
+    description: translate("description.crystalLeaf"),
+    translatedName: translate("seed.crystalLeaf"),
   },
   "Rhubarb Seed": {
     image: CROP_LIFECYCLE["Basic Biome"].Rhubarb.seed,
@@ -1974,6 +1999,7 @@ export const ITEM_DETAILS: Items = {
   "Ascension Shard": {
     image: ascensionShard,
     description: COMMODITIES["Ascension Shard"].description,
+    translatedName: translate("resource.ascensionShard"),
   },
   Oil: {
     image: oil,
@@ -2006,7 +2032,7 @@ export const ITEM_DETAILS: Items = {
     translatedName: translate("animal.sheep"),
   },
   Pig: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.animals.pigIdle,
     description: ANIMALS.Pig.description,
     translatedName: translate("animal.pig"),
   },
@@ -2726,6 +2752,16 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.building.barn,
     description: translate("description.barn"),
     translatedName: translate("building.barn"),
+  },
+  Pigpen: {
+    image: SUNNYSIDE.building.pigpen,
+    description: translate("description.pigpen"),
+    translatedName: translate("building.pigpen"),
+  },
+  Cave: {
+    image: SUNNYSIDE.building.cave,
+    description: translate("description.cave"),
+    translatedName: translate("building.cave"),
   },
   Deli: {
     image: SUNNYSIDE.building.deli,
@@ -3617,6 +3653,7 @@ export const ITEM_DETAILS: Items = {
   "Ascension Crystal": {
     image: ascensionCrystalRock,
     description: translate("description.ascensionCrystal"),
+    translatedName: translate("node.ascensionCrystal"),
   },
   Tree: {
     image: SUNNYSIDE.resource.tree,
@@ -3969,18 +4006,22 @@ export const ITEM_DETAILS: Items = {
   "Fish Flake": {
     image: fishFlake,
     description: PROCESSED_RESOURCES["Fish Flake"].description,
+    translatedName: translate("resource.fishFlake"),
   },
   "Fish Stick": {
     image: fishStick,
     description: PROCESSED_RESOURCES["Fish Stick"].description,
+    translatedName: translate("resource.fishStick"),
   },
   "Fish Oil": {
     image: fishOil,
     description: PROCESSED_RESOURCES["Fish Oil"].description,
+    translatedName: translate("resource.fishOil"),
   },
   "Crab Stick": {
     image: crabStick,
     description: PROCESSED_RESOURCES["Crab Stick"].description,
+    translatedName: translate("resource.crabStick"),
   },
   "Furikake Sprinkle": {
     image: furikakeSprinkle,
@@ -5490,6 +5531,11 @@ export const ITEM_DETAILS: Items = {
     description: CONSUMABLES["Saltbite"].description,
     translatedName: translate("food.saltbite"),
   },
+  "Crystal Cookie": {
+    image: crystalCookie,
+    description: CONSUMABLES["Crystal Cookie"].description,
+    translatedName: translate("food.crystalCookie"),
+  },
   "Shroom Syrup": {
     image: shroomSyrup,
     description: CONSUMABLES["Shroom Syrup"].description,
@@ -6154,6 +6200,64 @@ export const ITEM_DETAILS: Items = {
     description: "Resource you can collect from cows",
     translatedName: translate("resource.milk"),
   },
+
+  // Chapter 16 resources. Every image below is reused from an existing item
+  // until the art team delivers - see ticket 800.
+  "Green Beetle": {
+    image: greenBeetle,
+    description: translate("description.greenBeetle"),
+    translatedName: translate("resource.greenBeetle"),
+  },
+  "Blue Beetle": {
+    image: blueBeetle,
+    description: translate("description.blueBeetle"),
+    translatedName: translate("resource.blueBeetle"),
+  },
+  "Pink Beetle": {
+    image: pinkBeetle,
+    description: translate("description.pinkBeetle"),
+    translatedName: translate("resource.pinkBeetle"),
+  },
+  "Amber Beetle": {
+    image: amberBeetle,
+    description: translate("description.amberBeetle"),
+    translatedName: translate("resource.amberBeetle"),
+  },
+  Mud: {
+    image: mud,
+    description: COMMODITIES.Mud.description,
+    translatedName: translate("resource.mud"),
+  },
+  "Pig Bristles": {
+    image: SUNNYSIDE.resource.feather, // TODO(Chapter 16 art)
+    description: translate("description.pigBristles"),
+    translatedName: translate("resource.pigBristles"),
+  },
+  Truffle: {
+    image: truffle,
+    description: translate("description.truffle"),
+    translatedName: translate("resource.truffle"),
+  },
+  "Ember-Roasted Truffle Potatoes": {
+    image: SUNNYSIDE.icons.expression_confused, // TODO(Chapter 16 art)
+    description: COOKABLES["Ember-Roasted Truffle Potatoes"].description,
+    translatedName: translate("food.emberRoastedTrufflePotatoes"),
+  },
+  "Truffle Cake": {
+    image: SUNNYSIDE.icons.expression_confused, // TODO(Chapter 16 art)
+    description: COOKABLES["Truffle Cake"].description,
+    translatedName: translate("food.truffleCake"),
+  },
+  "Creamy Truffle Risotto": {
+    image: SUNNYSIDE.icons.expression_confused, // TODO(Chapter 16 art)
+    description: COOKABLES["Creamy Truffle Risotto"].description,
+    translatedName: translate("food.creamyTruffleRisotto"),
+  },
+  "Truffle Seasoning": {
+    image: SUNNYSIDE.icons.expression_confused, // TODO(Chapter 16 art)
+    description: translate("description.truffleSeasoning"),
+    translatedName: translate("spiceRack.truffleSeasoning"),
+  },
   Hay: {
     image: SUNNYSIDE.animalFoods.hay,
     description: ANIMAL_FOODS.Hay.description,
@@ -6178,6 +6282,26 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.animalFoods.omnifeed,
     description: ANIMAL_FOODS.Omnifeed.description,
     translatedName: translate("animalFood.omnifeed"),
+  },
+  "Basic Slop": {
+    image: SUNNYSIDE.animalFoods.kernel_blend, // TODO(Chapter 16 art)
+    description: ANIMAL_FOODS["Basic Slop"].description,
+    translatedName: translate("animalFood.basicSlop"),
+  },
+  "Hearty Slop": {
+    image: SUNNYSIDE.animalFoods.hay, // TODO(Chapter 16 art)
+    description: ANIMAL_FOODS["Hearty Slop"].description,
+    translatedName: translate("animalFood.heartySlop"),
+  },
+  "Rich Slop": {
+    image: SUNNYSIDE.animalFoods.nutribarley, // TODO(Chapter 16 art)
+    description: ANIMAL_FOODS["Rich Slop"].description,
+    translatedName: translate("animalFood.richSlop"),
+  },
+  "Gourmet Slop": {
+    image: SUNNYSIDE.animalFoods.mixed_grain, // TODO(Chapter 16 art)
+    description: ANIMAL_FOODS["Gourmet Slop"].description,
+    translatedName: translate("animalFood.gourmetSlop"),
   },
   "Crafting Box": {
     image: craftingBox,
@@ -7364,6 +7488,18 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.tiles.letterZTile,
     description: translate("description.letterZTile"),
   },
+  "Champion Rarecrow": {
+    image: championRarecrow,
+    description: translate("description.championRarecrow"),
+  },
+  "OG Rarecrow": {
+    image: ogRarecrow,
+    description: translate("description.ogRarecrow"),
+  },
+  "Loyal Rarecrow": {
+    image: loyalRarecrow,
+    description: translate("description.loyalRarecrow"),
+  },
   Trash: {
     image: trash,
     description: translate("description.trash"),
@@ -7524,42 +7660,52 @@ export const ITEM_DETAILS: Items = {
   "Fox Shrine": {
     image: foxShrine,
     description: translate("description.foxShrine"),
+    translatedName: translate("shrine.fox"),
   },
   "Sparrow Shrine": {
     image: sparrowShrine,
     description: translate("description.sparrowShrine"),
+    translatedName: translate("shrine.sparrow"),
   },
   "Toucan Shrine": {
     image: toucanShrine,
     description: translate("description.toucanShrine"),
+    translatedName: translate("shrine.toucan"),
   },
   "Collie Shrine": {
     image: collieShrine,
     description: translate("description.collieShrine"),
+    translatedName: translate("shrine.collie"),
   },
   "Badger Shrine": {
     image: badgerShrine,
     description: translate("description.badgerShrine"),
+    translatedName: translate("shrine.badger"),
   },
   "Boar Shrine": {
     image: boarShrine,
     description: translate("description.boarShrine"),
+    translatedName: translate("shrine.boar"),
   },
   "Hound Shrine": {
     image: houndShrine,
     description: translate("description.houndShrine"),
+    translatedName: translate("shrine.hound"),
   },
   "Stag Shrine": {
     image: stagShrine,
     description: translate("description.stagShrine"),
+    translatedName: translate("shrine.stag"),
   },
   "Legendary Shrine": {
     image: legendaryShrine,
     description: translate("description.legendaryShrine"),
+    translatedName: translate("shrine.legendary"),
   },
   "Obsidian Shrine": {
     image: obsidianShrine,
     description: translate("description.obsidianShrine"),
+    translatedName: translate("shrine.obsidian"),
   },
   Moonfur: {
     image: SUNNYSIDE.resource.moonfur,
@@ -7589,26 +7735,32 @@ export const ITEM_DETAILS: Items = {
   "Tortoise Shrine": {
     image: tortoiseShrine,
     description: translate("description.tortoiseShrine"),
+    translatedName: translate("shrine.tortoise"),
   },
   "Moth Shrine": {
     image: mothShrine,
     description: translate("description.mothShrine"),
+    translatedName: translate("shrine.moth"),
   },
   "Mole Shrine": {
     image: moleShrine,
     description: translate("description.moleShrine"),
+    translatedName: translate("shrine.mole"),
   },
   "Bear Shrine": {
     image: bearShrine,
     description: translate("description.bearShrine"),
+    translatedName: translate("shrine.bear"),
   },
   "Bantam Shrine": {
     image: bantamShrine,
     description: translate("description.bantamShrine"),
+    translatedName: translate("shrine.bantam"),
   },
   "Trading Shrine": {
     image: tradingShrine,
     description: translate("description.tradingShrine"),
+    translatedName: translate("shrine.trading"),
   },
   "Wild Grass": {
     image: SUNNYSIDE.resource.wild_grass,
@@ -7633,34 +7785,42 @@ export const ITEM_DETAILS: Items = {
   "Fused Stone Rock": {
     image: SUNNYSIDE.resource.fusedStoneRock,
     description: "A fused stone rock",
+    translatedName: translate("node.fusedStone"),
   },
   "Reinforced Stone Rock": {
     image: SUNNYSIDE.resource.reinforcedStoneRock,
     description: "A reinforced stone rock",
+    translatedName: translate("node.reinforcedStone"),
   },
   "Ancient Tree": {
     image: SUNNYSIDE.resource.ancient_tree,
     description: "An ancient tree",
+    translatedName: translate("node.ancientTree"),
   },
   "Sacred Tree": {
     image: SUNNYSIDE.resource.sacred_tree,
     description: "A sacred tree",
+    translatedName: translate("node.sacredTree"),
   },
   "Refined Iron Rock": {
     image: SUNNYSIDE.resource.refinedIronRock,
     description: "A refined iron rock",
+    translatedName: translate("node.refinedIron"),
   },
   "Tempered Iron Rock": {
     image: SUNNYSIDE.resource.temperedIronRock,
     description: "A tempered iron rock",
+    translatedName: translate("node.temperedIron"),
   },
   "Pure Gold Rock": {
     image: SUNNYSIDE.resource.pureGoldRock,
     description: "A pure gold rock",
+    translatedName: translate("node.pureGold"),
   },
   "Prime Gold Rock": {
     image: SUNNYSIDE.resource.primeGoldRock,
     description: "A prime gold rock",
+    translatedName: translate("node.primeGold"),
   },
   "Paw Prints Banner": {
     image: pawPrintsBanner,

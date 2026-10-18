@@ -5,7 +5,7 @@ import {
   TEST_FARM,
 } from "features/game/lib/constants";
 import { COOKABLES } from "features/game/types/consumables";
-import type { GameState } from "features/game/types/game";
+import type { BuildingProduct, GameState } from "features/game/types/game";
 import {
   cook,
   getCookingOilBoost,
@@ -18,6 +18,8 @@ import {
 } from "features/game/lib/collectibleBuilt";
 import { getCookingTime } from "features/game/expansion/lib/boosts";
 import { CHAPTER_CROP_WEEK } from "features/game/types/chapterCropWeek";
+import { getCookingQueueReadyAts } from "features/game/lib/cookingReadiness";
+import { CONFIG } from "lib/config";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -413,12 +415,12 @@ describe("cook", () => {
     ).toEqual(2);
   });
 
-  it("neutralises a rank 3 Double Nom on the Saltbite event recipe (2x cost, stamps rank 1)", () => {
+  it("neutralises a rank 3 Double Nom on the Crystal Cookie event recipe (2x cost, stamps rank 1)", () => {
     const state = cook({
       state: {
         ...GAME_STATE,
         inventory: {
-          Saltwort: new Decimal(30),
+          "Crystal Leaf": new Decimal(30),
         },
         bumpkin: {
           ...INITIAL_BUMPKIN,
@@ -438,22 +440,52 @@ describe("cook", () => {
       },
       action: {
         type: "recipe.cooked",
-        item: "Saltbite",
+        item: "Crystal Cookie",
         buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
       },
       farmId: 1,
-      // Saltbite is only cookable during CHAPTER_CROP_WEEK.
+      // Crystal Cookie is only cookable during CHAPTER_CROP_WEEK.
       createdAt: CHAPTER_CROP_WEEK.startDate.getTime(),
     });
 
-    // Saltbite (event recipe) ignores the upgraded rank: 10 Saltwort base x2
-    // (rank 1) = 20 consumed, not rank 3's x4 = 40. Boiled Eggs above (a non-event
-    // recipe) still pays the full upgraded cost, proving the scoping.
-    expect(state.inventory["Saltwort"]).toEqual(new Decimal(10));
+    // Crystal Cookie (event recipe) ignores the upgraded rank: 10 Crystal Leaf
+    // base x2 (rank 1) = 20 consumed, not rank 3's x4 = 40. Boiled Eggs above (a
+    // non-event recipe) still pays the full upgraded cost, proving the scoping.
+    expect(state.inventory["Crystal Leaf"]).toEqual(new Decimal(10));
     // Recipe is stamped rank 1 so the later collect also honors rank 1.
     expect(
       state.buildings["Fire Pit"]?.[0].crafting?.[0].skills?.["Double Nom"],
     ).toEqual(1);
+  });
+
+  it("never cooks a recipe from a previous Chapter Crop Week, even with its ingredients", () => {
+    expect(() =>
+      cook({
+        state: {
+          ...GAME_STATE,
+          inventory: { Saltwort: new Decimal(30) },
+          bumpkin: INITIAL_BUMPKIN,
+          buildings: {
+            "Fire Pit": [
+              {
+                coordinates: { x: 2, y: 3 },
+                readyAt: 1000,
+                createdAt: 1000,
+                id: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
+                oil: 0,
+              },
+            ],
+          },
+        },
+        action: {
+          type: "recipe.cooked",
+          item: "Saltbite",
+          buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
+        },
+        farmId: 1,
+        createdAt: CHAPTER_CROP_WEEK.startDate.getTime(),
+      }),
+    ).toThrow("This recipe is no longer available");
   });
 
   it("adds another recipe to the building if there is a slot available", () => {
@@ -1435,7 +1467,10 @@ describe("getReadyAt", () => {
     });
   });
 
-  it("applies the Gourmet Hourglass boost if the queued recipe will start before the boost expires", () => {
+  // Legacy behaviour handed a queued recipe the FULL 50% discount as long as the
+  // hourglass had not expired before it started, ignoring expiry mid-cook. Under
+  // SPEED_BOOSTS it is credited only for the overlap.
+  it("credits a queued recipe only for the hourglass window it actually overlaps", () => {
     const now = createdAt;
     // Hourglass expires in 30 minutes
     const hourglassCreatedAt =
@@ -1492,7 +1527,12 @@ describe("getReadyAt", () => {
     const currentRecipeReadyAt = building?.crafting?.[0]?.readyAt as number;
     const nextRecipeReadyAt = building?.crafting?.[1]?.readyAt;
 
-    expect(nextRecipeReadyAt).toEqual(currentRecipeReadyAt + cookTimeMs * 0.5);
+    // The recipe starts at now+29m; the hourglass window closes at now+30m, so only
+    // 1 minute of the cook is boosted: 1m at 2x = 2m of work done, leaving 58m of
+    // work at 1x. Total 59m, i.e. a single minute saved rather than a full half.
+    expect(nextRecipeReadyAt).toEqual(
+      currentRecipeReadyAt + cookTimeMs - 60 * 1000,
+    );
   });
 
   it("applies the Boar Shrine boost", () => {
@@ -1621,5 +1661,263 @@ describe("getOilConsumption", () => {
     const oil = getOilConsumption("Bakery", "Parsnip Cake");
 
     expect(oil).toEqual(10);
+  });
+});
+
+// FE + BE jest run amoy, so SPEED_BOOSTS is ON by default here.
+describe("cook (SPEED_BOOSTS windowed)", () => {
+  const HOUR = 60 * 60 * 1000;
+  const EGG_MS = COOKABLES["Boiled Eggs"].cookingSeconds * 1000;
+
+  const firePitFarm = (crafting: BuildingProduct[] = []): GameState => ({
+    ...TEST_FARM,
+    inventory: { ...TEST_FARM.inventory, Egg: new Decimal(1000) },
+    vip: {
+      bundles: [{ name: "1_MONTH", boughtAt: Date.now() }],
+      expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
+    },
+    buildings: {
+      "Fire Pit": [
+        {
+          id: "1",
+          coordinates: { x: 0, y: 0 },
+          createdAt: 0,
+          readyAt: 0,
+          crafting,
+        },
+      ],
+    },
+  });
+
+  const cookEggs = (state: GameState, createdAt: number) =>
+    cook({
+      farmId: 1,
+      state,
+      action: { type: "recipe.cooked", item: "Boiled Eggs", buildingId: "1" },
+      createdAt,
+    });
+
+  it("stores a stable id and a permanent-only baseDurationMs", () => {
+    const now = Date.now();
+    const state = cookEggs(firePitFarm(), now);
+    const recipe = state.buildings["Fire Pit"]?.[0].crafting?.[0];
+
+    expect(recipe?.id).toEqual(expect.any(String));
+    expect(recipe?.baseDurationMs).toEqual(EGG_MS);
+    // Idle building, so the recipe is ANCHORED at the moment it started.
+    expect(recipe?.startedAt).toEqual(now);
+    expect(recipe?.readyAt).toEqual(now + EGG_MS);
+  });
+
+  it("uses a client-supplied recipeId when one is given", () => {
+    const now = Date.now();
+    const state = cook({
+      farmId: 1,
+      state: firePitFarm(),
+      action: {
+        type: "recipe.cooked",
+        item: "Boiled Eggs",
+        buildingId: "1",
+        recipeId: "deadbeef",
+      },
+      createdAt: now,
+    });
+
+    expect(state.buildings["Fire Pit"]?.[0].crafting?.[0].id).toEqual(
+      "deadbeef",
+    );
+  });
+
+  it("leaves a QUEUED recipe unanchored so it chains off the one ahead", () => {
+    const now = Date.now();
+    const first = cookEggs(firePitFarm(), now);
+    const second = cookEggs(first, now);
+
+    const queue = second.buildings["Fire Pit"]?.[0].crafting ?? [];
+
+    expect(queue[0].startedAt).toEqual(now);
+    expect(queue[1].startedAt).toBeUndefined();
+    expect(queue[1].readyAt).toEqual(now + 2 * EGG_MS);
+  });
+
+  it("bakes PERMANENT boosts into baseDurationMs (Desert Gnome x0.9)", () => {
+    const now = Date.now();
+    const farm = firePitFarm();
+    const state = cookEggs(
+      {
+        ...farm,
+        collectibles: {
+          ...farm.collectibles,
+          "Desert Gnome": [
+            {
+              id: "1",
+              coordinates: { x: 3, y: 3 },
+              createdAt: now,
+              readyAt: now,
+            },
+          ],
+        },
+      },
+      now,
+    );
+
+    expect(
+      state.buildings["Fire Pit"]?.[0].crafting?.[0].baseDurationMs,
+    ).toEqual(EGG_MS * 0.9);
+  });
+
+  it("excludes the windowed boosts from baseDurationMs and boostsUsed", () => {
+    const now = Date.now();
+    const farm = firePitFarm();
+    const game: GameState = {
+      ...farm,
+      collectibles: {
+        ...farm.collectibles,
+        "Gourmet Hourglass": [
+          {
+            id: "1",
+            coordinates: { x: 1, y: 1 },
+            createdAt: now,
+            readyAt: now,
+          },
+        ],
+      },
+    };
+
+    const { baseDurationMs, boostsUsed } = getReadyAt({
+      buildingId: "1",
+      item: "Boiled Eggs",
+      createdAt: now,
+      game,
+    });
+
+    // The hourglass is a live 2x speed, not a baked half.
+    expect(baseDurationMs).toEqual(EGG_MS);
+    expect(boostsUsed.map((b) => b.name)).not.toContain("Gourmet Hourglass");
+  });
+
+  it("pulls the WHOLE queue forward when a totem is placed mid-cook", () => {
+    const now = Date.now();
+    const queued = cookEggs(cookEggs(firePitFarm(), now), now);
+
+    const boosted: GameState = {
+      ...queued,
+      collectibles: {
+        ...queued.collectibles,
+        "Super Totem": [
+          {
+            id: "1",
+            coordinates: { x: 2, y: 2 },
+            createdAt: now,
+            readyAt: now,
+          },
+        ],
+      },
+    };
+
+    const readyAts = getCookingQueueReadyAts({
+      crafting: boosted.buildings["Fire Pit"]?.[0].crafting ?? [],
+      game: boosted,
+    });
+
+    // Both recipes run at 2x: the head halves, and the queued one follows it up.
+    expect(readyAts).toEqual([now + EGG_MS / 2, now + EGG_MS]);
+  });
+
+  it("does not credit an idle gap as cooking progress", () => {
+    const now = Date.now();
+    // A finished, uncollected recipe from an hour ago.
+    const state = cookEggs(
+      firePitFarm([
+        {
+          id: "old",
+          name: "Boiled Eggs",
+          startedAt: now - 3 * HOUR,
+          baseDurationMs: EGG_MS,
+          readyAt: now - 2 * HOUR,
+        },
+      ]),
+      now,
+    );
+
+    const queue = state.buildings["Fire Pit"]?.[0].crafting ?? [];
+
+    // The new recipe starts NOW, not when the stale one finished.
+    expect(queue[1].startedAt).toEqual(now);
+    expect(queue[1].readyAt).toEqual(now + EGG_MS);
+  });
+});
+
+describe("cook: Truffle recipes (Chapter 16)", () => {
+  const FIRE_PIT_ID = "fire-pit-1";
+  const INPUTS: GameState["inventory"] = {
+    Truffle: new Decimal(10),
+    Potato: new Decimal(50),
+    "Wild Mushroom": new Decimal(10),
+  };
+
+  const farm = (inventory: GameState["inventory"] = INPUTS): GameState => ({
+    ...GAME_STATE,
+    inventory,
+    buildings: {
+      "Fire Pit": [
+        {
+          coordinates: { x: 2, y: 3 },
+          readyAt: 0,
+          createdAt: 0,
+          id: FIRE_PIT_ID,
+        },
+      ],
+    },
+  });
+
+  const roast = (state: GameState) =>
+    cook({
+      state,
+      action: {
+        type: "recipe.cooked",
+        item: "Ember-Roasted Truffle Potatoes",
+        buildingId: FIRE_PIT_ID,
+      },
+      farmId: 1,
+      createdAt,
+    });
+
+  it("charges 10 Truffle, 50 Potato and 10 Wild Mushroom and queues the roast", () => {
+    const state = roast(farm());
+
+    expect(state.inventory.Truffle).toEqual(new Decimal(0));
+    expect(state.inventory.Potato).toEqual(new Decimal(0));
+    expect(state.inventory["Wild Mushroom"]).toEqual(new Decimal(0));
+    expect(state.buildings["Fire Pit"]?.[0].crafting?.[0]).toMatchObject({
+      name: "Ember-Roasted Truffle Potatoes",
+    });
+  });
+
+  describe("off testnet", () => {
+    // jest runs on amoy, so the flag-off path is only reachable by pretending
+    // to be mainnet.
+    let previousNetwork: (typeof CONFIG)["NETWORK"];
+
+    beforeEach(() => {
+      previousNetwork = CONFIG.NETWORK;
+      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+    });
+
+    afterEach(() => {
+      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
+    });
+
+    it("throws without the PIGPEN feature flag", () => {
+      expect(() => roast(farm())).toThrow(
+        "Truffle recipes are not available yet",
+      );
+    });
+
+    it("is not unlocked by a Beta Pass", () => {
+      expect(() =>
+        roast(farm({ ...INPUTS, "Beta Pass": new Decimal(1) })),
+      ).toThrow("Truffle recipes are not available yet");
+    });
   });
 });

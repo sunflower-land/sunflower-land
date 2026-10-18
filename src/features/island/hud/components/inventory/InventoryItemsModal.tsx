@@ -4,6 +4,7 @@ import chest from "assets/icons/chest.png";
 import Decimal from "decimal.js-light";
 import { Basket } from "./Basket";
 import { Chest } from "./Chest";
+import { Wardrobe } from "./Wardrobe";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "components/ui/Modal";
@@ -49,7 +50,7 @@ export type TabItems = Record<string, { items: object }>;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
-type TabId = "Basket" | "Chest" | "Biomes";
+type TabId = "Basket" | "Chest" | "Wardrobe" | "Biomes";
 
 export const InventoryItemsModal: React.FC<Props> = ({
   show,
@@ -91,13 +92,19 @@ export const InventoryItemsModal: React.FC<Props> = ({
     id: "Chest",
   };
 
+  const wardrobeTab: PanelTabs<TabId> = {
+    icon: SUNNYSIDE.icons.wardrobe,
+    name: t("wardrobe"),
+    id: "Wardrobe",
+  };
+
   const biomesTab: PanelTabs<TabId> = {
     icon: ITEM_DETAILS["Basic Biome"].image,
     name: t("biomes"),
     id: "Biomes",
   };
 
-  const tabs: PanelTabs<TabId>[] = [basketTab, chestTab];
+  const tabs: PanelTabs<TabId>[] = [basketTab, chestTab, wardrobeTab];
 
   if (hasBiomes && location === "farm") {
     tabs.push(biomesTab);
@@ -139,6 +146,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
             location={location}
           />
         )}
+        {currentTab === "Wardrobe" && <Wardrobe state={state} />}
         {currentTab === "Biomes" && <Biomes state={state} />}
       </CloseButtonPanel>
     </Modal>

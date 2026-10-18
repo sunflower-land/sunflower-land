@@ -101,12 +101,23 @@ export function claimProduce({
     }
 
     animal.asleepAt = createdAt;
-    const { awakeAt, boostsUsed } = getBoostedAwakeAt({
+    // The treat is read BEFORE its charge is spent below, so a Truffle
+    // Seasoning's last charge still shortens this sleep.
+    const { awakeAt, baseDurationMs, boostsUsed } = getBoostedAwakeAt({
       animalType: animal.type,
       createdAt,
       game: copy,
+      feedBuff: animal.feedBuff,
     });
     animal.awakeAt = awakeAt;
+    // Windowed: keep the real `asleepAt` and the permanent-boost-only duration,
+    // so the shrines are credited live. Flag-off the marker is dropped, which
+    // reverts the animal to the legacy baked `awakeAt` on its next sleep.
+    if (baseDurationMs !== undefined) {
+      animal.baseDurationMs = baseDurationMs;
+    } else {
+      delete animal.baseDurationMs;
+    }
     copy.boostsUsedAt = updateBoostUsed({
       game: copy,
       boostNames: boostsUsed,
@@ -118,6 +129,14 @@ export function claimProduce({
       animal.feedBuff.harvestsRemaining -= 1;
       if (animal.feedBuff.harvestsRemaining <= 0) {
         delete animal.feedBuff;
+      }
+    }
+
+    // Mud's charges count down exactly like a treat's: one per claim.
+    if (animal.mud) {
+      animal.mud.harvestsRemaining -= 1;
+      if (animal.mud.harvestsRemaining <= 0) {
+        delete animal.mud;
       }
     }
 

@@ -33,7 +33,8 @@ module.exports = {
     },
   },
   plugins: ["react", "@typescript-eslint", "unused-imports"],
-  ignorePatterns: ["*.typegen.ts"],
+  // requestToken/wasm is wasm-bindgen generated output — not hand-written code
+  ignorePatterns: ["*.typegen.ts", "src/lib/requestToken/wasm/"],
   rules: {
     "react/jsx-no-literals": "error",
     "no-console": "error",

@@ -132,6 +132,148 @@ export interface GiantFlower extends Schema {
   bottomPetal?: PetalState;
 }
 
+/**
+ * Love Island "Love Dilemma" round, published by the room while that puzzle
+ * is active. Rounds run on a fixed 40s clock (30s choose + 10s reveal).
+ */
+export interface LoveDilemma extends Schema {
+  roundId: number;
+  /** Epoch ms - end of the choose phase. */
+  chooseEndsAt: number;
+  /** Epoch ms - end of the reveal phase (start of the next round). */
+  revealEndsAt: number;
+  /** Tier (0 = best) shown on each platform, indexed by platform 0-2 (length 3). */
+  tiers: ArraySchema<number>;
+  /** How many players have locked in a choice this round. */
+  chosenCount: number;
+  /**
+   * sessionId -> platform. Kept EMPTY during the choose phase so nobody can
+   * see where the crowd is going; populated by the server at reveal.
+   */
+  choices: MapSchema<number>;
+}
+
+/**
+ * Love Island "Love Boulder", published by the love_island room. The whole
+ * island taps one boulder down from `hits` to zero; everyone who landed a
+ * hit that round can claim a Love Charm prize once a day.
+ */
+export interface LoveBoulder extends Schema {
+  /** Increments every time a fresh boulder appears. */
+  roundId: number;
+  /** Hits a fresh boulder starts with (1000). 0 means the room isn't running it. */
+  hits: number;
+  /** Hits still needed to break it. */
+  hitsRemaining: number;
+  /** Epoch ms the boulder broke; 0 while it's standing. */
+  brokenAt: number;
+  /** Epoch ms a fresh boulder appears; 0 while it's standing. */
+  respawnAt: number;
+  /**
+   * What this boulder pays - rolled per UTC day by the server: an inventory
+   * item name (a Bronze Love Box or Bronze Food Box) or "Coins". Empty from a
+   * room that predates the roll.
+   */
+  prize: string;
+  /** How many of `prize` - 1 for a box, 250 or 500 for coins. */
+  prizeAmount: number;
+  /** farmId -> hits landed this round. Proof of who helped. */
+  miners: MapSchema<number>;
+}
+
+/**
+ * Love Island "Lover's Push", published by the love_island room. Four
+ * boulders start out toward the corners of the island and have to be rolled
+ * into the pit in the centre; it takes five players (two off mainnet)
+ * pushing the same way to roll one a tile, and a boulder that hits
+ * something goes back to its start.
+ */
+export interface LovePush extends Schema {
+  /** Increments every time fresh boulders appear. */
+  roundId: number;
+  /** Tile index (y * 80 + x, 16px tiles) of each boulder, length 4. Empty means the room isn't running it. */
+  boulders: ArraySchema<number>;
+  /** Tile index each boulder started on this round - where it goes back to. */
+  starts: ArraySchema<number>;
+  /** Whether each boulder is in the pit, indexed by boulder. */
+  sunk: ArraySchema<boolean>;
+  /** Boulders in the pit, 0..4. */
+  lit: number;
+  /** How many times each boulder has hit something and gone back, indexed by boulder. */
+  resets: ArraySchema<number>;
+  /**
+   * Players pushing each boulder each way: index `boulder * 4 + d`, with `d`
+   * the direction's position in north, east, south, west. Length 16.
+   */
+  pushCounts: ArraySchema<number>;
+  /** farmId -> boulders this player helped roll this round. Proof of who helped. */
+  pushers: MapSchema<number>;
+  /** Epoch ms the last boulder dropped in; 0 while unsolved. */
+  solvedAt: number;
+  /** Epoch ms fresh boulders appear; 0 while unsolved. */
+  nextRoundAt: number;
+}
+
+/**
+ * Love Island's "Love Buttons", published by the love_island room while it
+ * is the centre puzzle. Twenty-five buttons are dealt out over the island
+ * every round; the round is solved the moment every one has a player
+ * standing on it at once, and everyone standing then can claim the prize
+ * once a day.
+ */
+export interface LoveButtons extends Schema {
+  /** Increments every time the buttons move. */
+  roundId: number;
+  /** Tile index (y * 80 + x, 16px tiles) of each button, length 25. Empty means the room isn't running it. */
+  buttons: ArraySchema<number>;
+  /** farmId -> the button (0..24) that player is standing on. Frozen once solved. */
+  standing: MapSchema<number>;
+  /**
+   * Epoch ms each button stays down until after the last player stepped off
+   * it (6s), length 25; 0 or past when it isn't holding. A button with
+   * someone on it is down regardless.
+   */
+  heldUntil: ArraySchema<number>;
+  /** farmId who last stepped off each button - whose hold it is. "" if nobody has. Length 25. */
+  heldBy: ArraySchema<string>;
+  /** farmId -> 1 for everyone holding a button when the last one went down. Proof of who helped. */
+  solvers: MapSchema<number>;
+  /** Epoch ms the last button went down; 0 while unsolved. */
+  solvedAt: number;
+  /** Epoch ms the buttons move; 0 while unsolved. */
+  nextRoundAt: number;
+}
+
+/**
+ * Love Island's "Love Marvel", published by the love_island room. A Marine
+ * Marvel lurks in the lake and the whole bank reels it in together: a ring
+ * sweeps around it on the epoch clock and every reel landed in the zone at
+ * the top is worth a point, while the Marvel drags three points a second
+ * back. Everyone who landed a reel can claim the prize once a day.
+ */
+export interface LoveKraken extends Schema {
+  /** Increments every time a fresh Marvel surfaces. */
+  roundId: number;
+  /** Points it takes to land it (400). 0 means the room isn't running it. */
+  health: number;
+  /** Points the island has on it, 0..health. */
+  progress: number;
+  /** Epoch ms it was landed; 0 while it fights. */
+  caughtAt: number;
+  /** Epoch ms a fresh Marvel surfaces; 0 while it fights. */
+  respawnAt: number;
+  /**
+   * What this Marvel pays - the same roll as the Love Boulder, made per UTC
+   * day by the server: an inventory item name (a Bronze Love Box or Bronze
+   * Food Box) or "Coins".
+   */
+  prize: string;
+  /** How many of `prize` - 1 for a box, 250 or 500 for coins. */
+  prizeAmount: number;
+  /** farmId -> reels landed this round. Proof of who helped. */
+  anglers: MapSchema<number>;
+}
+
 export interface PlazaRoomState extends Schema {
   mapWidth: number;
   mapHeight: number;
@@ -151,4 +293,14 @@ export interface PlazaRoomState extends Schema {
 
   dogs: MapSchema<Dog>;
   giantFlower: GiantFlower;
+  /** Only present in the love_island room while the dilemma puzzle is on. */
+  loveDilemma?: LoveDilemma;
+  /** Only present in the love_island room. */
+  loveBoulder?: LoveBoulder;
+  /** Only present in the love_island room while Lover's Push is on. */
+  lovePush?: LovePush;
+  /** Only present in the love_island room while Love Buttons is on. */
+  loveButtons?: LoveButtons;
+  /** Only present in the love_island room. */
+  loveKraken?: LoveKraken;
 }

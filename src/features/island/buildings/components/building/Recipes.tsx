@@ -5,6 +5,13 @@ import React, {
   useState,
 } from "react";
 import { useSelector } from "@xstate/react";
+import {
+  hasCollectedFirstTart,
+  needsFirstCook,
+  TUTORIAL_RECIPE,
+} from "./firePit/lib/onboarding";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
@@ -55,6 +62,28 @@ import {
   CHAPTER_CROP_WEEK_RECIPE,
 } from "features/game/types/chapterCropWeek";
 import { SpecialEventPanel } from "./SpecialEventPanel";
+import {
+  areBoostWindowsEqual,
+  getCookingBoostWindows,
+} from "features/game/lib/boostWindows";
+import { getPreActionDisplay } from "features/game/lib/timerDisplay";
+import { resolveCookingQueueTimings } from "features/game/lib/cookingReadiness";
+import {
+  getBoostContributionEntries,
+  getCookingBoostContributions,
+} from "features/game/lib/boostContributions";
+import { secondsToString } from "lib/utils/time";
+import type { MachineState } from "features/game/lib/gameMachine";
+
+const _cookingBoostWindows = (state: MachineState) =>
+  getCookingBoostWindows(state.context.state);
+
+const _buildingCrafting =
+  (buildingName: CookingBuildingName, buildingId?: string) =>
+  (state: MachineState) =>
+    state.context.state.buildings[buildingName]?.find(
+      (building) => building.id === buildingId,
+    )?.crafting;
 
 interface Props {
   selected: Cookable;
@@ -92,9 +121,28 @@ export const Recipes: React.FC<Props> = ({
   readyRecipes,
 }) => {
   const { gameService } = useContext(Context);
+
+  // Recomputed from full state, but only re-renders when the windows actually change.
+  const cookingBoostWindows = useSelector(
+    gameService,
+    _cookingBoostWindows,
+    areBoostWindowsEqual,
+  );
+
+  // The building's raw queue, so the cooking recipe's real start can be resolved from
+  // the chain. A queued recipe carries no `startedAt` of its own — its start IS the
+  // ready time of the recipe ahead of it — so it cannot be read off `cooking`.
+  const buildingCraftingQueue = useSelector(
+    gameService,
+    _buildingCrafting(buildingName, buildingId),
+  );
   const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
   const state = useSelector(gameService, (state) => state.context.state);
+
+  // Tutorial: walk a new player through cooking their first Rhubarb Tart.
+  const showCookHelper =
+    buildingName === "Fire Pit" && !cooking && needsFirstCook(state);
   const { inventory, buildings, bumpkin } = state;
   const [showQueueInformation, setShowQueueInformation] = useState(false);
   const [showBoosts, setShowBoosts] = useState(false);
@@ -119,10 +167,13 @@ export const Recipes: React.FC<Props> = ({
     item: selected.name,
   });
 
-  const lessIngredients = () =>
-    Object.entries(ingredients).some(([name, amount]) =>
-      amount.greaterThan(inventory[name as InventoryItemName] ?? 0),
+  const hasLessIngredients = (item: CookableName) =>
+    Object.entries(getCookingRequirements({ state, item })).some(
+      ([name, amount]) =>
+        amount.greaterThan(inventory[name as InventoryItemName] ?? 0),
     );
+
+  const lessIngredients = () => hasLessIngredients(selected.name);
 
   const getNewRecipeStartAt = () => {
     if (!cooking) return;
@@ -130,15 +181,22 @@ export const Recipes: React.FC<Props> = ({
     let lastRecipeInQueueReadyAt = cooking.readyAt;
 
     if (queue.length > 0) {
-      lastRecipeInQueueReadyAt = queue.sort((a, b) => b.readyAt - a.readyAt)[0]
-        ?.readyAt;
+      // Sort a copy — `queue` is a prop, and sorting it in place mutates what the
+      // parent handed down.
+      lastRecipeInQueueReadyAt = [...queue].sort(
+        (a, b) => b.readyAt - a.readyAt,
+      )[0]?.readyAt;
     }
 
     return lastRecipeInQueueReadyAt;
   };
 
   const recipeStartAt = getNewRecipeStartAt() ?? now;
-  const { reducedSecs: cookingTime, boostsUsed: timeBoostsUsed } = getReadyAt({
+  const {
+    reducedSecs: cookingTime,
+    baseDurationMs,
+    boostsUsed: timeBoostsUsed,
+  } = getReadyAt({
     buildingId: buildingId ?? "",
     item: selected.name,
     createdAt: recipeStartAt,
@@ -147,24 +205,86 @@ export const Recipes: React.FC<Props> = ({
 
   const baseTimeSeconds = COOKABLES[selected.name].cookingSeconds;
 
+  const cookingStartedAt = (() => {
+    if (!cooking || !buildingCraftingQueue) return undefined;
+
+    const index = buildingCraftingQueue.findIndex((recipe) =>
+      cooking.id !== undefined
+        ? recipe.id === cooking.id
+        : recipe.readyAt === cooking.readyAt,
+    );
+    if (index === -1) return undefined;
+
+    return resolveCookingQueueTimings({
+      crafting: buildingCraftingQueue,
+      windows: cookingBoostWindows,
+    })[index].startedAt;
+  })();
+
+  // The windowed boosters aren't in `boostsUsed` (they apply over the cook rather
+  // than being baked into it), so name them for the boost panel with the time
+  // each one actually saves. Evaluated at the recipe's START, so a booster that
+  // will have expired by the time a queued recipe begins is correctly left out.
+  const cookingWindowedBoosts =
+    baseDurationMs === undefined
+      ? []
+      : getBoostContributionEntries({
+          contributions: getCookingBoostContributions(state, recipeStartAt),
+          seconds: baseDurationMs / 1000,
+          at: recipeStartAt,
+          formatSeconds: (seconds) =>
+            secondsToString(seconds, { length: "medium" }),
+        });
+
+  const allTimeBoostsUsed = [...timeBoostsUsed, ...cookingWindowedBoosts];
+
+  // Project the preview from when this recipe would actually START — the end of the
+  // current queue, not now. A boost running today may well have expired by the time
+  // a recipe queued behind three others begins, and the projection has to say so.
+  const timeDisplay =
+    baseDurationMs === undefined
+      ? undefined
+      : getPreActionDisplay({
+          seconds: baseDurationMs / 1000,
+          baseSeconds: baseTimeSeconds,
+          namedBoostCount: allTimeBoostsUsed.length,
+          windows: cookingBoostWindows,
+          at: recipeStartAt,
+        });
+
   const cook = () => onCook(selected.name);
 
   const collect = () => {
-    gameService.send("recipes.collected", {
+    const before = gameService.getSnapshot().context.state;
+
+    const after = gameService.send("recipes.collected", {
       buildingId,
       building: buildingName,
     });
+
+    // Tutorial: first tart in hand, Bruce tells the player to eat it.
+    if (hasCollectedFirstTart(before, after.context.state)) {
+      openModal("FIREPIT_EAT");
+    }
   };
 
   const handleInstantCook = (
     cost: number,
     paymentMethod: "gems" | "coins" = "gems",
   ) => {
-    gameService.send("recipe.spedUp", {
+    const before = gameService.getSnapshot().context.state;
+
+    const after = gameService.send("recipe.spedUp", {
       buildingId,
       buildingName,
       paymentMethod,
     });
+
+    // Tutorial: speeding up puts the food straight into the inventory with no
+    // collect step, so this is the third way a first tart can arrive.
+    if (hasCollectedFirstTart(before, after.context.state)) {
+      openModal("FIREPIT_EAT");
+    }
 
     gameAnalytics.trackSink({
       currency: paymentMethod === "coins" ? "Coins" : "Gem",
@@ -188,7 +308,7 @@ export const Recipes: React.FC<Props> = ({
   const isOilBoosted = buildingCrafting.find(
     (recipe) => recipe.name === selected.name && recipe.boost?.["Oil"],
   );
-  // Saltbite (the CHAPTER_CROP_WEEK event recipe) neutralises upgraded Cooking
+  // Crystal Cookie (the CHAPTER_CROP_WEEK event recipe) neutralises upgraded Cooking
   // ranks, so preview the Double Nom label at its downgraded (applied) rank and
   // surface a notice when a real upgraded rank is being suppressed.
   const isEventRecipe = selected.name === CHAPTER_CROP_WEEK_RECIPE;
@@ -221,9 +341,9 @@ export const Recipes: React.FC<Props> = ({
                 xp: boostedExp,
                 baseXp: selected.experience,
                 xpBoostsUsed: boostsUsed,
-                timeSeconds: cookingTime,
+                timeSeconds: timeDisplay?.displaySeconds ?? cookingTime,
                 baseTimeSeconds,
-                timeBoostsUsed,
+                timeBoostsUsed: allTimeBoostsUsed,
               }}
               showBoosts={showBoosts}
               setShowBoosts={setShowBoosts}
@@ -238,13 +358,15 @@ export const Recipes: React.FC<Props> = ({
                   )}
                   {doubleNomLevel > 0 && (
                     <Label type="success" icon={powerup}>
-                      {`Double Nom Boost: +${
-                        SKILL_RANKS["Double Nom"].food[doubleNomLevel - 1]
-                      } Food (${
-                        SKILL_RANKS["Double Nom"].ingredients[
-                          doubleNomLevel - 1
-                        ]
-                      }x Ingredients)`}
+                      {`Double Nom: ${t("skill.doubleNom.buff.ranked", {
+                        value:
+                          SKILL_RANKS["Double Nom"].food[doubleNomLevel - 1],
+                      })} (${t("skill.doubleNom.debuff.ranked", {
+                        value:
+                          SKILL_RANKS["Double Nom"].ingredients[
+                            doubleNomLevel - 1
+                          ],
+                      })})`}
                     </Label>
                   )}
                   {cooking && (
@@ -252,22 +374,37 @@ export const Recipes: React.FC<Props> = ({
                       {t("sceneDialogues.chefIsBusy")}
                     </p>
                   )}
-                  <Button
-                    disabled={
-                      lessIngredients() || selected.disabled || isQueueFull
-                    }
-                    className="text-xxs sm:text-sm mt-1 whitespace-nowrap relative"
-                    onClick={!cooking ? cook : handleAddToQueue}
-                  >
-                    {cooking && (
+                  <div className="relative">
+                    <Button
+                      disabled={
+                        lessIngredients() || selected.disabled || isQueueFull
+                      }
+                      className="text-xxs sm:text-sm mt-1 whitespace-nowrap relative"
+                      onClick={!cooking ? cook : handleAddToQueue}
+                    >
+                      {cooking && (
+                        <img
+                          src={vipIcon}
+                          alt="VIP"
+                          className="absolute w-6 sm:w-4 -top-[1px] -right-[2px]"
+                        />
+                      )}
+                      <span>
+                        {cooking ? t("recipes.addToQueue") : t("cook")}
+                      </span>
+                    </Button>
+                    {showCookHelper && selected.name === TUTORIAL_RECIPE && (
                       <img
-                        src={vipIcon}
-                        alt="VIP"
-                        className="absolute w-6 sm:w-4 -top-[1px] -right-[2px]"
+                        className="absolute pointer-events-none z-30 animate-pulsate"
+                        src={SUNNYSIDE.icons.click_icon}
+                        style={{
+                          width: `${PIXEL_SCALE * 18}px`,
+                          right: `${PIXEL_SCALE * -4}px`,
+                          top: `${PIXEL_SCALE * 4}px`,
+                        }}
                       />
                     )}
-                    <span>{cooking ? t("recipes.addToQueue") : t("cook")}</span>
-                  </Button>
+                  </div>
                   <Button
                     disabled={readyRecipes.length === 0}
                     className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
@@ -289,6 +426,8 @@ export const Recipes: React.FC<Props> = ({
                 isOilBoosted={!!isOilBoosted}
                 onInstantReady={handleInstantCook}
                 state={state}
+                startedAt={cookingStartedAt}
+                windows={cookingBoostWindows}
               />
             )}
 
@@ -334,6 +473,7 @@ export const Recipes: React.FC<Props> = ({
                     }}
                     image={ITEM_DETAILS[item.name].image}
                     count={inventory[item.name]}
+                    missingRequirements={hasLessIngredients(item.name)}
                   />
                 ))}
             </div>

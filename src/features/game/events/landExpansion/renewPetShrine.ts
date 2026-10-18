@@ -1,5 +1,5 @@
 import { Decimal } from "decimal.js-light";
-import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
+import { getCollectibleExpiry } from "features/game/lib/collectibleBuilt";
 import { getKeys } from "lib/object";
 import type { PlaceableLocation } from "features/game/types/collectibles";
 import type { GameState } from "features/game/types/game";
@@ -48,9 +48,13 @@ export function renewPetShrine({
       throw new Error("Collectible does not exist");
     }
 
-    const cooldown = EXPIRY_COOLDOWNS[action.name];
+    const expiresAt = getCollectibleExpiry({
+      name: action.name,
+      collectible: collectibleToRenew,
+      game: stateCopy,
+    });
 
-    if ((collectibleToRenew.createdAt ?? 0) + cooldown > createdAt) {
+    if (expiresAt > createdAt) {
       throw new Error("Collectible is still active");
     }
 
@@ -86,12 +90,16 @@ export function renewPetShrine({
     appendBoostHistory(
       stateCopy,
       action.name,
-      { from: previousCreatedAt, to: previousCreatedAt + cooldown },
+      { from: previousCreatedAt, to: expiresAt },
       createdAt,
     );
 
     // Set the createdAt timestamp to the current time to renew the cooldown
     collectibleToRenew.createdAt = createdAt;
+    // A renewal starts a fresh base-duration life. Any time bought via
+    // `collectible.extended` belonged to the expired placement and was already
+    // banked into boostHistory above, so it must not carry over.
+    delete collectibleToRenew.extendedMs;
 
     return stateCopy;
   });

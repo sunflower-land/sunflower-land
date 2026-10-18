@@ -4,12 +4,12 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { Hud } from "features/island/hud/Hud";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { getKeys, getValues } from "lib/object";
+import { getKeys } from "lib/object";
 import { ANIMALS, type AnimalType } from "features/game/types/animals";
 import { Cow } from "./components/Cow";
 import { Sheep } from "./components/Sheep";
@@ -26,6 +26,7 @@ import { UpgradeBuildingModal } from "features/game/expansion/components/Upgrade
 import { ANIMAL_HOUSE_IMAGES } from "features/henHouse/HenHouseInside";
 import type { AnimalBounty } from "features/game/types/game";
 import { AnimalDeal, ExchangeHud } from "./components/AnimalBounties";
+import { AnimalBountySellPanel } from "./components/AnimalBountySellPanel";
 import { Modal } from "components/ui/Modal";
 import classNames from "classnames";
 import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
@@ -53,10 +54,25 @@ export const EXTERIOR_ISLAND_BG: Record<LandBiomeName, string> = {
 };
 
 const _barn = (state: MachineState) => state.context.state.barn;
+const _game = (state: MachineState) => state.context.state;
 const _island = (state: MachineState) => state.context.state.island;
 const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
+const _loggedInFarmId = (state: MachineState) =>
+  state.context.visitorId ?? state.context.farmId;
+const _hasAirdropAccess = (state: MachineState) =>
+  hasFeatureAccess(
+    state.context.visitorState ?? state.context.state,
+    "AIRDROP_PLAYER",
+  );
+const _isBarnDestroyed = (state: MachineState) =>
+  isBuildingDestroyed({
+    name: "Barn",
+    calendar: state.context.state.calendar,
+  });
 
-type BarnAnimal = Exclude<AnimalType, "Chicken">;
+// An allowlist, not `Exclude<AnimalType, "Chicken">`: the Barn houses Cows and
+// Sheep specifically, and should not silently claim every animal added later.
+type BarnAnimal = Extract<AnimalType, "Cow" | "Sheep">;
 
 const BARN_ANIMAL_COMPONENTS: Record<
   BarnAnimal,
@@ -70,19 +86,19 @@ export const BarnInside: React.FC = () => {
   const { gameService } = useContext(Context);
   const [showModal, setShowModal] = useState(!hasReadGuide());
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  // Bonus quick-sell flow: the skull disc docks the bounty cards at the
+  // bottom of the screen instead of opening the shop modal's Sell tab.
+  const [showSellPanel, setShowSellPanel] = useState(false);
   const [selectedAnimalId, setSelectedAnimalId] = useState<string>();
   const [deal, setDeal] = useState<AnimalBounty>();
   const { authService } = useContext(AuthContext);
-  const context = gameService.getSnapshot().context;
-  const loggedInFarmId = context.visitorId ?? context.farmId;
-
-  const hasAirdropAccess = hasFeatureAccess(
-    context.visitorState ?? context.state,
-    "AIRDROP_PLAYER",
-  );
+  const loggedInFarmId = useSelector(gameService, _loggedInFarmId);
+  const hasAirdropAccess = useSelector(gameService, _hasAirdropAccess);
+  const isDestroyed = useSelector(gameService, _isBarnDestroyed);
 
   const token = useSelector(authService, _token);
   const barn = useSelector(gameService, _barn);
+  const game = useSelector(gameService, _game);
   const island = useSelector(gameService, _island);
   const level = barn.level;
 
@@ -104,9 +120,14 @@ export const BarnInside: React.FC = () => {
     width: floorWidth,
   } = ANIMAL_HOUSE_BOUNDS.barn[level];
 
-  // Sort order will remain the same as long as animals are not added or removed
-  // Group animals by type (Cow, then Sheep) first, then sort by experience
-  const animalCount = getKeys(barn.animals).length;
+  /**
+   * Positions must not move while the player is in the room, so the order is
+   * recomputed only when the herd's MEMBERSHIP changes - never when an
+   * animal's experience does. Keyed on the id list rather than its length, so
+   * selling one animal and buying another cannot leave a stale id behind.
+   * Groups by type (Cow, then Sheep) first, then by experience.
+   */
+  const animalIds = getKeys(barn.animals).sort().join(",");
 
   const sortedAnimalIds = useMemo(
     () =>
@@ -119,20 +140,19 @@ export const BarnInside: React.FC = () => {
         )
         .map((animal) => animal.id),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [getKeys(barn.animals).length],
+    [animalIds],
   );
 
   // Organize the animals neatly in the barn
-  const sickAnimalCount = getValues(barn.animals).filter(
-    (animal) => animal.state === "sick",
-  ).length;
-
   const organizedAnimals = useMemo(() => {
     const maxAnimalsPerRow = Math.floor(floorWidth / ANIMALS.Cow.width);
     const verticalGap = 0.5; // Add a 0.5 grid unit gap between rows
 
+    // Reads through `sortedAnimalIds` so the order is fixed, but depends on
+    // `barn.animals` so the records it renders (experience, state) are fresh.
     return sortedAnimalIds
       .map((id) => barn.animals[id])
+      .filter(Boolean)
       .map((animal, index) => {
         const row = Math.floor(index / maxAnimalsPerRow);
         const col = index % maxAnimalsPerRow;
@@ -144,23 +164,49 @@ export const BarnInside: React.FC = () => {
           },
         };
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [animalCount, sickAnimalCount, floorWidth]);
+  }, [sortedAnimalIds, barn.animals, floorWidth]);
   const currentBiome = getCurrentBiome(island);
 
   const validAnimalsCount = useMemo(() => {
     if (!deal) return 0;
-    return organizedAnimals.filter((animal) => isValidDeal({ animal, deal }))
-      .length;
-  }, [organizedAnimals, deal]);
+    return organizedAnimals.filter((animal) =>
+      isValidDeal({ animal, deal, game }),
+    ).length;
+  }, [organizedAnimals, deal, game]);
 
-  const calendarEvent = isBuildingDestroyed({
-    name: "Barn",
-    calendar: context.state.calendar,
-  });
+  // Quick-sell (panel) flow: sell on click, only confirming when the sale
+  // deserves a second look (sick animal discount / attached reward).
+  const handleAnimalSale = (animalId: string) => {
+    if (!deal) return;
 
-  if (calendarEvent) {
-    navigate("/");
+    const currentGame = gameService.getSnapshot().context.state;
+    const animal = currentGame.barn.animals[animalId];
+    const isCompleted = currentGame.bounties.completed.some(
+      (completed) => completed.id === deal.id,
+    );
+
+    if (
+      !animal ||
+      isCompleted ||
+      !isValidDeal({ animal, deal, game: currentGame })
+    ) {
+      return;
+    }
+
+    if (animal.state === "sick" || animal.reward?.items?.[0]?.name) {
+      setSelectedAnimalId(animalId);
+      return;
+    }
+
+    gameService.send("animal.sold", {
+      requestId: deal.id,
+      animalId,
+    });
+    setDeal(undefined);
+  };
+
+  if (isDestroyed) {
+    return <Navigate to="/" replace />;
   }
 
   return (
@@ -175,6 +221,18 @@ export const BarnInside: React.FC = () => {
           }}
         />
       </Modal>
+
+      {showSellPanel && (
+        <AnimalBountySellPanel
+          animalTypes={["Cow", "Sheep"]}
+          selectedDeal={deal}
+          onSelect={setDeal}
+          onClose={() => {
+            setShowSellPanel(false);
+            setDeal(undefined);
+          }}
+        />
+      )}
 
       <UpgradeBuildingModal
         buildingName="Barn"
@@ -250,7 +308,7 @@ export const BarnInside: React.FC = () => {
               >
                 <div className="flex flex-wrap w-full h-full">
                   {organizedAnimals.map((animal) => {
-                    const isValid = deal && isValidDeal({ animal, deal });
+                    const isValid = deal && isValidDeal({ animal, deal, game });
                     const Component =
                       BARN_ANIMAL_COMPONENTS[animal.type as BarnAnimal];
                     const { width, height } = ANIMALS[animal.type];
@@ -276,7 +334,11 @@ export const BarnInside: React.FC = () => {
                             e.stopPropagation();
                             e.preventDefault();
                             if (!isValid) return;
-                            setSelectedAnimalId(animal.id.toString());
+                            if (showSellPanel) {
+                              handleAnimalSale(animal.id.toString());
+                            } else {
+                              setSelectedAnimalId(animal.id.toString());
+                            }
                           }
                         }}
                       >
@@ -287,17 +349,46 @@ export const BarnInside: React.FC = () => {
                 </div>
               </MapPlacement>
 
-              {!deal && (
+              {!deal && !showSellPanel && (
                 <>
-                  <img
-                    src={shopDisc}
-                    alt="Buy Animals"
-                    className="absolute top-[18px] right-[18px] cursor-pointer z-10"
+                  <button
+                    type="button"
+                    aria-label={t("buy")}
+                    className="absolute top-[18px] right-[18px] z-10 flex cursor-pointer items-center justify-center border-0 bg-transparent p-0 hover:img-highlight"
                     style={{
                       width: `${PIXEL_SCALE * 18}px`,
+                      height: `${PIXEL_SCALE * 21}px`,
                     }}
                     onClick={() => setShowModal(true)}
-                  />
+                  >
+                    <img src={shopDisc} className="h-full w-full" alt="" />
+                  </button>
+
+                  <button
+                    type="button"
+                    aria-label={t("bounties.sellAnimals")}
+                    className="absolute z-10 cursor-pointer border-0 bg-transparent p-0 hover:img-highlight"
+                    style={{
+                      // The shop disc has a 2px bag sprite above its disc, so its disc face sits
+                      // 2 native px lower than the plain disc. Match that so the two discs line up.
+                      top: `${18 + PIXEL_SCALE * 2}px`,
+                      width: `${PIXEL_SCALE * 18}px`,
+                      right: `${18 + PIXEL_SCALE * 19}px`,
+                    }}
+                    onClick={() => setShowSellPanel(true)}
+                  >
+                    <img
+                      className="block w-full"
+                      src={SUNNYSIDE.icons.disc}
+                      alt=""
+                    />
+                    <img
+                      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                      src={SUNNYSIDE.icons.death}
+                      alt=""
+                      style={{ width: `${PIXEL_SCALE * 7}px` }}
+                    />
+                  </button>
 
                   <img
                     src={SUNNYSIDE.icons.upgrade_disc}
@@ -322,9 +413,9 @@ export const BarnInside: React.FC = () => {
         </div>
       </>
 
-      {!deal && <Hud isFarming={false} location="home" />}
+      {!deal && !showSellPanel && <Hud isFarming={false} location="home" />}
 
-      {deal && (
+      {deal && !showSellPanel && (
         <ExchangeHud
           deal={deal}
           onClose={() => {

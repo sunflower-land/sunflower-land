@@ -34,9 +34,14 @@ import { secondsToString } from "lib/utils/time";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { MAX_MINT_AMOUNT } from "lib/blockchain/Withdrawals";
 import chest from "assets/icons/chest.png";
+import vipIcon from "assets/icons/vip.webp";
 
 import { WithdrawCollection } from "./withdraw/WithdrawCollection";
 import type { WithdrawEntry } from "./withdraw/types";
+import {
+  formatWithdrawableDate,
+  getMarketplaceWithdrawBlock,
+} from "features/game/lib/withdrawCooldown";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: string[]) => void;
@@ -75,6 +80,8 @@ export function transferInventoryItem(
 }
 
 const _state = (state: MachineState) => state.context.state;
+const _withdrawCooldowns = (state: MachineState) =>
+  state.context.withdrawCooldowns;
 
 export const WithdrawItems: React.FC<Props> = ({
   onWithdraw,
@@ -86,6 +93,7 @@ export const WithdrawItems: React.FC<Props> = ({
 
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
+  const withdrawCooldowns = useSelector(gameService, _withdrawCooldowns);
 
   // Cap selectable counts at `previousInventory + MAX_MINT_AMOUNT` so the
   // UI matches the backend's per-call mint cap. The backend mints any
@@ -252,6 +260,19 @@ export const WithdrawItems: React.FC<Props> = ({
     const placedCount =
       (state.inventory[itemName]?.toNumber() ?? 0) - safeWithdrawCount;
 
+    // Bought on the marketplace recently without VIP - only known once the
+    // API has refused it, see withdrawCooldown.ts.
+    const marketplaceBlockedUntil = getMarketplaceWithdrawBlock({
+      game: state,
+      cooldowns: withdrawCooldowns,
+      name: itemName,
+      now,
+    });
+    const marketplaceDate =
+      marketplaceBlockedUntil !== undefined
+        ? formatWithdrawableDate(marketplaceBlockedUntil)
+        : undefined;
+
     return {
       key: itemName,
       id: KNOWN_IDS[itemName],
@@ -260,20 +281,32 @@ export const WithdrawItems: React.FC<Props> = ({
       total: inventoryCount + selectedCount,
       safeWithdrawCount,
       inUseWarning: placedCount > 0 ? t("withdraw.placed.warning") : undefined,
-      locked: isRestricted,
+      locked: isRestricted || marketplaceDate !== undefined,
       lockReason: isRestricted
         ? t("withdraw.boostedItem.timeLeft", { time: cooldownText })
-        : undefined,
+        : marketplaceDate !== undefined
+          ? t("withdraw.marketplaceCooldown.lockReason", {
+              date: marketplaceDate,
+            })
+          : undefined,
       status: isRestricted
         ? {
             type: "warning" as const,
             icon: SUNNYSIDE.icons.timer,
             text: t("withdraw.status.cooldown", { time: cooldownText }),
           }
-        : {
-            type: "success" as const,
-            text: t("withdraw.status.withdrawable"),
-          },
+        : marketplaceDate !== undefined
+          ? {
+              type: "warning" as const,
+              icon: vipIcon,
+              text: t("withdraw.status.marketplaceCooldown", {
+                date: marketplaceDate,
+              }),
+            }
+          : {
+              type: "success" as const,
+              text: t("withdraw.status.withdrawable"),
+            },
       description: ITEM_DETAILS[itemName].description,
       buffs: buffs?.length ? buffs : undefined,
     };

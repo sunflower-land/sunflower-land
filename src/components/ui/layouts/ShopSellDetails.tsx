@@ -3,7 +3,10 @@ import type {
   InventoryItemName,
   TemperateSeasonName,
 } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import React, { type JSX } from "react";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
@@ -95,9 +98,6 @@ const ItemDetails: React.FC<ItemDetailsProps> = (details) => {
   const description = isCollectible(item)
     ? ITEM_DETAILS[item].description
     : BUMPKIN_ITEM_BUFF_LABELS[item]?.map((b) => b.shortDescription).join(", ");
-  const title = isCollectible(item)
-    ? (ITEM_DETAILS[item].translatedName ?? item)
-    : item;
 
   return (
     <>
@@ -107,7 +107,7 @@ const ItemDetails: React.FC<ItemDetailsProps> = (details) => {
             <SquareIcon icon={image} width={14} />
           </div>
         )}
-        <span className="sm:text-center">{title}</span>
+        <span className="sm:text-center">{getTranslatedItemName(item)}</span>
       </div>
       {description && (
         <span className="text-xs mb-2 sm:mt-1 whitespace-pre-line sm:text-center">

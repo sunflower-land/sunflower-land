@@ -56,6 +56,7 @@ type FruitYield = {
   game: GameState;
   fertiliser?: FruitCompostName;
   prngArgs?: { farmId: number; counter: number };
+  now: number;
 };
 
 const isFruit = (resource: Resource): resource is PatchFruitName => {
@@ -81,6 +82,7 @@ export function getFruitYield({
   name,
   fertiliser,
   prngArgs,
+  now,
 }: FruitYield): {
   amount: number;
   boostsUsed: { name: BoostName; value: string }[];
@@ -266,7 +268,7 @@ export function getFruitYield({
     }
   }
 
-  if (isTemporaryCollectibleActive({ name: "Legendary Shrine", game })) {
+  if (isTemporaryCollectibleActive({ name: "Legendary Shrine", game, now })) {
     amount += 1;
     boostsUsed.push({ name: "Legendary Shrine", value: "+1" });
   }
@@ -348,6 +350,7 @@ export function harvestFruit({
             name,
             fertiliser: patch.fertiliser?.name,
             prngArgs: { farmId, counter },
+            now: createdAt,
           });
 
     stateCopy.inventory[name] =
@@ -364,6 +367,7 @@ export function harvestFruit({
     const {
       plantedAt: newPlantedAt,
       baseDurationMs: newBaseDurationMs,
+      boostedTime: newBoostedTime,
       boostsUsed: fruitPlantedBoostsUsed,
     } = getPlantedAt(
       seed,
@@ -373,8 +377,14 @@ export function harvestFruit({
       forceWindowed,
     );
     delete patch.fruit.amount;
-    // New replenish phase starts with a fresh progress bar (no banked work yet).
-    delete patch.fruit.boostedTime;
+    // New replenish phase starts with a fresh progress bar: drop the previous
+    // phase's value (banked work when windowed, back-date when legacy) and, for
+    // a legacy replenish, record THIS phase's back-date so the bar starts empty.
+    if (newBoostedTime !== undefined) {
+      patch.fruit.boostedTime = newBoostedTime;
+    } else {
+      delete patch.fruit.boostedTime;
+    }
     patch.fruit.harvestedAt = newPlantedAt;
     // Windowed replenish stores the real harvestedAt + a permanent-boost-only
     // base recovery; a legacy (never-windowed) fruit under flag-off back-dates

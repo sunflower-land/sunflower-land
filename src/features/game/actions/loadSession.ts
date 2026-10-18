@@ -1,6 +1,8 @@
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
+import { initRequestTokens } from "lib/requestToken";
 import { sanitizeHTTPResponse } from "lib/network";
 import { makeGame } from "../lib/transforms";
 import type { GameState, Purchase } from "../types/game";
@@ -32,7 +34,6 @@ type Response = {
   nftId?: number;
   purchases: Purchase[];
   discordId?: string;
-  fslId?: string;
   socialDetails?: SocialDetails;
   oauthNonce: string;
   prices: {
@@ -41,11 +42,11 @@ type Response = {
       timestamp: number;
     };
   };
-  apiKey: string;
 
   accountTradedAt?: string;
   totalHelpedToday: number;
   banReason?: string;
+  banMessage?: string;
 };
 
 export type SocialDetails = {
@@ -57,182 +58,176 @@ export type SocialDetails = {
 };
 
 const API_URL = CONFIG.API_URL;
-const API2_URL = CONFIG.API2_URL;
 
 let loadSessionErrors = 0;
 
-export async function loadSession(
-  request: Request,
-  retries = 0,
-): Promise<Response> {
-  try {
-    if (loadSessionErrors) {
-      await new Promise((res) => setTimeout(res, loadSessionErrors * 5000));
-    }
-
-    const signUpMethod = getSignupMethod();
-
-    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-    // Use API2 to a URL unless we are retrying, and then fall back to the original API.
-    const apiUrl = retries === 0 ? API2_URL : API_URL;
-
-    const response = await window.fetch(`${apiUrl}/session`, {
-      method: "POST",
-      //mode: "no-cors",
-      headers: {
-        "content-type": "application/json;charset=UTF-8",
-        Authorization: `Bearer ${request.token}`,
-        accept: "application/json",
-        "X-Transaction-ID": request.transactionId,
-      },
-      body: JSON.stringify({
-        clientVersion: CONFIG.CLIENT_VERSION as string,
-        signUpMethod,
-        timezone,
-        wallet: request.wallet,
-        language: request.language ?? "en",
-      }),
-    });
-
-    if (response.status === 503) {
-      const data = await response.json();
-      if (data.message === "Temporary maintenance") {
-        throw new Error(ERRORS.MAINTENANCE);
-      } else {
-        // Throttling. Do exponential backoff with jitter
-        const backoff = Math.min(1000 * Math.pow(2, retries), 10000);
-        const jitter = Math.random() * 1000;
-
-        await new Promise((resolve) => setTimeout(resolve, backoff + jitter));
-
-        if (retries < 3) {
-          return await loadSession(request, retries + 1);
-        }
-
-        throw new Error(ERRORS.SESSION_SERVER_ERROR);
-      }
-    }
-
-    if (response.status === 429) {
-      throw new Error(ERRORS.TOO_MANY_REQUESTS);
-    }
-
-    if (response.status === 401) {
-      // The BE tags disabled-login as a 401 with a structured body so we
-      // can route the user to the dedicated GoogleLoginDisabled screen
-      // instead of the generic SessionExpired one.
-      const data = await response.json().catch(() => null);
-      if (data?.errorCode === ERRORS.GOOGLE_LOGIN_DISABLED) {
-        throw new Error(ERRORS.GOOGLE_LOGIN_DISABLED);
-      }
-      throw new Error(ERRORS.SESSION_EXPIRED);
-    }
-
-    if (response.status === 403) {
-      throw new Error(ERRORS.SESSION_CLIENT_ERROR);
-    }
-
-    if (response.status >= 400) {
-      loadSessionErrors += 1;
-
-      throw new Error(ERRORS.SESSION_SERVER_ERROR);
-    }
-
-    loadSessionErrors = 0;
-
-    const {
-      farm,
-      isBlacklisted,
-      deviceTrackerId,
-      announcements,
-      verified,
-      moderation,
-      farmId,
-      sessionId,
-      farmAddress,
-      analyticsId,
-      linkedWallet,
-      wallet,
-      nftId,
-      purchases,
-      discordId,
-      fslId,
-      socialDetails,
-      oauthNonce,
-      prices,
-      apiKey,
-      accountTradedAt,
-      totalHelpedToday,
-      banReason,
-    } = await sanitizeHTTPResponse<{
-      farm: any;
-      startedAt: string;
-      isBlacklisted: boolean;
-      deviceTrackerId: string;
-      status?: "COOL_DOWN";
-      announcements: Announcements;
-      verified: boolean;
-      moderation: Moderation;
-      sessionId: string;
-      farmId: string;
-      analyticsId: string;
-      farmAddress?: string;
-      nftId?: number;
-      linkedWallet?: string;
-      wallet?: string;
-      purchases: Purchase[];
-      discordId?: string;
-      fslId?: string;
-      socialDetails?: SocialDetails;
-      oauthNonce: string;
-      prices: {
-        sfl: {
-          usd: number;
-          timestamp: number;
-        };
-      };
-      apiKey: string;
-      accountTradedAt?: string;
-      totalHelpedToday: number;
-      banReason?: string;
-    }>(response);
-
-    saveSession(farm.id);
-
-    return {
-      farmAddress,
-      sessionId,
-      farmId,
-      game: makeGame(farm),
-      deviceTrackerId,
-      announcements,
-      verified,
-      moderation,
-      analyticsId,
-      linkedWallet,
-      wallet,
-      nftId,
-      purchases,
-      fslId,
-      discordId,
-      socialDetails,
-      oauthNonce,
-      prices,
-      apiKey,
-      accountTradedAt,
-      totalHelpedToday,
-      banReason,
-    };
-  } catch (e) {
-    // First attempt goes to API2 - retry once against the original API
-    // before surfacing the error.
-    if (retries === 0) {
-      return await loadSession(request, retries + 1);
-    }
-
-    throw e;
+export async function loadSession(request: Request): Promise<Response> {
+  if (loadSessionErrors) {
+    await new Promise((res) => setTimeout(res, loadSessionErrors * 5000));
   }
+
+  const signUpMethod = getSignupMethod();
+
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  const response = await fetchWithRetry(`${API_URL}/session`, {
+    method: "POST",
+    //mode: "no-cors",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+      Authorization: `Bearer ${request.token}`,
+      accept: "application/json",
+      "X-Transaction-ID": request.transactionId,
+    },
+    body: JSON.stringify({
+      clientVersion: CONFIG.CLIENT_VERSION as string,
+      signUpMethod,
+      timezone,
+      wallet: request.wallet,
+      language: request.language ?? "en",
+    }),
+  });
+
+  if (response.status === 503) {
+    const data = await response.json().catch(() => null);
+    if (data?.message === "Temporary maintenance") {
+      throw new Error(ERRORS.MAINTENANCE);
+    }
+
+    // Retries are handled by fetchWithRetry; a 503 here is terminal
+    throw new Error(ERRORS.SESSION_SERVER_ERROR);
+  }
+
+  if (response.status === 429) {
+    throw new Error(ERRORS.TOO_MANY_REQUESTS);
+  }
+
+  if (response.status === 401) {
+    // The BE tags disabled-login as a 401 with a structured body so we
+    // can route the user to the dedicated GoogleLoginDisabled screen
+    // instead of the generic SessionExpired one.
+    const data = await response.json().catch(() => null);
+    if (data?.errorCode === ERRORS.GOOGLE_LOGIN_DISABLED) {
+      throw new Error(ERRORS.GOOGLE_LOGIN_DISABLED);
+    }
+    throw new Error(ERRORS.SESSION_EXPIRED);
+  }
+
+  if (response.status === 403) {
+    throw new Error(ERRORS.SESSION_CLIENT_ERROR);
+  }
+
+  if (response.status >= 400) {
+    loadSessionErrors += 1;
+
+    throw new Error(ERRORS.SESSION_SERVER_ERROR);
+  }
+
+  loadSessionErrors = 0;
+
+  const {
+    farm,
+    isBlacklisted,
+    deviceTrackerId,
+    announcements,
+    verified,
+    moderation,
+    farmId,
+    sessionId,
+    farmAddress,
+    analyticsId,
+    linkedWallet,
+    wallet,
+    nftId,
+    purchases,
+    discordId,
+    socialDetails,
+    oauthNonce,
+    prices,
+    accountTradedAt,
+    totalHelpedToday,
+    banReason,
+    banMessage,
+    sessionCode,
+    sessionCodeExpiresAt,
+    startedAt,
+  } = await sanitizeHTTPResponse<{
+    farm: any;
+    startedAt: string;
+    isBlacklisted: boolean;
+    deviceTrackerId: string;
+    status?: "COOL_DOWN";
+    announcements: Announcements;
+    verified: boolean;
+    moderation: Moderation;
+    sessionId: string;
+    farmId: string;
+    analyticsId: string;
+    farmAddress?: string;
+    nftId?: number;
+    linkedWallet?: string;
+    wallet?: string;
+    purchases: Purchase[];
+    discordId?: string;
+    socialDetails?: SocialDetails;
+    oauthNonce: string;
+    prices: {
+      sfl: {
+        usd: number;
+        timestamp: number;
+      };
+    };
+    accountTradedAt?: string;
+    totalHelpedToday: number;
+    banReason?: string;
+    banMessage?: string;
+    /**
+     * Request-token code + expiry. Consumed here and handed straight to
+     * the token module — never returned to callers.
+     */
+    sessionCode?: string;
+    sessionCodeExpiresAt?: number;
+  }>(response);
+
+  // Initialise request tokens before any protected request can fire. The
+  // code is not part of this function's return value by design. The API
+  // URL and JWT let the layer refresh the code via POST /session-code
+  // before it expires; `startedAt` is the server's clock, which is what
+  // the code's expiry is measured against.
+  const serverTime = Date.parse(startedAt);
+  await initRequestTokens({
+    sessionCode,
+    sessionCodeExpiresAt,
+    apiUrl: API_URL,
+    token: request.token,
+    serverTime: Number.isNaN(serverTime) ? undefined : serverTime,
+  });
+
+  saveSession(farm.id);
+
+  return {
+    farmAddress,
+    sessionId,
+    farmId,
+    game: makeGame(farm),
+    deviceTrackerId,
+    announcements,
+    verified,
+    moderation,
+    analyticsId,
+    linkedWallet,
+    wallet,
+    nftId,
+    purchases,
+    discordId,
+    socialDetails,
+    oauthNonce,
+    prices,
+    accountTradedAt,
+    totalHelpedToday,
+    banReason,
+    banMessage,
+  };
 }
 
 const host = window.location.host.replace(/^www\./, "");

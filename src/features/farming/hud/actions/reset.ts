@@ -1,6 +1,7 @@
 import type { InventoryItemName, Wardrobe } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
+import { secureFetch } from "lib/requestToken";
 
 type Request = {
   farmId: number;
@@ -13,7 +14,7 @@ const API_URL = CONFIG.API_URL;
 
 export async function reset(request: Request) {
   // Uses same autosave event driven endpoint
-  const response = await window.fetch(`${API_URL}/reset/${request.farmId}`, {
+  const response = await secureFetch(`${API_URL}/reset/${request.farmId}`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",

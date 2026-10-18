@@ -25,8 +25,11 @@ export type SettingMenuId =
   | "experiments"
   | "economyEditor"
   | "interiorExperiment"
+  | "landscapingExperiment"
   | "toolShopBuyAll"
-  | "customCursor"
+  | "statsLeaderboard"
+  | "auctionCalendar"
+  | "betaFeatures"
   | "admin"
   | "faceRecognition"
 
@@ -37,7 +40,6 @@ export type SettingMenuId =
   | "behaviour"
   | "audio"
   | "notifications"
-  | "apiKey"
 
   // Amoy Testnet Actions
   | "playerSearch"

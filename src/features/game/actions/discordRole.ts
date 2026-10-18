@@ -1,5 +1,6 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
+import { secureFetch } from "lib/requestToken";
 
 const API_URL = CONFIG.API_URL;
 
@@ -18,7 +19,7 @@ type Options = {
 };
 
 export async function addDiscordRole({ farmId, token, role }: Options) {
-  const response = await window.fetch(`${API_URL}/discordRole/${farmId}`, {
+  const response = await secureFetch(`${API_URL}/discordRole/${farmId}`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",

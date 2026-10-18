@@ -16,7 +16,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { Button } from "components/ui/Button";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "components/ui/Modal";
 import confetti from "canvas-confetti";
@@ -344,6 +347,7 @@ const _season = (state: MachineState) => state.context.state.season.season;
 const _henHouseLevel = (state: MachineState) =>
   state.context.state.henHouse.level;
 const _barnLevel = (state: MachineState) => state.context.state.barn.level;
+const _pigpenLevel = (state: MachineState) => state.context.state.pigpen.level;
 
 const MoveableBuilding: React.FC<Prop> = (props) => {
   const { gameService } = useContext(Context);
@@ -351,12 +355,14 @@ const MoveableBuilding: React.FC<Prop> = (props) => {
   const season = useSelector(gameService, _season);
   const henHouseLevel = useSelector(gameService, _henHouseLevel);
   const barnLevel = useSelector(gameService, _barnLevel);
+  const pigpenLevel = useSelector(gameService, _pigpenLevel);
   const landscaping = useSelector(gameService, isLandscaping);
   const BuildingPlaced = READONLY_BUILDINGS({
     island,
     season,
     henHouseLevel,
     barnLevel,
+    pigpenLevel,
   })[props.name];
 
   const now = useNow(); // just capture "now" once
@@ -425,11 +431,12 @@ export const Constructing: React.FC<{
   return (
     <>
       <div className="p-1 ">
-        <Label
-          type="default"
-          icon={SUNNYSIDE.icons.stopwatch}
-        >{`In progress`}</Label>
-        <p className="text-sm my-2">{t("crafting.readySoon", { name })}</p>
+        <Label type="default" icon={SUNNYSIDE.icons.stopwatch}>
+          {t("crafting.inProgress")}
+        </Label>
+        <p className="text-sm my-2">
+          {t("crafting.readySoon", { name: getTranslatedItemName(name) })}
+        </p>
         <div className="flex items-center mb-1">
           <div>
             <div className="relative flex flex-col w-full">

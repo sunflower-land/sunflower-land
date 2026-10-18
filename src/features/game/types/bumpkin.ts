@@ -562,7 +562,8 @@ export type BumpkinSuit =
   | "Research Uniform"
   | "Sweet Devil Dress"
   | "Spa Robe"
-  | "Skeleton Costume";
+  | "Skeleton Costume"
+  | "Traveling Merchant Suit";
 
 export type BumpkinWings =
   | "Angel Wings"
@@ -589,7 +590,8 @@ export type BumpkinWings =
   | "Cardboard Wings"
   | "Rainbow Wings"
   | "Ascension Wings"
-  | "Sky Tearer Wings";
+  | "Sky Tearer Wings"
+  | "Traveling Merchant Bag";
 
 export type BumpkinBeard =
   | "Wise Beard"
@@ -1275,8 +1277,6 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Surfer Hair": 586,
 
   //Halloween 2026
-  "Vampire Headwear": 587,
-  "Butcher Knife": 588,
   "Skeleton Mask": 589,
   "Vampire Breeches": 590,
   "Scary Nights Background": 591,
@@ -1286,6 +1286,10 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Skeleton Costume": 595,
   "Sky Tearer Wings": 596,
   "Bat Aura": 597,
+  "Vampire Headwear": 598,
+  "Butcher Knife": 599,
+  "Traveling Merchant Suit": 587,
+  "Traveling Merchant Bag": 588,
 };
 
 // The reverse of above
@@ -1937,6 +1941,7 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Marble Pants": "pants",
   "Spooky Coat": "coat",
   "Surfer Hair": "hair",
+
   "Vampire Headwear": "hat",
   "Butcher Knife": "hat",
   "Skeleton Mask": "hat",
@@ -1948,6 +1953,9 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Skeleton Costume": "suit",
   "Sky Tearer Wings": "wings",
   "Bat Aura": "aura",
+
+  "Traveling Merchant Suit": "suit",
+  "Traveling Merchant Bag": "wings",
 };
 
 /**Copied from BE just for hoarding checks */

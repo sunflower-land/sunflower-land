@@ -6,6 +6,10 @@ import {
   getSkillLevel,
   isUpgradeableSkillName,
 } from "features/game/types/bumpkinSkills";
+import {
+  ANIMAL_BUILDING_KEYS,
+  getAnimalReadyAt,
+} from "features/game/lib/animals";
 import { getKeys } from "lib/object";
 import type {
   GameState,
@@ -15,7 +19,6 @@ import type {
   FlowerBeds,
   OilReserve,
   InventoryItemName,
-  AnimalBuildingKey,
   AOE,
 } from "features/game/types/game";
 import { produce } from "immer";
@@ -27,7 +30,6 @@ import { canChop } from "./chop";
 import { canDrillOilReserve } from "./drillOilReserve";
 import { isReadyToHarvest } from "./harvest";
 import { getCurrentCookingItem, recalculateQueue } from "./cancelQueuedRecipe";
-import type { AOEItemName } from "features/game/expansion/placeable/lib/collisionDetection";
 import { FLOWER_SEEDS, FLOWERS } from "features/game/types/flowers";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 import { isWearableActive } from "features/game/lib/wearables";
@@ -59,11 +61,29 @@ function useInstantGrowth({
   aoe: AOE;
   createdAt?: number;
 }): Record<string, CropPlot> {
-  // Set each plot's plantedAt to 1 (making it grow instantly)
+  // Make every growing crop ready, and leave it with a grow duration of 0.
+  // `getCropGrowDurationMs` is what gates the crop-yield AOEs (Laurie, Sir
+  // Goldensnout, Gnome, ...): they only re-arm once a full grow duration has
+  // passed since their last use. An instant-grown crop is harvested early by
+  // design, so unless the duration collapses to 0 the harvest silently loses
+  // every AOE bonus.
   getKeys(crops).forEach((plot) => {
     const plantedCrop = crops[plot].crop;
-    if (plantedCrop) {
+    if (!plantedCrop) return;
+
+    if (plantedCrop.baseDurationMs !== undefined) {
+      // Windowed (speed-rate model): zero the remaining work AND re-anchor the
+      // start to now, so readyAt resolves to `createdAt` exactly and the grow
+      // duration is 0 (mirrors usePetalBlessed / useGreenhouseGuru).
+      // Back-dating plantedAt instead would re-price the grow against past
+      // boost windows and leave the duration at the FULL base grow time.
+      plantedCrop.baseDurationMs = 0;
+      plantedCrop.plantedAt = createdAt;
+    } else {
+      // Legacy: back-date to make it ready, and bank the full grow time as
+      // boostedTime so the duration (base - boosted) is likewise 0.
       plantedCrop.plantedAt = 1;
+      plantedCrop.boostedTime = CROPS[plantedCrop.name].harvestSeconds * 1000;
     }
   });
 
@@ -72,24 +92,6 @@ function useInstantGrowth({
     if (!dyObject) return;
     getKeys(dyObject).forEach((dy) => {
       dyObject[dy] = createdAt;
-    });
-  });
-
-  const cropYieldAOEItems: AOEItemName[] = [
-    "Scary Mike",
-    "Laurie the Chuckle Crow",
-    "Gnome",
-    "Queen Cornelia",
-    "Sir Goldensnout",
-  ];
-
-  cropYieldAOEItems.forEach((item) => {
-    const aoeItem = aoe[item] ?? {};
-    Object.values(aoeItem).forEach((dyObject) => {
-      if (!dyObject) return;
-      getKeys(dyObject).forEach((dy) => {
-        dyObject[dy] = 1;
-      });
     });
   });
 
@@ -145,9 +147,24 @@ function usePetalBlessed({
     .forEach((bed) => {
       const { flower } = bed;
       if (flower) {
-        const growTime =
-          FLOWER_SEEDS[FLOWERS[flower.name].seed].plantSeconds * 1000;
-        flower.plantedAt = createdAt - growTime;
+        if (flower.baseDurationMs !== undefined) {
+          // Windowed (speed-rate model): zero the remaining work AND re-anchor
+          // the start to now so readyAt resolves to `createdAt` exactly.
+          // Back-dating plantedAt by the BASE grow time would instead re-price
+          // the grow against past boost windows — and leave a flower whose
+          // baked `baseDurationMs` EXCEEDS the base time (Flowery Abode's
+          // +growth-time debuff) still growing (mirrors instaGrowFlower).
+          flower.baseDurationMs = 0;
+          flower.plantedAt = createdAt;
+        } else {
+          // Legacy: back-date so plantedAt + base grow time === createdAt, and
+          // bank the full grow time as boostedTime so the total back-date the
+          // progress bar undoes stays accurate (mirrors useInstantGrowth).
+          const growTime =
+            FLOWER_SEEDS[FLOWERS[flower.name].seed].plantSeconds * 1000;
+          flower.plantedAt = createdAt - growTime;
+          flower.boostedTime = growTime;
+        }
       }
     });
   return flowerBeds;
@@ -190,15 +207,25 @@ function useInstantGratification({
     const currentlyCooking = getCurrentCookingItem({
       building: building,
       createdAt,
+      game,
     });
 
     if (!currentlyCooking) return;
 
-    const recipeIndex = queue.findIndex(
-      (r) => r.readyAt === currentlyCooking.readyAt,
-    ) as number;
+    const recipeIndex = currentlyCooking.index;
 
     queue[recipeIndex].readyAt = createdAt;
+    // Windowed (`baseDurationMs` set): also zero the remaining work, or the queue
+    // resolver would re-derive this recipe's ready time from its start + duration and
+    // undo the instant completion (mirrors the oil reserve above / instaGrowFlower).
+    if (queue[recipeIndex].baseDurationMs !== undefined) {
+      queue[recipeIndex].baseDurationMs = 0;
+      // Complete at activation, not at the old start: `recalculateQueue` splits
+      // ready/upcoming on the DERIVED chain, and a zero-work recipe derives
+      // `readyAt = startedAt`, so a stale start would drag every chained recipe
+      // behind this one into the ready half.
+      queue[recipeIndex].startedAt = createdAt;
+    }
 
     building.crafting = recalculateQueue({
       queue,
@@ -219,18 +246,18 @@ function useBarnyardRouse({
   game: GameState;
   createdAt?: number;
 }): GameState {
-  // Get all animal buildings
-  const buildings: AnimalBuildingKey[] = ["henHouse", "barn"];
-
-  buildings.forEach((building) => {
+  // Every animal building, derived so a new one cannot be missed here.
+  ANIMAL_BUILDING_KEYS.forEach((building) => {
     const { animals } = game[building];
     if (!animals) return;
 
     // Process each animal
     Object.values(animals).forEach((animal) => {
-      const { awakeAt } = animal;
-      if (awakeAt < createdAt) return;
+      if (getAnimalReadyAt(animal, game) < createdAt) return;
       animal.awakeAt = createdAt;
+      // Drop the windowed marker so the wake time is exactly this instant rather
+      // than being re-derived from `asleepAt` + the shrine windows.
+      delete animal.baseDurationMs;
     });
   });
 
@@ -294,10 +321,13 @@ export function powerSkillDisabledConditions({
     buildings,
     inventory,
     fruitPatches,
-    henHouse: { animals: henHouseAnimals },
-    barn: { animals: barnAnimals },
     flowers: { flowerBeds },
   } = state;
+
+  // Every animal across every animal building, derived rather than listed.
+  const allAnimals = ANIMAL_BUILDING_KEYS.flatMap((key) =>
+    Object.values(state[key].animals),
+  );
   const { previousPowerUseAt } = bumpkin;
 
   const { name: skillName, requirements } = skillTree as {
@@ -467,8 +497,8 @@ export function powerSkillDisabledConditions({
 
     case "Barnyard Rouse": {
       if (
-        Object.values({ ...henHouseAnimals, ...barnAnimals }).every(
-          ({ awakeAt }) => awakeAt < createdAt,
+        allAnimals.every(
+          (animal) => getAnimalReadyAt(animal, state) < createdAt,
         )
       ) {
         return {

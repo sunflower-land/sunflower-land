@@ -129,7 +129,11 @@ describe("renewPetShrine", () => {
     };
 
     expect(
-      isTemporaryCollectibleActive({ name: "Fox Shrine", game: state }),
+      isTemporaryCollectibleActive({
+        name: "Fox Shrine",
+        game: state,
+        now: Date.now(),
+      }),
     ).toBe(false);
 
     const newState = renewPetShrine({
@@ -148,7 +152,11 @@ describe("renewPetShrine", () => {
     expect(foxShrine?.createdAt).toBe(now);
 
     expect(
-      isTemporaryCollectibleActive({ name: "Fox Shrine", game: newState }),
+      isTemporaryCollectibleActive({
+        name: "Fox Shrine",
+        game: newState,
+        now: Date.now(),
+      }),
     ).toBe(true);
   });
 

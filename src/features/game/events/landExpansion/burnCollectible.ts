@@ -6,7 +6,7 @@ import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import { PET_SHRINES } from "features/game/types/pets";
 import {
-  getExpiryCooldown,
+  getCollectibleExpiry,
   type TemporaryCollectibleName,
 } from "features/game/lib/collectibleBuilt";
 import { isPetCollectible } from "./placeCollectible";
@@ -93,12 +93,13 @@ export function burnCollectible({
       throw new Error("Collectible does not exist");
     }
 
-    const cooldown = getExpiryCooldown(
-      action.name as TemporaryCollectibleName,
-      stateCopy,
-    );
+    const expiresAt = getCollectibleExpiry({
+      name: action.name as TemporaryCollectibleName,
+      collectible: collectibleToRemove,
+      game: stateCopy,
+    });
 
-    if ((collectibleToRemove.createdAt ?? 0) + cooldown > createdAt) {
+    if (expiresAt > createdAt) {
       throw new Error("Collectible is still active");
     }
 
@@ -108,7 +109,7 @@ export function burnCollectible({
     appendBoostHistory(
       stateCopy,
       action.name as TemporaryCollectibleName,
-      { from: burnedCreatedAt, to: burnedCreatedAt + cooldown },
+      { from: burnedCreatedAt, to: expiresAt },
       createdAt,
     );
 

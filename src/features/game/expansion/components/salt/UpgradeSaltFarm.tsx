@@ -64,7 +64,9 @@ export const UpgradeSaltFarm: React.FC = () => {
             {t("max.level")}
           </Label>
           <InlineDialogue
-            message={t("building.isMaxLevel", { building: "Salt Farm" })}
+            message={t("building.isMaxLevel", {
+              building: t("building.saltFarm"),
+            })}
           />
         </div>
       </div>
@@ -76,8 +78,8 @@ export const UpgradeSaltFarm: React.FC = () => {
       <InnerPanel className="p-1">
         <Label type="default" icon={SUNNYSIDE.icons.hammer} className="ml-1">
           {isUnlockingSaltFarm
-            ? t("unlock.building", { building: "Salt Farm" })
-            : t("upgrade.building", { building: "Salt Farm" })}
+            ? t("unlock.building", { building: t("building.saltFarm") })
+            : t("upgrade.building", { building: t("building.saltFarm") })}
         </Label>
         <p className="text-sm p-1">
           {isUnlockingSaltFarm
@@ -130,14 +132,14 @@ export const UpgradeSaltFarm: React.FC = () => {
         </Label>
         <Label type="success" secondaryIcon={powerup} className="mr-1">
           {nodesToAdd > 0
-            ? `+${nodesToAdd} salt node${nodesToAdd === 1 ? "" : "s"}`
+            ? t("saltFarm.nodesAdded", { count: nodesToAdd })
             : t("upgrade.building.nextLevel")}
         </Label>
       </InnerPanel>
       <Button onClick={upgrade} disabled={!hasRequirements()}>
         {isUnlockingSaltFarm
-          ? t("unlock.building", { building: "Salt Farm" })
-          : t("upgrade.building", { building: "Salt Farm" })}
+          ? t("unlock.building", { building: t("building.saltFarm") })
+          : t("upgrade.building", { building: t("building.saltFarm") })}
       </Button>
     </div>
   );

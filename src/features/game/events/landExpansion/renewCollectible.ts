@@ -9,7 +9,7 @@ import {
   type InventoryRenewableCollectibleName,
 } from "features/game/lib/renewableCollectibles";
 import { isPetCollectible } from "./placeCollectible";
-import { getExpiryCooldown } from "features/game/lib/collectibleBuilt";
+import { getCollectibleExpiry } from "features/game/lib/collectibleBuilt";
 import { appendBoostHistory } from "features/game/lib/boostWindows";
 
 export type RenewCollectibleAction = {
@@ -87,11 +87,19 @@ export function renewCollectible({
       action.name,
       {
         from: previousCreatedAt,
-        to: previousCreatedAt + getExpiryCooldown(action.name, stateCopy),
+        to: getCollectibleExpiry({
+          name: action.name,
+          collectible: collectibleToRenew,
+          game: stateCopy,
+        }),
       },
       createdAt,
     );
     collectibleToRenew.createdAt = createdAt;
+    // A renewal starts a fresh base-duration life. Any time bought via
+    // `collectible.extended` belonged to the expired placement and was already
+    // banked into boostHistory above, so it must not carry over.
+    delete collectibleToRenew.extendedMs;
 
     return stateCopy;
   });

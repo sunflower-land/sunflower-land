@@ -64,6 +64,8 @@ import {
   PET_HOUSE_CAPACITY,
   PET_TYPES,
 } from "features/game/types/pets";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { isPlacingFirstScarecrow } from "features/island/buildings/components/building/workBench/lib/onboarding";
 
 interface Props {
   location: PlaceableLocation;
@@ -110,6 +112,7 @@ const calculateNextPlacement = ({
 
 export const PlaceableController: React.FC<Props> = ({ location }) => {
   const { gameService } = useContext(Context);
+  const { openModal } = useContext(ModalContext);
   const child = gameService.getSnapshot().children
     .landscaping as MachineInterpreter;
   const { t } = useAppTranslation();
@@ -259,6 +262,9 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
 
     if (!placeable) return;
 
+    // Read before the placement lands: afterwards the scarecrow is on the farm.
+    const isFirstScarecrow = isPlacingFirstScarecrow(state, placeable.name);
+
     const items = getChestItems(state);
 
     const available =
@@ -336,12 +342,18 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
       send({ type: "PLACE", location });
       setPreviousPosition(coordinates);
     }
+
+    // Tutorial: scarecrow down, Pete sends the player to expand again.
+    if (isFirstScarecrow) {
+      openModal("PETE_EXPAND");
+    }
   }, [
     coordinates,
     dimensions,
     gameService,
     location,
     maximum,
+    openModal,
     placeable,
     previousPosition,
     requirements,

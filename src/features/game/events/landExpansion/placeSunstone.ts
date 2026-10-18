@@ -2,6 +2,10 @@ import type { FiniteResource, GameState } from "features/game/types/game";
 import type { ResourceName } from "features/game/types/resources";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
+import {
+  getMineBoostWindows,
+  pauseWindowedTimer,
+} from "features/game/lib/boostWindows";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export type PlaceSunstoneAction = {
@@ -46,9 +50,17 @@ export function placeSunstone({
       };
 
       if (updatedSunstone.stone && updatedSunstone.removedAt) {
-        const existingProgress =
-          updatedSunstone.removedAt - updatedSunstone.stone.minedAt;
-        updatedSunstone.stone.minedAt = createdAt - existingProgress;
+        // Pause recovery across the lift (windowed banking or legacy back-date),
+        // as every other rock does. Sunstone has no boost windows today, so this
+        // is behaviour-identical to the back-date it replaces - but it stops a
+        // future sunstone boost from silently mis-crediting a lifted node.
+        updatedSunstone.stone.minedAt = pauseWindowedTimer({
+          timer: updatedSunstone.stone,
+          startedAt: updatedSunstone.stone.minedAt,
+          removedAt: updatedSunstone.removedAt,
+          createdAt,
+          windows: getMineBoostWindows(game, "Sunstone Rock"),
+        });
       }
       delete updatedSunstone.removedAt;
 

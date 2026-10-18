@@ -3,9 +3,9 @@ import { ERRORS } from "lib/errors";
 import type { GameState } from "../types/game";
 import { makeGame } from "../lib/transforms";
 import { getRecordHash } from "lib/stateHash";
+import { secureFetch } from "lib/requestToken";
 
 const API_URL = CONFIG.API_URL;
-const API2_URL = CONFIG.API2_URL;
 
 type EffectName =
   | "marketplace.listingPurchased"
@@ -17,10 +17,16 @@ type EffectName =
   | "reward.airdropped"
   | "faceRecognition.started"
   | "faceRecognition.completed"
+  | "captcha.succeeded"
+  | "captcha.failed"
+  | "admin.captchaTriggered"
   | "flower.depositStarted"
   | "sfl.depositStarted"
   | "telegram.linked"
   | "telegram.joined"
+  | "telegram.unlinked"
+  | "discord.unlinked"
+  | "twitter.unlinked"
   | "twitter.followed"
   | "twitter.posted"
   | "twitter.showcased"
@@ -59,7 +65,6 @@ type EffectName =
   | "auctionRaffle.entered"
   | "auctionRaffle.claimed"
   | "marketplace.buyBulkResources"
-  | "leagues.updated"
   | "liquidity.registered"
   | "appInstall.generate"
   | "farmHand.unlocked"
@@ -69,7 +74,12 @@ type EffectName =
   | "giveaway.progressed"
   | "giveaway.submitted"
   | "giveaway.ended"
-  | "giveaway.claimed";
+  | "giveaway.claimed"
+  | "layout.created"
+  | "layout.edited"
+  | "layout.deleted"
+  | "layout.applied"
+  | "arrangement.saved";
 
 type VisitEffectName = "farm.helped" | "farm.cheered" | "farm.followed";
 
@@ -87,6 +97,16 @@ export type StateMachineEffectName = Exclude<
   | "farm.unfollowed"
   | "message.sent"
   | "liquidity.registered"
+  // Fired inline from the captcha modal - no machine state
+  | "captcha.failed"
+  // Posted directly so they work from the `landscaping` state (which has no
+  // effect states) - see actions/layoutEffects.ts
+  | "layout.created"
+  | "layout.edited"
+  | "layout.deleted"
+  | "layout.applied"
+  // The landscaping sandbox commit - see actions/arrangementEffects.ts
+  | "arrangement.saved"
 >;
 
 export type StateMachineVisitEffectName = VisitEffectName;
@@ -101,10 +121,13 @@ export type StateMachineStateName =
   | "airdroppingReward"
   | "startingFaceRecognition"
   | "completingFaceRecognition"
+  | "solvingCaptcha"
+  | "triggeringCaptcha"
   | "depositingFlower"
   | "depositingSFL"
   | "linkingTelegram"
   | "joiningTelegram"
+  | "unlinkingSocial"
   | "followingTwitter"
   | "postingTwitter"
   | "showcasingTwitter"
@@ -133,7 +156,6 @@ export type StateMachineStateName =
   | "enteringAuctionRaffle"
   | "claimingAuctionRaffle"
   | "marketplaceBuyingBulkResources"
-  | "updatingLeagues"
   | "generatingAppInstall"
   | "pickingUpWaterTrap"
   | "resettingPetRequests"
@@ -170,10 +192,17 @@ export const STATE_MACHINE_EFFECTS: Record<
   "reward.airdropped": "airdroppingReward",
   "faceRecognition.started": "startingFaceRecognition",
   "faceRecognition.completed": "completingFaceRecognition",
+  "captcha.succeeded": "solvingCaptcha",
+  "admin.captchaTriggered": "triggeringCaptcha",
   "flower.depositStarted": "depositingFlower",
   "sfl.depositStarted": "depositingSFL",
   "telegram.linked": "linkingTelegram",
   "telegram.joined": "joiningTelegram",
+  // One state for all three providers - the UI reads the provider back
+  // from the response (`data.provider`).
+  "telegram.unlinked": "unlinkingSocial",
+  "discord.unlinked": "unlinkingSocial",
+  "twitter.unlinked": "unlinkingSocial",
   "twitter.followed": "followingTwitter",
   "twitter.posted": "postingTwitter",
   "twitter.showcased": "showcasingTwitter",
@@ -204,7 +233,6 @@ export const STATE_MACHINE_EFFECTS: Record<
   "auctionRaffle.entered": "enteringAuctionRaffle",
   "auctionRaffle.claimed": "claimingAuctionRaffle",
   "marketplace.buyBulkResources": "marketplaceBuyingBulkResources",
-  "leagues.updated": "updatingLeagues",
   "appInstall.generate": "generatingAppInstall",
   "economies.exchanged": "exchangingEconomy",
   "giveaway.created": "creatingGiveaway",
@@ -229,6 +257,41 @@ export interface Effect {
   [key: string]: any;
 }
 
+/**
+ * A 400 from the event endpoint. `message` is the backend's errorCode;
+ * `data` is whatever detail it attached (most codes send none, e.g.
+ * `availableAt` for social account cooldowns).
+ */
+export type EffectError = Error & { data?: unknown };
+
+export const createEffectError = (code: string, data?: unknown): EffectError =>
+  Object.assign(new Error(code), data === undefined ? {} : { data });
+
+/**
+ * Keys an effect deletes from the game state. The response is pruned to
+ * the keys that changed and merged over the client state, so a key the
+ * server *removed* would otherwise survive the merge.
+ */
+const REMOVED_STATE_KEYS: Partial<Record<EffectName, (keyof GameState)[]>> = {
+  "telegram.unlinked": ["telegram"],
+  "discord.unlinked": ["discord"],
+  "twitter.unlinked": ["twitter"],
+};
+
+export function stripRemovedStateKeys(
+  effect: Effect,
+  gameState: GameState,
+): GameState {
+  const keys = REMOVED_STATE_KEYS[effect.type];
+  if (!keys?.length) return gameState;
+
+  const stripped = { ...gameState };
+  for (const key of keys) {
+    delete stripped[key];
+  }
+  return stripped;
+}
+
 type Request = {
   farmId: number;
   token: string;
@@ -239,71 +302,64 @@ type Request = {
 
 export async function postEffect(
   request: Request,
-  retries = 0,
 ): Promise<{ gameState: GameState; data: any }> {
-  try {
-    const stateHash = request.state
-      ? await getRecordHash(request.state as unknown as Record<string, unknown>)
-      : undefined;
+  const stateHash = request.state
+    ? await getRecordHash(request.state as unknown as Record<string, unknown>)
+    : undefined;
 
-    // Use API2 unless we are retrying, and then fall back to the original API.
-    const apiUrl = retries === 0 ? API2_URL : API_URL;
+  const response = await secureFetch(`${API_URL}/event/${request.farmId}`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+      "X-Transaction-ID": request.transactionId,
+      Authorization: `Bearer ${request.token}`,
+      accept: "application/json",
+      ...((window as any)["x-amz-ttl"]
+        ? { "X-Amz-TTL": (window as any)["x-amz-ttl"] }
+        : {}),
+    },
+    body: JSON.stringify({
+      event: request.effect,
+      createdAt: new Date().toISOString(),
+      ...(stateHash ? { stateHash } : {}),
+    }),
+  });
 
-    const response = await window.fetch(`${apiUrl}/event/${request.farmId}`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json;charset=UTF-8",
-        "X-Transaction-ID": request.transactionId,
-        Authorization: `Bearer ${request.token}`,
-        accept: "application/json",
-        ...((window as any)["x-amz-ttl"]
-          ? { "X-Amz-TTL": (window as any)["x-amz-ttl"] }
-          : {}),
-      },
-      body: JSON.stringify({
-        event: request.effect,
-        createdAt: new Date().toISOString(),
-        ...(stateHash ? { stateHash } : {}),
-      }),
-    });
-
-    if (response.status === 429) {
-      throw new Error(ERRORS.EFFECT_TOO_MANY_REQUESTS);
-    }
-
-    if (response.status === 400) {
-      const { errorCode } = await response.json();
-
-      throw new Error(errorCode ?? ERRORS.EFFECT_SERVER_ERROR);
-    }
-
-    if (response.status !== 200 || !response.ok) {
-      throw new Error(ERRORS.EFFECT_SERVER_ERROR);
-    }
-
-    const { gameState, data } = await response.json();
-
-    const mergedGameState = request.state
-      ? // Response may be pruned (diff); merge over the current client state
-        ({
-          ...request.state,
-          ...gameState,
-        } as GameState)
-      : (gameState as GameState);
-
-    return {
-      gameState: makeGame(mergedGameState),
-      data,
-    };
-  } catch (e) {
-    // First attempt goes to API2 - retry once against the original API
-    // before surfacing the error.
-    if (retries === 0) {
-      return await postEffect(request, retries + 1);
-    }
-
-    throw e;
+  if (response.status === 429) {
+    throw new Error(ERRORS.EFFECT_TOO_MANY_REQUESTS);
   }
+
+  if (response.status === 400) {
+    const body = await response.json().catch(() => null);
+
+    // Some rejections (e.g. WITHDRAW_MARKETPLACE_COOLDOWN, the SOCIAL_*
+    // cooldowns) come with detail the UI needs. The message stays the bare
+    // code - call sites compare on it - and the payload rides alongside on
+    // the error object.
+    throw createEffectError(
+      body?.errorCode ?? ERRORS.EFFECT_SERVER_ERROR,
+      body?.data,
+    );
+  }
+
+  if (response.status !== 200 || !response.ok) {
+    throw new Error(ERRORS.EFFECT_SERVER_ERROR);
+  }
+
+  const { gameState, data } = await response.json();
+
+  const mergedGameState = request.state
+    ? // Response may be pruned (diff); merge over the current client state
+      ({
+        ...request.state,
+        ...gameState,
+      } as GameState)
+    : (gameState as GameState);
+
+  return {
+    gameState: makeGame(stripRemovedStateKeys(request.effect, mergedGameState)),
+    data,
+  };
 }
 
 /** Client-only effect fields to strip before sending to backend (not in API schema) */

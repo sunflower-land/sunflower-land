@@ -949,6 +949,38 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Crystal Leaf Seed": {
+    name: "Crystal Leaf Seed",
+    description:
+      "A glistening seed available only during Chapter Crop Week.\n\nYou can buy crystal leaf seeds in game at the market during the event.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Crystal Leaf": {
+    name: "Crystal Leaf",
+    description: "A glistening crop harvested during Chapter Crop Week.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Crop" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  "Crystal Cookie": {
+    name: "Crystal Cookie",
+    description:
+      "A sparkling cookie baked at the Fire Pit during Chapter Crop Week.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   "Apple Seed": {
     name: "Apple Seed",
     description:
@@ -1252,6 +1284,48 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   Omnifeed: {
     name: "Omnifeed",
     description: "Acts as the best feed for all animals.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Feed" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Basic Slop": {
+    name: "Basic Slop",
+    description: "A tier 1 Pig feed. Mixed from one basic crop.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Feed" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Hearty Slop": {
+    name: "Hearty Slop",
+    description: "A tier 2 Pig feed. Mixed from one medium crop or fruit.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Feed" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Rich Slop": {
+    name: "Rich Slop",
+    description:
+      "A tier 3 Pig feed. Mixed from one advanced crop, fruit, basic fish, Wild Mushroom or crustacean.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Feed" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Gourmet Slop": {
+    name: "Gourmet Slop",
+    description:
+      "A tier 4 Pig feed. Mixed from one greenhouse crop, rare fruit, advanced fish, Magic Mushroom or crustacean.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     attributes: [
@@ -2522,6 +2596,17 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     name: "Honey Treat",
     description:
       "A sweet animal treat crafted at the Spice Rack.\n\nFeed to an animal to reduce animal feed consumption on the next 3 harvests.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Truffle Seasoning": {
+    name: "Truffle Seasoning",
+    description:
+      "A Truffle treat crafted at the Spice Rack.\n\nFeed to an animal to halve its next sleep.",
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     attributes: [
@@ -3846,6 +3931,26 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   Barn: {
     name: "Barn",
     description: "A nice and cosy home for your four legged animals.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Building" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  Pigpen: {
+    name: "Pigpen",
+    description: "A muddy wallow where your pigs root for truffles.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Building" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  Cave: {
+    name: "Cave",
+    description: "A damp cavern where mushrooms grow in the dark.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     attributes: [
@@ -15329,6 +15434,112 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Cultist Crow",
   },
+
+  // Chapter 16 resources
+  "Green Beetle": {
+    description: "A common beetle.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Green Beetle",
+  },
+  "Blue Beetle": {
+    description: "An uncommon beetle.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Blue Beetle",
+  },
+  "Pink Beetle": {
+    description: "A rare beetle.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Pink Beetle",
+  },
+  "Amber Beetle": {
+    description: "The rarest beetle.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Amber Beetle",
+  },
+  Mud: {
+    description:
+      "Rich, sticky mud. Coats a Pig for extra feed XP and keeps it from falling sick.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Mud",
+  },
+  "Pig Bristles": {
+    description: "Coarse bristles from a Pig.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Pig Bristles",
+  },
+  Truffle: {
+    description: "A prized truffle.",
+    decimals: 18,
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Truffle",
+  },
+  "Ember-Roasted Truffle Potatoes": {
+    name: "Ember-Roasted Truffle Potatoes",
+    description:
+      "Potatoes and Wild Mushrooms roasted over embers with Truffle. You can cook this at the Fire Pit",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Food" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Truffle Cake": {
+    name: "Truffle Cake",
+    description:
+      "A rich cake of Truffle and Honey. You can cook this at the Bakery",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Food" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Creamy Truffle Risotto": {
+    name: "Creamy Truffle Risotto",
+    description:
+      "Rice simmered in Milk with Truffle and Wild Mushrooms. You can cook this at the Kitchen",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Food" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
@@ -22122,6 +22333,28 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Surfer Hair",
+  },
+  "Traveling Merchant Suit": {
+    description:
+      "The Goblin Cave Merchant's long travelling coat. Every inside pocket is pinned with a Beetle for sale.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Suit" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Traveling Merchant Suit",
+  },
+  "Traveling Merchant Bag": {
+    description:
+      "Everything the Goblin Cave Merchant owns, strapped to one enormous pack. The lantern runs on Beetle glow.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Wings" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Traveling Merchant Bag",
   },
   "Yellow Slime Puppet": {
     description:

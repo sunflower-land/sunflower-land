@@ -27,6 +27,22 @@ describe("sell", () => {
     ).toThrow("Not for sale");
   });
 
+  it("does not sell a crop from a previous Chapter Crop Week", () => {
+    expect(() =>
+      sellCrop({
+        state: {
+          ...GAME_STATE,
+          inventory: { Saltwort: new Decimal(10) },
+        },
+        action: {
+          type: "crop.sold",
+          crop: "Saltwort",
+          amount: 1,
+        },
+      }),
+    ).toThrow("This crop is no longer sellable");
+  });
+
   it("does not sell an unusual amount", () => {
     expect(() =>
       sellCrop({

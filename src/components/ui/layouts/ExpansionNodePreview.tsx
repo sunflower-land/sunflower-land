@@ -1,7 +1,10 @@
 import React from "react";
 
 import type { ExpansionNodePreviewItem } from "features/game/types/expansions";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import { Label } from "../Label";
@@ -31,7 +34,7 @@ export const ExpansionNodePreview: React.FC<{
               icon={ITEM_DETAILS[name].image}
               className="whitespace-nowrap"
             >
-              {`+${count} ${ITEM_DETAILS[name].translatedName ?? name}`}
+              {`+${count} ${getTranslatedItemName(name)}`}
             </Label>
           ))}
         </div>

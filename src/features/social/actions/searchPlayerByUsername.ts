@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import type { Detail } from "./getFollowNetworkDetails";
 
 type Request = {
@@ -22,7 +23,7 @@ export const searchPlayerByUsername = async ({
   url.searchParams.set("searchTerm", searchTerm);
   url.searchParams.set("context", context);
 
-  const res = await fetch(url, {
+  const res = await fetchWithRetry(url, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

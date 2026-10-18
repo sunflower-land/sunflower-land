@@ -13,6 +13,11 @@ import { SUNNYSIDE } from "assets/sunnyside";
 interface Props {
   /** Which floor the player is currently viewing. */
   floor: "ground" | "level_one";
+  /**
+   * Runs before navigating; the switch only happens when it resolves true.
+   * The landscaping HUD uses it to save the floor being left first.
+   */
+  beforeNavigate?: (to: "ground" | "level_one") => Promise<boolean>;
 }
 
 const _expansion = (state: MachineState) =>
@@ -31,7 +36,10 @@ const _hasUpgradedInterior = (state: MachineState) =>
  * arrow pointing away from any reachable floor is rendered disabled rather
  * than hidden so the button layout stays stable across floors.
  */
-export const InteriorFloorNav: React.FC<Props> = ({ floor }) => {
+export const InteriorFloorNav: React.FC<Props> = ({
+  floor,
+  beforeNavigate,
+}) => {
   const { gameService } = useContext(Context);
   const navigate = useNavigate();
 
@@ -48,13 +56,15 @@ export const InteriorFloorNav: React.FC<Props> = ({ floor }) => {
   // On level_one: down returns to ground. On ground: nowhere lower.
   const downDisabled = onLevelOne ? false : true;
 
-  const goUp = () => {
+  const goUp = async () => {
     if (upDisabled) return;
+    if (beforeNavigate && !(await beforeNavigate("level_one"))) return;
     navigate("/level_one");
   };
 
-  const goDown = () => {
+  const goDown = async () => {
     if (downDisabled) return;
+    if (beforeNavigate && !(await beforeNavigate("ground"))) return;
     navigate("/interior");
   };
 

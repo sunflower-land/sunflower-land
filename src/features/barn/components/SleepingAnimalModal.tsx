@@ -1,9 +1,12 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { secondsToString } from "lib/utils/time";
 
@@ -12,13 +15,25 @@ import { InnerPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { getAnimalToy } from "features/game/events/landExpansion/wakeUpAnimal";
-import type { Animal } from "features/game/types/game";
+import type {
+  Animal,
+  AnimalResource,
+  BoostName,
+  GameState,
+} from "features/game/types/game";
 import {
   getAnimalFavoriteFood,
   getAnimalLevel,
+  getResourceDropAmount,
   isMaxLevel as isMaxAnimalLevel,
+  isMuddy,
+  MUD_XP_MULTIPLIER,
 } from "features/game/lib/animals";
-import { ANIMAL_LEVELS, type AnimalLevel } from "features/game/types/animals";
+import {
+  ANIMAL_LEVELS,
+  ANIMAL_RESOURCE_DROP,
+  type AnimalLevel,
+} from "features/game/types/animals";
 import {
   getAnimalXP,
   getNextLoveAvailableAt,
@@ -28,6 +43,75 @@ import { useSelector } from "@xstate/react";
 import { SparkleBurst } from "features/farming/animals/components/MutantSparkles";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { isAnimalCoveredByGoldenAsset } from "features/game/events/landExpansion/feedAllAnimals";
+import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
+import { useNodeTimer } from "features/game/lib/useNodeTimer";
+import { getAnimalBoostWindows } from "features/game/lib/boostWindows";
+import { formatNumber } from "lib/utils/formatNumber";
+
+const ProductionResource: React.FC<{
+  resource: AnimalResource;
+  amount: number;
+  boosts: { name: BoostName; value: string }[];
+  state: GameState;
+  showBoosts: boolean;
+  onToggle: () => void;
+}> = ({ resource, amount, boosts, state, showBoosts, onToggle }) => {
+  const { t } = useAppTranslation();
+  const anchorRef = useRef<HTMLButtonElement>(null);
+  const hasBoosts = boosts.length > 0;
+
+  const content = (
+    <>
+      <img
+        src={ITEM_DETAILS[resource].image}
+        alt={getTranslatedItemName(resource)}
+        className="w-5 mr-1"
+      />
+      <span className="text-sm whitespace-nowrap">
+        {getTranslatedItemName(resource)}
+      </span>
+      <span aria-hidden="true" className="mx-1 text-sm">
+        {"×"}
+      </span>
+      <span className="text-sm whitespace-nowrap">{formatNumber(amount)}</span>
+      {hasBoosts && (
+        <img
+          src={SUNNYSIDE.icons.lightning}
+          alt={t("cropMachine.boosted")}
+          className="w-3 ml-1"
+        />
+      )}
+    </>
+  );
+
+  if (!hasBoosts) {
+    return (
+      <div className="flex items-center py-0.5 whitespace-nowrap">
+        {content}
+      </div>
+    );
+  }
+
+  return (
+    <button
+      ref={anchorRef}
+      type="button"
+      className="relative flex items-center py-0.5 cursor-pointer whitespace-nowrap"
+      aria-expanded={showBoosts}
+      onClick={onToggle}
+    >
+      {content}
+      <BoostsDisplay
+        boosts={boosts}
+        show={showBoosts}
+        state={state}
+        onClick={onToggle}
+        anchorRef={anchorRef}
+        portalAlign="center"
+      />
+    </button>
+  );
+};
 
 interface Props {
   onClose: () => void;
@@ -44,14 +128,25 @@ export const SleepingAnimalModal = ({
 }: Props) => {
   const { gameService } = useContext(Context);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [activeProductionResource, setActiveProductionResource] =
+    useState<AnimalResource | null>(null);
   const { t } = useAppTranslation();
-  const { totalSeconds: secondsLeft } = useCountdown(awakeAt);
+  const state = useSelector(gameService, (state) => state.context.state);
+
+  // `awakeAt` is already the live windowed wake time — the animal components
+  // resolve it before rendering this modal (see `resolveAnimal`).
+  const { countdownSeconds: secondsLeft } = useNodeTimer({
+    startedAt: animal.asleepAt,
+    baseDurationMs: animal.baseDurationMs,
+    windows: getAnimalBoostWindows(state, animal.type),
+    legacyReadyAt: awakeAt,
+  });
+  // The love slot is a wall-clock boundary, not a work timer.
   const { totalSeconds: secondsUntilLove } = useCountdown(
-    getNextLoveAvailableAt(animal),
+    getNextLoveAvailableAt(animal, awakeAt),
   );
 
   const toy = getAnimalToy({ animal });
-  const state = useSelector(gameService, (state) => state.context.state);
   const isCoveredByGoldenAsset = isAnimalCoveredByGoldenAsset({
     state,
     animalType: animal.type,
@@ -101,6 +196,24 @@ export const SleepingAnimalModal = ({
 
   const level = getAnimalLevel(animal.experience, animal.type);
   const isMaxLevel = isMaxAnimalLevel(animal.type, level);
+  const production = Object.entries(
+    ANIMAL_RESOURCE_DROP[animal.type][level],
+  ).map(([resource, baseAmount]) => {
+    const result = getResourceDropAmount({
+      game: state,
+      animalType: animal.type,
+      resource: resource as AnimalResource,
+      baseAmount: baseAmount.toNumber(),
+      multiplier: animal.multiplier ?? 0,
+      animal,
+    });
+
+    return {
+      resource: resource as AnimalResource,
+      baseAmount: baseAmount.toNumber(),
+      ...result,
+    };
+  });
 
   const xpToNext = isMaxLevel
     ? (() => {
@@ -120,12 +233,11 @@ export const SleepingAnimalModal = ({
     <>
       <InnerPanel className="mb-1">
         <div className="flex items-center">
-          <Label
-            type="default"
-            className="mr-1"
-          >{`${t("sleepingAnimal.sleeping")} ${animal.type}`}</Label>
+          <Label type="default" className="mr-1">
+            {`${t("sleepingAnimal.sleeping")} ${getTranslatedItemName(animal.type)}`}
+          </Label>
           <Label type="formula" className="text-xs">
-            {`Lvl. ${level}`}
+            {t("level.short", { level })}
           </Label>
           {isMaxLevel && <Label type="warning">{"MAX"}</Label>}
         </div>
@@ -137,6 +249,38 @@ export const SleepingAnimalModal = ({
             {`${t("wakesIn")} ${secondsToString(secondsLeft, { length: "medium" })}`}
           </span>
         </div>
+        {production.length > 0 && (
+          <div
+            className="flex text-sm p-1 items-center"
+            aria-label={t("sleepingAnimal.production")}
+          >
+            <img
+              src={SUNNYSIDE.icons.basket}
+              alt={t("sleepingAnimal.production")}
+              className="w-6 mr-1 shrink-0"
+            />
+            <span aria-hidden="true" className="mr-2 text-sm">
+              {":"}
+            </span>
+            <div className="flex flex-nowrap items-center gap-x-3 whitespace-nowrap">
+              {production.map(({ resource, amount, boostsUsed }) => (
+                <ProductionResource
+                  key={resource}
+                  resource={resource}
+                  amount={amount}
+                  boosts={boostsUsed}
+                  state={state}
+                  showBoosts={activeProductionResource === resource}
+                  onToggle={() =>
+                    setActiveProductionResource((active) =>
+                      active === resource ? null : resource,
+                    )
+                  }
+                />
+              ))}
+            </div>
+          </div>
+        )}
         {/* XP progress */}
         <div className="flex text-sm p-1 items-center">
           <img src={SUNNYSIDE.icons.lightning} alt="XP" className="w-6 mr-2" />
@@ -164,7 +308,8 @@ export const SleepingAnimalModal = ({
           />
           <div className="flex items-center justify-between w-full">
             <span className="mr-2">
-              {t("sleepingAnimal.favouriteFood")} {favouriteFood}
+              {t("sleepingAnimal.favouriteFood")}{" "}
+              {getTranslatedItemName(favouriteFood)}
             </span>
           </div>
         </div>
@@ -206,7 +351,9 @@ export const SleepingAnimalModal = ({
             />
             <div>
               <p className="text-sm mr-2">
-                {t("sleepingAnimal.mutantClue1", { type: animal.type })}
+                {t("sleepingAnimal.mutantClue1", {
+                  type: getTranslatedItemName(animal.type),
+                })}
               </p>
               <p className="text-xs mr-2">{t("sleepingAnimal.mutantClue2")}</p>
             </div>
@@ -217,14 +364,37 @@ export const SleepingAnimalModal = ({
           <div className="flex text-sm p-1 items-center">
             <img
               src={ITEM_DETAILS[animal.feedBuff.name].image}
-              alt={animal.feedBuff.name}
+              alt={getTranslatedItemName(animal.feedBuff.name)}
               className="w-6 mr-2"
             />
             <div>
-              <p className="text-sm font-secondary">{animal.feedBuff.name}</p>
+              <p className="text-sm font-secondary">
+                {getTranslatedItemName(animal.feedBuff.name)}
+              </p>
               <span className="text-xs -top-0.5 relative">
                 {t("sleepingAnimal.harvestsLeft", {
                   count: animal.feedBuff.harvestsRemaining,
+                })}
+              </span>
+            </div>
+          </div>
+        )}
+
+        {animal.mud && isMuddy(animal) && (
+          <div className="flex text-sm p-1 items-center">
+            <img
+              src={ITEM_DETAILS.Mud.image}
+              alt={getTranslatedItemName("Mud")}
+              className="w-6 mr-2"
+            />
+            <div>
+              <p className="text-sm font-secondary">
+                {getTranslatedItemName("Mud")}
+              </p>
+              <span className="text-xs -top-0.5 relative">
+                {t("sleepingAnimal.mudHarvestsLeft", {
+                  count: animal.mud.harvestsRemaining,
+                  percent: Math.round((MUD_XP_MULTIPLIER - 1) * 100),
                 })}
               </span>
             </div>
@@ -237,7 +407,9 @@ export const SleepingAnimalModal = ({
           <div className="flex items-center">
             <img src={SUNNYSIDE.icons.heart} alt="Sleep" className="h-6 mr-2" />
             <p className="text-xs">
-              {t("sleepingAnimal.sheepLoveToPlay", { name: animal.type })}
+              {t("sleepingAnimal.sheepLoveToPlay", {
+                name: getTranslatedItemName(animal.type),
+              })}
             </p>
           </div>
 

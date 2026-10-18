@@ -33,6 +33,7 @@ import type {
   Purchase,
 } from "../types/game";
 import { loadSession, type SocialDetails } from "../actions/loadSession";
+import { expectRequestTokens } from "lib/requestToken";
 import { resolveSocialDetails } from "./socialDetails";
 import { EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
@@ -40,6 +41,19 @@ import { type ErrorCode, ERRORS } from "lib/errors";
 import { makeGame } from "./transforms";
 import { reset } from "features/farming/hud/actions/reset";
 import { processEvent } from "./processEvent";
+import {
+  applyDraftEvent,
+  applyLiveEvent,
+  beginDraft,
+  commitDraft,
+  discardDraft,
+  isDraftEvent,
+  PERSON_PLACEMENT_EVENT_NAMES,
+  rekeyDraft,
+  settleLandscapingSave,
+} from "./landscapingDraft";
+import { hasExperiment } from "features/game/types/experiments";
+import type { ArrangementConflict } from "features/game/events/landExpansion/applyArrangement";
 import {
   landscapingMachine,
   type LandscapingPlaceableType,
@@ -75,6 +89,11 @@ import type { RaffleSnapshotWinner } from "features/world/ui/chapterRaffles/acti
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { mfIdentify, mfSetUser, mfTrack } from "lib/moonforgeAnalytics";
+import {
+  hasCompletedLoginStep,
+  markLoginStepCompleted,
+  trackTutorialStep,
+} from "lib/moonforgeTutorial";
 import { portal } from "features/world/ui/community/actions/portal";
 
 import { CONFIG } from "lib/config";
@@ -83,7 +102,11 @@ import {
   sellMarketResourceRequest,
 } from "../actions/sellMarketResource";
 import { setCachedMarketPrices } from "features/world/ui/market/lib/marketCache";
-import { OFFLINE_FARM } from "./landData";
+import {
+  applyPreviewLocalStorage,
+  getPreviewFarm,
+} from "./preview/previewState";
+import { mergeLocalVisitProgress } from "./mergeLocalVisitProgress";
 import { isValidRedirect } from "features/portal/lib/portalUtil";
 import {
   type Effect,
@@ -101,19 +124,23 @@ import {
   type TransactionName,
 } from "../types/transactions";
 import { getKeys } from "lib/object";
-import { preloadHotNow } from "features/marketplace/components/MarketplaceHotNow";
 import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
 import { hasLifetimeFarmerBanner, hasVipAccess } from "./vipAccess";
+import {
+  getWithdrawCooldownItems,
+  type WithdrawCooldowns,
+} from "./withdrawCooldown";
 import {
   getActiveCalendarEvent,
   type SeasonalEventName,
 } from "../types/calendar";
+import { hasAcknowledgedTcs } from "../events/landExpansion/acknowledgeTcs";
 import { getConnection, getChainId } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { depositFlower } from "lib/blockchain/DepositFlower";
 import type { NetworkOption } from "features/island/hud/components/deposit/DepositFlower";
 import { depositSFL } from "lib/blockchain/DepositSFL";
-import { hasFeatureAccess, isWaypointWalletDisabled } from "lib/flags";
+import { isWaypointWalletDisabled } from "lib/flags";
 import {
   isRoninWallet,
   getRoninWaypointPopupShown,
@@ -138,22 +165,6 @@ const getError = () => {
   return error;
 };
 
-const shouldShowLeagueResults = (context: Context) => {
-  // Don't show league results for visitors
-  if (context.visitorId !== undefined) {
-    return false;
-  }
-
-  const hasLeaguesAccess = hasFeatureAccess(context.state, "LEAGUES");
-  const currentLeagueStartDate =
-    context.state.prototypes?.leagues?.currentLeagueStartDate;
-
-  return (
-    hasLeaguesAccess &&
-    currentLeagueStartDate !== new Date().toISOString().split("T")[0]
-  );
-};
-
 export type PastAction = GameEvent & {
   createdAt: Date;
 };
@@ -163,8 +174,22 @@ export interface Context {
   state: GameState;
   farmAddress?: string;
   actions: PastAction[];
+  /**
+   * Landscaping sandbox (farm only). While landscaping, `state` is the draft:
+   * placement edits are applied locally and logged in `draftActions`, never
+   * autosaved; `baseState` is the farm without them (what Cancel restores).
+   * Save posts one `arrangement.saved` effect - see lib/landscapingDraft.ts.
+   */
+  baseState?: GameState;
+  draftActions: PastAction[];
+  landscapingLocation?: PlaceableLocation;
+  /** Conflicts the server reported for the last rejected commit. */
+  arrangementConflicts?: ArrangementConflict[];
   sessionId?: string;
   errorCode?: ErrorCode;
+  // Detail the API attached to the last error, e.g. `availableAt` on a
+  // social account cooldown. Set alongside `errorCode`, cleared with it.
+  errorDetails?: Record<string, unknown>;
   transactionId?: string;
   fingerprint?: string;
   goblinSwarm?: Date;
@@ -192,7 +217,6 @@ export interface Context {
   verified?: boolean;
   purchases: Purchase[];
   discordId?: string;
-  fslId?: string;
   socialDetails?: SocialDetails;
   oauthNonce: string;
   data: Partial<Record<StateMachineStateName, any>>;
@@ -207,11 +231,19 @@ export interface Context {
   visitorSocialDetails?: SocialDetails;
   hasHelpedPlayerToday?: boolean;
   totalHelpedToday?: number;
-  apiKey?: string;
-  method?: "google" | "wallet" | "wechat" | "fsl";
+  method?: "google" | "wallet" | "wechat";
   accountTradedAt?: string;
+  /**
+   * Every item the API has refused to withdraw under the marketplace
+   * cooldown, merged across attempts, so the withdraw screens can mark them.
+   * Purchase history isn't in game state, so this only fills in on failure.
+   */
+  withdrawCooldowns?: WithdrawCooldowns;
+  /** The blocked items from the most recent rejection, for the error panel. */
+  blockedWithdrawal?: WithdrawCooldowns;
   onChainRaffleReward?: RaffleSnapshotWinner;
   banReason?: string;
+  banMessage?: string;
 }
 
 const NINETY_DAYS_MS = 90 * 24 * 60 * 60 * 1000;
@@ -330,6 +362,41 @@ export type UpdateUsernameEvent = {
   username: string;
 };
 
+/**
+ * Pushes the gameState returned by the `layout.applied` effect into the
+ * machine. Layout effects are posted outside the machine (they must work from
+ * `landscaping`, which has no effect states — see actions/layoutEffects.ts),
+ * so this assign is the only machine wiring they need. Pending actions are
+ * always flushed before the effect is posted, so nothing is replayed on top.
+ */
+export type LayoutAppliedEvent = {
+  type: "LAYOUT_APPLIED";
+  state: GameState;
+};
+
+/**
+ * The landscaping draft was committed; `state` is the server's farm. With
+ * `nextLocation` the player is switching interior floors: the floor they left
+ * was just saved and landscaping continues on the new one.
+ */
+export type ArrangementSavedEvent = {
+  type: "ARRANGEMENT_SAVED";
+  state: GameState;
+  nextLocation?: PlaceableLocation;
+};
+
+/** A clean draft moved to another surface (no round trip needed). */
+export type SurfaceChangedEvent = {
+  type: "SURFACE_CHANGED";
+  location: PlaceableLocation;
+};
+
+/** The server refused the draft; the HUD lists/highlights the conflicts. */
+export type ArrangementRejectedEvent = {
+  type: "ARRANGEMENT_REJECTED";
+  conflicts: ArrangementConflict[];
+};
+
 type PostEffectEvent = {
   type: "POST_EFFECT";
   effect: Effect;
@@ -369,6 +436,10 @@ export type BlockchainEvent =
   | DepositEvent
   | UpdateEvent
   | UpdateUsernameEvent
+  | LayoutAppliedEvent
+  | ArrangementSavedEvent
+  | ArrangementRejectedEvent
+  | SurfaceChangedEvent
   | PostEffectEvent
   | { type: "EXPAND" }
   | { type: "SAVE_SUCCESS" }
@@ -393,6 +464,13 @@ const playingEventHandler = (
   const immediateSave = options?.immediateSave === true;
   return {
     [eventName]: [
+      // The API has flagged non-stop play (`captcha.required` on the game
+      // state) - block the event and send them into the captcha state.
+      {
+        target: "#captcha",
+        cond: (context: Context) =>
+          !context.visitorId && !!context.state.captcha?.required,
+      },
       {
         ...(immediateSave ? { target: "autosaving" as const } : {}),
         actions: assign(
@@ -481,28 +559,37 @@ function createPlacementEventHandlers(
   ].reduce(
     (events, eventName) => ({
       ...events,
-      [eventName]: {
-        ...(immediateSave ? { target: "autosaving" as const } : {}),
-        actions: assign((context: Context, event: PlacementEvent) => {
-          const createdAt = new Date();
+      [eventName]: [
+        // The API has flagged non-stop play (`captcha.required` on the game
+        // state) - block the event and send them into the captcha state.
+        {
+          target: "#captcha",
+          cond: (context: Context) =>
+            !context.visitorId && !!context.state.captcha?.required,
+        },
+        {
+          ...(immediateSave ? { target: "autosaving" as const } : {}),
+          actions: assign((context: Context, event: PlacementEvent) => {
+            const createdAt = new Date();
 
-          return {
-            state: processEvent({
-              state: context.state as GameState,
-              action: event,
-              farmId: context.farmId,
-              createdAt: createdAt.getTime(),
-            }) as GameState,
-            actions: [
-              ...context.actions,
-              {
-                ...event,
-                createdAt,
-              },
-            ],
-          };
-        }),
-      },
+            return {
+              state: processEvent({
+                state: context.state as GameState,
+                action: event,
+                farmId: context.farmId,
+                createdAt: createdAt.getTime(),
+              }) as GameState,
+              actions: [
+                ...context.actions,
+                {
+                  ...event,
+                  createdAt,
+                },
+              ],
+            };
+          }),
+        },
+      ],
     }),
     {},
   );
@@ -510,8 +597,49 @@ function createPlacementEventHandlers(
 
 const PLACEMENT_EVENT_HANDLERS = createPlacementEventHandlers(false); // previously true, set to false for now
 
-const LANDSCAPING_PLACEMENT_EVENT_HANDLERS =
-  createPlacementEventHandlers(false);
+/**
+ * While landscaping the farm, placement edits go to the draft (never
+ * autosaved) and live events (purchases, biome) to both the draft and its
+ * base plus the autosave queue. Other locations keep the streamed path: every
+ * event is live there. See lib/landscapingDraft.ts.
+ */
+function createLandscapingEventHandlers(): TransitionsConfig<
+  Context,
+  BlockchainEvent
+> {
+  return [
+    ...Object.keys(PLACEMENT_EVENTS),
+    ...PERSON_PLACEMENT_EVENT_NAMES,
+    "biome.bought",
+    "biome.applied",
+  ].reduce(
+    (events, eventName) => ({
+      ...events,
+      [eventName]: [
+        {
+          target: "#captcha",
+          cond: (context: Context) =>
+            !context.visitorId && !!context.state.captcha?.required,
+        },
+        {
+          cond: (context: Context, event: PlacementEvent) =>
+            isDraftEvent(event.type, context.landscapingLocation),
+          actions: assign((context: Context, event: PlacementEvent) =>
+            applyDraftEvent(context, event, context.farmId, new Date()),
+          ),
+        },
+        {
+          actions: assign((context: Context, event: PlacementEvent) =>
+            applyLiveEvent(context, event, context.farmId, new Date()),
+          ),
+        },
+      ],
+    }),
+    {},
+  );
+}
+
+const LANDSCAPING_EVENT_HANDLERS = createLandscapingEventHandlers();
 
 const EFFECT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
   getKeys(STATE_MACHINE_EFFECTS).reduce(
@@ -755,7 +883,10 @@ const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
           const { visitedFarmState, ...rest } = data;
 
           return {
-            state: makeGame(visitedFarmState),
+            state: mergeLocalVisitProgress(
+              makeGame(visitedFarmState),
+              context.state,
+            ),
             data: rest,
             visitorState: gameState,
           };
@@ -826,6 +957,7 @@ export type BlockchainState = {
     | "portalling"
     | "introduction"
     | "welcome"
+    | "termsAndConditions"
     | "investigating"
     | "gems"
     | "communityCoin"
@@ -843,6 +975,7 @@ export type BlockchainState = {
     | "error"
     | "refreshing"
     | "swarming"
+    | "captcha"
     | "mailbox"
     | "transacting"
     | "depositing"
@@ -870,7 +1003,6 @@ export type BlockchainState = {
     | "randomising"
     | "competition"
     | "jinAirdrop"
-    | "leagueResults"
     | "linkWallet"
     | "starterOffer"
     | StateMachineStateName
@@ -903,13 +1035,16 @@ export const saveGame = async (
 ) => {
   const saveAt = new Date();
 
-  // Skip autosave when no actions were produced or if playing ART_MODE
+  // Skip autosave when no actions were produced or if playing ART_MODE.
+  // `skipped` lets the landscaping state tell this apart from a real save:
+  // `farm` here is the local state, which mid-landscaping is the draft.
   if (context.actions.length === 0 || ART_MODE) {
     return {
       verified: true,
       saveAt,
       farm: context.state,
       announcements: context.announcements,
+      skipped: true,
     };
   }
 
@@ -984,12 +1119,18 @@ const handleSuccessfulSave = (context: Context, event: any) => {
 export const INITIAL_SESSION = "0x0";
 
 export function startGame(authContext: AuthContext) {
+  // A session is on its way: protected requests that fire before it lands
+  // (the marketplace under /world mounts before the game has loaded) wait
+  // for it rather than going out unsigned. Here, at construction, because
+  // those requests start from child effects that run before the effect
+  // that starts this machine.
+  expectRequestTokens();
+
   return createMachine<Context, BlockchainEvent, BlockchainState>(
     {
       id: "gameMachine",
       initial: "loading",
       context: {
-        fslId: "123",
         discordId: "123",
         farmId:
           CONFIG.NETWORK === "mainnet"
@@ -997,6 +1138,7 @@ export function startGame(authContext: AuthContext) {
             : Math.floor(Math.random() * 1000),
         rawToken: authContext.user.rawToken,
         actions: [],
+        draftActions: [],
         state: EMPTY,
         linkedWallet: "0x123",
         sessionId: INITIAL_SESSION,
@@ -1044,15 +1186,17 @@ export function startGame(authContext: AuthContext) {
             {
               target: "notifying",
               cond: () => ART_MODE,
-              actions: assign({
-                state: (_context) => OFFLINE_FARM,
-              }),
+              // ART_MODE boots the offline farm, optionally shaped by the
+              // PR-preview URL params (?fixture, ?patch, ?ls). See
+              // lib/preview/previewLink.ts.
+              actions: [
+                () => applyPreviewLocalStorage(),
+                assign({
+                  state: (_context) => getPreviewFarm(),
+                }),
+              ],
             },
           ],
-          entry: () => {
-            if (CONFIG.API_URL)
-              preloadHotNow(authContext.user.rawToken as string);
-          },
           invoke: {
             src: async (context) => {
               const fingerprint = "X";
@@ -1088,13 +1232,12 @@ export function startGame(authContext: AuthContext) {
                 verified: response.verified,
                 purchases: response.purchases,
                 discordId: response.discordId,
-                fslId: response.fslId,
                 oauthNonce: response.oauthNonce,
                 prices: response.prices,
-                apiKey: response.apiKey,
                 accountTradedAt: response.accountTradedAt,
                 totalHelpedToday: response.totalHelpedToday,
                 banReason: response.banReason,
+                banMessage: response.banMessage,
                 socialDetails: response.socialDetails,
               };
             },
@@ -1111,6 +1254,7 @@ export function startGame(authContext: AuthContext) {
                 },
                 actions: assign((_, event) => ({
                   banReason: event.data.banReason,
+                  banMessage: event.data.banMessage,
                 })),
               },
               {
@@ -1281,6 +1425,13 @@ export function startGame(authContext: AuthContext) {
         },
         notifying: {
           always: [
+            // The T&C gate must stay first - the player cannot see anything
+            // else until they have accepted the current terms.
+            {
+              target: "termsAndConditions",
+              cond: (context) =>
+                !hasAcknowledgedTcs({ game: context.state, now: Date.now() }),
+            },
             {
               target: "welcome",
               cond: (context) => {
@@ -1477,10 +1628,7 @@ export function startGame(authContext: AuthContext) {
             {
               target: "linkWallet",
               cond: (context) => {
-                return (
-                  (context.method === "fsl" || context.method === "wechat") &&
-                  !context.linkedWallet
-                );
+                return context.method === "wechat" && !context.linkedWallet;
               },
             },
 
@@ -1579,10 +1727,6 @@ export function startGame(authContext: AuthContext) {
               cond: (context) =>
                 !!context.state.nfts?.ronin?.acknowledgedAt &&
                 (context.state.inventory["Jin"] ?? new Decimal(0)).lt(1),
-            },
-            {
-              target: "leagueResults",
-              cond: shouldShowLeagueResults,
             },
             {
               target: "playing",
@@ -1846,16 +1990,6 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
-        leagueResults: {
-          on: {
-            "leagues.updated": {
-              target: STATE_MACHINE_EFFECTS["leagues.updated"],
-            },
-            CLOSE: {
-              target: "playing",
-            },
-          },
-        },
         playing: {
           id: "playing",
           entry: "clearTransactionId",
@@ -1869,6 +2003,11 @@ export function startGame(authContext: AuthContext) {
                   ...context.state,
                   username: event.username,
                 },
+              })),
+            },
+            LAYOUT_APPLIED: {
+              actions: assign((_, event) => ({
+                state: (event as LayoutAppliedEvent).state,
               })),
             },
             SAVE: {
@@ -1903,6 +2042,15 @@ export function startGame(authContext: AuthContext) {
             },
             LANDSCAPE: {
               target: "landscaping",
+              // `location` is mandatory: it keys the draft to the surface being
+              // edited. Without it the sandbox never engages (every edit goes
+              // live and Cancel has nothing to revert). Do NOT default it to
+              // "farm" - a HUD on another surface that forgot to pass it would
+              // then commit the farm and drop its own edits. Every LANDSCAPE
+              // sender passes the Hud's location (see LandscapeButton).
+              actions: assign((context, event) =>
+                beginDraft(context.state, (event as LandscapeEvent).location),
+              ),
             },
             RANDOMISE: {
               target: "randomising",
@@ -2039,13 +2187,6 @@ export function startGame(authContext: AuthContext) {
                 ),
               },
               {
-                target: "leagueResults",
-                cond: shouldShowLeagueResults,
-                actions: assign((context: Context, event) =>
-                  handleSuccessfulSave(context, event),
-                ),
-              },
-              {
                 target: "visiting",
                 cond: (context, _) => !!context.visitorId,
                 actions: assign((context: Context, event) =>
@@ -2114,6 +2255,12 @@ export function startGame(authContext: AuthContext) {
                 actions: assign((_) => ({
                   actions: [],
                 })),
+              },
+              {
+                target: "error",
+                cond: (_, event: any) =>
+                  event.data?.message === ERRORS.WITHDRAW_MARKETPLACE_COOLDOWN,
+                actions: ["assignErrorMessage", "assignWithdrawCooldowns"],
               },
               {
                 target: "error",
@@ -2590,6 +2737,17 @@ export function startGame(authContext: AuthContext) {
           },
         },
 
+        termsAndConditions: {
+          on: {
+            "tcs.acknowledged": (GAME_EVENT_HANDLERS as any)[
+              "tcs.acknowledged"
+            ],
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
+          },
+        },
+
         investigating: {
           on: {
             "faceRecognition.started": {
@@ -2600,6 +2758,15 @@ export function startGame(authContext: AuthContext) {
             },
             "telegram.linked": {
               target: STATE_MACHINE_EFFECTS["telegram.linked"],
+            },
+            // Verification needs a Discord / Telegram account, which may
+            // still be linked elsewhere. Settings is unreachable from here,
+            // so the soft-ban screen offers the unlink directly.
+            "discord.unlinked": {
+              target: STATE_MACHINE_EFFECTS["discord.unlinked"],
+            },
+            "telegram.unlinked": {
+              target: STATE_MACHINE_EFFECTS["telegram.unlinked"],
             },
           },
         },
@@ -2676,6 +2843,22 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
+        captcha: {
+          id: "captcha",
+          on: {
+            // Posts the `captcha.succeeded` effect - the response's game
+            // state comes back with `captcha.required` cleared.
+            "captcha.succeeded": {
+              target: "solvingCaptcha",
+            },
+            // Offered by the lockout countdown screen so the player can look
+            // around while they wait. `captcha.required` is still set, so
+            // their next interaction lands straight back here.
+            CLOSE: {
+              target: "playing",
+            },
+          },
+        },
         landscaping: {
           invoke: {
             id: "landscaping",
@@ -2690,9 +2873,16 @@ export function startGame(authContext: AuthContext) {
               multiple: (_: Context, event: LandscapeEvent) => event.multiple,
               maximum: (_: Context, event: LandscapeEvent) => event.maximum,
               location: (_: Context, event: LandscapeEvent) => event.location,
+              // Keeps the child's pre-sandbox branches alive for players who
+              // have not opted in (see types/experiments.ts).
+              sandbox: (context: Context) =>
+                hasExperiment(context.state, "newLandscaping"),
             },
+            // The child finishing is the Cancel path: the draft is discarded
+            // and any pending live actions are flushed (a no-op when none).
             onDone: {
               target: "autosaving",
+              actions: assign((context) => discardDraft(context)),
             },
             onError: [
               {
@@ -2707,7 +2897,51 @@ export function startGame(authContext: AuthContext) {
             ],
           },
           on: {
-            ...LANDSCAPING_PLACEMENT_EVENT_HANDLERS,
+            ...LANDSCAPING_EVENT_HANDLERS,
+            LAYOUT_APPLIED: {
+              // The Saved Layouts modal is disabled while the draft is dirty,
+              // so a server-applied layout is the new base as well.
+              actions: assign((_, event) => ({
+                state: (event as LayoutAppliedEvent).state,
+                baseState: (event as LayoutAppliedEvent).state,
+              })),
+            },
+            ARRANGEMENT_SAVED: [
+              {
+                // Switching interior floors: the floor the player left is
+                // saved; stay in landscaping, keyed to the new floor.
+                cond: (_, event) =>
+                  !!(event as ArrangementSavedEvent).nextLocation,
+                actions: assign((_, event) =>
+                  commitDraft(
+                    (event as ArrangementSavedEvent).state,
+                    (event as ArrangementSavedEvent).nextLocation,
+                  ),
+                ),
+              },
+              {
+                // A live action could have been queued between the flush and
+                // the response; autosaving is a no-op when there are none.
+                target: "autosaving",
+                actions: assign((_, event) =>
+                  commitDraft((event as ArrangementSavedEvent).state),
+                ),
+              },
+            ],
+            SURFACE_CHANGED: {
+              actions: assign((context, event) =>
+                rekeyDraft(
+                  context.state,
+                  (event as SurfaceChangedEvent).location,
+                ),
+              ),
+            },
+            ARRANGEMENT_REJECTED: {
+              actions: assign((_, event) => ({
+                arrangementConflicts: (event as ArrangementRejectedEvent)
+                  .conflicts,
+              })),
+            },
             SAVE: {
               actions: send(
                 (context) =>
@@ -2721,9 +2955,25 @@ export function startGame(authContext: AuthContext) {
               ),
             },
             SAVE_SUCCESS: {
-              actions: assign((context: Context, event: any) =>
-                handleSuccessfulSave(context, event),
-              ),
+              // A mid-session flush of live actions: the server's farm is the
+              // new base and the draft is replayed on top of it. A skipped
+              // save (nothing queued, or ART_MODE) reports the draft itself
+              // as the farm and must change nothing - see
+              // settleLandscapingSave.
+              actions: assign((context: Context, event: any) => {
+                if (!context.baseState)
+                  return handleSuccessfulSave(context, event);
+                if (event.data.skipped) return {};
+                const saved = handleSuccessfulSave(context, event);
+                return {
+                  ...saved,
+                  ...settleLandscapingSave(
+                    context,
+                    { state: saved.state as GameState },
+                    context.farmId,
+                  ),
+                };
+              }),
             },
             SAVE_ERROR: {
               target: "error",
@@ -2776,6 +3026,15 @@ export function startGame(authContext: AuthContext) {
       actions: {
         initialiseAnalytics: (context, event: any) => {
           if (!ART_MODE) {
+            // Identify first: any event emitted after this attaches to a
+            // durable id rather than the SDK's anonymous one, which
+            // regenerates per session and is what makes players look like
+            // one-day visitors.
+            mfIdentify(`account${event.data.analyticsId}`, {
+              farmId: context.farmId,
+            });
+            mfSetUser(`account${event.data.analyticsId}`);
+
             gameAnalytics.initialise({
               id: event.data.analyticsId,
             });
@@ -2783,10 +3042,20 @@ export function startGame(authContext: AuthContext) {
               id: context.farmId,
             });
             onboardingAnalytics.logEvent("login");
-            mfIdentify(`account${event.data.analyticsId}`, {
-              farmId: context.farmId,
-            });
-            mfSetUser(`account${event.data.analyticsId}`);
+
+            // `initialiseAnalytics` runs on every session load, including
+            // REFRESH, so an unguarded call emits `login` once per session
+            // rather than once per player. A tutorial funnel step with more
+            // events than players makes the drop-off between steps
+            // uninterpretable, so the milestone is marked per account and
+            // emitted only the first time.
+            //
+            // The marker is written before the event is sent: a failed write
+            // should suppress a duplicate, not license one.
+            if (!hasCompletedLoginStep(context.farmId)) {
+              markLoginStepCompleted(context.farmId);
+              trackTutorialStep("login");
+            }
           }
         },
         assignUrl: (context) => {
@@ -2803,7 +3072,18 @@ export function startGame(authContext: AuthContext) {
         },
         assignErrorMessage: assign<Context, any>({
           errorCode: (_context, event) => event.data.message,
+          // Only `EffectError` carries `data`; everything else clears it so a
+          // stale `availableAt` never leaks into an unrelated error screen.
+          errorDetails: (_context, event) => event.data?.data ?? undefined,
           actions: [],
+        }),
+        assignWithdrawCooldowns: assign<Context, any>({
+          withdrawCooldowns: (context, event) => ({
+            ...context.withdrawCooldowns,
+            ...getWithdrawCooldownItems(event.data),
+          }),
+          blockedWithdrawal: (_context, event) =>
+            getWithdrawCooldownItems(event.data),
         }),
         assignGame: assign<Context, any>({
           farmId: (_, event) => event.data.farmId,
@@ -2820,11 +3100,9 @@ export function startGame(authContext: AuthContext) {
           verified: (_, event) => event.data.verified,
           purchases: (_, event) => event.data.purchases,
           discordId: (_, event) => event.data.discordId,
-          fslId: (_, event) => event.data.fslId,
           socialDetails: (_, event) => event.data.socialDetails,
           oauthNonce: (_, event) => event.data.oauthNonce,
           prices: (_, event) => event.data.prices,
-          apiKey: (_, event) => event.data.apiKey,
           method: (_, event) => event.data.method,
           accountTradedAt: (_, event) => event.data.accountTradedAt,
           totalHelpedToday: (_, event) => event.data.totalHelpedToday,

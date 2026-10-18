@@ -105,12 +105,14 @@ export function getPetExperience({
   petLevel,
   petData,
   food,
+  now,
 }: {
   game: GameState;
   basePetXP: number;
   petLevel: number;
   petData: Pet | PetNFT;
   food: CookableName;
+  now: number;
 }) {
   let experience = basePetXP;
   let experienceBoost = 1;
@@ -131,7 +133,7 @@ export function getPetExperience({
 
   experience *= experienceBoost;
 
-  if (isTemporaryCollectibleActive({ name: "Hound Shrine", game })) {
+  if (isTemporaryCollectibleActive({ name: "Hound Shrine", game, now })) {
     experience += 100;
   }
 
@@ -358,6 +360,7 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
       petLevel,
       petData,
       food,
+      now: createdAt,
     });
     const energy = getPetEnergy({
       game: stateCopy,

@@ -1,5 +1,6 @@
 import type { Auction } from "features/game/lib/auctionMachine";
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 
 type Request = {
@@ -12,14 +13,17 @@ const API_URL = CONFIG.API_URL;
 export async function loadUpcomingAuction(
   request: Request,
 ): Promise<Auction | undefined> {
-  const response = await window.fetch(`${API_URL}/data?type=upcomingAuction`, {
-    method: "GET",
-    headers: {
-      "content-type": "application/json;charset=UTF-8",
-      Authorization: `Bearer ${request.token}`,
-      "X-Transaction-ID": request.transactionId,
+  const response = await fetchWithRetry(
+    `${API_URL}/data?type=upcomingAuction`,
+    {
+      method: "GET",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        Authorization: `Bearer ${request.token}`,
+        "X-Transaction-ID": request.transactionId,
+      },
     },
-  });
+  );
 
   if (response.status === 429) {
     throw new Error(ERRORS.TOO_MANY_REQUESTS);

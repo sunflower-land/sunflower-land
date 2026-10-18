@@ -1,9 +1,10 @@
 import { getKeys } from "lib/object";
-import type { GameState, InventoryItemName } from "./game";
+import type { BoostName, GameState, InventoryItemName } from "./game";
 import { type ChapterName, getCurrentChapter } from "./chapters";
 import type { BeachBountyChapterArtefact } from "./treasure";
 import { isCollectibleBuilt } from "../lib/collectibleBuilt";
 import { isWearableActive } from "../lib/wearables";
+import type Decimal from "decimal.js-light";
 
 export const DESERT_GRID_HEIGHT = 10;
 export const DESERT_GRID_WIDTH = 10;
@@ -34,6 +35,30 @@ export const CHAPTER_ARTEFACT: Record<ChapterName, BeachBountyChapterArtefact> =
     "Salt Awakening": "Salt Dino Egg",
     "Ascension Age": "Otter Pebble",
   };
+
+const CHAPTER_ARTEFACTS = new Set<BeachBountyChapterArtefact>(
+  Object.values(CHAPTER_ARTEFACT),
+);
+
+export function isChapterArtefact(
+  name: InventoryItemName,
+): name is BeachBountyChapterArtefact {
+  return CHAPTER_ARTEFACTS.has(name as BeachBountyChapterArtefact);
+}
+
+export function shouldHideChapterArtefact({
+  name,
+  currentChapterArtefact,
+  amount,
+}: {
+  name: InventoryItemName;
+  currentChapterArtefact: BeachBountyChapterArtefact;
+  amount: Decimal;
+}) {
+  return (
+    isChapterArtefact(name) && name !== currentChapterArtefact && amount.lte(0)
+  );
+}
 
 export const DIGGING_FORMATIONS = {
   // Horizontal Zig Zag - X Coins
@@ -393,36 +418,44 @@ export function getTreasureCount({ game }: { game: GameState }) {
   return count;
 }
 
+const BASE_DAILY_DIGS = 25;
+
 /**
  * The base number of digs available per day, before today's `extraDigs`,
- * including the boosts granted by placed collectibles and active wearables.
+ * including the boosts granted by placed collectibles and active wearables,
+ * plus the list of boosts that contributed.
  */
-export const getRegularMaxDigs = (game: GameState) => {
-  let maxDigs = 25;
+export const getDailyDigLimit = (
+  game: GameState,
+): { amount: number; boostsUsed: { name: BoostName; value: string }[] } => {
+  let amount = BASE_DAILY_DIGS;
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isCollectibleBuilt({ name: "Heart of Davy Jones", game })) {
-    maxDigs += 20;
+    amount += 20;
+    boostsUsed.push({ name: "Heart of Davy Jones", value: "+20" });
   }
 
-  if (
-    isCollectibleBuilt({
-      name: "Pharaoh Chicken",
-      game,
-    })
-  ) {
-    maxDigs += 1;
+  if (isCollectibleBuilt({ name: "Pharaoh Chicken", game })) {
+    amount += 1;
+    boostsUsed.push({ name: "Pharaoh Chicken", value: "+1" });
   }
 
   if (isWearableActive({ name: "Bionic Drill", game })) {
-    maxDigs += 5;
+    amount += 5;
+    boostsUsed.push({ name: "Bionic Drill", value: "+5" });
   }
 
   if (isCollectibleBuilt({ name: "Meerkat", game })) {
-    maxDigs += 5;
+    amount += 5;
+    boostsUsed.push({ name: "Meerkat", value: "+5" });
   }
 
-  return maxDigs;
+  return { amount, boostsUsed };
 };
+
+export const getRegularMaxDigs = (game: GameState) =>
+  getDailyDigLimit(game).amount;
 
 /**
  * How many digs the player has left today: their boosted daily max minus

@@ -15,6 +15,12 @@ export type ChapterMutantsData = {
   Fish: ChapterFish[];
   Cow: MutantCow | undefined;
   Sheep: MutantSheep | undefined;
+  /**
+   * No Pig mutant exists yet. Optional so every existing chapter entry stays
+   * as-is, while indexing this by AnimalType still typechecks and simply
+   * yields undefined for a Pig. Mirrors the API side.
+   */
+  Pig?: undefined;
 };
 
 export type MutantsChapterName = Exclude<

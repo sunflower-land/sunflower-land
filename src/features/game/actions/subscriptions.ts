@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 
 const API_URL = CONFIG.API_URL;
@@ -33,7 +34,7 @@ export async function subscribeToNotifications({
 }> {
   const url = new URL(`${API_URL}/notifications/subscribe`);
 
-  const response = await window.fetch(url.toString(), {
+  const response = await fetchWithRetry(url.toString(), {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
@@ -63,7 +64,7 @@ export const getSubscriptionsForFarmId = async (
   token: string,
 ) => {
   const url = new URL(`${API_URL}/notifications/subscriptions/${farmId}`);
-  const response = await window.fetch(url.toString(), {
+  const response = await fetchWithRetry(url.toString(), {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",

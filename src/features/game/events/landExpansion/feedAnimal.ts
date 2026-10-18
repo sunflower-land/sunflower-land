@@ -12,14 +12,22 @@ import type {
   Animal,
   AnimalFoodName,
   AnimalMedicineName,
+  AnimalMud,
   BoostName,
   GameState,
 } from "features/game/types/game";
 import {
   getAnimalFavoriteFood,
   getAnimalLevel,
+  getAnimalMaxLevel,
+  getAnimalReadyAt,
   getBoostedFoodQuantity,
+  getXpUntilReady,
+  hasAnimalCompletedCycle,
+  isFoodForAnimal,
+  isMuddy,
   makeAnimalBuildingKey,
+  MUD_XP_MULTIPLIER,
 } from "features/game/lib/animals";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { trackFarmActivity } from "features/game/types/farmActivity";
@@ -27,6 +35,12 @@ import { getKeys } from "lib/object";
 import { isWearableActive } from "features/game/lib/wearables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { isAnimalFeedable } from "./buyAnimal";
+import {
+  BEETLE_FEEDING_XP,
+  type BeetleName,
+  isBeetle,
+} from "features/game/types/beetles";
+import { hasFeatureAccess } from "lib/flags";
 
 export const ANIMAL_SLEEP_DURATION = 24 * 60 * 60 * 1000;
 
@@ -34,13 +48,16 @@ export const REQUIRED_FOOD_QTY: Record<AnimalType, number> = {
   Chicken: 1,
   Sheep: 3,
   Cow: 5,
+  // One Slop per feeding: a Slop's recipe is #7721's "quantity per feeding
+  // action" (types/pigFeeds.ts).
+  Pig: 1,
 };
 
 export type FeedAnimalAction = {
   type: "animal.fed";
   animal: AnimalType;
   id: string;
-  item?: AnimalFoodName | AnimalMedicineName;
+  item?: AnimalFoodName | AnimalMedicineName | BeetleName;
 };
 
 type Options = {
@@ -49,43 +66,29 @@ type Options = {
   createdAt?: number;
 };
 
-export function isMaxLevel(animal: AnimalType, experience: number) {
-  const maxLevel = (getKeys(ANIMAL_LEVELS[animal]).length - 1) as AnimalLevel;
-  const maxLevelXP = ANIMAL_LEVELS[animal][maxLevel];
-
-  return experience >= maxLevelXP;
+export function isMaxLevel(
+  animal: AnimalType,
+  experience: number,
+  maxLevel: AnimalLevel = (getKeys(ANIMAL_LEVELS[animal]).length -
+    1) as AnimalLevel,
+) {
+  return experience >= ANIMAL_LEVELS[animal][maxLevel];
 }
 
+/** Applies the feed's XP and reports whether it earned produce. */
 const handleAnimalExperience = (
   animal: Animal,
   animalType: AnimalType,
   beforeFeedXp: number,
   foodXp: number,
 ): boolean => {
-  animal.experience += foodXp;
+  animal.experience = new Decimal(animal.experience).add(foodXp).toNumber();
 
-  // Handle non-max level animal
-  if (!isMaxLevel(animalType, beforeFeedXp)) {
-    if (
-      getAnimalLevel(beforeFeedXp, animalType) !==
-      getAnimalLevel(animal.experience, animalType)
-    ) {
-      return true;
-    }
-    return false;
-  }
-
-  // Handle max level cycle completion
-  const maxLevel = (getKeys(ANIMAL_LEVELS[animalType]).length -
-    1) as AnimalLevel;
-  const levelBeforeMax = (maxLevel - 1) as AnimalLevel;
-  const maxLevelXp = ANIMAL_LEVELS[animalType][maxLevel];
-  const levelBeforeMaxXp = ANIMAL_LEVELS[animalType][levelBeforeMax];
-  const cycleXP = maxLevelXp - levelBeforeMaxXp;
-  const excessXpBeforeFeed = Math.max(beforeFeedXp - maxLevelXp, 0);
-  const currentCycleProgress = excessXpBeforeFeed % cycleXP;
-
-  return currentCycleProgress + foodXp >= cycleXP;
+  return hasAnimalCompletedCycle({
+    animalType,
+    beforeXp: beforeFeedXp,
+    gainedXp: foodXp,
+  });
 };
 
 const handleFreeFeeding = ({
@@ -101,11 +104,12 @@ const handleFreeFeeding = ({
 }) => {
   const beforeFeedXp = animal.experience;
   const nextLevel = (level + 1) as AnimalLevel;
+  const maxLevel = getAnimalMaxLevel(animalType);
   let isReady = false;
 
-  // Is max level
-  if (nextLevel > 15) {
-    const maxLevelXp = ANIMAL_LEVELS[animalType][15];
+  // Is max level (or capped there by its building)
+  if (nextLevel > maxLevel) {
+    const maxLevelXp = ANIMAL_LEVELS[animalType][maxLevel];
     const currentCycleProgress = beforeFeedXp % maxLevelXp;
     const xpDiff = maxLevelXp - currentCycleProgress;
 
@@ -145,21 +149,72 @@ export function handleFoodXP({
   animal,
   level,
   food,
+  mud,
 }: {
   state: GameState;
   animal: AnimalType;
   level: AnimalLevel;
-  food: AnimalFoodName;
+  food: AnimalFoodName | BeetleName;
+  mud?: AnimalMud;
 }) {
-  let foodXp = ANIMAL_FOOD_EXPERIENCE[animal][level][food];
+  // A Beetle fed directly is a food like any other, with a fixed base XP.
+  // Decimal keeps fractional XP (a muddy Pig's 10 -> 12.5) exact.
+  let foodXp = new Decimal(
+    isBeetle(food)
+      ? BEETLE_FEEDING_XP[food]
+      : (ANIMAL_FOOD_EXPERIENCE[animal][level][food] ?? 0),
+  );
 
+  // Chonky Feed never applies to a Beetle (#7721): a Beetle feed is always
+  // exactly one Beetle, so there is no extra feed cost to pay for the XP.
   const chonkyFeedLevel = getSkillLevel(state.bumpkin.skills, "Chonky Feed");
-  if (chonkyFeedLevel) {
-    // Every ANIMAL_FOOD_EXPERIENCE value is even, so the 2.5x rank stays integral.
-    foodXp *= SKILL_RANKS["Chonky Feed"].xp[chonkyFeedLevel - 1];
+  if (chonkyFeedLevel && !isBeetle(food)) {
+    foodXp = foodXp.mul(SKILL_RANKS["Chonky Feed"].xp[chonkyFeedLevel - 1]);
   }
 
-  return { foodXp };
+  // Mud is the FINAL multiplier, after every other feed-XP modifier.
+  if (isMuddy({ mud })) {
+    foodXp = foodXp.mul(MUD_XP_MULTIPLIER);
+  }
+
+  return { foodXp: foodXp.toNumber() };
+}
+
+/**
+ * Animals fed a whole batch per click: they ask for as many of their favourite
+ * food as it takes to get ready, and one click feeds them all (ticket 396).
+ */
+const BATCH_FED_ANIMALS: Partial<Record<AnimalType, true>> = { Pig: true };
+
+/**
+ * How many feeds one click gives `animal`: for a batch-fed animal, the number
+ * of its favourite food (with Chonky Feed and Mud) that gets it ready; 1 for
+ * everyone else. Feeding a different food uses the same count.
+ */
+export function getFeedBatchSize({
+  state,
+  animal,
+}: {
+  state: GameState;
+  animal: Animal;
+}): number {
+  if (!BATCH_FED_ANIMALS[animal.type]) return 1;
+
+  const { foodXp } = handleFoodXP({
+    state,
+    animal: animal.type,
+    level: getAnimalLevel(animal.experience, animal.type),
+    food: getAnimalFavoriteFood(animal.type, animal.experience),
+    mud: animal.mud,
+  });
+
+  return Math.max(
+    1,
+    new Decimal(getXpUntilReady(animal.type, animal.experience))
+      .div(foodXp)
+      .toDecimalPlaces(0, Decimal.ROUND_CEIL)
+      .toNumber(),
+  );
 }
 
 export function getBarnDelightCost({ state }: { state: GameState }): {
@@ -209,7 +264,7 @@ export function feedAnimal({
 
     const beforeFeedXp = animal.experience;
 
-    if (createdAt < animal.awakeAt && animal.state !== "sick") {
+    if (createdAt < getAnimalReadyAt(animal, copy) && animal.state !== "sick") {
       throw new Error("Animal is asleep");
     }
 
@@ -258,7 +313,11 @@ export function feedAnimal({
     }
 
     const level = getAnimalLevel(animal.experience, animal.type);
-    const food = action.item as AnimalFoodName;
+    const food = action.item as AnimalFoodName | BeetleName;
+    if (food && isBeetle(food) && !hasFeatureAccess(copy, "BEETLE_FEEDING")) {
+      throw new Error("Beetle feeding is not available");
+    }
+
     const hasGoldenEggPlaced = isCollectibleBuilt({
       name: "Gold Egg",
       game: copy,
@@ -326,21 +385,37 @@ export function feedAnimal({
       throw new Error("No food provided");
     }
 
-    const { foodXp } = handleFoodXP({
+    if (!isBeetle(food) && !isFoodForAnimal(action.animal, food)) {
+      throw new Error("This animal cannot eat this food");
+    }
+
+    // One click feeds a whole batch to a batch-fed animal (a Pig); a Beetle
+    // is always one per click.
+    const feeds = isBeetle(food)
+      ? 1
+      : getFeedBatchSize({ state: copy, animal });
+
+    const { foodXp: xpPerFeed } = handleFoodXP({
       state: copy,
       animal: action.animal,
       level,
       food,
+      mud: animal.mud,
     });
+    const foodXp = new Decimal(xpPerFeed).mul(feeds).toNumber();
 
-    const foodQuantity = REQUIRED_FOOD_QTY[action.animal];
-    const { foodQuantity: boostedFoodQuantity, boostsUsed: foodBoostsUsed } =
-      getBoostedFoodQuantity({
-        animalType: action.animal,
-        foodQuantity,
-        game: copy,
-        animal,
-      });
+    // A Beetle is always one per feeding, with no feed-saving boosts.
+    const { foodQuantity: quantityPerFeed, boostsUsed: foodBoostsUsed } =
+      isBeetle(food)
+        ? { foodQuantity: new Decimal(1), boostsUsed: [] }
+        : getBoostedFoodQuantity({
+            animalType: action.animal,
+            foodQuantity: REQUIRED_FOOD_QTY[action.animal],
+            game: copy,
+            animal,
+            now: createdAt,
+          });
+    const boostedFoodQuantity = quantityPerFeed.mul(feeds);
 
     // Take food from inventory
     const inventoryAmount = copy.inventory[food] ?? new Decimal(0);
@@ -363,7 +438,9 @@ export function feedAnimal({
     // Only set happy/sad state if animal isn't ready
     if (!isReady) {
       animal.state =
-        favouriteFood === food || food === "Omnifeed" ? "happy" : "sad";
+        favouriteFood === food || food === "Omnifeed" || isBeetle(food)
+          ? "happy"
+          : "sad";
     } else {
       animal.state = "ready";
     }

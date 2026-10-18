@@ -13,6 +13,7 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { useNow } from "lib/utils/hooks/useNow";
 import { isAnimalReadyForLove } from "features/game/events/landExpansion/loveAnimal";
 import { getOverCapacityAnimalIds } from "features/game/events/landExpansion/buyAnimal";
+import { getAnimalReadyAt } from "features/game/lib/animals";
 import { isAnimalCoveredByGoldenAsset } from "features/game/events/landExpansion/feedAllAnimals";
 import classNames from "classnames";
 import { saveIslandScrollPosition } from "features/game/expansion/lib/islandScroll";
@@ -22,7 +23,8 @@ const _hasHungryChickens = (state: MachineState) => {
   // Capacity-locked animals cannot be fed, so they never count as hungry.
   const lockedIds = getOverCapacityAnimalIds("henHouse", game);
   return Object.values(game.henHouse.animals).some(
-    (animal) => animal.awakeAt < Date.now() && !lockedIds.has(animal.id),
+    (animal) =>
+      getAnimalReadyAt(animal, game) < Date.now() && !lockedIds.has(animal.id),
   );
 };
 
@@ -58,7 +60,7 @@ export const ChickenHouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
       !isAnimalCoveredByGoldenAsset({
         state: game,
         animalType: animal.type,
-      }) && isAnimalReadyForLove(animal, now),
+      }) && isAnimalReadyForLove(animal, now, getAnimalReadyAt(animal, game)),
   );
 
   const { play: barnAudio } = useSound("barn");

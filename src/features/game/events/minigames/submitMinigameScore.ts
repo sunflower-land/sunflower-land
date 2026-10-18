@@ -27,6 +27,10 @@ export function submitMinigameScore({
       throw new Error(`${action.id} is not a valid minigame`);
     }
 
+    if (!Number.isFinite(action.score) || action.score < 0) {
+      throw new Error("Invalid score");
+    }
+
     const minigames = (game.minigames ??
       {}) as Required<GameState>["minigames"];
 

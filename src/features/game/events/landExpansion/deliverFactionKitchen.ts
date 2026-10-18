@@ -17,6 +17,7 @@ export enum DELIVER_FACTION_KITCHEN_ERRORS {
   NO_KITCHEN_DATA = "No kitchen data available",
   NO_RESOURCE_FOUND = "No requested resource found at index",
   INSUFFICIENT_RESOURCES = "Insufficient resources",
+  INVALID_AMOUNT = "Invalid amount",
 }
 
 export const BASE_POINTS = 20;
@@ -78,6 +79,11 @@ export function deliverFactionKitchen({
 
     const request = resources[action.resourceIndex];
     const { amount = 1 } = action;
+
+    if (!Number.isInteger(amount) || amount <= 0) {
+      throw new Error(DELIVER_FACTION_KITCHEN_ERRORS.INVALID_AMOUNT);
+    }
+
     const resourceBalance = inventory[request.item] ?? new Decimal(0);
     const requestAmount = request.amount * amount;
 

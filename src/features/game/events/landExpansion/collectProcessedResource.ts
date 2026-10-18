@@ -83,6 +83,13 @@ export function collectProcessedResource({
       throw new Error("Fish Market does not exist");
     }
 
+    // A lifted building keeps processing while it sits in the inventory - the
+    // pause is only applied when it is placed back down, so collecting from an
+    // unplaced one would side-step it entirely.
+    if (!building.coordinates) {
+      throw new Error(`${action.buildingName} is not placed`);
+    }
+
     const processing: BuildingProduct[] = building.processing ?? [];
 
     if (!processing.length) {

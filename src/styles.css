@@ -115,6 +115,9 @@
   --font-family: "Basic", "Ark", sans-serif;
 
   /* Font Size Variables */
+  --text-xxxs-size: 10px;
+  --text-xxxs-line-height: 7px;
+
   --text-xxs-size: 20px;
   --text-xxs-line-height: 12px;
 
@@ -293,6 +296,19 @@ img {
 
 .pulsating {
   animation: pulsate 1s infinite;
+}
+
+/* A counter that just went up - one quick pop (see tailwind `animate-bump`). */
+@keyframes bump {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 /* 7 frame sparkle spritesheet. The frame width is set by the component so the
@@ -1677,38 +1693,25 @@ th {
   transform: scaleX(-1) translateX(50%);
 }
 
-/* Custom pixel art cursor (Sunnyside). While the mouse button is held
-   anywhere on the page, html.custom-cursor:active swaps in a variant of the
-   same art rotated 20deg counter-clockwise. Its hotspot (8 0) keeps the
-   bottom-right corner of the artwork at the same screen position as the idle
-   frame, so the cursor appears to pivot around its bottom-right corner,
-   tipping down into the click.
-
-   NOTE: the pressed swap is deliberately gated behind .custom-cursor. These
-   are inherited custom properties on <html>, so changing them on press forces
-   a style recalc of the entire document — that must not happen for players
-   who haven't opted in. */
-:root {
-  /* default arrow is greyed out; the full-colour "lit" variant lights it up
-     over clickable elements */
-  --cursor-arrow: url("./assets/ui/cursors/pointer.png") 0 0, auto;
-  --cursor-arrow-lit: url("./assets/ui/cursors/pointer_lit.png") 0 0, pointer;
-}
-html.custom-cursor:active {
-  --cursor-arrow: url("./assets/ui/cursors/pointer_pressed.png") 3 0, auto;
-  --cursor-arrow-lit:
-    url("./assets/ui/cursors/pointer_lit_pressed.png") 3 0, pointer;
+/* Keep visitor action icons readable when their collectible is flipped. */
+.flipped .monument-help-action img {
+  transform: none;
 }
 
-/* Experimental, opt-in via Settings -> Advanced -> Experiments. The
-   `custom-cursor` class is toggled on <html> by lib/utils/customCursor.ts. */
+/* Custom pixel art cursor (Sunnyside). On by default; turn it off via
+   Settings -> Preferences -> Appearance. The `custom-cursor` class is toggled
+   on <html> once by lib/utils/customCursor.ts when the setting changes.
+
+   Deliberately no custom properties and no per-click state on <html>/<body>:
+   `cursor` is inherited, so changing it (or a variable it reads) on the root
+   forces a style recalc of the whole document on every mousedown/mouseup.
+   The arrow is set once on the root and inherited everywhere; the explicit
+   list below only overrides elements where Tailwind's preflight or the UA
+   stylesheet set their own `cursor` (buttons, links, :disabled, .cursor-*). */
 html.custom-cursor,
-.custom-cursor body,
-.custom-cursor .cursor-default {
-  cursor: var(--cursor-arrow);
-}
-
-.custom-cursor button:not(:disabled),
+.custom-cursor .cursor-default,
+.custom-cursor .cursor-not-allowed,
+.custom-cursor button,
 .custom-cursor a,
 .custom-cursor select,
 .custom-cursor summary,
@@ -1716,13 +1719,24 @@ html.custom-cursor,
 .custom-cursor .cursor-pointer,
 .custom-cursor .cursor-grab,
 .custom-cursor .cursor-grabbing {
-  cursor: var(--cursor-arrow-lit);
+  cursor:
+    url("./assets/ui/cursors/pointer.png") 0 0,
+    auto;
 }
 
-/* Disabled elements keep the greyed arrow — they just don't light up */
-.custom-cursor button:disabled,
-.custom-cursor .cursor-not-allowed {
-  cursor: var(--cursor-arrow);
+/* Pressed frame: the same art rotated 20deg counter-clockwise. Its hotspot
+   (3 0) keeps the bottom-right corner of the artwork at the same screen
+   position as the idle frame, so the cursor appears to pivot around its
+   bottom-right corner, tipping down into the click.
+
+   `:active` matches the pressed element AND every ancestor up to <html>, so
+   a plain `:active` rule would restyle the root on every click. Instead this
+   targets only the innermost active element - the one with no active
+   descendant - and only below <body>, so the root and body never change. */
+.custom-cursor body :active:not(input, textarea, :has(:active)) {
+  cursor:
+    url("./assets/ui/cursors/pointer_pressed.png") 3 0,
+    auto;
 }
 
 /* Keep the text beam on typing fields */

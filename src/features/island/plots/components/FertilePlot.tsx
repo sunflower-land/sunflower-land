@@ -1,7 +1,10 @@
 import React, { useContext, useMemo, useState, type JSX } from "react";
 
 import { CROPS, type CropName } from "features/game/types/crops";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { type GrowthStage, Soil } from "features/island/plots/components/Soil";
 import { Bar, ProgressBar } from "components/ui/ProgressBar";
@@ -19,14 +22,12 @@ import { getActiveCalendarEvent } from "features/game/types/calendar";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
-import { useNow } from "lib/utils/hooks/useNow";
 import { CROP_COMPOST } from "features/game/types/composters";
 import {
-  computeReadyAt,
-  getEffectiveSpeedAt,
   workAccruedAt,
   type BoostWindow,
 } from "features/game/lib/boostWindows";
+import { useNodeTimer } from "features/game/lib/useNodeTimer";
 
 interface Props {
   cropName?: CropName;
@@ -38,8 +39,6 @@ interface Props {
   showTimers: boolean;
   /** Live windowed speed boosts (e.g. Sparrow Shrine) affecting crop growth. */
   boostWindows: BoostWindow[];
-  /** Live timestamp from the parent; used to pick the current boost speed. */
-  now: number;
 }
 
 const _island = (state: MachineState) => state.context.state.island;
@@ -62,40 +61,32 @@ const getHarvestMetrics = ({
   cropName,
   plot,
   plantedAt,
-  boostWindows,
 }: {
   cropName?: CropName;
   plot: CropPlot;
   plantedAt?: number;
-  boostWindows: BoostWindow[];
 }): {
   harvestSeconds: number;
-  readyAt: number;
+  /** Ready time for a legacy crop; unused (0) when `baseDurationMs` is set —
+   * `useNodeTimer` derives the windowed ready time live from the windows. */
+  legacyReadyAt: number;
   startAt: number;
   baseDurationMs?: number;
 } => {
   const plantedTimestamp = plantedAt ?? plot.crop?.plantedAt ?? 0;
 
   if (!cropName || !plantedTimestamp) {
-    return { harvestSeconds: 0, readyAt: 0, startAt: 0 };
+    return { harvestSeconds: 0, legacyReadyAt: 0, startAt: 0 };
   }
 
-  // Speed-rate model: derive the ready time live from the boost windows so the
-  // countdown ticks at the boosted rate and reacts to shrines placed mid-grow.
   const baseDurationMs =
     plot.crop?.name === cropName ? plot.crop?.baseDurationMs : undefined;
 
   if (baseDurationMs !== undefined) {
-    const readyAt = computeReadyAt({
-      startedAt: plantedTimestamp,
-      baseDurationMs,
-      windows: boostWindows,
-    });
-
     return {
       baseDurationMs,
       harvestSeconds: baseDurationMs / 1000,
-      readyAt,
+      legacyReadyAt: 0,
       startAt: plantedTimestamp,
     };
   }
@@ -106,9 +97,12 @@ const getHarvestMetrics = ({
     plot.crop?.name === cropName ? (plot.crop?.boostedTime ?? 0) : 0;
   const harvestSeconds = Math.max(baseHarvestSeconds - boostOffsetMs / 1000, 0);
   const startAt = plantedTimestamp + boostOffsetMs;
-  const readyAt = startAt + harvestSeconds * 1000;
 
-  return { harvestSeconds, readyAt, startAt };
+  return {
+    harvestSeconds,
+    legacyReadyAt: startAt + harvestSeconds * 1000,
+    startAt,
+  };
 };
 
 export const FertilePlot: React.FC<Props> = ({
@@ -120,7 +114,6 @@ export const FertilePlot: React.FC<Props> = ({
   touchCount,
   showTimers,
   boostWindows,
-  now,
 }) => {
   const { gameService, selectedItem } = useContext(Context);
   // Only treat the player as "applying fertiliser" when the plot is still
@@ -133,31 +126,25 @@ export const FertilePlot: React.FC<Props> = ({
   const calendar = useSelector(gameService, _calendar);
 
   const [showTimerPopover, setShowTimerPopover] = useState(false);
-  const { harvestSeconds, readyAt, startAt, baseDurationMs } = useMemo(
-    () => getHarvestMetrics({ cropName, plot, plantedAt, boostWindows }),
-    [cropName, plantedAt, plot, boostWindows],
+  const { harvestSeconds, legacyReadyAt, startAt, baseDurationMs } = useMemo(
+    () => getHarvestMetrics({ cropName, plot, plantedAt }),
+    [cropName, plantedAt, plot],
   );
-  // Tick faster while a boost window is active so the displayed countdown drops
-  // ~1s per visual tick (a faster-running clock) instead of jumping by `speed`
-  // each real second. speed === 1 keeps the normal 1s cadence. Only crops on the
-  // speed-rate model (baseDurationMs set) are boosted; legacy crops stay at 1×.
-  const speed =
-    baseDurationMs !== undefined
-      ? getEffectiveSpeedAt({ at: now, windows: boostWindows })
-      : 1;
-  const intervalMs = Math.max(Math.round(1000 / Math.max(speed, 1)), 250);
-  const currentTime = useNow({
-    live: readyAt > 0,
-    autoEndAt: readyAt,
-    intervalMs,
+  const {
+    now: currentTime,
+    readyAt,
+    countdownSeconds,
+  } = useNodeTimer({
+    startedAt: startAt,
+    baseDurationMs,
+    windows: boostWindows,
+    legacyReadyAt,
+    live: startAt > 0,
   });
   const isGrowing = harvestSeconds > 0 ? readyAt > currentTime : false;
-  // A windowed speed boost (e.g. Sparrow Shrine) is actively speeding this crop.
-  const isBoosted = isGrowing && speed > 1;
 
-  // For speed-rate crops the remaining time is the remaining *work* (in base
-  // duration), so it visibly ticks down faster while a boost window is active.
-  let timeLeft = 0;
+  // How grown the crop is — always measured in WORK, which does not drain at
+  // wall-clock rate while a boost window is running.
   let growPercentage = 100;
   if (readyAt > 0 && harvestSeconds > 0) {
     if (baseDurationMs !== undefined) {
@@ -171,15 +158,17 @@ export const FertilePlot: React.FC<Props> = ({
         at: currentTime,
         windows: boostWindows,
       });
-      timeLeft = Math.max((baseDurationMs - workDoneMs) / 1000, 0);
       growPercentage = clampPercentage(
         ((bankedMs + workDoneMs) / (baseDurationMs + bankedMs)) * 100,
       );
     } else {
-      timeLeft = Math.max((readyAt - currentTime) / 1000, 0);
-      growPercentage = clampPercentage(100 - (timeLeft / harvestSeconds) * 100);
+      growPercentage = clampPercentage(
+        100 -
+          (Math.max((readyAt - currentTime) / 1000, 0) / harvestSeconds) * 100,
+      );
     }
   }
+  const timeLeft = readyAt > 0 && harvestSeconds > 0 ? countdownSeconds : 0;
 
   const activeInsectPlague =
     getActiveCalendarEvent({ calendar }) === "insectPlague";
@@ -225,9 +214,6 @@ export const FertilePlot: React.FC<Props> = ({
     size: number;
     pulse?: boolean;
   }[] = [
-    ...(isBoosted
-      ? [{ key: "boost", src: SUNNYSIDE.icons.lightning, size: 7, pulse: true }]
-      : []),
     ...(weatherIcon ? [{ key: "weather", src: weatherIcon, size: 10 }] : []),
     ...(plot.beeSwarm ? [{ key: "bee", src: bee, size: 8 }] : []),
     ...fertiliserIcons.map((src, i) => ({
@@ -313,10 +299,9 @@ export const FertilePlot: React.FC<Props> = ({
         >
           <TimerPopover
             image={ITEM_DETAILS[cropName].image}
-            description={cropName}
+            description={getTranslatedItemName(cropName)}
             showPopover={showTimerPopover && !isApplyingFertiliser}
             timeLeft={timeLeft}
-            speed={speed}
           />
         </div>
       )}

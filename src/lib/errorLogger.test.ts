@@ -1,4 +1,10 @@
-import { buildErrorReport } from "./errorLogger";
+import {
+  buildErrorReport,
+  createErrorLogger,
+  isExternalDomMutationError,
+  isNetworkError,
+} from "./errorLogger";
+import { ERRORS } from "./errors";
 
 describe("buildErrorReport", () => {
   it("sends the legacy modal shape as a code + transaction id", () => {
@@ -53,5 +59,124 @@ describe("buildErrorReport", () => {
       errorId: "e1",
       meta: { screen: "plaza" },
     });
+  });
+});
+
+describe("isNetworkError", () => {
+  it("recognises browser fetch failures in every shape the logger accepts", () => {
+    expect(isNetworkError(new TypeError("Failed to fetch"))).toBe(true);
+    expect(isNetworkError("Failed to fetch")).toBe(true);
+    expect(isNetworkError({ error: "Failed to fetch" })).toBe(true);
+    expect(isNetworkError({ message: "Load failed" })).toBe(true);
+    expect(
+      isNetworkError("NetworkError when attempting to fetch resource."),
+    ).toBe(true);
+  });
+
+  it("recognises aborted requests by name and by each browser's message", () => {
+    const aborted = new Error("whatever this browser says");
+    aborted.name = "AbortError";
+    expect(isNetworkError(aborted)).toBe(true);
+
+    expect(isNetworkError("signal is aborted without reason")).toBe(true);
+    expect(isNetworkError("The operation was aborted.")).toBe(true);
+    expect(isNetworkError("The user aborted a request.")).toBe(true);
+  });
+
+  it("recognises our own autosave timeout abort reason", () => {
+    expect(isNetworkError(new Error(ERRORS.AUTOSAVE_TIMEOUT))).toBe(true);
+    expect(isNetworkError(ERRORS.AUTOSAVE_TIMEOUT)).toBe(true);
+  });
+
+  it("does not match real errors", () => {
+    expect(isNetworkError("EF-001")).toBe(false);
+    expect(isNetworkError("The operation completed")).toBe(false);
+    expect(isNetworkError(new Error("Autosave aborted the transaction"))).toBe(
+      false,
+    );
+    expect(isNetworkError(new Error("Failed to fetch liquidity data"))).toBe(
+      false,
+    );
+    expect(isNetworkError({ error: "ALREADY_BOUGHT" })).toBe(false);
+    expect(isNetworkError(undefined)).toBe(false);
+  });
+});
+
+describe("createErrorLogger", () => {
+  const fetchMock = jest.fn().mockResolvedValue({ ok: true });
+  const originalFetch = global.fetch;
+
+  beforeEach(() => {
+    fetchMock.mockClear();
+    global.fetch = fetchMock as unknown as typeof fetch;
+  });
+
+  afterEach(() => {
+    global.fetch = originalFetch;
+  });
+
+  it("does not report expected backend rejections such as trading errors", async () => {
+    const log = createErrorLogger("react_error_modal", 1);
+    await log({ error: "ALREADY_BOUGHT", transactionId: "t-already" });
+    await log({ error: "TRADE_NOT_FOUND", transactionId: "t-notfound" });
+    await log("INSUFFICIENT_FLOWER");
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("does not report network failures", async () => {
+    const log = createErrorLogger("react_error_modal", 1);
+    await log({ error: "Failed to fetch", transactionId: "t-fetch" });
+    await log(new TypeError("Load failed"));
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("still reports unexpected errors", async () => {
+    const log = createErrorLogger("react_error_modal", 1);
+    await log({ error: "EF-001", transactionId: "t-ef001-unique" });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+    expect(body.code).toBe("EF-001");
+  });
+
+  it("reports extension/translation crashes under their own code", async () => {
+    const log = createErrorLogger("react_error_modal", 1);
+    await log({
+      error:
+        "Failed to execute 'insertBefore' on 'Node': The node before which the new node is to be inserted is not a child of this node.",
+      transactionId: "t-dom-mutation",
+    });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+    expect(body.code).toBe("EXTERNAL_DOM_MUTATION");
+    expect(body.error.code).toBe("EXTERNAL_DOM_MUTATION");
+  });
+});
+
+describe("isExternalDomMutationError", () => {
+  it("matches the DOM exceptions React throws after outside mutation", () => {
+    expect(
+      isExternalDomMutationError(
+        new Error(
+          "Failed to execute 'insertBefore' on 'Node': The node before which the new node is to be inserted is not a child of this node.",
+        ),
+      ),
+    ).toBe(true);
+    expect(
+      isExternalDomMutationError(
+        "Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.",
+      ),
+    ).toBe(true);
+    // Firefox wording
+    expect(isExternalDomMutationError(new Error("Node was not found"))).toBe(
+      true,
+    );
+  });
+
+  it("does not match ordinary game errors", () => {
+    expect(isExternalDomMutationError(new Error("Failed to fetch"))).toBe(
+      false,
+    );
+    expect(isExternalDomMutationError({ error: "EF-001" })).toBe(false);
+    expect(isExternalDomMutationError(undefined)).toBe(false);
   });
 });

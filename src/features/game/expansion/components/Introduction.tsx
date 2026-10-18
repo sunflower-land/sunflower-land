@@ -39,7 +39,7 @@ export const Introduction: React.FC = () => {
                 text: t("pete.intro.two"),
               },
               {
-                text: t("pete.intro.three"),
+                text: t("pete.intro.axes"),
               },
             ]}
           />

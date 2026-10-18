@@ -17,8 +17,12 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSelector } from "@xstate/react";
 import { RoundButton } from "components/ui/RoundButton";
 import { isMobile } from "mobile-device-detect";
+import { isAsciiText } from "lib/utils/textSupport";
+import { getResolvedFontFamily } from "lib/utils/fonts";
 
 const _delivery = (state: MachineState) => state.context.state.delivery;
+const _isTutorialIsland = (state: MachineState) =>
+  state.context.state.island.type === "basic";
 const _hasDeliveryLevel = (state: MachineState) =>
   meetsLevelRequirement(
     getAscensionLevel({
@@ -30,6 +34,9 @@ const _hasDeliveryLevel = (state: MachineState) =>
 
 export const CodexButton: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  // Session only on purpose: after a reload the hand comes back as a reminder,
+  // and it stops for good once the first delivery is made.
+  const [hasOpened, setHasOpened] = useState(false);
 
   const { gameService } = useContext(Context);
 
@@ -42,7 +49,26 @@ export const CodexButton: React.FC = () => {
     // For new players, always show until they fulfill a delivery
     (hasDeliveryLevel && deliveries.fulfilledCount === 0);
 
+  // Tutorial: after the first level up Pete mentions the Codex, so point at
+  // the button until they open it. The bound is the most deliveries a
+  // player can have fulfilled by the time the mention lands: the Sunflower
+  // opener, the Blacksmith's first Wood order, and the spare tart delivered
+  // right after levelling - three. Past that they are into the work cycle
+  // and the pointer would be a fourth simultaneous nudge.
+  const isTutorialIsland = useSelector(gameService, _isTutorialIsland);
+  const showHelper =
+    isTutorialIsland &&
+    hasDeliveryLevel &&
+    deliveries.fulfilledCount <= 3 &&
+    !hasOpened;
+
   const { t } = useAppTranslation();
+  const newDeliveriesLabel = t("deliveries.new");
+  // "Teeny" is a pixel font with printable-ASCII-only glyphs; scripts it
+  // can't render (Cyrillic, CJK, etc.) fall back to the player's regular UI
+  // font instead. That font runs wider than Teeny, so the layout below
+  // (word spacing, offsets, min width) is tuned separately per case.
+  const isTeenySupported = isAsciiText(newDeliveriesLabel);
 
   return (
     <div
@@ -57,6 +83,7 @@ export const CodexButton: React.FC = () => {
           e.stopPropagation();
           e.preventDefault();
           setIsOpen(true);
+          setHasOpened(true);
         }}
         buttonSize={isMobile ? 15 : 18}
       >
@@ -75,6 +102,18 @@ export const CodexButton: React.FC = () => {
           />
         </div>
 
+        {showHelper && (
+          <img
+            className="absolute pointer-events-none z-30 animate-pulsate"
+            src={SUNNYSIDE.icons.click_icon}
+            style={{
+              width: `${PIXEL_SCALE * 16}px`,
+              left: `${PIXEL_SCALE * (isMobile ? 6 : 8)}px`,
+              top: `${PIXEL_SCALE * (isMobile ? 8 : 10)}px`,
+            }}
+          />
+        )}
+
         {hasDeliveries && (
           <>
             <div
@@ -88,7 +127,9 @@ export const CodexButton: React.FC = () => {
               <div
                 className={"absolute uppercase"}
                 style={{
-                  fontFamily: "Teeny",
+                  fontFamily: isTeenySupported
+                    ? "Teeny"
+                    : getResolvedFontFamily(),
                   color: "black",
                   textShadow: "none",
                   top: `${PIXEL_SCALE * -8}px`,
@@ -104,7 +145,7 @@ export const CodexButton: React.FC = () => {
                   borderImageSlice: "2 2 4 5 fill",
                   imageRendering: "pixelated",
                   borderImageRepeat: "stretch",
-                  fontSize: "8px",
+                  fontSize: isTeenySupported ? "8px" : "var(--text-xxxs-size)",
                 }}
               >
                 <div
@@ -116,16 +157,26 @@ export const CodexButton: React.FC = () => {
                 >
                   <span
                     className="whitespace-nowrap"
-                    style={{
-                      fontSize: "10px",
-                      position: "relative",
-                      bottom: "4px",
-                      left: "4px",
-                      wordSpacing: "-4px",
-                      color: "#262b45",
-                    }}
+                    style={
+                      isTeenySupported
+                        ? {
+                            fontSize: "10px",
+                            position: "relative",
+                            bottom: "4px",
+                            left: "4px",
+                            wordSpacing: "-4px",
+                            color: "#262b45",
+                          }
+                        : {
+                            fontSize: "var(--text-xxxs-size)",
+                            lineHeight: "var(--text-xxxs-line-height)",
+                            position: "relative",
+                            bottom: "2px",
+                            color: "#262b45",
+                          }
+                    }
                   >
-                    {t("deliveries.new")}
+                    {newDeliveriesLabel}
                   </span>
                   <img
                     src={SUNNYSIDE.ui.coins}

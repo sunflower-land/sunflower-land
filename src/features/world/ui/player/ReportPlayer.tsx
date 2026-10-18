@@ -6,6 +6,7 @@ import { NumberInput } from "components/ui/NumberInput";
 import { TextInput } from "components/ui/TextInput";
 import React, { useContext, useState } from "react";
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { useSelector } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -49,7 +50,7 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
 
     setIsSubmitting(true);
     try {
-      const response = await fetch(`${CONFIG.API_URL}/report/player`, {
+      const response = await fetchWithRetry(`${CONFIG.API_URL}/report/player`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

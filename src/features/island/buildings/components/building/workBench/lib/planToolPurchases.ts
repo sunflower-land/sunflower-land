@@ -5,7 +5,10 @@ import {
   WORKBENCH_TOOLS,
   type WorkbenchToolName,
 } from "features/game/types/tools";
-import { getToolPrice } from "features/game/events/landExpansion/craftTool";
+import {
+  getFreeToolAmount,
+  getToolUnitPrice,
+} from "features/game/events/landExpansion/craftTool";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import {
   getAscensionLevel,
@@ -16,7 +19,10 @@ import { getObjectEntries } from "lib/object";
 export type ToolPurchase = {
   toolName: WorkbenchToolName;
   amount: number;
+  /** Coin price of one paid unit. */
   price: number;
+  /** Units at the front of the batch that cost nothing (tutorial Axes). */
+  freeAmount: number;
   ingredients: Partial<Record<InventoryItemName, Decimal>>;
 };
 
@@ -38,13 +44,14 @@ export function computeAffordableAmount(
   coins: number,
   ingredients: Partial<Record<InventoryItemName, Decimal>>,
   getAvailableIngredient: (name: InventoryItemName) => Decimal,
+  freeAmount = 0,
 ): number {
   let amount = initialAmount;
 
   if (amount <= 0) return 0;
 
   if (price > 0) {
-    amount = Math.min(amount, Math.floor(coins / price));
+    amount = Math.min(amount, freeAmount + Math.floor(coins / price));
   }
 
   getObjectEntries(ingredients).forEach(
@@ -61,6 +68,15 @@ export function computeAffordableAmount(
   );
 
   return Math.max(amount, 0);
+}
+
+/** Coins a purchase costs once its free units are taken off the front. */
+export function getPurchaseCost({
+  amount,
+  price,
+  freeAmount,
+}: Pick<ToolPurchase, "amount" | "price" | "freeAmount">): number {
+  return price * Math.max(0, amount - freeAmount);
 }
 
 function isToolLocked(toolName: WorkbenchToolName, state: GameState) {
@@ -116,7 +132,8 @@ export function planToolPurchases(
 
     if (amount <= 0) return;
 
-    const price = getToolPrice(tool, 1, state);
+    const price = getToolUnitPrice(tool, state);
+    const freeAmount = getFreeToolAmount(tool, state);
     const ingredients = tool.ingredients(state.bumpkin.skills);
 
     amount = computeAffordableAmount(
@@ -125,6 +142,7 @@ export function planToolPurchases(
       remainingCoins,
       ingredients,
       getRemainingIngredient,
+      freeAmount,
     );
 
     if (amount <= 0) return;
@@ -148,13 +166,14 @@ export function planToolPurchases(
       toolName,
       amount,
       price,
+      freeAmount,
       ingredients: purchaseIngredients,
     });
-    remainingCoins -= price * amount;
+    remainingCoins -= getPurchaseCost({ amount, price, freeAmount });
   });
 
   const totalCost = purchases.reduce(
-    (sum, purchase) => sum + purchase.amount * purchase.price,
+    (sum, purchase) => sum + getPurchaseCost(purchase),
     0,
   );
 

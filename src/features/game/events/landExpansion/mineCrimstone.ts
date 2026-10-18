@@ -46,9 +46,11 @@ type GetMinedAtArgs = {
 export function getCrimstoneRecoveryTimeForDisplay({
   game,
   prngArgs,
+  now,
 }: {
   game: GameState;
   prngArgs?: PrngArgs;
+  now: number;
 }): {
   baseTimeMs: number;
   recoveryTimeMs: number;
@@ -103,7 +105,7 @@ export function getCrimstoneRecoveryTimeForDisplay({
 
   if (
     !boostsWindowed &&
-    isTemporaryCollectibleActive({ name: "Mole Shrine", game })
+    isTemporaryCollectibleActive({ name: "Mole Shrine", game, now })
   ) {
     totalSeconds = totalSeconds * 0.75;
     boostsUsed.push({ name: "Mole Shrine", value: "x0.75" });
@@ -130,7 +132,7 @@ export function getMinedAt({ createdAt, game, prngArgs }: GetMinedAtArgs): {
   boostsUsed: { name: BoostName; value: string }[];
 } {
   const { baseTimeMs, recoveryTimeMs, boostsUsed } =
-    getCrimstoneRecoveryTimeForDisplay({ game, prngArgs });
+    getCrimstoneRecoveryTimeForDisplay({ game, prngArgs, now: createdAt });
 
   if (hasFeatureAccess(game, "SPEED_BOOSTS")) {
     return { time: createdAt, baseDurationMs: recoveryTimeMs, boostsUsed };

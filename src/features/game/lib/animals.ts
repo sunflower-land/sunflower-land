@@ -3,12 +3,13 @@ import {
   ANIMAL_FOOD_EXPERIENCE,
   ANIMAL_FOODS,
   ANIMAL_LEVELS,
+  ANIMAL_BUILDING_TYPES,
   type AnimalBuildingType,
   type AnimalLevel,
   ANIMALS,
   type AnimalType,
+  PIG_BRISTLES_PER_LEVEL,
 } from "../types/animals";
-import type { BuildingName } from "../types/buildings";
 import { getKeys } from "lib/object";
 import type {
   Animal,
@@ -19,6 +20,7 @@ import type {
   AnimalResource,
   BoostName,
   GameState,
+  Inventory,
   InventoryItemName,
 } from "../types/game";
 import {
@@ -27,11 +29,14 @@ import {
 } from "./collectibleBuilt";
 import { getBudYieldBoosts } from "./getBudYieldBoosts";
 import { isWearableActive } from "./wearables";
+import { computeReadyAt, getAnimalBoostWindows } from "./boostWindows";
+import { hasFeatureAccess } from "lib/flags";
+import { isBeetle } from "../types/beetles";
 import Decimal from "decimal.js-light";
 import { getSkillLevel, SKILL_RANKS } from "../types/bumpkinSkills";
 
 export const makeAnimalBuildingKey = (
-  buildingName: Extract<BuildingName, "Hen House" | "Barn">,
+  buildingName: AnimalBuildingType,
 ): AnimalBuildingKey => {
   return buildingName
     .replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) => {
@@ -40,23 +45,72 @@ export const makeAnimalBuildingKey = (
     .replace(/\s+/g, "") as AnimalBuildingKey;
 };
 
+/**
+ * Every animal building's GameState key, in AnimalBuildingType order. Derived
+ * so a new animal building cannot be forgotten by a loop; the order is stable
+ * because `checkAnimalHealth` draws random numbers per building.
+ */
+export const ANIMAL_BUILDING_KEYS: AnimalBuildingKey[] =
+  ANIMAL_BUILDING_TYPES.map(makeAnimalBuildingKey);
+
+/**
+ * Mud spent per application (#7721 Balance Update). Its charges work exactly
+ * like a spice-rack treat's (`getAnimalHarvests`, spent in `claimProduce`).
+ */
+export const MUD_PER_APPLICATION = 10;
+/**
+ * Final feeding-XP multiplier for a muddy Pig (#7721: +25% final XP). The
+ * result can be fractional (10 -> 12.5); handleFoodXP keeps it exact.
+ */
+export const MUD_XP_MULTIPLIER = 1.25;
+
+export const isMuddy = (animal: Pick<Animal, "mud">): boolean =>
+  (animal.mud?.harvestsRemaining ?? 0) > 0;
+
+/**
+ * Starting XP for the animals a new building is seeded with. Arbitrary data,
+ * not derivable from ANIMAL_LEVELS - 40 and 80 both resolve to level 0 for
+ * their animals.
+ */
+const DEFAULT_ANIMAL_EXPERIENCE: Record<AnimalType, number> = {
+  Chicken: 40,
+  Cow: 80,
+  Sheep: 80,
+  Pig: 80,
+};
+
+/**
+ * How many animals a building is seeded with when it is constructed. Exhaustive
+ * so a new animal building has to make the choice deliberately.
+ *
+ * The Pigpen's three (#7721) fill its level-1 capacity of 3, so buying a Pig
+ * waits for the first upgrade - accepted by Elias, 2026-10-12.
+ */
+const STARTER_HERD_SIZE: Record<AnimalBuildingType, number> = {
+  "Hen House": 3,
+  Barn: 3,
+  Pigpen: 3,
+};
+
 export function makeAnimalBuilding(
   building: AnimalBuildingType,
+  createdAt = Date.now(),
 ): AnimalBuilding {
-  const DEFAULT_ANIMAL_COUNT = 3;
+  const count = STARTER_HERD_SIZE[building];
 
   const animalType = getKeys(ANIMALS).find(
     (animal) => ANIMALS[animal].buildingRequired === building,
   );
   const { width } = ANIMALS[animalType as AnimalType];
 
-  const positions = [
-    { x: -width, y: 0 },
-    { x: 0, y: 0 },
-    { x: width, y: 0 },
-  ];
+  // Centred on the origin, so the row reads the same whatever its size: three
+  // animals sit at -width / 0 / +width exactly as before, one sits at 0.
+  const positions = Array.from({ length: count }, (_, index) => ({
+    x: (index - (count - 1) / 2) * width,
+    y: 0,
+  }));
 
-  const defaultAnimals = new Array(DEFAULT_ANIMAL_COUNT)
+  const defaultAnimals = new Array(count)
     .fill(0)
     .reduce<Record<string, Animal>>((animals, _, index) => {
       return {
@@ -67,8 +121,8 @@ export function makeAnimalBuilding(
           state: "idle",
           coordinates: positions[index],
           asleepAt: 0,
-          experience: animalType === "Chicken" ? 40 : 80,
-          createdAt: Date.now(),
+          experience: DEFAULT_ANIMAL_EXPERIENCE[animalType as AnimalType],
+          createdAt,
           item: "Petting Hand",
           lovedAt: 0,
           awakeAt: 0,
@@ -82,10 +136,13 @@ export function makeAnimalBuilding(
   };
 }
 
-export const isMaxLevel = (animal: AnimalType, level: AnimalLevel) => {
-  const maxLevel = Math.max(...Object.keys(ANIMAL_LEVELS[animal]).map(Number));
-  return level === maxLevel;
-};
+/** The top of the animal's XP table. */
+export function getAnimalMaxLevel(animal: AnimalType): AnimalLevel {
+  return Math.max(...getKeys(ANIMAL_LEVELS[animal]).map(Number)) as AnimalLevel;
+}
+
+export const isMaxLevel = (animal: AnimalType, level: AnimalLevel) =>
+  level >= getAnimalMaxLevel(animal);
 
 export function getAnimalLevel(experience: number, animal: AnimalType) {
   const levels = ANIMAL_LEVELS[animal];
@@ -104,10 +161,70 @@ export function getAnimalLevel(experience: number, animal: AnimalType) {
   return currentLevel;
 }
 
+/**
+ * XP the animal still needs before it is ready: to its next level, or at the
+ * max level to the end of its current produce cycle.
+ */
+export function getXpUntilReady(animalType: AnimalType, xp: number): number {
+  const maxLevel = getAnimalMaxLevel(animalType);
+  const maxLevelXp = ANIMAL_LEVELS[animalType][maxLevel];
+
+  if (xp < maxLevelXp) {
+    const next = (getAnimalLevel(xp, animalType) + 1) as AnimalLevel;
+    return ANIMAL_LEVELS[animalType][next] - xp;
+  }
+
+  const levelBeforeMaxXp =
+    ANIMAL_LEVELS[animalType][(maxLevel - 1) as AnimalLevel];
+  const cycleXP = maxLevelXp - levelBeforeMaxXp;
+
+  return cycleXP - ((xp - maxLevelXp) % cycleXP);
+}
+
+/**
+ * Whether gaining `gainedXp` on top of `beforeXp` earns the animal its produce:
+ * a level-up below the top of the table, or, at max level, one more full cycle
+ * of the final level's XP. Shared by feeding and petting so EITHER can flip the
+ * animal to "ready" - petting alone used to check only for a level change, so
+ * a max-level animal whose pet crossed the cycle line kept accruing XP but
+ * never produced, and the next feed restarted the cycle from the wrap-around.
+ *
+ * XP keeps accruing past max level rather than being held inside one cycle,
+ * so progress is always `excess % cycleXP` and nothing is ever rewritten.
+ */
+export function hasAnimalCompletedCycle({
+  animalType,
+  beforeXp,
+  gainedXp,
+}: {
+  animalType: AnimalType;
+  beforeXp: number;
+  gainedXp: number;
+}): boolean {
+  const maxLevel = getAnimalMaxLevel(animalType);
+  const maxLevelXp = ANIMAL_LEVELS[animalType][maxLevel];
+
+  if (beforeXp < maxLevelXp) {
+    return (
+      getAnimalLevel(beforeXp, animalType) !==
+      getAnimalLevel(beforeXp + gainedXp, animalType)
+    );
+  }
+
+  const levelBeforeMaxXp =
+    ANIMAL_LEVELS[animalType][(maxLevel - 1) as AnimalLevel];
+  const cycleXP = maxLevelXp - levelBeforeMaxXp;
+  const currentCycleProgress = (beforeXp - maxLevelXp) % cycleXP;
+
+  return currentCycleProgress + gainedXp >= cycleXP;
+}
+
 export function getAnimalFavoriteFood(type: AnimalType, animalXP: number) {
   const level = getAnimalLevel(animalXP, type);
   const levelFood = ANIMAL_FOOD_EXPERIENCE[type][level];
-  const maxXp = Math.max(...Object.values(levelFood));
+  const maxXp = Math.max(
+    ...getKeys(levelFood).map((food) => levelFood[food] ?? 0),
+  );
 
   const favouriteFoods = getKeys(levelFood)
     .filter((foodName) => levelFood[foodName] === maxXp)
@@ -118,10 +235,73 @@ export function getAnimalFavoriteFood(type: AnimalType, animalXP: number) {
   return favouriteFoods[0];
 }
 
+/**
+ * True when `food` is one of `animal`'s foods. Pigs eat only the four Slops;
+ * the other animals never eat a Slop.
+ */
+export function isFoodForAnimal(
+  animal: AnimalType,
+  food: InventoryItemName,
+): food is AnimalFoodName {
+  return Object.prototype.hasOwnProperty.call(
+    ANIMAL_FOOD_EXPERIENCE[animal][0],
+    food,
+  );
+}
+
 export function isAnimalFood(item: InventoryItemName): item is AnimalFoodName {
   return getKeys(ANIMAL_FOODS)
     .filter((food) => ANIMAL_FOODS[food].type === "food")
     .includes(item as AnimalFoodName);
+}
+
+/**
+ * Resolves which item a click on an animal should feed.
+ *
+ * Players can accidentally feed the wrong food (e.g. walking from cows with
+ * Hay selected to chickens that want Kernel Blend). We switch to the favourite
+ * if enough is held. The favourite, Omnifeed and a Beetle are explicit choices,
+ * so they are never overridden - and a Beetle is never switched TO on its own,
+ * since it is a resource with other uses. If the favourite isn't held, the
+ * selection is left alone so players can still feed whatever they actioned.
+ */
+export function getFeedItem({
+  animal,
+  selectedItem,
+  favouriteFood,
+  inventory,
+  requiredQty,
+  hasBeetleFeedingAccess,
+}: {
+  animal: AnimalType;
+  selectedItem?: InventoryItemName;
+  favouriteFood: AnimalFoodName;
+  inventory: Inventory;
+  requiredQty: Decimal;
+  hasBeetleFeedingAccess: boolean;
+}): InventoryItemName | undefined {
+  if (
+    selectedItem === favouriteFood ||
+    (selectedItem === "Omnifeed" && isFoodForAnimal(animal, selectedItem)) ||
+    (hasBeetleFeedingAccess && !!selectedItem && isBeetle(selectedItem))
+  ) {
+    return selectedItem;
+  }
+
+  const favouriteCount = inventory[favouriteFood] ?? new Decimal(0);
+  if (favouriteCount.gte(requiredQty)) {
+    return favouriteFood;
+  }
+
+  return selectedItem;
+}
+
+/** How many of `item` one feeding uses - a Beetle is always one. */
+export function getFeedQuantity(
+  item: InventoryItemName | undefined,
+  requiredQty: Decimal,
+): Decimal {
+  return item && isBeetle(item) ? new Decimal(1) : requiredQty;
 }
 
 export function isAnimalMedicine(
@@ -527,7 +707,37 @@ export function getResourceDropAmount({
   if (budUsed)
     boostsUsed.push({ name: budUsed, value: `+${yieldBoost.toString()}` });
 
-  if (multiplier) amount = amount.mul(multiplier);
+  // Truffle Yield (#7721) scales the Truffles after the flat produce boosts.
+  const truffleYieldLevel = getSkillLevel(bumpkin.skills, "Truffle Yield");
+  if (animalType === "Pig" && resource === "Truffle" && truffleYieldLevel) {
+    const bonus = new Decimal(1).plus(
+      SKILL_RANKS["Truffle Yield"].ranks[truffleYieldLevel - 1],
+    );
+    amount = amount.mul(bonus);
+    boostsUsed.push({ name: "Truffle Yield", value: `x${bonus.toNumber()}` });
+  }
+
+  // Bristle Payout (#7721) scales the Bristles the same way, after the flat
+  // produce boosts and before the sickness cut in `getPigBristles`.
+  const bristlePayoutLevel = getSkillLevel(bumpkin.skills, "Bristle Payout");
+  if (
+    animalType === "Pig" &&
+    resource === "Pig Bristles" &&
+    bristlePayoutLevel
+  ) {
+    const bonus = new Decimal(1).plus(
+      SKILL_RANKS["Bristle Payout"].ranks[bristlePayoutLevel - 1],
+    );
+    amount = amount.mul(bonus);
+    boostsUsed.push({ name: "Bristle Payout", value: `x${bonus.toNumber()}` });
+  }
+
+  if (multiplier) {
+    amount = amount.mul(multiplier);
+    if (multiplier !== 1) {
+      boostsUsed.push({ name: "Buckaroo", value: `x${multiplier}` });
+    }
+  }
 
   if (animal.feedBuff?.name === "Salt Lick") {
     amount = amount.mul(1.05);
@@ -542,11 +752,13 @@ export function getBoostedFoodQuantity({
   foodQuantity,
   game,
   animal,
+  now,
 }: {
   animalType: AnimalType;
   foodQuantity: number;
   game: GameState;
   animal: Animal;
+  now: number;
 }): {
   foodQuantity: Decimal;
   boostsUsed: { name: BoostName; value: string }[];
@@ -606,6 +818,7 @@ export function getBoostedFoodQuantity({
     "Clucky Grazing": "Chicken",
     "Sheepwise Diet": "Sheep",
     "Cow-Smart Nutrition": "Cow",
+    "Swill Savvy": "Pig",
   } as const;
 
   for (const skill of getKeys(DIET_SKILLS)) {
@@ -631,7 +844,7 @@ export function getBoostedFoodQuantity({
 
   if (
     (animalType === "Sheep" || animalType === "Cow") &&
-    isTemporaryCollectibleActive({ name: "Collie Shrine", game })
+    isTemporaryCollectibleActive({ name: "Collie Shrine", game, now })
   ) {
     baseFoodQuantity = baseFoodQuantity.mul(0.95);
     boostsUsed.push({ name: "Collie Shrine", value: "x0.95" });
@@ -639,7 +852,7 @@ export function getBoostedFoodQuantity({
 
   if (
     animalType === "Chicken" &&
-    isTemporaryCollectibleActive({ name: "Bantam Shrine", game })
+    isTemporaryCollectibleActive({ name: "Bantam Shrine", game, now })
   ) {
     baseFoodQuantity = baseFoodQuantity.mul(0.95);
     boostsUsed.push({ name: "Bantam Shrine", value: "x0.95" });
@@ -653,19 +866,38 @@ export function getBoostedFoodQuantity({
   return { foodQuantity: baseFoodQuantity, boostsUsed };
 }
 
+/**
+ * The animal's sleep duration with its boosts applied, plus the wake time that
+ * follows from starting it at `createdAt`.
+ *
+ * Legacy model: every boost — including the two temporary pet shrines — is baked
+ * into the returned duration. Speed-rate model (SPEED_BOOSTS): the shrines are
+ * excluded from BOTH the duration and `boostsUsed` and derived live from windows
+ * instead, so what remains is the permanent-boost-only base duration returned as
+ * `baseDurationMs`. Mirrors `getOilRecoveryTimeForDisplay`; returns no
+ * `baseDurationMs` flag-off, so a flag-off re-sleep reverts the animal to legacy.
+ *
+ * `feedBuff` is the treat the animal carries INTO this sleep: a Truffle
+ * Seasoning halves it. `claimProduce` passes the treat before spending its
+ * charge, so the last charge still shortens the sleep it is spent on.
+ */
 export function getBoostedAwakeAt({
   animalType,
   createdAt,
   game,
+  feedBuff,
 }: {
   animalType: AnimalType;
   createdAt: number;
   game: GameState;
+  feedBuff?: Animal["feedBuff"];
 }): {
   awakeAt: number;
+  baseDurationMs?: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
   const sleepDuration = ANIMAL_SLEEP_DURATION;
+  const boostsWindowed = hasFeatureAccess(game, "SPEED_BOOSTS");
   const { bumpkin } = game;
   const twoHoursInMs = 2 * 60 * 60 * 1000;
 
@@ -740,24 +972,99 @@ export function getBoostedAwakeAt({
     boostsUsed.push({ name: "Restless Animals", value: `x${value}` });
   }
 
+  // Truffle Seasoning: -50% on the sleep it is spent on. Baked in like the
+  // permanent boosts, so under the speed-rate model the shrines still stack
+  // live on top of it.
+  if (feedBuff?.name === "Truffle Seasoning") {
+    totalDuration *= 0.5;
+    boostsUsed.push({ name: "Truffle Seasoning", value: "x0.5" });
+  }
+
   if (
+    !boostsWindowed &&
     (isCow || isSheep) &&
-    isTemporaryCollectibleActive({ name: "Collie Shrine", game })
+    isTemporaryCollectibleActive({
+      name: "Collie Shrine",
+      game,
+      now: createdAt,
+    })
   ) {
     totalDuration *= 0.75;
     boostsUsed.push({ name: "Collie Shrine", value: "x0.75" });
   }
 
   if (
+    !boostsWindowed &&
     isChicken &&
-    isTemporaryCollectibleActive({ name: "Bantam Shrine", game })
+    isTemporaryCollectibleActive({
+      name: "Bantam Shrine",
+      game,
+      now: createdAt,
+    })
   ) {
     totalDuration *= 0.75;
     boostsUsed.push({ name: "Bantam Shrine", value: "x0.75" });
   }
 
+  if (boostsWindowed) {
+    // The stored wake time is only a cache of the projection made now (see
+    // `Animal.awakeAt`); `getAnimalReadyAt` re-derives it live off the windows.
+    return {
+      awakeAt: computeReadyAt({
+        startedAt: createdAt,
+        baseDurationMs: totalDuration,
+        windows: getAnimalBoostWindows(game, animalType),
+      }),
+      baseDurationMs: totalDuration,
+      boostsUsed,
+    };
+  }
+
   // Add the boosted duration to the created time
   return { awakeAt: createdAt + totalDuration, boostsUsed };
+}
+
+/**
+ * When a sleeping animal actually wakes, across both boost models. Animals put to
+ * sleep under the speed-rate model (with `baseDurationMs`) derive their wake time
+ * live from the shrine windows; legacy animals use their baked `awakeAt`.
+ *
+ * `baseDurationMs` is a PERMANENT per-animal migration marker: the read path keys
+ * off its presence, NOT the `SPEED_BOOSTS` flag (matching `getMineReadyAt`). An
+ * animal put to sleep while the flag was on therefore keeps windowed timing even
+ * if the flag is later disabled — it stores the real `asleepAt` plus a
+ * permanent-boost-only `baseDurationMs`, so falling back to the cached `awakeAt`
+ * would freeze it at whatever projection happened to be made at sleep. Instant
+ * wake (doll / Barnyard Rouse) clears the marker, so this returns that instant.
+ */
+export function getAnimalReadyAt(animal: Animal, game: GameState): number {
+  const { baseDurationMs, asleepAt, awakeAt } = animal;
+
+  if (baseDurationMs === undefined) return awakeAt;
+
+  return computeReadyAt({
+    startedAt: asleepAt,
+    baseDurationMs,
+    windows: getAnimalBoostWindows(game, animal.type),
+  });
+}
+
+/**
+ * A DISPLAY-ONLY copy of the animal with its live wake time substituted into
+ * `awakeAt`.
+ *
+ * The animal xstate machine holds only `{ animal }` in context and has no access
+ * to game state, so its `isAnimalSleeping` / `isAnimalNeedsLove` guards cannot
+ * derive the windowed wake time themselves. Components resolve the animal once
+ * and hand the machine (and the sleeping modal) this copy instead of threading a
+ * `readyAt` through every event payload.
+ *
+ * NEVER persist or send this — it is a derived view, and writing it back would
+ * bake a projection into state that is supposed to stay live. Safe as-is because
+ * every mutation goes through `gameService` by animal id.
+ */
+export function resolveAnimal(animal: Animal, game: GameState): Animal {
+  return { ...animal, awakeAt: getAnimalReadyAt(animal, game) };
 }
 
 export function getAnimalMaturityTimeForDisplay({
@@ -772,7 +1079,7 @@ export function getAnimalMaturityTimeForDisplay({
   boostsUsed: { name: BoostName; value: string }[];
 } {
   const createdAt = 0;
-  const { awakeAt, boostsUsed } = getBoostedAwakeAt({
+  const { awakeAt, baseDurationMs, boostsUsed } = getBoostedAwakeAt({
     animalType,
     createdAt,
     game,
@@ -780,7 +1087,97 @@ export function getAnimalMaturityTimeForDisplay({
 
   return {
     baseTimeMs: ANIMAL_SLEEP_DURATION,
-    maturityTimeMs: awakeAt - createdAt,
+    // Windowed: the permanent-boost-only duration. The shrines are excluded here
+    // and surfaced by the caller as a live projection instead — projecting off a
+    // `createdAt` of 0 would sit an epoch away from any real window.
+    maturityTimeMs: baseDurationMs ?? awakeAt - createdAt,
     boostsUsed,
   };
+}
+
+/** The 25% a sick animal loses on bounty rewards and on its Bristles. */
+export const SICK_ANIMAL_REWARD_MULTIPLIER = 0.75;
+
+/**
+ * The level an animal is sold or traded in at. A ready animal shows its
+ * previous level until the yield is claimed, so it counts one level lower. At
+ * the max level there is no next level to transition into - "ready" only means
+ * a produce cycle completed - so the adjustment does not apply. This mirrors
+ * the badge, which guards its own `- 1` the same way.
+ */
+export function getBountyLevel(
+  animal: Pick<Animal, "type" | "experience" | "state">,
+): AnimalLevel {
+  const level = getAnimalLevel(animal.experience, animal.type);
+
+  return animal.state === "ready" && level < getAnimalMaxLevel(animal.type)
+    ? ((level - 1) as AnimalLevel)
+    : level;
+}
+
+/**
+ * Pig Bristles paid when a Pig is traded in or sold to a bounty (#7721): the
+ * level's table amount through the generic produce boosts and Bristle Payout,
+ * then the 25% sickness cut, kept exact to two decimals like produce. A level
+ * whose table amount is 0 pays nothing - boosts have nothing to boost.
+ */
+export function getPigBristles({
+  game,
+  pig,
+}: {
+  game: GameState;
+  pig: Animal;
+}): {
+  amount: number;
+  beforeSickness: number;
+  boostsUsed: { name: BoostName; value: string }[];
+} {
+  const baseAmount = PIG_BRISTLES_PER_LEVEL[getBountyLevel(pig)];
+
+  if (baseAmount === 0) {
+    return { amount: 0, beforeSickness: 0, boostsUsed: [] };
+  }
+
+  const { amount: beforeSickness, boostsUsed } = getResourceDropAmount({
+    game,
+    animalType: "Pig",
+    resource: "Pig Bristles",
+    baseAmount,
+    multiplier: pig.multiplier ?? 0,
+    animal: pig,
+  });
+
+  const amount =
+    pig.state === "sick"
+      ? Number(
+          new Decimal(beforeSickness)
+            .mul(SICK_ANIMAL_REWARD_MULTIPLIER)
+            .toFixed(2),
+        )
+      : beforeSickness;
+
+  return { amount, beforeSickness, boostsUsed };
+}
+
+/**
+ * A Pig can be traded in under the bounty rules - awake, sick or ready included
+ * - as long as its level pays Bristles.
+ */
+export function canTradeInPig({
+  pig,
+  game,
+  now,
+}: {
+  pig: Animal;
+  game: GameState;
+  now: number;
+}): boolean {
+  // Keep the truthiness guard: an animal that has never slept carries
+  // `awakeAt: 0` and no marker, and must stay tradeable.
+  const readyAt = getAnimalReadyAt(pig, game);
+  if (readyAt && readyAt > now) {
+    return false;
+  }
+
+  return PIG_BRISTLES_PER_LEVEL[getBountyLevel(pig)] > 0;
 }

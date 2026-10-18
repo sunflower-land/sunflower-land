@@ -22,6 +22,7 @@ import { ToastPanel } from "../toast/ToastPanel";
 import { Panel } from "components/ui/Panel";
 
 import { Swarming } from "../components/Swarming";
+import { Captcha } from "../components/captcha/Captcha";
 import { Cooldown } from "../components/Cooldown";
 import { Route, Routes } from "react-router";
 import { Land } from "./Land";
@@ -59,7 +60,6 @@ import { VIPOffer } from "../components/modal/components/VIPItems";
 import { StarterOfferModal } from "../components/modal/components/StarterOfferModal";
 import { RoninWaypointLoginModal } from "features/roninMigration/RoninWaypointLoginModal";
 import { GreenhouseInside } from "features/greenhouse/GreenhouseInside";
-import { useSound } from "lib/utils/hooks/useSound";
 import { SomethingArrived } from "./components/SomethingArrived";
 import { TradeAlreadyFulfilled } from "../components/TradeAlreadyFulfilled";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -67,6 +67,7 @@ import { Transaction } from "features/island/hud/Transaction";
 import { Gems } from "./components/Gems";
 import { HenHouseInside } from "features/henHouse/HenHouseInside";
 import { BarnInside } from "features/barn/BarnInside";
+import { PigpenInside } from "features/pigpen/PigpenInside";
 import { PetHouseInside } from "features/petHouse/PetHouseInside";
 import {
   STATE_MACHINE_EFFECTS,
@@ -90,13 +91,13 @@ import {
 import { LoveCharm } from "./components/LoveCharm";
 import { ClaimReferralRewards } from "./components/ClaimReferralRewards";
 import { ReferralsAnnouncement } from "./components/ReferralsAnnouncement";
+import { TermsAndConditions } from "./components/TermsAndConditions";
 import { SoftBan } from "features/retreat/components/personhood/SoftBan";
 import { RewardBox } from "features/rewardBoxes/RewardBox";
 import { SystemMessageWidget } from "features/announcements/SystemMessageWidget";
 import { TradesCleared } from "./components/TradesCleared";
 import { RevealPet } from "features/island/pets/RevealPet";
 import { OnChainRaffleRewardModal } from "./components/OnChainRaffleRewardModal";
-import { LeagueResults } from "./components/LeagueResults";
 import { MigrateToLinkedWallet } from "./components/MigrateToLinkedWallet";
 import { DailyRewardClaim } from "../components/DailyReward";
 
@@ -185,6 +186,10 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   linkingWallet: false,
   linkingWalletSuccess: false,
   linkingWalletFailed: false,
+  // Unlinking a social account is handled inline in the settings panel.
+  unlinkingSocial: false,
+  unlinkingSocialSuccess: false,
+  unlinkingSocialFailed: false,
   // Showcasing / removing a tweet is handled inline in the mailbox Community tab.
   showcasingTwitter: false,
   showcasingTwitterSuccess: false,
@@ -219,6 +224,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   depositing: true,
   introduction: false,
   welcome: true,
+  termsAndConditions: true,
   vip: true,
   transacting: true,
   auctionResults: false,
@@ -242,14 +248,16 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   dailyResetting: false,
   jinAirdrop: true,
   investigating: true,
-  leagueResults: false,
   linkWallet: true,
   dailyReward: true,
   starterOffer: true,
+  captcha: true,
 };
 
 // State change selectors
 const isWelcome = (state: MachineState) => state.matches("welcome");
+const isTermsAndConditions = (state: MachineState) =>
+  state.matches("termsAndConditions");
 const isLoading = (state: MachineState) =>
   state.matches("loading") || state.matches("portalling");
 const isPortalling = (state: MachineState) => state.matches("portalling");
@@ -270,6 +278,7 @@ const isRefreshing = (state: MachineState) => state.matches("refreshing");
 const isBuyingSFL = (state: MachineState) => state.matches("buyingSFL");
 const isError = (state: MachineState) => state.matches("error");
 const isSwarming = (state: MachineState) => state.matches("swarming");
+const isCaptcha = (state: MachineState) => state.matches("captcha");
 const isPurchasing = (state: MachineState) =>
   state.matches("purchasing") || state.matches("buyingBlockBucks");
 
@@ -291,6 +300,7 @@ const isLandToVisitNotFound = (state: MachineState) =>
 const currentState = (state: MachineState) => state.value;
 const getErrorCode = (state: MachineState) => state.context.errorCode;
 const getActions = (state: MachineState) => state.context.actions;
+const getDraftActions = (state: MachineState) => state.context.draftActions;
 
 const isTransacting = (state: MachineState) => state.matches("transacting");
 const isClaimAuction = (state: MachineState) => state.matches("claimAuction");
@@ -299,10 +309,21 @@ const isRefundingAuction = (state: MachineState) =>
 const isPromoing = (state: MachineState) => state.matches("promo");
 const isBlacklisted = (state: MachineState) => state.matches("blacklisted");
 const getBanReason = (state: MachineState) => state.context.banReason;
+const getBanMessage = (state: MachineState) => state.context.banMessage;
 const hasAirdrop = (state: MachineState) => state.matches("airdrop");
 const isOnChainRaffleAcknowledgment = (state: MachineState) =>
   state.matches("onChainRaffleAcknowledgment");
 const isInvestigating = (state: MachineState) => state.matches("investigating");
+// A soft-banned player unlinking Discord / Telegram from the investigation
+// screen. The unlink states normally hide this modal (Settings shows the
+// result inline), but here the soft-ban panel owns the unlink modal and has
+// to stay mounted through the request so the result shows in it. Only the
+// soft-ban screen can start an unlink while the ban is under investigation.
+const isSoftBanUnlinking = (state: MachineState) =>
+  (state.matches("unlinkingSocial") ||
+    state.matches("unlinkingSocialSuccess") ||
+    state.matches("unlinkingSocialFailed")) &&
+  state.context.state.ban.status === "investigating";
 const hasFulfilledOffers = (state: MachineState) => state.matches("offers");
 const hasVipNotification = (state: MachineState) => state.matches("vip");
 const isPlaying = (state: MachineState) => state.matches("playing");
@@ -333,12 +354,9 @@ const isRoninMigration = (state: MachineState) =>
   state.matches("roninMigration");
 const _isVisiting = (state: MachineState) =>
   state.context.visitorId !== undefined;
-const isLeagueResultsReleased = (state: MachineState) =>
-  state.matches("leagueResults");
 
 const GameContent: React.FC = () => {
   const { gameService } = useContext(Context);
-  useSound("desert", true);
 
   const isVisiting = useSelector(gameService, _isVisiting);
 
@@ -351,6 +369,8 @@ const GameContent: React.FC = () => {
       !!game.buildings.Greenhouse && isBuildingReady(game.buildings.Greenhouse),
     Barn: (game) =>
       !!game.buildings.Barn && isBuildingReady(game.buildings.Barn),
+    Pigpen: (game) =>
+      !!game.buildings.Pigpen && isBuildingReady(game.buildings.Pigpen),
     HenHouse: (game) =>
       !!game.buildings["Hen House"] &&
       isBuildingReady(game.buildings["Hen House"]),
@@ -428,6 +448,9 @@ const GameContent: React.FC = () => {
             <Route path="/greenhouse" element={<GreenhouseInside />} />
           )}
           {hasAccess("Barn") && <Route path="/barn" element={<BarnInside />} />}
+          {hasAccess("Pigpen") && (
+            <Route path="/pigpen" element={<PigpenInside />} />
+          )}
           {hasAccess("HenHouse") && (
             <Route path="/hen-house" element={<HenHouseInside />} />
           )}
@@ -468,6 +491,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
 
   const loading = useSelector(gameService, isLoading);
   const welcome = useSelector(gameService, isWelcome);
+  const termsAndConditions = useSelector(gameService, isTermsAndConditions);
   const portalling = useSelector(gameService, isPortalling);
   const trading = useSelector(gameService, isTrading);
   const traded = useSelector(gameService, isTraded);
@@ -486,6 +510,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const error = useSelector(gameService, isError);
   const purchasing = useSelector(gameService, isPurchasing);
   const swarming = useSelector(gameService, isSwarming);
+  const captcha = useSelector(gameService, isCaptcha);
   const coolingDown = useSelector(gameService, isCoolingDown);
   const depositing = useSelector(gameService, isDepositing);
   const loadingLandToVisit = useSelector(gameService, isLoadingLandToVisit);
@@ -493,12 +518,14 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const state = useSelector(gameService, currentState);
   const errorCode = useSelector(gameService, getErrorCode);
   const actions = useSelector(gameService, getActions);
+  const draftActions = useSelector(gameService, getDraftActions);
   const transacting = useSelector(gameService, isTransacting);
   const claimingAuction = useSelector(gameService, isClaimAuction);
   const refundAuction = useSelector(gameService, isRefundingAuction);
   const promo = useSelector(gameService, isPromoing);
   const blacklisted = useSelector(gameService, isBlacklisted);
   const banReason = useSelector(gameService, getBanReason);
+  const banMessage = useSelector(gameService, getBanMessage);
   const airdrop = useSelector(gameService, hasAirdrop);
   const onChainRaffleAcknowledgment = useSelector(
     gameService,
@@ -525,13 +552,10 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const jinAirdrop = useSelector(gameService, isJinAirdrop);
   const showPWAInstallPrompt = useSelector(authService, _showPWAInstallPrompt);
   const investigating = useSelector(gameService, isInvestigating);
+  const softBanUnlinking = useSelector(gameService, isSoftBanUnlinking);
   const linkWallet = useSelector(gameService, isLinkWallet);
   const tradesCleared = useSelector(gameService, isTradesCleared);
   const isVisiting = useSelector(gameService, _isVisiting);
-  const leagueResultsReleased = useSelector(
-    gameService,
-    isLeagueResultsReleased,
-  );
   const dailyReward = useSelector(gameService, isDailyReward);
   const starterOffer = useSelector(gameService, isStarterOffer);
   const roninMigration = useSelector(gameService, isRoninMigration);
@@ -543,7 +567,8 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
 
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-      if (actions.length === 0) return;
+      // Unsent live actions, or an unsaved landscaping draft.
+      if (actions.length === 0 && draftActions.length === 0) return;
 
       event.preventDefault();
       event.returnValue = "";
@@ -555,7 +580,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, [actions]);
+  }, [actions, draftActions]);
 
   useEffect(() => {
     const save = () => {
@@ -649,7 +674,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
       <Ocean>
         <Modal show backdrop={false}>
           <Panel>
-            <Blacklisted banReason={banReason} />
+            <Blacklisted banReason={banReason} banMessage={banMessage} />
           </Panel>
         </Modal>
       </Ocean>
@@ -691,17 +716,23 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
       <ToastProvider>
         <ToastPanel />
 
-        <Modal show={SHOW_MODAL[stateValue as StateValues]} onHide={onHide}>
+        <Modal
+          show={SHOW_MODAL[stateValue as StateValues] || softBanUnlinking}
+          onHide={onHide}
+        >
           <Panel
             bumpkinParts={error ? NPC_WEARABLES["worried pete"] : undefined}
           >
-            {/* Effects */}
-            {effectPending && <Loading text={effectText} />}
+            {/* Effects - the soft-ban unlink shows its result in its own modal */}
+            {effectPending && !softBanUnlinking && (
+              <Loading text={effectText} />
+            )}
             {effectSuccess &&
+              !softBanUnlinking &&
               (EFFECT_SUCCESS_COMPONENTS[stateValue as StateValues] ?? (
                 <EffectSuccess state={stateValue} />
               ))}
-            {effectFailed && (
+            {effectFailed && !softBanUnlinking && (
               <ErrorMessage errorCode={errorCode as ErrorCode} />
             )}
 
@@ -711,10 +742,12 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
             {error && <ErrorMessage errorCode={errorCode as ErrorCode} />}
             {purchasing && <Purchasing />}
             {swarming && <Swarming />}
+            {captcha && <Captcha />}
             {coolingDown && <Cooldown />}
             {dailyReward && <DailyRewardClaim showClose />}
             {transacting && <Transaction />}
             {welcome && <Welcome />}
+            {termsAndConditions && <TermsAndConditions />}
             {depositing && <Loading text={t("depositing")} />}
             {trading && <Loading text={t("trading")} />}
             {traded && <Traded />}
@@ -737,7 +770,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
             {hasCommunityCoin && <LoveCharm />}
             {jinAirdrop && <RoninJinClaim />}
             {showReferralRewards && <ClaimReferralRewards />}
-            {investigating && <SoftBan />}
+            {(investigating || softBanUnlinking) && <SoftBan />}
             {linkWallet && <MigrateToLinkedWallet />}
           </Panel>
         </Modal>
@@ -757,15 +790,6 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
               competitionName="BUILDING_FRIENDSHIPS"
               onClose={() => gameService.send("ACKNOWLEDGE")}
             />
-          </Modal>
-        )}
-        {leagueResultsReleased && !isVisiting && (
-          <Modal show>
-            <Panel
-              bumpkinParts={error ? NPC_WEARABLES["worried pete"] : undefined}
-            >
-              <LeagueResults />
-            </Panel>
           </Modal>
         )}
         <Introduction />

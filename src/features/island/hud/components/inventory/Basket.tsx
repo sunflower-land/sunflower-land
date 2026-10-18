@@ -85,9 +85,17 @@ import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
 import { CLUTTER } from "features/game/types/clutter";
 import { PET_RESOURCES } from "features/game/types/pets";
 import { useNow } from "lib/utils/hooks/useNow";
+import { secondsToString } from "lib/utils/time";
+import { getPreActionDisplay } from "features/game/lib/timerDisplay";
+import { getSeedBoostWindows } from "features/game/lib/seedBoostWindows";
+import {
+  getBoostContributionEntries,
+  getSeedBoostContributions,
+} from "features/game/lib/boostContributions";
 import { PROCESSED_RESOURCES } from "features/game/types/processedFood";
 import { CRUSTACEANS_DESCRIPTIONS } from "features/game/types/crustaceans";
 import { FERMENTATION_PRODUCTS } from "features/game/types/fermentationProducts";
+import { BEETLES } from "features/game/types/beetles";
 import {
   PICKLED_CROPS,
   type PickledCropName,
@@ -167,17 +175,18 @@ export const Basket: React.FC<Prop> = ({
 
   const getHarvestTime = (seedName: SeedName) => {
     if (isFlowerSeed(seedName)) {
-      return getFlowerTime(seedName, gameState);
+      return getFlowerTime(seedName, gameState, now);
     }
 
     if (isPatchFruitSeed(seedName)) {
-      return getFruitPatchTime(seedName, gameState);
+      return getFruitPatchTime(seedName, gameState, now);
     }
     if (seedName in GREENHOUSE_SEEDS || seedName in GREENHOUSE_FRUIT_SEEDS) {
       const plant = SEED_TO_PLANT[seedName as GreenHouseCropSeedName];
       return getGreenhouseCropTime({
         crop: plant,
         game: gameState,
+        now,
       });
     }
 
@@ -215,6 +224,39 @@ export const Basket: React.FC<Prop> = ({
   const seedHarvestTime = isSeed(selectedItem)
     ? getHarvestTime(selectedItem)
     : undefined;
+
+  // A live speed window isn't folded into the grow time — the projected
+  // "plant now → ready in X" credits only the part of the grow the booster
+  // still covers. The windowed boosters aren't in `boostsUsed` (they apply over
+  // the grow rather than being baked into it), so name them for the boost
+  // panel with the time each one actually saves.
+  const seedWindowedBoosts =
+    isSeed(selectedItem) && seedHarvestTime
+      ? getBoostContributionEntries({
+          contributions: getSeedBoostContributions(
+            gameState,
+            selectedItem,
+            now,
+          ),
+          seconds: seedHarvestTime.seconds,
+          at: now,
+          formatSeconds: (seconds) =>
+            secondsToString(seconds, { length: "medium" }),
+        })
+      : [];
+  const seedBoostsUsed = seedHarvestTime
+    ? [...seedHarvestTime.boostsUsed, ...seedWindowedBoosts]
+    : undefined;
+  const seedTimeDisplay =
+    isSeed(selectedItem) && seedHarvestTime
+      ? getPreActionDisplay({
+          seconds: seedHarvestTime.seconds,
+          baseSeconds: getBaseHarvestTime(selectedItem),
+          namedBoostCount: seedBoostsUsed?.length ?? 0,
+          windows: getSeedBoostWindows(gameState, selectedItem),
+          at: now,
+        })
+      : undefined;
 
   const foodExpBoost = isFood(selectedItem)
     ? getFoodExpBoost({
@@ -303,7 +345,9 @@ export const Basket: React.FC<Prop> = ({
     ...greenhouseSeeds,
   ];
   const allTools = [...workbenchTools, ...treasureTools, ...animalTools];
-  const allResources = [...resources, ...craftingResources];
+  const beetles = getItems([...BEETLES]);
+
+  const allResources = [...resources, ...craftingResources, ...beetles];
 
   const clutter = getItems(CLUTTER);
 
@@ -384,7 +428,7 @@ export const Basket: React.FC<Prop> = ({
       id: "feeds",
       label: t("feeds"),
       icon: ITEM_DETAILS.Hay.image,
-      items: [...animalFeeds],
+      items: animalFeeds,
     },
     {
       id: "spices",
@@ -582,11 +626,11 @@ export const Basket: React.FC<Prop> = ({
                   showBoosts,
                   setShowBoosts,
                 }),
-                timeSeconds: seedHarvestTime?.seconds,
+                timeSeconds: seedTimeDisplay?.displaySeconds,
                 baseTimeSeconds: isSeed(selectedItem)
                   ? getBaseHarvestTime(selectedItem)
                   : undefined,
-                timeBoostsUsed: seedHarvestTime?.boostsUsed,
+                timeBoostsUsed: seedBoostsUsed,
                 onMarketplaceClick:
                   onOpenMarketplace && canOpenMarketplace
                     ? () => onOpenMarketplace(selectedItem)

@@ -4,8 +4,20 @@ import type { GameState } from "features/game/types/game";
 import { CROP_MACHINE_PLOTS } from "./supplyCropMachine";
 import { KNOWN_IDS } from "features/game/types";
 import { prngChance } from "lib/prng";
+import { CONFIG } from "lib/config";
 
 const GAME_STATE: GameState = { ...TEST_FARM, bumpkin: INITIAL_BUMPKIN };
+
+// These suites assert the LEGACY crop machine (boosts baked at supply time,
+// oil earmarked per pack). FE jest runs on amoy where SPEED_BOOSTS is on, so
+// force the flag off here; the windowed model is covered in its own describes.
+const originalNetwork = CONFIG.NETWORK;
+beforeEach(() => {
+  (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+});
+afterEach(() => {
+  (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+});
 
 describe("harvestCropMachine", () => {
   it("throws an error if Crop Machine does not exist", () => {
@@ -535,5 +547,144 @@ describe("harvestCropMachine", () => {
       expect(stellarSunflowerHits).toBeGreaterThanOrEqual(1);
       expect(amount).toEqual(expectedAmount);
     });
+  });
+});
+
+describe("harvestCropMachine (windowed SPEED_BOOSTS)", () => {
+  beforeEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
+  });
+
+  const HOUR = 60 * 60 * 1000;
+  const now = Date.now();
+  const farmId = 1;
+
+  const stateWithMachine = (
+    machine: Record<string, unknown>,
+    overrides: Partial<GameState> = {},
+  ): GameState => ({
+    ...GAME_STATE,
+    buildings: {
+      "Crop Machine": [
+        {
+          coordinates: { x: 0, y: 0 },
+          createdAt: 0,
+          id: "1",
+          readyAt: 0,
+          ...machine,
+        },
+      ],
+    },
+    ...overrides,
+  });
+
+  it("gates on the DERIVED readiness: a shrine placed after the last settlement makes a pack harvestable before its stale cached readyAt", () => {
+    // Anchored 1h ago with 65min of work: unboosted it would be ready in 5min
+    // (the stored readyAt cache says so). A Tortoise Shrine placed right after
+    // the anchor makes the whole grow 65 × 0.9 = 58.5min — derived-ready 6.5
+    // minutes ago.
+    const state = harvestCropMachine({
+      state: stateWithMachine(
+        {
+          oilSettledAt: now - HOUR,
+          unallocatedOilTime: 10 * HOUR,
+          queue: [
+            {
+              crop: "Sunflower",
+              seeds: 10,
+              growTimeRemaining: 0,
+              totalGrowTime: 65 * 60 * 1000,
+              baseDurationMs: 65 * 60 * 1000,
+              startTime: now - HOUR,
+              readyAt: now + 5 * 60 * 1000, // stale cache
+            },
+          ],
+        },
+        {
+          collectibles: {
+            "Tortoise Shrine": [
+              {
+                coordinates: { x: -1, y: -1 },
+                createdAt: now - HOUR,
+                readyAt: 0,
+                id: "shrine",
+              },
+            ],
+          },
+        },
+      ),
+      action: { type: "cropMachine.harvested", packIndex: 0, machineId: "1" },
+      createdAt: now,
+      farmId,
+    });
+
+    expect(state.buildings["Crop Machine"]?.[0]?.queue).toHaveLength(0);
+    expect(state.inventory["Sunflower"]?.toNumber()).toBeGreaterThan(0);
+  });
+
+  it("throws for a windowed pack that is not ready yet, even when its stale cache says otherwise", () => {
+    expect(() =>
+      harvestCropMachine({
+        state: stateWithMachine({
+          oilSettledAt: now - HOUR,
+          unallocatedOilTime: 10 * HOUR,
+          queue: [
+            {
+              crop: "Sunflower",
+              seeds: 10,
+              growTimeRemaining: 0,
+              totalGrowTime: 2 * HOUR,
+              baseDurationMs: 2 * HOUR,
+              startTime: now - HOUR,
+              // A stale-PAST readyAt cache must not make it harvestable:
+              // the derived time (1h of the 2h remains) is the truth.
+              readyAt: now - 1,
+            },
+          ],
+        }),
+        action: { type: "cropMachine.harvested", packIndex: 0, machineId: "1" },
+        createdAt: now,
+        farmId,
+      }),
+    ).toThrow("The pack is not ready yet");
+  });
+
+  it("leaves the downstream pack's banked progress undisturbed when the head is harvested", () => {
+    const state = harvestCropMachine({
+      state: stateWithMachine({
+        oilSettledAt: now - 2 * HOUR,
+        unallocatedOilTime: 10 * HOUR,
+        queue: [
+          {
+            crop: "Sunflower",
+            seeds: 10,
+            growTimeRemaining: 0,
+            totalGrowTime: HOUR,
+            baseDurationMs: HOUR,
+          },
+          {
+            crop: "Sunflower",
+            seeds: 10,
+            growTimeRemaining: 0,
+            totalGrowTime: 4 * HOUR,
+            baseDurationMs: 4 * HOUR,
+          },
+        ],
+      }),
+      action: { type: "cropMachine.harvested", packIndex: 0, machineId: "1" },
+      createdAt: now,
+      farmId,
+    });
+
+    const machine = state.buildings["Crop Machine"]?.[0];
+    const survivor = machine?.queue?.[0];
+
+    // Head completed at anchor+1h; the survivor then grew [anchor+1h, now] =
+    // 1h of its 4h, banked by the settle. Its remaining 3h resumes from `now`.
+    expect(machine?.queue).toHaveLength(1);
+    expect(survivor?.baseDurationMs).toBe(3 * HOUR);
+    expect(survivor?.readyAt).toBe(now + 3 * HOUR);
+    // Fuel: 2h burned (1h head + 1h survivor).
+    expect(machine?.unallocatedOilTime).toBe(8 * HOUR);
   });
 });

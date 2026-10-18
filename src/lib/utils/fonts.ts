@@ -18,6 +18,12 @@ export type Font = "Default" | "Bold" | "Sans Serif" | "Chunky (Old)";
 
 interface FontSettings {
   fontFamily: string;
+  // Below `xxs` - for tight, fixed-size UI chrome (e.g. world speech-bubble
+  // badges) rather than general body copy. 10px is the baseline for regular
+  // fonts (matches every font whose xxs is the common [14,14] tier, as well
+  // as Basic's own xxs-scaled value); bolder/wider fonts (Secondary,
+  // Born2bSporty) get a smaller xxxs so they don't overrun the same box.
+  xxxs: [number, number];
   xxs: [number, number];
   xs: [number, number];
   sm: [number, number];
@@ -27,6 +33,7 @@ interface FontSettings {
 export const FONT_CONFIG: Record<Font, FontSettings> = {
   Default: {
     fontFamily: "Basic",
+    xxxs: [14, 10],
     xxs: [20, 14],
     xs: [24, 16],
     sm: [30, 20],
@@ -35,6 +42,7 @@ export const FONT_CONFIG: Record<Font, FontSettings> = {
   },
   "Sans Serif": {
     fontFamily: "sans-serif",
+    xxxs: [10, 10],
     xxs: [14, 14],
     xs: [16, 16],
     sm: [18, 18],
@@ -43,6 +51,7 @@ export const FONT_CONFIG: Record<Font, FontSettings> = {
   },
   Bold: {
     fontFamily: "Secondary",
+    xxxs: [12, 8],
     xxs: [18, 12],
     xs: [24, 14],
     sm: [30, 20],
@@ -51,6 +60,7 @@ export const FONT_CONFIG: Record<Font, FontSettings> = {
   },
   "Chunky (Old)": {
     fontFamily: "Paytone One",
+    xxxs: [10, 10],
     xxs: [14, 14],
     xs: [16, 16],
     sm: [18, 18],
@@ -62,6 +72,7 @@ export const FONT_CONFIG: Record<Font, FontSettings> = {
 export const CYRILLIC_FONT_CONFIG: Record<Font, FontSettings> = {
   Default: {
     fontFamily: "Basis33",
+    xxxs: [14, 12],
     xxs: [18, 14],
     xs: [20, 16],
     sm: [26, 22],
@@ -70,6 +81,7 @@ export const CYRILLIC_FONT_CONFIG: Record<Font, FontSettings> = {
   },
   "Sans Serif": {
     fontFamily: "sans-serif",
+    xxxs: [10, 10],
     xxs: [14, 14],
     xs: [16, 16],
     sm: [18, 18],
@@ -78,6 +90,7 @@ export const CYRILLIC_FONT_CONFIG: Record<Font, FontSettings> = {
   },
   Bold: {
     fontFamily: "Born2bSporty",
+    xxxs: [14, 12],
     xxs: [14, 12],
     xs: [18, 16],
     sm: [22, 20],
@@ -86,6 +99,7 @@ export const CYRILLIC_FONT_CONFIG: Record<Font, FontSettings> = {
   },
   "Chunky (Old)": {
     fontFamily: "Russo One",
+    xxxs: [10, 10],
     xxs: [14, 14],
     xs: [16, 16],
     sm: [18, 18],
@@ -98,6 +112,7 @@ export const CHINESE_FONT_CONFIG: Partial<Record<Font, FontSettings>> = {
   Default: {
     // Pixel
     fontFamily: "Ark",
+    xxxs: [10, 10],
     xxs: [14, 14],
     xs: [16, 16],
     sm: [18, 18],
@@ -106,6 +121,7 @@ export const CHINESE_FONT_CONFIG: Partial<Record<Font, FontSettings>> = {
   },
   "Sans Serif": {
     fontFamily: "sans-serif",
+    xxxs: [10, 10],
     xxs: [14, 14],
     xs: [16, 16],
     sm: [18, 18],
@@ -117,6 +133,7 @@ export const CHINESE_FONT_CONFIG: Partial<Record<Font, FontSettings>> = {
 export const KOREAN_FONT_CONFIG: Partial<Record<Font, FontSettings>> = {
   Default: {
     fontFamily: "Noto Serif KR",
+    xxxs: [10, 10],
     xxs: [14, 14],
     xs: [16, 16],
     sm: [18, 18],
@@ -125,6 +142,7 @@ export const KOREAN_FONT_CONFIG: Partial<Record<Font, FontSettings>> = {
   },
   "Sans Serif": {
     fontFamily: "sans-serif",
+    xxxs: [10, 10],
     xxs: [14, 14],
     xs: [16, 16],
     sm: [18, 18],
@@ -139,10 +157,32 @@ export function initialiseFont() {
   changeFont(font);
 }
 
+/**
+ * The font family currently resolved for the player's language + font
+ * choice (set on `documentElement` by `setFontProperties`). Phaser can't see
+ * CSS `var(--font-family)`, so anything drawing text outside the DOM (e.g.
+ * `scene.add.text`) needs the literal font name - read it fresh each time
+ * rather than caching, since the player can change it live from Settings.
+ */
+export function getResolvedFontFamily(): string {
+  const value =
+    document.documentElement.style.getPropertyValue("--font-family");
+
+  return value || "sans-serif";
+}
+
 function setFontProperties(config: FontSettings) {
   document.documentElement.style.setProperty(
     "--font-family",
     config.fontFamily,
+  );
+  document.documentElement.style.setProperty(
+    "--text-xxxs-size",
+    `${config.xxxs[0]}px`,
+  );
+  document.documentElement.style.setProperty(
+    "--text-xxxs-line-height",
+    `${config.xxxs[1]}px`,
   );
   document.documentElement.style.setProperty(
     "--text-xxs-size",
@@ -207,6 +247,7 @@ export function changeFont(font: Font) {
     // Use a fallback configuration if the specified font is not found
     setFontProperties({
       fontFamily: "sans-serif",
+      xxxs: [10, 10],
       xxs: [14, 14],
       xs: [16, 16],
       sm: [18, 18],

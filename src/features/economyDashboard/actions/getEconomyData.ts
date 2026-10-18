@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 
 export interface EconomyFarmCollectibles {
   totals: Record<string, string>;
@@ -57,7 +58,7 @@ export const getEconomyData = async ({
   url.searchParams.set("startDate", startDate.toString());
   url.searchParams.set("endDate", endDate.toString());
 
-  const res = await window.fetch(url, {
+  const res = await fetchWithRetry(url, {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",

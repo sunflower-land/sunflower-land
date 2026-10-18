@@ -12,9 +12,30 @@ import { translate } from "lib/i18n/translate";
 import { getKeys } from "lib/object";
 import type { LevelRequirement } from "features/game/lib/level";
 
-export type AnimalBuildingType = Extract<BuildingName, "Barn" | "Hen House">;
+export type AnimalBuildingType = Extract<
+  BuildingName,
+  "Barn" | "Hen House" | "Pigpen"
+>;
 
-export type AnimalType = "Chicken" | "Cow" | "Sheep";
+export type AnimalType = "Chicken" | "Cow" | "Sheep" | "Pig";
+
+/**
+ * Exhaustive by construction: the compiler forces an entry here whenever
+ * AnimalBuildingType grows, which is what makes ANIMAL_BUILDING_TYPES and
+ * `isAnimalBuildingType` safe to iterate over. A plain array would reject a
+ * wrong member but happily miss a new one.
+ */
+const ANIMAL_BUILDING_TYPE_SET: Record<AnimalBuildingType, true> = {
+  "Hen House": true,
+  Barn: true,
+  Pigpen: true,
+};
+
+export const ANIMAL_BUILDING_TYPES = getKeys(ANIMAL_BUILDING_TYPE_SET);
+
+export const isAnimalBuildingType = (
+  name: BuildingName,
+): name is AnimalBuildingType => name in ANIMAL_BUILDING_TYPE_SET;
 
 type AnimalDetail = {
   coins: number;
@@ -52,6 +73,15 @@ export const ANIMALS: Record<AnimalType, AnimalDetail> = {
     coins: 120,
     levelRequired: { ascension: 0, level: 18 },
     buildingRequired: "Barn",
+    height: 2,
+    width: 2,
+  },
+  // Coins: #7721 Balance Update (provisional). TODO(Chapter 16): level and
+  // size are still placeholders.
+  Pig: {
+    coins: 100,
+    levelRequired: { ascension: 0, level: 16 },
+    buildingRequired: "Pigpen",
     height: 2,
     width: 2,
   },
@@ -130,6 +160,25 @@ export const ANIMAL_LEVELS: Record<AnimalType, Record<AnimalLevel, number>> = {
     14: 4800,
     15: 5440,
   },
+  // #7721 Balance Update: Pigs adopt the Cow's thresholds.
+  Pig: {
+    0: 0,
+    1: 180,
+    2: 360,
+    3: 720,
+    4: 1080,
+    5: 1440,
+    6: 1980,
+    7: 2520,
+    8: 3060,
+    9: 3600,
+    10: 4320,
+    11: 5040,
+    12: 5760,
+    13: 6480,
+    14: 7200,
+    15: 8160,
+  },
 };
 
 export const ANIMAL_FOODS: Record<AnimalFoodName | AnimalMedicineName, Feed> = {
@@ -184,11 +233,40 @@ export const ANIMAL_FOODS: Record<AnimalFoodName | AnimalMedicineName, Feed> = {
       Gem: new Decimal(1),
     },
   },
+  "Basic Slop": {
+    name: "Basic Slop",
+    type: "food",
+    description: translate("description.basic.slop"),
+    // One item of its tier, chosen when mixing: getPigFeedIngredients.
+    ingredients: {},
+  },
+  "Hearty Slop": {
+    name: "Hearty Slop",
+    type: "food",
+    description: translate("description.hearty.slop"),
+    // One item of its tier, chosen when mixing: getPigFeedIngredients.
+    ingredients: {},
+  },
+  "Rich Slop": {
+    name: "Rich Slop",
+    type: "food",
+    description: translate("description.rich.slop"),
+    // One item of its tier, chosen when mixing: getPigFeedIngredients.
+    ingredients: {},
+  },
+  "Gourmet Slop": {
+    name: "Gourmet Slop",
+    type: "food",
+    description: translate("description.gourmet.slop"),
+    // One item of its tier, chosen when mixing: getPigFeedIngredients.
+    ingredients: {},
+  },
 };
 
 export const ANIMAL_FOOD_EXPERIENCE: Record<
   AnimalType,
-  Record<AnimalLevel, Record<Exclude<AnimalFoodName, "Barn Delight">, number>>
+  // Partial: each animal lists only the foods it eats (see isFoodForAnimal).
+  Record<AnimalLevel, Partial<Record<AnimalFoodName, number>>>
 > = {
   Chicken: {
     0: {
@@ -530,6 +608,107 @@ export const ANIMAL_FOOD_EXPERIENCE: Record<
       NutriBarley: 30,
       "Mixed Grain": 80,
       Omnifeed: 80,
+    },
+  },
+  // #7721 Balance Update: Pigs eat only the four tier Slops (types/pigFeeds.ts),
+  // never the crafted feeds or Omnifeed. XP before modifiers; the favourite
+  // tier moves up at levels 3, 6 and 10.
+  Pig: {
+    0: {
+      "Basic Slop": 60,
+      "Hearty Slop": 10,
+      "Rich Slop": 20,
+      "Gourmet Slop": 30,
+    },
+    1: {
+      "Basic Slop": 60,
+      "Hearty Slop": 10,
+      "Rich Slop": 20,
+      "Gourmet Slop": 30,
+    },
+    2: {
+      "Basic Slop": 60,
+      "Hearty Slop": 10,
+      "Rich Slop": 20,
+      "Gourmet Slop": 30,
+    },
+    3: {
+      "Basic Slop": 10,
+      "Hearty Slop": 60,
+      "Rich Slop": 20,
+      "Gourmet Slop": 30,
+    },
+    4: {
+      "Basic Slop": 10,
+      "Hearty Slop": 60,
+      "Rich Slop": 20,
+      "Gourmet Slop": 30,
+    },
+    5: {
+      "Basic Slop": 10,
+      "Hearty Slop": 60,
+      "Rich Slop": 20,
+      "Gourmet Slop": 30,
+    },
+    6: {
+      "Basic Slop": 10,
+      "Hearty Slop": 20,
+      "Rich Slop": 60,
+      "Gourmet Slop": 30,
+    },
+    7: {
+      "Basic Slop": 10,
+      "Hearty Slop": 20,
+      "Rich Slop": 60,
+      "Gourmet Slop": 30,
+    },
+    8: {
+      "Basic Slop": 10,
+      "Hearty Slop": 20,
+      "Rich Slop": 60,
+      "Gourmet Slop": 30,
+    },
+    9: {
+      "Basic Slop": 10,
+      "Hearty Slop": 20,
+      "Rich Slop": 60,
+      "Gourmet Slop": 30,
+    },
+    10: {
+      "Basic Slop": 10,
+      "Hearty Slop": 20,
+      "Rich Slop": 30,
+      "Gourmet Slop": 80,
+    },
+    11: {
+      "Basic Slop": 10,
+      "Hearty Slop": 20,
+      "Rich Slop": 30,
+      "Gourmet Slop": 80,
+    },
+    12: {
+      "Basic Slop": 10,
+      "Hearty Slop": 20,
+      "Rich Slop": 30,
+      "Gourmet Slop": 80,
+    },
+    13: {
+      "Basic Slop": 10,
+      "Hearty Slop": 20,
+      "Rich Slop": 30,
+      "Gourmet Slop": 80,
+    },
+    14: {
+      "Basic Slop": 10,
+      "Hearty Slop": 20,
+      "Rich Slop": 30,
+      "Gourmet Slop": 80,
+    },
+    15: {
+      "Basic Slop": 10,
+      "Hearty Slop": 20,
+      "Rich Slop": 30,
+      "Gourmet Slop": 80,
     },
   },
 };
@@ -725,6 +904,28 @@ export const ANIMAL_RESOURCE_DROP: Record<
       "Merino Wool": new Decimal(4),
     },
   },
+  // #7721 Balance Update: 1 / 2 / 3 / 4 Truffles at L1–3 / 4–7 / 8–14 / 15.
+  // Truffles are the Pig's only produce, from level 1; level 0 drops nothing,
+  // matching every other animal. Pig Bristles are never produce - they come
+  // only from trading a Pig in.
+  Pig: {
+    0: {},
+    1: { Truffle: new Decimal(1) },
+    2: { Truffle: new Decimal(1) },
+    3: { Truffle: new Decimal(1) },
+    4: { Truffle: new Decimal(2) },
+    5: { Truffle: new Decimal(2) },
+    6: { Truffle: new Decimal(2) },
+    7: { Truffle: new Decimal(2) },
+    8: { Truffle: new Decimal(3) },
+    9: { Truffle: new Decimal(3) },
+    10: { Truffle: new Decimal(3) },
+    11: { Truffle: new Decimal(3) },
+    12: { Truffle: new Decimal(3) },
+    13: { Truffle: new Decimal(3) },
+    14: { Truffle: new Decimal(3) },
+    15: { Truffle: new Decimal(4) },
+  },
 };
 
 export function getUniqueAnimalResources(): AnimalResource[] {
@@ -754,3 +955,41 @@ export const isMutantAnimalChapterName = (
     chapter !== "Clash of Factions"
   );
 };
+
+/**
+ * Pig Bristles per trade-in by Pig level (#7721 Balance Update). Bristles are
+ * never produce: a Pig pays them once, when it is traded in or sold to a
+ * bounty. Levels 0-2 pay nothing, so such a Pig cannot be traded in.
+ */
+export const PIG_BRISTLES_PER_LEVEL: Record<AnimalLevel, number> = {
+  0: 0,
+  1: 0,
+  2: 0,
+  3: 1,
+  4: 1,
+  5: 2,
+  6: 3,
+  7: 3,
+  8: 4,
+  9: 5,
+  10: 6,
+  11: 6,
+  12: 7,
+  13: 8,
+  14: 9,
+  15: 12,
+};
+
+/** The lowest Pig level that pays Bristles, so the lowest level that can be traded in. */
+export const PIG_TRADE_IN_MIN_LEVEL = (
+  Object.keys(PIG_BRISTLES_PER_LEVEL).map(Number) as AnimalLevel[]
+).find((level) => PIG_BRISTLES_PER_LEVEL[level] > 0) as AnimalLevel;
+
+/** Lowest and highest trade-in payout across the levels that pay. */
+export const PIG_TRADE_IN_BRISTLES_RANGE = (() => {
+  const payouts = Object.values(PIG_BRISTLES_PER_LEVEL).filter(
+    (amount) => amount > 0,
+  );
+
+  return { min: Math.min(...payouts), max: Math.max(...payouts) };
+})();

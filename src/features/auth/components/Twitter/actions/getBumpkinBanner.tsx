@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 
 /***
  * For Debugging Purpose
@@ -10,7 +11,7 @@ export const getBumpkinBanner = async (
   token: string,
   type: "flower" | "progress",
 ): Promise<{ url: string }> => {
-  const res = await fetch(`${CONFIG.API_URL}/banner/${type}`, {
+  const res = await fetchWithRetry(`${CONFIG.API_URL}/banner/${type}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

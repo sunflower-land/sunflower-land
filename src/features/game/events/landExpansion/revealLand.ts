@@ -435,6 +435,9 @@ export function getRewards({
         items: {
           "Time Warp Totem": 1,
           Gem: 20,
+          // Two of the stretch expansion's three mines - the third Pickaxe
+          // is bought, keeping the coins -> Axe -> Wood -> tool loop taught
+          Pickaxe: 2,
         },
         message: "Woohoo, you discovered a gift!",
         sfl: 0,

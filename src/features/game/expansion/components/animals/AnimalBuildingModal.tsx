@@ -14,7 +14,10 @@ import {
   type AnimalType,
 } from "features/game/types/animals";
 import { Box } from "components/ui/Box";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import type { AnimalBounty, AnimalBuildingKey } from "features/game/types/game";
 import Decimal from "decimal.js-light";
@@ -32,13 +35,25 @@ import {
   getAnimalMaturityTimeForDisplay,
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
+import { getAnimalBoostWindows } from "features/game/lib/boostWindows";
+import { hasFeatureAccess } from "lib/flags";
+import {
+  getBoostContributionEntries,
+  getAnimalBoostContributions,
+} from "features/game/lib/boostContributions";
+import {
+  getPreActionDisplay,
+  PRE_ACTION_TICK_MS,
+} from "features/game/lib/timerDisplay";
+import { useNow } from "lib/utils/hooks/useNow";
+import { secondsToString } from "lib/utils/time";
 import { AnimalBounties } from "features/barn/components/AnimalBounties";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { isMobile } from "mobile-device-detect";
-import { SICK_ANIMAL_REWARD_MULTIPLIER } from "features/game/events/landExpansion/sellAnimal";
+import { SICK_ANIMAL_REWARD_MULTIPLIER } from "features/game/lib/animals";
 import { formatNumber } from "lib/utils/formatNumber";
 import { SquareIcon } from "components/ui/SquareIcon";
 
@@ -65,6 +80,8 @@ type Props = {
   buildingName: AnimalBuildingType;
   onClose: () => void;
   onExchanging: (deal: AnimalBounty) => void;
+  /** Pigpen only: the Sell tab's "Trade in" section. */
+  onTradeIn?: () => void;
 };
 
 const _state = (state: MachineState) => state.context.state;
@@ -76,6 +93,7 @@ export const AnimalBuildingModal: React.FC<Props> = ({
   buildingName,
   onClose,
   onExchanging,
+  onTradeIn,
 }) => {
   const { gameService } = useContext(Context);
   const [showIntro, setShowIntro] = useState(!hasReadIntro());
@@ -98,6 +116,9 @@ export const AnimalBuildingModal: React.FC<Props> = ({
   );
 
   const [selectedName, setSelectedName] = useState<AnimalType>(animals[0]);
+  // Minute granularity: the projection goes stale as the shrine burns down, but
+  // the panel renders whole minutes (see PRE_ACTION_TICK_MS).
+  const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
 
   const handleBuyAnimal = () => {
     gameService.send({
@@ -132,6 +153,36 @@ export const AnimalBuildingModal: React.FC<Props> = ({
   const maturityTime = getAnimalMaturityTimeForDisplay({
     animalType: selectedName,
     game: state,
+  });
+  // Gate on the SAME flag `getBoostedAwakeAt` uses to decide what it bakes.
+  // Flag-off it still bakes the shrine into `maturityTimeMs`, so projecting
+  // through the windows as well would count it twice (and list a boost the
+  // player isn't on). The windows themselves exist regardless of the flag.
+  const boostsWindowed = hasFeatureAccess(state, "SPEED_BOOSTS");
+  const maturityWindows = boostsWindowed
+    ? getAnimalBoostWindows(state, selectedName)
+    : [];
+  // The windowed shrine isn't in `boostsUsed` (it applies over the sleep rather
+  // than being baked into it), so name it for the boost panel: the time it
+  // actually saves.
+  const maturityBoostsUsed = [
+    ...maturityTime.boostsUsed,
+    ...getBoostContributionEntries({
+      contributions: boostsWindowed
+        ? getAnimalBoostContributions(state, selectedName)
+        : [],
+      seconds: maturityTime.maturityTimeMs / 1000,
+      at: now,
+      formatSeconds: (seconds) =>
+        secondsToString(seconds, { length: "medium" }),
+    }),
+  ];
+  const { displaySeconds: maturityDisplaySeconds } = getPreActionDisplay({
+    seconds: maturityTime.maturityTimeMs / 1000,
+    baseSeconds: maturityTime.baseTimeMs / 1000,
+    namedBoostCount: maturityBoostsUsed.length,
+    windows: maturityWindows,
+    at: now,
   });
 
   if (showIntro) {
@@ -209,9 +260,9 @@ export const AnimalBuildingModal: React.FC<Props> = ({
               requirements={{
                 coins: ANIMALS[selectedName].coins,
                 showCoinsIfFree: true,
-                timeSeconds: Math.ceil(maturityTime.maturityTimeMs / 1000),
+                timeSeconds: Math.ceil(maturityDisplaySeconds),
                 baseTimeSeconds: Math.ceil(maturityTime.baseTimeMs / 1000),
-                timeBoostsUsed: maturityTime.boostsUsed,
+                timeBoostsUsed: maturityBoostsUsed,
                 level: ANIMALS[selectedName].levelRequired,
               }}
               showTimeBoosts={showTimeBoosts}
@@ -219,7 +270,9 @@ export const AnimalBuildingModal: React.FC<Props> = ({
               label={
                 atMaxCapacity ? (
                   <Label type="danger">
-                    {t("animals.buildingIsFull", { buildingName })}
+                    {t("animals.buildingIsFull", {
+                      buildingName: getTranslatedItemName(buildingName),
+                    })}
                   </Label>
                 ) : undefined
               }
@@ -229,7 +282,9 @@ export const AnimalBuildingModal: React.FC<Props> = ({
                   onClick={handleBuyAnimal}
                   className="w-full"
                 >
-                  {t("animals.buy", { animal: selectedName })}
+                  {t("animals.buy", {
+                    animal: getTranslatedItemName(selectedName),
+                  })}
                 </Button>
               }
             />
@@ -273,8 +328,13 @@ export const AnimalBuildingModal: React.FC<Props> = ({
 
       {currentTab === "sell" && (
         <AnimalBounties
-          type={buildingName === "Barn" ? ["Cow", "Sheep"] : ["Chicken"]}
+          // Derived from ANIMALS rather than listed per building, so a new
+          // animal shows its bounties in its own house automatically.
+          type={getKeys(ANIMALS).filter(
+            (animal) => ANIMALS[animal].buildingRequired === buildingName,
+          )}
           onExchanging={onExchanging}
+          onTradeIn={onTradeIn}
         />
       )}
 

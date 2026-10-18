@@ -25,9 +25,11 @@ type Options = {
 export function getFlowerAmount({
   game,
   criticalDrop = () => false,
+  now,
 }: {
   game: GameState;
   criticalDrop: (name: CriticalHitName) => boolean;
+  now: number;
 }): { amount: number; boostsUsed: { name: BoostName; value: string }[] } {
   const { bumpkin } = game;
   let amount = 1;
@@ -74,7 +76,7 @@ export function getFlowerAmount({
   }
 
   if (
-    isTemporaryCollectibleActive({ name: "Moth Shrine", game }) &&
+    isTemporaryCollectibleActive({ name: "Moth Shrine", game, now }) &&
     criticalDrop("Moth Shrine")
   ) {
     amount += 1;
@@ -86,7 +88,7 @@ export function getFlowerAmount({
     boostsUsed.push({ name: "Petalled Perk", value: "+1" });
   }
 
-  if (isTemporaryCollectibleActive({ name: "Legendary Shrine", game })) {
+  if (isTemporaryCollectibleActive({ name: "Legendary Shrine", game, now })) {
     amount += 1;
     boostsUsed.push({ name: "Legendary Shrine", value: "+1" });
   }
@@ -114,6 +116,13 @@ export function harvestFlower({
 
     if (!flowerBed) throw new Error(translate("harvestflower.noFlowerBed"));
 
+    // A lifted bed keeps growing while it sits in the inventory - the pause is
+    // only applied when it is placed back down, so harvesting an unplaced bed
+    // would side-step it entirely.
+    if (flowerBed.x === undefined && flowerBed.y === undefined) {
+      throw new Error("Flower bed is not placed");
+    }
+
     const flower = flowerBed.flower;
 
     if (!flower) throw new Error(translate("harvestflower.noFlower"));
@@ -127,6 +136,7 @@ export function harvestFlower({
         : getFlowerAmount({
             game: stateCopy,
             criticalDrop: (name) => !!(flower.criticalHit?.[name] ?? 0),
+            now: createdAt,
           });
 
     stateCopy.inventory[flower.name] = (

@@ -172,6 +172,7 @@ export type FarmActivityName =
   | CraftingStartedEvent
   | ResourceBought
   | BiomeBought
+  | `${"Jigsaw" | "Rotate"} Captcha ${"Succeeded" | "Failed"}`
   | "Obsidian Exchanged"
   | "FLOWER Exchanged"
   | "Gems Purchased"
@@ -234,6 +235,7 @@ export type FarmActivityName =
   | "Treasure Dug"
   | "Treasure Searched"
   | "Treasure Drilled"
+  | "Cave Tile Dug"
   | "Love Letter Collected"
   | "Easter Egg Collected"
   | "Chore Completed"

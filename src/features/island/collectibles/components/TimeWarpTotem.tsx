@@ -7,15 +7,6 @@ import type { CollectibleProps } from "../Collectible";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Context } from "features/game/GameProvider";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
-import {
-  SFTDetailPopoverBuffs,
-  SFTDetailPopoverInnerPanel,
-  SFTDetailPopoverLabel,
-} from "components/ui/SFTDetailPopover";
-import { secondsToString } from "lib/utils/time";
-import { Label } from "components/ui/Label";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useSelector } from "@xstate/react";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -23,7 +14,13 @@ import { useVisiting } from "lib/utils/visitUtils";
 import { RenewCollectible } from "features/game/components/RenewCollectible";
 import Decimal from "decimal.js-light";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
-import { getExpiryCooldown } from "features/game/lib/collectibleBuilt";
+import {
+  getCollectibleExpiry,
+  getCollectiblesAcrossLocations,
+  getExpiryCooldown,
+} from "features/game/lib/collectibleBuilt";
+import { TemporaryCollectibleModal } from "features/game/components/TemporaryCollectibleModal";
+import { hasFeatureAccess } from "lib/flags";
 
 const _gameState = (state: MachineState) => state.context.state;
 
@@ -32,16 +29,28 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({
   id,
   location,
 }) => {
-  const { t } = useAppTranslation();
   const { gameService, showTimers, showAnimations } = useContext(Context);
   const { isVisiting } = useVisiting();
   const gameState = useSelector(gameService, _gameState);
   const [showRenewModal, setShowRenewModal] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
   const chestItems = getChestItems(gameState);
   const duration = getExpiryCooldown("Time Warp Totem", gameState);
-  const expiresAt = createdAt + duration;
+  // Read the placement so any time bought via `collectible.extended` is included
+  // in the countdown rather than the totem appearing to expire early.
+  const placed = getCollectiblesAcrossLocations(
+    gameState,
+    "Time Warp Totem",
+  ).find((collectible) => collectible.id === id);
+  const expiresAt = getCollectibleExpiry({
+    name: "Time Warp Totem",
+    collectible: placed ?? { createdAt },
+    game: gameState,
+  });
+  const canExtend =
+    !isVisiting && hasFeatureAccess(gameState, "SPEED_BOOSTS") && !!placed;
   const { totalSeconds: secondsToExpire } = useCountdown(expiresAt);
-  const durationSeconds = duration / 1000;
+  const durationSeconds = (duration + (placed?.extendedMs ?? 0)) / 1000;
   const percentage = 100 - (secondsToExpire / durationSeconds) * 100;
 
   const hasExpired = secondsToExpire <= 0;
@@ -134,8 +143,8 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({
   }
 
   return (
-    <Popover>
-      <PopoverButton as="div">
+    <>
+      <div onClick={() => setShowDetails(true)}>
         {showTimers && (
           <div className="absolute bottom-0 left-0">
             <ProgressBar
@@ -166,25 +175,17 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({
           }}
           className="absolute pointer-events-none animate-pulse"
         />
-      </PopoverButton>
+      </div>
 
-      <PopoverPanel anchor={{ to: "left start" }} className="flex">
-        <SFTDetailPopoverInnerPanel>
-          <SFTDetailPopoverLabel name={"Time Warp Totem"} />
-          <Label type="info" className="mt-2 mb-2">
-            <span className="text-xs">
-              {t("time.remaining", {
-                time: secondsToString(secondsToExpire, {
-                  length: "medium",
-                  isShortFormat: true,
-                  removeTrailingZeros: true,
-                }),
-              })}
-            </span>
-          </Label>
-          <SFTDetailPopoverBuffs name={"Time Warp Totem"} />
-        </SFTDetailPopoverInnerPanel>
-      </PopoverPanel>
-    </Popover>
+      <TemporaryCollectibleModal
+        show={showDetails}
+        onHide={() => setShowDetails(false)}
+        name="Time Warp Totem"
+        id={id}
+        location={location}
+        expiresAt={expiresAt}
+        canExtend={canExtend}
+      />
+    </>
   );
 };

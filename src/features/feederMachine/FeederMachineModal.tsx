@@ -1,4 +1,6 @@
 import { useSelector } from "@xstate/react";
+import { ANIMAL_FEED_BUFF_ITEMS } from "features/game/events/landExpansion/applyAnimalFeedBuff";
+import { useNow } from "lib/utils/hooks/useNow";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { Modal } from "components/ui/Modal";
 import { SplitScreenView } from "components/ui/SplitScreenView";
@@ -28,6 +30,7 @@ import { getWearableImage } from "features/game/lib/getWearableImage";
 import Decimal from "decimal.js-light";
 import {
   ANIMAL_FOODS,
+  type AnimalBuildingType,
   type AnimalType,
   type Feed,
   type FeedType,
@@ -35,15 +38,19 @@ import {
 import { Label } from "components/ui/Label";
 import { getIngredients, getMaxFeedMixAmount } from "./feedMixed";
 import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails";
-import { getBulkMixRequirements } from "./getBulkMixRequirements";
+import {
+  getBulkMixRequirements,
+  getPigFeedIngredientOptions,
+} from "./getBulkMixRequirements";
+import { isPigFeed, type PigFeedName } from "features/game/types/pigFeeds";
 import { formatNumber } from "lib/utils/formatNumber";
-import { hasFeatureAccess } from "lib/flags";
 import { BulkMixModal } from "./BulkMixModal";
+import { PigFeedMixer } from "./PigFeedMixer";
 
 interface Props {
   show: boolean;
   onClose: () => void;
-  building: "Hen House" | "Barn";
+  building: AnimalBuildingType;
 }
 
 type BulkMixItem = AnimalFoodName | AnimalMedicineName;
@@ -53,9 +60,14 @@ const FOOD_TYPE_TERMS = {
   medicine: "feeder.foodTypes.medicine",
 } as const;
 
-const ANIMAL_FEED_BUFFS: AnimalFeedBuffName[] = ["Salt Lick", "Honey Treat"];
-
 type Tab = "food" | "automaticMixer";
+
+/**
+ * The feeds a building's Feeder mixes: the Pigpen mixes only the Pig Slops,
+ * and the other buildings never mix them.
+ */
+const isBuildingFeed = (building: AnimalBuildingType, item: BulkMixItem) =>
+  building === "Pigpen" ? isPigFeed(item) : !isPigFeed(item);
 
 export const FeederMachineModal: React.FC<Props> = ({
   show,
@@ -65,9 +77,20 @@ export const FeederMachineModal: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const { gameService, shortcutItem, shortcutItems } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
+  // Feed costs depend on temporary boosts (Collie/Bantam Shrine), which expire
+  // on their own, and the bulk-mix count depends on animals waking at arbitrary
+  // times. A mount snapshot would keep showing a discount the reducer no longer
+  // applies and under-count Mix All, so tick every second while the modal is
+  // open (recomputing is cheap) - and only while it is open, since this
+  // component's body runs even when hidden.
+  const now = useNow({ live: show, intervalMs: 1000 });
   const [selectedName, setSelectedName] = useState<
     AnimalFoodName | AnimalMedicineName
-  >("Hay");
+  >(building === "Pigpen" ? "Basic Slop" : "Hay");
+  // The input the player picked for each Slop; unset means the best option.
+  const [pigFeedInputs, setPigFeedInputs] = useState<
+    Partial<Record<PigFeedName, InventoryItemName>>
+  >({});
   const [selectedSpice, setSelectedSpice] =
     useState<AnimalFeedBuffName>("Honey Treat");
   const [isSpiceSelected, setIsSpiceSelected] = useState(false);
@@ -77,11 +100,23 @@ export const FeederMachineModal: React.FC<Props> = ({
   const [customMixAmount, setCustomMixAmount] = useState(new Decimal(0));
   const { coins } = ANIMAL_FOODS[selectedName];
 
-  const showBulkMixer = hasFeatureAccess(state, "BULK_MIXER");
-
-  const { ingredients } = getIngredients({ state, name: selectedName });
-  const maxMixAmount = getMaxFeedMixAmount({ state, name: selectedName });
-  const spices = ANIMAL_FEED_BUFFS.filter((item) =>
+  const pigFeedOptions = isPigFeed(selectedName)
+    ? getPigFeedIngredientOptions(selectedName, state.inventory)
+    : [];
+  const ingredient = isPigFeed(selectedName)
+    ? (pigFeedInputs[selectedName] ?? pigFeedOptions[0])
+    : undefined;
+  const { ingredients } = getIngredients({
+    state,
+    name: selectedName,
+    ingredient,
+  });
+  const maxMixAmount = getMaxFeedMixAmount({
+    state,
+    name: selectedName,
+    ingredient,
+  });
+  const spices = ANIMAL_FEED_BUFF_ITEMS.filter((item) =>
     state.inventory[item]?.gt(0),
   );
   const hasSpices = spices.length > 0;
@@ -90,11 +125,13 @@ export const FeederMachineModal: React.FC<Props> = ({
     : undefined;
   const showSpiceDetails = isSpiceSelected && hasSpices && !!selectedSpiceItem;
   const { requests, feeds, animalsWaiting, freeFeedBoosts } =
-    getBulkMixRequirements(state, building);
+    getBulkMixRequirements(state, building, now);
 
   // Only feeds that still need mixing are listed - a feed the inventory
   // already covers is not something the player has to act on.
-  const mixableFeeds = feeds.filter((feed) => feed.missing.gt(0));
+  const mixableFeeds = feeds.filter(
+    (feed) => feed.missing.gt(0) && isBuildingFeed(building, feed.item),
+  );
 
   // Track which feeds the player has toggled OFF. Everything mixable is
   // selected by default, so storing only the deselections keeps the default
@@ -114,17 +151,19 @@ export const FeederMachineModal: React.FC<Props> = ({
     toggleFeed(item);
   };
 
-  const groupedItems = getKeys(ANIMAL_FOODS).reduce(
-    (acc, item) => {
-      const type = ANIMAL_FOODS[item].type;
-      if (!acc[type]) {
-        acc[type] = [];
-      }
-      acc[type].push(ANIMAL_FOODS[item]);
-      return acc;
-    },
-    {} as Record<FeedType, Feed[]>,
-  );
+  const groupedItems = getKeys(ANIMAL_FOODS)
+    .filter((item) => isBuildingFeed(building, item))
+    .reduce(
+      (acc, item) => {
+        const type = ANIMAL_FOODS[item].type;
+        if (!acc[type]) {
+          acc[type] = [];
+        }
+        acc[type].push(ANIMAL_FOODS[item]);
+        return acc;
+      },
+      {} as Record<FeedType, Feed[]>,
+    );
 
   const onSelect = (item: AnimalFoodName | AnimalMedicineName) => {
     setSelectedName(item);
@@ -153,6 +192,7 @@ export const FeederMachineModal: React.FC<Props> = ({
   const mix = (amount = 1) => {
     gameService.send("feed.mixed", {
       item: selectedName,
+      ingredient,
       amount,
     });
 
@@ -177,7 +217,9 @@ export const FeederMachineModal: React.FC<Props> = ({
     closeBulkMixModal();
   };
 
-  const hasFeedRequests = getKeys(requests).length > 0;
+  const hasFeedRequests = getKeys(requests).some((item) =>
+    isBuildingFeed(building, item),
+  );
   const hasMixableFeeds = mixableFeeds.length > 0;
   // Requests exist, but the player's inventory already covers every one.
   const allCovered = hasFeedRequests && !hasMixableFeeds;
@@ -276,6 +318,7 @@ export const FeederMachineModal: React.FC<Props> = ({
     gameService.send("feeds.bulkMixed", {
       feeds: selectedFeeds.map((feed) => ({
         item: feed.item,
+        ingredient: feed.ingredient,
         amount: feed.missing.toNumber(),
       })),
     });
@@ -312,20 +355,35 @@ export const FeederMachineModal: React.FC<Props> = ({
               icon: ITEM_DETAILS.Hay.image,
               name: t("feeder.foodTypes.food"),
             },
-            ...(showBulkMixer
-              ? [
-                  {
-                    id: "automaticMixer" as const,
-                    icon: ITEM_DETAILS["Mixed Grain"].image,
-                    name: t("feeder.bulkMixer"),
-                  },
-                ]
-              : []),
+            {
+              id: "automaticMixer",
+              icon: ITEM_DETAILS["Mixed Grain"].image,
+              name: t("feeder.bulkMixer"),
+            },
           ]}
           currentTab={tab}
           setCurrentTab={setTab}
         >
-          {tab === "food" && (
+          {tab === "food" && building === "Pigpen" && (
+            <PigFeedMixer
+              state={state}
+              selected={isPigFeed(selectedName) ? selectedName : "Basic Slop"}
+              ingredient={ingredient ?? pigFeedOptions[0]}
+              ingredients={ingredients}
+              maxMixAmount={maxMixAmount}
+              onSelect={onSelect}
+              onSelectIngredient={(item) =>
+                isPigFeed(selectedName) &&
+                setPigFeedInputs((prev) => ({
+                  ...prev,
+                  [selectedName]: item,
+                }))
+              }
+              onMix={mix}
+              onMixInBulk={() => setShowBulkMixModal(true)}
+            />
+          )}
+          {tab === "food" && building !== "Pigpen" && (
             <SplitScreenView
               panel={
                 showSpiceDetails ? (
@@ -420,7 +478,7 @@ export const FeederMachineModal: React.FC<Props> = ({
               }
             />
           )}
-          {tab === "automaticMixer" && showBulkMixer && (
+          {tab === "automaticMixer" && (
             <InnerPanel className="flex flex-col gap-2 p-1 w-full">
               {freeFeeding ? (
                 <>

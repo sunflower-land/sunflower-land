@@ -40,6 +40,7 @@ import { useVisiting } from "lib/utils/visitUtils";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { getInteriorExitRoute, getInteriorRoute } from "./lib/interiorRoutes";
 import { PlayerModal } from "features/social/PlayerModal";
+import { Discovery } from "features/social/Discovery";
 import { Context as AuthContext } from "features/auth/lib/Provider";
 import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { hasFeatureAccess } from "lib/flags";
@@ -400,7 +401,10 @@ export const Interior: React.FC = () => {
                   <UpgradeButton />
                 </MapPlacement>
               )}
-              {expansion &&
+              {/* Hidden while landscaping: the HUD floor nav saves the floor
+                  being left first, which these stairs would bypass. */}
+              {!landscaping &&
+                expansion &&
                 hasRequiredIslandExpansion(island.type, "volcano") && (
                   <MapPlacement
                     key="upgrade-button"
@@ -454,6 +458,7 @@ export const Interior: React.FC = () => {
         token={token}
         hasAirdropAccess={hasAirdropAccess}
       />
+      <Discovery />
     </>
   );
 };

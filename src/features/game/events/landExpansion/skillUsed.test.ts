@@ -3,6 +3,11 @@ import { skillUse, getSkillCooldown } from "./skillUsed";
 import { CROPS } from "features/game/types/crops";
 import { COOKABLES } from "features/game/types/consumables";
 import { FLOWER_SEEDS, FLOWERS } from "features/game/types/flowers";
+import { getFlowerReadyAt } from "features/game/lib/flowerBedReadiness";
+import { harvest } from "./harvest";
+import { BUILDING_DAILY_OIL_CAPACITY } from "./supplyCookingOil";
+import { getKeys } from "lib/object";
+import Decimal from "decimal.js-light";
 
 describe("skillUse", () => {
   const dateNow = Date.now();
@@ -290,13 +295,16 @@ describe("skillUse", () => {
       expect(state.aoe["Basic Scarecrow"]?.[1]?.[1]).toEqual(dateNow);
     });
 
-    it("sets the aoe readyAt to the currentTime for yield AOE", () => {
+    it("frees the yield AOE for a legacy crop", () => {
       const state = skillUse({
         state: {
           ...INITIAL_FARM,
           bumpkin: {
             ...INITIAL_FARM.bumpkin,
             skills: { "Instant Growth": 1 },
+          },
+          inventory: {
+            Kale: new Decimal(0),
           },
           crops: {
             "123": {
@@ -307,34 +315,127 @@ describe("skillUse", () => {
               },
               createdAt: dateNow,
               x: 1,
-              y: 1,
+              y: 0,
             },
-            "789": {
+          },
+          collectibles: {
+            "Sir Goldensnout": [
+              {
+                id: "123",
+                createdAt: dateNow,
+                readyAt: dateNow,
+                coordinates: { x: 0, y: 0 },
+              },
+            ],
+          },
+          aoe: { "Sir Goldensnout": { 1: { 0: dateNow } } },
+        },
+        action: {
+          type: "skill.used",
+          skill: "Instant Growth",
+        },
+        createdAt: dateNow,
+      });
+
+      const stateAfterHarvest = harvest({
+        farmId: 1,
+        state,
+        action: { type: "crop.harvested", index: "123" },
+        createdAt: dateNow,
+      });
+
+      expect(stateAfterHarvest.inventory.Kale).toEqual(new Decimal(1.5));
+    });
+
+    it("frees the yield AOE for a windowed (speed-rate) crop", () => {
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Instant Growth": 1 },
+          },
+          inventory: {
+            Kale: new Decimal(0),
+          },
+          crops: {
+            "123": {
               crop: {
-                id: "147",
+                id: "456",
+                name: "Kale",
+                plantedAt: dateNow,
+                baseDurationMs: CROPS["Kale"].harvestSeconds * 1000,
+              },
+              createdAt: dateNow,
+              x: 1,
+              y: 0,
+            },
+          },
+          collectibles: {
+            "Sir Goldensnout": [
+              {
+                id: "123",
+                createdAt: dateNow,
+                readyAt: dateNow,
+                coordinates: { x: 0, y: 0 },
+              },
+            ],
+          },
+          aoe: { "Sir Goldensnout": { 1: { 0: dateNow } } },
+        },
+        action: {
+          type: "skill.used",
+          skill: "Instant Growth",
+        },
+        createdAt: dateNow,
+      });
+
+      const stateAfterHarvest = harvest({
+        farmId: 1,
+        state,
+        action: { type: "crop.harvested", index: "123" },
+        createdAt: dateNow,
+      });
+
+      expect(stateAfterHarvest.inventory.Kale).toEqual(new Decimal(1.5));
+    });
+
+    it("leaves the yield AOE of a plot it did not grow untouched", () => {
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Instant Growth": 1 },
+          },
+          crops: {
+            // Still growing - this is what the skill acts on.
+            "123": {
+              crop: {
+                id: "456",
                 name: "Kale",
                 plantedAt: dateNow,
               },
               createdAt: dateNow,
               x: 1,
-              y: 1,
+              y: 0,
+            },
+            // Already ready and NOT harvested yet, so its AOE cell must keep
+            // its cooldown rather than being refreshed along with the others.
+            "789": {
+              crop: {
+                id: "147",
+                name: "Eggplant",
+                plantedAt: dateNow - CROPS["Eggplant"].harvestSeconds * 1000,
+              },
+              createdAt: dateNow,
+              x: 2,
+              y: 0,
             },
           },
           aoe: {
-            "Scary Mike": {
-              1: { 1: dateNow },
-            },
-            "Laurie the Chuckle Crow": {
-              1: { 1: dateNow },
-            },
-            Gnome: {
-              1: { 1: dateNow },
-            },
-            "Queen Cornelia": {
-              1: { 1: dateNow },
-            },
             "Sir Goldensnout": {
-              1: { 1: dateNow },
+              2: { 0: dateNow },
             },
           },
         },
@@ -345,11 +446,7 @@ describe("skillUse", () => {
         createdAt: dateNow,
       });
 
-      expect(state.aoe["Scary Mike"]?.[1]?.[1]).toEqual(1);
-      expect(state.aoe["Laurie the Chuckle Crow"]?.[1]?.[1]).toEqual(1);
-      expect(state.aoe["Gnome"]?.[1]?.[1]).toEqual(1);
-      expect(state.aoe["Queen Cornelia"]?.[1]?.[1]).toEqual(1);
-      expect(state.aoe["Sir Goldensnout"]?.[1]?.[1]).toEqual(1);
+      expect(state.aoe["Sir Goldensnout"]?.[2]?.[0]).toEqual(dateNow);
     });
   });
 
@@ -669,6 +766,60 @@ describe("skillUse", () => {
       expect(state.flowers.flowerBeds["789"].flower?.plantedAt).toEqual(
         expectedTime,
       );
+    });
+
+    it("makes windowed flowers ready at the use instant, even with a grow-time debuff", () => {
+      // Yellow Carnation (Sunpetal Seed) base = 24h. Flowery Abode's +50%
+      // growth-time debuff is baked into `baseDurationMs` at plant, so a
+      // windowed flower's duration can EXCEED the base grow time — back-dating
+      // `plantedAt` by the base time (the legacy fix-up) leaves the debuff
+      // excess still on the clock.
+      const growTimeMs =
+        FLOWER_SEEDS[FLOWERS["Yellow Carnation"].seed].plantSeconds * 1000;
+
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Petal Blessed": 1 },
+          },
+          flowers: {
+            flowerBeds: {
+              debuffed: {
+                x: 1,
+                y: -10,
+                createdAt: 0,
+                flower: {
+                  name: "Yellow Carnation",
+                  plantedAt: dateNow - 60 * 60 * 1000,
+                  baseDurationMs: growTimeMs * 1.5,
+                },
+              },
+              plain: {
+                x: 1,
+                y: -9,
+                createdAt: 0,
+                flower: {
+                  name: "Yellow Carnation",
+                  plantedAt: dateNow - 60 * 60 * 1000,
+                  baseDurationMs: growTimeMs,
+                },
+              },
+            },
+            discovered: {},
+          },
+        },
+        action: { type: "skill.used", skill: "Petal Blessed" },
+        createdAt: dateNow,
+      });
+
+      // Ready exactly at the use instant (mirrors the legacy branch's
+      // `plantedAt + growTime === createdAt`, so beehives credit honey up to now).
+      const debuffed = state.flowers.flowerBeds["debuffed"].flower;
+      const plain = state.flowers.flowerBeds["plain"].flower;
+      expect(getFlowerReadyAt(debuffed!, state)).toEqual(dateNow);
+      expect(getFlowerReadyAt(plain!, state)).toEqual(dateNow);
     });
 
     it("updates the beehives after a flower is instagrown", () => {
@@ -1078,6 +1229,260 @@ describe("skillUse", () => {
 
       expect(firePitRecipe?.readyAt).toEqual(dateNow);
       expect(smoothieShackRecipe?.readyAt).toEqual(dateNow);
+    });
+
+    it.each(getKeys(BUILDING_DAILY_OIL_CAPACITY))(
+      "only completes the current windowed recipe in %s",
+      (buildingName) => {
+        const HOUR = 60 * 60 * 1000;
+        const now = dateNow;
+        const name = getKeys(COOKABLES).find(
+          (name) => COOKABLES[name].building === buildingName,
+        )!;
+        const game = {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Instant Gratification": 1 },
+          },
+          buildings: {
+            [buildingName]: [
+              {
+                id: "1",
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                readyAt: 0,
+                crafting: [
+                  {
+                    id: "head",
+                    name,
+                    startedAt: now - 10 * HOUR,
+                    baseDurationMs: 12 * HOUR,
+                    readyAt: now + 2 * HOUR,
+                  },
+                  {
+                    id: "tail1",
+                    name,
+                    baseDurationMs: 2 * HOUR,
+                    readyAt: now + 4 * HOUR,
+                  },
+                  {
+                    id: "tail2",
+                    name,
+                    baseDurationMs: 2 * HOUR,
+                    readyAt: now + 6 * HOUR,
+                  },
+                ],
+              },
+            ],
+          },
+        };
+        const state = skillUse({
+          state: game,
+          action: { type: "skill.used", skill: "Instant Gratification" },
+          createdAt: now,
+        });
+        const queue = state.buildings[buildingName]![0].crafting!;
+        expect(queue.map((recipe) => recipe.readyAt)).toEqual([
+          now,
+          now + 2 * HOUR,
+          now + 4 * HOUR,
+        ]);
+        expect(queue[0].startedAt).toBe(now);
+        expect(queue[0].baseDurationMs).toBe(0);
+      },
+    );
+
+    // The recipe cooking is CHAINED here (no `startedAt` of its own) behind a finished,
+    // uncollected recipe. Zeroing its work without anchoring it would derive it as ready
+    // at its predecessor's ready time, hours ago, and hand over the recipe behind it.
+    it("completes a chained recipe without freeing the recipes queued behind it", () => {
+      const HOUR = 60 * 60 * 1000;
+      const now = dateNow;
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Instant Gratification": 1 },
+          },
+          buildings: {
+            "Fire Pit": [
+              {
+                id: "1",
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                readyAt: 0,
+                crafting: [
+                  {
+                    id: "done",
+                    name: "Boiled Eggs",
+                    startedAt: now - 7 * HOUR,
+                    baseDurationMs: 4 * HOUR,
+                    readyAt: now - 3 * HOUR,
+                  },
+                  {
+                    id: "cooking",
+                    name: "Boiled Eggs",
+                    baseDurationMs: 5 * HOUR,
+                    readyAt: now + 2 * HOUR,
+                  },
+                  {
+                    id: "queued",
+                    name: "Boiled Eggs",
+                    baseDurationMs: 2 * HOUR,
+                    readyAt: now + 4 * HOUR,
+                  },
+                ],
+              },
+            ],
+          },
+        },
+        action: { type: "skill.used", skill: "Instant Gratification" },
+        createdAt: now,
+      });
+
+      const queue = state.buildings["Fire Pit"]![0].crafting!;
+      expect(queue.map((recipe) => recipe.readyAt)).toEqual([
+        now - 3 * HOUR,
+        now,
+        now + 2 * HOUR,
+      ]);
+      expect(queue[1].startedAt).toBe(now);
+    });
+
+    it("keeps the boosted duration of queued recipes under an active Gourmet Hourglass", () => {
+      const HOUR = 60 * 60 * 1000;
+      const now = dateNow;
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Instant Gratification": 1 },
+          },
+          collectibles: {
+            ...INITIAL_FARM.collectibles,
+            "Gourmet Hourglass": [
+              {
+                id: "1",
+                coordinates: { x: 1, y: 1 },
+                createdAt: now - 1 * HOUR,
+                readyAt: now - 1 * HOUR,
+              },
+            ],
+          },
+          buildings: {
+            "Fire Pit": [
+              {
+                id: "1",
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                readyAt: 0,
+                crafting: [
+                  {
+                    id: "head",
+                    name: "Boiled Eggs",
+                    startedAt: now - 10 * HOUR,
+                    baseDurationMs: 12 * HOUR,
+                    readyAt: now + 2 * HOUR,
+                  },
+                  {
+                    id: "tail1",
+                    name: "Boiled Eggs",
+                    baseDurationMs: 2 * HOUR,
+                    readyAt: now + 4 * HOUR,
+                  },
+                  {
+                    id: "tail2",
+                    name: "Boiled Eggs",
+                    baseDurationMs: 2 * HOUR,
+                    readyAt: now + 6 * HOUR,
+                  },
+                ],
+              },
+            ],
+          },
+        },
+        action: { type: "skill.used", skill: "Instant Gratification" },
+        createdAt: now,
+      });
+
+      const queue = state.buildings["Fire Pit"]![0].crafting!;
+      // 2x hourglass: each 2h recipe takes 1h of wall-clock time.
+      expect(queue.map((recipe) => recipe.readyAt)).toEqual([
+        now,
+        now + 1 * HOUR,
+        now + 2 * HOUR,
+      ]);
+    });
+
+    // Same stale-cache trap as the gem speed-up: a recipe that has actually finished
+    // but whose cached `readyAt` still points into the future was treated as
+    // upcoming, restarted as the new head - and the recipe the player just spent the
+    // skill on ended up chained behind it instead of being ready.
+    it("does not restart a finished recipe whose cached readyAt is stale", () => {
+      const now = dateNow;
+      const HOUR = 60 * 60 * 1000;
+
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Instant Gratification": 1 },
+          },
+          collectibles: {
+            ...INITIAL_FARM.collectibles,
+            "Gourmet Hourglass": [
+              {
+                id: "1",
+                coordinates: { x: 1, y: 1 },
+                createdAt: now - 2 * HOUR,
+                readyAt: now - 2 * HOUR,
+              },
+            ],
+          },
+          buildings: {
+            "Fire Pit": [
+              {
+                id: "1",
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                readyAt: 0,
+                crafting: [
+                  // 4h of work at 2x: finished exactly now, but the cache was
+                  // written before the hourglass went down.
+                  {
+                    id: "head",
+                    name: "Boiled Eggs",
+                    startedAt: now - 2 * HOUR,
+                    baseDurationMs: 4 * HOUR,
+                    readyAt: now + 2 * HOUR,
+                  },
+                  // The one still cooking - this is what the skill completes.
+                  {
+                    id: "tail",
+                    name: "Mashed Potato",
+                    baseDurationMs: 2 * HOUR,
+                    readyAt: now + 4 * HOUR,
+                  },
+                ],
+              },
+            ],
+          },
+        },
+        action: { type: "skill.used", skill: "Instant Gratification" },
+        createdAt: now,
+      });
+
+      const queue = state.buildings["Fire Pit"]?.[0].crafting ?? [];
+
+      expect(queue).toHaveLength(2);
+      expect(queue[0].startedAt).toEqual(now - 2 * HOUR);
+      expect(queue[0].readyAt).toEqual(now);
+      // The recipe the skill was spent on is ready, not queued behind a restart.
+      expect(queue[1].readyAt).toEqual(now);
     });
 
     it("updates all the recipes readyAt times correctly", () => {

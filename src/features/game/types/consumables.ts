@@ -41,7 +41,9 @@ type FirePitCookableName =
   | "Pizza Margherita"
   | "Rhubarb Tart"
   | "Furikake Sprinkle"
-  | "Saltbite";
+  | "Saltbite"
+  | "Crystal Cookie"
+  | "Ember-Roasted Truffle Potatoes";
 
 type KitchenCookableName =
   | "Surimi Rice Bowl"
@@ -71,7 +73,8 @@ type KitchenCookableName =
   | "Fish n Chips"
   | "Sushi Roll"
   | "Caprese Salad"
-  | "Spaghetti al Limone";
+  | "Spaghetti al Limone"
+  | "Creamy Truffle Risotto";
 
 type BakeryCookableName =
   | CakeName
@@ -121,7 +124,8 @@ type CakeName =
   | "Orange Cake"
   | "Eggplant Cake"
   | "Honey Cake"
-  | "Lemon Cheesecake";
+  | "Lemon Cheesecake"
+  | "Truffle Cake";
 
 export type InstantProcessedRecipeName =
   | "Furikake Sprinkle"
@@ -308,7 +312,7 @@ export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
       Pumpkin: new Decimal(40),
     },
   },
-  // Chapter Crop Week (limited-time event recipe)
+  // Chapter Crop Week (limited-time event recipes)
   Saltbite: {
     name: "Saltbite",
     description: translate("description.saltbite"),
@@ -317,6 +321,16 @@ export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
     cookingSeconds: 4 * 60 * 60,
     ingredients: {
       Saltwort: new Decimal(10),
+    },
+  },
+  "Crystal Cookie": {
+    name: "Crystal Cookie",
+    description: translate("description.crystalCookie"),
+    experience: 6000,
+    building: "Fire Pit",
+    cookingSeconds: 4 * 60 * 60,
+    ingredients: {
+      "Crystal Leaf": new Decimal(10),
     },
   },
   "Fried Tofu": {
@@ -372,6 +386,19 @@ export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
     cookingSeconds: 60,
     ingredients: {
       Rhubarb: new Decimal(3),
+    },
+  },
+  // Chapter 16 — rides on the PIGPEN flag, see `isTruffleRecipe`
+  "Ember-Roasted Truffle Potatoes": {
+    name: "Ember-Roasted Truffle Potatoes",
+    description: translate("description.emberRoastedTrufflePotatoes"),
+    building: "Fire Pit",
+    experience: 15000,
+    cookingSeconds: 8 * 60 * 60,
+    ingredients: {
+      Truffle: new Decimal(10),
+      Potato: new Decimal(50),
+      "Wild Mushroom": new Decimal(10),
     },
   },
 };
@@ -700,6 +727,20 @@ export const KITCHEN_COOKABLES: Record<KitchenCookableName, Cookable> = {
       Cheese: new Decimal(3),
     },
   },
+  // Chapter 16 — rides on the PIGPEN flag, see `isTruffleRecipe`
+  "Creamy Truffle Risotto": {
+    name: "Creamy Truffle Risotto",
+    description: translate("description.creamyTruffleRisotto"),
+    building: "Kitchen",
+    experience: 35000,
+    cookingSeconds: 16 * 60 * 60,
+    ingredients: {
+      Truffle: new Decimal(20),
+      Rice: new Decimal(10),
+      Milk: new Decimal(10),
+      "Wild Mushroom": new Decimal(10),
+    },
+  },
 };
 
 export const BAKERY_COOKABLES: Record<BakeryCookableName, Cookable> = {
@@ -904,6 +945,20 @@ export const BAKERY_COOKABLES: Record<BakeryCookableName, Cookable> = {
       Lemon: new Decimal(20),
       Cheese: new Decimal(5),
       Egg: new Decimal(40),
+    },
+  },
+  // Chapter 16 — rides on the PIGPEN flag, see `isTruffleRecipe`
+  "Truffle Cake": {
+    name: "Truffle Cake",
+    description: translate("description.truffleCake"),
+    building: "Bakery",
+    experience: 25000,
+    cookingSeconds: 12 * 60 * 60,
+    ingredients: {
+      Truffle: new Decimal(15),
+      Wheat: new Decimal(30),
+      Egg: new Decimal(30),
+      Honey: new Decimal(5),
     },
   },
 };
@@ -1186,6 +1241,7 @@ export const COOKABLE_CAKES: Record<CakeName, Cookable> = {
   "Orange Cake": BAKERY_COOKABLES["Orange Cake"],
   "Honey Cake": BAKERY_COOKABLES["Honey Cake"],
   "Lemon Cheesecake": BAKERY_COOKABLES["Lemon Cheesecake"],
+  "Truffle Cake": BAKERY_COOKABLES["Truffle Cake"],
 };
 
 export const PIRATE_CAKE: Record<"Pirate Cake", Consumable> = {
@@ -1195,6 +1251,23 @@ export const PIRATE_CAKE: Record<"Pirate Cake", Consumable> = {
     experience: 3000,
   },
 };
+
+/**
+ * The Chapter 16 recipes that consume Truffle. Truffle only exists behind the
+ * PIGPEN flag (Pigs produce it), so these ride on the same flag: hidden from the
+ * cooking buildings and rejected by `cook` without it.
+ */
+export const TRUFFLE_RECIPES = [
+  "Ember-Roasted Truffle Potatoes",
+  "Truffle Cake",
+  "Creamy Truffle Risotto",
+] as const satisfies readonly CookableName[];
+
+export type TruffleRecipeName = (typeof TRUFFLE_RECIPES)[number];
+
+export function isTruffleRecipe(name: string): name is TruffleRecipeName {
+  return (TRUFFLE_RECIPES as readonly string[]).includes(name);
+}
 
 export const FISH: Record<FishName, Consumable> = {
   Anchovy: {

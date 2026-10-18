@@ -1,8 +1,10 @@
 import Decimal from "decimal.js-light";
+import { v4 as uuidv4 } from "uuid";
 import {
   type CookableName,
   COOKABLES,
   isInstantFishRecipe,
+  isTruffleRecipe,
 } from "features/game/types/consumables";
 import type {
   BuildingProduct,
@@ -12,6 +14,12 @@ import type {
   Skills,
 } from "features/game/types/game";
 import { getCookingTime } from "features/game/expansion/lib/boosts";
+import { hasFeatureAccess } from "lib/flags";
+import {
+  computeReadyAt,
+  getCookingBoostWindows,
+} from "features/game/lib/boostWindows";
+import { getCookingQueueReadyAts } from "features/game/lib/cookingReadiness";
 import { setPrecision } from "lib/utils/formatNumber";
 import { translate } from "lib/i18n/translate";
 import type { CookingBuildingName } from "features/game/types/buildings";
@@ -28,13 +36,16 @@ import {
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import {
   CHAPTER_CROP_WEEK_RECIPE,
-  isChapterCropWeekActive,
+  hasChapterCropWeekAccess,
+  isRetiredChapterCropWeekItem,
 } from "features/game/types/chapterCropWeek";
 
 export type RecipeCookedAction = {
   type: "recipe.cooked";
   item: CookableName;
   buildingId: string;
+  /** Client-generated id for the queue entry (see `BuildingProduct.id`). */
+  recipeId?: string;
 };
 
 type Options = {
@@ -96,7 +107,7 @@ export function getCookingOilBoost(
   const itemOilConsumption = getOilConsumption(buildingName, item);
   const oilRemaining = building?.oil || 0;
 
-  // Saltbite (the CHAPTER_CROP_WEEK event recipe) ignores upgraded Cooking-skill
+  // Crystal Cookie (the CHAPTER_CROP_WEEK event recipe) ignores upgraded Cooking-skill
   // ranks (base skill still applies), so its oil boost caps at rank 1.
   const oilSkills =
     item === CHAPTER_CROP_WEEK_RECIPE
@@ -124,6 +135,23 @@ export function getCookingOilBoost(
   };
 }
 
+/**
+ * When a recipe started at `createdAt` will be ready, across both boost models.
+ *
+ * Legacy: every boost is baked into `reducedSecs` and the ready time is simply
+ * `createdAt + reducedSecs`.
+ *
+ * Speed-rate model (SPEED_BOOSTS): `getCookingTime` returns the PERMANENT-only
+ * duration — wearables, Desert Gnome, the cooking skills and (for now) the building
+ * oil discount — which becomes the recipe's `baseDurationMs`. The temporary boosts
+ * are applied live as speed windows, so the ready time is derived rather than
+ * frozen and a boost placed mid-cook pulls it forward.
+ *
+ * NOTE the derived time here assumes the recipe starts at `createdAt`. For a recipe
+ * QUEUED behind others the real start is the previous recipe's (also derived) ready
+ * time, so the queue as a whole must be resolved with `getCookingQueueReadyAts` —
+ * the value returned here is that chain's input, not its answer.
+ */
 export const getReadyAt = ({
   buildingId,
   item,
@@ -149,9 +177,22 @@ export const getReadyAt = ({
         ]
       : [];
 
+  const boostsWindowed = hasFeatureAccess(game, "SPEED_BOOSTS");
+  const baseDurationMs = boostsWindowed ? reducedSecs * 1000 : undefined;
+
+  const readyAt =
+    baseDurationMs === undefined
+      ? createdAt + reducedSecs * 1000
+      : computeReadyAt({
+          startedAt: createdAt,
+          baseDurationMs,
+          windows: getCookingBoostWindows(game),
+        });
+
   return {
-    createdAt: createdAt + reducedSecs * 1000,
+    createdAt: readyAt,
     reducedSecs,
+    baseDurationMs,
     boostsUsed: [...oilEntry, ...boostsUsed],
   };
 };
@@ -192,7 +233,7 @@ export function getCookingRequirements({
   let { ingredients } = COOKABLES[item];
   const { bumpkin } = state;
 
-  // Saltbite (the CHAPTER_CROP_WEEK event recipe) ignores upgraded Double Nom
+  // Crystal Cookie (the CHAPTER_CROP_WEEK event recipe) ignores upgraded Double Nom
   // ranks — the ingredient cost (and the +food payout, snapshotted at cook time)
   // both fall back to rank 1. `doubleNomLevel`, when passed (cancel/refund), keeps
   // honoring the rank actually paid on the recipe.
@@ -230,12 +271,23 @@ export function cook({
   return produce(state, (stateCopy) => {
     const { item, buildingId } = action;
 
+    // Recipes from previous Chapter Crop Week runs can never be cooked again
+    if (isRetiredChapterCropWeekItem(item)) {
+      throw new Error("This recipe is no longer available");
+    }
+
     // Chapter Crop Week event recipe is only cookable while the event is active
+    // (admin testers get early access)
     if (
       item === CHAPTER_CROP_WEEK_RECIPE &&
-      !isChapterCropWeekActive(createdAt)
+      !hasChapterCropWeekAccess(state, createdAt)
     ) {
       throw new Error("Chapter Crop Week is not active");
+    }
+
+    // Truffle recipes ride on the Pigs' flag: Truffle only exists behind it
+    if (isTruffleRecipe(item) && !hasFeatureAccess(state, "PIGPEN")) {
+      throw new Error("Truffle recipes are not available yet");
     }
 
     const { building: requiredBuilding } = COOKABLES[item];
@@ -258,7 +310,7 @@ export function cook({
       throw new Error("You do not have a Bumpkin!");
     }
 
-    // Saltbite (the CHAPTER_CROP_WEEK event recipe) ignores upgraded Double Nom
+    // Crystal Cookie (the CHAPTER_CROP_WEEK event recipe) ignores upgraded Double Nom
     // ranks — snapshot rank 1 on the recipe so cancel/collect stay consistent with
     // the (rank-1) ingredient cost charged above.
     const cookSkills =
@@ -331,16 +383,27 @@ export function cook({
       return stateCopy;
     }
 
-    // Start the new recipe when the last recipe is ready or now (createdAt)
-    let recipeStartAt = createdAt;
+    // Start the new recipe when the last recipe is ready or now (createdAt). The
+    // queue ahead is resolved live rather than read off the stored `readyAt`s: under
+    // the speed-rate model those are a cache, and a boost placed since the last
+    // write may have pulled the queue forward.
+    const queueReadyAts = getCookingQueueReadyAts({
+      crafting,
+      game: stateCopy,
+    });
     const lastRecipeReadyAt =
-      crafting[crafting.length - 1]?.readyAt ?? createdAt;
+      queueReadyAts[queueReadyAts.length - 1] ?? createdAt;
+    // Queued behind something still cooking, or starting fresh on an idle building?
+    // That decides whether the recipe gets an absolute `startedAt` anchor or chains
+    // off the recipe ahead of it — see `resolveCookingQueue`.
+    const isChained = lastRecipeReadyAt > createdAt;
+    const recipeStartAt = isChained ? lastRecipeReadyAt : createdAt;
 
-    if (lastRecipeReadyAt > createdAt) {
-      recipeStartAt = lastRecipeReadyAt;
-    }
-
-    const { createdAt: readyAt, boostsUsed } = getReadyAt({
+    const {
+      createdAt: readyAt,
+      baseDurationMs,
+      boostsUsed,
+    } = getReadyAt({
       buildingId: buildingId,
       item,
       createdAt: recipeStartAt,
@@ -350,10 +413,19 @@ export function cook({
     building.crafting = [
       ...(building.crafting ?? []),
       {
+        // Stable identity so cancel/speed-up can address this recipe once its
+        // `readyAt` is derived rather than fixed. Client-generated (mirrors
+        // `plant.ts`'s cropId) with a server-side fallback.
+        id: action.recipeId ?? uuidv4().slice(0, 8),
         name: item,
         boost: { Oil: oilConsumed },
         // Marks whether the Double Nom skill was applied at the time of cooking
         skills: { "Double Nom": getSkillLevel(cookSkills, "Double Nom") },
+        // Anchored only when this recipe starts cooking right now; a queued recipe
+        // deliberately carries no `startedAt` so its start tracks the (derived) ready
+        // time of the recipe ahead of it.
+        startedAt: isChained ? undefined : recipeStartAt,
+        baseDurationMs,
         readyAt,
       },
     ];

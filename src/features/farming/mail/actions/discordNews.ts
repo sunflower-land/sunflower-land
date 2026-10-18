@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 
 export type DiscordChannelName = "news" | "announcements" | "updates";
 export type DiscordAnnouncementImage = {
@@ -258,7 +259,7 @@ export const getDiscordNewsData = async ({
   const url = new URL(DISCORD_NEWS_API_URL);
   url.searchParams.set("type", "discordAnnouncements");
 
-  const res = await window.fetch(url.toString(), {
+  const res = await fetchWithRetry(url.toString(), {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",

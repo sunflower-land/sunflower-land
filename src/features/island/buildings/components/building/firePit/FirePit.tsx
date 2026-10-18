@@ -1,3 +1,10 @@
+import { v4 as uuidv4 } from "uuid";
+import {
+  hasCollectedFirstTart,
+  needsFirstCook,
+  TUTORIAL_RECIPE,
+} from "./lib/onboarding";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 import React, { useContext, useState } from "react";
 
 import classNames from "classnames";
@@ -15,7 +22,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { FIRE_PIT_VARIANTS } from "features/island/lib/alternateArt";
 import shadow from "assets/npcs/shadow.png";
 import type { MachineState } from "features/game/lib/gameMachine";
-import Decimal from "decimal.js-light";
+import { getTutorialNudge } from "features/island/lib/tutorialNudge";
 import { useSound } from "lib/utils/hooks/useSound";
 import { ReadyRecipes } from "../ReadyRecipes";
 import { useCookingState } from "features/island/buildings/lib/useCookingState";
@@ -31,21 +38,22 @@ type Props = {
 
 const _rhubarbTartCooked = (state: MachineState) =>
   state.context.state.farmActivity["Rhubarb Tart Cooked"] ?? 0;
-const _experience = (state: MachineState) =>
-  state.context.state.bumpkin?.experience;
-const _rhubarbCount = (state: MachineState) =>
-  state.context.state.inventory.Rhubarb ?? new Decimal(0);
+const _needsFirstCook = (state: MachineState) =>
+  needsFirstCook(state.context.state);
+const _activeNudge = (state: MachineState) =>
+  getTutorialNudge(state.context.state);
 const _season = (state: MachineState) => state.context.state.season.season;
 const _firePit = (id: string) => (state: MachineState) =>
   state.context.state.buildings["Fire Pit"]?.find((b) => b.id === id);
 
 export const FirePit: React.FC<Props> = ({ buildingId, isBuilt, island }) => {
   const { gameService } = useContext(Context);
+  const { openModal } = useContext(ModalContext);
   const [showModal, setShowModal] = useState(false);
 
   const rhubarbTartCooked = useSelector(gameService, _rhubarbTartCooked);
-  const experience = useSelector(gameService, _experience);
-  const rhubarbCount = useSelector(gameService, _rhubarbCount);
+  const isFirstCook = useSelector(gameService, _needsFirstCook);
+  const activeNudge = useSelector(gameService, _activeNudge);
   const season = useSelector(gameService, _season);
   const firePit = useSelector(gameService, _firePit(buildingId));
 
@@ -65,6 +73,9 @@ export const FirePit: React.FC<Props> = ({ buildingId, isBuilt, island }) => {
       type: "recipe.cooked",
       item,
       buildingId,
+      // Client-generated so the local reducer and the server agree on the id when
+      // the event is replayed — cancel/speed-up address the recipe by it.
+      recipeId: uuidv4().slice(0, 8),
     });
 
     if (item === "Rhubarb Tart" && !rhubarbTartCooked) {
@@ -72,14 +83,27 @@ export const FirePit: React.FC<Props> = ({ buildingId, isBuilt, island }) => {
         event: "Tutorial:Cooked:Completed",
       });
     }
+
+    // Tutorial: the first tart is on the fire, so Bruce mentions the shortcut.
+    // A tip, not an instruction - waiting out the minute is just as good.
+    if (item === TUTORIAL_RECIPE && isFirstCook) {
+      openModal("FIREPIT_SPEEDUP");
+    }
   };
 
   const handleCollect = () => {
-    gameService?.send({
+    const before = gameService.getSnapshot().context.state;
+
+    const after = gameService?.send({
       type: "recipes.collected",
       building: "Fire Pit",
       buildingId,
     });
+
+    // Tutorial: first tart in hand, Bruce tells the player to eat it.
+    if (hasCollectedFirstTart(before, after.context.state)) {
+      openModal("FIREPIT_EAT");
+    }
   };
 
   const handleClick = () => {
@@ -93,8 +117,8 @@ export const FirePit: React.FC<Props> = ({ buildingId, isBuilt, island }) => {
     }
   };
 
-  const showHelper =
-    rhubarbCount.gte(3) && experience === 0 && !rhubarbTartCooked && !cooking;
+  // One nudge at a time across the whole farm - see getTutorialNudge
+  const showHelper = activeNudge === "firepit-cook" && !cooking;
 
   return (
     <>

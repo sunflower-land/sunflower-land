@@ -4,6 +4,7 @@ import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import type { OilReserve as IOilReserve } from "features/game/types/game";
 import { useSelector } from "@xstate/react";
+import { useNow } from "lib/utils/hooks/useNow";
 import Decimal from "decimal.js-light";
 import {
   OIL_RESERVE_RECOVERY_TIME,
@@ -13,15 +14,12 @@ import {
 } from "features/game/events/landExpansion/drillOilReserve";
 import { RecoveringOilReserve } from "./components/RecoveringOilReserve";
 import { DepletedOilReserve } from "./components/DepletedOilReserve";
-import { getTimeLeft } from "lib/utils/time";
-import { useNow } from "lib/utils/hooks/useNow";
 import {
-  computeReadyAt,
-  getEffectiveSpeedAt,
+  areBoostWindowsEqual,
   getOilBoostWindows,
-  workAccruedAt,
-  type BoostWindow,
 } from "features/game/lib/boostWindows";
+import { useNodeTimer } from "features/game/lib/useNodeTimer";
+import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
 
 interface Props {
   id: string;
@@ -36,22 +34,13 @@ const compareResource = (prev: IOilReserve, next: IOilReserve) => {
   return JSON.stringify(prev) === JSON.stringify(next);
 };
 
-// Field comparator for the oil boost windows so the selector skips re-renders
-// without allocating JSON strings on every service update.
-const areBoostWindowsEqual = (a: BoostWindow[], b: BoostWindow[]) =>
-  a.length === b.length &&
-  a.every((window, index) => {
-    const other = b[index];
-    return (
-      other !== undefined &&
-      window.from === other.from &&
-      window.to === other.to &&
-      window.speed === other.speed
-    );
-  });
-
 export const OilReserve: React.FC<Props> = ({ id }) => {
   const { gameService } = useContext(Context);
+  // The Stag Shrine's +15 bonus oil is only granted while the shrine is active,
+  // so the yield preview needs a LIVE clock — a mount snapshot would keep
+  // promising the bonus long after the shrine expired. One tick a minute is
+  // enough for a boost that flips at most a few times a day.
+  const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
   const [drilling, setDrilling] = useState(false);
   const [oilHarvested, setOilHarvested] = useState(0);
 
@@ -71,7 +60,7 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
     (state) => {
       const oilReserve = state.context.state.oilReserves[id];
       return oilReserve
-        ? getOilDropAmount(state.context.state, oilReserve).amount
+        ? getOilDropAmount(state.context.state, oilReserve, now).amount
         : 0;
     },
     (a, b) => a === b,
@@ -86,55 +75,22 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
   );
 
   const { drilledAt, baseDurationMs } = reserve.oil;
-  // Speed-rate model (baseDurationMs set): derive the ready time live from the
-  // boost windows. Legacy reserves use the back-dated drilledAt + base recovery.
-  const readyAt =
-    baseDurationMs !== undefined
-      ? computeReadyAt({
-          startedAt: drilledAt,
-          baseDurationMs,
-          windows: oilBoostWindows,
-        })
-      : drilledAt + OIL_RESERVE_RECOVERY_TIME * 1000;
-
-  // Coarse 1s clock to pick the current boost speed; only windowed reserves are
-  // boosted. Tick the countdown faster (1000/speed) so it drops ~1s per visual
-  // tick rather than jumping by `speed` each second.
-  const tickNow = useNow({
-    live: baseDurationMs !== undefined,
-    autoEndAt: readyAt,
+  const { workLeftSeconds, countdownSeconds: timeLeft } = useNodeTimer({
+    startedAt: drilledAt,
+    baseDurationMs,
+    windows: oilBoostWindows,
+    legacyReadyAt: drilledAt + OIL_RESERVE_RECOVERY_TIME * 1000,
   });
-  const speed =
-    baseDurationMs !== undefined
-      ? getEffectiveSpeedAt({ at: tickNow, windows: oilBoostWindows })
-      : 1;
-  const intervalMs = Math.max(Math.round(1000 / Math.max(speed, 1)), 250);
-  const now = useNow({ live: true, autoEndAt: readyAt, intervalMs });
 
-  // For windowed reserves the remaining time is remaining *work* (in base
-  // duration), so it visibly ticks down faster while a boost window is active.
-  const timeLeft =
-    baseDurationMs !== undefined
-      ? Math.max(
-          (baseDurationMs -
-            workAccruedAt({
-              startedAt: drilledAt,
-              at: now,
-              windows: oilBoostWindows,
-            })) /
-            1000,
-          0,
-        )
-      : getTimeLeft(drilledAt, OIL_RESERVE_RECOVERY_TIME, now);
-
-  const ready = timeLeft <= 0;
-  // Half-recovery art switches at the midpoint of remaining WORK, so it lands at
-  // the right point when a boost has shrunk the remaining duration.
+  // Readiness and the half-recovery art both key off remaining WORK, not the
+  // wall-clock countdown — work does not drain at wall-clock rate while a boost
+  // window is running. The threshold is the midpoint of that work.
+  const ready = workLeftSeconds <= 0;
   const halfThreshold =
     baseDurationMs !== undefined
       ? baseDurationMs / 2000
       : OIL_RESERVE_RECOVERY_TIME / 2;
-  const halfReady = !ready && timeLeft <= halfThreshold;
+  const halfReady = !ready && workLeftSeconds <= halfThreshold;
 
   const handleDrill = async () => {
     if (!ready || drills.lessThan(requiredDrillAmount)) return;
@@ -158,13 +114,12 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
           onDrill={handleDrill}
         />
       )}
-      {halfReady && <RecoveringOilReserve timeLeft={timeLeft} speed={speed} />}
+      {halfReady && <RecoveringOilReserve timeLeft={timeLeft} />}
       {!ready && !halfReady && (
         <DepletedOilReserve
           drilling={drilling}
           oilAmount={oilHarvested}
           timeLeft={timeLeft}
-          speed={speed}
           onOilTransitionEnd={() => setOilHarvested(0)}
         />
       )}

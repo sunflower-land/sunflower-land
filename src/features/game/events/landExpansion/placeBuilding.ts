@@ -1,6 +1,8 @@
 import Decimal from "decimal.js-light";
 // import { randomUUID } from "crypto";
 import type { BuildingName } from "../../types/buildings";
+import { isAnimalBuildingType } from "../../types/animals";
+import { makeAnimalBuildingKey } from "../../lib/animals";
 import type {
   CompostBuilding,
   CropMachineBuilding,
@@ -11,11 +13,16 @@ import { produce } from "immer";
 import type { ComposterName } from "features/game/types/composters";
 import { createInitialAgingShed } from "features/game/lib/agingShed";
 import {
+  getCookingBoostWindows,
+  getCraftingBoostWindows,
+  getCropMachineBoostWindows,
   getGreenhouseBoostWindows,
   getGreenhouseGlowWindows,
   pauseWindowedTimer,
 } from "features/game/lib/boostWindows";
-import { getReadyAt } from "./startComposter";
+import { pauseCookingQueue } from "features/game/lib/cookingReadiness";
+import { pauseCraftingQueue } from "features/game/lib/craftingReadiness";
+import { refreshCropMachineCaches } from "features/game/lib/cropMachineReadiness";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { mfTrack } from "lib/moonforgeAnalytics";
 
@@ -76,11 +83,13 @@ export function placeBuilding({
       // Assign the coordinates to the building
       existingBuilding.coordinates = action.coordinates;
 
-      // Update the readyAt for Cooking buildings
-      if (existingBuilding.crafting) {
-        existingBuilding.crafting.forEach((crafting) => {
-          crafting.readyAt = createdAt + (crafting.timeRemaining ?? 0);
-          delete crafting.timeRemaining;
+      // Pause the queue for Cooking buildings
+      if (existingBuilding.crafting && existingBuilding.removedAt) {
+        pauseCookingQueue({
+          crafting: existingBuilding.crafting,
+          removedAt: existingBuilding.removedAt,
+          placedAt: createdAt,
+          windows: getCookingBoostWindows(stateCopy),
         });
       }
 
@@ -96,22 +105,44 @@ export function placeBuilding({
       ) {
         const existingComposter = existingBuilding as CompostBuilding;
         if (existingComposter.producing && existingComposter.removedAt) {
-          const timeOffset =
-            existingComposter.removedAt - existingComposter.producing.startedAt;
-          existingComposter.producing.startedAt = createdAt - timeOffset;
-          const timeRemaining = getReadyAt({
-            gameState: stateCopy,
-            composter: action.name as ComposterName,
-          }).timeToFinishMilliseconds;
-          existingComposter.producing.readyAt =
-            createdAt + timeRemaining - timeOffset;
+          // Pause the batch across the lift by shifting both timestamps by the
+          // downtime (the Crafting Box / Aging Shed pattern below). The batch's
+          // duration is a SNAPSHOT taken by `startComposter` - re-deriving it
+          // here would re-price an in-flight batch with boosts acquired after
+          // it started, so placing a Soil Krabby then lifting the composter
+          // took 10% off a batch already under way.
+          const downtime = Math.max(0, createdAt - existingComposter.removedAt);
+          existingComposter.producing.startedAt += downtime;
+          existingComposter.producing.readyAt += downtime;
         }
       }
 
       // Update the readyAt for Crop Machine
       if (action.name === "Crop Machine") {
         const existingCropMachine = existingBuilding as CropMachineBuilding;
-        if (existingCropMachine.queue) {
+        if (existingCropMachine.oilSettledAt !== undefined) {
+          // Windowed machine: removeBuilding settled at the lift (banking the
+          // accrued work and fuel burn), so resuming is just moving the fuel
+          // anchor across the downtime — the lifted interval costs neither fuel
+          // nor credit, and boost windows that expired mid-lift keep the credit
+          // banked before it. No timestamp shifting: the legacy shift re-exposes
+          // packs to a different slice of the windows (see pauseCookingQueue).
+          // removedAt is the resolver's pause clamp, so clear it before
+          // refreshing the caches (the generic delete below is then a no-op).
+          // Monotonic, like `settleCropMachine`: the anchor may only move
+          // forward, so a replayed event stamped before the machine's current
+          // anchor cannot rewind the ledger.
+          existingCropMachine.oilSettledAt = Math.max(
+            createdAt,
+            existingCropMachine.oilSettledAt,
+          );
+          delete existingCropMachine.removedAt;
+          refreshCropMachineCaches({
+            machine: existingCropMachine,
+            windows: getCropMachineBoostWindows(stateCopy),
+            now: createdAt,
+          });
+        } else if (existingCropMachine.queue) {
           existingCropMachine.queue.forEach((pack) => {
             if (pack.readyAt) {
               pack.readyAt = createdAt + (pack.pausedTimeRemaining ?? 0);
@@ -147,12 +178,9 @@ export function placeBuilding({
         });
       }
 
-      // Henhouse & Barn
-      if (
-        (action.name === "Hen House" || action.name === "Barn") &&
-        !isSecondBuilding
-      ) {
-        const buildingKey = action.name === "Hen House" ? "henHouse" : "barn";
+      // Animal buildings (Hen House, Barn, Pigpen)
+      if (isAnimalBuildingType(action.name) && !isSecondBuilding) {
+        const buildingKey = makeAnimalBuildingKey(action.name);
         const { animals } = stateCopy[buildingKey];
 
         Object.values(animals).forEach((animal) => {
@@ -161,6 +189,16 @@ export function placeBuilding({
               0,
               createdAt - existingBuilding.removedAt,
             );
+            // Animals shift all three timestamps together instead of using
+            // `pauseWindowedTimer`, even when windowed. `asleepAt` is the
+            // love-cadence anchor as well as the sleep timer's start, so moving
+            // it independently of `awakeAt`/`lovedAt` compresses the cycle and
+            // re-opens love slots the player has already spent — the same
+            // reason `migrateSpeedBoosts` refuses to freeze animals. A windowed
+            // sleep keeps its full `baseDurationMs` and resumes from the
+            // shifted start, so the lifted interval still doesn't count toward
+            // it; the cost is that boost credit re-accrues over a shifted
+            // stretch of the shrine window, negligible against a 7-day shrine.
             animal.asleepAt = animal.asleepAt + timeOffset;
             animal.awakeAt = animal.awakeAt + timeOffset;
             animal.lovedAt = animal.lovedAt + timeOffset;
@@ -172,15 +210,17 @@ export function placeBuilding({
         const { craftingBox } = stateCopy;
         const queue = craftingBox.queue ?? [];
         if (existingBuilding.removedAt && queue.length > 0) {
-          const downtimeDelta = Math.max(
-            0,
-            createdAt - existingBuilding.removedAt,
-          );
-          stateCopy.craftingBox.queue = queue.map((item) => ({
-            ...item,
-            startedAt: item.startedAt + downtimeDelta,
-            readyAt: item.readyAt + downtimeDelta,
-          }));
+          // Windowed crafts BANK the work they had done before the lift and resume
+          // from `createdAt`; legacy ones keep the old downtime shift byte-for-byte.
+          // Shifting a windowed start would re-expose it to a different slice of the
+          // boost windows, stranding credit it earned under a booster that has since
+          // expired.
+          pauseCraftingQueue({
+            queue,
+            removedAt: existingBuilding.removedAt,
+            placedAt: createdAt,
+            windows: getCraftingBoostWindows(stateCopy),
+          });
         }
       }
 

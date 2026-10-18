@@ -66,9 +66,11 @@ type GetMinedAtArgs = {
 export function getGoldRecoveryTimeForDisplay({
   game,
   prngArgs,
+  now,
 }: {
   game: GameState;
   prngArgs?: PrngArgs;
+  now: number;
 }): {
   baseTimeMs: number;
   recoveryTimeMs: number;
@@ -104,10 +106,12 @@ export function getGoldRecoveryTimeForDisplay({
   const superTotemActive = isTemporaryCollectibleActive({
     name: "Super Totem",
     game,
+    now,
   });
   const timeWarpTotemActive = isTemporaryCollectibleActive({
     name: "Time Warp Totem",
     game,
+    now,
   });
 
   if (!boostsWindowed && (superTotemActive || timeWarpTotemActive)) {
@@ -120,7 +124,7 @@ export function getGoldRecoveryTimeForDisplay({
 
   if (
     !boostsWindowed &&
-    isTemporaryCollectibleActive({ name: "Ore Hourglass", game })
+    isTemporaryCollectibleActive({ name: "Ore Hourglass", game, now })
   ) {
     totalSeconds = totalSeconds * 0.5;
     boostsUsed.push({ name: "Ore Hourglass", value: "x0.5" });
@@ -133,7 +137,7 @@ export function getGoldRecoveryTimeForDisplay({
 
   if (
     !boostsWindowed &&
-    isTemporaryCollectibleActive({ name: "Mole Shrine", game })
+    isTemporaryCollectibleActive({ name: "Mole Shrine", game, now })
   ) {
     totalSeconds = totalSeconds * 0.75;
     boostsUsed.push({ name: "Mole Shrine", value: "x0.75" });
@@ -174,7 +178,7 @@ export function getMinedAt({ createdAt, game, prngArgs }: GetMinedAtArgs): {
   boostsUsed: { name: BoostName; value: string }[];
 } {
   const { baseTimeMs, recoveryTimeMs, boostsUsed } =
-    getGoldRecoveryTimeForDisplay({ game, prngArgs });
+    getGoldRecoveryTimeForDisplay({ game, prngArgs, now: createdAt });
 
   if (hasFeatureAccess(game, "SPEED_BOOSTS")) {
     return { time: createdAt, baseDurationMs: recoveryTimeMs, boostsUsed };
@@ -434,6 +438,7 @@ export function mineGold({
     } = getGoldRecoveryTimeForDisplay({
       game: stateCopy,
       prngArgs: prngObject,
+      now: createdAt,
     });
 
     goldRock.stone = { minedAt: time };

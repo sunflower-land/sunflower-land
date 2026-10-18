@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 import type { ShowcasedTweet } from "../types/social";
 
@@ -13,7 +14,7 @@ export async function getShowcasedTweets({
   const url = new URL(`${CONFIG.API_URL}/data`);
   url.searchParams.set("type", "twitter.showcased");
 
-  const response = await window.fetch(url, {
+  const response = await fetchWithRetry(url, {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",

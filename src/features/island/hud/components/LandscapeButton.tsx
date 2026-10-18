@@ -4,28 +4,24 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useSound } from "lib/utils/hooks/useSound";
 import React, { useContext } from "react";
 import { RoundButton } from "components/ui/RoundButton";
-import { useSelector } from "@xstate/react";
-import type { MachineState } from "features/game/lib/gameMachine";
+import type { PlaceableLocation } from "features/game/types/collectibles";
 
-const needsHelp = (state: MachineState) => {
-  const missingScarecrow =
-    !state.context.state.inventory["Basic Scarecrow"] &&
-    (state.context.state.farmActivity?.["Sunflower Planted"] ?? 0) >= 3;
-
-  return missingScarecrow;
-};
-
-export const LandscapeButton: React.FC = () => {
+/**
+ * `location` keys the landscaping draft to this surface. Without it the
+ * sandbox never engages: every edit goes live and Cancel has nothing to
+ * revert - which is exactly what players reported.
+ */
+export const LandscapeButton: React.FC<{ location: PlaceableLocation }> = ({
+  location,
+}) => {
   const button = useSound("button");
   const { gameService } = useContext(Context);
-
-  const showHelper = useSelector(gameService, needsHelp);
 
   return (
     <RoundButton
       onClick={() => {
         button.play();
-        gameService.send("LANDSCAPE");
+        gameService.send({ type: "LANDSCAPE", location });
       }}
     >
       <img
@@ -37,23 +33,6 @@ export const LandscapeButton: React.FC = () => {
           width: `${PIXEL_SCALE * 14}px`,
         }}
       />
-
-      {showHelper && (
-        <div
-          className="absolute z-40"
-          style={{
-            left: `${PIXEL_SCALE * -8}px`,
-            top: `${PIXEL_SCALE * 20}px`,
-            transform: "scaleX(-1)",
-          }}
-        >
-          <img
-            className="cursor-pointer group-hover:img-highlight animate-pulsate"
-            src={SUNNYSIDE.icons.click_icon}
-            style={{ width: `${PIXEL_SCALE * 18}px`, display: "block" }}
-          />
-        </div>
-      )}
     </RoundButton>
   );
 };

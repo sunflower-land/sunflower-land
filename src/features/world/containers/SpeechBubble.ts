@@ -1,5 +1,8 @@
+import { getResolvedFontFamily } from "lib/utils/fonts";
+import { isAsciiText } from "lib/utils/textSupport";
+
 export class SpeechBubble extends Phaser.GameObjects.Container {
-  text: Phaser.GameObjects.BitmapText;
+  text: Phaser.GameObjects.BitmapText | Phaser.GameObjects.Text;
   bubble: Phaser.GameObjects.BitmapText;
 
   constructor(scene: Phaser.Scene, text: string, direction: "left" | "right") {
@@ -7,12 +10,13 @@ export class SpeechBubble extends Phaser.GameObjects.Container {
     this.scene = scene;
 
     const MAX_WIDTH = 100;
-    const MAX_CHARS_PER_LINE = 40;
-    const formattedText = this.wordWrap(text, MAX_CHARS_PER_LINE);
 
-    this.text = scene.add
-      .bitmapText(0, 0, "pixelmix", formattedText, 3.5)
-      .setMaxWidth(MAX_WIDTH);
+    // The "pixelmix" bitmap font is a fixed image atlas, not a real font -
+    // scripts it has no glyphs for (Cyrillic, CJK, etc.) render blank, so
+    // those fall back to a real font instead (see createFallbackText).
+    this.text = isAsciiText(text)
+      ? this.createBitmapText(text, MAX_WIDTH)
+      : this.createFallbackText(text, MAX_WIDTH);
 
     const bounds = this.text.getBounds();
 
@@ -39,6 +43,38 @@ export class SpeechBubble extends Phaser.GameObjects.Container {
       direction === "right" ? 2 : -bounds.width,
       -bounds.height - 12,
     );
+  }
+
+  private createBitmapText(text: string, maxWidth: number) {
+    const MAX_CHARS_PER_LINE = 40;
+
+    return this.scene.add
+      .bitmapText(
+        0,
+        0,
+        "pixelmix",
+        this.wordWrap(text, MAX_CHARS_PER_LINE),
+        3.5,
+      )
+      .setMaxWidth(maxWidth);
+  }
+
+  // Real (non-bitmap) font for scripts the pixel atlas can't render. Reads
+  // the player's font settings so it matches whatever they picked for the
+  // rest of the UI (see FontSettings.tsx / lib/utils/fonts.ts) - read fresh
+  // rather than cached, since that choice can change while the world scene
+  // is already running.
+  private createFallbackText(text: string, maxWidth: number) {
+    const fontFamily = getResolvedFontFamily();
+
+    return this.scene.add
+      .text(0, 0, text, {
+        fontFamily,
+        fontSize: "5px",
+        color: "#181425",
+        resolution: 4,
+      })
+      .setWordWrapWidth(maxWidth, true);
   }
 
   // Method to wrap text with a max number of characters per line

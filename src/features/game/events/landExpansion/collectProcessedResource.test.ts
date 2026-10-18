@@ -35,6 +35,42 @@ const SPRING_STATE: GameState = {
 };
 
 describe("collectProcessedFood", () => {
+  it("throws if the building is not placed", () => {
+    // A lifted building keeps processing until it is placed back down, where the
+    // pause is applied. Collecting from one in the inventory would skip it.
+    expect(() =>
+      collectProcessedResource({
+        state: {
+          ...SPRING_STATE,
+          buildings: {
+            ...SPRING_STATE.buildings,
+            "Fish Market": [
+              {
+                id: "123",
+                createdAt: 0,
+                readyAt: 0,
+                removedAt: createdAt - 1000,
+                processing: [
+                  {
+                    name: "Fish Flake",
+                    readyAt: createdAt - 500,
+                    startedAt: createdAt - 5000,
+                  },
+                ],
+              },
+            ],
+          },
+        },
+        action: {
+          type: "processedResource.collected",
+          buildingId: "123",
+          buildingName: "Fish Market" as ProcessingBuildingName,
+        } as CollectProcessedResourceAction,
+        createdAt,
+        farmId: 1,
+      }),
+    ).toThrow("Fish Market is not placed");
+  });
   it("throws if the building is not a food processing building", () => {
     expect(() => {
       collectProcessedResource({

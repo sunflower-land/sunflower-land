@@ -980,6 +980,7 @@ describe("drillOilReserve", () => {
             },
           },
           reserveNoBonus,
+          Date.now(),
         );
         expect(amount).toBe(BASE_OIL_DROP_AMOUNT + bonus);
       });
@@ -993,6 +994,7 @@ describe("drillOilReserve", () => {
         [3, 0.6],
       ])("rank %i => x%f recovery time", (rank, mult) => {
         const { recoveryTimeMs } = getOilRecoveryTimeForDisplay({
+          now: Date.now(),
           game: {
             ...TEST_FARM,
             bumpkin: {

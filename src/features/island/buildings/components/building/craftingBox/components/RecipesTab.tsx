@@ -1,5 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useSelector } from "@xstate/react";
+import { useNow } from "lib/utils/hooks/useNow";
+import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { Label } from "components/ui/Label";
 import { useTranslation } from "react-i18next";
@@ -28,7 +30,7 @@ import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { RecipeInfoPanel } from "./RecipeInfoPanel";
 import type { CollectibleName } from "features/game/types/craftables";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
-import { getBoostedCraftingTime } from "features/game/events/landExpansion/startCrafting";
+import { getCraftingTimePreview } from "./craftingTimePreview";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import lightningIcon from "assets/icons/lightning.png";
 import type {
@@ -161,7 +163,10 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
 
   const [searchTerm, setSearchTerm] = useState("");
 
-  const [now] = useState(() => Date.now());
+  // Drives the chapter countdown and the craft-time boost previews. Live rather
+  // than a mount snapshot, so a Fox Shrine or totem expiring while the tab is
+  // open stops being counted. One tick a minute suits both readings.
+  const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
   const currentChapter = getCurrentChapter(now);
   const chapterSecondsLeft = secondsLeftInChapter(now);
 
@@ -321,11 +326,16 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
                   recipe,
                   canCraft,
                 });
-                const { seconds: boostedCraftTime, boostsUsed } =
-                  getBoostedCraftingTime({
-                    game: state,
-                    time: recipe.time,
+                // Windowed boosts (Fox Shrine, totems) are a live rate rather
+                // than part of the duration, so they are named separately - see
+                // getCraftingTimePreview.
+                const { displaySeconds, boosts: boostsUsed } =
+                  getCraftingTimePreview({
+                    state,
+                    timeMs: recipe.time,
+                    at: now,
                   });
+                const boostedCraftTime = displaySeconds * 1000;
 
                 return (
                   <div
@@ -640,11 +650,16 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
                   canCraft,
                   isDiscovered,
                 });
-                const { seconds: boostedCraftTime, boostsUsed } =
-                  getBoostedCraftingTime({
-                    game: state,
-                    time: recipe.time,
+                // Windowed boosts (Fox Shrine, totems) are a live rate rather
+                // than part of the duration, so they are named separately - see
+                // getCraftingTimePreview.
+                const { displaySeconds, boosts: boostsUsed } =
+                  getCraftingTimePreview({
+                    state,
+                    timeMs: recipe.time,
+                    at: now,
                   });
+                const boostedCraftTime = displaySeconds * 1000;
 
                 return (
                   <div

@@ -177,6 +177,37 @@ describe("detectCollisions", () => {
     expect(hasCollision).toBe(true);
   });
 
+  it("allows placing an item on top of a Salt Rug", () => {
+    const state: GameState = cloneDeep(TEST_FARM);
+    state.collectibles = {
+      "Salt Rug": [
+        {
+          id: "123",
+          coordinates: {
+            x: 1,
+            y: 1,
+          },
+          readyAt: 0,
+          createdAt: 0,
+        },
+      ],
+    };
+
+    const hasCollision = detectCollision({
+      state,
+      position: {
+        x: 1,
+        y: 1,
+        height: 1,
+        width: 1,
+      },
+      location: "farm",
+      name: "Abandoned Bear",
+    });
+
+    expect(hasCollision).toBe(false);
+  });
+
   it("returns true if a collision is detected with a bud", () => {
     const state: GameState = cloneDeep(TEST_FARM);
     state.buds = {

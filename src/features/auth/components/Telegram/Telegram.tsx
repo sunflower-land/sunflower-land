@@ -13,58 +13,67 @@ import giftIcon from "assets/icons/gift.png";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { Loading } from "..";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { SocialUnlinkGate } from "../SocialUnlink";
+import type { ContentComponentProps } from "features/island/hud/components/settings-menu/types";
 
-export const TelegramBody: React.FC = () => {
+export const TelegramBody: React.FC<Partial<ContentComponentProps>> = ({
+  onSubMenuClick,
+}) => {
   const { gameState } = useGame();
   const telegram = gameState.context.state.telegram;
 
   const { t } = useAppTranslation();
 
   return (
-    <div className="flex flex-col gap-1">
-      <ButtonPanel variant="card">
-        {!telegram?.linkedAt && (
-          <div className="flex items-center justify-between gap-2 mb-2">
-            <Label type="default" icon={SUNNYSIDE.icons.telegram}>
-              {t("telegram.title")}
-            </Label>
-            <Label type="info">{t("beta")}</Label>
+    <SocialUnlinkGate
+      provider="telegram"
+      onDone={() => onSubMenuClick?.("linkedAccounts")}
+    >
+      <div className="flex flex-col gap-1">
+        <ButtonPanel variant="card">
+          {!telegram?.linkedAt && (
+            <div className="flex items-center justify-between gap-2 mb-2">
+              <Label type="default" icon={SUNNYSIDE.icons.telegram}>
+                {t("telegram.title")}
+              </Label>
+              <Label type="info">{t("beta")}</Label>
+            </div>
+          )}
+          <NoticeboardItems
+            items={[
+              {
+                text: t("telegram.community"),
+                icon: SUNNYSIDE.icons.player,
+              },
+              {
+                text: t("telegram.rewards"),
+                icon: giftIcon,
+              },
+            ]}
+          />
+          <div className="flex gap-4 mt-2 ml-1">
+            <a
+              className="underline text-xs cursor-pointer"
+              href="https://t.me/SunflowerLandAnnouncements"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {t("telegram.announcements")}
+            </a>
+            <a
+              className="underline text-xs cursor-pointer"
+              href={`https://t.me/${CONFIG.TELEGRAM_BOT}?start=game`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {t("telegram.bot")}
+            </a>
           </div>
-        )}
-        <NoticeboardItems
-          items={[
-            {
-              text: t("telegram.community"),
-              icon: SUNNYSIDE.icons.player,
-            },
-            {
-              text: t("telegram.rewards"),
-              icon: giftIcon,
-            },
-          ]}
-        />
-        <div className="flex gap-4 mt-2 ml-1">
-          <a
-            className="underline text-xs cursor-pointer"
-            href="https://t.me/SunflowerLandAnnouncements"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {t("telegram.announcements")}
-          </a>
-          <a
-            className="underline text-xs cursor-pointer"
-            href={`https://t.me/${CONFIG.TELEGRAM_BOT}?start=game`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {t("telegram.bot")}
-          </a>
-        </div>
-      </ButtonPanel>
+        </ButtonPanel>
 
-      <TelegramConnect />
-    </div>
+        <TelegramConnect />
+      </div>
+    </SocialUnlinkGate>
   );
 };
 

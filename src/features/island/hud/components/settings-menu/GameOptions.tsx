@@ -62,12 +62,14 @@ import { AirdropPlayer } from "./general-settings/AirdropPlayer";
 import { FaceRecognitionSettings } from "features/retreat/components/personhood/FaceRecognition";
 import { DEV_PlayerSearch } from "./developer-options/DEV_PlayerSearch";
 import { DEV_ErrorSearch } from "./developer-options/DEV_ErrorSearch";
-import { ApiKey } from "./general-settings/ApiKey";
 import { ExperimentsSettings } from "./experiments-settings/ExperimentsSettings";
+import { BetaFeatures } from "./beta-features/BetaFeatures";
 import { EconomyEditorExperimentSettings } from "./experiments-settings/EconomyEditorExperimentSettings";
 import { InteriorExperimentSettings } from "./experiments-settings/InteriorExperimentSettings";
+import { LandscapingExperimentSettings } from "./experiments-settings/LandscapingExperimentSettings";
 import { ToolShopBuyAllExperimentSettings } from "./experiments-settings/ToolShopBuyAllExperimentSettings";
-import { CustomCursorExperimentSettings } from "./experiments-settings/CustomCursorExperimentSettings";
+import { StatsLeaderboardExperimentSettings } from "./experiments-settings/StatsLeaderboardExperimentSettings";
+import { AuctionCalendarExperimentSettings } from "./experiments-settings/AuctionCalendarExperimentSettings";
 import type { ContentComponentProps, SettingMenuId } from "./types";
 import { TwitterRewards } from "features/auth/components/Twitter/Twitter";
 import { TelegramBody } from "features/auth/components/Telegram/Telegram";
@@ -214,6 +216,12 @@ const preloadSubscriptions = async (token: string, farmId: number) => {
   );
 };
 
+// Keep the settings modal open while an unlink is mid-flight so the
+// machine can't get stranded in a hidden state.
+const _unlinkingSocial = (state: MachineState) =>
+  state.matches("unlinkingSocial") ||
+  state.matches("unlinkingSocialSuccess") ||
+  state.matches("unlinkingSocialFailed");
 const _linkingSocial = (state: MachineState) => state.matches("linkingSocial");
 const _linkingSocialSuccess = (state: MachineState) =>
   state.matches("linkingSocialSuccess");
@@ -242,11 +250,13 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
     gameService,
     _linkingWalletSuccess,
   );
+  const isUnlinkingSocial = useSelector(gameService, _unlinkingSocial);
   const isLinkingInFlight =
     isLinkingSocial ||
     isLinkingSocialSuccess ||
     isLinkingWallet ||
-    isLinkingWalletSuccess;
+    isLinkingWalletSuccess ||
+    isUnlinkingSocial;
 
   useEffect(() => {
     if (farmId) preloadSubscriptions(token, farmId);
@@ -401,15 +411,30 @@ export const SETTING_MENUS: Record<SettingMenuId, SettingMenu> = {
     parent: "experiments",
     content: InteriorExperimentSettings,
   },
+  landscapingExperiment: {
+    title: translate("gameOptions.experiments.landscaping"),
+    parent: "experiments",
+    content: LandscapingExperimentSettings,
+  },
   toolShopBuyAll: {
     title: translate("gameOptions.experiments.toolShopBuyAll"),
     parent: "experiments",
     content: ToolShopBuyAllExperimentSettings,
   },
-  customCursor: {
-    title: translate("gameOptions.experiments.customCursor"),
+  statsLeaderboard: {
+    title: translate("gameOptions.experiments.statsLeaderboard"),
     parent: "experiments",
-    content: CustomCursorExperimentSettings,
+    content: StatsLeaderboardExperimentSettings,
+  },
+  auctionCalendar: {
+    title: translate("gameOptions.experiments.auctionCalendar"),
+    parent: "experiments",
+    content: AuctionCalendarExperimentSettings,
+  },
+  betaFeatures: {
+    title: translate("gameOptions.betaFeatures"),
+    parent: "advanced",
+    content: BetaFeatures,
   },
   // Account
   faceRecognition: {
@@ -447,12 +472,6 @@ export const SETTING_MENUS: Record<SettingMenuId, SettingMenu> = {
     title: translate("gameOptions.generalSettings.notifications"),
     parent: "preferences",
     content: Notifications,
-  },
-
-  apiKey: {
-    title: translate("share.apiKey"),
-    parent: "amoy",
-    content: ApiKey,
   },
 
   // Developer Options

@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 
 type Request = {
@@ -8,7 +9,7 @@ type Request = {
 };
 
 export async function claimFarm(request: Request) {
-  const response = await window.fetch(
+  const response = await fetchWithRetry(
     `${CONFIG.API_URL}/claim-farm/${request.farmId}`,
     {
       method: "POST",

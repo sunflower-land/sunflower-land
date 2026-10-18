@@ -55,6 +55,10 @@ export function buyOptionPurchaseItem({ state, action }: Options) {
       throw new Error("Invalid action type");
     }
 
+    if (!Number.isInteger(amount) || amount <= 0) {
+      throw new Error("Invalid amount");
+    }
+
     const itemDetails = MULTIPLE_PURCHASE_ITEMS[item];
     if (!itemDetails) {
       throw new Error("Item does not exist");

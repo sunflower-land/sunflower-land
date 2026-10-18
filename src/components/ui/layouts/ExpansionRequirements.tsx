@@ -305,10 +305,9 @@ export const Expanding: React.FC<{
   return (
     <>
       <div className="p-1 ">
-        <Label
-          type="default"
-          icon={SUNNYSIDE.icons.stopwatch}
-        >{`In progress`}</Label>
+        <Label type="default" icon={SUNNYSIDE.icons.stopwatch}>
+          {t("crafting.inProgress")}
+        </Label>
         <p className="text-sm my-2">{t("crafting.expansionSoon")}</p>
         <div className="flex items-center mb-1">
           <div>

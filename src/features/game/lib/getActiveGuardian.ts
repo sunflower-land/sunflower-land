@@ -6,7 +6,7 @@ import type {
 import { getObjectEntries } from "lib/object";
 import { isCollectibleBuilt } from "./collectibleBuilt";
 
-type SeasonGuardianName = Extract<
+export type SeasonGuardianName = Extract<
   InventoryItemName,
   "Winter Guardian" | "Spring Guardian" | "Autumn Guardian" | "Summer Guardian"
 >;

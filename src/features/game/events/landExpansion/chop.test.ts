@@ -192,7 +192,7 @@ describe("chop", () => {
 
     // Find a starting counter where neither tree triggers Native
     function findNonNativeStartCounter() {
-      for (let counter = 0; counter < 100; counter++) {
+      for (let counter = 8; counter < 100; counter++) {
         const firstNative = prngChance({
           farmId,
           itemId,
@@ -283,7 +283,7 @@ describe("chop", () => {
 
     // Find a counter that triggers Native (20% chance)
     function findNativeCounter() {
-      for (let counter = 0; counter < 100; counter++) {
+      for (let counter = 8; counter < 100; counter++) {
         if (
           prngChance({
             farmId,
@@ -570,7 +570,7 @@ describe("chop", () => {
 
     // Helper to find a counter that doesn't trigger Native
     function findNonNativeCounter() {
-      for (let counter = 0; counter < 100; counter++) {
+      for (let counter = 8; counter < 100; counter++) {
         if (
           !prngChance({
             farmId,
@@ -589,6 +589,7 @@ describe("chop", () => {
     it("adds the discord bonus", () => {
       const counter = findNonNativeCounter();
       const { amount } = getWoodDropAmount({
+        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           bumpkin: TEST_BUMPKIN,
@@ -606,6 +607,7 @@ describe("chop", () => {
     it("adds the wood nymph wendy bonus", () => {
       const counter = findNonNativeCounter();
       const { amount } = getWoodDropAmount({
+        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           bumpkin: TEST_BUMPKIN,
@@ -633,6 +635,7 @@ describe("chop", () => {
     it("adds the Tiki Totem bonus", () => {
       const counter = findNonNativeCounter();
       const { amount } = getWoodDropAmount({
+        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           bumpkin: TEST_BUMPKIN,
@@ -660,6 +663,7 @@ describe("chop", () => {
     it("adds the Faction Shield bonus +0.25 Wood", () => {
       const counter = findNonNativeCounter();
       const { amount } = getWoodDropAmount({
+        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           inventory: {},
@@ -690,6 +694,7 @@ describe("chop", () => {
     it("gives +0.1 wood when you have Squirrel in your inventory", () => {
       const counter = findNonNativeCounter();
       const { amount } = getWoodDropAmount({
+        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           inventory: { Squirrel: new Decimal(1) },
@@ -717,6 +722,7 @@ describe("chop", () => {
     it("Faction Shield bonus does not apply when not in the pledged faction", () => {
       const counter = findNonNativeCounter();
       const { amount } = getWoodDropAmount({
+        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           collectibles: {},
@@ -746,6 +752,7 @@ describe("chop", () => {
     it("Faction Shield bonus does not apply when no pledged faction", () => {
       const counter = findNonNativeCounter();
       const { amount } = getWoodDropAmount({
+        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           collectibles: {},
@@ -769,7 +776,7 @@ describe("chop", () => {
     it("adds Native bonus drop via PRNG", () => {
       // Find a counter that triggers Native
       function findNativeCounter() {
-        for (let counter = 0; counter < 100; counter++) {
+        for (let counter = 8; counter < 100; counter++) {
           if (
             prngChance({
               farmId,
@@ -787,6 +794,7 @@ describe("chop", () => {
 
       const nativeCounter = findNativeCounter();
       const { amount } = getWoodDropAmount({
+        now: Date.now(),
         game: INITIAL_FARM,
         farmId,
         itemId,
@@ -800,6 +808,7 @@ describe("chop", () => {
     it("drops 10% more with Lumberjack badge (LEGACY)", () => {
       const counter = findNonNativeCounter();
       const { amount } = getWoodDropAmount({
+        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           inventory: { Lumberjack: new Decimal(1) },
@@ -841,6 +850,7 @@ describe("chop", () => {
 
       const toughTreeCounter = findToughTreeOnlyCounter();
       const { amount } = getWoodDropAmount({
+        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           bumpkin: {
@@ -860,6 +870,7 @@ describe("chop", () => {
     it("applies a +.1 wood drop with Lumberjack's Extra skill", () => {
       const counter = findNonNativeCounter();
       const { amount } = getWoodDropAmount({
+        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           bumpkin: {
@@ -903,6 +914,7 @@ describe("chop", () => {
 
     const state: GameState = {
       ...INITIAL_FARM,
+      inventory: { ...INITIAL_FARM.inventory, Axe: new Decimal(10) },
       bumpkin: {
         ...INITIAL_FARM.bumpkin,
         skills: { "Tree Turnaround": 1 },
@@ -1441,7 +1453,7 @@ describe("chop", () => {
       // Test that incrementing counter changes the outcome
       const results: boolean[] = [];
 
-      for (let counter = 0; counter < 100; counter++) {
+      for (let counter = 8; counter < 100; counter++) {
         results.push(
           prngChance({
             farmId,
@@ -1872,7 +1884,7 @@ describe("chop — Trees skill rank upgrades", () => {
 
   describe("Lumberjack's Extra — additive wood yield per rank", () => {
     function findNonNativeCounter() {
-      for (let counter = 0; counter < 100; counter++) {
+      for (let counter = 8; counter < 100; counter++) {
         if (
           !prngChance({
             farmId,
@@ -1890,6 +1902,7 @@ describe("chop — Trees skill rank upgrades", () => {
 
     const woodAtRank = (rank: number, counter: number) =>
       getWoodDropAmount({
+        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           bumpkin: {
@@ -1915,6 +1928,7 @@ describe("chop — Trees skill rank upgrades", () => {
   describe("Tree Charge — recovery-time multiplier per rank", () => {
     const recoveryAtRank = (rank: number) =>
       getTreeRecoveryTimeForDisplay({
+        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           bumpkin: { ...TEST_BUMPKIN, skills: { "Tree Charge": rank } },
@@ -1934,6 +1948,7 @@ describe("chop — Trees skill rank upgrades", () => {
     // rank1 = 10%, rank2 = 20%, rank3 = 30%. Magnitude is a fixed ×3.
     const woodAtRank = (rank: number, counter: number) =>
       getWoodDropAmount({
+        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           bumpkin: { ...TEST_BUMPKIN, skills: { "Tough Tree": rank } },
@@ -2166,6 +2181,7 @@ describe("chop — Trees skill rank upgrades", () => {
     // recovery (recoveryTimeMs = 0); otherwise the base recovery applies.
     const recoveryAtRank = (rank: number, counter: number) =>
       getTreeRecoveryTimeForDisplay({
+        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           bumpkin: { ...TEST_BUMPKIN, skills: { "Tree Turnaround": rank } },
@@ -2263,5 +2279,90 @@ describe("chop — Trees skill rank upgrades", () => {
       expect(recoveryAtRank(2, counterAllRanks)).toEqual(0);
       expect(recoveryAtRank(3, counterAllRanks)).toEqual(0);
     });
+  });
+});
+
+describe("tutorial wood script", () => {
+  const farmId = 1;
+  const itemId = KNOWN_IDS["Tree"];
+  const tree: Tree = { createdAt: now, wood: { choppedAt: 0 }, x: 1, y: 1 };
+  const game: GameState = {
+    ...INITIAL_FARM,
+    inventory: {},
+    bumpkin: TEST_BUMPKIN,
+  };
+
+  const dropAt = (counter: number, t: Tree = tree, id = itemId) =>
+    getWoodDropAmount({ game, farmId, itemId: id, counter, tree: t, now });
+
+  const nativeRoll = (counter: number, id = itemId) =>
+    prngChance({
+      farmId,
+      itemId: id,
+      counter,
+      chance: 20,
+      criticalHitName: "Native",
+    });
+
+  it("gives exactly 1 wood on each of the first three chops", () => {
+    expect([0, 1, 2].map((c) => dropAt(c).amount.toNumber())).toEqual([
+      1, 1, 1,
+    ]);
+  });
+
+  it("gives 1,1,1,2,2 on chops four to eight", () => {
+    expect([3, 4, 5, 6, 7].map((c) => dropAt(c).amount.toNumber())).toEqual([
+      1, 1, 1, 2, 2,
+    ]);
+  });
+
+  it("reports the scripted +1 as the Native bonus", () => {
+    expect(dropAt(5).boostsUsed).toEqual([]);
+    expect(dropAt(6).boostsUsed).toEqual([{ name: "Native", value: "+1" }]);
+    expect(dropAt(7).boostsUsed).toEqual([{ name: "Native", value: "+1" }]);
+  });
+
+  it("hands over to the PRNG from the ninth chop", () => {
+    const counters = Array.from({ length: 100 }, (_, i) => i + 8);
+    const hit = counters.find((c) => nativeRoll(c));
+    const miss = counters.find((c) => !nativeRoll(c));
+    if (hit === undefined || miss === undefined) {
+      throw new Error("Could not find both PRNG outcomes past the script");
+    }
+
+    expect(dropAt(hit).amount).toEqual(new Decimal(2));
+    expect(dropAt(miss).amount).toEqual(new Decimal(1));
+  });
+
+  it("does not script non-basic trees", () => {
+    const ancientId = KNOWN_IDS["Ancient Tree"];
+    const ancient: Tree = { ...tree, name: "Ancient Tree" };
+
+    [5, 6, 7].forEach((counter) => {
+      const expected = nativeRoll(counter, ancientId) ? 2 : 1;
+      expect(dropAt(counter, ancient, ancientId).amount.toNumber()).toBe(
+        expected,
+      );
+    });
+  });
+
+  it("credits the scripted 2 wood when the seventh basic tree is chopped", () => {
+    const state = chop({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        bumpkin: TEST_BUMPKIN,
+        inventory: { Axe: new Decimal(1) },
+        farmActivity: { "Basic Tree Chopped": 6 },
+      },
+      createdAt: now,
+      action: {
+        type: "timber.chopped",
+        item: "Axe",
+        index: "0",
+      } as LandExpansionChopAction,
+    });
+
+    expect(state.inventory.Wood).toEqual(new Decimal(2));
   });
 });

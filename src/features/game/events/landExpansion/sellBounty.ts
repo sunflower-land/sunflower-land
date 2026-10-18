@@ -14,6 +14,7 @@ import {
   type FullMoonFruit,
 } from "features/game/types/fruits";
 import type {
+  BoostName,
   BountyRequest,
   DollBounty,
   ExoticBounty,
@@ -118,6 +119,45 @@ export function generateBountyTicket({
   });
 
   return amount;
+}
+
+/**
+ * Which chapter-ticket boosts are currently active for a bounty's ticket
+ * reward, for display only. Mirrors generateBountyTicket's boost logic
+ * without changing its return shape (17 call sites rely on it being a
+ * plain number).
+ */
+export function getBountyTicketBoosts({
+  game,
+  bounty,
+  now = Date.now(),
+}: {
+  game: GameState;
+  bounty: BountyRequest;
+  now?: number;
+}): { name: BoostName; value: string }[] {
+  const boostsUsed: { name: BoostName; value: string }[] = [];
+
+  if (!(bounty.items?.[getChapterTicket(now)] ?? 0)) {
+    return boostsUsed;
+  }
+
+  const chapter = getCurrentChapter(now);
+  const chapterBoost = CHAPTER_TICKET_BOOST_ITEMS[chapter];
+
+  Object.values(chapterBoost).forEach((item) => {
+    if (isCollectible(item)) {
+      if (isCollectibleBuilt({ game, name: item })) {
+        boostsUsed.push({ name: item, value: "+1" });
+      }
+    } else {
+      if (isWearableActive({ game, name: item })) {
+        boostsUsed.push({ name: item, value: "+1" });
+      }
+    }
+  });
+
+  return boostsUsed;
 }
 
 export function generateBountyCoins({

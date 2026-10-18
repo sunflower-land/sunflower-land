@@ -94,17 +94,20 @@ export const WaterTrapSpot: React.FC<Props> = ({ id }) => {
         caught = caughtCrustacean(waterTrap.type, waterTrap.chum);
       }
       const [caughtItem, caughtAmount] = getObjectEntries(caught)[0];
+      const isNewCatch = (farmActivity[`${caughtItem} Caught`] ?? 0) === 0;
 
       gameService.send({
         type: "waterTrap.collected",
         trapId: id,
       });
 
-      setCollectedCatch({
-        item: caughtItem as CrustaceanName,
-        amount: caughtAmount ?? 1,
-      });
-      setShowCatchModal(true);
+      if (isNewCatch) {
+        setCollectedCatch({
+          item: caughtItem as CrustaceanName,
+          amount: caughtAmount ?? 1,
+        });
+        setShowCatchModal(true);
+      }
     }
   };
 
@@ -130,7 +133,7 @@ export const WaterTrapSpot: React.FC<Props> = ({ id }) => {
   const caught = waterTrap?.caught ? getKeys(waterTrap.caught)[0] : undefined;
   const caughtItem =
     caught &&
-    caught in CRUSTACEANS &&
+    CRUSTACEANS.includes(caught) &&
     (farmActivity[`${caught} Caught`] ?? 0) > 0
       ? caught
       : undefined;
@@ -170,12 +173,12 @@ export const WaterTrapSpot: React.FC<Props> = ({ id }) => {
               showPopover={showTimerPopover}
               timeLeft={secondsLeft}
               secondaryImage={
-                waterTrap.chum != null
+                !caughtItem && waterTrap.chum != null
                   ? ITEM_DETAILS[waterTrap.chum].image
                   : undefined
               }
               secondaryDescription={
-                waterTrap.chum != null
+                !caughtItem && waterTrap.chum != null
                   ? `${CRUSTACEAN_CHUM_AMOUNTS[waterTrap.chum]} ${waterTrap.chum}`
                   : undefined
               }

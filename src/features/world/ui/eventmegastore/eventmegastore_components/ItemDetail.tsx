@@ -127,7 +127,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
       itemName as EventTierItemName
     ]?.max ?? 1);
 
-  const description = getItemDescription(item);
+  const description = getItemDescription(item, state);
   const { sfl = 0 } = item?.cost || {};
   const itemReq = item?.cost?.items;
 

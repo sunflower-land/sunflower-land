@@ -56,11 +56,93 @@ const isPickaxe = (name: WorkbenchToolName): boolean => {
   return pickaxes.includes(name);
 };
 
-export function getToolPrice(
-  tool: Tool,
-  amount: number,
-  game: Readonly<GameState>,
-) {
+/** A new player's first Axes are on the house, so they learn to buy tools. */
+export const TUTORIAL_FREE_AXES = 10;
+
+/**
+ * Farms created before the tutorial rework were given 10 starter Axes and have
+ * no crafts recorded, so they must not also qualify for the free ones. Set
+ * ahead of the release on purpose: a farm created in between still gets the
+ * old starter Axes, so no farm can end up with neither.
+ */
+export const TUTORIAL_FREE_AXES_FROM = new Date(
+  "2026-09-21T03:00:00.000Z",
+).getTime();
+
+/**
+ * How many free Axes a tutorial island player has left. Counted from lifetime
+ * crafts, not inventory, so chopping does not top the allowance back up.
+ */
+export function getFreeAxesLeft(game: Readonly<GameState>): number {
+  if (game.island.type !== "basic") return 0;
+  if (game.createdAt < TUTORIAL_FREE_AXES_FROM) return 0;
+
+  const crafted = game.farmActivity?.["Axe Crafted"] ?? 0;
+
+  return Math.max(0, TUTORIAL_FREE_AXES - crafted);
+}
+
+/**
+ * While the early tutorial runs (a basic island up to the Water Well era),
+ * the Workbench's tool availability is capped so a new player cannot sink
+ * the coins their next expansion needs into tools: Axes beyond the free
+ * batch are budgeted per level (see getPaidTutorialAxesLeft) and at most
+ * two Pickaxes a day are sold.
+ */
+export function isTutorialToolStockPhase(game: Readonly<GameState>): boolean {
+  return (
+    game.island.type === "basic" &&
+    (game.inventory["Basic Land"]?.toNumber() ?? 3) <= 6
+  );
+}
+
+/**
+ * Paid Axes purchasable per level during the tutorial phase.
+ *
+ * Sized from the phase's actual wood ledger, not from caution alone:
+ * expansions 4 and 5 cost 8 Wood, four Pickaxes cost 12 (3 each!), the
+ * Water Well 5, and the Blacksmith's three wood orders - the coin loop
+ * itself - another 9. That is ~34 chops against 10 free Axes, so the paid
+ * budget must reach ~24 by level 3, with slack for extra order cycles.
+ */
+export const TUTORIAL_PAID_AXES_PER_LEVEL = 10;
+
+/**
+ * How many PAID Axes a tutorial-phase player can still buy. The free batch
+ * teaches chopping; these teach the coins -> Axe -> Wood loop - so they stay
+ * purchasable at full price but are budgeted (ten per level, growing until
+ * level five) rather than stock-metered. Level-ups refresh the budget, and
+ * because an Axe spent on a Blacksmith wood order earns its coins back, a
+ * player can never buy themselves into a hole they cannot chop out of.
+ *
+ * Only meaningful during isTutorialToolStockPhase - outside it the normal
+ * daily stock governs and this returns 0.
+ */
+export function getPaidTutorialAxesLeft(game: Readonly<GameState>): number {
+  if (!isTutorialToolStockPhase(game)) return 0;
+
+  const { level } = getAscensionLevel({
+    experience: game.bumpkin.experience ?? 0,
+    ascensionLevel: game.island.ascensionLevel ?? 0,
+  });
+  const budget = TUTORIAL_PAID_AXES_PER_LEVEL * Math.min(level, 5);
+
+  const crafted = game.farmActivity?.["Axe Crafted"] ?? 0;
+  const paidCrafted = Math.max(
+    0,
+    crafted -
+      (game.createdAt < TUTORIAL_FREE_AXES_FROM ? 0 : TUTORIAL_FREE_AXES),
+  );
+
+  return Math.max(0, budget - paidCrafted);
+}
+
+/**
+ * Coin price of a single tool after every discount, ignoring the free tutorial
+ * Axes. The Workbench needs this to work out how many it can afford, since a
+ * batch that includes free Axes is not simply one price times the amount.
+ */
+export function getToolUnitPrice(tool: Tool, game: Readonly<GameState>) {
   const { name } = tool;
   const { bumpkin, inventory } = game;
 
@@ -107,8 +189,25 @@ export function getToolPrice(
     price = price * 0.9;
   }
 
+  return price;
+}
+
+/** How many of this tool the player can still craft for free. */
+export function getFreeToolAmount(tool: Tool, game: Readonly<GameState>) {
+  return tool.name === "Axe" ? getFreeAxesLeft(game) : 0;
+}
+
+export function getToolPrice(
+  tool: Tool,
+  amount: number,
+  game: Readonly<GameState>,
+) {
+  // The free tutorial Axes come off the front of the batch, so a batch that
+  // straddles the allowance only pays for the Axes beyond it.
+  const paidAmount = Math.max(0, amount - getFreeToolAmount(tool, game));
+
   // Return the price for the amount of tools
-  return price * amount;
+  return getToolUnitPrice(tool, game) * paidAmount;
 }
 
 export function craftTool({ state, action }: Options) {
@@ -120,6 +219,10 @@ export function craftTool({ state, action }: Options) {
 
   if (!tool) {
     throw new Error("Tool does not exist");
+  }
+
+  if (!Number.isInteger(amount) || amount <= 0) {
+    throw new Error("Invalid amount");
   }
 
   const { disabled, requiredIsland, requiredLevel, ingredients } = tool;
@@ -140,7 +243,23 @@ export function craftTool({ state, action }: Options) {
     throw new Error("You do not have the required island expansion");
   }
 
-  if (stateCopy.stock[action.tool]?.lt(amount)) {
+  // Tutorial Axes don't draw from the day's stock: the free batch costs
+  // nothing, and the paid ones beyond it are metered by a per-level budget
+  // (getPaidTutorialAxesLeft) so level-ups refresh what the shop sells.
+  // Read before the craft is tracked below.
+  const freeAmount =
+    action.tool === "Axe" ? Math.min(amount, getFreeAxesLeft(stateCopy)) : 0;
+  let stockedAmount = amount - freeAmount;
+
+  if (action.tool === "Axe" && isTutorialToolStockPhase(stateCopy)) {
+    if (stockedAmount > getPaidTutorialAxesLeft(stateCopy)) {
+      throw new Error("Not enough stock");
+    }
+
+    stockedAmount = 0;
+  }
+
+  if (stateCopy.stock[action.tool]?.lt(stockedAmount)) {
     throw new Error("Not enough stock");
   }
 
@@ -206,7 +325,7 @@ export function craftTool({ state, action }: Options) {
 
   const stock = stateCopy.stock[action.tool];
   if (stock !== undefined) {
-    stateCopy.stock[action.tool] = stock.minus(amount);
+    stateCopy.stock[action.tool] = stock.minus(stockedAmount);
   }
 
   return stateCopy;

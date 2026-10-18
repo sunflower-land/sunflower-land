@@ -4,7 +4,7 @@ import type { SceneId } from "../mmoMachine";
 import { BaseScene, type NPCBumpkin } from "./BaseScene";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { interactableModalManager } from "../ui/InteractableModals";
-import { translateForBubble } from "lib/i18n/translate";
+import { translate } from "lib/i18n/translate";
 import type { InventoryItemName } from "features/game/types/game";
 
 import { getUTCDateString } from "lib/utils/time";
@@ -85,6 +85,7 @@ export class BeachScene extends BaseScene {
   digSoundsCooldown = false;
   sandHole?: Phaser.GameObjects.Image;
   digbyAlertSprite: Phaser.GameObjects.Sprite | undefined;
+  treasureShopIcon?: Phaser.GameObjects.Sprite | undefined;
 
   constructor() {
     super({ name: "beach", map: { json: mapJSON } });
@@ -280,23 +281,8 @@ export class BeachScene extends BaseScene {
       hank.play("hank_anim", true);
     }
 
-    const treasureShop = this.add.sprite(464, 194, "treasure_shop");
-    this.physics.world.enable(treasureShop);
-    this.colliders?.add(treasureShop);
-    this.triggerColliders?.add(treasureShop);
-    (treasureShop.body as Phaser.Physics.Arcade.Body)
-      .setSize(69, 50)
-      .setOffset(0, 0)
-      .setImmovable(true)
-      .setCollideWorldBounds(true);
-    this.add.sprite(464, 174, "shop_icon");
-    treasureShop.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      if (this.checkDistanceToSprite(treasureShop, 75)) {
-        npcModalManager.open("jafar");
-      } else {
-        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
-      }
-    });
+    // Main treasure shop
+    this.treasureShop(464, 194, "treasure_shop", true, 1);
 
     const beachBud2 = this.add.sprite(348, 397, "beach_bud_2");
     // turtle.setScale(-1, 1);
@@ -364,7 +350,7 @@ export class BeachScene extends BaseScene {
       if (this.checkDistanceToSprite(chest, 75)) {
         interactableModalManager.open("rare_chest");
       } else {
-        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
 
@@ -395,7 +381,7 @@ export class BeachScene extends BaseScene {
       if (this.checkDistanceToSprite(pirateChest, 75)) {
         interactableModalManager.open("pirate_chest");
       } else {
-        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
 
@@ -430,6 +416,37 @@ export class BeachScene extends BaseScene {
     this.currentSelectedItem = this.selectedItem;
 
     this.setupPopups();
+  }
+
+  private treasureShop(
+    x: number,
+    y: number,
+    icon: string,
+    physics: boolean,
+    scale: number,
+  ) {
+    const treasureShop = this.add.sprite(x, y, icon);
+    treasureShop.setScale(scale);
+    if (physics) {
+      this.physics.world.enable(treasureShop);
+      this.colliders?.add(treasureShop);
+      this.triggerColliders?.add(treasureShop);
+      (treasureShop.body as Phaser.Physics.Arcade.Body)
+        .setSize(69, 50)
+        .setOffset(0, 0)
+        .setImmovable(true)
+        .setCollideWorldBounds(true);
+    }
+    this.add.sprite(464, 174, "shop_icon");
+    treasureShop.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      if (this.checkDistanceToSprite(treasureShop, 75)) {
+        npcModalManager.open("jafar");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
+      }
+    });
+
+    return treasureShop;
   }
 
   setupPopups = () => {
@@ -821,6 +838,7 @@ export class BeachScene extends BaseScene {
       (this.selectedItem === "Sand Drill" && sandDrillsCount > 0) ||
       (this.selectedItem === "Sand Shovel" && sandShovelsCount > 0) ||
       this.isAncientShovelActive;
+    this.hideTreasureShopIcon();
 
     if (!hasTool || !this.hasDigsLeft) {
       if (!hasDugHere) {
@@ -1375,10 +1393,19 @@ export class BeachScene extends BaseScene {
   public handleDigbyWarnings = () => {
     if (!this.currentPlayer) return;
 
+    const body = this.currentPlayer.body as
+      | Phaser.Physics.Arcade.Body
+      | undefined;
+    const isMoving = !!body && (body.velocity.x !== 0 || body.velocity.y !== 0);
+
+    if (isMoving) {
+      this.hideTreasureShopIcon();
+    }
+
     if (this.percentageTreasuresFound >= 100 && !this.hasClaimedStreakReward) {
       if (this.alreadyNotifiedOfClaim) return;
 
-      this.npcs.digby?.speak(translateForBubble("digby.claimPrize"));
+      this.npcs.digby?.speak(translate("digby.claimPrize"));
       this.alreadyNotifiedOfClaim = true;
       return;
     }
@@ -1386,7 +1413,7 @@ export class BeachScene extends BaseScene {
     if (!this.hasDigsLeft) {
       if (this.alreadyWarnedOfNoDigs) return;
 
-      this.npcs.digby?.speak(translateForBubble("digby.noDigsLeft"));
+      this.npcs.digby?.speak(translate("digby.noDigsLeft"));
       this.alreadyWarnedOfNoDigs = true;
 
       return;
@@ -1404,16 +1431,44 @@ export class BeachScene extends BaseScene {
       this.selectedItem !== "Sand Drill" &&
       !this.isAncientShovelActive
     ) {
-      this.npcs.digby?.speak(translateForBubble("digby.noShovels"));
-
+      this.npcs.digby?.speak(translate("digby.noShovels"));
+      if (!isMoving) {
+        this.showTreasureShopIcon(
+          this.currentPlayer.x,
+          this.currentPlayer.y - 18,
+        );
+      }
       return;
     }
 
     if (this.selectedItem === "Sand Drill" && sandDrills.lt(1)) {
-      this.npcs.digby?.speak(translateForBubble("digby.noDrills"));
+      this.npcs.digby?.speak(translate("digby.noDrills"));
 
       return;
     }
+  };
+
+  private showTreasureShopIcon = (x: number, y: number) => {
+    const roundedX = Math.round(x);
+    const roundedY = Math.round(y);
+
+    if (!this.treasureShopIcon) {
+      this.treasureShopIcon = this.treasureShop(
+        roundedX,
+        roundedY,
+        "shop_icon",
+        false,
+        0.7,
+      );
+    } else {
+      this.treasureShopIcon.setPosition(roundedX, roundedY);
+      this.treasureShopIcon.setVisible(true);
+    }
+  };
+
+  private hideTreasureShopIcon = () => {
+    this.treasureShopIcon?.destroy();
+    this.treasureShopIcon = undefined;
   };
 
   public handleActionSFX = () => {
@@ -1672,6 +1727,7 @@ export class BeachScene extends BaseScene {
       // this.noToolHoverBox?.setVisible(false);
       this.alreadyWarnedOfNoDigs = false;
       this.alreadyNotifiedOfClaim = false;
+      this.hideTreasureShopIcon();
       super.update();
     }
 

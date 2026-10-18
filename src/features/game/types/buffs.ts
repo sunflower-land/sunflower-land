@@ -4,6 +4,7 @@ import { getKeys } from "lib/object";
 import { CROPS } from "./crops";
 import { useNow } from "lib/utils/hooks/useNow";
 import { refreshBasicScarecrowTimeAOE } from "features/game/lib/aoe";
+import { appendBoostHistory } from "features/game/lib/boostWindows";
 
 // 50% faster crops, +0.2 Crops
 export type BuffName = "Power hour";
@@ -61,6 +62,21 @@ export function applyBuff({
 }) {
   const gameClone = cloneDeep(game);
   if (buff === "Power hour") {
+    // The new Power Hour overwrites the previous one, so archive the previous
+    // window first — crops still growing keep the time it already sped up.
+    const previous = gameClone.buffs?.[buff];
+    if (previous && previous.startedAt !== now) {
+      appendBoostHistory(
+        gameClone,
+        buff,
+        {
+          from: previous.startedAt,
+          to: previous.startedAt + previous.durationMS,
+        },
+        now,
+      );
+    }
+
     // Activate the buff FIRST so its speed window is live when we refresh
     // windowed crop timing / AOE below.
     gameClone.buffs = {

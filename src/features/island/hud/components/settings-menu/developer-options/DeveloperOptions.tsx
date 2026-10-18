@@ -8,6 +8,12 @@ import { Context as GameContext } from "features/game/GameProvider";
 import { hasFeatureAccess } from "lib/flags";
 import { useSelector } from "@xstate/react";
 
+/**
+ * Community API keys are issued in the docs sandbox, never in the game — the
+ * client no longer receives a key at all. This button just sends people there.
+ */
+const COMMUNITY_DOCS_URL = "https://sunflower-land.com/community-docs";
+
 export const DeveloperOptions: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
   onClose,
@@ -27,11 +33,18 @@ export const DeveloperOptions: React.FC<ContentComponentProps> = ({
 
   const hasAirdrop = hasFeatureAccess(game, "AIRDROP_PLAYER");
   const isModerator = hasFeatureAccess(game, "MODERATOR");
+  const hasTriggerCaptcha =
+    isModerator || hasFeatureAccess(game, "TRIGGER_CAPTCHA");
 
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
-        <Button className="p-1" onClick={() => onSubMenuClick("apiKey")}>
+        <Button
+          className="p-1"
+          onClick={() =>
+            window.open(COMMUNITY_DOCS_URL, "_blank", "noopener,noreferrer")
+          }
+        >
           <span>{t("share.apiKey")}</span>
         </Button>
         {hasAirdrop && (
@@ -50,6 +63,23 @@ export const DeveloperOptions: React.FC<ContentComponentProps> = ({
         {isModerator && (
           <Button onClick={() => onSubMenuClick("errorSearch")} className="p-1">
             {`Error Search`}
+          </Button>
+        )}
+        {hasTriggerCaptcha && (
+          <Button
+            onClick={() => {
+              // Fires on your own farm - handy for testing the captcha flow
+              gameService.send("admin.captchaTriggered", {
+                effect: {
+                  type: "admin.captchaTriggered",
+                  farmId: gameService.state.context.farmId,
+                },
+              });
+              onClose();
+            }}
+            className="p-1"
+          >
+            {`Trigger Captcha`}
           </Button>
         )}
         {hasAdminDashboards && (
@@ -74,6 +104,7 @@ export const DeveloperOptions: React.FC<ContentComponentProps> = ({
           </Button>
         )}
       </div>
+      <p className="text-xxs p-1 mt-2">{t("share.apiKeyDescription")}</p>
     </>
   );
 };

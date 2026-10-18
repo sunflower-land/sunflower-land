@@ -124,6 +124,7 @@ export type NPCName =
   | "Slime Joe" // Colors event NPC
   | "Vampire Jim" // Halloween event NPC
   | "Skelly Joe"; // Halloween event NPC
+  | "gloomwick"; // Goblin Cave Merchant (Chapter 16)
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   streamer: {
@@ -1432,6 +1433,13 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Hook and Chain",
     wings: "Sky Tearer Wings",
     aura: "Bat Aura",
+  gloomwick: {
+    body: "Goblin Potion",
+    hair: "Buzz Cut",
+    suit: "Traveling Merchant Suit",
+    wings: "Traveling Merchant Bag",
+    shoes: "Black Farmer Boots",
+    background: "Goblin Retreat Background",
   },
 };
 

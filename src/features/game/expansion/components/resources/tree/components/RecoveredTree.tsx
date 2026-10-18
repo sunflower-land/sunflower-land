@@ -23,6 +23,7 @@ import {
 } from "features/island/biomes/biomes";
 import { Context } from "features/game/GameProvider";
 import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
+import { getTranslatedItemName } from "features/game/types/images";
 
 const tool = "Axe";
 
@@ -162,7 +163,7 @@ const RecoveredTreeComponent: React.FC<Props> = ({
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="text-xs mx-1 p-1">
               <span>
-                {t("craft")} {tool.toLowerCase()}
+                {t("craft")} {getTranslatedItemName(tool).toLowerCase()}
               </span>
             </div>
           </InnerPanel>

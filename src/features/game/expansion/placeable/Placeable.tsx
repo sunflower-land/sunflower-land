@@ -55,11 +55,13 @@ type PlaceableArgs = {
   season: TemperateSeasonName;
   henHouseLevel: number;
   barnLevel: number;
+  pigpenLevel: number;
   placeableId?: string;
 };
 
 export const PLACEABLES = (args: PlaceableArgs) => {
-  const { island, season, henHouseLevel, barnLevel, placeableId } = args;
+  const { island, season, henHouseLevel, barnLevel, pigpenLevel, placeableId } =
+    args;
   const biome: LandBiomeName = getCurrentBiome(island);
 
   return {
@@ -68,7 +70,13 @@ export const PLACEABLES = (args: PlaceableArgs) => {
       season,
       island,
     }),
-    ...READONLY_BUILDINGS({ island, season, henHouseLevel, barnLevel }),
+    ...READONLY_BUILDINGS({
+      island,
+      season,
+      henHouseLevel,
+      barnLevel,
+      pigpenLevel,
+    }),
     FarmHand: () => <FarmHand id={placeableId ?? ""} />,
     Bumpkin: () => <PlacedBumpkin />,
     "Dirt Path": () => (
@@ -133,6 +141,7 @@ const _season = (state: MachineState) => state.context.state.season.season;
 const _henHouseLevel = (state: MachineState) =>
   state.context.state.henHouse.level;
 const _barnLevel = (state: MachineState) => state.context.state.barn.level;
+const _pigpenLevel = (state: MachineState) => state.context.state.pigpen.level;
 const _crops = (state: MachineState) => state.context.state.crops;
 const _collectibles = (state: MachineState) => state.context.state.collectibles;
 const _landscapingMachine = (state: MachineState) =>
@@ -147,6 +156,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
   const season = useSelector(gameService, _season);
   const henHouseLevel = useSelector(gameService, _henHouseLevel);
   const barnLevel = useSelector(gameService, _barnLevel);
+  const pigpenLevel = useSelector(gameService, _pigpenLevel);
   const crops = useSelector(gameService, _crops);
   const collectibles = useSelector(gameService, _collectibles);
   const bumpkin = useSelector(gameService, _bumpkin);
@@ -287,6 +297,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
     season,
     henHouseLevel,
     barnLevel,
+    pigpenLevel,
     placeableId: placeable.id,
   })[placeable.name];
 

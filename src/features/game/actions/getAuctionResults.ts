@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 import type { LeaderboardBid } from "../lib/auctionMachine";
 
@@ -20,7 +21,7 @@ export async function getAuctionResults(request: Request): Promise<{
   supply: number;
   endAt: number;
 }> {
-  const response = await window.fetch(
+  const response = await fetchWithRetry(
     `${API_URL}/auction/${request.auctionId}/results/${request.farmId}`,
     {
       method: "GET",

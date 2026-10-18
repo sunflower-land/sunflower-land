@@ -30,6 +30,9 @@ export interface MoonForgeGameState {
 }
 
 export const MoonForgeAnalytics: {
+  markIdentified(): void;
+  /** @internal Test-only seam for clearing buffering state between cases. */
+  resetBuffering(): void;
   init(options: MoonForgeInitOptions): MoonForgeInitOptions | undefined;
   trackEvent(
     name: string,

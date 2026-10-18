@@ -95,6 +95,14 @@ function getPlantedAt({
 }: GetPlantedAtArgs): {
   plantedAt: number;
   baseDurationMs?: number;
+  /**
+   * Legacy model only: the back-date applied to `plantedAt` (ms). It is a
+   * DISCOUNT, not growth already done, so the pot's progress bar has to
+   * un-back-date with it — otherwise a heavily boosted plant opens its bar
+   * near-full. Mirrors `PlantedCrop.boostedTime` (see plant.ts/getBoostedTime).
+   * Omitted when nothing boosts the grow time.
+   */
+  boostedTime?: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
   if (!crop) return { plantedAt: 0, boostsUsed: [] };
@@ -105,6 +113,7 @@ function getPlantedAt({
     crop,
     game,
     greenhouseFertiliser,
+    now: createdAt,
   });
 
   if (hasFeatureAccess(game, "SPEED_BOOSTS")) {
@@ -120,19 +129,25 @@ function getPlantedAt({
     };
   }
 
-  const offset = cropTime - boostedTime;
+  const offsetMs = (cropTime - boostedTime) * 1000;
 
-  return { plantedAt: createdAt - offset * 1000, boostsUsed };
+  return {
+    plantedAt: createdAt - offsetMs,
+    ...(offsetMs > 0 ? { boostedTime: offsetMs } : {}),
+    boostsUsed,
+  };
 }
 
 export const getGreenhouseCropTime = ({
   crop,
   game,
   greenhouseFertiliser,
+  now,
 }: {
   crop: GreenHouseCropName | GreenHouseFruitName;
   game: GameState;
   greenhouseFertiliser?: GreenhouseCompostName;
+  now: number;
 }): { seconds: number; boostsUsed: { name: BoostName; value: string }[] } => {
   let seconds = GREENHOUSE_CROP_TIME_SECONDS[crop];
   const boostsUsed: { name: BoostName; value: string }[] = [];
@@ -150,12 +165,13 @@ export const getGreenhouseCropTime = ({
       getCropTime({
         game,
         crop,
+        now,
       });
     seconds *= baseMultiplier;
     boostsUsed.push(...cropBoostsUsed);
   } else {
     const { multiplier: baseMultiplier, boostsUsed: fruitBoostsUsed } =
-      getFruitTime({ game });
+      getFruitTime({ game, now });
     seconds *= baseMultiplier;
     boostsUsed.push(...fruitBoostsUsed);
   }
@@ -167,7 +183,7 @@ export const getGreenhouseCropTime = ({
 
   if (
     !windowed &&
-    isTemporaryCollectibleActive({ name: "Tortoise Shrine", game })
+    isTemporaryCollectibleActive({ name: "Tortoise Shrine", game, now })
   ) {
     seconds *= 2 / 3; // -33% growth time
     boostsUsed.push({ name: "Tortoise Shrine", value: "x0.67" });
@@ -311,18 +327,21 @@ export function plantGreenhouse({
     }
 
     const plantName = SEED_TO_PLANT[action.seed];
-    const { plantedAt, baseDurationMs, boostsUsed } = getPlantedAt({
-      createdAt,
-      crop: plantName,
-      game,
-      greenhouseFertiliser: pot.fertiliser?.name,
-    });
+    const { plantedAt, baseDurationMs, boostedTime, boostsUsed } = getPlantedAt(
+      {
+        createdAt,
+        crop: plantName,
+        game,
+        greenhouseFertiliser: pot.fertiliser?.name,
+      },
+    );
     game.greenhouse.pots[potId] = {
       ...pot,
       plant: {
         name: plantName,
         plantedAt,
         ...(baseDurationMs !== undefined ? { baseDurationMs } : {}),
+        ...(boostedTime !== undefined ? { boostedTime } : {}),
       },
     };
 

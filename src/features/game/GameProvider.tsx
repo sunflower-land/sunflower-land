@@ -26,6 +26,8 @@ import {
   getShowTimersSetting,
 } from "features/farming/hud/lib/timers";
 import { initInteractionMetrics } from "./lib/interactionMetrics";
+import { ART_MODE } from "features/auth/lib/authMachine";
+import { installPreviewShareHelper } from "./lib/preview/previewShare";
 
 interface GameContext {
   shortcutItem: (item: InventoryItemName) => void;
@@ -62,6 +64,15 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
   useEffect(() => {
     initInteractionMetrics();
   }, []);
+
+  // ART_MODE / PR previews: expose `__sflPreview.link()` on the console so a
+  // tester can copy a URL that reproduces the state they clicked into.
+  useEffect(() => {
+    if (!ART_MODE) return;
+    return installPreviewShareHelper(
+      () => gameService.getSnapshot().context.state,
+    );
+  }, [gameService]);
 
   useEffect(() => {
     const handleRouteChange = () => {
