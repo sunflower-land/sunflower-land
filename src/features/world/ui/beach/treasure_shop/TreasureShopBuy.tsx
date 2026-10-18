@@ -57,7 +57,7 @@ interface ToolContentProps {
 }
 const _state = (state: MachineState) => state.context.state;
 
-const ToolContent: React.FC<ToolContentProps> = ({ selectedName }) => {
+export const ToolContent: React.FC<ToolContentProps> = ({ selectedName }) => {
   const { t } = useAppTranslation();
 
   const { gameService, shortcutItem } = useContext(Context);
@@ -575,45 +575,6 @@ export const TreasureShopBuy: React.FC = () => {
                 />
               );
             })}
-          </div>
-        </div>
-      }
-    />
-  );
-};
-
-const _inventory = (state: MachineState) => state.context.state.inventory;
-
-/**
- * Jafar's tool shelf on its own: Sand Shovels and Sand Drills. Gloomwick sells
- * the same tools from the same stock in the Cave.
- */
-export const TreasureToolsShop: React.FC = () => {
-  const { t } = useAppTranslation();
-  const { gameService, shortcutItem } = useContext(Context);
-  const inventory = useSelector(gameService, _inventory);
-  const [selectedName, setSelectedName] =
-    useState<TreasureToolName>("Sand Shovel");
-
-  return (
-    <SplitScreenView
-      panel={<ToolContent selectedName={selectedName} />}
-      content={
-        <div className="flex flex-col w-full">
-          <Label type="default">{t("tools")}</Label>
-          <div className="flex flex-wrap mb-2">
-            {getKeys(TREASURE_TOOLS).map((toolName) => (
-              <Box
-                isSelected={selectedName === toolName}
-                key={toolName}
-                onClick={() => {
-                  setSelectedName(toolName);
-                  shortcutItem(toolName);
-                }}
-                image={ITEM_DETAILS[toolName].image}
-                count={inventory[toolName]}
-              />
-            ))}
           </div>
         </div>
       }
