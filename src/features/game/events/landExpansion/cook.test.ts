@@ -1892,6 +1892,12 @@ describe("cook: Truffle recipes (Chapter 16)", () => {
     });
   });
 
+  it("no longer charges Wild Mushroom for the roast", () => {
+    const state = roast(farm({ ...INPUTS, "Wild Mushroom": new Decimal(10) }));
+
+    expect(state.inventory["Wild Mushroom"]).toEqual(new Decimal(10));
+  });
+
   describe("off testnet", () => {
     // jest runs on amoy, so the flag-off path is only reachable by pretending
     // to be mainnet.
