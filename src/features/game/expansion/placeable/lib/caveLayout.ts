@@ -96,7 +96,7 @@ export const CAVE_CONSTRUCTION_SITES: Record<number, CaveTileRect> = {
  * The Goblin Cave Merchant's alcove by the entrance arch. The room draws it
  * from tier I; the goblin stands at its right-hand side.
  */
-export const CAVE_MERCHANT_ALCOVE: CaveTileRect = rect(32, 22, 9, 5);
+export const CAVE_MERCHANT_ALCOVE: CaveTileRect = rect(31, 22, 10, 5);
 export const CAVE_MERCHANT_ALCOVE_TIER = 1;
 
 /** The ladder out, top-left of the first room. */

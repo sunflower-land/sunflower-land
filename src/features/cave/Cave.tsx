@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useState } from "react";
+import React, { useContext, useLayoutEffect, useRef, useState } from "react";
 import { NPC_WEARABLES } from "lib/npcs";
 import { useSelector } from "@xstate/react";
 import { Navigate, useNavigate } from "react-router";
@@ -13,7 +13,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasFeatureAccess } from "lib/flags";
 import { isCaveBuildingReady } from "features/game/lib/cave";
 import { useNow } from "lib/utils/hooks/useNow";
-import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
+import { Section } from "lib/utils/hooks/useScrollIntoView";
 import {
   CAVE_CONSTRUCTION_SITES,
   CAVE_IMAGE_SIZE,
@@ -91,10 +91,15 @@ export const Cave: React.FC = () => {
   const [selectedMachine, setSelectedMachine] = useState<string>();
   const [showExpansion, setShowExpansion] = useState(false);
   const [showMerchant, setShowMerchant] = useState(false);
-  const [scrollIntoView] = useScrollIntoView();
+  const entryRef = useRef<HTMLDivElement>(null);
 
+  // Open on the ladder at the room's top-left, not the room's centre.
   useLayoutEffect(() => {
-    scrollIntoView(Section.GenesisBlock, "auto");
+    entryRef.current?.scrollIntoView({
+      behavior: "auto",
+      block: "start",
+      inline: "start",
+    });
   }, []);
 
   // Reached by URL without access or before the Cave building is placed and
@@ -142,6 +147,19 @@ export const Cave: React.FC = () => {
                 alt=""
               />
 
+              {/* Where the view opens: its top-left corner sits 2 tiles above
+              and 5 tiles left of the ladder. */}
+              <div
+                ref={entryRef}
+                className="absolute pointer-events-none"
+                style={tileStyle({
+                  x: CAVE_LADDER.x - 5,
+                  y: CAVE_LADDER.y - 2,
+                  width: 1,
+                  height: 1,
+                })}
+              />
+
               {/* The ladder out. A native button so keyboard users can leave. */}
               <button
                 type="button"
@@ -160,7 +178,7 @@ export const Cave: React.FC = () => {
                 aria-label={t("cave.merchant.title")}
                 className="absolute cursor-pointer bg-transparent border-0 p-0 hover:img-highlight"
                 style={{
-                  left: `${(CAVE_MERCHANT_ALCOVE.x + 5) * GRID_WIDTH_PX}px`,
+                  left: `${(CAVE_MERCHANT_ALCOVE.x + CAVE_MERCHANT_ALCOVE.width - 4) * GRID_WIDTH_PX}px`,
                   top: `${(CAVE_MERCHANT_ALCOVE.y + 2) * GRID_WIDTH_PX}px`,
                 }}
                 onClick={() => setShowMerchant(true)}
