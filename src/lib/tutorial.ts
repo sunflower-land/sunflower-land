@@ -65,7 +65,16 @@ function getAcknowledgements(): Tutorials {
       return {};
     }
 
-    return JSON.parse(obj) as Tutorials;
+    const parsed: unknown = JSON.parse(obj);
+    if (
+      typeof parsed !== "object" ||
+      parsed === null ||
+      Array.isArray(parsed)
+    ) {
+      throw new Error("Tutorial acknowledgements are not an object");
+    }
+
+    return parsed as Tutorials;
   } catch (e) {
     // eslint-disable-next-line no-console
     console.warn("Could not read tutorial acknowledgements: ", e);
