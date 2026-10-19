@@ -8657,7 +8657,6 @@
   "cave.batch.growing": "生长中",
   "cave.batch.ready": "可以开挖了！",
   "cave.batch.finishNow": "立即完成",
-  "cave.batch.confirmFinish": "立即完成这一批次？",
   "auction.addToCalendar": "添加到日历",
   "auction.calendarEventTitle": "Sunflower Land 拍卖：{{item}}",
   "gameOptions.experiments.auctionCalendar": "拍卖日历",

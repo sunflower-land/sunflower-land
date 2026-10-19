@@ -8657,7 +8657,6 @@
   "cave.batch.growing": "Creciendo",
   "cave.batch.ready": "¡Listo para cavar!",
   "cave.batch.finishNow": "Termina ahora",
-  "cave.batch.confirmFinish": "¿Terminar este lote al instante?",
   "auction.addToCalendar": "Añadir al calendario",
   "auction.calendarEventTitle": "Subasta Sunflower Land: {{item}}",
   "gameOptions.experiments.auctionCalendar": "Calendario de subastas",

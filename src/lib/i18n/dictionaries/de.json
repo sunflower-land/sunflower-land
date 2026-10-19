@@ -8657,7 +8657,6 @@
   "cave.batch.growing": "Wachsend",
   "cave.batch.ready": "Bereit zum Graben!",
   "cave.batch.finishNow": "Jetzt fertig",
-  "cave.batch.confirmFinish": "Diesen Stapel sofort fertigstellen?",
   "auction.addToCalendar": "Zum Kalender hinzufügen",
   "auction.calendarEventTitle": "Auktion Sonnenblumenland: {{item}}",
   "gameOptions.experiments.auctionCalendar": "Auktionskalender",

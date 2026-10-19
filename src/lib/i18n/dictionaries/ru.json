@@ -8657,7 +8657,6 @@
   "cave.batch.growing": "Growing",
   "cave.batch.ready": "Ready to dig!",
   "cave.batch.finishNow": "Finish now",
-  "cave.batch.confirmFinish": "Instantly finish this batch?",
   "auction.addToCalendar": "Add to calendar",
   "auction.calendarEventTitle": "Sunflower Land auction: {{item}}",
   "gameOptions.experiments.auctionCalendar": "Auction calendar",

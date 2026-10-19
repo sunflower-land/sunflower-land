@@ -8657,7 +8657,6 @@
   "cave.batch.growing": "Büyüyen",
   "cave.batch.ready": "Kazmaya hazır!",
   "cave.batch.finishNow": "Şimdi bitirin",
-  "cave.batch.confirmFinish": "Bu partiyi anında bitirdin mi?",
   "auction.addToCalendar": "Takvime ekle",
   "auction.calendarEventTitle": "Ayçiçeği Toprağı müzayedesi: {{item}}",
   "gameOptions.experiments.auctionCalendar": "Açık artırma takvimi",
