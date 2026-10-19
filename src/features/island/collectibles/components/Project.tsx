@@ -608,8 +608,9 @@ export const Project: React.FC<ProjectProps> = (input) => {
       return;
     }
 
+    // Keep the modal open: collecting clears the project, so it switches to
+    // the start prompt and the player can begin the next one right away.
     gameService.send("project.collected", { project: input.project });
-    setShowDetails(false);
   };
 
   const handleStartProject = () => {
