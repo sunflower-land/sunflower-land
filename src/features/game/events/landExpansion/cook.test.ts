@@ -1851,9 +1851,8 @@ describe("cook (SPEED_BOOSTS windowed)", () => {
 describe("cook: Truffle recipes (Chapter 16)", () => {
   const FIRE_PIT_ID = "fire-pit-1";
   const INPUTS: GameState["inventory"] = {
-    Truffle: new Decimal(10),
-    Potato: new Decimal(50),
-    "Wild Mushroom": new Decimal(10),
+    Truffle: new Decimal(1),
+    Potato: new Decimal(30),
   };
 
   const farm = (inventory: GameState["inventory"] = INPUTS): GameState => ({
@@ -1883,15 +1882,20 @@ describe("cook: Truffle recipes (Chapter 16)", () => {
       createdAt,
     });
 
-  it("charges 10 Truffle, 50 Potato and 10 Wild Mushroom and queues the roast", () => {
+  it("charges 1 Truffle and 30 Potato and queues the roast", () => {
     const state = roast(farm());
 
     expect(state.inventory.Truffle).toEqual(new Decimal(0));
     expect(state.inventory.Potato).toEqual(new Decimal(0));
-    expect(state.inventory["Wild Mushroom"]).toEqual(new Decimal(0));
     expect(state.buildings["Fire Pit"]?.[0].crafting?.[0]).toMatchObject({
       name: "Ember-Roasted Truffle Potatoes",
     });
+  });
+
+  it("no longer charges Wild Mushroom for the roast", () => {
+    const state = roast(farm({ ...INPUTS, "Wild Mushroom": new Decimal(10) }));
+
+    expect(state.inventory["Wild Mushroom"]).toEqual(new Decimal(10));
   });
 
   describe("off testnet", () => {
