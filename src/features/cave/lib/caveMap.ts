@@ -23,7 +23,7 @@ type TiledTileLayer = {
 type TiledGroupLayer = {
   type: "group";
   name: string;
-  layers: TiledTileLayer[];
+  layers: (TiledTileLayer | TiledGroupLayer)[];
 };
 
 export type CaveTiledMap = {
@@ -48,13 +48,30 @@ const STAIR_LAYER = "stair";
 const SIGN_OFFSET = { x: 1, y: 0, w: 5, h: 3 };
 const DIG_OFFSET = { x: 1, y: 5 };
 
+// Searches a group and its sub-groups (the Merchant's alcove sits in a
+// `decors` group inside the room).
+function findTileLayer(
+  layers: (TiledTileLayer | TiledGroupLayer)[],
+  name: string,
+): TiledTileLayer | undefined {
+  for (const layer of layers) {
+    if (layer.type === "tilelayer" && layer.name === name) return layer;
+    if (layer.type === "group") {
+      const found = findTileLayer(layer.layers, name);
+      if (found) return found;
+    }
+  }
+
+  return undefined;
+}
+
 function roomLayer(map: CaveTiledMap, tier: number, name: string) {
   const group = map.layers.find(
     (layer): layer is TiledGroupLayer =>
       layer.type === "group" && layer.name === `room${tier}`,
   );
 
-  return group?.layers.find((layer) => layer.name === name);
+  return group && findTileLayer(group.layers, name);
 }
 
 function topLayer(map: CaveTiledMap, name: string): TiledTileLayer {

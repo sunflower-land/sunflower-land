@@ -91,9 +91,9 @@ describe("caveMap (the artist's Tiled map)", () => {
     it("is drawn at every tier, from tier 1", () => {
       [1, 2, 3, 4, 5, 6, 7, 8].forEach((tier) => {
         expect(getCaveMerchantAlcove(map, tier)).toEqual({
-          x: 32 * 16,
+          x: 31 * 16,
           y: 22 * 16,
-          width: 9 * 16,
+          width: 10 * 16,
           height: 5 * 16,
         });
       });
@@ -104,7 +104,7 @@ describe("caveMap (the artist's Tiled map)", () => {
     expect(getCaveStair(map)).toEqual({
       x: 20 * 16,
       y: 21 * 16,
-      width: 16,
+      width: 32,
       height: 64,
     });
   });

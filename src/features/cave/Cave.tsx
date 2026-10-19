@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useState } from "react";
+import React, { useContext, useLayoutEffect, useRef, useState } from "react";
 import { NPC_WEARABLES } from "lib/npcs";
 import { useSelector } from "@xstate/react";
 import { Navigate, useNavigate } from "react-router";
@@ -6,14 +6,14 @@ import ScrollContainer from "react-indiana-drag-scroll";
 
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasFeatureAccess } from "lib/flags";
 import { isCaveBuildingReady } from "features/game/lib/cave";
 import { useNow } from "lib/utils/hooks/useNow";
-import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
+import { Section } from "lib/utils/hooks/useScrollIntoView";
 import {
   CAVE_CONSTRUCTION_SITES,
   CAVE_IMAGE_SIZE,
@@ -33,7 +33,8 @@ import { CaveMerchantModal } from "./components/CaveMerchantModal";
 import { CavePatch } from "./components/CavePatch";
 import {
   CAVE_LADDER_IMAGE,
-  CAVE_MYCO_BIN_IMAGE,
+  CAVE_LADDER_SPRITE,
+  getCaveMycoBinImage,
   getCaveRoomImage,
 } from "./lib/caveImages";
 import { Hud } from "features/island/hud/Hud";
@@ -56,15 +57,25 @@ const tileStyle = (rect: CaveTileRect): React.CSSProperties => ({
 });
 
 /**
- * A copy of art the room image already draws, shown only while its button is
- * hovered so the highlight outlines the art rather than the hitbox.
+ * A sprite drawn over the room inside its button, highlighted while the button
+ * is hovered so the outline follows the art rather than the hitbox.
  */
-const HoverHighlight: React.FC<{ src: string }> = ({ src }) => (
+const Sprite: React.FC<{ src: string; style?: React.CSSProperties }> = ({
+  src,
+  style,
+}) => (
   <img
     src={src}
     alt=""
-    className="absolute inset-0 w-full h-full pointer-events-none opacity-0 group-hover:opacity-100 group-hover:img-highlight"
-    style={{ imageRendering: "pixelated" }}
+    className="absolute pointer-events-none group-hover:img-highlight"
+    style={{
+      left: 0,
+      top: 0,
+      width: "100%",
+      height: "100%",
+      imageRendering: "pixelated",
+      ...style,
+    }}
   />
 );
 
@@ -91,10 +102,15 @@ export const Cave: React.FC = () => {
   const [selectedMachine, setSelectedMachine] = useState<string>();
   const [showExpansion, setShowExpansion] = useState(false);
   const [showMerchant, setShowMerchant] = useState(false);
-  const [scrollIntoView] = useScrollIntoView();
+  const entryRef = useRef<HTMLDivElement>(null);
 
+  // Open on the ladder at the room's top-left, not the room's centre.
   useLayoutEffect(() => {
-    scrollIntoView(Section.GenesisBlock, "auto");
+    entryRef.current?.scrollIntoView({
+      behavior: "auto",
+      block: "start",
+      inline: "start",
+    });
   }, []);
 
   // Reached by URL without access or before the Cave building is placed and
@@ -142,6 +158,19 @@ export const Cave: React.FC = () => {
                 alt=""
               />
 
+              {/* Where the view opens: its top-left corner sits 2 tiles above
+              and 5 tiles left of the ladder. */}
+              <div
+                ref={entryRef}
+                className="absolute pointer-events-none"
+                style={tileStyle({
+                  x: CAVE_LADDER.x - 5,
+                  y: CAVE_LADDER.y - 2,
+                  width: 1,
+                  height: 1,
+                })}
+              />
+
               {/* The ladder out. A native button so keyboard users can leave. */}
               <button
                 type="button"
@@ -150,7 +179,14 @@ export const Cave: React.FC = () => {
                 style={tileStyle(CAVE_LADDER)}
                 onClick={() => navigate("/")}
               >
-                <HoverHighlight src={CAVE_LADDER_IMAGE} />
+                <Sprite
+                  src={CAVE_LADDER_IMAGE}
+                  style={{
+                    top: `${CAVE_LADDER_SPRITE.top * PIXEL_SCALE}px`,
+                    width: `${CAVE_LADDER_SPRITE.width * PIXEL_SCALE}px`,
+                    height: `${CAVE_LADDER_SPRITE.height * PIXEL_SCALE}px`,
+                  }}
+                />
               </button>
 
               {/* Goblin Cave Merchant beside the entrance arch, under his sign. A
@@ -160,7 +196,7 @@ export const Cave: React.FC = () => {
                 aria-label={t("cave.merchant.title")}
                 className="absolute cursor-pointer bg-transparent border-0 p-0 hover:img-highlight"
                 style={{
-                  left: `${(CAVE_MERCHANT_ALCOVE.x + 5) * GRID_WIDTH_PX}px`,
+                  left: `${(CAVE_MERCHANT_ALCOVE.x + CAVE_MERCHANT_ALCOVE.width - 4) * GRID_WIDTH_PX}px`,
                   top: `${(CAVE_MERCHANT_ALCOVE.y + 2) * GRID_WIDTH_PX}px`,
                 }}
                 onClick={() => setShowMerchant(true)}
@@ -174,7 +210,8 @@ export const Cave: React.FC = () => {
 
                 return (
                   <React.Fragment key={`slot-${id}`}>
-                    {/* The Myco Bin the room draws — opens the batch popover. */}
+                    {/* The Myco Bin, showing what it is composting — opens the
+                    batch popover. */}
                     <button
                       type="button"
                       aria-label={t("cave.machine", { id })}
@@ -182,7 +219,7 @@ export const Cave: React.FC = () => {
                       style={tileStyle(slot.sign)}
                       onClick={() => setSelectedMachine(String(id))}
                     >
-                      <HoverHighlight src={CAVE_MYCO_BIN_IMAGE} />
+                      <Sprite src={getCaveMycoBinImage(batch, now)} />
                     </button>
 
                     {/* 5x5 digging patch on the slot's sand. */}
