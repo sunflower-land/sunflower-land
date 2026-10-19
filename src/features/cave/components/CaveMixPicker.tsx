@@ -25,6 +25,7 @@ import {
   getCaveBatchSkills,
 } from "features/game/lib/cave";
 import { getKeys } from "lib/object";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import {
   ITEM_DETAILS,
   getTranslatedItemName,
@@ -41,6 +42,7 @@ import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import powerup from "assets/icons/level_up.png";
 import { CaveBuriedTiles, RECIPE_IMAGE, TILE_IMAGE } from "./CaveBuriedTiles";
+import { CaveTutorialHand } from "./CaveTutorial";
 
 const RECIPE_NAMES = getKeys(CAVE_RECIPES);
 const MUD_CROPS = getKeys(CAVE_MUD_CROPS);
@@ -66,6 +68,8 @@ interface Props {
   machineId: string;
   batch?: CaveBatch;
   onStarted: () => void;
+  /** Point the Cave tutorial hand at Start while the selected mix is affordable. */
+  showTutorialHand?: boolean;
 }
 
 /**
@@ -76,6 +80,7 @@ export const CaveMixPicker: React.FC<Props> = ({
   machineId,
   batch,
   onStarted,
+  showTutorialHand,
 }) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
@@ -243,14 +248,29 @@ export const CaveMixPicker: React.FC<Props> = ({
         </Label>
       )}
 
-      <Button
-        disabled={!canAfford}
-        onClick={() =>
-          hasLeftovers ? setShowReplaceConfirm(true) : startBatch()
-        }
-      >
-        {t("cave.batch.start")}
-      </Button>
+      <div className="relative">
+        <Button
+          disabled={!canAfford}
+          onClick={() =>
+            hasLeftovers ? setShowReplaceConfirm(true) : startBatch()
+          }
+        >
+          {t("cave.batch.start")}
+        </Button>
+        {/* The panel scrolls, so a slightly smaller hand sits inside the
+            button's corner rather than hanging off the bottom. */}
+        {showTutorialHand && canAfford && (
+          <CaveTutorialHand
+            style={{
+              width: `${PIXEL_SCALE * 14}px`,
+              left: "auto",
+              top: "auto",
+              right: `${PIXEL_SCALE * 2}px`,
+              bottom: `${PIXEL_SCALE * 2}px`,
+            }}
+          />
+        )}
+      </div>
 
       <ConfirmationModal
         show={showReplaceConfirm}

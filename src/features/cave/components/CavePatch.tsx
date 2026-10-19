@@ -23,6 +23,7 @@ import { ProgressBar } from "components/ui/ProgressBar";
 import { getCaveBatchPercentage } from "features/cave/lib/caveBatchProgress";
 import { getKeys } from "lib/object";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { CaveTutorialHand } from "./CaveTutorial";
 
 interface Props {
   machineId: string;
@@ -30,6 +31,8 @@ interface Props {
   now: number;
   hasShovel: boolean;
   hasDrill: boolean;
+  /** The tile the Cave tutorial points at for the first dig. */
+  tutorialTile?: { x: number; y: number };
 }
 
 // The same hover boxes the desert dig site uses: one tile for the shovel,
@@ -85,6 +88,7 @@ export const CavePatch: React.FC<Props> = ({
   now,
   hasShovel,
   hasDrill,
+  tutorialTile,
 }) => {
   const { gameService, selectedItem, shortcutItem } = useContext(Context);
   const { t } = useAppTranslation();
@@ -176,6 +180,8 @@ export const CavePatch: React.FC<Props> = ({
             const y = Math.floor(i / CAVE_PATCH_SIZE);
             const key = caveTileKey(x, y);
             const dug = batch?.dug?.[key];
+            const showHand =
+              !dug && tutorialTile?.x === x && tutorialTile?.y === y;
 
             if (drilling) {
               const square = getCaveDrillSquare(x, y);
@@ -207,6 +213,7 @@ export const CavePatch: React.FC<Props> = ({
                       style={{ imageRendering: "pixelated" }}
                     />
                   )}
+                  {showHand && <CaveTutorialHand />}
                 </button>
               );
             }
@@ -230,7 +237,7 @@ export const CavePatch: React.FC<Props> = ({
                 type="button"
                 // The board arrives with the save that follows the batch start.
                 disabled={!hasShovel || !layout}
-                className="w-full h-full p-0 border-0 bg-transparent cursor-pointer disabled:cursor-not-allowed"
+                className="relative w-full h-full p-0 border-0 bg-transparent cursor-pointer disabled:cursor-not-allowed"
                 onPointerEnter={() => setHovered({ x, y })}
                 onClick={() => {
                   // The tile becomes a DugTile under the pointer.
@@ -243,6 +250,7 @@ export const CavePatch: React.FC<Props> = ({
                   className="w-full h-full"
                   style={{ imageRendering: "pixelated" }}
                 />
+                {showHand && <CaveTutorialHand />}
               </button>
             );
           },
