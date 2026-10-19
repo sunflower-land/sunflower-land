@@ -53,9 +53,9 @@ export const CAVE_RECIPES: Record<CaveRecipeName, CaveRecipe> = {
     ingredients: { Wood: new Decimal(10) },
   },
   Beetle: {
-    composition: { Mushroom: 3, Beetle: 4, Mud: 18 },
+    composition: { Mushroom: 3, Beetle: 5, Mud: 17 },
     mudYieldMultiplier: 1,
-    ingredients: { Egg: new Decimal(10) },
+    ingredients: { Egg: new Decimal(30) },
   },
   Mud: {
     composition: { Mushroom: 3, Beetle: 2, Mud: 20 },

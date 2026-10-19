@@ -128,9 +128,9 @@ describe("startCaveBatch (cave.batchStarted)", () => {
     expect(next.inventory.Carrot?.toNumber()).toBe(100);
   });
 
-  it("charges 10 Eggs for a Beetle batch", () => {
+  it("charges 30 Eggs for a Beetle batch", () => {
     const next = start(caveState(), "1", "Beetle");
-    expect(next.inventory.Egg?.toNumber()).toBe(90);
+    expect(next.inventory.Egg?.toNumber()).toBe(70);
   });
 
   it.each([

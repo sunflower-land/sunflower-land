@@ -138,8 +138,8 @@ describe("generateCavePatch", () => {
     });
     expect(CAVE_RECIPES.Beetle.composition).toEqual({
       Mushroom: 3,
-      Beetle: 4,
-      Mud: 18,
+      Beetle: 5,
+      Mud: 17,
     });
     expect(CAVE_RECIPES.Mud.composition).toEqual({
       Mushroom: 3,
@@ -194,7 +194,7 @@ describe("generateCavePatch", () => {
       "Pink Beetle": 0,
       "Amber Beetle": 0,
     };
-    // The Beetle recipe buries 4 Beetles per patch; 2500 patches ≈ 10k rolls.
+    // The Beetle recipe buries 5 Beetles per patch; 2500 patches ≈ 12.5k rolls.
     for (let seed = 1; seed <= 2500; seed += 1) {
       const layout = generateCavePatch({
         recipe: "Beetle",
@@ -205,7 +205,7 @@ describe("generateCavePatch", () => {
       }
     }
     const total = Object.values(tally).reduce((a, b) => a + b, 0);
-    expect(total).toBe(2500 * 4);
+    expect(total).toBe(2500 * 5);
     const pct = (n: string) => (tally[n] / total) * 100;
     expect(pct("Green Beetle")).toBeGreaterThan(35);
     expect(pct("Green Beetle")).toBeLessThan(45);
@@ -544,17 +544,17 @@ describe("Cave board skills", () => {
       dug: Object.fromEntries(dug.map((key) => [key, { dugAt: 1 }])),
     });
 
-    expect(beetleKeys).toHaveLength(6);
+    expect(beetleKeys).toHaveLength(7);
     expect(getCaveBeetleProgress(batch(beetleKeys.slice(0, 4)))).toEqual({
       found: 4,
-      total: 6,
+      total: 7,
     });
-    expect(canRestartCaveBatch(batch(beetleKeys.slice(0, 5)))).toBe(false);
+    expect(canRestartCaveBatch(batch(beetleKeys.slice(0, 6)))).toBe(false);
     expect(canRestartCaveBatch(batch(beetleKeys))).toBe(true);
     expect(getUndugCaveTiles(batch(beetleKeys))).toEqual({
       Mushroom: 3,
       Beetle: 0,
-      Mud: 16,
+      Mud: 15,
     });
   });
 });
@@ -563,4 +563,4 @@ describe("Cave board skills", () => {
 // 9 Mushrooms (2 Magic), 5 Beetles and 11 Mud.
 const GOLDEN_SKILLED_MUSHROOM = ["DMpGu", "MMMaD", "DDGDD", "DuMMu", "DDDMD"];
 const GOLDEN_MUSHROOM = ["DMDMD", "GMMDD", "DDDDD", "DDMbD", "DDDpD"];
-const GOLDEN_BEETLE = ["DMDDb", "DDDDb", "MMbDD", "DuDDD", "DDDDD"];
+const GOLDEN_BEETLE = ["DMDDb", "DDDDb", "MMbDD", "DuDDD", "DDDDb"];
