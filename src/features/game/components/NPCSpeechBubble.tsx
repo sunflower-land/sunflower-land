@@ -4,7 +4,6 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { isAsciiText } from "lib/utils/textSupport";
-import { getResolvedFontFamily } from "lib/utils/fonts";
 
 interface Props {
   text: string;
@@ -45,7 +44,7 @@ export const NPCSpeechBubble: React.FC<Props> = ({ text, mirrored, style }) => {
         "absolute uppercase" + (showAnimations ? " animate-float" : "")
       }
       style={{
-        fontFamily: isTeenySupported ? "Teeny" : getResolvedFontFamily(),
+        fontFamily: isTeenySupported ? "Teeny" : "var(--font-family)",
         color: "black",
         textShadow: "none",
 
