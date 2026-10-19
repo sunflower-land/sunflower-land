@@ -25,6 +25,7 @@ import {
   getCaveBatchSkills,
 } from "features/game/lib/cave";
 import { getKeys } from "lib/object";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import {
   ITEM_DETAILS,
   getTranslatedItemName,
@@ -61,28 +62,13 @@ const sortMudCrops = (game: GameState) => [
   ...MUD_CROPS.filter((crop) => !canAffordMudCrop(game, crop)),
 ];
 
-/** Whether the player can pay for a batch of this mix (and crop, for Mud). */
-const canAffordBatch = (
-  game: GameState,
-  recipe: CaveRecipeName,
-  crop?: CaveMudCropName,
-) => {
-  const ingredients =
-    getCaveBatchCost({ game, recipe, crop })?.ingredients ?? {};
-  return getKeys(ingredients).every((item) =>
-    (game.inventory[item] ?? new Decimal(0)).gte(
-      ingredients[item] ?? new Decimal(0),
-    ),
-  );
-};
-
 const _game = (state: MachineState) => state.context.state;
 
 interface Props {
   machineId: string;
   batch?: CaveBatch;
   onStarted: () => void;
-  /** Point the Cave tutorial hand at Start, or at a mix the player can afford. */
+  /** Point the Cave tutorial hand at Start while the selected mix is affordable. */
   showTutorialHand?: boolean;
 }
 
@@ -125,20 +111,11 @@ export const CaveMixPicker: React.FC<Props> = ({
   const batchCrop = recipe === "Mud" ? crop : undefined;
   const ingredients =
     getCaveBatchCost({ game, recipe, crop: batchCrop })?.ingredients ?? {};
-  const canAfford = canAffordBatch(game, recipe, batchCrop);
-  // The tutorial hand: Start when the selected mix is affordable, otherwise
-  // the first mix that is (Mud with the best crop the player has).
-  const tutorialHand = !showTutorialHand
-    ? undefined
-    : canAfford
-      ? "start"
-      : RECIPE_NAMES.find((name) =>
-          canAffordBatch(
-            game,
-            name,
-            name === "Mud" ? sortMudCrops(game)[0] : undefined,
-          ),
-        );
+  const canAfford = getKeys(ingredients).every((item) =>
+    (game.inventory[item] ?? new Decimal(0)).gte(
+      ingredients[item] ?? new Decimal(0),
+    ),
+  );
   const durationSeconds = getCaveBatchDuration(game).duration / 1000;
 
   // Mushrooms left in a replaced patch are lost; ask first. Leftover Mud alone
@@ -178,15 +155,13 @@ export const CaveMixPicker: React.FC<Props> = ({
         </Label>
         <div className="flex flex-wrap gap-1 px-1 mb-2">
           {RECIPE_NAMES.map((name) => (
-            <div key={name} className="relative">
-              <Box
-                image={ITEM_DETAILS[RECIPE_IMAGE[name]].image}
-                hideCount
-                isSelected={recipe === name}
-                onClick={() => setRecipe(name)}
-              />
-              {tutorialHand === name && <CaveTutorialHand />}
-            </div>
+            <Box
+              key={name}
+              image={ITEM_DETAILS[RECIPE_IMAGE[name]].image}
+              hideCount
+              isSelected={recipe === name}
+              onClick={() => setRecipe(name)}
+            />
           ))}
         </div>
         <Label
@@ -282,8 +257,18 @@ export const CaveMixPicker: React.FC<Props> = ({
         >
           {t("cave.batch.start")}
         </Button>
-        {tutorialHand === "start" && (
-          <CaveTutorialHand style={{ right: "10%", top: `-50%` }} />
+        {/* The panel scrolls, so a slightly smaller hand sits inside the
+            button's corner rather than hanging off the bottom. */}
+        {showTutorialHand && canAfford && (
+          <CaveTutorialHand
+            style={{
+              width: `${PIXEL_SCALE * 14}px`,
+              left: "auto",
+              top: "auto",
+              right: `${PIXEL_SCALE * 2}px`,
+              bottom: `${PIXEL_SCALE * 2}px`,
+            }}
+          />
         )}
       </div>
 

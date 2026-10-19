@@ -87,7 +87,10 @@ export const CaveTutorialPopup: React.FC<{
   );
 };
 
-/** The pulsing tutorial hand, placed over the thing to touch. */
+/**
+ * The pulsing tutorial hand, pointing into the bottom-right corner of the
+ * thing to touch (its parent must be positioned).
+ */
 export const CaveTutorialHand: React.FC<{ style?: React.CSSProperties }> = ({
   style,
 }) => (
@@ -96,8 +99,8 @@ export const CaveTutorialHand: React.FC<{ style?: React.CSSProperties }> = ({
     className="absolute pointer-events-none z-30 animate-pulsate"
     style={{
       width: `${PIXEL_SCALE * 18}px`,
-      right: `${PIXEL_SCALE * -8}px`,
-      top: `${PIXEL_SCALE * 6}px`,
+      left: `calc(100% - ${PIXEL_SCALE * 6}px)`,
+      top: `calc(100% - ${PIXEL_SCALE * 6}px)`,
       ...style,
     }}
   />

@@ -335,7 +335,6 @@ export const Cave: React.FC = () => {
                   {guiding === "expand" && !showExpansion && (
                     <CaveTutorialHand
                       style={{
-                        right: "auto",
                         left: "50%",
                         top: `${PIXEL_SCALE * 4}px`,
                       }}
