@@ -38,6 +38,18 @@ import {
   getCaveRoomImage,
 } from "./lib/caveImages";
 import { Hud } from "features/island/hud/Hud";
+import { NPCSpeechBubble } from "features/game/components/NPCSpeechBubble";
+import {
+  CAVE_TUTORIAL_BUBBLES,
+  CaveTutorialHand,
+  CaveTutorialPopup,
+} from "./components/CaveTutorial";
+import {
+  acknowledgeCaveTutorial,
+  getCaveTutorialSeen,
+  getCaveTutorialStep,
+  type CaveTutorialSeen,
+} from "./lib/onboarding";
 
 const _cave = (state: MachineState) => state.context.state.cave;
 const _buildings = (state: MachineState) => state.context.state.buildings;
@@ -102,6 +114,10 @@ export const Cave: React.FC = () => {
   const [selectedMachine, setSelectedMachine] = useState<string>();
   const [showExpansion, setShowExpansion] = useState(false);
   const [showMerchant, setShowMerchant] = useState(false);
+  const [tutorialSeen, setTutorialSeen] = useState(getCaveTutorialSeen);
+  const tutorialStep = useSelector(gameService, (state: MachineState) =>
+    getCaveTutorialStep(state.context.state, now, tutorialSeen),
+  );
   const entryRef = useRef<HTMLDivElement>(null);
 
   // Open on the ladder at the room's top-left, not the room's centre.
@@ -125,6 +141,21 @@ export const Cave: React.FC = () => {
     : undefined;
   const construction = cave.construction;
   const constructionReady = !!construction && construction.readyAt <= now;
+
+  const acknowledgeTutorial = (key: keyof CaveTutorialSeen) => {
+    acknowledgeCaveTutorial(key);
+    setTutorialSeen(getCaveTutorialSeen());
+  };
+  // Gloomwick says what a step is about first (unless a Cave popup is already
+  // open); his bubble and the hand follow once he has.
+  const showTutorialPopup =
+    !!tutorialStep &&
+    !tutorialSeen[tutorialStep] &&
+    !selectedMachine &&
+    !showExpansion &&
+    !showMerchant;
+  const guiding =
+    tutorialStep && tutorialSeen[tutorialStep] ? tutorialStep : undefined;
 
   return (
     <div className="absolute inset-0 bg-[#181425] overflow-hidden">
@@ -201,7 +232,19 @@ export const Cave: React.FC = () => {
                 }}
                 onClick={() => setShowMerchant(true)}
               >
+                {guiding && (
+                  <NPCSpeechBubble
+                    text={t(CAVE_TUTORIAL_BUBBLES[guiding])}
+                    style={{
+                      bottom: `${PIXEL_SCALE * 22}px`,
+                      right: `${PIXEL_SCALE * 6}px`,
+                    }}
+                  />
+                )}
                 <NPCPlaceable parts={NPC_WEARABLES.gloomwick} flipped />
+                {guiding === "buy-shovels" && !showMerchant && (
+                  <CaveTutorialHand />
+                )}
               </button>
 
               {slots.map((id) => {
@@ -220,6 +263,9 @@ export const Cave: React.FC = () => {
                       onClick={() => setSelectedMachine(String(id))}
                     >
                       <Sprite src={getCaveMycoBinImage(batch, now)} />
+                      {id === 1 &&
+                        guiding === "start-batch" &&
+                        !selectedMachine && <CaveTutorialHand />}
                     </button>
 
                     {/* 5x5 digging patch on the slot's sand. */}
@@ -238,6 +284,11 @@ export const Cave: React.FC = () => {
                         now={now}
                         hasShovel={shovels > 0}
                         hasDrill={drills > 0}
+                        tutorialTile={
+                          id === 1 && guiding === "dig"
+                            ? { x: 2, y: 2 }
+                            : undefined
+                        }
                       />
                     </div>
                   </React.Fragment>
@@ -252,6 +303,8 @@ export const Cave: React.FC = () => {
                   className="absolute cursor-pointer bg-transparent border-0 p-0 flex items-center justify-center"
                   style={tileStyle(site)}
                   onClick={() => {
+                    if (guiding === "expand") acknowledgeTutorial("done");
+
                     if (constructionReady) {
                       gameService.send({ type: "cave.expansionCompleted" });
                     } else {
@@ -279,6 +332,15 @@ export const Cave: React.FC = () => {
                       </Label>
                     )}
                   </div>
+                  {guiding === "expand" && !showExpansion && (
+                    <CaveTutorialHand
+                      style={{
+                        right: "auto",
+                        left: "50%",
+                        top: `${PIXEL_SCALE * 4}px`,
+                      }}
+                    />
+                  )}
                 </button>
               )}
             </div>
@@ -298,6 +360,14 @@ export const Cave: React.FC = () => {
         <CaveMachineModal
           machineId={selectedMachine}
           onClose={() => setSelectedMachine(undefined)}
+          showTutorialHand={guiding === "start-batch"}
+        />
+      )}
+
+      {showTutorialPopup && tutorialStep && (
+        <CaveTutorialPopup
+          step={tutorialStep}
+          onClose={() => acknowledgeTutorial(tutorialStep)}
         />
       )}
 

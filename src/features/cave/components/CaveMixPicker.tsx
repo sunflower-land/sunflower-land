@@ -41,6 +41,7 @@ import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import powerup from "assets/icons/level_up.png";
 import { CaveBuriedTiles, RECIPE_IMAGE, TILE_IMAGE } from "./CaveBuriedTiles";
+import { CaveTutorialHand } from "./CaveTutorial";
 
 const RECIPE_NAMES = getKeys(CAVE_RECIPES);
 const MUD_CROPS = getKeys(CAVE_MUD_CROPS);
@@ -60,12 +61,29 @@ const sortMudCrops = (game: GameState) => [
   ...MUD_CROPS.filter((crop) => !canAffordMudCrop(game, crop)),
 ];
 
+/** Whether the player can pay for a batch of this mix (and crop, for Mud). */
+const canAffordBatch = (
+  game: GameState,
+  recipe: CaveRecipeName,
+  crop?: CaveMudCropName,
+) => {
+  const ingredients =
+    getCaveBatchCost({ game, recipe, crop })?.ingredients ?? {};
+  return getKeys(ingredients).every((item) =>
+    (game.inventory[item] ?? new Decimal(0)).gte(
+      ingredients[item] ?? new Decimal(0),
+    ),
+  );
+};
+
 const _game = (state: MachineState) => state.context.state;
 
 interface Props {
   machineId: string;
   batch?: CaveBatch;
   onStarted: () => void;
+  /** Point the Cave tutorial hand at Start, or at a mix the player can afford. */
+  showTutorialHand?: boolean;
 }
 
 /**
@@ -76,6 +94,7 @@ export const CaveMixPicker: React.FC<Props> = ({
   machineId,
   batch,
   onStarted,
+  showTutorialHand,
 }) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
@@ -106,11 +125,20 @@ export const CaveMixPicker: React.FC<Props> = ({
   const batchCrop = recipe === "Mud" ? crop : undefined;
   const ingredients =
     getCaveBatchCost({ game, recipe, crop: batchCrop })?.ingredients ?? {};
-  const canAfford = getKeys(ingredients).every((item) =>
-    (game.inventory[item] ?? new Decimal(0)).gte(
-      ingredients[item] ?? new Decimal(0),
-    ),
-  );
+  const canAfford = canAffordBatch(game, recipe, batchCrop);
+  // The tutorial hand: Start when the selected mix is affordable, otherwise
+  // the first mix that is (Mud with the best crop the player has).
+  const tutorialHand = !showTutorialHand
+    ? undefined
+    : canAfford
+      ? "start"
+      : RECIPE_NAMES.find((name) =>
+          canAffordBatch(
+            game,
+            name,
+            name === "Mud" ? sortMudCrops(game)[0] : undefined,
+          ),
+        );
   const durationSeconds = getCaveBatchDuration(game).duration / 1000;
 
   // Mushrooms left in a replaced patch are lost; ask first. Leftover Mud alone
@@ -150,13 +178,15 @@ export const CaveMixPicker: React.FC<Props> = ({
         </Label>
         <div className="flex flex-wrap gap-1 px-1 mb-2">
           {RECIPE_NAMES.map((name) => (
-            <Box
-              key={name}
-              image={ITEM_DETAILS[RECIPE_IMAGE[name]].image}
-              hideCount
-              isSelected={recipe === name}
-              onClick={() => setRecipe(name)}
-            />
+            <div key={name} className="relative">
+              <Box
+                image={ITEM_DETAILS[RECIPE_IMAGE[name]].image}
+                hideCount
+                isSelected={recipe === name}
+                onClick={() => setRecipe(name)}
+              />
+              {tutorialHand === name && <CaveTutorialHand />}
+            </div>
           ))}
         </div>
         <Label
@@ -243,14 +273,19 @@ export const CaveMixPicker: React.FC<Props> = ({
         </Label>
       )}
 
-      <Button
-        disabled={!canAfford}
-        onClick={() =>
-          hasLeftovers ? setShowReplaceConfirm(true) : startBatch()
-        }
-      >
-        {t("cave.batch.start")}
-      </Button>
+      <div className="relative">
+        <Button
+          disabled={!canAfford}
+          onClick={() =>
+            hasLeftovers ? setShowReplaceConfirm(true) : startBatch()
+          }
+        >
+          {t("cave.batch.start")}
+        </Button>
+        {tutorialHand === "start" && (
+          <CaveTutorialHand style={{ right: "10%", top: `-50%` }} />
+        )}
+      </div>
 
       <ConfirmationModal
         show={showReplaceConfirm}

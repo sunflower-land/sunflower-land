@@ -1,4 +1,5 @@
 import type { BuildingName } from "features/game/types/buildings";
+import type { CaveTutorialAcknowledgement } from "features/cave/lib/onboarding";
 
 const TUTORIAL_ACKNOWLEDGEMENT_KEY = "sunflower_isles_tutorials";
 
@@ -12,7 +13,8 @@ type TutorialName =
   | "Pirate Quest"
   | "Garbage Collector"
   | "Incinerator"
-  | "Chore Master";
+  | "Chore Master"
+  | CaveTutorialAcknowledgement;
 
 export function acknowledgeTutorial(tutorialName: TutorialName) {
   const acknowledgements = getAcknowledgements();
