@@ -104,7 +104,7 @@ describe("caveMap (the artist's Tiled map)", () => {
     expect(getCaveStair(map)).toEqual({
       x: 20 * 16,
       y: 21 * 16,
-      width: 16,
+      width: 32,
       height: 64,
     });
   });

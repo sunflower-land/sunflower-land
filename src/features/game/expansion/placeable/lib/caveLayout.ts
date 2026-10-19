@@ -100,7 +100,7 @@ export const CAVE_MERCHANT_ALCOVE: CaveTileRect = rect(31, 22, 10, 5);
 export const CAVE_MERCHANT_ALCOVE_TIER = 1;
 
 /** The ladder out, top-left of the first room. */
-export const CAVE_LADDER: CaveTileRect = rect(20, 21, 1, 4);
+export const CAVE_LADDER: CaveTileRect = rect(20, 21, 2, 4);
 
 /** How many slots are unlocked at a given tier (tier N unlocks slot N). */
 export function caveSlotsForTier(tier: number): number[] {
