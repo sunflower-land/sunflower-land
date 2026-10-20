@@ -4053,7 +4053,7 @@
   "cave.batch.beetleChanceBoosted": "{{beetle}}: {{chance}}% (base {{base}}%)",
   "cave.dig.beetlesFound": "Beetles found: {{found}}/{{total}}",
   "cave.dig.allBeetlesFound": "All Beetles found!",
-  "cave.dig.mushroomsLeft": "Mushrooms left: {{left}}",
+  "cave.dig.mushroomsFound": "Mushrooms found: {{found}}/{{total}}",
   "cave.dig.allMushroomsFound": "All Mushrooms found!",
   "cave.dig.cleared": "Patch cleared",
   "cave.expand.title": "Expand the Cave",
