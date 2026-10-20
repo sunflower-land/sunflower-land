@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 
@@ -9,6 +9,7 @@ import type {
   CaveRecipeName,
 } from "features/game/types/caveRecipes";
 import {
+  CAVE_BATCH_DURATION_MS,
   CAVE_MUD_CROPS,
   CAVE_RECIPES,
   isCavePatchCleared,
@@ -39,6 +40,7 @@ import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
+import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import powerup from "assets/icons/level_up.png";
 import { CaveBuriedTiles, RECIPE_IMAGE, TILE_IMAGE } from "./CaveBuriedTiles";
@@ -95,6 +97,8 @@ export const CaveMixPicker: React.FC<Props> = ({
     return canAffordMudCrop(game, first) ? first : "Carrot";
   });
   const [showReplaceConfirm, setShowReplaceConfirm] = useState(false);
+  const [showTimeBoosts, setShowTimeBoosts] = useState(false);
+  const timeBoostsRef = useRef<HTMLDivElement>(null);
 
   const isCleared = !!batch && isCavePatchCleared(batch);
   const canReplace = !!batch && !isCleared && canRestartCaveBatch(batch);
@@ -116,7 +120,9 @@ export const CaveMixPicker: React.FC<Props> = ({
       ingredients[item] ?? new Decimal(0),
     ),
   );
-  const durationSeconds = getCaveBatchDuration(game).duration / 1000;
+  const { duration, boostsUsed: timeBoostsUsed } = getCaveBatchDuration(game);
+  const durationSeconds = duration / 1000;
+  const isTimeBoosted = timeBoostsUsed.length > 0;
 
   // Mushrooms left in a replaced patch are lost; ask first. Leftover Mud alone
   // is not worth a warning.
@@ -234,7 +240,37 @@ export const CaveMixPicker: React.FC<Props> = ({
               requirement={ingredients[item] ?? new Decimal(0)}
             />
           ))}
-          <RequirementLabel type="time" waitSeconds={durationSeconds} />
+          {isTimeBoosted ? (
+            <div
+              ref={timeBoostsRef}
+              className="flex flex-row items-center gap-2 cursor-pointer"
+              onClick={() => setShowTimeBoosts(!showTimeBoosts)}
+            >
+              <RequirementLabel
+                type="time"
+                waitSeconds={durationSeconds}
+                boosted
+              />
+              <RequirementLabel
+                type="time"
+                waitSeconds={CAVE_BATCH_DURATION_MS / 1000}
+                strikethrough
+              />
+              {showTimeBoosts && (
+                <BoostsDisplay
+                  boosts={timeBoostsUsed}
+                  show={showTimeBoosts}
+                  state={game}
+                  onClick={() => setShowTimeBoosts((prev) => !prev)}
+                  anchorRef={timeBoostsRef}
+                  portalAlign="center"
+                  portalPlacement="auto"
+                />
+              )}
+            </div>
+          ) : (
+            <RequirementLabel type="time" waitSeconds={durationSeconds} />
+          )}
         </div>
       </InnerPanel>
 
