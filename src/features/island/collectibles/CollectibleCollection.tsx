@@ -4338,6 +4338,35 @@ export const COLLECTIBLE_COMPONENTS: Record<
       }}
     />
   ),
+  // TODO(Cave Dwellers): offsets mirror the Ascension Age placeholders' art
+  "Cave Dwellers Fish": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Cave Dwellers Fish"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+    />
+  ),
+  "Cave Dwellers Banner": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Cave Dwellers Banner"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 20}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * -2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 20}px`,
+      }}
+    />
+  ),
   "Salt Rug": () => <TemplateCollectible name="Salt Rug" />,
   "Ascended Idol": () => <TemplateCollectible name="Ascended Idol" />,
   "Ascended Wheel": () => <TemplateCollectible name="Ascended Wheel" />,

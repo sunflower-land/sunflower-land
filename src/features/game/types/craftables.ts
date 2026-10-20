@@ -1517,6 +1517,10 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Seahorse Dad": { width: 2, height: 2 },
   "Ascension Age Banner": { width: 1, height: 2 },
 
+  // Cave Dwellers chapter
+  "Cave Dwellers Fish": { width: 2, height: 2 },
+  "Cave Dwellers Banner": { width: 1, height: 2 },
+
   "Fox Shrine": { width: 1, height: 1 },
   "Boar Shrine": { width: 1, height: 1 },
   "Hound Shrine": { width: 1, height: 1 },

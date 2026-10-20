@@ -1467,6 +1467,13 @@ export const ITEM_TRADE_TYPES: {
     "Cloud Bed": "instant",
     "Ascension Monument": "instant",
 
+    // Cave Dwellers marvel fish + tickets + banner + artefact
+    "Cave Dwellers Fish": "instant",
+    "Cave Dwellers Ticket": "instant",
+    "Cave Dwellers Raffle Ticket": "instant",
+    "Cave Dwellers Banner": "instant",
+    "Cave Dwellers Artefact": "instant",
+
     // Ascension Age decorations
     "Salt Rug": "onchain",
     "Ascended Idol": "onchain",

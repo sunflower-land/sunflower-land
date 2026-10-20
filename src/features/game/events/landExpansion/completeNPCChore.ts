@@ -125,6 +125,12 @@ export const CHAPTER_TICKET_BOOST_ITEMS: Record<
     rare: "Swamp Armor",
     epic: "Swamp Pants",
   },
+  // TODO(Cave Dwellers): placeholder ticket-boost wearables
+  "Cave Dwellers": {
+    basic: "Cow Scratcher",
+    rare: "Cow Scratcher",
+    epic: "Cow Scratcher",
+  },
 };
 
 export function completeNPCChore({

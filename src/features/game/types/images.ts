@@ -8209,6 +8209,27 @@ export const ITEM_DETAILS: Items = {
     image: ascensionAgeRaffleTicket,
     description: translate("description.ascensionAgeRaffleTicket"),
   },
+  // TODO(Cave Dwellers): placeholder art + descriptions
+  "Cave Dwellers Fish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "",
+  },
+  "Cave Dwellers Ticket": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "",
+  },
+  "Cave Dwellers Banner": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "",
+  },
+  "Cave Dwellers Artefact": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "",
+  },
+  "Cave Dwellers Raffle Ticket": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "",
+  },
   "Big Table": {
     image: bigTable,
     description: translate("description.big.table"),
