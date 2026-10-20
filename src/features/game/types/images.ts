@@ -489,6 +489,26 @@ import shardsTurtle from "assets/sfts/shards_turtle.webp";
 import vibraphone from "assets/sfts/vibraphone.webp";
 import wingedVase from "assets/sfts/winged_vase.webp";
 
+// Cave Dwellers
+import mushroomChicken from "assets/sfts/mushroom_chicken.webp";
+import ladybugCow from "assets/sfts/ladybug_cow.webp";
+import beetleSheep from "assets/sfts/beetle_sheep.webp";
+import cyclopsBloom from "assets/sfts/cyclops_bloom.webp";
+import beetleWing from "assets/icons/beetle_wing.webp";
+import caveDwellersRaffleTicket from "assets/icons/cave_dwellers_raffle_ticket.png";
+import caveDwellersBanner from "assets/decorations/banners/cave_dwellers_banner.webp";
+import minersBed from "assets/bumpkins/miners_bed.webp";
+import duendeMonument from "assets/monuments/duende_monument_stage3.webp";
+import giantTruffle from "assets/sfts/giant_truffle.webp";
+import miningDrill from "assets/sfts/mining_drill.webp";
+import piggyBank from "assets/sfts/piggy_bank.webp";
+import strawHouse from "assets/sfts/straw_house.webp";
+import stickHouse from "assets/sfts/stick_house.webp";
+import brickHouse from "assets/sfts/brick_house.webp";
+import bigBadWolf from "assets/sfts/big_bad_wolf.webp";
+import pigPlush from "assets/sfts/pig_plush.webp";
+import pigDoll from "assets/sfts/pig_doll.webp";
+
 // Compost
 import sproutMix from "assets/composters/sprout_mix.png";
 import fruitfulBlend from "assets/composters/fruitful_blend.png";
@@ -8209,16 +8229,76 @@ export const ITEM_DETAILS: Items = {
     image: ascensionAgeRaffleTicket,
     description: translate("description.ascensionAgeRaffleTicket"),
   },
-  // TODO(Cave Dwellers): placeholder art + descriptions
-  "Cave Dwellers Fish": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "",
-  },
-  "Cave Dwellers Ticket": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "",
+  "Beetle Wing": {
+    image: beetleWing,
+    description: translate("description.beetleWing"),
   },
   "Cave Dwellers Banner": {
+    image: caveDwellersBanner,
+    description: translate("description.caveDwellersBanner"),
+  },
+  "Mushroom Chicken": {
+    image: mushroomChicken,
+    description: translate("description.mushroomChicken"),
+  },
+  "Ladybug Cow": {
+    image: ladybugCow,
+    description: translate("description.ladybugCow"),
+  },
+  "Beetle Sheep": {
+    image: beetleSheep,
+    description: translate("description.beetleSheep"),
+  },
+  "Cyclops Bloom": {
+    image: cyclopsBloom,
+    description: translate("description.cyclopsBloom"),
+  },
+  "Miner's Bed": {
+    image: minersBed,
+    description: translate("description.minersBed"),
+  },
+  "Duende Monument": {
+    image: duendeMonument,
+    description: translate("description.duendeMonument"),
+  },
+  "Giant Truffle": {
+    image: giantTruffle,
+    description: translate("description.giantTruffle"),
+  },
+  "Mining Drill": {
+    image: miningDrill,
+    description: translate("description.miningDrill"),
+  },
+  "Piggy Bank": {
+    image: piggyBank,
+    description: translate("description.piggyBank"),
+  },
+  "Straw House": {
+    image: strawHouse,
+    description: translate("description.strawHouse"),
+  },
+  "Stick House": {
+    image: stickHouse,
+    description: translate("description.stickHouse"),
+  },
+  "Brick House": {
+    image: brickHouse,
+    description: translate("description.brickHouse"),
+  },
+  "Big Bad Wolf": {
+    image: bigBadWolf,
+    description: translate("description.bigBadWolf"),
+  },
+  "Pig Plush": {
+    image: pigPlush,
+    description: translate("description.pigPlush"),
+  },
+  "Pig Doll": {
+    image: pigDoll,
+    description: translate("description.pigDoll"),
+  },
+  // TODO(Cave Dwellers): placeholder fish + artefact art and descriptions
+  "Cave Dwellers Fish": {
     image: SUNNYSIDE.icons.expression_confused,
     description: "",
   },
@@ -8227,8 +8307,8 @@ export const ITEM_DETAILS: Items = {
     description: "",
   },
   "Cave Dwellers Raffle Ticket": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "",
+    image: caveDwellersRaffleTicket,
+    description: translate("description.caveDwellersRaffleTicket"),
   },
   "Big Table": {
     image: bigTable,

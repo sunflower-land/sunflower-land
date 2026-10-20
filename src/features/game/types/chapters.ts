@@ -14,12 +14,12 @@ import pawPrintsBanner from "assets/decorations/banners/paw_prints_banner.webp";
 import crabChapterBanner from "assets/decorations/banners/crap_chapter_banner.webp";
 import saltAwakeningBanner from "assets/decorations/banners/salt_awakening_banner.webp";
 import ascensionAgeBanner from "assets/decorations/banners/ascension_banner.webp";
+import caveDwellersBanner from "assets/decorations/banners/cave_dwellers_banner.webp";
 import type { BeachBountyChapterArtefact } from "./treasure";
 import { getKeys } from "lib/object";
 import type { ChapterFish } from "./fishing";
 import { getObjectEntries } from "lib/object";
 import { CONFIG } from "lib/config";
-import { SUNNYSIDE } from "assets/sunnyside";
 
 export type ChapterName =
   | "Solar Flare"
@@ -147,7 +147,7 @@ export type ChapterTicket =
   | "Floater"
   | "Salt Rock"
   | "Shiny Feather"
-  | "Cave Dwellers Ticket";
+  | "Beetle Wing";
 
 export type ChapterRaffleTicket =
   | "Paw Prints Raffle Ticket"
@@ -193,7 +193,7 @@ export const CHAPTER_TICKET_NAME: Record<ChapterName, ChapterTicket> = {
   "Crabs and Traps": "Floater",
   "Salt Awakening": "Salt Rock",
   "Ascension Age": "Shiny Feather",
-  "Cave Dwellers": "Cave Dwellers Ticket",
+  "Cave Dwellers": "Beetle Wing",
 };
 
 export const CHAPTER_RAFFLE_TICKET_NAME: Record<
@@ -356,8 +356,7 @@ export const CHAPTER_BANNER_IMAGES: Record<ChapterBanner, string> = {
   "Crabs and Traps Banner": crabChapterBanner,
   "Salt Awakening Banner": saltAwakeningBanner,
   "Ascension Age Banner": ascensionAgeBanner,
-  // TODO(Cave Dwellers): replace with the real Cave Dwellers banner art
-  "Cave Dwellers Banner": SUNNYSIDE.icons.expression_confused,
+  "Cave Dwellers Banner": caveDwellersBanner,
 };
 
 export function getChapterBannerImage(now: number) {

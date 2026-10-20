@@ -46,8 +46,7 @@ const CHAPTER_BANNERS: Record<ChapterName, string | undefined> = {
   "Crabs and Traps": "world/crap_chapter_banner.webp",
   "Salt Awakening": "world/salt_awakening_banner.webp",
   "Ascension Age": "world/ascension_banner.webp",
-  // TODO(Cave Dwellers): plaza banner art
-  "Cave Dwellers": undefined,
+  "Cave Dwellers": "world/cave_dwellers_banner.webp",
 };
 
 // Tiled Layer names that get enabled during a chapter

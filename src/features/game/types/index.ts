@@ -1649,10 +1649,25 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Truffle Seasoning": 3101,
   // Cave Dwellers chapter
   "Cave Dwellers Fish": 3102,
-  "Cave Dwellers Ticket": 3103,
+  "Beetle Wing": 3103,
   "Cave Dwellers Raffle Ticket": 3104,
   "Cave Dwellers Banner": 3105,
   "Cave Dwellers Artefact": 3106,
+  "Mushroom Chicken": 3107,
+  "Ladybug Cow": 3108,
+  "Beetle Sheep": 3109,
+  "Cyclops Bloom": 3110,
+  "Duende Monument": 3111,
+  "Miner's Bed": 3112,
+  "Giant Truffle": 3113,
+  "Mining Drill": 3114,
+  "Piggy Bank": 3115,
+  "Straw House": 3116,
+  "Stick House": 3117,
+  "Brick House": 3118,
+  "Big Bad Wolf": 3119,
+  "Pig Plush": 3120,
+  "Pig Doll": 3121,
 };
 
 // The reverse of above

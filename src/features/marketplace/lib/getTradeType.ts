@@ -1469,10 +1469,27 @@ export const ITEM_TRADE_TYPES: {
 
     // Cave Dwellers marvel fish + tickets + banner + artefact
     "Cave Dwellers Fish": "instant",
-    "Cave Dwellers Ticket": "instant",
+    "Beetle Wing": "instant",
     "Cave Dwellers Raffle Ticket": "instant",
     "Cave Dwellers Banner": "instant",
     "Cave Dwellers Artefact": "instant",
+
+    // Cave Dwellers mutants, monument, bed + decorations
+    "Mushroom Chicken": "instant",
+    "Ladybug Cow": "instant",
+    "Beetle Sheep": "instant",
+    "Cyclops Bloom": "instant",
+    "Duende Monument": "instant",
+    "Miner's Bed": "instant",
+    "Giant Truffle": "instant",
+    "Mining Drill": "instant",
+    "Piggy Bank": "instant",
+    "Straw House": "instant",
+    "Stick House": "instant",
+    "Brick House": "instant",
+    "Big Bad Wolf": "instant",
+    "Pig Plush": "instant",
+    "Pig Doll": "instant",
 
     // Ascension Age decorations
     "Salt Rug": "onchain",
@@ -2154,6 +2171,12 @@ export const ITEM_TRADE_TYPES: {
     "Traveling Merchant Suit": "instant",
     "Traveling Merchant Bag": "instant",
     "Beetle Goggles": "instant",
+    "Duende Hat": "instant",
+    "Duende Shirt": "instant",
+    "Duende Pants": "instant",
+    "Duende Shoes": "instant",
+    "Hercules Beetle Hat": "instant",
+    "Pig Onesie": "instant",
   },
 };
 
