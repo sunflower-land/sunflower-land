@@ -335,12 +335,12 @@ describe("startCaveBatch: Cave skills", () => {
   });
 
   it.each([
-    [1, 10.8],
-    [2, 9],
-    [3, 6],
-  ])("Rapid Mycelium rank %s grows a batch in %sh", (rank, hours) => {
+    [1, 684],
+    [2, 648],
+    [3, 612],
+  ])("Rapid Mycelium rank %s grows a batch in %s minutes", (rank, minutes) => {
     const next = start(skilled({ "Rapid Mycelium": rank }), "1", "Beetle", NOW);
-    expect(batchOf(next)?.readyAt).toBe(NOW + hours * 60 * 60 * 1000);
+    expect(batchOf(next)?.readyAt).toBe(NOW + minutes * 60 * 1000);
   });
 
   it("snapshots the board-shaping skills onto the batch", () => {
