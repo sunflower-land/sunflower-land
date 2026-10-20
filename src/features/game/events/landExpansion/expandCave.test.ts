@@ -260,14 +260,14 @@ describe("expandCave (cave.expanded)", () => {
       );
     });
 
-    it("is not unlocked by holding a Beta Pass", () => {
+    it("is unlocked by holding a Beta Pass", () => {
       const state = richState();
       expect(() =>
         expand({
           ...state,
           inventory: { ...state.inventory, "Beta Pass": new Decimal(1) },
         }),
-      ).toThrow(EXPAND_CAVE_ERRORS.NO_FEATURE_ACCESS);
+      ).not.toThrow();
     });
   });
 });

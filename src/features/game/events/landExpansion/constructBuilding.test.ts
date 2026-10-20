@@ -872,15 +872,13 @@ describe("constructBuilding: Pigpen gating", () => {
       );
     });
 
-    it("is not unlocked by a Beta Pass", () => {
-      // PIGPEN is a testnet flag, which has no Beta Pass escape hatch - unlike
-      // betaFeatureFlag, which this gate used to use.
+    it("is unlocked by a Beta Pass", () => {
       expect(() =>
         build({
           ...farm,
           inventory: { ...farm.inventory, "Beta Pass": new Decimal(1) },
         }),
-      ).toThrow(CONSTRUCT_BUILDING_ERRORS.NO_FEATURE_ACCESS);
+      ).not.toThrow();
     });
   });
 });
