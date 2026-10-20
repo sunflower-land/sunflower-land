@@ -15018,6 +15018,209 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Otter Pebble",
   },
+  "Cave Dwellers Fish": {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Cave Dwellers Fish",
+  },
+  "Beetle Wing": {
+    description: "Collected during the Cave Dwellers chapter.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Beetle Wing",
+  },
+  "Cave Dwellers Raffle Ticket": {
+    description: "A raffle ticket for the Cave Dwellers chapter.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Cave Dwellers Raffle Ticket",
+  },
+  "Cave Dwellers Banner": {
+    description: "A banner for the Cave Dwellers chapter.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Cave Dwellers Banner",
+  },
+  "Cave Dwellers Artefact": {
+    description: "A chapter artefact unearthed during Cave Dwellers.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Treasure" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Cave Dwellers Artefact",
+  },
+  "Mushroom Chicken": {
+    description: "A bearded fowl that grew a mushroom cap in the damp caves.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Mushroom Chicken",
+  },
+  "Ladybug Cow": {
+    description:
+      "Spotted shell, gentle moo. It never strays far from the cave mouth.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Ladybug Cow",
+  },
+  "Beetle Sheep": {
+    description: "Its wool hardened into a gleaming beetle shell.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Beetle Sheep",
+  },
+  "Cyclops Bloom": {
+    description: "A one-eyed flower that keeps watch over the caves.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Cyclops Bloom",
+  },
+  "Duende Monument": {
+    description:
+      "A grand monument raised by the community to the Cave Dwellers.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Duende Monument",
+  },
+  "Miner's Bed": {
+    description:
+      "A sturdy bed for a long night's rest after a day underground.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Miner's Bed",
+  },
+  "Giant Truffle": {
+    description: "A truffle so large the Pigs dream about it.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Giant Truffle",
+  },
+  "Mining Drill": {
+    description: "A trusty drill that has bored through many a cave wall.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Mining Drill",
+  },
+  "Piggy Bank": {
+    description: "Save your Coins, one oink at a time.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Piggy Bank",
+  },
+  "Straw House": {
+    description: "The first little Pig built a house of straw.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Straw House",
+  },
+  "Stick House": {
+    description: "The second little Pig built a house of sticks.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Stick House",
+  },
+  "Brick House": {
+    description: "The third little Pig built a house of bricks.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Brick House",
+  },
+  "Big Bad Wolf": {
+    description: "He'll huff, and he'll puff...",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Big Bad Wolf",
+  },
+  "Pig Plush": {
+    description: "A soft little Pig to cuddle.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Pig Plush",
+  },
+  "Pig Doll": {
+    description: "A tiny Pig figure on its very own pedestal.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Pig Doll",
+  },
   "Colors Token 2026": {
     description:
       "Use this in the Festival of Colors event shop before the event ends!",
@@ -22355,6 +22558,78 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Traveling Merchant Bag",
+  },
+  "Beetle Goggles": {
+    description:
+      "A riding cap with a Beetle perched on top and goggles for spotting glow in the dark. Standard issue for Cave dwellers.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Beetle Goggles",
+  },
+  "Duende Hat": {
+    description: "A patterned pointy hat, the pride of every duende.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Duende Hat",
+  },
+  "Duende Shirt": {
+    description: "A snug duende shirt, made for long days underground.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shirt" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Duende Shirt",
+  },
+  "Duende Pants": {
+    description: "Hard-wearing duende pants with plenty of cave dust.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Pants" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Duende Pants",
+  },
+  "Duende Shoes": {
+    description: "Pointy duende shoes for quiet steps through the caves.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shoes" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Duende Shoes",
+  },
+  "Hercules Beetle Hat": {
+    description:
+      "A mighty Hercules Beetle, horns and all, riding on your head.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Hercules Beetle Hat",
+  },
+  "Pig Onesie": {
+    description: "Oink! A cosy onesie for true Pig lovers.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Onesie" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Pig Onesie",
   },
   "Yellow Slime Puppet": {
     description:

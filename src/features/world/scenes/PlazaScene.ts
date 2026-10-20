@@ -46,6 +46,7 @@ const CHAPTER_BANNERS: Record<ChapterName, string | undefined> = {
   "Crabs and Traps": "world/crap_chapter_banner.webp",
   "Salt Awakening": "world/salt_awakening_banner.webp",
   "Ascension Age": "world/ascension_banner.webp",
+  "Cave Dwellers": "world/cave_dwellers_banner.webp",
 };
 
 // Tiled Layer names that get enabled during a chapter
@@ -66,6 +67,8 @@ const CHAPTER_LAYERS: Record<ChapterName, string | undefined> = {
   "Crabs and Traps": "Crabs and Traps",
   "Salt Awakening": "Salt Awakening",
   "Ascension Age": "Ascension",
+  // TODO(Cave Dwellers): plaza Tiled layer
+  "Cave Dwellers": undefined,
 };
 
 export type FactionNPC = {

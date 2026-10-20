@@ -1157,7 +1157,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
         const translationKey =
           `description.bonus${ticket.replace(/\s+/g, "")}.boost` as TranslationKeys;
 
-        return Object.values(items)
+        return Object.values(items ?? {})
           .filter((item) => !isCollectible(item))
           .map((item) => [
             item,

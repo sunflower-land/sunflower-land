@@ -2998,7 +2998,7 @@ describe("feedAnimal: direct Beetle feeding", () => {
       expect(() => feed(cowFarm(0))).toThrow("Beetle feeding is not available");
     });
 
-    it("is not unlocked by holding a Beta Pass", () => {
+    it("is unlocked by holding a Beta Pass", () => {
       const state = cowFarm(0);
 
       expect(() =>
@@ -3006,7 +3006,7 @@ describe("feedAnimal: direct Beetle feeding", () => {
           ...state,
           inventory: { ...state.inventory, "Beta Pass": new Decimal(1) },
         }),
-      ).toThrow("Beetle feeding is not available");
+      ).not.toThrow();
     });
 
     it("rejects a Beetle even when a Golden Cow feeds for free", () => {

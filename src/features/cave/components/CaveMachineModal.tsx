@@ -19,6 +19,8 @@ const _game = (state: MachineState) => state.context.state;
 interface Props {
   machineId: string;
   onClose: () => void;
+  /** Point the Cave tutorial hand at what starts the first batch. */
+  showTutorialHand?: boolean;
 }
 
 /**
@@ -26,7 +28,11 @@ interface Props {
  * (idle, or once the patch is cleared or every Beetle is found), or the
  * batch's progress (growing, or ready and being dug).
  */
-export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
+export const CaveMachineModal: React.FC<Props> = ({
+  machineId,
+  onClose,
+  showTutorialHand,
+}) => {
   const { gameService } = useContext(Context);
 
   const game = useSelector(gameService, _game);
@@ -45,20 +51,14 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
   return (
     <Modal show onHide={onClose}>
       <CloseButtonPanel onClose={onClose} container={OuterPanel}>
-        {isGrowing && batch && (
-          <CaveBatchGrowing
-            machineId={machineId}
-            batch={batch}
-            now={now}
-            onClose={onClose}
-          />
-        )}
+        {isGrowing && batch && <CaveBatchGrowing batch={batch} now={now} />}
         {isReady && batch && <CaveBatchReady batch={batch} />}
         {isIdle && (
           <CaveMixPicker
             machineId={machineId}
             batch={batch}
             onStarted={onClose}
+            showTutorialHand={showTutorialHand}
           />
         )}
       </CloseButtonPanel>

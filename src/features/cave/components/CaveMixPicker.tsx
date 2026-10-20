@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 
@@ -9,6 +9,8 @@ import type {
   CaveRecipeName,
 } from "features/game/types/caveRecipes";
 import {
+  CAVE_BATCH_DURATION_MS,
+  CAVE_FIRST_BATCH_RECIPE,
   CAVE_MUD_CROPS,
   CAVE_RECIPES,
   isCavePatchCleared,
@@ -23,8 +25,10 @@ import {
   getCaveBatchCost,
   getCaveBatchDuration,
   getCaveBatchSkills,
+  isFirstCaveBatch,
 } from "features/game/lib/cave";
 import { getKeys } from "lib/object";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import {
   ITEM_DETAILS,
   getTranslatedItemName,
@@ -38,9 +42,16 @@ import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
+import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import powerup from "assets/icons/level_up.png";
-import { CaveBuriedTiles, RECIPE_IMAGE, TILE_IMAGE } from "./CaveBuriedTiles";
+import {
+  CaveBeetleOdds,
+  CaveBuriedTiles,
+  RECIPE_IMAGE,
+  TILE_IMAGE,
+} from "./CaveBuriedTiles";
+import { CaveTutorialHand } from "./CaveTutorial";
 
 const RECIPE_NAMES = getKeys(CAVE_RECIPES);
 const MUD_CROPS = getKeys(CAVE_MUD_CROPS);
@@ -66,6 +77,8 @@ interface Props {
   machineId: string;
   batch?: CaveBatch;
   onStarted: () => void;
+  /** Point the Cave tutorial hand at Start while the selected mix is affordable. */
+  showTutorialHand?: boolean;
 }
 
 /**
@@ -76,6 +89,7 @@ export const CaveMixPicker: React.FC<Props> = ({
   machineId,
   batch,
   onStarted,
+  showTutorialHand,
 }) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
@@ -90,6 +104,13 @@ export const CaveMixPicker: React.FC<Props> = ({
     return canAffordMudCrop(game, first) ? first : "Carrot";
   });
   const [showReplaceConfirm, setShowReplaceConfirm] = useState(false);
+  const [showTimeBoosts, setShowTimeBoosts] = useState(false);
+  const timeBoostsRef = useRef<HTMLDivElement>(null);
+
+  // A farm's first batch can only be the Mushroom mix; the others stay hidden.
+  const recipes = isFirstCaveBatch(game)
+    ? [CAVE_FIRST_BATCH_RECIPE]
+    : RECIPE_NAMES;
 
   const isCleared = !!batch && isCavePatchCleared(batch);
   const canReplace = !!batch && !isCleared && canRestartCaveBatch(batch);
@@ -111,7 +132,9 @@ export const CaveMixPicker: React.FC<Props> = ({
       ingredients[item] ?? new Decimal(0),
     ),
   );
-  const durationSeconds = getCaveBatchDuration(game).duration / 1000;
+  const { duration, boostsUsed: timeBoostsUsed } = getCaveBatchDuration(game);
+  const durationSeconds = duration / 1000;
+  const isTimeBoosted = timeBoostsUsed.length > 0;
 
   // Mushrooms left in a replaced patch are lost; ask first. Leftover Mud alone
   // is not worth a warning.
@@ -149,7 +172,7 @@ export const CaveMixPicker: React.FC<Props> = ({
           {t("cave.batch.chooseRecipe")}
         </Label>
         <div className="flex flex-wrap gap-1 px-1 mb-2">
-          {RECIPE_NAMES.map((name) => (
+          {recipes.map((name) => (
             <Box
               key={name}
               image={ITEM_DETAILS[RECIPE_IMAGE[name]].image}
@@ -182,6 +205,7 @@ export const CaveMixPicker: React.FC<Props> = ({
           </Label>
         )}
         <CaveBuriedTiles counts={buriedCounts} />
+        <CaveBeetleOdds odds={getCaveBatchSkills(game).skills?.beetleRarity} />
       </InnerPanel>
 
       {recipe === "Mud" && (
@@ -229,7 +253,37 @@ export const CaveMixPicker: React.FC<Props> = ({
               requirement={ingredients[item] ?? new Decimal(0)}
             />
           ))}
-          <RequirementLabel type="time" waitSeconds={durationSeconds} />
+          {isTimeBoosted ? (
+            <div
+              ref={timeBoostsRef}
+              className="flex flex-row items-center gap-2 cursor-pointer"
+              onClick={() => setShowTimeBoosts(!showTimeBoosts)}
+            >
+              <RequirementLabel
+                type="time"
+                waitSeconds={durationSeconds}
+                boosted
+              />
+              <RequirementLabel
+                type="time"
+                waitSeconds={CAVE_BATCH_DURATION_MS / 1000}
+                strikethrough
+              />
+              {showTimeBoosts && (
+                <BoostsDisplay
+                  boosts={timeBoostsUsed}
+                  show={showTimeBoosts}
+                  state={game}
+                  onClick={() => setShowTimeBoosts((prev) => !prev)}
+                  anchorRef={timeBoostsRef}
+                  portalAlign="center"
+                  portalPlacement="auto"
+                />
+              )}
+            </div>
+          ) : (
+            <RequirementLabel type="time" waitSeconds={durationSeconds} />
+          )}
         </div>
       </InnerPanel>
 
@@ -243,14 +297,29 @@ export const CaveMixPicker: React.FC<Props> = ({
         </Label>
       )}
 
-      <Button
-        disabled={!canAfford}
-        onClick={() =>
-          hasLeftovers ? setShowReplaceConfirm(true) : startBatch()
-        }
-      >
-        {t("cave.batch.start")}
-      </Button>
+      <div className="relative">
+        <Button
+          disabled={!canAfford}
+          onClick={() =>
+            hasLeftovers ? setShowReplaceConfirm(true) : startBatch()
+          }
+        >
+          {t("cave.batch.start")}
+        </Button>
+        {/* The panel scrolls, so a slightly smaller hand sits inside the
+            button's corner rather than hanging off the bottom. */}
+        {showTutorialHand && canAfford && (
+          <CaveTutorialHand
+            style={{
+              width: `${PIXEL_SCALE * 14}px`,
+              left: "auto",
+              top: "auto",
+              right: `${PIXEL_SCALE * 2}px`,
+              bottom: `${PIXEL_SCALE * 2}px`,
+            }}
+          />
+        )}
+      </div>
 
       <ConfirmationModal
         show={showReplaceConfirm}

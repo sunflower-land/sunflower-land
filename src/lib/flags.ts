@@ -179,20 +179,20 @@ const FEATURE_FLAGS = {
    * Chapter 16's Pigpen building and the Pig animal. Remove once Chapter 16
    * ships and the Pigpen gates on its own unlock level instead.
    */
-  PIGPEN: usernameFeatureFlag,
+  PIGPEN: betaFeatureFlag,
 
   /**
    * Chapter 16's Cave: the Cave building in the Workbench shop and the `/cave`
    * interior room. Remove once Chapter 16 ships and the Cave gates on its own
    * unlock instead.
    */
-  CAVE: usernameFeatureFlag,
+  CAVE: betaFeatureFlag,
 
   /**
    * Chapter 16's direct Beetle feeding: a Beetle fed straight to an animal.
    * Remove once Chapter 16 ships.
    */
-  BEETLE_FEEDING: usernameFeatureFlag,
+  BEETLE_FEEDING: betaFeatureFlag,
 
   FACE_RECOGNITION_TEST: betaFeatureFlag,
   // The developer-options button that forces a captcha on your own farm

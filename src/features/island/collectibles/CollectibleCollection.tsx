@@ -849,6 +849,21 @@ export const COLLECTIBLE_COMPONENTS: Record<
       project="Ascension Monument"
     />
   ),
+  "Duende Monument": (props: CollectibleProps) => (
+    <Monument
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 36}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 6}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 36}px`,
+      }}
+      alt="Duende Monument"
+      project="Duende Monument"
+    />
+  ),
   "Dino Egg Trophy": () => <TemplateCollectible name="Dino Egg Trophy" />,
   "Salt Lamp": () => <TemplateCollectible name="Salt Lamp" />,
   "World Map Rug": () => <TemplateCollectible name="World Map Rug" />,
@@ -4338,6 +4353,91 @@ export const COLLECTIBLE_COMPONENTS: Record<
       }}
     />
   ),
+  // TODO(Cave Dwellers): offsets mirror the Ascension Age placeholder art
+  "Cave Dwellers Fish": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Cave Dwellers Fish"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+    />
+  ),
+  "Cave Dwellers Banner": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Cave Dwellers Banner"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 22}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 22}px`,
+      }}
+    />
+  ),
+  "Mushroom Chicken": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Mushroom Chicken"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 17}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -0.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 17}px`,
+      }}
+    />
+  ),
+  "Ladybug Cow": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Ladybug Cow"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 25}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 3.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 25}px`,
+      }}
+    />
+  ),
+  "Beetle Sheep": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Beetle Sheep"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 25}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 3.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 25}px`,
+      }}
+    />
+  ),
+  "Cyclops Bloom": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Cyclops Bloom"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 21}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -2.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 21}px`,
+      }}
+    />
+  ),
   "Salt Rug": () => <TemplateCollectible name="Salt Rug" />,
   "Ascended Idol": () => <TemplateCollectible name="Ascended Idol" />,
   "Ascended Wheel": () => <TemplateCollectible name="Ascended Wheel" />,
@@ -4350,6 +4450,15 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Shards Turtle": () => <TemplateCollectible name="Shards Turtle" />,
   Vibraphone: () => <TemplateCollectible name="Vibraphone" />,
   "Winged Vase": () => <TemplateCollectible name="Winged Vase" />,
+  "Giant Truffle": () => <TemplateCollectible name="Giant Truffle" />,
+  "Mining Drill": () => <TemplateCollectible name="Mining Drill" />,
+  "Piggy Bank": () => <TemplateCollectible name="Piggy Bank" />,
+  "Straw House": () => <TemplateCollectible name="Straw House" />,
+  "Stick House": () => <TemplateCollectible name="Stick House" />,
+  "Brick House": () => <TemplateCollectible name="Brick House" />,
+  "Big Bad Wolf": () => <TemplateCollectible name="Big Bad Wolf" />,
+  "Pig Plush": () => <TemplateCollectible name="Pig Plush" />,
+  "Pig Doll": () => <TemplateCollectible name="Pig Doll" />,
   "Blue Paint Bucket": (props: CollectibleProps) => (
     <ImageStyle
       {...props}

@@ -4579,10 +4579,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Rapid Mycelium": {
     name: "Rapid Mycelium",
     tree: "Cave",
-    // x0.9 / x0.75 / x0.5 Myco Bin growth time (10.8h / 9h / 6h).
+    // x0.95 / x0.9 / x0.85 Myco Bin growth time (11.4h / 10.8h / 10.2h).
     upgrade: {
       maxLevel: 3,
-      effect: { kind: "growthMultiplier", ranks: [0.9, 0.75, 0.5] },
+      effect: { kind: "growthMultiplier", ranks: [0.95, 0.9, 0.85] },
     },
     disabled: false,
     requirements: {
@@ -4756,7 +4756,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Tool Hoarder": {
     name: "Tool Hoarder",
     tree: "Cave",
-    // +50% / +100% / +200% Sand Shovel (base 50) and Sand Drill (base 10) stock.
+    // +25/+50/+100 Sand Shovel (base 125) and +5/+10/+20 Sand Drill (base 25) stock.
     upgrade: {
       maxLevel: 3,
       effect: {

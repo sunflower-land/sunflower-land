@@ -105,7 +105,17 @@ export type ChapterDecorationName =
   | "Salt Worker Gnome"
   | "Shards Turtle"
   | "Vibraphone"
-  | "Winged Vase";
+  | "Winged Vase"
+  // Cave Dwellers
+  | "Giant Truffle"
+  | "Mining Drill"
+  | "Piggy Bank"
+  | "Straw House"
+  | "Stick House"
+  | "Brick House"
+  | "Big Bad Wolf"
+  | "Pig Plush"
+  | "Pig Doll";
 
 export type EventDecorationName =
   | "Jelly Lamp"
@@ -982,6 +992,16 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "Shards Turtle": { width: 1, height: 2 },
   Vibraphone: { width: 2, height: 2 },
   "Winged Vase": { width: 1, height: 1 },
+  // Cave Dwellers
+  "Giant Truffle": { width: 2, height: 2 },
+  "Mining Drill": { width: 2, height: 2 },
+  "Piggy Bank": { width: 2, height: 2 },
+  "Straw House": { width: 2, height: 2 },
+  "Stick House": { width: 2, height: 2 },
+  "Brick House": { width: 2, height: 2 },
+  "Big Bad Wolf": { width: 1, height: 2 },
+  "Pig Plush": { width: 1, height: 1 },
+  "Pig Doll": { width: 1, height: 2 },
 
   "Diving Helmet": {
     width: 1,

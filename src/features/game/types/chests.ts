@@ -27,7 +27,7 @@ function getChapterMegastoreChestRewards(
   if (nowDate < startDate || nowDate >= endDate) return [];
 
   const restricted: (InventoryItemName | BumpkinItem)[] = [
-    ...Object.values(CHAPTER_TICKET_BOOST_ITEMS[chapter]),
+    ...Object.values(CHAPTER_TICKET_BOOST_ITEMS[chapter] ?? {}),
     ...HOURGLASSES,
   ];
 

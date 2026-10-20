@@ -10,8 +10,8 @@ import { SUNNYSIDE } from "assets/sunnyside";
 
 export type ChapterMutantsData = {
   banner: string;
-  Chicken: MutantChicken;
-  Flower: MutantFlowerName;
+  Chicken: MutantChicken | undefined;
+  Flower: MutantFlowerName | undefined;
   Fish: ChapterFish[];
   Cow: MutantCow | undefined;
   Sheep: MutantSheep | undefined;
@@ -104,6 +104,14 @@ export const CHAPTER_MUTANTS: Record<MutantsChapterName, ChapterMutantsData> = {
     Fish: ["Crocodile", "Dumbo Octopus", "Seahorse Dad"],
     Cow: "Ascended Cow",
     Sheep: "Ascended Sheep",
+    banner: "?",
+  },
+  "Cave Dwellers": {
+    Chicken: "Mushroom Chicken",
+    Flower: "Cyclops Bloom",
+    Fish: ["Cave Dwellers Fish"],
+    Cow: "Ladybug Cow",
+    Sheep: "Beetle Sheep",
     banner: "?",
   },
 };

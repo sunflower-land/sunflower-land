@@ -21,6 +21,14 @@ export const CAVE_DRILL_COST = 1;
 export const CAVE_BATCH_DURATION_MS = 12 * 60 * 60 * 1000;
 
 /**
+ * A farm's first batch grows in 10 minutes instead (no Cave skills) and must
+ * be the Mushroom mix, so the Cave tutorial reaches digging in one sitting.
+ * See `isFirstCaveBatch`.
+ */
+export const CAVE_FIRST_BATCH_DURATION_MS = 10 * 60 * 1000;
+export const CAVE_FIRST_BATCH_RECIPE: CaveRecipeName = "Mushroom";
+
+/**
  * A buried tile's kind. Cave patches hold no Chapter Artefact (#7721); the
  * artefact comes from Desert digging only.
  */
@@ -53,9 +61,9 @@ export const CAVE_RECIPES: Record<CaveRecipeName, CaveRecipe> = {
     ingredients: { Wood: new Decimal(10) },
   },
   Beetle: {
-    composition: { Mushroom: 3, Beetle: 4, Mud: 18 },
+    composition: { Mushroom: 3, Beetle: 5, Mud: 17 },
     mudYieldMultiplier: 1,
-    ingredients: { Egg: new Decimal(10) },
+    ingredients: { Egg: new Decimal(30) },
   },
   Mud: {
     composition: { Mushroom: 3, Beetle: 2, Mud: 20 },

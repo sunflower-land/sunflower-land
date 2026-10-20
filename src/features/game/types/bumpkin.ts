@@ -162,7 +162,8 @@ export type BumpkinShirt =
   | "Blue Slime Shirt"
   | "Slime Splattered Shirt"
   | "Swamp Armor"
-  | "Vampire Garments";
+  | "Vampire Garments"
+  | "Duende Shirt";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -274,7 +275,8 @@ export type BumpkinShoe =
   | "Blue Jelly Shoes"
   | "Sad Slime Slippers"
   | "Crystal Shoes"
-  | "Vampire Footwear";
+  | "Vampire Footwear"
+  | "Duende Shoes";
 
 export type BumpkinNecklace =
   | "Sunflower Amulet"
@@ -411,7 +413,10 @@ export type BumpkinHat =
   | "Swamp Lily Hat"
   | "Vampire Headwear"
   | "Butcher Knife"
-  | "Skeleton Mask";
+  | "Skeleton Mask"
+  | "Beetle Goggles"
+  | "Duende Hat"
+  | "Hercules Beetle Hat";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -461,7 +466,8 @@ export type BumpkinPant =
   | "Red Jelly Pants"
   | "Swamp Pants"
   | "Marble Pants"
-  | "Vampire Breeches";
+  | "Vampire Breeches"
+  | "Duende Pants";
 
 export type BumpkinDress =
   | "Royal Dress"
@@ -539,7 +545,8 @@ export type BumpkinOnesie =
   | "Frank Onesie"
   | "Cozy Reindeer Onesie"
   | "Shrimp Onesie"
-  | "Salt Bottle Onesie";
+  | "Salt Bottle Onesie"
+  | "Pig Onesie";
 
 // Goes over clothes
 export type BumpkinSuit =
@@ -1278,6 +1285,14 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
 
   "Traveling Merchant Suit": 587,
   "Traveling Merchant Bag": 588,
+  
+  "Beetle Goggles": 589,
+  "Duende Hat": 590,
+  "Duende Shirt": 591,
+  "Duende Pants": 592,
+  "Duende Shoes": 593,
+  "Hercules Beetle Hat": 594,
+  "Pig Onesie": 595,
 
   //Halloween 2026
   "Sky Tearer Wings": 596,
@@ -1957,6 +1972,13 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
 
   "Traveling Merchant Suit": "suit",
   "Traveling Merchant Bag": "wings",
+  "Beetle Goggles": "hat",
+  "Duende Hat": "hat",
+  "Duende Shirt": "shirt",
+  "Duende Pants": "pants",
+  "Duende Shoes": "shoes",
+  "Hercules Beetle Hat": "hat",
+  "Pig Onesie": "onesie",
 };
 
 /**Copied from BE just for hoarding checks */
