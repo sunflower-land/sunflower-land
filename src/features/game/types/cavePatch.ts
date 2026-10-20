@@ -34,7 +34,7 @@ export type ResolvedCaveTile = {
  * Commonest-first Beetle rarity weights (percent). Matches `BEETLES` order. The
  * Rare Breeds skill replaces them with the batch's `skills.beetleRarity`.
  */
-const BEETLE_RARITY_WEIGHTS: Record<BeetleName, number> = {
+export const BEETLE_RARITY_WEIGHTS: Record<BeetleName, number> = {
   "Green Beetle": 40,
   "Blue Beetle": 30,
   "Pink Beetle": 20,
