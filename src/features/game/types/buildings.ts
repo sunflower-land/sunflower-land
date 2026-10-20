@@ -143,8 +143,9 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
       Gold: new Decimal(10),
     },
   },
-  // TODO(Chapter 16): cost, unlock level and build time are placeholders -
-  // the spec lists all of them as "configuration pending". Cloned from Barn.
+  // Barn's construction cost plus 10 Mud, kept (Bryn, 2026-10-21): the
+  // one-off cost is small either way, and the Mud makes the Cave a
+  // prerequisite. The upgrade curve is priced per slot in BUILDING_UPGRADES.
   Pigpen: {
     unlocksAtLevel: { ascension: 0, level: 30 },
     coins: 200,
@@ -153,9 +154,8 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
       Wood: new Decimal(150),
       Iron: new Decimal(10),
       Gold: new Decimal(10),
-      // TODO(Chapter 16): placeholder quantity. Mud is a construction input as
-      // well as an upgrade one, so the Pigpen needs the Cave before it can be
-      // raised at all.
+      // Mud is a construction input as well as an upgrade one, so the Pigpen
+      // needs the Cave before it can be raised at all.
       Mud: new Decimal(10),
     },
     requiredIsland: "spring",
