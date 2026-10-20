@@ -459,14 +459,24 @@ describe("startCaveBatch: first batch", () => {
     const next = start(
       {
         ...state,
-        bumpkin: { ...state.bumpkin, skills: { "Mushroom Bloom": 1 } },
+        bumpkin: {
+          ...state.bumpkin,
+          skills: { "Mushroom Bloom": 2, "Beetle Nest": 3, "Rare Breeds": 1 },
+        },
       },
       "1",
       "Mushroom",
       NOW,
     );
     expect(next.cave?.machines["1"].batch?.skills).toEqual({
-      extraMushroomTiles: 1,
+      extraMushroomTiles: 2,
+      extraBeetleTiles: 3,
+      beetleRarity: {
+        "Green Beetle": 35,
+        "Blue Beetle": 35,
+        "Pink Beetle": 15,
+        "Amber Beetle": 15,
+      },
     });
   });
 
