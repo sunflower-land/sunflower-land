@@ -111,7 +111,9 @@ answers with JSON matching the schema: a summary plus up to six scenarios of
 `buildPreviewComment.ts` then:
 
 - drops a scenario on hard problems: bad shape, bad route, oversized patch,
-  malformed `$` token, patch that cannot be applied, unknown fixture;
+  malformed `$` token, patch that cannot be applied, unknown fixture, or a
+  farm no real game can reach (`getImpossibleFarmReason`, e.g. an ascension
+  island with `ascensionLevel` below 1);
 - keeps it with a ⚠️ on soft problems: unknown item / wearable name or
   unknown top-level state key, since the PR may be introducing them;
 - builds every URL itself. The model never emits URLs, so a prompt injection

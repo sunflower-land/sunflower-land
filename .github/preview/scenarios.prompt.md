@@ -25,6 +25,8 @@ The preview runs in **ART_MODE**: there is no server. Auth starts connected and 
 - `static` — the hand-authored snapshot in `src/features/game/lib/landDataStatic.ts`.
 - `basic`, `spring`, `desert`, `volcano`, `swamp`, `spooky`, `crystal`, `galaxy`, `marble` — a fully expanded farm on that island (level 11 Bumpkin).
 
+`swamp`, `spooky`, `crystal`, `galaxy` and `marble` are **ascension islands**: a real farm on one always has `island.ascensionLevel` >= 1 (swamp = 1, spooky = 2, crystal = 3, galaxy = 4, marble = 5 and up), and the game crashes without it. Never patch `island.ascensionLevel` below 1 (or to `null`) on those fixtures, and never set `island.type` to one of them without an `ascensionLevel` of at least 1. For a non-ascended farm, use `basic`, `spring`, `desert` or `volcano` (or `default` / `test`) instead. Scenarios that break this are dropped.
+
 **Patch semantics** (`patch` is a partial `GameState`, see `src/features/game/types/game.ts`, written as a **JSON object literal inside a string** — e.g. `"patch": "{\"coins\":500}"` — because the output schema cannot describe a free-form object; `"{}"` means no patch, and `localStorage` is the same or `null`):
 
 - Objects deep-merge. Arrays replace the whole array. `null` deletes the key.
