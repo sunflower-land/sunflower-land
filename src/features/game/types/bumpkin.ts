@@ -1276,20 +1276,21 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Spooky Coat": 585,
   "Surfer Hair": 586,
 
+  "Traveling Merchant Suit": 587,
+  "Traveling Merchant Bag": 588,
+
   //Halloween 2026
-  "Skeleton Mask": 589,
-  "Vampire Breeches": 590,
-  "Scary Nights Background": 591,
-  "Vampire Garments": 592,
-  "Hook and Chain": 593,
-  "Vampire Footwear": 594,
-  "Skeleton Costume": 595,
   "Sky Tearer Wings": 596,
   "Bat Aura": 597,
   "Vampire Headwear": 598,
   "Butcher Knife": 599,
-  "Traveling Merchant Suit": 587,
-  "Traveling Merchant Bag": 588,
+  "Skeleton Mask": 600,
+  "Vampire Breeches": 601,
+  "Scary Nights Background": 602,
+  "Vampire Garments": 603,
+  "Hook and Chain": 604,
+  "Vampire Footwear": 605,
+  "Skeleton Costume": 606,
 };
 
 // The reverse of above
