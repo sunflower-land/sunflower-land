@@ -8,7 +8,6 @@ import { Button } from "components/ui/Button";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { Box } from "components/ui/Box";
 import { Label } from "components/ui/Label";
-import { DropdownPanel } from "components/ui/DropdownPanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CHUM_DETAILS } from "features/game/types/fishing";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -247,64 +246,59 @@ export const WaterTrapModal: React.FC<Props> = ({
       {tab === "crustaceans" && (
         <div className="flex flex-col gap-1">
           <div className="flex flex-col gap-1">
-            <DropdownPanel
-              options={[
-                {
-                  value: "Crab Pot",
-                  label: (
-                    <div className="flex flex-col gap-1">
-                      <p className="text-xs">{`Crab Pot (${
-                        state.inventory["Crab Pot"]?.toString() ?? 0
-                      })`}</p>
-                      <p className="text-xxs">
-                        {ITEM_DETAILS["Crab Pot"].description}
-                      </p>
-                    </div>
-                  ),
-                  icon: ITEM_DETAILS["Crab Pot"].image,
-                },
-                ...(canUseMarinerPot
-                  ? [
-                      {
-                        value: "Mariner Pot",
-                        label: (
-                          <div className="flex flex-col gap-1">
-                            <p className="text-xs">{`Mariner Pot (${
-                              state.inventory["Mariner Pot"]?.toString() ?? 0
-                            })`}</p>
-                            <p className="text-xxs">
-                              {ITEM_DETAILS["Mariner Pot"].description}
-                            </p>
-                          </div>
-                        ),
-                        icon: ITEM_DETAILS["Mariner Pot"].image,
-                      },
-                    ]
-                  : []),
-              ]}
-              value={selectedTrap}
-              onChange={(trap) => handleTrapChange(trap)}
-            />
-
-            {hasRoyalCrabPot ? (
-              <Label
-                className="ml-1"
-                type="success"
-                icon={ITEM_DETAILS["Royal Crab Pot"].image}
-              >
-                {t("waterTrap.royalCrabPotActive")}
-              </Label>
-            ) : (
-              !hasTrap && (
-                <Label className="ml-1" type="danger">
-                  {t("fishing.dont.have.enough.bait", { bait: selectedTrap })}
+            <InnerPanel>
+              <p className="mb-1 p-1 text-xs">{t("waterTrap.selectTrap")}</p>
+              <div className="flex items-center">
+                {getKeys(WATER_TRAP).map((trap) => {
+                  const isLocked = trap === "Mariner Pot" && !canUseMarinerPot;
+                  return (
+                    <Box
+                      key={trap}
+                      image={ITEM_DETAILS[trap].image}
+                      count={state.inventory[trap] ?? new Decimal(0)}
+                      onClick={() => handleTrapChange(trap)}
+                      isSelected={selectedTrap === trap}
+                      missingRequirements={
+                        !hasRoyalCrabPot && !state.inventory[trap]?.gte(1)
+                      }
+                      locked={isLocked}
+                      tooltip={trap}
+                    />
+                  );
+                })}
+                <div className="flex flex-col ml-1 min-w-0">
+                  <p className="text-xs">{selectedTrap}</p>
+                  <p className="text-xxs">
+                    {ITEM_DETAILS[selectedTrap].description}
+                  </p>
+                </div>
+              </div>
+              {hasRoyalCrabPot ? (
+                <Label
+                  className="ml-1 mt-1"
+                  type="success"
+                  icon={ITEM_DETAILS["Royal Crab Pot"].image}
+                >
+                  {t("waterTrap.royalCrabPotActive")}
                 </Label>
-              )
-            )}
+              ) : (
+                !hasTrap && (
+                  <Label className="ml-1 mt-1" type="danger">
+                    {t("fishing.dont.have.enough.bait", { bait: selectedTrap })}
+                  </Label>
+                )
+              )}
+            </InnerPanel>
 
             <InnerPanel>
               <p className="mb-1 p-1 text-xs">{t("waterTrap.selectChum")}</p>
               <div className="flex flex-wrap items-center">
+                <Box
+                  image={SUNNYSIDE.icons.cancel}
+                  onClick={() => handleChumChange(undefined)}
+                  isSelected={!selectedChum}
+                  tooltip={t("waterTrap.noChumSelected")}
+                />
                 {chums.map((chum) => {
                   const currentAmount = items[chum] ?? new Decimal(0);
                   return (
@@ -317,10 +311,6 @@ export const WaterTrapModal: React.FC<Props> = ({
                     />
                   );
                 })}
-                <Box
-                  onClick={() => handleChumChange(undefined)}
-                  isSelected={!selectedChum}
-                />
               </div>
             </InnerPanel>
             {selectedChum ? (
@@ -366,7 +356,11 @@ export const WaterTrapModal: React.FC<Props> = ({
             ) : (
               <InnerPanel className="p-2">
                 <div className="flex items-center justify-between">
-                  <Label type="default" className="mb-1 ml-1">
+                  <Label
+                    type="default"
+                    className="mb-1 ml-1"
+                    icon={SUNNYSIDE.icons.cancel}
+                  >
                     {t("waterTrap.noChumSelected")}
                   </Label>
                   {showResultingCatch && catchForSelectedChum ? (
