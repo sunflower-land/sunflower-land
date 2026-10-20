@@ -24,8 +24,10 @@ export type CaveTier = {
 const HOUR_MS = 60 * 60 * 1000;
 
 // Costs: discussion #7721 Balance Update (7 Oct 2026) — Coins, Mud, Wood and
-// Stone every tier, Leather at III–IV, Pig Bristles from V. TODO(Cave balance
-// 465): construction times are still invented placeholders.
+// Stone every tier, Leather at III–IV, Pig Bristles from V. Mud rebalanced
+// after the Chapter 16 alpha (Bryn, Oct 2026): doubles up to the 1000s, then
+// x1.5. TODO(Cave balance 465): construction times are still invented
+// placeholders.
 export const CAVE_TIERS: Record<CaveExpansionTier, CaveTier> = {
   2: {
     island: "desert",
@@ -52,7 +54,7 @@ export const CAVE_TIERS: Record<CaveExpansionTier, CaveTier> = {
     island: "swamp",
     coins: 2500,
     ingredients: {
-      Mud: new Decimal(600),
+      Mud: new Decimal(800),
       Wood: new Decimal(75),
       Stone: new Decimal(50),
       Leather: new Decimal(15),
@@ -63,7 +65,7 @@ export const CAVE_TIERS: Record<CaveExpansionTier, CaveTier> = {
     island: "spooky",
     coins: 5000,
     ingredients: {
-      Mud: new Decimal(800),
+      Mud: new Decimal(1600),
       Wood: new Decimal(100),
       Stone: new Decimal(75),
       "Pig Bristles": new Decimal(20),
@@ -74,7 +76,7 @@ export const CAVE_TIERS: Record<CaveExpansionTier, CaveTier> = {
     island: "crystal",
     coins: 10_000,
     ingredients: {
-      Mud: new Decimal(1000),
+      Mud: new Decimal(2400),
       Wood: new Decimal(150),
       Stone: new Decimal(100),
       "Pig Bristles": new Decimal(30),
@@ -85,7 +87,7 @@ export const CAVE_TIERS: Record<CaveExpansionTier, CaveTier> = {
     island: "galaxy",
     coins: 20_000,
     ingredients: {
-      Mud: new Decimal(1200),
+      Mud: new Decimal(3600),
       Wood: new Decimal(200),
       Stone: new Decimal(150),
       "Pig Bristles": new Decimal(40),
@@ -96,7 +98,7 @@ export const CAVE_TIERS: Record<CaveExpansionTier, CaveTier> = {
     island: "marble",
     coins: 40_000,
     ingredients: {
-      Mud: new Decimal(1400),
+      Mud: new Decimal(5400),
       Wood: new Decimal(250),
       Stone: new Decimal(200),
       "Pig Bristles": new Decimal(50),
