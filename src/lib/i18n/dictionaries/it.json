@@ -8828,5 +8828,6 @@
   "description.emberRoastedTrufflePotatoes": "Patate arrostite alla brace con tartufo",
   "description.creamyTruffleRisotto": "Riso cotto a fuoco lento con tartufo e funghi selvatici",
   "skill.rapidMycelium": "x0.95 Tempo di crescita di Myco Bin",
-  "level.ascension.badge": "A {{ascension}}"
+  "level.ascension.badge": "A {{ascension}}",
+  "description.bonusCaveDwellersTicket.boost": "+1 Biglietto Cave Dwellers"
 }

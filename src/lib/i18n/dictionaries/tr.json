@@ -8828,5 +8828,6 @@
   "description.emberRoastedTrufflePotatoes": "Trüf mantarlı köz üzerinde kavrulmuş patatesler",
   "description.creamyTruffleRisotto": "Trüf ve Yabani Mantarlı Yavaş Kaynatılmış Pirinç",
   "skill.rapidMycelium": "x0.95 Myco Bin büyüme süresi",
-  "level.ascension.badge": "A {{ascension}}"
+  "level.ascension.badge": "A {{ascension}}",
+  "description.bonusCaveDwellersTicket.boost": "+1 Cave Dwellers Bileti"
 }

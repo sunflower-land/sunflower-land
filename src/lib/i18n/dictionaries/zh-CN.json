@@ -8828,5 +8828,6 @@
   "description.emberRoastedTrufflePotatoes": "用松露在余烬上烤土豆",
   "description.creamyTruffleRisotto": "用松露和野生蘑菇慢炖大米",
   "skill.rapidMycelium": "x0.95 Myco Bin 生长时间",
-  "level.ascension.badge": "A {{ascension}}"
+  "level.ascension.badge": "A {{ascension}}",
+  "description.bonusCaveDwellersTicket.boost": "+1 洞穴居民门票"
 }

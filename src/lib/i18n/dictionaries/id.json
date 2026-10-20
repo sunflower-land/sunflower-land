@@ -8828,5 +8828,6 @@
   "description.emberRoastedTrufflePotatoes": "Kentang dipanggang di atas bara api dengan Truffle",
   "description.creamyTruffleRisotto": "Nasi direbus perlahan dengan Truffle dan Jamur Liar",
   "skill.rapidMycelium": "x0.95 Waktu pertumbuhan Myco Bin",
-  "level.ascension.badge": "A {{ascension}}"
+  "level.ascension.badge": "A {{ascension}}",
+  "description.bonusCaveDwellersTicket.boost": "+1 Tiket Cave Dwellers"
 }

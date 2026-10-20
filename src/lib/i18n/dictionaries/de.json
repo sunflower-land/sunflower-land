@@ -8828,5 +8828,6 @@
   "description.emberRoastedTrufflePotatoes": "Über Glut gebratene Kartoffeln mit Trüffel",
   "description.creamyTruffleRisotto": "Langsam gekochter Reis mit Trüffeln und Waldpilzen",
   "skill.rapidMycelium": "x0.95 Myco Bin Wachstumszeit",
-  "level.ascension.badge": "{{ascension}}"
+  "level.ascension.badge": "{{ascension}}",
+  "description.bonusCaveDwellersTicket.boost": "+1 Ticket für Höhlenbewohner"
 }
