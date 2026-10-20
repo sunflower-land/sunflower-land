@@ -8827,5 +8827,6 @@
   "cave.tutorial.bubble.expand": "扩建洞穴",
   "description.emberRoastedTrufflePotatoes": "用松露在余烬上烤土豆",
   "description.creamyTruffleRisotto": "用松露和野生蘑菇慢炖大米",
-  "skill.rapidMycelium": "x0.95 Myco Bin 生长时间"
+  "skill.rapidMycelium": "x0.95 Myco Bin 生长时间",
+  "level.ascension.badge": "A {{ascension}}"
 }

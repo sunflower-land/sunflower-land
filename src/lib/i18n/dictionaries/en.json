@@ -2145,6 +2145,7 @@
   "level.number": "Level {{level}}",
   "level.short": "Lvl {{level}}",
   "level.ascension": "Ascension {{ascension}} Level {{level}}",
+  "level.ascension.badge": "A{{ascension}}",
   "level.ascension.medium": "Asc. {{ascension}} Lvl. {{level}}",
   "level.ascension.short": "A{{ascension}} L{{level}}",
   "polygonscan": "PolygonScan",

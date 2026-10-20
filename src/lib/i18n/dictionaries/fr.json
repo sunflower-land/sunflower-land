@@ -8827,5 +8827,6 @@
   "cave.tutorial.bubble.expand": "Agrandir la grotte",
   "description.emberRoastedTrufflePotatoes": "Pommes de terre rôties à la braise à la truffe",
   "description.creamyTruffleRisotto": "Riz mijoté lentement à la truffe et aux champignons sauvages",
-  "skill.rapidMycelium": "x0.95 Temps de croissance de Myco Bin"
+  "skill.rapidMycelium": "x0.95 Temps de croissance de Myco Bin",
+  "level.ascension.badge": "À {{ascension}}"
 }

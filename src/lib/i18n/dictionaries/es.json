@@ -8827,5 +8827,6 @@
   "cave.tutorial.bubble.expand": "Expande la cueva",
   "description.emberRoastedTrufflePotatoes": "Patatas asadas sobre brasas con trufa",
   "description.creamyTruffleRisotto": "Arroz cocido a fuego lento con trufa y setas silvestres",
-  "skill.rapidMycelium": "x0.95 Tiempo de crecimiento de Myco Bin"
+  "skill.rapidMycelium": "x0.95 Tiempo de crecimiento de Myco Bin",
+  "level.ascension.badge": "{{ascension}}"
 }

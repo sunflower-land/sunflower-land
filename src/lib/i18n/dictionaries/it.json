@@ -8827,5 +8827,6 @@
   "cave.tutorial.bubble.expand": "Espandi la grotta",
   "description.emberRoastedTrufflePotatoes": "Patate arrostite alla brace con tartufo",
   "description.creamyTruffleRisotto": "Riso cotto a fuoco lento con tartufo e funghi selvatici",
-  "skill.rapidMycelium": "x0.95 Tempo di crescita di Myco Bin"
+  "skill.rapidMycelium": "x0.95 Tempo di crescita di Myco Bin",
+  "level.ascension.badge": "A {{ascension}}"
 }

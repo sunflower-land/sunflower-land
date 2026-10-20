@@ -8827,5 +8827,6 @@
   "cave.tutorial.bubble.expand": "洞窟を広げよう",
   "description.emberRoastedTrufflePotatoes": "残り火で焼いたポテト、トリュフ添え",
   "description.creamyTruffleRisotto": "トリュフとワイルドマッシュルームをじっくり煮込んだライス",
-  "skill.rapidMycelium": "x0.95 マイコビン成長時間"
+  "skill.rapidMycelium": "x0.95 マイコビン成長時間",
+  "level.ascension.badge": "A {{ascension}}"
 }

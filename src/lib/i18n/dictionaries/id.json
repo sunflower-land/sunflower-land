@@ -8827,5 +8827,6 @@
   "cave.tutorial.bubble.expand": "Perluas Gua",
   "description.emberRoastedTrufflePotatoes": "Kentang dipanggang di atas bara api dengan Truffle",
   "description.creamyTruffleRisotto": "Nasi direbus perlahan dengan Truffle dan Jamur Liar",
-  "skill.rapidMycelium": "x0.95 Waktu pertumbuhan Myco Bin"
+  "skill.rapidMycelium": "x0.95 Waktu pertumbuhan Myco Bin",
+  "level.ascension.badge": "A {{ascension}}"
 }

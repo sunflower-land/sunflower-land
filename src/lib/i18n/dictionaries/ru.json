@@ -8827,5 +8827,6 @@
   "cave.tutorial.bubble.expand": "Expand the Cave",
   "description.emberRoastedTrufflePotatoes": "Potatoes roasted over embers with Truffle",
   "description.creamyTruffleRisotto": "Rice slow-simmered with Truffle and Wild Mushrooms",
-  "skill.rapidMycelium": "x0.95 Myco Bin growth time"
+  "skill.rapidMycelium": "x0.95 Myco Bin growth time",
+  "level.ascension.badge": "A{{ascension}}"
 }
