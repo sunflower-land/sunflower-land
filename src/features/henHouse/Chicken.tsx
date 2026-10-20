@@ -174,6 +174,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   // Captured when feeding: a level-up changes what the same feed is worth.
   const [feedXPAmount, setFeedXPAmount] = useState(0);
   const [showNoFoodSelected, setShowNoFoodSelected] = useState(false);
+  const [showFreeFeedTreat, setShowFreeFeedTreat] = useState(false);
   const [showLoveItem, setShowLoveItem] = useState<LoveAnimalItem>();
   const [showMutantAnimalModal, setShowMutantAnimalModal] = useState(false);
 
@@ -477,6 +478,13 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     if (hasBuffSelected) {
       const buffItem = selectedItem as AnimalFeedBuffName;
       const buffCount = inventory[buffItem] ?? new Decimal(0);
+      // Honey Treat only cuts feed, and Gold Egg already makes it free.
+      if (buffItem === "Honey Treat" && hasGoldEgg) {
+        setShowFreeFeedTreat(true);
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        setShowFreeFeedTreat(false);
+        return;
+      }
       if (!chicken.feedBuff && buffCount.gte(1)) {
         gameService.send({
           type: "animal.feedBuffApplied",
@@ -549,6 +557,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   };
 
   const getInfoPopoverMessage = () => {
+    if (showFreeFeedTreat)
+      return t("animal.honeyTreatFreeFeed", { item: "Gold Egg" });
     if (showNoFoodSelected) return t("animal.noFoodMessage");
     if (showNoMedicine) return t("animal.noMedicine");
     if (showNotEnoughFood)
@@ -731,7 +741,10 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
         </div>
         <InfoPopover
           showPopover={
-            showNoFoodSelected || showNoMedicine || showNotEnoughFood
+            showFreeFeedTreat ||
+            showNoFoodSelected ||
+            showNoMedicine ||
+            showNotEnoughFood
           }
           className="-top-10 left-1/2 transform -translate-x-1/2 z-20"
         >
