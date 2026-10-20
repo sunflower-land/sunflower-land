@@ -95,6 +95,7 @@ import fungalHarvest from "assets/icons/skill_icons/fungal_harvest.webp";
 import leanCompost from "assets/icons/skill_icons/lean_compost.webp";
 import muddyBounty from "assets/icons/skill_icons/muddy_bounty.webp";
 import mushroomBloom from "assets/icons/skill_icons/mushroom_bloom.webp";
+import mycoBinSmall from "assets/icons/skill_icons/myco_bin_small.webp";
 import rapidMycelium from "assets/icons/skill_icons/rapid_mycelium.webp";
 import rareBreeds from "assets/icons/skill_icons/rare_breeds.webp";
 import sturdyDrill from "assets/icons/skill_icons/sturdy_drill.webp";
@@ -102,7 +103,6 @@ import sturdyShovel from "assets/icons/skill_icons/sturdy_shovel.webp";
 import toolHoarder from "assets/icons/skill_icons/tool_hoarder.webp";
 import twinBeetles from "assets/icons/skill_icons/twin_beetles.webp";
 import xpIcon from "assets/icons/xp.png";
-import { CAVE_MYCO_BIN_IMAGES } from "features/cave/lib/caveImages";
 import type { NPCName } from "lib/npcs";
 import type { BuffLabel } from ".";
 import type { ToolName } from "./craftables";
@@ -4582,7 +4582,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.leanCompost"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: CAVE_MYCO_BIN_IMAGES.empty,
+        boostedItemIcon: mycoBinSmall,
       },
     },
     image: leanCompost,
@@ -4606,7 +4606,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.rapidMycelium"),
         labelType: "success",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-        boostedItemIcon: CAVE_MYCO_BIN_IMAGES.empty,
+        boostedItemIcon: mycoBinSmall,
       },
     },
     image: rapidMycelium,
