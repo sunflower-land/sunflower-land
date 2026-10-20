@@ -15018,6 +15018,56 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Otter Pebble",
   },
+  "Cave Dwellers Fish": {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Cave Dwellers Fish",
+  },
+  "Cave Dwellers Ticket": {
+    description: "Collected during the Cave Dwellers chapter.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Cave Dwellers Ticket",
+  },
+  "Cave Dwellers Raffle Ticket": {
+    description: "A raffle ticket for the Cave Dwellers chapter.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Cave Dwellers Raffle Ticket",
+  },
+  "Cave Dwellers Banner": {
+    description: "A banner for the Cave Dwellers chapter.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Cave Dwellers Banner",
+  },
+  "Cave Dwellers Artefact": {
+    description: "A chapter artefact unearthed during Cave Dwellers.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Treasure" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Cave Dwellers Artefact",
+  },
   "Colors Token 2026": {
     description:
       "Use this in the Festival of Colors event shop before the event ends!",

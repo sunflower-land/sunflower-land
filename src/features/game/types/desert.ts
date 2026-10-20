@@ -34,6 +34,7 @@ export const CHAPTER_ARTEFACT: Record<ChapterName, BeachBountyChapterArtefact> =
     "Crabs and Traps": "Ammonite Shell",
     "Salt Awakening": "Salt Dino Egg",
     "Ascension Age": "Otter Pebble",
+    "Cave Dwellers": "Cave Dwellers Artefact",
   };
 
 const CHAPTER_ARTEFACTS = new Set<BeachBountyChapterArtefact>(

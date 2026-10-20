@@ -1647,6 +1647,12 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Truffle Cake": 3099,
   "Creamy Truffle Risotto": 3100,
   "Truffle Seasoning": 3101,
+  // Cave Dwellers chapter
+  "Cave Dwellers Fish": 3102,
+  "Cave Dwellers Ticket": 3103,
+  "Cave Dwellers Raffle Ticket": 3104,
+  "Cave Dwellers Banner": 3105,
+  "Cave Dwellers Artefact": 3106,
 };
 
 // The reverse of above

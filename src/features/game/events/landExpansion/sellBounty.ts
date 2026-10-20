@@ -106,7 +106,7 @@ export function generateBountyTicket({
   const chapter = getCurrentChapter(now);
   const chapterBoost = CHAPTER_TICKET_BOOST_ITEMS[chapter];
 
-  Object.values(chapterBoost).forEach((item) => {
+  Object.values(chapterBoost ?? {}).forEach((item) => {
     if (isCollectible(item)) {
       if (isCollectibleBuilt({ game, name: item })) {
         amount += 1;
@@ -145,7 +145,7 @@ export function getBountyTicketBoosts({
   const chapter = getCurrentChapter(now);
   const chapterBoost = CHAPTER_TICKET_BOOST_ITEMS[chapter];
 
-  Object.values(chapterBoost).forEach((item) => {
+  Object.values(chapterBoost ?? {}).forEach((item) => {
     if (isCollectible(item)) {
       if (isCollectibleBuilt({ game, name: item })) {
         boostsUsed.push({ name: item, value: "+1" });

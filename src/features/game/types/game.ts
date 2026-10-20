@@ -531,6 +531,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Ascension Age Raffle Ticket": {
     description: translate("description.ascensionAgeRaffleTicket"),
   },
+  // TODO(Cave Dwellers): placeholder descriptions
+  "Cave Dwellers Ticket": { description: "" },
+  "Cave Dwellers Raffle Ticket": { description: "" },
   "Colors Token 2026": {
     description: translate("description.colorsToken2026"),
   },

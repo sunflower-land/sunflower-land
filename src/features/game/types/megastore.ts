@@ -1373,4 +1373,6 @@ export const MEGASTORE: Record<ChapterName, ChapterStore> = {
   "Better Together": BETTER_TOGETHER_ITEMS,
   "Paw Prints": PAW_PRINTS_ITEMS,
   "Ascension Age": ASCENSION_AGE_ITEMS,
+  // TODO(Cave Dwellers): placeholder - empty megastore
+  "Cave Dwellers": EMPTY_SEASONAL_STORE,
 };
