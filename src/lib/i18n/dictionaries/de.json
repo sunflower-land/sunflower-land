@@ -8850,5 +8850,6 @@
   "description.brickHouse": "Das dritte kleine Schwein baute ein Haus aus Ziegeln.",
   "description.bigBadWolf": "Er wird schnaufen und er wird schnaufen...",
   "description.pigPlush": "Ein weiches kleines Schwein zum Kuscheln.",
-  "description.pigDoll": "Eine winzige Schweinefigur auf einem eigenen Podest."
+  "description.pigDoll": "Eine winzige Schweinefigur auf einem eigenen Podest.",
+  "cave.tutorial.wait.firstBatch": "Jetzt warten wir. Normalerweise brauchen Patches {{fullTime}}, um zu wachsen, aber dein erster ist auf dem Haus: nur {{time}}!"
 }

@@ -8850,5 +8850,6 @@
   "description.brickHouse": "The third little Pig built a house of bricks.",
   "description.bigBadWolf": "He'll huff, and he'll puff...",
   "description.pigPlush": "A soft little Pig to cuddle.",
-  "description.pigDoll": "A tiny Pig figure on its very own pedestal."
+  "description.pigDoll": "A tiny Pig figure on its very own pedestal.",
+  "cave.tutorial.wait.firstBatch": "Now we wait. Patches usually take {{fullTime}} to grow, but your first one's on the house: just {{time}}!"
 }

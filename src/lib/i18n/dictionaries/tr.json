@@ -8850,5 +8850,6 @@
   "description.brickHouse": "Üçüncü küçük domuz tuğladan bir ev inşa etti.",
   "description.bigBadWolf": "Sıkışacak ve şişecek...",
   "description.pigPlush": "Sarılmak için yumuşak küçük bir Domuz.",
-  "description.pigDoll": "Kendi kaidesinde minik bir Domuz figürü."
+  "description.pigDoll": "Kendi kaidesinde minik bir Domuz figürü.",
+  "cave.tutorial.wait.firstBatch": "Şimdi bekleyeceğiz. Yamaların büyümesi genellikle {{fullTime}} alır, ancak ilkiniz evde: sadece {{time}}!"
 }

@@ -8850,5 +8850,6 @@
   "description.brickHouse": "O terceiro porquinho construiu uma casa de tijolos.",
   "description.bigBadWolf": "Ele vai bufar, e ele vai soprar...",
   "description.pigPlush": "Um porquinho macio para abraçar.",
-  "description.pigDoll": "Uma pequena figura de porco em seu próprio pedestal."
+  "description.pigDoll": "Uma pequena figura de porco em seu próprio pedestal.",
+  "cave.tutorial.wait.firstBatch": "Agora vamos esperar. Os adesivos geralmente levam {{fullTime}} para crescer, mas o primeiro está na casa: apenas {{time}}!"
 }

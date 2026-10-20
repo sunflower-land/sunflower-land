@@ -8850,5 +8850,6 @@
   "description.brickHouse": "3番目の小さなブタはレンガの家を建てました。",
   "description.bigBadWolf": "彼はハフする、そして彼はパフする...",
   "description.pigPlush": "抱きしめるようなやわらかい子豚。",
-  "description.pigDoll": "専用の台座に小さな豚のフィギュア。"
+  "description.pigDoll": "専用の台座に小さな豚のフィギュア。",
+  "cave.tutorial.wait.firstBatch": "今、待っています。通常、パッチは成長するのに {{fullTime}} かかりますが、最初のパッチは自宅に届きます。ただ {{time}} です！"
 }

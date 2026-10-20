@@ -8850,5 +8850,6 @@
   "description.brickHouse": "Le troisième petit cochon a construit une maison en briques.",
   "description.bigBadWolf": "Il va souffler, et il va souffler...",
   "description.pigPlush": "Un petit cochon doux à câliner.",
-  "description.pigDoll": "Une petite figurine de cochon sur son propre piédestal."
+  "description.pigDoll": "Une petite figurine de cochon sur son propre piédestal.",
+  "cave.tutorial.wait.firstBatch": "Maintenant, nous attendons. Les patchs mettent généralement {{fullTime}} à pousser, mais votre premier patch arrive à la maison : juste {{time}} !"
 }

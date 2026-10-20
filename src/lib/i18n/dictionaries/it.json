@@ -8850,5 +8850,6 @@
   "description.brickHouse": "Il terzo porcellino costruì una casa di mattoni.",
   "description.bigBadWolf": "Sbufferà e sbufferà...",
   "description.pigPlush": "Un porcellino morbido da coccolare.",
-  "description.pigDoll": "Una minuscola figura di maiale sul suo piedistallo."
+  "description.pigDoll": "Una minuscola figura di maiale sul suo piedistallo.",
+  "cave.tutorial.wait.firstBatch": "Ora aspettiamo. Le patch di solito richiedono {{fullTime}} per crescere, ma la prima è in casa: solo {{time}}!"
 }

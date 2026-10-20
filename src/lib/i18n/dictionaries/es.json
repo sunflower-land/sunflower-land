@@ -8850,5 +8850,6 @@
   "description.brickHouse": "El tercer cerdito construyó una casa de ladrillos.",
   "description.bigBadWolf": "Resolará y resoplará...",
   "description.pigPlush": "Un cerdito suave para abrazar.",
-  "description.pigDoll": "Una pequeña figura de cerdo en su propio pedestal."
+  "description.pigDoll": "Una pequeña figura de cerdo en su propio pedestal.",
+  "cave.tutorial.wait.firstBatch": "Ahora esperamos. Los parches suelen tardar {{fullTime}} en crecer, pero el primero está en casa: ¡solo {{time}}!"
 }
