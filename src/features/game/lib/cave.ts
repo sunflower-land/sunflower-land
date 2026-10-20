@@ -7,6 +7,7 @@ import type {
 } from "features/game/types/game";
 import {
   CAVE_BATCH_DURATION_MS,
+  CAVE_FIRST_BATCH_DURATION_MS,
   getCaveBatchIngredients,
   type CaveRecipeName,
 } from "features/game/types/caveRecipes";
@@ -66,11 +67,33 @@ export function getCaveBatchCost({
   };
 }
 
-/** How long a Myco Bin batch grows: 12h, shortened by Rapid Mycelium. */
+/**
+ * Whether the next batch is the farm's first: no Myco Bin holds a batch and
+ * nothing has been dug. A batch only leaves its bin once its Beetles are dug,
+ * so a farm that has started one never passes this again.
+ */
+export function isFirstCaveBatch(
+  game: Pick<GameState, "cave" | "farmActivity">,
+): boolean {
+  const machines = Object.values(game.cave?.machines ?? {});
+  return (
+    !machines.some((machine) => machine.batch) &&
+    !game.farmActivity["Cave Tile Dug"]
+  );
+}
+
+/**
+ * How long a Myco Bin batch grows: 12h, shortened by Rapid Mycelium. A farm's
+ * first batch takes 10 minutes and ignores the skill.
+ */
 export function getCaveBatchDuration(game: GameState): {
   duration: number;
   boostsUsed: BoostsUsed;
 } {
+  if (isFirstCaveBatch(game)) {
+    return { duration: CAVE_FIRST_BATCH_DURATION_MS, boostsUsed: [] };
+  }
+
   const level = getSkillLevel(game.bumpkin.skills, "Rapid Mycelium");
   if (!level) return { duration: CAVE_BATCH_DURATION_MS, boostsUsed: [] };
 

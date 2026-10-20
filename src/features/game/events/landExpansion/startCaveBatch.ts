@@ -7,12 +7,14 @@ import {
   getCaveBatchDuration,
   getCaveBatchSkills,
   isCaveBuildingReady,
+  isFirstCaveBatch,
 } from "features/game/lib/cave";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getKeys } from "lib/object";
-import type {
-  CaveMudCropName,
-  CaveRecipeName,
+import {
+  CAVE_FIRST_BATCH_RECIPE,
+  type CaveMudCropName,
+  type CaveRecipeName,
 } from "features/game/types/caveRecipes";
 import { canRestartCaveBatch } from "features/game/types/cavePatch";
 
@@ -37,6 +39,7 @@ export enum START_CAVE_BATCH_ERRORS {
   BATCH_IN_PROGRESS = "That Myco Bin already has a batch",
   INVALID_CROP = "That crop cannot feed this batch",
   INSUFFICIENT_INGREDIENTS = "Not enough resources to start the batch",
+  FIRST_BATCH_MUSHROOM_ONLY = "A farm's first batch must be the Mushroom mix",
 }
 
 /**
@@ -71,6 +74,10 @@ export function startCaveBatch({
     // every Beetle is found the patch can be replaced; what is left is lost.
     if (machine.batch && !canRestartCaveBatch(machine.batch)) {
       throw new Error(START_CAVE_BATCH_ERRORS.BATCH_IN_PROGRESS);
+    }
+
+    if (isFirstCaveBatch(game) && action.recipe !== CAVE_FIRST_BATCH_RECIPE) {
+      throw new Error(START_CAVE_BATCH_ERRORS.FIRST_BATCH_MUSHROOM_ONLY);
     }
 
     const cost = getCaveBatchCost({
