@@ -63,11 +63,13 @@ const FOOD_TYPE_TERMS = {
 type Tab = "food" | "automaticMixer";
 
 /**
- * The feeds a building's Feeder mixes: the Pigpen mixes only the Pig Slops,
- * and the other buildings never mix them.
+ * The feeds a building's Feeder mixes: the Pigpen mixes the Pig Slops plus the
+ * medicine that cures a sick Pig, and the other buildings never mix the Slops.
  */
 const isBuildingFeed = (building: AnimalBuildingType, item: BulkMixItem) =>
-  building === "Pigpen" ? isPigFeed(item) : !isPigFeed(item);
+  building === "Pigpen"
+    ? isPigFeed(item) || ANIMAL_FOODS[item].type === "medicine"
+    : !isPigFeed(item);
 
 export const FeederMachineModal: React.FC<Props> = ({
   show,
@@ -367,11 +369,18 @@ export const FeederMachineModal: React.FC<Props> = ({
           {tab === "food" && building === "Pigpen" && (
             <PigFeedMixer
               state={state}
-              selected={isPigFeed(selectedName) ? selectedName : "Basic Slop"}
+              selected={
+                isPigFeed(selectedName) || selectedName === "Barn Delight"
+                  ? selectedName
+                  : "Basic Slop"
+              }
               ingredient={ingredient ?? pigFeedOptions[0]}
               ingredients={ingredients}
               maxMixAmount={maxMixAmount}
+              spices={spices}
+              selectedSpice={showSpiceDetails ? selectedSpiceItem : undefined}
               onSelect={onSelect}
+              onSelectSpice={onSelectSpice}
               onSelectIngredient={(item) =>
                 isPigFeed(selectedName) &&
                 setPigFeedInputs((prev) => ({
