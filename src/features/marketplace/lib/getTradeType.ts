@@ -2146,6 +2146,7 @@ export const ITEM_TRADE_TYPES: {
     "Surfer Hair": "onchain",
     "Traveling Merchant Suit": "instant",
     "Traveling Merchant Bag": "instant",
+    "Beetle Goggles": "instant",
   },
 };
 
