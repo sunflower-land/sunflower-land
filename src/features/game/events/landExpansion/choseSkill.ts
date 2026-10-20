@@ -55,76 +55,39 @@ export const getAvailableBumpkinSkillPoints = (game: GameState | undefined) => {
   return earnedSkillPoints - totalUsedSkillPoints;
 };
 
-export const SKILL_POINTS_PER_TIER: Record<
-  BumpkinRevampSkillTree,
-  Record<BumpkinSkillTier, number>
-> = {
-  Crops: {
+// Points that must be spent on a tree's tier 1 and tier 2 skills to unlock each
+// tier, derived from the tree's tier 1 skills so it follows the skill list:
+// - Tier 2 needs half the tier 1 skills (rounded up).
+// - Tier 3 needs one point more than every tier 1 skill combined, so at least
+//   one tier 2 skill is required.
+const getTierThresholds = (
+  tree: BumpkinRevampSkillTree,
+): Record<BumpkinSkillTier, number> => {
+  const tierOneCosts = (
+    Object.values(BUMPKIN_REVAMP_SKILL_TREE) as BumpkinSkillRevamp[]
+  )
+    .filter((skill) => skill.tree === tree && skill.requirements.tier === 1)
+    .map((skill) => skill.requirements.points)
+    .sort((a, b) => a - b);
+
+  const sum = (costs: number[]) => costs.reduce((acc, cost) => acc + cost, 0);
+
+  return {
     1: 0,
-    2: 3,
-    3: 7,
-  },
-  Trees: {
-    1: 0,
-    2: 2,
-    3: 5,
-  },
-  Fishing: {
-    1: 0,
-    2: 2,
-    3: 5,
-  },
-  Mining: {
-    1: 0,
-    2: 3,
-    3: 7,
-  },
-  Cooking: {
-    1: 0,
-    2: 2,
-    3: 5,
-  },
-  Compost: {
-    1: 0,
-    2: 3,
-    3: 7,
-  },
-  "Fruit Patch": {
-    1: 0,
-    2: 2,
-    3: 5,
-  },
-  Animals: {
-    1: 0,
-    2: 4,
-    3: 8,
-  },
-  "Bees & Flowers": {
-    1: 0,
-    2: 2,
-    3: 5,
-  },
-  Greenhouse: {
-    1: 0,
-    2: 2,
-    3: 5,
-  },
-  Machinery: {
-    1: 0,
-    2: 2,
-    3: 5,
-  },
-  Aging: {
-    1: 0,
-    2: 3,
-    3: 7,
-  },
-  Cave: {
-    1: 0,
-    2: 3,
-    3: 7,
-  },
+    2: sum(tierOneCosts.slice(0, Math.ceil(tierOneCosts.length / 2))),
+    3: sum(tierOneCosts) + 1,
+  };
 };
+
+export const SKILL_POINTS_PER_TIER = Object.fromEntries(
+  [
+    ...new Set(
+      (Object.values(BUMPKIN_REVAMP_SKILL_TREE) as BumpkinSkillRevamp[]).map(
+        (skill) => skill.tree,
+      ),
+    ),
+  ].map((tree) => [tree, getTierThresholds(tree)]),
+) as Record<BumpkinRevampSkillTree, Record<BumpkinSkillTier, number>>;
 
 export const getUnlockedTierForTree = (
   tree: BumpkinRevampSkillTree,
