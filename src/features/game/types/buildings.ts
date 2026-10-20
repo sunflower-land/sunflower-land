@@ -160,13 +160,15 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     },
     requiredIsland: "spring",
   },
-  // TODO(Chapter 16): unlock level and build time are placeholders (Elias
-  // 2026-10-11). Level 11 is the Bumpkin level of the 9th basic expansion,
-  // which unlocks Spring Island. The cost is the discussion #7721 entrance cost.
+  // Settled (Bryn, 2026-10-21). The real gate is Spring Island; level 11 is
+  // the Bumpkin level of the 9th basic expansion that unlocks it, kept as the
+  // honest value rather than a second lock. 1h build: the entrance is a door,
+  // the time investment lives in the Cave tiers (CAVE_TIERS). The cost is the
+  // discussion #7721 entrance cost.
   Cave: {
     unlocksAtLevel: { ascension: 0, level: 11 },
     coins: 200,
-    constructionSeconds: 60 * 60 * 2,
+    constructionSeconds: 60 * 60,
     ingredients: {
       Wood: new Decimal(20),
       Stone: new Decimal(5),

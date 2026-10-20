@@ -26,8 +26,9 @@ const HOUR_MS = 60 * 60 * 1000;
 // Costs: discussion #7721 Balance Update (7 Oct 2026) — Coins, Mud, Wood and
 // Stone every tier, Leather at III–IV, Pig Bristles from V. Mud rebalanced
 // after the Chapter 16 alpha (Bryn, Oct 2026): doubles up to the 1000s, then
-// x1.5. TODO(Cave balance 465): construction times are still invented
-// placeholders.
+// x1.5. Build times: tiers II and III halved to 2h / 4h (Bryn, 2026-10-21)
+// so the early Cave keeps pace with its 1h entrance. TODO(Cave balance 465):
+// tier IV+ times are still invented placeholders.
 export const CAVE_TIERS: Record<CaveExpansionTier, CaveTier> = {
   2: {
     island: "desert",
@@ -37,7 +38,7 @@ export const CAVE_TIERS: Record<CaveExpansionTier, CaveTier> = {
       Wood: new Decimal(25),
       Stone: new Decimal(10),
     },
-    buildMs: 4 * HOUR_MS,
+    buildMs: 2 * HOUR_MS,
   },
   3: {
     island: "volcano",
@@ -48,7 +49,7 @@ export const CAVE_TIERS: Record<CaveExpansionTier, CaveTier> = {
       Stone: new Decimal(25),
       Leather: new Decimal(10),
     },
-    buildMs: 8 * HOUR_MS,
+    buildMs: 4 * HOUR_MS,
   },
   4: {
     island: "swamp",
