@@ -53,7 +53,7 @@ const DIMENSIONS = {
   // Mirrors the level box on the left side of the profile circle
   ascension: {
     marginLeft: 22,
-    marginTop: 81.5,
+    marginTop: 78,
   },
   username: {
     width: 200,
