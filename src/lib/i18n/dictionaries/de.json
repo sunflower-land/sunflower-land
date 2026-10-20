@@ -8766,9 +8766,7 @@
   "cave.machine": "Mülleimer {{id}}",
   "cave.batch.chooseCrop": "Wähle eine Pflanze, um den Myco Bin zu füttern",
   "cave.expand.description": "Machen Sie Platz für Myco Bin {{tier}} und seinen Patch.",
-  "description.emberRoastedTrufflePotatoes": "Über Glut gebratene Kartoffeln und Waldpilze mit Trüffel",
   "description.truffleCake": "Ein reichhaltiger Kuchen aus Trüffel und Honig",
-  "description.creamyTruffleRisotto": "In Milch gekochter Reis mit Trüffel und Waldpilzen",
   "food.emberRoastedTrufflePotatoes": "Mit Glut gebratene Trüffelkartoffeln",
   "food.truffleCake": "Trüffelkuchen",
   "food.creamyTruffleRisotto": "Cremiges Trüffelrisotto",
@@ -8827,5 +8825,7 @@
   "cave.tutorial.bubble.dig": "Grabe den Patch aus",
   "cave.tutorial.bubble.buyShovels": "Sandschaufeln kaufen",
   "cave.tutorial.bubble.clue": "Finde die Käfer",
-  "cave.tutorial.bubble.expand": "Erweitere die Höhle"
+  "cave.tutorial.bubble.expand": "Erweitere die Höhle",
+  "description.emberRoastedTrufflePotatoes": "Über Glut gebratene Kartoffeln mit Trüffel",
+  "description.creamyTruffleRisotto": "Langsam gekochter Reis mit Trüffeln und Waldpilzen"
 }

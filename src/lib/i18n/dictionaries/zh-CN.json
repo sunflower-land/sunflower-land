@@ -8766,9 +8766,7 @@
   "cave.machine": "Myco Bin {{id}}",
   "cave.batch.chooseCrop": "选择一种作物来喂养 Myco Bin",
   "cave.expand.description": "为 Myco Bin {{tier}} 及其补丁腾出空间。",
-  "description.emberRoastedTrufflePotatoes": "用松露在余烬上烤土豆和野生蘑菇",
   "description.truffleCake": "一块由松露和蜂蜜组成的丰盛蛋糕",
-  "description.creamyTruffleRisotto": "用牛奶炖煮的米饭配松露和野生蘑菇",
   "food.emberRoastedTrufflePotatoes": "余烧松露土豆",
   "food.truffleCake": "松露蛋糕",
   "food.creamyTruffleRisotto": "奶油松露烩饭",
@@ -8827,5 +8825,7 @@
   "cave.tutorial.bubble.dig": "挖出补丁",
   "cave.tutorial.bubble.buyShovels": "购买沙铲",
   "cave.tutorial.bubble.clue": "寻找甲壳虫",
-  "cave.tutorial.bubble.expand": "扩建洞穴"
+  "cave.tutorial.bubble.expand": "扩建洞穴",
+  "description.emberRoastedTrufflePotatoes": "用松露在余烬上烤土豆",
+  "description.creamyTruffleRisotto": "用松露和野生蘑菇慢炖大米"
 }

@@ -8766,9 +8766,7 @@
   "cave.machine": "Cestino Myco {{id}}",
   "cave.batch.chooseCrop": "Scegli un raccolto per alimentare il Myco Bin",
   "cave.expand.description": "Fai spazio per Myco Bin {{tier}} e la relativa patch.",
-  "description.emberRoastedTrufflePotatoes": "Patate e funghi selvatici arrostiti alla brace con tartufo",
   "description.truffleCake": "Una torta ricca di tartufo e miele",
-  "description.creamyTruffleRisotto": "Riso cotto a fuoco lento nel latte con tartufo e funghi selvatici",
   "food.emberRoastedTrufflePotatoes": "Patate al tartufo alla brace",
   "food.truffleCake": "Torta al tartufo",
   "food.creamyTruffleRisotto": "Risotto cremoso al tartufo",
@@ -8827,5 +8825,7 @@
   "cave.tutorial.bubble.dig": "Scava la patch",
   "cave.tutorial.bubble.buyShovels": "Acquista Sand Shovels",
   "cave.tutorial.bubble.clue": "Trova i coleotteri",
-  "cave.tutorial.bubble.expand": "Espandi la grotta"
+  "cave.tutorial.bubble.expand": "Espandi la grotta",
+  "description.emberRoastedTrufflePotatoes": "Patate arrostite alla brace con tartufo",
+  "description.creamyTruffleRisotto": "Riso cotto a fuoco lento con tartufo e funghi selvatici"
 }

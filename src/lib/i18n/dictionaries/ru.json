@@ -8766,9 +8766,7 @@
   "cave.machine": "Myco Bin {{id}}",
   "cave.batch.chooseCrop": "Choose a crop to feed the Myco Bin",
   "cave.expand.description": "Dig out room for Myco Bin {{tier}} and its patch.",
-  "description.emberRoastedTrufflePotatoes": "Potatoes and Wild Mushrooms roasted over embers with Truffle",
   "description.truffleCake": "A rich cake of Truffle and Honey",
-  "description.creamyTruffleRisotto": "Rice simmered in Milk with Truffle and Wild Mushrooms",
   "food.emberRoastedTrufflePotatoes": "Ember-Roasted Truffle Potatoes",
   "food.truffleCake": "Truffle Cake",
   "food.creamyTruffleRisotto": "Creamy Truffle Risotto",
@@ -8827,5 +8825,7 @@
   "cave.tutorial.bubble.dig": "Dig the patch",
   "cave.tutorial.bubble.buyShovels": "Buy Sand Shovels",
   "cave.tutorial.bubble.clue": "Find the Beetles",
-  "cave.tutorial.bubble.expand": "Expand the Cave"
+  "cave.tutorial.bubble.expand": "Expand the Cave",
+  "description.emberRoastedTrufflePotatoes": "Potatoes roasted over embers with Truffle",
+  "description.creamyTruffleRisotto": "Rice slow-simmered with Truffle and Wild Mushrooms"
 }

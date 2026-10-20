@@ -8766,9 +8766,7 @@
   "cave.machine": "マイコビン {{id}}",
   "cave.batch.chooseCrop": "マイコビンに供給する作物を選んでください",
   "cave.expand.description": "マイコビン {{tier}} とそのパッチを探してください。",
-  "description.emberRoastedTrufflePotatoes": "ポテトとワイルドマッシュルームをトリュフで残り火で焼いたもの",
   "description.truffleCake": "トリュフとハチミツの濃厚ケーキ",
-  "description.creamyTruffleRisotto": "トリュフとワイルドマッシュルームのミルク煮込みご飯",
   "food.emberRoastedTrufflePotatoes": "エンバーローストトリュフポテト",
   "food.truffleCake": "トリュフケーキ",
   "food.creamyTruffleRisotto": "クリーミートリュフリゾット",
@@ -8827,5 +8825,7 @@
   "cave.tutorial.bubble.dig": "パッチを探して",
   "cave.tutorial.bubble.buyShovels": "サンドショベルを購入する",
   "cave.tutorial.bubble.clue": "ビートルズを探せ",
-  "cave.tutorial.bubble.expand": "洞窟を広げよう"
+  "cave.tutorial.bubble.expand": "洞窟を広げよう",
+  "description.emberRoastedTrufflePotatoes": "残り火で焼いたポテト、トリュフ添え",
+  "description.creamyTruffleRisotto": "トリュフとワイルドマッシュルームをじっくり煮込んだライス"
 }

@@ -8766,9 +8766,7 @@
   "cave.machine": "Poubelle Myco {{id}}",
   "cave.batch.chooseCrop": "Choisissez une culture pour alimenter le Myco Bin",
   "cave.expand.description": "Creusez de la place pour Myco Bin {{tier}} et son patch.",
-  "description.emberRoastedTrufflePotatoes": "Pommes de terre et champignons sauvages rôtis à la braise à la truffe",
   "description.truffleCake": "Un riche gâteau à la truffe et au miel",
-  "description.creamyTruffleRisotto": "Riz mijoté au lait avec truffe et champignons sauvages",
   "food.emberRoastedTrufflePotatoes": "Pommes de terre aux truffes rôties à la braise",
   "food.truffleCake": "Gâteau aux truffes",
   "food.creamyTruffleRisotto": "Risotto crémeux à la truffe",
@@ -8827,5 +8825,7 @@
   "cave.tutorial.bubble.dig": "Creusez le patch",
   "cave.tutorial.bubble.buyShovels": "Acheter des pelles à sable",
   "cave.tutorial.bubble.clue": "Trouvez les scarabées",
-  "cave.tutorial.bubble.expand": "Agrandir la grotte"
+  "cave.tutorial.bubble.expand": "Agrandir la grotte",
+  "description.emberRoastedTrufflePotatoes": "Pommes de terre rôties à la braise à la truffe",
+  "description.creamyTruffleRisotto": "Riz mijoté lentement à la truffe et aux champignons sauvages"
 }

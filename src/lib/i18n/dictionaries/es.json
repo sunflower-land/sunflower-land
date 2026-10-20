@@ -8766,9 +8766,7 @@
   "cave.machine": "Myco Bin {{id}}",
   "cave.batch.chooseCrop": "Elige un cultivo para alimentar el Myco Bin",
   "cave.expand.description": "Busca espacio para Myco Bin {{tier}} y su parche.",
-  "description.emberRoastedTrufflePotatoes": "Patatas y setas silvestres asadas sobre brasas con trufa",
   "description.truffleCake": "Un rico pastel de trufa y miel",
-  "description.creamyTruffleRisotto": "Arroz cocido a fuego lento en leche con trufa y setas",
   "food.emberRoastedTrufflePotatoes": "Patatas trufadas asadas a la brasa",
   "food.truffleCake": "Tarta de trufa",
   "food.creamyTruffleRisotto": "Risotto cremoso de trufa",
@@ -8827,5 +8825,7 @@
   "cave.tutorial.bubble.dig": "¡Cava el parche!",
   "cave.tutorial.bubble.buyShovels": "Comprar palas de arena",
   "cave.tutorial.bubble.clue": "Encuentra a los escarabajos",
-  "cave.tutorial.bubble.expand": "Expande la cueva"
+  "cave.tutorial.bubble.expand": "Expande la cueva",
+  "description.emberRoastedTrufflePotatoes": "Patatas asadas sobre brasas con trufa",
+  "description.creamyTruffleRisotto": "Arroz cocido a fuego lento con trufa y setas silvestres"
 }

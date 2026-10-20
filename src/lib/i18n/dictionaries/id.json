@@ -8766,9 +8766,7 @@
   "cave.machine": "Tempat Sampah Myco {{id}}",
   "cave.batch.chooseCrop": "Pilih tanaman untuk memberi makan Myco Bin",
   "cave.expand.description": "Gali ruang untuk Myco Bin {{tier}} dan tambalannya.",
-  "description.emberRoastedTrufflePotatoes": "Kentang dan Jamur Liar dipanggang di atas bara api dengan Truffle",
   "description.truffleCake": "Kue Truffle dan Madu yang kaya",
-  "description.creamyTruffleRisotto": "Nasi direbus dalam Susu dengan Truffle dan Jamur Liar",
   "food.emberRoastedTrufflePotatoes": "Kentang Truffle Panggang Amber",
   "food.truffleCake": "Kue Truffle",
   "food.creamyTruffleRisotto": "Risotto Truffle Krim",
@@ -8827,5 +8825,7 @@
   "cave.tutorial.bubble.dig": "Gali tambalan",
   "cave.tutorial.bubble.buyShovels": "Beli Sekop Pasir",
   "cave.tutorial.bubble.clue": "Temukan Kumbang",
-  "cave.tutorial.bubble.expand": "Perluas Gua"
+  "cave.tutorial.bubble.expand": "Perluas Gua",
+  "description.emberRoastedTrufflePotatoes": "Kentang dipanggang di atas bara api dengan Truffle",
+  "description.creamyTruffleRisotto": "Nasi direbus perlahan dengan Truffle dan Jamur Liar"
 }
