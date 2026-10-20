@@ -8774,7 +8774,6 @@
   "description.truffleSeasoning": "Feed to an animal to halve its next sleep. Crafted at the Spice Rack.",
   "description.truffle.seasoning.boost": "-50% next Animal sleep",
   "skill.leanCompost": "x0.95 Myco Bin ingredients",
-  "skill.rapidMycelium": "x0.9 Myco Bin growth time",
   "skill.mushroomBloom": "+1 Mushroom tile in each Cave patch",
   "skill.muddyBounty": "+10% Mud from Cave patches",
   "skill.sturdyShovel": "10% chance a Cave dig keeps its Sand Shovel",
@@ -8827,5 +8826,6 @@
   "cave.tutorial.bubble.clue": "Find the Beetles",
   "cave.tutorial.bubble.expand": "Expand the Cave",
   "description.emberRoastedTrufflePotatoes": "Potatoes roasted over embers with Truffle",
-  "description.creamyTruffleRisotto": "Rice slow-simmered with Truffle and Wild Mushrooms"
+  "description.creamyTruffleRisotto": "Rice slow-simmered with Truffle and Wild Mushrooms",
+  "skill.rapidMycelium": "x0.95 Myco Bin growth time"
 }

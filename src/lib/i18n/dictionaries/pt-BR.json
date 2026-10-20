@@ -8774,7 +8774,6 @@
   "description.truffleSeasoning": "Alimente um animal para reduzir pela metade seu próximo sono. Feito no Spice Rack.",
   "description.truffle.seasoning.boost": "-50% no próximo sono do animal",
   "skill.leanCompost": "x 0,95 ingredientes Myco Bin",
-  "skill.rapidMycelium": "x0.9 Tempo de crescimento do Myco Bin",
   "skill.mushroomBloom": "+1 ladrilho de cogumelo em cada canteiro de caverna",
   "skill.muddyBounty": "+10% de lama de manchas de cavernas",
   "skill.sturdyShovel": "10% de chance de uma escavação em caverna manter sua Pá de Areia",
@@ -8827,5 +8826,6 @@
   "cave.tutorial.bubble.clue": "Encontre os besouros",
   "cave.tutorial.bubble.expand": "Expanda a caverna",
   "description.emberRoastedTrufflePotatoes": "Batatas assadas sobre brasas com trufa",
-  "description.creamyTruffleRisotto": "Arroz cozido lentamente com trufas e cogumelos silvestres"
+  "description.creamyTruffleRisotto": "Arroz cozido lentamente com trufas e cogumelos silvestres",
+  "skill.rapidMycelium": "x0.95 Tempo de crescimento do Myco Bin"
 }

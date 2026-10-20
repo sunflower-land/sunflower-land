@@ -8774,7 +8774,6 @@
   "description.truffleSeasoning": "Beri makan hewan untuk mengurangi setengah tidur berikutnya. Dibuat di Rak Rempah.",
   "description.truffle.seasoning.boost": "-50% berikutnya Tidur hewan",
   "skill.leanCompost": "x0.95 bahan Myco Bin",
-  "skill.rapidMycelium": "x0.9 Waktu pertumbuhan Myco Bin",
   "skill.mushroomBloom": "+1 ubin jamur di setiap petak Gua",
   "skill.muddyBounty": "+10% Lumpur dari Cave Cave",
   "skill.sturdyShovel": "10% kemungkinan penggalian gua menyimpan Sekop Pasirnya",
@@ -8827,5 +8826,6 @@
   "cave.tutorial.bubble.clue": "Temukan Kumbang",
   "cave.tutorial.bubble.expand": "Perluas Gua",
   "description.emberRoastedTrufflePotatoes": "Kentang dipanggang di atas bara api dengan Truffle",
-  "description.creamyTruffleRisotto": "Nasi direbus perlahan dengan Truffle dan Jamur Liar"
+  "description.creamyTruffleRisotto": "Nasi direbus perlahan dengan Truffle dan Jamur Liar",
+  "skill.rapidMycelium": "x0.95 Waktu pertumbuhan Myco Bin"
 }

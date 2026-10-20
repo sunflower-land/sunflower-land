@@ -8774,7 +8774,6 @@
   "description.truffleSeasoning": "Füttere ein Tier, um seinen nächsten Schlaf zu halbieren. Hergestellt im Gewürzregal.",
   "description.truffle.seasoning.boost": "-50% nächster Tierschlaf",
   "skill.leanCompost": "x0.95 Zutaten für Myco Bin",
-  "skill.rapidMycelium": "x0.9 Wachstumszeit von Myco Bin",
   "skill.mushroomBloom": "+1 Pilzplättchen in jedem Höhlenfeld",
   "skill.muddyBounty": "+10% Schlamm aus Höhlenflecken",
   "skill.sturdyShovel": "Chance von 10%, dass eine Höhlengrabung ihre Sandschaufel behält",
@@ -8827,5 +8826,6 @@
   "cave.tutorial.bubble.clue": "Finde die Käfer",
   "cave.tutorial.bubble.expand": "Erweitere die Höhle",
   "description.emberRoastedTrufflePotatoes": "Über Glut gebratene Kartoffeln mit Trüffel",
-  "description.creamyTruffleRisotto": "Langsam gekochter Reis mit Trüffeln und Waldpilzen"
+  "description.creamyTruffleRisotto": "Langsam gekochter Reis mit Trüffeln und Waldpilzen",
+  "skill.rapidMycelium": "x0.95 Myco Bin Wachstumszeit"
 }

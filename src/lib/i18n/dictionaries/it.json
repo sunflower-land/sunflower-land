@@ -8774,7 +8774,6 @@
   "description.truffleSeasoning": "Dai da mangiare a un animale per dimezzare il suo prossimo sonno. Realizzato allo Spice Rack.",
   "description.truffle.seasoning.boost": "-50% successivo Sonno animale",
   "skill.leanCompost": "x0.95 Ingredienti Myco Bin",
-  "skill.rapidMycelium": "x0.9 Tempo di crescita di Myco Bin",
   "skill.mushroomBloom": "+1 tessera Fungo in ogni patch della grotta",
   "skill.muddyBounty": "+10% di fango proveniente dalle macchie delle caverne",
   "skill.sturdyShovel": "10% di probabilità che uno scavo in una grotta mantenga la sua pala di sabbia",
@@ -8827,5 +8826,6 @@
   "cave.tutorial.bubble.clue": "Trova i coleotteri",
   "cave.tutorial.bubble.expand": "Espandi la grotta",
   "description.emberRoastedTrufflePotatoes": "Patate arrostite alla brace con tartufo",
-  "description.creamyTruffleRisotto": "Riso cotto a fuoco lento con tartufo e funghi selvatici"
+  "description.creamyTruffleRisotto": "Riso cotto a fuoco lento con tartufo e funghi selvatici",
+  "skill.rapidMycelium": "x0.95 Tempo di crescita di Myco Bin"
 }

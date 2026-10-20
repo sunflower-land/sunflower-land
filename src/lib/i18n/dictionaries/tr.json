@@ -8774,7 +8774,6 @@
   "description.truffleSeasoning": "Bir sonraki uykusunu yarıya indirmek için bir hayvanı besleyin. Baharat Rafında hazırlanmış.",
   "description.truffle.seasoning.boost": "-%50 sonraki Hayvan uykusu",
   "skill.leanCompost": "x0.95 Myco Bin malzemeleri",
-  "skill.rapidMycelium": "x0.9 Myco Bin büyüme süresi",
   "skill.mushroomBloom": "Her mağara yamasında +1 mantar karosu",
   "skill.muddyBounty": "Mağara yamalarından +10% Çamur",
   "skill.sturdyShovel": "Mağara kazısının Kum Küreğini tutma şansı %10",
@@ -8827,5 +8826,6 @@
   "cave.tutorial.bubble.clue": "Böcekleri Bul",
   "cave.tutorial.bubble.expand": "Mağarayı Genişletin",
   "description.emberRoastedTrufflePotatoes": "Trüf mantarlı köz üzerinde kavrulmuş patatesler",
-  "description.creamyTruffleRisotto": "Trüf ve Yabani Mantarlı Yavaş Kaynatılmış Pirinç"
+  "description.creamyTruffleRisotto": "Trüf ve Yabani Mantarlı Yavaş Kaynatılmış Pirinç",
+  "skill.rapidMycelium": "x0.95 Myco Bin büyüme süresi"
 }

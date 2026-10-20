@@ -8774,7 +8774,6 @@
   "description.truffleSeasoning": "動物にエサを与えて、次の睡眠時間を半分にする。スパイスラックで作られました。",
   "description.truffle.seasoning.boost": "次回の動物睡眠は 50%",
   "skill.leanCompost": "x0.95 マイコビン食材",
-  "skill.rapidMycelium": "x0.9 マイコビンの成長時間",
   "skill.mushroomBloom": "各洞窟パッチに+1マッシュルームタイル",
   "skill.muddyBounty": "ケーブパッチからの泥 +10%",
   "skill.sturdyShovel": "10% の確率で洞窟掘りでサンドショベルが手に入る",
@@ -8827,5 +8826,6 @@
   "cave.tutorial.bubble.clue": "ビートルズを探せ",
   "cave.tutorial.bubble.expand": "洞窟を広げよう",
   "description.emberRoastedTrufflePotatoes": "残り火で焼いたポテト、トリュフ添え",
-  "description.creamyTruffleRisotto": "トリュフとワイルドマッシュルームをじっくり煮込んだライス"
+  "description.creamyTruffleRisotto": "トリュフとワイルドマッシュルームをじっくり煮込んだライス",
+  "skill.rapidMycelium": "x0.95 マイコビン成長時間"
 }

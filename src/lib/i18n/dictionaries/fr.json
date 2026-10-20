@@ -8774,7 +8774,6 @@
   "description.truffleSeasoning": "Nourrissez un animal pour réduire de moitié son prochain sommeil. Fabriqué au Spice Rack.",
   "description.truffle.seasoning.boost": "-50 % sur le prochain Animal sleep",
   "skill.leanCompost": "x0.95 Ingrédients Myco Bin",
-  "skill.rapidMycelium": "Temps de croissance de Myco Bin x0.9",
   "skill.mushroomBloom": "+1 tuile Champignon dans chaque parcelle de grotte",
   "skill.muddyBounty": "+10 % de boue provenant des zones rupestres",
   "skill.sturdyShovel": "10 % de chances qu'une personne creusée dans une grotte garde sa pelle à sable",
@@ -8827,5 +8826,6 @@
   "cave.tutorial.bubble.clue": "Trouvez les scarabées",
   "cave.tutorial.bubble.expand": "Agrandir la grotte",
   "description.emberRoastedTrufflePotatoes": "Pommes de terre rôties à la braise à la truffe",
-  "description.creamyTruffleRisotto": "Riz mijoté lentement à la truffe et aux champignons sauvages"
+  "description.creamyTruffleRisotto": "Riz mijoté lentement à la truffe et aux champignons sauvages",
+  "skill.rapidMycelium": "x0.95 Temps de croissance de Myco Bin"
 }

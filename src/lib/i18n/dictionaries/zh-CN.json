@@ -8774,7 +8774,6 @@
   "description.truffleSeasoning": "喂一只动物，让它下次睡眠减半。在香料架上制作。",
   "description.truffle.seasoning.boost": "下次动物睡觉 -50%",
   "skill.leanCompost": "x0.95 Myco Bin 原料",
-  "skill.rapidMycelium": "x0.9 Myco Bin 生长时间",
   "skill.mushroomBloom": "每个洞穴补丁中有 +1 个蘑菇牌",
   "skill.muddyBounty": "+10% 来自洞穴补丁的泥浆",
   "skill.sturdyShovel": "洞穴挖掘有 10% 的几率保留沙铲",
@@ -8827,5 +8826,6 @@
   "cave.tutorial.bubble.clue": "寻找甲壳虫",
   "cave.tutorial.bubble.expand": "扩建洞穴",
   "description.emberRoastedTrufflePotatoes": "用松露在余烬上烤土豆",
-  "description.creamyTruffleRisotto": "用松露和野生蘑菇慢炖大米"
+  "description.creamyTruffleRisotto": "用松露和野生蘑菇慢炖大米",
+  "skill.rapidMycelium": "x0.95 Myco Bin 生长时间"
 }
