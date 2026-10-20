@@ -8829,5 +8829,8 @@
   "description.creamyTruffleRisotto": "Riso cotto a fuoco lento con tartufo e funghi selvatici",
   "skill.rapidMycelium": "x0.95 Tempo di crescita di Myco Bin",
   "level.ascension.badge": "A {{ascension}}",
-  "description.bonusCaveDwellersTicket.boost": "+1 Biglietto Cave Dwellers"
+  "description.bonusCaveDwellersTicket.boost": "+1 Biglietto Cave Dwellers",
+  "cave.batch.beetleOdds": "Probabilità Beetle",
+  "cave.batch.beetleChance": "{{beetle}}: {{chance}}%",
+  "cave.batch.beetleChanceBoosted": "{{beetle}}: {{chance}}% (base {{base}}%)"
 }

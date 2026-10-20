@@ -8829,5 +8829,8 @@
   "description.creamyTruffleRisotto": "トリュフとワイルドマッシュルームをじっくり煮込んだライス",
   "skill.rapidMycelium": "x0.95 マイコビン成長時間",
   "level.ascension.badge": "A {{ascension}}",
-  "description.bonusCaveDwellersTicket.boost": "+1 ケーブ・ドウェラーズチケット"
+  "description.bonusCaveDwellersTicket.boost": "+1 ケーブ・ドウェラーズチケット",
+  "cave.batch.beetleOdds": "ビートルオッズ",
+  "cave.batch.beetleChance": "{{beetle}}: {{chance}}%",
+  "cave.batch.beetleChanceBoosted": "{{beetle}}: {{chance}}% (ベース {{base}}%)"
 }

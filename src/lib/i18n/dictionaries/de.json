@@ -8829,5 +8829,8 @@
   "description.creamyTruffleRisotto": "Langsam gekochter Reis mit Trüffeln und Waldpilzen",
   "skill.rapidMycelium": "x0.95 Myco Bin Wachstumszeit",
   "level.ascension.badge": "{{ascension}}",
-  "description.bonusCaveDwellersTicket.boost": "+1 Ticket für Höhlenbewohner"
+  "description.bonusCaveDwellersTicket.boost": "+1 Ticket für Höhlenbewohner",
+  "cave.batch.beetleOdds": "Quoten für Käfer",
+  "cave.batch.beetleChance": "{{beetle}}: {{chance}}%",
+  "cave.batch.beetleChanceBoosted": "{{beetle}}: {{chance}}% (Basis {{base}}%)"
 }

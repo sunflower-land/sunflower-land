@@ -8829,5 +8829,8 @@
   "description.creamyTruffleRisotto": "用松露和野生蘑菇慢炖大米",
   "skill.rapidMycelium": "x0.95 Myco Bin 生长时间",
   "level.ascension.badge": "A {{ascension}}",
-  "description.bonusCaveDwellersTicket.boost": "+1 洞穴居民门票"
+  "description.bonusCaveDwellersTicket.boost": "+1 洞穴居民门票",
+  "cave.batch.beetleOdds": "甲壳虫赔率",
+  "cave.batch.beetleChance": "{{beetle}}: {{chance}}%",
+  "cave.batch.beetleChanceBoosted": "{{beetle}}: {{chance}}%（基数 {{base}}%）"
 }

@@ -8829,5 +8829,8 @@
   "description.creamyTruffleRisotto": "Trüf ve Yabani Mantarlı Yavaş Kaynatılmış Pirinç",
   "skill.rapidMycelium": "x0.95 Myco Bin büyüme süresi",
   "level.ascension.badge": "A {{ascension}}",
-  "description.bonusCaveDwellersTicket.boost": "+1 Cave Dwellers Bileti"
+  "description.bonusCaveDwellersTicket.boost": "+1 Cave Dwellers Bileti",
+  "cave.batch.beetleOdds": "Beetle oranları",
+  "cave.batch.beetleChance": "{{beetle}}: {{chance}} %",
+  "cave.batch.beetleChanceBoosted": "{{beetle}}: {{chance}} %(baz {{base}} %)"
 }

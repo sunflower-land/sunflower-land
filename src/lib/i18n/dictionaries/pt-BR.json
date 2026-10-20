@@ -8829,5 +8829,8 @@
   "description.creamyTruffleRisotto": "Arroz cozido lentamente com trufas e cogumelos silvestres",
   "skill.rapidMycelium": "x0.95 Tempo de crescimento do Myco Bin",
   "level.ascension.badge": "UM {{ascension}}",
-  "description.bonusCaveDwellersTicket.boost": "+1 ingresso para Cave Dwellers"
+  "description.bonusCaveDwellersTicket.boost": "+1 ingresso para Cave Dwellers",
+  "cave.batch.beetleOdds": "Probabilidades do Beetle",
+  "cave.batch.beetleChance": "{{beetle}}: {{chance}}%",
+  "cave.batch.beetleChanceBoosted": "{{beetle}}: {{chance}}% (base {{base}}%)"
 }

@@ -8829,5 +8829,8 @@
   "description.creamyTruffleRisotto": "Riz mijoté lentement à la truffe et aux champignons sauvages",
   "skill.rapidMycelium": "x0.95 Temps de croissance de Myco Bin",
   "level.ascension.badge": "À {{ascension}}",
-  "description.bonusCaveDwellersTicket.boost": "+1 billet Cave Dwellers"
+  "description.bonusCaveDwellersTicket.boost": "+1 billet Cave Dwellers",
+  "cave.batch.beetleOdds": "Cotes sur les scarabées",
+  "cave.batch.beetleChance": "{{beetle}} : {{chance}} %",
+  "cave.batch.beetleChanceBoosted": "{{beetle}} : {{chance}} % (base {{base}} %)"
 }

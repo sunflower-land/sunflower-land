@@ -8829,5 +8829,8 @@
   "description.creamyTruffleRisotto": "Nasi direbus perlahan dengan Truffle dan Jamur Liar",
   "skill.rapidMycelium": "x0.95 Waktu pertumbuhan Myco Bin",
   "level.ascension.badge": "A {{ascension}}",
-  "description.bonusCaveDwellersTicket.boost": "+1 Tiket Cave Dwellers"
+  "description.bonusCaveDwellersTicket.boost": "+1 Tiket Cave Dwellers",
+  "cave.batch.beetleOdds": "Peluang kumbang",
+  "cave.batch.beetleChance": "{{beetle}}: {{chance}}%",
+  "cave.batch.beetleChanceBoosted": "{{beetle}}: {{chance}}% (basis {{base}}%)"
 }

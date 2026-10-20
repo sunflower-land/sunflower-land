@@ -8829,5 +8829,8 @@
   "description.creamyTruffleRisotto": "Rice slow-simmered with Truffle and Wild Mushrooms",
   "skill.rapidMycelium": "x0.95 Myco Bin growth time",
   "level.ascension.badge": "A{{ascension}}",
-  "description.bonusCaveDwellersTicket.boost": "+1 Cave Dwellers Ticket"
+  "description.bonusCaveDwellersTicket.boost": "+1 Cave Dwellers Ticket",
+  "cave.batch.beetleOdds": "Beetle odds",
+  "cave.batch.beetleChance": "{{beetle}}: {{chance}}%",
+  "cave.batch.beetleChanceBoosted": "{{beetle}}: {{chance}}% (base {{base}}%)"
 }
