@@ -1312,6 +1312,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   // Salt Awakening
   "Crystal Altar": { width: 3, height: 2 },
   "Ascension Monument": { width: 3, height: 3 },
+  "Duende Monument": { width: 3, height: 3 },
   "Dino Egg Trophy": { width: 2, height: 1 },
   "Salt Lamp": { width: 1, height: 1 },
   "World Map Rug": { width: 3, height: 2 },
@@ -1520,6 +1521,10 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   // Cave Dwellers chapter
   "Cave Dwellers Fish": { width: 2, height: 2 },
   "Cave Dwellers Banner": { width: 1, height: 2 },
+  "Mushroom Chicken": { width: 1, height: 1 },
+  "Ladybug Cow": { width: 2, height: 1 },
+  "Beetle Sheep": { width: 2, height: 1 },
+  "Cyclops Bloom": { width: 1, height: 1 },
 
   "Fox Shrine": { width: 1, height: 1 },
   "Boar Shrine": { width: 1, height: 1 },

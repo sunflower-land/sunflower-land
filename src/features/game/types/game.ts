@@ -290,7 +290,8 @@ export type MutantChicken =
   | "Sleepy Chicken"
   | "Squid Chicken"
   | "Flamingo Chicken"
-  | "Ascended Chicken";
+  | "Ascended Chicken"
+  | "Mushroom Chicken";
 
 export type MutantCow =
   | "Mootant"
@@ -300,7 +301,8 @@ export type MutantCow =
   | "Astronaut Cow"
   | "Mermaid Cow"
   | "Spa Cow"
-  | "Ascended Cow";
+  | "Ascended Cow"
+  | "Ladybug Cow";
 
 export type MutantSheep =
   | "Toxic Tuft"
@@ -310,7 +312,8 @@ export type MutantSheep =
   | "Astronaut Sheep"
   | "Mermaid Sheep"
   | "Spa Sheep"
-  | "Ascended Sheep";
+  | "Ascended Sheep"
+  | "Beetle Sheep";
 
 export type MutantAnimal = MutantChicken | MutantCow | MutantSheep;
 
@@ -531,9 +534,10 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Ascension Age Raffle Ticket": {
     description: translate("description.ascensionAgeRaffleTicket"),
   },
-  // TODO(Cave Dwellers): placeholder descriptions
-  "Cave Dwellers Ticket": { description: "" },
-  "Cave Dwellers Raffle Ticket": { description: "" },
+  "Beetle Wing": { description: translate("description.beetleWing") },
+  "Cave Dwellers Raffle Ticket": {
+    description: translate("description.caveDwellersRaffleTicket"),
+  },
   "Colors Token 2026": {
     description: translate("description.colorsToken2026"),
   },
@@ -1418,7 +1422,8 @@ export type BedName =
   | "Double Bed"
   | "Messy Bed"
   | "Salt Crystal Bed"
-  | "Cloud Bed";
+  | "Cloud Bed"
+  | "Miner's Bed";
 
 export type RecipeCraftableName =
   | "Cushion"

@@ -106,13 +106,12 @@ export const CHAPTER_MUTANTS: Record<MutantsChapterName, ChapterMutantsData> = {
     Sheep: "Ascended Sheep",
     banner: "?",
   },
-  // TODO(Cave Dwellers): placeholder - no Cave Dwellers mutants yet
   "Cave Dwellers": {
-    Chicken: undefined,
-    Flower: undefined,
+    Chicken: "Mushroom Chicken",
+    Flower: "Cyclops Bloom",
     Fish: ["Cave Dwellers Fish"],
-    Cow: undefined,
-    Sheep: undefined,
+    Cow: "Ladybug Cow",
+    Sheep: "Beetle Sheep",
     banner: "?",
   },
 };
