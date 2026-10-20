@@ -2,11 +2,12 @@ import Decimal from "decimal.js-light";
 import { INITIAL_FARM, TEST_FARM } from "../constants";
 import { isDailyRewardReady } from "../../events/landExpansion/claimDailyReward";
 import { OFFLINE_FARM } from "../landData";
-import { encodeJsonParam } from "./previewLink";
+import { applyPatch, encodeJsonParam } from "./previewLink";
 import {
   PREVIEW_FIXTURE_NAMES,
   PREVIEW_USERNAME,
   applyPreviewLocalStorage,
+  getImpossibleFarmReason,
   getPreviewFarm,
   getPreviewFixture,
 } from "./previewState";
@@ -124,6 +125,58 @@ describe("getPreviewFarm", () => {
     expect(PREVIEW_FIXTURE_NAMES).toEqual(
       expect.arrayContaining(["default", "new", "test", "static", "spring"]),
     );
+  });
+});
+
+describe("getImpossibleFarmReason", () => {
+  it("accepts every fixture as built", () => {
+    for (const name of PREVIEW_FIXTURE_NAMES) {
+      expect(getImpossibleFarmReason(getPreviewFixture(name)!)).toBeUndefined();
+    }
+  });
+
+  it("rejects an ascension island without an ascension level", () => {
+    const swamp = getPreviewFixture("swamp")!;
+
+    expect(
+      getImpossibleFarmReason(
+        applyPatch(swamp, { island: { ascensionLevel: 0 } }, NOW),
+      ),
+    ).toMatch(/swamp.*ascensionLevel/);
+    expect(
+      getImpossibleFarmReason(
+        applyPatch(swamp, { island: { ascensionLevel: null } }, NOW),
+      ),
+    ).toMatch(/swamp.*ascensionLevel/);
+  });
+
+  it("rejects a plain island retyped to an ascension island", () => {
+    expect(
+      getImpossibleFarmReason(
+        applyPatch(TEST_FARM, { island: { type: "marble" } }, NOW),
+      ),
+    ).toMatch(/marble.*ascensionLevel/);
+    expect(
+      getImpossibleFarmReason(
+        applyPatch(
+          TEST_FARM,
+          { island: { type: "marble", ascensionLevel: 5 } },
+          NOW,
+        ),
+      ),
+    ).toBeUndefined();
+  });
+
+  it("allows a plain island with no ascension level", () => {
+    expect(
+      getImpossibleFarmReason(
+        applyPatch(
+          getPreviewFixture("volcano")!,
+          { island: { ascensionLevel: 0 } },
+          NOW,
+        ),
+      ),
+    ).toBeUndefined();
   });
 });
 
