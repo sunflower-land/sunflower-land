@@ -85,7 +85,7 @@ export const TIME_BASED_FEATURE_FLAG_WINDOWS = {
     end: new Date("2026-07-23T00:00:00Z"),
   },
   HALLOWEEN_2026_EVENT_FLAG: {
-    start: new Date("2026-10-22T00:00:00Z"),
+    start: new Date("2026-10-26T00:00:00Z"),
     end: new Date("2026-11-02T00:00:00Z"),
   },
   RONIN_WAYPOINT_DEPRECATION: {
