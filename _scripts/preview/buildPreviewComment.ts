@@ -11,9 +11,9 @@
  *
  * Every scenario is checked against the patch format and main's item lists.
  * Hard failures (bad shape, bad route, invalid time token, oversized patch,
- * patch that cannot be applied, farm no real game can reach) drop the
- * scenario; soft problems (unknown item or wearable name, unknown top-level
- * key — which a PR may legitimately introduce) keep it with a warning. URLs are always built here, never taken
+ * patch that cannot be applied) drop the scenario; soft problems (unknown
+ * item or wearable name, unknown top-level key — which a PR may legitimately
+ * introduce) keep it with a warning. URLs are always built here, never taken
  * from the model. The script never exits non-zero: with no usable scenarios
  * the comment still carries the bare preview link.
  */
@@ -30,10 +30,8 @@ import {
 import {
   PREVIEW_FIXTURES,
   PREVIEW_FIXTURE_NAMES,
-  getImpossibleFarmReason,
 } from "../../src/features/game/lib/preview/previewState";
 import { KNOWN_IDS } from "../../src/features/game/types";
-import type { GameState } from "../../src/features/game/types/game";
 import { ITEM_IDS } from "../../src/features/game/types/bumpkin";
 
 const MAX_SCENARIOS = 6;
@@ -214,18 +212,14 @@ function validate(raw: unknown, index: number): Validated | Rejected {
     };
   }
 
-  let farm: GameState;
   try {
-    farm = applyPatch(PREVIEW_FIXTURES[fixture](), patch, Date.now());
+    applyPatch(PREVIEW_FIXTURES[fixture](), patch, Date.now());
   } catch (error) {
     return {
       title,
       reason: `patch failed to apply: ${error instanceof Error ? error.message : String(error)}`,
     };
   }
-
-  const impossible = getImpossibleFarmReason(farm);
-  if (impossible) return { title, reason: `impossible farm: ${impossible}` };
 
   const url = buildPreviewLink({
     base,

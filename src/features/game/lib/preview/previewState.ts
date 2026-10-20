@@ -1,5 +1,4 @@
 import {
-  ASCENSION_ISLANDS,
   type GameState,
   ISLAND_EXPANSIONS,
   type IslandType,
@@ -57,22 +56,6 @@ export const PREVIEW_FIXTURES: Record<string, FixtureFactory> = {
 };
 
 export const PREVIEW_FIXTURE_NAMES = Object.keys(PREVIEW_FIXTURES);
-
-/**
- * Invariants a real farm always satisfies but a patch can break, crashing the
- * preview. Returns why the farm cannot exist, or undefined when it can. Used by
- * the scenario validator to drop LLM-drafted links before they are posted.
- */
-export function getImpossibleFarmReason(farm: GameState): string | undefined {
-  const { type, ascensionLevel } = farm.island;
-  if (
-    (ASCENSION_ISLANDS as readonly string[]).includes(type) &&
-    (ascensionLevel ?? 0) < 1
-  ) {
-    return `"${type}" is an ascension island and needs island.ascensionLevel >= 1 (got ${ascensionLevel ?? "none"}); use basic/spring/desert/volcano for a non-ascended farm`;
-  }
-  return undefined;
-}
 
 export type PreviewWarning = { param: string; message: string };
 
