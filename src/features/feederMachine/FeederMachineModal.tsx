@@ -42,7 +42,11 @@ import {
   getBulkMixRequirements,
   getPigFeedIngredientOptions,
 } from "./getBulkMixRequirements";
-import { isPigFeed, type PigFeedName } from "features/game/types/pigFeeds";
+import {
+  isPigFeed,
+  PIG_FEEDS,
+  type PigFeedName,
+} from "features/game/types/pigFeeds";
 import { formatNumber } from "lib/utils/formatNumber";
 import { BulkMixModal } from "./BulkMixModal";
 import { PigFeedMixer } from "./PigFeedMixer";
@@ -99,6 +103,8 @@ export const FeederMachineModal: React.FC<Props> = ({
   const [tab, setTab] = useState<Tab>("food");
   const [showMixInfo, setShowMixInfo] = useState(false);
   const [showBulkMixModal, setShowBulkMixModal] = useState(false);
+  // The Slop whose input picker is open in the Bulk Mixer.
+  const [pickingInputFor, setPickingInputFor] = useState<PigFeedName>();
   const [customMixAmount, setCustomMixAmount] = useState(new Decimal(0));
   const { coins } = ANIMAL_FOODS[selectedName];
 
@@ -127,7 +133,7 @@ export const FeederMachineModal: React.FC<Props> = ({
     : undefined;
   const showSpiceDetails = isSpiceSelected && hasSpices && !!selectedSpiceItem;
   const { requests, feeds, animalsWaiting, freeFeedBoosts } =
-    getBulkMixRequirements(state, building, now);
+    getBulkMixRequirements(state, building, now, pigFeedInputs);
 
   // Only feeds that still need mixing are listed - a feed the inventory
   // already covers is not something the player has to act on.
@@ -337,6 +343,7 @@ export const FeederMachineModal: React.FC<Props> = ({
   // has to be reset on the way out or it reappears on the next open.
   const closeModal = () => {
     setShowMixInfo(false);
+    setPickingInputFor(undefined);
     closeBulkMixModal();
     onClose();
   };
@@ -586,11 +593,29 @@ export const FeederMachineModal: React.FC<Props> = ({
                       const feedCanBeMixed = canMixFeed(feed);
                       const selected =
                         feedCanBeMixed && isFeedSelected(feed.item);
+                      const slop = isPigFeed(feed.item) ? feed.item : undefined;
+                      const requirements = (
+                        <div className="flex flex-col gap-1">
+                          {getKeys(feed.ingredients).map((ingredient) => (
+                            <RequirementLabel
+                              key={`${feed.item}-${ingredient}`}
+                              type="item"
+                              item={ingredient}
+                              balance={
+                                state.inventory[ingredient] ?? new Decimal(0)
+                              }
+                              requirement={
+                                feed.ingredients[ingredient] ?? new Decimal(0)
+                              }
+                            />
+                          ))}
+                        </div>
+                      );
 
                       return (
                         <InnerPanel
                           key={feed.item}
-                          className={classNames("flex gap-1 items-center", {
+                          className={classNames("flex flex-col gap-1", {
                             "cursor-pointer": feedCanBeMixed,
                           })}
                           onClick={
@@ -599,52 +624,104 @@ export const FeederMachineModal: React.FC<Props> = ({
                               : undefined
                           }
                         >
-                          <SmallBox image={ITEM_DETAILS[feed.item].image} />
-                          <div className="flex flex-col flex-1 justify-center -mt-0.5">
-                            <p className="text-xs">
-                              {`${feed.item} x${formatNumber(feed.missing)}`}
-                            </p>
-                          </div>
-                          {/* Selecting a feed confirms the player can afford
+                          <div className="flex gap-1 items-center">
+                            <SmallBox image={ITEM_DETAILS[feed.item].image} />
+                            <div className="flex flex-col flex-1 justify-center -mt-0.5">
+                              <p className="text-xs">
+                                {`${feed.item} x${formatNumber(feed.missing)}`}
+                              </p>
+                            </div>
+                            {/* Selecting a feed confirms the player can afford
                               it, so the requirement labels carry the whole
                               story - they turn red on the ones falling
-                              short. */}
-                          <div className="flex flex-col gap-1">
-                            {getKeys(feed.ingredients).map((ingredient) => (
-                              <RequirementLabel
-                                key={`${feed.item}-${ingredient}`}
-                                type="item"
-                                item={ingredient}
-                                balance={
-                                  state.inventory[ingredient] ?? new Decimal(0)
-                                }
-                                requirement={
-                                  feed.ingredients[ingredient] ?? new Decimal(0)
-                                }
-                              />
-                            ))}
-                          </div>
-                          {/* The panel is a click target too, so keep the
+                              short. A Slop's input is a button that opens
+                              its picker. */}
+                            {slop ? (
+                              <button
+                                type="button"
+                                className="flex items-center gap-1 cursor-pointer"
+                                aria-label={`${t("feeder.chooseSlopInput")}: ${formatIngredientList(feed.ingredients)}`}
+                                aria-expanded={pickingInputFor === slop}
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  setShowMixInfo(false);
+                                  setPickingInputFor((open) =>
+                                    open === slop ? undefined : slop,
+                                  );
+                                }}
+                              >
+                                {requirements}
+                                <img
+                                  src={
+                                    pickingInputFor === slop
+                                      ? SUNNYSIDE.icons.chevron_up
+                                      : SUNNYSIDE.icons.chevron_down
+                                  }
+                                  alt=""
+                                  style={{ width: `${PIXEL_SCALE * 5}px` }}
+                                />
+                              </button>
+                            ) : (
+                              requirements
+                            )}
+                            {/* The panel is a click target too, so keep the
                               checkbox's own click from bubbling into it and
                               toggling a second time. */}
-                          <div
-                            className="flex-none"
-                            onClick={(event) => {
-                              // A disabled checkbox toggles nothing, so let the
-                              // click through to dismiss the explainer like any
-                              // other click.
-                              if (feedCanBeMixed) {
-                                event.stopPropagation();
-                              }
-                            }}
-                          >
-                            <Checkbox
-                              checked={selected}
-                              disabled={!feedCanBeMixed}
-                              onChange={() => selectFeed(feed.item)}
-                              aria-label={feed.item}
-                            />
+                            <div
+                              className="flex-none"
+                              onClick={(event) => {
+                                // A disabled checkbox toggles nothing, so let the
+                                // click through to dismiss the explainer like any
+                                // other click.
+                                if (feedCanBeMixed) {
+                                  event.stopPropagation();
+                                }
+                              }}
+                            >
+                              <Checkbox
+                                checked={selected}
+                                disabled={!feedCanBeMixed}
+                                onChange={() => selectFeed(feed.item)}
+                                aria-label={feed.item}
+                              />
+                            </div>
                           </div>
+                          {slop && pickingInputFor === slop && (
+                            <div
+                              className="flex flex-wrap gap-1 overflow-auto max-h-48 scrollable cursor-default"
+                              onClick={(event) => event.stopPropagation()}
+                            >
+                              {getKeys(PIG_FEEDS[slop].ingredients).map(
+                                (item) => (
+                                  <Box
+                                    key={item}
+                                    image={ITEM_DETAILS[item].image}
+                                    count={state.inventory[item]}
+                                    isSelected={feed.ingredient === item}
+                                    onClick={() => {
+                                      setPigFeedInputs((prev) => ({
+                                        ...prev,
+                                        [slop]: item,
+                                      }));
+                                      setPickingInputFor(undefined);
+                                    }}
+                                    secondaryImage={
+                                      (
+                                        state.inventory[item] ?? new Decimal(0)
+                                      ).gte(
+                                        feed.missing.mul(
+                                          PIG_FEEDS[slop].ingredients[item] ??
+                                            0,
+                                        ),
+                                      )
+                                        ? SUNNYSIDE.icons.confirm
+                                        : SUNNYSIDE.icons.cancel
+                                    }
+                                  />
+                                ),
+                              )}
+                            </div>
+                          )}
                         </InnerPanel>
                       );
                     })}

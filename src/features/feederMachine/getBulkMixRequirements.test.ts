@@ -551,6 +551,23 @@ describe("getBulkMixRequirements", () => {
       expect(requirements.ingredients).toEqual({ Potato: new Decimal(240) });
     });
 
+    it("mixes a Slop from the input the player picked", () => {
+      const { feeds, requirements } = getBulkMixRequirements(
+        pigFarm(undefined, {
+          Sunflower: new Decimal(1000),
+          Potato: new Decimal(400),
+        }),
+        "Pigpen",
+        Date.now(),
+        { "Basic Slop": "Carrot" },
+      );
+      const slop = feeds.find((feed) => feed.item === "Basic Slop");
+
+      expect(slop?.ingredient).toEqual("Carrot");
+      expect(slop?.ingredients).toEqual({ Carrot: new Decimal(30) });
+      expect(requirements.ingredients).toEqual({ Carrot: new Decimal(30) });
+    });
+
     it("falls back to the first input when the player holds none", () => {
       const { feeds } = getBulkMixRequirements(pigFarm(), "Pigpen", Date.now());
 
