@@ -39,6 +39,10 @@ const EMPTY_BULK_FETCH_PLAN: BulkFetchPlan = {
 // difference.
 const PET_STATE_REFRESH_MS = 30_000;
 
+// Read at confirmation time. A module-level helper keeps react-hooks/purity from
+// treating the click handler as render code.
+const currentTime = () => Date.now();
+
 type Props = {
   activePets: [PetName | number, Pet | PetNFT | undefined][];
 };
@@ -130,8 +134,21 @@ export const PetsTab: React.FC<Props> = ({ activePets }) => {
   };
 
   const handleConfirmFetch = () => {
-    if (selectedFetchEntries.length === 0) return;
-    gameService.send("pets.bulkFetch", { fetches: selectedFetchEntries });
+    // The plan is built on a 30s clock, so a pet may have fallen asleep or been
+    // neglected since. pets.bulkFetch rejects the whole batch for one such
+    // entry, so drop them here and still send the eligible fetches.
+    const confirmedAt = currentTime();
+    const fetches = selectedFetchEntries.filter(({ petId }) => {
+      const pet = activePets.find(([id]) => id === petId)?.[1];
+      return (
+        !!pet &&
+        !isPetNapping(pet, confirmedAt) &&
+        !isPetNeglected(pet, confirmedAt)
+      );
+    });
+    if (fetches.length > 0) {
+      gameService.send("pets.bulkFetch", { fetches });
+    }
     resetBulkFetch();
   };
 

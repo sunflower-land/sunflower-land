@@ -189,7 +189,22 @@ export const FeedTab: React.FC<Props> = ({ activePets }) => {
       setIsBulkFeed(true);
       setSelectedFeed(newSelectedFeed);
     } else {
-      handleConfirmFeed(selectedFeed);
+      // The selection was built on a 30s clock. If a selected pet has since
+      // fallen asleep or been neglected, drop it and keep bulk mode open so the
+      // player sees the change, rather than skipping it silently.
+      const confirmedAt = Date.now();
+      const currentSelectedFeed = selectedFeed.filter(({ petId }) => {
+        const pet = activePets.find(([id]) => id === petId)?.[1];
+        return (
+          !pet ||
+          (!isPetNeglected(pet, confirmedAt) && !isPetNapping(pet, confirmedAt))
+        );
+      });
+      if (currentSelectedFeed.length !== selectedFeed.length) {
+        setSelectedFeed(currentSelectedFeed);
+        return;
+      }
+      handleConfirmFeed(currentSelectedFeed);
     }
   };
 

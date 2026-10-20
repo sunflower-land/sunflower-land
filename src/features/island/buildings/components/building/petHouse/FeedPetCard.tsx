@@ -100,7 +100,10 @@ export const FeedPetCard: React.FC<Props> = ({
                 (item) => item.petId === petName && item.food === food,
               );
 
-            const isDisabled = !canFeed || alreadyFed || isFoodLocked;
+            // A selected food stays clickable even once it takes the last unit
+            // (canFeed turns false), so the player can still deselect it.
+            const isDisabled =
+              (!canFeed && !isSelected) || alreadyFed || isFoodLocked;
 
             const xp = getPetExperience({
               basePetXP: getPetRequestXP(food),
