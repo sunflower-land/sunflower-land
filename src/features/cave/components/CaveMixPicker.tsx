@@ -43,7 +43,12 @@ import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import powerup from "assets/icons/level_up.png";
-import { CaveBuriedTiles, RECIPE_IMAGE, TILE_IMAGE } from "./CaveBuriedTiles";
+import {
+  CaveBeetleOdds,
+  CaveBuriedTiles,
+  RECIPE_IMAGE,
+  TILE_IMAGE,
+} from "./CaveBuriedTiles";
 import { CaveTutorialHand } from "./CaveTutorial";
 
 const RECIPE_NAMES = getKeys(CAVE_RECIPES);
@@ -193,6 +198,7 @@ export const CaveMixPicker: React.FC<Props> = ({
           </Label>
         )}
         <CaveBuriedTiles counts={buriedCounts} />
+        <CaveBeetleOdds odds={getCaveBatchSkills(game).skills?.beetleRarity} />
       </InnerPanel>
 
       {recipe === "Mud" && (
