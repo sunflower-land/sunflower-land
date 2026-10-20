@@ -2574,7 +2574,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
         const translationKey =
           `description.bonus${ticket.replace(/\s+/g, "")}.boost` as TranslationKeys;
 
-        return Object.values(items)
+        return Object.values(items ?? {})
           .filter(isCollectible)
           .map((item) => [
             item,
