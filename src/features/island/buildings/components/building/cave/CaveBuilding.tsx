@@ -9,7 +9,6 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useNow } from "lib/utils/hooks/useNow";
-import { useSound } from "lib/utils/hooks/useSound";
 import { getKeys } from "lib/object";
 import { isCavePatchCleared } from "features/game/types/caveRecipes";
 import { saveIslandScrollPosition } from "features/game/expansion/lib/islandScroll";
@@ -34,15 +33,11 @@ export const CaveBuilding: React.FC<BuildingProps> = ({ isBuilt }) => {
 
   const navigate = useNavigate();
 
-  // TODO(Chapter 16 art): reuses the Barn door sound until Cave SFX land.
-  const { play: caveAudio } = useSound("barn");
-
   const now = useNow({ live: !!cave });
   const ready = hasReadyCavePatch(cave, now);
 
   const handleClick = () => {
     if (isBuilt) {
-      caveAudio();
       saveIslandScrollPosition();
       navigate("/cave");
     }
