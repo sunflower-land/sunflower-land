@@ -5,6 +5,7 @@ import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getCaveBatchDuration } from "features/game/lib/cave";
+import { CAVE_FIRST_BATCH_DURATION_MS } from "features/game/types/caveRecipes";
 import { CAVE_TIERS } from "features/game/types/caveTiers";
 import {
   SpeakingModal,
@@ -40,6 +41,10 @@ const _batchSeconds = (state: MachineState) => {
   return duration / 1000;
 };
 
+// How long a batch grows once the 10-minute first one is behind the player.
+const _regularBatchSeconds = (state: MachineState) =>
+  getCaveBatchDuration(state.context.state).duration / 1000;
+
 /** Gloomwick telling the player what this step is about, shown once. */
 export const CaveTutorialPopup: React.FC<{
   step: CaveTutorialStep;
@@ -48,6 +53,10 @@ export const CaveTutorialPopup: React.FC<{
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
   const batchSeconds = useSelector(gameService, _batchSeconds);
+  const regularBatchSeconds = useSelector(gameService, _regularBatchSeconds);
+  // Farms that started their batch before the 10-minute first batch existed
+  // are waiting the full time, so Gloomwick only offers the deal on a real one.
+  const isFirstBatch = batchSeconds * 1000 === CAVE_FIRST_BATCH_DURATION_MS;
 
   const messages: Record<CaveTutorialStep, Message[]> = {
     "start-batch": [
@@ -57,9 +66,16 @@ export const CaveTutorialPopup: React.FC<{
     ],
     wait: [
       {
-        text: t("cave.tutorial.wait.one", {
-          time: secondsToString(batchSeconds, { length: "medium" }),
-        }),
+        text: isFirstBatch
+          ? t("cave.tutorial.wait.firstBatch", {
+              time: secondsToString(batchSeconds, { length: "medium" }),
+              fullTime: secondsToString(regularBatchSeconds, {
+                length: "medium",
+              }),
+            })
+          : t("cave.tutorial.wait.one", {
+              time: secondsToString(batchSeconds, { length: "medium" }),
+            }),
       },
       { text: t("cave.tutorial.wait.two") },
     ],

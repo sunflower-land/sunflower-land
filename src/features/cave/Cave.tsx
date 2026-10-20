@@ -235,9 +235,12 @@ export const Cave: React.FC = () => {
                 {guiding && (
                   <NPCSpeechBubble
                     text={t(CAVE_TUTORIAL_BUBBLES[guiding])}
+                    // Anchored top-left (Gloomwick hangs below this button's
+                    // top edge) so the tail sits just over his head however
+                    // long the text is.
                     style={{
-                      bottom: `${PIXEL_SCALE * 22}px`,
-                      right: `${PIXEL_SCALE * 6}px`,
+                      top: `${PIXEL_SCALE * -6}px`,
+                      left: `${PIXEL_SCALE * 6}px`,
                     }}
                   />
                 )}

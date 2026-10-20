@@ -4078,6 +4078,7 @@
   "cave.tutorial.startBatch.two": "Feed that Myco Bin a mix and it grows a patch full of buried Wild Mushrooms, Beetles and Mud.",
   "cave.tutorial.startBatch.three": "Go on, start your first batch.",
   "cave.tutorial.wait.one": "Now we wait. A patch takes {{time}} to grow.",
+  "cave.tutorial.wait.firstBatch": "Now we wait. Patches usually take {{fullTime}} to grow, but your first one's on the house: just {{time}}!",
   "cave.tutorial.wait.two": "Come back when it's ready, the Cave will let you know.",
   "cave.tutorial.dig.one": "Your patch is ready! Dig each tile with a Sand Shovel.",
   "cave.tutorial.dig.two": "Beetles are hiding in there. Find them all.",
