@@ -102,7 +102,7 @@ describe("npcRestock", () => {
 
     expect(state.stock["Sunflower Seed"]).toEqual(new Decimal(200));
     expect(state.stock.Axe).toEqual(new Decimal(100));
-    expect(state.stock["Sand Shovel"]).toEqual(new Decimal(50));
+    expect(state.stock["Sand Shovel"]).toEqual(new Decimal(125));
   });
 
   it("restocks the market with warehouse placed and ready", () => {
@@ -207,6 +207,6 @@ describe("npcRestock", () => {
     });
     expect(state.stock["Sunflower Seed"]).toEqual(new Decimal(480));
     expect(state.stock.Axe).toEqual(new Decimal(0));
-    expect(state.stock["Sand Shovel"]).toEqual(new Decimal(50));
+    expect(state.stock["Sand Shovel"]).toEqual(new Decimal(125));
   });
 });

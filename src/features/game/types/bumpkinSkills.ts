@@ -4756,7 +4756,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Tool Hoarder": {
     name: "Tool Hoarder",
     tree: "Cave",
-    // +50% / +100% / +200% Sand Shovel (base 50) and Sand Drill (base 10) stock.
+    // +25/+50/+100 Sand Shovel (base 125) and +5/+10/+20 Sand Drill (base 25) stock.
     upgrade: {
       maxLevel: 3,
       effect: {
