@@ -46,7 +46,6 @@ import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 import { Checkbox } from "components/ui/Checkbox";
 import { SmallBox } from "components/ui/SmallBox";
 import { ChumSelection } from "./ChumSelection";
-import { DropdownPanel } from "components/ui/DropdownPanel";
 import { EXTRA_REELS_AMOUNT } from "features/game/events/landExpansion/castRod";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { ModalOverlay } from "components/ui/ModalOverlay";
@@ -384,28 +383,39 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
             )}
           </div>
         </InnerPanel>
-        <DropdownPanel
-          options={BAIT.map((bait) => ({
-            value: bait,
-            label: (
-              <div className="flex flex-col gap-1">
-                <p className="text-xs">{`${effectiveMultiplier} x ${getTranslatedItemName(bait)} (${items[bait]?.toString() ?? 0})`}</p>
-                <p className="text-xxs">{ITEM_DETAILS[bait].description}</p>
-              </div>
-            ),
-            icon: ITEM_DETAILS[bait].image,
-          }))}
-          value={selectedBait}
-          placeholder={t("fishing.select.your.bait")}
-          onChange={(bait) => handleBaitChange(bait as FishingBait)}
-        />
-        {notEnoughBait && (
-          <Label className="ml-1" type="danger">
-            {t("fishing.dont.have.enough.bait", {
-              bait: getTranslatedItemName(selectedBait),
-            })}
-          </Label>
-        )}
+        <InnerPanel>
+          <p className="mb-1 p-1 text-xs">{t("fishing.select.your.bait")}</p>
+          <div className="flex flex-wrap items-center">
+            {BAIT.map((bait) => (
+              <Box
+                key={bait}
+                image={ITEM_DETAILS[bait].image}
+                count={items[bait] ?? new Decimal(0)}
+                onClick={() => handleBaitChange(bait)}
+                isSelected={selectedBait === bait}
+                missingRequirements={(items[bait] ?? new Decimal(0)).lt(
+                  effectiveMultiplier,
+                )}
+                tooltip={getTranslatedItemName(bait)}
+              />
+            ))}
+          </div>
+          {selectedBait && (
+            <div className="flex flex-col gap-1 p-1">
+              <p className="text-xs">{`${effectiveMultiplier} x ${getTranslatedItemName(selectedBait)}`}</p>
+              <p className="text-xxs">
+                {ITEM_DETAILS[selectedBait].description}
+              </p>
+            </div>
+          )}
+          {notEnoughBait && (
+            <Label className="ml-1" type="danger">
+              {t("fishing.dont.have.enough.bait", {
+                bait: getTranslatedItemName(selectedBait),
+              })}
+            </Label>
+          )}
+        </InnerPanel>
         {selectedBait && isGuaranteedBait(selectedBait) && guaranteedCatch && (
           <InnerPanel>
             <Label
