@@ -7,7 +7,10 @@ import type {
 import type { InventoryItemName } from "features/game/types/game";
 import type { BeetleName } from "features/game/types/beetles";
 import { BEETLE_RARITY_WEIGHTS } from "features/game/types/cavePatch";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { getKeys } from "lib/object";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
@@ -47,10 +50,26 @@ export const CaveBeetleOdds: React.FC<{
               type={chance === base ? "default" : "vibrant"}
               icon={ITEM_DETAILS[beetle].image}
             >
-              {`${chance}%`}
-              {chance !== base && (
-                <span className="line-through opacity-60 ml-1">{`${base}%`}</span>
-              )}
+              {/* The icon's alt text is generic, so name the Beetle for
+                  screen readers and hide the bare percentages from them. */}
+              <span className="sr-only">
+                {chance === base
+                  ? t("cave.batch.beetleChance", {
+                      beetle: getTranslatedItemName(beetle),
+                      chance,
+                    })
+                  : t("cave.batch.beetleChanceBoosted", {
+                      beetle: getTranslatedItemName(beetle),
+                      chance,
+                      base,
+                    })}
+              </span>
+              <span aria-hidden>
+                {`${chance}%`}
+                {chance !== base && (
+                  <span className="line-through opacity-60 ml-1">{`${base}%`}</span>
+                )}
+              </span>
             </Label>
           );
         })}

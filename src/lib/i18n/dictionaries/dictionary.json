@@ -4049,6 +4049,8 @@
   "cave.batch.leftoverMushrooms": "Buried Mushrooms will be lost: {{count}}",
   "cave.batch.confirmReplace": "Start a new batch? These are still buried and will be lost:",
   "cave.batch.beetleOdds": "Beetle odds",
+  "cave.batch.beetleChance": "{{beetle}}: {{chance}}%",
+  "cave.batch.beetleChanceBoosted": "{{beetle}}: {{chance}}% (base {{base}}%)",
   "cave.dig.beetlesFound": "Beetles found: {{found}}/{{total}}",
   "cave.dig.allBeetlesFound": "All Beetles found!",
   "cave.dig.cleared": "Patch cleared",
