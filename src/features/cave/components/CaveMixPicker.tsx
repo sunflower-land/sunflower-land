@@ -264,7 +264,7 @@ export const CaveMixPicker: React.FC<Props> = ({
                   onClick={() => setShowTimeBoosts((prev) => !prev)}
                   anchorRef={timeBoostsRef}
                   portalAlign="center"
-                  portalPlacement="above"
+                  portalPlacement="auto"
                 />
               )}
             </div>
