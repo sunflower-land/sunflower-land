@@ -22137,6 +22137,17 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Traveling Merchant Bag",
   },
+  "Beetle Goggles": {
+    description:
+      "A riding cap with a Beetle perched on top and goggles for spotting glow in the dark. Standard issue for Cave dwellers.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Beetle Goggles",
+  },
   "Yellow Slime Puppet": {
     description:
       "A hand puppet made entirely of yellow ooze. It mimics your movements, though it looks slightly sticky.",

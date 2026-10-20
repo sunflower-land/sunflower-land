@@ -1417,6 +1417,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     hair: "Buzz Cut",
     suit: "Traveling Merchant Suit",
     wings: "Traveling Merchant Bag",
+    hat: "Beetle Goggles",
     shoes: "Black Farmer Boots",
     background: "Goblin Retreat Background",
   },
