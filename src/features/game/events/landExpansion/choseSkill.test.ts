@@ -269,7 +269,7 @@ describe("choseSkill", () => {
         },
       );
 
-      it("rejects a Pig skill even with a Beta Pass", () => {
+      it("accepts a Pig skill with a Beta Pass", () => {
         expect(() =>
           choose(
             "Truffle Yield",
@@ -280,7 +280,7 @@ describe("choseSkill", () => {
               },
             }),
           ),
-        ).toThrow("This skill is not available");
+        ).not.toThrow();
       });
 
       it("still lets other Animals skills be claimed", () => {

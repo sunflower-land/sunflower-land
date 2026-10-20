@@ -329,14 +329,14 @@ describe("startSpiceRack: Truffle Seasoning (Chapter 16)", () => {
       expect(() => season()).toThrow("Truffle Seasoning is not available yet");
     });
 
-    it("is not unlocked by a Beta Pass", () => {
+    it("is unlocked by a Beta Pass", () => {
       expect(() =>
         season(
           createFermentationTestState({
             inventory: { ...INPUTS, "Beta Pass": new Decimal(1) },
           }),
         ),
-      ).toThrow("Truffle Seasoning is not available yet");
+      ).not.toThrow();
     });
   });
 });

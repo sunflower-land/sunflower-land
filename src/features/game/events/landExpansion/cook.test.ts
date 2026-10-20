@@ -1918,10 +1918,10 @@ describe("cook: Truffle recipes (Chapter 16)", () => {
       );
     });
 
-    it("is not unlocked by a Beta Pass", () => {
+    it("is unlocked by a Beta Pass", () => {
       expect(() =>
         roast(farm({ ...INPUTS, "Beta Pass": new Decimal(1) })),
-      ).toThrow("Truffle recipes are not available yet");
+      ).not.toThrow();
     });
   });
 });

@@ -405,14 +405,14 @@ describe("drillCaveTiles (cave.drilled)", () => {
       );
     });
 
-    it("is not unlocked by holding a Beta Pass", () => {
+    it("is unlocked by holding a Beta Pass", () => {
       const state = readyState();
       expect(() =>
         drill({
           ...state,
           inventory: { ...state.inventory, "Beta Pass": new Decimal(1) },
         }),
-      ).toThrow(DRILL_CAVE_TILES_ERRORS.NO_FEATURE_ACCESS);
+      ).not.toThrow();
     });
   });
 });
