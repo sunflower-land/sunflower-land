@@ -10,6 +10,7 @@ import type {
 } from "features/game/types/caveRecipes";
 import {
   CAVE_BATCH_DURATION_MS,
+  CAVE_FIRST_BATCH_RECIPE,
   CAVE_MUD_CROPS,
   CAVE_RECIPES,
   isCavePatchCleared,
@@ -24,6 +25,7 @@ import {
   getCaveBatchCost,
   getCaveBatchDuration,
   getCaveBatchSkills,
+  isFirstCaveBatch,
 } from "features/game/lib/cave";
 import { getKeys } from "lib/object";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -105,6 +107,11 @@ export const CaveMixPicker: React.FC<Props> = ({
   const [showTimeBoosts, setShowTimeBoosts] = useState(false);
   const timeBoostsRef = useRef<HTMLDivElement>(null);
 
+  // A farm's first batch can only be the Mushroom mix; the others stay hidden.
+  const recipes = isFirstCaveBatch(game)
+    ? [CAVE_FIRST_BATCH_RECIPE]
+    : RECIPE_NAMES;
+
   const isCleared = !!batch && isCavePatchCleared(batch);
   const canReplace = !!batch && !isCleared && canRestartCaveBatch(batch);
 
@@ -165,7 +172,7 @@ export const CaveMixPicker: React.FC<Props> = ({
           {t("cave.batch.chooseRecipe")}
         </Label>
         <div className="flex flex-wrap gap-1 px-1 mb-2">
-          {RECIPE_NAMES.map((name) => (
+          {recipes.map((name) => (
             <Box
               key={name}
               image={ITEM_DETAILS[RECIPE_IMAGE[name]].image}

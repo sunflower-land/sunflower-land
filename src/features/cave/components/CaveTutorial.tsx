@@ -29,8 +29,16 @@ export const CAVE_TUTORIAL_BUBBLES: Record<CaveTutorialStep, TranslationKeys> =
     expand: "cave.tutorial.bubble.expand",
   };
 
-const _batchSeconds = (state: MachineState) =>
-  getCaveBatchDuration(state.context.state).duration / 1000;
+// How long the tutorial's batch grows. Read off the batch itself: once it has
+// started, the next batch would no longer be the 10-minute first one.
+const _batchSeconds = (state: MachineState) => {
+  const game = state.context.state;
+  const batch = game.cave?.machines["1"]?.batch;
+  const duration = batch
+    ? batch.readyAt - batch.startedAt
+    : getCaveBatchDuration(game).duration;
+  return duration / 1000;
+};
 
 /** Gloomwick telling the player what this step is about, shown once. */
 export const CaveTutorialPopup: React.FC<{
