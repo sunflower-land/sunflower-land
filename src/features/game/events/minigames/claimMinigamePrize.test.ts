@@ -1,6 +1,8 @@
 import { TEST_FARM } from "features/game/lib/constants";
 import { claimMinigamePrize } from "./claimMinigamePrize";
 import Decimal from "decimal.js-light";
+import type { GameState } from "features/game/types/game";
+import { submitMinigameScore } from "./submitMinigameScore";
 
 describe("minigame.prizeClaimed", () => {
   beforeEach(() => {
@@ -383,6 +385,124 @@ describe("minigame.prizeClaimed", () => {
     expect(state.faction?.history["2024-07-01"]).toEqual({
       score: 20,
       petXP: 0,
+    });
+  });
+
+  describe("halloween-2026-game-2 (one claim per qualifying run)", () => {
+    const date = new Date("2026-10-27T12:00:00Z");
+    const dateKey = date.toISOString().substring(0, 10);
+    const prize = {
+      coins: 0,
+      startAt: date.getTime() - 1000,
+      endAt: date.getTime() + 1000,
+      items: { "Halloween Token 2026": 100 },
+      wearables: {},
+      score: 50,
+    };
+
+    it("cannot claim twice off the same run", () => {
+      expect(() =>
+        claimMinigamePrize({
+          state: {
+            ...TEST_FARM,
+            minigames: {
+              games: {
+                "halloween-2026-game-2": {
+                  highscore: 60,
+                  history: {
+                    [dateKey]: {
+                      attempts: 1,
+                      highscore: 60,
+                      prizeClaimedAt: date.getTime() - 10,
+                    },
+                  },
+                },
+              },
+              prizes: { "halloween-2026-game-2": prize },
+            },
+          },
+          action: {
+            id: "halloween-2026-game-2",
+            type: "minigame.prizeClaimed",
+          },
+          createdAt: date.getTime(),
+        }),
+      ).toThrow("Already claimed halloween-2026-game-2 prize");
+    });
+
+    it("does not let event players re-claim other minigame prizes", () => {
+      expect(() =>
+        claimMinigamePrize({
+          state: {
+            ...TEST_FARM,
+            minigames: {
+              games: {
+                "halloween-2026-game-2": { highscore: 60, history: {} },
+                "chicken-rescue": {
+                  highscore: 30,
+                  history: {
+                    [dateKey]: {
+                      attempts: 1,
+                      highscore: 30,
+                      prizeClaimedAt: date.getTime() - 10,
+                    },
+                  },
+                },
+              },
+              prizes: {
+                "chicken-rescue": { ...prize, items: { Mark: 20 }, score: 20 },
+              },
+            },
+          },
+          action: { id: "chicken-rescue", type: "minigame.prizeClaimed" },
+          createdAt: date.getTime(),
+        }),
+      ).toThrow("Already claimed chicken-rescue prize");
+    });
+
+    it("pays once for every qualifying run", () => {
+      let state = {
+        ...TEST_FARM,
+        inventory: {},
+        minigames: {
+          games: {},
+          prizes: { "halloween-2026-game-2": prize },
+        },
+      } as GameState;
+
+      const run = (score: number) => {
+        state = submitMinigameScore({
+          state,
+          action: {
+            id: "halloween-2026-game-2",
+            score,
+            type: "minigame.scoreSubmitted",
+          },
+          createdAt: date.getTime(),
+        });
+      };
+      const claim = () => {
+        state = claimMinigamePrize({
+          state,
+          action: {
+            id: "halloween-2026-game-2",
+            type: "minigame.prizeClaimed",
+          },
+          createdAt: date.getTime(),
+        });
+      };
+
+      run(60);
+      claim();
+      expect(() => claim()).toThrow("Already claimed");
+
+      run(10); // below the target: no new claim
+      expect(() => claim()).toThrow("Already claimed");
+
+      run(50);
+      claim();
+
+      expect(state.inventory["Halloween Token 2026"]).toEqual(new Decimal(200));
     });
   });
 });
