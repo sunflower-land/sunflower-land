@@ -70,6 +70,24 @@ export function getMarketplaceWithdrawBlock({
   return until;
 }
 
+/**
+ * When a WITHDRAW_DUPLICATE rejection says how long the shared-network hold
+ * lasts (`data.blockedUntil`), the timestamp it lifts; otherwise undefined.
+ * Older API responses carry no date, so callers must cope without one.
+ */
+export function getWithdrawBlockedUntil(
+  details: unknown,
+  now: number,
+): number | undefined {
+  if (!isRecord(details)) return undefined;
+
+  const until = details.blockedUntil;
+  if (typeof until !== "number" || !Number.isFinite(until)) return undefined;
+  if (until <= now) return undefined;
+
+  return until;
+}
+
 /** Locale-formatted calendar date, e.g. "9 Dec 2026". */
 export const formatWithdrawableDate = (timestamp: number): string =>
   new Date(timestamp).toLocaleDateString(undefined, {

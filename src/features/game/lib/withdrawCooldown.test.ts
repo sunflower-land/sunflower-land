@@ -4,6 +4,7 @@ import { ERRORS } from "lib/errors";
 import { createEffectError } from "../actions/effect";
 import {
   getMarketplaceWithdrawBlock,
+  getWithdrawBlockedUntil,
   getWithdrawCooldownItems,
 } from "./withdrawCooldown";
 
@@ -145,5 +146,29 @@ describe("getMarketplaceWithdrawBlock", () => {
         now: NOW,
       }),
     ).toBe(NOW + 10 * DAY);
+  });
+});
+
+describe("getWithdrawBlockedUntil", () => {
+  it("reads the date the shared-network hold lifts", () => {
+    expect(getWithdrawBlockedUntil({ blockedUntil: NOW + 14 * DAY }, NOW)).toBe(
+      NOW + 14 * DAY,
+    );
+  });
+
+  it("ignores a date that has already passed", () => {
+    expect(getWithdrawBlockedUntil({ blockedUntil: NOW - DAY }, NOW)).toBe(
+      undefined,
+    );
+    expect(getWithdrawBlockedUntil({ blockedUntil: NOW }, NOW)).toBe(undefined);
+  });
+
+  it("tolerates a missing or malformed payload", () => {
+    expect(getWithdrawBlockedUntil(undefined, NOW)).toBe(undefined);
+    expect(getWithdrawBlockedUntil({}, NOW)).toBe(undefined);
+    expect(getWithdrawBlockedUntil({ blockedUntil: "soon" }, NOW)).toBe(
+      undefined,
+    );
+    expect(getWithdrawBlockedUntil({ blockedUntil: NaN }, NOW)).toBe(undefined);
   });
 });
