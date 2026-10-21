@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 
-//import worldMap from "assets/map/world_map.png";
-import worldMap from "public/world/halloween_island_2026_assets/world_map.png";
+import worldMap from "assets/map/world_map.png";
+import halloween2026WorldMap from "assets/map/halloween_2026_world_map.png";
 
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -66,7 +66,10 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   return (
     <OuterPanel className="w-full relative shadow-xl">
-      <img src={worldMap} className="w-full" />
+      <img
+        src={isHalloween2026EventActive ? halloween2026WorldMap : worldMap}
+        className="w-full"
+      />
 
       {!plazaAccess && (
         <Label
