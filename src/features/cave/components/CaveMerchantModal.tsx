@@ -8,7 +8,9 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import {
+  CAVE_MERCHANT_STAY_MS,
   type CaveMerchantOffer,
+  type CaveMerchantVisit,
   getCaveMerchantOffersLeft,
   getCaveMerchantStock,
   getCaveMerchantVisit,
@@ -21,7 +23,7 @@ import {
 } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { NPC_WEARABLES } from "lib/npcs";
-import { secondsToString } from "lib/utils/time";
+import { formatDateTime, secondsToString } from "lib/utils/time";
 import { useNow } from "lib/utils/hooks/useNow";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
@@ -31,6 +33,7 @@ import {
   type PanelTabs,
 } from "features/game/components/CloseablePanel";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { SquareIcon } from "components/ui/SquareIcon";
@@ -77,6 +80,55 @@ const TradeBox: React.FC<{
 const rewardText = (offer: CaveMerchantOffer) =>
   `${offer.reward.amount} ${getTranslatedItemName(offer.reward.item)}`;
 
+/** Gloomwick's empty stall while he is away, and when he is back. */
+const CaveMerchantAway: React.FC<{
+  visit: CaveMerchantVisit;
+  now: number;
+}> = ({ visit, now }) => {
+  const { t } = useAppTranslation();
+
+  const next = getCaveMerchantVisit(visit.nextOpensAt);
+  const backIn = Math.max(0, (next.opensAt - now) / 1000);
+
+  return (
+    <InnerPanel className="flex items-center gap-3 p-2">
+      <div className="relative shrink-0">
+        <div className="opacity-50">
+          <NPCIcon parts={NPC_WEARABLES.gloomwick} width={PIXEL_SCALE * 18} />
+        </div>
+        <img
+          src={SUNNYSIDE.icons.sleeping}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 9}px`,
+            top: `${PIXEL_SCALE * -2}px`,
+            right: `${PIXEL_SCALE * -3}px`,
+          }}
+        />
+      </div>
+      <div className="flex flex-col gap-1 min-w-0">
+        <span className="text-sm">{t("cave.merchant.awayTitle")}</span>
+        <span className="text-xs">{t("cave.merchant.awayDescription")}</span>
+        <div className="flex flex-wrap gap-1">
+          <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+            {t("cave.merchant.backIn", {
+              time: secondsToString(backIn, { length: "medium" }),
+            })}
+          </Label>
+          <Label type="default">
+            {t("cave.merchant.returns", {
+              date: formatDateTime(new Date(next.opensAt).toISOString()),
+              time: secondsToString(CAVE_MERCHANT_STAY_MS / 1000, {
+                length: "short",
+              }),
+            })}
+          </Label>
+        </div>
+      </div>
+    </InnerPanel>
+  );
+};
+
 /**
  * Gloomwick's menu: the same Sand Shovel / Sand Drill shelf Jafar sells, and
  * his Cave trades - a fresh set of bulk bridges each visit (one more slot per
@@ -101,10 +153,6 @@ export const CaveMerchantModal: React.FC<{ onClose: () => void }> = ({
     offers.length > 0 &&
     offers.every((offer) => offer.generosity >= GENEROUS_VISIT);
   const leavesIn = Math.max(0, (visit.closesAt - now) / 1000);
-  const backIn = Math.max(
-    0,
-    ((now < visit.opensAt ? visit.opensAt : visit.nextOpensAt) - now) / 1000,
-  );
 
   const trade = (slot: number) =>
     gameService.send({
@@ -143,15 +191,13 @@ export const CaveMerchantModal: React.FC<{ onClose: () => void }> = ({
 
         {tab === "trades" && (
           <div className="flex flex-col gap-1">
-            <InnerPanel className="flex flex-col gap-1 p-1">
-              <span className="text-xs">
-                {open
-                  ? t("cave.merchant.description")
-                  : t("cave.merchant.away", {
-                      time: secondsToString(backIn, { length: "medium" }),
-                    })}
-              </span>
-              {open && (
+            {!open && <CaveMerchantAway visit={visit} now={now} />}
+
+            {open && (
+              <InnerPanel className="flex flex-col gap-1 p-1">
+                <span className="text-xs">
+                  {t("cave.merchant.description")}
+                </span>
                 <div className="flex flex-wrap gap-1">
                   <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
                     {t("cave.merchant.leaves", {
@@ -169,8 +215,8 @@ export const CaveMerchantModal: React.FC<{ onClose: () => void }> = ({
                     <Label type="vibrant">{t("cave.merchant.generous")}</Label>
                   )}
                 </div>
-              )}
-            </InnerPanel>
+              </InnerPanel>
+            )}
 
             {offers.map((offer) => {
               const left = getCaveMerchantOffersLeft({
