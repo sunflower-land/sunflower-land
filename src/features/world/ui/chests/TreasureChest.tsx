@@ -74,6 +74,11 @@ export const TreasureChest: React.FC<Props> = ({
 
   const keyCount = gameState.context.state.inventory[type];
   const hasKey = !!keyCount?.gte(1);
+  const inventoryLabel = (
+    <Label type="default">
+      {`${t("inventory")}: ${formatNumber(keyCount ?? 0, { decimalPlaces: 0 })}`}
+    </Label>
+  );
 
   const open = async () => {
     setIsLoading && setIsLoading(true);
@@ -125,13 +130,12 @@ export const TreasureChest: React.FC<Props> = ({
       >
         {tab === "chest" && (
           <div className="p-2">
-            <Label
-              type="danger"
-              className="mb-2"
-              icon={ITEM_DETAILS[type].image}
-            >
-              {t("basic.treasure.missingKey")}
-            </Label>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
+              {inventoryLabel}
+              <Label type="danger" icon={ITEM_DETAILS[type].image}>
+                {t("basic.treasure.missingKey")}
+              </Label>
+            </div>
             <p className="text-xs mb-2">
               {type === "Treasure Key" && t("basic.treasure.needKey")}
               {type === "Rare Key" && t("rare.treasure.needKey")}
@@ -160,14 +164,15 @@ export const TreasureChest: React.FC<Props> = ({
       {tab === "chest" && (
         <>
           <div className="p-2">
-            <div className="flex flex-wrap mr-12">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
+              {inventoryLabel}
               <Label
                 type="default"
                 icon={ITEM_DETAILS[type].image}
-                className="mb-2 mr-3 capitalize"
+                className="capitalize"
                 secondaryIcon={SUNNYSIDE.icons.confirm}
               >
-                {`${formatNumber(keyCount, { decimalPlaces: 0 })} ${type}`}
+                {type}
               </Label>
             </div>
             <p className="text-xs mb-2">{t("basic.treasure.congratsKey")}</p>
