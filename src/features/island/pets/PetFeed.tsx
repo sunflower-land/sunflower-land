@@ -54,10 +54,6 @@ export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
 
   const { level } = getPetLevel(data.experience);
   const foodRequests = getPetFoodRequests(data, level);
-  const lastFedAt = data.requests.fedAt;
-  const todayDate = new Date().toISOString().split("T")[0];
-  const lastFedAtDate = new Date(lastFedAt ?? 0).toISOString().split("T")[0];
-  const fedToday = lastFedAtDate === todayDate;
 
   const isFoodRequested = (food: CookableName) => foodRequests.includes(food);
 
@@ -76,8 +72,12 @@ export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
 
   const getRequestDetails = (food: CookableName) => {
     const isRequested = isFoodRequested(food);
+    // `foodFed` is reset with each day's requests and is the only check the
+    // feed event applies, so it decides whether this request is complete. The
+    // `fedAt` timestamp can sit on the previous UTC day for a feed saved just
+    // after the rollover, which would otherwise re-enable a refused button.
     const isComplete =
-      isRequested && fedToday && data.requests.foodFed?.includes(food);
+      isRequested && (data.requests.foodFed?.includes(food) ?? false);
 
     const baseFoodXp = getPetRequestXP(food);
     const foodXp = getPetExperience({
