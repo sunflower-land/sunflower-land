@@ -90,6 +90,18 @@ import saltySeas from "assets/icons/skill_icons/salty_seas.webp";
 import seaBlessed from "assets/icons/skill_icons/sea_blessed.webp";
 import speedyAging from "assets/icons/skill_icons/speedy_aging.webp";
 import wideRakes from "assets/icons/skill_icons/wide_rakes.webp";
+import beetleNest from "assets/icons/skill_icons/beetle_nest.webp";
+import fungalHarvest from "assets/icons/skill_icons/fungal_harvest.webp";
+import leanCompost from "assets/icons/skill_icons/lean_compost.webp";
+import muddyBounty from "assets/icons/skill_icons/muddy_bounty.webp";
+import mushroomBloom from "assets/icons/skill_icons/mushroom_bloom.webp";
+import mycoBinSmall from "assets/icons/skill_icons/myco_bin_small.webp";
+import rapidMycelium from "assets/icons/skill_icons/rapid_mycelium.webp";
+import rareBreeds from "assets/icons/skill_icons/rare_breeds.webp";
+import sturdyDrill from "assets/icons/skill_icons/sturdy_drill.webp";
+import sturdyShovel from "assets/icons/skill_icons/sturdy_shovel.webp";
+import toolHoarder from "assets/icons/skill_icons/tool_hoarder.webp";
+import twinBeetles from "assets/icons/skill_icons/twin_beetles.webp";
 import xpIcon from "assets/icons/xp.png";
 import type { NPCName } from "lib/npcs";
 import type { BuffLabel } from ".";
@@ -4570,11 +4582,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.leanCompost"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: ITEM_DETAILS["Wild Mushroom"].image,
+        boostedItemIcon: mycoBinSmall,
       },
     },
-    // TODO(Chapter 16 art): a proper skill icon.
-    image: ITEM_DETAILS["Wild Mushroom"].image,
+    image: leanCompost,
   },
   "Rapid Mycelium": {
     name: "Rapid Mycelium",
@@ -4595,11 +4606,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.rapidMycelium"),
         labelType: "success",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-        boostedItemIcon: ITEM_DETAILS["Wild Mushroom"].image,
+        boostedItemIcon: mycoBinSmall,
       },
     },
-    // TODO(Chapter 16 art): a proper skill icon.
-    image: SUNNYSIDE.icons.stopwatch,
+    image: rapidMycelium,
   },
   "Mushroom Bloom": {
     name: "Mushroom Bloom",
@@ -4620,11 +4630,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.mushroomBloom"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: ITEM_DETAILS["Wild Mushroom"].image,
+        boostedItemIcon: fungalHarvest,
       },
     },
-    // TODO(Chapter 16 art): a proper skill icon.
-    image: ITEM_DETAILS["Magic Mushroom"].image,
+    image: mushroomBloom,
   },
   "Muddy Bounty": {
     name: "Muddy Bounty",
@@ -4648,8 +4657,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS.Mud.image,
       },
     },
-    // TODO(Chapter 16 art): a proper skill icon.
-    image: ITEM_DETAILS.Mud.image,
+    image: muddyBounty,
   },
   "Sturdy Shovel": {
     name: "Sturdy Shovel",
@@ -4673,8 +4681,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Sand Shovel"].image,
       },
     },
-    // TODO(Chapter 16 art): a proper skill icon.
-    image: ITEM_DETAILS["Sand Shovel"].image,
+    image: sturdyShovel,
   },
 
   // Cave - Tier 2
@@ -4697,11 +4704,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.fungalHarvest"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: ITEM_DETAILS["Wild Mushroom"].image,
+        boostedItemIcon: fungalHarvest,
       },
     },
-    // TODO(Chapter 16 art): a proper skill icon.
-    image: ITEM_DETAILS["Wild Mushroom"].image,
+    image: fungalHarvest,
   },
   "Beetle Nest": {
     name: "Beetle Nest",
@@ -4722,11 +4728,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.beetleNest"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: ITEM_DETAILS["Green Beetle"].image,
+        boostedItemIcon: rareBreeds,
       },
     },
-    // TODO(Chapter 16 art): a proper skill icon.
-    image: ITEM_DETAILS["Green Beetle"].image,
+    image: beetleNest,
   },
   "Sturdy Drill": {
     name: "Sturdy Drill",
@@ -4750,8 +4755,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         boostedItemIcon: ITEM_DETAILS["Sand Drill"].image,
       },
     },
-    // TODO(Chapter 16 art): a proper skill icon.
-    image: ITEM_DETAILS["Sand Drill"].image,
+    image: sturdyDrill,
   },
   "Tool Hoarder": {
     name: "Tool Hoarder",
@@ -4775,11 +4779,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.toolHoarder"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: ITEM_DETAILS["Sand Shovel"].image,
+        boostedItemIcon: toolHoarder,
       },
     },
-    // TODO(Chapter 16 art): a proper skill icon.
-    image: ITEM_DETAILS["Sand Shovel"].image,
+    image: toolHoarder,
   },
 
   // Cave - Tier 3
@@ -4824,11 +4827,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.rareBreeds"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: ITEM_DETAILS["Amber Beetle"].image,
+        boostedItemIcon: rareBreeds,
       },
     },
-    // TODO(Chapter 16 art): a proper skill icon.
-    image: ITEM_DETAILS["Amber Beetle"].image,
+    image: rareBreeds,
   },
   "Twin Beetles": {
     name: "Twin Beetles",
@@ -4849,11 +4851,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.twinBeetles"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: ITEM_DETAILS["Blue Beetle"].image,
+        boostedItemIcon: rareBreeds,
       },
     },
-    // TODO(Chapter 16 art): a proper skill icon.
-    image: ITEM_DETAILS["Blue Beetle"].image,
+    image: twinBeetles,
   },
 } satisfies Record<string, BumpkinSkillRevamp>;
 
