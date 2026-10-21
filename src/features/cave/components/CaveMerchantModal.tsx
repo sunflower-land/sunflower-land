@@ -11,6 +11,7 @@ import {
   CAVE_MERCHANT_STAY_MS,
   type CaveMerchantOffer,
   type CaveMerchantVisit,
+  getCaveMerchantGenerosity,
   getCaveMerchantOffersLeft,
   getCaveMerchantStock,
   getCaveMerchantVisit,
@@ -43,7 +44,10 @@ const _game = (state: MachineState) => state.context.state;
 
 type Tab = "tools" | "trades";
 
-/** A visit whose deals are a fifth better than cost or more gets a badge. */
+/**
+ * A visit after a long enough wait to price at 1.2x or better (5.5 days or
+ * more, the longer half of the 4-7 day range) gets a badge.
+ */
 const GENEROUS_VISIT = 1.2;
 
 /** An item square in a trade: the item and its amount. */
@@ -149,9 +153,11 @@ export const CaveMerchantModal: React.FC<{ onClose: () => void }> = ({
   const visit = getCaveMerchantVisit(now);
   const open = isCaveMerchantOpen(visit, now);
   const offers = open ? getCaveMerchantStock(visit.index, tier) : [];
+  // Keyed on the wait, not the offers: rounding costs down already makes
+  // most offers beat 1.2x, so the offers alone would badge nearly every visit.
   const generous =
     offers.length > 0 &&
-    offers.every((offer) => offer.generosity >= GENEROUS_VISIT);
+    getCaveMerchantGenerosity(visit.waitHours) >= GENEROUS_VISIT;
   const leavesIn = Math.max(0, (visit.closesAt - now) / 1000);
 
   const trade = (slot: number) =>
