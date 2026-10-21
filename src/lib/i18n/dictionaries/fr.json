@@ -8656,7 +8656,6 @@
   "cave.batch.start": "Démarrer",
   "cave.batch.growing": "En croissance",
   "cave.batch.ready": "Prêt à creuser !",
-  "cave.batch.finishNow": "Terminez maintenant",
   "auction.addToCalendar": "Ajouter au calendrier",
   "auction.calendarEventTitle": "Vente aux enchères de Sunflower Land : {{item}}",
   "gameOptions.experiments.auctionCalendar": "Calendrier des ventes",
@@ -8669,8 +8668,6 @@
   "cave.dig.cleared": "Patch effacé",
   "cave.expand.title": "Agrandir la grotte",
   "cave.expand.expand": "Élargir",
-  "cave.expand.building": "Expansion",
-  "cave.expand.confirmFinish": "Finir cette extension instantanément ?",
   "cave.expand.ready": "Expansion prête !",
   "cave.expand.complete": "Ouvre-le",
   "cave.merchant.title": "Marchand des grottes gobelins",
@@ -8853,5 +8850,7 @@
   "description.pigDoll": "Une petite figurine de cochon sur son propre piédestal.",
   "cave.tutorial.wait.firstBatch": "Maintenant, nous attendons. Les patchs mettent généralement {{fullTime}} à pousser, mais votre premier patch arrive à la maison : juste {{time}} !",
   "cave.dig.mushroomsFound": "Champignons trouvés : {{found}}/{{total}}",
-  "cave.dig.allMushroomsFound": "Tous les champignons trouvés !"
+  "cave.dig.allMushroomsFound": "Tous les champignons trouvés !",
+  "cave.expand.unlocks": "Déverrouille",
+  "cave.expand.patchDescription": "Une autre parcelle de 5 x 5 pour faire pousser et planter un mélange."
 }

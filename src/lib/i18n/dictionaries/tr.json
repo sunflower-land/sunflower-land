@@ -8656,7 +8656,6 @@
   "cave.batch.start": "Başlat",
   "cave.batch.growing": "Büyüyen",
   "cave.batch.ready": "Kazmaya hazır!",
-  "cave.batch.finishNow": "Şimdi bitirin",
   "auction.addToCalendar": "Takvime ekle",
   "auction.calendarEventTitle": "Ayçiçeği Toprağı müzayedesi: {{item}}",
   "gameOptions.experiments.auctionCalendar": "Açık artırma takvimi",
@@ -8669,8 +8668,6 @@
   "cave.dig.cleared": "Yama temizlendi",
   "cave.expand.title": "Mağarayı Genişletin",
   "cave.expand.expand": "Genişletin",
-  "cave.expand.building": "Genişleyen",
-  "cave.expand.confirmFinish": "Bu genişletmeyi anında bitirmek mi?",
   "cave.expand.ready": "Genişletme hazır!",
   "cave.expand.complete": "Aç şunu",
   "cave.merchant.title": "Goblin Mağarası Tüccarı",
@@ -8853,5 +8850,7 @@
   "description.pigDoll": "Kendi kaidesinde minik bir Domuz figürü.",
   "cave.tutorial.wait.firstBatch": "Şimdi bekleyeceğiz. Yamaların büyümesi genellikle {{fullTime}} alır, ancak ilkiniz evde: sadece {{time}}!",
   "cave.dig.mushroomsFound": "Bulunan mantar: {{found}}/{{total}}",
-  "cave.dig.allMushroomsFound": "Tüm Mantarlar bulundu!"
+  "cave.dig.allMushroomsFound": "Tüm Mantarlar bulundu!",
+  "cave.expand.unlocks": "Kilidi Açar",
+  "cave.expand.patchDescription": "Büyümek ve karıştırmak için başka bir 5x5 yama."
 }

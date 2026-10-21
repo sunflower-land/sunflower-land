@@ -8656,7 +8656,6 @@
   "cave.batch.start": "Comenzar",
   "cave.batch.growing": "Creciendo",
   "cave.batch.ready": "¡Listo para cavar!",
-  "cave.batch.finishNow": "Termina ahora",
   "auction.addToCalendar": "Añadir al calendario",
   "auction.calendarEventTitle": "Subasta Sunflower Land: {{item}}",
   "gameOptions.experiments.auctionCalendar": "Calendario de subastas",
@@ -8669,8 +8668,6 @@
   "cave.dig.cleared": "Parche borrado",
   "cave.expand.title": "Expande la cueva",
   "cave.expand.expand": "Expandir",
-  "cave.expand.building": "Expansión",
-  "cave.expand.confirmFinish": "¿Terminar esta expansión al instante?",
   "cave.expand.ready": "¡Listo para la expansión!",
   "cave.expand.complete": "Ábrelo",
   "cave.merchant.title": "Comerciante de Goblin Cave",
@@ -8853,5 +8850,7 @@
   "description.pigDoll": "Una pequeña figura de cerdo en su propio pedestal.",
   "cave.tutorial.wait.firstBatch": "Ahora esperamos. Los parches suelen tardar {{fullTime}} en crecer, pero el primero está en casa: ¡solo {{time}}!",
   "cave.dig.mushroomsFound": "Hongos encontrados: {{found}}/{{total}}",
-  "cave.dig.allMushroomsFound": "¡Se han encontrado todos los hongos!"
+  "cave.dig.allMushroomsFound": "¡Se han encontrado todos los hongos!",
+  "cave.expand.unlocks": "Desbloquea",
+  "cave.expand.patchDescription": "Otro parche de 5 x 5 para cultivar y cultivar una mezcla."
 }

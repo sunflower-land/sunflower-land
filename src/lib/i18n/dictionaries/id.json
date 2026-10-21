@@ -8656,7 +8656,6 @@
   "cave.batch.start": "Mulai",
   "cave.batch.growing": "Tumbuh",
   "cave.batch.ready": "Siap menggali!",
-  "cave.batch.finishNow": "Selesaikan sekarang",
   "auction.addToCalendar": "Tambahkan ke kalender",
   "auction.calendarEventTitle": "Lelang Tanah Bunga Matahari: {{item}}",
   "gameOptions.experiments.auctionCalendar": "Kalender lelang",
@@ -8669,8 +8668,6 @@
   "cave.dig.cleared": "Patch dibersihkan",
   "cave.expand.title": "Perluas Gua",
   "cave.expand.expand": "Memperluas",
-  "cave.expand.building": "Memperluas",
-  "cave.expand.confirmFinish": "Segera menyelesaikan ekspansi ini?",
   "cave.expand.ready": "Ekspansi siap!",
   "cave.expand.complete": "Buka",
   "cave.merchant.title": "Pedagang Gua Goblin",
@@ -8853,5 +8850,7 @@
   "description.pigDoll": "Sosok Babi kecil di alasnya sendiri.",
   "cave.tutorial.wait.firstBatch": "Sekarang kita tunggu. Tambalan biasanya membutuhkan {{fullTime}} untuk tumbuh, tetapi yang pertama Anda ada di rumah: hanya {{time}}!",
   "cave.dig.mushroomsFound": "Jamur ditemukan: {{found}}/{{total}}",
-  "cave.dig.allMushroomsFound": "Semua Jamur ditemukan!"
+  "cave.dig.allMushroomsFound": "Semua Jamur ditemukan!",
+  "cave.expand.unlocks": "Membuka kunci",
+  "cave.expand.patchDescription": "Patch 5x5 lainnya untuk tumbuh dan digali campuran."
 }

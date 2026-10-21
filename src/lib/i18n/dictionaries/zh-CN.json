@@ -8656,7 +8656,6 @@
   "cave.batch.start": "开始",
   "cave.batch.growing": "生长中",
   "cave.batch.ready": "可以开挖了！",
-  "cave.batch.finishNow": "立即完成",
   "auction.addToCalendar": "添加到日历",
   "auction.calendarEventTitle": "Sunflower Land 拍卖：{{item}}",
   "gameOptions.experiments.auctionCalendar": "拍卖日历",
@@ -8669,8 +8668,6 @@
   "cave.dig.cleared": "培养槽已清空",
   "cave.expand.title": "扩建洞穴",
   "cave.expand.expand": "扩建",
-  "cave.expand.building": "扩建中",
-  "cave.expand.confirmFinish": "立即完成本次扩建？",
   "cave.expand.ready": "扩建就绪！",
   "cave.expand.complete": "开启",
   "cave.merchant.title": "哥布林洞穴商人",
@@ -8853,5 +8850,7 @@
   "description.pigDoll": "一个坐在自己底座上的小猪人偶。",
   "cave.tutorial.wait.firstBatch": "现在我们等着吧。补丁通常需要 {{fullTime}} 才能生长，但你的第一个补丁在家里：只需 {{time}}！",
   "cave.dig.mushroomsFound": "找到的蘑菇：{{found}}/{{total}}",
-  "cave.dig.allMushroomsFound": "所有蘑菇都找到了！"
+  "cave.dig.allMushroomsFound": "所有蘑菇都找到了！",
+  "cave.expand.unlocks": "解锁",
+  "cave.expand.patchDescription": "另一个 5x5 补丁可供开发和挖掘混合。"
 }

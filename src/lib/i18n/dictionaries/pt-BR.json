@@ -8656,7 +8656,6 @@
   "cave.batch.start": "Iniciar",
   "cave.batch.growing": "Crescendo",
   "cave.batch.ready": "Pronto para cavar!",
-  "cave.batch.finishNow": "Termine agora",
   "auction.addToCalendar": "Adicionar ao calendário",
   "auction.calendarEventTitle": "Leilão de Sunflower Land: {{item}}",
   "gameOptions.experiments.auctionCalendar": "Calendário de leilões",
@@ -8669,8 +8668,6 @@
   "cave.dig.cleared": "Patch limpo",
   "cave.expand.title": "Expanda a caverna",
   "cave.expand.expand": "Expandir",
-  "cave.expand.building": "Expandindo",
-  "cave.expand.confirmFinish": "Concluir instantaneamente essa expansão?",
   "cave.expand.ready": "Pronto para expansão!",
   "cave.expand.complete": "Abra-o",
   "cave.merchant.title": "Mercador da Caverna dos Goblins",
@@ -8853,5 +8850,7 @@
   "description.pigDoll": "Uma pequena figura de porco em seu próprio pedestal.",
   "cave.tutorial.wait.firstBatch": "Agora vamos esperar. Os adesivos geralmente levam {{fullTime}} para crescer, mas o primeiro está na casa: apenas {{time}}!",
   "cave.dig.mushroomsFound": "Cogumelos encontrados: {{found}}/{{total}}",
-  "cave.dig.allMushroomsFound": "Todos os cogumelos foram encontrados!"
+  "cave.dig.allMushroomsFound": "Todos os cogumelos foram encontrados!",
+  "cave.expand.unlocks": "Desbloqueia",
+  "cave.expand.patchDescription": "Outro canteiro 5x5 para cultivar e cavar uma mistura."
 }

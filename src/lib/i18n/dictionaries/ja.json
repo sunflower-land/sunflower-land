@@ -8656,7 +8656,6 @@
   "cave.batch.start": "[開始]",
   "cave.batch.growing": "成長",
   "cave.batch.ready": "掘る準備ができました！",
-  "cave.batch.finishNow": "今すぐ終了",
   "auction.addToCalendar": "カレンダーに追加",
   "auction.calendarEventTitle": "ひまわりランドオークション:{{item}}",
   "gameOptions.experiments.auctionCalendar": "オークションカレンダー",
@@ -8669,8 +8668,6 @@
   "cave.dig.cleared": "パッチクリア",
   "cave.expand.title": "洞窟を広げよう",
   "cave.expand.expand": "拡大",
-  "cave.expand.building": "拡張中",
-  "cave.expand.confirmFinish": "この拡張パックをすぐに終わらせる？",
   "cave.expand.ready": "拡張準備完了！",
   "cave.expand.complete": "開けて",
   "cave.merchant.title": "ゴブリンの洞窟の商人",
@@ -8853,5 +8850,7 @@
   "description.pigDoll": "専用の台座に小さな豚のフィギュア。",
   "cave.tutorial.wait.firstBatch": "今、待っています。通常、パッチは成長するのに {{fullTime}} かかりますが、最初のパッチは自宅に届きます。ただ {{time}} です！",
   "cave.dig.mushroomsFound": "キノコが見つかりました:{{found}}/{{total}}",
-  "cave.dig.allMushroomsFound": "すべてのキノコが見つかりました！"
+  "cave.dig.allMushroomsFound": "すべてのキノコが見つかりました！",
+  "cave.expand.unlocks": "ロック解除",
+  "cave.expand.patchDescription": "5x5のパッチをもう1つ追加して、成長させて、ミックスを掘り下げましょう。"
 }

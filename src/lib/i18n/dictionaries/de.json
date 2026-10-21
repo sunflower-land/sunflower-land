@@ -8656,7 +8656,6 @@
   "cave.batch.start": "Starten",
   "cave.batch.growing": "Wachsend",
   "cave.batch.ready": "Bereit zum Graben!",
-  "cave.batch.finishNow": "Jetzt fertig",
   "auction.addToCalendar": "Zum Kalender hinzufügen",
   "auction.calendarEventTitle": "Auktion Sonnenblumenland: {{item}}",
   "gameOptions.experiments.auctionCalendar": "Auktionskalender",
@@ -8669,8 +8668,6 @@
   "cave.dig.cleared": "Patch gelöscht",
   "cave.expand.title": "Erweitere die Höhle",
   "cave.expand.expand": "Erweitern",
-  "cave.expand.building": "Expandieren",
-  "cave.expand.confirmFinish": "Diese Erweiterung sofort beenden?",
   "cave.expand.ready": "Erweiterung bereit!",
   "cave.expand.complete": "Öffne es",
   "cave.merchant.title": "Goblinhöhlenhändler",
@@ -8853,5 +8850,7 @@
   "description.pigDoll": "Eine winzige Schweinefigur auf einem eigenen Podest.",
   "cave.tutorial.wait.firstBatch": "Jetzt warten wir. Normalerweise brauchen Patches {{fullTime}}, um zu wachsen, aber dein erster ist auf dem Haus: nur {{time}}!",
   "cave.dig.mushroomsFound": "Pilze gefunden: {{found}}/{{total}}",
-  "cave.dig.allMushroomsFound": "Alle Pilze gefunden!"
+  "cave.dig.allMushroomsFound": "Alle Pilze gefunden!",
+  "cave.expand.unlocks": "Entsperrt",
+  "cave.expand.patchDescription": "Noch ein 5x5-Patch zum Wachsen und Ausgraben einer Mischung."
 }
