@@ -8,15 +8,13 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import {
-  CAVE_MERCHANT_STAY_MS,
-  type CaveMerchantOffer,
-  type CaveMerchantVisit,
-  getCaveMerchantGenerosity,
   getCaveMerchantOffersLeft,
-  getCaveMerchantStock,
-  getCaveMerchantVisit,
   isCaveMerchantOpen,
 } from "features/game/types/caveMerchant";
+import type {
+  CaveMerchantOffer,
+  CaveMerchantVisitState,
+} from "features/game/types/game";
 import { CAVE_MAX_TIER, getNextCaveTier } from "features/game/types/caveTiers";
 import {
   ITEM_DETAILS,
@@ -46,12 +44,6 @@ type Tab = "tools" | "trades";
 
 /** Trading stops this long before the visit ends (see `closing`). */
 const TRADE_CUTOFF_MS = 5_000;
-
-/**
- * A visit after a long enough wait to price at 1.2x or better (5.5 days or
- * more, the longer half of the 4-7 day range) gets a badge.
- */
-const GENEROUS_VISIT = 1.2;
 
 /** An item square in a trade: the item and its amount. */
 const TradeBox: React.FC<{
@@ -87,21 +79,30 @@ const TradeBox: React.FC<{
 const rewardText = (offer: CaveMerchantOffer) =>
   `${offer.reward.amount} ${getTranslatedItemName(offer.reward.item)}`;
 
-/** Gloomwick's empty stall while he is away, and when he is back. */
+/**
+ * Gloomwick's empty stall while he is away, and when he is back. The visit in
+ * state is the one the API rolled at load, so once its next opening has
+ * passed (or before any visit has loaded) he is due back any moment: the
+ * next load or autosave brings the new visit.
+ */
 const CaveMerchantAway: React.FC<{
-  visit: CaveMerchantVisit;
+  visit?: CaveMerchantVisitState;
   now: number;
 }> = ({ visit, now }) => {
   const { t, i18n } = useAppTranslation();
 
-  const backIn = Math.max(0, (visit.nextOpensAt - now) / 1000);
+  const due = !visit || now >= visit.nextOpensAt;
+  const backIn = visit ? Math.max(0, (visit.nextOpensAt - now) / 1000) : 0;
   // In the player's own language and time zone.
-  const returnsAt = new Date(visit.nextOpensAt).toLocaleString(i18n.language, {
-    month: "short",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  const returnsAt =
+    visit &&
+    new Date(visit.nextOpensAt).toLocaleString(i18n.language, {
+      month: "short",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  const stays = visit ? (visit.closesAt - visit.opensAt) / 1000 : 0;
 
   return (
     <InnerPanel className="flex items-center gap-3 p-2">
@@ -124,18 +125,20 @@ const CaveMerchantAway: React.FC<{
         <span className="text-xs">{t("cave.merchant.awayDescription")}</span>
         <div className="flex flex-wrap gap-1">
           <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-            {t("cave.merchant.backIn", {
-              time: secondsToString(backIn, { length: "medium" }),
-            })}
+            {due
+              ? t("cave.merchant.backSoon")
+              : t("cave.merchant.backIn", {
+                  time: secondsToString(backIn, { length: "medium" }),
+                })}
           </Label>
-          <Label type="default">
-            {t("cave.merchant.returns", {
-              date: returnsAt,
-              time: secondsToString(CAVE_MERCHANT_STAY_MS / 1000, {
-                length: "short",
-              }),
-            })}
-          </Label>
+          {!due && (
+            <Label type="default">
+              {t("cave.merchant.returns", {
+                date: returnsAt ?? "",
+                time: secondsToString(stays, { length: "short" }),
+              })}
+            </Label>
+          )}
         </div>
       </div>
     </InnerPanel>
@@ -159,26 +162,39 @@ export const CaveMerchantModal: React.FC<{ onClose: () => void }> = ({
 
   const tier = game.cave?.tier ?? 0;
   const nextTier = getNextCaveTier(tier);
-  const visit = getCaveMerchantVisit(now);
-  const open = isCaveMerchantOpen(visit, now);
-  const offers = open ? getCaveMerchantStock(visit.index, tier) : [];
-  // Keyed on the wait, not the offers: rounding costs down already makes
-  // most offers beat 1.2x, so the offers alone would badge nearly every visit.
-  const generous =
-    offers.length > 0 &&
-    getCaveMerchantGenerosity(visit.waitHours) >= GENEROUS_VISIT;
-  const leavesIn = Math.max(0, (visit.closesAt - now) / 1000);
+  // Rolled by the API on load, like Love Island's shop: the client never
+  // prices or predicts stock itself.
+  const visit = game.cave?.merchantVisit;
+  const open = !!visit && isCaveMerchantOpen(visit, now);
+  const offers =
+    visit && open
+      ? visit.offers
+          .filter((offer) => offer.slot <= tier)
+          .map((offer) => ({
+            ...offer,
+            left: getCaveMerchantOffersLeft({
+              merchant: game.cave?.merchant,
+              visit: visit.index,
+              slot: offer.slot,
+              limit: offer.limit,
+            }),
+          }))
+      : [];
+  const generous = offers.length > 0 && !!visit?.generous;
+  const leavesIn = visit ? Math.max(0, (visit.closesAt - now) / 1000) : 0;
   // The clock ticks once a second but the trade is checked at the moment it
   // is sent, so stop trading just before he leaves (or restocks) rather than
   // send a trade for a visit that has ended by the time it lands.
   const closing = leavesIn * 1000 < TRADE_CUTOFF_MS;
 
-  const trade = (slot: number) =>
+  const trade = (slot: number) => {
+    if (!visit) return;
     gameService.send({
       type: "cave.merchantOfferBought",
       visit: visit.index,
       slot,
     });
+  };
 
   const owned = (item: CaveMerchantOffer["cost"]["item"]) =>
     game.inventory[item] ?? new Decimal(0);
@@ -238,12 +254,7 @@ export const CaveMerchantModal: React.FC<{ onClose: () => void }> = ({
             )}
 
             {offers.map((offer) => {
-              const left = getCaveMerchantOffersLeft({
-                merchant: game.cave?.merchant,
-                visit: visit.index,
-                slot: offer.slot,
-                limit: offer.limit,
-              });
+              const { left } = offer;
               const required = new Decimal(offer.cost.amount);
               const short = owned(offer.cost.item).lt(required);
               const soldOut = left <= 0;

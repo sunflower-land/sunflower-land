@@ -5,15 +5,13 @@ import { hasFeatureAccess } from "lib/flags";
 import { isCaveBuildingReady } from "features/game/lib/cave";
 import { CAVE_MAX_TIER } from "features/game/types/caveTiers";
 import {
-  getCaveMerchantOffers,
   getCaveMerchantOffersLeft,
-  getCaveMerchantVisit,
   isCaveMerchantOpen,
 } from "features/game/types/caveMerchant";
 
 export type BuyCaveMerchantOfferAction = {
   type: "cave.merchantOfferBought";
-  /** The visit the player is buying from (`getCaveMerchantVisit`). */
+  /** The visit the player is buying from (`cave.merchantVisit.index`). */
   visit: number;
   /** The offer's slot, 1..8. */
   slot: number;
@@ -37,10 +35,11 @@ export enum BUY_CAVE_MERCHANT_OFFER_ERRORS {
 }
 
 /**
- * Trade with the Goblin Cave Merchant. The offer is regenerated here from the
- * visit and slot, never read from the client. Each offer has a per-player
- * limit per visit; only the current visit's purchases are kept, and purchases
- * dated in an earlier visit are rejected.
+ * Trade with the Goblin Cave Merchant. The offer is read from the visit the
+ * API rolled into state when the farm was loaded (`cave.merchantVisit`), never
+ * from the client, like Love Island's shop. Each offer has a per-player limit
+ * per visit; only the current visit's purchases are kept, and purchases dated
+ * in an earlier visit are rejected.
  */
 export function buyCaveMerchantOffer({
   state,
@@ -65,8 +64,12 @@ export function buyCaveMerchantOffer({
       throw new Error(BUY_CAVE_MERCHANT_OFFER_ERRORS.OFFER_LOCKED);
     }
 
-    const visit = getCaveMerchantVisit(createdAt);
-    if (!isCaveMerchantOpen(visit, createdAt) || action.visit !== visit.index) {
+    const visit = cave.merchantVisit;
+    if (
+      !visit ||
+      action.visit !== visit.index ||
+      !isCaveMerchantOpen(visit, createdAt)
+    ) {
       throw new Error(BUY_CAVE_MERCHANT_OFFER_ERRORS.NOT_OPEN);
     }
 
@@ -77,9 +80,7 @@ export function buyCaveMerchantOffer({
       throw new Error(BUY_CAVE_MERCHANT_OFFER_ERRORS.PERIOD_ENDED);
     }
 
-    const offer = getCaveMerchantOffers(visit.index).find(
-      (stocked) => stocked.slot === slot,
-    );
+    const offer = visit.offers.find((stocked) => stocked.slot === slot);
     if (!offer) {
       throw new Error(BUY_CAVE_MERCHANT_OFFER_ERRORS.UNKNOWN_OFFER);
     }

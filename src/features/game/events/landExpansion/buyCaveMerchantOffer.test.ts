@@ -1,12 +1,11 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
-import type { CaveMerchant, GameState } from "features/game/types/game";
-import {
-  CAVE_MERCHANT_EPOCH,
-  type CaveMerchantOffer,
-  getCaveMerchantOffers,
-  getCaveMerchantVisit,
-} from "features/game/types/caveMerchant";
+import type {
+  CaveMerchant,
+  CaveMerchantOffer,
+  CaveMerchantVisitState,
+  GameState,
+} from "features/game/types/game";
 import { CAVE_MAX_TIER } from "features/game/types/caveTiers";
 import { CONFIG } from "lib/config";
 import {
@@ -24,15 +23,42 @@ const READY_CAVE = {
 
 const HOUR = 60 * 60 * 1000;
 
-// Visit 0 opens at the chapter launch and stays 48h; visit 1 opens 4-7 days
-// later. Before launch he restocks every 3 days and never leaves.
-const VISIT = getCaveMerchantVisit(CAVE_MERCHANT_EPOCH);
-const NOW = VISIT.opensAt + HOUR;
-const CLOSED_NOW = VISIT.closesAt + HOUR;
-const NEXT_VISIT = getCaveMerchantVisit(VISIT.nextOpensAt);
-const NEXT_NOW = NEXT_VISIT.opensAt + HOUR;
+// The stock the API puts in game state on load (`getCaveMerchantVisitState`).
+// Built by hand, as Love Island's shop tests do: the reducer only trusts state.
+const OFFERS: CaveMerchantOffer[] = [
+  ["Cabbage", 100, "Iron", 5, 3],
+  ["Zucchini", 800, "Gold", 2, 3],
+  ["Mud", 100, "Sand Drill", 4, 2],
+  ["Orange", 60, "Truffle", 15, 2],
+  ["Banana", 60, "Leather", 15, 2],
+  ["Milk", 30, "The Lot", 20, 1],
+  ["Egg", 30, "Crimstone", 6, 1],
+  ["Stone", 300, "Kale & Mushroom Pie", 20, 1],
+].map(([cost, costAmount, reward, rewardAmount, limit], index) => ({
+  slot: index + 1,
+  cost: { item: cost, amount: costAmount },
+  reward: { item: reward, amount: rewardAmount },
+  limit,
+  curiosity: false,
+})) as CaveMerchantOffer[];
 
-const OFFERS = getCaveMerchantOffers(VISIT.index);
+const OPENS_AT = Date.UTC(2026, 10, 2);
+const VISIT: CaveMerchantVisitState = {
+  index: 0,
+  opensAt: OPENS_AT,
+  closesAt: OPENS_AT + 48 * HOUR,
+  nextOpensAt: OPENS_AT + 120 * HOUR,
+  generous: false,
+  offers: OFFERS,
+};
+const NOW = VISIT.opensAt + HOUR;
+const NEXT_VISIT: CaveMerchantVisitState = {
+  ...VISIT,
+  index: 1,
+  opensAt: VISIT.nextOpensAt,
+  closesAt: VISIT.nextOpensAt + 48 * HOUR,
+  nextOpensAt: VISIT.nextOpensAt + 120 * HOUR,
+};
 const FIRST = OFFERS[0];
 
 /** A farm holding exactly `times` claims' worth of each offer's cost. */
@@ -40,25 +66,25 @@ const caveState = ({
   tier = 1,
   times = 10,
   merchant,
-  offers = OFFERS,
+  merchantVisit = VISIT,
 }: {
   tier?: number;
   times?: number;
   merchant?: CaveMerchant;
-  offers?: CaveMerchantOffer[];
+  merchantVisit?: CaveMerchantVisitState;
 } = {}): GameState => ({
   ...TEST_FARM,
   buildings: { ...TEST_FARM.buildings, Cave: [READY_CAVE] },
   inventory: {
     ...TEST_FARM.inventory,
     ...Object.fromEntries(
-      offers.map((offer) => [
+      merchantVisit.offers.map((offer) => [
         offer.cost.item,
         new Decimal(offer.cost.amount * times),
       ]),
     ),
   },
-  cave: { builtAt: 1, tier, machines: { "1": {} }, merchant },
+  cave: { builtAt: 1, tier, machines: { "1": {} }, merchant, merchantVisit },
 });
 
 const buy = (
@@ -89,7 +115,7 @@ describe("buyCaveMerchantOffer (cave.merchantOfferBought)", () => {
   });
 
   it.each(OFFERS.map((offer) => [offer.slot, offer] as const))(
-    "charges and rewards slot %s exactly as generated",
+    "charges and rewards slot %s exactly as the visit in state offers",
     (slot, offer) => {
       const state = caveState({ tier: CAVE_MAX_TIER });
       const next = buy(state, slot);
@@ -123,47 +149,23 @@ describe("buyCaveMerchantOffer (cave.merchantOfferBought)", () => {
   });
 
   it("resets the limit on the next visit and drops the old one", () => {
-    const nextOffers = getCaveMerchantOffers(NEXT_VISIT.index);
     const state = caveState({
-      offers: nextOffers,
+      merchantVisit: NEXT_VISIT,
       merchant: {
         purchases: { [String(VISIT.index)]: { 1: FIRST.limit } },
       },
     });
-    const next = buy(state, 1, NEXT_NOW, NEXT_VISIT.index);
+    const next = buy(state, 1, NEXT_VISIT.opensAt + HOUR, NEXT_VISIT.index);
     expect(next.cave?.merchant).toEqual({
       purchases: { [String(NEXT_VISIT.index)]: { 1: 1 } },
     });
   });
 
-  // TODO(Cave Dwellers): pre-launch only - delete both tests after launch.
-  it("sells before launch, from the 3-day restock", () => {
-    const at = CAVE_MERCHANT_EPOCH - HOUR;
-    const preLaunch = getCaveMerchantVisit(at);
-    expect(preLaunch.index).toBe(-1);
+  it("sells from a pre-launch restock (negative visit index)", () => {
+    const preLaunch = { ...VISIT, index: -1 };
+    const next = buy(caveState({ merchantVisit: preLaunch }), 1, NOW, -1);
 
-    const [offer] = getCaveMerchantOffers(preLaunch.index);
-    const state = caveState({ offers: [offer] });
-    const next = buy(state, 1, at, preLaunch.index);
-
-    expect(next.inventory[offer.reward.item]).toEqual(
-      (state.inventory[offer.reward.item] ?? new Decimal(0)).add(
-        offer.reward.amount,
-      ),
-    );
     expect(next.cave?.merchant).toEqual({ purchases: { "-1": { 1: 1 } } });
-  });
-
-  it("keeps the launch visit's counts safe from a late pre-launch event", () => {
-    const at = CAVE_MERCHANT_EPOCH - HOUR;
-    const [offer] = getCaveMerchantOffers(-1);
-    const state = caveState({
-      offers: [offer],
-      merchant: { purchases: { [String(VISIT.index)]: { 1: 1 } } },
-    });
-    expect(() => buy(state, 1, at, -1)).toThrow(
-      BUY_CAVE_MERCHANT_OFFER_ERRORS.PERIOD_ENDED,
-    );
   });
 
   it("rejects a purchase from a visit that has already ended", () => {
@@ -176,11 +178,11 @@ describe("buyCaveMerchantOffer (cave.merchantOfferBought)", () => {
     );
   });
 
-  it("rejects while the Merchant is away", () => {
-    expect(() => buy(caveState(), 1, CLOSED_NOW)).toThrow(
+  it("rejects outside the visit in state", () => {
+    expect(() => buy(caveState(), 1, VISIT.closesAt)).toThrow(
       BUY_CAVE_MERCHANT_OFFER_ERRORS.NOT_OPEN,
     );
-    expect(() => buy(caveState(), 1, NEXT_VISIT.opensAt - HOUR)).toThrow(
+    expect(() => buy(caveState(), 1, VISIT.opensAt - 1)).toThrow(
       BUY_CAVE_MERCHANT_OFFER_ERRORS.NOT_OPEN,
     );
   });
@@ -188,6 +190,24 @@ describe("buyCaveMerchantOffer (cave.merchantOfferBought)", () => {
   it("rejects an offer from another visit's stock", () => {
     expect(() => buy(caveState(), 1, NOW, VISIT.index + 1)).toThrow(
       BUY_CAVE_MERCHANT_OFFER_ERRORS.NOT_OPEN,
+    );
+  });
+
+  it("rejects when no visit was loaded into state", () => {
+    const state = caveState();
+    const cave = state.cave && { ...state.cave, merchantVisit: undefined };
+    expect(() => buy({ ...state, cave })).toThrow(
+      BUY_CAVE_MERCHANT_OFFER_ERRORS.NOT_OPEN,
+    );
+  });
+
+  it("rejects a slot the visit in state does not stock", () => {
+    const state = caveState({
+      tier: CAVE_MAX_TIER,
+      merchantVisit: { ...VISIT, offers: OFFERS.filter((o) => o.slot !== 2) },
+    });
+    expect(() => buy(state, 2)).toThrow(
+      BUY_CAVE_MERCHANT_OFFER_ERRORS.UNKNOWN_OFFER,
     );
   });
 

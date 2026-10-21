@@ -4074,6 +4074,7 @@
   "cave.merchant.awayTitle": "Gloomwick is away",
   "cave.merchant.awayDescription": "Off in the deep tunnels, haggling for a fresh haul.",
   "cave.merchant.backIn": "Back in {{time}}",
+  "cave.merchant.backSoon": "Back any moment",
   "cave.merchant.returns": "{{date}} · stays {{time}}",
   "cave.merchant.generous": "Generous visit",
   "cave.merchant.curiosity": "Curiosity",
