@@ -262,57 +262,73 @@ export const CaveMerchantModal: React.FC<{ onClose: () => void }> = ({
               return (
                 <InnerPanel
                   key={offer.slot}
-                  className={classNames(
-                    "flex flex-col sm:flex-row sm:items-center gap-2 p-2",
-                    { "opacity-70": soldOut },
-                  )}
+                  className={classNames("flex items-center gap-2 p-2", {
+                    "opacity-70": soldOut,
+                  })}
                 >
-                  <div className="flex items-center gap-2 sm:flex-1 min-w-0">
-                    <TradeBox
-                      image={ITEM_DETAILS[offer.cost.item].image}
-                      amount={
-                        short
-                          ? `${owned(offer.cost.item).toString()}/${required.toString()}`
-                          : required.toString()
-                      }
-                      short={short}
-                    />
-                    <img
-                      src={SUNNYSIDE.icons.arrow_right}
-                      className="shrink-0"
-                      style={{ width: `${PIXEL_SCALE * 7}px` }}
-                    />
-                    <TradeBox
-                      image={ITEM_DETAILS[offer.reward.item].image}
-                      amount={offer.reward.amount.toString()}
-                    />
-                    <div className="flex flex-col min-w-0 ml-1">
-                      <span className="text-sm truncate">
-                        {rewardText(offer)}
-                      </span>
-                      <span className="text-xxs truncate">
-                        {`${offer.cost.amount} ${getTranslatedItemName(offer.cost.item)}`}
-                      </span>
-                    </div>
+                  <TradeBox
+                    image={ITEM_DETAILS[offer.cost.item].image}
+                    amount={
+                      short
+                        ? `${owned(offer.cost.item).toString()}/${required.toString()}`
+                        : required.toString()
+                    }
+                    short={short}
+                  />
+                  <img
+                    src={SUNNYSIDE.icons.arrow_right}
+                    className="shrink-0"
+                    style={{ width: `${PIXEL_SCALE * 7}px` }}
+                  />
+                  <TradeBox
+                    image={ITEM_DETAILS[offer.reward.item].image}
+                    amount={offer.reward.amount.toString()}
+                  />
+                  {/* The middle column gets the room, so names wrap rather
+                      than truncate. */}
+                  <div className="flex flex-1 flex-col items-start gap-0.5 min-w-0 ml-2">
+                    <span className="text-sm">{rewardText(offer)}</span>
+                    <span
+                      className={classNames("text-xs", {
+                        "text-red-700": short && !soldOut,
+                      })}
+                    >
+                      {short && !soldOut
+                        ? t("cave.merchant.needMore", {
+                            amount: required
+                              .minus(owned(offer.cost.item))
+                              .toString(),
+                            item: getTranslatedItemName(offer.cost.item),
+                          })
+                        : t("cave.merchant.for", {
+                            cost: `${offer.cost.amount} ${getTranslatedItemName(offer.cost.item)}`,
+                          })}
+                    </span>
                     {offer.curiosity && (
-                      <Label type="formula" className="shrink-0">
+                      <Label type="vibrant">
                         {t("cave.merchant.curiosity")}
                       </Label>
                     )}
                   </div>
-                  <div className="flex items-center justify-between sm:justify-end gap-2">
-                    <Label type={soldOut ? "danger" : "formula"}>
-                      {soldOut
-                        ? t("cave.merchant.soldOut")
-                        : t("cave.merchant.left", { left, limit: offer.limit })}
-                    </Label>
-                    <Button
-                      className="w-28"
-                      disabled={soldOut || short || closing}
-                      onClick={() => trade(offer.slot)}
-                    >
-                      {t("cave.merchant.trade")}
-                    </Button>
+                  <div className="flex w-24 shrink-0 flex-col items-center gap-1">
+                    {soldOut ? (
+                      <Label type="danger">{t("cave.merchant.soldOut")}</Label>
+                    ) : (
+                      <>
+                        <Label type="formula">
+                          {t("cave.merchant.left", {
+                            left,
+                            limit: offer.limit,
+                          })}
+                        </Label>
+                        <Button
+                          disabled={short || closing}
+                          onClick={() => trade(offer.slot)}
+                        >
+                          {t("cave.merchant.trade")}
+                        </Button>
+                      </>
+                    )}
                   </div>
                 </InnerPanel>
               );
