@@ -523,6 +523,25 @@ describe("applyArrangement", () => {
       });
     });
 
+    it("rejects a chest node of a tier the player does not own", () => {
+      const state = withInventory(baseFarm, { Tree: 1 });
+      const arrangement = snapshotSurface(state, "farm");
+      arrangement.resources!.trees["new-tree"] = {
+        x: 0,
+        y: 0,
+        name: "Sacred Tree",
+      };
+
+      const conflicts = conflictsOf(() => apply(state, arrangement));
+
+      expect(conflicts).toHaveLength(1);
+      expect(conflicts[0]).toMatchObject({
+        code: "NOT_OWNED",
+        name: "Sacred Tree",
+        id: "new-tree",
+      });
+    });
+
     it("reads a tier from another family as the base tier", () => {
       const state = withInventory(baseFarm, { "Stone Rock": 1 });
       const arrangement = snapshotSurface(state, "farm");

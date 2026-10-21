@@ -1,6 +1,7 @@
 import type {
   Collectibles,
   GameState,
+  InventoryItemName,
   LayoutCoordinates,
   PlacedItem,
   SavedLayout,
@@ -1013,6 +1014,29 @@ function withIsolatedBuilding(
   return next;
 }
 
+/**
+ * Whether the chest holds one more node of exactly this tier than the farm
+ * has placed. The place reducers check availability across the whole family
+ * (a spare base Tree would cover a Sacred Tree), so a new node of an upgraded
+ * tier is only created when that tier itself was earned.
+ */
+function hasTierInChest(
+  state: GameState,
+  bucket: ResourceBucketKey,
+  name: string,
+): boolean {
+  const { get, resourceName } = RESOURCE_BUCKETS.find((b) => b.key === bucket)!;
+  if (name === resourceName) return true;
+
+  const owned = state.inventory[name as InventoryItemName]?.toNumber() ?? 0;
+  const placed = Object.values(get(state)).filter(
+    (node) =>
+      node.x !== undefined &&
+      ((node as { name?: string }).name ?? resourceName) === name,
+  ).length;
+  return owned - placed >= 1;
+}
+
 function withIsolatedResource(
   state: GameState,
   bucket: ResourceBucketKey,
@@ -1508,6 +1532,9 @@ function placeEntry(
           createdAt,
         });
       const known = get(state)[entry.id];
+      if (!known && !hasTierInChest(state, bucket, entry.name)) {
+        throw new Error(`Not enough ${entry.name}`);
+      }
       const next =
         known && known.x === undefined
           ? withIsolatedResource(state, bucket, entry.id, run)
