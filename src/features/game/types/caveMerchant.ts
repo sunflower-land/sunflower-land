@@ -26,10 +26,24 @@ import { ITEM_RECIPES } from "./itemValueSources";
 
 const HOUR_MS = 60 * 60 * 1000;
 
-/** Monday 2 November 2026, 00:00 UTC: the first visit opens here. */
+/**
+ * Monday 2 November 2026, 00:00 UTC: Chapter 16 launches and visit 0 opens.
+ * Kept as its own date rather than read from the chapter table, so moving the
+ * chapter later can never reshuffle visits players have already traded in.
+ */
 export const CAVE_MERCHANT_EPOCH = Date.UTC(2026, 10, 2);
 
-/** How long each visit lasts (#7721). */
+/**
+ * Before launch he never leaves and brings new stock every 3 days, so testers
+ * always have him to trade with (Elias, 2026-10-21). Those visits count down
+ * from -1, the 3 days before launch, so visit indexes still only grow.
+ *
+ * TODO(Cave Dwellers): pre-launch only. Delete this constant and every use of
+ * it after launch (2 November 2026); each one is marked.
+ */
+export const CAVE_MERCHANT_PRE_LAUNCH_RESTOCK_HOURS = 72;
+
+/** How long each visit lasts once the schedule starts (#7721). */
 export const CAVE_MERCHANT_STAY_MS = 48 * HOUR_MS;
 
 /** Visits open 4 to 7 days apart, to the hour (Bryn, 2026-10-21). */
@@ -56,11 +70,14 @@ const MAX_VISITS = 20_000;
 const REWARD_AMOUNTS = [1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20];
 
 export type CaveMerchantVisit = {
-  /** Visits count from 0 at the epoch. */
+  /**
+   * Visit 0 opens at launch; pre-launch restocks count down from -1.
+   * TODO(Cave Dwellers): only 0 and up once the pre-launch code is deleted.
+   */
   index: number;
   opensAt: number;
   closesAt: number;
-  /** Hours since the previous visit opened; the shortest gap for visit 0. */
+  /** Hours since the previous visit opened. */
   waitHours: number;
   nextOpensAt: number;
 };
@@ -118,14 +135,42 @@ function openVisit(visit: number): { random: () => number; gapHours: number } {
 // Schedule
 
 /**
- * The latest visit that has opened by `now` (visit 0 before the epoch, so
- * there is always a next opening to count down to). Open or not is
- * `isCaveMerchantOpen`.
+ * Hours since the visit before `visit` opened, which sets its generosity. The
+ * pre-launch restocks and launch itself follow a 3-day restock.
+ *
+ * TODO(Cave Dwellers): after launch, make visit 0 wait
+ * CAVE_MERCHANT_MIN_GAP_HOURS instead. Both give the lowest generosity, so
+ * visit 0's offers do not change.
+ */
+function getWaitHours(visit: number): number {
+  return visit <= 0
+    ? CAVE_MERCHANT_PRE_LAUNCH_RESTOCK_HOURS
+    : openVisit(visit - 1).gapHours;
+}
+
+/**
+ * The latest visit that has opened by `now`. Before launch that is the
+ * current 3-day restock, which stays the whole 3 days; from launch it is the
+ * seeded schedule. Open or not is `isCaveMerchantOpen`.
  */
 export function getCaveMerchantVisit(now: number): CaveMerchantVisit {
+  // TODO(Cave Dwellers): pre-launch only - delete this branch after launch.
+  if (now < CAVE_MERCHANT_EPOCH) {
+    const restockMs = CAVE_MERCHANT_PRE_LAUNCH_RESTOCK_HOURS * HOUR_MS;
+    const index = Math.floor((now - CAVE_MERCHANT_EPOCH) / restockMs);
+    const opensAt = CAVE_MERCHANT_EPOCH + index * restockMs;
+
+    return {
+      index,
+      opensAt,
+      closesAt: opensAt + restockMs,
+      waitHours: getWaitHours(index),
+      nextOpensAt: opensAt + restockMs,
+    };
+  }
+
   let index = 0;
   let opensAt = CAVE_MERCHANT_EPOCH;
-  let waitHours = CAVE_MERCHANT_MIN_GAP_HOURS;
 
   for (;;) {
     const { gapHours } = openVisit(index);
@@ -136,14 +181,13 @@ export function getCaveMerchantVisit(now: number): CaveMerchantVisit {
         index,
         opensAt,
         closesAt: opensAt + CAVE_MERCHANT_STAY_MS,
-        waitHours,
+        waitHours: getWaitHours(index),
         nextOpensAt,
       };
     }
 
     index += 1;
     opensAt = nextOpensAt;
-    waitHours = gapHours;
   }
 }
 
@@ -565,10 +609,7 @@ export function getCaveMerchantOffers(visit: number): CaveMerchantOffer[] {
   if (cached) return cached;
 
   const { random } = openVisit(visit);
-  // The wait before this visit is the previous visit's gap.
-  const waitHours =
-    visit === 0 ? CAVE_MERCHANT_MIN_GAP_HOURS : openVisit(visit - 1).gapHours;
-  const generosity = getCaveMerchantGenerosity(waitHours);
+  const generosity = getCaveMerchantGenerosity(getWaitHours(visit));
 
   const rewards = CAVE_MERCHANT_BANDS.map((_, index) =>
     drawReward(random, index + 1),

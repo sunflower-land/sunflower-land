@@ -7,6 +7,7 @@ import {
   CAVE_MERCHANT_MAX_GENEROSITY,
   CAVE_MERCHANT_MIN_GAP_HOURS,
   CAVE_MERCHANT_MIN_GENEROSITY,
+  CAVE_MERCHANT_PRE_LAUNCH_RESTOCK_HOURS,
   CAVE_MERCHANT_STAY_MS,
   CAVE_MERCHANT_WEEKLY_GATHER,
   type CaveMerchantLane,
@@ -26,7 +27,7 @@ import type { InventoryItemName } from "./game";
 
 const HOUR = 60 * 60 * 1000;
 
-/** The first `count` visits, walked from the epoch. */
+/** The first `count` scheduled visits, walked from the chapter launch. */
 const walkVisits = (count: number): CaveMerchantVisit[] => {
   const visits: CaveMerchantVisit[] = [];
   let at = CAVE_MERCHANT_EPOCH;
@@ -53,16 +54,45 @@ describe("getCaveMerchantSeed", () => {
 });
 
 describe("getCaveMerchantVisit", () => {
-  it("counts down to the first visit before the epoch", () => {
-    const visit = getCaveMerchantVisit(CAVE_MERCHANT_EPOCH - 10 * HOUR);
-    expect(visit.index).toBe(0);
-    expect(visit.opensAt).toBe(CAVE_MERCHANT_EPOCH);
-    expect(isCaveMerchantOpen(visit, CAVE_MERCHANT_EPOCH - 10 * HOUR)).toBe(
-      false,
+  // TODO(Cave Dwellers): pre-launch only - delete after launch.
+  it("is in town around the clock before launch, restocking every 3 days", () => {
+    const restock = CAVE_MERCHANT_PRE_LAUNCH_RESTOCK_HOURS * HOUR;
+    expect(restock).toBe(72 * HOUR);
+
+    const last = getCaveMerchantVisit(CAVE_MERCHANT_EPOCH - 1);
+    expect(last).toEqual({
+      index: -1,
+      opensAt: CAVE_MERCHANT_EPOCH - restock,
+      closesAt: CAVE_MERCHANT_EPOCH,
+      waitHours: CAVE_MERCHANT_PRE_LAUNCH_RESTOCK_HOURS,
+      nextOpensAt: CAVE_MERCHANT_EPOCH,
+    });
+    expect(getCaveMerchantVisit(CAVE_MERCHANT_EPOCH - restock).index).toBe(-1);
+    expect(getCaveMerchantVisit(CAVE_MERCHANT_EPOCH - restock - 1).index).toBe(
+      -2,
     );
+
+    // Open at every hour of the three weeks before launch.
+    for (
+      let at = CAVE_MERCHANT_EPOCH - 21 * 24 * HOUR;
+      at < CAVE_MERCHANT_EPOCH;
+      at += HOUR
+    ) {
+      expect(isCaveMerchantOpen(getCaveMerchantVisit(at), at)).toBe(true);
+    }
+    // Today's farms (21 October 2026) are already trading.
+    const today = Date.UTC(2026, 9, 21);
+    expect(isCaveMerchantOpen(getCaveMerchantVisit(today), today)).toBe(true);
   });
 
-  it("stays for 48 hours", () => {
+  it("starts the schedule at the chapter launch, 2 November 2026", () => {
+    expect(CAVE_MERCHANT_EPOCH).toBe(Date.UTC(2026, 10, 2));
+    const visit = getCaveMerchantVisit(CAVE_MERCHANT_EPOCH);
+    expect(visit.index).toBe(0);
+    expect(visit.opensAt).toBe(CAVE_MERCHANT_EPOCH);
+  });
+
+  it("stays for 48 hours once the schedule starts", () => {
     const visit = getCaveMerchantVisit(CAVE_MERCHANT_EPOCH + HOUR);
     expect(visit.index).toBe(0);
     expect(visit.closesAt - visit.opensAt).toBe(CAVE_MERCHANT_STAY_MS);
@@ -89,7 +119,9 @@ describe("getCaveMerchantVisit", () => {
         );
       }
     });
-    expect(visits[0].waitHours).toBe(CAVE_MERCHANT_MIN_GAP_HOURS);
+    // Launch follows the last 3-day pre-launch restock.
+    // TODO(Cave Dwellers): expect CAVE_MERCHANT_MIN_GAP_HOURS after launch.
+    expect(visits[0].waitHours).toBe(CAVE_MERCHANT_PRE_LAUNCH_RESTOCK_HOURS);
     // The gaps vary, so the schedule is not a fixed cadence.
     const gaps = new Set(visits.map((v) => v.nextOpensAt - v.opensAt));
     expect(gaps.size).toBeGreaterThan(10);
@@ -100,6 +132,15 @@ describe("getCaveMerchantVisit", () => {
     expect(getCaveMerchantVisit(second.opensAt + 3 * HOUR)).toEqual(second);
     expect(getCaveMerchantVisit(second.nextOpensAt - 1)).toEqual(second);
     expect(getCaveMerchantVisit(second.nextOpensAt).index).toBe(2);
+  });
+
+  it("agrees with the walk whatever order it is asked in", () => {
+    const visits = walkVisits(600);
+    [599, 3, 420, 0, 598, 250].forEach((index) => {
+      const visit = visits[index];
+      expect(getCaveMerchantVisit(visit.opensAt + HOUR)).toEqual(visit);
+      expect(getCaveMerchantVisit(visit.nextOpensAt - 1)).toEqual(visit);
+    });
   });
 });
 
@@ -143,6 +184,18 @@ describe("getCaveMerchantOffers", () => {
     expect(getCaveMerchantStock(0, 0)).toEqual([]);
     expect(getCaveMerchantStock(0, 3)).toEqual(offers.slice(0, 3));
     expect(getCaveMerchantStock(0, 99)).toEqual(offers);
+  });
+
+  // TODO(Cave Dwellers): pre-launch only - delete after launch.
+  it("restocks before launch at the lowest generosity", () => {
+    expect(getCaveMerchantOffers(-1)).not.toEqual(getCaveMerchantOffers(-2));
+    [-1, -2, -3].forEach((visit) =>
+      getCaveMerchantOffers(visit).forEach((offer) =>
+        expect(offer.generosity).toBeGreaterThanOrEqual(
+          CAVE_MERCHANT_MIN_GENEROSITY - 1e-9,
+        ),
+      ),
+    );
   });
 
   it("is deterministic", () => {

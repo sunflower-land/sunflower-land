@@ -24,7 +24,8 @@ const READY_CAVE = {
 
 const HOUR = 60 * 60 * 1000;
 
-// Visit 0 opens at the epoch and stays 48h; visit 1 opens 4-7 days later.
+// Visit 0 opens at the chapter launch and stays 48h; visit 1 opens 4-7 days
+// later. Before launch he restocks every 3 days and never leaves.
 const VISIT = getCaveMerchantVisit(CAVE_MERCHANT_EPOCH);
 const NOW = VISIT.opensAt + HOUR;
 const CLOSED_NOW = VISIT.closesAt + HOUR;
@@ -135,6 +136,36 @@ describe("buyCaveMerchantOffer (cave.merchantOfferBought)", () => {
     });
   });
 
+  // TODO(Cave Dwellers): pre-launch only - delete both tests after launch.
+  it("sells before launch, from the 3-day restock", () => {
+    const at = CAVE_MERCHANT_EPOCH - HOUR;
+    const preLaunch = getCaveMerchantVisit(at);
+    expect(preLaunch.index).toBe(-1);
+
+    const [offer] = getCaveMerchantOffers(preLaunch.index);
+    const state = caveState({ offers: [offer] });
+    const next = buy(state, 1, at, preLaunch.index);
+
+    expect(next.inventory[offer.reward.item]).toEqual(
+      (state.inventory[offer.reward.item] ?? new Decimal(0)).add(
+        offer.reward.amount,
+      ),
+    );
+    expect(next.cave?.merchant).toEqual({ purchases: { "-1": { 1: 1 } } });
+  });
+
+  it("keeps the launch visit's counts safe from a late pre-launch event", () => {
+    const at = CAVE_MERCHANT_EPOCH - HOUR;
+    const [offer] = getCaveMerchantOffers(-1);
+    const state = caveState({
+      offers: [offer],
+      merchant: { purchases: { [String(VISIT.index)]: { 1: 1 } } },
+    });
+    expect(() => buy(state, 1, at, -1)).toThrow(
+      BUY_CAVE_MERCHANT_OFFER_ERRORS.PERIOD_ENDED,
+    );
+  });
+
   it("rejects a purchase from a visit that has already ended", () => {
     // Late events from the previous visit must not wipe the new counts.
     const state = caveState({
@@ -149,7 +180,7 @@ describe("buyCaveMerchantOffer (cave.merchantOfferBought)", () => {
     expect(() => buy(caveState(), 1, CLOSED_NOW)).toThrow(
       BUY_CAVE_MERCHANT_OFFER_ERRORS.NOT_OPEN,
     );
-    expect(() => buy(caveState(), 1, CAVE_MERCHANT_EPOCH - HOUR)).toThrow(
+    expect(() => buy(caveState(), 1, NEXT_VISIT.opensAt - HOUR)).toThrow(
       BUY_CAVE_MERCHANT_OFFER_ERRORS.NOT_OPEN,
     );
   });
