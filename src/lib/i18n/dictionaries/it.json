@@ -8852,5 +8852,6 @@
   "cave.dig.mushroomsFound": "Funghi trovati: {{found}}/{{total}}",
   "cave.dig.allMushroomsFound": "Trovati tutti i funghi!",
   "cave.expand.unlocks": "Sblocca",
-  "cave.expand.patchDescription": "Un'altra patch 5x5 per crescere e mescolare."
+  "cave.expand.patchDescription": "Un'altra patch 5x5 per crescere e mescolare.",
+  "withdraw.duplicate.blockedUntil": "Potrai prelevare nuovamente da {{date}}."
 }

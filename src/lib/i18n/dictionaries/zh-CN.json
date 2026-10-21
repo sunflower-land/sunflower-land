@@ -8852,5 +8852,6 @@
   "cave.dig.mushroomsFound": "找到的蘑菇：{{found}}/{{total}}",
   "cave.dig.allMushroomsFound": "所有蘑菇都找到了！",
   "cave.expand.unlocks": "解锁",
-  "cave.expand.patchDescription": "另一个 5x5 补丁可供开发和挖掘混合。"
+  "cave.expand.patchDescription": "另一个 5x5 补丁可供开发和挖掘混合。",
+  "withdraw.duplicate.blockedUntil": "您将能够再次从 {{date}} 提款。"
 }

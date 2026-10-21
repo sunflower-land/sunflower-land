@@ -8852,5 +8852,6 @@
   "cave.dig.mushroomsFound": "Pilze gefunden: {{found}}/{{total}}",
   "cave.dig.allMushroomsFound": "Alle Pilze gefunden!",
   "cave.expand.unlocks": "Entsperrt",
-  "cave.expand.patchDescription": "Noch ein 5x5-Patch zum Wachsen und Ausgraben einer Mischung."
+  "cave.expand.patchDescription": "Noch ein 5x5-Patch zum Wachsen und Ausgraben einer Mischung.",
+  "withdraw.duplicate.blockedUntil": "Sie können wieder von {{date}} abheben."
 }

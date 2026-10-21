@@ -8852,5 +8852,6 @@
   "cave.dig.mushroomsFound": "Jamur ditemukan: {{found}}/{{total}}",
   "cave.dig.allMushroomsFound": "Semua Jamur ditemukan!",
   "cave.expand.unlocks": "Membuka kunci",
-  "cave.expand.patchDescription": "Patch 5x5 lainnya untuk tumbuh dan digali campuran."
+  "cave.expand.patchDescription": "Patch 5x5 lainnya untuk tumbuh dan digali campuran.",
+  "withdraw.duplicate.blockedUntil": "Anda akan dapat menarik kembali dari {{date}}."
 }

@@ -8852,5 +8852,6 @@
   "cave.dig.mushroomsFound": "キノコが見つかりました:{{found}}/{{total}}",
   "cave.dig.allMushroomsFound": "すべてのキノコが見つかりました！",
   "cave.expand.unlocks": "ロック解除",
-  "cave.expand.patchDescription": "5x5のパッチをもう1つ追加して、成長させて、ミックスを掘り下げましょう。"
+  "cave.expand.patchDescription": "5x5のパッチをもう1つ追加して、成長させて、ミックスを掘り下げましょう。",
+  "withdraw.duplicate.blockedUntil": "{{date}} から再び出金できるようになります。"
 }

@@ -8852,5 +8852,6 @@
   "cave.dig.mushroomsFound": "Bulunan mantar: {{found}}/{{total}}",
   "cave.dig.allMushroomsFound": "Tüm Mantarlar bulundu!",
   "cave.expand.unlocks": "Kilidi Açar",
-  "cave.expand.patchDescription": "Büyümek ve karıştırmak için başka bir 5x5 yama."
+  "cave.expand.patchDescription": "Büyümek ve karıştırmak için başka bir 5x5 yama.",
+  "withdraw.duplicate.blockedUntil": "{{date}} 'den tekrar para çekebileceksiniz."
 }

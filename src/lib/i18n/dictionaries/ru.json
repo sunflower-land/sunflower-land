@@ -8852,5 +8852,6 @@
   "cave.dig.mushroomsFound": "Mushrooms found: {{found}}/{{total}}",
   "cave.dig.allMushroomsFound": "All Mushrooms found!",
   "cave.expand.unlocks": "Unlocks",
-  "cave.expand.patchDescription": "Another 5x5 patch to grow and dig a mix in."
+  "cave.expand.patchDescription": "Another 5x5 patch to grow and dig a mix in.",
+  "withdraw.duplicate.blockedUntil": "You will be able to withdraw again from {{date}}."
 }

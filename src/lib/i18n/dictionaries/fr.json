@@ -8852,5 +8852,6 @@
   "cave.dig.mushroomsFound": "Champignons trouvés : {{found}}/{{total}}",
   "cave.dig.allMushroomsFound": "Tous les champignons trouvés !",
   "cave.expand.unlocks": "Déverrouille",
-  "cave.expand.patchDescription": "Une autre parcelle de 5 x 5 pour faire pousser et planter un mélange."
+  "cave.expand.patchDescription": "Une autre parcelle de 5 x 5 pour faire pousser et planter un mélange.",
+  "withdraw.duplicate.blockedUntil": "Vous pourrez effectuer un nouveau retrait depuis {{date}}."
 }

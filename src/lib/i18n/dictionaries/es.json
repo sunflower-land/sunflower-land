@@ -8852,5 +8852,6 @@
   "cave.dig.mushroomsFound": "Hongos encontrados: {{found}}/{{total}}",
   "cave.dig.allMushroomsFound": "¡Se han encontrado todos los hongos!",
   "cave.expand.unlocks": "Desbloquea",
-  "cave.expand.patchDescription": "Otro parche de 5 x 5 para cultivar y cultivar una mezcla."
+  "cave.expand.patchDescription": "Otro parche de 5 x 5 para cultivar y cultivar una mezcla.",
+  "withdraw.duplicate.blockedUntil": "Podrás volver a hacer retiros de {{date}}."
 }

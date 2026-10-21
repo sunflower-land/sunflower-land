@@ -8852,5 +8852,6 @@
   "cave.dig.mushroomsFound": "Cogumelos encontrados: {{found}}/{{total}}",
   "cave.dig.allMushroomsFound": "Todos os cogumelos foram encontrados!",
   "cave.expand.unlocks": "Desbloqueia",
-  "cave.expand.patchDescription": "Outro canteiro 5x5 para cultivar e cavar uma mistura."
+  "cave.expand.patchDescription": "Outro canteiro 5x5 para cultivar e cavar uma mistura.",
+  "withdraw.duplicate.blockedUntil": "Você poderá sacar novamente a partir de {{date}}."
 }
