@@ -8851,5 +8851,7 @@
   "description.bigBadWolf": "Er wird schnaufen und er wird schnaufen...",
   "description.pigPlush": "Ein weiches kleines Schwein zum Kuscheln.",
   "description.pigDoll": "Eine winzige Schweinefigur auf einem eigenen Podest.",
-  "cave.tutorial.wait.firstBatch": "Jetzt warten wir. Normalerweise brauchen Patches {{fullTime}}, um zu wachsen, aber dein erster ist auf dem Haus: nur {{time}}!"
+  "cave.tutorial.wait.firstBatch": "Jetzt warten wir. Normalerweise brauchen Patches {{fullTime}}, um zu wachsen, aber dein erster ist auf dem Haus: nur {{time}}!",
+  "cave.dig.mushroomsFound": "Pilze gefunden: {{found}}/{{total}}",
+  "cave.dig.allMushroomsFound": "Alle Pilze gefunden!"
 }

@@ -8851,5 +8851,7 @@
   "description.bigBadWolf": "Il va souffler, et il va souffler...",
   "description.pigPlush": "Un petit cochon doux à câliner.",
   "description.pigDoll": "Une petite figurine de cochon sur son propre piédestal.",
-  "cave.tutorial.wait.firstBatch": "Maintenant, nous attendons. Les patchs mettent généralement {{fullTime}} à pousser, mais votre premier patch arrive à la maison : juste {{time}} !"
+  "cave.tutorial.wait.firstBatch": "Maintenant, nous attendons. Les patchs mettent généralement {{fullTime}} à pousser, mais votre premier patch arrive à la maison : juste {{time}} !",
+  "cave.dig.mushroomsFound": "Champignons trouvés : {{found}}/{{total}}",
+  "cave.dig.allMushroomsFound": "Tous les champignons trouvés !"
 }

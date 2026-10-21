@@ -8851,5 +8851,7 @@
   "description.bigBadWolf": "Dia akan mengecewakan, dan dia akan mengepul...",
   "description.pigPlush": "Babi kecil yang lembut untuk dipeluk.",
   "description.pigDoll": "Sosok Babi kecil di alasnya sendiri.",
-  "cave.tutorial.wait.firstBatch": "Sekarang kita tunggu. Tambalan biasanya membutuhkan {{fullTime}} untuk tumbuh, tetapi yang pertama Anda ada di rumah: hanya {{time}}!"
+  "cave.tutorial.wait.firstBatch": "Sekarang kita tunggu. Tambalan biasanya membutuhkan {{fullTime}} untuk tumbuh, tetapi yang pertama Anda ada di rumah: hanya {{time}}!",
+  "cave.dig.mushroomsFound": "Jamur ditemukan: {{found}}/{{total}}",
+  "cave.dig.allMushroomsFound": "Semua Jamur ditemukan!"
 }

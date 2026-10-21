@@ -8851,5 +8851,7 @@
   "description.bigBadWolf": "Resolará y resoplará...",
   "description.pigPlush": "Un cerdito suave para abrazar.",
   "description.pigDoll": "Una pequeña figura de cerdo en su propio pedestal.",
-  "cave.tutorial.wait.firstBatch": "Ahora esperamos. Los parches suelen tardar {{fullTime}} en crecer, pero el primero está en casa: ¡solo {{time}}!"
+  "cave.tutorial.wait.firstBatch": "Ahora esperamos. Los parches suelen tardar {{fullTime}} en crecer, pero el primero está en casa: ¡solo {{time}}!",
+  "cave.dig.mushroomsFound": "Hongos encontrados: {{found}}/{{total}}",
+  "cave.dig.allMushroomsFound": "¡Se han encontrado todos los hongos!"
 }

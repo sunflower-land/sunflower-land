@@ -8851,5 +8851,7 @@
   "description.bigBadWolf": "他会怒气冲冲，然后他会喘气...",
   "description.pigPlush": "一只可以拥抱的柔软小猪。",
   "description.pigDoll": "一个坐在自己底座上的小猪人偶。",
-  "cave.tutorial.wait.firstBatch": "现在我们等着吧。补丁通常需要 {{fullTime}} 才能生长，但你的第一个补丁在家里：只需 {{time}}！"
+  "cave.tutorial.wait.firstBatch": "现在我们等着吧。补丁通常需要 {{fullTime}} 才能生长，但你的第一个补丁在家里：只需 {{time}}！",
+  "cave.dig.mushroomsFound": "找到的蘑菇：{{found}}/{{total}}",
+  "cave.dig.allMushroomsFound": "所有蘑菇都找到了！"
 }
