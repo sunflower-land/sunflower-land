@@ -65,13 +65,17 @@ export const ApplyMudButton: React.FC = () => {
   const { play: playFeedAnimal } = useSound("feed_animal");
   const [showConfirm, setShowConfirm] = useState(false);
 
-  const applyMud = () => {
+  /** Sends the bulk Mud event; returns whether it went through. */
+  const applyMud = (): boolean => {
     // Re-check the live snapshot: a double-tap can land before React
     // re-renders after the first click spent the Mud.
-    if (!canApplyMud(gameService.getSnapshot().context.state, now)) return;
+    if (!canApplyMud(gameService.getSnapshot().context.state, now)) {
+      return false;
+    }
 
     gameService.send({ type: "pigs.bulkMudApplied" });
     playFeedAnimal();
+    return true;
   };
 
   const handleClick = () => {
@@ -122,9 +126,9 @@ export const ApplyMudButton: React.FC = () => {
           now={now}
           onClose={() => setShowConfirm(false)}
           onConfirm={(dontAskAgain) => {
-            if (dontAskAgain) skipConfirm();
             setShowConfirm(false);
-            applyMud();
+            // Only remember the choice once the Mud was actually applied.
+            if (applyMud() && dontAskAgain) skipConfirm();
           }}
         />
       </Modal>
