@@ -37,6 +37,7 @@ export const CountLabel: React.FC<CountLabelProps> = ({
   const labelRef = useRef<HTMLDivElement>(null);
 
   const precisionCount = setPrecision(count, 4);
+  const fullCount = precisionCount.toString();
 
   useEffect(() => {
     setShortCount(shortenCount(precisionCount));
@@ -64,7 +65,7 @@ export const CountLabel: React.FC<CountLabelProps> = ({
     if (overflow > 0) {
       label.style.right = `${rightShiftPx - overflow}px`;
     }
-  }, [isHover, rightShiftPx, parentDivRef, showHiddenCountLabel, shortCount]);
+  }, [isHover, rightShiftPx, parentDivRef, showHiddenCountLabel, fullCount]);
 
   return (
     <div
@@ -93,9 +94,7 @@ export const CountLabel: React.FC<CountLabelProps> = ({
             height: "24px",
           }}
         >
-          {isHover && !showHiddenCountLabel
-            ? precisionCount.toString()
-            : shortCount}
+          {isHover && !showHiddenCountLabel ? fullCount : shortCount}
         </Label>
       </div>
     </div>
