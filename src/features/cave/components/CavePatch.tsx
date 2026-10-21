@@ -11,6 +11,8 @@ import {
 import {
   generateCavePatch,
   getCaveBeetleProgress,
+  getCavePatchComposition,
+  getUndugCaveTiles,
   isCaveSeed,
   resolveCaveTile,
   type ResolvedCaveTile,
@@ -110,6 +112,12 @@ export const CavePatch: React.FC<Props> = ({
   const ready = !!batch && !growing;
   const cleared = !!batch && isCavePatchCleared(batch);
   const beetles = batch ? getCaveBeetleProgress(batch) : undefined;
+  const mushroomsTotal = batch
+    ? getCavePatchComposition(batch.recipe, batch.skills).Mushroom
+    : 0;
+  const mushroomsFound = batch
+    ? mushroomsTotal - getUndugCaveTiles(batch).Mushroom
+    : 0;
 
   const drilling = ready && selectedItem === "Sand Drill";
   // Where the hover box sits: the 2x2 square's top-left for the drill, the
@@ -288,6 +296,18 @@ export const CavePatch: React.FC<Props> = ({
           ) : (
             <Label type="default" icon={ITEM_DETAILS["Green Beetle"].image}>
               {t("cave.dig.beetlesFound", beetles)}
+            </Label>
+          )}
+          {mushroomsFound < mushroomsTotal ? (
+            <Label type="default" icon={ITEM_DETAILS["Wild Mushroom"].image}>
+              {t("cave.dig.mushroomsFound", {
+                found: mushroomsFound,
+                total: mushroomsTotal,
+              })}
+            </Label>
+          ) : (
+            <Label type="success" icon={ITEM_DETAILS["Wild Mushroom"].image}>
+              {t("cave.dig.allMushroomsFound")}
             </Label>
           )}
         </div>
