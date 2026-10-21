@@ -14,8 +14,10 @@ import { ITEM_RECIPES } from "./itemValueSources";
  * Sunflowers for a Pizza Margherita - priced from in-game values
  * (`itemValue.ts`) and always in the player's favour, but in bulk: the point
  * is a scramble for the cost item while he is in town. The guard rails are
- * the 2-day window, a claim limit per visit, the bulk itself, and that a
- * reward item is never a cost item in the same visit (so nothing loops).
+ * the 2-day window, a claim limit per visit, the bulk itself, that no cost
+ * asks for more than a week of farming (`CAVE_MERCHANT_WEEKLY_GATHER`), and
+ * that a reward item is never a cost item in the same visit (so nothing
+ * loops).
  *
  * Everything derives from a visit index and nothing is stored, so the client
  * and the API agree without syncing, and the API regenerates the offer it is
@@ -47,8 +49,11 @@ export const CAVE_MERCHANT_CURIOSITY_CHANCE = 0.25;
 /** The schedule walks at most this far: ~220 years of 4-day gaps. */
 const MAX_VISITS = 20_000;
 
-/** The most of a reward item one offer hands over. */
-const MAX_REWARD_AMOUNT = 20;
+/**
+ * Reward counts read as round numbers: 10 Iron, not 9. The largest is the
+ * most of one item an offer hands over.
+ */
+const REWARD_AMOUNTS = [1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20];
 
 export type CaveMerchantVisit = {
   /** Visits count from 0 at the epoch. */
@@ -168,21 +173,23 @@ export function getCaveMerchantGenerosity(waitHours: number): number {
 /**
  * What a slot is worth (reward value, in coins at the crop sell-price scale)
  * and how many times it can be claimed per visit. Slot N needs Cave tier N,
- * so the deep tiers see the Obsidian and Sunstone class bridges.
+ * so the deep tiers see the Obsidian class bridges. The top band is sized so
+ * a week of most lanes can pay for it (see `CAVE_MERCHANT_WEEKLY_GATHER`):
+ * Sunstone (12,000) is above it on purpose, nothing grows that fast.
  */
 export const CAVE_MERCHANT_BANDS: {
   minValue: number;
   maxValue: number;
   limit: number;
 }[] = [
-  { minValue: 100, maxValue: 300, limit: 3 },
-  { minValue: 250, maxValue: 600, limit: 3 },
-  { minValue: 500, maxValue: 1_200, limit: 2 },
-  { minValue: 1_000, maxValue: 2_500, limit: 2 },
-  { minValue: 2_000, maxValue: 5_000, limit: 2 },
-  { minValue: 4_000, maxValue: 10_000, limit: 1 },
-  { minValue: 8_000, maxValue: 20_000, limit: 1 },
-  { minValue: 15_000, maxValue: 40_000, limit: 1 },
+  { minValue: 100, maxValue: 250, limit: 3 },
+  { minValue: 200, maxValue: 500, limit: 3 },
+  { minValue: 400, maxValue: 900, limit: 2 },
+  { minValue: 750, maxValue: 1_500, limit: 2 },
+  { minValue: 1_250, maxValue: 2_500, limit: 2 },
+  { minValue: 2_000, maxValue: 4_000, limit: 1 },
+  { minValue: 3_000, maxValue: 6_000, limit: 1 },
+  { minValue: 5_000, maxValue: 10_000, limit: 1 },
 ];
 
 /**
@@ -197,7 +204,6 @@ const REWARDS: { item: InventoryItemName; lane?: CaveMerchantLane }[] = [
   { item: "Crimstone", lane: "resources" },
   { item: "Oil", lane: "resources" },
   { item: "Obsidian", lane: "resources" },
-  { item: "Sunstone", lane: "resources" },
   { item: "Leather", lane: "produce" },
   { item: "Milk", lane: "produce" },
   { item: "Wool", lane: "produce" },
@@ -236,18 +242,17 @@ const CURIOSITIES: InventoryItemName[] = [
 
 /**
  * What the player pays with, by lane, with the bulk each lane asks for: at
- * least `minAmount` of the item, never more than `maxAmount`. Crops are the
- * Cave's own crop list (no event crops such as Saltwort) and fruit leaves out
- * the Full Moon three, so every cost can be grown any week.
+ * least `minAmount` of the item (the ceiling is per item, below). Crops are
+ * the Cave's own crop list (no event crops such as Saltwort) and fruit leaves
+ * out the Full Moon three, so every cost can be grown any week.
  */
 export const CAVE_MERCHANT_LANES: Record<
   CaveMerchantLane,
-  { items: InventoryItemName[]; minAmount: number; maxAmount: number }
+  { items: InventoryItemName[]; minAmount: number }
 > = {
   crops: {
     items: Object.keys(CAVE_MUD_CROPS) as InventoryItemName[],
     minAmount: 100,
-    maxAmount: 10_000,
   },
   fruit: {
     items: [
@@ -260,7 +265,6 @@ export const CAVE_MERCHANT_LANES: Record<
       "Grape",
     ],
     minAmount: 25,
-    maxAmount: 2_000,
   },
   produce: {
     items: [
@@ -273,7 +277,6 @@ export const CAVE_MERCHANT_LANES: Record<
       "Honey",
     ],
     minAmount: 10,
-    maxAmount: 500,
   },
   cave: {
     items: [
@@ -285,16 +288,90 @@ export const CAVE_MERCHANT_LANES: Record<
       "Amber Beetle",
     ],
     minAmount: 10,
-    maxAmount: 1_000,
   },
   resources: {
     items: ["Wood", "Stone", "Iron", "Gold", "Crimstone", "Oil"],
     minAmount: 10,
-    maxAmount: 500,
   },
 };
 
 const LANE_NAMES = Object.keys(CAVE_MERCHANT_LANES) as CaveMerchantLane[];
+
+/**
+ * The most of an item one offer can ask for: about a week of it from a full
+ * Desert farm with no boosts, so no cost takes longer to farm from nothing
+ * than the gap between visits (Bryn, 2026-10-21). Full Desert is 65 plots,
+ * 15 fruit patches, 23 trees, 20 Stone, 12 Iron, 7 Gold, 4 Crimstone and
+ * 3 Oil Reserves (`TOTAL_EXPANSION_NODES`), with 20-animal houses and
+ * 3 Beehives.
+ *
+ * Crops: 65 plots x 168h / harvest hours, rounded, capped at 10,000 (the
+ * clicks, not the plots, are the limit for the fast crops); Rice and Olive
+ * from the Greenhouse's 4 pots. Fruit: 15 patches at the plant time (3 picks
+ * a planting). Produce: a daily drop per animal, secondaries at a third.
+ * Resources: nodes x recoveries a week; Oil at 10 per 20h drill. Cave: Myco
+ * Bin batches every 12h (Mud recipe 40 Mud; Beetle recipe 5 Beetles at the
+ * tier weights) plus the island's 5 Wild Mushrooms per 16h.
+ */
+export const CAVE_MERCHANT_WEEKLY_GATHER: Partial<
+  Record<InventoryItemName, number>
+> = {
+  Sunflower: 10_000,
+  Potato: 10_000,
+  Rhubarb: 10_000,
+  Pumpkin: 10_000,
+  Zucchini: 10_000,
+  Carrot: 10_000,
+  Yam: 10_000,
+  Cabbage: 5_000,
+  Broccoli: 5_000,
+  Soybean: 3_500,
+  Beetroot: 2_500,
+  Pepper: 2_500,
+  Cauliflower: 1_300,
+  Parsnip: 900,
+  Eggplant: 650,
+  Corn: 500,
+  Onion: 500,
+  Wheat: 450,
+  Turnip: 450,
+  Radish: 450,
+  Kale: 300,
+  Artichoke: 300,
+  Barley: 220,
+  Rice: 20,
+  Olive: 15,
+
+  Tomato: 1_000,
+  Lemon: 600,
+  Blueberry: 400,
+  Orange: 300,
+  Apple: 200,
+  Banana: 200,
+  Grape: 50,
+
+  Egg: 150,
+  Feather: 50,
+  Wool: 70,
+  "Merino Wool": 25,
+  Milk: 70,
+  Leather: 25,
+  Honey: 20,
+
+  Mud: 500,
+  "Wild Mushroom": 120,
+  "Green Beetle": 30,
+  "Blue Beetle": 20,
+  "Pink Beetle": 15,
+  "Amber Beetle": 7,
+
+  Wood: 2_000,
+  Stone: 800,
+  Iron: 250,
+  Gold: 50,
+  Crimstone: 30,
+  Oil: 250,
+};
 
 // ---------------------------------------------------------------------------
 // Generation
@@ -318,18 +395,19 @@ type RewardDraw = {
   curiosity: boolean;
 };
 
-/** The reward amounts of `item` that land inside a band's value range. */
-function rewardRange(
+/** The round reward amounts of `item` that land inside a band's value range. */
+function rewardAmounts(
   item: InventoryItemName,
   band: (typeof CAVE_MERCHANT_BANDS)[number],
-): { min: number; max: number } | undefined {
+): number[] | undefined {
   const value = getItemValue(item);
   if (value === undefined || value <= 0) return undefined;
 
   const min = Math.max(1, Math.ceil(band.minValue / value));
-  const max = Math.min(MAX_REWARD_AMOUNT, Math.floor(band.maxValue / value));
+  const max = Math.floor(band.maxValue / value);
+  const amounts = REWARD_AMOUNTS.filter((n) => n >= min && n <= max);
 
-  return min <= max ? { min, max } : undefined;
+  return amounts.length > 0 ? amounts : undefined;
 }
 
 function drawReward(random: () => number, slot: number): RewardDraw {
@@ -339,8 +417,8 @@ function drawReward(random: () => number, slot: number): RewardDraw {
   const pool = (
     curiosity ? CURIOSITIES.map((item) => ({ item, lane: undefined })) : REWARDS
   )
-    .map((reward) => ({ ...reward, range: rewardRange(reward.item, band) }))
-    .filter((reward) => reward.range !== undefined);
+    .map((reward) => ({ ...reward, amounts: rewardAmounts(reward.item, band) }))
+    .filter((reward) => reward.amounts !== undefined);
 
   // Every band has regular rewards; fall back to them if no curiosity fits.
   const candidates =
@@ -348,12 +426,12 @@ function drawReward(random: () => number, slot: number): RewardDraw {
       ? pool
       : REWARDS.map((reward) => ({
           ...reward,
-          range: rewardRange(reward.item, band),
-        })).filter((reward) => reward.range !== undefined);
+          amounts: rewardAmounts(reward.item, band),
+        })).filter((reward) => reward.amounts !== undefined);
 
   const chosen = candidates[pick(random, candidates.length)];
-  const range = chosen.range as { min: number; max: number };
-  const amount = range.min + pick(random, range.max - range.min + 1);
+  const amounts = chosen.amounts as number[];
+  const amount = amounts[pick(random, amounts.length)];
 
   return {
     item: chosen.item,
@@ -372,8 +450,9 @@ type CostDraw = {
 
 /**
  * The cost for a reward: a lane other than the reward's, then an item in it
- * whose bulk lands inside the lane's bounds. Lanes are drawn evenly, so the
- * crop lane's size does not drown out the others.
+ * whose bulk is at least the lane's floor and at most a week's gathering.
+ * Lanes are drawn evenly, so the crop lane's size does not drown out the
+ * others.
  */
 function drawCost(
   random: () => number,
@@ -389,7 +468,8 @@ function drawCost(
         const value = getItemValue(item);
         if (value === undefined || value <= 0) return [];
         const amount = roundCostDown(reward.value / (generosity * value));
-        const { minAmount, maxAmount } = CAVE_MERCHANT_LANES[lane];
+        const { minAmount } = CAVE_MERCHANT_LANES[lane];
+        const maxAmount = CAVE_MERCHANT_WEEKLY_GATHER[item] ?? 0;
         return amount >= minAmount && amount <= maxAmount
           ? [{ item, amount }]
           : [];

@@ -8,6 +8,7 @@ import {
   CAVE_MERCHANT_MIN_GAP_HOURS,
   CAVE_MERCHANT_MIN_GENEROSITY,
   CAVE_MERCHANT_STAY_MS,
+  CAVE_MERCHANT_WEEKLY_GATHER,
   type CaveMerchantLane,
   type CaveMerchantVisit,
   getCaveMerchantGenerosity,
@@ -151,14 +152,14 @@ describe("getCaveMerchantOffers", () => {
     // test together.
     const offers = getCaveMerchantOffers(0);
     expect(offers[0]).toMatchObject({
-      cost: { item: "Broccoli", amount: 160 },
-      reward: { item: "Iron", amount: 9 },
+      cost: { item: "Cabbage", amount: 100 },
+      reward: { item: "Iron", amount: 6 },
       limit: 3,
       curiosity: false,
     });
     expect(offers[7]).toMatchObject({
-      cost: { item: "Gold", amount: 140 },
-      reward: { item: "Pizza Margherita", amount: 13 },
+      cost: { item: "Crimstone", amount: 13 },
+      reward: { item: "Lemon Cheesecake", amount: 3 },
       limit: 1,
       curiosity: true,
     });
@@ -188,20 +189,22 @@ describe("getCaveMerchantOffers", () => {
         // The reward sits in its slot's band.
         expect(rewardValue).toBeGreaterThanOrEqual(band.minValue);
         expect(rewardValue).toBeLessThanOrEqual(band.maxValue);
-        expect(offer.reward.amount).toBeGreaterThanOrEqual(1);
-        expect(offer.reward.amount).toBeLessThanOrEqual(20);
+        // Reward counts are round numbers.
+        expect([1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20]).toContain(
+          offer.reward.amount,
+        );
         expect(offer.limit).toBe(band.limit);
         expect(offer.reward.item).not.toBe("Pig Bristles");
 
-        // The cost is bulk from a lane, and never something he also sells
-        // this visit (so no offer can feed another).
+        // The cost is bulk from a lane, at most a week's farming, and never
+        // something he also sells this visit (so no offer can feed another).
         const lane = laneOf(offer.cost.item) as CaveMerchantLane;
         expect(lane).toBeDefined();
         expect(offer.cost.amount).toBeGreaterThanOrEqual(
           CAVE_MERCHANT_LANES[lane].minAmount,
         );
         expect(offer.cost.amount).toBeLessThanOrEqual(
-          CAVE_MERCHANT_LANES[lane].maxAmount,
+          CAVE_MERCHANT_WEEKLY_GATHER[offer.cost.item] as number,
         );
         expect(rewards.has(offer.cost.item)).toBe(false);
         expect(laneOf(offer.reward.item)).not.toBe(lane);
@@ -232,6 +235,14 @@ describe("getCaveMerchantOffers", () => {
     expect(short.length).toBeGreaterThan(10);
     expect(long.length).toBeGreaterThan(10);
     expect(mean(long)).toBeGreaterThan(mean(short) + 0.1);
+  });
+
+  it("has a week's gathering for every cost item", () => {
+    (Object.keys(CAVE_MERCHANT_LANES) as CaveMerchantLane[]).forEach((lane) =>
+      CAVE_MERCHANT_LANES[lane].items.forEach((item) =>
+        expect(CAVE_MERCHANT_WEEKLY_GATHER[item]).toBeGreaterThan(0),
+      ),
+    );
   });
 
   it("spreads costs across every lane", () => {

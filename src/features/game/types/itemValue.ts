@@ -21,8 +21,10 @@ import {
  * secondary drop at twice the primary (ticket 370's crop counts).
  * Beetles: worth the Cow feeding they replace (BEETLE_FEEDING_XP against 60 XP
  * for 5 Corn), so they double with rarity.
- * Mushrooms: the Slop lanes - 1 Wild Mushroom = 2 Wheat, 1 Magic Mushroom =
- * 2 Rice (pigFeeds.ts).
+ * Mushrooms: 1 Wild Mushroom = 2 Wheat (the Slop lane, pigFeeds.ts); a Magic
+ * Mushroom is 10 Wild Mushrooms, the Cave's spawn ratio (one Mushroom tile
+ * in ten is Magic, cavePatch.ts). The island is kinder, 5 Wild per 16h to
+ * 3 Magic per 36h, so this errs high.
  * Mud: between its input (10 Carrots per 40 Mud) and its use (10 Mud is a
  * quarter more XP on three feeds).
  * Resources: the tool chain's ratios (a Stone's Pickaxe, an Iron's Stone
@@ -51,7 +53,7 @@ export const BASE_VALUES = {
 
   Mud: 2,
   "Wild Mushroom": 14,
-  "Magic Mushroom": 640,
+  "Magic Mushroom": 140,
   "Green Beetle": BEETLE_FEEDING_XP["Green Beetle"] * 0.75,
   "Blue Beetle": BEETLE_FEEDING_XP["Blue Beetle"] * 0.75,
   "Pink Beetle": BEETLE_FEEDING_XP["Pink Beetle"] * 0.75,
