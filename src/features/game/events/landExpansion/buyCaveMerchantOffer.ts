@@ -77,7 +77,12 @@ export function buyCaveMerchantOffer({
       throw new Error(BUY_CAVE_MERCHANT_OFFER_ERRORS.PERIOD_ENDED);
     }
 
-    const offer = getCaveMerchantOffers(visit.index)[slot - 1];
+    const offer = getCaveMerchantOffers(visit.index).find(
+      (stocked) => stocked.slot === slot,
+    );
+    if (!offer) {
+      throw new Error(BUY_CAVE_MERCHANT_OFFER_ERRORS.UNKNOWN_OFFER);
+    }
     const left = getCaveMerchantOffersLeft({
       merchant: cave.merchant,
       visit: visit.index,

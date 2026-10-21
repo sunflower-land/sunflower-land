@@ -1,6 +1,5 @@
 import {
   CAVE_MERCHANT_BANDS,
-  CAVE_MERCHANT_CURIOSITIES,
   CAVE_MERCHANT_CURIOSITY_CHANCE,
   CAVE_MERCHANT_EPOCH,
   CAVE_MERCHANT_LANES,
@@ -22,11 +21,23 @@ import {
   isCaveMerchantOpen,
   roundCostDown,
 } from "./caveMerchant";
-import { getItemValue } from "./itemValue";
-import { ITEM_RECIPES } from "./itemValueSources";
+import {
+  CAVE_MERCHANT_CURIOSITIES,
+  CAVE_MERCHANT_INGREDIENTS,
+  CAVE_MERCHANT_VALUES,
+} from "./caveMerchantPrices";
+import { COOKABLES } from "./consumables";
+import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "./tools";
 import type { InventoryItemName } from "./game";
 
 const HOUR = 60 * 60 * 1000;
+
+const valueOf = (item: InventoryItemName) =>
+  CAVE_MERCHANT_VALUES[item] as number;
+
+const CURIOSITIES = Object.keys(
+  CAVE_MERCHANT_CURIOSITIES,
+) as InventoryItemName[];
 
 /** The first `count` scheduled visits, walked from the chapter launch. */
 const walkVisits = (count: number): CaveMerchantVisit[] => {
@@ -174,6 +185,30 @@ describe("roundCostDown", () => {
     expect(roundCostDown(8_000)).toBe(8_000);
     expect(roundCostDown(19_999)).toBe(15_000);
   });
+
+  it("reads float noise just under a round number as that number", () => {
+    // 1,200 / (1.2 x 10) in floating point is 99.99999999999999, not 100.
+    expect(roundCostDown(1200 / (1.2000000000000002 * 10))).toBe(100);
+    expect(roundCostDown(999.9999999999999)).toBe(1_000);
+    expect(roundCostDown(14.999999999999998)).toBe(15);
+    expect(roundCostDown(99.9)).toBe(80);
+  });
+
+  it("does not depend on how the JS engine rounds Math.log10", () => {
+    // Math.log10 is not exactly specified: near a power of 10 an engine may
+    // return a hair under the whole number. Simulate one that does.
+    const log10 = Math.log10;
+    const spy = jest
+      .spyOn(Math, "log10")
+      .mockImplementation((x) => log10(x) - 1e-12);
+    try {
+      expect(roundCostDown(100)).toBe(100);
+      expect(roundCostDown(1200 / (1.2000000000000002 * 10))).toBe(100);
+      expect(roundCostDown(1_000)).toBe(1_000);
+    } finally {
+      spy.mockRestore();
+    }
+  });
 });
 
 describe("getCaveMerchantOffers", () => {
@@ -288,10 +323,8 @@ describe("getCaveMerchantOffers", () => {
 
       for (const offer of offers) {
         const band = CAVE_MERCHANT_BANDS[offer.slot - 1];
-        const rewardValue =
-          (getItemValue(offer.reward.item) as number) * offer.reward.amount;
-        const costValue =
-          (getItemValue(offer.cost.item) as number) * offer.cost.amount;
+        const rewardValue = valueOf(offer.reward.item) * offer.reward.amount;
+        const costValue = valueOf(offer.cost.item) * offer.cost.amount;
 
         // Favourable, by at least the visit's generosity and never absurdly.
         expect(rewardValue / costValue).toBeGreaterThanOrEqual(floor - 1e-9);
@@ -321,21 +354,19 @@ describe("getCaveMerchantOffers", () => {
         expect(rewards.has(offer.cost.item)).toBe(false);
         expect(laneOf(offer.reward.item)).not.toBe(lane);
 
-        // A dish is never bought with crops or fruit, nor with one of its
-        // own ingredients, and never a Fire Pit dish; Truffles never with crops.
-        const recipe = ITEM_RECIPES[offer.reward.item];
-        if (recipe?.kind === "food") {
+        // Nothing is bought with its own ingredients, a dish never with
+        // crops or fruit, and Truffles never with crops.
+        expect(
+          CAVE_MERCHANT_INGREDIENTS[offer.reward.item] ?? [],
+        ).not.toContain(offer.cost.item);
+        if (CAVE_MERCHANT_CURIOSITIES[offer.reward.item] === "dish") {
           expect(["crops", "fruit"]).not.toContain(lane);
-          expect(recipe.building).not.toBe("Fire Pit");
-          expect(Object.keys(recipe.ingredients)).not.toContain(
-            offer.cost.item,
-          );
         }
         if (offer.reward.item === "Truffle") expect(lane).not.toBe("crops");
 
         if (offer.curiosity) {
           curiosities += 1;
-          expect(CAVE_MERCHANT_CURIOSITIES).toContain(offer.reward.item);
+          expect(CURIOSITIES).toContain(offer.reward.item);
         }
       }
     }
@@ -345,15 +376,18 @@ describe("getCaveMerchantOffers", () => {
     expect(rate).toBeLessThan(CAVE_MERCHANT_CURIOSITY_CHANCE + 0.07);
   });
 
-  it("never stocks the same reward twice in a visit", () => {
+  it("stocks all eight slots, never the same reward twice", () => {
     const indexes = [
       ...walkVisits(SWEEP).map((visit) => visit.index),
       ...Array.from({ length: 50 }, (_, i) => -1 - i),
     ];
     indexes.forEach((index) => {
-      const rewards = getCaveMerchantOffers(index).map(
-        (offer) => offer.reward.item,
-      );
+      const offers = getCaveMerchantOffers(index);
+      // Every slot stocked: the empty-slot guards never fire.
+      expect(offers.map((offer) => offer.slot)).toEqual([
+        1, 2, 3, 4, 5, 6, 7, 8,
+      ]);
+      const rewards = offers.map((offer) => offer.reward.item);
       expect(new Set(rewards).size).toBe(rewards.length);
     });
   });
@@ -397,17 +431,33 @@ describe("getCaveMerchantOffers", () => {
   });
 });
 
-describe("CAVE_MERCHANT_CURIOSITIES", () => {
-  it("is a fixed list of priced dishes and tools, never a regular reward", () => {
-    expect(CAVE_MERCHANT_CURIOSITIES.length).toBeGreaterThan(50);
-    expect(new Set(CAVE_MERCHANT_CURIOSITIES).size).toBe(
-      CAVE_MERCHANT_CURIOSITIES.length,
+describe("caveMerchantPrices", () => {
+  it("prices every reward, curiosity and cost item", () => {
+    const costs = (
+      Object.keys(CAVE_MERCHANT_LANES) as CaveMerchantLane[]
+    ).flatMap((lane) => CAVE_MERCHANT_LANES[lane].items);
+    [...costs, ...CURIOSITIES].forEach((item) =>
+      expect(valueOf(item)).toBeGreaterThan(0),
     );
-    CAVE_MERCHANT_CURIOSITIES.forEach((item) => {
-      expect(getItemValue(item)).toBeGreaterThan(0);
+  });
+
+  it("lists only items he takes as payment as ingredients", () => {
+    const ingredients = Object.values(CAVE_MERCHANT_INGREDIENTS).flat();
+    ingredients.forEach((item) => expect(laneOf(item)).toBeDefined());
+  });
+
+  it("keeps curiosities to real dishes past the Fire Pit and tools", () => {
+    expect(CURIOSITIES.length).toBeGreaterThan(50);
+    CURIOSITIES.forEach((item) => {
       expect(laneOf(item)).toBeUndefined();
-      // The beginner Fire Pit dishes are no prize.
-      expect(ITEM_RECIPES[item]?.building).not.toBe("Fire Pit");
+      if (CAVE_MERCHANT_CURIOSITIES[item] === "dish") {
+        const cookable = COOKABLES[item as keyof typeof COOKABLES];
+        expect(cookable).toBeDefined();
+        // The beginner Fire Pit dishes are no prize.
+        expect(cookable.building).not.toBe("Fire Pit");
+      } else {
+        expect(item in WORKBENCH_TOOLS || item in TREASURE_TOOLS).toBe(true);
+      }
     });
   });
 });
