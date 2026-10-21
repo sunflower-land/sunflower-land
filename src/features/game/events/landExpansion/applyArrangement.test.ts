@@ -489,6 +489,81 @@ describe("applyArrangement", () => {
       ]);
     });
 
+    it("places a chest node under the tier the client named", () => {
+      const state = withInventory(baseFarm, { "Ancient Tree": 1 });
+      const arrangement = snapshotSurface(state, "farm");
+      arrangement.resources!.trees["new-tree"] = {
+        x: 0,
+        y: 0,
+        name: "Ancient Tree",
+      };
+
+      const result = apply(state, arrangement);
+
+      expect(result.trees["new-tree"]).toMatchObject({
+        x: 0,
+        y: 0,
+        name: "Ancient Tree",
+        tier: 2,
+      });
+    });
+
+    it("places a chest node without a tier as the base tier", () => {
+      const state = withInventory(baseFarm, { Tree: 1 });
+      const arrangement = snapshotSurface(state, "farm");
+      arrangement.resources!.trees["new-tree"] = { x: 0, y: 0 };
+
+      const result = apply(state, arrangement);
+
+      expect(result.trees["new-tree"]).toMatchObject({
+        x: 0,
+        y: 0,
+        name: "Tree",
+        tier: 1,
+      });
+    });
+
+    it("reads a tier from another family as the base tier", () => {
+      const state = withInventory(baseFarm, { "Stone Rock": 1 });
+      const arrangement = snapshotSurface(state, "farm");
+      arrangement.resources!.stones["new-rock"] = {
+        x: 0,
+        y: 0,
+        name: "Sacred Tree",
+      };
+
+      const result = apply(state, arrangement);
+
+      expect(result.stones["new-rock"]).toMatchObject({
+        x: 0,
+        y: 0,
+        name: "Stone Rock",
+      });
+    });
+
+    it("snapshots a placed node with its own tier", () => {
+      const state: GameState = {
+        ...baseFarm,
+        trees: {
+          t1: {
+            createdAt: 1,
+            wood: { choppedAt: 0 },
+            name: "Ancient Tree",
+            tier: 2,
+            multiplier: 4,
+            x: 0,
+            y: 0,
+          },
+        },
+      };
+
+      expect(snapshotSurface(state, "farm").resources!.trees.t1).toEqual({
+        x: 0,
+        y: 0,
+        name: "Ancient Tree",
+      });
+    });
+
     it("re-placing a lifted instance resumes its paused timer", () => {
       const state = withInventory(
         {
