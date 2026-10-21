@@ -434,6 +434,9 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     // the game-state animal is already asleep, so any feed/claim event would
     // throw. Ignore clicks until the animation resolves.
     if (showDrops) return;
+    // A new click replaces an earlier Honey Treat notice, so it can't sit
+    // over whatever this click does.
+    setShowFreeFeedTreat(false);
 
     const showNoFoodPrompt = async () => {
       setShowNoFoodSelected(true);
