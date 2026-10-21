@@ -1,16 +1,13 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
-import type {
-  CaveMerchant,
-  CaveMerchantOfferId,
-  GameState,
-} from "features/game/types/game";
+import type { CaveMerchant, GameState } from "features/game/types/game";
 import {
-  CAVE_MERCHANT_OFFERS,
+  CAVE_MERCHANT_EPOCH,
+  type CaveMerchantOffer,
   getCaveMerchantOffers,
+  getCaveMerchantVisit,
 } from "features/game/types/caveMerchant";
 import { CAVE_MAX_TIER } from "features/game/types/caveTiers";
-import { getKeys } from "lib/object";
 import { CONFIG } from "lib/config";
 import {
   BUY_CAVE_MERCHANT_OFFER_ERRORS,
@@ -25,82 +22,55 @@ const READY_CAVE = {
   readyAt: 0,
 };
 
-// Tuesday 29 September 2026; its week starts on Monday the 28th.
-const NOW = Date.UTC(2026, 8, 29, 12);
-const WEEK_KEY = "2026-09-28";
-const NEXT_WEEK = NOW + 7 * 24 * 60 * 60 * 1000;
-const NEXT_WEEK_KEY = "2026-10-05";
+const HOUR = 60 * 60 * 1000;
 
-const OFFER_IDS = getKeys(CAVE_MERCHANT_OFFERS);
-const FIRST_OFFER = OFFER_IDS.find(
-  (id) => CAVE_MERCHANT_OFFERS[id].requiresTier === 1,
-) as CaveMerchantOfferId;
-const COIN_OFFER = OFFER_IDS.find(
-  (id) => (CAVE_MERCHANT_OFFERS[id].cost.coins ?? 0) > 0,
-) as CaveMerchantOfferId;
+// Visit 0 opens at the epoch and stays 48h; visit 1 opens 4-7 days later.
+const VISIT = getCaveMerchantVisit(CAVE_MERCHANT_EPOCH);
+const NOW = VISIT.opensAt + HOUR;
+const CLOSED_NOW = VISIT.closesAt + HOUR;
+const NEXT_VISIT = getCaveMerchantVisit(VISIT.nextOpensAt);
+const NEXT_NOW = NEXT_VISIT.opensAt + HOUR;
 
+const OFFERS = getCaveMerchantOffers(VISIT.index);
+const FIRST = OFFERS[0];
+
+/** A farm holding exactly `times` claims' worth of each offer's cost. */
 const caveState = ({
   tier = 1,
-  coins = 1_000_000,
-  beetles = 1000,
+  times = 10,
   merchant,
+  offers = OFFERS,
 }: {
   tier?: number;
-  coins?: number;
-  beetles?: number;
+  times?: number;
   merchant?: CaveMerchant;
+  offers?: CaveMerchantOffer[];
 } = {}): GameState => ({
   ...TEST_FARM,
   buildings: { ...TEST_FARM.buildings, Cave: [READY_CAVE] },
-  coins,
   inventory: {
     ...TEST_FARM.inventory,
-    "Green Beetle": new Decimal(beetles),
-    "Blue Beetle": new Decimal(beetles),
-    "Pink Beetle": new Decimal(beetles),
-    "Amber Beetle": new Decimal(beetles),
+    ...Object.fromEntries(
+      offers.map((offer) => [
+        offer.cost.item,
+        new Decimal(offer.cost.amount * times),
+      ]),
+    ),
   },
   cave: { builtAt: 1, tier, machines: { "1": {} }, merchant },
 });
 
 const buy = (
   state: GameState,
-  offerId: CaveMerchantOfferId = FIRST_OFFER,
+  slot = 1,
   createdAt = NOW,
+  visit = VISIT.index,
 ) =>
   buyCaveMerchantOffer({
     state,
-    action: { type: "cave.merchantOfferBought", offerId },
+    action: { type: "cave.merchantOfferBought", visit, slot },
     createdAt,
   });
-
-describe("CAVE_MERCHANT_OFFERS", () => {
-  it("adds one offer per Cave tier, I to VIII, in shop order", () => {
-    expect(
-      OFFER_IDS.map((id) => CAVE_MERCHANT_OFFERS[id].requiresTier),
-    ).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
-  });
-
-  it("rewards Leather from the leather offer, never a Pig resource", () => {
-    expect(CAVE_MERCHANT_OFFERS.leather.reward).toEqual({
-      Leather: new Decimal(3),
-    });
-    getKeys(CAVE_MERCHANT_OFFERS).forEach((id) => {
-      expect(CAVE_MERCHANT_OFFERS[id].reward["Pig Bristles"]).toBeUndefined();
-    });
-  });
-
-  it("stocks nothing without a Cave tier", () => {
-    expect(getCaveMerchantOffers(0)).toEqual([]);
-  });
-
-  it.each([1, 2, 3, 4, 5, 6, 7, 8])(
-    "stocks one offer per tier up to Cave tier %i",
-    (tier) => {
-      expect(getCaveMerchantOffers(tier)).toEqual(OFFER_IDS.slice(0, tier));
-    },
-  );
-});
 
 describe("buyCaveMerchantOffer (cave.merchantOfferBought)", () => {
   it("throws while the Cave building is under construction", () => {
@@ -117,34 +87,33 @@ describe("buyCaveMerchantOffer (cave.merchantOfferBought)", () => {
     ).toThrow(BUY_CAVE_MERCHANT_OFFER_ERRORS.NO_CAVE);
   });
 
-  it.each(OFFER_IDS)("charges and rewards %s exactly", (offerId) => {
-    const { cost, reward } = CAVE_MERCHANT_OFFERS[offerId];
-    const state = caveState({ tier: CAVE_MAX_TIER });
-    const next = buy(state, offerId);
+  it.each(OFFERS.map((offer) => [offer.slot, offer] as const))(
+    "charges and rewards slot %s exactly as generated",
+    (slot, offer) => {
+      const state = caveState({ tier: CAVE_MAX_TIER });
+      const next = buy(state, slot);
 
-    expect(next.coins).toBe(state.coins - (cost.coins ?? 0));
-    for (const item of getKeys(cost.items)) {
-      expect(next.inventory[item]).toEqual(
-        (state.inventory[item] ?? new Decimal(0)).minus(cost.items[item] ?? 0),
+      expect(next.inventory[offer.cost.item]).toEqual(
+        (state.inventory[offer.cost.item] as Decimal).minus(offer.cost.amount),
       );
-    }
-    for (const item of getKeys(reward)) {
-      expect(next.inventory[item]).toEqual(
-        (state.inventory[item] ?? new Decimal(0)).add(reward[item] ?? 0),
+      expect(next.inventory[offer.reward.item]).toEqual(
+        (state.inventory[offer.reward.item] ?? new Decimal(0)).add(
+          offer.reward.amount,
+        ),
       );
-    }
-  });
+    },
+  );
 
-  it("records the purchase under the current week", () => {
+  it("records the purchase under the visit", () => {
     const next = buy(buy(caveState()));
     expect(next.cave?.merchant).toEqual({
-      purchases: { [WEEK_KEY]: { [FIRST_OFFER]: 2 } },
+      purchases: { [String(VISIT.index)]: { 1: 2 } },
     });
   });
 
-  it("enforces the per-player limit", () => {
+  it("enforces the per-visit limit", () => {
     let state = caveState();
-    for (let i = 0; i < CAVE_MERCHANT_OFFERS[FIRST_OFFER].limit; i++) {
+    for (let i = 0; i < FIRST.limit; i++) {
       state = buy(state);
     }
     expect(() => buy(state)).toThrow(
@@ -152,63 +121,66 @@ describe("buyCaveMerchantOffer (cave.merchantOfferBought)", () => {
     );
   });
 
-  it("resets the limit in a new week and drops the old week", () => {
-    const { limit } = CAVE_MERCHANT_OFFERS[FIRST_OFFER];
+  it("resets the limit on the next visit and drops the old one", () => {
+    const nextOffers = getCaveMerchantOffers(NEXT_VISIT.index);
     const state = caveState({
-      merchant: { purchases: { [WEEK_KEY]: { [FIRST_OFFER]: limit } } },
+      offers: nextOffers,
+      merchant: {
+        purchases: { [String(VISIT.index)]: { 1: FIRST.limit } },
+      },
     });
-    const next = buy(state, FIRST_OFFER, NEXT_WEEK);
+    const next = buy(state, 1, NEXT_NOW, NEXT_VISIT.index);
     expect(next.cave?.merchant).toEqual({
-      purchases: { [NEXT_WEEK_KEY]: { [FIRST_OFFER]: 1 } },
+      purchases: { [String(NEXT_VISIT.index)]: { 1: 1 } },
     });
   });
 
-  it("rejects a purchase from a week that has already ended", () => {
-    // Late events from the previous week must not wipe the new week's counts.
+  it("rejects a purchase from a visit that has already ended", () => {
+    // Late events from the previous visit must not wipe the new counts.
     const state = caveState({
-      merchant: { purchases: { [NEXT_WEEK_KEY]: { [FIRST_OFFER]: 1 } } },
+      merchant: { purchases: { [String(NEXT_VISIT.index)]: { 1: 1 } } },
     });
     expect(() => buy(state)).toThrow(
       BUY_CAVE_MERCHANT_OFFER_ERRORS.PERIOD_ENDED,
     );
   });
 
-  it("sells the first offer at Cave tier I", () => {
-    expect(buy(caveState({ tier: 1 })).cave?.merchant).toEqual({
-      purchases: { [WEEK_KEY]: { [FIRST_OFFER]: 1 } },
-    });
-  });
-
-  it.each(OFFER_IDS)(
-    "locks %s below its tier and sells it at it",
-    (offerId) => {
-      const { requiresTier } = CAVE_MERCHANT_OFFERS[offerId];
-      if (requiresTier > 1) {
-        expect(() =>
-          buy(caveState({ tier: requiresTier - 1 }), offerId),
-        ).toThrow(BUY_CAVE_MERCHANT_OFFER_ERRORS.OFFER_LOCKED);
-      }
-      expect(() =>
-        buy(caveState({ tier: requiresTier }), offerId),
-      ).not.toThrow();
-    },
-  );
-
-  it("rejects without enough of an item", () => {
-    expect(() => buy(caveState({ beetles: 0 }))).toThrow(
-      BUY_CAVE_MERCHANT_OFFER_ERRORS.INSUFFICIENT_ITEMS,
+  it("rejects while the Merchant is away", () => {
+    expect(() => buy(caveState(), 1, CLOSED_NOW)).toThrow(
+      BUY_CAVE_MERCHANT_OFFER_ERRORS.NOT_OPEN,
+    );
+    expect(() => buy(caveState(), 1, CAVE_MERCHANT_EPOCH - HOUR)).toThrow(
+      BUY_CAVE_MERCHANT_OFFER_ERRORS.NOT_OPEN,
     );
   });
 
-  it("rejects without enough coins", () => {
-    expect(() =>
-      buy(caveState({ tier: CAVE_MAX_TIER, coins: 0 }), COIN_OFFER),
-    ).toThrow(BUY_CAVE_MERCHANT_OFFER_ERRORS.INSUFFICIENT_COINS);
+  it("rejects an offer from another visit's stock", () => {
+    expect(() => buy(caveState(), 1, NOW, VISIT.index + 1)).toThrow(
+      BUY_CAVE_MERCHANT_OFFER_ERRORS.NOT_OPEN,
+    );
   });
 
-  it("rejects an unknown offer", () => {
-    expect(() => buy(caveState(), "toString" as CaveMerchantOfferId)).toThrow(
+  it.each([1, 2, 3, 4, 5, 6, 7, 8])(
+    "locks slot %s below its tier and sells it at it",
+    (slot) => {
+      if (slot > 1) {
+        expect(() => buy(caveState({ tier: slot - 1 }), slot)).toThrow(
+          BUY_CAVE_MERCHANT_OFFER_ERRORS.OFFER_LOCKED,
+        );
+      }
+      expect(() => buy(caveState({ tier: slot }), slot)).not.toThrow();
+    },
+  );
+
+  it.each([0, 9, 1.5, NaN])("rejects slot %s", (slot) => {
+    expect(() => buy(caveState({ tier: CAVE_MAX_TIER }), slot)).toThrow(
       BUY_CAVE_MERCHANT_OFFER_ERRORS.UNKNOWN_OFFER,
+    );
+  });
+
+  it("rejects without enough of the cost item", () => {
+    expect(() => buy(caveState({ times: 0 }))).toThrow(
+      BUY_CAVE_MERCHANT_OFFER_ERRORS.INSUFFICIENT_ITEMS,
     );
   });
 

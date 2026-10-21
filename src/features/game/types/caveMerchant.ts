@@ -1,106 +1,495 @@
-import Decimal from "decimal.js-light";
-import type {
-  CaveMerchant,
-  CaveMerchantOfferId,
-  InventoryItemName,
-} from "./game";
-import type { CaveTierLevel } from "./caveTiers";
+import type { CaveMerchant, InventoryItemName } from "./game";
+import { createCaveRandom } from "./cavePatch";
+import { CAVE_MAX_TIER } from "./caveTiers";
+import { getItemValue } from "./itemValue";
+import { CAVE_MUD_CROPS } from "./caveRecipes";
+import { ITEM_RECIPES } from "./itemValueSources";
 
 // Both repos keep this file byte-identical.
 
-export type { CaveMerchantOfferId } from "./game";
+/*
+ * The Goblin Cave Merchant (Gloomwick) visits on a seeded schedule and brings
+ * a different stock each visit. Every offer is a bridge between systems that
+ * do not otherwise touch - Beetroot for Crimstone, Beetles for Obsidian,
+ * Sunflowers for a Pizza Margherita - priced from in-game values
+ * (`itemValue.ts`) and always in the player's favour, but in bulk: the point
+ * is a scramble for the cost item while he is in town. The guard rails are
+ * the 2-day window, a claim limit per visit, the bulk itself, and that a
+ * reward item is never a cost item in the same visit (so nothing loops).
+ *
+ * Everything derives from a visit index and nothing is stored, so the client
+ * and the API agree without syncing, and the API regenerates the offer it is
+ * asked to sell rather than trusting the client.
+ */
+
+const HOUR_MS = 60 * 60 * 1000;
+
+/** Monday 2 November 2026, 00:00 UTC: the first visit opens here. */
+export const CAVE_MERCHANT_EPOCH = Date.UTC(2026, 10, 2);
+
+/** How long each visit lasts (#7721). */
+export const CAVE_MERCHANT_STAY_MS = 48 * HOUR_MS;
+
+/** Visits open 4 to 7 days apart, to the hour (Bryn, 2026-10-21). */
+export const CAVE_MERCHANT_MIN_GAP_HOURS = 4 * 24;
+export const CAVE_MERCHANT_MAX_GAP_HOURS = 7 * 24;
+
+/**
+ * A longer wait brings slightly better deals: reward value over cost value
+ * is 1.10x after the shortest wait and 1.30x after the longest.
+ */
+export const CAVE_MERCHANT_MIN_GENEROSITY = 1.1;
+export const CAVE_MERCHANT_MAX_GENEROSITY = 1.3;
+
+/** One offer in four is a curiosity - cooked food or a tool - not a resource. */
+export const CAVE_MERCHANT_CURIOSITY_CHANCE = 0.25;
+
+/** The schedule walks at most this far: ~220 years of 4-day gaps. */
+const MAX_VISITS = 20_000;
+
+/** The most of a reward item one offer hands over. */
+const MAX_REWARD_AMOUNT = 20;
+
+export type CaveMerchantVisit = {
+  /** Visits count from 0 at the epoch. */
+  index: number;
+  opensAt: number;
+  closesAt: number;
+  /** Hours since the previous visit opened; the shortest gap for visit 0. */
+  waitHours: number;
+  nextOpensAt: number;
+};
+
+export type CaveMerchantLane =
+  | "crops"
+  | "fruit"
+  | "produce"
+  | "cave"
+  | "resources";
 
 export type CaveMerchantOffer = {
-  cost: {
-    coins?: number;
-    items: Partial<Record<InventoryItemName, Decimal>>;
-  };
-  reward: Partial<Record<InventoryItemName, Decimal>>;
-  /** How many times each player can take the offer per limit period. */
+  /** 1-based; Cave tier N stocks slots 1..N. */
+  slot: number;
+  cost: { item: InventoryItemName; amount: number };
+  reward: { item: InventoryItemName; amount: number };
+  /** Claims per player per visit. */
   limit: number;
-  /** The Cave tier that adds the offer to the shop. */
-  requiresTier: CaveTierLevel;
+  curiosity: boolean;
+  /** Reward value over cost value, after rounding the cost down. */
+  generosity: number;
 };
 
-// The Merchant is open from Cave tier I with one offer, and each tier adds one
-// more (#7721), so tier N stocks the first N offers below.
-// TODO(Cave balance 475): placeholder offers, prices and limits. The spec only
-// says Beetles are spent at the Merchant; everything else is invented.
-export const CAVE_MERCHANT_OFFERS: Record<
-  CaveMerchantOfferId,
-  CaveMerchantOffer
-> = {
-  "sand-drills": {
-    cost: { items: { "Green Beetle": new Decimal(6) } },
-    reward: { "Sand Drill": new Decimal(2) },
-    limit: 5,
-    requiresTier: 1,
-  },
-  truffles: {
-    cost: { items: { "Blue Beetle": new Decimal(4) } },
-    reward: { Truffle: new Decimal(2) },
-    limit: 5,
-    requiresTier: 2,
-  },
-  leather: {
-    cost: { coins: 500, items: { "Pink Beetle": new Decimal(3) } },
-    reward: { Leather: new Decimal(3) },
-    limit: 3,
-    requiresTier: 3,
-  },
-  iron: {
-    cost: { items: { "Green Beetle": new Decimal(5) } },
-    reward: { Iron: new Decimal(2) },
-    limit: 5,
-    requiresTier: 4,
-  },
-  gold: {
-    cost: { coins: 1_000, items: { "Pink Beetle": new Decimal(3) } },
-    reward: { Gold: new Decimal(1) },
-    limit: 3,
-    requiresTier: 5,
-  },
-  oil: {
-    cost: { items: { "Amber Beetle": new Decimal(2) } },
-    reward: { Oil: new Decimal(10) },
-    limit: 3,
-    requiresTier: 6,
-  },
-  crimstone: {
-    cost: { items: { "Amber Beetle": new Decimal(2) } },
-    reward: { Crimstone: new Decimal(1) },
-    limit: 2,
-    requiresTier: 7,
-  },
-  obsidian: {
-    cost: { coins: 5_000, items: { "Amber Beetle": new Decimal(5) } },
-    reward: { Obsidian: new Decimal(1) },
-    limit: 1,
-    requiresTier: 8,
-  },
-};
+// ---------------------------------------------------------------------------
+// Seeding
 
-export function isCaveMerchantOfferId(id: string): id is CaveMerchantOfferId {
-  return Object.prototype.hasOwnProperty.call(CAVE_MERCHANT_OFFERS, id);
+/** lowbias32: a well-mixed 32-bit hash, integer-only so every engine agrees. */
+function hash32(input: number): number {
+  let x = input >>> 0;
+  x = Math.imul(x ^ (x >>> 16), 0x7feb352d);
+  x = Math.imul(x ^ (x >>> 15), 0x846ca68b);
+  return (x ^ (x >>> 16)) >>> 0;
 }
 
-/** The offers the Merchant stocks at a Cave tier, in shop order. */
-export function getCaveMerchantOffers(tier: number): CaveMerchantOfferId[] {
-  return (Object.keys(CAVE_MERCHANT_OFFERS) as CaveMerchantOfferId[]).filter(
-    (id) => tier >= CAVE_MERCHANT_OFFERS[id].requiresTier,
+/** A visit's 128-bit Cave seed, from its index alone. */
+export function getCaveMerchantSeed(visit: number): string {
+  return [0, 1, 2, 3]
+    .map((word) => hash32(Math.imul(visit, 4) + word + 0x5eed))
+    .map((word) => word.toString(16).padStart(8, "0"))
+    .join("");
+}
+
+/**
+ * A visit's random stream. The first draw is always the gap to the next
+ * visit, so the schedule and the offers come from one seed.
+ */
+function openVisit(visit: number): { random: () => number; gapHours: number } {
+  const random = createCaveRandom(getCaveMerchantSeed(visit));
+  const span = CAVE_MERCHANT_MAX_GAP_HOURS - CAVE_MERCHANT_MIN_GAP_HOURS + 1;
+  const gapHours = CAVE_MERCHANT_MIN_GAP_HOURS + Math.floor(random() * span);
+  return { random, gapHours };
+}
+
+// ---------------------------------------------------------------------------
+// Schedule
+
+/**
+ * The latest visit that has opened by `now` (visit 0 before the epoch, so
+ * there is always a next opening to count down to). Open or not is
+ * `isCaveMerchantOpen`.
+ */
+export function getCaveMerchantVisit(now: number): CaveMerchantVisit {
+  let index = 0;
+  let opensAt = CAVE_MERCHANT_EPOCH;
+  let waitHours = CAVE_MERCHANT_MIN_GAP_HOURS;
+
+  for (;;) {
+    const { gapHours } = openVisit(index);
+    const nextOpensAt = opensAt + gapHours * HOUR_MS;
+
+    if (now < nextOpensAt || index >= MAX_VISITS - 1) {
+      return {
+        index,
+        opensAt,
+        closesAt: opensAt + CAVE_MERCHANT_STAY_MS,
+        waitHours,
+        nextOpensAt,
+      };
+    }
+
+    index += 1;
+    opensAt = nextOpensAt;
+    waitHours = gapHours;
+  }
+}
+
+export function isCaveMerchantOpen(
+  visit: CaveMerchantVisit,
+  now: number,
+): boolean {
+  return now >= visit.opensAt && now < visit.closesAt;
+}
+
+/** Reward value over cost value for a visit, from how long the wait was. */
+export function getCaveMerchantGenerosity(waitHours: number): number {
+  const span = CAVE_MERCHANT_MAX_GAP_HOURS - CAVE_MERCHANT_MIN_GAP_HOURS;
+  const t = Math.min(
+    1,
+    Math.max(0, (waitHours - CAVE_MERCHANT_MIN_GAP_HOURS) / span),
+  );
+  return (
+    CAVE_MERCHANT_MIN_GENEROSITY +
+    (CAVE_MERCHANT_MAX_GENEROSITY - CAVE_MERCHANT_MIN_GENEROSITY) * t
   );
 }
 
-/** How many more times the player can take an offer in a limit period. */
+// ---------------------------------------------------------------------------
+// Stock tables
+
+/**
+ * What a slot is worth (reward value, in coins at the crop sell-price scale)
+ * and how many times it can be claimed per visit. Slot N needs Cave tier N,
+ * so the deep tiers see the Obsidian and Sunstone class bridges.
+ */
+export const CAVE_MERCHANT_BANDS: {
+  minValue: number;
+  maxValue: number;
+  limit: number;
+}[] = [
+  { minValue: 100, maxValue: 300, limit: 3 },
+  { minValue: 250, maxValue: 600, limit: 3 },
+  { minValue: 500, maxValue: 1_200, limit: 2 },
+  { minValue: 1_000, maxValue: 2_500, limit: 2 },
+  { minValue: 2_000, maxValue: 5_000, limit: 2 },
+  { minValue: 4_000, maxValue: 10_000, limit: 1 },
+  { minValue: 8_000, maxValue: 20_000, limit: 1 },
+  { minValue: 15_000, maxValue: 40_000, limit: 1 },
+];
+
+/**
+ * What the Merchant sells, and which cost lane each belongs to (an offer's
+ * cost never comes from its reward's own lane). Never a Beetle - the Merchant
+ * is where Beetles are spent (spec v0.4) - and never a Pig resource: Pig
+ * Bristles are the Pig's own sink.
+ */
+const REWARDS: { item: InventoryItemName; lane?: CaveMerchantLane }[] = [
+  { item: "Iron", lane: "resources" },
+  { item: "Gold", lane: "resources" },
+  { item: "Crimstone", lane: "resources" },
+  { item: "Oil", lane: "resources" },
+  { item: "Obsidian", lane: "resources" },
+  { item: "Sunstone", lane: "resources" },
+  { item: "Leather", lane: "produce" },
+  { item: "Milk", lane: "produce" },
+  { item: "Wool", lane: "produce" },
+  { item: "Merino Wool", lane: "produce" },
+  { item: "Honey", lane: "produce" },
+  { item: "Truffle" },
+  { item: "Magic Mushroom", lane: "cave" },
+  { item: "Sand Drill" },
+];
+
+const REWARD_ITEMS = new Set(REWARDS.map(({ item }) => item));
+
+/** The tools he sometimes has a crate of. Explicit, so the repos agree. */
+const CURIOSITY_TOOLS: InventoryItemName[] = [
+  "Axe",
+  "Pickaxe",
+  "Stone Pickaxe",
+  "Iron Pickaxe",
+  "Gold Pickaxe",
+  "Oil Drill",
+  "Sand Shovel",
+];
+
+/**
+ * The curiosities: every cooked dish with a recipe, plus the tools above,
+ * sorted by name so the pool's order never depends on a table's order.
+ */
+const CURIOSITIES: InventoryItemName[] = [
+  ...(Object.keys(ITEM_RECIPES) as InventoryItemName[]).filter(
+    (item) => ITEM_RECIPES[item]?.kind === "food",
+  ),
+  ...CURIOSITY_TOOLS,
+]
+  .filter((item) => !REWARD_ITEMS.has(item) && getItemValue(item) !== undefined)
+  .sort();
+
+/**
+ * What the player pays with, by lane, with the bulk each lane asks for: at
+ * least `minAmount` of the item, never more than `maxAmount`. Crops are the
+ * Cave's own crop list (no event crops such as Saltwort) and fruit leaves out
+ * the Full Moon three, so every cost can be grown any week.
+ */
+export const CAVE_MERCHANT_LANES: Record<
+  CaveMerchantLane,
+  { items: InventoryItemName[]; minAmount: number; maxAmount: number }
+> = {
+  crops: {
+    items: Object.keys(CAVE_MUD_CROPS) as InventoryItemName[],
+    minAmount: 100,
+    maxAmount: 10_000,
+  },
+  fruit: {
+    items: [
+      "Tomato",
+      "Lemon",
+      "Blueberry",
+      "Orange",
+      "Apple",
+      "Banana",
+      "Grape",
+    ],
+    minAmount: 25,
+    maxAmount: 2_000,
+  },
+  produce: {
+    items: [
+      "Egg",
+      "Feather",
+      "Wool",
+      "Merino Wool",
+      "Milk",
+      "Leather",
+      "Honey",
+    ],
+    minAmount: 10,
+    maxAmount: 500,
+  },
+  cave: {
+    items: [
+      "Mud",
+      "Wild Mushroom",
+      "Green Beetle",
+      "Blue Beetle",
+      "Pink Beetle",
+      "Amber Beetle",
+    ],
+    minAmount: 10,
+    maxAmount: 1_000,
+  },
+  resources: {
+    items: ["Wood", "Stone", "Iron", "Gold", "Crimstone", "Oil"],
+    minAmount: 10,
+    maxAmount: 500,
+  },
+};
+
+const LANE_NAMES = Object.keys(CAVE_MERCHANT_LANES) as CaveMerchantLane[];
+
+// ---------------------------------------------------------------------------
+// Generation
+
+/** Rounds down to two significant figures, so 2,347 reads as 2,300. */
+export function roundCostDown(amount: number): number {
+  if (amount < 10) return Math.max(1, Math.floor(amount));
+  const magnitude = 10 ** (Math.floor(Math.log10(amount)) - 1);
+  return Math.floor(amount / magnitude) * magnitude;
+}
+
+/** Draws an index in [0, length). */
+const pick = (random: () => number, length: number) =>
+  Math.min(length - 1, Math.floor(random() * length));
+
+type RewardDraw = {
+  item: InventoryItemName;
+  amount: number;
+  value: number;
+  lane?: CaveMerchantLane;
+  curiosity: boolean;
+};
+
+/** The reward amounts of `item` that land inside a band's value range. */
+function rewardRange(
+  item: InventoryItemName,
+  band: (typeof CAVE_MERCHANT_BANDS)[number],
+): { min: number; max: number } | undefined {
+  const value = getItemValue(item);
+  if (value === undefined || value <= 0) return undefined;
+
+  const min = Math.max(1, Math.ceil(band.minValue / value));
+  const max = Math.min(MAX_REWARD_AMOUNT, Math.floor(band.maxValue / value));
+
+  return min <= max ? { min, max } : undefined;
+}
+
+function drawReward(random: () => number, slot: number): RewardDraw {
+  const band = CAVE_MERCHANT_BANDS[slot - 1];
+  const curiosity = random() < CAVE_MERCHANT_CURIOSITY_CHANCE;
+
+  const pool = (
+    curiosity ? CURIOSITIES.map((item) => ({ item, lane: undefined })) : REWARDS
+  )
+    .map((reward) => ({ ...reward, range: rewardRange(reward.item, band) }))
+    .filter((reward) => reward.range !== undefined);
+
+  // Every band has regular rewards; fall back to them if no curiosity fits.
+  const candidates =
+    pool.length > 0
+      ? pool
+      : REWARDS.map((reward) => ({
+          ...reward,
+          range: rewardRange(reward.item, band),
+        })).filter((reward) => reward.range !== undefined);
+
+  const chosen = candidates[pick(random, candidates.length)];
+  const range = chosen.range as { min: number; max: number };
+  const amount = range.min + pick(random, range.max - range.min + 1);
+
+  return {
+    item: chosen.item,
+    amount,
+    value: (getItemValue(chosen.item) as number) * amount,
+    lane: chosen.lane,
+    curiosity: pool.length > 0 && curiosity,
+  };
+}
+
+type CostDraw = {
+  item: InventoryItemName;
+  amount: number;
+  lane: CaveMerchantLane;
+};
+
+/**
+ * The cost for a reward: a lane other than the reward's, then an item in it
+ * whose bulk lands inside the lane's bounds. Lanes are drawn evenly, so the
+ * crop lane's size does not drown out the others.
+ */
+function drawCost(
+  random: () => number,
+  reward: RewardDraw,
+  generosity: number,
+  excluded: Set<InventoryItemName>,
+): CostDraw {
+  const options = LANE_NAMES.filter((lane) => lane !== reward.lane).map(
+    (lane) => ({
+      lane,
+      items: CAVE_MERCHANT_LANES[lane].items.flatMap((item) => {
+        if (excluded.has(item)) return [];
+        const value = getItemValue(item);
+        if (value === undefined || value <= 0) return [];
+        const amount = roundCostDown(reward.value / (generosity * value));
+        const { minAmount, maxAmount } = CAVE_MERCHANT_LANES[lane];
+        return amount >= minAmount && amount <= maxAmount
+          ? [{ item, amount }]
+          : [];
+      }),
+    }),
+  );
+
+  const lanes = options.filter((option) => option.items.length > 0);
+  // Two draws whether or not a lane fits, so later slots never shift.
+  const laneRoll = random();
+  const itemRoll = random();
+
+  if (lanes.length === 0) {
+    // Nothing lands in bulk: take the cheapest allowed item at a sane amount.
+    // The invariant test sweeps visits so this path should never be reached.
+    const fallback = options
+      .flatMap(({ lane }) =>
+        CAVE_MERCHANT_LANES[lane].items
+          .filter((item) => !excluded.has(item) && getItemValue(item))
+          .map((item) => ({ lane, item, value: getItemValue(item) as number })),
+      )
+      .sort((a, b) => a.value - b.value)[0];
+    const amount = Math.max(
+      1,
+      roundCostDown(reward.value / (generosity * fallback.value)),
+    );
+    return { item: fallback.item, amount, lane: fallback.lane };
+  }
+
+  const lane =
+    lanes[Math.min(lanes.length - 1, Math.floor(laneRoll * lanes.length))];
+  const choice =
+    lane.items[
+      Math.min(lane.items.length - 1, Math.floor(itemRoll * lane.items.length))
+    ];
+
+  return { ...choice, lane: lane.lane };
+}
+
+const offerCache = new Map<number, CaveMerchantOffer[]>();
+
+/**
+ * All eight offers of a visit, slot 1 to 8. Rewards are drawn first for every
+ * slot, then costs, so a reward item is never a cost item in the same visit.
+ * Computed, not stored: both repos derive the same stock from the index.
+ */
+export function getCaveMerchantOffers(visit: number): CaveMerchantOffer[] {
+  const cached = offerCache.get(visit);
+  if (cached) return cached;
+
+  const { random } = openVisit(visit);
+  // The wait before this visit is the previous visit's gap.
+  const waitHours =
+    visit === 0 ? CAVE_MERCHANT_MIN_GAP_HOURS : openVisit(visit - 1).gapHours;
+  const generosity = getCaveMerchantGenerosity(waitHours);
+
+  const rewards = CAVE_MERCHANT_BANDS.map((_, index) =>
+    drawReward(random, index + 1),
+  );
+  const excluded = new Set(rewards.map((reward) => reward.item));
+
+  const offers = rewards.map((reward, index): CaveMerchantOffer => {
+    const cost = drawCost(random, reward, generosity, excluded);
+    const costValue = (getItemValue(cost.item) as number) * cost.amount;
+
+    return {
+      slot: index + 1,
+      cost: { item: cost.item, amount: cost.amount },
+      reward: { item: reward.item, amount: reward.amount },
+      limit: CAVE_MERCHANT_BANDS[index].limit,
+      curiosity: reward.curiosity,
+      generosity: reward.value / costValue,
+    };
+  });
+
+  offerCache.set(visit, offers);
+  return offers;
+}
+
+/** The offers a Cave tier can see: slots 1..tier. */
+export function getCaveMerchantStock(
+  visit: number,
+  tier: number,
+): CaveMerchantOffer[] {
+  const slots = Math.max(0, Math.min(CAVE_MAX_TIER, Math.floor(tier)));
+  return getCaveMerchantOffers(visit).slice(0, slots);
+}
+
+/** How many more times the player can take an offer this visit. */
 export function getCaveMerchantOffersLeft({
   merchant,
-  offerId,
-  periodKey,
+  visit,
+  slot,
+  limit,
 }: {
   merchant?: CaveMerchant;
-  offerId: CaveMerchantOfferId;
-  periodKey: string;
+  visit: number;
+  slot: number;
+  limit: number;
 }): number {
-  const bought = merchant?.purchases[periodKey]?.[offerId] ?? 0;
-  return Math.max(0, CAVE_MERCHANT_OFFERS[offerId].limit - bought);
+  const bought = merchant?.purchases[String(visit)]?.[slot] ?? 0;
+  return Math.max(0, limit - bought);
 }

@@ -5,24 +5,22 @@ import Decimal from "decimal.js-light";
 
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
-import { getWeekKey, weekResetsAt } from "features/game/lib/factions";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import {
-  CAVE_MERCHANT_OFFERS,
-  getCaveMerchantOffers,
+  type CaveMerchantOffer,
   getCaveMerchantOffersLeft,
-  type CaveMerchantOfferId,
+  getCaveMerchantStock,
+  getCaveMerchantVisit,
+  isCaveMerchantOpen,
 } from "features/game/types/caveMerchant";
-import { getNextCaveTier } from "features/game/types/caveTiers";
-import type { InventoryItemName } from "features/game/types/game";
+import { CAVE_MAX_TIER, getNextCaveTier } from "features/game/types/caveTiers";
 import {
   ITEM_DETAILS,
   getTranslatedItemName,
 } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { NPC_WEARABLES } from "lib/npcs";
-import { getKeys } from "lib/object";
 import { secondsToString } from "lib/utils/time";
 import { useNow } from "lib/utils/hooks/useNow";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -36,38 +34,30 @@ import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { SquareIcon } from "components/ui/SquareIcon";
-import { IngredientsPopover } from "components/ui/IngredientsPopover";
 import { CaveToolsShop } from "./CaveToolsShop";
 
 const _game = (state: MachineState) => state.context.state;
 
 type Tab = "tools" | "trades";
 
-const OFFER_IDS = getKeys(CAVE_MERCHANT_OFFERS);
+/** A visit whose deals are a fifth better than cost or more gets a badge. */
+const GENEROUS_VISIT = 1.2;
 
-/** An item square in a trade: the item, its amount, and a lock when locked. */
+/** An item square in a trade: the item and its amount. */
 const TradeBox: React.FC<{
   image: string;
   amount?: string;
   short?: boolean;
-  locked?: boolean;
-}> = ({ image, amount, short, locked }) => (
+}> = ({ image, amount, short }) => (
   <div
-    className={classNames(
-      "relative flex shrink-0 items-center justify-center",
-      locked ? "bg-brown-700" : "bg-brown-600",
-    )}
+    className="relative flex shrink-0 items-center justify-center bg-brown-600"
     style={{
       width: `${PIXEL_SCALE * 18}px`,
       height: `${PIXEL_SCALE * 18}px`,
       ...pixelDarkBorderStyle,
     }}
   >
-    <SquareIcon
-      icon={image}
-      width={11}
-      className={classNames({ "opacity-60": locked })}
-    />
+    <SquareIcon icon={image} width={11} />
     {amount && (
       <Label
         type={short ? "danger" : "default"}
@@ -80,32 +70,17 @@ const TradeBox: React.FC<{
         {amount}
       </Label>
     )}
-    {locked && (
-      <img
-        src={SUNNYSIDE.icons.lock}
-        className="absolute"
-        style={{
-          top: `${PIXEL_SCALE * -4}px`,
-          right: `${PIXEL_SCALE * -4}px`,
-          width: `${PIXEL_SCALE * 8}px`,
-        }}
-      />
-    )}
   </div>
 );
 
 /** "2 Sand Drill" style text for an offer's reward. */
-const rewardText = (offerId: CaveMerchantOfferId) => {
-  const { reward } = CAVE_MERCHANT_OFFERS[offerId];
-  return getKeys(reward)
-    .map((item) => `${reward[item]?.toString()} ${getTranslatedItemName(item)}`)
-    .join(", ");
-};
+const rewardText = (offer: CaveMerchantOffer) =>
+  `${offer.reward.amount} ${getTranslatedItemName(offer.reward.item)}`;
 
 /**
  * Gloomwick's menu: the same Sand Shovel / Sand Drill shelf Jafar sells, and
- * his Cave trades (one more offer per Cave tier), with the offers still to
- * come one button away.
+ * his Cave trades - a fresh set of bulk bridges each visit (one more slot per
+ * Cave tier), with a countdown to when he leaves or returns.
  */
 export const CaveMerchantModal: React.FC<{ onClose: () => void }> = ({
   onClose,
@@ -116,25 +91,29 @@ export const CaveMerchantModal: React.FC<{ onClose: () => void }> = ({
   const game = useSelector(gameService, _game);
   const now = useNow({ live: true });
   const [tab, setTab] = useState<Tab>("tools");
-  // The Trades tab swaps its list for the upcoming offers until Back.
-  const [showUpcoming, setShowUpcoming] = useState(false);
-  // The offer whose cost items are listed by name (click the cost to toggle).
-  const [ingredientsFor, setIngredientsFor] = useState<CaveMerchantOfferId>();
 
   const tier = game.cave?.tier ?? 0;
   const nextTier = getNextCaveTier(tier);
-  const offers = getCaveMerchantOffers(tier);
-  const upcoming = OFFER_IDS.filter((id) => !offers.includes(id));
-  const periodKey = getWeekKey({ date: new Date(now) });
-  const resetsIn = Math.max(
+  const visit = getCaveMerchantVisit(now);
+  const open = isCaveMerchantOpen(visit, now);
+  const offers = open ? getCaveMerchantStock(visit.index, tier) : [];
+  const generous =
+    offers.length > 0 &&
+    offers.every((offer) => offer.generosity >= GENEROUS_VISIT);
+  const leavesIn = Math.max(0, (visit.closesAt - now) / 1000);
+  const backIn = Math.max(
     0,
-    (weekResetsAt({ date: new Date(now) }) - now) / 1000,
+    ((now < visit.opensAt ? visit.opensAt : visit.nextOpensAt) - now) / 1000,
   );
 
-  const trade = (offerId: CaveMerchantOfferId) =>
-    gameService.send({ type: "cave.merchantOfferBought", offerId });
+  const trade = (slot: number) =>
+    gameService.send({
+      type: "cave.merchantOfferBought",
+      visit: visit.index,
+      slot,
+    });
 
-  const owned = (item: InventoryItemName) =>
+  const owned = (item: CaveMerchantOffer["cost"]["item"]) =>
     game.inventory[item] ?? new Decimal(0);
 
   const tabs: PanelTabs<Tab>[] = [
@@ -157,121 +136,104 @@ export const CaveMerchantModal: React.FC<{ onClose: () => void }> = ({
         bumpkinParts={NPC_WEARABLES.gloomwick}
         tabs={tabs}
         currentTab={tab}
-        setCurrentTab={(next: React.SetStateAction<Tab>) => {
-          setTab(next);
-          setShowUpcoming(false);
-        }}
+        setCurrentTab={setTab}
         container={OuterPanel}
       >
         {tab === "tools" && <CaveToolsShop />}
 
-        {tab === "trades" && !showUpcoming && (
+        {tab === "trades" && (
           <div className="flex flex-col gap-1">
             <InnerPanel className="flex flex-col gap-1 p-1">
-              <span className="text-xs">{t("cave.merchant.description")}</span>
-              <div className="flex flex-wrap gap-1">
-                <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-                  {t("cave.merchant.resets", {
-                    time: secondsToString(resetsIn, { length: "medium" }),
-                  })}
-                </Label>
-                <Label type="default">
-                  {t("cave.merchant.tierProgress", {
-                    tier,
-                    count: offers.length,
-                    total: OFFER_IDS.length,
-                  })}
-                </Label>
-              </div>
+              <span className="text-xs">
+                {open
+                  ? t("cave.merchant.description")
+                  : t("cave.merchant.away", {
+                      time: secondsToString(backIn, { length: "medium" }),
+                    })}
+              </span>
+              {open && (
+                <div className="flex flex-wrap gap-1">
+                  <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+                    {t("cave.merchant.leaves", {
+                      time: secondsToString(leavesIn, { length: "medium" }),
+                    })}
+                  </Label>
+                  <Label type="default">
+                    {t("cave.merchant.tierProgress", {
+                      tier,
+                      count: offers.length,
+                      total: CAVE_MAX_TIER,
+                    })}
+                  </Label>
+                  {generous && (
+                    <Label type="vibrant">{t("cave.merchant.generous")}</Label>
+                  )}
+                </div>
+              )}
             </InnerPanel>
 
-            {offers.map((offerId) => {
-              const { cost, reward, limit } = CAVE_MERCHANT_OFFERS[offerId];
+            {offers.map((offer) => {
               const left = getCaveMerchantOffersLeft({
                 merchant: game.cave?.merchant,
-                offerId,
-                periodKey,
+                visit: visit.index,
+                slot: offer.slot,
+                limit: offer.limit,
               });
-              const coins = cost.coins ?? 0;
-              const canAfford =
-                game.coins >= coins &&
-                getKeys(cost.items).every((item) =>
-                  owned(item).gte(cost.items[item] ?? 0),
-                );
+              const required = new Decimal(offer.cost.amount);
+              const short = owned(offer.cost.item).lt(required);
               const soldOut = left <= 0;
 
               return (
                 <InnerPanel
-                  key={offerId}
+                  key={offer.slot}
                   className={classNames(
                     "flex flex-col sm:flex-row sm:items-center gap-2 p-2",
                     { "opacity-70": soldOut },
                   )}
                 >
                   <div className="flex items-center gap-2 sm:flex-1 min-w-0">
-                    <div
-                      className="relative flex items-center gap-1 cursor-pointer"
-                      onClick={() =>
-                        setIngredientsFor(
-                          ingredientsFor === offerId ? undefined : offerId,
-                        )
+                    <TradeBox
+                      image={ITEM_DETAILS[offer.cost.item].image}
+                      amount={
+                        short
+                          ? `${owned(offer.cost.item).toString()}/${required.toString()}`
+                          : required.toString()
                       }
-                    >
-                      <IngredientsPopover
-                        show={ingredientsFor === offerId}
-                        ingredients={getKeys(cost.items)}
-                        onClick={() => setIngredientsFor(undefined)}
-                      />
-                      {getKeys(cost.items).map((item) => {
-                        const required = cost.items[item] ?? new Decimal(0);
-                        const short = owned(item).lt(required);
-                        return (
-                          <TradeBox
-                            key={item}
-                            image={ITEM_DETAILS[item].image}
-                            amount={
-                              short
-                                ? `${owned(item).toString()}/${required.toString()}`
-                                : required.toString()
-                            }
-                            short={short}
-                          />
-                        );
-                      })}
-                      {coins > 0 && (
-                        <TradeBox
-                          image={SUNNYSIDE.ui.coinsImg}
-                          amount={coins.toString()}
-                          short={game.coins < coins}
-                        />
-                      )}
-                    </div>
+                      short={short}
+                    />
                     <img
                       src={SUNNYSIDE.icons.arrow_right}
                       className="shrink-0"
                       style={{ width: `${PIXEL_SCALE * 7}px` }}
                     />
-                    {getKeys(reward).map((item) => (
-                      <TradeBox
-                        key={item}
-                        image={ITEM_DETAILS[item].image}
-                        amount={reward[item]?.toString()}
-                      />
-                    ))}
-                    <span className="text-sm ml-1 truncate">
-                      {rewardText(offerId)}
-                    </span>
+                    <TradeBox
+                      image={ITEM_DETAILS[offer.reward.item].image}
+                      amount={offer.reward.amount.toString()}
+                    />
+                    <div className="flex flex-col min-w-0 ml-1">
+                      <span className="text-sm truncate">
+                        {rewardText(offer)}
+                      </span>
+                      <span className="text-xxs truncate">
+                        {`${offer.cost.amount} ${getTranslatedItemName(offer.cost.item)}`}
+                      </span>
+                    </div>
+                    {offer.curiosity && (
+                      <Label type="formula" className="shrink-0">
+                        {t("cave.merchant.curiosity")}
+                      </Label>
+                    )}
                   </div>
                   <div className="flex items-center justify-between sm:justify-end gap-2">
                     <Label type={soldOut ? "danger" : "formula"}>
                       {soldOut
                         ? t("cave.merchant.soldOut")
-                        : t("cave.merchant.left", { left, limit })}
+                        : t("cave.merchant.left", { left, limit: offer.limit })}
                     </Label>
                     <Button
                       className="w-28"
-                      disabled={soldOut || !canAfford}
-                      onClick={() => trade(offerId)}
+                      disabled={soldOut || short}
+                      onClick={() => trade(offer.slot)}
                     >
                       {t("cave.merchant.trade")}
                     </Button>
@@ -280,84 +242,12 @@ export const CaveMerchantModal: React.FC<{ onClose: () => void }> = ({
               );
             })}
 
-            {/* Each Cave tier adds one more offer: see what is still to come. */}
-            {nextTier && (
-              <Button onClick={() => setShowUpcoming(true)}>
-                <div className="flex items-center justify-center gap-2">
-                  <img
-                    src={SUNNYSIDE.icons.lock}
-                    style={{ width: `${PIXEL_SCALE * 7}px` }}
-                  />
-                  <span>
-                    {t("cave.merchant.moreOffers", { tier: nextTier })}
-                  </span>
-                </div>
-              </Button>
+            {/* Each Cave tier adds one more slot to his stock. */}
+            {open && nextTier && (
+              <Label type="default" icon={SUNNYSIDE.icons.lock}>
+                {t("cave.merchant.moreOffers", { tier: nextTier })}
+              </Label>
             )}
-          </div>
-        )}
-
-        {tab === "trades" && showUpcoming && (
-          <div className="flex flex-col gap-1">
-            <InnerPanel className="flex flex-col gap-1 p-1">
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  aria-label={t("back")}
-                  className="flex shrink-0 cursor-pointer"
-                  onClick={() => setShowUpcoming(false)}
-                >
-                  <img src={SUNNYSIDE.icons.arrow_left} className="h-6" />
-                </button>
-                <Label type="default">{t("cave.merchant.upcoming")}</Label>
-              </div>
-              <span className="text-xs">
-                {t("cave.merchant.upcomingDescription")}
-              </span>
-            </InnerPanel>
-
-            {upcoming.map((offerId) => {
-              const { cost, reward, requiresTier } =
-                CAVE_MERCHANT_OFFERS[offerId];
-              return (
-                <InnerPanel
-                  key={offerId}
-                  className="flex items-center gap-2 p-2"
-                >
-                  {getKeys(reward).map((item) => (
-                    <TradeBox
-                      key={item}
-                      image={ITEM_DETAILS[item].image}
-                      locked
-                    />
-                  ))}
-                  <div className="flex flex-col gap-1 flex-1 min-w-0">
-                    <span className="text-sm truncate">
-                      {rewardText(offerId)}
-                    </span>
-                    <div className="flex flex-wrap gap-1">
-                      {getKeys(cost.items).map((item) => (
-                        <Label
-                          key={item}
-                          type="default"
-                          icon={ITEM_DETAILS[item].image}
-                        >
-                          {cost.items[item]?.toString()}
-                        </Label>
-                      ))}
-                      {!!cost.coins && (
-                        <Label type="default" icon={SUNNYSIDE.ui.coinsImg}>
-                          {cost.coins.toString()}
-                        </Label>
-                      )}
-                    </div>
-                  </div>
-                  <Label type="formula">
-                    {t("cave.merchant.tier", { tier: requiresTier })}
-                  </Label>
-                </InnerPanel>
-              );
-            })}
           </div>
         )}
       </CloseButtonPanel>
