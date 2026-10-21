@@ -181,15 +181,9 @@ export function handleFoodXP({
 }
 
 /**
- * Animals fed a whole batch per click: they ask for as many of their favourite
- * food as it takes to get ready, and one click feeds them all (ticket 396).
- */
-const BATCH_FED_ANIMALS: Partial<Record<AnimalType, true>> = { Pig: true };
-
-/**
- * How many feeds one click gives `animal`: for a batch-fed animal, the number
- * of its favourite food (with Chonky Feed and Mud) that gets it ready; 1 for
- * everyone else. Feeding a different food uses the same count.
+ * How many feeds one click gives `animal`: an animal asks for as many of its
+ * favourite food (with Chonky Feed and Mud) as it takes to get ready, and one
+ * click feeds them all. Feeding a different food uses the same count.
  */
 export function getFeedBatchSize({
   state,
@@ -198,8 +192,6 @@ export function getFeedBatchSize({
   state: GameState;
   animal: Animal;
 }): number {
-  if (!BATCH_FED_ANIMALS[animal.type]) return 1;
-
   const { foodXp } = handleFoodXP({
     state,
     animal: animal.type,
@@ -389,8 +381,8 @@ export function feedAnimal({
       throw new Error("This animal cannot eat this food");
     }
 
-    // One click feeds a whole batch to a batch-fed animal (a Pig); a Beetle
-    // is always one per click.
+    // One click feeds the whole batch that gets the animal ready; a Beetle is
+    // always one per click.
     const feeds = isBeetle(food)
       ? 1
       : getFeedBatchSize({ state: copy, animal });

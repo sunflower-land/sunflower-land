@@ -46,6 +46,7 @@ import { InfoPopover } from "features/island/common/InfoPopover";
 import {
   getBarnDelightCost,
   handleFoodXP,
+  getFeedBatchSize,
   REQUIRED_FOOD_QTY,
 } from "features/game/events/landExpansion/feedAnimal";
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
@@ -240,13 +241,16 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   // animal) but can still be cured and sold to bounties.
   const isLocked = !isAnimalFeedable("barn", game, id);
 
-  const { foodQuantity: requiredFoodQty } = getBoostedFoodQuantity({
+  // One click feeds the whole batch that gets the Cow ready.
+  const feedBatchSize = getFeedBatchSize({ state: game, animal: cow });
+  const { foodQuantity: quantityPerFeed } = getBoostedFoodQuantity({
     animalType: "Cow",
     foodQuantity: REQUIRED_FOOD_QTY.Cow,
     game,
     animal: cow,
     now,
   });
+  const requiredFoodQty = quantityPerFeed.mul(feedBatchSize);
 
   const hasGoldenCow = isAnimalCoveredByGoldenAsset({
     state: game,
@@ -547,7 +551,8 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       food: hasGoldenCow ? favFood : (item as AnimalFoodName),
     });
 
-    return foodXp;
+    // A Beetle is one per click; anything else is the whole batch.
+    return item && isBeetle(item) ? foodXp : foodXp * feedBatchSize;
   };
 
   const animalImageInfo = () => {
