@@ -12,6 +12,7 @@ import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasFeatureAccess } from "lib/flags";
 import { isCaveBuildingReady } from "features/game/lib/cave";
+import { isCavePatchCleared } from "features/game/types/caveRecipes";
 import { useNow } from "lib/utils/hooks/useNow";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import {
@@ -119,6 +120,16 @@ export const Cave: React.FC = () => {
     getCaveTutorialStep(state.context.state, now, tutorialSeen),
   );
   const entryRef = useRef<HTMLDivElement>(null);
+  // Patches already fully dug when the player came in show as empty sand,
+  // waiting for a new mix. Keyed by the batch's start so a batch started (and
+  // dug out) during this visit stays dug until the player leaves.
+  const [clearedOnEntry] = useState(() =>
+    Object.fromEntries(
+      Object.entries(cave?.machines ?? {}).flatMap(([id, { batch }]) =>
+        batch && isCavePatchCleared(batch) ? [[id, batch.startedAt]] : [],
+      ),
+    ),
+  );
 
   // Open on the ladder at the room's top-left, not the room's centre.
   useLayoutEffect(() => {
@@ -283,7 +294,11 @@ export const Cave: React.FC = () => {
                     >
                       <CavePatch
                         machineId={String(id)}
-                        batch={batch}
+                        batch={
+                          batch?.startedAt === clearedOnEntry[String(id)]
+                            ? undefined
+                            : batch
+                        }
                         now={now}
                         hasShovel={shovels > 0}
                         hasDrill={drills > 0}
