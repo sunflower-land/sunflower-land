@@ -24,7 +24,7 @@ import {
 } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { NPC_WEARABLES } from "lib/npcs";
-import { formatDateTime, secondsToString } from "lib/utils/time";
+import { secondsToString } from "lib/utils/time";
 import { useNow } from "lib/utils/hooks/useNow";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
@@ -43,6 +43,9 @@ import { CaveToolsShop } from "./CaveToolsShop";
 const _game = (state: MachineState) => state.context.state;
 
 type Tab = "tools" | "trades";
+
+/** Trading stops this long before the visit ends (see `closing`). */
+const TRADE_CUTOFF_MS = 5_000;
 
 /**
  * A visit after a long enough wait to price at 1.2x or better (5.5 days or
@@ -89,10 +92,16 @@ const CaveMerchantAway: React.FC<{
   visit: CaveMerchantVisit;
   now: number;
 }> = ({ visit, now }) => {
-  const { t } = useAppTranslation();
+  const { t, i18n } = useAppTranslation();
 
-  const next = getCaveMerchantVisit(visit.nextOpensAt);
-  const backIn = Math.max(0, (next.opensAt - now) / 1000);
+  const backIn = Math.max(0, (visit.nextOpensAt - now) / 1000);
+  // In the player's own language and time zone.
+  const returnsAt = new Date(visit.nextOpensAt).toLocaleString(i18n.language, {
+    month: "short",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 
   return (
     <InnerPanel className="flex items-center gap-3 p-2">
@@ -121,7 +130,7 @@ const CaveMerchantAway: React.FC<{
           </Label>
           <Label type="default">
             {t("cave.merchant.returns", {
-              date: formatDateTime(new Date(next.opensAt).toISOString()),
+              date: returnsAt,
               time: secondsToString(CAVE_MERCHANT_STAY_MS / 1000, {
                 length: "short",
               }),
@@ -159,6 +168,10 @@ export const CaveMerchantModal: React.FC<{ onClose: () => void }> = ({
     offers.length > 0 &&
     getCaveMerchantGenerosity(visit.waitHours) >= GENEROUS_VISIT;
   const leavesIn = Math.max(0, (visit.closesAt - now) / 1000);
+  // The clock ticks once a second but the trade is checked at the moment it
+  // is sent, so stop trading just before he leaves (or restocks) rather than
+  // send a trade for a visit that has ended by the time it lands.
+  const closing = leavesIn * 1000 < TRADE_CUTOFF_MS;
 
   const trade = (slot: number) =>
     gameService.send({
@@ -284,7 +297,7 @@ export const CaveMerchantModal: React.FC<{ onClose: () => void }> = ({
                     </Label>
                     <Button
                       className="w-28"
-                      disabled={soldOut || short}
+                      disabled={soldOut || short || closing}
                       onClick={() => trade(offer.slot)}
                     >
                       {t("cave.merchant.trade")}
