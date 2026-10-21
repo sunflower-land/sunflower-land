@@ -130,11 +130,11 @@ export const TreasureChest: React.FC<Props> = ({
       >
         {tab === "chest" && (
           <div className="p-2">
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
-              {inventoryLabel}
+            <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 mb-2">
               <Label type="danger" icon={ITEM_DETAILS[type].image}>
                 {t("basic.treasure.missingKey")}
               </Label>
+              <div className="ml-auto">{inventoryLabel}</div>
             </div>
             <p className="text-xs mb-2">
               {type === "Treasure Key" && t("basic.treasure.needKey")}
@@ -164,8 +164,7 @@ export const TreasureChest: React.FC<Props> = ({
       {tab === "chest" && (
         <>
           <div className="p-2">
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
-              {inventoryLabel}
+            <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 mb-2">
               <Label
                 type="default"
                 icon={ITEM_DETAILS[type].image}
@@ -174,6 +173,7 @@ export const TreasureChest: React.FC<Props> = ({
               >
                 {type}
               </Label>
+              <div className="ml-auto">{inventoryLabel}</div>
             </div>
             <p className="text-xs mb-2">{t("basic.treasure.congratsKey")}</p>
             <p className="text-xs mb-2">{t("basic.treasure.openChest")}</p>
