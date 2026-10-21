@@ -1,5 +1,6 @@
 import {
   CAVE_MERCHANT_BANDS,
+  CAVE_MERCHANT_CURIOSITIES,
   CAVE_MERCHANT_CURIOSITY_CHANCE,
   CAVE_MERCHANT_EPOCH,
   CAVE_MERCHANT_LANES,
@@ -204,22 +205,76 @@ describe("getCaveMerchantOffers", () => {
   });
 
   it("derives the same stock in both repos", () => {
-    // Pinned so the client and the API can never disagree on what visit 0
-    // sells. If a value anchor or a pool changes, update both copies of this
-    // test together.
-    const offers = getCaveMerchantOffers(0);
-    expect(offers[0]).toMatchObject({
-      cost: { item: "Cabbage", amount: 100 },
-      reward: { item: "Iron", amount: 5 },
-      limit: 3,
-      curiosity: false,
-    });
-    expect(offers[7]).toMatchObject({
-      cost: { item: "Stone", amount: 300 },
-      reward: { item: "Kale & Mushroom Pie", amount: 20 },
-      limit: 1,
-      curiosity: true,
-    });
+    // Pinned in full so the client and the API can never disagree on what a
+    // visit sells, and so a change to any value table, recipe or pool fails
+    // here instead of reshuffling live stock. Update both copies of this test
+    // together, and only before the visits involved are live.
+    const stock = (visit: number) =>
+      getCaveMerchantOffers(visit).map(
+        ({ cost, reward }) =>
+          `${cost.amount} ${cost.item} -> ${reward.amount} ${reward.item}`,
+      );
+
+    expect(stock(-2)).toEqual([
+      "30 Wood -> 10 Axe",
+      "40 Wood -> 2 Leather",
+      "100 Pepper -> 10 Iron",
+      "100 Artichoke -> 8 Gold",
+      "300 Mud -> 20 Truffle",
+      "20 Milk -> 5 Crimstone",
+      "10 Pink Beetle -> 20 Oil",
+      "100 Wild Mushroom -> 20 Cabbage Cake",
+    ]);
+    expect(stock(-1)).toEqual([
+      "500 Rhubarb -> 5 Wool",
+      "300 Yam -> 2 Oil",
+      "80 Lemon -> 3 Gold",
+      "40 Banana -> 2 Crimstone",
+      "80 Banana -> 20 Leather",
+      "300 Blueberry -> 1 Obsidian",
+      "10 Pink Beetle -> 15 Potato Cake",
+      "300 Stone -> 20 Cabbage Cake",
+    ]);
+    expect(stock(0)).toEqual([
+      "100 Cabbage -> 5 Iron",
+      "800 Zucchini -> 2 Gold",
+      "100 Mud -> 4 Sand Drill",
+      "60 Orange -> 15 Truffle",
+      "60 Banana -> 15 Leather",
+      "30 Milk -> 20 The Lot",
+      "30 Milk -> 6 Crimstone",
+      "300 Stone -> 20 Kale & Mushroom Pie",
+    ]);
+    expect(stock(1)).toEqual([
+      "10 Stone -> 3 Truffle",
+      "1500 Rhubarb -> 8 Magic Mushroom",
+      "150 Soybean -> 15 Wool",
+      "1000 Carrot -> 15 Milk",
+      "6 Oil -> 12 Leather",
+      "200 Corn -> 15 Gold",
+      "200 Artichoke -> 1 Obsidian",
+      "100 Wild Mushroom -> 12 Crimstone",
+    ]);
+    expect(stock(2)).toEqual([
+      "10 Stone -> 5 Roast Veggies",
+      "10 Merino Wool -> 3 Oil",
+      "150 Beetroot -> 1 Gold Pickaxe",
+      "50 Orange -> 20 Magic Mushroom",
+      "60 Banana -> 20 Leather",
+      "400 Turnip -> 1 Obsidian",
+      "20 Blue Beetle -> 6 Crimstone",
+      "8000 Carrot -> 5 Oil Drill",
+    ]);
+    expect(stock(25)).toEqual([
+      "5 Merino Wool -> 4 Magic Mushroom",
+      "40 Lemon -> 2 Gold",
+      "200 Cabbage -> 15 Wool",
+      "300 Tomato -> 6 Oil",
+      "10 Leather -> 4 Crimstone",
+      "30 Milk -> 1 Obsidian",
+      "100 Orange -> 5 Gold Pickaxe",
+      "50 Milk -> 15 Parsnip Cake",
+    ]);
   });
 
   it("always favours the player, in bulk, across a sweep of visits", () => {
@@ -278,13 +333,29 @@ describe("getCaveMerchantOffers", () => {
         }
         if (offer.reward.item === "Truffle") expect(lane).not.toBe("crops");
 
-        if (offer.curiosity) curiosities += 1;
+        if (offer.curiosity) {
+          curiosities += 1;
+          expect(CAVE_MERCHANT_CURIOSITIES).toContain(offer.reward.item);
+        }
       }
     }
 
     const rate = curiosities / (SWEEP * 8);
     expect(rate).toBeGreaterThan(CAVE_MERCHANT_CURIOSITY_CHANCE - 0.07);
     expect(rate).toBeLessThan(CAVE_MERCHANT_CURIOSITY_CHANCE + 0.07);
+  });
+
+  it("never stocks the same reward twice in a visit", () => {
+    const indexes = [
+      ...walkVisits(SWEEP).map((visit) => visit.index),
+      ...Array.from({ length: 50 }, (_, i) => -1 - i),
+    ];
+    indexes.forEach((index) => {
+      const rewards = getCaveMerchantOffers(index).map(
+        (offer) => offer.reward.item,
+      );
+      expect(new Set(rewards).size).toBe(rewards.length);
+    });
   });
 
   it("brings better deals after a longer wait", () => {
@@ -323,6 +394,21 @@ describe("getCaveMerchantOffers", () => {
     expect([...lanes].sort()).toEqual(
       (Object.keys(CAVE_MERCHANT_LANES) as CaveMerchantLane[]).sort(),
     );
+  });
+});
+
+describe("CAVE_MERCHANT_CURIOSITIES", () => {
+  it("is a fixed list of priced dishes and tools, never a regular reward", () => {
+    expect(CAVE_MERCHANT_CURIOSITIES.length).toBeGreaterThan(50);
+    expect(new Set(CAVE_MERCHANT_CURIOSITIES).size).toBe(
+      CAVE_MERCHANT_CURIOSITIES.length,
+    );
+    CAVE_MERCHANT_CURIOSITIES.forEach((item) => {
+      expect(getItemValue(item)).toBeGreaterThan(0);
+      expect(laneOf(item)).toBeUndefined();
+      // The beginner Fire Pit dishes are no prize.
+      expect(ITEM_RECIPES[item]?.building).not.toBe("Fire Pit");
+    });
   });
 });
 

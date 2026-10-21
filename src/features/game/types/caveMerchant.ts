@@ -258,34 +258,78 @@ const REWARDS: { item: InventoryItemName; lane?: CaveMerchantLane }[] = [
   { item: "Sand Drill" },
 ];
 
-const REWARD_ITEMS = new Set(REWARDS.map(({ item }) => item));
-
-/** The tools he sometimes has a crate of. Explicit, so the repos agree. */
-const CURIOSITY_TOOLS: InventoryItemName[] = [
-  "Axe",
-  "Pickaxe",
-  "Stone Pickaxe",
-  "Iron Pickaxe",
-  "Gold Pickaxe",
-  "Oil Drill",
-  "Sand Shovel",
-];
-
 /**
- * The curiosities: every cooked dish past the Fire Pit (the beginner tier is
- * no prize), plus the tools above, sorted by name so the pool's order never
- * depends on a table's order.
+ * The curiosities: cooked dishes past the Fire Pit (the beginner tier is no
+ * prize) and a few tools, sorted by name. Written out rather than read from
+ * the cooking table, so a recipe added later never joins the pool and
+ * reshuffles every visit's stock (or splits the client from the API while
+ * one is released before the other). Add new ones here on purpose.
  */
-const CURIOSITIES: InventoryItemName[] = [
-  ...(Object.keys(ITEM_RECIPES) as InventoryItemName[]).filter(
-    (item) =>
-      ITEM_RECIPES[item]?.kind === "food" &&
-      ITEM_RECIPES[item]?.building !== "Fire Pit",
-  ),
-  ...CURIOSITY_TOOLS,
-]
-  .filter((item) => !REWARD_ITEMS.has(item) && getItemValue(item) !== undefined)
-  .sort();
+export const CAVE_MERCHANT_CURIOSITIES: InventoryItemName[] = [
+  "Apple Juice",
+  "Apple Pie",
+  "Axe",
+  "Banana Blast",
+  "Beetroot Blaze",
+  "Beetroot Cake",
+  "Blue Cheese",
+  "Blueberry Jam",
+  "Bumpkin Detox",
+  "Bumpkin Roast",
+  "Bumpkin Salad",
+  "Bumpkin ganoush",
+  "Cabbage Cake",
+  "Caprese Salad",
+  "Carrot Cake",
+  "Carrot Juice",
+  "Cauliflower Burger",
+  "Cauliflower Cake",
+  "Cheese",
+  "Club Sandwich",
+  "Cornbread",
+  "Creamy Truffle Risotto",
+  "Eggplant Cake",
+  "Fancy Fries",
+  "Fermented Carrots",
+  "Fruit Salad",
+  "Goblin Brunch",
+  "Goblin's Treat",
+  "Gold Pickaxe",
+  "Grape Juice",
+  "Honey Cake",
+  "Honey Cheddar",
+  "Iron Pickaxe",
+  "Kale & Mushroom Pie",
+  "Lemon Cheesecake",
+  "Mushroom Jacket Potatoes",
+  "Oil Drill",
+  "Orange Cake",
+  "Orange Juice",
+  "Pancakes",
+  "Parsnip Cake",
+  "Pickaxe",
+  "Potato Cake",
+  "Power Smoothie",
+  "Pumpkin Cake",
+  "Purple Smoothie",
+  "Quick Juice",
+  "Radish Cake",
+  "Roast Veggies",
+  "Sand Shovel",
+  "Sauerkraut",
+  "Shroom Syrup",
+  "Slow Juice",
+  "Sour Shake",
+  "Spaghetti al Limone",
+  "Steamed Red Rice",
+  "Stone Pickaxe",
+  "Sunflower Cake",
+  "Sunflower Crunch",
+  "The Lot",
+  "Tofu Scramble",
+  "Truffle Cake",
+  "Wheat Cake",
+];
 
 /**
  * What the player pays with, by lane, with the bulk each lane asks for: at
@@ -494,24 +538,47 @@ function rewardAmounts(
   return amounts.length > 0 ? amounts : undefined;
 }
 
-function drawReward(random: () => number, slot: number): RewardDraw {
+/**
+ * The reward for a slot, never one an earlier slot of the visit already
+ * stocks (`taken`), so every slot is a different trade.
+ */
+function drawReward(
+  random: () => number,
+  slot: number,
+  taken: Set<InventoryItemName>,
+): RewardDraw {
   const band = CAVE_MERCHANT_BANDS[slot - 1];
   const curiosity = random() < CAVE_MERCHANT_CURIOSITY_CHANCE;
 
-  const pool = (
-    curiosity ? CURIOSITIES.map((item) => ({ item, lane: undefined })) : REWARDS
-  )
-    .map((reward) => ({ ...reward, amounts: rewardAmounts(reward.item, band) }))
-    .filter((reward) => reward.amounts !== undefined);
+  const fitting = (
+    rewards: { item: InventoryItemName; lane?: CaveMerchantLane }[],
+    allowTaken = false,
+  ) =>
+    rewards
+      .filter((reward) => allowTaken || !taken.has(reward.item))
+      .map((reward) => ({
+        ...reward,
+        amounts: rewardAmounts(reward.item, band),
+      }))
+      .filter((reward) => reward.amounts !== undefined);
 
-  // Every band has regular rewards; fall back to them if no curiosity fits.
+  const regular = fitting(REWARDS);
+  const curiosities = fitting(
+    CAVE_MERCHANT_CURIOSITIES.map((item) => ({ item, lane: undefined })),
+  );
+  const [preferred, other] = curiosity
+    ? [curiosities, regular]
+    : [regular, curiosities];
+
+  // Few rewards are worth a top slot, so when the drawn kind has run out
+  // this visit the other kind fills in. Only when both have run out may a
+  // reward repeat - the sweep test checks that never happens.
   const candidates =
-    pool.length > 0
-      ? pool
-      : REWARDS.map((reward) => ({
-          ...reward,
-          amounts: rewardAmounts(reward.item, band),
-        })).filter((reward) => reward.amounts !== undefined);
+    preferred.length > 0
+      ? preferred
+      : other.length > 0
+        ? other
+        : fitting(REWARDS, true);
 
   const chosen = candidates[pick(random, candidates.length)];
   const amounts = chosen.amounts as number[];
@@ -522,7 +589,7 @@ function drawReward(random: () => number, slot: number): RewardDraw {
     amount,
     value: (getItemValue(chosen.item) as number) * amount,
     lane: chosen.lane,
-    curiosity: pool.length > 0 && curiosity,
+    curiosity: CAVE_MERCHANT_CURIOSITIES.includes(chosen.item),
   };
 }
 
@@ -611,10 +678,12 @@ export function getCaveMerchantOffers(visit: number): CaveMerchantOffer[] {
   const { random } = openVisit(visit);
   const generosity = getCaveMerchantGenerosity(getWaitHours(visit));
 
-  const rewards = CAVE_MERCHANT_BANDS.map((_, index) =>
-    drawReward(random, index + 1),
-  );
-  const excluded = new Set(rewards.map((reward) => reward.item));
+  const excluded = new Set<InventoryItemName>();
+  const rewards = CAVE_MERCHANT_BANDS.map((_, index) => {
+    const reward = drawReward(random, index + 1, excluded);
+    excluded.add(reward.item);
+    return reward;
+  });
 
   const offers = rewards.map((reward, index): CaveMerchantOffer => {
     const cost = drawCost(random, reward, generosity, excluded);
