@@ -7294,6 +7294,7 @@
   "withdraw.duplicate.title": "Shared Network Detected",
   "withdraw.duplicate.description": "We have noticed another withdrawal happening from the same internet connection. To keep the game fair and protect the economy, we allow only one withdrawal at a time.",
   "withdraw.duplicate.waitMessage": "This hold is on your account, not your device or network - switching to a different network or device will not lift it. It needs to run its course, which can take up to 14 days depending on usage. This is applied automatically and isn't a strike or warning against your account.",
+  "withdraw.duplicate.blockedUntil": "You will be able to withdraw again from {{date}}.",
   "select.network": "Select Network",
   "switching.network": "Switching Network...",
   "marketplace.tradesCleared": "Trades removed",
