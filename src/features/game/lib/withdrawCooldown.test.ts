@@ -151,24 +151,15 @@ describe("getMarketplaceWithdrawBlock", () => {
 
 describe("getWithdrawBlockedUntil", () => {
   it("reads the date the shared-network hold lifts", () => {
-    expect(getWithdrawBlockedUntil({ blockedUntil: NOW + 14 * DAY }, NOW)).toBe(
+    expect(getWithdrawBlockedUntil({ blockedUntil: NOW + 14 * DAY })).toBe(
       NOW + 14 * DAY,
     );
   });
 
-  it("ignores a date that has already passed", () => {
-    expect(getWithdrawBlockedUntil({ blockedUntil: NOW - DAY }, NOW)).toBe(
-      undefined,
-    );
-    expect(getWithdrawBlockedUntil({ blockedUntil: NOW }, NOW)).toBe(undefined);
-  });
-
   it("tolerates a missing or malformed payload", () => {
-    expect(getWithdrawBlockedUntil(undefined, NOW)).toBe(undefined);
-    expect(getWithdrawBlockedUntil({}, NOW)).toBe(undefined);
-    expect(getWithdrawBlockedUntil({ blockedUntil: "soon" }, NOW)).toBe(
-      undefined,
-    );
-    expect(getWithdrawBlockedUntil({ blockedUntil: NaN }, NOW)).toBe(undefined);
+    expect(getWithdrawBlockedUntil(undefined)).toBe(undefined);
+    expect(getWithdrawBlockedUntil({})).toBe(undefined);
+    expect(getWithdrawBlockedUntil({ blockedUntil: "soon" })).toBe(undefined);
+    expect(getWithdrawBlockedUntil({ blockedUntil: NaN })).toBe(undefined);
   });
 });

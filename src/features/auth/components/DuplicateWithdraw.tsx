@@ -22,7 +22,7 @@ export const DuplicateWithdraw: React.FC = () => {
   const { gameService } = useContext(Context);
 
   const errorDetails = useSelector(gameService, _errorDetails);
-  const blockedUntil = getWithdrawBlockedUntil(errorDetails, Date.now());
+  const blockedUntil = getWithdrawBlockedUntil(errorDetails);
 
   return (
     <div className=" p-1">
