@@ -8,6 +8,7 @@ import type { CollectibleName } from "features/game/types/craftables";
 import type { GameState, InventoryItemName } from "features/game/types/game";
 import type { ItemDetails } from "features/game/types/images";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { BEETLE_FEEDING_XP, isBeetle } from "features/game/types/beetles";
 import { hasFeatureAccess } from "lib/flags";
 import { translate } from "lib/i18n/translate";
 
@@ -124,6 +125,17 @@ export function getItemDescription({
         description = boostedDescription.description;
       }
     }
+  }
+
+  // Beetles can be fed straight to an animal, but nothing else says for how
+  // much XP, so spell it out wherever the Beetle is described.
+  if (isBeetle(item) && hasFeatureAccess(game, "BEETLE_FEEDING")) {
+    const sentence = /[.!?]$/.test(description)
+      ? description
+      : `${description}.`;
+    description = `${sentence} ${translate("description.beetle.feedXp", {
+      xp: BEETLE_FEEDING_XP[item],
+    })}`;
   }
 
   return description;
