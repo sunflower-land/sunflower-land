@@ -207,7 +207,8 @@ describe("feedAnimal", () => {
         ...GAME_STATE,
         inventory: {
           ...GAME_STATE.inventory,
-          "Kernel Blend": new Decimal(5),
+          // A level 0 Cow eats a batch of 3 feeds, 5 Kernel Blend each.
+          "Kernel Blend": new Decimal(15),
         },
         barn: {
           ...GAME_STATE.barn,
@@ -305,7 +306,8 @@ describe("feedAnimal", () => {
       state: {
         ...GAME_STATE,
         inventory: {
-          "Kernel Blend": new Decimal(6),
+          // A level 0 Cow eats a batch of 3 feeds, 5 Kernel Blend each.
+          "Kernel Blend": new Decimal(16),
         },
         barn: {
           ...GAME_STATE.barn,
@@ -555,7 +557,7 @@ describe("feedAnimal", () => {
     ).toThrow("Player does not have enough Hay");
   });
 
-  it("sets the state to happy if fed favourite food", () => {
+  it("sets the state to ready when fed its favourite food batch", () => {
     const chickenId = "xyz";
 
     const state = feedAnimal({
@@ -564,7 +566,8 @@ describe("feedAnimal", () => {
         ...GAME_STATE,
         inventory: {
           ...GAME_STATE.inventory,
-          "Kernel Blend": new Decimal(1),
+          // 120 XP to level 3 at 60 per Kernel Blend.
+          "Kernel Blend": new Decimal(2),
         },
         henHouse: {
           ...GAME_STATE.henHouse,
@@ -591,7 +594,7 @@ describe("feedAnimal", () => {
       },
     });
 
-    expect(state.henHouse.animals[chickenId].state).toBe("happy");
+    expect(state.henHouse.animals[chickenId].state).toBe("ready");
   });
 
   it("sets the state to sad not fed favourite food", () => {
@@ -1129,7 +1132,8 @@ describe("feedAnimal", () => {
           },
         },
         inventory: {
-          "Kernel Blend": new Decimal(3),
+          // The starter animal (80 XP) eats a batch of 2 feeds.
+          "Kernel Blend": new Decimal(6),
         },
       },
       action: {
@@ -1140,7 +1144,7 @@ describe("feedAnimal", () => {
       },
     });
 
-    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(1.5));
+    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(3));
   });
 
   it("takes 50% less food to feed a cow if Infernal Bullwhip is worn", () => {
@@ -1156,7 +1160,8 @@ describe("feedAnimal", () => {
           },
         },
         inventory: {
-          "Kernel Blend": new Decimal(5),
+          // The starter Cow (80 XP) eats a batch of 2 feeds.
+          "Kernel Blend": new Decimal(10),
         },
       },
       action: {
@@ -1167,7 +1172,7 @@ describe("feedAnimal", () => {
       },
     });
 
-    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(2.5));
+    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(5));
   });
 
   it("sets animal to ready state when completing a cycle at max level", () => {
@@ -1276,7 +1281,8 @@ describe("feedAnimal", () => {
         ...GAME_STATE,
         inventory: {
           ...GAME_STATE.inventory,
-          "Mixed Grain": new Decimal(1),
+          // 240 XP left in the cycle at 80 per Mixed Grain.
+          "Mixed Grain": new Decimal(3),
         },
         henHouse: {
           ...GAME_STATE.henHouse,
@@ -1303,11 +1309,10 @@ describe("feedAnimal", () => {
       },
     });
 
-    // Should be in happy state since we're mid-cycle
-    expect(state.henHouse.animals["0"].state).toBe("happy");
-    // Experience should continue accumulating
+    // One click finishes the second cycle
+    expect(state.henHouse.animals["0"].state).toBe("ready");
     expect(state.henHouse.animals["0"].experience).toBe(
-      maxLevelXP + cycleXP + 80 + 80,
+      maxLevelXP + cycleXP * 2,
     );
   });
 
@@ -1864,7 +1869,8 @@ describe("feedAnimal", () => {
       state: {
         ...GAME_STATE,
         inventory: {
-          "Kernel Blend": new Decimal(5),
+          // A level 0 Cow eats a batch of 3 feeds.
+          "Kernel Blend": new Decimal(15),
         },
         collectibles: {
           "Dr Cow": [
@@ -1895,7 +1901,7 @@ describe("feedAnimal", () => {
       },
     });
 
-    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(0.25));
+    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(0.75));
   });
 
   it("takes 5% less food to feed a cow or sheep if Collie Shrine is active", () => {
@@ -1904,7 +1910,8 @@ describe("feedAnimal", () => {
       state: {
         ...GAME_STATE,
         inventory: {
-          "Kernel Blend": new Decimal(5),
+          // A level 0 Cow eats a batch of 3 feeds.
+          "Kernel Blend": new Decimal(15),
         },
         collectibles: {
           "Collie Shrine": [
@@ -1935,7 +1942,7 @@ describe("feedAnimal", () => {
       },
     });
 
-    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(0.25));
+    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(0.75));
   });
 
   it("does not take 5% less food to feed Chicken if Collie Shrine is active", () => {
@@ -2024,7 +2031,8 @@ describe("feedAnimal", () => {
       state: {
         ...GAME_STATE,
         inventory: {
-          "Kernel Blend": new Decimal(5),
+          // A level 0 Cow eats a batch of 3 feeds.
+          "Kernel Blend": new Decimal(15),
         },
         collectibles: {
           "Bantam Shrine": [
@@ -2064,7 +2072,8 @@ describe("feedAnimal", () => {
       state: {
         ...GAME_STATE,
         inventory: {
-          "Kernel Blend": new Decimal(5),
+          // A level 0 Cow eats a batch of 3 feeds.
+          "Kernel Blend": new Decimal(15),
         },
         barn: {
           ...GAME_STATE.barn,
@@ -2086,7 +2095,7 @@ describe("feedAnimal", () => {
       },
     });
 
-    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(1.25));
+    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(3.75));
   });
 
   it("records Golden Cow in boostsUsedAt when feeding a cow for free", () => {
@@ -2517,10 +2526,40 @@ describe("getFeedBatchSize", () => {
     expect(batch(pig(ANIMAL_LEVELS.Pig[15] + 960 + 900))).toEqual(1);
   });
 
-  it("is always one for the other animals", () => {
-    (["Chicken", "Sheep", "Cow"] as const).forEach((type) =>
-      expect(batch({ ...pig(0), type })).toEqual(1),
-    );
+  it.each([
+    [0, 1, 3, 2],
+    [1, 1, 3, 2],
+    [2, 2, 6, 4],
+    [3, 2, 6, 4],
+    [4, 2, 6, 4],
+    [5, 3, 9, 6],
+    [6, 3, 9, 6],
+    [7, 3, 9, 6],
+    [8, 3, 9, 6],
+    [9, 4, 12, 8],
+    [10, 3, 9, 6],
+    [11, 3, 9, 6],
+    [12, 3, 9, 6],
+    [13, 3, 9, 6],
+    [14, 4, 12, 8],
+    [15, 4, 12, 8],
+  ] as const)(
+    "at level %s a Chicken asks for %s feeds, a Cow %s and a Sheep %s",
+    (level, chicken, cow, sheep) => {
+      const animal = (type: AnimalType) => ({
+        ...pig(ANIMAL_LEVELS[type][level]),
+        type,
+      });
+
+      expect(batch(animal("Chicken"))).toEqual(chicken);
+      expect(batch(animal("Cow"))).toEqual(cow);
+      expect(batch(animal("Sheep"))).toEqual(sheep);
+    },
+  );
+
+  it("asks a Cow only for what is left of the level", () => {
+    // 100 of the 180 XP to level 1 is done: 80 left at 60 per Kernel Blend.
+    expect(batch({ ...pig(100), type: "Cow" })).toEqual(2);
   });
 });
 
@@ -2697,6 +2736,113 @@ describe("feedAnimal: one-click Pig feeding", () => {
         createdAt: now,
       }),
     ).toThrow("This animal cannot eat this food");
+  });
+});
+
+describe("feedAnimal: one-click Chicken, Cow and Sheep feeding", () => {
+  const now = Date.now();
+  const PLACED = [
+    { coordinates: { x: 0, y: 0 }, createdAt: 0, id: "0", readyAt: 0 },
+  ];
+
+  const animal = (type: AnimalType, experience: number): Animal => ({
+    id: "1",
+    type,
+    state: "idle",
+    createdAt: 0,
+    experience,
+    asleepAt: 0,
+    awakeAt: 0,
+    lovedAt: 0,
+    item: "Petting Hand",
+  });
+
+  const farm = (
+    type: "Chicken" | "Cow" | "Sheep",
+    experience = 0,
+    food = 100,
+  ): GameState => {
+    const herd = { "1": animal(type, experience) };
+
+    return {
+      ...FARM_WITH_HERDS,
+      inventory: {
+        ...FARM_WITH_HERDS.inventory,
+        "Kernel Blend": new Decimal(food),
+        Hay: new Decimal(food),
+        NutriBarley: new Decimal(food),
+        "Mixed Grain": new Decimal(food),
+        "Green Beetle": new Decimal(5),
+      },
+      buildings: {
+        ...FARM_WITH_HERDS.buildings,
+        "Hen House": PLACED,
+        Barn: PLACED,
+      },
+      henHouse: {
+        ...FARM_WITH_HERDS.henHouse,
+        animals: type === "Chicken" ? herd : {},
+      },
+      barn: {
+        ...FARM_WITH_HERDS.barn,
+        animals: type === "Chicken" ? {} : herd,
+      },
+    };
+  };
+
+  const feed = (
+    state: GameState,
+    type: AnimalType,
+    item: AnimalFoodName | BeetleName,
+  ) =>
+    feedAnimal({
+      state,
+      action: { type: "animal.fed", animal: type, id: "1", item },
+      createdAt: now,
+    });
+
+  const fedAnimal = (state: GameState, type: AnimalType) =>
+    (type === "Chicken" ? state.henHouse : state.barn).animals["1"];
+
+  it.each([
+    ["Chicken", 0, "Kernel Blend", 1],
+    ["Cow", 0, "Kernel Blend", 15],
+    ["Sheep", 0, "Kernel Blend", 6],
+    ["Chicken", 9, "NutriBarley", 4],
+    ["Cow", 9, "NutriBarley", 60],
+    ["Sheep", 9, "NutriBarley", 24],
+  ] as const)(
+    "one click levels a %s up from level %s on %s, eating %s",
+    (type, level, food, eaten) => {
+      const state = feed(farm(type, ANIMAL_LEVELS[type][level]), type, food);
+      const fed = fedAnimal(state, type);
+
+      expect(fed.state).toBe("ready");
+      expect(getAnimalLevel(fed.experience, type)).toBe(level + 1);
+      expect(state.inventory[food]).toEqual(new Decimal(100 - eaten));
+    },
+  );
+
+  it("feeds another food in the same count, for its lower XP", () => {
+    // A level 0 Cow asks for 3 Kernel Blend feeds; 3 Hay feeds give 3 x 10 XP.
+    const state = feed(farm("Cow"), "Cow", "Hay");
+    const fed = fedAnimal(state, "Cow");
+
+    expect(fed.state).toBe("sad");
+    expect(fed.experience).toEqual(30);
+    expect(state.inventory.Hay).toEqual(new Decimal(85));
+  });
+
+  it("feeds nothing without the whole batch", () => {
+    expect(() => feed(farm("Cow", 0, 14), "Cow", "Kernel Blend")).toThrow(
+      "Player does not have enough Kernel Blend",
+    );
+  });
+
+  it("still feeds one Beetle per click", () => {
+    const state = feed(farm("Sheep"), "Sheep", "Green Beetle");
+
+    expect(state.inventory["Green Beetle"]).toEqual(new Decimal(4));
   });
 });
 
