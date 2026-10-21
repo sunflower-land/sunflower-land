@@ -1285,7 +1285,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
 
   "Traveling Merchant Suit": 587,
   "Traveling Merchant Bag": 588,
-  
+
   "Beetle Goggles": 589,
   "Duende Hat": 590,
   "Duende Shirt": 591,
