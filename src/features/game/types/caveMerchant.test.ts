@@ -21,6 +21,7 @@ import {
   roundCostDown,
 } from "./caveMerchant";
 import { getItemValue } from "./itemValue";
+import { ITEM_RECIPES } from "./itemValueSources";
 import type { InventoryItemName } from "./game";
 
 const HOUR = 60 * 60 * 1000;
@@ -120,13 +121,16 @@ describe("getCaveMerchantGenerosity", () => {
 });
 
 describe("roundCostDown", () => {
-  it("keeps two significant figures, rounding down", () => {
+  it("rounds down to a round number", () => {
     expect(roundCostDown(0.4)).toBe(1);
-    expect(roundCostDown(7.9)).toBe(7);
-    expect(roundCostDown(23)).toBe(23);
-    expect(roundCostDown(187)).toBe(180);
-    expect(roundCostDown(2_347)).toBe(2_300);
-    expect(roundCostDown(19_999)).toBe(19_000);
+    expect(roundCostDown(7.9)).toBe(6);
+    expect(roundCostDown(10)).toBe(10);
+    expect(roundCostDown(17)).toBe(15);
+    expect(roundCostDown(23)).toBe(20);
+    expect(roundCostDown(187)).toBe(150);
+    expect(roundCostDown(2_347)).toBe(2_000);
+    expect(roundCostDown(8_000)).toBe(8_000);
+    expect(roundCostDown(19_999)).toBe(15_000);
   });
 });
 
@@ -153,13 +157,13 @@ describe("getCaveMerchantOffers", () => {
     const offers = getCaveMerchantOffers(0);
     expect(offers[0]).toMatchObject({
       cost: { item: "Cabbage", amount: 100 },
-      reward: { item: "Iron", amount: 6 },
+      reward: { item: "Iron", amount: 5 },
       limit: 3,
       curiosity: false,
     });
     expect(offers[7]).toMatchObject({
-      cost: { item: "Crimstone", amount: 13 },
-      reward: { item: "Lemon Cheesecake", amount: 3 },
+      cost: { item: "Stone", amount: 300 },
+      reward: { item: "Kale & Mushroom Pie", amount: 20 },
       limit: 1,
       curiosity: true,
     });
@@ -183,7 +187,7 @@ describe("getCaveMerchantOffers", () => {
 
         // Favourable, by at least the visit's generosity and never absurdly.
         expect(rewardValue / costValue).toBeGreaterThanOrEqual(floor - 1e-9);
-        expect(rewardValue / costValue).toBeLessThanOrEqual(1.5);
+        expect(rewardValue / costValue).toBeLessThanOrEqual(2);
         expect(offer.generosity).toBeCloseTo(rewardValue / costValue, 9);
 
         // The reward sits in its slot's band.
@@ -208,6 +212,18 @@ describe("getCaveMerchantOffers", () => {
         );
         expect(rewards.has(offer.cost.item)).toBe(false);
         expect(laneOf(offer.reward.item)).not.toBe(lane);
+
+        // A dish is never bought with crops or fruit, nor with one of its
+        // own ingredients, and never a Fire Pit dish; Truffles never with crops.
+        const recipe = ITEM_RECIPES[offer.reward.item];
+        if (recipe?.kind === "food") {
+          expect(["crops", "fruit"]).not.toContain(lane);
+          expect(recipe.building).not.toBe("Fire Pit");
+          expect(Object.keys(recipe.ingredients)).not.toContain(
+            offer.cost.item,
+          );
+        }
+        if (offer.reward.item === "Truffle") expect(lane).not.toBe("crops");
 
         if (offer.curiosity) curiosities += 1;
       }

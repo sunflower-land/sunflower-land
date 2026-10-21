@@ -19,6 +19,8 @@ export type ItemRecipe = {
   ingredients: Partial<Record<InventoryItemName, Decimal>>;
   /** Cooking or crafting time, for the time premium. */
   seconds: number;
+  /** Where a dish is cooked; the Fire Pit's are the beginner tier. */
+  building?: string;
 };
 
 const sellPrices = (table: Record<string, { sellPrice: number }>) =>
@@ -42,9 +44,9 @@ export const ITEM_RECIPES: Partial<Record<InventoryItemName, ItemRecipe>> = {
   ...Object.fromEntries(
     Object.entries(COOKABLES)
       .filter(([, cookable]) => !cookable.disabled)
-      .map(([item, { ingredients, cookingSeconds }]) => [
+      .map(([item, { ingredients, cookingSeconds, building }]) => [
         item,
-        { kind: "food", ingredients, seconds: cookingSeconds },
+        { kind: "food", ingredients, seconds: cookingSeconds, building },
       ]),
   ),
   ...Object.fromEntries(

@@ -23,28 +23,28 @@ describe("getItemValue", () => {
   });
 
   it("rolls a tool up from its coins and ingredients", () => {
-    // Sand Drill: 40 coins + 1 Oil + 1 Crimstone + 3 Wood + 1 Leather.
-    expect(getItemValue("Sand Drill")).toBe(
-      40 +
-        BASE_VALUES.Oil +
-        BASE_VALUES.Crimstone +
-        3 * BASE_VALUES.Wood +
-        BASE_VALUES.Leather,
+    // Iron Pickaxe: 80 coins + 3 Wood + 5 Iron, no time.
+    expect(getItemValue("Iron Pickaxe")).toBe(
+      80 + 3 * BASE_VALUES.Wood + 5 * BASE_VALUES.Iron,
     );
   });
 
-  it("rolls food up through its recipe chain, with a time premium", () => {
+  it("prices a Sand Drill by use, not by its recipe", () => {
+    expect(getItemValue("Sand Drill")).toBe(BASE_VALUES["Sand Drill"]);
+  });
+
+  it("rolls food up through its recipe chain, halved, with a time premium", () => {
     // Cheese: 3 Milk, 20 minutes.
     const cheese = getItemValue("Cheese") as number;
     expect(cheese).toBeCloseTo(
-      3 * BASE_VALUES.Milk * (1 + (20 / 1440) * 0.25),
+      3 * BASE_VALUES.Milk * (1 + (20 / 1440) * 0.25) * 0.5,
       6,
     );
 
     // Pizza Margherita: 30 Tomato + 5 Cheese + 20 Wheat, 20 hours.
     const pizza = getItemValue("Pizza Margherita") as number;
     expect(pizza).toBeCloseTo(
-      (30 * 2 + 5 * cheese + 20 * 7) * (1 + (20 / 24) * 0.25),
+      (30 * 2 + 5 * cheese + 20 * 7) * (1 + (20 / 24) * 0.25) * 0.5,
       6,
     );
   });

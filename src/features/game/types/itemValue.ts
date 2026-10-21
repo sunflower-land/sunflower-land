@@ -16,44 +16,51 @@ import {
  * from the marketplace, so the Goblin Cave Merchant's offers stay stable
  * between visits and both repos agree on them. These are the numbers to tune.
  *
- * Produce: "worth the feed that made it" - the crops to level the animal
- * 0 -> 15 on its favourite food at sell price, over its produce, with the
- * secondary drop at twice the primary (ticket 370's crop counts).
- * Beetles: worth the Cow feeding they replace (BEETLE_FEEDING_XP against 60 XP
- * for 5 Corn), so they double with rarity.
- * Mushrooms: 1 Wild Mushroom = 2 Wheat (the Slop lane, pigFeeds.ts); a Magic
- * Mushroom is 10 Wild Mushrooms, the Cave's spawn ratio (one Mushroom tile
- * in ten is Magic, cavePatch.ts). The island is kinder, 5 Wild per 16h to
- * 3 Magic per 36h, so this errs high.
- * Mud: between its input (10 Carrots per 40 Mud) and its use (10 Mud is a
- * quarter more XP on three feeds).
- * Resources: the tool chain's ratios (a Stone's Pickaxe, an Iron's Stone
- * Pickaxe, ...) with Stone at two Kale; Obsidian from the Lava Pit's inputs
- * and Sunstone as three Obsidian (exchangeObsidian.ts).
+ * Round 2 (Bryn's trade-sheet review, 2026-10-21): the table is a
+ * least-squares fit, in log space, to the 39 trades Bryn priced by hand, with
+ * plants fixed at sell price, then rounded. The original chains are kept
+ * below as the sanity check for each.
+ *
+ * Produce: roughly the feed that made it (Egg 10, Milk 90); Leather is what a
+ * Cow and a few Corn cost, about a Gold, and the wools sit low because they
+ * have weak sinks (Merino barely above Wool).
+ * Beetles: the Cow feeding they replace (BEETLE_FEEDING_XP), doubling with
+ * rarity, so Pink and Amber are asked for in fives.
+ * Mushrooms: both are free spawns on a timer, so neither carries its recipe
+ * weight: Magic at 60 (Bryn: ~50), Wild at 40 so Oil asks for a few, not a
+ * dozen.
+ * Mud: 40 Mud for 5 Merino Wool.
+ * Resources: Gold is 15 Eggs or 1,000 Potatoes; Iron 160 Soybeans for 10;
+ * Crimstone 10 Wool; Obsidian 400 Turnips. Wood and Stone are set by ratio
+ * (Stone a third of Iron, Wood a third of Stone), not the coin chain: taken
+ * literally an Axe makes Wood 20 and the chain puts Gold at 2,540, which
+ * none of Bryn's rows support. Sunstone stays three Obsidian.
+ * Sand Drill: a use value, not its recipe (966) - a Sand Shovel does the job.
  */
 export const BASE_VALUES = {
-  Wood: 2,
-  Stone: 5,
-  Iron: 30,
-  Gold: 160,
-  Crimstone: 500,
-  Oil: 230,
+  Wood: 5,
+  Stone: 15,
+  Iron: 40,
+  Gold: 180,
+  Crimstone: 550,
+  Oil: 160,
   Obsidian: 4000,
   Sunstone: 12000,
 
-  Egg: 8,
-  Feather: 16,
-  Wool: 38,
-  "Merino Wool": 76,
-  Milk: 95,
-  Leather: 190,
-  Honey: 40,
-  Truffle: 110,
+  Egg: 10,
+  Feather: 20,
+  Wool: 30,
+  "Merino Wool": 35,
+  Milk: 90,
+  Leather: 120,
+  Honey: 35,
+  Truffle: 80,
   "Pig Bristles": 20,
 
-  Mud: 2,
-  "Wild Mushroom": 14,
-  "Magic Mushroom": 140,
+  Mud: 4,
+  "Wild Mushroom": 40,
+  "Magic Mushroom": 60,
+  "Sand Drill": 120,
   "Green Beetle": BEETLE_FEEDING_XP["Green Beetle"] * 0.75,
   "Blue Beetle": BEETLE_FEEDING_XP["Blue Beetle"] * 0.75,
   "Pink Beetle": BEETLE_FEEDING_XP["Pink Beetle"] * 0.75,
@@ -67,6 +74,13 @@ export const BASE_VALUES = {
  */
 const TIME_PREMIUM_PER_DAY = 0.25;
 const MAX_TIME_PREMIUM = 2;
+
+/**
+ * A dish is worth about half its ingredients: XP has an infinite sink and the
+ * dish cannot be traded on, so 5 Gold buys 5 Beetroot Cakes (Bryn's sheet
+ * fitted 0.49).
+ */
+const FOOD_VALUE_FACTOR = 0.5;
 
 const DAY_SECONDS = 24 * 60 * 60;
 
@@ -111,7 +125,7 @@ function computeItemValue(item: InventoryItemName): number | undefined {
     1 + (recipe.seconds / DAY_SECONDS) * TIME_PREMIUM_PER_DAY,
   );
 
-  return total * premium;
+  return total * premium * (recipe.kind === "food" ? FOOD_VALUE_FACTOR : 1);
 }
 
 /** True when the item has an in-game value the Merchant can price with. */

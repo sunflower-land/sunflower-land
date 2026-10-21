@@ -228,12 +228,15 @@ const CURIOSITY_TOOLS: InventoryItemName[] = [
 ];
 
 /**
- * The curiosities: every cooked dish with a recipe, plus the tools above,
- * sorted by name so the pool's order never depends on a table's order.
+ * The curiosities: every cooked dish past the Fire Pit (the beginner tier is
+ * no prize), plus the tools above, sorted by name so the pool's order never
+ * depends on a table's order.
  */
 const CURIOSITIES: InventoryItemName[] = [
   ...(Object.keys(ITEM_RECIPES) as InventoryItemName[]).filter(
-    (item) => ITEM_RECIPES[item]?.kind === "food",
+    (item) =>
+      ITEM_RECIPES[item]?.kind === "food" &&
+      ITEM_RECIPES[item]?.building !== "Fire Pit",
   ),
   ...CURIOSITY_TOOLS,
 ]
@@ -276,7 +279,7 @@ export const CAVE_MERCHANT_LANES: Record<
       "Leather",
       "Honey",
     ],
-    minAmount: 10,
+    minAmount: 5,
   },
   cave: {
     items: [
@@ -287,11 +290,11 @@ export const CAVE_MERCHANT_LANES: Record<
       "Pink Beetle",
       "Amber Beetle",
     ],
-    minAmount: 10,
+    minAmount: 5,
   },
   resources: {
     items: ["Wood", "Stone", "Iron", "Gold", "Crimstone", "Oil"],
-    minAmount: 10,
+    minAmount: 5,
   },
 };
 
@@ -376,11 +379,48 @@ export const CAVE_MERCHANT_WEEKLY_GATHER: Partial<
 // ---------------------------------------------------------------------------
 // Generation
 
-/** Rounds down to two significant figures, so 2,347 reads as 2,300. */
+/** Costs read as round numbers: 15, 30, 200, 800, 1,000. */
+const ROUND_COSTS = [1, 1.5, 2, 3, 4, 5, 6, 8];
+
+/** Rounds down to the nearest round number, so 2,347 reads as 2,000. */
 export function roundCostDown(amount: number): number {
-  if (amount < 10) return Math.max(1, Math.floor(amount));
-  const magnitude = 10 ** (Math.floor(Math.log10(amount)) - 1);
-  return Math.floor(amount / magnitude) * magnitude;
+  if (amount < 1) return 1;
+  const magnitude = 10 ** Math.floor(Math.log10(amount));
+  const leading = amount / magnitude;
+  const step = [...ROUND_COSTS].reverse().find((n) => n <= leading + 1e-9) ?? 1;
+  return Math.round(step * magnitude);
+}
+
+/** Everything that goes into an item, down through its recipe. */
+function ingredientsOf(item: InventoryItemName): Set<InventoryItemName> {
+  const found = new Set<InventoryItemName>();
+  const walk = (name: InventoryItemName) => {
+    for (const ingredient of Object.keys(
+      ITEM_RECIPES[name]?.ingredients ?? {},
+    )) {
+      if (found.has(ingredient as InventoryItemName)) continue;
+      found.add(ingredient as InventoryItemName);
+      walk(ingredient as InventoryItemName);
+    }
+  };
+  walk(item);
+  return found;
+}
+
+/**
+ * Which lanes may pay for a reward. A dish is never bought with crops or
+ * fruit (that is cooking with extra steps, and lets the player price it
+ * apples to apples); Truffles are never bought with crops (that is feeding
+ * the Pigs with extra steps). Produce, resources and the Cave for both.
+ */
+function costLanesFor(reward: RewardDraw): CaveMerchantLane[] {
+  const dish = ITEM_RECIPES[reward.item]?.kind === "food";
+  return LANE_NAMES.filter(
+    (lane) =>
+      lane !== reward.lane &&
+      !(dish && (lane === "crops" || lane === "fruit")) &&
+      !(reward.item === "Truffle" && lane === "crops"),
+  );
 }
 
 /** Draws an index in [0, length). */
@@ -449,10 +489,10 @@ type CostDraw = {
 };
 
 /**
- * The cost for a reward: a lane other than the reward's, then an item in it
- * whose bulk is at least the lane's floor and at most a week's gathering.
- * Lanes are drawn evenly, so the crop lane's size does not drown out the
- * others.
+ * The cost for a reward: a lane other than the reward's (`costLanesFor`),
+ * then an item in it, never one of the reward's own ingredients, whose bulk
+ * is at least the lane's floor and at most a week's gathering. Lanes are
+ * drawn evenly, so the crop lane's size does not drown out the others.
  */
 function drawCost(
   random: () => number,
@@ -460,22 +500,21 @@ function drawCost(
   generosity: number,
   excluded: Set<InventoryItemName>,
 ): CostDraw {
-  const options = LANE_NAMES.filter((lane) => lane !== reward.lane).map(
-    (lane) => ({
-      lane,
-      items: CAVE_MERCHANT_LANES[lane].items.flatMap((item) => {
-        if (excluded.has(item)) return [];
-        const value = getItemValue(item);
-        if (value === undefined || value <= 0) return [];
-        const amount = roundCostDown(reward.value / (generosity * value));
-        const { minAmount } = CAVE_MERCHANT_LANES[lane];
-        const maxAmount = CAVE_MERCHANT_WEEKLY_GATHER[item] ?? 0;
-        return amount >= minAmount && amount <= maxAmount
-          ? [{ item, amount }]
-          : [];
-      }),
+  const ingredients = ingredientsOf(reward.item);
+  const options = costLanesFor(reward).map((lane) => ({
+    lane,
+    items: CAVE_MERCHANT_LANES[lane].items.flatMap((item) => {
+      if (excluded.has(item) || ingredients.has(item)) return [];
+      const value = getItemValue(item);
+      if (value === undefined || value <= 0) return [];
+      const amount = roundCostDown(reward.value / (generosity * value));
+      const { minAmount } = CAVE_MERCHANT_LANES[lane];
+      const maxAmount = CAVE_MERCHANT_WEEKLY_GATHER[item] ?? 0;
+      return amount >= minAmount && amount <= maxAmount
+        ? [{ item, amount }]
+        : [];
     }),
-  );
+  }));
 
   const lanes = options.filter((option) => option.items.length > 0);
   // Two draws whether or not a lane fits, so later slots never shift.
@@ -488,7 +527,12 @@ function drawCost(
     const fallback = options
       .flatMap(({ lane }) =>
         CAVE_MERCHANT_LANES[lane].items
-          .filter((item) => !excluded.has(item) && getItemValue(item))
+          .filter(
+            (item) =>
+              !excluded.has(item) &&
+              !ingredients.has(item) &&
+              getItemValue(item),
+          )
           .map((item) => ({ lane, item, value: getItemValue(item) as number })),
       )
       .sort((a, b) => a.value - b.value)[0];
