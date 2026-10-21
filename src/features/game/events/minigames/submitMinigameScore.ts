@@ -1,7 +1,6 @@
 import type { GameState } from "features/game/types/game";
 import {
   type MinigameName,
-  REPEATABLE_PRIZE_MINIGAMES,
   SUPPORTED_MINIGAMES,
 } from "features/game/types/minigames";
 import { produce } from "immer";
@@ -69,15 +68,6 @@ export function submitMinigameScore({
       prize &&
       action.id === "easter-eggstravaganza" &&
       action.score > prize.score
-    ) {
-      delete minigames.games[action.id]?.history[todayKey].prizeClaimedAt;
-    }
-
-    // Each run that reaches the target earns one more claim
-    if (
-      prize &&
-      REPEATABLE_PRIZE_MINIGAMES.includes(action.id) &&
-      action.score >= prize.score
     ) {
       delete minigames.games[action.id]?.history[todayKey].prizeClaimedAt;
     }

@@ -50,13 +50,3 @@ export const SUPPORTED_MINIGAMES: MinigameName[] = [
   "colors-2026",
   "halloween-2026-game-2",
 ];
-
-/**
- * Event minigames whose prize can be claimed again after every run that
- * reaches the target score - one claim per qualifying run, no daily cap.
- * The claim re-opens in submitMinigameScore; claimMinigamePrize always
- * refuses a second claim, so don't special-case a minigame there.
- */
-export const REPEATABLE_PRIZE_MINIGAMES: MinigameName[] = [
-  "halloween-2026-game-2",
-];
