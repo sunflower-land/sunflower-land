@@ -24,86 +24,87 @@ export type CaveTier = {
 const HOUR_MS = 60 * 60 * 1000;
 
 // Costs: discussion #7721 Balance Update (7 Oct 2026) — Coins, Mud, Wood and
-// Stone every tier, Leather at III–IV, Pig Bristles from V. Mud rebalanced
-// after the Chapter 16 alpha (Bryn, Oct 2026): doubles up to the 1000s, then
-// x1.5. TODO(Cave balance 465): construction times are still invented
-// placeholders.
+// Stone every tier, Leather at III–IV, Pig Bristles from V. Mud rescaled
+// (Bryn, 2026-10-21) to start at 80 and keep the alpha shape: doubling to
+// tier V, then x1.5, tier VIII rounded to 2,200. At 20 Mud per 12h batch, Mud is the real gate on every
+// tier, so build times (settled 2026-10-21, 2h → 48h) are set for feel: each
+// step at most 2x, capped under the late-island land expansions.
 export const CAVE_TIERS: Record<CaveExpansionTier, CaveTier> = {
   2: {
     island: "desert",
     coins: 500,
     ingredients: {
-      Mud: new Decimal(200),
+      Mud: new Decimal(80),
       Wood: new Decimal(25),
       Stone: new Decimal(10),
     },
-    buildMs: 4 * HOUR_MS,
+    buildMs: 2 * HOUR_MS,
   },
   3: {
     island: "volcano",
     coins: 1000,
     ingredients: {
-      Mud: new Decimal(400),
+      Mud: new Decimal(160),
       Wood: new Decimal(50),
       Stone: new Decimal(25),
       Leather: new Decimal(10),
     },
-    buildMs: 8 * HOUR_MS,
+    buildMs: 4 * HOUR_MS,
   },
   4: {
     island: "swamp",
     coins: 2500,
     ingredients: {
-      Mud: new Decimal(800),
+      Mud: new Decimal(320),
       Wood: new Decimal(75),
       Stone: new Decimal(50),
       Leather: new Decimal(15),
     },
-    buildMs: 12 * HOUR_MS,
+    buildMs: 8 * HOUR_MS,
   },
   5: {
     island: "spooky",
     coins: 5000,
     ingredients: {
-      Mud: new Decimal(1600),
+      Mud: new Decimal(640),
       Wood: new Decimal(100),
       Stone: new Decimal(75),
       "Pig Bristles": new Decimal(20),
     },
-    buildMs: 24 * HOUR_MS,
+    buildMs: 12 * HOUR_MS,
   },
   6: {
     island: "crystal",
     coins: 10_000,
     ingredients: {
-      Mud: new Decimal(2400),
+      Mud: new Decimal(960),
       Wood: new Decimal(150),
       Stone: new Decimal(100),
       "Pig Bristles": new Decimal(30),
     },
-    buildMs: 36 * HOUR_MS,
+    buildMs: 24 * HOUR_MS,
   },
   7: {
     island: "galaxy",
     coins: 20_000,
     ingredients: {
-      Mud: new Decimal(3600),
+      Mud: new Decimal(1440),
       Wood: new Decimal(200),
       Stone: new Decimal(150),
       "Pig Bristles": new Decimal(40),
     },
-    buildMs: 48 * HOUR_MS,
+    buildMs: 36 * HOUR_MS,
   },
   8: {
     island: "marble",
     coins: 40_000,
     ingredients: {
-      Mud: new Decimal(5400),
+      Mud: new Decimal(2200),
       Wood: new Decimal(250),
       Stone: new Decimal(200),
       "Pig Bristles": new Decimal(50),
     },
-    buildMs: 72 * HOUR_MS,
+    buildMs: 48 * HOUR_MS,
   },
 };
 

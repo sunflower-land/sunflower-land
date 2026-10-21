@@ -238,7 +238,7 @@ describe("feedMixed: Pig Slops", () => {
       state: {
         ...INITIAL_FARM,
         inventory: {
-          Sunflower: new Decimal(1200),
+          Sunflower: new Decimal(2200),
           Potato: new Decimal(100),
         },
       },
@@ -272,7 +272,7 @@ describe("feedMixed: Pig Slops", () => {
   it("needs enough of the chosen input", () => {
     expect(() =>
       feedMixed({
-        state: { ...INITIAL_FARM, inventory: { Sunflower: new Decimal(499) } },
+        state: { ...INITIAL_FARM, inventory: { Sunflower: new Decimal(999) } },
         action: {
           type: "feed.mixed",
           item: "Basic Slop",
@@ -285,7 +285,7 @@ describe("feedMixed: Pig Slops", () => {
   it("needs an input", () => {
     expect(() =>
       feedMixed({
-        state: { ...INITIAL_FARM, inventory: { Sunflower: new Decimal(500) } },
+        state: { ...INITIAL_FARM, inventory: { Sunflower: new Decimal(1000) } },
         action: { type: "feed.mixed", item: "Basic Slop" },
       }),
     ).toThrow("Invalid ingredient");
@@ -319,7 +319,7 @@ describe("feedMixed: Pig Slops", () => {
         ...INITIAL_FARM,
         inventory: {
           Wheat: new Decimal(5),
-          Tomato: new Decimal(9),
+          Tomato: new Decimal(18),
         },
       },
       action: {
@@ -354,7 +354,7 @@ describe("feedMixed: Pig Slops", () => {
         feedMixed({
           state: {
             ...INITIAL_FARM,
-            inventory: { Sunflower: new Decimal(500) },
+            inventory: { Sunflower: new Decimal(1000) },
           },
           action: {
             type: "feed.mixed",

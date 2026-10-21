@@ -7,6 +7,7 @@ import {
 } from "./buyAnimal";
 import type { Animal } from "features/game/types/game";
 import type { AnimalType } from "features/game/types/animals";
+import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 
 export function makeAnimals(count: number, type: AnimalType) {
   return new Array(count)
@@ -312,6 +313,46 @@ describe("getAnimalCapacity", () => {
         },
       }).capacity,
     ).toBe(35);
+  });
+});
+
+describe("buyAnimal: Pig", () => {
+  // The Pig's level lock is the Pigpen's own (Bryn, 2026-10-21).
+  const buyPig = (experience: number) =>
+    buyAnimal({
+      state: {
+        ...TEST_FARM,
+        coins: 1000,
+        bumpkin: { ...INITIAL_BUMPKIN, experience },
+        buildings: {
+          Pigpen: [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+        pigpen: { level: 1, animals: {} },
+      },
+      action: {
+        id: "0",
+        animal: "Pig",
+        type: "animal.bought",
+      },
+    });
+
+  it("throws below the Pigpen's unlock level of 30", () => {
+    expect(() => buyPig(LEVEL_EXPERIENCE[29])).toThrow(
+      "Your bumpkin is not at the required level of 30",
+    );
+  });
+
+  it("sells a Pig at level 30", () => {
+    const state = buyPig(LEVEL_EXPERIENCE[30]);
+
+    expect(state.pigpen.animals["0"]).toMatchObject({ type: "Pig" });
   });
 });
 

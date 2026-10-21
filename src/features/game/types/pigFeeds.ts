@@ -81,79 +81,87 @@ const TIER_4_CRUSTACEANS = [
   "Horseshoe Crab",
 ] as const satisfies readonly InventoryItemName[];
 
-const eachOne = (items: readonly InventoryItemName[]) =>
-  Object.fromEntries(items.map((item) => [item, 1])) as Partial<
+const each = (quantity: number, items: readonly InventoryItemName[]) =>
+  Object.fromEntries(items.map((item) => [item, quantity])) as Partial<
     Record<InventoryItemName, number>
   >;
 
 /**
- * The four Pig feeds (#7721 Generic Pig feeding). Crop quantities follow the
- * spec's weight = sqrt(seed price x grow minutes) rule, anchored on 10 Carrots
- * / 3 Cauliflower / 1 Wheat. Items not listed (event crops such as Saltwort
- * and Crystal Leaf, marine marvels, chapter fish) are not Pig food.
+ * The four Pig feeds (#7721 Generic Pig feeding). Crop and fruit quantities
+ * follow the spec's weight = sqrt(seed price x grow minutes) rule, anchored on
+ * 20 Carrots / 6 Cauliflower / 2 Wheat: #7721's 10 / 3 / 1 anchors doubled
+ * (Bryn, 2026-10-21) so a crop-fed Pig costs roughly half to four fifths of a
+ * Cow rather than a fifth to two fifths. The foraged lanes (fish, mushrooms,
+ * crustaceans) stay at one item: they are time-gated, not seed-priced, and
+ * cross-system feeding is the point of them. Items not listed (event crops
+ * such as Saltwort and Crystal Leaf, marine marvels, chapter fish) are not
+ * Pig food.
  */
 export const PIG_FEEDS: Record<PigFeedName, PigFeed> = {
   "Basic Slop": {
     tier: 1,
     ingredients: {
-      Sunflower: 500,
-      Potato: 80,
-      Rhubarb: 40,
-      Pumpkin: 20,
-      Zucchini: 20,
-      Carrot: 10,
-      Yam: 10,
-      Cabbage: 5,
-      Broccoli: 5,
-      Soybean: 3,
+      Sunflower: 1000,
+      Potato: 160,
+      Rhubarb: 80,
+      Pumpkin: 40,
+      Zucchini: 40,
+      Carrot: 20,
+      Yam: 20,
+      Cabbage: 10,
+      Broccoli: 10,
+      Soybean: 6,
     },
   },
   "Hearty Slop": {
     tier: 2,
     ingredients: {
-      Beetroot: 5,
-      Pepper: 5,
-      Cauliflower: 3,
-      Parsnip: 2,
-      Tomato: 9,
-      Lemon: 4,
-      Blueberry: 2,
+      Beetroot: 10,
+      Pepper: 10,
+      Cauliflower: 6,
+      Parsnip: 4,
+      Tomato: 18,
+      Lemon: 8,
+      Blueberry: 4,
     },
   },
   "Rich Slop": {
     tier: 3,
-    ingredients: eachOne([
-      "Eggplant",
-      "Corn",
-      "Onion",
-      "Wheat",
-      "Turnip",
-      "Radish",
-      "Kale",
-      "Artichoke",
-      "Barley",
-      "Orange",
-      "Apple",
-      "Banana",
-      ...BASIC_FISH,
-      "Wild Mushroom",
-      "Isopod",
-      "Barnacle",
-    ]),
+    ingredients: {
+      ...each(2, [
+        "Eggplant",
+        "Corn",
+        "Onion",
+        "Wheat",
+        "Turnip",
+        "Radish",
+        "Kale",
+        "Artichoke",
+        "Barley",
+        "Orange",
+        "Apple",
+        "Banana",
+      ]),
+      ...each(1, [...BASIC_FISH, "Wild Mushroom", "Isopod", "Barnacle"]),
+    },
   },
   "Gourmet Slop": {
     tier: 4,
-    ingredients: eachOne([
-      "Rice",
-      "Olive",
-      "Grape",
-      "Celestine",
-      "Lunara",
-      "Duskberry",
-      ...ADVANCED_AND_EXPERT_FISH,
-      "Magic Mushroom",
-      ...TIER_4_CRUSTACEANS,
-    ]),
+    ingredients: {
+      ...each(2, [
+        "Rice",
+        "Olive",
+        "Grape",
+        "Celestine",
+        "Lunara",
+        "Duskberry",
+      ]),
+      ...each(1, [
+        ...ADVANCED_AND_EXPERT_FISH,
+        "Magic Mushroom",
+        ...TIER_4_CRUSTACEANS,
+      ]),
+    },
   },
 };
 
