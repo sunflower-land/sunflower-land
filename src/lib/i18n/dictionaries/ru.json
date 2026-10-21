@@ -8656,7 +8656,6 @@
   "cave.batch.start": "Start",
   "cave.batch.growing": "Growing",
   "cave.batch.ready": "Ready to dig!",
-  "cave.batch.finishNow": "Finish now",
   "auction.addToCalendar": "Add to calendar",
   "auction.calendarEventTitle": "Sunflower Land auction: {{item}}",
   "gameOptions.experiments.auctionCalendar": "Auction calendar",
@@ -8669,8 +8668,6 @@
   "cave.dig.cleared": "Patch cleared",
   "cave.expand.title": "Expand the Cave",
   "cave.expand.expand": "Expand",
-  "cave.expand.building": "Expanding",
-  "cave.expand.confirmFinish": "Instantly finish this expansion?",
   "cave.expand.ready": "Expansion ready!",
   "cave.expand.complete": "Open it up",
   "cave.merchant.title": "Goblin Cave Merchant",
@@ -8851,5 +8848,9 @@
   "description.bigBadWolf": "He'll huff, and he'll puff...",
   "description.pigPlush": "A soft little Pig to cuddle.",
   "description.pigDoll": "A tiny Pig figure on its very own pedestal.",
-  "cave.tutorial.wait.firstBatch": "Now we wait. Patches usually take {{fullTime}} to grow, but your first one's on the house: just {{time}}!"
+  "cave.tutorial.wait.firstBatch": "Now we wait. Patches usually take {{fullTime}} to grow, but your first one's on the house: just {{time}}!",
+  "cave.dig.mushroomsFound": "Mushrooms found: {{found}}/{{total}}",
+  "cave.dig.allMushroomsFound": "All Mushrooms found!",
+  "cave.expand.unlocks": "Unlocks",
+  "cave.expand.patchDescription": "Another 5x5 patch to grow and dig a mix in."
 }

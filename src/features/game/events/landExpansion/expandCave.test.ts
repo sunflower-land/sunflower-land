@@ -69,7 +69,15 @@ describe("CAVE_TIERS", () => {
     expect(CAVE_MAX_TIER).toBe(8);
   });
 
-  it("charges the #7721 Balance Update costs at every tier", () => {
+  it("builds each tier in 2h to 48h", () => {
+    const hours = Object.fromEntries(
+      TIERS.map((tier) => [tier, CAVE_TIERS[tier].buildMs / (60 * 60 * 1000)]),
+    );
+
+    expect(hours).toEqual({ 2: 2, 3: 4, 4: 8, 5: 12, 6: 24, 7: 36, 8: 48 });
+  });
+
+  it("charges the #7721 costs with the 2026-10-21 Mud rescale at every tier", () => {
     const costs = Object.fromEntries(
       TIERS.map((tier) => [
         tier,
@@ -86,27 +94,27 @@ describe("CAVE_TIERS", () => {
     );
 
     expect(costs).toEqual({
-      2: { coins: 500, Mud: 200, Wood: 25, Stone: 10 },
-      3: { coins: 1_000, Mud: 400, Wood: 50, Stone: 25, Leather: 10 },
-      4: { coins: 2_500, Mud: 800, Wood: 75, Stone: 50, Leather: 15 },
-      5: { coins: 5_000, Mud: 1_600, Wood: 100, Stone: 75, "Pig Bristles": 20 },
+      2: { coins: 500, Mud: 80, Wood: 25, Stone: 10 },
+      3: { coins: 1_000, Mud: 160, Wood: 50, Stone: 25, Leather: 10 },
+      4: { coins: 2_500, Mud: 320, Wood: 75, Stone: 50, Leather: 15 },
+      5: { coins: 5_000, Mud: 640, Wood: 100, Stone: 75, "Pig Bristles": 20 },
       6: {
         coins: 10_000,
-        Mud: 2_400,
+        Mud: 960,
         Wood: 150,
         Stone: 100,
         "Pig Bristles": 30,
       },
       7: {
         coins: 20_000,
-        Mud: 3_600,
+        Mud: 1_440,
         Wood: 200,
         Stone: 150,
         "Pig Bristles": 40,
       },
       8: {
         coins: 40_000,
-        Mud: 5_400,
+        Mud: 2_200,
         Wood: 250,
         Stone: 200,
         "Pig Bristles": 50,
