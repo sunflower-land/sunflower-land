@@ -522,6 +522,97 @@ describe("layouts lib (applyFarmLayout)", () => {
     expect(result.bumpkin.flipped).toEqual(true);
   });
 
+  it("preserves buds, pet NFTs and farmhands placed outside the farm", () => {
+    const saved = withSavedLayout({
+      ...baseFarm,
+      buds: {
+        1: { ...BUD, coordinates: { x: 1, y: 1 }, location: "home" },
+      },
+      pets: {
+        nfts: {
+          1: {
+            ...petNFT({ x: 2, y: 2 }),
+            location: "petHouse" as const,
+          },
+        },
+      },
+      farmHands: {
+        bumpkins: {
+          "fh-1": {
+            equipped: EQUIPPED,
+            coordinates: { x: 3, y: 3 },
+            location: "home",
+          },
+        },
+      },
+    });
+
+    const result = applyLayout({ state: cloneDeep(saved) });
+
+    expect(result.buds![1]).toMatchObject({
+      coordinates: { x: 1, y: 1 },
+      location: "home",
+    });
+    expect(result.pets!.nfts![1]).toMatchObject({
+      coordinates: { x: 2, y: 2 },
+      location: "petHouse",
+    });
+    expect(result.farmHands.bumpkins["fh-1"]).toMatchObject({
+      coordinates: { x: 3, y: 3 },
+      location: "home",
+    });
+  });
+
+  it("does not pull layout entities out of other locations", () => {
+    const saved = withSavedLayout({
+      ...baseFarm,
+      buds: {
+        1: { ...BUD, coordinates: { x: 1, y: 1 }, location: "farm" },
+      },
+      pets: { nfts: { 1: petNFT({ x: 2, y: 2 }) } },
+      farmHands: {
+        bumpkins: {
+          "fh-1": {
+            equipped: EQUIPPED,
+            coordinates: { x: 3, y: 3 },
+            location: "farm",
+          },
+        },
+      },
+    });
+    const moved = cloneDeep(saved);
+    moved.buds![1] = {
+      ...moved.buds![1],
+      coordinates: { x: -1, y: -1 },
+      location: "home",
+    };
+    moved.pets!.nfts![1] = {
+      ...moved.pets!.nfts![1],
+      coordinates: { x: -2, y: -2 },
+      location: "petHouse",
+    };
+    moved.farmHands.bumpkins["fh-1"] = {
+      ...moved.farmHands.bumpkins["fh-1"],
+      coordinates: { x: -3, y: -3 },
+      location: "home",
+    };
+
+    const result = applyLayout({ state: moved });
+
+    expect(result.buds![1]).toMatchObject({
+      coordinates: { x: -1, y: -1 },
+      location: "home",
+    });
+    expect(result.pets!.nfts![1]).toMatchObject({
+      coordinates: { x: -2, y: -2 },
+      location: "petHouse",
+    });
+    expect(result.farmHands.bumpkins["fh-1"]).toMatchObject({
+      coordinates: { x: -3, y: -3 },
+      location: "home",
+    });
+  });
+
   it("places farmhands by count, ignoring the saved id", () => {
     const saved = withSavedLayout({
       ...baseFarm,
