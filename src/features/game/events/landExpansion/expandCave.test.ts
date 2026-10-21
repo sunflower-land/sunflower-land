@@ -69,6 +69,14 @@ describe("CAVE_TIERS", () => {
     expect(CAVE_MAX_TIER).toBe(8);
   });
 
+  it("builds each tier in 2h to 48h", () => {
+    const hours = Object.fromEntries(
+      TIERS.map((tier) => [tier, CAVE_TIERS[tier].buildMs / (60 * 60 * 1000)]),
+    );
+
+    expect(hours).toEqual({ 2: 2, 3: 4, 4: 8, 5: 12, 6: 24, 7: 36, 8: 48 });
+  });
+
   it("charges the #7721 costs with the 2026-10-21 Mud rescale at every tier", () => {
     const costs = Object.fromEntries(
       TIERS.map((tier) => [

@@ -501,6 +501,36 @@ describe("upgradeBuilding", () => {
   });
 });
 
+describe("Pigpen upgrades", () => {
+  // Priced per added slot (Bryn, 2026-10-21), with Mud on top.
+  it("charges the per-slot costs", () => {
+    expect(BUILDING_UPGRADES.Pigpen).toEqual({
+      1: { coins: 0, items: {} },
+      2: {
+        coins: 5000,
+        items: {
+          Wood: new Decimal(450),
+          Iron: new Decimal(45),
+          Gold: new Decimal(35),
+          Crimstone: new Decimal(12),
+          Mud: new Decimal(25),
+        },
+      },
+      3: {
+        coins: 37500,
+        items: {
+          Wood: new Decimal(2250),
+          Iron: new Decimal(135),
+          Gold: new Decimal(90),
+          Crimstone: new Decimal(50),
+          Oil: new Decimal(100),
+          Mud: new Decimal(100),
+        },
+      },
+    });
+  });
+});
+
 describe("getMaxBuildingUpgradeLevel", () => {
   it("uses the largest numeric tier key, not the number of entries", () => {
     expect(

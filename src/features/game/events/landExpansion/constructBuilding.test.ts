@@ -919,6 +919,12 @@ describe("constructBuilding: Cave", () => {
     );
   });
 
+  it("takes an hour to build the entrance", () => {
+    const state = build(farm);
+
+    expect(state.buildings.Cave?.[0].readyAt).toEqual(dateNow + 60 * 60 * 1000);
+  });
+
   it("charges the Cave blueprint", () => {
     const state = build(farm);
 
