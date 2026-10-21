@@ -52,7 +52,7 @@ export const CaveMachineModal: React.FC<Props> = ({
     <Modal show onHide={onClose}>
       <CloseButtonPanel onClose={onClose} container={OuterPanel}>
         {isGrowing && batch && <CaveBatchGrowing batch={batch} now={now} />}
-        {isReady && batch && <CaveBatchReady batch={batch} />}
+        {isReady && batch && <CaveBatchReady batch={batch} onDig={onClose} />}
         {isIdle && (
           <CaveMixPicker
             machineId={machineId}
