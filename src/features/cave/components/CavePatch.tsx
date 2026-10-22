@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useMemo, useRef, useState } from "react";
 
 import { Context } from "features/game/GameProvider";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
@@ -26,6 +26,9 @@ import { getCaveBatchPercentage } from "features/cave/lib/caveBatchProgress";
 import { getKeys } from "lib/object";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CaveTutorialHand } from "./CaveTutorial";
+
+import { getCaveDigFeedback } from "../lib/digFeedback";
+import { CaveDigFeedback, type CaveFeedbackEvent } from "./CaveDigFeedback";
 
 interface Props {
   machineId: string;
@@ -97,6 +100,36 @@ export const CavePatch: React.FC<Props> = ({
   // The tile under the pointer; the drill's square grows from it.
   const [hovered, setHovered] = useState<{ x: number; y: number }>();
 
+  const [feedbackEvent, setFeedbackEvent] = useState<CaveFeedbackEvent>();
+  const feedbackId = useRef(0);
+  const dig = (
+    coords: { x: number; y: number }[],
+    tool: "Sand Shovel" | "Sand Drill",
+  ) => {
+    const before = gameService.getSnapshot().context.state;
+    if (tool === "Sand Shovel") {
+      gameService.send({ type: "cave.dug", machineId, ...coords[0] });
+    } else {
+      gameService.send({ type: "cave.drilled", machineId, coords });
+    }
+    const after = gameService.getSnapshot().context.state;
+    const feedback = getCaveDigFeedback({
+      before,
+      after,
+      machineId,
+      coords,
+      tool,
+    });
+    if (feedback.length) {
+      setFeedbackEvent({
+        id: ++feedbackId.current,
+        feedback,
+        x:
+          coords.reduce((sum, point) => sum + point.x, 0) / coords.length + 0.5,
+        y: Math.min(...coords.map((point) => point.y)),
+      });
+    }
+  };
   const recipe = batch?.recipe;
   const seed = batch?.seed;
   const skills = batch?.skills;
@@ -204,13 +237,7 @@ export const CavePatch: React.FC<Props> = ({
                   disabled={!hasDrill || !layout || allDug}
                   className="relative w-full h-full p-0 border-0 bg-transparent cursor-pointer disabled:cursor-not-allowed"
                   onPointerEnter={() => setHovered({ x, y })}
-                  onClick={() =>
-                    gameService.send({
-                      type: "cave.drilled",
-                      machineId,
-                      coords: square,
-                    })
-                  }
+                  onClick={() => dig(square, "Sand Drill")}
                 >
                   {dug && layout ? (
                     <DugTile tile={resolveCaveTile(layout, x, y)} />
@@ -250,7 +277,7 @@ export const CavePatch: React.FC<Props> = ({
                 onClick={() => {
                   // The tile becomes a DugTile under the pointer.
                   setHovered(undefined);
-                  gameService.send({ type: "cave.dug", machineId, x, y });
+                  dig([{ x, y }], "Sand Shovel");
                 }}
               >
                 <img
@@ -265,6 +292,7 @@ export const CavePatch: React.FC<Props> = ({
         )}
       </div>
 
+      <CaveDigFeedback event={feedbackEvent} />
       {ready && !cleared && hoverBox && (
         <img
           src={hoverBox.size === 2 ? DRILL_SELECT : SHOVEL_SELECT}

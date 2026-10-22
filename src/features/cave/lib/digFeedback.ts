@@ -1,0 +1,77 @@
+import type { GameState } from "features/game/types/game";
+import { BEETLES, type BeetleName } from "features/game/types/beetles";
+import {
+  generateCavePatch,
+  isCaveSeed,
+  resolveCaveTile,
+} from "features/game/types/cavePatch";
+import { caveTileKey } from "features/game/types/caveRecipes";
+
+export type CaveDigFeedback =
+  | { kind: "shovelSaved"; item: "Sand Shovel" }
+  | { kind: "drillSaved"; item: "Sand Drill" }
+  | { kind: "bonusBeetle"; item: BeetleName; amount: number };
+
+/** Read the result of this action only; never re-roll chance skills or reuse old boost timestamps. */
+export function getCaveDigFeedback({
+  before,
+  after,
+  machineId,
+  coords,
+  tool,
+}: {
+  before: GameState;
+  after: GameState;
+  machineId: string;
+  coords: { x: number; y: number }[];
+  tool: "Sand Shovel" | "Sand Drill";
+}): CaveDigFeedback[] {
+  if (before === after) return [];
+  const previous = before.cave?.machines[machineId]?.batch;
+  const current = after.cave?.machines[machineId]?.batch;
+  if (
+    !previous ||
+    !current ||
+    !isCaveSeed(previous.seed) ||
+    previous.seed !== current.seed ||
+    previous.startedAt !== current.startedAt
+  )
+    return [];
+  const unique = new Map(
+    coords.map((point) => [caveTileKey(point.x, point.y), point]),
+  );
+  const dug = [...unique.entries()].filter(
+    ([key]) => !previous.dug?.[key] && current.dug?.[key],
+  );
+  if (!dug.length) return [];
+
+  const feedback: CaveDigFeedback[] = [];
+  const ownedTool = before.inventory[tool];
+  if (ownedTool?.gt(0) && after.inventory[tool]?.eq(ownedTool)) {
+    feedback.push(
+      tool === "Sand Shovel"
+        ? { kind: "shovelSaved", item: tool }
+        : { kind: "drillSaved", item: tool },
+    );
+  }
+  const layout = generateCavePatch({
+    recipe: previous.recipe,
+    seed: previous.seed,
+    skills: previous.skills,
+  });
+  const expected: Partial<Record<BeetleName, number>> = {};
+  for (const [, { x, y }] of dug) {
+    const tile = resolveCaveTile(layout, x, y);
+    for (const item of BEETLES)
+      expected[item] = (expected[item] ?? 0) + (tile.items[item] ?? 0);
+  }
+  for (const item of BEETLES) {
+    if (!expected[item]) continue;
+    const gained =
+      (after.inventory[item]?.toNumber() ?? 0) -
+      (before.inventory[item]?.toNumber() ?? 0);
+    const bonus = gained - (expected[item] ?? 0);
+    if (bonus > 0) feedback.push({ kind: "bonusBeetle", item, amount: bonus });
+  }
+  return feedback;
+}
