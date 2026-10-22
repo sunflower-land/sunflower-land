@@ -1,5 +1,8 @@
 import { useSelector } from "@xstate/react";
-import { ANIMAL_FEED_BUFF_ITEMS } from "features/game/events/landExpansion/applyAnimalFeedBuff";
+import {
+  ANIMAL_FEED_BUFF_ITEMS,
+  isAnimalFeedBuffItem,
+} from "features/game/events/landExpansion/applyAnimalFeedBuff";
 import { useNow } from "lib/utils/hooks/useNow";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { Modal } from "components/ui/Modal";
@@ -104,7 +107,13 @@ export const FeederMachineModal: React.FC<Props> = ({
     Partial<Record<PigFeedName, InventoryItemName>>
   >({});
   const [storedQuickItem, setSelectedQuickItem] = useState<FeederQuickItem>();
-  const selectedQuickItem = tab === "care" ? storedQuickItem : undefined;
+  const selectedQuickItem =
+    tab === "care" &&
+    storedQuickItem &&
+    (!isAnimalFeedBuffItem(storedQuickItem) ||
+      state.inventory[storedQuickItem]?.gt(0))
+      ? storedQuickItem
+      : undefined;
   const [showMixInfo, setShowMixInfo] = useState(false);
   const [showBulkMixModal, setShowBulkMixModal] = useState(false);
   // The Slop whose input picker is open in the Bulk Mixer.
