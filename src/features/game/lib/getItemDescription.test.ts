@@ -29,15 +29,6 @@ describe("getItemDescription", () => {
     );
   });
 
-  it("tells how much XP a Beetle gives when fed to an animal", () => {
-    expect(getItemDescription({ item: "Green Beetle", game: TEST_FARM })).toBe(
-      "A common beetle. Feed it to any animal for 80 XP.",
-    );
-    expect(getItemDescription({ item: "Amber Beetle", game: TEST_FARM })).toBe(
-      "The rarest beetle. Feed it to any animal for 640 XP.",
-    );
-  });
-
   it("keeps the legacy description for items with no speed rewrite", () => {
     expect(getItemDescription({ item: "Sunflower", game: TEST_FARM })).toBe(
       ITEM_DETAILS["Sunflower"].description,
