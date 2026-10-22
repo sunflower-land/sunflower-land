@@ -7,6 +7,7 @@ import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { SUNNYSIDE } from "assets/sunnyside";
+import type { BeetleName } from "features/game/types/beetles";
 import { ANIMAL_FOODS } from "features/game/types/animals";
 import type {
   AnimalFeedBuffName,
@@ -22,6 +23,8 @@ import {
 } from "features/game/types/pigFeeds";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getKeys } from "lib/object";
+
+export type FeederQuickItem = AnimalFeedBuffName | BeetleName | "Mud";
 
 const SLOPS = getKeys(PIG_FEEDS);
 const MEDICINES = getKeys(ANIMAL_FOODS).filter(
@@ -39,6 +42,7 @@ const canAffordInput = (
 
 type Props = {
   state: GameState;
+  section: "food" | "care";
   selected: PigFeedName | AnimalMedicineName;
   /** The Slop's chosen input; unused for a medicine. */
   ingredient?: InventoryItemName;
@@ -46,39 +50,40 @@ type Props = {
   maxMixAmount: number;
   /** The spices in the inventory, applied to a Pig by selecting one. */
   spices: AnimalFeedBuffName[];
-  selectedSpice?: AnimalFeedBuffName;
+  beetles: readonly BeetleName[];
+  selectedQuickItem?: FeederQuickItem;
   onSelect: (item: PigFeedName | AnimalMedicineName) => void;
-  onSelectSpice: (spice: AnimalFeedBuffName) => void;
+  onSelectQuickItem: (item: FeederQuickItem) => void;
   onSelectIngredient: (item: InventoryItemName) => void;
   onMix: (amount: number) => void;
   onMixInBulk: () => void;
 };
 
 /**
- * The Pigpen Feeder's Mix tab, laid out like the Aging Shed's Fermentation
- * Rack: pick a Slop, then the one item of its tier to mix it from. Barn
- * Delight (to cure a sick Pig) and the spices sit below the Slops, as in the
- * other buildings' Feeders.
+ * Food mixes Slops from a chosen ingredient. Care keeps Barn Delight,
+ * Mud, spices and Beetles together, separate from the feed recipes.
  */
 export const PigFeedMixer: React.FC<Props> = ({
   state,
+  section,
   selected,
   ingredient,
   ingredients,
   maxMixAmount,
   spices,
-  selectedSpice,
+  beetles,
+  selectedQuickItem,
   onSelect,
-  onSelectSpice,
+  onSelectQuickItem,
   onSelectIngredient,
   onMix,
   onMixInBulk,
 }) => {
   const { t } = useAppTranslation();
-  const shown = selectedSpice ?? selected;
-  const slop = !selectedSpice && isPigFeed(selected) ? selected : undefined;
+  const shown = selectedQuickItem ?? selected;
+  const slop = !selectedQuickItem && isPigFeed(selected) ? selected : undefined;
   const itemBox = (
-    item: PigFeedName | AnimalMedicineName | AnimalFeedBuffName,
+    item: PigFeedName | AnimalMedicineName | FeederQuickItem,
     isSelected: boolean,
     onClick: () => void,
   ) => (
@@ -103,47 +108,72 @@ export const PigFeedMixer: React.FC<Props> = ({
             {shown}
           </Label>
           <p className="text-xs ml-1">
-            {selectedSpice
-              ? ITEM_DETAILS[selectedSpice].description
+            {selectedQuickItem
+              ? ITEM_DETAILS[selectedQuickItem].description
               : ANIMAL_FOODS[selected].description}
           </p>
         </div>
-        <Label type="default" className="text-xs ml-1 mb-1">
-          {t("feeder.foodTypes.food")}
-        </Label>
-        <div className="flex flex-wrap gap-1 px-1 pb-1">
-          {SLOPS.map((item) =>
-            itemBox(item, !selectedSpice && selected === item, () =>
-              onSelect(item),
-            ),
-          )}
-        </div>
-        <Label type="default" className="text-xs ml-1 mb-1">
-          {t("feeder.foodTypes.medicine")}
-        </Label>
-        <div className="flex flex-wrap gap-1 px-1 pb-1">
-          {MEDICINES.map((item) =>
-            itemBox(item, !selectedSpice && selected === item, () =>
-              onSelect(item),
-            ),
-          )}
-        </div>
-        {spices.length > 0 && (
+        {section === "food" && (
           <>
-            <Label
-              type="default"
-              className="text-xs ml-1 mb-1"
-              icon={ITEM_DETAILS["Honey Treat"].image}
-            >
-              {t("spices")}
+            <Label type="default" className="text-xs ml-1 mb-1">
+              {t("feeder.foodTypes.food")}
             </Label>
             <div className="flex flex-wrap gap-1 px-1 pb-1">
-              {spices.map((item) =>
-                itemBox(item, selectedSpice === item, () =>
-                  onSelectSpice(item),
+              {SLOPS.map((item) =>
+                itemBox(item, !selectedQuickItem && selected === item, () =>
+                  onSelect(item),
                 ),
               )}
             </div>
+          </>
+        )}
+        {section === "care" && (
+          <>
+            <Label type="default" className="text-xs ml-1 mb-1">
+              {t("feeder.foodTypes.medicine")}
+            </Label>
+            <div className="flex flex-wrap gap-1 px-1 pb-1">
+              {MEDICINES.map((item) =>
+                itemBox(item, !selectedQuickItem && selected === item, () =>
+                  onSelect(item),
+                ),
+              )}
+              {itemBox("Mud", selectedQuickItem === "Mud", () =>
+                onSelectQuickItem("Mud"),
+              )}
+            </div>
+            {spices.length > 0 && (
+              <>
+                <Label
+                  type="default"
+                  className="text-xs ml-1 mb-1"
+                  icon={ITEM_DETAILS["Honey Treat"].image}
+                >
+                  {t("spices")}
+                </Label>
+                <div className="flex flex-wrap gap-1 px-1 pb-1">
+                  {spices.map((item) =>
+                    itemBox(item, selectedQuickItem === item, () =>
+                      onSelectQuickItem(item),
+                    ),
+                  )}
+                </div>
+              </>
+            )}
+            {beetles.length > 0 && (
+              <>
+                <Label type="default" className="text-xs ml-1 mb-1">
+                  {t("feeder.beetles")}
+                </Label>
+                <div className="flex flex-wrap gap-1 px-1 pb-1">
+                  {beetles.map((item) =>
+                    itemBox(item, selectedQuickItem === item, () =>
+                      onSelectQuickItem(item),
+                    ),
+                  )}
+                </div>
+              </>
+            )}
           </>
         )}
       </InnerPanel>
@@ -158,7 +188,7 @@ export const PigFeedMixer: React.FC<Props> = ({
         />
       )}
 
-      {!slop && !selectedSpice && (
+      {!slop && !selectedQuickItem && (
         <InnerPanel className="mb-1">
           <div className="flex flex-wrap p-2 gap-2">
             {getKeys(ingredients).map((item) => (
@@ -174,7 +204,7 @@ export const PigFeedMixer: React.FC<Props> = ({
         </InnerPanel>
       )}
 
-      {!selectedSpice && (
+      {!selectedQuickItem && (
         <>
           <div className="flex space-x-1 w-full">
             <Button disabled={maxMixAmount < 1} onClick={() => onMix(1)}>
