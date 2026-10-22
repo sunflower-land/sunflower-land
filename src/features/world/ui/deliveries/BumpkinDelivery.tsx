@@ -6,7 +6,12 @@ import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import type { Airdrop, GameState, Order } from "features/game/types/game";
+import type {
+  Airdrop,
+  BoostName,
+  GameState,
+  Order,
+} from "features/game/types/game";
 import { Button } from "components/ui/Button";
 
 import coinsImg from "assets/icons/coins.webp";
@@ -21,7 +26,10 @@ import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { getKeys } from "lib/object";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  getTranslatedItemName,
+  ITEM_DETAILS,
+} from "features/game/types/images";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { FLOWERS, type FlowerName } from "features/game/types/flowers";
 import { Box } from "components/ui/Box";
@@ -77,6 +85,60 @@ import { getChapterTaskPoints } from "features/game/types/tracks";
 import chapterPointsIcon from "assets/icons/red_medal_short.webp";
 import { hasTimeBasedFeatureAccess } from "lib/flags";
 
+const BoostableRewardAmount: React.FC<{
+  amount: string;
+  icon: string;
+  /** Reward name for screen readers, e.g. "Coins" - the icon has no text. */
+  name: string;
+  boosts: { name: BoostName; value: string }[];
+  game: GameState;
+}> = ({ amount, icon, name, boosts, game }) => {
+  const [showBoosts, setShowBoosts] = useState(false);
+  const anchorRef = useRef<HTMLDivElement>(null);
+  const hasBoosts = boosts.length > 0;
+
+  return (
+    <div
+      ref={anchorRef}
+      className={classNames("flex items-center mr-1", {
+        "cursor-pointer": hasBoosts,
+      })}
+      role={hasBoosts ? "button" : undefined}
+      tabIndex={hasBoosts ? 0 : undefined}
+      aria-label={hasBoosts ? `${amount} ${name}` : undefined}
+      aria-expanded={hasBoosts ? showBoosts : undefined}
+      onClick={(e) => {
+        if (!hasBoosts) return;
+        e.stopPropagation();
+        setShowBoosts((prev) => !prev);
+      }}
+      onKeyDown={(e) => {
+        if (!hasBoosts || (e.key !== "Enter" && e.key !== " ")) return;
+        e.preventDefault();
+        e.stopPropagation();
+        setShowBoosts((prev) => !prev);
+      }}
+    >
+      <span className="text-xs">{amount}</span>
+      <img src={icon} alt={name} className="h-4 w-auto ml-1" />
+      {hasBoosts && (
+        <img src={lightning} alt="" className="h-3 w-auto ml-0.5" />
+      )}
+      {hasBoosts && showBoosts && (
+        <BoostsDisplay
+          boosts={boosts}
+          show={showBoosts}
+          state={game}
+          onClick={() => setShowBoosts(false)}
+          anchorRef={anchorRef}
+          portalAlign="right"
+          portalPlacement="auto"
+        />
+      )}
+    </div>
+  );
+};
+
 const OrderCard: React.FC<{
   order: Order;
   game: GameState;
@@ -104,8 +166,6 @@ const OrderCard: React.FC<{
   const { t } = useAppTranslation();
   const { holiday } = getBumpkinHoliday({ now });
   const isHoliday = holiday === new Date(now).toISOString().split("T")[0];
-  const [showTicketBoosts, setShowTicketBoosts] = useState(false);
-  const ticketBoostsAnchorRef = useRef<HTMLDivElement>(null);
 
   const { amount: baseTickets, boostsUsed: ticketBoostsUsed } =
     generateDeliveryTickets({
@@ -121,6 +181,9 @@ const OrderCard: React.FC<{
     isHoliday && isTicketNPC(order.from) && baseTickets > 0;
   const hasRewardAmount =
     order.reward.coins !== undefined || order.reward.sfl !== undefined;
+  const rewardBoostsUsed = hasRewardAmount
+    ? getOrderSellPrice(game, order).boostsUsed
+    : [];
 
   const getChapterPoints = () => {
     if (
@@ -229,76 +292,31 @@ const OrderCard: React.FC<{
                   ) : (
                     <>
                       {order.reward.sfl !== undefined && (
-                        <div className="flex items-center mr-1">
-                          <span className="text-xs">
-                            {makeRewardAmountForLabel(order)}
-                          </span>
-                          <img src={token} className="h-4 w-auto ml-1" />
-                        </div>
+                        <BoostableRewardAmount
+                          amount={makeRewardAmountForLabel(order)}
+                          icon={token}
+                          name="FLOWER"
+                          boosts={rewardBoostsUsed}
+                          game={game}
+                        />
                       )}
                       {order.reward.coins !== undefined && (
-                        <div className="flex items-center mr-1">
-                          <span className="text-xs">
-                            {makeRewardAmountForLabel(order)}
-                          </span>
-                          <img src={coinsImg} className="h-4 w-auto ml-1" />
-                        </div>
+                        <BoostableRewardAmount
+                          amount={makeRewardAmountForLabel(order)}
+                          icon={coinsImg}
+                          name={t("coins")}
+                          boosts={rewardBoostsUsed}
+                          game={game}
+                        />
                       )}
                       {!!ticketDisplay && (
-                        <div className="flex items-center space-x-3 mr-1">
-                          <div
-                            ref={ticketBoostsAnchorRef}
-                            className={classNames("flex items-center", {
-                              "cursor-pointer": ticketBoostsUsed.length > 0,
-                            })}
-                            role={
-                              ticketBoostsUsed.length > 0 ? "button" : undefined
-                            }
-                            tabIndex={
-                              ticketBoostsUsed.length > 0 ? 0 : undefined
-                            }
-                            aria-expanded={
-                              ticketBoostsUsed.length > 0
-                                ? showTicketBoosts
-                                : undefined
-                            }
-                            onClick={(e) => {
-                              if (ticketBoostsUsed.length === 0) return;
-                              e.stopPropagation();
-                              setShowTicketBoosts((prev) => !prev);
-                            }}
-                            onKeyDown={(e) => {
-                              if (
-                                ticketBoostsUsed.length === 0 ||
-                                (e.key !== "Enter" && e.key !== " ")
-                              )
-                                return;
-                              e.preventDefault();
-                              e.stopPropagation();
-                              setShowTicketBoosts((prev) => !prev);
-                            }}
-                          >
-                            <span className="text-xs mx-1">
-                              {ticketDisplay}
-                            </span>
-                            <img
-                              src={ITEM_DETAILS[getChapterTicket(now)].image}
-                              className="h-4 w-auto"
-                            />
-                            {ticketBoostsUsed.length > 0 &&
-                              showTicketBoosts && (
-                                <BoostsDisplay
-                                  boosts={ticketBoostsUsed}
-                                  show={showTicketBoosts}
-                                  state={game}
-                                  onClick={() => setShowTicketBoosts(false)}
-                                  anchorRef={ticketBoostsAnchorRef}
-                                  portalAlign="right"
-                                  portalPlacement="auto"
-                                />
-                              )}
-                          </div>
-                        </div>
+                        <BoostableRewardAmount
+                          amount={`${ticketDisplay}`}
+                          icon={ITEM_DETAILS[getChapterTicket(now)].image}
+                          name={getTranslatedItemName(getChapterTicket(now))}
+                          boosts={ticketBoostsUsed}
+                          game={game}
+                        />
                       )}
                       {getKeys(order.reward.items ?? {}).map((item) => (
                         <div className="flex items-center" key={item}>
