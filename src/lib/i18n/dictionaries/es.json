@@ -8597,9 +8597,6 @@
   "statsLeaderboard.description.diggingStreak": "Días consecutivos se recolectó la recompensa por excavar en el desierto",
   "bounties.hideCompleted": "Ocultar completado",
   "bounties.completedHidden": "Las recompensas completadas están ocultas.",
-  "description.blueBeetle": "Un escarabajo poco común",
-  "description.pinkBeetle": "Un escarabajo raro",
-  "description.amberBeetle": "El escarabajo más raro",
   "description.truffle": "Una trufa preciada",
   "resource.blueBeetle": "Escarabajo azul",
   "resource.pinkBeetle": "Escarabajo rosa",
@@ -8744,7 +8741,6 @@
   "chapterCropWeek.retired": "Ya no es negociable",
   "chapterCropWeek.retiredDescription": "Este objeto formaba parte de una semana de cosecha de capítulos anterior y ya no se puede intercambiar.",
   "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% de XP de alimentación · no hay enfermedad · Quedan cosechas de {{count}}",
-  "description.greenBeetle": "Un escarabajo común",
   "resource.greenBeetle": "Escarabajo verde",
   "faction.pet.contributedLastWeek": "Contribuyó la semana pasada",
   "faction.pet.contributingThisWeek": "Contribuir esta semana",
@@ -8858,5 +8854,9 @@
   "cave.merchant.generous": "Visita generosa",
   "cave.merchant.curiosity": "Curiosidad",
   "cave.merchant.for": "para {{cost}}",
-  "cave.merchant.needMore": "Necesito {{amount}} más {{item}}"
+  "cave.merchant.needMore": "Necesito {{amount}} más {{item}}",
+  "description.greenBeetle": "Un escarabajo común. Dáselo de comer a cualquier animal para obtener {{xp}} XP.",
+  "description.blueBeetle": "Un escarabajo poco común. Dáselo de comer a cualquier animal para obtener {{xp}} XP.",
+  "description.pinkBeetle": "Un escarabajo raro. Dáselo de comer a cualquier animal para obtener {{xp}} XP.",
+  "description.amberBeetle": "El escarabajo más raro. Dáselo de comer a cualquier animal para obtener {{xp}} XP."
 }

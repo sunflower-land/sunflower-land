@@ -8597,9 +8597,6 @@
   "statsLeaderboard.description.diggingStreak": "An aufeinanderfolgenden Tagen wurde die Belohnung für das Graben in der Wüste eingesammelt",
   "bounties.hideCompleted": "Ausblenden abgeschlossen",
   "bounties.completedHidden": "Abgeschlossene Kopfgelder sind versteckt.",
-  "description.blueBeetle": "Ein ungewöhnlicher Käfer",
-  "description.pinkBeetle": "Ein seltener Käfer",
-  "description.amberBeetle": "Der seltenste Käfer",
   "description.truffle": "Ein wertvoller Trüffel",
   "resource.blueBeetle": "Blauer Käfer",
   "resource.pinkBeetle": "Rosafarbener Käfer",
@@ -8744,7 +8741,6 @@
   "chapterCropWeek.retired": "Nicht mehr handelbar",
   "chapterCropWeek.retiredDescription": "Dieser Gegenstand war Teil einer früheren Chapter Crop Week und kann nicht mehr gehandelt werden.",
   "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% Futter-XP · keine Krankheit · {{count}} verbleibende Ernten",
-  "description.greenBeetle": "Ein gewöhnlicher Käfer",
   "resource.greenBeetle": "Grüner Käfer",
   "faction.pet.contributedLastWeek": "Letzte Woche beigetragen",
   "faction.pet.contributingThisWeek": "Diese Woche beitragen",
@@ -8858,5 +8854,9 @@
   "cave.merchant.generous": "Großzügiger Besuch",
   "cave.merchant.curiosity": "Neugierde",
   "cave.merchant.for": "für {{cost}}",
-  "cave.merchant.needMore": "Brauche {{amount}} mehr {{item}}"
+  "cave.merchant.needMore": "Brauche {{amount}} mehr {{item}}",
+  "description.greenBeetle": "Ein gewöhnlicher Käfer. Füttere ihn an ein beliebiges Tier für {{xp}} XP.",
+  "description.blueBeetle": "Ein ungewöhnlicher Käfer. Füttere ihn an ein beliebiges Tier für {{xp}} XP.",
+  "description.pinkBeetle": "Ein seltener Käfer. Füttere ihn an ein beliebiges Tier für {{xp}} XP.",
+  "description.amberBeetle": "Der seltenste Käfer. Füttere ihn an ein beliebiges Tier für {{xp}} XP."
 }

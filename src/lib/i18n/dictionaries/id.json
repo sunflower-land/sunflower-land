@@ -8597,9 +8597,6 @@
   "statsLeaderboard.description.diggingStreak": "Hari berturut-turut hadiah penggalian gurun dikumpulkan",
   "bounties.hideCompleted": "Sembunyikan selesai",
   "bounties.completedHidden": "Hadiah yang telah selesai disembunyikan.",
-  "description.blueBeetle": "Kumbang yang tidak biasa",
-  "description.pinkBeetle": "Kumbang langka",
-  "description.amberBeetle": "Kumbang paling langka",
   "description.truffle": "Truffle yang berharga",
   "resource.blueBeetle": "Kumbang Biru",
   "resource.pinkBeetle": "Kumbang Merah Muda",
@@ -8744,7 +8741,6 @@
   "chapterCropWeek.retired": "Tidak lagi dapat diperdagangkan",
   "chapterCropWeek.retiredDescription": "Item ini adalah bagian dari Chapter Crop Week sebelumnya dan tidak dapat lagi diperdagangkan.",
   "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% pakan XP · tidak ada penyakit · {{count}} sisa panen",
-  "description.greenBeetle": "Kumbang biasa",
   "resource.greenBeetle": "Kumbang Hijau",
   "faction.pet.contributedLastWeek": "Berkontribusi minggu lalu",
   "faction.pet.contributingThisWeek": "Berkontribusi minggu ini",
@@ -8858,5 +8854,9 @@
   "cave.merchant.generous": "Kunjungan murah hati",
   "cave.merchant.curiosity": "Keingintahuan",
   "cave.merchant.for": "untuk {{cost}}",
-  "cave.merchant.needMore": "Butuh {{amount}} lebih {{item}}"
+  "cave.merchant.needMore": "Butuh {{amount}} lebih {{item}}",
+  "description.greenBeetle": "Kumbang biasa. Beri makan ke hewan apa pun untuk {{xp}} XP.",
+  "description.blueBeetle": "Kumbang yang tidak biasa. Beri makan ke hewan apa pun untuk {{xp}} XP.",
+  "description.pinkBeetle": "Kumbang langka. Beri makan ke hewan apa pun untuk {{xp}} XP.",
+  "description.amberBeetle": "Kumbang paling langka. Beri makan ke hewan apa pun untuk {{xp}} XP."
 }

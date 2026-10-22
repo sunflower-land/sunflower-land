@@ -8597,9 +8597,6 @@
   "statsLeaderboard.description.diggingStreak": "Ardışık günlerde çöl kazma ödülü toplandı",
   "bounties.hideCompleted": "Tamamlandı gizle",
   "bounties.completedHidden": "Tamamlanan ödüller gizlenir.",
-  "description.blueBeetle": "Sıradışı bir böcek",
-  "description.pinkBeetle": "Nadir bir böcek",
-  "description.amberBeetle": "En nadir böcek",
   "description.truffle": "Değerli bir trüf mantarı",
   "resource.blueBeetle": "Mavi Böcek",
   "resource.pinkBeetle": "Pembe Böcek",
@@ -8744,7 +8741,6 @@
   "chapterCropWeek.retired": "Artık takas edilemez",
   "chapterCropWeek.retiredDescription": "Bu öğe önceki Bölüm Mahsul Haftası'nın bir parçasıydı ve artık takas edilemez.",
   "sleepingAnimal.mudHarvestsLeft": "+ {{percent}} %yem DP'si · hastalık yok · {{count}} hasat kaldı",
-  "description.greenBeetle": "Yaygın bir böcek",
   "resource.greenBeetle": "Yeşil Böcek",
   "faction.pet.contributedLastWeek": "Geçen hafta katkıda bulundu",
   "faction.pet.contributingThisWeek": "Bu hafta katkıda bulunmak",
@@ -8858,5 +8854,9 @@
   "cave.merchant.generous": "Cömert ziyaret",
   "cave.merchant.curiosity": "Merak",
   "cave.merchant.for": "{{cost}} için",
-  "cave.merchant.needMore": "{{amount}} daha fazlasına ihtiyacınız var {{item}}"
+  "cave.merchant.needMore": "{{amount}} daha fazlasına ihtiyacınız var {{item}}",
+  "description.greenBeetle": "Yaygın bir böcek. {{xp}} XP karşılığında herhangi bir hayvana besleyin.",
+  "description.blueBeetle": "Sıradışı bir böcek. {{xp}} XP karşılığında herhangi bir hayvana besleyin.",
+  "description.pinkBeetle": "Nadir bir böcek. {{xp}} XP karşılığında herhangi bir hayvana besleyin.",
+  "description.amberBeetle": "En nadir böcek. {{xp}} XP karşılığında herhangi bir hayvana besleyin."
 }

@@ -8597,9 +8597,6 @@
   "statsLeaderboard.description.diggingStreak": "Дней подряд, когда была получена награда за раскопки в пустыне",
   "bounties.hideCompleted": "Скрыть выполненные",
   "bounties.completedHidden": "Выполненные заказы скрыты.",
-  "description.blueBeetle": "Необычный жук",
-  "description.pinkBeetle": "Редкий жук",
-  "description.amberBeetle": "Самый редкий жук",
   "description.truffle": "Ценный трюфель",
   "resource.blueBeetle": "Синий жук",
   "resource.pinkBeetle": "Розовый жук",
@@ -8744,7 +8741,6 @@
   "chapterCropWeek.retired": "No longer tradeable",
   "chapterCropWeek.retiredDescription": "This item was part of a previous Chapter Crop Week and can no longer be traded.",
   "sleepingAnimal.mudHarvestsLeft": "+{{percent}}% feed XP · no sickness · {{count}} harvests remaining",
-  "description.greenBeetle": "A common beetle",
   "resource.greenBeetle": "Green Beetle",
   "faction.pet.contributedLastWeek": "Contributed last week",
   "faction.pet.contributingThisWeek": "Contributing this week",
@@ -8858,5 +8854,9 @@
   "cave.merchant.generous": "Generous visit",
   "cave.merchant.curiosity": "Curiosity",
   "cave.merchant.for": "for {{cost}}",
-  "cave.merchant.needMore": "Need {{amount}} more {{item}}"
+  "cave.merchant.needMore": "Need {{amount}} more {{item}}",
+  "description.greenBeetle": "A common beetle. Feed it to any animal for {{xp}} XP.",
+  "description.blueBeetle": "An uncommon beetle. Feed it to any animal for {{xp}} XP.",
+  "description.pinkBeetle": "A rare beetle. Feed it to any animal for {{xp}} XP.",
+  "description.amberBeetle": "The rarest beetle. Feed it to any animal for {{xp}} XP."
 }

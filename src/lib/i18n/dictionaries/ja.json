@@ -8597,9 +8597,6 @@
   "statsLeaderboard.description.diggingStreak": "連続して砂漠を掘った報酬が貯まった",
   "bounties.hideCompleted": "非表示が完了しました",
   "bounties.completedHidden": "完了したバウンティは非表示になります。",
-  "description.blueBeetle": "珍しいカブトムシ",
-  "description.pinkBeetle": "珍しいカブトムシ",
-  "description.amberBeetle": "最も希少なカブトムシ",
   "description.truffle": "貴重なトリュフ",
   "resource.blueBeetle": "ブルービートル",
   "resource.pinkBeetle": "ピンクビートル",
@@ -8744,7 +8741,6 @@
   "chapterCropWeek.retired": "取引できなくなった",
   "chapterCropWeek.retiredDescription": "このアイテムは前のチャプタークロップウィークの一部だったため、取引できなくなりました。",
   "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% フィード経験値・病気なし・{{count}} 残り収穫量",
-  "description.greenBeetle": "一般的なカブトムシ",
   "resource.greenBeetle": "グリーンビートル",
   "faction.pet.contributedLastWeek": "先週寄稿しました",
   "faction.pet.contributingThisWeek": "今週の寄稿",
@@ -8858,5 +8854,9 @@
   "cave.merchant.generous": "寛大な訪問",
   "cave.merchant.curiosity": "好奇心",
   "cave.merchant.for": "{{cost}} の場合",
-  "cave.merchant.needMore": "{{amount}} もっと {{item}} が必要です"
+  "cave.merchant.needMore": "{{amount}} もっと {{item}} が必要です",
+  "description.greenBeetle": "一般的なカブトムシ。どんな動物にも {{xp}} XPでエサをあげよう。",
+  "description.blueBeetle": "珍しいカブトムシ。どんな動物にも {{xp}} XPでエサをあげよう。",
+  "description.pinkBeetle": "珍しいカブトムシ。どんな動物にも {{xp}} XPでエサをあげよう。",
+  "description.amberBeetle": "最も希少なカブトムシ。どんな動物にも {{xp}} XPでエサをあげよう。"
 }

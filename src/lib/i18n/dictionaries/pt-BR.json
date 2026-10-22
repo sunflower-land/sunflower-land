@@ -8597,9 +8597,6 @@
   "statsLeaderboard.description.diggingStreak": "Em dias consecutivos, a recompensa da escavação do deserto foi coletada",
   "bounties.hideCompleted": "Ocultar concluído",
   "bounties.completedHidden": "As recompensas concluídas estão ocultas.",
-  "description.blueBeetle": "Um besouro incomum",
-  "description.pinkBeetle": "Um besouro raro",
-  "description.amberBeetle": "O besouro mais raro",
   "description.truffle": "Uma trufa valiosa",
   "resource.blueBeetle": "Besouro azul",
   "resource.pinkBeetle": "Besouro rosa",
@@ -8744,7 +8741,6 @@
   "chapterCropWeek.retired": "Não é mais negociável",
   "chapterCropWeek.retiredDescription": "Este item fazia parte de um capítulo anterior da Semana da Colheita e não pode mais ser negociado.",
   "sleepingAnimal.mudHarvestsLeft": "+ {{percent}}% de EXP de alimentação · {{count}} colheitas restantes",
-  "description.greenBeetle": "Um besouro comum",
   "resource.greenBeetle": "Besouro verde",
   "faction.pet.contributedLastWeek": "Contribuiu na semana passada",
   "faction.pet.contributingThisWeek": "Contribuindo esta semana",
@@ -8858,5 +8854,9 @@
   "cave.merchant.generous": "Visita generosa",
   "cave.merchant.curiosity": "Curiosidade",
   "cave.merchant.for": "para {{cost}}",
-  "cave.merchant.needMore": "Precisa de mais {{amount}} {{item}}"
+  "cave.merchant.needMore": "Precisa de mais {{amount}} {{item}}",
+  "description.greenBeetle": "Um besouro comum. Alimente qualquer animal por {{xp}} XP.",
+  "description.blueBeetle": "Um besouro incomum. Alimente qualquer animal por {{xp}} XP.",
+  "description.pinkBeetle": "Um besouro raro. Alimente qualquer animal por {{xp}} XP.",
+  "description.amberBeetle": "O besouro mais raro. Alimente qualquer animal por {{xp}} XP."
 }
