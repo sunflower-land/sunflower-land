@@ -9,6 +9,8 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
+import { RoundButton } from "components/ui/RoundButton";
+import shopIcon from "assets/icons/shop.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasFeatureAccess } from "lib/flags";
 import { isCaveBuildingReady } from "features/game/lib/cave";
@@ -102,7 +104,7 @@ const Sprite: React.FC<{ src: string; style?: React.CSSProperties }> = ({
  * stands in the alcove by the entrance from his tier; the ladder leaves.
  */
 export const Cave: React.FC = () => {
-  const { gameService } = useContext(Context);
+  const { gameService, selectedItem } = useContext(Context);
   const navigate = useNavigate();
   const { t } = useAppTranslation();
 
@@ -115,6 +117,7 @@ export const Cave: React.FC = () => {
   const [selectedMachine, setSelectedMachine] = useState<string>();
   const [showExpansion, setShowExpansion] = useState(false);
   const [showMerchant, setShowMerchant] = useState(false);
+  const [lastDugMachine, setLastDugMachine] = useState<string>();
   const [tutorialSeen, setTutorialSeen] = useState(getCaveTutorialSeen);
   const tutorialStep = useSelector(gameService, (state: MachineState) =>
     getCaveTutorialStep(state.context.state, now, tutorialSeen),
@@ -167,6 +170,22 @@ export const Cave: React.FC = () => {
     !showMerchant;
   const guiding =
     tutorialStep && tutorialSeen[tutorialStep] ? tutorialStep : undefined;
+  // Match the beach: running out of shovels matters while using the shovel,
+  // not while the player has selected a Sand Drill.
+  const outOfShovels = shovels < 1 && selectedItem !== "Sand Drill";
+  const readyMachines = slots.filter((id) => {
+    const batch = cave.machines[String(id)]?.batch;
+    return batch && batch.readyAt <= now && !isCavePatchCleared(batch);
+  });
+  const needsShovels = outOfShovels && readyMachines.length > 0;
+  // Keep one shortcut beside the last patch dug. On entry without tools,
+  // use the first ready patch until the player has dug during this visit.
+  const shopMachine = lastDugMachine ?? readyMachines[0]?.toString();
+  const merchantSpeech = needsShovels
+    ? t("cave.merchant.noShovels")
+    : guiding
+      ? t(CAVE_TUTORIAL_BUBBLES[guiding])
+      : undefined;
 
   return (
     <div className="absolute inset-0 bg-[#181425] overflow-hidden">
@@ -243,18 +262,22 @@ export const Cave: React.FC = () => {
                 }}
                 onClick={() => setShowMerchant(true)}
               >
-                {guiding && (
-                  <NPCSpeechBubble
-                    text={t(CAVE_TUTORIAL_BUBBLES[guiding])}
-                    // Anchored top-left (Gloomwick hangs below this button's
-                    // top edge) so the tail sits just over his head however
-                    // long the text is.
-                    style={{
-                      top: `${PIXEL_SCALE * -6}px`,
-                      left: `${PIXEL_SCALE * 6}px`,
-                    }}
-                  />
-                )}
+                {merchantSpeech &&
+                  !showTutorialPopup &&
+                  !selectedMachine &&
+                  !showExpansion &&
+                  !showMerchant && (
+                    <NPCSpeechBubble
+                      text={merchantSpeech}
+                      // Anchored top-left (Gloomwick hangs below this button's
+                      // top edge) so the tail sits just over his head however
+                      // long the text is.
+                      style={{
+                        top: `${PIXEL_SCALE * -6}px`,
+                        left: `${PIXEL_SCALE * 6}px`,
+                      }}
+                    />
+                  )}
                 <NPCPlaceable parts={NPC_WEARABLES.gloomwick} flipped />
                 {guiding === "buy-shovels" && !showMerchant && (
                   <CaveTutorialHand />
@@ -264,6 +287,8 @@ export const Cave: React.FC = () => {
               {slots.map((id) => {
                 const slot = CAVE_SLOTS[id];
                 const batch = cave.machines[String(id)]?.batch;
+                const showShopShortcut =
+                  needsShovels && shopMachine === String(id);
 
                 return (
                   <React.Fragment key={`slot-${id}`}>
@@ -302,12 +327,35 @@ export const Cave: React.FC = () => {
                         now={now}
                         hasShovel={shovels > 0}
                         hasDrill={drills > 0}
+                        onDig={() => setLastDugMachine(String(id))}
                         tutorialTile={
                           id === 1 && guiding === "dig"
                             ? { x: 2, y: 2 }
                             : undefined
                         }
                       />
+                      {showShopShortcut && (
+                        <button
+                          type="button"
+                          aria-label={t("cave.merchant.title")}
+                          data-prevent-drag-scroll
+                          className="absolute z-10 bg-transparent border-0 p-0 -translate-y-1/2"
+                          style={{
+                            left: `calc(100% + ${PIXEL_SCALE * 4}px)`,
+                            top: "50%",
+                          }}
+                          onClick={() => setShowMerchant(true)}
+                        >
+                          <RoundButton>
+                            <img
+                              src={shopIcon}
+                              alt=""
+                              className="absolute inset-0 m-auto group-active:translate-y-[2px]"
+                              style={{ width: `${PIXEL_SCALE * 14}px` }}
+                            />
+                          </RoundButton>
+                        </button>
+                      )}
                     </div>
                   </React.Fragment>
                 );
