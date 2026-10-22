@@ -1960,23 +1960,41 @@ export type CaveConstruction = {
   readyAt: number;
 };
 
-/** The Goblin Cave Merchant's offers; see `CAVE_MERCHANT_OFFERS`. */
-export type CaveMerchantOfferId =
-  | "sand-drills"
-  | "truffles"
-  | "leather"
-  | "iron"
-  | "gold"
-  | "oil"
-  | "crimstone"
-  | "obsidian";
-
 /**
- * What the player has bought from the Goblin Cave Merchant, keyed by limit
- * period (the week key for now). Only the current period is kept.
+ * What the player has bought from the Goblin Cave Merchant: claims per offer
+ * slot, keyed by the visit index (`cave.merchantVisit.index`). Only the current
+ * visit is kept.
  */
 export type CaveMerchant = {
-  purchases: Record<string, Partial<Record<CaveMerchantOfferId, number>>>;
+  purchases: Record<string, Partial<Record<number, number>>>;
+};
+
+/** One trade the Goblin Cave Merchant offers this visit. */
+export type CaveMerchantOffer = {
+  /** 1-based; Cave tier N unlocks slots 1..N. */
+  slot: number;
+  cost: { item: InventoryItemName; amount: number };
+  reward: { item: InventoryItemName; amount: number };
+  /** Claims per player per visit. */
+  limit: number;
+  curiosity: boolean;
+};
+
+/**
+ * The Merchant's visit open (or last opened) when the farm was loaded, and
+ * its stock. Built by the API on every load and never saved, like Love
+ * Island's shop: how the stock is priced and rolled stays on the server.
+ */
+export type CaveMerchantVisitState = {
+  /** Visit 0 opens at launch; pre-launch restocks count down from -1. */
+  index: number;
+  opensAt: number;
+  closesAt: number;
+  nextOpensAt: number;
+  /** A long enough wait that this visit's deals are badged generous. */
+  generous: boolean;
+  /** All eight slots while he is in town, none while he is away. */
+  offers: CaveMerchantOffer[];
 };
 
 /**
@@ -1991,6 +2009,8 @@ export type Cave = {
   machines: Record<string, CaveMachine>;
   construction?: CaveConstruction;
   merchant?: CaveMerchant;
+  /** Computed by the API on load, never saved (see `CaveMerchantVisitState`). */
+  merchantVisit?: CaveMerchantVisitState;
 };
 
 export type PlantedFlower = {
