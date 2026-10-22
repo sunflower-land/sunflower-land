@@ -22,6 +22,7 @@ import { ToastPanel } from "../toast/ToastPanel";
 import { Panel } from "components/ui/Panel";
 
 import { Swarming } from "../components/Swarming";
+import { SessionWatcher } from "../components/SessionWatcher";
 import { Captcha } from "../components/captcha/Captcha";
 import { Cooldown } from "../components/Cooldown";
 import { Route, Routes } from "react-router";
@@ -713,6 +714,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
 
   return (
     <>
+      <SessionWatcher />
       <ToastProvider>
         <ToastPanel />
 

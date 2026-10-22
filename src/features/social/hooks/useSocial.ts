@@ -1,19 +1,25 @@
 import { useEffect } from "react";
 import { type Room, Client } from "colyseus.js";
 import { CONFIG } from "lib/config";
-import type { Interaction, Milestone, PlayerUpdate } from "../types/types";
+import type {
+  Interaction,
+  Milestone,
+  PlayerUpdate,
+  SessionStarted,
+} from "../types/types";
 
 const MAX_RETRY_INTERVAL = 15 * 60 * 1000;
 
+type Callbacks = {
+  onFollow?: (update: PlayerUpdate) => void;
+  onUnfollow?: (update: PlayerUpdate) => void;
+  onInteraction?: (update: Interaction) => void;
+  onMilestone?: (update: Milestone) => void;
+  onSessionStarted?: (update: SessionStarted) => void;
+};
+
 // Private data specific to the connection to the colyseus server
-const subscribers: Set<{
-  callbacks?: {
-    onFollow?: (update: PlayerUpdate) => void;
-    onUnfollow?: (update: PlayerUpdate) => void;
-    onInteraction?: (update: Interaction) => void;
-    onMilestone?: (update: Milestone) => void;
-  };
-}> = new Set();
+const subscribers: Set<{ callbacks?: Callbacks }> = new Set();
 let room: Room<unknown> | undefined = undefined;
 let reconnectTimeout: NodeJS.Timeout | undefined = undefined;
 let retries = 0;
@@ -21,12 +27,7 @@ let status: "loading" | "connected" | "error" = "loading";
 
 type UseSocialParams = {
   farmId: number;
-  callbacks?: {
-    onFollow?: (update: PlayerUpdate) => void;
-    onUnfollow?: (update: PlayerUpdate) => void;
-    onInteraction?: (update: Interaction) => void;
-    onMilestone?: (update: Milestone) => void;
-  };
+  callbacks?: Callbacks;
 };
 
 const updateStatus = (updatedStatus: "loading" | "connected" | "error") => {
@@ -94,15 +95,30 @@ const onMilestone = (update: Milestone) => {
   });
 };
 
+const onSessionStarted = (update: SessionStarted) => {
+  [...subscribers.values()].forEach((subscriber) => {
+    if (subscriber.callbacks?.onSessionStarted) {
+      subscriber.callbacks.onSessionStarted(update);
+    }
+  });
+};
+
 const clearListeners = () => {
   room?.removeAllListeners();
 };
 
-const setupListeners = (room: Room<unknown>) => {
+const setupListeners = (room: Room<unknown>, farmId: number) => {
   room.onMessage("follow", onFollow);
   room.onMessage("unfollow", onUnfollow);
   room.onMessage("interaction", onInteraction);
   room.onMessage("milestone", onMilestone);
+  room.onMessage("session", onSessionStarted);
+
+  // A socket that drops after connecting (laptop asleep, flaky network) used
+  // to stay dead until a component remounted. Rejoin with the same backoff as
+  // a failed join. `leaveRoom` removes this listener before a deliberate
+  // leave, so only unexpected drops land here.
+  room.onLeave(() => onError(farmId));
 };
 
 const leaveRoom = async () => {
@@ -121,7 +137,7 @@ const joinRoom = async (farmId: number) => {
     room = await client.joinOrCreate("sunflorea_social", {
       farmId,
     });
-    setupListeners(room);
+    setupListeners(room, farmId);
 
     onConnected();
   } catch (e) {
