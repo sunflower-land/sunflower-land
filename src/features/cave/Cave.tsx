@@ -170,9 +170,9 @@ export const Cave: React.FC = () => {
     !showMerchant;
   const guiding =
     tutorialStep && tutorialSeen[tutorialStep] ? tutorialStep : undefined;
-  // Match the beach: running out of shovels matters while using the shovel,
-  // not while the player has selected a Sand Drill.
-  const outOfShovels = shovels < 1 && selectedItem !== "Sand Drill";
+  // A selected drill only replaces the shovel while it is still in stock.
+  const outOfShovels =
+    shovels < 1 && (selectedItem !== "Sand Drill" || drills < 1);
   const readyMachines = slots.filter((id) => {
     const batch = cave.machines[String(id)]?.batch;
     return batch && batch.readyAt <= now && !isCavePatchCleared(batch);
