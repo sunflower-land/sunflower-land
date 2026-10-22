@@ -10,6 +10,7 @@ import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
 import type {
+  AnimalFeedBuffName,
   AnimalFoodName,
   AnimalMedicineName,
   GameState,
@@ -51,15 +52,17 @@ import {
 } from "features/game/types/pigFeeds";
 import { formatNumber } from "lib/utils/formatNumber";
 import { BulkMixModal } from "./BulkMixModal";
-import { BEETLES } from "features/game/types/beetles";
+import { BEETLES, type BeetleName } from "features/game/types/beetles";
 import { hasFeatureAccess } from "lib/flags";
-import { PigFeedMixer, type FeederQuickItem } from "./PigFeedMixer";
+import { PigFeedMixer } from "./PigFeedMixer";
 
 interface Props {
   show: boolean;
   onClose: () => void;
   building: AnimalBuildingType;
 }
+
+type FeederQuickItem = AnimalFeedBuffName | BeetleName | "Mud";
 
 type BulkMixItem = AnimalFoodName | AnimalMedicineName;
 
@@ -394,23 +397,14 @@ export const FeederMachineModal: React.FC<Props> = ({
           currentTab={tab}
           setCurrentTab={setTab}
         >
-          {(tab === "food" || tab === "care") && building === "Pigpen" && (
+          {tab === "food" && building === "Pigpen" && (
             <PigFeedMixer
               state={state}
-              section={tab}
-              selected={
-                isPigFeed(selectedName) || selectedName === "Barn Delight"
-                  ? selectedName
-                  : "Basic Slop"
-              }
+              selected={isPigFeed(selectedName) ? selectedName : "Basic Slop"}
               ingredient={ingredient ?? pigFeedOptions[0]}
               ingredients={ingredients}
               maxMixAmount={maxMixAmount}
-              spices={spices}
-              beetles={beetles}
-              selectedQuickItem={selectedQuickItem}
               onSelect={onSelect}
-              onSelectQuickItem={onSelectQuickItem}
               onSelectIngredient={(item) =>
                 isPigFeed(selectedName) &&
                 setPigFeedInputs((prev) => ({
@@ -422,7 +416,7 @@ export const FeederMachineModal: React.FC<Props> = ({
               onMixInBulk={() => setShowBulkMixModal(true)}
             />
           )}
-          {(tab === "food" || tab === "care") && building !== "Pigpen" && (
+          {(tab === "care" || (tab === "food" && building !== "Pigpen")) && (
             <SplitScreenView
               panel={
                 selectedQuickItem ? (
@@ -486,6 +480,14 @@ export const FeederMachineModal: React.FC<Props> = ({
                             count={state.inventory[item.name]}
                           />
                         ))}
+                        {type === "medicine" && building === "Pigpen" && (
+                          <Box
+                            isSelected={selectedQuickItem === "Mud"}
+                            onClick={() => onSelectQuickItem("Mud")}
+                            image={ITEM_DETAILS.Mud.image}
+                            count={state.inventory.Mud}
+                          />
+                        )}
                       </div>
                     </div>
                   ))}
