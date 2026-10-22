@@ -266,6 +266,7 @@ import greenBeetle from "assets/resources/beetles/green_beetle.webp";
 import blueBeetle from "assets/resources/beetles/blue_beetle.webp";
 import pinkBeetle from "assets/resources/beetles/pink_beetle.webp";
 import amberBeetle from "assets/resources/beetles/amber_beetle.webp";
+import { BEETLE_FEEDING_XP } from "./beetles";
 
 import pickledCabbage from "assets/pickled_crops/pickled_cabbage.webp";
 import pickledOnion from "assets/pickled_crops/pickled_onion.webp";
@@ -6204,22 +6205,30 @@ export const ITEM_DETAILS: Items = {
   // until the art team delivers - see ticket 800.
   "Green Beetle": {
     image: greenBeetle,
-    description: translate("description.greenBeetle"),
+    description: translate("description.greenBeetle", {
+      xp: BEETLE_FEEDING_XP["Green Beetle"],
+    }),
     translatedName: translate("resource.greenBeetle"),
   },
   "Blue Beetle": {
     image: blueBeetle,
-    description: translate("description.blueBeetle"),
+    description: translate("description.blueBeetle", {
+      xp: BEETLE_FEEDING_XP["Blue Beetle"],
+    }),
     translatedName: translate("resource.blueBeetle"),
   },
   "Pink Beetle": {
     image: pinkBeetle,
-    description: translate("description.pinkBeetle"),
+    description: translate("description.pinkBeetle", {
+      xp: BEETLE_FEEDING_XP["Pink Beetle"],
+    }),
     translatedName: translate("resource.pinkBeetle"),
   },
   "Amber Beetle": {
     image: amberBeetle,
-    description: translate("description.amberBeetle"),
+    description: translate("description.amberBeetle", {
+      xp: BEETLE_FEEDING_XP["Amber Beetle"],
+    }),
     translatedName: translate("resource.amberBeetle"),
   },
   Mud: {
