@@ -7,6 +7,9 @@ import {
 } from "features/game/types/cavePatch";
 import { caveTileKey } from "features/game/types/caveRecipes";
 
+export const CAVE_FEEDBACK_DISPLAY_MS = 1200;
+export const CAVE_FEEDBACK_FADE_MS = 200;
+
 export type CaveDigFeedback =
   | { kind: "shovelSaved"; item: "Sand Shovel" }
   | { kind: "drillSaved"; item: "Sand Drill" }

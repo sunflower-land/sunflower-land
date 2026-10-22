@@ -4,24 +4,31 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import type { CaveDigFeedback as Feedback } from "../lib/digFeedback";
+import {
+  CAVE_FEEDBACK_DISPLAY_MS,
+  CAVE_FEEDBACK_FADE_MS,
+  type CaveDigFeedback as Feedback,
+} from "../lib/digFeedback";
 import "./caveDigFeedback.css";
 
 export type CaveFeedbackEvent = {
   id: number;
+  createdAt: number;
   x: number;
   y: number;
   feedback: Feedback[];
 };
 
-export function CaveDigFeedback({ event }: { event?: CaveFeedbackEvent }) {
+/** One dig's visual lifetime, independent of later digs; announcements live in CavePatch. */
+export function CaveDigFeedback({ event }: { event: CaveFeedbackEvent }) {
   const { t } = useAppTranslation();
   const { showAnimations } = useContext(Context);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
-    if (!event) return;
+    const remaining = event.createdAt + CAVE_FEEDBACK_DISPLAY_MS - Date.now();
+    if (remaining <= 0) return;
     const frame = requestAnimationFrame(() => setVisible(true));
-    const timeout = window.setTimeout(() => setVisible(false), 1200);
+    const timeout = window.setTimeout(() => setVisible(false), remaining);
     return () => {
       cancelAnimationFrame(frame);
       window.clearTimeout(timeout);
@@ -30,18 +37,17 @@ export function CaveDigFeedback({ event }: { event?: CaveFeedbackEvent }) {
   return (
     <div
       className="cave-dig-feedback absolute z-50 pointer-events-none flex flex-col items-center gap-1"
-      role="status"
-      aria-live="polite"
-      aria-hidden={!visible}
       style={{
-        left: (event?.x ?? 0) * GRID_WIDTH_PX,
-        top: (event?.y ?? 0) * GRID_WIDTH_PX,
+        left: event.x * GRID_WIDTH_PX,
+        top: event.y * GRID_WIDTH_PX,
         transform: "translate(-50%, -100%)",
         opacity: visible ? 1 : 0,
-        transitionDuration: showAnimations ? "200ms" : "0ms",
+        transitionDuration: showAnimations
+          ? `${CAVE_FEEDBACK_FADE_MS}ms`
+          : "0ms",
       }}
     >
-      {event?.feedback.map((feedback) => (
+      {event.feedback.map((feedback) => (
         <Label
           key={`${event.id}-${feedback.kind}-${feedback.item}`}
           type="success"

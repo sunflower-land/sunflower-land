@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useRef, useState } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 
 import { Context } from "features/game/GameProvider";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
@@ -27,7 +27,11 @@ import { getKeys } from "lib/object";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CaveTutorialHand } from "./CaveTutorial";
 
-import { getCaveDigFeedback } from "../lib/digFeedback";
+import {
+  CAVE_FEEDBACK_DISPLAY_MS,
+  CAVE_FEEDBACK_FADE_MS,
+  getCaveDigFeedback,
+} from "../lib/digFeedback";
 import { CaveDigFeedback, type CaveFeedbackEvent } from "./CaveDigFeedback";
 
 interface Props {
@@ -100,7 +104,15 @@ export const CavePatch: React.FC<Props> = ({
   // The tile under the pointer; the drill's square grows from it.
   const [hovered, setHovered] = useState<{ x: number; y: number }>();
 
-  const [feedbackEvent, setFeedbackEvent] = useState<CaveFeedbackEvent>();
+  const [feedbackEvents, setFeedbackEvents] = useState<CaveFeedbackEvent[]>([]);
+  const feedbackTimers = useRef(new Set<number>());
+  useEffect(() => {
+    const timers = feedbackTimers.current;
+    return () => {
+      timers.forEach((timer) => window.clearTimeout(timer));
+      timers.clear();
+    };
+  }, []);
   const feedbackId = useRef(0);
   const dig = (
     coords: { x: number; y: number }[],
@@ -121,13 +133,24 @@ export const CavePatch: React.FC<Props> = ({
       tool,
     });
     if (feedback.length) {
-      setFeedbackEvent({
+      const event: CaveFeedbackEvent = {
         id: ++feedbackId.current,
+        createdAt: Date.now(),
         feedback,
         x:
           coords.reduce((sum, point) => sum + point.x, 0) / coords.length + 0.5,
         y: Math.min(...coords.map((point) => point.y)),
-      });
+      };
+      setFeedbackEvents((active) => [...active, event]);
+      // Each successful dig owns its expiry, even if another dig or batch follows.
+      const timers = feedbackTimers.current;
+      const timeout = window.setTimeout(() => {
+        timers.delete(timeout);
+        setFeedbackEvents((active) =>
+          active.filter((activeEvent) => activeEvent.id !== event.id),
+        );
+      }, CAVE_FEEDBACK_DISPLAY_MS + CAVE_FEEDBACK_FADE_MS);
+      timers.add(timeout);
     }
   };
   const recipe = batch?.recipe;
@@ -292,7 +315,17 @@ export const CavePatch: React.FC<Props> = ({
         )}
       </div>
 
-      <CaveDigFeedback event={feedbackEvent} />
+      <div
+        role="status"
+        aria-live="polite"
+        aria-atomic="false"
+        aria-relevant="additions"
+        className="pointer-events-none"
+      >
+        {feedbackEvents.map((event) => (
+          <CaveDigFeedback key={event.id} event={event} />
+        ))}
+      </div>
       {ready && !cleared && hoverBox && (
         <img
           src={hoverBox.size === 2 ? DRILL_SELECT : SHOVEL_SELECT}
