@@ -11,6 +11,7 @@ import {
   type BeetleName,
 } from "features/game/types/beetles";
 import { INITIAL_FARM } from "features/game/lib/constants";
+import { ITEM_DETAILS } from "features/game/types/images";
 import { ANIMAL_LEVELS, type AnimalType } from "features/game/types/animals";
 import { getAnimalLevel } from "features/game/lib/animals";
 import type {
@@ -3005,6 +3006,8 @@ describe("feedAnimal: direct Beetle feeding", () => {
     const state = feed(cowFarm(0), "Cow", item);
 
     expect(BEETLE_FEEDING_XP[item]).toEqual(xp);
+    // The Beetle's description states this XP, so keep the two in step.
+    expect(ITEM_DETAILS[item].description).toContain(`for ${xp} XP`);
     expect(state.barn.animals["1"].experience).toEqual(xp);
     expect(state.inventory[item]).toEqual(new Decimal(4));
   });
