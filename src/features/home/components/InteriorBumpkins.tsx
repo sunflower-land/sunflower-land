@@ -33,6 +33,7 @@ export const InteriorBumpkins: React.FC<Props> = ({ location = "home" }) => {
   const [showBumpkinModal, setShowBumpkinModal] = React.useState(false);
   const [showBuyFarmHand, setShowBuyFarmHandModal] = React.useState(false);
   const [selectedFarmHandId, setSelectedFarmHandId] = React.useState<string>();
+  const [equipPreviewId, setEquipPreviewId] = React.useState<string>();
 
   const bumpkin = useSelector(gameService, _bumpkin);
   const farmHands = useSelector(gameService, _farmHands);
@@ -84,6 +85,7 @@ export const InteriorBumpkins: React.FC<Props> = ({ location = "home" }) => {
                   handlePlaceBumpkin();
                 } else if (!isLandscaping) {
                   setShowBumpkinModal(true);
+                  setEquipPreviewId(undefined);
                 }
               }}
             >
@@ -129,6 +131,7 @@ export const InteriorBumpkins: React.FC<Props> = ({ location = "home" }) => {
                   handlePlaceFarmHand(id);
                 } else if (!isLandscaping) {
                   setSelectedFarmHandId(id);
+                  setEquipPreviewId(id);
                 }
               }}
             >
@@ -190,7 +193,11 @@ export const InteriorBumpkins: React.FC<Props> = ({ location = "home" }) => {
         size="lg"
       >
         <CloseButtonPanel
-          bumpkinParts={bumpkin?.equipped}
+          bumpkinParts={
+            equipPreviewId
+              ? farmHands[equipPreviewId]?.equipped
+              : bumpkin?.equipped
+          }
           onClose={() => setShowBumpkinModal(false)}
           tabs={[
             {
@@ -203,10 +210,16 @@ export const InteriorBumpkins: React.FC<Props> = ({ location = "home" }) => {
           <BumpkinEquip
             farmHandId={undefined}
             equipment={bumpkin?.equipped as BumpkinParts}
-            onEquip={(equipment) => {
-              gameService.send("bumpkin.equipped", {
-                equipment,
-              });
+            onSelect={setEquipPreviewId}
+            onEquip={(equipment, farmHandId) => {
+              if (farmHandId) {
+                gameService.send("farmHand.equipped", {
+                  id: farmHandId,
+                  equipment,
+                });
+              } else {
+                gameService.send("bumpkin.equipped", { equipment });
+              }
             }}
           />
         </CloseButtonPanel>
@@ -218,7 +231,11 @@ export const InteriorBumpkins: React.FC<Props> = ({ location = "home" }) => {
         size="lg"
       >
         <CloseButtonPanel
-          bumpkinParts={farmHands[selectedFarmHandId as string]?.equipped}
+          bumpkinParts={
+            equipPreviewId
+              ? farmHands[equipPreviewId]?.equipped
+              : bumpkin?.equipped
+          }
           onClose={() => setSelectedFarmHandId(undefined)}
           tabs={[
             {
@@ -231,11 +248,16 @@ export const InteriorBumpkins: React.FC<Props> = ({ location = "home" }) => {
           <BumpkinEquip
             farmHandId={selectedFarmHandId as string}
             equipment={farmHands[selectedFarmHandId as string]?.equipped}
-            onEquip={(equipment) => {
-              gameService.send("farmHand.equipped", {
-                id: selectedFarmHandId,
-                equipment,
-              });
+            onSelect={setEquipPreviewId}
+            onEquip={(equipment, farmHandId) => {
+              if (farmHandId) {
+                gameService.send("farmHand.equipped", {
+                  id: farmHandId,
+                  equipment,
+                });
+              } else {
+                gameService.send("bumpkin.equipped", { equipment });
+              }
             }}
           />
         </CloseButtonPanel>
