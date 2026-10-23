@@ -285,6 +285,11 @@ type CommunityEvent = {
   game: GameState;
 };
 
+/** Another tab or device loaded a session for this farm (via the social room). */
+type SessionReplacedEvent = {
+  type: "SESSION_REPLACED";
+};
+
 type BuyBlockBucksEvent = {
   type: "BUY_GEMS";
   currency: Currency;
@@ -413,6 +418,7 @@ export type BlockchainEvent =
   | { type: "SAVE" }
   | TransactEvent
   | CommunityEvent
+  | SessionReplacedEvent
   | SellMarketResourceEvent
   | { type: "REFRESH" }
   | { type: "DAILY_RESET" }
@@ -3018,6 +3024,18 @@ export function startGame(authContext: AuthContext) {
         COMMUNITY_UPDATE: {
           actions: assign({
             state: (_, event) => event.game,
+          }),
+        },
+        // Same screen the autosave 409 shows, without waiting for an autosave.
+        // Skipped while `loading`: a tab mid-REFRESH is about to announce a
+        // fresh session and must not be bounced straight back to error by a
+        // notice meant for the session it is leaving behind.
+        SESSION_REPLACED: {
+          target: "#error",
+          cond: (_context, _event, { state }) =>
+            !state.matches("loading") && !state.matches("error"),
+          actions: assign({
+            errorCode: (_) => ERRORS.MULTIPLE_DEVICES_OPEN as ErrorCode,
           }),
         },
       },
