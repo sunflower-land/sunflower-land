@@ -33,16 +33,6 @@ export type Milestone = Interaction & {
   followers?: number[];
 };
 
-/**
- * A game session loaded for this farm. Carries only a SHA-256 of the
- * session's device tracker: room joins are unauthenticated, so the token
- * itself never goes over the socket. The tab compares it against a hash of
- * its own tracker to tell "that was me" from "another tab replaced me".
- */
-export type SessionStarted = {
-  sessionHash: string;
-};
-
 export type ActiveProjects = Partial<
   Record<MonumentName, { receivedCheers: number; requiredCheers: number }>
 >;

@@ -285,14 +285,9 @@ type CommunityEvent = {
   game: GameState;
 };
 
-/**
- * Another session loaded for this farm (pushed over the social room). The
- * watcher compares hashes off-thread, so it echoes back the tracker it
- * compared; the guard drops the event if the tab's tracker changed meanwhile.
- */
+/** Another tab or device loaded a session for this farm (via the social room). */
 type SessionReplacedEvent = {
   type: "SESSION_REPLACED";
-  comparedTrackerId: string;
 };
 
 type BuyBlockBucksEvent = {
@@ -3032,16 +3027,13 @@ export function startGame(authContext: AuthContext) {
           }),
         },
         // Same screen the autosave 409 shows, without waiting for an autosave.
-        // Skipped while `loading`: a REFRESH from the error screen starts a
-        // new session, and its own push can land before `assignGame` swaps
-        // the tracker in, which would bounce the tab straight back to error.
+        // Skipped while `loading`: a tab mid-REFRESH is about to announce a
+        // fresh session and must not be bounced straight back to error by a
+        // notice meant for the session it is leaving behind.
         SESSION_REPLACED: {
           target: "#error",
-          cond: (context, event, { state }) =>
-            !!context.deviceTrackerId &&
-            event.comparedTrackerId === context.deviceTrackerId &&
-            !state.matches("loading") &&
-            !state.matches("error"),
+          cond: (_context, _event, { state }) =>
+            !state.matches("loading") && !state.matches("error"),
           actions: assign({
             errorCode: (_) => ERRORS.MULTIPLE_DEVICES_OPEN as ErrorCode,
           }),

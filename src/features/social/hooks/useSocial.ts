@@ -1,12 +1,7 @@
 import { useEffect } from "react";
 import { type Room, Client } from "colyseus.js";
 import { CONFIG } from "lib/config";
-import type {
-  Interaction,
-  Milestone,
-  PlayerUpdate,
-  SessionStarted,
-} from "../types/types";
+import type { Interaction, Milestone, PlayerUpdate } from "../types/types";
 
 const MAX_RETRY_INTERVAL = 15 * 60 * 1000;
 
@@ -15,7 +10,8 @@ type Callbacks = {
   onUnfollow?: (update: PlayerUpdate) => void;
   onInteraction?: (update: Interaction) => void;
   onMilestone?: (update: Milestone) => void;
-  onSessionStarted?: (update: SessionStarted) => void;
+  /** Another tab or device loaded a session for this farm; this one is stale. */
+  onSessionReplaced?: () => void;
 };
 
 // Private data specific to the connection to the colyseus server
@@ -24,6 +20,9 @@ let room: Room<unknown> | undefined = undefined;
 let reconnectTimeout: NodeJS.Timeout | undefined = undefined;
 let retries = 0;
 let status: "loading" | "connected" | "error" = "loading";
+// The session this tab holds, re-announced on every (re)connect so the room
+// can tell a reconnect of the live session from a new one or a stale tab.
+let sessionHash: string | undefined = undefined;
 
 type UseSocialParams = {
   farmId: number;
@@ -95,12 +94,21 @@ const onMilestone = (update: Milestone) => {
   });
 };
 
-const onSessionStarted = (update: SessionStarted) => {
+const onSessionReplaced = () => {
   [...subscribers.values()].forEach((subscriber) => {
-    if (subscriber.callbacks?.onSessionStarted) {
-      subscriber.callbacks.onSessionStarted(update);
+    if (subscriber.callbacks?.onSessionReplaced) {
+      subscriber.callbacks.onSessionReplaced();
     }
   });
+};
+
+/**
+ * Tell the room which session this tab holds. Safe to call before the room is
+ * connected: the hash is kept and sent once it is, and again on every rejoin.
+ */
+export const announceSession = (hash: string) => {
+  sessionHash = hash;
+  if (status === "connected") room?.send("session", { hash });
 };
 
 const clearListeners = () => {
@@ -112,7 +120,7 @@ const setupListeners = (room: Room<unknown>, farmId: number) => {
   room.onMessage("unfollow", onUnfollow);
   room.onMessage("interaction", onInteraction);
   room.onMessage("milestone", onMilestone);
-  room.onMessage("session", onSessionStarted);
+  room.onMessage("replaced", onSessionReplaced);
 
   // A socket that drops after connecting (laptop asleep, flaky network) used
   // to stay dead until a component remounted. Rejoin with the same backoff as
@@ -140,6 +148,7 @@ const joinRoom = async (farmId: number) => {
     setupListeners(room, farmId);
 
     onConnected();
+    if (sessionHash) room.send("session", { hash: sessionHash });
   } catch (e) {
     onError(farmId);
   }

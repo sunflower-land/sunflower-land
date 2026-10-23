@@ -1,48 +1,55 @@
 import type React from "react";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useSelector } from "@xstate/react";
 
 import { Context } from "../GameProvider";
 import type { MachineState } from "../lib/gameMachine";
-import { useSocial } from "features/social/hooks/useSocial";
+import { announceSession, useSocial } from "features/social/hooks/useSocial";
 import { hashString } from "lib/stateHash";
 
 // The logged-in player's own farm, even mid-visit (where `farmId` is the
-// farm being visited). Sessions are pushed to the owner's room, not the host's.
+// farm being visited). Sessions belong to the owner's room, not the host's.
 const _ownFarmId = (state: MachineState) =>
   state.context.visitorId ?? state.context.farmId;
 
-// `hashString` tags its output; the API sends the bare hex digest.
-const HASH_PREFIX = "sha256:";
+const _deviceTrackerId = (state: MachineState) => state.context.deviceTrackerId;
 
 /**
  * Shows the multiple-devices screen the moment another tab or device loads a
  * session for this farm, instead of waiting for the next autosave to be
- * refused. Renders nothing; it only keeps the social-room subscription alive
+ * refused.
+ *
+ * Each tab tells the social room which session it holds (a hash of its device
+ * tracker, which changes on every session load). The room decides: a hash it
+ * has not seen replaces the live session and every other tab is told; a hash
+ * it has seen but already replaced belongs to a stale tab reconnecting, and
+ * only that tab is told. Renders nothing; it only keeps the subscription alive
  * so idle tabs hear about it too.
  */
 export const SessionWatcher: React.FC = () => {
   const { gameService } = useContext(Context);
   const farmId = useSelector(gameService, _ownFarmId);
+  const deviceTrackerId = useSelector(gameService, _deviceTrackerId);
+
+  useEffect(() => {
+    if (!deviceTrackerId) return;
+
+    // Only the hash leaves the tab: room joins are unauthenticated, so the
+    // token itself must never be on the wire.
+    let cancelled = false;
+    hashString(deviceTrackerId).then((hash) => {
+      if (!cancelled) announceSession(hash);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [deviceTrackerId]);
 
   useSocial({
     farmId,
     callbacks: {
-      onSessionStarted: async ({ sessionHash }) => {
-        // Read at message time, not render time: the tracker changes on
-        // every session load and the subscription outlives those renders.
-        const { deviceTrackerId } = gameService.getSnapshot().context;
-        if (!deviceTrackerId) return;
-
-        const hashed = await hashString(deviceTrackerId);
-        // Our own session's push (or its replay on rejoin): nothing to do.
-        if (hashed.slice(HASH_PREFIX.length) === sessionHash) return;
-
-        gameService.send({
-          type: "SESSION_REPLACED",
-          comparedTrackerId: deviceTrackerId,
-        });
-      },
+      onSessionReplaced: () => gameService.send({ type: "SESSION_REPLACED" }),
     },
   });
 
