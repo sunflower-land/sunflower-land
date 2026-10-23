@@ -122,6 +122,8 @@ export type NPCName =
   | "pirate skeleton" //april fools event portal npc
   | "Slime Jim" // Colors event NPC
   | "Slime Joe" // Colors event NPC
+  | "Vampire Jim" // Halloween event NPC
+  | "Skelly Joe" // Halloween event NPC
   | "gloomwick"; // Goblin Cave Merchant (Chapter 16)
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
@@ -1411,6 +1413,26 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     aura: "Butterfly Aura",
     eyes: "Fun Eyes",
     mouth: "Big Smile",
+  },
+  "Vampire Jim": {
+    hair: "Basic Hair",
+    hat: "Vampire Headwear",
+    body: "Beige Farmer Potion",
+    shirt: "Vampire Garments",
+    pants: "Vampire Breeches",
+    shoes: "Vampire Footwear",
+    eyes: "Fun Eyes",
+    mouth: "Big Smile",
+  },
+  "Skelly Joe": {
+    background: "Scary Nights Background",
+    hair: "Basic Hair",
+    hat: "Skeleton Mask",
+    body: "Light Brown Farmer Potion",
+    suit: "Skeleton Costume",
+    tool: "Hook and Chain",
+    wings: "Sky Tearer Wings",
+    aura: "Bat Aura",
   },
   gloomwick: {
     body: "Goblin Potion",

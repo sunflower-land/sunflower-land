@@ -1164,6 +1164,27 @@ import silverSlimeTrophy from "assets/sfts/silver_slime_trophy.webp";
 import goldSlimeTrophy from "assets/sfts/gold_slime_trophy.webp";
 import giantDonut from "assets/sfts/giant_donut.webp";
 
+import halloweenToken2026 from "assets/icons/halloween_token_2026.webp";
+import halloweenTicket2026 from "assets/icons/halloween_ticket_2026.webp";
+import corruptedPumpkin from "assets/sfts/corrupted_pumpkin.webp";
+import hugeJackOLantern from "assets/sfts/huge_jackolantern.webp";
+import hauntedTv from "assets/sfts/haunted_tv.webp";
+import zombieHandToy from "assets/sfts/zombie_hand_toy.webp";
+import coolZombieTombstone from "assets/sfts/cool_zombie_tombstone.webp";
+import destroyedSign from "assets/sfts/destroyed_sign.webp";
+import skullCandles from "assets/sfts/skull_candles.webp";
+import plagueCrow from "assets/sfts/plague_crow.webp";
+import skeletonCrow from "assets/sfts/skeleton_crow.webp";
+import witchCrow from "assets/sfts/witch_crow.webp";
+import fisherbirdCrow from "assets/sfts/fisherbird_crow.webp";
+import chainedCrow from "assets/sfts/chained_crow.webp";
+import countVladCrow from "assets/sfts/count_vlad_crow.webp";
+import lualCrow from "assets/sfts/lual_crow.webp";
+import kingCrow from "assets/sfts/king_crow.webp";
+import devilCrow from "assets/sfts/devil_crow.webp";
+import pharaohCrow from "assets/sfts/pharaoh_crow.webp";
+import cultistCrow from "assets/sfts/cultist_crow.webp";
+
 import bigTable from "assets/decorations/big_table.webp";
 import crate from "assets/decorations/crate.webp";
 import emptyPot from "assets/decorations/empty_pot.webp";
@@ -8426,5 +8447,85 @@ export const ITEM_DETAILS: Items = {
   "Colors Token 2026": {
     image: colorsToken2026,
     description: translate("description.colorsToken2026"),
+  },
+  "Corrupted Pumpkin": {
+    image: corruptedPumpkin,
+    description: translate("description.corruptedPumpkin"),
+  },
+  "Huge Jack-o'-lantern": {
+    image: hugeJackOLantern,
+    description: translate("description.hugeJackOLantern"),
+  },
+  "Haunted TV": {
+    image: hauntedTv,
+    description: translate("description.hauntedTv"),
+  },
+  "Zombie Hand Toy": {
+    image: zombieHandToy,
+    description: translate("description.zombieHandToy"),
+  },
+  "Cool Zombie Tombstone": {
+    image: coolZombieTombstone,
+    description: translate("description.coolZombieTombstone"),
+  },
+  "Destroyed Sign": {
+    image: destroyedSign,
+    description: translate("description.destroyedSign"),
+  },
+  "Skull Candles": {
+    image: skullCandles,
+    description: translate("description.skullCandles"),
+  },
+  "Plague Crow": {
+    image: plagueCrow,
+    description: translate("description.plagueCrow"),
+  },
+  "Skeleton Crow": {
+    image: skeletonCrow,
+    description: translate("description.skeletonCrow"),
+  },
+  "Witch Crow": {
+    image: witchCrow,
+    description: translate("description.witchCrow"),
+  },
+  "Fisherbird Crow": {
+    image: fisherbirdCrow,
+    description: translate("description.fisherbirdCrow"),
+  },
+  "Chained Crow": {
+    image: chainedCrow,
+    description: translate("description.chainedCrow"),
+  },
+  "Count Vlad Crow": {
+    image: countVladCrow,
+    description: translate("description.countVladCrow"),
+  },
+  "Lual Crow": {
+    image: lualCrow,
+    description: translate("description.lualCrow"),
+  },
+  "King Crow": {
+    image: kingCrow,
+    description: translate("description.kingCrow"),
+  },
+  "Devil Crow": {
+    image: devilCrow,
+    description: translate("description.devilCrow"),
+  },
+  "Pharaoh Crow": {
+    image: pharaohCrow,
+    description: translate("description.pharaohCrow"),
+  },
+  "Cultist Crow": {
+    image: cultistCrow,
+    description: translate("description.cultistCrow"),
+  },
+  "Halloween Token 2026": {
+    image: halloweenToken2026,
+    description: translate("description.halloweenToken2025"),
+  },
+  "Halloween Ticket 2026": {
+    image: halloweenTicket2026,
+    description: translate("description.halloweenTicket2025"),
   },
 };

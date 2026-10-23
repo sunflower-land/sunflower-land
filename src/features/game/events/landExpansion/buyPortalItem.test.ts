@@ -1,6 +1,11 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { buyEventShopItem } from "./buyPortalItem";
 import Decimal from "decimal.js-light";
+import {
+  HALLOWEEN_2026_STORE,
+  type EventShopItemName,
+} from "features/game/types/minigameShop";
+import { HALLOWEEN_2026_EVENT_ITEMS } from "features/game/types/halloween2026EventShop";
 
 describe("minigameItem.bought", () => {
   const now = Date.now();
@@ -421,6 +426,100 @@ describe("minigameItem.bought", () => {
         "Colors Ticket 2025": 2,
       },
       wearables: {},
+    });
+  });
+
+  describe("halloween-2026-game-2 tiers", () => {
+    const game = (shop?: {
+      items?: Record<string, number>;
+      wearables?: Record<string, number>;
+    }) => ({
+      ...INITIAL_FARM,
+      balance: new Decimal(1000),
+      inventory: { "Halloween Token 2026": new Decimal(10000) },
+      minigames: {
+        prizes: {},
+        games: {
+          "halloween-2026-game-2": {
+            highscore: 0,
+            history: {},
+            ...(shop ? { shop: { items: {}, wearables: {}, ...shop } } : {}),
+          },
+        },
+      },
+    });
+
+    const buy = (state: ReturnType<typeof game>, name: EventShopItemName) =>
+      buyEventShopItem({
+        state,
+        action: {
+          id: "halloween-2026-game-2",
+          name,
+          type: "minigameItem.bought",
+        },
+        createdAt: now,
+      });
+
+    it("sells basic items straight away", () => {
+      const state = buy(game(), "Zombie Hand Toy");
+
+      expect(state.inventory["Zombie Hand Toy"]).toEqual(new Decimal(1));
+    });
+
+    it("locks a rare item until 6 different items are bought", () => {
+      expect(() =>
+        buy(
+          game({
+            items: {
+              "Treasure Key": 1,
+              "Halloween Ticket 2026": 40,
+              "Destroyed Sign": 5,
+              "Zombie Hand Toy": 1,
+            },
+            wearables: { "Butcher Knife": 1 },
+          }),
+          "Skeleton Crow",
+        ),
+      ).toThrow("rare tier is locked");
+    });
+
+    it("sells a rare item once 6 different items are bought", () => {
+      const state = buy(
+        game({
+          items: {
+            "Treasure Key": 1,
+            "Halloween Ticket 2026": 40,
+            "Destroyed Sign": 5,
+            "Zombie Hand Toy": 1,
+          },
+          wearables: { "Butcher Knife": 1, "Vampire Footwear": 1 },
+        }),
+        "Skeleton Crow",
+      );
+
+      expect(state.inventory["Skeleton Crow"]).toEqual(new Decimal(1));
+    });
+
+    it("locks a mega wearable for a new player", () => {
+      expect(() => buy(game(), "Bat Aura")).toThrow("mega tier is locked");
+    });
+
+    it("locks the extra tier until every other item is bought", () => {
+      expect(() =>
+        buy(game({ items: { "Super Totem": 1 } }), "Huge Jack-o'-lantern"),
+      ).toThrow("extra tier is locked");
+    });
+
+    it("puts every store item in exactly one tier", () => {
+      const tiered = Object.values(HALLOWEEN_2026_EVENT_ITEMS).flatMap((tier) =>
+        tier.items.map((item) =>
+          "wearable" in item ? item.wearable : item.collectible,
+        ),
+      );
+
+      expect([...tiered].sort()).toEqual(
+        Object.keys(HALLOWEEN_2026_STORE).sort(),
+      );
     });
   });
 });

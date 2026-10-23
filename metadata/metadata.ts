@@ -15418,6 +15418,225 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Bronze Slime Trophy",
   },
+  "Halloween Token 2026": {
+    description: "Use this in the Halloween event shop before the event ends!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Halloween Token 2026",
+  },
+  "Halloween Ticket 2026": {
+    description:
+      "Hold this for a chance to win $FLOWER after the Halloween event ends!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Halloween Ticket 2026",
+  },
+  "Corrupted Pumpkin": {
+    description:
+      "A pumpkin twisted by dark magic. Something inside is definitely looking back at you.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Corrupted Pumpkin",
+  },
+  "Huge Jack-o'-lantern": {
+    description:
+      "An enormous carved pumpkin with a grin that is far too wide. Its flickering glow can be seen from across the island.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Huge Jack-o'-lantern",
+  },
+  "Haunted TV": {
+    description:
+      "Nobody remembers plugging it in, yet it still shows static at 3 AM. Do not change the channel.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Haunted TV",
+  },
+  "Zombie Hand Toy": {
+    description:
+      "A squeaky toy shaped like a zombie hand. It twitches whenever you stop looking at it.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Zombie Hand Toy",
+  },
+  "Cool Zombie Tombstone": {
+    description:
+      "A surprisingly stylish tombstone. Whoever is buried here definitely died cooler than the rest of us.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Cool Zombie Tombstone",
+  },
+  "Destroyed Sign": {
+    description:
+      "A broken sign with its message long gone. Maybe it was a warning worth reading.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Destroyed Sign",
+  },
+  "Skull Candles": {
+    description:
+      "A cluster of candles melted over old skulls. The flames burn a little too eagerly.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Skull Candles",
+  },
+  "Plague Crow": {
+    description:
+      "A crow in a beaked doctor's mask. It claims to have a cure, but you might not want to find out.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Plague Crow",
+  },
+  "Skeleton Crow": {
+    description:
+      "Nothing left but feathers and bones. Somehow it still caws loudly at sunrise.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Skeleton Crow",
+  },
+  "Witch Crow": {
+    description:
+      "A crow in a pointed hat, always brewing some kind of mischief. Black cats keep their distance.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Witch Crow",
+  },
+  "Fisherbird Crow": {
+    description:
+      "A crow that traded the scarecrow field for the fishing pier. It will gladly pretend it caught something big.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Fisherbird Crow",
+  },
+  "Chained Crow": {
+    description:
+      "A crow bound in rusty chains. Whatever locked it up was not prepared for its attitude.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Chained Crow",
+  },
+  "Count Vlad Crow": {
+    description:
+      "A noble crow in a dramatic cape with a taste for the night. Garlic is not recommended.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Count Vlad Crow",
+  },
+  "Lual Crow": {
+    description:
+      "A mysterious crow that only appears at the stroke of midnight. Nobody is quite sure what it wants.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Lual Crow",
+  },
+  "King Crow": {
+    description:
+      "A crow who wears a crown and rules over the pumpkin patch. All other crows bow, and so should you.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "King Crow",
+  },
+  "Devil Crow": {
+    description:
+      "A crow with tiny horns and a very sinister grin. It swears it only wants to borrow your harvest.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Devil Crow",
+  },
+  "Pharaoh Crow": {
+    description:
+      "A crow in golden headwear straight out of an ancient tomb. It guards secrets older than the island itself.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Pharaoh Crow",
+  },
+  "Cultist Crow": {
+    description:
+      "A crow in a dark hooded robe, chanting at the moon. It keeps asking you to join the flock.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Cultist Crow",
+  },
 
   // Chapter 16 resources
   "Green Beetle": {
@@ -22488,5 +22707,126 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Butterfly Aura",
+  },
+  "Vampire Headwear": {
+    description:
+      "A dark, elegant hat fit for the lord of the night. Mirrors are not recommended.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Vampire Headwear",
+  },
+  "Butcher Knife": {
+    description:
+      "A rusty butcher knife planted firmly on your head. Not recommended for hugs.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Butcher Knife",
+  },
+  "Skeleton Mask": {
+    description:
+      "A grinning skull mask that makes you look bone-chillingly good.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Skeleton Mask",
+  },
+  "Vampire Breeches": {
+    description:
+      "Elegant dark trousers with a touch of gothic style. Perfect for midnight strolls.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Pants" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Vampire Breeches",
+  },
+  "Scary Nights Background": {
+    description:
+      "A moonlit backdrop full of fog and shadows. Perfect for a night nobody will forget.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Background" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Scary Nights Background",
+  },
+  "Vampire Garments": {
+    description:
+      "A dramatic high-collared outfit fit for royalty of the night. Garlic not included.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shirt" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Vampire Garments",
+  },
+  "Hook and Chain": {
+    description:
+      "A sharp hook tied to a heavy chain. Be careful when swinging it, it rattles loudly.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Tool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Hook and Chain",
+  },
+  "Vampire Footwear": {
+    description:
+      "Polished shoes that make no sound at night. They go very well with a good cape.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shoes" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Vampire Footwear",
+  },
+  "Skeleton Costume": {
+    description:
+      "A full skeleton suit with bones painted on every inch. Surprisingly comfortable.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Suit" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Skeleton Costume",
+  },
+  "Sky Tearer Wings": {
+    description:
+      "Massive  wings that look like they could rip through the night sky itself.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Wings" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Sky Tearer Wings",
+  },
+  "Bat Aura": {
+    description:
+      "A swarm of bats circles around you, squeaking happily in the dark.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Aura" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Bat Aura",
   },
 };
