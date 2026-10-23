@@ -612,6 +612,9 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   if (loadingSession || loadingLandToVisit || portalling) {
     return (
       <>
+        {/* First child here and in the main render, so React keeps the same
+            instance (and its socket) across the switch. */}
+        <SessionWatcher />
         <Ocean>
           <Modal show backdrop={false}>
             <div

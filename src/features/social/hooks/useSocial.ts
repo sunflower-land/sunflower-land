@@ -17,6 +17,9 @@ type Callbacks = {
 // Private data specific to the connection to the colyseus server
 const subscribers: Set<{ callbacks?: Callbacks }> = new Set();
 let room: Room<unknown> | undefined = undefined;
+// The farm the room was last asked to join (set before the join resolves, so
+// a second subscriber for the same farm does not join twice).
+let joinedFarmId: number | undefined = undefined;
 let reconnectTimeout: NodeJS.Timeout | undefined = undefined;
 let retries = 0;
 let status: "loading" | "connected" | "error" = "loading";
@@ -137,6 +140,7 @@ const leaveRoom = async () => {
 
 const joinRoom = async (farmId: number) => {
   const client = new Client(CONFIG.ROOM_URL);
+  joinedFarmId = farmId;
 
   try {
     onLoading();
@@ -170,6 +174,8 @@ export const useSocial = ({ farmId, callbacks }: UseSocialParams) => {
 
     // Only connect to server when the first component subscribes
     if (subscribers.size === 1) joinRoom(farmId);
+    // The room is for one farm; a subscriber for another farm moves it
+    else if (joinedFarmId !== farmId) joinRoom(farmId);
     // Force a reconnection attempt if the connection is down when a component subscribes
     else if (status === "error") {
       retries = 0;
@@ -181,5 +187,7 @@ export const useSocial = ({ farmId, callbacks }: UseSocialParams) => {
       // Leave the room if no component is subscribed
       if (subscribers.size === 0) leaveRoom();
     };
-  }, []);
+    // Re-run on a farm change so the room follows it (the session watcher
+    // joins before the game has loaded, when the farm id can still change).
+  }, [farmId]);
 };
