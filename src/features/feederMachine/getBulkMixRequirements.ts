@@ -359,10 +359,37 @@ export function getBulkMixRequirements(
   const ingredients: GameState["inventory"] = {};
   const feeds: BulkMixFeed[] = [];
   let coins = 0;
+  // Omnifeed already held feeds any of these animals, so it covers food
+  // shortfalls before anything is mixed: first the foods switched to Omnifeed
+  // (saving Gems), then the rest (saving their ingredients).
+  const isSwitched = (item: FeedRequestName) =>
+    !!omnifeedFoods[item] && canMixAsOmnifeed(item);
+  const omnifeedCover: Partial<Record<FeedRequestName, Decimal>> = {};
+  let omnifeedLeft = game.inventory.Omnifeed ?? new Decimal(0);
+  const coverable = getKeys(requests).filter(canMixAsOmnifeed);
+  [
+    ...coverable.filter(isSwitched),
+    ...coverable.filter((item) => !isSwitched(item)),
+  ].forEach((item) => {
+    const gap = (requests[item] ?? new Decimal(0)).sub(
+      game.inventory[item] ?? new Decimal(0),
+    );
+    const stillNeeded = gap.gt(0) ? gap : new Decimal(0);
+    const fromOmnifeed = stillNeeded.lt(omnifeedLeft)
+      ? stillNeeded
+      : omnifeedLeft;
+    omnifeedLeft = omnifeedLeft.sub(fromOmnifeed);
+    omnifeedCover[item] = fromOmnifeed;
+  });
 
   getKeys(requests).forEach((item) => {
     const requested = requests[item] ?? new Decimal(0);
-    const inInventory = game.inventory[item] ?? new Decimal(0);
+    // Omnifeed gives every animal its favourite food's XP for the same
+    // quantity, so it can stand in for any food (never for medicine or Slop).
+    const mixAs: FeedRequestName = isSwitched(item) ? "Omnifeed" : item;
+    const inInventory = (game.inventory[item] ?? new Decimal(0)).add(
+      omnifeedCover[item] ?? 0,
+    );
     const difference = requested.sub(inInventory);
     // Feeds are mixed in whole units, but boosts like Fat Chicken and Medic
     // Apron make the requirement fractional, so round the shortfall up. The
@@ -373,10 +400,6 @@ export function getBulkMixRequirements(
 
     const feedIngredients: GameState["inventory"] = {};
     let feedCoins = 0;
-    // Omnifeed gives every animal its favourite food's XP for the same
-    // quantity, so it can stand in for any food (never for medicine or Slop).
-    const mixAs: FeedRequestName =
-      omnifeedFoods[item] && canMixAsOmnifeed(item) ? "Omnifeed" : item;
     const ingredient = isPigFeed(item)
       ? (pigFeedInputs[item] ??
         getPigFeedIngredientOptions(item, game.inventory)[0])
