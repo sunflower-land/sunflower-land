@@ -41,6 +41,7 @@ import {
 } from "features/game/types/pigFeeds";
 import { getKeys } from "lib/object";
 import { getIngredients } from "./feedMixed";
+import { MAX_BULK_MIX_AMOUNT } from "./bulkMixFeed";
 
 type FeedRequestName = AnimalFoodName | AnimalMedicineName;
 type RequestTotals = Partial<Record<FeedRequestName, Decimal>>;
@@ -66,6 +67,44 @@ export type BulkMixFeed = {
   ingredients: GameState["inventory"];
   coins: number;
 };
+
+export type BulkMixEntry = {
+  item: FeedRequestName;
+  ingredient?: InventoryItemName;
+  amount: number;
+};
+
+/**
+ * The `feeds.bulkMixed` entries for the selected feeds. Foods covered by
+ * Omnifeed share one Omnifeed entry, since the event takes each item once.
+ * Each entry is capped at the event's per-item limit; `capped` says whether
+ * anything was left over, which shows up again as a shortfall to mix next.
+ */
+export function getBulkMixEntries(
+  feeds: Pick<BulkMixFeed, "mixAs" | "ingredient" | "missing">[],
+): { entries: BulkMixEntry[]; capped: boolean } {
+  const grouped = feeds.reduce<BulkMixEntry[]>((acc, feed) => {
+    const entry = acc.find(({ item }) => item === feed.mixAs);
+    if (entry) {
+      entry.amount += feed.missing.toNumber();
+    } else {
+      acc.push({
+        item: feed.mixAs,
+        ingredient: feed.ingredient,
+        amount: feed.missing.toNumber(),
+      });
+    }
+    return acc;
+  }, []);
+
+  return {
+    entries: grouped.map((entry) => ({
+      ...entry,
+      amount: Math.min(entry.amount, MAX_BULK_MIX_AMOUNT),
+    })),
+    capped: grouped.some(({ amount }) => amount > MAX_BULK_MIX_AMOUNT),
+  };
+}
 
 /** Whether a requested feed can be mixed as Omnifeed instead: any food but a Slop. */
 export const canMixAsOmnifeed = (item: FeedRequestName) =>

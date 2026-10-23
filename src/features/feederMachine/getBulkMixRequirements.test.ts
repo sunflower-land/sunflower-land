@@ -1,7 +1,10 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import type { Animal, GameState } from "features/game/types/game";
-import { getBulkMixRequirements } from "./getBulkMixRequirements";
+import {
+  getBulkMixEntries,
+  getBulkMixRequirements,
+} from "./getBulkMixRequirements";
 
 describe("getBulkMixRequirements", () => {
   const animal = ({
@@ -682,5 +685,33 @@ describe("getBulkMixRequirements", () => {
 
       expect(feeds[0].ingredient).toBeUndefined();
     });
+  });
+});
+
+describe("getBulkMixEntries", () => {
+  it("combines foods covered by Omnifeed into one Omnifeed entry", () => {
+    const { entries, capped } = getBulkMixEntries([
+      { mixAs: "Omnifeed", missing: new Decimal(30) },
+      { mixAs: "Hay", missing: new Decimal(10) },
+      { mixAs: "Omnifeed", missing: new Decimal(20) },
+    ]);
+
+    expect(entries).toEqual([
+      { item: "Omnifeed", ingredient: undefined, amount: 50 },
+      { item: "Hay", ingredient: undefined, amount: 10 },
+    ]);
+    expect(capped).toBe(false);
+  });
+
+  it("caps an entry at the bulk mix limit and reports it", () => {
+    const { entries, capped } = getBulkMixEntries([
+      { mixAs: "Omnifeed", missing: new Decimal(1200) },
+      { mixAs: "Omnifeed", missing: new Decimal(900) },
+    ]);
+
+    expect(entries).toEqual([
+      { item: "Omnifeed", ingredient: undefined, amount: 1000 },
+    ]);
+    expect(capped).toBe(true);
   });
 });
