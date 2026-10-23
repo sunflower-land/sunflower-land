@@ -41,6 +41,7 @@ import {
 } from "features/game/types/pigFeeds";
 import { getKeys } from "lib/object";
 import { getIngredients } from "./feedMixed";
+import { MAX_BULK_MIX_AMOUNT } from "./bulkMixFeed";
 
 type FeedRequestName = AnimalFoodName | AnimalMedicineName;
 type RequestTotals = Partial<Record<FeedRequestName, Decimal>>;
@@ -52,6 +53,11 @@ type FeedRequest = { item: FeedRequestName; quantity: Decimal };
  */
 export type BulkMixFeed = {
   item: FeedRequestName;
+  /**
+   * What is actually mixed to cover `item`: the item itself, or Omnifeed when
+   * the player chose to cover a food with it (same quantity and XP).
+   */
+  mixAs: FeedRequestName;
   /** The input a Pig Slop is mixed from; undefined for other feeds. */
   ingredient?: InventoryItemName;
   type: FeedType;
@@ -61,6 +67,76 @@ export type BulkMixFeed = {
   ingredients: GameState["inventory"];
   coins: number;
 };
+
+export type BulkMixEntry = {
+  item: FeedRequestName;
+  ingredient?: InventoryItemName;
+  amount: number;
+};
+
+/**
+ * The `feeds.bulkMixed` entries for the selected feeds. Foods covered by
+ * Omnifeed share one Omnifeed entry, since the event takes each item once.
+ * Each entry is capped at the event's per-item limit; `capped` says whether
+ * anything was left over, which shows up again as a shortfall to mix next.
+ */
+export function getBulkMixEntries(
+  feeds: Pick<BulkMixFeed, "mixAs" | "ingredient" | "missing">[],
+): { entries: BulkMixEntry[]; capped: boolean } {
+  const grouped = feeds.reduce<BulkMixEntry[]>((acc, feed) => {
+    const entry = acc.find(({ item }) => item === feed.mixAs);
+    if (entry) {
+      entry.amount += feed.missing.toNumber();
+    } else {
+      acc.push({
+        item: feed.mixAs,
+        ingredient: feed.ingredient,
+        amount: feed.missing.toNumber(),
+      });
+    }
+    return acc;
+  }, []);
+
+  return {
+    entries: grouped.map((entry) => ({
+      ...entry,
+      amount: Math.min(entry.amount, MAX_BULK_MIX_AMOUNT),
+    })),
+    capped: grouped.some(({ amount }) => amount > MAX_BULK_MIX_AMOUNT),
+  };
+}
+
+/**
+ * What the given bulk mix entries cost: their ingredients and coins at the
+ * amounts actually submitted (combined and capped), not the rows' totals.
+ */
+export function getBulkMixEntriesCost(
+  game: GameState,
+  entries: BulkMixEntry[],
+): { ingredients: GameState["inventory"]; coins: number } {
+  const ingredients: GameState["inventory"] = {};
+  let coins = 0;
+
+  entries.forEach(({ item, ingredient, amount }) => {
+    const { ingredients: perFeed } = getIngredients({
+      state: game,
+      name: item,
+      ingredient,
+    });
+    coins += (ANIMAL_FOODS[item].coins ?? 0) * amount;
+    getKeys(perFeed).forEach((name) => {
+      ingredients[name] = (ingredients[name] ?? new Decimal(0)).add(
+        perFeed[name]?.mul(amount) ?? 0,
+      );
+    });
+  });
+
+  return { ingredients, coins };
+}
+
+/** Whether a requested feed can be mixed as Omnifeed instead: any food but a Slop. */
+export const canMixAsOmnifeed = (item: FeedRequestName) =>
+  ANIMAL_FOODS[item].type === "food" && !isPigFeed(item) && item !== "Omnifeed";
 
 /**
  * A Slop's inputs, best first: the one with the most left over after mixing,
@@ -315,6 +391,8 @@ export function getBulkMixRequirements(
   now: number,
   /** The input the player picked for each Slop; unset means the best option. */
   pigFeedInputs: Partial<Record<PigFeedName, InventoryItemName>> = {},
+  /** Foods the player chose to cover with Omnifeed instead of their recipe. */
+  omnifeedFoods: Partial<Record<FeedRequestName, boolean>> = {},
 ) {
   const buildingKey = makeAnimalBuildingKey(building);
   const animals = Object.values(game[buildingKey].animals);
@@ -348,10 +426,37 @@ export function getBulkMixRequirements(
   const ingredients: GameState["inventory"] = {};
   const feeds: BulkMixFeed[] = [];
   let coins = 0;
+  // Omnifeed already held feeds any of these animals, so it covers food
+  // shortfalls before anything is mixed: first the foods switched to Omnifeed
+  // (saving Gems), then the rest (saving their ingredients).
+  const isSwitched = (item: FeedRequestName) =>
+    !!omnifeedFoods[item] && canMixAsOmnifeed(item);
+  const omnifeedCover: Partial<Record<FeedRequestName, Decimal>> = {};
+  let omnifeedLeft = game.inventory.Omnifeed ?? new Decimal(0);
+  const coverable = getKeys(requests).filter(canMixAsOmnifeed);
+  [
+    ...coverable.filter(isSwitched),
+    ...coverable.filter((item) => !isSwitched(item)),
+  ].forEach((item) => {
+    const gap = (requests[item] ?? new Decimal(0)).sub(
+      game.inventory[item] ?? new Decimal(0),
+    );
+    const stillNeeded = gap.gt(0) ? gap : new Decimal(0);
+    const fromOmnifeed = stillNeeded.lt(omnifeedLeft)
+      ? stillNeeded
+      : omnifeedLeft;
+    omnifeedLeft = omnifeedLeft.sub(fromOmnifeed);
+    omnifeedCover[item] = fromOmnifeed;
+  });
 
   getKeys(requests).forEach((item) => {
     const requested = requests[item] ?? new Decimal(0);
-    const inInventory = game.inventory[item] ?? new Decimal(0);
+    // Omnifeed gives every animal its favourite food's XP for the same
+    // quantity, so it can stand in for any food (never for medicine or Slop).
+    const mixAs: FeedRequestName = isSwitched(item) ? "Omnifeed" : item;
+    const inInventory = (game.inventory[item] ?? new Decimal(0)).add(
+      omnifeedCover[item] ?? 0,
+    );
     const difference = requested.sub(inInventory);
     // Feeds are mixed in whole units, but boosts like Fat Chicken and Medic
     // Apron make the requirement fractional, so round the shortfall up. The
@@ -372,26 +477,32 @@ export function getBulkMixRequirements(
 
       const { ingredients: mixIngredients } = getIngredients({
         state: game,
-        name: item,
+        name: mixAs,
         ingredient,
       });
 
-      const feed = ANIMAL_FOODS[item];
-      feedCoins = (feed.coins ?? 0) * missing.toNumber();
-      coins += feedCoins;
+      const feed = ANIMAL_FOODS[mixAs];
+      // One bulk mix makes at most the event's per-item limit, so the row's
+      // own cost (what its selection is checked against) covers only that;
+      // the totals still plan the whole shortfall.
+      const mixAmount = missing.gt(MAX_BULK_MIX_AMOUNT)
+        ? new Decimal(MAX_BULK_MIX_AMOUNT)
+        : missing;
+      feedCoins = (feed.coins ?? 0) * mixAmount.toNumber();
+      coins += (feed.coins ?? 0) * missing.toNumber();
 
       getKeys(mixIngredients).forEach((ingredient) => {
-        const amount =
-          mixIngredients[ingredient]?.mul(missing) ?? new Decimal(0);
-        feedIngredients[ingredient] = amount;
+        const perFeed = mixIngredients[ingredient] ?? new Decimal(0);
+        feedIngredients[ingredient] = perFeed.mul(mixAmount);
         ingredients[ingredient] = (
           ingredients[ingredient] ?? new Decimal(0)
-        ).add(amount);
+        ).add(perFeed.mul(missing));
       });
     }
 
     feeds.push({
       item,
+      mixAs,
       ingredient,
       type: ANIMAL_FOODS[item].type,
       requested,
