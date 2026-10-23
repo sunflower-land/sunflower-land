@@ -45,6 +45,7 @@ import {
   getBulkMixRequirements,
   canMixAsOmnifeed,
   getBulkMixEntries,
+  getBulkMixEntriesCost,
   getPigFeedIngredientOptions,
 } from "./getBulkMixRequirements";
 import {
@@ -300,23 +301,15 @@ export const FeederMachineModal: React.FC<Props> = ({
     (feed) => canMixFeed(feed) && isFeedSelected(feed.item),
   );
 
-  // Sum the ingredients required across every selected feed.
-  const selectedIngredients = selectedFeeds.reduce(
-    (acc, feed) => {
-      getKeys(feed.ingredients).forEach((ingredient) => {
-        acc[ingredient] = (acc[ingredient] ?? new Decimal(0)).add(
-          feed.ingredients[ingredient] ?? new Decimal(0),
-        );
-      });
-      return acc;
-    },
-    {} as GameState["inventory"],
-  );
+  // Capped per item at the event's limit; anything left over shows up as a
+  // shortfall again once this mix lands, so the player mixes the rest next.
+  const { entries: bulkMixEntries, capped: bulkMixCapped } =
+    getBulkMixEntries(selectedFeeds);
 
-  const selectedCoins = selectedFeeds.reduce(
-    (total, feed) => total + feed.coins,
-    0,
-  );
+  // What the submitted (combined, capped) entries need, so affordability
+  // matches what is actually mixed.
+  const { ingredients: selectedIngredients, coins: selectedCoins } =
+    getBulkMixEntriesCost(state, bulkMixEntries);
 
   // Ingredients where the player is short of what the selection requires.
   const ingredientShortfalls = getKeys(selectedIngredients).reduce(
@@ -344,11 +337,6 @@ export const FeederMachineModal: React.FC<Props> = ({
         (ingredient) => `${formatNumber(list[ingredient] ?? 0)} ${ingredient}`,
       )
       .join(", ");
-
-  // Capped per item at the event's limit; anything left over shows up as a
-  // shortfall again once this mix lands, so the player mixes the rest next.
-  const { entries: bulkMixEntries, capped: bulkMixCapped } =
-    getBulkMixEntries(selectedFeeds);
 
   const bulkMix = () => {
     const entries = bulkMixEntries;
