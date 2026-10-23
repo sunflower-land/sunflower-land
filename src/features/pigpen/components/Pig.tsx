@@ -142,7 +142,9 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
   const [showNoMedicine, setShowNoMedicine] = useState(false);
   const [showLockedDetails, setShowLockedDetails] = useState(false);
   // Sounds
-  const { play: playFeedAnimal } = useSound("pig_feed");
+  const { play: playFeedAnimal } = useSound("feed_animal");
+  // Only an actual feed grunts; love, Mud and treats keep the generic clip.
+  const { play: playPigFeed } = useSound("pig_feed");
   const { play: playPigCollect } = useSound("pig_collect");
   const { play: playProduceDrop } = useSound("produce_drop");
   const { play: playLevelUp } = useSound("level_up");
@@ -268,7 +270,7 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
       animal: updatedPig,
     });
 
-    playFeedAnimal();
+    playPigFeed();
   };
 
   const onLoveClick = async () => {
