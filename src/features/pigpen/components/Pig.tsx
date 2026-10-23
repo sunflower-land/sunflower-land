@@ -142,12 +142,11 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
   const [showNoMedicine, setShowNoMedicine] = useState(false);
   const [showLockedDetails, setShowLockedDetails] = useState(false);
   // Sounds
-  const { play: playFeedAnimal } = useSound("feed_animal");
-  // TODO(Chapter 16 art): Pig SFX exist in the asset repo but are not wired up.
-  const { play: playPigCollect } = useSound("cow_collect");
+  const { play: playFeedAnimal } = useSound("pig_feed");
+  const { play: playPigCollect } = useSound("pig_collect");
   const { play: playProduceDrop } = useSound("produce_drop");
   const { play: playLevelUp } = useSound("level_up");
-  const { play: playCureAnimal } = useSound("cure_animal");
+  const { play: playCureAnimal } = useSound("pig_cure");
 
   const lastSynced = useRef({ state: pig.state, experience: pig.experience });
 
