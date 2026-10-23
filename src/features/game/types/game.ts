@@ -1629,6 +1629,11 @@ export type CommunityIsland = {
   };
 };
 
+export type MinigamePrizeTier = {
+  score: number;
+  items: Partial<Record<InventoryItemName, number>>;
+};
+
 export type MinigamePrize = {
   startAt: number;
   endAt: number;
@@ -1636,12 +1641,20 @@ export type MinigamePrize = {
   coins: number;
   items: Partial<Record<InventoryItemName, number>>;
   wearables: Wardrobe;
+  /**
+   * Ascending by score. When set, a claim pays the highest tier the latest
+   * run (`MinigameHistory.lastScore`) reached instead of `items`; `score` and
+   * `items` mirror the lowest tier.
+   */
+  tiers?: MinigamePrizeTier[];
 };
 
 export type MinigameHistory = {
   highscore: number;
   attempts: number;
   prizeClaimedAt?: number;
+  /** The latest run's score - only recorded while today's prize has tiers */
+  lastScore?: number;
 };
 
 export type Minigame = {

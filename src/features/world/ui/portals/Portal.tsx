@@ -13,6 +13,7 @@ import { Context } from "features/game/GameProvider";
 import type { MinigameName } from "features/game/types/minigames";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
+import { getMinigamePrizeReward } from "features/game/events/minigames/claimMinigamePrize";
 
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -300,7 +301,16 @@ export const Portal: React.FC<Props> = ({
   };
 
   if (isComplete) {
-    const prize = gameState.context.state.minigames.prizes[portalName];
+    const { prizes, games } = gameState.context.state.minigames;
+    const prize = prizes[portalName];
+    // A tiered prize pays the tier this run reached
+    const history =
+      prize &&
+      games[portalName]?.history[
+        new Date(prize.startAt).toISOString().slice(0, 10)
+      ];
+    const reward =
+      (prize && history && getMinigamePrizeReward({ prize, history })) ?? prize;
 
     return (
       <ClaimReward
@@ -309,10 +319,10 @@ export const Portal: React.FC<Props> = ({
           message: "Congratulations, you completed the mission!",
           factionPoints: 0,
           id: "discord-bonus",
-          items: prize?.items ?? {},
-          wearables: prize?.wearables ?? {},
+          items: reward?.items ?? {},
+          wearables: reward?.wearables ?? {},
           sfl: 0,
-          coins: prize?.coins ?? 0,
+          coins: reward?.coins ?? 0,
         }}
       />
     );

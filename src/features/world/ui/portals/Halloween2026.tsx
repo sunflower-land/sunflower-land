@@ -7,7 +7,10 @@ import { Label } from "components/ui/Label";
 import factions from "assets/icons/factions.webp";
 import { Portal } from "./Portal";
 import { InlineDialogue } from "../TypingMessage";
-import { isMinigameComplete } from "features/game/events/minigames/claimMinigamePrize";
+import {
+  getMinigamePrizeReward,
+  isMinigameComplete,
+} from "features/game/events/minigames/claimMinigamePrize";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { MinigamePrizeUI } from "./MinigamePrizeUI";
@@ -57,6 +60,10 @@ export const Halloween2026: React.FC<Props> = ({ onClose }) => {
   });
 
   if (isComplete && !dailyAttempt.prizeClaimedAt && prize) {
+    // A tiered prize pays the tier the latest run reached
+    const reward =
+      getMinigamePrizeReward({ prize, history: dailyAttempt }) ?? prize;
+
     return (
       <ClaimReward
         onClaim={onClaim}
@@ -64,10 +71,10 @@ export const Halloween2026: React.FC<Props> = ({ onClose }) => {
           message: t("halloween.portal.rewardMessage"),
           factionPoints: 0,
           id: "halloween-2026-game-2-rewards",
-          items: prize.items,
-          wearables: prize.wearables,
+          items: reward.items,
+          wearables: reward.wearables,
           sfl: 0,
-          coins: prize.coins,
+          coins: reward.coins,
         }}
       />
     );
