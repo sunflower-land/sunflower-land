@@ -47,6 +47,51 @@ describe("getBulkMixRequirements", () => {
     expect(requirements.coins).toBe(0);
   });
 
+  it("mixes a food chosen for Omnifeed from Gems instead of its recipe", () => {
+    const { feeds, requirements } = getBulkMixRequirements(
+      {
+        ...INITIAL_FARM,
+        inventory: {},
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: { "0": chicken("idle") },
+        },
+      },
+      "Hen House",
+      Date.now(),
+      {},
+      { "Kernel Blend": true },
+    );
+
+    const feed = feeds.find(({ item }) => item === "Kernel Blend");
+    expect(feed?.mixAs).toBe("Omnifeed");
+    expect(feed?.missing).toEqual(new Decimal(1));
+    expect(feed?.ingredients).toEqual({ Gem: new Decimal(1) });
+    expect(requirements.ingredients.Corn).toBeUndefined();
+    expect(requirements.ingredients.Gem).toEqual(new Decimal(1));
+  });
+
+  it("never mixes medicine as Omnifeed", () => {
+    const { feeds } = getBulkMixRequirements(
+      {
+        ...INITIAL_FARM,
+        inventory: {},
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: { "0": chicken("sick") },
+        },
+      },
+      "Hen House",
+      Date.now(),
+      {},
+      { "Barn Delight": true },
+    );
+
+    expect(feeds.find(({ item }) => item === "Barn Delight")?.mixAs).toBe(
+      "Barn Delight",
+    );
+  });
+
   it("uses the supplied timestamp for the awake check, not the wall clock", () => {
     const realNow = Date.now();
     // Awake as of the wall clock, still asleep as of the timestamp passed in.
