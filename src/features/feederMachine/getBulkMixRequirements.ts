@@ -52,6 +52,11 @@ type FeedRequest = { item: FeedRequestName; quantity: Decimal };
  */
 export type BulkMixFeed = {
   item: FeedRequestName;
+  /**
+   * What is actually mixed to cover `item`: the item itself, or Omnifeed when
+   * the player chose to cover a food with it (same quantity and XP).
+   */
+  mixAs: FeedRequestName;
   /** The input a Pig Slop is mixed from; undefined for other feeds. */
   ingredient?: InventoryItemName;
   type: FeedType;
@@ -61,6 +66,10 @@ export type BulkMixFeed = {
   ingredients: GameState["inventory"];
   coins: number;
 };
+
+/** Whether a requested feed can be mixed as Omnifeed instead: any food but a Slop. */
+export const canMixAsOmnifeed = (item: FeedRequestName) =>
+  ANIMAL_FOODS[item].type === "food" && !isPigFeed(item) && item !== "Omnifeed";
 
 /**
  * A Slop's inputs, best first: the one with the most left over after mixing,
@@ -315,6 +324,8 @@ export function getBulkMixRequirements(
   now: number,
   /** The input the player picked for each Slop; unset means the best option. */
   pigFeedInputs: Partial<Record<PigFeedName, InventoryItemName>> = {},
+  /** Foods the player chose to cover with Omnifeed instead of their recipe. */
+  omnifeedFoods: Partial<Record<FeedRequestName, boolean>> = {},
 ) {
   const buildingKey = makeAnimalBuildingKey(building);
   const animals = Object.values(game[buildingKey].animals);
@@ -362,6 +373,10 @@ export function getBulkMixRequirements(
 
     const feedIngredients: GameState["inventory"] = {};
     let feedCoins = 0;
+    // Omnifeed gives every animal its favourite food's XP for the same
+    // quantity, so it can stand in for any food (never for medicine or Slop).
+    const mixAs: FeedRequestName =
+      omnifeedFoods[item] && canMixAsOmnifeed(item) ? "Omnifeed" : item;
     const ingredient = isPigFeed(item)
       ? (pigFeedInputs[item] ??
         getPigFeedIngredientOptions(item, game.inventory)[0])
@@ -372,11 +387,11 @@ export function getBulkMixRequirements(
 
       const { ingredients: mixIngredients } = getIngredients({
         state: game,
-        name: item,
+        name: mixAs,
         ingredient,
       });
 
-      const feed = ANIMAL_FOODS[item];
+      const feed = ANIMAL_FOODS[mixAs];
       feedCoins = (feed.coins ?? 0) * missing.toNumber();
       coins += feedCoins;
 
@@ -392,6 +407,7 @@ export function getBulkMixRequirements(
 
     feeds.push({
       item,
+      mixAs,
       ingredient,
       type: ANIMAL_FOODS[item].type,
       requested,
