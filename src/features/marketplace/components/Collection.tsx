@@ -14,7 +14,10 @@ import { FixedSizeGrid as Grid } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
-import type { Tradeable } from "features/game/types/marketplace";
+import {
+  isTradeResourceAvailable,
+  type Tradeable,
+} from "features/game/types/marketplace";
 import type { InventoryItemName } from "features/game/types/game";
 import {
   PET_FETCHES,
@@ -41,7 +44,7 @@ import {
 } from "features/game/types/collections";
 import { getKeys } from "lib/object";
 import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
-import { KNOWN_IDS } from "features/game/types";
+import { KNOWN_IDS, KNOWN_ITEMS } from "features/game/types";
 import {
   BUD_TRAIT_GROUPS,
   createTraitLabelLookup,
@@ -261,9 +264,14 @@ export const Collection: React.FC<{
     filters.includes("temporary") && !hideLimited ? ["temporary", token] : null,
     collectionFetcher,
   );
+  // Chapter 16 resources stay hidden until the farm has the trading flag.
+  const availableResources = (resources?.items ?? []).filter((item) =>
+    isTradeResourceAvailable({ item: KNOWN_ITEMS[item.id], game: state }),
+  );
+
   const data = {
     items: dedupeTradeables([
-      ...(resources?.items || []),
+      ...availableResources,
       ...(collectibles?.items || []),
       ...(wearables?.items || []),
       ...(buds?.items || []),

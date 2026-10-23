@@ -193,6 +193,13 @@ const FEATURE_FLAGS = {
    * Remove once Chapter 16 ships.
    */
   BEETLE_FEEDING: betaFeatureFlag,
+  /**
+   * Chapter 16's resource trading: the four Beetles, Pig Bristles and Truffle
+   * on the marketplace. They sit in TRADE_LIMITS from merge day, so this flag
+   * is what keeps them off the marketplace until the chapter launches. Remove
+   * once Chapter 16 ships (TODO(Cave Dwellers)).
+   */
+  CAVE_DWELLERS_TRADING: betaFeatureFlag,
 
   FACE_RECOGNITION_TEST: betaFeatureFlag,
   // The developer-options button that forces a captcha on your own farm
