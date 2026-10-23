@@ -106,6 +106,34 @@ export function getBulkMixEntries(
   };
 }
 
+/**
+ * What the given bulk mix entries cost: their ingredients and coins at the
+ * amounts actually submitted (combined and capped), not the rows' totals.
+ */
+export function getBulkMixEntriesCost(
+  game: GameState,
+  entries: BulkMixEntry[],
+): { ingredients: GameState["inventory"]; coins: number } {
+  const ingredients: GameState["inventory"] = {};
+  let coins = 0;
+
+  entries.forEach(({ item, ingredient, amount }) => {
+    const { ingredients: perFeed } = getIngredients({
+      state: game,
+      name: item,
+      ingredient,
+    });
+    coins += (ANIMAL_FOODS[item].coins ?? 0) * amount;
+    getKeys(perFeed).forEach((name) => {
+      ingredients[name] = (ingredients[name] ?? new Decimal(0)).add(
+        perFeed[name]?.mul(amount) ?? 0,
+      );
+    });
+  });
+
+  return { ingredients, coins };
+}
+
 /** Whether a requested feed can be mixed as Omnifeed instead: any food but a Slop. */
 export const canMixAsOmnifeed = (item: FeedRequestName) =>
   ANIMAL_FOODS[item].type === "food" && !isPigFeed(item) && item !== "Omnifeed";
@@ -454,16 +482,21 @@ export function getBulkMixRequirements(
       });
 
       const feed = ANIMAL_FOODS[mixAs];
-      feedCoins = (feed.coins ?? 0) * missing.toNumber();
-      coins += feedCoins;
+      // One bulk mix makes at most the event's per-item limit, so the row's
+      // own cost (what its selection is checked against) covers only that;
+      // the totals still plan the whole shortfall.
+      const mixAmount = missing.gt(MAX_BULK_MIX_AMOUNT)
+        ? new Decimal(MAX_BULK_MIX_AMOUNT)
+        : missing;
+      feedCoins = (feed.coins ?? 0) * mixAmount.toNumber();
+      coins += (feed.coins ?? 0) * missing.toNumber();
 
       getKeys(mixIngredients).forEach((ingredient) => {
-        const amount =
-          mixIngredients[ingredient]?.mul(missing) ?? new Decimal(0);
-        feedIngredients[ingredient] = amount;
+        const perFeed = mixIngredients[ingredient] ?? new Decimal(0);
+        feedIngredients[ingredient] = perFeed.mul(mixAmount);
         ingredients[ingredient] = (
           ingredients[ingredient] ?? new Decimal(0)
-        ).add(amount);
+        ).add(perFeed.mul(missing));
       });
     }
 

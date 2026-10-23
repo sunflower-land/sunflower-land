@@ -3,6 +3,7 @@ import { INITIAL_FARM } from "features/game/lib/constants";
 import type { Animal, GameState } from "features/game/types/game";
 import {
   getBulkMixEntries,
+  getBulkMixEntriesCost,
   getBulkMixRequirements,
 } from "./getBulkMixRequirements";
 
@@ -713,5 +714,15 @@ describe("getBulkMixEntries", () => {
       { item: "Omnifeed", ingredient: undefined, amount: 1000 },
     ]);
     expect(capped).toBe(true);
+  });
+
+  it("costs the capped entries, not the rows' full shortfall", () => {
+    const { entries } = getBulkMixEntries([
+      { mixAs: "Omnifeed", missing: new Decimal(1200) },
+    ]);
+
+    expect(
+      getBulkMixEntriesCost(INITIAL_FARM, entries).ingredients.Gem,
+    ).toEqual(new Decimal(1000));
   });
 });
