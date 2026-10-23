@@ -4386,6 +4386,7 @@
   "feeder.missingIngredientsSummary": "Missing {{ingredients}}",
   "feeder.chooseSlopInput": "Select ingredient",
   "feeder.insteadOf": "instead of {{feed}}",
+  "feeder.bulkMixLimit": "Up to {{max}} of each feed are mixed at a time. Bulk Mix again for the rest.",
   "description.hay": "Dry grass used as animal feed or bedding.",
   "description.kernel.blend": "Blend of various grains for feed or consumption.",
   "description.nutribarley": "Barley-based nutritional supplement or feed.",

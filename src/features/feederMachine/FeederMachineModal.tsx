@@ -41,6 +41,7 @@ import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails
 import {
   getBulkMixRequirements,
   canMixAsOmnifeed,
+  getBulkMixEntries,
   getPigFeedIngredientOptions,
 } from "./getBulkMixRequirements";
 import {
@@ -50,6 +51,7 @@ import {
 } from "features/game/types/pigFeeds";
 import { formatNumber } from "lib/utils/formatNumber";
 import { BulkMixModal } from "./BulkMixModal";
+import { MAX_BULK_MIX_AMOUNT } from "./bulkMixFeed";
 import { PigFeedMixer } from "./PigFeedMixer";
 
 interface Props {
@@ -326,29 +328,13 @@ export const FeederMachineModal: React.FC<Props> = ({
       )
       .join(", ");
 
+  // Capped per item at the event's limit; anything left over shows up as a
+  // shortfall again once this mix lands, so the player mixes the rest next.
+  const { entries: bulkMixEntries, capped: bulkMixCapped } =
+    getBulkMixEntries(selectedFeeds);
+
   const bulkMix = () => {
-    // Several foods can be covered with Omnifeed, but the event takes each
-    // item once, so their amounts are combined into one Omnifeed entry.
-    const entries = selectedFeeds.reduce(
-      (acc, feed) => {
-        const entry = acc.find(({ item }) => item === feed.mixAs);
-        if (entry) {
-          entry.amount += feed.missing.toNumber();
-        } else {
-          acc.push({
-            item: feed.mixAs,
-            ingredient: feed.ingredient,
-            amount: feed.missing.toNumber(),
-          });
-        }
-        return acc;
-      },
-      [] as {
-        item: BulkMixItem;
-        ingredient?: InventoryItemName;
-        amount: number;
-      }[],
-    );
+    const entries = bulkMixEntries;
     const mixedItems = entries.map(({ item }) => item);
 
     gameService.send("feeds.bulkMixed", { feeds: entries });
@@ -782,6 +768,11 @@ export const FeederMachineModal: React.FC<Props> = ({
 
                   {/* Each feed is affordable on its own, so a shortfall here
                       only appears when the selection shares an ingredient. */}
+                  {bulkMixCapped && (
+                    <Label type="info">
+                      {t("feeder.bulkMixLimit", { max: MAX_BULK_MIX_AMOUNT })}
+                    </Label>
+                  )}
                   {hasShortfall && (
                     <Label type="danger">
                       {t("feeder.missingIngredientsSummary", {
