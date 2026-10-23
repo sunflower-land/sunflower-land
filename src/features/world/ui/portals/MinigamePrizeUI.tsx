@@ -46,7 +46,7 @@ export const MinigamePrizeUI: React.FC<{
     <OuterPanel>
       <div className="px-1">
         <span className="text-xs mb-2">{mission}</span>
-        <div className="flex justify-between mt-2 flex-wrap">
+        <div className="flex justify-between items-start mt-2 flex-wrap">
           {isComplete ? (
             <Label type="success" icon={SUNNYSIDE.icons.confirm}>
               {t("minigame.completed")}
