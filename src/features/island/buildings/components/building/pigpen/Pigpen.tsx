@@ -85,7 +85,7 @@ export const Pigpen: React.FC<BuildingProps> = ({
 
   const navigate = useNavigate();
 
-  // TODO(Chapter 16 art): reuses the Barn door sound until Pig SFX are wired up.
+  // The sound pack has no pen gate clip, so the Pigpen shares the Barn door.
   const { play: pigpenAudio } = useSound("barn");
 
   const hasHungryAnimals = useSelector(gameService, _hasHungryAnimals);
