@@ -71,6 +71,50 @@ describe("getBulkMixRequirements", () => {
     expect(requirements.ingredients.Gem).toEqual(new Decimal(1));
   });
 
+  it("counts Omnifeed already held towards the foods switched to it", () => {
+    const farm = (omnifeed: number): GameState => ({
+      ...INITIAL_FARM,
+      inventory: { Omnifeed: new Decimal(omnifeed) },
+      henHouse: {
+        ...INITIAL_FARM.henHouse,
+        animals: { "0": chicken("idle") },
+      },
+    });
+    const feedFor = (omnifeed: number) =>
+      getBulkMixRequirements(
+        farm(omnifeed),
+        "Hen House",
+        Date.now(),
+        {},
+        {
+          "Kernel Blend": true,
+        },
+      ).feeds.find(({ item }) => item === "Kernel Blend");
+
+    expect(feedFor(1)?.missing).toEqual(new Decimal(0));
+    expect(feedFor(1)?.inInventory).toEqual(new Decimal(1));
+    expect(feedFor(0)?.missing).toEqual(new Decimal(1));
+  });
+
+  it("counts held Omnifeed towards a food even when it isn't switched", () => {
+    const { feeds } = getBulkMixRequirements(
+      {
+        ...INITIAL_FARM,
+        inventory: { Omnifeed: new Decimal(5) },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: { "0": chicken("idle") },
+        },
+      },
+      "Hen House",
+      Date.now(),
+    );
+
+    expect(feeds.find(({ item }) => item === "Kernel Blend")?.missing).toEqual(
+      new Decimal(0),
+    );
+  });
+
   it("never mixes medicine as Omnifeed", () => {
     const { feeds } = getBulkMixRequirements(
       {
