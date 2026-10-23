@@ -376,6 +376,9 @@ describe("collect Recipes", () => {
         {
           ...firePit,
           crafting: [],
+          // The building is converted to the lazy-oil model on collect.
+          oil: 0,
+          oilSettledAt: dateNow,
         },
         {
           id: "2039",

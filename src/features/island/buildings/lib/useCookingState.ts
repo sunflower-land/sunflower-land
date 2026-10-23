@@ -3,12 +3,15 @@ import { useSelector } from "@xstate/react";
 
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
-import type { BuildingProduct } from "features/game/types/game";
 import {
   areBoostWindowsEqual,
   getCookingBoostWindows,
 } from "features/game/lib/boostWindows";
-import { resolveCookingQueueTimings } from "features/game/lib/cookingReadiness";
+import {
+  getCookingOilContext,
+  resolveCookingQueueTimings,
+} from "features/game/lib/cookingReadiness";
+import type { PlacedItem } from "features/game/types/game";
 import { useQueueState } from "./useQueueState";
 
 const _cookingBoostWindows = (state: MachineState) =>
@@ -29,7 +32,9 @@ const _cookingBoostWindows = (state: MachineState) =>
  * temporary boosts and deliberately stays on `useProcessingState`, reading stored
  * ready times.
  */
-export function useCookingState(building: { crafting?: BuildingProduct[] }) {
+export function useCookingState(
+  building: Pick<PlacedItem, "crafting" | "oil" | "oilSettledAt">,
+) {
   const { gameService } = useContext(Context);
 
   // Recomputed from full state but only re-rendering when the windows actually
@@ -42,20 +47,54 @@ export function useCookingState(building: { crafting?: BuildingProduct[] }) {
 
   const crafting = useMemo(() => building.crafting ?? [], [building.crafting]);
 
+  // Thread the building's oil so the derived ready times reflect the tank draining
+  // (and top-ups pulling the queue forward), the same as the reducers.
+  const oilLevel = building.oil;
+  const oilSettledAt = building.oilSettledAt;
+  const oil = useMemo(
+    () =>
+      oilSettledAt === undefined
+        ? undefined
+        : getCookingOilContext({ oil: oilLevel, oilSettledAt }),
+    [oilLevel, oilSettledAt],
+  );
+
   const timings = useMemo(
-    () => resolveCookingQueueTimings({ crafting, windows }),
-    [crafting, windows],
+    () => resolveCookingQueueTimings({ crafting, windows, oil }),
+    [crafting, windows, oil],
   );
 
   const resolved = useMemo(
     () =>
-      // Preserve object identity where the derived time matches the cache, so
-      // downstream memos only invalidate for recipes that actually moved.
-      crafting.map((recipe, index) =>
-        timings[index].readyAt === recipe.readyAt
-          ? recipe
-          : { ...recipe, readyAt: timings[index].readyAt },
-      ),
+      crafting.map((recipe, index) => {
+        const timing = timings[index];
+        // Building oil is a live speed boost, not a boost window, so the shared
+        // countdown (`useNodeTimer`) can't see it — it recomputes readyAt from
+        // `baseDurationMs` + windows alone. Substitute the OIL-ADJUSTED effective
+        // work (`baseDurationMs - covered·p`) so the timer, which then computes
+        // `computeReadyAt(startedAt, effective, windows)`, matches the resolver
+        // and reflects a mid-cook top-up. `baseDurationMs` stays the stored,
+        // oil-free value on disk; this substitution is display-only.
+        const effectiveBaseDurationMs =
+          recipe.baseDurationMs === undefined
+            ? recipe.baseDurationMs
+            : recipe.baseDurationMs -
+              timing.oilCoveredWorkMs * timing.oilPercent;
+
+        // Preserve object identity where nothing moved, so downstream memos only
+        // invalidate for recipes that actually changed.
+        if (
+          timing.readyAt === recipe.readyAt &&
+          effectiveBaseDurationMs === recipe.baseDurationMs
+        ) {
+          return recipe;
+        }
+        return {
+          ...recipe,
+          readyAt: timing.readyAt,
+          baseDurationMs: effectiveBaseDurationMs,
+        };
+      }),
     [crafting, timings],
   );
 
