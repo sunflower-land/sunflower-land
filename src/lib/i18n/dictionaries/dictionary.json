@@ -4063,6 +4063,7 @@
   "cave.expand.unlocks": "Unlocks",
   "cave.expand.patchDescription": "Another 5x5 patch to grow and dig a mix in.",
   "cave.merchant.title": "Goblin Cave Merchant",
+  "cave.merchant.noShovels": "It seems like you need more shovel.",
   "cave.merchant.description": "Psst... a different haul every visit. Bring it in bulk and I'll make it worth your while.",
   "cave.merchant.left": "{{left}}/{{limit}} left",
   "cave.merchant.trade": "Trade",

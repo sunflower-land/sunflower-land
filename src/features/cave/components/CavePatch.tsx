@@ -33,6 +33,7 @@ interface Props {
   now: number;
   hasShovel: boolean;
   hasDrill: boolean;
+  onDig: () => void;
   /** The tile the Cave tutorial points at for the first dig. */
   tutorialTile?: { x: number; y: number };
 }
@@ -90,6 +91,7 @@ export const CavePatch: React.FC<Props> = ({
   now,
   hasShovel,
   hasDrill,
+  onDig,
   tutorialTile,
 }) => {
   const { gameService, selectedItem, shortcutItem } = useContext(Context);
@@ -204,13 +206,14 @@ export const CavePatch: React.FC<Props> = ({
                   disabled={!hasDrill || !layout || allDug}
                   className="relative w-full h-full p-0 border-0 bg-transparent cursor-pointer disabled:cursor-not-allowed"
                   onPointerEnter={() => setHovered({ x, y })}
-                  onClick={() =>
+                  onClick={() => {
                     gameService.send({
                       type: "cave.drilled",
                       machineId,
                       coords: square,
-                    })
-                  }
+                    });
+                    onDig();
+                  }}
                 >
                   {dug && layout ? (
                     <DugTile tile={resolveCaveTile(layout, x, y)} />
@@ -251,6 +254,7 @@ export const CavePatch: React.FC<Props> = ({
                   // The tile becomes a DugTile under the pointer.
                   setHovered(undefined);
                   gameService.send({ type: "cave.dug", machineId, x, y });
+                  onDig();
                 }}
               >
                 <img
