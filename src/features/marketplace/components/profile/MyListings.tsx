@@ -1,4 +1,5 @@
 import { Label } from "components/ui/Label";
+import Decimal from "decimal.js-light";
 import { InnerPanel } from "components/ui/Panel";
 import React, { useContext, useState } from "react";
 import * as Auth from "features/auth/lib/Provider";
@@ -61,6 +62,7 @@ export const MyListings: React.FC<Props> = ({ fullHeight = false }) => {
   const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
 
   const [claimId, setClaimId] = useState<string>();
+  const [claimAll, setClaimAll] = useState(false);
   const [removeListingId, setRemoveListingId] = useState<string>();
   const [bulkCancel, setBulkCancel] = useState<boolean>(false);
 
@@ -112,21 +114,33 @@ export const MyListings: React.FC<Props> = ({ fullHeight = false }) => {
 
   if (filteredListingIds.length === 0) return null;
 
-  const claim = () => {
-    const listing = listings[claimId as string];
+  // Sold listings waiting to be claimed; `purchase.claimed` takes them all at once.
+  const fulfilledIds = filteredListingIds.filter(
+    (id) => !!listings[id].fulfilledAt || !!listings[id].boughtAt,
+  );
+  // What the claim credits: each listing's price minus its trading fee, the
+  // same deduction `claimPurchase` makes.
+  const fulfilledSfl = fulfilledIds
+    .reduce((total, id) => {
+      const { sfl, tax } = listings[id];
+      return total
+        .plus(sfl)
+        .minus(tax ?? new Decimal(sfl).mul(MARKETPLACE_TAX));
+    }, new Decimal(0))
+    .toNumber();
 
-    gameService.send("purchase.claimed", {
-      tradeIds: [claimId],
-    });
+  const claim = (tradeIds: string[]) => {
+    gameService.send("purchase.claimed", { tradeIds });
 
     // For on chain items let's fire a refresh
-    const tradeType = listing.signature ? "onchain" : "instant";
+    const hasOnchain = tradeIds.some((id) => !!listings[id]?.signature);
 
-    if (tradeType === "onchain") {
+    if (hasOnchain) {
       gameService.send("RESET");
     }
 
     setClaimId(undefined);
+    setClaimAll(false);
   };
 
   const handleHide = () => {
@@ -158,8 +172,18 @@ export const MyListings: React.FC<Props> = ({ fullHeight = false }) => {
         {claimId && (
           <ClaimPurchase
             sfl={listings[claimId as string].sfl}
-            onClaim={claim}
+            onClaim={() => claim([claimId])}
             onClose={() => setClaimId(undefined)}
+            hasPendingTransaction={!!state.transaction}
+          />
+        )}
+      </Modal>
+      <Modal show={claimAll} onHide={() => setClaimAll(false)}>
+        {claimAll && (
+          <ClaimPurchase
+            sfl={fulfilledSfl}
+            onClaim={() => claim(fulfilledIds)}
+            onClose={() => setClaimAll(false)}
             hasPendingTransaction={!!state.transaction}
           />
         )}
@@ -182,14 +206,26 @@ export const MyListings: React.FC<Props> = ({ fullHeight = false }) => {
                 </Label>
               )}
             </div>
-            <Button
-              className="w-fit h-8 rounded-none"
-              onClick={() => setBulkCancel(true)}
-            >
-              <p className="text-xxs sm:text-sm">
-                {t("marketplace.bulkCancel")}
-              </p>
-            </Button>
+            <div className="flex items-center gap-1">
+              {fulfilledIds.length > 1 && (
+                <Button
+                  className="w-fit h-8 rounded-none"
+                  onClick={() => setClaimAll(true)}
+                >
+                  <p className="text-xxs sm:text-sm">
+                    {t("marketplace.claimAll", { count: fulfilledIds.length })}
+                  </p>
+                </Button>
+              )}
+              <Button
+                className="w-fit h-8 rounded-none"
+                onClick={() => setBulkCancel(true)}
+              >
+                <p className="text-xxs sm:text-sm">
+                  {t("marketplace.bulkCancel")}
+                </p>
+              </Button>
+            </div>
           </div>
           <div
             className={fullHeight ? "flex min-h-0 flex-1" : "flex flex-wrap"}
