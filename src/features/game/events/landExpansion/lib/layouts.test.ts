@@ -478,8 +478,15 @@ describe("layouts lib (applyFarmLayout)", () => {
   it("places owned buds, pet NFTs, farmhands and the bumpkin (with flip)", () => {
     const saved = withSavedLayout({
       ...baseFarm,
-      buds: { 1: { ...BUD, coordinates: { x: 2, y: 2 }, location: "farm" } },
-      pets: { nfts: { 1: petNFT({ x: -1, y: 1 }) } },
+      buds: {
+        1: {
+          ...BUD,
+          coordinates: { x: 2, y: 2 },
+          location: "farm",
+          flipped: true,
+        },
+      },
+      pets: { nfts: { 1: { ...petNFT({ x: -1, y: 1 }), flipped: true } } },
       farmHands: {
         bumpkins: {
           "fh-1": {
@@ -500,7 +507,9 @@ describe("layouts lib (applyFarmLayout)", () => {
 
     const moved = cloneDeep(saved);
     moved.buds![1].coordinates = { x: -3, y: 0 };
+    moved.buds![1].flipped = false;
     moved.pets!.nfts![1].coordinates = { x: 1, y: 2 };
+    moved.pets!.nfts![1].flipped = false;
     moved.farmHands.bumpkins["fh-1"].coordinates = { x: -2, y: 0 };
     moved.farmHands.bumpkins["fh-1"].flipped = false;
     moved.bumpkin.coordinates = { x: -1, y: 2 };
@@ -512,7 +521,9 @@ describe("layouts lib (applyFarmLayout)", () => {
     });
 
     expect(result.buds![1].coordinates).toEqual({ x: 2, y: 2 });
+    expect(result.buds![1].flipped).toEqual(true);
     expect(result.pets!.nfts![1].coordinates).toEqual({ x: -1, y: 1 });
+    expect(result.pets!.nfts![1].flipped).toEqual(true);
     expect(result.farmHands.bumpkins["fh-1"].coordinates).toEqual({
       x: 1,
       y: 0,

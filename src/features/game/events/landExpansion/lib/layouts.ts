@@ -301,13 +301,16 @@ export function snapshotFarm(
   });
 
   // Buds and Pet NFTs: single bucket each, distinguished from home/interior
-  // copies by `location`. Neither is flippable, so store bare coordinates.
+  // copies by `location`. Both carry a `flipped` flag like the Bumpkin.
   const buds: NonNullable<SavedLayout["buds"]> = {};
   Object.entries(state.buds ?? {}).forEach(([id, bud]) => {
     if (!isOnFarm(bud)) return;
     const coordinates = bud.coordinates as LayoutCoordinates;
     if (!isKept(coordinates, "Bud", maxExpansions)) return;
-    buds[id] = { ...coordinates };
+    buds[id] = {
+      ...coordinates,
+      ...(bud.flipped !== undefined ? { flipped: bud.flipped } : {}),
+    };
   });
 
   const petNFTs: NonNullable<SavedLayout["petNFTs"]> = {};
@@ -320,7 +323,10 @@ export function snapshotFarm(
     ) {
       return;
     }
-    petNFTs[id] = { ...coordinates };
+    petNFTs[id] = {
+      ...coordinates,
+      ...(pet.flipped !== undefined ? { flipped: pet.flipped } : {}),
+    };
   });
 
   // FarmHands (extra bumpkins) carry a `flipped` flag like the main Bumpkin.
@@ -566,26 +572,28 @@ export function layoutItemRects(
   });
 
   // Buds & Pet NFTs — sprite resolved from the entity id in the preview.
-  Object.entries(layout.buds ?? {}).forEach(([id, coordinates]) =>
+  Object.entries(layout.buds ?? {}).forEach(([id, placement]) =>
     rects.push({
-      x: coordinates.x,
-      y: coordinates.y,
+      x: placement.x,
+      y: placement.y,
       width: BUD_DIMENSIONS.width,
       height: BUD_DIMENSIONS.height,
       category: "nft",
       name: "Bud",
       id,
+      flipped: placement.flipped,
     }),
   );
-  Object.entries(layout.petNFTs ?? {}).forEach(([id, coordinates]) =>
+  Object.entries(layout.petNFTs ?? {}).forEach(([id, placement]) =>
     rects.push({
-      x: coordinates.x,
-      y: coordinates.y,
+      x: placement.x,
+      y: placement.y,
       width: PET_NFT_DIMENSIONS.width,
       height: PET_NFT_DIMENSIONS.height,
       category: "nft",
       name: "Pet",
       id,
+      flipped: placement.flipped,
     }),
   );
 
@@ -881,16 +889,17 @@ export function applyFarmLayout(
 
   // Buds & Pet NFTs: by id ownership (shared-layout ids you don't own are
   // skipped silently). Pets must be revealed to be placed.
-  Object.entries(layout.buds ?? {}).forEach(([id, coordinates]) => {
+  Object.entries(layout.buds ?? {}).forEach(([id, placement]) => {
     const bud = state.buds?.[Number(id)];
     if (!bud) return;
     const original = bud.coordinates;
     bud.coordinates = undefined; // lift
     slots.push({
       name: "Bud",
-      position: { ...coordinates, ...BUD_DIMENSIONS },
+      position: { x: placement.x, y: placement.y, ...BUD_DIMENSIONS },
       place: () => {
-        bud.coordinates = { x: coordinates.x, y: coordinates.y };
+        bud.coordinates = { x: placement.x, y: placement.y };
+        bud.flipped = placement.flipped;
         bud.location = "farm";
       },
       restore: original
@@ -904,7 +913,7 @@ export function applyFarmLayout(
         : undefined,
     });
   });
-  Object.entries(layout.petNFTs ?? {}).forEach(([id, coordinates]) => {
+  Object.entries(layout.petNFTs ?? {}).forEach(([id, placement]) => {
     // Owned by id (a pet in a layout was placed once, so it's already revealed).
     const pet = state.pets?.nfts?.[Number(id)];
     if (!pet) return;
@@ -912,9 +921,10 @@ export function applyFarmLayout(
     pet.coordinates = undefined; // lift
     slots.push({
       name: "Pet",
-      position: { ...coordinates, ...PET_NFT_DIMENSIONS },
+      position: { x: placement.x, y: placement.y, ...PET_NFT_DIMENSIONS },
       place: () => {
-        pet.coordinates = { x: coordinates.x, y: coordinates.y };
+        pet.coordinates = { x: placement.x, y: placement.y };
+        pet.flipped = placement.flipped;
         pet.location = "farm";
       },
       restore: original
