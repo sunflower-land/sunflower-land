@@ -452,7 +452,9 @@ export const Gifts: React.FC<{
   onClose: () => void;
   onOpen: () => void;
   name: NPCName;
-}> = ({ game, onClose, onOpen, name }) => {
+  /** The delivery panel's clock, so the picker agrees with its Gift button. */
+  now: number;
+}> = ({ game, onClose, onOpen, name, now }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
@@ -460,8 +462,6 @@ export const Gifts: React.FC<{
   const [message, setMessage] = useState<TranslationKeys>(
     GIFT_RESPONSES[name]?.flowerIntro ?? DEFAULT_DIALOGUE.flowerIntro,
   );
-
-  const now = useNow({ live: true });
 
   const flowers = getKeys(game.inventory)
     .filter(
@@ -519,13 +519,7 @@ export const Gifts: React.FC<{
 
   let translated: string = t(message);
 
-  const dateKey = new Date(now).toISOString().substring(0, 10);
-
-  const giftedAt = game.npcs?.[name]?.friendship?.giftedAt ?? 0;
-  // GiftedAt is the same UTC day as right now
-  const isLocked =
-    giftedAt > 0 &&
-    new Date(giftedAt).toISOString().substring(0, 10) === dateKey;
+  const isLocked = hasGiftedToday(game, name, now);
 
   if (isLocked) {
     translated = `${translated} ${t("npcDialogues.default.locked")}`;
@@ -872,6 +866,17 @@ interface Props {
   npc: NPCName;
 }
 
+/** A flower was already gifted to this NPC today (same UTC day). */
+const hasGiftedToday = (game: GameState, npc: NPCName, now: number) => {
+  const giftedAt = game.npcs?.[npc]?.friendship?.giftedAt ?? 0;
+
+  return (
+    giftedAt > 0 &&
+    new Date(giftedAt).toISOString().substring(0, 10) ===
+      new Date(now).toISOString().substring(0, 10)
+  );
+};
+
 export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
@@ -881,6 +886,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
   const game = gameState.context.state;
   const [showFlowers, setShowFlowers] = useState(false);
+  const giftedToday = hasGiftedToday(game, npc, now);
   const [showSkipDialog, setShowSkipDialog] = useState(false);
   const [gift, setGift] = useState<Airdrop>();
   // Tutorial: after the first-ever delivery the player is told what to do
@@ -1081,6 +1087,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
           game={gameState.context.state}
           onOpen={openReward}
           name={npc}
+          now={now}
         />
       )}
       {!showFlowers && (
@@ -1252,8 +1259,26 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
           ) : (
             <div className="flex mt-1">
               {acceptGifts && (
-                <Button className="mr-1" onClick={() => setShowFlowers(true)}>
-                  {t("gift")}
+                <Button
+                  className="mr-1"
+                  onClick={() => setShowFlowers(true)}
+                  aria-label={
+                    giftedToday
+                      ? `${t("gift")} - ${t("npcDialogues.default.locked")}`
+                      : undefined
+                  }
+                >
+                  <span className="flex items-center justify-center gap-1">
+                    {t("gift")}
+                    {/* Already gifted today: the next gift has to wait. */}
+                    {giftedToday && (
+                      <img
+                        src={SUNNYSIDE.icons.confirm}
+                        alt=""
+                        className="w-4"
+                      />
+                    )}
+                  </span>
                 </Button>
               )}
 
