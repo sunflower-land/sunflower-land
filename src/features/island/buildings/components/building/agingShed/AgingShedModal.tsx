@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import {
   CloseButtonPanel,
@@ -16,17 +16,16 @@ import { SpiceRackPanel } from "./spiceRack/SpiceRackPanel";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useNow } from "lib/utils/hooks/useNow";
+import { getReadyAgingShedTabs, type AgingShedTab } from "./agingShedTabs";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
 }
 
-type AgingShedTabs = "agingRack" | "fermentationRack" | "spiceRack" | "upgrade";
-
 export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { t } = useAppTranslation();
-  const [currentTab, setCurrentTab] = useState<AgingShedTabs>("agingRack");
+  const [currentTab, setCurrentTab] = useState<AgingShedTab>("agingRack");
   const [showUpgradeTab, setShowUpgradeTab] = useState(false);
   const { gameService } = useContext(Context);
   const agingShedLevel = useSelector(
@@ -48,35 +47,34 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const now = useNow({ live: true, autoEndAt: latestReadyAt });
 
-  const hasReadyAgingRack = aging.some((slot) => slot.readyAt <= now);
-  const hasReadyFermentationRack = fermentation.some(
-    (slot) => slot.readyAt <= now,
+  const readyTabs = useMemo(
+    () => getReadyAgingShedTabs(agingShedRacks, now),
+    [agingShedRacks, now],
   );
-  const hasReadySpiceRack = spice.some((slot) => slot.readyAt <= now);
   const isMaxedLevel = agingShedLevel >= 6;
 
-  const tabs: PanelTabs<AgingShedTabs>[] = [
+  const tabs: PanelTabs<AgingShedTab>[] = [
     {
       id: "agingRack",
       name: t("agingShed.agingRack"),
       icon: ITEM_DETAILS["Aged Anchovy"].image,
-      alert: hasReadyAgingRack,
+      alert: readyTabs.includes("agingRack"),
     },
     {
       id: "fermentationRack",
       name: t("agingShed.fermentationRack"),
       icon: ITEM_DETAILS["Pickled Broccoli"].image,
-      alert: hasReadyFermentationRack,
+      alert: readyTabs.includes("fermentationRack"),
     },
     {
       id: "spiceRack",
       name: t("agingShed.spiceRack"),
       icon: ITEM_DETAILS["Refined Salt"].image,
-      alert: hasReadySpiceRack,
+      alert: readyTabs.includes("spiceRack"),
     },
   ];
 
-  const upgradeTab: PanelTabs<AgingShedTabs>[] = [
+  const upgradeTab: PanelTabs<AgingShedTab>[] = [
     {
       id: "upgrade",
       name: t("upgrade"),
@@ -89,8 +87,17 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
     onClose();
   };
 
+  const selectReadyTab = () => {
+    // Read a fresh timestamp on every opening, even if the shed clock stopped.
+    const ready = getReadyAgingShedTabs(
+      gameService.getSnapshot().context.state.agingShed.racks,
+      Date.now(),
+    );
+    setCurrentTab(ready[0] ?? "agingRack");
+  };
+
   return (
-    <Modal show={isOpen} onHide={closeUpgradeTab}>
+    <Modal show={isOpen} onHide={closeUpgradeTab} onShow={selectReadyTab}>
       <img
         src={SUNNYSIDE.icons.upgrade_disc}
         alt="Upgrade Building"
@@ -102,7 +109,7 @@ export const AgingShedModal: React.FC<Props> = ({ isOpen, onClose }) => {
         }}
         onClick={() => setShowUpgradeTab(true)}
       />
-      <CloseButtonPanel<AgingShedTabs>
+      <CloseButtonPanel<AgingShedTab>
         onClose={closeUpgradeTab}
         tabs={showUpgradeTab ? upgradeTab : tabs}
         currentTab={showUpgradeTab ? "upgrade" : currentTab}
@@ -126,7 +133,7 @@ const AgedShedPanel: React.FC<{
   setShowUpgradeTab: React.Dispatch<React.SetStateAction<boolean>>;
   closeUpgradeTab: () => void;
   showUpgradeTab: boolean;
-  currentTab: AgingShedTabs;
+  currentTab: AgingShedTab;
 }> = ({
   agingShedLevel,
   setShowUpgradeTab,
