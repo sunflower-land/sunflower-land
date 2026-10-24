@@ -9,6 +9,7 @@ import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
 import {
   generateBountyCoins,
   generateBountyTicket,
+  getBountyRewardBoosts,
 } from "features/game/events/landExpansion/sellBounty";
 import { Context } from "features/game/GameProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -198,6 +199,8 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
     const isAvailable = !isSold && availableDealIds.has(deal.id);
     const isSelected = selectedDeal?.id === deal.id;
     const { coins } = generateBountyCoins({ game: state, bounty: deal });
+    const isBoosted =
+      getBountyRewardBoosts({ game: state, bounty: deal, now }).length > 0;
 
     return (
       <div
@@ -233,6 +236,7 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
             <Label
               type="warning"
               icon={SUNNYSIDE.ui.coinsImg}
+              secondaryIcon={isBoosted ? SUNNYSIDE.icons.lightning : undefined}
               className="absolute text-center p-1"
               style={{
                 // Sit on the card's bottom outline, leaving its shadow line visible.
@@ -252,6 +256,11 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
               key={name}
               type="warning"
               icon={ITEM_DETAILS[name].image}
+              secondaryIcon={
+                isBoosted && name === chapterTicket
+                  ? SUNNYSIDE.icons.lightning
+                  : undefined
+              }
               className="absolute text-center p-1"
               style={{
                 // Sit on the card's bottom outline, leaving its shadow line visible.
