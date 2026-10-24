@@ -162,6 +162,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const [showDrops, setShowDrops] = useState(false);
   const [showAnimalDetails, setShowAnimalDetails] = useState(false);
   const [showNoFoodSelected, setShowNoFoodSelected] = useState(false);
+  const [showFreeFeedTreat, setShowFreeFeedTreat] = useState(false);
   const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
   const [showNoMedicine, setShowNoMedicine] = useState(false);
   const [showLockedDetails, setShowLockedDetails] = useState(false);
@@ -437,6 +438,9 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     // the game-state animal is already asleep, so any feed/claim event would
     // throw. Ignore clicks until the animation resolves.
     if (showDrops) return;
+    // A new click replaces an earlier Honey Treat notice, so it can't sit
+    // over whatever this click does.
+    setShowFreeFeedTreat(false);
 
     const showNoFoodPrompt = async () => {
       setShowNoFoodSelected(true);
@@ -458,6 +462,13 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     if (hasBuffSelected) {
       const buffItem = selectedItem as AnimalFeedBuffName;
       const buffCount = inventory[buffItem] ?? new Decimal(0);
+      // Honey Treat only cuts feed, and Golden Cow already makes it free.
+      if (buffItem === "Honey Treat" && hasGoldenCow) {
+        setShowFreeFeedTreat(true);
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        setShowFreeFeedTreat(false);
+        return;
+      }
       if (!cow.feedBuff && buffCount.gte(1)) {
         gameService.send({
           type: "animal.feedBuffApplied",
@@ -535,6 +546,8 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   };
 
   const getInfoPopoverMessage = () => {
+    if (showFreeFeedTreat)
+      return t("animal.honeyTreatFreeFeed", { item: "Golden Cow" });
     if (showNoFoodSelected) return t("animal.noFoodMessage");
     if (showNoMedicine) return t("animal.noMedicine");
     if (showNotEnoughFood)
@@ -726,7 +739,10 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
           </Modal>
           <InfoPopover
             showPopover={
-              showNoFoodSelected || showNoMedicine || showNotEnoughFood
+              showFreeFeedTreat ||
+              showNoFoodSelected ||
+              showNoMedicine ||
+              showNotEnoughFood
             }
             className="-top-10 left-1/2 transform -translate-x-1/2 z-20"
           >
