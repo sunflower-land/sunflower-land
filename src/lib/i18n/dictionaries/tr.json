@@ -4692,7 +4692,6 @@
   "description.ponyToy": "Sevgi ve bir parça sihir ile hazırlanmış bu minik midilli, her çiftçinin hayallerinin ruhunu taşır.",
   "description.redSlimeBalloon": "Yakut kırmızısı bir balonun içinde asılı kalan bu yaramaz balçık, heyecanla eziliyor ve kıvranıyor.",
   "description.blueSlimeBalloon": "Soğuk mavi bir balonda hafifçe sallanan bu eğlenceli balçık sürüşün tadını çıkarıyor gibi görünüyor.",
-  "event.noticeboard.three": "Mağaza, önceki katmanlardan öğeler satın aldıktan sonra satın almak için yeni öğelerin kilidini açabileceğiniz Stella Mağazasına benzer bir sistem kullanır. Ayrıca $FLOWER kazanma şansına sahip olmak için olabildiğince çok etkinlik bileti almayı unutmayın!",
   "event.noticeboard.four": "Oyunun ve etkinliğin çalışma şekli her zaman değiştiğinden, bu sefer doğrudan bağış NPC yok, ancak mağazadaki herhangi bir öğeyi $FLOWER ile satın alabilir veya bunun gibi daha büyük, daha iyi ve daha şaşırtıcı etkinlikler getirmeye devam etmemize yardımcı olmak için Portal'dan denemeler satın alabilirsiniz!",
   "event.noticeboard.five": "Bunların hepsi sizin ve desteğiniz sayesinde! Topluluk etkinlik ekibinden hepinize teşekkür ederiz! Resmi Sunflower Land Discord Sunucusu hakkındaki görüşleriniz takdir edilmektedir",
   "playerModal.since": "{{date}} 'den beri",
@@ -8890,5 +8889,6 @@
   "eventHalloween2026.noticeboard.one": "Cadılar Bayramı 2026 Topluluk Etkinliğine Hoş Geldiniz!",
   "npc.Modal.skellyJoe": "Selamlar! Umarım bu ürkütücü etkinlikte eğlenirsin! Tüm desteğiniz için teşekkürler!",
   "npc.Modal.vampireJim": "Cadılar Bayramı'nı seviyorum!!! İşte küçük bir ödül, kimseye bahsetme...",
-  "halloween2026.gift.claimed": "Artık hediyem olduğuna göre, etkinliğin tadını çıkarın! Mutlu Cadılar Bayramı!"
+  "halloween2026.gift.claimed": "Artık hediyem olduğuna göre, etkinliğin tadını çıkarın! Mutlu Cadılar Bayramı!",
+  "event.noticeboard.three": "Mağaza, önceki katmanlardan belirli miktarda öğe satın aldıktan sonra satın almak için yeni öğelerin kilidini açabileceğiniz katmanlı bir sistem kullanır. Ayrıca $FLOWER kazanma şansına sahip olmak için olabildiğince çok etkinlik bileti almayı unutmayın!"
 }

@@ -4692,7 +4692,6 @@
   "description.ponyToy": "Fabriqué avec amour et une touche de magie, ce petit poney incarne l'esprit dont rêvent tous les fermiers.",
   "description.redSlimeBalloon": "Suspendu dans une bulle rouge rubis, ce slime espiègle s'écrase et se tortille d'excitation.",
   "description.blueSlimeBalloon": "Se balançant doucement dans un ballon bleu frais, ce slime espiègle semble apprécier le trajet.",
-  "event.noticeboard.three": "La boutique utilise un système similaire au Stella Shop, dans lequel vous pouvez débloquer de nouveaux objets à acheter après avoir acheté des articles des niveaux précédents. Pensez également à acheter autant de billets que possible pour avoir plus de chances de gagner $FLOWER !",
   "event.noticeboard.four": "Comme le fonctionnement du jeu et des événements est en constante évolution, il n'y a pas de don direct de PNJ cette fois-ci, mais vous pouvez acheter n'importe lequel des articles de la boutique avec $FLOWER ou essayer de vous rendre sur le portail pour nous soutenir et nous aider à continuer à proposer des événements plus importants, meilleurs et plus incroyables comme celui-ci !",
   "event.noticeboard.five": "Tout cela grâce à vous et à votre soutien ! L'équipe de l'événement communautaire vous remercie tous ! Vos commentaires sur le serveur Discord officiel de Sunflower Land sont appréciés",
   "playerModal.since": "Depuis {{date}}",
@@ -8890,5 +8889,6 @@
   "eventHalloween2026.noticeboard.one": "Bienvenue à l'événement communautaire Halloween 2026 !",
   "npc.Modal.skellyJoe": "Salut ! J'espère que vous vous amuserez bien lors de cet événement effrayant ! Merci à tous pour votre soutien !",
   "npc.Modal.vampireJim": "J'adore Halloween ! ! ! Voici une petite récompense, n'en parlez à personne...",
-  "halloween2026.gift.claimed": "Maintenant que tu as reçu mon cadeau, profites bien de l'événement ! Joyeux Halloween !"
+  "halloween2026.gift.claimed": "Maintenant que tu as reçu mon cadeau, profites bien de l'événement ! Joyeux Halloween !",
+  "event.noticeboard.three": "La boutique utilise un système à plusieurs niveaux, dans lequel vous pouvez débloquer de nouveaux objets à acheter après avoir acheté un certain nombre d'articles des niveaux précédents. Pensez également à acheter autant de billets que possible pour avoir plus de chances de gagner $FLOWER !"
 }

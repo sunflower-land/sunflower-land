@@ -4942,7 +4942,6 @@
   "description.redSlimeBalloon": "Эта озорная слизь, подвешенная в рубиново-красном пузыре, хлюпает и извивается от волнения.",
   "description.blueSlimeBalloon": "Эта игривая слизь, нежно качающаяся на прохладном синем воздушном шаре, словно наслаждается поездкой.",
   "event.noticeboard.two": "На острове есть портал с новой мини-игрой - проходи её, зарабатывай жетоны и трать их на лимитированные предметы. Попытки сохраняются между днями, поэтому спешить не нужно. А с безлимитными попытками ты сможешь играть тогда и столько, сколько захочешь!",
-  "event.noticeboard.three": "Магазин работает по системе, похожей на магазин Стеллы: новые товары открываются по мере покупки предметов из предыдущих уровней. Также не забывай покупать как можно больше билетов события - так у тебя будет больше шансов выиграть FLOWER!",
   "event.noticeboard.four": "Поскольку механики игры и событий постоянно меняются, в этот раз отдельного NPC для пожертвований нет. Но ты можешь поддержать нас, покупая любые предметы в магазине за FLOWER или приобретая попытки в Портале - так ты поможешь нам и дальше делать события ещё больше, лучше и круче!",
   "event.noticeboard.five": "И все это благодаря вам и вашей поддержке! Мы из команды, занимающейся общественными мероприятиями, благодарим всех вас! Мы будем признательны за ваши отзывы на официальном сервере Sunflower Land в Discord.",
   "biome.alreadyOwn": "У вас уже есть этот биом",
@@ -8890,5 +8889,6 @@
   "eventHalloween2026.noticeboard.one": "Welcome to the Halloween 2026 Community Event!",
   "npc.Modal.skellyJoe": "Howdy! I hope you have fun at this spooky event! Thanks for all your support!",
   "npc.Modal.vampireJim": "I love Halloween!!! Here is a small reward, don't tell anyone about it...",
-  "halloween2026.gift.claimed": "Now that you have my gift go enjoy the event! Happy Halloween!"
+  "halloween2026.gift.claimed": "Now that you have my gift go enjoy the event! Happy Halloween!",
+  "event.noticeboard.three": "The shop uses a tiered system, where you can unlock new items to buy after you buy a certain amount of items from the previous tiers. Also remember to buy as many event tickets as you can to have more chances to win $FLOWER!"
 }

@@ -4692,7 +4692,6 @@
   "description.ponyToy": "Criado com amor e um toque de magia, este pequeno pônei carrega o espírito dos sonhos de todo fazendeiro.",
   "description.redSlimeBalloon": "Suspenso em uma bolha vermelho-rubi, esse lodo malicioso se espreme e se contorce de excitação.",
   "description.blueSlimeBalloon": "Balançando suavemente em um balão azul frio, esse lodo brincalhão parece gostar do passeio.",
-  "event.noticeboard.three": "A loja usa um sistema semelhante ao da Stella Shop, onde você pode desbloquear novos itens para comprar depois de comprar itens dos níveis anteriores. Lembre-se também de comprar o máximo de ingressos para eventos que puder para ter mais chances de ganhar $ FLOWER!",
   "event.noticeboard.four": "Como a forma como o jogo e o evento funcionam está sempre mudando, desta vez não há doação direta de NPC, mas você pode comprar qualquer item na loja com $FLOWER ou comprar tentativas no Portal para nos apoiar e nos ajudar a continuar trazendo eventos maiores, melhores e mais incríveis como esse!",
   "event.noticeboard.five": "Tudo isso é graças a você e ao seu apoio! Nós, da equipe de eventos comunitários, agradecemos a todos! Seus comentários sobre o servidor oficial do Sunflower Land Discord são bem-vindos",
   "playerModal.since": "Desde {{date}}",
@@ -8890,5 +8889,6 @@
   "eventHalloween2026.noticeboard.one": "Bem-vindo ao evento comunitário de Halloween 2026!",
   "npc.Modal.skellyJoe": "Olá! Espero que você se divirta neste evento assustador! Obrigado por todo seu apoio!",
   "npc.Modal.vampireJim": "Adoro o Halloween!!! Aqui está uma pequena recompensa, não conte a ninguém sobre isso...",
-  "halloween2026.gift.claimed": "Agora que você tem meu presente, aproveite o evento! Feliz Halloween!"
+  "halloween2026.gift.claimed": "Agora que você tem meu presente, aproveite o evento! Feliz Halloween!",
+  "event.noticeboard.three": "A loja usa um sistema em camadas, onde você pode desbloquear novos itens para comprar depois de comprar uma certa quantidade de itens dos níveis anteriores. Lembre-se também de comprar o máximo de ingressos para eventos que puder para ter mais chances de ganhar $ FLOWER!"
 }

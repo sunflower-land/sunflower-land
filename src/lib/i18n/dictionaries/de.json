@@ -4692,7 +4692,6 @@
   "description.ponyToy": "Dieses winzige Pony wurde mit Liebe und einer Prise Magie gefertigt und verkörpert den Geist der Träume eines jeden Landwirts.",
   "description.redSlimeBalloon": "Dieser schelmische Schleim, der in einer rubinroten Blase schwebt, zerquetscht und windet sich vor Aufregung.",
   "description.blueSlimeBalloon": "Dieser verspielte Schleim wippt sanft in einem kühlen blauen Ballon und scheint die Fahrt zu genießen.",
-  "event.noticeboard.three": "Der Shop verwendet ein dem Stella-Shop ähnliches System, bei dem Sie neue Artikel freischalten können, die Sie kaufen können, nachdem Sie Artikel aus den vorherigen Stufen gekauft haben. Denkt auch daran, so viele Eventtickets wie möglich zu kaufen, um mehr Chancen zu haben, $FLOWER zu gewinnen!",
   "event.noticeboard.four": "Da sich die Art und Weise, wie das Spiel und das Event funktionieren, ständig ändern, gibt es dieses Mal keinen direkten NPC, aber ihr könnt alle Gegenstände im Shop mit $FLOWER kaufen oder Versuche auf dem Portal kaufen, um uns zu unterstützen und uns zu helfen, weiterhin größere, bessere und fantastischere Events wie dieses zu organisieren!",
   "event.noticeboard.five": "Das alles haben wir dir und deiner Unterstützung zu verdanken! Wir vom Community Event Team danken euch allen! Euer Feedback auf dem offiziellen Sunflower Land Discord Server ist uns sehr wichtig",
   "playerModal.since": "Seit {{date}}",
@@ -8890,5 +8889,6 @@
   "eventHalloween2026.noticeboard.one": "Willkommen zum Halloween 2026 Community Event!",
   "npc.Modal.skellyJoe": "Hallöchen! Ich wünsche euch viel Spaß bei diesem gruseligen Event! Danke für all deine Unterstützung!",
   "npc.Modal.vampireJim": "Ich liebe Halloween!!! Hier ist eine kleine Belohnung, erzähle niemandem davon...",
-  "halloween2026.gift.claimed": "Jetzt, wo du mein Geschenk hast, genieß die Veranstaltung! Fröhliches Halloween!"
+  "halloween2026.gift.claimed": "Jetzt, wo du mein Geschenk hast, genieß die Veranstaltung! Fröhliches Halloween!",
+  "event.noticeboard.three": "Der Shop verwendet ein abgestuftes System, bei dem Sie neue Artikel zum Kauf freischalten können, nachdem Sie eine bestimmte Anzahl von Artikeln aus den vorherigen Stufen gekauft haben. Denkt auch daran, so viele Eventtickets wie möglich zu kaufen, um mehr Chancen zu haben, $FLOWER zu gewinnen!"
 }

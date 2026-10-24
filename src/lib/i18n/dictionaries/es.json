@@ -4692,7 +4692,6 @@
   "description.ponyToy": "Elaborado con amor y una pizca de magia, este pequeño poni lleva el espíritu de los sueños de todo granjero.",
   "description.redSlimeBalloon": "Suspendido en una burbuja de color rojo rubí, este travieso limo se aplasta y se retuerce de emoción.",
   "description.blueSlimeBalloon": "Esta juguetona babosa, que se balancea suavemente en un frío globo azul, parece disfrutar del viaje.",
-  "event.noticeboard.three": "La tienda usa un sistema similar al de la Tienda Stella, donde puedes desbloquear nuevos objetos para comprar después de comprar artículos de los niveles anteriores. ¡Recuerda también comprar tantas entradas para eventos como puedas para tener más posibilidades de ganar $FLOWER!",
   "event.noticeboard.four": "Como el funcionamiento del juego y de los eventos cambia constantemente, esta vez no hay PNJ que haga donaciones directas, pero puedes comprar cualquiera de los objetos de la tienda con $FLOWER o comprar intentos en el Portal para apoyarnos y ayudarnos a seguir organizando eventos más grandes, mejores y más increíbles como este.",
   "event.noticeboard.five": "¡Todo esto es gracias a ti y a tu apoyo! ¡Desde el equipo de eventos comunitarios os damos las gracias a todos! Agradecemos vuestros comentarios sobre el servidor oficial de Discord de Sunflower Land",
   "playerModal.since": "Desde {{date}}",
@@ -8890,5 +8889,6 @@
   "eventHalloween2026.noticeboard.one": "¡Bienvenido al evento comunitario de Halloween 2026!",
   "npc.Modal.skellyJoe": "¡Hola! ¡Espero que te diviertas en este espeluznante evento! ¡Gracias por todo vuestro apoyo!",
   "npc.Modal.vampireJim": "¡¡¡Me encanta Halloween!!! Aquí tienes una pequeña recompensa, no se lo digas a nadie...",
-  "halloween2026.gift.claimed": "Ahora que tienes mi regalo, ¡disfruta del evento! ¡Feliz Halloween!"
+  "halloween2026.gift.claimed": "Ahora que tienes mi regalo, ¡disfruta del evento! ¡Feliz Halloween!",
+  "event.noticeboard.three": "La tienda usa un sistema de niveles, donde puedes desbloquear nuevos objetos para comprar después de comprar una cierta cantidad de artículos de los niveles anteriores. ¡Recuerda también comprar tantas entradas para eventos como puedas para tener más posibilidades de ganar $FLOWER!"
 }

@@ -4692,7 +4692,6 @@
   "description.ponyToy": "Realizzato con amore e un pizzico di magia, questo piccolo pony racchiude lo spirito dei sogni di ogni contadino.",
   "description.redSlimeBalloon": "Sospesa in una bolla rosso rubino, questa melma maliziosa si schiaccia e si contorce per l'eccitazione.",
   "description.blueSlimeBalloon": "Oscillando dolcemente in un fantastico palloncino blu, questa melma giocosa sembra godersi il viaggio.",
-  "event.noticeboard.three": "Il negozio utilizza un sistema simile a Stella Shop, in cui puoi sbloccare nuovi oggetti da acquistare dopo aver acquistato articoli dei livelli precedenti. Ricorda inoltre di acquistare il maggior numero possibile di biglietti per gli eventi per avere più possibilità di vincere $FLOWER!",
   "event.noticeboard.four": "Poiché il funzionamento del gioco e degli eventi è in continua evoluzione, questa volta non ci sono NPC che effettuano donazioni dirette, ma puoi acquistare qualsiasi oggetto nel negozio con $FLOWER o tentativi di acquisto sul Portale per supportarci e aiutarci a continuare a creare eventi più grandi, migliori e più incredibili come questo!",
   "event.noticeboard.five": "Tutto questo grazie a te e al tuo supporto! Noi del team dedicato agli eventi della community ringraziamo tutti! Il tuo feedback sul server Discord ufficiale di Sunflower Land è apprezzato",
   "playerModal.since": "Dal {{date}}",
@@ -8890,5 +8889,6 @@
   "eventHalloween2026.noticeboard.one": "Benvenuto all'evento della community di Halloween 2026!",
   "npc.Modal.skellyJoe": "Salve! Spero che vi divertiate a questo evento spaventoso! Grazie per tutto il tuo supporto!",
   "npc.Modal.vampireJim": "Adoro Halloween!!! Ecco una piccola ricompensa, non dirlo a nessuno...",
-  "halloween2026.gift.claimed": "Ora che hai il mio regalo, goditi l'evento! Buon Halloween!"
+  "halloween2026.gift.claimed": "Ora che hai il mio regalo, goditi l'evento! Buon Halloween!",
+  "event.noticeboard.three": "Il negozio utilizza un sistema a più livelli, in cui puoi sbloccare nuovi oggetti da acquistare dopo aver acquistato una certa quantità di articoli dei livelli precedenti. Ricorda inoltre di acquistare il maggior numero possibile di biglietti per gli eventi per avere più possibilità di vincere $FLOWER!"
 }

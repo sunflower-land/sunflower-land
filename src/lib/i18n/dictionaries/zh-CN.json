@@ -4692,7 +4692,6 @@
   "description.ponyToy": "这只小马以爱心和魔法精心打造，承载着每个农民梦想的精神。",
   "description.redSlimeBalloon": "这种顽皮的史莱姆悬浮在宝石红色的泡泡中，兴奋地挤压和蠕动。",
   "description.blueSlimeBalloon": "这款俏皮的史莱姆在酷炫的蓝色气球中轻轻地摆动，似乎很享受骑行。",
-  "event.noticeboard.three": "商店使用类似于Stella Shop的系统，在购买之前等级的物品后，您可以解锁新物品进行购买。还要记得尽可能多地购买活动门票，这样有更多机会赢取 $FLOWER！",
   "event.noticeboard.four": "由于游戏和活动的运作方式一直在变化，这次没有直接捐赠 NPC，但你可以用 $FLOWER 在商店里购买任何物品，或者在门户网站购买试玩机会，以支持和帮助我们继续举办像这样更大、更好、更精彩的活动！",
   "event.noticeboard.five": "这一切都要归功于你和你的支持！我们来自社区活动团队谢谢大家！感谢您对向日葵乐园 Discord 官方服务器的反馈",
   "playerModal.since": "自 {{date}} 开始",
@@ -8890,5 +8889,6 @@
   "eventHalloween2026.noticeboard.one": "欢迎来到 2026 年万圣节社区活动！",
   "npc.Modal.skellyJoe": "你好！我希望你在这个幽灵般的活动中玩得开心！感谢您的支持！",
   "npc.Modal.vampireJim": "我喜欢万圣节！！！这是个小奖励，不要告诉任何人...",
-  "halloween2026.gift.claimed": "现在你有我的礼物去享受这个活动吧！万圣节快乐！"
+  "halloween2026.gift.claimed": "现在你有我的礼物去享受这个活动吧！万圣节快乐！",
+  "event.noticeboard.three": "商店使用分层系统，在您从之前的等级中购买一定数量的物品后，您可以解锁新物品进行购买。还要记得尽可能多地购买活动门票，这样有更多机会赢取 $FLOWER！"
 }
