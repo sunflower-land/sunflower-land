@@ -291,9 +291,13 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   };
 
   const getButtonLabel = () => {
-    if (confirmBuy) return `${t("confirm")} ${t("buy")}`; //t
+    if (confirmBuy) {
+      return isWearable
+        ? t("confirmBuy.wearable")
+        : t("confirmBuy.collectible");
+    }
 
-    return `${t("buy")} ${isWearable ? "wearable" : "collectible"}`;
+    return isWearable ? t("buy.wearable") : t("buy.collectible");
   };
 
   const isTradeable = isWearable
