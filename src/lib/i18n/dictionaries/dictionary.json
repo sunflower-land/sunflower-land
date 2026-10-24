@@ -6710,6 +6710,7 @@
   "marketplace.economy.volcanoIsland": "Volcano Island - 15% resource tax",
   "marketplace.economy.protection": "Resource taxes protect the deflationary market economy.",
   "marketplace.resourceFee": "Resource Fee = {{tax}}%",
+  "marketplace.afterTradingFee": "After {{fee}} FLOWER trading fee",
   "marketplace.growFarm.title": "Grow your farm",
   "marketplace.growFarm.description": "Upgrade your island to Petal Paradise to begin selling resources.",
   "marketplace.ok": "Ok",
