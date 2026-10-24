@@ -9,7 +9,7 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { Transition } from "@headlessui/react";
 import { PetSprite } from "./PetSprite";
-import { _petData } from "./lib/petShared";
+import { _petData, isPetHungry } from "./lib/petShared";
 import { PetModal } from "./PetModal";
 import { useNow } from "lib/utils/hooks/useNow";
 
@@ -52,6 +52,7 @@ export const LandPet: React.FC<{ name: PetName }> = ({ name }) => {
         id={name}
         isNeglected={isNeglected}
         isNapping={isNapping}
+        isHungry={isPetHungry(petData, now)}
         onClick={handlePetClick}
         clickable
       />
