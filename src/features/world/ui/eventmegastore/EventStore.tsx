@@ -113,6 +113,8 @@ export const EventStore: React.FC<Props> = ({ readonly, state }) => {
     <>
       <ModalOverlay
         show={!!selectedItem}
+        panelPosition="auto"
+        lockBackgroundScroll
         onBackdropClick={() => setSelectedItem(null)}
       >
         <ItemDetail
@@ -145,7 +147,7 @@ export const EventStore: React.FC<Props> = ({ readonly, state }) => {
       </div>
       <div
         className={classNames("flex flex-col p-2 pt-1", {
-          ["max-h-[300px] overflow-y-auto scrollable "]: !readonly,
+          ["max-h-[450px] overflow-y-auto scrollable "]: !readonly,
         })}
       >
         <ItemsList
