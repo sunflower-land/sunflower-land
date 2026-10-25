@@ -940,6 +940,10 @@ export function getUniqueAnimalResources(): AnimalResource[] {
     });
   });
 
+  // Pig Bristles are paid on trade-in rather than dropped, so they are not in
+  // the drop table, but they are still an animal resource.
+  uniqueResources.add("Pig Bristles");
+
   return Array.from(uniqueResources);
 }
 
