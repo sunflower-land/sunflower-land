@@ -24,7 +24,7 @@ describe("Cave Dwellers registration", () => {
       Cow: "Ladybug Cow",
       Sheep: "Beetle Sheep",
       Flower: "Cyclops Bloom",
-      Fish: ["Cave Dwellers Fish"],
+      Fish: ["Manatee", "Betta", "Macropinna"],
       banner: "?",
     });
   });
@@ -43,6 +43,10 @@ describe("Cave Dwellers registration", () => {
   });
 
   const NEW_ITEMS = [
+    "Manatee",
+    "Betta",
+    "Macropinna",
+    "Clover Coin",
     "Beetle Wing",
     "Cave Dwellers Banner",
     "Mushroom Chicken",
@@ -64,12 +68,14 @@ describe("Cave Dwellers registration", () => {
 
   it.each(NEW_ITEMS)("registers %s in KNOWN_IDS + ITEM_DETAILS", (name) => {
     expect(KNOWN_IDS[name]).toBeGreaterThanOrEqual(3102);
-    expect(KNOWN_IDS[name]).toBeLessThanOrEqual(3121);
+    expect(KNOWN_IDS[name]).toBeLessThanOrEqual(3123);
     expect(ITEM_DETAILS[name]?.image).toBeTruthy();
   });
 
-  // Every new item except the icon-only ticket is placeable.
-  const PLACEABLES = NEW_ITEMS.filter((name) => name !== "Beetle Wing");
+  // Every new item except the icon-only ticket and the artefact is placeable.
+  const PLACEABLES = NEW_ITEMS.filter(
+    (name) => name !== "Beetle Wing" && name !== "Clover Coin",
+  );
 
   it.each(PLACEABLES)("gives %s placement dimensions", (name) => {
     expect(
