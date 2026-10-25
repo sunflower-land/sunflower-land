@@ -104,12 +104,14 @@ export const PigpenInside: React.FC = () => {
 
   const nextLevel = Math.min(level + 1, 3);
 
+  // Max capacity (9 Pigs) fits the level-1 room, so upgrades don't resize it.
+  const interior = ANIMAL_HOUSE_IMAGES[1];
   const {
     x: floorX,
     y: floorY,
     height: floorHeight,
     width: floorWidth,
-  } = ANIMAL_HOUSE_BOUNDS.pigpen[level];
+  } = ANIMAL_HOUSE_BOUNDS.pigpen[1];
 
   /**
    * Positions must not move while the player is in the room, so the order is
@@ -310,12 +312,12 @@ export const PigpenInside: React.FC = () => {
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <div className="relative w-full h-full">
               <img
-                src={ANIMAL_HOUSE_IMAGES[level].src}
+                src={interior.src}
                 id={Section.GenesisBlock}
                 className="relative z-0"
                 style={{
-                  width: `${ANIMAL_HOUSE_IMAGES[level].width * PIXEL_SCALE}px`,
-                  height: `${ANIMAL_HOUSE_IMAGES[level].height * PIXEL_SCALE}px`,
+                  width: `${interior.width * PIXEL_SCALE}px`,
+                  height: `${interior.height * PIXEL_SCALE}px`,
                   opacity: selecting ? 0.5 : 1,
                 }}
               />
