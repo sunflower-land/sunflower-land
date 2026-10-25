@@ -616,7 +616,8 @@ export type BumpkinAura =
   | "Glitch Aura"
   | "Bubble Aura"
   | "Butterfly Aura"
-  | "Bat Aura";
+  | "Bat Aura"
+  | "Firefly Aura";
 
 export type BumpkinEyes =
   | "Bumpkin Eyes"
@@ -1306,6 +1307,9 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Hook and Chain": 604,
   "Vampire Footwear": 605,
   "Skeleton Costume": 606,
+
+  // Cave Dwellers
+  "Firefly Aura": 607,
 };
 
 // The reverse of above
@@ -1979,6 +1983,7 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Duende Shoes": "shoes",
   "Hercules Beetle Hat": "hat",
   "Pig Onesie": "onesie",
+  "Firefly Aura": "aura",
 };
 
 /**Copied from BE just for hoarding checks */

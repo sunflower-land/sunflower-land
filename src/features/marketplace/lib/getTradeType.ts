@@ -2213,6 +2213,7 @@ export const ITEM_TRADE_TYPES: {
     "Duende Shoes": "instant",
     "Hercules Beetle Hat": "instant",
     "Pig Onesie": "instant",
+    "Firefly Aura": "instant",
   },
 };
 
