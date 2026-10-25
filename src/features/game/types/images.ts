@@ -262,6 +262,11 @@ import salt from "assets/resources/salt.webp";
 import refinedSalt from "assets/resources/refined_salt.webp";
 import mud from "assets/resources/mud.webp";
 import truffle from "assets/resources/truffle.webp";
+import pigBristles from "assets/resources/pig_bristles.webp";
+import truffleSeasoning from "assets/food/truffle_seasoning.webp";
+import truffleCake from "assets/food/truffle_cake.webp";
+import creamyTruffleRisotto from "assets/food/creamy_truffle_risotto.webp";
+import emberRoastedTrufflePotatoes from "assets/food/ember_roasted_truffle_potatoes.webp";
 import greenBeetle from "assets/resources/beetles/green_beetle.webp";
 import blueBeetle from "assets/resources/beetles/blue_beetle.webp";
 import pinkBeetle from "assets/resources/beetles/pink_beetle.webp";
@@ -6258,7 +6263,7 @@ export const ITEM_DETAILS: Items = {
     translatedName: translate("resource.mud"),
   },
   "Pig Bristles": {
-    image: SUNNYSIDE.resource.feather, // TODO(Chapter 16 art)
+    image: pigBristles,
     description: translate("description.pigBristles"),
     translatedName: translate("resource.pigBristles"),
   },
@@ -6268,22 +6273,22 @@ export const ITEM_DETAILS: Items = {
     translatedName: translate("resource.truffle"),
   },
   "Ember-Roasted Truffle Potatoes": {
-    image: SUNNYSIDE.icons.expression_confused, // TODO(Chapter 16 art)
+    image: emberRoastedTrufflePotatoes,
     description: COOKABLES["Ember-Roasted Truffle Potatoes"].description,
     translatedName: translate("food.emberRoastedTrufflePotatoes"),
   },
   "Truffle Cake": {
-    image: SUNNYSIDE.icons.expression_confused, // TODO(Chapter 16 art)
+    image: truffleCake,
     description: COOKABLES["Truffle Cake"].description,
     translatedName: translate("food.truffleCake"),
   },
   "Creamy Truffle Risotto": {
-    image: SUNNYSIDE.icons.expression_confused, // TODO(Chapter 16 art)
+    image: creamyTruffleRisotto,
     description: COOKABLES["Creamy Truffle Risotto"].description,
     translatedName: translate("food.creamyTruffleRisotto"),
   },
   "Truffle Seasoning": {
-    image: SUNNYSIDE.icons.expression_confused, // TODO(Chapter 16 art)
+    image: truffleSeasoning,
     description: translate("description.truffleSeasoning"),
     translatedName: translate("spiceRack.truffleSeasoning"),
   },
