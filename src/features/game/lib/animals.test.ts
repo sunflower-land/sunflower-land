@@ -1128,6 +1128,28 @@ describe("Pig Bristles trade-in (#7721)", () => {
       );
     });
 
+    it("adds a Retreat bud's animal produce boost", () => {
+      const game: GameState = {
+        ...INITIAL_FARM,
+        buds: {
+          1: {
+            type: "Retreat",
+            colour: "Red",
+            stem: "Seashell",
+            aura: "No Aura",
+            ears: "No Ears",
+            coordinates: { x: 0, y: 0 },
+          },
+        },
+      };
+
+      const { amount, boostsUsed } = getPigBristles({ game, pig: pigAt(15) });
+
+      // 12 + Retreat 0.2
+      expect(amount).toEqual(12.2);
+      expect(boostsUsed.map((boost) => boost.name)).toContain("Bud #1");
+    });
+
     it.each([
       [1, 13.2],
       [2, 14.4],

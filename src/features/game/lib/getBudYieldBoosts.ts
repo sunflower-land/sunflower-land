@@ -38,7 +38,12 @@ export const isCrop = (resource: Resource): resource is CropName => {
 export const isAnimalProduce = (
   resource: Resource,
 ): resource is AnimalResource => {
-  return getUniqueAnimalResources().includes(resource as AnimalResource);
+  // Pig Bristles are paid on trade-in rather than dropped, so they are not in
+  // the drop table, but the generic animal produce boosts still apply to them.
+  return (
+    resource === "Pig Bristles" ||
+    getUniqueAnimalResources().includes(resource as AnimalResource)
+  );
 };
 
 const isMineral = (resource: Resource): boolean => {
