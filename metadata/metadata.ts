@@ -22829,4 +22829,15 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Bat Aura",
   },
+  "Firefly Aura": {
+    description:
+      "A gentle swarm of cave fireflies drifts around you, lighting the way through the dark.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Aura" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Firefly Aura",
+  },
 };
