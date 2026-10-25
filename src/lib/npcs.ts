@@ -1417,7 +1417,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   "Vampire Jim": {
     hair: "Basic Hair",
     hat: "Vampire Headwear",
-    body: "Beige Farmer Potion",
+    body: "Light Brown Farmer Potion",
     shirt: "Vampire Garments",
     pants: "Vampire Breeches",
     shoes: "Vampire Footwear",
@@ -1428,7 +1428,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Scary Nights Background",
     hair: "Basic Hair",
     hat: "Skeleton Mask",
-    body: "Light Brown Farmer Potion",
+    body: "Beige Farmer Potion",
     suit: "Skeleton Costume",
     tool: "Hook and Chain",
     wings: "Sky Tearer Wings",
