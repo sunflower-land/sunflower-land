@@ -1174,6 +1174,44 @@ describe("Pig Bristles trade-in (#7721)", () => {
       expect(amount).toEqual(13.48);
     });
 
+    const withRetreatBud = (game: GameState): GameState => ({
+      ...game,
+      buds: {
+        1: {
+          type: "Retreat",
+          colour: "Red",
+          stem: "Seashell",
+          aura: "No Aura",
+          ears: "No Ears",
+          coordinates: { x: 0, y: 0 },
+        },
+      },
+    });
+
+    it("adds a Retreat bud's boost after Bristle Payout, unscaled", () => {
+      const { amount } = getPigBristles({
+        game: withRetreatBud(withSkills({ "Bristle Payout": 1 })),
+        pig: pigAt(15),
+      });
+
+      // 12 x 1.1 + Retreat 0.2 = 13.4, not (12 + 0.2) x 1.1 = 13.42
+      expect(amount).toEqual(13.4);
+    });
+
+    it("adds a Retreat bud's boost after Truffle Yield, unscaled", () => {
+      const { amount } = getResourceDropAmount({
+        game: withRetreatBud(withSkills({ "Truffle Yield": 1 })),
+        animalType: "Pig",
+        resource: "Truffle",
+        baseAmount: 4,
+        multiplier: 0,
+        animal: pigAt(15),
+      });
+
+      // 4 x 1.1 + Retreat 0.2 = 4.6, not (4 + 0.2) x 1.1 = 4.62
+      expect(amount).toEqual(4.6);
+    });
+
     it("does not scale Truffles with Bristle Payout", () => {
       const { amount } = getResourceDropAmount({
         game: withSkills({ "Bristle Payout": 3 }),
