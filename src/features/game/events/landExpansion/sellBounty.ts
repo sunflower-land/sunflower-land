@@ -220,6 +220,7 @@ export function sellBounty({
     const tickets = generateBountyTicket({
       game: draft,
       bounty: request,
+      now: createdAt,
     });
 
     const item = draft.inventory[request.name] ?? new Decimal(0);
