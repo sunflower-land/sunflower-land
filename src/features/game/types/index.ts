@@ -1,5 +1,5 @@
 import type { InventoryItemName } from "./game";
-import { RARE_CROW_IDS } from "./rareCrows";
+import { RARECROW_IDS } from "./rarecrows";
 import type { LabelType } from "components/ui/Label";
 
 export enum LimitedItemType {
@@ -1694,7 +1694,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Betta: 3122,
   Macropinna: 3123,
   // Rarecrows game migration: 3124 - 3227
-  ...RARE_CROW_IDS,
+  ...RARECROW_IDS,
 };
 
 // The reverse of above
