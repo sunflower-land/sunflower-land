@@ -67,8 +67,7 @@ const CHAPTER_LAYERS: Record<ChapterName, string | undefined> = {
   "Crabs and Traps": "Crabs and Traps",
   "Salt Awakening": "Salt Awakening",
   "Ascension Age": "Ascension",
-  // TODO(Cave Dwellers): plaza Tiled layer
-  "Cave Dwellers": undefined,
+  "Cave Dwellers": "Cave Dwellers",
 };
 
 export type FactionNPC = {
