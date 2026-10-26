@@ -2,7 +2,7 @@ import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { expandLand, expansionRequirements } from "./expandLand";
 import { ascensionBaseline } from "features/game/lib/level";
 import Decimal from "decimal.js-light";
-import { BB_TO_GEM_RATIO } from "features/game/types/game";
+import { BB_TO_GEM_RATIO, type GameState } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 
 describe("expandLand", () => {
@@ -642,5 +642,93 @@ describe("Ascension Age VIP expansion time boost", () => {
       { name: "Grinx's Hammer", value: "x0.5" },
       { name: "VIP Access", value: "x0.9" },
     ]);
+  });
+});
+
+describe("Duende Monument", () => {
+  const withDuendeMonument = (game: GameState, cheers = 1000): GameState => ({
+    ...game,
+    collectibles: {
+      ...game.collectibles,
+      "Duende Monument": [
+        { coordinates: { x: 1, y: 1 }, createdAt: 0, id: "123", readyAt: 0 },
+      ],
+    },
+    socialFarming: {
+      ...game.socialFarming,
+      villageProjects: { "Duende Monument": { cheers } },
+    },
+  });
+
+  const SWAMP_FARM: GameState = {
+    ...TEST_FARM,
+    island: { type: "swamp", ascensionLevel: 1 },
+    inventory: { ...TEST_FARM.inventory, "Basic Land": new Decimal(30) },
+  };
+
+  it("reduces expansion resources and time by 10% once complete", () => {
+    const { requirements, timeBoostsUsed } = expansionRequirements({
+      game: withDuendeMonument(TEST_FARM),
+    });
+
+    expect(requirements?.resources).toEqual({ Wood: 2.7 });
+    expect(requirements?.seconds).toEqual(
+      (expansionRequirements({ game: TEST_FARM }).requirements?.seconds ?? 0) *
+        0.9,
+    );
+    expect(timeBoostsUsed).toContainEqual({
+      name: "Duende Monument",
+      value: "x0.9",
+    });
+  });
+
+  it("does not reduce the coin cost", () => {
+    const { requirements } = expansionRequirements({
+      game: withDuendeMonument(SWAMP_FARM),
+    });
+
+    expect(requirements?.resources).toEqual({
+      Crimstone: 9,
+      Oil: 45,
+      Obsidian: 1.8,
+    });
+    expect(requirements?.coins).toBe(5000);
+  });
+
+  it("does nothing while the monument is incomplete", () => {
+    const base = expansionRequirements({ game: TEST_FARM });
+
+    const { requirements, boostsUsed } = expansionRequirements({
+      game: withDuendeMonument(TEST_FARM, 999),
+    });
+
+    expect(requirements).toEqual(base.requirements);
+    expect(boostsUsed).toHaveLength(0);
+  });
+
+  it("skips the resource reduction when Grinx's Hammer is placed", () => {
+    const game = withDuendeMonument(SWAMP_FARM);
+    const { requirements } = expansionRequirements({
+      game: {
+        ...game,
+        collectibles: {
+          ...game.collectibles,
+          "Grinx's Hammer": [
+            {
+              coordinates: { x: 3, y: 3 },
+              createdAt: 0,
+              id: "456",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+    });
+
+    expect(requirements?.resources).toEqual({
+      Crimstone: 5,
+      Oil: 25,
+      Obsidian: 1,
+    });
   });
 });

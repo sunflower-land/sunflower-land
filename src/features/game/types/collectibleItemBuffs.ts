@@ -2456,6 +2456,46 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
+  "Duende Monument": () => [
+    {
+      shortDescription: translate("description.duendeMonument.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.tools.hammer,
+    },
+    {
+      shortDescription: translate("description.duendeMonument.boost.2"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+  ],
+  "Straw House": () => [
+    {
+      shortDescription: translate("description.strawHouse.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+    {
+      shortDescription: translate("description.strawHouse.boost.2"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Sprout Mix"].image,
+    },
+    {
+      shortDescription: translate("description.strawHouse.boost.3"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Earthworm"].image,
+    },
+  ],
+  "Mining Drill": () => [
+    {
+      shortDescription: translate("description.miningDrill.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Sand Shovel"].image,
+    },
+  ],
   "Otty the Otter": () => [
     {
       shortDescription: translate("description.ottyTheOtter.boost"),
