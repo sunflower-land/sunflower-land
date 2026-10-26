@@ -8910,5 +8910,6 @@
   "description.ladybugCow.boost": "+1 Petrol",
   "description.cyclopsBloom.boost": "-20% Balık Pazarı işleme süresi",
   "description.macropinna.boost": "+0.1 Obsidian",
-  "description.migratedRarecrow": "Rarecrows mini oyunundan kurtarılan bir Rarecrow."
+  "description.migratedRarecrow": "Rarecrows mini oyunundan kurtarılan bir Rarecrow.",
+  "rarecrows": "Nadir kuşlar"
 }

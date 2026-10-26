@@ -8910,5 +8910,6 @@
   "description.ladybugCow.boost": "+1 Petróleo",
   "description.cyclopsBloom.boost": "-20% de tiempo de procesamiento en el mercado de pescado",
   "description.macropinna.boost": "+0.1 Obsidiana",
-  "description.migratedRarecrow": "Un Rarecrow rescatado del minijuego Rarecrows."
+  "description.migratedRarecrow": "Un Rarecrow rescatado del minijuego Rarecrows.",
+  "rarecrows": "Cuervos raros"
 }

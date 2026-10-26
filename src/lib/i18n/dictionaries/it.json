@@ -8910,5 +8910,6 @@
   "description.ladybugCow.boost": "+1 olio",
   "description.cyclopsBloom.boost": "-20% Tempo di lavorazione del mercato del pesce",
   "description.macropinna.boost": "+0.1 Ossidiana",
-  "description.migratedRarecrow": "Un Rarecrow salvato dal minigioco Rarecrows."
+  "description.migratedRarecrow": "Un Rarecrow salvato dal minigioco Rarecrows.",
+  "rarecrows": "Corvi rari"
 }

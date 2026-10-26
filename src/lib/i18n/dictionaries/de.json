@@ -8910,5 +8910,6 @@
   "description.ladybugCow.boost": "+1 Öl",
   "description.cyclopsBloom.boost": "-20% Bearbeitungszeit für den Fischmarkt",
   "description.macropinna.boost": "+0.1 Obsidian",
-  "description.migratedRarecrow": "Eine Rarecrow, die aus dem Rarecrows-Minispiel gerettet wurde."
+  "description.migratedRarecrow": "Eine Rarecrow, die aus dem Rarecrows-Minispiel gerettet wurde.",
+  "rarecrows": "Seltene Krähen"
 }
