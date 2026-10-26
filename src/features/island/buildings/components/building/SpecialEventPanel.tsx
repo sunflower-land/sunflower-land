@@ -37,9 +37,11 @@ export const SpecialEventPanel: React.FC<{
   const now = useNow({ live: true, autoEndAt: endDate.getTime() });
   const [isHover, setIsHover] = useState(false);
 
-  // Largest unit only ("3days", "23hrs", "5mins"), like the other event
-  // countdowns, so the final day counts down instead of sitting on "1 day".
+  // Largest unit only ("3days", "23hrs", "5mins"), so the final day counts
+  // down instead of sitting on "1 day". `time.remaining` is a full localized
+  // phrase; `time.left` is translated as the direction in several locales.
   const secondsLeft = Math.max(0, (endDate.getTime() - now) / 1000);
+  const timeLeft = secondsToString(secondsLeft, { length: "short" });
 
   const showSelectBox = isSelected || (isHover && !isMobile);
 
@@ -64,7 +66,7 @@ export const SpecialEventPanel: React.FC<{
                 alt="timer"
               />
               <span className="text-xxs">
-                {`${secondsToString(secondsLeft, { length: "short" })} ${t("time.left")}`}
+                {t("time.remaining", { time: timeLeft })}
               </span>
             </div>
           </div>
