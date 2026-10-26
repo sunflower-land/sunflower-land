@@ -45,7 +45,10 @@ export const Blacklisted: React.FC<Props> = ({ banReason, banMessage }) => {
   const { t } = useAppTranslation();
   const [showInfo, setShowInfo] = useState(false);
   const copy =
-    (banReason && BAN_REASON_COPY[banReason]) || BAN_REASON_COPY.funnelling;
+    banReason &&
+    Object.prototype.hasOwnProperty.call(BAN_REASON_COPY, banReason)
+      ? BAN_REASON_COPY[banReason]
+      : BAN_REASON_COPY.funnelling;
 
   return (
     <div className="flex flex-col p-2">
