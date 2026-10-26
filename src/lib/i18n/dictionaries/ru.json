@@ -8896,5 +8896,20 @@
   "description.macropinna": "Рыба-бочкоглаз с прозрачной головой, выглядывающая из глубины.",
   "description.cloverCoin": "Счастливая монета с клевером, найденная во время главы «Обитатели пещер».",
   "statements.blacklist.botting": "Эта ферма заблокирована за использование ботов.",
-  "statements.blacklist.tos.botting": "Использование ботов нарушает наши Условия использования. Скрипты, боты, макросы и другая автоматизация при игре дают нечестное преимущество, подрывают целостность игры и негативно влияют на всех игроков. Это ограничение применено, чтобы сохранить честную среду для сообщества."
+  "statements.blacklist.tos.botting": "Использование ботов нарушает наши Условия использования. Скрипты, боты, макросы и другая автоматизация при игре дают нечестное преимущество, подрывают целостность игры и негативно влияют на всех игроков. Это ограничение применено, чтобы сохранить честную среду для сообщества.",
+  "description.duendeMonument.boost": "-10% ресурсов для расширений (не суммируется с Grinx's Hammer)",
+  "description.duendeMonument.boost.2": "-10% времени расширения",
+  "description.duendeHat.boost": "x0.9 времени роста грядок",
+  "description.duendeHat.boost.2": "x0.9 времени роста фруктовых грядок",
+  "description.strawHouse.boost": "x0.9 времени компостирования в компостерах",
+  "description.strawHouse.boost.2": "x3 базового удобрения из компостеров",
+  "description.strawHouse.boost.3": "x3 базовых червей от компостирования",
+  "description.miningDrill.boost": "Шанс 1/3 получить +1 пустынное сокровище",
+  "description.mushroomChicken.boost": "+0.5 кримстоун за каждую 5-ю добычу",
+  "description.beetleSheep.boost": "-7.5% времени сна овец",
+  "description.ladybugCow.boost": "+1 нефть",
+  "description.cyclopsBloom.boost": "-20% времени обработки в рыбной лавке",
+  "description.macropinna.boost": "+0.1 обсидиан",
+  "description.migratedRarecrow": "Пугало, спасённое из мини-игры Rarecrows.",
+  "rarecrows": "Rarecrows"
 }
