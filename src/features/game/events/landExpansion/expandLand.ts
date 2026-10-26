@@ -179,17 +179,41 @@ export const expansionRequirements = ({
   }
 
   let resources = requirements.resources;
+  const hasGrinxHammer = isCollectibleBuilt({ name: "Grinx's Hammer", game });
 
   // Half resource costs
-  if (isCollectibleBuilt({ name: "Grinx's Hammer", game })) {
+  if (hasGrinxHammer) {
     resources = getKeys(resources).reduce(
       (acc, key) => ({
         ...acc,
-        [key]: key === "Gem" ? resources[key] : (resources[key] ?? 0) / 2,
+        [key]:
+          key === "Gem"
+            ? resources[key]
+            : new Decimal(resources[key] ?? 0).div(2).toNumber(),
       }),
       {},
     );
     boostsUsed.push({ name: "Grinx's Hammer", value: "x0.5" });
+  }
+
+  const hasDuendeMonument = isMonumentActive({
+    game,
+    monument: "Duende Monument",
+  });
+
+  // -10% resource costs, does not stack with Grinx's Hammer
+  if (hasDuendeMonument && !hasGrinxHammer) {
+    resources = getKeys(resources).reduce(
+      (acc, key) => ({
+        ...acc,
+        [key]:
+          key === "Gem"
+            ? resources[key]
+            : new Decimal(resources[key] ?? 0).mul(0.9).toNumber(),
+      }),
+      {},
+    );
+    boostsUsed.push({ name: "Duende Monument", value: "x0.9" });
   }
 
   let seconds = requirements.seconds;
@@ -198,6 +222,11 @@ export const expansionRequirements = ({
   if (isMonumentActive({ game, monument: "Ascension Monument" })) {
     seconds *= 0.8;
     timeBoostsUsed.push({ name: "Ascension Monument", value: "x0.8" });
+  }
+
+  if (hasDuendeMonument) {
+    seconds *= 0.9;
+    timeBoostsUsed.push({ name: "Duende Monument", value: "x0.9" });
   }
 
   // Ascension Age chapter perk: -10% expansion time for VIP holders

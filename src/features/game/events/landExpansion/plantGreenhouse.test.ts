@@ -1,5 +1,5 @@
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { plantGreenhouse } from "./plantGreenhouse";
+import { getGreenhouseCropTime, plantGreenhouse } from "./plantGreenhouse";
 import Decimal from "decimal.js-light";
 import type { GameState } from "features/game/types/game";
 import { GREENHOUSE_CROP_TIME_SECONDS } from "features/game/lib/greenhouseGrowTimes";
@@ -2682,5 +2682,24 @@ describe("plantGreenhouse under SPEED_BOOSTS (windowed)", () => {
       GREENHOUSE_CROP_TIME_SECONDS.Rice * 1000,
     );
     expect(state.boostsUsedAt?.["Greenhouse Glow"]).toBeUndefined();
+  });
+});
+
+describe("Duende Hat", () => {
+  it("does not apply to greenhouse crops or fruit", () => {
+    const game: GameState = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        equipped: { ...INITIAL_BUMPKIN.equipped, hat: "Duende Hat" },
+      },
+    };
+
+    expect(
+      getGreenhouseCropTime({ crop: "Rice", game, now: Date.now() }).seconds,
+    ).toEqual(GREENHOUSE_CROP_TIME_SECONDS.Rice);
+    expect(
+      getGreenhouseCropTime({ crop: "Grape", game, now: Date.now() }).seconds,
+    ).toEqual(GREENHOUSE_CROP_TIME_SECONDS.Grape);
   });
 });
