@@ -31,11 +31,14 @@ export const BehaviourSettings: React.FC = () => {
         onChange={toggleQuickSelect}
         label={"Quick Select"}
       />
-      <Switch
-        checked={showFullMoonSeedsInQuickSelect}
-        onChange={toggleFullMoonSeedsInQuickSelect}
-        label={t("gameOptions.generalSettings.fullMoonSeedsInQuickSelect")}
-      />
+      {enableQuickSelect && (
+        <Switch
+          checked={showFullMoonSeedsInQuickSelect}
+          onChange={toggleFullMoonSeedsInQuickSelect}
+          label={t("gameOptions.generalSettings.fullMoonSeedsInQuickSelect")}
+          className="pl-4"
+        />
+      )}
       <Switch checked={showTimers} onChange={toggleTimers} label={"Timers"} />
     </div>
   );
