@@ -1,5 +1,5 @@
 /**
- * Bounded CacheStorage heartbeat for the service worker.
+ * CacheStorage heartbeat for the service worker.
  *
  * Observed on iOS 26.6 (iPhone 17 Pro, installed PWA): a freshly started
  * service worker answers page requests from CacheStorage with a fixed ~1s
@@ -8,15 +8,20 @@
  * own takes ~1ms. Every image the game shows then lags a second behind, which
  * players see as assets flashing in.
  *
- * Lookups the worker makes from a timer, outside any fetch event, move the
- * worker out of that state for the rest of its life: a one-per-second run of
- * ~30 lookups did it on the device, while single calls, short bursts and
- * per-request nudges did not. So the worker runs this heartbeat once at every
- * start-up and then stops; it adds no network traffic and changes nothing
- * about what is cached.
+ * While the worker is making timer-driven lookups of its own, one per second,
+ * the stall does not occur: zero stalled samples in every on-device run, over
+ * two days and several fresh worker instances. Whether the worker stays fast
+ * after such a run stops turned out to be unreliable (it did on some workers
+ * and not on others, including a 30-tick run attached to a fetch event's
+ * waitUntil), so the heartbeat simply runs for the worker's lifetime.
+ *
+ * Cost: one ~1ms cache lookup per second while the worker process is alive.
+ * A timer does not keep a worker alive, and that is fine here: a terminated
+ * worker has no stalls to mask, and the next worker starts its own heartbeat
+ * when it evaluates this script. It adds no network traffic and changes
+ * nothing about what is cached.
  */
 
-export const DEFAULT_HEARTBEAT_TICKS = 30;
 export const DEFAULT_HEARTBEAT_INTERVAL_MS = 1000;
 
 type CacheMatcher = {
@@ -31,59 +36,33 @@ type HeartbeatOptions = {
   caches: CacheMatcher | undefined;
   cacheName: string;
   url: string;
-  ticks?: number;
   intervalMs?: number;
-};
-
-type Heartbeat = {
-  /**
-   * Settles once the tick budget is spent or `stop` is called. Hand it to an
-   * extendable event's `waitUntil` so the browser keeps the worker alive for
-   * the whole run: a timer on its own does not extend a worker's lifetime,
-   * and a run cut short by termination is lost, since the stuck state belongs
-   * to the worker instance.
-   */
-  done: Promise<void>;
-  /** Stops the heartbeat early and settles `done`. */
-  stop: () => void;
+  /** Stop after this many lookups. Unbounded when omitted. */
+  ticks?: number;
 };
 
 /**
- * Starts the heartbeat. Does nothing (and settles at once) when CacheStorage
- * is unavailable.
+ * Starts the heartbeat and returns a function that stops it. Does nothing
+ * when CacheStorage is unavailable.
  */
 export function startCacheStorageHeartbeat({
   caches,
   cacheName,
   url,
-  ticks = DEFAULT_HEARTBEAT_TICKS,
   intervalMs = DEFAULT_HEARTBEAT_INTERVAL_MS,
-}: HeartbeatOptions): Heartbeat {
-  if (!caches || ticks <= 0) {
-    return { done: Promise.resolve(), stop: () => undefined };
-  }
+  ticks = Infinity,
+}: HeartbeatOptions): () => void {
+  if (!caches || ticks <= 0) return () => undefined;
 
   let remaining = ticks;
-  let finish: () => void = () => undefined;
-  const done = new Promise<void>((resolve) => {
-    finish = resolve;
-  });
 
   const timer = setInterval(() => {
     remaining -= 1;
-    if (remaining <= 0) {
-      clearInterval(timer);
-      finish();
-    }
+    if (remaining <= 0) clearInterval(timer);
 
     // A miss is fine: the point is the worker-initiated CacheStorage call.
     caches.match(url, { cacheName }).catch(() => undefined);
   }, intervalMs);
 
-  const stop = () => {
-    clearInterval(timer);
-    finish();
-  };
-
-  return { done, stop };
+  return () => clearInterval(timer);
 }
