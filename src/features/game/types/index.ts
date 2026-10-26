@@ -1670,11 +1670,11 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Creamy Truffle Risotto": 3100,
   "Truffle Seasoning": 3101,
   // Cave Dwellers chapter
-  "Cave Dwellers Fish": 3102,
+  Manatee: 3102,
   "Beetle Wing": 3103,
   "Cave Dwellers Raffle Ticket": 3104,
   "Cave Dwellers Banner": 3105,
-  "Cave Dwellers Artefact": 3106,
+  "Clover Coin": 3106,
   "Mushroom Chicken": 3107,
   "Ladybug Cow": 3108,
   "Beetle Sheep": 3109,
@@ -1690,6 +1690,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Big Bad Wolf": 3119,
   "Pig Plush": 3120,
   "Pig Doll": 3121,
+  Betta: 3122,
+  Macropinna: 3123,
 };
 
 // The reverse of above

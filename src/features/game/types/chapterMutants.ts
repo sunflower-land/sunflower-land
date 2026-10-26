@@ -109,7 +109,7 @@ export const CHAPTER_MUTANTS: Record<MutantsChapterName, ChapterMutantsData> = {
   "Cave Dwellers": {
     Chicken: "Mushroom Chicken",
     Flower: "Cyclops Bloom",
-    Fish: ["Cave Dwellers Fish"],
+    Fish: ["Manatee", "Betta", "Macropinna"],
     Cow: "Ladybug Cow",
     Sheep: "Beetle Sheep",
     banner: "?",

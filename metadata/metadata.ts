@@ -15018,15 +15018,16 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Otter Pebble",
   },
-  "Cave Dwellers Fish": {
-    description: "",
+  Manatee: {
+    description:
+      "A gentle sea cow that drifted in from the cave pools, still munching its greens.",
     decimals: 0,
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    name: "Cave Dwellers Fish",
+    name: "Manatee",
   },
   "Beetle Wing": {
     description: "Collected during the Cave Dwellers chapter.",
@@ -15058,15 +15059,15 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Cave Dwellers Banner",
   },
-  "Cave Dwellers Artefact": {
-    description: "A chapter artefact unearthed during Cave Dwellers.",
+  "Clover Coin": {
+    description: "A lucky clover coin unearthed during Cave Dwellers.",
     decimals: 0,
     attributes: [
       { trait_type: "Purpose", value: "Treasure" },
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    name: "Cave Dwellers Artefact",
+    name: "Clover Coin",
   },
   "Mushroom Chicken": {
     description: "A bearded fowl that grew a mushroom cap in the damp caves.",
@@ -15220,6 +15221,27 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Pig Doll",
+  },
+  Betta: {
+    description: "A fiery-finned fighter that glows in the dark cave waters.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Betta",
+  },
+  Macropinna: {
+    description:
+      "A barreleye fish with a see-through head, peering up from the deep.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Macropinna",
   },
   "Colors Token 2026": {
     description:

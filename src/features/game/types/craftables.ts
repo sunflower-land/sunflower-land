@@ -1519,7 +1519,9 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Ascension Age Banner": { width: 1, height: 2 },
 
   // Cave Dwellers chapter
-  "Cave Dwellers Fish": { width: 2, height: 2 },
+  Manatee: { width: 2, height: 2 },
+  Betta: { width: 2, height: 2 },
+  Macropinna: { width: 2, height: 2 },
   "Cave Dwellers Banner": { width: 1, height: 2 },
   "Mushroom Chicken": { width: 1, height: 1 },
   "Ladybug Cow": { width: 2, height: 1 },

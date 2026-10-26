@@ -514,6 +514,10 @@ import brickHouse from "assets/sfts/brick_house.webp";
 import bigBadWolf from "assets/sfts/big_bad_wolf.webp";
 import pigPlush from "assets/sfts/pig_plush.webp";
 import pigDoll from "assets/sfts/pig_doll.webp";
+import manatee from "assets/sfts/manatee.webp";
+import betta from "assets/sfts/betta.webp";
+import macropinna from "assets/sfts/macropinna.webp";
+import cloverCoin from "assets/icons/clover_coin.webp";
 
 // Compost
 import sproutMix from "assets/composters/sprout_mix.png";
@@ -8332,14 +8336,21 @@ export const ITEM_DETAILS: Items = {
     image: pigDoll,
     description: translate("description.pigDoll"),
   },
-  // TODO(Cave Dwellers): placeholder fish + artefact art and descriptions
-  "Cave Dwellers Fish": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "",
+  Manatee: {
+    image: manatee,
+    description: translate("description.manatee"),
   },
-  "Cave Dwellers Artefact": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "",
+  Betta: {
+    image: betta,
+    description: translate("description.betta"),
+  },
+  Macropinna: {
+    image: macropinna,
+    description: translate("description.macropinna"),
+  },
+  "Clover Coin": {
+    image: cloverCoin,
+    description: translate("description.cloverCoin"),
   },
   "Cave Dwellers Raffle Ticket": {
     image: caveDwellersRaffleTicket,

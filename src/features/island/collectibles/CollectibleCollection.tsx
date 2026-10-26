@@ -4353,11 +4353,38 @@ export const COLLECTIBLE_COMPONENTS: Record<
       }}
     />
   ),
-  // TODO(Cave Dwellers): offsets mirror the Ascension Age placeholder art
-  "Cave Dwellers Fish": (props: CollectibleProps) => (
+  Manatee: (props: CollectibleProps) => (
     <ImageStyle
       {...props}
-      image={ITEM_DETAILS["Cave Dwellers Fish"].image}
+      image={ITEM_DETAILS["Manatee"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+    />
+  ),
+  Betta: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Betta"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+    />
+  ),
+  Macropinna: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Macropinna"].image}
       divStyle={{
         width: `${PIXEL_SCALE * 32}px`,
         bottom: `${PIXEL_SCALE * 0}px`,

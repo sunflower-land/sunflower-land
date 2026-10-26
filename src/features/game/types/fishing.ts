@@ -104,7 +104,9 @@ export type MarineMarvelName =
   | "Crocodile"
   | "Dumbo Octopus"
   | "Seahorse Dad"
-  | "Cave Dwellers Fish";
+  | "Manatee"
+  | "Betta"
+  | "Macropinna";
 
 export type OldFishName = "Kraken Tentacle";
 
@@ -315,7 +317,9 @@ export type ChapterFish = Extract<
   | "Crocodile"
   | "Dumbo Octopus"
   | "Seahorse Dad"
-  | "Cave Dwellers Fish"
+  | "Manatee"
+  | "Betta"
+  | "Macropinna"
 >;
 
 export const CHAPTER_FISH: Record<ChapterFish, Fish> = {
@@ -421,8 +425,19 @@ export const CHAPTER_FISH: Record<ChapterFish, Fish> = {
     likes: [],
     seasons: [],
   },
-  // TODO(Cave Dwellers): placeholder marvel fish
-  "Cave Dwellers Fish": {
+  Manatee: {
+    baits: [],
+    type: "chapter",
+    likes: [],
+    seasons: [],
+  },
+  Betta: {
+    baits: [],
+    type: "chapter",
+    likes: [],
+    seasons: [],
+  },
+  Macropinna: {
     baits: [],
     type: "chapter",
     likes: [],
@@ -790,7 +805,10 @@ export const MAP_PUZZLE_DIFFICULTY: Record<MarineMarvelName, number> = {
   Crocodile: 3,
   "Dumbo Octopus": 3,
   "Seahorse Dad": 4,
-  "Cave Dwellers Fish": 4,
+  // TODO(Cave Dwellers): set with the keepsake / boost / tradable roles
+  Manatee: 4,
+  Betta: 3,
+  Macropinna: 3,
 };
 
 export function getDailyFishingCount(state: GameState): number {
@@ -1038,7 +1056,9 @@ export const MAP_PIECE_CHAPTERS: Partial<
   Crocodile: "Ascension Age",
   "Dumbo Octopus": "Ascension Age",
   "Seahorse Dad": "Ascension Age",
-  "Cave Dwellers Fish": "Cave Dwellers",
+  Manatee: "Cave Dwellers",
+  Betta: "Cave Dwellers",
+  Macropinna: "Cave Dwellers",
 };
 
 export const MAP_PIECE_MARVELS: MarineMarvelName[] = [

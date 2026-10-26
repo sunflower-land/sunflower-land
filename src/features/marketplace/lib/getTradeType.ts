@@ -1468,11 +1468,13 @@ export const ITEM_TRADE_TYPES: {
     "Ascension Monument": "instant",
 
     // Cave Dwellers marvel fish + tickets + banner + artefact
-    "Cave Dwellers Fish": "instant",
+    Manatee: "instant",
+    Betta: "instant",
+    Macropinna: "instant",
     "Beetle Wing": "instant",
     "Cave Dwellers Raffle Ticket": "instant",
     "Cave Dwellers Banner": "instant",
-    "Cave Dwellers Artefact": "instant",
+    "Clover Coin": "instant",
 
     // Cave Dwellers mutants, monument, bed + decorations
     "Mushroom Chicken": "instant",
