@@ -34,7 +34,7 @@ export const BehaviourSettings: React.FC = () => {
       <Switch
         checked={showFullMoonSeedsInQuickSelect}
         onChange={toggleFullMoonSeedsInQuickSelect}
-        label={"Full Moon Seeds in Quick Select"}
+        label={t("gameOptions.generalSettings.fullMoonSeedsInQuickSelect")}
       />
       <Switch checked={showTimers} onChange={toggleTimers} label={"Timers"} />
     </div>
