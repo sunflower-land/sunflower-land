@@ -1347,7 +1347,7 @@ const CAVE_DWELLERS_ITEMS: ChapterStore = {
       },
       {
         collectible: "Ore Hourglass",
-        cost: { sfl: 0, items: { "Beetle Wing": 150 } },
+        cost: { sfl: 0, items: { "Beetle Wing": 400 } },
       },
       {
         collectible: "Timber Hourglass",
@@ -1359,7 +1359,7 @@ const CAVE_DWELLERS_ITEMS: ChapterStore = {
       },
       {
         collectible: "Orchard Hourglass",
-        cost: { sfl: 0, items: { "Beetle Wing": 400 } },
+        cost: { sfl: 0, items: { "Beetle Wing": 200 } },
       },
       {
         collectible: "Fisher's Hourglass",
