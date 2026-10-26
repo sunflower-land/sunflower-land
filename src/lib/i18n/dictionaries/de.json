@@ -8896,5 +8896,13 @@
   "description.macropinna": "Ein Fassaugenfisch mit durchsichtigem Kopf, der aus der Tiefe aufschaut.",
   "description.cloverCoin": "Eine Glückskleemünze, die bei Cave Dwellers ausgegraben wurde.",
   "statements.blacklist.botting": "Diese Farm wurde wegen Botting verboten.",
-  "statements.blacklist.tos.botting": "Botting ist ein Verstoß gegen unsere Nutzungsbedingungen. Die Verwendung von Skripten, Bots, Makros oder anderen Automatisierungen beim Spielen verschafft einen unfairen Vorteil, untergräbt die Integrität des Spiels und wirkt sich negativ auf alle Spieler aus. Diese Einschränkung wurde angewendet, um ein faires Umfeld für die Community zu gewährleisten."
+  "statements.blacklist.tos.botting": "Botting ist ein Verstoß gegen unsere Nutzungsbedingungen. Die Verwendung von Skripten, Bots, Makros oder anderen Automatisierungen beim Spielen verschafft einen unfairen Vorteil, untergräbt die Integrität des Spiels und wirkt sich negativ auf alle Spieler aus. Diese Einschränkung wurde angewendet, um ein faires Umfeld für die Community zu gewährleisten.",
+  "description.duendeMonument.boost": "-10% Erweiterungsressourcen (kann nicht mit Grinx's Hammer kombiniert werden)",
+  "description.duendeMonument.boost.2": "-10% Erweiterungszeit",
+  "description.duendeHat.boost": "x0.9 Wachstumszeit der Nutzfläche",
+  "description.duendeHat.boost.2": "x0.9 Wachstumszeit von Fruchtfeldern",
+  "description.strawHouse.boost": "x0.9 Kompostzeit",
+  "description.strawHouse.boost.2": "x3 Basisdünger von Composters",
+  "description.strawHouse.boost.3": "x3 Basiswürmer aus der Kompostierung",
+  "description.miningDrill.boost": "1/3 Chance auf +1 Wüstenschatz"
 }

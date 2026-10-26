@@ -8896,5 +8896,13 @@
   "description.macropinna": "Un pesce barreleye con la testa trasparente, che fa capolino dal profondo.",
   "description.cloverCoin": "Una moneta portafortuna a forma di trifoglio rinvenuta durante Cave Dwellers.",
   "statements.blacklist.botting": "Questa fattoria è stata bandita per l'imbottigliamento.",
-  "statements.blacklist.tos.botting": "Il botting è una violazione dei nostri Termini di servizio. L'uso di script, bot, macro o altre automazioni per giocare offre un vantaggio sleale, mina l'integrità del gioco e ha un impatto negativo su tutti i giocatori. Questa restrizione è stata applicata per mantenere un ambiente equo per la comunità."
+  "statements.blacklist.tos.botting": "Il botting è una violazione dei nostri Termini di servizio. L'uso di script, bot, macro o altre automazioni per giocare offre un vantaggio sleale, mina l'integrità del gioco e ha un impatto negativo su tutti i giocatori. Questa restrizione è stata applicata per mantenere un ambiente equo per la comunità.",
+  "description.duendeMonument.boost": "-10% di risorse di espansione (non cumulabili con Grinx's Hammer)",
+  "description.duendeMonument.boost.2": "-10% Tempo di espansione",
+  "description.duendeHat.boost": "x0.9 Tempo di crescita del grafico delle colture",
+  "description.duendeHat.boost.2": "x0.9 Tempo di crescita della macchia di frutta",
+  "description.strawHouse.boost": "x0.9 Composter Composter Time",
+  "description.strawHouse.boost.2": "Fertilizzante base x3 da compostiere",
+  "description.strawHouse.boost.3": "x3 vermi base da compostaggio",
+  "description.miningDrill.boost": "1/3 di possibilità di +1 Desert Treasure"
 }

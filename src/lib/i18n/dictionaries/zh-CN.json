@@ -8896,5 +8896,13 @@
   "description.macropinna": "一条头部透视的桶眼鱼，从深处向上凝视。",
   "description.cloverCoin": "在《洞穴居民》中出土的幸运三叶草硬币。",
   "statements.blacklist.botting": "这个农场因使用机器人而被禁止。",
-  "statements.blacklist.tos.botting": "机器人操作违反了我们的服务条款。使用脚本、机器人、宏或其他自动化进行游戏会带来不公平的优势，破坏游戏的完整性并对所有玩家产生负面影响。适用此限制是为了维护社区的公平环境。"
+  "statements.blacklist.tos.botting": "机器人操作违反了我们的服务条款。使用脚本、机器人、宏或其他自动化进行游戏会带来不公平的优势，破坏游戏的完整性并对所有玩家产生负面影响。适用此限制是为了维护社区的公平环境。",
+  "description.duendeMonument.boost": "-10% 扩展资源（不能与 Grinx 之锤叠加）",
+  "description.duendeMonument.boost.2": "-10% 扩展时间",
+  "description.duendeHat.boost": "x0.9 作物地块生长时间",
+  "description.duendeHat.boost.2": "x0.9 水果补丁生长时间",
+  "description.strawHouse.boost": "x0.9 堆肥机堆肥时间",
+  "description.strawHouse.boost.2": "来自堆肥商的 x3 基础肥料",
+  "description.strawHouse.boost.3": "x3 基础堆肥中的蠕虫",
+  "description.miningDrill.boost": "1/3 几率获得 +1 沙漠宝藏"
 }

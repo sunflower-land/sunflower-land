@@ -8896,5 +8896,13 @@
   "description.macropinna": "Un poisson-tonneau à la tête transparente, qui scrute les profondeurs.",
   "description.cloverCoin": "Une pièce porte-bonheur en forme de trèfle découverte lors de Cave Dwellers.",
   "statements.blacklist.botting": "Cette ferme a été interdite pour la mise en bouteille.",
-  "statements.blacklist.tos.botting": "Le botting constitue une violation de nos conditions d'utilisation. L'utilisation de scripts, de bots, de macros ou d'autres automatisations pour jouer donne un avantage injuste, mine l'intégrité du jeu et a un impact négatif sur tous les joueurs. Cette restriction a été appliquée afin de maintenir un environnement équitable pour la communauté."
+  "statements.blacklist.tos.botting": "Le botting constitue une violation de nos conditions d'utilisation. L'utilisation de scripts, de bots, de macros ou d'autres automatisations pour jouer donne un avantage injuste, mine l'intégrité du jeu et a un impact négatif sur tous les joueurs. Cette restriction a été appliquée afin de maintenir un environnement équitable pour la communauté.",
+  "description.duendeMonument.boost": "-10 % de ressources d'extension (non cumulable avec le marteau de Grinx)",
+  "description.duendeMonument.boost.2": "Temps d'extension de -10 %",
+  "description.duendeHat.boost": "x0.9 Temps de croissance de la parcelle de culture",
+  "description.duendeHat.boost.2": "x0.9 Temps de croissance des parcelles fruitières",
+  "description.strawHouse.boost": "Temps de compostage du composteur x0.9",
+  "description.strawHouse.boost.2": "Engrais de base x3 provenant de composteurs",
+  "description.strawHouse.boost.3": "x3 vers de base issus du compostage",
+  "description.miningDrill.boost": "1/3 de chance d'obtenir +1 trésor du désert"
 }

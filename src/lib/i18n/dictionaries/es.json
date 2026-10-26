@@ -8896,5 +8896,13 @@
   "description.macropinna": "Un pez ojo de barril con una cabeza transparente que mira hacia arriba desde las profundidades.",
   "description.cloverCoin": "Una moneda de trébol de la suerte descubierta durante Cave Dwellers.",
   "statements.blacklist.botting": "Se ha prohibido el uso de bots en esta granja.",
-  "statements.blacklist.tos.botting": "El uso de bots constituye una violación de nuestros Términos de servicio. El uso de scripts, bots, macros u otro tipo de automatización para jugar ofrece una ventaja injusta, socava la integridad del juego y afecta negativamente a todos los jugadores. Esta restricción se ha aplicado para mantener un entorno justo para la comunidad."
+  "statements.blacklist.tos.botting": "El uso de bots constituye una violación de nuestros Términos de servicio. El uso de scripts, bots, macros u otro tipo de automatización para jugar ofrece una ventaja injusta, socava la integridad del juego y afecta negativamente a todos los jugadores. Esta restricción se ha aplicado para mantener un entorno justo para la comunidad.",
+  "description.duendeMonument.boost": "-10% de recursos de expansión (no se acumula con Grinx's Hammer)",
+  "description.duendeMonument.boost.2": "-10% de tiempo de expansión",
+  "description.duendeHat.boost": "x0.9 Tiempo de crecimiento de la parcela de cultivo",
+  "description.duendeHat.boost.2": "x0.9 Tiempo de crecimiento de un huerto frutal",
+  "description.strawHouse.boost": "x0.9 Tiempo de compostaje",
+  "description.strawHouse.boost.2": "Fertilizante base x3 de compostadores",
+  "description.strawHouse.boost.3": "3 lombrices base procedentes del compostaje",
+  "description.miningDrill.boost": "1/3 de probabilidad de obtener +1 tesoro del desierto"
 }

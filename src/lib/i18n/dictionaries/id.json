@@ -8896,5 +8896,13 @@
   "description.macropinna": "Seekor ikan barreleye dengan kepala tembus pandang, mengintip dari dalam.",
   "description.cloverCoin": "Koin semanggi keberuntungan digali selama Penghuni Gua.",
   "statements.blacklist.botting": "Peternakan ini telah dilarang untuk pembotolan.",
-  "statements.blacklist.tos.botting": "Botting merupakan pelanggaran terhadap Ketentuan Layanan kami. Menggunakan skrip, bot, makro, atau otomatisasi lainnya untuk bermain memberikan keuntungan yang tidak adil, merusak integritas permainan dan berdampak negatif pada semua pemain. Pembatasan ini telah diterapkan untuk menjaga lingkungan yang adil bagi masyarakat."
+  "statements.blacklist.tos.botting": "Botting merupakan pelanggaran terhadap Ketentuan Layanan kami. Menggunakan skrip, bot, makro, atau otomatisasi lainnya untuk bermain memberikan keuntungan yang tidak adil, merusak integritas permainan dan berdampak negatif pada semua pemain. Pembatasan ini telah diterapkan untuk menjaga lingkungan yang adil bagi masyarakat.",
+  "description.duendeMonument.boost": "-10% Sumber Daya Ekspansi (tidak menumpuk dengan Grinx's Hammer)",
+  "description.duendeMonument.boost.2": "-10% Waktu Ekspansi",
+  "description.duendeHat.boost": "x0.9 Waktu Pertumbuhan Plot Tanaman",
+  "description.duendeHat.boost.2": "x0.9 Waktu Pertumbuhan Patch Buah",
+  "description.strawHouse.boost": "x0.9 Waktu Kompos Komposter",
+  "description.strawHouse.boost.2": "Pupuk dasar x3 dari Komposter",
+  "description.strawHouse.boost.3": "Cacing dasar x3 dari Pengomposan",
+  "description.miningDrill.boost": "1/3 peluang dari +1 Desert Treasure"
 }

@@ -8896,5 +8896,13 @@
   "description.macropinna": "A barreleye fish with a see-through head, peering up from the deep.",
   "description.cloverCoin": "A lucky clover coin unearthed during Cave Dwellers.",
   "statements.blacklist.botting": "This farm has been banned for botting.",
-  "statements.blacklist.tos.botting": "Botting is a violation of our Terms of Service. Using scripts, bots, macros or other automation to play gives an unfair advantage, undermines the integrity of the game and negatively impacts all players. This restriction has been applied to maintain a fair environment for the community."
+  "statements.blacklist.tos.botting": "Botting is a violation of our Terms of Service. Using scripts, bots, macros or other automation to play gives an unfair advantage, undermines the integrity of the game and negatively impacts all players. This restriction has been applied to maintain a fair environment for the community.",
+  "description.duendeMonument.boost": "-10% Expansion Resources (does not stack with Grinx's Hammer)",
+  "description.duendeMonument.boost.2": "-10% Expansion Time",
+  "description.duendeHat.boost": "x0.9 Crop Plot Growth Time",
+  "description.duendeHat.boost.2": "x0.9 Fruit Patch Growth Time",
+  "description.strawHouse.boost": "x0.9 Composter Compost Time",
+  "description.strawHouse.boost.2": "x3 base Fertiliser from Composters",
+  "description.strawHouse.boost.3": "x3 base Worms from Composting",
+  "description.miningDrill.boost": "1/3 chance of +1 Desert Treasure"
 }

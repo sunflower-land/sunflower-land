@@ -8896,5 +8896,13 @@
   "description.macropinna": "Um peixe de olho de barril com uma cabeça transparente, olhando para cima das profundezas.",
   "description.cloverCoin": "Uma moeda de trevo da sorte descoberta durante Cave Dwellers.",
   "statements.blacklist.botting": "Esta fazenda foi banida por uso de bots.",
-  "statements.blacklist.tos.botting": "O botting é uma violação dos nossos Termos de Serviço. Usar scripts, bots, macros ou outra automação para jogar oferece uma vantagem injusta, prejudica a integridade do jogo e afeta negativamente todos os jogadores. Essa restrição foi aplicada para manter um ambiente justo para a comunidade."
+  "statements.blacklist.tos.botting": "O botting é uma violação dos nossos Termos de Serviço. Usar scripts, bots, macros ou outra automação para jogar oferece uma vantagem injusta, prejudica a integridade do jogo e afeta negativamente todos os jogadores. Essa restrição foi aplicada para manter um ambiente justo para a comunidade.",
+  "description.duendeMonument.boost": "-10% de recursos de expansão (não se acumula com Grinx's Hammer)",
+  "description.duendeMonument.boost.2": "-10% de tempo de expansão",
+  "description.duendeHat.boost": "x0.9 Tempo de crescimento da parcela de safra",
+  "description.duendeHat.boost.2": "x0.9 Tempo de crescimento do canteiro de frutas",
+  "description.strawHouse.boost": "x0.9 Tempo de compostagem do compostor",
+  "description.strawHouse.boost.2": "Fertilizante de base x3 de compostores",
+  "description.strawHouse.boost.3": "Minhocas de compostagem à base x3",
+  "description.miningDrill.boost": "1/3 de chance de +1 Tesouro do Deserto"
 }
