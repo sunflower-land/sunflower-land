@@ -5,6 +5,12 @@ import { ITEM_DETAILS } from "./images";
 import { COLLECTIBLES_DIMENSIONS } from "./craftables";
 import { REQUIRED_CHEERS } from "./monuments";
 import { BED_FARMHAND_COUNT } from "./beds";
+import {
+  CHAPTER_CRAFTING_ITEMS,
+  CRAFTABLE_BEARS,
+  DOLLS,
+} from "features/game/lib/crafting";
+import { CHAPTER_CRAFTING_RESOURCES } from "features/island/buildings/components/building/craftingBox/components/craftingTabConstants";
 
 // Cave Dwellers runs [2026-11-02, 2027-02-01).
 const IN_CHAPTER = new Date("2026-12-01T00:00:00.000Z").getTime();
@@ -36,6 +42,17 @@ describe("Cave Dwellers registration", () => {
 
   it("needs 1000 cheers to complete the Duende Monument", () => {
     expect(REQUIRED_CHEERS["Duende Monument"]).toEqual(1000);
+  });
+
+  it("makes the Pig Plush and Pig Doll Crafting Box chapter exclusives", () => {
+    expect(CHAPTER_CRAFTING_ITEMS["Pig Plush"]).toEqual("Cave Dwellers");
+    expect(CHAPTER_CRAFTING_ITEMS["Pig Doll"]).toEqual("Cave Dwellers");
+    expect("Pig Plush" in CRAFTABLE_BEARS).toBe(true);
+    expect("Pig Doll" in DOLLS).toBe(true);
+    expect(CHAPTER_CRAFTING_RESOURCES["Cave Dwellers"]).toEqual([
+      "Pig Bristles",
+      "Truffle",
+    ]);
   });
 
   it("makes Miner's Bed the 14th farmhand bed", () => {
