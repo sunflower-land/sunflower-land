@@ -1,5 +1,9 @@
 import { startCacheStorageHeartbeat } from "./cacheStorageHeartbeat";
 
+/** Resolves to true if `promise` has already settled. */
+const isSettled = (promise: Promise<void>) =>
+  Promise.race([promise.then(() => true), Promise.resolve().then(() => false)]);
+
 describe("startCacheStorageHeartbeat", () => {
   const url = "https://sunflower-land.com/game-assets/icons/disc.png";
   const cacheName = "protected-icons";
@@ -15,7 +19,7 @@ describe("startCacheStorageHeartbeat", () => {
   it("matches the cache entry once per interval and stops after the tick budget", async () => {
     const match = jest.fn().mockResolvedValue(undefined);
 
-    startCacheStorageHeartbeat({
+    const { done } = startCacheStorageHeartbeat({
       caches: { match },
       cacheName,
       url,
@@ -28,9 +32,11 @@ describe("startCacheStorageHeartbeat", () => {
     jest.advanceTimersByTime(1000);
     expect(match).toHaveBeenCalledTimes(1);
     expect(match).toHaveBeenCalledWith(url, { cacheName });
+    expect(await isSettled(done)).toBe(false);
 
     jest.advanceTimersByTime(2000);
     expect(match).toHaveBeenCalledTimes(3);
+    expect(await isSettled(done)).toBe(true);
 
     // Budget spent: no further calls however long we wait.
     jest.advanceTimersByTime(60_000);
@@ -43,7 +49,7 @@ describe("startCacheStorageHeartbeat", () => {
       .mockRejectedValueOnce(new Error("storage unavailable"))
       .mockResolvedValue(undefined);
 
-    startCacheStorageHeartbeat({
+    const { done } = startCacheStorageHeartbeat({
       caches: { match },
       cacheName,
       url,
@@ -57,12 +63,13 @@ describe("startCacheStorageHeartbeat", () => {
     jest.advanceTimersByTime(1000);
 
     expect(match).toHaveBeenCalledTimes(2);
+    await expect(done).resolves.toBeUndefined();
   });
 
-  it("can be stopped early", () => {
+  it("can be stopped early, which settles done", async () => {
     const match = jest.fn().mockResolvedValue(undefined);
 
-    const stop = startCacheStorageHeartbeat({
+    const { done, stop } = startCacheStorageHeartbeat({
       caches: { match },
       cacheName,
       url,
@@ -72,14 +79,17 @@ describe("startCacheStorageHeartbeat", () => {
 
     jest.advanceTimersByTime(2000);
     expect(match).toHaveBeenCalledTimes(2);
+    expect(await isSettled(done)).toBe(false);
 
     stop();
+    expect(await isSettled(done)).toBe(true);
+
     jest.advanceTimersByTime(60_000);
     expect(match).toHaveBeenCalledTimes(2);
   });
 
-  it("does nothing when CacheStorage is unavailable", () => {
-    const stop = startCacheStorageHeartbeat({
+  it("does nothing and settles at once when CacheStorage is unavailable", async () => {
+    const { done, stop } = startCacheStorageHeartbeat({
       caches: undefined,
       cacheName,
       url,
@@ -88,19 +98,26 @@ describe("startCacheStorageHeartbeat", () => {
     });
 
     expect(jest.getTimerCount()).toBe(0);
+    expect(await isSettled(done)).toBe(true);
     expect(() => stop()).not.toThrow();
   });
 
-  it("defaults to a 30 tick, one second budget", () => {
+  it("defaults to a 30 tick, one second budget", async () => {
     const match = jest.fn().mockResolvedValue(undefined);
 
-    startCacheStorageHeartbeat({ caches: { match }, cacheName, url });
+    const { done } = startCacheStorageHeartbeat({
+      caches: { match },
+      cacheName,
+      url,
+    });
 
     jest.advanceTimersByTime(29_000);
     expect(match).toHaveBeenCalledTimes(29);
+    expect(await isSettled(done)).toBe(false);
 
     jest.advanceTimersByTime(1000);
     expect(match).toHaveBeenCalledTimes(30);
+    expect(await isSettled(done)).toBe(true);
 
     jest.advanceTimersByTime(60_000);
     expect(match).toHaveBeenCalledTimes(30);

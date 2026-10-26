@@ -35,8 +35,22 @@ type HeartbeatOptions = {
   intervalMs?: number;
 };
 
+type Heartbeat = {
+  /**
+   * Settles once the tick budget is spent or `stop` is called. Hand it to an
+   * extendable event's `waitUntil` so the browser keeps the worker alive for
+   * the whole run: a timer on its own does not extend a worker's lifetime,
+   * and a run cut short by termination is lost, since the stuck state belongs
+   * to the worker instance.
+   */
+  done: Promise<void>;
+  /** Stops the heartbeat early and settles `done`. */
+  stop: () => void;
+};
+
 /**
- * Starts the heartbeat and returns a function that stops it early.
+ * Starts the heartbeat. Does nothing (and settles at once) when CacheStorage
+ * is unavailable.
  */
 export function startCacheStorageHeartbeat({
   caches,
@@ -44,18 +58,32 @@ export function startCacheStorageHeartbeat({
   url,
   ticks = DEFAULT_HEARTBEAT_TICKS,
   intervalMs = DEFAULT_HEARTBEAT_INTERVAL_MS,
-}: HeartbeatOptions): () => void {
-  if (!caches || ticks <= 0) return () => undefined;
+}: HeartbeatOptions): Heartbeat {
+  if (!caches || ticks <= 0) {
+    return { done: Promise.resolve(), stop: () => undefined };
+  }
 
   let remaining = ticks;
+  let finish: () => void = () => undefined;
+  const done = new Promise<void>((resolve) => {
+    finish = resolve;
+  });
 
   const timer = setInterval(() => {
     remaining -= 1;
-    if (remaining <= 0) clearInterval(timer);
+    if (remaining <= 0) {
+      clearInterval(timer);
+      finish();
+    }
 
     // A miss is fine: the point is the worker-initiated CacheStorage call.
     caches.match(url, { cacheName }).catch(() => undefined);
   }, intervalMs);
 
-  return () => clearInterval(timer);
+  const stop = () => {
+    clearInterval(timer);
+    finish();
+  };
+
+  return { done, stop };
 }

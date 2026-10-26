@@ -279,11 +279,21 @@ initializeFirebaseMessaging().catch((error) =>
 // Offline fallback html page
 offlineFallback();
 
-// Runs on every worker start-up (not only on activate): on iOS 26.6 a fresh
-// worker answers page requests from CacheStorage with a ~1s stall until it has
-// made a run of lookups of its own. See lib/cacheStorageHeartbeat.ts.
-startCacheStorageHeartbeat({
-  caches: self.caches,
-  cacheName: "protected-icons",
-  url: `${PROTECTED_IMAGE_PREFIX}/icons/disc.png`,
+// Runs once per worker instance (every start-up, not only on activate): on
+// iOS 26.6 a fresh worker answers page requests from CacheStorage with a ~1s
+// stall until it has made a run of lookups of its own. The run is attached to
+// the first fetch event's waitUntil so the browser keeps the worker alive for
+// its whole length; the event's response is handled by the Workbox routes
+// above and is not delayed by it. See lib/cacheStorageHeartbeat.ts.
+let heartbeatStarted = false;
+self.addEventListener("fetch", (event) => {
+  if (heartbeatStarted) return;
+  heartbeatStarted = true;
+
+  const { done } = startCacheStorageHeartbeat({
+    caches: self.caches,
+    cacheName: "protected-icons",
+    url: `${PROTECTED_IMAGE_PREFIX}/icons/disc.png`,
+  });
+  event.waitUntil(done);
 });
