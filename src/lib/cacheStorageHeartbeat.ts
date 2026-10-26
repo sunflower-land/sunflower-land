@@ -54,14 +54,19 @@ export function startCacheStorageHeartbeat({
 }: HeartbeatOptions): () => void {
   if (!caches || ticks <= 0) return () => undefined;
 
-  let remaining = ticks;
+  // A miss is fine: the point is the worker-initiated CacheStorage call.
+  const lookup = () => caches.match(url, { cacheName }).catch(() => undefined);
+
+  // First lookup right away, so requests in the worker's first second are
+  // covered too, then one per interval.
+  lookup();
+  let remaining = ticks - 1;
+  if (remaining <= 0) return () => undefined;
 
   const timer = setInterval(() => {
     remaining -= 1;
     if (remaining <= 0) clearInterval(timer);
-
-    // A miss is fine: the point is the worker-initiated CacheStorage call.
-    caches.match(url, { cacheName }).catch(() => undefined);
+    lookup();
   }, intervalMs);
 
   return () => clearInterval(timer);

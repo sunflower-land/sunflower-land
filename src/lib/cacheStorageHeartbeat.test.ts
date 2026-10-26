@@ -12,22 +12,25 @@ describe("startCacheStorageHeartbeat", () => {
     jest.useRealTimers();
   });
 
-  it("matches the cache entry once per second and keeps going", () => {
+  it("matches the cache entry immediately, then once per second, and keeps going", () => {
     const match = jest.fn().mockResolvedValue(undefined);
 
     startCacheStorageHeartbeat({ caches: { match }, cacheName, url });
 
-    expect(match).not.toHaveBeenCalled();
-
-    jest.advanceTimersByTime(1000);
     expect(match).toHaveBeenCalledTimes(1);
     expect(match).toHaveBeenCalledWith(url, { cacheName });
 
+    jest.advanceTimersByTime(999);
+    expect(match).toHaveBeenCalledTimes(1);
+
+    jest.advanceTimersByTime(1);
+    expect(match).toHaveBeenCalledTimes(2);
+
     jest.advanceTimersByTime(600_000);
-    expect(match).toHaveBeenCalledTimes(601);
+    expect(match).toHaveBeenCalledTimes(602);
   });
 
-  it("stops after the tick budget when one is given", () => {
+  it("stops after the tick budget when one is given, counting the immediate lookup", () => {
     const match = jest.fn().mockResolvedValue(undefined);
 
     startCacheStorageHeartbeat({
@@ -38,11 +41,23 @@ describe("startCacheStorageHeartbeat", () => {
       intervalMs: 500,
     });
 
-    jest.advanceTimersByTime(1500);
+    expect(match).toHaveBeenCalledTimes(1);
+
+    jest.advanceTimersByTime(1000);
     expect(match).toHaveBeenCalledTimes(3);
 
     jest.advanceTimersByTime(60_000);
     expect(match).toHaveBeenCalledTimes(3);
+    expect(jest.getTimerCount()).toBe(0);
+  });
+
+  it("makes a single lookup and sets no timer for a budget of one", () => {
+    const match = jest.fn().mockResolvedValue(undefined);
+
+    startCacheStorageHeartbeat({ caches: { match }, cacheName, url, ticks: 1 });
+
+    expect(match).toHaveBeenCalledTimes(1);
+    expect(jest.getTimerCount()).toBe(0);
   });
 
   it("keeps ticking when a match rejects", async () => {
@@ -53,7 +68,6 @@ describe("startCacheStorageHeartbeat", () => {
 
     startCacheStorageHeartbeat({ caches: { match }, cacheName, url });
 
-    jest.advanceTimersByTime(1000);
     // Let the rejection settle; it must not surface as an unhandled rejection.
     await Promise.resolve();
     jest.advanceTimersByTime(1000);
@@ -71,11 +85,11 @@ describe("startCacheStorageHeartbeat", () => {
     });
 
     jest.advanceTimersByTime(2000);
-    expect(match).toHaveBeenCalledTimes(2);
+    expect(match).toHaveBeenCalledTimes(3);
 
     stop();
     jest.advanceTimersByTime(60_000);
-    expect(match).toHaveBeenCalledTimes(2);
+    expect(match).toHaveBeenCalledTimes(3);
   });
 
   it("does nothing when CacheStorage is unavailable", () => {
