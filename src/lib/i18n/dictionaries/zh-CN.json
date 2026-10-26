@@ -8911,5 +8911,6 @@
   "description.cyclopsBloom.boost": "-20% 鱼市场处理时间",
   "description.macropinna.boost": "+0.1 黑曜石",
   "description.migratedRarecrow": "从 Rarecrows 小游戏中救出来的 Rarecrow。",
-  "rarecrows": "Rarecrows"
+  "rarecrows": "Rarecrows",
+  "gameOptions.generalSettings.fullMoonSeedsInQuickSelect": "快速选择中的满月种子"
 }

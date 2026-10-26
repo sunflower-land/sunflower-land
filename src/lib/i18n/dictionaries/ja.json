@@ -8911,5 +8911,6 @@
   "description.cyclopsBloom.boost": "-20% フィッシュマーケットの処理時間",
   "description.macropinna.boost": "+0.1 オブシディアン",
   "description.migratedRarecrow": "ミニゲーム「レアクロウ」から救出されたレアクロウ。",
-  "rarecrows": "レアクロウ"
+  "rarecrows": "レアクロウ",
+  "gameOptions.generalSettings.fullMoonSeedsInQuickSelect": "クイックセレクトのフルムーンシード"
 }

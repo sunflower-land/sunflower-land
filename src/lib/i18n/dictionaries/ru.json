@@ -8911,5 +8911,6 @@
   "description.cyclopsBloom.boost": "-20% Fish Market processing time",
   "description.macropinna.boost": "+0.1 Obsidian",
   "description.migratedRarecrow": "A Rarecrow rescued from the Rarecrows minigame.",
-  "rarecrows": "Rarecrows"
+  "rarecrows": "Rarecrows",
+  "gameOptions.generalSettings.fullMoonSeedsInQuickSelect": "Full Moon Seeds in Quick Select"
 }

@@ -8911,5 +8911,6 @@
   "description.cyclopsBloom.boost": "-20% Bearbeitungszeit für den Fischmarkt",
   "description.macropinna.boost": "+0.1 Obsidian",
   "description.migratedRarecrow": "Eine Rarecrow, die aus dem Rarecrows-Minispiel gerettet wurde.",
-  "rarecrows": "Seltene Krähen"
+  "rarecrows": "Seltene Krähen",
+  "gameOptions.generalSettings.fullMoonSeedsInQuickSelect": "Vollmondsamen in der Schnellauswahl"
 }

@@ -8911,5 +8911,6 @@
   "description.cyclopsBloom.boost": "-20% Tempo di lavorazione del mercato del pesce",
   "description.macropinna.boost": "+0.1 Ossidiana",
   "description.migratedRarecrow": "Un Rarecrow salvato dal minigioco Rarecrows.",
-  "rarecrows": "Corvi rari"
+  "rarecrows": "Corvi rari",
+  "gameOptions.generalSettings.fullMoonSeedsInQuickSelect": "Semi di luna piena in selezione rapida"
 }

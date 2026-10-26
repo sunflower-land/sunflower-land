@@ -8911,5 +8911,6 @@
   "description.cyclopsBloom.boost": "-20% waktu pemrosesan Pasar Ikan",
   "description.macropinna.boost": "+0.1 Obsidian",
   "description.migratedRarecrow": "Rarecrow diselamatkan dari minigame Rarecrows.",
-  "rarecrows": "Rarecrow"
+  "rarecrows": "Rarecrow",
+  "gameOptions.generalSettings.fullMoonSeedsInQuickSelect": "Benih Bulan Purnama dalam Pilihan Cepat"
 }
