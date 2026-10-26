@@ -10,6 +10,8 @@ export const BehaviourSettings: React.FC = () => {
     toggleAnimations,
     enableQuickSelect,
     toggleQuickSelect,
+    showFullMoonSeedsInQuickSelect,
+    toggleFullMoonSeedsInQuickSelect,
     showTimers,
     toggleTimers,
   } = useContext(Context);
@@ -28,6 +30,11 @@ export const BehaviourSettings: React.FC = () => {
         checked={enableQuickSelect}
         onChange={toggleQuickSelect}
         label={"Quick Select"}
+      />
+      <Switch
+        checked={showFullMoonSeedsInQuickSelect}
+        onChange={toggleFullMoonSeedsInQuickSelect}
+        label={"Full Moon Seeds in Quick Select"}
       />
       <Switch checked={showTimers} onChange={toggleTimers} label={"Timers"} />
     </div>
