@@ -4,6 +4,29 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
+import type { TranslationKeys } from "lib/i18n/dictionaries/types";
+
+/**
+ * Canned copy for each reason code the server is willing to show. Anything
+ * else falls back to funnelling, as before.
+ */
+const BAN_REASON_COPY: Record<
+  string,
+  { reason: TranslationKeys; tos: TranslationKeys }
+> = {
+  multi_accounting: {
+    reason: "statements.blacklist.multiAccounting",
+    tos: "statements.blacklist.tos.multiAccounting",
+  },
+  funnelling: {
+    reason: "statements.blacklist.funnelling",
+    tos: "statements.blacklist.tos.funnelling",
+  },
+  botting: {
+    reason: "statements.blacklist.botting",
+    tos: "statements.blacklist.tos.botting",
+  },
+};
 
 interface Props {
   banReason?: string;
@@ -11,8 +34,8 @@ interface Props {
    * Free text written by the enforcement action itself, shown verbatim.
    *
    * Takes precedence over `banReason` when both are present: it was authored
-   * for this specific ban, whereas `banReason` only picks between the two
-   * canned explanations below. Server-authored, so unlike the rest of this
+   * for this specific ban, whereas `banReason` only picks one of the canned
+   * explanations in `BAN_REASON_COPY`. Server-authored, so unlike the rest of this
    * panel it is not translated.
    */
   banMessage?: string;
@@ -21,6 +44,8 @@ interface Props {
 export const Blacklisted: React.FC<Props> = ({ banReason, banMessage }) => {
   const { t } = useAppTranslation();
   const [showInfo, setShowInfo] = useState(false);
+  const copy =
+    (banReason && BAN_REASON_COPY[banReason]) || BAN_REASON_COPY.funnelling;
 
   return (
     <div className="flex flex-col p-2">
@@ -30,13 +55,7 @@ export const Blacklisted: React.FC<Props> = ({ banReason, banMessage }) => {
       <p className="text-xs my-2">{t("statements.blacklist.one")}</p>
       {(banMessage || banReason) && (
         <InnerPanel className="mb-2 -mx-1 -mr-1">
-          <p className="text-xs">
-            {banMessage
-              ? banMessage
-              : banReason === "multi_accounting"
-                ? t("statements.blacklist.multiAccounting")
-                : t("statements.blacklist.funnelling")}
-          </p>
+          <p className="text-xs">{banMessage ? banMessage : t(copy.reason)}</p>
         </InnerPanel>
       )}
       {!showInfo ? (
@@ -50,18 +69,12 @@ export const Blacklisted: React.FC<Props> = ({ banReason, banMessage }) => {
         <div className="flex flex-col w-full mt-1">
           {/*
             A custom message already explains this specific ban, and the canned
-            paragraphs below are written about multi accounting and funnelling
-            — pairing one of those with an unrelated custom message would tell
-            the player the wrong thing. So when a custom message is present, go
+            paragraphs below are written about specific reason codes — pairing
+            one of those with an unrelated custom message would tell the player
+            the wrong thing. So when a custom message is present, go
             straight to the contact link.
           */}
-          {!banMessage && (
-            <p className="text-xs mb-2">
-              {banReason === "multi_accounting"
-                ? t("statements.blacklist.tos.multiAccounting")
-                : t("statements.blacklist.tos.funnelling")}
-            </p>
-          )}
+          {!banMessage && <p className="text-xs mb-2">{t(copy.tos)}</p>}
           <a
             href="https://tripy-discord-bot-production.up.railway.app/chat"
             target="_blank"
