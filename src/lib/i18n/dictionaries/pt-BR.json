@@ -8894,5 +8894,7 @@
   "description.manatee": "Uma gentil vaca marinha que entrou das piscinas da caverna, ainda mastigando suas verduras.",
   "description.betta": "Um lutador com barbatanas ardentes que brilha nas águas escuras da caverna.",
   "description.macropinna": "Um peixe de olho de barril com uma cabeça transparente, olhando para cima das profundezas.",
-  "description.cloverCoin": "Uma moeda de trevo da sorte descoberta durante Cave Dwellers."
+  "description.cloverCoin": "Uma moeda de trevo da sorte descoberta durante Cave Dwellers.",
+  "statements.blacklist.botting": "Esta fazenda foi banida por uso de bots.",
+  "statements.blacklist.tos.botting": "O botting é uma violação dos nossos Termos de Serviço. Usar scripts, bots, macros ou outra automação para jogar oferece uma vantagem injusta, prejudica a integridade do jogo e afeta negativamente todos os jogadores. Essa restrição foi aplicada para manter um ambiente justo para a comunidade."
 }

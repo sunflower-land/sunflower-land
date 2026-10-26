@@ -8894,5 +8894,7 @@
   "description.manatee": "一头温柔的海牛，从洞穴池中漂流进来，还在咀嚼青菜。",
   "description.betta": "在黑暗的洞穴水域中发光的火鳍战士。",
   "description.macropinna": "一条头部透视的桶眼鱼，从深处向上凝视。",
-  "description.cloverCoin": "在《洞穴居民》中出土的幸运三叶草硬币。"
+  "description.cloverCoin": "在《洞穴居民》中出土的幸运三叶草硬币。",
+  "statements.blacklist.botting": "这个农场因使用机器人而被禁止。",
+  "statements.blacklist.tos.botting": "机器人操作违反了我们的服务条款。使用脚本、机器人、宏或其他自动化进行游戏会带来不公平的优势，破坏游戏的完整性并对所有玩家产生负面影响。适用此限制是为了维护社区的公平环境。"
 }

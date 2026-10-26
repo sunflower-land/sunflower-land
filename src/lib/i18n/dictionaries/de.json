@@ -8894,5 +8894,7 @@
   "description.manatee": "Eine sanfte Seekuh, die aus den Höhlenbecken hereingedriftet ist und immer noch ihr Grün kaut.",
   "description.betta": "Ein Kämpfer mit feurigen Flossen, der im dunklen Höhlenwasser leuchtet.",
   "description.macropinna": "Ein Fassaugenfisch mit durchsichtigem Kopf, der aus der Tiefe aufschaut.",
-  "description.cloverCoin": "Eine Glückskleemünze, die bei Cave Dwellers ausgegraben wurde."
+  "description.cloverCoin": "Eine Glückskleemünze, die bei Cave Dwellers ausgegraben wurde.",
+  "statements.blacklist.botting": "Diese Farm wurde wegen Botting verboten.",
+  "statements.blacklist.tos.botting": "Botting ist ein Verstoß gegen unsere Nutzungsbedingungen. Die Verwendung von Skripten, Bots, Makros oder anderen Automatisierungen beim Spielen verschafft einen unfairen Vorteil, untergräbt die Integrität des Spiels und wirkt sich negativ auf alle Spieler aus. Diese Einschränkung wurde angewendet, um ein faires Umfeld für die Community zu gewährleisten."
 }

@@ -8894,5 +8894,7 @@
   "description.manatee": "Mağara havuzlarından sürüklenen, yeşilliklerini yemeye devam eden nazik bir deniz ineği.",
   "description.betta": "Karanlık mağara sularında parlayan ateşli kanatlı bir savaşçı.",
   "description.macropinna": "Derinlerden yukarı bakan şeffaf kafalı bir barreleye balığı.",
-  "description.cloverCoin": "Mağara Sakinleri sırasında ortaya çıkan şanslı bir yonca parası."
+  "description.cloverCoin": "Mağara Sakinleri sırasında ortaya çıkan şanslı bir yonca parası.",
+  "statements.blacklist.botting": "Bu çiftlik şişeleme için yasaklandı.",
+  "statements.blacklist.tos.botting": "Şişirme, Hizmet Koşullarımızın ihlalidir. Oynamak için komut dosyaları, botlar, makrolar veya diğer otomasyonları kullanmak haksız bir avantaj sağlar, oyunun bütünlüğünü baltalar ve tüm oyuncuları olumsuz etkiler. Bu kısıtlama, topluluk için adil bir ortam sağlamak için uygulanmıştır.."
 }

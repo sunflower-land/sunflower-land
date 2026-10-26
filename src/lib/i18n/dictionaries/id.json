@@ -8894,5 +8894,7 @@
   "description.manatee": "Seekor sapi laut lembut yang melayang masuk dari kolam gua, masih mengunyah sayurannya.",
   "description.betta": "Seorang pejuang bersirip api yang bersinar di perairan gua yang gelap.",
   "description.macropinna": "Seekor ikan barreleye dengan kepala tembus pandang, mengintip dari dalam.",
-  "description.cloverCoin": "Koin semanggi keberuntungan digali selama Penghuni Gua."
+  "description.cloverCoin": "Koin semanggi keberuntungan digali selama Penghuni Gua.",
+  "statements.blacklist.botting": "Peternakan ini telah dilarang untuk pembotolan.",
+  "statements.blacklist.tos.botting": "Botting merupakan pelanggaran terhadap Ketentuan Layanan kami. Menggunakan skrip, bot, makro, atau otomatisasi lainnya untuk bermain memberikan keuntungan yang tidak adil, merusak integritas permainan dan berdampak negatif pada semua pemain. Pembatasan ini telah diterapkan untuk menjaga lingkungan yang adil bagi masyarakat."
 }

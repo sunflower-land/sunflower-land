@@ -8894,5 +8894,7 @@
   "description.manatee": "A gentle sea cow that drifted in from the cave pools, still munching its greens.",
   "description.betta": "A fiery-finned fighter that glows in the dark cave waters.",
   "description.macropinna": "A barreleye fish with a see-through head, peering up from the deep.",
-  "description.cloverCoin": "A lucky clover coin unearthed during Cave Dwellers."
+  "description.cloverCoin": "A lucky clover coin unearthed during Cave Dwellers.",
+  "statements.blacklist.botting": "This farm has been banned for botting.",
+  "statements.blacklist.tos.botting": "Botting is a violation of our Terms of Service. Using scripts, bots, macros or other automation to play gives an unfair advantage, undermines the integrity of the game and negatively impacts all players. This restriction has been applied to maintain a fair environment for the community."
 }

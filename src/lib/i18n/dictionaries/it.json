@@ -8894,5 +8894,7 @@
   "description.manatee": "Una dolce mucca marina che entrava dalle pozze delle grotte, ancora sgranocchiando le sue verdure.",
   "description.betta": "Un combattente dalle pinne infuocate che brilla nelle oscure acque delle caverne.",
   "description.macropinna": "Un pesce barreleye con la testa trasparente, che fa capolino dal profondo.",
-  "description.cloverCoin": "Una moneta portafortuna a forma di trifoglio rinvenuta durante Cave Dwellers."
+  "description.cloverCoin": "Una moneta portafortuna a forma di trifoglio rinvenuta durante Cave Dwellers.",
+  "statements.blacklist.botting": "Questa fattoria è stata bandita per l'imbottigliamento.",
+  "statements.blacklist.tos.botting": "Il botting è una violazione dei nostri Termini di servizio. L'uso di script, bot, macro o altre automazioni per giocare offre un vantaggio sleale, mina l'integrità del gioco e ha un impatto negativo su tutti i giocatori. Questa restrizione è stata applicata per mantenere un ambiente equo per la comunità."
 }

@@ -8894,5 +8894,7 @@
   "description.manatee": "Une gentille vache de mer qui sortait des piscines de la grotte en train de grignoter ses légumes verts.",
   "description.betta": "Un combattant aux nageoires ardentes qui brille dans les eaux sombres des grottes.",
   "description.macropinna": "Un poisson-tonneau à la tête transparente, qui scrute les profondeurs.",
-  "description.cloverCoin": "Une pièce porte-bonheur en forme de trèfle découverte lors de Cave Dwellers."
+  "description.cloverCoin": "Une pièce porte-bonheur en forme de trèfle découverte lors de Cave Dwellers.",
+  "statements.blacklist.botting": "Cette ferme a été interdite pour la mise en bouteille.",
+  "statements.blacklist.tos.botting": "Le botting constitue une violation de nos conditions d'utilisation. L'utilisation de scripts, de bots, de macros ou d'autres automatisations pour jouer donne un avantage injuste, mine l'intégrité du jeu et a un impact négatif sur tous les joueurs. Cette restriction a été appliquée afin de maintenir un environnement équitable pour la communauté."
 }
