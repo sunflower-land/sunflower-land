@@ -8904,5 +8904,10 @@
   "description.strawHouse.boost": "Temps de compostage du composteur x0.9",
   "description.strawHouse.boost.2": "Engrais de base x3 provenant de composteurs",
   "description.strawHouse.boost.3": "x3 vers de base issus du compostage",
-  "description.miningDrill.boost": "1/3 de chance d'obtenir +1 trésor du désert"
+  "description.miningDrill.boost": "1/3 de chance d'obtenir +1 trésor du désert",
+  "description.mushroomChicken.boost": "+0,5 Crimstone toutes les 5 minutes",
+  "description.beetleSheep.boost": "-7,5 % du temps de sommeil des moutons",
+  "description.ladybugCow.boost": "+1 Pétrole",
+  "description.cyclopsBloom.boost": "-20 % Temps de traitement du marché aux poissons",
+  "description.macropinna.boost": "+0,1 Obsidienne"
 }

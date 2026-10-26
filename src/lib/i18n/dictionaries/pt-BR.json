@@ -8904,5 +8904,10 @@
   "description.strawHouse.boost": "x0.9 Tempo de compostagem do compostor",
   "description.strawHouse.boost.2": "Fertilizante de base x3 de compostores",
   "description.strawHouse.boost.3": "Minhocas de compostagem à base x3",
-  "description.miningDrill.boost": "1/3 de chance de +1 Tesouro do Deserto"
+  "description.miningDrill.boost": "1/3 de chance de +1 Tesouro do Deserto",
+  "description.mushroomChicken.boost": "+0,5 Crimstone a cada 5ª mina",
+  "description.beetleSheep.boost": "-7,5% de tempo de sono das ovelhas",
+  "description.ladybugCow.boost": "+1 Óleo",
+  "description.cyclopsBloom.boost": "-20% de tempo de processamento do Fish Market",
+  "description.macropinna.boost": "+0.1 Obsidiana"
 }

@@ -8904,5 +8904,10 @@
   "description.strawHouse.boost": "x0.9 コンポストコンポストタイム",
   "description.strawHouse.boost.2": "コンポスターのx3ベース肥料",
   "description.strawHouse.boost.3": "x3ベースのコンポストワーム",
-  "description.miningDrill.boost": "1/3の確率で砂漠の宝物が+1される"
+  "description.miningDrill.boost": "1/3の確率で砂漠の宝物が+1される",
+  "description.mushroomChicken.boost": "5 マインごとに +0.5 クリムストーン",
+  "description.beetleSheep.boost": "-7.5% 羊の睡眠時間",
+  "description.ladybugCow.boost": "+1 オイル",
+  "description.cyclopsBloom.boost": "-20% フィッシュマーケットの処理時間",
+  "description.macropinna.boost": "+0.1 オブシディアン"
 }

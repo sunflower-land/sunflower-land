@@ -8904,5 +8904,10 @@
   "description.strawHouse.boost": "x0.9 Kompostzeit",
   "description.strawHouse.boost.2": "x3 Basisdünger von Composters",
   "description.strawHouse.boost.3": "x3 Basiswürmer aus der Kompostierung",
-  "description.miningDrill.boost": "1/3 Chance auf +1 Wüstenschatz"
+  "description.miningDrill.boost": "1/3 Chance auf +1 Wüstenschatz",
+  "description.mushroomChicken.boost": "+0.5 Crimstone jede 5. Mine",
+  "description.beetleSheep.boost": "-7,5% Schlafzeit bei Schafen",
+  "description.ladybugCow.boost": "+1 Öl",
+  "description.cyclopsBloom.boost": "-20% Bearbeitungszeit für den Fischmarkt",
+  "description.macropinna.boost": "+0.1 Obsidian"
 }

@@ -8904,5 +8904,10 @@
   "description.strawHouse.boost": "x0.9 堆肥机堆肥时间",
   "description.strawHouse.boost.2": "来自堆肥商的 x3 基础肥料",
   "description.strawHouse.boost.3": "x3 基础堆肥中的蠕虫",
-  "description.miningDrill.boost": "1/3 几率获得 +1 沙漠宝藏"
+  "description.miningDrill.boost": "1/3 几率获得 +1 沙漠宝藏",
+  "description.mushroomChicken.boost": "每 5 个地雷 +0.5 个猩红石",
+  "description.beetleSheep.boost": "-7.5% 绵羊睡眠时间",
+  "description.ladybugCow.boost": "+1 石油",
+  "description.cyclopsBloom.boost": "-20% 鱼市场处理时间",
+  "description.macropinna.boost": "+0.1 黑曜石"
 }

@@ -8904,5 +8904,10 @@
   "description.strawHouse.boost": "x0.9 Tiempo de compostaje",
   "description.strawHouse.boost.2": "Fertilizante base x3 de compostadores",
   "description.strawHouse.boost.3": "3 lombrices base procedentes del compostaje",
-  "description.miningDrill.boost": "1/3 de probabilidad de obtener +1 tesoro del desierto"
+  "description.miningDrill.boost": "1/3 de probabilidad de obtener +1 tesoro del desierto",
+  "description.mushroomChicken.boost": "+0.5 Crimstone cada quinta mina",
+  "description.beetleSheep.boost": "-7,5% del tiempo de sueño de las ovejas",
+  "description.ladybugCow.boost": "+1 Petróleo",
+  "description.cyclopsBloom.boost": "-20% de tiempo de procesamiento en el mercado de pescado",
+  "description.macropinna.boost": "+0.1 Obsidiana"
 }
