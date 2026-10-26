@@ -8909,5 +8909,6 @@
   "description.beetleSheep.boost": "-7,5 % du temps de sommeil des moutons",
   "description.ladybugCow.boost": "+1 Pétrole",
   "description.cyclopsBloom.boost": "-20 % Temps de traitement du marché aux poissons",
-  "description.macropinna.boost": "+0,1 Obsidienne"
+  "description.macropinna.boost": "+0,1 Obsidienne",
+  "description.migratedRarecrow": "Un Rarecrow sauvé du mini-jeu Rarecrows."
 }

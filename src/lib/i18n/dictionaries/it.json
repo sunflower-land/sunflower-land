@@ -8909,5 +8909,6 @@
   "description.beetleSheep.boost": "-7,5% del tempo di sonno delle pecore",
   "description.ladybugCow.boost": "+1 olio",
   "description.cyclopsBloom.boost": "-20% Tempo di lavorazione del mercato del pesce",
-  "description.macropinna.boost": "+0.1 Ossidiana"
+  "description.macropinna.boost": "+0.1 Ossidiana",
+  "description.migratedRarecrow": "Un Rarecrow salvato dal minigioco Rarecrows."
 }

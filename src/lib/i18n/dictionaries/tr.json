@@ -8909,5 +8909,6 @@
   "description.beetleSheep.boost": "-% 7.5 Koyun Uyku Süresi",
   "description.ladybugCow.boost": "+1 Petrol",
   "description.cyclopsBloom.boost": "-20% Balık Pazarı işleme süresi",
-  "description.macropinna.boost": "+0.1 Obsidian"
+  "description.macropinna.boost": "+0.1 Obsidian",
+  "description.migratedRarecrow": "Rarecrows mini oyunundan kurtarılan bir Rarecrow."
 }
