@@ -8890,5 +8890,9 @@
   "npc.Modal.skellyJoe": "¡Hola! ¡Espero que te diviertas en este espeluznante evento! ¡Gracias por todo vuestro apoyo!",
   "npc.Modal.vampireJim": "¡¡¡Me encanta Halloween!!! Aquí tienes una pequeña recompensa, no se lo digas a nadie...",
   "halloween2026.gift.claimed": "Ahora que tienes mi regalo, ¡disfruta del evento! ¡Feliz Halloween!",
-  "event.noticeboard.three": "La tienda usa un sistema de niveles, donde puedes desbloquear nuevos objetos para comprar después de comprar una cierta cantidad de artículos de los niveles anteriores. ¡Recuerda también comprar tantas entradas para eventos como puedas para tener más posibilidades de ganar $FLOWER!"
+  "event.noticeboard.three": "La tienda usa un sistema de niveles, donde puedes desbloquear nuevos objetos para comprar después de comprar una cierta cantidad de artículos de los niveles anteriores. ¡Recuerda también comprar tantas entradas para eventos como puedas para tener más posibilidades de ganar $FLOWER!",
+  "description.manatee": "Una apacible vaca marina que llegó a la deriva desde las piscinas de la cueva, aún comiendo sus verduras.",
+  "description.betta": "Un luchador con aletas ardientes que brilla en las oscuras aguas de la cueva.",
+  "description.macropinna": "Un pez ojo de barril con una cabeza transparente que mira hacia arriba desde las profundidades.",
+  "description.cloverCoin": "Una moneda de trébol de la suerte descubierta durante Cave Dwellers."
 }

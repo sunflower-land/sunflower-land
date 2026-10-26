@@ -8890,5 +8890,9 @@
   "npc.Modal.skellyJoe": "Selamlar! Umarım bu ürkütücü etkinlikte eğlenirsin! Tüm desteğiniz için teşekkürler!",
   "npc.Modal.vampireJim": "Cadılar Bayramı'nı seviyorum!!! İşte küçük bir ödül, kimseye bahsetme...",
   "halloween2026.gift.claimed": "Artık hediyem olduğuna göre, etkinliğin tadını çıkarın! Mutlu Cadılar Bayramı!",
-  "event.noticeboard.three": "Mağaza, önceki katmanlardan belirli miktarda öğe satın aldıktan sonra satın almak için yeni öğelerin kilidini açabileceğiniz katmanlı bir sistem kullanır. Ayrıca $FLOWER kazanma şansına sahip olmak için olabildiğince çok etkinlik bileti almayı unutmayın!"
+  "event.noticeboard.three": "Mağaza, önceki katmanlardan belirli miktarda öğe satın aldıktan sonra satın almak için yeni öğelerin kilidini açabileceğiniz katmanlı bir sistem kullanır. Ayrıca $FLOWER kazanma şansına sahip olmak için olabildiğince çok etkinlik bileti almayı unutmayın!",
+  "description.manatee": "Mağara havuzlarından sürüklenen, yeşilliklerini yemeye devam eden nazik bir deniz ineği.",
+  "description.betta": "Karanlık mağara sularında parlayan ateşli kanatlı bir savaşçı.",
+  "description.macropinna": "Derinlerden yukarı bakan şeffaf kafalı bir barreleye balığı.",
+  "description.cloverCoin": "Mağara Sakinleri sırasında ortaya çıkan şanslı bir yonca parası."
 }

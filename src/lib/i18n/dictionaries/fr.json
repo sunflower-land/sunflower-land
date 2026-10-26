@@ -8890,5 +8890,9 @@
   "npc.Modal.skellyJoe": "Salut ! J'espère que vous vous amuserez bien lors de cet événement effrayant ! Merci à tous pour votre soutien !",
   "npc.Modal.vampireJim": "J'adore Halloween ! ! ! Voici une petite récompense, n'en parlez à personne...",
   "halloween2026.gift.claimed": "Maintenant que tu as reçu mon cadeau, profites bien de l'événement ! Joyeux Halloween !",
-  "event.noticeboard.three": "La boutique utilise un système à plusieurs niveaux, dans lequel vous pouvez débloquer de nouveaux objets à acheter après avoir acheté un certain nombre d'articles des niveaux précédents. Pensez également à acheter autant de billets que possible pour avoir plus de chances de gagner $FLOWER !"
+  "event.noticeboard.three": "La boutique utilise un système à plusieurs niveaux, dans lequel vous pouvez débloquer de nouveaux objets à acheter après avoir acheté un certain nombre d'articles des niveaux précédents. Pensez également à acheter autant de billets que possible pour avoir plus de chances de gagner $FLOWER !",
+  "description.manatee": "Une gentille vache de mer qui sortait des piscines de la grotte en train de grignoter ses légumes verts.",
+  "description.betta": "Un combattant aux nageoires ardentes qui brille dans les eaux sombres des grottes.",
+  "description.macropinna": "Un poisson-tonneau à la tête transparente, qui scrute les profondeurs.",
+  "description.cloverCoin": "Une pièce porte-bonheur en forme de trèfle découverte lors de Cave Dwellers."
 }
