@@ -2,6 +2,10 @@ import { KNOWN_ITEMS } from "features/game/types";
 import { type BumpkinItem, ITEM_NAMES } from "features/game/types/bumpkin";
 import type { InventoryItemName } from "features/game/types/game";
 import type { CollectionName } from "features/game/types/marketplace";
+import {
+  RARECROW_NAMES,
+  type RarecrowName,
+} from "features/game/types/rarecrows";
 
 export type TradeType = "instant" | "onchain";
 
@@ -1595,6 +1599,10 @@ export const ITEM_TRADE_TYPES: {
     "Champion Rarecrow": "instant",
     "OG Rarecrow": "instant",
     "Loyal Rarecrow": "instant",
+    ...RARECROW_NAMES.reduce(
+      (acc, name) => ({ ...acc, [name]: "instant" as TradeType }),
+      {} as Record<RarecrowName, TradeType>,
+    ),
 
     // Chapter 16 resources
     "Green Beetle": "instant",

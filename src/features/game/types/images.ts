@@ -1435,6 +1435,8 @@ import {
 } from "./craftables";
 import { LOVE_ANIMAL_TOOLS, TREASURE_TOOLS, WORKBENCH_TOOLS } from "./tools";
 import { translate } from "lib/i18n/translate";
+import { RARECROW_IMAGES } from "./rarecrowImages";
+import { RARECROW_NAMES, type RarecrowName } from "./rarecrows";
 import { LANDSCAPING_DECORATIONS } from "./decorations";
 import { SELLABLE_TREASURES } from "./treasure";
 import { ANIMAL_FOODS } from "./animals";
@@ -1464,6 +1466,16 @@ export const getTranslatedItemName = (
 type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
 
 export const ITEM_DETAILS: Items = {
+  ...RARECROW_NAMES.reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: {
+        image: RARECROW_IMAGES[name],
+        description: translate("description.migratedRarecrow"),
+      },
+    }),
+    {} as Record<RarecrowName, { image: string; description: string }>,
+  ),
   Sunflower: {
     image: CROP_LIFECYCLE["Basic Biome"].Sunflower.crop,
     description: CROPS.Sunflower.description,
