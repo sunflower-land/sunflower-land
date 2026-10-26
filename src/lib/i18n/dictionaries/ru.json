@@ -8911,5 +8911,6 @@
   "description.cyclopsBloom.boost": "-20% времени обработки в рыбной лавке",
   "description.macropinna.boost": "+0.1 обсидиан",
   "description.migratedRarecrow": "Пугало, спасённое из мини-игры Rarecrows.",
-  "rarecrows": "Rarecrows"
+  "rarecrows": "Rarecrows",
+  "gameOptions.generalSettings.fullMoonSeedsInQuickSelect": "Семена полнолуния в быстром выборе"
 }
