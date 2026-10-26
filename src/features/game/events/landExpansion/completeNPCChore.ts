@@ -129,8 +129,11 @@ export const CHAPTER_TICKET_BOOST_ITEMS: Record<
     rare: "Swamp Armor",
     epic: "Swamp Pants",
   },
-  // TODO(Cave Dwellers): no ticket-boost wearables yet
-  "Cave Dwellers": undefined,
+  "Cave Dwellers": {
+    basic: "Duende Shoes",
+    rare: "Duende Pants",
+    epic: "Duende Shirt",
+  },
 };
 
 export function completeNPCChore({

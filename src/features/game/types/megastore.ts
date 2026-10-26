@@ -82,7 +82,12 @@ export type ChapterCollectibleName =
   // Ascension Age
   | "Astrolabe"
   | "Ascension Monument"
-  | "Otty the Otter";
+  | "Otty the Otter"
+
+  // Cave Dwellers
+  | "Straw House"
+  | "Duende Monument"
+  | "Mining Drill";
 
 export type ChapterWearableName = Extract<
   BumpkinItem,
@@ -140,6 +145,12 @@ export type ChapterWearableName = Extract<
   | "Swamp Armor"
   | "Swamp Pants"
   | "Moon Hair"
+
+  // Cave Dwellers
+  | "Duende Shoes"
+  | "Duende Pants"
+  | "Duende Shirt"
+  | "Duende Hat"
 >;
 
 export type MegastoreKeys = "Treasure Key" | "Rare Key" | "Luxury Key";
@@ -1309,6 +1320,94 @@ const ASCENSION_AGE_ITEMS: ChapterStore = {
   },
 };
 
+const CAVE_DWELLERS_ITEMS: ChapterStore = {
+  basic: {
+    items: [
+      // Duende shop items
+      {
+        wearable: "Duende Shoes",
+        limit: 1,
+        cost: { coins: 5000, sfl: 0, items: {} },
+      },
+      {
+        wearable: "Duende Pants",
+        limit: 1,
+        cost: { sfl: 10, items: {} },
+      },
+      {
+        wearable: "Duende Shirt",
+        limit: 1,
+        cost: { sfl: 50, items: {} },
+      },
+
+      // Hourglasses (infinitely buyable throughout the chapter)
+      {
+        collectible: "Gourmet Hourglass",
+        cost: { sfl: 0, items: { "Beetle Wing": 100 } },
+      },
+      {
+        collectible: "Ore Hourglass",
+        cost: { sfl: 0, items: { "Beetle Wing": 150 } },
+      },
+      {
+        collectible: "Timber Hourglass",
+        cost: { sfl: 0, items: { "Beetle Wing": 200 } },
+      },
+      {
+        collectible: "Blossom Hourglass",
+        cost: { sfl: 0, items: { "Beetle Wing": 200 } },
+      },
+      {
+        collectible: "Orchard Hourglass",
+        cost: { sfl: 0, items: { "Beetle Wing": 400 } },
+      },
+      {
+        collectible: "Fisher's Hourglass",
+        cost: { sfl: 0, items: { "Beetle Wing": 200 } },
+      },
+      {
+        collectible: "Harvest Hourglass",
+        cost: { sfl: 0, items: { "Beetle Wing": 200 } },
+      },
+
+      // Premium chapter items
+      {
+        wearable: "Duende Hat",
+        limit: 1,
+        cost: { sfl: 0, items: { "Beetle Wing": 9000 } },
+      },
+      {
+        collectible: "Straw House",
+        limit: 1,
+        cost: { sfl: 0, items: { "Beetle Wing": 9000 } },
+      },
+      {
+        collectible: "Duende Monument",
+        limit: 1,
+        inventoryLimit: 1,
+        cost: { sfl: 0, items: { "Beetle Wing": 4000 } },
+      },
+      {
+        collectible: "Mining Drill",
+        limit: 1,
+        cost: { sfl: 0, items: { "Clover Coin": 250 } },
+      },
+    ],
+  },
+  rare: {
+    items: [],
+    requirement: 0,
+  },
+  epic: {
+    items: [],
+    requirement: 0,
+  },
+  mega: {
+    items: [],
+    requirement: 0,
+  },
+};
+
 export const MEGASTORE: Record<ChapterName, ChapterStore> = {
   "Catch the Kraken": EMPTY_SEASONAL_STORE,
   "Clash of Factions": EMPTY_SEASONAL_STORE,
@@ -1373,6 +1472,5 @@ export const MEGASTORE: Record<ChapterName, ChapterStore> = {
   "Better Together": BETTER_TOGETHER_ITEMS,
   "Paw Prints": PAW_PRINTS_ITEMS,
   "Ascension Age": ASCENSION_AGE_ITEMS,
-  // TODO(Cave Dwellers): placeholder - empty megastore
-  "Cave Dwellers": EMPTY_SEASONAL_STORE,
+  "Cave Dwellers": CAVE_DWELLERS_ITEMS,
 };
