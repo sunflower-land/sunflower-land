@@ -2496,6 +2496,46 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS["Sand Shovel"].image,
     },
   ],
+  "Mushroom Chicken": () => [
+    {
+      shortDescription: translate("description.mushroomChicken.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Crimstone.image,
+    },
+  ],
+  "Beetle Sheep": () => [
+    {
+      shortDescription: translate("description.beetleSheep.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: SUNNYSIDE.animals.sheepSleeping,
+    },
+  ],
+  "Ladybug Cow": () => [
+    {
+      shortDescription: translate("description.ladybugCow.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Oil.image,
+    },
+  ],
+  "Cyclops Bloom": () => [
+    {
+      shortDescription: translate("description.cyclopsBloom.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
+    },
+  ],
+  Macropinna: () => [
+    {
+      shortDescription: translate("description.macropinna.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Obsidian.image,
+    },
+  ],
   "Otty the Otter": () => [
     {
       shortDescription: translate("description.ottyTheOtter.boost"),
