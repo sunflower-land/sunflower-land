@@ -1348,3 +1348,43 @@ describe("getBoostedAwakeAt: Truffle Seasoning (Chapter 16)", () => {
     expect(boostsUsed).toEqual([]);
   });
 });
+
+describe("Beetle Sheep", () => {
+  it("applies x0.925 Sheep sleep time", () => {
+    const { baseDurationMs, boostsUsed } = getBoostedAwakeAt({
+      animalType: "Sheep",
+      createdAt: Date.now(),
+      game: {
+        ...INITIAL_FARM,
+        collectibles: {
+          "Beetle Sheep": [
+            { id: "1", createdAt: 0, coordinates: { x: 0, y: 0 }, readyAt: 0 },
+          ],
+        },
+      },
+    });
+
+    expect(baseDurationMs).toEqual(ANIMAL_SLEEP_DURATION * 0.925);
+    expect(boostsUsed).toContainEqual({
+      name: "Beetle Sheep",
+      value: "x0.925",
+    });
+  });
+
+  it("does not apply to Cows", () => {
+    const { baseDurationMs } = getBoostedAwakeAt({
+      animalType: "Cow",
+      createdAt: Date.now(),
+      game: {
+        ...INITIAL_FARM,
+        collectibles: {
+          "Beetle Sheep": [
+            { id: "1", createdAt: 0, coordinates: { x: 0, y: 0 }, readyAt: 0 },
+          ],
+        },
+      },
+    });
+
+    expect(baseDurationMs).toEqual(ANIMAL_SLEEP_DURATION);
+  });
+});
