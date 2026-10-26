@@ -103,6 +103,52 @@ import snowmanRarecrow from "assets/sfts/rarecrows/snowman_crow.webp";
 import racoonRarecrow from "assets/sfts/rarecrows/racoon_crow.webp";
 import superTotemRarecrow from "assets/sfts/rarecrows/super_totem_crow.webp";
 
+// Animated: the NFT effect drawn around the crow
+import sparkleHaloRarecrow from "assets/sfts/rarecrows/sparkle_halo_crow.webp";
+import sparkleGrimRarecrow from "assets/sfts/rarecrows/sparkle_grim_scarecrow.webp";
+import sparkleStonedRarecrow from "assets/sfts/rarecrows/sparkle_stoned_crow.webp";
+import sparkleDonkeyRarecrow from "assets/sfts/rarecrows/sparkle_donkey_crow.webp";
+import coinAlienRarecrow from "assets/sfts/rarecrows/coin_alien_crow.webp";
+import coinGothRarecrow from "assets/sfts/rarecrows/coin_goth_scarecrow.webp";
+import coinStoneGolemRarecrow from "assets/sfts/rarecrows/coin_stone_golem_scarecrow.webp";
+import coinElfRarecrow from "assets/sfts/rarecrows/coin_elf_crow.webp";
+import coinFrostRarecrow from "assets/sfts/rarecrows/coin_frost_scarecrow.webp";
+import coinKingRarecrow from "assets/sfts/rarecrows/coin_king_scarecrow.webp";
+import coinSkullRarecrow from "assets/sfts/rarecrows/coin_skull_crow.webp";
+import coinStonedRarecrow from "assets/sfts/rarecrows/coin_stoned_crow.webp";
+import coinCoconutRarecrow from "assets/sfts/rarecrows/coin_coconut_crow.webp";
+import coinEgyptianRarecrow from "assets/sfts/rarecrows/coin_egyptian_crow.webp";
+import coinMythicalRarecrow from "assets/sfts/rarecrows/coin_mythical_crow.webp";
+import coinRoyalRarecrow from "assets/sfts/rarecrows/coin_royal_crow.webp";
+import coinSharkRarecrow from "assets/sfts/rarecrows/coin_shark_crow.webp";
+import coinNightshadeRarecrow from "assets/sfts/rarecrows/coin_nightshade_crow.webp";
+import coinOrangeFishRarecrow from "assets/sfts/rarecrows/coin_orange_fish_crow.webp";
+import coinHotdogRarecrow from "assets/sfts/rarecrows/coin_hotdog_crow.webp";
+import loveElfRarecrow from "assets/sfts/rarecrows/love_elf_crow.webp";
+import loveHaloRarecrow from "assets/sfts/rarecrows/love_halo_crow.webp";
+import loveSpectralRarecrow from "assets/sfts/rarecrows/love_spectral_scarecrow.webp";
+import loveSflRarecrow from "assets/sfts/rarecrows/love_sfl_crow.webp";
+import loveFrostRarecrow from "assets/sfts/rarecrows/love_frost_scarecrow.webp";
+import loveInfernalRarecrow from "assets/sfts/rarecrows/love_infernal_scarecrow.webp";
+import loveBoxingRarecrow from "assets/sfts/rarecrows/love_boxing_crow.webp";
+import lovePirateRarecrow from "assets/sfts/rarecrows/love_pirate_Crow.webp";
+import loveCupRarecrow from "assets/sfts/rarecrows/love_cup_crow.webp";
+import loveGrimRarecrow from "assets/sfts/rarecrows/love_grim_scarecrow.webp";
+import loveGoblinVikingRarecrow from "assets/sfts/rarecrows/love_goblin_viking_crow.webp";
+import loveStPatricksRarecrow from "assets/sfts/rarecrows/love_st_patricks_crow.webp";
+import loveSadRarecrow from "assets/sfts/rarecrows/love_sad_crow.webp";
+import loveDoctorRarecrow from "assets/sfts/rarecrows/love_dr_scarecrow.webp";
+import loveOliveRarecrow from "assets/sfts/rarecrows/love_olive_crow.webp";
+import loveMythicalRarecrow from "assets/sfts/rarecrows/love_mythical_crow.webp";
+import loveRoyalRarecrow from "assets/sfts/rarecrows/love_royal_crow.webp";
+import loveLionRarecrow from "assets/sfts/rarecrows/love_lion_crow.webp";
+import loveBumpkinRarecrow from "assets/sfts/rarecrows/love_bumpkin_crow.webp";
+import loveCookiesRarecrow from "assets/sfts/rarecrows/love_cookies_crow.webp";
+import loveNightshadeRarecrow from "assets/sfts/rarecrows/love_nightshade_crow.webp";
+import loveDarkFishRarecrow from "assets/sfts/rarecrows/love_dark_fish_crow.webp";
+import loveGuardianRarecrow from "assets/sfts/rarecrows/love_guardian_crow.webp";
+import loveGrapesRarecrow from "assets/sfts/rarecrows/love_grapes_crow.webp";
+
 import type { RarecrowName } from "./rarecrows";
 
 export const RARECROW_IMAGES: Record<RarecrowName, string> = {
@@ -210,4 +256,48 @@ export const RARECROW_IMAGES: Record<RarecrowName, string> = {
   "Snowman Rarecrow": snowmanRarecrow,
   "Racoon Rarecrow": racoonRarecrow,
   "Super Totem Rarecrow": superTotemRarecrow,
+  "Sparkle Halo Rarecrow": sparkleHaloRarecrow,
+  "Sparkle Grim Rarecrow": sparkleGrimRarecrow,
+  "Sparkle Stoned Rarecrow": sparkleStonedRarecrow,
+  "Sparkle Donkey Rarecrow": sparkleDonkeyRarecrow,
+  "Coin Alien Rarecrow": coinAlienRarecrow,
+  "Coin Goth Rarecrow": coinGothRarecrow,
+  "Coin Stone Golem Rarecrow": coinStoneGolemRarecrow,
+  "Coin Elf Rarecrow": coinElfRarecrow,
+  "Coin Frost Rarecrow": coinFrostRarecrow,
+  "Coin King Rarecrow": coinKingRarecrow,
+  "Coin Skull Rarecrow": coinSkullRarecrow,
+  "Coin Stoned Rarecrow": coinStonedRarecrow,
+  "Coin Coconut Rarecrow": coinCoconutRarecrow,
+  "Coin Egyptian Rarecrow": coinEgyptianRarecrow,
+  "Coin Mythical Rarecrow": coinMythicalRarecrow,
+  "Coin Royal Rarecrow": coinRoyalRarecrow,
+  "Coin Shark Rarecrow": coinSharkRarecrow,
+  "Coin Nightshade Rarecrow": coinNightshadeRarecrow,
+  "Coin Orange Fish Rarecrow": coinOrangeFishRarecrow,
+  "Coin Hotdog Rarecrow": coinHotdogRarecrow,
+  "Love Elf Rarecrow": loveElfRarecrow,
+  "Love Halo Rarecrow": loveHaloRarecrow,
+  "Love Spectral Rarecrow": loveSpectralRarecrow,
+  "Love SFL Rarecrow": loveSflRarecrow,
+  "Love Frost Rarecrow": loveFrostRarecrow,
+  "Love Infernal Rarecrow": loveInfernalRarecrow,
+  "Love Boxing Rarecrow": loveBoxingRarecrow,
+  "Love Pirate Rarecrow": lovePirateRarecrow,
+  "Love Cup Rarecrow": loveCupRarecrow,
+  "Love Grim Rarecrow": loveGrimRarecrow,
+  "Love Goblin Viking Rarecrow": loveGoblinVikingRarecrow,
+  "Love St. Patrick's Rarecrow": loveStPatricksRarecrow,
+  "Love Sad Rarecrow": loveSadRarecrow,
+  "Love Doctor Rarecrow": loveDoctorRarecrow,
+  "Love Olive Rarecrow": loveOliveRarecrow,
+  "Love Mythical Rarecrow": loveMythicalRarecrow,
+  "Love Royal Rarecrow": loveRoyalRarecrow,
+  "Love Lion Rarecrow": loveLionRarecrow,
+  "Love Bumpkin Rarecrow": loveBumpkinRarecrow,
+  "Love Cookies Rarecrow": loveCookiesRarecrow,
+  "Love Nightshade Rarecrow": loveNightshadeRarecrow,
+  "Love Dark Fish Rarecrow": loveDarkFishRarecrow,
+  "Love Guardian Rarecrow": loveGuardianRarecrow,
+  "Love Grapes Rarecrow": loveGrapesRarecrow,
 };
