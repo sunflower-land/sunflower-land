@@ -33,7 +33,9 @@ export type DollName =
   | "Bigfin Doll"
   | "Solar Doll"
   // Salt Awakening
-  | "Salt Doll";
+  | "Salt Doll"
+  // Cave Dwellers
+  | "Pig Doll";
 
 export const DOLLS: Record<DollName, object> = {
   Doll: {},
@@ -62,17 +64,23 @@ export const DOLLS: Record<DollName, object> = {
   "Solar Doll": {},
   // Salt Awakening
   "Salt Doll": {},
+  // Cave Dwellers
+  "Pig Doll": {},
 };
 
 export type CraftableBearName =
   | "Basic Bear"
   // Salt Awakening
-  | "Jacuzzi Bear";
+  | "Jacuzzi Bear"
+  // Cave Dwellers
+  | "Pig Plush";
 
 export const CRAFTABLE_BEARS: Record<CraftableBearName, object> = {
   "Basic Bear": {},
   // Salt Awakening
   "Jacuzzi Bear": {},
+  // Cave Dwellers
+  "Pig Plush": {},
 };
 
 export type RecipeCollectibleName = Extract<
@@ -284,6 +292,8 @@ export const CHAPTER_CRAFTING_ITEMS: Partial<
 > = {
   "Salt Doll": "Salt Awakening",
   "Jacuzzi Bear": "Salt Awakening",
+  "Pig Doll": "Cave Dwellers",
+  "Pig Plush": "Cave Dwellers",
 };
 
 export const RECIPE_CRAFTABLES: Record<RecipeCraftableName, null> = {
