@@ -1,0 +1,213 @@
+import alienRareCrow from "assets/sfts/rare_crows/alien_crow.webp";
+import gothRareCrow from "assets/sfts/rare_crows/goth_scarecrow.webp";
+import stoneGolemRareCrow from "assets/sfts/rare_crows/stone_golem_scarecrow.webp";
+import cluckerRareCrow from "assets/sfts/rare_crows/cluck_crow.webp";
+import dumboRareCrow from "assets/sfts/rare_crows/dumbo_crow.webp";
+import cactusRareCrow from "assets/sfts/rare_crows/cactus_crow.webp";
+import beekeeperRareCrow from "assets/sfts/rare_crows/beekeeper_crow.webp";
+import elfRareCrow from "assets/sfts/rare_crows/elf_crow.webp";
+import haloRareCrow from "assets/sfts/rare_crows/halo_crow.webp";
+import spectralRareCrow from "assets/sfts/rare_crows/spectral_scarecrow.webp";
+import sFLRareCrow from "assets/sfts/rare_crows/sfl_crow.webp";
+import frostRareCrow from "assets/sfts/rare_crows/frost_scarecrow.webp";
+import infernalRareCrow from "assets/sfts/rare_crows/infernal_scarecrow.webp";
+import crumpleRareCrow from "assets/sfts/rare_crows/crumple_crow.webp";
+import boxingRareCrow from "assets/sfts/rare_crows/boxing_crow.webp";
+import kingRareCrow from "assets/sfts/rare_crows/king_scarecrow.webp";
+import pirateRareCrow from "assets/sfts/rare_crows/pirate_Crow.webp";
+import lunaRareCrow from "assets/sfts/rare_crows/luna_crow.webp";
+import unicornRareCrow from "assets/sfts/rare_crows/unicorn_crow.webp";
+import skullRareCrow from "assets/sfts/rare_crows/skull_crow.webp";
+import cupRareCrow from "assets/sfts/rare_crows/cup_crow.webp";
+import grimRareCrow from "assets/sfts/rare_crows/grim_scarecrow.webp";
+import deepSeaRareCrow from "assets/sfts/rare_crows/deep_sea_crow.webp";
+import foxRareCrow from "assets/sfts/rare_crows/fox_crow.webp";
+import whaleRareCrow from "assets/sfts/rare_crows/whale_crow.webp";
+import tVRareCrow from "assets/sfts/rare_crows/tv_crow.webp";
+import sproutRareCrow from "assets/sfts/rare_crows/sprout_crow.webp";
+import mushroomRareCrow from "assets/sfts/rare_crows/mushroom_crow.webp";
+import pumpkinRareCrow from "assets/sfts/rare_crows/pumpkin_crow.webp";
+import crimsonRareCrow from "assets/sfts/rare_crows/crimson_scarecrow.webp";
+import goblinVikingRareCrow from "assets/sfts/rare_crows/goblin_viking_crow.webp";
+import hayRareCrow from "assets/sfts/rare_crows/hay_crow.webp";
+import devilRareCrow from "assets/sfts/rare_crows/devil_crow.webp";
+import mermanRareCrow from "assets/sfts/rare_crows/merman_crow.webp";
+import richRareCrow from "assets/sfts/rare_crows/rich_crow.webp";
+import stPatrickSRareCrow from "assets/sfts/rare_crows/st_patricks_crow.webp";
+import sadRareCrow from "assets/sfts/rare_crows/sad_crow.webp";
+import doctorRareCrow from "assets/sfts/rare_crows/dr_scarecrow.webp";
+import stonedRareCrow from "assets/sfts/rare_crows/stoned_crow.webp";
+import birthdayRareCrow from "assets/sfts/rare_crows/birthday_crow.webp";
+import boarRareCrow from "assets/sfts/rare_crows/boar_crow.webp";
+import coconutRareCrow from "assets/sfts/rare_crows/coconut_crow.webp";
+import cowboyRareCrow from "assets/sfts/rare_crows/cowboy_crow.webp";
+import ninjaRareCrow from "assets/sfts/rare_crows/ninja_crow.webp";
+import egyptianRareCrow from "assets/sfts/rare_crows/egyptian_crow.webp";
+import donkeyRareCrow from "assets/sfts/rare_crows/donkey_crow.webp";
+import tikiRareCrow from "assets/sfts/rare_crows/tiki_crow.webp";
+import oliveRareCrow from "assets/sfts/rare_crows/olive_crow.webp";
+import mythicalRareCrow from "assets/sfts/rare_crows/mythical_crow.webp";
+import royalRareCrow from "assets/sfts/rare_crows/royal_crow.webp";
+import heartRareCrow from "assets/sfts/rare_crows/heart_crow.webp";
+import robotRareCrow from "assets/sfts/rare_crows/robot_crow.webp";
+import sharkRareCrow from "assets/sfts/rare_crows/shark_crow.webp";
+import lionRareCrow from "assets/sfts/rare_crows/lion_crow.webp";
+import bumpkinRareCrow from "assets/sfts/rare_crows/bumpkin_crow.webp";
+import gambitRareCrow from "assets/sfts/rare_crows/gambit_crow.webp";
+import cookiesRareCrow from "assets/sfts/rare_crows/cookies_crow.webp";
+import bunnyRareCrow from "assets/sfts/rare_crows/bunny_crow.webp";
+import adventurerRareCrow from "assets/sfts/rare_crows/adventurer_crow.webp";
+import tofuRareCrow from "assets/sfts/rare_crows/tofu_crow.webp";
+import stockEyeRareCrow from "assets/sfts/rare_crows/stock_eye_crow.webp";
+import tigerRareCrow from "assets/sfts/rare_crows/tiger_crow.webp";
+import bearRareCrow from "assets/sfts/rare_crows/bear_crow.webp";
+import frogRareCrow from "assets/sfts/rare_crows/frog_crow.webp";
+import otterRareCrow from "assets/sfts/rare_crows/otter_crow.webp";
+import discordRareCrow from "assets/sfts/rare_crows/discord_crow.webp";
+import sunflorianRareCrow from "assets/sfts/rare_crows/sunflorian_crow.webp";
+import nightshadeRareCrow from "assets/sfts/rare_crows/nightshade_crow.webp";
+import crabRareCrow from "assets/sfts/rare_crows/crab_crow.webp";
+import signalLightRareCrow from "assets/sfts/rare_crows/signal_light_crow.webp";
+import darkFishRareCrow from "assets/sfts/rare_crows/dark_fish_crow.webp";
+import bananaaaRareCrow from "assets/sfts/rare_crows/bananaaa_crow.webp";
+import artCanvasRareCrow from "assets/sfts/rare_crows/art_canvas_crow.webp";
+import camelRareCrow from "assets/sfts/rare_crows/camel_crow.webp";
+import pencilRareCrow from "assets/sfts/rare_crows/pencil_crow.webp";
+import monkeyRareCrow from "assets/sfts/rare_crows/monkey_crow.webp";
+import kidRareCrow from "assets/sfts/rare_crows/kid_crow.webp";
+import orangeFishRareCrow from "assets/sfts/rare_crows/orange_fish_crow.webp";
+import rocketRareCrow from "assets/sfts/rare_crows/rocket_crow.webp";
+import hornetRareCrow from "assets/sfts/rare_crows/hornet_crow.webp";
+import relaxingRareCrow from "assets/sfts/rare_crows/relaxing_crow.webp";
+import farmerRareCrow from "assets/sfts/rare_crows/farmer_crow.webp";
+import traderRareCrow from "assets/sfts/rare_crows/trader_crow.webp";
+import logRareCrow from "assets/sfts/rare_crows/log_crow.webp";
+import riderRareCrow from "assets/sfts/rare_crows/rider_crow.webp";
+import ponchoRareCrow from "assets/sfts/rare_crows/poncho_crow.webp";
+import hotdogRareCrow from "assets/sfts/rare_crows/hotdog_crow.webp";
+import detectiveRareCrow from "assets/sfts/rare_crows/detective_crow.webp";
+import mermaidRareCrow from "assets/sfts/rare_crows/mermaid_crow.webp";
+import fairyRareCrow from "assets/sfts/rare_crows/fairy_crow.webp";
+import cupidRareCrow from "assets/sfts/rare_crows/cupid_crow.webp";
+import guardianRareCrow from "assets/sfts/rare_crows/guardian_crow.webp";
+import cursedRareCrow from "assets/sfts/rare_crows/cursed_crow.webp";
+import crayonRareCrow from "assets/sfts/rare_crows/crayon_crow.webp";
+import duskberryRareCrow from "assets/sfts/rare_crows/duskberry_crow.webp";
+import workerRareCrow from "assets/sfts/rare_crows/worker_crow.webp";
+import soybeanRareCrow from "assets/sfts/rare_crows/soybean_crow.webp";
+import frankRareCrow from "assets/sfts/rare_crows/frank_crow.webp";
+import grapesRareCrow from "assets/sfts/rare_crows/grapes_crow.webp";
+import goldRareCrow from "assets/sfts/rare_crows/gold_crow.webp";
+import redPepperRareCrow from "assets/sfts/rare_crows/red_pepper_crow.webp";
+import snowmanRareCrow from "assets/sfts/rare_crows/snowman_crow.webp";
+import racoonRareCrow from "assets/sfts/rare_crows/racoon_crow.webp";
+import superTotemRareCrow from "assets/sfts/rare_crows/super_totem_crow.webp";
+
+import type { RareCrowName } from "./rareCrows";
+
+export const RARE_CROW_IMAGES: Record<RareCrowName, string> = {
+  "Alien Rare Crow": alienRareCrow,
+  "Goth Rare Crow": gothRareCrow,
+  "Stone Golem Rare Crow": stoneGolemRareCrow,
+  "Clucker Rare Crow": cluckerRareCrow,
+  "Dumbo Rare Crow": dumboRareCrow,
+  "Cactus Rare Crow": cactusRareCrow,
+  "Beekeeper Rare Crow": beekeeperRareCrow,
+  "Elf Rare Crow": elfRareCrow,
+  "Halo Rare Crow": haloRareCrow,
+  "Spectral Rare Crow": spectralRareCrow,
+  "SFL Rare Crow": sFLRareCrow,
+  "Frost Rare Crow": frostRareCrow,
+  "Infernal Rare Crow": infernalRareCrow,
+  "Crumple Rare Crow": crumpleRareCrow,
+  "Boxing Rare Crow": boxingRareCrow,
+  "King Rare Crow": kingRareCrow,
+  "Pirate Rare Crow": pirateRareCrow,
+  "Luna Rare Crow": lunaRareCrow,
+  "Unicorn Rare Crow": unicornRareCrow,
+  "Skull Rare Crow": skullRareCrow,
+  "Cup Rare Crow": cupRareCrow,
+  "Grim Rare Crow": grimRareCrow,
+  "Deep Sea Rare Crow": deepSeaRareCrow,
+  "Fox Rare Crow": foxRareCrow,
+  "Whale Rare Crow": whaleRareCrow,
+  "TV Rare Crow": tVRareCrow,
+  "Sprout Rare Crow": sproutRareCrow,
+  "Mushroom Rare Crow": mushroomRareCrow,
+  "Pumpkin Rare Crow": pumpkinRareCrow,
+  "Crimson Rare Crow": crimsonRareCrow,
+  "Goblin Viking Rare Crow": goblinVikingRareCrow,
+  "Hay Rare Crow": hayRareCrow,
+  "Devil Rare Crow": devilRareCrow,
+  "Merman Rare Crow": mermanRareCrow,
+  "Rich Rare Crow": richRareCrow,
+  "St. Patrick's Rare Crow": stPatrickSRareCrow,
+  "Sad Rare Crow": sadRareCrow,
+  "Doctor Rare Crow": doctorRareCrow,
+  "Stoned Rare Crow": stonedRareCrow,
+  "Birthday Rare Crow": birthdayRareCrow,
+  "Boar Rare Crow": boarRareCrow,
+  "Coconut Rare Crow": coconutRareCrow,
+  "Cowboy Rare Crow": cowboyRareCrow,
+  "Ninja Rare Crow": ninjaRareCrow,
+  "Egyptian Rare Crow": egyptianRareCrow,
+  "Donkey Rare Crow": donkeyRareCrow,
+  "Tiki Rare Crow": tikiRareCrow,
+  "Olive Rare Crow": oliveRareCrow,
+  "Mythical Rare Crow": mythicalRareCrow,
+  "Royal Rare Crow": royalRareCrow,
+  "Heart Rare Crow": heartRareCrow,
+  "Robot Rare Crow": robotRareCrow,
+  "Shark Rare Crow": sharkRareCrow,
+  "Lion Rare Crow": lionRareCrow,
+  "Bumpkin Rare Crow": bumpkinRareCrow,
+  "Gambit Rare Crow": gambitRareCrow,
+  "Cookies Rare Crow": cookiesRareCrow,
+  "Bunny Rare Crow": bunnyRareCrow,
+  "Adventurer Rare Crow": adventurerRareCrow,
+  "Tofu Rare Crow": tofuRareCrow,
+  "Stock Eye Rare Crow": stockEyeRareCrow,
+  "Tiger Rare Crow": tigerRareCrow,
+  "Bear Rare Crow": bearRareCrow,
+  "Frog Rare Crow": frogRareCrow,
+  "Otter Rare Crow": otterRareCrow,
+  "Discord Rare Crow": discordRareCrow,
+  "Sunflorian Rare Crow": sunflorianRareCrow,
+  "Nightshade Rare Crow": nightshadeRareCrow,
+  "Crab Rare Crow": crabRareCrow,
+  "Signal Light Rare Crow": signalLightRareCrow,
+  "Dark Fish Rare Crow": darkFishRareCrow,
+  "Bananaaa Rare Crow": bananaaaRareCrow,
+  "Art Canvas Rare Crow": artCanvasRareCrow,
+  "Camel Rare Crow": camelRareCrow,
+  "Pencil Rare Crow": pencilRareCrow,
+  "Monkey Rare Crow": monkeyRareCrow,
+  "Kid Rare Crow": kidRareCrow,
+  "Orange Fish Rare Crow": orangeFishRareCrow,
+  "Rocket Rare Crow": rocketRareCrow,
+  "Hornet Rare Crow": hornetRareCrow,
+  "Relaxing Rare Crow": relaxingRareCrow,
+  "Farmer Rare Crow": farmerRareCrow,
+  "Trader Rare Crow": traderRareCrow,
+  "Log Rare Crow": logRareCrow,
+  "Rider Rare Crow": riderRareCrow,
+  "Poncho Rare Crow": ponchoRareCrow,
+  "Hotdog Rare Crow": hotdogRareCrow,
+  "Detective Rare Crow": detectiveRareCrow,
+  "Mermaid Rare Crow": mermaidRareCrow,
+  "Fairy Rare Crow": fairyRareCrow,
+  "Cupid Rare Crow": cupidRareCrow,
+  "Guardian Rare Crow": guardianRareCrow,
+  "Cursed Rare Crow": cursedRareCrow,
+  "Crayon Rare Crow": crayonRareCrow,
+  "Duskberry Rare Crow": duskberryRareCrow,
+  "Worker Rare Crow": workerRareCrow,
+  "Soybean Rare Crow": soybeanRareCrow,
+  "Frank Rare Crow": frankRareCrow,
+  "Grapes Rare Crow": grapesRareCrow,
+  "Gold Rare Crow": goldRareCrow,
+  "Red Pepper Rare Crow": redPepperRareCrow,
+  "Snowman Rare Crow": snowmanRareCrow,
+  "Racoon Rare Crow": racoonRareCrow,
+  "Super Totem Rare Crow": superTotemRareCrow,
+};

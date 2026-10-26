@@ -7,6 +7,7 @@ import type { Template } from "./templates";
 import type { BeanName, GiantFruit } from "./beans";
 import type { DollName } from "../lib/crafting";
 import { getKeys } from "lib/object";
+import { RARE_CROW_TEMPLATES } from "./rareCrows";
 
 export type AchievementDecorationName =
   | "Chef Bear"
@@ -902,6 +903,8 @@ export const DECORATION_TEMPLATES = {
     },
     isWithdrawable: () => false,
   },
+  // Rarecrows game migration
+  ...RARE_CROW_TEMPLATES,
 } satisfies Record<string, Template>;
 
 export type TemplateDecorationName = keyof typeof DECORATION_TEMPLATES;
