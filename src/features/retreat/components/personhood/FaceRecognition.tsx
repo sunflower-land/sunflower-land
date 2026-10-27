@@ -150,6 +150,7 @@ export const FaceRecognition: React.FC<{ skipIntro?: boolean }> = ({
 
       const cooldownUntil = faceCooldownUntil({
         game: gameState.context.state,
+        now,
       });
 
       const isOnCooldown = now < cooldownUntil;
@@ -295,7 +296,7 @@ export const RecognitionAttempt: React.FC<{
     );
   }
 
-  const cooldownUntil = faceCooldownUntil({ game });
+  const cooldownUntil = faceCooldownUntil({ game, now });
   const isOnCooldown = now < cooldownUntil;
 
   if (isOnCooldown) {
@@ -320,6 +321,7 @@ export const RecognitionAttempt: React.FC<{
 
   const attemptsLeft = getFaceRecognitionAttemptsLeft({
     game,
+    now,
   });
 
   if (event.event === "duplicate") {
