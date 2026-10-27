@@ -1,6 +1,10 @@
 import type { GameState } from "features/game/types/game";
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { isFaceVerified } from "./faceRecognition";
+import {
+  faceCooldownUntil,
+  getFaceRecognitionAttemptsLeft,
+  isFaceVerified,
+} from "./faceRecognition";
 
 describe("isFaceVerified", () => {
   it("returns true when game.verified is true, regardless of faceRecognition", () => {
@@ -163,5 +167,111 @@ describe("isFaceVerified", () => {
     };
 
     expect(isFaceVerified({ game })).toBe(true);
+  });
+});
+
+describe("faceCooldownUntil", () => {
+  const DAY = 24 * 60 * 60 * 1000;
+
+  it("returns 0 when there is no face recognition history", () => {
+    const game: GameState = { ...INITIAL_FARM, faceRecognition: undefined };
+
+    expect(faceCooldownUntil({ game })).toBe(0);
+  });
+
+  it("does not count previous successes towards the cooldown", () => {
+    // A long-verified player who fails a single re-verification scan
+    // still has attempts left and must not be told to wait 24 hours.
+    const game: GameState = {
+      ...INITIAL_FARM,
+      faceRecognition: {
+        history: [
+          { event: "succeeded", createdAt: 1_000_000, confidence: 0.99 },
+          { event: "succeeded", createdAt: 2_000_000, confidence: 0.99 },
+          { event: "succeeded", createdAt: 3_000_000, confidence: 0.99 },
+          { event: "succeeded", createdAt: 4_000_000, confidence: 0.99 },
+          { event: "failed", createdAt: 5_000_000, confidence: 0.1 },
+        ],
+      },
+    };
+
+    expect(faceCooldownUntil({ game })).toBe(0);
+    expect(getFaceRecognitionAttemptsLeft({ game })).toBe(4);
+  });
+
+  it("does not count owner changes towards the cooldown", () => {
+    const game: GameState = {
+      ...INITIAL_FARM,
+      faceRecognition: {
+        history: [
+          { event: "succeeded", createdAt: 1_000_000, confidence: 0.99 },
+          { event: "ownerChanged", createdAt: 2_000_000 },
+          { event: "succeeded", createdAt: 3_000_000, confidence: 0.99 },
+          { event: "ownerChanged", createdAt: 4_000_000 },
+          {
+            event: "duplicate",
+            createdAt: 5_000_000,
+            duplicates: [{ similarity: 99, faceId: "face-1", farmId: 42 }],
+          },
+        ],
+      },
+    };
+
+    expect(faceCooldownUntil({ game })).toBe(0);
+  });
+
+  it("returns 0 with fewer than 5 failed attempts", () => {
+    const game: GameState = {
+      ...INITIAL_FARM,
+      faceRecognition: {
+        history: [
+          { event: "failed", createdAt: 1_000_000, confidence: 0.1 },
+          { event: "failed", createdAt: 2_000_000, confidence: 0.1 },
+          { event: "failed", createdAt: 3_000_000, confidence: 0.1 },
+          { event: "failed", createdAt: 4_000_000, confidence: 0.1 },
+        ],
+      },
+    };
+
+    expect(faceCooldownUntil({ game })).toBe(0);
+  });
+
+  it("applies a 24 hour cooldown after 5 failed attempts", () => {
+    const game: GameState = {
+      ...INITIAL_FARM,
+      faceRecognition: {
+        history: [
+          { event: "failed", createdAt: 1_000_000, confidence: 0.1 },
+          { event: "failed", createdAt: 2_000_000, confidence: 0.1 },
+          {
+            event: "duplicate",
+            createdAt: 3_000_000,
+            duplicates: [{ similarity: 99, faceId: "face-1", farmId: 42 }],
+          },
+          { event: "failed", createdAt: 4_000_000, confidence: 0.1 },
+          { event: "failed", createdAt: 5_000_000, confidence: 0.1 },
+        ],
+      },
+    };
+
+    expect(faceCooldownUntil({ game })).toBe(5_000_000 + DAY);
+  });
+
+  it("returns 0 once the player has succeeded after the failures", () => {
+    const game: GameState = {
+      ...INITIAL_FARM,
+      faceRecognition: {
+        history: [
+          { event: "failed", createdAt: 1_000_000, confidence: 0.1 },
+          { event: "failed", createdAt: 2_000_000, confidence: 0.1 },
+          { event: "failed", createdAt: 3_000_000, confidence: 0.1 },
+          { event: "failed", createdAt: 4_000_000, confidence: 0.1 },
+          { event: "failed", createdAt: 5_000_000, confidence: 0.1 },
+          { event: "succeeded", createdAt: 6_000_000, confidence: 0.99 },
+        ],
+      },
+    };
+
+    expect(faceCooldownUntil({ game })).toBe(0);
   });
 });

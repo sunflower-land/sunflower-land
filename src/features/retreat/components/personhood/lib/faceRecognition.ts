@@ -1,4 +1,4 @@
-import type { GameState } from "features/game/types/game";
+import type { FaceRecognitionEvent, GameState } from "features/game/types/game";
 
 export function isFaceVerified({ game }: { game: GameState }) {
   if (game.verified) return true;
@@ -25,20 +25,25 @@ export function isFaceVerified({ game }: { game: GameState }) {
 }
 
 const RECOGNITION_ATTEMPTS = 5;
+const FACE_COOLDOWN_MS = 24 * 60 * 60 * 1000;
+
+const isFailedAttempt = (attempt: FaceRecognitionEvent) =>
+  attempt.event === "failed" || attempt.event === "duplicate";
+
 export function getFaceRecognitionAttemptsLeft({ game }: { game: GameState }) {
   const { faceRecognition } = game;
 
   const history = faceRecognition?.history ?? [];
 
-  const failedAttempts = history.filter(
-    (attempt) => attempt.event === "failed" || attempt.event === "duplicate",
-  ).length;
+  const failedAttempts = history.filter(isFailedAttempt).length;
 
   return RECOGNITION_ATTEMPTS - failedAttempts;
 }
 
 /**
- * After 5 attempts, require a 24 hr cooldown period between attempts
+ * After 5 failed attempts, require a 24 hr cooldown period between attempts.
+ * Only failed/duplicate scans count: previous successes and ownership
+ * changes in the history must not use up the player's attempts.
  */
 export function faceCooldownUntil({ game }: { game: GameState }) {
   const { faceRecognition } = game;
@@ -47,7 +52,9 @@ export function faceCooldownUntil({ game }: { game: GameState }) {
     return 0;
   }
 
-  if (faceRecognition.history.length < 5) {
+  const failedAttempts = faceRecognition.history.filter(isFailedAttempt);
+
+  if (failedAttempts.length < RECOGNITION_ATTEMPTS) {
     return 0;
   }
 
@@ -58,5 +65,9 @@ export function faceCooldownUntil({ game }: { game: GameState }) {
     return 0;
   }
 
-  return new Date(lastAttempt.createdAt).getTime() + 24 * 60 * 60 * 1000;
+  const lastFailedAt = Math.max(
+    ...failedAttempts.map((attempt) => attempt.createdAt),
+  );
+
+  return lastFailedAt + FACE_COOLDOWN_MS;
 }
