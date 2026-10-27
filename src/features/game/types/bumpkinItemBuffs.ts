@@ -10,7 +10,7 @@ import baits from "assets/composters/baits.png";
 import { ITEM_DETAILS } from "./images";
 import { translate } from "lib/i18n/translate";
 import { getChapterTicket, CHAPTERS, getCurrentChapter } from "./chapters";
-import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
+import { SEASON_DETAILS } from "./calendar";
 import { isCollectible } from "../events/landExpansion/garbageSold";
 import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "../events/landExpansion/completeNPCChore";
@@ -862,7 +862,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       shortDescription: translate("description.blossomWard.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostedItemIcon: SEASON_ICONS["spring"],
+      boostedItemIcon: SEASON_DETAILS.spring.icon,
     },
   ],
   "Solflare Aegis": [
@@ -870,7 +870,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       shortDescription: translate("description.solflareAegis.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-      boostedItemIcon: SEASON_ICONS["summer"],
+      boostedItemIcon: SEASON_DETAILS.summer.icon,
     },
   ],
   "Autumn's Embrace": [
@@ -878,7 +878,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       shortDescription: translate("description.autumnsEmbrace.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-      boostedItemIcon: SEASON_ICONS["autumn"],
+      boostedItemIcon: SEASON_DETAILS.autumn.icon,
     },
   ],
   "Frozen Heart": [
@@ -886,7 +886,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       shortDescription: translate("description.frozenHeart.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostedItemIcon: SEASON_ICONS["winter"],
+      boostedItemIcon: SEASON_DETAILS.winter.icon,
     },
   ],
   "Oracle Syringe": [
