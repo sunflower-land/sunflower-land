@@ -93,7 +93,7 @@ export const FaceRecognition: React.FC<{ skipIntro?: boolean }> = ({
   const [showMobileInstall, setShowMobileInstall] = useState(false);
   const { t } = useAppTranslation();
 
-  const now = useNow();
+  const now = useNow({ live: true });
 
   const { gameState, gameService } = useGame();
 
@@ -281,7 +281,7 @@ export const RecognitionAttempt: React.FC<{
 }> = ({ game, event }) => {
   const { t } = useAppTranslation();
 
-  const now = useNow();
+  const now = useNow({ live: true });
 
   if (event.event === "succeeded") {
     return (
