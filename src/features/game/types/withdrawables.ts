@@ -660,6 +660,40 @@ export const WEARABLE_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     withdrawAt: new Date("2026-11-30T00:00:00Z"),
   },
 
+  // Cave Dwellers Wearables
+  "Hercules Beetle Hat": {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
+  "Firefly Aura": {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
+  "Antique Dress": {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
+  Harpoon: {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
+  "Duende Hat": {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
+  "Duende Shirt": {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
+  "Duende Pants": {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
+  "Duende Shoes": {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
+
   "Moonseeker Potion": {
     tradeAt: new Date("2025-11-06"),
     withdrawAt: new Date("2025-11-06"),
@@ -1835,6 +1869,60 @@ export const INVENTORY_RELEASES: InventoryReleases = {
   "Ruins Flower": {
     tradeAt: CHAPTERS["Ascension Age"].endDate,
     withdrawAt: new Date("2026-11-30T00:00:00Z"),
+  },
+
+  // Cave Dwellers Collectibles
+  "Piggy Bank": {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
+  "Big Bad Wolf": {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
+  "Stick House": {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
+  "Brick House": {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
+  "Giant Truffle": {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
+  "Straw House": {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
+  "Mining Drill": {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
+  "Mushroom Chicken": {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
+  "Ladybug Cow": {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
+  "Beetle Sheep": {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
+  "Cyclops Bloom": {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
+  Betta: {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
+  Macropinna: {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
   },
   CluckCoin: {
     tradeAt: new Date("2025-01-01T00:00:00.000Z"),
