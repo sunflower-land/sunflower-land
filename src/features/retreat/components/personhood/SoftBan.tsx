@@ -191,7 +191,16 @@ const DiscordSoftBan: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const discordId = gameState.context.discordId;
 
   if (!discordId) {
-    return <DiscordBonus onClose={onClose} />;
+    // `DiscordBonus` only offers to connect; give the player a way back to
+    // the verification steps (and from there, back to the game).
+    return (
+      <>
+        <DiscordBonus onClose={onClose} />
+        <Button className="mt-1" onClick={onClose}>
+          {t("softBan.back")}
+        </Button>
+      </>
+    );
   }
 
   return (
