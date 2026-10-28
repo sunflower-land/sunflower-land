@@ -3,6 +3,7 @@ import { Chip } from "components/ui/Chip";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useMemo, useRef, useState } from "react";
 import { SEASON_ICONS } from "./SeasonalSeeds";
+import { CropTags, getCropTags, type CropTag } from "./CropTags";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import seasonIcon from "assets/icons/season.webp";
@@ -17,7 +18,7 @@ import {
   type GreenHouseCropName,
   type ProduceName,
 } from "features/game/types/crops";
-import { SEASONAL_SEEDS, type SeedName } from "features/game/types/seeds";
+import type { SeedName } from "features/game/types/seeds";
 import { EXOTIC_CROPS, type ExoticCropName } from "features/game/types/beans";
 import { Label } from "components/ui/Label";
 import { FLOWER_SEEDS, type FlowerSeedName } from "features/game/types/flowers";
@@ -32,7 +33,6 @@ import { GREENHOUSE_CROP_TIME_SECONDS } from "features/game/lib/greenhouseGrowTi
 import { useGame } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
-import fullMoon from "assets/icons/full_moon.png";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 import type { BoostName, GameState } from "features/game/types/game";
 import { getCropPlotTime } from "features/game/events/landExpansion/plant";
@@ -70,6 +70,26 @@ type GrowthTime = {
 
 type GuideCategory = "crops" | "fruits" | "greenhouse" | "flowers" | "exotics";
 
+/** Tag filters, in the order they are offered. */
+const TAG_FILTERS = [
+  "overnight",
+  "cropMachine",
+  "event",
+  "fullMoon",
+  "spring",
+  "summer",
+  "autumn",
+  "winter",
+];
+const SEASON_FILTERS = ["spring", "summer", "autumn", "winter"];
+
+const CATEGORY_SEEDS: Record<Exclude<GuideCategory, "exotics">, SeedName[]> = {
+  crops: getKeys(CROP_SEEDS),
+  fruits: getKeys(PATCH_FRUIT_SEEDS),
+  greenhouse: getKeys({ ...GREENHOUSE_FRUIT_SEEDS, ...GREENHOUSE_SEEDS }),
+  flowers: getKeys(FLOWER_SEEDS),
+};
+
 export const CropGuide = () => {
   const { gameState } = useGame();
   const state = gameState.context.state;
@@ -81,6 +101,47 @@ export const CropGuide = () => {
   const [showBoostsKey, setShowBoostsKey] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] =
     useState<GuideCategory>("crops");
+  const [tagFilters, setTagFilters] = useState<string[]>([]);
+
+  const tagKeys = (seed: SeedName) =>
+    getCropTags(seed, state, t).map((tag) => tag.key);
+
+  // A seed matches when it has every selected tag; seasons are alternatives
+  // (Spring + Summer = plantable in either).
+  const matchesTags = (seed: SeedName) => {
+    if (tagFilters.length === 0) return true;
+    const keys = tagKeys(seed);
+    const seasons = tagFilters.filter((key) => SEASON_FILTERS.includes(key));
+    const others = tagFilters.filter((key) => !SEASON_FILTERS.includes(key));
+    return (
+      others.every((key) => keys.includes(key)) &&
+      (seasons.length === 0 || seasons.some((key) => keys.includes(key)))
+    );
+  };
+
+  // Only offer tags some seed in the open tab actually has.
+  const availableTags: CropTag[] =
+    selectedCategory === "exotics"
+      ? []
+      : TAG_FILTERS.flatMap((key) => {
+          for (const seed of CATEGORY_SEEDS[selectedCategory]) {
+            const tag = getCropTags(seed, state, t).find(
+              (tag) => tag.key === key,
+            );
+            if (tag) return [tag];
+          }
+          return [];
+        });
+
+  const toggleTag = (key: string) =>
+    setTagFilters((filters) =>
+      filters.includes(key)
+        ? filters.filter((filter) => filter !== key)
+        : [...filters, key],
+    );
+
+  const filteredSeeds = <T extends SeedName>(seeds: T[]): T[] =>
+    seeds.filter(matchesTags);
 
   const categories: {
     id: GuideCategory;
@@ -135,6 +196,10 @@ export const CropGuide = () => {
               text: t("cropGuide.capacityLimits"),
               icon: SUNNYSIDE.icons.basket,
             },
+            {
+              text: t("cropGuide.tagsTip"),
+              icon: SUNNYSIDE.icons.search,
+            },
             ...(gameState.context.state.island.type === "basic"
               ? [
                   {
@@ -146,22 +211,78 @@ export const CropGuide = () => {
           ]}
         />
       </div>
-      <div className="mb-2 flex flex-wrap justify-center gap-2 px-1">
-        {categories.map((category) => (
-          <Chip
-            key={category.id}
-            onClick={() => setSelectedCategory(category.id)}
-            selected={selectedCategory === category.id}
-            icon={category.icon}
-            className="shrink-0 whitespace-nowrap"
-          >
-            {category.label}
-          </Chip>
-        ))}
+      {/* One filter panel: the seed type (pick one), then tags and seasons
+          (pick any) - only the ones some seed of that type has. */}
+      <div className="mx-1 mb-2 p-1.5 bg-[#ead4aa] rounded-md flex flex-col gap-1.5">
+        <FilterSection label={t("filter.type")}>
+          <div className="flex flex-wrap gap-x-4 gap-y-1 pl-3">
+            {categories.map((category) => (
+              <Chip
+                key={category.id}
+                onClick={() => {
+                  setSelectedCategory(category.id);
+                  setTagFilters([]);
+                }}
+                selected={selectedCategory === category.id}
+                icon={category.icon}
+                className="shrink-0 whitespace-nowrap"
+              >
+                {category.label}
+              </Chip>
+            ))}
+          </div>
+        </FilterSection>
+        {availableTags.some((tag) => !SEASON_FILTERS.includes(tag.key)) && (
+          <FilterSection label={t("cropGuide.filter.tags")}>
+            <div className="flex flex-wrap gap-x-4 gap-y-1 pl-3">
+              {availableTags
+                .filter((tag) => !SEASON_FILTERS.includes(tag.key))
+                .map((tag) => (
+                  <Chip
+                    key={tag.key}
+                    onClick={() => toggleTag(tag.key)}
+                    selected={tagFilters.includes(tag.key)}
+                    icon={tag.icon}
+                    className="shrink-0 whitespace-nowrap"
+                  >
+                    {tag.label}
+                  </Chip>
+                ))}
+            </div>
+          </FilterSection>
+        )}
+        {availableTags.some((tag) => SEASON_FILTERS.includes(tag.key)) && (
+          <FilterSection label={t("cropGuide.filter.season")}>
+            <div className="grid grid-cols-4 gap-x-4 gap-y-1 pl-3">
+              {availableTags
+                .filter((tag) => SEASON_FILTERS.includes(tag.key))
+                .map((tag) => (
+                  <Chip
+                    key={tag.key}
+                    onClick={() => toggleTag(tag.key)}
+                    selected={tagFilters.includes(tag.key)}
+                    icon={tag.icon}
+                    className="!w-full whitespace-nowrap"
+                  >
+                    {tag.label}
+                  </Chip>
+                ))}
+            </div>
+          </FilterSection>
+        )}
+        {tagFilters.length > 0 && (
+          <div className="flex justify-end">
+            <Chip onClick={() => setTagFilters([])}>{t("clear")}</Chip>
+          </div>
+        )}
       </div>
+      {selectedCategory !== "exotics" &&
+        filteredSeeds(CATEGORY_SEEDS[selectedCategory]).length === 0 && (
+          <p className="ml-2 mb-2 text-xs">{t("cropGuide.noTagMatches")}</p>
+        )}
 
       {selectedCategory === "crops" &&
-        getKeys({ ...CROP_SEEDS }).map((seed, index) => {
+        filteredSeeds(getKeys({ ...CROP_SEEDS })).map((seed, index) => {
           const crop = CROP_SEEDS[seed].yield as CropName;
           return (
             <CropRow
@@ -188,45 +309,16 @@ export const CropGuide = () => {
           <p className="ml-2 mb-2 text-xs">
             {t("cropGuide.fruit.description")}
           </p>
-          {getKeys({ ...PATCH_FRUIT_SEEDS }).map((seed, index) => {
-            const crop = PATCH_FRUIT_SEEDS[seed].yield;
-            return (
-              <CropRow
-                key={seed}
-                seed={seed}
-                crop={crop}
-                seconds={PATCH_FRUIT_SEEDS[seed].plantSeconds}
-                coins={PATCH_FRUIT[crop].sellPrice}
-                state={state}
-                now={now}
-                alternateBg={index % 2 === 0}
-                showBoostsKey={showBoostsKey}
-                setShowBoostsKey={setShowBoostsKey}
-              />
-            );
-          })}
-        </>
-      )}
-      {selectedCategory === "greenhouse" && (
-        <>
-          {!inventory.Greenhouse && (
-            <Label type="danger" className="mb-2">
-              {t("cropGuide.greenhouseRequired")}
-            </Label>
-          )}
-          {getKeys({ ...GREENHOUSE_FRUIT_SEEDS, ...GREENHOUSE_SEEDS }).map(
+          {filteredSeeds(getKeys({ ...PATCH_FRUIT_SEEDS })).map(
             (seed, index) => {
-              const crop = {
-                ...GREENHOUSE_FRUIT_SEEDS,
-                ...GREENHOUSE_SEEDS,
-              }[seed].yield as GreenHouseCropName;
+              const crop = PATCH_FRUIT_SEEDS[seed].yield;
               return (
                 <CropRow
                   key={seed}
-                  crop={crop}
                   seed={seed}
-                  seconds={GREENHOUSE_CROP_TIME_SECONDS[crop]}
-                  coins={SELLABLE[crop].sellPrice}
+                  crop={crop}
+                  seconds={PATCH_FRUIT_SEEDS[seed].plantSeconds}
+                  coins={PATCH_FRUIT[crop].sellPrice}
                   state={state}
                   now={now}
                   alternateBg={index % 2 === 0}
@@ -236,6 +328,37 @@ export const CropGuide = () => {
               );
             },
           )}
+        </>
+      )}
+      {selectedCategory === "greenhouse" && (
+        <>
+          {!inventory.Greenhouse && (
+            <Label type="danger" className="mb-2">
+              {t("cropGuide.greenhouseRequired")}
+            </Label>
+          )}
+          {filteredSeeds(
+            getKeys({ ...GREENHOUSE_FRUIT_SEEDS, ...GREENHOUSE_SEEDS }),
+          ).map((seed, index) => {
+            const crop = {
+              ...GREENHOUSE_FRUIT_SEEDS,
+              ...GREENHOUSE_SEEDS,
+            }[seed].yield as GreenHouseCropName;
+            return (
+              <CropRow
+                key={seed}
+                crop={crop}
+                seed={seed}
+                seconds={GREENHOUSE_CROP_TIME_SECONDS[crop]}
+                coins={SELLABLE[crop].sellPrice}
+                state={state}
+                now={now}
+                alternateBg={index % 2 === 0}
+                showBoostsKey={showBoostsKey}
+                setShowBoostsKey={setShowBoostsKey}
+              />
+            );
+          })}
         </>
       )}
       {selectedCategory === "flowers" && (
@@ -248,7 +371,7 @@ export const CropGuide = () => {
           <p className="ml-2 mb-2 text-xs">
             {t("cropGuide.flower.description")}
           </p>
-          {getKeys({ ...FLOWER_SEEDS }).map((seed, index) => (
+          {filteredSeeds(getKeys({ ...FLOWER_SEEDS })).map((seed, index) => (
             <FlowerRow
               key={seed}
               seed={seed}
@@ -281,6 +404,17 @@ export const CropGuide = () => {
   );
 };
 
+/** A titled row of the crop guide's filter panel. */
+const FilterSection: React.FC<React.PropsWithChildren<{ label: string }>> = ({
+  label,
+  children,
+}) => (
+  <div className="flex flex-col gap-0.5">
+    <p className="text-xxs ml-0.5">{label}</p>
+    {children}
+  </div>
+);
+
 export const CropRow: React.FC<{
   crop: ProduceName;
   seed: SeedName;
@@ -302,9 +436,6 @@ export const CropRow: React.FC<{
   showBoostsKey,
   setShowBoostsKey,
 }) => {
-  const seasons = getKeys(SEASONAL_SEEDS).filter((season) =>
-    SEASONAL_SEEDS[season].includes(seed as SeedName),
-  );
   const { t } = useAppTranslation();
   const boostedTime = useMemo(
     () => getSeedGrowthTime({ crop, seed, state, now }),
@@ -317,7 +448,7 @@ export const CropRow: React.FC<{
         alternateBg ? "bg-[#ead4aa] rounded-md" : ""
       }`}
     >
-      <div className="flex items-center flex-1 min-w-0">
+      <div className="flex items-center shrink-0">
         <div className="flex items-center min-w-24 max-w-32 sm:min-w-32 sm:max-w-40 mr-4 shrink-0">
           <img src={ITEM_DETAILS[crop].image} className="w-6 h-auto mr-2" />
           <div className="flex-1 min-w-0">
@@ -353,17 +484,16 @@ export const CropRow: React.FC<{
         </div>
       </div>
 
-      <div className="flex items-center shrink-0">
-        {seasons.map((season) => (
-          <img
-            key={season}
-            src={SEASON_ICONS[season]}
-            className="w-5 sm:w-6 ml-1"
-          />
-        ))}
-        {isFullMoonBerry(seed) && (
-          <img src={fullMoon} className="w-5 sm:w-6 ml-1" />
-        )}
+      {/* Takes what the name and numbers leave, wrapping rather than
+          squeezing the growth time. */}
+      <div className="flex items-center flex-1 min-w-0 ml-1">
+        <CropTags
+          seed={seed}
+          game={state}
+          category={false}
+          iconsOnly
+          className="justify-end w-full"
+        />
       </div>
     </div>
   );
@@ -387,9 +517,6 @@ export const FlowerRow: React.FC<{
   showBoostsKey,
   setShowBoostsKey,
 }) => {
-  const seasons = getKeys(SEASONAL_SEEDS).filter((season) =>
-    SEASONAL_SEEDS[season].includes(seed as SeedName),
-  );
   const { t } = useAppTranslation();
   const boostedTime = useMemo(
     () => getFlowerTime(seed, state, now),
@@ -402,7 +529,7 @@ export const FlowerRow: React.FC<{
         alternateBg ? "bg-[#ead4aa] rounded-md" : ""
       }`}
     >
-      <div className="flex items-center flex-1 min-w-0">
+      <div className="flex items-center shrink-0">
         <div className="flex items-center min-w-24 max-w-32 sm:min-w-32 sm:max-w-40 mr-4 shrink-0">
           <img src={ITEM_DETAILS[seed].image} className="w-6 h-auto mr-2" />
           <div className="flex-1 min-w-0">
@@ -434,14 +561,16 @@ export const FlowerRow: React.FC<{
         </div>
       </div>
 
-      <div className="flex items-center shrink-0">
-        {seasons.map((season) => (
-          <img
-            key={season}
-            src={SEASON_ICONS[season]}
-            className="w-5 sm:w-6 ml-1"
-          />
-        ))}
+      {/* Takes what the name and numbers leave, wrapping rather than
+          squeezing the growth time. */}
+      <div className="flex items-center flex-1 min-w-0 ml-1">
+        <CropTags
+          seed={seed}
+          game={state}
+          category={false}
+          iconsOnly
+          className="justify-end w-full"
+        />
       </div>
     </div>
   );
