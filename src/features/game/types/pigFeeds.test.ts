@@ -24,48 +24,44 @@ describe("PIG_FEEDS", () => {
     ]);
   });
 
-  it("uses the #7721 crop and fruit quantities, doubled", () => {
+  it("sizes crop and fruit quantities by production cost", () => {
     expect(PIG_FEEDS["Basic Slop"].ingredients).toEqual({
-      Sunflower: 1000,
-      Potato: 160,
-      Rhubarb: 80,
-      Pumpkin: 40,
-      Zucchini: 40,
-      Carrot: 20,
-      Yam: 20,
-      Cabbage: 10,
-      Broccoli: 10,
-      Soybean: 6,
+      Sunflower: 800,
+      Potato: 150,
+      Rhubarb: 100,
+      Pumpkin: 60,
+      Zucchini: 60,
+      Carrot: 25,
+      Yam: 25,
+      Cabbage: 15,
+      Broccoli: 15,
+      Soybean: 9,
     });
     expect(PIG_FEEDS["Hearty Slop"].ingredients).toEqual({
-      Beetroot: 10,
-      Pepper: 10,
-      Cauliflower: 6,
-      Parsnip: 4,
-      Tomato: 18,
-      Lemon: 8,
+      Beetroot: 15,
+      Pepper: 15,
+      Cauliflower: 8,
+      Parsnip: 5,
+      Tomato: 20,
+      Lemon: 4,
       Blueberry: 4,
     });
   });
 
-  it("takes two of each tier 3 crop and one of each foraged item", () => {
+  it("sizes tier 3 crops by production cost and takes one foraged item", () => {
     expect(PIG_FEEDS["Rich Slop"].ingredients).toEqual({
-      ...Object.fromEntries(
-        [
-          "Eggplant",
-          "Corn",
-          "Onion",
-          "Wheat",
-          "Turnip",
-          "Radish",
-          "Kale",
-          "Artichoke",
-          "Barley",
-          "Orange",
-          "Apple",
-          "Banana",
-        ].map((item) => [item, 2]),
-      ),
+      Eggplant: 6,
+      Wheat: 6,
+      Turnip: 6,
+      Corn: 5,
+      Onion: 5,
+      Radish: 5,
+      Kale: 4,
+      Artichoke: 4,
+      Barley: 3,
+      Orange: 3,
+      Apple: 2,
+      Banana: 2,
       ...Object.fromEntries(
         [
           ...getFishNamesByTier("basic"),
@@ -77,15 +73,16 @@ describe("PIG_FEEDS", () => {
     });
   });
 
-  it("takes two of each tier 4 crop and one of each foraged item", () => {
-    expect(PIG_FEEDS["Gourmet Slop"].ingredients).toEqual({
-      ...Object.fromEntries(
-        ["Rice", "Olive", "Grape", "Celestine", "Lunara", "Duskberry"].map(
-          (item) => [item, 2],
-        ),
-      ),
-      ...Object.fromEntries(
+  it("takes one of each tier 4 input", () => {
+    expect(PIG_FEEDS["Gourmet Slop"].ingredients).toEqual(
+      Object.fromEntries(
         [
+          "Rice",
+          "Olive",
+          "Grape",
+          "Celestine",
+          "Lunara",
+          "Duskberry",
           ...getFishNamesByTier("advanced"),
           ...getFishNamesByTier("expert"),
           "Magic Mushroom",
@@ -95,7 +92,7 @@ describe("PIG_FEEDS", () => {
           ),
         ].map((item) => [item, 1]),
       ),
-    });
+    );
   });
 
   it("puts every input in exactly one Slop", () => {
@@ -130,7 +127,7 @@ describe("isPigFeed", () => {
 describe("getPigFeedIngredients", () => {
   it("costs the chosen input in its own quantity", () => {
     expect(getPigFeedIngredients("Basic Slop", "Sunflower")).toEqual({
-      Sunflower: new Decimal(1000),
+      Sunflower: new Decimal(800),
     });
     expect(getPigFeedIngredients("Gourmet Slop", "Lobster")).toEqual({
       Lobster: new Decimal(1),
