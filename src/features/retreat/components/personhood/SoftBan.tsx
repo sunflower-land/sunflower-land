@@ -126,7 +126,16 @@ export const SoftBan: React.FC<Props> = ({ onClose }) => {
   );
 
   if (showFaceRecognition || hasBegun >= now - 60 * 1000 || hasScanned) {
-    return <FaceRecognition skipIntro />;
+    return (
+      <>
+        <FaceRecognition skipIntro />
+        {onClose && (
+          <div className="p-1">
+            <KeepPlayingButton onClick={onClose} />
+          </div>
+        )}
+      </>
+    );
   }
 
   return (

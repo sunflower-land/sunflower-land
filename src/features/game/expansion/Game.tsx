@@ -318,13 +318,16 @@ const isInvestigating = (state: MachineState) => state.matches("investigating");
 // A soft-banned player unlinking Discord / Telegram from the investigation
 // screen. The unlink states normally hide this modal (Settings shows the
 // result inline), but here the soft-ban panel owns the unlink modal and has
-// to stay mounted through the request so the result shows in it. Only the
-// soft-ban screen can start an unlink while the ban is under investigation.
+// to stay mounted through the request so the result shows in it. Once the
+// prompt has been closed the player is in the game, where an unlink comes
+// from Settings or from the verification steps shown in place of a blocked
+// trade, each with its own modal; mounting this one too would cover them.
 const isSoftBanUnlinking = (state: MachineState) =>
   (state.matches("unlinkingSocial") ||
     state.matches("unlinkingSocialSuccess") ||
     state.matches("unlinkingSocialFailed")) &&
-  state.context.state.ban.status === "investigating";
+  state.context.state.ban.status === "investigating" &&
+  !state.context.softBanAcknowledged;
 const hasFulfilledOffers = (state: MachineState) => state.matches("offers");
 const hasVipNotification = (state: MachineState) => state.matches("vip");
 const isPlaying = (state: MachineState) => state.matches("playing");

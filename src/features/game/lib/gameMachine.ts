@@ -175,6 +175,14 @@ export interface Context {
   farmAddress?: string;
   actions: PastAction[];
   /**
+   * Whether the soft ban prompt has been closed this page load. A soft banned
+   * player keeps playing; the API only refuses the actions that move value
+   * until they verify, and the blocked screens offer the verification in
+   * place, so the prompt is shown once per load rather than on every
+   * notification pass.
+   */
+  softBanAcknowledged?: boolean;
+  /**
    * Landscaping sandbox (farm only). While landscaping, `state` is the draft:
    * placement edits are applied locally and logged in `draftActions`, never
    * autosaved; `baseState` is the farm without them (what Cancel restores).
@@ -646,14 +654,6 @@ function createLandscapingEventHandlers(): TransitionsConfig<
 }
 
 const LANDSCAPING_EVENT_HANDLERS = createLandscapingEventHandlers();
-
-/**
- * Whether the soft ban prompt has been closed this page load. A soft banned
- * player keeps playing; the API only refuses the actions that move value until
- * they verify, and the blocked screens offer the verification in place, so
- * the prompt is shown once per load rather than on every notification pass.
- */
-let softBanAcknowledged = false;
 
 const EFFECT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
   getKeys(STATE_MACHINE_EFFECTS).reduce(
@@ -1489,7 +1489,7 @@ export function startGame(authContext: AuthContext) {
               cond: (context) => {
                 return (
                   context.state.ban.status === "investigating" &&
-                  !softBanAcknowledged
+                  !context.softBanAcknowledged
                 );
               },
             },
@@ -2770,11 +2770,13 @@ export function startGame(authContext: AuthContext) {
             // A soft ban does not stop play: the player may close the prompt
             // and keep farming. Trading and withdrawing stay refused by the
             // API, and those screens show the verification steps instead.
+            // `assign` so the flag is set before `notifying` re-evaluates its
+            // guards; a plain action would run after they send us back here.
             ACKNOWLEDGE: {
               target: "notifying",
-              actions: () => {
-                softBanAcknowledged = true;
-              },
+              actions: assign((_) => ({
+                softBanAcknowledged: true,
+              })),
             },
             "faceRecognition.started": {
               target: STATE_MACHINE_EFFECTS["faceRecognition.started"],
