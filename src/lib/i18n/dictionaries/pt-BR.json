@@ -8814,8 +8814,6 @@
   "cave.batch.beetleOdds": "Probabilidades do Beetle",
   "cave.batch.beetleChance": "{{beetle}}: {{chance}}%",
   "cave.batch.beetleChanceBoosted": "{{beetle}}: {{chance}}% (base {{base}}%)",
-  "description.bonusBeetleWing.boost": "+1 Asa do Besouro",
-  "description.beetleWing": "Uma asa de besouro cintilante — a moeda dos Cave Dwellers.",
   "description.caveDwellersRaffleTicket": "Mantenha isso — você pode ganhar algo das profundezas.",
   "description.caveDwellersBanner": "Reúna a bandeira — os Cave Dwellers surgiram.",
   "description.mushroomChicken": "Uma ave barbuda que criou uma touca de cogumelo nas cavernas úmidas.",
@@ -8926,5 +8924,7 @@
   "description.antiqueDress.boost": "x0.7 Tempo de crescimento da uva",
   "description.antiqueDress.boost.2": "10% de chance de +10 uvas",
   "description.harpoon.boost": "+2 peixes por captura",
-  "description.harpoon.boost.2": "20% de chance de não usar um carretel de pesca diário"
+  "description.harpoon.boost.2": "20% de chance de não usar um carretel de pesca diário",
+  "description.bonusDuendeCap.boost": "+1 Duende Cap",
+  "description.duendeCap": "Um boné de duende — a moeda dos habitantes das cavernas."
 }

@@ -8814,8 +8814,6 @@
   "cave.batch.beetleOdds": "Beetle oranları",
   "cave.batch.beetleChance": "{{beetle}}: {{chance}} %",
   "cave.batch.beetleChanceBoosted": "{{beetle}}: {{chance}} %(baz {{base}} %)",
-  "description.bonusBeetleWing.boost": "+1 Beetle Wing",
-  "description.beetleWing": "Parıldayan bir böcek kanadı - Mağara Sakinlerinin para birimi.",
   "description.caveDwellersRaffleTicket": "Buna tutunun - derinliklerden bir şeyler kazanabilirsin.",
   "description.caveDwellersBanner": "Bayrağı toplayın - Mağara Sakinleri ortaya çıktı.",
   "description.mushroomChicken": "Nemli mağaralarda mantar başlığı yetiştiren sakallı bir tavuk.",
@@ -8926,5 +8924,7 @@
   "description.antiqueDress.boost": "x0.7 Üzüm Büyüme Süresi",
   "description.antiqueDress.boost.2": "+10 Üzüm ihtimali %10",
   "description.harpoon.boost": "Yakalama başına +2 balık",
-  "description.harpoon.boost.2": "Günlük balıkçılık makarası kullanmama şansı %20"
+  "description.harpoon.boost.2": "Günlük balıkçılık makarası kullanmama şansı %20",
+  "description.bonusDuendeCap.boost": "+1 Duende Cap",
+  "description.duendeCap": "Duende şapkası - Mağara Sakinlerinin para birimi."
 }

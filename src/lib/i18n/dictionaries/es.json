@@ -8814,8 +8814,6 @@
   "cave.batch.beetleOdds": "Cuotas de Beetle",
   "cave.batch.beetleChance": "{{beetle}}: {{chance}}%",
   "cave.batch.beetleChanceBoosted": "{{beetle}}: {{chance}}% (base {{base}}%)",
-  "description.bonusBeetleWing.boost": "+1 Ala de escarabajo",
-  "description.beetleWing": "Un ala de escarabajo reluciente: la moneda de los habitantes de las cavernas.",
   "description.caveDwellersRaffleTicket": "Agárrate a esto, podrías ganar algo desde las profundidades.",
   "description.caveDwellersBanner": "Reúne la bandera: han surgido los habitantes de las cavernas.",
   "description.mushroomChicken": "Un ave barbuda a la que le creció un gorro en forma de hongo en las cuevas húmedas.",
@@ -8926,5 +8924,7 @@
   "description.antiqueDress.boost": "x0.7 Tiempo de crecimiento de la uva",
   "description.antiqueDress.boost.2": "10% de probabilidad de obtener +10 uvas",
   "description.harpoon.boost": "+2 peces por captura",
-  "description.harpoon.boost.2": "20% de probabilidad de no usar un carrete de pesca diario"
+  "description.harpoon.boost.2": "20% de probabilidad de no usar un carrete de pesca diario",
+  "description.bonusDuendeCap.boost": "+1 Duende Cap",
+  "description.duendeCap": "Una gorra de duende, la moneda de los habitantes de las cavernas."
 }

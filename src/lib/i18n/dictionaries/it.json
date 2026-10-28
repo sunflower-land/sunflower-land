@@ -8814,8 +8814,6 @@
   "cave.batch.beetleOdds": "Probabilità Beetle",
   "cave.batch.beetleChance": "{{beetle}}: {{chance}}%",
   "cave.batch.beetleChanceBoosted": "{{beetle}}: {{chance}}% (base {{base}}%)",
-  "description.bonusBeetleWing.boost": "+1 Beetle Wing",
-  "description.beetleWing": "Una scintillante ala di scarabeo: la moneta degli abitanti delle caverne.",
   "description.caveDwellersRaffleTicket": "Tieni duro: potresti vincere qualcosa dal profondo.",
   "description.caveDwellersBanner": "Raduna la bandiera: gli abitanti delle caverne sono emersi.",
   "description.mushroomChicken": "Un uccello barbuto che si faceva crescere un cappello a fungo nelle caverne umide.",
@@ -8926,5 +8924,7 @@
   "description.antiqueDress.boost": "x0.7 Tempo di crescita dell'uva",
   "description.antiqueDress.boost.2": "10% di probabilità di +10 Uve",
   "description.harpoon.boost": "+2 pesci per cattura",
-  "description.harpoon.boost.2": "20% di possibilità di non utilizzare un mulinello da pesca quotidiano"
+  "description.harpoon.boost.2": "20% di possibilità di non utilizzare un mulinello da pesca quotidiano",
+  "description.bonusDuendeCap.boost": "+1 Duende Cap",
+  "description.duendeCap": "Un duende cap: la valuta degli abitanti delle caverne."
 }

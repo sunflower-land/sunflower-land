@@ -8814,8 +8814,6 @@
   "cave.batch.beetleOdds": "Peluang kumbang",
   "cave.batch.beetleChance": "{{beetle}}: {{chance}}%",
   "cave.batch.beetleChanceBoosted": "{{beetle}}: {{chance}}% (basis {{base}}%)",
-  "description.bonusBeetleWing.boost": "+1 Beetle Wing",
-  "description.beetleWing": "Sayap kumbang yang berkilauan — mata uang Penghuni Gua.",
   "description.caveDwellersRaffleTicket": "Pegang ini — Anda bisa memenangkan sesuatu dari kedalaman.",
   "description.caveDwellersBanner": "Gabungkan bendera — Penghuni Gua telah muncul.",
   "description.mushroomChicken": "Seekor unggas berjanggut yang menumbuhkan topi jamur di gua-gua lembap.",
@@ -8926,5 +8924,7 @@
   "description.antiqueDress.boost": "x0.7 Waktu Pertumbuhan Anggur",
   "description.antiqueDress.boost.2": "10% peluang +10 Anggur",
   "description.harpoon.boost": "+2 ikan per tangkapan",
-  "description.harpoon.boost.2": "20% kesempatan untuk tidak menggunakan gulungan memancing harian"
+  "description.harpoon.boost.2": "20% kesempatan untuk tidak menggunakan gulungan memancing harian",
+  "description.bonusDuendeCap.boost": "+1 Duende Cap",
+  "description.duendeCap": "Topi duende — mata uang Penghuni Gua."
 }

@@ -8814,8 +8814,6 @@
   "cave.batch.beetleOdds": "Cotes sur les scarabées",
   "cave.batch.beetleChance": "{{beetle}} : {{chance}} %",
   "cave.batch.beetleChanceBoosted": "{{beetle}} : {{chance}} % (base {{base}} %)",
-  "description.bonusBeetleWing.boost": "+1 Beetle Wing",
-  "description.beetleWing": "Une aile de scarabée scintillante : la devise des habitants des cavernes.",
   "description.caveDwellersRaffleTicket": "Tenez bon, vous pourriez gagner quelque chose au plus profond de vous-même.",
   "description.caveDwellersBanner": "Rassemblez le drapeau : les Cave Dwellers sont apparus.",
   "description.mushroomChicken": "Un oiseau barbu qui poussait un chapeau de champignon dans les grottes humides.",
@@ -8926,5 +8924,7 @@
   "description.antiqueDress.boost": "x0.7 Temps de croissance du raisin",
   "description.antiqueDress.boost.2": "10 % de chances d'obtenir +10 raisins",
   "description.harpoon.boost": "+2 poissons par prise",
-  "description.harpoon.boost.2": "20 % de chances de ne pas utiliser un moulinet de pêche quotidien"
+  "description.harpoon.boost.2": "20 % de chances de ne pas utiliser un moulinet de pêche quotidien",
+  "description.bonusDuendeCap.boost": "+1 Duende Cap",
+  "description.duendeCap": "Une casquette duende, la monnaie des habitants des cavernes."
 }

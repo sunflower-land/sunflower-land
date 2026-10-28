@@ -8814,8 +8814,6 @@
   "cave.batch.beetleOdds": "甲壳虫赔率",
   "cave.batch.beetleChance": "{{beetle}}: {{chance}}%",
   "cave.batch.beetleChanceBoosted": "{{beetle}}: {{chance}}%（基数 {{base}}%）",
-  "description.bonusBeetleWing.boost": "+1 甲壳虫之翼",
-  "description.beetleWing": "闪闪发光的甲虫翅膀——洞穴居民的货币。",
   "description.caveDwellersRaffleTicket": "坚持下去——你可以从深处赢点东西。",
   "description.caveDwellersBanner": "集结旗帜——洞穴居民已经出现。",
   "description.mushroomChicken": "一只大胡子的家禽在潮湿的洞穴里长出了一顶蘑菇帽。",
@@ -8926,5 +8924,7 @@
   "description.antiqueDress.boost": "x0.7 葡萄生长时间",
   "description.antiqueDress.boost.2": "10% 几率获得 +10 个葡萄",
   "description.harpoon.boost": "每次捕获 +2 条鱼",
-  "description.harpoon.boost.2": "有 20% 的几率不使用每日钓鱼线轮"
+  "description.harpoon.boost.2": "有 20% 的几率不使用每日钓鱼线轮",
+  "description.bonusDuendeCap.boost": "+1 Duende Cap",
+  "description.duendeCap": "duende cap — 洞穴居民的货币。"
 }

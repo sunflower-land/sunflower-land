@@ -8814,8 +8814,6 @@
   "cave.batch.beetleOdds": "ビートルオッズ",
   "cave.batch.beetleChance": "{{beetle}}: {{chance}}%",
   "cave.batch.beetleChanceBoosted": "{{beetle}}: {{chance}}% (ベース {{base}}%)",
-  "description.bonusBeetleWing.boost": "+1 ビートルウィング",
-  "description.beetleWing": "洞窟住人の通貨、きらめくカブトムシの翼。",
   "description.caveDwellersRaffleTicket": "これにしがみついてください—深海から何かを獲得できるかもしれません。",
   "description.caveDwellersBanner": "ラリー・ザ・フラッグ — 洞窟の住人が現れた。",
   "description.mushroomChicken": "湿った洞窟でキノコの帽子をかぶったあごひげを生やした家禽。",
@@ -8926,5 +8924,7 @@
   "description.antiqueDress.boost": "x0.7 グレープ成長時間",
   "description.antiqueDress.boost.2": "10% の確率でブドウが10個増える",
   "description.harpoon.boost": "漁獲1回につき魚2匹以上",
-  "description.harpoon.boost.2": "20% の確率でデイリーフィッシングリールを使用しない"
+  "description.harpoon.boost.2": "20% の確率でデイリーフィッシングリールを使用しない",
+  "description.bonusDuendeCap.boost": "+1 デュエンデキャップ",
+  "description.duendeCap": "洞窟住人の通貨、ドゥエンデキャップ。"
 }

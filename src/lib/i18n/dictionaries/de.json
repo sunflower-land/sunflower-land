@@ -8814,8 +8814,6 @@
   "cave.batch.beetleOdds": "Quoten für Käfer",
   "cave.batch.beetleChance": "{{beetle}}: {{chance}}%",
   "cave.batch.beetleChanceBoosted": "{{beetle}}: {{chance}}% (Basis {{base}}%)",
-  "description.bonusBeetleWing.boost": "+1 Käferflügel",
-  "description.beetleWing": "Ein schimmernder Käferflügel — die Währung der Höhlenbewohner.",
   "description.caveDwellersRaffleTicket": "Haltet daran fest — ihr könntet etwas aus der Tiefe gewinnen.",
   "description.caveDwellersBanner": "Erhebe die Flagge — die Höhlenbewohner sind aufgetaucht.",
   "description.mushroomChicken": "Ein Bartgeflügel, dem in den feuchten Höhlen eine Pilzkappe gewachsen ist.",
@@ -8926,5 +8924,7 @@
   "description.antiqueDress.boost": "x0.7 Wachstumszeit der Trauben",
   "description.antiqueDress.boost.2": "10% Chance auf +10 Trauben",
   "description.harpoon.boost": "+2 Fische pro Fang",
-  "description.harpoon.boost.2": "20% Chance, keine tägliche Angelrolle zu benutzen"
+  "description.harpoon.boost.2": "20% Chance, keine tägliche Angelrolle zu benutzen",
+  "description.bonusDuendeCap.boost": "+1 Duende Cap",
+  "description.duendeCap": "Eine Duende-Cap — die Währung der Höhlenbewohner."
 }

@@ -8814,8 +8814,6 @@
   "cave.batch.beetleOdds": "Шансы на жуков",
   "cave.batch.beetleChance": "{{beetle}}: {{chance}}%",
   "cave.batch.beetleChanceBoosted": "{{beetle}}: {{chance}}% (базово {{base}}%)",
-  "description.bonusBeetleWing.boost": "+1 Крыло жука",
-  "description.beetleWing": "Мерцающее крыло жука - валюта главы «Обитатели пещер».",
   "description.caveDwellersRaffleTicket": "Береги его - можешь выиграть что-то из глубин.",
   "description.caveDwellersBanner": "Подними знамя - Обитатели пещер вышли на поверхность.",
   "description.mushroomChicken": "Бородатая птица, у которой в сырых пещерах выросла грибная шляпка.",
@@ -8926,5 +8924,7 @@
   "description.antiqueDress.boost": "x0.7 Grape Growth Time",
   "description.antiqueDress.boost.2": "10% chance of +10 Grapes",
   "description.harpoon.boost": "+2 Fish per catch",
-  "description.harpoon.boost.2": "20% chance to not use a daily fishing reel"
+  "description.harpoon.boost.2": "20% chance to not use a daily fishing reel",
+  "description.bonusDuendeCap.boost": "+1 Duende Cap",
+  "description.duendeCap": "A duende cap — the currency of the Cave Dwellers."
 }
