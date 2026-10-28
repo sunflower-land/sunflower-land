@@ -8912,5 +8912,19 @@
   "description.macropinna.boost": "+0.1 Obsidian",
   "description.migratedRarecrow": "Eine Rarecrow, die aus dem Rarecrows-Minispiel gerettet wurde.",
   "rarecrows": "Seltene Krähen",
-  "gameOptions.generalSettings.fullMoonSeedsInQuickSelect": "Vollmondsamen in der Schnellauswahl"
+  "gameOptions.generalSettings.fullMoonSeedsInQuickSelect": "Vollmondsamen in der Schnellauswahl",
+  "description.giantTruffle.boost": "+30% Bumpkin-XP für Futter ohne Fische",
+  "description.giantTruffle.boost.2": "+60% Bumpkin-XP aus Smoothie Shack-Getränken (statt +30%)",
+  "description.giantTruffle.boost.3": "+60% Bumpkin-XP durch Feinkostessen (statt +30%)",
+  "description.brickHouse.boost": "-25% Crimstone for Expansions (passt nicht zu Grinx's Hammer)",
+  "description.brickHouse.boost.2": "-5% Münzen für Erweiterungen",
+  "description.stickHouse.boost": "-25% Öl für Erweiterungen (lässt sich nicht mit Grinx's Hammer kombinieren)",
+  "description.stickHouse.boost.2": "-10% Erweiterungszeit",
+  "description.herculesBeetleHat.boost": "-25% Obsidian für Erweiterungen (passt nicht zu Grinx's Hammer)",
+  "description.fireflyAura.boost": "x0.8 Lavagrubenzeit",
+  "description.fireflyAura.boost.2": "5% Chance, eine Lavagrube sofort abzuschließen",
+  "description.antiqueDress.boost": "x0.7 Wachstumszeit der Trauben",
+  "description.antiqueDress.boost.2": "10% Chance auf +10 Trauben",
+  "description.harpoon.boost": "+2 Fische pro Fang",
+  "description.harpoon.boost.2": "20% Chance, keine tägliche Angelrolle zu benutzen"
 }

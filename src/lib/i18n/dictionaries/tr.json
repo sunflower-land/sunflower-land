@@ -8912,5 +8912,19 @@
   "description.macropinna.boost": "+0.1 Obsidian",
   "description.migratedRarecrow": "Rarecrows mini oyunundan kurtarılan bir Rarecrow.",
   "rarecrows": "Nadir kuşlar",
-  "gameOptions.generalSettings.fullMoonSeedsInQuickSelect": "Hızlı Seçimde Dolunay Tohumları"
+  "gameOptions.generalSettings.fullMoonSeedsInQuickSelect": "Hızlı Seçimde Dolunay Tohumları",
+  "description.giantTruffle.boost": "Balık dışı yiyeceklerden +%30 Bumpkin XP",
+  "description.giantTruffle.boost.2": "Smoothie Shack içeceklerinden +60% Bumpkin XP (+% 30 yerine)",
+  "description.giantTruffle.boost.3": "Deli yiyeceklerinden +60% Bumpkin XP (+% 30 yerine)",
+  "description.brickHouse.boost": "Genişletmeler için -25% Kızıl Taşı (Grinx'in Çekiç ile istiflenmez)",
+  "description.brickHouse.boost.2": "Genişletmeler için %-5 Paralar",
+  "description.stickHouse.boost": "Genişlemeler için %-25 Yağ (Grinx'in Çekiç ile istiflenmez)",
+  "description.stickHouse.boost.2": "-10% Genişleme Süresi",
+  "description.herculesBeetleHat.boost": "Genişletmeler için %-25 Obsidyen (Grinx'in Çekiç ile istiflenmez)",
+  "description.fireflyAura.boost": "x0.8 Lav Çukuru Zamanı",
+  "description.fireflyAura.boost.2": "%5 Lav Çukurunu anında tamamlama şansı",
+  "description.antiqueDress.boost": "x0.7 Üzüm Büyüme Süresi",
+  "description.antiqueDress.boost.2": "+10 Üzüm ihtimali %10",
+  "description.harpoon.boost": "Yakalama başına +2 balık",
+  "description.harpoon.boost.2": "Günlük balıkçılık makarası kullanmama şansı %20"
 }

@@ -8912,5 +8912,19 @@
   "description.macropinna.boost": "+0.1 Obsidian",
   "description.migratedRarecrow": "Rarecrow diselamatkan dari minigame Rarecrows.",
   "rarecrows": "Rarecrow",
-  "gameOptions.generalSettings.fullMoonSeedsInQuickSelect": "Benih Bulan Purnama dalam Pilihan Cepat"
+  "gameOptions.generalSettings.fullMoonSeedsInQuickSelect": "Benih Bulan Purnama dalam Pilihan Cepat",
+  "description.giantTruffle.boost": "+30% Bumpkin XP dari makanan non-ikan",
+  "description.giantTruffle.boost.2": "+60% Bumpkin XP dari minuman Smoothie Shack (bukannya +30%)",
+  "description.giantTruffle.boost.3": "+60% Bumpkin XP dari makanan Deli (bukannya +30%)",
+  "description.brickHouse.boost": "-25% Crimstone untuk Ekspansi (tidak menumpuk dengan Grinx's Hammer)",
+  "description.brickHouse.boost.2": "-5% Koin untuk Ekspansi",
+  "description.stickHouse.boost": "-25% Minyak untuk Ekspansi (tidak menumpuk dengan Grinx's Hammer)",
+  "description.stickHouse.boost.2": "-10% Waktu Ekspansi",
+  "description.herculesBeetleHat.boost": "-25% Obsidian untuk Ekspansi (tidak menumpuk dengan Grinx's Hammer)",
+  "description.fireflyAura.boost": "x0.8 Waktu Lubang Lava",
+  "description.fireflyAura.boost.2": "5% kesempatan untuk langsung menyelesaikan Lava Pit",
+  "description.antiqueDress.boost": "x0.7 Waktu Pertumbuhan Anggur",
+  "description.antiqueDress.boost.2": "10% peluang +10 Anggur",
+  "description.harpoon.boost": "+2 ikan per tangkapan",
+  "description.harpoon.boost.2": "20% kesempatan untuk tidak menggunakan gulungan memancing harian"
 }

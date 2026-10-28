@@ -8912,5 +8912,19 @@
   "description.macropinna.boost": "+0,1 Obsidienne",
   "description.migratedRarecrow": "Un Rarecrow sauvé du mini-jeu Rarecrows.",
   "rarecrows": "Crows rares",
-  "gameOptions.generalSettings.fullMoonSeedsInQuickSelect": "Full Moon Seeds dans Quick Select"
+  "gameOptions.generalSettings.fullMoonSeedsInQuickSelect": "Full Moon Seeds dans Quick Select",
+  "description.giantTruffle.boost": "+30 % d'expérience Bumpkin grâce à de la nourriture autre que du poisson",
+  "description.giantTruffle.boost.2": "+60 % d'expérience Bumpkin grâce aux boissons Smoothie Shack (au lieu de +30 %)",
+  "description.giantTruffle.boost.3": "+60 % d'expérience Bumpkin grâce à Deli food (au lieu de +30 %)",
+  "description.brickHouse.boost": "-25 % Crimstone pour les extensions (non cumulable avec Grinx's Hammer)",
+  "description.brickHouse.boost.2": "-5 % de pièces pour les extensions",
+  "description.stickHouse.boost": "-25 % d'huile pour les extensions (non cumulable avec Grinx's Hammer)",
+  "description.stickHouse.boost.2": "Temps d'extension de -10 %",
+  "description.herculesBeetleHat.boost": "-25 % d'obsidienne pour les extensions (non cumulable avec Grinx's Hammer)",
+  "description.fireflyAura.boost": "x0.8 Durée de la fosse à lave",
+  "description.fireflyAura.boost.2": "5 % de chances de terminer instantanément un puits de lave",
+  "description.antiqueDress.boost": "x0.7 Temps de croissance du raisin",
+  "description.antiqueDress.boost.2": "10 % de chances d'obtenir +10 raisins",
+  "description.harpoon.boost": "+2 poissons par prise",
+  "description.harpoon.boost.2": "20 % de chances de ne pas utiliser un moulinet de pêche quotidien"
 }

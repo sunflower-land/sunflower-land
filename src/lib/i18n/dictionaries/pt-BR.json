@@ -8912,5 +8912,19 @@
   "description.macropinna.boost": "+0.1 Obsidiana",
   "description.migratedRarecrow": "Um Rarecrow resgatado do minijogo Rarecrows.",
   "rarecrows": "Corvos raros",
-  "gameOptions.generalSettings.fullMoonSeedsInQuickSelect": "Sementes de lua cheia em Quick Select"
+  "gameOptions.generalSettings.fullMoonSeedsInQuickSelect": "Sementes de lua cheia em Quick Select",
+  "description.giantTruffle.boost": "+30% de EXP Bumpkin proveniente de alimentos que não sejam peixes",
+  "description.giantTruffle.boost.2": "+60% de EXP do Bumpkin com bebidas Smoothie Shack (em vez de +30%)",
+  "description.giantTruffle.boost.3": "+60% de EXP Bumpkin da Deli Food (em vez de +30%)",
+  "description.brickHouse.boost": "-25% Crimstone para expansões (não se acumula com Grinx's Hammer)",
+  "description.brickHouse.boost.2": "-5% de moedas para expansões",
+  "description.stickHouse.boost": "-25% de óleo para expansões (não se acumula com o Grinx's Hammer)",
+  "description.stickHouse.boost.2": "-10% de tempo de expansão",
+  "description.herculesBeetleHat.boost": "-25% de obsidiana para expansões (não se acumula com o Martelo de Grinx)",
+  "description.fireflyAura.boost": "x0.8 Hora do poço de lava",
+  "description.fireflyAura.boost.2": "5% de chance de completar instantaneamente um Poço de Lava",
+  "description.antiqueDress.boost": "x0.7 Tempo de crescimento da uva",
+  "description.antiqueDress.boost.2": "10% de chance de +10 uvas",
+  "description.harpoon.boost": "+2 peixes por captura",
+  "description.harpoon.boost.2": "20% de chance de não usar um carretel de pesca diário"
 }

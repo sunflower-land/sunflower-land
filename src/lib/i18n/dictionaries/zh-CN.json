@@ -8912,5 +8912,19 @@
   "description.macropinna.boost": "+0.1 黑曜石",
   "description.migratedRarecrow": "从 Rarecrows 小游戏中救出来的 Rarecrow。",
   "rarecrows": "Rarecrows",
-  "gameOptions.generalSettings.fullMoonSeedsInQuickSelect": "快速选择中的满月种子"
+  "gameOptions.generalSettings.fullMoonSeedsInQuickSelect": "快速选择中的满月种子",
+  "description.giantTruffle.boost": "来自非鱼类食物的 Bumpkin XP +30%",
+  "description.giantTruffle.boost.2": "从 Smoothie Shack 饮料中获得 +60% 的 Bumpkin XP（而不是 +30%）",
+  "description.giantTruffle.boost.3": "来自熟食食品的 Bumpkin XP +60%（而不是 +30%）",
+  "description.brickHouse.boost": "-25% 猩红石用于扩展（不能与 Grinx's Hammer 叠加）",
+  "description.brickHouse.boost.2": "-5% 用于扩展的硬币",
+  "description.stickHouse.boost": "-25% 膨胀油（不能与 Grinx 之锤叠加）",
+  "description.stickHouse.boost.2": "-10% 扩展时间",
+  "description.herculesBeetleHat.boost": "-25% 黑曜石用于扩展（不能与 Grinx's Hammer 叠加）",
+  "description.fireflyAura.boost": "x0.8 熔岩洞时间",
+  "description.fireflyAura.boost.2": "有 5% 的几率立即完成熔岩深坑",
+  "description.antiqueDress.boost": "x0.7 葡萄生长时间",
+  "description.antiqueDress.boost.2": "10% 几率获得 +10 个葡萄",
+  "description.harpoon.boost": "每次捕获 +2 条鱼",
+  "description.harpoon.boost.2": "有 20% 的几率不使用每日钓鱼线轮"
 }

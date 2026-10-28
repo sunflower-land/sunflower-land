@@ -8912,5 +8912,19 @@
   "description.macropinna.boost": "+0.1 オブシディアン",
   "description.migratedRarecrow": "ミニゲーム「レアクロウ」から救出されたレアクロウ。",
   "rarecrows": "レアクロウ",
-  "gameOptions.generalSettings.fullMoonSeedsInQuickSelect": "クイックセレクトのフルムーンシード"
+  "gameOptions.generalSettings.fullMoonSeedsInQuickSelect": "クイックセレクトのフルムーンシード",
+  "description.giantTruffle.boost": "魚以外のエサから得られるバンプキン経験値 +30%",
+  "description.giantTruffle.boost.2": "スムージーシャックドリンクのバンプキン経験値を +60% (+30% ではなく)",
+  "description.giantTruffle.boost.3": "デリフードのバンプキン経験値を +60%（+30% ではなく）",
+  "description.brickHouse.boost": "-25% 拡張版のクリムストーン (グリンクスのハンマーと重複しない)",
+  "description.brickHouse.boost.2": "拡張パック用コイン -5%",
+  "description.stickHouse.boost": "-25% エクスパンション用オイル (グリンクスのハンマーと重複しない)",
+  "description.stickHouse.boost.2": "-10% の拡張時間",
+  "description.herculesBeetleHat.boost": "-25% オブシディアン (拡張パック用) (グリンクスのハンマーと重複しない)",
+  "description.fireflyAura.boost": "x0.8 ラバピットタイム",
+  "description.fireflyAura.boost.2": "5% の確率でラバピットを即座にクリアできる",
+  "description.antiqueDress.boost": "x0.7 グレープ成長時間",
+  "description.antiqueDress.boost.2": "10% の確率でブドウが10個増える",
+  "description.harpoon.boost": "漁獲1回につき魚2匹以上",
+  "description.harpoon.boost.2": "20% の確率でデイリーフィッシングリールを使用しない"
 }
