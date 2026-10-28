@@ -647,6 +647,14 @@ function createLandscapingEventHandlers(): TransitionsConfig<
 
 const LANDSCAPING_EVENT_HANDLERS = createLandscapingEventHandlers();
 
+/**
+ * Whether the soft ban prompt has been closed this page load. A soft banned
+ * player keeps playing; the API only refuses the actions that move value until
+ * they verify, and the blocked screens offer the verification in place, so
+ * the prompt is shown once per load rather than on every notification pass.
+ */
+let softBanAcknowledged = false;
+
 const EFFECT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
   getKeys(STATE_MACHINE_EFFECTS).reduce(
     (events, eventName) => ({
@@ -1479,7 +1487,10 @@ export function startGame(authContext: AuthContext) {
             {
               target: "investigating",
               cond: (context) => {
-                return context.state.ban.status === "investigating";
+                return (
+                  context.state.ban.status === "investigating" &&
+                  !softBanAcknowledged
+                );
               },
             },
 
@@ -2756,6 +2767,15 @@ export function startGame(authContext: AuthContext) {
 
         investigating: {
           on: {
+            // A soft ban does not stop play: the player may close the prompt
+            // and keep farming. Trading and withdrawing stay refused by the
+            // API, and those screens show the verification steps instead.
+            ACKNOWLEDGE: {
+              target: "notifying",
+              actions: () => {
+                softBanAcknowledged = true;
+              },
+            },
             "faceRecognition.started": {
               target: STATE_MACHINE_EFFECTS["faceRecognition.started"],
             },

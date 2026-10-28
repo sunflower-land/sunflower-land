@@ -775,7 +775,15 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
             {hasCommunityCoin && <LoveCharm />}
             {jinAirdrop && <RoninJinClaim />}
             {showReferralRewards && <ClaimReferralRewards />}
-            {(investigating || softBanUnlinking) && <SoftBan />}
+            {(investigating || softBanUnlinking) && (
+              <SoftBan
+                onClose={
+                  investigating
+                    ? () => gameService.send("ACKNOWLEDGE")
+                    : undefined
+                }
+              />
+            )}
             {linkWallet && <MigrateToLinkedWallet />}
           </Panel>
         </Modal>

@@ -13,7 +13,16 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { useNow } from "lib/utils/hooks/useNow";
 import { SoftBanSocialUnlink } from "./SoftBanSocialUnlink";
 
-export const SoftBan: React.FC = () => {
+interface Props {
+  /**
+   * Lets the player close the prompt and keep farming. A soft ban only holds
+   * the actions that move value, and those screens show these steps again.
+   * Absent when the steps are already shown in place of a blocked action.
+   */
+  onClose?: () => void;
+}
+
+export const SoftBan: React.FC<Props> = ({ onClose }) => {
   const { gameService, gameState } = useGame();
 
   const [showDiscord, setShowDiscord] = useState(false);
@@ -98,6 +107,7 @@ export const SoftBan: React.FC = () => {
         >
           {t("welcome.needHelp")}
         </p>
+        {onClose && <KeepPlayingButton onClick={onClose} />}
         <UnlinkSocialLink onClick={() => setShowUnlink(true)} />
         <SoftBanSocialUnlink
           show={showUnlink}
@@ -132,12 +142,23 @@ export const SoftBan: React.FC = () => {
       <Button onClick={() => setShowFaceRecognition(true)}>
         {t("softBan.faceProtection")}
       </Button>
+      {onClose && <KeepPlayingButton onClick={onClose} />}
       <UnlinkSocialLink onClick={() => setShowUnlink(true)} />
       <SoftBanSocialUnlink
         show={showUnlink}
         onClose={() => setShowUnlink(false)}
       />
     </div>
+  );
+};
+
+const KeepPlayingButton: React.FC<{ onClick: () => void }> = ({ onClick }) => {
+  const { t } = useAppTranslation();
+
+  return (
+    <Button className="mt-1" onClick={onClick}>
+      {t("softBan.keepPlaying")}
+    </Button>
   );
 };
 
