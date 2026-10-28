@@ -280,6 +280,10 @@ export const ReputationTiers: React.FC = () => {
               ),
               icon: walletIcon,
             },
+            {
+              text: t("reputation.grandHarvester.withdrawItems"),
+              icon: bank,
+            },
           ]}
         />
       </div>

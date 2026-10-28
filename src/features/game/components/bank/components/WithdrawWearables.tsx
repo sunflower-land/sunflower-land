@@ -200,7 +200,12 @@ export const WithdrawWearables: React.FC<Props> = ({
   });
 
   if (!hasAccess) {
-    return <RequiredReputation reputation={Reputation.GrandHarvester} />;
+    return (
+      <RequiredReputation
+        reputation={Reputation.GrandHarvester}
+        text={t("withdraw.wearables.upgrade")}
+      />
+    );
   }
 
   if (!isFaceVerified({ game: state })) {

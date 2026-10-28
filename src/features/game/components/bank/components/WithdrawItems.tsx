@@ -228,7 +228,12 @@ export const WithdrawItems: React.FC<Props> = ({
   });
 
   if (!hasAccess) {
-    return <RequiredReputation reputation={Reputation.GrandHarvester} />;
+    return (
+      <RequiredReputation
+        reputation={Reputation.GrandHarvester}
+        text={t("withdraw.items.upgrade")}
+      />
+    );
   }
 
   if (!isFaceVerified({ game: state })) {
