@@ -99,4 +99,23 @@ describe("Cave Dwellers registration", () => {
       COLLECTIBLES_DIMENSIONS[name as keyof typeof COLLECTIBLES_DIMENSIONS],
     ).toBeTruthy();
   });
+
+  // Track cosmetics (BAU ITEM020/021/023/033/035), after the Rarecrow ids.
+  const TRACK_DECORATIONS = {
+    "Duende in a Bottle": { id: 3272, width: 2, height: 2 },
+    "Mushroom Log": { id: 3273, width: 2, height: 1 },
+    "Pot of Luck": { id: 3274, width: 2, height: 2 },
+    TNT: { id: 3275, width: 1, height: 1 },
+    "Warning Sign": { id: 3276, width: 1, height: 1 },
+  } as const;
+
+  it.each(Object.entries(TRACK_DECORATIONS))(
+    "registers the %s track decoration",
+    (name, { id, width, height }) => {
+      const item = name as keyof typeof TRACK_DECORATIONS;
+      expect(KNOWN_IDS[item]).toEqual(id);
+      expect(ITEM_DETAILS[item]?.image).toBeTruthy();
+      expect(COLLECTIBLES_DIMENSIONS[item]).toEqual({ width, height });
+    },
+  );
 });
