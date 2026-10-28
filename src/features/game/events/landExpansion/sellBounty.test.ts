@@ -468,7 +468,7 @@ describe("sellBounty", () => {
           ...GAME_STATE.bounties,
           requests: GAME_STATE.bounties.requests.map((request) =>
             request.id === "3"
-              ? { ...request, items: { "Beetle Wing": 1 } }
+              ? { ...request, items: { "Duende Cap": 1 } }
               : request,
           ),
         },
@@ -486,6 +486,6 @@ describe("sellBounty", () => {
       createdAt,
     });
 
-    expect(result.inventory["Beetle Wing"]).toEqual(new Decimal(4));
+    expect(result.inventory["Duende Cap"]).toEqual(new Decimal(4));
   });
 });

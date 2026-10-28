@@ -1475,7 +1475,7 @@ export const ITEM_TRADE_TYPES: {
     Manatee: "instant",
     Betta: "instant",
     Macropinna: "instant",
-    "Beetle Wing": "instant",
+    "Duende Cap": "instant",
     "Cave Dwellers Raffle Ticket": "instant",
     "Cave Dwellers Banner": "instant",
     "Clover Coin": "instant",

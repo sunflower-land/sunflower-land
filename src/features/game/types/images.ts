@@ -8280,9 +8280,9 @@ export const ITEM_DETAILS: Items = {
     image: ascensionAgeRaffleTicket,
     description: translate("description.ascensionAgeRaffleTicket"),
   },
-  "Beetle Wing": {
+  "Duende Cap": {
     image: beetleWing,
-    description: translate("description.beetleWing"),
+    description: translate("description.duendeCap"),
   },
   "Cave Dwellers Banner": {
     image: caveDwellersBanner,

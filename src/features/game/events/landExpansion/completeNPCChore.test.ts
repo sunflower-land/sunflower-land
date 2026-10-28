@@ -504,7 +504,7 @@ describe("completeNPCChore", () => {
         chores: {
           "pumpkin' pete": {
             ...CHORE,
-            reward: { items: { "Beetle Wing": 1 } },
+            reward: { items: { "Duende Cap": 1 } },
           },
         },
       },
@@ -516,6 +516,6 @@ describe("completeNPCChore", () => {
       createdAt: mockDate.getTime(),
     });
 
-    expect(newState.inventory["Beetle Wing"]).toEqual(new Decimal(4));
+    expect(newState.inventory["Duende Cap"]).toEqual(new Decimal(4));
   });
 });

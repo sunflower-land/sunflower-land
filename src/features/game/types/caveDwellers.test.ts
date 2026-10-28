@@ -20,8 +20,8 @@ describe("Cave Dwellers registration", () => {
     expect(getCurrentChapter(IN_CHAPTER)).toEqual("Cave Dwellers");
   });
 
-  it("uses the Beetle Wing as the chapter ticket", () => {
-    expect(getChapterTicket(IN_CHAPTER)).toEqual("Beetle Wing");
+  it("uses the Duende Cap as the chapter ticket", () => {
+    expect(getChapterTicket(IN_CHAPTER)).toEqual("Duende Cap");
   });
 
   it("declares the chapter's mutant set", () => {
@@ -64,7 +64,7 @@ describe("Cave Dwellers registration", () => {
     "Betta",
     "Macropinna",
     "Clover Coin",
-    "Beetle Wing",
+    "Duende Cap",
     "Cave Dwellers Banner",
     "Mushroom Chicken",
     "Ladybug Cow",
@@ -91,7 +91,7 @@ describe("Cave Dwellers registration", () => {
 
   // Every new item except the icon-only ticket and the artefact is placeable.
   const PLACEABLES = NEW_ITEMS.filter(
-    (name) => name !== "Beetle Wing" && name !== "Clover Coin",
+    (name) => name !== "Duende Cap" && name !== "Clover Coin",
   );
 
   it.each(PLACEABLES)("gives %s placement dimensions", (name) => {

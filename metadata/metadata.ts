@@ -15029,7 +15029,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Manatee",
   },
-  "Beetle Wing": {
+  "Duende Cap": {
     description: "Collected during the Cave Dwellers chapter.",
     decimals: 0,
     attributes: [
@@ -15037,7 +15037,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    name: "Beetle Wing",
+    name: "Duende Cap",
   },
   "Cave Dwellers Raffle Ticket": {
     description: "A raffle ticket for the Cave Dwellers chapter.",

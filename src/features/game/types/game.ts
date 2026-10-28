@@ -536,7 +536,7 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Ascension Age Raffle Ticket": {
     description: translate("description.ascensionAgeRaffleTicket"),
   },
-  "Beetle Wing": { description: translate("description.beetleWing") },
+  "Duende Cap": { description: translate("description.duendeCap") },
   "Cave Dwellers Raffle Ticket": {
     description: translate("description.caveDwellersRaffleTicket"),
   },

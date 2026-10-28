@@ -1672,7 +1672,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Truffle Seasoning": 3101,
   // Cave Dwellers chapter
   Manatee: 3102,
-  "Beetle Wing": 3103,
+  "Duende Cap": 3103,
   "Cave Dwellers Raffle Ticket": 3104,
   "Cave Dwellers Banner": 3105,
   "Clover Coin": 3106,

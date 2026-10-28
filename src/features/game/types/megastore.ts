@@ -1343,49 +1343,49 @@ const CAVE_DWELLERS_ITEMS: ChapterStore = {
       // Hourglasses (infinitely buyable throughout the chapter)
       {
         collectible: "Gourmet Hourglass",
-        cost: { sfl: 0, items: { "Beetle Wing": 100 } },
+        cost: { sfl: 0, items: { "Duende Cap": 100 } },
       },
       {
         collectible: "Ore Hourglass",
-        cost: { sfl: 0, items: { "Beetle Wing": 400 } },
+        cost: { sfl: 0, items: { "Duende Cap": 400 } },
       },
       {
         collectible: "Timber Hourglass",
-        cost: { sfl: 0, items: { "Beetle Wing": 200 } },
+        cost: { sfl: 0, items: { "Duende Cap": 200 } },
       },
       {
         collectible: "Blossom Hourglass",
-        cost: { sfl: 0, items: { "Beetle Wing": 200 } },
+        cost: { sfl: 0, items: { "Duende Cap": 200 } },
       },
       {
         collectible: "Orchard Hourglass",
-        cost: { sfl: 0, items: { "Beetle Wing": 200 } },
+        cost: { sfl: 0, items: { "Duende Cap": 200 } },
       },
       {
         collectible: "Fisher's Hourglass",
-        cost: { sfl: 0, items: { "Beetle Wing": 200 } },
+        cost: { sfl: 0, items: { "Duende Cap": 200 } },
       },
       {
         collectible: "Harvest Hourglass",
-        cost: { sfl: 0, items: { "Beetle Wing": 200 } },
+        cost: { sfl: 0, items: { "Duende Cap": 200 } },
       },
 
       // Premium chapter items
       {
         wearable: "Duende Hat",
         limit: 1,
-        cost: { sfl: 0, items: { "Beetle Wing": 9000 } },
+        cost: { sfl: 0, items: { "Duende Cap": 9000 } },
       },
       {
         collectible: "Straw House",
         limit: 1,
-        cost: { sfl: 0, items: { "Beetle Wing": 9000 } },
+        cost: { sfl: 0, items: { "Duende Cap": 9000 } },
       },
       {
         collectible: "Duende Monument",
         limit: 1,
         inventoryLimit: 1,
-        cost: { sfl: 0, items: { "Beetle Wing": 4000 } },
+        cost: { sfl: 0, items: { "Duende Cap": 4000 } },
       },
       {
         collectible: "Mining Drill",
