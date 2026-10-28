@@ -1,6 +1,9 @@
-import { getCurrentChapter, getChapterTicket } from "./chapters";
+import { CHAPTERS, getCurrentChapter, getChapterTicket } from "./chapters";
 import { CHAPTER_MUTANTS } from "./chapterMutants";
 import { KNOWN_IDS } from "./index";
+import { CHAPTER_TRACKS } from "./tracks";
+import { ITEM_IDS } from "./bumpkin";
+import { INVENTORY_RELEASES, WEARABLE_RELEASES } from "./withdrawables";
 import { ITEM_DETAILS } from "./images";
 import { COLLECTIBLES_DIMENSIONS } from "./craftables";
 import { REQUIRED_CHEERS } from "./monuments";
@@ -118,4 +121,99 @@ describe("Cave Dwellers registration", () => {
       expect(COLLECTIBLES_DIMENSIONS[item]).toEqual({ width, height });
     },
   );
+});
+
+describe("Cave Dwellers chapter track", () => {
+  const milestones = CHAPTER_TRACKS["Cave Dwellers"]?.milestones ?? [];
+
+  it("has 60 levels ending at 60,000 points", () => {
+    expect(milestones).toHaveLength(60);
+    expect(milestones[59]?.points).toEqual(60000);
+  });
+
+  it("raises the points every level", () => {
+    milestones.slice(1).forEach((milestone, index) => {
+      expect(milestone.points).toBeGreaterThan(milestones[index].points);
+    });
+  });
+
+  // The fixed rewards from the BAU Track Inputs tab.
+  it.each([
+    [5, "premium", { items: { TNT: 1 } }],
+    [10, "premium", { wearables: { "Pig Onesie": 1 } }],
+    [15, "free", { items: { "Mushroom Log": 1 } }],
+    [20, "free", { items: { "Pot of Luck": 1 } }],
+    [20, "premium", { wearables: { "Traveling Merchant Suit": 1 } }],
+    [25, "free", { wearables: { "Beetle Goggles": 1 } }],
+    [25, "premium", { items: { "Duende in a Bottle": 1 } }],
+    [30, "premium", { wearables: { "Traveling Merchant Bag": 1 } }],
+    [35, "premium", { wearables: { "Ascension Staff": 1 } }],
+    [40, "free", { items: { "Pet Egg": 1 } }],
+    [40, "premium", { items: { "Miner's Bed": 1 } }],
+    [45, "premium", { items: { "Warning Sign": 1 } }],
+    [60, "free", { items: { "Luxury Key": 1 } }],
+    [60, "premium", { items: { "Gold Flower Box": 1 } }],
+  ] as const)("rewards level %i %s with %o", (level, track, reward) => {
+    expect(milestones[level - 1]?.[track]).toEqual(reward);
+  });
+
+  it("only rewards real items and never an auction item", () => {
+    const AUCTION_ITEMS = [
+      "Piggy Bank",
+      "Big Bad Wolf",
+      "Stick House",
+      "Brick House",
+      "Giant Truffle",
+      "Hercules Beetle Hat",
+      "Firefly Aura",
+      "Antique Dress",
+      "Harpoon",
+    ];
+
+    milestones.forEach((milestone) => {
+      (["free", "premium"] as const).forEach((track) => {
+        const { items = {}, wearables = {} } = milestone[track];
+
+        Object.keys(items).forEach((name) => {
+          expect(KNOWN_IDS[name as keyof typeof KNOWN_IDS]).toBeDefined();
+          expect(AUCTION_ITEMS).not.toContain(name);
+        });
+        Object.keys(wearables).forEach((name) => {
+          expect(ITEM_IDS[name as keyof typeof ITEM_IDS]).toBeDefined();
+          expect(AUCTION_ITEMS).not.toContain(name);
+        });
+      });
+    });
+  });
+});
+
+describe("Cave Dwellers track releases", () => {
+  const RELEASE = {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  };
+
+  it.each([
+    "Pig Onesie",
+    "Traveling Merchant Suit",
+    "Traveling Merchant Bag",
+    "Beetle Goggles",
+    "Ascension Staff",
+  ] as const)("releases the %s after the chapter", (name) => {
+    expect(WEARABLE_RELEASES[name]).toEqual(RELEASE);
+  });
+
+  it.each([
+    "TNT",
+    "Mushroom Log",
+    "Pot of Luck",
+    "Duende in a Bottle",
+    "Warning Sign",
+  ] as const)("releases the %s after the chapter", (name) => {
+    expect(INVENTORY_RELEASES[name]).toEqual(RELEASE);
+  });
+
+  it("never releases Miner's Bed", () => {
+    expect(INVENTORY_RELEASES["Miner's Bed"]).toBeUndefined();
+  });
 });

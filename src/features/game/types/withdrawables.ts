@@ -693,6 +693,27 @@ export const WEARABLE_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     tradeAt: CHAPTERS["Cave Dwellers"].endDate,
     withdrawAt: new Date("2027-03-01T00:00:00Z"),
   },
+  // Cave Dwellers track
+  "Pig Onesie": {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
+  "Traveling Merchant Suit": {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
+  "Traveling Merchant Bag": {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
+  "Beetle Goggles": {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
+  "Ascension Staff": {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
 
   "Moonseeker Potion": {
     tradeAt: new Date("2025-11-06"),
@@ -1921,6 +1942,27 @@ export const INVENTORY_RELEASES: InventoryReleases = {
     withdrawAt: new Date("2027-03-01T00:00:00Z"),
   },
   Macropinna: {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
+  // Cave Dwellers track
+  TNT: {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
+  "Mushroom Log": {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
+  "Pot of Luck": {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
+  "Duende in a Bottle": {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
+  "Warning Sign": {
     tradeAt: CHAPTERS["Cave Dwellers"].endDate,
     withdrawAt: new Date("2027-03-01T00:00:00Z"),
   },
