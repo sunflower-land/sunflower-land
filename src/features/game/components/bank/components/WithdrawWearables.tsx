@@ -195,12 +195,12 @@ export const WithdrawWearables: React.FC<Props> = ({
 
   const hasAccess = hasReputation({
     game: state,
-    reputation: Reputation.Seedling,
+    reputation: Reputation.GrandHarvester,
     now,
   });
 
   if (!hasAccess) {
-    return <RequiredReputation reputation={Reputation.Seedling} />;
+    return <RequiredReputation reputation={Reputation.GrandHarvester} />;
   }
 
   if (!isFaceVerified({ game: state })) {
