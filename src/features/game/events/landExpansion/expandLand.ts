@@ -217,36 +217,43 @@ export const expansionRequirements = ({
     boostsUsed.push({ name: "Duende Monument", value: "x0.9" });
   }
 
-  // -25% of one expansion resource each, does not stack with Grinx's Hammer
-  const resourceCuts = [
-    {
-      name: "Brick House",
-      resource: "Crimstone",
-      active: isCollectibleBuilt({ name: "Brick House", game }),
-    },
-    {
-      name: "Stick House",
-      resource: "Oil",
-      active: isCollectibleBuilt({ name: "Stick House", game }),
-    },
-    {
-      name: "Hercules Beetle Hat",
-      resource: "Obsidian",
-      active: isWearableActive({ name: "Hercules Beetle Hat", game }),
-    },
-  ] as const;
+  // -25% Crimstone, does not stack with Grinx's Hammer
+  if (
+    !hasGrinxHammer &&
+    resources.Crimstone !== undefined &&
+    isCollectibleBuilt({ name: "Brick House", game })
+  ) {
+    resources = {
+      ...resources,
+      Crimstone: new Decimal(resources.Crimstone).mul(0.75).toNumber(),
+    };
+    boostsUsed.push({ name: "Brick House", value: "x0.75" });
+  }
 
-  if (!hasGrinxHammer) {
-    resourceCuts.forEach(({ name, resource, active }) => {
-      const amount = resources[resource];
-      if (!active || amount === undefined) return;
+  // -25% Oil, does not stack with Grinx's Hammer
+  if (
+    !hasGrinxHammer &&
+    resources.Oil !== undefined &&
+    isCollectibleBuilt({ name: "Stick House", game })
+  ) {
+    resources = {
+      ...resources,
+      Oil: new Decimal(resources.Oil).mul(0.75).toNumber(),
+    };
+    boostsUsed.push({ name: "Stick House", value: "x0.75" });
+  }
 
-      resources = {
-        ...resources,
-        [resource]: new Decimal(amount).mul(0.75).toNumber(),
-      };
-      boostsUsed.push({ name, value: "x0.75" });
-    });
+  // -25% Obsidian, does not stack with Grinx's Hammer
+  if (
+    !hasGrinxHammer &&
+    resources.Obsidian !== undefined &&
+    isWearableActive({ name: "Hercules Beetle Hat", game })
+  ) {
+    resources = {
+      ...resources,
+      Obsidian: new Decimal(resources.Obsidian).mul(0.75).toNumber(),
+    };
+    boostsUsed.push({ name: "Hercules Beetle Hat", value: "x0.75" });
   }
 
   let coins = requirements.coins;
