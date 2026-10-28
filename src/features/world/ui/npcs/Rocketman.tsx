@@ -21,11 +21,16 @@ import { setPrecision } from "lib/utils/formatNumber";
 import type { MachineState } from "features/game/lib/gameMachine";
 import {
   DAILY_LIMIT,
-  EXCHANGE_FLOWER_PRICE,
+  EXCHANGE_FLOWER_CLOSE_DATE,
+  EXCHANGE_FLOWER_RATE_CHANGE_DATE,
+  SUNSET_EXCHANGE_FLOWER_PRICE,
+  getExchangeFlowerPrice,
+  isFlowerExchangeClosed,
 } from "features/game/events/landExpansion/exchangeFLOWER";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { useVipAccess } from "lib/utils/hooks/useVipAccess";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   onClose: () => void;
@@ -152,6 +157,44 @@ export const FlowerExchange: React.FC<FlowerExchangeProps> = ({ onClose }) => {
   const willExceedDailyLimit = loveCharmsSpent + loveCharms > DAILY_LIMIT;
   const isVIP = useVipAccess({ game: state, type: "full" });
 
+  const now = useNow();
+  const exchangeRate = getExchangeFlowerPrice(now);
+  const formatDate = (date: number) =>
+    new Date(date).toLocaleDateString(undefined, {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+      timeZone: "UTC",
+    });
+
+  if (isFlowerExchangeClosed(now)) {
+    return (
+      <div className="p-1">
+        <Label type="danger" icon={flowerIcon}>
+          {t("flower.exchange.closed.title")}
+        </Label>
+        <p className="text-sm my-2">
+          {t("flower.exchange.closed.description")}
+        </p>
+        <Button onClick={onClose}>{t("close")}</Button>
+      </div>
+    );
+  }
+
+  const sunsetNotice = (
+    <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
+      {now < EXCHANGE_FLOWER_RATE_CHANGE_DATE
+        ? t("flower.exchange.sunset.rateChange", {
+            date: formatDate(EXCHANGE_FLOWER_RATE_CHANGE_DATE),
+            exchangeRate: SUNSET_EXCHANGE_FLOWER_PRICE,
+            closeDate: formatDate(EXCHANGE_FLOWER_CLOSE_DATE),
+          })
+        : t("flower.exchange.sunset.closing", {
+            date: formatDate(EXCHANGE_FLOWER_CLOSE_DATE),
+          })}
+    </Label>
+  );
+
   if (!isFaceVerified({ game: state })) {
     return <FaceRecognition />;
   }
@@ -182,9 +225,7 @@ export const FlowerExchange: React.FC<FlowerExchangeProps> = ({ onClose }) => {
             {t("flower.exchange.title")}
           </Label>
           <Label type="warning" icon={flowerIcon} secondaryIcon={loveCharmIcon}>
-            {t("flower.exchange.price", {
-              exchangeRate: EXCHANGE_FLOWER_PRICE,
-            })}
+            {t("flower.exchange.price", { exchangeRate })}
           </Label>
         </div>
         <p>{t("flower.exchange.confirm")}</p>
@@ -211,7 +252,7 @@ export const FlowerExchange: React.FC<FlowerExchangeProps> = ({ onClose }) => {
 
   const isOutOfRange =
     loveCharmsSpent >= DAILY_LIMIT ||
-    loveCharms < EXCHANGE_FLOWER_PRICE ||
+    loveCharms < exchangeRate ||
     willExceedDailyLimit ||
     loveCharmCount.lt(loveCharms);
 
@@ -222,9 +263,10 @@ export const FlowerExchange: React.FC<FlowerExchangeProps> = ({ onClose }) => {
           {t("flower.exchange.title")}
         </Label>
         <Label type="warning" icon={flowerIcon} secondaryIcon={loveCharmIcon}>
-          {t("flower.exchange.price", { exchangeRate: EXCHANGE_FLOWER_PRICE })}
+          {t("flower.exchange.price", { exchangeRate })}
         </Label>
       </div>
+      {sunsetNotice}
       <div className="flex flex-row justify-between gap-1">
         <Label type="info" icon={loveCharmIcon}>
           {t("flower.exchange.inventory", { loveCharmCount })}
@@ -251,7 +293,7 @@ export const FlowerExchange: React.FC<FlowerExchangeProps> = ({ onClose }) => {
             onValueChange={(value) => {
               setLoveCharms(value.toNumber());
               const estimated = setPrecision(
-                new Decimal(value).div(EXCHANGE_FLOWER_PRICE),
+                new Decimal(value).div(exchangeRate),
               );
               setFlower(estimated.toNumber());
             }}
@@ -272,8 +314,8 @@ export const FlowerExchange: React.FC<FlowerExchangeProps> = ({ onClose }) => {
         <Label type="danger">
           {willExceedDailyLimit || loveCharmsSpent >= DAILY_LIMIT
             ? t("flower.exchange.error.max")
-            : loveCharms < EXCHANGE_FLOWER_PRICE
-              ? t("flower.exchange.error.min")
+            : loveCharms < exchangeRate
+              ? t("flower.exchange.error.min", { exchangeRate })
               : loveCharmCount.lt(loveCharms)
                 ? t("flower.exchange.error.balance")
                 : ""}
