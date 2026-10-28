@@ -4571,7 +4571,6 @@
   "flower.exchange.confirm": "Ты действительно хочешь провести следующий обмен?",
   "flower.exchange.inventory": "Инвентарь: {{loveCharmCount}}",
   "flower.exchange.dailyLimit": "Дневной лимит: {{loveCharmsSpent}}/{{dailyLimit}}",
-  "flower.exchange.error.min": "Ты не можешь обменять менее 80 жетонов любви",
   "flower.exchange.error.max": "Ты не можешь обменять более 10 000 жетонов любви в день",
   "flower.exchange.error.balance": "У тебя недостаточно жетонов любви, чтобы обменять их на FLOWER",
   "flower.exchange.button": "Обменять",
@@ -8926,5 +8925,10 @@
   "description.harpoon.boost": "+2 Fish per catch",
   "description.harpoon.boost.2": "20% chance to not use a daily fishing reel",
   "description.bonusDuendeCap.boost": "+1 Duende Cap",
-  "description.duendeCap": "A duende cap — the currency of the Cave Dwellers."
+  "description.duendeCap": "A duende cap — the currency of the Cave Dwellers.",
+  "flower.exchange.error.min": "You can't exchange less than {{exchangeRate}} Love Charms",
+  "flower.exchange.sunset.rateChange": "From {{date}} the rate changes to {{exchangeRate}} Love Charms = 1 $FLOWER. The exchange closes on {{closeDate}}.",
+  "flower.exchange.sunset.closing": "The Love Charm exchange closes on {{date}}.",
+  "flower.exchange.closed.title": "Exchange closed",
+  "flower.exchange.closed.description": "The Love Charm $FLOWER exchange has closed. Love Charms can still be spent on Love Island."
 }

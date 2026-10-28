@@ -6882,7 +6882,6 @@
   "agingShed.fermentationRack": "Fermentación",
   "agingShed.spiceRack": "Especia",
   "rocketman.flower.exchange.two": "Podrás cambiar 80 amuletos de amor por 1 $FLOWER.",
-  "flower.exchange.error.min": "No puedes intercambiar menos de 80 amuletos de amor",
   "description.bumpkinRug": "Una cara amistosa de Bumpkin para tu suelo.",
   "description.goblinRug": "Aún parece un poco travieso.",
   "description.petRug": "Demasiado linda para pisarla. Casi.",
@@ -8926,5 +8925,10 @@
   "description.harpoon.boost": "+2 peces por captura",
   "description.harpoon.boost.2": "20% de probabilidad de no usar un carrete de pesca diario",
   "description.bonusDuendeCap.boost": "+1 Duende Cap",
-  "description.duendeCap": "Una gorra de duende, la moneda de los habitantes de las cavernas."
+  "description.duendeCap": "Una gorra de duende, la moneda de los habitantes de las cavernas.",
+  "flower.exchange.error.min": "No puedes intercambiar menos de {{exchangeRate}} Love Charms",
+  "flower.exchange.sunset.rateChange": "A partir de {{date}}, la tarifa cambia a {{exchangeRate}} Love Charms = 1 $FLOWER. La bolsa cierra el {{closeDate}}.",
+  "flower.exchange.sunset.closing": "La bolsa Love Charm cierra el {{date}}.",
+  "flower.exchange.closed.title": "Bolsa cerrada",
+  "flower.exchange.closed.description": "La bolsa Love Charm $FLOWER ha cerrado. Los Love Charms todavía se pueden gastar en Love Island."
 }

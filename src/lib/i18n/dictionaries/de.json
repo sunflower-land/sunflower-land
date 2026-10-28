@@ -6882,7 +6882,6 @@
   "agingShed.fermentationRack": "Fermentation",
   "agingShed.spiceRack": "Gewürz",
   "rocketman.flower.exchange.two": "Du kannst 80 Liebeszauber gegen 1 $FLOWER eintauschen.",
-  "flower.exchange.error.min": "Du kannst nicht weniger als 80 Liebeszauber eintauschen",
   "description.bumpkinRug": "Ein freundliches Bumpkin-Gesicht für Ihren Boden.",
   "description.goblinRug": "Sieht immer noch ein bisschen boshaft aus.",
   "description.petRug": "Zu süß, um darauf zu treten. Fast.",
@@ -8926,5 +8925,10 @@
   "description.harpoon.boost": "+2 Fische pro Fang",
   "description.harpoon.boost.2": "20% Chance, keine tägliche Angelrolle zu benutzen",
   "description.bonusDuendeCap.boost": "+1 Duende Cap",
-  "description.duendeCap": "Eine Duende-Cap — die Währung der Höhlenbewohner."
+  "description.duendeCap": "Eine Duende-Cap — die Währung der Höhlenbewohner.",
+  "flower.exchange.error.min": "Du kannst nicht weniger als {{exchangeRate}} Liebeszauber eintauschen",
+  "flower.exchange.sunset.rateChange": "Von {{date}} ändert sich die Rate auf {{exchangeRate}} Love Charms = 1 $FLOWER. Die Börse schließt am {{closeDate}}.",
+  "flower.exchange.sunset.closing": "Die Love Charm-Börse schließt am {{date}}.",
+  "flower.exchange.closed.title": "Börse geschlossen",
+  "flower.exchange.closed.description": "Die Love Charm $FLOWER-Börse ist geschlossen. Love Charms können immer noch auf Love Island ausgegeben werden."
 }

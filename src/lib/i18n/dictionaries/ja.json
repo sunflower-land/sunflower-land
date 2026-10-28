@@ -6882,7 +6882,6 @@
   "agingShed.fermentationRack": "発酵",
   "agingShed.spiceRack": "スパイス",
   "rocketman.flower.exchange.two": "80個のラブチャームを1$FLOWERと交換できます。",
-  "flower.exchange.error.min": "80個以下のラブチャームは交換できません",
   "description.bumpkinRug": "床に優しいバンプキンフェイス。",
   "description.goblinRug": "まだちょっといたずらっぽく見えます。",
   "description.petRug": "可愛すぎて踏みきれません。ほぼ。",
@@ -8926,5 +8925,10 @@
   "description.harpoon.boost": "漁獲1回につき魚2匹以上",
   "description.harpoon.boost.2": "20% の確率でデイリーフィッシングリールを使用しない",
   "description.bonusDuendeCap.boost": "+1 デュエンデキャップ",
-  "description.duendeCap": "洞窟住人の通貨、ドゥエンデキャップ。"
+  "description.duendeCap": "洞窟住人の通貨、ドゥエンデキャップ。",
+  "flower.exchange.error.min": "{{exchangeRate}} 以下のラブチャームは交換できません",
+  "flower.exchange.sunset.rateChange": "{{date}} からレートが {{exchangeRate}} ラブチャーム = 1 $FLOWERに変わります。取引所は {{closeDate}} に終了します。",
+  "flower.exchange.sunset.closing": "ラブチャーム交換は {{date}} に終了します。",
+  "flower.exchange.closed.title": "取引所は終了しました",
+  "flower.exchange.closed.description": "ラブチャーム$FLOWERの交換は終了しました。ラブチャームは引き続きラブアイランドでお使いいただけます。"
 }

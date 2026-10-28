@@ -6882,7 +6882,6 @@
   "agingShed.fermentationRack": "Fermentasi",
   "agingShed.spiceRack": "Rempah-rempah",
   "rocketman.flower.exchange.two": "Anda akan dapat menukar 80 Love Charms dengan 1 $FLOWER.",
-  "flower.exchange.error.min": "Anda tidak dapat menukar kurang dari 80 Pesona Cinta",
   "description.bumpkinRug": "Wajah Bumpkin yang ramah untuk lantai Anda.",
   "description.goblinRug": "Masih terlihat sedikit nakal.",
   "description.petRug": "Terlalu lucu untuk diinjak. Hampir.",
@@ -8926,5 +8925,10 @@
   "description.harpoon.boost": "+2 ikan per tangkapan",
   "description.harpoon.boost.2": "20% kesempatan untuk tidak menggunakan gulungan memancing harian",
   "description.bonusDuendeCap.boost": "+1 Duende Cap",
-  "description.duendeCap": "Topi duende — mata uang Penghuni Gua."
+  "description.duendeCap": "Topi duende — mata uang Penghuni Gua.",
+  "flower.exchange.error.min": "Anda tidak dapat menukar kurang dari {{exchangeRate}} Love Charms",
+  "flower.exchange.sunset.rateChange": "Dari {{date}} tarif berubah menjadi {{exchangeRate}} Love Charms = 1 $FLOWER. Pertukaran ditutup pada {{closeDate}}.",
+  "flower.exchange.sunset.closing": "Pertukaran Love Charm ditutup pada {{date}}.",
+  "flower.exchange.closed.title": "Bursa ditutup",
+  "flower.exchange.closed.description": "Bursa Love Charm $FLOWER telah ditutup. Pesona Cinta masih bisa dihabiskan di Pulau Cinta."
 }

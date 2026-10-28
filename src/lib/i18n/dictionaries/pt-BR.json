@@ -6882,7 +6882,6 @@
   "agingShed.fermentationRack": "Fermentação",
   "agingShed.spiceRack": "Especiaria",
   "rocketman.flower.exchange.two": "Você poderá trocar 80 Love Charms por 1$ FLOWER.",
-  "flower.exchange.error.min": "Você não pode trocar menos de 80 amuletos amorosos",
   "description.bumpkinRug": "Uma cara amigável de caipira para seu chão.",
   "description.goblinRug": "Ainda parece um pouco travesso.",
   "description.petRug": "Muito fofo para pisar. Quase.",
@@ -8926,5 +8925,10 @@
   "description.harpoon.boost": "+2 peixes por captura",
   "description.harpoon.boost.2": "20% de chance de não usar um carretel de pesca diário",
   "description.bonusDuendeCap.boost": "+1 Duende Cap",
-  "description.duendeCap": "Um boné de duende — a moeda dos habitantes das cavernas."
+  "description.duendeCap": "Um boné de duende — a moeda dos habitantes das cavernas.",
+  "flower.exchange.error.min": "Você não pode trocar menos de {{exchangeRate}} Love Charms",
+  "flower.exchange.sunset.rateChange": "De {{date}}, a taxa muda para {{exchangeRate}} Love Charms = 1 $FLOWER. A troca fecha em {{closeDate}}.",
+  "flower.exchange.sunset.closing": "A troca Love Charm fecha em {{date}}.",
+  "flower.exchange.closed.title": "Câmbio encerrado",
+  "flower.exchange.closed.description": "A bolsa Love Charm $FLOWER foi encerrada. Love Charms ainda pode ser gasto na Ilha do Amor."
 }

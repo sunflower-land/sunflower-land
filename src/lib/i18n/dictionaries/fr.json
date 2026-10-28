@@ -6882,7 +6882,6 @@
   "agingShed.fermentationRack": "Fermentation",
   "agingShed.spiceRack": "Épice",
   "rocketman.flower.exchange.two": "Vous pourrez échanger 80 Love Charms contre 1 $FLOWER.",
-  "flower.exchange.error.min": "Vous ne pouvez pas échanger moins de 80 Love Charms",
   "description.bumpkinRug": "Un visage Bumpkin convivial pour votre sol.",
   "description.goblinRug": "Ça a toujours l'air un peu espiègle.",
   "description.petRug": "Trop mignon pour marcher dessus. Presque.",
@@ -8926,5 +8925,10 @@
   "description.harpoon.boost": "+2 poissons par prise",
   "description.harpoon.boost.2": "20 % de chances de ne pas utiliser un moulinet de pêche quotidien",
   "description.bonusDuendeCap.boost": "+1 Duende Cap",
-  "description.duendeCap": "Une casquette duende, la monnaie des habitants des cavernes."
+  "description.duendeCap": "Une casquette duende, la monnaie des habitants des cavernes.",
+  "flower.exchange.error.min": "Vous ne pouvez pas échanger moins de {{exchangeRate}} Love Charms",
+  "flower.exchange.sunset.rateChange": "À partir de {{date}}, le tarif passe à {{exchangeRate}} Love Charms = 1 $FLOWER. La bourse ferme le {{closeDate}}.",
+  "flower.exchange.sunset.closing": "La bourse Love Charm ferme le {{date}}.",
+  "flower.exchange.closed.title": "Bourse fermée",
+  "flower.exchange.closed.description": "La bourse Love Charm $FLOWER est terminée. Les Love Charms peuvent toujours être dépensés sur Love Island."
 }

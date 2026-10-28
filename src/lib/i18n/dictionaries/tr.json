@@ -6882,7 +6882,6 @@
   "agingShed.fermentationRack": "Fermantasyon",
   "agingShed.spiceRack": "Baharat",
   "rocketman.flower.exchange.two": "80 Aşk Tılsımı 1 $FLOWER karşılığında değiştirebileceksiniz.",
-  "flower.exchange.error.min": "80'den az Aşk Tılsımı takas edemezsin",
   "description.bumpkinRug": "Zemininiz için dost canlısı bir Bumpkin yüzü.",
   "description.goblinRug": "Hala biraz yaramaz görünüyor.",
   "description.petRug": "Üzerine basmak için çok sevimli. Neredeyse.",
@@ -8926,5 +8925,10 @@
   "description.harpoon.boost": "Yakalama başına +2 balık",
   "description.harpoon.boost.2": "Günlük balıkçılık makarası kullanmama şansı %20",
   "description.bonusDuendeCap.boost": "+1 Duende Cap",
-  "description.duendeCap": "Duende şapkası - Mağara Sakinlerinin para birimi."
+  "description.duendeCap": "Duende şapkası - Mağara Sakinlerinin para birimi.",
+  "flower.exchange.error.min": "{{exchangeRate}} Aşk Tılsımlarından daha az değiş tokuş edemezsiniz",
+  "flower.exchange.sunset.rateChange": "{{date}} 'den itibaren oran {{exchangeRate}} Aşk Tılsımları = 1 $FLOWER olarak değişir. Borsa {{closeDate}} 'de kapanır.",
+  "flower.exchange.sunset.closing": "Love Charm borsası {{date}} tarihinde kapanıyor.",
+  "flower.exchange.closed.title": "Borsa kapandı",
+  "flower.exchange.closed.description": "Love Charm $FLOWER borsası kapandı. Aşk Tılsımları hala Aşk Adası\"nda harcanabilir."
 }

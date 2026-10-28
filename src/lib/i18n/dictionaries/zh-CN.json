@@ -6882,7 +6882,6 @@
   "agingShed.fermentationRack": "发酵架",
   "agingShed.spiceRack": "香料架",
   "rocketman.flower.exchange.two": "你将可以用 80 个爱心护符兑换 1 $FLOWER。",
-  "flower.exchange.error.min": "兑换数量不能少于 80 个爱心护符",
   "description.bumpkinRug": "一张印有友善农夫面孔的地毯，用来装饰你的地板。",
   "description.goblinRug": "看起来依然有点调皮捣蛋。",
   "description.petRug": "太可爱了，让人几乎舍不得踩上去。",
@@ -8926,5 +8925,10 @@
   "description.harpoon.boost": "每次捕获 +2 条鱼",
   "description.harpoon.boost.2": "有 20% 的几率不使用每日钓鱼线轮",
   "description.bonusDuendeCap.boost": "+1 Duende Cap",
-  "description.duendeCap": "duende cap — 洞穴居民的货币。"
+  "description.duendeCap": "duende cap — 洞穴居民的货币。",
+  "flower.exchange.error.min": "你不能兑换低于 {{exchangeRate}} 的爱情护身符",
+  "flower.exchange.sunset.rateChange": "从 {{date}} 变为 {{exchangeRate}} Love Charms = 1 $FLOWER。交易所于 [2@/美元] 关闭。",
+  "flower.exchange.sunset.closing": "Love Charm 交易所于 {{date}} 关闭。",
+  "flower.exchange.closed.title": "交易所关闭",
+  "flower.exchange.closed.description": "Love Charm $FLOWER 交易所已经关闭。爱情护身符仍然可以在爱情岛上消费。"
 }
