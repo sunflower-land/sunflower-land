@@ -76,8 +76,8 @@ const TradeBox: React.FC<{
 );
 
 /** "2 Sand Drill" style text for an offer's reward. */
-const rewardText = (offer: CaveMerchantOffer) =>
-  `${offer.reward.amount} ${getTranslatedItemName(offer.reward.item)}`;
+const itemText = ({ item, amount }: CaveMerchantOffer["reward"]) =>
+  `${amount} ${getTranslatedItemName(item)}`;
 
 /**
  * Gloomwick's empty stall while he is away, and when he is back. The visit in
@@ -287,7 +287,7 @@ export const CaveMerchantModal: React.FC<{ onClose: () => void }> = ({
                   {/* The middle column gets the room, so names wrap rather
                       than truncate. */}
                   <div className="flex flex-1 flex-col items-start gap-0.5 min-w-0 ml-2">
-                    <span className="text-sm">{rewardText(offer)}</span>
+                    <span className="text-sm">{itemText(offer.cost)}</span>
                     <span
                       className={classNames("text-xs", {
                         "text-red-700": short && !soldOut,
@@ -301,7 +301,7 @@ export const CaveMerchantModal: React.FC<{ onClose: () => void }> = ({
                             item: getTranslatedItemName(offer.cost.item),
                           })
                         : t("cave.merchant.for", {
-                            cost: `${offer.cost.amount} ${getTranslatedItemName(offer.cost.item)}`,
+                            cost: itemText(offer.reward),
                           })}
                     </span>
                     {offer.curiosity && (
