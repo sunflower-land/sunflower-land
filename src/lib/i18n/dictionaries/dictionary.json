@@ -6230,6 +6230,7 @@
   "faceRecognition.tryAgain": "Try Again",
   "faceRecognition.label": "Take a quick photo",
   "faceRecognition.introText": "To ensure a secure economy, we will perform a quick privacy scan to ensure you are human.",
+  "faceRecognition.introWarning": "For a smooth verification, find a place with good lighting and avoid dim rooms or strong backlighting.",
   "faceRecognition.startButton": "Start Face Recognition",
   "faceRecognition.expiredTitle": "Face Recognition Expired",
   "faceRecognition.expiredDescription": "It looks like your face recognition session has expired. Please try again.",
