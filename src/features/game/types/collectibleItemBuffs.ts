@@ -2496,6 +2496,52 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS["Sand Shovel"].image,
     },
   ],
+  "Giant Truffle": () => [
+    {
+      shortDescription: translate("description.giantTruffle.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
+    {
+      shortDescription: translate("description.giantTruffle.boost.2"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Smoothie Shack"].image,
+    },
+    {
+      shortDescription: translate("description.giantTruffle.boost.3"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Deli.image,
+    },
+  ],
+  "Brick House": () => [
+    {
+      shortDescription: translate("description.brickHouse.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: ITEM_DETAILS.Crimstone.image,
+    },
+    {
+      shortDescription: translate("description.brickHouse.boost.2"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.ui.coins,
+    },
+  ],
+  "Stick House": () => [
+    {
+      shortDescription: translate("description.stickHouse.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: ITEM_DETAILS.Oil.image,
+    },
+    {
+      shortDescription: translate("description.stickHouse.boost.2"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+  ],
   "Mushroom Chicken": () => [
     {
       shortDescription: translate("description.mushroomChicken.boost"),

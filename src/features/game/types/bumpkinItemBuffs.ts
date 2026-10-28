@@ -946,6 +946,56 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS["Fruit Patch"].image,
     },
   ],
+  "Hercules Beetle Hat": [
+    {
+      shortDescription: translate("description.herculesBeetleHat.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: ITEM_DETAILS.Obsidian.image,
+    },
+  ],
+  "Firefly Aura": [
+    {
+      shortDescription: translate("description.fireflyAura.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: ITEM_DETAILS["Lava Pit"].image,
+    },
+    {
+      shortDescription: translate("description.fireflyAura.boost.2"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: ITEM_DETAILS["Lava Pit"].image,
+    },
+  ],
+  "Antique Dress": [
+    {
+      shortDescription: translate("description.antiqueDress.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: ITEM_DETAILS.Grape.image,
+    },
+    {
+      shortDescription: translate("description.antiqueDress.boost.2"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Grape.image,
+    },
+  ],
+  Harpoon: [
+    {
+      shortDescription: translate("description.harpoon.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Rod.image,
+    },
+    {
+      shortDescription: translate("description.harpoon.boost.2"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Rod.image,
+    },
+  ],
   "Lava Swimwear": [
     {
       shortDescription: translate("bumpkinItemBuff.lava.swimwear.boost"),

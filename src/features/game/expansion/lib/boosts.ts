@@ -417,6 +417,20 @@ export const getFoodExpBoost = ({
     boostsUsed.push({ name: "Grain Grinder", value: "x1.2" });
   }
 
+  // Giant Truffle: x1.6 on Smoothie Shack and Deli foods, x1.3 on every other
+  // non-fish food. The two do not stack.
+  if (
+    !(food.name in FISH_CONSUMABLES) &&
+    isCollectibleBuilt({ name: "Giant Truffle", game })
+  ) {
+    const isShackOrDeli =
+      isCookable(food) &&
+      (food.building === "Smoothie Shack" || food.building === "Deli");
+    const multiplier = isShackOrDeli ? 1.6 : 1.3;
+    boostedExp = boostedExp.mul(multiplier);
+    boostsUsed.push({ name: "Giant Truffle", value: `x${multiplier}` });
+  }
+
   if (
     food.name in FISH_CONSUMABLES &&
     isCollectibleBuilt({ name: "Skill Shrimpy", game })

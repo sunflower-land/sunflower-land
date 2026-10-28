@@ -2703,3 +2703,30 @@ describe("Duende Hat", () => {
     ).toEqual(GREENHOUSE_CROP_TIME_SECONDS.Grape);
   });
 });
+
+describe("Antique Dress", () => {
+  const game: GameState = {
+    ...TEST_FARM,
+    bumpkin: {
+      ...INITIAL_BUMPKIN,
+      equipped: { ...INITIAL_BUMPKIN.equipped, dress: "Antique Dress" },
+    },
+  };
+
+  it("reduces Grape growth time by 30%", () => {
+    const { seconds, boostsUsed } = getGreenhouseCropTime({
+      crop: "Grape",
+      game,
+      now: Date.now(),
+    });
+
+    expect(seconds).toEqual(GREENHOUSE_CROP_TIME_SECONDS.Grape * 0.7);
+    expect(boostsUsed).toContainEqual({ name: "Antique Dress", value: "x0.7" });
+  });
+
+  it("does not reduce other greenhouse crops", () => {
+    expect(
+      getGreenhouseCropTime({ crop: "Rice", game, now: Date.now() }).seconds,
+    ).toEqual(GREENHOUSE_CROP_TIME_SECONDS.Rice);
+  });
+});

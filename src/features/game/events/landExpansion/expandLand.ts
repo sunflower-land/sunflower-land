@@ -14,6 +14,7 @@ import {
   type Requirements,
 } from "features/game/types/expansions";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { isWearableActive } from "features/game/lib/wearables";
 import { isMonumentActive } from "features/game/types/monuments";
 import { ISLAND_MAX_EXPANSION } from "features/game/expansion/lib/expansionRequirements";
 import { produce } from "immer";
@@ -216,6 +217,53 @@ export const expansionRequirements = ({
     boostsUsed.push({ name: "Duende Monument", value: "x0.9" });
   }
 
+  // -25% Crimstone, does not stack with Grinx's Hammer
+  if (
+    !hasGrinxHammer &&
+    resources.Crimstone !== undefined &&
+    isCollectibleBuilt({ name: "Brick House", game })
+  ) {
+    resources = {
+      ...resources,
+      Crimstone: new Decimal(resources.Crimstone).mul(0.75).toNumber(),
+    };
+    boostsUsed.push({ name: "Brick House", value: "x0.75" });
+  }
+
+  // -25% Oil, does not stack with Grinx's Hammer
+  if (
+    !hasGrinxHammer &&
+    resources.Oil !== undefined &&
+    isCollectibleBuilt({ name: "Stick House", game })
+  ) {
+    resources = {
+      ...resources,
+      Oil: new Decimal(resources.Oil).mul(0.75).toNumber(),
+    };
+    boostsUsed.push({ name: "Stick House", value: "x0.75" });
+  }
+
+  // -25% Obsidian, does not stack with Grinx's Hammer
+  if (
+    !hasGrinxHammer &&
+    resources.Obsidian !== undefined &&
+    isWearableActive({ name: "Hercules Beetle Hat", game })
+  ) {
+    resources = {
+      ...resources,
+      Obsidian: new Decimal(resources.Obsidian).mul(0.75).toNumber(),
+    };
+    boostsUsed.push({ name: "Hercules Beetle Hat", value: "x0.75" });
+  }
+
+  let coins = requirements.coins;
+
+  // -5% expansion coins
+  if (coins && isCollectibleBuilt({ name: "Brick House", game })) {
+    coins = new Decimal(coins).mul(0.95).toNumber();
+    boostsUsed.push({ name: "Brick House", value: "x0.95" });
+  }
+
   let seconds = requirements.seconds;
 
   // -20% expansion time once the monument's cheers are complete
@@ -227,6 +275,11 @@ export const expansionRequirements = ({
   if (hasDuendeMonument) {
     seconds *= 0.9;
     timeBoostsUsed.push({ name: "Duende Monument", value: "x0.9" });
+  }
+
+  if (isCollectibleBuilt({ name: "Stick House", game })) {
+    seconds *= 0.9;
+    timeBoostsUsed.push({ name: "Stick House", value: "x0.9" });
   }
 
   // Ascension Age chapter perk: -10% expansion time for VIP holders
@@ -241,7 +294,7 @@ export const expansionRequirements = ({
   boostsUsed.push(...timeBoostsUsed);
 
   return {
-    requirements: { ...requirements, resources, seconds },
+    requirements: { ...requirements, resources, coins, seconds },
     baseTimeSeconds: requirements.seconds,
     timeBoostsUsed,
     boostsUsed,
