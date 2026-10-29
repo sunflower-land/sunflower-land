@@ -15,6 +15,8 @@ import { hasIdleCaveMachine } from "features/game/lib/cave";
 import { saveIslandScrollPosition } from "features/game/expansion/lib/islandScroll";
 import type { GameState } from "features/game/types/game";
 
+import { useCaveMerchantOffers } from "features/cave/hooks/useCaveMerchantOffers";
+
 const _cave = (state: MachineState) => state.context.state.cave;
 
 const hasReadyCavePatch = (cave: GameState["cave"], now: number): boolean =>
@@ -25,9 +27,7 @@ const hasReadyCavePatch = (cave: GameState["cave"], now: number): boolean =>
   });
 
 /**
- * The Cave on the farm. Clicking it walks the player into `/cave`; the shared
- * ready indicator shows while a patch is ready to dig, or while a Myco Bin is
- * waiting for a mix - either way the player has something to do inside.
+ * The Cave on the farm. Clicking it walks the player into `/cave`;
  */
 export const CaveBuilding: React.FC<BuildingProps> = ({ isBuilt }) => {
   const { gameService } = useContext(Context);
@@ -37,6 +37,7 @@ export const CaveBuilding: React.FC<BuildingProps> = ({ isBuilt }) => {
 
   const now = useNow({ live: !!cave });
   const ready = hasReadyCavePatch(cave, now) || hasIdleCaveMachine(cave);
+  const { hasUnseenOffers } = useCaveMerchantOffers(cave, now);
 
   const handleClick = () => {
     if (isBuilt) {
@@ -49,7 +50,7 @@ export const CaveBuilding: React.FC<BuildingProps> = ({ isBuilt }) => {
     <BuildingImageWrapper
       name="Cave"
       onClick={handleClick}
-      ready={isBuilt && ready}
+      ready={isBuilt && (ready || hasUnseenOffers)}
     >
       <img
         src={SUNNYSIDE.building.cave}

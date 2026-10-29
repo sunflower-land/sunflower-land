@@ -55,6 +55,8 @@ import {
   getCaveTutorialStep,
   type CaveTutorialSeen,
 } from "./lib/onboarding";
+
+import { useCaveMerchantOffers } from "./hooks/useCaveMerchantOffers";
 import { PlayerModal } from "features/social/PlayerModal";
 import { hasFeatureAccess } from "lib/flags";
 import { Discovery } from "features/social/Discovery";
@@ -137,6 +139,7 @@ export const Cave: React.FC = () => {
   const loggedInFarmId = useSelector(gameService, _loggedInFarmId);
   const hasAirdropAccess = useSelector(gameService, _hasAirdropAccess);
   const now = useNow({ live: true });
+  const { hasUnseenOffers } = useCaveMerchantOffers(cave, now);
   const [selectedMachine, setSelectedMachine] = useState<string>();
   const [showExpansion, setShowExpansion] = useState(false);
   const [showMerchant, setShowMerchant] = useState(false);
@@ -282,6 +285,18 @@ export const Cave: React.FC = () => {
                     // long the text is.
                     style={{
                       top: `${PIXEL_SCALE * -6}px`,
+                      left: `${PIXEL_SCALE * 6}px`,
+                    }}
+                  />
+                )}
+                {hasUnseenOffers && (
+                  <img
+                    src={SUNNYSIDE.icons.expression_alerted}
+                    alt=""
+                    className={`absolute pointer-events-none z-30 ${showAnimations ? "ready" : ""}`}
+                    style={{
+                      width: `${PIXEL_SCALE * 4}px`,
+                      top: `${PIXEL_SCALE * -12}px`,
                       left: `${PIXEL_SCALE * 6}px`,
                     }}
                   />
