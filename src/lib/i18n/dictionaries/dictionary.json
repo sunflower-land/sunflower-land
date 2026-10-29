@@ -3058,6 +3058,7 @@
   "marketplace.claimBlockedByTransaction.message": "You have a withdrawal transaction waiting to be submitted. Please submit it before you can claim your marketplace sales.",
   "marketplace.cancelListing": "Cancel Listing",
   "marketplace.bulkCancel": "Cancel all",
+  "marketplace.claimAll": "Claim all ({{count}})",
   "marketplace.bulkCancel.label": "Cancel {{type}}",
   "marketplace.cancelListing.areYouSure": "Are you sure you want to cancel this listing?",
   "marketplace.bulkCancel.areYouSure": "Are you sure you want to cancel all {{type}}?",
