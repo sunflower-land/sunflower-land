@@ -91,15 +91,12 @@ function getCaveMudYield({
   const level = getSkillLevel(game.bumpkin.skills, "Muddy Bounty");
   if (!level) return { amount, boostsUsed: [] };
 
-  const bonus = SKILL_RANKS["Muddy Bounty"].ranks[level - 1];
+  const multiplier = new Decimal(SKILL_RANKS["Muddy Bounty"].ranks[level - 1])
+    .add(1)
+    .toNumber();
   return {
-    amount: new Decimal(bonus).add(1).mul(amount).toNumber(),
-    boostsUsed: [
-      {
-        name: "Muddy Bounty",
-        value: `+${new Decimal(bonus).mul(100).toNumber()}%`,
-      },
-    ],
+    amount: new Decimal(multiplier).mul(amount).toNumber(),
+    boostsUsed: [{ name: "Muddy Bounty", value: `x${multiplier}` }],
   };
 }
 

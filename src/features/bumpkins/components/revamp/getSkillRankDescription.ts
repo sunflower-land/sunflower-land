@@ -14,11 +14,15 @@ import { ITEM_DETAILS } from "features/game/types/images";
 // verbatim, so a lossy product renders literally. Decimal keeps it exact.
 const toPercent = (value: Numeric) => new Decimal(value).mul(100).toNumber();
 
-// Float-safe multiplier -> percentage delta: a debuff multiplier like 1.55 reads
-// as +55%. Raw JS (1.55 - 1) * 100 yields 55.00000000000001, so keep both the
-// subtraction and the scaling inside Decimal.
-const toPercentDelta = (multiplier: Numeric) =>
-  new Decimal(multiplier).minus(1).mul(100).toNumber();
+// Float-safe bonus fraction -> multiplier: a 0.075 bonus reads as x1.075, for
+// skills whose formula multiplies by (1 + rank).
+const toBonusMultiplier = (fraction: Numeric) =>
+  new Decimal(1).plus(fraction).toNumber();
+
+// Float-safe reduction fraction -> multiplier: a 0.55 reduction reads as x0.45
+// (raw JS 1 - 0.55 yields 0.44999999999999996), for (1 - rank) formulas.
+const toReductionMultiplier = (fraction: Numeric) =>
+  new Decimal(1).minus(fraction).toNumber();
 
 /**
  * Human-readable boost description for a specific rank of an upgradeable skill.
@@ -382,7 +386,7 @@ export const getSkillRankDescription = (
           value: SKILL_RANKS["Long Pickings"].buff[i],
         }),
         debuff: t("skill.longPickings.debuff.ranked", {
-          value: toPercentDelta(SKILL_RANKS["Long Pickings"].debuff[i]),
+          value: SKILL_RANKS["Long Pickings"].debuff[i],
         }),
       };
     case "Short Pickings":
@@ -391,7 +395,7 @@ export const getSkillRankDescription = (
           value: SKILL_RANKS["Short Pickings"].buff[i],
         }),
         debuff: t("skill.shortPickings.debuff.ranked", {
-          value: toPercentDelta(SKILL_RANKS["Short Pickings"].debuff[i]),
+          value: SKILL_RANKS["Short Pickings"].debuff[i],
         }),
       };
     case "Fisherman's 5 Fold":
@@ -445,55 +449,55 @@ export const getSkillRankDescription = (
     case "Fishy Feast":
       return {
         buff: t("skill.fishyFeast.ranked", {
-          value: toPercent(SKILL_RANKS["Fishy Feast"].ranks[i]),
+          value: toBonusMultiplier(SKILL_RANKS["Fishy Feast"].ranks[i]),
         }),
       };
     case "Fast Feasts":
       return {
         buff: t("skill.fastFeasts.ranked", {
-          value: toPercent(SKILL_RANKS["Fast Feasts"].ranks[i]),
+          value: toReductionMultiplier(SKILL_RANKS["Fast Feasts"].ranks[i]),
         }),
       };
     case "Frosted Cakes":
       return {
         buff: t("skill.frostedCakes.ranked", {
-          value: toPercent(SKILL_RANKS["Frosted Cakes"].ranks[i]),
+          value: toReductionMultiplier(SKILL_RANKS["Frosted Cakes"].ranks[i]),
         }),
       };
     case "Swift Sizzle":
       return {
         buff: t("skill.swiftSizzle.ranked", {
-          value: toPercent(SKILL_RANKS["Swift Sizzle"].ranks[i]),
+          value: toReductionMultiplier(SKILL_RANKS["Swift Sizzle"].ranks[i]),
         }),
       };
     case "Turbo Fry":
       return {
         buff: t("skill.turboFry.ranked", {
-          value: toPercent(SKILL_RANKS["Turbo Fry"].ranks[i]),
+          value: toReductionMultiplier(SKILL_RANKS["Turbo Fry"].ranks[i]),
         }),
       };
     case "Fry Frenzy":
       return {
         buff: t("skill.fryFrenzy.ranked", {
-          value: toPercent(SKILL_RANKS["Fry Frenzy"].ranks[i]),
+          value: toReductionMultiplier(SKILL_RANKS["Fry Frenzy"].ranks[i]),
         }),
       };
     case "Munching Mastery":
       return {
         buff: t("skill.munchingMastery.ranked", {
-          value: toPercent(SKILL_RANKS["Munching Mastery"].ranks[i]),
+          value: toBonusMultiplier(SKILL_RANKS["Munching Mastery"].ranks[i]),
         }),
       };
     case "Juicy Boost":
       return {
         buff: t("skill.juicyBoost.ranked", {
-          value: toPercent(SKILL_RANKS["Juicy Boost"].ranks[i]),
+          value: toBonusMultiplier(SKILL_RANKS["Juicy Boost"].ranks[i]),
         }),
       };
     case "Drive-Through Deli":
       return {
         buff: t("skill.driveThroughDeli.ranked", {
-          value: toPercent(SKILL_RANKS["Drive-Through Deli"].ranks[i]),
+          value: toBonusMultiplier(SKILL_RANKS["Drive-Through Deli"].ranks[i]),
         }),
       };
     case "Nom Nom":
@@ -557,7 +561,7 @@ export const getSkillRankDescription = (
     case "Buzzworthy Treats":
       return {
         buff: t("skill.buzzworthyTreats.ranked", {
-          value: toPercent(SKILL_RANKS["Buzzworthy Treats"].ranks[i]),
+          value: toBonusMultiplier(SKILL_RANKS["Buzzworthy Treats"].ranks[i]),
         }),
       };
     case "Blossom Bonding":
@@ -601,7 +605,7 @@ export const getSkillRankDescription = (
           value: SKILL_RANKS["Flowery Abode"].rate[i],
         }),
         debuff: t("skill.floweryAbode.debuff.ranked", {
-          value: toPercentDelta(SKILL_RANKS["Flowery Abode"].growth[i]),
+          value: SKILL_RANKS["Flowery Abode"].growth[i],
         }),
       };
     case "Petal Blessed":
@@ -784,7 +788,7 @@ export const getSkillRankDescription = (
           value: SKILL_RANKS["Greasy Plants"].yield[i],
         }),
         debuff: t("skill.greasyPlants.debuff.ranked", {
-          value: toPercentDelta(SKILL_RANKS["Greasy Plants"].oilMultiplier[i]),
+          value: SKILL_RANKS["Greasy Plants"].oilMultiplier[i],
         }),
       };
     case "Crop Processor Unit":
@@ -955,7 +959,7 @@ export const getSkillRankDescription = (
     case "Bountiful Bounties":
       return {
         buff: t("skill.bountifulBounties.ranked", {
-          value: toPercent(SKILL_RANKS["Bountiful Bounties"].ranks[i]),
+          value: toBonusMultiplier(SKILL_RANKS["Bountiful Bounties"].ranks[i]),
         }),
       };
     case "Double Bale":
@@ -982,7 +986,9 @@ export const getSkillRankDescription = (
     case "Heartwarming Instruments":
       return {
         buff: t("skill.heartwarmingInstruments.ranked", {
-          value: toPercent(SKILL_RANKS["Heartwarming Instruments"].ranks[i]),
+          value: toBonusMultiplier(
+            SKILL_RANKS["Heartwarming Instruments"].ranks[i],
+          ),
         }),
       };
     case "Kale Mix":
@@ -1022,7 +1028,7 @@ export const getSkillRankDescription = (
           value: SKILL_RANKS["Clucky Grazing"].buff[i],
         }),
         debuff: t("skill.cluckyGrazing.debuff.ranked", {
-          value: toPercentDelta(SKILL_RANKS["Clucky Grazing"].debuff[i]),
+          value: SKILL_RANKS["Clucky Grazing"].debuff[i],
         }),
       };
     case "Sheepwise Diet":
@@ -1031,7 +1037,7 @@ export const getSkillRankDescription = (
           value: SKILL_RANKS["Sheepwise Diet"].buff[i],
         }),
         debuff: t("skill.sheepwiseDiet.debuff.ranked", {
-          value: toPercentDelta(SKILL_RANKS["Sheepwise Diet"].debuff[i]),
+          value: SKILL_RANKS["Sheepwise Diet"].debuff[i],
         }),
       };
     case "Cow-Smart Nutrition":
@@ -1040,7 +1046,7 @@ export const getSkillRankDescription = (
           value: SKILL_RANKS["Cow-Smart Nutrition"].buff[i],
         }),
         debuff: t("skill.cowSmartNutrition.debuff.ranked", {
-          value: toPercentDelta(SKILL_RANKS["Cow-Smart Nutrition"].debuff[i]),
+          value: SKILL_RANKS["Cow-Smart Nutrition"].debuff[i],
         }),
       };
     case "Swill Savvy":
@@ -1049,19 +1055,19 @@ export const getSkillRankDescription = (
           value: SKILL_RANKS["Swill Savvy"].buff[i],
         }),
         debuff: t("skill.swillSavvy.debuff.ranked", {
-          value: toPercentDelta(SKILL_RANKS["Swill Savvy"].debuff[i]),
+          value: SKILL_RANKS["Swill Savvy"].debuff[i],
         }),
       };
     case "Truffle Yield":
       return {
         buff: t("skill.truffleYield.ranked", {
-          value: toPercent(SKILL_RANKS["Truffle Yield"].ranks[i]),
+          value: toBonusMultiplier(SKILL_RANKS["Truffle Yield"].ranks[i]),
         }),
       };
     case "Bristle Payout":
       return {
         buff: t("skill.bristlePayout.ranked", {
-          value: toPercent(SKILL_RANKS["Bristle Payout"].ranks[i]),
+          value: toBonusMultiplier(SKILL_RANKS["Bristle Payout"].ranks[i]),
         }),
       };
     case "Chonky Feed":
@@ -1070,7 +1076,7 @@ export const getSkillRankDescription = (
           value: SKILL_RANKS["Chonky Feed"].xp[i],
         }),
         debuff: t("skill.chonkyFeed.debuff.ranked", {
-          value: toPercentDelta(SKILL_RANKS["Chonky Feed"].feed[i]),
+          value: SKILL_RANKS["Chonky Feed"].feed[i],
         }),
       };
     case "Leathercraft Mastery":
@@ -1113,7 +1119,7 @@ export const getSkillRankDescription = (
     case "Muddy Bounty":
       return {
         buff: t("skill.muddyBounty.ranked", {
-          value: toPercent(SKILL_RANKS["Muddy Bounty"].ranks[i]),
+          value: toBonusMultiplier(SKILL_RANKS["Muddy Bounty"].ranks[i]),
         }),
       };
     case "Sturdy Shovel":
