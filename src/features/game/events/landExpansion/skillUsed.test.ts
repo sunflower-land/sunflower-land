@@ -1879,10 +1879,18 @@ describe("Ascension Staff", () => {
             ...state.bumpkin,
             previousPowerUseAt: { "Instant Growth": dateNow - 66 * HOUR },
           },
+          crops: {
+            1: {
+              crop: { id: "123", name: "Wheat", plantedAt: dateNow },
+              createdAt: dateNow,
+              x: 1,
+              y: 1,
+            },
+          },
         },
         action: { type: "skill.used", skill: "Instant Growth" },
         createdAt: dateNow,
       }),
-    ).not.toThrow("Power Skill on Cooldown");
+    ).not.toThrow();
   });
 });

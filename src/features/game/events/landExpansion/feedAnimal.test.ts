@@ -3243,4 +3243,31 @@ describe("Pig Onesie", () => {
 
     expect(state.boostsUsedAt?.["Pig Onesie"]).toEqual(now);
   });
+  it("records the Pig Onesie in boostsUsedAt when feeding for free", () => {
+    const state = feedAnimal({
+      state: withOnesie({
+        ...FARM_WITH_HERDS,
+        buildings: {
+          ...FARM_WITH_HERDS.buildings,
+          Barn: [
+            { coordinates: { x: 0, y: 0 }, createdAt: 0, id: "0", readyAt: 0 },
+          ],
+        },
+        collectibles: {
+          "Golden Cow": [
+            { id: "1", coordinates: { x: 0, y: 0 }, readyAt: 0, createdAt: 0 },
+          ],
+        },
+      }),
+      action: {
+        type: "animal.fed",
+        animal: "Cow",
+        id: Object.keys(FARM_WITH_HERDS.barn.animals)[0],
+      },
+      createdAt: now,
+    });
+
+    expect(state.boostsUsedAt?.["Golden Cow"]).toEqual(now);
+    expect(state.boostsUsedAt?.["Pig Onesie"]).toEqual(now);
+  });
 });

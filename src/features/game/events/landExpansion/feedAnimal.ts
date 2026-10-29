@@ -96,11 +96,13 @@ const handleFreeFeeding = ({
   animalType,
   level,
   copy,
+  createdAt,
 }: {
   animal: Animal;
   animalType: AnimalType;
   level: number;
   copy: GameState;
+  createdAt: number;
 }) => {
   const beforeFeedXp = animal.experience;
   const nextLevel = (level + 1) as AnimalLevel;
@@ -120,11 +122,18 @@ const handleFreeFeeding = ({
 
     const favouriteFood = getAnimalFavoriteFood(animalType, beforeFeedXp);
 
-    const { foodXp } = handleFoodXP({
+    const { foodXp, boostsUsed } = handleFoodXP({
       state: copy,
       animal: animalType,
       level: nextLevel,
       food: favouriteFood,
+    });
+
+    // A free feed still uses the feed-XP boosts (e.g. Pig Onesie).
+    copy.boostsUsedAt = updateBoostUsed({
+      game: copy,
+      boostNames: boostsUsed,
+      createdAt,
     });
 
     const noOfFeed = Math.ceil(xpDiff / foodXp);
@@ -352,6 +361,7 @@ export function feedAnimal({
         animalType: action.animal,
         level,
         copy,
+        createdAt,
       });
     }
 
@@ -367,6 +377,7 @@ export function feedAnimal({
         animalType: action.animal,
         level,
         copy,
+        createdAt,
       });
     }
 
@@ -382,6 +393,7 @@ export function feedAnimal({
         animalType: action.animal,
         level,
         copy,
+        createdAt,
       });
     }
 
