@@ -3,12 +3,14 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { useSelector } from "@xstate/react";
 import { Navigate, useNavigate } from "react-router";
 import ScrollContainer from "react-indiana-drag-scroll";
+import { animated } from "@react-spring/web";
 
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
+import { ZoomContext } from "components/ZoomProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasFeatureAccess } from "lib/flags";
 import { isCaveBuildingReady } from "features/game/lib/cave";
@@ -103,6 +105,7 @@ const Sprite: React.FC<{ src: string; style?: React.CSSProperties }> = ({
  */
 export const Cave: React.FC = () => {
   const { gameService } = useContext(Context);
+  const { scale } = useContext(ZoomContext);
   const navigate = useNavigate();
   const { t } = useAppTranslation();
 
@@ -176,12 +179,16 @@ export const Cave: React.FC = () => {
         className="!overflow-scroll relative w-full h-full page-scroll-container overscroll-none"
         ignoreElements={"*[data-prevent-drag-scroll]"}
       >
-        <div
+        <animated.div
           className="absolute bg-[#181425]"
           style={{
             width: `${84 * GRID_WIDTH_PX}px`,
             height: `${64 * GRID_WIDTH_PX}px`,
             imageRendering: "pixelated",
+            // Pinch-to-zoom, as on the farm and in the home Interior: the
+            // shared ZoomContext scale, from the centre so the room stays put.
+            transform: scale.to((s) => `scale(${s})`),
+            transformOrigin: "50% 50%",
           }}
         >
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -362,7 +369,7 @@ export const Cave: React.FC = () => {
               )}
             </div>
           </div>
-        </div>
+        </animated.div>
       </ScrollContainer>
 
       {showExpansion && (
