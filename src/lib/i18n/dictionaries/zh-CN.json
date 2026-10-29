@@ -8941,5 +8941,6 @@
   "cave.feedback.shovelSaved": "铲子得救了！",
   "cave.feedback.drillSaved": "钻孔已保存！",
   "cave.feedback.bonusBeetle": "+ {{amount}} 奖励甲虫！",
-  "cave.feedback.bonusBeetles": "+ {{amount}} 奖励甲虫！"
+  "cave.feedback.bonusBeetles": "+ {{amount}} 奖励甲虫！",
+  "description.fishTrap.boost": "-20% 鱼类老化时间"
 }

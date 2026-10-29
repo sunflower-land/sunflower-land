@@ -8941,5 +8941,6 @@
   "cave.feedback.shovelSaved": "Shovel a été sauvée !",
   "cave.feedback.drillSaved": "Drill a été sauvé !",
   "cave.feedback.bonusBeetle": "+ {{amount}} scarabée en bonus !",
-  "cave.feedback.bonusBeetles": "+ {{amount}} des scarabées en prime !"
+  "cave.feedback.bonusBeetles": "+ {{amount}} des scarabées en prime !",
+  "description.fishTrap.boost": "-20 % Temps de vieillissement du poisson"
 }

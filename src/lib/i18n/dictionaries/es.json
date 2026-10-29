@@ -8941,5 +8941,6 @@
   "cave.feedback.shovelSaved": "¡Pala salvada!",
   "cave.feedback.drillSaved": "¡Taladro salvado!",
   "cave.feedback.bonusBeetle": "+ {{amount}} escarabajo extra!",
-  "cave.feedback.bonusBeetles": "+ {{amount}} escarabajos adicionales!"
+  "cave.feedback.bonusBeetles": "+ {{amount}} escarabajos adicionales!",
+  "description.fishTrap.boost": "-20% de tiempo de envejecimiento del pescado"
 }

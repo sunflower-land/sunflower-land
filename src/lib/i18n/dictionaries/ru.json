@@ -8941,5 +8941,6 @@
   "cave.feedback.shovelSaved": "Shovel saved!",
   "cave.feedback.drillSaved": "Drill saved!",
   "cave.feedback.bonusBeetle": "+{{amount}} bonus beetle!",
-  "cave.feedback.bonusBeetles": "+{{amount}} bonus beetles!"
+  "cave.feedback.bonusBeetles": "+{{amount}} bonus beetles!",
+  "description.fishTrap.boost": "-20% Fish Aging Time"
 }

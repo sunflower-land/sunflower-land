@@ -8941,5 +8941,6 @@
   "cave.feedback.shovelSaved": "Sekop diselamatkan!",
   "cave.feedback.drillSaved": "Bor diselamatkan!",
   "cave.feedback.bonusBeetle": "+ {{amount}} kumbang bonus!",
-  "cave.feedback.bonusBeetles": "+ {{amount}} kumbang bonus!"
+  "cave.feedback.bonusBeetles": "+ {{amount}} kumbang bonus!",
+  "description.fishTrap.boost": "-20% Waktu Penuaan Ikan"
 }

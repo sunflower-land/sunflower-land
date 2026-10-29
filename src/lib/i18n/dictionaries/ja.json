@@ -8941,5 +8941,6 @@
   "cave.feedback.shovelSaved": "シャベルが保存されました！",
   "cave.feedback.drillSaved": "ドリルが保存されました！",
   "cave.feedback.bonusBeetle": "+ {{amount}} ボーナス・ビートル！",
-  "cave.feedback.bonusBeetles": "+ {{amount}} ボーナス・ビートル！"
+  "cave.feedback.bonusBeetles": "+ {{amount}} ボーナス・ビートル！",
+  "description.fishTrap.boost": "-20% の魚の熟成時間"
 }

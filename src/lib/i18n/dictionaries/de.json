@@ -8941,5 +8941,6 @@
   "cave.feedback.shovelSaved": "Schaufel gerettet!",
   "cave.feedback.drillSaved": "Bohrmaschine gerettet!",
   "cave.feedback.bonusBeetle": "+ {{amount}} Bonuskäfer!",
-  "cave.feedback.bonusBeetles": "+ {{amount}} Bonuskäfer!"
+  "cave.feedback.bonusBeetles": "+ {{amount}} Bonuskäfer!",
+  "description.fishTrap.boost": "-20% Reifezeit der Fische"
 }

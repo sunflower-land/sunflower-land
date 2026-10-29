@@ -8941,5 +8941,6 @@
   "cave.feedback.shovelSaved": "Kürek kurtarıldı!",
   "cave.feedback.drillSaved": "Matkap kurtarıldı!",
   "cave.feedback.bonusBeetle": "+ {{amount}} bonus böceği!",
-  "cave.feedback.bonusBeetles": "+ {{amount}} bonus böcekler!"
+  "cave.feedback.bonusBeetles": "+ {{amount}} bonus böcekler!",
+  "description.fishTrap.boost": "-20% Balık Yaşlanma Süresi"
 }

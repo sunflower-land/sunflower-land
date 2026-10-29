@@ -8941,5 +8941,6 @@
   "cave.feedback.shovelSaved": "A pá foi salva!",
   "cave.feedback.drillSaved": "A broca foi salva!",
   "cave.feedback.bonusBeetle": "+ {{amount}} besouro bônus!",
-  "cave.feedback.bonusBeetles": "+ {{amount}} besouros bônus!"
+  "cave.feedback.bonusBeetles": "+ {{amount}} besouros bônus!",
+  "description.fishTrap.boost": "-20% de tempo de envelhecimento dos peixes"
 }

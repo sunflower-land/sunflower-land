@@ -8941,5 +8941,6 @@
   "cave.feedback.shovelSaved": "La pala è stata salvata!",
   "cave.feedback.drillSaved": "Drill salvato!",
   "cave.feedback.bonusBeetle": "+ {{amount}} scarabeo bonus!",
-  "cave.feedback.bonusBeetles": "+ {{amount}} bonus coleotteri!"
+  "cave.feedback.bonusBeetles": "+ {{amount}} bonus coleotteri!",
+  "description.fishTrap.boost": "-20% Tempo di invecchiamento del pesce"
 }
