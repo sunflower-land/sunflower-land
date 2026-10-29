@@ -3166,6 +3166,8 @@
   "noaccount.nftFarmsFound": "This wallet already owns a farm NFT. Select the farm you want to play:",
   "noaccount.createNewFarm": "Create new farm",
   "noaccount.selectNFTID": "Select your NFT ID:",
+  "noaccount.farmAccount": "Farm #{{farmId}} - {{username}}",
+  "noaccount.farmId": "Farm #{{farmId}}",
   "noaccount.welcomeMessage": "Welcome to Sunflower Land. Do you want to create a farm?",
   "noaccount.referralCodeLabel": "Referral Code: {{referralId}}",
   "noaccount.referralCodeNotFound": "Referral code not found",

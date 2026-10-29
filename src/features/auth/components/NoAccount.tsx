@@ -26,6 +26,10 @@ import debounce from "lodash.debounce";
 import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { SignupBumpkinEquip } from "features/bumpkins/components/SignupBumpkinEquip";
 import type { CreateFarmEvent } from "../lib/authMachine";
+import {
+  getNftFarmAccount,
+  type NftFarmAccount,
+} from "../actions/getNftFarmAccount";
 
 type ValidationState = "notFound" | "checking" | "valid" | "error";
 
@@ -292,6 +296,8 @@ export const ClaimAccount: React.FC<{
 
   const [isLoading, setIsLoading] = useState(false);
   const [loadedTokenIds, setLoadedTokenIds] = useState<number[]>([]);
+  // Farm id + username behind each NFT, so players recognise their account
+  const [accounts, setAccounts] = useState<Record<number, NftFarmAccount>>({});
   const { t } = useAppTranslation();
 
   const tokenIds = preloadedTokenIds ?? loadedTokenIds;
@@ -316,6 +322,45 @@ export const ClaimAccount: React.FC<{
     load();
   }, []);
 
+  useEffect(() => {
+    if (tokenIds.length === 0) return;
+
+    let cancelled = false;
+
+    Promise.all(
+      tokenIds.map(async (id) => ({
+        id,
+        account: await getNftFarmAccount(id),
+      })),
+    ).then((results) => {
+      if (cancelled) return;
+
+      const found: Record<number, NftFarmAccount> = {};
+      results.forEach(({ id, account }) => {
+        if (account) found[id] = account;
+      });
+
+      setAccounts(found);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [tokenIds]);
+
+  const accountLabel = (id: number) => {
+    const account = accounts[id];
+
+    if (!account) return `ID: #${id}`;
+
+    return account.username
+      ? t("noaccount.farmAccount", {
+          farmId: account.farmId,
+          username: account.username,
+        })
+      : t("noaccount.farmId", { farmId: account.farmId });
+  };
+
   if (isLoading) return <Loading />;
 
   if (tokenIds.length === 0) {
@@ -339,7 +384,7 @@ export const ClaimAccount: React.FC<{
             key={id}
             onClick={() => onClaim(id)}
           >
-            <Label type="formula">{`ID: #${id}`}</Label>
+            <Label type="formula">{accountLabel(id)}</Label>
           </OuterPanel>
         ))}
       </div>
