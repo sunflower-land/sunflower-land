@@ -11,15 +11,10 @@ import {
   meetsLevelRequirement,
 } from "features/game/lib/level";
 import { useVisiting } from "lib/utils/visitUtils";
-import { Context as AuthContext } from "features/auth/lib/Provider";
 import {
   playerModalManager,
   type PlayerModalPlayer,
 } from "features/social/lib/playerModalManager";
-import { hasFeatureAccess } from "lib/flags";
-import { PlayerModal } from "features/social/PlayerModal";
-import type { AuthMachineState } from "features/auth/lib/authMachine";
-import { Discovery } from "features/social/Discovery";
 import { Modal } from "components/ui/Modal";
 import { BumpkinModal } from "features/bumpkins/components/BumpkinModal";
 import type { Bumpkin } from "features/game/types/game";
@@ -37,7 +32,6 @@ const _showHelper = (state: MachineState) =>
     { ascension: 0, level: 4 },
   ) &&
     state.context.state.inventory["Pumpkin Soup"]?.gte(1));
-const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
 const _isLandscaping = (state: MachineState) => state.matches("landscaping");
 const _gameState = (state: MachineState) => state.context.state;
 
@@ -47,20 +41,12 @@ export const PlayerNPC: React.FC<NPCProps> = ({
 }) => {
   const [open, setOpen] = useState(false);
   const { gameService } = useContext(Context);
-  const { authService } = useContext(AuthContext);
 
   const showHelper = useSelector(gameService, _showHelper);
-  const token = useSelector(authService, _token);
   const isLandscaping = useSelector(gameService, _isLandscaping);
   const gameState = useSelector(gameService, _gameState);
   const { isVisiting } = useVisiting();
   const context = gameService.getSnapshot().context;
-  const loggedInFarmId = context.visitorId ?? context.farmId;
-
-  const hasAirdropAccess = hasFeatureAccess(
-    context.visitorState ?? context.state,
-    "AIRDROP_PLAYER",
-  );
 
   const handleClick = () => {
     if (isLandscaping) return;
@@ -113,12 +99,6 @@ export const PlayerNPC: React.FC<NPCProps> = ({
           gameState={gameState}
         />
       </Modal>
-      <PlayerModal
-        loggedInFarmId={loggedInFarmId}
-        token={token}
-        hasAirdropAccess={hasAirdropAccess}
-      />
-      <Discovery />
     </>
   );
 };

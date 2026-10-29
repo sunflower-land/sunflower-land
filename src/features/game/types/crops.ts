@@ -34,7 +34,8 @@ export type CropName =
   | "Onion"
   | "Turnip"
   | "Artichoke"
-  | "Saltwort";
+  | "Saltwort"
+  | "Crystal Leaf";
 
 export type Crop = {
   sellPrice: number;
@@ -237,12 +238,18 @@ export const CROPS: Record<CropName, Crop> = {
     name: "Barley",
     description: translate("description.barley"),
   },
-  // Chapter Crop Week (limited-time event crop)
+  // Chapter Crop Week (limited-time event crops)
   Saltwort: {
     sellPrice: 50,
     harvestSeconds: 12 * 60 * 60,
     name: "Saltwort",
     description: translate("description.saltwort"),
+  },
+  "Crystal Leaf": {
+    sellPrice: 50,
+    harvestSeconds: 24 * 60 * 60,
+    name: "Crystal Leaf",
+    description: translate("description.crystalLeaf"),
   },
 };
 
@@ -436,7 +443,7 @@ export const CROP_SEEDS: Record<CropSeedName, Seed> = {
     plantingSpot: "Crop Plot",
     yield: "Barley",
   },
-  // Chapter Crop Week (limited-time event seed)
+  // Chapter Crop Week (limited-time event seeds)
   "Saltwort Seed": {
     price: 10,
     description: translate("description.saltwort"),
@@ -444,6 +451,14 @@ export const CROP_SEEDS: Record<CropSeedName, Seed> = {
     bumpkinLevel: { ascension: 0, level: 1 },
     plantingSpot: "Crop Plot",
     yield: "Saltwort",
+  },
+  "Crystal Leaf Seed": {
+    price: 10,
+    description: translate("description.crystalLeaf"),
+    plantSeconds: 24 * 60 * 60,
+    bumpkinLevel: { ascension: 0, level: 1 },
+    plantingSpot: "Crop Plot",
+    yield: "Crystal Leaf",
   },
 };
 

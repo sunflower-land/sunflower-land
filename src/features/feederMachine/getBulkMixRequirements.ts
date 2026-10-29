@@ -23,6 +23,7 @@ import type {
   AnimalFoodName,
   AnimalMedicineName,
   GameState,
+  InventoryItemName,
 } from "features/game/types/game";
 import type { CollectibleName } from "features/game/types/craftables";
 import {
@@ -33,6 +34,11 @@ import {
   type AnimalType,
   type FeedType,
 } from "features/game/types/animals";
+import {
+  isPigFeed,
+  PIG_FEEDS,
+  type PigFeedName,
+} from "features/game/types/pigFeeds";
 import { getKeys } from "lib/object";
 import { getIngredients } from "./feedMixed";
 
@@ -46,6 +52,8 @@ type FeedRequest = { item: FeedRequestName; quantity: Decimal };
  */
 export type BulkMixFeed = {
   item: FeedRequestName;
+  /** The input a Pig Slop is mixed from; undefined for other feeds. */
+  ingredient?: InventoryItemName;
   type: FeedType;
   requested: Decimal;
   inInventory: Decimal;
@@ -53,6 +61,26 @@ export type BulkMixFeed = {
   ingredients: GameState["inventory"];
   coins: number;
 };
+
+/**
+ * A Slop's inputs, best first: the one with the most left over after mixing,
+ * counted in Slops' worth (held / quantity per Slop), leads. Every input loses
+ * the same number of Slops to a mix, so this is also the input that can make
+ * the most Slops. Ties (including holding none) keep the table order.
+ */
+export function getPigFeedIngredientOptions(
+  feed: PigFeedName,
+  inventory: GameState["inventory"],
+): InventoryItemName[] {
+  const { ingredients } = PIG_FEEDS[feed];
+  const mixes = (item: InventoryItemName) =>
+    (inventory[item] ?? new Decimal(0)).div(ingredients[item] ?? 1).toNumber();
+
+  return getKeys(ingredients)
+    .map((item, index) => ({ item, index, mixes: mixes(item) }))
+    .sort((a, b) => b.mixes - a.mixes || a.index - b.index)
+    .map(({ item }) => item);
+}
 
 const MAX_FEED_STEPS_TO_READY = 100;
 const MIX_AMOUNT_EPSILON = new Decimal("0.000000000001");
@@ -152,8 +180,6 @@ const getFeedRequestsUntilReady = ({
 }): FeedRequest[] => {
   const requests: FeedRequest[] = [];
   let experience = animal.experience;
-  // Mud boosts one feed per use, so the plan spends it the way feedAnimal does.
-  let mudFeeds = animal.mud?.feedsRemaining ?? 0;
 
   for (let step = 0; step < MAX_FEED_STEPS_TO_READY; step += 1) {
     const level = getAnimalLevel(experience, animal.type);
@@ -163,7 +189,9 @@ const getFeedRequestsUntilReady = ({
       animal: animal.type,
       level,
       food: favouriteFood,
-      mud: { feedsRemaining: mudFeeds },
+      // Feeding never spends a Mud charge (claiming does), so a muddy animal
+      // keeps the bonus for the whole plan.
+      mud: animal.mud,
     });
 
     if (foodXp <= 0) {
@@ -195,7 +223,6 @@ const getFeedRequestsUntilReady = ({
     }
 
     experience += foodXp;
-    mudFeeds = Math.max(mudFeeds - 1, 0);
   }
 
   return requests;
@@ -286,6 +313,8 @@ export function getBulkMixRequirements(
   game: GameState,
   building: AnimalBuildingType,
   now: number,
+  /** The input the player picked for each Slop; unset means the best option. */
+  pigFeedInputs: Partial<Record<PigFeedName, InventoryItemName>> = {},
 ) {
   const buildingKey = makeAnimalBuildingKey(building);
   const animals = Object.values(game[buildingKey].animals);
@@ -333,6 +362,10 @@ export function getBulkMixRequirements(
 
     const feedIngredients: GameState["inventory"] = {};
     let feedCoins = 0;
+    const ingredient = isPigFeed(item)
+      ? (pigFeedInputs[item] ??
+        getPigFeedIngredientOptions(item, game.inventory)[0])
+      : undefined;
 
     if (missing.gt(0)) {
       missingRequests[item] = missing;
@@ -340,6 +373,7 @@ export function getBulkMixRequirements(
       const { ingredients: mixIngredients } = getIngredients({
         state: game,
         name: item,
+        ingredient,
       });
 
       const feed = ANIMAL_FOODS[item];
@@ -358,6 +392,7 @@ export function getBulkMixRequirements(
 
     feeds.push({
       item,
+      ingredient,
       type: ANIMAL_FOODS[item].type,
       requested,
       inInventory,

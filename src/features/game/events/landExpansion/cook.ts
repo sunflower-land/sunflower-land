@@ -4,6 +4,7 @@ import {
   type CookableName,
   COOKABLES,
   isInstantFishRecipe,
+  isTruffleRecipe,
 } from "features/game/types/consumables";
 import type {
   BuildingProduct,
@@ -35,7 +36,8 @@ import {
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import {
   CHAPTER_CROP_WEEK_RECIPE,
-  isChapterCropWeekActive,
+  hasChapterCropWeekAccess,
+  isRetiredChapterCropWeekItem,
 } from "features/game/types/chapterCropWeek";
 
 export type RecipeCookedAction = {
@@ -105,7 +107,7 @@ export function getCookingOilBoost(
   const itemOilConsumption = getOilConsumption(buildingName, item);
   const oilRemaining = building?.oil || 0;
 
-  // Saltbite (the CHAPTER_CROP_WEEK event recipe) ignores upgraded Cooking-skill
+  // Crystal Cookie (the CHAPTER_CROP_WEEK event recipe) ignores upgraded Cooking-skill
   // ranks (base skill still applies), so its oil boost caps at rank 1.
   const oilSkills =
     item === CHAPTER_CROP_WEEK_RECIPE
@@ -231,7 +233,7 @@ export function getCookingRequirements({
   let { ingredients } = COOKABLES[item];
   const { bumpkin } = state;
 
-  // Saltbite (the CHAPTER_CROP_WEEK event recipe) ignores upgraded Double Nom
+  // Crystal Cookie (the CHAPTER_CROP_WEEK event recipe) ignores upgraded Double Nom
   // ranks — the ingredient cost (and the +food payout, snapshotted at cook time)
   // both fall back to rank 1. `doubleNomLevel`, when passed (cancel/refund), keeps
   // honoring the rank actually paid on the recipe.
@@ -269,12 +271,23 @@ export function cook({
   return produce(state, (stateCopy) => {
     const { item, buildingId } = action;
 
+    // Recipes from previous Chapter Crop Week runs can never be cooked again
+    if (isRetiredChapterCropWeekItem(item)) {
+      throw new Error("This recipe is no longer available");
+    }
+
     // Chapter Crop Week event recipe is only cookable while the event is active
+    // (admin testers get early access)
     if (
       item === CHAPTER_CROP_WEEK_RECIPE &&
-      !isChapterCropWeekActive(createdAt)
+      !hasChapterCropWeekAccess(state, createdAt)
     ) {
       throw new Error("Chapter Crop Week is not active");
+    }
+
+    // Truffle recipes ride on the Pigs' flag: Truffle only exists behind it
+    if (isTruffleRecipe(item) && !hasFeatureAccess(state, "PIGPEN")) {
+      throw new Error("Truffle recipes are not available yet");
     }
 
     const { building: requiredBuilding } = COOKABLES[item];
@@ -297,7 +310,7 @@ export function cook({
       throw new Error("You do not have a Bumpkin!");
     }
 
-    // Saltbite (the CHAPTER_CROP_WEEK event recipe) ignores upgraded Double Nom
+    // Crystal Cookie (the CHAPTER_CROP_WEEK event recipe) ignores upgraded Double Nom
     // ranks — snapshot rank 1 on the recipe so cancel/collect stay consistent with
     // the (rank-1) ingredient cost charged above.
     const cookSkills =

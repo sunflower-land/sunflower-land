@@ -290,7 +290,8 @@ export type MutantChicken =
   | "Sleepy Chicken"
   | "Squid Chicken"
   | "Flamingo Chicken"
-  | "Ascended Chicken";
+  | "Ascended Chicken"
+  | "Mushroom Chicken";
 
 export type MutantCow =
   | "Mootant"
@@ -300,7 +301,8 @@ export type MutantCow =
   | "Astronaut Cow"
   | "Mermaid Cow"
   | "Spa Cow"
-  | "Ascended Cow";
+  | "Ascended Cow"
+  | "Ladybug Cow";
 
 export type MutantSheep =
   | "Toxic Tuft"
@@ -310,7 +312,8 @@ export type MutantSheep =
   | "Astronaut Sheep"
   | "Mermaid Sheep"
   | "Spa Sheep"
-  | "Ascended Sheep";
+  | "Ascended Sheep"
+  | "Beetle Sheep";
 
 export type MutantAnimal = MutantChicken | MutantCow | MutantSheep;
 
@@ -352,6 +355,8 @@ export type Coupons =
   | "April Fools Ticket 2026"
   | "Colors Token 2026"
   | "Colors Ticket 2026"
+  | "Halloween Token 2026"
+  | "Halloween Ticket 2026"
   | "Cheer"
   | "CluckCoin"
   | Keys
@@ -531,11 +536,21 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Ascension Age Raffle Ticket": {
     description: translate("description.ascensionAgeRaffleTicket"),
   },
+  "Duende Cap": { description: translate("description.duendeCap") },
+  "Cave Dwellers Raffle Ticket": {
+    description: translate("description.caveDwellersRaffleTicket"),
+  },
   "Colors Token 2026": {
     description: translate("description.colorsToken2026"),
   },
   "Colors Ticket 2026": {
     description: translate("description.colorsTicket2026"),
+  },
+  "Halloween Token 2026": {
+    description: translate("description.halloweenToken2025"),
+  },
+  "Halloween Ticket 2026": {
+    description: translate("description.halloweenTicket2025"),
   },
 };
 
@@ -1385,12 +1400,20 @@ export type LanternName =
   | "Betty Lantern"
   | "Bumpkin Lantern";
 
+/** The four tier feeds only Pigs eat (types/pigFeeds.ts). */
+export type PigFeedName =
+  | "Basic Slop"
+  | "Hearty Slop"
+  | "Rich Slop"
+  | "Gourmet Slop";
+
 export type AnimalFoodName =
   | "Hay"
   | "Kernel Blend"
   | "NutriBarley"
   | "Mixed Grain"
-  | "Omnifeed";
+  | "Omnifeed"
+  | PigFeedName;
 
 export type AnimalMedicineName = "Barn Delight";
 
@@ -1407,7 +1430,8 @@ export type BedName =
   | "Double Bed"
   | "Messy Bed"
   | "Salt Crystal Bed"
-  | "Cloud Bed";
+  | "Cloud Bed"
+  | "Miner's Bed";
 
 export type RecipeCraftableName =
   | "Cushion"
@@ -1605,6 +1629,11 @@ export type CommunityIsland = {
   };
 };
 
+export type MinigamePrizeTier = {
+  score: number;
+  items: Partial<Record<InventoryItemName, number>>;
+};
+
 export type MinigamePrize = {
   startAt: number;
   endAt: number;
@@ -1612,12 +1641,20 @@ export type MinigamePrize = {
   coins: number;
   items: Partial<Record<InventoryItemName, number>>;
   wearables: Wardrobe;
+  /**
+   * Ascending by score. When set, a claim pays the highest tier the latest
+   * run (`MinigameHistory.lastScore`) reached instead of `items`; `score` and
+   * `items` mirror the lowest tier.
+   */
+  tiers?: MinigamePrizeTier[];
 };
 
 export type MinigameHistory = {
   highscore: number;
   attempts: number;
   prizeClaimedAt?: number;
+  /** The latest run's score - only recorded while today's prize has tiers */
+  lastScore?: number;
 };
 
 export type Minigame = {
@@ -1887,11 +1924,11 @@ export type Interior = {
   expansion?: HomeExpansionTier;
 };
 
-/** The three Myco-Composter recipes; see `CAVE_RECIPES` for their composition. */
+/** The three Myco Bin recipes; see `CAVE_RECIPES` for their composition. */
 export type CaveRecipeName = "Mushroom" | "Beetle" | "Mud";
 
 /**
- * A running (or finished) Myco-Composter batch. The 25-tile board is derived
+ * A running (or finished) Myco Bin batch. The 25-tile board is derived
  * from `seed`, and every tile count is fixed by the recipe (see `CAVE_RECIPES`).
  * `readyAt = startedAt + 12h`.
  */
@@ -1908,12 +1945,28 @@ export type CaveBatch = {
   seed?: string;
   /** Dug tiles keyed "x,y"; what each held is derived from the seed. */
   dug?: Record<string, CaveDugTile>;
+  /** The board-shaping Cave skills this batch started with. */
+  skills?: CaveBatchSkills;
+};
+
+/**
+ * Cave skills that shape a batch's board, snapshotted when the batch starts so
+ * a board never changes once it is seeded (a later rank-up cannot move tiles
+ * that were already dug). Absent when none applied.
+ */
+export type CaveBatchSkills = {
+  /** Mushroom Bloom: Mushroom tiles added in place of Mud. */
+  extraMushroomTiles?: number;
+  /** Beetle Nest: Beetle tiles added in place of Mud. */
+  extraBeetleTiles?: number;
+  /** Rare Breeds: Beetle rarity weights (percent) replacing the base table. */
+  beetleRarity?: Record<BeetleName, number>;
 };
 
 export type CaveDugTile = { dugAt: number };
 
 /**
- * A Myco-Composter machine inside the Cave. One is created with each tier; it
+ * A Myco Bin machine inside the Cave. One is created with each tier; it
  * sits directly above its own 5x5 digging patch. `batch` is present while a
  * batch is growing, ready or being dug, until the next batch replaces it.
  */
@@ -1928,20 +1981,41 @@ export type CaveConstruction = {
   readyAt: number;
 };
 
-/** The Goblin Cave Merchant's offers; see `CAVE_MERCHANT_OFFERS`. */
-export type CaveMerchantOfferId =
-  | "sand-drills"
-  | "truffles"
-  | "leather"
-  | "crimstone"
-  | "obsidian";
-
 /**
- * What the player has bought from the Goblin Cave Merchant, keyed by limit
- * period (the week key for now). Only the current period is kept.
+ * What the player has bought from the Goblin Cave Merchant: claims per offer
+ * slot, keyed by the visit index (`cave.merchantVisit.index`). Only the current
+ * visit is kept.
  */
 export type CaveMerchant = {
-  purchases: Record<string, Partial<Record<CaveMerchantOfferId, number>>>;
+  purchases: Record<string, Partial<Record<number, number>>>;
+};
+
+/** One trade the Goblin Cave Merchant offers this visit. */
+export type CaveMerchantOffer = {
+  /** 1-based; Cave tier N unlocks slots 1..N. */
+  slot: number;
+  cost: { item: InventoryItemName; amount: number };
+  reward: { item: InventoryItemName; amount: number };
+  /** Claims per player per visit. */
+  limit: number;
+  curiosity: boolean;
+};
+
+/**
+ * The Merchant's visit open (or last opened) when the farm was loaded, and
+ * its stock. Built by the API on every load and never saved, like Love
+ * Island's shop: how the stock is priced and rolled stays on the server.
+ */
+export type CaveMerchantVisitState = {
+  /** Visit 0 opens at launch; pre-launch restocks count down from -1. */
+  index: number;
+  opensAt: number;
+  closesAt: number;
+  nextOpensAt: number;
+  /** A long enough wait that this visit's deals are badged generous. */
+  generous: boolean;
+  /** All eight slots while he is in town, none while he is away. */
+  offers: CaveMerchantOffer[];
 };
 
 /**
@@ -1956,6 +2030,8 @@ export type Cave = {
   machines: Record<string, CaveMachine>;
   construction?: CaveConstruction;
   merchant?: CaveMerchant;
+  /** Computed by the API on load, never saved (see `CaveMerchantVisitState`). */
+  merchantVisit?: CaveMerchantVisitState;
 };
 
 export type PlantedFlower = {
@@ -2117,7 +2193,10 @@ export type AnimalResource =
   | "Truffle";
 export type AnimalState = "idle" | "happy" | "sad" | "ready" | "sick";
 
-export type AnimalFeedBuffName = "Salt Lick" | "Honey Treat";
+export type AnimalFeedBuffName =
+  | "Salt Lick"
+  | "Honey Treat"
+  | "Truffle Seasoning";
 
 export type AnimalFeedBuff = {
   name: AnimalFeedBuffName;
@@ -2125,11 +2204,12 @@ export type AnimalFeedBuff = {
 };
 
 /**
- * A Pig's Mud: 1 Mud grants a few feeds of bonus XP. A separate slot from
- * `feedBuff`, so a spice-rack treat can run on top of it.
+ * A Pig's Mud: bonus feed XP and no sickness until its charges run out. Charges
+ * work exactly like a spice-rack treat's - one is spent per produce claim - but
+ * in a separate slot from `feedBuff`, so a treat can run on top of it.
  */
 export type AnimalMud = {
-  feedsRemaining: number;
+  harvestsRemaining: number;
 };
 
 export type Animal = {

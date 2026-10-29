@@ -105,20 +105,13 @@ export const hasFoodInInventory = (
   return adjustedCount.greaterThan(0);
 };
 
-export const isFoodAlreadyFed = (
-  pet: Pet | PetNFT,
-  food: CookableName,
-  now: number,
-) => {
-  const today = new Date(now).toISOString().split("T")[0];
-  const lastFedDate = pet.requests.fedAt
-    ? new Date(pet.requests.fedAt).toISOString().split("T")[0]
-    : null;
-
-  if (lastFedDate !== today) return false;
-
-  return pet.requests.foodFed?.includes(food) || false;
-};
+// `foodFed` is cleared whenever the day's requests are regenerated, so it is
+// the record of what the pet has eaten today and the only check the feed
+// event itself applies. `fedAt` holds the client's event timestamp, which can
+// fall on the previous UTC day for a feed saved just after the rollover, so a
+// date check on it would offer food the game then refuses as already fed.
+export const isFoodAlreadyFed = (pet: Pet | PetNFT, food: CookableName) =>
+  pet.requests.foodFed?.includes(food) || false;
 
 export const PetCard: React.FC<Props> = ({
   petData,
@@ -233,7 +226,7 @@ export const PetCard: React.FC<Props> = ({
                 requiredFeedAmount,
               );
 
-            const alreadyFed = isFoodAlreadyFed(petData, food, now);
+            const alreadyFed = isFoodAlreadyFed(petData, food);
 
             const isSelected =
               isBulkFeed &&

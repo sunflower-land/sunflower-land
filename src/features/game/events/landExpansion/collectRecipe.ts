@@ -73,7 +73,7 @@ export const getCookingAmount = ({
   }
 
   // Fiery Jackpot - 20%/25%/30% chance of +1 food from Fire Pit (scales w/ rank).
-  // Saltbite (the CHAPTER_CROP_WEEK event recipe) ignores upgraded ranks — the
+  // Crystal Cookie (the CHAPTER_CROP_WEEK event recipe) ignores upgraded ranks — the
   // live read caps at rank 1 (Double Nom above reads the recipe snapshot instead,
   // so it already reflects the rank paid at cook time).
   const fieryJackpotSkills =

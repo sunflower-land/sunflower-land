@@ -3,6 +3,7 @@ import { produce } from "immer";
 import type { GameState } from "features/game/types/game";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { hasFeatureAccess } from "lib/flags";
+import { isCaveBuildingReady } from "features/game/lib/cave";
 import { getKeys } from "lib/object";
 import { CAVE_TIERS, getNextCaveTier } from "features/game/types/caveTiers";
 
@@ -28,7 +29,7 @@ export enum EXPAND_CAVE_ERRORS {
 
 /**
  * Start building the Cave's next tier. The cost is paid up front; the tier and
- * its Myco-Composter arrive with `cave.expansionCompleted` once built.
+ * its Myco Bin arrive with `cave.expansionCompleted` once built.
  */
 export function expandCave({
   state,
@@ -41,7 +42,7 @@ export function expandCave({
     }
 
     const cave = game.cave;
-    if (!cave) {
+    if (!cave || !isCaveBuildingReady(game, createdAt)) {
       throw new Error(EXPAND_CAVE_ERRORS.NO_CAVE);
     }
 

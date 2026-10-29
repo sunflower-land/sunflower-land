@@ -114,6 +114,19 @@ describe("applyPatch", () => {
     expect(result.inventory.Gold.toNumber()).toBe(7);
   });
 
+  it("leaves new keys alone in a record that merely contains a Decimal", () => {
+    // The top-level GameState has a Decimal `balance` next to plain fields:
+    // a brand-new string or timestamp key must stay what the patch said.
+    const result = applyPatch(
+      base,
+      { username: "Tester", tcsAcknowledged: "$now-1d" },
+      NOW,
+    );
+
+    expect(result.username).toBe("Tester");
+    expect(result.tcsAcknowledged).toBe(NOW - 24 * HOUR);
+  });
+
   it("deletes keys set to null", () => {
     const result = applyPatch(base, { henHouse: null, list: null }, NOW);
     expect(result).not.toHaveProperty("henHouse");

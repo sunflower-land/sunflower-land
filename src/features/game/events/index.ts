@@ -51,15 +51,10 @@ import {
   upgradeInterior,
   type UpgradeInteriorAction,
 } from "./landExpansion/upgradeInterior";
-import { buildCave, type CaveBuiltAction } from "./landExpansion/buildCave";
 import {
   startCaveBatch,
   type StartCaveBatchAction,
 } from "./landExpansion/startCaveBatch";
-import {
-  speedUpCaveBatch,
-  type SpeedUpCaveBatchAction,
-} from "./landExpansion/speedUpCaveBatch";
 import {
   digCaveTile,
   type DigCaveTileAction,
@@ -550,6 +545,7 @@ import {
   type ApplyAnimalFeedBuffAction,
 } from "./landExpansion/applyAnimalFeedBuff";
 import { applyMud, type ApplyMudAction } from "./landExpansion/applyMud";
+import { tradeInPig, type TradeInPigAction } from "./landExpansion/tradeInPig";
 import {
   bulkApplyMud,
   type BulkApplyMudAction,
@@ -1032,6 +1028,7 @@ export type PlayingEvent =
   | ApplyAnimalFeedBuffAction
   | ApplyMudAction
   | BulkApplyMudAction
+  | TradeInPigAction
   | BuyChapterItemAction
   | ClaimPurchaseAction
   | RedeemTradeRewardsAction
@@ -1092,9 +1089,7 @@ export type PlayingEvent =
   | StartTrialAction
   | UpgradeSaltSculptureAction
   | UpgradeInteriorAction
-  | CaveBuiltAction
   | StartCaveBatchAction
-  | SpeedUpCaveBatchAction
   | DigCaveTileAction
   | DrillCaveTilesAction
   | ExpandCaveAction
@@ -1351,6 +1346,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "animal.feedBuffApplied": applyAnimalFeedBuff,
   "animal.mudApplied": applyMud,
   "pigs.bulkMudApplied": bulkApplyMud,
+  "pig.tradedIn": tradeInPig,
   "chapterItem.bought": buyChapterItem,
   "purchase.claimed": claimPurchase,
   "reward.redeemed": redeemTradeReward,
@@ -1406,9 +1402,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "farmhand.promoted": promoteFarmhand,
   "saltSculpture.upgraded": upgradeSaltSculpture,
   "interior.upgrade": upgradeInterior,
-  "cave.built": buildCave,
   "cave.batchStarted": startCaveBatch,
-  "cave.batchSpedUp": speedUpCaveBatch,
   "cave.dug": digCaveTile,
   "cave.drilled": drillCaveTiles,
   "cave.expanded": expandCave,

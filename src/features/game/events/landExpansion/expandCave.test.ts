@@ -10,6 +10,14 @@ import { getKeys } from "lib/object";
 import { CONFIG } from "lib/config";
 import { EXPAND_CAVE_ERRORS, expandCave } from "./expandCave";
 
+// The Cave building, placed and finished: every cave.* event requires it.
+const READY_CAVE = {
+  id: "cave",
+  coordinates: { x: 0, y: 0 },
+  createdAt: 0,
+  readyAt: 0,
+};
+
 const NOW = 1_700_000_000_000;
 
 // Islands in unlock order; a tier's gate island and the one just below it.
@@ -30,17 +38,16 @@ const richState = ({
   island = "marble",
 }: { tier?: number; island?: IslandType } = {}): GameState => ({
   ...TEST_FARM,
+  buildings: { ...TEST_FARM.buildings, Cave: [READY_CAVE] },
   island: { ...TEST_FARM.island, type: island },
   coins: 10_000_000,
   inventory: {
     ...TEST_FARM.inventory,
     Mud: new Decimal(100_000),
+    Wood: new Decimal(100_000),
     Stone: new Decimal(100_000),
-    Iron: new Decimal(100_000),
-    Gold: new Decimal(100_000),
-    Crimstone: new Decimal(100_000),
     Leather: new Decimal(100_000),
-    Truffle: new Decimal(100_000),
+    "Pig Bristles": new Decimal(100_000),
   },
   cave: {
     builtAt: 1,
@@ -62,21 +69,56 @@ describe("CAVE_TIERS", () => {
     expect(CAVE_MAX_TIER).toBe(8);
   });
 
-  it("never charges Pig Bristles - they are not an expansion input", () => {
-    getKeys(CAVE_TIERS).forEach((tier) => {
-      expect(CAVE_TIERS[tier].ingredients["Pig Bristles"]).toBeUndefined();
-    });
+  it("builds each tier in 2h to 48h", () => {
+    const hours = Object.fromEntries(
+      TIERS.map((tier) => [tier, CAVE_TIERS[tier].buildMs / (60 * 60 * 1000)]),
+    );
+
+    expect(hours).toEqual({ 2: 2, 3: 4, 4: 8, 5: 12, 6: 24, 7: 36, 8: 48 });
   });
 
-  it("charges Leather from tier III onwards", () => {
-    getKeys(CAVE_TIERS).forEach((tier) => {
-      if (tier >= 3) {
-        expect(
-          CAVE_TIERS[tier].ingredients.Leather?.toNumber(),
-        ).toBeGreaterThan(0);
-      } else {
-        expect(CAVE_TIERS[tier].ingredients.Leather).toBeUndefined();
-      }
+  it("charges the #7721 costs with the 2026-10-21 Mud rescale at every tier", () => {
+    const costs = Object.fromEntries(
+      TIERS.map((tier) => [
+        tier,
+        {
+          coins: CAVE_TIERS[tier].coins,
+          ...Object.fromEntries(
+            getKeys(CAVE_TIERS[tier].ingredients).map((item) => [
+              item,
+              CAVE_TIERS[tier].ingredients[item]!.toNumber(),
+            ]),
+          ),
+        },
+      ]),
+    );
+
+    expect(costs).toEqual({
+      2: { coins: 500, Mud: 80, Wood: 25, Stone: 10 },
+      3: { coins: 1_000, Mud: 160, Wood: 50, Stone: 25, Leather: 10 },
+      4: { coins: 2_500, Mud: 320, Wood: 75, Stone: 50, Leather: 15 },
+      5: { coins: 5_000, Mud: 640, Wood: 100, Stone: 75, "Pig Bristles": 20 },
+      6: {
+        coins: 10_000,
+        Mud: 960,
+        Wood: 150,
+        Stone: 100,
+        "Pig Bristles": 30,
+      },
+      7: {
+        coins: 20_000,
+        Mud: 1_440,
+        Wood: 200,
+        Stone: 150,
+        "Pig Bristles": 40,
+      },
+      8: {
+        coins: 40_000,
+        Mud: 2_200,
+        Wood: 250,
+        Stone: 200,
+        "Pig Bristles": 50,
+      },
     });
   });
 
@@ -94,6 +136,20 @@ describe("CAVE_TIERS", () => {
 });
 
 describe("expandCave (cave.expanded)", () => {
+  it("throws while the Cave building is under construction", () => {
+    const state = richState();
+
+    expect(() =>
+      expand({
+        ...state,
+        buildings: {
+          ...state.buildings,
+          Cave: [{ ...READY_CAVE, readyAt: Number.MAX_SAFE_INTEGER }],
+        },
+      }),
+    ).toThrow(EXPAND_CAVE_ERRORS.NO_CAVE);
+  });
+
   it.each(TIERS)("starts building tier %s", (tier) => {
     const next = expand(richState({ tier: tier - 1 }));
     expect(next.cave?.construction).toEqual({
@@ -212,14 +268,14 @@ describe("expandCave (cave.expanded)", () => {
       );
     });
 
-    it("is not unlocked by holding a Beta Pass", () => {
+    it("is unlocked by holding a Beta Pass", () => {
       const state = richState();
       expect(() =>
         expand({
           ...state,
           inventory: { ...state.inventory, "Beta Pass": new Decimal(1) },
         }),
-      ).toThrow(EXPAND_CAVE_ERRORS.NO_FEATURE_ACCESS);
+      ).not.toThrow();
     });
   });
 });

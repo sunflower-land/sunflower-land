@@ -54,7 +54,15 @@ https://<preview>/?fixture=test&patch=<base64url json>&ls=<base64url json>#/worl
 | `fixture` | Base farm: `default`, `new` (`INITIAL_FARM`), `test` (`TEST_FARM`, what unit tests use), `static` (`landDataStatic.ts`), or an island name `basic` … `marble` (fully expanded via `getDynamicIsland`).                                                        |
 | `patch`   | Partial `GameState` deep-merged over the fixture. Base64url-encoded JSON, or raw JSON. Objects merge, arrays replace, `null` deletes a key. Numbers merged over a `Decimal` (inventory, balance…) become Decimals, as do new keys in a Decimal-valued record. |
 | `ls`      | JSON object of localStorage keys to seed before boot.                                                                                                                                                                                                         |
-| `intro=1` | Keep the one-off boot modals (Terms & Conditions, welcome bonus, Pumpkin Pete intro, VIP promo). By default any preview param skips them so the tester lands on the farm.                                                                                     |
+| `intro=1` | Keep the one-off boot gates (Terms & Conditions, welcome bonus, daily chest, Pumpkin Pete intro, VIP promo, the world's username prompt). By default any preview param skips them so the tester lands on the farm; see below.                                 |
+
+By default a preview acknowledges the terms, marks the welcome bonus claimed,
+marks today's daily chest as collected and names the Bumpkin `Tester`. Each of
+these only fills a value the fixture and patch left unset, so a scenario that
+is about one of them patches that field instead (for example
+`"dailyRewards": {"chest": {"collectedAt": "$now-1d"}}` makes the chest
+claimable again). The username prompt is the exception: `"username": null`
+deletes the key and the default fills it again, so pass `intro=1` to see it.
 
 Any string value can be a **relative time token**, resolved when the page
 loads, so a link that means "chicken fed two hours ago" keeps meaning that

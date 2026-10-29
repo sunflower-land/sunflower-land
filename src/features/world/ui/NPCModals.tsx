@@ -40,6 +40,7 @@ import { IncineratorModal } from "features/goblins/incinerator";
 import { Context } from "features/game/GameProvider";
 import { PetShop } from "features/pets/petShop/PetShop";
 import { Streams } from "features/game/components/modal/components/Streams";
+import { HalloweenGift } from "./HalloweenGift";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -305,6 +306,21 @@ export const NPCModals: React.FC<Props> = ({ id }) => {
             message={[
               {
                 text: translate("npc.Modal.slimeJoe"),
+              },
+            ]}
+          />
+        )}
+
+        {npc === "Vampire Jim" && (
+          <HalloweenGift npc="Vampire Jim" onClose={closeModal} />
+        )}
+        {npc === "Skelly Joe" && (
+          <SpeakingModal
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES["Skelly Joe"]}
+            message={[
+              {
+                text: translate("npc.Modal.skellyJoe"),
               },
             ]}
           />

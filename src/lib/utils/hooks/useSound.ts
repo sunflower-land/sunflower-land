@@ -141,6 +141,21 @@ const HOWLERS = {
     preload: false,
     volume: 0.05,
   }),
+  pig_collect: new Howl({
+    src: SOUNDS.animals.pig_collect,
+    preload: false,
+    volume: 0.05,
+  }),
+  pig_feed: new Howl({
+    src: SOUNDS.animals.pig_feed,
+    preload: false,
+    volume: 0.05,
+  }),
+  pig_cure: new Howl({
+    src: SOUNDS.animals.pig_cure,
+    preload: false,
+    volume: 0.05,
+  }),
   produce_drop: new Howl({
     src: SOUNDS.animals.produce_drop,
     preload: false,

@@ -308,7 +308,7 @@ export const Recipes: React.FC<Props> = ({
   const isOilBoosted = buildingCrafting.find(
     (recipe) => recipe.name === selected.name && recipe.boost?.["Oil"],
   );
-  // Saltbite (the CHAPTER_CROP_WEEK event recipe) neutralises upgraded Cooking
+  // Crystal Cookie (the CHAPTER_CROP_WEEK event recipe) neutralises upgraded Cooking
   // ranks, so preview the Double Nom label at its downgraded (applied) rank and
   // surface a notice when a real upgraded rank is being suppressed.
   const isEventRecipe = selected.name === CHAPTER_CROP_WEEK_RECIPE;

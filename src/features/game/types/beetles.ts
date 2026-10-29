@@ -3,7 +3,7 @@
  * separately - see the trade type and `TradeResource` wiring.
  */
 export const BEETLES = [
-  "Brown Beetle",
+  "Green Beetle",
   "Blue Beetle",
   "Pink Beetle",
   "Amber Beetle",
@@ -16,13 +16,13 @@ export function isBeetle(item: string): item is BeetleName {
 }
 
 /**
- * Base feeding XP when a Beetle is fed straight to an animal (any of the
- * four). It goes through the normal feed-XP pipeline like any other food.
- * TODO(Chapter 16): placeholder values from the spec, pending a balance pass.
+ * Feeding XP when a Beetle is fed straight to an animal (any of the four),
+ * from the #7721 Balance Update. Chonky Feed does not apply to Beetles; a
+ * muddy Pig still gets the Mud bonus.
  */
 export const BEETLE_FEEDING_XP: Record<BeetleName, number> = {
-  "Brown Beetle": 100,
-  "Blue Beetle": 200,
-  "Pink Beetle": 500,
-  "Amber Beetle": 1000,
+  "Green Beetle": 80,
+  "Blue Beetle": 160,
+  "Pink Beetle": 320,
+  "Amber Beetle": 640,
 };

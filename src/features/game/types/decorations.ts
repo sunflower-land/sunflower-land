@@ -7,6 +7,7 @@ import type { Template } from "./templates";
 import type { BeanName, GiantFruit } from "./beans";
 import type { DollName } from "../lib/crafting";
 import { getKeys } from "lib/object";
+import { RARECROW_TEMPLATES } from "./rarecrows";
 
 export type AchievementDecorationName =
   | "Chef Bear"
@@ -105,7 +106,23 @@ export type ChapterDecorationName =
   | "Salt Worker Gnome"
   | "Shards Turtle"
   | "Vibraphone"
-  | "Winged Vase";
+  | "Winged Vase"
+  // Cave Dwellers
+  | "Giant Truffle"
+  | "Mining Drill"
+  | "Piggy Bank"
+  | "Straw House"
+  | "Stick House"
+  | "Brick House"
+  | "Big Bad Wolf"
+  | "Pig Plush"
+  | "Pig Doll"
+  // Cave Dwellers track
+  | "Duende in a Bottle"
+  | "Mushroom Log"
+  | "Pot of Luck"
+  | "TNT"
+  | "Warning Sign";
 
 export type EventDecorationName =
   | "Jelly Lamp"
@@ -235,7 +252,25 @@ export type EventDecorationName =
   | "Fool's Gold"
   | "Golden Slime Trophy"
   | "Silver Slime Trophy"
-  | "Bronze Slime Trophy";
+  | "Bronze Slime Trophy"
+  | "Corrupted Pumpkin"
+  | "Huge Jack-o'-lantern"
+  | "Haunted TV"
+  | "Zombie Hand Toy"
+  | "Cool Zombie Tombstone"
+  | "Destroyed Sign"
+  | "Skull Candles"
+  | "Plague Crow"
+  | "Skeleton Crow"
+  | "Witch Crow"
+  | "Fisherbird Crow"
+  | "Chained Crow"
+  | "Count Vlad Crow"
+  | "Lual Crow"
+  | "King Crow"
+  | "Devil Crow"
+  | "Pharaoh Crow"
+  | "Cultist Crow";
 
 export type TileName =
   | "Black Tile"
@@ -874,6 +909,8 @@ export const DECORATION_TEMPLATES = {
     },
     isWithdrawable: () => false,
   },
+  // Rarecrows game migration
+  ...RARECROW_TEMPLATES,
 } satisfies Record<string, Template>;
 
 export type TemplateDecorationName = keyof typeof DECORATION_TEMPLATES;
@@ -964,6 +1001,22 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "Shards Turtle": { width: 1, height: 2 },
   Vibraphone: { width: 2, height: 2 },
   "Winged Vase": { width: 1, height: 1 },
+  // Cave Dwellers
+  "Giant Truffle": { width: 2, height: 2 },
+  "Mining Drill": { width: 2, height: 2 },
+  "Piggy Bank": { width: 2, height: 2 },
+  "Straw House": { width: 2, height: 2 },
+  "Stick House": { width: 2, height: 2 },
+  "Brick House": { width: 2, height: 2 },
+  "Big Bad Wolf": { width: 1, height: 2 },
+  "Pig Plush": { width: 1, height: 1 },
+  "Pig Doll": { width: 1, height: 2 },
+  // Cave Dwellers track
+  "Duende in a Bottle": { width: 2, height: 2 },
+  "Mushroom Log": { width: 2, height: 1 },
+  "Pot of Luck": { width: 2, height: 2 },
+  TNT: { width: 1, height: 1 },
+  "Warning Sign": { width: 1, height: 1 },
 
   "Diving Helmet": {
     width: 1,
@@ -1896,6 +1949,78 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "Bronze Slime Trophy": {
     width: 1,
     height: 2,
+  },
+  "Corrupted Pumpkin": {
+    width: 2,
+    height: 2,
+  },
+  "Huge Jack-o'-lantern": {
+    width: 2,
+    height: 2,
+  },
+  "Haunted TV": {
+    width: 1,
+    height: 1,
+  },
+  "Zombie Hand Toy": {
+    width: 1,
+    height: 1,
+  },
+  "Cool Zombie Tombstone": {
+    width: 1,
+    height: 2,
+  },
+  "Destroyed Sign": {
+    width: 1,
+    height: 1,
+  },
+  "Skull Candles": {
+    width: 2,
+    height: 2,
+  },
+  "Plague Crow": {
+    width: 1,
+    height: 1,
+  },
+  "Skeleton Crow": {
+    width: 1,
+    height: 1,
+  },
+  "Witch Crow": {
+    width: 1,
+    height: 1,
+  },
+  "Fisherbird Crow": {
+    width: 1,
+    height: 1,
+  },
+  "Chained Crow": {
+    width: 1,
+    height: 1,
+  },
+  "Count Vlad Crow": {
+    width: 1,
+    height: 1,
+  },
+  "Lual Crow": {
+    width: 1,
+    height: 1,
+  },
+  "King Crow": {
+    width: 1,
+    height: 1,
+  },
+  "Devil Crow": {
+    width: 1,
+    height: 1,
+  },
+  "Pharaoh Crow": {
+    width: 1,
+    height: 1,
+  },
+  "Cultist Crow": {
+    width: 1,
+    height: 1,
   },
 };
 

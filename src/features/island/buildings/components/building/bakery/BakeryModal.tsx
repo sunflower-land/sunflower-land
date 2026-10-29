@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { useSelector } from "@xstate/react";
 
 import { Modal } from "components/ui/Modal";
 import chefHat from "assets/icons/chef_hat.png";
@@ -8,7 +9,10 @@ import {
   BAKERY_COOKABLES,
   type Cookable,
   type CookableName,
+  isTruffleRecipe,
 } from "features/game/types/consumables";
+import { Context } from "features/game/GameProvider";
+import { hasFeatureAccess } from "lib/flags";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel } from "components/ui/Panel";
 import type { BuildingProduct } from "features/game/types/game";
@@ -33,9 +37,16 @@ export const BakeryModal: React.FC<Props> = ({
   queue,
   readyRecipes,
 }) => {
-  const cakeRecipes = Object.values(BAKERY_COOKABLES).sort(
-    (a, b) => a.experience - b.experience, // Sorts Foods based on their cooking time
+  const { gameService } = useContext(Context);
+  // Truffle recipes ride on the Pigs' flag (Truffle only exists behind it)
+  const hasTruffleRecipes = useSelector(gameService, (state) =>
+    hasFeatureAccess(state.context.state, "PIGPEN"),
   );
+  const cakeRecipes = Object.values(BAKERY_COOKABLES)
+    .filter((recipe) => !isTruffleRecipe(recipe.name) || hasTruffleRecipes)
+    .sort(
+      (a, b) => a.experience - b.experience, // Sorts Foods based on their cooking time
+    );
   const [selected, setSelected] = useState<Cookable>(
     cakeRecipes.find((recipe) => recipe.name === itemInProgress) ||
       cakeRecipes[0],

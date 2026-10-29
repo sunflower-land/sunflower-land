@@ -18,9 +18,10 @@ import {
   getAnimalLevel,
   getBoostedFoodQuantity,
   getFeedItem,
-  isAnimalFood,
+  isFoodForAnimal,
   getFeedQuantity,
   isMuddy,
+  MUD_PER_APPLICATION,
   resolveAnimal,
 } from "features/game/lib/animals";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -47,6 +48,7 @@ import { InfoPopover } from "features/island/common/InfoPopover";
 import {
   getBarnDelightCost,
   handleFoodXP,
+  getFeedBatchSize,
   REQUIRED_FOOD_QTY,
 } from "features/game/events/landExpansion/feedAnimal";
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
@@ -62,14 +64,11 @@ import { SleepingAnimalModal } from "features/barn/components/SleepingAnimalModa
 import { LockedAnimalModal } from "features/barn/components/LockedAnimalModal";
 import { ANIMAL_EMOTION_ICONS } from "features/barn/components/Cow";
 
-// The idle sprite stands in for every state until the rest of the art lands
-// (Elias 2026-09-18) - the emotion icon above the sprite still shows sleeping,
-// ready and sick, so no state cue is lost. Repoint an entry as its art arrives.
 const PIG_IMAGES = {
   idle: SUNNYSIDE.animals.pigIdle,
-  ready: SUNNYSIDE.animals.pigIdle, // TODO(Chapter 16 art): pigs/ready
-  sleeping: SUNNYSIDE.animals.pigIdle, // TODO(Chapter 16 art): pigs/sleeping
-  sick: SUNNYSIDE.animals.pigIdle, // TODO(Chapter 16 art): pigs/sick
+  ready: SUNNYSIDE.animals.pigReady,
+  sleeping: SUNNYSIDE.animals.pigSleeping,
+  sick: SUNNYSIDE.animals.pigSick,
 };
 
 const _animalState = (state: AnimalMachineState) =>
@@ -108,8 +107,8 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
   const pigMachineState = useSelector(pigService, _animalState);
   const inventory = useSelector(gameService, _inventory);
   const [showFeedXP, setShowFeedXP] = useState(false);
-  // Captured BEFORE the feed: Mud spends a use on it, so re-deriving the XP
-  // afterwards would show the next feed's figure, not the one just earned.
+  // Captured BEFORE the feed: it can move the Pig into its next level band, so
+  // re-deriving the XP afterwards would show the next feed's figure.
   const [feedXPAmount, setFeedXPAmount] = useState(0);
   const [showLoveItem, setShowLoveItem] = useState<LoveAnimalItem>();
   const [showMutantAnimalModal, setShowMutantAnimalModal] = useState(false);
@@ -144,11 +143,12 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
   const [showLockedDetails, setShowLockedDetails] = useState(false);
   // Sounds
   const { play: playFeedAnimal } = useSound("feed_animal");
-  // TODO(Chapter 16 art): Pig SFX exist in the asset repo but are not wired up.
-  const { play: playPigCollect } = useSound("cow_collect");
+  // Only an actual feed grunts; love, Mud and treats keep the generic clip.
+  const { play: playPigFeed } = useSound("pig_feed");
+  const { play: playPigCollect } = useSound("pig_collect");
   const { play: playProduceDrop } = useSound("produce_drop");
   const { play: playLevelUp } = useSound("level_up");
-  const { play: playCureAnimal } = useSound("cure_animal");
+  const { play: playCureAnimal } = useSound("pig_cure");
 
   const lastSynced = useRef({ state: pig.state, experience: pig.experience });
 
@@ -219,13 +219,16 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
   // animal) but can still be cured and sold to bounties.
   const isLocked = !isAnimalFeedable("pigpen", game, id);
 
-  const { foodQuantity: requiredFoodQty } = getBoostedFoodQuantity({
+  // One click feeds the whole batch that gets the Pig ready (ticket 396).
+  const feedBatchSize = getFeedBatchSize({ state: game, animal: pig });
+  const { foodQuantity: quantityPerFeed } = getBoostedFoodQuantity({
     animalType: "Pig",
     foodQuantity: REQUIRED_FOOD_QTY.Pig,
     game,
     animal: pig,
     now,
   });
+  const requiredFoodQty = quantityPerFeed.mul(feedBatchSize);
 
   const hasGoldenPig = isAnimalCoveredByGoldenAsset({
     state: game,
@@ -267,7 +270,7 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
       animal: updatedPig,
     });
 
-    playFeedAnimal();
+    playPigFeed();
   };
 
   const onLoveClick = async () => {
@@ -421,31 +424,24 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (sick) return onSickClick();
 
-    // Mud is checked before the love and sleeping branches: applyMud accepts a
-    // sleeping Pig that wants petting, so selecting Mud should apply it rather
-    // than fall into the love flow.
-    if (selectedItem === "Mud") {
-      // A locked Pig cannot be fed, so it would never use its Mud.
-      if (isLocked) {
-        setShowLockedDetails(true);
-        return;
-      }
+    if (needsLove) {
+      if (!hasGoldenPig) return onLoveClick();
 
+      handleShowDetails();
+      return;
+    }
+
+    // Mud goes on exactly like a treat: after the love flow (a Pig waiting to
+    // be petted must be petted first) and with no capacity check.
+    if (selectedItem === "Mud") {
       const mudCount = inventory.Mud ?? new Decimal(0);
-      if (!isMuddy(pig) && mudCount.gte(1)) {
+      if (!isMuddy(pig) && mudCount.gte(MUD_PER_APPLICATION)) {
         gameService.send({ type: "animal.mudApplied", id: pig.id });
         playFeedAnimal();
         return;
       }
 
       await showNoFoodPrompt();
-      return;
-    }
-
-    if (needsLove) {
-      if (!hasGoldenPig) return onLoveClick();
-
-      handleShowDetails();
       return;
     }
 
@@ -496,6 +492,7 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
     // Auto-select the favourite food when it is held so a stale selection
     // (e.g. Hay left over from another building) never feeds the wrong item.
     const feedItem = getFeedItem({
+      animal: "Pig",
       selectedItem,
       favouriteFood: favFood,
       inventory,
@@ -510,7 +507,7 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
     // the no-food prompt instead of an event the reducer would reject.
     const hasFoodSelected =
       feedItem &&
-      (isAnimalFood(feedItem) ||
+      (isFoodForAnimal("Pig", feedItem) ||
         (hasBeetleFeedingAccess && isBeetle(feedItem)));
 
     if (hasFoodSelected) {
@@ -547,7 +544,8 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
       mud: pig.mud,
     });
 
-    return foodXp;
+    // A Beetle is one per click; anything else is the whole batch.
+    return item && isBeetle(item) ? foodXp : foodXp * feedBatchSize;
   };
 
   const animalImageInfo = () => {

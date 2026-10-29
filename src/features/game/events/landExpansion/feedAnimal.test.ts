@@ -1,11 +1,17 @@
 import Decimal from "decimal.js-light";
 import { CONFIG } from "lib/config";
-import { ANIMAL_SLEEP_DURATION, feedAnimal, handleFoodXP } from "./feedAnimal";
+import {
+  ANIMAL_SLEEP_DURATION,
+  feedAnimal,
+  getFeedBatchSize,
+  handleFoodXP,
+} from "./feedAnimal";
 import {
   BEETLE_FEEDING_XP,
   type BeetleName,
 } from "features/game/types/beetles";
 import { INITIAL_FARM } from "features/game/lib/constants";
+import { ITEM_DETAILS } from "features/game/types/images";
 import { ANIMAL_LEVELS, type AnimalType } from "features/game/types/animals";
 import { getAnimalLevel } from "features/game/lib/animals";
 import type {
@@ -202,7 +208,8 @@ describe("feedAnimal", () => {
         ...GAME_STATE,
         inventory: {
           ...GAME_STATE.inventory,
-          "Kernel Blend": new Decimal(5),
+          // A level 0 Cow eats a batch of 3 feeds, 5 Kernel Blend each.
+          "Kernel Blend": new Decimal(15),
         },
         barn: {
           ...GAME_STATE.barn,
@@ -300,7 +307,8 @@ describe("feedAnimal", () => {
       state: {
         ...GAME_STATE,
         inventory: {
-          "Kernel Blend": new Decimal(6),
+          // A level 0 Cow eats a batch of 3 feeds, 5 Kernel Blend each.
+          "Kernel Blend": new Decimal(16),
         },
         barn: {
           ...GAME_STATE.barn,
@@ -550,7 +558,7 @@ describe("feedAnimal", () => {
     ).toThrow("Player does not have enough Hay");
   });
 
-  it("sets the state to happy if fed favourite food", () => {
+  it("sets the state to ready when fed its favourite food batch", () => {
     const chickenId = "xyz";
 
     const state = feedAnimal({
@@ -559,7 +567,8 @@ describe("feedAnimal", () => {
         ...GAME_STATE,
         inventory: {
           ...GAME_STATE.inventory,
-          "Kernel Blend": new Decimal(1),
+          // 120 XP to level 3 at 60 per Kernel Blend.
+          "Kernel Blend": new Decimal(2),
         },
         henHouse: {
           ...GAME_STATE.henHouse,
@@ -586,7 +595,7 @@ describe("feedAnimal", () => {
       },
     });
 
-    expect(state.henHouse.animals[chickenId].state).toBe("happy");
+    expect(state.henHouse.animals[chickenId].state).toBe("ready");
   });
 
   it("sets the state to sad not fed favourite food", () => {
@@ -1124,7 +1133,8 @@ describe("feedAnimal", () => {
           },
         },
         inventory: {
-          "Kernel Blend": new Decimal(3),
+          // The starter animal (80 XP) eats a batch of 2 feeds.
+          "Kernel Blend": new Decimal(6),
         },
       },
       action: {
@@ -1135,7 +1145,7 @@ describe("feedAnimal", () => {
       },
     });
 
-    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(1.5));
+    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(3));
   });
 
   it("takes 50% less food to feed a cow if Infernal Bullwhip is worn", () => {
@@ -1151,7 +1161,8 @@ describe("feedAnimal", () => {
           },
         },
         inventory: {
-          "Kernel Blend": new Decimal(5),
+          // The starter Cow (80 XP) eats a batch of 2 feeds.
+          "Kernel Blend": new Decimal(10),
         },
       },
       action: {
@@ -1162,7 +1173,7 @@ describe("feedAnimal", () => {
       },
     });
 
-    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(2.5));
+    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(5));
   });
 
   it("sets animal to ready state when completing a cycle at max level", () => {
@@ -1271,7 +1282,8 @@ describe("feedAnimal", () => {
         ...GAME_STATE,
         inventory: {
           ...GAME_STATE.inventory,
-          "Mixed Grain": new Decimal(1),
+          // 240 XP left in the cycle at 80 per Mixed Grain.
+          "Mixed Grain": new Decimal(3),
         },
         henHouse: {
           ...GAME_STATE.henHouse,
@@ -1298,11 +1310,10 @@ describe("feedAnimal", () => {
       },
     });
 
-    // Should be in happy state since we're mid-cycle
-    expect(state.henHouse.animals["0"].state).toBe("happy");
-    // Experience should continue accumulating
+    // One click finishes the second cycle
+    expect(state.henHouse.animals["0"].state).toBe("ready");
     expect(state.henHouse.animals["0"].experience).toBe(
-      maxLevelXP + cycleXP + 80 + 80,
+      maxLevelXP + cycleXP * 2,
     );
   });
 
@@ -1859,7 +1870,8 @@ describe("feedAnimal", () => {
       state: {
         ...GAME_STATE,
         inventory: {
-          "Kernel Blend": new Decimal(5),
+          // A level 0 Cow eats a batch of 3 feeds.
+          "Kernel Blend": new Decimal(15),
         },
         collectibles: {
           "Dr Cow": [
@@ -1890,7 +1902,7 @@ describe("feedAnimal", () => {
       },
     });
 
-    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(0.25));
+    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(0.75));
   });
 
   it("takes 5% less food to feed a cow or sheep if Collie Shrine is active", () => {
@@ -1899,7 +1911,8 @@ describe("feedAnimal", () => {
       state: {
         ...GAME_STATE,
         inventory: {
-          "Kernel Blend": new Decimal(5),
+          // A level 0 Cow eats a batch of 3 feeds.
+          "Kernel Blend": new Decimal(15),
         },
         collectibles: {
           "Collie Shrine": [
@@ -1930,7 +1943,7 @@ describe("feedAnimal", () => {
       },
     });
 
-    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(0.25));
+    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(0.75));
   });
 
   it("does not take 5% less food to feed Chicken if Collie Shrine is active", () => {
@@ -2019,7 +2032,8 @@ describe("feedAnimal", () => {
       state: {
         ...GAME_STATE,
         inventory: {
-          "Kernel Blend": new Decimal(5),
+          // A level 0 Cow eats a batch of 3 feeds.
+          "Kernel Blend": new Decimal(15),
         },
         collectibles: {
           "Bantam Shrine": [
@@ -2059,7 +2073,8 @@ describe("feedAnimal", () => {
       state: {
         ...GAME_STATE,
         inventory: {
-          "Kernel Blend": new Decimal(5),
+          // A level 0 Cow eats a batch of 3 feeds.
+          "Kernel Blend": new Decimal(15),
         },
         barn: {
           ...GAME_STATE.barn,
@@ -2081,7 +2096,7 @@ describe("feedAnimal", () => {
       },
     });
 
-    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(1.25));
+    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(3.75));
   });
 
   it("records Golden Cow in boostsUsedAt when feeding a cow for free", () => {
@@ -2396,8 +2411,8 @@ describe("feedAnimal: Pig level is not capped by the Pigpen", () => {
     ...FARM_WITH_HERDS,
     inventory: {
       ...FARM_WITH_HERDS.inventory,
-      NutriBarley: new Decimal(50),
-      Hay: new Decimal(50),
+      "Hearty Slop": new Decimal(50),
+      "Rich Slop": new Decimal(50),
     },
     buildings: {
       ...FARM_WITH_HERDS.buildings,
@@ -2432,7 +2447,7 @@ describe("feedAnimal: Pig level is not capped by the Pigpen", () => {
 
   it("levels a Pig past 5 in a level 1 Pigpen", () => {
     // Just short of level 6: one favourite feed crosses the threshold.
-    const state = feed(farm(ANIMAL_LEVELS.Pig[6] - 1), "Hay");
+    const state = feed(farm(ANIMAL_LEVELS.Pig[6] - 1), "Hearty Slop");
     const pig = state.pigpen.animals["1"];
 
     expect(getAnimalLevel(pig.experience, "Pig")).toBe(6);
@@ -2440,22 +2455,405 @@ describe("feedAnimal: Pig level is not capped by the Pigpen", () => {
   });
 
   it("uses the favourite food of the Pig's real level, not the pen's", () => {
-    // A level 7 Pig wants NutriBarley; Hay is a sad feed at that level.
-    const state = feed(farm(ANIMAL_LEVELS.Pig[7]), "Hay");
+    // A level 7 Pig wants Rich Slop; Hearty Slop is a sad feed at that level.
+    const state = feed(farm(ANIMAL_LEVELS.Pig[7]), "Hearty Slop");
 
     expect(state.pigpen.animals["1"].state).toBe("sad");
+  });
+});
+
+describe("getFeedBatchSize", () => {
+  const pig = (experience: number, mud?: Animal["mud"]): Animal => ({
+    id: "1",
+    type: "Pig",
+    state: "idle",
+    createdAt: 0,
+    experience,
+    asleepAt: 0,
+    awakeAt: 0,
+    lovedAt: 0,
+    item: "Petting Hand",
+    mud,
+  });
+
+  const batch = (animal: Animal, skills = {}) =>
+    getFeedBatchSize({
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: { ...INITIAL_FARM.bumpkin, skills },
+      },
+      animal,
+    });
+
+  it.each([
+    [0, 3],
+    [1, 3],
+    [2, 6],
+    [3, 6],
+    [4, 6],
+    [5, 9],
+    [6, 9],
+    [7, 9],
+    [8, 9],
+    [9, 12],
+    [10, 9],
+    [11, 9],
+    [12, 9],
+    [13, 9],
+    [14, 12],
+    [15, 12],
+  ] as const)(
+    "a level %s Pig asks for %s of its favourite Slop",
+    (level, slops) => {
+      expect(batch(pig(ANIMAL_LEVELS.Pig[level]))).toEqual(slops);
+    },
+  );
+
+  it("asks only for what is left of the level", () => {
+    // 100 of the 180 XP to level 1 is done: 80 left at 60 per Slop.
+    expect(batch(pig(100))).toEqual(2);
+  });
+
+  it("asks for fewer Slops when Mud or Chonky Feed raise their XP", () => {
+    // Level 4 needs 360 XP: 6 Hearty Slop, 5 muddy (75 each).
+    const level4 = ANIMAL_LEVELS.Pig[4];
+    expect(batch(pig(level4, { harvestsRemaining: 3 }))).toEqual(5);
+    // Chonky Feed rank 3: 180 XP per Slop.
+    expect(batch(pig(level4), { "Chonky Feed": 3 })).toEqual(2);
+  });
+
+  it("finishes the current cycle at level 15", () => {
+    // 900 of the 960 XP cycle is done: one Gourmet Slop finishes it.
+    expect(batch(pig(ANIMAL_LEVELS.Pig[15] + 960 + 900))).toEqual(1);
+  });
+
+  it.each([
+    [0, 1, 3, 2],
+    [1, 1, 3, 2],
+    [2, 2, 6, 4],
+    [3, 2, 6, 4],
+    [4, 2, 6, 4],
+    [5, 3, 9, 6],
+    [6, 3, 9, 6],
+    [7, 3, 9, 6],
+    [8, 3, 9, 6],
+    [9, 4, 12, 8],
+    [10, 3, 9, 6],
+    [11, 3, 9, 6],
+    [12, 3, 9, 6],
+    [13, 3, 9, 6],
+    [14, 4, 12, 8],
+    [15, 4, 12, 8],
+  ] as const)(
+    "at level %s a Chicken asks for %s feeds, a Cow %s and a Sheep %s",
+    (level, chicken, cow, sheep) => {
+      const animal = (type: AnimalType) => ({
+        ...pig(ANIMAL_LEVELS[type][level]),
+        type,
+      });
+
+      expect(batch(animal("Chicken"))).toEqual(chicken);
+      expect(batch(animal("Cow"))).toEqual(cow);
+      expect(batch(animal("Sheep"))).toEqual(sheep);
+    },
+  );
+
+  it("asks a Cow only for what is left of the level", () => {
+    // 100 of the 180 XP to level 1 is done: 80 left at 60 per Kernel Blend.
+    expect(batch({ ...pig(100), type: "Cow" })).toEqual(2);
+  });
+});
+
+describe("feedAnimal: one-click Pig feeding", () => {
+  const now = Date.now();
+  const PLACED = [
+    { coordinates: { x: 0, y: 0 }, createdAt: 0, id: "0", readyAt: 0 },
+  ];
+
+  const pig = (experience: number, mud?: Animal["mud"]): Animal => ({
+    id: "1",
+    type: "Pig",
+    state: "idle",
+    createdAt: 0,
+    experience,
+    asleepAt: 0,
+    awakeAt: 0,
+    lovedAt: 0,
+    item: "Petting Hand",
+    mud,
+  });
+
+  const farm = (
+    experience = 0,
+    {
+      skills = {},
+      slops = 100,
+      mud,
+    }: { skills?: object; slops?: number; mud?: Animal["mud"] } = {},
+  ): GameState => ({
+    ...FARM_WITH_HERDS,
+    bumpkin: { ...FARM_WITH_HERDS.bumpkin, skills },
+    inventory: {
+      ...FARM_WITH_HERDS.inventory,
+      "Basic Slop": new Decimal(slops),
+      "Hearty Slop": new Decimal(slops),
+      "Rich Slop": new Decimal(slops),
+      "Gourmet Slop": new Decimal(slops),
+      Hay: new Decimal(10),
+      Omnifeed: new Decimal(10),
+    },
+    buildings: { ...FARM_WITH_HERDS.buildings, Pigpen: PLACED, Barn: PLACED },
+    pigpen: { level: 1, animals: { "1": pig(experience, mud) } },
+  });
+
+  const feed = (state: GameState, item: AnimalFoodName) =>
+    feedAnimal({
+      state,
+      action: { type: "animal.fed", animal: "Pig", id: "1", item },
+      createdAt: now,
+    });
+
+  it.each([
+    [0, "Basic Slop", 3],
+    [3, "Hearty Slop", 6],
+    [6, "Rich Slop", 9],
+    [10, "Gourmet Slop", 9],
+  ] as const)(
+    "one click levels a level %s Pig up on %s, eating %s",
+    (level, slop, eaten) => {
+      const state = feed(farm(ANIMAL_LEVELS.Pig[level]), slop);
+      const fed = state.pigpen.animals["1"];
+
+      expect(fed.state).toBe("ready");
+      expect(getAnimalLevel(fed.experience, "Pig")).toBe(level + 1);
+      expect(state.inventory[slop]).toEqual(new Decimal(100 - eaten));
+    },
+  );
+
+  it("feeds another Slop in the same count, for its lower XP", () => {
+    // A level 4 Pig asks for 6 Hearty Slop; 6 Basic Slop give 6 x 10 XP.
+    const experience = ANIMAL_LEVELS.Pig[4];
+    const state = feed(farm(experience), "Basic Slop");
+    const fed = state.pigpen.animals["1"];
+
+    expect(fed.state).toBe("sad");
+    expect(fed.experience - experience).toEqual(60);
+    expect(state.inventory["Basic Slop"]).toEqual(new Decimal(94));
+  });
+
+  it("asks for the rest after a partial feed", () => {
+    const experience = ANIMAL_LEVELS.Pig[4];
+    const afterBasic = feed(farm(experience), "Basic Slop");
+    // 300 XP left at 60 per Hearty Slop.
+    const state = feed(afterBasic, "Hearty Slop");
+
+    expect(state.inventory["Hearty Slop"]).toEqual(new Decimal(95));
+    expect(state.pigpen.animals["1"].state).toBe("ready");
+  });
+
+  it("feeds nothing without the whole batch", () => {
+    expect(() => feed(farm(0, { slops: 2 }), "Basic Slop")).toThrow(
+      "Player does not have enough Basic Slop",
+    );
+  });
+
+  it.each([
+    [1, 2.25],
+    [2, 1.95],
+    [3, 1.5],
+  ])("at Swill Savvy rank %s the batch of 3 costs %s Slop", (rank, eaten) => {
+    const state = feed(
+      farm(0, { skills: { "Swill Savvy": rank } }),
+      "Basic Slop",
+    );
+
+    expect(state.inventory["Basic Slop"]).toEqual(new Decimal(100 - eaten));
+  });
+
+  it("boosts every Slop in a muddy batch and spends no Mud charge", () => {
+    // Level 4: 5 muddy Hearty Slop at 75 XP each.
+    const experience = ANIMAL_LEVELS.Pig[4];
+    const state = feed(
+      farm(experience, { mud: { harvestsRemaining: 3 } }),
+      "Hearty Slop",
+    );
+    const fed = state.pigpen.animals["1"];
+
+    expect(fed.experience - experience).toEqual(375);
+    expect(fed.mud).toEqual({ harvestsRemaining: 3 });
+    expect(state.inventory["Hearty Slop"]).toEqual(new Decimal(95));
+  });
+
+  it("keeps fractional XP exact on a muddy off-tier batch", () => {
+    // 5 Basic Slop at 10 x 1.25 = 12.5 XP each.
+    const experience = ANIMAL_LEVELS.Pig[4];
+    const state = feed(
+      farm(experience, { mud: { harvestsRemaining: 3 } }),
+      "Basic Slop",
+    );
+
+    expect(state.pigpen.animals["1"].experience - experience).toEqual(62.5);
+  });
+
+  it("still feeds one Beetle per click", () => {
+    const state = feedAnimal({
+      state: {
+        ...farm(),
+        inventory: { ...farm().inventory, "Green Beetle": new Decimal(5) },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Pig",
+        id: "1",
+        item: "Green Beetle",
+      },
+      createdAt: now,
+    });
+
+    expect(state.inventory["Green Beetle"]).toEqual(new Decimal(4));
+  });
+
+  it.each(["Hay", "Omnifeed"] as const)("does not feed a Pig %s", (food) => {
+    expect(() => feed(farm(), food)).toThrow(
+      "This animal cannot eat this food",
+    );
+  });
+
+  it("does not feed a Cow a Slop", () => {
+    const state = farm();
+    const cowId = Object.keys(state.barn.animals).find(
+      (id) => state.barn.animals[id].type === "Cow",
+    ) as string;
+
+    expect(() =>
+      feedAnimal({
+        state,
+        action: {
+          type: "animal.fed",
+          animal: "Cow",
+          id: cowId,
+          item: "Basic Slop",
+        },
+        createdAt: now,
+      }),
+    ).toThrow("This animal cannot eat this food");
+  });
+});
+
+describe("feedAnimal: one-click Chicken, Cow and Sheep feeding", () => {
+  const now = Date.now();
+  const PLACED = [
+    { coordinates: { x: 0, y: 0 }, createdAt: 0, id: "0", readyAt: 0 },
+  ];
+
+  const animal = (type: AnimalType, experience: number): Animal => ({
+    id: "1",
+    type,
+    state: "idle",
+    createdAt: 0,
+    experience,
+    asleepAt: 0,
+    awakeAt: 0,
+    lovedAt: 0,
+    item: "Petting Hand",
+  });
+
+  const farm = (
+    type: "Chicken" | "Cow" | "Sheep",
+    experience = 0,
+    food = 100,
+  ): GameState => {
+    const herd = { "1": animal(type, experience) };
+
+    return {
+      ...FARM_WITH_HERDS,
+      inventory: {
+        ...FARM_WITH_HERDS.inventory,
+        "Kernel Blend": new Decimal(food),
+        Hay: new Decimal(food),
+        NutriBarley: new Decimal(food),
+        "Mixed Grain": new Decimal(food),
+        "Green Beetle": new Decimal(5),
+      },
+      buildings: {
+        ...FARM_WITH_HERDS.buildings,
+        "Hen House": PLACED,
+        Barn: PLACED,
+      },
+      henHouse: {
+        ...FARM_WITH_HERDS.henHouse,
+        animals: type === "Chicken" ? herd : {},
+      },
+      barn: {
+        ...FARM_WITH_HERDS.barn,
+        animals: type === "Chicken" ? {} : herd,
+      },
+    };
+  };
+
+  const feed = (
+    state: GameState,
+    type: AnimalType,
+    item: AnimalFoodName | BeetleName,
+  ) =>
+    feedAnimal({
+      state,
+      action: { type: "animal.fed", animal: type, id: "1", item },
+      createdAt: now,
+    });
+
+  const fedAnimal = (state: GameState, type: AnimalType) =>
+    (type === "Chicken" ? state.henHouse : state.barn).animals["1"];
+
+  it.each([
+    ["Chicken", 0, "Kernel Blend", 1],
+    ["Cow", 0, "Kernel Blend", 15],
+    ["Sheep", 0, "Kernel Blend", 6],
+    ["Chicken", 9, "NutriBarley", 4],
+    ["Cow", 9, "NutriBarley", 60],
+    ["Sheep", 9, "NutriBarley", 24],
+  ] as const)(
+    "one click levels a %s up from level %s on %s, eating %s",
+    (type, level, food, eaten) => {
+      const state = feed(farm(type, ANIMAL_LEVELS[type][level]), type, food);
+      const fed = fedAnimal(state, type);
+
+      expect(fed.state).toBe("ready");
+      expect(getAnimalLevel(fed.experience, type)).toBe(level + 1);
+      expect(state.inventory[food]).toEqual(new Decimal(100 - eaten));
+    },
+  );
+
+  it("feeds another food in the same count, for its lower XP", () => {
+    // A level 0 Cow asks for 3 Kernel Blend feeds; 3 Hay feeds give 3 x 10 XP.
+    const state = feed(farm("Cow"), "Cow", "Hay");
+    const fed = fedAnimal(state, "Cow");
+
+    expect(fed.state).toBe("sad");
+    expect(fed.experience).toEqual(30);
+    expect(state.inventory.Hay).toEqual(new Decimal(85));
+  });
+
+  it("feeds nothing without the whole batch", () => {
+    expect(() => feed(farm("Cow", 0, 14), "Cow", "Kernel Blend")).toThrow(
+      "Player does not have enough Kernel Blend",
+    );
+  });
+
+  it("still feeds one Beetle per click", () => {
+    const state = feed(farm("Sheep"), "Sheep", "Green Beetle");
+
+    expect(state.inventory["Green Beetle"]).toEqual(new Decimal(4));
   });
 });
 
 describe("feedAnimal: Mud", () => {
   const now = Date.now();
 
-  const farm = (overrides: Partial<Animal> = {}, skills = {}): GameState => ({
+  const farm = (overrides: Partial<Animal> = {}): GameState => ({
     ...INITIAL_FARM,
-    bumpkin: { ...INITIAL_FARM.bumpkin, skills },
     inventory: {
       ...INITIAL_FARM.inventory,
-      Hay: new Decimal(1000),
       "Barn Delight": new Decimal(10),
     },
     buildings: {
@@ -2472,8 +2870,6 @@ describe("feedAnimal: Mud", () => {
           type: "Pig",
           state: "idle",
           createdAt: 0,
-          // Level 4, whose favourite is Hay; far enough from level 5 that a
-          // few feeds never make it ready.
           experience: ANIMAL_LEVELS.Pig[4],
           asleepAt: 0,
           awakeAt: 0,
@@ -2485,86 +2881,39 @@ describe("feedAnimal: Mud", () => {
     },
   });
 
-  const feed = (
-    state: GameState,
-    item: AnimalFoodName | "Barn Delight" = "Hay",
-  ) =>
-    feedAnimal({
-      state,
-      action: { type: "animal.fed", animal: "Pig", id: "1", item },
+  it("does not spend a use when curing a sick Pig", () => {
+    const state = feedAnimal({
+      state: farm({ state: "sick", mud: { harvestsRemaining: 3 } }),
+      action: {
+        type: "animal.fed",
+        animal: "Pig",
+        id: "1",
+        item: "Barn Delight",
+      },
       createdAt: now,
     });
 
-  const gained = (state: GameState) =>
-    feed(state).pigpen.animals["1"].experience - ANIMAL_LEVELS.Pig[4];
-
-  it("grants a Pig without Mud the base XP, which is 0.8x the old table", () => {
-    // Pig XP was lowered to 0.8x so that Mud's 1.25x bonus lands exactly on
-    // the pre-Mud value: 60 -> 48 base, 60 with Mud.
-    expect(gained(farm())).toEqual(48);
-  });
-
-  it("grants a muddy Pig 1.25x XP", () => {
-    expect(gained(farm({ mud: { feedsRemaining: 3 } }))).toEqual(60);
-  });
-
-  it("spends one use per feed and drops the Mud after the third", () => {
-    let state = farm({ mud: { feedsRemaining: 3 } });
-
-    [2, 1].forEach((left) => {
-      state = feed(state);
-      expect(state.pigpen.animals["1"].mud).toEqual({ feedsRemaining: left });
-    });
-
-    state = feed(state);
-    expect(state.pigpen.animals["1"].mud).toBeUndefined();
-
-    const before = state.pigpen.animals["1"].experience;
-    state = feed(state);
-    expect(state.pigpen.animals["1"].experience - before).toEqual(48);
-  });
-
-  it("applies after Chonky Feed", () => {
-    // 48 x 2.5 (rank 2) x 1.25
-    expect(
-      gained(farm({ mud: { feedsRemaining: 3 } }, { "Chonky Feed": 2 })),
-    ).toEqual(150);
-  });
-
-  it("runs independently of a spice-rack treat", () => {
-    const feedBuff = { name: "Salt Lick" as const, harvestsRemaining: 3 };
-    const state = feed(farm({ mud: { feedsRemaining: 3 }, feedBuff }));
-
-    expect(state.pigpen.animals["1"].experience - ANIMAL_LEVELS.Pig[4]).toEqual(
-      60,
-    );
-    // Treats count down on harvest, not on feeding.
-    expect(state.pigpen.animals["1"].feedBuff).toEqual(feedBuff);
-    expect(state.pigpen.animals["1"].mud).toEqual({ feedsRemaining: 2 });
-  });
-
-  it("does not spend a use when curing a sick Pig", () => {
-    const state = feed(
-      farm({ state: "sick", mud: { feedsRemaining: 3 } }),
-      "Barn Delight",
-    );
-
-    expect(state.pigpen.animals["1"].mud).toEqual({ feedsRemaining: 3 });
+    expect(state.pigpen.animals["1"].mud).toEqual({ harvestsRemaining: 3 });
   });
 
   it("scales handleFoodXP for the previews too", () => {
-    const xp = (mud?: Animal["mud"]) =>
+    const xp = (mud?: Animal["mud"], skills = {}) =>
       handleFoodXP({
-        state: INITIAL_FARM,
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: { ...INITIAL_FARM.bumpkin, skills },
+        },
         animal: "Pig",
         level: 4,
-        food: "Hay",
+        food: "Hearty Slop",
         mud,
       }).foodXp;
 
-    expect(xp()).toEqual(48);
-    expect(xp({ feedsRemaining: 1 })).toEqual(60);
-    expect(xp({ feedsRemaining: 0 })).toEqual(48);
+    expect(xp()).toEqual(60);
+    expect(xp({ harvestsRemaining: 1 })).toEqual(75);
+    expect(xp({ harvestsRemaining: 0 })).toEqual(60);
+    // Chonky Feed rank 2 then Mud: 60 x 2.5 x 1.25.
+    expect(xp({ harvestsRemaining: 1 }, { "Chonky Feed": 2 })).toEqual(187.5);
   });
 });
 
@@ -2595,7 +2944,7 @@ describe("feedAnimal: direct Beetle feeding", () => {
     ...FARM_WITH_HERDS,
     inventory: {
       ...FARM_WITH_HERDS.inventory,
-      "Brown Beetle": new Decimal(5),
+      "Green Beetle": new Decimal(5),
       "Blue Beetle": new Decimal(5),
       "Pink Beetle": new Decimal(5),
       "Amber Beetle": new Decimal(5),
@@ -2640,7 +2989,7 @@ describe("feedAnimal: direct Beetle feeding", () => {
   const feed = (
     state: GameState,
     type: AnimalType = "Cow",
-    item: BeetleName = "Brown Beetle",
+    item: BeetleName = "Green Beetle",
   ) =>
     feedAnimal({
       state,
@@ -2649,14 +2998,16 @@ describe("feedAnimal: direct Beetle feeding", () => {
     });
 
   it.each([
-    ["Brown Beetle", 100],
-    ["Blue Beetle", 200],
-    ["Pink Beetle", 500],
-    ["Amber Beetle", 1000],
+    ["Green Beetle", 80],
+    ["Blue Beetle", 160],
+    ["Pink Beetle", 320],
+    ["Amber Beetle", 640],
   ] as const)("feeds a %s to a Cow for exactly %i XP", (item, xp) => {
     const state = feed(cowFarm(0), "Cow", item);
 
     expect(BEETLE_FEEDING_XP[item]).toEqual(xp);
+    // The Beetle's description states this XP, so keep the two in step.
+    expect(ITEM_DETAILS[item].description).toContain(`for ${xp} XP`);
     expect(state.barn.animals["1"].experience).toEqual(xp);
     expect(state.inventory[item]).toEqual(new Decimal(4));
   });
@@ -2677,7 +3028,7 @@ describe("feedAnimal: direct Beetle feeding", () => {
       const key =
         type === "Chicken" ? "henHouse" : type === "Pig" ? "pigpen" : "barn";
 
-      expect(state[key].animals["1"].experience).toEqual(1000);
+      expect(state[key].animals["1"].experience).toEqual(640);
     },
   );
 
@@ -2691,7 +3042,7 @@ describe("feedAnimal: direct Beetle feeding", () => {
     const state = feed(cowFarm(ANIMAL_LEVELS.Cow[1] - 50));
 
     expect(state.barn.animals["1"].experience).toEqual(
-      ANIMAL_LEVELS.Cow[1] + 50,
+      ANIMAL_LEVELS.Cow[1] + 30,
     );
     expect(getAnimalLevel(state.barn.animals["1"].experience, "Cow")).toEqual(
       1,
@@ -2716,54 +3067,65 @@ describe("feedAnimal: direct Beetle feeding", () => {
       cowFarm(0, {
         inventory: {
           ...FARM_WITH_HERDS.inventory,
-          "Brown Beetle": new Decimal(1),
+          "Green Beetle": new Decimal(1),
         },
         collectibles: { "Dr Cow": PLACED },
       }),
     );
 
-    expect(state.inventory["Brown Beetle"]).toEqual(new Decimal(0));
+    expect(state.inventory["Green Beetle"]).toEqual(new Decimal(0));
   });
 
   it("throws without the Beetle", () => {
     expect(() => feed(cowFarm(0, { inventory: {} }))).toThrow(
-      "Player does not have enough Brown Beetle",
+      "Player does not have enough Green Beetle",
     );
   });
 
-  it("applies Chonky Feed like any other food", () => {
+  it("ignores Chonky Feed: no extra XP and still exactly one Beetle", () => {
     const state = feed(
       cowFarm(0, {
-        bumpkin: { ...INITIAL_FARM.bumpkin, skills: { "Chonky Feed": 2 } },
+        bumpkin: { ...INITIAL_FARM.bumpkin, skills: { "Chonky Feed": 3 } },
       }),
     );
 
-    // Rank 2 is x2.5
-    expect(state.barn.animals["1"].experience).toEqual(250);
+    expect(state.barn.animals["1"].experience).toEqual(80);
+    expect(state.inventory["Green Beetle"]).toEqual(new Decimal(4));
   });
 
-  it("grants a muddy Pig 1.25x and spends a Mud use", () => {
-    const state = feed(pigFarm(0, { mud: { feedsRemaining: 3 } }), "Pig");
+  it("grants a muddy Pig 1.25x without spending a Mud charge", () => {
+    const state = feed(pigFarm(0, { mud: { harvestsRemaining: 3 } }), "Pig");
 
-    expect(state.pigpen.animals["1"].experience).toEqual(125);
-    expect(state.pigpen.animals["1"].mud).toEqual({ feedsRemaining: 2 });
+    expect(state.pigpen.animals["1"].experience).toEqual(100);
+    expect(state.pigpen.animals["1"].mud).toEqual({ harvestsRemaining: 3 });
   });
 
-  it("rounds down when Chonky Feed and Mud leave a fraction", () => {
-    // 100 x 2.5 x 1.25 = 312.5
-    const state = feed(
-      pigFarm(0, { mud: { feedsRemaining: 3 }, skills: { "Chonky Feed": 2 } }),
-      "Pig",
-    );
+  it.each([
+    ["Green Beetle", 100],
+    ["Blue Beetle", 200],
+    ["Pink Beetle", 400],
+    ["Amber Beetle", 800],
+  ] as const)(
+    "gives a muddy Pig with Chonky Feed only the Mud bonus: %s = %i XP",
+    (item, xp) => {
+      const state = feed(
+        pigFarm(0, {
+          mud: { harvestsRemaining: 3 },
+          skills: { "Chonky Feed": 2 },
+        }),
+        "Pig",
+        item,
+      );
 
-    expect(state.pigpen.animals["1"].experience).toEqual(312);
-  });
+      expect(state.pigpen.animals["1"].experience).toEqual(xp);
+    },
+  );
 
   it("keeps counting XP at the max level", () => {
     const state = feed(cowFarm(ANIMAL_LEVELS.Cow[15]), "Cow", "Amber Beetle");
 
     expect(state.barn.animals["1"].experience).toEqual(
-      ANIMAL_LEVELS.Cow[15] + 1000,
+      ANIMAL_LEVELS.Cow[15] + 640,
     );
   });
 
@@ -2785,7 +3147,7 @@ describe("feedAnimal: direct Beetle feeding", () => {
       expect(() => feed(cowFarm(0))).toThrow("Beetle feeding is not available");
     });
 
-    it("is not unlocked by holding a Beta Pass", () => {
+    it("is unlocked by holding a Beta Pass", () => {
       const state = cowFarm(0);
 
       expect(() =>
@@ -2793,7 +3155,7 @@ describe("feedAnimal: direct Beetle feeding", () => {
           ...state,
           inventory: { ...state.inventory, "Beta Pass": new Decimal(1) },
         }),
-      ).toThrow("Beetle feeding is not available");
+      ).not.toThrow();
     });
 
     it("rejects a Beetle even when a Golden Cow feeds for free", () => {
@@ -2801,5 +3163,223 @@ describe("feedAnimal: direct Beetle feeding", () => {
         feed(cowFarm(0, { collectibles: { "Golden Cow": PLACED } })),
       ).toThrow("Beetle feeding is not available");
     });
+  });
+});
+
+describe("Pig Onesie", () => {
+  const now = Date.now();
+
+  const withOnesie = (state: GameState): GameState => ({
+    ...state,
+    bumpkin: {
+      ...state.bumpkin,
+      equipped: { ...state.bumpkin.equipped, onesie: "Pig Onesie" },
+    },
+  });
+
+  const xp = (
+    state: GameState,
+    animal: AnimalType,
+    level: Parameters<typeof handleFoodXP>[0]["level"],
+    food: AnimalFoodName | BeetleName,
+    mud?: Animal["mud"],
+  ) => handleFoodXP({ state, animal, level, food, mud }).foodXp;
+
+  it.each([
+    ["Chicken", 1, "Mixed Grain"],
+    ["Cow", 1, "Mixed Grain"],
+    ["Sheep", 1, "Mixed Grain"],
+    ["Pig", 4, "Hearty Slop"],
+  ] as const)("gives a %s +5%% feed XP", (animal, level, food) => {
+    const base = xp(INITIAL_FARM, animal, level, food);
+
+    expect(base).toBeGreaterThan(0);
+    expect(xp(withOnesie(INITIAL_FARM), animal, level, food)).toEqual(
+      base * 1.05,
+    );
+  });
+
+  it("does not boost a Beetle fed directly", () => {
+    expect(xp(withOnesie(INITIAL_FARM), "Cow", 1, "Green Beetle")).toEqual(
+      BEETLE_FEEDING_XP["Green Beetle"],
+    );
+  });
+
+  it("applies after Chonky Feed and before Mud", () => {
+    const state = withOnesie({
+      ...INITIAL_FARM,
+      bumpkin: { ...INITIAL_FARM.bumpkin, skills: { "Chonky Feed": 2 } },
+    });
+
+    // 60 x 2.5 (Chonky Feed) x 1.05 (Pig Onesie) x 1.25 (Mud).
+    expect(
+      xp(state, "Pig", 4, "Hearty Slop", { harvestsRemaining: 1 }),
+    ).toEqual(196.875);
+  });
+
+  it("records the Pig Onesie in boostsUsedAt when feeding", () => {
+    const state = feedAnimal({
+      state: withOnesie({
+        ...FARM_WITH_HERDS,
+        buildings: {
+          ...FARM_WITH_HERDS.buildings,
+          "Hen House": [
+            { coordinates: { x: 0, y: 0 }, createdAt: 0, id: "0", readyAt: 0 },
+          ],
+        },
+        inventory: {
+          ...FARM_WITH_HERDS.inventory,
+          "Mixed Grain": new Decimal(100),
+        },
+      }),
+      action: {
+        type: "animal.fed",
+        animal: "Chicken",
+        id: Object.keys(FARM_WITH_HERDS.henHouse.animals)[0],
+        item: "Mixed Grain",
+      },
+      createdAt: now,
+    });
+
+    expect(state.boostsUsedAt?.["Pig Onesie"]).toEqual(now);
+  });
+  it("records the Pig Onesie in boostsUsedAt when feeding for free", () => {
+    const state = feedAnimal({
+      state: withOnesie({
+        ...FARM_WITH_HERDS,
+        buildings: {
+          ...FARM_WITH_HERDS.buildings,
+          Barn: [
+            { coordinates: { x: 0, y: 0 }, createdAt: 0, id: "0", readyAt: 0 },
+          ],
+        },
+        collectibles: {
+          "Golden Cow": [
+            { id: "1", coordinates: { x: 0, y: 0 }, readyAt: 0, createdAt: 0 },
+          ],
+        },
+      }),
+      action: {
+        type: "animal.fed",
+        animal: "Cow",
+        id: Object.keys(FARM_WITH_HERDS.barn.animals)[0],
+      },
+      createdAt: now,
+    });
+
+    expect(state.boostsUsedAt?.["Golden Cow"]).toEqual(now);
+    expect(state.boostsUsedAt?.["Pig Onesie"]).toEqual(now);
+  });
+
+  it("does not record the Pig Onesie for a food that gives no XP", () => {
+    // A Cow has no XP entry for Slop, so the onesie adds nothing.
+    expect(
+      handleFoodXP({
+        state: withOnesie(INITIAL_FARM),
+        animal: "Cow",
+        level: 1,
+        food: "Basic Slop",
+      }),
+    ).toEqual({ foodXp: 0, boostsUsed: [] });
+  });
+
+  it("can lower the one-click feed count", () => {
+    const cow = {
+      ...Object.values(FARM_WITH_HERDS.barn.animals)[0],
+      type: "Cow" as const,
+      experience: 55,
+    };
+
+    expect(getFeedBatchSize({ state: INITIAL_FARM, animal: cow })).toEqual(3);
+    expect(
+      getFeedBatchSize({ state: withOnesie(INITIAL_FARM), animal: cow }),
+    ).toEqual(2);
+  });
+
+  const freeFeedFarm = (
+    animal: "Chicken" | "Cow" | "Sheep",
+    experience: number,
+  ): GameState => {
+    const building = animal === "Chicken" ? "henHouse" : "barn";
+    const [id, herdAnimal] = Object.entries(
+      FARM_WITH_HERDS[building].animals,
+    )[0];
+
+    return withOnesie({
+      ...FARM_WITH_HERDS,
+      buildings: {
+        ...FARM_WITH_HERDS.buildings,
+        "Hen House": [
+          { coordinates: { x: 0, y: 0 }, createdAt: 0, id: "0", readyAt: 0 },
+        ],
+        Barn: [
+          { coordinates: { x: 0, y: 0 }, createdAt: 0, id: "0", readyAt: 0 },
+        ],
+      },
+      collectibles: {
+        [FREE_FEED_COLLECTIBLE[animal]]: [
+          { id: "1", coordinates: { x: 0, y: 0 }, readyAt: 0, createdAt: 0 },
+        ],
+      },
+      [building]: {
+        ...FARM_WITH_HERDS[building],
+        animals: { [id]: { ...herdAnimal, type: animal, experience } },
+      },
+    });
+  };
+
+  const FREE_FEED_COLLECTIBLE = {
+    Chicken: "Gold Egg",
+    Cow: "Golden Cow",
+    Sheep: "Golden Sheep",
+  } as const;
+
+  const freeFeed = (
+    animal: "Chicken" | "Cow" | "Sheep",
+    experience: number,
+  ) => {
+    const state = freeFeedFarm(animal, experience);
+    const building = animal === "Chicken" ? "henHouse" : "barn";
+
+    return feedAnimal({
+      state,
+      action: {
+        type: "animal.fed",
+        animal,
+        id: Object.keys(state[building].animals)[0],
+      },
+      createdAt: now,
+    });
+  };
+
+  it.each(["Chicken", "Cow", "Sheep"] as const)(
+    "records the Pig Onesie on a %s free feed",
+    (animal) => {
+      const state = freeFeed(animal, 0);
+
+      expect(state.boostsUsedAt?.[FREE_FEED_COLLECTIBLE[animal]]).toEqual(now);
+      expect(state.boostsUsedAt?.["Pig Onesie"]).toEqual(now);
+    },
+  );
+
+  it("does not record the Pig Onesie on a max-level free feed", () => {
+    // At max level a free feed tops the cycle up, so feed XP doesn't matter.
+    const maxLevel = Math.max(
+      ...Object.keys(ANIMAL_LEVELS.Cow).map(Number),
+    ) as keyof (typeof ANIMAL_LEVELS)["Cow"];
+    const state = freeFeed("Cow", ANIMAL_LEVELS.Cow[maxLevel] + 10);
+
+    expect(state.boostsUsedAt?.["Golden Cow"]).toEqual(now);
+    expect(state.boostsUsedAt?.["Pig Onesie"]).toBeUndefined();
+  });
+
+  it("gives a boosted free feed exact XP", () => {
+    // Level 1 -> 2 is 180 XP; 6 Mixed Grain at 31.5 XP = 189 XP.
+    const state = freeFeed("Cow", 0);
+    const cow = Object.values(state.barn.animals)[0];
+
+    expect(cow.experience).toEqual(
+      Math.ceil(ANIMAL_LEVELS.Cow[1] / 31.5) * 31.5,
+    );
   });
 });

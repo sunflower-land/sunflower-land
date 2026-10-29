@@ -44,6 +44,7 @@ const HARVEST_PROC_SPRITES: Record<CropName, any> = {
   Turnip: sunflowerProc,
   Artichoke: cabbageProc,
   Saltwort: beetrootProc,
+  "Crystal Leaf": kaleProc,
 };
 
 export const HARVEST_PROC_ANIMATION = {
@@ -67,7 +68,7 @@ const VOLCANO_URL = `${CONFIG.PROTECTED_IMAGE_URL}/volcano/crops`;
 
 // Crops with no Volcano Biome art in the images repo yet. Without this they
 // 404 and render as broken sprites for anyone on the Volcano Biome.
-const MISSING_VOLCANO_ART: CropName[] = ["Saltwort"];
+const MISSING_VOLCANO_ART: CropName[] = ["Saltwort", "Crystal Leaf"];
 
 const volcanoUrl = (name: CropName) =>
   MISSING_VOLCANO_ART.includes(name) ? URL : VOLCANO_URL;
@@ -96,8 +97,9 @@ export const IMAGES: Record<CropName, string> = {
   Onion: "onion",
   Turnip: "turnip",
   Artichoke: "artichoke",
-  // Chapter Crop Week event crop (lifecycle art in the images repo)
+  // Chapter Crop Week event crops (lifecycle art in the images repo)
   Saltwort: "saltwort",
+  "Crystal Leaf": "crystal_leaf",
 };
 
 export const CROP_LIFECYCLE: Record<

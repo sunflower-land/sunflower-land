@@ -9,7 +9,9 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { formatNumber } from "lib/utils/formatNumber";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
-import type { InventoryItemName } from "features/game/types/game";
+import type { GameState, InventoryItemName } from "features/game/types/game";
+import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { Label } from "./Label";
 
 import {
@@ -61,9 +63,10 @@ const RewardRow: React.FC<{
 
 const MultipleRewardsRow: React.FC<{
   reward: RewardBoxReward;
+  state: GameState;
   chance?: string;
   secondBG?: boolean;
-}> = ({ reward, chance, secondBG }) => {
+}> = ({ reward, state, chance, secondBG }) => {
   const { t } = useAppTranslation();
   const rewards = reward.wearables
     ? Object.entries(reward.wearables)
@@ -75,7 +78,7 @@ const MultipleRewardsRow: React.FC<{
     <div
       className={`flex justify-between items-center pr-2 w-full ${secondBG ? "bg-[#ead4aa] rounded" : "bg-[#c285697d] rounded"}`}
     >
-      <div className={`flex flex-col justify-between items-start `}>
+      <div className="flex flex-col justify-between items-start flex-1 min-w-0">
         {rewards.map(([rewardName, amount], itemIndex) => {
           const itemDetails = ITEM_DETAILS[rewardName as InventoryItemName];
           const wearableID = ITEM_IDS[rewardName as BumpkinItem];
@@ -86,10 +89,13 @@ const MultipleRewardsRow: React.FC<{
           const imageSrc =
             (reward.wearables ? getImageUrl(wearableID) : itemDetails?.image) ??
             SUNNYSIDE.icons.expression_confused;
+          const buffs = reward.wearables
+            ? BUMPKIN_ITEM_BUFF_LABELS[rewardName as BumpkinItem]
+            : COLLECTIBLE_BUFF_LABELS[rewardName as InventoryItemName]?.(state);
 
           return (
             <div className="flex justify-between items-center" key={itemIndex}>
-              <div className="flex items-center w-32 sm:w-40">
+              <div className="flex items-center">
                 <Box
                   image={imageSrc}
                   count={new Decimal(amount)}
@@ -105,13 +111,34 @@ const MultipleRewardsRow: React.FC<{
                         ? t("collectible")
                         : ""}
                   </p>
+                  {buffs?.map(
+                    (
+                      {
+                        labelType,
+                        boostTypeIcon,
+                        boostedItemIcon,
+                        shortDescription,
+                      },
+                      buffIndex,
+                    ) => (
+                      <Label
+                        key={buffIndex}
+                        type={labelType}
+                        icon={boostTypeIcon}
+                        secondaryIcon={boostedItemIcon}
+                        className="mt-1"
+                      >
+                        {shortDescription}
+                      </Label>
+                    ),
+                  )}
                 </div>
               </div>
             </div>
           );
         })}
       </div>
-      <p>{`${chance}`}</p>
+      <p className="ml-2 shrink-0">{`${chance}`}</p>
     </div>
   );
 };
@@ -260,6 +287,7 @@ export const ChestRewardsList: React.FC<{
                   {(reward.items || reward.wearables) && (
                     <MultipleRewardsRow
                       reward={reward}
+                      state={state}
                       chance={chance}
                       secondBG={index % 2 === 0}
                     />

@@ -10,17 +10,20 @@ import {
   type CookableName,
   FIRE_PIT_COOKABLES,
   isFishCookable,
+  isTruffleRecipe,
 } from "features/game/types/consumables";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel } from "components/ui/Panel";
 import { NPC_WEARABLES } from "lib/npcs";
 import type { BuildingProduct } from "features/game/types/game";
 import { getCurrentChapter } from "features/game/types/chapters";
+import { hasFeatureAccess } from "lib/flags";
 import { useNow } from "lib/utils/hooks/useNow";
 import {
   CHAPTER_CROP_WEEK,
   CHAPTER_CROP_WEEK_RECIPE,
-  isChapterCropWeekActive,
+  hasChapterCropWeekAccess,
+  isRetiredChapterCropWeekItem,
 } from "features/game/types/chapterCropWeek";
 import { Context } from "features/game/GameProvider";
 import { getCookingRequirements } from "features/game/events/landExpansion/cook";
@@ -60,9 +63,18 @@ export const FirePitModal: React.FC<Props> = ({
   const firePitRecipes = useMemo(() => {
     return Object.values(FIRE_PIT_COOKABLES)
       .filter((recipe) => {
+        // Recipes from previous Chapter Crop Week runs never come back
+        if (isRetiredChapterCropWeekItem(recipe.name)) return false;
+
         // Chapter Crop Week event recipe only appears while the event is active
+        // (admin testers get early access)
         if (recipe.name === CHAPTER_CROP_WEEK_RECIPE) {
-          return isChapterCropWeekActive(now);
+          return hasChapterCropWeekAccess(getGame(), now);
+        }
+
+        // Truffle recipes ride on the Pigs' flag (Truffle only exists behind it)
+        if (isTruffleRecipe(recipe.name)) {
+          return hasFeatureAccess(getGame(), "PIGPEN");
         }
 
         if (getCurrentChapter(now) === "Paw Prints") return true;
@@ -72,7 +84,7 @@ export const FirePitModal: React.FC<Props> = ({
       .sort(
         (a, b) => a.experience - b.experience, // "Lowest entry" == first in this order
       );
-  }, [now]);
+  }, [now, getGame]);
 
   /**
    * Stored selection is intentionally session-only (component state).

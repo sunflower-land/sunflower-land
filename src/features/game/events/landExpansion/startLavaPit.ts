@@ -9,6 +9,9 @@ import type {
 import { isWearableActive } from "features/game/lib/wearables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getObjectEntries } from "lib/object";
+import { prngChance } from "lib/prng";
+import { KNOWN_IDS } from "features/game/types";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 const LAVA_PIT_REQUIREMENTS_OLD: Record<TemperateSeasonName, Inventory> = {
@@ -128,6 +131,11 @@ export function getLavaPitTime({ game }: { game: GameState }) {
     boostsUsed.push({ name: "Magma Stone", value: "x0.85" });
   }
 
+  if (isWearableActive({ name: "Firefly Aura", game })) {
+    time = time * 0.8;
+    boostsUsed.push({ name: "Firefly Aura", value: "x0.8" });
+  }
+
   return { time, boostsUsed };
 }
 
@@ -140,12 +148,16 @@ type Options = {
   state: Readonly<GameState>;
   action: StartLavaPitAction;
   createdAt?: number;
+  farmId?: number;
 };
+
+export const FIREFLY_AURA_INSTANT_CHANCE = 5;
 
 export function startLavaPit({
   state,
   action,
   createdAt = Date.now(),
+  farmId,
 }: Options) {
   return produce(state, (copy) => {
     const { inventory } = copy;
@@ -183,13 +195,38 @@ export function startLavaPit({
       game: copy,
     });
 
+    const boostsUsed = [...lavaPitBoostsUsed, ...lavaPitTimeBoostsUsed];
+    const lavaPitsStarted = copy.farmActivity["Lava Pit Started"] ?? 0;
+
+    // Firefly Aura: 5% chance the burn completes instantly. Skipped without a
+    // farmId so a shared fallback seed can't correlate outcomes across farms.
+    const isInstant =
+      farmId !== undefined &&
+      isWearableActive({ name: "Firefly Aura", game: copy }) &&
+      prngChance({
+        farmId,
+        itemId: KNOWN_IDS["Lava Pit"],
+        counter: lavaPitsStarted,
+        chance: FIREFLY_AURA_INSTANT_CHANCE,
+        criticalHitName: "Firefly Aura",
+      });
+
+    if (isInstant) {
+      boostsUsed.push({ name: "Firefly Aura", value: "Instant" });
+    }
+
     lavaPit.startedAt = createdAt;
-    lavaPit.readyAt = createdAt + time;
+    lavaPit.readyAt = isInstant ? createdAt : createdAt + time;
     lavaPit.collectedAt = undefined;
+
+    copy.farmActivity = trackFarmActivity(
+      "Lava Pit Started",
+      copy.farmActivity,
+    );
 
     copy.boostsUsedAt = updateBoostUsed({
       game: copy,
-      boostNames: [...lavaPitBoostsUsed, ...lavaPitTimeBoostsUsed],
+      boostNames: boostsUsed,
       createdAt,
     });
 

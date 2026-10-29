@@ -38,6 +38,7 @@ export const BED_WIDTH: Record<BedName, number> = {
   "Messy Bed": 17,
   "Salt Crystal Bed": 18,
   "Cloud Bed": 18,
+  "Miner's Bed": 17,
 };
 
 export const BED_HEIGHT: Record<BedName, number> = {
@@ -54,6 +55,7 @@ export const BED_HEIGHT: Record<BedName, number> = {
   "Messy Bed": 20,
   "Salt Crystal Bed": 28,
   "Cloud Bed": 27,
+  "Miner's Bed": 31,
 };
 
 const _farmhands = (state: MachineState) =>

@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import type { GameState } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
+import { isCaveBuildingReady } from "features/game/lib/cave";
 import {
   CAVE_DRILL_COST,
   caveTileKey,
@@ -13,7 +14,8 @@ import {
   isCaveSeed,
   resolveCaveTile,
 } from "features/game/types/cavePatch";
-import { awardCaveTile } from "./digCaveTile";
+import { awardCaveTile, isCaveToolKept } from "./digCaveTile";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type DrillCaveTilesAction = {
   type: "cave.drilled";
@@ -25,13 +27,14 @@ type Options = {
   state: Readonly<GameState>;
   action: DrillCaveTilesAction;
   createdAt?: number;
+  farmId: number;
 };
 
 export enum DRILL_CAVE_TILES_ERRORS {
   NO_FEATURE_ACCESS = "The Cave is not available for this player",
   NO_CAVE = "The Cave has not been built",
-  NO_MACHINE = "That Myco-Composter does not exist",
-  NO_BATCH = "That Myco-Composter has no batch",
+  NO_MACHINE = "That Myco Bin does not exist",
+  NO_BATCH = "That Myco Bin has no batch",
   NOT_READY = "That patch is not ready to dig",
   NO_SEED = "That patch has no board yet",
   NOT_A_SQUARE = "Those tiles are not a 2x2 square",
@@ -49,6 +52,7 @@ export function drillCaveTiles({
   state,
   action,
   createdAt = Date.now(),
+  farmId,
 }: Options): GameState {
   return produce(state, (game) => {
     if (!hasFeatureAccess(game, "CAVE")) {
@@ -56,7 +60,7 @@ export function drillCaveTiles({
     }
 
     const cave = game.cave;
-    if (!cave) {
+    if (!cave || !isCaveBuildingReady(game, createdAt)) {
       throw new Error(DRILL_CAVE_TILES_ERRORS.NO_CAVE);
     }
 
@@ -97,18 +101,36 @@ export function drillCaveTiles({
       throw new Error(DRILL_CAVE_TILES_ERRORS.NO_DRILL);
     }
 
-    game.inventory["Sand Drill"] = drills.minus(CAVE_DRILL_COST);
+    // Sturdy Drill may keep the drill; the player still needs one to drill.
+    if (
+      isCaveToolKept({
+        game,
+        farmId,
+        tool: "Sand Drill",
+        skill: "Sturdy Drill",
+      })
+    ) {
+      game.boostsUsedAt = updateBoostUsed({
+        game,
+        boostNames: [{ name: "Sturdy Drill", value: "Drill kept" }],
+        createdAt,
+      });
+    } else {
+      game.inventory["Sand Drill"] = drills.minus(CAVE_DRILL_COST);
+    }
 
     const layout = generateCavePatch({
       recipe: batch.recipe,
       seed: batch.seed,
+      skills: batch.skills,
     });
     const dug = { ...batch.dug };
     for (const { x, y } of undug) {
       awardCaveTile({
         game,
-        tile: resolveCaveTile(layout, x, y, createdAt),
+        tile: resolveCaveTile(layout, x, y),
         createdAt,
+        farmId,
       });
       dug[caveTileKey(x, y)] = { dugAt: createdAt };
     }

@@ -22,13 +22,12 @@ import { getKeys } from "lib/object";
 import type { TemperateSeasonName } from "features/game/types/game";
 import type { LandBiomeName } from "features/island/biomes/biomes";
 
-// TODO(Chapter 16 art): one Pigpen sprite covers every biome, season and
-// building level for now (Elias 2026-09-18), so upgrading does not change the
-// building's look. Replace entries here as per-level or per-biome art lands.
+// TODO(Chapter 16 art): each level still shares its sprite across all biomes
+// and seasons. Replace entries as per-biome or seasonal art lands.
 const PIGPEN_LEVELS: Record<number, string> = {
   1: SUNNYSIDE.building.pigpen,
-  2: SUNNYSIDE.building.pigpen,
-  3: SUNNYSIDE.building.pigpen,
+  2: SUNNYSIDE.building.pigpenLevel2,
+  3: SUNNYSIDE.building.pigpenLevel3,
 };
 
 const PIGPEN_SEASONS: Record<TemperateSeasonName, Record<number, string>> = {
@@ -85,7 +84,7 @@ export const Pigpen: React.FC<BuildingProps> = ({
 
   const navigate = useNavigate();
 
-  // TODO(Chapter 16 art): reuses the Barn door sound until Pig SFX are wired up.
+  // The sound pack has no pen gate clip, so the Pigpen shares the Barn door.
   const { play: pigpenAudio } = useSound("barn");
 
   const hasHungryAnimals = useSelector(gameService, _hasHungryAnimals);

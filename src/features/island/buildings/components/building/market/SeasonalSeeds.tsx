@@ -95,7 +95,7 @@ import {
 import {
   CHAPTER_CROP_WEEK,
   CHAPTER_CROP_WEEK_SEED,
-  isChapterCropWeekActive,
+  hasChapterCropWeekAccess,
 } from "features/game/types/chapterCropWeek";
 import { hasUpgradedChapterCropWeekSkill } from "features/game/types/bumpkinSkills";
 
@@ -122,7 +122,7 @@ export const SeasonalSeeds: React.FC = () => {
   );
 
   const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
-  const isCropWeek = isChapterCropWeekActive(now);
+  const isCropWeek = hasChapterCropWeekAccess(state, now);
 
   const [selectedName, setSelectedName] = useState<SeedName>(
     currentSeasonSeeds[0],

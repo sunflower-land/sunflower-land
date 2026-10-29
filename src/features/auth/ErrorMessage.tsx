@@ -116,7 +116,13 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
     return <MultipleDevices />;
   }
 
-  if (errorCode === ERRORS.AUTOSAVE_CLOCK_ERROR) {
+  // The event API only answers 400 with EF-002 when the request's
+  // `createdAt` falls outside its clock window, so it is the same device
+  // clock problem autosave reports as AS-002.
+  if (
+    errorCode === ERRORS.AUTOSAVE_CLOCK_ERROR ||
+    errorCode === ERRORS.EFFECT_BAD_REQUEST
+  ) {
     return <ClockIssue />;
   }
 

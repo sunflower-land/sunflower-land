@@ -81,7 +81,7 @@ export function generateDeliveryTickets({
     const chapter = getCurrentChapter(now);
     const chapterBoost = CHAPTER_TICKET_BOOST_ITEMS[chapter];
 
-    Object.values(chapterBoost).forEach((item) => {
+    Object.values(chapterBoost ?? {}).forEach((item) => {
       if (isCollectible(item)) {
         if (isCollectibleBuilt({ game, name: item })) {
           amount += 1;
