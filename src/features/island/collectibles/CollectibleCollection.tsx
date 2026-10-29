@@ -849,6 +849,21 @@ export const COLLECTIBLE_COMPONENTS: Record<
       project="Ascension Monument"
     />
   ),
+  "Duende Monument": (props: CollectibleProps) => (
+    <Monument
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 36}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 6}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 36}px`,
+      }}
+      alt="Duende Monument"
+      project="Duende Monument"
+    />
+  ),
   "Dino Egg Trophy": () => <TemplateCollectible name="Dino Egg Trophy" />,
   "Salt Lamp": () => <TemplateCollectible name="Salt Lamp" />,
   "World Map Rug": () => <TemplateCollectible name="World Map Rug" />,
@@ -4338,6 +4353,118 @@ export const COLLECTIBLE_COMPONENTS: Record<
       }}
     />
   ),
+  Manatee: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Manatee"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+    />
+  ),
+  Betta: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Betta"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+    />
+  ),
+  Macropinna: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Macropinna"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+    />
+  ),
+  "Cave Dwellers Banner": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Cave Dwellers Banner"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 22}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 22}px`,
+      }}
+    />
+  ),
+  "Mushroom Chicken": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Mushroom Chicken"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 17}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -0.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 17}px`,
+      }}
+    />
+  ),
+  "Ladybug Cow": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Ladybug Cow"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 25}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 3.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 25}px`,
+      }}
+    />
+  ),
+  "Beetle Sheep": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Beetle Sheep"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 25}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 3.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 25}px`,
+      }}
+    />
+  ),
+  "Cyclops Bloom": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Cyclops Bloom"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 21}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -2.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 21}px`,
+      }}
+    />
+  ),
   "Salt Rug": () => <TemplateCollectible name="Salt Rug" />,
   "Ascended Idol": () => <TemplateCollectible name="Ascended Idol" />,
   "Ascended Wheel": () => <TemplateCollectible name="Ascended Wheel" />,
@@ -4350,6 +4477,20 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Shards Turtle": () => <TemplateCollectible name="Shards Turtle" />,
   Vibraphone: () => <TemplateCollectible name="Vibraphone" />,
   "Winged Vase": () => <TemplateCollectible name="Winged Vase" />,
+  "Giant Truffle": () => <TemplateCollectible name="Giant Truffle" />,
+  "Mining Drill": () => <TemplateCollectible name="Mining Drill" />,
+  "Piggy Bank": () => <TemplateCollectible name="Piggy Bank" />,
+  "Straw House": () => <TemplateCollectible name="Straw House" />,
+  "Stick House": () => <TemplateCollectible name="Stick House" />,
+  "Brick House": () => <TemplateCollectible name="Brick House" />,
+  "Big Bad Wolf": () => <TemplateCollectible name="Big Bad Wolf" />,
+  "Pig Plush": () => <TemplateCollectible name="Pig Plush" />,
+  "Pig Doll": () => <TemplateCollectible name="Pig Doll" />,
+  "Duende in a Bottle": () => <TemplateCollectible name="Duende in a Bottle" />,
+  "Mushroom Log": () => <TemplateCollectible name="Mushroom Log" />,
+  "Pot of Luck": () => <TemplateCollectible name="Pot of Luck" />,
+  TNT: () => <TemplateCollectible name="TNT" />,
+  "Warning Sign": () => <TemplateCollectible name="Warning Sign" />,
   "Blue Paint Bucket": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
@@ -4588,6 +4729,276 @@ export const COLLECTIBLE_COMPONENTS: Record<
       }}
       image={ITEM_DETAILS["Bronze Slime Trophy"].image}
       alt="Bronze Slime Trophy"
+    />
+  ),
+  "Corrupted Pumpkin": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Corrupted Pumpkin"].image}
+      alt="Corrupted Pumpkin"
+    />
+  ),
+  "Huge Jack-o'-lantern": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Huge Jack-o'-lantern"].image}
+      alt="Huge Jack-o'-lantern"
+    />
+  ),
+  "Haunted TV": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Haunted TV"].image}
+      alt="Haunted TV"
+    />
+  ),
+  "Zombie Hand Toy": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Zombie Hand Toy"].image}
+      alt="Zombie Hand Toy"
+    />
+  ),
+  "Cool Zombie Tombstone": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Cool Zombie Tombstone"].image}
+      alt="Cool Zombie Tombstone"
+    />
+  ),
+  "Destroyed Sign": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Destroyed Sign"].image}
+      alt="Destroyed Sign"
+    />
+  ),
+  "Skull Candles": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Skull Candles"].image}
+      alt="Skull Candles"
+    />
+  ),
+  "Plague Crow": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Plague Crow"].image}
+      alt="Plague Crow"
+    />
+  ),
+  "Skeleton Crow": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Skeleton Crow"].image}
+      alt="Skeleton Crow"
+    />
+  ),
+  "Witch Crow": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Witch Crow"].image}
+      alt="Witch Crow"
+    />
+  ),
+  "Fisherbird Crow": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Fisherbird Crow"].image}
+      alt="Fisherbird Crow"
+    />
+  ),
+  "Chained Crow": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Chained Crow"].image}
+      alt="Chained Crow"
+    />
+  ),
+  "Count Vlad Crow": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Count Vlad Crow"].image}
+      alt="Count Vlad Crow"
+    />
+  ),
+  "Lual Crow": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Lual Crow"].image}
+      alt="Lual Crow"
+    />
+  ),
+  "King Crow": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["King Crow"].image}
+      alt="King Crow"
+    />
+  ),
+  "Devil Crow": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Devil Crow"].image}
+      alt="Devil Crow"
+    />
+  ),
+  "Pharaoh Crow": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Pharaoh Crow"].image}
+      alt="Pharaoh Crow"
+    />
+  ),
+  "Cultist Crow": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Cultist Crow"].image}
+      alt="Cultist Crow"
     />
   ),
 };

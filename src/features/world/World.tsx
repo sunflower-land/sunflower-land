@@ -34,7 +34,7 @@ import {
 } from "features/game/lib/level";
 import { getActiveFloatingIsland } from "features/game/types/floatingIsland";
 import { hasPlazaAccess } from "features/island/delivery/lib/onboarding";
-import { adminFeatureFlag } from "lib/flags";
+import { adminFeatureFlag, hasTimeBasedFeatureAccess } from "lib/flags";
 import { useVisiting } from "lib/utils/visitUtils";
 import { useNow } from "lib/utils/hooks/useNow";
 
@@ -129,6 +129,13 @@ const SCENE_ACCESS: Partial<
   beach: (game) => hasWorldLevel(game, 4),
   woodlands: (game) => hasWorldLevel(game, 6),
   retreat: (game) => hasWorldLevel(game, 5),
+  // Same conditions as the World Map entry, so the URL can't skip them
+  halloween_island_2026: (game, now) =>
+    hasTimeBasedFeatureAccess({
+      featureName: "HALLOWEEN_2026_EVENT_FLAG",
+      game,
+      now,
+    }) && hasWorldLevel(game, 2),
 };
 
 export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {

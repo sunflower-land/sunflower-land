@@ -322,7 +322,7 @@ export const getCookingTime = ({
     boostsUsed.push({ name: "Desert Gnome", value: "x0.9" });
   }
 
-  // Saltbite (the CHAPTER_CROP_WEEK event recipe) ignores upgraded Cooking-skill
+  // Crystal Cookie (the CHAPTER_CROP_WEEK event recipe) ignores upgraded Cooking-skill
   // ranks — its cook-time reductions cap at rank 1 (base skill still applies).
   const cookSkills =
     item === CHAPTER_CROP_WEEK_RECIPE
@@ -415,6 +415,20 @@ export const getFoodExpBoost = ({
   ) {
     boostedExp = boostedExp.mul(1.2);
     boostsUsed.push({ name: "Grain Grinder", value: "x1.2" });
+  }
+
+  // Giant Truffle: x1.6 on Smoothie Shack and Deli foods, x1.3 on every other
+  // non-fish food. The two do not stack.
+  if (
+    !(food.name in FISH_CONSUMABLES) &&
+    isCollectibleBuilt({ name: "Giant Truffle", game })
+  ) {
+    const isShackOrDeli =
+      isCookable(food) &&
+      (food.building === "Smoothie Shack" || food.building === "Deli");
+    const multiplier = isShackOrDeli ? 1.6 : 1.3;
+    boostedExp = boostedExp.mul(multiplier);
+    boostsUsed.push({ name: "Giant Truffle", value: `x${multiplier}` });
   }
 
   if (

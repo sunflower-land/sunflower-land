@@ -260,6 +260,18 @@ import celestine from "assets/fruit/celestine/celestine.webp";
 import obsidian from "assets/resources/obsidian.webp";
 import salt from "assets/resources/salt.webp";
 import refinedSalt from "assets/resources/refined_salt.webp";
+import mud from "assets/resources/mud.webp";
+import truffle from "assets/resources/truffle.webp";
+import pigBristles from "assets/resources/pig_bristles.webp";
+import truffleSeasoning from "assets/food/truffle_seasoning.webp";
+import truffleCake from "assets/food/truffle_cake.webp";
+import creamyTruffleRisotto from "assets/food/creamy_truffle_risotto.webp";
+import emberRoastedTrufflePotatoes from "assets/food/ember_roasted_truffle_potatoes.webp";
+import greenBeetle from "assets/resources/beetles/green_beetle.webp";
+import blueBeetle from "assets/resources/beetles/blue_beetle.webp";
+import pinkBeetle from "assets/resources/beetles/pink_beetle.webp";
+import amberBeetle from "assets/resources/beetles/amber_beetle.webp";
+import { BEETLE_FEEDING_XP } from "./beetles";
 
 import pickledCabbage from "assets/pickled_crops/pickled_cabbage.webp";
 import pickledOnion from "assets/pickled_crops/pickled_onion.webp";
@@ -400,6 +412,7 @@ import beetrootBlaze from "assets/food/beetroot_blaze.png";
 import shroomSyrup from "assets/food/shroom_syrup.png";
 import rapidRoast from "assets/food/rapid_roast.png";
 import saltSnack from "assets/food/salt_snack.png";
+import crystalCookie from "assets/food/crystal_cookie.png";
 import theLot from "assets/food/the_lot.webp";
 import antipasto from "assets/food/antipasto.webp";
 import carrotJuice from "assets/food/carrot_juice.webp";
@@ -481,6 +494,35 @@ import saltWorkerGnome from "assets/sfts/salt_worker_gnome.webp";
 import shardsTurtle from "assets/sfts/shards_turtle.webp";
 import vibraphone from "assets/sfts/vibraphone.webp";
 import wingedVase from "assets/sfts/winged_vase.webp";
+
+// Cave Dwellers
+import mushroomChicken from "assets/sfts/mushroom_chicken.webp";
+import ladybugCow from "assets/sfts/ladybug_cow.webp";
+import beetleSheep from "assets/sfts/beetle_sheep.webp";
+import cyclopsBloom from "assets/sfts/cyclops_bloom.webp";
+import beetleWing from "assets/icons/beetle_wing.webp";
+import caveDwellersRaffleTicket from "assets/icons/cave_dwellers_raffle_ticket.png";
+import caveDwellersBanner from "assets/decorations/banners/cave_dwellers_banner.webp";
+import minersBed from "assets/bumpkins/miners_bed.webp";
+import duendeMonument from "assets/monuments/duende_monument_stage3.webp";
+import giantTruffle from "assets/sfts/giant_truffle.webp";
+import miningDrill from "assets/sfts/mining_drill.webp";
+import piggyBank from "assets/sfts/piggy_bank.webp";
+import strawHouse from "assets/sfts/straw_house.webp";
+import stickHouse from "assets/sfts/stick_house.webp";
+import brickHouse from "assets/sfts/brick_house.webp";
+import bigBadWolf from "assets/sfts/big_bad_wolf.webp";
+import pigPlush from "assets/sfts/pig_plush.webp";
+import pigDoll from "assets/sfts/pig_doll.webp";
+import duendeInABottle from "assets/sfts/duende_in_a_bottle.webp";
+import mushroomLog from "assets/sfts/mushroom_log.webp";
+import potOfLuck from "assets/sfts/pot_of_luck.webp";
+import tnt from "assets/sfts/tnt.webp";
+import warningSign from "assets/sfts/warning_sign.webp";
+import manatee from "assets/sfts/manatee.webp";
+import betta from "assets/sfts/betta.webp";
+import macropinna from "assets/sfts/macropinna.webp";
+import cloverCoin from "assets/icons/clover_coin.webp";
 
 // Compost
 import sproutMix from "assets/composters/sprout_mix.png";
@@ -1136,6 +1178,27 @@ import silverSlimeTrophy from "assets/sfts/silver_slime_trophy.webp";
 import goldSlimeTrophy from "assets/sfts/gold_slime_trophy.webp";
 import giantDonut from "assets/sfts/giant_donut.webp";
 
+import halloweenToken2026 from "assets/icons/halloween_token_2026.webp";
+import halloweenTicket2026 from "assets/icons/halloween_ticket_2026.webp";
+import corruptedPumpkin from "assets/sfts/corrupted_pumpkin.webp";
+import hugeJackOLantern from "assets/sfts/huge_jackolantern.webp";
+import hauntedTv from "assets/sfts/haunted_tv.webp";
+import zombieHandToy from "assets/sfts/zombie_hand_toy.webp";
+import coolZombieTombstone from "assets/sfts/cool_zombie_tombstone.webp";
+import destroyedSign from "assets/sfts/destroyed_sign.webp";
+import skullCandles from "assets/sfts/skull_candles.webp";
+import plagueCrow from "assets/sfts/plague_crow.webp";
+import skeletonCrow from "assets/sfts/skeleton_crow.webp";
+import witchCrow from "assets/sfts/witch_crow.webp";
+import fisherbirdCrow from "assets/sfts/fisherbird_crow.webp";
+import chainedCrow from "assets/sfts/chained_crow.webp";
+import countVladCrow from "assets/sfts/count_vlad_crow.webp";
+import lualCrow from "assets/sfts/lual_crow.webp";
+import kingCrow from "assets/sfts/king_crow.webp";
+import devilCrow from "assets/sfts/devil_crow.webp";
+import pharaohCrow from "assets/sfts/pharaoh_crow.webp";
+import cultistCrow from "assets/sfts/cultist_crow.webp";
+
 import bigTable from "assets/decorations/big_table.webp";
 import crate from "assets/decorations/crate.webp";
 import emptyPot from "assets/decorations/empty_pot.webp";
@@ -1377,6 +1440,8 @@ import {
 } from "./craftables";
 import { LOVE_ANIMAL_TOOLS, TREASURE_TOOLS, WORKBENCH_TOOLS } from "./tools";
 import { translate } from "lib/i18n/translate";
+import { RARECROW_IMAGES } from "./rarecrowImages";
+import { RARECROW_NAMES, type RarecrowName } from "./rarecrows";
 import { LANDSCAPING_DECORATIONS } from "./decorations";
 import { SELLABLE_TREASURES } from "./treasure";
 import { ANIMAL_FOODS } from "./animals";
@@ -1406,6 +1471,16 @@ export const getTranslatedItemName = (
 type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
 
 export const ITEM_DETAILS: Items = {
+  ...RARECROW_NAMES.reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: {
+        image: RARECROW_IMAGES[name],
+        description: translate("description.migratedRarecrow"),
+      },
+    }),
+    {} as Record<RarecrowName, { image: string; description: string }>,
+  ),
   Sunflower: {
     image: CROP_LIFECYCLE["Basic Biome"].Sunflower.crop,
     description: CROPS.Sunflower.description,
@@ -1485,6 +1560,11 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE["Basic Biome"].Saltwort.crop,
     description: translate("description.saltwort"),
     translatedName: translate("crop.saltwort"),
+  },
+  "Crystal Leaf": {
+    image: CROP_LIFECYCLE["Basic Biome"]["Crystal Leaf"].crop,
+    description: translate("description.crystalLeaf"),
+    translatedName: translate("crop.crystalLeaf"),
   },
   Rhubarb: {
     image: CROP_LIFECYCLE["Basic Biome"].Rhubarb.crop,
@@ -1607,6 +1687,11 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE["Basic Biome"].Saltwort.seed,
     description: translate("description.saltwort"),
     translatedName: translate("seed.saltwort"),
+  },
+  "Crystal Leaf Seed": {
+    image: CROP_LIFECYCLE["Basic Biome"]["Crystal Leaf"].seed,
+    description: translate("description.crystalLeaf"),
+    translatedName: translate("seed.crystalLeaf"),
   },
   "Rhubarb Seed": {
     image: CROP_LIFECYCLE["Basic Biome"].Rhubarb.seed,
@@ -1994,7 +2079,7 @@ export const ITEM_DETAILS: Items = {
     translatedName: translate("animal.sheep"),
   },
   Pig: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.animals.pigIdle,
     description: ANIMALS.Pig.description,
     translatedName: translate("animal.pig"),
   },
@@ -2719,6 +2804,11 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.building.pigpen,
     description: translate("description.pigpen"),
     translatedName: translate("building.pigpen"),
+  },
+  Cave: {
+    image: SUNNYSIDE.building.cave,
+    description: translate("description.cave"),
+    translatedName: translate("building.cave"),
   },
   Deli: {
     image: SUNNYSIDE.building.deli,
@@ -5488,6 +5578,11 @@ export const ITEM_DETAILS: Items = {
     description: CONSUMABLES["Saltbite"].description,
     translatedName: translate("food.saltbite"),
   },
+  "Crystal Cookie": {
+    image: crystalCookie,
+    description: CONSUMABLES["Crystal Cookie"].description,
+    translatedName: translate("food.crystalCookie"),
+  },
   "Shroom Syrup": {
     image: shroomSyrup,
     description: CONSUMABLES["Shroom Syrup"].description,
@@ -6155,40 +6250,68 @@ export const ITEM_DETAILS: Items = {
 
   // Chapter 16 resources. Every image below is reused from an existing item
   // until the art team delivers - see ticket 800.
-  "Brown Beetle": {
-    image: stoneBeetle, // TODO(Chapter 16 art)
-    description: translate("description.brownBeetle"),
-    translatedName: translate("resource.brownBeetle"),
+  "Green Beetle": {
+    image: greenBeetle,
+    description: translate("description.greenBeetle", {
+      xp: BEETLE_FEEDING_XP["Green Beetle"],
+    }),
+    translatedName: translate("resource.greenBeetle"),
   },
   "Blue Beetle": {
-    image: stoneBeetle, // TODO(Chapter 16 art)
-    description: translate("description.blueBeetle"),
+    image: blueBeetle,
+    description: translate("description.blueBeetle", {
+      xp: BEETLE_FEEDING_XP["Blue Beetle"],
+    }),
     translatedName: translate("resource.blueBeetle"),
   },
   "Pink Beetle": {
-    image: stoneBeetle, // TODO(Chapter 16 art)
-    description: translate("description.pinkBeetle"),
+    image: pinkBeetle,
+    description: translate("description.pinkBeetle", {
+      xp: BEETLE_FEEDING_XP["Pink Beetle"],
+    }),
     translatedName: translate("resource.pinkBeetle"),
   },
   "Amber Beetle": {
-    image: stoneBeetle, // TODO(Chapter 16 art)
-    description: translate("description.amberBeetle"),
+    image: amberBeetle,
+    description: translate("description.amberBeetle", {
+      xp: BEETLE_FEEDING_XP["Amber Beetle"],
+    }),
     translatedName: translate("resource.amberBeetle"),
   },
   Mud: {
-    image: SUNNYSIDE.sfts.dirt, // TODO(Chapter 16 art)
+    image: mud,
     description: COMMODITIES.Mud.description,
     translatedName: translate("resource.mud"),
   },
   "Pig Bristles": {
-    image: SUNNYSIDE.resource.feather, // TODO(Chapter 16 art)
+    image: pigBristles,
     description: translate("description.pigBristles"),
     translatedName: translate("resource.pigBristles"),
   },
   Truffle: {
-    image: SUNNYSIDE.resource.wild_mushroom, // TODO(Chapter 16 art)
+    image: truffle,
     description: translate("description.truffle"),
     translatedName: translate("resource.truffle"),
+  },
+  "Ember-Roasted Truffle Potatoes": {
+    image: emberRoastedTrufflePotatoes,
+    description: COOKABLES["Ember-Roasted Truffle Potatoes"].description,
+    translatedName: translate("food.emberRoastedTrufflePotatoes"),
+  },
+  "Truffle Cake": {
+    image: truffleCake,
+    description: COOKABLES["Truffle Cake"].description,
+    translatedName: translate("food.truffleCake"),
+  },
+  "Creamy Truffle Risotto": {
+    image: creamyTruffleRisotto,
+    description: COOKABLES["Creamy Truffle Risotto"].description,
+    translatedName: translate("food.creamyTruffleRisotto"),
+  },
+  "Truffle Seasoning": {
+    image: truffleSeasoning,
+    description: translate("description.truffleSeasoning"),
+    translatedName: translate("spiceRack.truffleSeasoning"),
   },
   Hay: {
     image: SUNNYSIDE.animalFoods.hay,
@@ -6214,6 +6337,26 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.animalFoods.omnifeed,
     description: ANIMAL_FOODS.Omnifeed.description,
     translatedName: translate("animalFood.omnifeed"),
+  },
+  "Basic Slop": {
+    image: SUNNYSIDE.animalFoods.kernel_blend, // TODO(Chapter 16 art)
+    description: ANIMAL_FOODS["Basic Slop"].description,
+    translatedName: translate("animalFood.basicSlop"),
+  },
+  "Hearty Slop": {
+    image: SUNNYSIDE.animalFoods.hay, // TODO(Chapter 16 art)
+    description: ANIMAL_FOODS["Hearty Slop"].description,
+    translatedName: translate("animalFood.heartySlop"),
+  },
+  "Rich Slop": {
+    image: SUNNYSIDE.animalFoods.nutribarley, // TODO(Chapter 16 art)
+    description: ANIMAL_FOODS["Rich Slop"].description,
+    translatedName: translate("animalFood.richSlop"),
+  },
+  "Gourmet Slop": {
+    image: SUNNYSIDE.animalFoods.mixed_grain, // TODO(Chapter 16 art)
+    description: ANIMAL_FOODS["Gourmet Slop"].description,
+    translatedName: translate("animalFood.gourmetSlop"),
   },
   "Crafting Box": {
     image: craftingBox,
@@ -8142,6 +8285,114 @@ export const ITEM_DETAILS: Items = {
     image: ascensionAgeRaffleTicket,
     description: translate("description.ascensionAgeRaffleTicket"),
   },
+  "Duende Cap": {
+    image: beetleWing,
+    description: translate("description.duendeCap"),
+  },
+  "Cave Dwellers Banner": {
+    image: caveDwellersBanner,
+    description: translate("description.caveDwellersBanner"),
+  },
+  "Mushroom Chicken": {
+    image: mushroomChicken,
+    description: translate("description.mushroomChicken"),
+  },
+  "Ladybug Cow": {
+    image: ladybugCow,
+    description: translate("description.ladybugCow"),
+  },
+  "Beetle Sheep": {
+    image: beetleSheep,
+    description: translate("description.beetleSheep"),
+  },
+  "Cyclops Bloom": {
+    image: cyclopsBloom,
+    description: translate("description.cyclopsBloom"),
+  },
+  "Miner's Bed": {
+    image: minersBed,
+    description: translate("description.minersBed"),
+  },
+  "Duende Monument": {
+    image: duendeMonument,
+    description: translate("description.duendeMonument"),
+  },
+  "Giant Truffle": {
+    image: giantTruffle,
+    description: translate("description.giantTruffle"),
+  },
+  "Mining Drill": {
+    image: miningDrill,
+    description: translate("description.miningDrill"),
+  },
+  "Piggy Bank": {
+    image: piggyBank,
+    description: translate("description.piggyBank"),
+  },
+  "Straw House": {
+    image: strawHouse,
+    description: translate("description.strawHouse"),
+  },
+  "Stick House": {
+    image: stickHouse,
+    description: translate("description.stickHouse"),
+  },
+  "Brick House": {
+    image: brickHouse,
+    description: translate("description.brickHouse"),
+  },
+  "Big Bad Wolf": {
+    image: bigBadWolf,
+    description: translate("description.bigBadWolf"),
+  },
+  "Pig Plush": {
+    image: pigPlush,
+    description: translate("description.pigPlush"),
+  },
+  "Pig Doll": {
+    image: pigDoll,
+    description: translate("description.pigDoll"),
+  },
+  "Duende in a Bottle": {
+    image: duendeInABottle,
+    description: translate("description.duendeInABottle"),
+  },
+  "Mushroom Log": {
+    image: mushroomLog,
+    description: translate("description.mushroomLog"),
+  },
+  "Pot of Luck": {
+    image: potOfLuck,
+    description: translate("description.potOfLuck"),
+  },
+  TNT: {
+    image: tnt,
+    description: translate("description.tnt"),
+  },
+  "Warning Sign": {
+    image: warningSign,
+    description: translate("description.warningSign"),
+  },
+  Manatee: {
+    image: manatee,
+    description: translate("description.manatee"),
+  },
+  Betta: {
+    image: betta,
+    description: translate("description.betta"),
+  },
+  Macropinna: {
+    image: macropinna,
+    description: translate("description.macropinna"),
+  },
+  "Clover Coin": {
+    image: cloverCoin,
+    description: translate("description.cloverCoin"),
+  },
+  "Cave Dwellers Raffle Ticket": {
+    image: caveDwellersRaffleTicket,
+    description: translate("description.caveDwellersRaffleTicket"),
+  },
   "Big Table": {
     image: bigTable,
     description: translate("description.big.table"),
@@ -8249,5 +8500,85 @@ export const ITEM_DETAILS: Items = {
   "Colors Token 2026": {
     image: colorsToken2026,
     description: translate("description.colorsToken2026"),
+  },
+  "Corrupted Pumpkin": {
+    image: corruptedPumpkin,
+    description: translate("description.corruptedPumpkin"),
+  },
+  "Huge Jack-o'-lantern": {
+    image: hugeJackOLantern,
+    description: translate("description.hugeJackOLantern"),
+  },
+  "Haunted TV": {
+    image: hauntedTv,
+    description: translate("description.hauntedTv"),
+  },
+  "Zombie Hand Toy": {
+    image: zombieHandToy,
+    description: translate("description.zombieHandToy"),
+  },
+  "Cool Zombie Tombstone": {
+    image: coolZombieTombstone,
+    description: translate("description.coolZombieTombstone"),
+  },
+  "Destroyed Sign": {
+    image: destroyedSign,
+    description: translate("description.destroyedSign"),
+  },
+  "Skull Candles": {
+    image: skullCandles,
+    description: translate("description.skullCandles"),
+  },
+  "Plague Crow": {
+    image: plagueCrow,
+    description: translate("description.plagueCrow"),
+  },
+  "Skeleton Crow": {
+    image: skeletonCrow,
+    description: translate("description.skeletonCrow"),
+  },
+  "Witch Crow": {
+    image: witchCrow,
+    description: translate("description.witchCrow"),
+  },
+  "Fisherbird Crow": {
+    image: fisherbirdCrow,
+    description: translate("description.fisherbirdCrow"),
+  },
+  "Chained Crow": {
+    image: chainedCrow,
+    description: translate("description.chainedCrow"),
+  },
+  "Count Vlad Crow": {
+    image: countVladCrow,
+    description: translate("description.countVladCrow"),
+  },
+  "Lual Crow": {
+    image: lualCrow,
+    description: translate("description.lualCrow"),
+  },
+  "King Crow": {
+    image: kingCrow,
+    description: translate("description.kingCrow"),
+  },
+  "Devil Crow": {
+    image: devilCrow,
+    description: translate("description.devilCrow"),
+  },
+  "Pharaoh Crow": {
+    image: pharaohCrow,
+    description: translate("description.pharaohCrow"),
+  },
+  "Cultist Crow": {
+    image: cultistCrow,
+    description: translate("description.cultistCrow"),
+  },
+  "Halloween Token 2026": {
+    image: halloweenToken2026,
+    description: translate("description.halloweenToken2025"),
+  },
+  "Halloween Ticket 2026": {
+    image: halloweenTicket2026,
+    description: translate("description.halloweenTicket2025"),
   },
 };

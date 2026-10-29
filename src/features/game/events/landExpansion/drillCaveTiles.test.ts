@@ -12,21 +12,30 @@ import {
 } from "features/game/types/caveRecipes";
 import { DRILL_CAVE_TILES_ERRORS, drillCaveTiles } from "./drillCaveTiles";
 import type { Bud } from "features/game/types/buds";
+import { prngChance } from "lib/prng";
+import { KNOWN_IDS } from "features/game/types";
 
-// Inside the Ascension Age chapter, whose artefact is the Otter Pebble.
+// The Cave building, placed and finished: every cave.* event requires it.
+const READY_CAVE = {
+  id: "cave",
+  coordinates: { x: 0, y: 0 },
+  createdAt: 0,
+  readyAt: 0,
+};
+
 const NOW = new Date("2026-09-23T00:00:00.000Z").getTime();
 
 // This seed on the Mushroom mix (golden board in cavePatch.test.ts):
 //   y0 DMDMD
-//   y1 MMMDD
+//   y1 GMMDD   (0,1) Magic Mushroom
 //   y2 DDDDD
-//   y3 DDMbD   (3,3) Brown Beetle
-//   y4 DDDuX   (3,4) Blue Beetle, (4,4) Artefact
+//   y3 DDMbD   (3,3) Green Beetle
+//   y4 DDDpD   (3,4) Pink Beetle
 const SEED = "00112233445566778899aabbccddeeff";
 
 type Coords = { x: number; y: number }[];
 
-// (2,3) Mushroom, (3,3) Brown Beetle, (2,4) Mud, (3,4) Blue Beetle.
+// (2,3) Mushroom, (3,3) Green Beetle, (2,4) Mud, (3,4) Pink Beetle.
 const BEETLE_SQUARE: Coords = [
   { x: 2, y: 3 },
   { x: 3, y: 3 },
@@ -44,6 +53,7 @@ const readyState = ({
   shovels?: number;
 } = {}): GameState => ({
   ...TEST_FARM,
+  buildings: { ...TEST_FARM.buildings, Cave: [READY_CAVE] },
   island: { ...TEST_FARM.island, type: "spring" },
   inventory: {
     ...TEST_FARM.inventory,
@@ -73,12 +83,14 @@ const drill = (
   {
     machineId = "1",
     createdAt = NOW,
-  }: { machineId?: string; createdAt?: number } = {},
+    farmId = 1,
+  }: { machineId?: string; createdAt?: number; farmId?: number } = {},
 ) =>
   drillCaveTiles({
     state,
     action: { type: "cave.drilled", machineId, coords },
     createdAt,
+    farmId,
   });
 
 describe("isCave2x2Square", () => {
@@ -155,6 +167,20 @@ describe("getCaveDrillSquare", () => {
 });
 
 describe("drillCaveTiles (cave.drilled)", () => {
+  it("throws while the Cave building is under construction", () => {
+    const state = readyState();
+
+    expect(() =>
+      drill({
+        ...state,
+        buildings: {
+          ...state.buildings,
+          Cave: [{ ...READY_CAVE, readyAt: Number.MAX_SAFE_INTEGER }],
+        },
+      }),
+    ).toThrow(DRILL_CAVE_TILES_ERRORS.NO_CAVE);
+  });
+
   it("spends one Sand Drill and no Sand Shovels", () => {
     const next = drill(readyState({ drills: 3, shovels: 5 }));
     expect(next.inventory["Sand Drill"]?.toNumber()).toBe(2);
@@ -164,8 +190,16 @@ describe("drillCaveTiles (cave.drilled)", () => {
   it("awards all four tiles of the square", () => {
     const next = drill(readyState());
     expect(next.inventory["Wild Mushroom"]?.toNumber()).toBe(1);
-    expect(next.inventory["Brown Beetle"]?.toNumber()).toBe(1);
-    expect(next.inventory["Blue Beetle"]?.toNumber()).toBe(1);
+    expect(next.inventory["Green Beetle"]?.toNumber()).toBe(1);
+    expect(next.inventory["Pink Beetle"]?.toNumber()).toBe(1);
+    expect(next.inventory.Mud?.toNumber()).toBe(1);
+  });
+
+  it("awards a drilled Magic Mushroom tile alongside Wild ones", () => {
+    // (0,0) Mud, (1,0) Wild, (0,1) Magic, (1,1) Wild
+    const next = drill(readyState(), getCaveDrillSquare(0, 0));
+    expect(next.inventory["Wild Mushroom"]?.toNumber()).toBe(2);
+    expect(next.inventory["Magic Mushroom"]?.toNumber()).toBe(1);
     expect(next.inventory.Mud?.toNumber()).toBe(1);
   });
 
@@ -180,7 +214,7 @@ describe("drillCaveTiles (cave.drilled)", () => {
         const expected: Partial<Record<keyof GameState["inventory"], number>> =
           {};
         for (const tile of coords) {
-          const { items } = resolveCaveTile(layout, tile.x, tile.y, NOW);
+          const { items } = resolveCaveTile(layout, tile.x, tile.y);
           for (const [name, amount] of Object.entries(items)) {
             const item = name as keyof GameState["inventory"];
             expected[item] = (expected[item] ?? 0) + (amount ?? 0);
@@ -197,15 +231,6 @@ describe("drillCaveTiles (cave.drilled)", () => {
     }
   });
 
-  it("awards the artefact of the chapter active at dig time", () => {
-    const pawPrints = new Date("2025-12-10T00:00:00.000Z").getTime();
-    const next = drill(readyState(), getCaveDrillSquare(3, 3), {
-      createdAt: pawPrints,
-    });
-    expect(next.inventory["Moon Crystal"]?.toNumber()).toBe(1);
-    expect(next.inventory["Otter Pebble"]).toBeUndefined();
-  });
-
   it("records all four tiles as dug", () => {
     const next = drill(readyState());
     expect(next.cave?.machines["1"].batch?.dug).toEqual({
@@ -220,8 +245,9 @@ describe("drillCaveTiles (cave.drilled)", () => {
     const layout = generateCavePatch({ recipe: "Mushroom", seed: SEED });
     const next = drill(readyState());
     expect(next.cave?.machines["1"].batch?.seed).toBe(SEED);
-    expect(resolveCaveTile(layout, 2, 3, NOW).clue).toBe(1);
-    expect(resolveCaveTile(layout, 2, 4, NOW).clue).toBe(1);
+    expect(resolveCaveTile(layout, 2, 3).clue).toBe(1);
+    // A Beetle and a Mushroom both border (2,4).
+    expect(resolveCaveTile(layout, 2, 4).clue).toBe(2);
   });
 
   it("skips tiles that were already dug and still spends the drill", () => {
@@ -232,10 +258,10 @@ describe("drillCaveTiles (cave.drilled)", () => {
     const next = drill(state);
 
     expect(next.inventory["Sand Drill"]?.toNumber()).toBe(2);
-    expect(next.inventory["Brown Beetle"]).toBeUndefined();
+    expect(next.inventory["Green Beetle"]).toBeUndefined();
     expect(next.inventory.Mud).toBeUndefined();
     expect(next.inventory["Wild Mushroom"]?.toNumber()).toBe(1);
-    expect(next.inventory["Blue Beetle"]?.toNumber()).toBe(1);
+    expect(next.inventory["Pink Beetle"]?.toNumber()).toBe(1);
     expect(next.cave?.machines["1"].batch?.dug).toEqual({
       "3,3": { dugAt: 1 },
       "2,4": { dugAt: 1 },
@@ -379,14 +405,14 @@ describe("drillCaveTiles (cave.drilled)", () => {
       );
     });
 
-    it("is not unlocked by holding a Beta Pass", () => {
+    it("is unlocked by holding a Beta Pass", () => {
       const state = readyState();
       expect(() =>
         drill({
           ...state,
           inventory: { ...state.inventory, "Beta Pass": new Decimal(1) },
         }),
-      ).toThrow(DRILL_CAVE_TILES_ERRORS.NO_FEATURE_ACCESS);
+      ).not.toThrow();
     });
   });
 });
@@ -409,5 +435,84 @@ describe("drillCaveTiles: Mushroom Bud", () => {
     expect(next.inventory["Wild Mushroom"]?.toNumber()).toBe(1.3);
     expect(next.inventory.Mud?.toNumber()).toBe(1);
     expect(next.boostsUsedAt?.["Bud #1"]).toBe(NOW);
+  });
+});
+
+describe("drillCaveTiles: Cave skills", () => {
+  const FARM_ID = 7;
+
+  const withSkills = (
+    skills: GameState["bumpkin"]["skills"],
+    state = readyState(),
+  ): GameState => ({ ...state, bumpkin: { ...state.bumpkin, skills } });
+
+  const withTilesDug = (state: GameState, count: number): GameState => ({
+    ...state,
+    farmActivity: { ...state.farmActivity, "Cave Tile Dug": count },
+  });
+
+  it("counts each tile the drill digs in the farm activity", () => {
+    const next = drill(readyState());
+    expect(next.farmActivity["Cave Tile Dug"]).toBe(4);
+  });
+
+  it("applies Muddy Bounty and Fungal Harvest to drilled tiles", () => {
+    const next = drill(withSkills({ "Muddy Bounty": 3, "Fungal Harvest": 3 }));
+    // (2,3) Mushroom and (2,4) Mud.
+    expect(next.inventory["Wild Mushroom"]?.toNumber()).toBe(1.4);
+    expect(next.inventory.Mud?.toNumber()).toBe(1.3);
+  });
+
+  it("Sturdy Drill keeps the Sand Drill exactly when its roll hits", () => {
+    let hits = 0;
+    for (let counter = 0; counter < 40; counter += 1) {
+      const hit = prngChance({
+        farmId: FARM_ID,
+        itemId: KNOWN_IDS["Sand Drill"],
+        counter,
+        chance: 40,
+        criticalHitName: "Sturdy Drill",
+      });
+      if (hit) hits += 1;
+
+      const next = drill(
+        withTilesDug(withSkills({ "Sturdy Drill": 3 }), counter),
+        BEETLE_SQUARE,
+        { farmId: FARM_ID },
+      );
+      expect(next.inventory["Sand Drill"]?.toNumber()).toBe(hit ? 10 : 9);
+      expect(next.boostsUsedAt?.["Sturdy Drill"]).toBe(hit ? NOW : undefined);
+    }
+    expect(hits).toBeGreaterThan(0);
+    expect(hits).toBeLessThan(40);
+  });
+
+  it("Twin Beetles rolls once for each drilled Beetle", () => {
+    // BEETLE_SQUARE digs (2,3), (3,3) Green, (2,4), (3,4) Pink in that order,
+    // so the two Beetles roll on the 2nd and 4th tile's counter.
+    const roll = (beetle: "Green Beetle" | "Pink Beetle", counter: number) =>
+      prngChance({
+        farmId: FARM_ID,
+        itemId: KNOWN_IDS[beetle],
+        counter,
+        chance: 15,
+        criticalHitName: "Twin Beetles",
+      });
+
+    let hits = 0;
+    for (let start = 0; start < 60; start += 1) {
+      const green = roll("Green Beetle", start + 1);
+      const pink = roll("Pink Beetle", start + 3);
+      hits += Number(green) + Number(pink);
+
+      const next = drill(
+        withTilesDug(withSkills({ "Twin Beetles": 3 }), start),
+        BEETLE_SQUARE,
+        { farmId: FARM_ID },
+      );
+      expect(next.inventory["Green Beetle"]?.toNumber()).toBe(green ? 2 : 1);
+      expect(next.inventory["Pink Beetle"]?.toNumber()).toBe(pink ? 2 : 1);
+    }
+    expect(hits).toBeGreaterThan(0);
   });
 });

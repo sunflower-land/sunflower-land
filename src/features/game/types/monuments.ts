@@ -17,7 +17,8 @@ type MegastoreMonumentName =
   | "Cornucopia"
   | "Poseidon's Throne"
   | "Crystal Altar"
-  | "Ascension Monument";
+  | "Ascension Monument"
+  | "Duende Monument";
 
 export type WorkbenchMonumentName =
   | HelpLimitMonumentName
@@ -77,6 +78,12 @@ export const MEGASTORE_MONUMENTS: Record<
   },
   "Ascension Monument": {
     name: "Ascension Monument",
+    description: "",
+    coins: 0,
+    ingredients: {},
+  },
+  "Duende Monument": {
+    name: "Duende Monument",
     description: "",
     coins: 0,
     ingredients: {},
@@ -190,6 +197,7 @@ export const REQUIRED_CHEERS: Record<MonumentName, number> = {
   "Poseidon's Throne": 2000,
   "Crystal Altar": 1000,
   "Ascension Monument": 1000,
+  "Duende Monument": 1000,
 };
 
 export type VillageProjectName = Exclude<

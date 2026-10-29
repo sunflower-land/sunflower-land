@@ -14,6 +14,7 @@ type Props = {
 const BUFF_ICON: Record<AnimalFeedBuffName, string> = {
   "Salt Lick": powerup,
   "Honey Treat": SUNNYSIDE.icons.lightning,
+  "Truffle Seasoning": SUNNYSIDE.icons.stopwatch,
 };
 
 export const AnimalFeedBuffBadge: React.FC<Props> = ({ feedBuff }) => {

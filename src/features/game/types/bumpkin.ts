@@ -23,7 +23,8 @@ export type BumpkinBackground =
   | "Holiday Feast Background"
   | "Faulty Barrier Background"
   | "Deep Sea Salt Cave Background"
-  | "Slime Wall Background";
+  | "Slime Wall Background"
+  | "Scary Nights Background";
 
 export type BumpkinBody =
   | "Beige Farmer Potion"
@@ -160,7 +161,9 @@ export type BumpkinShirt =
   | "Brasil Jersey"
   | "Blue Slime Shirt"
   | "Slime Splattered Shirt"
-  | "Swamp Armor";
+  | "Swamp Armor"
+  | "Vampire Garments"
+  | "Duende Shirt";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -240,7 +243,8 @@ export type BumpkinTool =
   | "Admin Fools Tools"
   | "Pistol Shrimp"
   | "Yellow Slime Puppet"
-  | "Ascension Staff";
+  | "Ascension Staff"
+  | "Hook and Chain";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -270,7 +274,9 @@ export type BumpkinShoe =
   | "Spa Slippers"
   | "Blue Jelly Shoes"
   | "Sad Slime Slippers"
-  | "Crystal Shoes";
+  | "Crystal Shoes"
+  | "Vampire Footwear"
+  | "Duende Shoes";
 
 export type BumpkinNecklace =
   | "Sunflower Amulet"
@@ -404,7 +410,13 @@ export type BumpkinHat =
   | "Spa Hat"
   | "Clam Shell Hat"
   | "Sad Slime Hat"
-  | "Swamp Lily Hat";
+  | "Swamp Lily Hat"
+  | "Vampire Headwear"
+  | "Butcher Knife"
+  | "Skeleton Mask"
+  | "Beetle Goggles"
+  | "Duende Hat"
+  | "Hercules Beetle Hat";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -453,7 +465,9 @@ export type BumpkinPant =
   | "Sad Slime Pants"
   | "Red Jelly Pants"
   | "Swamp Pants"
-  | "Marble Pants";
+  | "Marble Pants"
+  | "Vampire Breeches"
+  | "Duende Pants";
 
 export type BumpkinDress =
   | "Royal Dress"
@@ -531,7 +545,8 @@ export type BumpkinOnesie =
   | "Frank Onesie"
   | "Cozy Reindeer Onesie"
   | "Shrimp Onesie"
-  | "Salt Bottle Onesie";
+  | "Salt Bottle Onesie"
+  | "Pig Onesie";
 
 // Goes over clothes
 export type BumpkinSuit =
@@ -553,7 +568,9 @@ export type BumpkinSuit =
   | "Glacierguard Suit"
   | "Research Uniform"
   | "Sweet Devil Dress"
-  | "Spa Robe";
+  | "Spa Robe"
+  | "Skeleton Costume"
+  | "Traveling Merchant Suit";
 
 export type BumpkinWings =
   | "Angel Wings"
@@ -579,7 +596,9 @@ export type BumpkinWings =
   | "Sweet Devil Wings"
   | "Cardboard Wings"
   | "Rainbow Wings"
-  | "Ascension Wings";
+  | "Ascension Wings"
+  | "Sky Tearer Wings"
+  | "Traveling Merchant Bag";
 
 export type BumpkinBeard =
   | "Wise Beard"
@@ -596,7 +615,9 @@ export type BumpkinAura =
   | "Paw Aura"
   | "Glitch Aura"
   | "Bubble Aura"
-  | "Butterfly Aura";
+  | "Butterfly Aura"
+  | "Bat Aura"
+  | "Firefly Aura";
 
 export type BumpkinEyes =
   | "Bumpkin Eyes"
@@ -1262,6 +1283,33 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Marble Pants": 584,
   "Spooky Coat": 585,
   "Surfer Hair": 586,
+
+  "Traveling Merchant Suit": 587,
+  "Traveling Merchant Bag": 588,
+
+  "Beetle Goggles": 589,
+  "Duende Hat": 590,
+  "Duende Shirt": 591,
+  "Duende Pants": 592,
+  "Duende Shoes": 593,
+  "Hercules Beetle Hat": 594,
+  "Pig Onesie": 595,
+
+  //Halloween 2026
+  "Sky Tearer Wings": 596,
+  "Bat Aura": 597,
+  "Vampire Headwear": 598,
+  "Butcher Knife": 599,
+  "Skeleton Mask": 600,
+  "Vampire Breeches": 601,
+  "Scary Nights Background": 602,
+  "Vampire Garments": 603,
+  "Hook and Chain": 604,
+  "Vampire Footwear": 605,
+  "Skeleton Costume": 606,
+
+  // Cave Dwellers
+  "Firefly Aura": 607,
 };
 
 // The reverse of above
@@ -1913,6 +1961,29 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Marble Pants": "pants",
   "Spooky Coat": "coat",
   "Surfer Hair": "hair",
+
+  "Vampire Headwear": "hat",
+  "Butcher Knife": "hat",
+  "Skeleton Mask": "hat",
+  "Vampire Breeches": "pants",
+  "Scary Nights Background": "background",
+  "Vampire Garments": "shirt",
+  "Hook and Chain": "tool",
+  "Vampire Footwear": "shoes",
+  "Skeleton Costume": "suit",
+  "Sky Tearer Wings": "wings",
+  "Bat Aura": "aura",
+
+  "Traveling Merchant Suit": "suit",
+  "Traveling Merchant Bag": "wings",
+  "Beetle Goggles": "hat",
+  "Duende Hat": "hat",
+  "Duende Shirt": "shirt",
+  "Duende Pants": "pants",
+  "Duende Shoes": "shoes",
+  "Hercules Beetle Hat": "hat",
+  "Pig Onesie": "onesie",
+  "Firefly Aura": "aura",
 };
 
 /**Copied from BE just for hoarding checks */

@@ -15,6 +15,8 @@ import { trackFarmActivity } from "features/game/types/farmActivity";
 import { produce } from "immer";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { hasVipAccess } from "features/game/lib/vipAccess";
+import { prngChance } from "lib/prng";
+import { KNOWN_IDS } from "features/game/types";
 
 export type CastRodAction = {
   type: "rod.casted";
@@ -33,7 +35,10 @@ type Options = {
   state: Readonly<GameState>;
   action: CastRodAction;
   createdAt?: number;
+  farmId?: number;
 };
+
+export const HARPOON_FREE_ATTEMPT_CHANCE = 20;
 
 const ALLOWED_MULTIPLIERS = new Set([1, 5, 10, 25]);
 export const EXTRA_REELS_AMOUNT = 5;
@@ -119,6 +124,7 @@ export function castRod({
   state,
   action,
   createdAt = Date.now(),
+  farmId,
 }: Options): GameState {
   return produce(state, (game) => {
     const now = new Date(createdAt);
@@ -267,9 +273,34 @@ export function castRod({
       },
     };
 
+    // Harpoon: each reel has a 20% chance not to use a daily attempt. Mirrors
+    // the server roll (same seed), skipped without a farmId.
+    let freeAttempts = 0;
+    if (farmId !== undefined && isWearableActive({ game, name: "Harpoon" })) {
+      const previousCasts = game.farmActivity["Rod Casted"] ?? 0;
+      for (let i = 0; i < multiplier; i++) {
+        if (
+          prngChance({
+            farmId,
+            itemId: KNOWN_IDS["Rod"],
+            counter: previousCasts + i + 1,
+            chance: HARPOON_FREE_ATTEMPT_CHANCE,
+            criticalHitName: "Harpoon",
+          })
+        ) {
+          freeAttempts += 1;
+        }
+      }
+    }
+
+    if (freeAttempts > 0) {
+      boostsUsed.push({ name: "Harpoon", value: `+${freeAttempts} Attempt` });
+    }
+
     // Track daily attempts
+    const attemptsUsed = multiplier - freeAttempts;
     const attemptsBefore = todayAttempts;
-    const attemptsAfter = todayAttempts + multiplier;
+    const attemptsAfter = todayAttempts + attemptsUsed;
     const overBefore = Math.max(0, attemptsBefore - fishingLimit);
     const overAfter = Math.max(0, attemptsAfter - fishingLimit);
     const extraReelsUsed = Math.max(0, overAfter - overBefore);
@@ -279,10 +310,10 @@ export function castRod({
     }
 
     if (game.fishing.dailyAttempts && game.fishing.dailyAttempts[today]) {
-      game.fishing.dailyAttempts[today] += multiplier;
+      game.fishing.dailyAttempts[today] += attemptsUsed;
     } else {
       game.fishing.dailyAttempts = {
-        [today]: multiplier,
+        [today]: attemptsUsed,
       };
     }
 

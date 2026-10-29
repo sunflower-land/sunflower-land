@@ -326,7 +326,7 @@ export function getCropYieldAmount({
 
   const { bumpkin, buds, aoe } = game;
   const updatedAoe = cloneDeep(aoe);
-  // Saltwort (the CHAPTER_CROP_WEEK event crop) ignores upgraded Crops-skill ranks
+  // Crystal Leaf (the CHAPTER_CROP_WEEK event crop) ignores upgraded Crops-skill ranks
   // (base skill still applies) — cap here so every downstream yield/AOE read uses
   // the neutralised ranks without touching the player's stored skills.
   const skills =

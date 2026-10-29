@@ -20,7 +20,6 @@ export const AnimalMudBadge: React.FC<Props> = ({ mud }) => {
 
   return (
     <img
-      // TODO(Chapter 16 art): Mud's placeholder icon.
       src={ITEM_DETAILS.Mud.image}
       className="absolute pointer-events-none z-[1]"
       style={{

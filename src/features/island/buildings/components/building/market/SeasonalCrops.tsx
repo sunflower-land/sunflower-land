@@ -38,7 +38,8 @@ import { getCountAndType } from "features/island/hud/components/inventory/utils/
 import {
   CHAPTER_CROP_WEEK,
   CHAPTER_CROP_WEEK_CROP,
-  isChapterCropWeekActive,
+  hasChapterCropWeekAccess,
+  isRetiredChapterCropWeekItem,
 } from "features/game/types/chapterCropWeek";
 import { hasUpgradedChapterCropWeekSkill } from "features/game/types/bumpkinSkills";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -68,7 +69,7 @@ export const SeasonalCrops: React.FC = () => {
     live: true,
     autoEndAt: CHAPTER_CROP_WEEK.endDate.getTime(),
   });
-  const isCropWeek = isChapterCropWeekActive(now);
+  const isCropWeek = hasChapterCropWeekAccess(state, now);
 
   const { island, season } = state;
 
@@ -345,6 +346,9 @@ export const SeasonalCrops: React.FC = () => {
               {getKeys(crops)
                 .filter((name) => !seasonal.includes(name))
                 .filter((name) => name !== CHAPTER_CROP_WEEK_CROP)
+                // Crops from previous Chapter Crop Week runs can't be sold
+                // (the server rejects them), so they are never listed
+                .filter((name) => !isRetiredChapterCropWeekItem(name))
                 .filter((name) => !!crops[name].sellPrice)
                 .map((name) => {
                   const { count } = getCountAndType(state, name);

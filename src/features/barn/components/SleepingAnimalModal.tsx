@@ -392,8 +392,8 @@ export const SleepingAnimalModal = ({
                 {getTranslatedItemName("Mud")}
               </p>
               <span className="text-xs -top-0.5 relative">
-                {t("sleepingAnimal.mudFeedsLeft", {
-                  count: animal.mud.feedsRemaining,
+                {t("sleepingAnimal.mudHarvestsLeft", {
+                  count: animal.mud.harvestsRemaining,
                   percent: Math.round((MUD_XP_MULTIPLIER - 1) * 100),
                 })}
               </span>

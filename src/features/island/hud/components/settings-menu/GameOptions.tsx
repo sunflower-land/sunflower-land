@@ -68,7 +68,6 @@ import { EconomyEditorExperimentSettings } from "./experiments-settings/EconomyE
 import { InteriorExperimentSettings } from "./experiments-settings/InteriorExperimentSettings";
 import { LandscapingExperimentSettings } from "./experiments-settings/LandscapingExperimentSettings";
 import { ToolShopBuyAllExperimentSettings } from "./experiments-settings/ToolShopBuyAllExperimentSettings";
-import { CustomCursorExperimentSettings } from "./experiments-settings/CustomCursorExperimentSettings";
 import { StatsLeaderboardExperimentSettings } from "./experiments-settings/StatsLeaderboardExperimentSettings";
 import { AuctionCalendarExperimentSettings } from "./experiments-settings/AuctionCalendarExperimentSettings";
 import type { ContentComponentProps, SettingMenuId } from "./types";
@@ -421,11 +420,6 @@ export const SETTING_MENUS: Record<SettingMenuId, SettingMenu> = {
     title: translate("gameOptions.experiments.toolShopBuyAll"),
     parent: "experiments",
     content: ToolShopBuyAllExperimentSettings,
-  },
-  customCursor: {
-    title: translate("gameOptions.experiments.customCursor"),
-    parent: "experiments",
-    content: CustomCursorExperimentSettings,
   },
   statsLeaderboard: {
     title: translate("gameOptions.experiments.statsLeaderboard"),

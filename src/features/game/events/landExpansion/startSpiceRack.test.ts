@@ -10,6 +10,7 @@ import {
   LEGACY_SPICE_RACK_RECIPE_IDS,
 } from "features/game/types/spiceRack";
 import { getObjectEntries } from "lib/object";
+import { CONFIG } from "lib/config";
 import { startSpiceRack } from "./startSpiceRack";
 import {
   createFermentationTestState,
@@ -277,5 +278,65 @@ describe("startSpiceRack", () => {
         createdAt,
       }),
     ).toThrow("Insufficient ingredient");
+  });
+});
+
+describe("startSpiceRack: Truffle Seasoning (Chapter 16)", () => {
+  const INPUTS = {
+    Truffle: new Decimal(10),
+    "Refined Salt": new Decimal(5),
+    "Wild Mushroom": new Decimal(5),
+  };
+
+  const season = (state = createFermentationTestState({ inventory: INPUTS })) =>
+    startSpiceRack({
+      state,
+      action: {
+        type: "spiceRack.started",
+        recipe: "Truffle Seasoning",
+        jobId: TEST_JOB_ID,
+      },
+      createdAt,
+    });
+
+  it("charges the Truffle, Refined Salt and Wild Mushroom and queues the job", () => {
+    const state = season();
+
+    expect(state.inventory.Truffle).toEqual(new Decimal(0));
+    expect(state.inventory["Refined Salt"]).toEqual(new Decimal(0));
+    expect(state.inventory["Wild Mushroom"]).toEqual(new Decimal(0));
+    expect(state.agingShed.racks.spice[0]).toMatchObject({
+      recipe: "Truffle Seasoning",
+      startedAt: createdAt,
+    });
+  });
+
+  describe("off testnet", () => {
+    // jest runs on amoy, so the flag-off path is only reachable by pretending
+    // to be mainnet.
+    let previousNetwork: (typeof CONFIG)["NETWORK"];
+
+    beforeEach(() => {
+      previousNetwork = CONFIG.NETWORK;
+      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+    });
+
+    afterEach(() => {
+      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
+    });
+
+    it("throws without the PIGPEN feature flag", () => {
+      expect(() => season()).toThrow("Truffle Seasoning is not available yet");
+    });
+
+    it("is unlocked by a Beta Pass", () => {
+      expect(() =>
+        season(
+          createFermentationTestState({
+            inventory: { ...INPUTS, "Beta Pass": new Decimal(1) },
+          }),
+        ),
+      ).not.toThrow();
+    });
   });
 });

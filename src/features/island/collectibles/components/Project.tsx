@@ -71,6 +71,9 @@ import crystalAltarThree from "assets/monuments/crystal_altar_3.webp";
 import ascensionMonumentOne from "assets/monuments/ascension_monument_stage1.webp";
 import ascensionMonumentTwo from "assets/monuments/ascension_monument_stage2.webp";
 import ascensionMonumentThree from "assets/monuments/ascension_monument_stage3.webp";
+import duendeMonumentOne from "assets/monuments/duende_monument_stage1.webp";
+import duendeMonumentTwo from "assets/monuments/duende_monument_stage2.webp";
+import duendeMonumentThree from "assets/monuments/duende_monument_stage3.webp";
 
 import { getPlayer } from "features/social/actions/getPlayer";
 import { useAuth } from "features/auth/lib/Provider";
@@ -165,6 +168,11 @@ export const PROJECT_IMAGES: Record<
     empty: ascensionMonumentOne,
     halfway: ascensionMonumentTwo,
     ready: ascensionMonumentThree,
+  },
+  "Duende Monument": {
+    empty: duendeMonumentOne,
+    halfway: duendeMonumentTwo,
+    ready: duendeMonumentThree,
   },
 };
 
@@ -608,8 +616,9 @@ export const Project: React.FC<ProjectProps> = (input) => {
       return;
     }
 
+    // Keep the modal open: collecting clears the project, so it switches to
+    // the start prompt and the player can begin the next one right away.
     gameService.send("project.collected", { project: input.project });
-    setShowDetails(false);
   };
 
   const handleStartProject = () => {

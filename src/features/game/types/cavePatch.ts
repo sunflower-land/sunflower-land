@@ -1,26 +1,24 @@
-import type { CaveBatch, InventoryItemName } from "./game";
+import type { CaveBatch, CaveBatchSkills, InventoryItemName } from "./game";
+import type { MushroomName } from "./resources";
 import {
   CAVE_PATCH_WIDTH,
   CAVE_RECIPES,
   caveTileKey,
-  getCaveTileCounts,
   isCavePatchCleared,
   isCaveTileInPatch,
   type CaveRecipeName,
   type CaveTileType,
 } from "./caveRecipes";
 import { BEETLES, type BeetleName } from "./beetles";
-import { getChapterArtefact } from "./chapters";
 
 // Both repos keep this file byte-identical: the FE and BE must build the same
 // board from the same seed.
 
 /** A single tile of a Cave patch. */
 export type CaveTile =
-  | { type: "Mushroom" }
+  | { type: "Mushroom"; mushroom: MushroomName }
   | { type: "Beetle"; beetle: BeetleName }
-  | { type: "Mud"; amount: number }
-  | { type: "Artefact" };
+  | { type: "Mud"; amount: number };
 
 /** The 25 tiles of a patch keyed "x,y" (local patch coordinates, 0..4). */
 export type CavePatchLayout = Record<string, CaveTile>;
@@ -32,19 +30,23 @@ export type ResolvedCaveTile = {
   clue?: number;
 };
 
-/** Commonest-first Beetle rarity weights (percent). Matches `BEETLES` order. */
-const BEETLE_RARITY_WEIGHTS: Record<BeetleName, number> = {
-  "Brown Beetle": 40,
+/**
+ * Commonest-first Beetle rarity weights (percent). Matches `BEETLES` order. The
+ * Rare Breeds skill replaces them with the batch's `skills.beetleRarity`.
+ */
+export const BEETLE_RARITY_WEIGHTS: Record<BeetleName, number> = {
+  "Green Beetle": 40,
   "Blue Beetle": 30,
   "Pink Beetle": 20,
   "Amber Beetle": 10,
 };
 
-// TODO(Cave balance 435): placeholder per-tile yields.
-/** Wild Mushrooms from one Mushroom tile before boosts. */
+/** Mushrooms from one Mushroom tile before boosts (#7721: one). */
 export const CAVE_MUSHROOM_YIELD = 1;
 const BEETLE_YIELD = 1;
-const ARTEFACT_YIELD = 1;
+
+/** Chance a Mushroom tile holds a Magic rather than a Wild Mushroom (#7721). */
+export const CAVE_MAGIC_MUSHROOM_CHANCE = 0.1;
 
 /** A Cave board seed: 128 random bits as 32 lowercase hex characters. */
 export function isCaveSeed(seed: unknown): seed is string {
@@ -83,30 +85,55 @@ export function createCaveRandom(seed: string): () => number {
   return next;
 }
 
-function rollBeetle(random: () => number): BeetleName {
+function rollBeetle(
+  random: () => number,
+  weights: Record<BeetleName, number>,
+): BeetleName {
   const roll = random() * 100;
   let cumulative = 0;
   for (const beetle of BEETLES) {
-    cumulative += BEETLE_RARITY_WEIGHTS[beetle];
+    cumulative += weights[beetle];
     if (roll < cumulative) return beetle;
   }
   return BEETLES[BEETLES.length - 1];
 }
 
 /**
+ * How a patch's 25 tiles split by kind: the recipe's composition, with the
+ * batch's extra Mushroom and Beetle tiles taken from its Mud.
+ */
+export function getCavePatchComposition(
+  recipe: CaveRecipeName,
+  skills: CaveBatchSkills = {},
+): Record<CaveTileType, number> {
+  const { Mushroom, Beetle, Mud } = CAVE_RECIPES[recipe].composition;
+  const { extraMushroomTiles = 0, extraBeetleTiles = 0 } = skills;
+
+  return {
+    Mushroom: Mushroom + extraMushroomTiles,
+    Beetle: Beetle + extraBeetleTiles,
+    Mud: Mud - extraMushroomTiles - extraBeetleTiles,
+  };
+}
+
+/**
  * Build a patch's board from its seed. The seed is rolled by the server when
- * the batch starts, so it cannot be chosen or ground by the player.
+ * the batch starts, so it cannot be chosen or ground by the player. `skills`
+ * is the batch's snapshot of the board-shaping Cave skills.
  */
 export function generateCavePatch({
   recipe,
   seed,
+  skills,
 }: {
   recipe: CaveRecipeName;
   seed: string;
+  skills?: CaveBatchSkills;
 }): CavePatchLayout {
   const random = createCaveRandom(seed);
   const { mudYieldMultiplier } = CAVE_RECIPES[recipe];
-  const counts = getCaveTileCounts(recipe, true);
+  const counts = getCavePatchComposition(recipe, skills);
+  const beetleWeights = skills?.beetleRarity ?? BEETLE_RARITY_WEIGHTS;
 
   const bag: CaveTileType[] = [];
   const push = (kind: CaveTileType, count: number) => {
@@ -115,7 +142,6 @@ export function generateCavePatch({
   push("Mushroom", counts.Mushroom);
   push("Beetle", counts.Beetle);
   push("Mud", counts.Mud);
-  push("Artefact", counts.Artefact);
 
   // Fisher-Yates shuffle.
   for (let i = bag.length - 1; i > 0; i -= 1) {
@@ -130,16 +156,19 @@ export function generateCavePatch({
     let tile: CaveTile;
     switch (kind) {
       case "Beetle":
-        tile = { type: "Beetle", beetle: rollBeetle(random) };
+        tile = { type: "Beetle", beetle: rollBeetle(random, beetleWeights) };
         break;
       case "Mud":
         tile = { type: "Mud", amount: mudYieldMultiplier };
         break;
-      case "Artefact":
-        tile = { type: "Artefact" };
-        break;
       default:
-        tile = { type: "Mushroom" };
+        tile = {
+          type: "Mushroom",
+          mushroom:
+            random() < CAVE_MAGIC_MUSHROOM_CHANCE
+              ? "Magic Mushroom"
+              : "Wild Mushroom",
+        };
     }
     layout[caveTileKey(x, y)] = tile;
   });
@@ -157,8 +186,8 @@ const CLUE_NEIGHBOURS = [
 
 /**
  * How many of a tile's (up to) four orthogonal neighbours in the same patch
- * hold a Beetle, whatever the rarity. Read from the board, which digging never
- * changes, so a clue stays the same after Beetles are dug.
+ * hold a Beetle or a Mushroom, whatever the kind. Read from the board, which
+ * digging never changes, so a clue stays the same after they are dug.
  */
 export function getCaveTileClue(
   layout: CavePatchLayout,
@@ -170,17 +199,17 @@ export function getCaveTileClue(
     const nx = x + dx;
     const ny = y + dy;
     if (!isCaveTileInPatch(nx, ny)) continue;
-    if (layout[caveTileKey(nx, ny)]?.type === "Beetle") count += 1;
+    const type = layout[caveTileKey(nx, ny)]?.type;
+    if (type === "Beetle" || type === "Mushroom") count += 1;
   }
   return count;
 }
 
-/** What digging tile (x, y) awards at `dugAt`, and its clue. */
+/** What digging tile (x, y) awards, and its clue. */
 export function resolveCaveTile(
   layout: CavePatchLayout,
   x: number,
   y: number,
-  dugAt: number,
 ): ResolvedCaveTile {
   const tile = layout[caveTileKey(x, y)];
 
@@ -188,7 +217,7 @@ export function resolveCaveTile(
     case "Mushroom":
       return {
         type: "Mushroom",
-        items: { "Wild Mushroom": CAVE_MUSHROOM_YIELD },
+        items: { [tile.mushroom]: CAVE_MUSHROOM_YIELD },
         clue: getCaveTileClue(layout, x, y),
       };
     case "Beetle":
@@ -199,24 +228,22 @@ export function resolveCaveTile(
         items: { Mud: tile.amount },
         clue: getCaveTileClue(layout, x, y),
       };
-    case "Artefact":
-      return {
-        type: "Artefact",
-        items: { [getChapterArtefact(dugAt)]: ARTEFACT_YIELD },
-        clue: getCaveTileClue(layout, x, y),
-      };
   }
 }
 
-/** Beetles dug so far out of the recipe's fixed total. */
+/** Beetles dug so far out of the batch's fixed total. */
 export function getCaveBeetleProgress(batch: CaveBatch): {
   found: number;
   total: number;
 } {
-  const total = CAVE_RECIPES[batch.recipe].composition.Beetle;
+  const total = getCavePatchComposition(batch.recipe, batch.skills).Beetle;
   if (!isCaveSeed(batch.seed)) return { found: 0, total };
 
-  const layout = generateCavePatch({ recipe: batch.recipe, seed: batch.seed });
+  const layout = generateCavePatch({
+    recipe: batch.recipe,
+    seed: batch.seed,
+    skills: batch.skills,
+  });
   const found = Object.keys(batch.dug ?? {}).filter(
     (key) => layout[key]?.type === "Beetle",
   ).length;
@@ -232,11 +259,14 @@ export function getUndugCaveTiles(
     Mushroom: 0,
     Beetle: 0,
     Mud: 0,
-    Artefact: 0,
   };
   if (!isCaveSeed(batch.seed)) return undug;
 
-  const layout = generateCavePatch({ recipe: batch.recipe, seed: batch.seed });
+  const layout = generateCavePatch({
+    recipe: batch.recipe,
+    seed: batch.seed,
+    skills: batch.skills,
+  });
   for (const [key, tile] of Object.entries(layout)) {
     if (!batch.dug?.[key]) undug[tile.type] += 1;
   }

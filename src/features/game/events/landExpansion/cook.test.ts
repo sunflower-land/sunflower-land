@@ -19,6 +19,7 @@ import {
 import { getCookingTime } from "features/game/expansion/lib/boosts";
 import { CHAPTER_CROP_WEEK } from "features/game/types/chapterCropWeek";
 import { getCookingQueueReadyAts } from "features/game/lib/cookingReadiness";
+import { CONFIG } from "lib/config";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -414,12 +415,12 @@ describe("cook", () => {
     ).toEqual(2);
   });
 
-  it("neutralises a rank 3 Double Nom on the Saltbite event recipe (2x cost, stamps rank 1)", () => {
+  it("neutralises a rank 3 Double Nom on the Crystal Cookie event recipe (2x cost, stamps rank 1)", () => {
     const state = cook({
       state: {
         ...GAME_STATE,
         inventory: {
-          Saltwort: new Decimal(30),
+          "Crystal Leaf": new Decimal(30),
         },
         bumpkin: {
           ...INITIAL_BUMPKIN,
@@ -439,22 +440,52 @@ describe("cook", () => {
       },
       action: {
         type: "recipe.cooked",
-        item: "Saltbite",
+        item: "Crystal Cookie",
         buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
       },
       farmId: 1,
-      // Saltbite is only cookable during CHAPTER_CROP_WEEK.
+      // Crystal Cookie is only cookable during CHAPTER_CROP_WEEK.
       createdAt: CHAPTER_CROP_WEEK.startDate.getTime(),
     });
 
-    // Saltbite (event recipe) ignores the upgraded rank: 10 Saltwort base x2
-    // (rank 1) = 20 consumed, not rank 3's x4 = 40. Boiled Eggs above (a non-event
-    // recipe) still pays the full upgraded cost, proving the scoping.
-    expect(state.inventory["Saltwort"]).toEqual(new Decimal(10));
+    // Crystal Cookie (event recipe) ignores the upgraded rank: 10 Crystal Leaf
+    // base x2 (rank 1) = 20 consumed, not rank 3's x4 = 40. Boiled Eggs above (a
+    // non-event recipe) still pays the full upgraded cost, proving the scoping.
+    expect(state.inventory["Crystal Leaf"]).toEqual(new Decimal(10));
     // Recipe is stamped rank 1 so the later collect also honors rank 1.
     expect(
       state.buildings["Fire Pit"]?.[0].crafting?.[0].skills?.["Double Nom"],
     ).toEqual(1);
+  });
+
+  it("never cooks a recipe from a previous Chapter Crop Week, even with its ingredients", () => {
+    expect(() =>
+      cook({
+        state: {
+          ...GAME_STATE,
+          inventory: { Saltwort: new Decimal(30) },
+          bumpkin: INITIAL_BUMPKIN,
+          buildings: {
+            "Fire Pit": [
+              {
+                coordinates: { x: 2, y: 3 },
+                readyAt: 1000,
+                createdAt: 1000,
+                id: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
+                oil: 0,
+              },
+            ],
+          },
+        },
+        action: {
+          type: "recipe.cooked",
+          item: "Saltbite",
+          buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
+        },
+        farmId: 1,
+        createdAt: CHAPTER_CROP_WEEK.startDate.getTime(),
+      }),
+    ).toThrow("This recipe is no longer available");
   });
 
   it("adds another recipe to the building if there is a slot available", () => {
@@ -1814,5 +1845,83 @@ describe("cook (SPEED_BOOSTS windowed)", () => {
     // The new recipe starts NOW, not when the stale one finished.
     expect(queue[1].startedAt).toEqual(now);
     expect(queue[1].readyAt).toEqual(now + EGG_MS);
+  });
+});
+
+describe("cook: Truffle recipes (Chapter 16)", () => {
+  const FIRE_PIT_ID = "fire-pit-1";
+  const INPUTS: GameState["inventory"] = {
+    Truffle: new Decimal(1),
+    Potato: new Decimal(30),
+  };
+
+  const farm = (inventory: GameState["inventory"] = INPUTS): GameState => ({
+    ...GAME_STATE,
+    inventory,
+    buildings: {
+      "Fire Pit": [
+        {
+          coordinates: { x: 2, y: 3 },
+          readyAt: 0,
+          createdAt: 0,
+          id: FIRE_PIT_ID,
+        },
+      ],
+    },
+  });
+
+  const roast = (state: GameState) =>
+    cook({
+      state,
+      action: {
+        type: "recipe.cooked",
+        item: "Ember-Roasted Truffle Potatoes",
+        buildingId: FIRE_PIT_ID,
+      },
+      farmId: 1,
+      createdAt,
+    });
+
+  it("charges 1 Truffle and 30 Potato and queues the roast", () => {
+    const state = roast(farm());
+
+    expect(state.inventory.Truffle).toEqual(new Decimal(0));
+    expect(state.inventory.Potato).toEqual(new Decimal(0));
+    expect(state.buildings["Fire Pit"]?.[0].crafting?.[0]).toMatchObject({
+      name: "Ember-Roasted Truffle Potatoes",
+    });
+  });
+
+  it("no longer charges Wild Mushroom for the roast", () => {
+    const state = roast(farm({ ...INPUTS, "Wild Mushroom": new Decimal(10) }));
+
+    expect(state.inventory["Wild Mushroom"]).toEqual(new Decimal(10));
+  });
+
+  describe("off testnet", () => {
+    // jest runs on amoy, so the flag-off path is only reachable by pretending
+    // to be mainnet.
+    let previousNetwork: (typeof CONFIG)["NETWORK"];
+
+    beforeEach(() => {
+      previousNetwork = CONFIG.NETWORK;
+      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+    });
+
+    afterEach(() => {
+      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
+    });
+
+    it("throws without the PIGPEN feature flag", () => {
+      expect(() => roast(farm())).toThrow(
+        "Truffle recipes are not available yet",
+      );
+    });
+
+    it("is unlocked by a Beta Pass", () => {
+      expect(() =>
+        roast(farm({ ...INPUTS, "Beta Pass": new Decimal(1) })),
+      ).not.toThrow();
+    });
   });
 });

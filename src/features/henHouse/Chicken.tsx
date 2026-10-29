@@ -20,7 +20,7 @@ import {
   getAnimalLevel,
   getBoostedFoodQuantity,
   getFeedItem,
-  isAnimalFood,
+  isFoodForAnimal,
   getFeedQuantity,
   resolveAnimal,
 } from "features/game/lib/animals";
@@ -46,6 +46,7 @@ import Decimal from "decimal.js-light";
 import {
   getBarnDelightCost,
   handleFoodXP,
+  getFeedBatchSize,
   REQUIRED_FOOD_QTY,
 } from "features/game/events/landExpansion/feedAnimal";
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
@@ -262,13 +263,16 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chicken.state, chicken.experience]);
 
-  const { foodQuantity: requiredFoodQty } = getBoostedFoodQuantity({
+  // One click feeds the whole batch that gets the Chicken ready.
+  const feedBatchSize = getFeedBatchSize({ state: game, animal: chicken });
+  const { foodQuantity: quantityPerFeed } = getBoostedFoodQuantity({
     animalType: "Chicken",
     foodQuantity: REQUIRED_FOOD_QTY.Chicken,
     game,
     animal: chicken,
     now,
   });
+  const requiredFoodQty = quantityPerFeed.mul(feedBatchSize);
 
   const hasGoldEgg = isAnimalCoveredByGoldenAsset({
     state: game,
@@ -518,6 +522,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     // Auto-select the favourite food when it is held so a stale selection
     // (e.g. Hay left over from the barn) never feeds the wrong item.
     const feedItem = getFeedItem({
+      animal: "Chicken",
       selectedItem,
       favouriteFood: favFood,
       inventory,
@@ -532,7 +537,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     // the no-food prompt instead of an event the reducer would reject.
     const hasFoodSelected =
       feedItem &&
-      (isAnimalFood(feedItem) ||
+      (isFoodForAnimal("Chicken", feedItem) ||
         (hasBeetleFeedingAccess && isBeetle(feedItem)));
 
     if (hasFoodSelected) {
@@ -568,7 +573,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       food: hasGoldEgg ? favFood : (item as AnimalFoodName),
     });
 
-    return foodXp;
+    // A Beetle is one per click; anything else is the whole batch.
+    return item && isBeetle(item) ? foodXp : foodXp * feedBatchSize;
   };
 
   const animalImageInfo = () => {

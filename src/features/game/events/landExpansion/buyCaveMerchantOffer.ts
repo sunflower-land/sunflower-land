@@ -1,19 +1,20 @@
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
-import type { CaveMerchantOfferId, GameState } from "features/game/types/game";
-import { getWeekKey } from "features/game/lib/factions";
+import type { GameState } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
-import { getKeys } from "lib/object";
+import { isCaveBuildingReady } from "features/game/lib/cave";
+import { CAVE_MAX_TIER } from "features/game/types/caveTiers";
 import {
-  CAVE_MERCHANT_OFFERS,
-  CAVE_MERCHANT_TIER,
   getCaveMerchantOffersLeft,
-  isCaveMerchantOfferId,
+  isCaveMerchantOpen,
 } from "features/game/types/caveMerchant";
 
 export type BuyCaveMerchantOfferAction = {
   type: "cave.merchantOfferBought";
-  offerId: CaveMerchantOfferId;
+  /** The visit the player is buying from (`cave.merchantVisit.index`). */
+  visit: number;
+  /** The offer's slot, 1..8. */
+  slot: number;
 };
 
 type Options = {
@@ -25,19 +26,20 @@ type Options = {
 export enum BUY_CAVE_MERCHANT_OFFER_ERRORS {
   NO_FEATURE_ACCESS = "The Cave is not available for this player",
   NO_CAVE = "The Cave has not been built",
-  MERCHANT_CLOSED = "The Goblin Cave Merchant has not opened yet",
   UNKNOWN_OFFER = "The Goblin Cave Merchant has no such offer",
   OFFER_LOCKED = "The offer needs a later Cave tier",
+  NOT_OPEN = "The Goblin Cave Merchant is not in town",
   LIMIT_REACHED = "The offer's limit has been reached",
-  PERIOD_ENDED = "The offer's limit period has already ended",
-  INSUFFICIENT_COINS = "Not enough coins for the offer",
+  PERIOD_ENDED = "The offer's visit has already ended",
   INSUFFICIENT_ITEMS = "Not enough items for the offer",
 }
 
 /**
- * Trade with the Goblin Cave Merchant. Each offer has a per-player limit that
- * resets weekly for now; only the latest week's purchases are kept, and
- * purchases dated in an earlier week are rejected.
+ * Trade with the Goblin Cave Merchant. The offer is read from the visit the
+ * API rolled into state when the farm was loaded (`cave.merchantVisit`), never
+ * from the client, like Love Island's shop. Each offer has a per-player limit
+ * per visit; only the current visit's purchases are kept, and purchases dated
+ * in an earlier visit are rejected.
  */
 export function buyCaveMerchantOffer({
   state,
@@ -50,68 +52,63 @@ export function buyCaveMerchantOffer({
     }
 
     const cave = game.cave;
-    if (!cave) {
+    if (!cave || !isCaveBuildingReady(game, createdAt)) {
       throw new Error(BUY_CAVE_MERCHANT_OFFER_ERRORS.NO_CAVE);
     }
 
-    if (cave.tier < CAVE_MERCHANT_TIER) {
-      throw new Error(BUY_CAVE_MERCHANT_OFFER_ERRORS.MERCHANT_CLOSED);
-    }
-
-    const { offerId } = action;
-    if (!isCaveMerchantOfferId(offerId)) {
+    const { slot } = action;
+    if (!Number.isInteger(slot) || slot < 1 || slot > CAVE_MAX_TIER) {
       throw new Error(BUY_CAVE_MERCHANT_OFFER_ERRORS.UNKNOWN_OFFER);
     }
-
-    const { cost, reward, requiresTier } = CAVE_MERCHANT_OFFERS[offerId];
-    if (cave.tier < requiresTier) {
+    if (cave.tier < slot) {
       throw new Error(BUY_CAVE_MERCHANT_OFFER_ERRORS.OFFER_LOCKED);
     }
 
-    const periodKey = getWeekKey({ date: new Date(createdAt) });
-    // Week keys are ISO dates, so they sort chronologically. Autosave accepts
-    // slightly old events; one from an earlier week must not replace (and so
-    // reset) the current week's counts.
-    const periods = Object.keys(cave.merchant?.purchases ?? {});
-    if (periods.some((period) => period > periodKey)) {
+    const visit = cave.merchantVisit;
+    if (
+      !visit ||
+      action.visit !== visit.index ||
+      !isCaveMerchantOpen(visit, createdAt)
+    ) {
+      throw new Error(BUY_CAVE_MERCHANT_OFFER_ERRORS.NOT_OPEN);
+    }
+
+    // Visit indexes only grow. Autosave accepts slightly old events; one from
+    // an earlier visit must not replace (and so reset) the current counts.
+    const visits = Object.keys(cave.merchant?.purchases ?? {}).map(Number);
+    if (visits.some((index) => index > visit.index)) {
       throw new Error(BUY_CAVE_MERCHANT_OFFER_ERRORS.PERIOD_ENDED);
+    }
+
+    const offer = visit.offers.find((stocked) => stocked.slot === slot);
+    if (!offer) {
+      throw new Error(BUY_CAVE_MERCHANT_OFFER_ERRORS.UNKNOWN_OFFER);
     }
     const left = getCaveMerchantOffersLeft({
       merchant: cave.merchant,
-      offerId,
-      periodKey,
+      visit: visit.index,
+      slot,
+      limit: offer.limit,
     });
     if (left <= 0) {
       throw new Error(BUY_CAVE_MERCHANT_OFFER_ERRORS.LIMIT_REACHED);
     }
 
-    const coins = cost.coins ?? 0;
-    if (game.coins < coins) {
-      throw new Error(BUY_CAVE_MERCHANT_OFFER_ERRORS.INSUFFICIENT_COINS);
-    }
-    for (const item of getKeys(cost.items)) {
-      const owned = game.inventory[item] ?? new Decimal(0);
-      if (owned.lt(cost.items[item] ?? 0)) {
-        throw new Error(BUY_CAVE_MERCHANT_OFFER_ERRORS.INSUFFICIENT_ITEMS);
-      }
+    const owned = game.inventory[offer.cost.item] ?? new Decimal(0);
+    if (owned.lt(offer.cost.amount)) {
+      throw new Error(BUY_CAVE_MERCHANT_OFFER_ERRORS.INSUFFICIENT_ITEMS);
     }
 
-    game.coins -= coins;
-    for (const item of getKeys(cost.items)) {
-      const owned = game.inventory[item] ?? new Decimal(0);
-      game.inventory[item] = owned.minus(cost.items[item] ?? 0);
-    }
-    for (const item of getKeys(reward)) {
-      const owned = game.inventory[item] ?? new Decimal(0);
-      game.inventory[item] = owned.add(reward[item] ?? 0);
-    }
+    game.inventory[offer.cost.item] = owned.minus(offer.cost.amount);
+    game.inventory[offer.reward.item] = (
+      game.inventory[offer.reward.item] ?? new Decimal(0)
+    ).add(offer.reward.amount);
 
-    // Earlier periods no longer limit anything, so only the current one is kept.
-    const bought = cave.merchant?.purchases[periodKey] ?? {};
+    // Earlier visits no longer limit anything, so only the current one is kept.
+    const key = String(visit.index);
+    const bought = cave.merchant?.purchases[key] ?? {};
     cave.merchant = {
-      purchases: {
-        [periodKey]: { ...bought, [offerId]: (bought[offerId] ?? 0) + 1 },
-      },
+      purchases: { [key]: { ...bought, [slot]: (bought[slot] ?? 0) + 1 } },
     };
   });
 }

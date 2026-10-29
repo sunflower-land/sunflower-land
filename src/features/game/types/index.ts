@@ -1,4 +1,5 @@
 import type { InventoryItemName } from "./game";
+import { RARECROW_IDS } from "./rarecrows";
 import type { LabelType } from "components/ui/Label";
 
 export enum LimitedItemType {
@@ -514,6 +515,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "April Fools Token 2026": 774,
   "Skill Reset Ticket": 775,
   "Colors Token 2026": 776,
+  "Halloween Token 2026": 777,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
@@ -635,6 +637,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Fish Market": 1025,
   "Aging Shed": 1026,
   Pigpen: 1027,
+  Cave: 1028,
 
   // Temporary Bumpkin items
   "Chef Apron": 1101,
@@ -1194,6 +1197,27 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Bronze Slime Trophy": 2374,
   "Colors Ticket 2026": 2375,
 
+  //Halloween 2026 event items
+  "Corrupted Pumpkin": 2376,
+  "Huge Jack-o'-lantern": 2377,
+  "Haunted TV": 2378,
+  "Zombie Hand Toy": 2379,
+  "Cool Zombie Tombstone": 2380,
+  "Destroyed Sign": 2381,
+  "Skull Candles": 2382,
+  "Plague Crow": 2383,
+  "Skeleton Crow": 2384,
+  "Witch Crow": 2385,
+  "Fisherbird Crow": 2386,
+  "Chained Crow": 2387,
+  "Count Vlad Crow": 2388,
+  "Lual Crow": 2389,
+  "King Crow": 2390,
+  "Devil Crow": 2391,
+  "Pharaoh Crow": 2392,
+  "Cultist Crow": 2393,
+  "Halloween Ticket 2026": 2394,
+
   // Monument Items
   "Big Orange": 2281,
   "Big Apple": 2282,
@@ -1562,7 +1586,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Salt Doll": 3023,
   "Jacuzzi Bear": 3024,
   "Design Trophy": 3026,
-  // Chapter Crop Week (limited-time event)
+  // Chapter Crop Week (limited-time event) — July 2026
   Saltwort: 3027,
   "Saltwort Seed": 3028,
   Saltbite: 3029,
@@ -1625,13 +1649,58 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Loyal Rarecrow": 3083,
 
   // Chapter 16 resources
-  "Brown Beetle": 3084,
+  "Green Beetle": 3084,
   "Blue Beetle": 3085,
   "Pink Beetle": 3086,
   "Amber Beetle": 3087,
   Mud: 3088,
   "Pig Bristles": 3089,
   Truffle: 3090,
+  // Chapter Crop Week (limited-time event) — October 2026
+  "Crystal Leaf": 3091,
+  "Crystal Leaf Seed": 3092,
+  "Crystal Cookie": 3093,
+  "Basic Slop": 3094,
+  "Hearty Slop": 3095,
+  "Rich Slop": 3096,
+  "Gourmet Slop": 3097,
+
+  // Chapter 16 — Truffle cooking and the Spice Rack treat
+  "Ember-Roasted Truffle Potatoes": 3098,
+  "Truffle Cake": 3099,
+  "Creamy Truffle Risotto": 3100,
+  "Truffle Seasoning": 3101,
+  // Cave Dwellers chapter
+  Manatee: 3102,
+  "Duende Cap": 3103,
+  "Cave Dwellers Raffle Ticket": 3104,
+  "Cave Dwellers Banner": 3105,
+  "Clover Coin": 3106,
+  "Mushroom Chicken": 3107,
+  "Ladybug Cow": 3108,
+  "Beetle Sheep": 3109,
+  "Cyclops Bloom": 3110,
+  "Duende Monument": 3111,
+  "Miner's Bed": 3112,
+  "Giant Truffle": 3113,
+  "Mining Drill": 3114,
+  "Piggy Bank": 3115,
+  "Straw House": 3116,
+  "Stick House": 3117,
+  "Brick House": 3118,
+  "Big Bad Wolf": 3119,
+  "Pig Plush": 3120,
+  "Pig Doll": 3121,
+  Betta: 3122,
+  Macropinna: 3123,
+  // Rarecrows game migration: 3124 - 3227
+  ...RARECROW_IDS,
+  // Cave Dwellers track decorations (after the Rarecrow ids, up to 3271)
+  "Duende in a Bottle": 3272,
+  "Mushroom Log": 3273,
+  "Pot of Luck": 3274,
+  TNT: 3275,
+  "Warning Sign": 3276,
 };
 
 // The reverse of above

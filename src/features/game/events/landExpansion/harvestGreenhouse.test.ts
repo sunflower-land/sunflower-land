@@ -1136,3 +1136,55 @@ describe("harvestGreenHouse under SPEED_BOOSTS (windowed)", () => {
     expect(harvested.greenhouse.pots[1].plant).toBeUndefined();
   });
 });
+
+describe("Antique Dress", () => {
+  const harvestGrape = (
+    dress: "Antique Dress" | undefined,
+    grapesHarvested: number,
+  ) =>
+    harvestGreenHouse({
+      farmId: 1,
+      action: { type: "greenhouse.harvested", id: 1 },
+      state: {
+        ...farm,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: { ...INITIAL_BUMPKIN.equipped, dress },
+        },
+        farmActivity: { "Grape Harvested": grapesHarvested },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {
+              plant: {
+                name: "Grape",
+                plantedAt: Date.now() - 72 * 60 * 60 * 1000,
+              },
+            },
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            { coordinates: { x: 0, y: 0 }, id: "1", createdAt: 0, readyAt: 0 },
+          ],
+        },
+      },
+    });
+
+  // Golden values: farmId 1 + Grape counter 17 rolls under 10%, counter 0 does not
+  it("gives +10 Grapes on a 10% roll", () => {
+    expect(harvestGrape("Antique Dress", 17).inventory.Grape).toEqual(
+      new Decimal(11),
+    );
+  });
+
+  it("gives no bonus when the roll misses", () => {
+    expect(harvestGrape("Antique Dress", 0).inventory.Grape).toEqual(
+      new Decimal(1),
+    );
+  });
+
+  it("gives no bonus without the Antique Dress", () => {
+    expect(harvestGrape(undefined, 17).inventory.Grape).toEqual(new Decimal(1));
+  });
+});

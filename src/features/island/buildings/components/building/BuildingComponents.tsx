@@ -39,6 +39,8 @@ import { Greenhouse } from "./greenhouse/Greenhouse";
 import { CropMachine } from "./cropMachine/CropMachine";
 import { Barn, BARN_IMAGES } from "./barn/Barn";
 import { Pigpen, PIGPEN_IMAGES } from "./pigpen/Pigpen";
+import { CaveBuilding } from "./cave/CaveBuilding";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { CraftingBox } from "./craftingBox/CraftingBox";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { PetHouse } from "./petHouse/PetHouse";
@@ -104,6 +106,7 @@ export const BUILDING_COMPONENTS: Record<
   "Hen House": ChickenHouse,
   Barn: Barn,
   Pigpen: Pigpen,
+  Cave: CaveBuilding,
   "Compost Bin": () => <Composter name="Compost Bin" />,
   "Turbo Composter": () => <Composter name="Turbo Composter" />,
   "Premium Composter": () => <Composter name="Premium Composter" />,
@@ -310,6 +313,13 @@ export const READONLY_BUILDINGS: ({
           style={{ width: `${PIXEL_SCALE * 50}px` }}
         />
       </div>
+    ),
+    Cave: () => (
+      <img
+        src={SUNNYSIDE.building.cave}
+        className="absolute bottom-0"
+        style={{ width: `${PIXEL_SCALE * 50}px` }}
+      />
     ),
     "Crop Machine": () => (
       <div

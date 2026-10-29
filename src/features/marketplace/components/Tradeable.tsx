@@ -29,7 +29,8 @@ import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import {
   CHAPTER_CROP_WEEK_CROP,
-  isChapterCropWeekActive,
+  hasChapterCropWeekAccess,
+  isRetiredChapterCropWeekItem,
 } from "features/game/types/chapterCropWeek";
 import { TradeableStats } from "./TradeableStats";
 import { getKeys } from "lib/object";
@@ -223,12 +224,18 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
 
   const isStoneBeetle = collection === "collectibles" && Number(id) === 2129;
 
-  // Chapter Crop Week crop (Saltwort) trading is only available while the event
-  // is active. Everyone else sees a "Coming Soon" page instead of the details.
+  // Chapter Crop Week crop (Crystal Leaf) trading is only available while the event
+  // is active (admin testers get early access). Everyone else sees a "Coming
+  // Soon" page instead of the details.
   const isChapterCropWeekLocked =
-    display.name === CHAPTER_CROP_WEEK_CROP && !isChapterCropWeekActive();
+    display.name === CHAPTER_CROP_WEEK_CROP && !hasChapterCropWeekAccess(state);
 
-  if (isChapterCropWeekLocked) {
+  // Crops from previous Chapter Crop Week runs are never tradeable again.
+  const isRetiredChapterCropWeekCrop = isRetiredChapterCropWeekItem(
+    display.name,
+  );
+
+  if (isChapterCropWeekLocked || isRetiredChapterCropWeekCrop) {
     return (
       <div className="flex flex-col w-full sm:w-1/3 mr-1 mb-1">
         <InnerPanel
@@ -243,12 +250,25 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
           </div>
         </InnerPanel>
         <InnerPanel className="p-4 flex flex-col items-center justify-center gap-2">
-          <Label type="vibrant" icon={SUNNYSIDE.icons.stopwatch}>
-            {t("coming.soon")}
-          </Label>
-          <p className="text-xs text-center">
-            {t("chapterCropWeek.comingSoon")}
-          </p>
+          {isRetiredChapterCropWeekCrop ? (
+            <>
+              <Label type="danger" icon={SUNNYSIDE.icons.cancel}>
+                {t("chapterCropWeek.retired")}
+              </Label>
+              <p className="text-xs text-center">
+                {t("chapterCropWeek.retiredDescription")}
+              </p>
+            </>
+          ) : (
+            <>
+              <Label type="vibrant" icon={SUNNYSIDE.icons.stopwatch}>
+                {t("coming.soon")}
+              </Label>
+              <p className="text-xs text-center">
+                {t("chapterCropWeek.comingSoon")}
+              </p>
+            </>
+          )}
         </InnerPanel>
       </div>
     );

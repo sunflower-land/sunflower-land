@@ -243,6 +243,12 @@ export const getFruitPatchTime = (
     boostsUsed.push({ name: "Fruit Tune Box", value: "x0.8" });
   }
 
+  // Duende Hat: 10% reduction
+  if (isWearableActive({ name: "Duende Hat", game })) {
+    seconds = seconds * 0.9;
+    boostsUsed.push({ name: "Duende Hat", value: "x0.9" });
+  }
+
   // Lemon Tea Bath: 50% reduction
   if (
     patchFruitSeedName === "Lemon Seed" &&

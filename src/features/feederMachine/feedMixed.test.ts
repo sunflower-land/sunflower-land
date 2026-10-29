@@ -1,6 +1,8 @@
 import Decimal from "decimal.js-light";
 import { feedMixed, getMaxFeedMixAmount } from "./feedMixed";
 import { INITIAL_FARM } from "features/game/lib/constants";
+import { CONFIG } from "lib/config";
+import { bulkMixFeed } from "./bulkMixFeed";
 import type { AnimalFoodName } from "features/game/types/game";
 
 describe("feedMixed", () => {
@@ -227,5 +229,140 @@ describe("getMaxFeedMixAmount", () => {
         name: "Mixed Grain",
       }),
     ).toBe(5);
+  });
+});
+
+describe("feedMixed: Pig Slops", () => {
+  it("mixes a Slop from the chosen input in that input's quantity", () => {
+    const state = feedMixed({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          Sunflower: new Decimal(1800),
+          Potato: new Decimal(100),
+        },
+      },
+      action: {
+        type: "feed.mixed",
+        item: "Basic Slop",
+        ingredient: "Sunflower",
+        amount: 2,
+      },
+    });
+
+    expect(state.inventory["Basic Slop"]).toEqual(new Decimal(2));
+    expect(state.inventory.Sunflower).toEqual(new Decimal(200));
+    expect(state.inventory.Potato).toEqual(new Decimal(100));
+  });
+
+  it("mixes a tier 4 Slop from a crustacean", () => {
+    const state = feedMixed({
+      state: { ...INITIAL_FARM, inventory: { Lobster: new Decimal(3) } },
+      action: {
+        type: "feed.mixed",
+        item: "Gourmet Slop",
+        ingredient: "Lobster",
+      },
+    });
+
+    expect(state.inventory["Gourmet Slop"]).toEqual(new Decimal(1));
+    expect(state.inventory.Lobster).toEqual(new Decimal(2));
+  });
+
+  it("needs enough of the chosen input", () => {
+    expect(() =>
+      feedMixed({
+        state: { ...INITIAL_FARM, inventory: { Sunflower: new Decimal(799) } },
+        action: {
+          type: "feed.mixed",
+          item: "Basic Slop",
+          ingredient: "Sunflower",
+        },
+      }),
+    ).toThrow("Insufficient Ingredient: Sunflower");
+  });
+
+  it("needs an input", () => {
+    expect(() =>
+      feedMixed({
+        state: { ...INITIAL_FARM, inventory: { Sunflower: new Decimal(1000) } },
+        action: { type: "feed.mixed", item: "Basic Slop" },
+      }),
+    ).toThrow("Invalid ingredient");
+  });
+
+  it("rejects an input from another tier", () => {
+    expect(() =>
+      feedMixed({
+        state: { ...INITIAL_FARM, inventory: { Wheat: new Decimal(10) } },
+        action: {
+          type: "feed.mixed",
+          item: "Basic Slop",
+          ingredient: "Wheat",
+        },
+      }),
+    ).toThrow("Invalid ingredient");
+  });
+
+  it("rejects an input on a feed with a fixed recipe", () => {
+    expect(() =>
+      feedMixed({
+        state: { ...INITIAL_FARM, inventory: { Wheat: new Decimal(10) } },
+        action: { type: "feed.mixed", item: "Hay", ingredient: "Wheat" },
+      }),
+    ).toThrow("Invalid ingredient");
+  });
+
+  it("mixes Slops alongside other feeds in a bulk mix", () => {
+    const state = bulkMixFeed({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          Wheat: new Decimal(5),
+          Tomato: new Decimal(20),
+        },
+      },
+      action: {
+        type: "feeds.bulkMixed",
+        feeds: [
+          { item: "Hay", amount: 2 },
+          { item: "Hearty Slop", ingredient: "Tomato", amount: 1 },
+        ],
+      },
+    });
+
+    expect(state.inventory.Hay).toEqual(new Decimal(2));
+    expect(state.inventory["Hearty Slop"]).toEqual(new Decimal(1));
+    expect(state.inventory.Tomato).toEqual(new Decimal(0));
+  });
+
+  describe("without the Pigpen", () => {
+    // Jest runs on amoy, where the testnet PIGPEN flag is on.
+    let previousNetwork: (typeof CONFIG)["NETWORK"];
+
+    beforeEach(() => {
+      previousNetwork = CONFIG.NETWORK;
+      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+    });
+
+    afterEach(() => {
+      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
+    });
+
+    it("does not mix Slops", () => {
+      expect(() =>
+        feedMixed({
+          state: {
+            ...INITIAL_FARM,
+            inventory: { Sunflower: new Decimal(1000) },
+          },
+          action: {
+            type: "feed.mixed",
+            item: "Basic Slop",
+            ingredient: "Sunflower",
+          },
+        }),
+      ).toThrow("Pig feeds are not available");
+    });
   });
 });

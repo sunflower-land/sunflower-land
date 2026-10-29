@@ -8,6 +8,7 @@ import {
   type AnimalLevel,
   ANIMALS,
   type AnimalType,
+  PIG_BRISTLES_PER_LEVEL,
 } from "../types/animals";
 import { getKeys } from "lib/object";
 import type {
@@ -52,19 +53,19 @@ export const makeAnimalBuildingKey = (
 export const ANIMAL_BUILDING_KEYS: AnimalBuildingKey[] =
   ANIMAL_BUILDING_TYPES.map(makeAnimalBuildingKey);
 
-// TODO(Chapter 16): the spec gives 48h of protection per Mud; these replace it
-// (Elias, 2026-09-21) and are unspecced placeholders.
-/** Feeds of bonus XP that 1 Mud gives a Pig. */
-export const MUD_FEEDS = 3;
 /**
- * Final feeding-XP multiplier for a muddy Pig. The Pig XP table is 0.8x what it
- * was, so a muddy Pig earns exactly the old XP and a Pig without Mud earns
- * 0.8x - the spec's upkeep penalty, framed as a bonus.
+ * Mud spent per application (#7721 Balance Update). Its charges work exactly
+ * like a spice-rack treat's (`getAnimalHarvests`, spent in `claimProduce`).
+ */
+export const MUD_PER_APPLICATION = 10;
+/**
+ * Final feeding-XP multiplier for a muddy Pig (#7721: +25% final XP). The
+ * result can be fractional (10 -> 12.5); handleFoodXP keeps it exact.
  */
 export const MUD_XP_MULTIPLIER = 1.25;
 
 export const isMuddy = (animal: Pick<Animal, "mud">): boolean =>
-  (animal.mud?.feedsRemaining ?? 0) > 0;
+  (animal.mud?.harvestsRemaining ?? 0) > 0;
 
 /**
  * Starting XP for the animals a new building is seeded with. Arbitrary data,
@@ -75,7 +76,6 @@ const DEFAULT_ANIMAL_EXPERIENCE: Record<AnimalType, number> = {
   Chicken: 40,
   Cow: 80,
   Sheep: 80,
-  // TODO(Chapter 16): unused while the Pigpen starts empty - see INITIAL_FARM.
   Pig: 80,
 };
 
@@ -83,14 +83,13 @@ const DEFAULT_ANIMAL_EXPERIENCE: Record<AnimalType, number> = {
  * How many animals a building is seeded with when it is constructed. Exhaustive
  * so a new animal building has to make the choice deliberately.
  *
- * The Pigpen gets ONE, not three: it holds only 3 animals at level 1, so a
- * three-Pig herd would fill it on construction and make every Pig purchase
- * throw until the pen was upgraded.
+ * The Pigpen's three (#7721) fill its level-1 capacity of 3, so buying a Pig
+ * waits for the first upgrade - accepted by Elias, 2026-10-12.
  */
 const STARTER_HERD_SIZE: Record<AnimalBuildingType, number> = {
   "Hen House": 3,
   Barn: 3,
-  Pigpen: 1,
+  Pigpen: 3,
 };
 
 export function makeAnimalBuilding(
@@ -163,6 +162,26 @@ export function getAnimalLevel(experience: number, animal: AnimalType) {
 }
 
 /**
+ * XP the animal still needs before it is ready: to its next level, or at the
+ * max level to the end of its current produce cycle.
+ */
+export function getXpUntilReady(animalType: AnimalType, xp: number): number {
+  const maxLevel = getAnimalMaxLevel(animalType);
+  const maxLevelXp = ANIMAL_LEVELS[animalType][maxLevel];
+
+  if (xp < maxLevelXp) {
+    const next = (getAnimalLevel(xp, animalType) + 1) as AnimalLevel;
+    return ANIMAL_LEVELS[animalType][next] - xp;
+  }
+
+  const levelBeforeMaxXp =
+    ANIMAL_LEVELS[animalType][(maxLevel - 1) as AnimalLevel];
+  const cycleXP = maxLevelXp - levelBeforeMaxXp;
+
+  return cycleXP - ((xp - maxLevelXp) % cycleXP);
+}
+
+/**
  * Whether gaining `gainedXp` on top of `beforeXp` earns the animal its produce:
  * a level-up below the top of the table, or, at max level, one more full cycle
  * of the final level's XP. Shared by feeding and petting so EITHER can flip the
@@ -203,7 +222,9 @@ export function hasAnimalCompletedCycle({
 export function getAnimalFavoriteFood(type: AnimalType, animalXP: number) {
   const level = getAnimalLevel(animalXP, type);
   const levelFood = ANIMAL_FOOD_EXPERIENCE[type][level];
-  const maxXp = Math.max(...Object.values(levelFood));
+  const maxXp = Math.max(
+    ...getKeys(levelFood).map((food) => levelFood[food] ?? 0),
+  );
 
   const favouriteFoods = getKeys(levelFood)
     .filter((foodName) => levelFood[foodName] === maxXp)
@@ -212,6 +233,20 @@ export function getAnimalFavoriteFood(type: AnimalType, animalXP: number) {
   if (favouriteFoods.length !== 1) throw new Error("No favourite food");
 
   return favouriteFoods[0];
+}
+
+/**
+ * True when `food` is one of `animal`'s foods. Pigs eat only the four Slops;
+ * the other animals never eat a Slop.
+ */
+export function isFoodForAnimal(
+  animal: AnimalType,
+  food: InventoryItemName,
+): food is AnimalFoodName {
+  return Object.prototype.hasOwnProperty.call(
+    ANIMAL_FOOD_EXPERIENCE[animal][0],
+    food,
+  );
 }
 
 export function isAnimalFood(item: InventoryItemName): item is AnimalFoodName {
@@ -231,12 +266,14 @@ export function isAnimalFood(item: InventoryItemName): item is AnimalFoodName {
  * selection is left alone so players can still feed whatever they actioned.
  */
 export function getFeedItem({
+  animal,
   selectedItem,
   favouriteFood,
   inventory,
   requiredQty,
   hasBeetleFeedingAccess,
 }: {
+  animal: AnimalType;
   selectedItem?: InventoryItemName;
   favouriteFood: AnimalFoodName;
   inventory: Inventory;
@@ -245,7 +282,7 @@ export function getFeedItem({
 }): InventoryItemName | undefined {
   if (
     selectedItem === favouriteFood ||
-    selectedItem === "Omnifeed" ||
+    (selectedItem === "Omnifeed" && isFoodForAnimal(animal, selectedItem)) ||
     (hasBeetleFeedingAccess && !!selectedItem && isBeetle(selectedItem))
   ) {
     return selectedItem;
@@ -539,6 +576,50 @@ function getLeatherYieldBoosts(game: GameState): {
   return { amount: boost.toNumber(), boostsUsed };
 }
 
+// Truffle Yield / Bristle Payout are multiplicative, unlike the flat yield
+// helpers above, so they return a multiplier for the caller to apply AFTER
+// the flat produce boosts.
+function getTruffleYieldBoosts(game: GameState): {
+  multiplier: number;
+  boostsUsed: { name: BoostName; value: string }[];
+} {
+  let multiplier = new Decimal(1);
+  const boostsUsed: { name: BoostName; value: string }[] = [];
+
+  const truffleYieldLevel = getSkillLevel(game.bumpkin.skills, "Truffle Yield");
+  if (truffleYieldLevel) {
+    const bonus = new Decimal(1).plus(
+      SKILL_RANKS["Truffle Yield"].ranks[truffleYieldLevel - 1],
+    );
+    multiplier = multiplier.mul(bonus);
+    boostsUsed.push({ name: "Truffle Yield", value: `x${bonus.toNumber()}` });
+  }
+
+  return { multiplier: multiplier.toNumber(), boostsUsed };
+}
+
+function getPigBristlesYieldBoosts(game: GameState): {
+  multiplier: number;
+  boostsUsed: { name: BoostName; value: string }[];
+} {
+  let multiplier = new Decimal(1);
+  const boostsUsed: { name: BoostName; value: string }[] = [];
+
+  const bristlePayoutLevel = getSkillLevel(
+    game.bumpkin.skills,
+    "Bristle Payout",
+  );
+  if (bristlePayoutLevel) {
+    const bonus = new Decimal(1).plus(
+      SKILL_RANKS["Bristle Payout"].ranks[bristlePayoutLevel - 1],
+    );
+    multiplier = multiplier.mul(bonus);
+    boostsUsed.push({ name: "Bristle Payout", value: `x${bonus.toNumber()}` });
+  }
+
+  return { multiplier: multiplier.toNumber(), boostsUsed };
+}
+
 export function getResourceDropAmount({
   game,
   animalType,
@@ -559,6 +640,7 @@ export function getResourceDropAmount({
   const isChicken = animalType === "Chicken";
   const isCow = animalType === "Cow";
   const isSheep = animalType === "Sheep";
+  const isPig = animalType === "Pig";
 
   // Egg yield boosts
   if (isChicken && resource === "Egg") {
@@ -665,6 +747,25 @@ export function getResourceDropAmount({
     boostsUsed.push({ name: "Barn Manager", value: "+0.1" });
   }
 
+  // Truffle Yield Boost (#7721) scales the Truffles after the flat produce boosts.
+  if (isPig && resource === "Truffle") {
+    const { multiplier: truffleMultiplier, boostsUsed: truffleBoostsUsed } =
+      getTruffleYieldBoosts(game);
+    amount = amount.mul(truffleMultiplier);
+    boostsUsed.push(...truffleBoostsUsed);
+  }
+
+  // Pig Bristles Yield Boost (#7721) scales the Bristles the same way, after
+  // the flat produce boosts and before the sickness cut in `getPigBristles`.
+  if (isPig && resource === "Pig Bristles") {
+    const { multiplier: bristlesMultiplier, boostsUsed: bristlesBoostsUsed } =
+      getPigBristlesYieldBoosts(game);
+    amount = amount.mul(bristlesMultiplier);
+    boostsUsed.push(...bristlesBoostsUsed);
+  }
+
+  // Bud yield boosts are flat and sit after the Pig multipliers so they are
+  // not scaled by Truffle Yield / Bristle Payout.
   const { yieldBoost, budUsed } = getBudYieldBoosts(buds, resource);
   amount = amount.plus(yieldBoost);
   if (budUsed)
@@ -756,6 +857,7 @@ export function getBoostedFoodQuantity({
     "Clucky Grazing": "Chicken",
     "Sheepwise Diet": "Sheep",
     "Cow-Smart Nutrition": "Cow",
+    "Swill Savvy": "Pig",
   } as const;
 
   for (const skill of getKeys(DIET_SKILLS)) {
@@ -813,15 +915,21 @@ export function getBoostedFoodQuantity({
  * instead, so what remains is the permanent-boost-only base duration returned as
  * `baseDurationMs`. Mirrors `getOilRecoveryTimeForDisplay`; returns no
  * `baseDurationMs` flag-off, so a flag-off re-sleep reverts the animal to legacy.
+ *
+ * `feedBuff` is the treat the animal carries INTO this sleep: a Truffle
+ * Seasoning halves it. `claimProduce` passes the treat before spending its
+ * charge, so the last charge still shortens the sleep it is spent on.
  */
 export function getBoostedAwakeAt({
   animalType,
   createdAt,
   game,
+  feedBuff,
 }: {
   animalType: AnimalType;
   createdAt: number;
   game: GameState;
+  feedBuff?: Animal["feedBuff"];
 }): {
   awakeAt: number;
   baseDurationMs?: number;
@@ -873,6 +981,11 @@ export function getBoostedAwakeAt({
       totalDuration *= 0.75;
       boostsUsed.push({ name: "Farm Dog", value: "x0.75" });
     }
+
+    if (isCollectibleBuilt({ name: "Beetle Sheep", game })) {
+      totalDuration *= 0.925;
+      boostsUsed.push({ name: "Beetle Sheep", value: "x0.925" });
+    }
   }
 
   if (isCow) {
@@ -901,6 +1014,14 @@ export function getBoostedAwakeAt({
       SKILL_RANKS["Restless Animals"].ranks[restlessAnimalsLevel - 1];
     totalDuration *= value;
     boostsUsed.push({ name: "Restless Animals", value: `x${value}` });
+  }
+
+  // Truffle Seasoning: -50% on the sleep it is spent on. Baked in like the
+  // permanent boosts, so under the speed-rate model the shrines still stack
+  // live on top of it.
+  if (feedBuff?.name === "Truffle Seasoning") {
+    totalDuration *= 0.5;
+    boostsUsed.push({ name: "Truffle Seasoning", value: "x0.5" });
   }
 
   if (
@@ -1016,4 +1137,91 @@ export function getAnimalMaturityTimeForDisplay({
     maturityTimeMs: baseDurationMs ?? awakeAt - createdAt,
     boostsUsed,
   };
+}
+
+/** The 25% a sick animal loses on bounty rewards and on its Bristles. */
+export const SICK_ANIMAL_REWARD_MULTIPLIER = 0.75;
+
+/**
+ * The level an animal is sold or traded in at. A ready animal shows its
+ * previous level until the yield is claimed, so it counts one level lower. At
+ * the max level there is no next level to transition into - "ready" only means
+ * a produce cycle completed - so the adjustment does not apply. This mirrors
+ * the badge, which guards its own `- 1` the same way.
+ */
+export function getBountyLevel(
+  animal: Pick<Animal, "type" | "experience" | "state">,
+): AnimalLevel {
+  const level = getAnimalLevel(animal.experience, animal.type);
+
+  return animal.state === "ready" && level < getAnimalMaxLevel(animal.type)
+    ? ((level - 1) as AnimalLevel)
+    : level;
+}
+
+/**
+ * Pig Bristles paid when a Pig is traded in or sold to a bounty (#7721): the
+ * level's table amount through the generic produce boosts and Bristle Payout,
+ * then the 25% sickness cut, kept exact to two decimals like produce. A level
+ * whose table amount is 0 pays nothing - boosts have nothing to boost.
+ */
+export function getPigBristles({
+  game,
+  pig,
+}: {
+  game: GameState;
+  pig: Animal;
+}): {
+  amount: number;
+  beforeSickness: number;
+  boostsUsed: { name: BoostName; value: string }[];
+} {
+  const baseAmount = PIG_BRISTLES_PER_LEVEL[getBountyLevel(pig)];
+
+  if (baseAmount === 0) {
+    return { amount: 0, beforeSickness: 0, boostsUsed: [] };
+  }
+
+  const { amount: beforeSickness, boostsUsed } = getResourceDropAmount({
+    game,
+    animalType: "Pig",
+    resource: "Pig Bristles",
+    baseAmount,
+    multiplier: pig.multiplier ?? 0,
+    animal: pig,
+  });
+
+  const amount =
+    pig.state === "sick"
+      ? Number(
+          new Decimal(beforeSickness)
+            .mul(SICK_ANIMAL_REWARD_MULTIPLIER)
+            .toFixed(2),
+        )
+      : beforeSickness;
+
+  return { amount, beforeSickness, boostsUsed };
+}
+
+/**
+ * A Pig can be traded in under the bounty rules - awake, sick or ready included
+ * - as long as its level pays Bristles.
+ */
+export function canTradeInPig({
+  pig,
+  game,
+  now,
+}: {
+  pig: Animal;
+  game: GameState;
+  now: number;
+}): boolean {
+  // Keep the truthiness guard: an animal that has never slept carries
+  // `awakeAt: 0` and no marker, and must stay tradeable.
+  const readyAt = getAnimalReadyAt(pig, game);
+  if (readyAt && readyAt > now) {
+    return false;
+  }
+
+  return PIG_BRISTLES_PER_LEVEL[getBountyLevel(pig)] > 0;
 }

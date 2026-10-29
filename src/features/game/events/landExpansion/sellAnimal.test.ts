@@ -2,7 +2,7 @@ import { INITIAL_FARM } from "features/game/lib/constants";
 import { isValidDeal, sellAnimal } from "./sellAnimal";
 import Decimal from "decimal.js-light";
 import { makeAnimalBuilding } from "features/game/lib/animals";
-import { ANIMAL_LEVELS } from "features/game/types/animals";
+import { ANIMAL_LEVELS, type AnimalLevel } from "features/game/types/animals";
 import type {
   Animal,
   BountyRequest,
@@ -720,5 +720,110 @@ describe("isValidDeal: the ready-state level adjustment", () => {
   it("still requires the level when the animal is not ready", () => {
     expect(valid(cow(ANIMAL_LEVELS.Cow[5], "idle"), 5)).toBe(true);
     expect(valid(cow(ANIMAL_LEVELS.Cow[5], "idle"), 6)).toBe(false);
+  });
+});
+
+describe("animal.sold: Pig bounties also pay Pig Bristles", () => {
+  const pigAt = (level: number, overrides: Partial<Animal> = {}): Animal => ({
+    id: "p1",
+    type: "Pig",
+    state: "idle",
+    createdAt: 0,
+    experience: ANIMAL_LEVELS.Pig[level as AnimalLevel],
+    asleepAt: 0,
+    awakeAt: 0,
+    lovedAt: 0,
+    item: "Petting Hand",
+    ...overrides,
+  });
+
+  const PIG_DEAL: BountyRequest = {
+    id: "pig-deal",
+    name: "Pig",
+    level: 3,
+    coins: 1000,
+  };
+
+  const farmWithPig = (
+    pig: Animal,
+    deal: BountyRequest = PIG_DEAL,
+  ): GameState => ({
+    ...INITIAL_FARM,
+    pigpen: { level: 1, animals: { p1: pig } },
+    bounties: { ...INITIAL_FARM.bounties, completed: [], requests: [deal] },
+  });
+
+  const sell = (state: GameState, requestId = PIG_DEAL.id) =>
+    sellAnimal({
+      state,
+      action: { type: "animal.sold", requestId, animalId: "p1" },
+      createdAt: Date.now(),
+    });
+
+  it("pays the bounty reward and the level's Bristles", () => {
+    const state = sell(farmWithPig(pigAt(15)));
+
+    expect(state.pigpen.animals.p1).toBeUndefined();
+    expect(state.coins).toEqual(INITIAL_FARM.coins + 1000);
+    expect(state.inventory["Pig Bristles"]).toEqual(new Decimal(12));
+    expect(state.farmActivity["Pig Bristles Collected"]).toEqual(1);
+  });
+
+  it("floors the sick coins but takes exactly 75% of the Bristles", () => {
+    const state = sell(
+      farmWithPig(pigAt(5, { state: "sick" }), { ...PIG_DEAL, coins: 1001 }),
+    );
+
+    expect(state.coins).toEqual(INITIAL_FARM.coins + 750);
+    expect(state.inventory["Pig Bristles"]).toEqual(new Decimal(1.5));
+  });
+
+  it("applies Bristle Payout to the bounty's Bristles", () => {
+    const now = Date.now();
+    const state = sellAnimal({
+      state: {
+        ...farmWithPig(pigAt(15)),
+        bumpkin: { ...INITIAL_FARM.bumpkin, skills: { "Bristle Payout": 1 } },
+      },
+      action: { type: "animal.sold", requestId: PIG_DEAL.id, animalId: "p1" },
+      createdAt: now,
+    });
+
+    expect(state.inventory["Pig Bristles"]).toEqual(new Decimal(13.2));
+    expect(state.boostsUsedAt?.["Bristle Payout"]).toEqual(now);
+  });
+
+  it("adds no Bristles for a Pig under level 3", () => {
+    const state = sell(farmWithPig(pigAt(2), { ...PIG_DEAL, level: 0 }));
+
+    expect(state.coins).toEqual(INITIAL_FARM.coins + 1000);
+    expect(state.inventory["Pig Bristles"]).toBeUndefined();
+  });
+
+  it("adds no Bristles for other animals", () => {
+    const cowId = Object.keys(FARM_WITH_HERDS.barn.animals)[0];
+    const state = sellAnimal({
+      state: {
+        ...FARM_WITH_HERDS,
+        barn: {
+          ...FARM_WITH_HERDS.barn,
+          animals: {
+            ...FARM_WITH_HERDS.barn.animals,
+            [cowId]: {
+              ...FARM_WITH_HERDS.barn.animals[cowId],
+              experience: ANIMAL_LEVELS.Cow[15],
+            },
+          },
+        },
+        bounties: {
+          ...INITIAL_FARM.bounties,
+          completed: [],
+          requests: [{ id: "cow-deal", name: "Cow", level: 3, coins: 10 }],
+        },
+      },
+      action: { type: "animal.sold", requestId: "cow-deal", animalId: cowId },
+    });
+
+    expect(state.inventory["Pig Bristles"]).toBeUndefined();
   });
 });
