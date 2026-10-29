@@ -1496,6 +1496,11 @@ export const ITEM_TRADE_TYPES: {
     "Big Bad Wolf": "onchain",
     "Pig Plush": "instant",
     "Pig Doll": "instant",
+    "Duende in a Bottle": "instant",
+    "Mushroom Log": "instant",
+    "Pot of Luck": "instant",
+    TNT: "instant",
+    "Warning Sign": "instant",
 
     // Ascension Age decorations
     "Salt Rug": "onchain",

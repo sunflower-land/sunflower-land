@@ -514,6 +514,11 @@ import brickHouse from "assets/sfts/brick_house.webp";
 import bigBadWolf from "assets/sfts/big_bad_wolf.webp";
 import pigPlush from "assets/sfts/pig_plush.webp";
 import pigDoll from "assets/sfts/pig_doll.webp";
+import duendeInABottle from "assets/sfts/duende_in_a_bottle.webp";
+import mushroomLog from "assets/sfts/mushroom_log.webp";
+import potOfLuck from "assets/sfts/pot_of_luck.webp";
+import tnt from "assets/sfts/tnt.webp";
+import warningSign from "assets/sfts/warning_sign.webp";
 import manatee from "assets/sfts/manatee.webp";
 import betta from "assets/sfts/betta.webp";
 import macropinna from "assets/sfts/macropinna.webp";
@@ -8347,6 +8352,26 @@ export const ITEM_DETAILS: Items = {
   "Pig Doll": {
     image: pigDoll,
     description: translate("description.pigDoll"),
+  },
+  "Duende in a Bottle": {
+    image: duendeInABottle,
+    description: translate("description.duendeInABottle"),
+  },
+  "Mushroom Log": {
+    image: mushroomLog,
+    description: translate("description.mushroomLog"),
+  },
+  "Pot of Luck": {
+    image: potOfLuck,
+    description: translate("description.potOfLuck"),
+  },
+  TNT: {
+    image: tnt,
+    description: translate("description.tnt"),
+  },
+  "Warning Sign": {
+    image: warningSign,
+    description: translate("description.warningSign"),
   },
   Manatee: {
     image: manatee,

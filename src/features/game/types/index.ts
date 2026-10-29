@@ -1695,6 +1695,12 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Macropinna: 3123,
   // Rarecrows game migration: 3124 - 3227
   ...RARECROW_IDS,
+  // Cave Dwellers track decorations (after the Rarecrow ids, up to 3271)
+  "Duende in a Bottle": 3272,
+  "Mushroom Log": 3273,
+  "Pot of Luck": 3274,
+  TNT: 3275,
+  "Warning Sign": 3276,
 };
 
 // The reverse of above
