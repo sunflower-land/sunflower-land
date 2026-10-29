@@ -327,7 +327,10 @@ export const BarnInside: React.FC = () => {
               </div>
 
               <div className="absolute -top-[11px] left-1/2 translate-x-[58px]">
-                <FeedAllButton building="Barn" />
+                <FeedAllButton
+                  building="Barn"
+                  blocked={saleSelection.bulkMode}
+                />
               </div>
 
               <MapPlacement

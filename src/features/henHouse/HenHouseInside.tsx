@@ -344,7 +344,10 @@ export const HenHouseInside: React.FC = () => {
               </div>
 
               <div className="absolute -top-[11px] left-1/2 translate-x-[58px]">
-                <FeedAllButton building="Hen House" />
+                <FeedAllButton
+                  building="Hen House"
+                  blocked={saleSelection.bulkMode}
+                />
               </div>
 
               <MapPlacement

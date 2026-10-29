@@ -364,7 +364,10 @@ export const PigpenInside: React.FC = () => {
               </div>
 
               <div className="absolute -top-[11px] left-1/2 translate-x-[58px]">
-                <FeedAllButton building="Pigpen" />
+                <FeedAllButton
+                  building="Pigpen"
+                  blocked={saleSelection.bulkMode}
+                />
               </div>
 
               {/* Mirrors the Feed All slot on the feeder's other side. */}

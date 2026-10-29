@@ -134,6 +134,9 @@ export const AnimalBountySellPanel: React.FC<Props> = ({
                 )}
                 {onSellPending && (
                   <ConfirmButton
+                    // A changed selection starts a new confirmation, so one
+                    // click can't sell animals marked after the first click.
+                    key={Object.entries(pendingSales).sort().join("|")}
                     className="!w-auto whitespace-nowrap"
                     divClassName="!w-auto"
                     disabled={pendingCount === 0}
