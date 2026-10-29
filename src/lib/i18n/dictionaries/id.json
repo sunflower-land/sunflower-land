@@ -8935,5 +8935,7 @@
   "description.mushroomLog": "Sebuah batang kayu tua yang menumbuhkan jamur gua.",
   "description.potOfLuck": "Sebuah pot penuh dengan emas keberuntungan.",
   "description.tnt": "Tangani dengan hati-hati. Hanya untuk pekerjaan gua.",
-  "description.warningSign": "Bahaya di depan! Perhatikan langkah Anda di dalam gua."
+  "description.warningSign": "Bahaya di depan! Perhatikan langkah Anda di dalam gua.",
+  "description.ascensionStaff.boost": "-10% Cooldown Kekuatan Skill",
+  "description.pigOnesie.boost": "+5% XP Pakan Ternak"
 }

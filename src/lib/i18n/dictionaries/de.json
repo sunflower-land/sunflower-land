@@ -8935,5 +8935,7 @@
   "description.mushroomLog": "Ein alter Baumstamm, aus dem Höhlenpilze sprießen.",
   "description.potOfLuck": "Ein Topf voller Glücksgold.",
   "description.tnt": "Mit Vorsicht behandeln. Nur für Höhlenarbeiten.",
-  "description.warningSign": "Gefahr vor uns! Achte auf deinen Schritt in die Höhle."
+  "description.warningSign": "Gefahr vor uns! Achte auf deinen Schritt in die Höhle.",
+  "description.ascensionStaff.boost": "-10% Abklingzeit der Power-Skill",
+  "description.pigOnesie.boost": "+5% Tierfutter-EP"
 }

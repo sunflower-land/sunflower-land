@@ -8935,5 +8935,7 @@
   "description.mushroomLog": "Um velho tronco brotando cogumelos de caverna.",
   "description.potOfLuck": "Um pote cheio de ouro da sorte.",
   "description.tnt": "Manuseie com cuidado. Somente para trabalhos em cavernas.",
-  "description.warningSign": "O perigo está à frente! Cuidado com seus passos na caverna."
+  "description.warningSign": "O perigo está à frente! Cuidado com seus passos na caverna.",
+  "description.ascensionStaff.boost": "-10% de recarga de habilidades de potência",
+  "description.pigOnesie.boost": "+5% de EXP de ração animal"
 }

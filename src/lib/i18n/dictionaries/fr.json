@@ -8935,5 +8935,7 @@
   "description.mushroomLog": "Une vieille bûche qui pousse des champignons des cavernes.",
   "description.potOfLuck": "Un pot rempli d'or porte-bonheur.",
   "description.tnt": "Manipulez avec précaution. Pour les travaux dans les grottes uniquement.",
-  "description.warningSign": "Danger à venir ! Faites attention à votre pas dans la grotte."
+  "description.warningSign": "Danger à venir ! Faites attention à votre pas dans la grotte.",
+  "description.ascensionStaff.boost": "Temps de recharge de la compétence Power : -10 %",
+  "description.pigOnesie.boost": "+5 % d'EXP d'alimentation pour animaux"
 }

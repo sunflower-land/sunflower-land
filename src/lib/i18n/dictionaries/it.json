@@ -8935,5 +8935,7 @@
   "description.mushroomLog": "Un vecchio tronco che fa germogliare funghi di caverna.",
   "description.potOfLuck": "Una pentola piena di oro portafortuna.",
   "description.tnt": "Maneggiare con cura. Solo per lavori in grotta.",
-  "description.warningSign": "Pericolo in arrivo! Fai attenzione a entrare nella grotta."
+  "description.warningSign": "Pericolo in arrivo! Fai attenzione a entrare nella grotta.",
+  "description.ascensionStaff.boost": "-10% Tempo di recupero delle abilità di potenza",
+  "description.pigOnesie.boost": "+5% Animal Feed XP"
 }

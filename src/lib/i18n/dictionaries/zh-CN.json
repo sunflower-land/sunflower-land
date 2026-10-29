@@ -8935,5 +8935,7 @@
   "description.mushroomLog": "一根发芽洞穴蘑菇的旧木头。",
   "description.potOfLuck": "一个装满幸运金的花盆。",
   "description.tnt": "小心操作。仅用于洞穴作业。",
-  "description.warningSign": "前面有危险！注意你在洞穴中的脚步。"
+  "description.warningSign": "前面有危险！注意你在洞穴中的脚步。",
+  "description.ascensionStaff.boost": "-10% 力量技能冷却时间",
+  "description.pigOnesie.boost": "+5% 动物饲料经验值"
 }

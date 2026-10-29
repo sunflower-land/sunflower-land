@@ -8935,5 +8935,7 @@
   "description.mushroomLog": "Un viejo tronco del que brotan hongos de las cavernas.",
   "description.potOfLuck": "Una olla rebosante de oro de la suerte.",
   "description.tnt": "Manéjelo con cuidado. Solo para trabajos en cuevas.",
-  "description.warningSign": "¡Peligro por delante! Ten cuidado al entrar en la cueva."
+  "description.warningSign": "¡Peligro por delante! Ten cuidado al entrar en la cueva.",
+  "description.ascensionStaff.boost": "-10% de tiempo de reutilización de las habilidades de poder",
+  "description.pigOnesie.boost": "+5% de EXP para alimentación animal"
 }

@@ -8935,5 +8935,7 @@
   "description.mushroomLog": "洞窟キノコが生えている古い丸太だ。",
   "description.potOfLuck": "ラッキーゴールドがぎっしり詰まった鉢。",
   "description.tnt": "注意して取り扱ってください。洞窟作業専用です。",
-  "description.warningSign": "危険が待ち受けている！洞窟では足元に気をつけて。"
+  "description.warningSign": "危険が待ち受けている！洞窟では足元に気をつけて。",
+  "description.ascensionStaff.boost": "-10% パワースキルのクールダウン",
+  "description.pigOnesie.boost": "動物飼料経験値 +5%"
 }

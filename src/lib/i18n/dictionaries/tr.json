@@ -8935,5 +8935,7 @@
   "description.mushroomLog": "Mağara mantarlarını filizleyen eski bir kütük.",
   "description.potOfLuck": "Şanslı altınla dolu bir tencere.",
   "description.tnt": "Dikkatli kullanın. Sadece mağara çalışması için.",
-  "description.warningSign": "Tehlike ileride! Mağaradaki adımlarına dikkat et."
+  "description.warningSign": "Tehlike ileride! Mağaradaki adımlarına dikkat et.",
+  "description.ascensionStaff.boost": "-10% Güç Becerisi Bekleme Süresi",
+  "description.pigOnesie.boost": "+5% Hayvan Yemi DP'si"
 }
