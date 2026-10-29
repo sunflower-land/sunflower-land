@@ -11,10 +11,7 @@ import {
   getCaveMerchantOffersLeft,
   isCaveMerchantOpen,
 } from "features/game/types/caveMerchant";
-import type {
-  CaveMerchantOffer,
-  CaveMerchantVisitState,
-} from "features/game/types/game";
+import type { CaveMerchantOffer } from "features/game/types/game";
 import { CAVE_MAX_TIER, getNextCaveTier } from "features/game/types/caveTiers";
 import {
   ITEM_DETAILS,
@@ -79,66 +76,9 @@ const itemText = ({ item, amount }: CaveMerchantOffer["reward"]) =>
   `${amount} ${getTranslatedItemName(item)}`;
 
 /**
- * Gloomwick's empty stall while he is away, and when he is back. The visit in
- * state is the one the API rolled at load, so once its next opening has
- * passed (or before any visit has loaded) he is due back any moment: the
- * next load or autosave brings the new visit.
- */
-const CaveMerchantAway: React.FC<{
-  visit?: CaveMerchantVisitState;
-  now: number;
-}> = ({ visit, now }) => {
-  const { t, i18n } = useAppTranslation();
-
-  const due = !visit || now >= visit.nextOpensAt;
-  const backIn = visit ? Math.max(0, (visit.nextOpensAt - now) / 1000) : 0;
-  // In the player's own language and time zone.
-  const returnsAt =
-    visit &&
-    new Date(visit.nextOpensAt).toLocaleString(i18n.language, {
-      month: "short",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  const stays = visit ? (visit.closesAt - visit.opensAt) / 1000 : 0;
-
-  return (
-    <InnerPanel className="flex items-center gap-3 p-2">
-      <SquareIcon
-        icon={SUNNYSIDE.icons.stopwatch}
-        width={18}
-        className="shrink-0"
-      />
-      <div className="flex flex-col gap-1 min-w-0">
-        <span className="text-sm">{t("cave.merchant.awayTitle")}</span>
-        <span className="text-xs">{t("cave.merchant.awayDescription")}</span>
-        <div className="flex flex-wrap gap-1">
-          <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-            {due
-              ? t("cave.merchant.backSoon")
-              : t("cave.merchant.backIn", {
-                  time: secondsToString(backIn, { length: "medium" }),
-                })}
-          </Label>
-          {!due && (
-            <Label type="default">
-              {t("cave.merchant.returns", {
-                date: returnsAt ?? "",
-                time: secondsToString(stays, { length: "short" }),
-              })}
-            </Label>
-          )}
-        </div>
-      </div>
-    </InnerPanel>
-  );
-};
-
-/**
  * Gloomwick's menu: the same Sand Shovel / Sand Drill shelf Jafar sells, and
  * his Cave trades - a fresh set of bulk bridges each visit (one more slot per
- * Cave tier), with a countdown to when he leaves or returns.
+ * Cave tier), with a countdown to when he leaves.
  */
 export const CaveMerchantModal: React.FC<{ onClose: () => void }> = ({
   onClose,
@@ -196,13 +136,14 @@ export const CaveMerchantModal: React.FC<{ onClose: () => void }> = ({
       icon: ITEM_DETAILS["Sand Shovel"].image,
       name: t("tools"),
     },
-    {
+  ];
+  if (open) {
+    tabs.push({
       id: "trades",
       icon: ITEM_DETAILS["Green Beetle"].image,
       name: t("cave.merchant.trades"),
-      disabled: !open,
-    },
-  ];
+    });
+  }
 
   return (
     <Modal show onHide={onClose}>
@@ -214,12 +155,7 @@ export const CaveMerchantModal: React.FC<{ onClose: () => void }> = ({
         setCurrentTab={setTab}
         container={OuterPanel}
       >
-        {currentTab === "tools" && (
-          <div className="flex flex-col gap-1">
-            {!open && <CaveMerchantAway visit={visit} now={now} />}
-            <CaveToolsShop />
-          </div>
-        )}
+        {currentTab === "tools" && <CaveToolsShop />}
 
         {currentTab === "trades" && (
           <div className="flex flex-col gap-1">
