@@ -182,6 +182,15 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
 
   const available = getAvailable();
 
+  const canSubmitListing =
+    !!price &&
+    !accountTradedRecently &&
+    !(isEconomyToken && (quantity < 1 || quantity > available));
+  // Enter in a price/quantity field lists, the same as pressing List.
+  const listOnEnter = () => {
+    if (canSubmitListing) submitListing();
+  };
+
   if (showItemInUseWarning) {
     return (
       <div className="flex flex-col">
@@ -296,6 +305,8 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
           <Button
             disabled={isLessThanOffer || accountTradedRecently}
             onClick={() => confirm({})}
+            // Enter confirms, so keyboard listing is List -> Enter -> Enter.
+            autoFocus
           >
             {t("confirm")}
           </Button>
@@ -378,6 +389,8 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
                     }
                     maxDecimalPlaces={0}
                     isOutOfRange={quantity > available || quantity < 1}
+                    autoFocus
+                    onEnter={listOnEnter}
                   />
                 </div>
               </>
@@ -391,6 +404,10 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
                 onValueChange={(decimal) => setPrice(decimal.toNumber())}
                 maxDecimalPlaces={tradeType === "onchain" ? 0 : 4}
                 icon={sflIcon}
+                // Economy tokens start on the quantity field above.
+                autoFocus={!isEconomyToken}
+                step={tradeType === "onchain" ? undefined : 0.0001}
+                onEnter={listOnEnter}
               />
               <p className="text-xxs ml-2">
                 {`$${new Decimal(usd).mul(price).toFixed(2)}`}
@@ -471,11 +488,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
           <div className="flex space-x-1">
             <Button onClick={onClose}>{t("close")}</Button>
             <Button
-              disabled={
-                !price ||
-                accountTradedRecently ||
-                (isEconomyToken && (quantity < 1 || quantity > available))
-              }
+              disabled={!canSubmitListing}
               onClick={submitListing}
               className="relative"
             >

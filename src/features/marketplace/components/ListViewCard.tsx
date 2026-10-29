@@ -113,6 +113,15 @@ export const ListViewCard: React.FC<Props> = ({
         onClick={onClick}
         variant="card"
         className="h-full flex flex-col"
+        // Reachable and openable from the keyboard (Tab, then Enter/Space).
+        data-marketplace-card
+        role={onClick ? "button" : undefined}
+        tabIndex={onClick ? 0 : undefined}
+        onKeyDown={(e) => {
+          if (!onClick || (e.key !== "Enter" && e.key !== " ")) return;
+          e.preventDefault();
+          onClick();
+        }}
       >
         <div
           className={classNames("flex flex-col items-center relative", {
