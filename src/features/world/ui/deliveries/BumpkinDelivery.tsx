@@ -1014,7 +1014,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
   // A soft-banned farm keeps farming but earns no FLOWER until it verifies.
   const isFlowerDeliveryBlocked =
-    game.ban.status === "investigating" && delivery?.reward.sfl !== undefined;
+    game.ban.status === "investigating" && !!delivery?.reward.sfl;
 
   if (missingRequiredReputation) {
     message = t("goblinTrade.missingReputation.sflDelivery");
