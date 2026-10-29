@@ -479,9 +479,15 @@ export const Gifts: React.FC<{
   const recentOwnedFlowers = recentFlowers.filter((flower) =>
     flowers.includes(flower),
   );
-  const otherFlowers = flowers.filter(
-    (flower) => !recentOwnedFlowers.includes(flower),
-  );
+  // The NPC's favourite (bonus) flowers first, so they don't have to be
+  // hunted for in a long collection.
+  const otherFlowers = flowers
+    .filter((flower) => !recentOwnedFlowers.includes(flower))
+    .sort(
+      (a, b) =>
+        Number(!!BUMPKIN_FLOWER_BONUSES[name]?.[b]) -
+        Number(!!BUMPKIN_FLOWER_BONUSES[name]?.[a]),
+    );
 
   const onFlowerClick = (flower: FlowerName) => {
     setSelected(flower);
@@ -596,7 +602,9 @@ export const Gifts: React.FC<{
           <p className="text-xs mb-2">{`${t("bumpkin.delivery.noFlowers")}`}</p>
         )}
         {flowers.length > 0 && (
-          <>
+          // Scrolls on its own so a big collection never pushes the Gift
+          // button off screen on mobile.
+          <div className="max-h-[40vh] overflow-y-auto scrollable pr-1">
             {recentOwnedFlowers.length > 0 && (
               <>
                 <Label
@@ -641,7 +649,7 @@ export const Gifts: React.FC<{
                 />
               ))}
             </div>
-          </>
+          </div>
         )}
       </InnerPanel>
 
