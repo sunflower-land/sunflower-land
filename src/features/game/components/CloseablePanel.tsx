@@ -16,6 +16,7 @@ import { useSound } from "lib/utils/hooks/useSound";
  * @unread Whether the tab has unread content.
  * @alert Whether the tab has an alert.
  * @helper Whether to point an onboarding hand at the tab while it is not active.
+ * @disabled Whether the tab is unavailable for selection.
  */
 export interface PanelTabs<T extends string> {
   icon: string;
@@ -23,6 +24,7 @@ export interface PanelTabs<T extends string> {
   unread?: boolean;
   alert?: boolean;
   helper?: boolean;
+  disabled?: boolean;
   id: T;
 }
 
@@ -104,6 +106,7 @@ export const CloseButtonPanel = <T extends string>({
                 isFirstTab={index === 0}
                 className="relative mr-1"
                 isActive={activeTab === tab.id}
+                disabled={tab.disabled}
                 onClick={() => {
                   tabSound.play();
                   handleTabClick(tab.id);
