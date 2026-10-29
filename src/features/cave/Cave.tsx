@@ -52,6 +52,8 @@ import {
   type CaveTutorialSeen,
 } from "./lib/onboarding";
 
+import { useCaveMerchantOffers } from "./hooks/useCaveMerchantOffers";
+
 const _cave = (state: MachineState) => state.context.state.cave;
 const _buildings = (state: MachineState) => state.context.state.buildings;
 const _hasCaveAccess = (state: MachineState) =>
@@ -102,7 +104,7 @@ const Sprite: React.FC<{ src: string; style?: React.CSSProperties }> = ({
  * stands in the alcove by the entrance from his tier; the ladder leaves.
  */
 export const Cave: React.FC = () => {
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const navigate = useNavigate();
   const { t } = useAppTranslation();
 
@@ -112,6 +114,7 @@ export const Cave: React.FC = () => {
   const shovels = useSelector(gameService, _shovels);
   const drills = useSelector(gameService, _drills);
   const now = useNow({ live: true });
+  const { hasUnseenOffers } = useCaveMerchantOffers(cave, now);
   const [selectedMachine, setSelectedMachine] = useState<string>();
   const [showExpansion, setShowExpansion] = useState(false);
   const [showMerchant, setShowMerchant] = useState(false);
@@ -251,6 +254,18 @@ export const Cave: React.FC = () => {
                     // long the text is.
                     style={{
                       top: `${PIXEL_SCALE * -6}px`,
+                      left: `${PIXEL_SCALE * 6}px`,
+                    }}
+                  />
+                )}
+                {hasUnseenOffers && (
+                  <img
+                    src={SUNNYSIDE.icons.expression_alerted}
+                    alt=""
+                    className={`absolute pointer-events-none z-30 ${showAnimations ? "ready" : ""}`}
+                    style={{
+                      width: `${PIXEL_SCALE * 4}px`,
+                      top: `${PIXEL_SCALE * -12}px`,
                       left: `${PIXEL_SCALE * 6}px`,
                     }}
                   />
