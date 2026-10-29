@@ -262,7 +262,7 @@ export const Cave: React.FC = () => {
                   <img
                     src={SUNNYSIDE.icons.expression_alerted}
                     alt=""
-                    className={`absolute pointer-events-none z-30 ${showAnimations ? "ready" : ""}`}
+                    className={`absolute max-w-none pointer-events-none z-30 ${showAnimations ? "ready" : ""}`}
                     style={{
                       width: `${PIXEL_SCALE * 4}px`,
                       top: `${PIXEL_SCALE * -12}px`,
