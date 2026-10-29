@@ -1033,7 +1033,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   // A soft ban keeps the player farming but holds value until they verify,
   // so FLOWER orders show the verification steps in place of the delivery.
   const softBannedFlowerOrder =
-    game.ban.status === "investigating" && delivery?.reward.sfl !== undefined;
+    game.ban.status === "investigating" && !!delivery?.reward.sfl;
   const acceptGifts = !!getNextGift({ game, npc });
 
   const completedAt = game.npcs?.[npc]?.deliveryCompletedAt;
