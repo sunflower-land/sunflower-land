@@ -18357,11 +18357,12 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Seaside Tank Top",
   },
   "Fish Trap": {
-    description: "An decorative trap for catching fish.",
+    description:
+      "A sturdy trap for catching fish. Fish age faster with one close by.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "SecondaryTool" },
-      { trait_type: "Tradable", value: "No" },
+      { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Fish Trap",

@@ -216,4 +216,8 @@ describe("Cave Dwellers track releases", () => {
   it("never releases Miner's Bed", () => {
     expect(INVENTORY_RELEASES["Miner's Bed"]).toBeUndefined();
   });
+
+  it("releases the Fish Trap chest exclusive after the chapter", () => {
+    expect(WEARABLE_RELEASES["Fish Trap"]).toEqual(RELEASE);
+  });
 });
