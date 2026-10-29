@@ -79,6 +79,7 @@ import { getCountAndType } from "features/island/hud/components/inventory/utils/
 import { getChapterTaskPoints } from "features/game/types/tracks";
 import chapterPointsIcon from "assets/icons/red_medal_short.webp";
 import { hasTimeBasedFeatureAccess } from "lib/flags";
+import { SoftBan } from "features/retreat/components/personhood/SoftBan";
 
 const OrderCard: React.FC<{
   order: Order;
@@ -1029,6 +1030,10 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     levelRequirementToTotal(requiredLevel) - levelRequirementToTotal(ascension),
   );
   const deliveryFrozen = isHoliday && isTicketNPC(npc) && baseTickets > 0;
+  // A soft ban keeps the player farming but holds value until they verify,
+  // so FLOWER orders show the verification steps in place of the delivery.
+  const softBannedFlowerOrder =
+    game.ban.status === "investigating" && delivery?.reward.sfl !== undefined;
   const acceptGifts = !!getNextGift({ game, npc });
 
   const completedAt = game.npcs?.[npc]?.deliveryCompletedAt;
@@ -1235,6 +1240,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
           {missingRequiredReputation && (
             <RequiredReputation reputation={Reputation.Cropkeeper} />
           )}
+          {softBannedFlowerOrder && !delivery?.completedAt && <SoftBan />}
           {isSkipping ? null : showSkipDialog ? (
             canSkip ? (
               <div className="flex flex-row gap-1">
@@ -1267,7 +1273,8 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                   !!delivery?.completedAt ||
                   isLocked ||
                   missingRequiredReputation ||
-                  deliveryFrozen
+                  deliveryFrozen ||
+                  softBannedFlowerOrder
                 }
                 onClick={deliver}
               >
