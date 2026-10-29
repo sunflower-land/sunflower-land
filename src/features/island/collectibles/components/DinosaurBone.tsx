@@ -13,10 +13,8 @@ export const DinosaurBone: React.FC = () => {
           style={{
             width: `${PIXEL_SCALE * 22}px`,
             bottom: 0,
-            left: "50%",
-            transform: "translateX(-50%)",
           }}
-          className="absolute"
+          className="absolute left-1/2 -translate-x-1/2"
           alt="Dinosaur Bone"
         />
       </>
