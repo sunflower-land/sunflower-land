@@ -1701,6 +1701,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Pot of Luck": 3274,
   TNT: 3275,
   "Warning Sign": 3276,
+  // Chapter Crop Week #2 leaderboard reward
+  "Crystal Cookie Champion": 3277,
 };
 
 // The reverse of above

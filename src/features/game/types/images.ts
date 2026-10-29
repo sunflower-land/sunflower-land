@@ -523,6 +523,7 @@ import mushroomLog from "assets/sfts/mushroom_log.webp";
 import potOfLuck from "assets/sfts/pot_of_luck.webp";
 import tnt from "assets/sfts/tnt.webp";
 import warningSign from "assets/sfts/warning_sign.webp";
+import crystalCookieChampion from "assets/sfts/crystal_cookie_champion.webp";
 import manatee from "assets/sfts/manatee.webp";
 import betta from "assets/sfts/betta.webp";
 import macropinna from "assets/sfts/macropinna.webp";
@@ -8390,6 +8391,10 @@ export const ITEM_DETAILS: Items = {
   TNT: {
     image: tnt,
     description: translate("description.tnt"),
+  },
+  "Crystal Cookie Champion": {
+    image: crystalCookieChampion,
+    description: translate("description.crystalCookieChampion"),
   },
   "Warning Sign": {
     image: warningSign,
