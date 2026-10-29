@@ -185,6 +185,46 @@ export function generateBountyCoins({
   return { coins };
 }
 
+/**
+ * Which boosts are active for an animal bounty's coin reward, for display
+ * only. Mirrors generateBountyCoins without changing its return shape.
+ */
+export function getBountyCoinsBoosts({
+  game,
+  bounty,
+}: {
+  game: GameState;
+  bounty: BountyRequest;
+}): { name: BoostName; value: string }[] {
+  if (!bounty.coins || !(bounty.name in ANIMALS)) return [];
+
+  const level = getSkillLevel(game.bumpkin.skills, "Bountiful Bounties");
+  if (!level) return [];
+
+  const boost = SKILL_RANKS["Bountiful Bounties"].ranks[level - 1];
+  return [
+    {
+      name: "Bountiful Bounties",
+      value: `+${new Decimal(boost).mul(100).toNumber()}%`,
+    },
+  ];
+}
+
+/** The boosts on whichever reward (coins or chapter tickets) a bounty pays. */
+export function getBountyRewardBoosts({
+  game,
+  bounty,
+  now = Date.now(),
+}: {
+  game: GameState;
+  bounty: BountyRequest;
+  now?: number;
+}): { name: BoostName; value: string }[] {
+  return bounty.coins
+    ? getBountyCoinsBoosts({ game, bounty })
+    : getBountyTicketBoosts({ game, bounty, now });
+}
+
 export function canSellBounty(state: GameState, requestId: string): boolean {
   const request = state.bounties.requests.find((deal) => deal.id === requestId);
   if (!request) return false;
