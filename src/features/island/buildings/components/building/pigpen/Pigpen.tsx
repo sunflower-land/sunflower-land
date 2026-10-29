@@ -8,8 +8,6 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
-import pigpenLevel2 from "assets/buildings/pigpen_2.png";
-import pigpenLevel3 from "assets/buildings/pigpen_3.png";
 import { useSound } from "lib/utils/hooks/useSound";
 import { useNow } from "lib/utils/hooks/useNow";
 import { getCurrentBiome } from "features/island/biomes/biomes";
@@ -28,8 +26,8 @@ import type { LandBiomeName } from "features/island/biomes/biomes";
 // and seasons. Replace entries as per-biome or seasonal art lands.
 const PIGPEN_LEVELS: Record<number, string> = {
   1: SUNNYSIDE.building.pigpen,
-  2: pigpenLevel2,
-  3: pigpenLevel3,
+  2: SUNNYSIDE.building.pigpenLevel2,
+  3: SUNNYSIDE.building.pigpenLevel3,
 };
 
 const PIGPEN_SEASONS: Record<TemperateSeasonName, Record<number, string>> = {
