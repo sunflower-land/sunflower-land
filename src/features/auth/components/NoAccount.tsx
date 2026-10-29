@@ -26,6 +26,7 @@ import debounce from "lodash.debounce";
 import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { SignupBumpkinEquip } from "features/bumpkins/components/SignupBumpkinEquip";
 import type { CreateFarmEvent } from "../lib/authMachine";
+import { type FarmAccount, getFarmAccount } from "../actions/farmAccount";
 
 type ValidationState = "notFound" | "checking" | "valid" | "error";
 
@@ -292,9 +293,14 @@ export const ClaimAccount: React.FC<{
 
   const [isLoading, setIsLoading] = useState(false);
   const [loadedTokenIds, setLoadedTokenIds] = useState<number[]>([]);
+  // Farm id + username per NFT id, so players recognise the farm to claim.
+  // Filled in after the list renders; an NFT whose lookup fails keeps
+  // showing its NFT id.
+  const [accounts, setAccounts] = useState<Record<number, FarmAccount>>({});
   const { t } = useAppTranslation();
 
   const tokenIds = preloadedTokenIds ?? loadedTokenIds;
+  const tokenIdsKey = tokenIds.join(",");
 
   useEffect(() => {
     if (preloadedTokenIds) return;
@@ -316,6 +322,30 @@ export const ClaimAccount: React.FC<{
     load();
   }, []);
 
+  useEffect(() => {
+    if (tokenIds.length === 0) return;
+
+    let cancelled = false;
+
+    Promise.all(
+      tokenIds.map(async (id) => [id, await getFarmAccount(id)] as const),
+    ).then((entries) => {
+      if (cancelled) return;
+
+      setAccounts(
+        Object.fromEntries(
+          entries.filter(
+            (entry): entry is readonly [number, FarmAccount] => !!entry[1],
+          ),
+        ),
+      );
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [tokenIdsKey]);
+
   if (isLoading) return <Loading />;
 
   if (tokenIds.length === 0) {
@@ -331,17 +361,37 @@ export const ClaimAccount: React.FC<{
     <>
       <div className="p-1">
         <p className="m-1 text-sm">{message ?? t("noaccount.selectNFTID")}</p>
-        {tokenIds.map((id) => (
-          <OuterPanel
-            className={
-              "flex relative items-center justify-between !p-2 mb-1 cursor-pointer hover:bg-brown-200"
-            }
-            key={id}
-            onClick={() => onClaim(id)}
-          >
-            <Label type="formula">{`ID: #${id}`}</Label>
-          </OuterPanel>
-        ))}
+        {tokenIds.map((id) => {
+          const account = accounts[id];
+
+          return (
+            <OuterPanel
+              className={
+                "flex relative items-center justify-between !p-2 mb-1 cursor-pointer hover:bg-brown-200"
+              }
+              key={id}
+              onClick={() => onClaim(id)}
+            >
+              {account ? (
+                <>
+                  <div className="flex items-center flex-wrap gap-1">
+                    <Label type="formula">
+                      {t("noaccount.farmId", { id: account.farmId })}
+                    </Label>
+                    {account.username && (
+                      <span className="text-sm">{account.username}</span>
+                    )}
+                  </div>
+                  <span className="text-xxs">
+                    {t("noaccount.nftId", { id })}
+                  </span>
+                </>
+              ) : (
+                <Label type="formula">{t("noaccount.nftId", { id })}</Label>
+              )}
+            </OuterPanel>
+          );
+        })}
       </div>
       <Button onClick={onBack}>{backLabel ?? t("back")}</Button>
     </>
