@@ -4457,8 +4457,6 @@
   "description.rainbow": "Ein fröhlicher Regenbogen, der mit seinem farbenfrohen Bogen Himmel und Erde verbindet.",
   "description.enchanted.rose": "Die verzauberte Rose, ein Symbol ewiger Schönheit, besticht durch ihren magischen Reiz.",
   "description.flower.cart": "Der Blumenwagen voller Blüten ist ein mobiler Garten voller Blumenfreuden.",
-  "softBan.goblinDetection": "Goblin-Erkennung",
-  "softBan.networkWarning": "Die Goblins haben einige ähnliche Geräte bemerkt, die mit deinem Netzwerk verbunden sind. Um die Bumpkin-Wirtschaft für alle sicher und fair zu gestalten, führe bitte eine kurze Überprüfung durch, um dein Abenteuer fortzusetzen.",
   "softBan.step1": "1. Schritt",
   "softBan.socialVerification": "Tritt der Discord- oder Telegram-Community bei und befolge die Schritte, um dein Konto zu verifizieren.",
   "softBan.discordVerification": "Discord-Überprüfung",
@@ -8985,5 +8983,7 @@
   "pet.breed.bull": "Stier",
   "pet.breed.hamster": "Hamster",
   "pet.breed.penguin": "Pinguin",
-  "description.crystalCookieChampion": "Verliehen an die besten Köche der Crystal Cookie Chapter Crop Week. Ein goldener Keks für einen goldenen Koch!"
+  "description.crystalCookieChampion": "Verliehen an die besten Köche der Crystal Cookie Chapter Crop Week. Ein goldener Keks für einen goldenen Koch!",
+  "softBan.goblinDetection": "Weitere Funktionen freischalten",
+  "softBan.networkWarning": "Führen Sie eine schnelle Sicherheitsüberprüfung durch, um weitere Funktionen von Sunflower Land freizuschalten. Es trägt dazu bei, dass die Bumpkin-Wirtschaft sicher und fair für alle bleibt, und du kannst in der Zwischenzeit weiter farmen."
 }

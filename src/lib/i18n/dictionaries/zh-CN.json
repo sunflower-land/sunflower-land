@@ -4457,8 +4457,6 @@
   "description.rainbow": "欢快的彩虹，以其五颜六色的拱门架起天空和大地。",
   "description.enchanted.rose": "魔法玫瑰是永恒之美的象征，以其神奇的魅力引人入胜。",
   "description.flower.cart": "盛开鲜花的花车是一个充满花卉的移动花园。",
-  "softBan.goblinDetection": "哥布林检测",
-  "softBan.networkWarning": "哥布林注意到一些类似的设备连接到您的网络。为了帮助所有人保持乡包佬经济的安全和公平，请完成快速验证以继续您的冒险之旅。",
   "softBan.step1": "第 1 步",
   "softBan.socialVerification": "加入 Discord 或 Telegram 社区，按照步骤验证您的账户。",
   "softBan.discordVerification": "Discord 验证",
@@ -8985,5 +8983,7 @@
   "pet.breed.bull": "公牛",
   "pet.breed.hamster": "仓鼠",
   "pet.breed.penguin": "企鹅",
-  "description.crystalCookieChampion": "颁发给 “水晶曲奇章节作物周” 的顶级厨师。送给金厨的金曲奇！"
+  "description.crystalCookieChampion": "颁发给 “水晶曲奇章节作物周” 的顶级厨师。送给金厨的金曲奇！",
+  "softBan.goblinDetection": "解锁更多功能",
+  "softBan.networkWarning": "完成快速安全检查，解锁更多向日葵乐园功能。它有助于保持Bumpkin经济对所有人的安全和公平，同时你可以继续耕种。"
 }

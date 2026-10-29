@@ -4457,8 +4457,6 @@
   "description.rainbow": "Renkli kemeri ile gökyüzünü ve toprağı birbirine bağlayan neşeli bir Gökkuşağı.",
   "description.enchanted.rose": "Sonsuz güzelliğin sembolü olan Büyülü Gül, büyülü cazibesiyle büyülüyor.",
   "description.flower.cart": "Çiçeklerle dolu Çiçek Arabası, çiçek lezzetlerinin hareketli bir bahçesidir.",
-  "softBan.goblinDetection": "Goblin Algılama",
-  "softBan.networkWarning": "Goblinler ağınıza bağlı bazı benzer cihazları fark ettiler. Bumpkin ekonomisini herkes için güvenli ve adil tutmaya yardımcı olmak için, maceranıza devam etmek için lütfen hızlı bir doğrulama tamamlayın.",
   "softBan.step1": "Adım 1",
   "softBan.socialVerification": "Discord veya Telegram topluluğuna katılın ve hesabınızı doğrulamak için adımları izleyin.",
   "softBan.discordVerification": "Discord doğrulaması",
@@ -8985,5 +8983,7 @@
   "pet.breed.bull": "Boğa",
   "pet.breed.hamster": "Hamsteri",
   "pet.breed.penguin": "Penguen",
-  "description.crystalCookieChampion": "Kristal Kurabiye Bölümü Mahsul Haftası'nın en iyi aşçılarına verildi. Altın bir şef için altın bir kurabiye!"
+  "description.crystalCookieChampion": "Kristal Kurabiye Bölümü Mahsul Haftası'nın en iyi aşçılarına verildi. Altın bir şef için altın bir kurabiye!",
+  "softBan.goblinDetection": "Daha fazla özelliğin kilidini açın",
+  "softBan.networkWarning": "Daha fazla Ayçiçeği Ülkesi özelliğinin kilidini açmak için hızlı bir güvenlik kontrolünü tamamlayın. Bumpkin ekonomisinin herkes için güvenli ve adil kalmasına yardımcı olur, ve bu arada çiftçiliğe devam edebilirsiniz."
 }

@@ -4457,8 +4457,6 @@
   "description.rainbow": "Pelangi ceria, menjembatani langit dan bumi dengan lengkungannya yang berwarna-warni.",
   "description.enchanted.rose": "The Enchanted Rose, simbol keindahan abadi, memikat dengan daya pikat magisnya.",
   "description.flower.cart": "Keranjang Bunga, penuh dengan bunga, adalah taman keliling kelezatan bunga.",
-  "softBan.goblinDetection": "Deteksi Goblin",
-  "softBan.networkWarning": "Para Goblin memperhatikan beberapa perangkat serupa yang terhubung ke jaringan Anda. Untuk membantu menjaga ekonomi Bumpkin aman dan adil bagi semua orang, harap selesaikan verifikasi cepat untuk melanjutkan petualangan Anda.",
   "softBan.step1": "Langkah 1",
   "softBan.socialVerification": "Bergabunglah dengan komunitas Discord atau Telegram & ikuti langkah-langkah untuk memverifikasi akun Anda.",
   "softBan.discordVerification": "Verifikasi perselisihan",
@@ -8985,5 +8983,7 @@
   "pet.breed.bull": "Banteng",
   "pet.breed.hamster": "Hamster",
   "pet.breed.penguin": "pinguin",
-  "description.crystalCookieChampion": "Diberikan kepada koki top Crystal Cookie Chapter Crop Week. Kue emas untuk koki emas!"
+  "description.crystalCookieChampion": "Diberikan kepada koki top Crystal Cookie Chapter Crop Week. Kue emas untuk koki emas!",
+  "softBan.goblinDetection": "Buka lebih banyak fitur",
+  "softBan.networkWarning": "Selesaikan pemeriksaan keamanan cepat untuk membuka lebih banyak fitur Sunflower Land. Ini membantu menjaga ekonomi Bumpkin aman dan adil untuk semua orang, dan Anda dapat terus bertani sementara itu."
 }

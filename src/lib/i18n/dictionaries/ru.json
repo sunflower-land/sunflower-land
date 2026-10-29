@@ -4727,8 +4727,6 @@
   "telegram.bot": "Pumpkin Pete Bot",
   "goblinMarket.thanks": "Спасибо за все ваши ресурсы. Рынок гоблинов сейчас закрыт",
   "thanks": "Спасибо",
-  "softBan.goblinDetection": "Гоблины заметили тебя",
-  "softBan.networkWarning": "Гоблины заметили несколько похожих устройств, подключенных к твоей сети. Чтобы экономика бампкинов была безопасной и справедливой для всех, пройди быструю верификацию и продолжи свое приключение.",
   "softBan.step1": "Шаг 1",
   "softBan.socialVerification": "Присоединись к сообществу Discord или Telegram и следуй инструкциям, чтобы подтвердить свою учетную запись.",
   "softBan.discordVerification": "Верификация Discord",
@@ -8985,5 +8983,7 @@
   "pet.breed.bull": "Bull",
   "pet.breed.hamster": "Hamster",
   "pet.breed.penguin": "Penguin",
-  "description.crystalCookieChampion": "Awarded to the top cooks of the Crystal Cookie Chapter Crop Week. A golden cookie for a golden chef!"
+  "description.crystalCookieChampion": "Awarded to the top cooks of the Crystal Cookie Chapter Crop Week. A golden cookie for a golden chef!",
+  "softBan.goblinDetection": "Unlock more features",
+  "softBan.networkWarning": "Complete a quick security check to unlock more Sunflower Land features. It helps keep the Bumpkin economy safe and fair for everyone, and you can keep farming in the meantime."
 }

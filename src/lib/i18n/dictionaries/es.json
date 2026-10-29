@@ -4457,8 +4457,6 @@
   "description.rainbow": "Un arcoíris alegre que une el cielo y la tierra con su colorido arco.",
   "description.enchanted.rose": "La rosa encantada, símbolo de la belleza eterna, cautiva con su encanto mágico.",
   "description.flower.cart": "El carro de flores, repleto de flores, es un jardín móvil de delicias florales.",
-  "softBan.goblinDetection": "Detección de duendes",
-  "softBan.networkWarning": "Los goblins notaron algunos dispositivos similares conectados a su red. Para ayudar a mantener la economía de los Bumpkin segura y justa para todos, completa una verificación rápida para continuar tu aventura.",
   "softBan.step1": "Paso 1",
   "softBan.socialVerification": "Únete a la comunidad de Discord o Telegram y sigue los pasos para verificar tu cuenta.",
   "softBan.discordVerification": "Verificación de Discord",
@@ -8985,5 +8983,7 @@
   "pet.breed.bull": "Toro",
   "pet.breed.hamster": "Hámster",
   "pet.breed.penguin": "Pingüino",
-  "description.crystalCookieChampion": "Se otorga a los mejores cocineros de la Semana de la Cosecha del Capítulo Crystal Cookie. ¡Una galleta dorada para un chef excelente!"
+  "description.crystalCookieChampion": "Se otorga a los mejores cocineros de la Semana de la Cosecha del Capítulo Crystal Cookie. ¡Una galleta dorada para un chef excelente!",
+  "softBan.goblinDetection": "Desbloquea más funciones",
+  "softBan.networkWarning": "Completa un rápido control de seguridad para desbloquear más funciones de Sunflower Land. Ayuda a mantener la economía de los Bumpkin segura y justa para todos, y mientras tanto, puedes seguir cultivando."
 }

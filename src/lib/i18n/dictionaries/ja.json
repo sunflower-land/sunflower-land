@@ -4457,8 +4457,6 @@
   "description.rainbow": "カラフルなアーチで空と地球をつなぐ、元気なレインボー。",
   "description.enchanted.rose": "永遠の美の象徴である魅惑のバラは、その魔法のような魅力に魅了されます。",
   "description.flower.cart": "花が咲き誇るフラワーカートは、花が咲き誇るモバイルガーデンです。",
-  "softBan.goblinDetection": "ゴブリン探知",
-  "softBan.networkWarning": "ゴブリン達は、似たような装置があなたのネットワークに接続されていることに気づきました。バンプキンエコノミーをすべての人にとって安全で公平に保つために、簡単な確認を完了して冒険を続けてください。",
   "softBan.step1": "ステップ 1",
   "softBan.socialVerification": "DiscordまたはTelegramコミュニティに参加して、手順に従ってアカウントを確認してください。",
   "softBan.discordVerification": "不和証明",
@@ -8985,5 +8983,7 @@
   "pet.breed.bull": "雄牛",
   "pet.breed.hamster": "ハムスター",
   "pet.breed.penguin": "ペンギン",
-  "description.crystalCookieChampion": "クリスタルクッキーチャプタークロップウィークのトップクックに授与されます。ゴールデンシェフに贈るゴールデンクッキー！"
+  "description.crystalCookieChampion": "クリスタルクッキーチャプタークロップウィークのトップクックに授与されます。ゴールデンシェフに贈るゴールデンクッキー！",
+  "softBan.goblinDetection": "より多くの機能をアンロック",
+  "softBan.networkWarning": "簡単なセキュリティチェックを完了して、サンフラワーランドのその他の機能をアンロックしてください。バンプキン経済を誰にとっても安全で公平に保つのに役立ち、その間も農業を続けることができます。"
 }
