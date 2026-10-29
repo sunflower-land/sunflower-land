@@ -8913,7 +8913,7 @@
   "skill.muddyBounty.ranked": "x{{value}} грязи с участков в пещере",
   "skill.chonkyFeed.debuff.ranked": "x{{value}} расхода корма для всех животных",
   "description.drCow.boost": "x0.95 расхода корма для коров",
-  "description.tradingShrine.buff": "-2.5% к коммисии на ресурсы (вычитается из базового значения)",
+  "description.tradingShrine.buff": "-2.5% к комисии на ресурсы (вычитается из базового значения)",
   "description.bearShrine.buff.2": "+20% к шансу пчелиного роя (прибавляется к базовому значению)",
   "description.ascensionStaff.boost": "x0.9 времени перезарядки активных навыков",
   "description.pigOnesie.boost": "x1.05 опыта животных от кормления",
