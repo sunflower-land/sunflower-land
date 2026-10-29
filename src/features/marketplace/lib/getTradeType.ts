@@ -1863,7 +1863,7 @@ export const ITEM_TRADE_TYPES: {
     "Coconut Mask": "onchain",
     "Crab Trap": "instant",
     "Seaside Tank Top": "instant",
-    "Fish Trap": "onchain",
+    "Fish Trap": "instant",
     "Fishing Pants": "instant",
     "Angler Waders": "instant",
     "Fishing Spear": "instant",

@@ -1223,6 +1223,13 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
+  "Fish Trap": [
+    {
+      shortDescription: translate("description.fishTrap.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+  ],
 
   // Add items above this line
   ...SPECIAL_ITEM_LABELS,
