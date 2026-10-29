@@ -8930,5 +8930,10 @@
   "flower.exchange.sunset.rateChange": "De {{date}}, a taxa muda para {{exchangeRate}} Love Charms = 1 $FLOWER. A troca fecha em {{closeDate}}.",
   "flower.exchange.sunset.closing": "A troca Love Charm fecha em {{date}}.",
   "flower.exchange.closed.title": "Câmbio encerrado",
-  "flower.exchange.closed.description": "A bolsa Love Charm $FLOWER foi encerrada. Love Charms ainda pode ser gasto na Ilha do Amor."
+  "flower.exchange.closed.description": "A bolsa Love Charm $FLOWER foi encerrada. Love Charms ainda pode ser gasto na Ilha do Amor.",
+  "description.duendeInABottle": "Um Duende foi pego cochilando em uma garrafa. É melhor não abri-lo.",
+  "description.mushroomLog": "Um velho tronco brotando cogumelos de caverna.",
+  "description.potOfLuck": "Um pote cheio de ouro da sorte.",
+  "description.tnt": "Manuseie com cuidado. Somente para trabalhos em cavernas.",
+  "description.warningSign": "O perigo está à frente! Cuidado com seus passos na caverna."
 }

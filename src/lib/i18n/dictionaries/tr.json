@@ -8930,5 +8930,10 @@
   "flower.exchange.sunset.rateChange": "{{date}} 'den itibaren oran {{exchangeRate}} Aşk Tılsımları = 1 $FLOWER olarak değişir. Borsa {{closeDate}} 'de kapanır.",
   "flower.exchange.sunset.closing": "Love Charm borsası {{date}} tarihinde kapanıyor.",
   "flower.exchange.closed.title": "Borsa kapandı",
-  "flower.exchange.closed.description": "Love Charm $FLOWER borsası kapandı. Aşk Tılsımları hala Aşk Adası\"nda harcanabilir."
+  "flower.exchange.closed.description": "Love Charm $FLOWER borsası kapandı. Aşk Tılsımları hala Aşk Adası\"nda harcanabilir.",
+  "description.duendeInABottle": "Bir Duende şişede uyurken yakalandı. En iyisi onu açmamak.",
+  "description.mushroomLog": "Mağara mantarlarını filizleyen eski bir kütük.",
+  "description.potOfLuck": "Şanslı altınla dolu bir tencere.",
+  "description.tnt": "Dikkatli kullanın. Sadece mağara çalışması için.",
+  "description.warningSign": "Tehlike ileride! Mağaradaki adımlarına dikkat et."
 }

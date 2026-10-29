@@ -8930,5 +8930,10 @@
   "flower.exchange.sunset.rateChange": "From {{date}} the rate changes to {{exchangeRate}} Love Charms = 1 $FLOWER. The exchange closes on {{closeDate}}.",
   "flower.exchange.sunset.closing": "The Love Charm exchange closes on {{date}}.",
   "flower.exchange.closed.title": "Exchange closed",
-  "flower.exchange.closed.description": "The Love Charm $FLOWER exchange has closed. Love Charms can still be spent on Love Island."
+  "flower.exchange.closed.description": "The Love Charm $FLOWER exchange has closed. Love Charms can still be spent on Love Island.",
+  "description.duendeInABottle": "A Duende caught napping in a bottle. Best not to uncork it.",
+  "description.mushroomLog": "An old log sprouting cave mushrooms.",
+  "description.potOfLuck": "A pot brimming with lucky gold.",
+  "description.tnt": "Handle with care. For cave work only.",
+  "description.warningSign": "Danger ahead! Mind your step in the cave."
 }

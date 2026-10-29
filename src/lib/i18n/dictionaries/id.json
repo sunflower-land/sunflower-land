@@ -8930,5 +8930,10 @@
   "flower.exchange.sunset.rateChange": "Dari {{date}} tarif berubah menjadi {{exchangeRate}} Love Charms = 1 $FLOWER. Pertukaran ditutup pada {{closeDate}}.",
   "flower.exchange.sunset.closing": "Pertukaran Love Charm ditutup pada {{date}}.",
   "flower.exchange.closed.title": "Bursa ditutup",
-  "flower.exchange.closed.description": "Bursa Love Charm $FLOWER telah ditutup. Pesona Cinta masih bisa dihabiskan di Pulau Cinta."
+  "flower.exchange.closed.description": "Bursa Love Charm $FLOWER telah ditutup. Pesona Cinta masih bisa dihabiskan di Pulau Cinta.",
+  "description.duendeInABottle": "Seorang Duende tertangkap tidur siang di dalam botol. Lebih baik tidak membukanya.",
+  "description.mushroomLog": "Sebuah batang kayu tua yang menumbuhkan jamur gua.",
+  "description.potOfLuck": "Sebuah pot penuh dengan emas keberuntungan.",
+  "description.tnt": "Tangani dengan hati-hati. Hanya untuk pekerjaan gua.",
+  "description.warningSign": "Bahaya di depan! Perhatikan langkah Anda di dalam gua."
 }

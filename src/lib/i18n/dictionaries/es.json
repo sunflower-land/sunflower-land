@@ -8930,5 +8930,10 @@
   "flower.exchange.sunset.rateChange": "A partir de {{date}}, la tarifa cambia a {{exchangeRate}} Love Charms = 1 $FLOWER. La bolsa cierra el {{closeDate}}.",
   "flower.exchange.sunset.closing": "La bolsa Love Charm cierra el {{date}}.",
   "flower.exchange.closed.title": "Bolsa cerrada",
-  "flower.exchange.closed.description": "La bolsa Love Charm $FLOWER ha cerrado. Los Love Charms todavía se pueden gastar en Love Island."
+  "flower.exchange.closed.description": "La bolsa Love Charm $FLOWER ha cerrado. Los Love Charms todavía se pueden gastar en Love Island.",
+  "description.duendeInABottle": "Un duende sorprendido durmiendo una siesta en una botella. Es mejor no descorcharlo.",
+  "description.mushroomLog": "Un viejo tronco del que brotan hongos de las cavernas.",
+  "description.potOfLuck": "Una olla rebosante de oro de la suerte.",
+  "description.tnt": "Manéjelo con cuidado. Solo para trabajos en cuevas.",
+  "description.warningSign": "¡Peligro por delante! Ten cuidado al entrar en la cueva."
 }

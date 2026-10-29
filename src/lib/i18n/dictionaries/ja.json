@@ -8930,5 +8930,10 @@
   "flower.exchange.sunset.rateChange": "{{date}} からレートが {{exchangeRate}} ラブチャーム = 1 $FLOWERに変わります。取引所は {{closeDate}} に終了します。",
   "flower.exchange.sunset.closing": "ラブチャーム交換は {{date}} に終了します。",
   "flower.exchange.closed.title": "取引所は終了しました",
-  "flower.exchange.closed.description": "ラブチャーム$FLOWERの交換は終了しました。ラブチャームは引き続きラブアイランドでお使いいただけます。"
+  "flower.exchange.closed.description": "ラブチャーム$FLOWERの交換は終了しました。ラブチャームは引き続きラブアイランドでお使いいただけます。",
+  "description.duendeInABottle": "ドゥエンデが瓶の中で昼寝をしているのを見つけた。栓を抜かないのが一番だ。",
+  "description.mushroomLog": "洞窟キノコが生えている古い丸太だ。",
+  "description.potOfLuck": "ラッキーゴールドがぎっしり詰まった鉢。",
+  "description.tnt": "注意して取り扱ってください。洞窟作業専用です。",
+  "description.warningSign": "危険が待ち受けている！洞窟では足元に気をつけて。"
 }

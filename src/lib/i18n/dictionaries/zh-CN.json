@@ -8930,5 +8930,10 @@
   "flower.exchange.sunset.rateChange": "从 {{date}} 变为 {{exchangeRate}} Love Charms = 1 $FLOWER。交易所于 [2@/美元] 关闭。",
   "flower.exchange.sunset.closing": "Love Charm 交易所于 {{date}} 关闭。",
   "flower.exchange.closed.title": "交易所关闭",
-  "flower.exchange.closed.description": "Love Charm $FLOWER 交易所已经关闭。爱情护身符仍然可以在爱情岛上消费。"
+  "flower.exchange.closed.description": "Love Charm $FLOWER 交易所已经关闭。爱情护身符仍然可以在爱情岛上消费。",
+  "description.duendeInABottle": "一个杜恩德被抓到在瓶子里小睡。最好不要解开它。",
+  "description.mushroomLog": "一根发芽洞穴蘑菇的旧木头。",
+  "description.potOfLuck": "一个装满幸运金的花盆。",
+  "description.tnt": "小心操作。仅用于洞穴作业。",
+  "description.warningSign": "前面有危险！注意你在洞穴中的脚步。"
 }
