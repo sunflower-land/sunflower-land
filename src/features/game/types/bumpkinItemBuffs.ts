@@ -1209,6 +1209,20 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       boostTypeIcon: powerup,
     },
   ],
+  "Pig Onesie": [
+    {
+      shortDescription: translate("description.pigOnesie.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
+  ],
+  "Ascension Staff": [
+    {
+      shortDescription: translate("description.ascensionStaff.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+  ],
 
   // Add items above this line
   ...SPECIAL_ITEM_LABELS,

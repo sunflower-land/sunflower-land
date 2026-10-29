@@ -144,6 +144,8 @@ const handleFreeFeeding = ({
   return copy;
 };
 
+const PIG_ONESIE_XP_MULTIPLIER = 1.05;
+
 export function handleFoodXP({
   state,
   animal,
@@ -172,12 +174,23 @@ export function handleFoodXP({
     foodXp = foodXp.mul(SKILL_RANKS["Chonky Feed"].xp[chonkyFeedLevel - 1]);
   }
 
+  // Pig Onesie: +5% feed XP for every animal, but not for a Beetle (like
+  // Chonky Feed).
+  const boostsUsed: { name: BoostName; value: string }[] = [];
+  if (
+    !isBeetle(food) &&
+    isWearableActive({ name: "Pig Onesie", game: state })
+  ) {
+    foodXp = foodXp.mul(PIG_ONESIE_XP_MULTIPLIER);
+    boostsUsed.push({ name: "Pig Onesie", value: "x1.05" });
+  }
+
   // Mud is the FINAL multiplier, after every other feed-XP modifier.
   if (isMuddy({ mud })) {
     foodXp = foodXp.mul(MUD_XP_MULTIPLIER);
   }
 
-  return { foodXp: foodXp.toNumber() };
+  return { foodXp: foodXp.toNumber(), boostsUsed };
 }
 
 /**
@@ -387,7 +400,7 @@ export function feedAnimal({
       ? 1
       : getFeedBatchSize({ state: copy, animal });
 
-    const { foodXp: xpPerFeed } = handleFoodXP({
+    const { foodXp: xpPerFeed, boostsUsed: xpBoostsUsed } = handleFoodXP({
       state: copy,
       animal: action.animal,
       level,
@@ -418,7 +431,7 @@ export function feedAnimal({
 
     copy.inventory[food] = inventoryAmount.sub(boostedFoodQuantity);
 
-    boostsUsed.push(...foodBoostsUsed);
+    boostsUsed.push(...foodBoostsUsed, ...xpBoostsUsed);
 
     const isReady = handleAnimalExperience(
       animal,

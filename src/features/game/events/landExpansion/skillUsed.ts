@@ -297,6 +297,9 @@ export function getSkillCooldown({
   if (isWearableActive({ name: "Luna's Crescent", game: state })) {
     boostedCooldown = boostedCooldown.mul(0.5);
   }
+  if (isWearableActive({ name: "Ascension Staff", game: state })) {
+    boostedCooldown = boostedCooldown.mul(0.9);
+  }
   return boostedCooldown.toNumber();
 }
 

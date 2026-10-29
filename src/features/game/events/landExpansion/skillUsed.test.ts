@@ -1834,3 +1834,55 @@ describe("skillUse", () => {
     });
   });
 });
+
+describe("Ascension Staff", () => {
+  const dateNow = Date.now();
+  const HOUR = 1000 * 60 * 60;
+
+  const withStaff = (skills = {}) => ({
+    ...INITIAL_FARM,
+    bumpkin: {
+      ...INITIAL_FARM.bumpkin,
+      skills,
+      equipped: {
+        ...INITIAL_FARM.bumpkin.equipped,
+        tool: "Ascension Staff" as const,
+      },
+    },
+  });
+
+  it("cuts a Power Skill cooldown by 10%", () => {
+    expect(
+      getSkillCooldown({ cooldown: 24 * HOUR, state: withStaff() }),
+    ).toEqual(21.6 * HOUR);
+  });
+
+  it("cuts a rank-scaled cooldown by 10%", () => {
+    // Instant Growth rank 1: 72h -> 64.8h.
+    expect(
+      getSkillCooldown({
+        cooldown: 72 * HOUR,
+        state: withStaff({ "Instant Growth": 1 }),
+        skillName: "Instant Growth",
+      }),
+    ).toEqual(64.8 * HOUR);
+  });
+
+  it("lets a Power Skill be used once the shorter cooldown is over", () => {
+    const state = withStaff({ "Instant Growth": 1 });
+
+    expect(() =>
+      skillUse({
+        state: {
+          ...state,
+          bumpkin: {
+            ...state.bumpkin,
+            previousPowerUseAt: { "Instant Growth": dateNow - 66 * HOUR },
+          },
+        },
+        action: { type: "skill.used", skill: "Instant Growth" },
+        createdAt: dateNow,
+      }),
+    ).not.toThrow("Power Skill on Cooldown");
+  });
+});

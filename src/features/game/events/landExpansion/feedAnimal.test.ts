@@ -3165,3 +3165,82 @@ describe("feedAnimal: direct Beetle feeding", () => {
     });
   });
 });
+
+describe("Pig Onesie", () => {
+  const now = Date.now();
+
+  const withOnesie = (state: GameState): GameState => ({
+    ...state,
+    bumpkin: {
+      ...state.bumpkin,
+      equipped: { ...state.bumpkin.equipped, onesie: "Pig Onesie" },
+    },
+  });
+
+  const xp = (
+    state: GameState,
+    animal: AnimalType,
+    level: Parameters<typeof handleFoodXP>[0]["level"],
+    food: AnimalFoodName | BeetleName,
+    mud?: Animal["mud"],
+  ) => handleFoodXP({ state, animal, level, food, mud }).foodXp;
+
+  it.each([
+    ["Chicken", 1, "Mixed Grain"],
+    ["Cow", 1, "Mixed Grain"],
+    ["Sheep", 1, "Mixed Grain"],
+    ["Pig", 4, "Hearty Slop"],
+  ] as const)("gives a %s +5%% feed XP", (animal, level, food) => {
+    const base = xp(INITIAL_FARM, animal, level, food);
+
+    expect(base).toBeGreaterThan(0);
+    expect(xp(withOnesie(INITIAL_FARM), animal, level, food)).toEqual(
+      base * 1.05,
+    );
+  });
+
+  it("does not boost a Beetle fed directly", () => {
+    expect(xp(withOnesie(INITIAL_FARM), "Cow", 1, "Green Beetle")).toEqual(
+      BEETLE_FEEDING_XP["Green Beetle"],
+    );
+  });
+
+  it("applies after Chonky Feed and before Mud", () => {
+    const state = withOnesie({
+      ...INITIAL_FARM,
+      bumpkin: { ...INITIAL_FARM.bumpkin, skills: { "Chonky Feed": 2 } },
+    });
+
+    // 60 x 2.5 (Chonky Feed) x 1.05 (Pig Onesie) x 1.25 (Mud).
+    expect(
+      xp(state, "Pig", 4, "Hearty Slop", { harvestsRemaining: 1 }),
+    ).toEqual(196.875);
+  });
+
+  it("records the Pig Onesie in boostsUsedAt when feeding", () => {
+    const state = feedAnimal({
+      state: withOnesie({
+        ...FARM_WITH_HERDS,
+        buildings: {
+          ...FARM_WITH_HERDS.buildings,
+          "Hen House": [
+            { coordinates: { x: 0, y: 0 }, createdAt: 0, id: "0", readyAt: 0 },
+          ],
+        },
+        inventory: {
+          ...FARM_WITH_HERDS.inventory,
+          "Mixed Grain": new Decimal(100),
+        },
+      }),
+      action: {
+        type: "animal.fed",
+        animal: "Chicken",
+        id: Object.keys(FARM_WITH_HERDS.henHouse.animals)[0],
+        item: "Mixed Grain",
+      },
+      createdAt: now,
+    });
+
+    expect(state.boostsUsedAt?.["Pig Onesie"]).toEqual(now);
+  });
+});
