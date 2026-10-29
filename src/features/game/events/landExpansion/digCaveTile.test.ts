@@ -264,7 +264,7 @@ describe("digCaveTile (cave.dug)", () => {
       );
     });
 
-    it("is not unlocked by holding a Beta Pass", () => {
+    it("is unlocked by holding a Beta Pass", () => {
       const state = readyState();
       expect(() =>
         dig(
@@ -275,7 +275,7 @@ describe("digCaveTile (cave.dug)", () => {
           1,
           0,
         ),
-      ).toThrow(DIG_CAVE_TILE_ERRORS.NO_FEATURE_ACCESS);
+      ).not.toThrow();
     });
   });
 });

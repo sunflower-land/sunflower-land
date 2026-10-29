@@ -1,12 +1,29 @@
+import React, { useContext } from "react";
+import { useSelector } from "@xstate/react";
+
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
-import { useGame } from "features/game/GameProvider";
+import { Context } from "features/game/GameProvider";
+import type { MachineState } from "features/game/lib/gameMachine";
+import {
+  formatWithdrawableDate,
+  getWithdrawBlockedUntil,
+} from "features/game/lib/withdrawCooldown";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React from "react";
 
+const _errorDetails = (state: MachineState) => state.context.errorDetails;
+
+/**
+ * A FLOWER withdrawal was refused because another farm on the same network
+ * withdrew recently. The API says when the hold lifts via
+ * `data.blockedUntil`; without it only the generic wording is shown.
+ */
 export const DuplicateWithdraw: React.FC = () => {
   const { t } = useAppTranslation();
-  const { gameService } = useGame();
+  const { gameService } = useContext(Context);
+
+  const errorDetails = useSelector(gameService, _errorDetails);
+  const blockedUntil = getWithdrawBlockedUntil(errorDetails);
 
   // Nothing to retry here (the hold runs its course), so just go back to
   // the game instead of leaving a page reload as the only way out.
@@ -19,6 +36,13 @@ export const DuplicateWithdraw: React.FC = () => {
           {t("withdraw.duplicate.title")}
         </Label>
         <p className="text-xs mb-1">{t("withdraw.duplicate.description")}</p>
+        {blockedUntil !== undefined && (
+          <p className="text-xs mt-2">
+            {t("withdraw.duplicate.blockedUntil", {
+              date: formatWithdrawableDate(blockedUntil),
+            })}
+          </p>
+        )}
         <p className="text-xs mt-2">{t("withdraw.duplicate.waitMessage")}</p>
       </div>
       <Button onClick={close}>{t("continue")}</Button>

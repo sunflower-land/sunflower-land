@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useState } from "react";
 import classNames from "classnames";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -44,7 +44,10 @@ import { getCropPlotTime } from "features/game/events/landExpansion/plant";
 import { projectSeconds } from "features/game/lib/timerDisplay";
 import { getSeedBoostWindows } from "features/game/lib/seedBoostWindows";
 import { getAvailablePlots } from "features/game/events/landExpansion/bulkPlant";
-import { getCropsToHarvest } from "features/game/events/landExpansion/bulkHarvest";
+import {
+  bulkHarvest,
+  getCropsToHarvest,
+} from "features/game/events/landExpansion/bulkHarvest";
 import { getReward } from "features/game/events/landExpansion/harvest";
 import { getPlotsToFertilise } from "features/game/events/landExpansion/bulkFertilisePlot";
 import {
@@ -67,6 +70,44 @@ import { ChestReward } from "features/island/common/chest-reward/ChestReward";
 import type { FarmActivityName } from "features/game/types/farmActivity";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { isWearableActive } from "features/game/lib/wearables";
+
+/**
+ * Yield is rolled at harvest time (PRNG + AOE), so dry-run the real event and
+ * diff the inventory to show exactly what Harvest All will give.
+ */
+const getCropYields = ({
+  state,
+  readyCrops,
+  now,
+  farmId,
+}: {
+  state: GameState;
+  readyCrops: Record<CropName, number>;
+  now: number;
+  farmId: number;
+}): Record<CropName, number> => {
+  try {
+    const harvested = bulkHarvest({
+      state,
+      action: { type: "crops.bulkHarvested" },
+      createdAt: now,
+      farmId,
+    });
+
+    return (Object.keys(readyCrops) as CropName[]).reduce(
+      (yields, crop) => {
+        const before = state.inventory[crop] ?? new Decimal(0);
+        const after = harvested.inventory[crop] ?? new Decimal(0);
+        yields[crop] = after.sub(before).toNumber();
+        return yields;
+      },
+      {} as Record<CropName, number>,
+    );
+  } catch {
+    // Fall back to the plot count if the dry run fails
+    return readyCrops;
+  }
+};
 
 type AnyCompostName =
   | CropCompostName
@@ -120,7 +161,7 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
   const { readyCrops, readyPlots } = getCropsToHarvest(state, now);
   const hasReadyCrops = Object.keys(readyCrops).length > 0;
 
-  const combinedReward = useMemo(() => {
+  const combinedReward = (() => {
     const rewardItems: Partial<Record<InventoryItemName, Decimal>> = {};
     let coins = 0;
     let hasReward = false;
@@ -171,7 +212,12 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
     if (items.length > 0) combined.items = items;
     if (coins > 0) combined.coins = coins;
     return combined;
-  }, [readyPlots, state.bumpkin?.skills, state.farmActivity, farmId]);
+  })();
+
+  const cropYields =
+    show && hasReadyCrops
+      ? getCropYields({ state, readyCrops, now, farmId })
+      : readyCrops;
 
   const doHarvestAll = () => {
     gameService.send("crops.bulkHarvested", {});
@@ -331,7 +377,11 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
               />
             </InnerPanel>
           ) : hasReadyCrops ? (
-            <HarvestSection readyCrops={readyCrops} onHarvest={harvestAll} />
+            <HarvestSection
+              readyCrops={readyCrops}
+              cropYields={cropYields}
+              onHarvest={harvestAll}
+            />
           ) : availablePlots.length > 0 ? (
             <PlantSection state={state} availablePlots={availablePlots} />
           ) : (
@@ -378,8 +428,9 @@ const SectionHeader: React.FC<{
 
 const HarvestSection: React.FC<{
   readyCrops: Record<CropName, number>;
+  cropYields: Record<CropName, number>;
   onHarvest: () => void;
-}> = ({ readyCrops, onHarvest }) => {
+}> = ({ readyCrops, cropYields, onHarvest }) => {
   const { t } = useAppTranslation();
   const totalReady = Object.values(readyCrops).reduce((s, n) => s + n, 0);
   const hasReady = totalReady > 0;
@@ -402,7 +453,7 @@ const HarvestSection: React.FC<{
               <Box
                 key={crop}
                 image={ITEM_DETAILS[crop as CropName].image}
-                count={new Decimal(count)}
+                count={new Decimal(cropYields[crop as CropName] ?? count)}
               />
             ))}
           </div>

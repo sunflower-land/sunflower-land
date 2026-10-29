@@ -138,6 +138,26 @@ export function getPaidTutorialAxesLeft(game: Readonly<GameState>): number {
 }
 
 /**
+ * How many of a Workbench tool the shop can sell right now. While the
+ * tutorial budget applies, Axes bypass the daily stock (see craftTool), and
+ * the stored Axe stock may still hold the full pre-tutorial amount, so only
+ * the free batch and the per-level paid budget count. Every other tool, and
+ * Axes once the phase is over, sell from the stock plus any free Axes left.
+ */
+export function getWorkbenchToolStock(
+  name: WorkbenchToolName,
+  game: Readonly<GameState>,
+): Decimal {
+  const freeAmount = getFreeToolAmount(WORKBENCH_TOOLS[name], game);
+
+  if (name === "Axe" && isTutorialToolStockPhase(game)) {
+    return new Decimal(freeAmount + getPaidTutorialAxesLeft(game));
+  }
+
+  return (game.stock[name] ?? new Decimal(0)).add(freeAmount);
+}
+
+/**
  * Coin price of a single tool after every discount, ignoring the free tutorial
  * Axes. The Workbench needs this to work out how many it can afford, since a
  * batch that includes free Axes is not simply one price times the amount.

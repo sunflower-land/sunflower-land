@@ -8,8 +8,8 @@
  * The map has no object layers. Everything is derived from the tile layers:
  * one layer GROUP per tier (`room1`..`room8`), each holding the slots unlocked
  * at that tier (`room-patch`), the next slot's barrier (`under-construction`),
- * and from room5 the Merchant's alcove (`cave_entrance_merchant?`); plus the
- * shared `stair` layer with the ladder.
+ * and the Merchant's alcove (`cave_entrance_merchant?`); plus the shared
+ * `stair` layer with the ladder.
  */
 
 export const CAVE_TILE_PX = 16;
@@ -23,7 +23,7 @@ type TiledTileLayer = {
 type TiledGroupLayer = {
   type: "group";
   name: string;
-  layers: TiledTileLayer[];
+  layers: (TiledTileLayer | TiledGroupLayer)[];
 };
 
 export type CaveTiledMap = {
@@ -43,10 +43,27 @@ const CONSTRUCTION_LAYER = "under-construction";
 const MERCHANT_LAYER = "cave_entrance_merchant?";
 const STAIR_LAYER = "stair";
 
-// Inside a slot's 7x10 box: sign rows 0-1 (x+2..x+4), fence row 2, border
-// row 3, the 5x5 sand at rows 4-8 / columns 1-5, border row 9.
-const SIGN_OFFSET = { x: 2, y: 0, w: 3, h: 2 };
-const DIG_OFFSET = { x: 1, y: 4 };
+// Inside a slot's 7x11 box: the Myco Bin at rows 0-2 / columns 1-5, fence
+// row 3, border row 4, the 5x5 sand at rows 5-9 / columns 1-5, border row 10.
+const SIGN_OFFSET = { x: 1, y: 0, w: 5, h: 3 };
+const DIG_OFFSET = { x: 1, y: 5 };
+
+// Searches a group and its sub-groups (the Merchant's alcove sits in a
+// `decors` group inside the room).
+function findTileLayer(
+  layers: (TiledTileLayer | TiledGroupLayer)[],
+  name: string,
+): TiledTileLayer | undefined {
+  for (const layer of layers) {
+    if (layer.type === "tilelayer" && layer.name === name) return layer;
+    if (layer.type === "group") {
+      const found = findTileLayer(layer.layers, name);
+      if (found) return found;
+    }
+  }
+
+  return undefined;
+}
 
 function roomLayer(map: CaveTiledMap, tier: number, name: string) {
   const group = map.layers.find(
@@ -54,7 +71,7 @@ function roomLayer(map: CaveTiledMap, tier: number, name: string) {
       layer.type === "group" && layer.name === `room${tier}`,
   );
 
-  return group?.layers.find((layer) => layer.name === name);
+  return group && findTileLayer(group.layers, name);
 }
 
 function topLayer(map: CaveTiledMap, name: string): TiledTileLayer {
@@ -131,7 +148,7 @@ const toPixels = (box: TileBox): PixelRect => ({
 });
 
 export type CaveSlotRect = {
-  /** The slot's 7x10 tile box from the map. */
+  /** The slot's 7x11 tile box from the map. */
   box: TileBox;
   /** Pixel origin of the 5x5 dig grid (top-left of the first cell). */
   dig: { x: number; y: number };

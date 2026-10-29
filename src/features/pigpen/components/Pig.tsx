@@ -143,11 +143,12 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
   const [showLockedDetails, setShowLockedDetails] = useState(false);
   // Sounds
   const { play: playFeedAnimal } = useSound("feed_animal");
-  // TODO(Chapter 16 art): Pig SFX exist in the asset repo but are not wired up.
-  const { play: playPigCollect } = useSound("cow_collect");
+  // Only an actual feed grunts; love, Mud and treats keep the generic clip.
+  const { play: playPigFeed } = useSound("pig_feed");
+  const { play: playPigCollect } = useSound("pig_collect");
   const { play: playProduceDrop } = useSound("produce_drop");
   const { play: playLevelUp } = useSound("level_up");
-  const { play: playCureAnimal } = useSound("cure_animal");
+  const { play: playCureAnimal } = useSound("pig_cure");
 
   const lastSynced = useRef({ state: pig.state, experience: pig.experience });
 
@@ -269,7 +270,7 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
       animal: updatedPig,
     });
 
-    playFeedAnimal();
+    playPigFeed();
   };
 
   const onLoveClick = async () => {

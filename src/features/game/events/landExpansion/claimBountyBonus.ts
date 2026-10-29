@@ -39,6 +39,8 @@ export const NO_BONUS_BOUNTIES_WEEK = [
   "2026-07-06", // Salt Awakening Auction Week
   "2026-08-03", // Ascension Age Rest Week
   "2026-10-05", // Ascension Age Auction Week
+  "2026-11-02", // Cave Dwellers Rest Week
+  "2027-01-04", // Cave Dwellers Auction Week
 ];
 
 const TICKET_BONUS_AMOUNT = 50;

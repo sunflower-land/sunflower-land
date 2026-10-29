@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
@@ -25,8 +25,7 @@ import { BUILDINGS } from "features/game/types/buildings";
 import { EXPANSION_REQUIREMENTS } from "features/game/types/expansions";
 import { WORKBENCH_TOOLS } from "features/game/types/tools";
 import { translate } from "lib/i18n/translate";
-import { isAsciiText } from "lib/utils/textSupport";
-import { getResolvedFontFamily } from "lib/utils/fonts";
+import { NPCSpeechBubble } from "features/game/components/NPCSpeechBubble";
 import { Guide } from "features/helios/components/hayseedHank/components/Guide";
 import type { GuidePath } from "features/helios/components/hayseedHank/lib/guide";
 import {
@@ -199,32 +198,15 @@ const hint = (state: MachineState) => {
 };
 
 export const TravelTeaser: React.FC = () => {
-  const { gameService, showAnimations } = useContext(Context);
+  const { gameService } = useContext(Context);
   const peteHint = useSelector(gameService, hint);
   const expansionCount = useSelector(gameService, expansions);
   const { t } = useAppTranslation();
-  // "Teeny" is a pixel font with printable-ASCII-only glyphs; scripts it
-  // can't render (Cyrillic, CJK, etc.) fall back to the player's regular UI
-  // font instead. That font runs wider than Teeny, so the layout below
-  // (word spacing, offsets, min width) is tuned separately per case.
-  const isTeenySupported = isAsciiText(peteHint ?? "");
-
-  const [peteState, setPeteState] = useState<"idle" | "typing">("idle");
 
   type Tab = "explore" | "guide";
   const [tab, setTab] = useState<Tab>("explore");
   const [showModal, setShowModal] = useState(false);
   const [guide, setGuide] = useState<GuidePath>();
-
-  useEffect(() => {
-    const speak = async () => {
-      setPeteState("typing");
-
-      await new Promise(() => setTimeout(() => setPeteState("idle"), 1000));
-    };
-
-    speak();
-  }, [peteHint]);
 
   // Pumpkin Pete's boat sits east of the dock/salt and moves with the dock.
   const coords = () => {
@@ -288,92 +270,14 @@ export const TravelTeaser: React.FC = () => {
             }}
           >
             {peteHint && peteHint !== "Explore" && (
-              <div
-                className={
-                  "absolute uppercase" +
-                  (showAnimations ? " animate-float" : "")
-                }
+              <NPCSpeechBubble
+                text={peteHint}
+                mirrored
                 style={{
-                  fontFamily: isTeenySupported
-                    ? "Teeny"
-                    : getResolvedFontFamily(),
-                  color: "black",
-                  textShadow: "none",
                   top: `${PIXEL_SCALE * -8}px`,
                   left: `${PIXEL_SCALE * 6}px`,
-
-                  borderImage: `url(${SUNNYSIDE.ui.speechBorder})`,
-                  borderStyle: "solid",
-                  borderTopWidth: `${PIXEL_SCALE * 2}px`,
-                  borderRightWidth: `${PIXEL_SCALE * 2}px`,
-                  borderBottomWidth: `${PIXEL_SCALE * 4}px`,
-                  borderLeftWidth: `${PIXEL_SCALE * 5}px`,
-
-                  borderImageSlice: "2 2 4 5 fill",
-                  imageRendering: "pixelated",
-                  borderImageRepeat: "stretch",
-                  fontSize: isTeenySupported ? "8px" : "var(--text-xxxs-size)",
                 }}
-              >
-                <div
-                  style={{
-                    transform: "scaleX(-1)",
-                    height: "12px",
-                    minWidth: "30px",
-                  }}
-                >
-                  {peteState === "idle" && (
-                    <span
-                      className="whitespace-nowrap"
-                      style={
-                        isTeenySupported
-                          ? {
-                              fontSize: "10px",
-                              position: "relative",
-                              bottom: "4px",
-                              left: "4px",
-                              wordSpacing: "-4px",
-                              color: "#262b45",
-                            }
-                          : {
-                              fontSize: "var(--text-xxxs-size)",
-                              lineHeight: "var(--text-xxxs-line-height)",
-                              position: "relative",
-                              bottom: "2px",
-                              color: "#262b45",
-                            }
-                      }
-                    >
-                      {peteHint}
-                    </span>
-                  )}
-
-                  {peteState === "typing" && (
-                    <span
-                      style={
-                        isTeenySupported
-                          ? {
-                              fontSize: "10px",
-                              position: "relative",
-                              bottom: "4px",
-                              left: "4px",
-                              wordSpacing: "-4px",
-                              color: "#262b45",
-                            }
-                          : {
-                              fontSize: "var(--text-xxxs-size)",
-                              lineHeight: "var(--text-xxxs-line-height)",
-                              position: "relative",
-                              bottom: "2px",
-                              color: "#262b45",
-                            }
-                      }
-                    >
-                      {"..."}
-                    </span>
-                  )}
-                </div>
-              </div>
+              />
             )}
 
             {peteHint === "Explore" && (

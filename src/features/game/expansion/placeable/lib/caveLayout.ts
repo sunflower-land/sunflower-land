@@ -27,23 +27,24 @@ export type CaveTileRect = {
 };
 
 export type CaveSlot = {
-  /** The Myco Bin sign drawn on the room: the click target. */
+  /** The Myco Bin drawn on the room: the click target. */
   sign: CaveTileRect;
   /** Top-left tile of the 5x5 sand the Bumpkin digs. */
   patch: CaveCoordinates;
 };
 
-// A slot on the map is a 7x10 box: sign rows 0-1 (columns 2-4), the fence
-// on row 2, a border, the 5x5 sand at rows 4-8 / columns 1-5, a border.
-const SLOT_BOX = { width: 7, height: 10 } as const;
+// A slot on the map is a 7x11 box: the Myco Bin at rows 0-2 / columns 1-5,
+// the fence on row 3, a border, the 5x5 sand at rows 5-9 / columns 1-5, a
+// border.
+const SLOT_BOX = { width: 7, height: 11 } as const;
 
 function slotAt(boxX: number, boxY: number): CaveSlot {
   const x = boxX - CAVE_IMAGE_ORIGIN.x;
   const y = boxY - CAVE_IMAGE_ORIGIN.y;
 
   return {
-    sign: { x: x + 2, y, width: 3, height: 2 },
-    patch: { x: x + 1, y: y + 4 },
+    sign: { x: x + 1, y, width: 5, height: 3 },
+    patch: { x: x + 1, y: y + 5 },
   };
 }
 
@@ -53,14 +54,14 @@ function slotAt(boxX: number, boxY: number): CaveSlot {
  * row RIGHT to left, so the room grows back towards the ladder.
  */
 export const CAVE_SLOTS: Record<number, CaveSlot> = {
-  1: slotAt(20, 32),
-  2: slotAt(29, 32),
-  3: slotAt(38, 32),
-  4: slotAt(47, 32),
-  5: slotAt(47, 45),
-  6: slotAt(38, 45),
-  7: slotAt(29, 45),
-  8: slotAt(20, 45),
+  1: slotAt(20, 31),
+  2: slotAt(29, 31),
+  3: slotAt(38, 31),
+  4: slotAt(47, 31),
+  5: slotAt(47, 43),
+  6: slotAt(38, 43),
+  7: slotAt(29, 43),
+  8: slotAt(20, 43),
 };
 
 export { SLOT_BOX as CAVE_SLOT_BOX };
@@ -82,24 +83,24 @@ const rect = (
  * CURRENT tier: the expansion sign sits on it. None at the last tier.
  */
 export const CAVE_CONSTRUCTION_SITES: Record<number, CaveTileRect> = {
-  1: rect(29, 34, 1, 10),
-  2: rect(38, 34, 1, 10),
-  3: rect(47, 34, 1, 10),
-  4: rect(45, 45, 11, 1),
-  5: rect(43, 47, 3, 10),
-  6: rect(34, 47, 3, 10),
-  7: rect(25, 47, 3, 10),
+  1: rect(29, 33, 1, 10),
+  2: rect(38, 33, 1, 10),
+  3: rect(47, 33, 1, 10),
+  4: rect(45, 43, 11, 1),
+  5: rect(44, 47, 1, 11),
+  6: rect(35, 47, 1, 11),
+  7: rect(26, 47, 1, 11),
 };
 
 /**
  * The Goblin Cave Merchant's alcove by the entrance arch. The room draws it
- * from tier V; the goblin stands at its right-hand side.
+ * from tier I; the goblin stands at its right-hand side.
  */
-export const CAVE_MERCHANT_ALCOVE: CaveTileRect = rect(32, 22, 9, 5);
-export const CAVE_MERCHANT_ALCOVE_TIER = 5;
+export const CAVE_MERCHANT_ALCOVE: CaveTileRect = rect(31, 22, 10, 5);
+export const CAVE_MERCHANT_ALCOVE_TIER = 1;
 
 /** The ladder out, top-left of the first room. */
-export const CAVE_LADDER: CaveTileRect = rect(20, 21, 1, 4);
+export const CAVE_LADDER: CaveTileRect = rect(20, 21, 2, 4);
 
 /** How many slots are unlocked at a given tier (tier N unlocks slot N). */
 export function caveSlotsForTier(tier: number): number[] {

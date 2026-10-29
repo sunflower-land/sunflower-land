@@ -299,3 +299,74 @@ describe("startLavaPit", () => {
     expect(result.lavaPits[1].collectedAt).toBeUndefined();
   });
 });
+
+describe("Firefly Aura", () => {
+  const now = Date.now();
+
+  const withFireflyAura = (game: GameState): GameState => ({
+    ...game,
+    lavaPits: { 1: { x: 0, y: 0, createdAt: 0 } },
+    bumpkin: {
+      ...game.bumpkin,
+      equipped: { ...game.bumpkin.equipped, aura: "Firefly Aura" },
+    },
+  });
+
+  it("reduces the lava pit time by 20%", () => {
+    const result = startLavaPit({
+      state: withFireflyAura(TEST_FARM),
+      action: { type: "lavaPit.started", id: "1" },
+      createdAt: now,
+      farmId: 1,
+    });
+
+    expect(result.lavaPits[1].readyAt).toEqual(now + LAVA_PIT_TIME * 0.8);
+  });
+
+  it("instantly completes the lava pit on a 5% roll", () => {
+    // Golden value: farmId 1 + Lava Pit counter 69 rolls under 5%
+    const result = startLavaPit({
+      state: {
+        ...withFireflyAura(TEST_FARM),
+        farmActivity: { "Lava Pit Started": 69 },
+      },
+      action: { type: "lavaPit.started", id: "1" },
+      createdAt: now,
+      farmId: 1,
+    });
+
+    expect(result.lavaPits[1].startedAt).toEqual(now);
+    expect(result.lavaPits[1].readyAt).toEqual(now);
+    expect(result.boostsUsedAt?.["Firefly Aura"]).toEqual(now);
+  });
+
+  it("does not instantly complete without the Firefly Aura", () => {
+    const result = startLavaPit({
+      state: {
+        ...TEST_FARM,
+        lavaPits: { 1: { x: 0, y: 0, createdAt: 0 } },
+        farmActivity: { "Lava Pit Started": 69 },
+      },
+      action: { type: "lavaPit.started", id: "1" },
+      createdAt: now,
+      farmId: 1,
+    });
+
+    expect(result.lavaPits[1].readyAt).toEqual(now + LAVA_PIT_TIME);
+  });
+
+  it("tracks every lava pit start", () => {
+    const result = startLavaPit({
+      state: {
+        ...TEST_FARM,
+        lavaPits: { 1: { x: 0, y: 0, createdAt: 0 } },
+        farmActivity: { "Lava Pit Started": 3 },
+      },
+      action: { type: "lavaPit.started", id: "1" },
+      createdAt: now,
+      farmId: 1,
+    });
+
+    expect(result.farmActivity["Lava Pit Started"]).toEqual(4);
+  });
+});

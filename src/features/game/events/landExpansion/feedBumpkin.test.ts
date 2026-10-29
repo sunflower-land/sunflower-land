@@ -1068,3 +1068,63 @@ describe("feedBumpkin", () => {
     );
   });
 });
+
+describe("Giant Truffle", () => {
+  const feedWithGiantTruffle = (
+    food: "Boiled Eggs" | "Apple Juice" | "Blueberry Jam" | "Gumbo",
+  ) =>
+    feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: INITIAL_BUMPKIN,
+        collectibles: {
+          "Giant Truffle": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              readyAt: 0,
+              createdAt: 0,
+            },
+          ],
+        },
+        inventory: { [food]: new Decimal(1) },
+      },
+      action: { type: "bumpkin.feed", food, amount: 1 },
+    });
+
+  it("gives 30% more experience from non-fish foods", () => {
+    const result = feedWithGiantTruffle("Boiled Eggs");
+
+    expect(result.bumpkin?.experience).toBe(
+      new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.3).toNumber(),
+    );
+  });
+
+  it("gives 60% more experience from Smoothie Shack foods instead of 30%", () => {
+    const result = feedWithGiantTruffle("Apple Juice");
+
+    expect(result.bumpkin?.experience).toBe(
+      new Decimal(CONSUMABLES["Apple Juice"].experience).mul(1.6).toNumber(),
+    );
+  });
+
+  it("gives 60% more experience from Deli foods instead of 30%", () => {
+    const result = feedWithGiantTruffle("Blueberry Jam");
+
+    expect(result.bumpkin?.experience).toBe(
+      new Decimal(CONSUMABLES["Blueberry Jam"].experience).mul(1.6).toNumber(),
+    );
+  });
+
+  it("does not boost fish foods", () => {
+    const result = feedWithGiantTruffle("Gumbo");
+
+    expect(result.bumpkin?.experience).toBe(CONSUMABLES["Gumbo"].experience);
+  });
+
+  it("records the boost used", () => {
+    const result = feedWithGiantTruffle("Apple Juice");
+
+    expect(result.boostsUsedAt?.["Giant Truffle"]).toBeDefined();
+  });
+});

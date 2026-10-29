@@ -1011,3 +1011,23 @@ describe("drillOilReserve", () => {
     });
   });
 });
+
+describe("Ladybug Cow", () => {
+  it("gives +1 Oil", () => {
+    const { amount, boostsUsed } = getOilDropAmount(
+      {
+        ...TEST_FARM,
+        collectibles: {
+          "Ladybug Cow": [
+            { id: "1", createdAt: 0, coordinates: { x: 0, y: 0 }, readyAt: 0 },
+          ],
+        },
+      },
+      { createdAt: 0, drilled: 0, oil: { drilledAt: 0 } },
+      Date.now(),
+    );
+
+    expect(amount).toEqual(BASE_OIL_DROP_AMOUNT + 1);
+    expect(boostsUsed).toContainEqual({ name: "Ladybug Cow", value: "+1" });
+  });
+});

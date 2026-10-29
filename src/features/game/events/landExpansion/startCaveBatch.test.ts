@@ -21,7 +21,8 @@ const READY_CAVE = {
   readyAt: 0,
 };
 
-const caveState = (): GameState => ({
+// A farm that has never started a Myco Bin batch.
+const newCaveState = (): GameState => ({
   ...TEST_FARM,
   buildings: { ...TEST_FARM.buildings, Cave: [READY_CAVE] },
   island: { ...TEST_FARM.island, type: "spring" },
@@ -35,6 +36,12 @@ const caveState = (): GameState => ({
     Rice: new Decimal(10),
   },
   cave: { builtAt: 1, tier: 1, machines: { "1": {} } },
+});
+
+// A farm that has dug in the Cave before, so its batches are past the first.
+const caveState = (): GameState => ({
+  ...newCaveState(),
+  farmActivity: { ...TEST_FARM.farmActivity, "Cave Tile Dug": 1 },
 });
 
 const start = (
@@ -128,9 +135,9 @@ describe("startCaveBatch (cave.batchStarted)", () => {
     expect(next.inventory.Carrot?.toNumber()).toBe(100);
   });
 
-  it("charges 10 Eggs for a Beetle batch", () => {
+  it("charges 30 Eggs for a Beetle batch", () => {
     const next = start(caveState(), "1", "Beetle");
-    expect(next.inventory.Egg?.toNumber()).toBe(90);
+    expect(next.inventory.Egg?.toNumber()).toBe(70);
   });
 
   it.each([
@@ -335,12 +342,12 @@ describe("startCaveBatch: Cave skills", () => {
   });
 
   it.each([
-    [1, 10.8],
-    [2, 9],
-    [3, 6],
-  ])("Rapid Mycelium rank %s grows a batch in %sh", (rank, hours) => {
+    [1, 684],
+    [2, 648],
+    [3, 612],
+  ])("Rapid Mycelium rank %s grows a batch in %s minutes", (rank, minutes) => {
     const next = start(skilled({ "Rapid Mycelium": rank }), "1", "Beetle", NOW);
-    expect(batchOf(next)?.readyAt).toBe(NOW + hours * 60 * 60 * 1000);
+    expect(batchOf(next)?.readyAt).toBe(NOW + minutes * 60 * 1000);
   });
 
   it("snapshots the board-shaping skills onto the batch", () => {
@@ -409,5 +416,99 @@ describe("startCaveBatch: Cave skills", () => {
       expect(Object.values(composition).reduce((a, b) => a + b, 0)).toBe(25);
       expect(composition.Mud).toBeGreaterThan(0);
     }
+  });
+});
+
+describe("startCaveBatch: first batch", () => {
+  const NOW = new Date("2026-10-20T00:00:00.000Z").getTime();
+
+  it("grows a farm's first batch in 10 minutes", () => {
+    const next = start(newCaveState(), "1", "Mushroom", NOW);
+    expect(next.cave?.machines["1"].batch?.readyAt).toBe(NOW + 10 * 60 * 1000);
+  });
+
+  it("rejects a Beetle first batch", () => {
+    expect(() => start(newCaveState(), "1", "Beetle", NOW)).toThrow(
+      START_CAVE_BATCH_ERRORS.FIRST_BATCH_MUSHROOM_ONLY,
+    );
+  });
+
+  it("rejects a Mud first batch", () => {
+    expect(() => startMud(newCaveState(), "Carrot")).toThrow(
+      START_CAVE_BATCH_ERRORS.FIRST_BATCH_MUSHROOM_ONLY,
+    );
+  });
+
+  it("ignores Rapid Mycelium on the first batch", () => {
+    const state = newCaveState();
+    const next = start(
+      {
+        ...state,
+        bumpkin: { ...state.bumpkin, skills: { "Rapid Mycelium": 3 } },
+      },
+      "1",
+      "Mushroom",
+      NOW,
+    );
+    expect(next.cave?.machines["1"].batch?.readyAt).toBe(NOW + 10 * 60 * 1000);
+    expect(next.boostsUsedAt?.["Rapid Mycelium"]).toBeUndefined();
+  });
+
+  it("still stamps the board-shaping skills onto the first batch", () => {
+    const state = newCaveState();
+    const next = start(
+      {
+        ...state,
+        bumpkin: {
+          ...state.bumpkin,
+          skills: { "Mushroom Bloom": 2, "Beetle Nest": 3, "Rare Breeds": 1 },
+        },
+      },
+      "1",
+      "Mushroom",
+      NOW,
+    );
+    expect(next.cave?.machines["1"].batch?.skills).toEqual({
+      extraMushroomTiles: 2,
+      extraBeetleTiles: 3,
+      beetleRarity: {
+        "Green Beetle": 35,
+        "Blue Beetle": 35,
+        "Pink Beetle": 15,
+        "Amber Beetle": 15,
+      },
+    });
+  });
+
+  it("grows 12h once another Myco Bin has a batch, even before any dig", () => {
+    const state = newCaveState();
+    const next = start(
+      {
+        ...state,
+        cave: {
+          builtAt: 1,
+          tier: 2,
+          machines: {
+            "1": {
+              batch: { recipe: "Mushroom", startedAt: NOW, readyAt: NOW + 1 },
+            },
+            "2": {},
+          },
+        },
+      },
+      "2",
+      "Beetle",
+      NOW,
+    );
+    expect(next.cave?.machines["2"].batch?.readyAt).toBe(
+      NOW + 12 * 60 * 60 * 1000,
+    );
+  });
+
+  it("grows 12h once the farm has dug in the Cave", () => {
+    const next = start(caveState(), "1", "Beetle", NOW);
+    expect(next.cave?.machines["1"].batch?.readyAt).toBe(
+      NOW + 12 * 60 * 60 * 1000,
+    );
   });
 });

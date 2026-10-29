@@ -22,6 +22,7 @@ import { ToastPanel } from "../toast/ToastPanel";
 import { Panel } from "components/ui/Panel";
 
 import { Swarming } from "../components/Swarming";
+import { SessionWatcher } from "../components/SessionWatcher";
 import { Captcha } from "../components/captcha/Captcha";
 import { Cooldown } from "../components/Cooldown";
 import { Route, Routes } from "react-router";
@@ -611,6 +612,9 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   if (loadingSession || loadingLandToVisit || portalling) {
     return (
       <>
+        {/* First child here and in the main render, so React keeps the same
+            instance (and its socket) across the switch. */}
+        <SessionWatcher />
         <Ocean>
           <Modal show backdrop={false}>
             <div
@@ -713,6 +717,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
 
   return (
     <>
+      <SessionWatcher />
       <ToastProvider>
         <ToastPanel />
 

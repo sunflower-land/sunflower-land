@@ -12,3 +12,16 @@ export function getEnableQuickSelectSetting(): boolean {
 
   return cached ? JSON.parse(cached) : true;
 }
+
+const FULL_MOON_SEEDS_LOCAL_STORAGE_KEY =
+  "settings.showFullMoonSeedsInQuickSelect";
+
+export function cacheShowFullMoonSeedsInQuickSelectSetting(show: boolean) {
+  localStorage.setItem(FULL_MOON_SEEDS_LOCAL_STORAGE_KEY, JSON.stringify(show));
+}
+
+export function getShowFullMoonSeedsInQuickSelectSetting(): boolean {
+  const cached = localStorage.getItem(FULL_MOON_SEEDS_LOCAL_STORAGE_KEY);
+
+  return cached ? JSON.parse(cached) : true;
+}

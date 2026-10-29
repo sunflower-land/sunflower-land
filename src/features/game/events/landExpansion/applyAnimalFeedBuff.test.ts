@@ -558,7 +558,7 @@ describe("applyAnimalFeedBuff: Truffle Seasoning (Chapter 16)", () => {
       );
     });
 
-    it("is not unlocked by a Beta Pass", () => {
+    it("is unlocked by a Beta Pass", () => {
       expect(() =>
         season(
           farm({
@@ -568,7 +568,7 @@ describe("applyAnimalFeedBuff: Truffle Seasoning (Chapter 16)", () => {
             },
           }),
         ),
-      ).toThrow(APPLY_ANIMAL_FEED_BUFF_ERRORS.NO_FEATURE_ACCESS);
+      ).not.toThrow();
     });
 
     it("still applies a Salt Lick", () => {

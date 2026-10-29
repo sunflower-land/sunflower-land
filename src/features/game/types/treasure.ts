@@ -31,7 +31,8 @@ export type BeachBountyChapterArtefact =
   | "Moon Crystal"
   | "Ammonite Shell"
   | "Salt Dino Egg"
-  | "Otter Pebble";
+  | "Otter Pebble"
+  | "Clover Coin";
 
 export type ConsumableTreasure =
   | "Pirate Cake"
@@ -221,6 +222,16 @@ export const SELLABLE_TREASURES: Record<BeachBountyTreasure, SellableTreasure> =
         : {
             from: CHAPTERS["Ascension Age"].startDate,
             to: CHAPTERS["Ascension Age"].endDate,
+          }),
+    },
+    "Clover Coin": {
+      sellPrice: 200,
+      description: "",
+      ...(hasChapterEnded("Cave Dwellers", Date.now())
+        ? {}
+        : {
+            from: CHAPTERS["Cave Dwellers"].startDate,
+            to: CHAPTERS["Cave Dwellers"].endDate,
           }),
     },
   };
