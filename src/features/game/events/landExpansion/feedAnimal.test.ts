@@ -3270,4 +3270,116 @@ describe("Pig Onesie", () => {
     expect(state.boostsUsedAt?.["Golden Cow"]).toEqual(now);
     expect(state.boostsUsedAt?.["Pig Onesie"]).toEqual(now);
   });
+
+  it("does not record the Pig Onesie for a food that gives no XP", () => {
+    // A Cow has no XP entry for Slop, so the onesie adds nothing.
+    expect(
+      handleFoodXP({
+        state: withOnesie(INITIAL_FARM),
+        animal: "Cow",
+        level: 1,
+        food: "Basic Slop",
+      }),
+    ).toEqual({ foodXp: 0, boostsUsed: [] });
+  });
+
+  it("can lower the one-click feed count", () => {
+    const cow = {
+      ...Object.values(FARM_WITH_HERDS.barn.animals)[0],
+      type: "Cow" as const,
+      experience: 55,
+    };
+
+    expect(getFeedBatchSize({ state: INITIAL_FARM, animal: cow })).toEqual(3);
+    expect(
+      getFeedBatchSize({ state: withOnesie(INITIAL_FARM), animal: cow }),
+    ).toEqual(2);
+  });
+
+  const freeFeedFarm = (
+    animal: "Chicken" | "Cow" | "Sheep",
+    experience: number,
+  ): GameState => {
+    const building = animal === "Chicken" ? "henHouse" : "barn";
+    const [id, herdAnimal] = Object.entries(
+      FARM_WITH_HERDS[building].animals,
+    )[0];
+
+    return withOnesie({
+      ...FARM_WITH_HERDS,
+      buildings: {
+        ...FARM_WITH_HERDS.buildings,
+        "Hen House": [
+          { coordinates: { x: 0, y: 0 }, createdAt: 0, id: "0", readyAt: 0 },
+        ],
+        Barn: [
+          { coordinates: { x: 0, y: 0 }, createdAt: 0, id: "0", readyAt: 0 },
+        ],
+      },
+      collectibles: {
+        [FREE_FEED_COLLECTIBLE[animal]]: [
+          { id: "1", coordinates: { x: 0, y: 0 }, readyAt: 0, createdAt: 0 },
+        ],
+      },
+      [building]: {
+        ...FARM_WITH_HERDS[building],
+        animals: { [id]: { ...herdAnimal, type: animal, experience } },
+      },
+    });
+  };
+
+  const FREE_FEED_COLLECTIBLE = {
+    Chicken: "Gold Egg",
+    Cow: "Golden Cow",
+    Sheep: "Golden Sheep",
+  } as const;
+
+  const freeFeed = (
+    animal: "Chicken" | "Cow" | "Sheep",
+    experience: number,
+  ) => {
+    const state = freeFeedFarm(animal, experience);
+    const building = animal === "Chicken" ? "henHouse" : "barn";
+
+    return feedAnimal({
+      state,
+      action: {
+        type: "animal.fed",
+        animal,
+        id: Object.keys(state[building].animals)[0],
+      },
+      createdAt: now,
+    });
+  };
+
+  it.each(["Chicken", "Cow", "Sheep"] as const)(
+    "records the Pig Onesie on a %s free feed",
+    (animal) => {
+      const state = freeFeed(animal, 0);
+
+      expect(state.boostsUsedAt?.[FREE_FEED_COLLECTIBLE[animal]]).toEqual(now);
+      expect(state.boostsUsedAt?.["Pig Onesie"]).toEqual(now);
+    },
+  );
+
+  it("does not record the Pig Onesie on a max-level free feed", () => {
+    // At max level a free feed tops the cycle up, so feed XP doesn't matter.
+    const maxLevel = Math.max(
+      ...Object.keys(ANIMAL_LEVELS.Cow).map(Number),
+    ) as keyof (typeof ANIMAL_LEVELS)["Cow"];
+    const state = freeFeed("Cow", ANIMAL_LEVELS.Cow[maxLevel] + 10);
+
+    expect(state.boostsUsedAt?.["Golden Cow"]).toEqual(now);
+    expect(state.boostsUsedAt?.["Pig Onesie"]).toBeUndefined();
+  });
+
+  it("gives a boosted free feed exact XP", () => {
+    // Level 1 -> 2 is 180 XP; 6 Mixed Grain at 31.5 XP = 189 XP.
+    const state = freeFeed("Cow", 0);
+    const cow = Object.values(state.barn.animals)[0];
+
+    expect(cow.experience).toEqual(
+      Math.ceil(ANIMAL_LEVELS.Cow[1] / 31.5) * 31.5,
+    );
+  });
 });

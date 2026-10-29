@@ -1893,4 +1893,86 @@ describe("Ascension Staff", () => {
       }),
     ).not.toThrow();
   });
+
+  const useInstantGrowth = (
+    state: typeof INITIAL_FARM,
+    hoursSinceLastUse: number,
+  ) =>
+    skillUse({
+      state: {
+        ...state,
+        bumpkin: {
+          ...state.bumpkin,
+          previousPowerUseAt: {
+            "Instant Growth": dateNow - hoursSinceLastUse * HOUR,
+          },
+        },
+        crops: {
+          1: {
+            crop: { id: "123", name: "Wheat", plantedAt: dateNow },
+            createdAt: dateNow,
+            x: 1,
+            y: 1,
+          },
+        },
+      },
+      action: { type: "skill.used", skill: "Instant Growth" },
+      createdAt: dateNow,
+    });
+
+  it("records the Ascension Staff when it shortened the cooldown", () => {
+    const state = useInstantGrowth(withStaff({ "Instant Growth": 1 }), 66);
+
+    expect(state.boostsUsedAt?.["Ascension Staff"]).toEqual(dateNow);
+  });
+
+  it("does not record the Ascension Staff when the cooldown was already over", () => {
+    const state = useInstantGrowth(withStaff({ "Instant Growth": 1 }), 80);
+
+    expect(state.boostsUsedAt?.["Ascension Staff"]).toBeUndefined();
+  });
+
+  it("records Luna's Crescent when it shortened the cooldown", () => {
+    const state = useInstantGrowth(
+      {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: { "Instant Growth": 1 },
+          equipped: {
+            ...INITIAL_FARM.bumpkin.equipped,
+            tool: "Luna's Crescent" as const,
+          },
+        },
+      },
+      40,
+    );
+
+    expect(state.boostsUsedAt?.["Luna's Crescent"]).toEqual(dateNow);
+  });
+
+  it("stacks with Luna's Crescent worn by a farmhand", () => {
+    // 72h x 0.5 (Luna's Crescent) x 0.9 (Ascension Staff) = 32.4h.
+    const state = {
+      ...withStaff({ "Instant Growth": 1 }),
+      farmHands: {
+        bumpkins: {
+          "1": {
+            equipped: {
+              ...INITIAL_FARM.bumpkin.equipped,
+              tool: "Luna's Crescent" as const,
+            },
+          },
+        },
+      },
+    };
+
+    expect(
+      getSkillCooldown({
+        cooldown: 72 * HOUR,
+        state,
+        skillName: "Instant Growth",
+      }),
+    ).toEqual(32.4 * HOUR);
+  });
 });

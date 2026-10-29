@@ -97,13 +97,17 @@ const handleFreeFeeding = ({
   level,
   copy,
   createdAt,
+  freeFeedBoost,
 }: {
   animal: Animal;
   animalType: AnimalType;
   level: number;
   copy: GameState;
   createdAt: number;
+  /** The collectible that made this feed free (e.g. Golden Cow). */
+  freeFeedBoost: { name: BoostName; value: string };
 }) => {
+  const boostsUsed: { name: BoostName; value: string }[] = [freeFeedBoost];
   const beforeFeedXp = animal.experience;
   const nextLevel = (level + 1) as AnimalLevel;
   const maxLevel = getAnimalMaxLevel(animalType);
@@ -112,17 +116,17 @@ const handleFreeFeeding = ({
   // Is max level (or capped there by its building)
   if (nextLevel > maxLevel) {
     const maxLevelXp = ANIMAL_LEVELS[animalType][maxLevel];
-    const currentCycleProgress = beforeFeedXp % maxLevelXp;
-    const xpDiff = maxLevelXp - currentCycleProgress;
+    const currentCycleProgress = new Decimal(beforeFeedXp).mod(maxLevelXp);
+    const xpDiff = new Decimal(maxLevelXp).sub(currentCycleProgress).toNumber();
 
     isReady = handleAnimalExperience(animal, animalType, beforeFeedXp, xpDiff);
   } else {
     const nextLevelXp = ANIMAL_LEVELS[animalType][nextLevel];
-    const xpDiff = nextLevelXp - beforeFeedXp;
+    const xpDiff = new Decimal(nextLevelXp).sub(beforeFeedXp);
 
     const favouriteFood = getAnimalFavoriteFood(animalType, beforeFeedXp);
 
-    const { foodXp, boostsUsed } = handleFoodXP({
+    const { foodXp, boostsUsed: xpBoostsUsed } = handleFoodXP({
       state: copy,
       animal: animalType,
       level: nextLevel,
@@ -130,14 +134,11 @@ const handleFreeFeeding = ({
     });
 
     // A free feed still uses the feed-XP boosts (e.g. Pig Onesie).
-    copy.boostsUsedAt = updateBoostUsed({
-      game: copy,
-      boostNames: boostsUsed,
-      createdAt,
-    });
+    boostsUsed.push(...xpBoostsUsed);
 
-    const noOfFeed = Math.ceil(xpDiff / foodXp);
-    const xpToFeed = noOfFeed * foodXp;
+    // Decimal keeps fractional feed XP (e.g. 31.5) exact.
+    const noOfFeed = xpDiff.div(foodXp).toDecimalPlaces(0, Decimal.ROUND_CEIL);
+    const xpToFeed = noOfFeed.mul(foodXp).toNumber();
     isReady = handleAnimalExperience(
       animal,
       animalType,
@@ -147,6 +148,12 @@ const handleFreeFeeding = ({
   }
 
   animal.state = isReady ? "ready" : "happy";
+
+  copy.boostsUsedAt = updateBoostUsed({
+    game: copy,
+    boostNames: boostsUsed,
+    createdAt,
+  });
 
   copy.farmActivity = trackFarmActivity(`${animalType} Fed`, copy.farmActivity);
 
@@ -184,9 +191,10 @@ export function handleFoodXP({
   }
 
   // Pig Onesie: +5% feed XP for every animal, but not for a Beetle (like
-  // Chonky Feed).
+  // Chonky Feed). Recorded only when there is XP for it to boost.
   const boostsUsed: { name: BoostName; value: string }[] = [];
   if (
+    foodXp.gt(0) &&
     !isBeetle(food) &&
     isWearableActive({ name: "Pig Onesie", game: state })
   ) {
@@ -351,49 +359,37 @@ export function feedAnimal({
 
     // Handle Golden Egg Free Food
     if (action.animal === "Chicken" && hasGoldenEggPlaced) {
-      copy.boostsUsedAt = updateBoostUsed({
-        game: copy,
-        boostNames: [{ name: "Gold Egg", value: "Free" }],
-        createdAt,
-      });
       return handleFreeFeeding({
         animal,
         animalType: action.animal,
         level,
         copy,
         createdAt,
+        freeFeedBoost: { name: "Gold Egg", value: "Free" },
       });
     }
 
     // Handle Golden Cow Free Food
     if (action.animal === "Cow" && hasGoldenCowPlaced) {
-      copy.boostsUsedAt = updateBoostUsed({
-        game: copy,
-        boostNames: [{ name: "Golden Cow", value: "Free" }],
-        createdAt,
-      });
       return handleFreeFeeding({
         animal,
         animalType: action.animal,
         level,
         copy,
         createdAt,
+        freeFeedBoost: { name: "Golden Cow", value: "Free" },
       });
     }
 
     // Handle Golden Sheep Free Food
     if (action.animal === "Sheep" && hasGoldenSheepPlaced) {
-      copy.boostsUsedAt = updateBoostUsed({
-        game: copy,
-        boostNames: [{ name: "Golden Sheep", value: "Free" }],
-        createdAt,
-      });
       return handleFreeFeeding({
         animal,
         animalType: action.animal,
         level,
         copy,
         createdAt,
+        freeFeedBoost: { name: "Golden Sheep", value: "Free" },
       });
     }
 
