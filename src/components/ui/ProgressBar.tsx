@@ -317,7 +317,8 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
     length: formatLength,
     isShortFormat: true,
   });
-  const useLocaleFont = !isAsciiText(timeLabel);
+  // The formatter separates units with NBSP, which does not need a locale font.
+  const useLocaleFont = !isAsciiText(timeLabel.replace(/\u00a0/g, " "));
 
   return (
     <div className="absolute" {...divProps}>
@@ -335,7 +336,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
             }`}
             style={{
               fontFamily: useLocaleFont ? "var(--font-family)" : undefined,
-              fontSize: useLocaleFont ? "var(--text-xxxs-size)" : undefined,
+              fontSize: useLocaleFont ? "var(--text-xxs-size)" : undefined,
               padding: "0px 1px",
               height: "9px",
               lineHeight: "7px",
