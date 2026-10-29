@@ -8937,5 +8937,9 @@
   "description.tnt": "注意して取り扱ってください。洞窟作業専用です。",
   "description.warningSign": "危険が待ち受けている！洞窟では足元に気をつけて。",
   "description.ascensionStaff.boost": "-10% パワースキルのクールダウン",
-  "description.pigOnesie.boost": "動物飼料経験値 +5%"
+  "description.pigOnesie.boost": "動物飼料経験値 +5%",
+  "cave.feedback.shovelSaved": "シャベルが保存されました！",
+  "cave.feedback.drillSaved": "ドリルが保存されました！",
+  "cave.feedback.bonusBeetle": "+ {{amount}} ボーナス・ビートル！",
+  "cave.feedback.bonusBeetles": "+ {{amount}} ボーナス・ビートル！"
 }

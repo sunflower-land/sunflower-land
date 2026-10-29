@@ -8937,5 +8937,9 @@
   "description.tnt": "Maneggiare con cura. Solo per lavori in grotta.",
   "description.warningSign": "Pericolo in arrivo! Fai attenzione a entrare nella grotta.",
   "description.ascensionStaff.boost": "-10% Tempo di recupero delle abilità di potenza",
-  "description.pigOnesie.boost": "+5% Animal Feed XP"
+  "description.pigOnesie.boost": "+5% Animal Feed XP",
+  "cave.feedback.shovelSaved": "La pala è stata salvata!",
+  "cave.feedback.drillSaved": "Drill salvato!",
+  "cave.feedback.bonusBeetle": "+ {{amount}} scarabeo bonus!",
+  "cave.feedback.bonusBeetles": "+ {{amount}} bonus coleotteri!"
 }

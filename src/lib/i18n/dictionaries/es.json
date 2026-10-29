@@ -8937,5 +8937,9 @@
   "description.tnt": "Manéjelo con cuidado. Solo para trabajos en cuevas.",
   "description.warningSign": "¡Peligro por delante! Ten cuidado al entrar en la cueva.",
   "description.ascensionStaff.boost": "-10% de tiempo de reutilización de las habilidades de poder",
-  "description.pigOnesie.boost": "+5% de EXP para alimentación animal"
+  "description.pigOnesie.boost": "+5% de EXP para alimentación animal",
+  "cave.feedback.shovelSaved": "¡Pala salvada!",
+  "cave.feedback.drillSaved": "¡Taladro salvado!",
+  "cave.feedback.bonusBeetle": "+ {{amount}} escarabajo extra!",
+  "cave.feedback.bonusBeetles": "+ {{amount}} escarabajos adicionales!"
 }

@@ -8937,5 +8937,9 @@
   "description.tnt": "Manuseie com cuidado. Somente para trabalhos em cavernas.",
   "description.warningSign": "O perigo está à frente! Cuidado com seus passos na caverna.",
   "description.ascensionStaff.boost": "-10% de recarga de habilidades de potência",
-  "description.pigOnesie.boost": "+5% de EXP de ração animal"
+  "description.pigOnesie.boost": "+5% de EXP de ração animal",
+  "cave.feedback.shovelSaved": "A pá foi salva!",
+  "cave.feedback.drillSaved": "A broca foi salva!",
+  "cave.feedback.bonusBeetle": "+ {{amount}} besouro bônus!",
+  "cave.feedback.bonusBeetles": "+ {{amount}} besouros bônus!"
 }

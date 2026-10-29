@@ -8937,5 +8937,9 @@
   "description.tnt": "Tangani dengan hati-hati. Hanya untuk pekerjaan gua.",
   "description.warningSign": "Bahaya di depan! Perhatikan langkah Anda di dalam gua.",
   "description.ascensionStaff.boost": "-10% Cooldown Kekuatan Skill",
-  "description.pigOnesie.boost": "+5% XP Pakan Ternak"
+  "description.pigOnesie.boost": "+5% XP Pakan Ternak",
+  "cave.feedback.shovelSaved": "Sekop diselamatkan!",
+  "cave.feedback.drillSaved": "Bor diselamatkan!",
+  "cave.feedback.bonusBeetle": "+ {{amount}} kumbang bonus!",
+  "cave.feedback.bonusBeetles": "+ {{amount}} kumbang bonus!"
 }

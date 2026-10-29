@@ -8937,5 +8937,9 @@
   "description.tnt": "Handle with care. For cave work only.",
   "description.warningSign": "Danger ahead! Mind your step in the cave.",
   "description.ascensionStaff.boost": "-10% Power Skill Cooldown",
-  "description.pigOnesie.boost": "+5% Animal Feed XP"
+  "description.pigOnesie.boost": "+5% Animal Feed XP",
+  "cave.feedback.shovelSaved": "Shovel saved!",
+  "cave.feedback.drillSaved": "Drill saved!",
+  "cave.feedback.bonusBeetle": "+{{amount}} bonus beetle!",
+  "cave.feedback.bonusBeetles": "+{{amount}} bonus beetles!"
 }

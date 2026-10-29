@@ -8937,5 +8937,9 @@
   "description.tnt": "Dikkatli kullanın. Sadece mağara çalışması için.",
   "description.warningSign": "Tehlike ileride! Mağaradaki adımlarına dikkat et.",
   "description.ascensionStaff.boost": "-10% Güç Becerisi Bekleme Süresi",
-  "description.pigOnesie.boost": "+5% Hayvan Yemi DP'si"
+  "description.pigOnesie.boost": "+5% Hayvan Yemi DP'si",
+  "cave.feedback.shovelSaved": "Kürek kurtarıldı!",
+  "cave.feedback.drillSaved": "Matkap kurtarıldı!",
+  "cave.feedback.bonusBeetle": "+ {{amount}} bonus böceği!",
+  "cave.feedback.bonusBeetles": "+ {{amount}} bonus böcekler!"
 }

@@ -8937,5 +8937,9 @@
   "description.tnt": "Manipulez avec précaution. Pour les travaux dans les grottes uniquement.",
   "description.warningSign": "Danger à venir ! Faites attention à votre pas dans la grotte.",
   "description.ascensionStaff.boost": "Temps de recharge de la compétence Power : -10 %",
-  "description.pigOnesie.boost": "+5 % d'EXP d'alimentation pour animaux"
+  "description.pigOnesie.boost": "+5 % d'EXP d'alimentation pour animaux",
+  "cave.feedback.shovelSaved": "Shovel a été sauvée !",
+  "cave.feedback.drillSaved": "Drill a été sauvé !",
+  "cave.feedback.bonusBeetle": "+ {{amount}} scarabée en bonus !",
+  "cave.feedback.bonusBeetles": "+ {{amount}} des scarabées en prime !"
 }

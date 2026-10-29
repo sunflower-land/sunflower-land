@@ -8937,5 +8937,9 @@
   "description.tnt": "小心操作。仅用于洞穴作业。",
   "description.warningSign": "前面有危险！注意你在洞穴中的脚步。",
   "description.ascensionStaff.boost": "-10% 力量技能冷却时间",
-  "description.pigOnesie.boost": "+5% 动物饲料经验值"
+  "description.pigOnesie.boost": "+5% 动物饲料经验值",
+  "cave.feedback.shovelSaved": "铲子得救了！",
+  "cave.feedback.drillSaved": "钻孔已保存！",
+  "cave.feedback.bonusBeetle": "+ {{amount}} 奖励甲虫！",
+  "cave.feedback.bonusBeetles": "+ {{amount}} 奖励甲虫！"
 }
