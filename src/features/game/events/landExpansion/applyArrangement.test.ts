@@ -871,6 +871,91 @@ describe("applyArrangement", () => {
       ]);
     });
 
+    it("flips a bud and a pet NFT in place", () => {
+      const pet = {
+        id: 1,
+        name: "Pet #1",
+        requests: { food: [], fedAt: 0 },
+        energy: 100,
+        experience: 0,
+        pettedAt: 0,
+      } as NonNullable<NonNullable<GameState["pets"]>["nfts"]>[number];
+      const state: GameState = {
+        ...baseFarm,
+        buds: { 1: { ...bud, coordinates: { x: 0, y: 0 }, location: "farm" } },
+        pets: {
+          ...baseFarm.pets,
+          nfts: {
+            1: { ...pet, coordinates: { x: 3, y: 3 }, location: "farm" },
+          },
+        },
+      };
+      const arrangement = snapshotSurface(state, "farm");
+      arrangement.buds = { 1: { x: 0, y: 0, flipped: true } };
+      arrangement.petNFTs = { 1: { x: 3, y: 3, flipped: true } };
+
+      const result = apply(state, arrangement);
+
+      expect(result.buds?.[1].flipped).toBe(true);
+      expect(result.buds?.[1].coordinates).toEqual({ x: 0, y: 0 });
+      expect(result.pets?.nfts?.[1].flipped).toBe(true);
+      expect(result.pets?.nfts?.[1].coordinates).toEqual({ x: 3, y: 3 });
+    });
+
+    it("keeps a bud's pixel offset when only its flip changes", () => {
+      const state: GameState = {
+        ...baseFarm,
+        buds: {
+          1: {
+            ...bud,
+            coordinates: { x: 0, y: 0, oX: 3, oY: -2 },
+            location: "farm",
+          },
+        },
+      };
+      const arrangement = snapshotSurface(state, "farm");
+      arrangement.buds = { 1: { x: 0, y: 0, oX: 3, oY: -2, flipped: true } };
+
+      const result = apply(state, arrangement);
+
+      expect(result.buds?.[1].coordinates).toEqual({
+        x: 0,
+        y: 0,
+        oX: 3,
+        oY: -2,
+      });
+      expect(result.buds?.[1].flipped).toBe(true);
+    });
+
+    it("drops a stale flip when a bud is placed without one", () => {
+      const state: GameState = {
+        ...baseFarm,
+        buds: { 1: { ...bud, flipped: true } },
+      };
+      const arrangement = snapshotSurface(state, "farm");
+      arrangement.buds = { 1: { x: 1, y: 1 } };
+
+      const result = apply(state, arrangement);
+
+      expect(result.buds?.[1].coordinates).toEqual({ x: 1, y: 1 });
+      expect(result.buds?.[1].flipped).toBeUndefined();
+    });
+
+    it("places a bud from the chest with its flip", () => {
+      const state: GameState = { ...baseFarm, buds: { 1: { ...bud } } };
+      const arrangement = snapshotSurface(state, "farm");
+      arrangement.buds = { 1: { x: 1, y: 1, flipped: true } };
+
+      const result = apply(state, arrangement);
+
+      expect(result.buds?.[1]).toEqual({
+        ...bud,
+        coordinates: { x: 1, y: 1 },
+        location: "farm",
+        flipped: true,
+      });
+    });
+
     it("places a farm hand with its flip", () => {
       const state: GameState = {
         ...baseFarm,

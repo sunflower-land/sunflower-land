@@ -20,6 +20,7 @@ import { getBudImage } from "lib/buds/types";
 type Props = {
   id: string;
   type?: TypeTrait;
+  flipped?: boolean;
 };
 
 const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
@@ -87,7 +88,7 @@ const BudDetailPopoverBuffs = ({ id }: { id: number }) => {
   );
 };
 
-export const Bud: React.FC<Props> = ({ id, type }) => {
+export const Bud: React.FC<Props> = ({ id, type, flipped }) => {
   return (
     <Popover>
       <PopoverButton as="div">
@@ -98,6 +99,7 @@ export const Bud: React.FC<Props> = ({ id, type }) => {
             height: `${PIXEL_SCALE * 16}px`,
             bottom: `${PIXEL_SCALE * 0}px`,
             left: `${-PIXEL_SCALE * 0}px`,
+            transform: flipped ? "scaleX(-1)" : undefined,
           }}
         >
           <img

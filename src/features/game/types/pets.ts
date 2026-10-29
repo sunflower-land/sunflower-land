@@ -142,6 +142,7 @@ export type PetNFT = Omit<Pet, "name"> & {
   location?: PlaceableLocation;
   traits?: PetTraits;
   walking?: boolean;
+  flipped?: boolean;
 };
 
 export type PetNFTs = Record<number, PetNFT>;
