@@ -52,6 +52,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useNow } from "lib/utils/hooks/useNow";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { ReelsRemainingBadge } from "./ReelsRemainingBadge";
 
 const BAIT: FishingBait[] = [
   "Earthworm",
@@ -127,7 +128,7 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
 
   const isVip = useVipAccess({ game: state });
   const currentSeason = state.season.season;
-  const now = useNow();
+  const now = useNow({ live: true });
 
   const getGuaranteedOptions = (bait: FishingBait) => {
     return isGuaranteedBait(bait) ? getSeasonalGuaranteedCatch(bait) : [];
@@ -181,7 +182,7 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
     }
   };
 
-  const reelsLeft = getRemainingReels(state);
+  const reelsLeft = getRemainingReels(state, new Date(now));
   const effectiveMultiplier = isVip ? multiplier : 1;
   const effectiveChum = isGuaranteedBait(selectedBait) ? undefined : chum;
 
@@ -365,14 +366,11 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
               )}
             </div>
 
-            <Label
-              icon={SUNNYSIDE.tools.fishing_rod}
-              type={reelsLeft <= 0 ? "danger" : "default"}
-            >
-              {reelsLeft === 1
-                ? t("fishing.oneReelLeft")
-                : t("fishing.reelsLeft", { reelsLeft })}
-            </Label>
+            <ReelsRemainingBadge
+              state={state}
+              reelsLeft={reelsLeft}
+              now={now}
+            />
             {shrimpOnesieMilestones > 0 && (
               <Label icon={lightning} type="vibrant">
                 {shrimpOnesieMilestones === 1
