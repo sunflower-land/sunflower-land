@@ -4048,6 +4048,7 @@
   "cave.batch.chooseRecipe": "Choose a mix to grow",
   "cave.batch.chooseCrop": "Choose a crop to feed the Myco Bin",
   "cave.batch.buried": "Buried in the patch",
+  "cave.batch.dug": "Tiles dug: {{count}}",
   "cave.batch.start": "Start",
   "cave.batch.growing": "Growing",
   "cave.batch.ready": "Ready to dig!",
