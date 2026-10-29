@@ -20,12 +20,21 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
 import { getKeys } from "lib/object";
 import { makeAnimalBuildingKey } from "features/game/lib/animals";
-import { ANIMALS } from "features/game/types/animals";
+import {
+  ANIMALS,
+  PIG_TRADE_IN_BRISTLES_RANGE,
+  PIG_TRADE_IN_MIN_LEVEL,
+} from "features/game/types/animals";
 
 const _game = (state: MachineState) => state.context.state;
 const CARD_SIZE = PIXEL_SCALE * 28;
 const SELECT_CORNER_SIZE = PIXEL_SCALE * 8;
 const SELECT_CORNER_OFFSET = PIXEL_SCALE * 3;
+
+export interface TradeInCardProps {
+  selected: boolean;
+  onSelect: () => void;
+}
 
 interface Props {
   animalTypes: InventoryItemName[];
@@ -34,6 +43,8 @@ interface Props {
   pendingSales?: Record<string, string>;
   hideCompleted?: boolean;
   onSelect: (deal?: AnimalBounty) => void;
+  /** Pigpen only: a permanent "Trade in for Pig Bristles" card, shown first. */
+  tradeIn?: TradeInCardProps;
 }
 
 export const SelectionCorners: React.FC = () => (
@@ -114,6 +125,7 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
   pendingSales = {},
   hideCompleted = false,
   onSelect,
+  tradeIn,
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
@@ -173,6 +185,58 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
       soldDeals: orderedDeals.filter((deal) => soldDealIds.has(deal.id)),
     };
   }, [orderedDeals, state.bounties.completed]);
+
+  // Mirrors a bounty card: the Pig on the face, the level gate top-left and
+  // the reward along the bottom edge. The amount depends on the Pig picked,
+  // so the card names the reward and the room shows the figures.
+  const renderTradeInCard = () => {
+    if (!tradeIn) return null;
+
+    return (
+      <div
+        key="trade-in"
+        className="relative shrink-0"
+        style={{
+          width: `${CARD_SIZE}px`,
+          height: `${CARD_SIZE * 1.15}px`,
+        }}
+      >
+        <ButtonPanel
+          variant="primary"
+          className="w-full h-full min-w-0"
+          onClick={tradeIn.onSelect}
+        >
+          <div className="h-full flex items-center justify-center pt-1 pb-4">
+            <img src={ITEM_DETAILS.Pig.image} className="w-[34px]" />
+          </div>
+
+          <Label
+            type="formula"
+            className="absolute -top-2 -left-2 whitespace-nowrap"
+          >
+            {t("bounties.minLevel", { level: PIG_TRADE_IN_MIN_LEVEL })}
+          </Label>
+
+          <Label
+            type="warning"
+            icon={ITEM_DETAILS["Pig Bristles"].image}
+            className="absolute text-center p-1"
+            style={{
+              bottom: `${PIXEL_SCALE * -3}px`,
+              left: `${PIXEL_SCALE * -3}px`,
+              right: `${PIXEL_SCALE * -3}px`,
+              width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+              height: "25px",
+            }}
+          >
+            {`${PIG_TRADE_IN_BRISTLES_RANGE.min}-${PIG_TRADE_IN_BRISTLES_RANGE.max}`}
+          </Label>
+        </ButtonPanel>
+
+        {tradeIn.selected && <SelectionCorners />}
+      </div>
+    );
+  };
 
   const renderDealCard = (deal: AnimalBounty, startsSoldGroup = false) => {
     const isSold = state.bounties.completed.some(
@@ -272,11 +336,14 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
       className="flex w-full flex-none flex-col overflow-hidden"
       style={{ height: `${CARD_SIZE * 1.15 + PIXEL_SCALE * 15}px` }}
     >
-      {activeDeals.length > 0 || (!hideCompleted && soldDeals.length > 0) ? (
+      {tradeIn ||
+      activeDeals.length > 0 ||
+      (!hideCompleted && soldDeals.length > 0) ? (
         // Just the cards: a single scrolling row keeps the panel as short as
         // possible. Top/bottom padding leaves room for the cards' overhanging
         // level and reward labels.
         <div className="scrollable flex flex-nowrap items-start gap-x-3 overflow-x-auto overflow-y-hidden pl-3 pr-1 pt-2.5 pb-3.5">
+          {renderTradeInCard()}
           {activeDeals.map((deal) => renderDealCard(deal))}
           {!hideCompleted &&
             soldDeals.map((deal, index) =>

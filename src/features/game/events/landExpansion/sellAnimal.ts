@@ -1,10 +1,12 @@
 import Decimal from "decimal.js-light";
 import {
-  getAnimalLevel,
   getAnimalReadyAt,
-  isMaxLevel,
+  getBountyLevel,
+  getPigBristles,
   makeAnimalBuildingKey,
+  SICK_ANIMAL_REWARD_MULTIPLIER,
 } from "features/game/lib/animals";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { ANIMALS, type AnimalType } from "features/game/types/animals";
 import { getKeys } from "lib/object";
 import { trackFarmActivity } from "features/game/types/farmActivity";
@@ -35,19 +37,8 @@ export function isValidDeal({
     return false;
   }
 
-  const level = getAnimalLevel(animal.experience, animal.type);
-
-  /**
-   * A ready animal normally shows its previous level until the yield is
-   * claimed, so its effective level for a bounty is one lower. At max level
-   * there is no next level to transition into - "ready" only means a produce
-   * cycle completed - so the adjustment does not apply. This mirrors the
-   * badge, which guards its own `- 1` with `isMaxLevel`.
-   */
-  const effectiveLevel =
-    animal.state === "ready" && !isMaxLevel(animal.type, level)
-      ? level - 1
-      : level;
+  // A ready animal counts one level lower until its yield is claimed.
+  const effectiveLevel = getBountyLevel(animal);
 
   if (effectiveLevel < deal.level) {
     return false;
@@ -74,8 +65,6 @@ type Options = {
   action: SellAnimalAction;
   createdAt?: number;
 };
-
-export const SICK_ANIMAL_REWARD_MULTIPLIER = 0.75;
 
 export function getSickAnimalRewardAmount(amount: number) {
   return Math.floor(amount * SICK_ANIMAL_REWARD_MULTIPLIER);
@@ -123,6 +112,14 @@ export function sellAnimal({
     }
 
     const isSick = animal.state === "sick";
+
+    // A Pig also pays its level's Bristles (#7721) - the generic produce boosts,
+    // Bristle Payout and the sickness cut are all inside `getPigBristles`. Read
+    // before the delete so the Pig is still on the draft.
+    const bristles =
+      animal.type === "Pig"
+        ? getPigBristles({ game: state, pig: animal })
+        : undefined;
 
     delete animals[action.animalId];
 
@@ -172,6 +169,21 @@ export function sellAnimal({
         isSick ? getSickAnimalRewardAmount(amount) : amount,
       );
     });
+
+    if (bristles && bristles.amount > 0) {
+      game.inventory["Pig Bristles"] = (
+        game.inventory["Pig Bristles"] ?? new Decimal(0)
+      ).add(bristles.amount);
+      game.farmActivity = trackFarmActivity(
+        "Pig Bristles Collected",
+        game.farmActivity,
+      );
+      game.boostsUsedAt = updateBoostUsed({
+        game,
+        boostNames: bristles.boostsUsed,
+        createdAt,
+      });
+    }
 
     game.bounties.completed = [
       ...game.bounties.completed,

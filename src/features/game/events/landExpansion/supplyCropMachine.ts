@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import {
   CROPS,
+  CROP_SEEDS,
   type CropName,
   type CropSeedName,
 } from "features/game/types/crops";
@@ -128,7 +129,9 @@ export function calculateCropTime(
   { windowed = false }: { windowed?: boolean } = {},
 ): { milliSeconds: number; boostUsed: { name: BoostName; value: string }[] } {
   const boostUsed: { name: BoostName; value: string }[] = [];
-  const cropName = seeds.type.split(" ")[0] as CropName;
+  // Derive the crop from the seed definition rather than the seed's first word
+  // so multi-word crops resolve correctly.
+  const cropName = CROP_SEEDS[seeds.type].yield as CropName;
 
   let milliSeconds = CROPS[cropName].harvestSeconds * 1000;
 
@@ -464,7 +467,7 @@ export function supplyCropMachine({
       seedsAdded.amount,
     );
 
-    const crop = seedName.split(" ")[0] as CropName;
+    const crop = CROP_SEEDS[seedName].yield as CropName;
 
     // A machine already carrying the windowed marker stays windowed even on a
     // flag rollback; a legacy machine converts the moment a flagged player

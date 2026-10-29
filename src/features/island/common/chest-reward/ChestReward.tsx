@@ -21,6 +21,7 @@ interface Props {
   reward?: Reward;
   onCollected: (success: boolean) => void;
   onOpen: () => void;
+  /** Render without a panel, for hosts that already frame it in their own */
   inline?: boolean;
 }
 
@@ -71,7 +72,7 @@ export const ChestReward: React.FC<Props> = ({
   const { items, sfl, coins } = reward;
 
   const content = (
-    <Panel>
+    <>
       {loading && <Loading />}
       {opened ? (
         <ClaimReward
@@ -115,14 +116,14 @@ export const ChestReward: React.FC<Props> = ({
           <CaptchaInfo collectedItem={collectedItem} />
         </>
       )}
-    </Panel>
+    </>
   );
 
   if (inline) return content;
 
   return (
     <Modal show={true} onHide={opened ? () => claimAndClose() : undefined}>
-      {content}
+      <Panel>{content}</Panel>
     </Modal>
   );
 };

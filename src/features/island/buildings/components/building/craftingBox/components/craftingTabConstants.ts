@@ -89,6 +89,7 @@ export const CHAPTER_CRAFTING_RESOURCES: Partial<
   Record<ChapterName, InventoryItemName[]>
 > = {
   "Salt Awakening": ["Refined Salt", "Pickled Pepper"],
+  "Cave Dwellers": ["Pig Bristles", "Truffle"],
 };
 
 export const validCraftingResourcesSorted = (options?: {

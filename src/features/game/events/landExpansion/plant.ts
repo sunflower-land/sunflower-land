@@ -37,6 +37,7 @@ import {
 import {
   CHAPTER_CROP_WEEK_CROP,
   CHAPTER_CROP_WEEK_SEED,
+  hasChapterCropWeekAccess,
 } from "features/game/types/chapterCropWeek";
 import {
   isWithinAOE,
@@ -224,7 +225,7 @@ export function getCropTime({
   let multiplier = 1;
   const boostsUsed: { name: BoostName; value: string }[] = [];
   const { inventory, buds = {}, bumpkin } = game;
-  // Saltwort is the CHAPTER_CROP_WEEK event crop: neutralise upgraded Crops skills
+  // Crystal Leaf is the CHAPTER_CROP_WEEK event crop: neutralise upgraded Crops skills
   // (they still apply at rank 1) so the event crop isn't boosted by ascension ranks.
   const skills =
     crop === CHAPTER_CROP_WEEK_CROP
@@ -326,7 +327,7 @@ export const getCropPlotTime = ({
   boostsUsed: { name: BoostName; value: string }[];
 } => {
   const { aoe } = game;
-  // Saltwort (the CHAPTER_CROP_WEEK event crop) ignores upgraded Crops-skill ranks.
+  // Crystal Leaf (the CHAPTER_CROP_WEEK event crop) ignores upgraded Crops-skill ranks.
   const skills =
     crop === CHAPTER_CROP_WEEK_CROP
       ? downgradeChapterCropWeekSkills(game.bumpkin.skills)
@@ -363,6 +364,11 @@ export const getCropPlotTime = ({
   ) {
     seconds = seconds * 0.5;
     boostsUsed.push({ name: "Autumn's Embrace", value: "x0.5" });
+  }
+
+  if (isWearableActive({ name: "Duende Hat", game })) {
+    seconds = seconds * 0.9;
+    boostsUsed.push({ name: "Duende Hat", value: "x0.9" });
   }
 
   const greenThumbLevel = getSkillLevel(skills, "Green Thumb");
@@ -729,15 +735,21 @@ export function plant({
     }
 
     // The Chapter Crop Week seed is a limited-time event crop that is not tied
-    // to a season, so it is exempt from the seasonal availability check.
-    if (
-      action.item !== CHAPTER_CROP_WEEK_SEED &&
+    // to a season, so it is exempt from the seasonal availability check and is
+    // instead gated on the event window (admin testers get early access).
+    if (action.item === CHAPTER_CROP_WEEK_SEED) {
+      if (!hasChapterCropWeekAccess(stateCopy, createdAt)) {
+        throw new Error("Chapter Crop Week is not active");
+      }
+    } else if (
       !SEASONAL_SEEDS[stateCopy.season.season].includes(action.item as SeedName)
     ) {
       throw new Error("This seed is not available in this season");
     }
 
-    const cropName = action.item.split(" ")[0] as CropName;
+    // Derive the crop from the seed definition rather than the seed's first
+    // word so multi-word crops (e.g. "Crystal Leaf Seed") resolve correctly.
+    const cropName = SEEDS[action.item as SeedName].yield as CropName;
     const cropId = action.cropId || crypto.randomUUID().slice(0, 8);
 
     const { updatedPlot, aoe, boostsUsed } = plantCropOnPlot({

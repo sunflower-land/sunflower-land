@@ -354,7 +354,10 @@ export const SkillPathDetails: React.FC<Props> = ({
                     key={idx}
                     type={boostLabelType}
                     icon={buff.boostTypeIcon}
-                    secondaryIcon={buff.boostedItemIcon}
+                    secondaryIcon={
+                      currentRankDescription?.buffIcons?.[idx] ??
+                      buff.boostedItemIcon
+                    }
                     className="mb-2"
                   >
                     {line}

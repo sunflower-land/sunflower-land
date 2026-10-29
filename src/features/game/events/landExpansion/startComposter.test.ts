@@ -1058,3 +1058,61 @@ describe("startComposter skill ranks", () => {
     ).toBe(15);
   });
 });
+
+describe("Straw House", () => {
+  const withStrawHouse = (game: GameState): GameState => ({
+    ...game,
+    collectibles: {
+      ...game.collectibles,
+      "Straw House": [
+        { id: "1", createdAt: 0, coordinates: { x: 0, y: 0 }, readyAt: 0 },
+      ],
+    },
+  });
+
+  it.each(["Compost Bin", "Turbo Composter", "Premium Composter"] as const)(
+    "applies x0.9 compost time to the %s",
+    (composter) => {
+      const { timeToFinishMilliseconds, boostsUsed } = getReadyAt({
+        gameState: withStrawHouse(GAME_STATE),
+        composter,
+      });
+
+      expect(timeToFinishMilliseconds).toEqual(
+        composterDetails[composter].timeToFinishMilliseconds * 0.9,
+      );
+      expect(boostsUsed).toContainEqual({ name: "Straw House", value: "x0.9" });
+    },
+  );
+
+  it.each([
+    ["Compost Bin", 30],
+    ["Turbo Composter", 9],
+    ["Premium Composter", 30],
+  ] as const)("triples the base %s yield", (building, expected) => {
+    const { produceAmount, boostsUsed } = getCompostAmount({
+      game: withStrawHouse({ ...GAME_STATE, bumpkin: INITIAL_BUMPKIN }),
+      building,
+    });
+
+    expect(produceAmount).toBe(expected);
+    expect(boostsUsed).toContainEqual({ name: "Straw House", value: "x3" });
+  });
+
+  it("triples the base yield before the additive boosts", () => {
+    const { produceAmount } = getCompostAmount({
+      game: withStrawHouse({
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Premium Worms": 1 },
+          equipped: { ...INITIAL_BUMPKIN.equipped, hat: "Turd Topper" },
+        },
+      }),
+      building: "Premium Composter",
+    });
+
+    // 10 base x3 = 30, then +10 Premium Worms and +1 Turd Topper
+    expect(produceAmount).toBe(41);
+  });
+});

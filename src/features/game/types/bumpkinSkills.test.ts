@@ -4,7 +4,7 @@ import {
 } from "./bumpkinSkills";
 import type { Skills } from "./game";
 import { COOKABLES, COOKABLE_CAKES } from "./consumables";
-import { isMediumCrop } from "./crops";
+import { isAdvancedCrop } from "./crops";
 import {
   CHAPTER_CROP_WEEK_CROP,
   CHAPTER_CROP_WEEK_RECIPE,
@@ -74,17 +74,30 @@ describe("hasUpgradedChapterCropWeekSkill", () => {
   });
 
   it("ignores in-tree skills that can't affect the event item", () => {
-    // Frosted Cakes only affects cakes, and Saltbite is not a cake.
+    // Frosted Cakes only affects cakes, and Crystal Cookie is not a cake.
     expect(
       hasUpgradedChapterCropWeekSkill({ "Frosted Cakes": 3 }, "Cooking"),
     ).toBe(false);
-    // Young Farmer (basic) / Old Farmer (advanced) don't affect medium Saltwort.
+    // Young Farmer (basic) / Experienced Farmer (medium) / Horror Mike (medium
+    // AOE) don't affect advanced Crystal Leaf.
     expect(
       hasUpgradedChapterCropWeekSkill({ "Young Farmer": 3 }, "Crops"),
     ).toBe(false);
-    expect(hasUpgradedChapterCropWeekSkill({ "Old Farmer": 3 }, "Crops")).toBe(
+    expect(
+      hasUpgradedChapterCropWeekSkill({ "Experienced Farmer": 3 }, "Crops"),
+    ).toBe(false);
+    expect(hasUpgradedChapterCropWeekSkill({ "Horror Mike": 3 }, "Crops")).toBe(
       false,
     );
+  });
+
+  it("flags upgraded skills that do affect the advanced event crop", () => {
+    expect(hasUpgradedChapterCropWeekSkill({ "Old Farmer": 2 }, "Crops")).toBe(
+      true,
+    );
+    expect(
+      hasUpgradedChapterCropWeekSkill({ "Strong Roots": 2 }, "Crops"),
+    ).toBe(true);
   });
 });
 
@@ -92,11 +105,11 @@ describe("CHAPTER_CROP_WEEK notice-skill assumptions", () => {
   // The notice skill sets are hand-picked from the event items' properties; guard
   // those assumptions so a future crop/recipe tweak fails loudly here instead of
   // silently mis-showing (or hiding) the "boosts paused" notice.
-  it("Saltwort is a medium plot crop", () => {
-    expect(isMediumCrop(CHAPTER_CROP_WEEK_CROP)).toBe(true);
+  it("Crystal Leaf is an advanced plot crop", () => {
+    expect(isAdvancedCrop(CHAPTER_CROP_WEEK_CROP)).toBe(true);
   });
 
-  it("Saltbite is a non-cake Fire Pit recipe", () => {
+  it("Crystal Cookie is a non-cake Fire Pit recipe", () => {
     expect(COOKABLES[CHAPTER_CROP_WEEK_RECIPE].building).toBe("Fire Pit");
     expect(CHAPTER_CROP_WEEK_RECIPE in COOKABLE_CAKES).toBe(false);
   });

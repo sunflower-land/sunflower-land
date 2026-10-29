@@ -5,7 +5,8 @@ export type BonusName =
   | "pixel-font-bonus"
   | "gam3s-cap"
   | "2026-tiara-wave"
-  | "welcome";
+  | "welcome"
+  | "halloween-2026-gift";
 
 export type Bonus = {
   isClaimed: (game: GameState) => boolean;
@@ -67,5 +68,15 @@ export const BONUSES: Record<BonusName, Bonus> = {
       inventory: {},
     },
     expiresAt: new Date("2026-01-19T00:00:00Z").getTime(),
+  },
+  "halloween-2026-gift": {
+    isClaimed: (game) =>
+      !!game.farmActivity["halloween-2026-gift Bonus Claimed"],
+    reward: {
+      wearables: {},
+      inventory: {
+        "Cultist Crow": 1,
+      },
+    },
   },
 };

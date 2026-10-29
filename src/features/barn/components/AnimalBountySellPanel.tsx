@@ -12,7 +12,10 @@ import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDeta
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useLocalStorage } from "lib/utils/hooks/useLocalStorage";
-import { AnimalBountyQuickPanel } from "./AnimalBountyQuickPanel";
+import {
+  AnimalBountyQuickPanel,
+  type TradeInCardProps,
+} from "./AnimalBountyQuickPanel";
 import { ConfirmButton } from "components/ui/ConfirmButton";
 import { Button } from "components/ui/Button";
 
@@ -29,6 +32,7 @@ interface Props {
   onSellPending?: () => void;
   onClearPending?: () => void;
   onClose: () => void;
+  tradeIn?: TradeInCardProps;
 }
 
 /** A checkbox toggle backed by a panel so it stays legible over the scene. */
@@ -59,6 +63,7 @@ export const AnimalBountySellPanel: React.FC<Props> = ({
   onSellPending,
   onClearPending,
   onClose,
+  tradeIn,
 }) => {
   const { t } = useAppTranslation();
   const expiresAt = useCountdown(weekResetsAt());
@@ -148,6 +153,7 @@ export const AnimalBountySellPanel: React.FC<Props> = ({
               pendingSales={bulkMode ? pendingSales : {}}
               hideCompleted={hideCompleted}
               onSelect={onSelect}
+              tradeIn={tradeIn}
             />
           </div>
         </OuterPanel>

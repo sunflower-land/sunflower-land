@@ -9,7 +9,7 @@ describe("getItemUnit", () => {
   it("uses 18 decimals for the beetles and their feeds", () => {
     // Their metadata declares 18 decimals, so a "wei" unit here would move
     // 1 base unit instead of 10^18 on deposit/withdraw.
-    expect(getItemUnit("Brown Beetle")).toEqual("ether");
+    expect(getItemUnit("Green Beetle")).toEqual("ether");
     expect(getItemUnit("Amber Beetle")).toEqual("ether");
     expect(getItemUnit("Mud")).toEqual("ether");
     expect(getItemUnit("Pig Bristles")).toEqual("ether");

@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM, INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
+import { CONFIG } from "lib/config";
 import { upgradeSkill } from "./upgradeSkill";
 import { getAvailableBumpkinSkillPoints } from "./choseSkill";
 import { getSkillCooldown } from "./skillUsed";
@@ -260,6 +261,75 @@ describe("upgradeSkill", () => {
         createdAt: dateNow,
       }),
     ).toThrow("This skill cannot be upgraded");
+  });
+
+  describe("Pig skills off testnet", () => {
+    let previousNetwork: (typeof CONFIG)["NETWORK"];
+
+    beforeEach(() => {
+      previousNetwork = CONFIG.NETWORK;
+      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+    });
+
+    afterEach(() => {
+      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
+    });
+
+    it("rejects upgrading a Pig skill", () => {
+      expect(() =>
+        upgradeSkill({
+          state: {
+            ...TEST_FARM,
+            inventory: {
+              ...TEST_FARM.inventory,
+              "Ascension Shard": new Decimal(10),
+            },
+            bumpkin: {
+              ...INITIAL_BUMPKIN,
+              experience: LEVEL_EXPERIENCE[30],
+              skills: { "Truffle Yield": 1 },
+            },
+          },
+          action: { type: "skill.upgraded", skill: "Truffle Yield" },
+          createdAt: dateNow,
+        }),
+      ).toThrow("This skill is not available");
+    });
+  });
+
+  describe("Cave skills off testnet", () => {
+    let previousNetwork: (typeof CONFIG)["NETWORK"];
+
+    beforeEach(() => {
+      previousNetwork = CONFIG.NETWORK;
+      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+    });
+
+    afterEach(() => {
+      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
+    });
+
+    it("rejects upgrading a Cave skill", () => {
+      expect(() =>
+        upgradeSkill({
+          state: {
+            ...TEST_FARM,
+            island: { ...TEST_FARM.island, type: "spring" },
+            inventory: {
+              ...TEST_FARM.inventory,
+              "Ascension Shard": new Decimal(10),
+            },
+            bumpkin: {
+              ...INITIAL_BUMPKIN,
+              experience: LEVEL_EXPERIENCE[30],
+              skills: { "Lean Compost": 1 },
+            },
+          },
+          action: { type: "skill.upgraded", skill: "Lean Compost" },
+          createdAt: dateNow,
+        }),
+      ).toThrow("This skill is not available");
+    });
   });
 
   describe("power-skill cooldown re-anchoring on upgrade", () => {

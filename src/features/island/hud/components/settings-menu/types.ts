@@ -27,7 +27,6 @@ export type SettingMenuId =
   | "interiorExperiment"
   | "landscapingExperiment"
   | "toolShopBuyAll"
-  | "customCursor"
   | "statsLeaderboard"
   | "auctionCalendar"
   | "betaFeatures"

@@ -8,6 +8,8 @@ import Decimal from "decimal.js-light";
 import type { Bumpkin, GameState } from "features/game/types/game";
 import { type Chum, getDailyFishingLimit } from "features/game/types/fishing";
 import { CHAPTERS } from "features/game/types/chapters";
+import { KNOWN_IDS } from "features/game/types";
+import { prngChance } from "lib/prng";
 
 const farm = { ...TEST_FARM };
 
@@ -1171,5 +1173,79 @@ describe("getReelsPackGemPrice", () => {
         createdAt,
       }),
     ).toEqual(2570);
+  });
+});
+
+describe("Harpoon", () => {
+  const farmId = 1;
+  const today = new Date().toISOString().split("T")[0];
+
+  const freeAttemptRoll = (counter: number) =>
+    prngChance({
+      farmId,
+      itemId: KNOWN_IDS["Rod"],
+      counter,
+      chance: 20,
+      criticalHitName: "Harpoon",
+    });
+
+  const reels = Array.from({ length: 100 }, (_, i) => i + 1);
+  const hitReel = reels.find((r) => freeAttemptRoll(r));
+  const missReel = reels.find((r) => !freeAttemptRoll(r));
+
+  const baseState = (
+    rodCasted: number,
+    { withHarpoon = true }: { withHarpoon?: boolean } = {},
+  ): GameState => ({
+    ...INITIAL_FARM,
+    bumpkin: {
+      ...INITIAL_BUMPKIN,
+      equipped: {
+        ...INITIAL_BUMPKIN.equipped,
+        tool: withHarpoon ? "Harpoon" : undefined,
+      },
+    },
+    farmActivity: { "Rod Casted": rodCasted },
+    inventory: {
+      Rod: new Decimal(1),
+      Earthworm: new Decimal(1),
+    },
+  });
+
+  const cast = (state: GameState, id?: number) =>
+    castRod({
+      action: { bait: "Earthworm", type: "rod.casted" },
+      state,
+      farmId: id,
+    });
+
+  it("does not use a daily attempt on a 20% PRNG hit", () => {
+    expect(hitReel).toBeDefined();
+    const state = cast(baseState(hitReel! - 1), farmId);
+
+    expect(state.fishing.dailyAttempts?.[today]).toEqual(0);
+    expect(state.farmActivity["Rod Casted"]).toEqual(hitReel);
+    expect(state.boostsUsedAt?.Harpoon).toBeDefined();
+  });
+
+  it("uses a daily attempt on a PRNG miss", () => {
+    expect(missReel).toBeDefined();
+    const state = cast(baseState(missReel! - 1), farmId);
+
+    expect(state.fishing.dailyAttempts?.[today]).toEqual(1);
+  });
+
+  it("skips the free attempt roll when no farmId is supplied", () => {
+    expect(hitReel).toBeDefined();
+    const state = cast(baseState(hitReel! - 1));
+
+    expect(state.fishing.dailyAttempts?.[today]).toEqual(1);
+  });
+
+  it("does nothing without the Harpoon equipped", () => {
+    expect(hitReel).toBeDefined();
+    const state = cast(baseState(hitReel! - 1, { withHarpoon: false }), farmId);
+
+    expect(state.fishing.dailyAttempts?.[today]).toEqual(1);
   });
 });

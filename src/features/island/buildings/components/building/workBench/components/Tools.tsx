@@ -36,9 +36,9 @@ import type { IslandType, LoveAnimalItem } from "features/game/types/game";
 import { getIslandName } from "features/game/types/game";
 import {
   getFreeToolAmount,
-  getPaidTutorialAxesLeft,
   getToolPrice,
   getToolUnitPrice,
+  getWorkbenchToolStock,
   isTutorialToolStockPhase,
 } from "features/game/events/landExpansion/craftTool";
 import { Restock } from "../../market/restock/Restock";
@@ -162,14 +162,11 @@ export const Tools: React.FC = () => {
   };
 
   // Tutorial Axes don't draw from the daily stock, so the craftable amount
-  // the UI works with is the stored stock plus the free batch plus the
-  // per-level paid budget - during the tutorial phase the stored Axe stock
-  // is zero and every craft comes off those allowances.
-  const paidBudget =
-    selectedName === "Axe" ? getPaidTutorialAxesLeft(state) : 0;
-  const stock = (state.stock[selectedName] || new Decimal(0))
-    .add(freeAmount)
-    .add(paidBudget);
+  // the UI works with comes from the free batch and the per-level paid
+  // budget instead - the stored Axe stock is ignored during that phase.
+  const stock = isLoveAnimalTool(selectedName)
+    ? new Decimal(0)
+    : getWorkbenchToolStock(selectedName, state);
 
   const bulkToolCraftAmount = makeBulkBuyTools(stock);
   const { t } = useAppTranslation();

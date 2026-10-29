@@ -662,9 +662,10 @@ export const SUNNYSIDE = {
     sheepSleeping: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/sleeping.webp`,
     sheepFed: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/fed.webp`,
     sheepSick: `${CONFIG.PROTECTED_IMAGE_URL}/animals/sheep/sick.webp`,
-    // TODO(Chapter 16 art): only the idle sprite exists so far; ready,
-    // sleeping and sick land later and get their own entries here.
-    pigIdle: `${CONFIG.PROTECTED_IMAGE_URL}/animals/pigs/idle.png`,
+    pigIdle: `${CONFIG.PROTECTED_IMAGE_URL}/animals/pigs/idle.webp`,
+    pigReady: `${CONFIG.PROTECTED_IMAGE_URL}/animals/pigs/ready.webp`,
+    pigSleeping: `${CONFIG.PROTECTED_IMAGE_URL}/animals/pigs/sleeping.webp`,
+    pigSick: `${CONFIG.PROTECTED_IMAGE_URL}/animals/pigs/sick.webp`,
 
     bird: `${CONFIG.PROTECTED_IMAGE_URL}/animals/bird_sheet.png`,
   },
@@ -753,8 +754,10 @@ export const SUNNYSIDE = {
     warehouse: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/warehouse.png`,
     fruitPatchDirt: `${CONFIG.PROTECTED_IMAGE_URL}/fruit/fruit_patch.png`,
     barn: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/barn_sm.webp`,
-    // TODO(Chapter 16 art): one sprite covers every biome, season and level.
     pigpen: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/pigpen.png`,
+    pigpenLevel2: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/pigpen_2.png`,
+    pigpenLevel3: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/pigpen_3.png`,
+    cave: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/cave_entrance.webp`,
     feederMachine: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/feeder_machine.webp`,
     petHouse1: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/pet_house_red.webp`,
     petHouse2: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/pet_house_blue.webp`,

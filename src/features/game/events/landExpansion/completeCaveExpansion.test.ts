@@ -6,6 +6,14 @@ import {
   completeCaveExpansion,
 } from "./completeCaveExpansion";
 
+// The Cave building, placed and finished: every cave.* event requires it.
+const READY_CAVE = {
+  id: "cave",
+  coordinates: { x: 0, y: 0 },
+  createdAt: 0,
+  readyAt: 0,
+};
+
 const NOW = 1_700_000_000_000;
 const READY_AT = NOW + 1000;
 
@@ -19,6 +27,7 @@ const BATCH: CaveBatch = {
 
 const buildingState = (): GameState => ({
   ...TEST_FARM,
+  buildings: { ...TEST_FARM.buildings, Cave: [READY_CAVE] },
   cave: {
     builtAt: 1,
     tier: 2,
@@ -35,11 +44,25 @@ const complete = (state: GameState, createdAt = READY_AT) =>
   });
 
 describe("completeCaveExpansion (cave.expansionCompleted)", () => {
+  it("throws while the Cave building is under construction", () => {
+    const state = buildingState();
+
+    expect(() =>
+      complete({
+        ...state,
+        buildings: {
+          ...state.buildings,
+          Cave: [{ ...READY_CAVE, readyAt: Number.MAX_SAFE_INTEGER }],
+        },
+      }),
+    ).toThrow(COMPLETE_CAVE_EXPANSION_ERRORS.NO_CAVE);
+  });
+
   it("raises the Cave to the built tier", () => {
     expect(complete(buildingState()).cave?.tier).toBe(3);
   });
 
-  it("adds the new tier's Myco-Composter", () => {
+  it("adds the new tier's Myco Bin", () => {
     expect(complete(buildingState()).cave?.machines["3"]).toEqual({});
   });
 
@@ -68,7 +91,7 @@ describe("completeCaveExpansion (cave.expansionCompleted)", () => {
 
   it("rejects when the Cave has not been built", () => {
     expect(() => complete({ ...buildingState(), cave: undefined })).toThrow(
-      COMPLETE_CAVE_EXPANSION_ERRORS.NO_CONSTRUCTION,
+      COMPLETE_CAVE_EXPANSION_ERRORS.NO_CAVE,
     );
   });
 

@@ -148,8 +148,10 @@ export const INITIAL_STOCK = (
     "Artichoke Seed": new Decimal(60),
     "Barley Seed": new Decimal(60),
 
-    // Chapter Crop Week (limited-time event seed)
-    "Saltwort Seed": new Decimal(30),
+    // Chapter Crop Week (limited-time event seed). Previous runs' seeds are
+    // retired: keep the key (the record is exhaustive) but stock none.
+    "Saltwort Seed": new Decimal(0),
+    "Crystal Leaf Seed": new Decimal(36),
 
     "Grape Seed": new Decimal(10),
     "Olive Seed": new Decimal(10),
@@ -200,6 +202,25 @@ export const INITIAL_STOCK = (
     );
   }
 
+  const treasureTools: Record<TreasureToolName, Decimal> = {
+    "Sand Shovel": new Decimal(125),
+    "Sand Drill": new Decimal(25),
+  };
+
+  // Tool Hoarder: +25/+50/+100 Sand Shovel & +5/+10/+20 Sand Drill stock
+  const toolHoarderLevel = state?.bumpkin
+    ? getSkillLevel(state.bumpkin.skills, "Tool Hoarder")
+    : 0;
+  if (toolHoarderLevel) {
+    const { ranks } = SKILL_RANKS["Tool Hoarder"];
+    treasureTools["Sand Shovel"] = treasureTools["Sand Shovel"].add(
+      ranks["Sand Shovel"]?.[toolHoarderLevel - 1] ?? 0,
+    );
+    treasureTools["Sand Drill"] = treasureTools["Sand Drill"].add(
+      ranks["Sand Drill"]?.[toolHoarderLevel - 1] ?? 0,
+    );
+  }
+
   const restockables: Record<StockableName, Decimal> = {
     // Tools
     ...tools,
@@ -208,8 +229,7 @@ export const INITIAL_STOCK = (
     ...seeds,
 
     // Treasure Tools
-    "Sand Shovel": new Decimal(50),
-    "Sand Drill": new Decimal(10),
+    ...treasureTools,
   };
 
   return restockables;

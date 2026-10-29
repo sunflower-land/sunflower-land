@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { useSelector } from "@xstate/react";
 
 import { Modal } from "components/ui/Modal";
 import chefHat from "assets/icons/chef_hat.png";
@@ -9,12 +10,15 @@ import {
   type CookableName,
   isFishCookable,
   KITCHEN_COOKABLES,
+  isTruffleRecipe,
 } from "features/game/types/consumables";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel } from "components/ui/Panel";
 import type { BuildingProduct } from "features/game/types/game";
 import { useNow } from "lib/utils/hooks/useNow";
 import { CHAPTERS, getCurrentChapter } from "features/game/types/chapters";
+import { Context } from "features/game/GameProvider";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   isOpen: boolean;
@@ -41,8 +45,15 @@ export const KitchenModal: React.FC<Props> = ({
     live: true,
     autoEndAt: CHAPTERS["Paw Prints"].endDate.getTime(),
   });
+  const { gameService } = useContext(Context);
+  // Truffle recipes ride on the Pigs' flag (Truffle only exists behind it)
+  const hasTruffleRecipes = useSelector(gameService, (state) =>
+    hasFeatureAccess(state.context.state, "PIGPEN"),
+  );
   const kitchenRecipes = Object.values(KITCHEN_COOKABLES)
     .filter((recipe) => {
+      if (isTruffleRecipe(recipe.name)) return hasTruffleRecipes;
+
       if (getCurrentChapter(now) === "Paw Prints") return true;
 
       return !isFishCookable(recipe.name);
