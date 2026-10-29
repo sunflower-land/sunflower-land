@@ -7,13 +7,19 @@ import {
   getTradingLevel,
 } from "features/game/lib/tradingLevels";
 import { formatNumber } from "lib/utils/formatNumber";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
 import trade_point from "src/assets/icons/trade_points_coupon.webp";
 
 interface Props {
   tradingPoints: number;
+  balance: number;
 }
-export const TradePointsProgressBar: React.FC<Props> = ({ tradingPoints }) => {
+export const TradePointsProgressBar: React.FC<Props> = ({
+  tradingPoints,
+  balance,
+}) => {
+  const { t } = useAppTranslation();
   const { currentExperienceProgress, experienceToNextLevel } =
     getExperienceToNextTradingLevel(tradingPoints);
 
@@ -54,6 +60,11 @@ export const TradePointsProgressBar: React.FC<Props> = ({ tradingPoints }) => {
           decimalPlaces: 0,
         })} / ${maxTradingLevel ? "-" : formatNumber(experienceToNextLevel, { decimalPlaces: 0 })} XP`}
       </p>
+      <Label className="ml-4" icon={trade_point} type="default">
+        {t("marketplace.tradePoints.balance", {
+          amount: formatNumber(balance),
+        })}
+      </Label>
     </InnerPanel>
   );
 };
