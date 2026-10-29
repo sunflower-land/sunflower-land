@@ -263,6 +263,10 @@ import refinedSalt from "assets/resources/refined_salt.webp";
 import mud from "assets/resources/mud.webp";
 import truffle from "assets/resources/truffle.webp";
 import pigBristles from "assets/resources/pig_bristles.webp";
+import basicSlop from "assets/animals/food/basic_slop.webp";
+import heartySlop from "assets/animals/food/hearty_slop.webp";
+import richSlop from "assets/animals/food/rich_slop.webp";
+import gourmetSlop from "assets/animals/food/gourmet_slop.webp";
 import truffleSeasoning from "assets/food/truffle_seasoning.webp";
 import truffleCake from "assets/food/truffle_cake.webp";
 import creamyTruffleRisotto from "assets/food/creamy_truffle_risotto.webp";
@@ -6339,22 +6343,22 @@ export const ITEM_DETAILS: Items = {
     translatedName: translate("animalFood.omnifeed"),
   },
   "Basic Slop": {
-    image: SUNNYSIDE.animalFoods.kernel_blend, // TODO(Chapter 16 art)
+    image: basicSlop,
     description: ANIMAL_FOODS["Basic Slop"].description,
     translatedName: translate("animalFood.basicSlop"),
   },
   "Hearty Slop": {
-    image: SUNNYSIDE.animalFoods.hay, // TODO(Chapter 16 art)
+    image: heartySlop,
     description: ANIMAL_FOODS["Hearty Slop"].description,
     translatedName: translate("animalFood.heartySlop"),
   },
   "Rich Slop": {
-    image: SUNNYSIDE.animalFoods.nutribarley, // TODO(Chapter 16 art)
+    image: richSlop,
     description: ANIMAL_FOODS["Rich Slop"].description,
     translatedName: translate("animalFood.richSlop"),
   },
   "Gourmet Slop": {
-    image: SUNNYSIDE.animalFoods.mixed_grain, // TODO(Chapter 16 art)
+    image: gourmetSlop,
     description: ANIMAL_FOODS["Gourmet Slop"].description,
     translatedName: translate("animalFood.gourmetSlop"),
   },
