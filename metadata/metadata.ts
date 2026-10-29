@@ -15272,6 +15272,17 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Warning Sign",
   },
+  "Crystal Cookie Champion": {
+    description:
+      "Awarded to the top cooks of the Crystal Cookie Chapter Crop Week. A golden cookie for a golden chef!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Crystal Cookie Champion",
+  },
   Betta: {
     description: "A fiery-finned fighter that glows in the dark cave waters.",
     decimals: 0,
