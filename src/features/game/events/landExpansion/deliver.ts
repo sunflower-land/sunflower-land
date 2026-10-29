@@ -438,6 +438,12 @@ export function deliverOrder({
       throw new Error("Order is already completed");
     }
 
+    // A soft-banned farm keeps farming but earns no FLOWER until it verifies.
+    // Coin and ticket deliveries stay open.
+    if (order.reward.sfl && game.ban?.status === "investigating") {
+      throw new Error("Verify your account to complete FLOWER deliveries");
+    }
+
     const ticketTasksAreFrozen = areBumpkinsOnHoliday(createdAt);
 
     const isQuestTicketOrder = !!TICKET_REWARDS[order.from as QuestNPCName];

@@ -74,6 +74,7 @@ import { calculateRelationshipPoints } from "features/game/events/landExpansion/
 import { FriendshipInfoPanel } from "components/ui/FriendshipInfoPanel";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
+import { Locked } from "features/retreat/components/personhood/Locked";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { getChapterTaskPoints } from "features/game/types/tracks";
@@ -1011,6 +1012,10 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const missingRequiredReputation =
     requiresReputation && !hasCropkeeperReputation;
 
+  // A soft-banned farm keeps farming but earns no FLOWER until it verifies.
+  const isFlowerDeliveryBlocked =
+    game.ban.status === "investigating" && delivery?.reward.sfl !== undefined;
+
   if (missingRequiredReputation) {
     message = t("goblinTrade.missingReputation.sflDelivery");
   }
@@ -1235,6 +1240,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
           {missingRequiredReputation && (
             <RequiredReputation reputation={Reputation.Cropkeeper} />
           )}
+          {isFlowerDeliveryBlocked && !delivery?.completedAt && <Locked />}
           {isSkipping ? null : showSkipDialog ? (
             canSkip ? (
               <div className="flex flex-row gap-1">
@@ -1267,6 +1273,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                   !!delivery?.completedAt ||
                   isLocked ||
                   missingRequiredReputation ||
+                  isFlowerDeliveryBlocked ||
                   deliveryFrozen
                 }
                 onClick={deliver}

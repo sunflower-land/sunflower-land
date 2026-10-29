@@ -120,6 +120,75 @@ describe("deliver", () => {
     ).toThrow("Order has not started");
   });
 
+  it("requires a soft banned player to verify before a FLOWER delivery", () => {
+    expect(() =>
+      deliverOrder({
+        state: {
+          ...TEST_FARM,
+          ban: { status: "investigating" },
+          inventory: {
+            Sunflower: new Decimal(50),
+          },
+          delivery: {
+            ...TEST_FARM.delivery,
+            orders: [
+              {
+                id: "123",
+                createdAt: 0,
+                readyAt: MID_SEASON,
+                from: "betty",
+                items: {
+                  Sunflower: 50,
+                },
+                reward: { sfl: 0.1 },
+              },
+            ],
+          },
+        },
+        action: {
+          id: "123",
+          type: "order.delivered",
+        },
+        createdAt: MID_SEASON,
+      }),
+    ).toThrow("Verify your account to complete FLOWER deliveries");
+  });
+
+  it("lets a soft banned player complete a coin delivery", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        ban: { status: "investigating" },
+        coins: 0,
+        inventory: {
+          Sunflower: new Decimal(50),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: MID_SEASON,
+              from: "betty",
+              items: {
+                Sunflower: 50,
+              },
+              reward: { coins: 100 },
+            },
+          ],
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+      createdAt: MID_SEASON,
+    });
+
+    expect(state.coins).toBeGreaterThan(0);
+  });
+
   it("requires player has the ingredients", () => {
     expect(() =>
       deliverOrder({
