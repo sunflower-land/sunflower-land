@@ -8294,6 +8294,7 @@
   "description.crab.pot": "A water trap for catching marine creatures",
   "description.mariner.pot": "An advanced water trap for catching marine creatures",
   "waterTrap.selectChum": "Select chum:",
+  "waterTrap.selectTrap": "Select trap:",
   "waterTrap.place": "Place trap",
   "waterTrap.placeTrap": "Place {{crustacean}} trap",
   "waterTrap.loreMessage": "This spot looks like a trap... something a marine creature would only fall into. Perhaps with more experience, you'll learn how to use it.",
