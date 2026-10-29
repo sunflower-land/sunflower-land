@@ -32,7 +32,6 @@ import {
   type PanelTabs,
 } from "features/game/components/CloseablePanel";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
-import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { SquareIcon } from "components/ui/SquareIcon";
@@ -106,20 +105,11 @@ const CaveMerchantAway: React.FC<{
 
   return (
     <InnerPanel className="flex items-center gap-3 p-2">
-      <div className="relative shrink-0">
-        <div className="opacity-50">
-          <NPCIcon parts={NPC_WEARABLES.gloomwick} width={PIXEL_SCALE * 18} />
-        </div>
-        <img
-          src={SUNNYSIDE.icons.sleeping}
-          className="absolute"
-          style={{
-            width: `${PIXEL_SCALE * 9}px`,
-            top: `${PIXEL_SCALE * -2}px`,
-            right: `${PIXEL_SCALE * -3}px`,
-          }}
-        />
-      </div>
+      <SquareIcon
+        icon={SUNNYSIDE.icons.stopwatch}
+        width={18}
+        className="shrink-0"
+      />
       <div className="flex flex-col gap-1 min-w-0">
         <span className="text-sm">{t("cave.merchant.awayTitle")}</span>
         <span className="text-xs">{t("cave.merchant.awayDescription")}</span>
@@ -166,6 +156,7 @@ export const CaveMerchantModal: React.FC<{ onClose: () => void }> = ({
   // prices or predicts stock itself.
   const visit = game.cave?.merchantVisit;
   const open = !!visit && isCaveMerchantOpen(visit, now);
+  const currentTab = open ? tab : "tools";
   const offers =
     visit && open
       ? visit.offers
@@ -209,6 +200,7 @@ export const CaveMerchantModal: React.FC<{ onClose: () => void }> = ({
       id: "trades",
       icon: ITEM_DETAILS["Green Beetle"].image,
       name: t("cave.merchant.trades"),
+      disabled: !open,
     },
   ];
 
@@ -216,18 +208,21 @@ export const CaveMerchantModal: React.FC<{ onClose: () => void }> = ({
     <Modal show onHide={onClose}>
       <CloseButtonPanel
         onClose={onClose}
-        bumpkinParts={NPC_WEARABLES.gloomwick}
+        bumpkinParts={open ? NPC_WEARABLES.gloomwick : undefined}
         tabs={tabs}
-        currentTab={tab}
+        currentTab={currentTab}
         setCurrentTab={setTab}
         container={OuterPanel}
       >
-        {tab === "tools" && <CaveToolsShop />}
-
-        {tab === "trades" && (
+        {currentTab === "tools" && (
           <div className="flex flex-col gap-1">
             {!open && <CaveMerchantAway visit={visit} now={now} />}
+            <CaveToolsShop />
+          </div>
+        )}
 
+        {currentTab === "trades" && (
+          <div className="flex flex-col gap-1">
             {open && (
               <InnerPanel className="flex flex-col gap-1 p-1">
                 <span className="text-xs">
