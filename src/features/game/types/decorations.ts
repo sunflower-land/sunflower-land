@@ -999,7 +999,7 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "Otty the Otter": { width: 1, height: 1 },
   "Salt Worker Gnome": { width: 1, height: 1 },
   "Shards Turtle": { width: 1, height: 2 },
-  Vibraphone: { width: 2, height: 2 },
+  Vibraphone: { width: 2, height: 1 },
   "Winged Vase": { width: 1, height: 1 },
   // Cave Dwellers
   "Giant Truffle": { width: 2, height: 2 },
