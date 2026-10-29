@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
@@ -37,6 +37,8 @@ import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { CaveToolsShop } from "./CaveToolsShop";
+
+import { useCaveMerchantOffers } from "../hooks/useCaveMerchantOffers";
 
 const _game = (state: MachineState) => state.context.state;
 
@@ -158,7 +160,18 @@ export const CaveMerchantModal: React.FC<{ onClose: () => void }> = ({
 
   const game = useSelector(gameService, _game);
   const now = useNow({ live: true });
-  const [tab, setTab] = useState<Tab>("tools");
+  const { hasUnseenOffers, markOffersViewed } = useCaveMerchantOffers(
+    game.cave,
+    now,
+  );
+  // Choose once on mount. Live stock/tier updates must preserve manual selection.
+  const [tab, setTab] = useState<Tab>(() =>
+    hasUnseenOffers ? "trades" : "tools",
+  );
+
+  useEffect(() => {
+    if (tab === "trades") markOffersViewed();
+  }, [tab, markOffersViewed]);
 
   const tier = game.cave?.tier ?? 0;
   const nextTier = getNextCaveTier(tier);
