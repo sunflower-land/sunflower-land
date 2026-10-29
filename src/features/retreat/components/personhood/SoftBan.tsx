@@ -13,16 +13,13 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { useNow } from "lib/utils/hooks/useNow";
 import { SoftBanSocialUnlink } from "./SoftBanSocialUnlink";
 
-interface Props {
-  /**
-   * Lets the player close the prompt and keep farming. A soft ban only holds
-   * the actions that move value, and those screens show these steps again.
-   * Absent when the steps are already shown in place of a blocked action.
-   */
-  onClose?: () => void;
-}
-
-export const SoftBan: React.FC<Props> = ({ onClose }) => {
+/**
+ * The verification steps a soft banned player must complete before they can
+ * trade or withdraw again. A soft ban never stops play: this is shown in
+ * place of the blocked action (the bank's withdraw and transfer tabs and the
+ * marketplace actions), never on load.
+ */
+export const SoftBan: React.FC = () => {
   const { gameService, gameState } = useGame();
 
   const [showDiscord, setShowDiscord] = useState(false);
@@ -107,7 +104,6 @@ export const SoftBan: React.FC<Props> = ({ onClose }) => {
         >
           {t("welcome.needHelp")}
         </p>
-        {onClose && <KeepPlayingButton onClick={onClose} />}
         <UnlinkSocialLink onClick={() => setShowUnlink(true)} />
         <SoftBanSocialUnlink
           show={showUnlink}
@@ -119,23 +115,14 @@ export const SoftBan: React.FC<Props> = ({ onClose }) => {
 
   const { faceRecognition } = gameState.context.state;
 
-  // Since we are not in playing state, we use this to check if they have already begun.
+  // Keep showing the scanner across re-renders once a scan is under way.
   const hasBegun = faceRecognition?.session?.createdAt ?? 0;
   const hasScanned = faceRecognition?.history.some(
     (h) => h.createdAt > now - 60 * 1000,
   );
 
   if (showFaceRecognition || hasBegun >= now - 60 * 1000 || hasScanned) {
-    return (
-      <>
-        <FaceRecognition skipIntro />
-        {onClose && (
-          <div className="p-1">
-            <KeepPlayingButton onClick={onClose} />
-          </div>
-        )}
-      </>
-    );
+    return <FaceRecognition skipIntro />;
   }
 
   return (
@@ -151,23 +138,12 @@ export const SoftBan: React.FC<Props> = ({ onClose }) => {
       <Button onClick={() => setShowFaceRecognition(true)}>
         {t("softBan.faceProtection")}
       </Button>
-      {onClose && <KeepPlayingButton onClick={onClose} />}
       <UnlinkSocialLink onClick={() => setShowUnlink(true)} />
       <SoftBanSocialUnlink
         show={showUnlink}
         onClose={() => setShowUnlink(false)}
       />
     </div>
-  );
-};
-
-const KeepPlayingButton: React.FC<{ onClick: () => void }> = ({ onClick }) => {
-  const { t } = useAppTranslation();
-
-  return (
-    <Button className="mt-1" onClick={onClick}>
-      {t("softBan.keepPlaying")}
-    </Button>
   );
 };
 
