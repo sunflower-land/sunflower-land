@@ -15029,7 +15029,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Manatee",
   },
-  "Beetle Wing": {
+  "Duende Cap": {
     description: "Collected during the Cave Dwellers chapter.",
     decimals: 0,
     attributes: [
@@ -15037,7 +15037,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    name: "Beetle Wing",
+    name: "Duende Cap",
   },
   "Cave Dwellers Raffle Ticket": {
     description: "A raffle ticket for the Cave Dwellers chapter.",
@@ -15221,6 +15221,67 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Pig Doll",
+  },
+  "Duende in a Bottle": {
+    description: "A Duende caught napping in a bottle. Best not to uncork it.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Duende in a Bottle",
+  },
+  "Mushroom Log": {
+    description: "An old log sprouting cave mushrooms.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Mushroom Log",
+  },
+  "Pot of Luck": {
+    description: "A pot brimming with lucky gold.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Pot of Luck",
+  },
+  TNT: {
+    description: "Handle with care. For cave work only.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "TNT",
+  },
+  "Warning Sign": {
+    description: "Danger ahead! Mind your step in the cave.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Warning Sign",
+  },
+  "Crystal Cookie Champion": {
+    description:
+      "Awarded to the top cooks of the Crystal Cookie Chapter Crop Week. A golden cookie for a golden chef!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Crystal Cookie Champion",
   },
   Betta: {
     description: "A fiery-finned fighter that glows in the dark cave waters.",
@@ -18307,11 +18368,12 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Seaside Tank Top",
   },
   "Fish Trap": {
-    description: "An decorative trap for catching fish.",
+    description:
+      "A sturdy trap for catching fish. Fish age faster with one close by.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "SecondaryTool" },
-      { trait_type: "Tradable", value: "No" },
+      { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Fish Trap",

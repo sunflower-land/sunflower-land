@@ -100,7 +100,7 @@ export const getSellPrice = ({
   // apply Green Thumb boost to crop LEGACY SKILL!
   if (item.name in crops && inventory["Green Thumb"]?.greaterThanOrEqualTo(1)) {
     multiplier += 0.05;
-    boostUsed.push({ name: "Green Thumb", value: "x1.05" });
+    boostUsed.push({ name: "Green Thumb", value: "+0.05" });
   }
 
   // Crop Shortage during initial gameplay
@@ -415,6 +415,20 @@ export const getFoodExpBoost = ({
   ) {
     boostedExp = boostedExp.mul(1.2);
     boostsUsed.push({ name: "Grain Grinder", value: "x1.2" });
+  }
+
+  // Giant Truffle: x1.6 on Smoothie Shack and Deli foods, x1.3 on every other
+  // non-fish food. The two do not stack.
+  if (
+    !(food.name in FISH_CONSUMABLES) &&
+    isCollectibleBuilt({ name: "Giant Truffle", game })
+  ) {
+    const isShackOrDeli =
+      isCookable(food) &&
+      (food.building === "Smoothie Shack" || food.building === "Deli");
+    const multiplier = isShackOrDeli ? 1.6 : 1.3;
+    boostedExp = boostedExp.mul(multiplier);
+    boostsUsed.push({ name: "Giant Truffle", value: `x${multiplier}` });
   }
 
   if (

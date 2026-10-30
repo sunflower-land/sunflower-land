@@ -1,4 +1,5 @@
 import type { InventoryItemName } from "./game";
+import { RARECROW_IDS } from "./rarecrows";
 import type { LabelType } from "components/ui/Label";
 
 export enum LimitedItemType {
@@ -1671,7 +1672,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Truffle Seasoning": 3101,
   // Cave Dwellers chapter
   Manatee: 3102,
-  "Beetle Wing": 3103,
+  "Duende Cap": 3103,
   "Cave Dwellers Raffle Ticket": 3104,
   "Cave Dwellers Banner": 3105,
   "Clover Coin": 3106,
@@ -1692,6 +1693,16 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Pig Doll": 3121,
   Betta: 3122,
   Macropinna: 3123,
+  // Rarecrows game migration: 3124 - 3227
+  ...RARECROW_IDS,
+  // Cave Dwellers track decorations (after the Rarecrow ids, up to 3271)
+  "Duende in a Bottle": 3272,
+  "Mushroom Log": 3273,
+  "Pot of Luck": 3274,
+  TNT: 3275,
+  "Warning Sign": 3276,
+  // Chapter Crop Week #2 leaderboard reward
+  "Crystal Cookie Champion": 3277,
 };
 
 // The reverse of above

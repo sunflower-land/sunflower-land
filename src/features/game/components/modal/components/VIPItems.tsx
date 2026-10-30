@@ -83,7 +83,12 @@ const VIPLabel: React.FC<{
   if (hasTrial) {
     return (
       <Label type="success" className="ml-2" icon={SUNNYSIDE.icons.confirm}>
-        {`Trial - ${secondsToString((state.vip!.trialStartedAt! + VIP_TRIAL_PERIOD_MS - now) / 1000, { length: "short" })} left`}
+        {t("vip.trialTimeLeft", {
+          time: secondsToString(
+            (state.vip!.trialStartedAt! + VIP_TRIAL_PERIOD_MS - now) / 1000,
+            { length: "short" },
+          ),
+        })}
       </Label>
     );
   }

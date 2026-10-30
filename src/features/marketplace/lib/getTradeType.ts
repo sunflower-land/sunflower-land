@@ -2,6 +2,10 @@ import { KNOWN_ITEMS } from "features/game/types";
 import { type BumpkinItem, ITEM_NAMES } from "features/game/types/bumpkin";
 import type { InventoryItemName } from "features/game/types/game";
 import type { CollectionName } from "features/game/types/marketplace";
+import {
+  RARECROW_NAMES,
+  type RarecrowName,
+} from "features/game/types/rarecrows";
 
 export type TradeType = "instant" | "onchain";
 
@@ -1471,7 +1475,7 @@ export const ITEM_TRADE_TYPES: {
     Manatee: "instant",
     Betta: "instant",
     Macropinna: "instant",
-    "Beetle Wing": "instant",
+    "Duende Cap": "instant",
     "Cave Dwellers Raffle Ticket": "instant",
     "Cave Dwellers Banner": "instant",
     "Clover Coin": "instant",
@@ -1483,15 +1487,21 @@ export const ITEM_TRADE_TYPES: {
     "Cyclops Bloom": "instant",
     "Duende Monument": "instant",
     "Miner's Bed": "instant",
-    "Giant Truffle": "instant",
+    "Giant Truffle": "onchain",
     "Mining Drill": "instant",
-    "Piggy Bank": "instant",
+    "Piggy Bank": "onchain",
     "Straw House": "instant",
-    "Stick House": "instant",
-    "Brick House": "instant",
-    "Big Bad Wolf": "instant",
+    "Stick House": "onchain",
+    "Brick House": "onchain",
+    "Big Bad Wolf": "onchain",
     "Pig Plush": "instant",
     "Pig Doll": "instant",
+    "Duende in a Bottle": "instant",
+    "Mushroom Log": "instant",
+    "Pot of Luck": "instant",
+    TNT: "instant",
+    "Warning Sign": "instant",
+    "Crystal Cookie Champion": "instant",
 
     // Ascension Age decorations
     "Salt Rug": "onchain",
@@ -1595,6 +1605,10 @@ export const ITEM_TRADE_TYPES: {
     "Champion Rarecrow": "instant",
     "OG Rarecrow": "instant",
     "Loyal Rarecrow": "instant",
+    ...RARECROW_NAMES.reduce(
+      (acc, name) => ({ ...acc, [name]: "instant" as TradeType }),
+      {} as Record<RarecrowName, TradeType>,
+    ),
 
     // Chapter 16 resources
     "Green Beetle": "instant",
@@ -1850,7 +1864,7 @@ export const ITEM_TRADE_TYPES: {
     "Coconut Mask": "onchain",
     "Crab Trap": "instant",
     "Seaside Tank Top": "instant",
-    "Fish Trap": "onchain",
+    "Fish Trap": "instant",
     "Fishing Pants": "instant",
     "Angler Waders": "instant",
     "Fishing Spear": "instant",
@@ -2213,9 +2227,9 @@ export const ITEM_TRADE_TYPES: {
     "Duende Shirt": "instant",
     "Duende Pants": "instant",
     "Duende Shoes": "instant",
-    "Hercules Beetle Hat": "instant",
+    "Hercules Beetle Hat": "onchain",
     "Pig Onesie": "instant",
-    "Firefly Aura": "instant",
+    "Firefly Aura": "onchain",
   },
 };
 

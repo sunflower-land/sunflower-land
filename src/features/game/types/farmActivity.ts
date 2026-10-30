@@ -215,6 +215,7 @@ export type FarmActivityName =
   | "Egg Collected"
   | "Oil Drilled"
   | "Obsidian Collected"
+  | "Lava Pit Started"
   | "Potion Mixed"
   | "Salt Harvested"
 

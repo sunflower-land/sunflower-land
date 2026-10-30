@@ -754,8 +754,9 @@ export const SUNNYSIDE = {
     warehouse: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/warehouse.png`,
     fruitPatchDirt: `${CONFIG.PROTECTED_IMAGE_URL}/fruit/fruit_patch.png`,
     barn: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/barn_sm.webp`,
-    // TODO(Chapter 16 art): one sprite covers every biome, season and level.
     pigpen: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/pigpen.png`,
+    pigpenLevel2: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/pigpen_2.png`,
+    pigpenLevel3: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/pigpen_3.png`,
     cave: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/cave_entrance.webp`,
     feederMachine: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/feeder_machine.webp`,
     petHouse1: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/pet_house_red.webp`,

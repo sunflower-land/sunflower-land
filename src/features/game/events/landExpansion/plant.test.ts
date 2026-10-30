@@ -1983,3 +1983,23 @@ describe("isPlotFertile", () => {
     ).toBe(false);
   });
 });
+
+describe("Duende Hat", () => {
+  it("applies x0.9 crop plot growth time", () => {
+    const { time, boostsUsed } = getCropPlotTime({
+      crop: "Sunflower",
+      game: {
+        ...FARM_WITH_PLOTS,
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          equipped: { ...TEST_BUMPKIN.equipped, hat: "Duende Hat" },
+        },
+      },
+      plot: GAME_STATE.crops[firstId],
+      createdAt: Date.now(),
+    });
+
+    expect(time).toEqual(CROPS.Sunflower.harvestSeconds * 0.9);
+    expect(boostsUsed).toContainEqual({ name: "Duende Hat", value: "x0.9" });
+  });
+});

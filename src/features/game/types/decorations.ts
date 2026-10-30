@@ -7,6 +7,7 @@ import type { Template } from "./templates";
 import type { BeanName, GiantFruit } from "./beans";
 import type { DollName } from "../lib/crafting";
 import { getKeys } from "lib/object";
+import { RARECROW_TEMPLATES } from "./rarecrows";
 
 export type AchievementDecorationName =
   | "Chef Bear"
@@ -115,7 +116,13 @@ export type ChapterDecorationName =
   | "Brick House"
   | "Big Bad Wolf"
   | "Pig Plush"
-  | "Pig Doll";
+  | "Pig Doll"
+  // Cave Dwellers track
+  | "Duende in a Bottle"
+  | "Mushroom Log"
+  | "Pot of Luck"
+  | "TNT"
+  | "Warning Sign";
 
 export type EventDecorationName =
   | "Jelly Lamp"
@@ -902,6 +909,16 @@ export const DECORATION_TEMPLATES = {
     },
     isWithdrawable: () => false,
   },
+  // Chapter Crop Week #2 (Crystal Cookie) top cooks leaderboard reward
+  "Crystal Cookie Champion": {
+    dimensions: {
+      width: 2,
+      height: 2,
+    },
+    isWithdrawable: () => false,
+  },
+  // Rarecrows game migration
+  ...RARECROW_TEMPLATES,
 } satisfies Record<string, Template>;
 
 export type TemplateDecorationName = keyof typeof DECORATION_TEMPLATES;
@@ -1002,6 +1019,12 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "Big Bad Wolf": { width: 1, height: 2 },
   "Pig Plush": { width: 1, height: 1 },
   "Pig Doll": { width: 1, height: 2 },
+  // Cave Dwellers track
+  "Duende in a Bottle": { width: 2, height: 2 },
+  "Mushroom Log": { width: 2, height: 1 },
+  "Pot of Luck": { width: 2, height: 2 },
+  TNT: { width: 1, height: 1 },
+  "Warning Sign": { width: 1, height: 1 },
 
   "Diving Helmet": {
     width: 1,

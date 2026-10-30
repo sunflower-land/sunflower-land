@@ -147,7 +147,7 @@ export type ChapterTicket =
   | "Floater"
   | "Salt Rock"
   | "Shiny Feather"
-  | "Beetle Wing";
+  | "Duende Cap";
 
 export type ChapterRaffleTicket =
   | "Paw Prints Raffle Ticket"
@@ -193,7 +193,7 @@ export const CHAPTER_TICKET_NAME: Record<ChapterName, ChapterTicket> = {
   "Crabs and Traps": "Floater",
   "Salt Awakening": "Salt Rock",
   "Ascension Age": "Shiny Feather",
-  "Cave Dwellers": "Beetle Wing",
+  "Cave Dwellers": "Duende Cap",
 };
 
 export const CHAPTER_RAFFLE_TICKET_NAME: Record<

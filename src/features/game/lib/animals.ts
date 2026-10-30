@@ -981,6 +981,11 @@ export function getBoostedAwakeAt({
       totalDuration *= 0.75;
       boostsUsed.push({ name: "Farm Dog", value: "x0.75" });
     }
+
+    if (isCollectibleBuilt({ name: "Beetle Sheep", game })) {
+      totalDuration *= 0.925;
+      boostsUsed.push({ name: "Beetle Sheep", value: "x0.925" });
+    }
   }
 
   if (isCow) {

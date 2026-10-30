@@ -4486,6 +4486,11 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Big Bad Wolf": () => <TemplateCollectible name="Big Bad Wolf" />,
   "Pig Plush": () => <TemplateCollectible name="Pig Plush" />,
   "Pig Doll": () => <TemplateCollectible name="Pig Doll" />,
+  "Duende in a Bottle": () => <TemplateCollectible name="Duende in a Bottle" />,
+  "Mushroom Log": () => <TemplateCollectible name="Mushroom Log" />,
+  "Pot of Luck": () => <TemplateCollectible name="Pot of Luck" />,
+  TNT: () => <TemplateCollectible name="TNT" />,
+  "Warning Sign": () => <TemplateCollectible name="Warning Sign" />,
   "Blue Paint Bucket": (props: CollectibleProps) => (
     <ImageStyle
       {...props}

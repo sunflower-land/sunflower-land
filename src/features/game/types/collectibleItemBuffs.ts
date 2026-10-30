@@ -2456,6 +2456,132 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
+  "Duende Monument": () => [
+    {
+      shortDescription: translate("description.duendeMonument.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.tools.hammer,
+    },
+    {
+      shortDescription: translate("description.duendeMonument.boost.2"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+  ],
+  "Straw House": () => [
+    {
+      shortDescription: translate("description.strawHouse.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+    {
+      shortDescription: translate("description.strawHouse.boost.2"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Sprout Mix"].image,
+    },
+    {
+      shortDescription: translate("description.strawHouse.boost.3"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Earthworm"].image,
+    },
+  ],
+  "Mining Drill": () => [
+    {
+      shortDescription: translate("description.miningDrill.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Sand Shovel"].image,
+    },
+  ],
+  "Giant Truffle": () => [
+    {
+      shortDescription: translate("description.giantTruffle.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
+    {
+      shortDescription: translate("description.giantTruffle.boost.2"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Smoothie Shack"].image,
+    },
+    {
+      shortDescription: translate("description.giantTruffle.boost.3"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Deli.image,
+    },
+  ],
+  "Brick House": () => [
+    {
+      shortDescription: translate("description.brickHouse.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: ITEM_DETAILS.Crimstone.image,
+    },
+    {
+      shortDescription: translate("description.brickHouse.boost.2"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.ui.coins,
+    },
+  ],
+  "Stick House": () => [
+    {
+      shortDescription: translate("description.stickHouse.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: ITEM_DETAILS.Oil.image,
+    },
+    {
+      shortDescription: translate("description.stickHouse.boost.2"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+  ],
+  "Mushroom Chicken": () => [
+    {
+      shortDescription: translate("description.mushroomChicken.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Crimstone.image,
+    },
+  ],
+  "Beetle Sheep": () => [
+    {
+      shortDescription: translate("description.beetleSheep.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: SUNNYSIDE.animals.sheepSleeping,
+    },
+  ],
+  "Ladybug Cow": () => [
+    {
+      shortDescription: translate("description.ladybugCow.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Oil.image,
+    },
+  ],
+  "Cyclops Bloom": () => [
+    {
+      shortDescription: translate("description.cyclopsBloom.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
+    },
+  ],
+  Macropinna: () => [
+    {
+      shortDescription: translate("description.macropinna.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Obsidian.image,
+    },
+  ],
   "Otty the Otter": () => [
     {
       shortDescription: translate("description.ottyTheOtter.boost"),
