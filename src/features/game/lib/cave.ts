@@ -167,12 +167,12 @@ export function getCaveBatchSkills(game: GameState): {
 
 /**
  * Base Gems a Dig All costs for each tile still buried, by what it holds:
- * skipping a buried Beetle or Mushroom costs more than clearing Mud.
+ * skipping a buried Beetle or Mushroom costs Gems, clearing Mud is free.
  */
 export const CAVE_DIG_ALL_GEMS_PER_TILE: Record<CaveTileType, number> = {
   Beetle: 3,
   Mushroom: 2,
-  Mud: 1,
+  Mud: 0,
 };
 
 /**

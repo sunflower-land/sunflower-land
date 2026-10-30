@@ -53,7 +53,7 @@ const keysOf = (type: string) =>
   Object.keys(BOARD).filter((key) => BOARD[key].type === type);
 
 // Every Mushroom and Beetle dug: 6 + 2 on the Mushroom mix, 17 Mud left
-// (17 Gems: 1 per Mud tile).
+// (free: Mud costs no Gems).
 const ALL_FOUND = recordsFor([...keysOf("Mushroom"), ...keysOf("Beetle")]);
 const MUD_LEFT = 17;
 
@@ -181,24 +181,36 @@ describe("digAllCaveTiles", () => {
     expect(next.inventory["Sand Shovel"]).toEqual(
       new Decimal(30 - (MUD_LEFT - 5)),
     );
-    expect(next.inventory.Gem).toEqual(new Decimal(1000 - (MUD_LEFT - 5)));
     expect(next.farmActivity["Cave Tile Dug"]).toBe(MUD_LEFT - 5);
   });
 
-  it("charges 1 Gem per Mud tile and counts them as spent today", () => {
+  it("digs only Mud for free, recording no Gems spent", () => {
     const next = digAll(readyState());
 
-    expect(next.inventory.Gem).toEqual(new Decimal(1000 - MUD_LEFT));
-    expect(next.gems.history?.[TODAY]?.spent).toBe(MUD_LEFT);
-    expect(next.farmActivity["Instant Gems Spent"]).toBe(MUD_LEFT);
+    expect(next.inventory.Gem).toEqual(new Decimal(1000));
+    expect(next.gems.history?.[TODAY]).toBeUndefined();
+    expect(next.farmActivity["Instant Gems Spent"]).toBeUndefined();
   });
 
-  it("digs a fresh patch for 3 Gems a Beetle, 2 a Mushroom and 1 a Mud", () => {
+  it("digs only Mud without owning any Gems", () => {
+    const state = readyState();
+    const next = digAll({
+      ...state,
+      inventory: { ...state.inventory, Gem: undefined },
+    });
+
+    expect(isCavePatchCleared(next.cave!.machines["1"].batch!)).toBe(true);
+    expect(next.inventory.Gem).toBeUndefined();
+  });
+
+  it("digs a fresh patch for 3 Gems a Beetle and 2 a Mushroom", () => {
     const state = readyState({ batch: { dug: undefined } });
     const next = digAll(state);
 
     // Mushroom mix: 2 Beetles, 6 Mushrooms, 17 Mud.
-    expect(next.inventory.Gem).toEqual(new Decimal(1000 - (6 + 12 + 17)));
+    expect(next.inventory.Gem).toEqual(new Decimal(1000 - (6 + 12)));
+    expect(next.gems.history?.[TODAY]?.spent).toBe(18);
+    expect(next.farmActivity["Instant Gems Spent"]).toBe(18);
     expect(next.inventory["Sand Shovel"]).toEqual(new Decimal(30 - 25));
     expect(isCavePatchCleared(next.cave!.machines["1"].batch!)).toBe(true);
     expect(gained(state, next, [...BEETLES])).toBe(2);
@@ -234,33 +246,46 @@ describe("digAllCaveTiles", () => {
     const state = readyState({ batch: { dug } });
     const next = digAll(state);
 
-    expect(next.inventory.Gem).toEqual(new Decimal(1000 - (3 + 2 + MUD_LEFT)));
+    expect(next.inventory.Gem).toEqual(new Decimal(1000 - (3 + 2)));
     expect(gained(state, next, [...BEETLES])).toBe(1);
     expect(gained(state, next, ["Wild Mushroom", "Magic Mushroom"])).toBe(1);
   });
 
   it("scales the price by the Gems spent today", () => {
-    const next = digAll(readyState({ gemsSpentToday: 100 }));
+    const next = digAll(
+      readyState({ batch: { dug: undefined }, gemsSpentToday: 100 }),
+    );
 
-    // 17 x 1.15 = 19.55, rounded to 20.
-    expect(next.inventory.Gem).toEqual(new Decimal(1000 - 20));
-    expect(next.gems.history?.[TODAY]?.spent).toBe(120);
+    // 18 x 1.15 = 20.7, rounded to 21.
+    expect(next.inventory.Gem).toEqual(new Decimal(1000 - 21));
+    expect(next.gems.history?.[TODAY]?.spent).toBe(121);
   });
 
   it("ignores Gems spent on earlier days", () => {
-    const state = readyState();
+    const state = readyState({ batch: { dug: undefined } });
     const next = digAll({
       ...state,
       gems: { history: { "2026-09-22": { spent: 1000 } } },
     });
 
-    expect(next.inventory.Gem).toEqual(new Decimal(1000 - MUD_LEFT));
+    expect(next.inventory.Gem).toEqual(new Decimal(1000 - 18));
   });
 
   it("throws without enough Gems", () => {
-    expect(() => digAll(readyState({ gems: MUD_LEFT - 1 }))).toThrow(
-      DIG_ALL_CAVE_TILES_ERRORS.INSUFFICIENT_GEMS,
-    );
+    expect(() =>
+      digAll(readyState({ batch: { dug: undefined }, gems: 17 })),
+    ).toThrow(DIG_ALL_CAVE_TILES_ERRORS.INSUFFICIENT_GEMS);
+  });
+
+  it("throws without any Gems while a Beetle or Mushroom is buried", () => {
+    const state = readyState({ batch: { dug: undefined } });
+    expect(() =>
+      digAll({ ...state, inventory: { ...state.inventory, Gem: undefined } }),
+    ).toThrow(DIG_ALL_CAVE_TILES_ERRORS.INSUFFICIENT_GEMS);
+  });
+
+  it("digs only Mud with 0 Gems", () => {
+    expect(() => digAll(readyState({ gems: 0 }))).not.toThrow();
   });
 
   it("throws without a Sand Shovel for every tile left", () => {
@@ -320,9 +345,9 @@ describe("getCaveDigAllGems", () => {
     });
 
   it.each<[CaveBatch["recipe"], number]>([
-    ["Mushroom", 2 * 3 + 6 * 2 + 17],
-    ["Beetle", 5 * 3 + 3 * 2 + 17],
-    ["Mud", 2 * 3 + 3 * 2 + 20],
+    ["Mushroom", 2 * 3 + 6 * 2],
+    ["Beetle", 5 * 3 + 3 * 2],
+    ["Mud", 2 * 3 + 3 * 2],
   ])("prices a fresh %s patch at %s Gems", (recipe, gems) => {
     expect(price({ recipe, dug: undefined })).toBe(gems);
   });
@@ -333,7 +358,12 @@ describe("getCaveDigAllGems", () => {
         dug: undefined,
         skills: { extraBeetleTiles: 1, extraMushroomTiles: 1 },
       }),
-    ).toBe(35 + 2 + 1);
+    ).toBe(18 + 3 + 2);
+  });
+
+  it("is 0 when only Mud is left", () => {
+    expect(price({})).toBe(0);
+    expect(price({}, 1000)).toBe(0);
   });
 
   it("is 0 once every tile is dug", () => {
@@ -342,13 +372,16 @@ describe("getCaveDigAllGems", () => {
   });
 
   it.each([
-    [0, 17],
-    [100, 20],
-    [500, 34],
-    [1000, 69],
-  ])("with %s Gems spent today, 17 Mud costs %s", (spent, gems) => {
-    expect(price({}, spent)).toBe(gems);
-  });
+    [0, 18],
+    [100, 21],
+    [500, 36],
+    [1000, 73],
+  ])(
+    "with %s Gems spent today, a fresh Mushroom mix costs %s",
+    (spent, gems) => {
+      expect(price({ dug: undefined }, spent)).toBe(gems);
+    },
+  );
 });
 
 describe("digAllCaveTiles: Cave skills", () => {

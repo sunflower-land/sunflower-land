@@ -333,9 +333,8 @@ export const Cave: React.FC = () => {
                             : batch
                         }
                         now={now}
-                        shovels={shovels}
+                        hasShovel={shovels > 0}
                         hasDrill={drills > 0}
-                        hideDigAll={hideDigAll}
                         tutorialTile={
                           id === 1 && guiding === "dig"
                             ? { x: 2, y: 2 }
@@ -412,6 +411,7 @@ export const Cave: React.FC = () => {
           machineId={selectedMachine}
           onClose={() => setSelectedMachine(undefined)}
           showTutorialHand={guiding === "start-batch"}
+          hideDigAll={hideDigAll}
         />
       )}
 

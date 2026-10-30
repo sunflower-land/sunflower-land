@@ -56,8 +56,8 @@ export function getUndugCaveTileCoords(
 }
 
 /**
- * Dig every tile left in a Cave patch for Gems (`getCaveDigAllGems`) and one
- * Sand Shovel per tile. One board is drawn for the whole dig
+ * Dig every tile left in a Cave patch for Gems (`getCaveDigAllGems`, free once
+ * only Mud is left) and one Sand Shovel per tile. One board is drawn for the whole dig
  * (`revealCavePatch`, keyed on the first undug tile) and each tile awards and
  * records what that board holds, as `cave.dug` would. Sturdy Shovel rolls for
  * every tile, as it would digging them one by one.
@@ -113,12 +113,16 @@ export function digAllCaveTiles({
       throw new Error(DIG_ALL_CAVE_TILES_ERRORS.NO_SHOVEL);
     }
 
+    // Free once only Mud is left: no Gems are needed or recorded then.
     const gems = getCaveDigAllGems({ batch, game, now: createdAt });
-    if (!game.inventory.Gem?.gte(gems)) {
-      throw new Error(DIG_ALL_CAVE_TILES_ERRORS.INSUFFICIENT_GEMS);
+    if (gems > 0) {
+      const balance = game.inventory.Gem ?? new Decimal(0);
+      if (balance.lt(gems)) {
+        throw new Error(DIG_ALL_CAVE_TILES_ERRORS.INSUFFICIENT_GEMS);
+      }
+      game.inventory.Gem = balance.sub(gems);
+      makeGemHistory({ game, amount: gems, createdAt });
     }
-    game.inventory.Gem = game.inventory.Gem.sub(gems);
-    makeGemHistory({ game, amount: gems, createdAt });
 
     const layout = revealCavePatch({
       batch,
