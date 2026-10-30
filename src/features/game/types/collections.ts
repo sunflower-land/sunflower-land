@@ -476,6 +476,8 @@ export const CHAPTER_COLLECTIONS: Partial<
             .filter((item) => item[1] === "Cave Dwellers")
             .map((item) => item[0]),
         ],
+        // Luxury chest exclusive
+        wearables: ["Fish Trap"],
       },
     },
   }),

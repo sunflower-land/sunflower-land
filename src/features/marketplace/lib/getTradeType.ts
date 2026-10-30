@@ -1501,6 +1501,7 @@ export const ITEM_TRADE_TYPES: {
     "Pot of Luck": "instant",
     TNT: "instant",
     "Warning Sign": "instant",
+    "Crystal Cookie Champion": "instant",
 
     // Ascension Age decorations
     "Salt Rug": "onchain",

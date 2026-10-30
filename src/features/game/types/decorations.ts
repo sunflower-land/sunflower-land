@@ -909,6 +909,14 @@ export const DECORATION_TEMPLATES = {
     },
     isWithdrawable: () => false,
   },
+  // Chapter Crop Week #2 (Crystal Cookie) top cooks leaderboard reward
+  "Crystal Cookie Champion": {
+    dimensions: {
+      width: 2,
+      height: 2,
+    },
+    isWithdrawable: () => false,
+  },
   // Rarecrows game migration
   ...RARECROW_TEMPLATES,
 } satisfies Record<string, Template>;

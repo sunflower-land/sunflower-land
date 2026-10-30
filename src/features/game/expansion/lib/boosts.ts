@@ -100,7 +100,7 @@ export const getSellPrice = ({
   // apply Green Thumb boost to crop LEGACY SKILL!
   if (item.name in crops && inventory["Green Thumb"]?.greaterThanOrEqualTo(1)) {
     multiplier += 0.05;
-    boostUsed.push({ name: "Green Thumb", value: "x1.05" });
+    boostUsed.push({ name: "Green Thumb", value: "+0.05" });
   }
 
   // Crop Shortage during initial gameplay

@@ -2998,10 +2998,10 @@ describe("feedAnimal: direct Beetle feeding", () => {
     });
 
   it.each([
-    ["Green Beetle", 80],
-    ["Blue Beetle", 160],
-    ["Pink Beetle", 320],
-    ["Amber Beetle", 640],
+    ["Green Beetle", 100],
+    ["Blue Beetle", 200],
+    ["Pink Beetle", 400],
+    ["Amber Beetle", 800],
   ] as const)("feeds a %s to a Cow for exactly %i XP", (item, xp) => {
     const state = feed(cowFarm(0), "Cow", item);
 
@@ -3028,7 +3028,7 @@ describe("feedAnimal: direct Beetle feeding", () => {
       const key =
         type === "Chicken" ? "henHouse" : type === "Pig" ? "pigpen" : "barn";
 
-      expect(state[key].animals["1"].experience).toEqual(640);
+      expect(state[key].animals["1"].experience).toEqual(800);
     },
   );
 
@@ -3042,7 +3042,7 @@ describe("feedAnimal: direct Beetle feeding", () => {
     const state = feed(cowFarm(ANIMAL_LEVELS.Cow[1] - 50));
 
     expect(state.barn.animals["1"].experience).toEqual(
-      ANIMAL_LEVELS.Cow[1] + 30,
+      ANIMAL_LEVELS.Cow[1] + 50,
     );
     expect(getAnimalLevel(state.barn.animals["1"].experience, "Cow")).toEqual(
       1,
@@ -3089,22 +3089,22 @@ describe("feedAnimal: direct Beetle feeding", () => {
       }),
     );
 
-    expect(state.barn.animals["1"].experience).toEqual(80);
+    expect(state.barn.animals["1"].experience).toEqual(100);
     expect(state.inventory["Green Beetle"]).toEqual(new Decimal(4));
   });
 
   it("grants a muddy Pig 1.25x without spending a Mud charge", () => {
     const state = feed(pigFarm(0, { mud: { harvestsRemaining: 3 } }), "Pig");
 
-    expect(state.pigpen.animals["1"].experience).toEqual(100);
+    expect(state.pigpen.animals["1"].experience).toEqual(125);
     expect(state.pigpen.animals["1"].mud).toEqual({ harvestsRemaining: 3 });
   });
 
   it.each([
-    ["Green Beetle", 100],
-    ["Blue Beetle", 200],
-    ["Pink Beetle", 400],
-    ["Amber Beetle", 800],
+    ["Green Beetle", 125],
+    ["Blue Beetle", 250],
+    ["Pink Beetle", 500],
+    ["Amber Beetle", 1000],
   ] as const)(
     "gives a muddy Pig with Chonky Feed only the Mud bonus: %s = %i XP",
     (item, xp) => {
@@ -3125,7 +3125,7 @@ describe("feedAnimal: direct Beetle feeding", () => {
     const state = feed(cowFarm(ANIMAL_LEVELS.Cow[15]), "Cow", "Amber Beetle");
 
     expect(state.barn.animals["1"].experience).toEqual(
-      ANIMAL_LEVELS.Cow[15] + 640,
+      ANIMAL_LEVELS.Cow[15] + 800,
     );
   });
 

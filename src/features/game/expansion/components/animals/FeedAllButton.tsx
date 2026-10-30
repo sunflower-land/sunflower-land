@@ -20,11 +20,9 @@ import { getValues } from "lib/object";
 
 const _state = (state: MachineState) => state.context.state;
 
-export const FeedAllButton: React.FC<{
-  building: AnimalBuildingType;
-  /** Greyed out and inert, e.g. while animals are marked for a bulk sale. */
-  blocked?: boolean;
-}> = ({ building, blocked = false }) => {
+export const FeedAllButton: React.FC<{ building: AnimalBuildingType }> = ({
+  building,
+}) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
   const game = useSelector(gameService, _state);
@@ -75,11 +73,9 @@ export const FeedAllButton: React.FC<{
 
   if (covered.length === 0) return null;
 
-  const disabled = blocked || eligibleCount === 0;
+  const disabled = eligibleCount === 0;
 
   const handleClick = () => {
-    if (blocked) return;
-
     // Re-derive eligibility from the live machine snapshot rather than
     // the render-scoped state, which can go stale (e.g. a double-tap
     // before React re-renders after the first click consumed every

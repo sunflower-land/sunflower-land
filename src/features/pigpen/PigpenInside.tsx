@@ -363,12 +363,13 @@ export const PigpenInside: React.FC = () => {
                 <FeederMachine building="Pigpen" />
               </div>
 
-              <div className="absolute -top-[11px] left-1/2 translate-x-[58px]">
-                <FeedAllButton
-                  building="Pigpen"
-                  blocked={saleSelection.bulkMode}
-                />
-              </div>
+              {/* Hidden while selling so animals can't be fed mid-sale. */}
+
+              {!showSellPanel && (
+                <div className="absolute -top-[11px] left-1/2 translate-x-[58px]">
+                  <FeedAllButton building="Pigpen" />
+                </div>
+              )}
 
               {/* Mirrors the Feed All slot on the feeder's other side. */}
               <div className="absolute -top-[11px] right-1/2 -translate-x-[58px]">
@@ -454,9 +455,9 @@ export const PigpenInside: React.FC = () => {
                         )}
                         <Pig
                           id={animal.id}
-                          disabled={selecting || saleSelection.bulkMode}
+                          disabled={selecting || showSellPanel}
                         />
-                        {isPendingSale && (
+{isPendingSale && (
                           <PendingSaleTag
                             dealId={pendingDealIdByAnimal[animal.id] ?? ""}
                           />
@@ -467,7 +468,11 @@ export const PigpenInside: React.FC = () => {
                 </div>
               </MapPlacement>
 
-              {!deal && !showSellPanel && (
+              {/* Both selection modes hide the room controls, as the Barn's
+                  bounty mode does - a trade-in pick must not open the shop,
+                  start a sale, upgrade or leave mid-pick. (Feed All and
+                  Apply Mud stay, like the Barn's Feed All.) */}
+              {!selecting && !showSellPanel && (
                 <>
                   <button
                     type="button"

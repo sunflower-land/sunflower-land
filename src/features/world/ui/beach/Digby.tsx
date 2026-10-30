@@ -124,14 +124,20 @@ export const Pattern: React.FC<{
   );
 };
 
-const CountdownLabel = () => (
-  <Label className="ml-1" type="info" icon={SUNNYSIDE.icons.stopwatch}>
-    {`${secondsToString(secondsTillReset(), {
-      length: "medium",
-      removeTrailingZeros: true,
-    })} left`}
-  </Label>
-);
+const CountdownLabel = () => {
+  const { t } = useAppTranslation();
+
+  return (
+    <Label className="ml-1" type="info" icon={SUNNYSIDE.icons.stopwatch}>
+      {t("vipExpiry.timeLeft", {
+        time: secondsToString(secondsTillReset(), {
+          length: "medium",
+          removeTrailingZeros: true,
+        }),
+      })}
+    </Label>
+  );
+};
 
 const DigsLeftLabel: React.FC<{ game: GameState }> = ({ game }) => {
   const { t } = useAppTranslation();

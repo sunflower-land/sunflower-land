@@ -714,6 +714,11 @@ export const WEARABLE_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     tradeAt: CHAPTERS["Cave Dwellers"].endDate,
     withdrawAt: new Date("2027-03-01T00:00:00Z"),
   },
+  // Cave Dwellers chest exclusive
+  "Fish Trap": {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
 
   "Moonseeker Potion": {
     tradeAt: new Date("2025-11-06"),
