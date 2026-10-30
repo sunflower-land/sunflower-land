@@ -9,12 +9,10 @@ import {
   isCavePatchCleared,
 } from "features/game/types/caveRecipes";
 import {
-  generateCavePatch,
-  getCaveBeetleProgress,
   getCavePatchComposition,
-  getUndugCaveTiles,
+  getRevealedCaveTiles,
   isCaveSeed,
-  resolveCaveTile,
+  resolveRevealedCaveTile,
   type ResolvedCaveTile,
 } from "features/game/types/cavePatch";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -153,27 +151,30 @@ export const CavePatch: React.FC<Props> = ({
       timers.add(timeout);
     }
   };
-  const recipe = batch?.recipe;
-  const seed = batch?.seed;
-  const skills = batch?.skills;
-  const layout = useMemo(
-    () =>
-      recipe && isCaveSeed(seed)
-        ? generateCavePatch({ recipe, seed, skills })
-        : undefined,
-    [recipe, seed, skills],
-  );
+  // Each dig draws its own board from the seed, so the patch only knows what
+  // the dug tiles held and showed (their records) and whether it can dig yet.
+  const hasBoard = isCaveSeed(batch?.seed);
+  // Read the records once per batch: every hover re-renders the grid.
+  const { revealed, found } = useMemo(() => {
+    const revealed = batch ? getRevealedCaveTiles(batch) : {};
+    const found = { Beetle: 0, Mushroom: 0 };
+    for (const { tile } of Object.values(revealed)) {
+      if (tile.type !== "Mud") found[tile.type] += 1;
+    }
+    return { revealed, found };
+  }, [batch]);
 
   const growing = !!batch && batch.readyAt > now;
   const ready = !!batch && !growing;
   const cleared = !!batch && isCavePatchCleared(batch);
-  const beetles = batch ? getCaveBeetleProgress(batch) : undefined;
-  const mushroomsTotal = batch
-    ? getCavePatchComposition(batch.recipe, batch.skills).Mushroom
-    : 0;
-  const mushroomsFound = batch
-    ? mushroomsTotal - getUndugCaveTiles(batch).Mushroom
-    : 0;
+  const composition = batch
+    ? getCavePatchComposition(batch.recipe, batch.skills)
+    : undefined;
+  const beetles = composition
+    ? { found: found.Beetle, total: composition.Beetle }
+    : undefined;
+  const mushroomsTotal = composition?.Mushroom ?? 0;
+  const mushroomsFound = found.Mushroom;
 
   const drilling = ready && selectedItem === "Sand Drill";
   // Where the hover box sits: the 2x2 square's top-left for the drill, the
@@ -257,13 +258,13 @@ export const CavePatch: React.FC<Props> = ({
                 <button
                   key={`tile-${i}`}
                   type="button"
-                  disabled={!hasDrill || !layout || allDug}
+                  disabled={!hasDrill || !hasBoard || allDug}
                   className="relative w-full h-full p-0 border-0 bg-transparent cursor-pointer disabled:cursor-not-allowed"
                   onPointerEnter={() => setHovered({ x, y })}
                   onClick={() => dig(square, "Sand Drill")}
                 >
-                  {dug && layout ? (
-                    <DugTile tile={resolveCaveTile(layout, x, y)} />
+                  {dug && revealed[key] ? (
+                    <DugTile tile={resolveRevealedCaveTile(revealed[key])} />
                   ) : (
                     <img
                       src={SUNNYSIDE.soil.sand_hill}
@@ -276,7 +277,7 @@ export const CavePatch: React.FC<Props> = ({
               );
             }
 
-            if (dug && layout) {
+            if (dug && revealed[key]) {
               // A dug tile takes no tool, so the hover box must not sit on it.
               return (
                 <div
@@ -284,7 +285,7 @@ export const CavePatch: React.FC<Props> = ({
                   className="w-full h-full"
                   onPointerEnter={() => setHovered(undefined)}
                 >
-                  <DugTile tile={resolveCaveTile(layout, x, y)} />
+                  <DugTile tile={resolveRevealedCaveTile(revealed[key])} />
                 </div>
               );
             }
@@ -293,8 +294,8 @@ export const CavePatch: React.FC<Props> = ({
               <button
                 key={`tile-${i}`}
                 type="button"
-                // The board arrives with the save that follows the batch start.
-                disabled={!hasShovel || !layout}
+                // The seed arrives with the save that follows the batch start.
+                disabled={!hasShovel || !hasBoard}
                 className="relative w-full h-full p-0 border-0 bg-transparent cursor-pointer disabled:cursor-not-allowed"
                 onPointerEnter={() => setHovered({ x, y })}
                 onClick={() => {

@@ -10,9 +10,10 @@ import {
   isCaveTileInPatch,
 } from "features/game/types/caveRecipes";
 import {
-  generateCavePatch,
   isCaveSeed,
+  recordCaveDig,
   resolveCaveTile,
+  revealCavePatch,
 } from "features/game/types/cavePatch";
 import { awardCaveTile, isCaveToolKept } from "./digCaveTile";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
@@ -45,8 +46,9 @@ export enum DRILL_CAVE_TILES_ERRORS {
 
 /**
  * Dig a 2x2 square of a Cave patch with one Sand Drill. Tiles already dug are
- * skipped (the drill is still spent); each other tile awards what the batch's
- * board holds, exactly as `cave.dug` would.
+ * skipped (the drill is still spent); the other tiles award what one board
+ * drawn for the drill holds (`revealCavePatch`, keyed on the square's top-left
+ * tile), exactly as `cave.dug` would, and record what they held and showed.
  */
 export function drillCaveTiles({
   state,
@@ -119,10 +121,11 @@ export function drillCaveTiles({
       game.inventory["Sand Drill"] = drills.minus(CAVE_DRILL_COST);
     }
 
-    const layout = generateCavePatch({
-      recipe: batch.recipe,
-      seed: batch.seed,
-      skills: batch.skills,
+    const layout = revealCavePatch({
+      batch,
+      createdAt,
+      x: Math.min(...coords.map(({ x }) => x)),
+      y: Math.min(...coords.map(({ y }) => y)),
     });
     const dug = { ...batch.dug };
     for (const { x, y } of undug) {
@@ -132,7 +135,7 @@ export function drillCaveTiles({
         createdAt,
         farmId,
       });
-      dug[caveTileKey(x, y)] = { dugAt: createdAt };
+      dug[caveTileKey(x, y)] = recordCaveDig(layout, x, y, createdAt);
     }
 
     batch.dug = dug;
