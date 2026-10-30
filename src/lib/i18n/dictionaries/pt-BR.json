@@ -8989,5 +8989,7 @@
   "description.brickHouse.boost": "x0,75 Crimstone para expansões",
   "description.stickHouse.boost": "x0.75 Óleo para expansões",
   "description.herculesBeetleHat.boost": "x0.75 Obsidian para expansões",
-  "description.grinxsHammer.warning": "Desativado se o Martelo de Grinx estiver ativo"
+  "description.grinxsHammer.warning": "Desativado se o Martelo de Grinx estiver ativo",
+  "cave.dig.digAll": "Escavar tudo",
+  "cave.dig.digAllDescription": "Desenterre todos os ladrilhos que sobraram de uma vez. Besouros e cogumelos enterrados custam joias, a lama é gratuita."
 }

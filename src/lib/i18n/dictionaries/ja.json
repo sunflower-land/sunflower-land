@@ -8989,5 +8989,7 @@
   "description.brickHouse.boost": "x0.75 エクスパンション用クリムストーン",
   "description.stickHouse.boost": "x0.75 エクスパンション用オイル",
   "description.herculesBeetleHat.boost": "x0.75 エクスパンション用オブシディアン",
-  "description.grinxsHammer.warning": "グリンクスのハンマー発動中は使用不可"
+  "description.grinxsHammer.warning": "グリンクスのハンマー発動中は使用不可",
+  "cave.dig.digAll": "すべて掘れ",
+  "cave.dig.digAllDescription": "残っているすべてのタイルを一度に掘り起こしてください。埋もれたカブトムシとキノコはジェムがかかるが、泥は無料だ。"
 }

@@ -8989,5 +8989,7 @@
   "description.brickHouse.boost": "x0.75 Crimstone untuk Ekspansi",
   "description.stickHouse.boost": "x0.75 Minyak untuk Ekspansi",
   "description.herculesBeetleHat.boost": "x0.75 Obsidian untuk Ekspansi",
-  "description.grinxsHammer.warning": "Dinonaktifkan jika Grinx's Hammer Aktif"
+  "description.grinxsHammer.warning": "Dinonaktifkan jika Grinx's Hammer Aktif",
+  "cave.dig.digAll": "Gali semua",
+  "cave.dig.digAllDescription": "Gali setiap ubin yang tersisa sekaligus. Kumbang dan Jamur yang Terkubur harganya Permata, Lumpur gratis."
 }

@@ -8989,5 +8989,7 @@
   "description.brickHouse.boost": "x0.75 Genişletmeler için Crimstone",
   "description.stickHouse.boost": "x0.75 Genişletme Yağı",
   "description.herculesBeetleHat.boost": "x0.75 Genişletmeler için Obsidian",
-  "description.grinxsHammer.warning": "Grinx'in Hammer Etkin ise devre dışı bırakılır"
+  "description.grinxsHammer.warning": "Grinx'in Hammer Etkin ise devre dışı bırakılır",
+  "cave.dig.digAll": "Hepsini kaz",
+  "cave.dig.digAllDescription": "Kalan her karoyu bir kerede kazın. Gömülü Böcekler ve Mantarlar Mücevherlere mal olur, Çamur ücretsizdir."
 }
