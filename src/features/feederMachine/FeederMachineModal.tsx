@@ -40,6 +40,9 @@ import { getIngredients, getMaxFeedMixAmount } from "./feedMixed";
 import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails";
 import {
   getBulkMixRequirements,
+  canMixAsOmnifeed,
+  getBulkMixEntries,
+  getBulkMixEntriesCost,
   getPigFeedIngredientOptions,
 } from "./getBulkMixRequirements";
 import {
@@ -49,6 +52,7 @@ import {
 } from "features/game/types/pigFeeds";
 import { formatNumber } from "lib/utils/formatNumber";
 import { BulkMixModal } from "./BulkMixModal";
+import { MAX_BULK_MIX_AMOUNT } from "./bulkMixFeed";
 import { PigFeedMixer } from "./PigFeedMixer";
 
 interface Props {
@@ -103,8 +107,13 @@ export const FeederMachineModal: React.FC<Props> = ({
   const [tab, setTab] = useState<Tab>("food");
   const [showMixInfo, setShowMixInfo] = useState(false);
   const [showBulkMixModal, setShowBulkMixModal] = useState(false);
-  // The Slop whose input picker is open in the Bulk Mixer.
-  const [pickingInputFor, setPickingInputFor] = useState<PigFeedName>();
+  // Foods the player chose to cover with Omnifeed in the Bulk Mixer.
+  const [omnifeedFoods, setOmnifeedFoods] = useState<
+    Partial<Record<BulkMixItem, boolean>>
+  >({});
+  // The feed whose input picker (Slop input, or recipe vs Omnifeed) is open
+  // in the Bulk Mixer.
+  const [pickingInputFor, setPickingInputFor] = useState<BulkMixItem>();
   const [customMixAmount, setCustomMixAmount] = useState(new Decimal(0));
   const { coins } = ANIMAL_FOODS[selectedName];
 
@@ -133,7 +142,7 @@ export const FeederMachineModal: React.FC<Props> = ({
     : undefined;
   const showSpiceDetails = isSpiceSelected && hasSpices && !!selectedSpiceItem;
   const { requests, feeds, animalsWaiting, freeFeedBoosts } =
-    getBulkMixRequirements(state, building, now, pigFeedInputs);
+    getBulkMixRequirements(state, building, now, pigFeedInputs, omnifeedFoods);
 
   // Only feeds that still need mixing are listed - a feed the inventory
   // already covers is not something the player has to act on.
@@ -275,23 +284,15 @@ export const FeederMachineModal: React.FC<Props> = ({
     (feed) => canMixFeed(feed) && isFeedSelected(feed.item),
   );
 
-  // Sum the ingredients required across every selected feed.
-  const selectedIngredients = selectedFeeds.reduce(
-    (acc, feed) => {
-      getKeys(feed.ingredients).forEach((ingredient) => {
-        acc[ingredient] = (acc[ingredient] ?? new Decimal(0)).add(
-          feed.ingredients[ingredient] ?? new Decimal(0),
-        );
-      });
-      return acc;
-    },
-    {} as GameState["inventory"],
-  );
+  // Capped per item at the event's limit; anything left over shows up as a
+  // shortfall again once this mix lands, so the player mixes the rest next.
+  const { entries: bulkMixEntries, capped: bulkMixCapped } =
+    getBulkMixEntries(selectedFeeds);
 
-  const selectedCoins = selectedFeeds.reduce(
-    (total, feed) => total + feed.coins,
-    0,
-  );
+  // What the submitted (combined, capped) entries need, so affordability
+  // matches what is actually mixed.
+  const { ingredients: selectedIngredients, coins: selectedCoins } =
+    getBulkMixEntriesCost(state, bulkMixEntries);
 
   // Ingredients where the player is short of what the selection requires.
   const ingredientShortfalls = getKeys(selectedIngredients).reduce(
@@ -321,15 +322,10 @@ export const FeederMachineModal: React.FC<Props> = ({
       .join(", ");
 
   const bulkMix = () => {
-    const mixedItems = selectedFeeds.map((feed) => feed.item);
+    const entries = bulkMixEntries;
+    const mixedItems = entries.map(({ item }) => item);
 
-    gameService.send("feeds.bulkMixed", {
-      feeds: selectedFeeds.map((feed) => ({
-        item: feed.item,
-        ingredient: feed.ingredient,
-        amount: feed.missing.toNumber(),
-      })),
-    });
+    gameService.send("feeds.bulkMixed", { feeds: entries });
 
     if (mixedItems.length === 1) {
       shortcutItem(mixedItems[0]);
@@ -594,6 +590,8 @@ export const FeederMachineModal: React.FC<Props> = ({
                       const selected =
                         feedCanBeMixed && isFeedSelected(feed.item);
                       const slop = isPigFeed(feed.item) ? feed.item : undefined;
+                      const omnifeedable = canMixAsOmnifeed(feed.item);
+                      const hasPicker = !!slop || omnifeedable;
                       const requirements = (
                         <div className="flex flex-col gap-1">
                           {getKeys(feed.ingredients).map((ingredient) => (
@@ -625,35 +623,40 @@ export const FeederMachineModal: React.FC<Props> = ({
                           }
                         >
                           <div className="flex gap-1 items-center">
-                            <SmallBox image={ITEM_DETAILS[feed.item].image} />
+                            <SmallBox image={ITEM_DETAILS[feed.mixAs].image} />
                             <div className="flex flex-col flex-1 justify-center -mt-0.5">
                               <p className="text-xs">
-                                {`${feed.item} x${formatNumber(feed.missing)}`}
+                                {`${feed.mixAs} x${formatNumber(feed.missing)}`}
                               </p>
+                              {feed.mixAs !== feed.item && (
+                                <p className="text-xxs">
+                                  {t("feeder.insteadOf", { feed: feed.item })}
+                                </p>
+                              )}
                             </div>
                             {/* Selecting a feed confirms the player can afford
                               it, so the requirement labels carry the whole
                               story - they turn red on the ones falling
                               short. A Slop's input is a button that opens
                               its picker. */}
-                            {slop ? (
+                            {hasPicker ? (
                               <button
                                 type="button"
                                 className="flex items-center gap-1 cursor-pointer"
                                 aria-label={`${t("feeder.chooseSlopInput")}: ${formatIngredientList(feed.ingredients)}`}
-                                aria-expanded={pickingInputFor === slop}
+                                aria-expanded={pickingInputFor === feed.item}
                                 onClick={(event) => {
                                   event.stopPropagation();
                                   setShowMixInfo(false);
                                   setPickingInputFor((open) =>
-                                    open === slop ? undefined : slop,
+                                    open === feed.item ? undefined : feed.item,
                                   );
                                 }}
                               >
                                 {requirements}
                                 <img
                                   src={
-                                    pickingInputFor === slop
+                                    pickingInputFor === feed.item
                                       ? SUNNYSIDE.icons.chevron_up
                                       : SUNNYSIDE.icons.chevron_down
                                   }
@@ -686,6 +689,30 @@ export const FeederMachineModal: React.FC<Props> = ({
                               />
                             </div>
                           </div>
+                          {omnifeedable && pickingInputFor === feed.item && (
+                            <div
+                              className="flex flex-wrap gap-1 cursor-default"
+                              onClick={(event) => event.stopPropagation()}
+                            >
+                              {([feed.item, "Omnifeed"] as const).map(
+                                (option) => (
+                                  <Box
+                                    key={option}
+                                    image={ITEM_DETAILS[option].image}
+                                    count={state.inventory[option]}
+                                    isSelected={feed.mixAs === option}
+                                    onClick={() => {
+                                      setOmnifeedFoods((prev) => ({
+                                        ...prev,
+                                        [feed.item]: option === "Omnifeed",
+                                      }));
+                                      setPickingInputFor(undefined);
+                                    }}
+                                  />
+                                ),
+                              )}
+                            </div>
+                          )}
                           {slop && pickingInputFor === slop && (
                             <div
                               className="flex flex-wrap gap-1 overflow-auto max-h-48 scrollable cursor-default"
@@ -729,6 +756,11 @@ export const FeederMachineModal: React.FC<Props> = ({
 
                   {/* Each feed is affordable on its own, so a shortfall here
                       only appears when the selection shares an ingredient. */}
+                  {bulkMixCapped && (
+                    <Label type="info">
+                      {t("feeder.bulkMixLimit", { max: MAX_BULK_MIX_AMOUNT })}
+                    </Label>
+                  )}
                   {hasShortfall && (
                     <Label type="danger">
                       {t("feeder.missingIngredientsSummary", {
