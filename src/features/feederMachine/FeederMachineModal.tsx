@@ -53,7 +53,7 @@ import {
 import { formatNumber } from "lib/utils/formatNumber";
 import { BulkMixModal } from "./BulkMixModal";
 import { BEETLES, type BeetleName } from "features/game/types/beetles";
-import { hasFeatureAccess } from "lib/flags";
+import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 import { PigFeedMixer } from "./PigFeedMixer";
 
 interface Props {
@@ -144,7 +144,11 @@ export const FeederMachineModal: React.FC<Props> = ({
     state.inventory[item]?.gt(0),
   );
   const hasSpices = spices.length > 0;
-  const beetles = hasFeatureAccess(state, "BEETLE_FEEDING") ? BEETLES : [];
+  const hasBeetleFeedingAccess = useTimeBasedFeatureAccess({
+    featureName: "BEETLE_FEEDING",
+    game: state,
+  });
+  const beetles = hasBeetleFeedingAccess ? BEETLES : [];
   const { requests, feeds, animalsWaiting, freeFeedBoosts } =
     getBulkMixRequirements(state, building, now, pigFeedInputs);
 

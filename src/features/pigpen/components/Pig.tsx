@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { isBeetle } from "features/game/types/beetles";
-import { hasFeatureAccess } from "lib/flags";
+import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
@@ -242,7 +242,10 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
 
   const { name: mutantName } = pig.reward?.items?.[0] ?? {};
 
-  const hasBeetleFeedingAccess = hasFeatureAccess(game, "BEETLE_FEEDING");
+  const hasBeetleFeedingAccess = useTimeBasedFeatureAccess({
+    featureName: "BEETLE_FEEDING",
+    game,
+  });
 
   const feedPig = (item?: InventoryItemName) => {
     setFeedXPAmount(getAnimalXPEarned(item));

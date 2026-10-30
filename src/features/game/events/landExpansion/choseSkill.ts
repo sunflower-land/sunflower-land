@@ -155,7 +155,7 @@ export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
       throw new Error("This skill is disabled");
     }
 
-    if (!hasSkillAccess(stateCopy, action.skill)) {
+    if (!hasSkillAccess(stateCopy, action.skill, createdAt)) {
       throw new Error("This skill is not available");
     }
 

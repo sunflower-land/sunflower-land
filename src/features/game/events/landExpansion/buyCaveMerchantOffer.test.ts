@@ -8,6 +8,7 @@ import type {
 } from "features/game/types/game";
 import { CAVE_MAX_TIER } from "features/game/types/caveTiers";
 import { CONFIG } from "lib/config";
+import { TIME_BASED_FEATURE_FLAG_WINDOWS } from "lib/flags";
 import {
   BUY_CAVE_MERCHANT_OFFER_ERRORS,
   buyCaveMerchantOffer,
@@ -255,8 +256,11 @@ describe("buyCaveMerchantOffer (cave.merchantOfferBought)", () => {
       (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
     });
 
-    it("throws without the CAVE feature flag", () => {
-      expect(() => buy(caveState())).toThrow(
+    it("throws without the CAVE feature flag before launch", () => {
+      const beforeLaunch =
+        TIME_BASED_FEATURE_FLAG_WINDOWS.CAVE.start.getTime() - 1;
+
+      expect(() => buy(caveState(), 1, beforeLaunch)).toThrow(
         BUY_CAVE_MERCHANT_OFFER_ERRORS.NO_FEATURE_ACCESS,
       );
     });

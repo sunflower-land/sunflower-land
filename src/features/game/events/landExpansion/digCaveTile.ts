@@ -5,7 +5,7 @@ import type {
   GameState,
   InventoryItemName,
 } from "features/game/types/game";
-import { hasFeatureAccess } from "lib/flags";
+import { hasTimeBasedFeatureAccess } from "lib/flags";
 import { isCaveBuildingReady } from "features/game/lib/cave";
 import {
   CAVE_DIG_SHOVEL_COST,
@@ -213,7 +213,13 @@ export function digCaveTile({
   farmId,
 }: Options): GameState {
   return produce(state, (game) => {
-    if (!hasFeatureAccess(game, "CAVE")) {
+    if (
+      !hasTimeBasedFeatureAccess({
+        featureName: "CAVE",
+        game: game,
+        now: createdAt,
+      })
+    ) {
       throw new Error(DIG_CAVE_TILE_ERRORS.NO_FEATURE_ACCESS);
     }
 

@@ -18,7 +18,7 @@ import type { BuildingProduct } from "features/game/types/game";
 import { useNow } from "lib/utils/hooks/useNow";
 import { CHAPTERS, getCurrentChapter } from "features/game/types/chapters";
 import { Context } from "features/game/GameProvider";
-import { hasFeatureAccess } from "lib/flags";
+import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 
 interface Props {
   isOpen: boolean;
@@ -47,9 +47,11 @@ export const KitchenModal: React.FC<Props> = ({
   });
   const { gameService } = useContext(Context);
   // Truffle recipes ride on the Pigs' flag (Truffle only exists behind it)
-  const hasTruffleRecipes = useSelector(gameService, (state) =>
-    hasFeatureAccess(state.context.state, "PIGPEN"),
-  );
+  const state = useSelector(gameService, (state) => state.context.state);
+  const hasTruffleRecipes = useTimeBasedFeatureAccess({
+    featureName: "PIGPEN",
+    game: state,
+  });
   const kitchenRecipes = Object.values(KITCHEN_COOKABLES)
     .filter((recipe) => {
       if (isTruffleRecipe(recipe.name)) return hasTruffleRecipes;

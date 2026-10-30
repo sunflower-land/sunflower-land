@@ -45,7 +45,7 @@ export function upgradeSkill({
       throw new Error("Skill does not exist");
     }
 
-    if (!hasSkillAccess(game, action.skill)) {
+    if (!hasSkillAccess(game, action.skill, createdAt)) {
       throw new Error("This skill is not available");
     }
 
