@@ -1,5 +1,14 @@
-import { CHEST_MULTIPLIER, LUXURY_REWARDS } from "./chests";
+import {
+  BASIC_REWARDS,
+  CHEST_MULTIPLIER,
+  LUXURY_REWARDS,
+  RARE_REWARDS,
+} from "./chests";
 import { CHAPTERS } from "./chapters";
+import {
+  getChapterTrackCollectibles,
+  getChapterTrackWearables,
+} from "./collections";
 
 describe("chapter megastore chest rewards", () => {
   const DURING_ASCENSION_AGE = new Date("2026-10-15T00:00:00.000Z").getTime();
@@ -41,6 +50,27 @@ describe("chapter megastore chest rewards", () => {
 
     for (const reward of CAVE_DWELLERS_MEGASTORE_REWARDS) {
       expect(rewards).not.toContainEqual(reward);
+    }
+  });
+});
+
+describe("chapter track chest rewards", () => {
+  const MID_CAVE_DWELLERS = new Date("2026-12-01T00:00:00.000Z").getTime();
+  const CAVE_DWELLERS_TRACK_ITEMS: string[] = [
+    ...getChapterTrackCollectibles("Cave Dwellers"),
+    ...getChapterTrackWearables("Cave Dwellers"),
+  ];
+
+  it("does not add Cave Dwellers track items to Basic or Rare chests", () => {
+    for (const rewards of [BASIC_REWARDS, RARE_REWARDS]) {
+      const names = rewards(MID_CAVE_DWELLERS).flatMap((reward) => [
+        ...Object.keys(reward.items ?? {}),
+        ...Object.keys(reward.wearables ?? {}),
+      ]);
+
+      for (const name of CAVE_DWELLERS_TRACK_ITEMS) {
+        expect(names).not.toContain(name);
+      }
     }
   });
 });
