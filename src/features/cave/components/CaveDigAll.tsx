@@ -45,7 +45,7 @@ export const CaveDigAll: React.FC<Props> = ({
   const canAfford = shovelBalance.gte(tiles) && gemBalance.gte(gems);
 
   return (
-    <InnerPanel className="mb-1">
+    <InnerPanel className="mt-1">
       <p className="text-xs ml-1 mb-1">{t("cave.dig.digAllDescription")}</p>
       <div className="flex flex-wrap gap-2 p-1">
         <RequirementLabel
