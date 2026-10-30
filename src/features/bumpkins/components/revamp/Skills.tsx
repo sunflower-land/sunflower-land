@@ -50,6 +50,7 @@ export const Skills: React.FC<Props> = ({ readonly }) => {
     >
       {!selectedSkillPath && (
         <SkillCategoryList
+          now={now}
           onClick={(category) => onSkillCategoryClickHandler(category)}
         />
       )}

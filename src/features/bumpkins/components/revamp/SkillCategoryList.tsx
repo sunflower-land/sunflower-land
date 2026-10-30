@@ -29,8 +29,6 @@ import {
 } from "features/game/events/landExpansion/resetSkills";
 import { SkillReset } from "./SkillReset";
 import { getAvailableRevampSkills } from "features/game/lib/skillAccess";
-import { useNow } from "lib/utils/hooks/useNow";
-import { TIME_BASED_FEATURE_FLAG_WINDOWS } from "lib/flags";
 import fruits from "assets/fruit/fruits.png";
 import Decimal from "decimal.js-light";
 export const SKILL_TREE_ICONS: Record<BumpkinRevampSkillTree, string> = {
@@ -53,17 +51,13 @@ const _state = (state: MachineState) => state.context.state;
 
 export const SkillCategoryList: React.FC<{
   onClick: (category: BumpkinRevampSkillTree) => void;
-}> = ({ onClick }) => {
+  /** The parent's clock, so the list and the opened path agree at launch. */
+  now: number;
+}> = ({ onClick, now }) => {
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
-  // Pig and Cave skills open to everyone at the Chapter 16 launch.
-  const now = useNow({
-    live: true,
-    autoEndAt: TIME_BASED_FEATURE_FLAG_WINDOWS.CAVE.start.getTime(),
-    intervalMs: 60 * 1000,
-  });
   const [showSkillsResetModal, setShowSkillsResetModal] = useState(false);
   const [showSkillsResetConfirmation, setShowSkillsResetConfirmation] =
     useState(false);
