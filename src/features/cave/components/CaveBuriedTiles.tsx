@@ -101,12 +101,17 @@ export const CaveBuriedTiles: React.FC<{
             </Label>
           );
         })}
-        {dug > 0 && (
-          <Label type="default" icon={SUNNYSIDE.tools.sand_shovel}>
-            {dug}
-          </Label>
-        )}
       </div>
+      {/* Its own line, so the count isn't read as Shovels buried in the patch. */}
+      {dug > 0 && (
+        <Label
+          type="default"
+          icon={SUNNYSIDE.tools.sand_shovel}
+          className="ml-1 mb-1"
+        >
+          {t("cave.batch.dug", { count: dug })}
+        </Label>
+      )}
     </>
   );
 };
