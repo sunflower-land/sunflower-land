@@ -8985,5 +8985,6 @@
   "softBan.networkWarning": "Führen Sie eine schnelle Sicherheitsüberprüfung durch, um weitere Funktionen von Sunflower Land freizuschalten. Es trägt dazu bei, dass die Bumpkin-Wirtschaft sicher und fair für alle bleibt, und du kannst in der Zwischenzeit weiter farmen.",
   "description.mud": "Reichhaltiger, klebriger Schlamm. 25 Schlamm umhüllt ein Schwein, sorgt für zusätzliche Futter-XP und verhindert, dass es krank wird.",
   "pigs.applyMud.description": "Schlamm gibt einem Schwein + {{percent}}% Futter-XP und verhindert, dass es krank wird, solange das Fell reicht. Jede Schicht bedeckt {{harvests}} Ernte (n) und nimmt 25 Schlamm auf.",
-  "animals.guide.mud": "Benutze die Schlammtaste, um deine Schweine zu beschichten: 25 Schlamm pro Schwein geben + {{percent}}% Futter-XP und schützen es vor Krankheiten, bis das Fell abgenutzt ist."
+  "animals.guide.mud": "Benutze die Schlammtaste, um deine Schweine zu beschichten: 25 Schlamm pro Schwein geben + {{percent}}% Futter-XP und schützen es vor Krankheiten, bis das Fell abgenutzt ist.",
+  "cave.batch.dug": "Vergrabene Titel: {{count}}"
 }

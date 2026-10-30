@@ -8985,5 +8985,6 @@
   "softBan.networkWarning": "Completa un rápido control de seguridad para desbloquear más funciones de Sunflower Land. Ayuda a mantener la economía de los Bumpkin segura y justa para todos, y mientras tanto, puedes seguir cultivando.",
   "description.mud": "Barro rico y pegajoso. 25 capas de barro cubren a un cerdo para obtener más puntos de experiencia y evitar que se enferme.",
   "pigs.applyMud.description": "El barro le da a un cerdo + {{percent}}% de XP de alimentación y evita que se enferme mientras dure su pelaje. Cada capa cubre la (s) cosecha (s) de {{harvests}} y contiene 25 unidades de barro.",
-  "animals.guide.mud": "Usa el botón de barro para cubrir a tus cerdos: 25 de barro por cerdo dan + {{percent}}% de XP de alimentación y lo protegen de las enfermedades hasta que se desgasta el pelaje."
+  "animals.guide.mud": "Usa el botón de barro para cubrir a tus cerdos: 25 de barro por cerdo dan + {{percent}}% de XP de alimentación y lo protegen de las enfermedades hasta que se desgasta el pelaje.",
+  "cave.batch.dug": "Títulos excavados: {{count}}"
 }

@@ -8985,5 +8985,6 @@
   "softBan.networkWarning": "Effectuez un rapide contrôle de sécurité pour débloquer davantage de fonctionnalités de Sunflower Land. Cela contribue à assurer la sécurité et l'équité de l'économie de Bumpkin pour tous, et vous pouvez continuer à cultiver en attendant.",
   "description.mud": "Boue riche et collante. 25 De la boue recouvre un cochon pour lui donner plus d'expérience alimentaire et l'empêcher de tomber malade.",
   "pigs.applyMud.description": "La boue confère à un cochon + {{percent}} % d'EXP alimentaire et l'empêche de tomber malade tant que le pelage dure. Chaque couche couvre {{harvests}} récolte (s) et absorbe 25 boues.",
-  "animals.guide.mud": "Utilisez le bouton Boue pour enduire vos cochons : 25 boues par cochon donnent + {{percent}} % d'EXP alimentaire et les protègent des maladies jusqu'à ce que le pelage disparaisse."
+  "animals.guide.mud": "Utilisez le bouton Boue pour enduire vos cochons : 25 boues par cochon donnent + {{percent}} % d'EXP alimentaire et les protègent des maladies jusqu'à ce que le pelage disparaisse.",
+  "cave.batch.dug": "Titres du médicament : {{count}}"
 }

@@ -8985,5 +8985,6 @@
   "softBan.networkWarning": "Selesaikan pemeriksaan keamanan cepat untuk membuka lebih banyak fitur Sunflower Land. Ini membantu menjaga ekonomi Bumpkin aman dan adil untuk semua orang, dan Anda dapat terus bertani sementara itu.",
   "description.mud": "Lumpur yang kaya dan lengket. 25 Lumpur melapisi Babi untuk XP pakan ekstra dan mencegahnya jatuh sakit.",
   "pigs.applyMud.description": "Lumpur memberi Babi + {{percent}}% XP pakan dan mencegahnya jatuh sakit selama bulunya bertahan. Setiap mantel menutupi {{harvests}} panen dan membutuhkan 25 Lumpur.",
-  "animals.guide.mud": "Gunakan tombol Lumpur untuk melapisi Babi Anda: 25 Lumpur per Babi memberikan + {{percent}}% XP pakan dan melindunginya dari penyakit sampai bulunya hilang."
+  "animals.guide.mud": "Gunakan tombol Lumpur untuk melapisi Babi Anda: 25 Lumpur per Babi memberikan + {{percent}}% XP pakan dan melindunginya dari penyakit sampai bulunya hilang.",
+  "cave.batch.dug": "Ubin digali: {{count}}"
 }

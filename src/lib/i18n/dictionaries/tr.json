@@ -8985,5 +8985,6 @@
   "softBan.networkWarning": "Daha fazla Ayçiçeği Ülkesi özelliğinin kilidini açmak için hızlı bir güvenlik kontrolünü tamamlayın. Bumpkin ekonomisinin herkes için güvenli ve adil kalmasına yardımcı olur, ve bu arada çiftçiliğe devam edebilirsiniz.",
   "description.mud": "Zengin, yapışkan çamur. 25 Çamur, ekstra yem Deneyimi için bir Domuzu kaplar ve hastalanmasını önler.",
   "pigs.applyMud.description": "Çamur, bir Domuza + {{percent}} %yem DP'si verir ve ceket sürerken hastalanmasını engeller. Her kat {{harvests}} hasadı kaplar ve 25 Çamur alır.",
-  "animals.guide.mud": "Domuzlarınızı kaplamak için Çamur düğmesini kullanın: Domuz başına 25 Çamur + {{percent}} %yem DP'si verir ve tüyü yıpranana kadar hastalıktan korur."
+  "animals.guide.mud": "Domuzlarınızı kaplamak için Çamur düğmesini kullanın: Domuz başına 25 Çamur + {{percent}} %yem DP'si verir ve tüyü yıpranana kadar hastalıktan korur.",
+  "cave.batch.dug": "Kazılan fayanslar: {{count}}"
 }

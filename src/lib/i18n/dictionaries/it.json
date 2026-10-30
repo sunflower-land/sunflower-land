@@ -8985,5 +8985,6 @@
   "softBan.networkWarning": "Completa un rapido controllo di sicurezza per sbloccare altre funzionalità di Sunflower Land. Aiuta a mantenere l'economia di Bumpkin sicura ed equa per tutti, e nel frattempo puoi continuare a coltivare.",
   "description.mud": "Fango ricco e appiccicoso. 25 Il fango ricopre un maiale per aumentare i punti esperienza di alimentazione e gli impedisce di ammalarsi.",
   "pigs.applyMud.description": "Il fango dà a un maiale + {{percent}}% di esperienza di alimentazione e gli impedisce di ammalarsi finché dura il pelo. Ogni strato copre {{harvests}} raccolti e richiede 25 fango.",
-  "animals.guide.mud": "Usa il pulsante Fango per rivestire i tuoi maiali: 25 fango per maiale fornisce + {{percent}}% di XP di alimentazione e li protegge dalle malattie fino a quando il pelo non svanisce."
+  "animals.guide.mud": "Usa il pulsante Fango per rivestire i tuoi maiali: 25 fango per maiale fornisce + {{percent}}% di XP di alimentazione e li protegge dalle malattie fino a quando il pelo non svanisce.",
+  "cave.batch.dug": "Piastrelle scavate: {{count}}"
 }

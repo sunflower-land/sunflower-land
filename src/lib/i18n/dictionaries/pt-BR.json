@@ -8985,5 +8985,6 @@
   "softBan.networkWarning": "Conclua uma rápida verificação de segurança para desbloquear mais recursos do Sunflower Land. Isso ajuda a manter a economia do Bumpkin segura e justa para todos, e você pode continuar cultivando enquanto isso.",
   "description.mud": "Lama rica e pegajosa. 25 Lamas cobrem um porco para aumentar a EXP de alimentação e evita que ele adoeça.",
   "pigs.applyMud.description": "A lama dá ao Porco + {{percent}}% de EXP de alimentação e evita que ele adoeça enquanto dura a pelagem. Cada camada cobre {{harvests}} colheita (s) e pega 25 de lama.",
-  "animals.guide.mud": "Use o botão de lama para revestir seus porcos: 25 de lama por porco fornecem + {{percent}}% de EXP de alimentação e os protegem de doenças até que a pelagem desapareça."
+  "animals.guide.mud": "Use o botão de lama para revestir seus porcos: 25 de lama por porco fornecem + {{percent}}% de EXP de alimentação e os protegem de doenças até que a pelagem desapareça.",
+  "cave.batch.dug": "Títulos escavados: {{count}}"
 }
