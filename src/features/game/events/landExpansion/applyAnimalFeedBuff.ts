@@ -52,12 +52,19 @@ export function isAnimalFeedBuffItem(item: string): item is AnimalFeedBuffName {
 }
 
 export const BASE_FEED_BUFF_HARVESTS = 3;
+/**
+ * A Mud coat lasts ONE claim (beta uptake rebalance, 2026-10-30: was a
+ * treat's 3), making the coat part of the daily loop rather than an
+ * every-third-day touch. Kept apart from `BASE_FEED_BUFF_HARVESTS` so the
+ * spice-rack treats keep their three.
+ */
+export const MUD_HARVESTS = 1;
 /** A Truffle Seasoning shortens ONE sleep (the charge is spent on the claim that starts it). */
 export const TRUFFLE_SEASONING_SLEEPS = 1;
 
 /**
- * How many produce claims a treat (or Mud, which borrows the same count) lasts.
- * Salt Lick and Honey Treat run three harvests; Truffle Seasoning one sleep.
+ * How many produce claims a treat lasts. Salt Lick and Honey Treat run three
+ * harvests; Truffle Seasoning one sleep; Mud has its own `getMudHarvests`.
  */
 export function getAnimalHarvests(
   game: GameState,
@@ -73,6 +80,22 @@ export function getAnimalHarvests(
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
   // Vibraphone doubles how long a feed buff lasts
+  if (isCollectibleBuilt({ game, name: "Vibraphone" })) {
+    harvests *= 2;
+    boostsUsed.push({ name: "Vibraphone", value: "x2" });
+  }
+
+  return { harvests, boostsUsed };
+}
+
+/** How many produce claims a Mud coat lasts: one, or two with a Vibraphone. */
+export function getMudHarvests(game: GameState): {
+  harvests: number;
+  boostsUsed: { name: BoostName; value: string }[];
+} {
+  let harvests = MUD_HARVESTS;
+  const boostsUsed: { name: BoostName; value: string }[] = [];
+
   if (isCollectibleBuilt({ game, name: "Vibraphone" })) {
     harvests *= 2;
     boostsUsed.push({ name: "Vibraphone", value: "x2" });

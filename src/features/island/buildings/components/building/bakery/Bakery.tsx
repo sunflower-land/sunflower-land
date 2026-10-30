@@ -13,16 +13,18 @@ import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
 import { BAKERY_VARIANTS } from "features/island/lib/alternateArt";
 import { useSound } from "lib/utils/hooks/useSound";
-import type { TemperateSeasonName } from "features/game/types/game";
+import type { GameState, TemperateSeasonName } from "features/game/types/game";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { useCookingState } from "features/island/buildings/lib/useCookingState";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 import { ReadyRecipes } from "../ReadyRecipes";
 
 type Props = {
   buildingId: string;
   isBuilt: boolean;
+  island: GameState["island"];
   season: TemperateSeasonName;
   onRemove?: () => void;
 };
@@ -33,6 +35,7 @@ const _bakery = (id: string) => (state: MachineState) =>
 export const Bakery: React.FC<Props> = ({
   buildingId,
   isBuilt,
+  island,
   season,
   onRemove,
 }) => {
@@ -94,7 +97,7 @@ export const Bakery: React.FC<Props> = ({
         ready={readyRecipes?.length > 0}
       >
         <img
-          src={BAKERY_VARIANTS[season]}
+          src={BAKERY_VARIANTS[getCurrentBiome(island)][season]}
           className={classNames("absolute bottom-0 pointer-events-none", {
             "opacity-100": !cooking,
             "opacity-80": cooking,

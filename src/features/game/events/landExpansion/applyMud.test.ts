@@ -20,7 +20,7 @@ const pig = (id: string, overrides: Partial<Animal> = {}): Animal => ({
 
 const farm = (
   animals: Record<string, Animal> = { "1": pig("1") },
-  mud = 10,
+  mud = 25,
 ): GameState => ({
   ...INITIAL_FARM,
   inventory: { ...INITIAL_FARM.inventory, Mud: new Decimal(mud) },
@@ -41,12 +41,12 @@ const apply = (state: GameState, id = "1") =>
   });
 
 describe("applyMud", () => {
-  it("consumes ten Mud and grants three muddy harvests, like a treat", () => {
-    const state = apply(farm(undefined, 12));
+  it("consumes 25 Mud and grants one muddy harvest: a daily coat", () => {
+    const state = apply(farm(undefined, 27));
 
-    expect(MUD_PER_APPLICATION).toEqual(10);
+    expect(MUD_PER_APPLICATION).toEqual(25);
     expect(state.inventory.Mud).toEqual(new Decimal(2));
-    expect(state.pigpen.animals["1"].mud).toEqual({ harvestsRemaining: 3 });
+    expect(state.pigpen.animals["1"].mud).toEqual({ harvestsRemaining: 1 });
   });
 
   it("can be applied while the Pig sleeps", () => {
@@ -55,7 +55,7 @@ describe("applyMud", () => {
       farm({ "1": pig("1", { asleepAt: now, awakeAt: now + 60_000 }) }),
     );
 
-    expect(state.pigpen.animals["1"].mud).toEqual({ harvestsRemaining: 3 });
+    expect(state.pigpen.animals["1"].mud).toEqual({ harvestsRemaining: 1 });
   });
 
   it("sits alongside a spice-rack treat without touching it", () => {
@@ -63,7 +63,7 @@ describe("applyMud", () => {
     const state = apply(farm({ "1": pig("1", { feedBuff }) }));
 
     expect(state.pigpen.animals["1"].feedBuff).toEqual(feedBuff);
-    expect(state.pigpen.animals["1"].mud).toEqual({ harvestsRemaining: 3 });
+    expect(state.pigpen.animals["1"].mud).toEqual({ harvestsRemaining: 1 });
   });
 
   it("throws when the Pigpen is not placed", () => {
@@ -98,11 +98,11 @@ describe("applyMud", () => {
     };
 
     expect(apply(farm(animals), "a").pigpen.animals.a.mud).toEqual({
-      harvestsRemaining: 3,
+      harvestsRemaining: 1,
     });
   });
 
-  it("doubles the charges to 6 with a placed Vibraphone", () => {
+  it("doubles the charges to 2 with a placed Vibraphone", () => {
     const state = apply({
       ...farm(),
       collectibles: {
@@ -110,7 +110,7 @@ describe("applyMud", () => {
       },
     });
 
-    expect(state.pigpen.animals["1"].mud).toEqual({ harvestsRemaining: 6 });
+    expect(state.pigpen.animals["1"].mud).toEqual({ harvestsRemaining: 2 });
     expect(state.boostsUsedAt?.Vibraphone).toBeDefined();
   });
 
@@ -132,7 +132,7 @@ describe("applyMud", () => {
 
     expect(
       apply(farm({ "1": pig("1", { mud: old }) })).pigpen.animals["1"].mud,
-    ).toEqual({ harvestsRemaining: 3 });
+    ).toEqual({ harvestsRemaining: 1 });
   });
 
   it("throws without Mud", () => {
@@ -142,7 +142,7 @@ describe("applyMud", () => {
   });
 
   it("throws with less than one application of Mud", () => {
-    expect(() => apply(farm(undefined, 9))).toThrow(
+    expect(() => apply(farm(undefined, 24))).toThrow(
       APPLY_MUD_ERRORS.NOT_ENOUGH,
     );
   });

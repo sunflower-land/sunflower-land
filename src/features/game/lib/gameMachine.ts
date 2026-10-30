@@ -964,7 +964,6 @@ export type BlockchainState = {
     | "introduction"
     | "welcome"
     | "termsAndConditions"
-    | "investigating"
     | "gems"
     | "communityCoin"
     | "referralRewards"
@@ -1473,13 +1472,6 @@ export function startGame(authContext: AuthContext) {
                   accountOlderThan30Mins &&
                   noPurchaseYet
                 );
-              },
-            },
-
-            {
-              target: "investigating",
-              cond: (context) => {
-                return context.state.ban.status === "investigating";
               },
             },
 
@@ -2750,29 +2742,6 @@ export function startGame(authContext: AuthContext) {
             ],
             ACKNOWLEDGE: {
               target: "notifying",
-            },
-          },
-        },
-
-        investigating: {
-          on: {
-            "faceRecognition.started": {
-              target: STATE_MACHINE_EFFECTS["faceRecognition.started"],
-            },
-            "faceRecognition.completed": {
-              target: STATE_MACHINE_EFFECTS["faceRecognition.completed"],
-            },
-            "telegram.linked": {
-              target: STATE_MACHINE_EFFECTS["telegram.linked"],
-            },
-            // Verification needs a Discord / Telegram account, which may
-            // still be linked elsewhere. Settings is unreachable from here,
-            // so the soft-ban screen offers the unlink directly.
-            "discord.unlinked": {
-              target: STATE_MACHINE_EFFECTS["discord.unlinked"],
-            },
-            "telegram.unlinked": {
-              target: STATE_MACHINE_EFFECTS["telegram.unlinked"],
             },
           },
         },

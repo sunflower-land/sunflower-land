@@ -8,17 +8,20 @@ import { Context, useGame } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
+import { SoftBan } from "./SoftBan";
+
+const _banStatus = (state: MachineState) => state.context.state.ban.status;
 
 const _isLocked = (state: MachineState) =>
-  state.context.state.ban.status === "lock";
+  _banStatus(state) === "lock" || _banStatus(state) === "investigating";
 
 /**
- * Whether support has this account on hold.
+ * Whether this account is on hold: a support `lock` or a soft ban.
  *
- * A lock does not stop the player playing — the API keeps accepting their
- * saves. It stops value leaving the account, so this is asked at the places
- * that move value: the bank's withdraw and transfer tabs, and every
- * marketplace action that is not a cancellation.
+ * Neither stops the player playing — the API keeps accepting their saves.
+ * Both stop value leaving the account, so this is asked at the places that
+ * move value: the bank's withdraw and transfer tabs, and every marketplace
+ * action that is not a cancellation.
  */
 export function useIsLocked(): boolean {
   const { gameService } = useContext(Context);
@@ -29,21 +32,30 @@ export function useIsLocked(): boolean {
 /**
  * Shown in place of a trade or a withdrawal when the account is on hold.
  *
- * The player has done nothing wrong as far as they know, and most holds are
- * lifted — so the copy reassures rather than accuses, and never describes what
- * is being checked. Deliberately not `SoftBan`: that screen walks the player
- * through Discord / Telegram / face verification, and none of those lift a
- * lock. Support does, so a ticket is the only route offered, kept quiet
+ * A soft ban is lifted by the player themselves, so they get the `SoftBan`
+ * steps (Discord / Telegram, then face verification) right where they were
+ * blocked.
+ *
+ * A lock is different: the player has done nothing wrong as far as they know,
+ * and most holds are lifted — so the copy reassures rather than accuses, and
+ * never describes what is being checked. None of the verification steps lift
+ * a lock. Support does, so a ticket is the only route offered, kept quiet
  * because most players will not need it.
  */
 export const Locked: React.FC = () => {
   const { gameService } = useGame();
   const { t } = useAppTranslation();
 
+  const status = useSelector(gameService, _banStatus);
+
   const [copied, setCopied] = useState(false);
   const copypaste = useSound("copypaste");
 
   const farmId = gameService.getSnapshot()?.context?.farmId;
+
+  if (status === "investigating") {
+    return <SoftBan />;
+  }
 
   return (
     <div className="p-1">

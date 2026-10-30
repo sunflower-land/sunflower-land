@@ -15,19 +15,26 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { useCookingState } from "features/island/buildings/lib/useCookingState";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 import { ReadyRecipes } from "../ReadyRecipes";
-import type { TemperateSeasonName } from "features/game/types/game";
+import type { GameState, TemperateSeasonName } from "features/game/types/game";
 
 type Props = {
   buildingId: string;
   isBuilt: boolean;
+  island: GameState["island"];
   season: TemperateSeasonName;
 };
 
 const _deli = (id: string) => (state: MachineState) =>
   state.context.state.buildings["Deli"]?.find((b) => b.id === id);
 
-export const Deli: React.FC<Props> = ({ buildingId, isBuilt, season }) => {
+export const Deli: React.FC<Props> = ({
+  buildingId,
+  isBuilt,
+  island,
+  season,
+}) => {
   const { gameService } = useContext(Context);
 
   const deli = useSelector(gameService, _deli(buildingId));
@@ -79,7 +86,7 @@ export const Deli: React.FC<Props> = ({ buildingId, isBuilt, season }) => {
         ready={readyRecipes?.length > 0}
       >
         <img
-          src={DELI_VARIANTS[season]}
+          src={DELI_VARIANTS[getCurrentBiome(island)][season]}
           className={classNames("absolute bottom-0 pointer-events-none", {
             "opacity-100": !cooking,
             "opacity-80": cooking,

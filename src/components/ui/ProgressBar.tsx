@@ -5,6 +5,8 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString, type TimeFormatLength } from "lib/utils/time";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { progressBarBorderStyle } from "features/game/lib/style";
+import { isAsciiText } from "lib/utils/textSupport";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export type ProgressType =
   | "progress"
@@ -309,7 +311,14 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   seconds = 0,
   ...divProps
 }) => {
-  const currentLanguage = localStorage.getItem("language") || "en";
+  const { i18n } = useAppTranslation();
+  const currentLanguage = i18n.language;
+  const timeLabel = secondsToString(seconds, {
+    length: formatLength,
+    isShortFormat: true,
+  });
+  // The formatter separates units with NBSP, which does not need a locale font.
+  const useLocaleFont = !isAsciiText(timeLabel.replace(/\u00a0/g, " "));
 
   return (
     <div className="absolute" {...divProps}>
@@ -326,6 +335,8 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
               currentLanguage === "zh-CN" ? "font-Ark" : "font-pixel"
             }`}
             style={{
+              fontFamily: useLocaleFont ? "var(--font-family)" : undefined,
+              fontSize: useLocaleFont ? "var(--text-xxs-size)" : undefined,
               padding: "0px 1px",
               height: "9px",
               lineHeight: "7px",
@@ -335,10 +346,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
               whiteSpace: "nowrap",
             }}
           >
-            {secondsToString(seconds, {
-              length: formatLength,
-              isShortFormat: true,
-            })}
+            {timeLabel}
           </span>
         </div>
       )}
