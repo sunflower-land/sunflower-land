@@ -8,7 +8,6 @@ import type { CaveBatch } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import { Box } from "components/ui/Box";
-import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -16,15 +15,13 @@ import { CaveBuriedTiles, RECIPE_IMAGE } from "./CaveBuriedTiles";
 
 interface Props {
   batch: CaveBatch;
-  /** Closes the popover so the player can dig the patch. */
-  onDig: () => void;
 }
 
 /**
  * A ready batch being dug, laid out like a finished Lava Pit: the mix, Beetles
- * found so far, what is still buried and a button back to the patch.
+ * found so far and what is still buried.
  */
-export const CaveBatchReady: React.FC<Props> = ({ batch, onDig }) => {
+export const CaveBatchReady: React.FC<Props> = ({ batch }) => {
   const { t } = useAppTranslation();
 
   const image = ITEM_DETAILS[RECIPE_IMAGE[batch.recipe]].image;
@@ -54,9 +51,6 @@ export const CaveBatchReady: React.FC<Props> = ({ batch, onDig }) => {
         </div>
       </div>
       <CaveBuriedTiles counts={buried} dug={dug} />
-      <Button onClick={onDig} className="mt-1">
-        {t("lets.go")}
-      </Button>
     </InnerPanel>
   );
 };

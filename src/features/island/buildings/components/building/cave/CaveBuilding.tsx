@@ -9,9 +9,7 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useNow } from "lib/utils/hooks/useNow";
-import { getKeys } from "lib/object";
-import { isCavePatchCleared } from "features/game/types/caveRecipes";
-import { hasIdleCaveMachine } from "features/game/lib/cave";
+import { hasIdleCaveMachine, isCaveMachineReady } from "features/game/lib/cave";
 import { saveIslandScrollPosition } from "features/game/expansion/lib/islandScroll";
 import type { GameState } from "features/game/types/game";
 
@@ -19,10 +17,9 @@ const _cave = (state: MachineState) => state.context.state.cave;
 
 const hasReadyCavePatch = (cave: GameState["cave"], now: number): boolean =>
   !!cave &&
-  getKeys(cave.machines).some((id) => {
-    const batch = cave.machines[id].batch;
-    return !!batch && batch.readyAt <= now && !isCavePatchCleared(batch);
-  });
+  Object.values(cave.machines).some((machine) =>
+    isCaveMachineReady(machine, now),
+  );
 
 /**
  * The Cave on the farm. Clicking it walks the player into `/cave`; the shared

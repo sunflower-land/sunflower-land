@@ -16,7 +16,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 import { isCaveBuildingReady } from "features/game/lib/cave";
 import { isCavePatchCleared } from "features/game/types/caveRecipes";
-import { isCaveMachineIdle } from "features/game/lib/cave";
+import { isCaveMachineIdle, isCaveMachineReady } from "features/game/lib/cave";
 import { useNow } from "lib/utils/hooks/useNow";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import {
@@ -192,6 +192,8 @@ export const Cave: React.FC = () => {
     !showMerchant;
   const guiding =
     tutorialStep && tutorialSeen[tutorialStep] ? tutorialStep : undefined;
+  // Dig All would skip the digging lessons; it shows again from "expand".
+  const hideDigAll = !!tutorialStep && tutorialStep !== "expand";
 
   return (
     <div className="absolute inset-0 bg-[#181425] overflow-hidden">
@@ -308,9 +310,13 @@ export const Cave: React.FC = () => {
                       onClick={() => setSelectedMachine(String(id))}
                     >
                       <Sprite src={getCaveMycoBinImage(batch, now)} />
-                      {/* Waiting for a mix: the same ! the Cave shows on the
-                      farm, above the bin's sign. */}
-                      {isCaveMachineIdle(cave.machines[String(id)] ?? {}) && (
+                      {/* Waiting for a mix, or its patch is ready to dig: the
+                      same ! the Cave shows on the farm, above the bin's sign. */}
+                      {(isCaveMachineIdle(cave.machines[String(id)] ?? {}) ||
+                        isCaveMachineReady(
+                          cave.machines[String(id)] ?? {},
+                          now,
+                        )) && (
                         <img
                           src={SUNNYSIDE.icons.expression_alerted}
                           alt=""
@@ -426,6 +432,7 @@ export const Cave: React.FC = () => {
           machineId={selectedMachine}
           onClose={() => setSelectedMachine(undefined)}
           showTutorialHand={guiding === "start-batch"}
+          hideDigAll={hideDigAll}
         />
       )}
 
