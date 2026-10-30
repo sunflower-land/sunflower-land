@@ -13,10 +13,11 @@ import {
   isCaveTileInPatch,
 } from "features/game/types/caveRecipes";
 import {
-  generateCavePatch,
   isCaveSeed,
+  recordCaveDig,
   type ResolvedCaveTile,
   resolveCaveTile,
+  revealCavePatch,
 } from "features/game/types/cavePatch";
 import type { MushroomName } from "features/game/types/resources";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
@@ -201,7 +202,9 @@ export function awardCaveTile({
 
 /**
  * Dig one Cave patch tile with a Sand Shovel. The tile's reward comes from the
- * batch's board (`generateCavePatch`), so the FE and BE award the same thing.
+ * board this dig draws (`revealCavePatch`, from the seed and the dig's own
+ * `createdAt`), so the FE and BE award the same thing, and what the tile held
+ * and showed is recorded for the digs that follow.
  */
 export function digCaveTile({
   state,
@@ -270,18 +273,10 @@ export function digCaveTile({
       game.inventory["Sand Shovel"] = shovels.minus(CAVE_DIG_SHOVEL_COST);
     }
 
-    const layout = generateCavePatch({
-      recipe: batch.recipe,
-      seed: batch.seed,
-      skills: batch.skills,
-    });
-    awardCaveTile({
-      game,
-      tile: resolveCaveTile(layout, x, y),
-      createdAt,
-      farmId,
-    });
+    const layout = revealCavePatch({ batch, createdAt, x, y });
+    const tile = resolveCaveTile(layout, x, y);
+    awardCaveTile({ game, tile, createdAt, farmId });
 
-    batch.dug = { ...batch.dug, [key]: { dugAt: createdAt } };
+    batch.dug = { ...batch.dug, [key]: recordCaveDig(layout, x, y, createdAt) };
   });
 }

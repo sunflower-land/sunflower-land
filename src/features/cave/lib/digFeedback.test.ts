@@ -40,14 +40,16 @@ const state = (skills: Skills = {}): GameState => ({
     },
   },
 });
-const point = { x: 3, y: 3 };
-const square = [{ x: 2, y: 2 }, { x: 3, y: 2 }, { x: 2, y: 3 }, point];
+// (2,3) is a Green Beetle when first dug at 1002 on this seed (digs draw
+// their board from the seed and their createdAt).
+const point = { x: 2, y: 3 };
+const square = [{ x: 2, y: 2 }, { x: 3, y: 2 }, point, { x: 3, y: 3 }];
 const dig = (before: GameState, farmId: number, p = point) =>
   digCaveTile({
     state: before,
     action: { type: "cave.dug", machineId: "1", ...p },
     farmId,
-    createdAt: 1000,
+    createdAt: 1002,
   });
 const feedback = (
   before: GameState,
@@ -157,8 +159,8 @@ it("detects successive actions with the same timestamp without repeating the pre
       feedback(before, first, [{ x: 0, y: 0 }]).length &&
       !second.inventory["Sand Shovel"]!.eq(first.inventory["Sand Shovel"]!)
     ) {
-      expect(first.boostsUsedAt!["Sturdy Shovel"]).toBe(1000);
-      expect(second.boostsUsedAt!["Sturdy Shovel"]).toBe(1000);
+      expect(first.boostsUsedAt!["Sturdy Shovel"]).toBe(1002);
+      expect(second.boostsUsedAt!["Sturdy Shovel"]).toBe(1002);
       expect(feedback(first, second, [secondPoint])).toEqual([]);
       checked = true;
       break;
