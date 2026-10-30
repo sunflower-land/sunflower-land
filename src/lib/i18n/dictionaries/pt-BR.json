@@ -8637,7 +8637,6 @@
   "description.cave": "Uma caverna úmida onde os cogumelos crescem no escuro.",
   "building.cave": "Caverna",
   "gameOptions.generalSettings.customCursor": "Cursor personalizado",
-  "description.mud": "Lama rica e pegajosa. 10 Lamas cobrem um porco para aumentar a EXP de alimentação e evita que ele adoeça.",
   "description.crystalLeaf": "Uma folha brilhante e de crescimento lento que só brota durante a Semana da Colheita.",
   "description.crystalCookie": "Um biscoito espumante feito com folhas de cristal durante a Chapter Crop Week.",
   "chapterCropWeek.leaderboard.title": "Melhores cozinheiros",
@@ -8777,12 +8776,10 @@
   "description.pinkBeetle": "Um besouro raro. Alimente qualquer animal por {{xp}} XP.",
   "description.amberBeetle": "O besouro mais raro. Alimente qualquer animal por {{xp}} XP.",
   "pigs.applyMud.title": "Aplique lama",
-  "pigs.applyMud.description": "A lama dá ao Porco + {{percent}}% de EXP de alimentação e evita que ele adoeça nas próximas {{harvests}} colheitas. Cada porco leva 10 barro.",
   "pigs.applyMud.pigs": "Porcos: {{amount}}",
   "pigs.applyMud.notEnough": "Não há lama suficiente para todos os porcos {{total}}. Os porcos mais velhos o pegam primeiro.",
   "pigs.applyMud.dontAskAgain": "Não pergunte novamente",
   "pigs.applyMud.confirm": "Aplique lama",
-  "animals.guide.mud": "Use o botão Lama para revestir seus porcos: 10 de lama por porco fornecem + {{percent}}% de EXP de alimentação e os protegem de doenças nas próximas colheitas.",
   "eventStore.tier.rare.requirements": "Compre 6 itens exclusivos do evento para desbloquear itens raros.",
   "eventStore.tier.epic.requirements": "Compre 12 itens de eventos exclusivos para desbloquear itens épicos.",
   "eventStore.tier.mega.requirements": "Compre 16 itens de eventos exclusivos para desbloquear mega itens.",
@@ -8985,5 +8982,8 @@
   "pet.breed.penguin": "Pinguim",
   "description.crystalCookieChampion": "Concedido aos melhores cozinheiros da Crystal Cookie Chapter Crop Week. Um biscoito dourado para um chef dourado!",
   "softBan.goblinDetection": "Desbloqueie mais recursos",
-  "softBan.networkWarning": "Conclua uma rápida verificação de segurança para desbloquear mais recursos do Sunflower Land. Isso ajuda a manter a economia do Bumpkin segura e justa para todos, e você pode continuar cultivando enquanto isso."
+  "softBan.networkWarning": "Conclua uma rápida verificação de segurança para desbloquear mais recursos do Sunflower Land. Isso ajuda a manter a economia do Bumpkin segura e justa para todos, e você pode continuar cultivando enquanto isso.",
+  "description.mud": "Lama rica e pegajosa. 25 Lamas cobrem um porco para aumentar a EXP de alimentação e evita que ele adoeça.",
+  "pigs.applyMud.description": "A lama dá ao Porco + {{percent}}% de EXP de alimentação e evita que ele adoeça enquanto dura a pelagem. Cada camada cobre {{harvests}} colheita (s) e pega 25 de lama.",
+  "animals.guide.mud": "Use o botão de lama para revestir seus porcos: 25 de lama por porco fornecem + {{percent}}% de EXP de alimentação e os protegem de doenças até que a pelagem desapareça."
 }

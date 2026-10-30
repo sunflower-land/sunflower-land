@@ -8637,7 +8637,6 @@
   "description.cave": "Gua lembap tempat jamur tumbuh dalam gelap.",
   "building.cave": "Gua",
   "gameOptions.generalSettings.customCursor": "Kursor kustom",
-  "description.mud": "Lumpur yang kaya dan lengket. 10 Lumpur melapisi Babi untuk XP pakan ekstra dan mencegahnya jatuh sakit.",
   "description.crystalLeaf": "Daun yang berkilauan dan tumbuh lambat yang hanya bertunas selama Chapter Crop Week.",
   "description.crystalCookie": "Kue berkilau yang dipanggang dari Daun Kristal selama Chapter Crop Week.",
   "chapterCropWeek.leaderboard.title": "Koki Terbaik",
@@ -8777,12 +8776,10 @@
   "description.pinkBeetle": "Kumbang langka. Beri makan ke hewan apa pun untuk {{xp}} XP.",
   "description.amberBeetle": "Kumbang paling langka. Beri makan ke hewan apa pun untuk {{xp}} XP.",
   "pigs.applyMud.title": "Terapkan Lumpur",
-  "pigs.applyMud.description": "Lumpur memberi Babi + {{percent}}% XP pakan dan mencegahnya jatuh sakit untuk panen {{harvests}} berikutnya. Setiap Babi mengambil 10 Lumpur.",
   "pigs.applyMud.pigs": "Babi: {{amount}}",
   "pigs.applyMud.notEnough": "Tidak cukup Lumpur untuk semua {{total}} Babi. Babi tertua mendapatkannya lebih dulu.",
   "pigs.applyMud.dontAskAgain": "Jangan tanya lagi",
   "pigs.applyMud.confirm": "Terapkan Lumpur",
-  "animals.guide.mud": "Gunakan tombol Lumpur untuk melapisi Babi Anda: 10 Lumpur per Babi memberikan + {{percent}}% XP pakan dan melindunginya dari penyakit untuk beberapa panen berikutnya.",
   "eventStore.tier.rare.requirements": "Beli 6 item acara unik untuk membuka kunci item langka.",
   "eventStore.tier.epic.requirements": "Beli 12 item acara unik untuk membuka item epik.",
   "eventStore.tier.mega.requirements": "Beli 16 item acara unik untuk membuka item mega.",
@@ -8985,5 +8982,8 @@
   "pet.breed.penguin": "pinguin",
   "description.crystalCookieChampion": "Diberikan kepada koki top Crystal Cookie Chapter Crop Week. Kue emas untuk koki emas!",
   "softBan.goblinDetection": "Buka lebih banyak fitur",
-  "softBan.networkWarning": "Selesaikan pemeriksaan keamanan cepat untuk membuka lebih banyak fitur Sunflower Land. Ini membantu menjaga ekonomi Bumpkin aman dan adil untuk semua orang, dan Anda dapat terus bertani sementara itu."
+  "softBan.networkWarning": "Selesaikan pemeriksaan keamanan cepat untuk membuka lebih banyak fitur Sunflower Land. Ini membantu menjaga ekonomi Bumpkin aman dan adil untuk semua orang, dan Anda dapat terus bertani sementara itu.",
+  "description.mud": "Lumpur yang kaya dan lengket. 25 Lumpur melapisi Babi untuk XP pakan ekstra dan mencegahnya jatuh sakit.",
+  "pigs.applyMud.description": "Lumpur memberi Babi + {{percent}}% XP pakan dan mencegahnya jatuh sakit selama bulunya bertahan. Setiap mantel menutupi {{harvests}} panen dan membutuhkan 25 Lumpur.",
+  "animals.guide.mud": "Gunakan tombol Lumpur untuk melapisi Babi Anda: 25 Lumpur per Babi memberikan + {{percent}}% XP pakan dan melindunginya dari penyakit sampai bulunya hilang."
 }

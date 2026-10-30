@@ -8637,7 +8637,6 @@
   "description.cave": "Eine feuchte Höhle, in der Pilze im Dunkeln wachsen.",
   "building.cave": "Höhle",
   "gameOptions.generalSettings.customCursor": "Benutzerdefinierter Mauszeiger",
-  "description.mud": "Reichhaltiger, klebriger Schlamm. 10 Schlamm umhüllt ein Schwein für zusätzliche Futter-XP und verhindert, dass es krank wird.",
   "description.crystalLeaf": "Ein glitzerndes, langsam wachsendes Blatt, das nur während der Chapter Crop Week sprießt.",
   "description.crystalCookie": "Ein funkelnder Keks, der während der Chapter Crop Week aus Kristallblättern gebacken wurde.",
   "chapterCropWeek.leaderboard.title": "Top-Köche",
@@ -8777,12 +8776,10 @@
   "description.pinkBeetle": "Ein seltener Käfer. Füttere ihn an ein beliebiges Tier für {{xp}} XP.",
   "description.amberBeetle": "Der seltenste Käfer. Füttere ihn an ein beliebiges Tier für {{xp}} XP.",
   "pigs.applyMud.title": "Schlamm auftragen",
-  "pigs.applyMud.description": "Schlamm gibt einem Schwein + {{percent}}% Futter-XP und verhindert, dass es für seine nächsten {{harvests}} Ernten krank wird. Jedes Schwein nimmt 10 Schlamm auf.",
   "pigs.applyMud.pigs": "Schweine: {{amount}}",
   "pigs.applyMud.notEnough": "Nicht genug Schlamm für alle {{total}} Schweine. Die ältesten Schweine kriegen ihn zuerst.",
   "pigs.applyMud.dontAskAgain": "Frag nicht noch einmal",
   "pigs.applyMud.confirm": "Schlamm auftragen",
-  "animals.guide.mud": "Benutze die Schlammtaste, um deine Schweine zu beschichten: 10 Schlamm pro Schwein geben + {{percent}}% Futter-XP und schützen es bei den nächsten Ernten vor Krankheiten.",
   "eventStore.tier.rare.requirements": "Kaufe 6 einzigartige Event-Gegenstände, um seltene Gegenstände freizuschalten.",
   "eventStore.tier.epic.requirements": "Kaufe 12 einzigartige Event-Gegenstände, um epische Gegenstände freizuschalten.",
   "eventStore.tier.mega.requirements": "Kaufe 16 einzigartige Event-Gegenstände, um Mega-Gegenstände freizuschalten.",
@@ -8985,5 +8982,8 @@
   "pet.breed.penguin": "Pinguin",
   "description.crystalCookieChampion": "Verliehen an die besten Köche der Crystal Cookie Chapter Crop Week. Ein goldener Keks für einen goldenen Koch!",
   "softBan.goblinDetection": "Weitere Funktionen freischalten",
-  "softBan.networkWarning": "Führen Sie eine schnelle Sicherheitsüberprüfung durch, um weitere Funktionen von Sunflower Land freizuschalten. Es trägt dazu bei, dass die Bumpkin-Wirtschaft sicher und fair für alle bleibt, und du kannst in der Zwischenzeit weiter farmen."
+  "softBan.networkWarning": "Führen Sie eine schnelle Sicherheitsüberprüfung durch, um weitere Funktionen von Sunflower Land freizuschalten. Es trägt dazu bei, dass die Bumpkin-Wirtschaft sicher und fair für alle bleibt, und du kannst in der Zwischenzeit weiter farmen.",
+  "description.mud": "Reichhaltiger, klebriger Schlamm. 25 Schlamm umhüllt ein Schwein, sorgt für zusätzliche Futter-XP und verhindert, dass es krank wird.",
+  "pigs.applyMud.description": "Schlamm gibt einem Schwein + {{percent}}% Futter-XP und verhindert, dass es krank wird, solange das Fell reicht. Jede Schicht bedeckt {{harvests}} Ernte (n) und nimmt 25 Schlamm auf.",
+  "animals.guide.mud": "Benutze die Schlammtaste, um deine Schweine zu beschichten: 25 Schlamm pro Schwein geben + {{percent}}% Futter-XP und schützen es vor Krankheiten, bis das Fell abgenutzt ist."
 }

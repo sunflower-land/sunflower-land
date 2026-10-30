@@ -8637,7 +8637,6 @@
   "description.cave": "Una caverna húmeda donde crecen hongos en la oscuridad.",
   "building.cave": "Cueva",
   "gameOptions.generalSettings.customCursor": "Cursor personalizado",
-  "description.mud": "Barro rico y pegajoso. 10 capas de barro cubren a un cerdo para obtener más puntos de experiencia y evitar que se enferme.",
   "description.crystalLeaf": "Una hoja reluciente de crecimiento lento que solo brota durante la Semana de la Cosecha Capitular.",
   "description.crystalCookie": "Una galleta espumosa horneada con hojas de cristal durante la Semana de la Cosecha Capitular.",
   "chapterCropWeek.leaderboard.title": "Los mejores cocineros",
@@ -8777,12 +8776,10 @@
   "description.pinkBeetle": "Un escarabajo raro. Dáselo de comer a cualquier animal para obtener {{xp}} XP.",
   "description.amberBeetle": "El escarabajo más raro. Dáselo de comer a cualquier animal para obtener {{xp}} XP.",
   "pigs.applyMud.title": "Aplica barro",
-  "pigs.applyMud.description": "El barro otorga a un cerdo + {{percent}}% de EXP para alimentarse y evita que se enferme durante sus próximas cosechas de {{harvests}}. Cada cerdo recibe 10 puntos de barro.",
   "pigs.applyMud.pigs": "Cerdos: {{amount}}",
   "pigs.applyMud.notEnough": "No hay suficiente barro para todos los cerdos {{total}}. Los cerdos más viejos lo obtienen primero.",
   "pigs.applyMud.dontAskAgain": "No vuelvas a preguntar",
   "pigs.applyMud.confirm": "Aplica barro",
-  "animals.guide.mud": "Usa el botón de barro para cubrir a tus cerdos: 10 de barro por cerdo otorgan + {{percent}}% de XP de alimentación y lo protegen de las enfermedades para sus próximas cosechas.",
   "eventStore.tier.rare.requirements": "Compra 6 objetos de evento únicos para desbloquear objetos raros.",
   "eventStore.tier.epic.requirements": "Compra 12 objetos de evento únicos para desbloquear objetos épicos.",
   "eventStore.tier.mega.requirements": "Compra 16 objetos de evento únicos para desbloquear megaobjetos.",
@@ -8985,5 +8982,8 @@
   "pet.breed.penguin": "Pingüino",
   "description.crystalCookieChampion": "Se otorga a los mejores cocineros de la Semana de la Cosecha del Capítulo Crystal Cookie. ¡Una galleta dorada para un chef excelente!",
   "softBan.goblinDetection": "Desbloquea más funciones",
-  "softBan.networkWarning": "Completa un rápido control de seguridad para desbloquear más funciones de Sunflower Land. Ayuda a mantener la economía de los Bumpkin segura y justa para todos, y mientras tanto, puedes seguir cultivando."
+  "softBan.networkWarning": "Completa un rápido control de seguridad para desbloquear más funciones de Sunflower Land. Ayuda a mantener la economía de los Bumpkin segura y justa para todos, y mientras tanto, puedes seguir cultivando.",
+  "description.mud": "Barro rico y pegajoso. 25 capas de barro cubren a un cerdo para obtener más puntos de experiencia y evitar que se enferme.",
+  "pigs.applyMud.description": "El barro le da a un cerdo + {{percent}}% de XP de alimentación y evita que se enferme mientras dure su pelaje. Cada capa cubre la (s) cosecha (s) de {{harvests}} y contiene 25 unidades de barro.",
+  "animals.guide.mud": "Usa el botón de barro para cubrir a tus cerdos: 25 de barro por cerdo dan + {{percent}}% de XP de alimentación y lo protegen de las enfermedades hasta que se desgasta el pelaje."
 }

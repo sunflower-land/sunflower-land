@@ -8637,7 +8637,6 @@
   "description.cave": "Сырая пещера, где грибы растут в темноте.",
   "building.cave": "Пещера",
   "gameOptions.generalSettings.customCursor": "Свой курсор",
-  "description.mud": "Густая липкая грязь. 10 ед. грязи покрывают свинью, дают дополнительный опыт за кормление и защищают её от болезней.",
   "description.crystalLeaf": "Мерцающий медленнорастущий лист, который появляется только во время Недели урожая главы.",
   "description.crystalCookie": "Искристое печенье из кристальных листьев, испечённое во время Недели урожая главы.",
   "chapterCropWeek.leaderboard.title": "Лучшие повара",
@@ -8777,12 +8776,10 @@
   "description.pinkBeetle": "Редкий жук. Скорми любому животному, чтобы получить {{xp}} XP.",
   "description.amberBeetle": "Самый редкий жук. Скорми любому животному, чтобы получить {{xp}} XP.",
   "pigs.applyMud.title": "Нанести грязь",
-  "pigs.applyMud.description": "Грязь даёт свинье +{{percent}}% опыта за кормление и защищает её от болезней на ближайшие сборы: {{harvests}}. На каждую свинью нужно 10 ед. грязи.",
   "pigs.applyMud.pigs": "Свиньи: {{amount}}",
   "pigs.applyMud.notEnough": "Грязи не хватает на всех свиней: {{total}}. Сначала её получат самые старые свиньи.",
   "pigs.applyMud.dontAskAgain": "Больше не спрашивать",
   "pigs.applyMud.confirm": "Нанести грязь",
-  "animals.guide.mud": "Нажми кнопку грязи, чтобы покрыть свиней: 10 ед. грязи на свинью дают +{{percent}}% опыта за кормление и защищают от болезней на несколько ближайших сборов.",
   "eventStore.tier.rare.requirements": "Купи 6 разных предметов события, чтобы открыть редкие предметы.",
   "eventStore.tier.epic.requirements": "Купи 12 разных предметов события, чтобы открыть эпические предметы.",
   "eventStore.tier.mega.requirements": "Купи 16 разных предметов события, чтобы открыть мега-предметы.",
@@ -8985,5 +8982,8 @@
   "pet.breed.penguin": "Penguin",
   "description.crystalCookieChampion": "Awarded to the top cooks of the Crystal Cookie Chapter Crop Week. A golden cookie for a golden chef!",
   "softBan.goblinDetection": "Unlock more features",
-  "softBan.networkWarning": "Complete a quick security check to unlock more Sunflower Land features. It helps keep the Bumpkin economy safe and fair for everyone, and you can keep farming in the meantime."
+  "softBan.networkWarning": "Complete a quick security check to unlock more Sunflower Land features. It helps keep the Bumpkin economy safe and fair for everyone, and you can keep farming in the meantime.",
+  "description.mud": "Rich, sticky mud. 25 Mud coats a Pig for extra feed XP and keeps it from falling sick.",
+  "pigs.applyMud.description": "Mud gives a Pig +{{percent}}% feed XP and keeps it from falling sick while the coat lasts. Each coat covers {{harvests}} harvest(s) and takes 25 Mud.",
+  "animals.guide.mud": "Use the Mud button to coat your Pigs: 25 Mud per Pig gives +{{percent}}% feed XP and protects it from sickness until the coat wears off."
 }

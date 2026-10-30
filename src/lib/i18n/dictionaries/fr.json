@@ -8637,7 +8637,6 @@
   "description.cave": "Une caverne humide où les champignons poussent dans le noir.",
   "building.cave": "Grotte",
   "gameOptions.generalSettings.customCursor": "Curseur personnalisé",
-  "description.mud": "Boue riche et collante. 10 couches de boue recouvrent un cochon pour lui apporter plus d'expérience alimentaire et l'empêcher de tomber malade.",
   "description.crystalLeaf": "Une feuille brillante à croissance lente qui ne pousse que pendant la Chapter Crop Week.",
   "description.crystalCookie": "Un biscuit pétillant cuit à partir de Crystal Leaves pendant la Chapter Crop Week.",
   "chapterCropWeek.leaderboard.title": "Les meilleurs cuisiniers",
@@ -8777,12 +8776,10 @@
   "description.pinkBeetle": "Un scarabée rare. Donnez-le à n'importe quel animal pour obtenir {{xp}} XP.",
   "description.amberBeetle": "Le scarabée le plus rare. Donnez-le à n'importe quel animal pour obtenir {{xp}} XP.",
   "pigs.applyMud.title": "Appliquez de la boue",
-  "pigs.applyMud.description": "La boue confère à un cochon + {{percent}} % d'EXP alimentaire et l'empêche de tomber malade lors de ses prochaines récoltes de {{harvests}}. Chaque cochon prend 10 boues.",
   "pigs.applyMud.pigs": "Porcs : {{amount}}",
   "pigs.applyMud.notEnough": "Pas assez de boue pour tous les porcs {{total}}. Les cochons les plus âgés l'attrapent en premier.",
   "pigs.applyMud.dontAskAgain": "Ne demandez pas à nouveau",
   "pigs.applyMud.confirm": "Appliquez de la boue",
-  "animals.guide.mud": "Utilisez le bouton Boue pour enduire vos cochons : 10 boues par cochon donnent + {{percent}} % d'EXP alimentaire et le protègent des maladies lors de ses prochaines récoltes.",
   "eventStore.tier.rare.requirements": "Achetez 6 objets d'événement uniques pour débloquer des objets rares.",
   "eventStore.tier.epic.requirements": "Achetez 12 objets d'événements uniques pour débloquer des objets épiques.",
   "eventStore.tier.mega.requirements": "Achetez 16 objets d'événement uniques pour débloquer de méga-objets.",
@@ -8985,5 +8982,8 @@
   "pet.breed.penguin": "Pingouin",
   "description.crystalCookieChampion": "Décerné aux meilleurs cuisiniers de la Crystal Cookie Chapter Crop Week. Un biscuit doré pour un chef en or !",
   "softBan.goblinDetection": "Débloquez plus de fonctionnalités",
-  "softBan.networkWarning": "Effectuez un rapide contrôle de sécurité pour débloquer davantage de fonctionnalités de Sunflower Land. Cela contribue à assurer la sécurité et l'équité de l'économie de Bumpkin pour tous, et vous pouvez continuer à cultiver en attendant."
+  "softBan.networkWarning": "Effectuez un rapide contrôle de sécurité pour débloquer davantage de fonctionnalités de Sunflower Land. Cela contribue à assurer la sécurité et l'équité de l'économie de Bumpkin pour tous, et vous pouvez continuer à cultiver en attendant.",
+  "description.mud": "Boue riche et collante. 25 De la boue recouvre un cochon pour lui donner plus d'expérience alimentaire et l'empêcher de tomber malade.",
+  "pigs.applyMud.description": "La boue confère à un cochon + {{percent}} % d'EXP alimentaire et l'empêche de tomber malade tant que le pelage dure. Chaque couche couvre {{harvests}} récolte (s) et absorbe 25 boues.",
+  "animals.guide.mud": "Utilisez le bouton Boue pour enduire vos cochons : 25 boues par cochon donnent + {{percent}} % d'EXP alimentaire et les protègent des maladies jusqu'à ce que le pelage disparaisse."
 }

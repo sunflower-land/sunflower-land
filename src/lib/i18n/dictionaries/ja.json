@@ -8637,7 +8637,6 @@
   "description.cave": "暗闇の中でキノコが生える湿気の多い洞窟。",
   "building.cave": "ケーブ",
   "gameOptions.generalSettings.customCursor": "カスタムカーソル",
-  "description.mud": "濃厚で粘り気のある泥。10個の泥で豚1匹を覆い、餌のXPを増やし、病気になるのを防ぎます。",
   "description.crystalLeaf": "チャプター・クロップ・ウィーク中にのみ発芽する、きらきら光る成長の遅い葉。",
   "description.crystalCookie": "チャプター・クロップ・ウィーク中にクリスタル・リーフを使って焼き上げたスパークリングクッキー。",
   "chapterCropWeek.leaderboard.title": "トップクック",
@@ -8777,12 +8776,10 @@
   "description.pinkBeetle": "珍しいカブトムシ。どんな動物にも {{xp}} XPでエサをあげよう。",
   "description.amberBeetle": "最も希少なカブトムシ。どんな動物にも {{xp}} XPでエサをあげよう。",
   "pigs.applyMud.title": "マッドを適用",
-  "pigs.applyMud.description": "泥は豚に+ {{percent}} %の飼料XPを与え、次の {{harvests}} 回の収穫で豚が病気にならないようにします。各ブタはマッドを10個取ります。",
   "pigs.applyMud.pigs": "ブタ:{{amount}}",
   "pigs.applyMud.notEnough": "すべての {{total}} 豚には泥が足りません。一番年上の豚が先に手に入る。",
   "pigs.applyMud.dontAskAgain": "二度と聞かないで",
   "pigs.applyMud.confirm": "マッドを適用",
-  "animals.guide.mud": "泥ボタンを使って豚をコーティングしよう。豚1匹につき泥を10個入れると、餌XPが+ {{percent}} %になり、次の数回の収穫で豚を病気から守ります。",
   "eventStore.tier.rare.requirements": "ユニークなイベントアイテムを6個購入すると、レアなアイテムがアンロックされます。",
   "eventStore.tier.epic.requirements": "12種類のユニークなイベントアイテムを購入して、エピックアイテムをアンロックしましょう。",
   "eventStore.tier.mega.requirements": "16種類のユニークなイベントアイテムを購入して、メガアイテムをアンロックしましょう。",
@@ -8985,5 +8982,8 @@
   "pet.breed.penguin": "ペンギン",
   "description.crystalCookieChampion": "クリスタルクッキーチャプタークロップウィークのトップクックに授与されます。ゴールデンシェフに贈るゴールデンクッキー！",
   "softBan.goblinDetection": "より多くの機能をアンロック",
-  "softBan.networkWarning": "簡単なセキュリティチェックを完了して、サンフラワーランドのその他の機能をアンロックしてください。バンプキン経済を誰にとっても安全で公平に保つのに役立ち、その間も農業を続けることができます。"
+  "softBan.networkWarning": "簡単なセキュリティチェックを完了して、サンフラワーランドのその他の機能をアンロックしてください。バンプキン経済を誰にとっても安全で公平に保つのに役立ち、その間も農業を続けることができます。",
+  "description.mud": "濃厚で粘り気のある泥。25個の泥が豚1匹を覆い、餌のXPを増やし、病気になるのを防ぎます。",
+  "pigs.applyMud.description": "泥は豚に+ {{percent}} %の餌XPを与え、コートが持続している間は豚が病気になるのを防ぎます。各コートは {{harvests}} 個の収穫をカバーし、25枚のマッドを消費します。",
+  "animals.guide.mud": "泥ボタンを使って豚をコーティングしましょう。豚1匹につき泥を25個与えると+ {{percent}} %のフィードXPが得られ、コートが剥がれるまで豚を病気から守ります。"
 }

@@ -8637,7 +8637,6 @@
   "description.cave": "Una caverna umida dove i funghi crescono al buio.",
   "building.cave": "grotta",
   "gameOptions.generalSettings.customCursor": "Cursore personalizzato",
-  "description.mud": "Fango ricco e appiccicoso. 10 Fango ricopre un maiale per aumentare i punti esperienza di alimentazione e impedirgli di ammalarsi.",
   "description.crystalLeaf": "Una foglia scintillante a crescita lenta che germoglia solo durante la Chapter Crop Week.",
   "description.crystalCookie": "Un biscotto frizzante cotto con foglie di cristallo durante la Chapter Crop Week.",
   "chapterCropWeek.leaderboard.title": "I migliori cuochi",
@@ -8777,12 +8776,10 @@
   "description.pinkBeetle": "Un raro scarabeo. Lo dia in pasto a qualsiasi animale per {{xp}} XP.",
   "description.amberBeetle": "Lo scarabeo più raro. Somministralo a qualsiasi animale per {{xp}} XP.",
   "pigs.applyMud.title": "Applica fango",
-  "pigs.applyMud.description": "Il fango dà a un maiale + {{percent}}% di esperienza di alimentazione e gli impedisce di ammalarsi per i prossimi {{harvests}} raccolti. Ogni maiale consuma 10 fango.",
   "pigs.applyMud.pigs": "Suini: {{amount}}",
   "pigs.applyMud.notEnough": "Fango insufficiente per tutti i {{total}} maiali. I maiali più anziani lo ottengono per primi.",
   "pigs.applyMud.dontAskAgain": "Non chiedere più",
   "pigs.applyMud.confirm": "Applica fango",
-  "animals.guide.mud": "Usa il pulsante Fango per rivestire i tuoi maiali: 10 fango per maiale danno + {{percent}}% di XP di mangime e li proteggono dalle malattie per i prossimi raccolti.",
   "eventStore.tier.rare.requirements": "Acquista 6 oggetti unici per l'evento per sbloccare oggetti rari.",
   "eventStore.tier.epic.requirements": "Acquista 12 oggetti evento unici per sbloccare oggetti epici.",
   "eventStore.tier.mega.requirements": "Acquista 16 oggetti unici per l'evento per sbloccare mega oggetti.",
@@ -8985,5 +8982,8 @@
   "pet.breed.penguin": "Pinguino",
   "description.crystalCookieChampion": "Assegnato ai migliori cuochi della Crystal Cookie Chapter Crop Week. Un biscotto dorato per uno chef d'oro!",
   "softBan.goblinDetection": "Sblocca altre funzionalità",
-  "softBan.networkWarning": "Completa un rapido controllo di sicurezza per sbloccare altre funzionalità di Sunflower Land. Aiuta a mantenere l'economia di Bumpkin sicura ed equa per tutti, e nel frattempo puoi continuare a coltivare."
+  "softBan.networkWarning": "Completa un rapido controllo di sicurezza per sbloccare altre funzionalità di Sunflower Land. Aiuta a mantenere l'economia di Bumpkin sicura ed equa per tutti, e nel frattempo puoi continuare a coltivare.",
+  "description.mud": "Fango ricco e appiccicoso. 25 Il fango ricopre un maiale per aumentare i punti esperienza di alimentazione e gli impedisce di ammalarsi.",
+  "pigs.applyMud.description": "Il fango dà a un maiale + {{percent}}% di esperienza di alimentazione e gli impedisce di ammalarsi finché dura il pelo. Ogni strato copre {{harvests}} raccolti e richiede 25 fango.",
+  "animals.guide.mud": "Usa il pulsante Fango per rivestire i tuoi maiali: 25 fango per maiale fornisce + {{percent}}% di XP di alimentazione e li protegge dalle malattie fino a quando il pelo non svanisce."
 }

@@ -8637,7 +8637,6 @@
   "description.cave": "Karanlıkta mantarların yetiştiği nemli bir mağara.",
   "building.cave": "Mağara",
   "gameOptions.generalSettings.customCursor": "Özel imleç",
-  "description.mud": "Zengin, yapışkan çamur. 10 Çamur, ekstra yem Deneyimi için bir Domuzu kaplar ve hastalanmasını önler.",
   "description.crystalLeaf": "Sadece Bölüm Mahsul Haftası sırasında filizlenen parıldayan, yavaş büyüyen bir yaprak.",
   "description.crystalCookie": "Bölüm Mahsul Haftasında Kristal Yapraklardan pişirilen köpüklü bir kurabiye.",
   "chapterCropWeek.leaderboard.title": "En İyi Aşçılar",
@@ -8777,12 +8776,10 @@
   "description.pinkBeetle": "Nadir bir böcek. {{xp}} XP karşılığında herhangi bir hayvana besleyin.",
   "description.amberBeetle": "En nadir böcek. {{xp}} XP karşılığında herhangi bir hayvana besleyin.",
   "pigs.applyMud.title": "Çamur Uygula",
-  "pigs.applyMud.description": "Çamur, bir Domuza +[ 0@/$] %yem DP'si verir ve bir sonraki {{harvests}} hasadı için hastalanmasını engeller. Her Domuz 10 Çamur alır.",
   "pigs.applyMud.pigs": "Domuzlar: {{amount}}",
   "pigs.applyMud.notEnough": "Tüm {{total}} Domuzlar için yeterli Çamur yok. En yaşlı domuzlar önce alır.",
   "pigs.applyMud.dontAskAgain": "Tekrar sorma",
   "pigs.applyMud.confirm": "Çamur Uygula",
-  "animals.guide.mud": "Domuzlarınızı kaplamak için Çamur düğmesini kullanın: Domuz başına 10 Çamur + {{percent}} %yem DP'si verir ve sonraki birkaç hasat için onu hastalıktan korur.",
   "eventStore.tier.rare.requirements": "Nadir eşyaların kilidini açmak için 6 benzersiz etkinlik öğesi satın alın.",
   "eventStore.tier.epic.requirements": "Destansı öğelerin kilidini açmak için 12 benzersiz etkinlik öğesi satın alın.",
   "eventStore.tier.mega.requirements": "Mega eşyaların kilidini açmak için 16 benzersiz etkinlik öğesi satın alın.",
@@ -8985,5 +8982,8 @@
   "pet.breed.penguin": "Penguen",
   "description.crystalCookieChampion": "Kristal Kurabiye Bölümü Mahsul Haftası'nın en iyi aşçılarına verildi. Altın bir şef için altın bir kurabiye!",
   "softBan.goblinDetection": "Daha fazla özelliğin kilidini açın",
-  "softBan.networkWarning": "Daha fazla Ayçiçeği Ülkesi özelliğinin kilidini açmak için hızlı bir güvenlik kontrolünü tamamlayın. Bumpkin ekonomisinin herkes için güvenli ve adil kalmasına yardımcı olur, ve bu arada çiftçiliğe devam edebilirsiniz."
+  "softBan.networkWarning": "Daha fazla Ayçiçeği Ülkesi özelliğinin kilidini açmak için hızlı bir güvenlik kontrolünü tamamlayın. Bumpkin ekonomisinin herkes için güvenli ve adil kalmasına yardımcı olur, ve bu arada çiftçiliğe devam edebilirsiniz.",
+  "description.mud": "Zengin, yapışkan çamur. 25 Çamur, ekstra yem Deneyimi için bir Domuzu kaplar ve hastalanmasını önler.",
+  "pigs.applyMud.description": "Çamur, bir Domuza + {{percent}} %yem DP'si verir ve ceket sürerken hastalanmasını engeller. Her kat {{harvests}} hasadı kaplar ve 25 Çamur alır.",
+  "animals.guide.mud": "Domuzlarınızı kaplamak için Çamur düğmesini kullanın: Domuz başına 25 Çamur + {{percent}} %yem DP'si verir ve tüyü yıpranana kadar hastalıktan korur."
 }

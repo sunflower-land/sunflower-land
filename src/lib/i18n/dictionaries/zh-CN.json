@@ -8637,7 +8637,6 @@
   "description.cave": "一个潮湿的洞穴，蘑菇在黑暗中生长。",
   "building.cave": "洞穴",
   "gameOptions.generalSettings.customCursor": "自定义光标",
-  "description.mud": "丰富、粘稠的泥浆。10 个泥可以覆盖一只小猪，以获得额外的饲料经验值并防止它生病。",
   "description.crystalLeaf": "一片闪闪发光、生长缓慢的树叶，只在 Chapter Crop Week 期间发芽。",
   "description.crystalCookie": "在 Chapter Crop Week 期间用水晶叶烤制的起泡饼干。",
   "chapterCropWeek.leaderboard.title": "顶级厨师",
@@ -8777,12 +8776,10 @@
   "description.pinkBeetle": "一种稀有的甲虫。将其喂给任何动物获得 {{xp}} 经验值。",
   "description.amberBeetle": "最稀有的甲虫。将其喂给任何动物获得 {{xp}} 经验值。",
   "pigs.applyMud.title": "涂上泥浆",
-  "pigs.applyMud.description": "泥浆为猪提供 + {{percent}}% 的饲料经验值，并防止它在下一次 {{harvests}} 收获时生病。每只猪需要 10 个泥巴。",
   "pigs.applyMud.pigs": "猪：{{amount}}",
   "pigs.applyMud.notEnough": "泥浆不足以容纳所有 {{total}} 猪。最古老的猪会先得到它。",
   "pigs.applyMud.dontAskAgain": "别再问了",
   "pigs.applyMud.confirm": "涂上泥浆",
-  "animals.guide.mud": "使用泥浆按钮为你的猪涂层：每头猪 10 个泥浆可获得 + {{percent}}% 的饲料经验值，并保护它在接下来的几次收获中免受疾病侵害。",
   "eventStore.tier.rare.requirements": "购买 6 件独特的活动物品来解锁稀有物品。",
   "eventStore.tier.epic.requirements": "购买 12 件独一无二的活动物品来解锁史诗物品。",
   "eventStore.tier.mega.requirements": "购买 16 个独特的活动物品来解锁巨型物品。",
@@ -8985,5 +8982,8 @@
   "pet.breed.penguin": "企鹅",
   "description.crystalCookieChampion": "颁发给 “水晶曲奇章节作物周” 的顶级厨师。送给金厨的金曲奇！",
   "softBan.goblinDetection": "解锁更多功能",
-  "softBan.networkWarning": "完成快速安全检查，解锁更多向日葵乐园功能。它有助于保持Bumpkin经济对所有人的安全和公平，同时你可以继续耕种。"
+  "softBan.networkWarning": "完成快速安全检查，解锁更多向日葵乐园功能。它有助于保持Bumpkin经济对所有人的安全和公平，同时你可以继续耕种。",
+  "description.mud": "丰富、粘稠的泥浆。25 块泥会覆盖一只小猪，以获得额外的饲料经验值并防止它生病。",
+  "pigs.applyMud.description": "泥浆会给小猪 + {{percent}}% 的饲料经验值，并防止它在外套持续使用期间生病。每件外套覆盖 [1@/美元] 的收获量，需要 25 个泥浆。",
+  "animals.guide.mud": "使用泥巴按钮为你的猪涂层：每头猪 25 个泥浆可提供 + {{percent}}% 的饲料经验值，并保护它免受疾病侵害，直到外套脱落。"
 }
