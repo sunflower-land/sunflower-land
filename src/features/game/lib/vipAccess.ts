@@ -58,8 +58,8 @@ export function getVipDailyBonusItem(level: number): InventoryItemName | null {
   return "Honey Cheddar";
 }
 
-const EXPANSION_VIP_DISCOUNT_FIXED = 500;
-const EXPANSION_VIP_DISCOUNT_PERCENT = 0.2;
+export const EXPANSION_VIP_DISCOUNT_FIXED = 500;
+export const EXPANSION_VIP_DISCOUNT_PERCENT = 0.2;
 
 /**
  * Expansion coin cost after VIP discount: 500 coins off or 20% off, whichever is bigger.
