@@ -58,6 +58,10 @@ function getChapterTrackChestRewards(
   now: number,
   weight: number,
 ): RewardBoxReward[] {
+  if (now >= CHAPTERS["Cave Dwellers"].startDate.getTime()) {
+    return [];
+  }
+
   const chapter = getCurrentChapter(now);
   const { startDate, endDate } = CHAPTERS[chapter];
   const nowDate = new Date(now);
@@ -181,7 +185,7 @@ export const LUXURY_REWARDS = (now: number): RewardBoxReward[] => [
   { items: { Sunstone: 3 }, weighting: 25 * CHEST_MULTIPLIER },
   { items: { "Prize Ticket": 1 }, weighting: 50 * CHEST_MULTIPLIER },
   ...getChapterMegastoreChestRewards(now, 1.9 * CHEST_MULTIPLIER),
-  ...getChapterLuxuryExclusiveRewards(now, 1.9 * CHEST_MULTIPLIER),
+  ...getChapterLuxuryExclusiveRewards(now, 5 * CHEST_MULTIPLIER),
 ];
 
 export const BUD_BOX_REWARDS: RewardBoxReward[] = [
