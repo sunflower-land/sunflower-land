@@ -54,11 +54,11 @@ const betaTimePeriodFeatureFlag =
   (game: GameState) =>
   (now: number) => {
     if (end === null) {
-      return betaFeatureFlag(game) || now > start.getTime();
+      return betaFeatureFlag(game) || now >= start.getTime();
     }
 
     return (
-      (betaFeatureFlag(game) || now > start.getTime()) && now < end.getTime()
+      (betaFeatureFlag(game) || now >= start.getTime()) && now < end.getTime()
     );
   };
 

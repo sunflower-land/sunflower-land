@@ -110,14 +110,14 @@ describe("hasTimeBasedFeatureAccess", () => {
       ).toBe(true);
     });
 
-    it("is false at the exact public start instant without beta", () => {
+    it("is true at the exact public start instant without beta", () => {
       expect(
         hasTimeBasedFeatureAccess({
           featureName: "HALLOWEEN_2026_EVENT_FLAG",
           now: new Date("2026-10-26T00:00:00Z").getTime(),
           game: TEST_FARM,
         }),
-      ).toBe(false);
+      ).toBe(true);
     });
 
     it("is true during the window after public start for players without beta", () => {
