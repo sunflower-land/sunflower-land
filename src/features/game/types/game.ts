@@ -89,6 +89,7 @@ import type {
 import type { FermentationProductName } from "./fermentationProducts";
 import type { SpiceRackProductName } from "./spiceRackProducts";
 import type { BeetleName } from "./beetles";
+import type { CaveTile } from "./cavePatch";
 import type { PickledCropName } from "./pickled";
 import { translate } from "lib/i18n/translate";
 import { capitalize } from "lib/utils/capitalize";
@@ -1943,7 +1944,7 @@ export type CaveBatch = {
    * `cave.batchStarted` returns.
    */
   seed?: string;
-  /** Dug tiles keyed "x,y"; what each held is derived from the seed. */
+  /** Dug tiles keyed "x,y", with what each held (see `CaveDugTile`). */
   dug?: Record<string, CaveDugTile>;
   /** The board-shaping Cave skills this batch started with. */
   skills?: CaveBatchSkills;
@@ -1963,7 +1964,13 @@ export type CaveBatchSkills = {
   beetleRarity?: Record<BeetleName, number>;
 };
 
-export type CaveDugTile = { dugAt: number };
+/**
+ * A dug tile. `tile` and `clue` are what the dig revealed, recorded because
+ * the undug part of the board is re-sampled on every dig (`revealCavePatch`).
+ * Tiles dug before boards were sampled have neither: they are read from the
+ * seed's board (`generateCavePatch`).
+ */
+export type CaveDugTile = { dugAt: number; tile?: CaveTile; clue?: number };
 
 /**
  * A Myco Bin machine inside the Cave. One is created with each tier; it
@@ -2666,8 +2673,10 @@ export interface GameState {
 
   ban: {
     /**
-     * `lock` is a support hold. It blocks play like `investigating` does, but
-     * verifying socials or a face does not lift it - only support can.
+     * `lock` is a support hold and `investigating` a soft ban. Neither stops
+     * play; both stop value leaving the account (withdrawals, trades,
+     * transfers). Verifying socials and a face lifts a soft ban; only support
+     * lifts a lock.
      */
     status: "investigating" | "permanent" | "ok" | "lock";
     isSocialVerified?: boolean;

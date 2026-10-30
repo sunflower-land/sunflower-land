@@ -137,6 +137,14 @@ export function caveTileKey(x: number, y: number): string {
   return `${x},${y}`;
 }
 
+/** The coordinates a `caveTileKey` names; undefined for a key off the patch. */
+export function parseCaveTileKey(
+  key: string,
+): { x: number; y: number } | undefined {
+  const [x, y] = key.split(",").map(Number);
+  return isCaveTileInPatch(x, y) ? { x, y } : undefined;
+}
+
 /** True for integer patch coordinates within the 5x5 grid. */
 export function isCaveTileInPatch(x: number, y: number): boolean {
   return (

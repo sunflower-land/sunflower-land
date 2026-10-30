@@ -13,6 +13,12 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { useNow } from "lib/utils/hooks/useNow";
 import { SoftBanSocialUnlink } from "./SoftBanSocialUnlink";
 
+/**
+ * The verification steps a soft banned player must complete before they can
+ * trade or withdraw again. A soft ban never stops play: this is shown in
+ * place of the blocked action (the bank's withdraw and transfer tabs and the
+ * marketplace actions), never on load.
+ */
 export const SoftBan: React.FC = () => {
   const { gameService, gameState } = useGame();
 
@@ -109,7 +115,7 @@ export const SoftBan: React.FC = () => {
 
   const { faceRecognition } = gameState.context.state;
 
-  // Since we are not in playing state, we use this to check if they have already begun.
+  // Keep showing the scanner across re-renders once a scan is under way.
   const hasBegun = faceRecognition?.session?.createdAt ?? 0;
   const hasScanned = faceRecognition?.history.some(
     (h) => h.createdAt > now - 60 * 1000,
@@ -161,7 +167,16 @@ const DiscordSoftBan: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const discordId = gameState.context.discordId;
 
   if (!discordId) {
-    return <DiscordBonus onClose={onClose} />;
+    // `DiscordBonus` only offers to connect; give the player a way back to
+    // the verification steps (and from there, back to the game).
+    return (
+      <>
+        <DiscordBonus onClose={onClose} />
+        <Button className="mt-1" onClick={onClose}>
+          {t("softBan.back")}
+        </Button>
+      </>
+    );
   }
 
   return (

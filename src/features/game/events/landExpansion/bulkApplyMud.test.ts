@@ -39,12 +39,12 @@ const bulk = (state: GameState) =>
   });
 
 describe("bulkApplyMud", () => {
-  it("muds every Pig without Mud, ten Mud each", () => {
-    const state = bulk(farm({ a: pig("a"), b: pig("b"), c: pig("c") }, 50));
+  it("muds every Pig without Mud, 25 Mud each", () => {
+    const state = bulk(farm({ a: pig("a"), b: pig("b"), c: pig("c") }, 80));
 
-    expect(state.inventory.Mud).toEqual(new Decimal(20));
+    expect(state.inventory.Mud).toEqual(new Decimal(5));
     ["a", "b", "c"].forEach((id) =>
-      expect(state.pigpen.animals[id].mud).toEqual({ harvestsRemaining: 3 }),
+      expect(state.pigpen.animals[id].mud).toEqual({ harvestsRemaining: 1 }),
     );
   });
 
@@ -60,10 +60,10 @@ describe("bulkApplyMud", () => {
       ),
     );
 
-    expect(state.inventory.Mud).toEqual(new Decimal(40));
+    expect(state.inventory.Mud).toEqual(new Decimal(25));
     expect(state.pigpen.animals.a.mud).toEqual({ harvestsRemaining: 1 });
     expect(state.pigpen.animals.b.mud).toBeUndefined();
-    expect(state.pigpen.animals.c.mud).toEqual({ harvestsRemaining: 3 });
+    expect(state.pigpen.animals.c.mud).toEqual({ harvestsRemaining: 1 });
   });
 
   it("muds as many Pigs as the Mud covers, oldest first", () => {
@@ -74,13 +74,13 @@ describe("bulkApplyMud", () => {
           a: pig("a", { createdAt: 1 }),
           b: pig("b", { createdAt: 2 }),
         },
-        29,
+        59,
       ),
     );
 
     expect(state.inventory.Mud).toEqual(new Decimal(9));
-    expect(state.pigpen.animals.a.mud).toEqual({ harvestsRemaining: 3 });
-    expect(state.pigpen.animals.b.mud).toEqual({ harvestsRemaining: 3 });
+    expect(state.pigpen.animals.a.mud).toEqual({ harvestsRemaining: 1 });
+    expect(state.pigpen.animals.b.mud).toEqual({ harvestsRemaining: 1 });
     expect(state.pigpen.animals.c.mud).toBeUndefined();
   });
 
@@ -94,13 +94,13 @@ describe("bulkApplyMud", () => {
           "10": pig("10", { createdAt: 100 }),
           a1b2c3d4: pig("a1b2c3d4", { createdAt: 200 }),
         },
-        29,
+        59,
       ),
     );
 
     expect(state.inventory.Mud).toEqual(new Decimal(9));
-    expect(state.pigpen.animals["10"].mud).toEqual({ harvestsRemaining: 3 });
-    expect(state.pigpen.animals.a1b2c3d4.mud).toEqual({ harvestsRemaining: 3 });
+    expect(state.pigpen.animals["10"].mud).toEqual({ harvestsRemaining: 1 });
+    expect(state.pigpen.animals.a1b2c3d4.mud).toEqual({ harvestsRemaining: 1 });
     expect(state.pigpen.animals["2"].mud).toBeUndefined();
   });
 
@@ -112,10 +112,13 @@ describe("bulkApplyMud", () => {
       c: pig("c", { createdAt: 2 }),
       d: pig("d", { createdAt: 3 }),
     };
-    const state = bulk({ ...farm(animals, 50), pigpen: { level: 1, animals } });
+    const state = bulk({
+      ...farm(animals, 110),
+      pigpen: { level: 1, animals },
+    });
 
     expect(state.inventory.Mud).toEqual(new Decimal(10));
-    expect(state.pigpen.animals.a.mud).toEqual({ harvestsRemaining: 3 });
+    expect(state.pigpen.animals.a.mud).toEqual({ harvestsRemaining: 1 });
   });
 
   it("skips an asleep Pig that needs love first", () => {
@@ -136,7 +139,7 @@ describe("bulkApplyMud", () => {
     );
 
     expect(state.pigpen.animals.a.mud).toBeUndefined();
-    expect(state.pigpen.animals.b.mud).toEqual({ harvestsRemaining: 3 });
+    expect(state.pigpen.animals.b.mud).toEqual({ harvestsRemaining: 1 });
   });
 
   it("throws when no Pig needs Mud", () => {
@@ -146,7 +149,7 @@ describe("bulkApplyMud", () => {
   });
 
   it("throws with less than one application of Mud", () => {
-    expect(() => bulk(farm({ a: pig("a") }, 9))).toThrow(
+    expect(() => bulk(farm({ a: pig("a") }, 24))).toThrow(
       APPLY_MUD_ERRORS.NOT_ENOUGH,
     );
   });

@@ -15272,6 +15272,17 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Warning Sign",
   },
+  "Crystal Cookie Champion": {
+    description:
+      "Awarded to the top cooks of the Crystal Cookie Chapter Crop Week. A golden cookie for a golden chef!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Crystal Cookie Champion",
+  },
   Betta: {
     description: "A fiery-finned fighter that glows in the dark cave waters.",
     decimals: 0,
@@ -18357,11 +18368,12 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     name: "Seaside Tank Top",
   },
   "Fish Trap": {
-    description: "An decorative trap for catching fish.",
+    description:
+      "A sturdy trap for catching fish. Fish age faster with one close by.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "SecondaryTool" },
-      { trait_type: "Tradable", value: "No" },
+      { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Fish Trap",

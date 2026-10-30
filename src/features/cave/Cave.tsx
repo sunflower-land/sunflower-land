@@ -3,16 +3,20 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { useSelector } from "@xstate/react";
 import { Navigate, useNavigate } from "react-router";
 import ScrollContainer from "react-indiana-drag-scroll";
+import { animated } from "@react-spring/web";
 
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
+import classNames from "classnames";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
+import { ZoomContext } from "components/ZoomProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasFeatureAccess } from "lib/flags";
 import { isCaveBuildingReady } from "features/game/lib/cave";
 import { isCavePatchCleared } from "features/game/types/caveRecipes";
+import { isCaveMachineIdle } from "features/game/lib/cave";
 import { useNow } from "lib/utils/hooks/useNow";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import {
@@ -102,7 +106,8 @@ const Sprite: React.FC<{ src: string; style?: React.CSSProperties }> = ({
  * stands in the alcove by the entrance from his tier; the ladder leaves.
  */
 export const Cave: React.FC = () => {
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
+  const { scale } = useContext(ZoomContext);
   const navigate = useNavigate();
   const { t } = useAppTranslation();
 
@@ -176,12 +181,18 @@ export const Cave: React.FC = () => {
         className="!overflow-scroll relative w-full h-full page-scroll-container overscroll-none"
         ignoreElements={"*[data-prevent-drag-scroll]"}
       >
-        <div
+        <animated.div
           className="absolute bg-[#181425]"
           style={{
             width: `${84 * GRID_WIDTH_PX}px`,
             height: `${64 * GRID_WIDTH_PX}px`,
             imageRendering: "pixelated",
+            // Pinch-to-zoom: same ZoomContext scale GameBoard applies on the
+            // farm and Interior applies at home. Origin is the gameboard
+            // centre, where the room sits, so zooming keeps the room centred
+            // rather than drifting.
+            transform: scale.to((s) => `scale(${s})`),
+            transformOrigin: "50% 50%",
           }}
         >
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -277,6 +288,23 @@ export const Cave: React.FC = () => {
                       onClick={() => setSelectedMachine(String(id))}
                     >
                       <Sprite src={getCaveMycoBinImage(batch, now)} />
+                      {/* Waiting for a mix: the same ! the Cave shows on the
+                      farm, above the bin's sign. */}
+                      {isCaveMachineIdle(cave.machines[String(id)] ?? {}) && (
+                        <img
+                          src={SUNNYSIDE.icons.expression_alerted}
+                          alt=""
+                          className={classNames(
+                            "absolute pointer-events-none z-20",
+                            { ready: showAnimations },
+                          )}
+                          style={{
+                            width: `${PIXEL_SCALE * 4}px`,
+                            left: `calc(50% - ${PIXEL_SCALE * 2}px)`,
+                            top: `${PIXEL_SCALE * -12}px`,
+                          }}
+                        />
+                      )}
                       {id === 1 &&
                         guiding === "start-batch" &&
                         !selectedMachine && <CaveTutorialHand />}
@@ -362,7 +390,7 @@ export const Cave: React.FC = () => {
               )}
             </div>
           </div>
-        </div>
+        </animated.div>
       </ScrollContainer>
 
       {showExpansion && (

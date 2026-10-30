@@ -8,7 +8,7 @@ import {
 } from "features/game/lib/animals";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { hasFeatureAccess } from "lib/flags";
-import { getAnimalHarvests } from "./applyAnimalFeedBuff";
+import { getMudHarvests } from "./applyAnimalFeedBuff";
 import { isAnimalNeedingLove } from "./loveAnimal";
 
 export enum APPLY_MUD_ERRORS {
@@ -93,8 +93,8 @@ export function applyMud({
     copy.inventory.Mud = (copy.inventory.Mud as Decimal).minus(
       MUD_PER_APPLICATION,
     );
-    // As many charges as a treat: 3, or 6 with a placed Vibraphone.
-    const { harvests, boostsUsed } = getAnimalHarvests(copy);
+    // A daily coat: 1 claim, or 2 with a placed Vibraphone.
+    const { harvests, boostsUsed } = getMudHarvests(copy);
     pig.mud = { harvestsRemaining: harvests };
 
     copy.boostsUsedAt = updateBoostUsed({

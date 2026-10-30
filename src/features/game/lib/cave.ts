@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import type {
   BoostName,
   CaveBatchSkills,
+  CaveMachine,
   GameState,
   InventoryItemName,
 } from "features/game/types/game";
@@ -9,6 +10,7 @@ import {
   CAVE_BATCH_DURATION_MS,
   CAVE_FIRST_BATCH_DURATION_MS,
   getCaveBatchIngredients,
+  isCavePatchCleared,
   type CaveRecipeName,
 } from "features/game/types/caveRecipes";
 import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
@@ -27,6 +29,19 @@ export function isCaveBuildingReady(
   return (game.buildings.Cave ?? []).some(
     (building) => (building.readyAt ?? 0) <= now && !!building.coordinates,
   );
+}
+
+/**
+ * Whether a Myco Bin is waiting for a mix: it has never run a batch, or its
+ * last patch has been dug out. A growing or ready-to-dig batch is not idle.
+ */
+export function isCaveMachineIdle(machine: CaveMachine): boolean {
+  return !machine.batch || isCavePatchCleared(machine.batch);
+}
+
+/** Whether any Myco Bin in the Cave is waiting for a mix. */
+export function hasIdleCaveMachine(cave: GameState["cave"]): boolean {
+  return !!cave && Object.values(cave.machines).some(isCaveMachineIdle);
 }
 
 type BoostsUsed = { name: BoostName; value: string }[];
