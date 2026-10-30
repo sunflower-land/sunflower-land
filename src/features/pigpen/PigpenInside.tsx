@@ -457,7 +457,7 @@ export const PigpenInside: React.FC = () => {
                           id={animal.id}
                           disabled={selecting || showSellPanel}
                         />
-{isPendingSale && (
+                        {isPendingSale && (
                           <PendingSaleTag
                             dealId={pendingDealIdByAnimal[animal.id] ?? ""}
                           />

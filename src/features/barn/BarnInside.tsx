@@ -397,7 +397,7 @@ export const BarnInside: React.FC = () => {
                           id={animal.id}
                           disabled={!!deal || showSellPanel}
                         />
-{isPendingSale && (
+                        {isPendingSale && (
                           <PendingSaleTag
                             dealId={pendingDealIdByAnimal[animal.id] ?? ""}
                           />

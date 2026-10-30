@@ -415,7 +415,7 @@ export const HenHouseInside: React.FC = () => {
                           disabled={!!deal || showSellPanel}
                           id={animal.id}
                         />
-{isPendingSale && (
+                        {isPendingSale && (
                           <PendingSaleTag
                             dealId={pendingDealIdByAnimal[animal.id] ?? ""}
                           />
