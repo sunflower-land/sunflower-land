@@ -43,6 +43,15 @@ export function isCaveMachineIdle(machine: CaveMachine): boolean {
   return !machine.batch || isCavePatchCleared(machine.batch);
 }
 
+/**
+ * Whether a Myco Bin's patch is ready to dig: its batch has finished growing
+ * and the patch is not dug out yet.
+ */
+export function isCaveMachineReady(machine: CaveMachine, now: number): boolean {
+  const { batch } = machine;
+  return !!batch && batch.readyAt <= now && !isCavePatchCleared(batch);
+}
+
 /** Whether any Myco Bin in the Cave is waiting for a mix. */
 export function hasIdleCaveMachine(cave: GameState["cave"]): boolean {
   return !!cave && Object.values(cave.machines).some(isCaveMachineIdle);

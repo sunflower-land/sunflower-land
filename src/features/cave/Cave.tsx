@@ -16,7 +16,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 import { isCaveBuildingReady } from "features/game/lib/cave";
 import { isCavePatchCleared } from "features/game/types/caveRecipes";
-import { isCaveMachineIdle } from "features/game/lib/cave";
+import { isCaveMachineIdle, isCaveMachineReady } from "features/game/lib/cave";
 import { useNow } from "lib/utils/hooks/useNow";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import {
@@ -293,9 +293,13 @@ export const Cave: React.FC = () => {
                       onClick={() => setSelectedMachine(String(id))}
                     >
                       <Sprite src={getCaveMycoBinImage(batch, now)} />
-                      {/* Waiting for a mix: the same ! the Cave shows on the
-                      farm, above the bin's sign. */}
-                      {isCaveMachineIdle(cave.machines[String(id)] ?? {}) && (
+                      {/* Waiting for a mix, or its patch is ready to dig: the
+                      same ! the Cave shows on the farm, above the bin's sign. */}
+                      {(isCaveMachineIdle(cave.machines[String(id)] ?? {}) ||
+                        isCaveMachineReady(
+                          cave.machines[String(id)] ?? {},
+                          now,
+                        )) && (
                         <img
                           src={SUNNYSIDE.icons.expression_alerted}
                           alt=""
