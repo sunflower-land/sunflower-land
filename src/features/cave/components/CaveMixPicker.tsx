@@ -118,7 +118,7 @@ export const CaveMixPicker: React.FC<Props> = ({
   // What a new batch would bury and cost, with the player's Cave skills.
   const buriedCounts = getCavePatchComposition(
     recipe,
-    getCaveBatchSkills(game).skills,
+    getCaveBatchSkills(game, recipe).skills,
   );
 
   const { mudYieldMultiplier } = CAVE_RECIPES[recipe];
@@ -205,7 +205,9 @@ export const CaveMixPicker: React.FC<Props> = ({
           </Label>
         )}
         <CaveBuriedTiles counts={buriedCounts} />
-        <CaveBeetleOdds odds={getCaveBatchSkills(game).skills?.beetleRarity} />
+        <CaveBeetleOdds
+          odds={getCaveBatchSkills(game, recipe).skills?.beetleRarity}
+        />
       </InnerPanel>
 
       {recipe === "Mud" && (
