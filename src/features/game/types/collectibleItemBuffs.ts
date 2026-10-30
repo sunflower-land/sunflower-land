@@ -2468,6 +2468,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
+    {
+      shortDescription: translate("description.grinxsHammer.warning"),
+      labelType: "danger",
+      boostTypeIcon: SUNNYSIDE.icons.cancel,
+    },
   ],
   "Straw House": () => [
     {
@@ -2528,6 +2533,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: lightning,
       boostedItemIcon: SUNNYSIDE.ui.coins,
     },
+    {
+      shortDescription: translate("description.grinxsHammer.warning"),
+      labelType: "danger",
+      boostTypeIcon: SUNNYSIDE.icons.cancel,
+    },
   ],
   "Stick House": () => [
     {
@@ -2540,6 +2550,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       shortDescription: translate("description.stickHouse.boost.2"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+    {
+      shortDescription: translate("description.grinxsHammer.warning"),
+      labelType: "danger",
+      boostTypeIcon: SUNNYSIDE.icons.cancel,
     },
   ],
   "Mushroom Chicken": () => [
