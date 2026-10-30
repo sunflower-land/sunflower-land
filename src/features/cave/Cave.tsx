@@ -56,6 +56,7 @@ import {
   type CaveTutorialSeen,
 } from "./lib/onboarding";
 import { PlayerModal } from "features/social/PlayerModal";
+import { hasFeatureAccess } from "lib/flags";
 import { Discovery } from "features/social/Discovery";
 import { Context as AuthContext } from "features/auth/lib/Provider";
 import type { AuthMachineState } from "features/auth/lib/authMachine";
