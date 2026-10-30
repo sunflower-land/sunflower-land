@@ -2,14 +2,14 @@ import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import type { GameState } from "features/game/types/game";
 import { hasTimeBasedFeatureAccess } from "lib/flags";
-import { isCaveBuildingReady } from "features/game/lib/cave";
+import { getCaveDigAllGems, isCaveBuildingReady } from "features/game/lib/cave";
+import { makeGemHistory } from "features/game/lib/getInstantGems";
 import {
   CAVE_DIG_SHOVEL_COST,
   CAVE_PATCH_WIDTH,
   caveTileKey,
 } from "features/game/types/caveRecipes";
 import {
-  getUndugCaveTiles,
   isCaveSeed,
   recordCaveDig,
   resolveCaveTile,
@@ -37,9 +37,9 @@ export enum DIG_ALL_CAVE_TILES_ERRORS {
   NO_BATCH = "That Myco Bin has no batch",
   NOT_READY = "That patch is not ready to dig",
   NO_SEED = "That patch has no board yet",
-  NOT_ALL_FOUND = "Find every Mushroom and Beetle before digging them all",
   ALREADY_DUG = "Every tile has already been dug",
   NO_SHOVEL = "Missing Sand Shovels",
+  INSUFFICIENT_GEMS = "Insufficient Gems",
 }
 
 /** The patch tiles not dug yet, in row order. */
@@ -56,11 +56,11 @@ export function getUndugCaveTileCoords(
 }
 
 /**
- * Dig every tile left in a Cave patch, one Sand Shovel each, once every
- * Mushroom and Beetle has been found. What is left is then all Mud, so the
- * board the dig draws (`revealCavePatch`) is the only one that fits and each
- * tile awards and records exactly what a `cave.dug` of it would. Sturdy Shovel
- * rolls for every tile, as it would digging them one by one.
+ * Dig every tile left in a Cave patch for Gems (`getCaveDigAllGems`) and one
+ * Sand Shovel per tile. One board is drawn for the whole dig
+ * (`revealCavePatch`, keyed on the first undug tile) and each tile awards and
+ * records what that board holds, as `cave.dug` would. Sturdy Shovel rolls for
+ * every tile, as it would digging them one by one.
  */
 export function digAllCaveTiles({
   state,
@@ -107,16 +107,18 @@ export function digAllCaveTiles({
       throw new Error(DIG_ALL_CAVE_TILES_ERRORS.ALREADY_DUG);
     }
 
-    const buried = getUndugCaveTiles(batch);
-    if (buried.Mushroom > 0 || buried.Beetle > 0) {
-      throw new Error(DIG_ALL_CAVE_TILES_ERRORS.NOT_ALL_FOUND);
-    }
-
     // Enough shovels for every tile, whatever Sturdy Shovel keeps.
     const shovels = game.inventory["Sand Shovel"] ?? new Decimal(0);
     if (shovels.lt(new Decimal(CAVE_DIG_SHOVEL_COST).mul(undug.length))) {
       throw new Error(DIG_ALL_CAVE_TILES_ERRORS.NO_SHOVEL);
     }
+
+    const gems = getCaveDigAllGems({ batch, game, now: createdAt });
+    if (!game.inventory.Gem?.gte(gems)) {
+      throw new Error(DIG_ALL_CAVE_TILES_ERRORS.INSUFFICIENT_GEMS);
+    }
+    game.inventory.Gem = game.inventory.Gem.sub(gems);
+    makeGemHistory({ game, amount: gems, createdAt });
 
     const layout = revealCavePatch({
       batch,

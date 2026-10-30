@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import type {
   BoostName,
+  CaveBatch,
   CaveBatchSkills,
   CaveMachine,
   GameState,
@@ -12,8 +13,11 @@ import {
   getCaveBatchIngredients,
   isCavePatchCleared,
   type CaveRecipeName,
+  type CaveTileType,
 } from "features/game/types/caveRecipes";
 import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
+import { getUndugCaveTiles } from "features/game/types/cavePatch";
+import { applyDailyGemMultiplier } from "./getInstantGems";
 import { getObjectEntries } from "lib/object";
 
 /**
@@ -159,4 +163,38 @@ export function getCaveBatchSkills(game: GameState): {
     skills: boostsUsed.length > 0 ? skills : undefined,
     boostsUsed,
   };
+}
+
+/**
+ * Base Gems a Dig All costs for each tile still buried, by what it holds:
+ * skipping a buried Beetle or Mushroom costs more than clearing Mud.
+ */
+export const CAVE_DIG_ALL_GEMS_PER_TILE: Record<CaveTileType, number> = {
+  Beetle: 3,
+  Mushroom: 2,
+  Mud: 1,
+};
+
+/**
+ * Gems to dig every tile still buried in a patch: the per-tile price of what
+ * is left (`CAVE_DIG_ALL_GEMS_PER_TILE`), scaled by the Gems spent today like
+ * any other instant purchase.
+ */
+export function getCaveDigAllGems({
+  batch,
+  game,
+  now,
+}: {
+  batch: CaveBatch;
+  game: GameState;
+  now: number;
+}): number {
+  const undug = getUndugCaveTiles(batch);
+  const base = getObjectEntries(undug).reduce(
+    (total, [type, count]) =>
+      total.add(new Decimal(CAVE_DIG_ALL_GEMS_PER_TILE[type]).mul(count)),
+    new Decimal(0),
+  );
+
+  return applyDailyGemMultiplier({ gems: base, now, game });
 }

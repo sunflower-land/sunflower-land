@@ -1,6 +1,9 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useSelector } from "@xstate/react";
 
 import { Context } from "features/game/GameProvider";
+import type { MachineState } from "features/game/lib/gameMachine";
+import { getCaveDigAllGems } from "features/game/lib/cave";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import type { CaveBatch } from "features/game/types/game";
 import {
@@ -19,7 +22,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { CAVE_PATCH_SIZE } from "features/game/expansion/placeable/lib/caveLayout";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
-import { Button } from "components/ui/Button";
+import { ConfirmButton } from "components/ui/ConfirmButton";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { getCaveBatchPercentage } from "features/cave/lib/caveBatchProgress";
 import { getKeys } from "lib/object";
@@ -47,6 +50,9 @@ interface Props {
 // 2x2 for the drill (served from public/world).
 const SHOVEL_SELECT = "world/shovel_select_new.webp";
 const DRILL_SELECT = "world/drill_select_new.webp";
+
+const _gems = (state: MachineState) =>
+  state.context.state.inventory.Gem?.toNumber() ?? 0;
 
 const DugTile: React.FC<{ tile: ResolvedCaveTile }> = ({ tile }) => {
   const item = getKeys(tile.items)[0];
@@ -177,15 +183,16 @@ export const CavePatch: React.FC<Props> = ({
   const mushroomsTotal = composition?.Mushroom ?? 0;
   const mushroomsFound = found.Mushroom;
   const hasShovel = shovels > 0;
-  // Once every Mushroom and Beetle is found the rest is Mud: dig it in one go.
+  // Dig All: every tile left for Gems (priced by what is still buried) and a
+  // Sand Shovel per tile.
   const undugCount =
     CAVE_PATCH_SIZE ** 2 - Object.keys(batch?.dug ?? {}).length;
-  const canDigAll =
-    hasBoard &&
-    !cleared &&
-    !!beetles &&
-    beetles.found >= beetles.total &&
-    mushroomsFound >= mushroomsTotal;
+  const gems = useSelector(gameService, _gems);
+  const digAllGems = useSelector(gameService, (state: MachineState) =>
+    batch ? getCaveDigAllGems({ batch, game: state.context.state, now }) : 0,
+  );
+  const canDigAll = hasBoard && !cleared;
+  const canAffordDigAll = shovels >= undugCount && gems >= digAllGems;
 
   const drilling = ready && selectedItem === "Sand Drill";
   // Where the hover box sits: the 2x2 square's top-left for the drill, the
@@ -384,22 +391,39 @@ export const CavePatch: React.FC<Props> = ({
             </Label>
           )}
           {ready && canDigAll && (
-            <Button
-              className="pointer-events-auto w-auto mt-1"
-              disabled={shovels < undugCount}
-              onClick={() => {
-                setHovered(undefined);
-                gameService.send({ type: "cave.dugAll", machineId });
-              }}
-            >
-              <div className="flex items-center gap-1">
-                <img
-                  src={ITEM_DETAILS["Sand Shovel"].image}
-                  style={{ width: `${PIXEL_SCALE * 7}px` }}
-                />
-                {t("cave.dig.digAll", { amount: undugCount })}
-              </div>
-            </Button>
+            <div className="pointer-events-auto mt-1">
+              <ConfirmButton
+                className="w-auto whitespace-nowrap"
+                disabled={!canAffordDigAll}
+                onConfirm={() => {
+                  setHovered(undefined);
+                  gameService.send({ type: "cave.dugAll", machineId });
+                }}
+                confirmLabel={
+                  <div className="flex items-center gap-1">
+                    {t("confirm")}
+                    <img
+                      src={ITEM_DETAILS.Gem.image}
+                      style={{ width: `${PIXEL_SCALE * 7}px` }}
+                    />
+                    {digAllGems}
+                  </div>
+                }
+              >
+                <div className="flex items-center gap-1">
+                  <img
+                    src={ITEM_DETAILS["Sand Shovel"].image}
+                    style={{ width: `${PIXEL_SCALE * 7}px` }}
+                  />
+                  {t("cave.dig.digAll", { amount: undugCount })}
+                  <img
+                    src={ITEM_DETAILS.Gem.image}
+                    style={{ width: `${PIXEL_SCALE * 7}px` }}
+                  />
+                  {digAllGems}
+                </div>
+              </ConfirmButton>
+            </div>
           )}
         </div>
       )}
