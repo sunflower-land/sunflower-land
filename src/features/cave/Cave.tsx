@@ -7,6 +7,7 @@ import { animated } from "@react-spring/web";
 
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
+import classNames from "classnames";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
@@ -15,6 +16,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasFeatureAccess } from "lib/flags";
 import { isCaveBuildingReady } from "features/game/lib/cave";
 import { isCavePatchCleared } from "features/game/types/caveRecipes";
+import { isCaveMachineIdle } from "features/game/lib/cave";
 import { useNow } from "lib/utils/hooks/useNow";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import {
@@ -104,7 +106,7 @@ const Sprite: React.FC<{ src: string; style?: React.CSSProperties }> = ({
  * stands in the alcove by the entrance from his tier; the ladder leaves.
  */
 export const Cave: React.FC = () => {
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const { scale } = useContext(ZoomContext);
   const navigate = useNavigate();
   const { t } = useAppTranslation();
@@ -286,6 +288,23 @@ export const Cave: React.FC = () => {
                       onClick={() => setSelectedMachine(String(id))}
                     >
                       <Sprite src={getCaveMycoBinImage(batch, now)} />
+                      {/* Waiting for a mix: the same ! the Cave shows on the
+                      farm, above the bin's sign. */}
+                      {isCaveMachineIdle(cave.machines[String(id)] ?? {}) && (
+                        <img
+                          src={SUNNYSIDE.icons.expression_alerted}
+                          alt=""
+                          className={classNames(
+                            "absolute pointer-events-none z-20",
+                            { ready: showAnimations },
+                          )}
+                          style={{
+                            width: `${PIXEL_SCALE * 4}px`,
+                            left: `calc(50% - ${PIXEL_SCALE * 2}px)`,
+                            top: `${PIXEL_SCALE * -12}px`,
+                          }}
+                        />
+                      )}
                       {id === 1 &&
                         guiding === "start-batch" &&
                         !selectedMachine && <CaveTutorialHand />}
