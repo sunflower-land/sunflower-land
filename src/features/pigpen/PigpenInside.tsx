@@ -41,6 +41,7 @@ import { ANIMAL_HOUSE_BOUNDS } from "features/game/expansion/placeable/lib/colli
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { PlayerModal } from "features/social/PlayerModal";
 import { hasFeatureAccess } from "lib/flags";
+import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { canTradeInPig, getPigBristles } from "features/game/lib/animals";
@@ -98,7 +99,10 @@ export const PigpenInside: React.FC = () => {
   const game = useSelector(gameService, _game);
   const island = useSelector(gameService, _island);
   const level = pigpen.level;
-  const hasPigpenAccess = hasFeatureAccess(game, "PIGPEN");
+  const hasPigpenAccess = useTimeBasedFeatureAccess({
+    featureName: "PIGPEN",
+    game,
+  });
   // Either selection mode dims the room and makes the Pigs pickable.
   const selecting = !!deal || tradeInMode;
 

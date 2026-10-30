@@ -14,7 +14,7 @@ import type {
   Skills,
 } from "features/game/types/game";
 import { getCookingTime } from "features/game/expansion/lib/boosts";
-import { hasFeatureAccess } from "lib/flags";
+import { hasFeatureAccess, hasTimeBasedFeatureAccess } from "lib/flags";
 import {
   computeReadyAt,
   getCookingBoostWindows,
@@ -286,7 +286,14 @@ export function cook({
     }
 
     // Truffle recipes ride on the Pigs' flag: Truffle only exists behind it
-    if (isTruffleRecipe(item) && !hasFeatureAccess(state, "PIGPEN")) {
+    if (
+      isTruffleRecipe(item) &&
+      !hasTimeBasedFeatureAccess({
+        featureName: "PIGPEN",
+        game: state,
+        now: createdAt,
+      })
+    ) {
       throw new Error("Truffle recipes are not available yet");
     }
 

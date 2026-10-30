@@ -13,7 +13,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { ZoomContext } from "components/ZoomProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { hasFeatureAccess } from "lib/flags";
+import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 import { isCaveBuildingReady } from "features/game/lib/cave";
 import { isCavePatchCleared } from "features/game/types/caveRecipes";
 import { isCaveMachineIdle } from "features/game/lib/cave";
@@ -58,8 +58,7 @@ import {
 
 const _cave = (state: MachineState) => state.context.state.cave;
 const _buildings = (state: MachineState) => state.context.state.buildings;
-const _hasCaveAccess = (state: MachineState) =>
-  hasFeatureAccess(state.context.state, "CAVE");
+const _state = (state: MachineState) => state.context.state;
 const _shovels = (state: MachineState) =>
   state.context.state.inventory["Sand Shovel"]?.toNumber() ?? 0;
 const _drills = (state: MachineState) =>
@@ -113,7 +112,11 @@ export const Cave: React.FC = () => {
 
   const cave = useSelector(gameService, _cave);
   const buildings = useSelector(gameService, _buildings);
-  const hasCaveAccess = useSelector(gameService, _hasCaveAccess);
+  const state = useSelector(gameService, _state);
+  const hasCaveAccess = useTimeBasedFeatureAccess({
+    featureName: "CAVE",
+    game: state,
+  });
   const shovels = useSelector(gameService, _shovels);
   const drills = useSelector(gameService, _drills);
   const now = useNow({ live: true });

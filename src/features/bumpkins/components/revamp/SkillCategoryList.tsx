@@ -29,6 +29,8 @@ import {
 } from "features/game/events/landExpansion/resetSkills";
 import { SkillReset } from "./SkillReset";
 import { getAvailableRevampSkills } from "features/game/lib/skillAccess";
+import { useNow } from "lib/utils/hooks/useNow";
+import { TIME_BASED_FEATURE_FLAG_WINDOWS } from "lib/flags";
 import fruits from "assets/fruit/fruits.png";
 import Decimal from "decimal.js-light";
 export const SKILL_TREE_ICONS: Record<BumpkinRevampSkillTree, string> = {
@@ -56,6 +58,12 @@ export const SkillCategoryList: React.FC<{
 
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
+  // Pig and Cave skills open to everyone at the Chapter 16 launch.
+  const now = useNow({
+    live: true,
+    autoEndAt: TIME_BASED_FEATURE_FLAG_WINDOWS.CAVE.start.getTime(),
+    intervalMs: 60 * 1000,
+  });
   const [showSkillsResetModal, setShowSkillsResetModal] = useState(false);
   const [showSkillsResetConfirmation, setShowSkillsResetConfirmation] =
     useState(false);
@@ -140,7 +148,8 @@ export const SkillCategoryList: React.FC<{
           const categories = getRevampSkillTreeCategoriesByIsland(
             islandType,
           ).filter(
-            (category) => getAvailableRevampSkills(category, state).length > 0,
+            (category) =>
+              getAvailableRevampSkills(category, state, now).length > 0,
           );
           if (categories.length <= 0) return;
 
@@ -166,7 +175,7 @@ export const SkillCategoryList: React.FC<{
               </div>
               <div className="grid grid-cols-2 gap-1">
                 {categories.map((category) => {
-                  const skills = getAvailableRevampSkills(category, state);
+                  const skills = getAvailableRevampSkills(category, state, now);
                   const icon = SKILL_TREE_ICONS[skills[0].tree];
                   const skillsAcquiredInCategoryCount = getKeys({
                     ...bumpkin?.skills,

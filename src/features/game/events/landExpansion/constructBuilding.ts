@@ -10,7 +10,10 @@ import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandE
 import { produce } from "immer";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { getObjectEntries } from "lib/object";
-import { hasFeatureAccess, type FeatureName } from "lib/flags";
+import {
+  hasTimeBasedFeatureAccess,
+  type TimeBasedFeatureName,
+} from "lib/flags";
 import { isAnimalBuildingType } from "../../types/animals";
 import { makeAnimalBuilding, makeAnimalBuildingKey } from "../../lib/animals";
 import { getKeys } from "lib/object";
@@ -29,7 +32,9 @@ export enum CONSTRUCT_BUILDING_ERRORS {
  * shop list in `Buildings.tsx` only hides the button - it does not stop a
  * hand-crafted autosave payload from constructing one.
  */
-const BUILDING_FEATURE_FLAGS: Partial<Record<BuildingName, FeatureName>> = {
+const BUILDING_FEATURE_FLAGS: Partial<
+  Record<BuildingName, TimeBasedFeatureName>
+> = {
   Pigpen: "PIGPEN",
   Cave: "CAVE",
 };
@@ -66,7 +71,14 @@ export function constructBuilding({
     }
 
     const requiredFeature = BUILDING_FEATURE_FLAGS[action.name];
-    if (requiredFeature && !hasFeatureAccess(stateCopy, requiredFeature)) {
+    if (
+      requiredFeature &&
+      !hasTimeBasedFeatureAccess({
+        featureName: requiredFeature,
+        game: stateCopy,
+        now: createdAt,
+      })
+    ) {
       throw new Error(CONSTRUCT_BUILDING_ERRORS.NO_FEATURE_ACCESS);
     }
 

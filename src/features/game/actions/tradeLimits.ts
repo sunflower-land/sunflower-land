@@ -53,7 +53,7 @@ export type TradeResource = Extract<
 /**
  * Chapter 16's tradable resources. They are in TRADE_LIMITS like any other
  * resource, but the marketplace only treats them as active for farms with the
- * CAVE_DWELLERS_TRADING flag (see `isTradeResourceAvailable`; the API gates
+ * CAVE_DWELLERS_TRADING flag (see the marketplace `Collection`; the API gates
  * in `tradeableIsActive`). Mud stays non-tradable.
  * TODO(Cave Dwellers): drop the flag gate at launch; the entries stay.
  */
