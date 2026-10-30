@@ -953,6 +953,11 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       boostTypeIcon: lightning,
       boostedItemIcon: ITEM_DETAILS.Obsidian.image,
     },
+    {
+      shortDescription: translate("description.grinxsHammer.warning"),
+      labelType: "danger",
+      boostTypeIcon: SUNNYSIDE.icons.cancel,
+    },
   ],
   "Firefly Aura": [
     {
