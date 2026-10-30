@@ -386,8 +386,11 @@ export const PigpenInside: React.FC = () => {
                     const isPendingSale = saleSelection.pendingAnimalIds.has(
                       animal.id.toString(),
                     );
+                    // A Pig marked for a bulk sale can't also be traded in.
                     const isTradeable =
-                      tradeInMode && canTradeInPig({ pig: animal, game, now });
+                      tradeInMode &&
+                      !isPendingSale &&
+                      canTradeInPig({ pig: animal, game, now });
                     // An animal already marked for another bounty can't be picked again.
                     const isValid = deal
                       ? !isPendingSale && isValidDeal({ animal, deal, game })
