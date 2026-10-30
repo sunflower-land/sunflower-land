@@ -409,7 +409,11 @@ export const PigpenInside: React.FC = () => {
                 </div>
               </MapPlacement>
 
-              {!deal && !showSellPanel && (
+              {/* Both selection modes hide the room controls, as the Barn's
+                  bounty mode does - a trade-in pick must not open the shop,
+                  start a sale, upgrade or leave mid-pick. (Feed All and
+                  Apply Mud stay, like the Barn's Feed All.) */}
+              {!selecting && !showSellPanel && (
                 <>
                   <button
                     type="button"
