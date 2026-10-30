@@ -40,6 +40,7 @@ interface Props {
   now: number;
   hasShovel: boolean;
   hasDrill: boolean;
+  onDig: () => void;
   /** The tile the Cave tutorial points at for the first dig. */
   tutorialTile?: { x: number; y: number };
 }
@@ -97,6 +98,7 @@ export const CavePatch: React.FC<Props> = ({
   now,
   hasShovel,
   hasDrill,
+  onDig,
   tutorialTile,
 }) => {
   const { gameService, selectedItem, shortcutItem } = useContext(Context);
@@ -125,6 +127,16 @@ export const CavePatch: React.FC<Props> = ({
       gameService.send({ type: "cave.drilled", machineId, coords });
     }
     const after = gameService.getSnapshot().context.state;
+    const previousDug = before.cave?.machines[machineId]?.batch?.dug;
+    const currentDug = after.cave?.machines[machineId]?.batch?.dug;
+    if (
+      coords.some(({ x, y }) => {
+        const key = caveTileKey(x, y);
+        return !previousDug?.[key] && !!currentDug?.[key];
+      })
+    ) {
+      onDig();
+    }
     const feedback = getCaveDigFeedback({
       before,
       after,
