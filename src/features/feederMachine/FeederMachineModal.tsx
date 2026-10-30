@@ -1,5 +1,8 @@
 import { useSelector } from "@xstate/react";
-import { ANIMAL_FEED_BUFF_ITEMS } from "features/game/events/landExpansion/applyAnimalFeedBuff";
+import {
+  ANIMAL_FEED_BUFF_ITEMS,
+  isAnimalFeedBuffItem,
+} from "features/game/events/landExpansion/applyAnimalFeedBuff";
 import { useNow } from "lib/utils/hooks/useNow";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { Modal } from "components/ui/Modal";
@@ -49,6 +52,8 @@ import {
 } from "features/game/types/pigFeeds";
 import { formatNumber } from "lib/utils/formatNumber";
 import { BulkMixModal } from "./BulkMixModal";
+import { BEETLES, type BeetleName } from "features/game/types/beetles";
+import { hasFeatureAccess } from "lib/flags";
 import { PigFeedMixer } from "./PigFeedMixer";
 
 interface Props {
@@ -57,6 +62,8 @@ interface Props {
   building: AnimalBuildingType;
 }
 
+type FeederQuickItem = AnimalFeedBuffName | BeetleName | "Mud";
+
 type BulkMixItem = AnimalFoodName | AnimalMedicineName;
 
 const FOOD_TYPE_TERMS = {
@@ -64,7 +71,7 @@ const FOOD_TYPE_TERMS = {
   medicine: "feeder.foodTypes.medicine",
 } as const;
 
-type Tab = "food" | "automaticMixer";
+type Tab = "food" | "care" | "automaticMixer";
 
 /**
  * The feeds a building's Feeder mixes: the Pigpen mixes the Pig Slops plus the
@@ -90,17 +97,26 @@ export const FeederMachineModal: React.FC<Props> = ({
   // open (recomputing is cheap) - and only while it is open, since this
   // component's body runs even when hidden.
   const now = useNow({ live: show, intervalMs: 1000 });
-  const [selectedName, setSelectedName] = useState<
-    AnimalFoodName | AnimalMedicineName
-  >(building === "Pigpen" ? "Basic Slop" : "Hay");
+  const [tab, setTab] = useState<Tab>("food");
+  const [selectedRecipes, setSelectedRecipes] = useState<
+    Record<"food" | "care", BulkMixItem>
+  >({
+    food: building === "Pigpen" ? "Basic Slop" : "Hay",
+    care: "Barn Delight",
+  });
+  const selectedName = selectedRecipes[tab === "care" ? "care" : "food"];
   // The input the player picked for each Slop; unset means the best option.
   const [pigFeedInputs, setPigFeedInputs] = useState<
     Partial<Record<PigFeedName, InventoryItemName>>
   >({});
-  const [selectedSpice, setSelectedSpice] =
-    useState<AnimalFeedBuffName>("Honey Treat");
-  const [isSpiceSelected, setIsSpiceSelected] = useState(false);
-  const [tab, setTab] = useState<Tab>("food");
+  const [storedQuickItem, setSelectedQuickItem] = useState<FeederQuickItem>();
+  const selectedQuickItem =
+    tab === "care" &&
+    storedQuickItem &&
+    (!isAnimalFeedBuffItem(storedQuickItem) ||
+      state.inventory[storedQuickItem]?.gt(0))
+      ? storedQuickItem
+      : undefined;
   const [showMixInfo, setShowMixInfo] = useState(false);
   const [showBulkMixModal, setShowBulkMixModal] = useState(false);
   // The Slop whose input picker is open in the Bulk Mixer.
@@ -128,10 +144,7 @@ export const FeederMachineModal: React.FC<Props> = ({
     state.inventory[item]?.gt(0),
   );
   const hasSpices = spices.length > 0;
-  const selectedSpiceItem = spices.includes(selectedSpice)
-    ? selectedSpice
-    : undefined;
-  const showSpiceDetails = isSpiceSelected && hasSpices && !!selectedSpiceItem;
+  const beetles = hasFeatureAccess(state, "BEETLE_FEEDING") ? BEETLES : [];
   const { requests, feeds, animalsWaiting, freeFeedBoosts } =
     getBulkMixRequirements(state, building, now, pigFeedInputs);
 
@@ -160,7 +173,11 @@ export const FeederMachineModal: React.FC<Props> = ({
   };
 
   const groupedItems = getKeys(ANIMAL_FOODS)
-    .filter((item) => isBuildingFeed(building, item))
+    .filter(
+      (item) =>
+        isBuildingFeed(building, item) &&
+        ANIMAL_FOODS[item].type === (tab === "care" ? "medicine" : "food"),
+    )
     .reduce(
       (acc, item) => {
         const type = ANIMAL_FOODS[item].type;
@@ -174,15 +191,17 @@ export const FeederMachineModal: React.FC<Props> = ({
     );
 
   const onSelect = (item: AnimalFoodName | AnimalMedicineName) => {
-    setSelectedName(item);
-    setIsSpiceSelected(false);
+    setSelectedRecipes((prev) => ({
+      ...prev,
+      [tab === "care" ? "care" : "food"]: item,
+    }));
+    setSelectedQuickItem(undefined);
     setCustomMixAmount(new Decimal(0));
     shortcutItem(item);
   };
 
-  const onSelectSpice = (item: AnimalFeedBuffName) => {
-    setSelectedSpice(item);
-    setIsSpiceSelected(true);
+  const onSelectQuickItem = (item: FeederQuickItem) => {
+    setSelectedQuickItem(item);
     shortcutItem(item);
   };
 
@@ -365,6 +384,11 @@ export const FeederMachineModal: React.FC<Props> = ({
               name: t("feeder.foodTypes.food"),
             },
             {
+              id: "care",
+              icon: ITEM_DETAILS["Honey Treat"].image,
+              name: t("feeder.care"),
+            },
+            {
               id: "automaticMixer",
               icon: ITEM_DETAILS["Mixed Grain"].image,
               name: t("feeder.bulkMixer"),
@@ -376,18 +400,11 @@ export const FeederMachineModal: React.FC<Props> = ({
           {tab === "food" && building === "Pigpen" && (
             <PigFeedMixer
               state={state}
-              selected={
-                isPigFeed(selectedName) || selectedName === "Barn Delight"
-                  ? selectedName
-                  : "Basic Slop"
-              }
+              selected={isPigFeed(selectedName) ? selectedName : "Basic Slop"}
               ingredient={ingredient ?? pigFeedOptions[0]}
               ingredients={ingredients}
               maxMixAmount={maxMixAmount}
-              spices={spices}
-              selectedSpice={showSpiceDetails ? selectedSpiceItem : undefined}
               onSelect={onSelect}
-              onSelectSpice={onSelectSpice}
               onSelectIngredient={(item) =>
                 isPigFeed(selectedName) &&
                 setPigFeedInputs((prev) => ({
@@ -399,13 +416,13 @@ export const FeederMachineModal: React.FC<Props> = ({
               onMixInBulk={() => setShowBulkMixModal(true)}
             />
           )}
-          {tab === "food" && building !== "Pigpen" && (
+          {(tab === "care" || (tab === "food" && building !== "Pigpen")) && (
             <SplitScreenView
               panel={
-                showSpiceDetails ? (
+                selectedQuickItem ? (
                   <InventoryItemDetails
                     game={state}
-                    details={{ item: selectedSpiceItem as InventoryItemName }}
+                    details={{ item: selectedQuickItem }}
                   />
                 ) : (
                   <CraftingRequirements
@@ -456,17 +473,25 @@ export const FeederMachineModal: React.FC<Props> = ({
                           <Box
                             key={item.name}
                             isSelected={
-                              !isSpiceSelected && selectedName === item.name
+                              !selectedQuickItem && selectedName === item.name
                             }
                             onClick={() => onSelect(item.name)}
                             image={ITEM_DETAILS[item.name].image}
                             count={state.inventory[item.name]}
                           />
                         ))}
+                        {type === "medicine" && building === "Pigpen" && (
+                          <Box
+                            isSelected={selectedQuickItem === "Mud"}
+                            onClick={() => onSelectQuickItem("Mud")}
+                            image={ITEM_DETAILS.Mud.image}
+                            count={state.inventory.Mud}
+                          />
+                        )}
                       </div>
                     </div>
                   ))}
-                  {hasSpices && (
+                  {tab === "care" && hasSpices && (
                     <div className="flex flex-col">
                       <Label
                         type="default"
@@ -479,10 +504,26 @@ export const FeederMachineModal: React.FC<Props> = ({
                         {spices.map((item) => (
                           <Box
                             key={item}
-                            isSelected={
-                              isSpiceSelected && selectedSpiceItem === item
-                            }
-                            onClick={() => onSelectSpice(item)}
+                            isSelected={selectedQuickItem === item}
+                            onClick={() => onSelectQuickItem(item)}
+                            image={ITEM_DETAILS[item].image}
+                            count={state.inventory[item]}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {tab === "care" && beetles.length > 0 && (
+                    <div className="flex flex-col">
+                      <Label type="default" className="mb-1">
+                        {t("feeder.beetles")}
+                      </Label>
+                      <div className="flex flex-wrap mb-2">
+                        {beetles.map((item) => (
+                          <Box
+                            key={item}
+                            isSelected={selectedQuickItem === item}
+                            onClick={() => onSelectQuickItem(item)}
                             image={ITEM_DETAILS[item].image}
                             count={state.inventory[item]}
                           />

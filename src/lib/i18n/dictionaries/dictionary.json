@@ -5380,6 +5380,8 @@
   "animal.notEnoughFood": "Not enough food available",
   "feeder.foodTypes.food": "Food",
   "feeder.foodTypes.medicine": "Medicine",
+  "feeder.care": "Care",
+  "feeder.beetles": "Beetles",
   "animal.noMedicine": "No medicine available",
   "animals.feedAll": "Feed all animals",
   "pigs.applyMud": "Apply Mud to every Pig that needs it",
