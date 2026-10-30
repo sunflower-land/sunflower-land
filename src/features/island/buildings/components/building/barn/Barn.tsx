@@ -20,6 +20,24 @@ import { isAnimalCoveredByGoldenAsset } from "features/game/events/landExpansion
 import classNames from "classnames";
 import { saveIslandScrollPosition } from "features/game/expansion/lib/islandScroll";
 
+/** Barn levels for each season from an ascension biome's ground art. */
+const ascensionBarns = (
+  biome: keyof typeof SUNNYSIDE.ascensionGround,
+): Record<TemperateSeasonName, Record<number, string>> => {
+  const ground = SUNNYSIDE.ascensionGround[biome];
+  const levels = (season: TemperateSeasonName) => ({
+    1: ground[season].barn_1,
+    2: ground[season].barn_2,
+    3: ground[season].barn_3,
+  });
+  return {
+    spring: levels("spring"),
+    summer: levels("summer"),
+    autumn: levels("autumn"),
+    winter: levels("winter"),
+  };
+};
+
 export const BARN_IMAGES: Record<
   LandBiomeName,
   Record<TemperateSeasonName, Record<number, string>>
@@ -112,117 +130,11 @@ export const BARN_IMAGES: Record<
       3: SUNNYSIDE.seasons.winter.volcanoBarn_3,
     },
   },
-  "Swamp Biome": {
-    spring: {
-      1: SUNNYSIDE.seasons.spring.barn_1,
-      2: SUNNYSIDE.seasons.spring.barn_2,
-      3: SUNNYSIDE.seasons.spring.barn_3,
-    },
-    summer: {
-      1: SUNNYSIDE.building.barnLevel1,
-      2: SUNNYSIDE.building.barnLevel2,
-      3: SUNNYSIDE.building.barnLevel3,
-    },
-    autumn: {
-      1: SUNNYSIDE.seasons.autumn.barn_1,
-      2: SUNNYSIDE.seasons.autumn.barn_2,
-      3: SUNNYSIDE.seasons.autumn.barn_3,
-    },
-    winter: {
-      1: SUNNYSIDE.seasons.winter.barn_1,
-      2: SUNNYSIDE.seasons.winter.barn_2,
-      3: SUNNYSIDE.seasons.winter.barn_3,
-    },
-  },
-  // Ascension biomes (spooky onward) reuse the swamp art for now.
-  "Spooky Biome": {
-    spring: {
-      1: SUNNYSIDE.seasons.spring.barn_1,
-      2: SUNNYSIDE.seasons.spring.barn_2,
-      3: SUNNYSIDE.seasons.spring.barn_3,
-    },
-    summer: {
-      1: SUNNYSIDE.building.barnLevel1,
-      2: SUNNYSIDE.building.barnLevel2,
-      3: SUNNYSIDE.building.barnLevel3,
-    },
-    autumn: {
-      1: SUNNYSIDE.seasons.autumn.barn_1,
-      2: SUNNYSIDE.seasons.autumn.barn_2,
-      3: SUNNYSIDE.seasons.autumn.barn_3,
-    },
-    winter: {
-      1: SUNNYSIDE.seasons.winter.barn_1,
-      2: SUNNYSIDE.seasons.winter.barn_2,
-      3: SUNNYSIDE.seasons.winter.barn_3,
-    },
-  },
-  "Crystal Biome": {
-    spring: {
-      1: SUNNYSIDE.seasons.spring.barn_1,
-      2: SUNNYSIDE.seasons.spring.barn_2,
-      3: SUNNYSIDE.seasons.spring.barn_3,
-    },
-    summer: {
-      1: SUNNYSIDE.building.barnLevel1,
-      2: SUNNYSIDE.building.barnLevel2,
-      3: SUNNYSIDE.building.barnLevel3,
-    },
-    autumn: {
-      1: SUNNYSIDE.seasons.autumn.barn_1,
-      2: SUNNYSIDE.seasons.autumn.barn_2,
-      3: SUNNYSIDE.seasons.autumn.barn_3,
-    },
-    winter: {
-      1: SUNNYSIDE.seasons.winter.barn_1,
-      2: SUNNYSIDE.seasons.winter.barn_2,
-      3: SUNNYSIDE.seasons.winter.barn_3,
-    },
-  },
-  "Galaxy Biome": {
-    spring: {
-      1: SUNNYSIDE.seasons.spring.barn_1,
-      2: SUNNYSIDE.seasons.spring.barn_2,
-      3: SUNNYSIDE.seasons.spring.barn_3,
-    },
-    summer: {
-      1: SUNNYSIDE.building.barnLevel1,
-      2: SUNNYSIDE.building.barnLevel2,
-      3: SUNNYSIDE.building.barnLevel3,
-    },
-    autumn: {
-      1: SUNNYSIDE.seasons.autumn.barn_1,
-      2: SUNNYSIDE.seasons.autumn.barn_2,
-      3: SUNNYSIDE.seasons.autumn.barn_3,
-    },
-    winter: {
-      1: SUNNYSIDE.seasons.winter.barn_1,
-      2: SUNNYSIDE.seasons.winter.barn_2,
-      3: SUNNYSIDE.seasons.winter.barn_3,
-    },
-  },
-  "Marble Age Biome": {
-    spring: {
-      1: SUNNYSIDE.seasons.spring.barn_1,
-      2: SUNNYSIDE.seasons.spring.barn_2,
-      3: SUNNYSIDE.seasons.spring.barn_3,
-    },
-    summer: {
-      1: SUNNYSIDE.building.barnLevel1,
-      2: SUNNYSIDE.building.barnLevel2,
-      3: SUNNYSIDE.building.barnLevel3,
-    },
-    autumn: {
-      1: SUNNYSIDE.seasons.autumn.barn_1,
-      2: SUNNYSIDE.seasons.autumn.barn_2,
-      3: SUNNYSIDE.seasons.autumn.barn_3,
-    },
-    winter: {
-      1: SUNNYSIDE.seasons.winter.barn_1,
-      2: SUNNYSIDE.seasons.winter.barn_2,
-      3: SUNNYSIDE.seasons.winter.barn_3,
-    },
-  },
+  "Swamp Biome": ascensionBarns("swamp"),
+  "Spooky Biome": ascensionBarns("spooky"),
+  "Crystal Biome": ascensionBarns("crystal"),
+  "Galaxy Biome": ascensionBarns("galaxy"),
+  "Marble Age Biome": ascensionBarns("marble"),
 };
 
 const _hasHungryAnimals = (state: MachineState) => {
