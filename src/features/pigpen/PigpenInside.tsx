@@ -40,6 +40,7 @@ import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { ANIMAL_HOUSE_BOUNDS } from "features/game/expansion/placeable/lib/collisionDetection";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { PlayerModal } from "features/social/PlayerModal";
+import { Discovery } from "features/social/Discovery";
 import { hasFeatureAccess } from "lib/flags";
 import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 import { Label } from "components/ui/Label";
@@ -566,6 +567,7 @@ export const PigpenInside: React.FC = () => {
         token={token}
         hasAirdropAccess={hasAirdropAccess}
       />
+      <Discovery />
     </>
   );
 };

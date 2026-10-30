@@ -28,6 +28,7 @@ import { PetNFT } from "features/island/pets/PetNFT";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { PetHouseModal } from "features/island/buildings/components/building/petHouse/PetHouseModal";
 import { PlayerModal } from "features/social/PlayerModal";
+import { Discovery } from "features/social/Discovery";
 import { hasFeatureAccess } from "lib/flags";
 import { useLandscapingGridBackgroundImage } from "features/island/landscaping/LandscapingGrid";
 import {
@@ -389,6 +390,7 @@ export const PetHouseInside: React.FC = () => {
         token={token}
         hasAirdropAccess={hasAirdropAccess}
       />
+      <Discovery />
     </>
   );
 };

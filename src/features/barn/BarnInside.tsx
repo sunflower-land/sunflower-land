@@ -37,6 +37,7 @@ import { ANIMAL_HOUSE_BOUNDS } from "features/game/expansion/placeable/lib/colli
 import type { LandBiomeName } from "features/island/biomes/biomes";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { PlayerModal } from "features/social/PlayerModal";
+import { Discovery } from "features/social/Discovery";
 import { hasFeatureAccess } from "lib/flags";
 import { Context as AuthContext } from "features/auth/lib/Provider";
 import type { AuthMachineState } from "features/auth/lib/authMachine";
@@ -489,6 +490,7 @@ export const BarnInside: React.FC = () => {
         token={token}
         hasAirdropAccess={hasAirdropAccess}
       />
+      <Discovery />
     </>
   );
 };
