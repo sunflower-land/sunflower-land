@@ -54,10 +54,12 @@ export const ANIMAL_BUILDING_KEYS: AnimalBuildingKey[] =
   ANIMAL_BUILDING_TYPES.map(makeAnimalBuildingKey);
 
 /**
- * Mud spent per application (#7721 Balance Update). Its charges work exactly
- * like a spice-rack treat's (`getAnimalHarvests`, spent in `claimProduce`).
+ * Mud spent per application (beta uptake rebalance, 2026-10-30: 10 -> 25).
+ * With one charge per coat (`getMudHarvests`) a pig upkeeps 25 Mud a day, so
+ * one Myco Bin on the Mud recipe (80/day) sustains three pigs — cave tiers
+ * and pen levels stay in lockstep. Charges are spent in `claimProduce`.
  */
-export const MUD_PER_APPLICATION = 10;
+export const MUD_PER_APPLICATION = 25;
 /**
  * Final feeding-XP multiplier for a muddy Pig (#7721: +25% final XP). The
  * result can be fractional (10 -> 12.5); handleFoodXP keeps it exact.
