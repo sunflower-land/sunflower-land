@@ -70,7 +70,7 @@ export const CaveDigAll: React.FC<Props> = ({
           onDug?.();
         }}
       >
-        {t("cave.dig.digAll", { amount: tiles })}
+        {t("cave.dig.digAll")}
       </ConfirmButton>
     </InnerPanel>
   );

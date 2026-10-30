@@ -4088,7 +4088,7 @@
   "cave.dig.mushroomsFound": "Mushrooms found: {{found}}/{{total}}",
   "cave.dig.allMushroomsFound": "All Mushrooms found!",
   "cave.dig.cleared": "Patch cleared",
-  "cave.dig.digAll": "Dig all ({{amount}})",
+  "cave.dig.digAll": "Dig all",
   "cave.dig.digAllDescription": "Dig up every tile left at once. Buried Beetles and Mushrooms cost Gems, Mud is free.",
   "cave.expand.title": "Expand the Cave",
   "cave.expand.description": "Dig out room for Myco Bin {{tier}} and its patch.",
