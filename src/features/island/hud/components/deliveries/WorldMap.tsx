@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 
 import worldMap from "assets/map/world_map.png";
+import halloween2026WorldMap from "assets/map/halloween_2026_world_map.png";
 
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -15,9 +16,22 @@ import {
 import { Label } from "components/ui/Label";
 import { isMobile } from "mobile-device-detect";
 import { useSelector } from "@xstate/react";
+import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 import { hasPlazaAccess } from "features/island/delivery/lib/onboarding";
+import { isAsciiText } from "lib/utils/textSupport";
 
 const showDebugBorders = false;
+
+const MapLabel: React.FC<{ children: string }> = ({ children }) => (
+  <span
+    className="map-text text-xxs sm:text-sm"
+    style={{
+      fontFamily: isAsciiText(children) ? undefined : "var(--font-family)",
+    }}
+  >
+    {children}
+  </span>
+);
 
 export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { gameService } = useContext(Context);
@@ -42,6 +56,10 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const plazaAccess = hasPlazaAccess(state);
   const hasFaction = state.faction;
   const canTeleportToFactionHouse = hasLevel(7) && hasFaction;
+  const isHalloween2026EventActive = useTimeBasedFeatureAccess({
+    featureName: "HALLOWEEN_2026_EVENT_FLAG",
+    game: state,
+  });
 
   const getFactionHouseRoute = () => {
     switch (hasFaction?.name) {
@@ -60,7 +78,10 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   return (
     <OuterPanel className="w-full relative shadow-xl">
-      <img src={worldMap} className="w-full" />
+      <img
+        src={isHalloween2026EventActive ? halloween2026WorldMap : worldMap}
+        className="w-full"
+      />
 
       {!plazaAccess && (
         <Label
@@ -124,9 +145,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </Label>
           )
         ) : (
-          <span className="map-text text-xxs sm:text-sm">
-            {t("world.infernos")}
-          </span>
+          <MapLabel>{t("world.infernos")}</MapLabel>
         )}
       </div>
       <div
@@ -162,7 +181,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           onClose();
         }}
       >
-        <span className="map-text text-xxs sm:text-sm">{t("world.home")}</span>
+        <MapLabel>{t("world.home")}</MapLabel>
       </div>
 
       <div
@@ -207,9 +226,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </Label>
           )
         ) : (
-          <span className="map-text text-xxs sm:text-sm">
-            {t("world.plaza")}
-          </span>
+          <MapLabel>{t("world.plaza")}</MapLabel>
         )}
       </div>
 
@@ -255,9 +272,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </Label>
           )
         ) : (
-          <span className="map-text text-xxs sm:text-sm">
-            {t("world.kingdom")}
-          </span>
+          <MapLabel>{t("world.kingdom")}</MapLabel>
         )}
       </div>
 
@@ -303,9 +318,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             />
           )
         ) : (
-          <span className="map-text text-xxs sm:text-sm">
-            {t("world.faction")}
-          </span>
+          <MapLabel>{t("world.faction")}</MapLabel>
         )}
       </div>
 
@@ -353,9 +366,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </Label>
           )
         ) : (
-          <span className="map-text text-xxs sm:text-sm">
-            {t("world.beach")}
-          </span>
+          <MapLabel>{t("world.beach")}</MapLabel>
         )}
       </div>
 
@@ -404,9 +415,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </Label>
           )
         ) : (
-          <span className="map-text text-xxs sm:text-sm">
-            {t("world.digging")}
-          </span>
+          <MapLabel>{t("world.digging")}</MapLabel>
         )}
       </div>
 
@@ -452,11 +461,56 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </Label>
           )
         ) : (
-          <span className="map-text text-xxs sm:text-sm">
-            {t("world.retreat")}
-          </span>
+          <MapLabel>{t("world.retreat")}</MapLabel>
         )}
       </div>
+      {isHalloween2026EventActive && (
+        <div
+          style={{
+            width: "35%",
+            height: "14%",
+            border: showDebugBorders ? "2px solid red" : "",
+            position: "absolute",
+            right: "30%",
+            bottom: "3%",
+          }}
+          className={`flex justify-center items-center ${
+            hasLevel(2) ? "cursor-pointer" : "cursor-not-allowed"
+          }`}
+          onClick={() => {
+            if (!hasLevel(2)) return;
+            travel.play();
+            navigate("/world/halloween_island_2026");
+            onClose();
+          }}
+        >
+          {!hasLevel(2) ? (
+            isMobile ? (
+              <img
+                src={SUNNYSIDE.icons.lock}
+                className="h-4 sm:h-6 ml-1 img-highlight"
+                onClick={() => {
+                  setShowPopup(true);
+                  setReqLvl(2);
+                  setTimeout(() => {
+                    setShowPopup(false);
+                  }, 1300);
+                }}
+              />
+            ) : (
+              <Label
+                type="default"
+                icon={SUNNYSIDE.icons.lock}
+                className="text-sm"
+              >
+                {t("world.lvl.requirement", { lvl: 2 })}
+              </Label>
+            )
+          ) : (
+            <MapLabel>{"Halloween Event"}</MapLabel>
+          )}
+        </div>
+      )}
 
       {showPopup && (
         <Label

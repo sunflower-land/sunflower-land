@@ -47,6 +47,14 @@ export const PET_NFT_REVEAL_CONFIG: PetNFTRevealConfig[] = [
     withdrawAt: new Date("2026-11-30T00:00:00.000Z"),
   },
 
+  {
+    revealAt: new Date("2027-01-12T00:00:00.000Z"),
+    startId: 2001,
+    endId: 2250,
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00.000Z"),
+  },
+
   // Reserved Eggs - Crabs and Traps
   {
     revealAt: new Date("2025-11-12T00:00:00.000Z"),

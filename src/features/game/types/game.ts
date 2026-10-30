@@ -89,6 +89,7 @@ import type {
 import type { FermentationProductName } from "./fermentationProducts";
 import type { SpiceRackProductName } from "./spiceRackProducts";
 import type { BeetleName } from "./beetles";
+import type { CaveTile } from "./cavePatch";
 import type { PickledCropName } from "./pickled";
 import { translate } from "lib/i18n/translate";
 import { capitalize } from "lib/utils/capitalize";
@@ -355,6 +356,8 @@ export type Coupons =
   | "April Fools Ticket 2026"
   | "Colors Token 2026"
   | "Colors Ticket 2026"
+  | "Halloween Token 2026"
+  | "Halloween Ticket 2026"
   | "Cheer"
   | "CluckCoin"
   | Keys
@@ -534,7 +537,7 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Ascension Age Raffle Ticket": {
     description: translate("description.ascensionAgeRaffleTicket"),
   },
-  "Beetle Wing": { description: translate("description.beetleWing") },
+  "Duende Cap": { description: translate("description.duendeCap") },
   "Cave Dwellers Raffle Ticket": {
     description: translate("description.caveDwellersRaffleTicket"),
   },
@@ -543,6 +546,12 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   "Colors Ticket 2026": {
     description: translate("description.colorsTicket2026"),
+  },
+  "Halloween Token 2026": {
+    description: translate("description.halloweenToken2025"),
+  },
+  "Halloween Ticket 2026": {
+    description: translate("description.halloweenTicket2025"),
   },
 };
 
@@ -1621,6 +1630,11 @@ export type CommunityIsland = {
   };
 };
 
+export type MinigamePrizeTier = {
+  score: number;
+  items: Partial<Record<InventoryItemName, number>>;
+};
+
 export type MinigamePrize = {
   startAt: number;
   endAt: number;
@@ -1628,12 +1642,20 @@ export type MinigamePrize = {
   coins: number;
   items: Partial<Record<InventoryItemName, number>>;
   wearables: Wardrobe;
+  /**
+   * Ascending by score. When set, a claim pays the highest tier the latest
+   * run (`MinigameHistory.lastScore`) reached instead of `items`; `score` and
+   * `items` mirror the lowest tier.
+   */
+  tiers?: MinigamePrizeTier[];
 };
 
 export type MinigameHistory = {
   highscore: number;
   attempts: number;
   prizeClaimedAt?: number;
+  /** The latest run's score - only recorded while today's prize has tiers */
+  lastScore?: number;
 };
 
 export type Minigame = {
@@ -1922,7 +1944,7 @@ export type CaveBatch = {
    * `cave.batchStarted` returns.
    */
   seed?: string;
-  /** Dug tiles keyed "x,y"; what each held is derived from the seed. */
+  /** Dug tiles keyed "x,y", with what each held (see `CaveDugTile`). */
   dug?: Record<string, CaveDugTile>;
   /** The board-shaping Cave skills this batch started with. */
   skills?: CaveBatchSkills;
@@ -1942,7 +1964,13 @@ export type CaveBatchSkills = {
   beetleRarity?: Record<BeetleName, number>;
 };
 
-export type CaveDugTile = { dugAt: number };
+/**
+ * A dug tile. `tile` and `clue` are what the dig revealed, recorded because
+ * the undug part of the board is re-sampled on every dig (`revealCavePatch`).
+ * Tiles dug before boards were sampled have neither: they are read from the
+ * seed's board (`generateCavePatch`).
+ */
+export type CaveDugTile = { dugAt: number; tile?: CaveTile; clue?: number };
 
 /**
  * A Myco Bin machine inside the Cave. One is created with each tier; it
@@ -2645,8 +2673,10 @@ export interface GameState {
 
   ban: {
     /**
-     * `lock` is a support hold. It blocks play like `investigating` does, but
-     * verifying socials or a face does not lift it - only support can.
+     * `lock` is a support hold and `investigating` a soft ban. Neither stops
+     * play; both stop value leaving the account (withdrawals, trades,
+     * transfers). Verifying socials and a face lifts a soft ban; only support
+     * lifts a lock.
      */
     status: "investigating" | "permanent" | "ok" | "lock";
     isSocialVerified?: boolean;

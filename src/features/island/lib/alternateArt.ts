@@ -99,18 +99,51 @@ export const FIRE_PIT_VARIANTS: Record<
   },
 };
 
-export const BAKERY_VARIANTS: Record<TemperateSeasonName, string> = {
+const BASIC_BAKERY: Record<TemperateSeasonName, string> = {
   spring: SUNNYSIDE.seasons.spring.bakery,
   summer: SUNNYSIDE.building.bakery,
   autumn: SUNNYSIDE.seasons.autumn.bakery,
   winter: SUNNYSIDE.seasons.winter.bakery,
 };
 
-export const DELI_VARIANTS: Record<TemperateSeasonName, string> = {
+// Desert only has summer art, so its other seasons keep basic's seasonal art.
+// The images repo's volcano bakery is identical to basic's, so it isn't used.
+export const BAKERY_VARIANTS: Record<
+  LandBiomeName,
+  Record<TemperateSeasonName, string>
+> = {
+  "Basic Biome": BASIC_BAKERY,
+  "Spring Biome": BASIC_BAKERY,
+  "Desert Biome": { ...BASIC_BAKERY, summer: SUNNYSIDE.building.desertBakery },
+  "Volcano Biome": BASIC_BAKERY,
+  "Swamp Biome": BASIC_BAKERY,
+  "Spooky Biome": BASIC_BAKERY,
+  "Crystal Biome": BASIC_BAKERY,
+  "Galaxy Biome": BASIC_BAKERY,
+  "Marble Age Biome": BASIC_BAKERY,
+};
+
+const BASIC_DELI: Record<TemperateSeasonName, string> = {
   spring: SUNNYSIDE.seasons.spring.deli,
   summer: SUNNYSIDE.building.deli,
   autumn: SUNNYSIDE.seasons.autumn.deli,
   winter: SUNNYSIDE.seasons.winter.deli,
+};
+
+// Same as the bakery: desert has summer art only, volcano's matches basic's.
+export const DELI_VARIANTS: Record<
+  LandBiomeName,
+  Record<TemperateSeasonName, string>
+> = {
+  "Basic Biome": BASIC_DELI,
+  "Spring Biome": BASIC_DELI,
+  "Desert Biome": { ...BASIC_DELI, summer: SUNNYSIDE.building.desertDeli },
+  "Volcano Biome": BASIC_DELI,
+  "Swamp Biome": BASIC_DELI,
+  "Spooky Biome": BASIC_DELI,
+  "Crystal Biome": BASIC_DELI,
+  "Galaxy Biome": BASIC_DELI,
+  "Marble Age Biome": BASIC_DELI,
 };
 
 export const TOOLSHED_VARIANTS: Record<TemperateSeasonName, string> = {
@@ -555,12 +588,28 @@ const ASCENSION_TREE_SIZES: Partial<Record<LandBiomeName, TreeSize>> = {
   "Marble Age Biome": { width: 28, height: 35 },
 };
 
+/**
+ * Desert's ancient and sacred cacti are drawn wider than the shared canvas,
+ * except in spring, whose flowering versions keep it.
+ */
+const DESERT_TREE_SIZES: Partial<Record<TreeName, TreeSize>> = {
+  "Ancient Tree": { width: 30, height: 34 },
+  "Sacred Tree": { width: 30, height: 37 },
+};
+
 export const TREE_SIZE_VARIANTS = (
   biome: LandBiomeName,
+  season: TemperateSeasonName,
   tree: TreeName,
-): TreeSize =>
-  (tree === "Tree" ? ASCENSION_TREE_SIZES[biome] : undefined) ??
-  DEFAULT_TREE_SIZE;
+): TreeSize => {
+  if (tree === "Tree") return ASCENSION_TREE_SIZES[biome] ?? DEFAULT_TREE_SIZE;
+
+  if (biome === "Desert Biome" && season !== "spring") {
+    return DESERT_TREE_SIZES[tree] ?? DEFAULT_TREE_SIZE;
+  }
+
+  return DEFAULT_TREE_SIZE;
+};
 
 export const STUMP_VARIANTS: Record<
   LandBiomeName,

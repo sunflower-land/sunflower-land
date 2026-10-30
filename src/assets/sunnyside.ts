@@ -754,8 +754,9 @@ export const SUNNYSIDE = {
     warehouse: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/warehouse.png`,
     fruitPatchDirt: `${CONFIG.PROTECTED_IMAGE_URL}/fruit/fruit_patch.png`,
     barn: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/barn_sm.webp`,
-    // TODO(Chapter 16 art): one sprite covers every biome, season and level.
     pigpen: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/pigpen.png`,
+    pigpenLevel2: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/pigpen_2.png`,
+    pigpenLevel3: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/pigpen_3.png`,
     cave: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/cave_entrance.webp`,
     feederMachine: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/feeder_machine.webp`,
     petHouse1: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/pet_house_red.webp`,
@@ -1211,55 +1212,52 @@ export const SUNNYSIDE = {
         },
       },
     },
-    // Desert's ancient and sacred trees borrow basic art even though the images
-    // repo already ships desert versions (`Desert/<season>_{ancient,sacred}_tree
-    // .png` plus `_sheet` siblings) — they have simply never been wired up. The
-    // shake sheets are the usual 448x48; the statics are 30x34 and 30x37 rather
-    // than basic's 26x35, so switching them over also needs a TREE_SIZE_VARIANTS
-    // entry, the same way the ascension trees below do.
+    // Desert's ancient and sacred cacti statics are 30x34 and 30x37 outside
+    // spring, so TREE_SIZE_VARIANTS carries their size. Their shake sheets are
+    // the usual 448x48.
     desert: {
       spring: {
         Tree: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Desert/spring_desert_tree.webp`,
-        "Ancient Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/spring_basic_ancient_tree.png`,
-        "Sacred Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/spring_basic_sacred_tree.png`,
+        "Ancient Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Desert/spring_ancient_tree.png`,
+        "Sacred Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Desert/spring_sacred_tree.png`,
         bush: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Desert/spring_desert_bush.webp`,
         shakeSheet: {
           Tree: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Desert/spring_desert_trees_shake_sheet.webp`,
-          "Ancient Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/spring_basic_ancient_tree_shake_sheet.webp`,
-          "Sacred Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/spring_basic_sacred_tree_shake_sheet.webp`,
+          "Ancient Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Desert/spring_ancient_tree_sheet.png`,
+          "Sacred Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Desert/spring_sacred_tree_sheet.webp`,
         },
       },
       summer: {
         Tree: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Desert/summer_desert_tree.webp`,
-        "Ancient Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/summer_basic_ancient_tree.png`,
-        "Sacred Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/summer_basic_sacred_tree.png`,
+        "Ancient Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Desert/summer_ancient_tree.png`,
+        "Sacred Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Desert/summer_sacred_tree.png`,
         bush: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Desert/summer_desert_bush.webp`,
         shakeSheet: {
           Tree: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Desert/summer_desert_trees_shake_sheet.webp`,
-          "Ancient Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/summer_basic_ancient_tree_shake_sheet.webp`,
-          "Sacred Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/summer_basic_sacred_tree_shake_sheet.webp`,
+          "Ancient Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Desert/summer_ancient_tree_sheet.png`,
+          "Sacred Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Desert/summer_sacred_tree_sheet.webp`,
         },
       },
       autumn: {
         Tree: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Desert/autumn_desert_tree.webp`,
-        "Ancient Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/autumn_basic_ancient_tree.png`,
-        "Sacred Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/autumn_basic_sacred_tree.png`,
+        "Ancient Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Desert/autumn_ancient_tree.png`,
+        "Sacred Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Desert/autumn_sacred_tree.png`,
         bush: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Desert/autumn_desert_bush.webp`,
         shakeSheet: {
           Tree: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Desert/autumn_desert_trees_shake_sheet.webp`,
-          "Ancient Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/autumn_basic_ancient_tree_shake_sheet.webp`,
-          "Sacred Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/autumn_basic_sacred_tree_shake_sheet.webp`,
+          "Ancient Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Desert/autumn_ancient_tree_sheet.png`,
+          "Sacred Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Desert/autumn_sacred_tree_sheet.webp`,
         },
       },
       winter: {
         Tree: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Desert/winter_desert_tree.webp`,
-        "Ancient Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/winter_basic_ancient_tree.png`,
-        "Sacred Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/winter_basic_sacred_tree.png`,
+        "Ancient Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Desert/winter_ancient_tree.png`,
+        "Sacred Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Desert/winter_sacred_tree.png`,
         bush: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Desert/winter_desert_bush.webp`,
         shakeSheet: {
           Tree: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Desert/winter_desert_trees_shake_sheet.webp`,
-          "Ancient Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/winter_basic_ancient_tree_shake_sheet.webp`,
-          "Sacred Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/winter_basic_sacred_tree_shake_sheet.webp`,
+          "Ancient Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Desert/winter_ancient_tree_sheet.png`,
+          "Sacred Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Desert/winter_sacred_tree_sheet.webp`,
         },
       },
     },

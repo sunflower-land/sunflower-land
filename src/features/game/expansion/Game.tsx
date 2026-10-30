@@ -22,6 +22,7 @@ import { ToastPanel } from "../toast/ToastPanel";
 import { Panel } from "components/ui/Panel";
 
 import { Swarming } from "../components/Swarming";
+import { SessionWatcher } from "../components/SessionWatcher";
 import { Captcha } from "../components/captcha/Captcha";
 import { Cooldown } from "../components/Cooldown";
 import { Route, Routes } from "react-router";
@@ -92,7 +93,6 @@ import { LoveCharm } from "./components/LoveCharm";
 import { ClaimReferralRewards } from "./components/ClaimReferralRewards";
 import { ReferralsAnnouncement } from "./components/ReferralsAnnouncement";
 import { TermsAndConditions } from "./components/TermsAndConditions";
-import { SoftBan } from "features/retreat/components/personhood/SoftBan";
 import { RewardBox } from "features/rewardBoxes/RewardBox";
 import { SystemMessageWidget } from "features/announcements/SystemMessageWidget";
 import { TradesCleared } from "./components/TradesCleared";
@@ -247,7 +247,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   dailyReset: false,
   dailyResetting: false,
   jinAirdrop: true,
-  investigating: true,
   linkWallet: true,
   dailyReward: true,
   starterOffer: true,
@@ -313,17 +312,6 @@ const getBanMessage = (state: MachineState) => state.context.banMessage;
 const hasAirdrop = (state: MachineState) => state.matches("airdrop");
 const isOnChainRaffleAcknowledgment = (state: MachineState) =>
   state.matches("onChainRaffleAcknowledgment");
-const isInvestigating = (state: MachineState) => state.matches("investigating");
-// A soft-banned player unlinking Discord / Telegram from the investigation
-// screen. The unlink states normally hide this modal (Settings shows the
-// result inline), but here the soft-ban panel owns the unlink modal and has
-// to stay mounted through the request so the result shows in it. Only the
-// soft-ban screen can start an unlink while the ban is under investigation.
-const isSoftBanUnlinking = (state: MachineState) =>
-  (state.matches("unlinkingSocial") ||
-    state.matches("unlinkingSocialSuccess") ||
-    state.matches("unlinkingSocialFailed")) &&
-  state.context.state.ban.status === "investigating";
 const hasFulfilledOffers = (state: MachineState) => state.matches("offers");
 const hasVipNotification = (state: MachineState) => state.matches("vip");
 const isPlaying = (state: MachineState) => state.matches("playing");
@@ -551,8 +539,6 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const calendarEvent = useSelector(gameService, isCalendarEvent);
   const jinAirdrop = useSelector(gameService, isJinAirdrop);
   const showPWAInstallPrompt = useSelector(authService, _showPWAInstallPrompt);
-  const investigating = useSelector(gameService, isInvestigating);
-  const softBanUnlinking = useSelector(gameService, isSoftBanUnlinking);
   const linkWallet = useSelector(gameService, isLinkWallet);
   const tradesCleared = useSelector(gameService, isTradesCleared);
   const isVisiting = useSelector(gameService, _isVisiting);
@@ -611,6 +597,9 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   if (loadingSession || loadingLandToVisit || portalling) {
     return (
       <>
+        {/* First child here and in the main render, so React keeps the same
+            instance (and its socket) across the switch. */}
+        <SessionWatcher />
         <Ocean>
           <Modal show backdrop={false}>
             <div
@@ -713,26 +702,21 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
 
   return (
     <>
+      <SessionWatcher />
       <ToastProvider>
         <ToastPanel />
 
-        <Modal
-          show={SHOW_MODAL[stateValue as StateValues] || softBanUnlinking}
-          onHide={onHide}
-        >
+        <Modal show={SHOW_MODAL[stateValue as StateValues]} onHide={onHide}>
           <Panel
             bumpkinParts={error ? NPC_WEARABLES["worried pete"] : undefined}
           >
-            {/* Effects - the soft-ban unlink shows its result in its own modal */}
-            {effectPending && !softBanUnlinking && (
-              <Loading text={effectText} />
-            )}
+            {/* Effects */}
+            {effectPending && <Loading text={effectText} />}
             {effectSuccess &&
-              !softBanUnlinking &&
               (EFFECT_SUCCESS_COMPONENTS[stateValue as StateValues] ?? (
                 <EffectSuccess state={stateValue} />
               ))}
-            {effectFailed && !softBanUnlinking && (
+            {effectFailed && (
               <ErrorMessage errorCode={errorCode as ErrorCode} />
             )}
 
@@ -770,7 +754,6 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
             {hasCommunityCoin && <LoveCharm />}
             {jinAirdrop && <RoninJinClaim />}
             {showReferralRewards && <ClaimReferralRewards />}
-            {(investigating || softBanUnlinking) && <SoftBan />}
             {linkWallet && <MigrateToLinkedWallet />}
           </Panel>
         </Modal>

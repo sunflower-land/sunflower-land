@@ -366,6 +366,11 @@ export const getCropPlotTime = ({
     boostsUsed.push({ name: "Autumn's Embrace", value: "x0.5" });
   }
 
+  if (isWearableActive({ name: "Duende Hat", game })) {
+    seconds = seconds * 0.9;
+    boostsUsed.push({ name: "Duende Hat", value: "x0.9" });
+  }
+
   const greenThumbLevel = getSkillLevel(skills, "Green Thumb");
   if (greenThumbLevel) {
     const m = SKILL_RANKS["Green Thumb"].ranks[greenThumbLevel - 1];

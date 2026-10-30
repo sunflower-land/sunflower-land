@@ -1,7 +1,11 @@
 import type { BumpkinItem } from "./bumpkin";
 import type { GameState, InventoryItemName, IslandType } from "./game";
 import { KNOWN_ITEMS } from ".";
-import { TRADE_LIMITS } from "../actions/tradeLimits";
+import {
+  isCaveDwellersTradeResource,
+  TRADE_LIMITS,
+} from "../actions/tradeLimits";
+import { hasFeatureAccess } from "lib/flags";
 import { hasVipAccess } from "../lib/vipAccess";
 import { isTemporaryCollectibleActive } from "../lib/collectibleBuilt";
 import type { PetNFTName } from "./pets";
@@ -404,6 +408,24 @@ export function getMarketPrice({
   }
 
   return price;
+}
+
+/**
+ * Whether this farm may see and trade a marketplace resource. Mirrors the
+ * API's `tradeableIsActive` gate: Chapter 16's resources (Beetles, Pig
+ * Bristles, Truffle) need the CAVE_DWELLERS_TRADING flag until launch; every
+ * other resource is always available.
+ */
+export function isTradeResourceAvailable({
+  item,
+  game,
+}: {
+  item: InventoryItemName;
+  game: GameState;
+}): boolean {
+  if (!isCaveDwellersTradeResource(item)) return true;
+
+  return hasFeatureAccess(game, "CAVE_DWELLERS_TRADING");
 }
 
 const ISLAND_RESOURCE_TAXES: Record<IslandType, number> = {

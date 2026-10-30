@@ -5,11 +5,10 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import love from "assets/icons/love_charm_small.webp";
 import shop from "assets/icons/shop.png";
 import calendar from "assets/icons/calendar.webp";
-import eventToken from "assets/icons/colors_2026_token.webp";
+import eventToken from "assets/icons/halloween_token_2026.webp";
 import flowerToken from "assets/icons/flower_token.webp";
 import type { BuffLabel } from "features/game/types";
 import { Label } from "components/ui/Label";
-import { SUNNYSIDE } from "assets/sunnyside";
 
 interface NoticeboardItemProps {
   contributors: string[];
@@ -19,19 +18,20 @@ interface NoticeboardItemProps {
 }
 
 const CONTRIBUTORS = [
+  "Andando",
+  "deefault",
   "Grith",
+  "Jc",
+  "kohirabbit",
   "Max",
-  "Telk",
   "Netherzapdos",
   "Poro",
-  "kohirabbit",
-  "Vergelsxtn",
-  "shinon",
-  "deefault",
-  "Shykun",
-  "Jc",
-  "Andando",
   "RadishPies",
+  "shinon",
+  "Shykun",
+  "Telk",
+  "Vergelsxtn",
+  "Whaitte",
 ];
 
 export const NoticeboardItems: React.FC<NoticeboardItemProps> = ({
@@ -70,7 +70,7 @@ export const NoticeboardItems: React.FC<NoticeboardItemProps> = ({
       </div>
       <div className="flex flex-wrap mt-1 mb-4 gap-x-3 gap-y-1 justify-center">
         {contributors.map((name) => (
-          <Label key={name} type="formula" icon={SUNNYSIDE.icons.heart}>
+          <Label key={name} type="formula" icon={eventToken}>
             <span className="pl-1">{name}</span>
           </Label>
         ))}
@@ -91,7 +91,7 @@ export const EventNoticeboard: React.FC<Props> = ({ onClose }) => {
         <NoticeboardItems
           items={[
             {
-              text: t("eventColors2026.noticeboard.one"),
+              text: t("eventHalloween2026.noticeboard.one"),
               icon: calendar,
             },
             {

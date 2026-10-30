@@ -147,7 +147,7 @@ export type ChapterTicket =
   | "Floater"
   | "Salt Rock"
   | "Shiny Feather"
-  | "Beetle Wing";
+  | "Duende Cap";
 
 export type ChapterRaffleTicket =
   | "Paw Prints Raffle Ticket"
@@ -193,7 +193,7 @@ export const CHAPTER_TICKET_NAME: Record<ChapterName, ChapterTicket> = {
   "Crabs and Traps": "Floater",
   "Salt Awakening": "Salt Rock",
   "Ascension Age": "Shiny Feather",
-  "Cave Dwellers": "Beetle Wing",
+  "Cave Dwellers": "Duende Cap",
 };
 
 export const CHAPTER_RAFFLE_TICKET_NAME: Record<
@@ -237,7 +237,7 @@ export const CHAPTER_ARTEFACT_NAME: Record<
   "Crabs and Traps": "Ammonite Shell",
   "Salt Awakening": "Salt Dino Egg",
   "Ascension Age": "Otter Pebble",
-  "Cave Dwellers": "Cave Dwellers Artefact",
+  "Cave Dwellers": "Clover Coin",
 };
 
 export const CHAPTER_MARVEL_FISH: Record<ChapterName, ChapterFish> = {
@@ -256,7 +256,8 @@ export const CHAPTER_MARVEL_FISH: Record<ChapterName, ChapterFish> = {
   "Crabs and Traps": "Giant Isopod",
   "Salt Awakening": "Deep Sea Pig",
   "Ascension Age": "Seahorse Dad",
-  "Cave Dwellers": "Cave Dwellers Fish",
+  // TODO(Cave Dwellers): the keepsake marvel is not decided yet
+  "Cave Dwellers": "Manatee",
 };
 
 export function getChapterMarvelFish(now: number): ChapterFish {

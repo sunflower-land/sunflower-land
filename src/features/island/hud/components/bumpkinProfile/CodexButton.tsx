@@ -18,7 +18,6 @@ import { useSelector } from "@xstate/react";
 import { RoundButton } from "components/ui/RoundButton";
 import { isMobile } from "mobile-device-detect";
 import { isAsciiText } from "lib/utils/textSupport";
-import { getResolvedFontFamily } from "lib/utils/fonts";
 
 const _delivery = (state: MachineState) => state.context.state.delivery;
 const _isTutorialIsland = (state: MachineState) =>
@@ -127,9 +126,7 @@ export const CodexButton: React.FC = () => {
               <div
                 className={"absolute uppercase"}
                 style={{
-                  fontFamily: isTeenySupported
-                    ? "Teeny"
-                    : getResolvedFontFamily(),
+                  fontFamily: isTeenySupported ? "Teeny" : "var(--font-family)",
                   color: "black",
                   textShadow: "none",
                   top: `${PIXEL_SCALE * -8}px`,

@@ -1,7 +1,7 @@
 import { BB_TO_GEM_RATIO, type InventoryItemName } from "./game";
 import type { RewardBoxReward } from "./rewardBoxes";
 import type { BumpkinItem } from "./bumpkin";
-import { CHAPTERS, getCurrentChapter } from "./chapters";
+import { CHAPTERS, getCurrentChapter, type ChapterName } from "./chapters";
 import { MEGASTORE } from "./megastore";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "../events/landExpansion/completeNPCChore";
 import { HOURGLASSES } from "../events/landExpansion/burnCollectible";
@@ -21,6 +21,10 @@ function getChapterMegastoreChestRewards(
   now: number,
   weight: number,
 ): RewardBoxReward[] {
+  if (now >= CHAPTERS["Cave Dwellers"].startDate.getTime()) {
+    return [];
+  }
+
   const chapter = getCurrentChapter(now);
   const { startDate, endDate } = CHAPTERS[chapter];
   const nowDate = new Date(now);
@@ -54,6 +58,10 @@ function getChapterTrackChestRewards(
   now: number,
   weight: number,
 ): RewardBoxReward[] {
+  if (now >= CHAPTERS["Cave Dwellers"].startDate.getTime()) {
+    return [];
+  }
+
   const chapter = getCurrentChapter(now);
   const { startDate, endDate } = CHAPTERS[chapter];
   const nowDate = new Date(now);
@@ -72,6 +80,27 @@ function getChapterTrackChestRewards(
   }
 
   return rewards;
+}
+
+// Chapter wearables that only drop from Luxury chests, and only while their
+// chapter is running.
+const LUXURY_CHEST_EXCLUSIVES: Partial<Record<ChapterName, BumpkinItem[]>> = {
+  "Cave Dwellers": ["Fish Trap"],
+};
+
+function getChapterLuxuryExclusiveRewards(
+  now: number,
+  weight: number,
+): RewardBoxReward[] {
+  const chapter = getCurrentChapter(now);
+  const { startDate, endDate } = CHAPTERS[chapter];
+  const nowDate = new Date(now);
+  if (nowDate < startDate || nowDate >= endDate) return [];
+
+  return (LUXURY_CHEST_EXCLUSIVES[chapter] ?? []).map((name) => ({
+    wearables: { [name]: 1 },
+    weighting: weight,
+  }));
 }
 
 export const BASIC_REWARDS = (now: number): RewardBoxReward[] => [
@@ -156,6 +185,7 @@ export const LUXURY_REWARDS = (now: number): RewardBoxReward[] => [
   { items: { Sunstone: 3 }, weighting: 25 * CHEST_MULTIPLIER },
   { items: { "Prize Ticket": 1 }, weighting: 50 * CHEST_MULTIPLIER },
   ...getChapterMegastoreChestRewards(now, 1.9 * CHEST_MULTIPLIER),
+  ...getChapterLuxuryExclusiveRewards(now, 5 * CHEST_MULTIPLIER),
 ];
 
 export const BUD_BOX_REWARDS: RewardBoxReward[] = [

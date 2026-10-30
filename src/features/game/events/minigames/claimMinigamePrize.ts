@@ -3,10 +3,35 @@ import {
   type MinigameName,
   SUPPORTED_MINIGAMES,
 } from "features/game/types/minigames";
-import type { GameState } from "features/game/types/game";
+import type {
+  GameState,
+  MinigameHistory,
+  MinigamePrize,
+} from "features/game/types/game";
 import { getKeys } from "lib/object";
 import { getWeekKey } from "features/game/lib/factions";
 import { produce } from "immer";
+
+/**
+ * What a claim pays: the prize itself once today's best reaches its score, or
+ * for a tiered prize the highest tier the latest run reached.
+ */
+export function getMinigamePrizeReward({
+  prize,
+  history,
+}: {
+  prize: MinigamePrize;
+  history: MinigameHistory;
+}): Pick<MinigamePrize, "coins" | "items" | "wearables"> | undefined {
+  if (!prize.tiers) {
+    return history.highscore >= prize.score ? prize : undefined;
+  }
+
+  const score = history.lastScore ?? 0;
+  const tier = [...prize.tiers].reverse().find((tier) => score >= tier.score);
+
+  return tier && { coins: 0, items: tier.items, wearables: {} };
+}
 
 export function isMinigameComplete({
   minigames,
@@ -36,7 +61,7 @@ export function isMinigameComplete({
   }
 
   // Has reached score
-  return history.highscore >= prize.score;
+  return !!getMinigamePrizeReward({ prize, history });
 }
 
 export type ClaimMinigamePrizeAction = {
@@ -86,12 +111,15 @@ export function claimMinigamePrize({
     }
 
     // Has reached score
-    if (history.highscore < prize.score) {
-      throw new Error(`Score ${history.highscore} is less than ${prize.score}`);
+    const reward = getMinigamePrizeReward({ prize, history });
+
+    if (!reward) {
+      const score = prize.tiers ? (history.lastScore ?? 0) : history.highscore;
+      throw new Error(`Score ${score} is less than ${prize.score}`);
     }
 
     // Has already claimed
-    if (history.prizeClaimedAt) {
+    if (history.prizeClaimedAt && action.id !== "halloween-2026-game-2") {
       throw new Error(`Already claimed ${action.id} prize`);
     }
 
@@ -99,25 +127,25 @@ export function claimMinigamePrize({
     history.prizeClaimedAt = createdAt;
 
     // Claim coins
-    if (prize.coins) {
-      game.coins += prize.coins;
+    if (reward.coins) {
+      game.coins += reward.coins;
     }
 
     // Claims items
-    getKeys(prize.items).forEach((name) => {
+    getKeys(reward.items).forEach((name) => {
       const count = game.inventory[name] ?? new Decimal(0);
 
-      game.inventory[name] = count.add(prize.items[name] ?? 0);
+      game.inventory[name] = count.add(reward.items[name] ?? 0);
     });
 
     // Claims wearables
-    getKeys(prize.wearables).forEach((name) => {
+    getKeys(reward.wearables).forEach((name) => {
       const count = game.wardrobe[name] ?? 0;
 
-      game.wardrobe[name] = count + (prize.wearables[name] ?? 0);
+      game.wardrobe[name] = count + (reward.wearables[name] ?? 0);
     });
 
-    if (game.faction && prize.items.Mark) {
+    if (game.faction && reward.items.Mark) {
       const week = getWeekKey({ date: new Date(createdAt) });
       const leaderboard = game.faction.history[week] ?? {
         score: 0,
@@ -126,7 +154,7 @@ export function claimMinigamePrize({
 
       game.faction.history[week] = {
         ...leaderboard,
-        score: leaderboard.score + prize.items.Mark,
+        score: leaderboard.score + reward.items.Mark,
       };
     }
 

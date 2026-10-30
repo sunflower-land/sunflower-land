@@ -10,6 +10,7 @@ import {
 } from "features/game/types/fishProcessing";
 import type { GameState } from "features/game/types/game";
 import {
+  getFishProcessingTime,
   processProcessedResource,
   type ProcessProcessedResourceAction,
 } from "./processResource";
@@ -293,5 +294,23 @@ describe("collectProcessedFish", () => {
     expect(updated.inventory["Fish Flake"]).toEqual(new Decimal(1));
     const processing = updated.buildings["Fish Market"]?.[0].processing ?? [];
     expect(processing).toHaveLength(0);
+  });
+});
+
+describe("Cyclops Bloom", () => {
+  it("applies x0.8 Fish Market processing time", () => {
+    const { reducedMs, boostsUsed } = getFishProcessingTime("Fish Stick", {
+      ...TEST_FARM,
+      collectibles: {
+        "Cyclops Bloom": [
+          { id: "1", createdAt: 0, coordinates: { x: 0, y: 0 }, readyAt: 0 },
+        ],
+      },
+    });
+
+    expect(reducedMs).toEqual(
+      FISH_PROCESSING_TIME_SECONDS["Fish Stick"] * 1000 * 0.8,
+    );
+    expect(boostsUsed).toContainEqual({ name: "Cyclops Bloom", value: "x0.8" });
   });
 });

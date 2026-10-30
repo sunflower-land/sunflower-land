@@ -54,10 +54,12 @@ export const ANIMAL_BUILDING_KEYS: AnimalBuildingKey[] =
   ANIMAL_BUILDING_TYPES.map(makeAnimalBuildingKey);
 
 /**
- * Mud spent per application (#7721 Balance Update). Its charges work exactly
- * like a spice-rack treat's (`getAnimalHarvests`, spent in `claimProduce`).
+ * Mud spent per application (beta uptake rebalance, 2026-10-30: 10 -> 25).
+ * With one charge per coat (`getMudHarvests`) a pig upkeeps 25 Mud a day, so
+ * one Myco Bin on the Mud recipe (80/day) sustains three pigs — cave tiers
+ * and pen levels stay in lockstep. Charges are spent in `claimProduce`.
  */
-export const MUD_PER_APPLICATION = 10;
+export const MUD_PER_APPLICATION = 25;
 /**
  * Final feeding-XP multiplier for a muddy Pig (#7721: +25% final XP). The
  * result can be fractional (10 -> 12.5); handleFoodXP keeps it exact.
@@ -576,6 +578,50 @@ function getLeatherYieldBoosts(game: GameState): {
   return { amount: boost.toNumber(), boostsUsed };
 }
 
+// Truffle Yield / Bristle Payout are multiplicative, unlike the flat yield
+// helpers above, so they return a multiplier for the caller to apply AFTER
+// the flat produce boosts.
+function getTruffleYieldBoosts(game: GameState): {
+  multiplier: number;
+  boostsUsed: { name: BoostName; value: string }[];
+} {
+  let multiplier = new Decimal(1);
+  const boostsUsed: { name: BoostName; value: string }[] = [];
+
+  const truffleYieldLevel = getSkillLevel(game.bumpkin.skills, "Truffle Yield");
+  if (truffleYieldLevel) {
+    const bonus = new Decimal(1).plus(
+      SKILL_RANKS["Truffle Yield"].ranks[truffleYieldLevel - 1],
+    );
+    multiplier = multiplier.mul(bonus);
+    boostsUsed.push({ name: "Truffle Yield", value: `x${bonus.toNumber()}` });
+  }
+
+  return { multiplier: multiplier.toNumber(), boostsUsed };
+}
+
+function getPigBristlesYieldBoosts(game: GameState): {
+  multiplier: number;
+  boostsUsed: { name: BoostName; value: string }[];
+} {
+  let multiplier = new Decimal(1);
+  const boostsUsed: { name: BoostName; value: string }[] = [];
+
+  const bristlePayoutLevel = getSkillLevel(
+    game.bumpkin.skills,
+    "Bristle Payout",
+  );
+  if (bristlePayoutLevel) {
+    const bonus = new Decimal(1).plus(
+      SKILL_RANKS["Bristle Payout"].ranks[bristlePayoutLevel - 1],
+    );
+    multiplier = multiplier.mul(bonus);
+    boostsUsed.push({ name: "Bristle Payout", value: `x${bonus.toNumber()}` });
+  }
+
+  return { multiplier: multiplier.toNumber(), boostsUsed };
+}
+
 export function getResourceDropAmount({
   game,
   animalType,
@@ -596,6 +642,7 @@ export function getResourceDropAmount({
   const isChicken = animalType === "Chicken";
   const isCow = animalType === "Cow";
   const isSheep = animalType === "Sheep";
+  const isPig = animalType === "Pig";
 
   // Egg yield boosts
   if (isChicken && resource === "Egg") {
@@ -702,35 +749,29 @@ export function getResourceDropAmount({
     boostsUsed.push({ name: "Barn Manager", value: "+0.1" });
   }
 
+  // Truffle Yield Boost (#7721) scales the Truffles after the flat produce boosts.
+  if (isPig && resource === "Truffle") {
+    const { multiplier: truffleMultiplier, boostsUsed: truffleBoostsUsed } =
+      getTruffleYieldBoosts(game);
+    amount = amount.mul(truffleMultiplier);
+    boostsUsed.push(...truffleBoostsUsed);
+  }
+
+  // Pig Bristles Yield Boost (#7721) scales the Bristles the same way, after
+  // the flat produce boosts and before the sickness cut in `getPigBristles`.
+  if (isPig && resource === "Pig Bristles") {
+    const { multiplier: bristlesMultiplier, boostsUsed: bristlesBoostsUsed } =
+      getPigBristlesYieldBoosts(game);
+    amount = amount.mul(bristlesMultiplier);
+    boostsUsed.push(...bristlesBoostsUsed);
+  }
+
+  // Bud yield boosts are flat and sit after the Pig multipliers so they are
+  // not scaled by Truffle Yield / Bristle Payout.
   const { yieldBoost, budUsed } = getBudYieldBoosts(buds, resource);
   amount = amount.plus(yieldBoost);
   if (budUsed)
     boostsUsed.push({ name: budUsed, value: `+${yieldBoost.toString()}` });
-
-  // Truffle Yield (#7721) scales the Truffles after the flat produce boosts.
-  const truffleYieldLevel = getSkillLevel(bumpkin.skills, "Truffle Yield");
-  if (animalType === "Pig" && resource === "Truffle" && truffleYieldLevel) {
-    const bonus = new Decimal(1).plus(
-      SKILL_RANKS["Truffle Yield"].ranks[truffleYieldLevel - 1],
-    );
-    amount = amount.mul(bonus);
-    boostsUsed.push({ name: "Truffle Yield", value: `x${bonus.toNumber()}` });
-  }
-
-  // Bristle Payout (#7721) scales the Bristles the same way, after the flat
-  // produce boosts and before the sickness cut in `getPigBristles`.
-  const bristlePayoutLevel = getSkillLevel(bumpkin.skills, "Bristle Payout");
-  if (
-    animalType === "Pig" &&
-    resource === "Pig Bristles" &&
-    bristlePayoutLevel
-  ) {
-    const bonus = new Decimal(1).plus(
-      SKILL_RANKS["Bristle Payout"].ranks[bristlePayoutLevel - 1],
-    );
-    amount = amount.mul(bonus);
-    boostsUsed.push({ name: "Bristle Payout", value: `x${bonus.toNumber()}` });
-  }
 
   if (multiplier) {
     amount = amount.mul(multiplier);
@@ -941,6 +982,11 @@ export function getBoostedAwakeAt({
     if (isCollectibleBuilt({ name: "Farm Dog", game })) {
       totalDuration *= 0.75;
       boostsUsed.push({ name: "Farm Dog", value: "x0.75" });
+    }
+
+    if (isCollectibleBuilt({ name: "Beetle Sheep", game })) {
+      totalDuration *= 0.925;
+      boostsUsed.push({ name: "Beetle Sheep", value: "x0.925" });
     }
   }
 

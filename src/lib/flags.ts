@@ -84,6 +84,10 @@ export const TIME_BASED_FEATURE_FLAG_WINDOWS = {
     start: new Date("2026-07-13T00:00:00Z"),
     end: new Date("2026-07-23T00:00:00Z"),
   },
+  HALLOWEEN_2026_EVENT_FLAG: {
+    start: new Date("2026-10-26T00:00:00Z"),
+    end: new Date("2026-11-02T00:00:00Z"),
+  },
   RONIN_WAYPOINT_DEPRECATION: {
     start: WAYPOINT_WALLET_ENDDATE,
     end: null,
@@ -121,6 +125,7 @@ export const TIME_BASED_FEATURE_FLAGS: Record<
   APRIL_FOOLS_EVENT_FLAG: betaTimePeriodFeatureFlag,
   RONIN_WAYPOINT_DEPRECATION: timePeriodFeatureFlag,
   COLORS_2026_EVENT_FLAG: betaTimePeriodFeatureFlag,
+  HALLOWEEN_2026_EVENT_FLAG: betaTimePeriodFeatureFlag,
   // Testnet-only bypass before the date (not beta), so live testers can reach A2.
   SPOOKY_ASCENSION: timePeriodFeatureFlag,
   ASCENSION_AGE_VIP_EXPANSION: timePeriodFeatureFlag,
@@ -188,6 +193,13 @@ const FEATURE_FLAGS = {
    * Remove once Chapter 16 ships.
    */
   BEETLE_FEEDING: betaFeatureFlag,
+  /**
+   * Chapter 16's resource trading: the four Beetles, Pig Bristles and Truffle
+   * on the marketplace. They sit in TRADE_LIMITS from merge day, so this flag
+   * is what keeps them off the marketplace until the chapter launches. Remove
+   * once Chapter 16 ships (TODO(Cave Dwellers)).
+   */
+  CAVE_DWELLERS_TRADING: betaFeatureFlag,
 
   FACE_RECOGNITION_TEST: betaFeatureFlag,
   // The developer-options button that forces a captcha on your own farm

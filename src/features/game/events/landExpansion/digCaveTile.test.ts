@@ -7,8 +7,8 @@ import type {
 } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 import {
-  generateCavePatch,
   resolveCaveTile,
+  revealCavePatch,
 } from "features/game/types/cavePatch";
 import {
   DIG_CAVE_TILE_ERRORS,
@@ -30,12 +30,15 @@ const READY_CAVE = {
 
 const NOW = new Date("2026-09-23T00:00:00.000Z").getTime();
 
-// This seed on the Mushroom mix (golden board in cavePatch.test.ts):
-//   y0 DMDMD
-//   y1 GMMDD   (0,1) Magic Mushroom
-//   y2 DDDDD
-//   y3 DDMbD   (3,3) Green Beetle
-//   y4 DDDpD   (3,4) Pink Beetle
+// Each dig draws its own board from the seed and its `createdAt`
+// (revealCavePatch). What the FIRST dig of each tile finds at NOW on this seed
+// and the Mushroom mix:
+//   y0 DDMDM   (2,0) Wild Mushroom
+//   y1 MMDDD
+//   y2 DDMDD
+//   y3 GGDDD   (0,3) Magic Mushroom
+//   y4 MDDDD   (0,0) and (4,4) Mud
+// No first dig at NOW finds a Beetle: (4,1) is a Green Beetle at NOW + 1.
 const SEED = "00112233445566778899aabbccddeeff";
 
 const readyState = ({
@@ -83,6 +86,15 @@ const dig = (
     farmId,
   });
 
+/** The board a dig of (x, y) at `createdAt` draws for the state's batch. */
+const boardFor = (state: GameState, x: number, y: number, createdAt = NOW) =>
+  revealCavePatch({
+    batch: state.cave!.machines["1"].batch!,
+    createdAt,
+    x,
+    y,
+  });
+
 describe("digCaveTile (cave.dug)", () => {
   it("throws while the Cave building is under construction", () => {
     const state = readyState();
@@ -96,14 +108,14 @@ describe("digCaveTile (cave.dug)", () => {
             Cave: [{ ...READY_CAVE, readyAt: Number.MAX_SAFE_INTEGER }],
           },
         },
-        1,
+        2,
         0,
       ),
     ).toThrow(DIG_CAVE_TILE_ERRORS.NO_CAVE);
   });
 
   it("spends one Sand Shovel per dig", () => {
-    const next = dig(readyState({ shovels: 3 }), 1, 0);
+    const next = dig(readyState({ shovels: 3 }), 2, 0);
     expect(next.inventory["Sand Shovel"]?.toNumber()).toBe(2);
   });
 
@@ -117,38 +129,45 @@ describe("digCaveTile (cave.dug)", () => {
           equipped: { ...state.bumpkin.equipped, tool: "Ancient Shovel" },
         },
       },
-      1,
+      2,
       0,
     );
     expect(next.inventory["Sand Shovel"]?.toNumber()).toBe(2);
   });
 
-  it("records only when the tile was dug", () => {
-    const next = dig(readyState(), 1, 0);
+  it("records what the tile held and the clue it showed", () => {
+    const board = boardFor(readyState(), 2, 0);
+    const next = dig(readyState(), 2, 0);
     expect(next.cave?.machines["1"].batch?.dug).toEqual({
-      "1,0": { dugAt: NOW },
+      "2,0": {
+        dugAt: NOW,
+        tile: { type: "Mushroom", mushroom: "Wild Mushroom" },
+        clue: resolveCaveTile(board, 2, 0).clue,
+      },
     });
   });
 
   it.each([
-    [1, 0, "Wild Mushroom", 1],
-    [0, 1, "Magic Mushroom", 1],
-    [3, 3, "Green Beetle", 1],
-    [3, 4, "Pink Beetle", 1],
-    [0, 0, "Mud", 1],
-    [4, 4, "Mud", 1],
-  ] as const)("awards tile %s,%s: %s x%s", (x, y, item, amount) => {
-    const next = dig(readyState(), x, y);
-    expect(next.inventory[item]?.toNumber()).toBe(amount);
-  });
+    [2, 0, NOW, "Wild Mushroom", 1],
+    [0, 3, NOW, "Magic Mushroom", 1],
+    [4, 1, NOW + 1, "Green Beetle", 1],
+    [2, 0, NOW + 2, "Pink Beetle", 1],
+    [0, 0, NOW, "Mud", 1],
+    [4, 4, NOW, "Mud", 1],
+  ] as const)(
+    "awards tile %s,%s dug at %s: %s x%s",
+    (x, y, createdAt, item, amount) => {
+      const next = dig(readyState(), x, y, { createdAt });
+      expect(next.inventory[item]?.toNumber()).toBe(amount);
+    },
+  );
 
-  it("awards exactly what the board says for every tile", () => {
-    const layout = generateCavePatch({ recipe: "Mushroom", seed: SEED });
+  it("awards exactly what the dig's board says for every tile", () => {
     for (let x = 0; x < 5; x += 1) {
       for (let y = 0; y < 5; y += 1) {
         const before = readyState();
         const next = dig(before, x, y);
-        const { items } = resolveCaveTile(layout, x, y);
+        const { items } = resolveCaveTile(boardFor(before, x, y), x, y);
         for (const [name, amount] of Object.entries(items)) {
           const item = name as keyof GameState["inventory"];
           expect(next.inventory[item]?.toNumber()).toBe(
@@ -159,53 +178,76 @@ describe("digCaveTile (cave.dug)", () => {
     }
   });
 
+  it("finds something else when the same dig is replayed a moment later", () => {
+    // The rollback exploit: dig, lose the save, dig the same tile again.
+    const found = new Set(
+      Array.from({ length: 30 }, (_, i) =>
+        JSON.stringify(
+          dig(readyState(), 2, 2, { createdAt: NOW + i }).cave?.machines["1"]
+            .batch?.dug?.["2,2"].tile,
+        ),
+      ),
+    );
+    expect(found.size).toBeGreaterThan(1);
+  });
+
   it("awards double Mud on a Mud mix patch", () => {
     const recipe: CaveRecipeName = "Mud";
-    const layout = generateCavePatch({ recipe, seed: SEED });
-    const mudKey = Object.keys(layout).find(
-      (key) => layout[key].type === "Mud",
-    )!;
-    const [x, y] = mudKey.split(",").map(Number);
-    const next = dig(readyState({ batch: { recipe } }), x, y);
+    // (0,0) is Mud on the first dig at NOW of the Mud mix too.
+    const next = dig(readyState({ batch: { recipe } }), 0, 0);
     expect(next.inventory.Mud?.toNumber()).toBe(2);
   });
 
-  it("keeps a tile's clue after a neighbouring Beetle is dug", () => {
-    const layout = generateCavePatch({ recipe: "Mushroom", seed: SEED });
-    const clueBefore = resolveCaveTile(layout, 2, 3).clue;
-    const afterBeetle = dig(readyState(), 3, 3);
-    const next = dig(afterBeetle, 2, 3);
-    expect(clueBefore).toBe(1);
-    expect(next.cave?.machines["1"].batch?.seed).toBe(SEED);
-    expect(resolveCaveTile(layout, 2, 3).clue).toBe(clueBefore);
+  it("digs a tile's neighbours to exactly the clue it showed", () => {
+    let state = dig(readyState(), 2, 0);
+    const clue = state.cave?.machines["1"].batch?.dug?.["2,0"].clue;
+    expect(typeof clue).toBe("number");
+
+    const neighbours = [
+      { x: 1, y: 0 },
+      { x: 3, y: 0 },
+      { x: 2, y: 1 },
+    ];
+    neighbours.forEach(({ x, y }, i) => {
+      state = dig(state, x, y, { createdAt: NOW + 1000 * (i + 1) });
+    });
+
+    const dug = state.cave?.machines["1"].batch?.dug ?? {};
+    const found = neighbours.filter(
+      ({ x, y }) => dug[`${x},${y}`].tile?.type !== "Mud",
+    ).length;
+    expect(found).toBe(clue);
+    // The tile's own record never changes.
+    expect(dug["2,0"].clue).toBe(clue);
+    expect(state.cave?.machines["1"].batch?.seed).toBe(SEED);
   });
 
   it("rejects a tile that was already dug", () => {
-    const once = dig(readyState(), 1, 0);
-    expect(() => dig(once, 1, 0)).toThrow(DIG_CAVE_TILE_ERRORS.ALREADY_DUG);
+    const once = dig(readyState(), 2, 0);
+    expect(() => dig(once, 2, 0)).toThrow(DIG_CAVE_TILE_ERRORS.ALREADY_DUG);
   });
 
   it("rejects without a Sand Shovel", () => {
-    expect(() => dig(readyState({ shovels: 0 }), 1, 0)).toThrow(
+    expect(() => dig(readyState({ shovels: 0 }), 2, 0)).toThrow(
       DIG_CAVE_TILE_ERRORS.NO_SHOVEL,
     );
   });
 
   it("rejects before the batch is ready", () => {
     const state = readyState({ batch: { readyAt: NOW + 1 } });
-    expect(() => dig(state, 1, 0)).toThrow(DIG_CAVE_TILE_ERRORS.NOT_READY);
+    expect(() => dig(state, 2, 0)).toThrow(DIG_CAVE_TILE_ERRORS.NOT_READY);
   });
 
   it("rejects a batch without its seed", () => {
     const state = readyState({ batch: { seed: undefined } });
-    expect(() => dig(state, 1, 0)).toThrow(DIG_CAVE_TILE_ERRORS.NO_SEED);
+    expect(() => dig(state, 2, 0)).toThrow(DIG_CAVE_TILE_ERRORS.NO_SEED);
   });
 
   it("rejects a batch whose seed is not a 128-bit hex seed", () => {
     const state = readyState({
       batch: { seed: 12345 as unknown as string },
     });
-    expect(() => dig(state, 1, 0)).toThrow(DIG_CAVE_TILE_ERRORS.NO_SEED);
+    expect(() => dig(state, 2, 0)).toThrow(DIG_CAVE_TILE_ERRORS.NO_SEED);
   });
 
   it.each([
@@ -222,25 +264,25 @@ describe("digCaveTile (cave.dug)", () => {
   it("rejects a machine without a batch", () => {
     const state = readyState();
     expect(() =>
-      dig({ ...state, cave: { ...state.cave!, machines: { "1": {} } } }, 1, 0),
+      dig({ ...state, cave: { ...state.cave!, machines: { "1": {} } } }, 2, 0),
     ).toThrow(DIG_CAVE_TILE_ERRORS.NO_BATCH);
   });
 
   it("rejects an unknown machine", () => {
-    expect(() => dig(readyState(), 1, 0, { machineId: "9" })).toThrow(
+    expect(() => dig(readyState(), 2, 0, { machineId: "9" })).toThrow(
       DIG_CAVE_TILE_ERRORS.NO_MACHINE,
     );
   });
 
   it("rejects when the Cave has not been built", () => {
-    expect(() => dig({ ...readyState(), cave: undefined }, 1, 0)).toThrow(
+    expect(() => dig({ ...readyState(), cave: undefined }, 2, 0)).toThrow(
       DIG_CAVE_TILE_ERRORS.NO_CAVE,
     );
   });
 
   it("does not spend a shovel when rejected", () => {
-    const once = dig(readyState({ shovels: 3 }), 1, 0);
-    expect(() => dig(once, 1, 0)).toThrow();
+    const once = dig(readyState({ shovels: 3 }), 2, 0);
+    expect(() => dig(once, 2, 0)).toThrow();
     expect(once.inventory["Sand Shovel"]?.toNumber()).toBe(2);
   });
 
@@ -259,7 +301,7 @@ describe("digCaveTile (cave.dug)", () => {
     });
 
     it("throws without the CAVE feature flag", () => {
-      expect(() => dig(readyState(), 1, 0)).toThrow(
+      expect(() => dig(readyState(), 2, 0)).toThrow(
         DIG_CAVE_TILE_ERRORS.NO_FEATURE_ACCESS,
       );
     });
@@ -272,7 +314,7 @@ describe("digCaveTile (cave.dug)", () => {
             ...state,
             inventory: { ...state.inventory, "Beta Pass": new Decimal(1) },
           },
-          1,
+          2,
           0,
         ),
       ).not.toThrow();
@@ -334,7 +376,7 @@ describe("getCaveMushroomYield", () => {
 
 describe("digCaveTile: Mushroom Bud", () => {
   it("awards a Mushroom tile's Wild Mushrooms with the Bud bonus", () => {
-    const next = dig({ ...readyState(), buds: { 1: mushroomBud() } }, 1, 0);
+    const next = dig({ ...readyState(), buds: { 1: mushroomBud() } }, 2, 0);
 
     expect(next.inventory["Wild Mushroom"]?.toNumber()).toBe(1.3);
     expect(next.boostsUsedAt?.["Bud #1"]).toBe(NOW);
@@ -397,7 +439,7 @@ describe("getCaveMushroomYield: Wild Mushroom boosts", () => {
   });
 
   it("records every boost used when digging a Mushroom tile", () => {
-    const next = dig(allBoosts(), 1, 0);
+    const next = dig(allBoosts(), 2, 0);
 
     expect(next.inventory["Wild Mushroom"]?.toNumber()).toBe(1.8);
     expect(next.boostsUsedAt).toMatchObject({
@@ -410,7 +452,7 @@ describe("getCaveMushroomYield: Wild Mushroom boosts", () => {
 
   it("gives a Magic Mushroom tile none of the Wild Mushroom boosts", () => {
     // allBoosts' Bud has the Mushroom stem, which boosts Wild Mushrooms only.
-    const next = dig(allBoosts(), 0, 1);
+    const next = dig(allBoosts(), 0, 3);
 
     expect(next.inventory["Magic Mushroom"]?.toNumber()).toBe(1);
     expect(next.inventory["Wild Mushroom"]).toBeUndefined();
@@ -424,7 +466,7 @@ describe("getCaveMushroomYield: Wild Mushroom boosts", () => {
     const next = dig(
       { ...allBoosts(), buds: { 1: mushroomBud({ stem: "Magic Mushroom" }) } },
       0,
-      1,
+      3,
     );
 
     expect(next.inventory["Magic Mushroom"]?.toNumber()).toBe(1.2);
@@ -446,7 +488,7 @@ describe("digCaveTile: Cave skills", () => {
   });
 
   it("counts every tile dug in the farm activity", () => {
-    const once = dig(readyState(), 1, 0);
+    const once = dig(readyState(), 2, 0);
     const twice = dig(once, 0, 0);
     expect(once.farmActivity["Cave Tile Dug"]).toBe(1);
     expect(twice.farmActivity["Cave Tile Dug"]).toBe(2);
@@ -463,24 +505,19 @@ describe("digCaveTile: Cave skills", () => {
   });
 
   it("Muddy Bounty multiplies a Mud mix tile's double Mud", () => {
-    const layout = generateCavePatch({ recipe: "Mud", seed: SEED });
-    const mudKey = Object.keys(layout).find(
-      (key) => layout[key].type === "Mud",
-    )!;
-    const [x, y] = mudKey.split(",").map(Number);
     const next = dig(
       withSkills(
         { "Muddy Bounty": 3 },
         readyState({ batch: { recipe: "Mud" } }),
       ),
-      x,
-      y,
+      0,
+      0,
     );
     expect(next.inventory.Mud?.toNumber()).toBe(2.6);
   });
 
   it("Muddy Bounty leaves Mushroom tiles alone", () => {
-    const next = dig(withSkills({ "Muddy Bounty": 3 }), 1, 0);
+    const next = dig(withSkills({ "Muddy Bounty": 3 }), 2, 0);
     expect(next.inventory["Wild Mushroom"]?.toNumber()).toBe(1);
     expect(next.boostsUsedAt?.["Muddy Bounty"]).toBeUndefined();
   });
@@ -499,7 +536,7 @@ describe("digCaveTile: Cave skills", () => {
   });
 
   it("Fungal Harvest boosts Magic Mushroom tiles too", () => {
-    const next = dig(withSkills({ "Fungal Harvest": 3 }), 0, 1);
+    const next = dig(withSkills({ "Fungal Harvest": 3 }), 0, 3);
     expect(next.inventory["Magic Mushroom"]?.toNumber()).toBe(1.4);
     expect(next.boostsUsedAt?.["Fungal Harvest"]).toBe(NOW);
   });
@@ -562,7 +599,7 @@ describe("digCaveTile: Cave skills", () => {
 
   it("Sturdy Shovel still needs a Sand Shovel to dig", () => {
     expect(() =>
-      dig(withSkills({ "Sturdy Shovel": 3 }, readyState({ shovels: 0 })), 1, 0),
+      dig(withSkills({ "Sturdy Shovel": 3 }, readyState({ shovels: 0 })), 2, 0),
     ).toThrow(DIG_CAVE_TILE_ERRORS.NO_SHOVEL);
   });
 
@@ -578,15 +615,17 @@ describe("digCaveTile: Cave skills", () => {
       });
       if (hit) hits += 1;
 
-      // (3,3) is a Green Beetle on this board.
+      // (4,1) is a Green Beetle when first dug at NOW + 1.
       const next = dig(
         withTilesDug(withSkills({ "Twin Beetles": 3 }), counter),
-        3,
-        3,
-        { farmId: FARM_ID },
+        4,
+        1,
+        { farmId: FARM_ID, createdAt: NOW + 1 },
       );
       expect(next.inventory["Green Beetle"]?.toNumber()).toBe(hit ? 2 : 1);
-      expect(next.boostsUsedAt?.["Twin Beetles"]).toBe(hit ? NOW : undefined);
+      expect(next.boostsUsedAt?.["Twin Beetles"]).toBe(
+        hit ? NOW + 1 : undefined,
+      );
     }
     expect(hits).toBeGreaterThan(0);
     expect(hits).toBeLessThan(60);
@@ -598,7 +637,7 @@ describe("digCaveTile: Cave skills", () => {
     for (let counter = 0; counter < 20; counter += 1) {
       const state = withTilesDug(withSkills({ "Twin Beetles": 3 }), counter);
       expect(
-        dig(state, 1, 0, { farmId: FARM_ID }).inventory[
+        dig(state, 2, 0, { farmId: FARM_ID }).inventory[
           "Wild Mushroom"
         ]?.toNumber(),
       ).toBe(1);
