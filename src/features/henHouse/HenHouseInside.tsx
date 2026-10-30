@@ -313,9 +313,13 @@ export const HenHouseInside: React.FC = () => {
                 <FeederMachine building="Hen House" />
               </div>
 
-              <div className="absolute -top-[11px] left-1/2 translate-x-[58px]">
-                <FeedAllButton building="Hen House" />
-              </div>
+              {/* Hidden while selling so animals can't be fed mid-sale. */}
+
+              {!showSellPanel && (
+                <div className="absolute -top-[11px] left-1/2 translate-x-[58px]">
+                  <FeedAllButton building="Hen House" />
+                </div>
+              )}
 
               <MapPlacement
                 x={floorX}
@@ -360,7 +364,10 @@ export const HenHouseInside: React.FC = () => {
                           }
                         }}
                       >
-                        <Chicken disabled={!!deal} id={animal.id} />
+                        <Chicken
+                          disabled={!!deal || showSellPanel}
+                          id={animal.id}
+                        />
                       </div>
                     );
                   })}
