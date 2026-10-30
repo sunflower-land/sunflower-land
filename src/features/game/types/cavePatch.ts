@@ -331,6 +331,21 @@ export function getRevealedCaveTiles(
 const PATTERNS = Array.from({ length: 1 << CAVE_PATCH_WIDTH }, (_, p) => p);
 const bit = (pattern: number, x: number) => (pattern >> x) & 1;
 
+/** Thrown by `sampleCavePatch` when the dug records cannot be satisfied. */
+export const CAVE_RECORDS_FIT_NO_BOARD = "The Cave records fit no board";
+
+/** A tile's kind, for matching what a dug tile held against the buried set. */
+function caveTileKind(tile: CaveTile): string {
+  switch (tile.type) {
+    case "Beetle":
+      return `Beetle:${tile.beetle}`;
+    case "Mushroom":
+      return `Mushroom:${tile.mushroom}`;
+    case "Mud":
+      return "Mud";
+  }
+}
+
 /**
  * Draw a whole board for the batch, uniformly from every board that fits what
  * the player has seen: each dug tile holds what it held, every clue it showed
@@ -348,20 +363,6 @@ const bit = (pattern: number, x: number) => (pattern >> x) & 1;
  * a dig's own records always fit the board it was drawn from. Throwing keeps
  * such a disagreement from paying out quietly.
  */
-export const CAVE_RECORDS_FIT_NO_BOARD = "The Cave records fit no board";
-
-/** A tile's kind, for matching what a dug tile held against the buried set. */
-function caveTileKind(tile: CaveTile): string {
-  switch (tile.type) {
-    case "Beetle":
-      return `Beetle:${tile.beetle}`;
-    case "Mushroom":
-      return `Mushroom:${tile.mushroom}`;
-    case "Mud":
-      return "Mud";
-  }
-}
-
 export function sampleCavePatch({
   batch,
   random,
