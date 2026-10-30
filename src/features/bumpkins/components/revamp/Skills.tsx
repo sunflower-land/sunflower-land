@@ -1,9 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
-import type {
-  BumpkinSkillRevamp,
-  BumpkinRevampSkillTree,
-} from "features/game/types/bumpkinSkills";
+import type { BumpkinRevampSkillTree } from "features/game/types/bumpkinSkills";
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { getAvailableRevampSkills } from "features/game/lib/skillAccess";
@@ -30,18 +27,14 @@ export const Skills: React.FC<Props> = ({ readonly }) => {
   });
   const [selectedSkillPath, setSelectedSkillPath] =
     useState<BumpkinRevampSkillTree | null>(null);
-  const [skillsInPath, setSkillsInTree] = useState<BumpkinSkillRevamp[]>([]);
+  // Derived each render so a path left open across the launch picks up the
+  // newly available skills.
+  const skillsInPath = selectedSkillPath
+    ? getAvailableRevampSkills(selectedSkillPath, state, now)
+    : [];
 
   const onSkillCategoryClickHandler = (category: BumpkinRevampSkillTree) => {
     setSelectedSkillPath(category);
-
-    const skillsInCategory: BumpkinSkillRevamp[] = getAvailableRevampSkills(
-      category,
-      state,
-      now,
-    );
-
-    setSkillsInTree(skillsInCategory);
   };
 
   const handleBackToSkillList = () => {
