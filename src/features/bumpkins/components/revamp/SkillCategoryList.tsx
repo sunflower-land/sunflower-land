@@ -51,7 +51,9 @@ const _state = (state: MachineState) => state.context.state;
 
 export const SkillCategoryList: React.FC<{
   onClick: (category: BumpkinRevampSkillTree) => void;
-}> = ({ onClick }) => {
+  /** The parent's clock, so the list and the opened path agree at launch. */
+  now: number;
+}> = ({ onClick, now }) => {
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(Context);
@@ -140,7 +142,8 @@ export const SkillCategoryList: React.FC<{
           const categories = getRevampSkillTreeCategoriesByIsland(
             islandType,
           ).filter(
-            (category) => getAvailableRevampSkills(category, state).length > 0,
+            (category) =>
+              getAvailableRevampSkills(category, state, now).length > 0,
           );
           if (categories.length <= 0) return;
 
@@ -166,7 +169,7 @@ export const SkillCategoryList: React.FC<{
               </div>
               <div className="grid grid-cols-2 gap-1">
                 {categories.map((category) => {
-                  const skills = getAvailableRevampSkills(category, state);
+                  const skills = getAvailableRevampSkills(category, state, now);
                   const icon = SKILL_TREE_ICONS[skills[0].tree];
                   const skillsAcquiredInCategoryCount = getKeys({
                     ...bumpkin?.skills,

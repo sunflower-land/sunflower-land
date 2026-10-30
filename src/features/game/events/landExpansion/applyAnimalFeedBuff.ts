@@ -12,7 +12,7 @@ import {
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import { hasFeatureAccess } from "lib/flags";
+import { hasTimeBasedFeatureAccess } from "lib/flags";
 import { isAnimalNeedingLove } from "./loveAnimal";
 
 export const ANIMAL_FEED_BUFF_ITEMS: AnimalFeedBuffName[] = [
@@ -150,7 +150,11 @@ export function applyAnimalFeedBuff({
     // Truffle Seasoning rides on the Pigs' flag: Truffle only exists behind it
     if (
       action.item === "Truffle Seasoning" &&
-      !hasFeatureAccess(copy, "PIGPEN")
+      !hasTimeBasedFeatureAccess({
+        featureName: "PIGPEN",
+        game: copy,
+        now: createdAt,
+      })
     ) {
       throw new Error(APPLY_ANIMAL_FEED_BUFF_ERRORS.NO_FEATURE_ACCESS);
     }

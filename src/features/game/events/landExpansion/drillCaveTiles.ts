@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import type { GameState } from "features/game/types/game";
-import { hasFeatureAccess } from "lib/flags";
+import { hasTimeBasedFeatureAccess } from "lib/flags";
 import { isCaveBuildingReady } from "features/game/lib/cave";
 import {
   CAVE_DRILL_COST,
@@ -57,7 +57,13 @@ export function drillCaveTiles({
   farmId,
 }: Options): GameState {
   return produce(state, (game) => {
-    if (!hasFeatureAccess(game, "CAVE")) {
+    if (
+      !hasTimeBasedFeatureAccess({
+        featureName: "CAVE",
+        game: game,
+        now: createdAt,
+      })
+    ) {
       throw new Error(DRILL_CAVE_TILES_ERRORS.NO_FEATURE_ACCESS);
     }
 

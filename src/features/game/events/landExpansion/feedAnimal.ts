@@ -40,7 +40,7 @@ import {
   type BeetleName,
   isBeetle,
 } from "features/game/types/beetles";
-import { hasFeatureAccess } from "lib/flags";
+import { hasTimeBasedFeatureAccess } from "lib/flags";
 
 export const ANIMAL_SLEEP_DURATION = 24 * 60 * 60 * 1000;
 
@@ -336,7 +336,15 @@ export function feedAnimal({
 
     const level = getAnimalLevel(animal.experience, animal.type);
     const food = action.item as AnimalFoodName | BeetleName;
-    if (food && isBeetle(food) && !hasFeatureAccess(copy, "BEETLE_FEEDING")) {
+    if (
+      food &&
+      isBeetle(food) &&
+      !hasTimeBasedFeatureAccess({
+        featureName: "BEETLE_FEEDING",
+        game: copy,
+        now: createdAt,
+      })
+    ) {
       throw new Error("Beetle feeding is not available");
     }
 

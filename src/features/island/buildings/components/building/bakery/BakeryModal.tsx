@@ -12,7 +12,7 @@ import {
   isTruffleRecipe,
 } from "features/game/types/consumables";
 import { Context } from "features/game/GameProvider";
-import { hasFeatureAccess } from "lib/flags";
+import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel } from "components/ui/Panel";
 import type { BuildingProduct } from "features/game/types/game";
@@ -39,9 +39,11 @@ export const BakeryModal: React.FC<Props> = ({
 }) => {
   const { gameService } = useContext(Context);
   // Truffle recipes ride on the Pigs' flag (Truffle only exists behind it)
-  const hasTruffleRecipes = useSelector(gameService, (state) =>
-    hasFeatureAccess(state.context.state, "PIGPEN"),
-  );
+  const state = useSelector(gameService, (state) => state.context.state);
+  const hasTruffleRecipes = useTimeBasedFeatureAccess({
+    featureName: "PIGPEN",
+    game: state,
+  });
   const cakeRecipes = Object.values(BAKERY_COOKABLES)
     .filter((recipe) => !isTruffleRecipe(recipe.name) || hasTruffleRecipes)
     .sort(

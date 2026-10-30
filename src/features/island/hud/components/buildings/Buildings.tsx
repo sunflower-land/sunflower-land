@@ -29,15 +29,20 @@ import { getCurrentBiome } from "features/island/biomes/biomes";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import type { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
 import type { MachineState } from "features/game/lib/gameMachine";
-import type { GameState } from "features/game/types/game";
 import { getObjectEntries } from "lib/object";
-import { hasFeatureAccess } from "lib/flags";
+import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 
 interface Props {
   onClose: () => void;
 }
 
-const getValidBuildings = (state: GameState): BuildingName[] => {
+const getValidBuildings = ({
+  hasPigpenAccess,
+  hasCaveAccess,
+}: {
+  hasPigpenAccess: boolean;
+  hasCaveAccess: boolean;
+}): BuildingName[] => {
   const UNSORTED_BUILDINGS: BuildingName[] = [
     "Kitchen",
     "Water Well",
@@ -59,11 +64,11 @@ const getValidBuildings = (state: GameState): BuildingName[] => {
     "Aging Shed",
   ];
 
-  if (hasFeatureAccess(state, "PIGPEN")) {
+  if (hasPigpenAccess) {
     UNSORTED_BUILDINGS.push("Pigpen");
   }
 
-  if (hasFeatureAccess(state, "CAVE")) {
+  if (hasCaveAccess) {
     UNSORTED_BUILDINGS.push("Cave");
   }
 
@@ -97,6 +102,14 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
   const island = useSelector(gameService, _island);
   const collectibles = useSelector(gameService, _collectibles);
   const season = useSelector(gameService, _season);
+  const hasPigpenAccess = useTimeBasedFeatureAccess({
+    featureName: "PIGPEN",
+    game: state,
+  });
+  const hasCaveAccess = useTimeBasedFeatureAccess({
+    featureName: "CAVE",
+    game: state,
+  });
   const { t } = useAppTranslation();
   const buildingBlueprint = BUILDINGS[selectedName];
   const bumpkinLevel = getAscensionLevel({
@@ -195,42 +208,44 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
       }
       content={
         <>
-          {[...getValidBuildings(state)].map((name: BuildingName) => {
-            const blueprint = BUILDINGS[name];
-            const inventoryCount = inventory[name] || new Decimal(0);
-            const isLocked = !meetsLevelRequirement(
-              bumpkinLevel,
-              blueprint.unlocksAtLevel,
-            );
+          {[...getValidBuildings({ hasPigpenAccess, hasCaveAccess })].map(
+            (name: BuildingName) => {
+              const blueprint = BUILDINGS[name];
+              const inventoryCount = inventory[name] || new Decimal(0);
+              const isLocked = !meetsLevelRequirement(
+                bumpkinLevel,
+                blueprint.unlocksAtLevel,
+              );
 
-            let secondaryIcon = undefined;
-            if (isLocked) {
-              secondaryIcon = SUNNYSIDE.icons.lock;
-            }
+              let secondaryIcon = undefined;
+              if (isLocked) {
+                secondaryIcon = SUNNYSIDE.icons.lock;
+              }
 
-            if (inventoryCount.greaterThanOrEqualTo(1)) {
-              secondaryIcon = SUNNYSIDE.icons.confirm;
-            }
+              if (inventoryCount.greaterThanOrEqualTo(1)) {
+                secondaryIcon = SUNNYSIDE.icons.confirm;
+              }
 
-            const hasLevel = isBuildingUpgradable(name)
-              ? state[makeUpgradableBuildingKey(name)].level
-              : undefined;
+              const hasLevel = isBuildingUpgradable(name)
+                ? state[makeUpgradableBuildingKey(name)].level
+                : undefined;
 
-            const image =
-              ITEM_ICONS(season, getCurrentBiome(island), hasLevel)[name] ??
-              ITEM_DETAILS[name].image;
+              const image =
+                ITEM_ICONS(season, getCurrentBiome(island), hasLevel)[name] ??
+                ITEM_DETAILS[name].image;
 
-            return (
-              <Box
-                isSelected={selectedName === name}
-                key={name}
-                onClick={() => setSelectedName(name)}
-                image={image}
-                secondaryImage={secondaryIcon}
-                showOverlay={isLocked}
-              />
-            );
-          })}
+              return (
+                <Box
+                  isSelected={selectedName === name}
+                  key={name}
+                  onClick={() => setSelectedName(name)}
+                  image={image}
+                  secondaryImage={secondaryIcon}
+                  showOverlay={isLocked}
+                />
+              );
+            },
+          )}
         </>
       }
     />
