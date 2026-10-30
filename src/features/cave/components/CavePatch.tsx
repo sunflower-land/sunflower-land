@@ -19,6 +19,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { CAVE_PATCH_SIZE } from "features/game/expansion/placeable/lib/caveLayout";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
+import { Button } from "components/ui/Button";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { getCaveBatchPercentage } from "features/cave/lib/caveBatchProgress";
 import { getKeys } from "lib/object";
@@ -36,7 +37,7 @@ interface Props {
   machineId: string;
   batch?: CaveBatch;
   now: number;
-  hasShovel: boolean;
+  shovels: number;
   hasDrill: boolean;
   /** The tile the Cave tutorial points at for the first dig. */
   tutorialTile?: { x: number; y: number };
@@ -93,7 +94,7 @@ export const CavePatch: React.FC<Props> = ({
   machineId,
   batch,
   now,
-  hasShovel,
+  shovels,
   hasDrill,
   tutorialTile,
 }) => {
@@ -175,6 +176,16 @@ export const CavePatch: React.FC<Props> = ({
     : undefined;
   const mushroomsTotal = composition?.Mushroom ?? 0;
   const mushroomsFound = found.Mushroom;
+  const hasShovel = shovels > 0;
+  // Once every Mushroom and Beetle is found the rest is Mud: dig it in one go.
+  const undugCount =
+    CAVE_PATCH_SIZE ** 2 - Object.keys(batch?.dug ?? {}).length;
+  const canDigAll =
+    hasBoard &&
+    !cleared &&
+    !!beetles &&
+    beetles.found >= beetles.total &&
+    mushroomsFound >= mushroomsTotal;
 
   const drilling = ready && selectedItem === "Sand Drill";
   // Where the hover box sits: the 2x2 square's top-left for the drill, the
@@ -371,6 +382,24 @@ export const CavePatch: React.FC<Props> = ({
             <Label type="success" icon={ITEM_DETAILS["Wild Mushroom"].image}>
               {t("cave.dig.allMushroomsFound")}
             </Label>
+          )}
+          {ready && canDigAll && (
+            <Button
+              className="pointer-events-auto w-auto mt-1"
+              disabled={shovels < undugCount}
+              onClick={() => {
+                setHovered(undefined);
+                gameService.send({ type: "cave.dugAll", machineId });
+              }}
+            >
+              <div className="flex items-center gap-1">
+                <img
+                  src={ITEM_DETAILS["Sand Shovel"].image}
+                  style={{ width: `${PIXEL_SCALE * 7}px` }}
+                />
+                {t("cave.dig.digAll", { amount: undugCount })}
+              </div>
+            </Button>
           )}
         </div>
       )}

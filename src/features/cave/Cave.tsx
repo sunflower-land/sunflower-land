@@ -331,7 +331,7 @@ export const Cave: React.FC = () => {
                             : batch
                         }
                         now={now}
-                        hasShovel={shovels > 0}
+                        shovels={shovels}
                         hasDrill={drills > 0}
                         tutorialTile={
                           id === 1 && guiding === "dig"

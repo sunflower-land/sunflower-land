@@ -63,6 +63,10 @@ import {
   drillCaveTiles,
   type DrillCaveTilesAction,
 } from "./landExpansion/drillCaveTiles";
+import {
+  digAllCaveTiles,
+  type DigAllCaveTilesAction,
+} from "./landExpansion/digAllCaveTiles";
 import { expandCave, type ExpandCaveAction } from "./landExpansion/expandCave";
 import {
   speedUpCaveExpansion,
@@ -1092,6 +1096,7 @@ export type PlayingEvent =
   | StartCaveBatchAction
   | DigCaveTileAction
   | DrillCaveTilesAction
+  | DigAllCaveTilesAction
   | ExpandCaveAction
   | SpeedUpCaveExpansionAction
   | CompleteCaveExpansionAction
@@ -1405,6 +1410,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "cave.batchStarted": startCaveBatch,
   "cave.dug": digCaveTile,
   "cave.drilled": drillCaveTiles,
+  "cave.dugAll": digAllCaveTiles,
   "cave.expanded": expandCave,
   "cave.expansionSpedUp": speedUpCaveExpansion,
   "cave.expansionCompleted": completeCaveExpansion,
