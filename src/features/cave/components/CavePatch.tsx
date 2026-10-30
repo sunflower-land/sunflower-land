@@ -44,6 +44,8 @@ interface Props {
   hasDrill: boolean;
   /** The tile the Cave tutorial points at for the first dig. */
   tutorialTile?: { x: number; y: number };
+  /** Hides Dig All while the Cave tutorial is teaching digging. */
+  hideDigAll?: boolean;
 }
 
 // The same hover boxes the desert dig site uses: one tile for the shovel,
@@ -103,6 +105,7 @@ export const CavePatch: React.FC<Props> = ({
   shovels,
   hasDrill,
   tutorialTile,
+  hideDigAll,
 }) => {
   const { gameService, selectedItem, shortcutItem } = useContext(Context);
   const { t } = useAppTranslation();
@@ -191,7 +194,7 @@ export const CavePatch: React.FC<Props> = ({
   const digAllGems = useSelector(gameService, (state: MachineState) =>
     batch ? getCaveDigAllGems({ batch, game: state.context.state, now }) : 0,
   );
-  const canDigAll = hasBoard && !cleared;
+  const canDigAll = hasBoard && !cleared && !hideDigAll;
   const canAffordDigAll = shovels >= undugCount && gems >= digAllGems;
 
   const drilling = ready && selectedItem === "Sand Drill";

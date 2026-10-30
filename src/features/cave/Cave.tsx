@@ -175,6 +175,8 @@ export const Cave: React.FC = () => {
     !showMerchant;
   const guiding =
     tutorialStep && tutorialSeen[tutorialStep] ? tutorialStep : undefined;
+  // Dig All would skip the digging lessons; it shows again from "expand".
+  const hideDigAll = !!tutorialStep && tutorialStep !== "expand";
 
   return (
     <div className="absolute inset-0 bg-[#181425] overflow-hidden">
@@ -333,6 +335,7 @@ export const Cave: React.FC = () => {
                         now={now}
                         shovels={shovels}
                         hasDrill={drills > 0}
+                        hideDigAll={hideDigAll}
                         tutorialTile={
                           id === 1 && guiding === "dig"
                             ? { x: 2, y: 2 }
