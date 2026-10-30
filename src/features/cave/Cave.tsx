@@ -55,7 +55,19 @@ import {
   getCaveTutorialStep,
   type CaveTutorialSeen,
 } from "./lib/onboarding";
+import { PlayerModal } from "features/social/PlayerModal";
+import { Discovery } from "features/social/Discovery";
+import { Context as AuthContext } from "features/auth/lib/Provider";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
 
+const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
+const _loggedInFarmId = (state: MachineState) =>
+  state.context.visitorId ?? state.context.farmId;
+const _hasAirdropAccess = (state: MachineState) =>
+  hasFeatureAccess(
+    state.context.visitorState ?? state.context.state,
+    "AIRDROP_PLAYER",
+  );
 const _cave = (state: MachineState) => state.context.state.cave;
 const _buildings = (state: MachineState) => state.context.state.buildings;
 const _hasCaveAccess = (state: MachineState) =>
@@ -116,6 +128,10 @@ export const Cave: React.FC = () => {
   const hasCaveAccess = useSelector(gameService, _hasCaveAccess);
   const shovels = useSelector(gameService, _shovels);
   const drills = useSelector(gameService, _drills);
+  const { authService } = useContext(AuthContext);
+  const token = useSelector(authService, _token);
+  const loggedInFarmId = useSelector(gameService, _loggedInFarmId);
+  const hasAirdropAccess = useSelector(gameService, _hasAirdropAccess);
   const now = useNow({ live: true });
   const [selectedMachine, setSelectedMachine] = useState<string>();
   const [showExpansion, setShowExpansion] = useState(false);
@@ -419,6 +435,15 @@ export const Cave: React.FC = () => {
       {/* Same HUD as the other interiors (barn, greenhouse, …): the travel slot
           becomes a "back to farm" button for non-farm locations. */}
       <Hud isFarming={false} location="home" />
+
+      {/* The HUD's social Feed opens these through modal managers; each scene
+          mounts its own listeners, so without them feed clicks do nothing. */}
+      <PlayerModal
+        loggedInFarmId={loggedInFarmId}
+        token={token}
+        hasAirdropAccess={hasAirdropAccess}
+      />
+      <Discovery />
     </div>
   );
 };

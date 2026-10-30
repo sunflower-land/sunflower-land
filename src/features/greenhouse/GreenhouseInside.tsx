@@ -14,6 +14,7 @@ import { GreenhouseOil } from "./GreenhouseOil";
 import { EXTERIOR_ISLAND_BG } from "features/barn/BarnInside";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { PlayerModal } from "features/social/PlayerModal";
+import { Discovery } from "features/social/Discovery";
 import { hasFeatureAccess } from "lib/flags";
 import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { Context as AuthContext } from "features/auth/lib/Provider";
@@ -147,6 +148,7 @@ export const GreenhouseInside: React.FC = () => {
         token={token}
         hasAirdropAccess={hasAirdropAccess}
       />
+      <Discovery />
     </>
   );
 };
