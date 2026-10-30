@@ -21,6 +21,10 @@ function getChapterMegastoreChestRewards(
   now: number,
   weight: number,
 ): RewardBoxReward[] {
+  if (now >= CHAPTERS["Cave Dwellers"].startDate.getTime()) {
+    return [];
+  }
+
   const chapter = getCurrentChapter(now);
   const { startDate, endDate } = CHAPTERS[chapter];
   const nowDate = new Date(now);
