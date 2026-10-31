@@ -15121,16 +15121,16 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Duende Monument",
   },
-  "Miner's Bed": {
+  "Spooky Bed": {
     description:
-      "A sturdy bed for a long night's rest after a day underground.",
+      "A haunted bed for the bravest cave dwellers. Its ghostly guest never snores.",
     decimals: 0,
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    name: "Miner's Bed",
+    name: "Spooky Bed",
   },
   "Giant Truffle": {
     description: "A truffle so large the Pigs dream about it.",

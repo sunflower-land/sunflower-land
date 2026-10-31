@@ -1681,7 +1681,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Beetle Sheep": 3109,
   "Cyclops Bloom": 3110,
   "Duende Monument": 3111,
-  "Miner's Bed": 3112,
+  "Spooky Bed": 3112,
   "Giant Truffle": 3113,
   "Mining Drill": 3114,
   "Piggy Bank": 3115,

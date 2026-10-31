@@ -1432,7 +1432,7 @@ export type BedName =
   | "Messy Bed"
   | "Salt Crystal Bed"
   | "Cloud Bed"
-  | "Miner's Bed";
+  | "Spooky Bed";
 
 export type RecipeCraftableName =
   | "Cushion"

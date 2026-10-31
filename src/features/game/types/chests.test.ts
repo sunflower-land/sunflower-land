@@ -17,7 +17,7 @@ describe("chapter megastore chest rewards", () => {
   const CAVE_DWELLERS_MEGASTORE_REWARDS = [
     { wearables: { "Duende Hat": 1 }, weighting: 1.9 * CHEST_MULTIPLIER },
     { items: { "Straw House": 1 }, weighting: 1.9 * CHEST_MULTIPLIER },
-    { items: { "Mining Drill": 1 }, weighting: 1.9 * CHEST_MULTIPLIER },
+    { items: { "Pot of Luck": 1 }, weighting: 1.9 * CHEST_MULTIPLIER },
   ];
 
   it("adds Ascension Age megastore items to Luxury chests during Ascension Age", () => {
