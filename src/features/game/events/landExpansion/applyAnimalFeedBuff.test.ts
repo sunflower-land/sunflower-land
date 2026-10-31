@@ -468,17 +468,17 @@ describe("applyAnimalFeedBuff: Truffle Seasoning (Chapter 16)", () => {
       },
     });
 
-  it("lasts one sleep and costs one Seasoning", () => {
+  it("lasts three sleeps and costs one Seasoning", () => {
     const state = season(farm());
 
     expect(state.henHouse.animals[chickenId].feedBuff).toEqual({
       name: "Truffle Seasoning",
-      harvestsRemaining: 1,
+      harvestsRemaining: 3,
     });
     expect(state.inventory["Truffle Seasoning"]).toEqual(new Decimal(0));
   });
 
-  it("lasts two sleeps with a placed Vibraphone", () => {
+  it("lasts six sleeps with a placed Vibraphone", () => {
     const state = season(
       farm({
         collectibles: {
@@ -489,7 +489,7 @@ describe("applyAnimalFeedBuff: Truffle Seasoning (Chapter 16)", () => {
 
     expect(state.henHouse.animals[chickenId].feedBuff).toEqual({
       name: "Truffle Seasoning",
-      harvestsRemaining: 2,
+      harvestsRemaining: 6,
     });
   });
 
@@ -515,7 +515,7 @@ describe("applyAnimalFeedBuff: Truffle Seasoning (Chapter 16)", () => {
     expect(chicken.awakeAt).toEqual(awakeAt);
     expect(chicken.feedBuff).toEqual({
       name: "Truffle Seasoning",
-      harvestsRemaining: 1,
+      harvestsRemaining: 3,
     });
   });
 

@@ -2606,7 +2606,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   "Truffle Seasoning": {
     name: "Truffle Seasoning",
     description:
-      "A Truffle treat crafted at the Spice Rack.\n\nFeed to an animal to halve its next sleep.",
+      "A Truffle treat crafted at the Spice Rack.\n\nFeed to an animal to halve its next 3 sleeps.",
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     attributes: [

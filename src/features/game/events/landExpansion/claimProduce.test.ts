@@ -2730,7 +2730,7 @@ describe("claimProduce: Truffle Seasoning (Chapter 16)", () => {
       action: { type: "produce.claimed", animal: "Chicken", id: chickenId },
     }).henHouse.animals[chickenId];
 
-  it("halves the sleep the claim starts and spends its only charge on it", () => {
+  it("halves the sleep the claim starts and spends its last charge on it", () => {
     const chicken = claim(
       farm({ name: "Truffle Seasoning", harvestsRemaining: 1 }),
     );
@@ -2740,15 +2740,15 @@ describe("claimProduce: Truffle Seasoning (Chapter 16)", () => {
     expect(chicken.feedBuff).toBeUndefined();
   });
 
-  it("keeps a Vibraphone's second charge for the sleep after", () => {
+  it("keeps the remaining charges for the sleeps after", () => {
     const chicken = claim(
-      farm({ name: "Truffle Seasoning", harvestsRemaining: 2 }),
+      farm({ name: "Truffle Seasoning", harvestsRemaining: 3 }),
     );
 
     expect(chicken.baseDurationMs).toEqual(ANIMAL_SLEEP_DURATION / 2);
     expect(chicken.feedBuff).toEqual({
       name: "Truffle Seasoning",
-      harvestsRemaining: 1,
+      harvestsRemaining: 2,
     });
   });
 

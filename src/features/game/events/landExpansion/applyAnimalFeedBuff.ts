@@ -59,24 +59,17 @@ export const BASE_FEED_BUFF_HARVESTS = 3;
  * spice-rack treats keep their three.
  */
 export const MUD_HARVESTS = 1;
-/** A Truffle Seasoning shortens ONE sleep (the charge is spent on the claim that starts it). */
-export const TRUFFLE_SEASONING_SLEEPS = 1;
 
 /**
- * How many produce claims a treat lasts. Salt Lick and Honey Treat run three
- * harvests; Truffle Seasoning one sleep; Mud has its own `getMudHarvests`.
+ * How many produce claims a treat lasts: Salt Lick, Honey Treat and Truffle
+ * Seasoning all run three (six with a Vibraphone). Mud has its own
+ * `getMudHarvests`.
  */
-export function getAnimalHarvests(
-  game: GameState,
-  item?: AnimalFeedBuffName,
-): {
+export function getAnimalHarvests(game: GameState): {
   harvests: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
-  let harvests =
-    item === "Truffle Seasoning"
-      ? TRUFFLE_SEASONING_SLEEPS
-      : BASE_FEED_BUFF_HARVESTS;
+  let harvests = BASE_FEED_BUFF_HARVESTS;
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
   // Vibraphone doubles how long a feed buff lasts
@@ -166,7 +159,7 @@ export function applyAnimalFeedBuff({
 
     copy.inventory[action.item] = count.minus(1);
 
-    const { harvests, boostsUsed } = getAnimalHarvests(copy, action.item);
+    const { harvests, boostsUsed } = getAnimalHarvests(copy);
 
     animal.feedBuff = {
       name: action.item,
