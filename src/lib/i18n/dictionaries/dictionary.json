@@ -442,7 +442,7 @@
   "description.queen.cornelia.boost": "+1 Corn",
   "description.queen.cornelia.boost.aoe": "Affects plots around (3x4)",
   "description.foliant.boost": "+0.2 Kale",
-  "description.hoot.boost": "+0.5 Wheat, Radish, Kale, Rice, Barley",
+  "description.hoot.boost": "+0.5 Wheat, Radish, Turnip, Kale, Artichoke, Rice, Barley",
   "description.hungry.caterpillar.boost": "Free Flower Seeds",
   "description.black.bearry.boost": "+1 Blueberry",
   "description.squirrel.monkey.boost": "x0.5 Orange Growth Time",
