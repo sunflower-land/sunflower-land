@@ -9,7 +9,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 export const Feed: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const { t } = useAppTranslation();
   return (
-    <InnerPanel className="relative overflow-y-auto max-h-[400px] scrollable">
+    <InnerPanel className="relative overflow-y-auto max-h-[70vh] scrollable">
       <div className="flex items-center gap-2">
         <img
           src={SUNNYSIDE.icons.arrow_left}

@@ -210,6 +210,11 @@ const FEATURE_FLAGS = {
   // run can be tested on mainnet. Everyone else waits for the event window —
   // see hasChapterCropWeekAccess. Remove once the event is live for all.
   CHAPTER_CROP_WEEK_EARLY_ACCESS: adminFeatureFlag,
+
+  // Redesigned Pet House modal: separate Pets / Feed / Guides tabs, the
+  // Included/Excluded Foods board, and pet sort. Beta-pass / testnet only
+  // until it's had time to bake — a bug here shouldn't affect all players.
+  PET_HOUSE_TABS: betaFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
