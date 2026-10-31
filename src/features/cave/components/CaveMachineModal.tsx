@@ -13,7 +13,6 @@ import { OuterPanel } from "components/ui/Panel";
 import { CaveMixPicker } from "./CaveMixPicker";
 import { CaveBatchGrowing } from "./CaveBatchGrowing";
 import { CaveBatchReady } from "./CaveBatchReady";
-import { CaveDigAll } from "./CaveDigAll";
 
 const _game = (state: MachineState) => state.context.state;
 
@@ -22,21 +21,17 @@ interface Props {
   onClose: () => void;
   /** Point the Cave tutorial hand at what starts the first batch. */
   showTutorialHand?: boolean;
-  /** Hides Dig All while the Cave tutorial is teaching digging. */
-  hideDigAll?: boolean;
 }
 
 /**
  * The Myco Bin batch popover, laid out like the Aging Shed: the mix picker
  * (idle, or once the patch is cleared or every Beetle is found), or the
- * batch's progress (growing, or ready and being dug). A ready patch that is
- * not cleared also offers Dig All.
+ * batch's progress (growing, or ready and being dug).
  */
 export const CaveMachineModal: React.FC<Props> = ({
   machineId,
   onClose,
   showTutorialHand,
-  hideDigAll,
 }) => {
   const { gameService } = useContext(Context);
 
@@ -52,28 +47,18 @@ export const CaveMachineModal: React.FC<Props> = ({
   const isIdle = !batch || isCleared || canReplace;
   const isReady = !!batch && !isIdle && batch.readyAt <= now;
   const isGrowing = !!batch && !isIdle && !isReady;
-  // Ready to dig, or every Beetle found with tiles still buried.
-  const canDigAll = (isReady || canReplace) && !hideDigAll;
 
   return (
     <Modal show onHide={onClose}>
       <CloseButtonPanel onClose={onClose} container={OuterPanel}>
         {isGrowing && batch && <CaveBatchGrowing batch={batch} now={now} />}
-        {isReady && batch && <CaveBatchReady batch={batch} />}
+        {isReady && batch && <CaveBatchReady batch={batch} onDig={onClose} />}
         {isIdle && (
           <CaveMixPicker
             machineId={machineId}
             batch={batch}
             onStarted={onClose}
             showTutorialHand={showTutorialHand}
-          />
-        )}
-        {canDigAll && batch && (
-          <CaveDigAll
-            machineId={machineId}
-            batch={batch}
-            now={now}
-            onDug={onClose}
           />
         )}
       </CloseButtonPanel>

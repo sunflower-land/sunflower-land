@@ -53,31 +53,16 @@ export function getInstantGems({
     gems = new Decimal(lastThreshold[1]);
   }
 
-  return applyDailyGemMultiplier({ gems, now, game });
-}
-
-/**
- * Scales a base gem price by what the farm has spent on gems today:
- * x1.15 for every 100 Gems, rounded to a whole gem.
- */
-export function applyDailyGemMultiplier({
-  gems,
-  now,
-  game,
-}: {
-  gems: Decimal | number;
-  now: number;
-  game: GameState;
-}): number {
   const today = new Date(now).toISOString().substring(0, 10);
   const gemsSpentToday = game.gems.history?.[today]?.spent ?? 0;
 
   const multiplier = new Decimal(gemsSpentToday).div(100);
 
-  return new Decimal(gems)
+  gems = new Decimal(gems)
     .mul(new Decimal(EXPONENTIAL_MULTIPLIER).pow(multiplier))
-    .toDecimalPlaces(0, Decimal.ROUND_HALF_UP)
-    .toNumber();
+    .toDecimalPlaces(0, Decimal.ROUND_HALF_UP);
+
+  return gems.toNumber();
 }
 
 /**

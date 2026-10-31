@@ -5,11 +5,7 @@ import type {
   GameState,
   PlacedItem,
 } from "features/game/types/game";
-import {
-  hasIdleCaveMachine,
-  isCaveBuildingReady,
-  isCaveMachineReady,
-} from "./cave";
+import { hasIdleCaveMachine, isCaveBuildingReady } from "./cave";
 import { CAVE_PATCH_WIDTH } from "features/game/types/caveRecipes";
 
 const now = 1_000_000;
@@ -111,48 +107,5 @@ describe("hasIdleCaveMachine", () => {
         withMachines({ "1": { batch: growing }, "2": { batch: cleared } }),
       ),
     ).toBe(true);
-  });
-});
-
-describe("isCaveMachineReady", () => {
-  const growing: CaveBatch = {
-    recipe: "Mushroom",
-    startedAt: 0,
-    readyAt: now + 1,
-  };
-  const ready: CaveBatch = { ...growing, readyAt: now };
-  const cleared: CaveBatch = {
-    ...ready,
-    dug: Object.fromEntries(
-      Array.from({ length: CAVE_PATCH_WIDTH ** 2 }, (_, i) => [
-        `${i % CAVE_PATCH_WIDTH},${Math.floor(i / CAVE_PATCH_WIDTH)}`,
-        { dugAt: now, tile: { type: "Mud", amount: 1 } },
-      ]),
-    ),
-  };
-
-  it("is false without a batch", () => {
-    expect(isCaveMachineReady({}, now)).toBe(false);
-  });
-
-  it("is false while the batch is growing", () => {
-    expect(isCaveMachineReady({ batch: growing }, now)).toBe(false);
-  });
-
-  it("is true once the batch is ready to dig", () => {
-    expect(isCaveMachineReady({ batch: ready }, now)).toBe(true);
-  });
-
-  it("is true while a ready patch is partly dug", () => {
-    expect(
-      isCaveMachineReady(
-        { batch: { ...ready, dug: { "0,0": cleared.dug!["0,0"] } } },
-        now,
-      ),
-    ).toBe(true);
-  });
-
-  it("is false once the patch is dug out", () => {
-    expect(isCaveMachineReady({ batch: cleared }, now)).toBe(false);
   });
 });
