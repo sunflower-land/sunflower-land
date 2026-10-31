@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { useSelector } from "@xstate/react";
 
+import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -24,20 +25,27 @@ export const DuplicateWithdraw: React.FC = () => {
   const errorDetails = useSelector(gameService, _errorDetails);
   const blockedUntil = getWithdrawBlockedUntil(errorDetails);
 
+  // Nothing to retry here (the hold runs its course), so just go back to
+  // the game instead of leaving a page reload as the only way out.
+  const close = () => gameService.send("CONTINUE");
+
   return (
-    <div className=" p-1">
-      <Label type="danger" className="mb-2">
-        {t("withdraw.duplicate.title")}
-      </Label>
-      <p className="text-xs mb-1">{t("withdraw.duplicate.description")}</p>
-      {blockedUntil !== undefined && (
-        <p className="text-xs mt-2">
-          {t("withdraw.duplicate.blockedUntil", {
-            date: formatWithdrawableDate(blockedUntil),
-          })}
-        </p>
-      )}
-      <p className="text-xs mt-2">{t("withdraw.duplicate.waitMessage")}</p>
+    <div className="flex flex-col gap-1">
+      <div className="p-1">
+        <Label type="danger" className="mb-2">
+          {t("withdraw.duplicate.title")}
+        </Label>
+        <p className="text-xs mb-1">{t("withdraw.duplicate.description")}</p>
+        {blockedUntil !== undefined && (
+          <p className="text-xs mt-2">
+            {t("withdraw.duplicate.blockedUntil", {
+              date: formatWithdrawableDate(blockedUntil),
+            })}
+          </p>
+        )}
+        <p className="text-xs mt-2">{t("withdraw.duplicate.waitMessage")}</p>
+      </div>
+      <Button onClick={close}>{t("continue")}</Button>
     </div>
   );
 };
