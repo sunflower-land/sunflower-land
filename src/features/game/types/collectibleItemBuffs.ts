@@ -2493,9 +2493,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS["Earthworm"].image,
     },
   ],
-  "Mining Drill": () => [
+  "Pot of Luck": () => [
     {
-      shortDescription: translate("description.miningDrill.boost"),
+      shortDescription: translate("description.potOfLuck.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS["Sand Shovel"].image,

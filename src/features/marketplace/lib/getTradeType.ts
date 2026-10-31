@@ -1486,7 +1486,7 @@ export const ITEM_TRADE_TYPES: {
     "Beetle Sheep": "instant",
     "Cyclops Bloom": "instant",
     "Duende Monument": "instant",
-    "Miner's Bed": "instant",
+    "Spooky Bed": "instant",
     "Giant Truffle": "onchain",
     "Mining Drill": "instant",
     "Piggy Bank": "onchain",

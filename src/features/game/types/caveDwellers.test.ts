@@ -58,8 +58,8 @@ describe("Cave Dwellers registration", () => {
     ]);
   });
 
-  it("makes Miner's Bed the 14th farmhand bed", () => {
-    expect(BED_FARMHAND_COUNT["Miner's Bed"]).toEqual(14);
+  it("makes Spooky Bed the 14th farmhand bed", () => {
+    expect(BED_FARMHAND_COUNT["Spooky Bed"]).toEqual(14);
   });
 
   const NEW_ITEMS = [
@@ -74,7 +74,7 @@ describe("Cave Dwellers registration", () => {
     "Beetle Sheep",
     "Cyclops Bloom",
     "Duende Monument",
-    "Miner's Bed",
+    "Spooky Bed",
     "Giant Truffle",
     "Mining Drill",
     "Piggy Bank",
@@ -142,14 +142,14 @@ describe("Cave Dwellers chapter track", () => {
     [5, "premium", { items: { TNT: 1 } }],
     [10, "premium", { wearables: { "Pig Onesie": 1 } }],
     [15, "free", { items: { "Mushroom Log": 1 } }],
-    [20, "free", { items: { "Pot of Luck": 1 } }],
+    [20, "free", { items: { "Mining Drill": 1 } }],
     [20, "premium", { wearables: { "Traveling Merchant Suit": 1 } }],
     [25, "free", { wearables: { "Beetle Goggles": 1 } }],
     [25, "premium", { items: { "Duende in a Bottle": 1 } }],
     [30, "premium", { wearables: { "Traveling Merchant Bag": 1 } }],
     [35, "premium", { wearables: { "Ascension Staff": 1 } }],
     [40, "free", { items: { "Pet Egg": 1 } }],
-    [40, "premium", { items: { "Miner's Bed": 1 } }],
+    [40, "premium", { items: { "Spooky Bed": 1 } }],
     [45, "premium", { items: { "Warning Sign": 1 } }],
     [60, "free", { items: { "Luxury Key": 1 } }],
     [60, "premium", { items: { "Gold Flower Box": 1 } }],
@@ -213,8 +213,8 @@ describe("Cave Dwellers track releases", () => {
     expect(INVENTORY_RELEASES[name]).toEqual(RELEASE);
   });
 
-  it("never releases Miner's Bed", () => {
-    expect(INVENTORY_RELEASES["Miner's Bed"]).toBeUndefined();
+  it("never releases Spooky Bed", () => {
+    expect(INVENTORY_RELEASES["Spooky Bed"]).toBeUndefined();
   });
 
   it("releases the Fish Trap chest exclusive after the chapter", () => {

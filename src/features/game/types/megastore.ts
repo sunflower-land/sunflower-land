@@ -87,7 +87,7 @@ export type ChapterCollectibleName =
   // Cave Dwellers
   | "Straw House"
   | "Duende Monument"
-  | "Mining Drill";
+  | "Pot of Luck";
 
 export type ChapterWearableName = Extract<
   BumpkinItem,
@@ -1388,7 +1388,7 @@ const CAVE_DWELLERS_ITEMS: ChapterStore = {
         cost: { sfl: 0, items: { "Duende Cap": 4000 } },
       },
       {
-        collectible: "Mining Drill",
+        collectible: "Pot of Luck",
         limit: 1,
         cost: { sfl: 0, items: { "Clover Coin": 250 } },
       },

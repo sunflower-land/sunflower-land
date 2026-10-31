@@ -507,7 +507,7 @@ import cyclopsBloom from "assets/sfts/cyclops_bloom.webp";
 import beetleWing from "assets/icons/beetle_wing.webp";
 import caveDwellersRaffleTicket from "assets/icons/cave_dwellers_raffle_ticket.png";
 import caveDwellersBanner from "assets/decorations/banners/cave_dwellers_banner.webp";
-import minersBed from "assets/bumpkins/miners_bed.webp";
+import spookyBed from "assets/bumpkins/spooky_bed.webp";
 import duendeMonument from "assets/monuments/duende_monument_stage3.webp";
 import giantTruffle from "assets/sfts/giant_truffle.webp";
 import miningDrill from "assets/sfts/mining_drill.webp";
@@ -8332,9 +8332,9 @@ export const ITEM_DETAILS: Items = {
     image: cyclopsBloom,
     description: translate("description.cyclopsBloom"),
   },
-  "Miner's Bed": {
-    image: minersBed,
-    description: translate("description.minersBed"),
+  "Spooky Bed": {
+    image: spookyBed,
+    description: translate("description.spookyBed"),
   },
   "Duende Monument": {
     image: duendeMonument,

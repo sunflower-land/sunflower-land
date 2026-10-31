@@ -92,7 +92,7 @@ export type RecipeCollectibleName = Extract<
       | "Pearl Bed"
       | "Salt Crystal Bed"
       | "Cloud Bed"
-      | "Miner's Bed"
+      | "Spooky Bed"
     >
   | DollName
   | CraftableBearName,

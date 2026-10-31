@@ -22,19 +22,28 @@ import { getKeys } from "lib/object";
 import type { TemperateSeasonName } from "features/game/types/game";
 import type { LandBiomeName } from "features/island/biomes/biomes";
 
-// TODO(Chapter 16 art): each level still shares its sprite across all biomes
-// and seasons. Replace entries as per-biome or seasonal art lands.
-const PIGPEN_LEVELS: Record<number, string> = {
-  1: SUNNYSIDE.building.pigpen,
-  2: SUNNYSIDE.building.pigpenLevel2,
-  3: SUNNYSIDE.building.pigpenLevel3,
-};
-
+// Every biome shares the same seasonal Pigpen art.
 const PIGPEN_SEASONS: Record<TemperateSeasonName, Record<number, string>> = {
-  spring: PIGPEN_LEVELS,
-  summer: PIGPEN_LEVELS,
-  autumn: PIGPEN_LEVELS,
-  winter: PIGPEN_LEVELS,
+  spring: {
+    1: SUNNYSIDE.seasons.spring.pigpen_1,
+    2: SUNNYSIDE.seasons.spring.pigpen_2,
+    3: SUNNYSIDE.seasons.spring.pigpen_3,
+  },
+  summer: {
+    1: SUNNYSIDE.building.pigpen,
+    2: SUNNYSIDE.building.pigpenLevel2,
+    3: SUNNYSIDE.building.pigpenLevel3,
+  },
+  autumn: {
+    1: SUNNYSIDE.seasons.autumn.pigpen_1,
+    2: SUNNYSIDE.seasons.autumn.pigpen_2,
+    3: SUNNYSIDE.seasons.autumn.pigpen_3,
+  },
+  winter: {
+    1: SUNNYSIDE.seasons.winter.pigpen_1,
+    2: SUNNYSIDE.seasons.winter.pigpen_2,
+    3: SUNNYSIDE.seasons.winter.pigpen_3,
+  },
 };
 
 // Biomes are taken from BARN_IMAGES rather than listed, so a new land biome
@@ -154,7 +163,7 @@ export const Pigpen: React.FC<BuildingProps> = ({
         className="absolute bottom-0 pointer-events-none"
         style={{
           // The art's own width, like the Hen House - the Pigpen sprite is
-          // 50x54, so the Barn's 64 would upscale it by a fractional factor.
+          // 50x50, so the Barn's 64 would upscale it by a fractional factor.
           width: `${PIXEL_SCALE * 50}px`,
         }}
       />
