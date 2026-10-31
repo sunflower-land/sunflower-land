@@ -6869,6 +6869,7 @@
   "chestRewardsList.otherChests.desc2": "Some rewards are exclusive to specific chest types.",
   "chestRewardsList.listTitle1": "Reward",
   "chestRewardsList.listTitle2": "Chance",
+  "chestRewardsList.withoutVip": "Without VIP",
   "chestRewardsList.rewardsTitle": "Rewards",
   "chestRewardsList.treasureChest.tabTitle1": "Basic Chest",
   "chestRewardsList.treasureChest.tabTitle2": "Rare Chest",

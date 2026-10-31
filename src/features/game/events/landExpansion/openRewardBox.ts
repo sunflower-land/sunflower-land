@@ -4,7 +4,9 @@ import {
   type RewardBoxReward,
   REWARD_BOXES,
   getRewardBoxRewards,
+  getRewardPoolForPlayer,
 } from "features/game/types/rewardBoxes";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 import { produce } from "immer";
 import { CONFIG } from "lib/config";
 import Decimal from "decimal.js-light";
@@ -14,11 +16,16 @@ import { addVipDays } from "../claimAirdrop";
 function getReward({
   name,
   game,
+  now,
 }: {
   name: RewardBoxName;
   game: GameState;
+  now: number;
 }): RewardBoxReward | undefined {
-  const rewards = getRewardBoxRewards({ name, game });
+  const rewards = getRewardPoolForPlayer(
+    getRewardBoxRewards({ name, game }),
+    hasVipAccess({ game, now }),
+  );
 
   // TODO: If a player already has the reward, half the weight
 
@@ -100,6 +107,7 @@ export function openRewardBox({
     const selectedReward = getReward({
       name,
       game: stateCopy,
+      now: createdAt,
     });
 
     if (!selectedReward) {
