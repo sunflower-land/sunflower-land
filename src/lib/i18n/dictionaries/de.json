@@ -8989,7 +8989,5 @@
   "description.brickHouse.boost": "x0.75 Crimstone für Erweiterungen",
   "description.stickHouse.boost": "x0.75 Öl für Expansionen",
   "description.herculesBeetleHat.boost": "x0.75 Obsidian für Erweiterungen",
-  "description.grinxsHammer.warning": "Deaktiviert, wenn Grinx's Hammer aktiv ist",
-  "cave.dig.digAll": "Grabe alles",
-  "cave.dig.digAllDescription": "Grabe alle verbleibenden Kacheln auf einmal aus. Vergrabene Käfer und Pilze kosten Edelsteine, Schlamm ist kostenlos."
+  "description.grinxsHammer.warning": "Deaktiviert, wenn Grinx's Hammer aktiv ist"
 }

@@ -8989,7 +8989,5 @@
   "description.brickHouse.boost": "x0.75 用于扩展的猩红之石",
   "description.stickHouse.boost": "x0.75 膨胀用油",
   "description.herculesBeetleHat.boost": "x0.75 用于扩展的黑曜石",
-  "description.grinxsHammer.warning": "如果 Grinx 的锤子激活，则禁用",
-  "cave.dig.digAll": "全部挖出来",
-  "cave.dig.digAllDescription": "一次挖出剩下的每块方块。埋藏的甲虫和蘑菇需要宝石，泥浆是免费的。"
+  "description.grinxsHammer.warning": "如果 Grinx 的锤子激活，则禁用"
 }

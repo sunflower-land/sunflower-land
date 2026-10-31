@@ -8989,7 +8989,5 @@
   "description.brickHouse.boost": "x0.75 Crimstone para expansiones",
   "description.stickHouse.boost": "Aceite para expansiones x0.75",
   "description.herculesBeetleHat.boost": "x0.75 Obsidian para expansiones",
-  "description.grinxsHammer.warning": "Se desactiva si el martillo de Grinx está activo",
-  "cave.dig.digAll": "Excavar todo",
-  "cave.dig.digAllDescription": "Desentierra todos los azulejos que quedan a la vez. Los escarabajos y hongos enterrados cuestan gemas, el barro es gratis."
+  "description.grinxsHammer.warning": "Se desactiva si el martillo de Grinx está activo"
 }

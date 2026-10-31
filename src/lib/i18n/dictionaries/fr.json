@@ -8989,7 +8989,5 @@
   "description.brickHouse.boost": "x0.75 Crimstone pour les extensions",
   "description.stickHouse.boost": "Huile pour expansions x0.75",
   "description.herculesBeetleHat.boost": "Obsidienne x0.75 pour les extensions",
-  "description.grinxsHammer.warning": "Désactivé si Grinx's Hammer est actif",
-  "cave.dig.digAll": "Creusez tout",
-  "cave.dig.digAllDescription": "Déterrez toutes les tuiles restantes à la fois. Les coléoptères et les champignons enterrés coûtent des pierres précieuses, la boue est gratuite."
+  "description.grinxsHammer.warning": "Désactivé si Grinx's Hammer est actif"
 }

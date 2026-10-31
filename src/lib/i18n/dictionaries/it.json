@@ -8989,7 +8989,5 @@
   "description.brickHouse.boost": "x0.75 Crimstone per espansioni",
   "description.stickHouse.boost": "x0.75 Olio per espansioni",
   "description.herculesBeetleHat.boost": "x0.75 Obsidian per espansioni",
-  "description.grinxsHammer.warning": "Disabilitato se il Martello di Grinx è attivo",
-  "cave.dig.digAll": "Scava tutto",
-  "cave.dig.digAllDescription": "Scava tutte le tessere rimaste contemporaneamente. Buried Beetles and Mushrooms costano gemme, Mud è gratis."
+  "description.grinxsHammer.warning": "Disabilitato se il Martello di Grinx è attivo"
 }

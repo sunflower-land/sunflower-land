@@ -8989,7 +8989,5 @@
   "description.brickHouse.boost": "x0.75 Crimstone for Expansions",
   "description.stickHouse.boost": "x0.75 Oil for Expansions",
   "description.herculesBeetleHat.boost": "x0.75 Obsidian for Expansions",
-  "description.grinxsHammer.warning": "Disabled if Grinx's Hammer Active",
-  "cave.dig.digAll": "Dig all",
-  "cave.dig.digAllDescription": "Dig up every tile left at once. Buried Beetles and Mushrooms cost Gems, Mud is free."
+  "description.grinxsHammer.warning": "Disabled if Grinx's Hammer Active"
 }
