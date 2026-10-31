@@ -174,7 +174,7 @@ export const RARECROW_TEMPLATES = RARECROW_NAMES.reduce(
   (acc, name) => ({
     ...acc,
     [name]: {
-      dimensions: { width: 2, height: 2 },
+      dimensions: { width: 1, height: 1 },
       isWithdrawable: () => false,
     },
   }),
