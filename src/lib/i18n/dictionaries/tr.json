@@ -8742,7 +8742,6 @@
   "description.ladybugCow": "Benekli kabuk, nazik mırıltı. Mağara ağzından asla uzaklaşmaz.",
   "description.beetleSheep": "Yünü parıldayan bir böcek kabuğuna sertleşti.",
   "description.cyclopsBloom": "Mağaraları gözeten tek gözlü bir çiçek.",
-  "description.minersBed": "Yeraltında bir günün ardından uzun bir gece uykusu için sağlam bir yatak.",
   "description.duendeMonument": "Topluluk tarafından Mağara Sakinlerine yükseltilmiş büyük bir anıt.",
   "description.giantTruffle": "O kadar büyük bir yer mantarı ki Domuzlar bunu hayal ediyor.",
   "description.miningDrill": "Birçok mağara duvarından geçen güvenilir bir matkap.",
@@ -8820,7 +8819,6 @@
   "description.strawHouse.boost": "x0.9 Komposter Kompost Süresi",
   "description.strawHouse.boost.2": "Kompostörlerden x3 bazlı gübre",
   "description.strawHouse.boost.3": "Kompostlamadan x3 baz solucanlar",
-  "description.miningDrill.boost": "1/3 şansı +1 Çöl Hazinesi",
   "description.mushroomChicken.boost": "Her 5. mayında +0.5 Crimstone",
   "description.ladybugCow.boost": "+1 Petrol",
   "description.macropinna.boost": "+0.1 Obsidian",
@@ -8989,5 +8987,7 @@
   "description.brickHouse.boost": "x0.75 Genişletmeler için Crimstone",
   "description.stickHouse.boost": "x0.75 Genişletme Yağı",
   "description.herculesBeetleHat.boost": "x0.75 Genişletmeler için Obsidian",
-  "description.grinxsHammer.warning": "Grinx'in Hammer Etkin ise devre dışı bırakılır"
+  "description.grinxsHammer.warning": "Grinx'in Hammer Etkin ise devre dışı bırakılır",
+  "description.spookyBed": "En cesur mağara sakinleri için perili bir yatak. Hayalet konuğu asla horlamaz.",
+  "description.potOfLuck.boost": "1/3 şansı +1 Çöl Hazinesi"
 }

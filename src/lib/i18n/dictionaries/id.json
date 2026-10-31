@@ -8742,7 +8742,6 @@
   "description.ladybugCow": "Cangkang berbintik, moo lembut. Itu tidak pernah menyimpang jauh dari mulut gua.",
   "description.beetleSheep": "Wolnya mengeras menjadi cangkang kumbang yang berkilauan.",
   "description.cyclopsBloom": "Bunga bermata satu yang mengawasi gua.",
-  "description.minersBed": "Tempat tidur yang kokoh untuk istirahat malam yang panjang setelah seharian di bawah tanah.",
   "description.duendeMonument": "Sebuah monumen besar yang diangkat oleh komunitas untuk Penghuni Gua.",
   "description.giantTruffle": "Truffle yang begitu besar sehingga Babi memimpikannya.",
   "description.miningDrill": "Sebuah bor tepercaya yang telah menembus banyak dinding gua.",
@@ -8820,7 +8819,6 @@
   "description.strawHouse.boost": "x0.9 Waktu Kompos Komposter",
   "description.strawHouse.boost.2": "Pupuk dasar x3 dari Komposter",
   "description.strawHouse.boost.3": "Cacing dasar x3 dari Pengomposan",
-  "description.miningDrill.boost": "1/3 peluang dari +1 Desert Treasure",
   "description.mushroomChicken.boost": "+0,5 Crimstone setiap tambang ke-5",
   "description.ladybugCow.boost": "+1 Minyak",
   "description.macropinna.boost": "+0.1 Obsidian",
@@ -8989,5 +8987,7 @@
   "description.brickHouse.boost": "x0.75 Crimstone untuk Ekspansi",
   "description.stickHouse.boost": "x0.75 Minyak untuk Ekspansi",
   "description.herculesBeetleHat.boost": "x0.75 Obsidian untuk Ekspansi",
-  "description.grinxsHammer.warning": "Dinonaktifkan jika Grinx's Hammer Aktif"
+  "description.grinxsHammer.warning": "Dinonaktifkan jika Grinx's Hammer Aktif",
+  "description.spookyBed": "Tempat tidur berhantu untuk penghuni gua paling berani. Tamu hantu tidak pernah mendengkur.",
+  "description.potOfLuck.boost": "1/3 peluang dari +1 Desert Treasure"
 }

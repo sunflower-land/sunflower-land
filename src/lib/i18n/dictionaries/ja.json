@@ -8742,7 +8742,6 @@
   "description.ladybugCow": "斑点のあるシェル、優しいムード。洞窟の口から遠く離れることはありません。",
   "description.beetleSheep": "その羊毛は固まってキラリと光るカブトムシの殻になりました。",
   "description.cyclopsBloom": "洞窟を見守る片目の花。",
-  "description.minersBed": "地下で一日過ごした後は、ぐっすりとお休みいただける丈夫なベッドです。",
   "description.duendeMonument": "コミュニティが洞窟住人のために建てた壮大な記念碑。",
   "description.giantTruffle": "豚が夢見るほど大きいトリュフ。",
   "description.miningDrill": "多くの洞窟壁を貫通してきた頼もしいドリル。",
@@ -8820,7 +8819,6 @@
   "description.strawHouse.boost": "x0.9 コンポストコンポストタイム",
   "description.strawHouse.boost.2": "コンポスターのx3ベース肥料",
   "description.strawHouse.boost.3": "x3ベースのコンポストワーム",
-  "description.miningDrill.boost": "1/3の確率で砂漠の宝物が+1される",
   "description.mushroomChicken.boost": "5 マインごとに +0.5 クリムストーン",
   "description.ladybugCow.boost": "+1 オイル",
   "description.macropinna.boost": "+0.1 オブシディアン",
@@ -8989,5 +8987,7 @@
   "description.brickHouse.boost": "x0.75 エクスパンション用クリムストーン",
   "description.stickHouse.boost": "x0.75 エクスパンション用オイル",
   "description.herculesBeetleHat.boost": "x0.75 エクスパンション用オブシディアン",
-  "description.grinxsHammer.warning": "グリンクスのハンマー発動中は使用不可"
+  "description.grinxsHammer.warning": "グリンクスのハンマー発動中は使用不可",
+  "description.spookyBed": "勇敢な洞窟住人のためのお化け屋敷だ。その幽霊のような客はいびきをかくことはない。",
+  "description.potOfLuck.boost": "1/3の確率で砂漠の宝物が+1される"
 }

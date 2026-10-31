@@ -8742,7 +8742,6 @@
   "description.ladybugCow": "有斑点的贝壳，温柔的心情。它永远不会偏离洞口。",
   "description.beetleSheep": "它的羊毛硬化成了闪闪发光的甲壳虫壳。",
   "description.cyclopsBloom": "一朵可以监视洞穴的独眼花。",
-  "description.minersBed": "一张坚固的床，适合在地下度过一天后长时间休息。",
   "description.duendeMonument": "社区为洞穴居民建造的宏伟纪念碑。",
   "description.giantTruffle": "一块这么大的松露让猪们梦寐以求的。",
   "description.miningDrill": "一款值得信赖的钻头，已经钻过许多洞穴的墙壁。",
@@ -8820,7 +8819,6 @@
   "description.strawHouse.boost": "x0.9 堆肥机堆肥时间",
   "description.strawHouse.boost.2": "来自堆肥商的 x3 基础肥料",
   "description.strawHouse.boost.3": "x3 基础堆肥中的蠕虫",
-  "description.miningDrill.boost": "1/3 几率获得 +1 沙漠宝藏",
   "description.mushroomChicken.boost": "每 5 个地雷 +0.5 个猩红石",
   "description.ladybugCow.boost": "+1 石油",
   "description.macropinna.boost": "+0.1 黑曜石",
@@ -8989,5 +8987,7 @@
   "description.brickHouse.boost": "x0.75 用于扩展的猩红之石",
   "description.stickHouse.boost": "x0.75 膨胀用油",
   "description.herculesBeetleHat.boost": "x0.75 用于扩展的黑曜石",
-  "description.grinxsHammer.warning": "如果 Grinx 的锤子激活，则禁用"
+  "description.grinxsHammer.warning": "如果 Grinx 的锤子激活，则禁用",
+  "description.spookyBed": "为最勇敢的洞穴居民准备的鬼床。它的幽灵般的客人从不打呼噜声。",
+  "description.potOfLuck.boost": "1/3 几率获得 +1 沙漠宝藏"
 }

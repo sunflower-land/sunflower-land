@@ -8742,7 +8742,6 @@
   "description.ladybugCow": "Fleckige Muschel, sanfter Mond. Es entfernt sich nie weit vom Höhleneingang.",
   "description.beetleSheep": "Seine Wolle härtete zu einer glänzenden Käferschale aus.",
   "description.cyclopsBloom": "Eine einäugige Blume, die über die Höhlen wacht.",
-  "description.minersBed": "Ein robustes Bett für eine lange Nachtruhe nach einem Tag unter der Erde.",
   "description.duendeMonument": "Ein großes Denkmal, das von der Gemeinde den Höhlenbewohnern errichtet wurde.",
   "description.giantTruffle": "Ein Trüffel, der so groß ist, dass Schweine davon träumen.",
   "description.miningDrill": "Ein bewährter Bohrer, der schon so manche Höhlenwand durchbohrt hat.",
@@ -8820,7 +8819,6 @@
   "description.strawHouse.boost": "x0.9 Kompostzeit",
   "description.strawHouse.boost.2": "x3 Basisdünger von Composters",
   "description.strawHouse.boost.3": "x3 Basiswürmer aus der Kompostierung",
-  "description.miningDrill.boost": "1/3 Chance auf +1 Wüstenschatz",
   "description.mushroomChicken.boost": "+0.5 Crimstone jede 5. Mine",
   "description.ladybugCow.boost": "+1 Öl",
   "description.macropinna.boost": "+0.1 Obsidian",
@@ -8989,5 +8987,7 @@
   "description.brickHouse.boost": "x0.75 Crimstone für Erweiterungen",
   "description.stickHouse.boost": "x0.75 Öl für Expansionen",
   "description.herculesBeetleHat.boost": "x0.75 Obsidian für Erweiterungen",
-  "description.grinxsHammer.warning": "Deaktiviert, wenn Grinx's Hammer aktiv ist"
+  "description.grinxsHammer.warning": "Deaktiviert, wenn Grinx's Hammer aktiv ist",
+  "description.spookyBed": "Ein Spukbett für die mutigsten Höhlenbewohner. Sein geisterhafter Gast schnarcht nie.",
+  "description.potOfLuck.boost": "1/3 Chance auf +1 Wüstenschatz"
 }

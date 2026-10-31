@@ -8742,7 +8742,6 @@
   "description.ladybugCow": "Coquille tachetée, douce humeur. Elle ne s'éloigne jamais de l'embouchure de la grotte.",
   "description.beetleSheep": "Sa laine a durci pour former une carapace de scarabée étincelante.",
   "description.cyclopsBloom": "Une fleur borgne qui veille sur les grottes.",
-  "description.minersBed": "Un lit robuste pour une longue nuit de sommeil après une journée sous terre.",
   "description.duendeMonument": "Un grand monument érigé par la communauté en l'honneur des habitants des grottes.",
   "description.giantTruffle": "Une truffe si grosse que les cochons en rêvent.",
   "description.miningDrill": "Une foreuse fiable qui a percé de nombreux murs de grottes.",
@@ -8820,7 +8819,6 @@
   "description.strawHouse.boost": "Temps de compostage du composteur x0.9",
   "description.strawHouse.boost.2": "Engrais de base x3 provenant de composteurs",
   "description.strawHouse.boost.3": "x3 vers de base issus du compostage",
-  "description.miningDrill.boost": "1/3 de chance d'obtenir +1 trésor du désert",
   "description.mushroomChicken.boost": "+0,5 Crimstone toutes les 5 minutes",
   "description.ladybugCow.boost": "+1 Pétrole",
   "description.macropinna.boost": "+0,1 Obsidienne",
@@ -8989,5 +8987,7 @@
   "description.brickHouse.boost": "x0.75 Crimstone pour les extensions",
   "description.stickHouse.boost": "Huile pour expansions x0.75",
   "description.herculesBeetleHat.boost": "Obsidienne x0.75 pour les extensions",
-  "description.grinxsHammer.warning": "Désactivé si Grinx's Hammer est actif"
+  "description.grinxsHammer.warning": "Désactivé si Grinx's Hammer est actif",
+  "description.spookyBed": "Un lit hanté pour les plus courageux habitants des cavernes. Son hôte fantomatique ne ronfle jamais.",
+  "description.potOfLuck.boost": "1/3 de chance d'obtenir +1 trésor du désert"
 }

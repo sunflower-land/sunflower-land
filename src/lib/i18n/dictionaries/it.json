@@ -8742,7 +8742,6 @@
   "description.ladybugCow": "Conchiglia maculata, muto gentile. Non si allontana mai dall'imboccatura della grotta.",
   "description.beetleSheep": "La sua lana si è indurita fino a diventare un luccicante guscio di scarabeo.",
   "description.cyclopsBloom": "Un fiore con un occhio solo che sorveglia le grotte.",
-  "description.minersBed": "Un letto robusto per una lunga notte di riposo dopo una giornata trascorsa sottoterra.",
   "description.duendeMonument": "Un grande monumento innalzato dalla comunità agli abitanti delle caverne.",
   "description.giantTruffle": "Un tartufo così grande che i maiali lo sognano.",
   "description.miningDrill": "Un trapano affidabile che ha perforato molte pareti delle caverne.",
@@ -8820,7 +8819,6 @@
   "description.strawHouse.boost": "x0.9 Composter Composter Time",
   "description.strawHouse.boost.2": "Fertilizzante base x3 da compostiere",
   "description.strawHouse.boost.3": "x3 vermi base da compostaggio",
-  "description.miningDrill.boost": "1/3 di possibilità di +1 Desert Treasure",
   "description.mushroomChicken.boost": "+0,5 Crimstone ogni 5a mina",
   "description.ladybugCow.boost": "+1 olio",
   "description.macropinna.boost": "+0.1 Ossidiana",
@@ -8989,5 +8987,7 @@
   "description.brickHouse.boost": "x0.75 Crimstone per espansioni",
   "description.stickHouse.boost": "x0.75 Olio per espansioni",
   "description.herculesBeetleHat.boost": "x0.75 Obsidian per espansioni",
-  "description.grinxsHammer.warning": "Disabilitato se il Martello di Grinx è attivo"
+  "description.grinxsHammer.warning": "Disabilitato se il Martello di Grinx è attivo",
+  "description.spookyBed": "Un letto infestato per i più coraggiosi abitanti delle caverne. Il suo ospite spettrale non russa mai.",
+  "description.potOfLuck.boost": "1/3 di possibilità di +1 Desert Treasure"
 }

@@ -8742,7 +8742,6 @@
   "description.ladybugCow": "Пятнистый панцирь и кроткое мычание. Она никогда не уходит далеко от входа в пещеру.",
   "description.beetleSheep": "Её шерсть затвердела в блестящий панцирь жука.",
   "description.cyclopsBloom": "Одноглазый цветок, несущий дозор над пещерами.",
-  "description.minersBed": "Крепкая кровать для долгого отдыха после рабочего дня под землёй.",
   "description.duendeMonument": "Величественный монумент, воздвигнутый сообществом в честь Обитателей пещер.",
   "description.giantTruffle": "Трюфель такой огромный, что свиньям он снится.",
   "description.miningDrill": "Надёжный бур, пробивший немало пещерных стен.",
@@ -8820,7 +8819,6 @@
   "description.strawHouse.boost": "x0.9 времени компостирования в компостерах",
   "description.strawHouse.boost.2": "x3 базового удобрения из компостеров",
   "description.strawHouse.boost.3": "x3 базовых червей от компостирования",
-  "description.miningDrill.boost": "Шанс 1/3 получить +1 пустынное сокровище",
   "description.mushroomChicken.boost": "+0.5 кримстоун за каждую 5-ю добычу",
   "description.ladybugCow.boost": "+1 нефть",
   "description.macropinna.boost": "+0.1 обсидиан",
@@ -8989,5 +8987,7 @@
   "description.brickHouse.boost": "x0.75 Crimstone for Expansions",
   "description.stickHouse.boost": "x0.75 Oil for Expansions",
   "description.herculesBeetleHat.boost": "x0.75 Obsidian for Expansions",
-  "description.grinxsHammer.warning": "Disabled if Grinx's Hammer Active"
+  "description.grinxsHammer.warning": "Disabled if Grinx's Hammer Active",
+  "description.spookyBed": "A haunted bed for the bravest cave dwellers. Its ghostly guest never snores.",
+  "description.potOfLuck.boost": "1/3 chance of +1 Desert Treasure"
 }

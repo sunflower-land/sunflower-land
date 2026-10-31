@@ -8742,7 +8742,6 @@
   "description.ladybugCow": "Concha manchada, lua suave. Nunca se afasta da boca da caverna.",
   "description.beetleSheep": "Sua lã endureceu em uma casca de besouro reluzente.",
   "description.cyclopsBloom": "Uma flor de um olho que vigia as cavernas.",
-  "description.minersBed": "Uma cama resistente para uma longa noite de descanso após um dia no subsolo.",
   "description.duendeMonument": "Um grande monumento erguido pela comunidade aos habitantes das cavernas.",
   "description.giantTruffle": "Uma trufa tão grande que os porcos sonham com ela.",
   "description.miningDrill": "Uma furadeira confiável que perfurou muitas paredes de cavernas.",
@@ -8820,7 +8819,6 @@
   "description.strawHouse.boost": "x0.9 Tempo de compostagem do compostor",
   "description.strawHouse.boost.2": "Fertilizante de base x3 de compostores",
   "description.strawHouse.boost.3": "Minhocas de compostagem à base x3",
-  "description.miningDrill.boost": "1/3 de chance de +1 Tesouro do Deserto",
   "description.mushroomChicken.boost": "+0,5 Crimstone a cada 5ª mina",
   "description.ladybugCow.boost": "+1 Óleo",
   "description.macropinna.boost": "+0.1 Obsidiana",
@@ -8989,5 +8987,7 @@
   "description.brickHouse.boost": "x0,75 Crimstone para expansões",
   "description.stickHouse.boost": "x0.75 Óleo para expansões",
   "description.herculesBeetleHat.boost": "x0.75 Obsidian para expansões",
-  "description.grinxsHammer.warning": "Desativado se o Martelo de Grinx estiver ativo"
+  "description.grinxsHammer.warning": "Desativado se o Martelo de Grinx estiver ativo",
+  "description.spookyBed": "Uma cama mal-assombrada para os mais corajosos moradores das cavernas. Seu convidado fantasmagórico nunca ronca.",
+  "description.potOfLuck.boost": "1/3 de chance de +1 Tesouro do Deserto"
 }
