@@ -123,7 +123,10 @@ export function getCaveBatchDuration(game: GameState): {
  * The board-shaping Cave skills a new batch is stamped with (Mushroom Bloom,
  * Beetle Nest, Rare Breeds). `skills` is undefined when the player has none.
  */
-export function getCaveBatchSkills(game: GameState): {
+export function getCaveBatchSkills(
+  game: GameState,
+  recipe: CaveRecipeName,
+): {
   skills?: CaveBatchSkills;
   boostsUsed: BoostsUsed;
 } {
@@ -140,7 +143,14 @@ export function getCaveBatchSkills(game: GameState): {
     });
   }
 
-  const nest = getSkillLevel(ranks, "Beetle Nest");
+  // Beetle Nest shapes only the Beetle recipe's board (beta uptake rebalance
+  // follow-up, 2026-10-30): free Beetle tiles on every Mud and Mushroom batch
+  // let a maxed cave out-feed the Slop system entirely - at +3 a batch across
+  // eight bins, Beetles alone covered a full farm's daily feeding XP. Scoped,
+  // the ceiling is ~60-75% of a full farm, so crop feeds stay necessary.
+  // Mushroom Bloom stays recipe-wide: Mushrooms carry no such economy.
+  const nest =
+    recipe === "Beetle" ? getSkillLevel(ranks, "Beetle Nest") : undefined;
   if (nest) {
     skills.extraBeetleTiles = SKILL_RANKS["Beetle Nest"].ranks[nest - 1];
     boostsUsed.push({
