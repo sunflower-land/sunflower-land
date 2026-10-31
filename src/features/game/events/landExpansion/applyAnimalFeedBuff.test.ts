@@ -338,6 +338,72 @@ describe("applyAnimalFeedBuff", () => {
     });
     expect(state.henHouse.animals[chickenId].multiplier).toBeUndefined();
   });
+  describe("with a free-feed collectible placed", () => {
+    const chickenId = "c1";
+    const goldEggFarm = (item: "Honey Treat" | "Salt Lick"): GameState => ({
+      ...GAME_STATE,
+      inventory: { [item]: new Decimal(1) },
+      collectibles: {
+        "Gold Egg": [
+          {
+            id: "1",
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: 0,
+          },
+        ],
+      },
+      henHouse: {
+        ...GAME_STATE.henHouse,
+        animals: {
+          [chickenId]: {
+            id: chickenId,
+            type: "Chicken",
+            createdAt: 0,
+            state: "idle",
+            experience: 0,
+            asleepAt: now - 100_000,
+            awakeAt: now - 50_000,
+            lovedAt: now - 100_000,
+            item: "Petting Hand",
+          },
+        },
+      },
+    });
+
+    it("refuses a Honey Treat, since the animal already eats for free", () => {
+      expect(() =>
+        applyAnimalFeedBuff({
+          createdAt: now,
+          state: goldEggFarm("Honey Treat"),
+          action: {
+            type: "animal.feedBuffApplied",
+            animal: "Chicken",
+            id: chickenId,
+            item: "Honey Treat",
+          },
+        }),
+      ).toThrow(APPLY_ANIMAL_FEED_BUFF_ERRORS.FREE_FEED);
+    });
+
+    it("still applies a Salt Lick, which does not depend on feed", () => {
+      const state = applyAnimalFeedBuff({
+        createdAt: now,
+        state: goldEggFarm("Salt Lick"),
+        action: {
+          type: "animal.feedBuffApplied",
+          animal: "Chicken",
+          id: chickenId,
+          item: "Salt Lick",
+        },
+      });
+
+      expect(state.henHouse.animals[chickenId].feedBuff?.name).toBe(
+        "Salt Lick",
+      );
+    });
+  });
+
   it("doubles the feed buff duration to 6 harvests when Vibraphone is placed", () => {
     const chickenId = "c1";
     const state = applyAnimalFeedBuff({
