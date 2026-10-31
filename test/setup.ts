@@ -43,6 +43,13 @@ jest.doMock("assets/sunnyside", () => ({
     crustaceans: {},
     sculptures: {},
     tiles: {},
+    // Read a few levels deep while modules load (art tables keyed by biome).
+    ascensionGround: Object.fromEntries(
+      ["swamp", "spooky", "crystal", "galaxy", "marble"].map((biome) => [
+        biome,
+        { land: {}, spring: {}, summer: {}, autumn: {}, winter: {} },
+      ]),
+    ),
   },
 }));
 

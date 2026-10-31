@@ -38,6 +38,31 @@ const BIOME_NAME_KEYS: Record<
   "Marble Age Biome": "marble",
 };
 
+type AscensionGround = typeof SUNNYSIDE.ascensionGround;
+type AscensionBiome = keyof AscensionGround;
+
+const ASCENSION_BIOMES: Partial<Record<LandBiomeName, AscensionBiome>> = {
+  "Swamp Biome": "swamp",
+  "Spooky Biome": "spooky",
+  "Crystal Biome": "crystal",
+  "Galaxy Biome": "galaxy",
+  "Marble Age Biome": "marble",
+};
+
+/** A building's four seasons from an ascension biome's recoloured ground art. */
+const ascensionSeasons = (
+  biome: AscensionBiome,
+  building: keyof AscensionGround[AscensionBiome]["summer"],
+): Record<TemperateSeasonName, string> => {
+  const ground = SUNNYSIDE.ascensionGround[biome];
+  return {
+    spring: ground.spring[building],
+    summer: ground.summer[building],
+    autumn: ground.autumn[building],
+    winter: ground.winter[building],
+  };
+};
+
 export const FIRE_PIT_VARIANTS: Record<
   LandBiomeName,
   Record<TemperateSeasonName, string>
@@ -66,37 +91,11 @@ export const FIRE_PIT_VARIANTS: Record<
     autumn: SUNNYSIDE.seasons.autumn.volcanoFirePit,
     winter: SUNNYSIDE.seasons.winter.volcanoFirePit,
   },
-  "Swamp Biome": {
-    spring: SUNNYSIDE.seasons.spring.firePit,
-    summer: SUNNYSIDE.building.firePit,
-    autumn: SUNNYSIDE.seasons.autumn.firePit,
-    winter: SUNNYSIDE.seasons.winter.firePit,
-  },
-  // Ascension biomes (spooky onward) reuse the swamp art for now.
-  "Spooky Biome": {
-    spring: SUNNYSIDE.seasons.spring.firePit,
-    summer: SUNNYSIDE.building.firePit,
-    autumn: SUNNYSIDE.seasons.autumn.firePit,
-    winter: SUNNYSIDE.seasons.winter.firePit,
-  },
-  "Crystal Biome": {
-    spring: SUNNYSIDE.seasons.spring.firePit,
-    summer: SUNNYSIDE.building.firePit,
-    autumn: SUNNYSIDE.seasons.autumn.firePit,
-    winter: SUNNYSIDE.seasons.winter.firePit,
-  },
-  "Galaxy Biome": {
-    spring: SUNNYSIDE.seasons.spring.firePit,
-    summer: SUNNYSIDE.building.firePit,
-    autumn: SUNNYSIDE.seasons.autumn.firePit,
-    winter: SUNNYSIDE.seasons.winter.firePit,
-  },
-  "Marble Age Biome": {
-    spring: SUNNYSIDE.seasons.spring.firePit,
-    summer: SUNNYSIDE.building.firePit,
-    autumn: SUNNYSIDE.seasons.autumn.firePit,
-    winter: SUNNYSIDE.seasons.winter.firePit,
-  },
+  "Swamp Biome": ascensionSeasons("swamp", "firePit"),
+  "Spooky Biome": ascensionSeasons("spooky", "firePit"),
+  "Crystal Biome": ascensionSeasons("crystal", "firePit"),
+  "Galaxy Biome": ascensionSeasons("galaxy", "firePit"),
+  "Marble Age Biome": ascensionSeasons("marble", "firePit"),
 };
 
 const BASIC_BAKERY: Record<TemperateSeasonName, string> = {
@@ -221,37 +220,11 @@ export const KITCHEN_VARIANTS: Record<
     autumn: SUNNYSIDE.seasons.autumn.volcanoKitchen,
     winter: SUNNYSIDE.seasons.winter.volcanoKitchen,
   },
-  "Swamp Biome": {
-    spring: SUNNYSIDE.seasons.spring.kitchen,
-    summer: SUNNYSIDE.building.kitchen,
-    autumn: SUNNYSIDE.seasons.autumn.kitchen,
-    winter: SUNNYSIDE.seasons.winter.kitchen,
-  },
-  // Ascension biomes (spooky onward) reuse the swamp art for now.
-  "Spooky Biome": {
-    spring: SUNNYSIDE.seasons.spring.kitchen,
-    summer: SUNNYSIDE.building.kitchen,
-    autumn: SUNNYSIDE.seasons.autumn.kitchen,
-    winter: SUNNYSIDE.seasons.winter.kitchen,
-  },
-  "Crystal Biome": {
-    spring: SUNNYSIDE.seasons.spring.kitchen,
-    summer: SUNNYSIDE.building.kitchen,
-    autumn: SUNNYSIDE.seasons.autumn.kitchen,
-    winter: SUNNYSIDE.seasons.winter.kitchen,
-  },
-  "Galaxy Biome": {
-    spring: SUNNYSIDE.seasons.spring.kitchen,
-    summer: SUNNYSIDE.building.kitchen,
-    autumn: SUNNYSIDE.seasons.autumn.kitchen,
-    winter: SUNNYSIDE.seasons.winter.kitchen,
-  },
-  "Marble Age Biome": {
-    spring: SUNNYSIDE.seasons.spring.kitchen,
-    summer: SUNNYSIDE.building.kitchen,
-    autumn: SUNNYSIDE.seasons.autumn.kitchen,
-    winter: SUNNYSIDE.seasons.winter.kitchen,
-  },
+  "Swamp Biome": ascensionSeasons("swamp", "kitchen"),
+  "Spooky Biome": ascensionSeasons("spooky", "kitchen"),
+  "Crystal Biome": ascensionSeasons("crystal", "kitchen"),
+  "Galaxy Biome": ascensionSeasons("galaxy", "kitchen"),
+  "Marble Age Biome": ascensionSeasons("marble", "kitchen"),
 };
 
 export const MANOR_VARIANTS: Record<
@@ -343,37 +316,11 @@ export const MARKET_VARIANTS: Record<
     autumn: SUNNYSIDE.seasons.autumn.volcanoMarket,
     winter: SUNNYSIDE.seasons.winter.volcanoMarket,
   },
-  "Swamp Biome": {
-    spring: SUNNYSIDE.seasons.spring.market,
-    summer: SUNNYSIDE.building.market,
-    autumn: SUNNYSIDE.seasons.autumn.market,
-    winter: SUNNYSIDE.seasons.winter.market,
-  },
-  // Ascension biomes (spooky onward) reuse the swamp art for now.
-  "Spooky Biome": {
-    spring: SUNNYSIDE.seasons.spring.market,
-    summer: SUNNYSIDE.building.market,
-    autumn: SUNNYSIDE.seasons.autumn.market,
-    winter: SUNNYSIDE.seasons.winter.market,
-  },
-  "Crystal Biome": {
-    spring: SUNNYSIDE.seasons.spring.market,
-    summer: SUNNYSIDE.building.market,
-    autumn: SUNNYSIDE.seasons.autumn.market,
-    winter: SUNNYSIDE.seasons.winter.market,
-  },
-  "Galaxy Biome": {
-    spring: SUNNYSIDE.seasons.spring.market,
-    summer: SUNNYSIDE.building.market,
-    autumn: SUNNYSIDE.seasons.autumn.market,
-    winter: SUNNYSIDE.seasons.winter.market,
-  },
-  "Marble Age Biome": {
-    spring: SUNNYSIDE.seasons.spring.market,
-    summer: SUNNYSIDE.building.market,
-    autumn: SUNNYSIDE.seasons.autumn.market,
-    winter: SUNNYSIDE.seasons.winter.market,
-  },
+  "Swamp Biome": ascensionSeasons("swamp", "market"),
+  "Spooky Biome": ascensionSeasons("spooky", "market"),
+  "Crystal Biome": ascensionSeasons("crystal", "market"),
+  "Galaxy Biome": ascensionSeasons("galaxy", "market"),
+  "Marble Age Biome": ascensionSeasons("marble", "market"),
 };
 
 export const SMOOTHIE_SHACK_VARIANTS: Record<LandBiomeName, string> = {
@@ -381,12 +328,11 @@ export const SMOOTHIE_SHACK_VARIANTS: Record<LandBiomeName, string> = {
   "Spring Biome": SUNNYSIDE.building.smoothieShack,
   "Desert Biome": SUNNYSIDE.building.desertSmoothieShack,
   "Volcano Biome": SUNNYSIDE.building.volcanoSmoothieShack,
-  "Swamp Biome": SUNNYSIDE.building.smoothieShack,
-  // Ascension biomes (spooky onward) reuse the swamp art for now.
-  "Spooky Biome": SUNNYSIDE.building.smoothieShack,
-  "Crystal Biome": SUNNYSIDE.building.smoothieShack,
-  "Galaxy Biome": SUNNYSIDE.building.smoothieShack,
-  "Marble Age Biome": SUNNYSIDE.building.smoothieShack,
+  "Swamp Biome": SUNNYSIDE.ascensionGround.swamp.smoothieShack,
+  "Spooky Biome": SUNNYSIDE.ascensionGround.spooky.smoothieShack,
+  "Crystal Biome": SUNNYSIDE.ascensionGround.crystal.smoothieShack,
+  "Galaxy Biome": SUNNYSIDE.ascensionGround.galaxy.smoothieShack,
+  "Marble Age Biome": SUNNYSIDE.ascensionGround.marble.smoothieShack,
 };
 
 export const SMOOTHIE_SHACK_DESK_VARIANTS: Record<TemperateSeasonName, string> =
@@ -402,12 +348,11 @@ export const WORKBENCH_VARIANTS: Record<LandBiomeName, string> = {
   "Spring Biome": SUNNYSIDE.building.workbench,
   "Desert Biome": SUNNYSIDE.building.desertWorkbench,
   "Volcano Biome": SUNNYSIDE.building.volcanoWorkbench,
-  "Swamp Biome": SUNNYSIDE.building.workbench,
-  // Ascension biomes (spooky onward) reuse the swamp art for now.
-  "Spooky Biome": SUNNYSIDE.building.workbench,
-  "Crystal Biome": SUNNYSIDE.building.workbench,
-  "Galaxy Biome": SUNNYSIDE.building.workbench,
-  "Marble Age Biome": SUNNYSIDE.building.workbench,
+  "Swamp Biome": SUNNYSIDE.ascensionGround.swamp.workbench,
+  "Spooky Biome": SUNNYSIDE.ascensionGround.spooky.workbench,
+  "Crystal Biome": SUNNYSIDE.ascensionGround.crystal.workbench,
+  "Galaxy Biome": SUNNYSIDE.ascensionGround.galaxy.workbench,
+  "Marble Age Biome": SUNNYSIDE.ascensionGround.marble.workbench,
 };
 
 export const FRUIT_PATCH_VARIANTS: Record<LandBiomeName, string> = {
@@ -415,12 +360,11 @@ export const FRUIT_PATCH_VARIANTS: Record<LandBiomeName, string> = {
   "Spring Biome": SUNNYSIDE.building.fruitPatchDirt,
   "Desert Biome": SUNNYSIDE.building.desertFruitPatchDirt,
   "Volcano Biome": SUNNYSIDE.building.volcanoFruitPatchDirt,
-  "Swamp Biome": SUNNYSIDE.building.fruitPatchDirt,
-  // Ascension biomes (spooky onward) reuse the swamp art for now.
-  "Spooky Biome": SUNNYSIDE.building.fruitPatchDirt,
-  "Crystal Biome": SUNNYSIDE.building.fruitPatchDirt,
-  "Galaxy Biome": SUNNYSIDE.building.fruitPatchDirt,
-  "Marble Age Biome": SUNNYSIDE.building.fruitPatchDirt,
+  "Swamp Biome": SUNNYSIDE.ascensionGround.swamp.fruitPatchDirt,
+  "Spooky Biome": SUNNYSIDE.ascensionGround.spooky.fruitPatchDirt,
+  "Crystal Biome": SUNNYSIDE.ascensionGround.crystal.fruitPatchDirt,
+  "Galaxy Biome": SUNNYSIDE.ascensionGround.galaxy.fruitPatchDirt,
+  "Marble Age Biome": SUNNYSIDE.ascensionGround.marble.fruitPatchDirt,
 };
 
 export const CHOPPED_SHEET_VARIANTS: Record<TemperateSeasonName, string> = {
@@ -451,6 +395,12 @@ export const FLOWER_VARIANTS = (
 
   const island = BIOME_TO_ISLAND[biome];
 
+  // Ascension biomes have their own bed, but their flowers are still basic's.
+  const ascension = ASCENSION_BIOMES[biome];
+  if (stage === "flower_bed" && ascension) {
+    return SUNNYSIDE.ascensionGround[ascension][season].flowerBed;
+  }
+
   if (
     stage === "seedling" ||
     stage === "halfway" ||
@@ -471,12 +421,11 @@ export const DIRT_PATH_VARIANTS: Record<LandBiomeName, string> = {
   "Spring Biome": SUNNYSIDE.sfts.dirt,
   "Desert Biome": SUNNYSIDE.building.desertDirt,
   "Volcano Biome": SUNNYSIDE.building.volcanoDirt,
-  "Swamp Biome": SUNNYSIDE.sfts.dirt,
-  // Ascension biomes (spooky onward) reuse the swamp art for now.
-  "Spooky Biome": SUNNYSIDE.sfts.dirt,
-  "Crystal Biome": SUNNYSIDE.sfts.dirt,
-  "Galaxy Biome": SUNNYSIDE.sfts.dirt,
-  "Marble Age Biome": SUNNYSIDE.sfts.dirt,
+  "Swamp Biome": SUNNYSIDE.ascensionGround.swamp.dirt,
+  "Spooky Biome": SUNNYSIDE.ascensionGround.spooky.dirt,
+  "Crystal Biome": SUNNYSIDE.ascensionGround.crystal.dirt,
+  "Galaxy Biome": SUNNYSIDE.ascensionGround.galaxy.dirt,
+  "Marble Age Biome": SUNNYSIDE.ascensionGround.marble.dirt,
 };
 
 export const BUSH_VARIANTS: Record<

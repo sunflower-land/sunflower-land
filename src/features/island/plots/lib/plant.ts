@@ -102,6 +102,30 @@ export const IMAGES: Record<CropName, string> = {
   "Crystal Leaf": "crystal_leaf",
 };
 
+/** Every crop's stages from an ascension biome's folder, whose dirt mounds
+ * match that biome's soil. */
+const ascensionLifecycles = (
+  biome: "swamp" | "spooky" | "crystal" | "galaxy" | "marble",
+) =>
+  getKeys(IMAGES).reduce(
+    (acc, name) => {
+      const url = `${CONFIG.PROTECTED_IMAGE_URL}/${biome}/crops/${IMAGES[name]}`;
+
+      return {
+        ...acc,
+        [name]: {
+          seedling: `${url}/seedling.png`,
+          halfway: `${url}/halfway.png`,
+          almost: `${url}/almost.png`,
+          ready: `${url}/plant.png`,
+          crop: `${url}/crop.png`,
+          seed: `${url}/seed.png`,
+        },
+      };
+    },
+    {} as Record<CropName, Lifecycle>,
+  );
+
 export const CROP_LIFECYCLE: Record<
   LandBiomeName,
   Record<CropName, Lifecycle>
@@ -152,77 +176,11 @@ export const CROP_LIFECYCLE: Record<
     },
     {} as Record<CropName, Lifecycle>,
   ),
-  "Swamp Biome": getKeys(IMAGES).reduce(
-    (acc, name) => ({
-      ...acc,
-      [name]: {
-        seedling: `${URL}/${IMAGES[name]}/seedling.png`,
-        halfway: `${URL}/${IMAGES[name]}/halfway.png`,
-        almost: `${URL}/${IMAGES[name]}/almost.png`,
-        ready: `${URL}/${IMAGES[name]}/plant.png`,
-        crop: `${URL}/${IMAGES[name]}/crop.png`,
-        seed: `${URL}/${IMAGES[name]}/seed.png`,
-      },
-    }),
-    {} as Record<CropName, Lifecycle>,
-  ),
-  // Ascension biomes (spooky onward) reuse the swamp art for now.
-  "Spooky Biome": getKeys(IMAGES).reduce(
-    (acc, name) => ({
-      ...acc,
-      [name]: {
-        seedling: `${URL}/${IMAGES[name]}/seedling.png`,
-        halfway: `${URL}/${IMAGES[name]}/halfway.png`,
-        almost: `${URL}/${IMAGES[name]}/almost.png`,
-        ready: `${URL}/${IMAGES[name]}/plant.png`,
-        crop: `${URL}/${IMAGES[name]}/crop.png`,
-        seed: `${URL}/${IMAGES[name]}/seed.png`,
-      },
-    }),
-    {} as Record<CropName, Lifecycle>,
-  ),
-  "Crystal Biome": getKeys(IMAGES).reduce(
-    (acc, name) => ({
-      ...acc,
-      [name]: {
-        seedling: `${URL}/${IMAGES[name]}/seedling.png`,
-        halfway: `${URL}/${IMAGES[name]}/halfway.png`,
-        almost: `${URL}/${IMAGES[name]}/almost.png`,
-        ready: `${URL}/${IMAGES[name]}/plant.png`,
-        crop: `${URL}/${IMAGES[name]}/crop.png`,
-        seed: `${URL}/${IMAGES[name]}/seed.png`,
-      },
-    }),
-    {} as Record<CropName, Lifecycle>,
-  ),
-  "Galaxy Biome": getKeys(IMAGES).reduce(
-    (acc, name) => ({
-      ...acc,
-      [name]: {
-        seedling: `${URL}/${IMAGES[name]}/seedling.png`,
-        halfway: `${URL}/${IMAGES[name]}/halfway.png`,
-        almost: `${URL}/${IMAGES[name]}/almost.png`,
-        ready: `${URL}/${IMAGES[name]}/plant.png`,
-        crop: `${URL}/${IMAGES[name]}/crop.png`,
-        seed: `${URL}/${IMAGES[name]}/seed.png`,
-      },
-    }),
-    {} as Record<CropName, Lifecycle>,
-  ),
-  "Marble Age Biome": getKeys(IMAGES).reduce(
-    (acc, name) => ({
-      ...acc,
-      [name]: {
-        seedling: `${URL}/${IMAGES[name]}/seedling.png`,
-        halfway: `${URL}/${IMAGES[name]}/halfway.png`,
-        almost: `${URL}/${IMAGES[name]}/almost.png`,
-        ready: `${URL}/${IMAGES[name]}/plant.png`,
-        crop: `${URL}/${IMAGES[name]}/crop.png`,
-        seed: `${URL}/${IMAGES[name]}/seed.png`,
-      },
-    }),
-    {} as Record<CropName, Lifecycle>,
-  ),
+  "Swamp Biome": ascensionLifecycles("swamp"),
+  "Spooky Biome": ascensionLifecycles("spooky"),
+  "Crystal Biome": ascensionLifecycles("crystal"),
+  "Galaxy Biome": ascensionLifecycles("galaxy"),
+  "Marble Age Biome": ascensionLifecycles("marble"),
   "Desert Biome": getKeys(IMAGES).reduce(
     (acc, name) => ({
       ...acc,
@@ -253,25 +211,24 @@ export const SOIL_IMAGES: Record<LandBiomeName, Record<string, string>> = {
     dry: SUNNYSIDE.soil.volcanoSoilDry,
   },
   "Swamp Biome": {
-    regular: SUNNYSIDE.soil.soil2,
-    dry: SUNNYSIDE.soil.soil_dry,
+    regular: SUNNYSIDE.ascensionGround.swamp.soil2,
+    dry: SUNNYSIDE.ascensionGround.swamp.soilDry,
   },
-  // Ascension biomes (spooky onward) reuse the swamp art for now.
   "Spooky Biome": {
-    regular: SUNNYSIDE.soil.soil2,
-    dry: SUNNYSIDE.soil.soil_dry,
+    regular: SUNNYSIDE.ascensionGround.spooky.soil2,
+    dry: SUNNYSIDE.ascensionGround.spooky.soilDry,
   },
   "Crystal Biome": {
-    regular: SUNNYSIDE.soil.soil2,
-    dry: SUNNYSIDE.soil.soil_dry,
+    regular: SUNNYSIDE.ascensionGround.crystal.soil2,
+    dry: SUNNYSIDE.ascensionGround.crystal.soilDry,
   },
   "Galaxy Biome": {
-    regular: SUNNYSIDE.soil.soil2,
-    dry: SUNNYSIDE.soil.soil_dry,
+    regular: SUNNYSIDE.ascensionGround.galaxy.soil2,
+    dry: SUNNYSIDE.ascensionGround.galaxy.soilDry,
   },
   "Marble Age Biome": {
-    regular: SUNNYSIDE.soil.soil2,
-    dry: SUNNYSIDE.soil.soil_dry,
+    regular: SUNNYSIDE.ascensionGround.marble.soil2,
+    dry: SUNNYSIDE.ascensionGround.marble.soilDry,
   },
   "Desert Biome": {
     regular: SUNNYSIDE.soil.soil2,
