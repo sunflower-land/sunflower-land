@@ -111,7 +111,10 @@ export function startCaveBatch({
 
     const { duration, boostsUsed: durationBoostsUsed } =
       getCaveBatchDuration(game);
-    const { skills, boostsUsed: boardBoostsUsed } = getCaveBatchSkills(game);
+    const { skills, boostsUsed: boardBoostsUsed } = getCaveBatchSkills(
+      game,
+      action.recipe,
+    );
 
     const startedAt = createdAt;
     machine.batch = {

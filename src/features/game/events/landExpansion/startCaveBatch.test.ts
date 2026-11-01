@@ -354,7 +354,7 @@ describe("startCaveBatch: Cave skills", () => {
     const next = start(
       skilled({ "Mushroom Bloom": 2, "Beetle Nest": 3, "Rare Breeds": 1 }),
       "1",
-      "Mushroom",
+      "Beetle",
       NOW,
     );
     expect(batchOf(next)?.skills).toEqual({
@@ -370,8 +370,16 @@ describe("startCaveBatch: Cave skills", () => {
   });
 
   it("snapshots only the board-shaping skills the player has", () => {
-    const next = start(skilled({ "Beetle Nest": 1 }), "1", "Mushroom", NOW);
+    const next = start(skilled({ "Beetle Nest": 1 }), "1", "Beetle", NOW);
     expect(batchOf(next)?.skills).toEqual({ extraBeetleTiles: 1 });
+  });
+
+  it("leaves Beetle Nest off a non-Beetle batch", () => {
+    // Scoped to the Beetle recipe (2026-10-30): free Beetle tiles on every
+    // batch let a maxed cave out-feed the Slop system on Beetles alone.
+    const mushroom = start(skilled({ "Beetle Nest": 3 }), "1", "Mushroom", NOW);
+    expect(batchOf(mushroom)).not.toHaveProperty("skills");
+    expect(mushroom.boostsUsedAt?.["Beetle Nest"]).toBeUndefined();
   });
 
   it("stores no skills on a batch started without any", () => {
@@ -389,7 +397,7 @@ describe("startCaveBatch: Cave skills", () => {
         "Rare Breeds": 1,
       }),
       "1",
-      "Mushroom",
+      "Beetle",
       NOW,
     );
     expect(next.boostsUsedAt).toMatchObject({
@@ -468,9 +476,10 @@ describe("startCaveBatch: first batch", () => {
       "Mushroom",
       NOW,
     );
+    // No extraBeetleTiles: the first batch is the Mushroom recipe, and
+    // Beetle Nest shapes only Beetle batches (2026-10-30).
     expect(next.cave?.machines["1"].batch?.skills).toEqual({
       extraMushroomTiles: 2,
-      extraBeetleTiles: 3,
       beetleRarity: {
         "Green Beetle": 35,
         "Blue Beetle": 35,
