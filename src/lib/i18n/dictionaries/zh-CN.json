@@ -8687,7 +8687,6 @@
   "skill.mushroomBloom": "每个洞穴补丁中有 +1 个蘑菇牌",
   "skill.sturdyShovel": "洞穴挖掘有 10% 的几率保留沙铲",
   "skill.fungalHarvest": "每个 Cave Mushroum 方块中的蘑菇 +",
-  "skill.beetleNest": "每个洞穴补丁中有 +1 个甲壳虫图块",
   "skill.sturdyDrill": "洞穴钻机保留沙钻的几率为 20%",
   "skill.toolHoarder": "增加的库存：+25 沙铲，+5 沙钻",
   "skill.rareBreeds": "甲壳虫赔率：35% 绿色、35% 蓝色、15% 粉色、15% 琥珀色",
@@ -8697,7 +8696,6 @@
   "skill.mushroomBloom.ranked": "+ {{value}} 每个洞穴补丁中的蘑菇方块",
   "skill.sturdyShovel.ranked": "{{value}} 洞穴挖掘保留沙铲的几率百分比",
   "skill.fungalHarvest.ranked": "+ {{value}} 每个洞穴蘑菇方块中的蘑菇",
-  "skill.beetleNest.ranked": "+ {{value}} 每个洞穴补丁中的甲壳虫图块",
   "skill.sturdyDrill.ranked": "{{value}} 洞穴钻机保留沙钻的几率百分比",
   "skill.toolHoarder.ranked": "增加的库存：+ {{shovel}} 沙铲，+ {{drill}} 沙钻",
   "skill.rareBreeds.ranked": "{{value}}% {{beetle}} 赔率",
@@ -8989,5 +8987,7 @@
   "description.herculesBeetleHat.boost": "x0.75 用于扩展的黑曜石",
   "description.grinxsHammer.warning": "如果 Grinx 的锤子激活，则禁用",
   "description.spookyBed": "为最勇敢的洞穴居民准备的鬼床。它的幽灵般的客人从不打呼噜声。",
-  "description.potOfLuck.boost": "1/3 几率获得 +1 沙漠宝藏"
+  "description.potOfLuck.boost": "1/3 几率获得 +1 沙漠宝藏",
+  "skill.beetleNest": "每个甲壳虫配方补丁中有 +1 个甲壳虫方块",
+  "skill.beetleNest.ranked": "+ {{value}} 每个甲壳虫配方补丁中的甲壳虫图块"
 }

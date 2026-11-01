@@ -8687,7 +8687,6 @@
   "skill.mushroomBloom": "+1 tessera Fungo in ogni patch della grotta",
   "skill.sturdyShovel": "10% di probabilità che uno scavo in una grotta mantenga la sua pala di sabbia",
   "skill.fungalHarvest": "+0,2 funghi da ogni tessera Cave Mushroom",
-  "skill.beetleNest": "+1 tessera Beetle in ogni patch della grotta",
   "skill.sturdyDrill": "20% di probabilità che un trapano da caverna mantenga il suo trapano a sabbia",
   "skill.toolHoarder": "Aumento delle scorte: +25 Sand Shovel, +5 Sand Drill",
   "skill.rareBreeds": "Quote Beetle: 35% verde, 35% blu, 15% rosa, 15% ambra",
@@ -8697,7 +8696,6 @@
   "skill.mushroomBloom.ranked": "+ {{value}} Tessere a forma di fungo in ogni patch della grotta",
   "skill.sturdyShovel.ranked": "{{value}}% di probabilità che uno scavo in una grotta mantenga la sua pala di sabbia",
   "skill.fungalHarvest.ranked": "+ {{value}} Funghi da ogni tessera Cave Mushroom",
-  "skill.beetleNest.ranked": "+ {{value}} Tessere Beetle in ogni patch della grotta",
   "skill.sturdyDrill.ranked": "{{value}}% di probabilità che una perforatrice da caverna mantenga la sua perforatrice a sabbia",
   "skill.toolHoarder.ranked": "Aumento delle scorte: + {{shovel}} Sand Shovel, + {{drill}} Sand Drill",
   "skill.rareBreeds.ranked": "Quote {{value}}% {{beetle}}",
@@ -8989,5 +8987,7 @@
   "description.herculesBeetleHat.boost": "x0.75 Obsidian per espansioni",
   "description.grinxsHammer.warning": "Disabilitato se il Martello di Grinx è attivo",
   "description.spookyBed": "Un letto infestato per i più coraggiosi abitanti delle caverne. Il suo ospite spettrale non russa mai.",
-  "description.potOfLuck.boost": "1/3 di possibilità di +1 Desert Treasure"
+  "description.potOfLuck.boost": "1/3 di possibilità di +1 Desert Treasure",
+  "skill.beetleNest": "+1 tessera Beetle in ogni patch della ricetta Beetle",
+  "skill.beetleNest.ranked": "+ {{value}} Piastrelle Beetle in ogni patch della ricetta Beetle"
 }

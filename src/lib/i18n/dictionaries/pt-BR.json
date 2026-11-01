@@ -8687,7 +8687,6 @@
   "skill.mushroomBloom": "+1 ladrilho de cogumelo em cada canteiro de caverna",
   "skill.sturdyShovel": "10% de chance de uma escavação em caverna manter sua Pá de Areia",
   "skill.fungalHarvest": "+0,2 Cogumelos de cada ladrilho de Cave Mushroom",
-  "skill.beetleNest": "+1 ladrilho de besouro em cada área de caverna",
   "skill.sturdyDrill": "20% de chance de uma furadeira de caverna manter sua broca de areia",
   "skill.toolHoarder": "Estoque aumentado: +25 Sand Shovel, +5 Sand Drill",
   "skill.rareBreeds": "Probabilidades de besouro: 35% verde, 35% azul, 15% rosa, 15% âmbar",
@@ -8697,7 +8696,6 @@
   "skill.mushroomBloom.ranked": "+ {{value}} Telhas de cogumelos em cada canteiro de caverna",
   "skill.sturdyShovel.ranked": "{{value}}% de chance de uma escavação em caverna manter sua pá de areia",
   "skill.fungalHarvest.ranked": "+ {{value}} Cogumelos de cada ladrilho Cave Mushroom",
-  "skill.beetleNest.ranked": "+ {{value}} Telhas de besouro em cada área de caverna",
   "skill.sturdyDrill.ranked": "{{value}}% de chance de uma furadeira de caverna manter sua furadeira de areia",
   "skill.toolHoarder.ranked": "Estoque aumentado: + {{shovel}} Pá de areia, + {{drill}} Broca de areia",
   "skill.rareBreeds.ranked": "{{value}}% {{beetle}} chances",
@@ -8989,5 +8987,7 @@
   "description.herculesBeetleHat.boost": "x0.75 Obsidian para expansões",
   "description.grinxsHammer.warning": "Desativado se o Martelo de Grinx estiver ativo",
   "description.spookyBed": "Uma cama mal-assombrada para os mais corajosos moradores das cavernas. Seu convidado fantasmagórico nunca ronca.",
-  "description.potOfLuck.boost": "1/3 de chance de +1 Tesouro do Deserto"
+  "description.potOfLuck.boost": "1/3 de chance de +1 Tesouro do Deserto",
+  "skill.beetleNest": "+1 azulejo de besouro em cada patch de receita de besouro",
+  "skill.beetleNest.ranked": "+ {{value}} Telhas de besouro em cada patch de receita de besouro"
 }

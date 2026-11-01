@@ -8687,7 +8687,6 @@
   "skill.mushroomBloom": "+1 ubin jamur di setiap petak Gua",
   "skill.sturdyShovel": "10% kemungkinan penggalian gua menyimpan Sekop Pasirnya",
   "skill.fungalHarvest": "+0,2 Jamur dari setiap ubin Jamur Gua",
-  "skill.beetleNest": "+1 ubin Beetle di setiap petak Gua",
   "skill.sturdyDrill": "20% peluang bor gua mempertahankan bor pasirnya",
   "skill.toolHoarder": "Peningkatan stok: +25 Sekop Pasir, +5 Bor Pasir",
   "skill.rareBreeds": "Peluang kumbang: 35% Hijau, 35% Biru, 15% Merah Muda, 15% Amber",
@@ -8697,7 +8696,6 @@
   "skill.mushroomBloom.ranked": "+ {{value}} Ubin jamur di setiap petak Gua",
   "skill.sturdyShovel.ranked": "{{value}}% kemungkinan penggalian Gua menyimpan Sekop Pasirnya",
   "skill.fungalHarvest.ranked": "+ {{value}} Jamur dari setiap ubin Jamur Gua",
-  "skill.beetleNest.ranked": "+ {{value}} Ubin kumbang di setiap petak Gua",
   "skill.sturdyDrill.ranked": "{{value}}% kemungkinan bor Gua mempertahankan Bor Pasirnya",
   "skill.toolHoarder.ranked": "Peningkatan stok: + {{shovel}} Sekop Pasir, + {{drill}} Bor Pasir",
   "skill.rareBreeds.ranked": "{{value}}% {{beetle}} peluang",
@@ -8989,5 +8987,7 @@
   "description.herculesBeetleHat.boost": "x0.75 Obsidian untuk Ekspansi",
   "description.grinxsHammer.warning": "Dinonaktifkan jika Grinx's Hammer Aktif",
   "description.spookyBed": "Tempat tidur berhantu untuk penghuni gua paling berani. Tamu hantu tidak pernah mendengkur.",
-  "description.potOfLuck.boost": "1/3 peluang dari +1 Desert Treasure"
+  "description.potOfLuck.boost": "1/3 peluang dari +1 Desert Treasure",
+  "skill.beetleNest": "+1 ubin Beetle di setiap patch resep Beetle",
+  "skill.beetleNest.ranked": "+ {{value}} Ubin kumbang di setiap patch resep Beetle"
 }

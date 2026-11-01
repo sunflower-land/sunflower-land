@@ -8687,7 +8687,6 @@
   "skill.mushroomBloom": "Her mağara yamasında +1 mantar karosu",
   "skill.sturdyShovel": "Mağara kazısının Kum Küreğini tutma şansı %10",
   "skill.fungalHarvest": "Her Mağara Mantarı karosundan +0.2 Mantar",
-  "skill.beetleNest": "Her Mağara yamasında +1 Böcek karosu",
   "skill.sturdyDrill": "Mağara matkabının Kum Matkabını tutma ihtimali %20",
   "skill.toolHoarder": "Artan stok: +25 Kum Küreği, +5 Kum Matkabı",
   "skill.rareBreeds": "Böcek oranları: %35 Yeşil, %35 Mavi, %15 Pembe, %15 Kehribar",
@@ -8697,7 +8696,6 @@
   "skill.mushroomBloom.ranked": "+ {{value}} Her Mağara yamasında mantar karoları",
   "skill.sturdyShovel.ranked": "{{value}} Mağara kazısının Kum Küreğini tutma şansı %",
   "skill.fungalHarvest.ranked": "+ {{value}} Her Mağara Mantarı karosundan mantarlar",
-  "skill.beetleNest.ranked": "+ {{value}} Her Mağara yamasında böcek döşemeleri",
   "skill.sturdyDrill.ranked": "{{value}} Mağara matkabının Kum Matkabını tutma şansı %",
   "skill.toolHoarder.ranked": "Artan stok: + {{shovel}} Kum Küreği, + {{drill}} Kum Matkabı",
   "skill.rareBreeds.ranked": "{{value}} %{{beetle}} bahis oranları",
@@ -8989,5 +8987,7 @@
   "description.herculesBeetleHat.boost": "x0.75 Genişletmeler için Obsidian",
   "description.grinxsHammer.warning": "Grinx'in Hammer Etkin ise devre dışı bırakılır",
   "description.spookyBed": "En cesur mağara sakinleri için perili bir yatak. Hayalet konuğu asla horlamaz.",
-  "description.potOfLuck.boost": "1/3 şansı +1 Çöl Hazinesi"
+  "description.potOfLuck.boost": "1/3 şansı +1 Çöl Hazinesi",
+  "skill.beetleNest": "Her Beetle tarifi yamasında +1 Böcek karosu",
+  "skill.beetleNest.ranked": "+ {{value}} Her Beetle tarifi yamasında böcek döşemeleri"
 }

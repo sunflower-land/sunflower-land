@@ -8688,7 +8688,6 @@
   "skill.mushroomBloom": "Клеток с грибами на каждом участке Пещеры: +1",
   "skill.sturdyShovel": "Шанс 10%, что при раскопках в Пещере лопата не расходуется",
   "skill.fungalHarvest": "Грибов с каждой клетки с грибом в Пещере: +0.2",
-  "skill.beetleNest": "Клеток с жуками на каждом участке Пещеры: +1",
   "skill.sturdyDrill": "Шанс 20%, что при бурении в Пещере бур не расходуется",
   "skill.toolHoarder": "Увеличенный запас: песчаные лопаты +25, песчаные буры +5",
   "skill.rareBreeds": "Шансы на жуков: 35% зелёный, 35% синий, 15% розовый, 15% янтарный",
@@ -8698,7 +8697,6 @@
   "skill.mushroomBloom.ranked": "Клеток с грибами на каждом участке Пещеры: +{{value}}",
   "skill.sturdyShovel.ranked": "Шанс {{value}}%, что при раскопках в Пещере лопата не расходуется",
   "skill.fungalHarvest.ranked": "Грибов с каждой клетки с грибом в Пещере: +{{value}}",
-  "skill.beetleNest.ranked": "Клеток с жуками на каждом участке Пещеры: +{{value}}",
   "skill.sturdyDrill.ranked": "Шанс {{value}}%, что при бурении в Пещере бур не расходуется",
   "skill.toolHoarder.ranked": "Увеличенный запас: песчаные лопаты +{{shovel}}, песчаные буры +{{drill}}",
   "skill.rareBreeds.ranked": "{{beetle}}: шанс {{value}}%",
@@ -8989,5 +8987,7 @@
   "description.herculesBeetleHat.boost": "x0.75 Obsidian for Expansions",
   "description.grinxsHammer.warning": "Disabled if Grinx's Hammer Active",
   "description.spookyBed": "A haunted bed for the bravest cave dwellers. Its ghostly guest never snores.",
-  "description.potOfLuck.boost": "1/3 chance of +1 Desert Treasure"
+  "description.potOfLuck.boost": "1/3 chance of +1 Desert Treasure",
+  "skill.beetleNest": "+1 Beetle tile in each Beetle recipe patch",
+  "skill.beetleNest.ranked": "+{{value}} Beetle tiles in each Beetle recipe patch"
 }

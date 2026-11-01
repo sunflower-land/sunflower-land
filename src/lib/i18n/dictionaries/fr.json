@@ -8687,7 +8687,6 @@
   "skill.mushroomBloom": "+1 tuile Champignon dans chaque parcelle de grotte",
   "skill.sturdyShovel": "10 % de chances qu'une personne creusée dans une grotte garde sa pelle à sable",
   "skill.fungalHarvest": "+0,2 champignons pour chaque tuile Cave Mushroom",
-  "skill.beetleNest": "+1 tuile Scarabée dans chaque patch de la grotte",
   "skill.sturdyDrill": "20 % de chances qu'un foret à grotte conserve son foret à sable",
   "skill.toolHoarder": "Stock augmenté : +25 pelle à sable, +5 foret à sable",
   "skill.rareBreeds": "Probabilités de coléoptères : 35 % vert, 35 % bleu, 15 % rose, 15 % ambré",
@@ -8697,7 +8696,6 @@
   "skill.mushroomBloom.ranked": "+ {{value}} Des tuiles en forme de champignons dans chaque parcelle de grotte",
   "skill.sturdyShovel.ranked": "{{value}} % de chances qu'une personne creusée dans une grotte garde sa pelle à sable",
   "skill.fungalHarvest.ranked": "+ {{value}} Champignons provenant de chaque tuile Cave Mushroom",
-  "skill.beetleNest.ranked": "+ {{value}} Des tuiles Beetle dans chaque patch de la grotte",
   "skill.sturdyDrill.ranked": "{{value}} % de chances qu'un foret à grotte conserve son foret à sable",
   "skill.toolHoarder.ranked": "Stock augmenté : + {{shovel}} Pelle à sable, + {{drill}} Foret à sable",
   "skill.rareBreeds.ranked": "Cotes {{value}} % {{beetle}}",
@@ -8989,5 +8987,7 @@
   "description.herculesBeetleHat.boost": "Obsidienne x0.75 pour les extensions",
   "description.grinxsHammer.warning": "Désactivé si Grinx's Hammer est actif",
   "description.spookyBed": "Un lit hanté pour les plus courageux habitants des cavernes. Son hôte fantomatique ne ronfle jamais.",
-  "description.potOfLuck.boost": "1/3 de chance d'obtenir +1 trésor du désert"
+  "description.potOfLuck.boost": "1/3 de chance d'obtenir +1 trésor du désert",
+  "skill.beetleNest": "+1 tuile Beetle dans chaque patch de recette Beetle",
+  "skill.beetleNest.ranked": "+ {{value}} Des tuiles Beetle dans chaque patch de recette Beetle"
 }

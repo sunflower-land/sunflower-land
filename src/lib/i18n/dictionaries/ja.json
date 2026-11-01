@@ -8687,7 +8687,6 @@
   "skill.mushroomBloom": "各洞窟パッチに+1マッシュルームタイル",
   "skill.sturdyShovel": "10% の確率で洞窟掘りでサンドショベルが手に入る",
   "skill.fungalHarvest": "各ケーブマッシュルームタイルのキノコ+0.2",
-  "skill.beetleNest": "各ケーブパッチに+1ビートルタイル",
   "skill.sturdyDrill": "20% の確率でケーブドリルがサンドドリルをキープする",
   "skill.toolHoarder": "在庫増加:+25 サンドショベル、+5 サンドドリル",
   "skill.rareBreeds": "ビートルオッズ:35% グリーン、35% ブルー、15% ピンク、15% アンバー",
@@ -8697,7 +8696,6 @@
   "skill.mushroomBloom.ranked": "+ {{value}} 各洞窟パッチのキノコタイル",
   "skill.sturdyShovel.ranked": "{{value}}%% の確率で洞窟掘り砂掘りができる",
   "skill.fungalHarvest.ranked": "+ {{value}} 各ケーブマッシュルームタイルのマッシュルーム",
-  "skill.beetleNest.ranked": "+ {{value}} 各ケーブパッチのビートルタイル",
   "skill.sturdyDrill.ranked": "ケーブドリルがサンドドリルを維持する確率は {{value}}%",
   "skill.toolHoarder.ranked": "在庫増加:+ {{shovel}} サンドショベル、+ {{drill}} サンドドリル",
   "skill.rareBreeds.ranked": "{{value}}% {{beetle}} オッズ",
@@ -8989,5 +8987,7 @@
   "description.herculesBeetleHat.boost": "x0.75 エクスパンション用オブシディアン",
   "description.grinxsHammer.warning": "グリンクスのハンマー発動中は使用不可",
   "description.spookyBed": "勇敢な洞窟住人のためのお化け屋敷だ。その幽霊のような客はいびきをかくことはない。",
-  "description.potOfLuck.boost": "1/3の確率で砂漠の宝物が+1される"
+  "description.potOfLuck.boost": "1/3の確率で砂漠の宝物が+1される",
+  "skill.beetleNest": "ビートルレシピパッチ1つにつき、ビートルタイル1枚ずつ",
+  "skill.beetleNest.ranked": "+ {{value}} 各ビートルレシピパッチのビートルタイル"
 }
