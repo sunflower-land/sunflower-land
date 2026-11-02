@@ -268,6 +268,7 @@ export type FarmActivityName =
   | `${BonusName} Bonus Claimed`
   | `${CrustaceanName} Caught with ${CrustaceanChum}`
   | "Crafting Queue Cancelled"
+  | "Fox Shrine Triggered"
   | "Instant Gems Spent"
   | "Instant Coins Spent";
 

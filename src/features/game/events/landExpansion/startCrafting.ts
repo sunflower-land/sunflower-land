@@ -41,6 +41,34 @@ type Options = {
   createdAt?: number;
 };
 
+/**
+ * Keeps the per-recipe started counter and the proc count in separate ranges of
+ * the prng seed, so a seed is only ever reused when both are the same.
+ */
+const FOX_SHRINE_PROC_STRIDE = 1_000_000;
+
+/**
+ * The counter the Fox Shrine instant-craft roll is seeded with.
+ *
+ * `<Name> Crafting Started` alone is not safe to roll on: cancelling a queued
+ * craft takes one back off it, so once a proc has fired at counter k, cancelling
+ * any EARLIER queued craft of that recipe drops the counter back to k and the
+ * next start replays the proc - for as many queued crafts as there are to cancel.
+ * Folding in the number of procs already granted moves every roll after a proc
+ * onto a new sequence, so a proc can never be reproduced, while a craft that is
+ * cancelled and started again with no proc in between still lands on exactly the
+ * roll it had - a cancel is not a re-roll either.
+ */
+export function getFoxShrineRollCounter({
+  started,
+  procs,
+}: {
+  started: number;
+  procs: number;
+}) {
+  return started + procs * FOX_SHRINE_PROC_STRIDE;
+}
+
 export function getBoostedCraftingTime({
   game,
   time,
@@ -258,12 +286,22 @@ export function startCrafting({
           recipe.type === "collectible"
             ? KNOWN_IDS[recipe.name as InventoryItemName]
             : ITEM_IDS[recipe.name as BumpkinItem],
-        counter: state.farmActivity[`${recipe.name} Crafting Started`] ?? 0,
+        counter: getFoxShrineRollCounter({
+          started: state.farmActivity[`${recipe.name} Crafting Started`] ?? 0,
+          procs: state.farmActivity["Fox Shrine Triggered"] ?? 0,
+        }),
       },
       now: createdAt,
     });
 
     const isInstant = recipeTime === 0;
+
+    if (isInstant) {
+      copy.farmActivity = trackFarmActivity(
+        "Fox Shrine Triggered",
+        copy.farmActivity ?? {},
+      );
+    }
 
     // The stored `readyAt` is a CACHE of the derived chain, so it must be written
     // through the windows - otherwise a craft queued under an active booster would
