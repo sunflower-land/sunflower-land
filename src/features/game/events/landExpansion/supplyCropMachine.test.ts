@@ -2500,6 +2500,81 @@ describe("supplyCropMachine (windowed SPEED_BOOSTS)", () => {
     expect(running?.readyAt).toBeCloseTo(now + (PACK_MS / 2) * 0.9, 5);
   });
 
+  it("credits a shrine placed after the running pack started, even when a skill matched the shrine's discount at supply", () => {
+    // Supplied at Crop Processor Unit rank 2 (x0.9, the shrine's own discount),
+    // then the skills were reset: the duration looks shrine-baked but isn't.
+    const SKILL_MS = PACK_MS * 0.9;
+    const state = supplyCropMachine({
+      state: stateWithMachine(
+        {
+          unallocatedOilTime: 0,
+          queue: [
+            {
+              crop: "Sunflower",
+              seeds: 10,
+              growTimeRemaining: 0,
+              totalGrowTime: SKILL_MS,
+              startTime: now - SKILL_MS / 2,
+              readyAt: now + SKILL_MS / 2,
+            },
+          ],
+        },
+        { collectibles: shrine(now - SKILL_MS / 4) },
+      ),
+      action: {
+        type: "cropMachine.supplied",
+        seeds: { type: "Sunflower Seed", amount: 10 },
+        machineId: "1",
+      },
+      createdAt: now,
+    });
+
+    const [running] = state.buildings["Crop Machine"]?.[0]?.queue ?? [];
+
+    expect(running?.baseDurationMs).toBe(SKILL_MS / 2);
+    expect(running?.readyAt).toBeCloseTo(now + (SKILL_MS / 2) * 0.9, 5);
+  });
+
+  it("hands back a baked shrine even when the crop machine skills changed since supply", () => {
+    // Supplied with the shrine live and no skills; Crop Processor Unit was
+    // picked up since, so a supply now would no longer cost the same.
+    const BAKED_MS = PACK_MS * 0.9;
+    const state = supplyCropMachine({
+      state: stateWithMachine(
+        {
+          unallocatedOilTime: 0,
+          queue: [
+            {
+              crop: "Sunflower",
+              seeds: 10,
+              growTimeRemaining: 0,
+              totalGrowTime: BAKED_MS,
+              startTime: now - BAKED_MS / 2,
+              readyAt: now + BAKED_MS / 2,
+            },
+          ],
+        },
+        {
+          collectibles: shrine(now - HOUR),
+          bumpkin: {
+            ...GAME_STATE.bumpkin,
+            skills: { "Crop Processor Unit": 1 },
+          },
+        },
+      ),
+      action: {
+        type: "cropMachine.supplied",
+        seeds: { type: "Sunflower Seed", amount: 10 },
+        machineId: "1",
+      },
+      createdAt: now,
+    });
+
+    const [running] = state.buildings["Crop Machine"]?.[0]?.queue ?? [];
+
+    expect(running?.readyAt).toBeCloseTo(now + BAKED_MS / 2, 5);
+  });
+
   it("recomputes a queued pack whose stale startTime is past after a legacy lift and re-place", () => {
     // Legacy placeBuilding shifts readyAt across the downtime but leaves
     // startTime untouched, so the queued pack's startTime is in the past even

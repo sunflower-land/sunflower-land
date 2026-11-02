@@ -229,9 +229,11 @@ export function convertLegacyCropMachine({
   });
 
   // The running pack's frozen remainder is in legacy wall time. If the shrine was
-  // baked in at supply (its duration matches a legacy supply now) and is still
-  // live, hand the overlap's credit back as work: the window then speeds it up
-  // over exactly that overlap and the pack lands on its legacy finish. Only the
+  // already live when the pack started, it was live at supply too (supply comes
+  // first) and so was baked in: hand the overlap's credit back as work, so the
+  // window speeds it up over exactly that overlap and the pack lands on its
+  // legacy finish. (A shrine placed between supply and start counts too and keeps
+  // the legacy finish; legacy rules never sped that pack up either.) Only the
   // overlap the tank can fuel counts — a stalled pack doesn't grow, so the shrine
   // can't speed it. (A refuel while the shrine is still live then credits the
   // rest of the baked remainder again; accepted, it's bounded by one pack.)
@@ -239,8 +241,9 @@ export function convertLegacyCropMachine({
   let unbaked = false;
   if (
     running?.baseDurationMs !== undefined &&
+    running.startTime !== undefined &&
     live !== undefined &&
-    isTortoiseBaked(running, state, now)
+    live.from <= running.startTime
   ) {
     const overlap = Math.min(
       running.baseDurationMs,
@@ -255,20 +258,6 @@ export function convertLegacyCropMachine({
     refreshCropMachineCaches({ machine, windows, now });
   }
 }
-
-const isTortoiseBaked = (
-  pack: CropMachineQueueItem,
-  state: GameState,
-  now: number,
-) => {
-  const seeds = { type: `${pack.crop} Seed` as const, amount: pack.seeds };
-  const legacy = calculateCropTime(seeds, state, now).milliSeconds;
-  const windowed = calculateCropTime(seeds, state, now, {
-    windowed: true,
-  }).milliSeconds;
-
-  return legacy < windowed && Math.abs(pack.totalGrowTime - legacy) < 1;
-};
 
 export function getOilTimeInMillis(oil: number, state: GameState) {
   // return the time in milliseconds
