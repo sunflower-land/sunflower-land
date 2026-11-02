@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { isBeetle } from "features/game/types/beetles";
-import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -233,11 +232,6 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sheep.state, sheep.experience]);
-
-  const hasBeetleFeedingAccess = useTimeBasedFeatureAccess({
-    featureName: "BEETLE_FEEDING",
-    game,
-  });
 
   const feedSheep = (item?: InventoryItemName) => {
     setFeedXPAmount(getAnimalXPEarned(item));
@@ -478,18 +472,13 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       favouriteFood: favFood,
       inventory,
       requiredQty: requiredFoodQty,
-      hasBeetleFeedingAccess,
     });
     if (feedItem && feedItem !== selectedItem) {
       shortcutItem(feedItem);
     }
 
-    // Without access a Beetle is not food here, so the click falls through to
-    // the no-food prompt instead of an event the reducer would reject.
     const hasFoodSelected =
-      feedItem &&
-      (isFoodForAnimal("Sheep", feedItem) ||
-        (hasBeetleFeedingAccess && isBeetle(feedItem)));
+      feedItem && (isFoodForAnimal("Sheep", feedItem) || isBeetle(feedItem));
 
     if (hasFoodSelected) {
       const foodCount = inventory[feedItem as AnimalFoodName] ?? new Decimal(0);
@@ -579,7 +568,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const xpIndicatorColor =
     favFood === selectedItem ||
     selectedItem === "Omnifeed" ||
-    (hasBeetleFeedingAccess && !!selectedItem && isBeetle(selectedItem)) ||
+    (!!selectedItem && isBeetle(selectedItem)) ||
     hasGoldenSheep
       ? "#71e358"
       : "#fff";

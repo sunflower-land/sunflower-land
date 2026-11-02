@@ -4,10 +4,8 @@ import type { GameState } from "features/game/types/game";
 import { getAnimalReadyAt, getPigBristles } from "features/game/lib/animals";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
-import { hasTimeBasedFeatureAccess } from "lib/flags";
 
 export enum TRADE_IN_PIG_ERRORS {
-  NO_FEATURE_ACCESS = "You do not have access to Pig trade-ins",
   NOT_FOUND = "Pig does not exist",
   ASLEEP = "Pig is asleep",
   NO_BRISTLES = "Pig pays no Bristles yet",
@@ -36,16 +34,6 @@ export function tradeInPig({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (copy) => {
-    if (
-      !hasTimeBasedFeatureAccess({
-        featureName: "PIGPEN",
-        game: copy,
-        now: createdAt,
-      })
-    ) {
-      throw new Error(TRADE_IN_PIG_ERRORS.NO_FEATURE_ACCESS);
-    }
-
     if (!copy.buildings.Pigpen?.some((building) => !!building.coordinates)) {
       throw new Error("Building does not exist");
     }

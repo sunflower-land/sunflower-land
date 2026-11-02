@@ -7,12 +7,10 @@ import {
   MUD_PER_APPLICATION,
 } from "features/game/lib/animals";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
-import { hasTimeBasedFeatureAccess } from "lib/flags";
 import { getMudHarvests } from "./applyAnimalFeedBuff";
 import { isAnimalNeedingLove } from "./loveAnimal";
 
 export enum APPLY_MUD_ERRORS {
-  NO_FEATURE_ACCESS = "You do not have access to Mud",
   SICK = "Cannot apply Mud while the Pig is sick",
   ALREADY_MUDDY = "Pig already has Mud",
   NEEDS_LOVE = "Pet your Pig before using this",
@@ -49,17 +47,7 @@ export function isPigNeedingLoveForMud(
  * per-Pig checks so the bulk event can report a missing Pigpen or empty Mud
  * before it looks for eligible Pigs.
  */
-export function assertCanApplyMud(state: GameState, createdAt: number) {
-  if (
-    !hasTimeBasedFeatureAccess({
-      featureName: "PIGPEN",
-      game: state,
-      now: createdAt,
-    })
-  ) {
-    throw new Error(APPLY_MUD_ERRORS.NO_FEATURE_ACCESS);
-  }
-
+export function assertCanApplyMud(state: GameState) {
   if (!state.buildings.Pigpen?.some((building) => !!building.coordinates)) {
     throw new Error("Building does not exist");
   }
@@ -75,7 +63,7 @@ export function applyMud({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (copy) => {
-    assertCanApplyMud(copy, createdAt);
+    assertCanApplyMud(copy);
 
     const pig = copy.pigpen.animals[action.id];
 

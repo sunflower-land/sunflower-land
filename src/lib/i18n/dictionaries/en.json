@@ -8681,7 +8681,7 @@
   "description.saltWorkerGnome.boost": "x0.7 Salt Node recovery time",
   "description.saltWorkerGnome.boost.2": "+2 Salt per harvest",
   "description.wingedVase.boost": "+14% Prime Aged chance (added to base)",
-  "description.vibraphone.boost": "Animal feed buffs last 6 harvests",
+  "description.vibraphone.boost": "Animal feed buffs last twice as many harvests",
   "description.moonHair.boost": "+2 Full Moon Seed stock",
   "description.moonHair.boost.2": "+0.5 Full Moon Fruit",
   "description.surferHair.boost": "x0.5 Salt cost for aging fish",

@@ -1035,7 +1035,7 @@ const CHAPTER_MAP_PIECE_TRIGGERS: Partial<
     "Zebra Turkeyfish": { marvel: "Betta", odds: 0.01 },
     Muskellunge: { marvel: "Betta", odds: 0.02 },
     Blowfish: { marvel: "Betta", odds: 0.01 },
-    "Whale Shark": { marvel: "Manatee", odds: 0.004 },
+    "Whale Shark": { marvel: "Manatee", odds: 0.01 },
     "Sea Bass": { marvel: "Manatee", odds: 0.002 },
   },
 };

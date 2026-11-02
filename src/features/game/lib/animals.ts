@@ -273,19 +273,17 @@ export function getFeedItem({
   favouriteFood,
   inventory,
   requiredQty,
-  hasBeetleFeedingAccess,
 }: {
   animal: AnimalType;
   selectedItem?: InventoryItemName;
   favouriteFood: AnimalFoodName;
   inventory: Inventory;
   requiredQty: Decimal;
-  hasBeetleFeedingAccess: boolean;
 }): InventoryItemName | undefined {
   if (
     selectedItem === favouriteFood ||
     (selectedItem === "Omnifeed" && isFoodForAnimal(animal, selectedItem)) ||
-    (hasBeetleFeedingAccess && !!selectedItem && isBeetle(selectedItem))
+    (!!selectedItem && isBeetle(selectedItem))
   ) {
     return selectedItem;
   }

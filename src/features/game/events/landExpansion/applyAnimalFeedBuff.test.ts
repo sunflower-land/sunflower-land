@@ -6,7 +6,6 @@ import {
 import { isAnimalNeedingLove } from "./loveAnimal";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import type { GameState } from "features/game/types/game";
-import { CONFIG } from "lib/config";
 
 describe("applyAnimalFeedBuff", () => {
   const now = Date.now();
@@ -536,57 +535,5 @@ describe("applyAnimalFeedBuff: Truffle Seasoning (Chapter 16)", () => {
         },
       }),
     ).toThrow(APPLY_ANIMAL_FEED_BUFF_ERRORS.ALREADY_BUFFED);
-  });
-
-  describe("off testnet", () => {
-    // jest runs on amoy, so the flag-off path is only reachable by pretending
-    // to be mainnet.
-    let previousNetwork: (typeof CONFIG)["NETWORK"];
-
-    beforeEach(() => {
-      previousNetwork = CONFIG.NETWORK;
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-    });
-
-    afterEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
-    });
-
-    it("throws without the PIGPEN feature flag", () => {
-      expect(() => season(farm())).toThrow(
-        APPLY_ANIMAL_FEED_BUFF_ERRORS.NO_FEATURE_ACCESS,
-      );
-    });
-
-    it("is unlocked by a Beta Pass", () => {
-      expect(() =>
-        season(
-          farm({
-            inventory: {
-              "Truffle Seasoning": new Decimal(1),
-              "Beta Pass": new Decimal(1),
-            },
-          }),
-        ),
-      ).not.toThrow();
-    });
-
-    it("still applies a Salt Lick", () => {
-      const state = applyAnimalFeedBuff({
-        state: farm({ inventory: { "Salt Lick": new Decimal(1) } }),
-        createdAt: now,
-        action: {
-          type: "animal.feedBuffApplied",
-          animal: "Chicken",
-          id: chickenId,
-          item: "Salt Lick",
-        },
-      });
-
-      expect(state.henHouse.animals[chickenId].feedBuff).toEqual({
-        name: "Salt Lick",
-        harvestsRemaining: 3,
-      });
-    });
   });
 });

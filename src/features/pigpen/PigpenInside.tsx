@@ -42,7 +42,6 @@ import { getCurrentBiome } from "features/island/biomes/biomes";
 import { PlayerModal } from "features/social/PlayerModal";
 import { Discovery } from "features/social/Discovery";
 import { hasFeatureAccess } from "lib/flags";
-import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { canTradeInPig, getPigBristles } from "features/game/lib/animals";
@@ -100,10 +99,6 @@ export const PigpenInside: React.FC = () => {
   const game = useSelector(gameService, _game);
   const island = useSelector(gameService, _island);
   const level = pigpen.level;
-  const hasPigpenAccess = useTimeBasedFeatureAccess({
-    featureName: "PIGPEN",
-    game,
-  });
   // Either selection mode dims the room and makes the Pigs pickable.
   const selecting = !!deal || tradeInMode;
 
@@ -241,15 +236,11 @@ export const PigpenInside: React.FC = () => {
             setTradeInMode(false);
             setDeal(deal);
           }}
-          onTradeIn={
-            hasPigpenAccess
-              ? () => {
-                  setShowModal(false);
-                  setDeal(undefined);
-                  setTradeInMode(true);
-                }
-              : undefined
-          }
+          onTradeIn={() => {
+            setShowModal(false);
+            setDeal(undefined);
+            setTradeInMode(true);
+          }}
         />
       </Modal>
 
@@ -281,17 +272,13 @@ export const PigpenInside: React.FC = () => {
             setTradeInMode(false);
             saleSelection.setBulkMode(false);
           }}
-          tradeIn={
-            hasPigpenAccess
-              ? {
-                  selected: tradeInMode,
-                  onSelect: () => {
-                    setDeal(undefined);
-                    setTradeInMode((selected) => !selected);
-                  },
-                }
-              : undefined
-          }
+          tradeIn={{
+            selected: tradeInMode,
+            onSelect: () => {
+              setDeal(undefined);
+              setTradeInMode((selected) => !selected);
+            },
+          }}
         />
       )}
 

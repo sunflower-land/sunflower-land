@@ -12,7 +12,6 @@ import {
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import { hasTimeBasedFeatureAccess } from "lib/flags";
 import { isAnimalNeedingLove } from "./loveAnimal";
 
 export const ANIMAL_FEED_BUFF_ITEMS: AnimalFeedBuffName[] = [
@@ -27,7 +26,6 @@ export enum APPLY_ANIMAL_FEED_BUFF_ERRORS {
   ALREADY_BUFFED = "Animal already has a feed buff",
   SICK = "Cannot apply feed buff while animal is sick",
   NEEDS_LOVE = "Pet your animal before using this",
-  NO_FEATURE_ACCESS = "Truffle Seasoning is not available yet",
 }
 
 function isAnimalAsleep(now: number, readyAt: number): boolean {
@@ -145,18 +143,6 @@ export function applyAnimalFeedBuff({
 
     if (!isAnimalFeedBuffItem(action.item)) {
       throw new Error(APPLY_ANIMAL_FEED_BUFF_ERRORS.INVALID_ITEM);
-    }
-
-    // Truffle Seasoning rides on the Pigs' flag: Truffle only exists behind it
-    if (
-      action.item === "Truffle Seasoning" &&
-      !hasTimeBasedFeatureAccess({
-        featureName: "PIGPEN",
-        game: copy,
-        now: createdAt,
-      })
-    ) {
-      throw new Error(APPLY_ANIMAL_FEED_BUFF_ERRORS.NO_FEATURE_ACCESS);
     }
 
     const count = copy.inventory[action.item] ?? new Decimal(0);

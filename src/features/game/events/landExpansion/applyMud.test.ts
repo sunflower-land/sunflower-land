@@ -1,5 +1,4 @@
 import Decimal from "decimal.js-light";
-import { CONFIG } from "lib/config";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { MUD_PER_APPLICATION } from "features/game/lib/animals";
 import type { Animal, GameState } from "features/game/types/game";
@@ -145,24 +144,5 @@ describe("applyMud", () => {
     expect(() => apply(farm(undefined, 24))).toThrow(
       APPLY_MUD_ERRORS.NOT_ENOUGH,
     );
-  });
-
-  describe("off testnet", () => {
-    // jest runs on amoy, so the flag-off path is only reachable by pretending
-    // to be mainnet.
-    let previousNetwork: (typeof CONFIG)["NETWORK"];
-
-    beforeEach(() => {
-      previousNetwork = CONFIG.NETWORK;
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-    });
-
-    afterEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
-    });
-
-    it("throws without the PIGPEN feature flag", () => {
-      expect(() => apply(farm())).toThrow(APPLY_MUD_ERRORS.NO_FEATURE_ACCESS);
-    });
   });
 });
