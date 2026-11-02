@@ -231,7 +231,10 @@ export function convertLegacyCropMachine({
   // The running pack's frozen remainder is in legacy wall time. If the shrine was
   // baked in at supply (its duration matches a legacy supply now) and is still
   // live, hand the overlap's credit back as work: the window then speeds it up
-  // over exactly that overlap and the pack lands on its legacy finish.
+  // over exactly that overlap and the pack lands on its legacy finish. Only the
+  // overlap the tank can fuel counts — a stalled pack doesn't grow, so the shrine
+  // can't speed it. (A refuel while the shrine is still live then credits the
+  // rest of the baked remainder again; accepted, it's bounded by one pack.)
   const live = windows.find((window) => window.from <= now && window.to > now);
   let unbaked = false;
   if (
@@ -239,7 +242,11 @@ export function convertLegacyCropMachine({
     live !== undefined &&
     isTortoiseBaked(running, state, now)
   ) {
-    const overlap = Math.min(running.baseDurationMs, live.to - now);
+    const overlap = Math.min(
+      running.baseDurationMs,
+      live.to - now,
+      machine.unallocatedOilTime ?? 0,
+    );
     running.baseDurationMs += overlap * (live.speed - 1);
     unbaked = true;
   }

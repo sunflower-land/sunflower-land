@@ -2398,6 +2398,75 @@ describe("supplyCropMachine (windowed SPEED_BOOSTS)", () => {
     expect(running?.readyAt).toBeCloseTo(now + BAKED_MS / 2, 5);
   });
 
+  it("credits no shrine overlap to a stalled running pack (no fuel to grow on)", () => {
+    const BAKED_MS = PACK_MS * 0.9;
+    const state = supplyCropMachine({
+      state: stateWithMachine(
+        {
+          unallocatedOilTime: 0,
+          queue: [
+            {
+              // Ran out of oil halfway: nothing earmarked, nothing in the tank.
+              crop: "Sunflower",
+              seeds: 10,
+              growTimeRemaining: BAKED_MS / 2,
+              totalGrowTime: BAKED_MS,
+              startTime: now - BAKED_MS,
+              growsUntil: now - BAKED_MS / 2,
+            },
+          ],
+        },
+        { collectibles: shrine(now - HOUR) },
+      ),
+      action: {
+        type: "cropMachine.supplied",
+        seeds: { type: "Sunflower Seed", amount: 10 },
+        machineId: "1",
+      },
+      createdAt: now,
+    });
+
+    const [running] = state.buildings["Crop Machine"]?.[0]?.queue ?? [];
+
+    expect(running?.baseDurationMs).toBe(BAKED_MS / 2);
+  });
+
+  it("credits shrine overlap only for the fuel a part-funded running pack has", () => {
+    const BAKED_MS = PACK_MS * 0.9;
+    const state = supplyCropMachine({
+      state: stateWithMachine(
+        {
+          unallocatedOilTime: 0,
+          queue: [
+            {
+              // Funded for an eighth of the pack, then stalls.
+              crop: "Sunflower",
+              seeds: 10,
+              growTimeRemaining: (BAKED_MS * 3) / 8,
+              totalGrowTime: BAKED_MS,
+              startTime: now - BAKED_MS / 2,
+              growsUntil: now + BAKED_MS / 8,
+            },
+          ],
+        },
+        { collectibles: shrine(now - HOUR) },
+      ),
+      action: {
+        type: "cropMachine.supplied",
+        seeds: { type: "Sunflower Seed", amount: 10 },
+        machineId: "1",
+      },
+      createdAt: now,
+    });
+
+    const [running] = state.buildings["Crop Machine"]?.[0]?.queue ?? [];
+
+    expect(running?.baseDurationMs).toBeCloseTo(
+      BAKED_MS / 2 + (BAKED_MS / 8) * (10 / 9 - 1),
+      5,
+    );
+  });
+
   it("credits a shrine placed after the running pack was supplied", () => {
     const state = supplyCropMachine({
       state: stateWithMachine(
