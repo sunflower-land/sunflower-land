@@ -199,7 +199,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
       ? 0
       : calculateTradePoints({
           sfl: price,
-          points: tradeType === "instant" ? 1 : 3,
+          points: 1,
         }).multipliedPoints;
 
   const isLessThanOffer = price <= highestOffer && !isResource;
