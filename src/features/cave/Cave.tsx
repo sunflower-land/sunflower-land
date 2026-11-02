@@ -192,7 +192,11 @@ export const Cave: React.FC = () => {
     tutorialStep && tutorialSeen[tutorialStep] ? tutorialStep : undefined;
 
   return (
-    <div className="absolute inset-0 bg-[#181425] overflow-hidden">
+    // Sized to #root (`h-full`), not the viewport (`absolute inset-0`): on
+    // phones the PWA makes the document taller than the viewport by the top
+    // safe-area inset (see `html` in styles.css), and a viewport-sized box
+    // left that extra height uncovered as a white strip under the room.
+    <div className="relative w-full h-full bg-[#181425] overflow-hidden">
       {/* Same scroll setup as the home Interior: click-and-drag panning over a
           big gameboard with the room centred in it. */}
       <ScrollContainer
