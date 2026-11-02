@@ -182,7 +182,9 @@ export function calculateCropTime(
  * it, and the live window would credit it again. A pack that hasn't STARTED has no
  * progress to preserve, so it is recomputed exactly as a windowed supply would
  * compute it (permanent boosts only); the shrine then applies once, live. The pack
- * already growing keeps its frozen remainder.
+ * already growing keeps its frozen remainder — plus, when its baked shrine is still
+ * live, the extra work that shrine credits over the overlap, so it keeps its legacy
+ * finish instead of being sped up twice.
  */
 export function convertLegacyCropMachine({
   machine,
@@ -211,6 +213,7 @@ export function convertLegacyCropMachine({
       : []),
     ...waiting,
   ];
+  const running = notStarted.includes(head) ? undefined : head;
 
   convertCropMachineToWindowed({ machine, windows, now });
 
@@ -225,10 +228,40 @@ export function convertLegacyCropMachine({
     pack.baseDurationMs = milliSeconds;
   });
 
-  if (notStarted.length > 0) {
+  // The running pack's frozen remainder is in legacy wall time. If the shrine was
+  // baked in at supply (its duration matches a legacy supply now) and is still
+  // live, hand the overlap's credit back as work: the window then speeds it up
+  // over exactly that overlap and the pack lands on its legacy finish.
+  const live = windows.find((window) => window.from <= now && window.to > now);
+  let unbaked = false;
+  if (
+    running?.baseDurationMs !== undefined &&
+    live !== undefined &&
+    isTortoiseBaked(running, state, now)
+  ) {
+    const overlap = Math.min(running.baseDurationMs, live.to - now);
+    running.baseDurationMs += overlap * (live.speed - 1);
+    unbaked = true;
+  }
+
+  if (notStarted.length > 0 || unbaked) {
     refreshCropMachineCaches({ machine, windows, now });
   }
 }
+
+const isTortoiseBaked = (
+  pack: CropMachineQueueItem,
+  state: GameState,
+  now: number,
+) => {
+  const seeds = { type: `${pack.crop} Seed` as const, amount: pack.seeds };
+  const legacy = calculateCropTime(seeds, state, now).milliSeconds;
+  const windowed = calculateCropTime(seeds, state, now, {
+    windowed: true,
+  }).milliSeconds;
+
+  return legacy < windowed && Math.abs(pack.totalGrowTime - legacy) < 1;
+};
 
 export function getOilTimeInMillis(oil: number, state: GameState) {
   // return the time in milliseconds

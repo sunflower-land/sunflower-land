@@ -2321,7 +2321,7 @@ describe("supplyCropMachine (windowed SPEED_BOOSTS)", () => {
           unallocatedOilTime: 0,
           queue: [
             {
-              // Started under legacy: keeps its baked remainder.
+              // Started under legacy: keeps its legacy finish.
               crop: "Sunflower",
               seeds: 10,
               growTimeRemaining: 0,
@@ -2352,9 +2352,83 @@ describe("supplyCropMachine (windowed SPEED_BOOSTS)", () => {
 
     const [running, queued] = state.buildings["Crop Machine"]?.[0]?.queue ?? [];
 
-    expect(running?.baseDurationMs).toBe(BAKED_MS / 2);
+    // The baked x0.9 is handed back as work, so the live shrine credits it once.
+    expect(running?.baseDurationMs).toBeCloseTo(PACK_MS / 2, 5);
+    expect(running?.readyAt).toBeCloseTo(now + BAKED_MS / 2, 5);
     expect(queued?.baseDurationMs).toBe(PACK_MS);
     expect(queued?.totalGrowTime).toBe(PACK_MS);
+  });
+
+  it("keeps a running pack's legacy finish when its baked shrine expires mid-pack", () => {
+    const BAKED_MS = PACK_MS * 0.9;
+    const DAY = 24 * HOUR;
+    const state = supplyCropMachine({
+      state: stateWithMachine(
+        {
+          unallocatedOilTime: 0,
+          queue: [
+            {
+              crop: "Sunflower",
+              seeds: 10,
+              growTimeRemaining: 0,
+              totalGrowTime: BAKED_MS,
+              startTime: now - BAKED_MS / 2,
+              readyAt: now + BAKED_MS / 2,
+            },
+          ],
+        },
+        // Expires a quarter of the pack from now — halfway through its remainder.
+        { collectibles: shrine(now - 7 * DAY + BAKED_MS / 4) },
+      ),
+      action: {
+        type: "cropMachine.supplied",
+        seeds: { type: "Sunflower Seed", amount: 10 },
+        machineId: "1",
+      },
+      createdAt: now,
+    });
+
+    const [running] = state.buildings["Crop Machine"]?.[0]?.queue ?? [];
+
+    // Only the overlap with the live shrine is handed back.
+    expect(running?.baseDurationMs).toBeCloseTo(
+      BAKED_MS / 2 + (BAKED_MS / 4) * (10 / 9 - 1),
+      5,
+    );
+    expect(running?.readyAt).toBeCloseTo(now + BAKED_MS / 2, 5);
+  });
+
+  it("credits a shrine placed after the running pack was supplied", () => {
+    const state = supplyCropMachine({
+      state: stateWithMachine(
+        {
+          unallocatedOilTime: 0,
+          queue: [
+            {
+              // Supplied before the shrine: nothing baked in.
+              crop: "Sunflower",
+              seeds: 10,
+              growTimeRemaining: 0,
+              totalGrowTime: PACK_MS,
+              startTime: now - PACK_MS / 2,
+              readyAt: now + PACK_MS / 2,
+            },
+          ],
+        },
+        { collectibles: shrine(now - PACK_MS / 4) },
+      ),
+      action: {
+        type: "cropMachine.supplied",
+        seeds: { type: "Sunflower Seed", amount: 10 },
+        machineId: "1",
+      },
+      createdAt: now,
+    });
+
+    const [running] = state.buildings["Crop Machine"]?.[0]?.queue ?? [];
+
+    expect(running?.baseDurationMs).toBe(PACK_MS / 2);
+    expect(running?.readyAt).toBeCloseTo(now + (PACK_MS / 2) * 0.9, 5);
   });
 
   it("recomputes a queued pack whose stale startTime is past after a legacy lift and re-place", () => {
@@ -2397,7 +2471,7 @@ describe("supplyCropMachine (windowed SPEED_BOOSTS)", () => {
 
     const [running, queued] = state.buildings["Crop Machine"]?.[0]?.queue ?? [];
 
-    expect(running?.baseDurationMs).toBe(BAKED_MS / 2);
+    expect(running?.baseDurationMs).toBeCloseTo(PACK_MS / 2, 5);
     expect(queued?.baseDurationMs).toBe(PACK_MS);
     expect(queued?.totalGrowTime).toBe(PACK_MS);
   });
