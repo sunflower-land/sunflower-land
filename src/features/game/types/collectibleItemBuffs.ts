@@ -7,6 +7,8 @@ import helpIcon from "assets/icons/help.webp";
 import chefHat from "assets/icons/chef_hat.png";
 import tradeIcon from "assets/icons/trade.png";
 import bee from "assets/icons/bee.webp";
+import baits from "assets/composters/baits.png";
+import fertilisers from "assets/composters/fertilisers.png";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "./images";
@@ -2426,7 +2428,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       shortDescription: translate("description.deepSeaSlug.boost.2"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostedItemIcon: ITEM_DETAILS["Earthworm"].image,
+      boostedItemIcon: baits,
     },
   ],
   "Salt Crystal Flower": () => [
@@ -2484,13 +2486,13 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       shortDescription: translate("description.strawHouse.boost.2"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostedItemIcon: ITEM_DETAILS["Sprout Mix"].image,
+      boostedItemIcon: fertilisers,
     },
     {
       shortDescription: translate("description.strawHouse.boost.3"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostedItemIcon: ITEM_DETAILS["Earthworm"].image,
+      boostedItemIcon: baits,
     },
   ],
   "Pot of Luck": () => [
