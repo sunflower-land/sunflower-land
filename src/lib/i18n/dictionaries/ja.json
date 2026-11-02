@@ -7984,7 +7984,6 @@
   "description.dumboOctopus.boost": "20% の確率で+1フィッシュを獲得する",
   "description.ascendedIdol.boost": "ソルトレーキを使わずに塩を収穫する",
   "description.saltWorkerGnome.boost.2": "収穫1回につき +2 塩",
-  "description.vibraphone.boost": "過去6回の収穫（動物飼料バフ）",
   "description.moonHair.boost": "+2 フルムーンシードストック",
   "description.moonHair.boost.2": "+0.5 フルムーンフルーツ",
   "description.riceShirt.boost.2": "+1 ライス",
@@ -8989,5 +8988,6 @@
   "description.spookyBed": "勇敢な洞窟住人のためのお化け屋敷だ。その幽霊のような客はいびきをかくことはない。",
   "description.potOfLuck.boost": "1/3の確率で砂漠の宝物が+1される",
   "skill.beetleNest": "ビートルレシピパッチ1つにつき、ビートルタイル1枚ずつ",
-  "skill.beetleNest.ranked": "+ {{value}} 各ビートルレシピパッチのビートルタイル"
+  "skill.beetleNest.ranked": "+ {{value}} 各ビートルレシピパッチのビートルタイル",
+  "description.vibraphone.boost": "動物飼料バフは収穫回数が2倍になる"
 }
