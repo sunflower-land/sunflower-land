@@ -1200,7 +1200,7 @@ import chainedCrow from "assets/sfts/chained_crow.webp";
 import countVladCrow from "assets/sfts/count_vlad_crow.webp";
 import lualCrow from "assets/sfts/lual_crow.webp";
 import kingCrow from "assets/sfts/king_crow.webp";
-import devilCrow from "assets/sfts/devil_crow.webp";
+import devilCrow from "assets/sfts/little_devil_crow.webp";
 import pharaohCrow from "assets/sfts/pharaoh_crow.webp";
 import cultistCrow from "assets/sfts/cultist_crow.webp";
 
