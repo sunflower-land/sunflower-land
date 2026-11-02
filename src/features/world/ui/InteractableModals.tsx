@@ -46,7 +46,6 @@ import { EventNoticeboard } from "./EventNoticeboard";
 import { PotionMaster } from "features/helios/components/potions/component/PotionHouseShopItems";
 import { PetShop } from "features/pets/petShop/PetShop";
 import { LoveIslandNoticeboard } from "./loveRewardShop/LoveIslandNoticeboard";
-import { Rarecrows } from "./Rarecrows";
 import { ChapterRaffles } from "./chapterRaffles/ChapterRaffles";
 import { ChapterCropWeekLeaderboard } from "./chapterCropWeek/ChapterCropWeekLeaderboard";
 import { DesignShowcaseContent } from "features/social/DesignShowcase";
@@ -125,7 +124,6 @@ type InteractableName =
   | "nightshades_faction"
   | "sunflorians_faction"
   | "chicken_rescue"
-  | "rarecrows"
   | "crops_and_chickens"
   | "fruit_dash"
   | "festival_of_colors"
@@ -272,9 +270,6 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         <CloseButtonPanel onClose={closeModal}>
           <DesignShowcaseContent />
         </CloseButtonPanel>
-      </Modal>
-      <Modal show={interactable === "rarecrows"} onHide={closeModal}>
-        <Rarecrows onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "yakkamon"} onHide={closeModal}>
         <Yakkamon onClose={closeModal} />
