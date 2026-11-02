@@ -1996,18 +1996,18 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   },
   "Witch Crow": {
     width: 1,
-    height: 2,
+    height: 1,
   },
   "Fisherbird Crow": {
-    width: 2,
+    width: 1,
     height: 1,
   },
   "Chained Crow": {
-    width: 2,
+    width: 1,
     height: 1,
   },
   "Count Vlad Crow": {
-    width: 2,
+    width: 1,
     height: 1,
   },
   "Lual Crow": {
