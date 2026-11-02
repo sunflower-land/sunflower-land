@@ -8989,5 +8989,9 @@
   "description.potOfLuck.boost": "1/3 peluang dari +1 Desert Treasure",
   "skill.beetleNest": "+1 ubin Beetle di setiap patch resep Beetle",
   "skill.beetleNest.ranked": "+ {{value}} Ubin kumbang di setiap patch resep Beetle",
-  "description.vibraphone.boost": "Penggemar pakan ternak bertahan dua kali lebih banyak panen"
+  "description.vibraphone.boost": "Penggemar pakan ternak bertahan dua kali lebih banyak panen",
+  "season.codex.chapterCollections": "Bab",
+  "season.codex.eventCollections": "Kegiatan",
+  "chapter.name.winds-of-change": "Angin Perubahan",
+  "chapter.name.cave-dwellers": "Penghuni Gua"
 }

@@ -8989,5 +8989,9 @@
   "description.potOfLuck.boost": "1/3の確率で砂漠の宝物が+1される",
   "skill.beetleNest": "ビートルレシピパッチ1つにつき、ビートルタイル1枚ずつ",
   "skill.beetleNest.ranked": "+ {{value}} 各ビートルレシピパッチのビートルタイル",
-  "description.vibraphone.boost": "動物飼料バフは収穫回数が2倍になる"
+  "description.vibraphone.boost": "動物飼料バフは収穫回数が2倍になる",
+  "season.codex.chapterCollections": "チャプター",
+  "season.codex.eventCollections": "[イベント]",
+  "chapter.name.winds-of-change": "ウィンズ・オブ・チェンジ",
+  "chapter.name.cave-dwellers": "洞窟住人"
 }

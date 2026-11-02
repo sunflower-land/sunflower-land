@@ -8989,5 +8989,9 @@
   "description.potOfLuck.boost": "1/3 几率获得 +1 沙漠宝藏",
   "skill.beetleNest": "每个甲壳虫配方补丁中有 +1 个甲壳虫方块",
   "skill.beetleNest.ranked": "+ {{value}} 每个甲壳虫配方补丁中的甲壳虫图块",
-  "description.vibraphone.boost": "动物饲料爱好者的收成时间是原来的两倍"
+  "description.vibraphone.boost": "动物饲料爱好者的收成时间是原来的两倍",
+  "season.codex.chapterCollections": "章节",
+  "season.codex.eventCollections": "活动",
+  "chapter.name.winds-of-change": "变革之风",
+  "chapter.name.cave-dwellers": "洞穴居民"
 }

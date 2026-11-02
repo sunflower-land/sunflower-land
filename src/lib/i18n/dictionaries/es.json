@@ -8989,5 +8989,9 @@
   "description.potOfLuck.boost": "1/3 de probabilidad de obtener +1 tesoro del desierto",
   "skill.beetleNest": "+1 ficha de escarabajo en cada parche de la receta de Beetle",
   "skill.beetleNest.ranked": "+ {{value}} Azulejos de escarabajos en cada parche de recetas de Beetle",
-  "description.vibraphone.boost": "Los aficionados a la alimentación animal duran el doble de cosechas"
+  "description.vibraphone.boost": "Los aficionados a la alimentación animal duran el doble de cosechas",
+  "season.codex.chapterCollections": "Capítulos",
+  "season.codex.eventCollections": "Eventos",
+  "chapter.name.winds-of-change": "Vientos de cambio",
+  "chapter.name.cave-dwellers": "Habitantes de las cavernas"
 }

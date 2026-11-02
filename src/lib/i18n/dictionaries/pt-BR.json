@@ -8989,5 +8989,9 @@
   "description.potOfLuck.boost": "1/3 de chance de +1 Tesouro do Deserto",
   "skill.beetleNest": "+1 azulejo de besouro em cada patch de receita de besouro",
   "skill.beetleNest.ranked": "+ {{value}} Telhas de besouro em cada patch de receita de besouro",
-  "description.vibraphone.boost": "Os aficionados por ração animal duram duas vezes mais colheitas"
+  "description.vibraphone.boost": "Os aficionados por ração animal duram duas vezes mais colheitas",
+  "season.codex.chapterCollections": "Capítulos",
+  "season.codex.eventCollections": "Eventos",
+  "chapter.name.winds-of-change": "Ventos de mudança",
+  "chapter.name.cave-dwellers": "Moradores de cavernas"
 }

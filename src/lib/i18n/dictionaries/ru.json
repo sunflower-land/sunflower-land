@@ -8989,5 +8989,9 @@
   "description.potOfLuck.boost": "1/3 chance of +1 Desert Treasure",
   "skill.beetleNest": "+1 Beetle tile in each Beetle recipe patch",
   "skill.beetleNest.ranked": "+{{value}} Beetle tiles in each Beetle recipe patch",
-  "description.vibraphone.boost": "Animal feed buffs last twice as many harvests"
+  "description.vibraphone.boost": "Animal feed buffs last twice as many harvests",
+  "season.codex.chapterCollections": "Chapters",
+  "season.codex.eventCollections": "Events",
+  "chapter.name.winds-of-change": "Winds of Change",
+  "chapter.name.cave-dwellers": "Cave Dwellers"
 }

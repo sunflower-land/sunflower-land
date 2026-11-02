@@ -8989,5 +8989,9 @@
   "description.potOfLuck.boost": "1/3 de chance d'obtenir +1 trésor du désert",
   "skill.beetleNest": "+1 tuile Beetle dans chaque patch de recette Beetle",
   "skill.beetleNest.ranked": "+ {{value}} Des tuiles Beetle dans chaque patch de recette Beetle",
-  "description.vibraphone.boost": "Les aliments pour animaux dureront deux fois plus de récoltes"
+  "description.vibraphone.boost": "Les aliments pour animaux dureront deux fois plus de récoltes",
+  "season.codex.chapterCollections": "Chapitres",
+  "season.codex.eventCollections": "Évènements",
+  "chapter.name.winds-of-change": "Un vent de changement",
+  "chapter.name.cave-dwellers": "Les habitants des grottes"
 }

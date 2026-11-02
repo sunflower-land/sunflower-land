@@ -8989,5 +8989,9 @@
   "description.potOfLuck.boost": "1/3 di possibilità di +1 Desert Treasure",
   "skill.beetleNest": "+1 tessera Beetle in ogni patch della ricetta Beetle",
   "skill.beetleNest.ranked": "+ {{value}} Piastrelle Beetle in ogni patch della ricetta Beetle",
-  "description.vibraphone.boost": "Gli appassionati di mangimi per animali durano il doppio dei raccolti"
+  "description.vibraphone.boost": "Gli appassionati di mangimi per animali durano il doppio dei raccolti",
+  "season.codex.chapterCollections": "Capitoli",
+  "season.codex.eventCollections": "Eventi",
+  "chapter.name.winds-of-change": "Venti di cambiamento",
+  "chapter.name.cave-dwellers": "Abitanti delle caverne"
 }
