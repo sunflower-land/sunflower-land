@@ -388,7 +388,6 @@ export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
       Rhubarb: new Decimal(3),
     },
   },
-  // Chapter 16 — rides on the PIGPEN flag, see `isTruffleRecipe`
   "Ember-Roasted Truffle Potatoes": {
     name: "Ember-Roasted Truffle Potatoes",
     description: translate("description.emberRoastedTrufflePotatoes"),
@@ -728,7 +727,6 @@ export const KITCHEN_COOKABLES: Record<KitchenCookableName, Cookable> = {
       Cheese: new Decimal(3),
     },
   },
-  // Chapter 16 — rides on the PIGPEN flag, see `isTruffleRecipe`
   "Creamy Truffle Risotto": {
     name: "Creamy Truffle Risotto",
     description: translate("description.creamyTruffleRisotto"),
@@ -948,7 +946,6 @@ export const BAKERY_COOKABLES: Record<BakeryCookableName, Cookable> = {
       Egg: new Decimal(40),
     },
   },
-  // Chapter 16 — rides on the PIGPEN flag, see `isTruffleRecipe`
   "Truffle Cake": {
     name: "Truffle Cake",
     description: translate("description.truffleCake"),
@@ -1254,23 +1251,6 @@ export const PIRATE_CAKE: Record<"Pirate Cake", Consumable> = {
     experience: 3000,
   },
 };
-
-/**
- * The Chapter 16 recipes that consume Truffle. Truffle only exists behind the
- * PIGPEN flag (Pigs produce it), so these ride on the same flag: hidden from the
- * cooking buildings and rejected by `cook` without it.
- */
-export const TRUFFLE_RECIPES = [
-  "Ember-Roasted Truffle Potatoes",
-  "Truffle Cake",
-  "Creamy Truffle Risotto",
-] as const satisfies readonly CookableName[];
-
-export type TruffleRecipeName = (typeof TRUFFLE_RECIPES)[number];
-
-export function isTruffleRecipe(name: string): name is TruffleRecipeName {
-  return (TRUFFLE_RECIPES as readonly string[]).includes(name);
-}
 
 export const FISH: Record<FishName, Consumable> = {
   Anchovy: {

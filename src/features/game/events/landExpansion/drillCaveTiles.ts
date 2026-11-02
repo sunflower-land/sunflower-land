@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import type { GameState } from "features/game/types/game";
-import { hasTimeBasedFeatureAccess } from "lib/flags";
 import { isCaveBuildingReady } from "features/game/lib/cave";
 import {
   CAVE_DRILL_COST,
@@ -32,7 +31,6 @@ type Options = {
 };
 
 export enum DRILL_CAVE_TILES_ERRORS {
-  NO_FEATURE_ACCESS = "The Cave is not available for this player",
   NO_CAVE = "The Cave has not been built",
   NO_MACHINE = "That Myco Bin does not exist",
   NO_BATCH = "That Myco Bin has no batch",
@@ -57,16 +55,6 @@ export function drillCaveTiles({
   farmId,
 }: Options): GameState {
   return produce(state, (game) => {
-    if (
-      !hasTimeBasedFeatureAccess({
-        featureName: "CAVE",
-        game: game,
-        now: createdAt,
-      })
-    ) {
-      throw new Error(DRILL_CAVE_TILES_ERRORS.NO_FEATURE_ACCESS);
-    }
-
     const cave = game.cave;
     if (!cave || !isCaveBuildingReady(game, createdAt)) {
       throw new Error(DRILL_CAVE_TILES_ERRORS.NO_CAVE);

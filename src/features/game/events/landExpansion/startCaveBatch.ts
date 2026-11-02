@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import type { GameState } from "features/game/types/game";
-import { hasTimeBasedFeatureAccess } from "lib/flags";
 import {
   getCaveBatchCost,
   getCaveBatchDuration,
@@ -33,7 +32,6 @@ type Options = {
 };
 
 export enum START_CAVE_BATCH_ERRORS {
-  NO_FEATURE_ACCESS = "The Cave is not available for this player",
   NO_CAVE = "The Cave has not been built",
   NO_MACHINE = "That Myco Bin does not exist",
   BATCH_IN_PROGRESS = "That Myco Bin already has a batch",
@@ -56,16 +54,6 @@ export function startCaveBatch({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    if (
-      !hasTimeBasedFeatureAccess({
-        featureName: "CAVE",
-        game: game,
-        now: createdAt,
-      })
-    ) {
-      throw new Error(START_CAVE_BATCH_ERRORS.NO_FEATURE_ACCESS);
-    }
-
     const cave = game.cave;
     if (!cave || !isCaveBuildingReady(game, createdAt)) {
       throw new Error(START_CAVE_BATCH_ERRORS.NO_CAVE);

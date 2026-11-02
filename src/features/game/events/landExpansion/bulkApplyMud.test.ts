@@ -1,5 +1,4 @@
 import Decimal from "decimal.js-light";
-import { CONFIG } from "lib/config";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import type { Animal, GameState } from "features/game/types/game";
 import { APPLY_MUD_ERRORS } from "./applyMud";
@@ -167,24 +166,5 @@ describe("bulkApplyMud", () => {
         buildings: { ...INITIAL_FARM.buildings },
       }),
     ).toThrow("Building does not exist");
-  });
-
-  describe("off testnet", () => {
-    let previousNetwork: (typeof CONFIG)["NETWORK"];
-
-    beforeEach(() => {
-      previousNetwork = CONFIG.NETWORK;
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-    });
-
-    afterEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
-    });
-
-    it("throws without the PIGPEN feature flag", () => {
-      expect(() => bulk(farm({ a: pig("a") }, 50))).toThrow(
-        APPLY_MUD_ERRORS.NO_FEATURE_ACCESS,
-      );
-    });
   });
 });

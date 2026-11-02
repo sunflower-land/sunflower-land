@@ -27,7 +27,6 @@ import {
 import { mergeBasketAndChestInventory } from "features/island/hud/components/inventory/utils/inventory";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useVisiting } from "lib/utils/visitUtils";
-import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 import { getObjectEntries } from "lib/object";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { getSkillLevel } from "features/game/types/bumpkinSkills";
@@ -67,12 +66,6 @@ export const SpiceRackEmpty: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const { isVisiting } = useVisiting();
   const [showIngredients, setShowIngredients] = useState(false);
-
-  // Truffle Seasoning rides on the Pigs' flag (Truffle only exists behind it)
-  const hasTruffleSeasoning = useTimeBasedFeatureAccess({
-    featureName: "PIGPEN",
-    game: gameState,
-  });
 
   const recipeDef = selectedRecipeId
     ? getSpiceRackRecipe(selectedRecipeId)
@@ -136,10 +129,7 @@ export const SpiceRackEmpty: React.FC<Props> = ({
           )}
         </div>
         <div className="flex flex-wrap gap-1 px-1 pb-1 overflow-auto max-h-48 scrollable items-start">
-          {SPICE_RACK_RECIPE_IDS.filter(
-            (recipeId) =>
-              recipeId !== "Truffle Seasoning" || hasTruffleSeasoning,
-          ).map((recipeId) => {
+          {SPICE_RACK_RECIPE_IDS.map((recipeId) => {
             const outputItem = getPrimaryOutputItem(recipeId);
 
             return (

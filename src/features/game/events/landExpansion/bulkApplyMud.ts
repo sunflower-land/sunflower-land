@@ -51,7 +51,7 @@ export function bulkApplyMud({
   state,
   createdAt = Date.now(),
 }: Options): GameState {
-  assertCanApplyMud(state, createdAt);
+  assertCanApplyMud(state);
 
   const eligible = getPigsNeedingMud(state, createdAt);
   if (eligible.length === 0) {

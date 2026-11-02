@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
 import type { CaveBatch, GameState } from "features/game/types/game";
-import { CONFIG } from "lib/config";
 import {
   resolveCaveTile,
   revealCavePatch,
@@ -444,37 +443,6 @@ describe("drillCaveTiles (cave.drilled)", () => {
     const once = drill(readyState({ drills: 3 }));
     expect(() => drill(once)).toThrow();
     expect(once.inventory["Sand Drill"]?.toNumber()).toBe(2);
-  });
-
-  describe("off testnet", () => {
-    // jest runs on amoy, so the flag-off path is only reachable by pretending
-    // to be mainnet.
-    let previousNetwork: (typeof CONFIG)["NETWORK"];
-
-    beforeEach(() => {
-      previousNetwork = CONFIG.NETWORK;
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-    });
-
-    afterEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
-    });
-
-    it("throws without the CAVE feature flag", () => {
-      expect(() => drill(readyState())).toThrow(
-        DRILL_CAVE_TILES_ERRORS.NO_FEATURE_ACCESS,
-      );
-    });
-
-    it("is unlocked by holding a Beta Pass", () => {
-      const state = readyState();
-      expect(() =>
-        drill({
-          ...state,
-          inventory: { ...state.inventory, "Beta Pass": new Decimal(1) },
-        }),
-      ).not.toThrow();
-    });
   });
 });
 

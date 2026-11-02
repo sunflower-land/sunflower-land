@@ -70,9 +70,6 @@ export type FeatureFlag = (game: GameState) => boolean;
  */
 export type TimeBasedFeatureWindow = { start: Date; end: Date | null };
 
-/** Chapter 16 (Cave Dwellers) launch — matches CHAPTERS["Cave Dwellers"].startDate. */
-const CAVE_DWELLERS_LAUNCH = new Date("2026-11-02T00:00:00Z");
-
 export const TIME_BASED_FEATURE_FLAG_WINDOWS = {
   TICKETS_FROM_COIN_NPC: { start: new Date("2026-02-24T00:00:00Z"), end: null },
   TICKETS_FROM_FLOWER_NPC: {
@@ -91,13 +88,6 @@ export const TIME_BASED_FEATURE_FLAG_WINDOWS = {
     start: new Date("2026-08-10T00:00:00Z"),
     end: new Date("2026-11-02T00:00:00Z"),
   },
-  // Chapter 16 (Cave Dwellers): Beta Pass holders (and testnet) get the Pigs and
-  // the Cave early; everyone else from the chapter launch, 2nd Nov 2026 00:00 UTC.
-  // Remove these once the chapter is live for all.
-  PIGPEN: { start: CAVE_DWELLERS_LAUNCH, end: null },
-  CAVE: { start: CAVE_DWELLERS_LAUNCH, end: null },
-  BEETLE_FEEDING: { start: CAVE_DWELLERS_LAUNCH, end: null },
-  CAVE_DWELLERS_TRADING: { start: CAVE_DWELLERS_LAUNCH, end: null },
 } satisfies Record<string, TimeBasedFeatureWindow>;
 
 /** All time-based flags receive the full window; start-only helpers ignore `end`. */
@@ -115,29 +105,6 @@ export const TIME_BASED_FEATURE_FLAGS: Record<
   TICKETS_FROM_FLOWER_NPC: timePeriodFeatureFlag,
   HALLOWEEN_2026_EVENT_FLAG: betaTimePeriodFeatureFlag,
   ASCENSION_AGE_VIP_EXPANSION: timePeriodFeatureFlag,
-  /**
-   * Chapter 16's Pigpen building and the Pig animal. Remove once Chapter 16
-   * ships and the Pigpen gates on its own unlock level instead.
-   */
-  PIGPEN: betaTimePeriodFeatureFlag,
-  /**
-   * Chapter 16's Cave: the Cave building in the Workbench shop and the `/cave`
-   * interior room. Remove once Chapter 16 ships and the Cave gates on its own
-   * unlock instead.
-   */
-  CAVE: betaTimePeriodFeatureFlag,
-  /**
-   * Chapter 16's direct Beetle feeding: a Beetle fed straight to an animal.
-   * Remove once Chapter 16 ships.
-   */
-  BEETLE_FEEDING: betaTimePeriodFeatureFlag,
-  /**
-   * Chapter 16's resource trading: the four Beetles, Pig Bristles and Truffle
-   * on the marketplace. They sit in TRADE_LIMITS from merge day, so this flag
-   * is what keeps them off the marketplace until the chapter launches. Remove
-   * once Chapter 16 ships (TODO(Cave Dwellers)).
-   */
-  CAVE_DWELLERS_TRADING: betaTimePeriodFeatureFlag,
 };
 
 /**

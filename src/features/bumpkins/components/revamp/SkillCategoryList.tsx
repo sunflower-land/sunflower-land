@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 import {
   type BumpkinRevampSkillTree,
+  getRevampSkills,
   getRevampSkillTreeCategoriesByIsland,
 } from "features/game/types/bumpkinSkills";
 
@@ -28,7 +29,6 @@ import {
   getTimeUntilNextFreeReset,
 } from "features/game/events/landExpansion/resetSkills";
 import { SkillReset } from "./SkillReset";
-import { getAvailableRevampSkills } from "features/game/lib/skillAccess";
 import fruits from "assets/fruit/fruits.png";
 import Decimal from "decimal.js-light";
 export const SKILL_TREE_ICONS: Record<BumpkinRevampSkillTree, string> = {
@@ -51,9 +51,7 @@ const _state = (state: MachineState) => state.context.state;
 
 export const SkillCategoryList: React.FC<{
   onClick: (category: BumpkinRevampSkillTree) => void;
-  /** The parent's clock, so the list and the opened path agree at launch. */
-  now: number;
-}> = ({ onClick, now }) => {
+}> = ({ onClick }) => {
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(Context);
@@ -138,13 +136,7 @@ export const SkillCategoryList: React.FC<{
             state.island.type,
             islandType,
           );
-          // A tree whose skills are all behind a feature flag is hidden.
-          const categories = getRevampSkillTreeCategoriesByIsland(
-            islandType,
-          ).filter(
-            (category) =>
-              getAvailableRevampSkills(category, state, now).length > 0,
-          );
+          const categories = getRevampSkillTreeCategoriesByIsland(islandType);
           if (categories.length <= 0) return;
 
           return (
@@ -169,7 +161,7 @@ export const SkillCategoryList: React.FC<{
               </div>
               <div className="grid grid-cols-2 gap-1">
                 {categories.map((category) => {
-                  const skills = getAvailableRevampSkills(category, state, now);
+                  const skills = getRevampSkills(category);
                   const icon = SKILL_TREE_ICONS[skills[0].tree];
                   const skillsAcquiredInCategoryCount = getKeys({
                     ...bumpkin?.skills,

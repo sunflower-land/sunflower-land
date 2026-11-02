@@ -2014,7 +2014,7 @@ export type CaveMerchantOffer = {
  * Island's shop: how the stock is priced and rolled stays on the server.
  */
 export type CaveMerchantVisitState = {
-  /** Visit 0 opens at launch; pre-launch restocks count down from -1. */
+  /** Visit 0 opens at launch. */
   index: number;
   opensAt: number;
   closesAt: number;

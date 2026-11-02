@@ -1,6 +1,4 @@
 import React, { useCallback, useContext, useMemo, useState } from "react";
-import { useSelector } from "@xstate/react";
-import type { MachineState } from "features/game/lib/gameMachine";
 
 import { Modal } from "components/ui/Modal";
 
@@ -12,14 +10,12 @@ import {
   type CookableName,
   FIRE_PIT_COOKABLES,
   isFishCookable,
-  isTruffleRecipe,
 } from "features/game/types/consumables";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel } from "components/ui/Panel";
 import { NPC_WEARABLES } from "lib/npcs";
 import type { BuildingProduct } from "features/game/types/game";
 import { getCurrentChapter } from "features/game/types/chapters";
-import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 import { useNow } from "lib/utils/hooks/useNow";
 import {
   CHAPTER_CROP_WEEK,
@@ -42,8 +38,6 @@ interface Props {
   readyRecipes: BuildingProduct[];
   queue: BuildingProduct[];
 }
-const _state = (state: MachineState) => state.context.state;
-
 export const FirePitModal: React.FC<Props> = ({
   isOpen,
   onCook,
@@ -58,13 +52,6 @@ export const FirePitModal: React.FC<Props> = ({
   const now = useNow({
     live: true,
     autoEndAt: CHAPTER_CROP_WEEK.endDate.getTime(),
-  });
-
-  // Truffle recipes ride on the Pigs' flag (Truffle only exists behind it)
-  const state = useSelector(gameService, _state);
-  const hasTruffleRecipes = useTimeBasedFeatureAccess({
-    featureName: "PIGPEN",
-    game: state,
   });
 
   const getGame = useCallback(() => {
@@ -83,8 +70,6 @@ export const FirePitModal: React.FC<Props> = ({
           return hasChapterCropWeekAccess(getGame(), now);
         }
 
-        if (isTruffleRecipe(recipe.name)) return hasTruffleRecipes;
-
         if (getCurrentChapter(now) === "Paw Prints") return true;
 
         return !isFishCookable(recipe.name);
@@ -92,7 +77,7 @@ export const FirePitModal: React.FC<Props> = ({
       .sort(
         (a, b) => a.experience - b.experience, // "Lowest entry" == first in this order
       );
-  }, [now, getGame, hasTruffleRecipes]);
+  }, [now, getGame]);
 
   /**
    * Stored selection is intentionally session-only (component state).

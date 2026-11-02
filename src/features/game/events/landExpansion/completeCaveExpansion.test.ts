@@ -1,6 +1,5 @@
 import { TEST_FARM } from "features/game/lib/constants";
 import type { CaveBatch, GameState } from "features/game/types/game";
-import { CONFIG } from "lib/config";
 import {
   COMPLETE_CAVE_EXPANSION_ERRORS,
   completeCaveExpansion,
@@ -93,26 +92,5 @@ describe("completeCaveExpansion (cave.expansionCompleted)", () => {
     expect(() => complete({ ...buildingState(), cave: undefined })).toThrow(
       COMPLETE_CAVE_EXPANSION_ERRORS.NO_CAVE,
     );
-  });
-
-  describe("off testnet", () => {
-    // jest runs on amoy, so the flag-off path is only reachable by pretending
-    // to be mainnet.
-    let previousNetwork: (typeof CONFIG)["NETWORK"];
-
-    beforeEach(() => {
-      previousNetwork = CONFIG.NETWORK;
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-    });
-
-    afterEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
-    });
-
-    it("throws without the CAVE feature flag", () => {
-      expect(() => complete(buildingState())).toThrow(
-        COMPLETE_CAVE_EXPANSION_ERRORS.NO_FEATURE_ACCESS,
-      );
-    });
   });
 });

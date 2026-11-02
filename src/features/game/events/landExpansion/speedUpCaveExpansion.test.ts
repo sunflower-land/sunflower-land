@@ -3,7 +3,6 @@ import { TEST_FARM } from "features/game/lib/constants";
 import type { GameState } from "features/game/types/game";
 import { CAVE_TIERS } from "features/game/types/caveTiers";
 import { getInstantGems } from "features/game/lib/getInstantGems";
-import { CONFIG } from "lib/config";
 import {
   SPEED_UP_CAVE_EXPANSION_ERRORS,
   speedUpCaveExpansion,
@@ -92,26 +91,5 @@ describe("speedUpCaveExpansion (cave.expansionSpedUp)", () => {
     expect(() =>
       speedUp({ ...state, cave: { ...state.cave!, construction: undefined } }),
     ).toThrow(SPEED_UP_CAVE_EXPANSION_ERRORS.NO_CONSTRUCTION);
-  });
-
-  describe("off testnet", () => {
-    // jest runs on amoy, so the flag-off path is only reachable by pretending
-    // to be mainnet.
-    let previousNetwork: (typeof CONFIG)["NETWORK"];
-
-    beforeEach(() => {
-      previousNetwork = CONFIG.NETWORK;
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-    });
-
-    afterEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
-    });
-
-    it("throws without the CAVE feature flag", () => {
-      expect(() => speedUp(buildingState())).toThrow(
-        SPEED_UP_CAVE_EXPANSION_ERRORS.NO_FEATURE_ACCESS,
-      );
-    });
   });
 });
