@@ -7,7 +7,6 @@ import {
   type CaveExpansionTier,
 } from "features/game/types/caveTiers";
 import { getKeys } from "lib/object";
-import { CONFIG } from "lib/config";
 import { EXPAND_CAVE_ERRORS, expandCave } from "./expandCave";
 
 // The Cave building, placed and finished: every cave.* event requires it.
@@ -246,36 +245,5 @@ describe("expandCave (cave.expanded)", () => {
     expect(() => expand({ ...richState(), cave: undefined })).toThrow(
       EXPAND_CAVE_ERRORS.NO_CAVE,
     );
-  });
-
-  describe("off testnet", () => {
-    // jest runs on amoy, so the flag-off path is only reachable by pretending
-    // to be mainnet.
-    let previousNetwork: (typeof CONFIG)["NETWORK"];
-
-    beforeEach(() => {
-      previousNetwork = CONFIG.NETWORK;
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-    });
-
-    afterEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
-    });
-
-    it("throws without the CAVE feature flag", () => {
-      expect(() => expand(richState())).toThrow(
-        EXPAND_CAVE_ERRORS.NO_FEATURE_ACCESS,
-      );
-    });
-
-    it("is unlocked by holding a Beta Pass", () => {
-      const state = richState();
-      expect(() =>
-        expand({
-          ...state,
-          inventory: { ...state.inventory, "Beta Pass": new Decimal(1) },
-        }),
-      ).not.toThrow();
-    });
   });
 });

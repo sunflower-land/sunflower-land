@@ -19,7 +19,6 @@ import {
 import { getCookingTime } from "features/game/expansion/lib/boosts";
 import { CHAPTER_CROP_WEEK } from "features/game/types/chapterCropWeek";
 import { getCookingQueueReadyAts } from "features/game/lib/cookingReadiness";
-import { CONFIG } from "lib/config";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -1896,32 +1895,5 @@ describe("cook: Truffle recipes (Chapter 16)", () => {
     const state = roast(farm({ ...INPUTS, "Wild Mushroom": new Decimal(10) }));
 
     expect(state.inventory["Wild Mushroom"]).toEqual(new Decimal(10));
-  });
-
-  describe("off testnet", () => {
-    // jest runs on amoy, so the flag-off path is only reachable by pretending
-    // to be mainnet.
-    let previousNetwork: (typeof CONFIG)["NETWORK"];
-
-    beforeEach(() => {
-      previousNetwork = CONFIG.NETWORK;
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-    });
-
-    afterEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
-    });
-
-    it("throws without the PIGPEN feature flag", () => {
-      expect(() => roast(farm())).toThrow(
-        "Truffle recipes are not available yet",
-      );
-    });
-
-    it("is unlocked by a Beta Pass", () => {
-      expect(() =>
-        roast(farm({ ...INPUTS, "Beta Pass": new Decimal(1) })),
-      ).not.toThrow();
-    });
   });
 });

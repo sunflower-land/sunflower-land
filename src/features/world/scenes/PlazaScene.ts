@@ -233,7 +233,6 @@ export class PlazaScene extends BaseScene {
   preload() {
     this.load.audio("chime", SOUNDS.notifications.chime);
 
-
     this.load.image("page", "world/page.png");
     this.load.image("arrows_to_move", "world/arrows_to_move.png");
 

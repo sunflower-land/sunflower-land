@@ -13,7 +13,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { ZoomContext } from "components/ZoomProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 import { isCaveBuildingReady } from "features/game/lib/cave";
 import { isCavePatchCleared } from "features/game/types/caveRecipes";
 import { isCaveMachineIdle } from "features/game/lib/cave";
@@ -128,10 +127,6 @@ export const Cave: React.FC = () => {
   const cave = useSelector(gameService, _cave);
   const buildings = useSelector(gameService, _buildings);
   const state = useSelector(gameService, _state);
-  const hasCaveAccess = useTimeBasedFeatureAccess({
-    featureName: "CAVE",
-    game: state,
-  });
   const shovels = useSelector(gameService, _shovels);
   const drills = useSelector(gameService, _drills);
   const { authService } = useContext(AuthContext);
@@ -170,7 +165,7 @@ export const Cave: React.FC = () => {
 
   // Reached by URL without access or before the Cave building is placed and
   // finished — send the player back to the farm.
-  if (!hasCaveAccess || !cave || !isCaveBuildingReady({ buildings }, now)) {
+  if (!cave || !isCaveBuildingReady({ buildings }, now)) {
     return <Navigate to="/" replace />;
   }
 

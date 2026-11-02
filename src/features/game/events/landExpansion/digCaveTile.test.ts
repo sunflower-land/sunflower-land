@@ -5,7 +5,6 @@ import type {
   CaveRecipeName,
   GameState,
 } from "features/game/types/game";
-import { CONFIG } from "lib/config";
 import {
   resolveCaveTile,
   revealCavePatch,
@@ -284,41 +283,6 @@ describe("digCaveTile (cave.dug)", () => {
     const once = dig(readyState({ shovels: 3 }), 2, 0);
     expect(() => dig(once, 2, 0)).toThrow();
     expect(once.inventory["Sand Shovel"]?.toNumber()).toBe(2);
-  });
-
-  describe("off testnet", () => {
-    // jest runs on amoy, so the flag-off path is only reachable by pretending
-    // to be mainnet.
-    let previousNetwork: (typeof CONFIG)["NETWORK"];
-
-    beforeEach(() => {
-      previousNetwork = CONFIG.NETWORK;
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-    });
-
-    afterEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
-    });
-
-    it("throws without the CAVE feature flag", () => {
-      expect(() => dig(readyState(), 2, 0)).toThrow(
-        DIG_CAVE_TILE_ERRORS.NO_FEATURE_ACCESS,
-      );
-    });
-
-    it("is unlocked by holding a Beta Pass", () => {
-      const state = readyState();
-      expect(() =>
-        dig(
-          {
-            ...state,
-            inventory: { ...state.inventory, "Beta Pass": new Decimal(1) },
-          },
-          2,
-          0,
-        ),
-      ).not.toThrow();
-    });
   });
 });
 

@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import type { GameState } from "features/game/types/game";
-import { hasTimeBasedFeatureAccess } from "lib/flags";
 import { isCaveBuildingReady } from "features/game/lib/cave";
 import { CAVE_MAX_TIER } from "features/game/types/caveTiers";
 import {
@@ -24,7 +23,6 @@ type Options = {
 };
 
 export enum BUY_CAVE_MERCHANT_OFFER_ERRORS {
-  NO_FEATURE_ACCESS = "The Cave is not available for this player",
   NO_CAVE = "The Cave has not been built",
   UNKNOWN_OFFER = "The Goblin Cave Merchant has no such offer",
   OFFER_LOCKED = "The offer needs a later Cave tier",
@@ -47,16 +45,6 @@ export function buyCaveMerchantOffer({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    if (
-      !hasTimeBasedFeatureAccess({
-        featureName: "CAVE",
-        game: game,
-        now: createdAt,
-      })
-    ) {
-      throw new Error(BUY_CAVE_MERCHANT_OFFER_ERRORS.NO_FEATURE_ACCESS);
-    }
-
     const cave = game.cave;
     if (!cave || !isCaveBuildingReady(game, createdAt)) {
       throw new Error(BUY_CAVE_MERCHANT_OFFER_ERRORS.NO_CAVE);

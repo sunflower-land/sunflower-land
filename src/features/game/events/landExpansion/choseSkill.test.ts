@@ -4,8 +4,6 @@ import {
   ascensionBaseline,
   levelXp,
 } from "features/game/lib/level";
-import Decimal from "decimal.js-light";
-import { CONFIG } from "lib/config";
 import type { GameState } from "features/game/types/game";
 import { BUMPKIN_REVAMP_SKILL_TREE } from "features/game/types/bumpkinSkills";
 import {
@@ -254,50 +252,6 @@ describe("choseSkill", () => {
         expect(choose(skill).bumpkin.skills[skill]).toEqual(1);
       },
     );
-
-    describe("off testnet", () => {
-      let previousNetwork: (typeof CONFIG)["NETWORK"];
-
-      beforeEach(() => {
-        previousNetwork = CONFIG.NETWORK;
-        (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-      });
-
-      afterEach(() => {
-        (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
-      });
-
-      it.each(["Swill Savvy", "Truffle Yield", "Bristle Payout"] as const)(
-        "rejects %s",
-        (skill) => {
-          expect(() => choose(skill)).toThrow("This skill is not available");
-        },
-      );
-
-      it("accepts a Pig skill with a Beta Pass", () => {
-        expect(() =>
-          choose(
-            "Truffle Yield",
-            pigFarm({
-              inventory: {
-                ...TEST_FARM.inventory,
-                "Beta Pass": new Decimal(1),
-              },
-            }),
-          ),
-        ).not.toThrow();
-      });
-
-      it("still lets other Animals skills be claimed", () => {
-        expect(() =>
-          choseSkill({
-            state: pigFarm(),
-            action: { type: "skill.chosen", skill: "Chonky Feed" },
-            createdAt: dateNow,
-          }),
-        ).not.toThrow();
-      });
-    });
   });
 
   describe("Cave skills", () => {
@@ -376,25 +330,6 @@ describe("choseSkill", () => {
           "Rare Breeds"
         ],
       ).toEqual(1);
-    });
-
-    describe("off testnet", () => {
-      let previousNetwork: (typeof CONFIG)["NETWORK"];
-
-      beforeEach(() => {
-        previousNetwork = CONFIG.NETWORK;
-        (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-      });
-
-      afterEach(() => {
-        (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
-      });
-
-      it("rejects every Cave skill", () => {
-        expect(() => choose("Lean Compost", caveFarm())).toThrow(
-          "This skill is not available",
-        );
-      });
     });
   });
 

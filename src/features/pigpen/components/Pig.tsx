@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { isBeetle } from "features/game/types/beetles";
-import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
@@ -241,11 +240,6 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
   });
 
   const { name: mutantName } = pig.reward?.items?.[0] ?? {};
-
-  const hasBeetleFeedingAccess = useTimeBasedFeatureAccess({
-    featureName: "BEETLE_FEEDING",
-    game,
-  });
 
   const feedPig = (item?: InventoryItemName) => {
     setFeedXPAmount(getAnimalXPEarned(item));
@@ -500,18 +494,13 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
       favouriteFood: favFood,
       inventory,
       requiredQty: requiredFoodQty,
-      hasBeetleFeedingAccess,
     });
     if (feedItem && feedItem !== selectedItem) {
       shortcutItem(feedItem);
     }
 
-    // Without access a Beetle is not food here, so the click falls through to
-    // the no-food prompt instead of an event the reducer would reject.
     const hasFoodSelected =
-      feedItem &&
-      (isFoodForAnimal("Pig", feedItem) ||
-        (hasBeetleFeedingAccess && isBeetle(feedItem)));
+      feedItem && (isFoodForAnimal("Pig", feedItem) || isBeetle(feedItem));
 
     if (hasFoodSelected) {
       const foodCount = inventory[feedItem as AnimalFoodName] ?? new Decimal(0);
@@ -601,7 +590,7 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
   const xpIndicatorColor =
     favFood === selectedItem ||
     selectedItem === "Omnifeed" ||
-    (hasBeetleFeedingAccess && !!selectedItem && isBeetle(selectedItem)) ||
+    (!!selectedItem && isBeetle(selectedItem)) ||
     hasGoldenPig
       ? "#71e358"
       : "#fff";

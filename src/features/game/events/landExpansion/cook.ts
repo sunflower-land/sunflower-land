@@ -4,7 +4,6 @@ import {
   type CookableName,
   COOKABLES,
   isInstantFishRecipe,
-  isTruffleRecipe,
 } from "features/game/types/consumables";
 import type {
   BuildingProduct,
@@ -14,7 +13,7 @@ import type {
   Skills,
 } from "features/game/types/game";
 import { getCookingTime } from "features/game/expansion/lib/boosts";
-import { hasFeatureAccess, hasTimeBasedFeatureAccess } from "lib/flags";
+import { hasFeatureAccess } from "lib/flags";
 import {
   computeReadyAt,
   getCookingBoostWindows,
@@ -283,18 +282,6 @@ export function cook({
       !hasChapterCropWeekAccess(state, createdAt)
     ) {
       throw new Error("Chapter Crop Week is not active");
-    }
-
-    // Truffle recipes ride on the Pigs' flag: Truffle only exists behind it
-    if (
-      isTruffleRecipe(item) &&
-      !hasTimeBasedFeatureAccess({
-        featureName: "PIGPEN",
-        game: state,
-        now: createdAt,
-      })
-    ) {
-      throw new Error("Truffle recipes are not available yet");
     }
 
     const { building: requiredBuilding } = COOKABLES[item];

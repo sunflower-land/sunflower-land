@@ -10,7 +10,6 @@ import { trackFarmActivity } from "features/game/types/farmActivity";
 import { getKeys } from "lib/object";
 import { ANIMAL_FOODS } from "features/game/types/animals";
 import { getPigFeedIngredients, isPigFeed } from "features/game/types/pigFeeds";
-import { hasTimeBasedFeatureAccess } from "lib/flags";
 import { produce } from "immer";
 
 export type FeedMixedAction = {
@@ -24,7 +23,6 @@ export type FeedMixedAction = {
 type Options = {
   state: Readonly<GameState>;
   action: FeedMixedAction;
-  createdAt?: number;
 };
 
 export function getIngredients({
@@ -121,7 +119,6 @@ export function applyMix(
     ingredient?: InventoryItemName;
     amount: number;
   },
-  createdAt: number,
 ) {
   const { bumpkin } = copy;
 
@@ -132,17 +129,6 @@ export function applyMix(
   const selectedItem = ANIMAL_FOODS[item];
   if (!selectedItem) {
     throw new Error("Item is not a feed!");
-  }
-
-  if (
-    isPigFeed(item) &&
-    !hasTimeBasedFeatureAccess({
-      featureName: "PIGPEN",
-      game: copy,
-      now: createdAt,
-    })
-  ) {
-    throw new Error("Pig feeds are not available");
   }
 
   const { coins } = selectedItem;
@@ -197,7 +183,7 @@ export function applyMix(
   return copy;
 }
 
-export function feedMixed({ state, action, createdAt = Date.now() }: Options) {
+export function feedMixed({ state, action }: Options) {
   return produce(state, (copy) => {
     const { item, ingredient, amount = 1 } = action;
 
@@ -205,6 +191,6 @@ export function feedMixed({ state, action, createdAt = Date.now() }: Options) {
       throw new Error("Invalid amount");
     }
 
-    return applyMix(copy, { item, ingredient, amount }, createdAt);
+    return applyMix(copy, { item, ingredient, amount });
   });
 }

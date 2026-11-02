@@ -50,30 +50,6 @@ export type TradeResource = Extract<
   | BeetleName
 >;
 
-/**
- * Chapter 16's tradable resources. They are in TRADE_LIMITS like any other
- * resource, but the marketplace only treats them as active for farms with the
- * CAVE_DWELLERS_TRADING flag (see the marketplace `Collection`; the API gates
- * in `tradeableIsActive`). Mud stays non-tradable.
- * TODO(Cave Dwellers): drop the flag gate at launch; the entries stay.
- */
-export const CAVE_DWELLERS_TRADE_RESOURCES = [
-  "Green Beetle",
-  "Blue Beetle",
-  "Pink Beetle",
-  "Amber Beetle",
-  "Pig Bristles",
-  "Truffle",
-] as const satisfies readonly TradeResource[];
-
-export type CaveDwellersTradeResource =
-  (typeof CAVE_DWELLERS_TRADE_RESOURCES)[number];
-
-export const isCaveDwellersTradeResource = (
-  item: InventoryItemName,
-): item is CaveDwellersTradeResource =>
-  (CAVE_DWELLERS_TRADE_RESOURCES as readonly string[]).includes(item);
-
 export const TRADE_LIMITS: Record<TradeResource, number> = {
   // Crops
   Sunflower: 4000,
