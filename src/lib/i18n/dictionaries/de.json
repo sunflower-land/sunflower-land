@@ -9004,5 +9004,6 @@
   "calendar.events.tsunami.effect": "Schädigt Pflanzen und Gebäude",
   "calendar.events.greatFreeze.effect": "Friert 1/2 der Grundstücke ein",
   "calendar.events.sunshower.effect": "2x Crop Speed",
-  "calendar.events.insectPlague.effect": "-1/2 Ernten"
+  "calendar.events.insectPlague.effect": "-1/2 Ernten",
+  "animal.honeyTreatFreeFeed": "Honey Treat hat keine Wirkung — {{item}} füttert es bereits kostenlos"
 }

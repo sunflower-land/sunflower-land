@@ -9004,5 +9004,6 @@
   "calendar.events.tsunami.effect": "损坏农作物和建筑物",
   "calendar.events.greatFreeze.effect": "冻结 1/2 的地块",
   "calendar.events.sunshower.effect": "2 倍裁剪速度",
-  "calendar.events.insectPlague.effect": "-1/2 农作物"
+  "calendar.events.insectPlague.effect": "-1/2 农作物",
+  "animal.honeyTreatFreeFeed": "Honey Treat 没有效果 — {{item}} 已经免费喂了"
 }

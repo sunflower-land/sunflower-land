@@ -9004,5 +9004,6 @@
   "calendar.events.tsunami.effect": "作物や建物に損害を与える",
   "calendar.events.greatFreeze.effect": "プロットの1/2をフリーズします",
   "calendar.events.sunshower.effect": "2倍のクロップスピード",
-  "calendar.events.insectPlague.effect": "-1/2 クロップ"
+  "calendar.events.insectPlague.effect": "-1/2 クロップ",
+  "animal.honeyTreatFreeFeed": "ハニートリートは効果がありません — {{item}} はすでに無料で給餌しています"
 }

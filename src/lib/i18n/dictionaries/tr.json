@@ -9004,5 +9004,6 @@
   "calendar.events.tsunami.effect": "Bitkilere ve binalara zarar verir",
   "calendar.events.greatFreeze.effect": "Arsaların 1/2'sini dondurur",
   "calendar.events.sunshower.effect": "2x Kırpma Hızı",
-  "calendar.events.insectPlague.effect": "-1/2 Mahsul"
+  "calendar.events.insectPlague.effect": "-1/2 Mahsul",
+  "animal.honeyTreatFreeFeed": "Honey Treat'in etkisi yok - {{item}} zaten ücretsiz besliyor"
 }

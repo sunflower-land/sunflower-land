@@ -9004,5 +9004,6 @@
   "calendar.events.tsunami.effect": "Danifica plantações e edifícios",
   "calendar.events.greatFreeze.effect": "Congela 1/2 das parcelas",
   "calendar.events.sunshower.effect": "2x Velocidade de corte",
-  "calendar.events.insectPlague.effect": "-1/2 safras"
+  "calendar.events.insectPlague.effect": "-1/2 safras",
+  "animal.honeyTreatFreeFeed": "Honey Treat não tem efeito — {{item}} já o alimenta gratuitamente"
 }

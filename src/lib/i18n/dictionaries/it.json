@@ -9004,5 +9004,6 @@
   "calendar.events.tsunami.effect": "Danneggia colture ed edifici",
   "calendar.events.greatFreeze.effect": "Congela 1/2 dei grafici",
   "calendar.events.sunshower.effect": "Velocità di ritaglio 2x",
-  "calendar.events.insectPlague.effect": "-1/2 Colture"
+  "calendar.events.insectPlague.effect": "-1/2 Colture",
+  "animal.honeyTreatFreeFeed": "Honey Treat non ha alcun effetto: {{item}} lo alimenta già gratuitamente"
 }
