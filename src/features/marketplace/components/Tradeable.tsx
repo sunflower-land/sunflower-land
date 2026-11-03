@@ -28,6 +28,7 @@ import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import {
+  CHAPTER_CROP_WEEK,
   CHAPTER_CROP_WEEK_CROP,
   hasChapterCropWeekAccess,
   isRetiredChapterCropWeekItem,
@@ -65,7 +66,11 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
   const authToken = authState.context.user.rawToken as string;
   const state = useSelector(gameService, _state);
   const trades = useSelector(gameService, _trades);
-  const now = useNow();
+  // Live until the run ends so an open page flips to "Retired" at the boundary.
+  const now = useNow({
+    live: true,
+    autoEndAt: CHAPTER_CROP_WEEK.endDate.getTime(),
+  });
 
   const params = useParams<{
     collection?: CollectionName;
