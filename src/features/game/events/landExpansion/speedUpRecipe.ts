@@ -65,6 +65,11 @@ export function speedUpRecipe({
       throw new Error("Building does not exist");
     }
 
+    // A lifted building is paused until it is placed again (see `placeBuilding`).
+    if (!building.coordinates) {
+      throw new Error("Building is not placed");
+    }
+
     // Settle the oil at the speed-up: the skipped time is not cooked, so it burns
     // none, and the recipe promoted behind it draws from what is left now.
     const oil = isCookingBuilding(action.buildingName)

@@ -59,7 +59,8 @@ export function supplyCookingOil({
     }
 
     const building = buildings.find((b) => b.id === action.buildingId);
-    if (!building) {
+    // A lifted building would otherwise take oil it cannot burn until placed.
+    if (!building?.coordinates) {
       throw new Error(translate("error.buildingNotExist"));
     }
 
@@ -83,11 +84,6 @@ export function supplyCookingOil({
         at: createdAt,
         convert: true,
       }) !== undefined;
-
-    // A lifted building would otherwise take oil it cannot burn until placed.
-    if (oilByTheClock && !building.coordinates) {
-      throw new Error(translate("error.buildingNotExist"));
-    }
 
     const oilCapacity = oilByTheClock
       ? COOKING_OIL_CAPACITY[action.building]

@@ -1980,6 +1980,26 @@ describe("cook (oil by the clock)", () => {
     });
   });
 
+  it("leaves temporary boosts out of the duration on rollback, so they apply once", () => {
+    const firePit = onMainnet(() =>
+      cookEggs({
+        ...firePitFarm({ oilSettledAt: createdAt - 1000 }),
+        collectibles: {
+          "Legendary Shrine": [
+            {
+              id: "1",
+              coordinates: { x: 5, y: 5 },
+              createdAt: createdAt - 1000,
+              readyAt: createdAt - 1000,
+            },
+          ],
+        },
+      }),
+    ).buildings["Fire Pit"]?.[0];
+
+    expect(firePit?.crafting?.[0].baseDurationMs).toEqual(EGG_MS);
+  });
+
   it("charges nothing for a recipe queued behind one that paid up front", () => {
     const state = firePitFarm({
       oil: 5,

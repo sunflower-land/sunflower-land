@@ -51,12 +51,14 @@ function getQueueItemCookingSeconds({
   game,
   buildingName,
   createdAt,
+  windowed,
 }: {
   name: CookableName;
   appliedOilBoost: number;
   game: GameState;
   buildingName: CookingBuildingName;
   createdAt: number;
+  windowed?: boolean;
 }) {
   const skills = game.bumpkin.skills;
   const itemOilConsumption = getOilConsumption(buildingName, name);
@@ -78,6 +80,7 @@ function getQueueItemCookingSeconds({
     item: name,
     game,
     cookStartAt: createdAt,
+    windowed,
   });
 
   return { seconds };
@@ -171,6 +174,9 @@ export function recalculateQueue({
           buildingName,
           game,
           createdAt,
+          // The windows below apply the temporary boosts, so keep them out of
+          // the duration even with the flag off (a rolled-back oil ledger).
+          windowed: true,
         }).seconds * 1000;
 
       // Everything behind the head is CHAINED: no `startedAt`, so its start tracks

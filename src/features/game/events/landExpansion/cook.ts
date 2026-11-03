@@ -172,11 +172,15 @@ export const getReadyAt = ({
     ? { timeToCook: COOKABLES[item].cookingSeconds, percent: undefined }
     : getCookingOilBoost(item, game, buildingId);
 
+  const boostsWindowed =
+    oilByTheClock || hasFeatureAccess(game, "SPEED_BOOSTS");
+
   const { reducedSecs, boostsUsed } = getCookingTime({
     seconds: oilBoostResult.timeToCook,
     item,
     game,
     cookStartAt: createdAt,
+    windowed: boostsWindowed,
   });
 
   const oilEntry =
@@ -189,8 +193,6 @@ export const getReadyAt = ({
         ]
       : [];
 
-  const boostsWindowed =
-    oilByTheClock || hasFeatureAccess(game, "SPEED_BOOSTS");
   const baseDurationMs = boostsWindowed ? reducedSecs * 1000 : undefined;
 
   const readyAt =

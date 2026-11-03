@@ -2036,4 +2036,42 @@ describe("Instant Gratification (oil by the clock)", () => {
     expect(deli?.crafting?.[0].readyAt).toEqual(T0 + HOUR);
     expect(deli?.crafting?.[1].readyAt).toEqual(T0 + 7 * HOUR);
   });
+
+  it("leaves a lifted building alone", () => {
+    const lifted = deliFarm(
+      {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: { "Instant Gratification": 1 },
+        },
+      },
+      {
+        coordinates: undefined,
+        removedAt: T0,
+        crafting: [lazy({ startedAt: T0, baseDurationMs: 10 * HOUR })],
+      },
+    );
+    const state = skillUse({
+      state: {
+        ...lifted,
+        buildings: {
+          ...lifted.buildings,
+          "Fire Pit": [
+            {
+              id: "fp",
+              coordinates: { x: 4, y: 4 },
+              createdAt: 0,
+              readyAt: 0,
+              crafting: [{ name: "Boiled Eggs", readyAt: T0 + 10 * HOUR }],
+            },
+          ],
+        },
+      },
+      action: { type: "skill.used", skill: "Instant Gratification" },
+      createdAt: T0 + HOUR,
+    });
+
+    expect(state.buildings.Deli?.[0]).toEqual(lifted.buildings.Deli?.[0]);
+  });
 });

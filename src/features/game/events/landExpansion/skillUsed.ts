@@ -204,7 +204,8 @@ function useInstantGratification({
   getKeys(BUILDING_DAILY_OIL_CAPACITY).forEach((buildingName) => {
     const building = game.buildings[buildingName]?.[0];
 
-    if (!building?.crafting) return;
+    // A lifted building is paused until it is placed again (see `placeBuilding`).
+    if (!building?.crafting || !building.coordinates) return;
 
     // Settle the oil at activation: the skipped time is not cooked, so it burns
     // none, and the recipe promoted behind it draws from what is left now.

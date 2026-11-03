@@ -363,6 +363,31 @@ describe("supplyCookingOil (oil by the clock)", () => {
     expect(deli?.oilSettledAt).toEqual(now + 3 * HOUR);
   });
 
+  it("does not fill a lifted building with SPEED_BOOSTS off either", () => {
+    const network = CONFIG.NETWORK;
+    (CONFIG as { NETWORK: string }).NETWORK = "mainnet";
+    expect(() =>
+      supply(
+        {
+          ...deliFarm(),
+          buildings: {
+            Deli: [
+              {
+                id: "2",
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                readyAt: 0,
+              },
+              { id: "1", createdAt: 0, readyAt: 0, removedAt: now - HOUR },
+            ],
+          },
+        },
+        1,
+      ),
+    ).toThrow("Building does not exist");
+    (CONFIG as { NETWORK: string }).NETWORK = network;
+  });
+
   it("does not fill a lifted building", () => {
     expect(() =>
       supply(

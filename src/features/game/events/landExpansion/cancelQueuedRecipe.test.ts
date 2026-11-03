@@ -14,6 +14,7 @@ import { cook, getOilConsumption } from "./cook";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { choseSkill } from "./choseSkill";
 import Decimal from "decimal.js-light";
+import { CONFIG } from "lib/config";
 
 describe("cancelQueuedRecipe", () => {
   it("throws an error if the building does not exist", () => {
@@ -940,6 +941,47 @@ describe("cancelQueuedRecipe (oil by the clock)", () => {
         },
       ],
     },
+  });
+
+  it("leaves temporary boosts out of a migrated recipe on rollback, so they apply once", () => {
+    const network = CONFIG.NETWORK;
+    (CONFIG as { NETWORK: string }).NETWORK = "mainnet";
+    const state = cancelQueuedRecipe({
+      state: {
+        ...deliFarm(INITIAL_FARM, {
+          oil: 0,
+          crafting: [
+            lazy({ id: "a", startedAt: T0, baseDurationMs: 6 * HOUR }),
+            lazy({ id: "b", baseDurationMs: 10 * HOUR }),
+            // Queued before the building converted: no baseDurationMs yet.
+            { id: "c", name: "Fermented Fish", readyAt: T0 + 40 * HOUR },
+          ],
+        }),
+        collectibles: {
+          "Legendary Shrine": [
+            {
+              id: "1",
+              coordinates: { x: 5, y: 5 },
+              createdAt: T0,
+              readyAt: T0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "recipe.cancelled",
+        buildingName: "Deli",
+        buildingId: "1",
+        queueItem: lazy({ id: "b" }),
+      },
+      createdAt: T0 + HOUR,
+    });
+    (CONFIG as { NETWORK: string }).NETWORK = network;
+
+    const migrated = state.buildings.Deli?.[0].crafting?.[1];
+    expect(migrated?.baseDurationMs).toEqual(
+      COOKABLES["Fermented Fish"].cookingSeconds * 1000,
+    );
   });
 
   it("gives the oil the cancelled recipe would have used to the one behind it", () => {

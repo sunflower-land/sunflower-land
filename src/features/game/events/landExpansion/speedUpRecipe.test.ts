@@ -773,6 +773,28 @@ describe("speedUpRecipe (oil by the clock)", () => {
     },
   });
 
+  it("does not speed up a lifted building", () => {
+    expect(() =>
+      speedUpRecipe({
+        farmId: 1,
+        state: {
+          ...deliFarm(INITIAL_FARM, {
+            coordinates: undefined,
+            removedAt: T0,
+            crafting: [lazy({ startedAt: T0, baseDurationMs: 10 * HOUR })],
+          }),
+          inventory: { Gem: new Decimal(1000) },
+        },
+        action: {
+          type: "recipe.spedUp",
+          buildingId: "1",
+          buildingName: "Deli",
+        },
+        createdAt: T0 + HOUR,
+      }),
+    ).toThrow("Building is not placed");
+  });
+
   it("burns no oil for the time it skips", () => {
     const state = speedUpRecipe({
       farmId: 1,
