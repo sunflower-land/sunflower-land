@@ -9005,5 +9005,10 @@
   "calendar.events.greatFreeze.effect": "Gèle la moitié des parcelles",
   "calendar.events.sunshower.effect": "2 fois plus de vitesse de récolte",
   "calendar.events.insectPlague.effect": "-1/2 Récoltes",
-  "animal.honeyTreatFreeFeed": "Honey Treat n'a aucun effet — {{item}} le nourrit déjà gratuitement"
+  "animal.honeyTreatFreeFeed": "Honey Treat n'a aucun effet — {{item}} le nourrit déjà gratuitement",
+  "consent.title": "Cookies pour les publicités",
+  "consent.description": "Nous utilisons le pixel de Meta pour mesurer les publicités qui attirent les joueurs qui continuent à cultiver. Seulement avec ton OK. Aucune donnée de portefeuille n'est jamais partagée.",
+  "consent.accept": "OK, mesurez les publicités",
+  "consent.decline": "Non merci",
+  "consent.privacy": "Politique de confidentialité"
 }

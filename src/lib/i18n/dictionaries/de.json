@@ -9005,5 +9005,10 @@
   "calendar.events.greatFreeze.effect": "Friert 1/2 der Grundstücke ein",
   "calendar.events.sunshower.effect": "2x Crop Speed",
   "calendar.events.insectPlague.effect": "-1/2 Ernten",
-  "animal.honeyTreatFreeFeed": "Honey Treat hat keine Wirkung — {{item}} füttert es bereits kostenlos"
+  "animal.honeyTreatFreeFeed": "Honey Treat hat keine Wirkung — {{item}} füttert es bereits kostenlos",
+  "consent.title": "Cookies für Werbung",
+  "consent.description": "Wir verwenden Metas Pixel, um zu messen, welche Werbung Spieler anzieht, die weiter farmen. Nur mit deinem OK. Es werden niemals Wallet-Daten geteilt.",
+  "consent.accept": "OK, Werbeanzeigen messen",
+  "consent.decline": "Nein danke",
+  "consent.privacy": "Datenschutzrichtlinie"
 }

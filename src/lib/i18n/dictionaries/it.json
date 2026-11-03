@@ -9005,5 +9005,10 @@
   "calendar.events.greatFreeze.effect": "Congela 1/2 dei grafici",
   "calendar.events.sunshower.effect": "Velocità di ritaglio 2x",
   "calendar.events.insectPlague.effect": "-1/2 Colture",
-  "animal.honeyTreatFreeFeed": "Honey Treat non ha alcun effetto: {{item}} lo alimenta già gratuitamente"
+  "animal.honeyTreatFreeFeed": "Honey Treat non ha alcun effetto: {{item}} lo alimenta già gratuitamente",
+  "consent.title": "Cookie per gli annunci",
+  "consent.description": "Utilizziamo il pixel di Meta per misurare quali annunci attirano giocatori che continuano a coltivare. Solo con il tuo OK. Nessun dato del portafoglio viene mai condiviso.",
+  "consent.accept": "OK, misura gli annunci",
+  "consent.decline": "No grazie",
+  "consent.privacy": "Informativa sulla privacy"
 }

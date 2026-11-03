@@ -9005,5 +9005,10 @@
   "calendar.events.greatFreeze.effect": "冻结 1/2 的地块",
   "calendar.events.sunshower.effect": "2 倍裁剪速度",
   "calendar.events.insectPlague.effect": "-1/2 农作物",
-  "animal.honeyTreatFreeFeed": "Honey Treat 没有效果 — {{item}} 已经免费喂了"
+  "animal.honeyTreatFreeFeed": "Honey Treat 没有效果 — {{item}} 已经免费喂了",
+  "consent.title": "广告用饼干",
+  "consent.description": "我们使用 Meta 的像素来衡量哪些广告吸引了继续耕种的玩家。只有在你同意的情况下。从未共享任何钱包数据。",
+  "consent.accept": "好吧，衡量广告",
+  "consent.decline": "不用了谢谢",
+  "consent.privacy": "隐私政策"
 }

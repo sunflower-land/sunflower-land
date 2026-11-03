@@ -9005,5 +9005,10 @@
   "calendar.events.greatFreeze.effect": "Freezes 1/2 of plots",
   "calendar.events.sunshower.effect": "2x Crop Speed",
   "calendar.events.insectPlague.effect": "-1/2 Crops",
-  "animal.honeyTreatFreeFeed": "Honey Treat has no effect – {{item}} already feeds it for free"
+  "animal.honeyTreatFreeFeed": "Honey Treat has no effect – {{item}} already feeds it for free",
+  "consent.title": "Cookies for ads",
+  "consent.description": "We use Meta's pixel to measure which ads bring players who keep farming. Only with your OK. No wallet data is ever shared.",
+  "consent.accept": "OK, measure ads",
+  "consent.decline": "No thanks",
+  "consent.privacy": "Privacy policy"
 }

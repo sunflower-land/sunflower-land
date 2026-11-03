@@ -9005,5 +9005,10 @@
   "calendar.events.greatFreeze.effect": "プロットの1/2をフリーズします",
   "calendar.events.sunshower.effect": "2倍のクロップスピード",
   "calendar.events.insectPlague.effect": "-1/2 クロップ",
-  "animal.honeyTreatFreeFeed": "ハニートリートは効果がありません — {{item}} はすでに無料で給餌しています"
+  "animal.honeyTreatFreeFeed": "ハニートリートは効果がありません — {{item}} はすでに無料で給餌しています",
+  "consent.title": "広告用クッキー",
+  "consent.description": "Metaのピクセルを使用して、どの広告が農業を続けるプレイヤーにもたらされるかを測定します。あなたの「OK」がある場合のみ。ウォレットデータが共有されることはありません。",
+  "consent.accept": "OK、広告を測定してください",
+  "consent.decline": "いいえ、結構です",
+  "consent.privacy": "プライバシーポリシー"
 }

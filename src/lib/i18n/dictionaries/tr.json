@@ -9005,5 +9005,10 @@
   "calendar.events.greatFreeze.effect": "Arsaların 1/2'sini dondurur",
   "calendar.events.sunshower.effect": "2x Kırpma Hızı",
   "calendar.events.insectPlague.effect": "-1/2 Mahsul",
-  "animal.honeyTreatFreeFeed": "Honey Treat'in etkisi yok - {{item}} zaten ücretsiz besliyor"
+  "animal.honeyTreatFreeFeed": "Honey Treat'in etkisi yok - {{item}} zaten ücretsiz besliyor",
+  "consent.title": "Reklamlar için çerezler",
+  "consent.description": "Hangi reklamların çiftçiliğe devam eden oyuncuları getirdiğini ölçmek için Meta'nın pikselini kullanıyoruz. Sadece senin iyiliğin ile. Hiçbir cüzdan verisi paylaşılmaz.",
+  "consent.accept": "Tamam, reklamları ölçün",
+  "consent.decline": "Hayır teşekkürler",
+  "consent.privacy": "Gizlilik Politikası"
 }
