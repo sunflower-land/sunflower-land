@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Decimal from "decimal.js-light";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
@@ -75,6 +75,19 @@ export const SeasonalCrops: React.FC = () => {
   // A crop selected before its Chapter Crop Week run ended can't be sold any
   // more (sellCrop rejects it), so its sell actions disappear at the boundary.
   const isSelectedRetired = isRetiredChapterCropWeekItem(selected.name, now);
+
+  // Close any sale modal left open across the run's end: the sale would only
+  // be rejected.
+  useEffect(() => {
+    if (!isSelectedRetired) return;
+
+    // One-off reset at the retirement boundary, not a render loop.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setShowConfirmationModal(false);
+    showCustomSellModal(false);
+    setPendingSale(undefined);
+    setCustomAmount(new Decimal(0));
+  }, [isSelectedRetired]);
 
   const { island, season } = state;
 
@@ -179,6 +192,7 @@ export const SeasonalCrops: React.FC = () => {
       setShowConfirmationModal(false);
       showCustomSellModal(false);
       setPendingSale(undefined);
+      setCustomAmount(new Decimal(0));
       return;
     }
 
