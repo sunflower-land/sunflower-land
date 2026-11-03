@@ -174,6 +174,14 @@ export const SeasonalCrops: React.FC = () => {
   };
 
   const handleSell = (amount: Decimal, bypassDeliveryGuard = false) => {
+    // A sale modal left open across the run's end would only be rejected.
+    if (isSelectedRetired) {
+      setShowConfirmationModal(false);
+      showCustomSellModal(false);
+      setPendingSale(undefined);
+      return;
+    }
+
     if (!bypassDeliveryGuard && blocksOpenDelivery(amount)) {
       setShowConfirmationModal(false);
       showCustomSellModal(false);
