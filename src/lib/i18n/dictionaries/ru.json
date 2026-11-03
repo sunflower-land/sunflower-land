@@ -8997,5 +8997,12 @@
   "description.potOfLuck.warning": "Does not affect Chapter Artefacts",
   "description.brickHouse.warning": "Crimstone discount disabled if Grinx's Hammer Active",
   "description.stickHouse.warning": "Oil discount disabled if Grinx's Hammer Active",
-  "description.herculesBeetleHat.warning": "Obsidian discount disabled if Grinx's Hammer Active"
+  "description.herculesBeetleHat.warning": "Obsidian discount disabled if Grinx's Hammer Active",
+  "calendar.events.bountifulHarvest.effect": "+1 Crops & Fruit",
+  "calendar.events.tornado.effect": "Damages crops & buildings",
+  "calendar.events.fishFrenzy.effect": "+1 Fish",
+  "calendar.events.tsunami.effect": "Damages crops & buildings",
+  "calendar.events.greatFreeze.effect": "Freezes 1/2 of plots",
+  "calendar.events.sunshower.effect": "2x Crop Speed",
+  "calendar.events.insectPlague.effect": "-1/2 Crops"
 }

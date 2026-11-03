@@ -8997,5 +8997,12 @@
   "description.potOfLuck.warning": "チャプターアーティファクトには影響しません",
   "description.brickHouse.warning": "グリンクスのハンマーがアクティブな場合、クリムストーン割引は無効になります",
   "description.stickHouse.warning": "グリンクスのハンマーがアクティブな場合、オイルディスカウントは無効になります",
-  "description.herculesBeetleHat.warning": "グリンクスのハンマーがアクティブな場合、オブシディアン割引は無効になります"
+  "description.herculesBeetleHat.warning": "グリンクスのハンマーがアクティブな場合、オブシディアン割引は無効になります",
+  "calendar.events.bountifulHarvest.effect": "+1 作物とフルーツ",
+  "calendar.events.tornado.effect": "作物や建物に損害を与える",
+  "calendar.events.fishFrenzy.effect": "+1 フィッシュ",
+  "calendar.events.tsunami.effect": "作物や建物に損害を与える",
+  "calendar.events.greatFreeze.effect": "プロットの1/2をフリーズします",
+  "calendar.events.sunshower.effect": "2倍のクロップスピード",
+  "calendar.events.insectPlague.effect": "-1/2 クロップ"
 }

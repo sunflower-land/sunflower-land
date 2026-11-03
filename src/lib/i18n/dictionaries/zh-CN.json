@@ -8997,5 +8997,12 @@
   "description.potOfLuck.warning": "不影响章节神器",
   "description.brickHouse.warning": "如果 Grinx 的锤子处于活动状态，则禁用 Crimstone 折扣",
   "description.stickHouse.warning": "如果 Grinx 的锤子处于活动状态，则禁用机油折扣",
-  "description.herculesBeetleHat.warning": "如果 Grinx 的锤子处于活动状态，则禁用黑曜石折扣"
+  "description.herculesBeetleHat.warning": "如果 Grinx 的锤子处于活动状态，则禁用黑曜石折扣",
+  "calendar.events.bountifulHarvest.effect": "+1 农作物和水果",
+  "calendar.events.tornado.effect": "损坏农作物和建筑物",
+  "calendar.events.fishFrenzy.effect": "+1 鱼",
+  "calendar.events.tsunami.effect": "损坏农作物和建筑物",
+  "calendar.events.greatFreeze.effect": "冻结 1/2 的地块",
+  "calendar.events.sunshower.effect": "2 倍裁剪速度",
+  "calendar.events.insectPlague.effect": "-1/2 农作物"
 }

@@ -8997,5 +8997,12 @@
   "description.potOfLuck.warning": "Tidak mempengaruhi Artefak Bab",
   "description.brickHouse.warning": "Diskon Crimstone dinonaktifkan jika Grinx's Hammer Aktif",
   "description.stickHouse.warning": "Diskon minyak dinonaktifkan jika Grinx's Hammer Aktif",
-  "description.herculesBeetleHat.warning": "Diskon Obsidian dinonaktifkan jika Grinx's Hammer Aktif"
+  "description.herculesBeetleHat.warning": "Diskon Obsidian dinonaktifkan jika Grinx's Hammer Aktif",
+  "calendar.events.bountifulHarvest.effect": "+1 Tanaman & Buah",
+  "calendar.events.tornado.effect": "Merusak tanaman & bangunan",
+  "calendar.events.fishFrenzy.effect": "+1 Fishu",
+  "calendar.events.tsunami.effect": "Merusak tanaman & bangunan",
+  "calendar.events.greatFreeze.effect": "Membekukan 1/2 plot",
+  "calendar.events.sunshower.effect": "Kecepatan Pangkas 2x",
+  "calendar.events.insectPlague.effect": "-1/2 Tanaman"
 }

@@ -8997,5 +8997,12 @@
   "description.potOfLuck.warning": "Non influisce sugli artefatti del capitolo",
   "description.brickHouse.warning": "Sconto Crimstone disabilitato se Grinx's Hammer è attivo",
   "description.stickHouse.warning": "Sconto sull'olio disattivato se Grinx's Hammer Active",
-  "description.herculesBeetleHat.warning": "Sconto Obsidian disabilitato se Grinx's Hammer Active"
+  "description.herculesBeetleHat.warning": "Sconto Obsidian disabilitato se Grinx's Hammer Active",
+  "calendar.events.bountifulHarvest.effect": "+1 Colture e frutta",
+  "calendar.events.tornado.effect": "Danneggia colture ed edifici",
+  "calendar.events.fishFrenzy.effect": "+1 pesce",
+  "calendar.events.tsunami.effect": "Danneggia colture ed edifici",
+  "calendar.events.greatFreeze.effect": "Congela 1/2 dei grafici",
+  "calendar.events.sunshower.effect": "Velocità di ritaglio 2x",
+  "calendar.events.insectPlague.effect": "-1/2 Colture"
 }

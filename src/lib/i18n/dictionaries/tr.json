@@ -8997,5 +8997,12 @@
   "description.potOfLuck.warning": "Bölüm Eserlerini etkilemez",
   "description.brickHouse.warning": "Grinx'in Hammer Aktif olması durumunda Crimstone indirimi devre dışı bırakıldı",
   "description.stickHouse.warning": "Grinx'in Hammer Aktif olması durumunda yağ indirimi devre dışı bırakıldı",
-  "description.herculesBeetleHat.warning": "Grinx'in Hammer Aktif olması durumunda Obsidyen indirimi devre dışı bırakıldı"
+  "description.herculesBeetleHat.warning": "Grinx'in Hammer Aktif olması durumunda Obsidyen indirimi devre dışı bırakıldı",
+  "calendar.events.bountifulHarvest.effect": "+1 Mahsuller ve Meyveler",
+  "calendar.events.tornado.effect": "Bitkilere ve binalara zarar verir",
+  "calendar.events.fishFrenzy.effect": "+1 Balık",
+  "calendar.events.tsunami.effect": "Bitkilere ve binalara zarar verir",
+  "calendar.events.greatFreeze.effect": "Arsaların 1/2'sini dondurur",
+  "calendar.events.sunshower.effect": "2x Kırpma Hızı",
+  "calendar.events.insectPlague.effect": "-1/2 Mahsul"
 }

@@ -8997,5 +8997,12 @@
   "description.potOfLuck.warning": "N'affecte pas les artefacts du chapitre",
   "description.brickHouse.warning": "La réduction Crimstone est désactivée si Grinx's Hammer Active",
   "description.stickHouse.warning": "La réduction sur l'huile est désactivée si Grinx's Hammer Active",
-  "description.herculesBeetleHat.warning": "La réduction sur l'obsidienne est désactivée si Grinx's Hammer Active"
+  "description.herculesBeetleHat.warning": "La réduction sur l'obsidienne est désactivée si Grinx's Hammer Active",
+  "calendar.events.bountifulHarvest.effect": "+1 Cultures et fruits",
+  "calendar.events.tornado.effect": "Endommage les cultures et les bâtiments",
+  "calendar.events.fishFrenzy.effect": "+1 Poisson",
+  "calendar.events.tsunami.effect": "Endommage les cultures et les bâtiments",
+  "calendar.events.greatFreeze.effect": "Gèle la moitié des parcelles",
+  "calendar.events.sunshower.effect": "2 fois plus de vitesse de récolte",
+  "calendar.events.insectPlague.effect": "-1/2 Récoltes"
 }
