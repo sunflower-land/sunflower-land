@@ -8,7 +8,7 @@ import type {
   PlacedItem,
 } from "features/game/types/game";
 import {
-  BUILDING_OIL_BOOSTS,
+  getRecipeOilBoost,
   getCookingRequirements,
   getOilConsumption,
 } from "./cook";
@@ -60,10 +60,10 @@ function getQueueItemCookingSeconds({
   createdAt: number;
   windowed?: boolean;
 }) {
-  const skills = game.bumpkin.skills;
   const itemOilConsumption = getOilConsumption(buildingName, name);
   const itemCookingSeconds = COOKABLES[name].cookingSeconds;
-  const boostValue = BUILDING_OIL_BOOSTS(skills)[buildingName];
+  // Same cap as at cook time (the Crystal Cookie ignores upgraded ranks).
+  const boostValue = getRecipeOilBoost(name, game);
   let boostedCookingSeconds = itemCookingSeconds;
 
   if (appliedOilBoost >= itemOilConsumption) {
