@@ -721,7 +721,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
                   text: t("read.more"),
                   cb: () => {
                     window.open(
-                      "https://docs.sunflower-land.com/getting-started/crypto-and-digital-collectibles",
+                      "https://docs.sunflower-land.com/web3-and-economy/wallets-and-collectibles",
                       "_blank",
                     );
                   },

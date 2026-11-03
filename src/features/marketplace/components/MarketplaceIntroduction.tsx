@@ -77,7 +77,7 @@ export const MarketplaceIntroduction: React.FC = () => {
           />
           <p className="text-xs underline my-2 text-center">
             <a
-              href="https://docs.sunflower-land.com/support/terms-of-service#id-8-in-game-trading"
+              href="https://docs.sunflower-land.com/legal-and-support/terms-of-service#id-8-in-game-trading"
               target="_blank"
               rel="noopener noreferrer"
               className="text-center"

@@ -76,7 +76,7 @@ export const Welcome: React.FC = () => {
           />
         </a>
         <a
-          href="https://docs.sunflower-land.com/getting-started/how-to-start"
+          href="https://docs.sunflower-land.com/start-here/how-to-start"
           target="_blank"
           rel="noopener noreferrer"
           className="underline font-secondary text-sm"
