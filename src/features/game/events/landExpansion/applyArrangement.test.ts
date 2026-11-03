@@ -915,6 +915,7 @@ describe("applyArrangement", () => {
             code: "COLLISION",
             name: "Basic Bear",
             id: "new",
+            with: { name: "Potato Statue", id: "a" },
           }),
         ]);
       });
