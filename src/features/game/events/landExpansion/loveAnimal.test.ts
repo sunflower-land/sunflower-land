@@ -787,6 +787,27 @@ describe("two loves per sleep", () => {
     );
   });
 
+  it("starts the count over when the new sleep begins on the last love's timestamp", () => {
+    // A love that completes the cycle can be claimed in the same millisecond.
+    const game = gameWith({ ...chicken, lovedAt: asleepAt, lovesThisSleep: 2 });
+
+    expect(
+      love(game, asleepAt + 8 * HOUR).henHouse.animals.c1.lovesThisSleep,
+    ).toBe(1);
+  });
+
+  it("rejects a third love at exactly the wake time", () => {
+    const animal: Animal = {
+      ...chicken,
+      lovedAt: asleepAt + 16 * HOUR,
+      lovesThisSleep: 2,
+    };
+
+    expect(() => love(gameWith(animal), asleepAt + SLEEP)).toThrow(
+      "The animal cannot be loved yet",
+    );
+  });
+
   it("treats a love from before the count existed as one love", () => {
     const game = gameWith({ ...chicken, lovedAt: asleepAt + 8 * HOUR });
 
