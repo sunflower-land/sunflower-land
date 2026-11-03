@@ -620,3 +620,48 @@ describe("removeBuilding (windowed crop machine)", () => {
     expect(pack?.growsUntil).toBeUndefined();
   });
 });
+
+describe("removeBuilding (cooking oil by the clock)", () => {
+  const HOUR = 60 * 60 * 1000;
+  const T0 = Date.now();
+
+  it("settles the oil at the lift, so it never depends on boost history", () => {
+    const state = removeBuilding({
+      state: {
+        ...GAME_STATE,
+        buildings: {
+          Deli: [
+            {
+              id: "1",
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              readyAt: 0,
+              oil: 20,
+              oilSettledAt: T0,
+              crafting: [
+                {
+                  name: "Fermented Fish",
+                  startedAt: T0,
+                  baseDurationMs: 10 * HOUR,
+                  oilBoost: 0.4,
+                  readyAt: T0 + 6 * HOUR,
+                },
+              ],
+            },
+          ],
+        },
+      },
+      action: { type: "building.removed", name: "Deli", id: "1" },
+      createdAt: T0 + 3 * HOUR,
+    });
+
+    const deli = state.buildings.Deli?.[0];
+    // 3h cooked on oil (5h of work), 2.5 oil burned, anchored at the lift.
+    expect(deli?.oil).toBeCloseTo(17.5);
+    expect(deli?.oilSettledAt).toEqual(T0 + 3 * HOUR);
+    expect(deli?.crafting?.[0]).toMatchObject({
+      startedAt: T0 + 3 * HOUR,
+      baseDurationMs: 5 * HOUR,
+    });
+  });
+});
