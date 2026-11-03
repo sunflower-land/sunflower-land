@@ -1382,6 +1382,12 @@ const CAVE_DWELLERS_ITEMS: ChapterStore = {
         cost: { sfl: 0, items: { "Duende Cap": 9000 } },
       },
       {
+        collectible: "Double Bed",
+        limit: 1,
+        inventoryLimit: 1,
+        cost: { sfl: 0, items: { "Duende Cap": 9000 } },
+      },
+      {
         collectible: "Duende Monument",
         limit: 1,
         inventoryLimit: 1,
