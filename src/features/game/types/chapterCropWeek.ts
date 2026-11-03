@@ -29,6 +29,10 @@ export type ChapterCropWeekRun = {
  * own once its end date passes (never shown in the seed shop, Fire Pit or
  * marketplace again, and can't be bought, planted, sold, cooked or traded).
  * Items stay defined so existing inventories keep working.
+ *
+ * Only append a run once the previous one has ended: the buy / plant / cook /
+ * trade gates only know the current run, so an earlier run that is still live
+ * would lose its event-window gate.
  */
 export const CHAPTER_CROP_WEEKS: readonly ChapterCropWeekRun[] = [
   {

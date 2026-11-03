@@ -109,3 +109,18 @@ describe("isRetiredChapterCropWeekItem", () => {
     );
   });
 });
+
+describe("CHAPTER_CROP_WEEKS", () => {
+  it("lists runs oldest first, each starting after the previous one ends", () => {
+    CHAPTER_CROP_WEEKS.forEach((run, index) => {
+      expect(run.startDate.getTime()).toBeLessThan(run.endDate.getTime());
+
+      const previous = CHAPTER_CROP_WEEKS[index - 1];
+      if (previous) {
+        expect(run.startDate.getTime()).toBeGreaterThanOrEqual(
+          previous.endDate.getTime(),
+        );
+      }
+    });
+  });
+});

@@ -72,6 +72,9 @@ export const SeasonalCrops: React.FC = () => {
     autoEndAt: CHAPTER_CROP_WEEK.endDate.getTime(),
   });
   const isCropWeek = hasChapterCropWeekAccess(state, now);
+  // A crop selected before its Chapter Crop Week run ended can't be sold any
+  // more (sellCrop rejects it), so its sell actions disappear at the boundary.
+  const isSelectedRetired = isRetiredChapterCropWeekItem(selected.name, now);
 
   const { island, season } = state;
 
@@ -229,59 +232,63 @@ export const SeasonalCrops: React.FC = () => {
               }}
               actionView={
                 <>
-                  <div className="flex flex-col h-full justify-between">
-                    <div className="flex space-x-1 mb-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
-                      {cropAmount.greaterThan(1) && (
-                        <Button onClick={() => handleSell(new Decimal(1))}>
-                          {t("sell.one")}
-                        </Button>
-                      )}
-                      {cropAmount.greaterThan(0) && (
-                        <div className="relative w-full">
-                          <Button
-                            onClick={() =>
-                              handleSell(
+                  {!isSelectedRetired && (
+                    <div className="flex flex-col h-full justify-between">
+                      <div className="flex space-x-1 mb-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
+                        {cropAmount.greaterThan(1) && (
+                          <Button onClick={() => handleSell(new Decimal(1))}>
+                            {t("sell.one")}
+                          </Button>
+                        )}
+                        {cropAmount.greaterThan(0) && (
+                          <div className="relative w-full">
+                            <Button
+                              onClick={() =>
+                                handleSell(
+                                  cropAmount.greaterThan(10)
+                                    ? new Decimal(10)
+                                    : cropAmount,
+                                )
+                              }
+                            >
+                              {t(
                                 cropAmount.greaterThan(10)
-                                  ? new Decimal(10)
-                                  : cropAmount,
-                              )
-                            }
-                          >
-                            {t(
-                              cropAmount.greaterThan(10)
-                                ? "sell.ten"
-                                : "sell.amount",
-                              { amount: cropAmount },
-                            )}
-                          </Button>
-                        </div>
+                                  ? "sell.ten"
+                                  : "sell.amount",
+                                { amount: cropAmount },
+                              )}
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                      <div className="relative">
+                        {cropAmount.greaterThan(10) && (
+                          <>
+                            <Button
+                              onClick={
+                                islandType !== "basic"
+                                  ? openBulkSellModal
+                                  : openConfirmationModal
+                              }
+                            >
+                              {t(
+                                islandType !== "basic"
+                                  ? "sell.inBulk"
+                                  : "sell.all",
+                              )}
+                            </Button>
+                          </>
+                        )}
+                      </div>
+                      {cropAmount.lessThanOrEqualTo(0) && (
+                        <p className="text-xxs text-center mb-1">
+                          {t("crops.noCropsToSell", {
+                            cropName: selected.name,
+                          })}
+                        </p>
                       )}
                     </div>
-                    <div className="relative">
-                      {cropAmount.greaterThan(10) && (
-                        <>
-                          <Button
-                            onClick={
-                              islandType !== "basic"
-                                ? openBulkSellModal
-                                : openConfirmationModal
-                            }
-                          >
-                            {t(
-                              islandType !== "basic"
-                                ? "sell.inBulk"
-                                : "sell.all",
-                            )}
-                          </Button>
-                        </>
-                      )}
-                    </div>
-                    {cropAmount.lessThanOrEqualTo(0) && (
-                      <p className="text-xxs text-center mb-1">
-                        {t("crops.noCropsToSell", { cropName: selected.name })}
-                      </p>
-                    )}
-                  </div>
+                  )}
                 </>
               }
             />
