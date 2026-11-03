@@ -664,4 +664,50 @@ describe("removeBuilding (cooking oil by the clock)", () => {
       baseDurationMs: 5 * HOUR,
     });
   });
+
+  it("banks the credit of a boost live at the lift", () => {
+    const state = removeBuilding({
+      state: {
+        ...GAME_STATE,
+        collectibles: {
+          "Legendary Shrine": [
+            {
+              id: "s",
+              coordinates: { x: 5, y: 5 },
+              createdAt: T0,
+              readyAt: T0,
+            },
+          ],
+        },
+        buildings: {
+          Deli: [
+            {
+              id: "1",
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              readyAt: 0,
+              oil: 20,
+              oilSettledAt: T0,
+              crafting: [
+                {
+                  name: "Fermented Fish",
+                  startedAt: T0,
+                  baseDurationMs: 20 * HOUR,
+                  oilBoost: 0.4,
+                  readyAt: 0,
+                },
+              ],
+            },
+          ],
+        },
+      },
+      action: { type: "building.removed", name: "Deli", id: "1" },
+      createdAt: T0 + 3 * HOUR,
+    });
+
+    const deli = state.buildings.Deli?.[0];
+    // 3h at 2x shrine * 5/3 oil did 10h of work; the oil burned by the clock.
+    expect(deli?.oil).toBeCloseTo(17.5);
+    expect(deli?.crafting?.[0].baseDurationMs).toBeCloseTo(10 * HOUR);
+  });
 });
