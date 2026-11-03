@@ -349,9 +349,9 @@ export const SeasonalCrops: React.FC = () => {
               {getKeys(crops)
                 .filter((name) => !seasonal.includes(name))
                 .filter((name) => name !== CHAPTER_CROP_WEEK_CROP)
-                // Crops from previous Chapter Crop Week runs can't be sold
+                // Crops from ended Chapter Crop Week runs can't be sold
                 // (the server rejects them), so they are never listed
-                .filter((name) => !isRetiredChapterCropWeekItem(name))
+                .filter((name) => !isRetiredChapterCropWeekItem(name, now))
                 .filter((name) => !!crops[name].sellPrice)
                 .map((name) => {
                   const { count } = getCountAndType(state, name);

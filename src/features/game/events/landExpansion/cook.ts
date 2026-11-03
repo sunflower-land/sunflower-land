@@ -270,8 +270,8 @@ export function cook({
   return produce(state, (stateCopy) => {
     const { item, buildingId } = action;
 
-    // Recipes from previous Chapter Crop Week runs can never be cooked again
-    if (isRetiredChapterCropWeekItem(item)) {
+    // Recipes from ended Chapter Crop Week runs can never be cooked again
+    if (isRetiredChapterCropWeekItem(item, createdAt)) {
       throw new Error("This recipe is no longer available");
     }
 

@@ -102,7 +102,7 @@ describe("seedBought", () => {
         inventory: { ...stocked.inventory, "Beta Pass": new Decimal(1) },
       };
       expect(() => buy(admin, CHAPTER_CROP_WEEK.endDate.getTime())).toThrow(
-        "Chapter Crop Week is not active",
+        "This seed is no longer available",
       );
     });
   });

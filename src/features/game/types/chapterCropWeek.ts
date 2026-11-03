@@ -10,50 +10,69 @@ import { hasFeatureAccess } from "lib/flags";
  * recipe at the Fire Pit (which feeds the backend raffles), and temporarily
  * trade the event crop on the marketplace (VIP-only selling).
  *
- * This file is the single source of truth for the event window and the items
- * that are gated to it. It is imported by the seed shop UI, Fire Pit UI,
- * marketplace UI, and the backend purchase/cook gates.
- *
- * Previous runs (items stay defined so existing inventories keep working):
- * - 2026-07-20 → 2026-07-27: Saltwort / Saltbite
+ * This file is the single source of truth for the event windows and the items
+ * that are gated to them. It is imported by the seed shop UI, Fire Pit UI,
+ * marketplace UI, and the backend purchase/cook gates. Must stay in sync with
+ * the API's `domain/game/types/chapterCropWeek.ts`.
  */
-export const CHAPTER_CROP_WEEK = {
-  startDate: new Date("2026-10-19T00:00:00.000Z"),
-  endDate: new Date("2026-10-26T00:00:00.000Z"),
+export type ChapterCropWeekRun = {
+  startDate: Date;
+  endDate: Date;
+  seed: SeedName;
+  crop: CropName;
+  recipe: CookableName;
 };
 
 /**
- * The seed, crop and recipe that only exist during Chapter Crop Week.
+ * Every Chapter Crop Week run, oldest first. To set up the next run, append it
+ * here: the last entry is the current run, and each run's items retire on their
+ * own once its end date passes (never shown in the seed shop, Fire Pit or
+ * marketplace again, and can't be bought, planted, sold, cooked or traded).
+ * Items stay defined so existing inventories keep working.
  */
-export const CHAPTER_CROP_WEEK_SEED: SeedName = "Crystal Leaf Seed";
-export const CHAPTER_CROP_WEEK_CROP: CropName = "Crystal Leaf";
-export const CHAPTER_CROP_WEEK_RECIPE: CookableName = "Crystal Cookie";
+export const CHAPTER_CROP_WEEKS: readonly ChapterCropWeekRun[] = [
+  {
+    startDate: new Date("2026-07-20T00:00:00.000Z"),
+    endDate: new Date("2026-07-27T00:00:00.000Z"),
+    seed: "Saltwort Seed",
+    crop: "Saltwort",
+    recipe: "Saltbite",
+  },
+  {
+    startDate: new Date("2026-10-19T00:00:00.000Z"),
+    endDate: new Date("2026-10-26T00:00:00.000Z"),
+    seed: "Crystal Leaf Seed",
+    crop: "Crystal Leaf",
+    recipe: "Crystal Cookie",
+  },
+];
+
+/** The current (latest) Chapter Crop Week run. */
+export const CHAPTER_CROP_WEEK =
+  CHAPTER_CROP_WEEKS[CHAPTER_CROP_WEEKS.length - 1];
 
 /**
- * Items from previous Chapter Crop Week runs. They stay defined (players still
- * hold them) but are never shown in the seed shop, Fire Pit or marketplace
- * again, and can't be bought or cooked. Move the current run's items here when
- * the next run is set up.
+ * The seed, crop and recipe of the current Chapter Crop Week run.
  */
-export const RETIRED_CHAPTER_CROP_WEEK_SEEDS: readonly SeedName[] = [
-  "Saltwort Seed",
-];
-export const RETIRED_CHAPTER_CROP_WEEK_CROPS: readonly CropName[] = [
-  "Saltwort",
-];
-export const RETIRED_CHAPTER_CROP_WEEK_RECIPES: readonly CookableName[] = [
-  "Saltbite",
-];
+export const CHAPTER_CROP_WEEK_SEED: SeedName = CHAPTER_CROP_WEEK.seed;
+export const CHAPTER_CROP_WEEK_CROP: CropName = CHAPTER_CROP_WEEK.crop;
+export const CHAPTER_CROP_WEEK_RECIPE: CookableName = CHAPTER_CROP_WEEK.recipe;
 
-const RETIRED_CHAPTER_CROP_WEEK_ITEMS: ReadonlySet<string> = new Set<string>([
-  ...RETIRED_CHAPTER_CROP_WEEK_SEEDS,
-  ...RETIRED_CHAPTER_CROP_WEEK_CROPS,
-  ...RETIRED_CHAPTER_CROP_WEEK_RECIPES,
-]);
-
-/** Whether `name` is a seed, crop or recipe from a previous Chapter Crop Week. */
-export const isRetiredChapterCropWeekItem = (name: string): boolean =>
-  RETIRED_CHAPTER_CROP_WEEK_ITEMS.has(name);
+/**
+ * Whether `name` is a seed, crop or recipe from a Chapter Crop Week run that
+ * has ended: every earlier run, plus the current one once its end date passes.
+ * @param name The item to check.
+ * @param now Unix timestamp (ms) to check against. Defaults to Date.now().
+ */
+export const isRetiredChapterCropWeekItem = (
+  name: string,
+  now: number = Date.now(),
+): boolean =>
+  CHAPTER_CROP_WEEKS.some(
+    (run) =>
+      now >= run.endDate.getTime() &&
+      (run.seed === name || run.crop === name || run.recipe === name),
+  );
 
 /**
  * Whether the Chapter Crop Week event is currently running.

@@ -61,8 +61,8 @@ export const FirePitModal: React.FC<Props> = ({
   const firePitRecipes = useMemo(() => {
     return Object.values(FIRE_PIT_COOKABLES)
       .filter((recipe) => {
-        // Recipes from previous Chapter Crop Week runs never come back
-        if (isRetiredChapterCropWeekItem(recipe.name)) return false;
+        // Recipes from ended Chapter Crop Week runs never come back
+        if (isRetiredChapterCropWeekItem(recipe.name, now)) return false;
 
         // Chapter Crop Week event recipe only appears while the event is active
         // (admin testers get early access)
