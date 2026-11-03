@@ -27,7 +27,9 @@ export const CALEDNAR_EVENT_INFORMATION: Partial<
       description: TranslationKeys;
       prevention?: InventoryItemName;
       seasons: TemperateSeasonName[];
-      buffs: BuffLabel[];
+      buffs: (Omit<BuffLabel, "shortDescription"> & {
+        shortDescription: TranslationKeys;
+      })[];
     }
   >
 > = {
@@ -37,7 +39,7 @@ export const CALEDNAR_EVENT_INFORMATION: Partial<
     seasons: ["summer", "spring"],
     buffs: [
       {
-        shortDescription: "+1 Crops & Fruit",
+        shortDescription: "calendar.events.bountifulHarvest.effect",
         labelType: "success",
         boostTypeIcon: SUNNYSIDE.icons.heart,
       },
@@ -50,7 +52,7 @@ export const CALEDNAR_EVENT_INFORMATION: Partial<
     seasons: ["summer", "autumn"],
     buffs: [
       {
-        shortDescription: "Damages crops & buildings",
+        shortDescription: "calendar.events.tornado.effect",
         labelType: "danger",
         boostTypeIcon: SUNNYSIDE.icons.death,
       },
@@ -62,7 +64,7 @@ export const CALEDNAR_EVENT_INFORMATION: Partial<
     seasons: ["spring", "summer", "autumn", "winter"],
     buffs: [
       {
-        shortDescription: "+1 Fish",
+        shortDescription: "calendar.events.fishFrenzy.effect",
         labelType: "success",
         boostTypeIcon: SUNNYSIDE.icons.heart,
       },
@@ -75,7 +77,7 @@ export const CALEDNAR_EVENT_INFORMATION: Partial<
     seasons: ["spring"],
     buffs: [
       {
-        shortDescription: "Damages crops & buildings",
+        shortDescription: "calendar.events.tsunami.effect",
         labelType: "danger",
         boostTypeIcon: SUNNYSIDE.icons.death,
       },
@@ -88,7 +90,7 @@ export const CALEDNAR_EVENT_INFORMATION: Partial<
     seasons: ["winter"],
     buffs: [
       {
-        shortDescription: "Freezes 1/2 of plots",
+        shortDescription: "calendar.events.greatFreeze.effect",
         labelType: "danger",
         boostTypeIcon: SUNNYSIDE.icons.death,
       },
@@ -101,7 +103,7 @@ export const CALEDNAR_EVENT_INFORMATION: Partial<
     seasons: ["winter", "autumn"],
     buffs: [
       {
-        shortDescription: "2x Crop Speed",
+        shortDescription: "calendar.events.sunshower.effect",
         labelType: "success",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
@@ -114,7 +116,7 @@ export const CALEDNAR_EVENT_INFORMATION: Partial<
     seasons: ["spring", "summer"],
     buffs: [
       {
-        shortDescription: "-1/2 Crops",
+        shortDescription: "calendar.events.insectPlague.effect",
         labelType: "danger",
         boostTypeIcon: SUNNYSIDE.icons.death,
       },
@@ -196,7 +198,7 @@ export const SpecialEvents: React.FC<{
                       key={buff.shortDescription}
                       icon={buff.boostTypeIcon}
                     >
-                      {buff.shortDescription}
+                      {t(buff.shortDescription)}
                     </Label>
                   ))}
                 </div>
