@@ -100,7 +100,7 @@ describe("getBulkMixRequirements", () => {
     expect(feedFor(0)?.missing).toEqual(new Decimal(1));
   });
 
-  it("counts held Omnifeed towards a food even when it isn't switched", () => {
+  it("does not count held Omnifeed towards a food that isn't switched", () => {
     const { feeds } = getBulkMixRequirements(
       {
         ...INITIAL_FARM,
@@ -114,8 +114,10 @@ describe("getBulkMixRequirements", () => {
       Date.now(),
     );
 
+    // Feeding only uses Omnifeed when it is the selected item, so holding it
+    // must not cover a food the player still feeds with its own recipe.
     expect(feeds.find(({ item }) => item === "Kernel Blend")?.missing).toEqual(
-      new Decimal(0),
+      new Decimal(1),
     );
   });
 

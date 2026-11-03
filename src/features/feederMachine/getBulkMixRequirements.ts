@@ -426,28 +426,27 @@ export function getBulkMixRequirements(
   const ingredients: GameState["inventory"] = {};
   const feeds: BulkMixFeed[] = [];
   let coins = 0;
-  // Omnifeed already held feeds any of these animals, so it covers food
-  // shortfalls before anything is mixed: first the foods switched to Omnifeed
-  // (saving Gems), then the rest (saving their ingredients).
+  // Omnifeed already held feeds any of these animals, so it covers the
+  // shortfall of the foods switched to Omnifeed before anything is mixed
+  // (saving Gems). Feeding only uses Omnifeed when it is the selected item, so
+  // held Omnifeed never counts towards a food the player didn't switch.
   const isSwitched = (item: FeedRequestName) =>
     !!omnifeedFoods[item] && canMixAsOmnifeed(item);
   const omnifeedCover: Partial<Record<FeedRequestName, Decimal>> = {};
   let omnifeedLeft = game.inventory.Omnifeed ?? new Decimal(0);
-  const coverable = getKeys(requests).filter(canMixAsOmnifeed);
-  [
-    ...coverable.filter(isSwitched),
-    ...coverable.filter((item) => !isSwitched(item)),
-  ].forEach((item) => {
-    const gap = (requests[item] ?? new Decimal(0)).sub(
-      game.inventory[item] ?? new Decimal(0),
-    );
-    const stillNeeded = gap.gt(0) ? gap : new Decimal(0);
-    const fromOmnifeed = stillNeeded.lt(omnifeedLeft)
-      ? stillNeeded
-      : omnifeedLeft;
-    omnifeedLeft = omnifeedLeft.sub(fromOmnifeed);
-    omnifeedCover[item] = fromOmnifeed;
-  });
+  getKeys(requests)
+    .filter(isSwitched)
+    .forEach((item) => {
+      const gap = (requests[item] ?? new Decimal(0)).sub(
+        game.inventory[item] ?? new Decimal(0),
+      );
+      const stillNeeded = gap.gt(0) ? gap : new Decimal(0);
+      const fromOmnifeed = stillNeeded.lt(omnifeedLeft)
+        ? stillNeeded
+        : omnifeedLeft;
+      omnifeedLeft = omnifeedLeft.sub(fromOmnifeed);
+      omnifeedCover[item] = fromOmnifeed;
+    });
 
   getKeys(requests).forEach((item) => {
     const requested = requests[item] ?? new Decimal(0);
