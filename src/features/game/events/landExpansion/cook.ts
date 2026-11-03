@@ -27,11 +27,7 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getCookingAmount } from "./collectRecipe";
 import { isCookingBuilding } from "./isCookingBuilding";
-import {
-  SKILL_RANKS,
-  getSkillLevel,
-  downgradeChapterCropWeekSkills,
-} from "features/game/types/bumpkinSkills";
+import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import {
   CHAPTER_CROP_WEEK_RECIPE,
@@ -106,12 +102,7 @@ export function getCookingOilBoost(
   const itemOilConsumption = getOilConsumption(buildingName, item);
   const oilRemaining = building?.oil || 0;
 
-  // Crystal Cookie (the CHAPTER_CROP_WEEK event recipe) ignores upgraded Cooking-skill
-  // ranks (base skill still applies), so its oil boost caps at rank 1.
-  const oilSkills =
-    item === CHAPTER_CROP_WEEK_RECIPE
-      ? downgradeChapterCropWeekSkills(game.bumpkin.skills)
-      : game.bumpkin.skills;
+  const oilSkills = game.bumpkin.skills;
   const boostValue = BUILDING_OIL_BOOSTS(oilSkills)[buildingName];
   const boostedCookingTime = itemCookingTime * (1 - boostValue);
 
@@ -232,14 +223,7 @@ export function getCookingRequirements({
   let { ingredients } = COOKABLES[item];
   const { bumpkin } = state;
 
-  // Crystal Cookie (the CHAPTER_CROP_WEEK event recipe) ignores upgraded Double Nom
-  // ranks — the ingredient cost (and the +food payout, snapshotted at cook time)
-  // both fall back to rank 1. `doubleNomLevel`, when passed (cancel/refund), keeps
-  // honoring the rank actually paid on the recipe.
-  const skills =
-    item === CHAPTER_CROP_WEEK_RECIPE
-      ? downgradeChapterCropWeekSkills(bumpkin.skills)
-      : bumpkin.skills;
+  const skills = bumpkin.skills;
   const level = doubleNomLevel ?? getSkillLevel(skills, "Double Nom");
   // Double Nom - 2x/3x/4x ingredients (scales with rank)
   const multiplier = level
@@ -304,13 +288,7 @@ export function cook({
       throw new Error("You do not have a Bumpkin!");
     }
 
-    // Crystal Cookie (the CHAPTER_CROP_WEEK event recipe) ignores upgraded Double Nom
-    // ranks — snapshot rank 1 on the recipe so cancel/collect stay consistent with
-    // the (rank-1) ingredient cost charged above.
-    const cookSkills =
-      item === CHAPTER_CROP_WEEK_RECIPE
-        ? downgradeChapterCropWeekSkills(bumpkin.skills)
-        : bumpkin.skills;
+    const cookSkills = bumpkin.skills;
 
     if (!building) {
       throw new Error(translate("error.requiredBuildingNotExist"));

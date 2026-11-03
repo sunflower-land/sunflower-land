@@ -25,12 +25,7 @@ import {
   meetsLevelRequirement,
 } from "features/game/lib/level";
 import { isWearableActive } from "features/game/lib/wearables";
-import {
-  SKILL_RANKS,
-  getSkillLevel,
-  downgradeChapterCropWeekSkills,
-} from "features/game/types/bumpkinSkills";
-import { CHAPTER_CROP_WEEK_RECIPE } from "features/game/types/chapterCropWeek";
+import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
 import type { SellableItem } from "features/game/events/landExpansion/sellCrop";
 import {
   FACTION_ITEMS,
@@ -322,12 +317,7 @@ export const getCookingTime = ({
     boostsUsed.push({ name: "Desert Gnome", value: "x0.9" });
   }
 
-  // Crystal Cookie (the CHAPTER_CROP_WEEK event recipe) ignores upgraded Cooking-skill
-  // ranks — its cook-time reductions cap at rank 1 (base skill still applies).
-  const cookSkills =
-    item === CHAPTER_CROP_WEEK_RECIPE
-      ? downgradeChapterCropWeekSkills(bumpkin?.skills ?? {})
-      : (bumpkin?.skills ?? {});
+  const cookSkills = bumpkin?.skills ?? {};
 
   // -10%/-20%/-30% on Fire Pit + Kitchen with Fast Feasts skill (scales w/ rank)
   const fastFeastsLevel = getSkillLevel(cookSkills, "Fast Feasts");
