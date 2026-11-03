@@ -267,7 +267,7 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
             </Label>
           </div>
           <a
-            href="https://docs.sunflower-land.com/roadmap/chapters"
+            href="https://docs.sunflower-land.com/chapters/chapters"
             className="text-xxs underline"
             target="_blank"
             rel="noreferrer"
