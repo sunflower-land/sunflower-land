@@ -706,3 +706,92 @@ describe("love cadence under a windowed sleep", () => {
     expect(getNextLoveAvailableAt(legacy, readyAt)).toEqual(now + SLEEP / 3);
   });
 });
+
+describe("two loves per sleep", () => {
+  const HOUR = 60 * 60 * 1000;
+  const SLEEP = 24 * HOUR;
+  const now = Date.now();
+  const asleepAt = now - 20 * HOUR;
+
+  const chicken: Animal = {
+    id: "c1",
+    type: "Chicken",
+    state: "idle",
+    createdAt: 0,
+    experience: 1000,
+    asleepAt,
+    awakeAt: asleepAt + SLEEP,
+    lovedAt: 0,
+    item: "Petting Hand",
+  };
+
+  const gameWith = (animal: Animal): GameState => ({
+    ...INITIAL_FARM,
+    inventory: {
+      ...INITIAL_FARM.inventory,
+      "Petting Hand": new Decimal(10),
+      Brush: new Decimal(10),
+      "Music Box": new Decimal(10),
+    },
+    henHouse: { ...INITIAL_FARM.henHouse, animals: { c1: animal } },
+  });
+
+  const love = (game: GameState, createdAt: number) =>
+    loveAnimal({
+      state: game,
+      action: {
+        type: "animal.loved",
+        animal: "Chicken",
+        id: "c1",
+        item: game.henHouse.animals.c1.item,
+      },
+      createdAt,
+    });
+
+  it("counts each love in the sleep", () => {
+    const once = love(gameWith(chicken), asleepAt + 8 * HOUR);
+    const twice = love(once, asleepAt + 16 * HOUR);
+
+    expect(once.henHouse.animals.c1.lovesThisSleep).toBe(1);
+    expect(twice.henHouse.animals.c1.lovesThisSleep).toBe(2);
+  });
+
+  it("starts the count over in a new sleep", () => {
+    const game = gameWith({
+      ...chicken,
+      lovedAt: asleepAt - HOUR,
+      lovesThisSleep: 2,
+    });
+
+    expect(
+      love(game, asleepAt + 8 * HOUR).henHouse.animals.c1.lovesThisSleep,
+    ).toBe(1);
+  });
+
+  it("opens no slot once both are spent, even if the wake time moves later", () => {
+    // Both loves spent at 8h and 16h, then the sleep stretched to 30h (e.g. a
+    // shrine's coverage lost to a building lift): a third of it is now 10h.
+    const animal: Animal = {
+      ...chicken,
+      awakeAt: asleepAt + 30 * HOUR,
+      lovedAt: asleepAt + 16 * HOUR,
+      lovesThisSleep: 2,
+    };
+    const readyAt = getAnimalReadyAt(animal, gameWith(animal));
+
+    expect(getNextLoveAvailableAt(animal, readyAt)).toBeGreaterThanOrEqual(
+      readyAt,
+    );
+    expect(() => love(gameWith(animal), asleepAt + 26 * HOUR)).toThrow(
+      "The animal cannot be loved yet",
+    );
+  });
+
+  it("treats a love from before the count existed as one love", () => {
+    const game = gameWith({ ...chicken, lovedAt: asleepAt + 8 * HOUR });
+
+    expect(
+      love(game, asleepAt + 16 * HOUR).henHouse.animals.c1.lovesThisSleep,
+    ).toBe(2);
+  });
+});

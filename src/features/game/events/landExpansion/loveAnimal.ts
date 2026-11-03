@@ -42,7 +42,27 @@ export function getNextLoveAvailableAt(
   readyAt: number,
 ): number {
   const third = (readyAt - animal.asleepAt) / 3;
-  return Math.max(animal.asleepAt + third, animal.lovedAt + third);
+  const next = Math.max(animal.asleepAt + third, animal.lovedAt + third);
+
+  // Both slots spent: nothing opens before waking, even if the wake time has
+  // since moved later (a later wake stretches the third past the last love).
+  return getLovesThisSleep(animal) >= MAX_LOVES_PER_SLEEP
+    ? Math.max(next, readyAt)
+    : next;
+}
+
+const MAX_LOVES_PER_SLEEP = 2;
+
+/**
+ * Loves spent in the current sleep. A love from before `asleepAt` belongs to an
+ * earlier sleep; `lovedAt` and `asleepAt` shift together on a building lift, so
+ * the comparison holds across one. An animal loved this sleep before the count
+ * existed has had at least one.
+ */
+export function getLovesThisSleep(animal: Animal): number {
+  if (animal.lovedAt <= 0 || animal.lovedAt < animal.asleepAt) return 0;
+
+  return animal.lovesThisSleep ?? 1;
 }
 
 /**
@@ -122,6 +142,7 @@ export function loveAnimal({
     });
 
     animal.experience += animalXP;
+    animal.lovesThisSleep = getLovesThisSleep(animal) + 1;
     animal.lovedAt = createdAt;
 
     animal.item = getAnimalItem(
