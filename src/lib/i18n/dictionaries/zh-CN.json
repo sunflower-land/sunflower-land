@@ -8984,7 +8984,6 @@
   "description.brickHouse.boost": "x0.75 用于扩展的猩红之石",
   "description.stickHouse.boost": "x0.75 膨胀用油",
   "description.herculesBeetleHat.boost": "x0.75 用于扩展的黑曜石",
-  "description.grinxsHammer.warning": "如果 Grinx 的锤子激活，则禁用",
   "description.spookyBed": "为最勇敢的洞穴居民准备的鬼床。它的幽灵般的客人从不打呼噜声。",
   "description.potOfLuck.boost": "1/3 几率获得 +1 沙漠宝藏",
   "skill.beetleNest": "每个甲壳虫配方补丁中有 +1 个甲壳虫方块",
@@ -8993,5 +8992,10 @@
   "season.codex.chapterCollections": "章节",
   "season.codex.eventCollections": "活动",
   "chapter.name.winds-of-change": "变革之风",
-  "chapter.name.cave-dwellers": "洞穴居民"
+  "chapter.name.cave-dwellers": "洞穴居民",
+  "description.duendeMonument.warning": "如果 Grinx 的锤子处于活动状态，则禁用资源折扣",
+  "description.potOfLuck.warning": "不影响章节神器",
+  "description.brickHouse.warning": "如果 Grinx 的锤子处于活动状态，则禁用 Crimstone 折扣",
+  "description.stickHouse.warning": "如果 Grinx 的锤子处于活动状态，则禁用机油折扣",
+  "description.herculesBeetleHat.warning": "如果 Grinx 的锤子处于活动状态，则禁用黑曜石折扣"
 }

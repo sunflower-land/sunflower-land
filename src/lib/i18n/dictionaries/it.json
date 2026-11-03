@@ -8984,7 +8984,6 @@
   "description.brickHouse.boost": "x0.75 Crimstone per espansioni",
   "description.stickHouse.boost": "x0.75 Olio per espansioni",
   "description.herculesBeetleHat.boost": "x0.75 Obsidian per espansioni",
-  "description.grinxsHammer.warning": "Disabilitato se il Martello di Grinx è attivo",
   "description.spookyBed": "Un letto infestato per i più coraggiosi abitanti delle caverne. Il suo ospite spettrale non russa mai.",
   "description.potOfLuck.boost": "1/3 di possibilità di +1 Desert Treasure",
   "skill.beetleNest": "+1 tessera Beetle in ogni patch della ricetta Beetle",
@@ -8993,5 +8992,10 @@
   "season.codex.chapterCollections": "Capitoli",
   "season.codex.eventCollections": "Eventi",
   "chapter.name.winds-of-change": "Venti di cambiamento",
-  "chapter.name.cave-dwellers": "Abitanti delle caverne"
+  "chapter.name.cave-dwellers": "Abitanti delle caverne",
+  "description.duendeMonument.warning": "Sconto sulle risorse disabilitato se Grinx's Hammer è attivo",
+  "description.potOfLuck.warning": "Non influisce sugli artefatti del capitolo",
+  "description.brickHouse.warning": "Sconto Crimstone disabilitato se Grinx's Hammer è attivo",
+  "description.stickHouse.warning": "Sconto sull'olio disattivato se Grinx's Hammer Active",
+  "description.herculesBeetleHat.warning": "Sconto Obsidian disabilitato se Grinx's Hammer Active"
 }

@@ -8984,7 +8984,6 @@
   "description.brickHouse.boost": "x0.75 Crimstone untuk Ekspansi",
   "description.stickHouse.boost": "x0.75 Minyak untuk Ekspansi",
   "description.herculesBeetleHat.boost": "x0.75 Obsidian untuk Ekspansi",
-  "description.grinxsHammer.warning": "Dinonaktifkan jika Grinx's Hammer Aktif",
   "description.spookyBed": "Tempat tidur berhantu untuk penghuni gua paling berani. Tamu hantu tidak pernah mendengkur.",
   "description.potOfLuck.boost": "1/3 peluang dari +1 Desert Treasure",
   "skill.beetleNest": "+1 ubin Beetle di setiap patch resep Beetle",
@@ -8993,5 +8992,10 @@
   "season.codex.chapterCollections": "Bab",
   "season.codex.eventCollections": "Kegiatan",
   "chapter.name.winds-of-change": "Angin Perubahan",
-  "chapter.name.cave-dwellers": "Penghuni Gua"
+  "chapter.name.cave-dwellers": "Penghuni Gua",
+  "description.duendeMonument.warning": "Diskon sumber daya dinonaktifkan jika Grinx's Hammer Aktif",
+  "description.potOfLuck.warning": "Tidak mempengaruhi Artefak Bab",
+  "description.brickHouse.warning": "Diskon Crimstone dinonaktifkan jika Grinx's Hammer Aktif",
+  "description.stickHouse.warning": "Diskon minyak dinonaktifkan jika Grinx's Hammer Aktif",
+  "description.herculesBeetleHat.warning": "Diskon Obsidian dinonaktifkan jika Grinx's Hammer Aktif"
 }

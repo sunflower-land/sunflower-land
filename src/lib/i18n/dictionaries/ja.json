@@ -8984,7 +8984,6 @@
   "description.brickHouse.boost": "x0.75 エクスパンション用クリムストーン",
   "description.stickHouse.boost": "x0.75 エクスパンション用オイル",
   "description.herculesBeetleHat.boost": "x0.75 エクスパンション用オブシディアン",
-  "description.grinxsHammer.warning": "グリンクスのハンマー発動中は使用不可",
   "description.spookyBed": "勇敢な洞窟住人のためのお化け屋敷だ。その幽霊のような客はいびきをかくことはない。",
   "description.potOfLuck.boost": "1/3の確率で砂漠の宝物が+1される",
   "skill.beetleNest": "ビートルレシピパッチ1つにつき、ビートルタイル1枚ずつ",
@@ -8993,5 +8992,10 @@
   "season.codex.chapterCollections": "チャプター",
   "season.codex.eventCollections": "[イベント]",
   "chapter.name.winds-of-change": "ウィンズ・オブ・チェンジ",
-  "chapter.name.cave-dwellers": "洞窟住人"
+  "chapter.name.cave-dwellers": "洞窟住人",
+  "description.duendeMonument.warning": "グリンクスのハンマーがアクティブな場合、資源割引は無効になります",
+  "description.potOfLuck.warning": "チャプターアーティファクトには影響しません",
+  "description.brickHouse.warning": "グリンクスのハンマーがアクティブな場合、クリムストーン割引は無効になります",
+  "description.stickHouse.warning": "グリンクスのハンマーがアクティブな場合、オイルディスカウントは無効になります",
+  "description.herculesBeetleHat.warning": "グリンクスのハンマーがアクティブな場合、オブシディアン割引は無効になります"
 }

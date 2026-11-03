@@ -8984,7 +8984,6 @@
   "description.brickHouse.boost": "x0.75 Genişletmeler için Crimstone",
   "description.stickHouse.boost": "x0.75 Genişletme Yağı",
   "description.herculesBeetleHat.boost": "x0.75 Genişletmeler için Obsidian",
-  "description.grinxsHammer.warning": "Grinx'in Hammer Etkin ise devre dışı bırakılır",
   "description.spookyBed": "En cesur mağara sakinleri için perili bir yatak. Hayalet konuğu asla horlamaz.",
   "description.potOfLuck.boost": "1/3 şansı +1 Çöl Hazinesi",
   "skill.beetleNest": "Her Beetle tarifi yamasında +1 Böcek karosu",
@@ -8993,5 +8992,10 @@
   "season.codex.chapterCollections": "Bölümler",
   "season.codex.eventCollections": "Olaylar",
   "chapter.name.winds-of-change": "Değişim Rüzgarları",
-  "chapter.name.cave-dwellers": "Mağara Sakinleri"
+  "chapter.name.cave-dwellers": "Mağara Sakinleri",
+  "description.duendeMonument.warning": "Grinx'in Hammer Etkin olması durumunda kaynak indirimi devre dışı bırakıldı",
+  "description.potOfLuck.warning": "Bölüm Eserlerini etkilemez",
+  "description.brickHouse.warning": "Grinx'in Hammer Aktif olması durumunda Crimstone indirimi devre dışı bırakıldı",
+  "description.stickHouse.warning": "Grinx'in Hammer Aktif olması durumunda yağ indirimi devre dışı bırakıldı",
+  "description.herculesBeetleHat.warning": "Grinx'in Hammer Aktif olması durumunda Obsidyen indirimi devre dışı bırakıldı"
 }

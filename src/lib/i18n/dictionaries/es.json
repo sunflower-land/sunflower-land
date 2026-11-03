@@ -8984,7 +8984,6 @@
   "description.brickHouse.boost": "x0.75 Crimstone para expansiones",
   "description.stickHouse.boost": "Aceite para expansiones x0.75",
   "description.herculesBeetleHat.boost": "x0.75 Obsidian para expansiones",
-  "description.grinxsHammer.warning": "Se desactiva si el martillo de Grinx está activo",
   "description.spookyBed": "Una cama encantada para los cavernícolas más valientes. Su huésped fantasmal nunca ronca.",
   "description.potOfLuck.boost": "1/3 de probabilidad de obtener +1 tesoro del desierto",
   "skill.beetleNest": "+1 ficha de escarabajo en cada parche de la receta de Beetle",
@@ -8993,5 +8992,10 @@
   "season.codex.chapterCollections": "Capítulos",
   "season.codex.eventCollections": "Eventos",
   "chapter.name.winds-of-change": "Vientos de cambio",
-  "chapter.name.cave-dwellers": "Habitantes de las cavernas"
+  "chapter.name.cave-dwellers": "Habitantes de las cavernas",
+  "description.duendeMonument.warning": "El descuento de recursos está desactivado si Grinx's Hammer está activo",
+  "description.potOfLuck.warning": "No afecta a los artefactos del capítulo",
+  "description.brickHouse.warning": "El descuento de Crimstone está desactivado si Grinx's Hammer Active",
+  "description.stickHouse.warning": "El descuento de petróleo está desactivado si Grinx's Hammer Active",
+  "description.herculesBeetleHat.warning": "El descuento de Obsidian está desactivado si Grinx's Hammer Active"
 }

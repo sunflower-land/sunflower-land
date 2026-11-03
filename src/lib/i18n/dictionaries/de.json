@@ -8984,7 +8984,6 @@
   "description.brickHouse.boost": "x0.75 Crimstone für Erweiterungen",
   "description.stickHouse.boost": "x0.75 Öl für Expansionen",
   "description.herculesBeetleHat.boost": "x0.75 Obsidian für Erweiterungen",
-  "description.grinxsHammer.warning": "Deaktiviert, wenn Grinx's Hammer aktiv ist",
   "description.spookyBed": "Ein Spukbett für die mutigsten Höhlenbewohner. Sein geisterhafter Gast schnarcht nie.",
   "description.potOfLuck.boost": "1/3 Chance auf +1 Wüstenschatz",
   "skill.beetleNest": "+1 Käferplättchen in jedem Käfer-Rezept-Patch",
@@ -8993,5 +8992,10 @@
   "season.codex.chapterCollections": "Kapitel",
   "season.codex.eventCollections": "Ereignisse",
   "chapter.name.winds-of-change": "Winde des Wandels",
-  "chapter.name.cave-dwellers": "Höhlenbewohner"
+  "chapter.name.cave-dwellers": "Höhlenbewohner",
+  "description.duendeMonument.warning": "Ressourcenrabatt deaktiviert, wenn Grinx's Hammer aktiv ist",
+  "description.potOfLuck.warning": "Wirkt sich nicht auf Kapitel-Artefakte aus",
+  "description.brickHouse.warning": "Crimstone-Rabatt deaktiviert, wenn Grinx's Hammer aktiv ist",
+  "description.stickHouse.warning": "Ölrabatt deaktiviert, wenn Grinx's Hammer aktiv ist",
+  "description.herculesBeetleHat.warning": "Obsidian-Rabatt deaktiviert, wenn Grinx's Hammer aktiv ist"
 }
