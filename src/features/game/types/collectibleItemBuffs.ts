@@ -2464,14 +2464,14 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: SUNNYSIDE.tools.hammer,
     },
     {
+      shortDescription: translate("description.duendeMonument.warning"),
+      labelType: "danger",
+      boostTypeIcon: SUNNYSIDE.icons.cancel,
+    },
+    {
       shortDescription: translate("description.duendeMonument.boost.2"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-    },
-    {
-      shortDescription: translate("description.grinxsHammer.warning"),
-      labelType: "danger",
-      boostTypeIcon: SUNNYSIDE.icons.cancel,
     },
   ],
   "Straw House": () => [
@@ -2499,6 +2499,10 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS["Sand Shovel"].image,
+    },
+    {
+      shortDescription: translate("description.potOfLuck.warning"),
+      labelType: "danger",
     },
   ],
   "Giant Truffle": () => [
@@ -2528,15 +2532,15 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS.Crimstone.image,
     },
     {
+      shortDescription: translate("description.brickHouse.warning"),
+      labelType: "danger",
+      boostTypeIcon: SUNNYSIDE.icons.cancel,
+    },
+    {
       shortDescription: translate("description.brickHouse.boost.2"),
       labelType: "vibrant",
       boostTypeIcon: lightning,
       boostedItemIcon: SUNNYSIDE.ui.coins,
-    },
-    {
-      shortDescription: translate("description.grinxsHammer.warning"),
-      labelType: "danger",
-      boostTypeIcon: SUNNYSIDE.icons.cancel,
     },
   ],
   "Stick House": () => [
@@ -2547,14 +2551,14 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS.Oil.image,
     },
     {
+      shortDescription: translate("description.stickHouse.warning"),
+      labelType: "danger",
+      boostTypeIcon: SUNNYSIDE.icons.cancel,
+    },
+    {
       shortDescription: translate("description.stickHouse.boost.2"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-    },
-    {
-      shortDescription: translate("description.grinxsHammer.warning"),
-      labelType: "danger",
-      boostTypeIcon: SUNNYSIDE.icons.cancel,
     },
   ],
   "Mushroom Chicken": () => [

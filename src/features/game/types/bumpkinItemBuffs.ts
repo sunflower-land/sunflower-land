@@ -954,7 +954,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS.Obsidian.image,
     },
     {
-      shortDescription: translate("description.grinxsHammer.warning"),
+      shortDescription: translate("description.herculesBeetleHat.warning"),
       labelType: "danger",
       boostTypeIcon: SUNNYSIDE.icons.cancel,
     },
