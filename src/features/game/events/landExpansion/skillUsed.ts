@@ -503,10 +503,11 @@ export function powerSkillDisabledConditions({
 
     case "Instant Gratification": {
       if (
-        // A lifted building is skipped on activation, so it doesn't count.
+        // An empty queue has nothing to complete, and a lifted building is
+        // skipped on activation, so neither counts.
         getKeys(BUILDING_DAILY_OIL_CAPACITY).every((building) => {
           const placed = buildings[building]?.[0];
-          return !placed?.crafting || !placed.coordinates;
+          return !placed?.crafting?.length || !placed.coordinates;
         })
       ) {
         return {
