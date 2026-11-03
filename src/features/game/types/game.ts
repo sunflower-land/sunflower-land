@@ -2235,6 +2235,13 @@ export type Animal = {
    */
   awakeAt: number;
   lovedAt: number;
+  /**
+   * How many times the animal has been loved in its current sleep — two at
+   * most. Not reset on falling asleep: it only counts while `lovedAt` is at or
+   * after `asleepAt` (read it through `getLovesThisSleep`). Absent on animals
+   * last loved before the count existed.
+   */
+  lovesThisSleep?: number;
   item: LoveAnimalItem;
   /**
    * The sleep's un-boosted work with permanent boosts folded in. Present only on
