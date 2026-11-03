@@ -175,6 +175,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const [feedXPAmount, setFeedXPAmount] = useState(0);
   const [showNoFoodSelected, setShowNoFoodSelected] = useState(false);
   const [showFreeFeedTreat, setShowFreeFeedTreat] = useState(false);
+  const freeFeedTreatTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
   const [showLoveItem, setShowLoveItem] = useState<LoveAnimalItem>();
   const [showMutantAnimalModal, setShowMutantAnimalModal] = useState(false);
 
@@ -459,6 +460,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     if (showDrops) return;
     // A new click replaces an earlier Honey Treat notice, so it can't sit
     // over whatever this click does.
+    clearTimeout(freeFeedTreatTimeout.current);
     setShowFreeFeedTreat(false);
 
     const showNoFoodPrompt = async () => {
@@ -484,8 +486,11 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       // Honey Treat only cuts feed, and Gold Egg already makes it free.
       if (buffItem === "Honey Treat" && hasGoldEgg) {
         setShowFreeFeedTreat(true);
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        setShowFreeFeedTreat(false);
+        // Cleared on the next click, so an older timer can't hide a newer notice.
+        freeFeedTreatTimeout.current = setTimeout(
+          () => setShowFreeFeedTreat(false),
+          1000,
+        );
         return;
       }
       if (!chicken.feedBuff && buffCount.gte(1)) {

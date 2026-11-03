@@ -101,6 +101,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const [showDrops, setShowDrops] = useState(false);
   const [showNoFoodSelected, setShowNoFoodSelected] = useState(false);
   const [showFreeFeedTreat, setShowFreeFeedTreat] = useState(false);
+  const freeFeedTreatTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
   const [showAnimalDetails, setShowAnimalDetails] = useState(false);
   const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
   const [showNoMedicine, setShowNoMedicine] = useState(false);
@@ -407,6 +408,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     if (showDrops) return;
     // A new click replaces an earlier Honey Treat notice, so it can't sit
     // over whatever this click does.
+    clearTimeout(freeFeedTreatTimeout.current);
     setShowFreeFeedTreat(false);
 
     const showNoFoodPrompt = async () => {
@@ -432,8 +434,11 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       // Honey Treat only cuts feed, and Golden Sheep already makes it free.
       if (buffItem === "Honey Treat" && hasGoldenSheep) {
         setShowFreeFeedTreat(true);
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        setShowFreeFeedTreat(false);
+        // Cleared on the next click, so an older timer can't hide a newer notice.
+        freeFeedTreatTimeout.current = setTimeout(
+          () => setShowFreeFeedTreat(false),
+          1000,
+        );
         return;
       }
       if (!sheep.feedBuff && buffCount.gte(1)) {

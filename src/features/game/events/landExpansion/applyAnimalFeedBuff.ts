@@ -149,9 +149,11 @@ export function applyAnimalFeedBuff({
 
     // Honey Treat only cuts the feed an animal eats. Gold Egg, Golden Cow and
     // Golden Sheep already feed their animal for free, so it would be wasted.
+    // Uses the stored animal's type: the Barn holds cows and sheep in one map,
+    // so the action's type doesn't prove which animal `action.id` is.
     if (
       action.item === "Honey Treat" &&
-      isAnimalCoveredByGoldenAsset({ state: copy, animalType: action.animal })
+      isAnimalCoveredByGoldenAsset({ state: copy, animalType: animal.type })
     ) {
       throw new Error(APPLY_ANIMAL_FEED_BUFF_ERRORS.FREE_FEED);
     }
