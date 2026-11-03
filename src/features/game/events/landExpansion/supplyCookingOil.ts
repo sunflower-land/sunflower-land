@@ -4,6 +4,12 @@ import type { CookingBuildingName } from "features/game/types/buildings";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import { getKeys } from "lib/object";
+import {
+  COOKING_OIL_CAPACITY,
+  refreshCookingQueue,
+  settleCookingOil,
+} from "features/game/lib/cookingReadiness";
+import { getCookingBoostWindows } from "features/game/lib/boostWindows";
 
 export type SupplyCookingOilAction = {
   type: "cookingOil.supplied";
@@ -67,7 +73,25 @@ export function supplyCookingOil({
       throw new Error(translate("error.notEnoughOil"));
     }
 
-    const oilCapacity = BUILDING_DAILY_OIL_CAPACITY[action.building];
+    // Settle the tank to its live level before topping it up, so the new oil only
+    // flows from now — and speeds up whatever is already cooking.
+    const oilByTheClock =
+      settleCookingOil({
+        game: stateCopy,
+        building,
+        buildingName: action.building,
+        at: createdAt,
+        convert: true,
+      }) !== undefined;
+
+    // A lifted building would otherwise take oil it cannot burn until placed.
+    if (oilByTheClock && !building.coordinates) {
+      throw new Error(translate("error.buildingNotExist"));
+    }
+
+    const oilCapacity = oilByTheClock
+      ? COOKING_OIL_CAPACITY[action.building]
+      : BUILDING_DAILY_OIL_CAPACITY[action.building];
     const oilInBuilding = building.oil || 0;
 
     if (oilInBuilding + action.oilQuantity > oilCapacity) {
@@ -77,6 +101,14 @@ export function supplyCookingOil({
     stateCopy.inventory["Oil"] = oilInInventory.sub(action.oilQuantity);
 
     building.oil = oilInBuilding + action.oilQuantity;
+
+    if (oilByTheClock) {
+      refreshCookingQueue({
+        building,
+        buildingName: action.building,
+        windows: getCookingBoostWindows(stateCopy),
+      });
+    }
 
     return stateCopy;
   });

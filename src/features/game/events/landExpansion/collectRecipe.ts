@@ -16,7 +16,10 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { assertCookableName } from "features/game/types/consumables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
-import { getCookingQueueReadyAts } from "features/game/lib/cookingReadiness";
+import {
+  getCookingQueueReadyAts,
+  settleCookingOil,
+} from "features/game/lib/cookingReadiness";
 
 /**
  * The Double Nom rank a recipe was cooked at, so its +food collects at the rank
@@ -135,10 +138,21 @@ export function collectRecipe({
       throw new Error(translate("error.buildingNotCooking"));
     }
 
+    // Settle the oil first: collected recipes leave the queue, and the oil they
+    // burned must leave the tank with them rather than flow back into it.
+    const oil = isCookingBuilding(action.building)
+      ? settleCookingOil({
+          game,
+          building,
+          buildingName: action.building,
+          at: createdAt,
+        })
+      : undefined;
+
     // Readiness comes from the DERIVED chain, not each recipe's stored `readyAt` —
     // that value is a cache, and a boost placed since the queue was last rewritten
     // will have pulled the real ready time forward.
-    const readyAts = getCookingQueueReadyAts({ crafting: recipes, game });
+    const readyAts = getCookingQueueReadyAts({ crafting: recipes, game, oil });
 
     const nothingReady = readyAts.every((readyAt) => readyAt > createdAt);
     if (nothingReady) {

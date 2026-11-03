@@ -30,6 +30,7 @@ import { canChop } from "./chop";
 import { canDrillOilReserve } from "./drillOilReserve";
 import { isReadyToHarvest } from "./harvest";
 import { getCurrentCookingItem, recalculateQueue } from "./cancelQueuedRecipe";
+import { settleCookingOil } from "features/game/lib/cookingReadiness";
 import { FLOWER_SEEDS, FLOWERS } from "features/game/types/flowers";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 import { isWearableActive } from "features/game/lib/wearables";
@@ -202,14 +203,24 @@ function useInstantGratification({
 }): GameState {
   getKeys(BUILDING_DAILY_OIL_CAPACITY).forEach((buildingName) => {
     const building = game.buildings[buildingName]?.[0];
-    const queue = building?.crafting;
 
-    if (!building || !queue) return;
+    if (!building?.crafting) return;
+
+    // Settle the oil at activation: the skipped time is not cooked, so it burns
+    // none, and the recipe promoted behind it draws from what is left now.
+    const oil = settleCookingOil({
+      game,
+      building,
+      buildingName,
+      at: createdAt,
+    });
+    const queue = building.crafting;
 
     const currentlyCooking = getCurrentCookingItem({
       building: building,
       createdAt,
       game,
+      oil,
     });
 
     if (!currentlyCooking) return;
@@ -235,6 +246,7 @@ function useInstantGratification({
       buildingName,
       game,
       isInstantCook: true,
+      oil,
     });
   });
 

@@ -8,6 +8,11 @@ import { harvest } from "./harvest";
 import { BUILDING_DAILY_OIL_CAPACITY } from "./supplyCookingOil";
 import { getKeys } from "lib/object";
 import Decimal from "decimal.js-light";
+import type {
+  BuildingProduct,
+  GameState,
+  PlacedItem,
+} from "features/game/types/game";
 
 describe("skillUse", () => {
   const dateNow = Date.now();
@@ -1974,5 +1979,61 @@ describe("Ascension Staff", () => {
         skillName: "Instant Growth",
       }),
     ).toEqual(32.4 * HOUR);
+  });
+});
+
+describe("Instant Gratification (oil by the clock)", () => {
+  const HOUR = 60 * 60 * 1000;
+  const T0 = Date.now();
+
+  const lazy = (fields: Partial<BuildingProduct>): BuildingProduct => ({
+    name: "Fermented Fish",
+    oilBoost: 0.4,
+    readyAt: 0,
+    ...fields,
+  });
+
+  const deliFarm = (base: GameState, deli: Partial<PlacedItem>): GameState => ({
+    ...base,
+    buildings: {
+      Deli: [
+        {
+          id: "1",
+          coordinates: { x: 0, y: 0 },
+          createdAt: 0,
+          readyAt: 0,
+          oil: 20,
+          oilSettledAt: T0,
+          ...deli,
+        },
+      ],
+    },
+  });
+
+  it("burns no oil for the time it skips", () => {
+    const state = skillUse({
+      state: deliFarm(
+        {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Instant Gratification": 1 },
+          },
+        },
+        {
+          crafting: [
+            lazy({ startedAt: T0, baseDurationMs: 10 * HOUR }),
+            lazy({ baseDurationMs: 10 * HOUR }),
+          ],
+        },
+      ),
+      action: { type: "skill.used", skill: "Instant Gratification" },
+      createdAt: T0 + HOUR,
+    });
+
+    const deli = state.buildings.Deli?.[0];
+    expect(deli?.oil).toBeCloseTo(20 - 20 / 24);
+    expect(deli?.crafting?.[0].readyAt).toEqual(T0 + HOUR);
+    expect(deli?.crafting?.[1].readyAt).toEqual(T0 + 7 * HOUR);
   });
 });

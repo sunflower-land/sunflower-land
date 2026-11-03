@@ -19,6 +19,8 @@ import {
   type SpeedUpPaymentMethod,
 } from "features/game/lib/getInstantGems";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { settleCookingOil } from "features/game/lib/cookingReadiness";
+import { isCookingBuilding } from "./isCookingBuilding";
 
 export type InstantCookRecipe = {
   type: "recipe.spedUp";
@@ -63,8 +65,18 @@ export function speedUpRecipe({
       throw new Error("Building does not exist");
     }
 
+    // Settle the oil at the speed-up: the skipped time is not cooked, so it burns
+    // none, and the recipe promoted behind it draws from what is left now.
+    const oil = isCookingBuilding(action.buildingName)
+      ? settleCookingOil({
+          game,
+          building,
+          buildingName: action.buildingName,
+          at: createdAt,
+        })
+      : undefined;
     const queue = building.crafting;
-    const cooking = getCurrentCookingItem({ building, createdAt, game });
+    const cooking = getCurrentCookingItem({ building, createdAt, game, oil });
 
     if (!queue || !cooking) {
       throw new Error("Nothing is cooking");
@@ -119,6 +131,7 @@ export function speedUpRecipe({
       buildingName: action.buildingName as CookingBuildingName,
       isInstantCook: true,
       game,
+      oil,
     });
 
     game.farmActivity = trackFarmActivity(

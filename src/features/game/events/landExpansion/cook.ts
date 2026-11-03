@@ -18,7 +18,11 @@ import {
   computeReadyAt,
   getCookingBoostWindows,
 } from "features/game/lib/boostWindows";
-import { getCookingQueueReadyAts } from "features/game/lib/cookingReadiness";
+import {
+  getCookingQueueReadyAts,
+  refreshCookingQueue,
+  settleCookingOil,
+} from "features/game/lib/cookingReadiness";
 import { setPrecision } from "lib/utils/formatNumber";
 import { translate } from "lib/i18n/translate";
 import type { CookingBuildingName } from "features/game/types/buildings";
@@ -55,6 +59,11 @@ type GetReadyAtArgs = {
   item: CookableName;
   createdAt: number;
   game: GameState;
+  /**
+   * The building burns oil by the clock (see `settleCookingOil`): the oil is a
+   * live speed, so none of it is folded into the recipe's duration.
+   */
+  oilByTheClock?: boolean;
 };
 
 export const BUILDING_OIL_BOOSTS: (
@@ -82,6 +91,17 @@ export const BUILDING_OIL_BOOSTS: (
   };
 };
 
+/**
+ * The building-oil boost a recipe cooks with (e.g. 0.4 = 40%), from the bumpkin's
+ * oil skills.
+ */
+export function getRecipeOilBoost(item: CookableName, game: GameState): number {
+  const buildingName = COOKABLES[item].building;
+  if (!isCookingBuilding(buildingName)) return 0;
+
+  return BUILDING_OIL_BOOSTS(game.bumpkin.skills)[buildingName];
+}
+
 export function getCookingOilBoost(
   item: CookableName,
   game: GameState,
@@ -102,8 +122,7 @@ export function getCookingOilBoost(
   const itemOilConsumption = getOilConsumption(buildingName, item);
   const oilRemaining = building?.oil || 0;
 
-  const oilSkills = game.bumpkin.skills;
-  const boostValue = BUILDING_OIL_BOOSTS(oilSkills)[buildingName];
+  const boostValue = getRecipeOilBoost(item, game);
   const boostedCookingTime = itemCookingTime * (1 - boostValue);
 
   if (oilRemaining >= itemOilConsumption) {
@@ -147,8 +166,11 @@ export const getReadyAt = ({
   item,
   createdAt,
   game,
+  oilByTheClock = false,
 }: GetReadyAtArgs) => {
-  const oilBoostResult = getCookingOilBoost(item, game, buildingId);
+  const oilBoostResult = oilByTheClock
+    ? { timeToCook: COOKABLES[item].cookingSeconds, percent: undefined }
+    : getCookingOilBoost(item, game, buildingId);
 
   const { reducedSecs, boostsUsed } = getCookingTime({
     seconds: oilBoostResult.timeToCook,
@@ -167,7 +189,8 @@ export const getReadyAt = ({
         ]
       : [];
 
-  const boostsWindowed = hasFeatureAccess(game, "SPEED_BOOSTS");
+  const boostsWindowed =
+    oilByTheClock || hasFeatureAccess(game, "SPEED_BOOSTS");
   const baseDurationMs = boostsWindowed ? reducedSecs * 1000 : undefined;
 
   const readyAt =
@@ -304,7 +327,23 @@ export function cook({
       throw new Error(translate("error.noAvailableSlots"));
     }
 
-    const { oilConsumed } = getCookingOilBoost(item, stateCopy, buildingId);
+    // A clock-drain building burns its oil while recipes cook rather than charging
+    // each one when it is queued. Settle the tank first so this recipe draws from
+    // what is left now — which also converts the building when SPEED_BOOSTS is on.
+    const oil = isCookingBuilding(requiredBuilding)
+      ? settleCookingOil({
+          game: stateCopy,
+          building,
+          buildingName: requiredBuilding,
+          at: createdAt,
+          convert: true,
+        })
+      : undefined;
+    const oilByTheClock = oil !== undefined;
+
+    const { oilConsumed } = oilByTheClock
+      ? { oilConsumed: 0 }
+      : getCookingOilBoost(item, stateCopy, buildingId);
 
     stateCopy.inventory = Object.entries(ingredients).reduce(
       (inventory, [ingredient, amount]) => {
@@ -362,6 +401,7 @@ export function cook({
     const queueReadyAts = getCookingQueueReadyAts({
       crafting,
       game: stateCopy,
+      oil,
     });
     const lastRecipeReadyAt =
       queueReadyAts[queueReadyAts.length - 1] ?? createdAt;
@@ -380,6 +420,7 @@ export function cook({
       item,
       createdAt: recipeStartAt,
       game: stateCopy,
+      oilByTheClock,
     });
 
     building.crafting = [
@@ -390,7 +431,9 @@ export function cook({
         // `plant.ts`'s cropId) with a server-side fallback.
         id: action.recipeId ?? uuidv4().slice(0, 8),
         name: item,
-        boost: { Oil: oilConsumed },
+        ...(oilByTheClock
+          ? { oilBoost: getRecipeOilBoost(item, stateCopy) }
+          : { boost: { Oil: oilConsumed } }),
         // Marks whether the Double Nom skill was applied at the time of cooking
         skills: { "Double Nom": getSkillLevel(cookSkills, "Double Nom") },
         // Anchored only when this recipe starts cooking right now; a queued recipe
@@ -402,9 +445,17 @@ export function cook({
       },
     ];
 
-    const previousOilRemaining = building.oil || 0;
-
-    building.oil = previousOilRemaining - oilConsumed;
+    if (oil !== undefined && isCookingBuilding(requiredBuilding)) {
+      // The new recipe takes whatever the tank has left once the queue ahead of it
+      // has cooked, so its ready time comes from the whole chain.
+      refreshCookingQueue({
+        building,
+        buildingName: requiredBuilding,
+        windows: getCookingBoostWindows(stateCopy),
+      });
+    } else {
+      building.oil = (building.oil || 0) - oilConsumed;
+    }
 
     // Delete cancelled property since no longer used
     delete building.cancelled;

@@ -613,6 +613,7 @@
   "clutter": "Clutter",
   "description.geniseed": "A ticket used during the Great Bloom chapter",
   "cooking.building.oil.description": "You can boost your recipe cooking times by {{boost}}% when adding oil into the {{buildingName}}.",
+  "cooking.building.oil.description.speed": "Oil cooks everything in the {{buildingName}} {{speed}}x faster. The tank only burns while something is cooking, and a full tank lasts 5 days.",
   "cooking.building.oil.boost": "Oil boost",
   "cooking.building.runtime": "Runtime {{time}}",
   "bumpkin.delivery.selectFlower": "Select a flower",

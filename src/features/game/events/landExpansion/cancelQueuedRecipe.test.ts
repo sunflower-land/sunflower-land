@@ -913,3 +913,63 @@ describe("getCurrentCookingItem", () => {
     expect(item?.recipe.id).toEqual("next");
   });
 });
+
+describe("cancelQueuedRecipe (oil by the clock)", () => {
+  const HOUR = 60 * 60 * 1000;
+  const T0 = Date.now();
+
+  const lazy = (fields: Partial<BuildingProduct>): BuildingProduct => ({
+    name: "Fermented Fish",
+    oilBoost: 0.4,
+    readyAt: 0,
+    ...fields,
+  });
+
+  const deliFarm = (base: GameState, deli: Partial<PlacedItem>): GameState => ({
+    ...base,
+    buildings: {
+      Deli: [
+        {
+          id: "1",
+          coordinates: { x: 0, y: 0 },
+          createdAt: 0,
+          readyAt: 0,
+          oil: 20,
+          oilSettledAt: T0,
+          ...deli,
+        },
+      ],
+    },
+  });
+
+  it("gives the oil the cancelled recipe would have used to the one behind it", () => {
+    const state = cancelQueuedRecipe({
+      state: deliFarm(INITIAL_FARM, {
+        oil: 5, // 6h of oil
+        crafting: [
+          lazy({ id: "a", startedAt: T0, baseDurationMs: 6 * HOUR }),
+          lazy({ id: "b", baseDurationMs: 10 * HOUR }),
+          lazy({ id: "c", baseDurationMs: 10 * HOUR }),
+        ],
+      }),
+      action: {
+        type: "recipe.cancelled",
+        buildingName: "Deli",
+        buildingId: "1",
+        queueItem: lazy({ id: "b" }),
+      },
+      createdAt: T0 + HOUR,
+    });
+
+    const deli = state.buildings.Deli?.[0];
+    // Nothing comes back for b: it had not started, so it had burned none. 1h of
+    // cooking burned 20 / 24.
+    expect(deli?.oil).toBeCloseTo(5 - 20 / 24);
+    // a finishes at 3.6h; c gets the last 2.4h of oil (4h of work) and cooks the
+    // other 6h at normal speed.
+    expect(deli?.crafting?.map((recipe) => recipe.readyAt)).toEqual([
+      T0 + 3.6 * HOUR,
+      T0 + 12 * HOUR,
+    ]);
+  });
+});
