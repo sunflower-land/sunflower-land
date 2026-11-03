@@ -121,7 +121,7 @@ const Sprite: React.FC<{ src: string; style?: React.CSSProperties }> = ({
  * stands in the alcove by the entrance from his tier; the ladder leaves.
  */
 export const Cave: React.FC = () => {
-  const { gameService, showAnimations, selectedItem } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const { scale } = useContext(ZoomContext);
   const navigate = useNavigate();
   const { t } = useAppTranslation();
@@ -193,21 +193,23 @@ export const Cave: React.FC = () => {
     !showMerchant;
   const guiding =
     tutorialStep && tutorialSeen[tutorialStep] ? tutorialStep : undefined;
-  // A selected drill only replaces the shovel while it is still in stock.
-  const outOfShovels =
-    shovels < 1 && (selectedItem !== "Sand Drill" || drills < 1);
+  // Match the tutorial: either digging tool lets the player continue.
+  const outOfShovels = shovels < 1 && drills < 1;
   const readyMachines = slots.filter((id) => {
     const batch = cave.machines[String(id)]?.batch;
     return batch && batch.readyAt <= now && !isCavePatchCleared(batch);
   });
   const needsShovels = outOfShovels && readyMachines.length > 0;
-  // Keep one shortcut beside the last patch dug. On entry without tools,
-  // use the first ready patch until the player has dug during this visit.
-  const shopMachine = lastDugMachine ?? readyMachines[0]?.toString();
-  const merchantSpeech = needsShovels
-    ? t("cave.merchant.noShovels")
-    : guiding
-      ? t(CAVE_TUTORIAL_BUBBLES[guiding])
+  // Keep one shortcut beside the last patch dug while it is still ready.
+  // Otherwise use the first ready, incomplete patch.
+  const shopMachine = (
+    readyMachines.find((id) => String(id) === lastDugMachine) ??
+    readyMachines[0]
+  )?.toString();
+  const merchantSpeech = guiding
+    ? t(CAVE_TUTORIAL_BUBBLES[guiding])
+    : needsShovels
+      ? t("cave.merchant.noShovels")
       : undefined;
 
   return (
@@ -333,7 +335,7 @@ export const Cave: React.FC = () => {
                 const slot = CAVE_SLOTS[id];
                 const batch = cave.machines[String(id)]?.batch;
                 const showShopShortcut =
-                  needsShovels && shopMachine === String(id);
+                  !tutorialStep && needsShovels && shopMachine === String(id);
 
                 return (
                   <React.Fragment key={`slot-${id}`}>
