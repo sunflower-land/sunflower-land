@@ -174,6 +174,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   // Captured when feeding: a level-up changes what the same feed is worth.
   const [feedXPAmount, setFeedXPAmount] = useState(0);
   const [showNoFoodSelected, setShowNoFoodSelected] = useState(false);
+  const [showFreeFeedTreat, setShowFreeFeedTreat] = useState(false);
+  const freeFeedTreatTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
   const [showLoveItem, setShowLoveItem] = useState<LoveAnimalItem>();
   const [showMutantAnimalModal, setShowMutantAnimalModal] = useState(false);
 
@@ -456,6 +458,10 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     // the game-state animal is already asleep, so any feed/claim event would
     // throw. Ignore clicks until the animation resolves.
     if (showDrops) return;
+    // A new click replaces an earlier Honey Treat notice, so it can't sit
+    // over whatever this click does.
+    clearTimeout(freeFeedTreatTimeout.current);
+    setShowFreeFeedTreat(false);
 
     const showNoFoodPrompt = async () => {
       setShowNoFoodSelected(true);
@@ -477,6 +483,16 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     if (hasBuffSelected) {
       const buffItem = selectedItem as AnimalFeedBuffName;
       const buffCount = inventory[buffItem] ?? new Decimal(0);
+      // Honey Treat only cuts feed, and Gold Egg already makes it free.
+      if (buffItem === "Honey Treat" && hasGoldEgg) {
+        setShowFreeFeedTreat(true);
+        // Cleared on the next click, so an older timer can't hide a newer notice.
+        freeFeedTreatTimeout.current = setTimeout(
+          () => setShowFreeFeedTreat(false),
+          1000,
+        );
+        return;
+      }
       if (!chicken.feedBuff && buffCount.gte(1)) {
         gameService.send({
           type: "animal.feedBuffApplied",
@@ -549,6 +565,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   };
 
   const getInfoPopoverMessage = () => {
+    if (showFreeFeedTreat)
+      return t("animal.honeyTreatFreeFeed", { item: "Gold Egg" });
     if (showNoFoodSelected) return t("animal.noFoodMessage");
     if (showNoMedicine) return t("animal.noMedicine");
     if (showNotEnoughFood)
@@ -731,7 +749,10 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
         </div>
         <InfoPopover
           showPopover={
-            showNoFoodSelected || showNoMedicine || showNotEnoughFood
+            showFreeFeedTreat ||
+            showNoFoodSelected ||
+            showNoMedicine ||
+            showNotEnoughFood
           }
           className="-top-10 left-1/2 transform -translate-x-1/2 z-20"
         >

@@ -13,6 +13,7 @@ import {
 } from "features/game/lib/animals";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { isAnimalNeedingLove } from "./loveAnimal";
+import { isAnimalCoveredByGoldenAsset } from "./feedAllAnimals";
 
 export const ANIMAL_FEED_BUFF_ITEMS: AnimalFeedBuffName[] = [
   "Salt Lick",
@@ -26,6 +27,7 @@ export enum APPLY_ANIMAL_FEED_BUFF_ERRORS {
   ALREADY_BUFFED = "Animal already has a feed buff",
   SICK = "Cannot apply feed buff while animal is sick",
   NEEDS_LOVE = "Pet your animal before using this",
+  FREE_FEED = "Honey Treat has no effect on an animal that is fed for free",
 }
 
 function isAnimalAsleep(now: number, readyAt: number): boolean {
@@ -143,6 +145,17 @@ export function applyAnimalFeedBuff({
 
     if (!isAnimalFeedBuffItem(action.item)) {
       throw new Error(APPLY_ANIMAL_FEED_BUFF_ERRORS.INVALID_ITEM);
+    }
+
+    // Honey Treat only cuts the feed an animal eats. Gold Egg, Golden Cow and
+    // Golden Sheep already feed their animal for free, so it would be wasted.
+    // Uses the stored animal's type: the Barn holds cows and sheep in one map,
+    // so the action's type doesn't prove which animal `action.id` is.
+    if (
+      action.item === "Honey Treat" &&
+      isAnimalCoveredByGoldenAsset({ state: copy, animalType: animal.type })
+    ) {
+      throw new Error(APPLY_ANIMAL_FEED_BUFF_ERRORS.FREE_FEED);
     }
 
     const count = copy.inventory[action.item] ?? new Decimal(0);
