@@ -88,9 +88,9 @@ export const CALEDNAR_EVENT_INFORMATION: Partial<
     seasons: ["winter"],
     buffs: [
       {
-        shortDescription: "Slows crop growth",
+        shortDescription: "Freezes 1/2 of crops",
         labelType: "danger",
-        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostTypeIcon: SUNNYSIDE.icons.death,
       },
     ],
   },
