@@ -381,6 +381,130 @@ export const settleCookingBuilding = ({
   refreshCookingQueue({ building, buildingName, windows });
 };
 
+/**
+ * Take a cooking building off the farm at `at`, in place. `removedAt` marks the
+ * lift, and a clock-drain building is settled there so the work and oil burned up
+ * to the lift are written down; `resumeCookingBuilding` picks up from it.
+ */
+export const liftCookingBuilding = ({
+  building,
+  buildingName,
+  at,
+  windows,
+}: {
+  building: PlacedItem;
+  buildingName: CookingBuildingName;
+  at: number;
+  windows: BoostWindow[];
+}): void => {
+  building.removedAt = at;
+
+  if (building.oilSettledAt !== undefined) {
+    settleCookingBuilding({ building, buildingName, at, windows });
+  }
+};
+
+/**
+ * Put a lifted cooking building back at `at`, in place, so the time it spent off
+ * the farm neither cooks nor burns oil. Leaves `removedAt` for the caller to clear.
+ */
+export const resumeCookingBuilding = ({
+  building,
+  buildingName,
+  at,
+  windows,
+}: {
+  building: PlacedItem;
+  buildingName: CookingBuildingName;
+  at: number;
+  windows: BoostWindow[];
+}): void => {
+  const { removedAt } = building;
+  if (!removedAt) return;
+
+  if (building.oilSettledAt !== undefined) {
+    settleCookingBuilding({
+      building,
+      buildingName,
+      at: removedAt,
+      resumeAt: at,
+      windows,
+    });
+  } else if (building.crafting) {
+    pauseCookingQueue({
+      crafting: building.crafting,
+      removedAt,
+      placedAt: at,
+      windows,
+    });
+  }
+};
+
+/**
+ * Every cooking building, keyed by `${name}:${id}`: `undefined` while it is placed,
+ * and its `removedAt` while it is lifted.
+ */
+export type CookingPlacements = Map<string, { removedAt?: number } | undefined>;
+
+const cookingBuildings = (game: GameState) =>
+  (Object.keys(COOKING_OIL_RATE) as CookingBuildingName[]).flatMap((name) =>
+    (game.buildings[name] ?? []).map((building) => ({ name, building })),
+  );
+
+export function snapshotCookingPlacements(game: GameState): CookingPlacements {
+  const placements: CookingPlacements = new Map();
+
+  cookingBuildings(game).forEach(({ name, building }) => {
+    placements.set(
+      `${name}:${building.id}`,
+      building.coordinates ? undefined : { removedAt: building.removedAt },
+    );
+  });
+
+  return placements;
+}
+
+/**
+ * Pause and resume cooking buildings an event moved on or off the farm without
+ * `removeBuilding` / `placeBuilding` (saved layouts), like those events do.
+ * Compares against a snapshot taken before the event: a building that was lifted
+ * is paused at `now`, and one that was placed back resumes from its earlier lift.
+ * Mutates `game` in place (immer-draft friendly).
+ */
+export function syncCookingPlacements(
+  game: GameState,
+  before: CookingPlacements,
+  now: number,
+): void {
+  let windows: BoostWindow[] | undefined;
+  const getWindows = () => (windows ??= getCookingBoostWindows(game));
+
+  cookingBuildings(game).forEach(({ name, building }) => {
+    const key = `${name}:${building.id}`;
+    if (!before.has(key)) return;
+
+    const lifted = before.get(key);
+
+    if (!lifted && !building.coordinates) {
+      liftCookingBuilding({
+        building,
+        buildingName: name,
+        at: now,
+        windows: getWindows(),
+      });
+    } else if (lifted && building.coordinates) {
+      building.removedAt = lifted.removedAt;
+      resumeCookingBuilding({
+        building,
+        buildingName: name,
+        at: now,
+        windows: getWindows(),
+      });
+      delete building.removedAt;
+    }
+  });
+}
+
 /** Rewrite the cached `readyAt` on every recipe to what the chain derives. */
 export const refreshCookingQueue = ({
   building,

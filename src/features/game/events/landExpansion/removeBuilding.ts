@@ -7,7 +7,7 @@ import {
   getCropMachineBoostWindows,
 } from "features/game/lib/boostWindows";
 import { settleCropMachine } from "features/game/lib/cropMachineReadiness";
-import { settleCookingBuilding } from "features/game/lib/cookingReadiness";
+import { liftCookingBuilding } from "features/game/lib/cookingReadiness";
 import { isCookingBuilding } from "./isCookingBuilding";
 export enum REMOVE_BUILDING_ERRORS {
   INVALID_BUILDING = "This building does not exist",
@@ -70,11 +70,8 @@ export function removeBuilding({
     // lift now, like the Crop Machine below, so placing it again never has to
     // rebuild them from boost history that may have been pruned in the meantime.
     // `placeBuilding` resumes from this anchor.
-    if (
-      isCookingBuilding(action.name) &&
-      buildingToRemove.oilSettledAt !== undefined
-    ) {
-      settleCookingBuilding({
+    if (isCookingBuilding(action.name)) {
+      liftCookingBuilding({
         building: buildingToRemove,
         buildingName: action.name,
         at: createdAt,
