@@ -254,7 +254,6 @@
   "description.queen.cornelia.boost": "+1 кукуруза",
   "description.queen.cornelia.boost.aoe": "Влияет на грядки вокруг (3x4)",
   "description.foliant.boost": "+0.2 кейл",
-  "description.hoot.boost": "+0.5 пшеница, редис, кейл, рис, ячмень",
   "description.hungry.caterpillar.boost": "Бесплатные семена цветов",
   "description.black.bearry.boost": "+1 черника",
   "description.lady.bug.boost": "+0.25 яблоко",
@@ -9013,5 +9012,6 @@
   "cooking.building.oil.description.speed": "Oil cooks everything in the {{buildingName}} {{speed}}x faster. The tank only burns while something is cooking, and a full tank lasts 5 days.",
   "skill.swiftSizzle.ranked.speed": "{{value}}x Fire Pit cooking speed with oil",
   "skill.turboFry.ranked.speed": "{{value}}x Kitchen cooking speed with oil",
-  "skill.fryFrenzy.ranked.speed": "{{value}}x Deli cooking speed with oil"
+  "skill.fryFrenzy.ranked.speed": "{{value}}x Deli cooking speed with oil",
+  "description.hoot.boost": "+0.5 Wheat, Radish, Turnip, Kale, Artichoke, Rice, Barley"
 }

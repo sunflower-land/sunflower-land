@@ -2623,7 +2623,6 @@
   "birdieplaza.craftItems": "これらのレアアイテムを入手するには、{{chapterTicket}} を集めてステラのメガストアで交換するか、オークションハウスで入札する必要があります。",
   "reward.streak.oneYear": "365 日連続リワード",
   "season.codex.nextDrop.available": "{{dropSupply}} ご利用可能",
-  "description.hoot.boost": "+0.5 小麦、大根、ケール、米、大麦",
   "description.barley": "大麦は動物飼料に使用される栄養価の高い穀物です。",
   "gems.speedUp": "スピードアップ",
   "crafting.readySoon": "{{name}} はまもなく準備が整います...",
@@ -9013,5 +9012,6 @@
   "cooking.building.oil.description.speed": "油は {{buildingName}} {{speed}} x のすべてをより速く調理します。タンクは何かを調理している間のみ燃焼し、タンクがいっぱいになると5日間持続します。",
   "skill.swiftSizzle.ranked.speed": "{{value}} x オイルを使ったファイヤーピットの調理速度",
   "skill.turboFry.ranked.speed": "{{value}} x 油を使ったキッチン調理スピード",
-  "skill.fryFrenzy.ranked.speed": "{{value}} x オイルを使ったデリクッキングスピード"
+  "skill.fryFrenzy.ranked.speed": "{{value}} x オイルを使ったデリクッキングスピード",
+  "description.hoot.boost": "+0.5 小麦、大根、カブ、ケール、アーティチョーク、米、大麦"
 }

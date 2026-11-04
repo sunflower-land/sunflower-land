@@ -2623,7 +2623,6 @@
   "birdieplaza.craftItems": "Para obtener estos objetos raros, debes recolectar {{chapterTicket}} s e intercambiarlos en la Megastore de Stella o pujar en la Casa de Subastas.",
   "reward.streak.oneYear": "Recompensa de racha de 365 días",
   "season.codex.nextDrop.available": "{{dropSupply}} disponible",
-  "description.hoot.boost": "+0.5 Trigo, rábano, col rizada, arroz, cebada",
   "description.barley": "La cebada es un cereal nutritivo que se utiliza en la alimentación animal.",
   "gems.speedUp": "Acelerar",
   "crafting.readySoon": "{{name}} estará listo pronto...",
@@ -9013,5 +9012,6 @@
   "cooking.building.oil.description.speed": "El aceite cocina todo en el {{buildingName}} {{speed}} x más rápido. El tanque solo se quema mientras se cocina algo, y un tanque lleno dura 5 días.",
   "skill.swiftSizzle.ranked.speed": "{{value}} x Velocidad de cocción de Fire Pit con aceite",
   "skill.turboFry.ranked.speed": "{{value}} x Velocidad de cocción en la cocina con aceite",
-  "skill.fryFrenzy.ranked.speed": "{{value}} x Velocidad de cocción de delicatessen con aceite"
+  "skill.fryFrenzy.ranked.speed": "{{value}} x Velocidad de cocción de delicatessen con aceite",
+  "description.hoot.boost": "+0.5 Trigo, rábano, nabo, col rizada, alcachofa, arroz, cebada"
 }

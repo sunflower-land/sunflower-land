@@ -2623,7 +2623,6 @@
   "birdieplaza.craftItems": "要获得这些稀有物品，您必须收集 {{chapterTicket}} 并在 Stella 的超星商店兑换或在拍卖行竞拍。",
   "reward.streak.oneYear": "365 天连续奖励",
   "season.codex.nextDrop.available": "{{dropSupply}} 可用",
-  "description.hoot.boost": "+0.5 小麦、小萝卜、羽衣甘蓝、稻米、大麦等高阶庄稼",
   "description.barley": "大麦是一种营养丰富的谷物，用于动物饲料。",
   "gems.speedUp": "加快速度",
   "crafting.readySoon": "{{name}} 即将准备就绪……",
@@ -9013,5 +9012,6 @@
   "cooking.building.oil.description.speed": "石油以 {{buildingName}} {{speed}} x 的速度煮出所有东西。水箱只有在煮东西时才会燃烧，装满的水箱可以持续 5 天。",
   "skill.swiftSizzle.ranked.speed": "{{value}} x Fire Pit 用油烹饪速度",
   "skill.turboFry.ranked.speed": "{{value}} x 厨房用油烹饪速度",
-  "skill.fryFrenzy.ranked.speed": "{{value}} x 熟食店用油烹饪速度"
+  "skill.fryFrenzy.ranked.speed": "{{value}} x 熟食店用油烹饪速度",
+  "description.hoot.boost": "+0.5 小麦、萝卜、萝卜、羽衣甘蓝、朝鲜蓟、大米、大麦"
 }

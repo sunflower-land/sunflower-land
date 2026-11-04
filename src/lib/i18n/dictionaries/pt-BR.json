@@ -2623,7 +2623,6 @@
   "birdieplaza.craftItems": "Para obter esses itens raros, você deve coletar {{chapterTicket}} s e trocá-los na Stella's Megastore ou licitar na Casa de Leilões.",
   "reward.streak.oneYear": "Recompensa de sequência de 365 dias",
   "season.codex.nextDrop.available": "{{dropSupply}} disponível",
-  "description.hoot.boost": "+0,5 Trigo, rabanete, couve, arroz, cevada",
   "description.barley": "A cevada é um grão de cereal nutritivo usado na alimentação animal.",
   "gems.speedUp": "Acelere",
   "crafting.readySoon": "{{name}} estará pronto em breve...",
@@ -9013,5 +9012,6 @@
   "cooking.building.oil.description.speed": "O óleo cozinha tudo no {{buildingName}} {{speed}} x mais rápido. O tanque só queima enquanto algo está cozinhando, e um tanque cheio dura 5 dias.",
   "skill.swiftSizzle.ranked.speed": "{{value}} x Velocidade de cozimento em fogueira com óleo",
   "skill.turboFry.ranked.speed": "{{value}} x Velocidade de cozimento da cozinha com óleo",
-  "skill.fryFrenzy.ranked.speed": "{{value}} x Velocidade de cozimento Deli com óleo"
+  "skill.fryFrenzy.ranked.speed": "{{value}} x Velocidade de cozimento Deli com óleo",
+  "description.hoot.boost": "+0.5 Trigo, rabanete, nabo, couve, alcachofra, arroz, cevada"
 }

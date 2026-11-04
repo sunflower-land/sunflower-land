@@ -2623,7 +2623,6 @@
   "birdieplaza.craftItems": "Untuk mendapatkan barang-barang langka ini, Anda harus mengumpulkan {{chapterTicket}} s dan menukarnya di Stella's Megastore atau menawar di Rumah Lelang.",
   "reward.streak.oneYear": "Hadiah beruntun 365 hari",
   "season.codex.nextDrop.available": "{{dropSupply}} tersedia",
-  "description.hoot.boost": "+0,5 Gandum, Lobak, Kangkung, Beras, Barley",
   "description.barley": "Barley adalah biji-bijian sereal bergizi yang digunakan dalam pakan ternak.",
   "gems.speedUp": "Mempercepat",
   "crafting.readySoon": "{{name}} akan segera siap...",
@@ -9013,5 +9012,6 @@
   "cooking.building.oil.description.speed": "Minyak memasak semua yang ada di {{buildingName}} {{speed}} x lebih cepat. Tangki hanya terbakar saat sesuatu sedang dimasak, dan tangki penuh bertahan 5 hari.",
   "skill.swiftSizzle.ranked.speed": "{{value}} x Kecepatan memasak Fire Pit dengan minyak",
   "skill.turboFry.ranked.speed": "{{value}} x Kecepatan memasak dapur dengan minyak",
-  "skill.fryFrenzy.ranked.speed": "{{value}} x Kecepatan memasak Deli dengan minyak"
+  "skill.fryFrenzy.ranked.speed": "{{value}} x Kecepatan memasak Deli dengan minyak",
+  "description.hoot.boost": "+0,5 Gandum, Lobak, Lobak, Kale, Artichoke, Beras, Barley"
 }

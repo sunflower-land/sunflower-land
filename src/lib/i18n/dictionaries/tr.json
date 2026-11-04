@@ -2623,7 +2623,6 @@
   "birdieplaza.craftItems": "Bu nadir eşyaları elde etmek için {{chapterTicket}} s toplamanız ve bunları Stella's Megastore'da değiştirmeniz veya Müzayede Evi'nde teklif vermeniz gerekir.",
   "reward.streak.oneYear": "365 gün seri ödülü",
   "season.codex.nextDrop.available": "{{dropSupply}} mevcut",
-  "description.hoot.boost": "+0.5 Buğday, Turp, Lahana, Pirinç, Arpa",
   "description.barley": "Arpa, hayvan yemlerinde kullanılan besleyici bir tahıl tanesidir.",
   "gems.speedUp": "Hızlandırın",
   "crafting.readySoon": "{{name}} yakında hazır olacak...",
@@ -9013,5 +9012,6 @@
   "cooking.building.oil.description.speed": "Yağ, {{buildingName}} {{speed}} x'deki her şeyi daha hızlı pişirir. Tank sadece bir şeyler pişerken yanar ve dolu bir tank 5 gün sürer.",
   "skill.swiftSizzle.ranked.speed": "{{value}} x Yağlı Ateş Çukuru pişirme hızı",
   "skill.turboFry.ranked.speed": "{{value}} x Yağ ile mutfak pişirme hızı",
-  "skill.fryFrenzy.ranked.speed": "{{value}} x Yağlı Deli pişirme hızı"
+  "skill.fryFrenzy.ranked.speed": "{{value}} x Yağlı Deli pişirme hızı",
+  "description.hoot.boost": "+0.5 Buğday, Turp, Şalglam, Lahana, Enginar, Pirinç, Arpa"
 }

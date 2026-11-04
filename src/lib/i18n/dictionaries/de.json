@@ -2623,7 +2623,6 @@
   "birdieplaza.craftItems": "Um diese seltenen Gegenstände zu erhalten, müsst ihr {{chapterTicket}} s sammeln und sie in Stellas Megastore eintauschen oder im Auktionshaus bieten.",
   "reward.streak.oneYear": "Belohnung für eine 365-tägige Serie",
   "season.codex.nextDrop.available": "{{dropSupply}} verfügbar",
-  "description.hoot.boost": "+0.5 Weizen, Rettich, Grünkohl, Reis, Gerste",
   "description.barley": "Gerste ist ein nahrhaftes Getreidekorn, das als Tierfutter verwendet wird.",
   "gems.speedUp": "Beschleunigen",
   "crafting.readySoon": "{{name}} wird bald fertig sein...",
@@ -9013,5 +9012,6 @@
   "cooking.building.oil.description.speed": "Öl kocht alles im {{buildingName}} {{speed}} x schneller. Der Tank brennt nur, wenn etwas kocht, und ein voller Tank hält 5 Tage.",
   "skill.swiftSizzle.ranked.speed": "{{value}} x Kochgeschwindigkeit der Feuerstelle mit Öl",
   "skill.turboFry.ranked.speed": "{{value}} x Kochgeschwindigkeit in der Küche mit Öl",
-  "skill.fryFrenzy.ranked.speed": "{{value}} x Feinkostgargeschwindigkeit mit Öl"
+  "skill.fryFrenzy.ranked.speed": "{{value}} x Feinkostgargeschwindigkeit mit Öl",
+  "description.hoot.boost": "+0.5 Weizen, Rettich, Rübe, Grünkohl, Artischocke, Reis, Gerste"
 }

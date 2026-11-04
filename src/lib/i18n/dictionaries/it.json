@@ -2623,7 +2623,6 @@
   "birdieplaza.craftItems": "Per ottenere questi oggetti rari, devi raccogliere {{chapterTicket}} e cambiarli allo Stella's Megastore o fare un'offerta presso la Casa d'Aste.",
   "reward.streak.oneYear": "Premi per una serie di 365 giorni",
   "season.codex.nextDrop.available": "{{dropSupply}} disponibile",
-  "description.hoot.boost": "+0,5 frumento, ravanello, cavolo riccio, riso, orzo",
   "description.barley": "L'orzo è un cereale nutriente utilizzato nell'alimentazione animale.",
   "gems.speedUp": "Accelerare",
   "crafting.readySoon": "{{name}} sarà pronto presto...",
@@ -9013,5 +9012,6 @@
   "cooking.building.oil.description.speed": "L'olio cuoce tutto in {{buildingName}} {{speed}} x più velocemente. Il serbatoio brucia solo mentre qualcosa sta cuocendo e un serbatoio pieno dura 5 giorni.",
   "skill.swiftSizzle.ranked.speed": "{{value}} x Velocità di cottura del braciere con olio",
   "skill.turboFry.ranked.speed": "{{value}} x Velocità di cottura della cucina con olio",
-  "skill.fryFrenzy.ranked.speed": "{{value}} x Velocità di cottura Deli con olio"
+  "skill.fryFrenzy.ranked.speed": "{{value}} x Velocità di cottura Deli con olio",
+  "description.hoot.boost": "+0,5 frumento, ravanello, rapa, cavolo riccio, carciofo, riso, orzo"
 }
