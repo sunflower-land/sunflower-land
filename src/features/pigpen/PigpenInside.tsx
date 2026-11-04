@@ -145,10 +145,13 @@ export const PigpenInside: React.FC = () => {
     [animalIds],
   );
 
-  // Organize the animals neatly in the pigpen
+  // Organize the animals in a centred 3x3 grid (max capacity is 9 Pigs)
   const organizedAnimals = useMemo(() => {
-    const maxAnimalsPerRow = Math.floor(floorWidth / ANIMALS.Pig.width);
-    const verticalGap = 0.5; // Add a 0.5 grid unit gap between rows
+    const maxAnimalsPerRow = 3;
+    const gap = 0.5; // 0.5 grid unit gap between rows and columns
+    const gridWidth =
+      maxAnimalsPerRow * ANIMALS.Pig.width + (maxAnimalsPerRow - 1) * gap;
+    const offsetX = (floorWidth - gridWidth) / 2;
 
     // Reads through `sortedAnimalIds` so the order is fixed, but depends on
     // `pigpen.animals` so the records it renders (experience, state) are fresh.
@@ -161,8 +164,8 @@ export const PigpenInside: React.FC = () => {
         return {
           ...animal,
           coordinates: {
-            x: col * ANIMALS.Pig.width,
-            y: row * (ANIMALS.Pig.height + verticalGap),
+            x: offsetX + col * (ANIMALS.Pig.width + gap),
+            y: row * (ANIMALS.Pig.height + gap),
           },
         };
       });
