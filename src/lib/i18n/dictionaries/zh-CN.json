@@ -7847,7 +7847,6 @@
   "skill.unlockTierFirst": "需先解锁第 {{tier}} 层",
   "skill.reachRankFirst": "需先达到 {{rank}} 阶",
   "skill.upgradeTierLock": "解锁此技能树的第 {{tier}} 层以升级",
-  "chapterCropWeek.ascensionBoostsPaused": "飞升技能增益在章节庄稼周期间不生效",
   "buy.collectible": "购买收藏品",
   "buy.wearable": "购买穿戴品",
   "confirmBuy.collectible": "确认购买收藏品",

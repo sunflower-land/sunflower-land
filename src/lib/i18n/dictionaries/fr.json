@@ -7847,7 +7847,6 @@
   "skill.unlockTierFirst": "Débloquez d'abord le niveau {{tier}}",
   "skill.reachRankFirst": "Atteignez le rang {{rank}} en premier",
   "skill.upgradeTierLock": "Débloquez le niveau {{tier}} dans cette arborescence pour passer au niveau supérieur",
-  "chapterCropWeek.ascensionBoostsPaused": "Les bonus de compétence d'Ascension ne s'appliquent pas pendant la Chapter Crop Week",
   "buy.collectible": "Acheter un objet de collection",
   "buy.wearable": "Acheter un appareil portable",
   "confirmBuy.collectible": "Confirmer l'achat d'un objet de collection",
