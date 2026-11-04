@@ -2080,6 +2080,25 @@ describe("Instant Gratification (oil by the clock)", () => {
     ).toThrow(/No buildings are cooking/);
   });
 
+  it("cannot be used when every queued recipe has finished", () => {
+    expect(() =>
+      skillUse({
+        state: deliFarm(
+          {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...INITIAL_FARM.bumpkin,
+              skills: { "Instant Gratification": 1 },
+            },
+          },
+          { crafting: [lazy({ startedAt: T0, baseDurationMs: HOUR })] },
+        ),
+        action: { type: "skill.used", skill: "Instant Gratification" },
+        createdAt: T0 + 2 * HOUR,
+      }),
+    ).toThrow(/No buildings are cooking/);
+  });
+
   it("leaves a lifted building alone", () => {
     const lifted = deliFarm(
       {

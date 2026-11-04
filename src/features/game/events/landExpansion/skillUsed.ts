@@ -33,6 +33,7 @@ import { getCurrentCookingItem, recalculateQueue } from "./cancelQueuedRecipe";
 import { getCookingBoostWindows } from "features/game/lib/boostWindows";
 import {
   burnRecipeOil,
+  getCookingOil,
   settleCookingOil,
 } from "features/game/lib/cookingReadiness";
 import { FLOWER_SEEDS, FLOWERS } from "features/game/types/flowers";
@@ -515,11 +516,21 @@ export function powerSkillDisabledConditions({
 
     case "Instant Gratification": {
       if (
-        // An empty queue has nothing to complete, and a lifted building is
-        // skipped on activation, so neither counts.
-        getKeys(BUILDING_DAILY_OIL_CAPACITY).every((building) => {
-          const placed = buildings[building]?.[0];
-          return !placed?.crafting?.length || !placed.coordinates;
+        // Only a recipe still cooking can be completed: a lifted building is
+        // skipped on activation, and a queue whose recipes have all finished has
+        // nothing left to speed up. Same readiness as the activation; the tank
+        // at its last settle derives the same ready times as settling now.
+        getKeys(BUILDING_DAILY_OIL_CAPACITY).every((buildingName) => {
+          const building = buildings[buildingName]?.[0];
+          return (
+            !building?.coordinates ||
+            !getCurrentCookingItem({
+              building,
+              createdAt,
+              game: state,
+              oil: getCookingOil({ building, buildingName }),
+            })
+          );
         })
       ) {
         return {
