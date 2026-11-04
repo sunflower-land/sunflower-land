@@ -3,12 +3,16 @@ import { useSelector } from "@xstate/react";
 
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
-import type { BuildingProduct } from "features/game/types/game";
+import type { PlacedItem } from "features/game/types/game";
+import type { CookingBuildingName } from "features/game/types/buildings";
 import {
   areBoostWindowsEqual,
   getCookingBoostWindows,
 } from "features/game/lib/boostWindows";
-import { resolveCookingQueueTimings } from "features/game/lib/cookingReadiness";
+import {
+  getCookingOil,
+  resolveCookingQueueTimings,
+} from "features/game/lib/cookingReadiness";
 import { useQueueState } from "./useQueueState";
 
 const _cookingBoostWindows = (state: MachineState) =>
@@ -24,12 +28,18 @@ const _cookingBoostWindows = (state: MachineState) =>
  * importantly, keeps the client's notion of "ready" in step with the server's
  * (`collectRecipe` derives the same way).
  *
+ * On a clock-drain building the oil in the tank is resolved in the same pass, so
+ * topping it up visibly pulls the queue forward too.
+ *
  * Every cooking building goes through this hook, so the island art, the ready
  * indicator and the modal all follow from one place. Fish processing has no
  * temporary boosts and deliberately stays on `useProcessingState`, reading stored
  * ready times.
  */
-export function useCookingState(building: { crafting?: BuildingProduct[] }) {
+export function useCookingState(
+  building: Pick<PlacedItem, "crafting" | "oil" | "oilSettledAt">,
+  buildingName: CookingBuildingName,
+) {
   const { gameService } = useContext(Context);
 
   // Recomputed from full state but only re-rendering when the windows actually
@@ -41,10 +51,16 @@ export function useCookingState(building: { crafting?: BuildingProduct[] }) {
   );
 
   const crafting = useMemo(() => building.crafting ?? [], [building.crafting]);
+  const { oil, oilSettledAt } = building;
 
   const timings = useMemo(
-    () => resolveCookingQueueTimings({ crafting, windows }),
-    [crafting, windows],
+    () =>
+      resolveCookingQueueTimings({
+        crafting,
+        windows,
+        oil: getCookingOil({ building: { oil, oilSettledAt }, buildingName }),
+      }),
+    [crafting, windows, oil, oilSettledAt, buildingName],
   );
 
   const resolved = useMemo(

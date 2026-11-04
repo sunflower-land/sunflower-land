@@ -19,6 +19,14 @@ const toPercent = (value: Numeric) => new Decimal(value).mul(100).toNumber();
 const toBonusMultiplier = (fraction: Numeric) =>
   new Decimal(1).plus(fraction).toNumber();
 
+// Float-safe reduction fraction -> speed: a 0.4 cut in cooking time reads as
+// 1.67x, for oil skills under SPEED_BOOSTS (the oil is a speed, not a cut).
+const toSpeedMultiplier = (fraction: Numeric) =>
+  new Decimal(1)
+    .div(new Decimal(1).minus(fraction))
+    .toDecimalPlaces(2)
+    .toNumber();
+
 // Float-safe reduction fraction -> multiplier: a 0.55 reduction reads as x0.45
 // (raw JS 1 - 0.55 yields 0.44999999999999996), for (1 - rank) formulas.
 const toReductionMultiplier = (fraction: Numeric) =>
@@ -31,11 +39,13 @@ const toReductionMultiplier = (fraction: Numeric) =>
  * show concrete numbers. `rank` is 1-based (1..maxLevel). `t` is the caller's
  * translation function (passed in rather than using the global singleton so the
  * render stays deterministic from React's / the compiler's perspective).
+ * `speedBoosts`: SPEED_BOOSTS is on, so the oil skills read as a cooking speed.
  */
 export const getSkillRankDescription = (
   name: UpgradeableSkillName,
   rank: number,
   t: ReturnType<typeof useAppTranslation>["t"],
+  { speedBoosts = false }: { speedBoosts?: boolean } = {},
 ): {
   buff: string | string[];
   // Per-line item icons for a multi-line buff, replacing the skill's single
@@ -466,21 +476,35 @@ export const getSkillRankDescription = (
       };
     case "Swift Sizzle":
       return {
-        buff: t("skill.swiftSizzle.ranked", {
-          value: toReductionMultiplier(SKILL_RANKS["Swift Sizzle"].ranks[i]),
-        }),
+        buff: speedBoosts
+          ? t("skill.swiftSizzle.ranked.speed", {
+              value: toSpeedMultiplier(SKILL_RANKS["Swift Sizzle"].ranks[i]),
+            })
+          : t("skill.swiftSizzle.ranked", {
+              value: toReductionMultiplier(
+                SKILL_RANKS["Swift Sizzle"].ranks[i],
+              ),
+            }),
       };
     case "Turbo Fry":
       return {
-        buff: t("skill.turboFry.ranked", {
-          value: toReductionMultiplier(SKILL_RANKS["Turbo Fry"].ranks[i]),
-        }),
+        buff: speedBoosts
+          ? t("skill.turboFry.ranked.speed", {
+              value: toSpeedMultiplier(SKILL_RANKS["Turbo Fry"].ranks[i]),
+            })
+          : t("skill.turboFry.ranked", {
+              value: toReductionMultiplier(SKILL_RANKS["Turbo Fry"].ranks[i]),
+            }),
       };
     case "Fry Frenzy":
       return {
-        buff: t("skill.fryFrenzy.ranked", {
-          value: toReductionMultiplier(SKILL_RANKS["Fry Frenzy"].ranks[i]),
-        }),
+        buff: speedBoosts
+          ? t("skill.fryFrenzy.ranked.speed", {
+              value: toSpeedMultiplier(SKILL_RANKS["Fry Frenzy"].ranks[i]),
+            })
+          : t("skill.fryFrenzy.ranked", {
+              value: toReductionMultiplier(SKILL_RANKS["Fry Frenzy"].ranks[i]),
+            }),
       };
     case "Munching Mastery":
       return {

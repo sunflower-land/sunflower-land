@@ -1035,6 +1035,13 @@ export type BuildingProduct = {
    * flag — matching every other activity.
    */
   baseDurationMs?: number;
+  /**
+   * The building-oil boost (e.g. 0.4 = 40%) snapshotted when the recipe was queued
+   * on a clock-drain building. Presence = the recipe draws oil LAZILY from the tank
+   * while it cooks, at a speed of `1 / (1 - oilBoost)`. Absent on recipes whose oil
+   * was deducted up front and baked into their duration.
+   */
+  oilBoost?: number;
   requirements?: Inventory;
 };
 
@@ -1065,7 +1072,18 @@ export type PlacedItem = {
   cancelled?: Cancelled;
   crafting?: BuildingProduct[];
   processing?: BuildingProduct[];
+  /**
+   * Oil in the building's tank. On a clock-drain cooking building (`oilSettledAt`
+   * set) this is the level at `oilSettledAt` — a ledger, not the live level, which
+   * is derived (see `getCookingOilAt`).
+   */
   oil?: number;
+  /**
+   * The instant `oil` was last settled. Presence = the building burns oil by the
+   * clock while it cooks (cooking oil as a speed boost) rather than deducting it
+   * per recipe when queued.
+   */
+  oilSettledAt?: number;
   flipped?: boolean;
   /**
    * Weather-protection collectible (e.g. Tornado Pinwheel) consumed by its

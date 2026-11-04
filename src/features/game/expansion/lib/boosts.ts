@@ -184,11 +184,17 @@ export const getCookingTime = ({
   item,
   game,
   cookStartAt = Date.now(),
+  windowed,
 }: {
   seconds: number;
   item: CookableName;
   game: GameState;
   cookStartAt?: number;
+  /**
+   * The recipe runs under the speed-rate model regardless of the flag — a
+   * clock-drain building stays windowed after a SPEED_BOOSTS rollback.
+   */
+  windowed?: boolean;
 }): {
   reducedSecs: number;
   boostsUsed: { name: BoostName; value: string }[];
@@ -201,7 +207,7 @@ export const getCookingTime = ({
   // `getCookingQueueReadyAts`, so they must NOT be baked in here — what this
   // returns becomes the recipe's `baseDurationMs` (permanent boosts only). They
   // are likewise excluded from `boostsUsed`, matching every other slice.
-  const boostsWindowed = hasFeatureAccess(game, "SPEED_BOOSTS");
+  const boostsWindowed = windowed ?? hasFeatureAccess(game, "SPEED_BOOSTS");
 
   let reducedSecs = new Decimal(seconds);
   const boostsUsed: { name: BoostName; value: string }[] = [];

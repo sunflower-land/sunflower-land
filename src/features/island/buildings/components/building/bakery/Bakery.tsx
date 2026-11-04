@@ -45,6 +45,7 @@ export const Bakery: React.FC<Props> = ({
   const [showModal, setShowModal] = useState(false);
   const { cooking, queuedRecipes, readyRecipes } = useCookingState(
     bakery ?? {},
+    "Bakery",
   );
 
   const itemInProgress =

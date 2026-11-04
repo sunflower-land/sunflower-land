@@ -5,7 +5,11 @@ import {
   TEST_FARM,
 } from "features/game/lib/constants";
 import { COOKABLES } from "features/game/types/consumables";
-import type { BuildingProduct, GameState } from "features/game/types/game";
+import type {
+  BuildingProduct,
+  GameState,
+  PlacedItem,
+} from "features/game/types/game";
 import {
   cook,
   getCookingOilBoost,
@@ -19,6 +23,18 @@ import {
 import { getCookingTime } from "features/game/expansion/lib/boosts";
 import { CHAPTER_CROP_WEEK } from "features/game/types/chapterCropWeek";
 import { getCookingQueueReadyAts } from "features/game/lib/cookingReadiness";
+import { CONFIG } from "lib/config";
+
+/** Run `fn` as mainnet, where SPEED_BOOSTS is off without a Beta Pass. */
+const onMainnet = <T>(fn: () => T): T => {
+  const network = CONFIG.NETWORK;
+  (CONFIG as { NETWORK: string }).NETWORK = "mainnet";
+  try {
+    return fn();
+  } finally {
+    (CONFIG as { NETWORK: string }).NETWORK = network;
+  }
+};
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -258,36 +274,38 @@ describe("cook", () => {
     );
   });
 
-  it("subtracts oil from building", () => {
-    const state = cook({
-      state: {
-        ...GAME_STATE,
-        inventory: {
-          Egg: new Decimal(20),
-        },
-        buildings: {
-          "Fire Pit": [
-            {
-              coordinates: {
-                x: 2,
-                y: 3,
+  it("subtracts oil from building when SPEED_BOOSTS is off", () => {
+    const state = onMainnet(() =>
+      cook({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            Egg: new Decimal(20),
+          },
+          buildings: {
+            "Fire Pit": [
+              {
+                coordinates: {
+                  x: 2,
+                  y: 3,
+                },
+                readyAt: 1000,
+                createdAt: 1000,
+                id: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
+                oil: 10,
               },
-              readyAt: 1000,
-              createdAt: 1000,
-              id: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
-              oil: 10,
-            },
-          ],
+            ],
+          },
         },
-      },
-      action: {
-        type: "recipe.cooked",
-        item: "Boiled Eggs",
-        buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
-      },
-      farmId: 1,
-      createdAt,
-    });
+        action: {
+          type: "recipe.cooked",
+          item: "Boiled Eggs",
+          buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
+        },
+        farmId: 1,
+        createdAt,
+      }),
+    );
 
     const oilconsumed = getOilConsumption("Fire Pit", "Boiled Eggs");
     expect(state.buildings["Fire Pit"]?.[0].oil).toEqual(10 - oilconsumed);
@@ -1892,5 +1910,119 @@ describe("cook: Truffle recipes (Chapter 16)", () => {
     const state = roast(farm({ ...INPUTS, "Wild Mushroom": new Decimal(10) }));
 
     expect(state.inventory["Wild Mushroom"]).toEqual(new Decimal(10));
+  });
+});
+
+describe("cook (oil by the clock)", () => {
+  const EGG_MS = COOKABLES["Boiled Eggs"].cookingSeconds * 1000;
+
+  const firePitFarm = (building: Partial<PlacedItem> = {}): GameState => ({
+    ...TEST_FARM,
+    inventory: { ...TEST_FARM.inventory, Egg: new Decimal(1000) },
+    buildings: {
+      "Fire Pit": [
+        {
+          id: "1",
+          coordinates: { x: 0, y: 0 },
+          createdAt: 0,
+          readyAt: 0,
+          oil: 5,
+          ...building,
+        },
+      ],
+    },
+  });
+
+  const cookEggs = (state: GameState) =>
+    cook({
+      farmId: 1,
+      state,
+      action: { type: "recipe.cooked", item: "Boiled Eggs", buildingId: "1" },
+      createdAt,
+    });
+
+  it("leaves the oil in the tank when a recipe is queued", () => {
+    const firePit = cookEggs(firePitFarm()).buildings["Fire Pit"]?.[0];
+
+    expect(firePit?.oil).toEqual(5);
+    expect(firePit?.oilSettledAt).toEqual(createdAt);
+    expect(firePit?.crafting?.[0]).toMatchObject({
+      oilBoost: 0.2,
+      baseDurationMs: EGG_MS,
+    });
+    expect(firePit?.crafting?.[0].boost).toBeUndefined();
+  });
+
+  it("cooks 1 / (1 - boost) faster while the tank lasts", () => {
+    const firePit = cookEggs(firePitFarm()).buildings["Fire Pit"]?.[0];
+
+    expect(firePit?.crafting?.[0].readyAt).toEqual(createdAt + EGG_MS * 0.8);
+  });
+
+  it("cooks at normal speed with an empty tank", () => {
+    const firePit = cookEggs(firePitFarm({ oil: 0 })).buildings[
+      "Fire Pit"
+    ]?.[0];
+
+    expect(firePit?.crafting?.[0].readyAt).toEqual(createdAt + EGG_MS);
+  });
+
+  it("keeps burning oil by the clock once converted, even with SPEED_BOOSTS off", () => {
+    const firePit = onMainnet(() =>
+      cookEggs(firePitFarm({ oilSettledAt: createdAt - 1000 })),
+    ).buildings["Fire Pit"]?.[0];
+
+    expect(firePit?.oil).toEqual(5);
+    expect(firePit?.crafting?.[0]).toMatchObject({
+      oilBoost: 0.2,
+      baseDurationMs: EGG_MS,
+      readyAt: createdAt + EGG_MS * 0.8,
+    });
+  });
+
+  it("leaves temporary boosts out of the duration on rollback, so they apply once", () => {
+    const firePit = onMainnet(() =>
+      cookEggs({
+        ...firePitFarm({ oilSettledAt: createdAt - 1000 }),
+        collectibles: {
+          "Legendary Shrine": [
+            {
+              id: "1",
+              coordinates: { x: 5, y: 5 },
+              createdAt: createdAt - 1000,
+              readyAt: createdAt - 1000,
+            },
+          ],
+        },
+      }),
+    ).buildings["Fire Pit"]?.[0];
+
+    expect(firePit?.crafting?.[0].baseDurationMs).toEqual(EGG_MS);
+  });
+
+  it("charges nothing for a recipe queued behind one that paid up front", () => {
+    const state = firePitFarm({
+      oil: 5,
+      crafting: [
+        {
+          name: "Boiled Eggs",
+          boost: { Oil: 1 },
+          readyAt: createdAt + EGG_MS,
+        },
+      ],
+    });
+    state.vip = {
+      bundles: [{ name: "1_MONTH", boughtAt: createdAt }],
+      expiresAt: createdAt + 31 * 24 * 60 * 60 * 1000,
+    };
+
+    const firePit = cookEggs(state).buildings["Fire Pit"]?.[0];
+
+    // The legacy head keeps its baked time and draws nothing; the new recipe
+    // starts when it finishes, on the full tank.
+    expect(firePit?.oil).toEqual(5);
+    expect(firePit?.crafting?.[1].readyAt).toEqual(
+      createdAt + EGG_MS + EGG_MS * 0.8,
+    );
   });
 });

@@ -62,7 +62,14 @@ import {
   getCookingBoostWindows,
 } from "features/game/lib/boostWindows";
 import { getPreActionDisplay } from "features/game/lib/timerDisplay";
-import { resolveCookingQueueTimings } from "features/game/lib/cookingReadiness";
+import {
+  getCookingOil,
+  resolveCookingQueueTimings,
+} from "features/game/lib/cookingReadiness";
+import {
+  getCookingOilTank,
+  getPreviewOilWindow,
+} from "features/island/buildings/lib/cookingOilTank";
 import {
   getBoostContributionEntries,
   getCookingBoostContributions,
@@ -73,12 +80,12 @@ import type { MachineState } from "features/game/lib/gameMachine";
 const _cookingBoostWindows = (state: MachineState) =>
   getCookingBoostWindows(state.context.state);
 
-const _buildingCrafting =
+const _building =
   (buildingName: CookingBuildingName, buildingId?: string) =>
   (state: MachineState) =>
     state.context.state.buildings[buildingName]?.find(
       (building) => building.id === buildingId,
-    )?.crafting;
+    );
 
 interface Props {
   selected: Cookable;
@@ -127,10 +134,11 @@ export const Recipes: React.FC<Props> = ({
   // The building's raw queue, so the cooking recipe's real start can be resolved from
   // the chain. A queued recipe carries no `startedAt` of its own — its start IS the
   // ready time of the recipe ahead of it — so it cannot be read off `cooking`.
-  const buildingCraftingQueue = useSelector(
+  const selectedBuilding = useSelector(
     gameService,
-    _buildingCrafting(buildingName, buildingId),
+    _building(buildingName, buildingId),
   );
+  const buildingCraftingQueue = selectedBuilding?.crafting;
   const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
   const state = useSelector(gameService, (state) => state.context.state);
@@ -187,6 +195,12 @@ export const Recipes: React.FC<Props> = ({
   };
 
   const recipeStartAt = getNewRecipeStartAt() ?? now;
+  const { byTheClock: oilByTheClock } = getCookingOilTank({
+    game: state,
+    building: selectedBuilding,
+    buildingName,
+    at: now,
+  });
   const {
     reducedSecs: cookingTime,
     baseDurationMs,
@@ -196,12 +210,30 @@ export const Recipes: React.FC<Props> = ({
     item: selected.name,
     createdAt: recipeStartAt,
     game: state,
+    oilByTheClock,
   });
+  // On a clock-drain building the oil is a live speed rather than a cut baked into
+  // the duration, so the preview cooks under it like any other window.
+  const previewOilWindow =
+    baseDurationMs === undefined
+      ? undefined
+      : getPreviewOilWindow({
+          game: state,
+          building: selectedBuilding,
+          buildingName,
+          item: selected.name,
+          baseDurationMs,
+          now,
+        });
+  const previewWindows = previewOilWindow
+    ? [...cookingBoostWindows, previewOilWindow]
+    : cookingBoostWindows;
 
   const baseTimeSeconds = COOKABLES[selected.name].cookingSeconds;
 
-  const cookingStartedAt = (() => {
-    if (!cooking || !buildingCraftingQueue) return undefined;
+  const cookingTiming = (() => {
+    if (!cooking || !buildingCraftingQueue || !selectedBuilding)
+      return undefined;
 
     const index = buildingCraftingQueue.findIndex((recipe) =>
       cooking.id !== undefined
@@ -213,8 +245,14 @@ export const Recipes: React.FC<Props> = ({
     return resolveCookingQueueTimings({
       crafting: buildingCraftingQueue,
       windows: cookingBoostWindows,
-    })[index].startedAt;
+      oil: getCookingOil({ building: selectedBuilding, buildingName }),
+    })[index];
   })();
+  const cookingStartedAt = cookingTiming?.startedAt;
+  // The recipe in the oven counts down under the oil as well as the boost windows.
+  const cookingWindows = cookingTiming?.oilWindow
+    ? [...cookingBoostWindows, cookingTiming.oilWindow]
+    : cookingBoostWindows;
 
   // The windowed boosters aren't in `boostsUsed` (they apply over the cook rather
   // than being baked into it), so name them for the boost panel with the time
@@ -224,7 +262,12 @@ export const Recipes: React.FC<Props> = ({
     baseDurationMs === undefined
       ? []
       : getBoostContributionEntries({
-          contributions: getCookingBoostContributions(state, recipeStartAt),
+          contributions: [
+            ...getCookingBoostContributions(state, recipeStartAt),
+            ...(previewOilWindow
+              ? [{ name: "Building Oil" as const, windows: [previewOilWindow] }]
+              : []),
+          ],
           seconds: baseDurationMs / 1000,
           at: recipeStartAt,
           formatSeconds: (seconds) =>
@@ -243,7 +286,7 @@ export const Recipes: React.FC<Props> = ({
           seconds: baseDurationMs / 1000,
           baseSeconds: baseTimeSeconds,
           namedBoostCount: allTimeBoostsUsed.length,
-          windows: cookingBoostWindows,
+          windows: previewWindows,
           at: recipeStartAt,
         });
 
@@ -300,9 +343,11 @@ export const Recipes: React.FC<Props> = ({
 
   const building = buildings?.[buildingName]?.[0];
   const buildingCrafting = building?.crafting ?? [];
-  const isOilBoosted = buildingCrafting.find(
-    (recipe) => recipe.name === selected.name && recipe.boost?.["Oil"],
-  );
+  const isOilBoosted =
+    buildingCrafting.find(
+      (recipe) => recipe.name === selected.name && recipe.boost?.["Oil"],
+    ) ||
+    (cookingTiming?.oilWindow && cookingTiming.oilWindow.to > now);
   const doubleNomLevel = getSkillLevel(bumpkin.skills, "Double Nom");
   const isVIP = useVipAccess({ game: state });
   const isQueueFull =
@@ -406,7 +451,7 @@ export const Recipes: React.FC<Props> = ({
                 onInstantReady={handleInstantCook}
                 state={state}
                 startedAt={cookingStartedAt}
-                windows={cookingBoostWindows}
+                windows={cookingWindows}
               />
             )}
 

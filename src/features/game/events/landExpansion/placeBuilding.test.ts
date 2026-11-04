@@ -6,6 +6,7 @@ import type {
   BuildingProduct,
   CraftingQueueItem,
   GameState,
+  PlacedItem,
 } from "../../types/game";
 import { getAnimalReadyAt } from "../../lib/animals";
 import { getNextLoveAvailableAt, isAnimalNeedingLove } from "./loveAnimal";
@@ -1682,5 +1683,64 @@ describe("placeBuilding (windowed crop machine)", () => {
     const pack = state.buildings["Crop Machine"]?.[0]?.queue?.[0];
     // Finalised history is never shifted forward.
     expect(pack?.readyAt).toBe(at - 3 * HOUR);
+  });
+});
+
+describe("placeBuilding (cooking oil by the clock)", () => {
+  const HOUR = 60 * 60 * 1000;
+  const T0 = Date.now();
+
+  const lazy = (fields: Partial<BuildingProduct>): BuildingProduct => ({
+    name: "Fermented Fish",
+    oilBoost: 0.4,
+    readyAt: 0,
+    ...fields,
+  });
+
+  const deliFarm = (base: GameState, deli: Partial<PlacedItem>): GameState => ({
+    ...base,
+    buildings: {
+      Deli: [
+        {
+          id: "1",
+          coordinates: { x: 0, y: 0 },
+          createdAt: 0,
+          readyAt: 0,
+          oil: 20,
+          oilSettledAt: T0,
+          ...deli,
+        },
+      ],
+    },
+  });
+
+  it("neither cooks nor burns oil while the building is lifted", () => {
+    const state = placeBuilding({
+      state: {
+        ...deliFarm(
+          { ...GAME_STATE, inventory: { Deli: new Decimal(1) } },
+          {
+            coordinates: undefined,
+            removedAt: T0 + 3 * HOUR,
+            crafting: [lazy({ startedAt: T0, baseDurationMs: 10 * HOUR })],
+          },
+        ),
+      },
+      action: {
+        type: "building.placed",
+        name: "Deli",
+        id: "1",
+        coordinates: { x: 0, y: 0 },
+      },
+      createdAt: T0 + 10 * HOUR,
+      farmId: 1,
+    });
+
+    const deli = state.buildings.Deli?.[0];
+    // 3h cooked before the lift burned 2.5 oil; the 7h lifted burned nothing.
+    expect(deli?.oil).toBeCloseTo(17.5);
+    expect(deli?.oilSettledAt).toEqual(T0 + 10 * HOUR);
+    // 3h on oil did 5h of the 10h; the other 5h take 3h on oil from the placement.
+    expect(deli?.crafting?.[0].readyAt).toEqual(T0 + 13 * HOUR);
   });
 });
