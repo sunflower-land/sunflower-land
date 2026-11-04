@@ -7,6 +7,7 @@ import lightning from "assets/icons/lightning.png";
 import bee from "assets/icons/bee.webp";
 import chefHat from "assets/icons/chef_hat.png";
 import baits from "assets/composters/baits.png";
+import fertilisers from "assets/composters/fertilisers.png";
 import { ITEM_DETAILS } from "./images";
 import { translate } from "lib/i18n/translate";
 import { getChapterTicket, CHAPTERS, getCurrentChapter } from "./chapters";
@@ -929,7 +930,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       shortDescription: translate("description.turdTopper.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostedItemIcon: ITEM_DETAILS["Rapid Root"].image,
+      boostedItemIcon: fertilisers,
     },
   ],
   "Duende Hat": [
