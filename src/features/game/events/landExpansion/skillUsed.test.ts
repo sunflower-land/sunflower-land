@@ -2091,7 +2091,17 @@ describe("Instant Gratification (oil by the clock)", () => {
               skills: { "Instant Gratification": 1 },
             },
           },
-          { crafting: [lazy({ startedAt: T0, baseDurationMs: HOUR })] },
+          // Finished an hour in; the cached `readyAt` is stale on purpose, so
+          // only the derived readiness says it is done.
+          {
+            crafting: [
+              lazy({
+                startedAt: T0,
+                baseDurationMs: HOUR,
+                readyAt: T0 + 10 * HOUR,
+              }),
+            ],
+          },
         ),
         action: { type: "skill.used", skill: "Instant Gratification" },
         createdAt: T0 + 2 * HOUR,
