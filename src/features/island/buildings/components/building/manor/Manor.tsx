@@ -138,7 +138,9 @@ export const Manor: React.FC<BuildingProps> = ({ isBuilt, season }) => {
           width: `${PIXEL_SCALE * 10}px`,
           top: `${PIXEL_SCALE * 10}px`,
           left: `${PIXEL_SCALE * 8}px`,
-          opacity: showHeart ? 1 : 0,
+          // Only while the Bumpkin stands by the house; a Bumpkin placed on
+          // the farm gets the heart above it instead (PlacedBumpkin).
+          opacity: showHeart && !game.bumpkin?.coordinates ? 1 : 0,
         }}
       />
     </div>
