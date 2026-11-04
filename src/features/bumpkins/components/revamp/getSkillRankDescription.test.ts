@@ -36,6 +36,22 @@ describe("getSkillRankDescription — floating point safety", () => {
   });
 });
 
+describe("getSkillRankDescription — oil skills under SPEED_BOOSTS", () => {
+  it("reads as a cooking speed rather than a time cut", () => {
+    const speedBoosts = { speedBoosts: true };
+
+    expect(
+      getSkillRankDescription("Swift Sizzle", 1, t, speedBoosts).buff,
+    ).toEqual("1.67x Fire Pit cooking speed with oil");
+    expect(
+      getSkillRankDescription("Turbo Fry", 3, t, speedBoosts).buff,
+    ).toEqual("2.5x Kitchen cooking speed with oil");
+    expect(
+      getSkillRankDescription("Fry Frenzy", 3, t, speedBoosts).buff,
+    ).toEqual("3.33x Deli cooking speed with oil");
+  });
+});
+
 describe("getSkillRankDescription — Healthy Livestock", () => {
   it("shows only the sickness cut at rank 1 (no spread benefit yet)", () => {
     const { buff, debuff } = getSkillRankDescription("Healthy Livestock", 1, t);
