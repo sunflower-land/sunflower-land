@@ -1,18 +1,9 @@
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
-import {
-  ANIMAL_RESOURCE_DROP,
-  ANIMALS,
-  type AnimalType,
-} from "features/game/types/animals";
+import { ANIMALS, type AnimalType } from "features/game/types/animals";
 import type { GameState } from "features/game/types/game";
-import {
-  getAnimalLevel,
-  getBoostedAwakeAt,
-  getResourceDropAmount,
-} from "features/game/lib/animals";
+import { getAnimalProduce, getBoostedAwakeAt } from "features/game/lib/animals";
 import { makeAnimalBuildingKey } from "features/game/lib/animals";
-import { getKeys } from "lib/object";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
@@ -54,39 +45,26 @@ export function claimProduce({
       throw new Error("Animal is not ready to claim produce");
     }
 
-    const level = getAnimalLevel(animal.experience, action.animal);
+    getAnimalProduce({ game: copy, animal }).forEach(
+      ({ resource, amount, boostsUsed }) => {
+        copy.inventory[resource] = (
+          copy.inventory[resource] ?? new Decimal(0)
+        ).add(amount);
 
-    getKeys(ANIMAL_RESOURCE_DROP[action.animal][level]).forEach((resource) => {
-      const baseAmount = ANIMAL_RESOURCE_DROP[action.animal][level][
-        resource
-      ] as Decimal;
-      const { amount: boostedAmount, boostsUsed } = getResourceDropAmount({
-        game: copy,
-        animalType: action.animal,
-        baseAmount: baseAmount.toNumber(),
-        resource,
-        multiplier: animal.multiplier ?? 0,
-        animal,
-      });
+        copy.farmActivity = trackFarmActivity(
+          `${resource} Collected`,
+          copy.farmActivity,
+        );
 
-      const amountToAdd = new Decimal(boostedAmount ?? 0);
-      const resourceBoosts = [...boostsUsed];
+        copy.boostsUsedAt = updateBoostUsed({
+          game: copy,
+          boostNames: boostsUsed,
+          createdAt,
+        });
+      },
+    );
 
-      copy.inventory[resource] = (
-        copy.inventory[resource] ?? new Decimal(0)
-      ).add(amountToAdd);
-
-      copy.farmActivity = trackFarmActivity(
-        `${resource} Collected`,
-        copy.farmActivity,
-      );
-
-      copy.boostsUsedAt = updateBoostUsed({
-        game: copy,
-        boostNames: resourceBoosts,
-        createdAt,
-      });
-    });
+    delete animal.pendingProduceLevels;
 
     // Apply reward items if any
     if (animal.reward?.items) {

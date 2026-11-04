@@ -24,16 +24,12 @@ import type {
 import {
   getAnimalFavoriteFood,
   getAnimalLevel,
-  getResourceDropAmount,
+  getAnimalProduce,
   isMaxLevel as isMaxAnimalLevel,
   isMuddy,
   MUD_XP_MULTIPLIER,
 } from "features/game/lib/animals";
-import {
-  ANIMAL_LEVELS,
-  ANIMAL_RESOURCE_DROP,
-  type AnimalLevel,
-} from "features/game/types/animals";
+import { ANIMAL_LEVELS, type AnimalLevel } from "features/game/types/animals";
 import {
   getAnimalXP,
   getNextLoveAvailableAt,
@@ -196,24 +192,7 @@ export const SleepingAnimalModal = ({
 
   const level = getAnimalLevel(animal.experience, animal.type);
   const isMaxLevel = isMaxAnimalLevel(animal.type, level);
-  const production = Object.entries(
-    ANIMAL_RESOURCE_DROP[animal.type][level],
-  ).map(([resource, baseAmount]) => {
-    const result = getResourceDropAmount({
-      game: state,
-      animalType: animal.type,
-      resource: resource as AnimalResource,
-      baseAmount: baseAmount.toNumber(),
-      multiplier: animal.multiplier ?? 0,
-      animal,
-    });
-
-    return {
-      resource: resource as AnimalResource,
-      baseAmount: baseAmount.toNumber(),
-      ...result,
-    };
-  });
+  const production = getAnimalProduce({ game: state, animal });
 
   const xpToNext = isMaxLevel
     ? (() => {

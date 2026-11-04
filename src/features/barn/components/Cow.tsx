@@ -649,13 +649,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
         <div className="relative w-full h-full">
           <AnimalFeedBuffBadge feedBuff={cow.feedBuff} />
           {showDrops && (
-            <ProduceDrops
-              animal={cow}
-              multiplier={cow.multiplier ?? 0}
-              level={level}
-              animalType="Cow"
-              className="bottom-0 left-4 top-4"
-            />
+            <ProduceDrops animal={cow} className="bottom-0 left-4 top-4" />
           )}
           <img
             src={animalImageInfo().image}

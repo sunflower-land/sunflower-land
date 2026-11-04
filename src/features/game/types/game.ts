@@ -109,7 +109,7 @@ import type {
 import type { GameTransaction } from "./transactions";
 import type { LevelRequirement } from "features/game/lib/level";
 import type { CompetitionName, CompetitionProgress } from "./competitions";
-import type { AnimalType } from "./animals";
+import type { AnimalLevel, AnimalType } from "./animals";
 import type { ChoreBoard } from "./choreBoard";
 import type { DollName, RecipeCollectibleName, Recipes } from "../lib/crafting";
 
@@ -2244,6 +2244,8 @@ export type Animal = {
   createdAt: number;
   experience: number;
   asleepAt: number;
+  /** Unclaimed level rewards earned by feeding or petting, including skipped levels. */
+  pendingProduceLevels?: AnimalLevel[];
   /**
    * The animal's wake time. Under the speed-rate model (`baseDurationMs` set)
    * this is a non-authoritative CACHE of the wake time projected at sleep — the

@@ -625,13 +625,7 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
           <AnimalFeedBuffBadge feedBuff={pig.feedBuff} />
           <AnimalMudBadge mud={pig.mud} />
           {showDrops && (
-            <ProduceDrops
-              animal={pig}
-              multiplier={pig.multiplier ?? 0}
-              level={level}
-              animalType="Pig"
-              className="bottom-0 left-4 top-4"
-            />
+            <ProduceDrops animal={pig} className="bottom-0 left-4 top-4" />
           )}
           <img
             src={animalImageInfo().image}

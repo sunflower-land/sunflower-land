@@ -620,13 +620,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
         <div className="relative w-full h-full">
           <AnimalFeedBuffBadge feedBuff={sheep.feedBuff} />
           {showDrops && (
-            <ProduceDrops
-              animal={sheep}
-              multiplier={sheep.multiplier ?? 0}
-              level={level}
-              animalType="Sheep"
-              className="bottom-0 left-5 top-4"
-            />
+            <ProduceDrops animal={sheep} className="bottom-0 left-5 top-4" />
           )}
 
           <img

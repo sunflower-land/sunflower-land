@@ -679,9 +679,6 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
           {showDrops && (
             <ProduceDrops
               animal={chicken}
-              multiplier={chicken.multiplier ?? 0}
-              level={level}
-              animalType="Chicken"
               className="bottom-0 left-1/2 -translate-x-1/2"
             />
           )}

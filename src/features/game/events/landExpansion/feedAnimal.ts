@@ -23,7 +23,7 @@ import {
   getAnimalReadyAt,
   getBoostedFoodQuantity,
   getXpUntilReady,
-  hasAnimalCompletedCycle,
+  addAnimalExperience,
   isFoodForAnimal,
   isMuddy,
   makeAnimalBuildingKey,
@@ -74,22 +74,6 @@ export function isMaxLevel(
   return experience >= ANIMAL_LEVELS[animal][maxLevel];
 }
 
-/** Applies the feed's XP and reports whether it earned produce. */
-const handleAnimalExperience = (
-  animal: Animal,
-  animalType: AnimalType,
-  beforeFeedXp: number,
-  foodXp: number,
-): boolean => {
-  animal.experience = new Decimal(animal.experience).add(foodXp).toNumber();
-
-  return hasAnimalCompletedCycle({
-    animalType,
-    beforeXp: beforeFeedXp,
-    gainedXp: foodXp,
-  });
-};
-
 const handleFreeFeeding = ({
   animal,
   animalType,
@@ -118,7 +102,7 @@ const handleFreeFeeding = ({
     const currentCycleProgress = new Decimal(beforeFeedXp).mod(maxLevelXp);
     const xpDiff = new Decimal(maxLevelXp).sub(currentCycleProgress).toNumber();
 
-    isReady = handleAnimalExperience(animal, animalType, beforeFeedXp, xpDiff);
+    isReady = addAnimalExperience(animal, xpDiff);
   } else {
     const nextLevelXp = ANIMAL_LEVELS[animalType][nextLevel];
     const xpDiff = new Decimal(nextLevelXp).sub(beforeFeedXp);
@@ -138,12 +122,7 @@ const handleFreeFeeding = ({
     // Decimal keeps fractional feed XP (e.g. 31.5) exact.
     const noOfFeed = xpDiff.div(foodXp).toDecimalPlaces(0, Decimal.ROUND_CEIL);
     const xpToFeed = noOfFeed.mul(foodXp).toNumber();
-    isReady = handleAnimalExperience(
-      animal,
-      animalType,
-      beforeFeedXp,
-      xpToFeed,
-    );
+    isReady = addAnimalExperience(animal, xpToFeed);
   }
 
   animal.state = isReady ? "ready" : "happy";
@@ -282,8 +261,6 @@ export function feedAnimal({
         `Animal ${action.id} not found in building ${buildingKey}`,
       );
     }
-
-    const beforeFeedXp = animal.experience;
 
     if (createdAt < getAnimalReadyAt(animal, copy) && animal.state !== "sick") {
       throw new Error("Animal is asleep");
@@ -436,12 +413,7 @@ export function feedAnimal({
 
     boostsUsed.push(...foodBoostsUsed, ...xpBoostsUsed);
 
-    const isReady = handleAnimalExperience(
-      animal,
-      action.animal,
-      beforeFeedXp,
-      foodXp,
-    );
+    const isReady = addAnimalExperience(animal, foodXp);
 
     // Only set happy/sad state if animal isn't ready
     if (!isReady) {
