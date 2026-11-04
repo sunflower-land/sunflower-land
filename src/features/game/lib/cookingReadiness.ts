@@ -454,3 +454,45 @@ export const settleCookingOil = ({
 
   return getCookingOil({ building, buildingName });
 };
+
+/**
+ * Burn the oil recipe `index` would still have drawn had it cooked to the end, for
+ * a recipe completed early (gem speed-up, Instant Gratification). The building
+ * must already be settled at `at`.
+ *
+ * Skipping the wait does not skip the oil: the dish costs what it would have cost
+ * cooked out, capped at what is in the tank. Otherwise a full tank would cut the
+ * gem price (which is off the oil-boosted time left) without ever being used up.
+ *
+ * Returns the ledger after the burn.
+ */
+export const burnRecipeOil = ({
+  building,
+  buildingName,
+  index,
+  at,
+  windows,
+}: {
+  building: PlacedItem;
+  buildingName: CookingBuildingName;
+  index: number;
+  at: number;
+  windows: BoostWindow[];
+}): CookingOil | undefined => {
+  const oil = getCookingOil({ building, buildingName });
+  if (!oil) return undefined;
+
+  const { oilWindow } =
+    resolveCookingQueueTimings({
+      crafting: building.crafting ?? [],
+      windows,
+      oil,
+    })[index] ?? {};
+
+  if (oilWindow && oilWindow.to > at) {
+    const burnedMs = oilWindow.to - Math.max(oilWindow.from, at);
+    building.oil = Math.max(oil.tank - (burnedMs / DAY) * oil.ratePerDay, 0);
+  }
+
+  return getCookingOil({ building, buildingName });
+};

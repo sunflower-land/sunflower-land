@@ -795,11 +795,12 @@ describe("speedUpRecipe (oil by the clock)", () => {
     ).toThrow("Building is not placed");
   });
 
-  it("burns no oil for the time it skips", () => {
-    const state = speedUpRecipe({
+  const speedUp = (oil: number) =>
+    speedUpRecipe({
       farmId: 1,
       state: {
         ...deliFarm(INITIAL_FARM, {
+          oil,
           crafting: [
             lazy({ startedAt: T0, baseDurationMs: 10 * HOUR }),
             lazy({ baseDurationMs: 10 * HOUR }),
@@ -813,15 +814,25 @@ describe("speedUpRecipe (oil by the clock)", () => {
         buildingName: "Deli",
       },
       createdAt: T0 + HOUR,
-    });
+    }).buildings.Deli?.[0];
 
-    const deli = state.buildings.Deli?.[0];
-    // Only the hour actually cooked burns oil.
-    expect(deli?.oil).toBeCloseTo(20 - 20 / 24);
+  it("burns the oil the rest of the recipe would have used", () => {
+    const deli = speedUp(20);
+
+    // The head takes 6h on oil (5 oil): 1h cooked, 5h skipped, all of it paid.
+    expect(deli?.oil).toBeCloseTo(15);
     // The next fish starts now, on what is left in the tank.
     expect(deli?.crafting?.[0]).toMatchObject({
       startedAt: T0 + HOUR,
       readyAt: T0 + 7 * HOUR,
     });
+  });
+
+  it("burns no more than the tank holds", () => {
+    const deli = speedUp(2); // 2.4h of oil, 1.4h left at the speed-up
+
+    expect(deli?.oil).toEqual(0);
+    // Nothing left for the next fish, so it cooks at normal speed.
+    expect(deli?.crafting?.[0].readyAt).toEqual(T0 + 11 * HOUR);
   });
 });

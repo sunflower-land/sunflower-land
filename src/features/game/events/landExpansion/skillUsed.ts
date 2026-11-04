@@ -30,7 +30,11 @@ import { canChop } from "./chop";
 import { canDrillOilReserve } from "./drillOilReserve";
 import { isReadyToHarvest } from "./harvest";
 import { getCurrentCookingItem, recalculateQueue } from "./cancelQueuedRecipe";
-import { settleCookingOil } from "features/game/lib/cookingReadiness";
+import { getCookingBoostWindows } from "features/game/lib/boostWindows";
+import {
+  burnRecipeOil,
+  settleCookingOil,
+} from "features/game/lib/cookingReadiness";
 import { FLOWER_SEEDS, FLOWERS } from "features/game/types/flowers";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 import { isWearableActive } from "features/game/lib/wearables";
@@ -207,9 +211,10 @@ function useInstantGratification({
     // A lifted building is paused until it is placed again (see `placeBuilding`).
     if (!building?.crafting || !building.coordinates) return;
 
-    // Settle the oil at activation: the skipped time is not cooked, so it burns
-    // none, and the recipe promoted behind it draws from what is left now.
-    const oil = settleCookingOil({
+    // Settle the oil at activation; the completed recipe then pays for the oil it
+    // would have burned cooking out (see `burnRecipeOil`), and the recipe promoted
+    // behind it draws from what is left.
+    const settled = settleCookingOil({
       game,
       building,
       buildingName,
@@ -221,12 +226,19 @@ function useInstantGratification({
       building: building,
       createdAt,
       game,
-      oil,
+      oil: settled,
     });
 
     if (!currentlyCooking) return;
 
     const recipeIndex = currentlyCooking.index;
+    const oil = burnRecipeOil({
+      building,
+      buildingName,
+      index: recipeIndex,
+      at: createdAt,
+      windows: getCookingBoostWindows(game),
+    });
 
     queue[recipeIndex].readyAt = createdAt;
     // Windowed (`baseDurationMs` set): also zero the remaining work, or the queue

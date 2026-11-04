@@ -19,7 +19,11 @@ import {
   type SpeedUpPaymentMethod,
 } from "features/game/lib/getInstantGems";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
-import { settleCookingOil } from "features/game/lib/cookingReadiness";
+import { getCookingBoostWindows } from "features/game/lib/boostWindows";
+import {
+  burnRecipeOil,
+  settleCookingOil,
+} from "features/game/lib/cookingReadiness";
 import { isCookingBuilding } from "./isCookingBuilding";
 
 export type InstantCookRecipe = {
@@ -70,9 +74,10 @@ export function speedUpRecipe({
       throw new Error("Building is not placed");
     }
 
-    // Settle the oil at the speed-up: the skipped time is not cooked, so it burns
-    // none, and the recipe promoted behind it draws from what is left now.
-    const oil = isCookingBuilding(action.buildingName)
+    // Settle the oil at the speed-up; the sped-up recipe then pays for the oil it
+    // would have burned cooking out (see `burnRecipeOil`), and the recipe promoted
+    // behind it draws from what is left.
+    const settled = isCookingBuilding(action.buildingName)
       ? settleCookingOil({
           game,
           building,
@@ -81,13 +86,29 @@ export function speedUpRecipe({
         })
       : undefined;
     const queue = building.crafting;
-    const cooking = getCurrentCookingItem({ building, createdAt, game, oil });
+    const cooking = getCurrentCookingItem({
+      building,
+      createdAt,
+      game,
+      oil: settled,
+    });
 
     if (!queue || !cooking) {
       throw new Error("Nothing is cooking");
     }
 
     const { index: recipeIndex, recipe, readyAt } = cooking;
+
+    const oil =
+      settled && isCookingBuilding(action.buildingName)
+        ? burnRecipeOil({
+            building,
+            buildingName: action.buildingName,
+            index: recipeIndex,
+            at: createdAt,
+            windows: getCookingBoostWindows(game),
+          })
+        : undefined;
 
     // Price off the DERIVED ready time: the player is charged for the wait they can
     // actually see, so an active boost makes skipping cheaper.

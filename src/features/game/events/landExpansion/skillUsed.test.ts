@@ -2010,7 +2010,7 @@ describe("Instant Gratification (oil by the clock)", () => {
     },
   });
 
-  it("burns no oil for the time it skips", () => {
+  it("burns the oil the rest of the recipe would have used", () => {
     const state = skillUse({
       state: deliFarm(
         {
@@ -2032,7 +2032,8 @@ describe("Instant Gratification (oil by the clock)", () => {
     });
 
     const deli = state.buildings.Deli?.[0];
-    expect(deli?.oil).toBeCloseTo(20 - 20 / 24);
+    // The head takes 6h on oil (5 oil): 1h cooked, 5h skipped, all of it paid.
+    expect(deli?.oil).toBeCloseTo(15);
     expect(deli?.crafting?.[0].readyAt).toEqual(T0 + HOUR);
     expect(deli?.crafting?.[1].readyAt).toEqual(T0 + 7 * HOUR);
   });
