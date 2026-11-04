@@ -39,6 +39,8 @@ import { AnimalFeedBuffBadge } from "features/game/expansion/components/animals/
 import { Transition } from "@headlessui/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ProduceDrops } from "features/game/expansion/components/animals/ProduceDrops";
+import { getAnimalClaimSnapshot } from "features/game/expansion/components/animals/animalClaimAnimation";
+import type { Animal } from "features/game/types/game";
 import { useSound } from "lib/utils/hooks/useSound";
 import { InfoPopover } from "features/island/common/InfoPopover";
 import Decimal from "decimal.js-light";
@@ -99,6 +101,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const sheepState = useSelector(sheepService, _animalState);
   const inventory = useSelector(gameService, _inventory);
   const [showDrops, setShowDrops] = useState(false);
+  const [dropAnimal, setDropAnimal] = useState<Animal>();
   const [showNoFoodSelected, setShowNoFoodSelected] = useState(false);
   const [showFreeFeedTreat, setShowFreeFeedTreat] = useState(false);
   const freeFeedTreatTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
@@ -174,16 +177,13 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sheep.state]);
 
-  const lastSynced = useRef({
-    state: sheep.state,
-    experience: sheep.experience,
-  });
+  const lastSynced = useRef(sheep);
 
   // Sync the local machine when game state changes underneath it,
   // e.g. via the Feed All button (bulk feed/cure/claim without a click).
   useEffect(() => {
     const prev = lastSynced.current;
-    lastSynced.current = { state: sheep.state, experience: sheep.experience };
+    lastSynced.current = sheep;
 
     if (prev.state === sheep.state && prev.experience === sheep.experience) {
       return;
@@ -200,6 +200,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     const animateBulkClaim = async (
       event: "CLAIM_PRODUCE" | "INSTANT_WAKE_UP",
     ) => {
+      setDropAnimal(getAnimalClaimSnapshot(prev, sheep));
       setShowDrops(true);
       playProduceDrop();
       await new Promise((resolve) => setTimeout(resolve, 500));
@@ -208,6 +209,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       playLevelUp();
       sheepService.send({ type: event, animal: sheep });
       setShowDrops(false);
+      setDropAnimal(undefined);
     };
 
     if (machineState() === "ready" && sheep.state === "idle") {
@@ -233,7 +235,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       sheepService.send({ type: "FEED", animal: sheep });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sheep.state, sheep.experience]);
+  }, [sheep]);
 
   const feedSheep = (item?: InventoryItemName) => {
     setFeedXPAmount(getAnimalXPEarned(item));
@@ -620,7 +622,10 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
         <div className="relative w-full h-full">
           <AnimalFeedBuffBadge feedBuff={sheep.feedBuff} />
           {showDrops && (
-            <ProduceDrops animal={sheep} className="bottom-0 left-5 top-4" />
+            <ProduceDrops
+              animal={dropAnimal ?? sheep}
+              className="bottom-0 left-5 top-4"
+            />
           )}
 
           <img

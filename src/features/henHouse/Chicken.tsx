@@ -39,6 +39,8 @@ import type {
 import { isAnimalFeedBuffItem } from "features/game/events/landExpansion/applyAnimalFeedBuff";
 import { AnimalFeedBuffBadge } from "features/game/expansion/components/animals/AnimalFeedBuffBadge";
 import { ProduceDrops } from "features/game/expansion/components/animals/ProduceDrops";
+import { getAnimalClaimSnapshot } from "features/game/expansion/components/animals/animalClaimAnimation";
+import type { Animal } from "features/game/types/game";
 import { useSound } from "lib/utils/hooks/useSound";
 import { InfoPopover } from "features/island/common/InfoPopover";
 import Decimal from "decimal.js-light";
@@ -166,6 +168,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   }, [chicken.state]);
 
   const [showDrops, setShowDrops] = useState(false);
+  const [dropAnimal, setDropAnimal] = useState<Animal>();
   const [showAnimalDetails, setShowAnimalDetails] = useState(false);
   const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
   const [showNoMedicine, setShowNoMedicine] = useState(false);
@@ -197,19 +200,13 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const { play: playLevelUp } = useSound("level_up");
   const { play: playCureAnimal } = useSound("cure_animal");
 
-  const lastSynced = useRef({
-    state: chicken.state,
-    experience: chicken.experience,
-  });
+  const lastSynced = useRef(chicken);
 
   // Sync the local machine when game state changes underneath it,
   // e.g. via the Feed All button (bulk feed/cure/claim without a click).
   useEffect(() => {
     const prev = lastSynced.current;
-    lastSynced.current = {
-      state: chicken.state,
-      experience: chicken.experience,
-    };
+    lastSynced.current = chicken;
 
     if (
       prev.state === chicken.state &&
@@ -229,6 +226,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     const animateBulkClaim = async (
       event: "CLAIM_PRODUCE" | "INSTANT_WAKE_UP",
     ) => {
+      setDropAnimal(getAnimalClaimSnapshot(prev, chicken));
       setShowDrops(true);
       playProduceDrop();
       await new Promise((resolve) => setTimeout(resolve, 500));
@@ -237,6 +235,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       playLevelUp();
       chickenService.send({ type: event, animal: chicken });
       setShowDrops(false);
+      setDropAnimal(undefined);
     };
 
     if (machineState() === "ready" && chicken.state === "idle") {
@@ -262,7 +261,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       chickenService.send({ type: "FEED", animal: chicken });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chicken.state, chicken.experience]);
+  }, [chicken]);
 
   // One click feeds the whole batch that gets the Chicken ready.
   const feedBatchSize = getFeedBatchSize({ state: game, animal: chicken });
@@ -678,7 +677,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
           <AnimalFeedBuffBadge feedBuff={chicken.feedBuff} />
           {showDrops && (
             <ProduceDrops
-              animal={chicken}
+              animal={dropAnimal ?? chicken}
               className="bottom-0 left-1/2 -translate-x-1/2"
             />
           )}

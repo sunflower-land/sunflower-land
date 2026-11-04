@@ -27,6 +27,8 @@ import classNames from "classnames";
 import { RequestBubble } from "features/game/expansion/components/animals/RequestBubble";
 import { LevelProgress } from "features/game/expansion/components/animals/LevelProgress";
 import { ProduceDrops } from "features/game/expansion/components/animals/ProduceDrops";
+import { getAnimalClaimSnapshot } from "features/game/expansion/components/animals/animalClaimAnimation";
+import type { Animal } from "features/game/types/game";
 import type {
   AnimalFeedBuffName,
   AnimalFoodName,
@@ -159,6 +161,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const { t } = useAppTranslation();
 
   const [showDrops, setShowDrops] = useState(false);
+  const [dropAnimal, setDropAnimal] = useState<Animal>();
   const [showAnimalDetails, setShowAnimalDetails] = useState(false);
   const [showNoFoodSelected, setShowNoFoodSelected] = useState(false);
   const [showFreeFeedTreat, setShowFreeFeedTreat] = useState(false);
@@ -173,13 +176,13 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const { play: playLevelUp } = useSound("level_up");
   const { play: playCureAnimal } = useSound("cure_animal");
 
-  const lastSynced = useRef({ state: cow.state, experience: cow.experience });
+  const lastSynced = useRef(cow);
 
   // Sync the local machine when game state changes underneath it,
   // e.g. via the Feed All button (bulk feed/cure/claim without a click).
   useEffect(() => {
     const prev = lastSynced.current;
-    lastSynced.current = { state: cow.state, experience: cow.experience };
+    lastSynced.current = cow;
 
     if (prev.state === cow.state && prev.experience === cow.experience) {
       return;
@@ -196,6 +199,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     const animateBulkClaim = async (
       event: "CLAIM_PRODUCE" | "INSTANT_WAKE_UP",
     ) => {
+      setDropAnimal(getAnimalClaimSnapshot(prev, cow));
       setShowDrops(true);
       playProduceDrop();
       await new Promise((resolve) => setTimeout(resolve, 500));
@@ -204,6 +208,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       playLevelUp();
       cowService.send({ type: event, animal: cow });
       setShowDrops(false);
+      setDropAnimal(undefined);
     };
 
     if (machineState() === "ready" && cow.state === "idle") {
@@ -229,7 +234,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       cowService.send({ type: "FEED", animal: cow });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cow.state, cow.experience]);
+  }, [cow]);
 
   const favFood = getAnimalFavoriteFood("Cow", cow.experience);
   const sleeping = cowMachineState === "sleeping";
@@ -649,7 +654,10 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
         <div className="relative w-full h-full">
           <AnimalFeedBuffBadge feedBuff={cow.feedBuff} />
           {showDrops && (
-            <ProduceDrops animal={cow} className="bottom-0 left-4 top-4" />
+            <ProduceDrops
+              animal={dropAnimal ?? cow}
+              className="bottom-0 left-4 top-4"
+            />
           )}
           <img
             src={animalImageInfo().image}

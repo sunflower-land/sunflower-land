@@ -262,6 +262,10 @@ export function feedAnimal({
       );
     }
 
+    if (animal.type !== action.animal) {
+      throw new Error("Animal type does not match action");
+    }
+
     if (createdAt < getAnimalReadyAt(animal, copy) && animal.state !== "sick") {
       throw new Error("Animal is asleep");
     }
