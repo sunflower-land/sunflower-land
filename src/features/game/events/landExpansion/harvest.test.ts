@@ -2771,7 +2771,7 @@ describe("harvest", () => {
       expect(state.inventory.Cabbage).toEqual(new Decimal(1.15));
     });
 
-    it("neutralises a rank 3 Old Farmer on the Crystal Leaf event crop (+0.1, not +0.15)", () => {
+    it("applies a rank 3 Old Farmer to the Crystal Leaf event crop (+0.15)", () => {
       const state = harvest({
         state: {
           ...GAME_STATE,
@@ -2794,11 +2794,7 @@ describe("harvest", () => {
         action: { type: "crop.harvested", index: firstId },
       });
       expect(state.crops[firstId].crop).toBeUndefined();
-      // Crystal Leaf (event crop) ignores the upgraded rank: rank-1 bonus
-      // (+0.1), not the owned rank 3 (+0.15). The Old Farmer rank 3 Eggplant test
-      // below (a non-event advanced crop) still gets the full +0.15, proving the
-      // scoping.
-      expect(state.inventory["Crystal Leaf"]).toEqual(new Decimal(1.1));
+      expect(state.inventory["Crystal Leaf"]).toEqual(new Decimal(1.15));
     });
 
     it("gives +0.125 to advanced crop when Old Farmer skill is rank 2", () => {

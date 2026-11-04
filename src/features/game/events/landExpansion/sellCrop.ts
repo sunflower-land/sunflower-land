@@ -66,8 +66,8 @@ export function sellCrop({
       throw new Error("Not for sale");
     }
 
-    // Crops from previous Chapter Crop Week runs can never be sold again
-    if (isRetiredChapterCropWeekItem(action.crop)) {
+    // Crops from ended Chapter Crop Week runs can never be sold again
+    if (isRetiredChapterCropWeekItem(action.crop, createdAt)) {
       throw new Error("This crop is no longer sellable");
     }
 

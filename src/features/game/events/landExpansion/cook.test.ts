@@ -414,12 +414,12 @@ describe("cook", () => {
     ).toEqual(2);
   });
 
-  it("neutralises a rank 3 Double Nom on the Crystal Cookie event recipe (2x cost, stamps rank 1)", () => {
+  it("applies a rank 3 Double Nom to the Crystal Cookie event recipe (4x cost, stamps rank 3)", () => {
     const state = cook({
       state: {
         ...GAME_STATE,
         inventory: {
-          "Crystal Leaf": new Decimal(30),
+          "Crystal Leaf": new Decimal(50),
         },
         bumpkin: {
           ...INITIAL_BUMPKIN,
@@ -447,14 +447,11 @@ describe("cook", () => {
       createdAt: CHAPTER_CROP_WEEK.startDate.getTime(),
     });
 
-    // Crystal Cookie (event recipe) ignores the upgraded rank: 10 Crystal Leaf
-    // base x2 (rank 1) = 20 consumed, not rank 3's x4 = 40. Boiled Eggs above (a
-    // non-event recipe) still pays the full upgraded cost, proving the scoping.
+    // 10 Crystal Leaf base x4 (rank 3) = 40 consumed.
     expect(state.inventory["Crystal Leaf"]).toEqual(new Decimal(10));
-    // Recipe is stamped rank 1 so the later collect also honors rank 1.
     expect(
       state.buildings["Fire Pit"]?.[0].crafting?.[0].skills?.["Double Nom"],
-    ).toEqual(1);
+    ).toEqual(3);
   });
 
   it("never cooks a recipe from a previous Chapter Crop Week, even with its ingredients", () => {
