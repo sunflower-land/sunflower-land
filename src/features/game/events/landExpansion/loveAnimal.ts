@@ -116,6 +116,16 @@ export function loveAnimal({
     const buildingKey = makeAnimalBuildingKey(buildingRequired);
     const animal = copy[buildingKey].animals[action.id];
 
+    if (!animal) {
+      throw new Error(
+        `Animal ${action.id} not found in building ${buildingKey}`,
+      );
+    }
+
+    if (animal.type !== action.animal) {
+      throw new Error("Animal type does not match action");
+    }
+
     const readyAt = getAnimalReadyAt(animal, copy);
 
     if (createdAt > readyAt) {

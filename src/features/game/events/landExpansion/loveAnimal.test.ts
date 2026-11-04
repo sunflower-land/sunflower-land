@@ -14,6 +14,97 @@ import { ANIMAL_LEVELS } from "features/game/types/animals";
 describe("loveAnimal", () => {
   const now = Date.now();
 
+  const withBarnAnimal = (type: "Cow" | "Sheep"): GameState => ({
+    ...INITIAL_FARM,
+    inventory: { "Petting Hand": new Decimal(1) },
+    collectibles: {
+      "Baby Cow": [
+        { id: "cow", coordinates: { x: 0, y: 0 }, createdAt: 0, readyAt: 0 },
+      ],
+      "Spa Sheep": [
+        { id: "sheep", coordinates: { x: 2, y: 0 }, createdAt: 0, readyAt: 0 },
+      ],
+    },
+    barn: {
+      level: 1,
+      animals: {
+        "1": {
+          id: "1",
+          type,
+          experience: 180,
+          state: "idle",
+          createdAt: 0,
+          asleepAt: now - 9 * 60 * 60 * 1000,
+          awakeAt: now + 15 * 60 * 60 * 1000,
+          lovedAt: 0,
+          item: "Petting Hand",
+        },
+      },
+    },
+  });
+
+  it.each([
+    ["Cow", "Sheep"],
+    ["Sheep", "Cow"],
+  ] as const)(
+    "rejects a stored %s requested as a %s before awarding petting XP",
+    (storedType, requestedType) => {
+      const state = withBarnAnimal(storedType);
+      expect(() =>
+        loveAnimal({
+          state,
+          createdAt: now,
+          action: {
+            type: "animal.loved",
+            animal: requestedType,
+            id: "1",
+            item: "Petting Hand",
+          },
+        }),
+      ).toThrow("Animal type does not match action");
+      expect(state.barn.animals["1"].experience).toBe(180);
+      expect(state.barn.animals["1"].lovedAt).toBe(0);
+      expect(state.barn.animals["1"].pendingProduceLevels).toBeUndefined();
+    },
+  );
+
+  it.each([
+    ["Cow", 215],
+    ["Sheep", 210],
+  ] as const)(
+    "preserves petting XP and the correct type-specific bonus for a %s",
+    (type, experience) => {
+      const result = loveAnimal({
+        state: withBarnAnimal(type),
+        createdAt: now,
+        action: {
+          type: "animal.loved",
+          animal: type,
+          id: "1",
+          item: "Petting Hand",
+        },
+      });
+      expect(result.barn.animals["1"].experience).toBe(experience);
+      expect(result.barn.animals["1"].lovedAt).toBe(now);
+      expect(result.barn.animals["1"].lovesThisSleep).toBe(1);
+    },
+  );
+
+  it("rejects a missing animal before reading its type or calculating XP", () => {
+    expect(() =>
+      loveAnimal({
+        state: withBarnAnimal("Cow"),
+        createdAt: now,
+        action: {
+          type: "animal.loved",
+          animal: "Cow",
+          id: "missing",
+          item: "Petting Hand",
+        },
+      }),
+    ).toThrow("Animal missing not found in building barn");
+  });
+
   it("throws if the animal is not sleeping", () => {
     expect(() =>
       loveAnimal({
