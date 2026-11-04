@@ -9009,5 +9009,9 @@
   "consent.description": "We use Meta's pixel to measure which ads bring players who keep farming. Only with your OK. No wallet data is ever shared.",
   "consent.accept": "OK, measure ads",
   "consent.decline": "No thanks",
-  "consent.privacy": "Privacy policy"
+  "consent.privacy": "Privacy policy",
+  "cooking.building.oil.description.speed": "Oil cooks everything in the {{buildingName}} {{speed}}x faster. The tank only burns while something is cooking, and a full tank lasts 5 days.",
+  "skill.swiftSizzle.ranked.speed": "{{value}}x Fire Pit cooking speed with oil",
+  "skill.turboFry.ranked.speed": "{{value}}x Kitchen cooking speed with oil",
+  "skill.fryFrenzy.ranked.speed": "{{value}}x Deli cooking speed with oil"
 }

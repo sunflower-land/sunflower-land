@@ -9009,5 +9009,9 @@
   "consent.description": "我们使用 Meta 的像素来衡量哪些广告吸引了继续耕种的玩家。只有在你同意的情况下。从未共享任何钱包数据。",
   "consent.accept": "好吧，衡量广告",
   "consent.decline": "不用了谢谢",
-  "consent.privacy": "隐私政策"
+  "consent.privacy": "隐私政策",
+  "cooking.building.oil.description.speed": "石油以 {{buildingName}} {{speed}} x 的速度煮出所有东西。水箱只有在煮东西时才会燃烧，装满的水箱可以持续 5 天。",
+  "skill.swiftSizzle.ranked.speed": "{{value}} x Fire Pit 用油烹饪速度",
+  "skill.turboFry.ranked.speed": "{{value}} x 厨房用油烹饪速度",
+  "skill.fryFrenzy.ranked.speed": "{{value}} x 熟食店用油烹饪速度"
 }

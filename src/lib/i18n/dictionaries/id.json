@@ -9009,5 +9009,9 @@
   "consent.description": "Kami menggunakan piksel Meta untuk mengukur iklan mana yang membawa pemain yang terus bertani. Hanya dengan kebaikanmu. Tidak ada data dompet yang pernah dibagikan.",
   "consent.accept": "Oke, ukur iklan",
   "consent.decline": "Tidak terima kasih",
-  "consent.privacy": "Kebijakan Privasi"
+  "consent.privacy": "Kebijakan Privasi",
+  "cooking.building.oil.description.speed": "Minyak memasak semua yang ada di {{buildingName}} {{speed}} x lebih cepat. Tangki hanya terbakar saat sesuatu sedang dimasak, dan tangki penuh bertahan 5 hari.",
+  "skill.swiftSizzle.ranked.speed": "{{value}} x Kecepatan memasak Fire Pit dengan minyak",
+  "skill.turboFry.ranked.speed": "{{value}} x Kecepatan memasak dapur dengan minyak",
+  "skill.fryFrenzy.ranked.speed": "{{value}} x Kecepatan memasak Deli dengan minyak"
 }

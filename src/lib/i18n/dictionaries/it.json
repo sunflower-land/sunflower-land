@@ -9009,5 +9009,9 @@
   "consent.description": "Utilizziamo il pixel di Meta per misurare quali annunci attirano giocatori che continuano a coltivare. Solo con il tuo OK. Nessun dato del portafoglio viene mai condiviso.",
   "consent.accept": "OK, misura gli annunci",
   "consent.decline": "No grazie",
-  "consent.privacy": "Informativa sulla privacy"
+  "consent.privacy": "Informativa sulla privacy",
+  "cooking.building.oil.description.speed": "L'olio cuoce tutto in {{buildingName}} {{speed}} x più velocemente. Il serbatoio brucia solo mentre qualcosa sta cuocendo e un serbatoio pieno dura 5 giorni.",
+  "skill.swiftSizzle.ranked.speed": "{{value}} x Velocità di cottura del braciere con olio",
+  "skill.turboFry.ranked.speed": "{{value}} x Velocità di cottura della cucina con olio",
+  "skill.fryFrenzy.ranked.speed": "{{value}} x Velocità di cottura Deli con olio"
 }

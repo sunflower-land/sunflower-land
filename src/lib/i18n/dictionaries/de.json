@@ -9009,5 +9009,9 @@
   "consent.description": "Wir verwenden Metas Pixel, um zu messen, welche Werbung Spieler anzieht, die weiter farmen. Nur mit deinem OK. Es werden niemals Wallet-Daten geteilt.",
   "consent.accept": "OK, Werbeanzeigen messen",
   "consent.decline": "Nein danke",
-  "consent.privacy": "Datenschutzrichtlinie"
+  "consent.privacy": "Datenschutzrichtlinie",
+  "cooking.building.oil.description.speed": "Öl kocht alles im {{buildingName}} {{speed}} x schneller. Der Tank brennt nur, wenn etwas kocht, und ein voller Tank hält 5 Tage.",
+  "skill.swiftSizzle.ranked.speed": "{{value}} x Kochgeschwindigkeit der Feuerstelle mit Öl",
+  "skill.turboFry.ranked.speed": "{{value}} x Kochgeschwindigkeit in der Küche mit Öl",
+  "skill.fryFrenzy.ranked.speed": "{{value}} x Feinkostgargeschwindigkeit mit Öl"
 }

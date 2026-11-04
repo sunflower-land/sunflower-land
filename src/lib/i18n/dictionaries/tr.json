@@ -9009,5 +9009,9 @@
   "consent.description": "Hangi reklamların çiftçiliğe devam eden oyuncuları getirdiğini ölçmek için Meta'nın pikselini kullanıyoruz. Sadece senin iyiliğin ile. Hiçbir cüzdan verisi paylaşılmaz.",
   "consent.accept": "Tamam, reklamları ölçün",
   "consent.decline": "Hayır teşekkürler",
-  "consent.privacy": "Gizlilik Politikası"
+  "consent.privacy": "Gizlilik Politikası",
+  "cooking.building.oil.description.speed": "Yağ, {{buildingName}} {{speed}} x'deki her şeyi daha hızlı pişirir. Tank sadece bir şeyler pişerken yanar ve dolu bir tank 5 gün sürer.",
+  "skill.swiftSizzle.ranked.speed": "{{value}} x Yağlı Ateş Çukuru pişirme hızı",
+  "skill.turboFry.ranked.speed": "{{value}} x Yağ ile mutfak pişirme hızı",
+  "skill.fryFrenzy.ranked.speed": "{{value}} x Yağlı Deli pişirme hızı"
 }

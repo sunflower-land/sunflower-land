@@ -9009,5 +9009,9 @@
   "consent.description": "Nous utilisons le pixel de Meta pour mesurer les publicités qui attirent les joueurs qui continuent à cultiver. Seulement avec ton OK. Aucune donnée de portefeuille n'est jamais partagée.",
   "consent.accept": "OK, mesurez les publicités",
   "consent.decline": "Non merci",
-  "consent.privacy": "Politique de confidentialité"
+  "consent.privacy": "Politique de confidentialité",
+  "cooking.building.oil.description.speed": "L'huile fait cuire tout ce qui se trouve dans le {{buildingName}} {{speed}} x plus rapidement. Le réservoir ne brûle que pendant la cuisson, et un réservoir plein dure 5 jours.",
+  "skill.swiftSizzle.ranked.speed": "{{value}} x Vitesse de cuisson du foyer avec huile",
+  "skill.turboFry.ranked.speed": "{{value}} x Vitesse de cuisson de la cuisine avec huile",
+  "skill.fryFrenzy.ranked.speed": "{{value}} x Vitesse de cuisson des charcuteries avec huile"
 }

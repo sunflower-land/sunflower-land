@@ -9009,5 +9009,9 @@
   "consent.description": "Usamos o pixel da Meta para medir quais anúncios trazem jogadores que continuam cultivando. Só com o seu OK. Nenhum dado da carteira é compartilhado.",
   "consent.accept": "OK, meça os anúncios",
   "consent.decline": "Não, obrigado",
-  "consent.privacy": "Política de privacidade"
+  "consent.privacy": "Política de privacidade",
+  "cooking.building.oil.description.speed": "O óleo cozinha tudo no {{buildingName}} {{speed}} x mais rápido. O tanque só queima enquanto algo está cozinhando, e um tanque cheio dura 5 dias.",
+  "skill.swiftSizzle.ranked.speed": "{{value}} x Velocidade de cozimento em fogueira com óleo",
+  "skill.turboFry.ranked.speed": "{{value}} x Velocidade de cozimento da cozinha com óleo",
+  "skill.fryFrenzy.ranked.speed": "{{value}} x Velocidade de cozimento Deli com óleo"
 }

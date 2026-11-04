@@ -9009,5 +9009,9 @@
   "consent.description": "Metaのピクセルを使用して、どの広告が農業を続けるプレイヤーにもたらされるかを測定します。あなたの「OK」がある場合のみ。ウォレットデータが共有されることはありません。",
   "consent.accept": "OK、広告を測定してください",
   "consent.decline": "いいえ、結構です",
-  "consent.privacy": "プライバシーポリシー"
+  "consent.privacy": "プライバシーポリシー",
+  "cooking.building.oil.description.speed": "油は {{buildingName}} {{speed}} x のすべてをより速く調理します。タンクは何かを調理している間のみ燃焼し、タンクがいっぱいになると5日間持続します。",
+  "skill.swiftSizzle.ranked.speed": "{{value}} x オイルを使ったファイヤーピットの調理速度",
+  "skill.turboFry.ranked.speed": "{{value}} x 油を使ったキッチン調理スピード",
+  "skill.fryFrenzy.ranked.speed": "{{value}} x オイルを使ったデリクッキングスピード"
 }
