@@ -19,6 +19,12 @@ import {
   type SpeedUpPaymentMethod,
 } from "features/game/lib/getInstantGems";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { getCookingBoostWindows } from "features/game/lib/boostWindows";
+import {
+  burnRecipeOil,
+  settleCookingOil,
+} from "features/game/lib/cookingReadiness";
+import { isCookingBuilding } from "./isCookingBuilding";
 
 export type InstantCookRecipe = {
   type: "recipe.spedUp";
@@ -63,14 +69,46 @@ export function speedUpRecipe({
       throw new Error("Building does not exist");
     }
 
+    // A lifted building is paused until it is placed again (see `placeBuilding`).
+    if (!building.coordinates) {
+      throw new Error("Building is not placed");
+    }
+
+    // Settle the oil at the speed-up; the sped-up recipe then pays for the oil it
+    // would have burned cooking out (see `burnRecipeOil`), and the recipe promoted
+    // behind it draws from what is left.
+    const settled = isCookingBuilding(action.buildingName)
+      ? settleCookingOil({
+          game,
+          building,
+          buildingName: action.buildingName,
+          at: createdAt,
+        })
+      : undefined;
     const queue = building.crafting;
-    const cooking = getCurrentCookingItem({ building, createdAt, game });
+    const cooking = getCurrentCookingItem({
+      building,
+      createdAt,
+      game,
+      oil: settled,
+    });
 
     if (!queue || !cooking) {
       throw new Error("Nothing is cooking");
     }
 
     const { index: recipeIndex, recipe, readyAt } = cooking;
+
+    const oil =
+      settled && isCookingBuilding(action.buildingName)
+        ? burnRecipeOil({
+            building,
+            buildingName: action.buildingName,
+            index: recipeIndex,
+            at: createdAt,
+            windows: getCookingBoostWindows(game),
+          })
+        : undefined;
 
     // Price off the DERIVED ready time: the player is charged for the wait they can
     // actually see, so an active boost makes skipping cheaper.
@@ -119,6 +157,7 @@ export function speedUpRecipe({
       buildingName: action.buildingName as CookingBuildingName,
       isInstantCook: true,
       game,
+      oil,
     });
 
     game.farmActivity = trackFarmActivity(

@@ -8,7 +8,8 @@ import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-const TERMS_URL = "https://docs.sunflower-land.com/support/terms-of-service";
+const TERMS_URL =
+  "https://docs.sunflower-land.com/legal-and-support/terms-of-service";
 
 /**
  * Placeholder swapped into `tcs.agree` so the link can be rendered inline.

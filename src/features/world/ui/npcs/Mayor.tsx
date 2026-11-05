@@ -296,7 +296,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
                 {t("mayor.plaza.usernameValidation")}{" "}
                 <a
                   className="cursor-pointer underline hover:text-gray-400"
-                  href="https://docs.sunflower-land.com/support/terms-of-service/code-of-conduct"
+                  href="https://docs.sunflower-land.com/legal-and-support/terms-of-service/code-of-conduct"
                   target="_blank"
                   rel="noreferrer"
                 >

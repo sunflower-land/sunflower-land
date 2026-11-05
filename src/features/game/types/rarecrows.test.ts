@@ -29,9 +29,9 @@ describe("Migrated Rarecrows", () => {
     });
   });
 
-  it("makes each crow a placeable 2x2 cosmetic with an image", () => {
+  it("makes each crow a placeable 1x1 cosmetic with an image", () => {
     RARECROW_NAMES.forEach((name) => {
-      expect(COLLECTIBLES_DIMENSIONS[name]).toEqual({ width: 2, height: 2 });
+      expect(COLLECTIBLES_DIMENSIONS[name]).toEqual({ width: 1, height: 1 });
       expect(ITEM_DETAILS[name].image).toBeTruthy();
       expect(ITEM_TRADE_TYPES.collectibles[name]).toEqual("instant");
     });

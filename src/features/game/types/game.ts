@@ -89,6 +89,7 @@ import type {
 import type { FermentationProductName } from "./fermentationProducts";
 import type { SpiceRackProductName } from "./spiceRackProducts";
 import type { BeetleName } from "./beetles";
+import type { CaveTile } from "./cavePatch";
 import type { PickledCropName } from "./pickled";
 import { translate } from "lib/i18n/translate";
 import { capitalize } from "lib/utils/capitalize";
@@ -1034,6 +1035,19 @@ export type BuildingProduct = {
    * flag — matching every other activity.
    */
   baseDurationMs?: number;
+  /**
+   * The building-oil boost (e.g. 0.4 = 40%) snapshotted when the recipe was queued
+   * on a clock-drain building. Presence = the recipe draws oil LAZILY from the tank
+   * while it cooks, at a speed of `1 / (1 - oilBoost)`. Absent on recipes whose oil
+   * was deducted up front and baked into their duration.
+   */
+  oilBoost?: number;
+  /**
+   * Oil the recipe burns per day of cooking work, snapshotted with `oilBoost`: the
+   * building's daily rate scaled up by any permanent cut to its duration, so the
+   * dish costs the same oil as a recipe whose oil is deducted up front.
+   */
+  oilRate?: number;
   requirements?: Inventory;
 };
 
@@ -1064,7 +1078,18 @@ export type PlacedItem = {
   cancelled?: Cancelled;
   crafting?: BuildingProduct[];
   processing?: BuildingProduct[];
+  /**
+   * Oil in the building's tank. On a clock-drain cooking building (`oilSettledAt`
+   * set) this is the level at `oilSettledAt` — a ledger, not the live level, which
+   * is derived (see `getCookingOilAt`).
+   */
   oil?: number;
+  /**
+   * The instant `oil` was last settled. Presence = the building burns oil by the
+   * clock while it cooks (cooking oil as a speed boost) rather than deducting it
+   * per recipe when queued.
+   */
+  oilSettledAt?: number;
   flipped?: boolean;
   /**
    * Weather-protection collectible (e.g. Tornado Pinwheel) consumed by its
@@ -1431,7 +1456,7 @@ export type BedName =
   | "Messy Bed"
   | "Salt Crystal Bed"
   | "Cloud Bed"
-  | "Miner's Bed";
+  | "Spooky Bed";
 
 export type RecipeCraftableName =
   | "Cushion"
@@ -1943,7 +1968,7 @@ export type CaveBatch = {
    * `cave.batchStarted` returns.
    */
   seed?: string;
-  /** Dug tiles keyed "x,y"; what each held is derived from the seed. */
+  /** Dug tiles keyed "x,y", with what each held (see `CaveDugTile`). */
   dug?: Record<string, CaveDugTile>;
   /** The board-shaping Cave skills this batch started with. */
   skills?: CaveBatchSkills;
@@ -1963,7 +1988,13 @@ export type CaveBatchSkills = {
   beetleRarity?: Record<BeetleName, number>;
 };
 
-export type CaveDugTile = { dugAt: number };
+/**
+ * A dug tile. `tile` and `clue` are what the dig revealed, recorded because
+ * the undug part of the board is re-sampled on every dig (`revealCavePatch`).
+ * Tiles dug before boards were sampled have neither: they are read from the
+ * seed's board (`generateCavePatch`).
+ */
+export type CaveDugTile = { dugAt: number; tile?: CaveTile; clue?: number };
 
 /**
  * A Myco Bin machine inside the Cave. One is created with each tier; it
@@ -2007,7 +2038,7 @@ export type CaveMerchantOffer = {
  * Island's shop: how the stock is priced and rolled stays on the server.
  */
 export type CaveMerchantVisitState = {
-  /** Visit 0 opens at launch; pre-launch restocks count down from -1. */
+  /** Visit 0 opens at launch. */
   index: number;
   opensAt: number;
   closesAt: number;
@@ -2228,6 +2259,13 @@ export type Animal = {
    */
   awakeAt: number;
   lovedAt: number;
+  /**
+   * How many times the animal has been loved in its current sleep — two at
+   * most. Not reset on falling asleep: it only counts while `lovedAt` is at or
+   * after `asleepAt` (read it through `getLovesThisSleep`). Absent on animals
+   * last loved before the count existed.
+   */
+  lovesThisSleep?: number;
   item: LoveAnimalItem;
   /**
    * The sleep's un-boosted work with permanent boosts folded in. Present only on
@@ -2666,8 +2704,10 @@ export interface GameState {
 
   ban: {
     /**
-     * `lock` is a support hold. It blocks play like `investigating` does, but
-     * verifying socials or a face does not lift it - only support can.
+     * `lock` is a support hold and `investigating` a soft ban. Neither stops
+     * play; both stop value leaving the account (withdrawals, trades,
+     * transfers). Verifying socials and a face lifts a soft ban; only support
+     * lifts a lock.
      */
     status: "investigating" | "permanent" | "ok" | "lock";
     isSocialVerified?: boolean;

@@ -1486,7 +1486,7 @@ export const ITEM_TRADE_TYPES: {
     "Beetle Sheep": "instant",
     "Cyclops Bloom": "instant",
     "Duende Monument": "instant",
-    "Miner's Bed": "instant",
+    "Spooky Bed": "instant",
     "Giant Truffle": "onchain",
     "Mining Drill": "instant",
     "Piggy Bank": "onchain",
@@ -1501,6 +1501,7 @@ export const ITEM_TRADE_TYPES: {
     "Pot of Luck": "instant",
     TNT: "instant",
     "Warning Sign": "instant",
+    "Crystal Cookie Champion": "instant",
 
     // Ascension Age decorations
     "Salt Rug": "onchain",

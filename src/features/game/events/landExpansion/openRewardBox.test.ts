@@ -75,25 +75,35 @@ describe("openRewardBox", () => {
     });
   });
 
-  it("only gives VIP players the VIP Weekly Mega Box rewards", () => {
+  const openMegaBox = (verified: boolean, roll: number) => {
     const now = Date.now();
-    [0.01, 0.25, 0.49, 0.51, 0.75, 0.99].forEach((roll) => {
-      jest.spyOn(Math, "random").mockReturnValue(roll);
-      const result = openRewardBox({
-        state: {
-          ...INITIAL_FARM,
-          vip: {
-            bundles: [{ name: "1_MONTH", boughtAt: now }],
-            expiresAt: now + 30 * 24 * 60 * 60 * 1000,
-          },
-          inventory: { "Weekly Mega Box": new Decimal(1) },
+    jest.spyOn(Math, "random").mockReturnValue(roll);
+    const result = openRewardBox({
+      state: {
+        ...INITIAL_FARM,
+        verified,
+        vip: {
+          bundles: [{ name: "1_MONTH", boughtAt: now }],
+          expiresAt: now + 30 * 24 * 60 * 60 * 1000,
         },
-        action: { type: "rewardBox.opened", name: "Weekly Mega Box" },
-        createdAt: now,
-      });
+        inventory: { "Weekly Mega Box": new Decimal(1) },
+      },
+      action: { type: "rewardBox.opened", name: "Weekly Mega Box" },
+      createdAt: now,
+    });
 
-      const reward = result.rewardBoxes?.["Weekly Mega Box"]?.reward;
-      expect(reward?.items?.Gem).toBeGreaterThan(0);
+    return result.rewardBoxes?.["Weekly Mega Box"]?.reward;
+  };
+
+  it("only gives verified VIP players the VIP Weekly Mega Box rewards", () => {
+    [0.01, 0.25, 0.49, 0.51, 0.75, 0.99].forEach((roll) => {
+      expect(openMegaBox(true, roll)?.items?.Gem).toBeGreaterThan(0);
+    });
+  });
+
+  it("gives unverified VIP players the non-VIP Weekly Mega Box rewards", () => {
+    [0.01, 0.25, 0.49, 0.51, 0.75, 0.99].forEach((roll) => {
+      expect(openMegaBox(false, roll)?.items?.Gem).toBeUndefined();
     });
   });
 });

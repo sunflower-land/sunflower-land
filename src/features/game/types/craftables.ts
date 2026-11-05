@@ -1514,7 +1514,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Ascended Sheep": { width: 2, height: 1 },
   "Ruins Flower": { width: 1, height: 1 },
   Crocodile: { width: 2, height: 2 },
-  "Dumbo Octopus": { width: 2, height: 2 },
+  "Dumbo Octopus": { width: 2, height: 1 },
   "Seahorse Dad": { width: 2, height: 2 },
   "Ascension Age Banner": { width: 1, height: 2 },
 

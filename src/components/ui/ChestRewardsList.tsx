@@ -7,7 +7,10 @@ import {
 import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { formatNumber } from "lib/utils/formatNumber";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  getTranslatedItemName,
+  ITEM_DETAILS,
+} from "features/game/types/images";
 import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import type { GameState, InventoryItemName } from "features/game/types/game";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
@@ -103,7 +106,9 @@ const MultipleRewardsRow: React.FC<{
                   iconClassName={reward.wearables ? "scale-[1.1]" : ""}
                 />
                 <div className="flex-1 ml-1">
-                  <p>{rewardName}</p>
+                  <p>
+                    {getTranslatedItemName(rewardName as InventoryItemName)}
+                  </p>
                   <p className="text-[#862935] text-xxs mt-0.5">
                     {reward.wearables
                       ? t("wearable")
@@ -182,14 +187,16 @@ export const ChestRewardsList: React.FC<{
       ? [
           {
             title: (
-              <Label type="default">{t("chestRewardsList.withoutVip")}</Label>
+              <Label type="default">
+                {t("chestRewardsList.withoutVipVerified")}
+              </Label>
             ),
             rewards: getRewardPoolForPlayer(rewards, false),
           },
           {
             title: (
               <Label type="vibrant" icon={vipIcon} className="ml-2">
-                {t("vip")}
+                {t("chestRewardsList.vipVerified")}
               </Label>
             ),
             rewards: getRewardPoolForPlayer(rewards, true),

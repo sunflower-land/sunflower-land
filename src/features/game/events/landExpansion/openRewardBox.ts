@@ -24,7 +24,9 @@ function getReward({
 }): RewardBoxReward | undefined {
   const rewards = getRewardPoolForPlayer(
     getRewardBoxRewards({ name, game }),
-    hasVipAccess({ game, now }),
+    // Same rule as the server: Gems need full (not trial) VIP and a
+    // verified account.
+    hasVipAccess({ game, now, type: "full" }) && !!game.verified,
   );
 
   // TODO: If a player already has the reward, half the weight

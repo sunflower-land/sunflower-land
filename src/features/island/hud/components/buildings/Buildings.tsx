@@ -29,15 +29,13 @@ import { getCurrentBiome } from "features/island/biomes/biomes";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import type { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
 import type { MachineState } from "features/game/lib/gameMachine";
-import type { GameState } from "features/game/types/game";
 import { getObjectEntries } from "lib/object";
-import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onClose: () => void;
 }
 
-const getValidBuildings = (state: GameState): BuildingName[] => {
+const getValidBuildings = (): BuildingName[] => {
   const UNSORTED_BUILDINGS: BuildingName[] = [
     "Kitchen",
     "Water Well",
@@ -57,15 +55,9 @@ const getValidBuildings = (state: GameState): BuildingName[] => {
     "Fish Market",
     "Pet House",
     "Aging Shed",
+    "Pigpen",
+    "Cave",
   ];
-
-  if (hasFeatureAccess(state, "PIGPEN")) {
-    UNSORTED_BUILDINGS.push("Pigpen");
-  }
-
-  if (hasFeatureAccess(state, "CAVE")) {
-    UNSORTED_BUILDINGS.push("Cave");
-  }
 
   const VALID_BUILDINGS = [...UNSORTED_BUILDINGS].sort(
     (a, b) =>
@@ -195,7 +187,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
       }
       content={
         <>
-          {[...getValidBuildings(state)].map((name: BuildingName) => {
+          {[...getValidBuildings()].map((name: BuildingName) => {
             const blueprint = BUILDINGS[name];
             const inventoryCount = inventory[name] || new Decimal(0);
             const isLocked = !meetsLevelRequirement(

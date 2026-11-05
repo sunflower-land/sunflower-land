@@ -16,7 +16,10 @@ import {
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import type { CookableName } from "features/game/types/consumables";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import {
   getPetLevel,
   getPetRequestXP,
@@ -157,7 +160,7 @@ export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
                       ? t("pets.upcomingRequest", {
                           level: getPetUnlockLevel(data, level, food),
                         })
-                      : food}
+                      : getTranslatedItemName(food)}
                   </p>
                   {isRequested &&
                     (requiredFeedAmount === 0 ? (

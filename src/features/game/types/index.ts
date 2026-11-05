@@ -1681,7 +1681,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Beetle Sheep": 3109,
   "Cyclops Bloom": 3110,
   "Duende Monument": 3111,
-  "Miner's Bed": 3112,
+  "Spooky Bed": 3112,
   "Giant Truffle": 3113,
   "Mining Drill": 3114,
   "Piggy Bank": 3115,
@@ -1701,6 +1701,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Pot of Luck": 3274,
   TNT: 3275,
   "Warning Sign": 3276,
+  // Chapter Crop Week #2 leaderboard reward
+  "Crystal Cookie Champion": 3277,
 };
 
 // The reverse of above

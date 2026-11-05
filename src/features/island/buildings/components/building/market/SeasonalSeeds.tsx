@@ -10,7 +10,10 @@ import {
   GREENHOUSE_SEEDS,
   type GreenHouseCropSeedName,
 } from "features/game/types/crops";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { Decimal } from "decimal.js-light";
 import {
   FULL_MOON_SEEDS,
@@ -97,7 +100,6 @@ import {
   CHAPTER_CROP_WEEK_SEED,
   hasChapterCropWeekAccess,
 } from "features/game/types/chapterCropWeek";
-import { hasUpgradedChapterCropWeekSkill } from "features/game/types/bumpkinSkills";
 
 export const SEASON_ICONS: Record<TemperateSeasonName, string> = {
   spring: springIcon,
@@ -237,12 +239,6 @@ export const SeasonalSeeds: React.FC = () => {
     // return buy buttons otherwise
     return (
       <>
-        {selectedName === CHAPTER_CROP_WEEK_SEED &&
-          hasUpgradedChapterCropWeekSkill(bumpkin.skills, "Crops") && (
-            <Label type="warning" className="mb-1">
-              {t("chapterCropWeek.ascensionBoostsPaused")}
-            </Label>
-          )}
         <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
           <Button
             disabled={lessFunds() || stock.lessThan(1)}
@@ -727,7 +723,7 @@ export const SeasonalSeeds: React.FC = () => {
                 <div className="w-full max-h-32 overflow-y-auto scrollable mt-1">
                   {buyAllPlan.purchases.map(({ seedName, amount }) => (
                     <p key={seedName} className="text-xs w-full text-left">
-                      {`${amount} x ${seedName}`}
+                      {`${amount} x ${getTranslatedItemName(seedName)}`}
                     </p>
                   ))}
                 </div>

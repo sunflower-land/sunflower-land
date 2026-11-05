@@ -26,6 +26,8 @@ import debounce from "lodash.debounce";
 import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { SignupBumpkinEquip } from "features/bumpkins/components/SignupBumpkinEquip";
 import type { CreateFarmEvent } from "../lib/authMachine";
+import type { FarmNFTAccount } from "../actions/nftAccount";
+import { loadFarmNFTAccounts } from "../actions/nftAccount";
 
 type ValidationState = "notFound" | "checking" | "valid" | "error";
 
@@ -292,9 +294,29 @@ export const ClaimAccount: React.FC<{
 
   const [isLoading, setIsLoading] = useState(false);
   const [loadedTokenIds, setLoadedTokenIds] = useState<number[]>([]);
+  const [accounts, setAccounts] = useState<Record<number, FarmNFTAccount>>({});
   const { t } = useAppTranslation();
 
   const tokenIds = preloadedTokenIds ?? loadedTokenIds;
+  const tokenIdsKey = tokenIds.join(",");
+
+  // Label each NFT with the farm id and username players actually know.
+  // Best effort: a failed lookup leaves the NFT id as the label.
+  useEffect(() => {
+    const token = authState.context.user.rawToken;
+
+    if (!token || tokenIds.length === 0) return;
+
+    let cancelled = false;
+
+    loadFarmNFTAccounts({ token, nftIds: tokenIds }).then((found) => {
+      if (!cancelled) setAccounts(found);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [tokenIdsKey]);
 
   useEffect(() => {
     if (preloadedTokenIds) return;
@@ -331,17 +353,28 @@ export const ClaimAccount: React.FC<{
     <>
       <div className="p-1">
         <p className="m-1 text-sm">{message ?? t("noaccount.selectNFTID")}</p>
-        {tokenIds.map((id) => (
-          <OuterPanel
-            className={
-              "flex relative items-center justify-between !p-2 mb-1 cursor-pointer hover:bg-brown-200"
-            }
-            key={id}
-            onClick={() => onClaim(id)}
-          >
-            <Label type="formula">{`ID: #${id}`}</Label>
-          </OuterPanel>
-        ))}
+        {tokenIds.map((id) => {
+          const account = accounts[id];
+
+          return (
+            <OuterPanel
+              className={
+                "flex relative items-center justify-between !p-2 mb-1 cursor-pointer hover:bg-brown-200"
+              }
+              key={id}
+              onClick={() => onClaim(id)}
+            >
+              <Label type="formula">
+                {account ? `Farm #${account.farmId}` : `ID: #${id}`}
+              </Label>
+              {account?.username && (
+                <span className="text-xs truncate ml-2">
+                  {account.username}
+                </span>
+              )}
+            </OuterPanel>
+          );
+        })}
       </div>
       <Button onClick={onBack}>{backLabel ?? t("back")}</Button>
     </>

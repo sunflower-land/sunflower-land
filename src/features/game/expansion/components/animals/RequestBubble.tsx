@@ -56,23 +56,23 @@ const ANIMAL_REQUEST_IMAGES: Record<
   },
   "Basic Slop": {
     src: ITEM_DETAILS["Basic Slop"].image,
-    width: 16,
-    height: 16,
+    width: 14,
+    height: 12,
   },
   "Hearty Slop": {
     src: ITEM_DETAILS["Hearty Slop"].image,
-    width: 16,
-    height: 16,
+    width: 14,
+    height: 18,
   },
   "Rich Slop": {
     src: ITEM_DETAILS["Rich Slop"].image,
-    width: 15,
+    width: 16,
     height: 16,
   },
   "Gourmet Slop": {
     src: ITEM_DETAILS["Gourmet Slop"].image,
-    width: 16,
-    height: 15,
+    width: 14,
+    height: 16,
   },
   "Petting Hand": {
     src: ITEM_DETAILS["Petting Hand"].image,

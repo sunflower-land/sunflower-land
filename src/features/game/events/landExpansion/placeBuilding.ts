@@ -20,7 +20,8 @@ import {
   getGreenhouseGlowWindows,
   pauseWindowedTimer,
 } from "features/game/lib/boostWindows";
-import { pauseCookingQueue } from "features/game/lib/cookingReadiness";
+import { resumeCookingBuilding } from "features/game/lib/cookingReadiness";
+import { isCookingBuilding } from "./isCookingBuilding";
 import { pauseCraftingQueue } from "features/game/lib/craftingReadiness";
 import { refreshCropMachineCaches } from "features/game/lib/cropMachineReadiness";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
@@ -83,12 +84,14 @@ export function placeBuilding({
       // Assign the coordinates to the building
       existingBuilding.coordinates = action.coordinates;
 
-      // Pause the queue for Cooking buildings
-      if (existingBuilding.crafting && existingBuilding.removedAt) {
-        pauseCookingQueue({
-          crafting: existingBuilding.crafting,
-          removedAt: existingBuilding.removedAt,
-          placedAt: createdAt,
+      // Pause the queue for Cooking buildings. A clock-drain building settles at the
+      // lift and resumes at the placement, so the downtime neither cooks nor burns
+      // oil (see `settleCookingBuilding`).
+      if (isCookingBuilding(action.name)) {
+        resumeCookingBuilding({
+          building: existingBuilding,
+          buildingName: action.name,
+          at: createdAt,
           windows: getCookingBoostWindows(stateCopy),
         });
       }

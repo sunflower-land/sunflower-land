@@ -59,6 +59,7 @@ export const FirePit: React.FC<Props> = ({ buildingId, isBuilt, island }) => {
 
   const { cooking, queuedRecipes, readyRecipes } = useCookingState(
     firePit ?? {},
+    "Fire Pit",
   );
 
   const itemInProgress =

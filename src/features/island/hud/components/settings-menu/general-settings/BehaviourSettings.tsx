@@ -18,28 +18,28 @@ export const BehaviourSettings: React.FC = () => {
 
   return (
     <div className="flex flex-col items-start gap-2 p-2">
-      <h1 className="text-lg mb-2">
-        {t("gameOptions.generalSettings.behaviour")}
-      </h1>
       <Switch
         checked={showAnimations}
         onChange={toggleAnimations}
-        label={"Animations"}
+        label={t("gameOptions.generalSettings.animations")}
       />
       <Switch
         checked={enableQuickSelect}
         onChange={toggleQuickSelect}
-        label={"Quick Select"}
+        label={t("gameOptions.generalSettings.quickSelect")}
       />
       {enableQuickSelect && (
         <Switch
           checked={showFullMoonSeedsInQuickSelect}
           onChange={toggleFullMoonSeedsInQuickSelect}
           label={t("gameOptions.generalSettings.fullMoonSeedsInQuickSelect")}
-          className="pl-4"
         />
       )}
-      <Switch checked={showTimers} onChange={toggleTimers} label={"Timers"} />
+      <Switch
+        checked={showTimers}
+        onChange={toggleTimers}
+        label={t("gameOptions.generalSettings.timers")}
+      />
     </div>
   );
 };

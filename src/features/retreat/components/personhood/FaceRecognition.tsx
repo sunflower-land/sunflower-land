@@ -134,7 +134,10 @@ export const FaceRecognition: React.FC<{ skipIntro?: boolean }> = ({
           <Label type="info" icon={SUNNYSIDE.icons.search} className="mb-1">
             {t("faceRecognition.label")}
           </Label>
-          <p className="text-sm">{t("faceRecognition.introText")}</p>
+          <p className="text-sm mb-2">{t("faceRecognition.introText")}</p>
+          <Label type="warning" className="mb-1">
+            {t("faceRecognition.introWarning")}
+          </Label>
         </div>
         <Button onClick={() => setShowIntro(false)}>
           {t("faceRecognition.startButton")}

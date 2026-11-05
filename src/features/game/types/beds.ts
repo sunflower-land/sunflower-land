@@ -16,7 +16,7 @@ export const BED_FARMHAND_COUNT: Record<BedName, number> = {
   "Pearl Bed": 11,
   "Salt Crystal Bed": 12,
   "Cloud Bed": 13,
-  "Miner's Bed": 14,
+  "Spooky Bed": 14,
 };
 
 /**

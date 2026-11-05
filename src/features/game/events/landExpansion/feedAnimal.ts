@@ -40,7 +40,6 @@ import {
   type BeetleName,
   isBeetle,
 } from "features/game/types/beetles";
-import { hasFeatureAccess } from "lib/flags";
 
 export const ANIMAL_SLEEP_DURATION = 24 * 60 * 60 * 1000;
 
@@ -336,10 +335,6 @@ export function feedAnimal({
 
     const level = getAnimalLevel(animal.experience, animal.type);
     const food = action.item as AnimalFoodName | BeetleName;
-    if (food && isBeetle(food) && !hasFeatureAccess(copy, "BEETLE_FEEDING")) {
-      throw new Error("Beetle feeding is not available");
-    }
-
     const hasGoldenEggPlaced = isCollectibleBuilt({
       name: "Gold Egg",
       game: copy,

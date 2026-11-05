@@ -1,9 +1,9 @@
 import type { GameState } from "features/game/types/game";
 import { BEETLES, type BeetleName } from "features/game/types/beetles";
 import {
-  generateCavePatch,
+  getRevealedCaveTiles,
   isCaveSeed,
-  resolveCaveTile,
+  resolveRevealedCaveTile,
 } from "features/game/types/cavePatch";
 import { caveTileKey } from "features/game/types/caveRecipes";
 
@@ -57,14 +57,13 @@ export function getCaveDigFeedback({
         : { kind: "drillSaved", item: tool },
     );
   }
-  const layout = generateCavePatch({
-    recipe: previous.recipe,
-    seed: previous.seed,
-    skills: previous.skills,
-  });
+  // What each dug tile held is recorded by the dig itself.
+  const revealed = getRevealedCaveTiles(current);
   const expected: Partial<Record<BeetleName, number>> = {};
-  for (const [, { x, y }] of dug) {
-    const tile = resolveCaveTile(layout, x, y);
+  for (const [key] of dug) {
+    const record = revealed[key];
+    if (!record) continue;
+    const tile = resolveRevealedCaveTile(record);
     for (const item of BEETLES)
       expected[item] = (expected[item] ?? 0) + (tile.items[item] ?? 0);
   }

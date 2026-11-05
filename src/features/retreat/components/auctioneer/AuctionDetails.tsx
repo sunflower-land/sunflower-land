@@ -202,7 +202,7 @@ export const AuctionDetails: React.FC<Props> = ({
       <div className="flex justify-around flex-wrap">
         <div className="flex flex-col items-center w-48 mb-2">
           <a
-            href="https://docs.sunflower-land.com/getting-started/crypto-and-digital-collectibles"
+            href="https://docs.sunflower-land.com/web3-and-economy/wallets-and-collectibles"
             target="_blank"
             rel="noopener noreferrer"
             className="text-xs underline mb-1"
@@ -219,7 +219,7 @@ export const AuctionDetails: React.FC<Props> = ({
         </div>
         <div className="flex flex-col items-center w-48 mb-2">
           <a
-            href="https://docs.sunflower-land.com/getting-started/crypto-and-digital-collectibles"
+            href="https://docs.sunflower-land.com/web3-and-economy/wallets-and-collectibles"
             target="_blank"
             rel="noopener noreferrer"
             className="text-xs underline mb-1"

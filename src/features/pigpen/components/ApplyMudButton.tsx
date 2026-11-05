@@ -9,7 +9,7 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import type { GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getPigsNeedingMud } from "features/game/events/landExpansion/bulkApplyMud";
-import { getAnimalHarvests } from "features/game/events/landExpansion/applyAnimalFeedBuff";
+import { getMudHarvests } from "features/game/events/landExpansion/applyAnimalFeedBuff";
 import {
   MUD_PER_APPLICATION,
   MUD_XP_MULTIPLIER,
@@ -153,7 +153,7 @@ const ApplyMudConfirm: React.FC<{
     pigsNeedingMud,
     mud.dividedToIntegerBy(MUD_PER_APPLICATION).toNumber(),
   );
-  const { harvests } = getAnimalHarvests(game);
+  const { harvests } = getMudHarvests(game);
 
   return (
     <Panel>

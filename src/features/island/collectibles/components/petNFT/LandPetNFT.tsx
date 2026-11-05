@@ -9,6 +9,7 @@ import {
 } from "features/game/types/pets";
 import { PetModal } from "features/island/pets/PetModal";
 import { PetSprite } from "features/island/pets/PetSprite";
+import { isPetHungry } from "features/island/pets/lib/petShared";
 import { useContext, useState } from "react";
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -85,6 +86,7 @@ export const LandPetNFT: React.FC<{ id: string }> = ({ id }) => {
         isNeglected={isNeglected}
         isNapping={isNapping}
         isTypeFed={isTypeFed}
+        isHungry={isPetHungry(petNFTData, now)}
         clickable
         onClick={handlePetClick}
       />

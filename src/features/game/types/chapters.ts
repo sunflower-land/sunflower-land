@@ -256,7 +256,6 @@ export const CHAPTER_MARVEL_FISH: Record<ChapterName, ChapterFish> = {
   "Crabs and Traps": "Giant Isopod",
   "Salt Awakening": "Deep Sea Pig",
   "Ascension Age": "Seahorse Dad",
-  // TODO(Cave Dwellers): the keepsake marvel is not decided yet
   "Cave Dwellers": "Manatee",
 };
 

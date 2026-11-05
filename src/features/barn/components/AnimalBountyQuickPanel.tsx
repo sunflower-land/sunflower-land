@@ -39,6 +39,8 @@ export interface TradeInCardProps {
 interface Props {
   animalTypes: InventoryItemName[];
   selectedDeal?: AnimalBounty;
+  /** Bounty id -> animal id pairs marked for sale. */
+  pendingSales?: Record<string, string>;
   hideCompleted?: boolean;
   onSelect: (deal?: AnimalBounty) => void;
   /** Pigpen only: a permanent "Trade in for Pig Bristles" card, shown first. */
@@ -73,9 +75,54 @@ export const SelectionCorners: React.FC = () => (
   </div>
 );
 
+/**
+ * Bulk sell mode: the bounty's reward floating above the animal marked for it,
+ * so each marked animal reads as "sold for this". The cancel icon hints that
+ * clicking the animal removes the mark.
+ */
+export const PendingSaleTag: React.FC<{ dealId: string }> = ({ dealId }) => {
+  const { gameService } = useContext(Context);
+  const state = useSelector(gameService, _game);
+  const now = useNow();
+  const deal = state.bounties.requests.find(
+    (request) => request.id === dealId,
+  ) as AnimalBounty | undefined;
+
+  if (!deal) return null;
+
+  const chapterTicket = getChapterTicket(now);
+  const [itemName] = getKeys(deal.items ?? {});
+  const icon = deal.coins
+    ? SUNNYSIDE.ui.coinsImg
+    : itemName
+      ? ITEM_DETAILS[itemName].image
+      : undefined;
+  const amount = deal.coins
+    ? generateBountyCoins({ game: state, bounty: deal }).coins
+    : itemName === chapterTicket
+      ? generateBountyTicket({ game: state, bounty: deal, now })
+      : itemName
+        ? deal.items?.[itemName]
+        : undefined;
+
+  return (
+    <div className="absolute z-30 left-1/2 -translate-x-1/2 -top-3 pointer-events-none">
+      <Label
+        type="warning"
+        icon={icon}
+        secondaryIcon={SUNNYSIDE.icons.cancel}
+        className="whitespace-nowrap"
+      >
+        {amount}
+      </Label>
+    </div>
+  );
+};
+
 export const AnimalBountyQuickPanel: React.FC<Props> = ({
   animalTypes,
   selectedDeal,
+  pendingSales = {},
   hideCompleted = false,
   onSelect,
   tradeIn,
@@ -197,6 +244,7 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
     );
     const isAvailable = !isSold && availableDealIds.has(deal.id);
     const isSelected = selectedDeal?.id === deal.id;
+    const isPending = !!pendingSales[deal.id];
     const { coins } = generateBountyCoins({ game: state, bounty: deal });
 
     return (
@@ -278,7 +326,7 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
           />
         )}
 
-        {isSelected && <SelectionCorners />}
+        {(isSelected || isPending) && <SelectionCorners />}
       </div>
     );
   };

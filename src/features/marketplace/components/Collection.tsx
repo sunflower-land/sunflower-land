@@ -14,10 +14,7 @@ import { FixedSizeGrid as Grid } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
-import {
-  isTradeResourceAvailable,
-  type Tradeable,
-} from "features/game/types/marketplace";
+import type { Tradeable } from "features/game/types/marketplace";
 import type { InventoryItemName } from "features/game/types/game";
 import {
   PET_FETCHES,
@@ -42,9 +39,13 @@ import {
   CHAPTER_COLLECTIONS,
   getChapterCollectionForDisplay,
 } from "features/game/types/collections";
+import {
+  EVENT_COLLECTIONS,
+  getEventCollectionForDisplay,
+} from "features/game/types/eventCollections";
 import { getKeys } from "lib/object";
 import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
-import { KNOWN_IDS, KNOWN_ITEMS } from "features/game/types";
+import { KNOWN_IDS } from "features/game/types";
 import {
   BUD_TRAIT_GROUPS,
   createTraitLabelLookup,
@@ -57,36 +58,52 @@ import { getBudBoostFilterLabels } from "../lib/budBoostFilters";
 
 const budTraitLabels = createTraitLabelLookup(BUD_TRAIT_GROUPS);
 const petTraitLabels = createTraitLabelLookup(PET_TRAIT_GROUPS);
-const chapterCollectionLookup = getKeys(CHAPTER_COLLECTIONS).reduce<
-  Record<
-    string,
-    {
-      collectibleIds: Set<number>;
-      wearableIds: Set<number>;
-      collectibleNames: Set<string>;
-      wearableNames: Set<string>;
-    }
-  >
->((acc, chapter) => {
-  const { collectibles, wearables } = getChapterCollectionForDisplay(chapter);
+type CollectionLookup = Record<
+  string,
+  {
+    collectibleIds: Set<number>;
+    wearableIds: Set<number>;
+    collectibleNames: Set<string>;
+    wearableNames: Set<string>;
+  }
+>;
 
-  const collectibleNames = collectibles.map((item) => toTraitValueId(item));
-  const wearableNames = wearables.map((item) => toTraitValueId(item));
-  const collectibleIds = collectibles
-    .map((item) => KNOWN_IDS[item])
-    .filter((id): id is number => typeof id === "number");
-  const wearableIds = wearables
-    .map((item) => ITEM_IDS[item])
-    .filter((id): id is number => typeof id === "number");
+const buildCollectionLookup = <T extends string>(
+  names: T[],
+  getItems: (name: T) => {
+    collectibles: InventoryItemName[];
+    wearables: BumpkinItem[];
+  },
+) =>
+  names.reduce<CollectionLookup>((acc, name) => {
+    const { collectibles, wearables } = getItems(name);
 
-  acc[toTraitValueId(chapter)] = {
-    collectibleIds: new Set(collectibleIds),
-    wearableIds: new Set(wearableIds),
-    collectibleNames: new Set(collectibleNames),
-    wearableNames: new Set(wearableNames),
-  };
-  return acc;
-}, {});
+    const collectibleNames = collectibles.map((item) => toTraitValueId(item));
+    const wearableNames = wearables.map((item) => toTraitValueId(item));
+    const collectibleIds = collectibles
+      .map((item) => KNOWN_IDS[item])
+      .filter((id): id is number => typeof id === "number");
+    const wearableIds = wearables
+      .map((item) => ITEM_IDS[item])
+      .filter((id): id is number => typeof id === "number");
+
+    acc[toTraitValueId(name)] = {
+      collectibleIds: new Set(collectibleIds),
+      wearableIds: new Set(wearableIds),
+      collectibleNames: new Set(collectibleNames),
+      wearableNames: new Set(wearableNames),
+    };
+    return acc;
+  }, {});
+
+const chapterCollectionLookup = buildCollectionLookup(
+  getKeys(CHAPTER_COLLECTIONS),
+  getChapterCollectionForDisplay,
+);
+const eventCollectionLookup = buildCollectionLookup(
+  getKeys(EVENT_COLLECTIONS),
+  getEventCollectionForDisplay,
+);
 
 export const collectionFetcher = ([filters, token]: [string, string]) => {
   if (CONFIG.API_URL) return loadMarketplace({ filters, token });
@@ -166,7 +183,7 @@ export const Collection: React.FC<{
   let filters = filtersOverride ?? queryParams.get("filters") ?? "";
 
   const chapterFilter = queryParams.get("chapter") ?? "";
-  const chapterKey = toTraitValueId(chapterFilter);
+  const eventFilter = queryParams.get("event") ?? "";
   const ownershipParam = queryParams.get("ownership") ?? "";
   const ownershipTokens = ownershipParam
     .split(",")
@@ -264,14 +281,9 @@ export const Collection: React.FC<{
     filters.includes("temporary") && !hideLimited ? ["temporary", token] : null,
     collectionFetcher,
   );
-  // Chapter 16 resources stay hidden until the farm has the trading flag.
-  const availableResources = (resources?.items ?? []).filter((item) =>
-    isTradeResourceAvailable({ item: KNOWN_ITEMS[item.id], game: state }),
-  );
-
   const data = {
     items: dedupeTradeables([
-      ...availableResources,
+      ...(resources?.items ?? []),
       ...(collectibles?.items || []),
       ...(wearables?.items || []),
       ...(buds?.items || []),
@@ -438,24 +450,26 @@ export const Collection: React.FC<{
         return false;
       }
 
-      if (chapterFilter) {
-        const chapterItems = chapterCollectionLookup[chapterKey];
-        if (!chapterItems) {
+      if (chapterFilter || eventFilter) {
+        const collectionItems = chapterFilter
+          ? chapterCollectionLookup[toTraitValueId(chapterFilter)]
+          : eventCollectionLookup[toTraitValueId(eventFilter)];
+        if (!collectionItems) {
           return false;
         }
 
         const displayNameId = toTraitValueId(display.name);
         if (item.collection === "collectibles") {
           if (
-            !chapterItems.collectibleIds.has(item.id) &&
-            !chapterItems.collectibleNames.has(displayNameId)
+            !collectionItems.collectibleIds.has(item.id) &&
+            !collectionItems.collectibleNames.has(displayNameId)
           ) {
             return false;
           }
         } else if (item.collection === "wearables") {
           if (
-            !chapterItems.wearableIds.has(item.id) &&
-            !chapterItems.wearableNames.has(displayNameId)
+            !collectionItems.wearableIds.has(item.id) &&
+            !collectionItems.wearableNames.has(displayNameId)
           ) {
             return false;
           }
