@@ -15,12 +15,26 @@ import { hasFeatureAccess } from "lib/flags";
 const DAY = 24 * 60 * 60 * 1000;
 
 /**
- * Oil a clock-drain building burns per REAL day of cooking. Each rate is today's
- * per-recipe-day consumption divided by `1 - boost` (the default oil boost), so an
- * unboosted dish costs the same oil it always has; the tank just drains by the
- * clock now, so every other boost makes a dish cheaper in oil too.
+ * Oil a clock-drain building burns per day of cooking WORK — the same per-recipe-day
+ * consumption a dish has always cost (`BUILDING_DAILY_OIL_CONSUMPTION`). Burning by
+ * work rather than by the clock keeps every dish's oil cost what it was: a boost
+ * makes the tank drain faster in real time, never makes a dish cheaper. It is the
+ * fallback for a recipe cooked before its own `oilRate` was snapshotted.
  */
 export const COOKING_OIL_RATE: Record<CookingBuildingName, number> = {
+  "Fire Pit": 1,
+  Kitchen: 5,
+  "Smoothie Shack": 8,
+  Bakery: 10,
+  Deli: 12,
+};
+
+/**
+ * Oil a clock-drain building burned per REAL day of cooking before it burned by
+ * work. A recipe queued then (no `oilRate`) keeps burning at it, so its timing and
+ * cost stay what they were when it was cooked.
+ */
+export const COOKING_OIL_CLOCK_RATE: Record<CookingBuildingName, number> = {
   "Fire Pit": 1.25,
   Kitchen: 6.75,
   "Smoothie Shack": 11.5,
@@ -28,19 +42,22 @@ export const COOKING_OIL_RATE: Record<CookingBuildingName, number> = {
   Deli: 20,
 };
 
-/** A full tank is five real days of cooking in every building. */
+/** A full tank is five days of recipe time, as it always was. */
 export const COOKING_OIL_CAPACITY = Object.fromEntries(
   Object.entries(COOKING_OIL_RATE).map(([name, rate]) => [name, rate * 5]),
 ) as Record<CookingBuildingName, number>;
 
 /**
- * A clock-drain building's tank ledger: `tank` oil at `settledAt`, burned at
- * `ratePerDay` while a recipe that draws oil is cooking.
+ * A clock-drain building's tank ledger: `tank` oil at `settledAt`, burned while a
+ * recipe that draws oil is cooking: at its `oilRate` per day of cooking work, or for
+ * a recipe queued before that snapshot, at `clockRatePerDay` per real day.
+ * `ratePerDay` is the building's daily rate per day of recipe time.
  */
 export type CookingOil = {
   tank: number;
   settledAt: number;
   ratePerDay: number;
+  clockRatePerDay: number;
 };
 
 /** The building's tank ledger, or undefined while it still deducts per recipe. */
@@ -57,6 +74,7 @@ export const getCookingOil = ({
         tank: building.oil ?? 0,
         settledAt: building.oilSettledAt,
         ratePerDay: COOKING_OIL_RATE[buildingName],
+        clockRatePerDay: COOKING_OIL_CLOCK_RATE[buildingName],
       };
 
 /**
@@ -73,6 +91,12 @@ export type CookingTiming = {
    * starts flowing to it until the recipe finishes or the tank runs dry.
    */
   oilWindow?: BoostWindow;
+  /**
+   * Oil the recipe burns while `oilWindow` lasts: per day of cooking work, or per
+   * real day when `oilByTheClock` (a recipe queued before its `oilRate` existed).
+   */
+  oilRate?: number;
+  oilByTheClock?: boolean;
 };
 
 /**
@@ -106,11 +130,12 @@ export type CookingTiming = {
  * queue part-way through migration (legacy head, windowed tail) resolves correctly.
  *
  * On a clock-drain building (`oil` passed) the tank is resolved in the same pass.
- * Oil is a TIME budget: it lasts `tank / ratePerDay` days of cooking, burns only
- * while a recipe that draws oil (`oilBoost` set) is actually cooking, and speeds
- * that recipe up by `1 / (1 - oilBoost)` — stacking multiplicatively with the boost
- * windows, like any other speed. It flows in queue order from `settledAt`, so a
- * recipe takes whatever the recipes ahead of it left in the tank.
+ * Oil is a WORK budget: a recipe that draws oil (`oilBoost` set) burns it at its
+ * `oilRate` per day of cooking work, so a dish costs the same oil however fast its
+ * boosts cook it. The oil speeds that recipe up by `1 / (1 - oilBoost)` — stacking
+ * multiplicatively with the boost windows, like any other speed — for as long as
+ * the tank covers its work. It flows in queue order from `settledAt`, so a recipe
+ * takes whatever the recipes ahead of it left in the tank.
  */
 export const resolveCookingQueueTimings = ({
   crafting,
@@ -122,7 +147,7 @@ export const resolveCookingQueueTimings = ({
   oil?: CookingOil;
 }): CookingTiming[] => {
   let previousReadyAt: number | undefined;
-  let fuelMs = oil ? Math.max((oil.tank / oil.ratePerDay) * DAY, 0) : 0;
+  let tank = oil ? Math.max(oil.tank, 0) : 0;
 
   return crafting.map((recipe) => {
     const { baseDurationMs } = recipe;
@@ -145,31 +170,107 @@ export const resolveCookingQueueTimings = ({
       return { startedAt, readyAt: recipe.readyAt };
     }
 
-    if (!oil || recipe.oilBoost === undefined || fuelMs <= 0) {
+    if (!oil || recipe.oilBoost === undefined || tank <= 0) {
       const readyAt = computeReadyAt({ startedAt, baseDurationMs, windows });
       previousReadyAt = readyAt;
       return { startedAt, readyAt };
     }
 
     const from = Math.max(startedAt, oil.settledAt);
-    const fuelled: BoostWindow = {
-      from,
-      to: from + fuelMs,
-      speed: 1 / (1 - recipe.oilBoost),
-    };
+    const speed = 1 / (1 - recipe.oilBoost);
+
+    // Queued before the work burn: the tank is a TIME budget at the old clock
+    // rate, exactly as it was when this recipe was cooked.
+    if (recipe.oilRate === undefined) {
+      const fuelled: BoostWindow = {
+        from,
+        to: from + (tank / oil.clockRatePerDay) * DAY,
+        speed,
+      };
+      const readyAt = computeReadyAt({
+        startedAt,
+        baseDurationMs,
+        windows: [...windows, fuelled],
+      });
+      previousReadyAt = readyAt;
+
+      const to = Math.min(readyAt, fuelled.to);
+      if (!(to > from)) return { startedAt, readyAt };
+
+      tank -= ((to - from) / DAY) * oil.clockRatePerDay;
+      return {
+        startedAt,
+        readyAt,
+        oilWindow: { ...fuelled, to },
+        oilRate: oil.clockRatePerDay,
+        oilByTheClock: true,
+      };
+    }
+
+    // The work left once the oil starts flowing, and how much of it the tank covers.
+    const oilRate = recipe.oilRate;
+    if (!(oilRate > 0)) {
+      const readyAt = computeReadyAt({ startedAt, baseDurationMs, windows });
+      previousReadyAt = readyAt;
+      return { startedAt, readyAt };
+    }
+    const fuelledWork = Math.min(
+      baseDurationMs - workAccruedAt({ startedAt, at: from, windows }),
+      (tank / oilRate) * DAY,
+    );
+    if (!(fuelledWork > 0)) {
+      const readyAt = computeReadyAt({ startedAt, baseDurationMs, windows });
+      previousReadyAt = readyAt;
+      return { startedAt, readyAt };
+    }
+
+    // The oil is a speed of at least 1x, so it covers that work within as many
+    // milliseconds; find when it actually runs out under the boost windows.
+    const to = computeReadyAt({
+      startedAt: from,
+      baseDurationMs: fuelledWork,
+      windows: [...windows, { from, to: from + fuelledWork, speed }],
+    });
+    const oilWindow: BoostWindow = { from, to, speed };
     const readyAt = computeReadyAt({
       startedAt,
       baseDurationMs,
-      windows: [...windows, fuelled],
+      windows: [...windows, oilWindow],
     });
     previousReadyAt = readyAt;
 
-    const to = Math.min(readyAt, fuelled.to);
-    if (to <= from) return { startedAt, readyAt };
-
-    fuelMs -= to - from;
-    return { startedAt, readyAt, oilWindow: { ...fuelled, to } };
+    tank -= (fuelledWork / DAY) * oilRate;
+    return { startedAt, readyAt, oilWindow, oilRate };
   });
+};
+
+/**
+ * Oil a recipe has burned by `at`: its rate times the cooking work done under its
+ * oil window so far (or the time spent in it, for a recipe on the old clock burn).
+ */
+export const getRecipeOilBurned = ({
+  timing,
+  windows,
+  at,
+}: {
+  timing: CookingTiming;
+  windows: BoostWindow[];
+  at: number;
+}): number => {
+  const { oilWindow, oilRate } = timing;
+  if (!oilWindow || !oilRate || at <= oilWindow.from) return 0;
+
+  if (timing.oilByTheClock) {
+    return ((Math.min(at, oilWindow.to) - oilWindow.from) / DAY) * oilRate;
+  }
+
+  const work = workAccruedAt({
+    startedAt: oilWindow.from,
+    at: Math.min(at, oilWindow.to),
+    windows: [...windows, oilWindow],
+  });
+
+  return (work / DAY) * oilRate;
 };
 
 /** The windows a recipe cooks under: the boost windows plus its oil, if any. */
@@ -191,19 +292,16 @@ export const getCookingOilAt = ({
   oil: CookingOil;
   at: number;
 }): number => {
-  const burnedMs = resolveCookingQueueTimings({
+  const burned = resolveCookingQueueTimings({
     crafting,
     windows,
     oil,
   }).reduce(
-    (total, { oilWindow }) =>
-      oilWindow && at > oilWindow.from
-        ? total + Math.min(at, oilWindow.to) - oilWindow.from
-        : total,
+    (total, timing) => total + getRecipeOilBurned({ timing, windows, at }),
     0,
   );
 
-  return Math.max(oil.tank - (burnedMs / DAY) * oil.ratePerDay, 0);
+  return Math.max(oil.tank - burned, 0);
 };
 
 /** The derived ready times alone — the common case. */
@@ -606,16 +704,18 @@ export const burnRecipeOil = ({
   const oil = getCookingOil({ building, buildingName });
   if (!oil) return undefined;
 
-  const { oilWindow } =
-    resolveCookingQueueTimings({
-      crafting: building.crafting ?? [],
-      windows,
-      oil,
-    })[index] ?? {};
+  const timing = resolveCookingQueueTimings({
+    crafting: building.crafting ?? [],
+    windows,
+    oil,
+  })[index];
 
-  if (oilWindow && oilWindow.to > at) {
-    const burnedMs = oilWindow.to - Math.max(oilWindow.from, at);
-    building.oil = Math.max(oil.tank - (burnedMs / DAY) * oil.ratePerDay, 0);
+  if (timing?.oilWindow && timing.oilWindow.to > at) {
+    // What the rest of its oil window would have burned.
+    const burned =
+      getRecipeOilBurned({ timing, windows, at: timing.oilWindow.to }) -
+      getRecipeOilBurned({ timing, windows, at });
+    building.oil = Math.max(oil.tank - burned, 0);
   }
 
   return getCookingOil({ building, buildingName });

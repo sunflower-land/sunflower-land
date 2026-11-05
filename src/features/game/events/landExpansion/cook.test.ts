@@ -1953,6 +1953,28 @@ describe("cook (oil by the clock)", () => {
     expect(firePit?.crafting?.[0].boost).toBeUndefined();
   });
 
+  it("snapshots the oil rate a dish has always cost", () => {
+    const firePit = cookEggs(firePitFarm()).buildings["Fire Pit"]?.[0];
+
+    // The Fire Pit's 1 oil per day of recipe time.
+    expect(firePit?.crafting?.[0].oilRate).toBeCloseTo(1);
+  });
+
+  it("scales the oil rate up by a permanent cut, so the dish costs the same", () => {
+    const firePit = cookEggs({
+      ...firePitFarm(),
+      bumpkin: {
+        ...TEST_FARM.bumpkin,
+        equipped: { ...TEST_FARM.bumpkin.equipped, hat: "Luna's Hat" },
+      },
+    }).buildings["Fire Pit"]?.[0];
+    const recipe = firePit?.crafting?.[0];
+
+    // Half the work at twice the rate: the same oil as without the hat.
+    expect(recipe?.baseDurationMs).toEqual(EGG_MS * 0.5);
+    expect(recipe?.oilRate).toBeCloseTo(2);
+  });
+
   it("cooks 1 / (1 - boost) faster while the tank lasts", () => {
     const firePit = cookEggs(firePitFarm()).buildings["Fire Pit"]?.[0];
 

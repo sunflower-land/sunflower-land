@@ -311,9 +311,15 @@ describe("supplyCookingOil (oil by the clock)", () => {
       createdAt,
     }).buildings.Deli?.[0];
 
-  it("holds five real days of cooking", () => {
-    expect(supply(deliFarm({ oil: 98 }), 2)?.oil).toEqual(100);
-    expect(() => supply(deliFarm({ oil: 99 }), 2)).toThrow(
+  it("holds the same tank as before", () => {
+    expect(supply(deliFarm({ oil: 58 }), 2)?.oil).toEqual(60);
+    expect(() => supply(deliFarm({ oil: 59 }), 2)).toThrow(
+      "Oil capacity exceeded",
+    );
+  });
+
+  it("takes no more oil into a tank filled past the old capacity", () => {
+    expect(() => supply(deliFarm({ oil: 80, oilSettledAt: now }), 1)).toThrow(
       "Oil capacity exceeded",
     );
   });

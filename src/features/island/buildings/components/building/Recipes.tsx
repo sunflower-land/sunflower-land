@@ -64,11 +64,13 @@ import {
 import { getPreActionDisplay } from "features/game/lib/timerDisplay";
 import {
   getCookingOil,
+  getRecipeOilBurned,
   resolveCookingQueueTimings,
 } from "features/game/lib/cookingReadiness";
 import {
+  formatOil,
   getCookingOilTank,
-  getPreviewOilWindow,
+  getPreviewOilTiming,
 } from "features/island/buildings/lib/cookingOilTank";
 import {
   getBoostContributionEntries,
@@ -214,10 +216,10 @@ export const Recipes: React.FC<Props> = ({
   });
   // On a clock-drain building the oil is a live speed rather than a cut baked into
   // the duration, so the preview cooks under it like any other window.
-  const previewOilWindow =
+  const previewOilTiming =
     baseDurationMs === undefined
       ? undefined
-      : getPreviewOilWindow({
+      : getPreviewOilTiming({
           game: state,
           building: selectedBuilding,
           buildingName,
@@ -225,9 +227,19 @@ export const Recipes: React.FC<Props> = ({
           baseDurationMs,
           now,
         });
+  const previewOilWindow = previewOilTiming?.oilWindow;
   const previewWindows = previewOilWindow
     ? [...cookingBoostWindows, previewOilWindow]
     : cookingBoostWindows;
+  // The oil this recipe would take from the tank: comparable to the old up-front
+  // cost, where a per-day burn rate is not.
+  const previewOilBurn =
+    previewOilTiming?.oilWindow &&
+    getRecipeOilBurned({
+      timing: previewOilTiming,
+      windows: cookingBoostWindows,
+      at: previewOilTiming.oilWindow.to,
+    });
 
   const baseTimeSeconds = COOKABLES[selected.name].cookingSeconds;
 
@@ -380,6 +392,15 @@ export const Recipes: React.FC<Props> = ({
               setShowTimeBoosts={setShowTimeBoosts}
               actionView={
                 <>
+                  {previewOilBurn !== undefined && (
+                    <div className="flex justify-center mb-1">
+                      <Label type="default" icon={ITEM_DETAILS.Oil.image}>
+                        {t("cooking.building.oil.uses", {
+                          oil: formatOil(previewOilBurn),
+                        })}
+                      </Label>
+                    </div>
+                  )}
                   {doubleNomLevel > 0 && (
                     <Label type="success" icon={powerup}>
                       {`Double Nom: ${t("skill.doubleNom.buff.ranked", {
