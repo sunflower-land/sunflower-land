@@ -306,8 +306,6 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
           <Button
             disabled={isLessThanOffer || accountTradedRecently}
             onClick={() => confirm({})}
-            // Enter confirms, so keyboard listing is List -> Enter -> Enter.
-            autoFocus
           >
             {t("confirm")}
           </Button>
