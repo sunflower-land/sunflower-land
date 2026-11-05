@@ -114,6 +114,23 @@ describe("Animals skill ranks", () => {
       expect(amount).toEqual(1.3);
     });
 
+    it("adds Bale after the multipliers", () => {
+      // 2 x Buckaroo 2 x Salt Lick 1.05 = 4.2, then + Bale 0.1
+      const { amount } = getResourceDropAmount({
+        game: baleFarm({}),
+        animalType: "Chicken",
+        resource: "Egg",
+        baseAmount: 2,
+        multiplier: 2,
+        animal: {
+          ...ANIMAL,
+          feedBuff: { name: "Salt Lick", harvestsRemaining: 3 },
+        },
+      });
+
+      expect(amount).toEqual(4.3);
+    });
+
     it("rank 2 applies 2.5x Bale's effect", () => {
       const { boostsUsed } = getResourceDropAmount({
         game: baleFarm({ "Double Bale": 2 }),
@@ -238,15 +255,15 @@ describe("Animals skill ranks", () => {
     });
   });
 
-  // getResourceDropAmount rounds to 2dp at the boundary. Abundant Harvest r3
-  // (+0.5) puts Egg on exactly 1.5, and Salt Lick's x1.05 then lands on 1.575 —
-  // a genuine half-way value, so it pins the rounding direction.
+  // getResourceDropAmount rounds to 2dp at the boundary. Salt Lick's x1.05 on
+  // 1.5 lands on 1.575 — a genuine half-way value, so it pins the rounding
+  // direction.
   it("rounds a Salt Lick half-way yield up, as before", () => {
     const { amount } = getResourceDropAmount({
-      game: withSkills({ "Abundant Harvest": 3 }),
+      game: withSkills({}),
       animalType: "Chicken",
       resource: "Egg",
-      baseAmount: 1,
+      baseAmount: 1.5,
       multiplier: 1,
       animal: {
         ...ANIMAL,
@@ -255,6 +272,32 @@ describe("Animals skill ranks", () => {
     });
 
     expect(amount).toEqual(1.58);
+  });
+
+  it("applies every multiplier before the flat bonuses", () => {
+    // 2 x Buckaroo 2 x Salt Lick 1.05 = 4.2, then + Abundant Harvest 0.5
+    // + Cattlegrim 0.25 + Barn Manager 0.1
+    const game = withSkills({ "Abundant Harvest": 3 });
+    const { amount } = getResourceDropAmount({
+      game: {
+        ...game,
+        bumpkin: {
+          ...game.bumpkin,
+          equipped: { ...game.bumpkin.equipped, hat: "Cattlegrim" },
+        },
+        inventory: { "Barn Manager": new Decimal(1) },
+      },
+      animalType: "Chicken",
+      resource: "Egg",
+      baseAmount: 2,
+      multiplier: 2,
+      animal: {
+        ...ANIMAL,
+        feedBuff: { name: "Salt Lick", harvestsRemaining: 3 },
+      },
+    });
+
+    expect(amount).toEqual(5.05);
   });
 
   it("attributes an animal critical drop multiplier to Buckaroo", () => {
@@ -441,21 +484,41 @@ describe("Animals skill ranks", () => {
       expect(truffles({}).amount).toEqual(2);
     });
 
-    it("applies after the flat produce boosts", () => {
-      // (1 + Barn Manager 0.1) x 1.3
+    it("applies every multiplier before the flat bonuses", () => {
+      // 4 x Truffle Yield 1.3 x Buckaroo 2 x Salt Lick 1.05 = 10.92,
+      // then + Cattlegrim 0.25 + Barn Manager 0.1 + Retreat bud 0.2
+      const game = withSkills({ "Truffle Yield": 3 });
       const { amount } = getResourceDropAmount({
         game: {
-          ...withSkills({ "Truffle Yield": 3 }),
+          ...game,
+          bumpkin: {
+            ...game.bumpkin,
+            equipped: { ...game.bumpkin.equipped, hat: "Cattlegrim" },
+          },
           inventory: { "Barn Manager": new Decimal(1) },
+          buds: {
+            1: {
+              type: "Retreat",
+              colour: "Red",
+              stem: "Seashell",
+              aura: "No Aura",
+              ears: "No Ears",
+              coordinates: { x: 0, y: 0 },
+            },
+          },
         },
         animalType: "Pig",
         resource: "Truffle",
-        baseAmount: 1,
-        multiplier: 1,
-        animal: { ...ANIMAL, type: "Pig" },
+        baseAmount: 4,
+        multiplier: 2,
+        animal: {
+          ...ANIMAL,
+          type: "Pig",
+          feedBuff: { name: "Salt Lick", harvestsRemaining: 3 },
+        },
       });
 
-      expect(amount).toEqual(1.43);
+      expect(amount).toEqual(11.47);
     });
 
     it("does not boost other produce", () => {
@@ -706,7 +769,6 @@ describe("getFeedItem", () => {
       favouriteFood: "Kernel Blend",
       inventory: { "Kernel Blend": new Decimal(5), Hay: new Decimal(5) },
       requiredQty,
-      hasBeetleFeedingAccess: true,
     });
 
     expect(item).toBe("Kernel Blend");
@@ -719,7 +781,6 @@ describe("getFeedItem", () => {
       favouriteFood: "Kernel Blend",
       inventory: { "Kernel Blend": new Decimal(5), Omnifeed: new Decimal(5) },
       requiredQty,
-      hasBeetleFeedingAccess: true,
     });
 
     expect(item).toBe("Omnifeed");
@@ -732,7 +793,6 @@ describe("getFeedItem", () => {
       favouriteFood: "Basic Slop",
       inventory: { "Basic Slop": new Decimal(5), Omnifeed: new Decimal(5) },
       requiredQty,
-      hasBeetleFeedingAccess: true,
     });
 
     expect(item).toBe("Basic Slop");
@@ -748,7 +808,6 @@ describe("getFeedItem", () => {
         "Amber Beetle": new Decimal(1),
       },
       requiredQty,
-      hasBeetleFeedingAccess: true,
     });
 
     expect(item).toBe("Amber Beetle");
@@ -764,7 +823,6 @@ describe("getFeedItem", () => {
         "Green Beetle": new Decimal(1),
       },
       requiredQty,
-      hasBeetleFeedingAccess: true,
     });
 
     expect(item).toBe("Kernel Blend");
@@ -777,26 +835,9 @@ describe("getFeedItem", () => {
       favouriteFood: "Kernel Blend",
       inventory: { Hay: new Decimal(5), "Green Beetle": new Decimal(1) },
       requiredQty,
-      hasBeetleFeedingAccess: true,
     });
 
     expect(item).toBe("Hay");
-  });
-
-  it("treats a selected Beetle like any other item without Beetle feeding access", () => {
-    const item = getFeedItem({
-      animal: "Chicken",
-      selectedItem: "Green Beetle",
-      favouriteFood: "Kernel Blend",
-      inventory: {
-        "Kernel Blend": new Decimal(5),
-        "Green Beetle": new Decimal(1),
-      },
-      requiredQty,
-      hasBeetleFeedingAccess: false,
-    });
-
-    expect(item).toBe("Kernel Blend");
   });
 
   it("switches from a different food to the favourite food when enough is held", () => {
@@ -806,7 +847,6 @@ describe("getFeedItem", () => {
       favouriteFood: "Kernel Blend",
       inventory: { "Kernel Blend": new Decimal(1), Hay: new Decimal(5) },
       requiredQty,
-      hasBeetleFeedingAccess: true,
     });
 
     expect(item).toBe("Kernel Blend");
@@ -819,7 +859,6 @@ describe("getFeedItem", () => {
       favouriteFood: "Kernel Blend",
       inventory: { "Kernel Blend": new Decimal(1), Axe: new Decimal(1) },
       requiredQty,
-      hasBeetleFeedingAccess: true,
     });
 
     expect(item).toBe("Kernel Blend");
@@ -832,7 +871,6 @@ describe("getFeedItem", () => {
       favouriteFood: "Kernel Blend",
       inventory: { "Kernel Blend": new Decimal(1) },
       requiredQty,
-      hasBeetleFeedingAccess: true,
     });
 
     expect(item).toBe("Kernel Blend");
@@ -845,7 +883,6 @@ describe("getFeedItem", () => {
       favouriteFood: "Kernel Blend",
       inventory: { Hay: new Decimal(5) },
       requiredQty,
-      hasBeetleFeedingAccess: true,
     });
 
     expect(item).toBe("Hay");
@@ -858,7 +895,6 @@ describe("getFeedItem", () => {
       favouriteFood: "Kernel Blend",
       inventory: { "Kernel Blend": new Decimal(2), Hay: new Decimal(5) },
       requiredQty: new Decimal(3),
-      hasBeetleFeedingAccess: true,
     });
 
     expect(item).toBe("Hay");
@@ -871,7 +907,6 @@ describe("getFeedItem", () => {
       favouriteFood: "Kernel Blend",
       inventory: { Axe: new Decimal(1) },
       requiredQty,
-      hasBeetleFeedingAccess: true,
     });
 
     expect(item).toBe("Axe");
@@ -1128,6 +1163,28 @@ describe("Pig Bristles trade-in (#7721)", () => {
       );
     });
 
+    it("adds a Retreat bud's animal produce boost", () => {
+      const game: GameState = {
+        ...INITIAL_FARM,
+        buds: {
+          1: {
+            type: "Retreat",
+            colour: "Red",
+            stem: "Seashell",
+            aura: "No Aura",
+            ears: "No Ears",
+            coordinates: { x: 0, y: 0 },
+          },
+        },
+      };
+
+      const { amount, boostsUsed } = getPigBristles({ game, pig: pigAt(15) });
+
+      // 12 + Retreat 0.2
+      expect(amount).toEqual(12.2);
+      expect(boostsUsed.map((boost) => boost.name)).toContain("Bud #1");
+    });
+
     it.each([
       [1, 13.2],
       [2, 14.4],
@@ -1142,14 +1199,52 @@ describe("Pig Bristles trade-in (#7721)", () => {
       expect(boostsUsed.map((boost) => boost.name)).toContain("Bristle Payout");
     });
 
-    it("applies Bristle Payout after the flat boosts", () => {
+    it("applies Bristle Payout before the flat boosts", () => {
       const { amount } = getPigBristles({
         game: withCattlegrim(withSkills({ "Bristle Payout": 1 })),
         pig: pigAt(15),
       });
 
-      // (12 + 0.25) x 1.1 = 13.475, kept to 2 dp like produce
-      expect(amount).toEqual(13.48);
+      // 12 x 1.1 + 0.25
+      expect(amount).toEqual(13.45);
+    });
+
+    const withRetreatBud = (game: GameState): GameState => ({
+      ...game,
+      buds: {
+        1: {
+          type: "Retreat",
+          colour: "Red",
+          stem: "Seashell",
+          aura: "No Aura",
+          ears: "No Ears",
+          coordinates: { x: 0, y: 0 },
+        },
+      },
+    });
+
+    it("adds a Retreat bud's boost after Bristle Payout, unscaled", () => {
+      const { amount } = getPigBristles({
+        game: withRetreatBud(withSkills({ "Bristle Payout": 1 })),
+        pig: pigAt(15),
+      });
+
+      // 12 x 1.1 + Retreat 0.2 = 13.4, not (12 + 0.2) x 1.1 = 13.42
+      expect(amount).toEqual(13.4);
+    });
+
+    it("adds a Retreat bud's boost after Truffle Yield, unscaled", () => {
+      const { amount } = getResourceDropAmount({
+        game: withRetreatBud(withSkills({ "Truffle Yield": 1 })),
+        animalType: "Pig",
+        resource: "Truffle",
+        baseAmount: 4,
+        multiplier: 0,
+        animal: pigAt(15),
+      });
+
+      // 4 x 1.1 + Retreat 0.2 = 4.6, not (4 + 0.2) x 1.1 = 4.62
+      expect(amount).toEqual(4.6);
     });
 
     it("does not scale Truffles with Bristle Payout", () => {
@@ -1240,5 +1335,91 @@ describe("Pig Bristles trade-in (#7721)", () => {
         }),
       ).toBe(false);
     });
+  });
+});
+
+describe("getBoostedAwakeAt: Truffle Seasoning (Chapter 16)", () => {
+  const now = Date.now();
+  const SEASONING = {
+    name: "Truffle Seasoning",
+    harvestsRemaining: 1,
+  } as const;
+
+  it("halves the sleep of an animal carrying a Truffle Seasoning", () => {
+    const { baseDurationMs, boostsUsed } = getBoostedAwakeAt({
+      animalType: "Cow",
+      createdAt: now,
+      game: INITIAL_FARM,
+      feedBuff: SEASONING,
+    });
+
+    expect(baseDurationMs).toEqual(ANIMAL_SLEEP_DURATION / 2);
+    expect(boostsUsed).toContainEqual({
+      name: "Truffle Seasoning",
+      value: "x0.5",
+    });
+  });
+
+  it("stacks with the permanent sleep boosts", () => {
+    const { baseDurationMs } = getBoostedAwakeAt({
+      animalType: "Cow",
+      createdAt: now,
+      game: { ...INITIAL_FARM, inventory: { Wrangler: new Decimal(1) } },
+      feedBuff: SEASONING,
+    });
+
+    expect(baseDurationMs).toEqual(ANIMAL_SLEEP_DURATION * 0.9 * 0.5);
+  });
+
+  it("ignores the other treats", () => {
+    const { baseDurationMs, boostsUsed } = getBoostedAwakeAt({
+      animalType: "Cow",
+      createdAt: now,
+      game: INITIAL_FARM,
+      feedBuff: { name: "Honey Treat", harvestsRemaining: 3 },
+    });
+
+    expect(baseDurationMs).toEqual(ANIMAL_SLEEP_DURATION);
+    expect(boostsUsed).toEqual([]);
+  });
+});
+
+describe("Beetle Sheep", () => {
+  it("applies x0.925 Sheep sleep time", () => {
+    const { baseDurationMs, boostsUsed } = getBoostedAwakeAt({
+      animalType: "Sheep",
+      createdAt: Date.now(),
+      game: {
+        ...INITIAL_FARM,
+        collectibles: {
+          "Beetle Sheep": [
+            { id: "1", createdAt: 0, coordinates: { x: 0, y: 0 }, readyAt: 0 },
+          ],
+        },
+      },
+    });
+
+    expect(baseDurationMs).toEqual(ANIMAL_SLEEP_DURATION * 0.925);
+    expect(boostsUsed).toContainEqual({
+      name: "Beetle Sheep",
+      value: "x0.925",
+    });
+  });
+
+  it("does not apply to Cows", () => {
+    const { baseDurationMs } = getBoostedAwakeAt({
+      animalType: "Cow",
+      createdAt: Date.now(),
+      game: {
+        ...INITIAL_FARM,
+        collectibles: {
+          "Beetle Sheep": [
+            { id: "1", createdAt: 0, coordinates: { x: 0, y: 0 }, readyAt: 0 },
+          ],
+        },
+      },
+    });
+
+    expect(baseDurationMs).toEqual(ANIMAL_SLEEP_DURATION);
   });
 });

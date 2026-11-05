@@ -60,6 +60,11 @@ export type RewardBoxReward = {
   wearables?: Wardrobe;
   flower?: number;
   seasons?: (now?: number) => TemperateSeasonName[]; // Seasons that the reward is available in
+  /**
+   * VIP pool. In a box that has VIP rewards, VIP players only roll the VIP
+   * rewards and everyone else only rolls the rest (see #6887).
+   */
+  vip?: boolean;
 };
 
 type RewardBoxDetails = {
@@ -137,11 +142,11 @@ export const REWARD_BOXES: Record<RewardBoxName, RewardBoxDetails> = {
       { coins: 1000, weighting: 100 },
       { items: { "Fishing Lure": 5 }, weighting: 100 },
 
-      // Good
-      { items: { Gem: 30 }, weighting: 100 },
-      { items: { Gem: 50 }, weighting: 100 },
-      { items: { Gem: 75 }, weighting: 10 },
-      { items: { Gem: 250 }, weighting: 5 },
+      // Good - VIP players always roll from this pool instead
+      { items: { Gem: 30 }, weighting: 100, vip: true },
+      { items: { Gem: 50 }, weighting: 100, vip: true },
+      { items: { Gem: 75 }, weighting: 10, vip: true },
+      { items: { Gem: 250 }, weighting: 5, vip: true },
     ],
   },
   "Fossil Shell": {
@@ -396,6 +401,19 @@ export const getRewardBoxRewards = ({
   }
 
   return rewards;
+};
+
+/**
+ * The rewards a player can actually roll from a box: boxes with a VIP pool
+ * give VIP players only the VIP rewards and everyone else only the rest.
+ */
+export const getRewardPoolForPlayer = (
+  rewards: RewardBoxReward[],
+  isVip: boolean,
+): RewardBoxReward[] => {
+  if (!rewards.some((reward) => reward.vip)) return rewards;
+
+  return rewards.filter((reward) => !!reward.vip === isVip);
 };
 
 export const getRewardBoxRewardsForDisplay = ({

@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { CropTags } from "features/island/buildings/components/building/market/CropTags";
 import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import {
   getAscensionLevel,
@@ -36,12 +37,7 @@ import flowerBed from "assets/flowers/empty_flowerbed.webp";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
 import { type Seed, type SeedName, SEEDS } from "features/game/types/seeds";
-import {
-  type CropName,
-  type CropSeedName,
-  getCropCategory,
-  type ProduceName,
-} from "features/game/types/crops";
+import type { CropName, CropSeedName } from "features/game/types/crops";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { BoostsDisplay } from "./BoostsDisplay";
 import {
@@ -243,9 +239,11 @@ export const SeedRequirements: React.FC<Props> = ({
         <div className="flex flex-col space-x-2 justify-start items-center md:space-x-0 mb-1">
           <div>
             <p className="text-center">{title}</p>
-            <p className="text-xs text-center">
-              {t(getCropCategory(SEEDS[details.item]?.yield as ProduceName))}
-            </p>
+            <CropTags
+              seed={details.item}
+              game={gameState}
+              className="justify-center mt-1"
+            />
           </div>
           {icon && !!details.item && (
             <div className="mt-2 flex items-center">
@@ -298,7 +296,10 @@ export const SeedRequirements: React.FC<Props> = ({
         hasNamedBoosts,
       });
 
-    const RequirementLabels: React.FC = () => {
+    // A plain render helper, not a nested component: a component declared here
+    // is a new type every render, so each `now` tick would remount the subtree
+    // and replay the boosts panel's appear transition (it flashes every second).
+    const getRequirementLabels = () => {
       if (isSeedCropMachine(details.item)) {
         const cropMachinePackSize = CROP_MACHINE_PLOTS(gameState);
 
@@ -416,7 +417,7 @@ export const SeedRequirements: React.FC<Props> = ({
     return (
       <div className="w-full mb-2 flex justify-center gap-x-3 gap-y-0 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap my-1">
         {/* Time requirement display */}
-        <RequirementLabels />
+        {getRequirementLabels()}
         {/* Level requirement */}
         {!!level && (
           <RequirementLabel

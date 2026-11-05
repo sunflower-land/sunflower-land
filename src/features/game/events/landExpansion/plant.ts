@@ -35,7 +35,6 @@ import {
   SEEDS,
 } from "features/game/types/seeds";
 import {
-  CHAPTER_CROP_WEEK_CROP,
   CHAPTER_CROP_WEEK_SEED,
   hasChapterCropWeekAccess,
 } from "features/game/types/chapterCropWeek";
@@ -66,11 +65,7 @@ import {
   trackFarmActivity,
 } from "features/game/types/farmActivity";
 import { isBuffActive } from "features/game/types/buffs";
-import {
-  SKILL_RANKS,
-  getSkillLevel,
-  downgradeChapterCropWeekSkills,
-} from "features/game/types/bumpkinSkills";
+import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
 import { isAutumnCrop, isSummerCrop } from "./harvest";
 import { getKeys } from "lib/object";
 import { mfTrack } from "lib/moonforgeAnalytics";
@@ -225,12 +220,7 @@ export function getCropTime({
   let multiplier = 1;
   const boostsUsed: { name: BoostName; value: string }[] = [];
   const { inventory, buds = {}, bumpkin } = game;
-  // Crystal Leaf is the CHAPTER_CROP_WEEK event crop: neutralise upgraded Crops skills
-  // (they still apply at rank 1) so the event crop isn't boosted by ascension ranks.
-  const skills =
-    crop === CHAPTER_CROP_WEEK_CROP
-      ? downgradeChapterCropWeekSkills(bumpkin?.skills ?? {})
-      : (bumpkin?.skills ?? {});
+  const skills = bumpkin?.skills ?? {};
 
   if (inventory["Seed Specialist"]?.gte(1)) {
     multiplier = multiplier * 0.9;
@@ -327,11 +317,7 @@ export const getCropPlotTime = ({
   boostsUsed: { name: BoostName; value: string }[];
 } => {
   const { aoe } = game;
-  // Crystal Leaf (the CHAPTER_CROP_WEEK event crop) ignores upgraded Crops-skill ranks.
-  const skills =
-    crop === CHAPTER_CROP_WEEK_CROP
-      ? downgradeChapterCropWeekSkills(game.bumpkin.skills)
-      : game.bumpkin.skills;
+  const skills = game.bumpkin.skills;
   const updatedAoe = cloneDeep(aoe);
 
   let seconds = CROPS[crop].harvestSeconds;
@@ -364,6 +350,11 @@ export const getCropPlotTime = ({
   ) {
     seconds = seconds * 0.5;
     boostsUsed.push({ name: "Autumn's Embrace", value: "x0.5" });
+  }
+
+  if (isWearableActive({ name: "Duende Hat", game })) {
+    seconds = seconds * 0.9;
+    boostsUsed.push({ name: "Duende Hat", value: "x0.9" });
   }
 
   const greenThumbLevel = getSkillLevel(skills, "Green Thumb");

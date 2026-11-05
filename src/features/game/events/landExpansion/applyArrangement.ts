@@ -1,6 +1,7 @@
 import type {
   Collectibles,
   GameState,
+  InventoryItemName,
   LayoutCoordinates,
   PlacedItem,
   SavedLayout,
@@ -14,7 +15,10 @@ import {
   BUILDINGS_DIMENSIONS,
   type BuildingName,
 } from "features/game/types/buildings";
-import type { ResourceName } from "features/game/types/resources";
+import {
+  RESOURCES_UPGRADES_TO,
+  type ResourceName,
+} from "features/game/types/resources";
 import { PET_NFT_DIMENSIONS } from "features/game/types/pets";
 import {
   NON_COLLIDING_OBJECTS,
@@ -79,7 +83,17 @@ export type Arrangement = Pick<
   "collectibles" | "buds" | "petNFTs" | "farmHands" | "bumpkin" | "land"
 > &
   // Only the farm has buildings and resource nodes; indoor surfaces omit them.
-  Partial<Pick<SavedLayout, "buildings" | "resources">>;
+  Partial<Pick<SavedLayout, "buildings">> & {
+    resources?: Record<ResourceBucketKey, Record<string, ArrangementResource>>;
+  };
+
+/**
+ * A resource node in an arrangement. A node the server already holds is
+ * addressed by id and keeps its own tier; a node placed from the chest is new
+ * to the server, so `name` carries the tier the player chose (an upgraded
+ * tree or rock), without which it could only be read as the base tier.
+ */
+export type ArrangementResource = LayoutCoordinates & { name?: ResourceName };
 
 export type ApplyArrangementAction = {
   type: "arrangement.saved";
@@ -274,10 +288,12 @@ export function snapshotSurface(
       resources[key] = {};
       Object.entries(get(state)).forEach(([id, node]) => {
         if (node.x === undefined || node.y === undefined) return;
-        const coordinates: LayoutCoordinates = { x: node.x, y: node.y };
-        if (node.oX !== undefined) coordinates.oX = node.oX;
-        if (node.oY !== undefined) coordinates.oY = node.oY;
-        resources[key][id] = coordinates;
+        const entry: ArrangementResource = { x: node.x, y: node.y };
+        if (node.oX !== undefined) entry.oX = node.oX;
+        if (node.oY !== undefined) entry.oY = node.oY;
+        const name = (node as { name?: ResourceName }).name;
+        if (name !== undefined) entry.name = name;
+        resources[key][id] = entry;
       });
     });
     arrangement.resources = resources;
@@ -352,6 +368,22 @@ const point = (c: LayoutCoordinates) => ({ x: c.x, y: c.y });
 
 const sameCoordinates = (a: LayoutCoordinates, b: LayoutCoordinates) =>
   a.x === b.x && a.y === b.y && a.oX === b.oX && a.oY === b.oY;
+
+/**
+ * The tier a chest placement asks for, when it is one of the bucket's own
+ * tiers (the base and everything it upgrades into); anything else, or no
+ * tier at all, is the base.
+ */
+const tierOf = (base: ResourceName, requested?: string): ResourceName => {
+  for (
+    let tier: ResourceName | undefined = base;
+    tier !== undefined;
+    tier = RESOURCES_UPGRADES_TO[tier]
+  ) {
+    if (tier === requested) return tier;
+  }
+  return base;
+};
 
 const canCollide = (name: string) =>
   !NON_COLLIDING_OBJECTS.includes(name as CollectibleName);
@@ -632,12 +664,12 @@ function indexDesired(
   if (surface.hasResources)
     RESOURCE_BUCKETS.forEach(({ key, get, resourceName }) => {
       Object.entries(arrangement.resources?.[key] ?? {}).forEach(
-        ([id, coordinates]) => {
+        ([id, { name: requested, ...coordinates }]) => {
           const existing = get(state)[id] as { name?: string } | undefined;
           add({
             key: `resource:${key}:${id}`,
             category: "resource",
-            name: existing?.name ?? resourceName,
+            name: existing?.name ?? tierOf(resourceName, requested),
             id,
             bucket: key,
             coordinates,
@@ -992,6 +1024,29 @@ function withIsolatedBuilding(
   return next;
 }
 
+/**
+ * Whether the chest holds one more node of exactly this tier than the farm
+ * has placed. The place reducers check availability across the whole family
+ * (a spare base Tree would cover a Sacred Tree), so a new node of an upgraded
+ * tier is only created when that tier itself was earned.
+ */
+function hasTierInChest(
+  state: GameState,
+  bucket: ResourceBucketKey,
+  name: string,
+): boolean {
+  const { get, resourceName } = RESOURCE_BUCKETS.find((b) => b.key === bucket)!;
+  if (name === resourceName) return true;
+
+  const owned = state.inventory[name as InventoryItemName]?.toNumber() ?? 0;
+  const placed = Object.values(get(state)).filter(
+    (node) =>
+      node.x !== undefined &&
+      ((node as { name?: string }).name ?? resourceName) === name,
+  ).length;
+  return owned - placed >= 1;
+}
+
 function withIsolatedResource(
   state: GameState,
   bucket: ResourceBucketKey,
@@ -1036,7 +1091,8 @@ type Options = {
  *   client id (chest availability, paused-timer resume, `createdAt`).
  *
  * All-or-nothing: the final state is validated as a whole (land bounds, pairwise
- * overlap, so swaps never false-positive) and any problem throws an
+ * overlap, so swaps never false-positive; items left where they already were
+ * are exempt from both) and any problem throws an
  * {@link ArrangementConflictError} listing every offending item. Mirrors the
  * server reducer (sunflower-land-api `applyArrangement`); the server also
  * relocates mushrooms/airdrops/clutter under a footprint.
@@ -1162,8 +1218,17 @@ export function applyArrangement({
   });
 
   // --- Validate the final state as a whole. --------------------------------
+  // Items still where the farm already had them are grandfathered: a footprint
+  // that grew after placement (corrected dimensions) can leave stored items
+  // overlapping or past the edge, and that must not block unrelated saves.
+  // Anything moved or placed is checked against everything.
+  const untouched = (entry: Entry) => {
+    const current = live.get(entry.key);
+    return !!current && sameCoordinates(current.coordinates, entry.coordinates);
+  };
   const final = [...indexLive(working, location).values()];
   final.forEach((entry) => {
+    if (untouched(entry)) return;
     if (isOutOfBounds({ state: working, position: boxOf(entry), location })) {
       // Already reported for placements above.
       if (!placements.some((p) => p.key === entry.key)) {
@@ -1177,13 +1242,10 @@ export function applyArrangement({
     for (let j = 0; j < i; j++) {
       const b = final[j];
       if (!canCollide(b.name)) continue;
+      if (untouched(a) && untouched(b)) continue;
       if (!isOverlapping(boxOf(a), boxOf(b))) continue;
-      // Blame the item that moved/was placed; fall back to the later one.
-      const [culprit, other] =
-        live.get(a.key) &&
-        sameCoordinates(live.get(a.key)!.coordinates, a.coordinates)
-          ? [b, a]
-          : [a, b];
+      // Blame the item that moved/was placed.
+      const [culprit, other] = untouched(a) ? [b, a] : [a, b];
       if (
         conflicts.some(
           (c) =>
@@ -1490,6 +1552,9 @@ function placeEntry(
           createdAt,
         });
       const known = get(state)[entry.id];
+      if (!known && !hasTierInChest(state, bucket, entry.name)) {
+        throw new Error(`Not enough ${entry.name}`);
+      }
       const next =
         known && known.x === undefined
           ? withIsolatedResource(state, bucket, entry.id, run)

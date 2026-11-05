@@ -147,8 +147,8 @@ export function seedBought({ state, action, createdAt = Date.now() }: Options) {
       throw new Error("Not a full moon");
     }
 
-    // Seeds from previous Chapter Crop Week runs can never be bought again
-    if (isRetiredChapterCropWeekItem(item)) {
+    // Seeds from ended Chapter Crop Week runs can never be bought again
+    if (isRetiredChapterCropWeekItem(item, createdAt)) {
       throw new Error("This seed is no longer available");
     }
 

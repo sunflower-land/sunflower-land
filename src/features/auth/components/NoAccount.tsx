@@ -26,8 +26,13 @@ import debounce from "lodash.debounce";
 import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { SignupBumpkinEquip } from "features/bumpkins/components/SignupBumpkinEquip";
 import type { CreateFarmEvent } from "../lib/authMachine";
+import type { FarmNFTAccount } from "../actions/nftAccount";
+import { loadFarmNFTAccounts } from "../actions/nftAccount";
 
 type ValidationState = "notFound" | "checking" | "valid" | "error";
+
+/** How long signup waits for the farm NFT lookup before showing the regular page */
+const NFT_LOOKUP_TIMEOUT_MS = 15_000;
 
 export const NoAccount: React.FC = () => {
   const { t } = useAppTranslation();
@@ -40,6 +45,50 @@ export const NoAccount: React.FC = () => {
   const [showBumpkinModal, setShowBumpkinModal] = useState(false);
   const [validationState, setValidationState] = useState<ValidationState>();
   const [showClaimAccount, setShowClaimAccount] = useState(false);
+  const address = authState.context.user.token?.address ?? "";
+  const hasWallet = isAddress(address);
+
+  // Farm NFTs owned by the connected wallet, so a player who already owns a
+  // farm is offered it before creating a new one. The result is keyed by the
+  // address it was fetched for, so a stale lookup is never shown.
+  const [nftLookup, setNftLookup] = useState<{
+    address: string;
+    tokenIds: number[];
+  }>();
+  const [createNewFarmFor, setCreateNewFarmFor] = useState<string>();
+
+  const nftTokenIds = !hasWallet
+    ? []
+    : nftLookup?.address === address
+      ? nftLookup.tokenIds
+      : undefined;
+  const createNewFarm = createNewFarmFor === address;
+
+  useEffect(() => {
+    if (!hasWallet) return;
+
+    let settled = false;
+    const settle = (tokenIds: number[]) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      setNftLookup({ address, tokenIds });
+    };
+
+    // A slow or failed lookup must never block signup: fall back to the
+    // regular page, where "I already have a farm" runs its own search.
+    const timer = setTimeout(() => settle([]), NFT_LOOKUP_TIMEOUT_MS);
+
+    getFarms(address as `0x${string}`)
+      .then((farms) => settle(farms.map((farm) => Number(farm.tokenId))))
+      .catch(() => settle([]));
+
+    return () => {
+      settled = true;
+      clearTimeout(timer);
+    };
+  }, [address, hasWallet]);
+
   const handleCreateFarm = () => {
     if (!referralId) {
       setShowEmptyReferralModal(true);
@@ -160,6 +209,22 @@ export const NoAccount: React.FC = () => {
     return <SignupBumpkinEquip onSave={handleBumpkinSave} />;
   }
 
+  if (nftTokenIds === undefined) {
+    return <Loading />;
+  }
+
+  if (nftTokenIds.length > 0 && !createNewFarm) {
+    return (
+      <ClaimAccount
+        tokenIds={nftTokenIds}
+        message={t("noaccount.nftFarmsFound")}
+        backLabel={t("noaccount.createNewFarm")}
+        onBack={() => setCreateNewFarmFor(address)}
+        onClaim={(id) => authService.send("CLAIM", { id })}
+      />
+    );
+  }
+
   return (
     <>
       <div className="px-2">
@@ -191,7 +256,7 @@ export const NoAccount: React.FC = () => {
       <div className="flex flex-col space-y-2">
         <span className="px-2 text-sm">{t("noaccount.welcomeMessage")}</span>
         <div className="flex space-x-1 mt-2.5">
-          {isAddress(authState.context.user.token?.address ?? "") && (
+          {hasWallet && (
             <Button onClick={() => setShowClaimAccount(true)}>
               {t("noaccount.haveFarm")}
             </Button>
@@ -219,15 +284,43 @@ export const NoAccount: React.FC = () => {
 export const ClaimAccount: React.FC<{
   onClaim: (id: number) => void;
   onBack: () => void;
-}> = ({ onBack, onClaim }) => {
+  /** Farm NFT ids already loaded by the parent; skips the on-chain lookup */
+  tokenIds?: number[];
+  message?: string;
+  backLabel?: string;
+}> = ({ onBack, onClaim, tokenIds: preloadedTokenIds, message, backLabel }) => {
   const { authService } = useContext(Context);
   const [authState] = useActor(authService);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [tokenIds, setTokenIds] = useState<number[]>([]);
+  const [loadedTokenIds, setLoadedTokenIds] = useState<number[]>([]);
+  const [accounts, setAccounts] = useState<Record<number, FarmNFTAccount>>({});
   const { t } = useAppTranslation();
 
+  const tokenIds = preloadedTokenIds ?? loadedTokenIds;
+  const tokenIdsKey = tokenIds.join(",");
+
+  // Label each NFT with the farm id and username players actually know.
+  // Best effort: a failed lookup leaves the NFT id as the label.
   useEffect(() => {
+    const token = authState.context.user.rawToken;
+
+    if (!token || tokenIds.length === 0) return;
+
+    let cancelled = false;
+
+    loadFarmNFTAccounts({ token, nftIds: tokenIds }).then((found) => {
+      if (!cancelled) setAccounts(found);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [tokenIdsKey]);
+
+  useEffect(() => {
+    if (preloadedTokenIds) return;
+
     const load = async () => {
       setIsLoading(true);
 
@@ -237,7 +330,7 @@ export const ClaimAccount: React.FC<{
 
       const ids = farms.map((farm) => Number(farm.tokenId));
 
-      setTokenIds(ids);
+      setLoadedTokenIds(ids);
 
       setIsLoading(false);
     };
@@ -259,20 +352,31 @@ export const ClaimAccount: React.FC<{
   return (
     <>
       <div className="p-1">
-        <p className="m-1 text-sm">{t("noaccount.selectNFTID")}</p>
-        {tokenIds.map((id) => (
-          <OuterPanel
-            className={
-              "flex relative items-center justify-between !p-2 mb-1 cursor-pointer hover:bg-brown-200"
-            }
-            key={id}
-            onClick={() => onClaim(id)}
-          >
-            <Label type="formula">{`ID: #${id}`}</Label>
-          </OuterPanel>
-        ))}
+        <p className="m-1 text-sm">{message ?? t("noaccount.selectNFTID")}</p>
+        {tokenIds.map((id) => {
+          const account = accounts[id];
+
+          return (
+            <OuterPanel
+              className={
+                "flex relative items-center justify-between !p-2 mb-1 cursor-pointer hover:bg-brown-200"
+              }
+              key={id}
+              onClick={() => onClaim(id)}
+            >
+              <Label type="formula">
+                {account ? `Farm #${account.farmId}` : `ID: #${id}`}
+              </Label>
+              {account?.username && (
+                <span className="text-xs truncate ml-2">
+                  {account.username}
+                </span>
+              )}
+            </OuterPanel>
+          );
+        })}
       </div>
-      <Button onClick={onBack}>{t("back")}</Button>
+      <Button onClick={onBack}>{backLabel ?? t("back")}</Button>
     </>
   );
 };

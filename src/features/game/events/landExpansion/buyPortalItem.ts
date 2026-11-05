@@ -12,6 +12,19 @@ import {
 import type { MinigameName } from "features/game/types/minigames";
 import { getObjectEntries } from "lib/object";
 import { hasVipAccess } from "features/game/lib/vipAccess";
+import {
+  type EventStore,
+  HALLOWEEN_2026_EVENT_ITEMS,
+} from "features/game/types/halloween2026EventShop";
+
+/**
+ * Tiered event stores: a tier opens once the player has bought at least its
+ * `requirement` different items from the store (any tier). Same tiers as the
+ * event store screen.
+ */
+const MINIGAME_SHOP_TIERS: Partial<Record<MinigameName, EventStore>> = {
+  "halloween-2026-game-2": HALLOWEEN_2026_EVENT_ITEMS,
+};
 
 export type BuyMinigameItemAction = {
   type: "minigameItem.bought";
@@ -51,6 +64,35 @@ export function buyEventShopItem({
 
     if (!item) {
       throw new Error("Item not found in Shopx");
+    }
+
+    const tiers = MINIGAME_SHOP_TIERS[action.id];
+
+    if (tiers) {
+      const tier = getObjectEntries(tiers).find(([, { items }]) =>
+        items.some(
+          (tierItem) =>
+            ("wearable" in tierItem
+              ? tierItem.wearable
+              : tierItem.collectible) === action.name,
+        ),
+      );
+
+      if (!tier) {
+        throw new Error("Item is not in a tier");
+      }
+
+      const [tierName, tierData] = tier;
+      const requirement = "requirement" in tierData ? tierData.requirement : 0;
+
+      // Different items bought from this store so far, any tier
+      const bought =
+        Object.keys(minigame.shop?.items ?? {}).length +
+        Object.keys(minigame.shop?.wearables ?? {}).length;
+
+      if (bought < requirement) {
+        throw new Error(`${tierName} tier is locked`);
+      }
     }
 
     const { sfl, items } = item.cost;

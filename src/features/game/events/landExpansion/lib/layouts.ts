@@ -10,6 +10,10 @@ import {
   snapshotGuardianPlacements,
   syncGuardianPlacements,
 } from "features/game/lib/guardianPlacements";
+import {
+  snapshotCookingPlacements,
+  syncCookingPlacements,
+} from "features/game/lib/cookingReadiness";
 import { getChestItemCount } from "features/island/hud/components/inventory/utils/inventory";
 import { isCollectibleWithTimestamps } from "features/game/events/landExpansion/placeCollectible";
 import { getAvailableNodes } from "features/game/lib/resourceNodes";
@@ -672,6 +676,7 @@ export function applyFarmLayout(
   createdAt: number,
 ): { applied: number; skipped: number; noInventory: number } {
   const guardiansBefore = snapshotGuardianPlacements(state);
+  const cookingBefore = snapshotCookingPlacements(state);
   const slots: LayoutSlot[] = [];
   let noInventory = 0;
 
@@ -1096,6 +1101,7 @@ export function applyFarmLayout(
   }
 
   syncGuardianPlacements(state, guardiansBefore, createdAt);
+  syncCookingPlacements(state, cookingBefore, createdAt);
 
   return { applied, skipped, noInventory };
 }

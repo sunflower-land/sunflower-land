@@ -1,7 +1,11 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import type { Animal, GameState } from "features/game/types/game";
-import { getBulkMixRequirements } from "./getBulkMixRequirements";
+import {
+  getBulkMixEntries,
+  getBulkMixEntriesCost,
+  getBulkMixRequirements,
+} from "./getBulkMixRequirements";
 
 describe("getBulkMixRequirements", () => {
   const animal = ({
@@ -45,6 +49,97 @@ describe("getBulkMixRequirements", () => {
     expect(missingRequests["Kernel Blend"]).toEqual(new Decimal(1));
     expect(requirements.ingredients.Corn).toEqual(new Decimal(1));
     expect(requirements.coins).toBe(0);
+  });
+
+  it("mixes a food chosen for Omnifeed from Gems instead of its recipe", () => {
+    const { feeds, requirements } = getBulkMixRequirements(
+      {
+        ...INITIAL_FARM,
+        inventory: {},
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: { "0": chicken("idle") },
+        },
+      },
+      "Hen House",
+      Date.now(),
+      {},
+      { "Kernel Blend": true },
+    );
+
+    const feed = feeds.find(({ item }) => item === "Kernel Blend");
+    expect(feed?.mixAs).toBe("Omnifeed");
+    expect(feed?.missing).toEqual(new Decimal(1));
+    expect(feed?.ingredients).toEqual({ Gem: new Decimal(1) });
+    expect(requirements.ingredients.Corn).toBeUndefined();
+    expect(requirements.ingredients.Gem).toEqual(new Decimal(1));
+  });
+
+  it("counts Omnifeed already held towards the foods switched to it", () => {
+    const farm = (omnifeed: number): GameState => ({
+      ...INITIAL_FARM,
+      inventory: { Omnifeed: new Decimal(omnifeed) },
+      henHouse: {
+        ...INITIAL_FARM.henHouse,
+        animals: { "0": chicken("idle") },
+      },
+    });
+    const feedFor = (omnifeed: number) =>
+      getBulkMixRequirements(
+        farm(omnifeed),
+        "Hen House",
+        Date.now(),
+        {},
+        {
+          "Kernel Blend": true,
+        },
+      ).feeds.find(({ item }) => item === "Kernel Blend");
+
+    expect(feedFor(1)?.missing).toEqual(new Decimal(0));
+    expect(feedFor(1)?.inInventory).toEqual(new Decimal(1));
+    expect(feedFor(0)?.missing).toEqual(new Decimal(1));
+  });
+
+  it("does not count held Omnifeed towards a food that isn't switched", () => {
+    const { feeds } = getBulkMixRequirements(
+      {
+        ...INITIAL_FARM,
+        inventory: { Omnifeed: new Decimal(5) },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: { "0": chicken("idle") },
+        },
+      },
+      "Hen House",
+      Date.now(),
+    );
+
+    // Feeding only uses Omnifeed when it is the selected item, so holding it
+    // must not cover a food the player still feeds with its own recipe.
+    expect(feeds.find(({ item }) => item === "Kernel Blend")?.missing).toEqual(
+      new Decimal(1),
+    );
+  });
+
+  it("never mixes medicine as Omnifeed", () => {
+    const { feeds } = getBulkMixRequirements(
+      {
+        ...INITIAL_FARM,
+        inventory: {},
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: { "0": chicken("sick") },
+        },
+      },
+      "Hen House",
+      Date.now(),
+      {},
+      { "Barn Delight": true },
+    );
+
+    expect(feeds.find(({ item }) => item === "Barn Delight")?.mixAs).toBe(
+      "Barn Delight",
+    );
   });
 
   it("uses the supplied timestamp for the awake check, not the wall clock", () => {
@@ -545,10 +640,27 @@ describe("getBulkMixRequirements", () => {
       );
       const slop = feeds.find((feed) => feed.item === "Basic Slop");
 
-      // Sunflower makes 2 Slops, Potato 5.
+      // Sunflower makes 1 Slop, Potato 2.
       expect(slop?.ingredient).toEqual("Potato");
-      expect(slop?.ingredients).toEqual({ Potato: new Decimal(240) });
-      expect(requirements.ingredients).toEqual({ Potato: new Decimal(240) });
+      expect(slop?.ingredients).toEqual({ Potato: new Decimal(450) });
+      expect(requirements.ingredients).toEqual({ Potato: new Decimal(450) });
+    });
+
+    it("mixes a Slop from the input the player picked", () => {
+      const { feeds, requirements } = getBulkMixRequirements(
+        pigFarm(undefined, {
+          Sunflower: new Decimal(1000),
+          Potato: new Decimal(400),
+        }),
+        "Pigpen",
+        Date.now(),
+        { "Basic Slop": "Carrot" },
+      );
+      const slop = feeds.find((feed) => feed.item === "Basic Slop");
+
+      expect(slop?.ingredient).toEqual("Carrot");
+      expect(slop?.ingredients).toEqual({ Carrot: new Decimal(75) });
+      expect(requirements.ingredients).toEqual({ Carrot: new Decimal(75) });
     });
 
     it("falls back to the first input when the player holds none", () => {
@@ -556,7 +668,7 @@ describe("getBulkMixRequirements", () => {
 
       expect(feeds.find((feed) => feed.item === "Basic Slop")).toMatchObject({
         ingredient: "Sunflower",
-        ingredients: { Sunflower: new Decimal(1500) },
+        ingredients: { Sunflower: new Decimal(2400) },
       });
     });
 
@@ -576,5 +688,43 @@ describe("getBulkMixRequirements", () => {
 
       expect(feeds[0].ingredient).toBeUndefined();
     });
+  });
+});
+
+describe("getBulkMixEntries", () => {
+  it("combines foods covered by Omnifeed into one Omnifeed entry", () => {
+    const { entries, capped } = getBulkMixEntries([
+      { mixAs: "Omnifeed", missing: new Decimal(30) },
+      { mixAs: "Hay", missing: new Decimal(10) },
+      { mixAs: "Omnifeed", missing: new Decimal(20) },
+    ]);
+
+    expect(entries).toEqual([
+      { item: "Omnifeed", ingredient: undefined, amount: 50 },
+      { item: "Hay", ingredient: undefined, amount: 10 },
+    ]);
+    expect(capped).toBe(false);
+  });
+
+  it("caps an entry at the bulk mix limit and reports it", () => {
+    const { entries, capped } = getBulkMixEntries([
+      { mixAs: "Omnifeed", missing: new Decimal(1200) },
+      { mixAs: "Omnifeed", missing: new Decimal(900) },
+    ]);
+
+    expect(entries).toEqual([
+      { item: "Omnifeed", ingredient: undefined, amount: 1000 },
+    ]);
+    expect(capped).toBe(true);
+  });
+
+  it("costs the capped entries, not the rows' full shortfall", () => {
+    const { entries } = getBulkMixEntries([
+      { mixAs: "Omnifeed", missing: new Decimal(1200) },
+    ]);
+
+    expect(
+      getBulkMixEntriesCost(INITIAL_FARM, entries).ingredients.Gem,
+    ).toEqual(new Decimal(1000));
   });
 });

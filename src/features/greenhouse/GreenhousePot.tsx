@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Transition } from "@headlessui/react";
+import classNames from "classnames";
 
 import emptyPot from "assets/greenhouse/greenhouse_pot.webp";
 import grapeSeedling from "assets/greenhouse/grape_seedling.webp";
@@ -332,6 +333,19 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
         </Transition>
 
         <GreenhousePotFertiliserBadges fertiliser={potFertiliser} />
+        {/* Nothing planted: the same ! the Greenhouse shows on the farm. */}
+        <img
+          src={SUNNYSIDE.icons.expression_alerted}
+          alt=""
+          className={classNames("absolute pointer-events-none z-20", {
+            ready: showAnimations,
+          })}
+          style={{
+            width: `${PIXEL_SCALE * 4}px`,
+            left: `calc(50% - ${PIXEL_SCALE * 2}px)`,
+            top: `${PIXEL_SCALE * -10}px`,
+          }}
+        />
         <img
           src={emptyPot}
           className="cursor-pointer hover:img-highlight"

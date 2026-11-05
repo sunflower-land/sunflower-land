@@ -6,7 +6,12 @@ import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import type { Airdrop, GameState, Order } from "features/game/types/game";
+import type {
+  Airdrop,
+  BoostName,
+  GameState,
+  Order,
+} from "features/game/types/game";
 import { Button } from "components/ui/Button";
 
 import coinsImg from "assets/icons/coins.webp";
@@ -21,7 +26,10 @@ import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { getKeys } from "lib/object";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { FLOWERS, type FlowerName } from "features/game/types/flowers";
 import { Box } from "components/ui/Box";
@@ -76,6 +84,61 @@ import { getCountAndType } from "features/island/hud/components/inventory/utils/
 import { getChapterTaskPoints } from "features/game/types/tracks";
 import chapterPointsIcon from "assets/icons/red_medal_short.webp";
 import { hasTimeBasedFeatureAccess } from "lib/flags";
+import { SoftBan } from "features/retreat/components/personhood/SoftBan";
+
+const BoostableRewardAmount: React.FC<{
+  amount: string;
+  icon: string;
+  /** Reward name for screen readers, e.g. "Coins" - the icon has no text. */
+  name: string;
+  boosts: { name: BoostName; value: string }[];
+  game: GameState;
+}> = ({ amount, icon, name, boosts, game }) => {
+  const [showBoosts, setShowBoosts] = useState(false);
+  const anchorRef = useRef<HTMLDivElement>(null);
+  const hasBoosts = boosts.length > 0;
+
+  return (
+    <div
+      ref={anchorRef}
+      className={classNames("flex items-center mr-1", {
+        "cursor-pointer": hasBoosts,
+      })}
+      role={hasBoosts ? "button" : undefined}
+      tabIndex={hasBoosts ? 0 : undefined}
+      aria-label={hasBoosts ? `${amount} ${name}` : undefined}
+      aria-expanded={hasBoosts ? showBoosts : undefined}
+      onClick={(e) => {
+        if (!hasBoosts) return;
+        e.stopPropagation();
+        setShowBoosts((prev) => !prev);
+      }}
+      onKeyDown={(e) => {
+        if (!hasBoosts || (e.key !== "Enter" && e.key !== " ")) return;
+        e.preventDefault();
+        e.stopPropagation();
+        setShowBoosts((prev) => !prev);
+      }}
+    >
+      <span className="text-xs">{amount}</span>
+      <img src={icon} alt={name} className="h-4 w-auto ml-1" />
+      {hasBoosts && (
+        <img src={lightning} alt="" className="h-3 w-auto ml-0.5" />
+      )}
+      {hasBoosts && showBoosts && (
+        <BoostsDisplay
+          boosts={boosts}
+          show={showBoosts}
+          state={game}
+          onClick={() => setShowBoosts(false)}
+          anchorRef={anchorRef}
+          portalAlign="right"
+          portalPlacement="auto"
+        />
+      )}
+    </div>
+  );
+};
 
 const OrderCard: React.FC<{
   order: Order;
@@ -104,8 +167,6 @@ const OrderCard: React.FC<{
   const { t } = useAppTranslation();
   const { holiday } = getBumpkinHoliday({ now });
   const isHoliday = holiday === new Date(now).toISOString().split("T")[0];
-  const [showTicketBoosts, setShowTicketBoosts] = useState(false);
-  const ticketBoostsAnchorRef = useRef<HTMLDivElement>(null);
 
   const { amount: baseTickets, boostsUsed: ticketBoostsUsed } =
     generateDeliveryTickets({
@@ -121,6 +182,9 @@ const OrderCard: React.FC<{
     isHoliday && isTicketNPC(order.from) && baseTickets > 0;
   const hasRewardAmount =
     order.reward.coins !== undefined || order.reward.sfl !== undefined;
+  const rewardBoostsUsed = hasRewardAmount
+    ? getOrderSellPrice(game, order).boostsUsed
+    : [];
 
   const getChapterPoints = () => {
     if (
@@ -229,76 +293,31 @@ const OrderCard: React.FC<{
                   ) : (
                     <>
                       {order.reward.sfl !== undefined && (
-                        <div className="flex items-center mr-1">
-                          <span className="text-xs">
-                            {makeRewardAmountForLabel(order)}
-                          </span>
-                          <img src={token} className="h-4 w-auto ml-1" />
-                        </div>
+                        <BoostableRewardAmount
+                          amount={makeRewardAmountForLabel(order)}
+                          icon={token}
+                          name="FLOWER"
+                          boosts={rewardBoostsUsed}
+                          game={game}
+                        />
                       )}
                       {order.reward.coins !== undefined && (
-                        <div className="flex items-center mr-1">
-                          <span className="text-xs">
-                            {makeRewardAmountForLabel(order)}
-                          </span>
-                          <img src={coinsImg} className="h-4 w-auto ml-1" />
-                        </div>
+                        <BoostableRewardAmount
+                          amount={makeRewardAmountForLabel(order)}
+                          icon={coinsImg}
+                          name={t("coins")}
+                          boosts={rewardBoostsUsed}
+                          game={game}
+                        />
                       )}
                       {!!ticketDisplay && (
-                        <div className="flex items-center space-x-3 mr-1">
-                          <div
-                            ref={ticketBoostsAnchorRef}
-                            className={classNames("flex items-center", {
-                              "cursor-pointer": ticketBoostsUsed.length > 0,
-                            })}
-                            role={
-                              ticketBoostsUsed.length > 0 ? "button" : undefined
-                            }
-                            tabIndex={
-                              ticketBoostsUsed.length > 0 ? 0 : undefined
-                            }
-                            aria-expanded={
-                              ticketBoostsUsed.length > 0
-                                ? showTicketBoosts
-                                : undefined
-                            }
-                            onClick={(e) => {
-                              if (ticketBoostsUsed.length === 0) return;
-                              e.stopPropagation();
-                              setShowTicketBoosts((prev) => !prev);
-                            }}
-                            onKeyDown={(e) => {
-                              if (
-                                ticketBoostsUsed.length === 0 ||
-                                (e.key !== "Enter" && e.key !== " ")
-                              )
-                                return;
-                              e.preventDefault();
-                              e.stopPropagation();
-                              setShowTicketBoosts((prev) => !prev);
-                            }}
-                          >
-                            <span className="text-xs mx-1">
-                              {ticketDisplay}
-                            </span>
-                            <img
-                              src={ITEM_DETAILS[getChapterTicket(now)].image}
-                              className="h-4 w-auto"
-                            />
-                            {ticketBoostsUsed.length > 0 &&
-                              showTicketBoosts && (
-                                <BoostsDisplay
-                                  boosts={ticketBoostsUsed}
-                                  show={showTicketBoosts}
-                                  state={game}
-                                  onClick={() => setShowTicketBoosts(false)}
-                                  anchorRef={ticketBoostsAnchorRef}
-                                  portalAlign="right"
-                                  portalPlacement="auto"
-                                />
-                              )}
-                          </div>
-                        </div>
+                        <BoostableRewardAmount
+                          amount={`${ticketDisplay}`}
+                          icon={ITEM_DETAILS[getChapterTicket(now)].image}
+                          name={getTranslatedItemName(getChapterTicket(now))}
+                          boosts={ticketBoostsUsed}
+                          game={game}
+                        />
                       )}
                       {getKeys(order.reward.items ?? {}).map((item) => (
                         <div className="flex items-center" key={item}>
@@ -452,7 +471,9 @@ export const Gifts: React.FC<{
   onClose: () => void;
   onOpen: () => void;
   name: NPCName;
-}> = ({ game, onClose, onOpen, name }) => {
+  /** The delivery panel's clock, so the picker agrees with its Gift button. */
+  now: number;
+}> = ({ game, onClose, onOpen, name, now }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
@@ -460,8 +481,6 @@ export const Gifts: React.FC<{
   const [message, setMessage] = useState<TranslationKeys>(
     GIFT_RESPONSES[name]?.flowerIntro ?? DEFAULT_DIALOGUE.flowerIntro,
   );
-
-  const now = useNow({ live: true });
 
   const flowers = getKeys(game.inventory)
     .filter(
@@ -479,9 +498,15 @@ export const Gifts: React.FC<{
   const recentOwnedFlowers = recentFlowers.filter((flower) =>
     flowers.includes(flower),
   );
-  const otherFlowers = flowers.filter(
-    (flower) => !recentOwnedFlowers.includes(flower),
-  );
+  // The NPC's favourite (bonus) flowers first, so they don't have to be
+  // hunted for in a long collection.
+  const otherFlowers = flowers
+    .filter((flower) => !recentOwnedFlowers.includes(flower))
+    .sort(
+      (a, b) =>
+        Number(!!BUMPKIN_FLOWER_BONUSES[name]?.[b]) -
+        Number(!!BUMPKIN_FLOWER_BONUSES[name]?.[a]),
+    );
 
   const onFlowerClick = (flower: FlowerName) => {
     setSelected(flower);
@@ -519,13 +544,7 @@ export const Gifts: React.FC<{
 
   let translated: string = t(message);
 
-  const dateKey = new Date(now).toISOString().substring(0, 10);
-
-  const giftedAt = game.npcs?.[name]?.friendship?.giftedAt ?? 0;
-  // GiftedAt is the same UTC day as right now
-  const isLocked =
-    giftedAt > 0 &&
-    new Date(giftedAt).toISOString().substring(0, 10) === dateKey;
+  const isLocked = hasGiftedToday(game, name, now);
 
   if (isLocked) {
     translated = `${translated} ${t("npcDialogues.default.locked")}`;
@@ -587,7 +606,7 @@ export const Gifts: React.FC<{
               className="mb-1 ml-1"
               icon={ITEM_DETAILS[selected].image}
             >
-              {selected}
+              {getTranslatedItemName(selected)}
             </Label>
           )}
         </div>
@@ -596,7 +615,9 @@ export const Gifts: React.FC<{
           <p className="text-xs mb-2">{`${t("bumpkin.delivery.noFlowers")}`}</p>
         )}
         {flowers.length > 0 && (
-          <>
+          // Scrolls on its own so a big collection never pushes the Gift
+          // button off screen on mobile.
+          <div className="max-h-[40vh] overflow-y-auto scrollable pr-1">
             {recentOwnedFlowers.length > 0 && (
               <>
                 <Label
@@ -641,7 +662,7 @@ export const Gifts: React.FC<{
                 />
               ))}
             </div>
-          </>
+          </div>
         )}
       </InnerPanel>
 
@@ -872,6 +893,17 @@ interface Props {
   npc: NPCName;
 }
 
+/** A flower was already gifted to this NPC today (same UTC day). */
+const hasGiftedToday = (game: GameState, npc: NPCName, now: number) => {
+  const giftedAt = game.npcs?.[npc]?.friendship?.giftedAt ?? 0;
+
+  return (
+    giftedAt > 0 &&
+    new Date(giftedAt).toISOString().substring(0, 10) ===
+      new Date(now).toISOString().substring(0, 10)
+  );
+};
+
 export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
@@ -881,6 +913,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
   const game = gameState.context.state;
   const [showFlowers, setShowFlowers] = useState(false);
+  const giftedToday = hasGiftedToday(game, npc, now);
   const [showSkipDialog, setShowSkipDialog] = useState(false);
   const [gift, setGift] = useState<Airdrop>();
   // Tutorial: after the first-ever delivery the player is told what to do
@@ -1026,6 +1059,10 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     levelRequirementToTotal(requiredLevel) - levelRequirementToTotal(ascension),
   );
   const deliveryFrozen = isHoliday && isTicketNPC(npc) && baseTickets > 0;
+  // A soft ban keeps the player farming but holds value until they verify,
+  // so FLOWER orders show the verification steps in place of the delivery.
+  const softBannedFlowerOrder =
+    game.ban.status === "investigating" && !!delivery?.reward.sfl;
   const acceptGifts = !!getNextGift({ game, npc });
 
   const completedAt = game.npcs?.[npc]?.deliveryCompletedAt;
@@ -1081,6 +1118,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
           game={gameState.context.state}
           onOpen={openReward}
           name={npc}
+          now={now}
         />
       )}
       {!showFlowers && (
@@ -1232,6 +1270,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
           {missingRequiredReputation && (
             <RequiredReputation reputation={Reputation.Cropkeeper} />
           )}
+          {softBannedFlowerOrder && !delivery?.completedAt && <SoftBan />}
           {isSkipping ? null : showSkipDialog ? (
             canSkip ? (
               <div className="flex flex-row gap-1">
@@ -1252,8 +1291,26 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
           ) : (
             <div className="flex mt-1">
               {acceptGifts && (
-                <Button className="mr-1" onClick={() => setShowFlowers(true)}>
-                  {t("gift")}
+                <Button
+                  className="mr-1"
+                  onClick={() => setShowFlowers(true)}
+                  aria-label={
+                    giftedToday
+                      ? `${t("gift")} - ${t("npcDialogues.default.locked")}`
+                      : undefined
+                  }
+                >
+                  <span className="flex items-center justify-center gap-1">
+                    {t("gift")}
+                    {/* Already gifted today: the next gift has to wait. */}
+                    {giftedToday && (
+                      <img
+                        src={SUNNYSIDE.icons.confirm}
+                        alt=""
+                        className="w-4"
+                      />
+                    )}
+                  </span>
                 </Button>
               )}
 
@@ -1264,7 +1321,8 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                   !!delivery?.completedAt ||
                   isLocked ||
                   missingRequiredReputation ||
-                  deliveryFrozen
+                  deliveryFrozen ||
+                  softBannedFlowerOrder
                 }
                 onClick={deliver}
               >

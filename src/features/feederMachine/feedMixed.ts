@@ -10,7 +10,6 @@ import { trackFarmActivity } from "features/game/types/farmActivity";
 import { getKeys } from "lib/object";
 import { ANIMAL_FOODS } from "features/game/types/animals";
 import { getPigFeedIngredients, isPigFeed } from "features/game/types/pigFeeds";
-import { hasFeatureAccess } from "lib/flags";
 import { produce } from "immer";
 
 export type FeedMixedAction = {
@@ -130,10 +129,6 @@ export function applyMix(
   const selectedItem = ANIMAL_FOODS[item];
   if (!selectedItem) {
     throw new Error("Item is not a feed!");
-  }
-
-  if (isPigFeed(item) && !hasFeatureAccess(copy, "PIGPEN")) {
-    throw new Error("Pig feeds are not available");
   }
 
   const { coins } = selectedItem;

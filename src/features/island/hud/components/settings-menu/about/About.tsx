@@ -5,7 +5,8 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import type { ContentComponentProps } from "../types";
 
 const DISCORD_INVITE = "https://discord.gg/sunflowerland";
-const TERMS_URL = "https://docs.sunflower-land.com/support/terms-of-service";
+const TERMS_URL =
+  "https://docs.sunflower-land.com/legal-and-support/terms-of-service";
 const RELEASES_URL =
   "https://github.com/sunflower-land/sunflower-land/releases";
 

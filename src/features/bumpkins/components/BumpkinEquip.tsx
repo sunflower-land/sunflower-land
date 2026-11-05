@@ -17,6 +17,7 @@ import lightning from "assets/icons/lightning.png";
 
 import { Label } from "components/ui/Label";
 import classNames from "classnames";
+import isEqual from "lodash.isequal";
 import {
   BUMPKIN_ITEM_BUFF_LABELS,
   SPECIAL_ITEM_LABELS,
@@ -65,7 +66,8 @@ const NOTREQUIRED: BumpkinPart[] = SHOW_EYES_AND_MOUTH_IN_EQUIP_UI
   : NOTREQUIRED_ALL.filter((part) => part !== "eyes" && part !== "mouth");
 
 interface Props {
-  onEquip: (equipment: BumpkinParts) => void;
+  onEquip: (equipment: BumpkinParts, farmHandId?: string) => void;
+  onSelect?: (farmHandId?: string) => void;
   equipment: BumpkinParts;
   farmHandId?: string;
 }
@@ -75,6 +77,7 @@ const _game = (state: MachineState) => state.context.state;
 export const BumpkinEquip: React.FC<Props> = ({
   equipment,
   onEquip,
+  onSelect,
   farmHandId,
 }) => {
   const { gameService } = useContext(Context);
@@ -85,11 +88,16 @@ export const BumpkinEquip: React.FC<Props> = ({
   const [showPromoteConfirm, setShowPromoteConfirm] = useState(false);
 
   const game = useSelector(gameService, _game);
+  const farmHandIds = getKeys(game.farmHands.bumpkins).sort((a, b) =>
+    a.localeCompare(b, undefined, { numeric: true }),
+  );
+  const bumpkinIds = [undefined, ...farmHandIds];
+  const selectedIndex = Math.max(0, bumpkinIds.indexOf(localFarmHandId));
 
   /**
    * Show available wardrobe and currently equipped items
    */
-  const wardrobe = Object.values(equipment ?? {}).reduce((acc, name) => {
+  const wardrobe = Object.values(baseEquipment ?? {}).reduce((acc, name) => {
     const available = availableWardrobe(game)[name] ?? 0;
 
     return {
@@ -134,15 +142,43 @@ export const BumpkinEquip: React.FC<Props> = ({
   };
 
   const finish = (equipment: BumpkinParts) => {
-    onEquip(equipment);
-    setBaseEquipment(equipment); // Reset dirty baseline when saving
+    onEquip(equipment, localFarmHandId);
+
+    const state = gameService.getSnapshot().context.state;
+    const appliedEquipment = localFarmHandId
+      ? state.farmHands.bumpkins[localFarmHandId]?.equipped
+      : state.bumpkin?.equipped;
+
+    if (!isEqual(appliedEquipment, equipment)) return false;
+
+    setBaseEquipment(equipment); // Reset dirty baseline only after the event applies
+    return true;
   };
 
-  const isDirty = JSON.stringify(equipped) !== JSON.stringify(baseEquipment);
+  const isDirty = !isEqual(equipped, baseEquipment);
+
+  const switchBumpkin = (index: number) => {
+    if (index < 0 || index >= bumpkinIds.length) return;
+
+    const nextId = bumpkinIds[index];
+    const nextEquipment = nextId
+      ? game.farmHands.bumpkins[nextId]?.equipped
+      : game.bumpkin?.equipped;
+    if (!nextEquipment) return;
+
+    // Keep edits when moving through the wardrobe, just as the Save button does.
+    if (isDirty && !finish(equipped)) return;
+    setLocalFarmHandId(nextId);
+    setEquipped(nextEquipment);
+    setBaseEquipment(nextEquipment);
+    onSelect?.(nextId);
+  };
 
   const equippedItems = Object.values(baseEquipment);
 
   const { t } = useAppTranslation();
+  const bumpkinName = (id?: string) =>
+    id ? `${t("farmHand")} #${id}` : t("you");
 
   const sortedWardrobeNames = getKeys(wardrobe).sort((a, b) =>
     a.localeCompare(b),
@@ -163,6 +199,12 @@ export const BumpkinEquip: React.FC<Props> = ({
     <div className="p-2">
       <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-2">
         <div className="w-full sm:w-1/3 flex flex-col justify-center">
+          <div className="flex items-center justify-between gap-1 mb-1">
+            <Label type="default">{bumpkinName(localFarmHandId)}</Label>
+            <span className="text-xs whitespace-nowrap">
+              {`${selectedIndex + 1} / ${bumpkinIds.length}`}
+            </span>
+          </div>
           <div className="w-full relative rounded-xl overflow-hidden mr-2 mb-1">
             <DynamicNFT
               showBackground
@@ -173,18 +215,37 @@ export const BumpkinEquip: React.FC<Props> = ({
               <NPCIcon parts={equipped} key={JSON.stringify(equipped)} />
             </div>
           </div>
+          {bumpkinIds.length > 1 && (
+            <div className="flex gap-1 mb-1">
+              <Button
+                className="w-1/2 h-9"
+                aria-label={`${t("equip")}: ${bumpkinName(bumpkinIds[selectedIndex - 1])}`}
+                disabled={selectedIndex === 0}
+                onClick={() => switchBumpkin(selectedIndex - 1)}
+              >
+                <img src={SUNNYSIDE.icons.arrow_left} className="h-5" alt="" />
+              </Button>
+              <Button
+                className="w-1/2 h-9"
+                aria-label={`${t("equip")}: ${bumpkinName(bumpkinIds[selectedIndex + 1])}`}
+                disabled={selectedIndex === bumpkinIds.length - 1}
+                onClick={() => switchBumpkin(selectedIndex + 1)}
+              >
+                <img src={SUNNYSIDE.icons.arrow_right} className="h-5" alt="" />
+              </Button>
+            </div>
+          )}
           <Button disabled={!isDirty} onClick={() => finish(equipped)}>
             <div className="flex">{t("save")}</div>
           </Button>
-          {localFarmHandId && (
-            <Button
-              onClick={() => {
-                setShowPromoteConfirm(true);
-              }}
-            >
-              {t("setAsBumpkin")}
-            </Button>
-          )}
+          <Button
+            disabled={!localFarmHandId}
+            onClick={() => {
+              setShowPromoteConfirm(true);
+            }}
+          >
+            {t("setAsBumpkin")}
+          </Button>
         </div>
         <div className="w-full sm:w-1/3 flex flex-col gap-2">
           <Label type="default">{t("required")}</Label>
@@ -399,6 +460,7 @@ export const BumpkinEquip: React.FC<Props> = ({
           gameService.send("farmhand.promoted", { id: localFarmHandId });
           gameService.send("SAVE");
           setLocalFarmHandId(undefined);
+          onSelect?.(undefined);
           setShowPromoteConfirm(false);
         }}
         confirmButtonLabel={t("setAsBumpkin")}

@@ -24,56 +24,56 @@ describe("PIG_FEEDS", () => {
     ]);
   });
 
-  it("uses the #7721 crop and fruit quantities", () => {
+  it("sizes crop and fruit quantities by production cost", () => {
     expect(PIG_FEEDS["Basic Slop"].ingredients).toEqual({
-      Sunflower: 500,
-      Potato: 80,
-      Rhubarb: 40,
-      Pumpkin: 20,
-      Zucchini: 20,
-      Carrot: 10,
-      Yam: 10,
-      Cabbage: 5,
-      Broccoli: 5,
-      Soybean: 3,
+      Sunflower: 800,
+      Potato: 150,
+      Rhubarb: 100,
+      Pumpkin: 60,
+      Zucchini: 60,
+      Carrot: 25,
+      Yam: 25,
+      Cabbage: 15,
+      Broccoli: 15,
+      Soybean: 9,
     });
     expect(PIG_FEEDS["Hearty Slop"].ingredients).toEqual({
-      Beetroot: 5,
-      Pepper: 5,
-      Cauliflower: 3,
-      Parsnip: 2,
-      Tomato: 9,
+      Beetroot: 15,
+      Pepper: 15,
+      Cauliflower: 8,
+      Parsnip: 5,
+      Tomato: 20,
       Lemon: 4,
-      Blueberry: 2,
+      Blueberry: 4,
     });
   });
 
-  it("takes one of each tier 3 item", () => {
-    expect(PIG_FEEDS["Rich Slop"].ingredients).toEqual(
-      Object.fromEntries(
+  it("sizes tier 3 crops by production cost and takes one foraged item", () => {
+    expect(PIG_FEEDS["Rich Slop"].ingredients).toEqual({
+      Eggplant: 6,
+      Wheat: 6,
+      Turnip: 6,
+      Corn: 5,
+      Onion: 5,
+      Radish: 5,
+      Kale: 4,
+      Artichoke: 4,
+      Barley: 3,
+      Orange: 3,
+      Apple: 2,
+      Banana: 2,
+      ...Object.fromEntries(
         [
-          "Eggplant",
-          "Corn",
-          "Onion",
-          "Wheat",
-          "Turnip",
-          "Radish",
-          "Kale",
-          "Artichoke",
-          "Barley",
-          "Orange",
-          "Apple",
-          "Banana",
           ...getFishNamesByTier("basic"),
           "Wild Mushroom",
           "Isopod",
           "Barnacle",
         ].map((item) => [item, 1]),
       ),
-    );
+    });
   });
 
-  it("takes one of each tier 4 item", () => {
+  it("takes one of each tier 4 input", () => {
     expect(PIG_FEEDS["Gourmet Slop"].ingredients).toEqual(
       Object.fromEntries(
         [
@@ -127,7 +127,7 @@ describe("isPigFeed", () => {
 describe("getPigFeedIngredients", () => {
   it("costs the chosen input in its own quantity", () => {
     expect(getPigFeedIngredients("Basic Slop", "Sunflower")).toEqual({
-      Sunflower: new Decimal(500),
+      Sunflower: new Decimal(800),
     });
     expect(getPigFeedIngredients("Gourmet Slop", "Lobster")).toEqual({
       Lobster: new Decimal(1),

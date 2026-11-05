@@ -19,20 +19,28 @@ type Options = {
 };
 
 /**
- * Pigs the building-level Apply Mud action would treat, lowest id first. Skips
+ * Pigs the building-level Apply Mud action would treat, oldest first. Skips
  * the Pigs `applyMud` would reject: already muddy, sick, or asleep and waiting
  * to be petted.
  */
 export function getPigsNeedingMud(state: GameState, now: number): string[] {
-  return Object.values(state.pigpen.animals)
-    .filter(
-      (pig) =>
-        !isMuddy(pig) &&
-        pig.state !== "sick" &&
-        !isPigNeedingLoveForMud(pig, state, now),
-    )
-    .map((pig) => pig.id)
-    .sort();
+  return (
+    Object.values(state.pigpen.animals)
+      .filter(
+        (pig) =>
+          !isMuddy(pig) &&
+          pig.state !== "sick" &&
+          !isPigNeedingLoveForMud(pig, state, now),
+      )
+      // Oldest Pig first, the order the over-capacity lock uses too. Ids are a
+      // mix of starter indexes and uuid prefixes, so they are only a tie-break.
+      .sort(
+        (a, b) =>
+          a.createdAt - b.createdAt ||
+          a.id.localeCompare(b.id, undefined, { numeric: true }),
+      )
+      .map((pig) => pig.id)
+  );
 }
 
 /**

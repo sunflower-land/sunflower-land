@@ -182,7 +182,9 @@ export function calculateCropTime(
  * it, and the live window would credit it again. A pack that hasn't STARTED has no
  * progress to preserve, so it is recomputed exactly as a windowed supply would
  * compute it (permanent boosts only); the shrine then applies once, live. The pack
- * already growing keeps its frozen remainder.
+ * already growing keeps its frozen remainder — plus, when its baked shrine is still
+ * live, the extra work that shrine credits over the overlap, so it keeps its legacy
+ * finish instead of being sped up twice.
  */
 export function convertLegacyCropMachine({
   machine,
@@ -211,6 +213,7 @@ export function convertLegacyCropMachine({
       : []),
     ...waiting,
   ];
+  const running = notStarted.includes(head) ? undefined : head;
 
   convertCropMachineToWindowed({ machine, windows, now });
 
@@ -225,7 +228,33 @@ export function convertLegacyCropMachine({
     pack.baseDurationMs = milliSeconds;
   });
 
-  if (notStarted.length > 0) {
+  // The running pack's frozen remainder is in legacy wall time. If the shrine was
+  // already live when the pack started, it was live at supply too (supply comes
+  // first) and so was baked in: hand the overlap's credit back as work, so the
+  // window speeds it up over exactly that overlap and the pack lands on its
+  // legacy finish. (A shrine placed between supply and start counts too and keeps
+  // the legacy finish; legacy rules never sped that pack up either.) Only the
+  // overlap the tank can fuel counts — a stalled pack doesn't grow, so the shrine
+  // can't speed it. (A refuel while the shrine is still live then credits the
+  // rest of the baked remainder again; accepted, it's bounded by one pack.)
+  const live = windows.find((window) => window.from <= now && window.to > now);
+  let unbaked = false;
+  if (
+    running?.baseDurationMs !== undefined &&
+    running.startTime !== undefined &&
+    live !== undefined &&
+    live.from <= running.startTime
+  ) {
+    const overlap = Math.min(
+      running.baseDurationMs,
+      live.to - now,
+      machine.unallocatedOilTime ?? 0,
+    );
+    running.baseDurationMs += overlap * (live.speed - 1);
+    unbaked = true;
+  }
+
+  if (notStarted.length > 0 || unbaked) {
     refreshCropMachineCaches({ machine, windows, now });
   }
 }

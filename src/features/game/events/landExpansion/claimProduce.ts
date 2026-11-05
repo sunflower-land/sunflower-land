@@ -101,10 +101,13 @@ export function claimProduce({
     }
 
     animal.asleepAt = createdAt;
+    // The treat is read BEFORE its charge is spent below, so a Truffle
+    // Seasoning's last charge still shortens this sleep.
     const { awakeAt, baseDurationMs, boostsUsed } = getBoostedAwakeAt({
       animalType: animal.type,
       createdAt,
       game: copy,
+      feedBuff: animal.feedBuff,
     });
     animal.awakeAt = awakeAt;
     // Windowed: keep the real `asleepAt` and the permanent-boost-only duration,
