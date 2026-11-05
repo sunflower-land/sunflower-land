@@ -28,6 +28,7 @@ import { useNow } from "lib/utils/hooks/useNow";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 import { LAVA_PIT_TIME } from "features/game/events/landExpansion/startLavaPit";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { LavaPitGuide } from "./LavaPitGuide";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _lavaPit = (id: string) => (state: MachineState) =>
@@ -59,6 +60,7 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
   const gameState = useSelector(gameService, _gameState);
   const [showIngredients, setShowIngredients] = useState(false);
   const [showBoosts, setShowBoosts] = useState(false);
+  const [tab, setTab] = useState<"lavaPit" | "guide">("lavaPit");
   const now = useNow({ live: true });
   const isLavaPitTimeBoosted = boostsUsed.length > 0;
 
@@ -95,145 +97,157 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
           name: getTranslatedItemName("Lava Pit"),
           icon: ITEM_DETAILS["Lava Pit"].image,
         },
+        {
+          id: "guide",
+          name: t("guide"),
+          icon: SUNNYSIDE.icons.expression_confused,
+        },
       ]}
+      currentTab={tab}
+      setCurrentTab={setTab}
       container={OuterPanel}
     >
-      <InnerPanel>
-        <Label
-          type="default"
-          icon={SEASON_ICONS[season.season]}
-          className="mt-2 ml-2"
-        >
-          {t(`season.${season.season}`)}
-        </Label>
-        <p className="text-xs p-2">{t("lavaPit.description")}</p>
-        <div
-          className="flex flex-wrap p-2 gap-2 cursor-pointer"
-          onClick={() => setShowIngredients(!showIngredients)}
-        >
-          <IngredientsPopover
-            show={showIngredients}
-            ingredients={getKeys(requirements)}
-            onClick={() => setShowIngredients(false)}
-          />
-          {getKeys(requirements).map((itemName) => {
-            return (
-              <RequirementLabel
-                key={itemName}
-                type="item"
-                item={itemName}
-                balance={inventory[itemName] ?? new Decimal(0)}
-                requirement={requirements[itemName] ?? new Decimal(0)}
-              />
-            );
-          })}
-        </div>
-      </InnerPanel>
-
-      <div className="pt-1" />
-
-      <InnerPanel>
-        <div className="flex justify-between">
-          {lavaPitInProgress && (
+      {tab === "guide" && <LavaPitGuide />}
+      {tab === "lavaPit" && (
+        <>
+          <InnerPanel>
             <Label
               type="default"
-              className="ml-2"
-              icon={ITEM_DETAILS["Lava Pit"].image}
+              icon={SEASON_ICONS[season.season]}
+              className="mt-2 ml-2"
             >
-              {t("active")}
+              {t(`season.${season.season}`)}
             </Label>
-          )}
-          {!lavaPitInProgress && (
-            <div>
-              <Label
-                type="warning"
-                icon={ITEM_DETAILS["Lava Pit"].image}
-                className="ml-2"
-              >
-                {t("reward")}
-              </Label>
-            </div>
-          )}
-
-          {lavaPitInProgress && canCollect && (
-            <Label type="success">{t("ready")}</Label>
-          )}
-          {lavaPitInProgress && !canCollect && (
-            <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-              {`${t("ready.in")}: ${secondsToString(timeRemaining / 1000, {
-                length: "medium",
-              })}`}
-            </Label>
-          )}
-          {!lavaPitInProgress && (
+            <p className="text-xs p-2">{t("lavaPit.description")}</p>
             <div
-              className="flex flex-row items-end cursor-pointer"
-              onClick={
-                isLavaPitTimeBoosted
-                  ? () => setShowBoosts(!showBoosts)
-                  : undefined
-              }
+              className="flex flex-wrap p-2 gap-2 cursor-pointer"
+              onClick={() => setShowIngredients(!showIngredients)}
             >
-              {isLavaPitTimeBoosted && (
-                <RequirementLabel
-                  type="time"
-                  waitSeconds={lavaPitTime / 1000}
-                  boosted
-                />
-              )}
-              <RequirementLabel
-                type="time"
-                waitSeconds={LAVA_PIT_TIME / 1000}
-                strikethrough={isLavaPitTimeBoosted}
+              <IngredientsPopover
+                show={showIngredients}
+                ingredients={getKeys(requirements)}
+                onClick={() => setShowIngredients(false)}
               />
-              <BoostsDisplay
-                boosts={boostsUsed}
-                show={showBoosts}
-                state={gameState}
-                onClick={() => setShowBoosts(!showBoosts)}
-              />
+              {getKeys(requirements).map((itemName) => {
+                return (
+                  <RequirementLabel
+                    key={itemName}
+                    type="item"
+                    item={itemName}
+                    balance={inventory[itemName] ?? new Decimal(0)}
+                    requirement={requirements[itemName] ?? new Decimal(0)}
+                  />
+                );
+              })}
             </div>
-          )}
-        </div>
-        <div className="flex flex-col gap-2 p-2">
-          <div className="flex items-start cursor-context-menu hover:brightness-100">
-            <Box
-              image={ITEM_DETAILS["Obsidian"].image}
-              className="-mt-2 -ml-1 -mb-1"
-            />
-            <div>
-              <div className="flex flex-wrap items-start">
-                <Label type="default" className="mr-1 mb-1">
-                  {`${obsidianYield} x ${getTranslatedItemName("Obsidian")}`}
+          </InnerPanel>
+
+          <div className="pt-1" />
+
+          <InnerPanel>
+            <div className="flex justify-between">
+              {lavaPitInProgress && (
+                <Label
+                  type="default"
+                  className="ml-2"
+                  icon={ITEM_DETAILS["Lava Pit"].image}
+                >
+                  {t("active")}
                 </Label>
-              </div>
-              <p className="text-xs ml-0.5">
-                {ITEM_DETAILS["Obsidian"].description}
-              </p>
+              )}
+              {!lavaPitInProgress && (
+                <div>
+                  <Label
+                    type="warning"
+                    icon={ITEM_DETAILS["Lava Pit"].image}
+                    className="ml-2"
+                  >
+                    {t("reward")}
+                  </Label>
+                </div>
+              )}
+
+              {lavaPitInProgress && canCollect && (
+                <Label type="success">{t("ready")}</Label>
+              )}
+              {lavaPitInProgress && !canCollect && (
+                <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+                  {`${t("ready.in")}: ${secondsToString(timeRemaining / 1000, {
+                    length: "medium",
+                  })}`}
+                </Label>
+              )}
+              {!lavaPitInProgress && (
+                <div
+                  className="flex flex-row items-end cursor-pointer"
+                  onClick={
+                    isLavaPitTimeBoosted
+                      ? () => setShowBoosts(!showBoosts)
+                      : undefined
+                  }
+                >
+                  {isLavaPitTimeBoosted && (
+                    <RequirementLabel
+                      type="time"
+                      waitSeconds={lavaPitTime / 1000}
+                      boosted
+                    />
+                  )}
+                  <RequirementLabel
+                    type="time"
+                    waitSeconds={LAVA_PIT_TIME / 1000}
+                    strikethrough={isLavaPitTimeBoosted}
+                  />
+                  <BoostsDisplay
+                    boosts={boostsUsed}
+                    show={showBoosts}
+                    state={gameState}
+                    onClick={() => setShowBoosts(!showBoosts)}
+                  />
+                </div>
+              )}
             </div>
-          </div>
-        </div>
-        {lavaPitInProgress && canCollect && (
-          <Button onClick={collectLavaPit} disabled={!canCollect}>
-            {t("lavaPit.collect")}
-          </Button>
-        )}
-        {lavaPitInProgress && !canCollect && (
-          <Button onClick={collectLavaPit} disabled={!canCollect}>
-            {t("lavaPit.burning")}
-          </Button>
-        )}
-        {!lavaPitInProgress && (
-          <Button
-            disabled={
-              !hasIngredients || lavaPitInProgress || wasRecentlyCollected
-            }
-            onClick={throwResourcesIntoPit}
-          >
-            {t("lavaPit.throw")}
-          </Button>
-        )}
-      </InnerPanel>
+            <div className="flex flex-col gap-2 p-2">
+              <div className="flex items-start cursor-context-menu hover:brightness-100">
+                <Box
+                  image={ITEM_DETAILS["Obsidian"].image}
+                  className="-mt-2 -ml-1 -mb-1"
+                />
+                <div>
+                  <div className="flex flex-wrap items-start">
+                    <Label type="default" className="mr-1 mb-1">
+                      {`${obsidianYield} x ${getTranslatedItemName("Obsidian")}`}
+                    </Label>
+                  </div>
+                  <p className="text-xs ml-0.5">
+                    {ITEM_DETAILS["Obsidian"].description}
+                  </p>
+                </div>
+              </div>
+            </div>
+            {lavaPitInProgress && canCollect && (
+              <Button onClick={collectLavaPit} disabled={!canCollect}>
+                {t("lavaPit.collect")}
+              </Button>
+            )}
+            {lavaPitInProgress && !canCollect && (
+              <Button onClick={collectLavaPit} disabled={!canCollect}>
+                {t("lavaPit.burning")}
+              </Button>
+            )}
+            {!lavaPitInProgress && (
+              <Button
+                disabled={
+                  !hasIngredients || lavaPitInProgress || wasRecentlyCollected
+                }
+                onClick={throwResourcesIntoPit}
+              >
+                {t("lavaPit.throw")}
+              </Button>
+            )}
+          </InnerPanel>
+        </>
+      )}
     </CloseButtonPanel>
   );
 };
