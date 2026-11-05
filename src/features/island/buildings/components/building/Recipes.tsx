@@ -393,15 +393,13 @@ export const Recipes: React.FC<Props> = ({
               actionView={
                 <>
                   {previewOilBurn !== undefined && (
-                    <Label
-                      type="default"
-                      icon={ITEM_DETAILS.Oil.image}
-                      className="mb-1"
-                    >
-                      {t("cooking.building.oil.uses", {
-                        oil: formatOil(previewOilBurn),
-                      })}
-                    </Label>
+                    <div className="flex justify-center mb-1">
+                      <Label type="default" icon={ITEM_DETAILS.Oil.image}>
+                        {t("cooking.building.oil.uses", {
+                          oil: formatOil(previewOilBurn),
+                        })}
+                      </Label>
+                    </div>
                   )}
                   {doubleNomLevel > 0 && (
                     <Label type="success" icon={powerup}>
