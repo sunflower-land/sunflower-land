@@ -229,6 +229,7 @@
   "eggcellentCollection.description": "Collect Eggs 10 times",
   "eggcellentCollection.one": "Howdy, egg collector! Chickens are wonderful farm companions that provide us with delicious eggs.",
   "eggcellentCollection.two": "By collecting eggs, you'll have a fresh supply of ingredients for cooking, and you'll also unlock special recipes and bonuses.",
+  "auction.notEnough": "Not enough resources",
   "auction.raffle": "Raffle",
   "auction.raffle.noPrizes": "No prizes.",
   "auction.raffle.description": "Earn tickets by completing tasks & compete for prizes. Enter the raffle in the Plaza.",

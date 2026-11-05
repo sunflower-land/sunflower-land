@@ -55,7 +55,7 @@ export const DraftBid: React.FC<Props> = ({
     if (!Number.isInteger(tickets) || tickets < 1) {
       return `${t("minimum")}: 1`;
     }
-    if (tickets > maxTickets) return t("cave.notEnough");
+    if (tickets > maxTickets) return t("auction.notEnough");
     return null;
   };
 
