@@ -1,5 +1,8 @@
 import { useSelector } from "@xstate/react";
-import { ANIMAL_FEED_BUFF_ITEMS } from "features/game/events/landExpansion/applyAnimalFeedBuff";
+import {
+  ANIMAL_FEED_BUFF_ITEMS,
+  isAnimalFeedBuffItem,
+} from "features/game/events/landExpansion/applyAnimalFeedBuff";
 import { useNow } from "lib/utils/hooks/useNow";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { Modal } from "components/ui/Modal";
@@ -42,9 +45,14 @@ import {
   getBulkMixRequirements,
   getPigFeedIngredientOptions,
 } from "./getBulkMixRequirements";
-import { isPigFeed, type PigFeedName } from "features/game/types/pigFeeds";
+import {
+  isPigFeed,
+  PIG_FEEDS,
+  type PigFeedName,
+} from "features/game/types/pigFeeds";
 import { formatNumber } from "lib/utils/formatNumber";
 import { BulkMixModal } from "./BulkMixModal";
+import { BEETLES, type BeetleName } from "features/game/types/beetles";
 import { PigFeedMixer } from "./PigFeedMixer";
 
 interface Props {
@@ -53,6 +61,8 @@ interface Props {
   building: AnimalBuildingType;
 }
 
+type FeederQuickItem = AnimalFeedBuffName | BeetleName | "Mud";
+
 type BulkMixItem = AnimalFoodName | AnimalMedicineName;
 
 const FOOD_TYPE_TERMS = {
@@ -60,14 +70,16 @@ const FOOD_TYPE_TERMS = {
   medicine: "feeder.foodTypes.medicine",
 } as const;
 
-type Tab = "food" | "automaticMixer";
+type Tab = "food" | "care" | "automaticMixer";
 
 /**
- * The feeds a building's Feeder mixes: the Pigpen mixes only the Pig Slops,
- * and the other buildings never mix them.
+ * The feeds a building's Feeder mixes: the Pigpen mixes the Pig Slops plus the
+ * medicine that cures a sick Pig, and the other buildings never mix the Slops.
  */
 const isBuildingFeed = (building: AnimalBuildingType, item: BulkMixItem) =>
-  building === "Pigpen" ? isPigFeed(item) : !isPigFeed(item);
+  building === "Pigpen"
+    ? isPigFeed(item) || ANIMAL_FOODS[item].type === "medicine"
+    : !isPigFeed(item);
 
 export const FeederMachineModal: React.FC<Props> = ({
   show,
@@ -84,19 +96,30 @@ export const FeederMachineModal: React.FC<Props> = ({
   // open (recomputing is cheap) - and only while it is open, since this
   // component's body runs even when hidden.
   const now = useNow({ live: show, intervalMs: 1000 });
-  const [selectedName, setSelectedName] = useState<
-    AnimalFoodName | AnimalMedicineName
-  >(building === "Pigpen" ? "Basic Slop" : "Hay");
+  const [tab, setTab] = useState<Tab>("food");
+  const [selectedRecipes, setSelectedRecipes] = useState<
+    Record<"food" | "care", BulkMixItem>
+  >({
+    food: building === "Pigpen" ? "Basic Slop" : "Hay",
+    care: "Barn Delight",
+  });
+  const selectedName = selectedRecipes[tab === "care" ? "care" : "food"];
   // The input the player picked for each Slop; unset means the best option.
   const [pigFeedInputs, setPigFeedInputs] = useState<
     Partial<Record<PigFeedName, InventoryItemName>>
   >({});
-  const [selectedSpice, setSelectedSpice] =
-    useState<AnimalFeedBuffName>("Honey Treat");
-  const [isSpiceSelected, setIsSpiceSelected] = useState(false);
-  const [tab, setTab] = useState<Tab>("food");
+  const [storedQuickItem, setSelectedQuickItem] = useState<FeederQuickItem>();
+  const selectedQuickItem =
+    tab === "care" &&
+    storedQuickItem &&
+    (!isAnimalFeedBuffItem(storedQuickItem) ||
+      state.inventory[storedQuickItem]?.gt(0))
+      ? storedQuickItem
+      : undefined;
   const [showMixInfo, setShowMixInfo] = useState(false);
   const [showBulkMixModal, setShowBulkMixModal] = useState(false);
+  // The Slop whose input picker is open in the Bulk Mixer.
+  const [pickingInputFor, setPickingInputFor] = useState<PigFeedName>();
   const [customMixAmount, setCustomMixAmount] = useState(new Decimal(0));
   const { coins } = ANIMAL_FOODS[selectedName];
 
@@ -120,12 +143,8 @@ export const FeederMachineModal: React.FC<Props> = ({
     state.inventory[item]?.gt(0),
   );
   const hasSpices = spices.length > 0;
-  const selectedSpiceItem = spices.includes(selectedSpice)
-    ? selectedSpice
-    : undefined;
-  const showSpiceDetails = isSpiceSelected && hasSpices && !!selectedSpiceItem;
   const { requests, feeds, animalsWaiting, freeFeedBoosts } =
-    getBulkMixRequirements(state, building, now);
+    getBulkMixRequirements(state, building, now, pigFeedInputs);
 
   // Only feeds that still need mixing are listed - a feed the inventory
   // already covers is not something the player has to act on.
@@ -152,7 +171,11 @@ export const FeederMachineModal: React.FC<Props> = ({
   };
 
   const groupedItems = getKeys(ANIMAL_FOODS)
-    .filter((item) => isBuildingFeed(building, item))
+    .filter(
+      (item) =>
+        isBuildingFeed(building, item) &&
+        ANIMAL_FOODS[item].type === (tab === "care" ? "medicine" : "food"),
+    )
     .reduce(
       (acc, item) => {
         const type = ANIMAL_FOODS[item].type;
@@ -166,15 +189,17 @@ export const FeederMachineModal: React.FC<Props> = ({
     );
 
   const onSelect = (item: AnimalFoodName | AnimalMedicineName) => {
-    setSelectedName(item);
-    setIsSpiceSelected(false);
+    setSelectedRecipes((prev) => ({
+      ...prev,
+      [tab === "care" ? "care" : "food"]: item,
+    }));
+    setSelectedQuickItem(undefined);
     setCustomMixAmount(new Decimal(0));
     shortcutItem(item);
   };
 
-  const onSelectSpice = (item: AnimalFeedBuffName) => {
-    setSelectedSpice(item);
-    setIsSpiceSelected(true);
+  const onSelectQuickItem = (item: FeederQuickItem) => {
+    setSelectedQuickItem(item);
     shortcutItem(item);
   };
 
@@ -335,6 +360,7 @@ export const FeederMachineModal: React.FC<Props> = ({
   // has to be reset on the way out or it reappears on the next open.
   const closeModal = () => {
     setShowMixInfo(false);
+    setPickingInputFor(undefined);
     closeBulkMixModal();
     onClose();
   };
@@ -354,6 +380,11 @@ export const FeederMachineModal: React.FC<Props> = ({
               id: "food",
               icon: ITEM_DETAILS.Hay.image,
               name: t("feeder.foodTypes.food"),
+            },
+            {
+              id: "care",
+              icon: ITEM_DETAILS["Honey Treat"].image,
+              name: t("feeder.care"),
             },
             {
               id: "automaticMixer",
@@ -383,13 +414,13 @@ export const FeederMachineModal: React.FC<Props> = ({
               onMixInBulk={() => setShowBulkMixModal(true)}
             />
           )}
-          {tab === "food" && building !== "Pigpen" && (
+          {(tab === "care" || (tab === "food" && building !== "Pigpen")) && (
             <SplitScreenView
               panel={
-                showSpiceDetails ? (
+                selectedQuickItem ? (
                   <InventoryItemDetails
                     game={state}
-                    details={{ item: selectedSpiceItem as InventoryItemName }}
+                    details={{ item: selectedQuickItem }}
                   />
                 ) : (
                   <CraftingRequirements
@@ -440,17 +471,25 @@ export const FeederMachineModal: React.FC<Props> = ({
                           <Box
                             key={item.name}
                             isSelected={
-                              !isSpiceSelected && selectedName === item.name
+                              !selectedQuickItem && selectedName === item.name
                             }
                             onClick={() => onSelect(item.name)}
                             image={ITEM_DETAILS[item.name].image}
                             count={state.inventory[item.name]}
                           />
                         ))}
+                        {type === "medicine" && building === "Pigpen" && (
+                          <Box
+                            isSelected={selectedQuickItem === "Mud"}
+                            onClick={() => onSelectQuickItem("Mud")}
+                            image={ITEM_DETAILS.Mud.image}
+                            count={state.inventory.Mud}
+                          />
+                        )}
                       </div>
                     </div>
                   ))}
-                  {hasSpices && (
+                  {tab === "care" && hasSpices && (
                     <div className="flex flex-col">
                       <Label
                         type="default"
@@ -463,10 +502,26 @@ export const FeederMachineModal: React.FC<Props> = ({
                         {spices.map((item) => (
                           <Box
                             key={item}
-                            isSelected={
-                              isSpiceSelected && selectedSpiceItem === item
-                            }
-                            onClick={() => onSelectSpice(item)}
+                            isSelected={selectedQuickItem === item}
+                            onClick={() => onSelectQuickItem(item)}
+                            image={ITEM_DETAILS[item].image}
+                            count={state.inventory[item]}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {tab === "care" && (
+                    <div className="flex flex-col">
+                      <Label type="default" className="mb-1">
+                        {t("feeder.beetles")}
+                      </Label>
+                      <div className="flex flex-wrap mb-2">
+                        {BEETLES.map((item) => (
+                          <Box
+                            key={item}
+                            isSelected={selectedQuickItem === item}
+                            onClick={() => onSelectQuickItem(item)}
                             image={ITEM_DETAILS[item].image}
                             count={state.inventory[item]}
                           />
@@ -577,11 +632,29 @@ export const FeederMachineModal: React.FC<Props> = ({
                       const feedCanBeMixed = canMixFeed(feed);
                       const selected =
                         feedCanBeMixed && isFeedSelected(feed.item);
+                      const slop = isPigFeed(feed.item) ? feed.item : undefined;
+                      const requirements = (
+                        <div className="flex flex-col gap-1">
+                          {getKeys(feed.ingredients).map((ingredient) => (
+                            <RequirementLabel
+                              key={`${feed.item}-${ingredient}`}
+                              type="item"
+                              item={ingredient}
+                              balance={
+                                state.inventory[ingredient] ?? new Decimal(0)
+                              }
+                              requirement={
+                                feed.ingredients[ingredient] ?? new Decimal(0)
+                              }
+                            />
+                          ))}
+                        </div>
+                      );
 
                       return (
                         <InnerPanel
                           key={feed.item}
-                          className={classNames("flex gap-1 items-center", {
+                          className={classNames("flex flex-col gap-1", {
                             "cursor-pointer": feedCanBeMixed,
                           })}
                           onClick={
@@ -590,52 +663,104 @@ export const FeederMachineModal: React.FC<Props> = ({
                               : undefined
                           }
                         >
-                          <SmallBox image={ITEM_DETAILS[feed.item].image} />
-                          <div className="flex flex-col flex-1 justify-center -mt-0.5">
-                            <p className="text-xs">
-                              {`${feed.item} x${formatNumber(feed.missing)}`}
-                            </p>
-                          </div>
-                          {/* Selecting a feed confirms the player can afford
+                          <div className="flex gap-1 items-center">
+                            <SmallBox image={ITEM_DETAILS[feed.item].image} />
+                            <div className="flex flex-col flex-1 justify-center -mt-0.5">
+                              <p className="text-xs">
+                                {`${feed.item} x${formatNumber(feed.missing)}`}
+                              </p>
+                            </div>
+                            {/* Selecting a feed confirms the player can afford
                               it, so the requirement labels carry the whole
                               story - they turn red on the ones falling
-                              short. */}
-                          <div className="flex flex-col gap-1">
-                            {getKeys(feed.ingredients).map((ingredient) => (
-                              <RequirementLabel
-                                key={`${feed.item}-${ingredient}`}
-                                type="item"
-                                item={ingredient}
-                                balance={
-                                  state.inventory[ingredient] ?? new Decimal(0)
-                                }
-                                requirement={
-                                  feed.ingredients[ingredient] ?? new Decimal(0)
-                                }
-                              />
-                            ))}
-                          </div>
-                          {/* The panel is a click target too, so keep the
+                              short. A Slop's input is a button that opens
+                              its picker. */}
+                            {slop ? (
+                              <button
+                                type="button"
+                                className="flex items-center gap-1 cursor-pointer"
+                                aria-label={`${t("feeder.chooseSlopInput")}: ${formatIngredientList(feed.ingredients)}`}
+                                aria-expanded={pickingInputFor === slop}
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  setShowMixInfo(false);
+                                  setPickingInputFor((open) =>
+                                    open === slop ? undefined : slop,
+                                  );
+                                }}
+                              >
+                                {requirements}
+                                <img
+                                  src={
+                                    pickingInputFor === slop
+                                      ? SUNNYSIDE.icons.chevron_up
+                                      : SUNNYSIDE.icons.chevron_down
+                                  }
+                                  alt=""
+                                  style={{ width: `${PIXEL_SCALE * 5}px` }}
+                                />
+                              </button>
+                            ) : (
+                              requirements
+                            )}
+                            {/* The panel is a click target too, so keep the
                               checkbox's own click from bubbling into it and
                               toggling a second time. */}
-                          <div
-                            className="flex-none"
-                            onClick={(event) => {
-                              // A disabled checkbox toggles nothing, so let the
-                              // click through to dismiss the explainer like any
-                              // other click.
-                              if (feedCanBeMixed) {
-                                event.stopPropagation();
-                              }
-                            }}
-                          >
-                            <Checkbox
-                              checked={selected}
-                              disabled={!feedCanBeMixed}
-                              onChange={() => selectFeed(feed.item)}
-                              aria-label={feed.item}
-                            />
+                            <div
+                              className="flex-none"
+                              onClick={(event) => {
+                                // A disabled checkbox toggles nothing, so let the
+                                // click through to dismiss the explainer like any
+                                // other click.
+                                if (feedCanBeMixed) {
+                                  event.stopPropagation();
+                                }
+                              }}
+                            >
+                              <Checkbox
+                                checked={selected}
+                                disabled={!feedCanBeMixed}
+                                onChange={() => selectFeed(feed.item)}
+                                aria-label={feed.item}
+                              />
+                            </div>
                           </div>
+                          {slop && pickingInputFor === slop && (
+                            <div
+                              className="flex flex-wrap gap-1 overflow-auto max-h-48 scrollable cursor-default"
+                              onClick={(event) => event.stopPropagation()}
+                            >
+                              {getKeys(PIG_FEEDS[slop].ingredients).map(
+                                (item) => (
+                                  <Box
+                                    key={item}
+                                    image={ITEM_DETAILS[item].image}
+                                    count={state.inventory[item]}
+                                    isSelected={feed.ingredient === item}
+                                    onClick={() => {
+                                      setPigFeedInputs((prev) => ({
+                                        ...prev,
+                                        [slop]: item,
+                                      }));
+                                      setPickingInputFor(undefined);
+                                    }}
+                                    secondaryImage={
+                                      (
+                                        state.inventory[item] ?? new Decimal(0)
+                                      ).gte(
+                                        feed.missing.mul(
+                                          PIG_FEEDS[slop].ingredients[item] ??
+                                            0,
+                                        ),
+                                      )
+                                        ? SUNNYSIDE.icons.confirm
+                                        : SUNNYSIDE.icons.cancel
+                                    }
+                                  />
+                                ),
+                              )}
+                            </div>
+                          )}
                         </InnerPanel>
                       );
                     })}

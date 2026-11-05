@@ -313,6 +313,8 @@ export function getBulkMixRequirements(
   game: GameState,
   building: AnimalBuildingType,
   now: number,
+  /** The input the player picked for each Slop; unset means the best option. */
+  pigFeedInputs: Partial<Record<PigFeedName, InventoryItemName>> = {},
 ) {
   const buildingKey = makeAnimalBuildingKey(building);
   const animals = Object.values(game[buildingKey].animals);
@@ -361,7 +363,8 @@ export function getBulkMixRequirements(
     const feedIngredients: GameState["inventory"] = {};
     let feedCoins = 0;
     const ingredient = isPigFeed(item)
-      ? getPigFeedIngredientOptions(item, game.inventory)[0]
+      ? (pigFeedInputs[item] ??
+        getPigFeedIngredientOptions(item, game.inventory)[0])
       : undefined;
 
     if (missing.gt(0)) {

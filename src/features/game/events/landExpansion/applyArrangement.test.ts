@@ -489,6 +489,100 @@ describe("applyArrangement", () => {
       ]);
     });
 
+    it("places a chest node under the tier the client named", () => {
+      const state = withInventory(baseFarm, { "Ancient Tree": 1 });
+      const arrangement = snapshotSurface(state, "farm");
+      arrangement.resources!.trees["new-tree"] = {
+        x: 0,
+        y: 0,
+        name: "Ancient Tree",
+      };
+
+      const result = apply(state, arrangement);
+
+      expect(result.trees["new-tree"]).toMatchObject({
+        x: 0,
+        y: 0,
+        name: "Ancient Tree",
+        tier: 2,
+      });
+    });
+
+    it("places a chest node without a tier as the base tier", () => {
+      const state = withInventory(baseFarm, { Tree: 1 });
+      const arrangement = snapshotSurface(state, "farm");
+      arrangement.resources!.trees["new-tree"] = { x: 0, y: 0 };
+
+      const result = apply(state, arrangement);
+
+      expect(result.trees["new-tree"]).toMatchObject({
+        x: 0,
+        y: 0,
+        name: "Tree",
+        tier: 1,
+      });
+    });
+
+    it("rejects a chest node of a tier the player does not own", () => {
+      const state = withInventory(baseFarm, { Tree: 1 });
+      const arrangement = snapshotSurface(state, "farm");
+      arrangement.resources!.trees["new-tree"] = {
+        x: 0,
+        y: 0,
+        name: "Sacred Tree",
+      };
+
+      const conflicts = conflictsOf(() => apply(state, arrangement));
+
+      expect(conflicts).toHaveLength(1);
+      expect(conflicts[0]).toMatchObject({
+        code: "NOT_OWNED",
+        name: "Sacred Tree",
+        id: "new-tree",
+      });
+    });
+
+    it("reads a tier from another family as the base tier", () => {
+      const state = withInventory(baseFarm, { "Stone Rock": 1 });
+      const arrangement = snapshotSurface(state, "farm");
+      arrangement.resources!.stones["new-rock"] = {
+        x: 0,
+        y: 0,
+        name: "Sacred Tree",
+      };
+
+      const result = apply(state, arrangement);
+
+      expect(result.stones["new-rock"]).toMatchObject({
+        x: 0,
+        y: 0,
+        name: "Stone Rock",
+      });
+    });
+
+    it("snapshots a placed node with its own tier", () => {
+      const state: GameState = {
+        ...baseFarm,
+        trees: {
+          t1: {
+            createdAt: 1,
+            wood: { choppedAt: 0 },
+            name: "Ancient Tree",
+            tier: 2,
+            multiplier: 4,
+            x: 0,
+            y: 0,
+          },
+        },
+      };
+
+      expect(snapshotSurface(state, "farm").resources!.trees.t1).toEqual({
+        x: 0,
+        y: 0,
+        name: "Ancient Tree",
+      });
+    });
+
     it("re-placing a lifted instance resumes its paused timer", () => {
       const state = withInventory(
         {
@@ -730,6 +824,125 @@ describe("applyArrangement", () => {
       const result = apply(state, arrangement);
 
       expect(result.collectibles.Rug![0].coordinates).toEqual({ x: 0, y: 0 });
+    });
+
+    describe("items the arrangement leaves where they are", () => {
+      // A footprint can grow after an item is placed (e.g. a decoration's
+      // dimensions are corrected), leaving stored items overlapping or past
+      // the land edge. Those must not block saves of unrelated changes.
+      it("lets already-overlapping items stay while something else moves", () => {
+        const state = withInventory(
+          {
+            ...baseFarm,
+            collectibles: {
+              "Potato Statue": [
+                { id: "a", coordinates: { x: 0, y: 0 } },
+                { id: "b", coordinates: { x: 1, y: 0 } },
+              ],
+              "Basic Bear": [{ id: "c", coordinates: { x: 4, y: 0 } }],
+            },
+          },
+          { "Potato Statue": 2, "Basic Bear": 1 },
+        );
+        const arrangement = snapshotSurface(state, "farm");
+        arrangement.collectibles["Basic Bear"]![0].coordinates = { x: 4, y: 2 };
+
+        const result = apply(state, arrangement);
+
+        expect(result.collectibles["Basic Bear"]![0].coordinates).toEqual({
+          x: 4,
+          y: 2,
+        });
+        expect(result.collectibles["Potato Statue"]).toEqual(
+          state.collectibles["Potato Statue"],
+        );
+      });
+
+      it("still reports an overlapping item once it moves", () => {
+        const state = withInventory(
+          {
+            ...baseFarm,
+            collectibles: {
+              "Potato Statue": [
+                { id: "a", coordinates: { x: 0, y: 0 } },
+                { id: "b", coordinates: { x: 1, y: 0 } },
+              ],
+            },
+          },
+          { "Potato Statue": 2 },
+        );
+        const arrangement = snapshotSurface(state, "farm");
+        arrangement.collectibles["Potato Statue"]![1].coordinates = {
+          x: 0,
+          y: 0,
+        };
+
+        const conflicts = conflictsOf(() => apply(state, arrangement));
+
+        expect(conflicts).toEqual([
+          {
+            code: "COLLISION",
+            name: "Potato Statue",
+            id: "b",
+            coordinates: { x: 0, y: 0 },
+            with: { name: "Potato Statue", id: "a" },
+          },
+        ]);
+      });
+
+      it("still reports a new placement onto an already-overlapping item", () => {
+        const state = withInventory(
+          {
+            ...baseFarm,
+            collectibles: {
+              "Potato Statue": [
+                { id: "a", coordinates: { x: 0, y: 0 } },
+                { id: "b", coordinates: { x: 1, y: 0 } },
+              ],
+            },
+          },
+          { "Potato Statue": 2, "Basic Bear": 1 },
+        );
+        const arrangement = snapshotSurface(state, "farm");
+        arrangement.collectibles["Basic Bear"] = [
+          { id: "new", coordinates: { x: 0, y: 0 } },
+        ];
+
+        const conflicts = conflictsOf(() => apply(state, arrangement));
+
+        expect(conflicts).toEqual([
+          expect.objectContaining({
+            code: "COLLISION",
+            name: "Basic Bear",
+            id: "new",
+            with: { name: "Potato Statue", id: "a" },
+          }),
+        ]);
+      });
+
+      it("lets an item already past the land edge stay while something else moves", () => {
+        const state = withInventory(
+          {
+            ...baseFarm,
+            collectibles: {
+              "Basic Bear": [
+                { id: "a", coordinates: { x: 50, y: 50 } },
+                { id: "b", coordinates: { x: 0, y: 0 } },
+              ],
+            },
+          },
+          { "Basic Bear": 2 },
+        );
+        const arrangement = snapshotSurface(state, "farm");
+        arrangement.collectibles["Basic Bear"]![1].coordinates = { x: 1, y: 0 };
+
+        const result = apply(state, arrangement);
+
+        expect(result.collectibles["Basic Bear"]).toEqual([
+          { id: "a", coordinates: { x: 50, y: 50 } },
+          { id: "b", coordinates: { x: 1, y: 0 } },
+        ]);
+      });
     });
   });
 

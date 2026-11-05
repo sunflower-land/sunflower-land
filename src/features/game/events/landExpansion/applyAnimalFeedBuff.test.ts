@@ -6,7 +6,6 @@ import {
 import { isAnimalNeedingLove } from "./loveAnimal";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import type { GameState } from "features/game/types/game";
-import { CONFIG } from "lib/config";
 
 describe("applyAnimalFeedBuff", () => {
   const now = Date.now();
@@ -338,6 +337,158 @@ describe("applyAnimalFeedBuff", () => {
     });
     expect(state.henHouse.animals[chickenId].multiplier).toBeUndefined();
   });
+  describe("with a free-feed collectible placed", () => {
+    const chickenId = "c1";
+    const farmWith = (
+      item: "Honey Treat" | "Salt Lick",
+      collectible: "Gold Egg" | "Golden Cow",
+    ): GameState => ({
+      ...GAME_STATE,
+      inventory: { [item]: new Decimal(1) },
+      collectibles: {
+        [collectible]: [
+          {
+            id: "1",
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: 0,
+          },
+        ],
+      },
+      henHouse: {
+        ...GAME_STATE.henHouse,
+        animals: {
+          [chickenId]: {
+            id: chickenId,
+            type: "Chicken",
+            createdAt: 0,
+            state: "idle",
+            experience: 0,
+            asleepAt: now - 100_000,
+            awakeAt: now - 50_000,
+            lovedAt: now - 100_000,
+            item: "Petting Hand",
+          },
+        },
+      },
+    });
+
+    it("refuses a Honey Treat, since the animal already eats for free", () => {
+      expect(() =>
+        applyAnimalFeedBuff({
+          createdAt: now,
+          state: farmWith("Honey Treat", "Gold Egg"),
+          action: {
+            type: "animal.feedBuffApplied",
+            animal: "Chicken",
+            id: chickenId,
+            item: "Honey Treat",
+          },
+        }),
+      ).toThrow(APPLY_ANIMAL_FEED_BUFF_ERRORS.FREE_FEED);
+    });
+
+    it("still applies a Salt Lick, which does not depend on feed", () => {
+      const state = applyAnimalFeedBuff({
+        createdAt: now,
+        state: farmWith("Salt Lick", "Gold Egg"),
+        action: {
+          type: "animal.feedBuffApplied",
+          animal: "Chicken",
+          id: chickenId,
+          item: "Salt Lick",
+        },
+      });
+
+      expect(state.henHouse.animals[chickenId].feedBuff?.name).toBe(
+        "Salt Lick",
+      );
+    });
+
+    it("applies a Honey Treat when the collectible covers another animal", () => {
+      const state = applyAnimalFeedBuff({
+        createdAt: now,
+        state: farmWith("Honey Treat", "Golden Cow"),
+        action: {
+          type: "animal.feedBuffApplied",
+          animal: "Chicken",
+          id: chickenId,
+          item: "Honey Treat",
+        },
+      });
+
+      expect(state.henHouse.animals[chickenId].feedBuff?.name).toBe(
+        "Honey Treat",
+      );
+    });
+
+    // Cows and sheep share the Barn's animal map, so the action's type is not
+    // proof of the stored animal's type.
+    const sheepId = "s1";
+    const barnWith = (
+      collectible: "Golden Sheep" | "Golden Cow",
+    ): GameState => ({
+      ...GAME_STATE,
+      inventory: { "Honey Treat": new Decimal(1) },
+      collectibles: {
+        [collectible]: [
+          {
+            id: "1",
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: 0,
+          },
+        ],
+      },
+      barn: {
+        ...GAME_STATE.barn,
+        animals: {
+          [sheepId]: {
+            id: sheepId,
+            type: "Sheep",
+            createdAt: 0,
+            state: "idle",
+            experience: 0,
+            asleepAt: now - 100_000,
+            awakeAt: now - 50_000,
+            lovedAt: now - 100_000,
+            item: "Petting Hand",
+          },
+        },
+      },
+    });
+
+    it("refuses a Honey Treat on a covered sheep sent as a Cow", () => {
+      expect(() =>
+        applyAnimalFeedBuff({
+          createdAt: now,
+          state: barnWith("Golden Sheep"),
+          action: {
+            type: "animal.feedBuffApplied",
+            animal: "Cow",
+            id: sheepId,
+            item: "Honey Treat",
+          },
+        }),
+      ).toThrow(APPLY_ANIMAL_FEED_BUFF_ERRORS.FREE_FEED);
+    });
+
+    it("applies a Honey Treat on an uncovered sheep sent as a Cow", () => {
+      const state = applyAnimalFeedBuff({
+        createdAt: now,
+        state: barnWith("Golden Cow"),
+        action: {
+          type: "animal.feedBuffApplied",
+          animal: "Cow",
+          id: sheepId,
+          item: "Honey Treat",
+        },
+      });
+
+      expect(state.barn.animals[sheepId].feedBuff?.name).toBe("Honey Treat");
+    });
+  });
+
   it("doubles the feed buff duration to 6 harvests when Vibraphone is placed", () => {
     const chickenId = "c1";
     const state = applyAnimalFeedBuff({
@@ -536,57 +687,5 @@ describe("applyAnimalFeedBuff: Truffle Seasoning (Chapter 16)", () => {
         },
       }),
     ).toThrow(APPLY_ANIMAL_FEED_BUFF_ERRORS.ALREADY_BUFFED);
-  });
-
-  describe("off testnet", () => {
-    // jest runs on amoy, so the flag-off path is only reachable by pretending
-    // to be mainnet.
-    let previousNetwork: (typeof CONFIG)["NETWORK"];
-
-    beforeEach(() => {
-      previousNetwork = CONFIG.NETWORK;
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-    });
-
-    afterEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
-    });
-
-    it("throws without the PIGPEN feature flag", () => {
-      expect(() => season(farm())).toThrow(
-        APPLY_ANIMAL_FEED_BUFF_ERRORS.NO_FEATURE_ACCESS,
-      );
-    });
-
-    it("is not unlocked by a Beta Pass", () => {
-      expect(() =>
-        season(
-          farm({
-            inventory: {
-              "Truffle Seasoning": new Decimal(1),
-              "Beta Pass": new Decimal(1),
-            },
-          }),
-        ),
-      ).toThrow(APPLY_ANIMAL_FEED_BUFF_ERRORS.NO_FEATURE_ACCESS);
-    });
-
-    it("still applies a Salt Lick", () => {
-      const state = applyAnimalFeedBuff({
-        state: farm({ inventory: { "Salt Lick": new Decimal(1) } }),
-        createdAt: now,
-        action: {
-          type: "animal.feedBuffApplied",
-          animal: "Chicken",
-          id: chickenId,
-          item: "Salt Lick",
-        },
-      });
-
-      expect(state.henHouse.animals[chickenId].feedBuff).toEqual({
-        name: "Salt Lick",
-        harvestsRemaining: 3,
-      });
-    });
   });
 });

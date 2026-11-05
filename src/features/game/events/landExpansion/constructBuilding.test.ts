@@ -1,5 +1,4 @@
 import Decimal from "decimal.js-light";
-import { CONFIG } from "lib/config";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import { BUILDINGS } from "features/game/types/buildings";
 import { INITIAL_FARM, TEST_FARM } from "../../lib/constants";
@@ -781,7 +780,7 @@ describe("constructBuilding: Pigpen gating", () => {
 
   // The Pigpen is testnet-only, and jest runs on amoy, so the flag is on for
   // every test below without any inventory item granting it.
-  it("builds a Pigpen on testnet", () => {
+  it("builds a Pigpen", () => {
     expect(build(farm).buildings.Pigpen).toHaveLength(1);
   });
 
@@ -852,37 +851,6 @@ describe("constructBuilding: Pigpen gating", () => {
     expect(Object.keys(state.pigpen.animals)).toEqual(["9"]);
     expect(state.pigpen.animals["9"].experience).toEqual(500);
   });
-
-  describe("off testnet", () => {
-    // jest runs on amoy, so the flag-off path is only reachable by pretending
-    // to be mainnet.
-    const originalNetwork = CONFIG.NETWORK;
-
-    beforeEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-    });
-
-    afterEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-    });
-
-    it("throws without the PIGPEN feature flag", () => {
-      expect(() => build(farm)).toThrow(
-        CONSTRUCT_BUILDING_ERRORS.NO_FEATURE_ACCESS,
-      );
-    });
-
-    it("is not unlocked by a Beta Pass", () => {
-      // PIGPEN is a testnet flag, which has no Beta Pass escape hatch - unlike
-      // betaFeatureFlag, which this gate used to use.
-      expect(() =>
-        build({
-          ...farm,
-          inventory: { ...farm.inventory, "Beta Pass": new Decimal(1) },
-        }),
-      ).toThrow(CONSTRUCT_BUILDING_ERRORS.NO_FEATURE_ACCESS);
-    });
-  });
 });
 
 describe("constructBuilding: Cave", () => {
@@ -912,13 +880,19 @@ describe("constructBuilding: Cave", () => {
       createdAt: dateNow,
     });
 
-  it("builds a Cave on testnet", () => {
+  it("builds a Cave", () => {
     const state = build(farm);
 
     expect(state.buildings.Cave).toHaveLength(1);
     expect(state.buildings.Cave?.[0].readyAt).toEqual(
       dateNow + BUILDINGS.Cave.constructionSeconds * 1000,
     );
+  });
+
+  it("takes an hour to build the entrance", () => {
+    const state = build(farm);
+
+    expect(state.buildings.Cave?.[0].readyAt).toEqual(dateNow + 60 * 60 * 1000);
   });
 
   it("charges the Cave blueprint", () => {
@@ -983,23 +957,5 @@ describe("constructBuilding: Cave", () => {
         bumpkin: { ...TEST_BUMPKIN, experience: LEVEL_EXPERIENCE[10] },
       }),
     ).toThrow(CONSTRUCT_BUILDING_ERRORS.BUMPKIN_LEVEL_NOT_MET);
-  });
-
-  describe("off testnet", () => {
-    const originalNetwork = CONFIG.NETWORK;
-
-    beforeEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-    });
-
-    afterEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-    });
-
-    it("throws without the CAVE feature flag", () => {
-      expect(() => build(farm)).toThrow(
-        CONSTRUCT_BUILDING_ERRORS.NO_FEATURE_ACCESS,
-      );
-    });
   });
 });

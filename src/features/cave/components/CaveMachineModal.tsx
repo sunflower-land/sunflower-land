@@ -1,108 +1,44 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useSelector } from "@xstate/react";
-import Decimal from "decimal.js-light";
 
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
-import type {
-  CaveMudCropName,
-  CaveRecipeName,
-  CaveTileType,
-} from "features/game/types/caveRecipes";
-import {
-  CAVE_MUD_CROPS,
-  CAVE_RECIPES,
-  isCavePatchCleared,
-} from "features/game/types/caveRecipes";
-import {
-  canRestartCaveBatch,
-  getCaveBeetleProgress,
-  getCavePatchComposition,
-  getUndugCaveTiles,
-} from "features/game/types/cavePatch";
-import type { GameState, InventoryItemName } from "features/game/types/game";
-import {
-  getCaveBatchCost,
-  getCaveBatchDuration,
-  getCaveBatchSkills,
-} from "features/game/lib/cave";
-import { getKeys } from "lib/object";
-import { ITEM_DETAILS } from "features/game/types/images";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { secondsToString } from "lib/utils/time";
+import { isCavePatchCleared } from "features/game/types/caveRecipes";
+import { canRestartCaveBatch } from "features/game/types/cavePatch";
 import { useNow } from "lib/utils/hooks/useNow";
-import { useSpeedUpPayment } from "features/game/lib/useSpeedUpPayment";
 
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { Button } from "components/ui/Button";
-import { Box } from "components/ui/Box";
-import { Label } from "components/ui/Label";
-import { RequirementLabel } from "components/ui/RequirementsLabel";
-import { ResizableBar } from "components/ui/ProgressBar";
-import { ConfirmationModal } from "components/ui/ConfirmationModal";
-import { SpeedUpPaymentSelector } from "features/game/components/SpeedUpPaymentSelector";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import fastForward from "assets/icons/fast_forward.png";
-
-const RECIPE_NAMES = getKeys(CAVE_RECIPES);
-const MUD_CROPS = getKeys(CAVE_MUD_CROPS);
-
-/** Whether the player can feed a Mud batch this crop (after Cave skills). */
-const canAffordMudCrop = (game: GameState, crop: CaveMudCropName) => {
-  const required =
-    getCaveBatchCost({ game, recipe: "Mud", crop })?.ingredients[crop] ??
-    new Decimal(CAVE_MUD_CROPS[crop]);
-  return (game.inventory[crop] ?? new Decimal(0)).gte(required);
-};
-
-/** Every Mud crop in table order, the ones the player can afford first. */
-const sortMudCrops = (game: GameState) => [
-  ...MUD_CROPS.filter((crop) => canAffordMudCrop(game, crop)),
-  ...MUD_CROPS.filter((crop) => !canAffordMudCrop(game, crop)),
-];
-
-/** A representative item image for each recipe / buried tile kind. */
-const RECIPE_IMAGE: Record<CaveRecipeName, InventoryItemName> = {
-  Mushroom: "Wild Mushroom",
-  Beetle: "Green Beetle",
-  Mud: "Mud",
-};
-const TILE_IMAGE: Record<CaveTileType, string> = {
-  Mushroom: ITEM_DETAILS["Wild Mushroom"].image,
-  Beetle: ITEM_DETAILS["Green Beetle"].image,
-  Mud: ITEM_DETAILS["Mud"].image,
-};
+import { OuterPanel } from "components/ui/Panel";
+import { CaveMixPicker } from "./CaveMixPicker";
+import { CaveBatchGrowing } from "./CaveBatchGrowing";
+import { CaveBatchReady } from "./CaveBatchReady";
 
 const _game = (state: MachineState) => state.context.state;
 
 interface Props {
   machineId: string;
   onClose: () => void;
+  /** Point the Cave tutorial hand at what starts the first batch. */
+  showTutorialHand?: boolean;
 }
 
 /**
- * The Myco Bin batch popover. Three states: idle (pick a mix and start,
- * also once the patch is fully dug), growing (12h timer + gem finish), and
- * ready (being dug).
+ * The Myco Bin batch popover, laid out like the Aging Shed: the mix picker
+ * (idle, or once the patch is cleared or every Beetle is found), or the
+ * batch's progress (growing, or ready and being dug).
  */
-export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
+export const CaveMachineModal: React.FC<Props> = ({
+  machineId,
+  onClose,
+  showTutorialHand,
+}) => {
   const { gameService } = useContext(Context);
-  const { t } = useAppTranslation();
 
   const game = useSelector(gameService, _game);
   const batch = game.cave?.machines[machineId]?.batch;
 
-  const [selected, setSelected] = useState<CaveRecipeName>("Mushroom");
-  const [crop, setCrop] = useState<CaveMudCropName>(() => {
-    const [first] = sortMudCrops(game);
-    return canAffordMudCrop(game, first) ? first : "Carrot";
-  });
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [showReplaceConfirm, setShowReplaceConfirm] = useState(false);
-
   const now = useNow({ live: true, autoEndAt: batch?.readyAt });
-  const payment = useSpeedUpPayment({ readyAt: batch?.readyAt ?? 0, game });
 
   // The recipe picker shows once the patch is fully dug, or once every Beetle
   // is found (the player may keep digging or start the next batch).
@@ -111,254 +47,19 @@ export const CaveMachineModal: React.FC<Props> = ({ machineId, onClose }) => {
   const isIdle = !batch || isCleared || canReplace;
   const isReady = !!batch && !isIdle && batch.readyAt <= now;
   const isGrowing = !!batch && !isIdle && !isReady;
-  const beetles = batch ? getCaveBeetleProgress(batch) : undefined;
-
-  // What a new batch would bury and cost, with the player's Cave skills.
-  const buriedCounts = getCavePatchComposition(
-    selected,
-    getCaveBatchSkills(game).skills,
-  );
-
-  // Only a Mud batch takes a crop; the others have fixed inputs.
-  const batchCrop = selected === "Mud" ? crop : undefined;
-  const ingredients =
-    getCaveBatchCost({ game, recipe: selected, crop: batchCrop })
-      ?.ingredients ?? {};
-  const canAfford = getKeys(ingredients).every((item) =>
-    (game.inventory[item] ?? new Decimal(0)).gte(
-      ingredients[item] ?? new Decimal(0),
-    ),
-  );
-
-  // Mushrooms left in a replaced patch are lost; ask first. Leftover Mud alone
-  // is not worth a warning.
-  const undug = canReplace && batch ? getUndugCaveTiles(batch) : undefined;
-  const hasLeftovers = !!undug && undug.Mushroom > 0;
-
-  const startBatch = () => {
-    gameService.send({
-      type: "cave.batchStarted",
-      machineId,
-      recipe: selected,
-      crop: batchCrop,
-    });
-    // The server rolls the patch's board; fetch it straight away.
-    gameService.send("SAVE");
-    onClose();
-  };
 
   return (
     <Modal show onHide={onClose}>
-      <CloseButtonPanel
-        onClose={onClose}
-        title={t("cave.machine", { id: machineId })}
-      >
+      <CloseButtonPanel onClose={onClose} container={OuterPanel}>
+        {isGrowing && batch && <CaveBatchGrowing batch={batch} now={now} />}
+        {isReady && batch && <CaveBatchReady batch={batch} onDig={onClose} />}
         {isIdle && (
-          <div className="flex flex-col items-center p-1">
-            {canReplace && (
-              <>
-                <Label
-                  type="success"
-                  icon={ITEM_DETAILS["Green Beetle"].image}
-                  className="mb-1"
-                >
-                  {t("cave.dig.allBeetlesFound")}
-                </Label>
-                <span className="text-xs text-center mb-2">
-                  {t("cave.batch.replaceHint")}
-                </span>
-              </>
-            )}
-            <Label type="default" className="mb-2">
-              {t("cave.batch.chooseRecipe")}
-            </Label>
-
-            <div className="flex mb-2">
-              {RECIPE_NAMES.map((recipe) => (
-                <Box
-                  key={recipe}
-                  image={ITEM_DETAILS[RECIPE_IMAGE[recipe]].image}
-                  isSelected={selected === recipe}
-                  onClick={() => setSelected(recipe)}
-                />
-              ))}
-            </div>
-
-            <span className="text-sm mb-1">
-              {t(`cave.recipe.${selected}` as const)}
-            </span>
-
-            <Label type="default" className="mt-1 mb-1">
-              {t("cave.batch.buried")}
-            </Label>
-            <div className="flex flex-wrap justify-center gap-1 mb-2">
-              {getKeys(buriedCounts).map((tile) => {
-                const count = buriedCounts[tile];
-                if (count <= 0) return null;
-                return (
-                  <Label key={tile} type="default" icon={TILE_IMAGE[tile]}>
-                    {count}
-                  </Label>
-                );
-              })}
-            </div>
-
-            {selected === "Mud" && (
-              <>
-                <Label type="default" className="mt-1 mb-1">
-                  {t("cave.batch.chooseCrop")}
-                </Label>
-                <div className="flex flex-wrap justify-center mb-2">
-                  {sortMudCrops(game).map((name) => (
-                    <Box
-                      key={name}
-                      image={ITEM_DETAILS[name].image}
-                      count={game.inventory[name]}
-                      isSelected={crop === name}
-                      onClick={() => setCrop(name)}
-                    />
-                  ))}
-                </div>
-              </>
-            )}
-
-            <div className="flex flex-col items-center w-full mb-2">
-              {getKeys(ingredients).map((item) => (
-                <RequirementLabel
-                  key={item}
-                  type="item"
-                  item={item}
-                  balance={game.inventory[item] ?? new Decimal(0)}
-                  requirement={ingredients[item] ?? new Decimal(0)}
-                />
-              ))}
-              <RequirementLabel
-                type="time"
-                waitSeconds={getCaveBatchDuration(game).duration / 1000}
-              />
-            </div>
-
-            <Button
-              disabled={!canAfford}
-              onClick={() =>
-                hasLeftovers ? setShowReplaceConfirm(true) : startBatch()
-              }
-            >
-              {t("cave.batch.start")}
-            </Button>
-
-            <ConfirmationModal
-              show={showReplaceConfirm}
-              onHide={() => setShowReplaceConfirm(false)}
-              onCancel={() => setShowReplaceConfirm(false)}
-              onConfirm={() => {
-                setShowReplaceConfirm(false);
-                startBatch();
-              }}
-              messages={[t("cave.batch.confirmReplace")]}
-              confirmButtonLabel={t("cave.batch.start")}
-              bodyContent={
-                <div className="flex flex-wrap justify-center gap-1">
-                  {!!undug?.Mushroom && (
-                    <Label type="danger" icon={TILE_IMAGE.Mushroom}>
-                      {undug.Mushroom}
-                    </Label>
-                  )}
-                </div>
-              }
-            />
-          </div>
-        )}
-
-        {isGrowing && batch && (
-          <div className="flex flex-col items-center p-1">
-            <Label
-              type="default"
-              icon={SUNNYSIDE.icons.stopwatch}
-              className="mb-2"
-            >
-              {t("cave.batch.growing")}
-            </Label>
-            <span className="text-xs mb-1">
-              {secondsToString(Math.max(0, (batch.readyAt - now) / 1000), {
-                length: "medium",
-              })}
-            </span>
-            <div className="w-full mb-3">
-              <ResizableBar
-                percentage={
-                  batch.readyAt <= batch.startedAt
-                    ? 100
-                    : Math.min(
-                        100,
-                        ((now - batch.startedAt) /
-                          (batch.readyAt - batch.startedAt)) *
-                          100,
-                      )
-                }
-                type="progress"
-              />
-            </div>
-
-            <Button
-              disabled={!payment.canAffordAnyMethod}
-              onClick={() => {
-                payment.resetPaymentMethod();
-                setShowConfirm(true);
-              }}
-            >
-              <div className="flex items-center justify-center gap-1">
-                <img src={fastForward} className="h-5" />
-                <span>{t("cave.batch.finishNow")}</span>
-                {!payment.canPayWithCoins && (
-                  <>
-                    <span className="text-sm">{payment.gemCost}</span>
-                    <img src={ITEM_DETAILS.Gem.image} className="h-5" />
-                  </>
-                )}
-              </div>
-            </Button>
-
-            <ConfirmationModal
-              show={showConfirm}
-              onHide={() => setShowConfirm(false)}
-              onCancel={() => setShowConfirm(false)}
-              onConfirm={() => {
-                gameService.send({
-                  type: "cave.batchSpedUp",
-                  machineId,
-                  paymentMethod: payment.paymentMethod,
-                });
-                gameService.send("SAVE");
-                setShowConfirm(false);
-                onClose();
-              }}
-              messages={[t("cave.batch.confirmFinish")]}
-              confirmButtonLabel={t("cave.batch.finishNow")}
-              bodyContent={<SpeedUpPaymentSelector payment={payment} />}
-              disabled={!payment.canAfford}
-            />
-          </div>
-        )}
-
-        {isReady && beetles && (
-          <div className="flex flex-col items-center p-2">
-            <Label type="success" className="mb-2">
-              {t("cave.batch.ready")}
-            </Label>
-            <Label
-              type={beetles.found >= beetles.total ? "success" : "default"}
-              icon={ITEM_DETAILS["Green Beetle"].image}
-              className="mb-2"
-            >
-              {beetles.found >= beetles.total
-                ? t("cave.dig.allBeetlesFound")
-                : t("cave.dig.beetlesFound", beetles)}
-            </Label>
-            <span className="text-xs text-center">
-              {t("cave.batch.readyDescription")}
-            </span>
-          </div>
+          <CaveMixPicker
+            machineId={machineId}
+            batch={batch}
+            onStarted={onClose}
+            showTutorialHand={showTutorialHand}
+          />
         )}
       </CloseButtonPanel>
     </Modal>

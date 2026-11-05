@@ -28,19 +28,16 @@ const canAffordInput = (
 type Props = {
   state: GameState;
   selected: PigFeedName;
-  ingredient: InventoryItemName;
+  ingredient?: InventoryItemName;
   ingredients: GameState["inventory"];
   maxMixAmount: number;
-  onSelect: (slop: PigFeedName) => void;
+  onSelect: (item: PigFeedName) => void;
   onSelectIngredient: (item: InventoryItemName) => void;
   onMix: (amount: number) => void;
   onMixInBulk: () => void;
 };
 
-/**
- * The Pigpen Feeder's Mix tab, laid out like the Aging Shed's Fermentation
- * Rack: pick a Slop, then the one item of its tier to mix it from.
- */
+/** The Pigpen's Food tab: pick a Slop, then an ingredient from its tier. */
 export const PigFeedMixer: React.FC<Props> = ({
   state,
   selected,
@@ -67,51 +64,31 @@ export const PigFeedMixer: React.FC<Props> = ({
           </Label>
           <p className="text-xs ml-1">{ANIMAL_FOODS[selected].description}</p>
         </div>
+        <Label type="default" className="text-xs ml-1 mb-1">
+          {t("feeder.foodTypes.food")}
+        </Label>
         <div className="flex flex-wrap gap-1 px-1 pb-1">
-          {SLOPS.map((slop) => (
+          {SLOPS.map((item) => (
             <Box
-              key={slop}
-              image={ITEM_DETAILS[slop].image}
-              isSelected={selected === slop}
-              count={state.inventory[slop]}
-              onClick={() => onSelect(slop)}
+              key={item}
+              image={ITEM_DETAILS[item].image}
+              isSelected={selected === item}
+              count={state.inventory[item]}
+              onClick={() => onSelect(item)}
             />
           ))}
         </div>
       </InnerPanel>
 
-      <InnerPanel className="mb-1">
-        <Label type="default" className="text-xs mb-2 ml-1">
-          {t("feeder.chooseSlopInput")}
-        </Label>
-        <div className="flex flex-wrap gap-1 overflow-auto max-h-48 scrollable">
-          {getKeys(PIG_FEEDS[selected].ingredients).map((item) => (
-            <Box
-              key={item}
-              image={ITEM_DETAILS[item].image}
-              count={state.inventory[item]}
-              isSelected={ingredient === item}
-              onClick={() => onSelectIngredient(item)}
-              secondaryImage={
-                canAffordInput(state.inventory, selected, item)
-                  ? SUNNYSIDE.icons.confirm
-                  : SUNNYSIDE.icons.cancel
-              }
-            />
-          ))}
-        </div>
-        <div className="flex flex-wrap p-2 gap-2">
-          {getKeys(ingredients).map((item) => (
-            <RequirementLabel
-              key={item}
-              type="item"
-              item={item}
-              balance={state.inventory[item] ?? new Decimal(0)}
-              requirement={ingredients[item] ?? new Decimal(0)}
-            />
-          ))}
-        </div>
-      </InnerPanel>
+      {ingredient && (
+        <SlopInputPicker
+          state={state}
+          slop={selected}
+          ingredient={ingredient}
+          ingredients={ingredients}
+          onSelectIngredient={onSelectIngredient}
+        />
+      )}
 
       <div className="flex space-x-1 w-full">
         <Button disabled={maxMixAmount < 1} onClick={() => onMix(1)}>
@@ -127,5 +104,50 @@ export const PigFeedMixer: React.FC<Props> = ({
         </Button>
       )}
     </>
+  );
+};
+
+const SlopInputPicker: React.FC<{
+  state: GameState;
+  slop: PigFeedName;
+  ingredient: InventoryItemName;
+  ingredients: GameState["inventory"];
+  onSelectIngredient: (item: InventoryItemName) => void;
+}> = ({ state, slop, ingredient, ingredients, onSelectIngredient }) => {
+  const { t } = useAppTranslation();
+
+  return (
+    <InnerPanel className="mb-1">
+      <Label type="default" className="text-xs mb-2 ml-1">
+        {t("feeder.chooseSlopInput")}
+      </Label>
+      <div className="flex flex-wrap gap-1 overflow-auto max-h-48 scrollable">
+        {getKeys(PIG_FEEDS[slop].ingredients).map((item) => (
+          <Box
+            key={item}
+            image={ITEM_DETAILS[item].image}
+            count={state.inventory[item]}
+            isSelected={ingredient === item}
+            onClick={() => onSelectIngredient(item)}
+            secondaryImage={
+              canAffordInput(state.inventory, slop, item)
+                ? SUNNYSIDE.icons.confirm
+                : SUNNYSIDE.icons.cancel
+            }
+          />
+        ))}
+      </div>
+      <div className="flex flex-wrap p-2 gap-2">
+        {getKeys(ingredients).map((item) => (
+          <RequirementLabel
+            key={item}
+            type="item"
+            item={item}
+            balance={state.inventory[item] ?? new Decimal(0)}
+            requirement={ingredients[item] ?? new Decimal(0)}
+          />
+        ))}
+      </div>
+    </InnerPanel>
   );
 };

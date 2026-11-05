@@ -1,3 +1,4 @@
+import type { BeetleName } from "../types/beetles";
 import type { CropName, GreenHouseCropName } from "../types/crops";
 import type { FermentationBait } from "../types/fishing";
 import type { GreenHouseFruitName, PatchFruitName } from "../types/fruits";
@@ -42,10 +43,11 @@ export type TradeResource = Extract<
       | "Chicken"
       | "Mud"
     >
-  | Exclude<AnimalResource, "Pig Bristles" | "Truffle">
+  | AnimalResource
   | FactionEmblem
   | Exclude<PetResourceName, "Acorn" | "Fossil Shell">
   | FermentationBait
+  | BeetleName
 >;
 
 export const TRADE_LIMITS: Record<TradeResource, number> = {
@@ -121,6 +123,15 @@ export const TRADE_LIMITS: Record<TradeResource, number> = {
   "Capsule Bait": 10,
   "Umbrella Bait": 10,
   "Crimson Baitfish": 10,
+
+  // Cave Dwellers (Chapter 16) - Leather's values as the starting point,
+  // tune before launch (ticket 805).
+  "Green Beetle": 100,
+  "Blue Beetle": 100,
+  "Pink Beetle": 100,
+  "Amber Beetle": 100,
+  "Pig Bristles": 100,
+  Truffle: 100,
 };
 
 export const TRADE_MINIMUMS: Record<TradeResource, number> = {
@@ -192,6 +203,13 @@ export const TRADE_MINIMUMS: Record<TradeResource, number> = {
   "Umbrella Bait": 1,
   "Crimson Baitfish": 1,
   ...EMBLEM_TRADE_MINIMUMS,
+
+  "Green Beetle": 5,
+  "Blue Beetle": 5,
+  "Pink Beetle": 5,
+  "Amber Beetle": 5,
+  "Pig Bristles": 5,
+  Truffle: 5,
 };
 
 export const isTradeResource = (

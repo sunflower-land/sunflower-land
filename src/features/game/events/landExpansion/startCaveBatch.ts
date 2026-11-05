@@ -1,18 +1,19 @@
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import type { GameState } from "features/game/types/game";
-import { hasFeatureAccess } from "lib/flags";
 import {
   getCaveBatchCost,
   getCaveBatchDuration,
   getCaveBatchSkills,
   isCaveBuildingReady,
+  isFirstCaveBatch,
 } from "features/game/lib/cave";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getKeys } from "lib/object";
-import type {
-  CaveMudCropName,
-  CaveRecipeName,
+import {
+  CAVE_FIRST_BATCH_RECIPE,
+  type CaveMudCropName,
+  type CaveRecipeName,
 } from "features/game/types/caveRecipes";
 import { canRestartCaveBatch } from "features/game/types/cavePatch";
 
@@ -31,12 +32,12 @@ type Options = {
 };
 
 export enum START_CAVE_BATCH_ERRORS {
-  NO_FEATURE_ACCESS = "The Cave is not available for this player",
   NO_CAVE = "The Cave has not been built",
   NO_MACHINE = "That Myco Bin does not exist",
   BATCH_IN_PROGRESS = "That Myco Bin already has a batch",
   INVALID_CROP = "That crop cannot feed this batch",
   INSUFFICIENT_INGREDIENTS = "Not enough resources to start the batch",
+  FIRST_BATCH_MUSHROOM_ONLY = "A farm's first batch must be the Mushroom mix",
 }
 
 /**
@@ -53,10 +54,6 @@ export function startCaveBatch({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    if (!hasFeatureAccess(game, "CAVE")) {
-      throw new Error(START_CAVE_BATCH_ERRORS.NO_FEATURE_ACCESS);
-    }
-
     const cave = game.cave;
     if (!cave || !isCaveBuildingReady(game, createdAt)) {
       throw new Error(START_CAVE_BATCH_ERRORS.NO_CAVE);
@@ -71,6 +68,10 @@ export function startCaveBatch({
     // every Beetle is found the patch can be replaced; what is left is lost.
     if (machine.batch && !canRestartCaveBatch(machine.batch)) {
       throw new Error(START_CAVE_BATCH_ERRORS.BATCH_IN_PROGRESS);
+    }
+
+    if (isFirstCaveBatch(game) && action.recipe !== CAVE_FIRST_BATCH_RECIPE) {
+      throw new Error(START_CAVE_BATCH_ERRORS.FIRST_BATCH_MUSHROOM_ONLY);
     }
 
     const cost = getCaveBatchCost({
@@ -98,7 +99,10 @@ export function startCaveBatch({
 
     const { duration, boostsUsed: durationBoostsUsed } =
       getCaveBatchDuration(game);
-    const { skills, boostsUsed: boardBoostsUsed } = getCaveBatchSkills(game);
+    const { skills, boostsUsed: boardBoostsUsed } = getCaveBatchSkills(
+      game,
+      action.recipe,
+    );
 
     const startedAt = createdAt;
     machine.batch = {

@@ -136,11 +136,6 @@ const TelegramConnect: React.FC = () => {
           {!!startedBotAt && (
             <Button
               onClick={() => {
-                if (gameState.matches("investigating")) {
-                  window.location.reload();
-                  return;
-                }
-
                 // Trigger a no op save event to fetch API
                 gameService.send("kingdomChores.refreshed");
                 gameService.send("SAVE");

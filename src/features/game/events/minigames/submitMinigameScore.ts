@@ -72,6 +72,11 @@ export function submitMinigameScore({
       delete minigames.games[action.id]?.history[todayKey].prizeClaimedAt;
     }
 
+    // Tiered prizes pay out on the latest run, not today's best
+    if (prize?.tiers) {
+      minigames.games[action.id]!.history[todayKey].lastScore = action.score;
+    }
+
     return game;
   });
 }

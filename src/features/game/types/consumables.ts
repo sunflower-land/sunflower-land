@@ -388,17 +388,17 @@ export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
       Rhubarb: new Decimal(3),
     },
   },
-  // Chapter 16 — rides on the PIGPEN flag, see `isTruffleRecipe`
   "Ember-Roasted Truffle Potatoes": {
     name: "Ember-Roasted Truffle Potatoes",
     description: translate("description.emberRoastedTrufflePotatoes"),
     building: "Fire Pit",
-    experience: 15000,
-    cookingSeconds: 8 * 60 * 60,
+    // Beta uptake rebalance (2026-10-30): the Truffle ladder reads 1,000 /
+    // 2,000 / 4,000 XP per Truffle (Potatoes / Cake / Risotto).
+    experience: 1000,
+    cookingSeconds: 1 * 60 * 60,
     ingredients: {
-      Truffle: new Decimal(10),
-      Potato: new Decimal(50),
-      "Wild Mushroom": new Decimal(10),
+      Truffle: new Decimal(1),
+      Potato: new Decimal(30),
     },
   },
 };
@@ -727,18 +727,17 @@ export const KITCHEN_COOKABLES: Record<KitchenCookableName, Cookable> = {
       Cheese: new Decimal(3),
     },
   },
-  // Chapter 16 — rides on the PIGPEN flag, see `isTruffleRecipe`
   "Creamy Truffle Risotto": {
     name: "Creamy Truffle Risotto",
     description: translate("description.creamyTruffleRisotto"),
     building: "Kitchen",
-    experience: 35000,
-    cookingSeconds: 16 * 60 * 60,
+    // 4,000 XP per Truffle: the premium rung of the Truffle ladder.
+    experience: 32000,
+    cookingSeconds: 48 * 60 * 60,
     ingredients: {
-      Truffle: new Decimal(20),
-      Rice: new Decimal(10),
-      Milk: new Decimal(10),
-      "Wild Mushroom": new Decimal(10),
+      Truffle: new Decimal(8),
+      Rice: new Decimal(3),
+      "Wild Mushroom": new Decimal(5),
     },
   },
 };
@@ -947,13 +946,14 @@ export const BAKERY_COOKABLES: Record<BakeryCookableName, Cookable> = {
       Egg: new Decimal(40),
     },
   },
-  // Chapter 16 — rides on the PIGPEN flag, see `isTruffleRecipe`
   "Truffle Cake": {
     name: "Truffle Cake",
     description: translate("description.truffleCake"),
     building: "Bakery",
-    experience: 25000,
-    cookingSeconds: 12 * 60 * 60,
+    // 2,000 XP per Truffle: the volume sink (15 a bake). Matches the
+    // Lemon Cheesecake ceiling rather than passing it.
+    experience: 30000,
+    cookingSeconds: 26 * 60 * 60,
     ingredients: {
       Truffle: new Decimal(15),
       Wheat: new Decimal(30),
@@ -1251,23 +1251,6 @@ export const PIRATE_CAKE: Record<"Pirate Cake", Consumable> = {
     experience: 3000,
   },
 };
-
-/**
- * The Chapter 16 recipes that consume Truffle. Truffle only exists behind the
- * PIGPEN flag (Pigs produce it), so these ride on the same flag: hidden from the
- * cooking buildings and rejected by `cook` without it.
- */
-export const TRUFFLE_RECIPES = [
-  "Ember-Roasted Truffle Potatoes",
-  "Truffle Cake",
-  "Creamy Truffle Risotto",
-] as const satisfies readonly CookableName[];
-
-export type TruffleRecipeName = (typeof TRUFFLE_RECIPES)[number];
-
-export function isTruffleRecipe(name: string): name is TruffleRecipeName {
-  return (TRUFFLE_RECIPES as readonly string[]).includes(name);
-}
 
 export const FISH: Record<FishName, Consumable> = {
   Anchovy: {

@@ -214,19 +214,19 @@ describe("INITIAL_STOCK", () => {
     expect(INITIAL_STOCK(state)["Gold Pickaxe"]).toEqual(new Decimal(13));
   });
 
-  it("stocks 50 Sand Shovels and 10 Sand Drills without Tool Hoarder", () => {
+  it("stocks 125 Sand Shovels and 25 Sand Drills without Tool Hoarder", () => {
     expect(INITIAL_STOCK(ESTABLISHED_FARM)["Sand Shovel"]).toEqual(
-      new Decimal(50),
+      new Decimal(125),
     );
     expect(INITIAL_STOCK(ESTABLISHED_FARM)["Sand Drill"]).toEqual(
-      new Decimal(10),
+      new Decimal(25),
     );
   });
 
   it.each([
-    [1, 75, 15],
-    [2, 100, 20],
-    [3, 150, 30],
+    [1, 150, 30],
+    [2, 175, 35],
+    [3, 225, 45],
   ])(
     "Tool Hoarder rank %s stocks %s Sand Shovels and %s Sand Drills",
     (rank, shovels, drills) => {

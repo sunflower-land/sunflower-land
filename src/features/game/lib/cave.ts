@@ -2,12 +2,15 @@ import Decimal from "decimal.js-light";
 import type {
   BoostName,
   CaveBatchSkills,
+  CaveMachine,
   GameState,
   InventoryItemName,
 } from "features/game/types/game";
 import {
   CAVE_BATCH_DURATION_MS,
+  CAVE_FIRST_BATCH_DURATION_MS,
   getCaveBatchIngredients,
+  isCavePatchCleared,
   type CaveRecipeName,
 } from "features/game/types/caveRecipes";
 import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
@@ -26,6 +29,19 @@ export function isCaveBuildingReady(
   return (game.buildings.Cave ?? []).some(
     (building) => (building.readyAt ?? 0) <= now && !!building.coordinates,
   );
+}
+
+/**
+ * Whether a Myco Bin is waiting for a mix: it has never run a batch, or its
+ * last patch has been dug out. A growing or ready-to-dig batch is not idle.
+ */
+export function isCaveMachineIdle(machine: CaveMachine): boolean {
+  return !machine.batch || isCavePatchCleared(machine.batch);
+}
+
+/** Whether any Myco Bin in the Cave is waiting for a mix. */
+export function hasIdleCaveMachine(cave: GameState["cave"]): boolean {
+  return !!cave && Object.values(cave.machines).some(isCaveMachineIdle);
 }
 
 type BoostsUsed = { name: BoostName; value: string }[];
@@ -66,11 +82,33 @@ export function getCaveBatchCost({
   };
 }
 
-/** How long a Myco Bin batch grows: 12h, shortened by Rapid Mycelium. */
+/**
+ * Whether the next batch is the farm's first: no Myco Bin holds a batch and
+ * nothing has been dug. A batch only leaves its bin once its Beetles are dug,
+ * so a farm that has started one never passes this again.
+ */
+export function isFirstCaveBatch(
+  game: Pick<GameState, "cave" | "farmActivity">,
+): boolean {
+  const machines = Object.values(game.cave?.machines ?? {});
+  return (
+    !machines.some((machine) => machine.batch) &&
+    !game.farmActivity["Cave Tile Dug"]
+  );
+}
+
+/**
+ * How long a Myco Bin batch grows: 12h, shortened by Rapid Mycelium. A farm's
+ * first batch takes 10 minutes and ignores the skill.
+ */
 export function getCaveBatchDuration(game: GameState): {
   duration: number;
   boostsUsed: BoostsUsed;
 } {
+  if (isFirstCaveBatch(game)) {
+    return { duration: CAVE_FIRST_BATCH_DURATION_MS, boostsUsed: [] };
+  }
+
   const level = getSkillLevel(game.bumpkin.skills, "Rapid Mycelium");
   if (!level) return { duration: CAVE_BATCH_DURATION_MS, boostsUsed: [] };
 
@@ -85,7 +123,10 @@ export function getCaveBatchDuration(game: GameState): {
  * The board-shaping Cave skills a new batch is stamped with (Mushroom Bloom,
  * Beetle Nest, Rare Breeds). `skills` is undefined when the player has none.
  */
-export function getCaveBatchSkills(game: GameState): {
+export function getCaveBatchSkills(
+  game: GameState,
+  recipe: CaveRecipeName,
+): {
   skills?: CaveBatchSkills;
   boostsUsed: BoostsUsed;
 } {
@@ -102,7 +143,14 @@ export function getCaveBatchSkills(game: GameState): {
     });
   }
 
-  const nest = getSkillLevel(ranks, "Beetle Nest");
+  // Beetle Nest shapes only the Beetle recipe's board (beta uptake rebalance
+  // follow-up, 2026-10-30): free Beetle tiles on every Mud and Mushroom batch
+  // let a maxed cave out-feed the Slop system entirely - at +3 a batch across
+  // eight bins, Beetles alone covered a full farm's daily feeding XP. Scoped,
+  // the ceiling is ~60-75% of a full farm, so crop feeds stay necessary.
+  // Mushroom Bloom stays recipe-wide: Mushrooms carry no such economy.
+  const nest =
+    recipe === "Beetle" ? getSkillLevel(ranks, "Beetle Nest") : undefined;
   if (nest) {
     skills.extraBeetleTiles = SKILL_RANKS["Beetle Nest"].ranks[nest - 1];
     boostsUsed.push({

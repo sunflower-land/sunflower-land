@@ -89,6 +89,7 @@ import type {
 import type { FermentationProductName } from "./fermentationProducts";
 import type { SpiceRackProductName } from "./spiceRackProducts";
 import type { BeetleName } from "./beetles";
+import type { CaveTile } from "./cavePatch";
 import type { PickledCropName } from "./pickled";
 import { translate } from "lib/i18n/translate";
 import { capitalize } from "lib/utils/capitalize";
@@ -290,7 +291,8 @@ export type MutantChicken =
   | "Sleepy Chicken"
   | "Squid Chicken"
   | "Flamingo Chicken"
-  | "Ascended Chicken";
+  | "Ascended Chicken"
+  | "Mushroom Chicken";
 
 export type MutantCow =
   | "Mootant"
@@ -300,7 +302,8 @@ export type MutantCow =
   | "Astronaut Cow"
   | "Mermaid Cow"
   | "Spa Cow"
-  | "Ascended Cow";
+  | "Ascended Cow"
+  | "Ladybug Cow";
 
 export type MutantSheep =
   | "Toxic Tuft"
@@ -310,7 +313,8 @@ export type MutantSheep =
   | "Astronaut Sheep"
   | "Mermaid Sheep"
   | "Spa Sheep"
-  | "Ascended Sheep";
+  | "Ascended Sheep"
+  | "Beetle Sheep";
 
 export type MutantAnimal = MutantChicken | MutantCow | MutantSheep;
 
@@ -352,6 +356,8 @@ export type Coupons =
   | "April Fools Ticket 2026"
   | "Colors Token 2026"
   | "Colors Ticket 2026"
+  | "Halloween Token 2026"
+  | "Halloween Ticket 2026"
   | "Cheer"
   | "CluckCoin"
   | Keys
@@ -531,11 +537,21 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Ascension Age Raffle Ticket": {
     description: translate("description.ascensionAgeRaffleTicket"),
   },
+  "Duende Cap": { description: translate("description.duendeCap") },
+  "Cave Dwellers Raffle Ticket": {
+    description: translate("description.caveDwellersRaffleTicket"),
+  },
   "Colors Token 2026": {
     description: translate("description.colorsToken2026"),
   },
   "Colors Ticket 2026": {
     description: translate("description.colorsTicket2026"),
+  },
+  "Halloween Token 2026": {
+    description: translate("description.halloweenToken2025"),
+  },
+  "Halloween Ticket 2026": {
+    description: translate("description.halloweenTicket2025"),
   },
 };
 
@@ -1019,6 +1035,19 @@ export type BuildingProduct = {
    * flag — matching every other activity.
    */
   baseDurationMs?: number;
+  /**
+   * The building-oil boost (e.g. 0.4 = 40%) snapshotted when the recipe was queued
+   * on a clock-drain building. Presence = the recipe draws oil LAZILY from the tank
+   * while it cooks, at a speed of `1 / (1 - oilBoost)`. Absent on recipes whose oil
+   * was deducted up front and baked into their duration.
+   */
+  oilBoost?: number;
+  /**
+   * Oil the recipe burns per day of cooking work, snapshotted with `oilBoost`: the
+   * building's daily rate scaled up by any permanent cut to its duration, so the
+   * dish costs the same oil as a recipe whose oil is deducted up front.
+   */
+  oilRate?: number;
   requirements?: Inventory;
 };
 
@@ -1049,7 +1078,18 @@ export type PlacedItem = {
   cancelled?: Cancelled;
   crafting?: BuildingProduct[];
   processing?: BuildingProduct[];
+  /**
+   * Oil in the building's tank. On a clock-drain cooking building (`oilSettledAt`
+   * set) this is the level at `oilSettledAt` — a ledger, not the live level, which
+   * is derived (see `getCookingOilAt`).
+   */
   oil?: number;
+  /**
+   * The instant `oil` was last settled. Presence = the building burns oil by the
+   * clock while it cooks (cooking oil as a speed boost) rather than deducting it
+   * per recipe when queued.
+   */
+  oilSettledAt?: number;
   flipped?: boolean;
   /**
    * Weather-protection collectible (e.g. Tornado Pinwheel) consumed by its
@@ -1415,7 +1455,8 @@ export type BedName =
   | "Double Bed"
   | "Messy Bed"
   | "Salt Crystal Bed"
-  | "Cloud Bed";
+  | "Cloud Bed"
+  | "Spooky Bed";
 
 export type RecipeCraftableName =
   | "Cushion"
@@ -1613,6 +1654,11 @@ export type CommunityIsland = {
   };
 };
 
+export type MinigamePrizeTier = {
+  score: number;
+  items: Partial<Record<InventoryItemName, number>>;
+};
+
 export type MinigamePrize = {
   startAt: number;
   endAt: number;
@@ -1620,12 +1666,20 @@ export type MinigamePrize = {
   coins: number;
   items: Partial<Record<InventoryItemName, number>>;
   wearables: Wardrobe;
+  /**
+   * Ascending by score. When set, a claim pays the highest tier the latest
+   * run (`MinigameHistory.lastScore`) reached instead of `items`; `score` and
+   * `items` mirror the lowest tier.
+   */
+  tiers?: MinigamePrizeTier[];
 };
 
 export type MinigameHistory = {
   highscore: number;
   attempts: number;
   prizeClaimedAt?: number;
+  /** The latest run's score - only recorded while today's prize has tiers */
+  lastScore?: number;
 };
 
 export type Minigame = {
@@ -1914,7 +1968,7 @@ export type CaveBatch = {
    * `cave.batchStarted` returns.
    */
   seed?: string;
-  /** Dug tiles keyed "x,y"; what each held is derived from the seed. */
+  /** Dug tiles keyed "x,y", with what each held (see `CaveDugTile`). */
   dug?: Record<string, CaveDugTile>;
   /** The board-shaping Cave skills this batch started with. */
   skills?: CaveBatchSkills;
@@ -1934,7 +1988,13 @@ export type CaveBatchSkills = {
   beetleRarity?: Record<BeetleName, number>;
 };
 
-export type CaveDugTile = { dugAt: number };
+/**
+ * A dug tile. `tile` and `clue` are what the dig revealed, recorded because
+ * the undug part of the board is re-sampled on every dig (`revealCavePatch`).
+ * Tiles dug before boards were sampled have neither: they are read from the
+ * seed's board (`generateCavePatch`).
+ */
+export type CaveDugTile = { dugAt: number; tile?: CaveTile; clue?: number };
 
 /**
  * A Myco Bin machine inside the Cave. One is created with each tier; it
@@ -1952,20 +2012,41 @@ export type CaveConstruction = {
   readyAt: number;
 };
 
-/** The Goblin Cave Merchant's offers; see `CAVE_MERCHANT_OFFERS`. */
-export type CaveMerchantOfferId =
-  | "sand-drills"
-  | "truffles"
-  | "leather"
-  | "crimstone"
-  | "obsidian";
-
 /**
- * What the player has bought from the Goblin Cave Merchant, keyed by limit
- * period (the week key for now). Only the current period is kept.
+ * What the player has bought from the Goblin Cave Merchant: claims per offer
+ * slot, keyed by the visit index (`cave.merchantVisit.index`). Only the current
+ * visit is kept.
  */
 export type CaveMerchant = {
-  purchases: Record<string, Partial<Record<CaveMerchantOfferId, number>>>;
+  purchases: Record<string, Partial<Record<number, number>>>;
+};
+
+/** One trade the Goblin Cave Merchant offers this visit. */
+export type CaveMerchantOffer = {
+  /** 1-based; Cave tier N unlocks slots 1..N. */
+  slot: number;
+  cost: { item: InventoryItemName; amount: number };
+  reward: { item: InventoryItemName; amount: number };
+  /** Claims per player per visit. */
+  limit: number;
+  curiosity: boolean;
+};
+
+/**
+ * The Merchant's visit open (or last opened) when the farm was loaded, and
+ * its stock. Built by the API on every load and never saved, like Love
+ * Island's shop: how the stock is priced and rolled stays on the server.
+ */
+export type CaveMerchantVisitState = {
+  /** Visit 0 opens at launch. */
+  index: number;
+  opensAt: number;
+  closesAt: number;
+  nextOpensAt: number;
+  /** A long enough wait that this visit's deals are badged generous. */
+  generous: boolean;
+  /** All eight slots while he is in town, none while he is away. */
+  offers: CaveMerchantOffer[];
 };
 
 /**
@@ -1980,6 +2061,8 @@ export type Cave = {
   machines: Record<string, CaveMachine>;
   construction?: CaveConstruction;
   merchant?: CaveMerchant;
+  /** Computed by the API on load, never saved (see `CaveMerchantVisitState`). */
+  merchantVisit?: CaveMerchantVisitState;
 };
 
 export type PlantedFlower = {
@@ -2176,6 +2259,13 @@ export type Animal = {
    */
   awakeAt: number;
   lovedAt: number;
+  /**
+   * How many times the animal has been loved in its current sleep — two at
+   * most. Not reset on falling asleep: it only counts while `lovedAt` is at or
+   * after `asleepAt` (read it through `getLovesThisSleep`). Absent on animals
+   * last loved before the count existed.
+   */
+  lovesThisSleep?: number;
   item: LoveAnimalItem;
   /**
    * The sleep's un-boosted work with permanent boosts folded in. Present only on
@@ -2614,8 +2704,10 @@ export interface GameState {
 
   ban: {
     /**
-     * `lock` is a support hold. It blocks play like `investigating` does, but
-     * verifying socials or a face does not lift it - only support can.
+     * `lock` is a support hold and `investigating` a soft ban. Neither stops
+     * play; both stop value leaving the account (withdrawals, trades,
+     * transfers). Verifying socials and a face lifts a soft ban; only support
+     * lifts a lock.
      */
     status: "investigating" | "permanent" | "ok" | "lock";
     isSocialVerified?: boolean;

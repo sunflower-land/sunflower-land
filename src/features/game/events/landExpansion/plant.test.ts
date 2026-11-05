@@ -1585,7 +1585,7 @@ describe("plant", () => {
       expect(time).toEqual(baseHarvestSeconds * 0.925);
     });
 
-    it("neutralises a rank 3 Green Thumb on the Crystal Leaf event crop (x0.95, not x0.925)", () => {
+    it("applies a rank 3 Green Thumb to the Crystal Leaf event crop (x0.925)", () => {
       const baseHarvestSeconds = CROPS["Crystal Leaf"].harvestSeconds;
       const { time } = getCropPlotTime({
         crop: "Crystal Leaf",
@@ -1603,9 +1603,7 @@ describe("plant", () => {
         createdAt: dateNow,
       });
 
-      // Crystal Leaf (event crop) uses the rank-1 multiplier (x0.95); Corn above
-      // (a non-event crop) still gets the full rank-3 x0.925.
-      expect(time).toEqual(baseHarvestSeconds * 0.95);
+      expect(time).toEqual(baseHarvestSeconds * 0.925);
     });
 
     it("applies a +12.5% speed boost on advanced crops with rank 2 Strong Roots skill", () => {
@@ -1981,5 +1979,25 @@ describe("isPlotFertile", () => {
         island: "desert",
       }),
     ).toBe(false);
+  });
+});
+
+describe("Duende Hat", () => {
+  it("applies x0.9 crop plot growth time", () => {
+    const { time, boostsUsed } = getCropPlotTime({
+      crop: "Sunflower",
+      game: {
+        ...FARM_WITH_PLOTS,
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          equipped: { ...TEST_BUMPKIN.equipped, hat: "Duende Hat" },
+        },
+      },
+      plot: GAME_STATE.crops[firstId],
+      createdAt: Date.now(),
+    });
+
+    expect(time).toEqual(CROPS.Sunflower.harvestSeconds * 0.9);
+    expect(boostsUsed).toContainEqual({ name: "Duende Hat", value: "x0.9" });
   });
 });

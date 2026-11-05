@@ -266,7 +266,7 @@ export const WithdrawFlower: React.FC<Props> = ({
             {`${tax} ${t("fee")} `}
             <a
               className="underline hover:text-blue-500"
-              href="https://docs.sunflower-land.com/getting-started/crypto-and-digital-collectibles"
+              href="https://docs.sunflower-land.com/web3-and-economy/withdrawals"
               target="_blank"
               rel="noopener noreferrer"
             >

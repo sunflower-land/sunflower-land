@@ -54,11 +54,11 @@ const betaTimePeriodFeatureFlag =
   (game: GameState) =>
   (now: number) => {
     if (end === null) {
-      return betaFeatureFlag(game) || now > start.getTime();
+      return betaFeatureFlag(game) || now >= start.getTime();
     }
 
     return (
-      (betaFeatureFlag(game) || now > start.getTime()) && now < end.getTime()
+      (betaFeatureFlag(game) || now >= start.getTime()) && now < end.getTime()
     );
   };
 
@@ -76,24 +76,9 @@ export const TIME_BASED_FEATURE_FLAG_WINDOWS = {
     start: new Date("2026-05-11T00:00:00Z"),
     end: null,
   },
-  APRIL_FOOLS_EVENT_FLAG: {
-    start: new Date("2026-04-01T00:00:00Z"),
-    end: new Date("2026-04-08T00:00:00Z"),
-  },
-  COLORS_2026_EVENT_FLAG: {
-    start: new Date("2026-07-13T00:00:00Z"),
-    end: new Date("2026-07-23T00:00:00Z"),
-  },
-  RONIN_WAYPOINT_DEPRECATION: {
-    start: WAYPOINT_WALLET_ENDDATE,
-    end: null,
-  },
-  // Ascending from Swamp (A1) into the next island (Spooky, A2) unlocks on this
-  // date. Testnet bypasses. The first ascension (Volcano → Swamp / A0 → A1) is not
-  // time-gated — it unlocks on the standard level-150 / expansion / resource costs.
-  SPOOKY_ASCENSION: {
-    start: new Date("2026-09-07T00:00:00Z"),
-    end: null,
+  HALLOWEEN_2026_EVENT_FLAG: {
+    start: new Date("2026-10-26T00:00:00Z"),
+    end: new Date("2026-11-02T00:00:00Z"),
   },
   // Ascension Age chapter VIP perk: VIP holders expand their land 10% faster.
   // Live from Mon 10th Aug 2026 (when the chapter's tasks begin) until the
@@ -118,11 +103,7 @@ export const TIME_BASED_FEATURE_FLAGS: Record<
 > = {
   TICKETS_FROM_COIN_NPC: timePeriodFeatureFlag,
   TICKETS_FROM_FLOWER_NPC: timePeriodFeatureFlag,
-  APRIL_FOOLS_EVENT_FLAG: betaTimePeriodFeatureFlag,
-  RONIN_WAYPOINT_DEPRECATION: timePeriodFeatureFlag,
-  COLORS_2026_EVENT_FLAG: betaTimePeriodFeatureFlag,
-  // Testnet-only bypass before the date (not beta), so live testers can reach A2.
-  SPOOKY_ASCENSION: timePeriodFeatureFlag,
+  HALLOWEEN_2026_EVENT_FLAG: betaTimePeriodFeatureFlag,
   ASCENSION_AGE_VIP_EXPANSION: timePeriodFeatureFlag,
 };
 
@@ -169,25 +150,6 @@ const FEATURE_FLAGS = {
     (game.wardrobe["Streamer Hat"] ?? 0) > 0 || testnetFeatureFlag(),
 
   // Temporary Feature Flags
-
-  /**
-   * Chapter 16's Pigpen building and the Pig animal. Remove once Chapter 16
-   * ships and the Pigpen gates on its own unlock level instead.
-   */
-  PIGPEN: usernameFeatureFlag,
-
-  /**
-   * Chapter 16's Cave: the Cave building in the Workbench shop and the `/cave`
-   * interior room. Remove once Chapter 16 ships and the Cave gates on its own
-   * unlock instead.
-   */
-  CAVE: usernameFeatureFlag,
-
-  /**
-   * Chapter 16's direct Beetle feeding: a Beetle fed straight to an animal.
-   * Remove once Chapter 16 ships.
-   */
-  BEETLE_FEEDING: usernameFeatureFlag,
 
   FACE_RECOGNITION_TEST: betaFeatureFlag,
   // The developer-options button that forces a captcha on your own farm

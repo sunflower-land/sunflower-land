@@ -19,7 +19,9 @@ import {
 } from "features/farming/hud/lib/animations";
 import {
   cacheEnableQuickSelectSetting,
+  cacheShowFullMoonSeedsInQuickSelectSetting,
   getEnableQuickSelectSetting,
+  getShowFullMoonSeedsInQuickSelectSetting,
 } from "features/farming/hud/lib/quickSelect";
 import {
   cacheShowTimersSetting,
@@ -42,6 +44,8 @@ interface GameContext {
   toggleAnimations: () => void;
   enableQuickSelect: boolean;
   toggleQuickSelect: () => void;
+  showFullMoonSeedsInQuickSelect: boolean;
+  toggleFullMoonSeedsInQuickSelect: () => void;
   showTimers: boolean;
   toggleTimers: () => void;
   fromRoute?: string;
@@ -106,6 +110,8 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
   const [enableQuickSelect, setEnableQuickSelect] = useState<boolean>(
     getEnableQuickSelectSetting(),
   );
+  const [showFullMoonSeedsInQuickSelect, setShowFullMoonSeedsInQuickSelect] =
+    useState<boolean>(getShowFullMoonSeedsInQuickSelectSetting());
   const [showTimers, setShowTimers] = useState<boolean>(getShowTimersSetting());
   const [fromRoute, setFromRoute] = useState<string | undefined>();
 
@@ -153,6 +159,13 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
     cacheEnableQuickSelectSetting(newValue);
   };
 
+  const toggleFullMoonSeedsInQuickSelect = () => {
+    const newValue = !showFullMoonSeedsInQuickSelect;
+
+    setShowFullMoonSeedsInQuickSelect(newValue);
+    cacheShowFullMoonSeedsInQuickSelectSetting(newValue);
+  };
+
   const toggleTimers = () => {
     const newValue = !showTimers;
 
@@ -174,6 +187,8 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
         toggleAnimations,
         enableQuickSelect,
         toggleQuickSelect,
+        showFullMoonSeedsInQuickSelect,
+        toggleFullMoonSeedsInQuickSelect,
         showTimers,
         toggleTimers,
         fromRoute,

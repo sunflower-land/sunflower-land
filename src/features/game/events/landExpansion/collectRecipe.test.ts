@@ -1,5 +1,6 @@
 import { TEST_FARM } from "features/game/lib/constants";
 import type {
+  BuildingProduct,
   CriticalHitName,
   GameState,
   PlacedItem,
@@ -743,5 +744,55 @@ describe("collect Recipes", () => {
 
       expect(state.boostsUsedAt).toBeUndefined();
     });
+  });
+});
+
+describe("collectRecipe (oil by the clock)", () => {
+  const HOUR = 60 * 60 * 1000;
+  const T0 = Date.now();
+
+  const lazy = (fields: Partial<BuildingProduct>): BuildingProduct => ({
+    name: "Fermented Fish",
+    oilBoost: 0.4,
+    readyAt: 0,
+    ...fields,
+  });
+
+  const deliFarm = (base: GameState, deli: Partial<PlacedItem>): GameState => ({
+    ...base,
+    buildings: {
+      Deli: [
+        {
+          id: "1",
+          coordinates: { x: 0, y: 0 },
+          createdAt: 0,
+          readyAt: 0,
+          oil: 20,
+          oilSettledAt: T0,
+          ...deli,
+        },
+      ],
+    },
+  });
+
+  it("keeps the oil a collected recipe burned out of the tank", () => {
+    const state = collectRecipe({
+      farmId: 1,
+      state: deliFarm(GAME_STATE, {
+        crafting: [
+          lazy({ startedAt: T0, baseDurationMs: 6 * HOUR }),
+          lazy({ baseDurationMs: 6 * HOUR }),
+        ],
+      }),
+      action: { type: "recipes.collected", building: "Deli", buildingId: "1" },
+      createdAt: T0 + 5 * HOUR,
+    });
+
+    const deli = state.buildings.Deli?.[0];
+    // The first fish took 3.6h; the second has cooked for 1.4h since. 5h of
+    // cooking at 20 a day is 4 oil.
+    expect(deli?.oil).toBeCloseTo(16 - 1 / 6);
+    expect(deli?.crafting).toHaveLength(1);
+    expect(deli?.crafting?.[0].readyAt).toEqual(T0 + 7.2 * HOUR);
   });
 });

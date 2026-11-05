@@ -26,7 +26,7 @@ const Login: React.FC<{ screen: "signin" | "signup" }> = ({ screen }) => {
           />
         </a>
         <a
-          href="https://docs.sunflower-land.com/getting-started/how-to-start"
+          href="https://docs.sunflower-land.com/start-here/how-to-start"
           target="_blank"
           rel="noopener noreferrer"
           className="underline text-base font-secondary"

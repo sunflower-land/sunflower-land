@@ -53,7 +53,10 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { isMobile } from "mobile-device-detect";
-import { SICK_ANIMAL_REWARD_MULTIPLIER } from "features/game/lib/animals";
+import {
+  MUD_XP_MULTIPLIER,
+  SICK_ANIMAL_REWARD_MULTIPLIER,
+} from "features/game/lib/animals";
 import { formatNumber } from "lib/utils/formatNumber";
 import { SquareIcon } from "components/ui/SquareIcon";
 
@@ -224,6 +227,16 @@ export const AnimalBuildingModal: React.FC<Props> = ({
       icon: SUNNYSIDE.animalFoods.barn_delight,
       text: t("animals.guide.sickness"),
     },
+    ...(buildingName === "Pigpen"
+      ? [
+          {
+            icon: ITEM_DETAILS.Mud.image,
+            text: t("animals.guide.mud", {
+              percent: Math.round((MUD_XP_MULTIPLIER - 1) * 100),
+            }),
+          },
+        ]
+      : []),
     {
       icon: SUNNYSIDE.icons.death,
       text: t("animals.guide.bounties", {

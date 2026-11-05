@@ -203,11 +203,11 @@ export const INITIAL_STOCK = (
   }
 
   const treasureTools: Record<TreasureToolName, Decimal> = {
-    "Sand Shovel": new Decimal(50),
-    "Sand Drill": new Decimal(10),
+    "Sand Shovel": new Decimal(125),
+    "Sand Drill": new Decimal(25),
   };
 
-  // Tool Hoarder: +50% / +100% / +200% Sand Shovel & Sand Drill stock
+  // Tool Hoarder: +25/+50/+100 Sand Shovel & +5/+10/+20 Sand Drill stock
   const toolHoarderLevel = state?.bumpkin
     ? getSkillLevel(state.bumpkin.skills, "Tool Hoarder")
     : 0;
