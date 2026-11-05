@@ -186,7 +186,7 @@ export const BuildingOilTank: React.FC<OilTankProps> = ({
                     type={oilInTank < 10 ? "error" : "quantity"}
                     outerDimensions={{ width: 40, height: 8 }}
                   />
-                  <div className="flex">
+                  <div className="flex flex-col">
                     <div className="text-xs">
                       {/* A clock-drain tank only burns while something cooks, so
                           a runtime would sit still whenever the building is idle:
@@ -204,6 +204,14 @@ export const BuildingOilTank: React.FC<OilTankProps> = ({
                             }),
                           })}
                     </div>
+                    {tank?.byTheClock &&
+                      tank.afterQueue < oilRemainingInBuilding - 0.005 && (
+                        <div className="text-xxs">
+                          {t("cooking.building.oil.afterQueue", {
+                            oil: formatOil(tank.afterQueue),
+                          })}
+                        </div>
+                      )}
                   </div>
                 </div>
               </div>

@@ -24,6 +24,9 @@ import { hasFeatureAccess } from "lib/flags";
  *
  * - `level`: oil in the tank. A clock-drain building's stored `oil` is the level at
  *   its last settle, so the live level is derived from the queue.
+ * - `afterQueue`: what the tank will hold once the queue has cooked, so the oil a
+ *   queued dish has committed shows the moment it is queued. Equal to `level` on a
+ *   building that deducts per recipe, which has already paid.
  * - `capacity`: the most oil the tank holds.
  * - `ratePerDay`: oil burned per day of recipe time, whether the building burns it
  *   as it cooks (clock drain) or deducts it per recipe.
@@ -46,17 +49,20 @@ export const getCookingOilTank = ({
   const oil = building && getCookingOil({ building, buildingName });
   const byTheClock =
     oil !== undefined || hasFeatureAccess(game, "SPEED_BOOSTS");
-
-  return {
-    byTheClock,
-    level: oil
+  const levelAt = (when: number) =>
+    oil
       ? getCookingOilAt({
           crafting: building?.crafting ?? [],
           windows: getCookingBoostWindows(game),
           oil,
-          at,
+          at: when,
         })
-      : (building?.oil ?? 0),
+      : (building?.oil ?? 0);
+
+  return {
+    byTheClock,
+    level: levelAt(at),
+    afterQueue: levelAt(Infinity),
     capacity: byTheClock
       ? COOKING_OIL_CAPACITY[buildingName]
       : BUILDING_DAILY_OIL_CAPACITY[buildingName],
