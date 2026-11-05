@@ -9,8 +9,8 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { setPrecision } from "lib/utils/formatNumber";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
+import { secondsToString } from "lib/utils/time";
 
-const DAY_MS = 24 * 60 * 60 * 1000;
 const CORNER_PX = PIXEL_SCALE * 8;
 // Push the corner brackets slightly outside the panel edges (like the Box).
 const CORNER_INSET = PIXEL_SCALE * 1;
@@ -22,7 +22,7 @@ const LABEL_TOP_SHIFT_PX = -5 * PIXEL_SCALE;
  * A full-width "special event" panel used across the market (buy/sell) and the
  * Fire Pit to surface a limited-time crop / recipe. Uses the same background as
  * the marketplace cards ({@link ButtonPanel}). Shows the item icon on the left,
- * a title with a days-remaining countdown, the amount owned in the top-right
+ * a title with a time-remaining countdown, the amount owned in the top-right
  * (like a Box), and a select-box border on hover / when selected.
  */
 export const SpecialEventPanel: React.FC<{
@@ -37,10 +37,11 @@ export const SpecialEventPanel: React.FC<{
   const now = useNow({ live: true, autoEndAt: endDate.getTime() });
   const [isHover, setIsHover] = useState(false);
 
-  const daysRemaining = Math.max(
-    0,
-    Math.ceil((endDate.getTime() - now) / DAY_MS),
-  );
+  // Largest unit only ("3days", "23hrs", "5mins"), so the final day counts
+  // down instead of sitting on "1 day". `time.remaining` is a full localized
+  // phrase; `time.left` is translated as the direction in several locales.
+  const secondsLeft = Math.max(0, (endDate.getTime() - now) / 1000);
+  const timeLeft = secondsToString(secondsLeft, { length: "short" });
 
   const showSelectBox = isSelected || (isHover && !isMobile);
 
@@ -65,7 +66,7 @@ export const SpecialEventPanel: React.FC<{
                 alt="timer"
               />
               <span className="text-xxs">
-                {t("chapterCropWeek.daysRemaining", { days: daysRemaining })}
+                {t("time.remaining", { time: timeLeft })}
               </span>
             </div>
           </div>

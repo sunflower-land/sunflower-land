@@ -67,6 +67,21 @@ function getWormAdjustment(state: GameState): WormBoost {
   return { delta, boostsUsed };
 }
 
+// Multiplies the base worm amount, so it's applied before the additive boosts
+function getWormBaseMultiplier(state: GameState): {
+  multiplier: number;
+  boostsUsed: { name: BoostName; value: string }[];
+} {
+  if (isCollectibleBuilt({ name: "Straw House", game: state })) {
+    return {
+      multiplier: 3,
+      boostsUsed: [{ name: "Straw House", value: "x3" }],
+    };
+  }
+
+  return { multiplier: 1, boostsUsed: [] };
+}
+
 export function getWormRange({
   state,
   building,
@@ -80,11 +95,13 @@ export function getWormRange({
 } {
   const { worm } = composterDetails[building];
   const amounts = WORM_AMOUNTS[worm];
+  const { multiplier, boostsUsed: baseBoostsUsed } =
+    getWormBaseMultiplier(state);
   const { delta, boostsUsed } = getWormAdjustment(state);
   return {
-    min: Math.max(0, Math.min(...amounts) + delta),
-    max: Math.max(0, Math.max(...amounts) + delta),
-    boostsUsed,
+    min: Math.max(0, Math.min(...amounts) * multiplier + delta),
+    max: Math.max(0, Math.max(...amounts) * multiplier + delta),
+    boostsUsed: [...baseBoostsUsed, ...boostsUsed],
   };
 }
 
@@ -110,10 +127,12 @@ export function rollWormAmount({
     counter,
     criticalHitName: "Native",
   });
-  const base = amounts[Math.floor(roll * amounts.length)];
+  const { multiplier, boostsUsed: baseBoostsUsed } =
+    getWormBaseMultiplier(state);
+  const base = amounts[Math.floor(roll * amounts.length)] * multiplier;
   const { delta, boostsUsed } = getWormAdjustment(state);
   return {
     worms: Math.max(0, base + delta),
-    boostsUsed,
+    boostsUsed: [...baseBoostsUsed, ...boostsUsed],
   };
 }

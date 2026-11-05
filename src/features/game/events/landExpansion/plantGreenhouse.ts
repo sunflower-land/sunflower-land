@@ -222,6 +222,11 @@ export const getGreenhouseCropTime = ({
     boostsUsed.push({ name: "Vine Velocity", value: `x${m}` });
   }
 
+  if (crop === "Grape" && isWearableActive({ name: "Antique Dress", game })) {
+    seconds *= 0.7;
+    boostsUsed.push({ name: "Antique Dress", value: "x0.7" });
+  }
+
   if (!windowed && greenhouseFertiliser === "Greenhouse Glow") {
     seconds *= 0.8;
     boostsUsed.push({ name: "Greenhouse Glow", value: "x0.8" });

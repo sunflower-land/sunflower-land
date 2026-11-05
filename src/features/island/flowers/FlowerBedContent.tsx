@@ -1,6 +1,9 @@
 import React, { useContext, useState } from "react";
 
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  getTranslatedItemName,
+  ITEM_DETAILS,
+} from "features/game/types/images";
 import { Label } from "components/ui/Label";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
@@ -168,7 +171,9 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
                   className="h-4 mr-1"
                 />
                 <span className="text-xs">
-                  {resultFlower ?? "Unknown combination"}
+                  {resultFlower
+                    ? getTranslatedItemName(resultFlower)
+                    : t("flowerBedContent.unknownCombination")}
                 </span>
               </div>
             )}
@@ -297,7 +302,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
               <div className="space-y-1">
                 <div className="flex justify-between items-center">
                   <Label type="default" icon={ITEM_DETAILS[seed].image}>
-                    {seed}
+                    {getTranslatedItemName(seed)}
                   </Label>
                   {hasSeedRequirements ? (
                     <Label type={"info"} icon={SUNNYSIDE.icons.stopwatch}>
@@ -306,7 +311,12 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
                       })}
                     </Label>
                   ) : (
-                    <Label type={"danger"}>{`1 ${seed} required`}</Label>
+                    <Label type={"danger"}>
+                      {t("flowerBedContent.required", {
+                        amount: 1,
+                        item: getTranslatedItemName(seed),
+                      })}
+                    </Label>
                   )}
                 </div>
                 <p className="text-xs">{FLOWER_SEEDS[seed].description}</p>
@@ -319,7 +329,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
           <>
             <div className="flex flex-wrap items-center gap-x-1 gap-y-1 mb-1">
               <Label type="default" icon={ITEM_DETAILS[seed].image}>
-                {seed}
+                {getTranslatedItemName(seed)}
               </Label>
               <span className="text-xs">{"+"}</span>
               <Label type="default">
@@ -348,11 +358,16 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
               <div>
                 <div className="flex justify-between items-center mb-1">
                   <Label type="default" icon={ITEM_DETAILS[crossbreed].image}>
-                    {crossbreed}
+                    {getTranslatedItemName(crossbreed)}
                   </Label>
                   <Label
                     type={!hasCrossbreedRequirements ? "danger" : "default"}
-                  >{`${FLOWER_CROSS_BREED_AMOUNTS[seed][crossbreed]} ${crossbreed} required`}</Label>
+                  >
+                    {t("flowerBedContent.required", {
+                      amount: FLOWER_CROSS_BREED_AMOUNTS[seed][crossbreed] ?? 0,
+                      item: getTranslatedItemName(crossbreed),
+                    })}
+                  </Label>
                 </div>
                 <p className="text-xs mt-1">
                   {FLOWER_CROSS_BREED_DETAILS[crossbreed]}
@@ -372,7 +387,8 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
         }
         onClick={() => plant()}
       >
-        {t("plant")} {resultFlower ?? "Flower"}
+        {t("plant")}{" "}
+        {resultFlower ? getTranslatedItemName(resultFlower) : t("crops.flower")}
       </Button>
     </>
   );

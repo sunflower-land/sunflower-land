@@ -17,6 +17,10 @@ import {
   type PetNFTs,
 } from "features/game/types/pets";
 import { getPetImage } from "features/island/pets/lib/petShared";
+import {
+  getPetCategoryLabel,
+  getPetTypeLabel,
+} from "features/island/pets/lib/petLabels";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
 
@@ -84,21 +88,21 @@ export const PetInfo: React.FC<Props> = ({ petData, children, nftPets }) => {
           {/* Pet Type and Categories */}
           <div className="flex flex-wrap gap-1 mb-2">
             <Label type="info" className="text-xs">
-              {type ?? "Unknown type"}
+              {type ? getPetTypeLabel(type) : t("pets.unknownType")}
             </Label>
             {petCategory && (
               <>
                 <Label type="chill" className="text-xs">
-                  {petCategory.primary}
+                  {getPetCategoryLabel(petCategory.primary)}
                 </Label>
                 {petCategory.secondary && (
                   <Label type="formula" className="text-xs">
-                    {petCategory.secondary}
+                    {getPetCategoryLabel(petCategory.secondary)}
                   </Label>
                 )}
                 {petCategory.tertiary && (
                   <Label type="vibrant" className="text-xs">
-                    {petCategory.tertiary}
+                    {getPetCategoryLabel(petCategory.tertiary)}
                   </Label>
                 )}
               </>
@@ -108,7 +112,7 @@ export const PetInfo: React.FC<Props> = ({ petData, children, nftPets }) => {
           {/* Level and Experience */}
           <div className="flex flex-row gap-3 mb-2">
             <Label type="transparent" className="text-xs" icon={levelUp}>
-              {`Lvl ${level}`}
+              {t("level.short", { level })}
             </Label>
             {/* Energy */}
             <Label

@@ -17,7 +17,7 @@ import { Flowers } from "./pages/Flowers";
 import { Deliveries } from "./pages/Deliveries";
 import { ChoreBoard } from "./pages/ChoreBoard";
 import { FactionLeaderboard } from "./pages/FactionLeaderboard";
-import { ChapterCollections } from "./pages/ChapterCollections";
+import { Collections } from "./pages/Collections";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
@@ -265,7 +265,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               />
             )}
             {currentTab === "Collections" && (
-              <ChapterCollections state={state} onClose={onHide} />
+              <Collections state={state} onClose={onHide} />
             )}
             {currentTab === "Marks" && faction && (
               <FactionLeaderboard

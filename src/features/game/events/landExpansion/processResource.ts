@@ -16,6 +16,7 @@ import { translate } from "lib/i18n/translate";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import type { ProcessingBuildingName } from "features/game/types/buildings";
 import { isWearableActive } from "features/game/lib/wearables";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export function getFishProcessingTime(
@@ -28,6 +29,11 @@ export function getFishProcessingTime(
   if (isWearableActive({ game, name: "Bubble Aura" })) {
     reducedMs *= 0.8;
     boostsUsed.push({ name: "Bubble Aura", value: "x0.8" });
+  }
+
+  if (isCollectibleBuilt({ name: "Cyclops Bloom", game })) {
+    reducedMs *= 0.8;
+    boostsUsed.push({ name: "Cyclops Bloom", value: "x0.8" });
   }
 
   return { reducedMs, boostsUsed };

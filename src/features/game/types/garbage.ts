@@ -44,6 +44,8 @@ export type GarbageName =
       | "April Fools Ticket 2026"
       | "Colors Token 2026"
       | "Colors Ticket 2026"
+      | "Halloween Token 2026"
+      | "Halloween Ticket 2026"
       | ClutterName
     >
   | Extract<BumpkinItem, "Basic Hair">;
@@ -229,6 +231,14 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
     gems: 0,
   },
   "Colors Ticket 2026": {
+    sellPrice: 1,
+    gems: 0,
+  },
+  "Halloween Token 2026": {
+    sellPrice: 1,
+    gems: 0,
+  },
+  "Halloween Ticket 2026": {
     sellPrice: 1,
     gems: 0,
   },

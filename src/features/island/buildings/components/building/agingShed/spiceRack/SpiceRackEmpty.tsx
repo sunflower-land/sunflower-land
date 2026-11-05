@@ -20,7 +20,10 @@ import {
   getSpiceRackOutput,
 } from "features/game/types/agingFormulas";
 import type { GameState, InventoryItemName } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { mergeBasketAndChestInventory } from "features/island/hud/components/inventory/utils/inventory";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useVisiting } from "lib/utils/visitUtils";
@@ -63,7 +66,6 @@ export const SpiceRackEmpty: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const { isVisiting } = useVisiting();
   const [showIngredients, setShowIngredients] = useState(false);
-  const skills = gameState.bumpkin.skills;
 
   const recipeDef = selectedRecipeId
     ? getSpiceRackRecipe(selectedRecipeId)
@@ -100,7 +102,7 @@ export const SpiceRackEmpty: React.FC<Props> = ({
             icon={selectedRecipeId && ITEM_DETAILS[selectedRecipeId]?.image}
           >
             {selectedRecipeId
-              ? `${selectedRecipeId}${recipeOutputQuantity ? ` x ${recipeOutputQuantity.toString()}` : ""}`
+              ? `${getTranslatedItemName(selectedRecipeId)}${recipeOutputQuantity ? ` x ${recipeOutputQuantity.toString()}` : ""}`
               : t("agingShed.spice.selectRecipe")}
           </Label>
           {selectedRecipeId && (
@@ -189,7 +191,10 @@ export const SpiceRackEmpty: React.FC<Props> = ({
             selectedRecipeId === "Refined Salt" &&
             getRefinedSaltChance(gameState) > 0 && (
               <Label type="vibrant" className="text-xxs mx-2 mb-1">
-                {`${getRefinedSaltChance(gameState)}% Chance of +1 Refined Salt `}
+                {t("agingShed.spice.bonusChance", {
+                  chance: getRefinedSaltChance(gameState),
+                  item: getTranslatedItemName("Refined Salt"),
+                })}
               </Label>
             )}
 

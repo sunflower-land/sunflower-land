@@ -6,6 +6,7 @@ import type {
   BuildingProduct,
   CraftingQueueItem,
   GameState,
+  PlacedItem,
 } from "../../types/game";
 import { getAnimalReadyAt } from "../../lib/animals";
 import { getNextLoveAvailableAt, isAnimalNeedingLove } from "./loveAnimal";
@@ -1501,6 +1502,95 @@ describe("Place building", () => {
     );
     expect(isAnimalNeedingLove(animal, readyAt - 1, readyAt)).toBe(false);
   });
+
+  // The lift shifts the sleep but not the shrine's window, so a sleep the shrine
+  // runs out during loses coverage and wakes later; a third of it grows with it.
+  it("does not grant an extra love slot when the lift costs a shrine's coverage", () => {
+    const HOUR = 60 * 60 * 1000;
+    const SLEEP = 24 * HOUR;
+    const asleepAt = dateNow - 30 * HOUR;
+    const base: GameState = {
+      ...GAME_STATE,
+      inventory: {
+        "Basic Land": new Decimal(10),
+        "Hen House": new Decimal(1),
+      },
+      henHouse: {
+        level: 1,
+        animals: {
+          "123": {
+            type: "Chicken",
+            id: "123",
+            state: "idle",
+            createdAt: asleepAt,
+            experience: 1000,
+            asleepAt,
+            awakeAt: asleepAt + SLEEP,
+            baseDurationMs: SLEEP,
+            lovedAt: 0,
+            item: "Brush",
+          },
+        },
+      },
+    };
+    // The shrine runs out 12h into the sleep.
+    base.collectibles = {
+      "Bantam Shrine": [
+        {
+          id: "b",
+          createdAt:
+            asleepAt + 12 * HOUR - getExpiryCooldown("Bantam Shrine", base),
+          readyAt: 0,
+          coordinates: { x: 5, y: 5 },
+        },
+      ],
+    };
+    const third =
+      (getAnimalReadyAt(base.henHouse.animals["123"], base) - asleepAt) / 3;
+    const liftedAt = asleepAt + 2 * third;
+
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...base,
+        buildings: {
+          "Hen House": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              removedAt: liftedAt,
+            },
+          ],
+        },
+        henHouse: {
+          ...base.henHouse,
+          animals: {
+            "123": {
+              ...base.henHouse.animals["123"],
+              // Both slots spent.
+              lovedAt: liftedAt,
+              lovesThisSleep: 2,
+            },
+          },
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Hen House",
+        id: "123",
+        coordinates: { x: 0, y: 1 },
+      },
+      createdAt: liftedAt + 2 * HOUR,
+    });
+
+    const animal = state.henHouse.animals["123"];
+    const readyAt = getAnimalReadyAt(animal, state);
+
+    expect(getNextLoveAvailableAt(animal, readyAt)).toBeGreaterThanOrEqual(
+      readyAt,
+    );
+  });
 });
 
 describe("placeBuilding (windowed crop machine)", () => {
@@ -1593,5 +1683,64 @@ describe("placeBuilding (windowed crop machine)", () => {
     const pack = state.buildings["Crop Machine"]?.[0]?.queue?.[0];
     // Finalised history is never shifted forward.
     expect(pack?.readyAt).toBe(at - 3 * HOUR);
+  });
+});
+
+describe("placeBuilding (cooking oil by the clock)", () => {
+  const HOUR = 60 * 60 * 1000;
+  const T0 = Date.now();
+
+  const lazy = (fields: Partial<BuildingProduct>): BuildingProduct => ({
+    name: "Fermented Fish",
+    oilBoost: 0.4,
+    readyAt: 0,
+    ...fields,
+  });
+
+  const deliFarm = (base: GameState, deli: Partial<PlacedItem>): GameState => ({
+    ...base,
+    buildings: {
+      Deli: [
+        {
+          id: "1",
+          coordinates: { x: 0, y: 0 },
+          createdAt: 0,
+          readyAt: 0,
+          oil: 20,
+          oilSettledAt: T0,
+          ...deli,
+        },
+      ],
+    },
+  });
+
+  it("neither cooks nor burns oil while the building is lifted", () => {
+    const state = placeBuilding({
+      state: {
+        ...deliFarm(
+          { ...GAME_STATE, inventory: { Deli: new Decimal(1) } },
+          {
+            coordinates: undefined,
+            removedAt: T0 + 3 * HOUR,
+            crafting: [lazy({ startedAt: T0, baseDurationMs: 10 * HOUR })],
+          },
+        ),
+      },
+      action: {
+        type: "building.placed",
+        name: "Deli",
+        id: "1",
+        coordinates: { x: 0, y: 0 },
+      },
+      createdAt: T0 + 10 * HOUR,
+      farmId: 1,
+    });
+
+    const deli = state.buildings.Deli?.[0];
+    // 3h cooked before the lift burned 2.5 oil; the 7h lifted burned nothing.
+    expect(deli?.oil).toBeCloseTo(17.5);
+    expect(deli?.oilSettledAt).toEqual(T0 + 10 * HOUR);
+    // 3h on oil did 5h of the 10h; the other 5h take 3h on oil from the placement.
+    expect(deli?.crafting?.[0].readyAt).toEqual(T0 + 13 * HOUR);
   });
 });

@@ -385,4 +385,81 @@ describe("minigame.prizeClaimed", () => {
       petXP: 0,
     });
   });
+
+  describe("tiered prizes", () => {
+    const date = new Date("2026-10-27T12:00:00Z");
+    const dateKey = date.toISOString().substring(0, 10);
+    const prize = {
+      coins: 0,
+      startAt: date.getTime() - 1000,
+      endAt: date.getTime() + 1000,
+      items: { "Halloween Token 2026": 50 },
+      wearables: {},
+      score: 2000,
+      tiers: [
+        { score: 2000, items: { "Halloween Token 2026": 50 } },
+        { score: 5000, items: { "Halloween Token 2026": 100 } },
+        { score: 10000, items: { "Halloween Token 2026": 150 } },
+        { score: 25000, items: { "Halloween Token 2026": 200 } },
+      ],
+    };
+
+    const claim = ({
+      lastScore,
+      highscore = lastScore ?? 0,
+    }: {
+      lastScore?: number;
+      highscore?: number;
+    }) =>
+      claimMinigamePrize({
+        state: {
+          ...TEST_FARM,
+          inventory: {},
+          minigames: {
+            games: {
+              "halloween-2026-game-2": {
+                highscore,
+                history: { [dateKey]: { attempts: 1, highscore, lastScore } },
+              },
+            },
+            prizes: { "halloween-2026-game-2": prize },
+          },
+        },
+        action: { id: "halloween-2026-game-2", type: "minigame.prizeClaimed" },
+        createdAt: date.getTime(),
+      });
+
+    it.each([
+      [2000, 50],
+      [4999, 50],
+      [5000, 100],
+      [15000, 150],
+      [25000, 200],
+      [90000, 200],
+    ])("pays the tier a %i run reached (%i tokens)", (lastScore, tokens) => {
+      const state = claim({ lastScore });
+
+      expect(state.inventory["Halloween Token 2026"]).toEqual(
+        new Decimal(tokens),
+      );
+    });
+
+    it("refuses a run below the lowest tier", () => {
+      expect(() => claim({ lastScore: 1999 })).toThrow(
+        "Score 1999 is less than 2000",
+      );
+    });
+
+    it("pays the latest run, not today's best", () => {
+      const state = claim({ lastScore: 4000, highscore: 25000 });
+
+      expect(state.inventory["Halloween Token 2026"]).toEqual(new Decimal(50));
+    });
+
+    it("refuses a claim with no recorded run", () => {
+      expect(() => claim({ highscore: 25000 })).toThrow(
+        "Score 0 is less than 2000",
+      );
+    });
+  });
 });

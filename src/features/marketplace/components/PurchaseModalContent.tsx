@@ -66,7 +66,7 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
       ? 0
       : calculateTradePoints({
           sfl: price,
-          points: listing.type === "instant" ? 2 : 4,
+          points: 2,
         }).multipliedPoints;
 
   // Buying is a trade, so a hold stops it here rather than at the API. Gated

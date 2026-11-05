@@ -5,6 +5,7 @@ import { sdk } from "@farcaster/miniapp-sdk";
 import { initialiseFont } from "./fonts";
 import { initialiseCustomCursor } from "./customCursor";
 import { initMetaPixel } from "lib/analytics/meta";
+import { captureTouch } from "lib/analytics/attribution";
 import { MoonForgeAnalytics } from "lib/moonforge";
 import { MOONFORGE_GAME_ID } from "lib/moonforgeAnalytics";
 
@@ -44,6 +45,9 @@ export async function initialise() {
 
   initialiseFont();
   initialiseCustomCursor();
+  // Before the Pixel: the landing URL's ad parameters are recorded even when
+  // consent keeps the Pixel off.
+  captureTouch();
   initMetaPixel();
   initMoonForge();
 

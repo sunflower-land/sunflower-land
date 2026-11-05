@@ -7,6 +7,7 @@ import { ReferralContent } from "features/island/hud/components/referral/Referra
 import { Context } from "features/game/GameProvider";
 import { acknowledgeReferralsAnnouncement } from "features/announcements/announcementsStorage";
 import promoteIcon from "assets/icons/promote.webp";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 /**
  * Notification modal that periodically nudges established players (level 20+)
@@ -19,6 +20,7 @@ import promoteIcon from "assets/icons/promote.webp";
  *   (close at any point acknowledges & dismisses for the next 30 days)
  */
 export const ReferralsAnnouncement: React.FC = () => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [step, setStep] = useState<"intro" | "referral">("intro");
 
@@ -33,13 +35,13 @@ export const ReferralsAnnouncement: React.FC = () => {
         <CloseButtonPanel onClose={close}>
           <div className="p-2 flex flex-col gap-2">
             <Label type="default" icon={promoteIcon}>
-              {`Refer a friend`}
+              {t("gameOptions.account.referFriend")}
             </Label>
             <p className="text-xs p-1">
-              {`Are you enjoying Sunflower Land? It would really mean a lot to us if you could invite your friends and family.`}
+              {t("referral.announcement.description")}
             </p>
           </div>
-          <Button onClick={() => setStep("referral")}>{`Continue`}</Button>
+          <Button onClick={() => setStep("referral")}>{t("continue")}</Button>
         </CloseButtonPanel>
       ) : (
         <ReferralContent onHide={close} />
