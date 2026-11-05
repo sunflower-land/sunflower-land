@@ -114,6 +114,23 @@ describe("Animals skill ranks", () => {
       expect(amount).toEqual(1.3);
     });
 
+    it("adds Bale after the multipliers", () => {
+      // 2 x Buckaroo 2 x Salt Lick 1.05 = 4.2, then + Bale 0.1
+      const { amount } = getResourceDropAmount({
+        game: baleFarm({}),
+        animalType: "Chicken",
+        resource: "Egg",
+        baseAmount: 2,
+        multiplier: 2,
+        animal: {
+          ...ANIMAL,
+          feedBuff: { name: "Salt Lick", harvestsRemaining: 3 },
+        },
+      });
+
+      expect(amount).toEqual(4.3);
+    });
+
     it("rank 2 applies 2.5x Bale's effect", () => {
       const { boostsUsed } = getResourceDropAmount({
         game: baleFarm({ "Double Bale": 2 }),
