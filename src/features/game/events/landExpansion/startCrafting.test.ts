@@ -2,7 +2,12 @@
 import { CONFIG } from "lib/config";
 import Decimal from "decimal.js-light";
 import type { GameState, InventoryItemName } from "features/game/types/game";
-import { startCrafting, type StartCraftingAction } from "./startCrafting";
+import {
+  getFoxShrineRollCounter,
+  startCrafting,
+  type StartCraftingAction,
+} from "./startCrafting";
+import { cancelQueuedCrafting } from "./cancelQueuedCrafting";
 import { getCraftingQueueReadyAts } from "features/game/lib/craftingReadiness";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { KNOWN_IDS } from "features/game/types";
@@ -930,6 +935,146 @@ describe("startCrafting", () => {
     const readyAts = state.craftingBox.queue!.map((q) => q.readyAt);
     const uniqueReadyAts = new Set(readyAts);
     expect(uniqueReadyAts.size).toBeGreaterThan(1);
+  });
+
+  describe("Fox Shrine roll after a cancel", () => {
+    const dollIngredients = [
+      { collectible: "Leather" as const },
+      { collectible: "Wool" as const },
+      { collectible: "Leather" as const },
+      { collectible: "Wool" as const },
+      { collectible: "Wool" as const },
+      { collectible: "Wool" as const },
+      { collectible: "Leather" as const },
+      { collectible: "Wool" as const },
+      { collectible: "Leather" as const },
+    ];
+
+    const rolls = (counter: number) =>
+      prngChance({
+        farmId,
+        itemId: KNOWN_IDS["Doll"],
+        counter,
+        chance: 10,
+        criticalHitName: "Fox Shrine",
+      });
+
+    // A counter whose roll procs, preceded by one that misses. The roll after a
+    // proc moves onto a new sequence, so make sure that one misses too, or the
+    // assertions below would be at the mercy of a genuine 10% hit.
+    const procCounter = (() => {
+      let c = 1;
+      while (
+        !(
+          rolls(c) &&
+          !rolls(c - 1) &&
+          !rolls(getFoxShrineRollCounter({ started: c, procs: 1 }))
+        )
+      ) {
+        c++;
+      }
+      return c;
+    })();
+
+    const now = Date.now();
+
+    const withRunningCraft = (started: number): GameState => ({
+      ...gameState,
+      vip: { bundles: [], expiresAt: now + 86400000 },
+      craftingBox: {
+        status: "crafting",
+        queue: [
+          {
+            id: "running",
+            name: "Basic Bed",
+            readyAt: now + 60 * 60 * 1000,
+            startedAt: now,
+            type: "collectible",
+          },
+        ],
+        // RECIPES on the FE carries no ingredients, so the discovered recipe
+        // must hold them for the match (and the cancel refund) to work.
+        recipes: {
+          Doll: {
+            name: "Doll",
+            type: "collectible",
+            ingredients: dollIngredients,
+            time: 2 * 60 * 60 * 1000,
+          },
+        },
+      },
+      inventory: { Leather: new Decimal(50), Wool: new Decimal(50) },
+      collectibles: {
+        "Fox Shrine": [
+          {
+            id: "123",
+            coordinates: { x: 0, y: 0 },
+            createdAt: now,
+            readyAt: now,
+          },
+        ],
+      },
+      farmActivity: { "Doll Crafting Started": started },
+    });
+
+    const start = (state: GameState, queueItemId: string) =>
+      startCrafting({
+        state,
+        action: {
+          type: "crafting.started",
+          queueItemId,
+          ingredients: dollIngredients,
+        },
+        createdAt: now,
+        farmId,
+      });
+
+    const queued = (state: GameState, id: string) =>
+      state.craftingBox.queue!.find((q) => q.id === id)!;
+
+    it("does not replay a proc when an earlier queued craft is cancelled", () => {
+      let state = withRunningCraft(procCounter - 1);
+
+      state = start(state, "miss");
+      expect(queued(state, "miss").readyAt).toBeGreaterThan(now);
+
+      state = start(state, "proc");
+      expect(queued(state, "proc").readyAt).toBe(now);
+      expect(state.farmActivity["Fox Shrine Triggered"]).toBe(1);
+
+      state = cancelQueuedCrafting({
+        state,
+        action: { type: "crafting.cancelled", queueItemId: "miss" },
+        createdAt: now,
+      });
+      expect(state.farmActivity["Doll Crafting Started"]).toBe(procCounter);
+
+      state = start(state, "again");
+      expect(queued(state, "again").readyAt).toBeGreaterThan(now);
+      expect(state.farmActivity["Fox Shrine Triggered"]).toBe(1);
+    });
+
+    it("gives a cancelled and restarted craft the same roll", () => {
+      let state = withRunningCraft(procCounter - 1);
+
+      state = start(state, "first");
+      const firstReadyAt = queued(state, "first").readyAt;
+      expect(firstReadyAt).toBeGreaterThan(now);
+
+      state = cancelQueuedCrafting({
+        state,
+        action: { type: "crafting.cancelled", queueItemId: "first" },
+        createdAt: now,
+      });
+
+      state = start(state, "second");
+      expect(queued(state, "second").readyAt).toBe(firstReadyAt);
+      expect(state.farmActivity["Fox Shrine Triggered"]).toBeUndefined();
+
+      // The proc counter is still next in line, untouched by the cancel.
+      state = start(state, "proc");
+      expect(queued(state, "proc").readyAt).toBe(now);
+    });
   });
 
   it("applies a 10% chance to instantly craft a recipe when Fox Shrine is active", () => {
