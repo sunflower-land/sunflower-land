@@ -1,9 +1,11 @@
 import Decimal from "decimal.js-light";
-import { TEST_FARM } from "../constants";
+import { INITIAL_FARM, TEST_FARM } from "../constants";
+import { isDailyRewardReady } from "../../events/landExpansion/claimDailyReward";
 import { OFFLINE_FARM } from "../landData";
 import { encodeJsonParam } from "./previewLink";
 import {
   PREVIEW_FIXTURE_NAMES,
+  PREVIEW_USERNAME,
   applyPreviewLocalStorage,
   getPreviewFarm,
   getPreviewFixture,
@@ -33,6 +35,47 @@ describe("getPreviewFarm", () => {
     expect(farm.farmActivity["welcome Bonus Claimed"]).toBe(1);
   });
 
+  it("marks the daily chest as claimed today and names the Bumpkin", () => {
+    // TEST_FARM has neither, so both gates would otherwise fire.
+    expect(TEST_FARM.username).toBeUndefined();
+    expect(TEST_FARM.dailyRewards?.chest).toBeUndefined();
+
+    const farm = getPreviewFarm({ params: { fixture: "test" }, now: NOW });
+
+    expect(farm.username).toBe(PREVIEW_USERNAME);
+    expect(farm.dailyRewards?.chest).toEqual({ collectedAt: NOW, code: 0 });
+    expect(farm.dailyRewards?.streaks).toBe(TEST_FARM.dailyRewards?.streaks);
+    expect(
+      isDailyRewardReady({
+        bumpkinExperience: 1_000_000,
+        ascensionLevel: 0,
+        dailyRewards: farm.dailyRewards,
+        now: NOW,
+      }),
+    ).toBe(false);
+  });
+
+  it("respects a username or daily chest the fixture or patch sets", () => {
+    const patch = encodeJsonParam({
+      username: "Chester",
+      dailyRewards: { chest: { collectedAt: "$now-1d", code: 7 } },
+    });
+    const farm = getPreviewFarm({
+      params: { fixture: "test", patch },
+      now: NOW,
+    });
+
+    expect(farm.username).toBe("Chester");
+    expect(farm.dailyRewards?.chest).toEqual({
+      collectedAt: NOW - 24 * 60 * 60 * 1000,
+      code: 7,
+    });
+
+    // INITIAL_FARM already carries a (random) username: leave it alone.
+    const newFarm = getPreviewFarm({ params: { fixture: "new" }, now: NOW });
+    expect(newFarm.username).toBe(INITIAL_FARM.username);
+  });
+
   it("keeps the boot gates with ?intro=1", () => {
     const farm = getPreviewFarm({
       params: { fixture: "test", intro: "1" },
@@ -41,6 +84,8 @@ describe("getPreviewFarm", () => {
 
     expect(farm.tcsAcknowledged).toBe(TEST_FARM.tcsAcknowledged);
     expect(farm.farmActivity["welcome Bonus Claimed"]).toBeUndefined();
+    expect(farm.username).toBeUndefined();
+    expect(farm.dailyRewards?.chest).toBeUndefined();
   });
 
   it("applies a patch with Decimal coercion and time tokens", () => {

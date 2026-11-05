@@ -10,6 +10,7 @@ import { StaleWhileRevalidate } from "workbox-strategies";
 import { ExpirationPlugin } from "workbox-expiration";
 import { CacheableResponsePlugin } from "workbox-cacheable-response";
 import { CONFIG } from "./lib/config";
+import { startCacheStorageHeartbeat } from "./lib/cacheStorageHeartbeat";
 import { getMessaging, isSupported } from "firebase/messaging/sw";
 import { onBackgroundMessage } from "firebase/messaging/sw";
 import "./lib/firebase";
@@ -277,3 +278,13 @@ initializeFirebaseMessaging().catch((error) =>
 
 // Offline fallback html page
 offlineFallback();
+
+// Runs for the worker's lifetime, from every start-up (not only on activate):
+// on iOS 26.6 a worker answers page requests from CacheStorage with a ~1s
+// stall unless it is making timer-driven lookups of its own. One ~1ms lookup
+// per second while the worker process is alive. See lib/cacheStorageHeartbeat.ts.
+startCacheStorageHeartbeat({
+  caches: self.caches,
+  cacheName: "protected-icons",
+  url: `${PROTECTED_IMAGE_PREFIX}/icons/disc.png`,
+});

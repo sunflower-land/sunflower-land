@@ -25,12 +25,7 @@ import {
   meetsLevelRequirement,
 } from "features/game/lib/level";
 import { isWearableActive } from "features/game/lib/wearables";
-import {
-  SKILL_RANKS,
-  getSkillLevel,
-  downgradeChapterCropWeekSkills,
-} from "features/game/types/bumpkinSkills";
-import { CHAPTER_CROP_WEEK_RECIPE } from "features/game/types/chapterCropWeek";
+import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
 import type { SellableItem } from "features/game/events/landExpansion/sellCrop";
 import {
   FACTION_ITEMS,
@@ -100,7 +95,7 @@ export const getSellPrice = ({
   // apply Green Thumb boost to crop LEGACY SKILL!
   if (item.name in crops && inventory["Green Thumb"]?.greaterThanOrEqualTo(1)) {
     multiplier += 0.05;
-    boostUsed.push({ name: "Green Thumb", value: "x1.05" });
+    boostUsed.push({ name: "Green Thumb", value: "+0.05" });
   }
 
   // Crop Shortage during initial gameplay
@@ -189,11 +184,17 @@ export const getCookingTime = ({
   item,
   game,
   cookStartAt = Date.now(),
+  windowed,
 }: {
   seconds: number;
   item: CookableName;
   game: GameState;
   cookStartAt?: number;
+  /**
+   * The recipe runs under the speed-rate model regardless of the flag — a
+   * clock-drain building stays windowed after a SPEED_BOOSTS rollback.
+   */
+  windowed?: boolean;
 }): {
   reducedSecs: number;
   boostsUsed: { name: BoostName; value: string }[];
@@ -206,7 +207,7 @@ export const getCookingTime = ({
   // `getCookingQueueReadyAts`, so they must NOT be baked in here — what this
   // returns becomes the recipe's `baseDurationMs` (permanent boosts only). They
   // are likewise excluded from `boostsUsed`, matching every other slice.
-  const boostsWindowed = hasFeatureAccess(game, "SPEED_BOOSTS");
+  const boostsWindowed = windowed ?? hasFeatureAccess(game, "SPEED_BOOSTS");
 
   let reducedSecs = new Decimal(seconds);
   const boostsUsed: { name: BoostName; value: string }[] = [];
@@ -322,12 +323,7 @@ export const getCookingTime = ({
     boostsUsed.push({ name: "Desert Gnome", value: "x0.9" });
   }
 
-  // Saltbite (the CHAPTER_CROP_WEEK event recipe) ignores upgraded Cooking-skill
-  // ranks — its cook-time reductions cap at rank 1 (base skill still applies).
-  const cookSkills =
-    item === CHAPTER_CROP_WEEK_RECIPE
-      ? downgradeChapterCropWeekSkills(bumpkin?.skills ?? {})
-      : (bumpkin?.skills ?? {});
+  const cookSkills = bumpkin?.skills ?? {};
 
   // -10%/-20%/-30% on Fire Pit + Kitchen with Fast Feasts skill (scales w/ rank)
   const fastFeastsLevel = getSkillLevel(cookSkills, "Fast Feasts");
@@ -415,6 +411,20 @@ export const getFoodExpBoost = ({
   ) {
     boostedExp = boostedExp.mul(1.2);
     boostsUsed.push({ name: "Grain Grinder", value: "x1.2" });
+  }
+
+  // Giant Truffle: x1.6 on Smoothie Shack and Deli foods, x1.3 on every other
+  // non-fish food. The two do not stack.
+  if (
+    !(food.name in FISH_CONSUMABLES) &&
+    isCollectibleBuilt({ name: "Giant Truffle", game })
+  ) {
+    const isShackOrDeli =
+      isCookable(food) &&
+      (food.building === "Smoothie Shack" || food.building === "Deli");
+    const multiplier = isShackOrDeli ? 1.6 : 1.3;
+    boostedExp = boostedExp.mul(multiplier);
+    boostsUsed.push({ name: "Giant Truffle", value: `x${multiplier}` });
   }
 
   if (

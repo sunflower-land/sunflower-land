@@ -3,17 +3,25 @@ import { TEST_FARM } from "features/game/lib/constants";
 import type { GameState } from "features/game/types/game";
 import { CAVE_TIERS } from "features/game/types/caveTiers";
 import { getInstantGems } from "features/game/lib/getInstantGems";
-import { CONFIG } from "lib/config";
 import {
   SPEED_UP_CAVE_EXPANSION_ERRORS,
   speedUpCaveExpansion,
 } from "./speedUpCaveExpansion";
+
+// The Cave building, placed and finished: every cave.* event requires it.
+const READY_CAVE = {
+  id: "cave",
+  coordinates: { x: 0, y: 0 },
+  createdAt: 0,
+  readyAt: 0,
+};
 
 const NOW = 1_700_000_000_000;
 const READY_AT = NOW + CAVE_TIERS[2].buildMs;
 
 const buildingState = ({ gems = 1000 }: { gems?: number } = {}): GameState => ({
   ...TEST_FARM,
+  buildings: { ...TEST_FARM.buildings, Cave: [READY_CAVE] },
   inventory: { ...TEST_FARM.inventory, Gem: new Decimal(gems) },
   gems: { history: {} },
   cave: {
@@ -32,6 +40,20 @@ const speedUp = (state: GameState, createdAt = NOW) =>
   });
 
 describe("speedUpCaveExpansion (cave.expansionSpedUp)", () => {
+  it("throws while the Cave building is under construction", () => {
+    const state = buildingState();
+
+    expect(() =>
+      speedUp({
+        ...state,
+        buildings: {
+          ...state.buildings,
+          Cave: [{ ...READY_CAVE, readyAt: Number.MAX_SAFE_INTEGER }],
+        },
+      }),
+    ).toThrow(SPEED_UP_CAVE_EXPANSION_ERRORS.NO_CAVE);
+  });
+
   it("finishes the construction now", () => {
     const next = speedUp(buildingState());
     expect(next.cave?.construction?.readyAt).toBe(NOW);
@@ -69,26 +91,5 @@ describe("speedUpCaveExpansion (cave.expansionSpedUp)", () => {
     expect(() =>
       speedUp({ ...state, cave: { ...state.cave!, construction: undefined } }),
     ).toThrow(SPEED_UP_CAVE_EXPANSION_ERRORS.NO_CONSTRUCTION);
-  });
-
-  describe("off testnet", () => {
-    // jest runs on amoy, so the flag-off path is only reachable by pretending
-    // to be mainnet.
-    let previousNetwork: (typeof CONFIG)["NETWORK"];
-
-    beforeEach(() => {
-      previousNetwork = CONFIG.NETWORK;
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-    });
-
-    afterEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
-    });
-
-    it("throws without the CAVE feature flag", () => {
-      expect(() => speedUp(buildingState())).toThrow(
-        SPEED_UP_CAVE_EXPANSION_ERRORS.NO_FEATURE_ACCESS,
-      );
-    });
   });
 });

@@ -9,7 +9,7 @@ import {
 import { isFullMoon } from "features/game/types/calendar";
 import {
   CHAPTER_CROP_WEEK_SEED,
-  isChapterCropWeekActive,
+  hasChapterCropWeekAccess,
 } from "features/game/types/chapterCropWeek";
 import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { setPrecision } from "lib/utils/formatNumber";
@@ -71,10 +71,11 @@ export function planSeedPurchases(
     if (isFullMoonBerry(seedName) && !isFullMoon(state)) return;
 
     // Mirrors seedBought.ts exactly: the Chapter Crop Week event seed is
-    // only purchasable while the event is active.
+    // only purchasable while the event is active (admin testers get early
+    // access).
     if (
       seedName === CHAPTER_CROP_WEEK_SEED &&
-      !isChapterCropWeekActive(Date.now())
+      !hasChapterCropWeekAccess(state, Date.now())
     ) {
       return;
     }

@@ -291,7 +291,13 @@ export function getPriceHistory({
   const startDate = new Date(from);
   const today = new Date();
 
-  for (let date = startDate; date <= today; date.setDate(date.getDate() + 1)) {
+  // Step in UTC days: the keys are UTC dates, and local-time stepping drifts
+  // a day across a daylight-saving change.
+  for (
+    let date = startDate;
+    date <= today;
+    date.setUTCDate(date.getUTCDate() + 1)
+  ) {
     const dateKey = date.toISOString().split("T")[0];
 
     // Find matching history entry for this date

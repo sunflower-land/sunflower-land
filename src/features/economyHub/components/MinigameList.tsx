@@ -49,7 +49,10 @@ export const MinigameList: React.FC<Props> = ({ economies, isLoading }) => {
       ) : (
         <div className="flex flex-wrap -m-1">
           {economies.map((economy) => (
-            <div key={economy.slug} className="w-1/4 p-1 flex">
+            <div
+              key={economy.slug}
+              className="w-1/2 sm:w-1/3 lg:w-1/4 p-1 flex"
+            >
               <MinigameCard
                 image={economy.image}
                 name={economy.label}

@@ -31,8 +31,9 @@ export const SHIPMENT_STOCK: Partial<Record<StockableName, number>> = {
   "Pepper Seed": 20,
   "Cauliflower Seed": 20,
   "Parsnip Seed": 10,
-  // Chapter Crop Week (limited-time event seed)
-  "Saltwort Seed": 10,
+  // Chapter Crop Week (limited-time event seed). Previous runs' seeds are
+  // retired and must not be restocked.
+  "Crystal Leaf Seed": 10,
   // Tools
   Axe: 50,
   Pickaxe: 15,

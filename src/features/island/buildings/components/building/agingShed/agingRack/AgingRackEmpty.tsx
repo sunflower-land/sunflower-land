@@ -89,7 +89,7 @@ export const AgingRackEmpty: React.FC<Props> = ({
     .map((fishName) => {
       const baseXP = getFishBaseXP(fishName);
       const { cost: saltCost } = getBoostedAgingSaltCost(baseXP, gameState);
-      const timeMs = getBoostedAgingTimeMs(baseXP, gameState);
+      const { timeMs } = getBoostedAgingTimeMs(baseXP, gameState);
       const saltLabel = getTranslatedItemName("Salt");
 
       return {
@@ -187,7 +187,8 @@ const SelectedFishDetails: React.FC<{
           gameState,
         ).cost,
         fishCost: getBoostedAgingFishCost(gameState),
-        timeMs: getBoostedAgingTimeMs(getFishBaseXP(selectedFish), gameState),
+        timeMs: getBoostedAgingTimeMs(getFishBaseXP(selectedFish), gameState)
+          .timeMs,
       }
     : undefined;
   if (!recipeDef) {

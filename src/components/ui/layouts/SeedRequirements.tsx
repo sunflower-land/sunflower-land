@@ -298,7 +298,10 @@ export const SeedRequirements: React.FC<Props> = ({
         hasNamedBoosts,
       });
 
-    const RequirementLabels: React.FC = () => {
+    // A plain render helper, not a nested component: a component declared here
+    // is a new type every render, so each `now` tick would remount the subtree
+    // and replay the boosts panel's appear transition (it flashes every second).
+    const getRequirementLabels = () => {
       if (isSeedCropMachine(details.item)) {
         const cropMachinePackSize = CROP_MACHINE_PLOTS(gameState);
 
@@ -416,7 +419,7 @@ export const SeedRequirements: React.FC<Props> = ({
     return (
       <div className="w-full mb-2 flex justify-center gap-x-3 gap-y-0 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap my-1">
         {/* Time requirement display */}
-        <RequirementLabels />
+        {getRequirementLabels()}
         {/* Level requirement */}
         {!!level && (
           <RequirementLabel

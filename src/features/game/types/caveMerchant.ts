@@ -1,103 +1,117 @@
-import Decimal from "decimal.js-light";
 import type {
+  Cave,
   CaveMerchant,
-  CaveMerchantOfferId,
-  InventoryItemName,
+  CaveMerchantOffer,
+  CaveMerchantVisitState,
 } from "./game";
-import { CAVE_TIERS, type CaveExpansionTier, type CaveTier } from "./caveTiers";
 
-// Both repos keep this file byte-identical.
+/*
+ * The Goblin Cave Merchant's stock is rolled and priced on the API only. Each
+ * farm load brings the visit open (or last opened) and its stock in game
+ * state as `cave.merchantVisit`, like Love Island's shop, so the client never
+ * holds the price list or anything that could predict a future visit.
+ */
 
-export type { CaveMerchantOfferId } from "./game";
+export function isCaveMerchantOpen(
+  visit: Pick<CaveMerchantVisitState, "opensAt" | "closesAt">,
+  now: number,
+): boolean {
+  return now >= visit.opensAt && now < visit.closesAt;
+}
 
-export type CaveMerchantOffer = {
-  cost: {
-    coins?: number;
-    items: Partial<Record<InventoryItemName, Decimal>>;
-  };
-  reward: Partial<Record<InventoryItemName, Decimal>>;
-  /** How many times each player can take the offer per limit period. */
+/** How many more times the player can take an offer this visit. */
+export function getCaveMerchantOffersLeft({
+  merchant,
+  visit,
+  slot,
+  limit,
+}: {
+  merchant?: CaveMerchant;
+  visit: number;
+  slot: number;
   limit: number;
-  /** The Cave tier that adds the offer to the shop. */
-  requiresTier: CaveExpansionTier;
-};
-
-function getCaveUnlockTier(
-  unlock: NonNullable<CaveTier["unlocks"]>,
-): CaveExpansionTier {
-  const tiers = Object.keys(CAVE_TIERS).map(Number) as CaveExpansionTier[];
-  const tier = tiers.find((tier) => CAVE_TIERS[tier].unlocks === unlock);
-  if (!tier) {
-    throw new Error(`No Cave tier unlocks ${unlock}`);
-  }
-  return tier;
+}): number {
+  const bought = merchant?.purchases[String(visit)]?.[slot] ?? 0;
+  return Math.max(0, limit - bought);
 }
 
-/** The Cave tier that opens the Goblin Cave Merchant's shop. */
-export const CAVE_MERCHANT_TIER = getCaveUnlockTier("merchant");
+/** Stock supplied by the server, unlocked and still claimable by this farm.
+ * A passed nextOpensAt never implies that a new visit has arrived.
+ */
+export function getAvailableCaveMerchantOffers(
+  cave: Cave | undefined,
+  now: number,
+): CaveMerchantOffer[] {
+  const visit = cave?.merchantVisit;
+  if (!cave || !visit || !isCaveMerchantOpen(visit, now)) return [];
 
-/** The Cave tier that adds more offers to the same shop. */
-export const CAVE_MERCHANT_OFFERS_TIER = getCaveUnlockTier("merchantOffers");
-
-// TODO(Cave balance 475): placeholder offers, prices and limits. The spec only
-// says Beetles are spent at the Merchant; everything else is invented.
-export const CAVE_MERCHANT_OFFERS: Record<
-  CaveMerchantOfferId,
-  CaveMerchantOffer
-> = {
-  "sand-drills": {
-    cost: { items: { "Brown Beetle": new Decimal(6) } },
-    reward: { "Sand Drill": new Decimal(2) },
-    limit: 5,
-    requiresTier: CAVE_MERCHANT_TIER,
-  },
-  truffles: {
-    cost: { items: { "Blue Beetle": new Decimal(4) } },
-    reward: { Truffle: new Decimal(2) },
-    limit: 5,
-    requiresTier: CAVE_MERCHANT_TIER,
-  },
-  leather: {
-    cost: { coins: 500, items: { "Pink Beetle": new Decimal(3) } },
-    reward: { Leather: new Decimal(3) },
-    limit: 3,
-    requiresTier: CAVE_MERCHANT_TIER,
-  },
-  crimstone: {
-    cost: { items: { "Amber Beetle": new Decimal(2) } },
-    reward: { Crimstone: new Decimal(1) },
-    limit: 2,
-    requiresTier: CAVE_MERCHANT_OFFERS_TIER,
-  },
-  obsidian: {
-    cost: { coins: 5_000, items: { "Amber Beetle": new Decimal(5) } },
-    reward: { Obsidian: new Decimal(1) },
-    limit: 1,
-    requiresTier: CAVE_MERCHANT_OFFERS_TIER,
-  },
-};
-
-export function isCaveMerchantOfferId(id: string): id is CaveMerchantOfferId {
-  return Object.prototype.hasOwnProperty.call(CAVE_MERCHANT_OFFERS, id);
-}
-
-/** The offers the Merchant stocks at a Cave tier, in shop order. */
-export function getCaveMerchantOffers(tier: number): CaveMerchantOfferId[] {
-  return (Object.keys(CAVE_MERCHANT_OFFERS) as CaveMerchantOfferId[]).filter(
-    (id) => tier >= CAVE_MERCHANT_OFFERS[id].requiresTier,
+  return visit.offers.filter(
+    (offer) =>
+      offer.slot <= cave.tier &&
+      getCaveMerchantOffersLeft({
+        merchant: cave.merchant,
+        visit: visit.index,
+        slot: offer.slot,
+        limit: offer.limit,
+      }) > 0,
   );
 }
 
-/** How many more times the player can take an offer in a limit period. */
-export function getCaveMerchantOffersLeft({
-  merchant,
-  offerId,
-  periodKey,
-}: {
-  merchant?: CaveMerchant;
-  offerId: CaveMerchantOfferId;
-  periodKey: string;
-}): number {
-  const bought = merchant?.purchases[periodKey]?.[offerId] ?? 0;
-  return Math.max(0, CAVE_MERCHANT_OFFERS[offerId].limit - bought);
+export type CaveMerchantSeenOffers = {
+  visit: string;
+  offers: string[];
+};
+
+/** Explicit fields keep order and remaining purchases out of offer identity. */
+export function getCaveMerchantOfferKey(offer: CaveMerchantOffer): string {
+  return JSON.stringify([
+    offer.slot,
+    offer.cost.item,
+    offer.cost.amount,
+    offer.reward.item,
+    offer.reward.amount,
+    offer.limit,
+    offer.curiosity,
+  ]);
+}
+
+export function getCaveMerchantVisitKey(visit: CaveMerchantVisitState): string {
+  return JSON.stringify([visit.index, visit.opensAt]);
+}
+
+export function hasUnseenCaveMerchantOffers(
+  cave: Cave | undefined,
+  now: number,
+  seen?: CaveMerchantSeenOffers,
+): boolean {
+  const offers = getAvailableCaveMerchantOffers(cave, now);
+  const visit = cave?.merchantVisit;
+  if (!visit || offers.length === 0) return false;
+  return (
+    seen?.visit !== getCaveMerchantVisitKey(visit) ||
+    offers.some(
+      (offer) => !seen.offers.includes(getCaveMerchantOfferKey(offer)),
+    )
+  );
+}
+
+/** Merge only the offers actually displayed, retaining earlier views this visit. */
+export function viewCaveMerchantOffers(
+  cave: Cave | undefined,
+  now: number,
+  seen?: CaveMerchantSeenOffers,
+): CaveMerchantSeenOffers | undefined {
+  const offers = getAvailableCaveMerchantOffers(cave, now);
+  const visit = cave?.merchantVisit;
+  if (!visit || offers.length === 0) return seen;
+  const key = getCaveMerchantVisitKey(visit);
+  return {
+    visit: key,
+    offers: [
+      ...new Set([
+        ...(seen?.visit === key ? seen.offers : []),
+        ...offers.map(getCaveMerchantOfferKey),
+      ]),
+    ],
+  };
 }

@@ -353,6 +353,13 @@ const AirdropContent: React.FC<AirdropContentProps> = ({
   );
 };
 
+// Per-drop caps enforced by the server for Gems and Love Charms sent from
+// this panel. Larger rewards go through the support tool.
+const GIFT_GIVER_ITEM_CAPS = {
+  Gem: 5_000,
+  "Love Charm": 1_000,
+};
+
 export const AirdropPlayer: React.FC<
   ContentComponentProps & { id?: number }
 > = ({ id }) => {
@@ -476,7 +483,7 @@ export const AirdropPlayer: React.FC<
       setValue: setGems,
       maxDecimalPlaces: 0,
       icon: ITEM_DETAILS.Gem.image,
-      maxValue: 100_000,
+      maxValue: GIFT_GIVER_ITEM_CAPS.Gem,
       allowNegative: true,
     },
     "Love Charm": {
@@ -484,7 +491,7 @@ export const AirdropPlayer: React.FC<
       setValue: setLoveCharm,
       maxDecimalPlaces: 0,
       icon: ITEM_DETAILS["Love Charm"].image,
-      maxValue: 100_000,
+      maxValue: GIFT_GIVER_ITEM_CAPS["Love Charm"],
       allowNegative: true,
     },
     VIP: {

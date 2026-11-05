@@ -57,7 +57,7 @@ export const TradeableOffers: React.FC<{
   display: TradeableDisplay;
   itemId: number;
   reload: KeyedMutator<TradeableDetails>;
-  /** When true, making & accepting offers is blocked (e.g. Saltwort without event access). */
+  /** When true, making & accepting offers is blocked (e.g. Crystal Leaf without event access). */
   disabled?: boolean;
 }> = ({
   hideLimited,

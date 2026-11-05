@@ -10,7 +10,10 @@ import { Box } from "components/ui/Box";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CHUM_DETAILS } from "features/game/types/fishing";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  getTranslatedItemName,
+  ITEM_DETAILS,
+} from "features/game/types/images";
 import {
   getBasketItems,
   getChestItems,
@@ -158,6 +161,9 @@ export const WaterTrapModal: React.FC<Props> = ({
 
   const chums = WATER_TRAP[selectedTrap].chums;
 
+  const trapName = (trap: WaterTrapName) =>
+    t(trap === "Crab Pot" ? "crustaceans.crabPot" : "crustaceans.marinerPot");
+
   const hasRoyalCrabPot = isCollectibleBuilt({
     name: "Royal Crab Pot",
     game: state,
@@ -262,12 +268,12 @@ export const WaterTrapModal: React.FC<Props> = ({
                         !hasRoyalCrabPot && !state.inventory[trap]?.gte(1)
                       }
                       locked={isLocked}
-                      tooltip={trap}
+                      tooltip={trapName(trap)}
                     />
                   );
                 })}
                 <div className="flex flex-col ml-1 min-w-0">
-                  <p className="text-xs">{selectedTrap}</p>
+                  <p className="text-xs">{trapName(selectedTrap)}</p>
                   <p className="text-xxs">
                     {ITEM_DETAILS[selectedTrap].description}
                   </p>
@@ -284,7 +290,9 @@ export const WaterTrapModal: React.FC<Props> = ({
               ) : (
                 !hasTrap && (
                   <Label className="ml-1 mt-1" type="danger">
-                    {t("fishing.dont.have.enough.bait", { bait: selectedTrap })}
+                    {t("fishing.dont.have.enough.bait", {
+                      bait: trapName(selectedTrap),
+                    })}
                   </Label>
                 )
               )}
@@ -322,7 +330,7 @@ export const WaterTrapModal: React.FC<Props> = ({
                       className="mb-1 ml-1"
                       icon={ITEM_DETAILS[selectedChum].image}
                     >
-                      {`${CRUSTACEAN_CHUM_AMOUNTS[selectedChum]} ${selectedChum}`}
+                      {`${CRUSTACEAN_CHUM_AMOUNTS[selectedChum]} ${getTranslatedItemName(selectedChum)}`}
                     </Label>
                   ) : (
                     <Label
@@ -339,7 +347,7 @@ export const WaterTrapModal: React.FC<Props> = ({
                       className="mb-1 ml-1"
                       icon={ITEM_DETAILS[catchForSelectedChum].image}
                     >
-                      {catchForSelectedChum}
+                      {getTranslatedItemName(catchForSelectedChum)}
                     </Label>
                   ) : (
                     <Label
@@ -369,7 +377,7 @@ export const WaterTrapModal: React.FC<Props> = ({
                       className="mb-1 ml-1"
                       icon={ITEM_DETAILS[catchForSelectedChum].image}
                     >
-                      {catchForSelectedChum}
+                      {getTranslatedItemName(catchForSelectedChum)}
                     </Label>
                   ) : (
                     <Label

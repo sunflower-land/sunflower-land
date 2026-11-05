@@ -1,4 +1,5 @@
 import type { BuildingName } from "features/game/types/buildings";
+import type { CaveTutorialAcknowledgement } from "features/cave/lib/onboarding";
 
 const TUTORIAL_ACKNOWLEDGEMENT_KEY = "sunflower_isles_tutorials";
 
@@ -12,28 +13,39 @@ type TutorialName =
   | "Pirate Quest"
   | "Garbage Collector"
   | "Incinerator"
-  | "Chore Master";
+  | "Chore Master"
+  | CaveTutorialAcknowledgement;
+
+// Acknowledgements made this session, so a tutorial closed once stays closed
+// even when browser storage cannot be read or written (private browsing,
+// blocked site data).
+const sessionAcknowledgements: Tutorials = {};
 
 export function acknowledgeTutorial(tutorialName: TutorialName) {
-  const acknowledgements = getAcknowledgements();
+  const acknowledgement = { acknowledgedAt: Date.now() };
+  sessionAcknowledgements[tutorialName] = acknowledgement;
 
   const newAcknowledgements: Tutorials = {
-    ...acknowledgements,
-    [tutorialName]: {
-      acknowledgedAt: Date.now(),
-    },
+    ...getAcknowledgements(),
+    [tutorialName]: acknowledgement,
   };
 
-  localStorage.setItem(
-    TUTORIAL_ACKNOWLEDGEMENT_KEY,
-    JSON.stringify(newAcknowledgements),
-  );
+  try {
+    localStorage.setItem(
+      TUTORIAL_ACKNOWLEDGEMENT_KEY,
+      JSON.stringify(newAcknowledgements),
+    );
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.warn("Could not save tutorial acknowledgement: ", e);
+  }
 }
 
 export function hasShownTutorial(tutorialName: TutorialName): boolean {
-  const acknowledgements = getAcknowledgements();
-
-  return !!acknowledgements[tutorialName];
+  return (
+    !!sessionAcknowledgements[tutorialName] ||
+    !!getAcknowledgements()[tutorialName]
+  );
 }
 
 type Tutorials = Partial<
@@ -46,11 +58,26 @@ type Tutorials = Partial<
 >;
 
 function getAcknowledgements(): Tutorials {
-  const obj = localStorage.getItem(TUTORIAL_ACKNOWLEDGEMENT_KEY);
+  try {
+    const obj = localStorage.getItem(TUTORIAL_ACKNOWLEDGEMENT_KEY);
 
-  if (!obj) {
+    if (!obj) {
+      return {};
+    }
+
+    const parsed: unknown = JSON.parse(obj);
+    if (
+      typeof parsed !== "object" ||
+      parsed === null ||
+      Array.isArray(parsed)
+    ) {
+      throw new Error("Tutorial acknowledgements are not an object");
+    }
+
+    return parsed as Tutorials;
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.warn("Could not read tutorial acknowledgements: ", e);
     return {};
   }
-
-  return JSON.parse(obj) as Tutorials;
 }
