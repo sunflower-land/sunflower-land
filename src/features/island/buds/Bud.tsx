@@ -24,11 +24,11 @@ const BudComponent: React.FC<BudProps> = ({ id, x, y }) => {
   if (landscaping)
     return (
       <MoveableComponent name="Bud" id={String(id)} index={0} x={x} y={y}>
-        <_Bud id={String(id)} type={bud.type} />
+        <_Bud id={String(id)} type={bud.type} flipped={bud.flipped} />
       </MoveableComponent>
     );
 
-  return <_Bud id={String(id)} type={bud.type} />;
+  return <_Bud id={String(id)} type={bud.type} flipped={bud.flipped} />;
 };
 
 export const Bud = React.memo(BudComponent);

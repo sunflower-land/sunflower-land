@@ -14,6 +14,8 @@ type SharedProps = {
   isHungry?: boolean;
   onClick?: () => void;
   clickable?: boolean;
+  /** Mirror the pet horizontally (Pet NFTs flipped in landscaping). */
+  flipped?: boolean;
 };
 
 type Props =
@@ -51,6 +53,7 @@ export const PetSprite: React.FC<Props> = ({
   isHungry,
   onClick,
   clickable = false,
+  flipped = false,
 }) => {
   const petImage = getPetImage(
     isNeglected || isNapping || isTypeFed ? "asleep" : "happy",
@@ -71,7 +74,7 @@ export const PetSprite: React.FC<Props> = ({
               height: `${PIXEL_SCALE * 44}px`,
               left: "50%",
               bottom: "-8px",
-              transform: `translateX(-50%)`,
+              transform: `translateX(-50%)${flipped ? " scaleX(-1)" : ""}`,
             }),
       }}
     >
@@ -88,6 +91,8 @@ export const PetSprite: React.FC<Props> = ({
         <img
           src={SUNNYSIDE.icons.expression_stress}
           alt="stress"
+          // Mirrored with the pet so it stays by its head, but kept readable.
+          style={{ transform: flipped ? "scaleX(-1)" : undefined }}
           className={classNames("absolute w-[18px]", {
             "top-[-0.5rem] left-[-0.5rem]": !isPetNFT,
             [nftIconPositions?.neglected ?? ""]: isPetNFT,
@@ -97,6 +102,7 @@ export const PetSprite: React.FC<Props> = ({
         <img
           src={SUNNYSIDE.icons.sleeping}
           alt="sleeping"
+          style={{ transform: flipped ? "scaleX(-1)" : undefined }}
           className={classNames("absolute w-6", {
             "top-[-0.5rem] left-[-0.5rem]": !isPetNFT,
             [nftIconPositions?.napping ?? ""]: isPetNFT,
