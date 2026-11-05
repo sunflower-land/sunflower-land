@@ -28,7 +28,7 @@ type Options = {
 // rejects malformed input early regardless of where it is called (the FE path
 // has no schema validation).
 const MAX_BULK_MIX_ENTRIES = getKeys(ANIMAL_FOODS).length;
-const MAX_BULK_MIX_AMOUNT = 1000;
+export const MAX_BULK_MIX_AMOUNT = 1000;
 
 export function bulkMixFeed({ state, action }: Options) {
   if (action.feeds.length < 1 || action.feeds.length > MAX_BULK_MIX_ENTRIES) {
