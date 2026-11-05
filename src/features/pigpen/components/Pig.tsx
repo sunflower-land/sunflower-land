@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { isBeetle } from "features/game/types/beetles";
-import { hasFeatureAccess } from "lib/flags";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
@@ -143,11 +142,12 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
   const [showLockedDetails, setShowLockedDetails] = useState(false);
   // Sounds
   const { play: playFeedAnimal } = useSound("feed_animal");
-  // TODO(Chapter 16 art): Pig SFX exist in the asset repo but are not wired up.
-  const { play: playPigCollect } = useSound("cow_collect");
+  // Only an actual feed grunts; love, Mud and treats keep the generic clip.
+  const { play: playPigFeed } = useSound("pig_feed");
+  const { play: playPigCollect } = useSound("pig_collect");
   const { play: playProduceDrop } = useSound("produce_drop");
   const { play: playLevelUp } = useSound("level_up");
-  const { play: playCureAnimal } = useSound("cure_animal");
+  const { play: playCureAnimal } = useSound("pig_cure");
 
   const lastSynced = useRef({ state: pig.state, experience: pig.experience });
 
@@ -241,8 +241,6 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
 
   const { name: mutantName } = pig.reward?.items?.[0] ?? {};
 
-  const hasBeetleFeedingAccess = hasFeatureAccess(game, "BEETLE_FEEDING");
-
   const feedPig = (item?: InventoryItemName) => {
     setFeedXPAmount(getAnimalXPEarned(item));
 
@@ -269,7 +267,7 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
       animal: updatedPig,
     });
 
-    playFeedAnimal();
+    playPigFeed();
   };
 
   const onLoveClick = async () => {
@@ -496,18 +494,13 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
       favouriteFood: favFood,
       inventory,
       requiredQty: requiredFoodQty,
-      hasBeetleFeedingAccess,
     });
     if (feedItem && feedItem !== selectedItem) {
       shortcutItem(feedItem);
     }
 
-    // Without access a Beetle is not food here, so the click falls through to
-    // the no-food prompt instead of an event the reducer would reject.
     const hasFoodSelected =
-      feedItem &&
-      (isFoodForAnimal("Pig", feedItem) ||
-        (hasBeetleFeedingAccess && isBeetle(feedItem)));
+      feedItem && (isFoodForAnimal("Pig", feedItem) || isBeetle(feedItem));
 
     if (hasFoodSelected) {
       const foodCount = inventory[feedItem as AnimalFoodName] ?? new Decimal(0);
@@ -597,7 +590,7 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
   const xpIndicatorColor =
     favFood === selectedItem ||
     selectedItem === "Omnifeed" ||
-    (hasBeetleFeedingAccess && !!selectedItem && isBeetle(selectedItem)) ||
+    (!!selectedItem && isBeetle(selectedItem)) ||
     hasGoldenPig
       ? "#71e358"
       : "#fff";

@@ -15,7 +15,11 @@ import { INITIAL_FARM } from "features/game/lib/constants";
 import { speedUpRecipe } from "./speedUpRecipe";
 import Decimal from "decimal.js-light";
 import { BAKERY_COOKABLES, COOKABLES } from "features/game/types/consumables";
-import type { GameState } from "features/game/types/game";
+import type {
+  BuildingProduct,
+  GameState,
+  PlacedItem,
+} from "features/game/types/game";
 import { supplyCookingOil } from "./supplyCookingOil";
 import { cook, getCookingOilBoost } from "./cook";
 
@@ -590,7 +594,8 @@ describe("instantCook", () => {
 
     // Fermented fish should be ready 16 hours after 10 oil consumption
     expect(boostedCookingTime.timeToCook).toEqual(sixteenHours); // 16 hours;
-    expect(afterFermentedFishCookedState.buildings["Deli"]?.[0].oil).toBe(0);
+    // The tank burns while the fish cooks rather than when it is queued.
+    expect(afterFermentedFishCookedState.buildings["Deli"]?.[0].oil).toBe(10);
     expect(
       afterFermentedFishCookedState.buildings["Deli"]?.[0].crafting?.[1]
         .readyAt,
@@ -737,5 +742,97 @@ describe("instantCook", () => {
       expect(state.inventory.Gem).toEqual(new Decimal(0));
       expect(state.inventory["Mashed Potato"]).toEqual(new Decimal(1));
     });
+  });
+});
+
+describe("speedUpRecipe (oil by the clock)", () => {
+  const HOUR = 60 * 60 * 1000;
+  const T0 = Date.now();
+
+  const lazy = (fields: Partial<BuildingProduct>): BuildingProduct => ({
+    name: "Fermented Fish",
+    oilBoost: 0.4,
+    readyAt: 0,
+    ...fields,
+  });
+
+  const deliFarm = (base: GameState, deli: Partial<PlacedItem>): GameState => ({
+    ...base,
+    buildings: {
+      Deli: [
+        {
+          id: "1",
+          coordinates: { x: 0, y: 0 },
+          createdAt: 0,
+          readyAt: 0,
+          oil: 20,
+          oilSettledAt: T0,
+          ...deli,
+        },
+      ],
+    },
+  });
+
+  it("does not speed up a lifted building", () => {
+    expect(() =>
+      speedUpRecipe({
+        farmId: 1,
+        state: {
+          ...deliFarm(INITIAL_FARM, {
+            coordinates: undefined,
+            removedAt: T0,
+            crafting: [lazy({ startedAt: T0, baseDurationMs: 10 * HOUR })],
+          }),
+          inventory: { Gem: new Decimal(1000) },
+        },
+        action: {
+          type: "recipe.spedUp",
+          buildingId: "1",
+          buildingName: "Deli",
+        },
+        createdAt: T0 + HOUR,
+      }),
+    ).toThrow("Building is not placed");
+  });
+
+  const speedUp = (oil: number) =>
+    speedUpRecipe({
+      farmId: 1,
+      state: {
+        ...deliFarm(INITIAL_FARM, {
+          oil,
+          crafting: [
+            lazy({ startedAt: T0, baseDurationMs: 10 * HOUR }),
+            lazy({ baseDurationMs: 10 * HOUR }),
+          ],
+        }),
+        inventory: { Gem: new Decimal(1000) },
+      },
+      action: {
+        type: "recipe.spedUp",
+        buildingId: "1",
+        buildingName: "Deli",
+      },
+      createdAt: T0 + HOUR,
+    }).buildings.Deli?.[0];
+
+  it("burns the oil the rest of the recipe would have used", () => {
+    const deli = speedUp(20);
+
+    // The head takes 6h on oil (5 oil): 1h cooked, 5h skipped, all of it paid.
+    expect(deli?.oil).toBeCloseTo(15);
+    // The next fish starts now, on what is left in the tank.
+    expect(deli?.crafting?.[0]).toMatchObject({
+      startedAt: T0 + HOUR,
+      readyAt: T0 + 7 * HOUR,
+    });
+  });
+
+  it("burns no more than the tank holds", () => {
+    const deli = speedUp(2); // 2.4h of oil, 1.4h left at the speed-up
+
+    expect(deli?.oil).toEqual(0);
+    // Nothing left for the next fish, so it cooks at normal speed.
+    expect(deli?.crafting?.[0].readyAt).toEqual(T0 + 11 * HOUR);
   });
 });

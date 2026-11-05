@@ -446,6 +446,48 @@ export const ResourceList: React.FC<Props> = ({
             },
           )} ${t("marketplace.flower")}`}</p>
         </div>
+        {/* The rows above are per listing; a bulk listing repeats it, so
+            sum the fee and the payout across all of them. */}
+        {multiple > 1 && (
+          <>
+            <div
+              className="flex justify-between"
+              style={{
+                borderTop: "1px solid #ead4aa",
+                padding: "5px 5px 5px 2px",
+              }}
+            >
+              <span className="text-xs">
+                {t("marketplace.bulkTradingFee", { count: multiple })}
+              </span>
+              <p className="text-xs font-secondary">{`${formatNumber(
+                new Decimal(price).mul(tax).mul(multiple),
+                {
+                  decimalPlaces: 4,
+                  showTrailingZeros: true,
+                },
+              )} ${t("marketplace.flower")}`}</p>
+            </div>
+            <div
+              className="flex justify-between"
+              style={{
+                borderTop: "1px solid #ead4aa",
+                padding: "5px 5px 5px 2px",
+              }}
+            >
+              <span className="text-xs">
+                {t("marketplace.bulkYouWillReceive", { count: multiple })}
+              </span>
+              <p className="text-xs font-secondary">{`${formatNumber(
+                new Decimal(price).mul(new Decimal(1).sub(tax)).mul(multiple),
+                {
+                  decimalPlaces: 4,
+                  showTrailingZeros: true,
+                },
+              )} ${t("marketplace.flower")}`}</p>
+            </div>
+          </>
+        )}
         <div className="flex mt-2">
           <Button onClick={onCancel} className="mr-1">
             {t("bumpkinTrade.cancel")}

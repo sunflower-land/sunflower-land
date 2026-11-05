@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import type { MutantsChapterName } from "./chapterMutants";
 import type { ChapterName } from "./chapters";
-import type { BuildingName } from "./buildings";
+import { BUILDINGS, type BuildingName } from "./buildings";
 import type {
   AnimalFoodName,
   AnimalMedicineName,
@@ -76,11 +76,12 @@ export const ANIMALS: Record<AnimalType, AnimalDetail> = {
     height: 2,
     width: 2,
   },
-  // Coins: #7721 Balance Update (provisional). TODO(Chapter 16): level and
-  // size are still placeholders.
+  // Coins: #7721 Balance Update. The level lock is the Pigpen's own (Bryn,
+  // 2026-10-21): a Pig can only live in a Pigpen, so a second, lower number
+  // here was a lock that could never bite.
   Pig: {
     coins: 100,
-    levelRequired: { ascension: 0, level: 16 },
+    levelRequired: BUILDINGS.Pigpen.unlocksAtLevel,
     buildingRequired: "Pigpen",
     height: 2,
     width: 2,
@@ -938,6 +939,10 @@ export function getUniqueAnimalResources(): AnimalResource[] {
       });
     });
   });
+
+  // Pig Bristles are paid on trade-in rather than dropped, so they are not in
+  // the drop table, but they are still an animal resource.
+  uniqueResources.add("Pig Bristles");
 
   return Array.from(uniqueResources);
 }

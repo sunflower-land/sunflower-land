@@ -8,10 +8,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import moonIcon from "assets/icons/moon_crystal.webp";
 import fullMoonIcon from "assets/icons/full_moon.png";
 import eventIcon from "assets/icons/calendar.webp";
-import {
-  CHAPTER_CROP_WEEK_SEED,
-  RETIRED_CHAPTER_CROP_WEEK_SEEDS,
-} from "features/game/types/chapterCropWeek";
+import { CHAPTER_CROP_WEEKS } from "features/game/types/chapterCropWeek";
 import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
 import springIcon from "assets/icons/spring.webp";
 import summerIcon from "assets/icons/summer.webp";
@@ -24,11 +21,9 @@ import {
 } from "features/game/types/seeds";
 import {
   CROPS,
-  GREENHOUSE_CROPS,
   getCropCategory,
   isOvernightCrop,
   type CropName,
-  type GreenHouseCropName,
   type ProduceName,
 } from "features/game/types/crops";
 import {
@@ -86,9 +81,7 @@ const canUseCropMachine = (game: GameState, seed: SeedName) => {
 };
 
 const isOvernightProduce = (produce?: ProduceName) =>
-  !!produce &&
-  (produce in CROPS || produce in GREENHOUSE_CROPS) &&
-  isOvernightCrop(produce as CropName | GreenHouseCropName);
+  !!produce && produce in CROPS && isOvernightCrop(produce as CropName);
 
 /**
  * Tags describing a seed's crop: its category, whether it is an Overnight Crop
@@ -121,10 +114,7 @@ export const getCropTags = (
   }
 
   // Chapter Crop Week crops, current and past: only sold during the event.
-  if (
-    seed === CHAPTER_CROP_WEEK_SEED ||
-    RETIRED_CHAPTER_CROP_WEEK_SEEDS.includes(seed)
-  ) {
+  if (CHAPTER_CROP_WEEKS.some((run) => run.seed === seed)) {
     tags.push({
       key: "event",
       label: t("chapterCropWeek.specialEventCrop"),

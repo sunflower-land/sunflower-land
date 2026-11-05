@@ -68,4 +68,5 @@ jobs:
             public/erc1155/*.json
             public/erc1155/images/*.webp
             public/erc1155/images/.manifest.json
+            public/wearables/*.json
           commit: --no-verify

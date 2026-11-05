@@ -451,6 +451,36 @@ export const CHAPTER_COLLECTIONS: Partial<
       },
     },
   }),
+  "Cave Dwellers": buildChapterCollection({
+    chapter: "Cave Dwellers",
+    overrides: {
+      auctioneer: {
+        collectibles: [
+          "Piggy Bank",
+          "Big Bad Wolf",
+          "Stick House",
+          "Brick House",
+          "Giant Truffle",
+        ],
+        wearables: [
+          "Hercules Beetle Hat",
+          "Firefly Aura",
+          "Antique Dress",
+          "Harpoon",
+        ],
+      },
+      other: {
+        collectibles: [
+          "Cave Dwellers Banner",
+          ...getObjectEntries(CHAPTER_CRAFTING_ITEMS)
+            .filter((item) => item[1] === "Cave Dwellers")
+            .map((item) => item[0]),
+        ],
+        // Luxury chest exclusive
+        wearables: ["Fish Trap"],
+      },
+    },
+  }),
 };
 
 /** Flattens source-keyed collection into collectibles and wearables arrays for the grid. */

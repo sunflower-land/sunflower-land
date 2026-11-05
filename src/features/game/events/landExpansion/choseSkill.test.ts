@@ -4,10 +4,13 @@ import {
   ascensionBaseline,
   levelXp,
 } from "features/game/lib/level";
-import Decimal from "decimal.js-light";
-import { CONFIG } from "lib/config";
 import type { GameState } from "features/game/types/game";
-import { choseSkill, getAvailableBumpkinSkillPoints } from "./choseSkill";
+import { BUMPKIN_REVAMP_SKILL_TREE } from "features/game/types/bumpkinSkills";
+import {
+  choseSkill,
+  getAvailableBumpkinSkillPoints,
+  SKILL_POINTS_PER_TIER,
+} from "./choseSkill";
 
 describe("choseSkill", () => {
   const dateNow = Date.now();
@@ -249,49 +252,84 @@ describe("choseSkill", () => {
         expect(choose(skill).bumpkin.skills[skill]).toEqual(1);
       },
     );
+  });
 
-    describe("off testnet", () => {
-      let previousNetwork: (typeof CONFIG)["NETWORK"];
+  describe("Cave skills", () => {
+    const caveFarm = (
+      skills: GameState["bumpkin"]["skills"] = {},
+      island: GameState["island"]["type"] = "spring",
+    ): GameState => ({
+      ...TEST_FARM,
+      island: { ...TEST_FARM.island, type: island },
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        experience: LEVEL_EXPERIENCE[30],
+        skills,
+      },
+    });
 
-      beforeEach(() => {
-        previousNetwork = CONFIG.NETWORK;
-        (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+    const choose = (
+      skill: "Lean Compost" | "Fungal Harvest" | "Rare Breeds",
+      state: GameState,
+    ) =>
+      choseSkill({
+        state,
+        action: { type: "skill.chosen", skill },
+        createdAt: dateNow,
       });
 
-      afterEach(() => {
-        (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
-      });
+    it("claims a tier 1 Cave skill on Spring island", () => {
+      expect(
+        choose("Lean Compost", caveFarm()).bumpkin.skills["Lean Compost"],
+      ).toEqual(1);
+    });
 
-      it.each(["Swill Savvy", "Truffle Yield", "Bristle Payout"] as const)(
-        "rejects %s",
-        (skill) => {
-          expect(() => choose(skill)).toThrow("This skill is not available");
-        },
+    it("is locked before Spring island", () => {
+      expect(() => choose("Lean Compost", caveFarm({}, "basic"))).toThrow(
+        "You are not at the correct island!",
+      );
+    });
+
+    it("needs 3 Cave points spent for tier 2", () => {
+      const twoPoints = { "Lean Compost": 1, "Rapid Mycelium": 1 };
+      expect(() => choose("Fungal Harvest", caveFarm(twoPoints))).toThrow(
+        "You need to unlock tier 2 first",
       );
 
-      it("rejects a Pig skill even with a Beta Pass", () => {
-        expect(() =>
-          choose(
-            "Truffle Yield",
-            pigFarm({
-              inventory: {
-                ...TEST_FARM.inventory,
-                "Beta Pass": new Decimal(1),
-              },
-            }),
-          ),
-        ).toThrow("This skill is not available");
-      });
+      const threePoints = { ...twoPoints, "Mushroom Bloom": 1 };
+      expect(
+        choose("Fungal Harvest", caveFarm(threePoints)).bumpkin.skills[
+          "Fungal Harvest"
+        ],
+      ).toEqual(1);
+    });
 
-      it("still lets other Animals skills be claimed", () => {
-        expect(() =>
-          choseSkill({
-            state: pigFarm(),
-            action: { type: "skill.chosen", skill: "Chonky Feed" },
-            createdAt: dateNow,
-          }),
-        ).not.toThrow();
-      });
+    it("needs 6 Cave points spent for tier 3", () => {
+      // All 5 tier-1 skills = 5 points: tier 1 alone never unlocks tier 3.
+      const allTierOne = {
+        "Lean Compost": 1,
+        "Rapid Mycelium": 1,
+        "Mushroom Bloom": 1,
+        "Muddy Bounty": 1,
+        "Sturdy Shovel": 1,
+      };
+      expect(() => choose("Rare Breeds", caveFarm(allTierOne))).toThrow(
+        "You need to unlock tier 3 first",
+      );
+
+      // 4 tier-1 skills + 1 tier-2 skill = 6 points.
+      const sixPoints = {
+        "Lean Compost": 1,
+        "Rapid Mycelium": 1,
+        "Mushroom Bloom": 1,
+        "Muddy Bounty": 1,
+        "Fungal Harvest": 1,
+      };
+      expect(
+        choose("Rare Breeds", caveFarm(sixPoints)).bumpkin.skills[
+          "Rare Breeds"
+        ],
+      ).toEqual(1);
     });
   });
 
@@ -449,6 +487,71 @@ describe("choseSkill", () => {
 
       // Level 10 earns 10 points; 3 spent => 7 available.
       expect(result).toBe(7);
+    });
+  });
+
+  describe("SKILL_POINTS_PER_TIER", () => {
+    it("derives tier thresholds from each tree's tier 1 skills", () => {
+      expect(SKILL_POINTS_PER_TIER.Crops).toEqual({ 1: 0, 2: 3, 3: 7 });
+      expect(SKILL_POINTS_PER_TIER["Fruit Patch"]).toEqual({
+        1: 0,
+        2: 3,
+        3: 6,
+      });
+      expect(SKILL_POINTS_PER_TIER.Greenhouse).toEqual({ 1: 0, 2: 2, 3: 5 });
+      expect(SKILL_POINTS_PER_TIER.Animals).toEqual({ 1: 0, 2: 4, 3: 8 });
+      expect(SKILL_POINTS_PER_TIER.Cave).toEqual({ 1: 0, 2: 3, 3: 6 });
+    });
+
+    it("never lets tier 1 skills alone unlock tier 3", () => {
+      Object.entries(SKILL_POINTS_PER_TIER).forEach(([tree, tiers]) => {
+        const tierOnePoints = Object.values(BUMPKIN_REVAMP_SKILL_TREE)
+          .filter(
+            (skill) => skill.tree === tree && skill.requirements.tier === 1,
+          )
+          .reduce((acc, skill) => acc + skill.requirements.points, 0);
+
+        expect(tiers[3]).toBeGreaterThan(tierOnePoints);
+      });
+    });
+
+    it("keeps a legacy tier 3 skill but locks new ones until the threshold is met", () => {
+      // All 5 Fruit Patch tier 1 skills = 5 points, below the tier 3 threshold
+      // of 6, while still owning a tier 3 skill picked under the old threshold.
+      const legacySkills = {
+        "Fruitful Fumble": 1,
+        "Fruity Heaven": 1,
+        "Fruity Profit": 1,
+        "Loyal Macaw": 1,
+        "No Axe No Worries": 1,
+        "Generous Orchard": 1,
+      };
+      const farm = (skills: GameState["bumpkin"]["skills"]): GameState => ({
+        ...TEST_FARM,
+        island: { ...TEST_FARM.island, type: "spring" },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: LEVEL_EXPERIENCE[30],
+          skills,
+        },
+      });
+
+      expect(() =>
+        choseSkill({
+          state: farm(legacySkills),
+          action: { type: "skill.chosen", skill: "Long Pickings" },
+          createdAt: dateNow,
+        }),
+      ).toThrow("You need to unlock tier 3 first");
+
+      const result = choseSkill({
+        state: farm({ ...legacySkills, Catchup: 1 }),
+        action: { type: "skill.chosen", skill: "Long Pickings" },
+        createdAt: dateNow,
+      });
+
+      expect(result.bumpkin.skills["Generous Orchard"]).toEqual(1);
+      expect(result.bumpkin.skills["Long Pickings"]).toEqual(1);
     });
   });
 });

@@ -13,7 +13,10 @@ import { SplitScreenView } from "components/ui/SplitScreenView";
 import { ShopSellDetails } from "components/ui/layouts/ShopSellDetails";
 import { Button } from "components/ui/Button";
 import { Box } from "components/ui/Box";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  getTranslatedItemName,
+  ITEM_DETAILS,
+} from "features/game/types/images";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { BulkSellModal } from "components/ui/BulkSellModal";
@@ -172,7 +175,7 @@ export const TreasureShopSell: React.FC = () => {
               ? t("confirmation.valuableTreasure")
               : t("confirmation.sell", {
                   amount: customAmount,
-                  name: selectedName,
+                  name: getTranslatedItemName(selectedName),
                   coinAmount,
                 }),
         ]}

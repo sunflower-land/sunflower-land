@@ -54,12 +54,12 @@ export const READONLY_RESOURCE_COMPONENTS = ({
 }): Record<ResourceName, () => JSX.Element> => {
   const currentBiome = getCurrentBiome(island);
 
-  // Ascension biomes draw their trees on their own canvas rather than the
-  // 26x34 one every other biome shares, so the sprite drives its own layout.
+  // Ascension trees and desert's ancient/sacred cacti are drawn on their own
+  // canvas rather than the shared 26x34 one, so the sprite drives its layout.
   // It sits in normal flow from the top of the tile, hence offsetting it to
   // centre the trunk and drop the base onto the bottom of that tile.
   const treeStyle = (tree: TreeName) => {
-    const { width, height } = TREE_SIZE_VARIANTS(currentBiome, tree);
+    const { width, height } = TREE_SIZE_VARIANTS(currentBiome, season, tree);
 
     return {
       width: `${PIXEL_SCALE * width}px`,

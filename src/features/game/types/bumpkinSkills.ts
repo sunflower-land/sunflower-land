@@ -90,10 +90,24 @@ import saltySeas from "assets/icons/skill_icons/salty_seas.webp";
 import seaBlessed from "assets/icons/skill_icons/sea_blessed.webp";
 import speedyAging from "assets/icons/skill_icons/speedy_aging.webp";
 import wideRakes from "assets/icons/skill_icons/wide_rakes.webp";
+import beetleNest from "assets/icons/skill_icons/beetle_nest.webp";
+import fungalHarvest from "assets/icons/skill_icons/fungal_harvest.webp";
+import leanCompost from "assets/icons/skill_icons/lean_compost.webp";
+import muddyBounty from "assets/icons/skill_icons/muddy_bounty.webp";
+import mushroomBloom from "assets/icons/skill_icons/mushroom_bloom.webp";
+import mycoBinSmall from "assets/icons/skill_icons/myco_bin_small.webp";
+import rapidMycelium from "assets/icons/skill_icons/rapid_mycelium.webp";
+import rareBreeds from "assets/icons/skill_icons/rare_breeds.webp";
+import sturdyDrill from "assets/icons/skill_icons/sturdy_drill.webp";
+import sturdyShovel from "assets/icons/skill_icons/sturdy_shovel.webp";
+import toolHoarder from "assets/icons/skill_icons/tool_hoarder.webp";
+import twinBeetles from "assets/icons/skill_icons/twin_beetles.webp";
 import xpIcon from "assets/icons/xp.png";
 import type { NPCName } from "lib/npcs";
 import type { BuffLabel } from ".";
 import type { ToolName } from "./craftables";
+import type { TreasureToolName } from "./tools";
+import type { BeetleName } from "./beetles";
 import { OIL_DRILL_WOOL_BY_RANK } from "./oilDrill";
 
 export type BumpkinSkillName =
@@ -139,7 +153,8 @@ export type BumpkinRevampSkillTree =
   | "Bees & Flowers"
   | "Machinery"
   | "Compost"
-  | "Aging";
+  | "Aging"
+  | "Cave";
 
 export type BumpkinSkill = {
   name: BumpkinSkillName;
@@ -206,7 +221,11 @@ export type AOEExtent = { xLeft: number; xRight: number; depth: number };
 
 // Items whose restock amount an upgradeable skill can raise — tools (More Axes /
 // More Picks) plus the two fruit seeds boosted by Crime Fruit.
-export type StockBoostName = ToolName | "Tomato Seed" | "Lemon Seed";
+export type StockBoostName =
+  | ToolName
+  | TreasureToolName
+  | "Tomato Seed"
+  | "Lemon Seed";
 
 // Per-rank effect magnitudes for an upgradeable skill, stored inline on
 // the skill's `upgrade.effect` in BUMPKIN_REVAMP_SKILL_TREE (single source of
@@ -288,6 +307,15 @@ export type SkillRankEffect =
       kind: "xpWithFeedDebuff";
       xp: readonly [number, number, number]; // animal-XP multiplier from feed
       feed: readonly [number, number, number]; // feed-cost multiplier debuff
+    }
+  | {
+      kind: "beetleRarity";
+      // Cave Beetle rarity weights (percent, summing to 100) per rank.
+      ranks: readonly [
+        Record<BeetleName, number>,
+        Record<BeetleName, number>,
+        Record<BeetleName, number>,
+      ];
     }
   | {
       kind: "sicknessWithSpread";
@@ -4533,6 +4561,301 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     image: saltSurge,
   },
+
+  // Cave - Tier 1
+  "Lean Compost": {
+    name: "Lean Compost",
+    tree: "Cave",
+    // x0.95 / x0.9 / x0.85 Myco Bin batch ingredients.
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "costMultiplier", ranks: [0.95, 0.9, 0.85] },
+    },
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.leanCompost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: mycoBinSmall,
+      },
+    },
+    image: leanCompost,
+  },
+  "Rapid Mycelium": {
+    name: "Rapid Mycelium",
+    tree: "Cave",
+    // x0.95 / x0.9 / x0.85 Myco Bin growth time (11.4h / 10.8h / 10.2h).
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "growthMultiplier", ranks: [0.95, 0.9, 0.85] },
+    },
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.rapidMycelium"),
+        labelType: "success",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: mycoBinSmall,
+      },
+    },
+    image: rapidMycelium,
+  },
+  "Mushroom Bloom": {
+    name: "Mushroom Bloom",
+    tree: "Cave",
+    // +1 / +2 / +3 Mushroom tiles per Cave patch, in place of Mud.
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "flatBonus", ranks: [1, 2, 3] },
+    },
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.mushroomBloom"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: fungalHarvest,
+      },
+    },
+    image: mushroomBloom,
+  },
+  "Muddy Bounty": {
+    name: "Muddy Bounty",
+    tree: "Cave",
+    // +10% / +20% / +30% Mud from each Cave Mud tile.
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "yieldBonus", ranks: [0.1, 0.2, 0.3] },
+    },
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.muddyBounty"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Mud.image,
+      },
+    },
+    image: muddyBounty,
+  },
+  "Sturdy Shovel": {
+    name: "Sturdy Shovel",
+    tree: "Cave",
+    // 10% / 20% / 30% chance a Cave dig does not use up its Sand Shovel.
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "chance", ranks: [10, 20, 30] },
+    },
+    disabled: false,
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.sturdyShovel"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Sand Shovel"].image,
+      },
+    },
+    image: sturdyShovel,
+  },
+
+  // Cave - Tier 2
+  "Fungal Harvest": {
+    name: "Fungal Harvest",
+    tree: "Cave",
+    // +0.2 / +0.3 / +0.4 Mushrooms (Wild or Magic) from each Cave Mushroom tile.
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "additiveYield", ranks: [0.2, 0.3, 0.4] },
+    },
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.fungalHarvest"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: fungalHarvest,
+      },
+    },
+    image: fungalHarvest,
+  },
+  "Beetle Nest": {
+    name: "Beetle Nest",
+    tree: "Cave",
+    // +1 / +2 / +3 Beetle tiles per Cave patch, in place of Mud.
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "flatBonus", ranks: [1, 2, 3] },
+    },
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.beetleNest"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: rareBreeds,
+      },
+    },
+    image: beetleNest,
+  },
+  "Sturdy Drill": {
+    name: "Sturdy Drill",
+    tree: "Cave",
+    // 20% / 30% / 40% chance a Cave drill does not use up its Sand Drill.
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "chance", ranks: [20, 30, 40] },
+    },
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.sturdyDrill"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Sand Drill"].image,
+      },
+    },
+    image: sturdyDrill,
+  },
+  "Tool Hoarder": {
+    name: "Tool Hoarder",
+    tree: "Cave",
+    // +25/+50/+100 Sand Shovel (base 125) and +5/+10/+20 Sand Drill (base 25) stock.
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "stockBonus",
+        ranks: { "Sand Shovel": [25, 50, 100], "Sand Drill": [5, 10, 20] },
+      },
+    },
+    disabled: false,
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.toolHoarder"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: toolHoarder,
+      },
+    },
+    image: toolHoarder,
+  },
+
+  // Cave - Tier 3
+  "Rare Breeds": {
+    name: "Rare Breeds",
+    tree: "Cave",
+    // Green / Blue / Pink / Amber Beetle odds (base 40/30/20/10).
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "beetleRarity",
+        ranks: [
+          {
+            "Green Beetle": 35,
+            "Blue Beetle": 35,
+            "Pink Beetle": 15,
+            "Amber Beetle": 15,
+          },
+          {
+            "Green Beetle": 30,
+            "Blue Beetle": 30,
+            "Pink Beetle": 20,
+            "Amber Beetle": 20,
+          },
+          {
+            "Green Beetle": 25,
+            "Blue Beetle": 25,
+            "Pink Beetle": 25,
+            "Amber Beetle": 25,
+          },
+        ],
+      },
+    },
+    disabled: false,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.rareBreeds"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: rareBreeds,
+      },
+    },
+    image: rareBreeds,
+  },
+  "Twin Beetles": {
+    name: "Twin Beetles",
+    tree: "Cave",
+    // 5% / 10% / 15% chance of one more of a Beetle dug up in the Cave.
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "chance", ranks: [5, 10, 15] },
+    },
+    disabled: false,
+    requirements: {
+      points: 3,
+      tier: 3,
+      island: "spring",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.twinBeetles"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: rareBreeds,
+      },
+    },
+    image: twinBeetles,
+  },
 } satisfies Record<string, BumpkinSkillRevamp>;
 
 export type BumpkinRevampSkillName = keyof typeof BUMPKIN_REVAMP_SKILL_TREE;
@@ -4743,6 +5066,17 @@ export const SKILL_RANKS = {
   "Leathercraft Mastery":
     BUMPKIN_REVAMP_SKILL_TREE["Leathercraft Mastery"].upgrade.effect,
   "Barnyard Rouse": BUMPKIN_REVAMP_SKILL_TREE["Barnyard Rouse"].upgrade.effect,
+  "Lean Compost": BUMPKIN_REVAMP_SKILL_TREE["Lean Compost"].upgrade.effect,
+  "Rapid Mycelium": BUMPKIN_REVAMP_SKILL_TREE["Rapid Mycelium"].upgrade.effect,
+  "Mushroom Bloom": BUMPKIN_REVAMP_SKILL_TREE["Mushroom Bloom"].upgrade.effect,
+  "Muddy Bounty": BUMPKIN_REVAMP_SKILL_TREE["Muddy Bounty"].upgrade.effect,
+  "Sturdy Shovel": BUMPKIN_REVAMP_SKILL_TREE["Sturdy Shovel"].upgrade.effect,
+  "Fungal Harvest": BUMPKIN_REVAMP_SKILL_TREE["Fungal Harvest"].upgrade.effect,
+  "Beetle Nest": BUMPKIN_REVAMP_SKILL_TREE["Beetle Nest"].upgrade.effect,
+  "Sturdy Drill": BUMPKIN_REVAMP_SKILL_TREE["Sturdy Drill"].upgrade.effect,
+  "Tool Hoarder": BUMPKIN_REVAMP_SKILL_TREE["Tool Hoarder"].upgrade.effect,
+  "Rare Breeds": BUMPKIN_REVAMP_SKILL_TREE["Rare Breeds"].upgrade.effect,
+  "Twin Beetles": BUMPKIN_REVAMP_SKILL_TREE["Twin Beetles"].upgrade.effect,
 } satisfies Record<UpgradeableSkillName, SkillRankEffect>;
 
 // Runtime guard co-located with SKILL_RANKS so callers can narrow to an
@@ -4750,83 +5084,6 @@ export const SKILL_RANKS = {
 export const isUpgradeableSkillName = (
   name: BumpkinRevampSkillName,
 ): name is UpgradeableSkillName => name in SKILL_RANKS;
-
-// Upgradeable Cooking/Crops skills whose upgraded rank is neutralised on the
-// CHAPTER_CROP_WEEK event items (the Crystal Leaf crop and the Crystal Cookie recipe).
-// Derived from the tree (tree === Cooking/Crops + an `upgrade` block) so it can
-// never drift from which skills are actually upgradeable.
-// Module-private so no other module can mutate this shared set (it drives the
-// event-item downgrade + the "boosts paused" notice); callers use the helpers below.
-const CHAPTER_CROP_WEEK_DOWNGRADED_SKILLS: Set<UpgradeableSkillName> = new Set(
-  getKeys(BUMPKIN_REVAMP_SKILL_TREE).filter(
-    (name): name is UpgradeableSkillName => {
-      const { tree } = BUMPKIN_REVAMP_SKILL_TREE[name];
-      return (tree === "Cooking" || tree === "Crops") && name in SKILL_RANKS;
-    },
-  ),
-);
-
-// Returns `skills` with every upgradeable Cooking/Crops skill capped at rank 1
-// (the base skill still applies, but the upgraded rank grants no extra bonus).
-// Used to neutralise upgraded skill effects on the CHAPTER_CROP_WEEK event items
-// WITHOUT mutating the player's real ranks — callers pass the result only into the
-// Crystal Leaf/Crystal Cookie boost math and keep the original ranks everywhere else. Returns
-// the original object untouched when nothing needs capping (the common case).
-export const downgradeChapterCropWeekSkills = (skills: Skills): Skills => {
-  let result: Skills | undefined;
-  for (const name of CHAPTER_CROP_WEEK_DOWNGRADED_SKILLS) {
-    if ((skills[name] ?? 0) > 1) {
-      result = result ?? { ...skills };
-      result[name] = 1;
-    }
-  }
-  return result ?? skills;
-};
-
-// The upgradeable skills whose downgrade actually changes a CHAPTER_CROP_WEEK
-// event item's result: Crystal Leaf is an ADVANCED plot crop and Crystal Cookie
-// is a Fire-Pit (non-cake) recipe, so only the skills that mechanically apply to
-// those are listed — e.g. Frosted Cakes (cakes only) and basic/medium farmer
-// skills are excluded because they can never affect Crystal Cookie / advanced
-// Crystal Leaf.
-//
-// `downgradeChapterCropWeekSkills` intentionally caps the WHOLE Crops/Cooking tree
-// (a correct superset — capping an inapplicable skill is a no-op for the event
-// item), so mechanics stay robust to crop/recipe tweaks; this list is a subset of
-// it, so the notice can never claim a suppression the mechanics don't make.
-const CHAPTER_CROP_WEEK_NOTICE_SKILLS: Record<
-  "Crops" | "Cooking",
-  readonly UpgradeableSkillName[]
-> = {
-  // Green Thumb (growth, all crops), Strong Roots (growth, advanced), Old Farmer
-  // (advanced yield), Acre Farm (buffs advanced), Hectare Farm (debuffs
-  // advanced), Laurie's Gains (Laurie the Chuckle Crow AOE, advanced). See
-  // getCropYieldAmount / getCropPlotTime for the class gates.
-  Crops: [
-    "Green Thumb",
-    "Strong Roots",
-    "Old Farmer",
-    "Acre Farm",
-    "Hectare Farm",
-    "Laurie's Gains",
-  ],
-  // Double Nom (cost + food, all recipes), Fast Feasts (Fire Pit time), Swift
-  // Sizzle (Fire Pit oil), Fiery Jackpot (Fire Pit crit). See cook / collectRecipe.
-  Cooking: ["Double Nom", "Fast Feasts", "Swift Sizzle", "Fiery Jackpot"],
-};
-
-// Whether the player owns an UPGRADED (rank 2+) skill that the CHAPTER_CROP_WEEK
-// event actually neutralises for its item. Drives the "ascension boosts paused"
-// notice in the Market (Crops → Crystal Leaf) and Fire Pit (Cooking → Crystal Cookie) — a
-// rank-1 skill still applies its base effect, and a skill that can't affect the
-// event item never counts, so the notice only shows a real, suppressed boost.
-export const hasUpgradedChapterCropWeekSkill = (
-  skills: Skills,
-  tree: "Crops" | "Cooking",
-): boolean =>
-  CHAPTER_CROP_WEEK_NOTICE_SKILLS[tree].some(
-    (name) => (skills[name] ?? 0) >= 2,
-  );
 
 // Effective "1 in N" gold chance shown to players for Golden Sunflower per rank.
 // Derived from the mechanical dropChance so the display can't drift: prngChance

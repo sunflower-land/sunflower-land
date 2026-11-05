@@ -14,11 +14,19 @@ export const CAVE_DIG_SHOVEL_COST = 1;
 export const CAVE_DRILL_COST = 1;
 
 /**
- * How long a batch grows before its patch is ready to dig. Fixed 12h — existing
- * time boosts (shrines, hourglasses, SPEED_BOOSTS) do NOT apply; only the future
- * Cave skill will shorten it.
+ * How long a batch grows before its patch is ready to dig, before Cave skills.
+ * Existing time boosts (shrines, hourglasses, SPEED_BOOSTS) do NOT apply; only
+ * the Rapid Mycelium Cave skill shortens it (`getCaveBatchDuration`).
  */
 export const CAVE_BATCH_DURATION_MS = 12 * 60 * 60 * 1000;
+
+/**
+ * A farm's first batch grows in 10 minutes instead (no Cave skills) and must
+ * be the Mushroom mix, so the Cave tutorial reaches digging in one sitting.
+ * See `isFirstCaveBatch`.
+ */
+export const CAVE_FIRST_BATCH_DURATION_MS = 10 * 60 * 1000;
+export const CAVE_FIRST_BATCH_RECIPE: CaveRecipeName = "Mushroom";
 
 /**
  * A buried tile's kind. Cave patches hold no Chapter Artefact (#7721); the
@@ -37,7 +45,7 @@ export type CaveRecipe = {
   /**
    * Fixed inputs consumed to start a batch. Empty for the Mud recipe, whose
    * input is one crop the player picks (`CAVE_MUD_CROPS`) — read a batch's
-   * cost through `getCaveBatchIngredients`, never from here directly.
+   * cost through `getCaveBatchCost` (Cave skills included), never from here.
    */
   ingredients: Partial<Record<InventoryItemName, Decimal>>;
 };
@@ -53,9 +61,9 @@ export const CAVE_RECIPES: Record<CaveRecipeName, CaveRecipe> = {
     ingredients: { Wood: new Decimal(10) },
   },
   Beetle: {
-    composition: { Mushroom: 3, Beetle: 4, Mud: 18 },
+    composition: { Mushroom: 3, Beetle: 5, Mud: 17 },
     mudYieldMultiplier: 1,
-    ingredients: { Egg: new Decimal(10) },
+    ingredients: { Egg: new Decimal(30) },
   },
   Mud: {
     composition: { Mushroom: 3, Beetle: 2, Mud: 20 },
@@ -127,6 +135,14 @@ export function getCaveBatchIngredients(
 /** The "x,y" key of a tile in local patch coordinates (0..4 each). */
 export function caveTileKey(x: number, y: number): string {
   return `${x},${y}`;
+}
+
+/** The coordinates a `caveTileKey` names; undefined for a key off the patch. */
+export function parseCaveTileKey(
+  key: string,
+): { x: number; y: number } | undefined {
+  const [x, y] = key.split(",").map(Number);
+  return isCaveTileInPatch(x, y) ? { x, y } : undefined;
 }
 
 /** True for integer patch coordinates within the 5x5 grid. */

@@ -2686,3 +2686,76 @@ describe("claimProduce: Mud", () => {
     expect(pig.feedBuff).toEqual({ name: "Salt Lick", harvestsRemaining: 1 });
   });
 });
+
+describe("claimProduce: Truffle Seasoning (Chapter 16)", () => {
+  const now = Date.now();
+  const chickenId = "seasoned";
+
+  const farm = (feedBuff?: Animal["feedBuff"]): GameState => ({
+    ...FARM_WITH_HERDS,
+    buildings: {
+      "Hen House": [
+        {
+          id: "henHouse",
+          readyAt: 0,
+          createdAt: 0,
+          coordinates: { x: 0, y: 0 },
+        },
+      ],
+    },
+    inventory: {},
+    henHouse: {
+      ...FARM_WITH_HERDS.henHouse,
+      animals: {
+        [chickenId]: {
+          id: chickenId,
+          type: "Chicken",
+          createdAt: 0,
+          state: "ready",
+          experience: 60,
+          asleepAt: 0,
+          awakeAt: 0,
+          lovedAt: 0,
+          item: "Petting Hand",
+          feedBuff,
+        },
+      },
+    },
+  });
+
+  const claim = (state: GameState) =>
+    claimProduce({
+      createdAt: now,
+      state,
+      action: { type: "produce.claimed", animal: "Chicken", id: chickenId },
+    }).henHouse.animals[chickenId];
+
+  it("halves the sleep the claim starts and spends its only charge on it", () => {
+    const chicken = claim(
+      farm({ name: "Truffle Seasoning", harvestsRemaining: 1 }),
+    );
+
+    expect(chicken.baseDurationMs).toEqual(ANIMAL_SLEEP_DURATION / 2);
+    expect(chicken.awakeAt).toEqual(now + ANIMAL_SLEEP_DURATION / 2);
+    expect(chicken.feedBuff).toBeUndefined();
+  });
+
+  it("keeps a Vibraphone's second charge for the sleep after", () => {
+    const chicken = claim(
+      farm({ name: "Truffle Seasoning", harvestsRemaining: 2 }),
+    );
+
+    expect(chicken.baseDurationMs).toEqual(ANIMAL_SLEEP_DURATION / 2);
+    expect(chicken.feedBuff).toEqual({
+      name: "Truffle Seasoning",
+      harvestsRemaining: 1,
+    });
+  });
+
+  it("sleeps the full day without a Seasoning", () => {
+    expect(claim(farm()).baseDurationMs).toEqual(ANIMAL_SLEEP_DURATION);
+    expect(
+      claim(farm({ name: "Salt Lick", harvestsRemaining: 3 })).baseDurationMs,
+    ).toEqual(ANIMAL_SLEEP_DURATION);
+  });
+});

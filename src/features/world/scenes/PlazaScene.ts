@@ -46,6 +46,7 @@ const CHAPTER_BANNERS: Record<ChapterName, string | undefined> = {
   "Crabs and Traps": "world/crap_chapter_banner.webp",
   "Salt Awakening": "world/salt_awakening_banner.webp",
   "Ascension Age": "world/ascension_banner.webp",
+  "Cave Dwellers": "world/cave_dwellers_banner.webp",
 };
 
 // Tiled Layer names that get enabled during a chapter
@@ -66,6 +67,7 @@ const CHAPTER_LAYERS: Record<ChapterName, string | undefined> = {
   "Crabs and Traps": "Crabs and Traps",
   "Salt Awakening": "Salt Awakening",
   "Ascension Age": "Ascension",
+  "Cave Dwellers": "Cave Dwellers",
 };
 
 export type FactionNPC = {
@@ -231,8 +233,6 @@ export class PlazaScene extends BaseScene {
   preload() {
     this.load.audio("chime", SOUNDS.notifications.chime);
 
-    this.load.image("rarecrows", "world/rarecrows.webp");
-
     this.load.image("page", "world/page.png");
     this.load.image("arrows_to_move", "world/arrows_to_move.png");
 
@@ -364,17 +364,6 @@ export class PlazaScene extends BaseScene {
     weatherShop.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (this.checkDistanceToSprite(weatherShop, 75)) {
         interactableModalManager.open("weather_shop");
-      } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
-      }
-    });
-
-    const rarecrows = this.add
-      .sprite(277, 420, "rarecrows")
-      .setDepth(100000000);
-    rarecrows.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      if (this.checkDistanceToSprite(rarecrows, 75)) {
-        interactableModalManager.open("rarecrows");
       } else {
         this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
@@ -830,16 +819,11 @@ export class PlazaScene extends BaseScene {
       const sparkle5 = this.add.sprite(634, 191, "sparkle");
       sparkle5.setDepth(1000000);
 
-      // Rarecrows
-      const rarecrowsSparkle = this.add.sprite(277, 410, "sparkle");
-      rarecrowsSparkle.setDepth(100000000);
-
       sparkle.play(`sparkel_anim`, true);
       sparkle2.play(`sparkel_anim`, true);
       sparkle3.play(`sparkel_anim`, true);
       sparkle4.play(`sparkel_anim`, true);
       sparkle5.play(`sparkel_anim`, true);
-      rarecrowsSparkle.play(`sparkel_anim`, true);
     }
 
     // After Paw Prints, items are added on the tiled map itself

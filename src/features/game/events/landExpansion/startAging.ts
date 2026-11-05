@@ -59,7 +59,9 @@ export function startAging({
 
     const baseXP = getFishBaseXP(action.fish);
     const fishCost = getBoostedAgingFishCost(game);
-    const { cost: saltCost, boostsUsed } = getBoostedAgingSaltCost(
+    const { cost: saltCost, boostsUsed: saltBoostsUsed } =
+      getBoostedAgingSaltCost(baseXP, game);
+    const { timeMs, boostsUsed: timeBoostsUsed } = getBoostedAgingTimeMs(
       baseXP,
       game,
     );
@@ -81,7 +83,7 @@ export function startAging({
       id: action.slotId,
       fish: action.fish,
       startedAt: createdAt,
-      readyAt: createdAt + getBoostedAgingTimeMs(baseXP, game),
+      readyAt: createdAt + timeMs,
       // Stamps the Ager rank applied at the time of starting, so collect pays
       // out at the rank whose inputs were charged above.
       skills: { Ager: getSkillLevel(game.bumpkin.skills, "Ager") },
@@ -92,7 +94,7 @@ export function startAging({
 
     game.boostsUsedAt = updateBoostUsed({
       game,
-      boostNames: boostsUsed,
+      boostNames: [...saltBoostsUsed, ...timeBoostsUsed],
       createdAt,
     });
   });

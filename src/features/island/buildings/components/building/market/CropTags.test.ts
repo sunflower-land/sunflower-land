@@ -23,12 +23,13 @@ describe("getCropTags", () => {
     expect(keys("Turnip Seed")).toContain("overnight");
     expect(keys("Barley Seed")).toContain("overnight");
     expect(keys("Crystal Leaf Seed")).toContain("overnight");
-    expect(keys("Rice Seed")).toContain("overnight");
   });
 
   it("does not tag shorter or out-of-range crops as overnight", () => {
     expect(keys("Potato Seed")).not.toContain("overnight");
     expect(keys("Olive Seed")).not.toContain("overnight");
+    // Greenhouse crops never get Hoot's boost.
+    expect(keys("Rice Seed")).not.toContain("overnight");
   });
 
   it("only shows the Crop Machine tag when the player owns one", () => {

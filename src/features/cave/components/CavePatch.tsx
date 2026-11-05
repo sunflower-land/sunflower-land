@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 
 import { Context } from "features/game/GameProvider";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
@@ -9,18 +9,28 @@ import {
   isCavePatchCleared,
 } from "features/game/types/caveRecipes";
 import {
-  generateCavePatch,
-  getCaveBeetleProgress,
+  getCavePatchComposition,
+  getRevealedCaveTiles,
   isCaveSeed,
-  resolveCaveTile,
+  resolveRevealedCaveTile,
   type ResolvedCaveTile,
 } from "features/game/types/cavePatch";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CAVE_PATCH_SIZE } from "features/game/expansion/placeable/lib/caveLayout";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
+import { ProgressBar } from "components/ui/ProgressBar";
+import { getCaveBatchPercentage } from "features/cave/lib/caveBatchProgress";
 import { getKeys } from "lib/object";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { CaveTutorialHand } from "./CaveTutorial";
+
+import {
+  CAVE_FEEDBACK_DISPLAY_MS,
+  CAVE_FEEDBACK_FADE_MS,
+  getCaveDigFeedback,
+} from "../lib/digFeedback";
+import { CaveDigFeedback, type CaveFeedbackEvent } from "./CaveDigFeedback";
 
 interface Props {
   machineId: string;
@@ -28,6 +38,8 @@ interface Props {
   now: number;
   hasShovel: boolean;
   hasDrill: boolean;
+  /** The tile the Cave tutorial points at for the first dig. */
+  tutorialTile?: { x: number; y: number };
 }
 
 // The same hover boxes the desert dig site uses: one tile for the shovel,
@@ -72,7 +84,8 @@ const DugTile: React.FC<{ tile: ResolvedCaveTile }> = ({ tile }) => {
 };
 
 /**
- * A Myco Bin's 5x5 patch. Covered while growing; once ready each tile
+ * A Myco Bin's 5x5 patch. Shaded with the batch's timer while growing; once
+ * ready each tile
  * can be dug with a Sand Shovel, or a 2x2 square when the Sand Drill is the
  * selected item, and shows what it held straight away.
  */
@@ -82,26 +95,86 @@ export const CavePatch: React.FC<Props> = ({
   now,
   hasShovel,
   hasDrill,
+  tutorialTile,
 }) => {
   const { gameService, selectedItem, shortcutItem } = useContext(Context);
   const { t } = useAppTranslation();
   // The tile under the pointer; the drill's square grows from it.
   const [hovered, setHovered] = useState<{ x: number; y: number }>();
 
-  const recipe = batch?.recipe;
-  const seed = batch?.seed;
-  const layout = useMemo(
-    () =>
-      recipe && isCaveSeed(seed)
-        ? generateCavePatch({ recipe, seed })
-        : undefined,
-    [recipe, seed],
-  );
+  const [feedbackEvents, setFeedbackEvents] = useState<CaveFeedbackEvent[]>([]);
+  const feedbackTimers = useRef(new Set<number>());
+  useEffect(() => {
+    const timers = feedbackTimers.current;
+    return () => {
+      timers.forEach((timer) => window.clearTimeout(timer));
+      timers.clear();
+    };
+  }, []);
+  const feedbackId = useRef(0);
+  const dig = (
+    coords: { x: number; y: number }[],
+    tool: "Sand Shovel" | "Sand Drill",
+  ) => {
+    const before = gameService.getSnapshot().context.state;
+    if (tool === "Sand Shovel") {
+      gameService.send({ type: "cave.dug", machineId, ...coords[0] });
+    } else {
+      gameService.send({ type: "cave.drilled", machineId, coords });
+    }
+    const after = gameService.getSnapshot().context.state;
+    const feedback = getCaveDigFeedback({
+      before,
+      after,
+      machineId,
+      coords,
+      tool,
+    });
+    if (feedback.length) {
+      const event: CaveFeedbackEvent = {
+        id: ++feedbackId.current,
+        createdAt: Date.now(),
+        feedback,
+        x:
+          coords.reduce((sum, point) => sum + point.x, 0) / coords.length + 0.5,
+        y: Math.min(...coords.map((point) => point.y)),
+      };
+      setFeedbackEvents((active) => [...active, event]);
+      // Each successful dig owns its expiry, even if another dig or batch follows.
+      const timers = feedbackTimers.current;
+      const timeout = window.setTimeout(() => {
+        timers.delete(timeout);
+        setFeedbackEvents((active) =>
+          active.filter((activeEvent) => activeEvent.id !== event.id),
+        );
+      }, CAVE_FEEDBACK_DISPLAY_MS + CAVE_FEEDBACK_FADE_MS);
+      timers.add(timeout);
+    }
+  };
+  // Each dig draws its own board from the seed, so the patch only knows what
+  // the dug tiles held and showed (their records) and whether it can dig yet.
+  const hasBoard = isCaveSeed(batch?.seed);
+  // Read the records once per batch: every hover re-renders the grid.
+  const { revealed, found } = useMemo(() => {
+    const revealed = batch ? getRevealedCaveTiles(batch) : {};
+    const found = { Beetle: 0, Mushroom: 0 };
+    for (const { tile } of Object.values(revealed)) {
+      if (tile.type !== "Mud") found[tile.type] += 1;
+    }
+    return { revealed, found };
+  }, [batch]);
 
   const growing = !!batch && batch.readyAt > now;
   const ready = !!batch && !growing;
   const cleared = !!batch && isCavePatchCleared(batch);
-  const beetles = batch ? getCaveBeetleProgress(batch) : undefined;
+  const composition = batch
+    ? getCavePatchComposition(batch.recipe, batch.skills)
+    : undefined;
+  const beetles = composition
+    ? { found: found.Beetle, total: composition.Beetle }
+    : undefined;
+  const mushroomsTotal = composition?.Mushroom ?? 0;
+  const mushroomsFound = found.Mushroom;
 
   const drilling = ready && selectedItem === "Sand Drill";
   // Where the hover box sits: the 2x2 square's top-left for the drill, the
@@ -119,9 +192,31 @@ export const CavePatch: React.FC<Props> = ({
     return isDug(hovered) ? undefined : { ...hovered, size: 1 };
   })();
 
-  // The room image already draws the bare sand: nothing to add while the
-  // patch is empty or the batch is still growing (Elias).
-  if (!batch || growing) return null;
+  // The room image already draws the bare sand of an empty patch.
+  if (!batch) return null;
+
+  if (growing) {
+    return (
+      <div className="absolute inset-0 pointer-events-none bg-white/20 rounded-md">
+        {/* The plot-style timer and bar, centred on the patch. */}
+        <div
+          className="absolute"
+          style={{
+            left: `calc(50% - ${PIXEL_SCALE * 7.5}px)`,
+            top: `calc(50% - ${PIXEL_SCALE * 3.5}px)`,
+            width: `${PIXEL_SCALE * 15}px`,
+          }}
+        >
+          <ProgressBar
+            percentage={getCaveBatchPercentage(batch, now)}
+            seconds={Math.max(0, (batch.readyAt - now) / 1000)}
+            type="progress"
+            formatLength="medium"
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -150,6 +245,8 @@ export const CavePatch: React.FC<Props> = ({
             const y = Math.floor(i / CAVE_PATCH_SIZE);
             const key = caveTileKey(x, y);
             const dug = batch?.dug?.[key];
+            const showHand =
+              !dug && tutorialTile?.x === x && tutorialTile?.y === y;
 
             if (drilling) {
               const square = getCaveDrillSquare(x, y);
@@ -161,19 +258,13 @@ export const CavePatch: React.FC<Props> = ({
                 <button
                   key={`tile-${i}`}
                   type="button"
-                  disabled={!hasDrill || !layout || allDug}
+                  disabled={!hasDrill || !hasBoard || allDug}
                   className="relative w-full h-full p-0 border-0 bg-transparent cursor-pointer disabled:cursor-not-allowed"
                   onPointerEnter={() => setHovered({ x, y })}
-                  onClick={() =>
-                    gameService.send({
-                      type: "cave.drilled",
-                      machineId,
-                      coords: square,
-                    })
-                  }
+                  onClick={() => dig(square, "Sand Drill")}
                 >
-                  {dug && layout ? (
-                    <DugTile tile={resolveCaveTile(layout, x, y)} />
+                  {dug && revealed[key] ? (
+                    <DugTile tile={resolveRevealedCaveTile(revealed[key])} />
                   ) : (
                     <img
                       src={SUNNYSIDE.soil.sand_hill}
@@ -181,11 +272,12 @@ export const CavePatch: React.FC<Props> = ({
                       style={{ imageRendering: "pixelated" }}
                     />
                   )}
+                  {showHand && <CaveTutorialHand />}
                 </button>
               );
             }
 
-            if (dug && layout) {
+            if (dug && revealed[key]) {
               // A dug tile takes no tool, so the hover box must not sit on it.
               return (
                 <div
@@ -193,7 +285,7 @@ export const CavePatch: React.FC<Props> = ({
                   className="w-full h-full"
                   onPointerEnter={() => setHovered(undefined)}
                 >
-                  <DugTile tile={resolveCaveTile(layout, x, y)} />
+                  <DugTile tile={resolveRevealedCaveTile(revealed[key])} />
                 </div>
               );
             }
@@ -202,14 +294,14 @@ export const CavePatch: React.FC<Props> = ({
               <button
                 key={`tile-${i}`}
                 type="button"
-                // The board arrives with the save that follows the batch start.
-                disabled={!hasShovel || !layout}
-                className="w-full h-full p-0 border-0 bg-transparent cursor-pointer disabled:cursor-not-allowed"
+                // The seed arrives with the save that follows the batch start.
+                disabled={!hasShovel || !hasBoard}
+                className="relative w-full h-full p-0 border-0 bg-transparent cursor-pointer disabled:cursor-not-allowed"
                 onPointerEnter={() => setHovered({ x, y })}
                 onClick={() => {
                   // The tile becomes a DugTile under the pointer.
                   setHovered(undefined);
-                  gameService.send({ type: "cave.dug", machineId, x, y });
+                  dig([{ x, y }], "Sand Shovel");
                 }}
               >
                 <img
@@ -217,12 +309,24 @@ export const CavePatch: React.FC<Props> = ({
                   className="w-full h-full"
                   style={{ imageRendering: "pixelated" }}
                 />
+                {showHand && <CaveTutorialHand />}
               </button>
             );
           },
         )}
       </div>
 
+      <div
+        role="status"
+        aria-live="polite"
+        aria-atomic="false"
+        aria-relevant="additions"
+        className="pointer-events-none"
+      >
+        {feedbackEvents.map((event) => (
+          <CaveDigFeedback key={event.id} event={event} />
+        ))}
+      </div>
       {ready && !cleared && hoverBox && (
         <img
           src={hoverBox.size === 2 ? DRILL_SELECT : SHOVEL_SELECT}
@@ -254,6 +358,18 @@ export const CavePatch: React.FC<Props> = ({
           ) : (
             <Label type="default" icon={ITEM_DETAILS["Green Beetle"].image}>
               {t("cave.dig.beetlesFound", beetles)}
+            </Label>
+          )}
+          {mushroomsFound < mushroomsTotal ? (
+            <Label type="default" icon={ITEM_DETAILS["Wild Mushroom"].image}>
+              {t("cave.dig.mushroomsFound", {
+                found: mushroomsFound,
+                total: mushroomsTotal,
+              })}
+            </Label>
+          ) : (
+            <Label type="success" icon={ITEM_DETAILS["Wild Mushroom"].image}>
+              {t("cave.dig.allMushroomsFound")}
             </Label>
           )}
         </div>

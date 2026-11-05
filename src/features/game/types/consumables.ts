@@ -42,7 +42,8 @@ type FirePitCookableName =
   | "Rhubarb Tart"
   | "Furikake Sprinkle"
   | "Saltbite"
-  | "Crystal Cookie";
+  | "Crystal Cookie"
+  | "Ember-Roasted Truffle Potatoes";
 
 type KitchenCookableName =
   | "Surimi Rice Bowl"
@@ -72,7 +73,8 @@ type KitchenCookableName =
   | "Fish n Chips"
   | "Sushi Roll"
   | "Caprese Salad"
-  | "Spaghetti al Limone";
+  | "Spaghetti al Limone"
+  | "Creamy Truffle Risotto";
 
 type BakeryCookableName =
   | CakeName
@@ -122,7 +124,8 @@ type CakeName =
   | "Orange Cake"
   | "Eggplant Cake"
   | "Honey Cake"
-  | "Lemon Cheesecake";
+  | "Lemon Cheesecake"
+  | "Truffle Cake";
 
 export type InstantProcessedRecipeName =
   | "Furikake Sprinkle"
@@ -323,7 +326,7 @@ export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
   "Crystal Cookie": {
     name: "Crystal Cookie",
     description: translate("description.crystalCookie"),
-    experience: 3000,
+    experience: 6000,
     building: "Fire Pit",
     cookingSeconds: 4 * 60 * 60,
     ingredients: {
@@ -383,6 +386,19 @@ export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
     cookingSeconds: 60,
     ingredients: {
       Rhubarb: new Decimal(3),
+    },
+  },
+  "Ember-Roasted Truffle Potatoes": {
+    name: "Ember-Roasted Truffle Potatoes",
+    description: translate("description.emberRoastedTrufflePotatoes"),
+    building: "Fire Pit",
+    // Beta uptake rebalance (2026-10-30): the Truffle ladder reads 1,000 /
+    // 2,000 / 4,000 XP per Truffle (Potatoes / Cake / Risotto).
+    experience: 1000,
+    cookingSeconds: 1 * 60 * 60,
+    ingredients: {
+      Truffle: new Decimal(1),
+      Potato: new Decimal(30),
     },
   },
 };
@@ -711,6 +727,19 @@ export const KITCHEN_COOKABLES: Record<KitchenCookableName, Cookable> = {
       Cheese: new Decimal(3),
     },
   },
+  "Creamy Truffle Risotto": {
+    name: "Creamy Truffle Risotto",
+    description: translate("description.creamyTruffleRisotto"),
+    building: "Kitchen",
+    // 4,000 XP per Truffle: the premium rung of the Truffle ladder.
+    experience: 32000,
+    cookingSeconds: 48 * 60 * 60,
+    ingredients: {
+      Truffle: new Decimal(8),
+      Rice: new Decimal(3),
+      "Wild Mushroom": new Decimal(5),
+    },
+  },
 };
 
 export const BAKERY_COOKABLES: Record<BakeryCookableName, Cookable> = {
@@ -915,6 +944,21 @@ export const BAKERY_COOKABLES: Record<BakeryCookableName, Cookable> = {
       Lemon: new Decimal(20),
       Cheese: new Decimal(5),
       Egg: new Decimal(40),
+    },
+  },
+  "Truffle Cake": {
+    name: "Truffle Cake",
+    description: translate("description.truffleCake"),
+    building: "Bakery",
+    // 2,000 XP per Truffle: the volume sink (15 a bake). Matches the
+    // Lemon Cheesecake ceiling rather than passing it.
+    experience: 30000,
+    cookingSeconds: 26 * 60 * 60,
+    ingredients: {
+      Truffle: new Decimal(15),
+      Wheat: new Decimal(30),
+      Egg: new Decimal(30),
+      Honey: new Decimal(5),
     },
   },
 };
@@ -1197,6 +1241,7 @@ export const COOKABLE_CAKES: Record<CakeName, Cookable> = {
   "Orange Cake": BAKERY_COOKABLES["Orange Cake"],
   "Honey Cake": BAKERY_COOKABLES["Honey Cake"],
   "Lemon Cheesecake": BAKERY_COOKABLES["Lemon Cheesecake"],
+  "Truffle Cake": BAKERY_COOKABLES["Truffle Cake"],
 };
 
 export const PIRATE_CAKE: Record<"Pirate Cake", Consumable> = {

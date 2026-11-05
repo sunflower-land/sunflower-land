@@ -1694,3 +1694,23 @@ describe("plantFruit — SPEED_BOOSTS speed windows", () => {
     expect(baseDurationMs).toBe(applePlantMs);
   });
 });
+
+describe("Duende Hat", () => {
+  it("applies x0.9 fruit patch growth time", () => {
+    const seed = "Banana Plant";
+    const { seconds, boostsUsed } = getFruitPatchTime(
+      seed,
+      {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: { ...INITIAL_BUMPKIN.equipped, hat: "Duende Hat" },
+        },
+      },
+      Date.now(),
+    );
+
+    expect(seconds).toEqual(PATCH_FRUIT_SEEDS[seed].plantSeconds * 0.9);
+    expect(boostsUsed).toContainEqual({ name: "Duende Hat", value: "x0.9" });
+  });
+});

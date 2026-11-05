@@ -81,79 +81,88 @@ const TIER_4_CRUSTACEANS = [
   "Horseshoe Crab",
 ] as const satisfies readonly InventoryItemName[];
 
-const eachOne = (items: readonly InventoryItemName[]) =>
-  Object.fromEntries(items.map((item) => [item, 1])) as Partial<
+const each = (quantity: number, items: readonly InventoryItemName[]) =>
+  Object.fromEntries(items.map((item) => [item, quantity])) as Partial<
     Record<InventoryItemName, number>
   >;
 
 /**
- * The four Pig feeds (#7721 Generic Pig feeding). Crop quantities follow the
- * spec's weight = sqrt(seed price x grow minutes) rule, anchored on 10 Carrots
- * / 3 Cauliflower / 1 Wheat. Items not listed (event crops such as Saltwort
- * and Crystal Leaf, marine marvels, chapter fish) are not Pig food.
+ * The four Pig feeds (#7721 Generic Pig feeding). Quantities are sized by
+ * unboosted production cost from game config alone, never market prices
+ * (Elias, 2026-10-22): seed and tool coins, plus every input's own production
+ * cost, plus 0.148 coins per hour a plot, tree, rock, pot or cooking slot is
+ * busy and 0.01 coins per action - both rates fitted on the crop shop sell
+ * prices. Each Slop then costs about 18 / 34 / 48 / 84 coins, so the favourite
+ * tier is always the cheapest XP and a Pig costs roughly half to four fifths
+ * of a Cow per level-up.
+ *
+ * One item never makes more than one Slop, so an ingredient that costs more
+ * than its tier's Slop (fish, mushrooms, greenhouse crops, crustaceans,
+ * Lunara and Duskberry) stays at one: a pricier option for spares, not the
+ * cheap route. Items not listed (event crops such as Saltwort and Crystal
+ * Leaf, marine marvels, chapter fish) are not Pig food.
  */
 export const PIG_FEEDS: Record<PigFeedName, PigFeed> = {
   "Basic Slop": {
     tier: 1,
     ingredients: {
-      Sunflower: 500,
-      Potato: 80,
-      Rhubarb: 40,
-      Pumpkin: 20,
-      Zucchini: 20,
-      Carrot: 10,
-      Yam: 10,
-      Cabbage: 5,
-      Broccoli: 5,
-      Soybean: 3,
+      Sunflower: 800,
+      Potato: 150,
+      Rhubarb: 100,
+      Pumpkin: 60,
+      Zucchini: 60,
+      Carrot: 25,
+      Yam: 25,
+      Cabbage: 15,
+      Broccoli: 15,
+      Soybean: 9,
     },
   },
   "Hearty Slop": {
     tier: 2,
     ingredients: {
-      Beetroot: 5,
-      Pepper: 5,
-      Cauliflower: 3,
-      Parsnip: 2,
-      Tomato: 9,
+      Beetroot: 15,
+      Pepper: 15,
+      Cauliflower: 8,
+      Parsnip: 5,
+      Tomato: 20,
       Lemon: 4,
-      Blueberry: 2,
+      Blueberry: 4,
     },
   },
   "Rich Slop": {
     tier: 3,
-    ingredients: eachOne([
-      "Eggplant",
-      "Corn",
-      "Onion",
-      "Wheat",
-      "Turnip",
-      "Radish",
-      "Kale",
-      "Artichoke",
-      "Barley",
-      "Orange",
-      "Apple",
-      "Banana",
-      ...BASIC_FISH,
-      "Wild Mushroom",
-      "Isopod",
-      "Barnacle",
-    ]),
+    ingredients: {
+      Eggplant: 6,
+      Wheat: 6,
+      Turnip: 6,
+      Corn: 5,
+      Onion: 5,
+      Radish: 5,
+      Kale: 4,
+      Artichoke: 4,
+      Barley: 3,
+      Orange: 3,
+      Apple: 2,
+      Banana: 2,
+      ...each(1, [...BASIC_FISH, "Wild Mushroom", "Isopod", "Barnacle"]),
+    },
   },
   "Gourmet Slop": {
     tier: 4,
-    ingredients: eachOne([
-      "Rice",
-      "Olive",
-      "Grape",
-      "Celestine",
-      "Lunara",
-      "Duskberry",
-      ...ADVANCED_AND_EXPERT_FISH,
-      "Magic Mushroom",
-      ...TIER_4_CRUSTACEANS,
-    ]),
+    ingredients: {
+      Rice: 1,
+      Olive: 1,
+      Grape: 1,
+      Celestine: 1,
+      Lunara: 1,
+      Duskberry: 1,
+      ...each(1, [
+        ...ADVANCED_AND_EXPERT_FISH,
+        "Magic Mushroom",
+        ...TIER_4_CRUSTACEANS,
+      ]),
+    },
   },
 };
 
