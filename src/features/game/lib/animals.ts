@@ -577,8 +577,7 @@ function getLeatherYieldBoosts(game: GameState): {
 }
 
 // Truffle Yield / Bristle Payout are multiplicative, unlike the flat yield
-// helpers above, so they return a multiplier for the caller to apply AFTER
-// the flat produce boosts.
+// helpers above, so they return a multiplier for the caller to apply.
 function getTruffleYieldBoosts(game: GameState): {
   multiplier: number;
   boostsUsed: { name: BoostName; value: string }[];
@@ -641,6 +640,40 @@ export function getResourceDropAmount({
   const isCow = animalType === "Cow";
   const isSheep = animalType === "Sheep";
   const isPig = animalType === "Pig";
+
+  // Every multiplier scales the base, then the flat bonuses are added, so no
+  // multiplier ever scales a flat bonus.
+
+  // Truffle Yield Boost (#7721)
+  if (isPig && resource === "Truffle") {
+    const { multiplier: truffleMultiplier, boostsUsed: truffleBoostsUsed } =
+      getTruffleYieldBoosts(game);
+    amount = amount.mul(truffleMultiplier);
+    boostsUsed.push(...truffleBoostsUsed);
+  }
+
+  // Pig Bristles Yield Boost (#7721), before the sickness cut in
+  // `getPigBristles`.
+  if (isPig && resource === "Pig Bristles") {
+    const { multiplier: bristlesMultiplier, boostsUsed: bristlesBoostsUsed } =
+      getPigBristlesYieldBoosts(game);
+    amount = amount.mul(bristlesMultiplier);
+    boostsUsed.push(...bristlesBoostsUsed);
+  }
+
+  if (multiplier) {
+    amount = amount.mul(multiplier);
+    if (multiplier !== 1) {
+      boostsUsed.push({ name: "Buckaroo", value: `x${multiplier}` });
+    }
+  }
+
+  if (animal.feedBuff?.name === "Salt Lick") {
+    amount = amount.mul(1.05);
+    boostsUsed.push({ name: "Salt Lick", value: "x1.05" });
+  }
+
+  // Flat bonuses from here on.
 
   // Egg yield boosts
   if (isChicken && resource === "Egg") {
@@ -747,41 +780,11 @@ export function getResourceDropAmount({
     boostsUsed.push({ name: "Barn Manager", value: "+0.1" });
   }
 
-  // Truffle Yield Boost (#7721) scales the Truffles after the flat produce boosts.
-  if (isPig && resource === "Truffle") {
-    const { multiplier: truffleMultiplier, boostsUsed: truffleBoostsUsed } =
-      getTruffleYieldBoosts(game);
-    amount = amount.mul(truffleMultiplier);
-    boostsUsed.push(...truffleBoostsUsed);
-  }
-
-  // Pig Bristles Yield Boost (#7721) scales the Bristles the same way, after
-  // the flat produce boosts and before the sickness cut in `getPigBristles`.
-  if (isPig && resource === "Pig Bristles") {
-    const { multiplier: bristlesMultiplier, boostsUsed: bristlesBoostsUsed } =
-      getPigBristlesYieldBoosts(game);
-    amount = amount.mul(bristlesMultiplier);
-    boostsUsed.push(...bristlesBoostsUsed);
-  }
-
-  // Bud yield boosts are flat and sit after the Pig multipliers so they are
-  // not scaled by Truffle Yield / Bristle Payout.
+  // Bud yield boosts
   const { yieldBoost, budUsed } = getBudYieldBoosts(buds, resource);
   amount = amount.plus(yieldBoost);
   if (budUsed)
     boostsUsed.push({ name: budUsed, value: `+${yieldBoost.toString()}` });
-
-  if (multiplier) {
-    amount = amount.mul(multiplier);
-    if (multiplier !== 1) {
-      boostsUsed.push({ name: "Buckaroo", value: `x${multiplier}` });
-    }
-  }
-
-  if (animal.feedBuff?.name === "Salt Lick") {
-    amount = amount.mul(1.05);
-    boostsUsed.push({ name: "Salt Lick", value: "x1.05" });
-  }
 
   return { amount: Number(amount.toFixed(2)), boostsUsed };
 }
