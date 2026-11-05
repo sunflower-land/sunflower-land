@@ -25,6 +25,8 @@ import Decimal from "decimal.js-light";
 import { acknowledgeVIP } from "features/announcements/announcementsStorage";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
+  EXPANSION_VIP_DISCOUNT_FIXED,
+  EXPANSION_VIP_DISCOUNT_PERCENT,
   hasLifetimeFarmerBanner,
   VIP_PRICES,
   VIP_TRIAL_PERIOD_MS,
@@ -83,7 +85,12 @@ const VIPLabel: React.FC<{
   if (hasTrial) {
     return (
       <Label type="success" className="ml-2" icon={SUNNYSIDE.icons.confirm}>
-        {`Trial - ${secondsToString((state.vip!.trialStartedAt! + VIP_TRIAL_PERIOD_MS - now) / 1000, { length: "short" })} left`}
+        {t("vip.trialTimeLeft", {
+          time: secondsToString(
+            (state.vip!.trialStartedAt! + VIP_TRIAL_PERIOD_MS - now) / 1000,
+            { length: "short" },
+          ),
+        })}
       </Label>
     );
   }
@@ -262,7 +269,7 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
             </Label>
           </div>
           <a
-            href="https://docs.sunflower-land.com/roadmap/chapters"
+            href="https://docs.sunflower-land.com/chapters/chapters"
             className="text-xxs underline"
             target="_blank"
             rel="noreferrer"
@@ -336,6 +343,13 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
                 icon: multiCast,
               },
               { text: t("vip.benefit.stellaDiscounts"), icon: shopIcon },
+              {
+                text: t("vip.benefit.expansionCoinDiscount", {
+                  coins: EXPANSION_VIP_DISCOUNT_FIXED,
+                  percent: EXPANSION_VIP_DISCOUNT_PERCENT * 100,
+                }),
+                icon: SUNNYSIDE.ui.coinsImg,
+              },
               {
                 text: t("vip.benefit.bonusDelivery"),
                 icon: ITEM_DETAILS[chapterTicket].image,

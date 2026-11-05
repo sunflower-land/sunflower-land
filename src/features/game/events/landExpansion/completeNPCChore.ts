@@ -42,11 +42,15 @@ type Options = {
 
 export const CHAPTER_TICKET_BOOST_ITEMS: Record<
   ChapterName,
-  {
-    basic: Exclude<ChapterTierItemName, MegastoreKeys | FlowerBox | "Pet Egg">;
-    rare: Exclude<ChapterTierItemName, MegastoreKeys | FlowerBox | "Pet Egg">;
-    epic: Exclude<ChapterTierItemName, MegastoreKeys | FlowerBox | "Pet Egg">;
-  }
+  | {
+      basic: Exclude<
+        ChapterTierItemName,
+        MegastoreKeys | FlowerBox | "Pet Egg"
+      >;
+      rare: Exclude<ChapterTierItemName, MegastoreKeys | FlowerBox | "Pet Egg">;
+      epic: Exclude<ChapterTierItemName, MegastoreKeys | FlowerBox | "Pet Egg">;
+    }
+  | undefined
 > = {
   "Solar Flare": {
     basic: "Cow Scratcher",
@@ -124,6 +128,11 @@ export const CHAPTER_TICKET_BOOST_ITEMS: Record<
     basic: "Swamp Lily Hat",
     rare: "Swamp Armor",
     epic: "Swamp Pants",
+  },
+  "Cave Dwellers": {
+    basic: "Duende Shoes",
+    rare: "Duende Pants",
+    epic: "Duende Shirt",
   },
 };
 
@@ -261,7 +270,7 @@ export function generateChoreRewards({
   const chapter = getCurrentChapter(now.getTime());
   const chapterBoost = CHAPTER_TICKET_BOOST_ITEMS[chapter];
 
-  Object.values(chapterBoost).forEach((item) => {
+  Object.values(chapterBoost ?? {}).forEach((item) => {
     if (isCollectible(item)) {
       if (isCollectibleBuilt({ game, name: item })) {
         amount += 1;

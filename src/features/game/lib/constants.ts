@@ -26,6 +26,7 @@ import {
   isBasicFruitSeed,
 } from "../events/landExpansion/fruitPlanted";
 import type { PatchFruitSeedName } from "../types/fruits";
+import { isTutorialToolStockPhase } from "../events/landExpansion/craftTool";
 import {
   type TreasureToolName,
   WORKBENCH_TOOLS,
@@ -111,6 +112,17 @@ export const INITIAL_STOCK = (
     );
   }
 
+  // Tutorial farms (through the Water Well era): cap the tool stock so a
+  // new player cannot blow their delivery coins on tools they don't need.
+  // Axes bypass the daily stock entirely during this phase - the free batch
+  // plus a small per-level paid budget govern them instead (see craftTool's
+  // getPaidTutorialAxesLeft) - and two Pickaxes a day cover the single
+  // bought mine the gifted Pickaxes leave over (see the pickaxe ledger).
+  if (state && isTutorialToolStockPhase(state)) {
+    tools.Axe = new Decimal(0);
+    tools.Pickaxe = new Decimal(Math.min(tools.Pickaxe.toNumber(), 2));
+  }
+
   const seeds: Record<SeedName, Decimal> = {
     "Sunflower Seed": new Decimal(800),
     "Potato Seed": new Decimal(400),
@@ -136,8 +148,10 @@ export const INITIAL_STOCK = (
     "Artichoke Seed": new Decimal(60),
     "Barley Seed": new Decimal(60),
 
-    // Chapter Crop Week (limited-time event seed)
-    "Saltwort Seed": new Decimal(30),
+    // Chapter Crop Week (limited-time event seed). Previous runs' seeds are
+    // retired: keep the key (the record is exhaustive) but stock none.
+    "Saltwort Seed": new Decimal(0),
+    "Crystal Leaf Seed": new Decimal(36),
 
     "Grape Seed": new Decimal(10),
     "Olive Seed": new Decimal(10),
@@ -188,6 +202,25 @@ export const INITIAL_STOCK = (
     );
   }
 
+  const treasureTools: Record<TreasureToolName, Decimal> = {
+    "Sand Shovel": new Decimal(125),
+    "Sand Drill": new Decimal(25),
+  };
+
+  // Tool Hoarder: +25/+50/+100 Sand Shovel & +5/+10/+20 Sand Drill stock
+  const toolHoarderLevel = state?.bumpkin
+    ? getSkillLevel(state.bumpkin.skills, "Tool Hoarder")
+    : 0;
+  if (toolHoarderLevel) {
+    const { ranks } = SKILL_RANKS["Tool Hoarder"];
+    treasureTools["Sand Shovel"] = treasureTools["Sand Shovel"].add(
+      ranks["Sand Shovel"]?.[toolHoarderLevel - 1] ?? 0,
+    );
+    treasureTools["Sand Drill"] = treasureTools["Sand Drill"].add(
+      ranks["Sand Drill"]?.[toolHoarderLevel - 1] ?? 0,
+    );
+  }
+
   const restockables: Record<StockableName, Decimal> = {
     // Tools
     ...tools,
@@ -196,8 +229,7 @@ export const INITIAL_STOCK = (
     ...seeds,
 
     // Treasure Tools
-    "Sand Shovel": new Decimal(50),
-    "Sand Drill": new Decimal(10),
+    ...treasureTools,
   };
 
   return restockables;
@@ -618,43 +650,47 @@ export const INITIAL_FARM: GameState = {
   delivery: {
     fulfilledCount: 0,
     orders: [
+      // The tutorial's first delivery. On live farms Peggy's next order (the
+      // spare Rhubarb Tart) regenerates the moment this one is fulfilled.
+      {
+        createdAt: Date.now(),
+        readyAt: Date.now(),
+        from: "peggy",
+        reward: {
+          items: {},
+          coins: 65,
+        },
+        id: "1",
+        items: {
+          Sunflower: 9,
+        },
+      },
+      {
+        createdAt: Date.now(),
+        readyAt: Date.now(),
+        from: "blacksmith",
+        reward: {
+          items: {},
+          coins: 81,
+        },
+        id: "2",
+        items: {
+          Wood: 1,
+        },
+      },
+      // On live farms Betty's orders only generate from level 2, once the
+      // tutorial no longer points at Peggy
       {
         createdAt: Date.now(),
         readyAt: Date.now(),
         from: "betty",
         reward: {
           items: {},
-          coins: 64,
-        },
-        id: "1",
-        items: {
-          Sunflower: 30,
-        },
-      },
-      {
-        createdAt: Date.now(),
-        readyAt: Date.now(),
-        from: "grubnuk",
-        reward: {
-          items: {},
-          coins: 64,
-        },
-        id: "2",
-        items: {
-          "Pumpkin Soup": 1,
-        },
-      },
-      {
-        createdAt: Date.now(),
-        readyAt: Date.now(),
-        from: "grimbly",
-        reward: {
-          items: {},
-          coins: 48,
+          coins: 21,
         },
         id: "3",
         items: {
-          "Mashed Potato": 2,
+          Sunflower: 5,
         },
       },
     ],

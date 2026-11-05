@@ -50,7 +50,7 @@ type TradeableHeaderProps = {
   reload: () => void;
   limitedPurchasesLeft: number;
   display: TradeableDisplay;
-  /** When true, buying & listing are blocked (e.g. Saltwort without event access). */
+  /** When true, buying & listing are blocked (e.g. Crystal Leaf without event access). */
   disabled?: boolean;
 };
 

@@ -17,7 +17,6 @@ interface Props {
   conversation?: ConversationName;
   hasSoldBefore?: boolean;
   showBuyHelper?: boolean;
-  showSellHelper?: boolean;
   showBuyTabHelper?: boolean;
   cropShortage?: boolean;
 }
@@ -26,14 +25,10 @@ export const ShopItems: React.FC<Props> = ({
   onClose,
   hasSoldBefore,
   showBuyHelper,
-  showSellHelper,
   showBuyTabHelper,
 }) => {
   type Tab = "buy" | "sell" | "guide";
-  // Open a new player straight onto the Sell tab for their first Sunflowers,
-  // the way the Workbench opens onto the scarecrow. The market modal unmounts
-  // when closed, so this default re-evaluates on every open.
-  const [tab, setTab] = useState<Tab>(showSellHelper ? "sell" : "buy");
+  const [tab, setTab] = useState<Tab>("buy");
   const { t } = useAppTranslation();
   const bumpkinParts: Partial<Equipped> = NPC_WEARABLES.betty;
 

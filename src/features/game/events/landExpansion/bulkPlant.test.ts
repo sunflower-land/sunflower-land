@@ -3,6 +3,12 @@ import { INITIAL_FARM } from "../../lib/constants";
 import type { GameState } from "../../types/game";
 import { bulkPlant, getAvailablePlots } from "./bulkPlant";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
+import { CONFIG } from "lib/config";
+import {
+  CHAPTER_CROP_WEEK,
+  CHAPTER_CROP_WEEK_CROP,
+  CHAPTER_CROP_WEEK_SEED,
+} from "features/game/types/chapterCropWeek";
 
 describe("bulkPlant", () => {
   const dateNow = Date.now();
@@ -398,5 +404,66 @@ describe("getAvailablePlots", () => {
     const plots = getAvailablePlots(state);
     // When protected, getAffectedWeather returns undefined, so all empty plots are available
     expect(plots).toHaveLength(2);
+  });
+});
+
+describe("bulkPlant Chapter Crop Week seed", () => {
+  // adminFeatureFlag is always on for testnet (CI runs with VITE_NETWORK=amoy),
+  // so pin mainnet to exercise the real Gift Giver + Beta Pass rule.
+  let previousNetwork: (typeof CONFIG)["NETWORK"];
+  beforeEach(() => {
+    previousNetwork = CONFIG.NETWORK;
+    CONFIG.NETWORK = "mainnet";
+  });
+  afterEach(() => {
+    CONFIG.NETWORK = previousNetwork;
+  });
+
+  const farm: GameState = {
+    ...INITIAL_FARM,
+    bumpkin: TEST_BUMPKIN,
+    // Deliberately not the seed's season: the event seed is exempt.
+    season: { season: "spring", startedAt: 0 },
+    crops: {
+      "1": { x: -1, y: -1, createdAt: 0 },
+      "2": { x: 1, y: 0, createdAt: 0 },
+    },
+    inventory: { [CHAPTER_CROP_WEEK_SEED]: new Decimal(5) },
+  };
+  const admin: GameState = {
+    ...farm,
+    wardrobe: { "Gift Giver": 1 },
+    inventory: { ...farm.inventory, "Beta Pass": new Decimal(1) },
+  };
+  const bulk = (state: GameState, createdAt: number) =>
+    bulkPlant({
+      state,
+      createdAt,
+      action: { type: "seeds.bulkPlanted", seed: CHAPTER_CROP_WEEK_SEED },
+    });
+
+  it("plants the multi-word event crop on every free plot and only consumes those seeds", () => {
+    const state = bulk(farm, CHAPTER_CROP_WEEK.startDate.getTime());
+
+    expect(state.crops["1"].crop?.name).toBe(CHAPTER_CROP_WEEK_CROP);
+    expect(state.crops["2"].crop?.name).toBe(CHAPTER_CROP_WEEK_CROP);
+    expect(state.inventory[CHAPTER_CROP_WEEK_SEED]).toEqual(new Decimal(3));
+  });
+
+  it("cannot be planted by regular players before the event starts", () => {
+    expect(() => bulk(farm, CHAPTER_CROP_WEEK.startDate.getTime() - 1)).toThrow(
+      "Chapter Crop Week is not active",
+    );
+  });
+
+  it("can be planted by admin testers before the event starts", () => {
+    const state = bulk(admin, CHAPTER_CROP_WEEK.startDate.getTime() - 1);
+    expect(state.crops["1"].crop?.name).toBe(CHAPTER_CROP_WEEK_CROP);
+  });
+
+  it("cannot be planted by anyone after the event ends", () => {
+    expect(() => bulk(admin, CHAPTER_CROP_WEEK.endDate.getTime())).toThrow(
+      "Chapter Crop Week is not active",
+    );
   });
 });

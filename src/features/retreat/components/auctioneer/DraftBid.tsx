@@ -254,7 +254,7 @@ export const DraftBid: React.FC<Props> = ({
 
         <div className="text-xxs text-center underline mb-3  hover:text-blue-500">
           <a
-            href="https://docs.sunflower-land.com/support/terms-of-service"
+            href="https://docs.sunflower-land.com/legal-and-support/terms-of-service"
             target="_blank"
             rel="noopener noreferrer"
             className="text-xxs text-center underline mb-3  hover:text-blue-500"
@@ -282,7 +282,7 @@ export const DraftBid: React.FC<Props> = ({
         </div>
         <div>
           <a
-            href="https://docs.sunflower-land.com/support/terms-of-service"
+            href="https://docs.sunflower-land.com/legal-and-support/terms-of-service"
             target="_blank"
             rel="noopener noreferrer"
             className="text-xxs text-center underline mb-3  hover:text-blue-500"

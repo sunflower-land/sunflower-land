@@ -525,7 +525,10 @@ export const CropMachineModalContent: React.FC<Props> = ({
                     <div className="flex justify-between w-full my-1">
                       <Label type="default">
                         {t("cropMachine.addSeeds", {
-                          seedType: selectedSeed.toLocaleLowerCase(),
+                          seedType:
+                            getTranslatedItemName(
+                              selectedSeed,
+                            ).toLocaleLowerCase(),
                         })}
                       </Label>
                       <Label

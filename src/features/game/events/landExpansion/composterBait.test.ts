@@ -1,6 +1,7 @@
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import type { GameState } from "features/game/types/game";
-import { WORM_AMOUNTS, getWormRange } from "./composterBait";
+import { WORM_AMOUNTS, getWormRange, rollWormAmount } from "./composterBait";
+import { composterDetails } from "features/game/types/composters";
 
 const GAME_STATE: GameState = { ...TEST_FARM, bumpkin: INITIAL_BUMPKIN };
 
@@ -65,5 +66,58 @@ describe("composterBait skill ranks", () => {
     });
     expect(min).toBeGreaterThanOrEqual(0);
     expect(max).toBeGreaterThanOrEqual(0);
+  });
+});
+
+describe("Straw House", () => {
+  const withStrawHouse = (game: GameState): GameState => ({
+    ...game,
+    collectibles: {
+      ...game.collectibles,
+      "Straw House": [
+        { id: "1", createdAt: 0, coordinates: { x: 0, y: 0 }, readyAt: 0 },
+      ],
+    },
+  });
+
+  it.each(["Compost Bin", "Turbo Composter", "Premium Composter"] as const)(
+    "triples the base worm range of the %s",
+    (building) => {
+      const amounts = WORM_AMOUNTS[composterDetails[building].worm];
+      const { min, max, boostsUsed } = getWormRange({
+        state: withStrawHouse(GAME_STATE),
+        building,
+      });
+
+      expect(min).toBe(Math.min(...amounts) * 3);
+      expect(max).toBe(Math.max(...amounts) * 3);
+      expect(boostsUsed).toContainEqual({ name: "Straw House", value: "x3" });
+    },
+  );
+
+  it("triples the base worm range before the additive boosts", () => {
+    const { min, max } = getWormRange({
+      state: withStrawHouse(stateWithSkills({ "Wormy Treat": 1 })),
+      building: "Premium Composter",
+    });
+    const base = baseRange();
+
+    expect(min).toBe(base.min * 3 + 1);
+    expect(max).toBe(base.max * 3 + 1);
+  });
+
+  it("triples the rolled worm amount", () => {
+    const args = {
+      building: "Compost Bin" as const,
+      farmId: 1,
+      counter: 7,
+    };
+    const { worms: base } = rollWormAmount({ ...args, state: GAME_STATE });
+    const { worms } = rollWormAmount({
+      ...args,
+      state: withStrawHouse(GAME_STATE),
+    });
+
+    expect(worms).toBe(base * 3);
   });
 });

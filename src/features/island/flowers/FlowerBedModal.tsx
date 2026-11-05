@@ -5,6 +5,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { FlowerBedGuide } from "./FlowerBedGuide";
 import { FlowerBedContent } from "./FlowerBedContent";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   id: string;
@@ -12,6 +13,7 @@ interface Props {
 }
 
 export const FlowerBedModal: React.FC<Props> = ({ onClose, id }) => {
+  const { t } = useAppTranslation();
   type Tab = "plant" | "guide";
   const [tab, setTab] = useState<Tab>("plant");
 
@@ -20,11 +22,11 @@ export const FlowerBedModal: React.FC<Props> = ({ onClose, id }) => {
       onClose={onClose}
       bumpkinParts={NPC_WEARABLES["poppy"]}
       tabs={[
-        { id: "plant", icon: SUNNYSIDE.icons.seedling, name: "Plant" },
+        { id: "plant", icon: SUNNYSIDE.icons.seedling, name: t("plant") },
         {
           id: "guide",
           icon: SUNNYSIDE.icons.expression_confused,
-          name: "Guide",
+          name: t("guide"),
         },
       ]}
       currentTab={tab}

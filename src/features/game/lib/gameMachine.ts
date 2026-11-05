@@ -102,7 +102,10 @@ import {
   sellMarketResourceRequest,
 } from "../actions/sellMarketResource";
 import { setCachedMarketPrices } from "features/world/ui/market/lib/marketCache";
-import { OFFLINE_FARM } from "./landData";
+import {
+  applyPreviewLocalStorage,
+  getPreviewFarm,
+} from "./preview/previewState";
 import { mergeLocalVisitProgress } from "./mergeLocalVisitProgress";
 import { isValidRedirect } from "features/portal/lib/portalUtil";
 import {
@@ -282,6 +285,11 @@ type CommunityEvent = {
   game: GameState;
 };
 
+/** Another tab or device loaded a session for this farm (via the social room). */
+type SessionReplacedEvent = {
+  type: "SESSION_REPLACED";
+};
+
 type BuyBlockBucksEvent = {
   type: "BUY_GEMS";
   currency: Currency;
@@ -410,6 +418,7 @@ export type BlockchainEvent =
   | { type: "SAVE" }
   | TransactEvent
   | CommunityEvent
+  | SessionReplacedEvent
   | SellMarketResourceEvent
   | { type: "REFRESH" }
   | { type: "DAILY_RESET" }
@@ -955,7 +964,6 @@ export type BlockchainState = {
     | "introduction"
     | "welcome"
     | "termsAndConditions"
-    | "investigating"
     | "gems"
     | "communityCoin"
     | "referralRewards"
@@ -1183,9 +1191,15 @@ export function startGame(authContext: AuthContext) {
             {
               target: "notifying",
               cond: () => ART_MODE,
-              actions: assign({
-                state: (_context) => OFFLINE_FARM,
-              }),
+              // ART_MODE boots the offline farm, optionally shaped by the
+              // PR-preview URL params (?fixture, ?patch, ?ls). See
+              // lib/preview/previewLink.ts.
+              actions: [
+                () => applyPreviewLocalStorage(),
+                assign({
+                  state: (_context) => getPreviewFarm(),
+                }),
+              ],
             },
           ],
           invoke: {
@@ -1458,13 +1472,6 @@ export function startGame(authContext: AuthContext) {
                   accountOlderThan30Mins &&
                   noPurchaseYet
                 );
-              },
-            },
-
-            {
-              target: "investigating",
-              cond: (context) => {
-                return context.state.ban.status === "investigating";
               },
             },
 
@@ -2739,29 +2746,6 @@ export function startGame(authContext: AuthContext) {
           },
         },
 
-        investigating: {
-          on: {
-            "faceRecognition.started": {
-              target: STATE_MACHINE_EFFECTS["faceRecognition.started"],
-            },
-            "faceRecognition.completed": {
-              target: STATE_MACHINE_EFFECTS["faceRecognition.completed"],
-            },
-            "telegram.linked": {
-              target: STATE_MACHINE_EFFECTS["telegram.linked"],
-            },
-            // Verification needs a Discord / Telegram account, which may
-            // still be linked elsewhere. Settings is unreachable from here,
-            // so the soft-ban screen offers the unlink directly.
-            "discord.unlinked": {
-              target: STATE_MACHINE_EFFECTS["discord.unlinked"],
-            },
-            "telegram.unlinked": {
-              target: STATE_MACHINE_EFFECTS["telegram.unlinked"],
-            },
-          },
-        },
-
         competition: {
           on: {
             "competition.started": (GAME_EVENT_HANDLERS as any)[
@@ -3009,6 +2993,18 @@ export function startGame(authContext: AuthContext) {
         COMMUNITY_UPDATE: {
           actions: assign({
             state: (_, event) => event.game,
+          }),
+        },
+        // Same screen the autosave 409 shows, without waiting for an autosave.
+        // Skipped while `loading`: a tab mid-REFRESH is about to announce a
+        // fresh session and must not be bounced straight back to error by a
+        // notice meant for the session it is leaving behind.
+        SESSION_REPLACED: {
+          target: "#error",
+          cond: (_context, _event, { state }) =>
+            !state.matches("loading") && !state.matches("error"),
+          actions: assign({
+            errorCode: (_) => ERRORS.MULTIPLE_DEVICES_OPEN as ErrorCode,
           }),
         },
       },

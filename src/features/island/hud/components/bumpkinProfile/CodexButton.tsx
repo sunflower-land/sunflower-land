@@ -18,7 +18,6 @@ import { useSelector } from "@xstate/react";
 import { RoundButton } from "components/ui/RoundButton";
 import { isMobile } from "mobile-device-detect";
 import { isAsciiText } from "lib/utils/textSupport";
-import { getResolvedFontFamily } from "lib/utils/fonts";
 
 const _delivery = (state: MachineState) => state.context.state.delivery;
 const _isTutorialIsland = (state: MachineState) =>
@@ -49,13 +48,17 @@ export const CodexButton: React.FC = () => {
     // For new players, always show until they fulfill a delivery
     (hasDeliveryLevel && deliveries.fulfilledCount === 0);
 
-  // Tutorial: after the first level up Pete sends the player here, so point
-  // at the button until they open it or make their first delivery.
+  // Tutorial: after the first level up Pete mentions the Codex, so point at
+  // the button until they open it. The bound is the most deliveries a
+  // player can have fulfilled by the time the mention lands: the Sunflower
+  // opener, the Blacksmith's first Wood order, and the spare tart delivered
+  // right after levelling - three. Past that they are into the work cycle
+  // and the pointer would be a fourth simultaneous nudge.
   const isTutorialIsland = useSelector(gameService, _isTutorialIsland);
   const showHelper =
     isTutorialIsland &&
     hasDeliveryLevel &&
-    deliveries.fulfilledCount === 0 &&
+    deliveries.fulfilledCount <= 3 &&
     !hasOpened;
 
   const { t } = useAppTranslation();
@@ -123,9 +126,7 @@ export const CodexButton: React.FC = () => {
               <div
                 className={"absolute uppercase"}
                 style={{
-                  fontFamily: isTeenySupported
-                    ? "Teeny"
-                    : getResolvedFontFamily(),
+                  fontFamily: isTeenySupported ? "Teeny" : "var(--font-family)",
                   color: "black",
                   textShadow: "none",
                   top: `${PIXEL_SCALE * -8}px`,

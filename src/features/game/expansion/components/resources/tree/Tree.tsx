@@ -38,6 +38,7 @@ import { DepletedTree } from "./components/DepletedTree";
 import { DepletingTree } from "./components/DepletingTree";
 import { RecoveredTree } from "./components/RecoveredTree";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { getTutorialNudge } from "features/island/lib/tutorialNudge";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { useSound } from "lib/utils/hooks/useSound";
 import { setPrecision } from "lib/utils/formatNumber";
@@ -67,6 +68,8 @@ const selectSeason = (state: MachineState) => state.context.state.season.season;
 const selectInventory = (state: MachineState) => state.context.state.inventory;
 const selectTreesChopped = (state: MachineState) =>
   state.context.state.farmActivity["Tree Chopped"] ?? 0;
+const selectActiveNudge = (state: MachineState) =>
+  getTutorialNudge(state.context.state);
 const selectFarmId = (state: MachineState) => state.context.farmId;
 
 const compareResource = (prev: TreeType, next: TreeType) => {
@@ -140,6 +143,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
   );
 
   const treesChopped = useSelector(gameService, selectTreesChopped);
+  const activeNudge = useSelector(gameService, selectActiveNudge);
   const activityCount = useSelector(gameService, (state) => {
     const treeName = state.context.state.trees[id]?.name ?? "Tree";
     const activityKey =
@@ -326,8 +330,13 @@ export const Tree: React.FC<Props> = ({ id }) => {
           <RecoveredTree
             hasTool={hasTool}
             touchCount={touchCount}
+            // The first-three walk steps tree by tree; the post-delivery
+            // chop-trees nudge lights every standing tree, since any of them
+            // yields the expansion's Wood.
             showHelper={
-              hasTool && treesChopped < 3 && treesChopped + 1 === Number(id)
+              hasTool &&
+              ((treesChopped < 3 && treesChopped + 1 === Number(id)) ||
+                activeNudge === "chop-trees")
             }
             island={island}
             season={season}

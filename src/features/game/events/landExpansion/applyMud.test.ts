@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
-import { CONFIG } from "lib/config";
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { MUD_FEEDS } from "features/game/lib/animals";
+import { MUD_PER_APPLICATION } from "features/game/lib/animals";
 import type { Animal, GameState } from "features/game/types/game";
 import { applyMud, APPLY_MUD_ERRORS } from "./applyMud";
 
@@ -20,7 +19,7 @@ const pig = (id: string, overrides: Partial<Animal> = {}): Animal => ({
 
 const farm = (
   animals: Record<string, Animal> = { "1": pig("1") },
-  mud = 1,
+  mud = 25,
 ): GameState => ({
   ...INITIAL_FARM,
   inventory: { ...INITIAL_FARM.inventory, Mud: new Decimal(mud) },
@@ -41,12 +40,12 @@ const apply = (state: GameState, id = "1") =>
   });
 
 describe("applyMud", () => {
-  it("consumes one Mud and grants three muddy feeds", () => {
-    const state = apply(farm());
+  it("consumes 25 Mud and grants one muddy harvest: a daily coat", () => {
+    const state = apply(farm(undefined, 27));
 
-    expect(state.inventory.Mud).toEqual(new Decimal(0));
-    expect(MUD_FEEDS).toEqual(3);
-    expect(state.pigpen.animals["1"].mud).toEqual({ feedsRemaining: 3 });
+    expect(MUD_PER_APPLICATION).toEqual(25);
+    expect(state.inventory.Mud).toEqual(new Decimal(2));
+    expect(state.pigpen.animals["1"].mud).toEqual({ harvestsRemaining: 1 });
   });
 
   it("can be applied while the Pig sleeps", () => {
@@ -55,7 +54,7 @@ describe("applyMud", () => {
       farm({ "1": pig("1", { asleepAt: now, awakeAt: now + 60_000 }) }),
     );
 
-    expect(state.pigpen.animals["1"].mud).toEqual({ feedsRemaining: 3 });
+    expect(state.pigpen.animals["1"].mud).toEqual({ harvestsRemaining: 1 });
   });
 
   it("sits alongside a spice-rack treat without touching it", () => {
@@ -63,7 +62,7 @@ describe("applyMud", () => {
     const state = apply(farm({ "1": pig("1", { feedBuff }) }));
 
     expect(state.pigpen.animals["1"].feedBuff).toEqual(feedBuff);
-    expect(state.pigpen.animals["1"].mud).toEqual({ feedsRemaining: 3 });
+    expect(state.pigpen.animals["1"].mud).toEqual({ harvestsRemaining: 1 });
   });
 
   it("throws when the Pigpen is not placed", () => {
@@ -82,15 +81,14 @@ describe("applyMud", () => {
     );
   });
 
-  it("rejects a Pig that still has muddy feeds left, keeping the Mud", () => {
+  it("rejects a Pig that still has Mud charges left, keeping the Mud", () => {
     expect(() =>
-      apply(farm({ "1": pig("1", { mud: { feedsRemaining: 1 } }) })),
+      apply(farm({ "1": pig("1", { mud: { harvestsRemaining: 1 } }) })),
     ).toThrow(APPLY_MUD_ERRORS.ALREADY_MUDDY);
   });
 
-  it("rejects a Pig over the pen's capacity, which cannot be fed", () => {
-    // A level-1 Pigpen houses 3 Pigs, and the OLDEST beyond that is locked -
-    // Mud on it would be spent with no feed to boost.
+  it("muds a Pig over the pen's capacity, like a treat", () => {
+    // A level-1 Pigpen houses 3 Pigs; the oldest beyond that is locked.
     const animals = {
       a: pig("a", { createdAt: 0 }),
       b: pig("b", { createdAt: 1 }),
@@ -98,12 +96,42 @@ describe("applyMud", () => {
       d: pig("d", { createdAt: 3 }),
     };
 
-    expect(() => apply(farm(animals), "a")).toThrow(
-      APPLY_MUD_ERRORS.OVER_CAPACITY,
-    );
-    expect(apply(farm(animals), "d").pigpen.animals.d.mud).toEqual({
-      feedsRemaining: 3,
+    expect(apply(farm(animals), "a").pigpen.animals.a.mud).toEqual({
+      harvestsRemaining: 1,
     });
+  });
+
+  it("doubles the charges to 2 with a placed Vibraphone", () => {
+    const state = apply({
+      ...farm(),
+      collectibles: {
+        Vibraphone: [{ id: "1", createdAt: 0, coordinates: { x: 0, y: 0 } }],
+      },
+    });
+
+    expect(state.pigpen.animals["1"].mud).toEqual({ harvestsRemaining: 2 });
+    expect(state.boostsUsedAt?.Vibraphone).toBeDefined();
+  });
+
+  it("rejects an asleep Pig that needs love first, like a treat", () => {
+    const asleepAt = 1_000;
+    const awakeAt = asleepAt + 3_600_000;
+
+    expect(() =>
+      applyMud({
+        state: farm({ "1": pig("1", { asleepAt, awakeAt, lovedAt: 1_000 }) }),
+        action: { type: "animal.mudApplied", id: "1" },
+        createdAt: 2_000_000,
+      }),
+    ).toThrow(APPLY_MUD_ERRORS.NEEDS_LOVE);
+  });
+
+  it("re-coats a Pig whose Mud was stored the old per-feed way", () => {
+    const old = { feedsRemaining: 3 } as unknown as Animal["mud"];
+
+    expect(
+      apply(farm({ "1": pig("1", { mud: old }) })).pigpen.animals["1"].mud,
+    ).toEqual({ harvestsRemaining: 1 });
   });
 
   it("throws without Mud", () => {
@@ -112,22 +140,9 @@ describe("applyMud", () => {
     );
   });
 
-  describe("off testnet", () => {
-    // jest runs on amoy, so the flag-off path is only reachable by pretending
-    // to be mainnet.
-    let previousNetwork: (typeof CONFIG)["NETWORK"];
-
-    beforeEach(() => {
-      previousNetwork = CONFIG.NETWORK;
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-    });
-
-    afterEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
-    });
-
-    it("throws without the PIGPEN feature flag", () => {
-      expect(() => apply(farm())).toThrow(APPLY_MUD_ERRORS.NO_FEATURE_ACCESS);
-    });
+  it("throws with less than one application of Mud", () => {
+    expect(() => apply(farm(undefined, 24))).toThrow(
+      APPLY_MUD_ERRORS.NOT_ENOUGH,
+    );
   });
 });

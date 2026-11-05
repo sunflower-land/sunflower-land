@@ -2,7 +2,12 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getObjectEntries } from "lib/object";
 import { getCollectiblesAcrossLocations } from "features/game/lib/getCollectiblesAcrossLocations";
-import { type PetName, isPetNFTRevealed } from "features/game/types/pets";
+import {
+  type Pet,
+  type PetName,
+  type PetNFT,
+  isPetNFTRevealed,
+} from "features/game/types/pets";
 import type { MachineState } from "features/game/lib/gameMachine";
 import type { GameState } from "features/game/types/game";
 
@@ -266,4 +271,15 @@ export const getPetImageForMarketplace = (id: number) => {
   }
 
   return `https://${petImageDomain}.sunflower-land.com/marketplace/${id}_animated.webp`;
+};
+
+/**
+ * True when the pet hasn't been fed a single dish today (UTC day, same rule
+ * as the feeding panel). Feeding any one request clears it.
+ */
+export const isPetHungry = (pet: Pet | PetNFT, now: number): boolean => {
+  const today = new Date(now).toISOString().split("T")[0];
+  const lastFed = new Date(pet.requests.fedAt ?? 0).toISOString().split("T")[0];
+
+  return lastFed !== today;
 };

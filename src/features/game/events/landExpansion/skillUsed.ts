@@ -30,9 +30,17 @@ import { canChop } from "./chop";
 import { canDrillOilReserve } from "./drillOilReserve";
 import { isReadyToHarvest } from "./harvest";
 import { getCurrentCookingItem, recalculateQueue } from "./cancelQueuedRecipe";
+import { getCookingBoostWindows } from "features/game/lib/boostWindows";
+import {
+  burnRecipeOil,
+  getCookingOil,
+  settleCookingOil,
+} from "features/game/lib/cookingReadiness";
 import { FLOWER_SEEDS, FLOWERS } from "features/game/types/flowers";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 import { isWearableActive } from "features/game/lib/wearables";
+import type { BumpkinItem } from "features/game/types/bumpkin";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getPlotsToFertilise } from "./bulkFertilisePlot";
 import {
   getMaxStoredSaltCharges,
@@ -200,19 +208,38 @@ function useInstantGratification({
 }): GameState {
   getKeys(BUILDING_DAILY_OIL_CAPACITY).forEach((buildingName) => {
     const building = game.buildings[buildingName]?.[0];
-    const queue = building?.crafting;
 
-    if (!building || !queue) return;
+    // A lifted building is paused until it is placed again (see `placeBuilding`).
+    if (!building?.crafting || !building.coordinates) return;
+
+    // Settle the oil at activation; the completed recipe then pays for the oil it
+    // would have burned cooking out (see `burnRecipeOil`), and the recipe promoted
+    // behind it draws from what is left.
+    const settled = settleCookingOil({
+      game,
+      building,
+      buildingName,
+      at: createdAt,
+    });
+    const queue = building.crafting;
 
     const currentlyCooking = getCurrentCookingItem({
       building: building,
       createdAt,
       game,
+      oil: settled,
     });
 
     if (!currentlyCooking) return;
 
     const recipeIndex = currentlyCooking.index;
+    const oil = burnRecipeOil({
+      building,
+      buildingName,
+      index: recipeIndex,
+      at: createdAt,
+      windows: getCookingBoostWindows(game),
+    });
 
     queue[recipeIndex].readyAt = createdAt;
     // Windowed (`baseDurationMs` set): also zero the remaining work, or the queue
@@ -233,6 +260,7 @@ function useInstantGratification({
       buildingName,
       game,
       isInstantCook: true,
+      oil,
     });
   });
 
@@ -274,7 +302,23 @@ function useSaltSurge({
   return rechargeAllSaltNodes(game, createdAt);
 }
 
-export function getSkillCooldown({
+/**
+ * Wearables that shorten every Power Skill cooldown. Each one worn by the
+ * Bumpkin or a farmhand applies, so they stack.
+ */
+const COOLDOWN_WEARABLES: Partial<Record<BumpkinItem, number>> = {
+  "Luna's Crescent": 0.5,
+  "Ascension Staff": 0.9,
+};
+
+function getActiveCooldownWearables(state: GameState): BumpkinItem[] {
+  return getKeys(COOLDOWN_WEARABLES).filter((name) =>
+    isWearableActive({ name, game: state }),
+  );
+}
+
+/** The Power Skill cooldown before any cooldown wearable. */
+function getBaseSkillCooldown({
   cooldown,
   state,
   skillName,
@@ -293,11 +337,24 @@ export function getSkillCooldown({
     }
   }
 
-  let boostedCooldown = new Decimal(base);
-  if (isWearableActive({ name: "Luna's Crescent", game: state })) {
-    boostedCooldown = boostedCooldown.mul(0.5);
-  }
-  return boostedCooldown.toNumber();
+  return base;
+}
+
+export function getSkillCooldown({
+  cooldown,
+  state,
+  skillName,
+}: {
+  cooldown: number;
+  state: GameState;
+  skillName?: BumpkinRevampSkillName;
+}) {
+  return getActiveCooldownWearables(state)
+    .reduce(
+      (boosted, name) => boosted.mul(COOLDOWN_WEARABLES[name] ?? 1),
+      new Decimal(getBaseSkillCooldown({ cooldown, state, skillName })),
+    )
+    .toNumber();
 }
 
 export function powerSkillDisabledConditions({
@@ -459,9 +516,22 @@ export function powerSkillDisabledConditions({
 
     case "Instant Gratification": {
       if (
-        getKeys(BUILDING_DAILY_OIL_CAPACITY).every(
-          (building) => !buildings[building]?.[0]?.crafting,
-        )
+        // Only a recipe still cooking can be completed: a lifted building is
+        // skipped on activation, and a queue whose recipes have all finished has
+        // nothing left to speed up. Same readiness as the activation; the tank
+        // at its last settle derives the same ready times as settling now.
+        getKeys(BUILDING_DAILY_OIL_CAPACITY).every((buildingName) => {
+          const building = buildings[buildingName]?.[0];
+          return (
+            !building?.coordinates ||
+            !getCurrentCookingItem({
+              building,
+              createdAt,
+              game: state,
+              oil: getCookingOil({ building, buildingName }),
+            })
+          );
+        })
       ) {
         return {
           disabled: true,
@@ -643,6 +713,25 @@ export function skillUse({ state, action, createdAt = Date.now() }: Options) {
         }),
         inventory,
       );
+    }
+
+    // A cooldown wearable is used when the skill would still be on cooldown
+    // without it.
+    const lastUse = bumpkin.previousPowerUseAt[skill];
+    const baseCooldown = getBaseSkillCooldown({
+      cooldown: requirements.cooldown ?? 0,
+      state: stateCopy,
+      skillName: skill,
+    });
+    if (lastUse !== undefined && lastUse + baseCooldown > createdAt) {
+      stateCopy.boostsUsedAt = updateBoostUsed({
+        game: stateCopy,
+        boostNames: getActiveCooldownWearables(stateCopy).map((name) => ({
+          name,
+          value: `x${COOLDOWN_WEARABLES[name]}`,
+        })),
+        createdAt,
+      });
     }
 
     // Return the new state

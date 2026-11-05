@@ -3,6 +3,7 @@ import type {
   AnimalFoodName,
   AnimalMedicineName,
   GameState,
+  InventoryItemName,
 } from "features/game/types/game";
 import { ANIMAL_FOODS } from "features/game/types/animals";
 import { getKeys } from "lib/object";
@@ -12,6 +13,8 @@ export type BulkMixFeedAction = {
   type: "feeds.bulkMixed";
   feeds: {
     item: AnimalFoodName | AnimalMedicineName;
+    /** The one input a Pig Slop is mixed from; never set for other feeds. */
+    ingredient?: InventoryItemName;
     amount: number;
   }[];
 };

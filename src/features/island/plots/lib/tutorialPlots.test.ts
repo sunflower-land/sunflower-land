@@ -4,6 +4,7 @@ import {
   getSnakeOrder,
   getTotalCropsHarvested,
   getTutorialHarvestPlot,
+  isTutorialHarvestPhase,
   TUTORIAL_PLOT_COUNT,
 } from "./tutorialPlots";
 
@@ -87,6 +88,41 @@ describe("getTotalCropsHarvested", () => {
         farmActivity: { "Sunflower Harvested": 4, "Rhubarb Harvested": 2 },
       }),
     ).toBe(6);
+  });
+});
+
+describe("isTutorialHarvestPhase", () => {
+  it("is active while the first Sunflowers are being harvested", () => {
+    expect(isTutorialHarvestPhase(makeGame(SNAKE.slice(0, 5)))).toBe(true);
+  });
+
+  it("ends with the ninth Sunflower so the first-delivery nudge can take over", () => {
+    expect(isTutorialHarvestPhase(makeGame(SNAKE))).toBe(false);
+  });
+
+  it("resumes once the expansion reveals the preloaded Rhubarb", () => {
+    const game = makeGame(SNAKE);
+    game.crops.rhubarb1 = {
+      createdAt: now,
+      x: 3,
+      y: 5,
+      crop: { name: "Rhubarb", plantedAt: 0 },
+    };
+
+    expect(isTutorialHarvestPhase(game)).toBe(true);
+  });
+
+  it("stays off for a Bumpkin with experience", () => {
+    const game = makeGame(SNAKE);
+    game.crops.rhubarb1 = {
+      createdAt: now,
+      x: 3,
+      y: 5,
+      crop: { name: "Rhubarb", plantedAt: 0 },
+    };
+    game.bumpkin = { ...game.bumpkin, experience: 5 };
+
+    expect(isTutorialHarvestPhase(game)).toBe(false);
   });
 });
 

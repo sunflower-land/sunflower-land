@@ -12,16 +12,10 @@ import { getCurrentBiome } from "features/island/biomes/biomes";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import type { MachineState } from "features/game/lib/gameMachine";
-import {
-  needsBasicScarecrow,
-  needsFirstAxes,
-  needsWaterWell,
-} from "./lib/onboarding";
+import { getTutorialNudge } from "features/island/lib/tutorialNudge";
 
-const _needsWell = (state: MachineState) => needsWaterWell(state.context.state);
-const _needsScarecrow = (state: MachineState) =>
-  needsBasicScarecrow(state.context.state);
-const _needsAxes = (state: MachineState) => needsFirstAxes(state.context.state);
+const _activeNudge = (state: MachineState) =>
+  getTutorialNudge(state.context.state);
 
 export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, island }) => {
   // TODO: feat/crafting-box - remove this
@@ -31,10 +25,13 @@ export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, island }) => {
 
   const { play: shopAudio } = useSound("shop");
 
-  const needsWell = useSelector(gameService, _needsWell);
-  const needsScarecrow = useSelector(gameService, _needsScarecrow);
-  const needsAxes = useSelector(gameService, _needsAxes);
-  const showHelper = isBuilt && (needsWell || needsScarecrow || needsAxes);
+  // One nudge at a time across the whole farm - see getTutorialNudge
+  const activeNudge = useSelector(gameService, _activeNudge);
+  const showHelper =
+    isBuilt &&
+    (activeNudge === "workbench-axes" ||
+      activeNudge === "workbench-scarecrow" ||
+      activeNudge === "workbench-well");
 
   const handleClick = () => {
     if (isBuilt) {
