@@ -63,11 +63,14 @@ import {
 } from "features/game/lib/boostWindows";
 import { getPreActionDisplay } from "features/game/lib/timerDisplay";
 import {
+  COOKING_OIL_RATE,
   getCookingOil,
   resolveCookingQueueTimings,
 } from "features/game/lib/cookingReadiness";
 import {
+  formatOil,
   getCookingOilTank,
+  getOilWindowBurn,
   getPreviewOilWindow,
 } from "features/island/buildings/lib/cookingOilTank";
 import {
@@ -228,6 +231,11 @@ export const Recipes: React.FC<Props> = ({
   const previewWindows = previewOilWindow
     ? [...cookingBoostWindows, previewOilWindow]
     : cookingBoostWindows;
+  // The oil this recipe would take from the tank: comparable to the old up-front
+  // cost, where a per-day burn rate is not.
+  const previewOilBurn =
+    previewOilWindow &&
+    getOilWindowBurn(previewOilWindow, COOKING_OIL_RATE[buildingName]);
 
   const baseTimeSeconds = COOKABLES[selected.name].cookingSeconds;
 
@@ -380,6 +388,17 @@ export const Recipes: React.FC<Props> = ({
               setShowTimeBoosts={setShowTimeBoosts}
               actionView={
                 <>
+                  {previewOilBurn !== undefined && (
+                    <Label
+                      type="default"
+                      icon={ITEM_DETAILS.Oil.image}
+                      className="mb-1"
+                    >
+                      {t("cooking.building.oil.uses", {
+                        oil: formatOil(previewOilBurn),
+                      })}
+                    </Label>
+                  )}
                   {doubleNomLevel > 0 && (
                     <Label type="success" icon={powerup}>
                       {`Double Nom: ${t("skill.doubleNom.buff.ranked", {

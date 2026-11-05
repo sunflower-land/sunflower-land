@@ -20,6 +20,8 @@ import {
 } from "features/game/events/landExpansion/cook";
 import { hasFeatureAccess } from "lib/flags";
 
+const DAY = 24 * 60 * 60 * 1000;
+
 /**
  * What a cooking building's oil tank shows at `at`.
  *
@@ -128,4 +130,17 @@ export const getPreviewOilWindow = ({
     windows,
     oil,
   }).at(-1)?.oilWindow;
+};
+
+/** Oil a recipe burns cooking under `oilWindow`, as `burnRecipeOil` drains it. */
+export const getOilWindowBurn = (oilWindow: BoostWindow, ratePerDay: number) =>
+  ((oilWindow.to - oilWindow.from) / DAY) * ratePerDay;
+
+/**
+ * An oil amount for display: two decimal places at most, rounded to nearest so a
+ * float like 11.9999 reads 12, and anything above zero but below 0.01 as "<0.01".
+ */
+export const formatOil = (oil: number) => {
+  if (oil > 0 && oil < 0.005) return "<0.01";
+  return String(Math.round(oil * 100) / 100);
 };
