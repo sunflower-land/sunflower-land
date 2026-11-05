@@ -23,7 +23,10 @@ import { Box } from "components/ui/Box";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { isCookingBuilding } from "features/game/events/landExpansion/isCookingBuilding";
 import { useNow } from "lib/utils/hooks/useNow";
-import { getCookingOilTank } from "features/island/buildings/lib/cookingOilTank";
+import {
+  formatOil,
+  getCookingOilTank,
+} from "features/island/buildings/lib/cookingOilTank";
 
 interface OilTankProps {
   buildingName: BuildingName;
@@ -185,13 +188,21 @@ export const BuildingOilTank: React.FC<OilTankProps> = ({
                   />
                   <div className="flex">
                     <div className="text-xs">
-                      {t("cooking.building.runtime", {
-                        time: secondsToString(runtime, {
-                          length: "medium",
-                          isShortFormat: true,
-                          removeTrailingZeros: true,
-                        }),
-                      })}
+                      {/* A clock-drain tank only burns while something cooks, so
+                          a runtime would sit still whenever the building is idle:
+                          show the oil itself, the unit a recipe's cost is in. */}
+                      {tank?.byTheClock
+                        ? t("cooking.building.oil.level", {
+                            oil: formatOil(oilRemainingInBuilding),
+                            capacity: formatOil(oilCapacity),
+                          })
+                        : t("cooking.building.runtime", {
+                            time: secondsToString(runtime, {
+                              length: "medium",
+                              isShortFormat: true,
+                              removeTrailingZeros: true,
+                            }),
+                          })}
                     </div>
                   </div>
                 </div>
