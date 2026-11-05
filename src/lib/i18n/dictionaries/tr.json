@@ -9023,5 +9023,12 @@
   "faceRecognition.introWarning": "Sorunsuz bir doğrulama için iyi aydınlatmaya sahip bir yer bulun ve loş odalardan veya güçlü arka aydınlatmadan kaçının.",
   "marketplace.afterTradingFee": "{{fee}} FLOWER işlem ücretinden sonra",
   "marketplace.tradePoints.balance": "Ticaret Puanları: {{amount}}",
-  "marketplace.claimAll": "Tümünü talep et ({{count}})"
+  "marketplace.claimAll": "Tümünü talep et ({{count}})",
+  "lavaPit.guide.howItWorks": "Nasıl çalışır",
+  "lavaPit.guide.throw": "Sezonun kaynaklarını çukura atın.",
+  "lavaPit.guide.burn": "Çukur onları {{hours}} saat boyunca yakar.",
+  "lavaPit.guide.obsidian": "Çukur bittikten sonra Obsidiyen toplayın.",
+  "lavaPit.guide.seasons": "Kaynaklar her mevsimde değişir. Önceden plan yapmak için aşağıdaki tarifleri kontrol edin.",
+  "lavaPit.guide.recipes": "Mevsime göre tarifler",
+  "lavaPit.guide.current": "Şimdi"
 }

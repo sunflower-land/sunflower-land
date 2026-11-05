@@ -9023,5 +9023,12 @@
   "faceRecognition.introWarning": "Suchen Sie für eine reibungslose Überprüfung einen Ort mit guter Beleuchtung und vermeiden Sie dunkle Räume oder starke Hintergrundbeleuchtung.",
   "marketplace.afterTradingFee": "Nach {{fee}} FLOWER-Handelsgebühr",
   "marketplace.tradePoints.balance": "Handelspunkte: {{amount}}",
-  "marketplace.claimAll": "Alle beanspruchen ({{count}})"
+  "marketplace.claimAll": "Alle beanspruchen ({{count}})",
+  "lavaPit.guide.howItWorks": "So funktioniert's",
+  "lavaPit.guide.throw": "Wirf die Ressourcen der Saison in die Grube.",
+  "lavaPit.guide.burn": "Die Grube verbrennt sie für {{hours}} Stunden.",
+  "lavaPit.guide.obsidian": "Sammle Obsidian, sobald die Grube fertig ist.",
+  "lavaPit.guide.seasons": "Die Ressourcen ändern sich mit jeder Jahreszeit. Schauen Sie sich die folgenden Rezepte an, um im Voraus zu planen.",
+  "lavaPit.guide.recipes": "Rezepte nach Jahreszeit",
+  "lavaPit.guide.current": "Jetzt"
 }

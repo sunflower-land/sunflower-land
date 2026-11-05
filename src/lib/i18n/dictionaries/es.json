@@ -9023,5 +9023,12 @@
   "faceRecognition.introWarning": "Para una verificación sin problemas, busque un lugar con buena iluminación y evite las habitaciones con poca luz o una retroiluminación intensa.",
   "marketplace.afterTradingFee": "Después de la comisión de negociación de {{fee}} FLOWER",
   "marketplace.tradePoints.balance": "Puntos de comercio: {{amount}}",
-  "marketplace.claimAll": "Reclamar todo ({{count}})"
+  "marketplace.claimAll": "Reclamar todo ({{count}})",
+  "lavaPit.guide.howItWorks": "Cómo funciona",
+  "lavaPit.guide.throw": "Lanza los recursos de la temporada a la fosa.",
+  "lavaPit.guide.burn": "La fosa los quema durante {{hours}} horas.",
+  "lavaPit.guide.obsidian": "Recoge obsidiana una vez que el pozo esté listo.",
+  "lavaPit.guide.seasons": "Los recursos cambian con cada estación. Consulta las recetas que aparecen a continuación para planificar con anticipación.",
+  "lavaPit.guide.recipes": "Recetas por temporada",
+  "lavaPit.guide.current": "Ahora"
 }

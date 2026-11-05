@@ -9023,5 +9023,12 @@
   "faceRecognition.introWarning": "スムーズに確認するために、照明の良い場所を見つけ、薄暗い部屋や強い逆光を避けてください。",
   "marketplace.afterTradingFee": "{{fee}} フラワーの取引手数料を差し引いた後",
   "marketplace.tradePoints.balance": "トレードポイント:{{amount}}",
-  "marketplace.claimAll": "すべて請求 ({{count}})"
+  "marketplace.claimAll": "すべて請求 ({{count}})",
+  "lavaPit.guide.howItWorks": "仕組み",
+  "lavaPit.guide.throw": "シーズンの資源をピットに投げ入れましょう。",
+  "lavaPit.guide.burn": "ピットは {{hours}} 時間燃やします。",
+  "lavaPit.guide.obsidian": "ピットが完成したらオブシディアンを集めてください。",
+  "lavaPit.guide.seasons": "資源は季節ごとに変わります。以下のレシピを確認して、事前に計画を立ててください。",
+  "lavaPit.guide.recipes": "季節ごとのレシピ",
+  "lavaPit.guide.current": "今"
 }

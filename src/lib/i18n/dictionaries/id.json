@@ -9023,5 +9023,12 @@
   "faceRecognition.introWarning": "Untuk verifikasi yang lancar, temukan tempat dengan pencahayaan yang baik dan hindari ruangan redup atau lampu latar yang kuat.",
   "marketplace.afterTradingFee": "Setelah {{fee}} biaya perdagangan FLOWER",
   "marketplace.tradePoints.balance": "Poin Perdagangan: {{amount}}",
-  "marketplace.claimAll": "Klaim semua ({{count}})"
+  "marketplace.claimAll": "Klaim semua ({{count}})",
+  "lavaPit.guide.howItWorks": "Cara kerjanya",
+  "lavaPit.guide.throw": "Buang sumber daya musim ke dalam lubang.",
+  "lavaPit.guide.burn": "Lubang membakarnya selama {{hours}} jam.",
+  "lavaPit.guide.obsidian": "Kumpulkan Obsidian setelah lubang selesai.",
+  "lavaPit.guide.seasons": "Sumber daya berubah setiap musim. Periksa resep di bawah ini untuk merencanakan ke depan.",
+  "lavaPit.guide.recipes": "Resep berdasarkan musim",
+  "lavaPit.guide.current": "Sekarang"
 }

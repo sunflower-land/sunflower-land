@@ -9023,5 +9023,12 @@
   "faceRecognition.introWarning": "为了顺利进行验证，请找一个光线充足的地方，避开昏暗的房间或强烈的背光。",
   "marketplace.afterTradingFee": "在 {{fee}} FLOWER 交易费后",
   "marketplace.tradePoints.balance": "交易点：{{amount}}",
-  "marketplace.claimAll": "全部申领 ({{count}})"
+  "marketplace.claimAll": "全部申领 ({{count}})",
+  "lavaPit.guide.howItWorks": "它是如何运作的",
+  "lavaPit.guide.throw": "把本赛季的资源扔进坑里。",
+  "lavaPit.guide.burn": "这个坑会把它们烧掉 {{hours}} 个小时。",
+  "lavaPit.guide.obsidian": "坑完成后收集黑曜石。",
+  "lavaPit.guide.seasons": "每个季节的资源都在变化。查看以下食谱，提前做好计划。",
+  "lavaPit.guide.recipes": "按季节分类的食谱",
+  "lavaPit.guide.current": "现在"
 }

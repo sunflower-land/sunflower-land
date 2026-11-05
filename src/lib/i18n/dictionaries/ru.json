@@ -9023,5 +9023,12 @@
   "faceRecognition.introWarning": "For a smooth verification, find a place with good lighting and avoid dim rooms or strong backlighting.",
   "marketplace.afterTradingFee": "After {{fee}} FLOWER trading fee",
   "marketplace.tradePoints.balance": "Trade Points: {{amount}}",
-  "marketplace.claimAll": "Claim all ({{count}})"
+  "marketplace.claimAll": "Claim all ({{count}})",
+  "lavaPit.guide.howItWorks": "How it works",
+  "lavaPit.guide.throw": "Throw the season's resources into the pit.",
+  "lavaPit.guide.burn": "The pit burns them for {{hours}} hours.",
+  "lavaPit.guide.obsidian": "Collect Obsidian once the pit is done.",
+  "lavaPit.guide.seasons": "The resources change with every season. Check the recipes below to plan ahead.",
+  "lavaPit.guide.recipes": "Recipes by season",
+  "lavaPit.guide.current": "Now"
 }
