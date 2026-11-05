@@ -1304,6 +1304,9 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                   !delivery ||
                   !hasDelivery ||
                   !!delivery?.completedAt ||
+                  // Fresh orders carry the server's clock; a client running
+                  // behind would deliver before readyAt and the event throws.
+                  delivery.readyAt > now ||
                   isLocked ||
                   missingRequiredReputation ||
                   deliveryFrozen ||
