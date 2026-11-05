@@ -7,6 +7,8 @@ import helpIcon from "assets/icons/help.webp";
 import chefHat from "assets/icons/chef_hat.png";
 import tradeIcon from "assets/icons/trade.png";
 import bee from "assets/icons/bee.webp";
+import baits from "assets/composters/baits.png";
+import fertilisers from "assets/composters/fertilisers.png";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "./images";
@@ -2426,7 +2428,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       shortDescription: translate("description.deepSeaSlug.boost.2"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostedItemIcon: ITEM_DETAILS["Earthworm"].image,
+      boostedItemIcon: baits,
     },
   ],
   "Salt Crystal Flower": () => [
@@ -2464,6 +2466,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: SUNNYSIDE.tools.hammer,
     },
     {
+      shortDescription: translate("description.duendeMonument.warning"),
+      labelType: "danger",
+      boostTypeIcon: SUNNYSIDE.icons.cancel,
+    },
+    {
       shortDescription: translate("description.duendeMonument.boost.2"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
@@ -2479,21 +2486,25 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       shortDescription: translate("description.strawHouse.boost.2"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostedItemIcon: ITEM_DETAILS["Sprout Mix"].image,
+      boostedItemIcon: fertilisers,
     },
     {
       shortDescription: translate("description.strawHouse.boost.3"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostedItemIcon: ITEM_DETAILS["Earthworm"].image,
+      boostedItemIcon: baits,
     },
   ],
-  "Mining Drill": () => [
+  "Pot of Luck": () => [
     {
-      shortDescription: translate("description.miningDrill.boost"),
+      shortDescription: translate("description.potOfLuck.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS["Sand Shovel"].image,
+    },
+    {
+      shortDescription: translate("description.potOfLuck.warning"),
+      labelType: "danger",
     },
   ],
   "Giant Truffle": () => [
@@ -2523,6 +2534,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS.Crimstone.image,
     },
     {
+      shortDescription: translate("description.brickHouse.warning"),
+      labelType: "danger",
+      boostTypeIcon: SUNNYSIDE.icons.cancel,
+    },
+    {
       shortDescription: translate("description.brickHouse.boost.2"),
       labelType: "vibrant",
       boostTypeIcon: lightning,
@@ -2535,6 +2551,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       labelType: "vibrant",
       boostTypeIcon: lightning,
       boostedItemIcon: ITEM_DETAILS.Oil.image,
+    },
+    {
+      shortDescription: translate("description.stickHouse.warning"),
+      labelType: "danger",
+      boostTypeIcon: SUNNYSIDE.icons.cancel,
     },
     {
       shortDescription: translate("description.stickHouse.boost.2"),

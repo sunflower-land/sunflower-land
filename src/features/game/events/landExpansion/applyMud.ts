@@ -7,12 +7,10 @@ import {
   MUD_PER_APPLICATION,
 } from "features/game/lib/animals";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
-import { hasFeatureAccess } from "lib/flags";
-import { getAnimalHarvests } from "./applyAnimalFeedBuff";
+import { getMudHarvests } from "./applyAnimalFeedBuff";
 import { isAnimalNeedingLove } from "./loveAnimal";
 
 export enum APPLY_MUD_ERRORS {
-  NO_FEATURE_ACCESS = "You do not have access to Mud",
   SICK = "Cannot apply Mud while the Pig is sick",
   ALREADY_MUDDY = "Pig already has Mud",
   NEEDS_LOVE = "Pet your Pig before using this",
@@ -50,10 +48,6 @@ export function isPigNeedingLoveForMud(
  * before it looks for eligible Pigs.
  */
 export function assertCanApplyMud(state: GameState) {
-  if (!hasFeatureAccess(state, "PIGPEN")) {
-    throw new Error(APPLY_MUD_ERRORS.NO_FEATURE_ACCESS);
-  }
-
   if (!state.buildings.Pigpen?.some((building) => !!building.coordinates)) {
     throw new Error("Building does not exist");
   }
@@ -93,8 +87,8 @@ export function applyMud({
     copy.inventory.Mud = (copy.inventory.Mud as Decimal).minus(
       MUD_PER_APPLICATION,
     );
-    // As many charges as a treat: 3, or 6 with a placed Vibraphone.
-    const { harvests, boostsUsed } = getAnimalHarvests(copy);
+    // A daily coat: 1 claim, or 2 with a placed Vibraphone.
+    const { harvests, boostsUsed } = getMudHarvests(copy);
     pig.mud = { harvestsRemaining: harvests };
 
     copy.boostsUsedAt = updateBoostUsed({

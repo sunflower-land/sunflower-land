@@ -128,7 +128,7 @@ export const TransferAccount: React.FC = () => {
         {t("transfer")}
       </Button>
       <a
-        href="https://docs.sunflower-land.com/getting-started/how-to-start"
+        href="https://docs.sunflower-land.com/start-here/how-to-start"
         className="underline text-xxs"
         target="_blank"
         rel="noopener noreferrer"

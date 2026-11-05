@@ -28,6 +28,7 @@ import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import {
+  CHAPTER_CROP_WEEK,
   CHAPTER_CROP_WEEK_CROP,
   hasChapterCropWeekAccess,
   isRetiredChapterCropWeekItem,
@@ -39,6 +40,7 @@ import useSWR from "swr";
 import { getWeekKey } from "features/game/lib/factions";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useNow } from "lib/utils/hooks/useNow";
 import { useMarketplaceFavorites } from "../lib/marketplaceFavorites";
 
 const _trades = (state: MachineState) => state.context.state.trades;
@@ -64,6 +66,11 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
   const authToken = authState.context.user.rawToken as string;
   const state = useSelector(gameService, _state);
   const trades = useSelector(gameService, _trades);
+  // Live until the run ends so an open page flips to "Retired" at the boundary.
+  const now = useNow({
+    live: true,
+    autoEndAt: CHAPTER_CROP_WEEK.endDate.getTime(),
+  });
 
   const params = useParams<{
     collection?: CollectionName;
@@ -228,11 +235,14 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
   // is active (admin testers get early access). Everyone else sees a "Coming
   // Soon" page instead of the details.
   const isChapterCropWeekLocked =
-    display.name === CHAPTER_CROP_WEEK_CROP && !hasChapterCropWeekAccess(state);
+    display.name === CHAPTER_CROP_WEEK_CROP &&
+    !hasChapterCropWeekAccess(state, now);
 
-  // Crops from previous Chapter Crop Week runs are never tradeable again.
+  // Crops from ended Chapter Crop Week runs (the current one included, once it
+  // is over) are never tradeable again.
   const isRetiredChapterCropWeekCrop = isRetiredChapterCropWeekItem(
     display.name,
+    now,
   );
 
   if (isChapterCropWeekLocked || isRetiredChapterCropWeekCrop) {

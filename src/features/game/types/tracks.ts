@@ -1317,7 +1317,7 @@ const CAVE_DWELLERS_CHAPTER_TRACKS: ChapterTrack = {
     // Level 20
     {
       points: 3000,
-      free: { items: { "Pot of Luck": 1 } },
+      free: { items: { "Mining Drill": 1 } },
       premium: { wearables: { "Traveling Merchant Suit": 1 } },
     },
     // Level 21
@@ -1434,7 +1434,7 @@ const CAVE_DWELLERS_CHAPTER_TRACKS: ChapterTrack = {
     {
       points: 25000,
       free: { items: { "Pet Egg": 1 } },
-      premium: { items: { "Miner's Bed": 1 } },
+      premium: { items: { "Spooky Bed": 1 } },
     },
     // Level 41
     {

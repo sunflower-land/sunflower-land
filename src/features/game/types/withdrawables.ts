@@ -714,6 +714,11 @@ export const WEARABLE_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     tradeAt: CHAPTERS["Cave Dwellers"].endDate,
     withdrawAt: new Date("2027-03-01T00:00:00Z"),
   },
+  // Cave Dwellers chest exclusive
+  "Fish Trap": {
+    tradeAt: CHAPTERS["Cave Dwellers"].endDate,
+    withdrawAt: new Date("2027-03-01T00:00:00Z"),
+  },
 
   "Moonseeker Potion": {
     tradeAt: new Date("2025-11-06"),
@@ -913,6 +918,18 @@ export const WEARABLE_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     tradeAt: new Date("2026-08-20T00:00:00Z"),
     withdrawAt: new Date("2026-08-20T00:00:00Z"),
   },
+
+  "Sky Tearer Wings": CAN_WITHDRAW_AND_TRADE,
+  "Bat Aura": CAN_WITHDRAW_AND_TRADE,
+  "Vampire Headwear": CAN_WITHDRAW_AND_TRADE,
+  "Butcher Knife": CAN_WITHDRAW_AND_TRADE,
+  "Skeleton Mask": CAN_WITHDRAW_AND_TRADE,
+  "Vampire Breeches": CAN_WITHDRAW_AND_TRADE,
+  "Scary Nights Background": CAN_WITHDRAW_AND_TRADE,
+  "Vampire Garments": CAN_WITHDRAW_AND_TRADE,
+  "Hook and Chain": CAN_WITHDRAW_AND_TRADE,
+  "Vampire Footwear": CAN_WITHDRAW_AND_TRADE,
+  "Skeleton Costume": CAN_WITHDRAW_AND_TRADE,
 };
 
 type InventoryReleases = Partial<Record<InventoryItemName, Releases>>;
@@ -2188,6 +2205,26 @@ export const INVENTORY_RELEASES: InventoryReleases = {
     tradeAt: new Date("2026-08-20T00:00:00Z"),
     withdrawAt: new Date("2026-08-20T00:00:00Z"),
   },
+
+  //Halloween 2026 event
+  "Corrupted Pumpkin": CAN_WITHDRAW_AND_TRADE,
+  "Huge Jack-o'-lantern": CAN_WITHDRAW_AND_TRADE,
+  "Haunted TV": CAN_WITHDRAW_AND_TRADE,
+  "Zombie Hand Toy": CAN_WITHDRAW_AND_TRADE,
+  "Cool Zombie Tombstone": CAN_WITHDRAW_AND_TRADE,
+  "Destroyed Sign": CAN_WITHDRAW_AND_TRADE,
+  "Skull Candles": CAN_WITHDRAW_AND_TRADE,
+  "Plague Crow": CAN_WITHDRAW_AND_TRADE,
+  "Skeleton Crow": CAN_WITHDRAW_AND_TRADE,
+  "Witch Crow": CAN_WITHDRAW_AND_TRADE,
+  "Fisherbird Crow": CAN_WITHDRAW_AND_TRADE,
+  "Chained Crow": CAN_WITHDRAW_AND_TRADE,
+  "Count Vlad Crow": CAN_WITHDRAW_AND_TRADE,
+  "Lual Crow": CAN_WITHDRAW_AND_TRADE,
+  "King Crow": CAN_WITHDRAW_AND_TRADE,
+  "Devil Crow": CAN_WITHDRAW_AND_TRADE,
+  "Pharaoh Crow": CAN_WITHDRAW_AND_TRADE,
+  "Cultist Crow": CAN_WITHDRAW_AND_TRADE,
 
   // Tutorial marketplace item
   "Stone Beetle": {

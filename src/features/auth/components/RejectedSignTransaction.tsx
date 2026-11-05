@@ -25,7 +25,7 @@ export const RejectedSignTransaction: React.FC<Props> = ({ onTryAgain }) => {
           {t("transaction.message0")}{" "}
           <a
             className="underline"
-            href="https://docs.sunflower-land.com/support/terms-of-service"
+            href="https://docs.sunflower-land.com/legal-and-support/terms-of-service"
             target="_blank"
             rel="noopener noreferrer"
           >

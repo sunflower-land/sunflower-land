@@ -2,7 +2,6 @@ import React from "react";
 
 import {
   getCaveBeetleProgress,
-  getCavePatchComposition,
   getUndugCaveTiles,
 } from "features/game/types/cavePatch";
 import type { CaveBatch } from "features/game/types/game";
@@ -31,10 +30,7 @@ export const CaveBatchReady: React.FC<Props> = ({ batch, onDig }) => {
   const image = ITEM_DETAILS[RECIPE_IMAGE[batch.recipe]].image;
   const beetles = getCaveBeetleProgress(batch);
   const dug = Object.keys(batch.dug ?? {}).length;
-  // Until the save that rolls the board returns, nothing is dug yet.
-  const buried = batch.seed
-    ? getUndugCaveTiles(batch)
-    : getCavePatchComposition(batch.recipe, batch.skills);
+  const buried = getUndugCaveTiles(batch);
 
   return (
     <InnerPanel className="mb-1">

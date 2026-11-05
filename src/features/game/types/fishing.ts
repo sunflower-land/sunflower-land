@@ -1029,6 +1029,15 @@ const CHAPTER_MAP_PIECE_TRIGGERS: Partial<
     Angelfish: { marvel: "Seahorse Dad", odds: 0.001 },
     Porgy: { marvel: "Seahorse Dad", odds: 0.01 },
   },
+  "Cave Dwellers": {
+    "Moray Eel": { marvel: "Macropinna", odds: 0.015 },
+    Coelacanth: { marvel: "Macropinna", odds: 0.01 },
+    "Zebra Turkeyfish": { marvel: "Betta", odds: 0.01 },
+    Muskellunge: { marvel: "Betta", odds: 0.02 },
+    Blowfish: { marvel: "Betta", odds: 0.01 },
+    "Whale Shark": { marvel: "Manatee", odds: 0.01 },
+    "Sea Bass": { marvel: "Manatee", odds: 0.002 },
+  },
 };
 
 export function getMapPieceFishTriggers(

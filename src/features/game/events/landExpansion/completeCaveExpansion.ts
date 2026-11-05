@@ -1,6 +1,5 @@
 import { produce } from "immer";
 import type { GameState } from "features/game/types/game";
-import { hasFeatureAccess } from "lib/flags";
 import { isCaveBuildingReady } from "features/game/lib/cave";
 
 export type CompleteCaveExpansionAction = {
@@ -14,7 +13,6 @@ type Options = {
 };
 
 export enum COMPLETE_CAVE_EXPANSION_ERRORS {
-  NO_FEATURE_ACCESS = "The Cave is not available for this player",
   NO_CAVE = "The Cave has not been built",
   NO_CONSTRUCTION = "The Cave is not being expanded",
   NOT_READY = "The Cave expansion is still being built",
@@ -30,10 +28,6 @@ export function completeCaveExpansion({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    if (!hasFeatureAccess(game, "CAVE")) {
-      throw new Error(COMPLETE_CAVE_EXPANSION_ERRORS.NO_FEATURE_ACCESS);
-    }
-
     if (!game.cave || !isCaveBuildingReady(game, createdAt)) {
       throw new Error(COMPLETE_CAVE_EXPANSION_ERRORS.NO_CAVE);
     }

@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { isBeetle } from "features/game/types/beetles";
-import { hasFeatureAccess } from "lib/flags";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -101,6 +100,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const inventory = useSelector(gameService, _inventory);
   const [showDrops, setShowDrops] = useState(false);
   const [showNoFoodSelected, setShowNoFoodSelected] = useState(false);
+  const [showFreeFeedTreat, setShowFreeFeedTreat] = useState(false);
+  const freeFeedTreatTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
   const [showAnimalDetails, setShowAnimalDetails] = useState(false);
   const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
   const [showNoMedicine, setShowNoMedicine] = useState(false);
@@ -233,8 +234,6 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sheep.state, sheep.experience]);
-
-  const hasBeetleFeedingAccess = hasFeatureAccess(game, "BEETLE_FEEDING");
 
   const feedSheep = (item?: InventoryItemName) => {
     setFeedXPAmount(getAnimalXPEarned(item));
@@ -407,6 +406,10 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     // the game-state animal is already asleep, so any feed/claim event would
     // throw. Ignore clicks until the animation resolves.
     if (showDrops) return;
+    // A new click replaces an earlier Honey Treat notice, so it can't sit
+    // over whatever this click does.
+    clearTimeout(freeFeedTreatTimeout.current);
+    setShowFreeFeedTreat(false);
 
     const showNoFoodPrompt = async () => {
       setShowNoFoodSelected(true);
@@ -416,11 +419,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (sick) return onSickClick();
 
-    if (needsLove) {
-      if (!hasGoldenSheep) return onLoveClick();
-
-      handleShowDetails();
-      return;
+    if (needsLove && !hasGoldenSheep) {
+      return onLoveClick();
     }
 
     const hasBuffSelected = selectedItem && isAnimalFeedBuffItem(selectedItem);
@@ -428,6 +428,16 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     if (hasBuffSelected) {
       const buffItem = selectedItem as AnimalFeedBuffName;
       const buffCount = inventory[buffItem] ?? new Decimal(0);
+      // Honey Treat only cuts feed, and Golden Sheep already makes it free.
+      if (buffItem === "Honey Treat" && hasGoldenSheep) {
+        setShowFreeFeedTreat(true);
+        // Cleared on the next click, so an older timer can't hide a newer notice.
+        freeFeedTreatTimeout.current = setTimeout(
+          () => setShowFreeFeedTreat(false),
+          1000,
+        );
+        return;
+      }
       if (!sheep.feedBuff && buffCount.gte(1)) {
         gameService.send({
           type: "animal.feedBuffApplied",
@@ -440,6 +450,11 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       }
 
       await showNoFoodPrompt();
+      return;
+    }
+
+    if (needsLove && hasGoldenSheep) {
+      handleShowDetails();
       return;
     }
 
@@ -475,18 +490,13 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       favouriteFood: favFood,
       inventory,
       requiredQty: requiredFoodQty,
-      hasBeetleFeedingAccess,
     });
     if (feedItem && feedItem !== selectedItem) {
       shortcutItem(feedItem);
     }
 
-    // Without access a Beetle is not food here, so the click falls through to
-    // the no-food prompt instead of an event the reducer would reject.
     const hasFoodSelected =
-      feedItem &&
-      (isFoodForAnimal("Sheep", feedItem) ||
-        (hasBeetleFeedingAccess && isBeetle(feedItem)));
+      feedItem && (isFoodForAnimal("Sheep", feedItem) || isBeetle(feedItem));
 
     if (hasFoodSelected) {
       const foodCount = inventory[feedItem as AnimalFoodName] ?? new Decimal(0);
@@ -505,6 +515,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   };
 
   const getInfoPopoverMessage = () => {
+    if (showFreeFeedTreat)
+      return t("animal.honeyTreatFreeFeed", { item: "Golden Sheep" });
     if (showNoFoodSelected) return t("animal.noFoodMessage");
     if (showNoMedicine) return t("animal.noMedicine");
     if (showNotEnoughFood)
@@ -576,7 +588,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const xpIndicatorColor =
     favFood === selectedItem ||
     selectedItem === "Omnifeed" ||
-    (hasBeetleFeedingAccess && !!selectedItem && isBeetle(selectedItem)) ||
+    (!!selectedItem && isBeetle(selectedItem)) ||
     hasGoldenSheep
       ? "#71e358"
       : "#fff";
@@ -699,7 +711,10 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
           </Modal>
           <InfoPopover
             showPopover={
-              showNoFoodSelected || showNoMedicine || showNotEnoughFood
+              showFreeFeedTreat ||
+              showNoFoodSelected ||
+              showNoMedicine ||
+              showNotEnoughFood
             }
             className="-top-10 left-1/2 transform -translate-x-1/2 z-20"
           >

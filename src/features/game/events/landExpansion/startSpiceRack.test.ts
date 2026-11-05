@@ -10,7 +10,6 @@ import {
   LEGACY_SPICE_RACK_RECIPE_IDS,
 } from "features/game/types/spiceRack";
 import { getObjectEntries } from "lib/object";
-import { CONFIG } from "lib/config";
 import { startSpiceRack } from "./startSpiceRack";
 import {
   createFermentationTestState,
@@ -308,35 +307,6 @@ describe("startSpiceRack: Truffle Seasoning (Chapter 16)", () => {
     expect(state.agingShed.racks.spice[0]).toMatchObject({
       recipe: "Truffle Seasoning",
       startedAt: createdAt,
-    });
-  });
-
-  describe("off testnet", () => {
-    // jest runs on amoy, so the flag-off path is only reachable by pretending
-    // to be mainnet.
-    let previousNetwork: (typeof CONFIG)["NETWORK"];
-
-    beforeEach(() => {
-      previousNetwork = CONFIG.NETWORK;
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-    });
-
-    afterEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
-    });
-
-    it("throws without the PIGPEN feature flag", () => {
-      expect(() => season()).toThrow("Truffle Seasoning is not available yet");
-    });
-
-    it("is unlocked by a Beta Pass", () => {
-      expect(() =>
-        season(
-          createFermentationTestState({
-            inventory: { ...INPUTS, "Beta Pass": new Decimal(1) },
-          }),
-        ),
-      ).not.toThrow();
     });
   });
 });

@@ -3,16 +3,19 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { useSelector } from "@xstate/react";
 import { Navigate, useNavigate } from "react-router";
 import ScrollContainer from "react-indiana-drag-scroll";
+import { animated } from "@react-spring/web";
 
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
+import classNames from "classnames";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
+import { ZoomContext } from "components/ZoomProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { hasFeatureAccess } from "lib/flags";
 import { isCaveBuildingReady } from "features/game/lib/cave";
 import { isCavePatchCleared } from "features/game/types/caveRecipes";
+import { isCaveMachineIdle } from "features/game/lib/cave";
 import { useNow } from "lib/utils/hooks/useNow";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import {
@@ -52,10 +55,24 @@ import {
   type CaveTutorialSeen,
 } from "./lib/onboarding";
 
+import { useCaveMerchantOffers } from "./hooks/useCaveMerchantOffers";
+import { PlayerModal } from "features/social/PlayerModal";
+import { hasFeatureAccess } from "lib/flags";
+import { Discovery } from "features/social/Discovery";
+import { Context as AuthContext } from "features/auth/lib/Provider";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
+
+const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
+const _loggedInFarmId = (state: MachineState) =>
+  state.context.visitorId ?? state.context.farmId;
+const _hasAirdropAccess = (state: MachineState) =>
+  hasFeatureAccess(
+    state.context.visitorState ?? state.context.state,
+    "AIRDROP_PLAYER",
+  );
 const _cave = (state: MachineState) => state.context.state.cave;
 const _buildings = (state: MachineState) => state.context.state.buildings;
-const _hasCaveAccess = (state: MachineState) =>
-  hasFeatureAccess(state.context.state, "CAVE");
+const _state = (state: MachineState) => state.context.state;
 const _shovels = (state: MachineState) =>
   state.context.state.inventory["Sand Shovel"]?.toNumber() ?? 0;
 const _drills = (state: MachineState) =>
@@ -102,16 +119,22 @@ const Sprite: React.FC<{ src: string; style?: React.CSSProperties }> = ({
  * stands in the alcove by the entrance from his tier; the ladder leaves.
  */
 export const Cave: React.FC = () => {
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
+  const { scale } = useContext(ZoomContext);
   const navigate = useNavigate();
   const { t } = useAppTranslation();
 
   const cave = useSelector(gameService, _cave);
   const buildings = useSelector(gameService, _buildings);
-  const hasCaveAccess = useSelector(gameService, _hasCaveAccess);
+  const state = useSelector(gameService, _state);
   const shovels = useSelector(gameService, _shovels);
   const drills = useSelector(gameService, _drills);
+  const { authService } = useContext(AuthContext);
+  const token = useSelector(authService, _token);
+  const loggedInFarmId = useSelector(gameService, _loggedInFarmId);
+  const hasAirdropAccess = useSelector(gameService, _hasAirdropAccess);
   const now = useNow({ live: true });
+  const { hasUnseenOffers } = useCaveMerchantOffers(cave, now);
   const [selectedMachine, setSelectedMachine] = useState<string>();
   const [showExpansion, setShowExpansion] = useState(false);
   const [showMerchant, setShowMerchant] = useState(false);
@@ -142,7 +165,7 @@ export const Cave: React.FC = () => {
 
   // Reached by URL without access or before the Cave building is placed and
   // finished — send the player back to the farm.
-  if (!hasCaveAccess || !cave || !isCaveBuildingReady({ buildings }, now)) {
+  if (!cave || !isCaveBuildingReady({ buildings }, now)) {
     return <Navigate to="/" replace />;
   }
 
@@ -169,19 +192,29 @@ export const Cave: React.FC = () => {
     tutorialStep && tutorialSeen[tutorialStep] ? tutorialStep : undefined;
 
   return (
-    <div className="absolute inset-0 bg-[#181425] overflow-hidden">
+    // Sized to #root (`h-full`), not the viewport (`absolute inset-0`): on
+    // phones the PWA makes the document taller than the viewport by the top
+    // safe-area inset (see `html` in styles.css), and a viewport-sized box
+    // left that extra height uncovered as a white strip under the room.
+    <div className="relative w-full h-full bg-[#181425] overflow-hidden">
       {/* Same scroll setup as the home Interior: click-and-drag panning over a
           big gameboard with the room centred in it. */}
       <ScrollContainer
         className="!overflow-scroll relative w-full h-full page-scroll-container overscroll-none"
         ignoreElements={"*[data-prevent-drag-scroll]"}
       >
-        <div
+        <animated.div
           className="absolute bg-[#181425]"
           style={{
             width: `${84 * GRID_WIDTH_PX}px`,
             height: `${64 * GRID_WIDTH_PX}px`,
             imageRendering: "pixelated",
+            // Pinch-to-zoom: same ZoomContext scale GameBoard applies on the
+            // farm and Interior applies at home. Origin is the gameboard
+            // centre, where the room sits, so zooming keeps the room centred
+            // rather than drifting.
+            transform: scale.to((s) => `scale(${s})`),
+            transformOrigin: "50% 50%",
           }}
         >
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -255,6 +288,18 @@ export const Cave: React.FC = () => {
                     }}
                   />
                 )}
+                {hasUnseenOffers && (
+                  <img
+                    src={SUNNYSIDE.icons.expression_alerted}
+                    alt=""
+                    className={`absolute max-w-none pointer-events-none z-30 ${showAnimations ? "ready" : ""}`}
+                    style={{
+                      width: `${PIXEL_SCALE * 4}px`,
+                      top: `${PIXEL_SCALE * -12}px`,
+                      left: `${PIXEL_SCALE * 6}px`,
+                    }}
+                  />
+                )}
                 <NPCPlaceable parts={NPC_WEARABLES.gloomwick} flipped />
                 {guiding === "buy-shovels" && !showMerchant && (
                   <CaveTutorialHand />
@@ -277,6 +322,23 @@ export const Cave: React.FC = () => {
                       onClick={() => setSelectedMachine(String(id))}
                     >
                       <Sprite src={getCaveMycoBinImage(batch, now)} />
+                      {/* Waiting for a mix: the same ! the Cave shows on the
+                      farm, above the bin's sign. */}
+                      {isCaveMachineIdle(cave.machines[String(id)] ?? {}) && (
+                        <img
+                          src={SUNNYSIDE.icons.expression_alerted}
+                          alt=""
+                          className={classNames(
+                            "absolute pointer-events-none z-20",
+                            { ready: showAnimations },
+                          )}
+                          style={{
+                            width: `${PIXEL_SCALE * 4}px`,
+                            left: `calc(50% - ${PIXEL_SCALE * 2}px)`,
+                            top: `${PIXEL_SCALE * -12}px`,
+                          }}
+                        />
+                      )}
                       {id === 1 &&
                         guiding === "start-batch" &&
                         !selectedMachine && <CaveTutorialHand />}
@@ -362,7 +424,7 @@ export const Cave: React.FC = () => {
               )}
             </div>
           </div>
-        </div>
+        </animated.div>
       </ScrollContainer>
 
       {showExpansion && (
@@ -391,6 +453,15 @@ export const Cave: React.FC = () => {
       {/* Same HUD as the other interiors (barn, greenhouse, …): the travel slot
           becomes a "back to farm" button for non-farm locations. */}
       <Hud isFarming={false} location="home" />
+
+      {/* The HUD's social Feed opens these through modal managers; each scene
+          mounts its own listeners, so without them feed clicks do nothing. */}
+      <PlayerModal
+        loggedInFarmId={loggedInFarmId}
+        token={token}
+        hasAirdropAccess={hasAirdropAccess}
+      />
+      <Discovery />
     </div>
   );
 };

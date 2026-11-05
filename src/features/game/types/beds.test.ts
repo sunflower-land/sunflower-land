@@ -14,15 +14,15 @@ describe("BED_FARMHAND_COUNT", () => {
     expect(BED_FARMHAND_COUNT["Cloud Bed"]).toEqual(13);
   });
 
-  it("grants a 14th farmhand slot when Miner's Bed is owned", () => {
-    expect(BED_FARMHAND_COUNT["Miner's Bed"]).toEqual(14);
+  it("grants a 14th farmhand slot when Spooky Bed is owned", () => {
+    expect(BED_FARMHAND_COUNT["Spooky Bed"]).toEqual(14);
   });
 
-  it("makes Miner's Bed the highest-tier bed (sorts last by slot count)", () => {
+  it("makes Spooky Bed the highest-tier bed (sorts last by slot count)", () => {
     const sorted = getKeys(BED_FARMHAND_COUNT).sort(
       (a, b) => BED_FARMHAND_COUNT[a] - BED_FARMHAND_COUNT[b],
     );
-    expect(sorted[sorted.length - 1]).toEqual("Miner's Bed");
+    expect(sorted[sorted.length - 1]).toEqual("Spooky Bed");
   });
 
   it("assigns a unique slot count to every bed", () => {

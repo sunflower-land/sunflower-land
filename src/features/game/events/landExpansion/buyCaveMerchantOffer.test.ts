@@ -7,7 +7,6 @@ import type {
   GameState,
 } from "features/game/types/game";
 import { CAVE_MAX_TIER } from "features/game/types/caveTiers";
-import { CONFIG } from "lib/config";
 import {
   BUY_CAVE_MERCHANT_OFFER_ERRORS,
   buyCaveMerchantOffer,
@@ -161,13 +160,6 @@ describe("buyCaveMerchantOffer (cave.merchantOfferBought)", () => {
     });
   });
 
-  it("sells from a pre-launch restock (negative visit index)", () => {
-    const preLaunch = { ...VISIT, index: -1 };
-    const next = buy(caveState({ merchantVisit: preLaunch }), 1, NOW, -1);
-
-    expect(next.cave?.merchant).toEqual({ purchases: { "-1": { 1: 1 } } });
-  });
-
   it("rejects a purchase from a visit that has already ended", () => {
     // Late events from the previous visit must not wipe the new counts.
     const state = caveState({
@@ -239,26 +231,5 @@ describe("buyCaveMerchantOffer (cave.merchantOfferBought)", () => {
     expect(() => buy({ ...caveState(), cave: undefined })).toThrow(
       BUY_CAVE_MERCHANT_OFFER_ERRORS.NO_CAVE,
     );
-  });
-
-  describe("off testnet", () => {
-    // jest runs on amoy, so the flag-off path is only reachable by pretending
-    // to be mainnet.
-    let previousNetwork: (typeof CONFIG)["NETWORK"];
-
-    beforeEach(() => {
-      previousNetwork = CONFIG.NETWORK;
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-    });
-
-    afterEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
-    });
-
-    it("throws without the CAVE feature flag", () => {
-      expect(() => buy(caveState())).toThrow(
-        BUY_CAVE_MERCHANT_OFFER_ERRORS.NO_FEATURE_ACCESS,
-      );
-    });
   });
 });

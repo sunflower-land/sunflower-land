@@ -76,11 +76,21 @@ export const BUILDING_COMPONENTS: Record<
       island={island}
     />
   ),
-  Deli: ({ buildingId, isBuilt, season }: BuildingProps) => (
-    <Deli buildingId={buildingId} isBuilt={!!isBuilt} season={season} />
+  Deli: ({ buildingId, isBuilt, season, island }: BuildingProps) => (
+    <Deli
+      buildingId={buildingId}
+      isBuilt={!!isBuilt}
+      season={season}
+      island={island}
+    />
   ),
-  Bakery: ({ buildingId, isBuilt, season }: BuildingProps) => (
-    <Bakery isBuilt={!!isBuilt} buildingId={buildingId} season={season} />
+  Bakery: ({ buildingId, isBuilt, season, island }: BuildingProps) => (
+    <Bakery
+      isBuilt={!!isBuilt}
+      buildingId={buildingId}
+      season={season}
+      island={island}
+    />
   ),
   "Smoothie Shack": ({
     buildingId,
@@ -214,7 +224,7 @@ export const READONLY_BUILDINGS: ({
     ),
     Bakery: () => (
       <img
-        src={BAKERY_VARIANTS[season]}
+        src={BAKERY_VARIANTS[biome][season]}
         className="absolute bottom-0"
         style={{
           width: `${PIXEL_SCALE * 62}px`,
@@ -225,7 +235,7 @@ export const READONLY_BUILDINGS: ({
     ),
     Deli: () => (
       <img
-        src={DELI_VARIANTS[season]}
+        src={DELI_VARIANTS[biome][season]}
         className="absolute bottom-0"
         style={{ width: `${PIXEL_SCALE * 64}px` }}
       />

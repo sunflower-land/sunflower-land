@@ -109,7 +109,7 @@ export const MakeOffer: React.FC<{
       ? 0
       : calculateTradePoints({
           sfl: offer,
-          points: tradeType === "instant" ? 2 : 4,
+          points: 2,
         }).multipliedPoints;
 
   const needsLinkedWallet =

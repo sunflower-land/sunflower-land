@@ -11,7 +11,6 @@ import {
 import { getSkillLevel } from "features/game/types/bumpkinSkills";
 import { getObjectEntries } from "lib/object";
 import type { GameState } from "features/game/types/game";
-import { hasFeatureAccess } from "lib/flags";
 import { getAgingInputMultiplier } from "features/game/types/agingFormulas";
 import { hasPlacedAgingShed } from "./hasPlacedAgingShed";
 
@@ -44,14 +43,6 @@ export function startSpiceRack({
 
     if (!isStartableSpiceRackRecipeName(action.recipe)) {
       throw new Error("This spice rack recipe is no longer available.");
-    }
-
-    // Truffle Seasoning rides on the Pigs' flag: Truffle only exists behind it
-    if (
-      action.recipe === "Truffle Seasoning" &&
-      !hasFeatureAccess(game, "PIGPEN")
-    ) {
-      throw new Error("Truffle Seasoning is not available yet");
     }
 
     const recipeDef = getSpiceRackRecipe(action.recipe);

@@ -1081,7 +1081,8 @@ type Options = {
  *   client id (chest availability, paused-timer resume, `createdAt`).
  *
  * All-or-nothing: the final state is validated as a whole (land bounds, pairwise
- * overlap, so swaps never false-positive) and any problem throws an
+ * overlap, so swaps never false-positive; items left where they already were
+ * are exempt from both) and any problem throws an
  * {@link ArrangementConflictError} listing every offending item. Mirrors the
  * server reducer (sunflower-land-api `applyArrangement`); the server also
  * relocates mushrooms/airdrops/clutter under a footprint.
@@ -1207,8 +1208,17 @@ export function applyArrangement({
   });
 
   // --- Validate the final state as a whole. --------------------------------
+  // Items still where the farm already had them are grandfathered: a footprint
+  // that grew after placement (corrected dimensions) can leave stored items
+  // overlapping or past the edge, and that must not block unrelated saves.
+  // Anything moved or placed is checked against everything.
+  const untouched = (entry: Entry) => {
+    const current = live.get(entry.key);
+    return !!current && sameCoordinates(current.coordinates, entry.coordinates);
+  };
   const final = [...indexLive(working, location).values()];
   final.forEach((entry) => {
+    if (untouched(entry)) return;
     if (isOutOfBounds({ state: working, position: boxOf(entry), location })) {
       // Already reported for placements above.
       if (!placements.some((p) => p.key === entry.key)) {
@@ -1222,13 +1232,10 @@ export function applyArrangement({
     for (let j = 0; j < i; j++) {
       const b = final[j];
       if (!canCollide(b.name)) continue;
+      if (untouched(a) && untouched(b)) continue;
       if (!isOverlapping(boxOf(a), boxOf(b))) continue;
-      // Blame the item that moved/was placed; fall back to the later one.
-      const [culprit, other] =
-        live.get(a.key) &&
-        sameCoordinates(live.get(a.key)!.coordinates, a.coordinates)
-          ? [b, a]
-          : [a, b];
+      // Blame the item that moved/was placed.
+      const [culprit, other] = untouched(a) ? [b, a] : [a, b];
       if (
         conflicts.some(
           (c) =>
