@@ -955,21 +955,16 @@ export function applyFarmLayout(
   const fhEntries = Object.entries(layout.farmHands ?? {}).sort(
     ([, a], [, b]) => byPosition(a, b),
   );
-  const fhCapacity = Math.min(fhEntries.length, farmHandIds.length);
+  // Reserve every saved id that is available first, so an unavailable slot
+  // earlier in the layout can't take a hand away from its own saved spot.
+  // Other slots then draw from the hands left over; extra slots are skipped.
   const ownedFarmHandIds = new Set(
-    fhEntries
-      .slice(0, fhCapacity)
-      .map(([id]) => id)
-      .filter((id) => availableFarmHandIds.has(id)),
+    fhEntries.map(([id]) => id).filter((id) => availableFarmHandIds.has(id)),
   );
   const farmHandPool = farmHandIds.filter((id) => !ownedFarmHandIds.has(id));
   let fhPoolIdx = 0;
-  fhEntries.forEach(([savedId, placement], i) => {
-    if (i >= fhCapacity) {
-      noInventory += 1;
-      return;
-    }
-    const id = availableFarmHandIds.has(savedId)
+  fhEntries.forEach(([savedId, placement]) => {
+    const id = ownedFarmHandIds.has(savedId)
       ? savedId
       : farmHandPool[fhPoolIdx++];
     if (id === undefined) {

@@ -614,6 +614,46 @@ describe("layouts lib (applyFarmLayout)", () => {
     });
   });
 
+  it("keeps an available farmhand on its own saved spot when an earlier one is away", () => {
+    const saved = withSavedLayout({
+      ...baseFarm,
+      farmHands: {
+        bumpkins: {
+          "fh-a": {
+            equipped: EQUIPPED,
+            coordinates: { x: 1, y: 0 },
+            location: "farm",
+          },
+          "fh-b": {
+            equipped: EQUIPPED,
+            coordinates: { x: 2, y: 0 },
+            location: "farm",
+          },
+        },
+      },
+    });
+    const moved = cloneDeep(saved);
+    // A goes into the Home; B is moved elsewhere on the farm.
+    moved.farmHands.bumpkins["fh-a"] = {
+      ...moved.farmHands.bumpkins["fh-a"],
+      coordinates: { x: -3, y: -3 },
+      location: "home",
+    };
+    moved.farmHands.bumpkins["fh-b"].coordinates = { x: -2, y: 0 };
+
+    const result = applyLayout({ state: moved });
+
+    // B returns to its own spot rather than filling A's.
+    expect(result.farmHands.bumpkins["fh-b"]).toMatchObject({
+      coordinates: { x: 2, y: 0 },
+      location: "farm",
+    });
+    expect(result.farmHands.bumpkins["fh-a"]).toMatchObject({
+      coordinates: { x: -3, y: -3 },
+      location: "home",
+    });
+  });
+
   it("places farmhands by count, ignoring the saved id", () => {
     const saved = withSavedLayout({
       ...baseFarm,
