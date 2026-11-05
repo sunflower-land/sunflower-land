@@ -4,6 +4,7 @@ import type { GameState, PlacedItem } from "features/game/types/game";
 import { getCookingBoostWindows } from "features/game/lib/boostWindows";
 import {
   COOKING_OIL_CAPACITY,
+  COOKING_OIL_CLOCK_RATE,
   COOKING_OIL_RATE,
   getCookingOil,
   getCookingOilAt,
@@ -95,7 +96,7 @@ export const getPreviewOilTiming = ({
   baseDurationMs: number;
   now: number;
 }): CookingTiming | undefined => {
-  if (!building) return undefined;
+  if (!building || baseDurationMs <= 0) return undefined;
 
   const { byTheClock, ratePerDay } = getCookingOilTank({
     game,
@@ -111,6 +112,7 @@ export const getPreviewOilTiming = ({
     tank: building.oil ?? 0,
     settledAt: now,
     ratePerDay,
+    clockRatePerDay: COOKING_OIL_CLOCK_RATE[buildingName],
   };
   const crafting = building.crafting ?? [];
   const windows = getCookingBoostWindows(game);

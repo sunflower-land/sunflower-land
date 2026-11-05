@@ -694,6 +694,7 @@ describe("removeBuilding (cooking oil by the clock)", () => {
                   startedAt: T0,
                   baseDurationMs: 20 * HOUR,
                   oilBoost: 0.4,
+                  oilRate: 12,
                   readyAt: 0,
                 },
               ],

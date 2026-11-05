@@ -233,6 +233,9 @@ export function getRecipeOilRate(
   food: CookableName,
   baseDurationMs: number,
 ) {
+  // A recipe with no work to do burns no oil.
+  if (baseDurationMs <= 0) return 0;
+
   return (
     (getOilConsumption(buildingName, food) * 24 * 60 * 60 * 1000) /
     baseDurationMs

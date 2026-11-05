@@ -1,5 +1,6 @@
 import {
   COOKING_OIL_CAPACITY,
+  COOKING_OIL_CLOCK_RATE,
   COOKING_OIL_RATE,
   getCookingOilAt,
   resolveCookingQueueTimings,
@@ -21,11 +22,15 @@ const deliOil = (tank: number, settledAt = START): CookingOil => ({
   tank,
   settledAt,
   ratePerDay: COOKING_OIL_RATE.Deli,
+  clockRatePerDay: COOKING_OIL_CLOCK_RATE.Deli,
 });
 
+// A recipe that draws oil carries the rate `cook` snapshots for it; pass
+// `oilRate: undefined` for one cooked before that snapshot existed.
 const recipe = (fields: Partial<BuildingProduct>): BuildingProduct => ({
   name: "Fermented Fish",
   readyAt: 0,
+  ...(fields.oilBoost !== undefined ? { oilRate: COOKING_OIL_RATE.Deli } : {}),
   ...fields,
 });
 
@@ -191,6 +196,59 @@ describe("resolveCookingQueueTimings with oil", () => {
     ).toBeCloseTo(15);
   });
 
+  it("keeps a dish cooked before its oil rate on the old clock burn", () => {
+    // Queued before the work burn: its oil keeps burning by the clock at the old
+    // 20 a real day, so its timing is what it was when it was cooked.
+    const crafting = [
+      recipe({
+        startedAt: START,
+        baseDurationMs: 10 * HOUR,
+        oilBoost: DELI,
+        oilRate: undefined,
+      }),
+    ];
+    const totem = [{ from: START, to: START + 100 * HOUR, speed: 2 }];
+
+    // 10h of work at 2 x 5/3 takes 3h, which burns 3h of oil at 20 a day.
+    expect(
+      resolveCookingQueueTimings({
+        crafting,
+        windows: totem,
+        oil: deliOil(20),
+      })[0].readyAt,
+    ).toEqual(START + 3 * HOUR);
+    expect(
+      getCookingOilAt({
+        crafting,
+        windows: totem,
+        oil: deliOil(20),
+        at: START + 48 * HOUR,
+      }),
+    ).toBeCloseTo(20 - 2.5);
+  });
+
+  it("draws nothing for a recipe with no work to do", () => {
+    const crafting = [
+      recipe({
+        startedAt: START,
+        baseDurationMs: 0,
+        oilBoost: DELI,
+        oilRate: Number.NaN,
+      }),
+    ];
+    const [timing] = resolveCookingQueueTimings({
+      crafting,
+      windows: [],
+      oil: deliOil(20),
+    });
+
+    expect(timing.readyAt).toEqual(START);
+    expect(timing.oilWindow).toBeUndefined();
+    expect(
+      getCookingOilAt({ crafting, windows: [], oil: deliOil(20), at: START }),
+    ).toEqual(20);
+  });
+
   it("draws nothing for legacy or pre-paid recipes", () => {
     const crafting = [
       // Legacy: oil deducted and baked in when it was queued.
@@ -256,11 +314,7 @@ describe("settleCookingBuilding", () => {
   });
 
   const project = (building: PlacedItem, at: number) => {
-    const oil = {
-      tank: building.oil ?? 0,
-      settledAt: building.oilSettledAt ?? 0,
-      ratePerDay: COOKING_OIL_RATE.Deli,
-    };
+    const oil = deliOil(building.oil ?? 0, building.oilSettledAt ?? 0);
     const crafting = building.crafting ?? [];
     return {
       readyAts: resolveCookingQueueTimings({ crafting, windows: [], oil }).map(
@@ -309,6 +363,34 @@ describe("settleCookingBuilding", () => {
     // 8h of cooking at 20/day.
     expect(building.oil).toBeCloseTo(10 - 20 / 3);
     expect(building.oilSettledAt).toEqual(START + 8 * HOUR);
+  });
+
+  it("burns a recipe's own oil rate when it settles", () => {
+    const building: PlacedItem = {
+      id: "deli",
+      coordinates: { x: 0, y: 0 },
+      oil: 20,
+      oilSettledAt: START,
+      crafting: [
+        recipe({
+          startedAt: START,
+          baseDurationMs: 10 * HOUR,
+          oilBoost: DELI,
+          oilRate: 24,
+        }),
+      ],
+    };
+
+    settleCookingBuilding({
+      building,
+      buildingName: "Deli",
+      at: START + 3 * HOUR,
+      windows: [],
+    });
+
+    // 3h at 5/3x is 5h of work, 5 oil at 24 a day of work.
+    expect(building.oil).toBeCloseTo(15);
+    expect(building.crafting?.[0].baseDurationMs).toBeCloseTo(5 * HOUR);
   });
 
   it("is idempotent", () => {

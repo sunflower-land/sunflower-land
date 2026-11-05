@@ -56,6 +56,9 @@ export const BuildingOilTank: React.FC<OilTankProps> = ({
     : undefined;
   const oilRemainingInBuilding = tank?.level ?? 0;
   const oilCapacity = tank?.capacity ?? 0;
+  const oilBoost = BUILDING_OIL_BOOSTS(game.bumpkin.skills)[
+    buildingName as CookingBuildingName
+  ];
 
   const incrementOil = () => {
     setTotalOilToAdd((prev) => prev + OIL_INCREMENT_AMOUNT);
@@ -67,7 +70,8 @@ export const BuildingOilTank: React.FC<OilTankProps> = ({
 
   const amountToFull = oilCapacity - oilRemainingInBuilding;
   const incrementMaxOil = () => {
-    setTotalOilToAdd(Math.floor(amountToFull));
+    // A tank filled past a since-lowered capacity has no room left.
+    setTotalOilToAdd(Math.max(Math.floor(amountToFull), 0));
   };
 
   function getOilTimeInMillis(oil: number): number {
@@ -77,7 +81,11 @@ export const BuildingOilTank: React.FC<OilTankProps> = ({
 
     const dailyOilConsumption = tank.ratePerDay;
     const hoursPerDay = 24;
-    const oilTimeInHours = (oil / dailyOilConsumption) * hoursPerDay;
+    // A clock-drain tank burns per day of recipe time, which the oil itself cooks
+    // through 1 / (1 - boost) faster than real time.
+    const realTimeShare = tank.byTheClock ? 1 - oilBoost : 1;
+    const oilTimeInHours =
+      (oil / dailyOilConsumption) * hoursPerDay * realTimeShare;
 
     // Convert hours to milliseconds
     const millisecondsPerHour = 60 * 60 * 1000;
@@ -143,9 +151,6 @@ export const BuildingOilTank: React.FC<OilTankProps> = ({
 
   const oilInTank = calculatePercentageFull(buildingName);
   const runtime = calculateOilTimeRemaining();
-  const oilBoost = BUILDING_OIL_BOOSTS(game.bumpkin.skills)[
-    buildingName as CookingBuildingName
-  ];
   const boostPercentage = oilBoost * 100;
 
   useUiRefresher();
