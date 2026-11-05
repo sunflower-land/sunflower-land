@@ -3,7 +3,7 @@ import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
 import {
   getAnimalLevel,
   getAnimalReadyAt,
-  hasAnimalCompletedCycle,
+  addAnimalExperience,
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
@@ -116,6 +116,16 @@ export function loveAnimal({
     const buildingKey = makeAnimalBuildingKey(buildingRequired);
     const animal = copy[buildingKey].animals[action.id];
 
+    if (!animal) {
+      throw new Error(
+        `Animal ${action.id} not found in building ${buildingKey}`,
+      );
+    }
+
+    if (animal.type !== action.animal) {
+      throw new Error("Animal type does not match action");
+    }
+
     const readyAt = getAnimalReadyAt(animal, copy);
 
     if (createdAt > readyAt) {
@@ -138,15 +148,13 @@ export function loveAnimal({
       throw new Error(`Missing item, ${action.item}`);
     }
 
-    const beforeLoveXp = animal.experience;
-
     const { animalXP } = getAnimalXP({
       name: action.item,
       state: copy,
       animal: action.animal,
     });
 
-    animal.experience += animalXP;
+    const isReady = addAnimalExperience(animal, animalXP);
     animal.lovesThisSleep = getLovesThisSleep(animal) + 1;
     animal.lovedAt = createdAt;
 
@@ -157,13 +165,7 @@ export function loveAnimal({
 
     // Same test as feeding: a level-up, or at max level a completed XP cycle,
     // means the animal wakes with produce rather than a wrapped-around bar.
-    if (
-      hasAnimalCompletedCycle({
-        animalType: animal.type,
-        beforeXp: beforeLoveXp,
-        gainedXp: animalXP,
-      })
-    ) {
+    if (isReady) {
       animal.state = "ready";
     }
 

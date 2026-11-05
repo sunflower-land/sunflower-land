@@ -263,6 +263,51 @@ describe("feedAnimal", () => {
     ).toThrow("Animal 123 not found in building barn");
   });
 
+  describe.each([
+    ["Cow", "Sheep"],
+    ["Sheep", "Cow"],
+  ] as const)("a %s requested as a %s", (actualType, requestedType) => {
+    it.each(["Hay", "Green Beetle", "Barn Delight"] as const)(
+      "rejects the mismatched type before using %s",
+      (item) => {
+        const state: GameState = {
+          ...GAME_STATE,
+          inventory: { [item]: new Decimal(5) },
+          barn: {
+            level: 3,
+            animals: {
+              "1": {
+                id: "1",
+                type: actualType,
+                experience: 0,
+                state: item === "Barn Delight" ? "sick" : "idle",
+                createdAt: 0,
+                asleepAt: 0,
+                awakeAt: 0,
+                lovedAt: 0,
+                item: "Petting Hand",
+              },
+            },
+          },
+        };
+        expect(() =>
+          feedAnimal({
+            state,
+            createdAt: now,
+            action: {
+              type: "animal.fed",
+              animal: requestedType,
+              id: "1",
+              item,
+            },
+          }),
+        ).toThrow("Animal type does not match action");
+        expect(state.barn.animals["1"].experience).toBe(0);
+        expect(state.inventory[item]).toEqual(new Decimal(5));
+      },
+    );
+  });
+
   it("requires food exists in player inventory", () => {
     const cowId = "123";
 
@@ -1124,6 +1169,16 @@ describe("feedAnimal", () => {
       createdAt: now,
       state: {
         ...GAME_STATE,
+        barn: {
+          ...GAME_STATE.barn,
+          animals: {
+            "0": {
+              ...GAME_STATE.barn.animals["0"],
+              type: "Sheep",
+              experience: 0,
+            },
+          },
+        },
         bumpkin: {
           ...GAME_STATE.bumpkin,
           equipped: {
@@ -1132,7 +1187,7 @@ describe("feedAnimal", () => {
           },
         },
         inventory: {
-          // The starter animal (80 XP) eats a batch of 2 feeds.
+          // A level-0 Sheep (0 XP) eats a batch of 2 feeds.
           "Kernel Blend": new Decimal(6),
         },
       },
@@ -1843,11 +1898,12 @@ describe("feedAnimal", () => {
             },
           ],
         },
-        henHouse: {
-          ...GAME_STATE.henHouse,
+        barn: {
+          ...GAME_STATE.barn,
           animals: {
             "0": {
-              ...GAME_STATE.henHouse.animals["0"],
+              ...GAME_STATE.barn.animals["0"],
+              type: "Sheep",
               experience: 0,
             },
           },
@@ -1861,6 +1917,7 @@ describe("feedAnimal", () => {
     });
 
     expect(state.inventory["Mixed Grain"]).toEqual(new Decimal(2));
+    expect(state.barn.animals["0"].experience).toBe(ANIMAL_LEVELS.Sheep[1]);
   });
 
   it("takes 5% less food to feed a cow if Dr Cow is placed", () => {

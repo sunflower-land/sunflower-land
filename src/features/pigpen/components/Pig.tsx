@@ -28,6 +28,8 @@ import classNames from "classnames";
 import { RequestBubble } from "features/game/expansion/components/animals/RequestBubble";
 import { LevelProgress } from "features/game/expansion/components/animals/LevelProgress";
 import { ProduceDrops } from "features/game/expansion/components/animals/ProduceDrops";
+import { getAnimalClaimSnapshot } from "features/game/expansion/components/animals/animalClaimAnimation";
+import type { Animal } from "features/game/types/game";
 import type {
   AnimalFeedBuffName,
   AnimalFoodName,
@@ -135,6 +137,7 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
   const { t } = useAppTranslation();
 
   const [showDrops, setShowDrops] = useState(false);
+  const [dropAnimal, setDropAnimal] = useState<Animal>();
   const [showAnimalDetails, setShowAnimalDetails] = useState(false);
   const [showNoFoodSelected, setShowNoFoodSelected] = useState(false);
   const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
@@ -149,13 +152,13 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
   const { play: playLevelUp } = useSound("level_up");
   const { play: playCureAnimal } = useSound("pig_cure");
 
-  const lastSynced = useRef({ state: pig.state, experience: pig.experience });
+  const lastSynced = useRef(pig);
 
   // Sync the local machine when game state changes underneath it,
   // e.g. via the Feed All button (bulk feed/cure/claim without a click).
   useEffect(() => {
     const prev = lastSynced.current;
-    lastSynced.current = { state: pig.state, experience: pig.experience };
+    lastSynced.current = pig;
 
     if (prev.state === pig.state && prev.experience === pig.experience) {
       return;
@@ -172,6 +175,7 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
     const animateBulkClaim = async (
       event: "CLAIM_PRODUCE" | "INSTANT_WAKE_UP",
     ) => {
+      setDropAnimal(getAnimalClaimSnapshot(prev, pig));
       setShowDrops(true);
       playProduceDrop();
       await new Promise((resolve) => setTimeout(resolve, 500));
@@ -180,6 +184,7 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
       playLevelUp();
       pigService.send({ type: event, animal: pig });
       setShowDrops(false);
+      setDropAnimal(undefined);
     };
 
     if (machineState() === "ready" && pig.state === "idle") {
@@ -205,7 +210,7 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
       pigService.send({ type: "FEED", animal: pig });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pig.state, pig.experience]);
+  }, [pig]);
 
   const favFood = getAnimalFavoriteFood("Pig", pig.experience);
   const sleeping = pigMachineState === "sleeping";
@@ -626,10 +631,7 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
           <AnimalMudBadge mud={pig.mud} />
           {showDrops && (
             <ProduceDrops
-              animal={pig}
-              multiplier={pig.multiplier ?? 0}
-              level={level}
-              animalType="Pig"
+              animal={dropAnimal ?? pig}
               className="bottom-0 left-4 top-4"
             />
           )}

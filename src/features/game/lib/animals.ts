@@ -7,6 +7,7 @@ import {
   type AnimalBuildingType,
   type AnimalLevel,
   ANIMALS,
+  ANIMAL_RESOURCE_DROP,
   type AnimalType,
   PIG_BRISTLES_PER_LEVEL,
 } from "../types/animals";
@@ -219,6 +220,90 @@ export function hasAnimalCompletedCycle({
   const currentCycleProgress = (beforeXp - maxLevelXp) % cycleXP;
 
   return currentCycleProgress + gainedXp >= cycleXP;
+}
+
+/** Keep every crossed level's produce until the next claim, without capping XP. */
+export function addAnimalExperience(animal: Animal, gainedXp: number): boolean {
+  const beforeXp = animal.experience;
+  const beforeLevel = getAnimalLevel(beforeXp, animal.type);
+  animal.experience = new Decimal(beforeXp).add(gainedXp).toNumber();
+
+  if (
+    !hasAnimalCompletedCycle({ animalType: animal.type, beforeXp, gainedXp })
+  ) {
+    return animal.state === "ready";
+  }
+
+  // A ready animal from an older save has one unclaimed reward already.
+  const levels =
+    animal.pendingProduceLevels ??
+    (animal.state === "ready" ? [beforeLevel] : []);
+  const afterLevel = getAnimalLevel(animal.experience, animal.type);
+
+  for (let level = beforeLevel + 1; level <= afterLevel; level++) {
+    levels.push(level as AnimalLevel);
+  }
+
+  // Preserve the existing single-harvest cycle at max level.
+  if (beforeLevel === afterLevel && animal.state !== "ready") {
+    levels.push(afterLevel);
+  }
+
+  animal.pendingProduceLevels = levels;
+  return true;
+}
+
+/** Shared by collection and its UI so boosted rewards match the inventory. */
+export function getAnimalProduce({
+  game,
+  animal,
+}: {
+  game: GameState;
+  animal: Animal;
+}) {
+  const levels = animal.pendingProduceLevels ?? [
+    getAnimalLevel(animal.experience, animal.type),
+  ];
+  const drops: Partial<
+    Record<
+      AnimalResource,
+      {
+        resource: AnimalResource;
+        amount: number;
+        boostsUsed: { name: BoostName; value: string }[];
+      }
+    >
+  > = {};
+
+  for (const level of levels) {
+    for (const resource of getKeys(ANIMAL_RESOURCE_DROP[animal.type][level])) {
+      const baseAmount = ANIMAL_RESOURCE_DROP[animal.type][level][
+        resource
+      ] as Decimal;
+      const drop = getResourceDropAmount({
+        game,
+        animalType: animal.type,
+        resource,
+        baseAmount: baseAmount.toNumber(),
+        multiplier: animal.multiplier ?? 0,
+        animal,
+      });
+      const total = drops[resource] ?? { resource, amount: 0, boostsUsed: [] };
+      total.amount = new Decimal(total.amount).add(drop.amount).toNumber();
+      for (const boost of drop.boostsUsed) {
+        if (
+          !total.boostsUsed.some(
+            ({ name, value }) => name === boost.name && value === boost.value,
+          )
+        ) {
+          total.boostsUsed.push(boost);
+        }
+      }
+      drops[resource] = total;
+    }
+  }
+
+  return Object.values(drops);
 }
 
 export function getAnimalFavoriteFood(type: AnimalType, animalXP: number) {
