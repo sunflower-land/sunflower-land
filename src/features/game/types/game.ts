@@ -1042,6 +1042,12 @@ export type BuildingProduct = {
    * was deducted up front and baked into their duration.
    */
   oilBoost?: number;
+  /**
+   * Oil the recipe burns per day of cooking work, snapshotted with `oilBoost`: the
+   * building's daily rate scaled up by any permanent cut to its duration, so the
+   * dish costs the same oil as a recipe whose oil is deducted up front.
+   */
+  oilRate?: number;
   requirements?: Inventory;
 };
 

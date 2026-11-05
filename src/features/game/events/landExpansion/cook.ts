@@ -223,6 +223,22 @@ export const BUILDING_DAILY_OIL_CONSUMPTION: Record<
   Deli: 12,
 };
 
+/**
+ * Oil a clock-drain recipe burns per day of cooking work: its up-front cost
+ * (`getOilConsumption`) spread over its work, which a permanent boost may have cut,
+ * so the dish costs the same oil either way.
+ */
+export function getRecipeOilRate(
+  buildingName: CookingBuildingName,
+  food: CookableName,
+  baseDurationMs: number,
+) {
+  return (
+    (getOilConsumption(buildingName, food) * 24 * 60 * 60 * 1000) /
+    baseDurationMs
+  );
+}
+
 export function getOilConsumption(
   buildingName: CookingBuildingName,
   food: CookableName,
@@ -434,7 +450,18 @@ export function cook({
         id: action.recipeId ?? uuidv4().slice(0, 8),
         name: item,
         ...(oilByTheClock
-          ? { oilBoost: getRecipeOilBoost(item, stateCopy) }
+          ? {
+              oilBoost: getRecipeOilBoost(item, stateCopy),
+              ...(baseDurationMs && isCookingBuilding(requiredBuilding)
+                ? {
+                    oilRate: getRecipeOilRate(
+                      requiredBuilding,
+                      item,
+                      baseDurationMs,
+                    ),
+                  }
+                : {}),
+            }
           : { boost: { Oil: oilConsumed } }),
         // Marks whether the Double Nom skill was applied at the time of cooking
         skills: { "Double Nom": getSkillLevel(cookSkills, "Double Nom") },

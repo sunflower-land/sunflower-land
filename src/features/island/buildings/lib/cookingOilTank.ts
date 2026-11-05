@@ -1,10 +1,7 @@
 import type { CookingBuildingName } from "features/game/types/buildings";
 import type { CookableName } from "features/game/types/consumables";
 import type { GameState, PlacedItem } from "features/game/types/game";
-import {
-  getCookingBoostWindows,
-  type BoostWindow,
-} from "features/game/lib/boostWindows";
+import { getCookingBoostWindows } from "features/game/lib/boostWindows";
 import {
   COOKING_OIL_CAPACITY,
   COOKING_OIL_RATE,
@@ -12,15 +9,15 @@ import {
   getCookingOilAt,
   resolveCookingQueue,
   resolveCookingQueueTimings,
+  type CookingTiming,
 } from "features/game/lib/cookingReadiness";
 import { BUILDING_DAILY_OIL_CAPACITY } from "features/game/events/landExpansion/supplyCookingOil";
 import {
   BUILDING_DAILY_OIL_CONSUMPTION,
   getRecipeOilBoost,
+  getRecipeOilRate,
 } from "features/game/events/landExpansion/cook";
 import { hasFeatureAccess } from "lib/flags";
-
-const DAY = 24 * 60 * 60 * 1000;
 
 /**
  * What a cooking building's oil tank shows at `at`.
@@ -28,12 +25,12 @@ const DAY = 24 * 60 * 60 * 1000;
  * - `level`: oil in the tank. A clock-drain building's stored `oil` is the level at
  *   its last settle, so the live level is derived from the queue.
  * - `capacity`: the most oil the tank holds.
- * - `ratePerDay`: oil burned per day of cooking — REAL days on a clock-drain
- *   building, recipe days on one that still deducts per recipe.
+ * - `ratePerDay`: oil burned per day of recipe time, whether the building burns it
+ *   as it cooks (clock drain) or deducts it per recipe.
  *
  * A building converts to clock drain the next time it cooks or is filled once
  * SPEED_BOOSTS is on, so with the flag on an unconverted tank already shows the
- * clock-drain capacity and rate it is about to be held to.
+ * clock-drain level it is about to be held to.
  */
 export const getCookingOilTank = ({
   game,
@@ -70,14 +67,14 @@ export const getCookingOilTank = ({
 };
 
 /**
- * The oil speed window a recipe would cook under if it were queued now — the
- * preview's counterpart to what `cook` does. The tank is burned in queue order,
- * so the recipe gets whatever the queue ahead of it leaves.
+ * How a recipe would cook if it were queued now — the preview's counterpart to
+ * what `cook` does: its oil speed window and the rate it burns oil at. The tank is
+ * burned in queue order, so the recipe gets whatever the queue ahead of it leaves.
  *
  * Undefined while the building still deducts oil per recipe (the oil is baked
  * into the preview duration instead), or when no oil would reach the recipe.
  */
-export const getPreviewOilWindow = ({
+export const getPreviewOilTiming = ({
   game,
   building,
   buildingName,
@@ -91,7 +88,7 @@ export const getPreviewOilWindow = ({
   item: CookableName;
   baseDurationMs: number;
   now: number;
-}): BoostWindow | undefined => {
+}): CookingTiming | undefined => {
   if (!building) return undefined;
 
   const { byTheClock, ratePerDay } = getCookingOilTank({
@@ -113,7 +110,7 @@ export const getPreviewOilWindow = ({
   const windows = getCookingBoostWindows(game);
   const lastReadyAt = resolveCookingQueue({ crafting, windows, oil }).at(-1);
 
-  return resolveCookingQueueTimings({
+  const timing = resolveCookingQueueTimings({
     crafting: [
       ...crafting,
       {
@@ -121,6 +118,7 @@ export const getPreviewOilWindow = ({
         readyAt: 0,
         baseDurationMs,
         oilBoost: getRecipeOilBoost(item, game),
+        oilRate: getRecipeOilRate(buildingName, item, baseDurationMs),
         // Anchored only on an idle building, as `cook` does.
         ...(lastReadyAt === undefined || lastReadyAt <= now
           ? { startedAt: now }
@@ -129,12 +127,10 @@ export const getPreviewOilWindow = ({
     ],
     windows,
     oil,
-  }).at(-1)?.oilWindow;
-};
+  }).at(-1);
 
-/** Oil a recipe burns cooking under `oilWindow`, as `burnRecipeOil` drains it. */
-export const getOilWindowBurn = (oilWindow: BoostWindow, ratePerDay: number) =>
-  ((oilWindow.to - oilWindow.from) / DAY) * ratePerDay;
+  return timing?.oilWindow ? timing : undefined;
+};
 
 /**
  * An oil amount for display: two decimal places at most, rounded to nearest so a

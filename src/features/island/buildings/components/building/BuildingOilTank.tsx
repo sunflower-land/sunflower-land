@@ -248,7 +248,7 @@ export const BuildingOilTank: React.FC<OilTankProps> = ({
               </div>
               <span className="px-2 text-xs pb-1">
                 {tank?.byTheClock
-                  ? t("cooking.building.oil.description.speed", {
+                  ? t("cooking.building.oil.description.work", {
                       speed: Number((1 / (1 - oilBoost)).toFixed(2)).toString(),
                       buildingName: buildingName,
                     })

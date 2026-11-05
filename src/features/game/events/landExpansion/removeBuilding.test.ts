@@ -706,8 +706,8 @@ describe("removeBuilding (cooking oil by the clock)", () => {
     });
 
     const deli = state.buildings.Deli?.[0];
-    // 3h at 2x shrine * 5/3 oil did 10h of work; the oil burned by the clock.
-    expect(deli?.oil).toBeCloseTo(17.5);
+    // 3h at 2x shrine * 5/3 oil did 10h of work, which costs 5 oil at 12 a day.
+    expect(deli?.oil).toBeCloseTo(15);
     expect(deli?.crafting?.[0].baseDurationMs).toBeCloseTo(10 * HOUR);
   });
 });
