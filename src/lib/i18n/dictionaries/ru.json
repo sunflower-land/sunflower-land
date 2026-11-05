@@ -9022,5 +9022,6 @@
   "vip.benefit.expansionCoinDiscount": "Expansion coin discount: {{coins}} coins or {{percent}}% off, whichever is more",
   "faceRecognition.introWarning": "For a smooth verification, find a place with good lighting and avoid dim rooms or strong backlighting.",
   "marketplace.afterTradingFee": "After {{fee}} FLOWER trading fee",
-  "marketplace.tradePoints.balance": "Trade Points: {{amount}}"
+  "marketplace.tradePoints.balance": "Trade Points: {{amount}}",
+  "marketplace.claimAll": "Claim all ({{count}})"
 }

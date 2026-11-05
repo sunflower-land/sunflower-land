@@ -9022,5 +9022,6 @@
   "vip.benefit.expansionCoinDiscount": "Diskon koin ekspansi: diskon {{coins}} koin atau {{percent}}%, mana yang lebih",
   "faceRecognition.introWarning": "Untuk verifikasi yang lancar, temukan tempat dengan pencahayaan yang baik dan hindari ruangan redup atau lampu latar yang kuat.",
   "marketplace.afterTradingFee": "Setelah {{fee}} biaya perdagangan FLOWER",
-  "marketplace.tradePoints.balance": "Poin Perdagangan: {{amount}}"
+  "marketplace.tradePoints.balance": "Poin Perdagangan: {{amount}}",
+  "marketplace.claimAll": "Klaim semua ({{count}})"
 }

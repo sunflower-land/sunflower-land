@@ -9022,5 +9022,6 @@
   "vip.benefit.expansionCoinDiscount": "扩展币折扣：{{coins}} 硬币或 {{percent}}% 折扣，以较高者为准",
   "faceRecognition.introWarning": "为了顺利进行验证，请找一个光线充足的地方，避开昏暗的房间或强烈的背光。",
   "marketplace.afterTradingFee": "在 {{fee}} FLOWER 交易费后",
-  "marketplace.tradePoints.balance": "交易点：{{amount}}"
+  "marketplace.tradePoints.balance": "交易点：{{amount}}",
+  "marketplace.claimAll": "全部申领 ({{count}})"
 }

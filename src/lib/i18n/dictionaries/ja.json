@@ -9022,5 +9022,6 @@
   "vip.benefit.expansionCoinDiscount": "拡張コイン割引:{{coins}} コインまたは {{percent}}% オフ、どちらか多い方",
   "faceRecognition.introWarning": "スムーズに確認するために、照明の良い場所を見つけ、薄暗い部屋や強い逆光を避けてください。",
   "marketplace.afterTradingFee": "{{fee}} フラワーの取引手数料を差し引いた後",
-  "marketplace.tradePoints.balance": "トレードポイント:{{amount}}"
+  "marketplace.tradePoints.balance": "トレードポイント:{{amount}}",
+  "marketplace.claimAll": "すべて請求 ({{count}})"
 }

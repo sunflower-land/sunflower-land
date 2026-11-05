@@ -9022,5 +9022,6 @@
   "vip.benefit.expansionCoinDiscount": "Réduction sur les pièces d'extension : {{coins}} pièces ou {{percent}} % de réduction, selon le montant le plus élevé",
   "faceRecognition.introWarning": "Pour une vérification fluide, trouvez un endroit bien éclairé et évitez les pièces sombres ou un fort contre-éclairage.",
   "marketplace.afterTradingFee": "Après les frais de négociation de {{fee}} FLOWER",
-  "marketplace.tradePoints.balance": "Points commerciaux : {{amount}}"
+  "marketplace.tradePoints.balance": "Points commerciaux : {{amount}}",
+  "marketplace.claimAll": "Réclamez tout ({{count}})"
 }

@@ -9022,5 +9022,6 @@
   "vip.benefit.expansionCoinDiscount": "Genişletme jetonu indirimi: {{coins}} jeton veya {{percent}} %indirim, hangisi daha fazlaysa",
   "faceRecognition.introWarning": "Sorunsuz bir doğrulama için iyi aydınlatmaya sahip bir yer bulun ve loş odalardan veya güçlü arka aydınlatmadan kaçının.",
   "marketplace.afterTradingFee": "{{fee}} FLOWER işlem ücretinden sonra",
-  "marketplace.tradePoints.balance": "Ticaret Puanları: {{amount}}"
+  "marketplace.tradePoints.balance": "Ticaret Puanları: {{amount}}",
+  "marketplace.claimAll": "Tümünü talep et ({{count}})"
 }

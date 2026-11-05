@@ -9022,5 +9022,6 @@
   "vip.benefit.expansionCoinDiscount": "Descuento en monedas de expansión: {{coins}} monedas o {{percent}}% de descuento, lo que sea mayor",
   "faceRecognition.introWarning": "Para una verificación sin problemas, busque un lugar con buena iluminación y evite las habitaciones con poca luz o una retroiluminación intensa.",
   "marketplace.afterTradingFee": "Después de la comisión de negociación de {{fee}} FLOWER",
-  "marketplace.tradePoints.balance": "Puntos de comercio: {{amount}}"
+  "marketplace.tradePoints.balance": "Puntos de comercio: {{amount}}",
+  "marketplace.claimAll": "Reclamar todo ({{count}})"
 }
