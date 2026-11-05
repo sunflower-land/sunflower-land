@@ -1,0 +1,9 @@
+.cave-dig-feedback {
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .cave-dig-feedback {
+    transition-duration: 0ms !important;
+  }
+}

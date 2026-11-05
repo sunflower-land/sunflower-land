@@ -48,6 +48,11 @@ export function getReadyAt({
     boostsUsed.push({ name: "Soil Krabby", value: "x0.9" });
   }
 
+  if (isCollectibleBuilt({ name: "Straw House", game: gameState })) {
+    timeToFinishMilliseconds = timeToFinishMilliseconds * 0.9;
+    boostsUsed.push({ name: "Straw House", value: "x0.9" });
+  }
+
   // gives a speed boost if the player has the Swift Decomposer skill
   const swiftDecomposerLevel = getSkillLevel(
     gameState.bumpkin?.skills ?? {},
@@ -75,6 +80,12 @@ export function getCompostAmount({
   let { produceAmount } = composterDetails[building];
   const boostsUsed: { name: BoostName; value: string }[] = [];
   const { skills } = game.bumpkin;
+
+  // Multiplies the base yield, so it's applied before the additive boosts
+  if (isCollectibleBuilt({ name: "Straw House", game })) {
+    produceAmount = produceAmount * 3;
+    boostsUsed.push({ name: "Straw House", value: "x3" });
+  }
 
   const efficientBinLevel = getSkillLevel(skills, "Efficient Bin");
   if (efficientBinLevel && building === "Compost Bin") {

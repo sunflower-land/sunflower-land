@@ -28,6 +28,7 @@ import { getAnimationUrl } from "../lib/animations";
 import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import type { Player } from "../types/Room";
 import { getDailyBudBoxType } from "features/game/lib/budBox";
+import { hasChapterCropWeekAccess } from "features/game/types/chapterCropWeek";
 
 const CHAPTER_BANNERS: Record<ChapterName, string | undefined> = {
   "Solar Flare": undefined,
@@ -45,6 +46,7 @@ const CHAPTER_BANNERS: Record<ChapterName, string | undefined> = {
   "Crabs and Traps": "world/crap_chapter_banner.webp",
   "Salt Awakening": "world/salt_awakening_banner.webp",
   "Ascension Age": "world/ascension_banner.webp",
+  "Cave Dwellers": "world/cave_dwellers_banner.webp",
 };
 
 // Tiled Layer names that get enabled during a chapter
@@ -65,6 +67,7 @@ const CHAPTER_LAYERS: Record<ChapterName, string | undefined> = {
   "Crabs and Traps": "Crabs and Traps",
   "Salt Awakening": "Salt Awakening",
   "Ascension Age": "Ascension",
+  "Cave Dwellers": "Cave Dwellers",
 };
 
 export type FactionNPC = {
@@ -230,8 +233,6 @@ export class PlazaScene extends BaseScene {
   preload() {
     this.load.audio("chime", SOUNDS.notifications.chime);
 
-    this.load.image("rarecrows", "world/rarecrows.webp");
-
     this.load.image("page", "world/page.png");
     this.load.image("arrows_to_move", "world/arrows_to_move.png");
 
@@ -368,17 +369,6 @@ export class PlazaScene extends BaseScene {
       }
     });
 
-    const rarecrows = this.add
-      .sprite(277, 420, "rarecrows")
-      .setDepth(100000000);
-    rarecrows.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      if (this.checkDistanceToSprite(rarecrows, 75)) {
-        interactableModalManager.open("rarecrows");
-      } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
-      }
-    });
-
     const petShop = this.add.sprite(164, 136, "pet_shop");
     petShop.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (this.checkDistanceToSprite(petShop, 75)) {
@@ -398,6 +388,7 @@ export class PlazaScene extends BaseScene {
     });
 
     this.addDesignShowcaseBoard();
+    this.addChapterCropWeekBoard();
 
     this.addYakkamon();
 
@@ -828,16 +819,11 @@ export class PlazaScene extends BaseScene {
       const sparkle5 = this.add.sprite(634, 191, "sparkle");
       sparkle5.setDepth(1000000);
 
-      // Rarecrows
-      const rarecrowsSparkle = this.add.sprite(277, 410, "sparkle");
-      rarecrowsSparkle.setDepth(100000000);
-
       sparkle.play(`sparkel_anim`, true);
       sparkle2.play(`sparkel_anim`, true);
       sparkle3.play(`sparkel_anim`, true);
       sparkle4.play(`sparkel_anim`, true);
       sparkle5.play(`sparkel_anim`, true);
-      rarecrowsSparkle.play(`sparkel_anim`, true);
     }
 
     // After Paw Prints, items are added on the tiled map itself
@@ -946,6 +932,43 @@ export class PlazaScene extends BaseScene {
         this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
+  }
+
+  /**
+   * Chapter Crop Week cooking leaderboard noticeboard. It stands in the free
+   * nook just right of the spawn statue (tiles 30-32 x 15-18 of
+   * `seasonal_plaza.json`, outside the 7x7 spawn block centred on the statue)
+   * and opens the top-100 event-recipe cooks modal. Only players with event
+   * access see it: admin testers ahead of the start date, everyone during the
+   * week, nobody after it ends.
+   */
+  addChapterCropWeekBoard() {
+    if (!hasChapterCropWeekAccess(this.gameState)) return;
+
+    const board = this.add.sprite(504, 288, "showcase_board").setDepth(1000000);
+
+    // Only the base of the board blocks movement, so players can walk behind it
+    this.physics.world.enable(board);
+    this.colliders?.add(board);
+    (board.body as Phaser.Physics.Arcade.Body)
+      .setSize(40, 8)
+      .setOffset(0, 22)
+      .setImmovable(true)
+      .setCollideWorldBounds(true);
+
+    board.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      if (!this.checkDistanceToSprite(board, 75)) {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        return;
+      }
+
+      interactableModalManager.open("chapter_crop_week_leaderboard");
+    });
+
+    const label = new Label(this, "TOP COOKS", "gold");
+    label.setPosition(504, 267);
+    label.setDepth(10000000);
+    this.add.existing(label);
   }
 
   /**

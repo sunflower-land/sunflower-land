@@ -77,6 +77,10 @@ const BoostReelItems: (
     buff: BUMPKIN_ITEM_BUFF_LABELS["Saw Fish"] as BuffLabel[],
     location: "Stella's Megastore",
   },
+  "Otty the Otter": {
+    buff: COLLECTIBLE_BUFF_LABELS["Otty the Otter"]?.(state) as BuffLabel[],
+    location: "Stella's Megastore",
+  },
 });
 
 const isWearable = (item: FishingReelBoostName): item is BumpkinItem => {

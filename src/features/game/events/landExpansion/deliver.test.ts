@@ -29,9 +29,9 @@ jest.mock("lib/flags", () => {
   };
 });
 
-// esbuild-runner/jest does not hoist `jest.mock` above imports. Load the
-// flags module and the SUT via require *after* the mock is registered so
-// the SUT binds the jest.fn wrapper rather than the real function.
+// Load the flags module and the SUT via require *after* the mock is
+// registered so the SUT binds the jest.fn wrapper rather than the real
+// function.
 const flags = require("lib/flags") as typeof FlagsModule & {
   hasTimeBasedFeatureAccess: jest.Mock;
 };
@@ -314,6 +314,76 @@ describe("deliver", () => {
     });
 
     expect(state.balance).toEqual(new Decimal(0.1));
+  });
+
+  it("does not deliver FLOWER orders while soft banned", () => {
+    expect(() =>
+      deliverOrder({
+        state: {
+          ...TEST_FARM,
+          ban: { status: "investigating" },
+          inventory: {
+            Sunflower: new Decimal(60),
+          },
+          delivery: {
+            ...TEST_FARM.delivery,
+            fulfilledCount: 0,
+            orders: [
+              {
+                id: "123",
+                createdAt: 0,
+                readyAt: MID_SEASON,
+                from: "betty",
+                items: {
+                  Sunflower: 50,
+                },
+                reward: { sfl: 0.1 },
+              },
+            ],
+          },
+        },
+        action: {
+          id: "123",
+          type: "order.delivered",
+        },
+        createdAt: MID_SEASON,
+      }),
+    ).toThrow("Soft banned farms cannot deliver FLOWER orders");
+  });
+
+  it("delivers coin orders while soft banned", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        ban: { status: "investigating" },
+        inventory: {
+          Sunflower: new Decimal(60),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 0,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: MID_SEASON,
+              from: "betty",
+              items: {
+                Sunflower: 50,
+              },
+              reward: { coins: 100 },
+            },
+          ],
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+      createdAt: MID_SEASON,
+    });
+
+    expect(state.coins).toEqual(100);
   });
 
   it("rewards apron boost with Sunflower Cake", () => {

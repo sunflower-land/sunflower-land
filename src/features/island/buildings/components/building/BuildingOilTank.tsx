@@ -12,11 +12,7 @@ import type {
   BuildingName,
   CookingBuildingName,
 } from "features/game/types/buildings";
-import { BUILDING_DAILY_OIL_CAPACITY } from "features/game/events/landExpansion/supplyCookingOil";
-import {
-  BUILDING_DAILY_OIL_CONSUMPTION,
-  BUILDING_OIL_BOOSTS,
-} from "features/game/events/landExpansion/cook";
+import { BUILDING_OIL_BOOSTS } from "features/game/events/landExpansion/cook";
 import { Context } from "features/game/GameProvider";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { InnerPanel } from "components/ui/Panel";
@@ -26,6 +22,11 @@ import Decimal from "decimal.js-light";
 import { Box } from "components/ui/Box";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { isCookingBuilding } from "features/game/events/landExpansion/isCookingBuilding";
+import { useNow } from "lib/utils/hooks/useNow";
+import {
+  formatOil,
+  getCookingOilTank,
+} from "features/island/buildings/lib/cookingOilTank";
 
 interface OilTankProps {
   buildingName: BuildingName;
@@ -49,7 +50,15 @@ export const BuildingOilTank: React.FC<OilTankProps> = ({
     (building) => building.id === buildingId,
   );
 
-  const oilRemainingInBuilding = building?.oil ?? 0;
+  const now = useNow({ live: true });
+  const tank = isCookingBuilding(buildingName)
+    ? getCookingOilTank({ game, building, buildingName, at: now })
+    : undefined;
+  const oilRemainingInBuilding = tank?.level ?? 0;
+  const oilCapacity = tank?.capacity ?? 0;
+  const oilBoost = BUILDING_OIL_BOOSTS(game.bumpkin.skills)[
+    buildingName as CookingBuildingName
+  ];
 
   const incrementOil = () => {
     setTotalOilToAdd((prev) => prev + OIL_INCREMENT_AMOUNT);
@@ -59,21 +68,24 @@ export const BuildingOilTank: React.FC<OilTankProps> = ({
     setTotalOilToAdd((prev) => Math.max(prev - OIL_INCREMENT_AMOUNT, 0));
   };
 
-  const amountToFull =
-    BUILDING_DAILY_OIL_CAPACITY[buildingName as CookingBuildingName] -
-    oilRemainingInBuilding;
+  const amountToFull = oilCapacity - oilRemainingInBuilding;
   const incrementMaxOil = () => {
-    setTotalOilToAdd(Math.floor(amountToFull));
+    // A tank filled past a since-lowered capacity has no room left.
+    setTotalOilToAdd(Math.max(Math.floor(amountToFull), 0));
   };
 
   function getOilTimeInMillis(oil: number): number {
-    if (!isCookingBuilding(buildingName)) {
+    if (!tank) {
       return 0;
     }
 
-    const dailyOilConsumption = BUILDING_DAILY_OIL_CONSUMPTION[buildingName];
+    const dailyOilConsumption = tank.ratePerDay;
     const hoursPerDay = 24;
-    const oilTimeInHours = (oil / dailyOilConsumption) * hoursPerDay;
+    // A clock-drain tank burns per day of recipe time, which the oil itself cooks
+    // through 1 / (1 - boost) faster than real time.
+    const realTimeShare = tank.byTheClock ? 1 - oilBoost : 1;
+    const oilTimeInHours =
+      (oil / dailyOilConsumption) * hoursPerDay * realTimeShare;
 
     // Convert hours to milliseconds
     const millisecondsPerHour = 60 * 60 * 1000;
@@ -100,9 +112,7 @@ export const BuildingOilTank: React.FC<OilTankProps> = ({
       return false;
     }
 
-    return (
-      oilRemainingInBuilding <= BUILDING_DAILY_OIL_CAPACITY[buildingName] - 1
-    );
+    return oilRemainingInBuilding <= oilCapacity - 1;
   };
 
   const canIncrementOil = () => {
@@ -112,8 +122,7 @@ export const BuildingOilTank: React.FC<OilTankProps> = ({
 
     const hasEnoughOil = oilBalance.toNumber() >= totalOilToAdd;
     const buildingNotFull =
-      oilRemainingInBuilding + totalOilToAdd <=
-      BUILDING_DAILY_OIL_CAPACITY[buildingName] - 1;
+      oilRemainingInBuilding + totalOilToAdd <= oilCapacity - 1;
 
     return hasEnoughOil && buildingNotFull;
   };
@@ -125,9 +134,7 @@ export const BuildingOilTank: React.FC<OilTankProps> = ({
       return 0;
     }
 
-    const buildingTimeCapacity = getOilTimeInMillis(
-      BUILDING_DAILY_OIL_CAPACITY[buildingName],
-    );
+    const buildingTimeCapacity = getOilTimeInMillis(oilCapacity);
 
     const percentage = (totalOilMillis / buildingTimeCapacity) * 100;
 
@@ -144,10 +151,7 @@ export const BuildingOilTank: React.FC<OilTankProps> = ({
 
   const oilInTank = calculatePercentageFull(buildingName);
   const runtime = calculateOilTimeRemaining();
-  const boostPercentage =
-    BUILDING_OIL_BOOSTS(game.bumpkin.skills)[
-      buildingName as CookingBuildingName
-    ] * 100;
+  const boostPercentage = oilBoost * 100;
 
   useUiRefresher();
 
@@ -187,16 +191,32 @@ export const BuildingOilTank: React.FC<OilTankProps> = ({
                     type={oilInTank < 10 ? "error" : "quantity"}
                     outerDimensions={{ width: 40, height: 8 }}
                   />
-                  <div className="flex">
+                  <div className="flex flex-col">
                     <div className="text-xs">
-                      {t("cooking.building.runtime", {
-                        time: secondsToString(runtime, {
-                          length: "medium",
-                          isShortFormat: true,
-                          removeTrailingZeros: true,
-                        }),
-                      })}
+                      {/* A clock-drain tank only burns while something cooks, so
+                          a runtime would sit still whenever the building is idle:
+                          show the oil itself, the unit a recipe's cost is in. */}
+                      {tank?.byTheClock
+                        ? t("cooking.building.oil.level", {
+                            oil: formatOil(oilRemainingInBuilding),
+                            capacity: formatOil(oilCapacity),
+                          })
+                        : t("cooking.building.runtime", {
+                            time: secondsToString(runtime, {
+                              length: "medium",
+                              isShortFormat: true,
+                              removeTrailingZeros: true,
+                            }),
+                          })}
                     </div>
+                    {tank?.byTheClock &&
+                      tank.afterQueue < oilRemainingInBuilding - 0.005 && (
+                        <div className="text-xxs">
+                          {t("cooking.building.oil.afterQueue", {
+                            oil: formatOil(tank.afterQueue),
+                          })}
+                        </div>
+                      )}
                   </div>
                 </div>
               </div>
@@ -240,10 +260,15 @@ export const BuildingOilTank: React.FC<OilTankProps> = ({
                 />
               </div>
               <span className="px-2 text-xs pb-1">
-                {t("cooking.building.oil.description", {
-                  boost: boostPercentage,
-                  buildingName: buildingName,
-                })}
+                {tank?.byTheClock
+                  ? t("cooking.building.oil.description.work", {
+                      speed: Number((1 / (1 - oilBoost)).toFixed(2)).toString(),
+                      buildingName: buildingName,
+                    })
+                  : t("cooking.building.oil.description", {
+                      boost: boostPercentage,
+                      buildingName: buildingName,
+                    })}
               </span>
               <div className="flex justify-between items-center">
                 <Label

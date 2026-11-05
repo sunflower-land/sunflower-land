@@ -8,6 +8,7 @@ import {
 import type { GameState, FiniteResource } from "../../types/game";
 import {
   type MineCrimstoneAction,
+  getCrimstoneDropAmount,
   getMinedAt,
   mineCrimstone,
 } from "./mineCrimstone";
@@ -721,5 +722,39 @@ describe("getMineReadyAt — baseDurationMs is a permanent per-rock marker (crim
     expect(getMineReadyAt(rock, "Crimstone Rock", INITIAL_FARM)).toEqual(
       now + BASE_MS / 2,
     );
+  });
+});
+
+describe("Mushroom Chicken", () => {
+  const game: GameState = {
+    ...GAME_STATE,
+    collectibles: {
+      "Mushroom Chicken": [
+        { id: "1", createdAt: 0, coordinates: { x: 0, y: 0 }, readyAt: 0 },
+      ],
+    },
+  };
+
+  it("gives +0.5 Crimstone on the 5th mine", () => {
+    const { amount, boostsUsed } = getCrimstoneDropAmount({
+      game,
+      rock: { ...GAME_STATE.crimstones[0], minesLeft: 1 },
+    });
+
+    // 1 base + 2 streak bonus + 0.5
+    expect(amount).toEqual(new Decimal(3.5));
+    expect(boostsUsed).toContainEqual({
+      name: "Mushroom Chicken",
+      value: "+0.5",
+    });
+  });
+
+  it("gives no bonus on the other mines", () => {
+    const { amount } = getCrimstoneDropAmount({
+      game,
+      rock: { ...GAME_STATE.crimstones[0], minesLeft: 2 },
+    });
+
+    expect(amount).toEqual(new Decimal(1));
   });
 });

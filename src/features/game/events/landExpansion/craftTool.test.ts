@@ -2,7 +2,12 @@ import Decimal from "decimal.js-light";
 import { WORKBENCH_TOOLS } from "features/game/types/tools";
 import { TEST_FARM } from "../../lib/constants";
 import type { GameState } from "../../types/game";
-import { craftTool, getToolPrice, TUTORIAL_FREE_AXES } from "./craftTool";
+import {
+  craftTool,
+  getToolPrice,
+  getWorkbenchToolStock,
+  TUTORIAL_FREE_AXES,
+} from "./craftTool";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 
 // Past the free tutorial Axes, so these tests exercise normal pricing. The
@@ -880,6 +885,37 @@ describe("tutorial free axes", () => {
     expect(state.inventory.Axe).toEqual(new Decimal(10));
     // Free Axes never draw from the paid stock
     expect(state.stock.Axe).toEqual(new Decimal(0));
+  });
+
+  it("sells Axes from the tutorial budget, not the stored stock", () => {
+    // Farms start with the full Axe stock and the daily shipment never
+    // lowers it, so the Workbench must not offer those 200 during the
+    // tutorial: only the free batch plus level 1's paid budget are on sale.
+    expect(getWorkbenchToolStock("Axe", NEW_FARM)).toEqual(new Decimal(20));
+
+    expect(
+      getWorkbenchToolStock("Axe", {
+        ...NEW_FARM,
+        farmActivity: { "Axe Crafted": 20 },
+      }),
+    ).toEqual(new Decimal(0));
+
+    // Other tools still sell from the stock
+    expect(
+      getWorkbenchToolStock("Pickaxe", {
+        ...NEW_FARM,
+        stock: { ...NEW_FARM.stock, Pickaxe: new Decimal(7) },
+      }),
+    ).toEqual(new Decimal(7));
+
+    // Once the tutorial phase is over the daily stock governs Axes again
+    expect(
+      getWorkbenchToolStock("Axe", {
+        ...NEW_FARM,
+        inventory: { "Basic Land": new Decimal(7) },
+        farmActivity: { "Axe Crafted": 60 },
+      }),
+    ).toEqual(new Decimal(200));
   });
 
   it("does not make other tools free", () => {

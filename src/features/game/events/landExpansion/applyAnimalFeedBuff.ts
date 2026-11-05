@@ -13,10 +13,12 @@ import {
 } from "features/game/lib/animals";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { isAnimalNeedingLove } from "./loveAnimal";
+import { isAnimalCoveredByGoldenAsset } from "./feedAllAnimals";
 
 export const ANIMAL_FEED_BUFF_ITEMS: AnimalFeedBuffName[] = [
   "Salt Lick",
   "Honey Treat",
+  "Truffle Seasoning",
 ];
 
 export enum APPLY_ANIMAL_FEED_BUFF_ERRORS {
@@ -25,6 +27,7 @@ export enum APPLY_ANIMAL_FEED_BUFF_ERRORS {
   ALREADY_BUFFED = "Animal already has a feed buff",
   SICK = "Cannot apply feed buff while animal is sick",
   NEEDS_LOVE = "Pet your animal before using this",
+  FREE_FEED = "Honey Treat has no effect on an animal that is fed for free",
 }
 
 function isAnimalAsleep(now: number, readyAt: number): boolean {
@@ -49,15 +52,50 @@ export function isAnimalFeedBuffItem(item: string): item is AnimalFeedBuffName {
 }
 
 export const BASE_FEED_BUFF_HARVESTS = 3;
+/**
+ * A Mud coat lasts ONE claim (beta uptake rebalance, 2026-10-30: was a
+ * treat's 3), making the coat part of the daily loop rather than an
+ * every-third-day touch. Kept apart from `BASE_FEED_BUFF_HARVESTS` so the
+ * spice-rack treats keep their three.
+ */
+export const MUD_HARVESTS = 1;
+/** A Truffle Seasoning shortens ONE sleep (the charge is spent on the claim that starts it). */
+export const TRUFFLE_SEASONING_SLEEPS = 1;
 
-export function getAnimalHarvests(game: GameState): {
+/**
+ * How many produce claims a treat lasts. Salt Lick and Honey Treat run three
+ * harvests; Truffle Seasoning one sleep; Mud has its own `getMudHarvests`.
+ */
+export function getAnimalHarvests(
+  game: GameState,
+  item?: AnimalFeedBuffName,
+): {
   harvests: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
-  let harvests = BASE_FEED_BUFF_HARVESTS;
+  let harvests =
+    item === "Truffle Seasoning"
+      ? TRUFFLE_SEASONING_SLEEPS
+      : BASE_FEED_BUFF_HARVESTS;
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
-  // Vibraphone doubles how many harvests a feed buff lasts
+  // Vibraphone doubles how long a feed buff lasts
+  if (isCollectibleBuilt({ game, name: "Vibraphone" })) {
+    harvests *= 2;
+    boostsUsed.push({ name: "Vibraphone", value: "x2" });
+  }
+
+  return { harvests, boostsUsed };
+}
+
+/** How many produce claims a Mud coat lasts: one, or two with a Vibraphone. */
+export function getMudHarvests(game: GameState): {
+  harvests: number;
+  boostsUsed: { name: BoostName; value: string }[];
+} {
+  let harvests = MUD_HARVESTS;
+  const boostsUsed: { name: BoostName; value: string }[] = [];
+
   if (isCollectibleBuilt({ game, name: "Vibraphone" })) {
     harvests *= 2;
     boostsUsed.push({ name: "Vibraphone", value: "x2" });
@@ -109,6 +147,17 @@ export function applyAnimalFeedBuff({
       throw new Error(APPLY_ANIMAL_FEED_BUFF_ERRORS.INVALID_ITEM);
     }
 
+    // Honey Treat only cuts the feed an animal eats. Gold Egg, Golden Cow and
+    // Golden Sheep already feed their animal for free, so it would be wasted.
+    // Uses the stored animal's type: the Barn holds cows and sheep in one map,
+    // so the action's type doesn't prove which animal `action.id` is.
+    if (
+      action.item === "Honey Treat" &&
+      isAnimalCoveredByGoldenAsset({ state: copy, animalType: animal.type })
+    ) {
+      throw new Error(APPLY_ANIMAL_FEED_BUFF_ERRORS.FREE_FEED);
+    }
+
     const count = copy.inventory[action.item] ?? new Decimal(0);
     if (count.lessThan(1)) {
       throw new Error(APPLY_ANIMAL_FEED_BUFF_ERRORS.NOT_ENOUGH);
@@ -116,7 +165,7 @@ export function applyAnimalFeedBuff({
 
     copy.inventory[action.item] = count.minus(1);
 
-    const { harvests, boostsUsed } = getAnimalHarvests(copy);
+    const { harvests, boostsUsed } = getAnimalHarvests(copy, action.item);
 
     animal.feedBuff = {
       name: action.item,

@@ -27,8 +27,8 @@ import classNames from "classnames";
 import { getKeys } from "lib/object";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import {
-  getTranslatedItemName,
   ITEM_DETAILS,
+  getTranslatedItemName,
 } from "features/game/types/images";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { FLOWERS, type FlowerName } from "features/game/types/flowers";
@@ -84,6 +84,7 @@ import { getCountAndType } from "features/island/hud/components/inventory/utils/
 import { getChapterTaskPoints } from "features/game/types/tracks";
 import chapterPointsIcon from "assets/icons/red_medal_short.webp";
 import { hasTimeBasedFeatureAccess } from "lib/flags";
+import { SoftBan } from "features/retreat/components/personhood/SoftBan";
 
 const BoostableRewardAmount: React.FC<{
   amount: string;
@@ -470,7 +471,9 @@ export const Gifts: React.FC<{
   onClose: () => void;
   onOpen: () => void;
   name: NPCName;
-}> = ({ game, onClose, onOpen, name }) => {
+  /** The delivery panel's clock, so the picker agrees with its Gift button. */
+  now: number;
+}> = ({ game, onClose, onOpen, name, now }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
@@ -478,8 +481,6 @@ export const Gifts: React.FC<{
   const [message, setMessage] = useState<TranslationKeys>(
     GIFT_RESPONSES[name]?.flowerIntro ?? DEFAULT_DIALOGUE.flowerIntro,
   );
-
-  const now = useNow({ live: true });
 
   const flowers = getKeys(game.inventory)
     .filter(
@@ -497,9 +498,15 @@ export const Gifts: React.FC<{
   const recentOwnedFlowers = recentFlowers.filter((flower) =>
     flowers.includes(flower),
   );
-  const otherFlowers = flowers.filter(
-    (flower) => !recentOwnedFlowers.includes(flower),
-  );
+  // The NPC's favourite (bonus) flowers first, so they don't have to be
+  // hunted for in a long collection.
+  const otherFlowers = flowers
+    .filter((flower) => !recentOwnedFlowers.includes(flower))
+    .sort(
+      (a, b) =>
+        Number(!!BUMPKIN_FLOWER_BONUSES[name]?.[b]) -
+        Number(!!BUMPKIN_FLOWER_BONUSES[name]?.[a]),
+    );
 
   const onFlowerClick = (flower: FlowerName) => {
     setSelected(flower);
@@ -537,13 +544,7 @@ export const Gifts: React.FC<{
 
   let translated: string = t(message);
 
-  const dateKey = new Date(now).toISOString().substring(0, 10);
-
-  const giftedAt = game.npcs?.[name]?.friendship?.giftedAt ?? 0;
-  // GiftedAt is the same UTC day as right now
-  const isLocked =
-    giftedAt > 0 &&
-    new Date(giftedAt).toISOString().substring(0, 10) === dateKey;
+  const isLocked = hasGiftedToday(game, name, now);
 
   if (isLocked) {
     translated = `${translated} ${t("npcDialogues.default.locked")}`;
@@ -605,7 +606,7 @@ export const Gifts: React.FC<{
               className="mb-1 ml-1"
               icon={ITEM_DETAILS[selected].image}
             >
-              {selected}
+              {getTranslatedItemName(selected)}
             </Label>
           )}
         </div>
@@ -614,7 +615,9 @@ export const Gifts: React.FC<{
           <p className="text-xs mb-2">{`${t("bumpkin.delivery.noFlowers")}`}</p>
         )}
         {flowers.length > 0 && (
-          <>
+          // Scrolls on its own so a big collection never pushes the Gift
+          // button off screen on mobile.
+          <div className="max-h-[40vh] overflow-y-auto scrollable pr-1">
             {recentOwnedFlowers.length > 0 && (
               <>
                 <Label
@@ -659,7 +662,7 @@ export const Gifts: React.FC<{
                 />
               ))}
             </div>
-          </>
+          </div>
         )}
       </InnerPanel>
 
@@ -890,6 +893,17 @@ interface Props {
   npc: NPCName;
 }
 
+/** A flower was already gifted to this NPC today (same UTC day). */
+const hasGiftedToday = (game: GameState, npc: NPCName, now: number) => {
+  const giftedAt = game.npcs?.[npc]?.friendship?.giftedAt ?? 0;
+
+  return (
+    giftedAt > 0 &&
+    new Date(giftedAt).toISOString().substring(0, 10) ===
+      new Date(now).toISOString().substring(0, 10)
+  );
+};
+
 export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
@@ -899,6 +913,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
   const game = gameState.context.state;
   const [showFlowers, setShowFlowers] = useState(false);
+  const giftedToday = hasGiftedToday(game, npc, now);
   const [showSkipDialog, setShowSkipDialog] = useState(false);
   const [gift, setGift] = useState<Airdrop>();
   // Tutorial: after the first-ever delivery the player is told what to do
@@ -1044,6 +1059,10 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     levelRequirementToTotal(requiredLevel) - levelRequirementToTotal(ascension),
   );
   const deliveryFrozen = isHoliday && isTicketNPC(npc) && baseTickets > 0;
+  // A soft ban keeps the player farming but holds value until they verify,
+  // so FLOWER orders show the verification steps in place of the delivery.
+  const softBannedFlowerOrder =
+    game.ban.status === "investigating" && !!delivery?.reward.sfl;
   const acceptGifts = !!getNextGift({ game, npc });
 
   const completedAt = game.npcs?.[npc]?.deliveryCompletedAt;
@@ -1099,6 +1118,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
           game={gameState.context.state}
           onOpen={openReward}
           name={npc}
+          now={now}
         />
       )}
       {!showFlowers && (
@@ -1250,6 +1270,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
           {missingRequiredReputation && (
             <RequiredReputation reputation={Reputation.Cropkeeper} />
           )}
+          {softBannedFlowerOrder && !delivery?.completedAt && <SoftBan />}
           {isSkipping ? null : showSkipDialog ? (
             canSkip ? (
               <div className="flex flex-row gap-1">
@@ -1270,8 +1291,26 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
           ) : (
             <div className="flex mt-1">
               {acceptGifts && (
-                <Button className="mr-1" onClick={() => setShowFlowers(true)}>
-                  {t("gift")}
+                <Button
+                  className="mr-1"
+                  onClick={() => setShowFlowers(true)}
+                  aria-label={
+                    giftedToday
+                      ? `${t("gift")} - ${t("npcDialogues.default.locked")}`
+                      : undefined
+                  }
+                >
+                  <span className="flex items-center justify-center gap-1">
+                    {t("gift")}
+                    {/* Already gifted today: the next gift has to wait. */}
+                    {giftedToday && (
+                      <img
+                        src={SUNNYSIDE.icons.confirm}
+                        alt=""
+                        className="w-4"
+                      />
+                    )}
+                  </span>
                 </Button>
               )}
 
@@ -1282,7 +1321,8 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                   !!delivery?.completedAt ||
                   isLocked ||
                   missingRequiredReputation ||
-                  deliveryFrozen
+                  deliveryFrozen ||
+                  softBannedFlowerOrder
                 }
                 onClick={deliver}
               >

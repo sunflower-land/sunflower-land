@@ -569,7 +569,7 @@ export const BuyGems: React.FC<Props> = ({
               </Label>
             </div>
             <a
-              href="https://docs.sunflower-land.com/project/economy-tokenomics#team-revenue-and-sustainability"
+              href="https://docs.sunflower-land.com/web3-and-economy/tokenomics#team-revenue-and-sustainability"
               className="text-xxs underline"
               target="_blank"
               rel="noreferrer"
@@ -691,7 +691,7 @@ export const BuyGems: React.FC<Props> = ({
           </Label>
         </div>
         <a
-          href="https://docs.sunflower-land.com/project/economy-tokenomics#team-revenue-and-sustainability"
+          href="https://docs.sunflower-land.com/web3-and-economy/tokenomics#team-revenue-and-sustainability"
           className="text-xxs underline"
           target="_blank"
           rel="noreferrer"
@@ -711,9 +711,11 @@ export const BuyGems: React.FC<Props> = ({
             <div className="flex justify-between items-center">
               <Label type="vibrant">{t("transaction.starterOffer")}</Label>
               <Label icon={SUNNYSIDE.icons.stopwatch} type="info">
-                {`${secondsToString(starterOfferSecondsLeft, {
-                  length: "short",
-                })} left`}
+                {t("vipExpiry.timeLeft", {
+                  time: secondsToString(starterOfferSecondsLeft, {
+                    length: "short",
+                  }),
+                })}
               </Label>
             </div>
             <div className="flex w-full">

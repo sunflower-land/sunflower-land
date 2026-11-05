@@ -24,6 +24,8 @@ import {
   getPowerSkills,
 } from "features/game/types/bumpkinSkills";
 import { getSkillCooldown } from "features/game/events/landExpansion/skillUsed";
+import { Label } from "components/ui/Label";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const DIMENSIONS = {
   original: 80,
@@ -47,6 +49,11 @@ const DIMENSIONS = {
     height: 12,
     marginLeft: 109,
     marginTop: 82.5,
+  },
+  // Mirrors the level box on the left side of the profile circle
+  ascension: {
+    marginLeft: 22,
+    marginTop: 78,
   },
   username: {
     width: 200,
@@ -81,6 +88,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
   ascensionLevel = 0,
 }) => {
   const { showAnimations } = useContext(Context);
+  const { t } = useAppTranslation();
 
   const progressBarEl = useRef<SpriteSheetInstance>(undefined);
 
@@ -184,6 +192,20 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
         >
           {level}
         </div>
+
+        {ascensionLevel >= 1 && (
+          <div
+            className="col-start-1 row-start-1 z-20 w-fit h-fit"
+            style={{
+              marginLeft: `${DIMENSIONS.ascension.marginLeft}px`,
+              marginTop: `${DIMENSIONS.ascension.marginTop}px`,
+            }}
+          >
+            <Label type="info" className="text-xxs">
+              {t("level.ascension.badge", { ascension: ascensionLevel })}
+            </Label>
+          </div>
+        )}
 
         {(showSkillPointAlert || powerSkillsReady) && (
           <img

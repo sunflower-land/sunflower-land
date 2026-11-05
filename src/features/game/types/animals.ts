@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import type { MutantsChapterName } from "./chapterMutants";
 import type { ChapterName } from "./chapters";
-import type { BuildingName } from "./buildings";
+import { BUILDINGS, type BuildingName } from "./buildings";
 import type {
   AnimalFoodName,
   AnimalMedicineName,
@@ -76,11 +76,12 @@ export const ANIMALS: Record<AnimalType, AnimalDetail> = {
     height: 2,
     width: 2,
   },
-  // TODO(Chapter 16): coins, level and size are placeholders - the spec lists
-  // "configuration pending" for all of them. Pig sits between Cow and Sheep.
+  // Coins: #7721 Balance Update. The level lock is the Pigpen's own (Bryn,
+  // 2026-10-21): a Pig can only live in a Pigpen, so a second, lower number
+  // here was a lock that could never bite.
   Pig: {
-    coins: 110,
-    levelRequired: { ascension: 0, level: 16 },
+    coins: 100,
+    levelRequired: BUILDINGS.Pigpen.unlocksAtLevel,
     buildingRequired: "Pigpen",
     height: 2,
     width: 2,
@@ -160,25 +161,24 @@ export const ANIMAL_LEVELS: Record<AnimalType, Record<AnimalLevel, number>> = {
     14: 4800,
     15: 5440,
   },
-  // TODO(Chapter 16): placeholder. Sheep is Chicken x2 and Cow is Chicken x3,
-  // so Pig - which sits between them - is Chicken x2.5. Exact values pending.
+  // #7721 Balance Update: Pigs adopt the Cow's thresholds.
   Pig: {
     0: 0,
-    1: 150,
-    2: 300,
-    3: 600,
-    4: 900,
-    5: 1200,
-    6: 1650,
-    7: 2100,
-    8: 2550,
-    9: 3000,
-    10: 3600,
-    11: 4200,
-    12: 4800,
-    13: 5400,
-    14: 6000,
-    15: 6800,
+    1: 180,
+    2: 360,
+    3: 720,
+    4: 1080,
+    5: 1440,
+    6: 1980,
+    7: 2520,
+    8: 3060,
+    9: 3600,
+    10: 4320,
+    11: 5040,
+    12: 5760,
+    13: 6480,
+    14: 7200,
+    15: 8160,
   },
 };
 
@@ -234,11 +234,40 @@ export const ANIMAL_FOODS: Record<AnimalFoodName | AnimalMedicineName, Feed> = {
       Gem: new Decimal(1),
     },
   },
+  "Basic Slop": {
+    name: "Basic Slop",
+    type: "food",
+    description: translate("description.basic.slop"),
+    // One item of its tier, chosen when mixing: getPigFeedIngredients.
+    ingredients: {},
+  },
+  "Hearty Slop": {
+    name: "Hearty Slop",
+    type: "food",
+    description: translate("description.hearty.slop"),
+    // One item of its tier, chosen when mixing: getPigFeedIngredients.
+    ingredients: {},
+  },
+  "Rich Slop": {
+    name: "Rich Slop",
+    type: "food",
+    description: translate("description.rich.slop"),
+    // One item of its tier, chosen when mixing: getPigFeedIngredients.
+    ingredients: {},
+  },
+  "Gourmet Slop": {
+    name: "Gourmet Slop",
+    type: "food",
+    description: translate("description.gourmet.slop"),
+    // One item of its tier, chosen when mixing: getPigFeedIngredients.
+    ingredients: {},
+  },
 };
 
 export const ANIMAL_FOOD_EXPERIENCE: Record<
   AnimalType,
-  Record<AnimalLevel, Record<Exclude<AnimalFoodName, "Barn Delight">, number>>
+  // Partial: each animal lists only the foods it eats (see isFoodForAnimal).
+  Record<AnimalLevel, Partial<Record<AnimalFoodName, number>>>
 > = {
   Chicken: {
     0: {
@@ -582,123 +611,105 @@ export const ANIMAL_FOOD_EXPERIENCE: Record<
       Omnifeed: 80,
     },
   },
-  // TODO(Chapter 16): placeholder - Cow's table x0.8. Scaling an existing table
-  // (rather than hand-rolling one) keeps exactly one non-Omnifeed max per
-  // level, which `getAnimalFavoriteFood` throws without. The x0.8 is Mud's
-  // doing: a muddy Pig earns MUD_XP_MULTIPLIER (1.25x), which lands back on
-  // Cow's values. Keep every value a multiple of 8 so that stays whole.
+  // #7721 Balance Update: Pigs eat only the four tier Slops (types/pigFeeds.ts),
+  // never the crafted feeds or Omnifeed. XP before modifiers; the favourite
+  // tier moves up at levels 3, 6 and 10.
   Pig: {
     0: {
-      "Kernel Blend": 48,
-      Hay: 8,
-      NutriBarley: 16,
-      "Mixed Grain": 24,
-      Omnifeed: 48,
+      "Basic Slop": 60,
+      "Hearty Slop": 10,
+      "Rich Slop": 20,
+      "Gourmet Slop": 30,
     },
     1: {
-      "Kernel Blend": 48,
-      Hay: 8,
-      NutriBarley: 16,
-      "Mixed Grain": 24,
-      Omnifeed: 48,
+      "Basic Slop": 60,
+      "Hearty Slop": 10,
+      "Rich Slop": 20,
+      "Gourmet Slop": 30,
     },
     2: {
-      "Kernel Blend": 48,
-      Hay: 8,
-      NutriBarley: 16,
-      "Mixed Grain": 24,
-      Omnifeed: 48,
+      "Basic Slop": 60,
+      "Hearty Slop": 10,
+      "Rich Slop": 20,
+      "Gourmet Slop": 30,
     },
     3: {
-      "Kernel Blend": 8,
-      Hay: 48,
-      NutriBarley: 16,
-      "Mixed Grain": 24,
-      Omnifeed: 48,
+      "Basic Slop": 10,
+      "Hearty Slop": 60,
+      "Rich Slop": 20,
+      "Gourmet Slop": 30,
     },
     4: {
-      "Kernel Blend": 8,
-      Hay: 48,
-      NutriBarley: 16,
-      "Mixed Grain": 24,
-      Omnifeed: 48,
+      "Basic Slop": 10,
+      "Hearty Slop": 60,
+      "Rich Slop": 20,
+      "Gourmet Slop": 30,
     },
     5: {
-      "Kernel Blend": 8,
-      Hay: 48,
-      NutriBarley: 16,
-      "Mixed Grain": 24,
-      Omnifeed: 48,
+      "Basic Slop": 10,
+      "Hearty Slop": 60,
+      "Rich Slop": 20,
+      "Gourmet Slop": 30,
     },
     6: {
-      "Kernel Blend": 8,
-      Hay: 16,
-      NutriBarley: 48,
-      "Mixed Grain": 24,
-      Omnifeed: 48,
+      "Basic Slop": 10,
+      "Hearty Slop": 20,
+      "Rich Slop": 60,
+      "Gourmet Slop": 30,
     },
     7: {
-      "Kernel Blend": 8,
-      Hay: 16,
-      NutriBarley: 48,
-      "Mixed Grain": 24,
-      Omnifeed: 48,
+      "Basic Slop": 10,
+      "Hearty Slop": 20,
+      "Rich Slop": 60,
+      "Gourmet Slop": 30,
     },
     8: {
-      "Kernel Blend": 8,
-      Hay: 16,
-      NutriBarley: 48,
-      "Mixed Grain": 24,
-      Omnifeed: 48,
+      "Basic Slop": 10,
+      "Hearty Slop": 20,
+      "Rich Slop": 60,
+      "Gourmet Slop": 30,
     },
     9: {
-      "Kernel Blend": 8,
-      Hay: 16,
-      NutriBarley: 48,
-      "Mixed Grain": 24,
-      Omnifeed: 48,
+      "Basic Slop": 10,
+      "Hearty Slop": 20,
+      "Rich Slop": 60,
+      "Gourmet Slop": 30,
     },
     10: {
-      "Kernel Blend": 8,
-      Hay: 16,
-      NutriBarley: 24,
-      "Mixed Grain": 64,
-      Omnifeed: 64,
+      "Basic Slop": 10,
+      "Hearty Slop": 20,
+      "Rich Slop": 30,
+      "Gourmet Slop": 80,
     },
     11: {
-      "Kernel Blend": 8,
-      Hay: 16,
-      NutriBarley: 24,
-      "Mixed Grain": 64,
-      Omnifeed: 64,
+      "Basic Slop": 10,
+      "Hearty Slop": 20,
+      "Rich Slop": 30,
+      "Gourmet Slop": 80,
     },
     12: {
-      "Kernel Blend": 8,
-      Hay: 16,
-      NutriBarley: 24,
-      "Mixed Grain": 64,
-      Omnifeed: 64,
+      "Basic Slop": 10,
+      "Hearty Slop": 20,
+      "Rich Slop": 30,
+      "Gourmet Slop": 80,
     },
     13: {
-      "Kernel Blend": 8,
-      Hay: 16,
-      NutriBarley: 24,
-      "Mixed Grain": 64,
-      Omnifeed: 64,
+      "Basic Slop": 10,
+      "Hearty Slop": 20,
+      "Rich Slop": 30,
+      "Gourmet Slop": 80,
     },
     14: {
-      "Kernel Blend": 8,
-      Hay: 16,
-      NutriBarley: 24,
-      "Mixed Grain": 64,
-      Omnifeed: 64,
+      "Basic Slop": 10,
+      "Hearty Slop": 20,
+      "Rich Slop": 30,
+      "Gourmet Slop": 80,
     },
     15: {
-      "Kernel Blend": 8,
-      Hay: 16,
-      NutriBarley: 24,
-      "Mixed Grain": 64,
-      Omnifeed: 64,
+      "Basic Slop": 10,
+      "Hearty Slop": 20,
+      "Rich Slop": 30,
+      "Gourmet Slop": 80,
     },
   },
 };
@@ -894,22 +905,22 @@ export const ANIMAL_RESOURCE_DROP: Record<
       "Merino Wool": new Decimal(4),
     },
   },
-  // TODO(Chapter 16): placeholder curve, owned by the Pig balance ticket.
-  // Truffles are the Pig's only produce, from level 1 (spec v0.5); level 0
-  // drops nothing, matching every other animal. Pig Bristles are never
-  // produce - they come only from trading a Pig in.
+  // #7721 Balance Update: 1 / 2 / 3 / 4 Truffles at L1–3 / 4–7 / 8–14 / 15.
+  // Truffles are the Pig's only produce, from level 1; level 0 drops nothing,
+  // matching every other animal. Pig Bristles are never produce - they come
+  // only from trading a Pig in.
   Pig: {
     0: {},
     1: { Truffle: new Decimal(1) },
     2: { Truffle: new Decimal(1) },
     3: { Truffle: new Decimal(1) },
-    4: { Truffle: new Decimal(1) },
-    5: { Truffle: new Decimal(1) },
+    4: { Truffle: new Decimal(2) },
+    5: { Truffle: new Decimal(2) },
     6: { Truffle: new Decimal(2) },
     7: { Truffle: new Decimal(2) },
-    8: { Truffle: new Decimal(2) },
-    9: { Truffle: new Decimal(2) },
-    10: { Truffle: new Decimal(2) },
+    8: { Truffle: new Decimal(3) },
+    9: { Truffle: new Decimal(3) },
+    10: { Truffle: new Decimal(3) },
     11: { Truffle: new Decimal(3) },
     12: { Truffle: new Decimal(3) },
     13: { Truffle: new Decimal(3) },
@@ -929,6 +940,10 @@ export function getUniqueAnimalResources(): AnimalResource[] {
     });
   });
 
+  // Pig Bristles are paid on trade-in rather than dropped, so they are not in
+  // the drop table, but they are still an animal resource.
+  uniqueResources.add("Pig Bristles");
+
   return Array.from(uniqueResources);
 }
 
@@ -945,3 +960,41 @@ export const isMutantAnimalChapterName = (
     chapter !== "Clash of Factions"
   );
 };
+
+/**
+ * Pig Bristles per trade-in by Pig level (#7721 Balance Update). Bristles are
+ * never produce: a Pig pays them once, when it is traded in or sold to a
+ * bounty. Levels 0-2 pay nothing, so such a Pig cannot be traded in.
+ */
+export const PIG_BRISTLES_PER_LEVEL: Record<AnimalLevel, number> = {
+  0: 0,
+  1: 0,
+  2: 0,
+  3: 1,
+  4: 1,
+  5: 2,
+  6: 3,
+  7: 3,
+  8: 4,
+  9: 5,
+  10: 6,
+  11: 6,
+  12: 7,
+  13: 8,
+  14: 9,
+  15: 12,
+};
+
+/** The lowest Pig level that pays Bristles, so the lowest level that can be traded in. */
+export const PIG_TRADE_IN_MIN_LEVEL = (
+  Object.keys(PIG_BRISTLES_PER_LEVEL).map(Number) as AnimalLevel[]
+).find((level) => PIG_BRISTLES_PER_LEVEL[level] > 0) as AnimalLevel;
+
+/** Lowest and highest trade-in payout across the levels that pay. */
+export const PIG_TRADE_IN_BRISTLES_RANGE = (() => {
+  const payouts = Object.values(PIG_BRISTLES_PER_LEVEL).filter(
+    (amount) => amount > 0,
+  );
+
+  return { min: Math.min(...payouts), max: Math.max(...payouts) };
+})();

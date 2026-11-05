@@ -56,6 +56,11 @@ export function getOilDropAmount(
     boostsUsed.push({ name: "Battle Fish", value: "+0.05" });
   }
 
+  if (isCollectibleBuilt({ name: "Ladybug Cow", game })) {
+    amount = amount.add(1);
+    boostsUsed.push({ name: "Ladybug Cow", value: "+1" });
+  }
+
   if (isCollectibleBuilt({ name: "Knight Chicken", game })) {
     amount = amount.add(0.1);
     boostsUsed.push({ name: "Knight Chicken", value: "+0.1" });

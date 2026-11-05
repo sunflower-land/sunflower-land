@@ -13,16 +13,23 @@ import {
   meetsLevelRequirement,
 } from "features/game/lib/level";
 import { Label } from "components/ui/Label";
-import { getKeys } from "lib/object";
-import { isCavePatchCleared } from "features/game/types/caveRecipes";
-import { useNow } from "lib/utils/hooks/useNow";
 import { isMobile } from "mobile-device-detect";
 import { useSelector } from "@xstate/react";
-import { hasFeatureAccess } from "lib/flags";
-import { CaveEntrance } from "features/cave/components/CaveEntrance";
 import { hasPlazaAccess } from "features/island/delivery/lib/onboarding";
+import { isAsciiText } from "lib/utils/textSupport";
 
 const showDebugBorders = false;
+
+const MapLabel: React.FC<{ children: string }> = ({ children }) => (
+  <span
+    className="map-text text-xxs sm:text-sm"
+    style={{
+      fontFamily: isAsciiText(children) ? undefined : "var(--font-family)",
+    }}
+  >
+    {children}
+  </span>
+);
 
 export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { gameService } = useContext(Context);
@@ -36,19 +43,6 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [showPopup, setShowPopup] = useState(false);
 
   const [reqLvl, setReqLvl] = useState(1);
-
-  const [showCaveEntrance, setShowCaveEntrance] = useState(false);
-
-  const hasCaveAccess = hasFeatureAccess(state, "CAVE");
-  const caveBuilt = !!state.cave;
-
-  const now = useNow({ live: caveBuilt });
-  const readyPatchCount = state.cave
-    ? getKeys(state.cave.machines).filter((id) => {
-        const batch = state.cave?.machines[id].batch;
-        return !!batch && batch.readyAt <= now && !isCavePatchCleared(batch);
-      }).length
-    : 0;
 
   const ascension = getAscensionLevel({
     experience: state.bumpkin.experience ?? 0,
@@ -79,7 +73,6 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   return (
     <OuterPanel className="w-full relative shadow-xl">
       <img src={worldMap} className="w-full" />
-
       {!plazaAccess && (
         <Label
           type="danger"
@@ -142,13 +135,9 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </Label>
           )
         ) : (
-          <span className="map-text text-xxs sm:text-sm">
-            {t("world.infernos")}
-          </span>
+          <MapLabel>{t("world.infernos")}</MapLabel>
         )}
       </div>
-      {/* Cave (Chapter 16). Unused locked-chest island until the CAVE flag is
-          on; then it becomes the Cave entrance / navigation node. */}
       <div
         style={{
           width: "18%",
@@ -158,39 +147,12 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           left: "78.5%",
           bottom: "52%",
         }}
-        className={`flex justify-center items-center ${
-          hasCaveAccess ? "cursor-pointer" : ""
-        }`}
-        onClick={() => {
-          if (!hasCaveAccess) return;
-          if (caveBuilt) {
-            travel.play();
-            navigate("/cave");
-            onClose();
-          } else {
-            setShowCaveEntrance(true);
-          }
-        }}
+        className="flex justify-center items-center"
       >
-        {hasCaveAccess ? (
-          <span className="map-text text-xxs sm:text-sm">
-            {t("world.cave")}
-          </span>
-        ) : (
-          <img
-            src={SUNNYSIDE.icons.lock}
-            className="h-4 sm:h-6 ml-1 img-highlight"
-          />
-        )}
-        {hasCaveAccess && readyPatchCount > 0 && (
-          <Label
-            type="success"
-            className="absolute -top-1 -right-1"
-            style={{ pointerEvents: "none" }}
-          >
-            {readyPatchCount}
-          </Label>
-        )}
+        <img
+          src={SUNNYSIDE.icons.lock}
+          className="h-4 sm:h-6 ml-1 img-highlight"
+        />
       </div>
 
       <div
@@ -209,7 +171,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           onClose();
         }}
       >
-        <span className="map-text text-xxs sm:text-sm">{t("world.home")}</span>
+        <MapLabel>{t("world.home")}</MapLabel>
       </div>
 
       <div
@@ -254,9 +216,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </Label>
           )
         ) : (
-          <span className="map-text text-xxs sm:text-sm">
-            {t("world.plaza")}
-          </span>
+          <MapLabel>{t("world.plaza")}</MapLabel>
         )}
       </div>
 
@@ -302,9 +262,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </Label>
           )
         ) : (
-          <span className="map-text text-xxs sm:text-sm">
-            {t("world.kingdom")}
-          </span>
+          <MapLabel>{t("world.kingdom")}</MapLabel>
         )}
       </div>
 
@@ -350,9 +308,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             />
           )
         ) : (
-          <span className="map-text text-xxs sm:text-sm">
-            {t("world.faction")}
-          </span>
+          <MapLabel>{t("world.faction")}</MapLabel>
         )}
       </div>
 
@@ -400,9 +356,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </Label>
           )
         ) : (
-          <span className="map-text text-xxs sm:text-sm">
-            {t("world.beach")}
-          </span>
+          <MapLabel>{t("world.beach")}</MapLabel>
         )}
       </div>
 
@@ -451,9 +405,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </Label>
           )
         ) : (
-          <span className="map-text text-xxs sm:text-sm">
-            {t("world.digging")}
-          </span>
+          <MapLabel>{t("world.digging")}</MapLabel>
         )}
       </div>
 
@@ -499,9 +451,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </Label>
           )
         ) : (
-          <span className="map-text text-xxs sm:text-sm">
-            {t("world.retreat")}
-          </span>
+          <MapLabel>{t("world.retreat")}</MapLabel>
         )}
       </div>
 
@@ -524,19 +474,6 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               : t("warning.level.required", { lvl: reqLvl })}
           </span>
         </Label>
-      )}
-
-      {hasCaveAccess && (
-        <CaveEntrance
-          show={showCaveEntrance}
-          onHide={() => setShowCaveEntrance(false)}
-          onBuilt={() => {
-            setShowCaveEntrance(false);
-            travel.play();
-            navigate("/cave");
-            onClose();
-          }}
-        />
       )}
     </OuterPanel>
   );
