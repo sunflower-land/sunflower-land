@@ -36,12 +36,16 @@ export const ChapterMutants: React.FC<Props> = ({ chapter }) => {
         <NoticeboardItems
           iconWidth={8}
           items={[
-            {
-              text: t("season.codex.mutants.one", {
-                item: mutants.Chicken,
-              }),
-              icon: ITEM_DETAILS.Chicken.image,
-            },
+            ...(mutants.Chicken
+              ? [
+                  {
+                    text: t("season.codex.mutants.one", {
+                      item: mutants.Chicken,
+                    }),
+                    icon: ITEM_DETAILS.Chicken.image,
+                  },
+                ]
+              : []),
             {
               text: t("season.codex.mutants.two", {
                 item: mutants.Fish.join(", "),

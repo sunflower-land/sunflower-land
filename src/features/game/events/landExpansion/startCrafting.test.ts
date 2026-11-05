@@ -1,7 +1,9 @@
 /* eslint-disable no-var */
+import { CONFIG } from "lib/config";
 import Decimal from "decimal.js-light";
 import type { GameState, InventoryItemName } from "features/game/types/game";
 import { startCrafting, type StartCraftingAction } from "./startCrafting";
+import { getCraftingQueueReadyAts } from "features/game/lib/craftingReadiness";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { KNOWN_IDS } from "features/game/types";
 import { prngChance } from "lib/prng";
@@ -11,6 +13,18 @@ import {
 } from "features/game/lib/crafting";
 
 describe("startCrafting", () => {
+  // These tests assert the LEGACY discount-at-start timing (every boost is baked
+  // into readyAt when the craft is queued). FE jest runs on amoy where
+  // SPEED_BOOSTS is on, so force the flag off here; the windowed model is covered
+  // in its own describe.
+  const originalNetwork = CONFIG.NETWORK;
+  beforeEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+  });
+  afterEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+  });
+
   const farmId = 1;
   let gameState: GameState;
 
@@ -266,7 +280,6 @@ describe("startCrafting", () => {
 
   it("does not change status when invalid recipe is attempted with non-empty queue", () => {
     const now = Date.now();
-    gameState.inventory["Beta Pass"] = new Decimal(1);
     gameState.vip = { bundles: [], expiresAt: now + 86400000 };
     gameState.craftingBox = {
       status: "crafting",
@@ -731,7 +744,6 @@ describe("startCrafting", () => {
       },
     };
     gameState.inventory = {
-      "Beta Pass": new Decimal(1),
       Leather: new Decimal(10),
       Wool: new Decimal(10),
     };
@@ -816,7 +828,6 @@ describe("startCrafting", () => {
       },
     };
     gameState.inventory = {
-      "Beta Pass": new Decimal(1),
       Leather: new Decimal(10),
       Wool: new Decimal(10),
     };
@@ -877,7 +888,6 @@ describe("startCrafting", () => {
       },
     };
     gameState.inventory = {
-      "Beta Pass": new Decimal(1),
       Leather: new Decimal(20),
       Wool: new Decimal(25),
     };
@@ -1080,7 +1090,6 @@ describe("startCrafting", () => {
       },
     };
     gameState.inventory = {
-      "Beta Pass": new Decimal(1),
       Cushion: new Decimal(4),
       Timber: new Decimal(5),
       Leather: new Decimal(10),
@@ -1201,5 +1210,314 @@ describe("startCrafting", () => {
     // Must start now and take the full 2h — not inherit the 4h waited.
     expect(newItem?.startedAt).toBe(now);
     expect(newItem?.readyAt).toBe(now + twoHours);
+  });
+});
+
+describe("startCrafting — SPEED_BOOSTS", () => {
+  // Pins the flag ON rather than relying on `.env`: a developer running with
+  // VITE_NETWORK=mainnet would otherwise see this whole describe fail.
+  const originalNetwork = CONFIG.NETWORK;
+  beforeEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
+  });
+  afterEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+  });
+
+  const farmId = 1;
+  const HOUR = 60 * 60 * 1000;
+  const BASIC_BED_TIME = 8 * HOUR;
+
+  const basicBedIngredients = [
+    { collectible: "Cushion" as const },
+    { collectible: "Cushion" as const },
+    { collectible: "Cushion" as const },
+    { collectible: "Timber" as const },
+    { collectible: "Cushion" as const },
+    { collectible: "Timber" as const },
+    { collectible: "Timber" as const },
+    { collectible: "Timber" as const },
+    { collectible: "Timber" as const },
+  ];
+
+  // The FE matches against DISCOVERED recipes (the static RECIPES carry no
+  // ingredients on this side), so the recipe has to be seeded on state.
+  const basicBedRecipe = {
+    name: "Basic Bed" as const,
+    type: "collectible" as const,
+    ingredients: basicBedIngredients,
+    time: BASIC_BED_TIME,
+  };
+
+  const basicBedAction: StartCraftingAction = {
+    type: "crafting.started",
+    queueItemId: "test-id",
+    ingredients: basicBedIngredients,
+  };
+
+  let gameState: GameState;
+
+  beforeEach(() => {
+    gameState = {
+      ...INITIAL_FARM,
+      bumpkin: INITIAL_FARM.bumpkin,
+      buildings: {
+        "Crafting Box": [
+          { id: "123", coordinates: { x: 0, y: 0 }, createdAt: 0, readyAt: 0 },
+        ],
+      },
+      inventory: { Cushion: new Decimal(40), Timber: new Decimal(50) },
+      // VIP unlocks the 4-slot queue, which the chaining tests need.
+      vip: { bundles: [], expiresAt: Date.now() + 30 * 24 * 60 * 60 * 1000 },
+      craftingBox: {
+        status: "idle",
+        recipes: { "Basic Bed": basicBedRecipe },
+      },
+    };
+  });
+
+  const withCollectible = (
+    game: GameState,
+    name: "Fox Shrine" | "Time Warp Totem" | "Super Totem",
+    createdAt: number,
+  ): GameState => ({
+    ...game,
+    collectibles: {
+      ...game.collectibles,
+      [name]: [
+        {
+          id: "c1",
+          coordinates: { x: 3, y: 3 },
+          createdAt,
+          readyAt: createdAt,
+        },
+      ],
+    },
+  });
+
+  it("stores the unboosted duration as baseDurationMs", () => {
+    const now = Date.now();
+    const state = startCrafting({
+      state: gameState,
+      action: basicBedAction,
+      createdAt: now,
+      farmId,
+    });
+
+    const [craft] = state.craftingBox.queue ?? [];
+    expect(craft.baseDurationMs).toEqual(BASIC_BED_TIME);
+    expect(craft.startedAt).toEqual(now);
+    expect(craft.readyAt).toEqual(now + BASIC_BED_TIME);
+  });
+
+  it("bakes Sol & Luna into baseDurationMs and keeps it in boostsUsed", () => {
+    const now = Date.now();
+    const state = startCrafting({
+      state: {
+        ...gameState,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: { ...INITIAL_FARM.bumpkin.equipped, wings: "Sol & Luna" },
+        },
+      },
+      action: basicBedAction,
+      createdAt: now,
+      farmId,
+    });
+
+    const [craft] = state.craftingBox.queue ?? [];
+    expect(craft.baseDurationMs).toEqual(BASIC_BED_TIME * 0.5);
+    expect(state.boostsUsedAt?.["Sol & Luna"]).toBeDefined();
+  });
+
+  it("bakes Architect Ruler into baseDurationMs and keeps it in boostsUsed", () => {
+    const now = Date.now();
+    const state = startCrafting({
+      state: {
+        ...gameState,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin.equipped,
+            tool: "Architect Ruler",
+          },
+        },
+      },
+      action: basicBedAction,
+      createdAt: now,
+      farmId,
+    });
+
+    const [craft] = state.craftingBox.queue ?? [];
+    expect(craft.baseDurationMs).toEqual(BASIC_BED_TIME * 0.75);
+    expect(state.boostsUsedAt?.["Architect Ruler"]).toBeDefined();
+  });
+
+  it("does NOT bake a totem in, and leaves it out of boostsUsed", () => {
+    const now = Date.now();
+    const state = startCrafting({
+      state: withCollectible(gameState, "Time Warp Totem", now),
+      action: basicBedAction,
+      createdAt: now,
+      farmId,
+    });
+
+    const [craft] = state.craftingBox.queue ?? [];
+    // The full base duration is stored; the 2x is applied live by the windows.
+    expect(craft.baseDurationMs).toEqual(BASIC_BED_TIME);
+    expect(craft.readyAt).toEqual(now + BASIC_BED_TIME / 2);
+    expect(state.boostsUsedAt?.["Time Warp Totem"]).toBeUndefined();
+  });
+
+  /**
+   * The Fox Shrine roll is real (this suite does not mock the prng), so seek a
+   * `<Name> Crafting Started` counter that lands on the wanted outcome and seed
+   * farmActivity with it.
+   */
+  const counterFor = (proc: boolean): number => {
+    let counter = 0;
+    while (
+      prngChance({
+        farmId,
+        itemId: KNOWN_IDS["Basic Bed"],
+        counter,
+        chance: 10,
+        criticalHitName: "Fox Shrine",
+      }) !== proc
+    ) {
+      counter++;
+    }
+    return counter;
+  };
+
+  it("applies the Fox Shrine window at 1.35x without baking it in", () => {
+    const now = Date.now();
+
+    const state = startCrafting({
+      state: {
+        ...withCollectible(gameState, "Fox Shrine", now),
+        farmActivity: { "Basic Bed Crafting Started": counterFor(false) },
+      },
+      action: basicBedAction,
+      createdAt: now,
+      farmId,
+    });
+
+    const [craft] = state.craftingBox.queue ?? [];
+    expect(craft.baseDurationMs).toEqual(BASIC_BED_TIME);
+    expect(craft.readyAt).toEqual(now + BASIC_BED_TIME / 1.35);
+    expect(state.boostsUsedAt?.["Fox Shrine"]).toBeUndefined();
+  });
+
+  it("still fires the Fox Shrine instant proc, with zero work", () => {
+    const now = Date.now();
+
+    const state = startCrafting({
+      state: {
+        ...withCollectible(gameState, "Fox Shrine", now),
+        farmActivity: { "Basic Bed Crafting Started": counterFor(true) },
+      },
+      action: basicBedAction,
+      createdAt: now,
+      farmId,
+    });
+
+    const [craft] = state.craftingBox.queue ?? [];
+    expect(craft.baseDurationMs).toEqual(0);
+    expect(craft.startedAt).toEqual(now);
+    expect(craft.readyAt).toEqual(now);
+    // The proc is a discrete outcome, so it stays a named boost.
+    expect(state.boostsUsedAt?.["Fox Shrine"]).toBeDefined();
+  });
+
+  it("anchors on a free box and chains behind a running craft", () => {
+    const now = Date.now();
+
+    const first = startCrafting({
+      state: gameState,
+      action: basicBedAction,
+      createdAt: now,
+      farmId,
+    });
+    expect(first.craftingBox.queue?.[0].startedAt).toEqual(now);
+
+    const second = startCrafting({
+      state: first,
+      action: { ...basicBedAction, queueItemId: "test-id-2" },
+      createdAt: now,
+      farmId,
+    });
+
+    // Queued behind the first, so it carries no anchor of its own.
+    expect(second.craftingBox.queue?.[1].startedAt).toBeUndefined();
+    expect(second.craftingBox.queue?.[1].baseDurationMs).toEqual(
+      BASIC_BED_TIME,
+    );
+  });
+
+  it("anchors the next craft when a finished one is left uncollected", () => {
+    const now = Date.now();
+
+    const first = startCrafting({
+      state: gameState,
+      action: basicBedAction,
+      createdAt: now,
+      farmId,
+    });
+
+    // Long after the first finished, and never collected.
+    const later = now + BASIC_BED_TIME + 5 * HOUR;
+    const second = startCrafting({
+      state: first,
+      action: { ...basicBedAction, queueItemId: "test-id-2" },
+      createdAt: later,
+      farmId,
+    });
+
+    // Anchored at `later`, NOT back-dated to the stale readyAt.
+    expect(second.craftingBox.queue?.[1].startedAt).toEqual(later);
+    expect(second.craftingBox.queue?.[1].readyAt).toEqual(
+      later + BASIC_BED_TIME,
+    );
+  });
+
+  it("pulls the WHOLE queue forward when a totem is placed mid-queue", () => {
+    const now = Date.now();
+
+    const queued = startCrafting({
+      state: startCrafting({
+        state: gameState,
+        action: basicBedAction,
+        createdAt: now,
+        farmId,
+      }),
+      action: { ...basicBedAction, queueItemId: "test-id-2" },
+      createdAt: now,
+      farmId,
+    });
+
+    const before = getCraftingQueueReadyAts({
+      queue: queued.craftingBox.queue ?? [],
+      game: queued,
+    });
+    expect(before).toEqual([now + BASIC_BED_TIME, now + 2 * BASIC_BED_TIME]);
+
+    // The totem arrives after both were queued.
+    const boosted = withCollectible(queued, "Time Warp Totem", now);
+    const after = getCraftingQueueReadyAts({
+      queue: boosted.craftingBox.queue ?? [],
+      game: boosted,
+    });
+
+    // Both move, not just the head - that is the point of the slice. The head is
+    // fully inside the totem's window, so it halves outright.
+    expect(after[0]).toEqual(now + BASIC_BED_TIME / 2);
+    expect(after[1]).toBeLessThan(before[1]);
+
+    // The head's 8h of work at 2x consumes the totem's entire 4h window, so the
+    // tail is credited nothing of its own and runs at 1x - it moves only because
+    // the box freed up sooner. Per-craft acceleration of a QUEUED craft is covered
+    // in craftingReadiness.test.ts, where the window outlasts the head.
+    expect(after[1]).toEqual(after[0] + BASIC_BED_TIME);
   });
 });

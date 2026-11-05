@@ -100,6 +100,38 @@ export const BUILDING_UPGRADES: Record<
       },
     },
   },
+  // Priced per added slot (Bryn, 2026-10-21): each upgrade adds 3 Pigs where
+  // the Hen House and Barn add 5, and a slot costs the midpoint of theirs -
+  // Pigs are a more niche animal than the Barn's. Hen House / Barn increments
+  // averaged, then x 3/5, coins rounded to the 500. Mud is the chapter's own
+  // input on top; its quantities are unchanged.
+  Pigpen: {
+    1: {
+      coins: 0,
+      items: {},
+    },
+    2: {
+      coins: 5000,
+      items: {
+        Wood: new Decimal(450),
+        Iron: new Decimal(45),
+        Gold: new Decimal(35),
+        Crimstone: new Decimal(12),
+        Mud: new Decimal(25),
+      },
+    },
+    3: {
+      coins: 37500,
+      items: {
+        Wood: new Decimal(2250),
+        Iron: new Decimal(135),
+        Gold: new Decimal(90),
+        Crimstone: new Decimal(50),
+        Oil: new Decimal(100),
+        Mud: new Decimal(100),
+      },
+    },
+  },
   "Water Well": {
     1: {
       coins: 0,

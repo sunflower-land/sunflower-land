@@ -23,6 +23,7 @@ import {
   type TemporaryCollectibleName,
 } from "../lib/collectibleBuilt";
 import {
+  exceedsShrineExtensionCap,
   getExtensionCost,
   getExtensionPayments,
   getExtensionResult,
@@ -127,10 +128,20 @@ const TemporaryCollectibleContent: React.FC<{
       balanceOf(itemName).gte(ingredients[itemName] ?? new Decimal(0)),
     );
 
+  // A shrine can only be kept alive up to 30 days from now, so once topping it up
+  // again would cross that ceiling the reducer rejects it - mirror that here.
+  const capReached = exceedsShrineExtensionCap({
+    name,
+    payWith,
+    remainingMs: secondsToExpire * 1000,
+    game: gameState,
+  });
+
   // Belt and braces: the host component swaps to its expired branch and unmounts
   // this modal the moment the booster lapses, but its countdown and the one above
   // tick on separate intervals - so refuse an extension the reducer would reject.
-  const canPayNow = canExtend && canAfford && secondsToExpire > 0;
+  const canPayNow =
+    canExtend && canAfford && secondsToExpire > 0 && !capReached;
 
   const buffLabels = COLLECTIBLE_BUFF_LABELS[name]?.(gameState);
   const addedTime = secondsToString(extraSeconds, {
@@ -191,11 +202,16 @@ const TemporaryCollectibleContent: React.FC<{
               }),
             })}
           </Label>
-          {canExtend && (
-            <Label type="success" icon={SUNNYSIDE.icons.stopwatch}>
-              {t("extend.collectible.added", { time: addedTime })}
-            </Label>
-          )}
+          {canExtend &&
+            (capReached ? (
+              <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
+                {t("extend.collectible.maxReached")}
+              </Label>
+            ) : (
+              <Label type="success" icon={SUNNYSIDE.icons.stopwatch}>
+                {t("extend.collectible.added", { time: addedTime })}
+              </Label>
+            ))}
         </div>
 
         {canExtend && payments.length > 1 && (

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
@@ -18,28 +18,117 @@ import { MapPlacement } from "./MapPlacement";
 import { getWharfCoordinates } from "../lib/constants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
+import Decimal from "decimal.js-light";
 import { getKeys } from "lib/object";
 import { CROPS } from "features/game/types/crops";
+import { BUILDINGS } from "features/game/types/buildings";
+import { EXPANSION_REQUIREMENTS } from "features/game/types/expansions";
+import { WORKBENCH_TOOLS } from "features/game/types/tools";
 import { translate } from "lib/i18n/translate";
+import { NPCSpeechBubble } from "features/game/components/NPCSpeechBubble";
 import { Guide } from "features/helios/components/hayseedHank/components/Guide";
 import type { GuidePath } from "features/helios/components/hayseedHank/lib/guide";
+import {
+  hasFulfilledFirstDelivery,
+  needsFirstDelivery,
+} from "features/island/delivery/lib/onboarding";
+import { getTutorialNudge } from "features/island/lib/tutorialNudge";
 
 const expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 0;
 
 const hint = (state: MachineState) => {
-  const activity = state.context.state.farmActivity;
-  const inventory = state.context.state.inventory;
+  const game = state.context.state;
+  const activity = game.farmActivity;
+  const inventory = game.inventory;
   const ascension = getAscensionLevel({
-    experience: state.context.state.bumpkin.experience ?? 0,
-    ascensionLevel: state.context.state.island.ascensionLevel ?? 0,
+    experience: game.bumpkin.experience ?? 0,
+    ascensionLevel: game.island.ascensionLevel ?? 0,
   });
 
   if (meetsLevelRequirement(ascension, { ascension: 0, level: 2 })) {
+    // Peggy's tart orders recur through the work cycle, so only call one
+    // out while a tart is actually in hand - while the Rhubarb is still
+    // growing, the well/mine/expand cues below own the guidance.
+    const hasDeliverableTart = game.delivery.orders.some(
+      (order) =>
+        order.from === "peggy" &&
+        !order.completedAt &&
+        !!order.items["Rhubarb Tart"] &&
+        (inventory["Rhubarb Tart"] ?? new Decimal(0)).gte(
+          order.items["Rhubarb Tart"] ?? 0,
+        ),
+    );
+    if (game.island.type === "basic" && hasDeliverableTart) {
+      return translate("pete.teaser.deliverTart");
+    }
+
+    // Pete never promises deliveries that don't exist: with an empty board
+    // (the server's onboarding rescue aside) he falls back to exploring.
+    const hasOpenDelivery = game.delivery.orders.some(
+      (order) => !order.completedAt,
+    );
+    const moreDeliveries = hasOpenDelivery
+      ? translate("pete.teaser.moreDeliveries")
+      : "Explore";
+
+    const basicLand = inventory["Basic Land"]?.toNumber() ?? 3;
+
+    // The post-expansion work cycle: deliveries bankroll the Water Well
+    // while the Rhubarb regrows, then Pete points at the Well itself.
+    // (Before the sixth expansion the next-expansion cues below apply.)
+    if (
+      game.island.type === "basic" &&
+      basicLand >= 6 &&
+      !game.buildings["Water Well"]?.length
+    ) {
+      return game.coins >= (BUILDINGS["Water Well"].coins ?? 0)
+        ? translate("pete.teaser.waterWell")
+        : moreDeliveries;
+    }
+
+    // Working toward the next expansion (the Stone expansion, then the
+    // stretch expansion): deliveries fund the Pickaxes and the coins, then
+    // the Stone gets mined. Keyed off whatever the expansion actually asks
+    // for, so the ate-both-tarts path gets the right cue too.
+    const requirements = EXPANSION_REQUIREMENTS.basic[basicLand + 1];
+    if (game.island.type === "basic" && basicLand <= 6 && requirements) {
+      const resources = requirements.resources;
+      const missing = getKeys(resources).filter((name) =>
+        (inventory[name] ?? new Decimal(0)).lt(resources[name] ?? 0),
+      );
+
+      if (missing.includes("Wood")) {
+        return translate("pete.teaser.one");
+      }
+
+      if (missing.includes("Stone")) {
+        const stoneShort =
+          (resources.Stone ?? 0) - (inventory.Stone?.toNumber() ?? 0);
+        const pickaxesNeeded = Math.max(
+          0,
+          Math.ceil(stoneShort) - (inventory.Pickaxe?.toNumber() ?? 0),
+        );
+        const pickaxeCoins = pickaxesNeeded * WORKBENCH_TOOLS.Pickaxe.price;
+
+        return game.coins >= (requirements.coins ?? 0) + pickaxeCoins
+          ? translate("pete.teaser.mineStone")
+          : moreDeliveries;
+      }
+
+      return game.coins >= (requirements.coins ?? 0)
+        ? translate("expand.land")
+        : moreDeliveries;
+    }
+
     return "Explore";
   }
 
   const choppedTrees = activity["Tree Chopped"] ?? 0;
+  if (choppedTrees === 0 && !inventory.Axe?.gt(0)) {
+    return translate("pete.teaser.zero");
+  }
+
   if (choppedTrees < 3) {
     return translate("pete.teaser.one");
   }
@@ -57,21 +146,30 @@ const hint = (state: MachineState) => {
     return translate("pete.teaser.three");
   }
 
+  if (needsFirstDelivery(game)) {
+    return translate("pete.teaser.deliver");
+  }
+
+  // After the first delivery the coins fund the next expansion - say the
+  // same thing the farm's pointer shows (see getTutorialNudge)
+  const nudge = getTutorialNudge(game);
+  if (nudge === "workbench-axes" && hasFulfilledFirstDelivery(game)) {
+    return translate("pete.teaser.zero");
+  }
+  if (nudge === "chop-trees") return translate("pete.teaser.one");
+  if (nudge === "expand-land") return translate("expand.land");
+
   const soldCrops = getKeys(CROPS).reduce(
     (total, crop) => total + (activity?.[`${crop} Sold`] ?? 0),
     0,
   );
-
-  if (inventory.Sunflower && soldCrops < 3) {
-    return translate("pete.teaser.four");
-  }
 
   const boughtCrops = getKeys(CROPS).reduce(
     (total, crop) => total + (activity?.[`${crop} Seed Bought`] ?? 0),
     0,
   );
 
-  if (soldCrops > 0 && boughtCrops === 0) {
+  if ((hasFulfilledFirstDelivery(game) || soldCrops > 0) && boughtCrops === 0) {
     return translate("pete.teaser.five");
   }
 
@@ -100,27 +198,15 @@ const hint = (state: MachineState) => {
 };
 
 export const TravelTeaser: React.FC = () => {
-  const { gameService, showAnimations } = useContext(Context);
+  const { gameService } = useContext(Context);
   const peteHint = useSelector(gameService, hint);
   const expansionCount = useSelector(gameService, expansions);
   const { t } = useAppTranslation();
-
-  const [peteState, setPeteState] = useState<"idle" | "typing">("idle");
 
   type Tab = "explore" | "guide";
   const [tab, setTab] = useState<Tab>("explore");
   const [showModal, setShowModal] = useState(false);
   const [guide, setGuide] = useState<GuidePath>();
-
-  useEffect(() => {
-    const speak = async () => {
-      setPeteState("typing");
-
-      await new Promise(() => setTimeout(() => setPeteState("idle"), 1000));
-    };
-
-    speak();
-  }, [peteHint]);
 
   // Pumpkin Pete's boat sits east of the dock/salt and moves with the dock.
   const coords = () => {
@@ -184,70 +270,14 @@ export const TravelTeaser: React.FC = () => {
             }}
           >
             {peteHint && peteHint !== "Explore" && (
-              <div
-                className={
-                  "absolute uppercase" +
-                  (showAnimations ? " animate-float" : "")
-                }
+              <NPCSpeechBubble
+                text={peteHint}
+                mirrored
                 style={{
-                  fontFamily: "Teeny",
-                  color: "black",
-                  textShadow: "none",
                   top: `${PIXEL_SCALE * -8}px`,
                   left: `${PIXEL_SCALE * 6}px`,
-
-                  borderImage: `url(${SUNNYSIDE.ui.speechBorder})`,
-                  borderStyle: "solid",
-                  borderTopWidth: `${PIXEL_SCALE * 2}px`,
-                  borderRightWidth: `${PIXEL_SCALE * 2}px`,
-                  borderBottomWidth: `${PIXEL_SCALE * 4}px`,
-                  borderLeftWidth: `${PIXEL_SCALE * 5}px`,
-
-                  borderImageSlice: "2 2 4 5 fill",
-                  imageRendering: "pixelated",
-                  borderImageRepeat: "stretch",
-                  fontSize: "8px",
                 }}
-              >
-                <div
-                  style={{
-                    transform: "scaleX(-1)",
-                    height: "12px",
-                    minWidth: "30px",
-                  }}
-                >
-                  {peteState === "idle" && (
-                    <span
-                      className="whitespace-nowrap"
-                      style={{
-                        fontSize: "10px",
-                        position: "relative",
-                        bottom: "4px",
-                        left: "4px",
-                        wordSpacing: "-4px",
-                        color: "#262b45",
-                      }}
-                    >
-                      {peteHint}
-                    </span>
-                  )}
-
-                  {peteState === "typing" && (
-                    <span
-                      style={{
-                        fontSize: "10px",
-                        position: "relative",
-                        bottom: "4px",
-                        left: "4px",
-                        wordSpacing: "-4px",
-                        color: "#262b45",
-                      }}
-                    >
-                      {"..."}
-                    </span>
-                  )}
-                </div>
-              </div>
+              />
             )}
 
             {peteHint === "Explore" && (

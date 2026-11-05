@@ -27,7 +27,13 @@ import {
   getBoostContributionEntries,
   getNodeBoostContributions,
 } from "features/game/lib/boostContributions";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import {
+  INITIAL_STOCK,
+  PIXEL_SCALE,
+  isBuildingReady,
+} from "features/game/lib/constants";
+import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
+import stockIcon from "assets/icons/stock.webp";
 import { getTreeRecoveryTimeForDisplay } from "features/game/events/landExpansion/chop";
 import { getStoneRecoveryTimeForDisplay } from "features/game/events/landExpansion/stoneMine";
 import { getIronRecoveryTimeForDisplay } from "features/game/events/landExpansion/ironMine";
@@ -57,8 +63,6 @@ type CooldownDisplay = {
   baseSeconds: number;
   recoverySeconds: number;
   boostsUsed: { name: BoostName; value: string }[];
-  /** Live speed-window rate for this node; 1 when nothing is running. */
-  speed: number;
   image?: string;
 };
 
@@ -186,7 +190,7 @@ const WATER_NODES_WITH_RECOVERY: GuideNodeWithRecovery[] = [
 ];
 
 export const ToolsGuide: React.FC = () => {
-  const { gameService, showActualTime } = useContext(Context);
+  const { gameService } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
   const { t } = useAppTranslation();
   const [showBoostsKey, setShowBoostsKey] = useState<string | null>(null);
@@ -220,7 +224,6 @@ export const ToolsGuide: React.FC = () => {
             key={`${node.toolName}-${node.resourceName}`}
             node={node}
             state={state}
-            showActualTime={showActualTime}
             now={now}
             alternateBg={index % 2 === 0}
             showBoostsKey={showBoostsKey}
@@ -235,7 +238,6 @@ export const ToolsGuide: React.FC = () => {
             key={`${node.toolName}-${node.resourceName ?? node.resourceLabelKey}`}
             node={node}
             state={state}
-            showActualTime={showActualTime}
             now={now}
             alternateBg={(index + LAND_NODES_WITH_RECOVERY.length) % 2 === 0}
             showBoostsKey={showBoostsKey}
@@ -248,6 +250,99 @@ export const ToolsGuide: React.FC = () => {
 };
 
 const CELL_CLASS = "py-0 align-middle";
+
+/**
+ * What raises a tool's daily stock, mirroring INITIAL_STOCK: a ready Toolshed
+ * (+50% on every tool) and the More Axes / More Picks skills (flat, by rank).
+ */
+const getToolStockBoosts = (state: GameState, tool: WorkbenchToolName) => {
+  const boosts: { name: BoostName; value: string }[] = [];
+
+  if (isBuildingReady(state.buildings.Toolshed ?? [])) {
+    boosts.push({ name: "Toolshed", value: "+50%" });
+  }
+
+  const moreAxesLevel = getSkillLevel(state.bumpkin.skills, "More Axes");
+  if (tool === "Axe" && moreAxesLevel) {
+    const bonus = SKILL_RANKS["More Axes"].ranks.Axe[moreAxesLevel - 1];
+    if (bonus) boosts.push({ name: "More Axes", value: `+${bonus}` });
+  }
+
+  const morePicksLevel = getSkillLevel(state.bumpkin.skills, "More Picks");
+  const morePicksRanks = SKILL_RANKS["More Picks"].ranks as Partial<
+    Record<WorkbenchToolName, readonly number[]>
+  >;
+  const morePicksBonus = morePicksLevel
+    ? morePicksRanks[tool]?.[morePicksLevel - 1]
+    : undefined;
+  if (morePicksBonus) {
+    boosts.push({ name: "More Picks", value: `+${morePicksBonus}` });
+  }
+
+  return boosts;
+};
+
+const StockAmount: React.FC<{ amount: string }> = ({ amount }) => (
+  <div className="flex items-center">
+    <img
+      src={stockIcon}
+      className="w-3 mr-1 flex-shrink-0"
+      alt={translate("restock")}
+    />
+    <span className="text-xs">{amount}</span>
+  </div>
+);
+
+/** The tool's daily stock; when boosted, the base is struck through. */
+const StockCell: React.FC<{
+  toolName: WorkbenchToolName;
+  boostsKey: string;
+  showBoostsKey: string | null;
+  setShowBoostsKey: (key: string | null) => void;
+  state: GameState;
+}> = ({ toolName, boostsKey, showBoostsKey, setShowBoostsKey, state }) => {
+  const anchorRef = useRef<HTMLButtonElement>(null);
+  const stock = INITIAL_STOCK(state)[toolName];
+  const baseStock = INITIAL_STOCK()[toolName];
+  const boosts = getToolStockBoosts(state, toolName);
+  // Only a raised stock counts: the tutorial cap can lower it below the base.
+  const isBoosted = stock.greaterThan(baseStock) && boosts.length > 0;
+
+  if (!isBoosted) return <StockAmount amount={stock.toString()} />;
+
+  return (
+    <button
+      ref={anchorRef}
+      type="button"
+      className="flex items-center cursor-pointer relative"
+      aria-expanded={showBoostsKey === boostsKey}
+      aria-label={`${getTranslatedItemName(toolName)}: ${translate("restock")} ${stock.toString()}. ${translate("boosts")}`}
+      onClick={(e) => {
+        e.stopPropagation();
+        setShowBoostsKey(showBoostsKey === boostsKey ? null : boostsKey);
+      }}
+    >
+      <StockAmount amount={stock.toString()} />
+      <img
+        src={SUNNYSIDE.icons.lightning}
+        className="w-3 mx-1 flex-shrink-0"
+        alt=""
+      />
+      <span className="text-xxs line-through">{baseStock.toString()}</span>
+      <BoostsDisplay
+        boosts={boosts}
+        show={showBoostsKey === boostsKey}
+        state={state}
+        onClick={() =>
+          setShowBoostsKey(showBoostsKey === boostsKey ? null : boostsKey)
+        }
+        className="-translate-x-1/2"
+        portalAlign="center"
+        anchorRef={anchorRef}
+      />
+    </button>
+  );
+};
 
 const NodeToolIcon: React.FC<{
   nodeIcon?: string;
@@ -280,8 +375,6 @@ const NodeToolIcon: React.FC<{
 interface NodeRowProps {
   node: GuideNodeWithRecovery;
   state: GameState;
-  /** The player's timer reading — see `timerDisplay.ts`. */
-  showActualTime: boolean;
   /** Snapshot taken when the guide opened; the projection is relative to it. */
   now: number;
   alternateBg?: boolean;
@@ -300,13 +393,12 @@ const CooldownCell: React.FC<{
   const anchorRef = useRef<HTMLDivElement>(null);
   const boostsKey = `${toolName}-${cooldown.nodeLabel}`;
   // Named boosts are the ones the popover can itemise; a live speed window has
-  // no name attached to it, so it shortens the time (or shows its rate) without
-  // making the cell clickable.
+  // no name attached to it, so it shortens the time without making the cell
+  // clickable.
   const hasNamedBoosts = cooldown.boostsUsed.length > 0;
   const hasBoosts = isPreActionBoosted({
     displaySeconds: cooldown.recoverySeconds,
     baseSeconds: cooldown.baseSeconds,
-    speed: cooldown.speed,
     hasNamedBoosts,
   });
 
@@ -383,7 +475,6 @@ const CooldownCell: React.FC<{
 const NodeRow: React.FC<NodeRowProps> = ({
   node,
   state,
-  showActualTime,
   now,
   alternateBg,
   showBoostsKey,
@@ -395,29 +486,25 @@ const NodeRow: React.FC<NodeRowProps> = ({
   });
 
   // A live speed window (hourglass / totem / shrine) is NOT folded into
-  // recoveryTimeMs — it applies over the recovery instead. Show what it is worth:
-  // the current rate in the speed view, or the real "drill now → ready in X" in
-  // the actual-time view, which credits only the part of the recovery the booster
-  // still covers.
+  // recoveryTimeMs — it applies over the recovery instead. Project the real
+  // "drill now → ready in X", which credits only the part of the recovery the
+  // booster still covers.
   const windows = node.nodeName
     ? getNodeBoostWindows(state, node.nodeName)
     : [];
   // The windowed boosters aren't in `boostsUsed` (they apply over the recovery
-  // rather than being baked into it), so name them for the boost panel: their
-  // rate in the speed view, the time each one actually saves in the other.
+  // rather than being baked into it), so name them for the boost panel with the
+  // time each one actually saves.
   const windowedBoosts = getBoostContributionEntries({
     contributions: node.nodeName
       ? getNodeBoostContributions(state, node.nodeName, now)
       : [],
     seconds: recoveryTimeMs / 1000,
     at: now,
-    showActualTime,
     formatSeconds: (seconds) => secondsToString(seconds, { length: "medium" }),
-    formatSpeed: (speed) => translate("description.boostedSpeed", { speed }),
   });
   const allBoostsUsed = [...boostsUsed, ...windowedBoosts];
-  const { displaySeconds, speed } = getPreActionDisplay({
-    showActualTime,
+  const { displaySeconds } = getPreActionDisplay({
     seconds: recoveryTimeMs / 1000,
     baseSeconds: baseTimeMs / 1000,
     namedBoostCount: allBoostsUsed.length,
@@ -439,7 +526,6 @@ const NodeRow: React.FC<NodeRowProps> = ({
     baseSeconds: baseTimeMs / 1000,
     recoverySeconds: displaySeconds,
     boostsUsed: allBoostsUsed,
-    speed,
   };
 
   const nodeIcon = node.nodeName
@@ -474,6 +560,20 @@ const NodeRow: React.FC<NodeRowProps> = ({
           />
         )}
         <p className="text-xs">{resourceName}</p>
+      </div>
+      <div
+        className={classNames(
+          CELL_CLASS,
+          "w-24 flex-shrink-0 flex items-center",
+        )}
+      >
+        <StockCell
+          toolName={node.toolName}
+          boostsKey={`${node.toolName}-${resourceName}-stock`}
+          showBoostsKey={showBoostsKey}
+          setShowBoostsKey={setShowBoostsKey}
+          state={state}
+        />
       </div>
       <div
         className={classNames(

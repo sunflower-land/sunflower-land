@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { isBeetle } from "features/game/types/beetles";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -17,7 +18,9 @@ import {
   getAnimalFavoriteFood,
   getAnimalLevel,
   getBoostedFoodQuantity,
-  isAnimalFood,
+  getFeedItem,
+  isFoodForAnimal,
+  getFeedQuantity,
   resolveAnimal,
 } from "features/game/lib/animals";
 import classNames from "classnames";
@@ -42,6 +45,7 @@ import Decimal from "decimal.js-light";
 import {
   getBarnDelightCost,
   handleFoodXP,
+  getFeedBatchSize,
   REQUIRED_FOOD_QTY,
 } from "features/game/events/landExpansion/feedAnimal";
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
@@ -167,7 +171,11 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const [showNoMedicine, setShowNoMedicine] = useState(false);
   const [showLockedDetails, setShowLockedDetails] = useState(false);
   const [showFeedXP, setShowFeedXP] = useState(false);
+  // Captured when feeding: a level-up changes what the same feed is worth.
+  const [feedXPAmount, setFeedXPAmount] = useState(0);
   const [showNoFoodSelected, setShowNoFoodSelected] = useState(false);
+  const [showFreeFeedTreat, setShowFreeFeedTreat] = useState(false);
+  const freeFeedTreatTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
   const [showLoveItem, setShowLoveItem] = useState<LoveAnimalItem>();
   const [showMutantAnimalModal, setShowMutantAnimalModal] = useState(false);
 
@@ -256,13 +264,16 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chicken.state, chicken.experience]);
 
-  const { foodQuantity: requiredFoodQty } = getBoostedFoodQuantity({
+  // One click feeds the whole batch that gets the Chicken ready.
+  const feedBatchSize = getFeedBatchSize({ state: game, animal: chicken });
+  const { foodQuantity: quantityPerFeed } = getBoostedFoodQuantity({
     animalType: "Chicken",
     foodQuantity: REQUIRED_FOOD_QTY.Chicken,
     game,
     animal: chicken,
     now,
   });
+  const requiredFoodQty = quantityPerFeed.mul(feedBatchSize);
 
   const hasGoldEgg = isAnimalCoveredByGoldenAsset({
     state: game,
@@ -278,6 +289,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const { name: mutantName } = chicken.reward?.items?.[0] ?? {};
 
   const feedChicken = (item?: InventoryItemName) => {
+    setFeedXPAmount(getAnimalXPEarned(item));
+
     const updatedState = gameService.send({
       type: "animal.fed",
       animal: "Chicken",
@@ -445,6 +458,10 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     // the game-state animal is already asleep, so any feed/claim event would
     // throw. Ignore clicks until the animation resolves.
     if (showDrops) return;
+    // A new click replaces an earlier Honey Treat notice, so it can't sit
+    // over whatever this click does.
+    clearTimeout(freeFeedTreatTimeout.current);
+    setShowFreeFeedTreat(false);
 
     const showNoFoodPrompt = async () => {
       setShowNoFoodSelected(true);
@@ -454,11 +471,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (sick) return onSickClick();
 
-    if (needsLove) {
-      if (!hasGoldEgg) return onLoveClick();
-
-      handleShowDetails();
-      return;
+    if (needsLove && !hasGoldEgg) {
+      return onLoveClick();
     }
 
     const hasBuffSelected = selectedItem && isAnimalFeedBuffItem(selectedItem);
@@ -466,6 +480,16 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     if (hasBuffSelected) {
       const buffItem = selectedItem as AnimalFeedBuffName;
       const buffCount = inventory[buffItem] ?? new Decimal(0);
+      // Honey Treat only cuts feed, and Gold Egg already makes it free.
+      if (buffItem === "Honey Treat" && hasGoldEgg) {
+        setShowFreeFeedTreat(true);
+        // Cleared on the next click, so an older timer can't hide a newer notice.
+        freeFeedTreatTimeout.current = setTimeout(
+          () => setShowFreeFeedTreat(false),
+          1000,
+        );
+        return;
+      }
       if (!chicken.feedBuff && buffCount.gte(1)) {
         gameService.send({
           type: "animal.feedBuffApplied",
@@ -478,6 +502,11 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       }
 
       await showNoFoodPrompt();
+      return;
+    }
+
+    if (needsLove && hasGoldEgg) {
+      handleShowDetails();
       return;
     }
 
@@ -500,24 +529,37 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       return;
     }
 
-    const hasFoodSelected = selectedItem && isAnimalFood(selectedItem);
-
     if (hasGoldEgg) {
       feedChicken();
       return;
     }
 
+    // Auto-select the favourite food when it is held so a stale selection
+    // (e.g. Hay left over from the barn) never feeds the wrong item.
+    const feedItem = getFeedItem({
+      animal: "Chicken",
+      selectedItem,
+      favouriteFood: favFood,
+      inventory,
+      requiredQty: requiredFoodQty,
+    });
+    if (feedItem && feedItem !== selectedItem) {
+      shortcutItem(feedItem);
+    }
+
+    const hasFoodSelected =
+      feedItem && (isFoodForAnimal("Chicken", feedItem) || isBeetle(feedItem));
+
     if (hasFoodSelected) {
-      const foodCount =
-        inventory[selectedItem as AnimalFoodName] ?? new Decimal(0);
-      if (foodCount.lt(requiredFoodQty)) {
+      const foodCount = inventory[feedItem as AnimalFoodName] ?? new Decimal(0);
+      if (foodCount.lt(getFeedQuantity(feedItem, requiredFoodQty))) {
         setShowNotEnoughFood(true);
         await new Promise((resolve) => setTimeout(resolve, 1000));
         setShowNotEnoughFood(false);
         return;
       }
 
-      feedChicken(selectedItem);
+      feedChicken(feedItem);
       return;
     }
 
@@ -525,21 +567,26 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   };
 
   const getInfoPopoverMessage = () => {
+    if (showFreeFeedTreat)
+      return t("animal.honeyTreatFreeFeed", { item: "Gold Egg" });
     if (showNoFoodSelected) return t("animal.noFoodMessage");
     if (showNoMedicine) return t("animal.noMedicine");
     if (showNotEnoughFood)
-      return t("animal.notEnoughFood", { amount: requiredFoodQty });
+      return t("animal.notEnoughFood", {
+        amount: getFeedQuantity(selectedItem, requiredFoodQty),
+      });
   };
 
-  const getAnimalXPEarned = () => {
+  const getAnimalXPEarned = (item?: InventoryItemName) => {
     const { foodXp } = handleFoodXP({
       state: game,
       animal: "Chicken",
       level,
-      food: hasGoldEgg ? favFood : (selectedItem as AnimalFoodName),
+      food: hasGoldEgg ? favFood : (item as AnimalFoodName),
     });
 
-    return foodXp;
+    // A Beetle is one per click; anything else is the whole batch.
+    return item && isBeetle(item) ? foodXp : foodXp * feedBatchSize;
   };
 
   const animalImageInfo = () => {
@@ -590,10 +637,12 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
 
   const level = getAnimalLevel(chicken.experience, "Chicken");
   const xpIndicatorColor =
-    favFood === selectedItem || selectedItem === "Omnifeed" || hasGoldEgg
+    favFood === selectedItem ||
+    selectedItem === "Omnifeed" ||
+    (!!selectedItem && isBeetle(selectedItem)) ||
+    hasGoldEgg
       ? "#71e358"
       : "#fff";
-  const xpIndicatorAmount = getAnimalXPEarned();
 
   const { animalXP } = getAnimalXP({
     state: game,
@@ -702,7 +751,10 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
         </div>
         <InfoPopover
           showPopover={
-            showNoFoodSelected || showNoMedicine || showNotEnoughFood
+            showFreeFeedTreat ||
+            showNoFoodSelected ||
+            showNoMedicine ||
+            showNotEnoughFood
           }
           className="-top-10 left-1/2 transform -translate-x-1/2 z-20"
         >
@@ -767,7 +819,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
             color: xpIndicatorColor,
           }}
         >
-          {!!xpIndicatorAmount && `+${xpIndicatorAmount}`}
+          {!!feedXPAmount && `+${feedXPAmount}`}
         </span>
       </Transition>
       <Transition

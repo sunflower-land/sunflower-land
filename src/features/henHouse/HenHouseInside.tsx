@@ -23,6 +23,8 @@ import {
   AnimalDeal,
   ExchangeHud,
 } from "features/barn/components/AnimalBounties";
+import { useBountySaleSelection } from "features/barn/lib/useBountySaleSelection";
+import { PendingSaleTag } from "features/barn/components/AnimalBountyQuickPanel";
 import { AnimalBountySellPanel } from "features/barn/components/AnimalBountySellPanel";
 import type { AnimalBounty } from "features/game/types/game";
 import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
@@ -32,6 +34,7 @@ import { ANIMAL_HOUSE_BOUNDS } from "features/game/expansion/placeable/lib/colli
 import { hasReadGuide } from "features/game/expansion/components/animals/AnimalBuildingModal";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { PlayerModal } from "features/social/PlayerModal";
+import { Discovery } from "features/social/Discovery";
 import { hasFeatureAccess } from "lib/flags";
 import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { Context as AuthContext } from "features/auth/lib/Provider";
@@ -59,6 +62,13 @@ export const HenHouseInside: React.FC = () => {
   // bottom of the screen instead of opening the shop modal's Sell tab.
   const [showSellPanel, setShowSellPanel] = useState(false);
   const [deal, setDeal] = useState<AnimalBounty>();
+  const saleSelection = useBountySaleSelection("henHouse");
+  const pendingDealIdByAnimal = Object.fromEntries(
+    Object.entries(saleSelection.pending).map(([dealId, animalId]) => [
+      animalId,
+      dealId,
+    ]),
+  );
   const [selectedAnimalId, setSelectedAnimalId] = useState<string>();
 
   const henHouse = useSelector(gameService, _henHouse);
@@ -136,8 +146,9 @@ export const HenHouseInside: React.FC = () => {
     ).length;
   }, [organizedAnimals, deal, game]);
 
-  // Quick-sell (panel) flow: sell on click, only confirming when the sale
-  // deserves a second look (sick animal discount / attached reward).
+  // Quick-sell (panel) flow: a single sale always confirms through
+  // AnimalDeal, so a stray click never sells an animal. Bulk mode marks
+  // pairs instead and sells them together.
   const handleAnimalSale = (animalId: string) => {
     if (!deal) return;
 
@@ -155,16 +166,20 @@ export const HenHouseInside: React.FC = () => {
       return;
     }
 
-    if (animal.state === "sick" || animal.reward?.items?.[0]?.name) {
-      setSelectedAnimalId(animalId);
+    // Bulk mode marks the pair; it sells from the panel's confirm button.
+    // Sick animals (reduced bounty) and animals with an attached reward
+    // always get the AnimalDeal confirmation.
+    if (
+      saleSelection.bulkMode &&
+      animal.state !== "sick" &&
+      !animal.reward?.items?.[0]?.name
+    ) {
+      saleSelection.select(deal.id, animalId);
+      setDeal(undefined);
       return;
     }
 
-    gameService.send("animal.sold", {
-      requestId: deal.id,
-      animalId,
-    });
-    setDeal(undefined);
+    setSelectedAnimalId(animalId);
   };
 
   return (
@@ -184,10 +199,26 @@ export const HenHouseInside: React.FC = () => {
         <AnimalBountySellPanel
           animalTypes={["Chicken"]}
           selectedDeal={deal}
-          onSelect={setDeal}
+          bulkMode={saleSelection.bulkMode}
+          onBulkModeChange={(enabled) => {
+            saleSelection.setBulkMode(enabled);
+            setDeal(undefined);
+          }}
+          pendingSales={saleSelection.pending}
+          onSelect={(selected) => {
+            if (selected && saleSelection.pending[selected.id]) {
+              saleSelection.unselect(selected.id);
+              setDeal(undefined);
+              return;
+            }
+            setDeal(selected);
+          }}
+          onSellPending={saleSelection.sellAll}
+          onClearPending={saleSelection.clear}
           onClose={() => {
             setShowSellPanel(false);
             setDeal(undefined);
+            saleSelection.setBulkMode(false);
           }}
         />
       )}
@@ -233,34 +264,44 @@ export const HenHouseInside: React.FC = () => {
             <div className={"relative w-full h-full"}>
               {!deal && !showSellPanel && (
                 <>
-                  <img
-                    src={shopDisc}
-                    alt="Buy Animals"
-                    className="absolute top-[18px] right-[18px] cursor-pointer z-10"
+                  <button
+                    type="button"
+                    aria-label={t("buy")}
+                    className="absolute top-[18px] right-[18px] z-10 flex cursor-pointer items-center justify-center border-0 bg-transparent p-0 hover:img-highlight"
                     style={{
                       width: `${PIXEL_SCALE * 18}px`,
+                      height: `${PIXEL_SCALE * 21}px`,
                     }}
                     onClick={() => setShowModal(true)}
-                  />
+                  >
+                    <img src={shopDisc} className="h-full w-full" alt="" />
+                  </button>
 
-                  <div
-                    role="button"
-                    aria-label="Sell Animals"
-                    className="absolute top-[18px] cursor-pointer z-10 hover:img-highlight"
+                  <button
+                    type="button"
+                    aria-label={t("bounties.sellAnimals")}
+                    className="absolute z-10 cursor-pointer border-0 bg-transparent p-0 hover:img-highlight"
                     style={{
+                      // The shop disc has a 2px bag sprite above its disc, so its disc face sits
+                      // 2 native px lower than the plain disc. Match that so the two discs line up.
+                      top: `${18 + PIXEL_SCALE * 2}px`,
                       width: `${PIXEL_SCALE * 18}px`,
                       right: `${18 + PIXEL_SCALE * 19}px`,
                     }}
                     onClick={() => setShowSellPanel(true)}
                   >
-                    <img className="w-full" src={SUNNYSIDE.icons.disc} alt="" />
+                    <img
+                      className="block w-full"
+                      src={SUNNYSIDE.icons.disc}
+                      alt=""
+                    />
                     <img
                       className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
                       src={SUNNYSIDE.icons.death}
                       alt=""
-                      style={{ width: `${PIXEL_SCALE * 9}px` }}
+                      style={{ width: `${PIXEL_SCALE * 7}px` }}
                     />
-                  </div>
+                  </button>
 
                   <Button
                     className="absolute -bottom-16"
@@ -303,9 +344,13 @@ export const HenHouseInside: React.FC = () => {
                 <FeederMachine building="Hen House" />
               </div>
 
-              <div className="absolute -top-[11px] left-1/2 translate-x-[58px]">
-                <FeedAllButton building="Hen House" />
-              </div>
+              {/* Hidden while selling so animals can't be fed mid-sale. */}
+
+              {!showSellPanel && (
+                <div className="absolute -top-[11px] left-1/2 translate-x-[58px]">
+                  <FeedAllButton building="Hen House" />
+                </div>
+              )}
 
               <MapPlacement
                 x={floorX}
@@ -315,7 +360,14 @@ export const HenHouseInside: React.FC = () => {
               >
                 <div className="flex flex-wrap w-full h-full">
                   {organizedAnimals.map((animal) => {
-                    const isValid = deal && isValidDeal({ animal, deal, game });
+                    const isPendingSale = saleSelection.pendingAnimalIds.has(
+                      animal.id.toString(),
+                    );
+                    // An animal already marked for another bounty can't be picked again.
+                    const isValid =
+                      deal &&
+                      !isPendingSale &&
+                      isValidDeal({ animal, deal, game });
                     const { width, height } = ANIMALS[animal.type];
 
                     return (
@@ -324,7 +376,8 @@ export const HenHouseInside: React.FC = () => {
                         key={`${animal.type.toLowerCase()}-${animal.id}`}
                         className={classNames({
                           "opacity-50": deal && !isValid,
-                          "cursor-pointer": deal && isValid,
+                          "cursor-pointer":
+                            (deal && isValid) || (!deal && isPendingSale),
                           "pointer-events-none": deal && !isValid,
                         })}
                         style={{
@@ -335,6 +388,15 @@ export const HenHouseInside: React.FC = () => {
                           height: `${height * GRID_WIDTH_PX}px`,
                         }}
                         onClick={(e) => {
+                          // Bulk mode: clicking a marked animal removes its mark.
+                          if (!deal && isPendingSale) {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            saleSelection.unselect(
+                              pendingDealIdByAnimal[animal.id.toString()],
+                            );
+                            return;
+                          }
                           if (deal) {
                             // Stop other clicks
                             e.stopPropagation();
@@ -350,7 +412,15 @@ export const HenHouseInside: React.FC = () => {
                           }
                         }}
                       >
-                        <Chicken disabled={!!deal} id={animal.id} />
+                        <Chicken
+                          disabled={!!deal || showSellPanel}
+                          id={animal.id}
+                        />
+                        {isPendingSale && (
+                          <PendingSaleTag
+                            dealId={pendingDealIdByAnimal[animal.id] ?? ""}
+                          />
+                        )}
                       </div>
                     );
                   })}
@@ -377,6 +447,7 @@ export const HenHouseInside: React.FC = () => {
         token={token}
         hasAirdropAccess={hasAirdropAccess}
       />
+      <Discovery />
     </>
   );
 };

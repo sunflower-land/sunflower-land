@@ -15,8 +15,21 @@ import {
 import { Label } from "components/ui/Label";
 import { isMobile } from "mobile-device-detect";
 import { useSelector } from "@xstate/react";
+import { hasPlazaAccess } from "features/island/delivery/lib/onboarding";
+import { isAsciiText } from "lib/utils/textSupport";
 
 const showDebugBorders = false;
+
+const MapLabel: React.FC<{ children: string }> = ({ children }) => (
+  <span
+    className="map-text text-xxs sm:text-sm"
+    style={{
+      fontFamily: isAsciiText(children) ? undefined : "var(--font-family)",
+    }}
+  >
+    {children}
+  </span>
+);
 
 export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { gameService } = useContext(Context);
@@ -37,6 +50,8 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   });
   const hasLevel = (level: number) =>
     meetsLevelRequirement(ascension, { ascension: 0, level });
+  // The plaza opens early for tutorial players with Sunflowers to deliver
+  const plazaAccess = hasPlazaAccess(state);
   const hasFaction = state.faction;
   const canTeleportToFactionHouse = hasLevel(7) && hasFaction;
 
@@ -58,8 +73,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   return (
     <OuterPanel className="w-full relative shadow-xl">
       <img src={worldMap} className="w-full" />
-
-      {!hasLevel(2) && (
+      {!plazaAccess && (
         <Label
           type="danger"
           className="absolute bottom-2"
@@ -121,9 +135,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </Label>
           )
         ) : (
-          <span className="map-text text-xxs sm:text-sm">
-            {t("world.infernos")}
-          </span>
+          <MapLabel>{t("world.infernos")}</MapLabel>
         )}
       </div>
       <div
@@ -159,7 +171,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           onClose();
         }}
       >
-        <span className="map-text text-xxs sm:text-sm">{t("world.home")}</span>
+        <MapLabel>{t("world.home")}</MapLabel>
       </div>
 
       <div
@@ -172,16 +184,16 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           bottom: "20%",
         }}
         className={`flex justify-center items-center ${
-          hasLevel(2) ? "cursor-pointer" : "cursor-not-allowed"
+          plazaAccess ? "cursor-pointer" : "cursor-not-allowed"
         }`}
         onClick={() => {
-          if (!hasLevel(2)) return;
+          if (!plazaAccess) return;
           travel.play();
           navigate("/world/plaza");
           onClose();
         }}
       >
-        {!hasLevel(2) ? (
+        {!plazaAccess ? (
           isMobile ? (
             <img
               src={SUNNYSIDE.icons.lock}
@@ -204,9 +216,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </Label>
           )
         ) : (
-          <span className="map-text text-xxs sm:text-sm">
-            {t("world.plaza")}
-          </span>
+          <MapLabel>{t("world.plaza")}</MapLabel>
         )}
       </div>
 
@@ -252,9 +262,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </Label>
           )
         ) : (
-          <span className="map-text text-xxs sm:text-sm">
-            {t("world.kingdom")}
-          </span>
+          <MapLabel>{t("world.kingdom")}</MapLabel>
         )}
       </div>
 
@@ -300,9 +308,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             />
           )
         ) : (
-          <span className="map-text text-xxs sm:text-sm">
-            {t("world.faction")}
-          </span>
+          <MapLabel>{t("world.faction")}</MapLabel>
         )}
       </div>
 
@@ -350,9 +356,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </Label>
           )
         ) : (
-          <span className="map-text text-xxs sm:text-sm">
-            {t("world.beach")}
-          </span>
+          <MapLabel>{t("world.beach")}</MapLabel>
         )}
       </div>
 
@@ -401,9 +405,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </Label>
           )
         ) : (
-          <span className="map-text text-xxs sm:text-sm">
-            {t("world.digging")}
-          </span>
+          <MapLabel>{t("world.digging")}</MapLabel>
         )}
       </div>
 
@@ -449,9 +451,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </Label>
           )
         ) : (
-          <span className="map-text text-xxs sm:text-sm">
-            {t("world.retreat")}
-          </span>
+          <MapLabel>{t("world.retreat")}</MapLabel>
         )}
       </div>
 

@@ -139,6 +139,11 @@ export function migrateLegacyPlayerEconomyConfigFields(
     (input as PlayerEconomyConfig & { enabled?: unknown }).enabled,
   );
 
+  const requirePrivateKey = parseBooleanishFlag(
+    (input as PlayerEconomyConfig & { requirePrivateKey?: unknown })
+      .requirePrivateKey,
+  );
+
   const out: PlayerEconomyConfig = {
     actions,
     ...(Object.keys(itemsWithGeneratorInference).length > 0
@@ -152,6 +157,7 @@ export function migrateLegacyPlayerEconomyConfigFields(
       ? { mainCurrencyToken: input.mainCurrencyToken.trim() }
       : {}),
     ...(enabledFlag !== undefined ? { enabled: enabledFlag } : {}),
+    ...(requirePrivateKey !== undefined ? { requirePrivateKey } : {}),
   };
 
   return out;

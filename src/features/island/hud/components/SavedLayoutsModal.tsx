@@ -51,6 +51,12 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const game = useSelector(gameService, _state);
+  // The landscaping draft is unsaved: server-side snapshots/applies would
+  // race it, so those actions wait until the farm is saved or discarded.
+  const dirty = useSelector(
+    gameService,
+    (state) => state.context.draftActions.length > 0,
+  );
 
   // Layouts live in their own collection server-side and never ride the
   // session/autosave payloads: fetched lazily on first open, then kept in
@@ -437,7 +443,12 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
                     maxLength={MAX_LAYOUT_NAME_LENGTH}
                     placeholder={t("savedLayouts.nameThis")}
                   />
-                  <Button disabled={busy} onClick={saveNew}>
+                  {dirty && (
+                    <Label type="warning">
+                      {t("savedLayouts.saveDraftFirst")}
+                    </Label>
+                  )}
+                  <Button disabled={busy || dirty} onClick={saveNew}>
                     <div className="flex items-center justify-center gap-1">
                       <img src={chestIcon} className="w-4" />
                       <span>{t("savedLayouts.saveAsNew")}</span>
@@ -447,7 +458,7 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
                       a normal cap-counted layout, so it is only offered while
                       a slot is free. */}
                   <Button
-                    disabled={busy}
+                    disabled={busy || dirty}
                     onClick={() => setMode("confirmAscension")}
                   >
                     <div className="flex items-center justify-center gap-1">
@@ -461,7 +472,13 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
           )
         ) : mode === "idle" ? (
           <div className="flex flex-col gap-2">
-            <Button disabled={busy} onClick={() => setMode("confirmApply")}>
+            {dirty && (
+              <Label type="warning">{t("savedLayouts.saveDraftFirst")}</Label>
+            )}
+            <Button
+              disabled={busy || dirty}
+              onClick={() => setMode("confirmApply")}
+            >
               <div className="flex items-center justify-center gap-1">
                 <img src={SUNNYSIDE.icons.confirm} className="w-4" />
                 <span>{t("savedLayouts.apply")}</span>
@@ -472,7 +489,7 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
                 {t("savedLayouts.rename")}
               </Button>
               <Button
-                disabled={busy}
+                disabled={busy || dirty}
                 onClick={() => setMode("confirmOverwrite")}
               >
                 {t("savedLayouts.overwrite")}
@@ -487,7 +504,7 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
               </Label>
             ) : (
               <Button
-                disabled={busy}
+                disabled={busy || dirty}
                 onClick={() => setMode("confirmAscension")}
               >
                 <div className="flex items-center justify-center gap-1">

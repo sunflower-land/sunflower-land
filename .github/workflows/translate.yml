@@ -6,10 +6,12 @@ on:
       - main
     paths:
       - src/lib/i18n/dictionaries/dictionary.json
+  # Manual run to catch up after a failed or cancelled translation.
+  workflow_dispatch:
 
 jobs:
   translate:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     environment: develop
     concurrency: testnet-translate
 
@@ -22,7 +24,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: "24"
 
       - name: Install dependencies
         run: yarn install
@@ -34,18 +36,20 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
 
-      - name: Run translation script
-        run: yarn translate
-
       - name: Configure Git user
         run: |
           git config --global user.name "Translator Bot"
           git config --global user.email "translator@sunflower-land.com"
 
+      # Pull before translating, so the new strings land on top of the latest
+      # main and a commit pushed meanwhile can't block the pull.
       - name: Pull latest changes
         run: |
           git fetch origin
           git pull origin main
+
+      - name: Run translation script
+        run: yarn translate
 
       - uses: EndBug/add-and-commit@v9
         with:

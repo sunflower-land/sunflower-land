@@ -6,6 +6,14 @@ import type {
   PlacedItem,
   SavedLayout,
 } from "features/game/types/game";
+import {
+  snapshotGuardianPlacements,
+  syncGuardianPlacements,
+} from "features/game/lib/guardianPlacements";
+import {
+  snapshotCookingPlacements,
+  syncCookingPlacements,
+} from "features/game/lib/cookingReadiness";
 import { getChestItemCount } from "features/island/hud/components/inventory/utils/inventory";
 import { isCollectibleWithTimestamps } from "features/game/events/landExpansion/placeCollectible";
 import { getAvailableNodes } from "features/game/lib/resourceNodes";
@@ -41,12 +49,14 @@ const BUMPKIN_DIMENSIONS = { width: 1, height: 1 };
 const isOnFarm = (placed: { location?: string; coordinates?: unknown }) =>
   !!placed.coordinates && (!placed.location || placed.location === "farm");
 
-const PLACEABLE_DIMENSIONS: Record<string, { width: number; height: number }> =
-  {
-    ...BUILDINGS_DIMENSIONS,
-    ...COLLECTIBLES_DIMENSIONS,
-    ...RESOURCE_DIMENSIONS,
-  };
+export const PLACEABLE_DIMENSIONS: Record<
+  string,
+  { width: number; height: number }
+> = {
+  ...BUILDINGS_DIMENSIONS,
+  ...COLLECTIBLES_DIMENSIONS,
+  ...RESOURCE_DIMENSIONS,
+};
 
 /** Minimal coordinate shape shared by every placed resource/plot. */
 type PlacedResource = {
@@ -657,6 +667,8 @@ export function applyFarmLayout(
   layout: SavedLayout,
   createdAt: number,
 ): { applied: number; skipped: number; noInventory: number } {
+  const guardiansBefore = snapshotGuardianPlacements(state);
+  const cookingBefore = snapshotCookingPlacements(state);
   const slots: LayoutSlot[] = [];
   let noInventory = 0;
 
@@ -1083,6 +1095,9 @@ export function applyFarmLayout(
   if (affectsBeehives) {
     state.beehives = updateBeehives({ game: state, createdAt });
   }
+
+  syncGuardianPlacements(state, guardiansBefore, createdAt);
+  syncCookingPlacements(state, cookingBefore, createdAt);
 
   return { applied, skipped, noInventory };
 }

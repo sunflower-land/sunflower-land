@@ -2,7 +2,7 @@
  * A wrapper that provides game state and dispatches events
  */
 import { useState, useCallback, useEffect } from "react";
-import { useActor, useInterpret, useSelector } from "@xstate/react";
+import { useActor, useInterpret } from "@xstate/react";
 import React, { useContext } from "react";
 
 import * as Auth from "features/auth/lib/Provider";
@@ -19,16 +19,17 @@ import {
 } from "features/farming/hud/lib/animations";
 import {
   cacheEnableQuickSelectSetting,
+  cacheShowFullMoonSeedsInQuickSelectSetting,
   getEnableQuickSelectSetting,
+  getShowFullMoonSeedsInQuickSelectSetting,
 } from "features/farming/hud/lib/quickSelect";
 import {
-  cacheShowActualTimeSetting,
   cacheShowTimersSetting,
-  getShowActualTimeSetting,
   getShowTimersSetting,
 } from "features/farming/hud/lib/timers";
 import { initInteractionMetrics } from "./lib/interactionMetrics";
-import { hasFeatureAccess } from "lib/flags";
+import { ART_MODE } from "features/auth/lib/authMachine";
+import { installPreviewShareHelper } from "./lib/preview/previewShare";
 
 interface GameContext {
   shortcutItem: (item: InventoryItemName) => void;
@@ -43,18 +44,10 @@ interface GameContext {
   toggleAnimations: () => void;
   enableQuickSelect: boolean;
   toggleQuickSelect: () => void;
+  showFullMoonSeedsInQuickSelect: boolean;
+  toggleFullMoonSeedsInQuickSelect: () => void;
   showTimers: boolean;
   toggleTimers: () => void;
-  /**
-   * Which reading a boosted timer shows: the remaining WORK (false, the default)
-   * or the actual wall-clock time until ready (true). See `timerDisplay.ts`.
-   *
-   * Always false without `SPEED_BOOSTS` - the two readings can only diverge
-   * while a boost window is running, so a cached `true` from a flagged account
-   * must not leak the actual-time view to everyone else.
-   */
-  showActualTime: boolean;
-  toggleActualTime: () => void;
   fromRoute?: string;
   setFromRoute: (route: string) => void;
 }
@@ -75,6 +68,15 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
   useEffect(() => {
     initInteractionMetrics();
   }, []);
+
+  // ART_MODE / PR previews: expose `__sflPreview.link()` on the console so a
+  // tester can copy a URL that reproduces the state they clicked into.
+  useEffect(() => {
+    if (!ART_MODE) return;
+    return installPreviewShareHelper(
+      () => gameService.getSnapshot().context.state,
+    );
+  }, [gameService]);
 
   useEffect(() => {
     const handleRouteChange = () => {
@@ -108,14 +110,9 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
   const [enableQuickSelect, setEnableQuickSelect] = useState<boolean>(
     getEnableQuickSelectSetting(),
   );
+  const [showFullMoonSeedsInQuickSelect, setShowFullMoonSeedsInQuickSelect] =
+    useState<boolean>(getShowFullMoonSeedsInQuickSelectSetting());
   const [showTimers, setShowTimers] = useState<boolean>(getShowTimersSetting());
-  const [actualTimeSetting, setActualTimeSetting] = useState<boolean>(
-    getShowActualTimeSetting(),
-  );
-  const hasSpeedBoosts = useSelector(gameService, (state) =>
-    hasFeatureAccess(state.context.state, "SPEED_BOOSTS"),
-  );
-  const showActualTime = actualTimeSetting && hasSpeedBoosts;
   const [fromRoute, setFromRoute] = useState<string | undefined>();
 
   const shortcutItem = useCallback((item: InventoryItemName) => {
@@ -162,18 +159,18 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
     cacheEnableQuickSelectSetting(newValue);
   };
 
+  const toggleFullMoonSeedsInQuickSelect = () => {
+    const newValue = !showFullMoonSeedsInQuickSelect;
+
+    setShowFullMoonSeedsInQuickSelect(newValue);
+    cacheShowFullMoonSeedsInQuickSelectSetting(newValue);
+  };
+
   const toggleTimers = () => {
     const newValue = !showTimers;
 
     setShowTimers(newValue);
     cacheShowTimersSetting(newValue);
-  };
-
-  const toggleActualTime = () => {
-    const newValue = !actualTimeSetting;
-
-    setActualTimeSetting(newValue);
-    cacheShowActualTimeSetting(newValue);
   };
 
   const selectedItem = shortcuts.length > 0 ? shortcuts[0] : undefined;
@@ -190,10 +187,10 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
         toggleAnimations,
         enableQuickSelect,
         toggleQuickSelect,
+        showFullMoonSeedsInQuickSelect,
+        toggleFullMoonSeedsInQuickSelect,
         showTimers,
         toggleTimers,
-        showActualTime,
-        toggleActualTime,
         fromRoute,
         setFromRoute,
       }}

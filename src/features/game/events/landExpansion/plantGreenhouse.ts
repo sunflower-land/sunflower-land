@@ -95,6 +95,14 @@ function getPlantedAt({
 }: GetPlantedAtArgs): {
   plantedAt: number;
   baseDurationMs?: number;
+  /**
+   * Legacy model only: the back-date applied to `plantedAt` (ms). It is a
+   * DISCOUNT, not growth already done, so the pot's progress bar has to
+   * un-back-date with it — otherwise a heavily boosted plant opens its bar
+   * near-full. Mirrors `PlantedCrop.boostedTime` (see plant.ts/getBoostedTime).
+   * Omitted when nothing boosts the grow time.
+   */
+  boostedTime?: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
   if (!crop) return { plantedAt: 0, boostsUsed: [] };
@@ -121,9 +129,13 @@ function getPlantedAt({
     };
   }
 
-  const offset = cropTime - boostedTime;
+  const offsetMs = (cropTime - boostedTime) * 1000;
 
-  return { plantedAt: createdAt - offset * 1000, boostsUsed };
+  return {
+    plantedAt: createdAt - offsetMs,
+    ...(offsetMs > 0 ? { boostedTime: offsetMs } : {}),
+    boostsUsed,
+  };
 }
 
 export const getGreenhouseCropTime = ({
@@ -208,6 +220,11 @@ export const getGreenhouseCropTime = ({
     const m = SKILL_RANKS["Vine Velocity"].ranks[vineVelocityLevel - 1];
     seconds *= m;
     boostsUsed.push({ name: "Vine Velocity", value: `x${m}` });
+  }
+
+  if (crop === "Grape" && isWearableActive({ name: "Antique Dress", game })) {
+    seconds *= 0.7;
+    boostsUsed.push({ name: "Antique Dress", value: "x0.7" });
   }
 
   if (!windowed && greenhouseFertiliser === "Greenhouse Glow") {
@@ -315,18 +332,21 @@ export function plantGreenhouse({
     }
 
     const plantName = SEED_TO_PLANT[action.seed];
-    const { plantedAt, baseDurationMs, boostsUsed } = getPlantedAt({
-      createdAt,
-      crop: plantName,
-      game,
-      greenhouseFertiliser: pot.fertiliser?.name,
-    });
+    const { plantedAt, baseDurationMs, boostedTime, boostsUsed } = getPlantedAt(
+      {
+        createdAt,
+        crop: plantName,
+        game,
+        greenhouseFertiliser: pot.fertiliser?.name,
+      },
+    );
     game.greenhouse.pots[potId] = {
       ...pot,
       plant: {
         name: plantName,
         plantedAt,
         ...(baseDurationMs !== undefined ? { baseDurationMs } : {}),
+        ...(boostedTime !== undefined ? { boostedTime } : {}),
       },
     };
 

@@ -5,6 +5,7 @@ import { TEST_FARM } from "features/game/lib/constants";
 import type {
   GameState,
   InventoryItemName,
+  PlacedItem,
   SavedLayout,
 } from "features/game/types/game";
 import { applyFarmLayout, snapshotFarm } from "./layouts";
@@ -817,5 +818,124 @@ describe("layouts lib (applyFarmLayout)", () => {
 
     expect(result.farmHands.bumpkins.z.coordinates).toEqual({ x: 0, y: 0 });
     expect(result.farmHands.bumpkins.a.coordinates).toEqual({ x: 1, y: 0 });
+  });
+});
+
+describe("layouts lib (cooking buildings)", () => {
+  const HOUR = 60 * 60 * 1000;
+
+  // A clock-drain Deli: 20 oil burns in a real day of cooking at 5/3x speed.
+  const deli = (fields: Partial<PlacedItem>): PlacedItem => ({
+    id: "deli",
+    createdAt: 0,
+    readyAt: 0,
+    oil: 20,
+    crafting: [
+      {
+        name: "Fermented Fish",
+        readyAt: 0,
+        baseDurationMs: 24 * HOUR,
+        oilBoost: 0.4,
+      },
+    ],
+    ...fields,
+  });
+
+  it("pauses a cooking building the layout leaves off the farm", () => {
+    const saved = withSavedLayout(withInventory({ Deli: 1 }));
+    const farm: TestState = {
+      ...saved,
+      buildings: {
+        Deli: [
+          deli({
+            coordinates: { x: -3, y: 0 },
+            oilSettledAt: createdAt - HOUR,
+            crafting: [
+              {
+                name: "Fermented Fish",
+                readyAt: 0,
+                baseDurationMs: 24 * HOUR,
+                oilBoost: 0.4,
+                startedAt: createdAt - HOUR,
+              },
+            ],
+          }),
+        ],
+      },
+    };
+
+    const building = applyLayout({ state: farm }).buildings.Deli![0];
+
+    expect(building.coordinates).toBeUndefined();
+    expect(building.removedAt).toEqual(createdAt);
+    // Settled at the lift: an hour of oil burned, and the work it did banked.
+    expect(building.oilSettledAt).toEqual(createdAt);
+    expect(building.oil).toBeCloseTo(20 - 20 / 24);
+    expect(building.crafting![0].startedAt).toEqual(createdAt);
+    expect(building.crafting![0].baseDurationMs).toBeCloseTo(
+      24 * HOUR - HOUR / 0.6,
+    );
+  });
+
+  it("resumes a lifted cooking building the layout places back", () => {
+    const liftedAt = createdAt - 10 * HOUR;
+    const saved = withSavedLayout({
+      ...withInventory({ Deli: 1 }),
+      buildings: { Deli: [deli({ coordinates: { x: -3, y: 0 } })] },
+    });
+    const farm = cloneDeep(saved);
+    farm.buildings.Deli = [
+      deli({
+        removedAt: liftedAt,
+        oilSettledAt: liftedAt,
+        crafting: [
+          {
+            name: "Fermented Fish",
+            readyAt: liftedAt + 14.4 * HOUR,
+            baseDurationMs: 24 * HOUR,
+            oilBoost: 0.4,
+            startedAt: liftedAt,
+          },
+        ],
+      }),
+    ];
+
+    const building = applyLayout({ state: farm }).buildings.Deli![0];
+
+    expect(building.coordinates).toEqual({ x: -3, y: 0 });
+    expect(building.removedAt).toBeUndefined();
+    // The 10 hours off the farm neither cooked nor burned oil.
+    expect(building.oilSettledAt).toEqual(createdAt);
+    expect(building.oil).toEqual(20);
+    expect(building.crafting![0].startedAt).toEqual(createdAt);
+    expect(building.crafting![0].readyAt).toEqual(createdAt + 14.4 * HOUR);
+  });
+
+  it("leaves a cooking building the layout only moves cooking", () => {
+    const saved = withSavedLayout({
+      ...withInventory({ Deli: 1 }),
+      buildings: { Deli: [deli({ coordinates: { x: -3, y: 0 } })] },
+    });
+    const farm = cloneDeep(saved);
+    farm.buildings.Deli = [
+      deli({
+        coordinates: { x: -2, y: 1 },
+        oilSettledAt: createdAt - HOUR,
+        crafting: [
+          {
+            name: "Fermented Fish",
+            readyAt: createdAt - HOUR + 14.4 * HOUR,
+            baseDurationMs: 24 * HOUR,
+            oilBoost: 0.4,
+            startedAt: createdAt - HOUR,
+          },
+        ],
+      }),
+    ];
+    const before = cloneDeep(farm.buildings.Deli[0]);
+
+    const building = applyLayout({ state: farm }).buildings.Deli![0];
+
+    expect(building).toEqual({ ...before, coordinates: { x: -3, y: 0 } });
   });
 });

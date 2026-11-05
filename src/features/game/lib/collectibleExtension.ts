@@ -27,6 +27,40 @@ export const getExtensionPayments = (
   return isInventoryRenewableCollectible(name) ? [name] : [];
 };
 
+/**
+ * Shrines — every temporary collectible that is not a totem or hourglass, i.e.
+ * the ingredient-paid ones that cannot be renewed from a spare in the chest.
+ */
+export const isShrine = (name: TemporaryCollectibleName): boolean =>
+  !isInventoryRenewableCollectible(name);
+
+/**
+ * A shrine may only ever be kept alive up to 30 days from now: extending is
+ * blocked once the placement's remaining lifetime would exceed this. Totems and
+ * hourglasses stay uncapped.
+ */
+export const SHRINE_MAX_ACTIVE_MS = 30 * 24 * 60 * 60 * 1000;
+
+/**
+ * Whether topping this collectible up would push its expiry more than 30 days
+ * into the future. Measured from the moment of extension (remaining time now
+ * plus the duration being bought), so time already served never counts against
+ * the cap. Only shrines are capped; everything else always returns false.
+ */
+export const exceedsShrineExtensionCap = ({
+  name,
+  payWith,
+  remainingMs,
+  game,
+}: {
+  name: TemporaryCollectibleName;
+  payWith: TemporaryCollectibleName;
+  remainingMs: number;
+  game: GameState;
+}): boolean =>
+  isShrine(name) &&
+  remainingMs + getExpiryCooldown(payWith, game) > SHRINE_MAX_ACTIVE_MS;
+
 export type ExtensionCost = {
   coins: number;
   ingredients: Partial<Record<InventoryItemName, Decimal>>;

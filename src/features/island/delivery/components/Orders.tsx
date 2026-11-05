@@ -19,7 +19,7 @@ import {
 } from "features/game/events/landExpansion/deliver";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getKeys } from "lib/object";
-import type { GameState, Order } from "features/game/types/game";
+import type { BoostName, GameState, Order } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import { type NPCName, NPC_WEARABLES } from "lib/npcs";
@@ -138,8 +138,6 @@ export const DeliveryOrders: React.FC<Props> = ({
 
   const [showSkipDialog, setShowSkipDialog] = useState(false);
   const [isRevealing, setIsRevealing] = useState(false);
-  const [showTicketBoosts, setShowTicketBoosts] = useState(false);
-  const ticketBoostsAnchorRef = useRef<HTMLDivElement>(null);
 
   const now = useNow({ live: true });
   const chapterTicket = getChapterTicket(now);
@@ -353,6 +351,9 @@ export const DeliveryOrders: React.FC<Props> = ({
   const rewardDisplayValue = hasRewardAmount
     ? makeRewardAmountForLabel(previewOrder)
     : ticketDisplay;
+  const rewardBoostsUsed = hasRewardAmount
+    ? getOrderSellPrice(state, previewOrder).boostsUsed
+    : [];
 
   const chapter = getCurrentChapter(now);
 
@@ -377,13 +378,12 @@ export const DeliveryOrders: React.FC<Props> = ({
           <p className="my-2 ml-1 text-xs">{t("deliveries.intro")}</p>
         </div>
 
-        <Label
-          type="default"
-          className="ml-2 mb-2"
-          icon={SUNNYSIDE.ui.coinsImg}
-        >
-          {t("coins")}
-        </Label>
+        <div className="flex items-center ml-2 mb-2">
+          <Label type="default" icon={SUNNYSIDE.ui.coinsImg}>
+            {t("coins")}
+          </Label>
+          <img src={chapterPointsIcon} className="h-5 ml-0.5" />
+        </div>
         <div className="grid grid-cols-3 sm:grid-cols-4 w-full ml-1">
           {coinOrders.map((order) => {
             return (
@@ -451,9 +451,12 @@ export const DeliveryOrders: React.FC<Props> = ({
 
         <div className="px-2 mt-2">
           <div className="flex justify-between">
-            <Label type="default" icon={token} className="mb-2">
-              {`FLOWER`}
-            </Label>
+            <div className="flex items-center mb-2">
+              <Label type="default" icon={token}>
+                {`FLOWER`}
+              </Label>
+              <img src={chapterPointsIcon} className="h-5 ml-0.5" />
+            </div>
           </div>
           {isBelowLevel({ ascension: 0, level: 13 }) && (
             <span className="text-xs mb-2">
@@ -663,8 +666,8 @@ export const DeliveryOrders: React.FC<Props> = ({
                     marginBottom: "6px",
                   }}
                 >
-                  <div className="flex justify-between w-full">
-                    <div className="flex items-center">
+                  <div className="flex flex-wrap justify-between items-start gap-1 w-full">
+                    <div className="flex items-center shrink-0">
                       <SquareIcon
                         icon={
                           previewOrder.reward.coins
@@ -677,74 +680,31 @@ export const DeliveryOrders: React.FC<Props> = ({
                       />
                       <span className="text-xs ml-1">{t("reward")}</span>
                     </div>
-                    <div className="flex flex-col items-end gap-1">
+                    <div className="flex flex-col items-end gap-1 ml-auto">
                       {hasRewardAmount && (
-                        <Label type="warning" className="whitespace-nowrap">
-                          <span className={!isMobile ? "text-xxs" : ""}>
-                            {`${rewardDisplayValue} ${
-                              previewOrder.reward.coins
-                                ? t("coins")
-                                : previewOrder.reward.sfl
-                                  ? "FLOWER"
-                                  : chapterTicket
-                            }`}
-                          </span>
-                        </Label>
+                        <BoostableRewardLabel
+                          key={`${previewOrder.id}-reward`}
+                          text={`${rewardDisplayValue} ${
+                            previewOrder.reward.coins
+                              ? t("coins")
+                              : previewOrder.reward.sfl
+                                ? "FLOWER"
+                                : chapterTicket
+                          }`}
+                          boosts={rewardBoostsUsed}
+                          state={state}
+                        />
                       )}
                       {(!!ticketDisplay || isFrozenQuestOrder) && (
-                        <div
-                          ref={ticketBoostsAnchorRef}
-                          className={classNames("relative", {
-                            "cursor-pointer": ticketBoostsUsed.length > 0,
-                          })}
-                          role={
-                            ticketBoostsUsed.length > 0 ? "button" : undefined
-                          }
-                          tabIndex={ticketBoostsUsed.length > 0 ? 0 : undefined}
-                          aria-expanded={
-                            ticketBoostsUsed.length > 0
-                              ? showTicketBoosts
-                              : undefined
-                          }
-                          onClick={(e) => {
-                            if (ticketBoostsUsed.length === 0) return;
-                            e.stopPropagation();
-                            setShowTicketBoosts((prev) => !prev);
-                          }}
-                          onKeyDown={(e) => {
-                            if (
-                              ticketBoostsUsed.length === 0 ||
-                              (e.key !== "Enter" && e.key !== " ")
-                            )
-                              return;
-                            e.preventDefault();
-                            e.stopPropagation();
-                            setShowTicketBoosts((prev) => !prev);
-                          }}
-                        >
-                          <Label
-                            type="warning"
-                            className="whitespace-nowrap"
-                            icon={ITEM_DETAILS[chapterTicket].image}
-                          >
-                            <span className={!isMobile ? "text-xxs" : ""}>
-                              {`${
-                                isFrozenQuestOrder ? baseTickets : ticketDisplay
-                              } ${chapterTicket}`}
-                            </span>
-                          </Label>
-                          {ticketBoostsUsed.length > 0 && showTicketBoosts && (
-                            <BoostsDisplay
-                              boosts={ticketBoostsUsed}
-                              show={showTicketBoosts}
-                              state={state}
-                              onClick={() => setShowTicketBoosts(false)}
-                              anchorRef={ticketBoostsAnchorRef}
-                              portalAlign="right"
-                              portalPlacement="auto"
-                            />
-                          )}
-                        </div>
+                        <BoostableRewardLabel
+                          key={`${previewOrder.id}-tickets`}
+                          text={`${
+                            isFrozenQuestOrder ? baseTickets : ticketDisplay
+                          } ${chapterTicket}`}
+                          icon={ITEM_DETAILS[chapterTicket].image}
+                          boosts={ticketBoostsUsed}
+                          state={state}
+                        />
                       )}
                     </div>
                   </div>
@@ -871,10 +831,63 @@ export const DeliveryOrders: React.FC<Props> = ({
   );
 };
 
+const BoostableRewardLabel: React.FC<{
+  text: string;
+  icon?: string;
+  boosts: { name: BoostName; value: string }[];
+  state: GameState;
+}> = ({ text, icon, boosts, state }) => {
+  const [showBoosts, setShowBoosts] = useState(false);
+  const anchorRef = useRef<HTMLDivElement>(null);
+  const hasBoosts = boosts.length > 0;
+
+  return (
+    <div
+      ref={anchorRef}
+      className={classNames("relative", { "cursor-pointer": hasBoosts })}
+      role={hasBoosts ? "button" : undefined}
+      tabIndex={hasBoosts ? 0 : undefined}
+      aria-expanded={hasBoosts ? showBoosts : undefined}
+      onClick={(e) => {
+        if (!hasBoosts) return;
+        e.stopPropagation();
+        setShowBoosts((prev) => !prev);
+      }}
+      onKeyDown={(e) => {
+        if (!hasBoosts || (e.key !== "Enter" && e.key !== " ")) return;
+        e.preventDefault();
+        e.stopPropagation();
+        setShowBoosts((prev) => !prev);
+      }}
+    >
+      <Label
+        type="warning"
+        className="whitespace-nowrap"
+        icon={icon}
+        secondaryIcon={hasBoosts ? lightning : undefined}
+      >
+        <span className={!isMobile ? "text-xxs" : ""}>{text}</span>
+      </Label>
+      {hasBoosts && showBoosts && (
+        <BoostsDisplay
+          boosts={boosts}
+          show={showBoosts}
+          state={state}
+          onClick={() => setShowBoosts(false)}
+          anchorRef={anchorRef}
+          portalAlign="right"
+          portalPlacement="auto"
+        />
+      )}
+    </div>
+  );
+};
+
 const NextHolidayLabel: React.FC<{
   holiday: string | undefined;
   now: number;
 }> = ({ holiday }) => {
+  const { t } = useAppTranslation();
   const { totalSeconds: secondsRemaining } = useCountdown(
     new Date(holiday ?? 0).getTime(),
   );
@@ -884,9 +897,11 @@ const NextHolidayLabel: React.FC<{
   if (secondsRemaining > 0 && secondsRemaining < 24 * 60 * 60) {
     return (
       <Label type="danger" icon={lock} className="mt-1">
-        {`${secondsToString(secondsRemaining, {
-          length: "medium",
-        })} left`}
+        {t("vipExpiry.timeLeft", {
+          time: secondsToString(secondsRemaining, {
+            length: "medium",
+          }),
+        })}
       </Label>
     );
   }

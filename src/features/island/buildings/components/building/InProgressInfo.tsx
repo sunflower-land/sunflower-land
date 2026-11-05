@@ -1,5 +1,6 @@
 import { Box } from "components/ui/Box";
 import { ResizableBar } from "components/ui/ProgressBar";
+import { isCookingFirstTart } from "./firePit/lib/onboarding";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { type CookableName, COOKABLES } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -64,33 +65,41 @@ export const InProgressInfo: React.FC<Props> = ({
 
   const totalSeconds = getProductTotalSeconds();
 
-  // One timer for both models. A windowed recipe (`baseDurationMs` set) ticks at the
-  // boosted rate and honours the "show actual time" setting; anything else — fish
-  // processing, and recipes queued before the speed model — falls through to the
-  // plain countdown on `readyAt`.
-  const {
-    speed,
-    workLeftSeconds,
-    countdownSeconds,
-    displaySeconds: secondsTillReady,
-  } = useNodeTimer({
-    startedAt: startedAt ?? product.readyAt - totalSeconds * 1000,
-    baseDurationMs: product.baseDurationMs,
+  // Only drive the windowed model when we actually have the recipe's start. A
+  // windowed recipe (`baseDurationMs` set) derives its ready time live from the
+  // boost windows; anything else — fish processing, recipes queued before the
+  // speed model, and a malformed windowed head that lost its anchor — falls
+  // through to the plain countdown on the stored `readyAt`.
+  //
+  // Without a resolved `startedAt` we deliberately do NOT reconstruct one: a
+  // start of `readyAt - baseDurationMs` mixes units, because `baseDurationMs` is
+  // un-boosted work while the stored `readyAt` already has the boost baked in, so
+  // `computeReadyAt` would apply the boost a second time and drift the countdown
+  // off the real ready time. The stored `readyAt` is exact, so use it directly.
+  const windowed =
+    startedAt !== undefined && product.baseDurationMs !== undefined;
+  const { readyAt, workLeftSeconds, countdownSeconds } = useNodeTimer({
+    startedAt: startedAt ?? product.readyAt,
+    baseDurationMs: windowed ? product.baseDurationMs : undefined,
     windows,
     legacyReadyAt: product.readyAt,
   });
 
-  // How full the bar is tracks remaining WORK, never the displayed reading — how far
-  // along a recipe is does not change with a display setting.
+  // How full the bar is tracks remaining WORK, which does not drain at
+  // wall-clock rate while a boost window is running. A startless head has no
+  // work model, so it falls back to the wall-clock countdown against its total.
   const progressTotalSeconds =
     product.baseDurationMs === undefined
       ? totalSeconds
       : product.baseDurationMs / 1000;
-  const progressLeftSeconds =
-    product.baseDurationMs === undefined ? countdownSeconds : workLeftSeconds;
+  const progressLeftSeconds = windowed ? workLeftSeconds : countdownSeconds;
 
+  // Price the instant-finish off the LIVE ready time, not the stored one: the
+  // reducer charges via getCurrentCookingItem, which derives readyAt from the
+  // boost windows, so a stale `product.readyAt` would show the wrong cost while
+  // a booster is running. Identical for legacy recipes and fish processing.
   const payment = useSpeedUpPayment({
-    readyAt: product.readyAt,
+    readyAt,
     game: state,
   });
   const cost =
@@ -110,15 +119,6 @@ export const InProgressInfo: React.FC<Props> = ({
         <Label icon={SUNNYSIDE.icons.stopwatch} type="default">
           {t("in.progress")}
         </Label>
-        {speed > 1 && (
-          <Label type="transparent" icon={SUNNYSIDE.icons.lightning}>
-            <span className="whitespace-nowrap">
-              {t("description.boostedSpeed", {
-                speed: Number(speed.toFixed(2)),
-              })}
-            </span>
-          </Label>
-        )}
       </div>
       <div className="flex items-center justify-between">
         <Box
@@ -135,9 +135,7 @@ export const InProgressInfo: React.FC<Props> = ({
           id="progress-bar"
         >
           <span className="text-xs mb-1">
-            {secondsToString(secondsTillReady, {
-              length: speed > 1 ? "full" : "medium",
-            }).replace(/\u00A0/g, " ")}
+            {secondsToString(countdownSeconds, { length: "medium" })}
           </span>
           <ResizableBar
             percentage={
@@ -150,10 +148,29 @@ export const InProgressInfo: React.FC<Props> = ({
         </div>
 
         <Button
-          disabled={!payment.canAfford}
-          className="w-36 sm:w-44 px-3 h-12 mr-[6px]"
-          onClick={() => setShowConfirmation(true)}
+          // The payment selector lives inside the confirmation modal, so this
+          // gate has to allow either method through — otherwise a player with
+          // no gems can never reach the coin option.
+          disabled={!payment.canAffordAnyMethod}
+          className="relative w-36 sm:w-44 px-3 h-12 mr-[6px]"
+          onClick={() => {
+            payment.resetPaymentMethod();
+            setShowConfirmation(true);
+          }}
         >
+          {/* Tutorial hand lives inside the button so the button stays the
+              flex item and can still shrink to fit a narrow panel. */}
+          {isCookingFirstTart(state, product.name) && (
+            <img
+              className="absolute pointer-events-none z-30 animate-pulsate"
+              src={SUNNYSIDE.icons.click_icon}
+              style={{
+                width: `${PIXEL_SCALE * 18}px`,
+                right: `${PIXEL_SCALE * -4}px`,
+                top: `${PIXEL_SCALE * 4}px`,
+              }}
+            />
+          )}
           <div className="flex items-center justify-center gap-1 mx-2">
             <img src={fastForward} className="h-5" />
             {!payment.canPayWithCoins && (
@@ -179,6 +196,7 @@ export const InProgressInfo: React.FC<Props> = ({
           ]}
           confirmButtonLabel={t("instantCook.finish")}
           bodyContent={<SpeedUpPaymentSelector payment={payment} />}
+          disabled={!payment.canAfford}
         />
       </div>
     </div>

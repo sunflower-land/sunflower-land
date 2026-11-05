@@ -6,6 +6,7 @@ import * as AuthProvider from "features/auth/lib/Provider";
 
 import { Splash } from "features/auth/components/Splash";
 import { Auth } from "features/auth/Auth";
+import { ConsentBanner } from "features/auth/components/ConsentBanner";
 import { Forbidden } from "features/auth/components/Forbidden";
 import { LandExpansion } from "features/game/expansion/LandExpansion";
 import { CONFIG } from "lib/config";
@@ -33,6 +34,7 @@ import { EconomyHub } from "features/economyHub/EconomyHub";
 import { GameWrapper } from "features/game/expansion/Game";
 import { Interior } from "features/interior/Interior";
 import { LevelOne } from "features/interior/LevelOne";
+import { Cave } from "features/cave/Cave";
 import { ModalProvider } from "features/game/components/modal/ModalProvider";
 import { FeedProvider } from "features/social/FeedContext";
 import { MinigameDashboard } from "features/minigame/MinigameDashboard";
@@ -50,6 +52,13 @@ const World = lazy(() =>
 const GiveawayApp = lazy(() =>
   import("features/giveaway/GiveawayApp").then((m) => ({
     default: m.GiveawayApp,
+  })),
+);
+
+// Only reached from the Kingdom noticeboard, so keep it out of the startup bundle
+const HallOfFame = lazy(() =>
+  import("features/hallOfFame/HallOfFame").then((m) => ({
+    default: m.HallOfFame,
   })),
 );
 
@@ -114,6 +123,7 @@ export const Navigation: React.FC = () => {
               element={
                 <>
                   <Auth showOfflineModal={showConnectionModal} />
+                  <ConsentBanner />
                   {showGame ? (
                     <PWAInstallProvider>
                       <GameProvider>
@@ -160,6 +170,14 @@ export const Navigation: React.FC = () => {
                                     element={
                                       <div className="absolute inset-0 z-50">
                                         <ChapterDashboard />
+                                      </div>
+                                    }
+                                  />
+                                  <Route
+                                    path="hall-of-fame"
+                                    element={
+                                      <div className="absolute inset-0 z-50">
+                                        <HallOfFame />
                                       </div>
                                     }
                                   />
@@ -266,6 +284,14 @@ export const Navigation: React.FC = () => {
                                   element={
                                     <GameWrapper>
                                       <LevelOne />
+                                    </GameWrapper>
+                                  }
+                                />
+                                <Route
+                                  path="/cave"
+                                  element={
+                                    <GameWrapper>
+                                      <Cave />
                                     </GameWrapper>
                                   }
                                 />

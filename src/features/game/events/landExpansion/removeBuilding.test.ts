@@ -571,3 +571,144 @@ describe("removeBuilding", () => {
     ).toEqual(200000000);
   });
 });
+
+describe("removeBuilding (windowed crop machine)", () => {
+  const HOUR = 60 * 60 * 1000;
+
+  it("settles a windowed machine at the lift: work banked, fuel burned, no pausedTimeRemaining", () => {
+    const at = Date.now();
+    const state = removeBuilding({
+      state: {
+        ...GAME_STATE,
+        buildings: {
+          "Crop Machine": [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: 0,
+              coordinates: { x: 1, y: 1 },
+              oilSettledAt: at - HOUR,
+              unallocatedOilTime: 10 * HOUR,
+              queue: [
+                {
+                  crop: "Sunflower",
+                  seeds: 10,
+                  growTimeRemaining: 0,
+                  totalGrowTime: 4 * HOUR,
+                  baseDurationMs: 4 * HOUR,
+                },
+              ],
+            },
+          ],
+        },
+      },
+      action: { type: "building.removed", name: "Crop Machine", id: "123" },
+      createdAt: at,
+    });
+
+    const machine = state.buildings["Crop Machine"]?.[0];
+    const pack = machine?.queue?.[0];
+
+    expect(machine?.removedAt).toBe(at);
+    expect(machine?.oilSettledAt).toBe(at);
+    // 1h of the 4h banked; 1h of fuel burned.
+    expect(pack?.baseDurationMs).toBe(3 * HOUR);
+    expect(machine?.unallocatedOilTime).toBe(9 * HOUR);
+    expect(pack?.pausedTimeRemaining).toBeUndefined();
+    // Paused caches: no projected finish while lifted.
+    expect(pack?.readyAt).toBeUndefined();
+    expect(pack?.growsUntil).toBeUndefined();
+  });
+});
+
+describe("removeBuilding (cooking oil by the clock)", () => {
+  const HOUR = 60 * 60 * 1000;
+  const T0 = Date.now();
+
+  it("settles the oil at the lift, so it never depends on boost history", () => {
+    const state = removeBuilding({
+      state: {
+        ...GAME_STATE,
+        buildings: {
+          Deli: [
+            {
+              id: "1",
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              readyAt: 0,
+              oil: 20,
+              oilSettledAt: T0,
+              crafting: [
+                {
+                  name: "Fermented Fish",
+                  startedAt: T0,
+                  baseDurationMs: 10 * HOUR,
+                  oilBoost: 0.4,
+                  readyAt: T0 + 6 * HOUR,
+                },
+              ],
+            },
+          ],
+        },
+      },
+      action: { type: "building.removed", name: "Deli", id: "1" },
+      createdAt: T0 + 3 * HOUR,
+    });
+
+    const deli = state.buildings.Deli?.[0];
+    // 3h cooked on oil (5h of work), 2.5 oil burned, anchored at the lift.
+    expect(deli?.oil).toBeCloseTo(17.5);
+    expect(deli?.oilSettledAt).toEqual(T0 + 3 * HOUR);
+    expect(deli?.crafting?.[0]).toMatchObject({
+      startedAt: T0 + 3 * HOUR,
+      baseDurationMs: 5 * HOUR,
+    });
+  });
+
+  it("banks the credit of a boost live at the lift", () => {
+    const state = removeBuilding({
+      state: {
+        ...GAME_STATE,
+        collectibles: {
+          "Legendary Shrine": [
+            {
+              id: "s",
+              coordinates: { x: 5, y: 5 },
+              createdAt: T0,
+              readyAt: T0,
+            },
+          ],
+        },
+        buildings: {
+          Deli: [
+            {
+              id: "1",
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              readyAt: 0,
+              oil: 20,
+              oilSettledAt: T0,
+              crafting: [
+                {
+                  name: "Fermented Fish",
+                  startedAt: T0,
+                  baseDurationMs: 20 * HOUR,
+                  oilBoost: 0.4,
+                  oilRate: 12,
+                  readyAt: 0,
+                },
+              ],
+            },
+          ],
+        },
+      },
+      action: { type: "building.removed", name: "Deli", id: "1" },
+      createdAt: T0 + 3 * HOUR,
+    });
+
+    const deli = state.buildings.Deli?.[0];
+    // 3h at 2x shrine * 5/3 oil did 10h of work, which costs 5 oil at 12 a day.
+    expect(deli?.oil).toBeCloseTo(15);
+    expect(deli?.crafting?.[0].baseDurationMs).toBeCloseTo(10 * HOUR);
+  });
+});

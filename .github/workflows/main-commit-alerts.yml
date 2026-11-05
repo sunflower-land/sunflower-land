@@ -12,7 +12,7 @@ permissions:
 jobs:
   alert:
     environment: develop
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -290,8 +290,11 @@ jobs:
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                model: "gpt-4.1-mini",
-                max_output_tokens: 220,
+                model: "gpt-5.6-sol",
+                // Reasoning tokens count against this budget, so keep reasoning
+                // low and leave room for the summary itself.
+                max_output_tokens: 600,
+                reasoning: { effort: "low" },
                 input: [
                   {
                     role: "system",

@@ -60,6 +60,7 @@ import { WaveModal } from "features/social/WaveModal";
 import { Discovery } from "features/social/Discovery";
 import { SPAWNS, type SpawnFromId } from "./lib/spawn";
 import { PlayerInteractionMenu } from "./ui/player/PlayerInteractionMenu";
+import { LoveButtonsHud } from "./ui/LoveButtonsHud";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -331,6 +332,9 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
       <HudContainer>
         <CommunityToasts />
         <PlayerInteractionMenu />
+        <LoveButtonsHud
+          lower={mmoState === "connecting" || mmoState === "error"}
+        />
 
         {mmoState === "connecting" && (
           <Label

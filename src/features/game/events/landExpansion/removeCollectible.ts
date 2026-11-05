@@ -16,6 +16,10 @@ import {
 } from "features/game/lib/collectibleBuilt";
 import { PET_SHRINES } from "features/game/types/pets";
 import { populateSaltFarm } from "features/game/types/salt";
+import {
+  snapshotGuardianPlacements,
+  syncGuardianPlacements,
+} from "features/game/lib/guardianPlacements";
 import { isPetCollectible } from "./placeCollectible";
 
 export enum REMOVE_COLLECTIBLE_ERRORS {
@@ -136,6 +140,12 @@ export function removeCollectible({
       gameAfter: stateCopy,
       now: createdAt,
     });
+
+    syncGuardianPlacements(
+      stateCopy,
+      snapshotGuardianPlacements(state),
+      createdAt,
+    );
 
     return stateCopy;
   });

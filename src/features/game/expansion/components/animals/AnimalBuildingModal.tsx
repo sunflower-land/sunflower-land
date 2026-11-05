@@ -53,7 +53,10 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { isMobile } from "mobile-device-detect";
-import { SICK_ANIMAL_REWARD_MULTIPLIER } from "features/game/events/landExpansion/sellAnimal";
+import {
+  MUD_XP_MULTIPLIER,
+  SICK_ANIMAL_REWARD_MULTIPLIER,
+} from "features/game/lib/animals";
 import { formatNumber } from "lib/utils/formatNumber";
 import { SquareIcon } from "components/ui/SquareIcon";
 
@@ -80,6 +83,8 @@ type Props = {
   buildingName: AnimalBuildingType;
   onClose: () => void;
   onExchanging: (deal: AnimalBounty) => void;
+  /** Pigpen only: the Sell tab's "Trade in" section. */
+  onTradeIn?: () => void;
 };
 
 const _state = (state: MachineState) => state.context.state;
@@ -91,8 +96,9 @@ export const AnimalBuildingModal: React.FC<Props> = ({
   buildingName,
   onClose,
   onExchanging,
+  onTradeIn,
 }) => {
-  const { gameService, showActualTime } = useContext(Context);
+  const { gameService } = useContext(Context);
   const [showIntro, setShowIntro] = useState(!hasReadIntro());
   type Tab = "buy" | "sell" | "guide";
   const [currentTab, setCurrentTab] = useState<Tab>(
@@ -160,8 +166,8 @@ export const AnimalBuildingModal: React.FC<Props> = ({
     ? getAnimalBoostWindows(state, selectedName)
     : [];
   // The windowed shrine isn't in `boostsUsed` (it applies over the sleep rather
-  // than being baked into it), so name it for the boost panel: its rate in the
-  // speed view, the time it actually saves in the other.
+  // than being baked into it), so name it for the boost panel: the time it
+  // actually saves.
   const maturityBoostsUsed = [
     ...maturityTime.boostsUsed,
     ...getBoostContributionEntries({
@@ -170,21 +176,17 @@ export const AnimalBuildingModal: React.FC<Props> = ({
         : [],
       seconds: maturityTime.maturityTimeMs / 1000,
       at: now,
-      showActualTime,
       formatSeconds: (seconds) =>
         secondsToString(seconds, { length: "medium" }),
-      formatSpeed: (speed) => t("description.boostedSpeed", { speed }),
     }),
   ];
-  const { displaySeconds: maturityDisplaySeconds, speed: maturitySpeed } =
-    getPreActionDisplay({
-      showActualTime,
-      seconds: maturityTime.maturityTimeMs / 1000,
-      baseSeconds: maturityTime.baseTimeMs / 1000,
-      namedBoostCount: maturityBoostsUsed.length,
-      windows: maturityWindows,
-      at: now,
-    });
+  const { displaySeconds: maturityDisplaySeconds } = getPreActionDisplay({
+    seconds: maturityTime.maturityTimeMs / 1000,
+    baseSeconds: maturityTime.baseTimeMs / 1000,
+    namedBoostCount: maturityBoostsUsed.length,
+    windows: maturityWindows,
+    at: now,
+  });
 
   if (showIntro) {
     return (
@@ -225,6 +227,16 @@ export const AnimalBuildingModal: React.FC<Props> = ({
       icon: SUNNYSIDE.animalFoods.barn_delight,
       text: t("animals.guide.sickness"),
     },
+    ...(buildingName === "Pigpen"
+      ? [
+          {
+            icon: ITEM_DETAILS.Mud.image,
+            text: t("animals.guide.mud", {
+              percent: Math.round((MUD_XP_MULTIPLIER - 1) * 100),
+            }),
+          },
+        ]
+      : []),
     {
       icon: SUNNYSIDE.icons.death,
       text: t("animals.guide.bounties", {
@@ -264,7 +276,6 @@ export const AnimalBuildingModal: React.FC<Props> = ({
                 timeSeconds: Math.ceil(maturityDisplaySeconds),
                 baseTimeSeconds: Math.ceil(maturityTime.baseTimeMs / 1000),
                 timeBoostsUsed: maturityBoostsUsed,
-                timeSpeed: maturitySpeed,
                 level: ANIMALS[selectedName].levelRequired,
               }}
               showTimeBoosts={showTimeBoosts}
@@ -330,8 +341,13 @@ export const AnimalBuildingModal: React.FC<Props> = ({
 
       {currentTab === "sell" && (
         <AnimalBounties
-          type={buildingName === "Barn" ? ["Cow", "Sheep"] : ["Chicken"]}
+          // Derived from ANIMALS rather than listed per building, so a new
+          // animal shows its bounties in its own house automatically.
+          type={getKeys(ANIMALS).filter(
+            (animal) => ANIMALS[animal].buildingRequired === buildingName,
+          )}
           onExchanging={onExchanging}
+          onTradeIn={onTradeIn}
         />
       )}
 

@@ -34,7 +34,13 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import type { IslandType, LoveAnimalItem } from "features/game/types/game";
 import { getIslandName } from "features/game/types/game";
-import { getToolPrice } from "features/game/events/landExpansion/craftTool";
+import {
+  getFreeToolAmount,
+  getToolPrice,
+  getToolUnitPrice,
+  getWorkbenchToolStock,
+  isTutorialToolStockPhase,
+} from "features/game/events/landExpansion/craftTool";
 import { Restock } from "../../market/restock/Restock";
 import { NPC_WEARABLES } from "lib/npcs";
 import { formatNumber } from "lib/utils/formatNumber";
@@ -48,6 +54,9 @@ import {
   planToolPurchases,
 } from "../lib/planToolPurchases";
 import { ToolBatchBuyModal } from "./ToolBatchBuyModal";
+import { needsFirstAxes, TUTORIAL_AXE_COUNT } from "../lib/onboarding";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 const isLoveAnimalTool = (
   toolName: WorkbenchToolName | LoveAnimalItem,
@@ -64,6 +73,10 @@ export const Tools: React.FC = () => {
   const { gameService, shortcutItem } = useContext(Context);
 
   const state = useSelector(gameService, (state) => state.context.state);
+  const { openModal } = useContext(ModalContext);
+
+  // Tutorial: point a brand new player at their first batch of free Axes.
+  const isBuyingFirstAxes = needsFirstAxes(state);
 
   const selected = isLoveAnimalTool(selectedName)
     ? LOVE_ANIMAL_TOOLS[selectedName]
@@ -71,6 +84,9 @@ export const Tools: React.FC = () => {
 
   const inventory = state.inventory;
   const price = getToolPrice(selected, 1, state);
+  const freeAmount = isLoveAnimalTool(selectedName)
+    ? 0
+    : getFreeToolAmount(WORKBENCH_TOOLS[selectedName], state);
 
   const selectedIngredients = selected.ingredients(state.bumpkin.skills);
 
@@ -79,11 +95,10 @@ export const Tools: React.FC = () => {
       ingredients?.mul(amount).greaterThan(inventory[name] || 0),
     );
 
-  const lessFunds = (amount = 1) => {
-    if (!price) return;
-
-    return state.coins < price * amount;
-  };
+  // Asks for the real total: with free tutorial Axes in the batch the cost is
+  // not simply the price of one times the amount.
+  const lessFunds = (amount = 1) =>
+    state.coins < getToolPrice(selected, amount, state);
 
   // Whether the player is short on coins or ingredients for a single craft.
   const lacksRequirements = (toolName: WorkbenchToolName | LoveAnimalItem) => {
@@ -106,6 +121,10 @@ export const Tools: React.FC = () => {
 
   const craft = (event: SyntheticEvent | undefined, amount: number) => {
     event?.stopPropagation();
+    const wasBuyingFirstAxes = needsFirstAxes(
+      gameService.getSnapshot().context.state,
+    );
+
     const state = gameService.send("tool.crafted", {
       tool: selectedName,
       amount,
@@ -121,6 +140,16 @@ export const Tools: React.FC = () => {
     }
 
     shortcutItem(selectedName);
+
+    // Tutorial: Axes in hand, Pete sends the player to the trees.
+    if (
+      wasBuyingFirstAxes &&
+      state.context.state.inventory.Axe?.greaterThanOrEqualTo(
+        TUTORIAL_AXE_COUNT,
+      )
+    ) {
+      openModal("PETE_CHOP");
+    }
   };
 
   const craftAnimalTool = (event: SyntheticEvent, amount: number) => {
@@ -132,7 +161,12 @@ export const Tools: React.FC = () => {
     shortcutItem(selectedName);
   };
 
-  const stock = state.stock[selectedName] || new Decimal(0);
+  // Tutorial Axes don't draw from the daily stock, so the craftable amount
+  // the UI works with comes from the free batch and the per-level paid
+  // budget instead - the stored Axe stock is ignored during that phase.
+  const stock = isLoveAnimalTool(selectedName)
+    ? new Decimal(0)
+    : getWorkbenchToolStock(selectedName, state);
 
   const bulkToolCraftAmount = makeBulkBuyTools(stock);
   const { t } = useAppTranslation();
@@ -142,10 +176,11 @@ export const Tools: React.FC = () => {
 
     return computeAffordableAmount(
       stock.toDecimalPlaces(0, Decimal.ROUND_DOWN).toNumber(),
-      price,
+      getToolUnitPrice(selected, state),
       state.coins,
       selectedIngredients,
       (name) => inventory[name] ?? new Decimal(0),
+      freeAmount,
     );
   };
 
@@ -204,11 +239,26 @@ export const Tools: React.FC = () => {
     }
 
     if (stock.equals(0)) {
+      // During the tutorial phase Axes aren't gem-restockable - the paid
+      // budget refreshes at the next level-up instead.
+      if (selectedName === "Axe" && isTutorialToolStockPhase(state)) {
+        return (
+          <Label type="info" className="mx-auto">
+            {t("tools.freeAxesAtNextLevel")}
+          </Label>
+        );
+      }
+
       return <Restock npc={"blacksmith"} />;
     }
 
     return (
       <div className="flex flex-col space-y-1 w-full">
+        {freeAmount > 0 && (
+          <Label type="success" className="mx-auto mb-1">
+            {t("tools.freeLeft", { amount: freeAmount })}
+          </Label>
+        )}
         <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col">
           <Button
             disabled={lessFunds() || lessIngredients() || stock.lessThan(1)}
@@ -217,18 +267,35 @@ export const Tools: React.FC = () => {
             {t("craft")} {"1"}
           </Button>
           {bulkToolCraftAmount > 1 && (
-            <Button
-              disabled={
-                lessFunds(bulkToolCraftAmount) ||
-                lessIngredients(bulkToolCraftAmount)
-              }
-              onClick={(e) => craft(e, bulkToolCraftAmount)}
-            >
-              {t("craft")} {bulkToolCraftAmount}
-            </Button>
+            <div className="relative w-full">
+              <Button
+                disabled={
+                  lessFunds(bulkToolCraftAmount) ||
+                  lessIngredients(bulkToolCraftAmount)
+                }
+                onClick={(e) => craft(e, bulkToolCraftAmount)}
+              >
+                {t("craft")} {bulkToolCraftAmount}
+              </Button>
+              {isBuyingFirstAxes && selectedName === "Axe" && (
+                <img
+                  className="absolute pointer-events-none z-30 animate-pulsate"
+                  src={SUNNYSIDE.icons.click_icon}
+                  style={{
+                    width: `${PIXEL_SCALE * 18}px`,
+                    right: `${PIXEL_SCALE * -4}px`,
+                    top: `${PIXEL_SCALE * 2}px`,
+                  }}
+                />
+              )}
+            </div>
           )}
         </div>
-        {stock.greaterThan(bulkToolCraftAmount) &&
+        {/* Craft-max is for established farms. On the tutorial island it
+            only duplicates the bulk button (10 free Axes, no coins), so it
+            waits for Petal Paradise like the seeds tab's bulk button does. */}
+        {hasRequiredIslandExpansion(state.island.type, "spring") &&
+          stock.greaterThan(bulkToolCraftAmount) &&
           (() => {
             const craftAllAmount = maxAffordableAmount();
             const stockAmount = stock
@@ -279,7 +346,13 @@ export const Tools: React.FC = () => {
 
   const ANIMAL_TOOLS = getKeys(LOVE_ANIMAL_TOOLS);
 
-  const buyAllEnabled = state.settings.toolShop?.buyAllEnabled ?? true;
+  // Buy All is a convenience for established farms. On the tutorial island the
+  // player is learning to buy tools one at a time, so it stays hidden until
+  // they reach Petal Paradise. Uses the expansion check so later islands and
+  // ascensions count too.
+  const buyAllEnabled =
+    (state.settings.toolShop?.buyAllEnabled ?? true) &&
+    hasRequiredIslandExpansion(state.island.type, "spring");
 
   const buyAllPlan = useMemo(
     () =>
@@ -322,7 +395,9 @@ export const Tools: React.FC = () => {
                 <div className="flex items-center">
                   <img src={SUNNYSIDE.ui.coins} className="h-6 mr-1" />
                   <span className="text-xs">
-                    {formatNumber(new Decimal(price).mul(craftAllAmount))}
+                    {formatNumber(
+                      getToolPrice(selected, craftAllAmount, state),
+                    )}
                   </span>
                 </div>
                 {getObjectEntries(selectedIngredients).map(

@@ -14,7 +14,6 @@ interface Props {
 
 export const LockedAnimalModal = ({ animal }: Props) => {
   const { t } = useAppTranslation();
-
   const level = getAnimalLevel(animal.experience, animal.type);
 
   return (

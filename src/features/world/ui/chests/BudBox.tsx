@@ -15,7 +15,8 @@ import rewardsIcon from "assets/icons/stock.webp";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ChestRevealing } from "./ChestRevealing";
 import { getKeys } from "lib/object";
-import type { Bud, TypeTrait } from "features/game/types/buds";
+import type { Bud } from "features/game/types/buds";
+import { BUD_ORDER, getDailyBudBoxType } from "features/game/lib/budBox";
 import {
   getDayOfYear,
   secondsTillReset,
@@ -28,28 +29,6 @@ import type { PanelTabs } from "features/game/components/CloseablePanel";
 interface Props {
   onClose: () => void;
   setIsLoading?: (isLoading: boolean) => void;
-}
-
-export const BUD_ORDER: TypeTrait[] = [
-  "Plaza",
-  "Woodlands",
-  "Cave",
-  "Sea",
-  "Castle",
-  "Port",
-  "Retreat",
-  "Saphiro",
-  "Snow",
-  "Beach",
-];
-
-/**
- * Based on day of year + year to get a consistent order of buds
- */
-export function getDailyBudBoxType(ms: number): TypeTrait {
-  const daysSinceEpoch = Math.floor(ms / (1000 * 60 * 60 * 24)) + 2; // +2 to match with current order
-  const index = daysSinceEpoch % BUD_ORDER.length;
-  return BUD_ORDER[index];
 }
 
 export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {

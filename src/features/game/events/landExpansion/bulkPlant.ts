@@ -5,7 +5,10 @@ import { produce } from "immer";
 import type { CropName } from "../../types/crops";
 import type { GameState, InventoryItemName } from "../../types/game";
 import { SEASONAL_SEEDS, type SeedName, SEEDS } from "../../types/seeds";
-import { CHAPTER_CROP_WEEK_SEED } from "../../types/chapterCropWeek";
+import {
+  CHAPTER_CROP_WEEK_SEED,
+  hasChapterCropWeekAccess,
+} from "../../types/chapterCropWeek";
 import { updateBoostUsed } from "../../types/updateBoostUsed";
 import type { BoostName } from "../../types/game";
 import { getAffectedWeather, plantCropOnPlot } from "./plant";
@@ -51,9 +54,13 @@ export function bulkPlant({
     }
 
     // The Chapter Crop Week seed is a limited-time event crop that is not tied
-    // to a season, so it is exempt from the seasonal availability check.
-    if (
-      action.seed !== CHAPTER_CROP_WEEK_SEED &&
+    // to a season, so it is exempt from the seasonal availability check and is
+    // instead gated on the event window (admin testers get early access).
+    if (action.seed === CHAPTER_CROP_WEEK_SEED) {
+      if (!hasChapterCropWeekAccess(stateCopy, createdAt)) {
+        throw new Error("Chapter Crop Week is not active");
+      }
+    } else if (
       !SEASONAL_SEEDS[stateCopy.season.season].includes(action.seed as SeedName)
     ) {
       throw new Error("This seed is not available in this season");
@@ -68,7 +75,9 @@ export function bulkPlant({
       throw new Error("Not enough seeds to plant");
     }
 
-    const cropName = action.seed.split(" ")[0] as CropName;
+    // Derive the crop from the seed definition rather than the seed's first
+    // word so multi-word crops (e.g. "Crystal Leaf Seed") resolve correctly.
+    const cropName = SEEDS[action.seed as SeedName].yield as CropName;
     const allBoostsUsed: { name: BoostName; value: string }[] = [];
 
     for (let i = 0; i < seedsToPlant; i++) {

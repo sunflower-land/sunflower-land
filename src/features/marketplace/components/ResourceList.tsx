@@ -25,10 +25,9 @@ import { getResourceTax } from "features/game/types/marketplace";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { InnerPanel } from "components/ui/Panel";
 import { useNow } from "lib/utils/hooks/useNow";
+import { MAX_RESOURCE_LISTINGS } from "../lib/tradeLimits";
 
 const LISTING_MULTIPLE_MIN = 1;
-const MAX_LISTINGS_OF_RESOURCE_FOR_BULK = 20;
-
 type Props = {
   inventoryCount: Decimal;
   itemName: TradeResource;
@@ -108,6 +107,25 @@ export const ResourceList: React.FC<Props> = ({
     game: gameState.context.state,
     now,
   });
+
+  const canList = !(
+    tooLittle ||
+    isTooHigh ||
+    isTooLow ||
+    maxSFL ||
+    new Decimal(quantity).mul(multiple).gt(inventoryCount) ||
+    new Decimal(quantity).gt(TRADE_LIMITS[itemName] ?? new Decimal(0)) ||
+    new Decimal(quantity).equals(0) || // Disable when quantity is 0
+    new Decimal(price).equals(0) || // Disable when sfl is 0
+    multiple < LISTING_MULTIPLE_MIN ||
+    multiple > maxMultiple ||
+    isSaving
+  );
+  const list = () => onList({ [itemName]: quantity }, price);
+  // Enter in any field lists, the same as pressing List when it's enabled.
+  const listOnEnter = () => {
+    if (canList) list();
+  };
 
   if (gameState.context.state.island.type === "basic") {
     return (
@@ -226,6 +244,9 @@ export const ResourceList: React.FC<Props> = ({
               <NumberInput
                 value={quantity}
                 maxDecimalPlaces={0}
+                // First field of the dialog: type the amount straight away.
+                autoFocus
+                onEnter={listOnEnter}
                 isOutOfRange={
                   inventoryCount.lt(new Decimal(quantity).mul(multiple)) ||
                   new Decimal(quantity).greaterThan(
@@ -280,6 +301,9 @@ export const ResourceList: React.FC<Props> = ({
                     isRightAligned={true}
                     value={inputType === "pricePerUnit" ? pricePerUnit : price}
                     maxDecimalPlaces={4}
+                    // Arrows nudge the last decimal, not whole FLOWER.
+                    step={0.0001}
+                    onEnter={listOnEnter}
                     isOutOfRange={
                       maxSFL ||
                       new Decimal(
@@ -323,6 +347,7 @@ export const ResourceList: React.FC<Props> = ({
               value={multiple}
               isRightAligned={true}
               maxDecimalPlaces={0}
+              onEnter={listOnEnter}
               isOutOfRange={
                 multiple < LISTING_MULTIPLE_MIN || multiple > maxMultiple
               }
@@ -359,7 +384,7 @@ export const ResourceList: React.FC<Props> = ({
               <InnerPanel>
                 <p className="text-xxs w-40 px-0.5">
                   {t("marketplace.maxBulk", {
-                    max: MAX_LISTINGS_OF_RESOURCE_FOR_BULK,
+                    max: MAX_RESOURCE_LISTINGS,
                   })}
                 </p>
               </InnerPanel>
@@ -447,28 +472,53 @@ export const ResourceList: React.FC<Props> = ({
             },
           )} ${t("marketplace.flower")}`}</p>
         </div>
+        {/* The rows above are per listing; a bulk listing repeats it, so
+            sum the fee and the payout across all of them. */}
+        {multiple > 1 && (
+          <>
+            <div
+              className="flex justify-between"
+              style={{
+                borderTop: "1px solid #ead4aa",
+                padding: "5px 5px 5px 2px",
+              }}
+            >
+              <span className="text-xs">
+                {t("marketplace.bulkTradingFee", { count: multiple })}
+              </span>
+              <p className="text-xs font-secondary">{`${formatNumber(
+                new Decimal(price).mul(tax).mul(multiple),
+                {
+                  decimalPlaces: 4,
+                  showTrailingZeros: true,
+                },
+              )} ${t("marketplace.flower")}`}</p>
+            </div>
+            <div
+              className="flex justify-between"
+              style={{
+                borderTop: "1px solid #ead4aa",
+                padding: "5px 5px 5px 2px",
+              }}
+            >
+              <span className="text-xs">
+                {t("marketplace.bulkYouWillReceive", { count: multiple })}
+              </span>
+              <p className="text-xs font-secondary">{`${formatNumber(
+                new Decimal(price).mul(new Decimal(1).sub(tax)).mul(multiple),
+                {
+                  decimalPlaces: 4,
+                  showTrailingZeros: true,
+                },
+              )} ${t("marketplace.flower")}`}</p>
+            </div>
+          </>
+        )}
         <div className="flex mt-2">
           <Button onClick={onCancel} className="mr-1">
             {t("bumpkinTrade.cancel")}
           </Button>
-          <Button
-            disabled={
-              tooLittle ||
-              isTooHigh ||
-              isTooLow ||
-              maxSFL ||
-              new Decimal(quantity).mul(multiple).gt(inventoryCount) ||
-              new Decimal(quantity).gt(
-                TRADE_LIMITS[itemName] ?? new Decimal(0),
-              ) ||
-              new Decimal(quantity).equals(0) || // Disable when quantity is 0
-              new Decimal(price).equals(0) || // Disable when sfl is 0
-              multiple < LISTING_MULTIPLE_MIN ||
-              multiple > maxMultiple ||
-              isSaving
-            }
-            onClick={() => onList({ [itemName]: quantity }, price)}
-          >
+          <Button disabled={!canList} onClick={list}>
             {t("bumpkinTrade.list")}
           </Button>
         </div>

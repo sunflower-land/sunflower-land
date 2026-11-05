@@ -22,6 +22,7 @@ import { ToastPanel } from "../toast/ToastPanel";
 import { Panel } from "components/ui/Panel";
 
 import { Swarming } from "../components/Swarming";
+import { SessionWatcher } from "../components/SessionWatcher";
 import { Captcha } from "../components/captcha/Captcha";
 import { Cooldown } from "../components/Cooldown";
 import { Route, Routes } from "react-router";
@@ -60,7 +61,6 @@ import { VIPOffer } from "../components/modal/components/VIPItems";
 import { StarterOfferModal } from "../components/modal/components/StarterOfferModal";
 import { RoninWaypointLoginModal } from "features/roninMigration/RoninWaypointLoginModal";
 import { GreenhouseInside } from "features/greenhouse/GreenhouseInside";
-import { useSound } from "lib/utils/hooks/useSound";
 import { SomethingArrived } from "./components/SomethingArrived";
 import { TradeAlreadyFulfilled } from "../components/TradeAlreadyFulfilled";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -68,6 +68,7 @@ import { Transaction } from "features/island/hud/Transaction";
 import { Gems } from "./components/Gems";
 import { HenHouseInside } from "features/henHouse/HenHouseInside";
 import { BarnInside } from "features/barn/BarnInside";
+import { PigpenInside } from "features/pigpen/PigpenInside";
 import { PetHouseInside } from "features/petHouse/PetHouseInside";
 import {
   STATE_MACHINE_EFFECTS,
@@ -92,7 +93,6 @@ import { LoveCharm } from "./components/LoveCharm";
 import { ClaimReferralRewards } from "./components/ClaimReferralRewards";
 import { ReferralsAnnouncement } from "./components/ReferralsAnnouncement";
 import { TermsAndConditions } from "./components/TermsAndConditions";
-import { SoftBan } from "features/retreat/components/personhood/SoftBan";
 import { RewardBox } from "features/rewardBoxes/RewardBox";
 import { SystemMessageWidget } from "features/announcements/SystemMessageWidget";
 import { TradesCleared } from "./components/TradesCleared";
@@ -247,7 +247,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   dailyReset: false,
   dailyResetting: false,
   jinAirdrop: true,
-  investigating: true,
   linkWallet: true,
   dailyReward: true,
   starterOffer: true,
@@ -300,6 +299,7 @@ const isLandToVisitNotFound = (state: MachineState) =>
 const currentState = (state: MachineState) => state.value;
 const getErrorCode = (state: MachineState) => state.context.errorCode;
 const getActions = (state: MachineState) => state.context.actions;
+const getDraftActions = (state: MachineState) => state.context.draftActions;
 
 const isTransacting = (state: MachineState) => state.matches("transacting");
 const isClaimAuction = (state: MachineState) => state.matches("claimAuction");
@@ -312,7 +312,6 @@ const getBanMessage = (state: MachineState) => state.context.banMessage;
 const hasAirdrop = (state: MachineState) => state.matches("airdrop");
 const isOnChainRaffleAcknowledgment = (state: MachineState) =>
   state.matches("onChainRaffleAcknowledgment");
-const isInvestigating = (state: MachineState) => state.matches("investigating");
 const hasFulfilledOffers = (state: MachineState) => state.matches("offers");
 const hasVipNotification = (state: MachineState) => state.matches("vip");
 const isPlaying = (state: MachineState) => state.matches("playing");
@@ -346,7 +345,6 @@ const _isVisiting = (state: MachineState) =>
 
 const GameContent: React.FC = () => {
   const { gameService } = useContext(Context);
-  useSound("desert", true);
 
   const isVisiting = useSelector(gameService, _isVisiting);
 
@@ -359,6 +357,8 @@ const GameContent: React.FC = () => {
       !!game.buildings.Greenhouse && isBuildingReady(game.buildings.Greenhouse),
     Barn: (game) =>
       !!game.buildings.Barn && isBuildingReady(game.buildings.Barn),
+    Pigpen: (game) =>
+      !!game.buildings.Pigpen && isBuildingReady(game.buildings.Pigpen),
     HenHouse: (game) =>
       !!game.buildings["Hen House"] &&
       isBuildingReady(game.buildings["Hen House"]),
@@ -436,6 +436,9 @@ const GameContent: React.FC = () => {
             <Route path="/greenhouse" element={<GreenhouseInside />} />
           )}
           {hasAccess("Barn") && <Route path="/barn" element={<BarnInside />} />}
+          {hasAccess("Pigpen") && (
+            <Route path="/pigpen" element={<PigpenInside />} />
+          )}
           {hasAccess("HenHouse") && (
             <Route path="/hen-house" element={<HenHouseInside />} />
           )}
@@ -503,6 +506,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const state = useSelector(gameService, currentState);
   const errorCode = useSelector(gameService, getErrorCode);
   const actions = useSelector(gameService, getActions);
+  const draftActions = useSelector(gameService, getDraftActions);
   const transacting = useSelector(gameService, isTransacting);
   const claimingAuction = useSelector(gameService, isClaimAuction);
   const refundAuction = useSelector(gameService, isRefundingAuction);
@@ -535,7 +539,6 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const calendarEvent = useSelector(gameService, isCalendarEvent);
   const jinAirdrop = useSelector(gameService, isJinAirdrop);
   const showPWAInstallPrompt = useSelector(authService, _showPWAInstallPrompt);
-  const investigating = useSelector(gameService, isInvestigating);
   const linkWallet = useSelector(gameService, isLinkWallet);
   const tradesCleared = useSelector(gameService, isTradesCleared);
   const isVisiting = useSelector(gameService, _isVisiting);
@@ -550,7 +553,8 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
 
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-      if (actions.length === 0) return;
+      // Unsent live actions, or an unsaved landscaping draft.
+      if (actions.length === 0 && draftActions.length === 0) return;
 
       event.preventDefault();
       event.returnValue = "";
@@ -562,7 +566,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, [actions]);
+  }, [actions, draftActions]);
 
   useEffect(() => {
     const save = () => {
@@ -593,6 +597,9 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   if (loadingSession || loadingLandToVisit || portalling) {
     return (
       <>
+        {/* First child here and in the main render, so React keeps the same
+            instance (and its socket) across the switch. */}
+        <SessionWatcher />
         <Ocean>
           <Modal show backdrop={false}>
             <div
@@ -695,6 +702,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
 
   return (
     <>
+      <SessionWatcher />
       <ToastProvider>
         <ToastPanel />
 
@@ -746,7 +754,6 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
             {hasCommunityCoin && <LoveCharm />}
             {jinAirdrop && <RoninJinClaim />}
             {showReferralRewards && <ClaimReferralRewards />}
-            {investigating && <SoftBan />}
             {linkWallet && <MigrateToLinkedWallet />}
           </Panel>
         </Modal>

@@ -9,6 +9,7 @@ import Decimal from "decimal.js-light";
 import { ANIMAL_SLEEP_DURATION } from "./feedAnimal";
 import { getAnimalReadyAt } from "features/game/lib/animals";
 import type { Animal, GameState } from "features/game/types/game";
+import { ANIMAL_LEVELS } from "features/game/types/animals";
 
 describe("loveAnimal", () => {
   const now = Date.now();
@@ -292,6 +293,146 @@ describe("loveAnimal", () => {
     expect(state.barn.animals["1"].item).toBe("Petting Hand");
   });
 
+  describe("at max level", () => {
+    const sleeping = {
+      asleepAt: now - 9 * 60 * 60 * 1000,
+      awakeAt: now - 9 * 60 * 60 * 1000 + ANIMAL_SLEEP_DURATION,
+      lovedAt: 0,
+      createdAt: 0,
+      item: "Petting Hand" as const,
+    };
+
+    const chickenMaxXp = ANIMAL_LEVELS.Chicken[15];
+    const chickenCycleXp = chickenMaxXp - ANIMAL_LEVELS.Chicken[14];
+    const cowMaxXp = ANIMAL_LEVELS.Cow[15];
+    const cowCycleXp = cowMaxXp - ANIMAL_LEVELS.Cow[14];
+
+    it("sets a level 15 chicken to ready when a pet completes its XP cycle", () => {
+      const state = loveAnimal({
+        state: {
+          ...INITIAL_FARM,
+          inventory: { "Petting Hand": new Decimal(1) },
+          henHouse: {
+            level: 1,
+            animals: {
+              "1": {
+                ...sleeping,
+                id: "1",
+                type: "Chicken",
+                // 10 XP short of the cycle; a Petting Hand gives 25
+                experience: chickenMaxXp + chickenCycleXp - 10,
+                state: "happy",
+              },
+            },
+          },
+        },
+        action: {
+          type: "animal.loved",
+          animal: "Chicken",
+          id: "1",
+          item: "Petting Hand",
+        },
+        createdAt: now,
+      });
+
+      expect(state.henHouse.animals["1"].state).toBe("ready");
+      expect(state.henHouse.animals["1"].experience).toBe(
+        chickenMaxXp + chickenCycleXp + 15,
+      );
+    });
+
+    it("sets a level 15 cow to ready when a pet completes its XP cycle", () => {
+      const state = loveAnimal({
+        state: {
+          ...INITIAL_FARM,
+          inventory: { "Petting Hand": new Decimal(1) },
+          barn: {
+            level: 1,
+            animals: {
+              "1": {
+                ...sleeping,
+                id: "1",
+                type: "Cow",
+                // Already two cycles in; 5 XP short of the third
+                experience: cowMaxXp + cowCycleXp * 3 - 5,
+                state: "happy",
+              },
+            },
+          },
+        },
+        action: {
+          type: "animal.loved",
+          animal: "Cow",
+          id: "1",
+          item: "Petting Hand",
+        },
+        createdAt: now,
+      });
+
+      expect(state.barn.animals["1"].state).toBe("ready");
+    });
+
+    it("leaves a level 15 animal as it was when a pet does not complete the cycle", () => {
+      const state = loveAnimal({
+        state: {
+          ...INITIAL_FARM,
+          inventory: { "Petting Hand": new Decimal(1) },
+          henHouse: {
+            level: 1,
+            animals: {
+              "1": {
+                ...sleeping,
+                id: "1",
+                type: "Chicken",
+                experience: chickenMaxXp + chickenCycleXp - 30,
+                state: "happy",
+              },
+            },
+          },
+        },
+        action: {
+          type: "animal.loved",
+          animal: "Chicken",
+          id: "1",
+          item: "Petting Hand",
+        },
+        createdAt: now,
+      });
+
+      expect(state.henHouse.animals["1"].state).toBe("happy");
+    });
+
+    it("sets a below-max animal to ready when a pet levels it up", () => {
+      const state = loveAnimal({
+        state: {
+          ...INITIAL_FARM,
+          inventory: { "Petting Hand": new Decimal(1) },
+          henHouse: {
+            level: 1,
+            animals: {
+              "1": {
+                ...sleeping,
+                id: "1",
+                type: "Chicken",
+                experience: ANIMAL_LEVELS.Chicken[14] - 10,
+                state: "happy",
+              },
+            },
+          },
+        },
+        action: {
+          type: "animal.loved",
+          animal: "Chicken",
+          id: "1",
+          item: "Petting Hand",
+        },
+        createdAt: now,
+      });
+
+      expect(state.henHouse.animals["1"].state).toBe("ready");
+    });
+  });
+
   it("give +10 XP to Cow if the Baby Cow is placed", () => {
     const state = loveAnimal({
       state: {
@@ -563,5 +704,115 @@ describe("love cadence under a windowed sleep", () => {
 
     expect(readyAt).toEqual(legacy.awakeAt);
     expect(getNextLoveAvailableAt(legacy, readyAt)).toEqual(now + SLEEP / 3);
+  });
+});
+
+describe("two loves per sleep", () => {
+  const HOUR = 60 * 60 * 1000;
+  const SLEEP = 24 * HOUR;
+  const now = Date.now();
+  const asleepAt = now - 20 * HOUR;
+
+  const chicken: Animal = {
+    id: "c1",
+    type: "Chicken",
+    state: "idle",
+    createdAt: 0,
+    experience: 1000,
+    asleepAt,
+    awakeAt: asleepAt + SLEEP,
+    lovedAt: 0,
+    item: "Petting Hand",
+  };
+
+  const gameWith = (animal: Animal): GameState => ({
+    ...INITIAL_FARM,
+    inventory: {
+      ...INITIAL_FARM.inventory,
+      "Petting Hand": new Decimal(10),
+      Brush: new Decimal(10),
+      "Music Box": new Decimal(10),
+    },
+    henHouse: { ...INITIAL_FARM.henHouse, animals: { c1: animal } },
+  });
+
+  const love = (game: GameState, createdAt: number) =>
+    loveAnimal({
+      state: game,
+      action: {
+        type: "animal.loved",
+        animal: "Chicken",
+        id: "c1",
+        item: game.henHouse.animals.c1.item,
+      },
+      createdAt,
+    });
+
+  it("counts each love in the sleep", () => {
+    const once = love(gameWith(chicken), asleepAt + 8 * HOUR);
+    const twice = love(once, asleepAt + 16 * HOUR);
+
+    expect(once.henHouse.animals.c1.lovesThisSleep).toBe(1);
+    expect(twice.henHouse.animals.c1.lovesThisSleep).toBe(2);
+  });
+
+  it("starts the count over in a new sleep", () => {
+    const game = gameWith({
+      ...chicken,
+      lovedAt: asleepAt - HOUR,
+      lovesThisSleep: 2,
+    });
+
+    expect(
+      love(game, asleepAt + 8 * HOUR).henHouse.animals.c1.lovesThisSleep,
+    ).toBe(1);
+  });
+
+  it("opens no slot once both are spent, even if the wake time moves later", () => {
+    // Both loves spent at 8h and 16h, then the sleep stretched to 30h (e.g. a
+    // shrine's coverage lost to a building lift): a third of it is now 10h.
+    const animal: Animal = {
+      ...chicken,
+      awakeAt: asleepAt + 30 * HOUR,
+      lovedAt: asleepAt + 16 * HOUR,
+      lovesThisSleep: 2,
+    };
+    const readyAt = getAnimalReadyAt(animal, gameWith(animal));
+
+    expect(getNextLoveAvailableAt(animal, readyAt)).toBeGreaterThanOrEqual(
+      readyAt,
+    );
+    expect(() => love(gameWith(animal), asleepAt + 26 * HOUR)).toThrow(
+      "The animal cannot be loved yet",
+    );
+  });
+
+  it("starts the count over when the new sleep begins on the last love's timestamp", () => {
+    // A love that completes the cycle can be claimed in the same millisecond.
+    const game = gameWith({ ...chicken, lovedAt: asleepAt, lovesThisSleep: 2 });
+
+    expect(
+      love(game, asleepAt + 8 * HOUR).henHouse.animals.c1.lovesThisSleep,
+    ).toBe(1);
+  });
+
+  it("rejects a third love at exactly the wake time", () => {
+    const animal: Animal = {
+      ...chicken,
+      lovedAt: asleepAt + 16 * HOUR,
+      lovesThisSleep: 2,
+    };
+
+    expect(() => love(gameWith(animal), asleepAt + SLEEP)).toThrow(
+      "The animal cannot be loved yet",
+    );
+  });
+
+  it("treats a love from before the count existed as one love", () => {
+    const game = gameWith({ ...chicken, lovedAt: asleepAt + 8 * HOUR });
+
+    expect(
+      love(game, asleepAt + 16 * HOUR).henHouse.animals.c1.lovesThisSleep,
+    ).toBe(2);
   });
 });

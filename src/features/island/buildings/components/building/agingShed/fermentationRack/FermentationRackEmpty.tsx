@@ -18,7 +18,10 @@ import type {
   Inventory,
   InventoryItemName,
 } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import {
   getBasketItems,
   getChestItems,
@@ -141,7 +144,7 @@ export const FermentationRackEmpty: React.FC<Props> = ({
             icon={selectedItem ? ITEM_DETAILS[selectedItem]?.image : undefined}
           >
             {selectedGroup
-              ? `${selectedGroup.item}${recipeOutputQuantity ? ` x ${recipeOutputQuantity.toString()}` : ""}`
+              ? `${getTranslatedItemName(selectedGroup.item)}${recipeOutputQuantity ? ` x ${recipeOutputQuantity.toString()}` : ""}`
               : t("agingShed.fermentation.selectFermentationOutput")}
           </Label>
           {selectedItem && (

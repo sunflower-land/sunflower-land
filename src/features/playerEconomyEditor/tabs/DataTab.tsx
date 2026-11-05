@@ -14,7 +14,7 @@ import type {
 } from "../lib/types";
 import { useEditorApi } from "../lib/useEditorApi";
 
-const LIMIT_OPTIONS = ["10", "25", "50", "100"];
+const LIMIT_OPTIONS = ["10", "25", "50", "100", "1000"];
 const DEFAULT_LIMIT = 50;
 
 const TEXT = "text-xs text-[#3e2731]";

@@ -29,6 +29,10 @@ import {
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { COMPETITION_POINTS } from "features/game/types/competitions";
 import { populateSaltFarm } from "features/game/types/salt";
+import {
+  snapshotGuardianPlacements,
+  syncGuardianPlacements,
+} from "features/game/lib/guardianPlacements";
 import { refreshBasicScarecrowTimeAOE } from "features/game/lib/aoe";
 import { getCollectiblesAcrossLocations } from "features/game/lib/getCollectiblesAcrossLocations";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
@@ -60,7 +64,16 @@ export function isCollectibleWithTimestamps(name: CollectibleName) {
 export const isPetCollectible = (name: CollectibleName): name is PetName =>
   name in PET_TYPES;
 
-export function placeCollectible({
+export function placeCollectible(options: Options): GameState {
+  const { state, createdAt = Date.now() } = options;
+  const guardiansBefore = snapshotGuardianPlacements(state);
+
+  return produce(placeCollectibleOnLand(options), (game) => {
+    syncGuardianPlacements(game, guardiansBefore, createdAt);
+  });
+}
+
+function placeCollectibleOnLand({
   state,
   action,
   createdAt = Date.now(),

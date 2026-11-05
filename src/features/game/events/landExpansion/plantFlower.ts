@@ -129,6 +129,14 @@ type GetPlantedAtArgs = {
 export function getPlantedAt({ seed, game, createdAt }: GetPlantedAtArgs): {
   plantedAt: number;
   baseDurationMs?: number;
+  /**
+   * Legacy model only: the total back-date applied to the active phase's start
+   * (ms). It is a DISCOUNT, not growth already done, so the progress bar has to
+   * un-back-date with it — otherwise a heavily boosted flower opens its bar
+   * near-full. Mirrors `PlantedCrop.boostedTime`. Omitted when nothing boosts
+   * the grow time.
+   */
+  boostedTime?: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
   const windowed = hasFeatureAccess(game, "SPEED_BOOSTS");
@@ -149,9 +157,13 @@ export function getPlantedAt({ seed, game, createdAt }: GetPlantedAtArgs): {
     };
   }
 
-  const offset = flowerTime - boostedTime;
+  const offsetMs = (flowerTime - boostedTime) * 1000;
 
-  return { plantedAt: createdAt - offset * 1000, boostsUsed };
+  return {
+    plantedAt: createdAt - offsetMs,
+    ...(offsetMs > 0 ? { boostedTime: offsetMs } : {}),
+    boostsUsed,
+  };
 }
 
 export function plantFlower({
@@ -218,11 +230,13 @@ export function plantFlower({
       (flowers.discovered[seedFlower] ?? []).includes(action.crossbreed),
     );
 
-    const { plantedAt, baseDurationMs, boostsUsed } = getPlantedAt({
-      seed: action.seed,
-      game: stateCopy,
-      createdAt,
-    });
+    const { plantedAt, baseDurationMs, boostedTime, boostsUsed } = getPlantedAt(
+      {
+        seed: action.seed,
+        game: stateCopy,
+        createdAt,
+      },
+    );
 
     flowerBed.flower = {
       plantedAt,
@@ -230,6 +244,8 @@ export function plantFlower({
       crossbreed: action.crossbreed,
       dirty: !flower,
       ...(baseDurationMs !== undefined ? { baseDurationMs } : {}),
+      // Legacy model: the back-date, for the progress bar to undo.
+      ...(boostedTime !== undefined ? { boostedTime } : {}),
     };
 
     stateCopy.farmActivity = trackFarmActivity(

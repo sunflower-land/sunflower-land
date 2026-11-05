@@ -3,6 +3,7 @@ import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
 import {
   getAnimalLevel,
   getAnimalReadyAt,
+  hasAnimalCompletedCycle,
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
@@ -41,7 +42,29 @@ export function getNextLoveAvailableAt(
   readyAt: number,
 ): number {
   const third = (readyAt - animal.asleepAt) / 3;
-  return Math.max(animal.asleepAt + third, animal.lovedAt + third);
+  const next = Math.max(animal.asleepAt + third, animal.lovedAt + third);
+
+  // Both slots spent: nothing opens before waking, even if the wake time has
+  // since moved later (a later wake stretches the third past the last love).
+  return getLovesThisSleep(animal) >= MAX_LOVES_PER_SLEEP
+    ? Math.max(next, readyAt)
+    : next;
+}
+
+const MAX_LOVES_PER_SLEEP = 2;
+
+/**
+ * Loves spent in the current sleep. A love at or before `asleepAt` belongs to an
+ * earlier sleep — no love lands on the start of one, the first slot opens a third
+ * in, but a cycle-completing love can be claimed in the same millisecond.
+ * `lovedAt` and `asleepAt` shift together on a building lift, so the comparison
+ * holds across one. An animal loved this sleep before the count existed has had
+ * at least one.
+ */
+export function getLovesThisSleep(animal: Animal): number {
+  if (animal.lovedAt <= animal.asleepAt) return 0;
+
+  return animal.lovesThisSleep ?? 1;
 }
 
 /**
@@ -100,7 +123,10 @@ export function loveAnimal({
     }
 
     // You can love an animal twice in a night — see getNextLoveAvailableAt.
-    if (!isAnimalNeedingLove(animal, createdAt, readyAt)) {
+    if (
+      getLovesThisSleep(animal) >= MAX_LOVES_PER_SLEEP ||
+      !isAnimalNeedingLove(animal, createdAt, readyAt)
+    ) {
       throw new Error("The animal cannot be loved yet");
     }
 
@@ -112,7 +138,7 @@ export function loveAnimal({
       throw new Error(`Missing item, ${action.item}`);
     }
 
-    const level = getAnimalLevel(animal.experience, animal.type);
+    const beforeLoveXp = animal.experience;
 
     const { animalXP } = getAnimalXP({
       name: action.item,
@@ -121,6 +147,7 @@ export function loveAnimal({
     });
 
     animal.experience += animalXP;
+    animal.lovesThisSleep = getLovesThisSleep(animal) + 1;
     animal.lovedAt = createdAt;
 
     animal.item = getAnimalItem(
@@ -128,7 +155,15 @@ export function loveAnimal({
       Math.random,
     );
 
-    if (level !== getAnimalLevel(animal.experience, animal.type)) {
+    // Same test as feeding: a level-up, or at max level a completed XP cycle,
+    // means the animal wakes with produce rather than a wrapped-around bar.
+    if (
+      hasAnimalCompletedCycle({
+        animalType: animal.type,
+        beforeXp: beforeLoveXp,
+        gainedXp: animalXP,
+      })
+    ) {
       animal.state = "ready";
     }
 

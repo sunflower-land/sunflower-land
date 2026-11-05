@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { CRIMSTONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import type {
   GameState,
   InventoryItemName,
@@ -123,8 +122,7 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
   const {
     now,
     readyAt,
-    speed,
-    displaySeconds: timeLeft,
+    countdownSeconds: timeLeft,
   } = useNodeTimer({
     startedAt: minedAt,
     baseDurationMs,
@@ -160,8 +158,6 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
       return () => clearTimeout(timeout);
     }
   }, [isAnimationRunning]);
-
-  useUiRefresher({ active: mined });
 
   const strike = () => {
     if (!hasTool) return;
@@ -258,7 +254,6 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
           minesLeft={resource.minesLeft}
           now={now}
           readyAt={readyAt}
-          speed={speed}
         />
       )}
     </div>

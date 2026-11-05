@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Decimal from "decimal.js-light";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
@@ -10,7 +10,10 @@ import {
   type GreenHouseCrop,
   type ProduceName,
 } from "features/game/types/crops";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  getTranslatedItemName,
+  ITEM_DETAILS,
+} from "features/game/types/images";
 import { getSellPrice } from "features/game/expansion/lib/boosts";
 import { setPrecision } from "lib/utils/formatNumber";
 import type { GreenHouseFruit, PatchFruit } from "features/game/types/fruits";
@@ -25,7 +28,10 @@ import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { BulkSellModal } from "components/ui/BulkSellModal";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { hasBoughtCropSeeds, hasSoldAnyCrop } from "./lib/onboarding";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 
+import { COOKABLES } from "features/game/types/consumables";
 import { SEASONAL_SEEDS, SEEDS } from "features/game/types/seeds";
 import { SEASON_ICONS } from "./SeasonalSeeds";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -35,9 +41,9 @@ import { getCountAndType } from "features/island/hud/components/inventory/utils/
 import {
   CHAPTER_CROP_WEEK,
   CHAPTER_CROP_WEEK_CROP,
-  isChapterCropWeekActive,
+  hasChapterCropWeekAccess,
+  isRetiredChapterCropWeekItem,
 } from "features/game/types/chapterCropWeek";
-import { hasUpgradedChapterCropWeekSkill } from "features/game/types/bumpkinSkills";
 import { useNow } from "lib/utils/hooks/useNow";
 import { SpecialEventPanel } from "../SpecialEventPanel";
 
@@ -51,8 +57,12 @@ export const SeasonalCrops: React.FC = () => {
 
   const [customAmount, setCustomAmount] = useState(new Decimal(0));
   const [isCustomSellModalOpen, showCustomSellModal] = useState(false);
+  // Tutorial guard: a sale that would break an open delivery waits here
+  // for the player to confirm it
+  const [pendingSale, setPendingSale] = useState<Decimal>();
 
   const { gameService } = useContext(Context);
+  const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
 
   const state = useSelector(gameService, _state);
@@ -61,9 +71,26 @@ export const SeasonalCrops: React.FC = () => {
     live: true,
     autoEndAt: CHAPTER_CROP_WEEK.endDate.getTime(),
   });
-  const isCropWeek = isChapterCropWeekActive(now);
+  const isCropWeek = hasChapterCropWeekAccess(state, now);
+  // A crop selected before its Chapter Crop Week run ended can't be sold any
+  // more (sellCrop rejects it), so its sell actions disappear at the boundary.
+  const isSelectedRetired = isRetiredChapterCropWeekItem(selected.name, now);
+
+  // Close any sale modal left open across the run's end: the sale would only
+  // be rejected.
+  useEffect(() => {
+    if (!isSelectedRetired) return;
+
+    // One-off reset at the retirement boundary, not a render loop.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setShowConfirmationModal(false);
+    showCustomSellModal(false);
+    setPendingSale(undefined);
+    setCustomAmount(new Decimal(0));
+  }, [isSelectedRetired]);
 
   const { island, season } = state;
+
   const { type: islandType } = island;
 
   const divRef = useRef<HTMLDivElement>(null);
@@ -75,12 +102,28 @@ export const SeasonalCrops: React.FC = () => {
         amount,
       });
     } else {
-      const state = gameService.send("crop.sold", {
+      // Read before the sale lands: afterwards the activity is already set.
+      const before = gameService.getSnapshot().context.state;
+      const isFirstSale =
+        before.island.type === "basic" && !hasSoldAnyCrop(before);
+      const isFirstSunflowerSale =
+        selected.name === "Sunflower" &&
+        !before.farmActivity?.["Sunflower Sold"];
+
+      gameService.send("crop.sold", {
         crop: selected.name,
         amount: setPrecision(amount, 2),
       });
 
-      if (state.context.state.farmActivity?.["Sunflower Sold"] === 1) {
+      // Tutorial: with coins in hand, Betty points the player at her seeds -
+      // unless the sell lesson came after they already own some.
+      if (isFirstSale && !hasBoughtCropSeeds(before)) {
+        openModal("BETTY_BUY");
+      }
+
+      // "Sunflower Sold" counts units, not sales, so compare against the
+      // state before the sale rather than checking for a total of 1.
+      if (isFirstSunflowerSale) {
         gameAnalytics.trackMilestone({
           event: "Tutorial:SunflowerSold:Completed",
         });
@@ -110,7 +153,56 @@ export const SeasonalCrops: React.FC = () => {
     2,
   );
 
-  const handleSell = (amount: Decimal) => {
+  /**
+   * Tutorial guard against the one-click dark path: selling crops an open
+   * delivery still needs (e.g. the 9 Sunflowers Peggy is waiting for). The
+   * tart order reserves the Rhubarb it is cooked from while no tart is held.
+   */
+  const blocksOpenDelivery = (amount: Decimal): boolean => {
+    if (islandType !== "basic") return false;
+
+    const remaining = cropAmount.sub(amount);
+
+    return state.delivery.orders.some((order) => {
+      if (order.completedAt) return false;
+
+      const direct = order.items[selected.name];
+      if (direct && remaining.lt(direct)) return true;
+
+      const tartsOrdered = order.items["Rhubarb Tart"] ?? 0;
+      if (selected.name === "Rhubarb" && tartsOrdered) {
+        const tartsHeld = state.inventory["Rhubarb Tart"] ?? new Decimal(0);
+        const tartsShort = new Decimal(tartsOrdered).sub(tartsHeld);
+        const rhubarbPerTart =
+          COOKABLES["Rhubarb Tart"].ingredients.Rhubarb ?? new Decimal(3);
+
+        return (
+          tartsShort.greaterThan(0) &&
+          remaining.lt(tartsShort.mul(rhubarbPerTart))
+        );
+      }
+
+      return false;
+    });
+  };
+
+  const handleSell = (amount: Decimal, bypassDeliveryGuard = false) => {
+    // A sale modal left open across the run's end would only be rejected.
+    if (isSelectedRetired) {
+      setShowConfirmationModal(false);
+      showCustomSellModal(false);
+      setPendingSale(undefined);
+      setCustomAmount(new Decimal(0));
+      return;
+    }
+
+    if (!bypassDeliveryGuard && blocksOpenDelivery(amount)) {
+      setShowConfirmationModal(false);
+      showCustomSellModal(false);
+      setPendingSale(amount);
+      return;
+    }
+
     sell(amount);
     setShowConfirmationModal(false);
     setCustomAmount(new Decimal(0));
@@ -162,62 +254,63 @@ export const SeasonalCrops: React.FC = () => {
               }}
               actionView={
                 <>
-                  {selected.name === CHAPTER_CROP_WEEK_CROP &&
-                    hasUpgradedChapterCropWeekSkill(
-                      state.bumpkin.skills,
-                      "Crops",
-                    ) && (
-                      <Label type="warning" className="mb-1">
-                        {t("chapterCropWeek.ascensionBoostsPaused")}
-                      </Label>
-                    )}
-                  <div className="flex flex-col h-full justify-between">
-                    <div className="flex space-x-1 mb-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
-                      {cropAmount.greaterThan(1) && (
-                        <Button onClick={() => handleSell(new Decimal(1))}>
-                          {t("sell.one")}
-                        </Button>
-                      )}
-                      {cropAmount.greaterThan(0) && (
-                        <Button
-                          onClick={() =>
-                            handleSell(
-                              cropAmount.greaterThan(10)
-                                ? new Decimal(10)
-                                : cropAmount,
-                            )
-                          }
-                        >
-                          {t(
-                            cropAmount.greaterThan(10)
-                              ? "sell.ten"
-                              : "sell.amount",
-                            { amount: cropAmount },
-                          )}
-                        </Button>
+                  {!isSelectedRetired && (
+                    <div className="flex flex-col h-full justify-between">
+                      <div className="flex space-x-1 mb-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
+                        {cropAmount.greaterThan(1) && (
+                          <Button onClick={() => handleSell(new Decimal(1))}>
+                            {t("sell.one")}
+                          </Button>
+                        )}
+                        {cropAmount.greaterThan(0) && (
+                          <div className="relative w-full">
+                            <Button
+                              onClick={() =>
+                                handleSell(
+                                  cropAmount.greaterThan(10)
+                                    ? new Decimal(10)
+                                    : cropAmount,
+                                )
+                              }
+                            >
+                              {t(
+                                cropAmount.greaterThan(10)
+                                  ? "sell.ten"
+                                  : "sell.amount",
+                                { amount: cropAmount },
+                              )}
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                      <div className="relative">
+                        {cropAmount.greaterThan(10) && (
+                          <>
+                            <Button
+                              onClick={
+                                islandType !== "basic"
+                                  ? openBulkSellModal
+                                  : openConfirmationModal
+                              }
+                            >
+                              {t(
+                                islandType !== "basic"
+                                  ? "sell.inBulk"
+                                  : "sell.all",
+                              )}
+                            </Button>
+                          </>
+                        )}
+                      </div>
+                      {cropAmount.lessThanOrEqualTo(0) && (
+                        <p className="text-xxs text-center mb-1">
+                          {t("crops.noCropsToSell", {
+                            cropName: selected.name,
+                          })}
+                        </p>
                       )}
                     </div>
-                    <div>
-                      {cropAmount.greaterThan(10) && (
-                        <Button
-                          onClick={
-                            islandType !== "basic"
-                              ? openBulkSellModal
-                              : openConfirmationModal
-                          }
-                        >
-                          {t(
-                            islandType !== "basic" ? "sell.inBulk" : "sell.all",
-                          )}
-                        </Button>
-                      )}
-                    </div>
-                    {cropAmount.lessThanOrEqualTo(0) && (
-                      <p className="text-xxs text-center mb-1">
-                        {t("crops.noCropsToSell", { cropName: selected.name })}
-                      </p>
-                    )}
-                  </div>
+                  )}
                 </>
               }
             />
@@ -275,6 +368,9 @@ export const SeasonalCrops: React.FC = () => {
               {getKeys(crops)
                 .filter((name) => !seasonal.includes(name))
                 .filter((name) => name !== CHAPTER_CROP_WEEK_CROP)
+                // Crops from ended Chapter Crop Week runs can't be sold
+                // (the server rejects them), so they are never listed
+                .filter((name) => !isRetiredChapterCropWeekItem(name, now))
                 .filter((name) => !!crops[name].sellPrice)
                 .map((name) => {
                   const { count } = getCountAndType(state, name);
@@ -294,13 +390,31 @@ export const SeasonalCrops: React.FC = () => {
           </div>
         }
       />
+      {/* Tutorial guard: the sale would leave too little for an open
+          delivery - make the player say it twice */}
+      <ConfirmationModal
+        show={!!pendingSale}
+        onHide={() => setPendingSale(undefined)}
+        messages={[
+          t("market.deliveryWarning", {
+            name: getTranslatedItemName(selected.name),
+          }),
+        ]}
+        onCancel={() => setPendingSale(undefined)}
+        onConfirm={() => {
+          if (pendingSale) handleSell(pendingSale, true);
+          setPendingSale(undefined);
+        }}
+        confirmButtonLabel={t("sell.anyway")}
+        bumpkinParts={NPC_WEARABLES.betty}
+      />
       <ConfirmationModal
         show={showConfirmationModal}
         onHide={closeConfirmationModal}
         messages={[
           t("confirmation.sell", {
             amount: islandType !== "basic" ? customAmount : cropAmount,
-            name: selected.name,
+            name: getTranslatedItemName(selected.name),
             coinAmount,
           }),
         ]}

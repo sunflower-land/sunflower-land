@@ -9,8 +9,13 @@ jobs:
   deploy:
     concurrency: mainnet-deploy
     environment: production
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     steps:
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
       - name: Notify engineers of release start
         continue-on-error: true
         env:
@@ -82,8 +87,11 @@ jobs:
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                model: "gpt-4.1-mini",
-                max_output_tokens: 400,
+                model: "gpt-5.6-sol",
+                // Reasoning tokens count against this budget, so keep reasoning
+                // low and leave room for the summary itself.
+                max_output_tokens: 800,
+                reasoning: { effort: "low" },
                 input: [
                   {
                     role: "system",
@@ -236,11 +244,6 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
 
       - name: Install Dependencies
         run: yarn install

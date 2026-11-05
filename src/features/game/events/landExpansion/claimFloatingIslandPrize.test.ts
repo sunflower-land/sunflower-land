@@ -123,6 +123,152 @@ describe("claimFloatingIslandPrize", () => {
         }),
       ).toBe(5);
     });
+
+    it("pays Love Buttons the same box, once a day, apart from Lover's Push", () => {
+      const state = claimFloatingIslandPrize({
+        state: claimPush(INITIAL_FARM),
+        action: {
+          type: "floatingIslandPrize.claimed",
+          amount: 0,
+          game: "love_buttons",
+          roundId: 1_757_000_000,
+        },
+        createdAt: now,
+      });
+
+      expect(state.inventory["Bronze Love Box"]).toEqual(new Decimal(2));
+      expect(state.inventory["Love Charm"]).toBeUndefined();
+      expect(state.floatingIsland.prizeClaims?.[1]).toEqual({
+        claimedAt: now,
+        amount: 0,
+        game: "love_buttons",
+        roundId: 1_757_000_000,
+      });
+      expect(() =>
+        claimFloatingIslandPrize({
+          state,
+          action: {
+            type: "floatingIslandPrize.claimed",
+            amount: 0,
+            game: "love_buttons",
+            roundId: 1_757_000_000,
+          },
+          createdAt: now,
+        }),
+      ).toThrow("Prize already claimed for this round");
+    });
+  });
+
+  /**
+   * The Love Boulder's prize (a box or coins) is rolled on the API, so this
+   * copy only records the claim; the server pays and the next sync brings it.
+   */
+  describe("a puzzle the server pays", () => {
+    const claimBoulder = (
+      state: GameState,
+      amount = 0,
+      createdAt = now,
+    ): GameState =>
+      claimFloatingIslandPrize({
+        state,
+        action: {
+          type: "floatingIslandPrize.claimed",
+          amount,
+          game: "love_boulder",
+          roundId: 1_757_000_000,
+        },
+        createdAt,
+      });
+
+    it("records the claim as worth 0 and pays nothing locally", () => {
+      const state = claimBoulder(vipFarm);
+
+      expect(state.inventory).toEqual(vipFarm.inventory);
+      expect(state.coins).toBe(vipFarm.coins);
+      expect(state.floatingIsland.prizeClaims).toEqual([
+        {
+          claimedAt: now,
+          amount: 0,
+          game: "love_boulder",
+          roundId: 1_757_000_000,
+        },
+      ]);
+    });
+
+    it("ignores a Love Charm amount an older client sends", () => {
+      const state = claimBoulder(INITIAL_FARM, 5);
+
+      expect(state.inventory["Love Charm"]).toBeUndefined();
+      expect(state.floatingIsland.prizeClaims?.[0].amount).toBe(0);
+    });
+
+    it("is not refused by a Love Charm cap the player has already hit", () => {
+      const spent: GameState = {
+        ...INITIAL_FARM,
+        floatingIsland: {
+          ...INITIAL_FARM.floatingIsland,
+          prizeClaims: [
+            { claimedAt: now - 1000, amount: 5, game: "love_dilemma" },
+          ],
+        },
+      };
+
+      expect(claimBoulder(spent, 20).floatingIsland.prizeClaims).toHaveLength(
+        2,
+      );
+    });
+
+    it("leaves the day's Love Charm budget for the other puzzles", () => {
+      expect(
+        getFloatingIslandLoveCharmsRemainingToday({
+          state: claimBoulder(INITIAL_FARM, 20),
+          createdAt: now,
+        }),
+      ).toBe(5);
+    });
+
+    it("treats the lake's Marvel the same way - same roll, same rules", () => {
+      const state = claimFloatingIslandPrize({
+        state: INITIAL_FARM,
+        action: {
+          type: "floatingIslandPrize.claimed",
+          // An older client might still send a Love Charm amount
+          amount: 20,
+          game: "love_kraken",
+          roundId: 1_757_000_001,
+        },
+        createdAt: now,
+      });
+
+      expect(state.inventory["Love Charm"]).toBeUndefined();
+      expect(state.coins).toBe(INITIAL_FARM.coins);
+      expect(state.floatingIsland.prizeClaims).toEqual([
+        {
+          claimedAt: now,
+          amount: 0,
+          game: "love_kraken",
+          roundId: 1_757_000_001,
+        },
+      ]);
+      expect(
+        getFloatingIslandLoveCharmsRemainingToday({ state, createdAt: now }),
+      ).toBe(5);
+    });
+
+    it("lets the Marvel and the boulder both pay on the same day", () => {
+      const state = claimFloatingIslandPrize({
+        state: claimBoulder(INITIAL_FARM),
+        action: {
+          type: "floatingIslandPrize.claimed",
+          amount: 0,
+          game: "love_kraken",
+          roundId: 1_757_000_001,
+        },
+        createdAt: now,
+      });
+
+      expect(state.floatingIsland.prizeClaims).toHaveLength(2);
+    });
   });
 
   it("rejects a second claim for the same game and round", () => {

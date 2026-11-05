@@ -652,6 +652,7 @@ export function configToForm(
     slug,
     playUrl: cfg.playUrl ?? "",
     enabled: cfg.enabled !== false,
+    requirePrivateKey: cfg.requirePrivateKey === true,
     mainCurrencyToken,
     descriptionTitle: cfg.descriptions?.title ?? "",
     descriptionSubtitle: cfg.descriptions?.subtitle ?? "",

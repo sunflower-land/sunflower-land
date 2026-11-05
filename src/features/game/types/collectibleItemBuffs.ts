@@ -7,6 +7,8 @@ import helpIcon from "assets/icons/help.webp";
 import chefHat from "assets/icons/chef_hat.png";
 import tradeIcon from "assets/icons/trade.png";
 import bee from "assets/icons/bee.webp";
+import baits from "assets/composters/baits.png";
+import fertilisers from "assets/composters/fertilisers.png";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "./images";
@@ -135,9 +137,8 @@ export function getFertiliserBuffLabels({
  * durations differ), so both read their labels from here. Itemised one row per
  * activity like the Legendary Shrine, rather than one sentence listing them all.
  *
- * Crafting is the odd one out: it is the only totem activity still on the legacy
- * discount-at-start model, so it keeps the "time" wording even under
- * SPEED_BOOSTS. The rest are windowed speed boosts (see boostWindows.ts).
+ * Every activity here is a windowed speed boost under SPEED_BOOSTS, so all six
+ * rows switch to the "speed" wording together (see boostWindows.ts).
  */
 const getTotemBuffLabels = (game: GameState): BuffLabel[] => {
   const windowed = hasFeatureAccess(game, "SPEED_BOOSTS");
@@ -184,9 +185,9 @@ const getTotemBuffLabels = (game: GameState): BuffLabel[] => {
       boostedItemIcon: chefHat,
     },
     {
-      // Not windowed yet, so no ".speed" variant - the crafting box still takes
-      // the discount at start.
-      shortDescription: translate("description.totem.buff.crafting"),
+      shortDescription: windowed
+        ? translate("description.totem.buff.crafting.speed")
+        : translate("description.totem.buff.crafting"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Crafting Box"].image,
@@ -474,7 +475,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
   ],
   Hoot: () => [
     {
-      shortDescription: translate("description.hoot.boost"),
+      // Hoot boosts every Overnight Crop (see isOvernightCrop), which the
+      // seed shop and crop guide tag, so the text doesn't list them by hand.
+      shortDescription: translate("description.hoot.boost.overnight"),
       labelType: "success",
       boostTypeIcon: powerup,
     },
@@ -550,11 +553,20 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: powerup,
     },
   ],
+  "Truffle Seasoning": () => [
+    {
+      shortDescription: translate("description.truffle.seasoning.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+  ],
 
   // Clash of Factions
-  "Turbo Sprout": () => [
+  "Turbo Sprout": (game) => [
     {
-      shortDescription: translate("description.turbo.sprout.boost"),
+      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+        ? translate("description.turbo.sprout.boost.speed")
+        : translate("description.turbo.sprout.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
@@ -1906,9 +1918,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: helpIcon,
     },
   ],
-  "Fox Shrine": () => [
+  "Fox Shrine": (game) => [
     {
-      shortDescription: translate("description.foxShrine.buff"),
+      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+        ? translate("description.foxShrine.buff.speed")
+        : translate("description.foxShrine.buff"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Crafting Box"].image,
@@ -2119,7 +2133,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS["Greenhouse"].image,
     },
     {
-      shortDescription: translate("description.tortoiseShrine.buff.2"),
+      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+        ? translate("description.tortoiseShrine.buff.2.speed")
+        : translate("description.tortoiseShrine.buff.2"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Crop Machine"].image,
@@ -2414,7 +2430,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       shortDescription: translate("description.deepSeaSlug.boost.2"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostedItemIcon: ITEM_DETAILS["Earthworm"].image,
+      boostedItemIcon: baits,
     },
   ],
   "Salt Crystal Flower": () => [
@@ -2442,6 +2458,151 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       shortDescription: translate("description.ascensionMonument.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+  ],
+  "Duende Monument": () => [
+    {
+      shortDescription: translate("description.duendeMonument.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.tools.hammer,
+    },
+    {
+      shortDescription: translate("description.duendeMonument.warning"),
+      labelType: "danger",
+      boostTypeIcon: SUNNYSIDE.icons.cancel,
+    },
+    {
+      shortDescription: translate("description.duendeMonument.boost.2"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+  ],
+  "Straw House": () => [
+    {
+      shortDescription: translate("description.strawHouse.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+    {
+      shortDescription: translate("description.strawHouse.boost.2"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: fertilisers,
+    },
+    {
+      shortDescription: translate("description.strawHouse.boost.3"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: baits,
+    },
+  ],
+  "Pot of Luck": () => [
+    {
+      shortDescription: translate("description.potOfLuck.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Sand Shovel"].image,
+    },
+    {
+      shortDescription: translate("description.potOfLuck.warning"),
+      labelType: "danger",
+    },
+  ],
+  "Giant Truffle": () => [
+    {
+      shortDescription: translate("description.giantTruffle.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
+    {
+      shortDescription: translate("description.giantTruffle.boost.2"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Smoothie Shack"].image,
+    },
+    {
+      shortDescription: translate("description.giantTruffle.boost.3"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Deli.image,
+    },
+  ],
+  "Brick House": () => [
+    {
+      shortDescription: translate("description.brickHouse.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: ITEM_DETAILS.Crimstone.image,
+    },
+    {
+      shortDescription: translate("description.brickHouse.warning"),
+      labelType: "danger",
+      boostTypeIcon: SUNNYSIDE.icons.cancel,
+    },
+    {
+      shortDescription: translate("description.brickHouse.boost.2"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.ui.coins,
+    },
+  ],
+  "Stick House": () => [
+    {
+      shortDescription: translate("description.stickHouse.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: ITEM_DETAILS.Oil.image,
+    },
+    {
+      shortDescription: translate("description.stickHouse.warning"),
+      labelType: "danger",
+      boostTypeIcon: SUNNYSIDE.icons.cancel,
+    },
+    {
+      shortDescription: translate("description.stickHouse.boost.2"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+  ],
+  "Mushroom Chicken": () => [
+    {
+      shortDescription: translate("description.mushroomChicken.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Crimstone.image,
+    },
+  ],
+  "Beetle Sheep": () => [
+    {
+      shortDescription: translate("description.beetleSheep.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: SUNNYSIDE.animals.sheepSleeping,
+    },
+  ],
+  "Ladybug Cow": () => [
+    {
+      shortDescription: translate("description.ladybugCow.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Oil.image,
+    },
+  ],
+  "Cyclops Bloom": () => [
+    {
+      shortDescription: translate("description.cyclopsBloom.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
+    },
+  ],
+  Macropinna: () => [
+    {
+      shortDescription: translate("description.macropinna.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Obsidian.image,
     },
   ],
   "Otty the Otter": () => [
@@ -2562,7 +2723,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
         const translationKey =
           `description.bonus${ticket.replace(/\s+/g, "")}.boost` as TranslationKeys;
 
-        return Object.values(items)
+        return Object.values(items ?? {})
           .filter(isCollectible)
           .map((item) => [
             item,

@@ -3,6 +3,7 @@ import type {
   AnimalFoodName,
   AnimalMedicineName,
   GameState,
+  InventoryItemName,
 } from "features/game/types/game";
 import { ANIMAL_FOODS } from "features/game/types/animals";
 import { getKeys } from "lib/object";
@@ -12,6 +13,8 @@ export type BulkMixFeedAction = {
   type: "feeds.bulkMixed";
   feeds: {
     item: AnimalFoodName | AnimalMedicineName;
+    /** The one input a Pig Slop is mixed from; never set for other feeds. */
+    ingredient?: InventoryItemName;
     amount: number;
   }[];
 };
@@ -25,7 +28,7 @@ type Options = {
 // rejects malformed input early regardless of where it is called (the FE path
 // has no schema validation).
 const MAX_BULK_MIX_ENTRIES = getKeys(ANIMAL_FOODS).length;
-const MAX_BULK_MIX_AMOUNT = 1000;
+export const MAX_BULK_MIX_AMOUNT = 1000;
 
 export function bulkMixFeed({ state, action }: Options) {
   if (action.feeds.length < 1 || action.feeds.length > MAX_BULK_MIX_ENTRIES) {

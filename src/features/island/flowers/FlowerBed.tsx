@@ -39,7 +39,6 @@ import { secondsToString } from "lib/utils/time";
 import type { PlantedFlower } from "features/game/types/game";
 import type { MachineState } from "features/game/lib/gameMachine";
 import {
-  computeReadyAt,
   areBoostWindowsEqual,
   getFlowerBoostWindows,
 } from "features/game/lib/boostWindows";
@@ -178,37 +177,26 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
   const baseDurationMs = flower.baseDurationMs;
   const startedAt = flower.plantedAt;
 
-  // Speed-rate model derives the ready time live from the windows; legacy flowers
-  // use their (back-dated) plantedAt + base grow time.
-  const readyAt =
-    baseDurationMs !== undefined
-      ? computeReadyAt({
-          startedAt,
-          baseDurationMs,
-          windows: flowerBoostWindows,
-        })
-      : startedAt + growTimeMs;
-
-  // `secondsLeft` is the remaining WORK: it drives the growth stage, the progress
-  // fill and the insta-grow cost, none of which may change with a display setting.
-  // `displaySeconds` is the reading the player has chosen to see.
-  const {
-    now,
-    speed,
-    workLeftSeconds: secondsLeft,
-    displaySeconds,
-  } = useNodeTimer({
+  // `secondsLeft` is the remaining WORK: it drives the growth stage and the
+  // progress fill — work does not drain at wall-clock rate while a boost window
+  // is running. `countdownSeconds` is the reading shown, and what insta-grow is
+  // priced from (instaGrowFlower charges on readyAt - now).
+  const { workLeftSeconds: secondsLeft, countdownSeconds } = useNodeTimer({
     startedAt,
     baseDurationMs,
     windows: flowerBoostWindows,
-    legacyReadyAt: readyAt,
+    legacyReadyAt: startedAt + growTimeMs,
   });
-  // Fold pre-lift banked work into the denominator so the progress bar retains
-  // its fill across a landscaping lift instead of snapping backward.
+  // `boostedTime` carries a different quantity in each model:
+  // - windowed: pre-lift banked WORK, folded into the denominator so the bar
+  //   retains its fill across a landscaping lift instead of snapping backward.
+  // - legacy: the DISCOUNT baked in by back-dating `plantedAt`. It is not
+  //   growth already done, so it comes OFF the total — dividing by the full
+  //   `growSeconds` would open the bar near-full on a boosted flower.
   const totalSeconds =
     baseDurationMs !== undefined
       ? (baseDurationMs + (flower.boostedTime ?? 0)) / 1000
-      : growSeconds;
+      : Math.max(growSeconds - (flower.boostedTime ?? 0) / 1000, 0);
   // Guard the zero-duration case (an insta-grown windowed flower has
   // baseDurationMs === 0): 0 / 0 would be NaN, which makes getGrowthStage fall
   // through to "sprout" for a flower that is actually ready.
@@ -218,7 +206,6 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
       : 100 - (Math.max(secondsLeft, 0) / totalSeconds) * 100;
 
   const isGrowing = secondsLeft > 0;
-  const isBoosted = speed > 1;
 
   const popoverVisible = showPopover && isGrowing && !flower.dirty;
 
@@ -245,7 +232,7 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
   const hasHarvestedBefore = !!farmActivity[`${flower.name} Harvested`];
   const reward = flower.reward;
 
-  const instaGrowCost = calculateInstaGrowCost(secondsLeft);
+  const instaGrowCost = calculateInstaGrowCost(countdownSeconds);
   const playerObsidian = inventory.Obsidian ?? new Decimal(0);
 
   const handlePlotClick = () => {
@@ -304,19 +291,6 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
             bottom: 0,
           }}
         />
-        {isGrowing && isBoosted && (
-          <img
-            src={SUNNYSIDE.icons.lightning}
-            alt=""
-            aria-hidden
-            className="absolute z-20 pointer-events-none animate-pulse"
-            style={{
-              width: `${PIXEL_SCALE * 7}px`,
-              top: `${PIXEL_SCALE * 2}px`,
-              right: `${PIXEL_SCALE * 2}px`,
-            }}
-          />
-        )}
         {flower && isGrowing && !flower.dirty && (
           <div
             className="flex justify-center absolute w-full pointer-events-none"
@@ -336,10 +310,7 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
                   : t("unknown")
               }
               showPopover={showPopover}
-              timeLeft={displaySeconds}
-              speed={speed}
-              readyAt={readyAt}
-              now={now}
+              timeLeft={countdownSeconds}
             />
           </div>
         )}
@@ -355,7 +326,7 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
           >
             <ProgressBar
               percentage={growPercentage}
-              seconds={!flower.dirty ? displaySeconds : undefined}
+              seconds={!flower.dirty ? countdownSeconds : undefined}
               type="progress"
               formatLength="short"
             />
@@ -466,11 +437,8 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
             <div className="flex flex-col gap-1 sm:flex-row sm:gap-2">
               <Label type="vibrant">{t("instaGrow")}</Label>
               <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-                {/* Deliberately the WORK reading, not the player's display
-                    setting: it is the quantity the Obsidian cost below is
-                    calculated from, so the two must agree. */}
                 {t("instaGrow.timeRemaining", {
-                  time: secondsToString(secondsLeft, { length: "medium" }),
+                  time: secondsToString(countdownSeconds, { length: "medium" }),
                 })}
               </Label>
             </div>

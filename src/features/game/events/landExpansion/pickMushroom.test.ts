@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
-import type { GameState } from "features/game/types/game";
+import type { GameState, Mushroom } from "features/game/types/game";
 import { pickMushroom } from "./pickMushroom";
 
 describe("pickMushroom", () => {
@@ -12,8 +12,8 @@ describe("pickMushroom", () => {
       mushrooms: {
         spawnedAt: 0,
         mushrooms: {
-          "1": { x: 1, y: 1, amount: 1, name: "Wild Mushroom" },
-          "2": { x: 2, y: 2, amount: 1, name: "Wild Mushroom" },
+          "1": { x: 1, y: 1, name: "Wild Mushroom" },
+          "2": { x: 2, y: 2, name: "Wild Mushroom" },
         },
       },
     };
@@ -110,5 +110,81 @@ describe("pickMushroom", () => {
     });
 
     expect(newState2.inventory["Wild Mushroom"]).toStrictEqual(new Decimal(2));
+  });
+
+  describe("yield", () => {
+    const PLACED = [
+      { id: "1", createdAt: 0, coordinates: { x: 0, y: 0 }, readyAt: 0 },
+    ];
+
+    it("works out the yield at pick time from the current boosts", () => {
+      const newState = pickMushroom({
+        state: { ...state, collectibles: { "Mushroom House": PLACED } },
+        action: { type: "mushroom.picked", id: "1" },
+        createdAt: Date.now(),
+      });
+
+      expect(newState.inventory["Wild Mushroom"]).toStrictEqual(
+        new Decimal(1.2),
+      );
+    });
+
+    it("ignores an amount that was stored on the mushroom at spawn", () => {
+      const legacy = { x: 1, y: 1, name: "Wild Mushroom", amount: 5 };
+
+      const newState = pickMushroom({
+        state: {
+          ...state,
+          mushrooms: {
+            spawnedAt: 0,
+            mushrooms: { "1": legacy as unknown as Mushroom },
+          },
+        },
+        action: { type: "mushroom.picked", id: "1" },
+        createdAt: Date.now(),
+      });
+
+      expect(newState.inventory["Wild Mushroom"]).toStrictEqual(new Decimal(1));
+    });
+
+    it("boosts Magic Mushrooms with a Magic Mushroom stem bud", () => {
+      const newState = pickMushroom({
+        state: {
+          ...state,
+          mushrooms: {
+            spawnedAt: 0,
+            mushrooms: { "1": { x: 1, y: 1, name: "Magic Mushroom" } },
+          },
+          buds: {
+            1: {
+              type: "Plaza",
+              colour: "Blue",
+              ears: "No Ears",
+              aura: "No Aura",
+              stem: "Magic Mushroom",
+              coordinates: { x: 0, y: 0 },
+            },
+          },
+        },
+        action: { type: "mushroom.picked", id: "1" },
+        createdAt: Date.now(),
+      });
+
+      expect(newState.inventory["Magic Mushroom"]).toStrictEqual(
+        new Decimal(1.2),
+      );
+    });
+
+    it("records the boosts used at pick time", () => {
+      const createdAt = Date.now();
+
+      const newState = pickMushroom({
+        state: { ...state, collectibles: { "Mushroom House": PLACED } },
+        action: { type: "mushroom.picked", id: "1" },
+        createdAt,
+      });
+
+      expect(newState.boostsUsedAt?.["Mushroom House"]).toEqual(createdAt);
+    });
   });
 });

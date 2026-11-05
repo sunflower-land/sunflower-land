@@ -13,6 +13,7 @@ import { TREASURE_TOOLS } from "../types/tools";
 import { FLOWER_SEEDS } from "../types/flowers";
 import { ANIMAL_FOODS } from "../types/animals";
 import { RECIPE_CRAFTABLES } from "./crafting";
+import { BEETLES } from "../types/beetles";
 
 /**
  * Tradeable items use 18 decimals for decimal point storage
@@ -34,7 +35,8 @@ export function getItemUnit(name: InventoryItemName) {
     name in SHOVELS ||
     name in FERTILISERS ||
     name in ANIMAL_FOODS ||
-    name in RECIPE_CRAFTABLES
+    name in RECIPE_CRAFTABLES ||
+    (BEETLES as readonly InventoryItemName[]).includes(name)
   ) {
     return "ether";
   }

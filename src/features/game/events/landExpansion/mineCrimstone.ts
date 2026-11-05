@@ -178,6 +178,10 @@ export function getCrimstoneDropAmount({
       amount = amount.add(v);
       boostsUsed.push({ name: "Fire Kissed", value: `+${v}` });
     }
+    if (isCollectibleBuilt({ name: "Mushroom Chicken", game })) {
+      amount = amount.add(0.5);
+      boostsUsed.push({ name: "Mushroom Chicken", value: "+0.5" });
+    }
     amount = amount.add(2);
     boostsUsed.push({ name: "Streak Bonus", value: "+2" });
   }

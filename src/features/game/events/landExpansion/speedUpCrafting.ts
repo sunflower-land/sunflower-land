@@ -8,6 +8,8 @@ import {
 } from "features/game/lib/getInstantGems";
 import Decimal from "decimal.js-light";
 import { recalculateCraftingQueue } from "./cancelQueuedCrafting";
+import { getCraftingBoostWindows } from "features/game/lib/boostWindows";
+import { resolveCraftingQueue } from "features/game/lib/craftingReadiness";
 
 export type InstantCraftAction = {
   type: "crafting.spedUp";
@@ -33,21 +35,31 @@ export function speedUpCrafting({
 
     const { craftingBox, inventory } = game;
     const queue = craftingBox.queue ?? [];
-    const { readyAt, status } = craftingBox;
+    const { status } = craftingBox;
 
     if (status !== "crafting" || queue.length === 0) {
       throw new Error("Crafting box is not crafting");
     }
 
-    const firstInProgress = queue.find((q) => q.readyAt > createdAt);
-    const currentReadyAt =
-      firstInProgress?.readyAt ?? queue[0]?.readyAt ?? readyAt;
-    if (currentReadyAt <= createdAt) {
+    // Readiness and the price both come from the DERIVED chain, not the stored
+    // `readyAt` cache: a boost placed since the last write has already pulled the
+    // queue forward, so the cache can name a craft that is in fact finished (the
+    // player would pay gems for nothing) and would quote a wait longer than the
+    // one they can actually see.
+    const readyAts = resolveCraftingQueue({
+      queue,
+      windows: getCraftingBoostWindows(game),
+    });
+
+    // Address by INDEX, never by a readyAt predicate: two crafts can share a ready
+    // time, and only the one paid for should be affected.
+    const index = readyAts.findIndex((readyAt) => readyAt > createdAt);
+    if (index === -1) {
       throw new Error("Crafting box is not ready to be sped up");
     }
 
     const gems = getInstantGems({
-      readyAt: currentReadyAt,
+      readyAt: readyAts[index],
       now: createdAt,
       game,
     });
@@ -66,18 +78,17 @@ export function speedUpCrafting({
       game = makeGemHistory({ game, amount: gems, createdAt });
     }
 
-    if (queue.length > 0) {
-      const readyItems = queue.filter((q) => q.readyAt <= createdAt);
-      const inProgressItems = queue.filter((q) => q.readyAt > createdAt);
-
-      const recalculated = recalculateCraftingQueue({
-        queue: inProgressItems,
-        game,
-        firstItemReadyAt: createdAt,
-      });
-
-      game.craftingBox.queue = [...readyItems, ...recalculated];
-    }
+    // Recalculated in place. The queue is deliberately NOT re-ordered into
+    // ready-then-in-progress any more: array position is the chain's only
+    // structure once starts are derived, and reordering also scrambles the UI's
+    // slot order.
+    game.craftingBox.queue = recalculateCraftingQueue({
+      queue,
+      game,
+      now: createdAt,
+      spedUpIndex: index,
+      spedUpAt: createdAt,
+    });
 
     return game;
   });

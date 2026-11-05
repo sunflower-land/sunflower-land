@@ -35,6 +35,8 @@ import {
   meetsLevelRequirement,
 } from "features/game/lib/level";
 import lockIcon from "assets/icons/lock.png";
+import chest from "assets/icons/chest.png";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 import type { GameState, InventoryItemName } from "features/game/types/game";
 import { CHORE_DETAILS } from "../lib/choreDetails";
@@ -241,9 +243,25 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
                 )}/${NPC_CHORES[previewChore.name].requirement}`}</p>
               </div>
 
+              <div className="flex flex-wrap items-center justify-between gap-1">
+                <div className="flex items-center">
+                  <SquareIcon icon={chest} width={7} />
+                  <span className="text-xs ml-1">{t("reward")}</span>
+                </div>
+                <div className="ml-auto">
+                  <ChoreRewardLabel
+                    key={previewChore.name}
+                    chore={previewChore}
+                    state={state}
+                    showName
+                    interactive
+                  />
+                </div>
+              </div>
+
               {!previewChore.completedAt && (
                 <Button
-                  className="h-12 relative !mt-4"
+                  className="h-12 relative !mt-2"
                   disabled={
                     !!previewChore.completedAt ||
                     getChoreProgress({
@@ -259,9 +277,6 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
                   }}
                 >
                   {t("chores.complete")}
-                  <div className="flex absolute right-0 -top-5">
-                    <ChoreRewardLabel chore={previewChore} state={state} />
-                  </div>
                 </Button>
               )}
 
@@ -412,10 +427,19 @@ export const LockedChoreCard: React.FC<{
   );
 };
 
+/**
+ * A chore's reward. Cards show it compactly (with a lightning icon when boosted);
+ * the detail panel passes `interactive` so clicking it opens the boosts
+ * breakdown there, where it doesn't cover the chore grid.
+ */
 export const ChoreRewardLabel: React.FC<{
   chore: NpcChore;
   state: GameState;
-}> = ({ chore, state }) => {
+  /** Show the reward item's name next to the amount. */
+  showName?: boolean;
+  /** Open the boosts breakdown on click. */
+  interactive?: boolean;
+}> = ({ chore, state, showName = false, interactive = false }) => {
   const now = useNow();
   const ticket = getChapterTicket(now);
   const [showBoosts, setShowBoosts] = useState(false);
@@ -428,36 +452,47 @@ export const ChoreRewardLabel: React.FC<{
       now: new Date(),
     });
     const isBoosted = boostsUsed.length > 0;
+    const canOpenBoosts = interactive && isBoosted;
+    const amount = items[ticket] ?? 0;
 
     return (
       <div
         ref={boostsAnchorRef}
-        className={classNames("relative", { "cursor-pointer": isBoosted })}
-        role={isBoosted ? "button" : undefined}
-        tabIndex={isBoosted ? 0 : undefined}
-        aria-expanded={isBoosted ? showBoosts : undefined}
+        className={classNames("relative", {
+          "cursor-pointer": canOpenBoosts,
+        })}
+        role={canOpenBoosts ? "button" : undefined}
+        tabIndex={canOpenBoosts ? 0 : undefined}
+        aria-expanded={canOpenBoosts ? showBoosts : undefined}
         onClick={(e) => {
-          if (!isBoosted) return;
+          if (!canOpenBoosts) return;
           e.stopPropagation();
           setShowBoosts((prev) => !prev);
         }}
         onKeyDown={(e) => {
-          if (!isBoosted || (e.key !== "Enter" && e.key !== " ")) return;
+          if (!canOpenBoosts || (e.key !== "Enter" && e.key !== " ")) return;
           e.preventDefault();
           e.stopPropagation();
           setShowBoosts((prev) => !prev);
         }}
       >
-        <Label type={"warning"} icon={ITEM_DETAILS[ticket].image}>
-          {items[ticket] ?? 0}
+        <Label
+          type={"warning"}
+          icon={ITEM_DETAILS[ticket].image}
+          secondaryIcon={isBoosted ? SUNNYSIDE.icons.lightning : undefined}
+          className="whitespace-nowrap"
+        >
+          {showName ? `${amount} ${ticket}` : amount}
         </Label>
-        {isBoosted && showBoosts && (
+        {canOpenBoosts && showBoosts && (
           <BoostsDisplay
             boosts={boostsUsed}
             show={showBoosts}
             state={state}
             onClick={() => setShowBoosts(false)}
             anchorRef={boostsAnchorRef}
+            portalAlign="right"
+            portalPlacement="auto"
           />
         )}
       </div>

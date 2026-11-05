@@ -54,11 +54,11 @@ const betaTimePeriodFeatureFlag =
   (game: GameState) =>
   (now: number) => {
     if (end === null) {
-      return betaFeatureFlag(game) || now > start.getTime();
+      return betaFeatureFlag(game) || now >= start.getTime();
     }
 
     return (
-      (betaFeatureFlag(game) || now > start.getTime()) && now < end.getTime()
+      (betaFeatureFlag(game) || now >= start.getTime()) && now < end.getTime()
     );
   };
 
@@ -76,24 +76,9 @@ export const TIME_BASED_FEATURE_FLAG_WINDOWS = {
     start: new Date("2026-05-11T00:00:00Z"),
     end: null,
   },
-  APRIL_FOOLS_EVENT_FLAG: {
-    start: new Date("2026-04-01T00:00:00Z"),
-    end: new Date("2026-04-08T00:00:00Z"),
-  },
-  COLORS_2026_EVENT_FLAG: {
-    start: new Date("2026-07-13T00:00:00Z"),
-    end: new Date("2026-07-23T00:00:00Z"),
-  },
-  RONIN_WAYPOINT_DEPRECATION: {
-    start: WAYPOINT_WALLET_ENDDATE,
-    end: null,
-  },
-  // Ascending from Swamp (A1) into the next island (Spooky, A2) unlocks on this
-  // date. Testnet bypasses. The first ascension (Volcano → Swamp / A0 → A1) is not
-  // time-gated — it unlocks on the standard level-150 / expansion / resource costs.
-  SPOOKY_ASCENSION: {
-    start: new Date("2026-09-07T00:00:00Z"),
-    end: null,
+  HALLOWEEN_2026_EVENT_FLAG: {
+    start: new Date("2026-10-26T00:00:00Z"),
+    end: new Date("2026-11-02T00:00:00Z"),
   },
   // Ascension Age chapter VIP perk: VIP holders expand their land 10% faster.
   // Live from Mon 10th Aug 2026 (when the chapter's tasks begin) until the
@@ -118,11 +103,7 @@ export const TIME_BASED_FEATURE_FLAGS: Record<
 > = {
   TICKETS_FROM_COIN_NPC: timePeriodFeatureFlag,
   TICKETS_FROM_FLOWER_NPC: timePeriodFeatureFlag,
-  APRIL_FOOLS_EVENT_FLAG: betaTimePeriodFeatureFlag,
-  RONIN_WAYPOINT_DEPRECATION: timePeriodFeatureFlag,
-  COLORS_2026_EVENT_FLAG: betaTimePeriodFeatureFlag,
-  // Testnet-only bypass before the date (not beta), so live testers can reach A2.
-  SPOOKY_ASCENSION: timePeriodFeatureFlag,
+  HALLOWEEN_2026_EVENT_FLAG: betaTimePeriodFeatureFlag,
   ASCENSION_AGE_VIP_EXPANSION: timePeriodFeatureFlag,
 };
 
@@ -169,6 +150,7 @@ const FEATURE_FLAGS = {
     (game.wardrobe["Streamer Hat"] ?? 0) > 0 || testnetFeatureFlag(),
 
   // Temporary Feature Flags
+
   FACE_RECOGNITION_TEST: betaFeatureFlag,
   // The developer-options button that forces a captcha on your own farm
   TRIGGER_CAPTCHA: betaFeatureFlag,
@@ -181,36 +163,20 @@ const FEATURE_FLAGS = {
   MODERATOR: (game) =>
     !!((game.wardrobe.Halo ?? 0) > 0) && !!game.inventory["Beta Pass"]?.gt(0),
 
-  /**
-   * Gates the new home-interior placement system: the /interior route, the
-   * /level_one upgrade route, and the `interior.upgrade` event. Beta-pass /
-   * testnet only until the feature ships to all players.
-   */
-  HOME_EXPANSIONS: betaFeatureFlag,
-
-  BOOSTS_DISPLAY: betaFeatureFlag,
-
-  // Saving & re-applying named farm layouts in landscaping mode.
-  SAVED_LAYOUTS: betaFeatureFlag,
-
   // Speed-rate (Clash-of-Clans potion) model for time-based boosts — starting
   // with the Sparrow Shrine on crops. When on, planting stores the new
   // baseDurationMs + true plantedAt model; when off, boosts stay discount-at-start.
   SPEED_BOOSTS: betaFeatureFlag,
 
-  // Bulk Mixer tab in the feeder machine: mix the missing feed for every
-  // waiting animal at once. Beta-pass / testnet only until it ships.
-  BULK_MIXER: betaFeatureFlag,
-
   // Beta testers can grab a Yakkamon pre-registration code before the level
   // tiers open to everyone else. The server enforces the same rule.
   YAKKAMON_BETA_ACCESS: betaFeatureFlag,
 
-  // Surfaces the 3 flowers most recently gifted to each NPC as a quick-pick
-  // shortlist in the gift flow, with no manual favoriting step. Client-side
-  // only (localStorage), but still gated behind beta access while the UX is
-  // validated.
-  RECENT_GIFT_FLOWERS: betaFeatureFlag,
+  // Admin testers (Gift Giver + Beta Pass, or testnet) can buy, grow, cook and
+  // trade the Chapter Crop Week items before CHAPTER_CROP_WEEK.startDate so the
+  // run can be tested on mainnet. Everyone else waits for the event window —
+  // see hasChapterCropWeekAccess. Remove once the event is live for all.
+  CHAPTER_CROP_WEEK_EARLY_ACCESS: adminFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

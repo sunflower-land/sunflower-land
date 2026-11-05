@@ -10,25 +10,45 @@ import { useSelector } from "@xstate/react";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { CraftingBoxModalContent } from "./components/CraftingBoxModalContent";
 import { ProgressBar } from "components/ui/ProgressBar";
-import { useCountdown } from "lib/utils/hooks/useCountdown";
+import type { CraftingQueueItem } from "features/game/types/game";
+import type { BoostWindow } from "features/game/lib/boostWindows";
+import { useNodeTimer } from "features/game/lib/useNodeTimer";
+import { useCraftingQueue } from "./components/useCraftingQueue";
 
 import craftingBoxAnimation from "assets/buildings/crafting_box_animation.webp";
-import { useNow } from "lib/utils/hooks/useNow";
 
 interface CraftingTimerProps {
-  readyAt: number;
-  startedAt: number;
+  item: CraftingQueueItem;
+  startedAt: number | undefined;
+  windows: BoostWindow[];
 }
 
 const CraftingTimer: React.FC<CraftingTimerProps> = ({
-  readyAt,
+  item,
   startedAt,
+  windows,
 }) => {
-  const { totalSeconds: secondsLeft } = useCountdown(readyAt);
-  const totalRunningSeconds = Math.max((readyAt - startedAt) / 1000, 1);
-  const elapsedSeconds = Math.max(totalRunningSeconds - secondsLeft, 0);
+  // One timer for both models. A windowed craft (`baseDurationMs` set) ticks at
+  // the boosted rate; a legacy one falls through to the plain countdown on
+  // `readyAt`.
+  const { workLeftSeconds, countdownSeconds } = useNodeTimer({
+    startedAt: startedAt ?? item.readyAt,
+    baseDurationMs: item.baseDurationMs,
+    windows,
+    legacyReadyAt: item.readyAt,
+  });
+
+  // How full the bar is tracks remaining WORK, never the displayed reading - the
+  // two differ whenever a boost is running.
+  const totalSeconds =
+    item.baseDurationMs === undefined
+      ? Math.max((item.readyAt - (startedAt ?? item.readyAt)) / 1000, 1)
+      : Math.max(item.baseDurationMs / 1000, 1);
+  const leftSeconds =
+    item.baseDurationMs === undefined ? countdownSeconds : workLeftSeconds;
+
   const percentage = Math.min(
-    (elapsedSeconds / totalRunningSeconds) * 100,
+    ((totalSeconds - leftSeconds) / totalSeconds) * 100,
     100,
   );
 
@@ -45,7 +65,7 @@ const CraftingTimer: React.FC<CraftingTimerProps> = ({
         percentage={percentage}
         type="progress"
         formatLength="short"
-        seconds={secondsLeft}
+        seconds={countdownSeconds}
         style={{
           width: `${PIXEL_SCALE * 14}px`,
         }}
@@ -64,26 +84,18 @@ export const CraftingBox: React.FC = () => {
   const { gameService, showTimers } = useContext(Context);
 
   const craftingBox = useSelector(gameService, _craftingBox);
-  const { status: craftingStatus, queue: craftingQueue = [] } = craftingBox;
 
-  const maxReadyAt =
-    craftingQueue.length > 0
-      ? Math.max(...craftingQueue.map((i) => i.readyAt), 0)
-      : Infinity;
-  const needsLiveTime =
-    craftingStatus === "crafting" &&
-    maxReadyAt != null &&
-    Number.isFinite(maxReadyAt);
-  const now = useNow({
-    live: needsLiveTime,
-    autoEndAt: needsLiveTime ? maxReadyAt : undefined,
-  });
+  // The island building, the modal and the queue slots all read their timings
+  // from this one hook, so they cannot disagree about what is ready.
+  const { craftingQueue, timings, windows, inProgress, readyProducts } =
+    useCraftingQueue(craftingBox);
 
-  const inProgress = craftingQueue.filter((item) => item.readyAt > now);
-  const readyProducts = craftingQueue.filter((item) => item.readyAt <= now);
   const hasReadyItem = readyProducts.length > 0;
   const hasInProgressItem = inProgress.length > 0;
   const nextInProgress = inProgress[0];
+  const nextInProgressIndex = craftingQueue.findIndex(
+    (item) => item.id === nextInProgress?.id,
+  );
 
   const handleOpen = () => {
     gameService.send("SAVE");
@@ -118,8 +130,9 @@ export const CraftingBox: React.FC = () => {
           />
           {showTimers && hasInProgressItem && nextInProgress && (
             <CraftingTimer
-              readyAt={nextInProgress.readyAt}
-              startedAt={nextInProgress.startedAt}
+              item={nextInProgress}
+              startedAt={timings[nextInProgressIndex]?.startedAt}
+              windows={windows}
             />
           )}
         </div>

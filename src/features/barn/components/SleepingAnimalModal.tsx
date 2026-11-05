@@ -26,6 +26,8 @@ import {
   getAnimalLevel,
   getResourceDropAmount,
   isMaxLevel as isMaxAnimalLevel,
+  isMuddy,
+  MUD_XP_MULTIPLIER,
 } from "features/game/lib/animals";
 import {
   ANIMAL_LEVELS,
@@ -133,14 +135,13 @@ export const SleepingAnimalModal = ({
 
   // `awakeAt` is already the live windowed wake time — the animal components
   // resolve it before rendering this modal (see `resolveAnimal`).
-  const { displaySeconds: secondsLeft, speed } = useNodeTimer({
+  const { countdownSeconds: secondsLeft } = useNodeTimer({
     startedAt: animal.asleepAt,
     baseDurationMs: animal.baseDurationMs,
     windows: getAnimalBoostWindows(state, animal.type),
     legacyReadyAt: awakeAt,
   });
-  // The love slot is a wall-clock boundary, not a work timer, so it counts down
-  // in real time regardless of the display setting.
+  // The love slot is a wall-clock boundary, not a work timer.
   const { totalSeconds: secondsUntilLove } = useCountdown(
     getNextLoveAvailableAt(animal, awakeAt),
   );
@@ -247,19 +248,6 @@ export const SleepingAnimalModal = ({
             {" "}
             {`${t("wakesIn")} ${secondsToString(secondsLeft, { length: "medium" })}`}
           </span>
-          {speed > 1 && (
-            <Label
-              type="transparent"
-              icon={SUNNYSIDE.icons.lightning}
-              className="self-center"
-            >
-              <span className="whitespace-nowrap">
-                {t("description.boostedSpeed", {
-                  speed: Number(speed.toFixed(2)),
-                })}
-              </span>
-            </Label>
-          )}
         </div>
         {production.length > 0 && (
           <div
@@ -386,6 +374,27 @@ export const SleepingAnimalModal = ({
               <span className="text-xs -top-0.5 relative">
                 {t("sleepingAnimal.harvestsLeft", {
                   count: animal.feedBuff.harvestsRemaining,
+                })}
+              </span>
+            </div>
+          </div>
+        )}
+
+        {animal.mud && isMuddy(animal) && (
+          <div className="flex text-sm p-1 items-center">
+            <img
+              src={ITEM_DETAILS.Mud.image}
+              alt={getTranslatedItemName("Mud")}
+              className="w-6 mr-2"
+            />
+            <div>
+              <p className="text-sm font-secondary">
+                {getTranslatedItemName("Mud")}
+              </p>
+              <span className="text-xs -top-0.5 relative">
+                {t("sleepingAnimal.mudHarvestsLeft", {
+                  count: animal.mud.harvestsRemaining,
+                  percent: Math.round((MUD_XP_MULTIPLIER - 1) * 100),
                 })}
               </span>
             </div>

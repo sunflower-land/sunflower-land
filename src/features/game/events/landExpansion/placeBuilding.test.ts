@@ -2,7 +2,12 @@ import Decimal from "decimal.js-light";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
 import { createInitialAgingShed } from "../../lib/agingShed";
-import type { BuildingProduct, GameState } from "../../types/game";
+import type {
+  BuildingProduct,
+  CraftingQueueItem,
+  GameState,
+  PlacedItem,
+} from "../../types/game";
 import { getAnimalReadyAt } from "../../lib/animals";
 import { getNextLoveAvailableAt, isAnimalNeedingLove } from "./loveAnimal";
 import { placeBuilding } from "./placeBuilding";
@@ -267,6 +272,165 @@ describe("Place building", () => {
 
     expect(producing?.startedAt).toEqual(startedAt + downtime);
     expect(producing?.readyAt).toEqual(readyAt + downtime);
+  });
+
+  describe("crafting box queue", () => {
+    const MIN = 60 * 1000;
+
+    const box = (removedAt: number): GameState["buildings"] => ({
+      "Crafting Box": [
+        {
+          id: "123",
+          createdAt: dateNow - 24 * 60 * MIN,
+          readyAt: dateNow - 24 * 60 * MIN,
+          removedAt,
+        },
+      ],
+    });
+
+    const craft = (
+      overrides: Partial<CraftingQueueItem> & { id: string; readyAt: number },
+    ) =>
+      ({
+        type: "collectible",
+        name: "Doll",
+        ...overrides,
+      }) as CraftingQueueItem;
+
+    const place = (state: GameState) =>
+      placeBuilding({
+        farmId,
+        state,
+        action: {
+          type: "building.placed",
+          name: "Crafting Box",
+          id: "123",
+          coordinates: { x: 1, y: 1 },
+        },
+        createdAt: dateNow,
+      });
+
+    it("banks work at the boosted rate and resumes the remainder at 1x", () => {
+      const startedAt = dateNow - 60 * MIN;
+      const removedAt = dateNow - 30 * MIN;
+
+      const state = place({
+        ...GAME_STATE,
+        inventory: { "Crafting Box": new Decimal(1) },
+        // A totem covering only the pre-lift stretch: placed with the craft,
+        // expired (4h cooldown is longer, so clamp it with removedAt instead).
+        collectibles: {
+          ...GAME_STATE.collectibles,
+          "Time Warp Totem": [
+            {
+              id: "t",
+              coordinates: { x: 9, y: 9 },
+              createdAt: startedAt,
+              readyAt: startedAt,
+              removedAt,
+            },
+          ],
+        },
+        buildings: box(removedAt),
+        craftingBox: {
+          status: "crafting",
+          // 90 min of work, 30 min elapsed under a 2x totem before the lift.
+          queue: [
+            craft({
+              id: "a",
+              startedAt,
+              baseDurationMs: 90 * MIN,
+              readyAt: startedAt + 60 * MIN,
+            }),
+          ],
+          recipes: {},
+        },
+      });
+
+      const [craftAfter] = state.craftingBox.queue ?? [];
+
+      // 30 real minutes at 2x banked 60 minutes of work, leaving 30.
+      expect(craftAfter.baseDurationMs).toEqual(30 * MIN);
+      // It resumes from the placement, and the downtime costs nothing.
+      expect(craftAfter.startedAt).toEqual(dateNow);
+      expect(craftAfter.readyAt).toEqual(dateNow + 30 * MIN);
+    });
+
+    it("keeps shifting BOTH timestamps for a legacy queue", () => {
+      const startedAt = dateNow - 60 * MIN;
+      const removedAt = dateNow - 30 * MIN;
+      const downtime = dateNow - removedAt;
+
+      const state = place({
+        ...GAME_STATE,
+        inventory: { "Crafting Box": new Decimal(1) },
+        buildings: box(removedAt),
+        craftingBox: {
+          status: "crafting",
+          queue: [
+            craft({ id: "a", startedAt, readyAt: startedAt + 90 * MIN }),
+            craft({
+              id: "b",
+              startedAt: startedAt + 90 * MIN,
+              readyAt: startedAt + 120 * MIN,
+            }),
+          ],
+          recipes: {},
+        },
+      });
+
+      const queue = state.craftingBox.queue ?? [];
+      expect(queue[0].startedAt).toEqual(startedAt + downtime);
+      expect(queue[0].readyAt).toEqual(startedAt + 90 * MIN + downtime);
+      expect(queue[1].startedAt).toEqual(startedAt + 90 * MIN + downtime);
+      expect(queue[1].readyAt).toEqual(startedAt + 120 * MIN + downtime);
+    });
+
+    it("leaves an instant proc untouched and keeps a queued craft chained", () => {
+      const startedAt = dateNow - 60 * MIN;
+      const removedAt = dateNow - 30 * MIN;
+
+      const state = place({
+        ...GAME_STATE,
+        inventory: { "Crafting Box": new Decimal(1) },
+        buildings: box(removedAt),
+        craftingBox: {
+          status: "crafting",
+          queue: [
+            craft({
+              id: "a",
+              startedAt,
+              baseDurationMs: 90 * MIN,
+              readyAt: startedAt + 90 * MIN,
+            }),
+            craft({
+              id: "proc",
+              startedAt,
+              baseDurationMs: 0,
+              readyAt: startedAt,
+            }),
+            craft({
+              id: "b",
+              baseDurationMs: 30 * MIN,
+              readyAt: startedAt + 120 * MIN,
+            }),
+          ],
+          recipes: {},
+        },
+      });
+
+      const queue = state.craftingBox.queue ?? [];
+
+      // The proc keeps its own anchor and ready time.
+      expect(queue[1].startedAt).toEqual(startedAt);
+      expect(queue[1].readyAt).toEqual(startedAt);
+      expect(queue[1].baseDurationMs).toEqual(0);
+
+      // `b` had not started, so it stays chained and tracks the head.
+      expect(queue[2].startedAt).toBeUndefined();
+      expect(queue[2].baseDurationMs).toEqual(30 * MIN);
+      expect(queue[2].readyAt).toEqual(queue[0].readyAt + 30 * MIN);
+    });
   });
 
   describe("cooking queues", () => {
@@ -1337,5 +1501,246 @@ describe("Place building", () => {
       readyAt,
     );
     expect(isAnimalNeedingLove(animal, readyAt - 1, readyAt)).toBe(false);
+  });
+
+  // The lift shifts the sleep but not the shrine's window, so a sleep the shrine
+  // runs out during loses coverage and wakes later; a third of it grows with it.
+  it("does not grant an extra love slot when the lift costs a shrine's coverage", () => {
+    const HOUR = 60 * 60 * 1000;
+    const SLEEP = 24 * HOUR;
+    const asleepAt = dateNow - 30 * HOUR;
+    const base: GameState = {
+      ...GAME_STATE,
+      inventory: {
+        "Basic Land": new Decimal(10),
+        "Hen House": new Decimal(1),
+      },
+      henHouse: {
+        level: 1,
+        animals: {
+          "123": {
+            type: "Chicken",
+            id: "123",
+            state: "idle",
+            createdAt: asleepAt,
+            experience: 1000,
+            asleepAt,
+            awakeAt: asleepAt + SLEEP,
+            baseDurationMs: SLEEP,
+            lovedAt: 0,
+            item: "Brush",
+          },
+        },
+      },
+    };
+    // The shrine runs out 12h into the sleep.
+    base.collectibles = {
+      "Bantam Shrine": [
+        {
+          id: "b",
+          createdAt:
+            asleepAt + 12 * HOUR - getExpiryCooldown("Bantam Shrine", base),
+          readyAt: 0,
+          coordinates: { x: 5, y: 5 },
+        },
+      ],
+    };
+    const third =
+      (getAnimalReadyAt(base.henHouse.animals["123"], base) - asleepAt) / 3;
+    const liftedAt = asleepAt + 2 * third;
+
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...base,
+        buildings: {
+          "Hen House": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              removedAt: liftedAt,
+            },
+          ],
+        },
+        henHouse: {
+          ...base.henHouse,
+          animals: {
+            "123": {
+              ...base.henHouse.animals["123"],
+              // Both slots spent.
+              lovedAt: liftedAt,
+              lovesThisSleep: 2,
+            },
+          },
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Hen House",
+        id: "123",
+        coordinates: { x: 0, y: 1 },
+      },
+      createdAt: liftedAt + 2 * HOUR,
+    });
+
+    const animal = state.henHouse.animals["123"];
+    const readyAt = getAnimalReadyAt(animal, state);
+
+    expect(getNextLoveAvailableAt(animal, readyAt)).toBeGreaterThanOrEqual(
+      readyAt,
+    );
+  });
+});
+
+describe("placeBuilding (windowed crop machine)", () => {
+  const HOUR = 60 * 60 * 1000;
+  const at = Date.now();
+
+  const liftedMachine = (
+    overrides: Record<string, unknown> = {},
+  ): GameState => ({
+    ...GAME_STATE,
+    inventory: {
+      ...GAME_STATE.inventory,
+      "Crop Machine": new Decimal(1),
+      "Basic Land": new Decimal(10),
+    },
+    buildings: {
+      "Crop Machine": [
+        {
+          id: "123",
+          createdAt: 0,
+          readyAt: 0,
+          coordinates: undefined,
+          removedAt: at - 2 * HOUR,
+          // Settled at the lift by removeBuilding: 1h of work already banked.
+          oilSettledAt: at - 2 * HOUR,
+          unallocatedOilTime: 9 * HOUR,
+          queue: [
+            {
+              crop: "Sunflower",
+              seeds: 10,
+              growTimeRemaining: 3 * HOUR,
+              totalGrowTime: 4 * HOUR,
+              baseDurationMs: 3 * HOUR,
+            },
+          ],
+          ...overrides,
+        },
+      ],
+    },
+  });
+
+  it("re-anchors the fuel ledger across the downtime: the lifted interval costs neither fuel nor credit", () => {
+    const state = placeBuilding({
+      farmId: 1,
+      state: liftedMachine(),
+      action: {
+        type: "building.placed",
+        name: "Crop Machine",
+        id: "123",
+        coordinates: { x: 0, y: 1 },
+      },
+      createdAt: at,
+    });
+
+    const machine = state.buildings["Crop Machine"]?.[0];
+    const pack = machine?.queue?.[0];
+
+    expect(machine?.removedAt).toBeUndefined();
+    expect(machine?.oilSettledAt).toBe(at);
+    expect(machine?.unallocatedOilTime).toBe(9 * HOUR);
+    // The banked work is untouched; the remainder resumes from placement.
+    expect(pack?.baseDurationMs).toBe(3 * HOUR);
+    expect(pack?.readyAt).toBe(at + 3 * HOUR);
+    expect(pack?.growTimeRemaining).toBe(0);
+  });
+
+  it("keeps a completed pack harvestable across the lift", () => {
+    const state = placeBuilding({
+      farmId: 1,
+      state: liftedMachine({
+        queue: [
+          {
+            crop: "Sunflower",
+            seeds: 10,
+            growTimeRemaining: 0,
+            totalGrowTime: HOUR,
+            readyAt: at - 3 * HOUR,
+          },
+        ],
+      }),
+      action: {
+        type: "building.placed",
+        name: "Crop Machine",
+        id: "123",
+        coordinates: { x: 0, y: 1 },
+      },
+      createdAt: at,
+    });
+
+    const pack = state.buildings["Crop Machine"]?.[0]?.queue?.[0];
+    // Finalised history is never shifted forward.
+    expect(pack?.readyAt).toBe(at - 3 * HOUR);
+  });
+});
+
+describe("placeBuilding (cooking oil by the clock)", () => {
+  const HOUR = 60 * 60 * 1000;
+  const T0 = Date.now();
+
+  const lazy = (fields: Partial<BuildingProduct>): BuildingProduct => ({
+    name: "Fermented Fish",
+    oilBoost: 0.4,
+    readyAt: 0,
+    ...fields,
+  });
+
+  const deliFarm = (base: GameState, deli: Partial<PlacedItem>): GameState => ({
+    ...base,
+    buildings: {
+      Deli: [
+        {
+          id: "1",
+          coordinates: { x: 0, y: 0 },
+          createdAt: 0,
+          readyAt: 0,
+          oil: 20,
+          oilSettledAt: T0,
+          ...deli,
+        },
+      ],
+    },
+  });
+
+  it("neither cooks nor burns oil while the building is lifted", () => {
+    const state = placeBuilding({
+      state: {
+        ...deliFarm(
+          { ...GAME_STATE, inventory: { Deli: new Decimal(1) } },
+          {
+            coordinates: undefined,
+            removedAt: T0 + 3 * HOUR,
+            crafting: [lazy({ startedAt: T0, baseDurationMs: 10 * HOUR })],
+          },
+        ),
+      },
+      action: {
+        type: "building.placed",
+        name: "Deli",
+        id: "1",
+        coordinates: { x: 0, y: 0 },
+      },
+      createdAt: T0 + 10 * HOUR,
+      farmId: 1,
+    });
+
+    const deli = state.buildings.Deli?.[0];
+    // 3h cooked before the lift burned 2.5 oil; the 7h lifted burned nothing.
+    expect(deli?.oil).toBeCloseTo(17.5);
+    expect(deli?.oilSettledAt).toEqual(T0 + 10 * HOUR);
+    // 3h on oil did 5h of the 10h; the other 5h take 3h on oil from the placement.
+    expect(deli?.crafting?.[0].readyAt).toEqual(T0 + 13 * HOUR);
   });
 });

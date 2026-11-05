@@ -7,12 +7,12 @@ type T = Parameters<typeof getSkillRankDescription>[2];
 const t = translate as unknown as T;
 
 describe("getSkillRankDescription — floating point safety", () => {
-  // 0.55 * 100 = 55.00000000000001 in raw JS, which was rendering literally in
-  // the panel. The fraction -> percentage conversion must stay float-exact.
-  it("renders Turbo Fry rank 2 as a clean -55%", () => {
+  // 1 - 0.55 = 0.44999999999999996 in raw JS, which would render literally in
+  // the panel. The reduction -> multiplier conversion must stay float-exact.
+  it("renders Turbo Fry rank 2 as a clean x0.45", () => {
     const { buff } = getSkillRankDescription("Turbo Fry", 2, t);
 
-    expect(buff).toEqual("-55% Kitchen cooking time with oil");
+    expect(buff).toEqual("x0.45 Kitchen cooking time with oil");
   });
 
   // No rank of any upgradeable skill may surface a float artefact (a long run of
@@ -33,6 +33,22 @@ describe("getSkillRankDescription — floating point safety", () => {
     }
 
     expect(offenders).toEqual([]);
+  });
+});
+
+describe("getSkillRankDescription — oil skills under SPEED_BOOSTS", () => {
+  it("reads as a cooking speed rather than a time cut", () => {
+    const speedBoosts = { speedBoosts: true };
+
+    expect(
+      getSkillRankDescription("Swift Sizzle", 1, t, speedBoosts).buff,
+    ).toEqual("1.67x Fire Pit cooking speed with oil");
+    expect(
+      getSkillRankDescription("Turbo Fry", 3, t, speedBoosts).buff,
+    ).toEqual("2.5x Kitchen cooking speed with oil");
+    expect(
+      getSkillRankDescription("Fry Frenzy", 3, t, speedBoosts).buff,
+    ).toEqual("3.33x Deli cooking speed with oil");
   });
 });
 

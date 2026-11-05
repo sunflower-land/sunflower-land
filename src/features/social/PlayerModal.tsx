@@ -81,6 +81,7 @@ export const PlayerModal: React.FC<Props> = ({
 
   const closeModal = useCallback(() => {
     setShowPlayerModal(false);
+    playerModalManager.close();
     setTimeout(() => {
       clearHistory();
     }, 100);

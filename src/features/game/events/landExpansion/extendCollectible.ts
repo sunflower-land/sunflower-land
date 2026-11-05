@@ -12,6 +12,7 @@ import {
   type TemporaryCollectibleName,
 } from "features/game/lib/collectibleBuilt";
 import {
+  exceedsShrineExtensionCap,
   getExtensionCost,
   getExtensionPayments,
   getExtensionResult,
@@ -129,6 +130,18 @@ export function extendCollectible({
 
     if (expiresAt <= createdAt) {
       throw new Error("Collectible has expired");
+    }
+
+    // Shrines can only be kept alive up to 30 days from now.
+    if (
+      exceedsShrineExtensionCap({
+        name: action.name,
+        payWith,
+        remainingMs: expiresAt - createdAt,
+        game,
+      })
+    ) {
+      throw new Error("Shrine extension exceeds maximum duration");
     }
 
     const { coins, ingredients } = getExtensionCost(action.name, payWith);

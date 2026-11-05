@@ -213,6 +213,81 @@ describe("extendCollectible", () => {
       }),
     ).toThrow("Insufficient ingredient: Acorn");
   });
+
+  describe("shrine 30 day cap", () => {
+    const DAY = 24 * 60 * 60 * 1000;
+    const sparrowIngredients = {
+      Acorn: new Decimal(20),
+      "Wild Grass": new Decimal(20),
+      Ruffroot: new Decimal(20),
+    };
+
+    it("blocks an extension that would push a shrine past 30 days", () => {
+      // Trading Shrine's base cooldown is already 30 days, so topping up a fresh
+      // one would land it at 60 days - never allowed.
+      expect(() =>
+        extendCollectible({
+          state: {
+            ...TEST_FARM,
+            collectibles: {
+              "Trading Shrine": [
+                { id: "1", coordinates: { x: 0, y: 0 }, createdAt: now },
+              ],
+            },
+          },
+          action: {
+            type: "collectible.extended",
+            name: "Trading Shrine",
+            location: "farm",
+            id: "1",
+          },
+          createdAt: now,
+        }),
+      ).toThrow("Shrine extension exceeds maximum duration");
+    });
+
+    it("allows an extension that lands exactly on 30 days", () => {
+      // Sparrow Shrine is a 7 day shrine; with 16 days already banked it has 23
+      // days left, so one more 7 day top-up reaches exactly 30 days.
+      const state = extendCollectible({
+        state: {
+          ...TEST_FARM,
+          inventory: { ...TEST_FARM.inventory, ...sparrowIngredients },
+          collectibles: {
+            "Sparrow Shrine": [
+              {
+                id: "1",
+                coordinates: { x: 0, y: 0 },
+                createdAt: now,
+                extendedMs: 16 * DAY,
+              },
+            ],
+          },
+        },
+        action: {
+          type: "collectible.extended",
+          name: "Sparrow Shrine",
+          location: "farm",
+          id: "1",
+        },
+        createdAt: now,
+      });
+
+      expect(state.collectibles["Sparrow Shrine"]?.[0].extendedMs).toBe(
+        23 * DAY,
+      );
+    });
+
+    it("does not cap totems or hourglasses", () => {
+      // A Harvest Hourglass with a huge banked window can still be topped up.
+      const state = extend(farmWithHourglass(now, 1, 60 * DAY));
+
+      expect(state.collectibles["Harvest Hourglass"]?.[0].extendedMs).toBe(
+        60 * DAY + getExpiryCooldown("Harvest Hourglass", TEST_FARM),
+      );
+    });
+  });
+
   // Golden durations, deliberately hardcoded: these are the agreed cross-extension
   // amounts, so a change to either totem's cooldown should fail loudly here.
   describe("totems", () => {

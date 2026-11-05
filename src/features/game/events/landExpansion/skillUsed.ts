@@ -6,7 +6,10 @@ import {
   getSkillLevel,
   isUpgradeableSkillName,
 } from "features/game/types/bumpkinSkills";
-import { getAnimalReadyAt } from "features/game/lib/animals";
+import {
+  ANIMAL_BUILDING_KEYS,
+  getAnimalReadyAt,
+} from "features/game/lib/animals";
 import { getKeys } from "lib/object";
 import type {
   GameState,
@@ -16,7 +19,6 @@ import type {
   FlowerBeds,
   OilReserve,
   InventoryItemName,
-  AnimalBuildingKey,
   AOE,
 } from "features/game/types/game";
 import { produce } from "immer";
@@ -28,10 +30,17 @@ import { canChop } from "./chop";
 import { canDrillOilReserve } from "./drillOilReserve";
 import { isReadyToHarvest } from "./harvest";
 import { getCurrentCookingItem, recalculateQueue } from "./cancelQueuedRecipe";
-import type { AOEItemName } from "features/game/expansion/placeable/lib/collisionDetection";
+import { getCookingBoostWindows } from "features/game/lib/boostWindows";
+import {
+  burnRecipeOil,
+  getCookingOil,
+  settleCookingOil,
+} from "features/game/lib/cookingReadiness";
 import { FLOWER_SEEDS, FLOWERS } from "features/game/types/flowers";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 import { isWearableActive } from "features/game/lib/wearables";
+import type { BumpkinItem } from "features/game/types/bumpkin";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getPlotsToFertilise } from "./bulkFertilisePlot";
 import {
   getMaxStoredSaltCharges,
@@ -60,11 +69,29 @@ function useInstantGrowth({
   aoe: AOE;
   createdAt?: number;
 }): Record<string, CropPlot> {
-  // Set each plot's plantedAt to 1 (making it grow instantly)
+  // Make every growing crop ready, and leave it with a grow duration of 0.
+  // `getCropGrowDurationMs` is what gates the crop-yield AOEs (Laurie, Sir
+  // Goldensnout, Gnome, ...): they only re-arm once a full grow duration has
+  // passed since their last use. An instant-grown crop is harvested early by
+  // design, so unless the duration collapses to 0 the harvest silently loses
+  // every AOE bonus.
   getKeys(crops).forEach((plot) => {
     const plantedCrop = crops[plot].crop;
-    if (plantedCrop) {
+    if (!plantedCrop) return;
+
+    if (plantedCrop.baseDurationMs !== undefined) {
+      // Windowed (speed-rate model): zero the remaining work AND re-anchor the
+      // start to now, so readyAt resolves to `createdAt` exactly and the grow
+      // duration is 0 (mirrors usePetalBlessed / useGreenhouseGuru).
+      // Back-dating plantedAt instead would re-price the grow against past
+      // boost windows and leave the duration at the FULL base grow time.
+      plantedCrop.baseDurationMs = 0;
+      plantedCrop.plantedAt = createdAt;
+    } else {
+      // Legacy: back-date to make it ready, and bank the full grow time as
+      // boostedTime so the duration (base - boosted) is likewise 0.
       plantedCrop.plantedAt = 1;
+      plantedCrop.boostedTime = CROPS[plantedCrop.name].harvestSeconds * 1000;
     }
   });
 
@@ -73,24 +100,6 @@ function useInstantGrowth({
     if (!dyObject) return;
     getKeys(dyObject).forEach((dy) => {
       dyObject[dy] = createdAt;
-    });
-  });
-
-  const cropYieldAOEItems: AOEItemName[] = [
-    "Scary Mike",
-    "Laurie the Chuckle Crow",
-    "Gnome",
-    "Queen Cornelia",
-    "Sir Goldensnout",
-  ];
-
-  cropYieldAOEItems.forEach((item) => {
-    const aoeItem = aoe[item] ?? {};
-    Object.values(aoeItem).forEach((dyObject) => {
-      if (!dyObject) return;
-      getKeys(dyObject).forEach((dy) => {
-        dyObject[dy] = 1;
-      });
     });
   });
 
@@ -156,10 +165,13 @@ function usePetalBlessed({
           flower.baseDurationMs = 0;
           flower.plantedAt = createdAt;
         } else {
-          // Legacy: back-date so plantedAt + base grow time === createdAt.
+          // Legacy: back-date so plantedAt + base grow time === createdAt, and
+          // bank the full grow time as boostedTime so the total back-date the
+          // progress bar undoes stays accurate (mirrors useInstantGrowth).
           const growTime =
             FLOWER_SEEDS[FLOWERS[flower.name].seed].plantSeconds * 1000;
           flower.plantedAt = createdAt - growTime;
+          flower.boostedTime = growTime;
         }
       }
     });
@@ -196,19 +208,38 @@ function useInstantGratification({
 }): GameState {
   getKeys(BUILDING_DAILY_OIL_CAPACITY).forEach((buildingName) => {
     const building = game.buildings[buildingName]?.[0];
-    const queue = building?.crafting;
 
-    if (!building || !queue) return;
+    // A lifted building is paused until it is placed again (see `placeBuilding`).
+    if (!building?.crafting || !building.coordinates) return;
+
+    // Settle the oil at activation; the completed recipe then pays for the oil it
+    // would have burned cooking out (see `burnRecipeOil`), and the recipe promoted
+    // behind it draws from what is left.
+    const settled = settleCookingOil({
+      game,
+      building,
+      buildingName,
+      at: createdAt,
+    });
+    const queue = building.crafting;
 
     const currentlyCooking = getCurrentCookingItem({
       building: building,
       createdAt,
       game,
+      oil: settled,
     });
 
     if (!currentlyCooking) return;
 
     const recipeIndex = currentlyCooking.index;
+    const oil = burnRecipeOil({
+      building,
+      buildingName,
+      index: recipeIndex,
+      at: createdAt,
+      windows: getCookingBoostWindows(game),
+    });
 
     queue[recipeIndex].readyAt = createdAt;
     // Windowed (`baseDurationMs` set): also zero the remaining work, or the queue
@@ -216,6 +247,11 @@ function useInstantGratification({
     // undo the instant completion (mirrors the oil reserve above / instaGrowFlower).
     if (queue[recipeIndex].baseDurationMs !== undefined) {
       queue[recipeIndex].baseDurationMs = 0;
+      // Complete at activation, not at the old start: `recalculateQueue` splits
+      // ready/upcoming on the DERIVED chain, and a zero-work recipe derives
+      // `readyAt = startedAt`, so a stale start would drag every chained recipe
+      // behind this one into the ready half.
+      queue[recipeIndex].startedAt = createdAt;
     }
 
     building.crafting = recalculateQueue({
@@ -224,6 +260,7 @@ function useInstantGratification({
       buildingName,
       game,
       isInstantCook: true,
+      oil,
     });
   });
 
@@ -237,10 +274,8 @@ function useBarnyardRouse({
   game: GameState;
   createdAt?: number;
 }): GameState {
-  // Get all animal buildings
-  const buildings: AnimalBuildingKey[] = ["henHouse", "barn"];
-
-  buildings.forEach((building) => {
+  // Every animal building, derived so a new one cannot be missed here.
+  ANIMAL_BUILDING_KEYS.forEach((building) => {
     const { animals } = game[building];
     if (!animals) return;
 
@@ -267,7 +302,23 @@ function useSaltSurge({
   return rechargeAllSaltNodes(game, createdAt);
 }
 
-export function getSkillCooldown({
+/**
+ * Wearables that shorten every Power Skill cooldown. Each one worn by the
+ * Bumpkin or a farmhand applies, so they stack.
+ */
+const COOLDOWN_WEARABLES: Partial<Record<BumpkinItem, number>> = {
+  "Luna's Crescent": 0.5,
+  "Ascension Staff": 0.9,
+};
+
+function getActiveCooldownWearables(state: GameState): BumpkinItem[] {
+  return getKeys(COOLDOWN_WEARABLES).filter((name) =>
+    isWearableActive({ name, game: state }),
+  );
+}
+
+/** The Power Skill cooldown before any cooldown wearable. */
+function getBaseSkillCooldown({
   cooldown,
   state,
   skillName,
@@ -286,11 +337,24 @@ export function getSkillCooldown({
     }
   }
 
-  let boostedCooldown = new Decimal(base);
-  if (isWearableActive({ name: "Luna's Crescent", game: state })) {
-    boostedCooldown = boostedCooldown.mul(0.5);
-  }
-  return boostedCooldown.toNumber();
+  return base;
+}
+
+export function getSkillCooldown({
+  cooldown,
+  state,
+  skillName,
+}: {
+  cooldown: number;
+  state: GameState;
+  skillName?: BumpkinRevampSkillName;
+}) {
+  return getActiveCooldownWearables(state)
+    .reduce(
+      (boosted, name) => boosted.mul(COOLDOWN_WEARABLES[name] ?? 1),
+      new Decimal(getBaseSkillCooldown({ cooldown, state, skillName })),
+    )
+    .toNumber();
 }
 
 export function powerSkillDisabledConditions({
@@ -314,10 +378,13 @@ export function powerSkillDisabledConditions({
     buildings,
     inventory,
     fruitPatches,
-    henHouse: { animals: henHouseAnimals },
-    barn: { animals: barnAnimals },
     flowers: { flowerBeds },
   } = state;
+
+  // Every animal across every animal building, derived rather than listed.
+  const allAnimals = ANIMAL_BUILDING_KEYS.flatMap((key) =>
+    Object.values(state[key].animals),
+  );
   const { previousPowerUseAt } = bumpkin;
 
   const { name: skillName, requirements } = skillTree as {
@@ -449,9 +516,22 @@ export function powerSkillDisabledConditions({
 
     case "Instant Gratification": {
       if (
-        getKeys(BUILDING_DAILY_OIL_CAPACITY).every(
-          (building) => !buildings[building]?.[0]?.crafting,
-        )
+        // Only a recipe still cooking can be completed: a lifted building is
+        // skipped on activation, and a queue whose recipes have all finished has
+        // nothing left to speed up. Same readiness as the activation; the tank
+        // at its last settle derives the same ready times as settling now.
+        getKeys(BUILDING_DAILY_OIL_CAPACITY).every((buildingName) => {
+          const building = buildings[buildingName]?.[0];
+          return (
+            !building?.coordinates ||
+            !getCurrentCookingItem({
+              building,
+              createdAt,
+              game: state,
+              oil: getCookingOil({ building, buildingName }),
+            })
+          );
+        })
       ) {
         return {
           disabled: true,
@@ -487,7 +567,7 @@ export function powerSkillDisabledConditions({
 
     case "Barnyard Rouse": {
       if (
-        Object.values({ ...henHouseAnimals, ...barnAnimals }).every(
+        allAnimals.every(
           (animal) => getAnimalReadyAt(animal, state) < createdAt,
         )
       ) {
@@ -633,6 +713,25 @@ export function skillUse({ state, action, createdAt = Date.now() }: Options) {
         }),
         inventory,
       );
+    }
+
+    // A cooldown wearable is used when the skill would still be on cooldown
+    // without it.
+    const lastUse = bumpkin.previousPowerUseAt[skill];
+    const baseCooldown = getBaseSkillCooldown({
+      cooldown: requirements.cooldown ?? 0,
+      state: stateCopy,
+      skillName: skill,
+    });
+    if (lastUse !== undefined && lastUse + baseCooldown > createdAt) {
+      stateCopy.boostsUsedAt = updateBoostUsed({
+        game: stateCopy,
+        boostNames: getActiveCooldownWearables(stateCopy).map((name) => ({
+          name,
+          value: `x${COOLDOWN_WEARABLES[name]}`,
+        })),
+        createdAt,
+      });
     }
 
     // Return the new state

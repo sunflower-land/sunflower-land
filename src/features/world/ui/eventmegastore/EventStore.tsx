@@ -3,12 +3,12 @@ import { Label } from "components/ui/Label";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import React, { useState } from "react";
 import {
-  COLORS_2026_EVENT_ITEMS,
+  HALLOWEEN_2026_EVENT_ITEMS,
   type EventStoreCollectible,
   type EventStoreItem,
   type EventStoreTier,
   type EventStoreWearable,
-} from "features/game/types/colors2026EventShop";
+} from "features/game/types/halloween2026EventShop";
 
 import { ItemsList } from "./eventmegastore_components/ItemsList";
 import { ItemDetail } from "./eventmegastore_components/ItemDetail";
@@ -25,6 +25,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { getTimeLeft, secondsToString } from "lib/utils/time";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
+import { getItemDescription as getGameItemDescription } from "features/game/lib/getItemDescription";
 interface Props {
   onClose?: () => void;
   readonly?: boolean;
@@ -65,14 +66,17 @@ export const getItemBuffLabel = (
 
   return COLLECTIBLE_BUFF_LABELS[item.collectible]?.(state);
 };
-export const getItemDescription = (item: EventStoreItem | null): string => {
+export const getItemDescription = (
+  item: EventStoreItem | null,
+  game: GameState,
+): string => {
   if (!item) return "";
 
   if (isWearablesItem(item)) {
     return OPEN_SEA_WEARABLES[item.wearable].description;
   }
 
-  return ITEM_DETAILS[item.collectible].description;
+  return getGameItemDescription({ item: item.collectible, game });
 };
 
 export const EventStore: React.FC<Props> = ({ readonly, state }) => {
@@ -84,8 +88,8 @@ export const EventStore: React.FC<Props> = ({ readonly, state }) => {
   };
 
   const now = useNow({ live: true });
-  const startDate = new Date("2026-07-01T00:00:00.000Z");
-  const endDate = new Date("2026-07-23T00:00:00.000Z");
+  const startDate = new Date("2026-10-22T00:00:00.000Z");
+  const endDate = new Date("2026-11-02T00:00:00.000Z");
 
   const totalSecondsAvailable =
     (endDate.getTime() - startDate.getTime()) / 1000;
@@ -96,7 +100,7 @@ export const EventStore: React.FC<Props> = ({ readonly, state }) => {
     now,
   );
   const { t } = useAppTranslation();
-  const EVENTMEGASTORE = COLORS_2026_EVENT_ITEMS;
+  const EVENTMEGASTORE = HALLOWEEN_2026_EVENT_ITEMS;
 
   // Basic-Epic
   const basicAllItems = EVENTMEGASTORE.basic.items;
@@ -109,6 +113,8 @@ export const EventStore: React.FC<Props> = ({ readonly, state }) => {
     <>
       <ModalOverlay
         show={!!selectedItem}
+        panelPosition="auto"
+        lockBackgroundScroll
         onBackdropClick={() => setSelectedItem(null)}
       >
         <ItemDetail
@@ -141,7 +147,7 @@ export const EventStore: React.FC<Props> = ({ readonly, state }) => {
       </div>
       <div
         className={classNames("flex flex-col p-2 pt-1", {
-          ["max-h-[300px] overflow-y-auto scrollable "]: !readonly,
+          ["max-h-[450px] overflow-y-auto scrollable "]: !readonly,
         })}
       >
         <ItemsList

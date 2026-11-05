@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { CropTags } from "features/island/buildings/components/building/market/CropTags";
 import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import {
   getAscensionLevel,
@@ -21,19 +22,22 @@ import { SquareIcon } from "../SquareIcon";
 import { formatDateRange, secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
-import { isPreActionBoosted } from "features/game/lib/timerDisplay";
+import {
+  getPreActionDisplay,
+  isPreActionBoosted,
+} from "features/game/lib/timerDisplay";
+import { getCropMachineBoostWindows } from "features/game/lib/boostWindows";
+import {
+  getBoostContributionEntries,
+  getCropMachineBoostContributions,
+} from "features/game/lib/boostContributions";
 import emptyPot from "assets/greenhouse/greenhouse_pot.webp";
 import flowerBed from "assets/flowers/empty_flowerbed.webp";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
 import { type Seed, type SeedName, SEEDS } from "features/game/types/seeds";
-import {
-  type CropName,
-  type CropSeedName,
-  getCropCategory,
-  type ProduceName,
-} from "features/game/types/crops";
+import type { CropName, CropSeedName } from "features/game/types/crops";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { BoostsDisplay } from "./BoostsDisplay";
 import {
@@ -42,6 +46,7 @@ import {
 } from "features/game/events/landExpansion/supplyCropMachine";
 import { useActiveBuff } from "features/game/types/buffs";
 import { useNow } from "lib/utils/hooks/useNow";
+import { hasFeatureAccess } from "lib/flags";
 
 /**
  * The props for the details for items.
@@ -91,8 +96,6 @@ interface RequirementsProps {
   harvests?: HarvestsRequirementProps;
   time?: { seconds: number; boostsUsed: { name: BoostName; value: string }[] };
   baseTimeSeconds?: number;
-  /** Live speed-window rate for this seed's activity; > 1 shows the rate. */
-  timeSpeed?: number;
   level?: LevelRequirement;
   restriction?: {
     icon: string;
@@ -236,9 +239,11 @@ export const SeedRequirements: React.FC<Props> = ({
         <div className="flex flex-col space-x-2 justify-start items-center md:space-x-0 mb-1">
           <div>
             <p className="text-center">{title}</p>
-            <p className="text-xs text-center">
-              {t(getCropCategory(SEEDS[details.item]?.yield as ProduceName))}
-            </p>
+            <CropTags
+              seed={details.item}
+              game={gameState}
+              className="justify-center mt-1"
+            />
           </div>
           {icon && !!details.item && (
             <div className="mt-2 flex items-center">
@@ -276,56 +281,90 @@ export const SeedRequirements: React.FC<Props> = ({
 
   const getRequirements = () => {
     if (!requirements) return <></>;
-    const {
-      coins,
-      showCoinsIfFree,
-      harvests,
-      time,
-      baseTimeSeconds,
-      timeSpeed,
-      level,
-    } = requirements;
+    const { coins, showCoinsIfFree, harvests, time, baseTimeSeconds, level } =
+      requirements;
 
     // Named boosts are already folded into `time.seconds` and can be itemised; a
-    // live speed window shows as a rate (or a shorter projected time) but has no
-    // name to list, so it must not make the block clickable on its own.
+    // live speed window shows as a shorter projected time but has no name to
+    // list, so it must not make the block clickable on its own.
     const hasNamedBoosts = (time?.boostsUsed.length ?? 0) > 0;
-    const speed = timeSpeed ?? 1;
     const isTimeBoosted =
       !!time &&
       isPreActionBoosted({
         displaySeconds: time.seconds,
         baseSeconds: baseTimeSeconds,
-        speed,
         hasNamedBoosts,
       });
 
-    const RequirementLabels: React.FC = () => {
+    // A plain render helper, not a nested component: a component declared here
+    // is a new type every render, so each `now` tick would remount the subtree
+    // and replay the boosts panel's appear transition (it flashes every second).
+    const getRequirementLabels = () => {
       if (isSeedCropMachine(details.item)) {
         const cropMachinePackSize = CROP_MACHINE_PLOTS(gameState);
-        const cropMachineBoostedTime = calculateCropTime(
+
+        // A pack supplied now WILL be windowed under SPEED_BOOSTS — the supply
+        // event converts the machine — so this pre-action preview gates on the
+        // FLAG (there is no pack yet to carry a marker). The Tortoise is then a
+        // live window rather than a baked ×0.9, so it must come out of the
+        // duration here and be credited over the grow instead.
+        const isCropMachineWindowed = hasFeatureAccess(
+          gameState,
+          "SPEED_BOOSTS",
+        );
+        const cropMachineTime = calculateCropTime(
           { type: details.item, amount: cropMachinePackSize },
           gameState,
           now,
+          { windowed: isCropMachineWindowed },
         );
+        const cropMachineSeconds = cropMachineTime.milliSeconds / 1000;
         const cropMachineBaseTime = baseTimeSeconds;
-        const isCropMachineTimeBoosted =
-          cropMachineBoostedTime.milliSeconds / 1000 !== cropMachineBaseTime;
+
+        // Name the windowed Tortoise by the time it actually saves ("-1hr
+        // 12mins Tortoise Shrine"), matching every other windowed boost in the
+        // seed shop, instead of the legacy "x0.9" multiplier.
+        const cropMachineBoostsUsed = [
+          ...cropMachineTime.boostUsed,
+          ...getBoostContributionEntries({
+            contributions: getCropMachineBoostContributions(gameState),
+            seconds: cropMachineSeconds,
+            at: now,
+            formatSeconds: (seconds) =>
+              secondsToString(seconds, { length: "medium" }),
+          }),
+        ];
+
+        const {
+          displaySeconds: cropMachineDisplaySeconds,
+          hasNamedBoosts: cropMachineHasNamedBoosts,
+          isBoosted: isCropMachineTimeBoosted,
+        } = getPreActionDisplay({
+          seconds: cropMachineSeconds,
+          baseSeconds: cropMachineBaseTime,
+          namedBoostCount: cropMachineBoostsUsed.length,
+          windows: isCropMachineWindowed
+            ? getCropMachineBoostWindows(gameState)
+            : [],
+          at: now,
+        });
 
         return (
           <div
-            className="flex flex-col items-center cursor-pointer"
+            className={classNames("flex flex-col items-center", {
+              "cursor-pointer": cropMachineHasNamedBoosts,
+            })}
             onClick={
-              isCropMachineTimeBoosted
+              cropMachineHasNamedBoosts
                 ? () => setShowBoosts(!showBoosts)
                 : undefined
             }
           >
             <p className="text-xxs">{`Time to grow ${cropMachinePackSize}x: `}</p>
-            {!!cropMachineBoostedTime && isCropMachineTimeBoosted && (
+            {isCropMachineTimeBoosted && (
               <RequirementLabel
                 type="time"
-                waitSeconds={cropMachineBoostedTime.milliSeconds / 1000}
+                waitSeconds={cropMachineDisplaySeconds}
                 boosted
               />
             )}
@@ -337,7 +376,7 @@ export const SeedRequirements: React.FC<Props> = ({
               />
             )}
             <BoostsDisplay
-              boosts={cropMachineBoostedTime.boostUsed ?? []}
+              boosts={cropMachineBoostsUsed}
               show={showBoosts}
               state={gameState}
               onClick={() => setShowBoosts(!showBoosts)}
@@ -378,7 +417,7 @@ export const SeedRequirements: React.FC<Props> = ({
     return (
       <div className="w-full mb-2 flex justify-center gap-x-3 gap-y-0 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap my-1">
         {/* Time requirement display */}
-        <RequirementLabels />
+        {getRequirementLabels()}
         {/* Level requirement */}
         {!!level && (
           <RequirementLabel

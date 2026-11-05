@@ -1,16 +1,18 @@
 import loveIslandJSON from "assets/map/love_island_map.json";
 import loveIslandTileset from "assets/map/love_island_tileset.json";
 import loveCharmSmall from "assets/icons/love_charm_small.webp";
+import krakenHead from "assets/sfts/kraken_head.webp";
+import krakenTentacle from "assets/sfts/kraken_tentacle.webp";
 
 import type { SceneId } from "../mmoMachine";
 import { BaseScene, type NPCBumpkin } from "./BaseScene";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { translate, translateForBubble } from "lib/i18n/translate";
+import { translate } from "lib/i18n/translate";
 import { interactableModalManager } from "../ui/InteractableModals";
-import type { TemperateSeasonName } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { CONFIG } from "lib/config";
+import { ITEM_DETAILS } from "features/game/types/images";
 import { hasVipAccess } from "features/game/lib/vipAccess";
-import { hasReadLoveIslandNotice } from "../ui/loveRewardShop/LoveIslandNoticeboard";
 import type { BumpkinContainer } from "../containers/BumpkinContainer";
 import { Label } from "../containers/Label";
 import type { ArraySchema } from "@colyseus/schema";
@@ -23,10 +25,16 @@ import {
 } from "../lib/loveIslandFixtures";
 import {
   LOVE_BOULDER_HIT_COOLDOWN_MS,
+  LOVE_BOULDER_COINS_PRIZE,
   LOVE_BOULDER_PRIZE,
+  LOVE_BOULDER_PRIZE_ITEMS,
+  type LoveBoulderPrize,
   LOVE_DILEMMA_CHOOSE_MS,
   LOVE_DILEMMA_PLATFORMS,
-  LOVE_ISLAND_CENTRE_PUZZLE,
+  getLoveIslandCentrePuzzle,
+  type LoveIslandCentrePuzzle,
+  getLoveIslandDailyGame,
+  type LoveIslandDailyGame,
   LOVE_PUSH_BOULDERS,
   LOVE_PUSH_DELTAS,
   LOVE_PUSH_DIRECTIONS,
@@ -38,7 +46,8 @@ import {
   createLoveBoulderLocalRound,
   createLovePushLocalRound,
   fromLovePushTileIndex,
-  getLoveBoulderPayout,
+  fromLoveBoulderRoomPrize,
+  getLoveBoulderPrizeKey,
   getLoveDilemmaAttemptsLeft,
   getLoveDilemmaBotChoices,
   getLoveDilemmaPayout,
@@ -67,16 +76,66 @@ import {
   type LovePushLocalRound,
   type LovePushRound,
   type LovePushTile,
+  LOVE_BUTTONS_COUNT,
+  LOVE_BUTTONS_HOLD_MS,
+  LOVE_BUTTONS_NONE,
+  LOVE_BUTTONS_STAND_RESEND_MS,
+  canClaimLoveButtons,
+  createLoveButtonsHolds,
+  createLoveButtonsLocalRound,
+  getLoveButtonAt,
+  getLoveButtonsPressed,
+  getLoveButtonsStandingCount,
+  hasClaimedLoveButtonsToday,
+  isLoveButtonsLocalBot,
+  standOnLoveButton,
+  tickLoveButtonsLocalRound,
+  type LoveButtonsLocalRound,
+  type LoveButtonsRound,
 } from "../lib/loveIsland";
+import { hideLoveButtonsHud, setLoveButtonsHud } from "../lib/loveButtonsHud";
+import {
+  LOVE_KRAKEN_COINS_PRIZE,
+  LOVE_KRAKEN_PRIZE,
+  LOVE_KRAKEN_PRIZE_ITEMS,
+  LOVE_KRAKEN_REACH,
+  LOVE_KRAKEN_BUTTON,
+  LOVE_KRAKEN_BUTTON_HIT,
+  LOVE_KRAKEN_WALK_SPEED,
+  getLoveKrakenBarShare,
+  getLoveKrakenCastSpot,
+  getLoveKrakenReelCooldownMs,
+  getLoveKrakenWalkRoute,
+  getLoveKrakenReelKick,
+  getLoveKrakenRing,
+  pullLoveKrakenRod,
+  LOVE_KRAKEN_AUTO_CLAIM_MS,
+  LOVE_KRAKEN_FRESH_ANGLER,
+  type LoveKrakenAngler,
+  LOVE_KRAKEN_SPOT,
+  LOVE_KRAKEN_ZONE_HALF_DEG,
+  canClaimLoveKraken,
+  createLoveKrakenLocalRound,
+  fromLoveKrakenRoomPrize,
+  getLoveKrakenPrizeKey,
+  hasClaimedLoveKrakenToday,
+  isLoveKrakenReelOnTarget,
+  isLoveKrakenRewardOpen,
+  reelLoveKrakenLocalRound,
+  tickLoveKrakenLocalRound,
+  type LoveKrakenLocalRound,
+  type LoveKrakenPrize,
+  type LoveKrakenRound,
+} from "../lib/loveKraken";
 
 const BUMPKINS: NPCBumpkin[] = [];
 
-const GUARDIAN_MAP: Record<TemperateSeasonName, string> = {
-  autumn: "autumn_guardian",
-  spring: "spring_guardian",
-  summer: "summer_guardian",
-  winter: "winter_guardian",
-};
+/**
+ * Only without an MMO (art mode) do the puzzles fake a crowd. With one, a
+ * room that hasn't published a puzzle - still connecting, or an older
+ * server - shows nothing rather than bots solving it for a prize.
+ */
+const SIMULATE_LOVE_ISLAND = !CONFIG.ROOM_URL;
 
 /** Centre of the island clearing where the daily puzzle lives. */
 const CENTRE = { x: 615, y: 566 };
@@ -132,7 +191,10 @@ const HEALTH_BAR_FLASH = 0xff8e8e;
 const HEALTH_BAR_FLASH_MS = 80;
 /** Rubble colours pulled from the boulder art. */
 const RUBBLE_COLOURS = [0x9a9aa8, 0x6b6b7a, 0xc8c8d4];
-/** Clickable area of the prize label (icon + "+5"), generous for thumbs. */
+/** Texture key for a boulder prize's icon - an item name or "Coins". */
+const boulderPrizeTexture = (prize: string) => `boulder_prize_${prize}`;
+
+/** Clickable area of the prize label (icon + "+1"), generous for thumbs. */
 const REWARD_HIT_WIDTH = 36;
 const REWARD_HIT_HEIGHT = 16;
 /** The hit counter's label sits just above the boulder. */
@@ -162,15 +224,27 @@ const PUSH_COLLIDER_HEIGHT = PUSH_BOULDER_HEIGHT + PUSH_COLLIDER_BUFFER * 2;
 const PUSH_BURST_COLOURS = [0xe43b44, 0xff8e8e, 0xffffff];
 /** Above the ground tiles (depth 0), below anyone walking on it. */
 const PUSH_GROUND_DEPTH = 1;
-/** The four squares in the centre, drawn on the ground. */
-const PUSH_SQUARE_COLOUR = 0x3e2731;
-const PUSH_SQUARE_FILL = 0x000000;
-/** A taken square fills green under its boulder. */
-const PUSH_SQUARE_TAKEN = 0x3e8948;
+/**
+ * The four slots in the centre the boulders roll into are pixel art
+ * (`world/love_boulder_slot.png`): a 16x16 hole that sits square on a tile,
+ * plus a 1px shadow row spilling onto the tile below.
+ *
+ * A filled slot is called out by a tick over its boulder rather than by
+ * tinting the ground - the boulder sits on top of the slot, and a crowd
+ * gathers around it, so a colour change down there is easy to miss.
+ *
+ * The tick rides the boulder's crown rather than floating clear above it:
+ * the slots are two rows deep, and a tick floating over the gap between the
+ * rows reads as belonging to the boulder behind.
+ */
+const PUSH_SUNK_TICK_Y = PUSH_BOULDER_HEIGHT - 2;
 /** A faint ring marks where each boulder started from. */
 const PUSH_START_COLOUR = 0x3e2731;
-/** The "n/4" tally floats this far above the top of the squares. */
-const PUSH_SUNK_LABEL_Y = -14;
+/**
+ * The "n/4" tally floats this far above the top row of slots - high enough
+ * to clear the ticks over any boulders parked in that row.
+ */
+const PUSH_SUNK_LABEL_Y = -24;
 /** A boulder that hits something bursts: a flash and chips of rock. */
 const PUSH_EXPLOSION_COLOUR = 0xffe08a;
 const PUSH_EXPLOSION_CHIPS = 10;
@@ -211,6 +285,119 @@ const PUSH_ARROW_OFFSET = PUSH_BOULDER_WIDTH / 2 + 3;
  */
 const PUSH_ARROW_MIN_SCALE = 0.5;
 
+/**
+ * Love Buttons: 25 buttons dealt out over the island, on the ground under
+ * everyone. The art is `world/bumpkin_button.png` (20x21, a raised button
+ * with a lit top lip) and its pressed twin `bumpkin_button_pressed.png`
+ * (20x20 - the lip has gone down). Both are placed by their base, so the
+ * pressed one sits a pixel lower and the press reads as the button sinking.
+ */
+const BUTTON_TEXTURE = "love_button";
+const BUTTON_PRESSED_TEXTURE = "love_button_pressed";
+const BUTTON_HEIGHT = 21;
+/** Like the push slots: above the ground tiles, below anyone standing on it. */
+const BUTTON_DEPTH = PUSH_GROUND_DEPTH;
+/**
+ * The lamp that lights over a Bumpkin while they hold a button - a pixel
+ * texture built at create: the success label's green with a white glint,
+ * outlined in the button art's own dark. It bobs a pixel so it reads as
+ * lit rather than as part of the hat.
+ */
+const BUTTON_LAMP_TEXTURE = "love_button_lamp";
+const BUTTON_LAMP_PIXELS = [
+  ".AAAAA.",
+  "ABCCBBA",
+  "ABCBBBA",
+  "ABBBBBA",
+  ".ABBBA.",
+  "..AAA..",
+];
+const BUTTON_LAMP_PALETTE = { A: "#181425", B: "#63c74d", C: "#ffffff" };
+/** Above the head - the Bumpkin sprite is ~20px tall around the container. */
+const BUTTON_LAMP_Y = 22;
+const BUTTON_LAMP_BOB_MS = 700;
+/** A press pops a square ring out of the button, in the lamp's green. */
+const BUTTON_RING_COLOUR = 0x63c74d;
+const BUTTON_RING_SIZE = 20;
+
+/**
+ * The Love Marvel in the lake, off the end of the wharf. Its head and
+ * tentacles break the surface, a ring sweeps around it, and the island's
+ * progress bar sits under it.
+ *
+ * The art is drawn at **native size** (the SFT sprites are 11x12 and 8x16,
+ * each with its own ripple) and never scaled, rotated or tweened, so every
+ * pixel lines up with the map tiles behind it. Everything below is placed by
+ * its integer top-left corner for the same reason.
+ */
+const KRAKEN_SPOT = LOVE_KRAKEN_SPOT;
+const KRAKEN_HEAD_WIDTH = 11;
+const KRAKEN_HEAD_HEIGHT = 12;
+/** Tentacles are 8 wide; only the height is needed, for their depth. */
+const KRAKEN_TENTACLE_HEIGHT = 16;
+/** Top-left of the head, in world px. */
+const KRAKEN_HEAD = { x: 300, y: 557 };
+/**
+ * Top-left of each tentacle, in world px. The art carries its own ripple, so
+ * they sit far enough out to read as separate things surfacing rather than
+ * the head's legs, while staying inside the ring.
+ */
+const KRAKEN_TENTACLES = [
+  { x: 288, y: 553 },
+  { x: 316, y: 555 },
+  { x: 294, y: 566 },
+  { x: 312, y: 568 },
+];
+/** The ring the marker sweeps around, clear of the tentacles. */
+const KRAKEN_RING_RADIUS = 22;
+const KRAKEN_RING_WIDTH = 3;
+/** Kept light - the ring is a HUD over the lake, not a hole in it. */
+const KRAKEN_RING_TRACK = 0x193c3e;
+const KRAKEN_RING_TRACK_ALPHA = 0.6;
+/** The zone is what everyone is aiming at, so it is the heaviest stroke. */
+const KRAKEN_ZONE_WIDTH = 5;
+const KRAKEN_RING_ZONE = 0x63c74d;
+/**
+ * A dot in the beast's own purple is left where each landed reel scored,
+ * just as the zone jumps away from it - so a hit is never in doubt, and you
+ * can see where you have just come from.
+ */
+const KRAKEN_HIT_DOT_COLOUR = 0xb55088;
+const KRAKEN_HIT_DOT_RADIUS = 3;
+const KRAKEN_HIT_DOT_MS = 900;
+const KRAKEN_MARKER_RADIUS = 3;
+const KRAKEN_MARKER_COLOUR = 0xffffff;
+/** The marker flashes green on a landed reel, red on a missed one. */
+const KRAKEN_MARKER_HIT = 0x63c74d;
+const KRAKEN_MARKER_MISS = 0xf6757a;
+const KRAKEN_MARKER_FLASH_MS = 180;
+/**
+ * The Cast/Reel button. On a phone there is nothing to aim at - the Marvel
+ * is small, the marker is moving, and a thumb covers both - so the whole
+ * game is this one button, fixed just above the wharf and drawn over every
+ * angler standing on it. Its position and hit box live in `loveKraken.ts`
+ * so the tests can keep it clear of the anglers' own click boxes.
+ */
+/** A tap presses the button down a pixel, so a thumb knows it registered. */
+const KRAKEN_BUTTON_PRESS_Y = 2;
+const KRAKEN_BUTTON_PRESS_MS = 70;
+/**
+ * The island's progress bar under the ring - wider than the boulder's, since
+ * it is the one thing the whole bank is watching.
+ */
+const KRAKEN_BAR_WIDTH = 40;
+const KRAKEN_BAR_HEIGHT = 6;
+const KRAKEN_BAR_INNER_WIDTH = KRAKEN_BAR_WIDTH - 2;
+const KRAKEN_BAR_Y = KRAKEN_SPOT.y + KRAKEN_RING_RADIUS + 4;
+const KRAKEN_BAR_TRACK = 0x3e2731;
+/** Green while the bank is winning the tug of war, red while the Marvel is. */
+const KRAKEN_BAR_RISING = 0x63c74d;
+const KRAKEN_BAR_FALLING = 0xe43b44;
+/** Splash colours, pulled from the lake tiles. */
+const KRAKEN_SPLASH_COLOURS = [0xffffff, 0x8ff8e2, 0x50c5e8];
+/** Texture key for a Marvel prize's icon - an item name or "Coins". */
+const krakenPrizeTexture = (prize: string) => `kraken_prize_${prize}`;
+
 const FONT = "Teeny Tiny Pixls";
 const TEXT_TINT = 0x3e2731;
 const SELECT_COLOUR = 0xffffff;
@@ -218,8 +405,21 @@ const WIN_COLOUR = 0x7ee07e;
 const LOSE_COLOUR = 0xe57373;
 
 /**
- * Love Island - home of the Love Dilemma and Lover's Push (one at a time,
- * picked by `LOVE_ISLAND_CENTRE_PUZZLE`), plus the Love Boulder.
+ * Love Island - home of the Love Dilemma, Lover's Push and Love Buttons (one
+ * at a time - Buttons and Push take turns by the day, see
+ * `getLoveIslandCentrePuzzle`), plus the Love Boulder. The guide opens
+ * every time the island is entered, so whichever puzzle is on is explained.
+ *
+ * Love Buttons: 25 buttons are dealt out over the whole island every round.
+ * Standing on one presses it - it sinks, a ring pops out of it, a green
+ * lamp lights over your head and the counter in the HUD at the top of the
+ * screen goes up. The round is solved the moment every button has someone
+ * on it at once: everyone standing is handed a Bronze Love Box (once a
+ * day), the buttons flash, and 10s later they land somewhere new. The HUD
+ * shows how many buttons are pressed and how many players are standing on
+ * one, so the island can tell when it's spread too thin or doubling up.
+ * The room publishes `state.loveButtons`. Without an MMO at all (art mode)
+ * a simulated crowd fills all but one button, leaving the last for you.
  *
  * Lover's Push: four boulders start out toward the corners of the island
  * and have to be rolled into four squares in the middle of the clearing -
@@ -302,8 +502,8 @@ export class LoveIslandScene extends BaseScene {
   private boulderHealthFlashUntil = 0;
   /** Love Charm prize shown on the rubble while it can be claimed. */
   private boulderReward?: Phaser.GameObjects.Container;
-  /** Amount the prize label was built with, so it's only rebuilt on change. */
-  private boulderRewardPrize?: number;
+  /** Prize the label was built for (see `getLoveBoulderPrizeKey`), so it's only rebuilt on change. */
+  private boulderRewardPrize?: string;
   /** Round whose prize the local player has clicked. */
   private claimedBoulderRoundId?: number;
   /** Simulated boulder while the room has no boulder state. */
@@ -324,10 +524,14 @@ export class LoveIslandScene extends BaseScene {
   private pushBoulders: Phaser.GameObjects.Sprite[] = [];
   /** Solid - walking into one pushes it. */
   private pushColliders: Phaser.GameObjects.Rectangle[] = [];
-  /** The four squares in the centre the boulders roll into. */
-  private pushSquares?: Phaser.GameObjects.Graphics;
   /** A ring where each boulder started, indexed by boulder. */
   private pushStartMarkers: Phaser.GameObjects.Graphics[] = [];
+  /**
+   * A tick over each boulder that has settled into a slot, indexed by
+   * boulder. Drawn above everything so a filled slot reads at a glance even
+   * with a crowd standing around it.
+   */
+  private pushSunkTicks: Phaser.GameObjects.Image[] = [];
   /** "n/4" above the squares - how many are taken. */
   private pushSunkLabel?: Label;
   private renderedSunkCount?: number;
@@ -368,6 +572,82 @@ export class LoveIslandScene extends BaseScene {
   /** roundId -> boulders the local player has helped roll. */
   private pushMoves: Record<number, number> = {};
 
+  /** The 25 buttons, indexed by button. */
+  private loveButtons: Phaser.GameObjects.Image[] = [];
+  /** Simulated puzzle while the room has no buttons state. */
+  private localButtons?: LoveButtonsLocalRound;
+  /** Round the buttons are dealt for. */
+  private buttonsRoundId?: number;
+  /** Whether each button is drawn pressed, indexed by button. */
+  private renderedButtonsPressed: boolean[] = [];
+  /**
+   * The hold on the button we last stepped off, until the room echoes it
+   * - so it stays down under us without a flicker, and we still count as
+   * a solver if the last button goes down in that beat.
+   */
+  private myHold?: { button: number; until: number };
+  /** farmId -> the lamp over their head while they hold a button. */
+  private buttonLamps: Record<string, Phaser.GameObjects.Image> = {};
+  /** The button the local player's feet are on - what the room was last told. */
+  private myButton = LOVE_BUTTONS_NONE;
+  private lastStandSentAt = 0;
+  /** Round whose solve has been celebrated (and claimed). */
+  private solvedButtonsRoundId?: number;
+  /** Whether we've seen this round unsolved - only then animate the solve. */
+  private sawButtonsUnsolved = false;
+
+  /** The crowd game on the island today - fixed when the scene is built. */
+  private dailyGame?: LoveIslandDailyGame;
+  /** The puzzle in the centre of the island today - fixed when the scene is built. */
+  private centrePuzzle?: LoveIslandCentrePuzzle;
+
+  private kraken?: Phaser.GameObjects.Sprite;
+  private krakenTentacles: Phaser.GameObjects.Sprite[] = [];
+  /** The Cast/Reel button above the wharf - the only way to play. */
+  private krakenButton?: Label;
+  private krakenButtonLabel?: string;
+  /** The walk to a spot on the wharf, while it is running. */
+  private krakenWalk?: Phaser.Tweens.TweenChain;
+  private krakenWalkingTo?: { x: number; y: number };
+  /** The sweeping ring: a static track and the marker going round it. */
+  private krakenRing?: Phaser.GameObjects.Graphics;
+  /** The catch zone, redrawn whenever it jumps to a new angle. */
+  private krakenZone?: Phaser.GameObjects.Graphics;
+  private drawnKrakenZoneAngle?: number;
+  private krakenMarker?: Phaser.GameObjects.Arc;
+  private krakenMarkerFlashUntil = 0;
+  private krakenMarkerFlashColour = KRAKEN_MARKER_COLOUR;
+  /** The island's progress bar, redrawn only when its fill width changes. */
+  private krakenBar?: Phaser.GameObjects.Graphics;
+  private krakenBarFill?: number;
+  private krakenBarRising?: boolean;
+  private krakenReward?: Label;
+  /** Prize the label was built for, so it's only rebuilt on change. */
+  private krakenRewardPrize?: string;
+  private claimedKrakenRoundId?: number;
+  /** Simulated Marvel while the room has no state for it. */
+  private localKraken?: LoveKrakenLocalRound;
+  /** Marvel round the visuals are synced to. */
+  private krakenRoundId?: number;
+  /** Marvel round whose catch has been animated. */
+  private caughtKrakenRoundId?: number;
+  /** Whether we've seen this round's Marvel fighting - only then animate the catch. */
+  private sawKrakenFighting = false;
+  private lastKrakenReelAt = 0;
+  /**
+   * roundId -> the local player's pulls, reels and the leg their marker is
+   * on. Everything their ring does follows from it.
+   */
+  private krakenAnglers: Record<number, LoveKrakenAngler> = {};
+  /** Whether the local player's line is in the water. */
+  private krakenCasting = false;
+  /** Progress last seen, to colour the bar by which way it is going. */
+  private lastKrakenProgress?: number;
+  /** When the local player last landed a reel - drives the bar's kick. */
+  private krakenKickAt?: number;
+  /** farmId -> reels last seen, so the rest of the bank can be animated. */
+  private seenAnglerReels: Record<string, number> = {};
+
   constructor() {
     super({
       name: "love_island",
@@ -386,19 +666,39 @@ export class LoveIslandScene extends BaseScene {
     this.load.image("platform", "world/platform.webp");
     this.load.image("love_charm_small", loveCharmSmall);
     this.load.image("boulder", SUNNYSIDE.resource.boulder);
+    // Icons for whatever the boulder can pay today
+    this.load.image(
+      boulderPrizeTexture(LOVE_BOULDER_COINS_PRIZE),
+      SUNNYSIDE.ui.coins,
+    );
+    LOVE_BOULDER_PRIZE_ITEMS.forEach((item) => {
+      this.load.image(boulderPrizeTexture(item), ITEM_DETAILS[item].image);
+    });
+    this.load.image("kraken_head", krakenHead);
+    this.load.image("kraken_tentacle", krakenTentacle);
+    this.load.image("kraken_rod_icon", SUNNYSIDE.tools.fishing_rod);
+    // Icons for whatever the Marvel can pay today - the boulder's roll
+    this.load.image(
+      krakenPrizeTexture(LOVE_KRAKEN_COINS_PRIZE),
+      SUNNYSIDE.ui.coins,
+    );
+    LOVE_KRAKEN_PRIZE_ITEMS.forEach((item) => {
+      this.load.image(krakenPrizeTexture(item), ITEM_DETAILS[item].image);
+    });
+
     this.load.image("push_boulder", "world/love_rock.png");
+    this.load.image("push_slot", "world/love_boulder_slot.png");
+    this.load.image("push_sunk_tick", SUNNYSIDE.icons.confirm);
     this.load.image(PUSH_ARROW_TEXTURE.north, SUNNYSIDE.icons.arrow_up);
     this.load.image(PUSH_ARROW_TEXTURE.east, SUNNYSIDE.icons.arrow_right);
     this.load.image(PUSH_ARROW_TEXTURE.south, SUNNYSIDE.icons.arrow_down);
     this.load.image(PUSH_ARROW_TEXTURE.west, SUNNYSIDE.icons.arrow_left);
+    this.load.image(BUTTON_TEXTURE, "world/bumpkin_button.png");
+    this.load.image(BUTTON_PRESSED_TEXTURE, "world/bumpkin_button_pressed.png");
     this.load.spritesheet("portal", "world/love_charm_portal_sheet.png", {
       frameWidth: 20,
       frameHeight: 34,
     });
-
-    const guardian = GUARDIAN_MAP[this.gameState.season.season];
-
-    this.load.image("guardian", `world/${guardian}.webp`);
   }
 
   async create() {
@@ -417,7 +717,7 @@ export class LoveIslandScene extends BaseScene {
       if (this.checkDistanceToSprite(shop, 75)) {
         interactableModalManager.open("floating_island_shop");
       } else {
-        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
 
@@ -441,27 +741,33 @@ export class LoveIslandScene extends BaseScene {
       if (this.checkDistanceToSprite(portal, 40)) {
         interactableModalManager.open("flower_exchange");
       } else {
-        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
 
-    // Decorative seasonal guardian sprite (no interaction).
-    this.add.sprite(310, 556, "guardian");
-
-    if (LOVE_ISLAND_CENTRE_PUZZLE === "push") {
+    // Buttons and Push take turns by the day - the other isn't built
+    this.centrePuzzle = getLoveIslandCentrePuzzle();
+    if (this.centrePuzzle === "buttons") {
+      this.createLoveButtons();
+    } else if (this.centrePuzzle === "push") {
       this.createLovePush();
     } else {
       this.createLoveDilemma();
     }
-    this.createLoveBoulder();
+    // The boulder and the Marvel alternate by day - the other isn't built
+    this.dailyGame = getLoveIslandDailyGame();
+    if (this.dailyGame === "boulder") {
+      this.createLoveBoulder();
+    } else {
+      this.createLoveKraken();
+    }
 
     this.setupPopup();
   }
 
+  /** The guide, every time - which puzzle is on changes by the day. */
   setupPopup = () => {
-    if (!hasReadLoveIslandNotice()) {
-      interactableModalManager.open("petal_clue");
-    }
+    interactableModalManager.open("petal_clue");
   };
 
   /** Latest game state - the registry copy can lag behind claims. */
@@ -472,12 +778,18 @@ export class LoveIslandScene extends BaseScene {
   update() {
     super.update();
 
-    if (LOVE_ISLAND_CENTRE_PUZZLE === "push") {
+    if (this.centrePuzzle === "buttons") {
+      this.updateLoveButtons();
+    } else if (this.centrePuzzle === "push") {
       this.updateLovePush();
-    } else {
+    } else if (this.centrePuzzle === "dilemma") {
       this.updateLoveDilemma();
     }
-    this.updateLoveBoulder();
+    if (this.dailyGame === "boulder") {
+      this.updateLoveBoulder();
+    } else {
+      this.updateLoveKraken();
+    }
   }
 
   createLoveDilemma() {
@@ -624,16 +936,12 @@ export class LoveIslandScene extends BaseScene {
     const round = this.getRound(now);
 
     if (round.phase !== "choose") {
-      this.currentPlayer?.speak(
-        translateForBubble("loveDilemma.waitForNextRound"),
-      );
+      this.currentPlayer?.speak(translate("loveDilemma.waitForNextRound"));
       return;
     }
 
     if (getLoveDilemmaAttemptsLeft({ state: this.freshState, now }) <= 0) {
-      this.currentPlayer?.speak(
-        translateForBubble("loveDilemma.noAttemptsLeft"),
-      );
+      this.currentPlayer?.speak(translate("loveDilemma.noAttemptsLeft"));
       return;
     }
 
@@ -889,9 +1197,7 @@ export class LoveIslandScene extends BaseScene {
     if (mine === undefined || !PLATFORM_SPOTS[mine]) return;
 
     if (result.isVoid) {
-      this.currentPlayer?.speak(
-        translateForBubble("loveDilemma.notEnoughPlayers"),
-      );
+      this.currentPlayer?.speak(translate("loveDilemma.notEnoughPlayers"));
       return;
     }
 
@@ -913,7 +1219,7 @@ export class LoveIslandScene extends BaseScene {
     if (won) {
       this.showWinnings(amount);
     } else {
-      this.currentPlayer?.speak(translateForBubble("loveDilemma.lost"));
+      this.currentPlayer?.speak(translate("loveDilemma.lost"));
     }
   }
 
@@ -922,10 +1228,21 @@ export class LoveIslandScene extends BaseScene {
   // ---------------------------------------------------------------------
 
   createLovePush() {
-    // The four squares in the middle of the clearing, on the ground under
-    // everyone, with the tally floating above them
-    this.pushSquares = this.add.graphics().setDepth(PUSH_GROUND_DEPTH);
-    this.drawPushSquares([]);
+    // The four slots in the middle of the clearing, on the ground under
+    // everyone, with the tally floating above them. They never change - a
+    // filled one is called out by the tick over its boulder
+    LOVE_PUSH_TARGETS.forEach((target) => {
+      this.add
+        .image(
+          target.x * LOVE_ISLAND_TILE_PX,
+          target.y * LOVE_ISLAND_TILE_PX,
+          "push_slot",
+        )
+        // The art is the tile itself, so pin its top-left to the tile's and
+        // let the shadow row hang onto the tile below
+        .setOrigin(0, 0)
+        .setDepth(PUSH_GROUND_DEPTH);
+    });
 
     const top = Math.min(...LOVE_PUSH_TARGETS.map((t) => t.y));
     const centreX =
@@ -977,6 +1294,16 @@ export class LoveIslandScene extends BaseScene {
       boulderGroup.add(collider);
       this.pushColliders.push(collider);
 
+      // The tick that pops over it once it settles into a slot. Above
+      // everything - it's the one thing that has to be readable through a
+      // crowd
+      this.pushSunkTicks.push(
+        this.add
+          .image(0, 0, "push_sunk_tick")
+          .setDepth(Number.MAX_SAFE_INTEGER)
+          .setVisible(false),
+      );
+
       // Where it goes back to if it hits something
       this.pushStartMarkers.push(
         this.add.graphics().setDepth(PUSH_GROUND_DEPTH),
@@ -1016,8 +1343,11 @@ export class LoveIslandScene extends BaseScene {
       : undefined;
   }
 
-  /** The current round, from the room when it has one, else simulated. */
-  private getPushRound(now: number): LovePushRound {
+  /**
+   * The current round, from the room when it has one. Simulated only when
+   * there is no MMO at all - otherwise nothing until the room publishes.
+   */
+  private getPushRound(now: number): LovePushRound | undefined {
     const remote = this.remotePush;
 
     if (remote) {
@@ -1066,6 +1396,8 @@ export class LoveIslandScene extends BaseScene {
           : {}),
       };
     }
+
+    if (!SIMULATE_LOVE_ISLAND) return undefined;
 
     this.localPush = tickLovePushLocalRound({
       round: this.localPush ?? createLovePushLocalRound(now),
@@ -1119,11 +1451,12 @@ export class LoveIslandScene extends BaseScene {
     if (Math.cos(radians) * delta.x + Math.sin(radians) * delta.y <= 0) return;
 
     const round = this.getPushRound(now);
+    if (!round) return;
 
     if (round.solved) {
       if (now - this.lastPushBubbleAt > PUSH_BUBBLE_COOLDOWN_MS) {
         this.lastPushBubbleAt = now;
-        player.speak(translateForBubble("lovePush.waitForNextPuzzle"));
+        player.speak(translate("lovePush.waitForNextPuzzle"));
       }
       return;
     }
@@ -1367,7 +1700,7 @@ export class LoveIslandScene extends BaseScene {
     }
   }
 
-  /** The rock just parked in a square: it settles with a bounce; the square turns green. */
+  /** The rock just parked in a slot: it settles with a bounce, and a tick pops over it. */
   private parkBoulder(boulder: number) {
     const sprite = this.pushBoulders[boulder];
     if (!sprite) return;
@@ -1384,40 +1717,45 @@ export class LoveIslandScene extends BaseScene {
     });
   }
 
-  /** The four squares, the taken ones filled green. */
-  private drawPushSquares(taken: LovePushTile[]) {
-    const squares = this.pushSquares;
-    if (!squares) return;
+  /**
+   * A tick over every boulder sitting in a slot - it pops in once the
+   * boulder has finished rolling, and drops away if the round moves on.
+   */
+  private setSunkTicks(boulders: LovePushTile[], sunk: boolean[]) {
+    boulders.forEach((tile, boulder) => {
+      const tick = this.pushSunkTicks[boulder];
+      if (!tick) return;
 
-    squares.clear();
-    LOVE_PUSH_TARGETS.forEach((target) => {
-      const isTaken = taken.some(
-        (tile) => tile.x === target.x && tile.y === target.y,
-      );
-      const x = target.x * LOVE_ISLAND_TILE_PX;
-      const y = target.y * LOVE_ISLAND_TILE_PX;
+      if (!sunk[boulder]) {
+        this.tweens.killTweensOf(tick);
+        tick.setVisible(false);
+        return;
+      }
 
-      squares.fillStyle(
-        isTaken ? PUSH_SQUARE_TAKEN : PUSH_SQUARE_FILL,
-        isTaken ? 0.35 : 0.15,
+      const centre = getLovePushTileCentre(tile);
+      tick.setPosition(
+        centre.x,
+        centre.y + LOVE_ISLAND_TILE_PX / 2 - PUSH_SUNK_TICK_Y,
       );
-      squares.fillRect(
-        x + 1,
-        y + 1,
-        LOVE_ISLAND_TILE_PX - 2,
-        LOVE_ISLAND_TILE_PX - 2,
-      );
-      squares.lineStyle(
-        1,
-        isTaken ? PUSH_SQUARE_TAKEN : PUSH_SQUARE_COLOUR,
-        0.8,
-      );
-      squares.strokeRect(
-        x + 0.5,
-        y + 0.5,
-        LOVE_ISLAND_TILE_PX - 1,
-        LOVE_ISLAND_TILE_PX - 1,
-      );
+      if (tick.visible) return;
+
+      // Land it with the boulder, not ahead of it
+      tick.setVisible(true).setScale(0);
+      this.tweens.add({
+        targets: tick,
+        scale: 1,
+        delay: LOVE_PUSH_MOVE_MS,
+        duration: 260,
+        ease: "Back.easeOut",
+      });
+    });
+  }
+
+  /** Clear every tick - a fresh round starts with all four slots empty. */
+  private hideSunkTicks() {
+    this.pushSunkTicks.forEach((tick) => {
+      this.tweens.killTweensOf(tick);
+      tick.setVisible(false);
     });
   }
 
@@ -1458,6 +1796,7 @@ export class LoveIslandScene extends BaseScene {
   updateLovePush() {
     const now = Date.now();
     const round = this.getPushRound(now);
+    if (!round) return;
 
     // Fresh boulders - snap everything into place
     if (this.pushRoundId !== round.roundId) {
@@ -1469,8 +1808,9 @@ export class LoveIslandScene extends BaseScene {
       this.renderedSunk = [];
       this.renderedResets = [];
       // Pushes left standing on other boulders when the round was solved
-      // don't carry over - nor do their arrows
+      // don't carry over - nor do their arrows, or last round's ticks
       this.hidePushProgress();
+      this.hideSunkTicks();
       round.boulders.forEach((tile, boulder) => {
         this.pushBoulders[boulder]?.clearTint();
         this.placeBoulder(boulder, tile);
@@ -1499,7 +1839,7 @@ export class LoveIslandScene extends BaseScene {
           this.resetBoulder(boulder, round.starts[boulder] ?? tile);
           if (mine && now - this.lastPushBubbleAt > PUSH_BUBBLE_COOLDOWN_MS) {
             this.lastPushBubbleAt = now;
-            this.currentPlayer?.speak(translateForBubble("lovePush.reset"));
+            this.currentPlayer?.speak(translate("lovePush.reset"));
           }
         } else {
           if (rendered !== index) this.slideBoulder(boulder, tile);
@@ -1541,10 +1881,8 @@ export class LoveIslandScene extends BaseScene {
       const grew = (this.renderedSunkCount ?? 0) < sunkCount;
       this.renderedSunkCount = sunkCount;
       this.setSunkCount(sunkCount, grew);
-      this.drawPushSquares(
-        round.boulders.filter((_, boulder) => round.sunk[boulder]),
-      );
     }
+    this.setSunkTicks(round.boulders, round.sunk);
 
     round.pushes.forEach((pushes, boulder) => {
       const rendered = this.renderedPushes[boulder] ?? {};
@@ -1572,7 +1910,7 @@ export class LoveIslandScene extends BaseScene {
 
   /**
    * A love rock keeps its colour: the arrows and bars show the crowd, and a
-   * green square shows it's parked. Only a crash tints it, for a moment.
+   * tick shows it's parked. Only a crash tints it, for a moment.
    */
   private tintPushBoulder(boulder: number) {
     this.pushBoulders[boulder]?.clearTint();
@@ -1699,7 +2037,7 @@ export class LoveIslandScene extends BaseScene {
 
     if (!canClaimLovePush({ state, myMoves, roundId: round.roundId, now })) {
       if (hasClaimedLovePushToday({ state, now })) {
-        player.speak(translateForBubble("lovePush.alreadyClaimed"));
+        player.speak(translate("lovePush.alreadyClaimed"));
       }
       return;
     }
@@ -1716,7 +2054,454 @@ export class LoveIslandScene extends BaseScene {
     });
 
     this.celebrate(player);
-    player.speak(translateForBubble("lovePush.prize"));
+    player.speak(translate("lovePush.prize"));
+  }
+
+  // ---------------------------------------------------------------------
+  // Love Buttons
+  // ---------------------------------------------------------------------
+
+  createLoveButtons() {
+    // The lamp is a handful of pixels - draw it rather than ship a file
+    if (!this.textures.exists(BUTTON_LAMP_TEXTURE)) {
+      this.textures.generate(BUTTON_LAMP_TEXTURE, {
+        data: BUTTON_LAMP_PIXELS,
+        palette: BUTTON_LAMP_PALETTE as unknown as Phaser.Types.Create.Palette,
+        pixelWidth: 1,
+      });
+    }
+
+    // On the ground under everyone, dealt into place once the round is known
+    for (let button = 0; button < LOVE_BUTTONS_COUNT; button++) {
+      this.loveButtons.push(
+        this.add
+          .image(0, 0, BUTTON_TEXTURE)
+          .setOrigin(0.5, 1)
+          .setDepth(BUTTON_DEPTH)
+          .setVisible(false),
+      );
+    }
+
+    // The counter at the top of the screen comes down with the scene
+    this.events.once("shutdown", () => hideLoveButtonsHud());
+  }
+
+  /** Does the room run the puzzle, or are we simulating it locally? */
+  private get remoteButtons() {
+    const remote = this.mmoServer?.state?.loveButtons;
+
+    return remote && remote.buttons?.length === LOVE_BUTTONS_COUNT
+      ? remote
+      : undefined;
+  }
+
+  /**
+   * The current round, from the room when it has one. Simulated only when
+   * there is no MMO at all - otherwise nothing until the room publishes.
+   */
+  private getButtonsRound(now: number): LoveButtonsRound | undefined {
+    const remote = this.remoteButtons;
+
+    if (remote) {
+      const standing: Record<string, number> = {};
+      remote.standing?.forEach((button, farmId) => {
+        standing[farmId] = button;
+      });
+      const solvers: Record<string, number> = {};
+      remote.solvers?.forEach((helped, farmId) => {
+        solvers[farmId] = helped;
+      });
+      const solved = remote.solvedAt > 0;
+      const buttons = Array.from(remote.buttons ?? [])
+        .filter((index): index is number => typeof index === "number")
+        .map(fromLovePushTileIndex);
+      // A room that predates the holds publishes neither - nothing held
+      const holds = createLoveButtonsHolds(buttons.length);
+      const heldUntil = holds.heldUntil.map(
+        (_, index) => remote.heldUntil?.at(index) ?? 0,
+      );
+      const heldBy = holds.heldBy.map(
+        (_, index) => remote.heldBy?.at(index) ?? "",
+      );
+
+      return {
+        roundId: remote.roundId,
+        buttons,
+        standing,
+        heldUntil,
+        heldBy,
+        solvers,
+        solved,
+        ...(solved
+          ? { solvedAt: remote.solvedAt, nextRoundAt: remote.nextRoundAt }
+          : {}),
+      };
+    }
+
+    if (!SIMULATE_LOVE_ISLAND) return undefined;
+
+    this.localButtons = tickLoveButtonsLocalRound({
+      round: this.localButtons ?? createLoveButtonsLocalRound(now),
+      now,
+    });
+
+    return this.localButtons;
+  }
+
+  /** The Bumpkin on the island for a farm - ours or someone else's. */
+  private findButtonPresser(farmId: string): BumpkinContainer | undefined {
+    const id = Number(farmId);
+
+    if (this.currentPlayer?.farmId === id) return this.currentPlayer;
+
+    return Object.values(this.playerEntities).find(
+      (entity) => entity.farmId === id,
+    );
+  }
+
+  /**
+   * Which button the local player's feet are on, told to the room the
+   * moment it changes (and now and then again as a retry while they stand
+   * there). In local mode the stand goes straight onto the simulated
+   * round. Nothing moves once the round is solved - who was standing is
+   * the record of who helped.
+   */
+  private standOnButtons(
+    round: LoveButtonsRound,
+    now: number,
+  ): LoveButtonsRound {
+    const body = this.currentPlayer?.body as
+      | Phaser.Physics.Arcade.Body
+      | undefined;
+    if (!body || round.solved) return round;
+
+    const button = getLoveButtonAt({
+      buttons: round.buttons,
+      x: body.center.x,
+      y: body.center.y,
+    });
+    const changed = button !== this.myButton;
+    const retry =
+      button !== LOVE_BUTTONS_NONE &&
+      now - this.lastStandSentAt >= LOVE_BUTTONS_STAND_RESEND_MS;
+    if (!changed && !retry) return round;
+
+    const previous = this.myButton;
+    this.myButton = button;
+    this.lastStandSentAt = now;
+    if (changed && button !== LOVE_BUTTONS_NONE) {
+      this.sound.play("dig", { volume: 0.05 });
+    }
+    // The one we just stepped off stays down for us until the room says so
+    if (changed && previous !== LOVE_BUTTONS_NONE) {
+      this.myHold = { button: previous, until: now + LOVE_BUTTONS_HOLD_MS };
+    }
+
+    if (this.remoteButtons) {
+      this.mmoServer?.send("loveButtons.stand", {
+        roundId: round.roundId,
+        button,
+      });
+
+      return round;
+    }
+
+    if (this.localButtons) {
+      this.localButtons = standOnLoveButton({
+        round: this.localButtons,
+        farmId: `${this.id}`,
+        button,
+        now,
+      });
+
+      return this.localButtons;
+    }
+
+    return round;
+  }
+
+  /** Fresh buttons: each lands on its tile with a little bounce, one after another. */
+  private dealButtons(buttons: LovePushTile[]) {
+    buttons.forEach((tile, button) => {
+      const image = this.loveButtons[button];
+      if (!image) return;
+
+      const centre = getLovePushTileCentre(tile);
+      this.tweens.killTweensOf(image);
+      image
+        .setTexture(BUTTON_TEXTURE)
+        .setPosition(centre.x, centre.y + Math.floor(BUTTON_HEIGHT / 2))
+        .setAlpha(1)
+        .setScale(0)
+        .setVisible(true);
+      this.tweens.add({
+        targets: image,
+        scale: 1,
+        duration: 260,
+        delay: button * 25,
+        ease: "Back.easeOut",
+      });
+    });
+  }
+
+  /**
+   * A button goes down (someone stood on it) or comes back up (they
+   * stepped off): the art swaps, and it squashes or stretches for a
+   * moment. Going down also pops a ring out of it, so a press reads from
+   * across the clearing even with a Bumpkin standing on top of it.
+   */
+  private setButtonPressed(button: number, pressed: boolean, animate: boolean) {
+    const image = this.loveButtons[button];
+    if (!image) return;
+
+    image.setTexture(pressed ? BUTTON_PRESSED_TEXTURE : BUTTON_TEXTURE);
+    if (!animate) return;
+
+    this.tweens.killTweensOf(image);
+    if (pressed) {
+      image.setScale(1.15, 0.85);
+      this.tweens.add({
+        targets: image,
+        scaleX: 1,
+        scaleY: 1,
+        duration: 180,
+        ease: "Back.easeOut",
+      });
+      this.popButtonRing(image.x, image.y - Math.floor(BUTTON_HEIGHT / 2));
+    } else {
+      image.setScale(0.9, 1.1);
+      this.tweens.add({
+        targets: image,
+        scaleX: 1,
+        scaleY: 1,
+        duration: 150,
+        ease: "Quad.easeOut",
+      });
+    }
+  }
+
+  /** A square ring, the button's size, growing out of it and fading. */
+  private popButtonRing(x: number, y: number) {
+    const ring = this.add
+      .rectangle(x, y, BUTTON_RING_SIZE, BUTTON_RING_SIZE)
+      .setStrokeStyle(1, BUTTON_RING_COLOUR)
+      .setDepth(Number.MAX_SAFE_INTEGER);
+
+    this.tweens.add({
+      targets: ring,
+      scale: 1.8,
+      alpha: 0,
+      duration: 320,
+      ease: "Quad.easeOut",
+      onComplete: () => ring.destroy(),
+    });
+  }
+
+  /**
+   * A lamp over every Bumpkin holding a button. Ours lights the moment we
+   * step on (and goes out the moment we step off), before the room echoes
+   * it; everyone else's follows the room. The simulated crowd has no
+   * Bumpkins, so no lamps. Once solved the room's record is what shows.
+   */
+  private updateButtonLamps(round: LoveButtonsRound, now: number) {
+    const standing = new Set(
+      Object.entries(round.standing)
+        .filter(([, button]) => button >= 0 && button < round.buttons.length)
+        .map(([farmId]) => farmId),
+    );
+    const me = `${this.id}`;
+    if (!round.solved) {
+      if (this.myButton === LOVE_BUTTONS_NONE) standing.delete(me);
+      else standing.add(me);
+    }
+
+    Object.keys(this.buttonLamps).forEach((farmId) => {
+      if (standing.has(farmId)) return;
+
+      this.buttonLamps[farmId].destroy();
+      delete this.buttonLamps[farmId];
+    });
+
+    // A one-pixel bob, so it reads as a light and not a hat
+    const bob = Math.round(Math.sin((now / BUTTON_LAMP_BOB_MS) * Math.PI * 2));
+
+    standing.forEach((farmId) => {
+      if (isLoveButtonsLocalBot(farmId)) return;
+
+      const entity = this.findButtonPresser(farmId);
+      if (!entity) {
+        this.buttonLamps[farmId]?.destroy();
+        delete this.buttonLamps[farmId];
+        return;
+      }
+
+      let lamp = this.buttonLamps[farmId];
+      if (!lamp) {
+        lamp = this.add
+          .image(entity.x, entity.y - BUTTON_LAMP_Y, BUTTON_LAMP_TEXTURE)
+          .setDepth(Number.MAX_SAFE_INTEGER)
+          .setScale(0);
+        this.tweens.add({
+          targets: lamp,
+          scale: 1,
+          duration: 200,
+          ease: "Back.easeOut",
+        });
+        this.buttonLamps[farmId] = lamp;
+      }
+
+      lamp.setPosition(
+        Math.round(entity.x),
+        Math.round(entity.y) - BUTTON_LAMP_Y + bob,
+      );
+    });
+  }
+
+  private hideButtonLamps() {
+    Object.values(this.buttonLamps).forEach((lamp) => lamp.destroy());
+    this.buttonLamps = {};
+  }
+
+  updateLoveButtons() {
+    const now = Date.now();
+    let round = this.getButtonsRound(now);
+
+    // The room hasn't published the buttons (yet) - nothing to show
+    if (!round) {
+      this.hideLoveButtons();
+      return;
+    }
+
+    // Fresh buttons - deal them out and start over
+    if (this.buttonsRoundId !== round.roundId) {
+      this.buttonsRoundId = round.roundId;
+      this.sawButtonsUnsolved = false;
+      this.myButton = LOVE_BUTTONS_NONE;
+      this.myHold = undefined;
+      this.lastStandSentAt = 0;
+      this.renderedButtonsPressed = [];
+      this.hideButtonLamps();
+      this.dealButtons(round.buttons);
+    }
+
+    round = this.standOnButtons(round, now);
+
+    // Our own hold, until the room's copy of it has landed
+    const myHold = this.myHold;
+    if (myHold && !round.solved && now < myHold.until) {
+      if ((round.heldUntil[myHold.button] ?? 0) < myHold.until) {
+        const heldUntil = [...round.heldUntil];
+        heldUntil[myHold.button] = myHold.until;
+        round = { ...round, heldUntil };
+      }
+    } else if (myHold && now >= myHold.until) {
+      this.myHold = undefined;
+    }
+
+    // Only presses we watched happen animate - not a round we've walked
+    // in on with a dozen already down
+    const pressed = getLoveButtonsPressed({ ...round, now });
+    pressed.forEach((isPressed, button) => {
+      if ((this.renderedButtonsPressed[button] ?? false) === isPressed) return;
+
+      this.renderedButtonsPressed[button] = isPressed;
+      this.setButtonPressed(button, isPressed, this.sawButtonsUnsolved);
+    });
+
+    this.updateButtonLamps(round, now);
+
+    setLoveButtonsHud({
+      pressed: pressed.filter(Boolean).length,
+      total: round.buttons.length,
+      standing: getLoveButtonsStandingCount(round),
+      standingOnOne: round.solved
+        ? !!round.solvers[`${this.id}`]
+        : this.myButton !== LOVE_BUTTONS_NONE,
+      solved: round.solved,
+    });
+
+    if (!round.solved) {
+      this.sawButtonsUnsolved = true;
+    } else if (this.solvedButtonsRoundId !== round.roundId) {
+      this.solvedButtonsRoundId = round.roundId;
+      this.solveButtons(round, this.sawButtonsUnsolved);
+    }
+  }
+
+  /** Put the buttons away while the room has none, and start over when it does. */
+  private hideLoveButtons() {
+    if (this.buttonsRoundId === undefined) return;
+
+    this.buttonsRoundId = undefined;
+    this.myButton = LOVE_BUTTONS_NONE;
+    this.myHold = undefined;
+    this.renderedButtonsPressed = [];
+    this.hideButtonLamps();
+    this.loveButtons.forEach((image) => image.setVisible(false));
+    hideLoveButtonsHud();
+  }
+
+  /** The last button just went down - celebrate and settle up. */
+  private solveButtons(round: LoveButtonsRound, animate: boolean) {
+    const now = Date.now();
+    const player = this.currentPlayer;
+
+    if (animate) {
+      this.sound.play("reveal", { volume: 0.1 });
+      // Every button on the island flashes together
+      this.tweens.add({
+        targets: this.loveButtons,
+        alpha: 0.3,
+        duration: 200,
+        yoyo: true,
+        repeat: 3,
+      });
+    }
+
+    if (!player) return;
+
+    // Only those holding a button down are paid - standing on it, or just
+    // stepped off it - and only once a day. The room's `solvers` is the
+    // authority; our own feet and hold cover the gap until the stand that
+    // finished it has landed there
+    const wasStanding =
+      !!round.solvers[`${this.id}`] ||
+      this.myButton !== LOVE_BUTTONS_NONE ||
+      (!!this.myHold && now < this.myHold.until);
+    if (!wasStanding) {
+      if (animate) player.speak(translate("loveButtons.didNotHelp"));
+      return;
+    }
+
+    const state = this.freshState;
+
+    if (
+      !canClaimLoveButtons({
+        state,
+        wasStanding,
+        roundId: round.roundId,
+        now,
+      })
+    ) {
+      if (hasClaimedLoveButtonsToday({ state, now })) {
+        player.speak(translate("loveButtons.alreadyClaimed"));
+      }
+      return;
+    }
+
+    // The prize is an item, not Love Charms - the event pays the box and
+    // records the claim as worth 0, so the day's Love Charm budget is
+    // untouched. The roundId makes a reload mid-celebration a no-op rather
+    // than a second claim.
+    this.gameService?.send({
+      type: "floatingIslandPrize.claimed",
+      amount: 0,
+      game: "love_buttons",
+      roundId: round.roundId,
+    });
+
+    this.celebrate(player);
+    player.speak(translate("loveButtons.prize"));
   }
 
   // ---------------------------------------------------------------------
@@ -1780,12 +2565,14 @@ export class LoveIslandScene extends BaseScene {
   }
 
   /**
-   * The prize label on the rubble, rebuilt whenever the amount changes (a
-   * label's width is fixed at creation, and "+30" is wider than "+5"). Hidden
-   * until the boulder cracks; `updateLoveBoulder` shows it.
+   * The prize label on the rubble - the day's box or coin purse with its
+   * icon - rebuilt whenever the prize changes (a label's width and icon are
+   * fixed at creation, and "+500" is wider than "+1"). Hidden until the
+   * boulder cracks; `updateLoveBoulder` shows it.
    */
-  private refreshBoulderReward(prize: number) {
-    if (this.boulderRewardPrize === prize && this.boulderReward) return;
+  private refreshBoulderReward(prize: LoveBoulderPrize) {
+    const key = getLoveBoulderPrizeKey(prize);
+    if (this.boulderRewardPrize === key && this.boulderReward) return;
 
     const { x, y } = BOULDER_SPOT;
     const previous = this.boulderReward;
@@ -1797,7 +2584,10 @@ export class LoveIslandScene extends BaseScene {
       previous.destroy();
     }
 
-    const reward = new Label(this, `+${prize}`, "grey", "love_charm_small");
+    const icon = boulderPrizeTexture(
+      prize.type === "coins" ? LOVE_BOULDER_COINS_PRIZE : prize.item,
+    );
+    const reward = new Label(this, `+${prize.amount}`, "grey", icon);
     reward
       .setPosition(x, rewardY)
       .setDepth(Number.MAX_SAFE_INTEGER)
@@ -1808,9 +2598,9 @@ export class LoveIslandScene extends BaseScene {
     this.add.existing(reward);
 
     this.boulderReward = reward;
-    this.boulderRewardPrize = prize;
+    this.boulderRewardPrize = key;
 
-    // Keep bobbing if the prize was already on show when the amount changed
+    // Keep bobbing if the prize was already on show when it changed
     if (visible) this.bobBoulderReward();
   }
 
@@ -1837,8 +2627,11 @@ export class LoveIslandScene extends BaseScene {
     return remote && remote.hits > 0 ? remote : undefined;
   }
 
-  /** The current boulder, from the room when it has one, else simulated. */
-  private getBoulderRound(now: number): LoveBoulderRound {
+  /**
+   * The current boulder, from the room when it has one. Simulated only when
+   * there is no MMO at all - otherwise nothing until the room publishes.
+   */
+  private getBoulderRound(now: number): LoveBoulderRound | undefined {
     const remote = this.remoteBoulder;
 
     if (remote) {
@@ -1855,10 +2648,15 @@ export class LoveIslandScene extends BaseScene {
         ...(broken
           ? { brokenAt: remote.brokenAt, respawnAt: remote.respawnAt }
           : {}),
-        // A room that predates the daily roll publishes 0 - the floor then
-        prize: remote.prize || LOVE_BOULDER_PRIZE,
+        // A room that predates the daily roll publishes nothing - the stand-in then
+        prize: fromLoveBoulderRoomPrize({
+          prize: remote.prize,
+          amount: remote.prizeAmount,
+        }),
       };
     }
+
+    if (!SIMULATE_LOVE_ISLAND) return undefined;
 
     this.localBoulder = tickLoveBoulderLocalRound({
       round: this.localBoulder ?? createLoveBoulderLocalRound(now),
@@ -1881,10 +2679,10 @@ export class LoveIslandScene extends BaseScene {
     const round = this.getBoulderRound(now);
     const player = this.currentPlayer;
 
-    if (!this.boulder || !player || round.broken) return;
+    if (!this.boulder || !player || !round || round.broken) return;
 
     if (!this.checkDistanceToSprite(this.boulder, BOULDER_REACH)) {
-      player.speak(translateForBubble("base.iam.far.away"));
+      player.speak(translate("base.iam.far.away"));
       return;
     }
 
@@ -1978,6 +2776,7 @@ export class LoveIslandScene extends BaseScene {
     }
 
     const round = this.getBoulderRound(now);
+    if (!round) return;
 
     // Fresh boulder
     if (this.boulderRoundId !== round.roundId) {
@@ -2009,11 +2808,8 @@ export class LoveIslandScene extends BaseScene {
         now,
       });
 
-    // Shown amount is what this player will actually get - the day's roll,
-    // trimmed to what they can still earn today
-    this.refreshBoulderReward(
-      getLoveBoulderPayout({ state: this.freshState, prize: round.prize, now }),
-    );
+    // The day's roll, as the room publishes it
+    this.refreshBoulderReward(round.prize);
 
     if (this.boulderReward && this.boulderReward.visible !== rewardOpen) {
       this.boulderReward.setVisible(rewardOpen);
@@ -2115,11 +2911,11 @@ export class LoveIslandScene extends BaseScene {
     const round = this.getBoulderRound(now);
     const player = this.currentPlayer;
 
-    if (!this.boulder || !player) return;
+    if (!this.boulder || !player || !round) return;
     if (!isLoveBoulderRewardOpen({ round, now })) return;
 
     if (!this.checkDistanceToSprite(this.boulder, BOULDER_REACH)) {
-      player.speak(translateForBubble("base.iam.far.away"));
+      player.speak(translate("base.iam.far.away"));
       return;
     }
 
@@ -2127,36 +2923,849 @@ export class LoveIslandScene extends BaseScene {
     const myHits = this.getMyBoulderHits(round.roundId);
 
     if (myHits <= 0) {
-      player.speak(translateForBubble("loveBoulder.didNotHelp"));
+      player.speak(translate("loveBoulder.didNotHelp"));
       return;
     }
 
     if (!canClaimLoveBoulder({ state, myHits, roundId: round.roundId, now })) {
       if (hasClaimedLoveBoulderToday({ state, now })) {
-        player.speak(translateForBubble("loveBoulder.alreadyClaimed"));
+        player.speak(translate("loveBoulder.alreadyClaimed"));
       }
       return;
     }
 
-    // The day's roll, capped to what's still claimable today. The server pays
-    // its own roll regardless, so this is a preview rather than the authority
-    const amount = getLoveBoulderPayout({ state, prize: round.prize, now });
-
-    // The roundId makes a reload mid-window a no-op instead of a second claim
+    // The prize is a box or coins, never Love Charms - the server rolls it
+    // for the day and pays it, recording the claim as worth 0 so the day's
+    // Love Charm budget is untouched. The roundId makes a reload mid-window a
+    // no-op instead of a second claim.
     this.gameService?.send({
       type: "floatingIslandPrize.claimed",
-      amount,
+      amount: 0,
       game: "love_boulder",
       roundId: round.roundId,
     });
 
     this.claimedBoulderRoundId = round.roundId;
 
-    if (amount > 0) {
-      player.cheer();
-      this.showWinnings(amount);
-    } else {
-      player.speak(translateForBubble("loveBoulder.dailyLimit"));
+    const { prize } = round;
+    player.cheer();
+    player.speak(
+      prize.type === "coins"
+        ? translate("loveBoulder.prizeCoins", { amount: prize.amount })
+        : translate("loveBoulder.prizeItem", { item: prize.item }),
+    );
+  }
+
+  // ---------------------------------------------------------------------
+  // Love Marvel (the lake)
+  // ---------------------------------------------------------------------
+
+  createLoveKraken() {
+    const { x, y } = KRAKEN_SPOT;
+
+    // Placed by their top-left corner at native size, so every pixel sits on
+    // a map pixel. Nothing here is scaled, rotated or tweened - the beast is
+    // part of the scenery, and the ring is the only thing that moves.
+    // Tentacles first, so the head sits in front of them.
+    this.krakenTentacles = KRAKEN_TENTACLES.map((spot) =>
+      this.add
+        .sprite(spot.x, spot.y, "kraken_tentacle")
+        .setOrigin(0, 0)
+        .setDepth(spot.y + KRAKEN_TENTACLE_HEIGHT),
+    );
+
+    this.kraken = this.add
+      .sprite(KRAKEN_HEAD.x, KRAKEN_HEAD.y, "kraken_head")
+      .setOrigin(0, 0)
+      .setDepth(KRAKEN_HEAD.y + KRAKEN_HEAD_HEIGHT + 1);
+
+    // The ring's track never changes, so it is drawn once here. The zone
+    // moves on every reel you land, so it gets its own layer that
+    // `setKrakenZone` redraws.
+    const ring = this.add
+      .graphics({ x, y })
+      .setDepth(Number.MAX_SAFE_INTEGER - 3);
+
+    ring.lineStyle(
+      KRAKEN_RING_WIDTH,
+      KRAKEN_RING_TRACK,
+      KRAKEN_RING_TRACK_ALPHA,
+    );
+    ring.beginPath();
+    ring.arc(0, 0, KRAKEN_RING_RADIUS, 0, Math.PI * 2);
+    ring.strokePath();
+
+    this.krakenRing = ring;
+
+    this.krakenZone = this.add
+      .graphics({ x, y })
+      .setDepth(Number.MAX_SAFE_INTEGER - 2);
+
+    this.krakenMarker = this.add
+      .circle(
+        x,
+        y - KRAKEN_RING_RADIUS,
+        KRAKEN_MARKER_RADIUS,
+        KRAKEN_MARKER_COLOUR,
+      )
+      .setDepth(Number.MAX_SAFE_INTEGER - 1);
+
+    // The island's progress bar, always drawn over the crowd
+    this.krakenBar = this.add
+      .graphics({ x: x - KRAKEN_BAR_WIDTH / 2, y: KRAKEN_BAR_Y })
+      .setDepth(Number.MAX_SAFE_INTEGER);
+
+    // The one button the whole game is played on. "CAST" and "REEL" are both
+    // four letters, so the patch behind them is sized once and the text just
+    // swaps - see `Label.setText`.
+    const button = new Label(this, "CAST", "brown", "kraken_rod_icon");
+    button
+      .setPosition(LOVE_KRAKEN_BUTTON.x, LOVE_KRAKEN_BUTTON.y)
+      .setDepth(Number.MAX_SAFE_INTEGER)
+      .setSize(LOVE_KRAKEN_BUTTON_HIT.width, LOVE_KRAKEN_BUTTON_HIT.height)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => this.castOrReelKraken());
+    this.add.existing(button);
+
+    this.krakenButton = button;
+    this.krakenButtonLabel = "CAST";
+
+    // The prize, floating over the Marvel once it is landed. Built with the
+    // stand-in's prize; the room's roll for the day replaces it on sync.
+    this.refreshKrakenReward(LOVE_KRAKEN_PRIZE);
+  }
+
+  /**
+   * The prize label over the landed Marvel - the day's box or coin purse
+   * with its icon - rebuilt whenever the prize changes (a label's width and
+   * icon are fixed at creation). Hidden until it is caught.
+   */
+  private refreshKrakenReward(prize: LoveKrakenPrize) {
+    const key = getLoveKrakenPrizeKey(prize);
+    if (this.krakenRewardPrize === key && this.krakenReward) return;
+
+    const previous = this.krakenReward;
+    const visible = previous?.visible ?? false;
+
+    if (previous) {
+      this.tweens.killTweensOf(previous);
+      previous.destroy();
     }
+
+    const icon = krakenPrizeTexture(
+      prize.type === "coins" ? LOVE_KRAKEN_COINS_PRIZE : prize.item,
+    );
+    const reward = new Label(this, `+${prize.amount}`, "grey", icon);
+    reward
+      .setPosition(KRAKEN_SPOT.x, this.krakenRewardY)
+      .setDepth(Number.MAX_SAFE_INTEGER)
+      .setVisible(visible)
+      .setSize(REWARD_HIT_WIDTH, REWARD_HIT_HEIGHT)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => this.claimKrakenReward({ automatic: false }));
+    this.add.existing(reward);
+
+    this.krakenReward = reward;
+    this.krakenRewardPrize = key;
+
+    if (visible) this.bobKrakenReward();
+  }
+
+  /** Where the prize floats - above the head, clear of the ring. */
+  private get krakenRewardY() {
+    return KRAKEN_SPOT.y - KRAKEN_RING_RADIUS - 2;
+  }
+
+  /** The prize label's idle bob while it waits to be clicked. */
+  private bobKrakenReward() {
+    if (!this.krakenReward) return;
+
+    this.tweens.killTweensOf(this.krakenReward);
+    this.krakenReward.setY(this.krakenRewardY);
+    this.tweens.add({
+      targets: this.krakenReward,
+      y: this.krakenRewardY - 4,
+      duration: 400,
+      yoyo: true,
+      repeat: -1,
+      ease: "Sine.easeInOut",
+    });
+  }
+
+  /** Does the room run the Marvel, or are we simulating it locally? */
+  private get remoteKraken() {
+    const remote = this.mmoServer?.state?.loveKraken;
+
+    return remote && remote.health > 0 ? remote : undefined;
+  }
+
+  /**
+   * The current Marvel, from the room when it has one. Simulated only when
+   * there is no MMO at all - otherwise nothing until the room publishes.
+   */
+  private getKrakenRound(now: number): LoveKrakenRound | undefined {
+    const remote = this.remoteKraken;
+
+    if (remote) {
+      const caught = remote.caughtAt > 0;
+
+      return {
+        roundId: remote.roundId,
+        health: remote.health,
+        // The bar is the room's - a reel of ours flashes it, never moves it
+        progress: Math.max(0, Math.min(remote.health, remote.progress)),
+        caught,
+        ...(caught
+          ? { caughtAt: remote.caughtAt, respawnAt: remote.respawnAt }
+          : {}),
+        // A room that predates the daily roll publishes nothing - the stand-in then
+        prize: fromLoveKrakenRoomPrize({
+          prize: remote.prize,
+          amount: remote.prizeAmount,
+        }),
+      };
+    }
+
+    if (!SIMULATE_LOVE_ISLAND) return undefined;
+
+    this.localKraken = tickLoveKrakenLocalRound({
+      round: this.localKraken ?? createLoveKrakenLocalRound(now),
+      now,
+    });
+
+    return this.localKraken;
+  }
+
+  /** The local player's pulls and reels on this Marvel. */
+  private getMyKrakenAngler(roundId: number): LoveKrakenAngler {
+    return this.krakenAnglers[roundId] ?? LOVE_KRAKEN_FRESH_ANGLER;
+  }
+
+  /** Reels the local player landed on this Marvel - local count or the room's. */
+  private getMyKrakenReels(roundId: number): number {
+    const local = this.getMyKrakenAngler(roundId).reels;
+    const remote = this.remoteKraken?.anglers?.get(`${this.id}`) ?? 0;
+
+    return Math.max(local, remote);
+  }
+
+  /**
+   * The local player's ring right now - where the marker is, where their
+   * zone is, and which way and how fast it is going.
+   */
+  private getKrakenRing(round: LoveKrakenRound, now: number) {
+    return getLoveKrakenRing({
+      roundId: round.roundId,
+      angler: this.getMyKrakenAngler(round.roundId),
+      now,
+    });
+  }
+
+  /**
+   * The fishing button. The first click casts the line and leaves it in the
+   * water; every click after that is a pull on the rod. A pull only counts
+   * when the marker is inside your catch zone - a miss still plays, it just
+   * doesn't move the bar. Landing one leaves a purple dot behind and throws
+   * the zone somewhere else, so nobody settles into a rhythm.
+   */
+  /**
+   * The button reads "CAST" until the line is in the water and "REEL" after,
+   * and hides while the Marvel is landed - there is nothing to pull on.
+   * Both are four letters, so the patch behind them is sized once.
+   */
+  private setKrakenButton(round: LoveKrakenRound) {
+    const button = this.krakenButton;
+    if (!button) return;
+
+    button.setVisible(!round.caught);
+
+    // Still "CAST" while walking out - the line is not in the water yet
+    const text =
+      this.krakenCasting && this.currentPlayer?.isFishing ? "REEL" : "CAST";
+
+    if (this.krakenButtonLabel !== text) {
+      this.krakenButtonLabel = text;
+      button.setText(text);
+    }
+  }
+
+  /** Press the button in for a moment, so a thumb knows the tap landed. */
+  private pressKrakenButton() {
+    const button = this.krakenButton;
+    if (!button) return;
+
+    this.tweens.killTweensOf(button);
+    button.setPosition(LOVE_KRAKEN_BUTTON.x, LOVE_KRAKEN_BUTTON.y);
+    this.tweens.add({
+      targets: button,
+      y: LOVE_KRAKEN_BUTTON.y + KRAKEN_BUTTON_PRESS_Y,
+      duration: KRAKEN_BUTTON_PRESS_MS,
+      yoyo: true,
+      ease: "Quad.easeOut",
+      onComplete: () => button.setY(LOVE_KRAKEN_BUTTON.y),
+    });
+  }
+
+  /** Stop a walk to the wharf, wherever it had got to. */
+  private stopKrakenWalk() {
+    this.krakenWalk?.destroy();
+    this.krakenWalk = undefined;
+    this.krakenWalkingTo = undefined;
+    this.currentPlayer?.endScriptedWalk();
+  }
+
+  /**
+   * Walk the local player out to a spot on the wharf, then cast for them.
+   *
+   * Everyone is dealt a spot at random, even someone already standing on the
+   * wharf, so a crowd spreads along it instead of piling onto one plank. The
+   * route is a breadth-first search over the island's walkable tiles, so
+   * nobody is dragged through a railing or across the water on the way.
+   */
+  private walkToKrakenSpot() {
+    const player = this.currentPlayer;
+    if (!player || this.krakenWalk) return;
+
+    const spot = getLoveKrakenCastSpot();
+    const route = getLoveKrakenWalkRoute({
+      from: { x: player.x, y: player.y },
+      to: spot,
+    });
+
+    if (!route) {
+      player.speak(translate("base.iam.far.away"));
+      return;
+    }
+
+    this.krakenWalkingTo = spot;
+    player.startScriptedWalk();
+
+    let from = { x: player.x, y: player.y };
+    const tweens = route.map((step) => {
+      const leg = {
+        targets: player,
+        x: step.x,
+        y: step.y,
+        duration:
+          (Phaser.Math.Distance.BetweenPoints(from, step) /
+            LOVE_KRAKEN_WALK_SPEED) *
+          1000,
+        ease: "Linear",
+        onStart: () => {
+          if (step.x > player.x) {
+            player.faceRight();
+          } else if (step.x < player.x) {
+            player.faceLeft();
+          }
+        },
+      };
+
+      from = step;
+
+      return leg;
+    });
+
+    this.krakenWalk = this.tweens.chain({
+      targets: player,
+      tweens,
+      onComplete: () => {
+        this.krakenWalk = undefined;
+        this.krakenWalkingTo = undefined;
+        player.endScriptedWalk();
+
+        // Arrived - face the water and put the line in
+        player.faceLeft();
+        this.krakenCasting = true;
+        player.castRod();
+      },
+    });
+  }
+
+  private castOrReelKraken() {
+    const now = Date.now();
+    const player = this.currentPlayer;
+    if (!this.kraken || !player) return;
+
+    const round = this.getKrakenRound(now);
+
+    // Nothing to reel in while the prize is floating there
+    if (!round || round.caught) return;
+
+    // Every tap presses the button, landed or not, in reach or not
+    this.pressKrakenButton();
+
+    // Already on the way out to a spot
+    if (this.krakenWalk) return;
+
+    // The first cast always walks you to a spot on the wharf, wherever you
+    // were standing - that is what spreads a crowd along it
+    if (!this.krakenCasting || !player.isFishing) {
+      this.walkToKrakenSpot();
+      return;
+    }
+
+    if (!this.checkDistanceToSprite(this.kraken, LOVE_KRAKEN_REACH)) {
+      player.speak(translate("base.iam.far.away"));
+      return;
+    }
+
+    // Face the water
+    if (player.x < KRAKEN_SPOT.x) {
+      player.faceRight();
+    } else {
+      player.faceLeft();
+    }
+
+    player.reelRod();
+
+    const ring = this.getKrakenRing(round, now);
+    if (
+      now - this.lastKrakenReelAt <
+      getLoveKrakenReelCooldownMs(ring.ringMs)
+    ) {
+      return;
+    }
+
+    this.lastKrakenReelAt = now;
+
+    const landed = isLoveKrakenReelOnTarget({ ring });
+
+    // The pull counts either way, and the zone moves either way - that is
+    // what stops the button being held down until the marker wanders into a
+    // zone that never moves. Only a hit re-anchors the marker's leg, so a
+    // miss costs the angler their aim but never interrupts the sweep.
+    this.krakenAnglers[round.roundId] = pullLoveKrakenRod({
+      angler: this.getMyKrakenAngler(round.roundId),
+      ring,
+      landed,
+      now,
+    });
+
+    if (!landed) {
+      this.flashKrakenMarker(KRAKEN_MARKER_MISS);
+      return;
+    }
+
+    this.markKrakenHit(ring.zoneAngle);
+    // Throw the bar forward so a lone angler can see their reel land
+    this.krakenKickAt = now;
+
+    if (this.remoteKraken) {
+      this.mmoServer?.send("loveKraken.reel", { roundId: round.roundId });
+    } else if (this.localKraken) {
+      this.localKraken = reelLoveKrakenLocalRound({
+        round: this.localKraken,
+        now,
+      });
+    }
+
+    this.flashKrakenMarker(KRAKEN_MARKER_HIT);
+    this.splashKraken(4, 12);
+    // Only your own reel is heard - the bank would be a racket otherwise
+    this.sound.play("dig", { volume: 0.04 });
+  }
+
+  /** The marker blinks green on a landed reel and red on a missed one. */
+  private flashKrakenMarker(colour: number) {
+    this.krakenMarkerFlashColour = colour;
+    this.krakenMarkerFlashUntil = Date.now() + KRAKEN_MARKER_FLASH_MS;
+  }
+
+  /**
+   * A purple dot pops where a reel scored and fades. The zone has already
+   * jumped away from it by the time it is drawn, so it doubles as a marker
+   * of where you just came from.
+   */
+  private markKrakenHit(zoneAngle: number) {
+    const angle = Phaser.Math.DegToRad(zoneAngle);
+    const dot = this.add
+      .circle(
+        KRAKEN_SPOT.x + Math.sin(angle) * KRAKEN_RING_RADIUS,
+        KRAKEN_SPOT.y - Math.cos(angle) * KRAKEN_RING_RADIUS,
+        KRAKEN_HIT_DOT_RADIUS,
+        KRAKEN_HIT_DOT_COLOUR,
+      )
+      .setDepth(Number.MAX_SAFE_INTEGER);
+
+    this.tweens.add({
+      targets: dot,
+      scale: 1.8,
+      alpha: 0,
+      duration: KRAKEN_HIT_DOT_MS,
+      ease: "Quad.easeOut",
+      onComplete: () => dot.destroy(),
+    });
+  }
+
+  /** Droplets thrown up off the water, around the beast's own waterline. */
+  private splashKraken(count: number, spread: number) {
+    const waterline = {
+      x: KRAKEN_HEAD.x + KRAKEN_HEAD_WIDTH / 2,
+      y: KRAKEN_HEAD.y + KRAKEN_HEAD_HEIGHT,
+    };
+
+    for (let i = 0; i < count; i++) {
+      const colour = KRAKEN_SPLASH_COLOURS[i % KRAKEN_SPLASH_COLOURS.length];
+      const drop = this.add
+        .rectangle(
+          waterline.x + Phaser.Math.Between(-10, 10),
+          waterline.y + Phaser.Math.Between(-4, 2),
+          2,
+          2,
+          colour,
+        )
+        .setDepth(waterline.y + 2);
+
+      this.tweens.add({
+        targets: drop,
+        x: drop.x + Phaser.Math.Between(-spread, spread),
+        y: drop.y - Phaser.Math.Between(spread / 2, spread),
+        alpha: 0,
+        duration: Phaser.Math.Between(250, 450),
+        ease: "Quad.easeOut",
+        onComplete: () => drop.destroy(),
+      });
+    }
+  }
+
+  updateLoveKraken() {
+    const now = Date.now();
+    const round = this.getKrakenRound(now);
+    if (!round) return;
+
+    // Fresh Marvel - a new line, so the ring starts over at the top
+    if (this.krakenRoundId !== round.roundId) {
+      this.krakenRoundId = round.roundId;
+      this.sawKrakenFighting = false;
+      this.lastKrakenProgress = undefined;
+      this.seenAnglerReels = {};
+      // Only this round's tally matters; the rest would pile up all session
+      this.krakenAnglers = {
+        [round.roundId]: this.getMyKrakenAngler(round.roundId),
+      };
+      this.drawnKrakenZoneAngle = undefined;
+      this.krakenKickAt = undefined;
+      this.surfaceKraken();
+    }
+
+    if (!round.caught) {
+      this.sawKrakenFighting = true;
+    } else if (this.caughtKrakenRoundId !== round.roundId) {
+      this.caughtKrakenRoundId = round.roundId;
+      this.landKraken(this.sawKrakenFighting);
+    }
+
+    // The player took the controls back mid-walk - hand them over
+    if (this.krakenWalk && this.movementAngle !== undefined) {
+      this.stopKrakenWalk();
+    }
+
+    // Walking off puts the rod away (see `BumpkinContainer.walk`), so the
+    // button has to fall back to "Cast" with it
+    if (
+      this.krakenCasting &&
+      this.currentPlayer &&
+      !this.currentPlayer.isFishing
+    ) {
+      this.krakenCasting = false;
+    }
+
+    this.setKrakenRing(round, now);
+    this.setKrakenProgress(round, now);
+    this.updateKrakenAnglers(round);
+
+    // The prize floats there for the whole window - it claims itself part
+    // way through rather than waiting to be clicked
+    const rewardOpen = isLoveKrakenRewardOpen({ round, now });
+
+    if (
+      rewardOpen &&
+      now - (round.caughtAt ?? now) >= LOVE_KRAKEN_AUTO_CLAIM_MS
+    ) {
+      this.claimKrakenReward({ automatic: true });
+    }
+
+    // The day's roll, as the room publishes it
+    this.refreshKrakenReward(round.prize);
+
+    if (this.krakenReward && this.krakenReward.visible !== rewardOpen) {
+      this.krakenReward.setVisible(rewardOpen);
+      this.tweens.killTweensOf(this.krakenReward);
+      this.krakenReward.setY(this.krakenRewardY);
+
+      if (rewardOpen) this.bobKrakenReward();
+    }
+
+    // Nothing to cast at while the Marvel is landed
+    this.setKrakenButton(round);
+  }
+
+  /**
+   * The marker's sweep and the catch zone, both hidden while the Marvel is
+   * landed. Everything the marker does follows from the reels this player
+   * has landed and when the last one landed, so the room judging the reels
+   * reads it exactly as the client draws it.
+   */
+  private setKrakenRing(round: LoveKrakenRound, now: number) {
+    const marker = this.krakenMarker;
+    const track = this.krakenRing;
+    const zone = this.krakenZone;
+    if (!marker || !track || !zone) return;
+
+    if (round.caught) {
+      marker.setVisible(false);
+      track.setVisible(false);
+      zone.setVisible(false);
+      return;
+    }
+
+    const ring = this.getKrakenRing(round, now);
+    const angle = Phaser.Math.DegToRad(ring.angle);
+    marker.setPosition(
+      KRAKEN_SPOT.x + Math.sin(angle) * KRAKEN_RING_RADIUS,
+      KRAKEN_SPOT.y - Math.cos(angle) * KRAKEN_RING_RADIUS,
+    );
+
+    const colour =
+      now < this.krakenMarkerFlashUntil
+        ? this.krakenMarkerFlashColour
+        : KRAKEN_MARKER_COLOUR;
+    if (marker.fillColor !== colour) marker.setFillStyle(colour);
+
+    this.setKrakenZone(ring.zoneAngle);
+
+    marker.setVisible(true);
+    track.setVisible(true);
+    zone.setVisible(true);
+  }
+
+  /** Redraw the catch zone, but only when it has actually jumped. */
+  private setKrakenZone(zoneAngle: number) {
+    const zone = this.krakenZone;
+    if (!zone || this.drawnKrakenZoneAngle === zoneAngle) return;
+
+    this.drawnKrakenZoneAngle = zoneAngle;
+
+    const half = Phaser.Math.DegToRad(LOVE_KRAKEN_ZONE_HALF_DEG);
+    // Phaser measures from the +x axis; the ring's own zero is the top
+    const centre = Phaser.Math.DegToRad(zoneAngle) - Math.PI / 2;
+
+    zone.clear();
+    zone.lineStyle(KRAKEN_ZONE_WIDTH, KRAKEN_RING_ZONE, 1);
+    zone.beginPath();
+    zone.arc(0, 0, KRAKEN_RING_RADIUS, centre - half, centre + half);
+    zone.strokePath();
+  }
+
+  /**
+   * The island's progress bar. The fill is whole pixels; it runs green while
+   * the bank is dragging the Marvel up and red while the Marvel is dragging
+   * it back, so a thin crowd can see at a glance that they need more hands.
+   *
+   * Your own reel throws it forward a visible slice that eases back - see
+   * `getLoveKrakenReelKick`. That slice is worth far more than the point it
+   * stands for and is only ever shown to you, but without it a lone angler
+   * landing a reel sees a bar that does not move at all.
+   */
+  private setKrakenProgress(round: LoveKrakenRound, now: number) {
+    const bar = this.krakenBar;
+    if (!bar) return;
+
+    if (round.caught) {
+      bar.setVisible(false);
+      this.krakenBarFill = undefined;
+      this.lastKrakenProgress = undefined;
+      return;
+    }
+
+    const kick = getLoveKrakenReelKick({
+      landedAt: this.krakenKickAt,
+      now,
+    });
+    const share = getLoveKrakenBarShare({
+      progress: round.progress,
+      health: round.health,
+      landedAt: this.krakenKickAt,
+      now,
+    });
+
+    const fill = Math.max(
+      0,
+      Math.min(
+        KRAKEN_BAR_INNER_WIDTH,
+        Math.round(KRAKEN_BAR_INNER_WIDTH * share),
+      ),
+    );
+
+    // Which way the tug of war is going. A frame where nothing changed keeps
+    // the colour it had, so the bar doesn't strobe between patches. While
+    // your own kick is running the bar stays green whatever the island is
+    // doing - the kick easing back is not the Marvel winning.
+    const previous = this.lastKrakenProgress;
+    let rising = this.krakenBarRising ?? true;
+    if (previous !== undefined && round.progress !== previous) {
+      rising = round.progress > previous;
+    }
+    if (kick > 0) rising = true;
+    this.lastKrakenProgress = round.progress;
+
+    if (fill !== this.krakenBarFill || rising !== this.krakenBarRising) {
+      this.krakenBarFill = fill;
+      this.krakenBarRising = rising;
+      bar.clear();
+      bar.fillStyle(KRAKEN_BAR_TRACK, 1);
+      bar.fillRect(0, 0, KRAKEN_BAR_WIDTH, KRAKEN_BAR_HEIGHT);
+      bar.fillStyle(rising ? KRAKEN_BAR_RISING : KRAKEN_BAR_FALLING, 1);
+      bar.fillRect(1, 1, fill, KRAKEN_BAR_HEIGHT - 2);
+    }
+
+    bar.setVisible(true);
+  }
+
+  /**
+   * Everyone else on the bank casts and reels too: any player the room lists
+   * as an angler holds their rod out, and pulls it whenever their count goes
+   * up. The ring is shared, so the whole bank reels in time.
+   */
+  private updateKrakenAnglers(round: LoveKrakenRound) {
+    const anglers = this.remoteKraken?.anglers;
+    if (!anglers || round.caught) return;
+
+    Object.values(this.playerEntities).forEach((player) => {
+      const farmId = player.farmId;
+      if (!farmId || farmId === this.id) return;
+
+      const reels = anglers.get(`${farmId}`);
+      if (reels === undefined) return;
+
+      // They reeled at some point this round, but have since wandered off
+      if (
+        Phaser.Math.Distance.Between(
+          player.x,
+          player.y,
+          KRAKEN_SPOT.x,
+          KRAKEN_SPOT.y,
+        ) > LOVE_KRAKEN_REACH
+      ) {
+        player.stopFishing();
+        return;
+      }
+
+      const seen = this.seenAnglerReels[farmId];
+      this.seenAnglerReels[farmId] = reels;
+
+      if (seen === undefined || !player.isFishing) {
+        player.castRod();
+      } else if (reels > seen) {
+        player.reelRod();
+      }
+    });
+  }
+
+  /** A fresh Marvel surfaces. */
+  private surfaceKraken() {
+    this.claimedKrakenRoundId = undefined;
+
+    const parts = [
+      ...(this.kraken ? [this.kraken] : []),
+      ...this.krakenTentacles,
+    ];
+
+    // Kill the last catch's fade first - a round that arrives while it is
+    // still running would otherwise fade the new Marvel straight back out
+    this.tweens.killTweensOf(parts);
+    parts.forEach((part) => part.setAlpha(1).setVisible(true));
+  }
+
+  /** The bank just landed it - thrash, splash and leave the prize floating. */
+  private landKraken(animate: boolean) {
+    const parts = [
+      ...(this.kraken ? [this.kraken] : []),
+      ...this.krakenTentacles,
+    ];
+
+    if (animate) {
+      this.splashKraken(18, 26);
+      this.sound.play("reveal", { volume: 0.1 });
+      this.tweens.add({
+        targets: parts,
+        alpha: 0,
+        duration: 400,
+        onComplete: () => parts.forEach((part) => part.setVisible(false)),
+      });
+    } else {
+      parts.forEach((part) => part.setVisible(false));
+    }
+
+    // Everyone's line comes out of the water with it, and anyone still
+    // walking out to a spot stops where they are
+    this.stopKrakenWalk();
+    this.krakenCasting = false;
+    this.currentPlayer?.stopFishing();
+  }
+
+  /**
+   * Pay the prize to the local player.
+   *
+   * Nobody has to click: `updateLoveKraken` calls this a couple of seconds
+   * into the window for everyone who helped haul the beast up. Clicking the
+   * prize calls it too, which just takes it early - either way the round is
+   * marked claimed, so the two can't both pay.
+   *
+   * `automatic` only decides whether to nag: an impatient click gets told
+   * why nothing happened, but a player who simply never reeled shouldn't get
+   * a bubble at a prize that was never theirs.
+   */
+  private claimKrakenReward({ automatic = false } = {}) {
+    const now = Date.now();
+    const round = this.getKrakenRound(now);
+    const player = this.currentPlayer;
+
+    if (!this.kraken || !player || !round) return;
+    if (!isLoveKrakenRewardOpen({ round, now })) return;
+    if (this.claimedKrakenRoundId === round.roundId) return;
+
+    if (!this.checkDistanceToSprite(this.kraken, LOVE_KRAKEN_REACH)) {
+      if (!automatic) player.speak(translate("base.iam.far.away"));
+      return;
+    }
+
+    const state = this.freshState;
+    const myReels = this.getMyKrakenReels(round.roundId);
+
+    if (myReels <= 0) {
+      if (!automatic) player.speak(translate("loveKraken.didNotHelp"));
+      return;
+    }
+
+    if (!canClaimLoveKraken({ state, myReels, roundId: round.roundId, now })) {
+      if (!automatic && hasClaimedLoveKrakenToday({ state, now })) {
+        player.speak(translate("loveKraken.alreadyClaimed"));
+      }
+      // Nothing more is coming this round either way
+      this.claimedKrakenRoundId = round.roundId;
+      return;
+    }
+
+    // The prize is a box or coins, never Love Charms - the server rolls it
+    // for the day and pays it, recording the claim as worth 0 so the day's
+    // Love Charm budget is untouched. The roundId makes a reload mid-window a
+    // no-op instead of a second claim.
+    this.gameService?.send({
+      type: "floatingIslandPrize.claimed",
+      amount: 0,
+      game: "love_kraken",
+      roundId: round.roundId,
+    });
+
+    this.claimedKrakenRoundId = round.roundId;
+
+    const { prize } = round;
+    player.cheer();
+    player.speak(
+      prize.type === "coins"
+        ? translate("loveKraken.prizeCoins", { amount: prize.amount })
+        : translate("loveKraken.prizeItem", { item: prize.item }),
+    );
   }
 }

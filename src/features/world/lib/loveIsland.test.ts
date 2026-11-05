@@ -12,6 +12,9 @@ import {
   LOVE_DILEMMA_MIN_PLAYERS,
   LOVE_DILEMMA_ROUND_MS,
   getLoveDilemmaAttemptsLeft,
+  getLoveIslandDailyGame,
+  getLoveIslandCentrePuzzle,
+  LOVE_ISLAND_CENTRE_PUZZLE_ROTATION,
   getLoveDilemmaBotChoices,
   getLoveDilemmaPayout,
   getLoveDilemmaPlatformPrizes,
@@ -25,9 +28,11 @@ import {
   LOVE_BOULDER_LOCAL_BOT_HITS_PER_SEC,
   LOVE_BOULDER_PRIZE,
   LOVE_BOULDER_RESPAWN_MS,
+  LOVE_BOULDER_COINS_PRIZE,
   canClaimLoveBoulder,
   createLoveBoulderLocalRound,
-  getLoveBoulderPayout,
+  fromLoveBoulderRoomPrize,
+  getLoveBoulderPrizeKey,
   hasClaimedLoveBoulderRound,
   hasClaimedLoveBoulderToday,
   isLoveBoulderRewardOpen,
@@ -67,6 +72,32 @@ import {
   type LovePushDirection,
   type LovePushFullRound,
   type LovePushTile,
+  LOVE_BUTTONS_COUNT,
+  LOVE_BUTTONS_HALF_SIZE,
+  LOVE_BUTTONS_HOLD_MS,
+  LOVE_BUTTONS_LOCAL_BOT_STEP_MS,
+  LOVE_BUTTONS_MIN_SPACING,
+  LOVE_BUTTONS_NONE,
+  LOVE_BUTTONS_PRIZE,
+  LOVE_BUTTONS_ROOM_SLACK,
+  LOVE_BUTTONS_SOLVED_MS,
+  canClaimLoveButtons,
+  createLoveButtonsHolds,
+  createLoveButtonsLocalRound,
+  getLoveButtonAt,
+  getLoveButtonsLayout,
+  getLoveButtonsPressed,
+  getLoveButtonsPressedCount,
+  getLoveButtonsStandingCount,
+  getLoveButtonsStoodOn,
+  getLoveIslandWalkableRegion,
+  hasClaimedLoveButtonsToday,
+  isLoveButtonHeld,
+  isLoveButtonsLocalBot,
+  leaveLoveButtons,
+  standOnLoveButton,
+  tickLoveButtonsLocalRound,
+  type LoveButtonsRound,
 } from "./loveIsland";
 
 const ONE_DAY = 24 * 60 * 60 * 1000;
@@ -357,7 +388,8 @@ describe("Love Boulder", () => {
       ...vipFarm.floatingIsland,
       prizeClaims: claims.map((claim) => ({
         ...claim,
-        amount: LOVE_BOULDER_PRIZE,
+        // The prize is a box or coins, recorded as worth 0 Love Charms
+        amount: 0,
         game: "love_boulder" as const,
       })),
     },
@@ -495,59 +527,80 @@ describe("Love Boulder", () => {
       ).toBe(false);
     });
 
-    it("caps the payout to what is left today", () => {
-      expect(getLoveBoulderPayout({ state: vipFarm, now })).toBe(
-        LOVE_BOULDER_PRIZE,
-      );
-
-      const standard: GameState = {
+    it("is not gated by the Love Charm cap - a capped player can still claim", () => {
+      const capped: GameState = {
         ...INITIAL_FARM,
         floatingIsland: {
           ...INITIAL_FARM.floatingIsland,
           prizeClaims: [
-            { claimedAt: now - 1000, amount: 3, game: "love_dilemma" },
-          ],
-        },
-      };
-
-      expect(getLoveBoulderPayout({ state: standard, now })).toBe(2);
-    });
-
-    it("pays the room's roll for the day when it has one", () => {
-      expect(getLoveBoulderPayout({ state: vipFarm, prize: 30, now })).toBe(30);
-      expect(getLoveBoulderPayout({ state: vipFarm, prize: 5, now })).toBe(5);
-    });
-
-    it("trims a windfall day to what is left today", () => {
-      const nearlyCapped: GameState = {
-        ...vipFarm,
-        floatingIsland: {
-          ...vipFarm.floatingIsland,
-          prizeClaims: [
-            { claimedAt: now - 1000, amount: 90, game: "love_dilemma" },
+            { claimedAt: now - 1000, amount: 5, game: "love_dilemma" },
           ],
         },
       };
 
       expect(
-        getLoveBoulderPayout({ state: nearlyCapped, prize: 30, now }),
-      ).toBe(10);
-      // A non-VIP never sees more than their 5 a day, whatever the roll
+        canClaimLoveBoulder({ state: capped, myHits: 1, roundId: 3, now }),
+      ).toBe(true);
+    });
+  });
+
+  describe("room prize", () => {
+    it("reads a box from the room's item name and amount", () => {
       expect(
-        getLoveBoulderPayout({ state: INITIAL_FARM, prize: 30, now }),
-      ).toBe(5);
+        fromLoveBoulderRoomPrize({ prize: "Bronze Food Box", amount: 1 }),
+      ).toEqual({ type: "item", item: "Bronze Food Box", amount: 1 });
+    });
+
+    it("reads coins from the room's Coins name", () => {
+      expect(
+        fromLoveBoulderRoomPrize({
+          prize: LOVE_BOULDER_COINS_PRIZE,
+          amount: 250,
+        }),
+      ).toEqual({ type: "coins", amount: 250 });
+      expect(
+        fromLoveBoulderRoomPrize({
+          prize: LOVE_BOULDER_COINS_PRIZE,
+          amount: 500,
+        }),
+      ).toEqual({ type: "coins", amount: 500 });
+    });
+
+    it("falls back to the stand-in prize for a room that predates the roll", () => {
+      expect(fromLoveBoulderRoomPrize({ prize: "", amount: 0 })).toEqual(
+        LOVE_BOULDER_PRIZE,
+      );
+      expect(fromLoveBoulderRoomPrize({})).toEqual(LOVE_BOULDER_PRIZE);
+    });
+
+    it("keys each prize distinctly so the label is only rebuilt on change", () => {
+      const keys = [
+        { type: "item" as const, item: "Bronze Love Box" as const, amount: 1 },
+        { type: "item" as const, item: "Bronze Food Box" as const, amount: 1 },
+        { type: "coins" as const, amount: 250 },
+        { type: "coins" as const, amount: 500 },
+      ].map(getLoveBoulderPrizeKey);
+
+      expect(new Set(keys).size).toBe(4);
+      expect(getLoveBoulderPrizeKey({ type: "coins", amount: 250 })).toBe(
+        keys[2],
+      );
     });
 
     it("carries the prize through the local stand-in", () => {
       const round = createLoveBoulderLocalRound(now);
-      expect(round.prize).toBe(LOVE_BOULDER_PRIZE);
+      expect(round.prize).toEqual(LOVE_BOULDER_PRIZE);
 
       const broken = tickLoveBoulderLocalRound({
-        round: { ...round, hitsRemaining: 1, prize: 20 },
+        round: {
+          ...round,
+          hitsRemaining: 1,
+          prize: { type: "coins", amount: 500 },
+        },
         now: now + 10_000,
       });
       expect(broken.broken).toBe(true);
-      expect(broken.prize).toBe(20);
+      expect(broken.prize).toEqual({ type: "coins", amount: 500 });
     });
   });
 });
@@ -1298,6 +1351,684 @@ describe("Lover's Push", () => {
       expect(next.roundId).toBe(6);
       expect(next.solved).toBe(false);
       expect(next.boulders).toEqual(getLovePushLayout(6).starts);
+    });
+  });
+});
+
+describe("getLoveIslandCentrePuzzle", () => {
+  it("gives Love Buttons and Lover's Push a UTC day each, strictly alternating", () => {
+    expect(LOVE_ISLAND_CENTRE_PUZZLE_ROTATION).toEqual(["push", "buttons"]);
+
+    const days = Array.from({ length: 9 }, (_, i) =>
+      getLoveIslandCentrePuzzle(Date.UTC(2026, 8, 15 + i, 12)),
+    );
+
+    // 2026-09-15 is Love Buttons' day; a week on it's the other one
+    expect(days[0]).toBe("buttons");
+    days.forEach((puzzle, i) => {
+      expect(puzzle).toBe(i % 2 === 0 ? "buttons" : "push");
+    });
+  });
+
+  it("switches on the UTC day boundary, not the local one", () => {
+    const midnight = Date.UTC(2026, 8, 16);
+
+    expect(getLoveIslandCentrePuzzle(midnight - 1)).toBe("buttons");
+    expect(getLoveIslandCentrePuzzle(midnight)).toBe("push");
+  });
+});
+
+describe("getLoveIslandDailyGame", () => {
+  it("alternates the boulder and the Marvel by UTC weekday", () => {
+    // 2026-09-14 is a Monday
+    const days = Array.from({ length: 7 }, (_, i) =>
+      getLoveIslandDailyGame(Date.UTC(2026, 8, 14 + i, 12)),
+    );
+
+    expect(days).toEqual([
+      "boulder", // Mon
+      "kraken", // Tue
+      "boulder", // Wed
+      "boulder", // Thu
+      "kraken", // Fri
+      "boulder", // Sat
+      "kraken", // Sun
+    ]);
+  });
+
+  it("switches at UTC midnight", () => {
+    expect(getLoveIslandDailyGame(Date.UTC(2026, 8, 14, 23, 59))).toBe(
+      "boulder",
+    );
+    expect(getLoveIslandDailyGame(Date.UTC(2026, 8, 15, 0, 0))).toBe("kraken");
+  });
+});
+
+describe("Love Buttons", () => {
+  const tile = (x: number, y: number): LovePushTile => ({ x, y });
+
+  const round = (
+    overrides: Partial<LoveButtonsRound> = {},
+  ): LoveButtonsRound => ({
+    roundId: 1,
+    buttons: getLoveButtonsLayout(1),
+    standing: {},
+    ...createLoveButtonsHolds(),
+    solvers: {},
+    solved: false,
+    ...overrides,
+  });
+
+  /** Everyone but the last button held, by `f1..f24`. */
+  const allButOne = (): LoveButtonsRound => {
+    const standing: Record<string, number> = {};
+    for (let button = 0; button < LOVE_BUTTONS_COUNT - 1; button++) {
+      standing[`f${button + 1}`] = button;
+    }
+
+    return round({ standing });
+  };
+
+  describe("walkable region", () => {
+    it("is the ground a player can walk to from the centre, and nothing cut off from it", () => {
+      const region = getLoveIslandWalkableRegion();
+      const keys = new Set(region.map(toLovePushTileIndex));
+
+      expect(region.length).toBeGreaterThan(300);
+      expect(keys.has(toLovePushTileIndex(LOVE_PUSH_CENTRE))).toBe(true);
+      region.forEach((spot) =>
+        expect(isLoveIslandTileWalkable(spot)).toBe(true),
+      );
+      // Every tile has a walkable neighbour in the region - it's one piece
+      region.forEach((spot) => {
+        const linked = Object.values(LOVE_PUSH_DELTAS).some((delta) =>
+          keys.has(
+            toLovePushTileIndex(tile(spot.x + delta.x, spot.y + delta.y)),
+          ),
+        );
+        expect(linked).toBe(true);
+      });
+      // The far shore is walkable ground, but there's no walking to it
+      expect(isLoveIslandTileWalkable(tile(11, 35))).toBe(true);
+      expect(keys.has(toLovePushTileIndex(tile(11, 35)))).toBe(false);
+      // In tile order, so the room's copy lines up
+      expect(region.map(toLovePushTileIndex)).toEqual(
+        [...region.map(toLovePushTileIndex)].sort((a, b) => a - b),
+      );
+    });
+  });
+
+  describe("getLoveButtonsLayout", () => {
+    it("deals every button onto reachable ground, spread out, the same for everyone", () => {
+      const region = new Set(
+        getLoveIslandWalkableRegion().map(toLovePushTileIndex),
+      );
+
+      [1, 2, 3, 17, 1_757_000_000].forEach((roundId) => {
+        const buttons = getLoveButtonsLayout(roundId);
+
+        expect(buttons).toHaveLength(LOVE_BUTTONS_COUNT);
+        expect(new Set(buttons.map(toLovePushTileIndex)).size).toBe(
+          LOVE_BUTTONS_COUNT,
+        );
+        buttons.forEach((button) =>
+          expect(region.has(toLovePushTileIndex(button))).toBe(true),
+        );
+        buttons.forEach((a, i) =>
+          buttons.slice(i + 1).forEach((b) => {
+            expect(
+              Math.max(Math.abs(a.x - b.x), Math.abs(a.y - b.y)),
+            ).toBeGreaterThanOrEqual(LOVE_BUTTONS_MIN_SPACING);
+          }),
+        );
+        expect(getLoveButtonsLayout(roundId)).toEqual(buttons);
+      });
+    });
+
+    it("spreads them over the whole island, not just the clearing", () => {
+      const buttons = getLoveButtonsLayout(1);
+      const xs = buttons.map((b) => b.x);
+      const ys = buttons.map((b) => b.y);
+
+      // The clearing is roughly x 28..60, y 31..41; the deal reaches the
+      // wharf to the west, the path north and the ground south of it
+      expect(Math.min(...xs)).toBeLessThan(28);
+      expect(Math.min(...ys)).toBeLessThan(31);
+      expect(Math.max(...ys)).toBeGreaterThan(41);
+    });
+
+    it("puts the buttons somewhere new each round", () => {
+      const first = getLoveButtonsLayout(1).map(toLovePushTileIndex);
+      const second = getLoveButtonsLayout(2).map(toLovePushTileIndex);
+
+      expect(
+        first.filter((index) => second.includes(index)).length,
+      ).toBeLessThan(LOVE_BUTTONS_COUNT / 2);
+    });
+  });
+
+  describe("getLoveButtonAt", () => {
+    const buttons = [tile(38, 35), tile(44, 35)];
+
+    it("finds the button a pair of feet is on", () => {
+      const centre = getLovePushTileCentre(buttons[1]);
+
+      expect(getLoveButtonAt({ buttons, x: centre.x, y: centre.y })).toBe(1);
+      expect(
+        getLoveButtonAt({
+          buttons,
+          x: centre.x + LOVE_BUTTONS_HALF_SIZE,
+          y: centre.y - LOVE_BUTTONS_HALF_SIZE,
+        }),
+      ).toBe(1);
+      expect(
+        getLoveButtonAt({
+          buttons,
+          x: centre.x + LOVE_BUTTONS_HALF_SIZE + 1,
+          y: centre.y,
+        }),
+      ).toBe(LOVE_BUTTONS_NONE);
+    });
+
+    it("lets the room be more forgiving, for a position that lags behind", () => {
+      const centre = getLovePushTileCentre(buttons[0]);
+      const x = centre.x + LOVE_BUTTONS_HALF_SIZE + LOVE_BUTTONS_ROOM_SLACK;
+
+      expect(getLoveButtonAt({ buttons, x, y: centre.y })).toBe(
+        LOVE_BUTTONS_NONE,
+      );
+      expect(
+        getLoveButtonAt({
+          buttons,
+          x,
+          y: centre.y,
+          slack: LOVE_BUTTONS_ROOM_SLACK,
+        }),
+      ).toBe(0);
+    });
+  });
+
+  describe("standOnLoveButton", () => {
+    it("records who is on what, and counts buttons and players apart", () => {
+      let current = standOnLoveButton({
+        round: round(),
+        farmId: "a",
+        button: 3,
+        now,
+      });
+      current = standOnLoveButton({
+        round: current,
+        farmId: "b",
+        button: 3,
+        now,
+      });
+      current = standOnLoveButton({
+        round: current,
+        farmId: "c",
+        button: 7,
+        now,
+      });
+
+      expect(current.standing).toEqual({ a: 3, b: 3, c: 7 });
+      expect(getLoveButtonsStoodOn(current).filter(Boolean)).toHaveLength(2);
+      expect(getLoveButtonsPressedCount(current, now)).toBe(2);
+      expect(getLoveButtonsStandingCount(current)).toBe(3);
+      expect(current.solved).toBe(false);
+    });
+
+    it("moves a player who steps from one button to another", () => {
+      const first = standOnLoveButton({
+        round: round(),
+        farmId: "a",
+        button: 3,
+        now,
+      });
+      const moved = standOnLoveButton({
+        round: first,
+        farmId: "a",
+        button: 4,
+        now,
+      });
+
+      expect(moved.standing).toEqual({ a: 4 });
+      // The one they left holds for a while in their name
+      expect(moved.heldUntil[3]).toBe(now + LOVE_BUTTONS_HOLD_MS);
+      expect(moved.heldBy[3]).toBe("a");
+      expect(getLoveButtonsPressedCount(moved, now)).toBe(2);
+      expect(
+        getLoveButtonsPressedCount(moved, now + LOVE_BUTTONS_HOLD_MS),
+      ).toBe(1);
+    });
+
+    it("changes nothing for a stand it already has", () => {
+      const first = standOnLoveButton({
+        round: round(),
+        farmId: "a",
+        button: 3,
+        now,
+      });
+
+      expect(
+        standOnLoveButton({ round: first, farmId: "a", button: 3, now }),
+      ).toBe(first);
+    });
+
+    it("takes a player off when they step off or leave", () => {
+      const on = standOnLoveButton({
+        round: round(),
+        farmId: "a",
+        button: 3,
+        now,
+      });
+
+      const off = standOnLoveButton({
+        round: on,
+        farmId: "a",
+        button: LOVE_BUTTONS_NONE,
+        now,
+      });
+      expect(off.standing).toEqual({});
+      expect(off.heldUntil[3]).toBe(now + LOVE_BUTTONS_HOLD_MS);
+      expect(
+        leaveLoveButtons({ round: on, farmId: "a", now }).standing,
+      ).toEqual({});
+      // Nothing to take off
+      const empty = round();
+      expect(leaveLoveButtons({ round: empty, farmId: "a" })).toBe(empty);
+    });
+
+    it("ignores a button the round doesn't have", () => {
+      const on = standOnLoveButton({
+        round: round(),
+        farmId: "a",
+        button: 3,
+        now,
+      });
+
+      expect(
+        standOnLoveButton({
+          round: on,
+          farmId: "b",
+          button: LOVE_BUTTONS_COUNT,
+          now,
+        }).standing,
+      ).toEqual({ a: 3 });
+      expect(
+        standOnLoveButton({ round: on, farmId: "b", button: 1.5, now })
+          .standing,
+      ).toEqual({ a: 3 });
+      // ...and treats it as stepping off
+      expect(
+        standOnLoveButton({ round: on, farmId: "a", button: 99, now }).standing,
+      ).toEqual({});
+    });
+
+    it("solves the round the moment the last button goes down, crediting everyone standing", () => {
+      const nearly = allButOne();
+      expect(getLoveButtonsPressedCount(nearly, now)).toBe(
+        LOVE_BUTTONS_COUNT - 1,
+      );
+      expect(nearly.solved).toBe(false);
+
+      // A second player on a held button doesn't finish it
+      const shared = standOnLoveButton({
+        round: nearly,
+        farmId: "x",
+        button: 0,
+        now,
+      });
+      expect(shared.solved).toBe(false);
+
+      const solved = standOnLoveButton({
+        round: shared,
+        farmId: "last",
+        button: LOVE_BUTTONS_COUNT - 1,
+        now,
+      });
+
+      expect(solved.solved).toBe(true);
+      expect(solved.solvedAt).toBe(now);
+      expect(solved.nextRoundAt).toBe(now + LOVE_BUTTONS_SOLVED_MS);
+      expect(Object.keys(solved.solvers)).toHaveLength(LOVE_BUTTONS_COUNT + 1);
+      expect(solved.solvers.last).toBe(1);
+      expect(solved.solvers.x).toBe(1);
+      expect(solved.solvers.f1).toBe(1);
+    });
+
+    it("freezes the standing map once solved - it's the record of who was there", () => {
+      const solved = standOnLoveButton({
+        round: allButOne(),
+        farmId: "last",
+        button: LOVE_BUTTONS_COUNT - 1,
+        now,
+      });
+
+      expect(leaveLoveButtons({ round: solved, farmId: "f1" })).toBe(solved);
+      expect(
+        standOnLoveButton({ round: solved, farmId: "late", button: 2, now }),
+      ).toBe(solved);
+    });
+  });
+
+  describe("holds", () => {
+    it("keeps a button down for the hold after the last player steps off", () => {
+      const on = standOnLoveButton({
+        round: round(),
+        farmId: "a",
+        button: 2,
+        now,
+      });
+      const off = leaveLoveButtons({ round: on, farmId: "a", now });
+
+      expect(getLoveButtonsStoodOn(off)[2]).toBe(false);
+      expect(
+        isLoveButtonHeld({ heldUntil: off.heldUntil, button: 2, now }),
+      ).toBe(true);
+      expect(getLoveButtonsPressed({ ...off, now })[2]).toBe(true);
+      expect(
+        getLoveButtonsPressed({
+          ...off,
+          now: now + LOVE_BUTTONS_HOLD_MS - 1,
+        })[2],
+      ).toBe(true);
+      expect(
+        getLoveButtonsPressed({ ...off, now: now + LOVE_BUTTONS_HOLD_MS })[2],
+      ).toBe(false);
+      // A fresh round holds nothing
+      expect(
+        isLoveButtonHeld({ heldUntil: round().heldUntil, button: 2, now }),
+      ).toBe(false);
+    });
+
+    it("doesn't drop a button whose player steps straight onto another", () => {
+      let current = allButOne();
+      // f1 steps off button 0 and onto the last one within the hold
+      current = leaveLoveButtons({ round: current, farmId: "f1", now });
+      expect(getLoveButtonsPressedCount(current, now)).toBe(
+        LOVE_BUTTONS_COUNT - 1,
+      );
+
+      const solved = standOnLoveButton({
+        round: current,
+        farmId: "f1",
+        button: LOVE_BUTTONS_COUNT - 1,
+        now: now + LOVE_BUTTONS_HOLD_MS / 2,
+      });
+
+      expect(solved.solved).toBe(true);
+      // ...but not once the hold has run out
+      const late = standOnLoveButton({
+        round: current,
+        farmId: "f1",
+        button: LOVE_BUTTONS_COUNT - 1,
+        now: now + LOVE_BUTTONS_HOLD_MS,
+      });
+      expect(late.solved).toBe(false);
+    });
+
+    it("credits whoever's hold is keeping a button down when it solves", () => {
+      let current = allButOne();
+      current = leaveLoveButtons({ round: current, farmId: "f2", now });
+      const solved = standOnLoveButton({
+        round: current,
+        farmId: "last",
+        button: LOVE_BUTTONS_COUNT - 1,
+        now: now + LOVE_BUTTONS_HOLD_MS / 2,
+      });
+
+      expect(solved.solved).toBe(true);
+      expect(solved.solvers.f2).toBe(1);
+      expect(solved.solvers.last).toBe(1);
+      expect(Object.keys(solved.solvers)).toHaveLength(LOVE_BUTTONS_COUNT);
+    });
+
+    it("hands a hold to whoever stepped off last, and someone standing on it takes over", () => {
+      let current = standOnLoveButton({
+        round: round(),
+        farmId: "a",
+        button: 5,
+        now,
+      });
+      current = standOnLoveButton({
+        round: current,
+        farmId: "b",
+        button: 5,
+        now,
+      });
+      current = leaveLoveButtons({ round: current, farmId: "a", now });
+      expect(current.heldBy[5]).toBe("a");
+      // b is still on it - it's stood on, not held
+      expect(getLoveButtonsStoodOn(current)[5]).toBe(true);
+
+      current = leaveLoveButtons({
+        round: current,
+        farmId: "b",
+        now: now + 3000,
+      });
+      expect(current.heldBy[5]).toBe("b");
+      expect(current.heldUntil[5]).toBe(now + 3000 + LOVE_BUTTONS_HOLD_MS);
+    });
+  });
+
+  describe("claims", () => {
+    it("pays the clearing's box, like Lover's Push", () => {
+      expect(LOVE_BUTTONS_PRIZE).toEqual({
+        item: "Bronze Love Box",
+        amount: 1,
+      });
+      expect(LOVE_BUTTONS_PRIZE).toEqual(LOVE_PUSH_PRIZE);
+    });
+
+    it("only pays players who were standing on a button", () => {
+      expect(
+        canClaimLoveButtons({
+          state: INITIAL_FARM,
+          wasStanding: false,
+          roundId: 1,
+          now,
+        }),
+      ).toBe(false);
+      expect(
+        canClaimLoveButtons({
+          state: INITIAL_FARM,
+          wasStanding: true,
+          roundId: 1,
+          now,
+        }),
+      ).toBe(true);
+    });
+
+    it("pays the same however many Love Charms have been claimed today", () => {
+      const spent: GameState = {
+        ...INITIAL_FARM,
+        floatingIsland: {
+          ...INITIAL_FARM.floatingIsland,
+          prizeClaims: [
+            { claimedAt: now - 1000, amount: 5, game: "love_dilemma" },
+          ],
+        },
+      };
+
+      expect(
+        canClaimLoveButtons({
+          state: spent,
+          wasStanding: true,
+          roundId: 1,
+          now,
+        }),
+      ).toBe(true);
+      expect(
+        canClaimLoveButtons({
+          state: vipFarm,
+          wasStanding: true,
+          roundId: 1,
+          now,
+        }),
+      ).toBe(true);
+    });
+
+    it("pays once a day, and never the same round twice", () => {
+      const claimed: GameState = {
+        ...INITIAL_FARM,
+        floatingIsland: {
+          ...INITIAL_FARM.floatingIsland,
+          prizeClaims: [
+            {
+              claimedAt: now - 1000,
+              amount: 0,
+              game: "love_buttons",
+              roundId: 1,
+            },
+          ],
+        },
+      };
+
+      expect(hasClaimedLoveButtonsToday({ state: claimed, now })).toBe(true);
+      expect(
+        canClaimLoveButtons({
+          state: claimed,
+          wasStanding: true,
+          roundId: 1,
+          now,
+        }),
+      ).toBe(false);
+      expect(
+        canClaimLoveButtons({
+          state: claimed,
+          wasStanding: true,
+          roundId: 2,
+          now,
+        }),
+      ).toBe(false);
+      expect(
+        canClaimLoveButtons({
+          state: claimed,
+          wasStanding: true,
+          roundId: 2,
+          now: now + ONE_DAY,
+        }),
+      ).toBe(true);
+      // A Lover's Push claim is a different game's
+      const pushed: GameState = {
+        ...INITIAL_FARM,
+        floatingIsland: {
+          ...INITIAL_FARM.floatingIsland,
+          prizeClaims: [
+            { claimedAt: now - 1000, amount: 0, game: "love_push", roundId: 1 },
+          ],
+        },
+      };
+      expect(
+        canClaimLoveButtons({
+          state: pushed,
+          wasStanding: true,
+          roundId: 1,
+          now,
+        }),
+      ).toBe(true);
+    });
+  });
+
+  describe("local mode", () => {
+    it("starts with the round's buttons and nobody on them", () => {
+      const local = createLoveButtonsLocalRound(now, 5);
+
+      expect(local.roundId).toBe(5);
+      expect(local.buttons).toEqual(getLoveButtonsLayout(5));
+      expect(local.standing).toEqual({});
+      expect(local.solved).toBe(false);
+      expect(isLoveButtonsLocalBot("bot-0")).toBe(true);
+      expect(isLoveButtonsLocalBot("123")).toBe(false);
+    });
+
+    it("has the crowd step on one at a time, leaving the last for the player", () => {
+      let local = createLoveButtonsLocalRound(now);
+
+      local = tickLoveButtonsLocalRound({ round: local, now: now + 100 });
+      expect(getLoveButtonsPressedCount(local, now)).toBe(0);
+
+      for (let step = 1; step <= LOVE_BUTTONS_COUNT + 3; step++) {
+        local = tickLoveButtonsLocalRound({
+          round: local,
+          now: now + step * LOVE_BUTTONS_LOCAL_BOT_STEP_MS,
+        });
+      }
+
+      expect(getLoveButtonsPressedCount(local, now + 60_000)).toBe(
+        LOVE_BUTTONS_COUNT - 1,
+      );
+      expect(local.solved).toBe(false);
+      Object.keys(local.standing).forEach((id) =>
+        expect(isLoveButtonsLocalBot(id)).toBe(true),
+      );
+
+      // The player takes the last one
+      const free = getLoveButtonsStoodOn(local).indexOf(false);
+      const solved = standOnLoveButton({
+        round: local,
+        farmId: "me",
+        button: free,
+        now: now + 60_000,
+      });
+
+      expect(solved.solved).toBe(true);
+      expect(solved.solvers.me).toBe(1);
+    });
+
+    it("moves a bot along when the player joins it on a button", () => {
+      let local = createLoveButtonsLocalRound(now);
+      let at = now;
+      const tick = () => {
+        at += LOVE_BUTTONS_LOCAL_BOT_STEP_MS;
+        local = tickLoveButtonsLocalRound({ round: local, now: at });
+      };
+
+      tick();
+      const [bot, taken] = Object.entries(local.standing)[0];
+      expect(isLoveButtonsLocalBot(bot)).toBe(true);
+
+      // The player stands where the bot is - next tick it moves off
+      local = standOnLoveButton({
+        round: local,
+        farmId: "me",
+        button: taken,
+        now: at,
+      });
+      tick();
+
+      expect(local.standing.me).toBe(taken);
+      expect(local.standing[bot]).not.toBe(taken);
+      expect(getLoveButtonsStoodOn(local).filter(Boolean)).toHaveLength(2);
+    });
+
+    it("solves once the player is on a button and the crowd has the rest, then deals fresh buttons", () => {
+      let local = createLoveButtonsLocalRound(now);
+      local = standOnLoveButton({ round: local, farmId: "me", button: 0, now });
+
+      let at = now;
+      for (
+        let step = 0;
+        step < LOVE_BUTTONS_COUNT + 2 && !local.solved;
+        step++
+      ) {
+        at += LOVE_BUTTONS_LOCAL_BOT_STEP_MS;
+        local = tickLoveButtonsLocalRound({ round: local, now: at });
+      }
+
+      expect(local.solved).toBe(true);
+      expect(local.solvers.me).toBe(1);
+      expect(tickLoveButtonsLocalRound({ round: local, now: at + 1000 })).toBe(
+        local,
+      );
+
+      const next = tickLoveButtonsLocalRound({
+        round: local,
+        now: (local.nextRoundAt ?? 0) + 1,
+      });
+      expect(next.roundId).toBe(2);
+      expect(next.buttons).toEqual(getLoveButtonsLayout(2));
+      expect(next.standing).toEqual({});
+      expect(next.solved).toBe(false);
     });
   });
 });

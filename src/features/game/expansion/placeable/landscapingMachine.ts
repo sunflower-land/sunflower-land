@@ -1,9 +1,11 @@
-import { v4 as uuidv4 } from "uuid";
-import type { GameEventName, PlacementEvent } from "features/game/events";
 import {
-  BUILDINGS_DIMENSIONS,
-  type BuildingName,
-} from "features/game/types/buildings";
+  draftPlacementEvent,
+  needsDraftPlacement,
+  settlePlacementEvent,
+  type LandscapingPlaceable,
+  type LandscapingPlaceableType,
+} from "./lib/placementEvents";
+import type { GameEventName, PlacementEvent } from "features/game/events";
 import type { CollectibleName } from "features/game/types/craftables";
 import {
   assign,
@@ -11,6 +13,7 @@ import {
   type Interpreter,
   sendParent,
   type State,
+  choose,
 } from "xstate";
 import type { Coordinates } from "../components/MapPlacement";
 import type { Inventory } from "features/game/types/game";
@@ -18,87 +21,22 @@ import {
   type Context as GameMachineContext,
   saveGame,
 } from "features/game/lib/gameMachine";
-import { RESOURCES, type ResourceName } from "features/game/types/resources";
 import {
   RESOURCE_MOVE_EVENTS,
   RESOURCES_REMOVE_ACTIONS,
 } from "features/island/collectibles/MovableComponent";
 import type { PlaceableLocation } from "features/game/types/collectibles";
-import type { NFTName } from "features/game/events/landExpansion/placeNFT";
 import type { FlipCollectibleAction } from "features/game/events/landExpansion/flipCollectible";
 import type { FlipFarmHandAction } from "features/game/events/landExpansion/flipFarmHand";
 import type { FlipBumpkinAction } from "features/game/events/landExpansion/flipBumpkin";
 
-export const RESOURCE_PLACE_EVENTS: Record<
-  Exclude<ResourceName, "Boulder">,
-  GameEventName<PlacementEvent>
-> = {
-  Tree: "tree.placed",
-  "Ancient Tree": "tree.placed",
-  "Sacred Tree": "tree.placed",
-  "Stone Rock": "stone.placed",
-  "Fused Stone Rock": "stone.placed",
-  "Reinforced Stone Rock": "stone.placed",
-  "Iron Rock": "iron.placed",
-  "Refined Iron Rock": "iron.placed",
-  "Tempered Iron Rock": "iron.placed",
-  "Gold Rock": "gold.placed",
-  "Pure Gold Rock": "gold.placed",
-  "Prime Gold Rock": "gold.placed",
-  "Crimstone Rock": "crimstone.placed",
-  "Crop Plot": "plot.placed",
-  "Fruit Patch": "fruitPatch.placed",
-  Beehive: "beehive.placed",
-  "Flower Bed": "flowerBed.placed",
-  "Sunstone Rock": "sunstone.placed",
-  "Oil Reserve": "oilReserve.placed",
-  "Lava Pit": "lavaPit.placed",
-  "Ascension Crystal": "ascensionCrystal.placed",
-};
-
-/**
- * Resolves a (placeable, location) pair to the action name to dispatch.
- *
- * No special-casing for `interior` / `level_one` — they reuse the same
- * `collectible.placed` / `building.placed` / resource-specific paths as
- * `home` / `farm`. Resources and buildings shouldn't reach the interior
- * chest UI in the first place; if they somehow did, they'd route through
- * the same code as on the farm.
- */
-export function placeEvent(
-  name: LandscapingPlaceable,
-  _location?: PlaceableLocation,
-): GameEventName<PlacementEvent> {
-  if (name in RESOURCES) {
-    return RESOURCE_PLACE_EVENTS[
-      name as Exclude<ResourceName, "Boulder">
-    ] as GameEventName<PlacementEvent>;
-  }
-
-  if (name in BUILDINGS_DIMENSIONS) {
-    return "building.placed";
-  }
-
-  return "collectible.placed";
-}
-
-export type LandscapingPlaceable =
-  | BuildingName
-  | CollectibleName
-  | ResourceName
-  | NFTName
-  | "FarmHand"
-  | "Bumpkin";
-
-export type LandscapingPlaceableType =
-  | {
-      name: NFTName | "FarmHand" | "Bumpkin";
-      id: string;
-    }
-  | {
-      name: BuildingName | CollectibleName | ResourceName;
-      id?: string;
-    };
+// Placement-event building lives in a leaf module so it can be unit-tested;
+// re-exported here because this is where the rest of the app imports it from.
+export { placeEvent, RESOURCE_PLACE_EVENTS } from "./lib/placementEvents";
+export type {
+  LandscapingPlaceable,
+  LandscapingPlaceableType,
+} from "./lib/placementEvents";
 
 export interface Context {
   action?: GameEventName<PlacementEvent>;
@@ -117,6 +55,14 @@ export interface Context {
   moving?: { id: string; name: LandscapingPlaceable };
 
   maximum?: number;
+
+  /**
+   * The landscaping sandbox experiment is on for this player: placements are
+   * drafted by the parent and only reach the server on Save. With it off the
+   * machine keeps its pre-sandbox behaviour - a purchase places the item in
+   * one live event and hands the player straight back to playing.
+   */
+  sandbox?: boolean;
 
   /**
    * Bulk-removal mode. When true, the landscaping HUD collapses to a single
@@ -422,17 +368,19 @@ export const landscapingMachine = createMachine<
                   return !!context.multiple && !!e.nextOrigin;
                 },
                 actions: [
-                  sendParent(
-                    ({ placeable, action, coordinates: { x, y } }, e) => {
-                      return {
-                        type: action,
-                        name: placeable?.name,
-                        coordinates: { x, y },
-                        id: uuidv4().slice(0, 8),
-                        location: e.location,
-                      } as PlacementEvent;
-                    },
+                  sendParent((context, e) =>
+                    settlePlacementEvent(context, e.location),
                   ),
+                  // Buying several in a row settles one purchase per drop, so
+                  // each one needs its own draft placement too.
+                  choose([
+                    {
+                      cond: needsDraftPlacement,
+                      actions: sendParent((context, e) =>
+                        draftPlacementEvent(context, e.location),
+                      ),
+                    },
+                  ]),
                   assign({
                     collisionDetected: (_, event) => !!event.nextWillCollide,
                     origin: (_, event) => event.nextOrigin ?? { x: 0, y: 0 },
@@ -442,22 +390,17 @@ export const landscapingMachine = createMachine<
                 ],
               },
               {
+                // Sandbox experiment off: crafting or constructing places the
+                // item in one live event and hands the player back to playing,
+                // the way landscaping worked before the sandbox.
                 target: ["#saving.done", "done"],
                 cond: (context) =>
-                  // When buying/crafting items, return them to playing mode once bought
-                  context.action === "collectible.crafted" ||
-                  context.action === "building.constructed",
+                  !context.sandbox &&
+                  (context.action === "collectible.crafted" ||
+                    context.action === "building.constructed"),
                 actions: [
-                  sendParent(
-                    ({ placeable, action, coordinates: { x, y } }, e) => {
-                      return {
-                        type: action,
-                        name: placeable?.name,
-                        coordinates: { x, y },
-                        id: uuidv4().slice(0, 8),
-                        location: e.location,
-                      } as PlacementEvent;
-                    },
+                  sendParent((context, e) =>
+                    settlePlacementEvent(context, e.location),
                   ),
                   assign({
                     placeable: (_) => undefined,
@@ -465,49 +408,24 @@ export const landscapingMachine = createMachine<
                 ],
               },
               {
-                target: ["#saving.done", "idle"],
+                // Stay in landscaping (the `saving` region keeps flushing live
+                // actions). In the sandbox a purchase is sent live WITHOUT
+                // coordinates - the item lands in the chest - followed by a
+                // draft placement at the chosen tile, so Cancel keeps the
+                // purchase but not the placement. See lib/landscapingDraft.ts.
+                target: "idle",
                 actions: [
-                  sendParent(
-                    (
-                      { placeable, action, coordinates: { x, y } },
-                      { location },
-                    ) => {
-                      if (
-                        placeable?.name === "Bud" ||
-                        placeable?.name === "Pet"
-                      ) {
-                        return {
-                          type: action,
-                          coordinates: { x, y },
-                          id: placeable?.id,
-                          nft: placeable?.name,
-                          location,
-                        } as PlacementEvent;
-                      }
-                      if (placeable?.name === "Bumpkin") {
-                        return {
-                          type: action,
-                          coordinates: { x, y },
-                          location,
-                        } as PlacementEvent;
-                      }
-                      if (placeable?.name === "FarmHand" && placeable?.id) {
-                        return {
-                          type: action,
-                          coordinates: { x, y },
-                          id: placeable.id,
-                          location,
-                        } as PlacementEvent;
-                      }
-                      return {
-                        type: action,
-                        name: placeable?.name,
-                        coordinates: { x, y },
-                        id: uuidv4().slice(0, 8),
-                        location,
-                      } as PlacementEvent;
-                    },
+                  sendParent((context, e) =>
+                    settlePlacementEvent(context, e.location),
                   ),
+                  choose([
+                    {
+                      cond: needsDraftPlacement,
+                      actions: sendParent((context, e) =>
+                        draftPlacementEvent(context, e.location),
+                      ),
+                    },
+                  ]),
                   assign({
                     placeable: (_) => undefined,
                   }),

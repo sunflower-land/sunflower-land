@@ -1,4 +1,5 @@
 import type { InventoryItemName } from "features/game/types/game";
+import type { MinigameType } from "./minigames";
 
 /**
  * Shared types for the community Giveaway mini-games.
@@ -36,6 +37,10 @@ export type ActiveGiveaway = {
   status: Extract<GiveawayStatus, "upcoming" | "live">;
   startAt: number;
   endAt: number;
+  /** Which mini-game it runs (absent on legacy giveaways). */
+  minigame?: MinigameType;
+  /** When any participant may finalise it. */
+  finalisableAt: number;
   prizes: PrizeTier[];
 };
 
@@ -47,6 +52,9 @@ export type RecentGiveaway = {
   status: Extract<GiveawayStatus, "complete">;
   startAt: number;
   endAt: number;
+  /** Which mini-game it ran (absent on legacy giveaways). */
+  minigame?: MinigameType;
+  finalisableAt: number;
   endedAt: number;
   prizes: PrizeTier[];
 };
@@ -76,6 +84,17 @@ export type GiveawayLeaderboardResponse = {
   status: GiveawayStatus;
   startAt: number;
   endAt: number;
+  /** Which mini-game the event runs (absent on giveaways created before the
+   * API carried the type — those fall back to the `?type=` query param). */
+  minigame?: MinigameType;
+  /** When the mini-game's own clock runs out. */
+  finishesAt: number;
+  /**
+   * When ANY participant may finalise the event — the game clock plus a grace
+   * period for the last scores to land. The server enforces the same instant,
+   * so gating the "Finish" button on this never offers a click that would fail.
+   */
+  finalisableAt: number;
   prizes: PrizeTier[];
   /** Top 10 only, ranked best-first. */
   leaderboard: GiveawayLeaderboardEntry[];

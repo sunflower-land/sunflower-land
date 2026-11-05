@@ -35,8 +35,8 @@ import {
   SEEDS,
 } from "features/game/types/seeds";
 import {
-  CHAPTER_CROP_WEEK_CROP,
   CHAPTER_CROP_WEEK_SEED,
+  hasChapterCropWeekAccess,
 } from "features/game/types/chapterCropWeek";
 import {
   isWithinAOE,
@@ -65,11 +65,7 @@ import {
   trackFarmActivity,
 } from "features/game/types/farmActivity";
 import { isBuffActive } from "features/game/types/buffs";
-import {
-  SKILL_RANKS,
-  getSkillLevel,
-  downgradeChapterCropWeekSkills,
-} from "features/game/types/bumpkinSkills";
+import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
 import { isAutumnCrop, isSummerCrop } from "./harvest";
 import { getKeys } from "lib/object";
 import { mfTrack } from "lib/moonforgeAnalytics";
@@ -105,9 +101,13 @@ export const INITIAL_SUPPORTED_PLOTS = (island: IslandType) =>
 const WELL_PLOT_SUPPORT = 8;
 
 function isCropDestroyed({ id, game }: { id: string; game: GameState }) {
-  // Sort oldest to newest
-  const crops = getKeys(game.crops).sort((a, b) =>
-    game.crops[b].createdAt > game.crops[a].createdAt ? -1 : 1,
+  // Sort oldest to newest. Plots revealed together often share a createdAt, so
+  // ties must compare as equal: the old `? -1 : 1` comparator was inconsistent
+  // and each JS engine broke ties differently, so the client (e.g. Firefox)
+  // and the server (Node) disagreed on which plots were destroyed. Returning 0
+  // keeps the sort stable, which matches what V8 already produced.
+  const crops = getKeys(game.crops).sort(
+    (a, b) => game.crops[a].createdAt - game.crops[b].createdAt,
   );
   const cropsToRemove = crops.slice(0, Math.floor(crops.length / 2));
 
@@ -137,7 +137,7 @@ export const getSupportedPlots = ({
   }
 
   if (!hasPlacedWell) return plots;
-  if (effectiveWellLevel >= 4) return 99;
+  if (effectiveWellLevel >= 4) return Infinity;
 
   plots =
     effectiveWellLevel * WELL_PLOT_SUPPORT + INITIAL_SUPPORTED_PLOTS(island);
@@ -220,12 +220,7 @@ export function getCropTime({
   let multiplier = 1;
   const boostsUsed: { name: BoostName; value: string }[] = [];
   const { inventory, buds = {}, bumpkin } = game;
-  // Saltwort is the CHAPTER_CROP_WEEK event crop: neutralise upgraded Crops skills
-  // (they still apply at rank 1) so the event crop isn't boosted by ascension ranks.
-  const skills =
-    crop === CHAPTER_CROP_WEEK_CROP
-      ? downgradeChapterCropWeekSkills(bumpkin?.skills ?? {})
-      : (bumpkin?.skills ?? {});
+  const skills = bumpkin?.skills ?? {};
 
   if (inventory["Seed Specialist"]?.gte(1)) {
     multiplier = multiplier * 0.9;
@@ -322,11 +317,7 @@ export const getCropPlotTime = ({
   boostsUsed: { name: BoostName; value: string }[];
 } => {
   const { aoe } = game;
-  // Saltwort (the CHAPTER_CROP_WEEK event crop) ignores upgraded Crops-skill ranks.
-  const skills =
-    crop === CHAPTER_CROP_WEEK_CROP
-      ? downgradeChapterCropWeekSkills(game.bumpkin.skills)
-      : game.bumpkin.skills;
+  const skills = game.bumpkin.skills;
   const updatedAoe = cloneDeep(aoe);
 
   let seconds = CROPS[crop].harvestSeconds;
@@ -359,6 +350,11 @@ export const getCropPlotTime = ({
   ) {
     seconds = seconds * 0.5;
     boostsUsed.push({ name: "Autumn's Embrace", value: "x0.5" });
+  }
+
+  if (isWearableActive({ name: "Duende Hat", game })) {
+    seconds = seconds * 0.9;
+    boostsUsed.push({ name: "Duende Hat", value: "x0.9" });
   }
 
   const greenThumbLevel = getSkillLevel(skills, "Green Thumb");
@@ -725,15 +721,21 @@ export function plant({
     }
 
     // The Chapter Crop Week seed is a limited-time event crop that is not tied
-    // to a season, so it is exempt from the seasonal availability check.
-    if (
-      action.item !== CHAPTER_CROP_WEEK_SEED &&
+    // to a season, so it is exempt from the seasonal availability check and is
+    // instead gated on the event window (admin testers get early access).
+    if (action.item === CHAPTER_CROP_WEEK_SEED) {
+      if (!hasChapterCropWeekAccess(stateCopy, createdAt)) {
+        throw new Error("Chapter Crop Week is not active");
+      }
+    } else if (
       !SEASONAL_SEEDS[stateCopy.season.season].includes(action.item as SeedName)
     ) {
       throw new Error("This seed is not available in this season");
     }
 
-    const cropName = action.item.split(" ")[0] as CropName;
+    // Derive the crop from the seed definition rather than the seed's first
+    // word so multi-word crops (e.g. "Crystal Leaf Seed") resolve correctly.
+    const cropName = SEEDS[action.item as SeedName].yield as CropName;
     const cropId = action.cropId || crypto.randomUUID().slice(0, 8);
 
     const { updatedPlot, aoe, boostsUsed } = plantCropOnPlot({

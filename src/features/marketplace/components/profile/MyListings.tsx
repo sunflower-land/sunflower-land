@@ -1,4 +1,5 @@
 import { Label } from "components/ui/Label";
+import Decimal from "decimal.js-light";
 import { InnerPanel } from "components/ui/Panel";
 import React, { useContext, useState } from "react";
 import * as Auth from "features/auth/lib/Provider";
@@ -26,6 +27,7 @@ import {
 } from "features/game/types/marketplace";
 import { Button } from "components/ui/Button";
 import { BulkRemoveTrades } from "../BulkRemoveListings";
+import { MAX_RESOURCE_LISTINGS } from "../../lib/tradeLimits";
 
 const _isCancellingOffer = (state: MachineState) =>
   state.matches("marketplaceListingCancelling");
@@ -60,6 +62,7 @@ export const MyListings: React.FC<Props> = ({ fullHeight = false }) => {
   const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
 
   const [claimId, setClaimId] = useState<string>();
+  const [claimAll, setClaimAll] = useState(false);
   const [removeListingId, setRemoveListingId] = useState<string>();
   const [bulkCancel, setBulkCancel] = useState<boolean>(false);
 
@@ -98,23 +101,46 @@ export const MyListings: React.FC<Props> = ({ fullHeight = false }) => {
         )
       : listings;
 
-  if (getKeys(filteredListings).length === 0) return null;
+  const filteredListingIds = getKeys(filteredListings);
+  const selectedListing = filteredListings[filteredListingIds[0]];
+  const selectedItemName = selectedListing
+    ? (getKeys(selectedListing.items ?? {})[0] as InventoryItemName)
+    : undefined;
+  const showResourceListingCount =
+    !!params.id &&
+    routeCollection === "collectibles" &&
+    !!selectedItemName &&
+    isTradeResource(selectedItemName);
 
-  const claim = () => {
-    const listing = listings[claimId as string];
+  if (filteredListingIds.length === 0) return null;
 
-    gameService.send("purchase.claimed", {
-      tradeIds: [claimId],
-    });
+  // Sold listings waiting to be claimed; `purchase.claimed` takes them all at once.
+  const fulfilledIds = filteredListingIds.filter(
+    (id) => !!listings[id].fulfilledAt || !!listings[id].boughtAt,
+  );
+  // What the claim credits: each listing's price minus its trading fee, the
+  // same deduction `claimPurchase` makes.
+  const fulfilledSfl = fulfilledIds
+    .reduce((total, id) => {
+      const { sfl, tax } = listings[id];
+      return total
+        .plus(sfl)
+        .minus(tax ?? new Decimal(sfl).mul(MARKETPLACE_TAX));
+    }, new Decimal(0))
+    .toNumber();
+
+  const claim = (tradeIds: string[]) => {
+    gameService.send("purchase.claimed", { tradeIds });
 
     // For on chain items let's fire a refresh
-    const tradeType = listing.signature ? "onchain" : "instant";
+    const hasOnchain = tradeIds.some((id) => !!listings[id]?.signature);
 
-    if (tradeType === "onchain") {
+    if (hasOnchain) {
       gameService.send("RESET");
     }
 
     setClaimId(undefined);
+    setClaimAll(false);
   };
 
   const handleHide = () => {
@@ -146,8 +172,25 @@ export const MyListings: React.FC<Props> = ({ fullHeight = false }) => {
         {claimId && (
           <ClaimPurchase
             sfl={listings[claimId as string].sfl}
-            onClaim={claim}
+            onClaim={() => claim([claimId])}
             onClose={() => setClaimId(undefined)}
+            hasPendingTransaction={!!state.transaction}
+            tax={
+              // Decimal, like claimPurchase, so the shown fee matches it.
+              listings[claimId as string].tax ??
+              new Decimal(listings[claimId as string].sfl)
+                .mul(MARKETPLACE_TAX)
+                .toNumber()
+            }
+          />
+        )}
+      </Modal>
+      <Modal show={claimAll} onHide={() => setClaimAll(false)}>
+        {claimAll && (
+          <ClaimPurchase
+            sfl={fulfilledSfl}
+            onClaim={() => claim(fulfilledIds)}
+            onClose={() => setClaimAll(false)}
             hasPendingTransaction={!!state.transaction}
           />
         )}
@@ -160,22 +203,41 @@ export const MyListings: React.FC<Props> = ({ fullHeight = false }) => {
           className={fullHeight ? "flex h-full min-h-0 flex-col p-2" : "p-2"}
         >
           <div className="flex items-center justify-between mb-2">
-            <Label type="default" icon={trade}>
-              {t("marketplace.myListings")}
-            </Label>
-            <Button
-              className="w-fit h-8 rounded-none"
-              onClick={() => setBulkCancel(true)}
-            >
-              <p className="text-xxs sm:text-sm">
-                {t("marketplace.bulkCancel")}
-              </p>
-            </Button>
+            <div className="flex items-center gap-1">
+              <Label type="default" icon={trade}>
+                {t("marketplace.myListings")}
+              </Label>
+              {showResourceListingCount && (
+                <Label type="default">
+                  {`${filteredListingIds.length}/${MAX_RESOURCE_LISTINGS}`}
+                </Label>
+              )}
+            </div>
+            <div className="flex items-center gap-1">
+              {fulfilledIds.length > 1 && (
+                <Button
+                  className="w-fit h-8 rounded-none"
+                  onClick={() => setClaimAll(true)}
+                >
+                  <p className="text-xxs sm:text-sm">
+                    {t("marketplace.claimAll", { count: fulfilledIds.length })}
+                  </p>
+                </Button>
+              )}
+              <Button
+                className="w-fit h-8 rounded-none"
+                onClick={() => setBulkCancel(true)}
+              >
+                <p className="text-xxs sm:text-sm">
+                  {t("marketplace.bulkCancel")}
+                </p>
+              </Button>
+            </div>
           </div>
           <div
             className={fullHeight ? "flex min-h-0 flex-1" : "flex flex-wrap"}
           >
-            {getKeys(filteredListings).length === 0 ? (
+            {filteredListingIds.length === 0 ? (
               <p className="text-sm">{t("marketplace.noMyListings")}</p>
             ) : (
               <div
@@ -183,7 +245,7 @@ export const MyListings: React.FC<Props> = ({ fullHeight = false }) => {
                   fullHeight ? "h-full min-h-0" : "max-h-[200px]"
                 }`}
               >
-                {getKeys(filteredListings).map((id, index) => {
+                {filteredListingIds.map((id, index) => {
                   const listing = listings[id];
                   const itemName = getKeys(
                     listing.items ?? {},
