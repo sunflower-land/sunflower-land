@@ -114,6 +114,23 @@ describe("Animals skill ranks", () => {
       expect(amount).toEqual(1.3);
     });
 
+    it("adds Bale after the multipliers", () => {
+      // 2 x Buckaroo 2 x Salt Lick 1.05 = 4.2, then + Bale 0.1
+      const { amount } = getResourceDropAmount({
+        game: baleFarm({}),
+        animalType: "Chicken",
+        resource: "Egg",
+        baseAmount: 2,
+        multiplier: 2,
+        animal: {
+          ...ANIMAL,
+          feedBuff: { name: "Salt Lick", harvestsRemaining: 3 },
+        },
+      });
+
+      expect(amount).toEqual(4.3);
+    });
+
     it("rank 2 applies 2.5x Bale's effect", () => {
       const { boostsUsed } = getResourceDropAmount({
         game: baleFarm({ "Double Bale": 2 }),
@@ -238,15 +255,15 @@ describe("Animals skill ranks", () => {
     });
   });
 
-  // getResourceDropAmount rounds to 2dp at the boundary. Abundant Harvest r3
-  // (+0.5) puts Egg on exactly 1.5, and Salt Lick's x1.05 then lands on 1.575 —
-  // a genuine half-way value, so it pins the rounding direction.
+  // getResourceDropAmount rounds to 2dp at the boundary. Salt Lick's x1.05 on
+  // 1.5 lands on 1.575 — a genuine half-way value, so it pins the rounding
+  // direction.
   it("rounds a Salt Lick half-way yield up, as before", () => {
     const { amount } = getResourceDropAmount({
-      game: withSkills({ "Abundant Harvest": 3 }),
+      game: withSkills({}),
       animalType: "Chicken",
       resource: "Egg",
-      baseAmount: 1,
+      baseAmount: 1.5,
       multiplier: 1,
       animal: {
         ...ANIMAL,
@@ -255,6 +272,32 @@ describe("Animals skill ranks", () => {
     });
 
     expect(amount).toEqual(1.58);
+  });
+
+  it("applies every multiplier before the flat bonuses", () => {
+    // 2 x Buckaroo 2 x Salt Lick 1.05 = 4.2, then + Abundant Harvest 0.5
+    // + Cattlegrim 0.25 + Barn Manager 0.1
+    const game = withSkills({ "Abundant Harvest": 3 });
+    const { amount } = getResourceDropAmount({
+      game: {
+        ...game,
+        bumpkin: {
+          ...game.bumpkin,
+          equipped: { ...game.bumpkin.equipped, hat: "Cattlegrim" },
+        },
+        inventory: { "Barn Manager": new Decimal(1) },
+      },
+      animalType: "Chicken",
+      resource: "Egg",
+      baseAmount: 2,
+      multiplier: 2,
+      animal: {
+        ...ANIMAL,
+        feedBuff: { name: "Salt Lick", harvestsRemaining: 3 },
+      },
+    });
+
+    expect(amount).toEqual(5.05);
   });
 
   it("attributes an animal critical drop multiplier to Buckaroo", () => {
@@ -441,21 +484,41 @@ describe("Animals skill ranks", () => {
       expect(truffles({}).amount).toEqual(2);
     });
 
-    it("applies after the flat produce boosts", () => {
-      // (1 + Barn Manager 0.1) x 1.3
+    it("applies every multiplier before the flat bonuses", () => {
+      // 4 x Truffle Yield 1.3 x Buckaroo 2 x Salt Lick 1.05 = 10.92,
+      // then + Cattlegrim 0.25 + Barn Manager 0.1 + Retreat bud 0.2
+      const game = withSkills({ "Truffle Yield": 3 });
       const { amount } = getResourceDropAmount({
         game: {
-          ...withSkills({ "Truffle Yield": 3 }),
+          ...game,
+          bumpkin: {
+            ...game.bumpkin,
+            equipped: { ...game.bumpkin.equipped, hat: "Cattlegrim" },
+          },
           inventory: { "Barn Manager": new Decimal(1) },
+          buds: {
+            1: {
+              type: "Retreat",
+              colour: "Red",
+              stem: "Seashell",
+              aura: "No Aura",
+              ears: "No Ears",
+              coordinates: { x: 0, y: 0 },
+            },
+          },
         },
         animalType: "Pig",
         resource: "Truffle",
-        baseAmount: 1,
-        multiplier: 1,
-        animal: { ...ANIMAL, type: "Pig" },
+        baseAmount: 4,
+        multiplier: 2,
+        animal: {
+          ...ANIMAL,
+          type: "Pig",
+          feedBuff: { name: "Salt Lick", harvestsRemaining: 3 },
+        },
       });
 
-      expect(amount).toEqual(1.43);
+      expect(amount).toEqual(11.47);
     });
 
     it("does not boost other produce", () => {
@@ -1136,14 +1199,14 @@ describe("Pig Bristles trade-in (#7721)", () => {
       expect(boostsUsed.map((boost) => boost.name)).toContain("Bristle Payout");
     });
 
-    it("applies Bristle Payout after the flat boosts", () => {
+    it("applies Bristle Payout before the flat boosts", () => {
       const { amount } = getPigBristles({
         game: withCattlegrim(withSkills({ "Bristle Payout": 1 })),
         pig: pigAt(15),
       });
 
-      // (12 + 0.25) x 1.1 = 13.475, kept to 2 dp like produce
-      expect(amount).toEqual(13.48);
+      // 12 x 1.1 + 0.25
+      expect(amount).toEqual(13.45);
     });
 
     const withRetreatBud = (game: GameState): GameState => ({
