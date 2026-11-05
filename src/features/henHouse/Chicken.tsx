@@ -471,11 +471,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (sick) return onSickClick();
 
-    if (needsLove) {
-      if (!hasGoldEgg) return onLoveClick();
-
-      handleShowDetails();
-      return;
+    if (needsLove && !hasGoldEgg) {
+      return onLoveClick();
     }
 
     const hasBuffSelected = selectedItem && isAnimalFeedBuffItem(selectedItem);
@@ -505,6 +502,11 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       }
 
       await showNoFoodPrompt();
+      return;
+    }
+
+    if (needsLove && hasGoldEgg) {
+      handleShowDetails();
       return;
     }
 
