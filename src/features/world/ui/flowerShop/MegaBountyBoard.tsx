@@ -462,6 +462,11 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
                       <div className="flex gap-2 flex-wrap">
                         {bounties.map((bounty) => {
                           const { amount, icon } = getCurrencyInfo(bounty);
+                          // Ticket rewards boosted by chapter items; the
+                          // breakdown opens from the bounty's detail view.
+                          const isBoosted =
+                            getBountyTicketBoosts({ game: state, bounty, now })
+                              .length > 0;
                           const isSold = !!exchange.completed.find(
                             (request) => request.id === bounty.id,
                           );
@@ -536,6 +541,11 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
                                   <div className="absolute px-4 bottom-3 -left-4 object-contain">
                                     <Label
                                       icon={icon}
+                                      secondaryIcon={
+                                        isBoosted
+                                          ? SUNNYSIDE.icons.lightning
+                                          : undefined
+                                      }
                                       type="warning"
                                       className="text-xxs absolute center text-center p-1"
                                       style={{
@@ -739,7 +749,11 @@ const Deal: React.FC<{
                       type={isSold ? "success" : "warning"}
                       icon={ITEM_DETAILS[name].image}
                       secondaryIcon={
-                        isSold ? SUNNYSIDE.icons.confirm : undefined
+                        isSold
+                          ? SUNNYSIDE.icons.confirm
+                          : isChapterTicket && ticketBoostsUsed.length > 0
+                            ? SUNNYSIDE.icons.lightning
+                            : undefined
                       }
                     >
                       {`Reward: ${
