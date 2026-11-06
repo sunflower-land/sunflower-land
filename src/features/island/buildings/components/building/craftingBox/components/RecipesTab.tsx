@@ -467,6 +467,20 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
                               )}
                               <BoostsDisplay
                                 boosts={boostsUsed}
+                                base={
+                                  recipe.time > 0
+                                    ? {
+                                        value: secondsToString(
+                                          recipe.time / 1000,
+                                          {
+                                            length: "medium",
+                                            isShortFormat: true,
+                                          },
+                                        ),
+                                        icon: SUNNYSIDE.icons.stopwatch,
+                                      }
+                                    : undefined
+                                }
                                 show={showBoostsRecipeName === recipe.name}
                                 state={state}
                                 onClick={() =>
@@ -797,6 +811,20 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
                               )}
                               <BoostsDisplay
                                 boosts={boostsUsed}
+                                base={
+                                  recipe.time > 0
+                                    ? {
+                                        value: secondsToString(
+                                          recipe.time / 1000,
+                                          {
+                                            length: "medium",
+                                            isShortFormat: true,
+                                          },
+                                        ),
+                                        icon: SUNNYSIDE.icons.stopwatch,
+                                      }
+                                    : undefined
+                                }
                                 show={showBoostsRecipeName === recipe.name}
                                 state={state}
                                 onClick={() =>

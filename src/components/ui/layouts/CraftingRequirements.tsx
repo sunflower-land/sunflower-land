@@ -57,6 +57,8 @@ import {
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
 import classNames from "classnames";
 import { getItemDescription } from "features/game/lib/getItemDescription";
+import { formatNumber } from "lib/utils/formatNumber";
+import levelup from "assets/icons/level_up.png";
 
 function getResourceTier(name: UpgradedResourceName): number | undefined {
   if (name in ADVANCED_RESOURCES) {
@@ -486,6 +488,10 @@ export const CraftingRequirements: React.FC<Props> = ({
                     />
                     <BoostsDisplay
                       boosts={requirements.xpBoostsUsed}
+                      base={{
+                        value: `${formatNumber(requirements.baseXp ?? 0)}XP`,
+                        icon: levelup,
+                      }}
                       show={showBoosts}
                       state={gameState}
                       onClick={() => setShowBoosts(!showBoosts)}
@@ -550,6 +556,17 @@ export const CraftingRequirements: React.FC<Props> = ({
                     {hasNamedBoosts && showTimeBoosts && (
                       <BoostsDisplay
                         boosts={timeBoostsUsed ?? []}
+                        base={
+                          baseTimeSeconds !== undefined
+                            ? {
+                                value: secondsToString(baseTimeSeconds, {
+                                  length: "medium",
+                                  removeTrailingZeros: true,
+                                }),
+                                icon: SUNNYSIDE.icons.stopwatch,
+                              }
+                            : undefined
+                        }
                         show={showTimeBoosts}
                         state={gameState}
                         onClick={() => setShowTimeBoosts((prev) => !prev)}

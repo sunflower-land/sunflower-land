@@ -377,6 +377,17 @@ export const SeedRequirements: React.FC<Props> = ({
             )}
             <BoostsDisplay
               boosts={cropMachineBoostsUsed}
+              base={
+                cropMachineBaseTime
+                  ? {
+                      value: secondsToString(cropMachineBaseTime, {
+                        length: "medium",
+                        removeTrailingZeros: true,
+                      }),
+                      icon: SUNNYSIDE.icons.stopwatch,
+                    }
+                  : undefined
+              }
               show={showBoosts}
               state={gameState}
               onClick={() => setShowBoosts(!showBoosts)}
@@ -406,6 +417,17 @@ export const SeedRequirements: React.FC<Props> = ({
           )}
           <BoostsDisplay
             boosts={time?.boostsUsed ?? []}
+            base={
+              baseTimeSeconds
+                ? {
+                    value: secondsToString(baseTimeSeconds, {
+                      length: "medium",
+                      removeTrailingZeros: true,
+                    }),
+                    icon: SUNNYSIDE.icons.stopwatch,
+                  }
+                : undefined
+            }
             show={hasNamedBoosts && showBoosts}
             state={gameState}
             onClick={() => setShowBoosts(!showBoosts)}
