@@ -124,6 +124,11 @@ export const getBoostIcon = (boost: BoostName, state: GameState): string => {
 
 export const BoostsDisplay: React.FC<{
   boosts: { name: BoostName; value: string; label?: string; icon?: string }[];
+  /**
+   * The un-boosted value the boosts are applied to (e.g. a level's base drop,
+   * a recipe's base time). Shown first so the rows add up to the boosted total.
+   */
+  base?: { value: string; icon?: string };
   show: boolean;
   state: GameState;
   onClick: () => void;
@@ -134,6 +139,7 @@ export const BoostsDisplay: React.FC<{
   anchorRef?: React.RefObject<HTMLElement | null>;
 }> = ({
   boosts,
+  base,
   show,
   state,
   onClick,
@@ -285,6 +291,15 @@ export const BoostsDisplay: React.FC<{
           </span>
         </div>
         <div className="flex flex-col gap-3">
+          {base && (
+            <Label
+              type="transparent"
+              icon={base.icon ?? SUNNYSIDE.icons.lightning}
+              className="ml-3"
+            >
+              {`${t("boostsDisplay.base")}: ${base.value}`}
+            </Label>
+          )}
           {boosts.map((buff, index) => (
             <Label
               key={`${buff.name}-${buff.value}-${index}`}

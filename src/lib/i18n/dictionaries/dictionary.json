@@ -7040,6 +7040,7 @@
   "sleepingAnimal.xpToNextLevel": "+{{xpToNext}} to Lvl {{level}}",
   "sleepingAnimal.xpToNextCycle": "+{{xpToNext}} XP to next cycle",
   "sleepingAnimal.production": "Production:",
+  "boostsDisplay.base": "Base",
   "description.bonusBracelet.boost": "+1 Bracelet",
   "description.architectRuler.boost": "x0.75 Crafting Box Time",
   "description.reelmastersChair.boost": "+5 daily fishing reels",
