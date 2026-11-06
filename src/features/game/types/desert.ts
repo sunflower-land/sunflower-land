@@ -419,7 +419,7 @@ export function getTreasureCount({ game }: { game: GameState }) {
   return count;
 }
 
-const BASE_DAILY_DIGS = 25;
+export const BASE_DAILY_DIGS = 25;
 
 /**
  * The base number of digs available per day, before today's `extraDigs`,

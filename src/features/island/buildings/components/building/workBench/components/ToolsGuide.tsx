@@ -331,6 +331,7 @@ const StockCell: React.FC<{
       <span className="text-xxs line-through">{baseStock.toString()}</span>
       <BoostsDisplay
         boosts={boosts}
+        base={{ value: baseStock.toString(), icon: stockIcon }}
         show={showBoostsKey === boostsKey}
         state={state}
         onClick={() =>
@@ -444,16 +445,19 @@ const CooldownCell: React.FC<{
             </div>
           )}
         </div>
-        <BoostsDisplay
-          boosts={cooldown.boostsUsed}
-          show={hasNamedBoosts && showBoostsKey === boostsKey}
-          state={state}
-          onClick={() =>
-            setShowBoostsKey(showBoostsKey === boostsKey ? null : boostsKey)
-          }
-          className="right-0 left-auto"
-          anchorRef={anchorRef}
-        />
+        {cooldown.baseSeconds > 0 && (
+          <BoostsDisplay
+            boosts={cooldown.boostsUsed}
+            base={{ value: baseTimeStr, icon: SUNNYSIDE.icons.stopwatch }}
+            show={hasNamedBoosts && showBoostsKey === boostsKey}
+            state={state}
+            onClick={() =>
+              setShowBoostsKey(showBoostsKey === boostsKey ? null : boostsKey)
+            }
+            className="right-0 left-auto"
+            anchorRef={anchorRef}
+          />
+        )}
       </div>
     );
   }

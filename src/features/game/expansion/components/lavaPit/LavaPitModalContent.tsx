@@ -200,6 +200,13 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
                   />
                   <BoostsDisplay
                     boosts={boostsUsed}
+                    base={{
+                      value: secondsToString(LAVA_PIT_TIME / 1000, {
+                        length: "medium",
+                        removeTrailingZeros: true,
+                      }),
+                      icon: SUNNYSIDE.icons.stopwatch,
+                    }}
                     show={showBoosts}
                     state={gameState}
                     onClick={() => setShowBoosts(!showBoosts)}

@@ -64,6 +64,7 @@ import {
   generateDeliveryTickets,
   getOrderSellPrice,
   GOBLINS_REQUIRING_REPUTATION,
+  TICKET_REWARDS,
 } from "features/game/events/landExpansion/deliver";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { SquareIcon } from "components/ui/SquareIcon";
@@ -92,8 +93,10 @@ const BoostableRewardAmount: React.FC<{
   /** Reward name for screen readers, e.g. "Coins" - the icon has no text. */
   name: string;
   boosts: { name: BoostName; value: string }[];
+  /** Un-boosted amount, formatted like `amount`. */
+  base: string;
   game: GameState;
-}> = ({ amount, icon, name, boosts, game }) => {
+}> = ({ amount, icon, name, boosts, base, game }) => {
   const [showBoosts, setShowBoosts] = useState(false);
   const anchorRef = useRef<HTMLDivElement>(null);
   const hasBoosts = boosts.length > 0;
@@ -128,6 +131,7 @@ const BoostableRewardAmount: React.FC<{
       {hasBoosts && showBoosts && (
         <BoostsDisplay
           boosts={boosts}
+          base={{ value: base, icon }}
           show={showBoosts}
           state={game}
           onClick={() => setShowBoosts(false)}
@@ -298,6 +302,9 @@ const OrderCard: React.FC<{
                           icon={token}
                           name="FLOWER"
                           boosts={rewardBoostsUsed}
+                          base={formatNumber(order.reward.sfl, {
+                            decimalPlaces: 4,
+                          })}
                           game={game}
                         />
                       )}
@@ -307,6 +314,7 @@ const OrderCard: React.FC<{
                           icon={coinsImg}
                           name={t("coins")}
                           boosts={rewardBoostsUsed}
+                          base={formatNumber(order.reward.coins)}
                           game={game}
                         />
                       )}
@@ -316,6 +324,7 @@ const OrderCard: React.FC<{
                           icon={ITEM_DETAILS[getChapterTicket(now)].image}
                           name={getTranslatedItemName(getChapterTicket(now))}
                           boosts={ticketBoostsUsed}
+                          base={`${isTicketNPC(order.from) ? TICKET_REWARDS[order.from] : 0}`}
                           game={game}
                         />
                       )}

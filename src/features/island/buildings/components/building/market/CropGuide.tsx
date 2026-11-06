@@ -670,6 +670,7 @@ const CapacityLimit: React.FC<{
       <p className="text-xxs line-through">{baseAmount}</p>
       <BoostsDisplay
         boosts={boosts}
+        base={{ value: baseAmount, icon }}
         show={showBoostsKey === boostKey}
         state={state}
         onClick={() =>
@@ -861,6 +862,12 @@ const GrowthTimeCell: React.FC<{
       </div>
       <BoostsDisplay
         boosts={boostsUsed}
+        base={{
+          value: secondsToString(baseSeconds, {
+            length: showMediumTime ? "medium" : "short",
+          }),
+          icon: SUNNYSIDE.icons.stopwatch,
+        }}
         show={hasNamedBoosts && showBoostsKey === boostKey}
         state={state}
         onClick={() =>

@@ -487,6 +487,10 @@ export const ChoreRewardLabel: React.FC<{
         {canOpenBoosts && showBoosts && (
           <BoostsDisplay
             boosts={boostsUsed}
+            base={{
+              value: `${chore.reward.items[ticket] ?? 0}`,
+              icon: ITEM_DETAILS[ticket].image,
+            }}
             show={showBoosts}
             state={state}
             onClick={() => setShowBoosts(false)}
