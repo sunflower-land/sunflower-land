@@ -128,7 +128,7 @@ export const BoostsDisplay: React.FC<{
    * The un-boosted value the boosts are applied to (e.g. a level's base drop,
    * a recipe's base time). Shown first so the rows add up to the boosted total.
    */
-  base?: { value: string; icon?: string };
+  base: { value: string; icon?: string };
   show: boolean;
   state: GameState;
   onClick: () => void;

@@ -553,28 +553,26 @@ export const CraftingRequirements: React.FC<Props> = ({
                           strikethrough
                         />
                       )}
-                    {hasNamedBoosts && showTimeBoosts && (
-                      <BoostsDisplay
-                        boosts={timeBoostsUsed ?? []}
-                        base={
-                          baseTimeSeconds !== undefined
-                            ? {
-                                value: secondsToString(baseTimeSeconds, {
-                                  length: "medium",
-                                  removeTrailingZeros: true,
-                                }),
-                                icon: SUNNYSIDE.icons.stopwatch,
-                              }
-                            : undefined
-                        }
-                        show={showTimeBoosts}
-                        state={gameState}
-                        onClick={() => setShowTimeBoosts((prev) => !prev)}
-                        anchorRef={timeBoostsRef}
-                        portalAlign="center"
-                        portalPlacement="above"
-                      />
-                    )}
+                    {hasNamedBoosts &&
+                      showTimeBoosts &&
+                      baseTimeSeconds !== undefined && (
+                        <BoostsDisplay
+                          boosts={timeBoostsUsed ?? []}
+                          base={{
+                            value: secondsToString(baseTimeSeconds, {
+                              length: "medium",
+                              removeTrailingZeros: true,
+                            }),
+                            icon: SUNNYSIDE.icons.stopwatch,
+                          }}
+                          show={showTimeBoosts}
+                          state={gameState}
+                          onClick={() => setShowTimeBoosts((prev) => !prev)}
+                          anchorRef={timeBoostsRef}
+                          portalAlign="center"
+                          portalPlacement="above"
+                        />
+                      )}
                   </div>
                 );
               }

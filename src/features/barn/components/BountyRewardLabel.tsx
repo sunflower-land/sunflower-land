@@ -10,7 +10,7 @@ interface Props {
   icon: string;
   boosts: { name: BoostName; value: string }[];
   /** Un-boosted reward amount, formatted like the label's value. */
-  base?: string;
+  base: string;
   state: GameState;
   /** Open the boosts breakdown on click. Off where the label sits on a clickable card. */
   interactive?: boolean;
@@ -75,7 +75,7 @@ export const BountyRewardLabel: React.FC<React.PropsWithChildren<Props>> = ({
       {canOpenBoosts && showBoosts && (
         <BoostsDisplay
           boosts={boosts}
-          base={base !== undefined ? { value: base, icon } : undefined}
+          base={{ value: base, icon }}
           show={showBoosts}
           state={state}
           onClick={() => setShowBoosts(false)}

@@ -221,26 +221,24 @@ export const InventoryItemDetails: React.FC<Props> = ({
                   strikethrough
                 />
               )}
-            <BoostsDisplay
-              boosts={properties.timeBoostsUsed}
-              base={
-                properties.baseTimeSeconds !== undefined
-                  ? {
-                      value: secondsToString(properties.baseTimeSeconds, {
-                        length: "medium",
-                        removeTrailingZeros: true,
-                      }),
-                      icon: SUNNYSIDE.icons.stopwatch,
-                    }
-                  : undefined
-              }
-              show={hasNamedBoosts && properties.showBoosts}
-              state={game}
-              onClick={() =>
-                hasNamedBoosts &&
-                properties.setShowBoosts?.(!properties.showBoosts)
-              }
-            />
+            {properties.baseTimeSeconds !== undefined && (
+              <BoostsDisplay
+                boosts={properties.timeBoostsUsed}
+                base={{
+                  value: secondsToString(properties.baseTimeSeconds, {
+                    length: "medium",
+                    removeTrailingZeros: true,
+                  }),
+                  icon: SUNNYSIDE.icons.stopwatch,
+                }}
+                show={hasNamedBoosts && properties.showBoosts}
+                state={game}
+                onClick={() =>
+                  hasNamedBoosts &&
+                  properties.setShowBoosts?.(!properties.showBoosts)
+                }
+              />
+            )}
           </div>
         );
       }

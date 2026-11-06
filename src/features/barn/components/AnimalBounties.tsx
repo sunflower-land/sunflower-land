@@ -487,9 +487,7 @@ export const AnimalDeal: React.FC<{
                   key={name}
                   icon={ITEM_DETAILS[name].image}
                   boosts={name === chapterTicket ? rewardBoosts : []}
-                  base={
-                    name === chapterTicket ? `${deal.items?.[name]}` : undefined
-                  }
+                  base={`${deal.items?.[name]}`}
                   state={state}
                   interactive
                 >
@@ -770,7 +768,7 @@ const BountyCard: React.FC<BountyCardProps> = ({
             key={name}
             icon={ITEM_DETAILS[name].image}
             boosts={name === chapterTicket ? rewardBoosts : []}
-            base={name === chapterTicket ? `${deal.items?.[name]}` : undefined}
+            base={`${deal.items?.[name]}`}
             state={state}
             interactive={readonly}
             className="absolute -bottom-2"

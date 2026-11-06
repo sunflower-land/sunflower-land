@@ -7,7 +7,10 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 import type { GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { getDailyFishingLimit } from "features/game/types/fishing";
+import {
+  BASE_DAILY_FISHING_LIMIT,
+  getDailyFishingLimit,
+} from "features/game/types/fishing";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type Props = {
@@ -95,6 +98,10 @@ export const ReelsRemainingBadge: React.FC<Props> = ({
       )}
       <BoostsDisplay
         boosts={boosts}
+        base={{
+          value: `${BASE_DAILY_FISHING_LIMIT}`,
+          icon: SUNNYSIDE.tools.fishing_rod,
+        }}
         show={showBoosts}
         state={state}
         onClick={() => setShowBoosts(false)}

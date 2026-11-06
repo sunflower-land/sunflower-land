@@ -718,14 +718,10 @@ export const DeliveryOrders: React.FC<Props> = ({
                           } ${chapterTicket}`}
                           icon={ITEM_DETAILS[chapterTicket].image}
                           boosts={ticketBoostsUsed}
-                          base={
-                            isTicketNPC(previewOrder.from)
-                              ? {
-                                  value: `${TICKET_REWARDS[previewOrder.from]}`,
-                                  icon: ITEM_DETAILS[chapterTicket].image,
-                                }
-                              : undefined
-                          }
+                          base={{
+                            value: `${isTicketNPC(previewOrder.from) ? TICKET_REWARDS[previewOrder.from] : 0}`,
+                            icon: ITEM_DETAILS[chapterTicket].image,
+                          }}
                           state={state}
                         />
                       )}
@@ -859,7 +855,7 @@ const BoostableRewardLabel: React.FC<{
   icon?: string;
   boosts: { name: BoostName; value: string }[];
   /** Un-boosted amount the boosts apply to, formatted like `text`. */
-  base?: { value: string; icon?: string };
+  base: { value: string; icon?: string };
   state: GameState;
 }> = ({ text, icon, boosts, base, state }) => {
   const [showBoosts, setShowBoosts] = useState(false);

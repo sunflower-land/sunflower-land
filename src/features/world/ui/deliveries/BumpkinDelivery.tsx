@@ -94,7 +94,7 @@ const BoostableRewardAmount: React.FC<{
   name: string;
   boosts: { name: BoostName; value: string }[];
   /** Un-boosted amount, formatted like `amount`. */
-  base?: string;
+  base: string;
   game: GameState;
 }> = ({ amount, icon, name, boosts, base, game }) => {
   const [showBoosts, setShowBoosts] = useState(false);
@@ -131,7 +131,7 @@ const BoostableRewardAmount: React.FC<{
       {hasBoosts && showBoosts && (
         <BoostsDisplay
           boosts={boosts}
-          base={base !== undefined ? { value: base, icon } : undefined}
+          base={{ value: base, icon }}
           show={showBoosts}
           state={game}
           onClick={() => setShowBoosts(false)}
@@ -324,11 +324,7 @@ const OrderCard: React.FC<{
                           icon={ITEM_DETAILS[getChapterTicket(now)].image}
                           name={getTranslatedItemName(getChapterTicket(now))}
                           boosts={ticketBoostsUsed}
-                          base={
-                            isTicketNPC(order.from)
-                              ? `${TICKET_REWARDS[order.from]}`
-                              : undefined
-                          }
+                          base={`${isTicketNPC(order.from) ? TICKET_REWARDS[order.from] : 0}`}
                           game={game}
                         />
                       )}

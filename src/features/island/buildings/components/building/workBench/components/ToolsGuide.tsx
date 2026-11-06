@@ -445,21 +445,19 @@ const CooldownCell: React.FC<{
             </div>
           )}
         </div>
-        <BoostsDisplay
-          boosts={cooldown.boostsUsed}
-          base={
-            cooldown.baseSeconds > 0
-              ? { value: baseTimeStr, icon: SUNNYSIDE.icons.stopwatch }
-              : undefined
-          }
-          show={hasNamedBoosts && showBoostsKey === boostsKey}
-          state={state}
-          onClick={() =>
-            setShowBoostsKey(showBoostsKey === boostsKey ? null : boostsKey)
-          }
-          className="right-0 left-auto"
-          anchorRef={anchorRef}
-        />
+        {cooldown.baseSeconds > 0 && (
+          <BoostsDisplay
+            boosts={cooldown.boostsUsed}
+            base={{ value: baseTimeStr, icon: SUNNYSIDE.icons.stopwatch }}
+            show={hasNamedBoosts && showBoostsKey === boostsKey}
+            state={state}
+            onClick={() =>
+              setShowBoostsKey(showBoostsKey === boostsKey ? null : boostsKey)
+            }
+            className="right-0 left-auto"
+            anchorRef={anchorRef}
+          />
+        )}
       </div>
     );
   }

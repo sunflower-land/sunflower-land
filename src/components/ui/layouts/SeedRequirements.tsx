@@ -375,23 +375,21 @@ export const SeedRequirements: React.FC<Props> = ({
                 strikethrough={isCropMachineTimeBoosted}
               />
             )}
-            <BoostsDisplay
-              boosts={cropMachineBoostsUsed}
-              base={
-                cropMachineBaseTime
-                  ? {
-                      value: secondsToString(cropMachineBaseTime, {
-                        length: "medium",
-                        removeTrailingZeros: true,
-                      }),
-                      icon: SUNNYSIDE.icons.stopwatch,
-                    }
-                  : undefined
-              }
-              show={showBoosts}
-              state={gameState}
-              onClick={() => setShowBoosts(!showBoosts)}
-            />
+            {cropMachineBaseTime && (
+              <BoostsDisplay
+                boosts={cropMachineBoostsUsed}
+                base={{
+                  value: secondsToString(cropMachineBaseTime, {
+                    length: "medium",
+                    removeTrailingZeros: true,
+                  }),
+                  icon: SUNNYSIDE.icons.stopwatch,
+                }}
+                show={showBoosts}
+                state={gameState}
+                onClick={() => setShowBoosts(!showBoosts)}
+              />
+            )}
           </div>
         );
       }
@@ -415,23 +413,21 @@ export const SeedRequirements: React.FC<Props> = ({
               strikethrough={isTimeBoosted}
             />
           )}
-          <BoostsDisplay
-            boosts={time?.boostsUsed ?? []}
-            base={
-              baseTimeSeconds
-                ? {
-                    value: secondsToString(baseTimeSeconds, {
-                      length: "medium",
-                      removeTrailingZeros: true,
-                    }),
-                    icon: SUNNYSIDE.icons.stopwatch,
-                  }
-                : undefined
-            }
-            show={hasNamedBoosts && showBoosts}
-            state={gameState}
-            onClick={() => setShowBoosts(!showBoosts)}
-          />
+          {baseTimeSeconds && (
+            <BoostsDisplay
+              boosts={time?.boostsUsed ?? []}
+              base={{
+                value: secondsToString(baseTimeSeconds, {
+                  length: "medium",
+                  removeTrailingZeros: true,
+                }),
+                icon: SUNNYSIDE.icons.stopwatch,
+              }}
+              show={hasNamedBoosts && showBoosts}
+              state={gameState}
+              onClick={() => setShowBoosts(!showBoosts)}
+            />
+          )}
         </div>
       );
     };
