@@ -793,6 +793,10 @@ const Deal: React.FC<{
                       {showTicketBoosts && (
                         <BoostsDisplay
                           boosts={ticketBoostsUsed}
+                          base={{
+                            value: `${bounty.items?.[name] ?? 0}`,
+                            icon: ITEM_DETAILS[name].image,
+                          }}
                           show={showTicketBoosts}
                           state={state}
                           onClick={() => setShowTicketBoosts(false)}
