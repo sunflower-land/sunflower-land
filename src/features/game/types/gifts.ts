@@ -263,7 +263,6 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
       items: { "Treasure Key": 1 },
       coins: 960,
       wearables: {},
-      recipe: "Crude Doll",
     },
   },
   bert: {
