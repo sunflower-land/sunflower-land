@@ -286,6 +286,10 @@ export function getAnimalXP({
       ];
   }
 
+  // Multipliers first, then flat bonuses, so Heartwarming Instruments does
+  // not scale the Baby Cow / Spa Sheep bonus.
+  animalXP *= multiplier;
+
   if (
     animal === "Cow" &&
     isCollectibleBuilt({ name: "Baby Cow", game: state })
@@ -299,8 +303,6 @@ export function getAnimalXP({
   ) {
     animalXP += 5;
   }
-
-  animalXP *= multiplier;
 
   return { animalXP };
 }

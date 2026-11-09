@@ -1,5 +1,6 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
 import {
+  getAnimalXP,
   getNextLoveAvailableAt,
   isAnimalNeedingLove,
   isAnimalReadyForLove,
@@ -814,5 +815,46 @@ describe("two loves per sleep", () => {
     expect(
       love(game, asleepAt + 16 * HOUR).henHouse.animals.c1.lovesThisSleep,
     ).toBe(2);
+  });
+});
+
+describe("getAnimalXP — flat bonuses are not scaled by Heartwarming Instruments", () => {
+  const withPlaced = (
+    name: "Baby Cow" | "Spa Sheep",
+    rank: number,
+  ): GameState => ({
+    ...INITIAL_FARM,
+    bumpkin: {
+      ...INITIAL_FARM.bumpkin,
+      skills: { "Heartwarming Instruments": rank },
+    },
+    inventory: { ...INITIAL_FARM.inventory, [name]: new Decimal(1) },
+    collectibles: {
+      [name]: [
+        { id: "1", coordinates: { x: 0, y: 0 }, createdAt: 0, readyAt: 0 },
+      ],
+    },
+  });
+
+  it("adds Baby Cow +10 after the Heartwarming multiplier", () => {
+    // Music Box 50 × 1.7 (rank 3) + 10 = 95, not (50 + 10) × 1.7 = 102.
+    expect(
+      getAnimalXP({
+        name: "Music Box",
+        animal: "Cow",
+        state: withPlaced("Baby Cow", 3),
+      }).animalXP,
+    ).toEqual(95);
+  });
+
+  it("adds Spa Sheep +5 after the Heartwarming multiplier", () => {
+    // Brush 40 × 1.5 (rank 1) + 5 = 65, not (40 + 5) × 1.5 = 67.5.
+    expect(
+      getAnimalXP({
+        name: "Brush",
+        animal: "Sheep",
+        state: withPlaced("Spa Sheep", 1),
+      }).animalXP,
+    ).toEqual(65);
   });
 });
