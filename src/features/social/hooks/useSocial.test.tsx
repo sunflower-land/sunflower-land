@@ -8,14 +8,17 @@ import type * as UseSocialModule from "./useSocial";
 type Deferred<T> = {
   promise: Promise<T>;
   resolve: (value: T) => void;
+  reject: (error: Error) => void;
 };
 
 const deferred = <T,>(): Deferred<T> => {
   let resolve!: (value: T) => void;
-  const promise = new Promise<T>((res) => {
+  let reject!: (error: Error) => void;
+  const promise = new Promise<T>((res, rej) => {
     resolve = res;
+    reject = rej;
   });
-  return { promise, resolve };
+  return { promise, resolve, reject };
 };
 
 type MockRoom = {
@@ -188,6 +191,38 @@ describe("useSocial", () => {
 
     expect(room.leave).toHaveBeenCalled();
     expect(room.onMessage).not.toHaveBeenCalled();
+  });
+
+  it("cancels a pending retry when the farm changes", async () => {
+    const { render } = mount();
+    const failJoin = async (index: number) => {
+      await act(async () => {
+        joins[index].reject(new Error("offline"));
+        // Let the failure land, then any immediate (0ms) retry run
+        await flush();
+        await flush();
+      });
+    };
+
+    await render({ farmId: 1, onInteraction: jest.fn() });
+    // First failure retries at once; the second schedules a 1s retry
+    await failJoin(0);
+    expect(joins).toHaveLength(2);
+    await failJoin(1);
+
+    // The farm changes before that retry fires
+    await render({ farmId: 2, onInteraction: jest.fn() });
+    expect(joins).toHaveLength(3);
+
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 1_100));
+    });
+
+    // The old farm's retry did not start a join that supersedes farm 2's
+    expect(joins).toHaveLength(3);
+    const room = makeRoom();
+    await resolveJoin(2, room);
+    expect(room.onMessage).toHaveBeenCalled();
   });
 
   it("calls the callbacks from the latest render", async () => {

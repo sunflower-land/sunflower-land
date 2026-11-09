@@ -4,13 +4,22 @@ import type { FeedFilter } from "../Feed";
 export type FeedPage = { feed: Interaction[]; following: number[] };
 
 /**
- * Identifies one feed entry. Realtime pushes carry no database id, so fall
- * back to the fields that pin an event down; the API stores interactions with
- * the same `createdAt` it pushes, so a pushed entry and its fetched copy match.
+ * Identifies one feed entry by the fields that pin an event down. Realtime
+ * pushes carry no database id; the API stores interactions with the same
+ * `createdAt` it pushes, so a pushed entry and its fetched copy match.
  */
-export const getInteractionKey = (interaction: Interaction) =>
-  interaction.id ??
+const getFingerprint = (interaction: Interaction) =>
   `${interaction.type}-${interaction.sender?.id}-${interaction.createdAt}-${interaction.message}`;
+
+/**
+ * Whether two entries are the same event. Ids decide only when both have one:
+ * a fetched entry with an id and its id-less realtime copy are still the same.
+ */
+export const isSameInteraction = (a: Interaction, b: Interaction) => {
+  if (a.id && b.id) return a.id === b.id;
+
+  return getFingerprint(a) === getFingerprint(b);
+};
 
 /**
  * Whether a realtime interaction belongs in the list for `filter`. Mirrors the
@@ -77,9 +86,8 @@ export const mergeFeedUpdate = (
     return [{ feed: [update], following: [] }];
   }
 
-  const key = getInteractionKey(update);
   const exists = current.some((page) =>
-    page?.feed?.some((interaction) => getInteractionKey(interaction) === key),
+    page?.feed?.some((interaction) => isSameInteraction(interaction, update)),
   );
 
   if (exists) return current;
@@ -101,9 +109,8 @@ export const mergeChatUpdate = (
   update: Interaction,
 ): Interaction[][] => {
   const pages = current ?? [];
-  const key = getInteractionKey(update);
   const exists = pages.some((page) =>
-    page?.some((interaction) => getInteractionKey(interaction) === key),
+    page?.some((interaction) => isSameInteraction(interaction, update)),
   );
 
   if (exists) return pages;

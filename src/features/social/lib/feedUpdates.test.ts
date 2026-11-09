@@ -172,6 +172,20 @@ describe("mergeFeedUpdate", () => {
     expect(mergeFeedUpdate(pages, update)).toBe(pages);
   });
 
+  it("matches a fetched entry with an id to its id-less realtime copy", () => {
+    const update = interaction("help");
+    const pages = [{ feed: [{ ...update, id: "123" }], following: [] }];
+
+    expect(mergeFeedUpdate(pages, update)).toBe(pages);
+  });
+
+  it("keeps two entries with different ids", () => {
+    const update = { ...interaction("chat"), id: "2" };
+    const pages = [{ feed: [{ ...update, id: "1" }], following: [] }];
+
+    expect(mergeFeedUpdate(pages, update)[0].feed).toHaveLength(2);
+  });
+
   it("keeps two different events from the same farm", () => {
     const help = interaction("help");
     const cheer = interaction("cheer");

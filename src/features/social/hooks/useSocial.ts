@@ -140,6 +140,10 @@ const setupListeners = (joined: Room<unknown>, farmId: number) => {
  */
 const leaveRoom = () => {
   connectionAttempt++;
+  // A pending retry belongs to the connection being left: fired later, it
+  // would supersede the join that replaces it (possibly for another farm)
+  if (reconnectTimeout) clearTimeout(reconnectTimeout);
+  reconnectTimeout = undefined;
 
   const previous = room;
   room = undefined;
