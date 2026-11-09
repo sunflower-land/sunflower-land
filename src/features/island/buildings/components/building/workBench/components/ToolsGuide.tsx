@@ -328,7 +328,8 @@ const StockCell: React.FC<{
         className="w-3 mx-1 flex-shrink-0"
         alt=""
       />
-      <span className="text-xxs line-through">{baseStock.toString()}</span>
+      {/* No inline strikethrough base stock: the compact guide row can't fit
+          it on narrow screens; the base is still shown in the boosts panel. */}
       <BoostsDisplay
         boosts={boosts}
         base={{ value: baseStock.toString(), icon: stockIcon }}
@@ -434,16 +435,8 @@ const CooldownCell: React.FC<{
               {cooldown.recoverySeconds > 0 ? recoveryTimeStr : t("instant")}
             </span>
           </div>
-          {cooldown.baseSeconds > 0 && (
-            <div className="flex items-center">
-              <img
-                src={SUNNYSIDE.icons.stopwatch}
-                className="w-3 mr-1 flex-shrink-0"
-                alt=""
-              />
-              <span className="text-xxs line-through">{baseTimeStr}</span>
-            </div>
-          )}
+          {/* No inline strikethrough base time: the base time is shown in the
+              boosts panel instead, keeping the compact guide row narrow. */}
         </div>
         {cooldown.baseSeconds > 0 && (
           <BoostsDisplay

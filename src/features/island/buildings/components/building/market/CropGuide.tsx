@@ -444,7 +444,7 @@ export const CropRow: React.FC<{
 
   return (
     <div
-      className={`flex justify-between items-center p-1 ${
+      className={`flex flex-wrap justify-between items-center p-1 ${
         alternateBg ? "bg-[#ead4aa] rounded-md" : ""
       }`}
     >
@@ -525,7 +525,7 @@ export const FlowerRow: React.FC<{
 
   return (
     <div
-      className={`flex justify-between items-center p-1 ${
+      className={`flex flex-wrap justify-between items-center p-1 ${
         alternateBg ? "bg-[#ead4aa] rounded-md" : ""
       }`}
     >
@@ -666,8 +666,10 @@ const CapacityLimit: React.FC<{
       }}
     >
       <CapacityAmount amount={amount} icon={icon} />
+      {/* No inline strikethrough base amount: it widens the compact row and
+          crowds the neighbours on narrow screens. The base amount is still
+          shown in the boosts panel. */}
       <img src={SUNNYSIDE.icons.lightning} className="w-3 mx-1" />
-      <p className="text-xxs line-through">{baseAmount}</p>
       <BoostsDisplay
         boosts={boosts}
         base={{ value: baseAmount, icon }}
@@ -841,24 +843,16 @@ const GrowthTimeCell: React.FC<{
       }}
     >
       <div className="flex items-center">
-        <div className="flex items-center">
-          <img src={SUNNYSIDE.icons.stopwatch} className="w-3 mr-1" />
-          <p className="text-xxs">
-            {secondsToString(displaySeconds, {
-              length: showMediumTime ? "medium" : "short",
-            })}
-          </p>
-        </div>
-        <div className="flex items-center">
-          <img src={SUNNYSIDE.icons.lightning} className="w-3 mx-1" />
-          {displaySeconds !== baseSeconds && (
-            <p className="text-xxs line-through">
-              {secondsToString(baseSeconds, {
-                length: showMediumTime ? "medium" : "short",
-              })}
-            </p>
-          )}
-        </div>
+        <img src={SUNNYSIDE.icons.stopwatch} className="w-3 mr-1" />
+        <p className="text-xxs">
+          {secondsToString(displaySeconds, {
+            length: showMediumTime ? "medium" : "short",
+          })}
+        </p>
+        {/* No inline strikethrough base time: it doubles the row's width and
+            squeezes the tag icons off the panel on narrow screens. The base
+            time is still shown in the boosts panel. */}
+        <img src={SUNNYSIDE.icons.lightning} className="w-3 mx-1" />
       </div>
       <BoostsDisplay
         boosts={boostsUsed}
@@ -889,7 +883,7 @@ export const ExoticRow: React.FC<{
   const { t } = useAppTranslation();
   return (
     <div
-      className={`flex justify-between items-center p-1 ${
+      className={`flex flex-wrap justify-between items-center p-1 ${
         alternateBg ? "bg-[#ead4aa] rounded-md" : ""
       }`}
     >
