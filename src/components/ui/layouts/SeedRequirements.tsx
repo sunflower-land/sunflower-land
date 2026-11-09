@@ -375,7 +375,7 @@ export const SeedRequirements: React.FC<Props> = ({
                 strikethrough={isCropMachineTimeBoosted}
               />
             )}
-            {cropMachineBaseTime && (
+            {!!cropMachineBaseTime && (
               <BoostsDisplay
                 boosts={cropMachineBoostsUsed}
                 base={{
@@ -413,7 +413,7 @@ export const SeedRequirements: React.FC<Props> = ({
               strikethrough={isTimeBoosted}
             />
           )}
-          {baseTimeSeconds && (
+          {!!baseTimeSeconds && (
             <BoostsDisplay
               boosts={time?.boostsUsed ?? []}
               base={{
