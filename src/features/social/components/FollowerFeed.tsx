@@ -34,6 +34,7 @@ import { InteractionSenderMetadata } from "./InteractionSenderMetadata";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { useFeed } from "../FeedContext";
+import { mergeChatUpdate } from "../lib/feedUpdates";
 import silhouette from "assets/npcs/silhouette.webp";
 
 type Props = {
@@ -125,18 +126,13 @@ export const FollowerFeed: React.FC<Props> = ({
       onInteraction: async (update) => {
         if (update.sender.id !== playerId) return;
 
-        await mutate(
-          (current = []) => {
-            return [[update, ...(current[0] ?? [])], ...current.slice(1)];
-          },
-          {
-            revalidate: false,
-          },
-        );
+        await mutate((current) => mergeChatUpdate(current, update), {
+          revalidate: false,
+        });
 
         // Use the ref to determine the scrolled state to avoid it being caught in a closure
         if (!isScrolledToBottomRef.current) {
-          setNewLocalMessagesCount(newLocalMessagesCount + 1);
+          setNewLocalMessagesCount((count) => count + 1);
         } else {
           scrollToBottom();
         }
@@ -144,8 +140,8 @@ export const FollowerFeed: React.FC<Props> = ({
       onMilestone: async (update) => {
         if (update.sender.id !== playerId) return;
 
-        await mutate((current = []) => {
-          return [[update, ...(current[0] ?? [])], ...current.slice(1)];
+        await mutate((current) => mergeChatUpdate(current, update), {
+          revalidate: false,
         });
       },
     },
