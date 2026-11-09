@@ -9049,5 +9049,9 @@
   "chestRewardsList.withoutVipVerified": "Everyone else",
   "chestRewardsList.vipVerified": "VIP + verified",
   "waterTrap.selectTrap": "Select trap:",
-  "boostsDisplay.base": "Base"
+  "boostsDisplay.base": "Base",
+  "yakkamon.intro.landing": "A brand new creature collector is landing on Ronin.",
+  "yakkamon.intro.registration": "Registration is now open on the Yakkamon website.",
+  "yakkamon.visitWebsite": "Register on yakkamon.com",
+  "yakkamon.learnMore": "Learn more"
 }

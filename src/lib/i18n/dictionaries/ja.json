@@ -9049,5 +9049,9 @@
   "chestRewardsList.withoutVipVerified": "他のみんな",
   "chestRewardsList.vipVerified": "VIP + 認証済み",
   "waterTrap.selectTrap": "トラップを選択:",
-  "boostsDisplay.base": "ベース"
+  "boostsDisplay.base": "ベース",
+  "yakkamon.intro.landing": "新しいクリーチャーコレクターがRoninに上陸します。",
+  "yakkamon.intro.registration": "ヤッカモンウェブサイトでの登録が開始されました。",
+  "yakkamon.visitWebsite": "yakkamon.com に登録する",
+  "yakkamon.learnMore": "さらに詳しく"
 }

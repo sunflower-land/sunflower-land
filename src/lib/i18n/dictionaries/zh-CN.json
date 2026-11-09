@@ -9049,5 +9049,9 @@
   "chestRewardsList.withoutVipVerified": "其他所有人",
   "chestRewardsList.vipVerified": "VIP + 已验证",
   "waterTrap.selectTrap": "选择陷阱：",
-  "boostsDisplay.base": "基地"
+  "boostsDisplay.base": "基地",
+  "yakkamon.intro.landing": "一个全新的生物收藏家即将登陆罗宁。",
+  "yakkamon.intro.registration": "Yakkamon网站上现已开放注册。",
+  "yakkamon.visitWebsite": "在 yakkamon.com 上注册",
+  "yakkamon.learnMore": "了解更多"
 }

@@ -9049,5 +9049,9 @@
   "chestRewardsList.withoutVipVerified": "Diğer herkes",
   "chestRewardsList.vipVerified": "VIP + doğrulandı",
   "waterTrap.selectTrap": "Tuzak seçin:",
-  "boostsDisplay.base": "Taban"
+  "boostsDisplay.base": "Taban",
+  "yakkamon.intro.landing": "Yepyeni bir yaratık koleksiyoncusu Ronin'e iniyor.",
+  "yakkamon.intro.registration": "Kayıtlar artık Yakkamon web sitesinde açık.",
+  "yakkamon.visitWebsite": "Yakkamon.com'a kaydolun",
+  "yakkamon.learnMore": "Daha fazla bilgi"
 }
