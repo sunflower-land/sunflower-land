@@ -7,6 +7,7 @@ import {
   DIGGING_FORMATIONS,
   getArtefactsFound,
   getDailyDigLimit,
+  BASE_DAILY_DIGS,
   getRemainingDigs,
   CHAPTER_ARTEFACT,
   hasClaimedReward,
@@ -179,6 +180,10 @@ const DigsLeftLabel: React.FC<{ game: GameState }> = ({ game }) => {
       {hasBoosts && showBoosts && (
         <BoostsDisplay
           boosts={boostsUsed}
+          base={{
+            value: `${BASE_DAILY_DIGS}`,
+            icon: SUNNYSIDE.tools.sand_shovel,
+          }}
           show={showBoosts}
           state={game}
           onClick={() => setShowBoosts(false)}

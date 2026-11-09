@@ -816,6 +816,8 @@ export function getDailyFishingCount(state: GameState): number {
   return state.fishing.dailyAttempts?.[today] ?? 0;
 }
 
+export const BASE_DAILY_FISHING_LIMIT = 20;
+
 export function getDailyFishingLimit(
   game: GameState,
   createdAt: number,
@@ -823,7 +825,7 @@ export function getDailyFishingLimit(
   limit: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
-  let limit = 20;
+  let limit = BASE_DAILY_FISHING_LIMIT;
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
   // +10 daily limit if player has Angler Waders

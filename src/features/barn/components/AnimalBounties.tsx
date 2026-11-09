@@ -474,6 +474,7 @@ export const AnimalDeal: React.FC<{
                 <BountyRewardLabel
                   icon={SUNNYSIDE.ui.coinsImg}
                   boosts={rewardBoosts}
+                  base={`${deal.coins}`}
                   state={state}
                   interactive
                 >
@@ -486,6 +487,7 @@ export const AnimalDeal: React.FC<{
                   key={name}
                   icon={ITEM_DETAILS[name].image}
                   boosts={name === chapterTicket ? rewardBoosts : []}
+                  base={`${deal.items?.[name]}`}
                   state={state}
                   interactive
                 >
@@ -749,6 +751,7 @@ const BountyCard: React.FC<BountyCardProps> = ({
           <BountyRewardLabel
             icon={SUNNYSIDE.ui.coinsImg}
             boosts={rewardBoosts}
+            base={`${deal.coins}`}
             state={state}
             interactive={readonly}
             className="absolute -bottom-2"
@@ -765,6 +768,7 @@ const BountyCard: React.FC<BountyCardProps> = ({
             key={name}
             icon={ITEM_DETAILS[name].image}
             boosts={name === chapterTicket ? rewardBoosts : []}
+            base={`${deal.items?.[name]}`}
             state={state}
             interactive={readonly}
             className="absolute -bottom-2"

@@ -25,6 +25,8 @@ import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
+import levelup from "assets/icons/level_up.png";
+import { formatNumber } from "lib/utils/formatNumber";
 
 type Props = {
   slot: AgingRackSlot;
@@ -121,6 +123,7 @@ export const AgingRackInProgress: React.FC<Props> = ({
               {isXpBoosted && showBoosts && (
                 <BoostsDisplay
                   boosts={boostedXp.boostsUsed}
+                  base={{ value: `${formatNumber(baseXp)}XP`, icon: levelup }}
                   show={showBoosts}
                   state={game}
                   onClick={() => setShowBoosts(!showBoosts)}

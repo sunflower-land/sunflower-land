@@ -34,6 +34,7 @@ import {
   getTranslatedItemName,
 } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { secondsToString } from "lib/utils/time";
 import { formatNumber } from "lib/utils/formatNumber";
 
 import { Button } from "components/ui/Button";
@@ -274,6 +275,13 @@ export const CaveMixPicker: React.FC<Props> = ({
               {showTimeBoosts && (
                 <BoostsDisplay
                   boosts={timeBoostsUsed}
+                  base={{
+                    value: secondsToString(CAVE_BATCH_DURATION_MS / 1000, {
+                      length: "medium",
+                      removeTrailingZeros: true,
+                    }),
+                    icon: SUNNYSIDE.icons.stopwatch,
+                  }}
                   show={showTimeBoosts}
                   state={game}
                   onClick={() => setShowTimeBoosts((prev) => !prev)}

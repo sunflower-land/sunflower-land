@@ -533,6 +533,16 @@ const ComposterModalContent: React.FC<{
                 />
                 <BoostsDisplay
                   boosts={boostsUsed}
+                  base={{
+                    value: secondsToString(
+                      baseTimeToFinishMilliseconds / 1000,
+                      {
+                        length: "medium",
+                        removeTrailingZeros: true,
+                      },
+                    ),
+                    icon: SUNNYSIDE.icons.stopwatch,
+                  }}
                   show={showBoosts}
                   state={state}
                   onClick={() => setShowBoosts(!showBoosts)}
