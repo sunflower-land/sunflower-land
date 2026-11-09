@@ -94,13 +94,6 @@ interface CalculateHiveDetails {
   createdAt: number;
 }
 
-interface RemoveInactiveFlowers {
-  beehives: Beehives;
-  createdAt: number;
-  flowers: FlowerBeds;
-  game: GameState;
-}
-
 interface AttachFlowers {
   game: GameState;
   createdAt: number;
@@ -197,29 +190,22 @@ const updateProducedHoney = ({ game, createdAt }: UpdateBeehives) => {
   return beehives;
 };
 
-const removeInactiveFlowers = ({
-  beehives,
-  flowers,
-  game,
-  createdAt,
-}: RemoveInactiveFlowers) => {
+/**
+ * Honey is banked up to `createdAt` by updateProducedHoney, so every attachment
+ * on an active hive is either fully credited or (running/future) holds a stale
+ * `rate`. Clearing them lets attachFlowers rebuild the schedule from now with the
+ * CURRENT production rate, so rate boosts (Queen Bee, Beekeeper Hat, Hyper Bees,
+ * Flowery Abode, Bear Shrine) take effect immediately when they change.
+ * Remaining flower time and hive capacity are unaffected: with no attachments,
+ * flowers are available from now until their ready time and hive capacity is
+ * derived from the banked honey.
+ */
+const clearBankedAttachments = (beehives: Beehives) => {
   const beehivesCopy = cloneDeep(beehives);
   const activeBeehives = getActiveBeehives(beehivesCopy);
-  const activeFlowerBeds = getActiveFlowerBeds(flowers);
 
   Object.values(activeBeehives).forEach((hive) => {
-    hive.flowers = hive.flowers.filter((flower) => {
-      const flowerDetails = activeFlowerBeds[flower.id];
-
-      if (!flowerDetails || !flowerDetails.flower) return false;
-
-      const flowerReadyAt = getFlowerBedReadyAt(flowerDetails.flower, game);
-      const isFlowerReady = flowerReadyAt <= createdAt;
-
-      if (isFlowerReady) return false;
-
-      return flower.attachedAt <= createdAt && flower.attachedUntil > createdAt;
-    });
+    hive.flowers = [];
   });
 
   return beehivesCopy;
@@ -420,12 +406,7 @@ const attachFlowers = ({ game, createdAt }: AttachFlowers) => {
 export function updateBeehives({ game, createdAt }: UpdateBeehives) {
   let beehivesCopy = updateProducedHoney({ game, createdAt });
 
-  beehivesCopy = removeInactiveFlowers({
-    beehives: beehivesCopy,
-    createdAt,
-    flowers: game.flowers.flowerBeds,
-    game,
-  });
+  beehivesCopy = clearBankedAttachments(beehivesCopy);
 
   beehivesCopy = attachFlowers({
     game: { ...game, beehives: beehivesCopy },
@@ -433,4 +414,30 @@ export function updateBeehives({ game, createdAt }: UpdateBeehives) {
   });
 
   return beehivesCopy;
+}
+
+/**
+ * Rate boosts (Queen Bee, Beekeeper Hat, Hyper Bees, Flowery Abode, Bear Shrine)
+ * change through events that don't touch bees or flowers. When an event changes
+ * the honey production rate, bank honey up to `createdAt` and reschedule the
+ * hives so the new rate applies from that moment.
+ */
+export function refreshBeehivesOnRateChange({
+  gameBefore,
+  gameAfter,
+  createdAt,
+}: {
+  gameBefore: GameState;
+  gameAfter: GameState;
+  createdAt: number;
+}): GameState {
+  const before = getHoneyProductionRate(gameBefore, createdAt).rate;
+  const after = getHoneyProductionRate(gameAfter, createdAt).rate;
+
+  if (before === after) return gameAfter;
+
+  return {
+    ...gameAfter,
+    beehives: updateBeehives({ game: gameAfter, createdAt }),
+  };
 }

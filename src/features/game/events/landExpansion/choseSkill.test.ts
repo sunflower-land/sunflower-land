@@ -555,3 +555,59 @@ describe("choseSkill", () => {
     });
   });
 });
+
+const HOUR = 60 * 60 * 1000;
+const honeyFarm = (now: number) => ({
+  flowers: {
+    discovered: {},
+    flowerBeds: {
+      f1: {
+        createdAt: 0,
+        x: 0,
+        y: 0,
+        flower: { name: "Red Pansy" as const, plantedAt: now - HOUR },
+      },
+    },
+  },
+  beehives: {
+    h1: {
+      swarm: false,
+      x: 3,
+      y: 3,
+      honey: { updatedAt: now - HOUR, produced: 0 },
+      flowers: [
+        {
+          id: "f1",
+          attachedAt: now - HOUR,
+          attachedUntil: now + 11 * HOUR,
+          rate: 1,
+        },
+      ],
+    },
+  },
+});
+
+describe("choseSkill honey rate", () => {
+  it("applies the Hyper Bees honey rate from the moment it is chosen", () => {
+    const now = Date.now();
+    const state = choseSkill({
+      state: {
+        ...TEST_FARM,
+        ...honeyFarm(now),
+        island: { ...TEST_FARM.island, type: "spring" },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: LEVEL_EXPERIENCE[2],
+          skills: {},
+        },
+      },
+      action: { type: "skill.chosen", skill: "Hyper Bees" },
+      createdAt: now,
+    });
+
+    expect(state.beehives.h1.honey.produced).toEqual(HOUR);
+    expect(state.beehives.h1.flowers[0]).toEqual(
+      expect.objectContaining({ attachedAt: now, rate: 1.1 }),
+    );
+  });
+});
