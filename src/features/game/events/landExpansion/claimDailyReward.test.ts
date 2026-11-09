@@ -122,6 +122,8 @@ describe("claimDailyReward", () => {
     const state = claimDailyReward({
       state: {
         ...INITIAL_FARM,
+        // Gems in the chest are a VIP perk
+        vip: { expiresAt: now + 30 * 24 * 60 * 60 * 1000, bundles: [] },
         bumpkin: {
           ...TEST_BUMPKIN,
           experience: LEVEL_3_EXPERIENCE,
@@ -144,6 +146,34 @@ describe("claimDailyReward", () => {
     expect(state.inventory["Gem"]).toEqual(new Decimal(50 + 20)); // 20 initial + 50 reward
     expect(state.inventory["Cheer"]).toEqual(new Decimal(3));
     expect(state.inventory[getChapterTicket(now)]).toEqual(new Decimal(1));
+  });
+
+  it("withholds the onboarding day 7 Gems from a non-VIP", () => {
+    const now = new Date("2025-01-07T05:00:00.000Z").getTime();
+    const state = claimDailyReward({
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          experience: LEVEL_3_EXPERIENCE,
+        },
+        dailyRewards: {
+          streaks: 6,
+          chest: {
+            collectedAt: now - 24 * 60 * 60 * 1000,
+            code: 1,
+          },
+        },
+        farmActivity: {},
+      },
+      action: { type: "dailyReward.claimed" },
+      createdAt: now,
+    });
+
+    expect(state.dailyRewards?.streaks).toBe(7);
+    expect(state.inventory["Weekly Mega Box"]).toEqual(new Decimal(1));
+    expect(state.inventory["Gem"]).toEqual(new Decimal(20)); // 20 initial, no reward
+    expect(state.inventory["Cheer"]).toEqual(new Decimal(3));
   });
 
   it("resets streak after onboarding when a day is missed", () => {
@@ -375,6 +405,8 @@ describe("claimDailyReward", () => {
       state: {
         ...INITIAL_FARM,
         inventory: {},
+        // Gems in the chest are a VIP perk
+        vip: { expiresAt: now + 30 * 24 * 60 * 60 * 1000, bundles: [] },
         bumpkin: {
           ...TEST_BUMPKIN,
           experience: LEVEL_3_EXPERIENCE,
@@ -399,6 +431,35 @@ describe("claimDailyReward", () => {
     expect(state.inventory["Cheer"]).toEqual(new Decimal(3));
     expect(state.inventory["Luxury Key"]).toEqual(new Decimal(1));
     expect(state.inventory[getChapterTicket(now)]).toEqual(new Decimal(1));
+  });
+
+  it("withholds the day 730 milestone Gems from a non-VIP", () => {
+    const now = new Date("2025-01-01T05:00:00.000Z").getTime();
+    const state = claimDailyReward({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {},
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          experience: LEVEL_3_EXPERIENCE,
+        },
+        dailyRewards: {
+          streaks: 729,
+          chest: {
+            collectedAt: now - 24 * 60 * 60 * 1000,
+            code: 1,
+          },
+        },
+      },
+      action: { type: "dailyReward.claimed" },
+      createdAt: now,
+    });
+
+    expect(state.dailyRewards?.streaks).toBe(730);
+    expect(state.inventory["Pizza Margherita"]).toEqual(new Decimal(5));
+    expect(state.inventory["Super Totem"]).toEqual(new Decimal(1));
+    expect(state.inventory["Gem"]).toBeUndefined();
+    expect(state.inventory["Luxury Key"]).toEqual(new Decimal(1));
   });
 
   it("should claim day 1095", () => {
@@ -439,6 +500,8 @@ describe("claimDailyReward", () => {
       state: {
         ...INITIAL_FARM,
         inventory: {},
+        // Gems in the chest are a VIP perk
+        vip: { expiresAt: now + 30 * 24 * 60 * 60 * 1000, bundles: [] },
         bumpkin: {
           ...TEST_BUMPKIN,
           experience: LEVEL_3_EXPERIENCE,

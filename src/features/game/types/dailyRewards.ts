@@ -320,6 +320,31 @@ export function getWeeklyReward({
   return rewards[streak % rewards.length];
 }
 
+/**
+ * Gems in the daily login chest are a VIP perk. Returns the reward with its Gems removed,
+ * or `undefined` when Gems were the only thing in it. Never mutates the definition — the
+ * onboarding/weekly/milestone reward objects are module-level constants shared across
+ * every claim.
+ */
+function withoutGems(
+  reward: DailyRewardDefinition,
+): DailyRewardDefinition | undefined {
+  if (!reward.items?.Gem) {
+    return reward;
+  }
+
+  const { Gem: _gems, ...items } = reward.items;
+
+  const hasOtherReward =
+    Object.keys(items).length > 0 ||
+    !!reward.coins ||
+    !!reward.sfl ||
+    !!reward.xp ||
+    !!reward.buff;
+
+  return hasOtherReward ? { ...reward, items } : undefined;
+}
+
 export function getMilestoneRewards({
   streak,
 }: {
@@ -395,8 +420,26 @@ export function getRewardsForStreak({
     }
   }
 
+  const rewards = [
+    baseReward,
+    defaultReward,
+    ...getMilestoneRewards({ streak }),
+  ];
+
+  // Gems are a VIP-only perk in the daily login chest. The server strips them for
+  // non-VIPs, so the preview and the optimistic claim must match. Trial VIP does not
+  // count, mirroring the server.
+  if (!hasVipAccess({ game, now, type: "full" })) {
+    return {
+      rewards: rewards
+        .map(withoutGems)
+        .filter((reward): reward is DailyRewardDefinition => !!reward),
+      boosts,
+    };
+  }
+
   return {
-    rewards: [baseReward, defaultReward, ...getMilestoneRewards({ streak })],
+    rewards,
     boosts,
   };
 }
