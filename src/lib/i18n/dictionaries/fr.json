@@ -9048,5 +9048,6 @@
   "loveKraken.title": "J'adore Kraken",
   "chestRewardsList.withoutVipVerified": "Tous les autres",
   "chestRewardsList.vipVerified": "VIP + vérifié",
-  "waterTrap.selectTrap": "Sélectionnez le piège :"
+  "waterTrap.selectTrap": "Sélectionnez le piège :",
+  "boostsDisplay.base": "Base"
 }

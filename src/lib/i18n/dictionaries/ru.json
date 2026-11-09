@@ -9048,5 +9048,6 @@
   "loveKraken.title": "Love Kraken",
   "chestRewardsList.withoutVipVerified": "Everyone else",
   "chestRewardsList.vipVerified": "VIP + verified",
-  "waterTrap.selectTrap": "Select trap:"
+  "waterTrap.selectTrap": "Select trap:",
+  "boostsDisplay.base": "Base"
 }
