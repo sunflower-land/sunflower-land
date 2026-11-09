@@ -505,7 +505,10 @@ export function getResourceDropAmount({
       boostsUsed.push({ name: "Bale Economy", value: "+0.1" });
     }
 
-    if (baleApplied) {
+    // When Double Bale applies, its line already shows the full Bale
+    // contribution (base x multiplier), so listing "+0.1 Bale" too would
+    // suggest a larger total than is actually added.
+    if (baleApplied && !doubleBaleLevel) {
       boostsUsed.push({ name: "Bale", value: "+0.1" });
     }
   }
