@@ -518,22 +518,19 @@ export function getCropCategory(crop: ProduceName): TranslationKeys {
     return "crops.exoticCrop";
   }
 
+  if (PATCH_FRUIT[crop as PatchFruitName]) {
+    return "crops.fruit";
+  }
+
+  if (isOvernightCrop(crop as CropName | GreenHouseCropName)) {
+    return "crops.overnightCrop";
+  }
+
   if (
     GREENHOUSE_CROPS[crop as GreenHouseCropName] ||
     GREENHOUSE_FRUIT[crop as GreenHouseFruitName]
   ) {
     return "crops.greenhouse";
-  }
-
-  if (PATCH_FRUIT[crop as PatchFruitName]) {
-    return "crops.fruit";
-  }
-
-  if (
-    ALL_PRODUCE[crop].harvestSeconds >= 24 * 60 * 60 &&
-    isOvernightCrop(crop as CropName)
-  ) {
-    return "crops.overnightCrop";
   }
 
   return "crops.flower";
