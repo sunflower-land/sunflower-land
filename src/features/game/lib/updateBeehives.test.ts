@@ -9,6 +9,7 @@ import type {
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import {
   DEFAULT_HONEY_PRODUCTION_TIME,
+  refreshBeehivesOnRateChange,
   updateBeehives,
 } from "./updateBeehives";
 import { getFlowerReadyAt } from "./flowerBedReadiness";
@@ -763,16 +764,13 @@ describe("updateBeehives", () => {
       createdAt: now,
     });
 
-    // The running attachment is rescheduled at the boosted rate, which fills
-    // the hive before the second flower is needed
-    expect(finalBeehives["abc"].flowers).toEqual([
-      expect.objectContaining({
-        id: "123",
-        attachedAt: now,
-        attachedUntil: now + DEFAULT_HONEY_PRODUCTION_TIME / 2,
-        rate: 2,
-      }),
-    ]);
+    expect(finalBeehives["abc"].flowers.length).toEqual(2);
+    expect(finalBeehives["abc"].flowers[0].attachedUntil).toEqual(
+      now + DEFAULT_HONEY_PRODUCTION_TIME / 2,
+    );
+    expect(finalBeehives["abc"].flowers[1].attachedUntil).toEqual(
+      now + (3 * DEFAULT_HONEY_PRODUCTION_TIME) / 4,
+    );
   });
 
   it("adds a boosted flower and a non boosted flower to a beehive when a queen bee is placed", () => {
@@ -838,21 +836,14 @@ describe("updateBeehives", () => {
       createdAt: now,
     });
 
-    // Removing the Queen Bee drops the running attachment to the base rate
     expect(finalBeehives["abc"].flowers.length).toEqual(2);
-    expect(finalBeehives["abc"].flowers[0]).toEqual(
-      expect.objectContaining({
-        id: "123",
-        attachedUntil: now + DEFAULT_HONEY_PRODUCTION_TIME / 4,
-        rate: 1,
-      }),
+    expect(finalBeehives["abc"].flowers[0].attachedUntil).toEqual(
+      now + DEFAULT_HONEY_PRODUCTION_TIME / 4,
     );
-    expect(finalBeehives["abc"].flowers[1]).toEqual(
-      expect.objectContaining({
-        id: "456",
-        attachedUntil: now + DEFAULT_HONEY_PRODUCTION_TIME,
-        rate: 1,
-      }),
+    expect(finalBeehives["abc"].flowers[1].attachedUntil).toEqual(
+      now +
+        DEFAULT_HONEY_PRODUCTION_TIME / 4 +
+        DEFAULT_HONEY_PRODUCTION_TIME / 2,
     );
   });
 
@@ -917,11 +908,7 @@ describe("updateBeehives", () => {
     });
 
     expect(updatedBeehives["abc"].flowers.length).toEqual(2);
-    // The running attachment is banked and rescheduled from now
-    expect(updatedBeehives["abc"].flowers[0]).toEqual({
-      ...flower1,
-      attachedAt: now,
-    });
+    expect(updatedBeehives["abc"].flowers[0]).toEqual(flower1);
     expect(updatedBeehives["abc"].flowers[1]).toEqual(flower2);
   });
 
@@ -1283,7 +1270,7 @@ describe("updateBeehives", () => {
     // Honey credited only for [now, windowedReadyAt], not up to the stale attachedUntil.
     expect(updatedBeehives["1"].honey.produced).toEqual(windowedReadyAt - now);
   });
-  describe("rate boosts apply immediately", () => {
+  describe("refreshBeehivesOnRateChange", () => {
     const hour = 60 * 60 * 1000;
     const QUEEN_BEE = {
       "Queen Bee": [
@@ -1325,10 +1312,11 @@ describe("updateBeehives", () => {
       const game = baseGame();
       const attached = updateBeehives({ game, createdAt: now });
 
-      const boosted = updateBeehives({
-        game: { ...game, beehives: attached, collectibles: QUEEN_BEE },
+      const boosted = refreshBeehivesOnRateChange({
+        gameBefore: { ...game, beehives: attached, collectibles: {} },
+        gameAfter: { ...game, beehives: attached, collectibles: QUEEN_BEE },
         createdAt: now + hour,
-      });
+      }).beehives;
 
       // Honey before the boost is unchanged
       expect(boosted.abc.honey.produced).toEqual(hour);
@@ -1345,10 +1333,11 @@ describe("updateBeehives", () => {
       const game = { ...baseGame(), collectibles: QUEEN_BEE };
       const attached = updateBeehives({ game, createdAt: now });
 
-      const removed = updateBeehives({
-        game: { ...game, beehives: attached, collectibles: {} },
+      const removed = refreshBeehivesOnRateChange({
+        gameBefore: { ...game, beehives: attached, collectibles: QUEEN_BEE },
+        gameAfter: { ...game, beehives: attached, collectibles: {} },
         createdAt: now + hour,
-      });
+      }).beehives;
       expect(removed.abc.honey.produced).toEqual(2 * hour);
 
       const later = updateBeehives({
@@ -1361,10 +1350,11 @@ describe("updateBeehives", () => {
     it("keeps the hive capacity and flower time when rescheduling", () => {
       const game = baseGame();
       const attached = updateBeehives({ game, createdAt: now });
-      const boosted = updateBeehives({
-        game: { ...game, beehives: attached, collectibles: QUEEN_BEE },
+      const boosted = refreshBeehivesOnRateChange({
+        gameBefore: { ...game, beehives: attached, collectibles: {} },
+        gameAfter: { ...game, beehives: attached, collectibles: QUEEN_BEE },
         createdAt: now + hour,
-      });
+      }).beehives;
 
       const flowerReadyAt = getFlowerReadyAt(
         game.flowers.flowerBeds["123"].flower!,
@@ -1384,6 +1374,19 @@ describe("updateBeehives", () => {
           rate: 2,
         }),
       ]);
+    });
+    it("leaves the hives alone when the rate does not change", () => {
+      const game = baseGame();
+      const attached = updateBeehives({ game, createdAt: now });
+      const before = { ...game, beehives: attached };
+
+      const result = refreshBeehivesOnRateChange({
+        gameBefore: before,
+        gameAfter: before,
+        createdAt: now + hour,
+      });
+
+      expect(result.beehives).toBe(attached);
     });
   });
 });
