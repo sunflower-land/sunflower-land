@@ -857,4 +857,46 @@ describe("getAnimalXP — flat bonuses are not scaled by Heartwarming Instrument
       }).animalXP,
     ).toEqual(65);
   });
+
+  it("passes the reordered XP to the level-up check in loveAnimal", () => {
+    // Cow level 14 starts at 7200 XP. From 7100, Music Box + Baby Cow +
+    // Heartwarming rank 3 gives 95 (7195, no level-up); the old order gave
+    // 102 (7202), which would have levelled the Cow up and woken it ready.
+    const now = Date.now();
+    const state = loveAnimal({
+      state: {
+        ...withPlaced("Baby Cow", 3),
+        inventory: {
+          ...withPlaced("Baby Cow", 3).inventory,
+          "Music Box": new Decimal(1),
+        },
+        barn: {
+          level: 1,
+          animals: {
+            "1": {
+              id: "1",
+              type: "Cow",
+              asleepAt: now - 9 * 60 * 60 * 1000,
+              lovedAt: 0,
+              awakeAt: now - 9 * 60 * 60 * 1000 + ANIMAL_SLEEP_DURATION,
+              createdAt: 0,
+              experience: 7100,
+              state: "happy",
+              item: "Music Box",
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.loved",
+        animal: "Cow",
+        id: "1",
+        item: "Music Box",
+      },
+      createdAt: now,
+    });
+
+    expect(state.barn.animals["1"].experience).toEqual(7195);
+    expect(state.barn.animals["1"].state).toBe("happy");
+  });
 });
