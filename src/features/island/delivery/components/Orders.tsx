@@ -693,7 +693,9 @@ export const DeliveryOrders: React.FC<Props> = ({
                           }`}
                           boosts={rewardBoostsUsed}
                           base={
-                            previewOrder.reward.sfl !== undefined
+                            // Same currency rule as getOrderSellPrice, which
+                            // produces the boosted total in this label.
+                            previewOrder.reward.sfl
                               ? {
                                   value: formatNumber(previewOrder.reward.sfl, {
                                     decimalPlaces: 4,
@@ -702,7 +704,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                                 }
                               : {
                                   value: formatNumber(
-                                    previewOrder.reward.coins,
+                                    previewOrder.reward.coins ?? 0,
                                   ),
                                   icon: SUNNYSIDE.ui.coinsImg,
                                 }
