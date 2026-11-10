@@ -1,0 +1,15 @@
+---
+description: Project rules live in CLAUDE.md; read it before doing anything in this repo
+alwaysApply: true
+---
+
+# Project rules
+
+The instructions for AI agents in this repository live in [`CLAUDE.md`](../../CLAUDE.md) at the repo root.
+
+**Before doing anything else (reading code, planning or editing), read `CLAUDE.md` in full and follow it.**
+
+- For any UI change, also read [`docs/DESIGN_SYSTEM.md`](../../docs/DESIGN_SYSTEM.md).
+- Pull request descriptions must follow [`docs/PULL_REQUEST_TEMPLATE.md`](../../docs/PULL_REQUEST_TEMPLATE.md).
+
+Make rule changes in `CLAUDE.md`, not here.
