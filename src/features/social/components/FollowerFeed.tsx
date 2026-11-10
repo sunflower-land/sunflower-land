@@ -148,9 +148,10 @@ export const FollowerFeed: React.FC<Props> = ({
       onMilestone: async (update) => {
         if (update.sender.id !== playerId) return;
 
-        await mutate((current) => mergeChatUpdate(current, update), {
-          revalidate: false,
-        });
+        // Revalidates (as before): a mutation during the initial history
+        // request makes SWR drop that response, so without a refetch only
+        // the milestone would show and paging would stop
+        await mutate((current) => mergeChatUpdate(current, update));
       },
     },
   });
