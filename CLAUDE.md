@@ -6,7 +6,7 @@ React + TypeScript + Phaser game client, built with Vite. Game logic lives in `s
 
 - Type-check: `yarn tsc` (`npx tsc --noEmit`)
 - Lint: `yarn lint` (eslint + prettier). CI runs `tsc`, `test` and `lint`.
-- Tests: `VITE_NETWORK=amoy npx jest src/features/...`, **always from the repo root** (see Testing). CI sets `VITE_NETWORK=amoy` the same way.
+- Tests: `VITE_NETWORK=amoy npx jest src/features/...`, **always from the repo root** (see Testing). CI sets `VITE_NETWORK=amoy` the same way. In PowerShell: `$env:VITE_NETWORK="amoy"; npx jest src/features/...`
 - Dev server: `npx vite --port 3000 --host`. Don't use `yarn dev`, which begins with the Windows-only `set NODE_ENV=development &&`.
 
 ## Pull requests
@@ -15,7 +15,7 @@ Every PR description follows [`docs/PULL_REQUEST_TEMPLATE.md`](docs/PULL_REQUEST
 
 - The title starts with `[FEAT]`, `[FIX]`, `[CHORE]` or `[BALANCE]`.
 - Fill in Summary, Context / motivation and How to test, and keep the Checklist.
-- **UI changes:** tick "This PR does not change the UI", or fill in "Why this UI change is needed" and add before/after screenshots on desktop and mobile (at least 4). These count as UI changes: any `.tsx`/`.css` file, `src/assets/`, images in `public/`, `dictionary.json`, `src/features/game/lib/style.ts`, `tailwind.config.js`, `index.html`, a Phaser `scenes/`/`containers/`/`shaders/` file, or an added, changed or removed art reference (`SUNNYSIDE`, `ITEM_DETAILS`, `icon:`/`image:`, image imports) in a `.ts` file. Only screenshots under "Before / after" count, and with the template's table, the Desktop and Mobile rows each need a before and an after image.
+- **UI changes:** tick "This PR does not change the UI" only when nothing visual changes. Otherwise, fill in "Why this UI change is needed" and put a screenshot or recording in each of the four cells of the Before / after table (Desktop and Mobile, before and after). These count as UI changes: any `.tsx`/`.css` file, `src/assets/`, images in `public/`, `dictionary.json`, `src/features/game/lib/style.ts`, `tailwind.config.js`, `index.html`, a Phaser `scenes/`/`containers/`/`shaders/` file, or an added, changed or removed art reference (`SUNNYSIDE`, `ITEM_DETAILS`, `icon:`/`image:`, image imports) in a `.ts` file. Only screenshots under "Before / after" count, and each of the table's four cells needs one.
 
 ## FE/BE parity
 

@@ -36,7 +36,7 @@ Write under each heading; text inside these comment markers is ignored.
 
 ### Before / after
 
-<!-- If the UI changes: screenshots (or recordings) of the same screen before and after, on desktop AND mobile, at least 4 images. -->
+<!-- If the UI changes: screenshots (or recordings) of the same screen before and after, on desktop AND mobile: one in each of the four cells below. -->
 
 |         | Before | After |
 | ------- | ------ | ----- |

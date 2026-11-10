@@ -6,7 +6,9 @@
 //   does not change the UI" is ticked, or "Why this UI change is needed" is
 //   filled in and there are before/after screenshots.
 //
-// Run by .github/workflows/pr-template-check.yml. Locally:
+// Run by .github/workflows/pr-template-check.yml. Regression cases:
+//   node --test .github/scripts/check-pr-template.cases.mjs
+// Against a real PR:
 //   gh api --paginate repos/sunflower-land/sunflower-land/pulls/123/files \
 //     --jq '.[] | {filename, patch}' | jq -s . > /tmp/files.json
 //   PR_TITLE="$(gh pr view 123 --json title -q .title)" \
@@ -27,8 +29,6 @@ const REQUIRED_SECTIONS = [
   { name: "How to test", heading: /How to test/, minChars: 10 },
 ];
 
-// Before + after, on desktop + mobile.
-export const MIN_MEDIA = 4;
 export const MIN_REASON_CHARS = 40;
 
 const UI_FILE_PATTERNS = [
@@ -107,10 +107,9 @@ export const getSection = (text, title) => {
 };
 
 /**
- * What's missing from the "Before / after" section. With the template's table,
- * the Desktop and Mobile rows each need a before and an after image. With any
- * other layout, the section needs at least MIN_MEDIA images and must mention
- * both desktop and mobile.
+ * What's missing from the "Before / after" section. It must use the template's
+ * table, and each of its four cells (Desktop/Mobile x Before/After) needs at
+ * least one image or recording.
  * @param {string} section
  * @returns {string[]}
  */
@@ -122,25 +121,25 @@ export const getScreenshotGaps = (section) => {
       .find((l) => new RegExp(`^\\s*\\|\\s*${name}\\s*\\|`, "i").test(l)),
   }));
 
-  if (rows.every((r) => r.line !== undefined)) {
-    return rows
-      .map(({ name, line }) => ({ name, count: countMedia(line) }))
-      .filter(({ count }) => count < 2)
-      .map(
-        ({ name, count }) =>
-          `the ${name} row needs a before and an after image (found ${count})`,
-      );
+  if (rows.some((r) => r.line === undefined)) {
+    return [
+      "use the template's table, with a before and an after image in both the Desktop and Mobile rows",
+    ];
   }
 
   const gaps = [];
-  const count = countMedia(section);
-  if (count < MIN_MEDIA) {
-    gaps.push(
-      `add before/after screenshots on desktop and mobile (found ${count}, need at least ${MIN_MEDIA})`,
-    );
-  }
-  if (!/desktop/i.test(section) || !/mobile/i.test(section)) {
-    gaps.push("label which screenshots are desktop and which are mobile");
+  for (const { name, line } of rows) {
+    // "| Desktop | <before> | <after> |" -> ["Desktop", "<before>", "<after>"]
+    const cells = line
+      .split("|")
+      .slice(1)
+      .map((c) => c.trim());
+    [
+      ["before", cells[1] ?? ""],
+      ["after", cells[2] ?? ""],
+    ].forEach(([when, cell]) => {
+      if (countMedia(cell) === 0) gaps.push(`add the ${name} ${when} image`);
+    });
   }
   return gaps;
 };
