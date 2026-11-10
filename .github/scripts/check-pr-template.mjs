@@ -47,7 +47,7 @@ const UI_FILE_PATTERNS = [
 // details), so adding, changing or removing a line that references art also
 // counts as UI.
 const ART_REFERENCE =
-  /SUNNYSIDE\.|from ["'](?:assets|public)\/|\.(?:png|webp|gif|jpe?g)["'`]|\bicon\s*:/;
+  /SUNNYSIDE\.|ITEM_DETAILS\b|from ["'](?:assets|public)\/|\.(?:png|webp|gif|jpe?g)["'`]|\b(?:icon|image)\s*:/;
 
 const isTestFile = (file) => /\.test\.tsx?$/.test(file);
 
@@ -107,6 +107,45 @@ export const getSection = (text, title) => {
 };
 
 /**
+ * What's missing from the "Before / after" section. With the template's table,
+ * the Desktop and Mobile rows each need a before and an after image. With any
+ * other layout, the section needs at least MIN_MEDIA images and must mention
+ * both desktop and mobile.
+ * @param {string} section
+ * @returns {string[]}
+ */
+export const getScreenshotGaps = (section) => {
+  const rows = ["Desktop", "Mobile"].map((name) => ({
+    name,
+    line: section
+      .split("\n")
+      .find((l) => new RegExp(`^\\s*\\|\\s*${name}\\s*\\|`, "i").test(l)),
+  }));
+
+  if (rows.every((r) => r.line !== undefined)) {
+    return rows
+      .map(({ name, line }) => ({ name, count: countMedia(line) }))
+      .filter(({ count }) => count < 2)
+      .map(
+        ({ name, count }) =>
+          `the ${name} row needs a before and an after image (found ${count})`,
+      );
+  }
+
+  const gaps = [];
+  const count = countMedia(section);
+  if (count < MIN_MEDIA) {
+    gaps.push(
+      `add before/after screenshots on desktop and mobile (found ${count}, need at least ${MIN_MEDIA})`,
+    );
+  }
+  if (!/desktop/i.test(section) || !/mobile/i.test(section)) {
+    gaps.push("label which screenshots are desktop and which are mobile");
+  }
+  return gaps;
+};
+
+/**
  * @param {{
  *   title: string | null | undefined,
  *   body: string | null | undefined,
@@ -157,10 +196,12 @@ export const checkPrTemplate = ({ title, body, files }) => {
 
     // Only screenshots in the "Before / after" section count, so unrelated
     // images elsewhere in the body can't stand in for them.
-    const media = countMedia(getSection(text, /Before\s*\/\s*after/) ?? "");
-    if (media < MIN_MEDIA) {
+    const evidence = getScreenshotGaps(
+      getSection(text, /Before\s*\/\s*after/) ?? "",
+    );
+    if (evidence.length > 0) {
       errors.push(
-        `UI files changed: add before/after screenshots on desktop and mobile under "Before / after" (found ${media}, need at least ${MIN_MEDIA}), or tick "This PR does not change the UI".`,
+        `UI files changed: under "Before / after", ${evidence.join("; ")}. Or tick "This PR does not change the UI".`,
       );
     }
   }

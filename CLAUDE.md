@@ -6,7 +6,7 @@ React + TypeScript + Phaser game client, built with Vite. Game logic lives in `s
 
 - Type-check: `yarn tsc` (`npx tsc --noEmit`)
 - Lint: `yarn lint` (eslint + prettier). CI runs `tsc`, `test` and `lint`.
-- Tests: `npx jest src/features/...` — **always from the repo root** (see Testing).
+- Tests: `VITE_NETWORK=amoy npx jest src/features/...`, **always from the repo root** (see Testing). CI sets `VITE_NETWORK=amoy` the same way.
 - Dev server: `npx vite --port 3000 --host`. Don't use `yarn dev`, which begins with the Windows-only `set NODE_ENV=development &&`.
 
 ## Pull requests
@@ -15,7 +15,7 @@ Every PR description follows [`docs/PULL_REQUEST_TEMPLATE.md`](docs/PULL_REQUEST
 
 - The title starts with `[FEAT]`, `[FIX]`, `[CHORE]` or `[BALANCE]`.
 - Fill in Summary, Context / motivation and How to test, and keep the Checklist.
-- **UI changes:** tick "This PR does not change the UI", or fill in "Why this UI change is needed" and add before/after screenshots on desktop and mobile (at least 4). Any `.tsx`/`.css` file, `src/assets/`, `dictionary.json`, a Phaser `scenes/`/`containers/`/`shaders/` file, or an added, changed or removed art reference in a `.ts` file counts as a UI change. Only screenshots under "Before / after" count.
+- **UI changes:** tick "This PR does not change the UI", or fill in "Why this UI change is needed" and add before/after screenshots on desktop and mobile (at least 4). These count as UI changes: any `.tsx`/`.css` file, `src/assets/`, images in `public/`, `dictionary.json`, `src/features/game/lib/style.ts`, `tailwind.config.js`, `index.html`, a Phaser `scenes/`/`containers/`/`shaders/` file, or an added, changed or removed art reference (`SUNNYSIDE`, `ITEM_DETAILS`, `icon:`/`image:`, image imports) in a `.ts` file. Only screenshots under "Before / after" count, and with the template's table, the Desktop and Mobile rows each need a before and an after image.
 
 ## FE/BE parity
 
@@ -114,7 +114,7 @@ These are deliberate, or parked on purpose. They describe the code **as it is on
 
 - **TDD for game logic**: write the test, run it and see it fail, then fix it and see it pass. This covers events/reducers, FE+BE mirrored rules, planners and economy maths. Mirror the test in the BE.
 - **No React component tests and no hook tests.** There are no `.test.tsx` files, by design. Small display-only predicates (which tab opens, whether a hint shows) get no test either. Rule of thumb: test it if a bug would corrupt state or desync FE/BE. Verify UI work with `tsc`, eslint, a build and the browser.
-- **Jest runs on amoy.** `.env` sets `VITE_NETWORK=amoy` (loaded by `test/env.ts`), so beta and testnet flags are **on**. Flag-off paths need a nested `describe` that sets `CONFIG.NETWORK = "mainnet"`.
+- **Jest runs on amoy.** CI sets `VITE_NETWORK=amoy`, and locally `.env` does the same (loaded by `test/env.ts`), so beta and testnet flags are **on**. If your `.env` is missing or points at another network, pass `VITE_NETWORK=amoy` on the command line. Flag-off paths need a nested `describe` that sets `CONFIG.NETWORK = "mainnet"`.
 - **Run jest from the repo root.** Run from a subdirectory, `.env` isn't loaded and flag-gated suites fail with legacy values.
 - **Time-gated tests are tripwires.** When a date-gated constant changes, update the hardcoded expected numbers and keep `Date.now()` in the fixture. Don't pin `createdAt`, and don't derive expectations from the production helper, which is circular. Name the expected values and show the arithmetic in a comment.
 - Mutation-test new assertions: break the code under test, confirm the test goes red, then revert.
