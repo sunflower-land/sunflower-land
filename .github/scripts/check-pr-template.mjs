@@ -37,27 +37,30 @@ const UI_FILE_PATTERNS = [
   /^public\/.*\.(png|jpe?g|gif|webp|svg)$/i,
   /^src\/lib\/i18n\/dictionaries\/dictionary\.json$/,
   /^src\/features\/game\/lib\/style\.ts$/,
+  // Phaser scenes, containers and shaders draw the world directly.
+  /^src\/features\/.*\/(?:scenes|containers|shaders)\/.*\.ts$/,
   /^tailwind\.config\.js$/,
   /^index\.html$/,
 ];
 
 // Icons are often wired up in plain .ts data files (buff definitions, item
-// details), so an added line that references art also counts as UI.
+// details), so adding, changing or removing a line that references art also
+// counts as UI.
 const ART_REFERENCE =
   /SUNNYSIDE\.|from ["'](?:assets|public)\/|\.(?:png|webp|gif|jpe?g)["'`]|\bicon\s*:/;
 
 const isTestFile = (file) => /\.test\.tsx?$/.test(file);
 
-const addsArtReference = (patch) =>
+const touchesArtReference = (patch) =>
   (patch ?? "")
     .split("\n")
-    .some((line) => line.startsWith("+") && ART_REFERENCE.test(line));
+    .some((line) => /^[+-]/.test(line) && ART_REFERENCE.test(line));
 
 /** @param {{ filename: string, patch?: string }} file */
 export const isUiChange = ({ filename, patch }) => {
   if (isTestFile(filename)) return false;
   if (UI_FILE_PATTERNS.some((re) => re.test(filename))) return true;
-  return /^src\/.*\.ts$/.test(filename) && addsArtReference(patch);
+  return /^src\/.*\.ts$/.test(filename) && touchesArtReference(patch);
 };
 
 const NO_UI_CHECKBOX = /^\s*[-*]\s*\[[xX]\]\s*This PR does not change the UI/m;
@@ -152,10 +155,12 @@ export const checkPrTemplate = ({ title, body, files }) => {
       );
     }
 
-    const media = countMedia(text);
+    // Only screenshots in the "Before / after" section count, so unrelated
+    // images elsewhere in the body can't stand in for them.
+    const media = countMedia(getSection(text, /Before\s*\/\s*after/) ?? "");
     if (media < MIN_MEDIA) {
       errors.push(
-        `UI files changed: add before/after screenshots on desktop and mobile (found ${media}, need at least ${MIN_MEDIA}), or tick "This PR does not change the UI".`,
+        `UI files changed: add before/after screenshots on desktop and mobile under "Before / after" (found ${media}, need at least ${MIN_MEDIA}), or tick "This PR does not change the UI".`,
       );
     }
   }

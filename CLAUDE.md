@@ -15,7 +15,7 @@ Every PR description follows [`docs/PULL_REQUEST_TEMPLATE.md`](docs/PULL_REQUEST
 
 - The title starts with `[FEAT]`, `[FIX]`, `[CHORE]` or `[BALANCE]`.
 - Fill in Summary, Context / motivation and How to test, and keep the Checklist.
-- **UI changes:** tick "This PR does not change the UI", or fill in "Why this UI change is needed" and add before/after screenshots on desktop and mobile (at least 4). Any `.tsx`/`.css` file, `src/assets/`, `dictionary.json`, or an added art reference in a `.ts` file counts as a UI change.
+- **UI changes:** tick "This PR does not change the UI", or fill in "Why this UI change is needed" and add before/after screenshots on desktop and mobile (at least 4). Any `.tsx`/`.css` file, `src/assets/`, `dictionary.json`, a Phaser `scenes/`/`containers/`/`shaders/` file, or an added, changed or removed art reference in a `.ts` file counts as a UI change. Only screenshots under "Before / after" count.
 
 ## FE/BE parity
 
@@ -81,14 +81,14 @@ Other UI conventions:
 - A tradable item needs a `tradeAt` in `INVENTORY_RELEASES` / `WEARABLE_RELEASES`. An item's trade type ("instant"/"onchain") only says _how_ it trades once allowed.
 - When a feature needs a balance number the spec doesn't give, say so and get it recorded. Don't let a placeholder quietly become canon.
 
-## Settled review decisions: don't flag or "fix"
+## Known decisions and existing behaviour
 
-Bots (CodeRabbit, Codex) raise these again and again. The answer is always the same:
+These are deliberate, or parked on purpose. They describe the code **as it is on `main`**; a PR that changes or worsens any of them is still judged on its own merits.
 
-- **`GameState.bumpkin` is compulsory** in both repos. Don't add `game.bumpkin?.` guards or "player has no Bumpkin" fallbacks. The `bumpkin?:` that a grep turns up belongs to `SavedLayout` (the Bumpkin's placement in a layout), not to `GameState`. Old optional chaining in a few files is pre-migration leftover, not a pattern to copy.
-- **`isCollectibleBuilt` reading `Date.now()` is parked.** It makes reducers non-deterministic around a collectible's `readyAt`, but fixing it touches many files. Don't fix it in unrelated PRs; reply that it's parked.
-- **`expandLand` / `revealLand` FE/BE differences are known and tolerated**: `createdAt` on revealed nodes, beehive/flower-bed ids, Fire Pit vs `getRewards` order, `farmActivity` tracking, the `boostsUsed` shape, the BE `getLand` guard. Don't flag them as regressions or bundle fixes into other work.
-- **Keyboard accessibility findings** (focus, tab order, click-only `div`s) on in-game UI: ignore them. This is a pointer and touch game. Real functional findings still get fixed.
+- **`GameState.bumpkin` is compulsory** in both repos (`bumpkin: Bumpkin` in `types/game.ts`), so code doesn't need `game.bumpkin?.` guards or "player has no Bumpkin" fallbacks. The `bumpkin?:` that a grep turns up belongs to `SavedLayout` (the Bumpkin's placement in a layout), not to `GameState`. Old optional chaining in a few files is pre-migration leftover, not a pattern to copy.
+- **`isCollectibleBuilt` reads `Date.now()`.** That makes reducers non-deterministic around a collectible's `readyAt`. The fix (threading `now` into every caller) is parked because it touches many files, so it isn't bundled into unrelated PRs.
+- **`expandLand` / `revealLand` have known FE/BE differences**: `createdAt` on revealed nodes, beehive/flower-bed ids, Fire Pit vs `getRewards` order, `farmActivity` tracking, the `boostsUsed` shape, the BE `getLand` guard. Fixing them is out of scope for unrelated work. A _new_ difference introduced by a PR is a real bug.
+- **Keyboard reachability of in-world click targets isn't a product requirement.** This is a pointer and touch game. Functional and touch issues still matter.
 
 ## This repo is public
 
