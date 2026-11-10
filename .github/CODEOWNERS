@@ -1,5 +1,17 @@
-yarn.lock         @c-py @adamhannigan @spencerdezartsmith
-package.json      @c-py @adamhannigan @spencerdezartsmith
-package-lock.json @c-py @adamhannigan @spencerdezartsmith
-/.github/         @c-py @adamhannigan @spencerdezartsmith
-/_scripts/          @c-py @adamhannigan @spencerdezartsmith
+yarn.lock         @c-py @adamhannigan @spencerdezartsmith @eliasSFL
+package.json      @c-py @adamhannigan @spencerdezartsmith @eliasSFL
+package-lock.json @c-py @adamhannigan @spencerdezartsmith @eliasSFL
+/.github/         @c-py @adamhannigan @spencerdezartsmith @eliasSFL
+/_scripts/          @c-py @adamhannigan @spencerdezartsmith @eliasSFL
+/CLAUDE.md          @c-py @adamhannigan @spencerdezartsmith @eliasSFL
+
+# Design system: icons, colours and UI primitives (docs/DESIGN_SYSTEM.md)
+/docs/DESIGN_SYSTEM.md              @c-py @adamhannigan @spencerdezartsmith @eliasSFL
+/docs/PULL_REQUEST_TEMPLATE.md      @c-py @adamhannigan @spencerdezartsmith @eliasSFL
+/src/components/ui/                 @c-py @adamhannigan @spencerdezartsmith @eliasSFL
+/src/assets/ui/                     @c-py @adamhannigan @spencerdezartsmith @eliasSFL
+/src/assets/icons/                  @c-py @adamhannigan @spencerdezartsmith @eliasSFL
+/src/assets/sunnyside.ts            @c-py @adamhannigan @spencerdezartsmith @eliasSFL
+/src/features/game/lib/style.ts     @c-py @adamhannigan @spencerdezartsmith @eliasSFL
+/src/styles.css                     @c-py @adamhannigan @spencerdezartsmith @eliasSFL
+/tailwind.config.js                 @c-py @adamhannigan @spencerdezartsmith @eliasSFL

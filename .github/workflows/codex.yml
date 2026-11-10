@@ -107,6 +107,11 @@ jobs:
             - PhaserJS: scene/event/tween teardown, listeners removed on shutdown.
             - TypeScript: unnecessary `any`, unsafe casts, or types loose enough to permit an illegal state that the code then assumes away.
 
+            UI and design system (only when the PR changes UI):
+            - Read `docs/DESIGN_SYSTEM.md` and report each breach of its Rules table (R1–R8) as a `[Medium]` finding under a **Design system** category, citing the rule number. These count as findings even without a functional failure.
+            - Typical breaches: new icon or image files; new or recoloured colours and hex values; icons placed in new coloured or framed tiles; new filter panels, chip groups or tag taxonomies; `Chip` used somewhere new; a `Label` type used against its documented meaning; hand-rolled panels, buttons or borders instead of the `src/components/ui/` primitives; several unrelated UI changes in one PR.
+            - Don't judge whether the change is a good idea for players. That is the human reviewers' call.
+
             ## Output
 
             Markdown, with these three sections in this order:

@@ -48,8 +48,8 @@ cache
 !/.cursor/rules/
 !/.cursor/rules/**
 
-# Claude Code: keep personal project rules local
-/CLAUDE.md
+# Claude Code: CLAUDE.md is shared (see CODEOWNERS); personal rules go in CLAUDE.local.md
+/CLAUDE.local.md
 /.claude/
 
 /*.json

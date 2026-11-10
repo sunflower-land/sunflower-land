@@ -1,0 +1,44 @@
+name: PR template
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened, ready_for_review]
+
+concurrency:
+  group: pr-template-check-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    # Bots (Dependabot, translation PRs) and GitHub's "Revert" button PRs
+    # don't use the template.
+    if: >-
+      github.event.pull_request.user.type != 'Bot' &&
+      !startsWith(github.event.pull_request.title, 'Revert "')
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          # The base branch's latest copy of the script, so a PR can't edit the
+          # check it is judged by.
+          ref: ${{ github.event.pull_request.base.ref }}
+          sparse-checkout: .github/scripts
+
+      - name: List changed files
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          gh api --paginate "repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}/files" \
+            --jq '.[] | {filename, patch}' | jq -s . > "${RUNNER_TEMP}/changed-files.json"
+
+      - name: Check the PR follows the template
+        env:
+          # Passed through env, never interpolated into the script.
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          CHANGED_FILES_JSON_PATH: ${{ runner.temp }}/changed-files.json
+        run: node .github/scripts/check-pr-template.mjs
