@@ -36,7 +36,7 @@ Write under each heading; text inside these comment markers is ignored.
 
 ### Before / after
 
-<!-- If the UI changes: screenshots (or recordings) of the same screen before and after, on desktop AND mobile: one in each of the four cells below. -->
+<!-- If the UI changes: screenshots (or recordings) of the same screen before and after, on desktop AND mobile: one in each of the four cells below. Drag the files into this editor (or use direct image/video URLs); Loom/YouTube links aren't accepted. -->
 
 |         | Before | After |
 | ------- | ------ | ----- |
