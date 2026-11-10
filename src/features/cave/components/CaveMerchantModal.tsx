@@ -23,6 +23,7 @@ import {
 import { SUNNYSIDE } from "assets/sunnyside";
 import { NPC_WEARABLES } from "lib/npcs";
 import { secondsToString } from "lib/utils/time";
+import { formatNumber } from "lib/utils/formatNumber";
 import { useNow } from "lib/utils/hooks/useNow";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
@@ -279,7 +280,7 @@ export const CaveMerchantModal: React.FC<{ onClose: () => void }> = ({
                     image={ITEM_DETAILS[offer.cost.item].image}
                     amount={
                       short
-                        ? `${owned(offer.cost.item).toString()}/${required.toString()}`
+                        ? `${formatNumber(owned(offer.cost.item))}/${required.toString()}`
                         : required.toString()
                     }
                     short={short}
@@ -304,8 +305,10 @@ export const CaveMerchantModal: React.FC<{ onClose: () => void }> = ({
                     >
                       {short && !soldOut
                         ? t("cave.merchant.needMore", {
+                            // Round up so the shortfall is never understated.
                             amount: required
                               .minus(owned(offer.cost.item))
+                              .toDecimalPlaces(2, Decimal.ROUND_UP)
                               .toString(),
                             item: getTranslatedItemName(offer.cost.item),
                           })
