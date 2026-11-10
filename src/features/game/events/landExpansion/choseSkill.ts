@@ -1,3 +1,4 @@
+import { refreshBeehivesOnRateChange } from "features/game/lib/updateBeehives";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { getTotalBumpkinLevel } from "features/game/lib/level";
 import {
@@ -124,7 +125,7 @@ export const getUnlockedTierForTree = (
 };
 
 export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
-  return produce(state, (stateCopy) => {
+  const gameAfter = produce(state, (stateCopy) => {
     const { bumpkin, island } = stateCopy;
 
     if (!bumpkin) {
@@ -170,5 +171,11 @@ export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
     });
 
     return stateCopy;
+  });
+
+  return refreshBeehivesOnRateChange({
+    gameBefore: state,
+    gameAfter,
+    createdAt,
   });
 }

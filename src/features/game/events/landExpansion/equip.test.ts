@@ -141,3 +141,77 @@ describe("availableWardrobe", () => {
     });
   });
 });
+
+const HOUR = 60 * 60 * 1000;
+const honeyFarm = (now: number) => ({
+  flowers: {
+    discovered: {},
+    flowerBeds: {
+      f1: {
+        createdAt: 0,
+        x: 0,
+        y: 0,
+        flower: { name: "Red Pansy" as const, plantedAt: now - HOUR },
+      },
+    },
+  },
+  beehives: {
+    h1: {
+      swarm: false,
+      x: 3,
+      y: 3,
+      honey: { updatedAt: now - HOUR, produced: 0 },
+      flowers: [
+        {
+          id: "f1",
+          attachedAt: now - HOUR,
+          attachedUntil: now + 11 * HOUR,
+          rate: 1,
+        },
+      ],
+    },
+  },
+});
+
+describe("equip honey rate", () => {
+  it("applies the Beekeeper Hat honey rate from the moment it is equipped", () => {
+    const now = Date.now();
+    const equipped: Equipped = {
+      background: "Farm Background",
+      hair: "Basic Hair",
+      body: "Beige Farmer Potion",
+      shirt: "Blue Farmer Shirt",
+      pants: "Farmer Overalls",
+      shoes: "Black Farmer Boots",
+      tool: "Farmer Pitchfork",
+    };
+
+    const state = equip({
+      state: {
+        ...TEST_FARM,
+        ...honeyFarm(now),
+        bumpkin: { ...INITIAL_BUMPKIN, id: 1, equipped },
+        wardrobe: {
+          "Farm Background": 1,
+          "Basic Hair": 1,
+          "Beige Farmer Potion": 1,
+          "Blue Farmer Shirt": 1,
+          "Farmer Overalls": 1,
+          "Black Farmer Boots": 1,
+          "Farmer Pitchfork": 1,
+          "Beekeeper Hat": 1,
+        },
+      },
+      action: {
+        type: "bumpkin.equipped",
+        equipment: { ...equipped, hat: "Beekeeper Hat" },
+      },
+      createdAt: now,
+    });
+
+    expect(state.beehives.h1.honey.produced).toEqual(HOUR);
+    expect(state.beehives.h1.flowers[0]).toEqual(
+      expect.objectContaining({ attachedAt: now, rate: 1.2 }),
+    );
+  });
+});
