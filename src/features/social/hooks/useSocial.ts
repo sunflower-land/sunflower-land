@@ -126,8 +126,10 @@ const setupListeners = (joined: Room<unknown>, farmId: number) => {
   // a failed join. `leaveRoom` removes this listener before a deliberate
   // leave, so only unexpected drops land here.
   joined.onLeave(() => {
+    // Only the live room's closure starts the retry flow
+    if (room !== joined) return;
     // The socket is already closed: forget it rather than asking it to leave
-    if (room === joined) room = undefined;
+    room = undefined;
     onError(farmId);
   });
 };

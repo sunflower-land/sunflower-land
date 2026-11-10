@@ -126,9 +126,17 @@ export const FollowerFeed: React.FC<Props> = ({
       onInteraction: async (update) => {
         if (update.sender.id !== playerId) return;
 
-        await mutate((current) => mergeChatUpdate(current, update), {
-          revalidate: false,
-        });
+        // A duplicate leaves the cache as it was: don't count it as unread
+        let isNew = false;
+        await mutate(
+          (current) => {
+            const next = mergeChatUpdate(current, update);
+            isNew = next !== current;
+            return next;
+          },
+          { revalidate: false },
+        );
+        if (!isNew) return;
 
         // Use the ref to determine the scrolled state to avoid it being caught in a closure
         if (!isScrolledToBottomRef.current) {
