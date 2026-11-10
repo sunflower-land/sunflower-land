@@ -156,10 +156,10 @@ FE and BE release separately but usually together. A paired release shares one s
 
 1. **Pushing a tag is not a release.** Pushing to `main` deploys testnet; mainnet deploys only when a GitHub Release is **published**.
 2. **Tag:** lightweight, `v<semver>-<kebab-slug>`, patch bump (e.g. `v2.29.15-honey-rates`). The title is the title-cased version + slug (`v2.29.15 Honey Rates`).
-3. **Publish:** `gh release create <tag> --title "<Title>" --notes "<notes>"`. Don't pass `--target`; a short SHA gives `422`. If the command errors, run `gh release view <tag>` before retrying: it may have published anyway.
+3. **Publish:** push the tag first (`git push origin <tag>`), then run `gh release create <tag> --verify-tag --title "<Title>" --notes "<notes>"`. `--verify-tag` stops `gh` from creating a fresh tag at the current tip of `main` if the push was missed. Don't pass `--target`; a short SHA gives `422`. If the command errors, run `gh release view <tag>` before retrying: it may have published anyway.
 4. **Publish FE and BE together, then approve the FE `production` gate straight away.** BE deploys in ~3–4 min with no gate. FE takes ~5–6 min after approval, so BE lands first on its own. Never approve FE if the BE deploy failed.
    - Find the run with `gh run list --workflow="Mainnet deploy" --limit 1`. Check the environment id with `gh api repos/sunflower-land/sunflower-land/actions/runs/<id>/pending_deployments`.
-   - Approve with a `POST` to the same endpoint (`-F "environment_ids[]=<env id>" -f state=approved`). Its response shape varies, so confirm with `gh run view <id> --json status`.
+   - Approve with a `POST` to the same endpoint (`-F "environment_ids[]=<env id>" -f state=approved -f comment="<release tag>"`; `comment` is required). Its response shape varies, so confirm with `gh run view <id> --json status`.
 5. **New `dictionary.json` keys:** wait for the `[BOT] Update translations` commit on `main` before tagging FE. Until it lands, other locales fall back to English. Merge i18n PRs a few minutes apart: two merging within seconds makes the translate job fail, and the missed keys wait for the next dictionary change.
 6. **After an FE release, check the World chunk serves.** Fetch `/play/`, find its `assets/index-*.js`, find the `World-*.js` it references, and `curl -m 30` that file expecting a 200. If it 500s or hangs, re-run the FE mainnet deploy and approve again; the rebuild gets fresh chunk hashes.
 7. Features that change FE and BE together must be **released** together, not just merged.
@@ -182,7 +182,7 @@ FE and BE release separately but usually together. A paired release shares one s
 
 - **Updating a fork PR's branch.** `gh … update-branch` returns 403 when `main` changed a workflow file, because the gh token has no `workflow` scope. Push over SSH instead:
   1. `git fetch origin refs/pull/<n>/head:refs/remotes/pr/<n>`
-  2. `git worktree add --detach <dir> pr/<n>`
+  2. `git worktree add --detach <dir> pr/<n>`, then `cd <dir>`; the merge and push must run inside the worktree
   3. `git merge origin/main`
   4. `git push git@github.com:<owner>/sunflower-land.git HEAD:refs/heads/<headRefName>`
 
