@@ -475,9 +475,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
   ],
   Hoot: () => [
     {
-      // Hoot boosts every Overnight Crop (see isOvernightCrop), which the
-      // seed shop and crop guide tag, so the text doesn't list them by hand.
-      shortDescription: translate("description.hoot.boost.overnight"),
+      shortDescription: translate("description.hoot.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
     },
