@@ -9023,19 +9023,12 @@
   "lavaPit.guide.recipes": "季節ごとのレシピ",
   "lavaPit.guide.current": "今",
   "auction.notEnough": "リソースが不十分",
-  "description.hoot.boost": "+0.5 小麦、大根、カブ、ケール、アーティチョーク、大麦",
-  "description.hoot.boost.overnight": "+0.5 オーバーナイトクロップ",
   "cropMachine.harvestAll": "すべて収穫 ({{count}})",
   "fishing.extraReelsPurchased": "追加リールを購入しました",
   "cave.merchant.noShovels": "サンドショベルがもっと必要だね。",
   "feeder.insteadOf": "{{feed}} の代わりに",
   "feeder.chooseMix": "{{feed}} の混ぜ方：そのレシピまたはオムニフィード",
   "feeder.bulkMixLimit": "一度にミックスできるフィードの数は {{max}} までです。残りは、もう一度バルクミックスします。",
-  "cropGuide.tagsTip": "タグには、オーバーナイトクロップ、クロップマシンシード、イベントシード、フルムーンシード、およびそれらを植える季節など、各シードの詳細が表示されます。下のフィルターを使ってタグで種を探すか、並んでいるアイコンをタップして意味を確認してください。",
-  "cropGuide.filter.tags": "[タグ]",
-  "cropGuide.filter.season": "シーズン",
-  "cropGuide.noTagMatches": "選択したタグに一致するシードはありません。",
-  "crops.tag.cropMachine": "クロップマシン",
   "loveBoulder.title": "ラブ・ボルダー",
   "loveKraken.title": "ラヴ・クラーケン",
   "chestRewardsList.withoutVipVerified": "他のみんな",
@@ -9053,5 +9046,6 @@
   "chore.dig.150": "トレジャーを150回掘る",
   "chore.dig.175": "宝物を175回掘る",
   "chore.dig.200": "宝物を200回掘る",
-  "chore.dig.225": "宝物を225回掘る"
+  "chore.dig.225": "宝物を225回掘る",
+  "description.hoot.boost": "+0.5 小麦、大根、カブ、ケール、アーティチョーク、米、大麦"
 }

@@ -9023,19 +9023,12 @@
   "lavaPit.guide.recipes": "Recipes by season",
   "lavaPit.guide.current": "Now",
   "auction.notEnough": "Not enough resources",
-  "description.hoot.boost": "+0.5 Wheat, Radish, Turnip, Kale, Artichoke, Barley",
-  "description.hoot.boost.overnight": "+0.5 Overnight Crops",
   "cropMachine.harvestAll": "Harvest all ({{count}})",
   "fishing.extraReelsPurchased": "Extra Reels Purchased",
   "cave.merchant.noShovels": "It seems like you need more Sand Shovels.",
   "feeder.insteadOf": "instead of {{feed}}",
   "feeder.chooseMix": "Choose how to mix {{feed}}: its recipe or Omnifeed",
   "feeder.bulkMixLimit": "Up to {{max}} of each feed are mixed at a time. Bulk Mix again for the rest.",
-  "cropGuide.tagsTip": "Tags show more about each seed: Overnight Crops, Crop Machine seeds, event and Full Moon seeds, and the seasons to plant them. Use the filters below to find seeds by tag, or tap the icons in a row to see what they mean.",
-  "cropGuide.filter.tags": "Tags",
-  "cropGuide.filter.season": "Season",
-  "cropGuide.noTagMatches": "No seeds match the selected tags.",
-  "crops.tag.cropMachine": "Crop Machine",
   "loveBoulder.title": "Love Boulder",
   "loveKraken.title": "Love Kraken",
   "chestRewardsList.withoutVipVerified": "Everyone else",
@@ -9053,5 +9046,6 @@
   "chore.dig.150": "Dig treasure 150 times",
   "chore.dig.175": "Dig treasure 175 times",
   "chore.dig.200": "Dig treasure 200 times",
-  "chore.dig.225": "Dig treasure 225 times"
+  "chore.dig.225": "Dig treasure 225 times",
+  "description.hoot.boost": "+0.5 Wheat, Radish, Turnip, Kale, Artichoke, Rice, Barley"
 }

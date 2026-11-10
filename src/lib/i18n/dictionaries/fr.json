@@ -9023,19 +9023,12 @@
   "lavaPit.guide.recipes": "Recettes par saison",
   "lavaPit.guide.current": "Maintenant",
   "auction.notEnough": "Ressources insuffisantes",
-  "description.hoot.boost": "+0,5 Blé, radis, navet, chou frisé, artichaut, orge",
-  "description.hoot.boost.overnight": "+0,5 Récoltes du jour au lendemain",
   "cropMachine.harvestAll": "Récoltez tout ({{count}})",
   "fishing.extraReelsPurchased": "Bobines supplémentaires achetées",
   "cave.merchant.noShovels": "Il semblerait que tu aies besoin de plus de pelles à sable.",
   "feeder.insteadOf": "au lieu de {{feed}}",
   "feeder.chooseMix": "Choisissez comment mélanger {{feed}} : sa recette ou Omnifeed",
   "feeder.bulkMixLimit": "Jusqu'à {{max}} de chaque flux sont mélangés à la fois. Mélangez à nouveau en vrac pour le reste.",
-  "cropGuide.tagsTip": "Les étiquettes en disent plus sur chaque graine : Overnight Crops, Crop Machine, graines Event et Full Moon, et les saisons pour les planter. Utilisez les filtres ci-dessous pour rechercher des graines par tag, ou appuyez sur les icônes d'affilée pour voir ce qu'elles signifient.",
-  "cropGuide.filter.tags": "Balises",
-  "cropGuide.filter.season": "Saison",
-  "cropGuide.noTagMatches": "Aucune graine ne correspond aux tags sélectionnés.",
-  "crops.tag.cropMachine": "Machine à recadrer",
   "loveBoulder.title": "J'aime Boulder",
   "loveKraken.title": "J'adore Kraken",
   "chestRewardsList.withoutVipVerified": "Tous les autres",
@@ -9053,5 +9046,6 @@
   "chore.dig.150": "Creusez un trésor 150 fois",
   "chore.dig.175": "Creusez un trésor 175 fois",
   "chore.dig.200": "Creusez un trésor 200 fois",
-  "chore.dig.225": "Creusez un trésor 225 fois"
+  "chore.dig.225": "Creusez un trésor 225 fois",
+  "description.hoot.boost": "+0,5 Blé, radis, navet, chou frisé, artichaut, riz, orge"
 }

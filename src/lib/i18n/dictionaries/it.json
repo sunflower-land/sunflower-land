@@ -9023,19 +9023,12 @@
   "lavaPit.guide.recipes": "Ricette per stagione",
   "lavaPit.guide.current": "Ora",
   "auction.notEnough": "Risorse insufficienti",
-  "description.hoot.boost": "+0,5 frumento, ravanello, rapa, cavolo riccio, carciofo, orzo",
-  "description.hoot.boost.overnight": "+0,5 Colture notturne",
   "cropMachine.harvestAll": "Raccogli tutto ({{count}})",
   "fishing.extraReelsPurchased": "Rulli extra acquistati",
   "cave.merchant.noShovels": "Sembra che tu abbia bisogno di più pale da sabbia.",
   "feeder.insteadOf": "invece di {{feed}}",
   "feeder.chooseMix": "Scegli come mescolare {{feed}}: la sua ricetta o Omnifeed",
   "feeder.bulkMixLimit": "Vengono miscelati fino a {{max}} di ciascun feed alla volta. Mescola nuovamente in massa per il resto.",
-  "cropGuide.tagsTip": "I tag mostrano di più su ogni seme: Overnight Crops, Crop Machine seeds, event e Full Moon seed e le stagioni per piantarli. Usa i filtri qui sotto per trovare i semi per tag, oppure tocca le icone in una riga per vedere cosa significano.",
-  "cropGuide.filter.tags": "Etichette",
-  "cropGuide.filter.season": "stagione",
-  "cropGuide.noTagMatches": "Nessun seme corrisponde ai tag selezionati.",
-  "crops.tag.cropMachine": "Macchina per il raccolto",
   "loveBoulder.title": "Love Boulder",
   "loveKraken.title": "Amo Kraken",
   "chestRewardsList.withoutVipVerified": "Tutti gli altri",
@@ -9053,5 +9046,6 @@
   "chore.dig.150": "Scava un tesoro 150 volte",
   "chore.dig.175": "Scava un tesoro 175 volte",
   "chore.dig.200": "Scava un tesoro 200 volte",
-  "chore.dig.225": "Scava un tesoro 225 volte"
+  "chore.dig.225": "Scava un tesoro 225 volte",
+  "description.hoot.boost": "+0,5 frumento, ravanello, rapa, cavolo riccio, carciofo, riso, orzo"
 }

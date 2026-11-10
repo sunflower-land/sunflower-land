@@ -9023,19 +9023,12 @@
   "lavaPit.guide.recipes": "Rezepte nach Jahreszeit",
   "lavaPit.guide.current": "Jetzt",
   "auction.notEnough": "Nicht genug Ressourcen",
-  "description.hoot.boost": "+0.5 Weizen, Rettich, Rübe, Grünkohl, Artischocke, Gerste",
-  "description.hoot.boost.overnight": "+0.5 Nachtkulturen",
   "cropMachine.harvestAll": "Ernten Sie alles ({{count}})",
   "fishing.extraReelsPurchased": "Zusätzliche Rollen gekauft",
   "cave.merchant.noShovels": "Es scheint, als ob du mehr Sandschaufeln brauchst.",
   "feeder.insteadOf": "statt {{feed}}",
   "feeder.chooseMix": "Wähle, wie du {{feed}} mischen möchtest: das Rezept oder Omnifeed",
   "feeder.bulkMixLimit": "Bis zu {{max}} jedes Feeds werden gleichzeitig gemischt. Für den Rest nochmal Bulk Mix.",
-  "cropGuide.tagsTip": "Die Tags zeigen mehr über jeden Samen: Overnight Crops, Crop Machine Seeds, Event- und Full Moon-Samen sowie die Jahreszeiten, in denen sie gepflanzt werden. Nutze die Filter unten, um Samen anhand von Stichwörtern zu finden, oder tippe nacheinander auf die Symbole, um zu sehen, was sie bedeuten.",
-  "cropGuide.filter.tags": "Schlagworte",
-  "cropGuide.filter.season": "Jahreszeit",
-  "cropGuide.noTagMatches": "Keine Samen stimmen mit den ausgewählten Tags überein.",
-  "crops.tag.cropMachine": "Erntemaschine",
   "loveBoulder.title": "Liebe Boulder",
   "loveKraken.title": "Liebe Kraken",
   "chestRewardsList.withoutVipVerified": "Alle anderen",
@@ -9053,5 +9046,6 @@
   "chore.dig.150": "Grabe 150 mal einen Schatz",
   "chore.dig.175": "Grabe 175 mal einen Schatz",
   "chore.dig.200": "Grabe 200 mal einen Schatz",
-  "chore.dig.225": "Grabe 225 mal einen Schatz"
+  "chore.dig.225": "Grabe 225 mal einen Schatz",
+  "description.hoot.boost": "+0.5 Weizen, Rettich, Rübe, Grünkohl, Artischocke, Reis, Gerste"
 }

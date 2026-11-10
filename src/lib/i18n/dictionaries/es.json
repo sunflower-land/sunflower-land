@@ -9023,19 +9023,12 @@
   "lavaPit.guide.recipes": "Recetas por temporada",
   "lavaPit.guide.current": "Ahora",
   "auction.notEnough": "No hay suficientes recursos",
-  "description.hoot.boost": "+0.5 Trigo, rábano, nabo, col rizada, alcachofa, cebada",
-  "description.hoot.boost.overnight": "+0.5 Cultivos nocturnos",
   "cropMachine.harvestAll": "Cosecha todo ({{count}})",
   "fishing.extraReelsPurchased": "Carretes adicionales comprados",
   "cave.merchant.noShovels": "Parece que necesitas más palas de arena.",
   "feeder.insteadOf": "en lugar de {{feed}}",
   "feeder.chooseMix": "Elige cómo mezclar {{feed}}: su receta o Omnifeed",
   "feeder.bulkMixLimit": "Se mezclan hasta {{max}} de cada pienso a la vez. Vuelva a mezclar a granel para el resto.",
-  "cropGuide.tagsTip": "Las etiquetas muestran más información sobre cada semilla: cultivos nocturnos, semillas para máquinas de cultivo, semillas para eventos y luna llena, y las estaciones para plantarlas. Usa los filtros que aparecen a continuación para buscar semillas por etiqueta o toca los íconos de una fila para ver lo que significan.",
-  "cropGuide.filter.tags": "Etiquetas",
-  "cropGuide.filter.season": "Temporada",
-  "cropGuide.noTagMatches": "Ninguna semilla coincide con las etiquetas seleccionadas.",
-  "crops.tag.cropMachine": "Máquina de cultivo",
   "loveBoulder.title": "Me encanta Boulder",
   "loveKraken.title": "Me encanta Kraken",
   "chestRewardsList.withoutVipVerified": "Todos los demás",
@@ -9053,5 +9046,6 @@
   "chore.dig.150": "Excava tesoros 150 veces",
   "chore.dig.175": "Excava tesoros 175 veces",
   "chore.dig.200": "Excava un tesoro 200 veces",
-  "chore.dig.225": "Excava un tesoro 225 veces"
+  "chore.dig.225": "Excava un tesoro 225 veces",
+  "description.hoot.boost": "+0.5 Trigo, rábano, nabo, col rizada, alcachofa, arroz, cebada"
 }

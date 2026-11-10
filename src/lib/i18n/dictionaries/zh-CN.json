@@ -9023,19 +9023,12 @@
   "lavaPit.guide.recipes": "按季节分类的食谱",
   "lavaPit.guide.current": "现在",
   "auction.notEnough": "资源不足",
-  "description.hoot.boost": "+0.5 小麦、萝卜、萝卜、羽衣甘蓝、朝鲜蓟、大麦",
-  "description.hoot.boost.overnight": "+0.5 隔夜作物",
   "cropMachine.harvestAll": "全部收获 ({{count}})",
   "fishing.extraReelsPurchased": "已购买额外卷轴",
   "cave.merchant.noShovels": "看来你需要更多的沙铲。",
   "feeder.insteadOf": "而不是 {{feed}}",
   "feeder.chooseMix": "选择如何混合 {{feed}}：它的食谱或 Omnifeed",
   "feeder.bulkMixLimit": "每次最多可混合 {{max}} 的饲料。其余部分再次批量混合。",
-  "cropGuide.tagsTip": "标签显示了有关每种种子的更多信息：隔夜作物、作物机器种子、活动和满月种子以及播种它们的季节。使用下面的过滤器按标签查找种子，或连续点击图标以查看它们的含义。",
-  "cropGuide.filter.tags": "标签",
-  "cropGuide.filter.season": "赛季",
-  "cropGuide.noTagMatches": "没有种子与所选标签相匹配。",
-  "crops.tag.cropMachine": "作物机",
   "loveBoulder.title": "爱博尔德",
   "loveKraken.title": "爱海怪",
   "chestRewardsList.withoutVipVerified": "其他所有人",
@@ -9053,5 +9046,6 @@
   "chore.dig.150": "挖宝藏 150 次",
   "chore.dig.175": "挖宝藏 175 次",
   "chore.dig.200": "挖宝藏 200 次",
-  "chore.dig.225": "挖宝藏 225 次"
+  "chore.dig.225": "挖宝藏 225 次",
+  "description.hoot.boost": "+0.5 小麦、萝卜、萝卜、羽衣甘蓝、朝鲜蓟、大米、大麦"
 }
