@@ -34,6 +34,7 @@ import { InteractionSenderMetadata } from "./InteractionSenderMetadata";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { useFeed } from "../FeedContext";
+import { mergeChatUpdate } from "../lib/feedUpdates";
 import silhouette from "assets/npcs/silhouette.webp";
 
 type Props = {
@@ -125,18 +126,21 @@ export const FollowerFeed: React.FC<Props> = ({
       onInteraction: async (update) => {
         if (update.sender.id !== playerId) return;
 
+        // A duplicate leaves the cache as it was: don't count it as unread
+        let isNew = false;
         await mutate(
-          (current = []) => {
-            return [[update, ...(current[0] ?? [])], ...current.slice(1)];
+          (current) => {
+            const next = mergeChatUpdate(current, update);
+            isNew = next !== current;
+            return next;
           },
-          {
-            revalidate: false,
-          },
+          { revalidate: false },
         );
+        if (!isNew) return;
 
         // Use the ref to determine the scrolled state to avoid it being caught in a closure
         if (!isScrolledToBottomRef.current) {
-          setNewLocalMessagesCount(newLocalMessagesCount + 1);
+          setNewLocalMessagesCount((count) => count + 1);
         } else {
           scrollToBottom();
         }
@@ -144,9 +148,10 @@ export const FollowerFeed: React.FC<Props> = ({
       onMilestone: async (update) => {
         if (update.sender.id !== playerId) return;
 
-        await mutate((current = []) => {
-          return [[update, ...(current[0] ?? [])], ...current.slice(1)];
-        });
+        // Revalidates (as before): a mutation during the initial history
+        // request makes SWR drop that response, so without a refetch only
+        // the milestone would show and paging would stop
+        await mutate((current) => mergeChatUpdate(current, update));
       },
     },
   });
