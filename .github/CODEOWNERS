@@ -4,6 +4,8 @@ package-lock.json @c-py @adamhannigan @spencerdezartsmith @eliasSFL
 /.github/         @c-py @adamhannigan @spencerdezartsmith @eliasSFL
 /_scripts/          @c-py @adamhannigan @spencerdezartsmith @eliasSFL
 /CLAUDE.md          @c-py @adamhannigan @spencerdezartsmith @eliasSFL
+/AGENTS.md          @c-py @adamhannigan @spencerdezartsmith @eliasSFL
+/.cursor/rules/     @c-py @adamhannigan @spencerdezartsmith @eliasSFL
 
 # Design system: icons, colours and UI primitives (docs/DESIGN_SYSTEM.md)
 /docs/DESIGN_SYSTEM.md              @c-py @adamhannigan @spencerdezartsmith @eliasSFL
