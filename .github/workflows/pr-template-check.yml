@@ -1,6 +1,10 @@
 name: PR template
+# pull_request_target runs this file and the script as they are on the base
+# branch, so a PR (including one from a fork) can't edit the check it's judged
+# by. That's safe only because no step checks out or runs the PR's code: the
+# PR is read through the API, and its title and body arrive via env.
 on:
-  pull_request:
+  pull_request_target:
     types: [opened, edited, synchronize, reopened, ready_for_review]
 
 concurrency:
@@ -20,12 +24,12 @@ jobs:
       contents: read
       pull-requests: read
     steps:
+      # Base branch only. Never check out the PR's head or merge ref here.
       - uses: actions/checkout@v5
         with:
-          # The base branch's latest copy of the script, so a PR can't edit the
-          # check it is judged by.
           ref: ${{ github.event.pull_request.base.ref }}
           sparse-checkout: .github/scripts
+          persist-credentials: false
 
       - name: List changed files
         env:
