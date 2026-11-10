@@ -26,6 +26,10 @@ const BAN_REASON_COPY: Record<
     reason: "statements.blacklist.botting",
     tos: "statements.blacklist.tos.botting",
   },
+  automation: {
+    reason: "statements.blacklist.automation",
+    tos: "statements.blacklist.tos.automation",
+  },
 };
 
 interface Props {
