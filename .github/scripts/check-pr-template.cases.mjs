@@ -52,7 +52,9 @@ const filled = (overrides = {}) => {
 };
 
 const UI = [{ filename: "src/components/ui/Label.tsx" }];
-const LOGIC = [{ filename: "src/features/game/lib/animals.ts" }];
+const LOGIC = [
+  { filename: "src/features/game/lib/animals.ts", patch: "+const a = 2;" },
+];
 const check = (body, files = UI, title = "[FIX] Something") =>
   checkPrTemplate({ title, body, files });
 
@@ -126,6 +128,9 @@ test("UI file detection", () => {
   const cases = [
     [{ filename: "src/features/world/scenes/PlazaScene.ts" }, true],
     [{ filename: "src/features/world/scenes/foo.test.ts" }, false],
+    // No patch (GitHub omits very large diffs): can't rule out art changes.
+    [{ filename: "src/features/game/types/bigTable.ts" }, true],
+    [{ filename: "src/features/game/types/bigTable.test.ts" }, false],
     [
       {
         filename: "src/features/game/types/buffs.ts",

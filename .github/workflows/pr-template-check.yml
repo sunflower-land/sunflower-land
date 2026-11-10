@@ -32,6 +32,9 @@ jobs:
           persist-credentials: false
 
       - name: List changed files
+        # bash -eo pipefail: a failed or partial `gh api` must fail the step,
+        # not leave an empty file list that lets the check pass.
+        shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
           PR_NUMBER: ${{ github.event.pull_request.number }}

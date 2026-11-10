@@ -60,7 +60,11 @@ const touchesArtReference = (patch) =>
 export const isUiChange = ({ filename, patch }) => {
   if (isTestFile(filename)) return false;
   if (UI_FILE_PATTERNS.some((re) => re.test(filename))) return true;
-  return /^src\/.*\.ts$/.test(filename) && touchesArtReference(patch);
+  if (!/^src\/.*\.ts$/.test(filename)) return false;
+  // GitHub omits the patch for very large diffs. Without it we can't rule out
+  // an art change, so treat the file as UI and let the author declare it.
+  if (patch === undefined) return true;
+  return touchesArtReference(patch);
 };
 
 const NO_UI_CHECKBOX = /^\s*[-*]\s*\[[xX]\]\s*This PR does not change the UI/m;
