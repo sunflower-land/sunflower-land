@@ -6,7 +6,8 @@ import {
 } from "features/game/types/fruits";
 import type { FruitPatch, GameState } from "features/game/types/game";
 import { getFruitPatchTime, getPlantedAt, plantFruit } from "./fruitPlanted";
-import { CONFIG } from "lib/config";
+import { getFruitReadyAt } from "./fruitPatchReadiness";
+import { getExpiryCooldown } from "features/game/lib/collectibleBuilt";
 
 const dateNow = Date.now();
 const GAME_STATE: GameState = {
@@ -36,18 +37,6 @@ const GAME_STATE: GameState = {
   },
 };
 describe("fruitPlanted", () => {
-  // These tests assert the LEGACY back-dated grow time (the discount is baked
-  // into plantedAt at plant time). FE jest runs on amoy where SPEED_BOOSTS is
-  // on, so force the flag off here; the windowed model is covered in its own
-  // describe below.
-  const originalNetwork = CONFIG.NETWORK;
-  beforeEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-  });
-  afterEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-  });
-
   it("does not plant on non-existent fruit patch", () => {
     expect(() =>
       plantFruit({
@@ -344,95 +333,6 @@ describe("fruitPlanted", () => {
     );
   });
 
-  it("includes Squirrel Monkey bonus on Oranges", () => {
-    const seedAmount = new Decimal(5);
-
-    const patchIndex = "1";
-
-    const state = plantFruit({
-      state: {
-        ...GAME_STATE,
-        bumpkin: INITIAL_BUMPKIN,
-        inventory: {
-          "Orange Seed": seedAmount,
-          "Squirrel Monkey": new Decimal(1),
-        },
-        season: {
-          season: "spring",
-          startedAt: 0,
-        },
-        collectibles: {
-          "Squirrel Monkey": [
-            {
-              coordinates: { x: 0, y: 0 },
-              createdAt: 0,
-              id: "123",
-              readyAt: 0,
-            },
-          ],
-        },
-      },
-      createdAt: dateNow,
-      action: {
-        type: "fruit.planted",
-        index: patchIndex,
-        seed: "Orange Seed",
-      },
-    });
-
-    const fruitPatches = state.fruitPatches;
-
-    expect(
-      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
-    ).toEqual(
-      dateNow - (PATCH_FRUIT_SEEDS["Orange Seed"].plantSeconds * 1000) / 2,
-    );
-  });
-
-  it("records the back-date offset as boostedTime so the progress bar starts empty", () => {
-    const patchIndex = "1";
-
-    const state = plantFruit({
-      state: {
-        ...GAME_STATE,
-        bumpkin: INITIAL_BUMPKIN,
-        inventory: {
-          "Orange Seed": new Decimal(5),
-          "Squirrel Monkey": new Decimal(1),
-        },
-        season: {
-          season: "spring",
-          startedAt: 0,
-        },
-        collectibles: {
-          "Squirrel Monkey": [
-            {
-              coordinates: { x: 0, y: 0 },
-              createdAt: 0,
-              id: "123",
-              readyAt: 0,
-            },
-          ],
-        },
-      },
-      createdAt: dateNow,
-      action: {
-        type: "fruit.planted",
-        index: patchIndex,
-        seed: "Orange Seed",
-      },
-    });
-
-    const fruit = (state.fruitPatches as Record<number, FruitPatch>)[patchIndex]
-      .fruit!;
-    const offset = (PATCH_FRUIT_SEEDS["Orange Seed"].plantSeconds * 1000) / 2;
-
-    // The offset is the DISCOUNT, not growth already done: un-back-dating with
-    // it recovers the real plant time and the real (boosted) grow duration.
-    expect(fruit.boostedTime).toEqual(offset);
-    expect(fruit.plantedAt + fruit.boostedTime!).toEqual(dateNow);
-  });
-
   it("omits boostedTime when nothing boosts the grow time", () => {
     const patchIndex = "1";
 
@@ -493,12 +393,12 @@ describe("fruitPlanted", () => {
       },
     });
 
-    const fruitPatches = state.fruitPatches;
-
-    expect(
-      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
-    ).toEqual(
-      dateNow - (PATCH_FRUIT_SEEDS["Lemon Seed"].plantSeconds * 1000) / 2,
+    const fruit = (state.fruitPatches as Record<number, FruitPatch>)[patchIndex]
+      .fruit;
+    // Permanent boosts are baked into baseDurationMs; plantedAt is the real time.
+    expect(fruit?.plantedAt).toEqual(dateNow);
+    expect(fruit?.baseDurationMs).toEqual(
+      PATCH_FRUIT_SEEDS["Lemon Seed"].plantSeconds * 1000 * 0.5,
     );
   });
 
@@ -538,12 +438,12 @@ describe("fruitPlanted", () => {
       },
     });
 
-    const fruitPatches = state.fruitPatches;
-
-    expect(
-      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
-    ).toEqual(
-      dateNow - PATCH_FRUIT_SEEDS["Lemon Seed"].plantSeconds * 1000 * 0.25,
+    const fruit = (state.fruitPatches as Record<number, FruitPatch>)[patchIndex]
+      .fruit;
+    // Permanent boosts are baked into baseDurationMs; plantedAt is the real time.
+    expect(fruit?.plantedAt).toEqual(dateNow);
+    expect(fruit?.baseDurationMs).toEqual(
+      PATCH_FRUIT_SEEDS["Lemon Seed"].plantSeconds * 1000 * 0.75,
     );
   });
 
@@ -592,12 +492,12 @@ describe("fruitPlanted", () => {
       },
     });
 
-    const fruitPatches = state.fruitPatches;
-
-    expect(
-      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
-    ).toEqual(
-      dateNow - PATCH_FRUIT_SEEDS["Lemon Seed"].plantSeconds * 1000 * 0.625,
+    const fruit = (state.fruitPatches as Record<number, FruitPatch>)[patchIndex]
+      .fruit;
+    // Permanent boosts are baked into baseDurationMs; plantedAt is the real time.
+    expect(fruit?.plantedAt).toEqual(dateNow);
+    expect(fruit?.baseDurationMs).toEqual(
+      PATCH_FRUIT_SEEDS["Lemon Seed"].plantSeconds * 1000 * 0.375,
     );
   });
 
@@ -633,12 +533,12 @@ describe("fruitPlanted", () => {
       },
     });
 
-    const fruitPatches = state.fruitPatches;
-
-    expect(
-      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
-    ).toEqual(
-      dateNow - (PATCH_FRUIT_SEEDS["Tomato Seed"].plantSeconds * 1000) / 2,
+    const fruit = (state.fruitPatches as Record<number, FruitPatch>)[patchIndex]
+      .fruit;
+    // Permanent boosts are baked into baseDurationMs; plantedAt is the real time.
+    expect(fruit?.plantedAt).toEqual(dateNow);
+    expect(fruit?.baseDurationMs).toEqual(
+      PATCH_FRUIT_SEEDS["Tomato Seed"].plantSeconds * 1000 * 0.5,
     );
   });
 
@@ -674,12 +574,12 @@ describe("fruitPlanted", () => {
       },
     });
 
-    const fruitPatches = state.fruitPatches;
-
-    expect(
-      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
-    ).toEqual(
-      dateNow - PATCH_FRUIT_SEEDS["Tomato Seed"].plantSeconds * 1000 * 0.25,
+    const fruit = (state.fruitPatches as Record<number, FruitPatch>)[patchIndex]
+      .fruit;
+    // Permanent boosts are baked into baseDurationMs; plantedAt is the real time.
+    expect(fruit?.plantedAt).toEqual(dateNow);
+    expect(fruit?.baseDurationMs).toEqual(
+      PATCH_FRUIT_SEEDS["Tomato Seed"].plantSeconds * 1000 * 0.75,
     );
   });
 
@@ -724,12 +624,12 @@ describe("fruitPlanted", () => {
       },
     });
 
-    const fruitPatches = state.fruitPatches;
-
-    expect(
-      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.plantedAt,
-    ).toEqual(
-      dateNow - PATCH_FRUIT_SEEDS["Tomato Seed"].plantSeconds * 1000 * 0.625,
+    const fruit = (state.fruitPatches as Record<number, FruitPatch>)[patchIndex]
+      .fruit;
+    // Permanent boosts are baked into baseDurationMs; plantedAt is the real time.
+    expect(fruit?.plantedAt).toEqual(dateNow);
+    expect(fruit?.baseDurationMs).toEqual(
+      PATCH_FRUIT_SEEDS["Tomato Seed"].plantSeconds * 1000 * 0.375,
     );
   });
 
@@ -1016,47 +916,38 @@ describe("fruitPlanted", () => {
 });
 
 describe("getFruitTime", () => {
-  // Legacy baked-discount assertions (Orchard Hourglass / Turbofruit Mix are
-  // windowed under SPEED_BOOSTS); force the flag off. Windowed coverage lives in
-  // the "SPEED_BOOSTS speed windows" describe.
-  const originalNetwork = CONFIG.NETWORK;
-  beforeEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-  });
-  afterEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-  });
-
   it("applies 20% growth time reduction with Turbofruit Mix on the patch", () => {
     const seed = "Apple Seed";
-    const { seconds: base } = getFruitPatchTime(seed, TEST_FARM, Date.now());
+    const now = Date.now();
+    const { seconds: base } = getFruitPatchTime(seed, TEST_FARM, now);
     const { seconds: withTurbo } = getFruitPatchTime(
       seed,
       TEST_FARM,
-      Date.now(),
+      now,
       "Turbofruit Mix",
     );
-    expect(withTurbo / base).toBeCloseTo(0.8, 5);
-  });
+    // Windowed: the fertiliser is not baked into the grow time...
+    expect(withTurbo).toEqual(base);
 
-  it("getPlantedAt accounts for Turbofruit Mix fertiliser", () => {
-    const seed = "Apple Seed";
-    const { plantedAt } = getPlantedAt(
+    // ...it's a 1.25× window from fertilisedAt, i.e. 20% less time to grow.
+    const { plantedAt, baseDurationMs } = getPlantedAt(
       seed,
       TEST_FARM,
-      dateNow,
+      now,
       "Turbofruit Mix",
     );
-    const baseSeconds = getFruitPatchTime(seed, TEST_FARM, Date.now()).seconds;
-    const boostedSeconds = getFruitPatchTime(
-      seed,
+    const readyAt = getFruitReadyAt(
+      {
+        name: "Apple",
+        plantedAt,
+        harvestedAt: 0,
+        harvestsLeft: 3,
+        baseDurationMs,
+      },
       TEST_FARM,
-      Date.now(),
-      "Turbofruit Mix",
-    ).seconds;
-    const offset = PATCH_FRUIT_SEEDS[seed].plantSeconds - boostedSeconds;
-    expect(plantedAt).toEqual(dateNow - offset * 1000);
-    expect(boostedSeconds).toBeCloseTo(baseSeconds * 0.8, 5);
+      { name: "Turbofruit Mix", fertilisedAt: now },
+    );
+    expect((readyAt - now) / (base * 1000)).toBeCloseTo(0.8, 5);
   });
 
   it("applies a 50% speed boost with Squirrel Monkey placed for orange seeds", () => {
@@ -1243,24 +1134,40 @@ describe("getFruitTime", () => {
     const now = Date.now();
     const seed = "Banana Plant";
     const plantSeconds = PATCH_FRUIT_SEEDS[seed].plantSeconds;
-    const { seconds: time } = getFruitPatchTime(
-      seed,
-      {
-        ...TEST_FARM,
-        collectibles: {
-          "Orchard Hourglass": [
-            {
-              coordinates: { x: 0, y: 0 },
-              createdAt: now,
-              id: "123",
-              readyAt: now,
-            },
-          ],
-        },
+    const game: GameState = {
+      ...TEST_FARM,
+      collectibles: {
+        "Orchard Hourglass": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: now,
+            id: "123",
+            readyAt: now,
+          },
+        ],
       },
-      Date.now(),
-    );
-    expect(time).toEqual(plantSeconds * 0.75);
+    };
+    // Windowed: the hourglass is not baked into the grow time...
+    const { seconds: time } = getFruitPatchTime(seed, game, now);
+    expect(time).toEqual(plantSeconds);
+
+    // ...it's a 1.35× window; growth left after it accrues at 1×.
+    const { plantedAt, baseDurationMs } = getPlantedAt(seed, game, now);
+    const BASE_MS = plantSeconds * 1000;
+    const windowMs = getExpiryCooldown("Orchard Hourglass", TEST_FARM);
+    const workInWindow = Math.min(BASE_MS, windowMs * 1.35);
+    expect(
+      getFruitReadyAt(
+        {
+          name: "Banana",
+          plantedAt,
+          harvestedAt: 0,
+          harvestsLeft: 3,
+          baseDurationMs,
+        },
+        game,
+      ),
+    ).toBeCloseTo(now + workInWindow / 1.35 + (BASE_MS - workInWindow), 0);
   });
 
   it("does not apply a Orchard Hourglass boost if its expired", () => {
@@ -1530,14 +1437,6 @@ describe("getFruitTime", () => {
 });
 
 describe("plantFruit — SPEED_BOOSTS speed windows", () => {
-  const originalNetwork = CONFIG.NETWORK;
-  beforeEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
-  });
-  afterEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-  });
-
   const applePlantMs = PATCH_FRUIT_SEEDS["Apple Seed"].plantSeconds * 1000;
   const activePlacement = { id: "1", createdAt: dateNow, readyAt: dateNow };
 

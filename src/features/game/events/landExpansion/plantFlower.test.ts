@@ -7,11 +7,6 @@ import {
   FLOWER_CROSS_BREED_AMOUNTS,
   FLOWER_SEEDS,
 } from "features/game/types/flowers";
-import { CONFIG } from "lib/config";
-
-const setNetwork = (network: "mainnet" | "amoy") => {
-  (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = network;
-};
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -39,14 +34,6 @@ const GAME_STATE: GameState = {
 
 describe("plantFlower", () => {
   const dateNow = Date.now();
-
-  // These assert the LEGACY baked/back-dated model. FE jest runs on amoy where
-  // SPEED_BOOSTS is on (Blossom Hourglass / Moth Shrine become windowed, permanent
-  // boosts store baseDurationMs instead of back-dating), so force mainnet here.
-  // Windowed coverage lives in "plantFlower — SPEED_BOOSTS speed windows".
-  const originalNetwork = CONFIG.NETWORK;
-  beforeEach(() => setNetwork("mainnet"));
-  afterAll(() => setNetwork(originalNetwork));
 
   it("does not plant in a non-existent flower bed", () => {
     expect(() =>
@@ -293,42 +280,11 @@ describe("plantFlower", () => {
     });
 
     expect(state.inventory["Sunpetal Seed"]).toEqual(seedAmount.minus(1));
-    expect(state.flowers.flowerBeds[bedIndex].flower?.plantedAt).toEqual(
-      dateNow - (FLOWER_SEEDS["Sunpetal Seed"].plantSeconds * 1000) / 2,
+    const flower = state.flowers.flowerBeds[bedIndex].flower;
+    expect(flower?.plantedAt).toEqual(dateNow);
+    expect(flower?.baseDurationMs).toEqual(
+      (FLOWER_SEEDS["Sunpetal Seed"].plantSeconds * 1000) / 2,
     );
-  });
-
-  it("records the back-date offset as boostedTime so the progress bar starts empty", () => {
-    const bedIndex = "1";
-
-    const state = plantFlower({
-      state: {
-        ...GAME_STATE,
-        bumpkin: {
-          ...TEST_BUMPKIN,
-          equipped: { ...TEST_BUMPKIN.equipped, hat: "Flower Crown" },
-        },
-        inventory: {
-          "Sunpetal Seed": new Decimal(5),
-          Sunflower: new Decimal(100),
-        },
-      },
-      createdAt: dateNow,
-      action: {
-        type: "flower.planted",
-        id: bedIndex,
-        seed: "Sunpetal Seed",
-        crossbreed: "Sunflower",
-      },
-    });
-
-    const flower = state.flowers.flowerBeds[bedIndex].flower!;
-    const offset = (FLOWER_SEEDS["Sunpetal Seed"].plantSeconds * 1000) / 2;
-
-    // The offset is the DISCOUNT, not growth already done: un-back-dating with
-    // it recovers the real plant time and the real (boosted) grow duration.
-    expect(flower.boostedTime).toEqual(offset);
-    expect(flower.plantedAt + flower.boostedTime!).toEqual(dateNow);
   });
 
   it("omits boostedTime when nothing boosts the grow time", () => {
@@ -355,44 +311,6 @@ describe("plantFlower", () => {
 
     expect(flower.plantedAt).toEqual(dateNow);
     expect(flower.boostedTime).toBeUndefined();
-  });
-
-  it("reduces flower harvest time in 10% if Flower Fox is built ", () => {
-    const seedAmount = new Decimal(5);
-
-    const bedIndex = "1";
-
-    const state = plantFlower({
-      state: {
-        ...GAME_STATE,
-        inventory: {
-          "Sunpetal Seed": seedAmount,
-          Sunflower: new Decimal(100),
-        },
-        collectibles: {
-          "Flower Fox": [
-            {
-              coordinates: { x: 0, y: 0 },
-              createdAt: dateNow,
-              id: "1",
-              readyAt: 0,
-            },
-          ],
-        },
-      },
-      createdAt: dateNow,
-      action: {
-        type: "flower.planted",
-        id: bedIndex,
-        seed: "Sunpetal Seed",
-        crossbreed: "Sunflower",
-      },
-    });
-
-    expect(state.inventory["Sunpetal Seed"]).toEqual(seedAmount.minus(1));
-    expect(state.flowers.flowerBeds[bedIndex].flower?.plantedAt).toEqual(
-      dateNow - FLOWER_SEEDS["Sunpetal Seed"].plantSeconds * 1000 * 0.1,
-    );
   });
 
   it("reduces 55% flower harvest time if both Flower Fox and Flower Crown are present", () => {
@@ -432,8 +350,10 @@ describe("plantFlower", () => {
     });
 
     expect(state.inventory["Sunpetal Seed"]).toEqual(seedAmount.minus(1));
-    expect(state.flowers.flowerBeds[bedIndex].flower?.plantedAt).toEqual(
-      dateNow - FLOWER_SEEDS["Sunpetal Seed"].plantSeconds * 1000 * 0.55,
+    const flower = state.flowers.flowerBeds[bedIndex].flower;
+    expect(flower?.plantedAt).toEqual(dateNow);
+    expect(flower?.baseDurationMs).toEqual(
+      FLOWER_SEEDS["Sunpetal Seed"].plantSeconds * 1000 * 0.45,
     );
   });
 
@@ -467,39 +387,6 @@ describe("plantFlower", () => {
 });
 
 describe("getFlowerTime", () => {
-  // Legacy baked model (Blossom Hourglass applies at plant). FE jest runs on amoy
-  // where it's windowed instead, so force mainnet. Windowed coverage lives in
-  // "getFlowerTime — SPEED_BOOSTS".
-  const originalNetwork = CONFIG.NETWORK;
-  beforeEach(() => setNetwork("mainnet"));
-  afterAll(() => setNetwork(originalNetwork));
-
-  it("applies a Blossom Hourglass boost of -25% flower growth time for 4 hours", () => {
-    const now = Date.now();
-    const seed = "Bloom Seed";
-    const growSeconds = FLOWER_SEEDS[seed].plantSeconds;
-
-    const { seconds: time } = getFlowerTime(
-      seed,
-      {
-        ...GAME_STATE,
-        collectibles: {
-          "Blossom Hourglass": [
-            {
-              id: "1",
-              createdAt: now,
-              readyAt: now + 4 * 60 * 60 * 1000,
-              coordinates: { x: 0, y: 0 },
-            },
-          ],
-        },
-      },
-      Date.now(),
-    );
-
-    expect(time).toEqual(growSeconds * 0.75);
-  });
-
   it("does not apply a Blossom Hourglass boost if it has expired", () => {
     const now = Date.now();
     const fiveHoursAgo = now - 5 * 60 * 60 * 1000;
@@ -614,13 +501,6 @@ describe("getFlowerTime", () => {
 });
 
 describe("getFlowerTime — SPEED_BOOSTS", () => {
-  // Windowed model: the two temporary boosts (Blossom Hourglass + Moth Shrine's
-  // time half) are derived live from boost windows, so they're excluded from the
-  // baked time here; permanent boosts stay baked.
-  const originalNetwork = CONFIG.NETWORK;
-  beforeEach(() => setNetwork("amoy"));
-  afterAll(() => setNetwork(originalNetwork));
-
   const now = Date.now();
 
   it("excludes the Blossom Hourglass from the baked time (windowed)", () => {
@@ -703,9 +583,6 @@ describe("getFlowerTime — SPEED_BOOSTS", () => {
 
 describe("plantFlower — SPEED_BOOSTS speed windows", () => {
   const dateNow = Date.now();
-  const originalNetwork = CONFIG.NETWORK;
-  beforeEach(() => setNetwork("amoy"));
-  afterAll(() => setNetwork(originalNetwork));
 
   const baseState: GameState = {
     ...GAME_STATE,

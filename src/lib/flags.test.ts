@@ -41,10 +41,14 @@ describe("hasFeatureAccess", () => {
   // invoke feature-gated code with `{} as GameState` (no inventory). On mainnet
   // the beta flag must read inventory safely and return false, not crash.
   it("does not throw for a beta feature when the game has no inventory", () => {
-    expect(() =>
-      hasFeatureAccess({} as GameState, "SPEED_BOOSTS"),
-    ).not.toThrow();
-    expect(hasFeatureAccess({} as GameState, "SPEED_BOOSTS")).toBe(false);
+    expect(() => hasFeatureAccess({} as GameState, "JEST_TEST")).not.toThrow();
+    expect(hasFeatureAccess({} as GameState, "JEST_TEST")).toBe(false);
+  });
+
+  it("enables SPEED_BOOSTS for every farm on mainnet, without a Beta Pass", () => {
+    expect(TEST_FARM.inventory["Beta Pass"]).toBeUndefined();
+    expect(hasFeatureAccess(TEST_FARM, "SPEED_BOOSTS")).toBe(true);
+    expect(hasFeatureAccess({} as GameState, "SPEED_BOOSTS")).toBe(true);
   });
 });
 

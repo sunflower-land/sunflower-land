@@ -1,5 +1,4 @@
 import Decimal from "decimal.js-light";
-import { CONFIG } from "lib/config";
 import { TEST_FARM } from "features/game/lib/constants";
 import type { GameState } from "features/game/types/game";
 import {
@@ -125,22 +124,6 @@ describe("extendCollectible", () => {
         },
       }),
     ).toThrow("Collectible is not placed");
-  });
-
-  it("is gated behind the SPEED_BOOSTS flag", () => {
-    const originalNetwork = CONFIG.NETWORK;
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-
-    try {
-      expect(() =>
-        extend({
-          ...farmWithHourglass(now),
-          username: "not-a-team-member",
-        }),
-      ).toThrow("Collectible cannot be extended");
-    } finally {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-    }
   });
 
   it("cannot extend an unknown collectible", () => {

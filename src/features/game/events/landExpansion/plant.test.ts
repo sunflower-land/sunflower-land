@@ -1826,58 +1826,36 @@ describe("plant", () => {
     expect(crops[firstId].crop?.baseDurationMs).toBe(plantTime * 0.5);
   });
 
-  describe("SPEED_BOOSTS feature gate", () => {
-    const originalNetwork = CONFIG.NETWORK;
-    afterEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-    });
-
-    const plantSunflowerWithSparrow = () =>
-      plant({
-        state: {
-          ...GAME_STATE,
-          bumpkin: TEST_BUMPKIN,
-          inventory: { "Sunflower Seed": new Decimal(1) },
-          collectibles: {
-            "Sparrow Shrine": [
-              {
-                id: "1",
-                coordinates: { x: 3, y: 3 },
-                createdAt: dateNow,
-                readyAt: dateNow,
-              },
-            ],
-          },
+  it("plants with the speed-rate model when Sparrow Shrine is placed", () => {
+    const crop = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: TEST_BUMPKIN,
+        inventory: { "Sunflower Seed": new Decimal(1) },
+        collectibles: {
+          "Sparrow Shrine": [
+            {
+              id: "1",
+              coordinates: { x: 3, y: 3 },
+              createdAt: dateNow,
+              readyAt: dateNow,
+            },
+          ],
         },
-        createdAt: dateNow,
-        action: {
-          type: "seed.planted",
-          cropId: "123",
-          index: Object.keys(GAME_STATE.crops)[0],
-          item: "Sunflower Seed",
-        },
-      });
+      },
+      createdAt: dateNow,
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: Object.keys(GAME_STATE.crops)[0],
+        item: "Sunflower Seed",
+      },
+    }).crops[firstId].crop;
 
-    it("uses the speed-rate model when the flag is on (amoy)", () => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
-      const crop = plantSunflowerWithSparrow().crops[firstId].crop;
-
-      // True plant time + baseDurationMs (Sparrow excluded from the base).
-      expect(crop?.plantedAt).toBe(dateNow);
-      expect(crop?.baseDurationMs).toBe(CROPS.Sunflower.harvestSeconds * 1000);
-      expect(crop?.boostedTime).toBeUndefined();
-    });
-
-    it("falls back to legacy discount-at-start when the flag is off (mainnet)", () => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-      const crop = plantSunflowerWithSparrow().crops[firstId].crop;
-
-      // Sparrow folded in as ×0.75: back-dated plantedAt + boostedTime, no baseDurationMs.
-      const sunflowerTime = CROPS.Sunflower.harvestSeconds * 1000;
-      expect(crop?.baseDurationMs).toBeUndefined();
-      expect(crop?.boostedTime).toBe(sunflowerTime * 0.25);
-      expect(crop?.plantedAt).toBe(dateNow - sunflowerTime * 0.25);
-    });
+    // True plant time + baseDurationMs (Sparrow excluded from the base).
+    expect(crop?.plantedAt).toBe(dateNow);
+    expect(crop?.baseDurationMs).toBe(CROPS.Sunflower.harvestSeconds * 1000);
+    expect(crop?.boostedTime).toBeUndefined();
   });
 });
 

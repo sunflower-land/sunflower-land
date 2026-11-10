@@ -6,7 +6,6 @@ import {
 } from "features/game/lib/constants";
 import { prngChance } from "lib/prng";
 import { PATCH_FRUIT_SEEDS } from "features/game/types/fruits";
-import { CONFIG } from "lib/config";
 import type { GameState, FruitPatch } from "features/game/types/game";
 import { KNOWN_IDS } from "features/game/types";
 import {
@@ -42,17 +41,6 @@ const GAME_STATE: GameState = {
 
 describe("fruitHarvested", () => {
   const dateNow = Date.now();
-
-  // Legacy back-dated grow assertions; FE jest runs on amoy where SPEED_BOOSTS
-  // is on, so force the flag off here. Windowed coverage lives in its own
-  // describe below.
-  const originalNetwork = CONFIG.NETWORK;
-  beforeEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-  });
-  afterEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-  });
 
   describe("isFruitReadyToHarvest", () => {
     const appleSeed = PATCH_FRUIT_SEEDS["Apple Seed"];
@@ -305,7 +293,7 @@ describe("fruitHarvested", () => {
     expect(fruit?.harvestedAt).toEqual(dateNow);
   });
 
-  it("records the replenish back-date as boostedTime, replacing the grow phase's", () => {
+  it("drops the grow phase's boostedTime on replenish", () => {
     const { fruitPatches } = GAME_STATE;
     const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
 
@@ -349,12 +337,15 @@ describe("fruitHarvested", () => {
     });
 
     const fruit = state.fruitPatches?.[0].fruit;
-    const offset = (PATCH_FRUIT_SEEDS["Orange Seed"].plantSeconds * 1000) / 2;
 
-    // The replenish phase is back-dated by the Squirrel Monkey discount, so the
-    // bar needs THIS phase's offset — not the previous phase's leftover.
-    expect(fruit?.boostedTime).toEqual(offset);
-    expect(fruit!.harvestedAt + fruit!.boostedTime!).toEqual(dateNow);
+    // The windowed replenish starts a fresh progress bar: the previous phase's
+    // leftover is dropped and the Squirrel Monkey discount lives in
+    // baseDurationMs instead.
+    expect(fruit?.boostedTime).toBeUndefined();
+    expect(fruit?.harvestedAt).toEqual(dateNow);
+    expect(fruit?.baseDurationMs).toEqual(
+      PATCH_FRUIT_SEEDS["Orange Seed"].plantSeconds * 1000 * 0.5,
+    );
   });
 
   it("applies Lady Bug Boost", () => {
@@ -489,8 +480,11 @@ describe("fruitHarvested", () => {
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
     const fruit = fruitPatchesAfterHarvest?.[0].fruit;
 
-    expect(fruit?.harvestedAt).toEqual(
-      dateNow - (PATCH_FRUIT_SEEDS["Orange Seed"].plantSeconds * 1000) / 2,
+    // The legacy fruit replenishes on the windowed model: real harvestedAt +
+    // the permanent boost baked into baseDurationMs.
+    expect(fruit?.harvestedAt).toEqual(dateNow);
+    expect(fruit?.baseDurationMs).toEqual(
+      PATCH_FRUIT_SEEDS["Orange Seed"].plantSeconds * 1000 * 0.5,
     );
   });
 
@@ -538,8 +532,11 @@ describe("fruitHarvested", () => {
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
     const fruit = fruitPatchesAfterHarvest?.[0].fruit;
 
-    expect(fruit?.harvestedAt).toEqual(
-      dateNow - (PATCH_FRUIT_SEEDS["Lemon Seed"].plantSeconds * 1000) / 2,
+    // The legacy fruit replenishes on the windowed model: real harvestedAt +
+    // the permanent boost baked into baseDurationMs.
+    expect(fruit?.harvestedAt).toEqual(dateNow);
+    expect(fruit?.baseDurationMs).toEqual(
+      PATCH_FRUIT_SEEDS["Lemon Seed"].plantSeconds * 1000 * 0.5,
     );
   });
 
@@ -587,8 +584,11 @@ describe("fruitHarvested", () => {
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
     const fruit = fruitPatchesAfterHarvest?.[0].fruit;
 
-    expect(fruit?.harvestedAt).toEqual(
-      dateNow - PATCH_FRUIT_SEEDS["Lemon Seed"].plantSeconds * 1000 * 0.25,
+    // The legacy fruit replenishes on the windowed model: real harvestedAt +
+    // the permanent boost baked into baseDurationMs.
+    expect(fruit?.harvestedAt).toEqual(dateNow);
+    expect(fruit?.baseDurationMs).toEqual(
+      PATCH_FRUIT_SEEDS["Lemon Seed"].plantSeconds * 1000 * 0.75,
     );
   });
 
@@ -645,8 +645,11 @@ describe("fruitHarvested", () => {
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
     const fruit = fruitPatchesAfterHarvest?.[0].fruit;
 
-    expect(fruit?.harvestedAt).toEqual(
-      dateNow - PATCH_FRUIT_SEEDS["Lemon Seed"].plantSeconds * 1000 * 0.625,
+    // The legacy fruit replenishes on the windowed model: real harvestedAt +
+    // the permanent boost baked into baseDurationMs.
+    expect(fruit?.harvestedAt).toEqual(dateNow);
+    expect(fruit?.baseDurationMs).toEqual(
+      PATCH_FRUIT_SEEDS["Lemon Seed"].plantSeconds * 1000 * 0.375,
     );
   });
 
@@ -694,8 +697,11 @@ describe("fruitHarvested", () => {
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
     const fruit = fruitPatchesAfterHarvest?.[0].fruit;
 
-    expect(fruit?.harvestedAt).toEqual(
-      dateNow - (PATCH_FRUIT_SEEDS["Tomato Seed"].plantSeconds * 1000) / 2,
+    // The legacy fruit replenishes on the windowed model: real harvestedAt +
+    // the permanent boost baked into baseDurationMs.
+    expect(fruit?.harvestedAt).toEqual(dateNow);
+    expect(fruit?.baseDurationMs).toEqual(
+      PATCH_FRUIT_SEEDS["Tomato Seed"].plantSeconds * 1000 * 0.5,
     );
   });
 
@@ -743,8 +749,11 @@ describe("fruitHarvested", () => {
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
     const fruit = fruitPatchesAfterHarvest?.[0].fruit;
 
-    expect(fruit?.harvestedAt).toEqual(
-      dateNow - PATCH_FRUIT_SEEDS["Tomato Seed"].plantSeconds * 1000 * 0.25,
+    // The legacy fruit replenishes on the windowed model: real harvestedAt +
+    // the permanent boost baked into baseDurationMs.
+    expect(fruit?.harvestedAt).toEqual(dateNow);
+    expect(fruit?.baseDurationMs).toEqual(
+      PATCH_FRUIT_SEEDS["Tomato Seed"].plantSeconds * 1000 * 0.75,
     );
   });
 
@@ -801,8 +810,11 @@ describe("fruitHarvested", () => {
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
     const fruit = fruitPatchesAfterHarvest?.[0].fruit;
 
-    expect(fruit?.harvestedAt).toEqual(
-      dateNow - PATCH_FRUIT_SEEDS["Tomato Seed"].plantSeconds * 1000 * 0.625,
+    // The legacy fruit replenishes on the windowed model: real harvestedAt +
+    // the permanent boost baked into baseDurationMs.
+    expect(fruit?.harvestedAt).toEqual(dateNow);
+    expect(fruit?.baseDurationMs).toEqual(
+      PATCH_FRUIT_SEEDS["Tomato Seed"].plantSeconds * 1000 * 0.375,
     );
   });
 
@@ -1339,14 +1351,6 @@ describe("fruitHarvested", () => {
 });
 
 describe("harvestFruit — SPEED_BOOSTS speed windows", () => {
-  const originalNetwork = CONFIG.NETWORK;
-  beforeEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
-  });
-  afterEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-  });
-
   const appleMs = PATCH_FRUIT_SEEDS["Apple Seed"].plantSeconds * 1000;
 
   const withApplePatch = (
@@ -1477,55 +1481,5 @@ describe("harvestFruit — SPEED_BOOSTS speed windows", () => {
       farmId: 1,
     });
     expect(state.fruitPatches[0].fruit?.harvestsLeft).toBe(2);
-  });
-
-  it("keys off baseDurationMs even on mainnet (permanent per-fruit marker)", () => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-    const plantedAt = dateNow - appleMs / 2;
-    // Read path ignores the flag: a baseDurationMs fruit under a 2× totem is
-    // ready even with SPEED_BOOSTS off.
-    const ready = isFruitReadyToHarvest(
-      dateNow,
-      {
-        name: "Apple",
-        plantedAt,
-        harvestedAt: 0,
-        harvestsLeft: 3,
-        baseDurationMs: appleMs,
-      },
-      {
-        ...GAME_STATE,
-        collectibles: {
-          "Super Totem": [
-            {
-              id: "1",
-              coordinates: { x: 5, y: 5 },
-              createdAt: plantedAt,
-              readyAt: plantedAt,
-            },
-          ],
-        },
-      },
-    );
-    expect(ready).toBe(true);
-  });
-
-  it("keeps baseDurationMs on a flag-off replenish (windowed fruit stays windowed)", () => {
-    // Flag rolled back after the fruit was planted windowed: harvesting it must
-    // NOT silently revert it to legacy timing — the marker persists so remaining
-    // harvests stay on the windowed model.
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-    const state = harvestFruit({
-      state: withApplePatch({ plantedAt: dateNow - appleMs }),
-      action: { type: "fruit.harvested", index: "0" },
-      createdAt: dateNow,
-      farmId: 1,
-    });
-
-    const fruit = state.fruitPatches[0].fruit;
-    expect(fruit?.harvestsLeft).toBe(2);
-    expect(fruit?.baseDurationMs).toBe(appleMs);
-    // Real harvestedAt (not back-dated) — windowed replenish.
-    expect(fruit?.harvestedAt).toBe(dateNow);
   });
 });

@@ -23,18 +23,6 @@ import {
 import { getCookingTime } from "features/game/expansion/lib/boosts";
 import { CHAPTER_CROP_WEEK } from "features/game/types/chapterCropWeek";
 import { getCookingQueueReadyAts } from "features/game/lib/cookingReadiness";
-import { CONFIG } from "lib/config";
-
-/** Run `fn` as mainnet, where SPEED_BOOSTS is off without a Beta Pass. */
-const onMainnet = <T>(fn: () => T): T => {
-  const network = CONFIG.NETWORK;
-  (CONFIG as { NETWORK: string }).NETWORK = "mainnet";
-  try {
-    return fn();
-  } finally {
-    (CONFIG as { NETWORK: string }).NETWORK = network;
-  }
-};
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -272,43 +260,6 @@ describe("cook", () => {
         readyAt: expect.any(Number),
       }),
     );
-  });
-
-  it("subtracts oil from building when SPEED_BOOSTS is off", () => {
-    const state = onMainnet(() =>
-      cook({
-        state: {
-          ...GAME_STATE,
-          inventory: {
-            Egg: new Decimal(20),
-          },
-          buildings: {
-            "Fire Pit": [
-              {
-                coordinates: {
-                  x: 2,
-                  y: 3,
-                },
-                readyAt: 1000,
-                createdAt: 1000,
-                id: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
-                oil: 10,
-              },
-            ],
-          },
-        },
-        action: {
-          type: "recipe.cooked",
-          item: "Boiled Eggs",
-          buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
-        },
-        farmId: 1,
-        createdAt,
-      }),
-    );
-
-    const oilconsumed = getOilConsumption("Fire Pit", "Boiled Eggs");
-    expect(state.buildings["Fire Pit"]?.[0].oil).toEqual(10 - oilconsumed);
   });
 
   it("applies partial boost if not enough oil", () => {
@@ -1678,7 +1629,6 @@ describe("getOilConsumption", () => {
   });
 });
 
-// FE + BE jest run amoy, so SPEED_BOOSTS is ON by default here.
 describe("cook (SPEED_BOOSTS windowed)", () => {
   const HOUR = 60 * 60 * 1000;
   const EGG_MS = COOKABLES["Boiled Eggs"].cookingSeconds * 1000;
@@ -1987,39 +1937,6 @@ describe("cook (oil by the clock)", () => {
     ]?.[0];
 
     expect(firePit?.crafting?.[0].readyAt).toEqual(createdAt + EGG_MS);
-  });
-
-  it("keeps burning oil by the clock once converted, even with SPEED_BOOSTS off", () => {
-    const firePit = onMainnet(() =>
-      cookEggs(firePitFarm({ oilSettledAt: createdAt - 1000 })),
-    ).buildings["Fire Pit"]?.[0];
-
-    expect(firePit?.oil).toEqual(5);
-    expect(firePit?.crafting?.[0]).toMatchObject({
-      oilBoost: 0.2,
-      baseDurationMs: EGG_MS,
-      readyAt: createdAt + EGG_MS * 0.8,
-    });
-  });
-
-  it("leaves temporary boosts out of the duration on rollback, so they apply once", () => {
-    const firePit = onMainnet(() =>
-      cookEggs({
-        ...firePitFarm({ oilSettledAt: createdAt - 1000 }),
-        collectibles: {
-          "Legendary Shrine": [
-            {
-              id: "1",
-              coordinates: { x: 5, y: 5 },
-              createdAt: createdAt - 1000,
-              readyAt: createdAt - 1000,
-            },
-          ],
-        },
-      }),
-    ).buildings["Fire Pit"]?.[0];
-
-    expect(firePit?.crafting?.[0].baseDurationMs).toEqual(EGG_MS);
   });
 
   it("charges nothing for a recipe queued behind one that paid up front", () => {
