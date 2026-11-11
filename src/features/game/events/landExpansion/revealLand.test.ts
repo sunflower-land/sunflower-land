@@ -229,6 +229,27 @@ describe("revealLand", () => {
     expect(state.expansionConstruction).toBeUndefined();
   });
 
+  it("starts the land 5 Fire Pit on the oil ledger", () => {
+    const createdAt = Date.now();
+    const state = revealLand({
+      action: {
+        type: "land.revealed",
+      },
+      state: {
+        ...TEST_FARM,
+        inventory: { "Basic Land": new Decimal(4) },
+        buildings: {},
+        expansionConstruction: { createdAt: 0, readyAt: 0 },
+      },
+      createdAt,
+    });
+
+    expect(state.buildings["Fire Pit"]?.[0]).toMatchObject({
+      createdAt,
+      oilSettledAt: createdAt,
+    });
+  });
+
   it("adds basic land", () => {
     const now = Date.now();
     const state = revealLand({

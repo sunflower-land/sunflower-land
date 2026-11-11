@@ -21,7 +21,7 @@ import {
   pauseWindowedTimer,
 } from "features/game/lib/boostWindows";
 import { resumeCookingBuilding } from "features/game/lib/cookingReadiness";
-import { isCookingBuilding } from "./isCookingBuilding";
+import { getInitialOilLedger, isCookingBuilding } from "./isCookingBuilding";
 import { pauseCraftingQueue } from "features/game/lib/craftingReadiness";
 import { refreshCropMachineCaches } from "features/game/lib/cropMachineReadiness";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
@@ -293,6 +293,7 @@ export function placeBuilding({
       createdAt: createdAt,
       coordinates: action.coordinates,
       readyAt: createdAt,
+      ...getInitialOilLedger(action.name, createdAt),
     };
 
     mfTrack("building_placed", { building_type: action.name });
