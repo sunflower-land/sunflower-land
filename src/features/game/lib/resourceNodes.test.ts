@@ -8,7 +8,7 @@ import {
   getMineReadyAt,
   getUpgradeableNodes,
 } from "./resourceNodes";
-import { EXPIRY_COOLDOWNS, getExpiryCooldown } from "./collectibleBuilt";
+import { EXPIRY_COOLDOWNS } from "./collectibleBuilt";
 import { computeReadyAt, getMineBoostWindows } from "./boostWindows";
 
 const GAME_STATE: GameState = {
@@ -540,7 +540,7 @@ describe("resourceNodes", () => {
       // first 3h of recovery; once it expires the already-earned credit must persist
       // — readyAt stays at the boosted time and never reverts to the unboosted 8h.
       const minedAt = 1_000_000;
-      const oreWindow = getExpiryCooldown("Ore Hourglass", INITIAL_FARM);
+      const oreWindow = EXPIRY_COOLDOWNS["Ore Hourglass"];
       // Base outlasts the window (3×) so the 2× boost expires mid-recovery and the
       // tail accrues at 1× — the expired-window edge this test guards.
       const baseDurationMs = oreWindow * 3;
@@ -576,35 +576,6 @@ describe("resourceNodes", () => {
       expect(
         canMine(rock, "Iron Rock", game, minedAt + 2 * oreWindow + 1),
       ).toBe(true);
-    });
-
-    it("honors baseDurationMs even with SPEED_BOOSTS off (keys off the field, not the flag)", () => {
-      // FE jest runs with SPEED_BOOSTS (testnetFeatureFlag) OFF by default, yet the
-      // read path keys off the permanent baseDurationMs marker, so a windowed rock
-      // keeps windowed timing regardless of the flag.
-      const minedAt = 1_000_000;
-      const baseDurationMs = 4 * HOUR;
-      const rock: Rock = {
-        createdAt: Date.now(),
-        stone: { minedAt, baseDurationMs },
-        x: 1,
-        y: 1,
-      };
-
-      const boostedGame: GameState = {
-        ...INITIAL_FARM,
-        collectibles: {
-          ...INITIAL_FARM.collectibles,
-          "Super Totem": [
-            { id: "1", coordinates: { x: 0, y: 0 }, createdAt: minedAt },
-          ],
-        },
-      };
-
-      // Still windowed (2×) → 2h, not the legacy STONE_RECOVERY_TIME path.
-      expect(getMineReadyAt(rock, "Stone Rock", boostedGame)).toEqual(
-        minedAt + baseDurationMs / 2,
-      );
     });
 
     it("canMine delegates to getMineReadyAt (now > readyAt)", () => {

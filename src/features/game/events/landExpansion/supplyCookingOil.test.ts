@@ -2,7 +2,6 @@ import type { GameState, PlacedItem } from "features/game/types/game";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { supplyCookingOil } from "./supplyCookingOil";
 import Decimal from "decimal.js-light";
-import { CONFIG } from "lib/config";
 
 const GAME_STATE: GameState = { ...TEST_FARM, bumpkin: INITIAL_BUMPKIN };
 
@@ -198,8 +197,6 @@ describe("supplyCookingOil", () => {
   });
 
   it("throws if supplying more oil to Deli the building capacity", () => {
-    const network = CONFIG.NETWORK;
-    (CONFIG as { NETWORK: string }).NETWORK = "mainnet";
     expect(() =>
       supplyCookingOil({
         state: {
@@ -228,7 +225,6 @@ describe("supplyCookingOil", () => {
         createdAt: Date.now(),
       }),
     ).toThrow("Oil capacity exceeded");
-    (CONFIG as { NETWORK: string }).NETWORK = network;
   });
 });
 
@@ -367,31 +363,6 @@ describe("supplyCookingOil (oil by the clock)", () => {
     // 3h of cooking at 20 a day burned 2.5.
     expect(deli?.oil).toBeCloseTo(18.5);
     expect(deli?.oilSettledAt).toEqual(now + 3 * HOUR);
-  });
-
-  it("does not fill a lifted building with SPEED_BOOSTS off either", () => {
-    const network = CONFIG.NETWORK;
-    (CONFIG as { NETWORK: string }).NETWORK = "mainnet";
-    expect(() =>
-      supply(
-        {
-          ...deliFarm(),
-          buildings: {
-            Deli: [
-              {
-                id: "2",
-                coordinates: { x: 0, y: 0 },
-                createdAt: 0,
-                readyAt: 0,
-              },
-              { id: "1", createdAt: 0, readyAt: 0, removedAt: now - HOUR },
-            ],
-          },
-        },
-        1,
-      ),
-    ).toThrow("Building does not exist");
-    (CONFIG as { NETWORK: string }).NETWORK = network;
   });
 
   it("does not fill a lifted building", () => {

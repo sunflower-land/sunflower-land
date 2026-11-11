@@ -1,9 +1,6 @@
 import Decimal from "decimal.js-light";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
-import {
-  EXPIRY_COOLDOWNS,
-  getExpiryCooldown,
-} from "features/game/lib/collectibleBuilt";
+import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { INITIAL_FARM, TREE_RECOVERY_TIME } from "features/game/lib/constants";
 import { KNOWN_IDS } from "features/game/types";
 import type { GameState, Tree } from "features/game/types/game";
@@ -1166,7 +1163,7 @@ describe("chop", () => {
 
     // The totem is a 2× window, not folded into baseDurationMs.
     const BASE_MS = TREE_RECOVERY_TIME * 1000;
-    const windowMs = getExpiryCooldown("Time Warp Totem", INITIAL_FARM);
+    const windowMs = EXPIRY_COOLDOWNS["Time Warp Totem"];
     const workInWindow = Math.min(BASE_MS, windowMs * 2);
     expect(time).toEqual(now);
     expect(baseDurationMs).toEqual(BASE_MS);
@@ -1200,7 +1197,7 @@ describe("chop", () => {
 
     // The totem is a 2× window, not folded into baseDurationMs.
     const BASE_MS = TREE_RECOVERY_TIME * 1000;
-    const windowMs = getExpiryCooldown("Super Totem", INITIAL_FARM);
+    const windowMs = EXPIRY_COOLDOWNS["Super Totem"];
     const workInWindow = Math.min(BASE_MS, windowMs * 2);
     expect(time).toEqual(now);
     expect(baseDurationMs).toEqual(BASE_MS);
@@ -1243,7 +1240,7 @@ describe("chop", () => {
     // Apprentice Beaver (permanent) halves baseDurationMs; the totem is a 2×
     // window on top, so the recovery stays positive.
     const BASE_MS = TREE_RECOVERY_TIME * 1000 * 0.5;
-    const windowMs = getExpiryCooldown("Time Warp Totem", INITIAL_FARM);
+    const windowMs = EXPIRY_COOLDOWNS["Time Warp Totem"];
     const workInWindow = Math.min(BASE_MS, windowMs * 2);
     expect(time).toEqual(now);
     expect(baseDurationMs).toEqual(BASE_MS);
@@ -1570,7 +1567,7 @@ describe("chop", () => {
   });
 });
 
-describe("chop — SPEED_BOOSTS speed windows", () => {
+describe("chop — speed windows", () => {
   const farmId = 1;
   const ONE_HOUR = 60 * 60 * 1000;
   const BASE_MS = TREE_RECOVERY_TIME * 1000;
@@ -1770,10 +1767,7 @@ describe("chop — SPEED_BOOSTS speed windows", () => {
 // depends only on (farmId, itemId, counter, criticalHitName) and `chance` is just
 // the threshold, we locate a genuine boundary counter where the higher rank's
 // chance procs but the lower rank's does not (same technique as the Golden
-// Sunflower tests in harvest.test.ts). The rank is read regardless of the
-// SPEED_BOOSTS flag, and every function exercised here (getWoodDropAmount,
-// getReward, getTreeRecoveryTimeForDisplay's Tree Charge/Tree Turnaround
-// branches) is flag-independent, so no NETWORK juggling is required.
+// Sunflower tests in harvest.test.ts).
 describe("chop — Trees skill rank upgrades", () => {
   const farmId = 1;
   const itemId = KNOWN_IDS["Tree"];
@@ -1826,7 +1820,6 @@ describe("chop — Trees skill rank upgrades", () => {
   describe("Tree Charge — recovery-time multiplier per rank", () => {
     const recoveryAtRank = (rank: number) =>
       getTreeRecoveryTimeForDisplay({
-        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           bumpkin: { ...TEST_BUMPKIN, skills: { "Tree Charge": rank } },
@@ -2079,7 +2072,6 @@ describe("chop — Trees skill rank upgrades", () => {
     // recovery (recoveryTimeMs = 0); otherwise the base recovery applies.
     const recoveryAtRank = (rank: number, counter: number) =>
       getTreeRecoveryTimeForDisplay({
-        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           bumpkin: { ...TEST_BUMPKIN, skills: { "Tree Turnaround": rank } },

@@ -586,7 +586,7 @@ describe("drillOilReserve", () => {
     );
   });
 
-  describe("SPEED_BOOSTS (windowed)", () => {
+  describe("windowed", () => {
     const HOUR = 60 * 60 * 1000;
     const BASE_MS = OIL_RESERVE_RECOVERY_TIME * 1000;
 
@@ -842,7 +842,6 @@ describe("drillOilReserve", () => {
         [3, 0.6],
       ])("rank %i => x%f recovery time", (rank, mult) => {
         const { recoveryTimeMs } = getOilRecoveryTimeForDisplay({
-          now: Date.now(),
           game: {
             ...TEST_FARM,
             bumpkin: {

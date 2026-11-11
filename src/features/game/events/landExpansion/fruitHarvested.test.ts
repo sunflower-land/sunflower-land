@@ -1350,7 +1350,7 @@ describe("fruitHarvested", () => {
   });
 });
 
-describe("harvestFruit — SPEED_BOOSTS speed windows", () => {
+describe("harvestFruit — speed windows", () => {
   const appleMs = PATCH_FRUIT_SEEDS["Apple Seed"].plantSeconds * 1000;
 
   const withApplePatch = (

@@ -183,7 +183,7 @@ describe("fertiliseGreenhouse", () => {
   });
 });
 
-describe("fertiliseGreenhouse under SPEED_BOOSTS (windowed)", () => {
+describe("fertiliseGreenhouse (windowed)", () => {
   const plantRice = (state: GameState, createdAt: number): GameState =>
     plantGreenhouse({
       state,

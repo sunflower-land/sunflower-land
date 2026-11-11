@@ -163,12 +163,6 @@ const FEATURE_FLAGS = {
   MODERATOR: (game) =>
     !!((game.wardrobe.Halo ?? 0) > 0) && !!game.inventory["Beta Pass"]?.gt(0),
 
-  // Speed-rate (Clash-of-Clans potion) model for time-based boosts. Released to
-  // every farm: timers store baseDurationMs + a true start time instead of
-  // discounting at start. One-way — never switch it back off once farms have
-  // been migrated (the BE's `migrateSpeedBoosts`).
-  SPEED_BOOSTS: () => true,
-
   // Admin testers (Gift Giver + Beta Pass, or testnet) can buy, grow, cook and
   // trade the Chapter Crop Week items before CHAPTER_CROP_WEEK.startDate so the
   // run can be tested on mainnet. Everyone else waits for the event window —

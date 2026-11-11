@@ -51,7 +51,7 @@ function getGrowingCropPackStage(
   item: CropMachineQueueItem & { startTime: number },
   now: number,
 ): CropMachineGrowingStage {
-  // A windowed pack (SPEED_BOOSTS) finishes at its DERIVED readyAt, which under
+  // A windowed pack (speed-rate model) finishes at its DERIVED readyAt, which under
   // a boost arrives sooner than startTime + totalGrowTime — so its stages are
   // thirds of the real wall-clock interval, not of the base grow time (art
   // only; readiness is decided by readyAt either way).

@@ -845,7 +845,7 @@ describe("plant", () => {
         expect(time).toEqual(60);
       });
 
-      it("does not bake the Time Warp Totem into the plot time under SPEED_BOOSTS", () => {
+      it("does not bake the Time Warp Totem into the plot time", () => {
         const now = Date.now();
 
         const { time } = getCropPlotTime({
@@ -871,7 +871,7 @@ describe("plant", () => {
         // Windowed (2×) for plot crops, so the base time is unchanged here.
         expect(time).toEqual(60);
       });
-      it("does not bake the Super Totem into the plot time under SPEED_BOOSTS", () => {
+      it("does not bake the Super Totem into the plot time", () => {
         const now = Date.now();
 
         const { time } = getCropPlotTime({
@@ -946,7 +946,7 @@ describe("plant", () => {
       expect(time).toEqual(60 * 60);
     });
 
-    it("does not bake Rapid Root into the plot time under SPEED_BOOSTS", () => {
+    it("does not bake Rapid Root into the plot time", () => {
       const { time } = getCropPlotTime({
         crop: "Carrot",
         game: FARM_WITH_PLOTS,
@@ -962,7 +962,7 @@ describe("plant", () => {
       expect(time).toEqual(60 * 60);
     });
 
-    it("does not bake Sproutroot Surprise into the plot time under SPEED_BOOSTS", () => {
+    it("does not bake Sproutroot Surprise into the plot time", () => {
       const { time } = getCropPlotTime({
         crop: "Carrot",
         game: FARM_WITH_PLOTS,
@@ -1370,7 +1370,7 @@ describe("plant", () => {
       expect(time).toEqual(baseHarvestSeconds * 0.5);
     });
 
-    it("does not reduce the base plot time for Harvest Hourglass under SPEED_BOOSTS (applied as a speed window)", () => {
+    it("does not reduce the base plot time for Harvest Hourglass (applied as a speed window)", () => {
       const dateNow = Date.now();
       const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
 
@@ -1396,13 +1396,12 @@ describe("plant", () => {
       expect(time).toEqual(baseHarvestSeconds);
     });
 
-    it("excludes the Harvest Hourglass from greenhouse crops under SPEED_BOOSTS (windowed)", () => {
+    it("excludes the Harvest Hourglass from greenhouse crops (windowed)", () => {
       const dateNow = Date.now();
 
       // Greenhouse crops joined the windowed model: the hourglass applies live
       // via getGreenhouseBoostWindows, so it's no longer baked here either.
       const { multiplier, boostsUsed } = getCropTime({
-        now: Date.now(),
         crop: "Rice",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1426,7 +1425,7 @@ describe("plant", () => {
       });
     });
 
-    it("does not reduce the base plot time for a totem under SPEED_BOOSTS (applied as a speed window)", () => {
+    it("does not reduce the base plot time for a totem (applied as a speed window)", () => {
       const dateNow = Date.now();
       const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
 
@@ -1452,11 +1451,10 @@ describe("plant", () => {
       expect(time).toEqual(baseHarvestSeconds);
     });
 
-    it("excludes the totems from greenhouse crops under SPEED_BOOSTS (windowed)", () => {
+    it("excludes the totems from greenhouse crops (windowed)", () => {
       const dateNow = Date.now();
 
       const { multiplier, boostsUsed } = getCropTime({
-        now: Date.now(),
         crop: "Rice",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1669,7 +1667,7 @@ describe("plant", () => {
       expect(time).toEqual(baseHarvestSeconds);
     });
 
-    it("does not reduce the base plot time for Sunshower under SPEED_BOOSTS (applied as a speed window)", () => {
+    it("does not reduce the base plot time for Sunshower (applied as a speed window)", () => {
       const baseHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
       const { time } = getCropPlotTime({
         crop: "Sunflower",

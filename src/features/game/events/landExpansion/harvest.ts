@@ -116,12 +116,10 @@ export const isWinterCrop = (
  * plus any per-plot fertiliser (Rapid Root / Sproutroot Surprise) window; legacy
  * crops use their back-dated `plantedAt` + base grow time.
  *
- * Branching on `baseDurationMs` — NOT the `SPEED_BOOSTS` flag — is intentional:
- * the marker makes a crop permanently speed-rate, so it keeps windowed timing
- * (and its baked permanent boosts) even if the flag is rolled back, matching every
- * other windowed activity. The fertiliser windows are merged unconditionally here
- * for the same reason as the collectible windows; only the plant / fertilise WRITE
- * paths gate on the flag.
+ * Branching on `baseDurationMs` is intentional: the marker makes a crop
+ * permanently speed-rate, while legacy-shaped crops still use the old timing,
+ * matching every other windowed activity. The fertiliser windows are merged
+ * unconditionally here for the same reason as the collectible windows.
  */
 export const getCropReadyAt = (
   plantedCrop: PlantedCrop,

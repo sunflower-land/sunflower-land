@@ -492,7 +492,7 @@ describe("supplyCropMachineOil", () => {
   });
 });
 
-describe("supplyCropMachineOil (windowed SPEED_BOOSTS)", () => {
+describe("supplyCropMachineOil (windowed)", () => {
   const now = Date.now();
   const HOUR = 60 * 60 * 1000;
 

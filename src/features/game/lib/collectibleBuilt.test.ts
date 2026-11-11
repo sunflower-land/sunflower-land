@@ -1,7 +1,6 @@
 import {
   isTemporaryCollectibleActive,
   isCollectibleBuilt,
-  getExpiryCooldown,
   EXPIRY_COOLDOWNS,
 } from "./collectibleBuilt";
 import { TEST_FARM } from "./constants";
@@ -143,7 +142,7 @@ describe("isCollectibleBuilt", () => {
               {
                 id: "123",
                 coordinates: { x: 1, y: 1 },
-                // Older than the (flag-on) Time Warp Totem window so it reads as expired.
+                // Older than the Time Warp Totem window so it reads as expired.
                 createdAt: Date.now() - 5 * 60 * 60 * 1000,
                 readyAt: Date.now() + 10000,
               },
@@ -278,33 +277,17 @@ describe("Super Totem Built", () => {
   });
 });
 
-describe("getExpiryCooldown", () => {
-  it("returns the rebalanced durations under SPEED_BOOSTS", () => {
-    expect(getExpiryCooldown("Harvest Hourglass", TEST_FARM)).toBe(
-      9 * 60 * 60 * 1000,
-    );
-    expect(getExpiryCooldown("Ore Hourglass", TEST_FARM)).toBe(
-      5 * 60 * 60 * 1000,
-    );
-    expect(getExpiryCooldown("Orchard Hourglass", TEST_FARM)).toBe(
-      8 * 60 * 60 * 1000,
-    );
-    expect(getExpiryCooldown("Blossom Hourglass", TEST_FARM)).toBe(
-      12 * 60 * 60 * 1000,
-    );
-    expect(getExpiryCooldown("Gourmet Hourglass", TEST_FARM)).toBe(
-      6 * 60 * 60 * 1000,
-    );
-    expect(getExpiryCooldown("Time Warp Totem", TEST_FARM)).toBe(
-      4 * 60 * 60 * 1000,
-    );
+describe("EXPIRY_COOLDOWNS", () => {
+  it("pins the boost durations", () => {
+    expect(EXPIRY_COOLDOWNS["Harvest Hourglass"]).toBe(9 * 60 * 60 * 1000);
+    expect(EXPIRY_COOLDOWNS["Ore Hourglass"]).toBe(5 * 60 * 60 * 1000);
+    expect(EXPIRY_COOLDOWNS["Orchard Hourglass"]).toBe(8 * 60 * 60 * 1000);
+    expect(EXPIRY_COOLDOWNS["Blossom Hourglass"]).toBe(12 * 60 * 60 * 1000);
+    expect(EXPIRY_COOLDOWNS["Gourmet Hourglass"]).toBe(6 * 60 * 60 * 1000);
+    expect(EXPIRY_COOLDOWNS["Time Warp Totem"]).toBe(4 * 60 * 60 * 1000);
 
-    // Unchanged boosters fall through to the legacy value.
-    expect(getExpiryCooldown("Timber Hourglass", TEST_FARM)).toBe(
-      EXPIRY_COOLDOWNS["Timber Hourglass"],
-    );
-    expect(getExpiryCooldown("Sparrow Shrine", TEST_FARM)).toBe(
-      EXPIRY_COOLDOWNS["Sparrow Shrine"],
-    );
+    // Unchanged boosters keep their original durations.
+    expect(EXPIRY_COOLDOWNS["Timber Hourglass"]).toBe(4 * 60 * 60 * 1000);
+    expect(EXPIRY_COOLDOWNS["Sparrow Shrine"]).toBe(7 * 24 * 60 * 60 * 1000);
   });
 });

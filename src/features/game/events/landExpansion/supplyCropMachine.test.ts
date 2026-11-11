@@ -1874,7 +1874,6 @@ describe("calculateCropTime", () => {
     const { milliSeconds: result } = calculateCropTime(
       { type: "Sunflower Seed", amount: 10 },
       GAME_STATE,
-      Date.now(),
     );
     expect(result).toBe((60 * 10 * 1000) / CROP_MACHINE_PLOTS(GAME_STATE));
   });
@@ -1891,7 +1890,6 @@ describe("calculateCropTime", () => {
           },
         },
       },
-      Date.now(),
     );
 
     expect(result).toBe(
@@ -1911,7 +1909,6 @@ describe("calculateCropTime", () => {
           },
         },
       },
-      Date.now(),
     );
 
     expect(result).toBe(
@@ -1935,7 +1932,6 @@ describe("calculateCropTime", () => {
           ],
         },
       },
-      Date.now(),
     );
 
     expect(result).toBe(
@@ -1943,37 +1939,7 @@ describe("calculateCropTime", () => {
     );
   });
 
-  it("reduces crop machine growth time by 10% with an active Tortoise Shrine (legacy baked)", () => {
-    const at = Date.now();
-    const { milliSeconds: result, boostUsed } = calculateCropTime(
-      { type: "Sunflower Seed", amount: 10 },
-      {
-        ...GAME_STATE,
-        collectibles: {
-          "Tortoise Shrine": [
-            {
-              coordinates: { x: 0, y: 0 },
-              createdAt: at,
-              readyAt: 0,
-              id: "0",
-            },
-          ],
-        },
-      },
-      at,
-    );
-
-    expect(result).toBe(
-      (60 * 10 * 1000 * 0.9) / CROP_MACHINE_PLOTS(GAME_STATE),
-    );
-    expect(boostUsed).toContainEqual({
-      name: "Tortoise Shrine",
-      value: "x0.9",
-    });
-  });
-
   it("does not reduce growth time with an expired Tortoise Shrine", () => {
-    const at = Date.now();
     const { milliSeconds: result, boostUsed } = calculateCropTime(
       { type: "Sunflower Seed", amount: 10 },
       {
@@ -1989,7 +1955,6 @@ describe("calculateCropTime", () => {
           ],
         },
       },
-      at,
     );
 
     expect(result).toBe((60 * 10 * 1000) / CROP_MACHINE_PLOTS(GAME_STATE));
@@ -2011,7 +1976,6 @@ describe("calculateCropTime", () => {
           },
         },
       },
-      Date.now(),
     );
 
     expect(result).toBe(
@@ -2163,7 +2127,6 @@ describe("Machinery skill upgrades (ranks)", () => {
       const { milliSeconds } = calculateCropTime(
         { type: "Sunflower Seed", amount: 10 },
         withSkills({ "Crop Processor Unit": rank }),
-        Date.now(),
       );
       expect(milliSeconds).toBe(
         (60 * 10 * 1000 * mult) / CROP_MACHINE_PLOTS(GAME_STATE),
@@ -2181,7 +2144,6 @@ describe("Machinery skill upgrades (ranks)", () => {
       const { milliSeconds } = calculateCropTime(
         { type: "Sunflower Seed", amount: 10 },
         withSkills({ "Rapid Rig": rank }),
-        Date.now(),
       );
       expect(milliSeconds).toBe(
         (60 * 10 * 1000 * mult) / CROP_MACHINE_PLOTS(GAME_STATE),
@@ -2202,7 +2164,6 @@ describe("Machinery skill upgrades (ranks)", () => {
     const { milliSeconds } = calculateCropTime(
       { type: "Sunflower Seed", amount: 10 },
       state,
-      Date.now(),
     );
     expect(milliSeconds).toBeCloseTo(
       (60 * 10 * 1000 * 0.85 * 0.6) / CROP_MACHINE_PLOTS(GAME_STATE),
@@ -2211,7 +2172,7 @@ describe("Machinery skill upgrades (ranks)", () => {
   });
 });
 
-describe("supplyCropMachine (windowed SPEED_BOOSTS)", () => {
+describe("supplyCropMachine (windowed)", () => {
   const now = Date.now();
   const HOUR = 60 * 60 * 1000;
   // 10 Sunflower Seeds over 10 plots = 60s of work.
@@ -2294,7 +2255,7 @@ describe("supplyCropMachine (windowed SPEED_BOOSTS)", () => {
     expect(pack?.growTimeRemaining).toBe(0);
   });
 
-  it("converts a legacy machine atomically on a flag-on supply, reclaiming earmarks into the tank", () => {
+  it("converts a legacy machine atomically on supply, reclaiming earmarks into the tank", () => {
     const state = supplyCropMachine({
       state: stateWithMachine({
         unallocatedOilTime: 0,

@@ -12,13 +12,7 @@ import {
   isCookable,
   isPrimeAgedFish,
 } from "features/game/types/consumables";
-import {
-  getCollectibleExpiry,
-  getCollectiblesAcrossLocations,
-  isTemporaryCollectibleActive,
-  isCollectibleBuilt,
-  type TemporaryCollectibleName,
-} from "features/game/lib/collectibleBuilt";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { getBudExperienceBoosts } from "features/game/lib/getBudExperienceBoosts";
 import {
   getAscensionLevel,
@@ -33,7 +27,6 @@ import {
 } from "features/game/lib/factions";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { setPrecision } from "lib/utils/formatNumber";
-import { hasFeatureAccess } from "lib/flags";
 
 const crops = CROPS;
 
@@ -141,60 +134,14 @@ export const hasSellBoost = (inventory: Inventory) => {
   return false;
 };
 
-const applyTempCollectibleBoost = ({
-  seconds,
-  cookStartAt,
-  collectibleName,
-  game,
-  boostValue,
-}: {
-  seconds: Decimal;
-  cookStartAt: number;
-  collectibleName: TemporaryCollectibleName;
-  game: GameState;
-  boostValue: number;
-}) => {
-  const active = isTemporaryCollectibleActive({
-    name: collectibleName,
-    game,
-    now: cookStartAt,
-  });
-  if (!active) return seconds;
-
-  const activeItems = getCollectiblesAcrossLocations(
-    game,
-    collectibleName,
-  ).filter((item) => item.coordinates && !item.removedAt);
-  if (activeItems.length === 0) return seconds;
-
-  const newestItem = activeItems.sort((a, b) => b.createdAt! - a.createdAt!)[0];
-  const expiresAt = getCollectibleExpiry({
-    name: collectibleName,
-    collectible: newestItem,
-    game,
-  });
-
-  if (expiresAt <= cookStartAt) return seconds;
-
-  return new Decimal(seconds.toNumber() * boostValue);
-};
-
 export const getCookingTime = ({
   seconds,
   item,
   game,
-  cookStartAt = Date.now(),
-  windowed,
 }: {
   seconds: number;
   item: CookableName;
   game: GameState;
-  cookStartAt?: number;
-  /**
-   * The recipe runs under the speed-rate model regardless of the flag — a
-   * clock-drain building stays windowed after a SPEED_BOOSTS rollback.
-   */
-  windowed?: boolean;
 }): {
   reducedSecs: number;
   boostsUsed: { name: BoostName; value: string }[];
@@ -202,12 +149,11 @@ export const getCookingTime = ({
   const { bumpkin } = game;
   const buildingName = COOKABLES[item].building;
 
-  // Under SPEED_BOOSTS the temporary cook-time boosts (the two totems, Gourmet
-  // Hourglass, Legendary Shrine, Boar Shrine) are windowed speeds applied live by
+  // The temporary cook-time boosts (the two totems, Gourmet Hourglass, Legendary
+  // Shrine, Boar Shrine) are windowed speeds applied live by
   // `getCookingQueueReadyAts`, so they must NOT be baked in here — what this
   // returns becomes the recipe's `baseDurationMs` (permanent boosts only). They
   // are likewise excluded from `boostsUsed`, matching every other slice.
-  const boostsWindowed = windowed ?? hasFeatureAccess(game, "SPEED_BOOSTS");
 
   let reducedSecs = new Decimal(seconds);
   const boostsUsed: { name: BoostName; value: string }[] = [];
@@ -221,31 +167,6 @@ export const getCookingTime = ({
   if (isWearableActive({ name: "Master Chef's Cleaver", game })) {
     reducedSecs = reducedSecs.mul(0.85);
     boostsUsed.push({ name: "Master Chef's Cleaver", value: "x0.85" });
-  }
-
-  // Legendary Shrine - 50% reduction
-  if (
-    !boostsWindowed &&
-    isTemporaryCollectibleActive({
-      name: "Legendary Shrine",
-      game,
-      now: cookStartAt,
-    })
-  ) {
-    reducedSecs = reducedSecs.mul(0.5);
-    boostsUsed.push({ name: "Legendary Shrine", value: "x0.5" });
-  }
-
-  if (
-    !boostsWindowed &&
-    isTemporaryCollectibleActive({
-      name: "Boar Shrine",
-      game,
-      now: cookStartAt,
-    })
-  ) {
-    reducedSecs = reducedSecs.mul(0.8);
-    boostsUsed.push({ name: "Boar Shrine", value: "x0.8" });
   }
 
   //Faction Medallion -25% reduction
@@ -262,60 +183,6 @@ export const getCookingTime = ({
       name: FACTION_ITEMS[factionName].necklace,
       value: "x0.75",
     });
-  }
-
-  // Totems do not stack - apply either Super Totem or Time Warp Totem boost
-  const hasSuperTotem = isTemporaryCollectibleActive({
-    name: "Super Totem",
-    game,
-    now: cookStartAt,
-  });
-  const hasTimeWarpTotem = isTemporaryCollectibleActive({
-    name: "Time Warp Totem",
-    game,
-    now: cookStartAt,
-  });
-  const hasActiveTotem = hasSuperTotem || hasTimeWarpTotem;
-
-  if (!boostsWindowed && hasActiveTotem) {
-    const totemType = isTemporaryCollectibleActive({
-      name: "Super Totem",
-      game,
-      now: cookStartAt,
-    })
-      ? "Super Totem"
-      : "Time Warp Totem";
-
-    reducedSecs = applyTempCollectibleBoost({
-      seconds: reducedSecs,
-      cookStartAt,
-      collectibleName: totemType,
-      game,
-      boostValue: 0.5,
-    });
-    if (hasSuperTotem) {
-      boostsUsed.push({ name: "Super Totem", value: "x0.5" });
-    } else if (hasTimeWarpTotem) {
-      boostsUsed.push({ name: "Time Warp Totem", value: "x0.5" });
-    }
-  }
-
-  if (
-    !boostsWindowed &&
-    isTemporaryCollectibleActive({
-      name: "Gourmet Hourglass",
-      game,
-      now: cookStartAt,
-    })
-  ) {
-    reducedSecs = applyTempCollectibleBoost({
-      seconds: reducedSecs,
-      cookStartAt,
-      collectibleName: "Gourmet Hourglass",
-      game,
-      boostValue: 0.5,
-    });
-    boostsUsed.push({ name: "Gourmet Hourglass", value: "x0.5" });
   }
 
   if (isCollectibleBuilt({ name: "Desert Gnome", game })) {

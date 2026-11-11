@@ -452,7 +452,7 @@ describe("mineCrimstone", () => {
   });
 });
 
-describe("mineCrimstone — SPEED_BOOSTS speed windows", () => {
+describe("mineCrimstone — speed windows", () => {
   const now = Date.now();
   const ONE_HOUR = 60 * 60 * 1000;
   const BASE_MS = CRIMSTONE_RECOVERY_TIME * 1000;

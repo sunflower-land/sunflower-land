@@ -21,7 +21,7 @@ import type {
   PlacedItem,
 } from "features/game/types/game";
 import { supplyCookingOil } from "./supplyCookingOil";
-import { cook, getCookingOilBoost } from "./cook";
+import { cook } from "./cook";
 
 describe("instantCook", () => {
   beforeEach(() => {
@@ -571,12 +571,6 @@ describe("instantCook", () => {
 
     expect(afterOilAddedState.buildings["Deli"]?.[0].oil).toBe(10);
 
-    const boostedCookingTime = getCookingOilBoost(
-      "Fermented Fish",
-      afterOilAddedState,
-      "123",
-    );
-
     const afterFermentedFishCookedState = cook({
       state: afterOilAddedState,
       farmId: 1,
@@ -592,8 +586,6 @@ describe("instantCook", () => {
     const sixteenHoursInMs = sixteenHours * 1000;
     const fishShouldBeReadyAt = now + twentyMinutesMs + sixteenHoursInMs;
 
-    // Fermented fish should be ready 16 hours after 10 oil consumption
-    expect(boostedCookingTime.timeToCook).toEqual(sixteenHours); // 16 hours;
     // The tank burns while the fish cooks rather than when it is queued.
     expect(afterFermentedFishCookedState.buildings["Deli"]?.[0].oil).toBe(10);
     expect(

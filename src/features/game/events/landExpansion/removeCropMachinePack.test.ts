@@ -455,7 +455,7 @@ describe("removeCropMachinePack", () => {
   });
 });
 
-describe("removeCropMachinePack (windowed SPEED_BOOSTS)", () => {
+describe("removeCropMachinePack (windowed)", () => {
   const HOUR = 60 * 60 * 1000;
 
   const stateWithMachine = (machine: Record<string, unknown>): GameState => ({

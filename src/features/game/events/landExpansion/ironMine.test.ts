@@ -5,7 +5,7 @@ import { KNOWN_IDS } from "features/game/types";
 import type { GameState, Rock } from "features/game/types/game";
 import { prngChance } from "lib/prng";
 import { getMineReadyAt } from "features/game/lib/resourceNodes";
-import { getExpiryCooldown } from "features/game/lib/collectibleBuilt";
+import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import {
   getMinedAt,
   type LandExpansionIronMineAction,
@@ -1262,7 +1262,7 @@ describe("mineIron", () => {
     // The totem is a 2× window, not folded into baseDurationMs; any recovery
     // left after the window accrues at 1×.
     const BASE_MS = IRON_RECOVERY_TIME * 1000;
-    const windowMs = getExpiryCooldown("Time Warp Totem", INITIAL_FARM);
+    const windowMs = EXPIRY_COOLDOWNS["Time Warp Totem"];
     const workInWindow = Math.min(BASE_MS, windowMs * 2);
     expect(time).toEqual(now);
     expect(baseDurationMs).toEqual(BASE_MS);
@@ -1332,7 +1332,7 @@ describe("mineIron", () => {
     // A 2× window, not folded into baseDurationMs; any recovery left after the
     // window accrues at 1×.
     const BASE_MS = IRON_RECOVERY_TIME * 1000;
-    const windowMs = getExpiryCooldown("Ore Hourglass", INITIAL_FARM);
+    const windowMs = EXPIRY_COOLDOWNS["Ore Hourglass"];
     const workInWindow = Math.min(BASE_MS, windowMs * 2);
     expect(time).toEqual(now);
     expect(baseDurationMs).toEqual(BASE_MS);
@@ -1703,7 +1703,7 @@ describe("PRNG counter security", () => {
   });
 });
 
-describe("mineIron — SPEED_BOOSTS speed windows", () => {
+describe("mineIron — speed windows", () => {
   const ONE_HOUR = 60 * 60 * 1000;
   const BASE_MS = IRON_RECOVERY_TIME * 1000;
   const mineFirstIron = (state: GameState) =>
@@ -1760,7 +1760,7 @@ describe("mineIron — SPEED_BOOSTS speed windows", () => {
   it("recovers 2× faster while an active Ore Hourglass window covers the recovery", () => {
     // Base recovery outlasts the Ore Hourglass window (3×), so the 2× only applies
     // for the window's duration, then the tail accrues at 1×.
-    const oreWindow = getExpiryCooldown("Ore Hourglass", INITIAL_FARM);
+    const oreWindow = EXPIRY_COOLDOWNS["Ore Hourglass"];
     const baseMs = oreWindow * 3;
     const rock: Rock = {
       stone: { minedAt: now, baseDurationMs: baseMs },
@@ -1838,7 +1838,7 @@ describe("mineIron — SPEED_BOOSTS speed windows", () => {
 
   it("credits only the overlap for an Ore Hourglass placed mid-recovery (retroactive)", () => {
     // Mined 1h ago with no boost: 1h of work already accrued at 1×.
-    const oreWindow = getExpiryCooldown("Ore Hourglass", INITIAL_FARM);
+    const oreWindow = EXPIRY_COOLDOWNS["Ore Hourglass"];
     const baseMs = oreWindow * 3;
     const rock: Rock = {
       stone: { minedAt: now - ONE_HOUR, baseDurationMs: baseMs },

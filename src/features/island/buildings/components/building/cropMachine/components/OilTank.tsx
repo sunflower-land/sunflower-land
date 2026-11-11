@@ -22,7 +22,7 @@ interface OilTankProps {
   stopped: boolean;
   queue: CropMachineQueueItem[];
   unallocatedOilTime: number;
-  /** Windowed machine (SPEED_BOOSTS): the tank derives from the fuel ledger. */
+  /** Windowed machine (speed-rate model): the tank derives from the fuel ledger. */
   machine: CropMachineBuilding;
   windowed: boolean;
   windows: BoostWindow[];

@@ -44,12 +44,6 @@ describe("hasFeatureAccess", () => {
     expect(() => hasFeatureAccess({} as GameState, "JEST_TEST")).not.toThrow();
     expect(hasFeatureAccess({} as GameState, "JEST_TEST")).toBe(false);
   });
-
-  it("enables SPEED_BOOSTS for every farm on mainnet, without a Beta Pass", () => {
-    expect(TEST_FARM.inventory["Beta Pass"]).toBeUndefined();
-    expect(hasFeatureAccess(TEST_FARM, "SPEED_BOOSTS")).toBe(true);
-    expect(hasFeatureAccess({} as GameState, "SPEED_BOOSTS")).toBe(true);
-  });
 });
 
 describe("hasTimeBasedFeatureAccess", () => {

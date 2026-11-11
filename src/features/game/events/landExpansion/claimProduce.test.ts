@@ -2491,7 +2491,7 @@ describe("claimProduce", () => {
     });
   });
 
-  describe("SPEED_BOOSTS (windowed sleep)", () => {
+  describe("windowed sleep", () => {
     const sleepingChicken = (game: GameState) =>
       claimProduce({
         state: {

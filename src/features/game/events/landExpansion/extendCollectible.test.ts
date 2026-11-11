@@ -3,7 +3,7 @@ import { TEST_FARM } from "features/game/lib/constants";
 import type { GameState } from "features/game/types/game";
 import {
   getCollectibleExpiry,
-  getExpiryCooldown,
+  EXPIRY_COOLDOWNS,
   type TotemName,
 } from "features/game/lib/collectibleBuilt";
 import {
@@ -55,7 +55,7 @@ describe("extendCollectible", () => {
     const state = extend(farmWithHourglass(now));
 
     expect(state.collectibles["Harvest Hourglass"]?.[0].extendedMs).toBe(
-      getExpiryCooldown("Harvest Hourglass", TEST_FARM),
+      EXPIRY_COOLDOWNS["Harvest Hourglass"],
     );
     expect(state.inventory["Harvest Hourglass"]).toEqual(new Decimal(1));
   });
@@ -70,7 +70,7 @@ describe("extendCollectible", () => {
   });
 
   it("stacks uncapped across repeated extensions", () => {
-    const cooldown = getExpiryCooldown("Harvest Hourglass", TEST_FARM);
+    const cooldown = EXPIRY_COOLDOWNS["Harvest Hourglass"];
     const state = extend(extend(farmWithHourglass(now, 2)));
 
     expect(state.collectibles["Harvest Hourglass"]?.[0].extendedMs).toBe(
@@ -80,7 +80,7 @@ describe("extendCollectible", () => {
   });
 
   it("lengthens the boost window rather than opening a second one", () => {
-    const cooldown = getExpiryCooldown("Harvest Hourglass", TEST_FARM);
+    const cooldown = EXPIRY_COOLDOWNS["Harvest Hourglass"];
     const state = extend(farmWithHourglass(now));
 
     const windows = getCropPlotBoostWindows(state).filter(
@@ -98,7 +98,7 @@ describe("extendCollectible", () => {
   });
 
   it("cannot extend an expired collectible", () => {
-    const cooldown = getExpiryCooldown("Harvest Hourglass", TEST_FARM);
+    const cooldown = EXPIRY_COOLDOWNS["Harvest Hourglass"];
 
     expect(() => extend(farmWithHourglass(now - cooldown))).toThrow(
       "Collectible has expired",
@@ -106,7 +106,7 @@ describe("extendCollectible", () => {
   });
 
   it("can extend a collectible kept alive by an earlier extension", () => {
-    const cooldown = getExpiryCooldown("Harvest Hourglass", TEST_FARM);
+    const cooldown = EXPIRY_COOLDOWNS["Harvest Hourglass"];
     const state = extend(farmWithHourglass(now - cooldown, 1, cooldown));
 
     expect(state.collectibles["Harvest Hourglass"]?.[0].extendedMs).toBe(
@@ -167,7 +167,7 @@ describe("extendCollectible", () => {
     });
 
     expect(state.collectibles["Sparrow Shrine"]?.[0].extendedMs).toBe(
-      getExpiryCooldown("Sparrow Shrine", TEST_FARM),
+      EXPIRY_COOLDOWNS["Sparrow Shrine"],
     );
     expect(state.inventory.Acorn).toEqual(new Decimal(5));
     expect(state.inventory["Wild Grass"]).toEqual(new Decimal(10));
@@ -266,7 +266,7 @@ describe("extendCollectible", () => {
       const state = extend(farmWithHourglass(now, 1, 60 * DAY));
 
       expect(state.collectibles["Harvest Hourglass"]?.[0].extendedMs).toBe(
-        60 * DAY + getExpiryCooldown("Harvest Hourglass", TEST_FARM),
+        60 * DAY + EXPIRY_COOLDOWNS["Harvest Hourglass"],
       );
     });
   });
@@ -274,7 +274,7 @@ describe("extendCollectible", () => {
   // Golden durations, deliberately hardcoded: these are the agreed cross-extension
   // amounts, so a change to either totem's cooldown should fail loudly here.
   describe("totems", () => {
-    const FOUR_HOURS = 4 * 60 * 60 * 1000; // Time Warp Totem, under SPEED_BOOSTS
+    const FOUR_HOURS = 4 * 60 * 60 * 1000; // Time Warp Totem
     const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000; // Super Totem
 
     const totemFarm = ({
@@ -386,7 +386,6 @@ describe("extendCollectible", () => {
         getCollectibleExpiry({
           name: "Super Totem",
           collectible: promoted ?? {},
-          game: state,
         }),
       ).toBe(placedAt + FOUR_HOURS + SEVEN_DAYS);
 

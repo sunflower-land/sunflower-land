@@ -1163,7 +1163,7 @@ describe("updateBeehives", () => {
     });
   });
 
-  // SPEED_BOOSTS: a windowed flower becomes ready earlier while a boost window is
+  // A windowed flower becomes ready earlier while a boost window is
   // active, so pollination must be bounded by the windowed readyAt (not the base
   // grow time) — otherwise the hive over-credits pollination time.
   it("bounds pollination by the windowed (earlier) readyAt for a boosted flower", () => {

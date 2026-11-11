@@ -19,9 +19,8 @@ import {
  * whichever phase is active (`harvestedAt || plantedAt`).
  *
  * `baseDurationMs` is a PERMANENT per-fruit migration marker: the read path keys
- * off its presence, NOT the `SPEED_BOOSTS` flag (matching `getTreeReadyAt` /
- * `getCropReadyAt`). A fruit planted while the flag was on therefore keeps
- * windowed timing even if the flag is later disabled — see
+ * off its presence (matching `getTreeReadyAt` / `getCropReadyAt`), so
+ * legacy-shaped fruit still use the old timing — see
  * `PlantedFruit.baseDurationMs`.
  */
 export const getFruitReadyAt = (

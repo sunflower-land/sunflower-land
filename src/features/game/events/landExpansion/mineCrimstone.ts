@@ -6,14 +6,10 @@ import type { BoostName, FiniteResource, GameState } from "../../types/game";
 import { isWearableActive } from "features/game/lib/wearables";
 import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
 import { produce } from "immer";
-import {
-  isTemporaryCollectibleActive,
-  isCollectibleBuilt,
-} from "features/game/lib/collectibleBuilt";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
-import { hasFeatureAccess } from "lib/flags";
 
 export type MineCrimstoneAction = {
   type: "crimstoneRock.mined";
@@ -46,11 +42,9 @@ type GetMinedAtArgs = {
 export function getCrimstoneRecoveryTimeForDisplay({
   game,
   prngArgs,
-  now,
 }: {
   game: GameState;
   prngArgs?: PrngArgs;
-  now: number;
 }): {
   baseTimeMs: number;
   recoveryTimeMs: number;
@@ -60,11 +54,9 @@ export function getCrimstoneRecoveryTimeForDisplay({
   let totalSeconds = CRIMSTONE_RECOVERY_TIME;
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
-  // Under SPEED_BOOSTS the temporary crimstone boost (Mole Shrine) is a
-  // retroactive speed-rate window (see boostWindows), so it's excluded from the
-  // baked recovery here — what remains is the permanent-boost-only base duration.
-  // Flag-off keeps the legacy discount-at-start.
-  const boostsWindowed = hasFeatureAccess(game, "SPEED_BOOSTS");
+  // The temporary crimstone boost (Mole Shrine) is a retroactive speed-rate
+  // window (see boostWindows), so it's excluded from the baked recovery here —
+  // what remains is the permanent-boost-only base duration.
 
   if (
     isCollectibleBuilt({ name: "Crimstone Clam", game }) &&
@@ -103,14 +95,6 @@ export function getCrimstoneRecoveryTimeForDisplay({
     boostsUsed.push({ name: "Fireside Alchemist", value: `x${v}` });
   }
 
-  if (
-    !boostsWindowed &&
-    isTemporaryCollectibleActive({ name: "Mole Shrine", game, now })
-  ) {
-    totalSeconds = totalSeconds * 0.75;
-    boostsUsed.push({ name: "Mole Shrine", value: "x0.75" });
-  }
-
   return {
     baseTimeMs,
     recoveryTimeMs: totalSeconds * 1000,
@@ -119,27 +103,23 @@ export function getCrimstoneRecoveryTimeForDisplay({
 }
 
 /**
- * The mine time to persist, plus (under SPEED_BOOSTS) the base recovery duration.
+ * The mine time to persist, plus the base recovery duration.
  *
- * Legacy model: back-date `minedAt` into the past so the rock replenishes faster.
- * Speed-rate model (SPEED_BOOSTS): store the REAL mine time and a `baseDurationMs`
- * carrying only the permanent boosts; the temporary boosts are derived live from
+ * Speed-rate model: store the REAL mine time and a `baseDurationMs` carrying only
+ * the permanent boosts; the temporary boosts are derived live from
  * windows. Uses getCrimstoneRecoveryTimeForDisplay for boost logic.
  */
 export function getMinedAt({ createdAt, game, prngArgs }: GetMinedAtArgs): {
   time: number;
-  baseDurationMs?: number;
+  baseDurationMs: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
-  const { baseTimeMs, recoveryTimeMs, boostsUsed } =
-    getCrimstoneRecoveryTimeForDisplay({ game, prngArgs, now: createdAt });
+  const { recoveryTimeMs, boostsUsed } = getCrimstoneRecoveryTimeForDisplay({
+    game,
+    prngArgs,
+  });
 
-  if (hasFeatureAccess(game, "SPEED_BOOSTS")) {
-    return { time: createdAt, baseDurationMs: recoveryTimeMs, boostsUsed };
-  }
-
-  const buffMs = baseTimeMs - recoveryTimeMs;
-  return { time: createdAt - buffMs, boostsUsed };
+  return { time: createdAt, baseDurationMs: recoveryTimeMs, boostsUsed };
 }
 
 export function getCrimstoneDropAmount({
@@ -258,11 +238,9 @@ export function mineCrimstone({
       prngArgs: prngObject,
     });
     rock.stone = { minedAt: time };
-    if (baseDurationMs !== undefined) {
-      // Speed-rate model: real minedAt + permanent-only baseDurationMs. Temporary
-      // boosts are derived live from windows, so there's no baked discount.
-      rock.stone.baseDurationMs = baseDurationMs;
-    }
+    // Speed-rate model: real minedAt + permanent-only baseDurationMs. Temporary
+    // boosts are derived live from windows, so there's no baked discount.
+    rock.stone.baseDurationMs = baseDurationMs;
 
     rock.minesLeft = rock.minesLeft - 1;
 

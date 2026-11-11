@@ -16,7 +16,7 @@ import { FRUITFUL_BLEND_YIELD } from "features/game/types/fertilisers";
 
 /**
  * LEGACY-model only: shifts plantedAt/harvestedAt so the remaining grow time is
- * multiplied by 0.8 (−20%), matching getFruitPatchTime. Under the speed-rate
+ * multiplied by 0.8 (−20%), the legacy discount-at-start. Under the speed-rate
  * model Turbofruit Mix is instead a live 1.25× speed window from `fertilisedAt`
  * (see getTurbofruitMixWindows), so no fruit mutation is needed on apply.
  */

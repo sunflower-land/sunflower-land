@@ -5,7 +5,7 @@ import { KNOWN_IDS } from "features/game/types";
 import type { GameState, Rock } from "features/game/types/game";
 import { prngChance } from "lib/prng";
 import { getMineReadyAt } from "features/game/lib/resourceNodes";
-import { getExpiryCooldown } from "features/game/lib/collectibleBuilt";
+import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import {
   mineGold,
   type LandExpansionGoldMineAction,
@@ -1119,7 +1119,7 @@ describe("mineGold", () => {
     // The totem is a 2× window, not folded into baseDurationMs; any recovery
     // left after the window accrues at 1×.
     const BASE_MS = GOLD_RECOVERY_TIME * 1000;
-    const windowMs = getExpiryCooldown("Time Warp Totem", INITIAL_FARM);
+    const windowMs = EXPIRY_COOLDOWNS["Time Warp Totem"];
     const workInWindow = Math.min(BASE_MS, windowMs * 2);
     expect(time).toEqual(now);
     expect(baseDurationMs).toEqual(BASE_MS);
@@ -1155,7 +1155,7 @@ describe("mineGold", () => {
 
     // The totem is a 2× window, not folded into baseDurationMs.
     const BASE_MS = GOLD_RECOVERY_TIME * 1000;
-    const windowMs = getExpiryCooldown("Super Totem", INITIAL_FARM);
+    const windowMs = EXPIRY_COOLDOWNS["Super Totem"];
     const workInWindow = Math.min(BASE_MS, windowMs * 2);
     expect(time).toEqual(now);
     expect(baseDurationMs).toEqual(BASE_MS);
@@ -1192,7 +1192,7 @@ describe("mineGold", () => {
     // A 2× window, not folded into baseDurationMs; any recovery left after the
     // window accrues at 1×.
     const BASE_MS = GOLD_RECOVERY_TIME * 1000;
-    const windowMs = getExpiryCooldown("Ore Hourglass", INITIAL_FARM);
+    const windowMs = EXPIRY_COOLDOWNS["Ore Hourglass"];
     const workInWindow = Math.min(BASE_MS, windowMs * 2);
     expect(time).toEqual(now);
     expect(baseDurationMs).toEqual(BASE_MS);
@@ -1690,7 +1690,7 @@ describe("mineGold", () => {
   });
 });
 
-describe("mineGold — SPEED_BOOSTS speed windows", () => {
+describe("mineGold — speed windows", () => {
   const ONE_HOUR = 60 * 60 * 1000;
   const BASE_MS = GOLD_RECOVERY_TIME * 1000;
   const mineFirstGold = (state: GameState) =>

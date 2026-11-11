@@ -45,7 +45,6 @@ import { isSeed } from "features/game/types/seeds";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import {
   EXPIRY_COOLDOWNS,
-  getExpiryCooldown,
   type TemporaryCollectibleName,
 } from "features/game/lib/collectibleBuilt";
 import {
@@ -301,7 +300,7 @@ export const CraftingRequirements: React.FC<Props> = ({
       item: InventoryItemName,
     ): item is TemporaryCollectibleName => item in EXPIRY_COOLDOWNS;
     if (details.item && isTemporaryCollectible(details.item)) {
-      expiry = getExpiryCooldown(details.item, gameState);
+      expiry = EXPIRY_COOLDOWNS[details.item];
     }
 
     return (

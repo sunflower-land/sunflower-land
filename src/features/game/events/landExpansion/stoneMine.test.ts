@@ -1,9 +1,6 @@
 import Decimal from "decimal.js-light";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
-import {
-  EXPIRY_COOLDOWNS,
-  getExpiryCooldown,
-} from "features/game/lib/collectibleBuilt";
+import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { INITIAL_FARM, STONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { KNOWN_IDS } from "features/game/types";
 import type { GameState, Rock } from "features/game/types/game";
@@ -1329,7 +1326,7 @@ describe("mineStone", () => {
 
     // The totem is a 2× window, not folded into baseDurationMs.
     const BASE_MS = STONE_RECOVERY_TIME * 1000;
-    const windowMs = getExpiryCooldown("Time Warp Totem", INITIAL_FARM);
+    const windowMs = EXPIRY_COOLDOWNS["Time Warp Totem"];
     const workInWindow = Math.min(BASE_MS, windowMs * 2);
     expect(time).toEqual(now);
     expect(baseDurationMs).toEqual(BASE_MS);
@@ -1369,7 +1366,7 @@ describe("mineStone", () => {
 
     // The totem is a 2× window, not folded into baseDurationMs.
     const BASE_MS = STONE_RECOVERY_TIME * 1000;
-    const windowMs = getExpiryCooldown("Super Totem", INITIAL_FARM);
+    const windowMs = EXPIRY_COOLDOWNS["Super Totem"];
     const workInWindow = Math.min(BASE_MS, windowMs * 2);
     expect(time).toEqual(now);
     expect(baseDurationMs).toEqual(BASE_MS);
@@ -1822,7 +1819,7 @@ describe("mineStone", () => {
   });
 });
 
-describe("mineStone — SPEED_BOOSTS speed windows", () => {
+describe("mineStone — speed windows", () => {
   const ONE_HOUR = 60 * 60 * 1000;
   const BASE_MS = STONE_RECOVERY_TIME * 1000;
   const mineFirstStone = (state: GameState) =>

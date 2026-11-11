@@ -19,8 +19,9 @@ import { GREENHOUSE_CROP_TIME_SECONDS } from "features/game/lib/greenhouseGrowTi
  * legacy plants use their back-dated `plantedAt` + base grow duration.
  *
  * `baseDurationMs` is a PERMANENT per-plant migration marker: the read path
- * keys off its presence, NOT the `SPEED_BOOSTS` flag (matching
- * `getFruitReadyAt` / `getCropReadyAt`) — see `GreenhousePlant.baseDurationMs`.
+ * keys off its presence (matching `getFruitReadyAt` / `getCropReadyAt`), so
+ * legacy-shaped plants still use the old timing — see
+ * `GreenhousePlant.baseDurationMs`.
  */
 export const getGreenhouseReadyAt = (
   plant: GreenhousePlant,

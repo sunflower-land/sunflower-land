@@ -11,7 +11,6 @@ import {
   isUpgradeableSkillName,
 } from "features/game/types/bumpkinSkills";
 import { getSkillRankDescription } from "./getSkillRankDescription";
-import { hasFeatureAccess } from "lib/flags";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -248,25 +247,20 @@ export const SkillPathDetails: React.FC<Props> = ({
     : undefined;
   const isRankSkill = canUpgradeHere && rankSkillName !== undefined;
   const rankKind = rankSkillName ? SKILL_RANKS[rankSkillName].kind : undefined;
-  const speedBoosts = hasFeatureAccess(state, "SPEED_BOOSTS");
-  // The oil skills' static copy is a time cut; under SPEED_BOOSTS oil is a
-  // speed, so they always take the ranked (speed) wording instead.
+  // The oil skills' static copy is a time cut; oil is now a speed, so they
+  // always take the ranked (speed) wording instead.
   const isOilSkill =
     rankSkillName === "Swift Sizzle" ||
     rankSkillName === "Turbo Fry" ||
     rankSkillName === "Fry Frenzy";
   const currentRankDescription =
-    rankSkillName &&
-    rankKind !== "cooldown" &&
-    (isRankSkill || (speedBoosts && isOilSkill))
-      ? getSkillRankDescription(rankSkillName, Math.max(currentLevel, 1), t, {
-          speedBoosts,
-        })
+    rankSkillName && rankKind !== "cooldown" && (isRankSkill || isOilSkill)
+      ? getSkillRankDescription(rankSkillName, Math.max(currentLevel, 1), t)
       : undefined;
   // Boost copy for the rank currently being previewed (any rank 1..maxLevel).
   const previewRankDescription =
     isRankSkill && rankSkillName
-      ? getSkillRankDescription(rankSkillName, previewRank, t, { speedBoosts })
+      ? getSkillRankDescription(rankSkillName, previewRank, t)
       : undefined;
 
   const isUpgradeDisabled =

@@ -19,8 +19,7 @@ import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { isCollectible } from "../events/landExpansion/garbageSold";
 import { getKeys, getObjectEntries } from "lib/object";
 import { BED_FARMHAND_COUNT } from "./beds";
-import { isCollectibleBuilt, getExpiryCooldown } from "../lib/collectibleBuilt";
-import { hasFeatureAccess } from "lib/flags";
+import { isCollectibleBuilt, EXPIRY_COOLDOWNS } from "../lib/collectibleBuilt";
 import { SKILL_RANKS, getSkillLevel } from "./bumpkinSkills";
 import { FRUITFUL_BLEND_YIELD } from "./fertilisers";
 
@@ -106,9 +105,7 @@ export function getFertiliserBuffLabels({
         game,
       }),
       {
-        shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
-          ? translate("description.rapid.root.boost.speed")
-          : translate("description.rapid.root.boost"),
+        shortDescription: translate("description.rapid.root.boost.speed"),
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: ITEM_DETAILS["Crop Plot"].image,
@@ -122,9 +119,7 @@ export function getFertiliserBuffLabels({
       game,
     }),
     {
-      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
-        ? translate("description.turbofruit.mix.boost.speed")
-        : translate("description.turbofruit.mix.boost"),
+      shortDescription: translate("description.turbofruit.mix.boost.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Fruit Patch"].image,
@@ -137,57 +132,43 @@ export function getFertiliserBuffLabels({
  * durations differ), so both read their labels from here. Itemised one row per
  * activity like the Legendary Shrine, rather than one sentence listing them all.
  *
- * Every activity here is a windowed speed boost under SPEED_BOOSTS, so all six
- * rows switch to the "speed" wording together (see boostWindows.ts).
+ * Every activity here is a windowed speed boost, so all six rows use the
+ * "speed" wording (see boostWindows.ts).
  */
-const getTotemBuffLabels = (game: GameState): BuffLabel[] => {
-  const windowed = hasFeatureAccess(game, "SPEED_BOOSTS");
-
+const getTotemBuffLabels = (): BuffLabel[] => {
   return [
     {
-      shortDescription: windowed
-        ? translate("description.totem.buff.crops.speed")
-        : translate("description.totem.buff.crops"),
+      shortDescription: translate("description.totem.buff.crops.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Crop Plot"].image,
     },
     {
-      shortDescription: windowed
-        ? translate("description.totem.buff.fruit.speed")
-        : translate("description.totem.buff.fruit"),
+      shortDescription: translate("description.totem.buff.fruit.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Fruit Patch"].image,
     },
     {
-      shortDescription: windowed
-        ? translate("description.totem.buff.trees.speed")
-        : translate("description.totem.buff.trees"),
+      shortDescription: translate("description.totem.buff.trees.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS.Tree.image,
     },
     {
-      shortDescription: windowed
-        ? translate("description.totem.buff.minerals.speed")
-        : translate("description.totem.buff.minerals"),
+      shortDescription: translate("description.totem.buff.minerals.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS.Stone.image,
     },
     {
-      shortDescription: windowed
-        ? translate("description.totem.buff.cooking.speed")
-        : translate("description.totem.buff.cooking"),
+      shortDescription: translate("description.totem.buff.cooking.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: chefHat,
     },
     {
-      shortDescription: windowed
-        ? translate("description.totem.buff.crafting.speed")
-        : translate("description.totem.buff.crafting"),
+      shortDescription: translate("description.totem.buff.crafting.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Crafting Box"].image,
@@ -499,11 +480,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       fertiliser: "Fruitful Blend",
       game,
     }),
-  "Rapid Root": (game) => [
+  "Rapid Root": () => [
     {
-      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
-        ? translate("description.rapid.root.boost.speed")
-        : translate("description.rapid.root.boost"),
+      shortDescription: translate("description.rapid.root.boost.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Crop Plot"].image,
@@ -519,11 +498,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       fertiliser: "Turbofruit Mix",
       game,
     }),
-  "Greenhouse Glow": (game) => [
+  "Greenhouse Glow": () => [
     {
-      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
-        ? translate("description.greenhouse.glow.boost.speed")
-        : translate("description.greenhouse.glow.boost"),
+      shortDescription: translate("description.greenhouse.glow.boost.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Greenhouse"].image,
@@ -560,11 +537,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
   ],
 
   // Clash of Factions
-  "Turbo Sprout": (game) => [
+  "Turbo Sprout": () => [
     {
-      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
-        ? translate("description.turbo.sprout.boost.speed")
-        : translate("description.turbo.sprout.boost"),
+      shortDescription: translate("description.turbo.sprout.boost.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
@@ -1212,11 +1187,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: SUNNYSIDE.tools.hammer,
     },
   ],
-  "Time Warp Totem": (game) => [
-    ...getTotemBuffLabels(game),
+  "Time Warp Totem": () => [
+    ...getTotemBuffLabels(),
     {
       shortDescription: translate("description.temp.buff.effectTime", {
-        time: getExpiryCooldown("Time Warp Totem", game) / (60 * 60 * 1000),
+        time: EXPIRY_COOLDOWNS["Time Warp Totem"] / (60 * 60 * 1000),
       }),
       labelType: "danger",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
@@ -1260,87 +1235,77 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
   ],
 
   // Faction Shop
-  "Gourmet Hourglass": (game) => [
+  "Gourmet Hourglass": () => [
     {
-      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
-        ? translate("description.gourmet.hourglass.boost.speed")
-        : translate("description.gourmet.hourglass.boost"),
+      shortDescription: translate("description.gourmet.hourglass.boost.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
     {
       shortDescription: translate("description.temp.buff.effectTime", {
-        time: getExpiryCooldown("Gourmet Hourglass", game) / (60 * 60 * 1000),
+        time: EXPIRY_COOLDOWNS["Gourmet Hourglass"] / (60 * 60 * 1000),
       }),
       labelType: "danger",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
-  "Harvest Hourglass": (game) => [
+  "Harvest Hourglass": () => [
     {
-      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
-        ? translate("description.harvest.hourglass.boost.speed")
-        : translate("description.harvest.hourglass.boost"),
+      shortDescription: translate("description.harvest.hourglass.boost.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
     {
       shortDescription: translate("description.temp.buff.effectTime", {
-        time: getExpiryCooldown("Harvest Hourglass", game) / (60 * 60 * 1000),
+        time: EXPIRY_COOLDOWNS["Harvest Hourglass"] / (60 * 60 * 1000),
       }),
       labelType: "danger",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
-  "Timber Hourglass": (game) => [
+  "Timber Hourglass": () => [
     {
-      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
-        ? translate("description.timber.hourglass.boost.speed")
-        : translate("description.timber.hourglass.boost"),
+      shortDescription: translate("description.timber.hourglass.boost.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
     {
       shortDescription: translate("description.temp.buff.effectTime", {
-        time: getExpiryCooldown("Timber Hourglass", game) / (60 * 60 * 1000),
+        time: EXPIRY_COOLDOWNS["Timber Hourglass"] / (60 * 60 * 1000),
       }),
       labelType: "danger",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
-  "Ore Hourglass": (game) => [
+  "Ore Hourglass": () => [
     {
-      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
-        ? translate("description.ore.hourglass.boost.speed")
-        : translate("description.ore.hourglass.boost"),
+      shortDescription: translate("description.ore.hourglass.boost.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
     {
       shortDescription: translate("description.temp.buff.effectTime", {
-        time: getExpiryCooldown("Ore Hourglass", game) / (60 * 60 * 1000),
+        time: EXPIRY_COOLDOWNS["Ore Hourglass"] / (60 * 60 * 1000),
       }),
       labelType: "danger",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
-  "Orchard Hourglass": (game) => [
+  "Orchard Hourglass": () => [
     {
-      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
-        ? translate("description.orchard.hourglass.boost.speed")
-        : translate("description.orchard.hourglass.boost"),
+      shortDescription: translate("description.orchard.hourglass.boost.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
     {
       shortDescription: translate("description.temp.buff.effectTime", {
-        time: getExpiryCooldown("Orchard Hourglass", game) / (60 * 60 * 1000),
+        time: EXPIRY_COOLDOWNS["Orchard Hourglass"] / (60 * 60 * 1000),
       }),
       labelType: "danger",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
-  "Fisher's Hourglass": (game) => [
+  "Fisher's Hourglass": () => [
     {
       shortDescription: translate("description.fishers.hourglass.boost"),
       labelType: "success",
@@ -1348,23 +1313,21 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     },
     {
       shortDescription: translate("description.temp.buff.effectTime", {
-        time: getExpiryCooldown("Fisher's Hourglass", game) / (60 * 60 * 1000),
+        time: EXPIRY_COOLDOWNS["Fisher's Hourglass"] / (60 * 60 * 1000),
       }),
       labelType: "danger",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
-  "Blossom Hourglass": (game) => [
+  "Blossom Hourglass": () => [
     {
-      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
-        ? translate("description.blossom.hourglass.boost.speed")
-        : translate("description.blossom.hourglass.boost"),
+      shortDescription: translate("description.blossom.hourglass.boost.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
     {
       shortDescription: translate("description.temp.buff.effectTime", {
-        time: getExpiryCooldown("Blossom Hourglass", game) / (60 * 60 * 1000),
+        time: EXPIRY_COOLDOWNS["Blossom Hourglass"] / (60 * 60 * 1000),
       }),
       labelType: "danger",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
@@ -1592,8 +1555,8 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS.Honey.image,
     },
   ],
-  "Super Totem": (game) => [
-    ...getTotemBuffLabels(game),
+  "Super Totem": () => [
+    ...getTotemBuffLabels(),
     {
       shortDescription: translate("description.superTotem.boost.effectTime"),
       labelType: "danger",
@@ -1916,11 +1879,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: helpIcon,
     },
   ],
-  "Fox Shrine": (game) => [
+  "Fox Shrine": () => [
     {
-      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
-        ? translate("description.foxShrine.buff.speed")
-        : translate("description.foxShrine.buff"),
+      shortDescription: translate("description.foxShrine.buff.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Crafting Box"].image,
@@ -1932,11 +1893,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS["Crafting Box"].image,
     },
   ],
-  "Boar Shrine": (game) => [
+  "Boar Shrine": () => [
     {
-      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
-        ? translate("description.boarShrine.buff.speed")
-        : translate("description.boarShrine.buff"),
+      shortDescription: translate("description.boarShrine.buff.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: chefHat,
@@ -1956,11 +1915,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: powerup,
     },
   ],
-  "Stag Shrine": (game) => [
+  "Stag Shrine": () => [
     {
-      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
-        ? translate("description.stagShrine.buff.speed")
-        : translate("description.stagShrine.buff"),
+      shortDescription: translate("description.stagShrine.buff.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS.Oil.image,
@@ -1972,37 +1929,29 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS.Oil.image,
     },
   ],
-  "Sparrow Shrine": (game) => [
+  "Sparrow Shrine": () => [
     {
-      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
-        ? translate("description.sparrowShrine.buff.speed")
-        : translate("description.sparrowShrine.buff"),
+      shortDescription: translate("description.sparrowShrine.buff.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
-  "Toucan Shrine": (game) => [
+  "Toucan Shrine": () => [
     {
-      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
-        ? translate("description.toucanShrine.buff.speed")
-        : translate("description.toucanShrine.buff"),
+      shortDescription: translate("description.toucanShrine.buff.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
-  "Collie Shrine": (game) => [
+  "Collie Shrine": () => [
     {
-      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
-        ? translate("description.collieShrine.buff.speed")
-        : translate("description.collieShrine.buff"),
+      shortDescription: translate("description.collieShrine.buff.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: SUNNYSIDE.animals.cowSleeping,
     },
     {
-      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
-        ? translate("description.collieShrine.buff.2.speed")
-        : translate("description.collieShrine.buff.2"),
+      shortDescription: translate("description.collieShrine.buff.2.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: SUNNYSIDE.animals.sheepSleeping,
@@ -2014,27 +1963,22 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: SUNNYSIDE.animalFoods.kernel_blend,
     },
   ],
-  "Badger Shrine": (game) => [
+  "Badger Shrine": () => [
     {
-      // Both tree and stone recovery are on the windowed speed model under
-      // SPEED_BOOSTS (trees + mines slices); flag-off keeps the baked discount.
-      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
-        ? translate("description.badgerShrine.buff.speed")
-        : translate("description.badgerShrine.buff"),
+      // Both tree and stone recovery are on the windowed speed model.
+      shortDescription: translate("description.badgerShrine.buff.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS.Tree.image,
     },
     {
-      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
-        ? translate("description.badgerShrine.buff.2.speed")
-        : translate("description.badgerShrine.buff.2"),
+      shortDescription: translate("description.badgerShrine.buff.2.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS.Stone.image,
     },
   ],
-  "Legendary Shrine": (game) => [
+  "Legendary Shrine": () => [
     {
       shortDescription: translate("description.legendaryShrine.buff"),
       labelType: "success",
@@ -2066,9 +2010,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     },
     {
       // Only the cook-TIME half is windowed; the yield buffs above stay as they are.
-      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
-        ? translate("description.legendaryShrine.buff.6.speed")
-        : translate("description.legendaryShrine.buff.6"),
+      shortDescription: translate("description.legendaryShrine.buff.6.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: chefHat,
@@ -2081,27 +2023,21 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.lightning,
     },
   ],
-  "Mole Shrine": (game) => [
+  "Mole Shrine": () => [
     {
-      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
-        ? translate("description.moleShrine.buff.speed")
-        : translate("description.moleShrine.buff"),
+      shortDescription: translate("description.moleShrine.buff.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS.Iron.image,
     },
     {
-      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
-        ? translate("description.moleShrine.buff.2.speed")
-        : translate("description.moleShrine.buff.2"),
+      shortDescription: translate("description.moleShrine.buff.2.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS.Gold.image,
     },
     {
-      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
-        ? translate("description.moleShrine.buff.3.speed")
-        : translate("description.moleShrine.buff.3"),
+      shortDescription: translate("description.moleShrine.buff.3.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS.Crimstone.image,
@@ -2121,29 +2057,23 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: bee,
     },
   ],
-  "Tortoise Shrine": (game) => [
+  "Tortoise Shrine": () => [
     {
-      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
-        ? translate("description.tortoiseShrine.buff.speed")
-        : translate("description.tortoiseShrine.buff"),
+      shortDescription: translate("description.tortoiseShrine.buff.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Greenhouse"].image,
     },
     {
-      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
-        ? translate("description.tortoiseShrine.buff.2.speed")
-        : translate("description.tortoiseShrine.buff.2"),
+      shortDescription: translate("description.tortoiseShrine.buff.2.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Crop Machine"].image,
     },
   ],
-  "Moth Shrine": (game) => [
+  "Moth Shrine": () => [
     {
-      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
-        ? translate("description.mothShrine.buff.speed")
-        : translate("description.mothShrine.buff"),
+      shortDescription: translate("description.mothShrine.buff.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
@@ -2155,11 +2085,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
     },
   ],
-  "Bantam Shrine": (game) => [
+  "Bantam Shrine": () => [
     {
-      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
-        ? translate("description.bantamShrine.buff.speed")
-        : translate("description.bantamShrine.buff"),
+      shortDescription: translate("description.bantamShrine.buff.speed"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: SUNNYSIDE.animals.chickenAsleep,

@@ -14,7 +14,6 @@ import { cook, getOilConsumption } from "./cook";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { choseSkill } from "./choseSkill";
 import Decimal from "decimal.js-light";
-import { CONFIG } from "lib/config";
 
 describe("cancelQueuedRecipe", () => {
   it("throws an error if the building does not exist", () => {
@@ -943,9 +942,7 @@ describe("cancelQueuedRecipe (oil by the clock)", () => {
     },
   });
 
-  it("leaves temporary boosts out of a migrated recipe on rollback, so they apply once", () => {
-    const network = CONFIG.NETWORK;
-    (CONFIG as { NETWORK: string }).NETWORK = "mainnet";
+  it("leaves temporary boosts out of a migrated recipe, so they apply once", () => {
     const state = cancelQueuedRecipe({
       state: {
         ...deliFarm(INITIAL_FARM, {
@@ -976,7 +973,6 @@ describe("cancelQueuedRecipe (oil by the clock)", () => {
       },
       createdAt: T0 + HOUR,
     });
-    (CONFIG as { NETWORK: string }).NETWORK = network;
 
     const migrated = state.buildings.Deli?.[0].crafting?.[1];
     expect(migrated?.baseDurationMs).toEqual(

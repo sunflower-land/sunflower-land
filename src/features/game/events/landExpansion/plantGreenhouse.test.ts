@@ -3,7 +3,7 @@ import { getGreenhouseCropTime, plantGreenhouse } from "./plantGreenhouse";
 import Decimal from "decimal.js-light";
 import type { GameState } from "features/game/types/game";
 import { GREENHOUSE_CROP_TIME_SECONDS } from "features/game/lib/greenhouseGrowTimes";
-import { getExpiryCooldown } from "features/game/lib/collectibleBuilt";
+import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { getGreenhouseReadyAt } from "./greenhouseReadiness";
 
 const farm: GameState = {
@@ -1299,7 +1299,7 @@ describe("plantGreenhouse", () => {
     });
     // …but the totem's 2× window brings readiness forward: it grows two
     // window-lengths during the window, then the rest at 1×.
-    const window = getExpiryCooldown("Time Warp Totem", state);
+    const window = EXPIRY_COOLDOWNS["Time Warp Totem"];
     expect(getGreenhouseReadyAt(plant, state)).toEqual(
       now + window + (base - 2 * window),
     );
@@ -1534,7 +1534,7 @@ describe("plantGreenhouse", () => {
     });
     // …but the totem's 2× window brings readiness forward: it grows two
     // window-lengths during the window, then the rest at 1×.
-    const window = getExpiryCooldown("Time Warp Totem", state);
+    const window = EXPIRY_COOLDOWNS["Time Warp Totem"];
     expect(getGreenhouseReadyAt(plant, state)).toEqual(
       now + window + (base - 2 * window),
     );
@@ -2460,7 +2460,7 @@ describe("plantGreenhouse ascension skill ranks", () => {
   });
 });
 
-describe("plantGreenhouse under SPEED_BOOSTS (windowed)", () => {
+describe("plantGreenhouse (windowed)", () => {
   const greenhouseState = (extra: Partial<GameState> = {}): GameState => ({
     ...farm,
     inventory: {
@@ -2590,12 +2590,12 @@ describe("Duende Hat", () => {
       },
     };
 
-    expect(
-      getGreenhouseCropTime({ crop: "Rice", game, now: Date.now() }).seconds,
-    ).toEqual(GREENHOUSE_CROP_TIME_SECONDS.Rice);
-    expect(
-      getGreenhouseCropTime({ crop: "Grape", game, now: Date.now() }).seconds,
-    ).toEqual(GREENHOUSE_CROP_TIME_SECONDS.Grape);
+    expect(getGreenhouseCropTime({ crop: "Rice", game }).seconds).toEqual(
+      GREENHOUSE_CROP_TIME_SECONDS.Rice,
+    );
+    expect(getGreenhouseCropTime({ crop: "Grape", game }).seconds).toEqual(
+      GREENHOUSE_CROP_TIME_SECONDS.Grape,
+    );
   });
 });
 
@@ -2612,7 +2612,6 @@ describe("Antique Dress", () => {
     const { seconds, boostsUsed } = getGreenhouseCropTime({
       crop: "Grape",
       game,
-      now: Date.now(),
     });
 
     expect(seconds).toEqual(GREENHOUSE_CROP_TIME_SECONDS.Grape * 0.7);
@@ -2620,8 +2619,8 @@ describe("Antique Dress", () => {
   });
 
   it("does not reduce other greenhouse crops", () => {
-    expect(
-      getGreenhouseCropTime({ crop: "Rice", game, now: Date.now() }).seconds,
-    ).toEqual(GREENHOUSE_CROP_TIME_SECONDS.Rice);
+    expect(getGreenhouseCropTime({ crop: "Rice", game }).seconds).toEqual(
+      GREENHOUSE_CROP_TIME_SECONDS.Rice,
+    );
   });
 });
