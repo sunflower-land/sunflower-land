@@ -9047,5 +9047,7 @@
   "chore.dig.175": "Scava un tesoro 175 volte",
   "chore.dig.200": "Scava un tesoro 200 volte",
   "chore.dig.225": "Scava un tesoro 225 volte",
-  "description.hoot.boost": "+0,5 frumento, ravanello, rapa, cavolo riccio, carciofo, riso, orzo"
+  "description.hoot.boost": "+0,5 frumento, ravanello, rapa, cavolo riccio, carciofo, riso, orzo",
+  "statements.blacklist.automation": "Questa fattoria è stata bandita per l'utilizzo dell'automazione.",
+  "statements.blacklist.tos.automation": "L'uso dell'automazione è una violazione dei nostri Termini di servizio. Sunflower Land è pensato per essere giocato a mano. Gli script, le macro, i clicker automatici e altri strumenti di terze parti che giocano per te offrono un vantaggio sleale, minano l'integrità del gioco e hanno un impatto negativo su tutti i giocatori. Questa restrizione è stata applicata per mantenere un ambiente equo per la comunità."
 }

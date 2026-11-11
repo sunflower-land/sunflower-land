@@ -9047,5 +9047,7 @@
   "chore.dig.175": "挖宝藏 175 次",
   "chore.dig.200": "挖宝藏 200 次",
   "chore.dig.225": "挖宝藏 225 次",
-  "description.hoot.boost": "+0.5 小麦、萝卜、萝卜、羽衣甘蓝、朝鲜蓟、大米、大麦"
+  "description.hoot.boost": "+0.5 小麦、萝卜、萝卜、羽衣甘蓝、朝鲜蓟、大米、大麦",
+  "statements.blacklist.automation": "该农场因使用自动化而被禁止。",
+  "statements.blacklist.tos.automation": "使用自动化违反了我们的服务条款。向日葵之地本来是手工玩的。脚本、宏、自动点击器和其他第三方工具会给你带来不公平的优势，破坏游戏的完整性，并对所有玩家产生负面影响。此限制旨在为社区维持公平的环境。"
 }

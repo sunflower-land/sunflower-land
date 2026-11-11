@@ -9047,5 +9047,7 @@
   "chore.dig.175": "Gali harta karun 175 kali",
   "chore.dig.200": "Gali harta karun 200 kali",
   "chore.dig.225": "Gali harta karun 225 kali",
-  "description.hoot.boost": "+0,5 Gandum, Lobak, Lobak, Kale, Artichoke, Beras, Barley"
+  "description.hoot.boost": "+0,5 Gandum, Lobak, Lobak, Kale, Artichoke, Beras, Barley",
+  "statements.blacklist.automation": "Peternakan ini telah dilarang karena menggunakan otomatisasi.",
+  "statements.blacklist.tos.automation": "Menggunakan otomatisasi merupakan pelanggaran terhadap Ketentuan Layanan kami. Sunflower Land dimaksudkan untuk dimainkan dengan tangan. Skrip, makro, klik otomatis, dan alat pihak ketiga lainnya yang bermain untuk Anda memberikan keuntungan yang tidak adil, merusak integritas permainan, dan berdampak negatif pada semua pemain. Pembatasan ini telah diterapkan untuk menjaga lingkungan yang adil bagi masyarakat."
 }
