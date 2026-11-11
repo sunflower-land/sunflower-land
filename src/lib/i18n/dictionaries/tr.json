@@ -9049,5 +9049,8 @@
   "chore.dig.225": "225 kez hazine kazın",
   "description.hoot.boost": "+0.5 Buğday, Turp, Şalglam, Lahana, Enginar, Pirinç, Arpa",
   "statements.blacklist.automation": "Bu çiftlik otomasyon kullanımı nedeniyle yasaklandı.",
-  "statements.blacklist.tos.automation": "Otomasyonu kullanmak Hizmet Koşullarımızın ihlalidir. Ayçiçeği Ülkesi elle oynanmak içindir. Sizin için oynayan komut dosyaları, makrolar, otomatik tıklayıcılar ve diğer üçüncü taraf araçları haksız bir avantaj sağlar, oyunun bütünlüğünü zayıflatır ve tüm oyuncuları olumsuz etkiler. Bu kısıtlama, topluluk için adil bir ortam sağlamak için uygulanmıştır.."
+  "statements.blacklist.tos.automation": "Otomasyonu kullanmak Hizmet Koşullarımızın ihlalidir. Ayçiçeği Ülkesi elle oynanmak içindir. Sizin için oynayan komut dosyaları, makrolar, otomatik tıklayıcılar ve diğer üçüncü taraf araçları haksız bir avantaj sağlar, oyunun bütünlüğünü zayıflatır ve tüm oyuncuları olumsuz etkiler. Bu kısıtlama, topluluk için adil bir ortam sağlamak için uygulanmıştır..",
+  "statsLeaderboard.board.socialPoints": "Sosyal Puanlar",
+  "statsLeaderboard.title.socialPoints": "En Çok Sosyal Puan",
+  "statsLeaderboard.description.socialPoints": "Her zaman kazanılan sosyal puanlar"
 }

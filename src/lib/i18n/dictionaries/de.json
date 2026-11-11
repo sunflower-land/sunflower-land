@@ -9049,5 +9049,8 @@
   "chore.dig.225": "Grabe 225 mal einen Schatz",
   "description.hoot.boost": "+0.5 Weizen, Rettich, Rübe, Grünkohl, Artischocke, Reis, Gerste",
   "statements.blacklist.automation": "Diese Farm wurde wegen der Verwendung von Automatisierung gesperrt.",
-  "statements.blacklist.tos.automation": "Die Verwendung von Automatisierung verstößt gegen unsere Nutzungsbedingungen. Sunflower Land ist dafür gedacht, mit der Hand gespielt zu werden. Skripte, Makros, Autoklicker und andere Tools von Drittanbietern, die für dich spielen, verschaffen dir einen unfairen Vorteil, untergraben die Integrität des Spiels und wirken sich negativ auf alle Spieler aus. Diese Einschränkung wurde angewendet, um ein faires Umfeld für die Community zu gewährleisten."
+  "statements.blacklist.tos.automation": "Die Verwendung von Automatisierung verstößt gegen unsere Nutzungsbedingungen. Sunflower Land ist dafür gedacht, mit der Hand gespielt zu werden. Skripte, Makros, Autoklicker und andere Tools von Drittanbietern, die für dich spielen, verschaffen dir einen unfairen Vorteil, untergraben die Integrität des Spiels und wirken sich negativ auf alle Spieler aus. Diese Einschränkung wurde angewendet, um ein faires Umfeld für die Community zu gewährleisten.",
+  "statsLeaderboard.board.socialPoints": "Soziale Punkte",
+  "statsLeaderboard.title.socialPoints": "Die meisten sozialen Punkte",
+  "statsLeaderboard.description.socialPoints": "Alle Zeiten gesammelte Social Points"
 }

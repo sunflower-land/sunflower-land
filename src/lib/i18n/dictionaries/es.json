@@ -9049,5 +9049,8 @@
   "chore.dig.225": "Excava un tesoro 225 veces",
   "description.hoot.boost": "+0.5 Trigo, rábano, nabo, col rizada, alcachofa, arroz, cebada",
   "statements.blacklist.automation": "Esta granja ha sido prohibida por el uso de la automatización.",
-  "statements.blacklist.tos.automation": "El uso de la automatización constituye una violación de nuestros Términos de servicio. Sunflower Land está diseñado para jugarse a mano. Los scripts, las macros, los botones que hacen clic automáticamente y otras herramientas de terceros que juegan por ti te dan una ventaja injusta, socavan la integridad del juego y afectan negativamente a todos los jugadores. Esta restricción se ha aplicado para mantener un entorno justo para la comunidad."
+  "statements.blacklist.tos.automation": "El uso de la automatización constituye una violación de nuestros Términos de servicio. Sunflower Land está diseñado para jugarse a mano. Los scripts, las macros, los botones que hacen clic automáticamente y otras herramientas de terceros que juegan por ti te dan una ventaja injusta, socavan la integridad del juego y afectan negativamente a todos los jugadores. Esta restricción se ha aplicado para mantener un entorno justo para la comunidad.",
+  "statsLeaderboard.board.socialPoints": "Puntos sociales",
+  "statsLeaderboard.title.socialPoints": "La mayoría de los puntos sociales",
+  "statsLeaderboard.description.socialPoints": "Puntos sociales ganados, siempre"
 }

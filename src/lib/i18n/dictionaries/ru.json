@@ -9049,5 +9049,8 @@
   "chore.dig.225": "Dig treasure 225 times",
   "description.hoot.boost": "+0.5 Wheat, Radish, Turnip, Kale, Artichoke, Rice, Barley",
   "statements.blacklist.automation": "This farm has been banned for using automation.",
-  "statements.blacklist.tos.automation": "Using automation is a violation of our Terms of Service. Sunflower Land is meant to be played by hand. Scripts, macros, auto-clickers and other third-party tools that play for you give an unfair advantage, undermine the integrity of the game and negatively impact all players. This restriction has been applied to maintain a fair environment for the community."
+  "statements.blacklist.tos.automation": "Using automation is a violation of our Terms of Service. Sunflower Land is meant to be played by hand. Scripts, macros, auto-clickers and other third-party tools that play for you give an unfair advantage, undermine the integrity of the game and negatively impact all players. This restriction has been applied to maintain a fair environment for the community.",
+  "statsLeaderboard.board.socialPoints": "Social Points",
+  "statsLeaderboard.title.socialPoints": "Most Social Points",
+  "statsLeaderboard.description.socialPoints": "Social points earned, all time"
 }
