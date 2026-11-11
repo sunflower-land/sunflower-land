@@ -23,12 +23,12 @@ import type { BumpkinItem } from "features/game/types/bumpkin";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
-  COLORS_2026_EVENT_ITEMS,
+  HALLOWEEN_2026_EVENT_ITEMS,
   type EventStoreCollectible,
   type EventStoreItem,
   type EventStoreTier,
   type EventStoreWearable,
-} from "features/game/types/colors2026EventShop";
+} from "features/game/types/halloween2026EventShop";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
@@ -65,13 +65,13 @@ export const ItemsList: React.FC<Props> = ({
     // Handling all types or specific ones if provided
     if (type === "wearables" || (!type && "wearable" in item)) {
       return (
-        state.minigames.games["colors-2026"]?.shop?.wearables?.[
+        state.minigames.games["halloween-2026-game-2"]?.shop?.wearables?.[
           (item as EventStoreWearable).wearable as BumpkinItem
         ] ?? 0
       );
     } else {
       return (
-        state.minigames.games["colors-2026"]?.shop?.items?.[
+        state.minigames.games["halloween-2026-game-2"]?.shop?.items?.[
           (item as EventStoreCollectible).collectible as InventoryItemName
         ] ?? 0
       );
@@ -140,27 +140,29 @@ export const ItemsList: React.FC<Props> = ({
     return "requirement" in tier;
   };
 
-  const tierData = COLORS_2026_EVENT_ITEMS[tier];
+  const tierData = HALLOWEEN_2026_EVENT_ITEMS[tier];
   const requirements = hasRequirement(tierData) ? tierData.requirement : 0;
 
   const eventItemsCrafted =
-    Object.keys(state.minigames.games["colors-2026"]?.shop?.items ?? {})
-      .length +
-    Object.keys(state.minigames.games["colors-2026"]?.shop?.wearables ?? {})
-      .length;
+    Object.keys(
+      state.minigames.games["halloween-2026-game-2"]?.shop?.items ?? {},
+    ).length +
+    Object.keys(
+      state.minigames.games["halloween-2026-game-2"]?.shop?.wearables ?? {},
+    ).length;
 
   const isRareUnlocked =
     tier === "rare" &&
-    eventItemsCrafted >= COLORS_2026_EVENT_ITEMS.rare.requirement;
+    eventItemsCrafted >= HALLOWEEN_2026_EVENT_ITEMS.rare.requirement;
   const isEpicUnlocked =
     tier === "epic" &&
-    eventItemsCrafted >= COLORS_2026_EVENT_ITEMS.epic.requirement;
+    eventItemsCrafted >= HALLOWEEN_2026_EVENT_ITEMS.epic.requirement;
   const isMegaUnlocked =
     tier === "mega" &&
-    eventItemsCrafted >= COLORS_2026_EVENT_ITEMS.mega.requirement;
+    eventItemsCrafted >= HALLOWEEN_2026_EVENT_ITEMS.mega.requirement;
   const isExtraUnlocked =
     tier === "extra" &&
-    eventItemsCrafted >= COLORS_2026_EVENT_ITEMS.extra.requirement;
+    eventItemsCrafted >= HALLOWEEN_2026_EVENT_ITEMS.extra.requirement;
 
   const tierpercentage = eventItemsCrafted;
 

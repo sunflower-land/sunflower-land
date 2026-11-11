@@ -15,6 +15,7 @@ export const STATS_LEADERBOARD_NAMES = [
   "deliveries",
   "dailyLoginStreak",
   "diggingStreak",
+  "socialPoints",
 ] as const;
 
 export type StatsLeaderboardName = (typeof STATS_LEADERBOARD_NAMES)[number];
@@ -185,6 +186,11 @@ const MOCK_BOARDS: Record<
     title: "Digging Streak",
     description: "Consecutive days the desert digging reward was collected",
     top: 410,
+  },
+  socialPoints: {
+    title: "Most Social Points",
+    description: "Social points earned, all time",
+    top: 9_800,
   },
 };
 

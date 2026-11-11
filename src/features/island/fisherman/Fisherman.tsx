@@ -84,12 +84,19 @@ export const Fisherman: React.FC = () => {
 
     if (hasRequiredIslandExpansion(island, "volcano")) {
       const width = 76;
-      const top = 24;
+      let top = 24;
       // +2 over the original (8.619 / 9.76) to nudge the volcano dock art 2px west.
       let right = 10.619;
 
       if (expansionCount > 7) {
         right = 11.76;
+      }
+
+      // The volcano cliff sits lower than the swamp / ascension shoreline, so
+      // lift the dock and shift it east to rest the ladder on the cliff.
+      if (island === "volcano") {
+        top -= 3.4;
+        right -= 1.5;
       }
 
       return {

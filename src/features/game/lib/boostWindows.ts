@@ -224,17 +224,32 @@ export const CROP_MACHINE_BOOST_SPEED = {
   "Tortoise Shrine": 10 / 9,
 } as const;
 
-/** Window for the Power Hour buff (1h from activation), if active. */
+/**
+ * Every Power Hour window: the current buff (1h from activation) plus earlier
+ * ones archived into `boostHistory` when a new Power Hour replaced them (see
+ * `applyBuff`). An archived window matching the current buff isn't counted
+ * twice, and overlaps merge rather than stack.
+ */
 export const getPowerHourWindows = (game: GameState): BoostWindow[] => {
+  const speed = CROP_PLOT_BOOST_SPEED["Power hour"];
   const buff = game.buffs?.["Power hour"];
-  if (buff?.startedAt === undefined) return [];
-  return [
-    {
-      from: buff.startedAt,
-      to: buff.startedAt + buff.durationMS,
-      speed: CROP_PLOT_BOOST_SPEED["Power hour"],
-    },
-  ];
+
+  const live =
+    buff?.startedAt === undefined
+      ? []
+      : [
+          {
+            from: buff.startedAt,
+            to: buff.startedAt + buff.durationMS,
+            speed,
+          },
+        ];
+
+  const history = (game.boostHistory?.["Power hour"] ?? [])
+    .filter((window) => window.from !== buff?.startedAt)
+    .map(({ from, to }) => ({ from, to, speed }));
+
+  return mergeWindows([...live, ...history].filter((w) => w.to > w.from));
 };
 
 /**
@@ -755,7 +770,7 @@ export function getBoostWindows({
     )
     .map((placed) => {
       const from = placed.createdAt;
-      const expiry = getCollectibleExpiry({ name, collectible: placed, game });
+      const expiry = getCollectibleExpiry({ name, collectible: placed });
       const to =
         placed.removedAt !== undefined
           ? Math.min(expiry, placed.removedAt)
@@ -781,11 +796,11 @@ const MAX_BOOST_HISTORY_AGE_MS = 7 * 24 * 60 * 60 * 1000;
  *
  * A windowed crop machine banks work FORWARD from `oilSettledAt`, re-deriving
  * it from the windows each time, so every window ending after that anchor is
- * still load-bearing. The anchor normally tracks the last event or flagged
- * load, but it can fall behind the prune horizon — `migrateSpeedBoosts`
- * returns early when SPEED_BOOSTS is off, while the prune below is not
- * flag-gated, so a rollback longer than `MAX_BOOST_HISTORY_AGE_MS` would
- * otherwise drop windows a still-windowed machine depends on.
+ * still load-bearing. The anchor only advances when the machine is settled (a
+ * crop-machine event, or the BE load-time `migrateSpeedBoosts`), while the prune
+ * below runs on any event. Once that load-time call is removed, a machine left
+ * untouched longer than `MAX_BOOST_HISTORY_AGE_MS` would otherwise lose windows
+ * it still depends on.
  *
  * The crop machine is the only activity that needs this: its packs can stall
  * on an empty tank indefinitely, so its anchor can be arbitrarily old. Every
@@ -805,8 +820,8 @@ function getEarliestLedgerAnchor(game: GameState): number | undefined {
 
 /**
  * Record a finalised active window for a temporary boost collectible — or a
- * sunshower or a season Guardian's placed period (see `syncGuardianPlacements`)
- * — into `game.boostHistory` so its contribution survives its source going
+ * sunshower, a season Guardian's placed period or a replaced Power Hour (see
+ * `syncGuardianPlacements`, `applyBuff`) — into `game.boostHistory` so its contribution survives its source going
  * away. Mutates `game` in place (immer-draft friendly). Recorded for ALL
  * temporary collectibles — most have a time effect that will be windowed
  * eventually, so this is future-proof; entries for boosts no window engine reads
@@ -815,7 +830,11 @@ function getEarliestLedgerAnchor(game: GameState): number | undefined {
  */
 export function appendBoostHistory(
   game: GameState,
-  name: TemporaryCollectibleName | SeasonGuardianName | "Sunshower",
+  name:
+    | TemporaryCollectibleName
+    | SeasonGuardianName
+    | "Sunshower"
+    | "Power hour",
   window: BoostHistoryWindow,
   now: number,
 ): void {

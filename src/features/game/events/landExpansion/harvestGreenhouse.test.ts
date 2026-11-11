@@ -4,26 +4,14 @@ import { harvestGreenHouse } from "./harvestGreenHouse";
 import { plantGreenhouse } from "./plantGreenhouse";
 import { GREENHOUSE_CROP_TIME_SECONDS } from "features/game/lib/greenhouseGrowTimes";
 import { getGreenhouseReadyAt } from "./greenhouseReadiness";
-import { getExpiryCooldown } from "features/game/lib/collectibleBuilt";
+import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import type { GameState } from "features/game/types/game";
 import Decimal from "decimal.js-light";
-import { CONFIG } from "lib/config";
 import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
 
-// Pin the legacy (mainnet, SPEED_BOOSTS off) behaviour for this file's existing
-// tests — jest runs on amoy where the flag is ON. The windowed model is covered
-// in the dedicated SPEED_BOOSTS describes.
-const originalNetwork = CONFIG.NETWORK;
-beforeAll(() => {
-  (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-});
-afterAll(() => {
-  (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-});
-
-// Legacy base-time readiness (plantedAt + base grow duration) for these
-// mainnet-pinned tests; the windowed model derives it via getGreenhouseReadyAt.
+// Base-time readiness (plantedAt + base grow duration). With no boosts in play
+// it matches the windowed model's getGreenhouseReadyAt.
 const getReadyAt = ({
   plant,
   createdAt,
@@ -952,15 +940,8 @@ describe("harvestGreenHouse ascension skill ranks", () => {
   });
 });
 
-describe("harvestGreenHouse under SPEED_BOOSTS (windowed)", () => {
+describe("harvestGreenHouse (windowed)", () => {
   const farmId = 1;
-
-  beforeAll(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
-  });
-  afterAll(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-  });
 
   const placed = (createdAt: number) => [
     {
@@ -1027,7 +1008,7 @@ describe("harvestGreenHouse under SPEED_BOOSTS (windowed)", () => {
     );
 
     const base = GREENHOUSE_CROP_TIME_SECONDS.Rice * 1000;
-    const cooldown = getExpiryCooldown("Harvest Hourglass", state);
+    const cooldown = EXPIRY_COOLDOWNS["Harvest Hourglass"];
     const readyAt = getGreenhouseReadyAt(
       state.greenhouse.pots[1].plant!,
       state,
@@ -1134,5 +1115,57 @@ describe("harvestGreenHouse under SPEED_BOOSTS (windowed)", () => {
       farmId,
     });
     expect(harvested.greenhouse.pots[1].plant).toBeUndefined();
+  });
+});
+
+describe("Antique Dress", () => {
+  const harvestGrape = (
+    dress: "Antique Dress" | undefined,
+    grapesHarvested: number,
+  ) =>
+    harvestGreenHouse({
+      farmId: 1,
+      action: { type: "greenhouse.harvested", id: 1 },
+      state: {
+        ...farm,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: { ...INITIAL_BUMPKIN.equipped, dress },
+        },
+        farmActivity: { "Grape Harvested": grapesHarvested },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {
+              plant: {
+                name: "Grape",
+                plantedAt: Date.now() - 72 * 60 * 60 * 1000,
+              },
+            },
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            { coordinates: { x: 0, y: 0 }, id: "1", createdAt: 0, readyAt: 0 },
+          ],
+        },
+      },
+    });
+
+  // Golden values: farmId 1 + Grape counter 17 rolls under 10%, counter 0 does not
+  it("gives +10 Grapes on a 10% roll", () => {
+    expect(harvestGrape("Antique Dress", 17).inventory.Grape).toEqual(
+      new Decimal(11),
+    );
+  });
+
+  it("gives no bonus when the roll misses", () => {
+    expect(harvestGrape("Antique Dress", 0).inventory.Grape).toEqual(
+      new Decimal(1),
+    );
+  });
+
+  it("gives no bonus without the Antique Dress", () => {
+    expect(harvestGrape(undefined, 17).inventory.Grape).toEqual(new Decimal(1));
   });
 });

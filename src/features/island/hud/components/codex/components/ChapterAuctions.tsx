@@ -409,7 +409,9 @@ const Drops: React.FC<{
                         <a
                           href={getCalendarUrl(
                             drop,
-                            t("auction.calendarEventTitle", { item: name }),
+                            t("auction.calendarEventTitle", {
+                              item: name,
+                            }),
                           )}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -591,9 +593,13 @@ export const ChapterAuctions: React.FC<Props> = ({
                       {remainingLeft === 0 ? (
                         <Label type="danger">{t("season.codex.soldOut")}</Label>
                       ) : remainingLeft <= 50 ? (
-                        <Label type="formula">{`${remainingLeft} left`}</Label>
+                        <Label type="formula">
+                          {t("stock.left", { stock: remainingLeft })}
+                        </Label>
                       ) : (
-                        <Label type="default">{`${remainingLeft} left`}</Label>
+                        <Label type="default">
+                          {t("stock.left", { stock: remainingLeft })}
+                        </Label>
                       )}
                     </div>
                   </div>

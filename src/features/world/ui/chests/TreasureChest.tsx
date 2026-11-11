@@ -21,6 +21,7 @@ import rewardsIcon from "assets/icons/stock.webp";
 import basicChest from "public/world/basic_chest.png";
 import rareChest from "public/world/wooden_chest.png";
 import luxuryChest from "public/world/luxury_chest.png";
+import { formatNumber } from "lib/utils/formatNumber";
 
 interface Props {
   onClose: () => void;
@@ -71,7 +72,13 @@ export const TreasureChest: React.FC<Props> = ({
 
   const [isRevealing, setIsRevealing] = useState(false);
 
-  const hasKey = !!gameState.context.state.inventory[type]?.gte(1);
+  const keyCount = gameState.context.state.inventory[type];
+  const hasKey = !!keyCount?.gte(1);
+  const inventoryLabel = (
+    <Label type="default">
+      {`${t("inventory")}: ${formatNumber(keyCount ?? 0, { decimalPlaces: 0 })}`}
+    </Label>
+  );
 
   const open = async () => {
     setIsLoading && setIsLoading(true);
@@ -123,13 +130,12 @@ export const TreasureChest: React.FC<Props> = ({
       >
         {tab === "chest" && (
           <div className="p-2">
-            <Label
-              type="danger"
-              className="mb-2"
-              icon={ITEM_DETAILS[type].image}
-            >
-              {t("basic.treasure.missingKey")}
-            </Label>
+            <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 mb-2">
+              <Label type="danger" icon={ITEM_DETAILS[type].image}>
+                {t("basic.treasure.missingKey")}
+              </Label>
+              <div className="ml-auto">{inventoryLabel}</div>
+            </div>
             <p className="text-xs mb-2">
               {type === "Treasure Key" && t("basic.treasure.needKey")}
               {type === "Rare Key" && t("rare.treasure.needKey")}
@@ -158,15 +164,16 @@ export const TreasureChest: React.FC<Props> = ({
       {tab === "chest" && (
         <>
           <div className="p-2">
-            <div className="flex flex-wrap mr-12">
+            <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 mb-2">
               <Label
                 type="default"
                 icon={ITEM_DETAILS[type].image}
-                className="mb-2 mr-3 capitalize"
+                className="capitalize"
                 secondaryIcon={SUNNYSIDE.icons.confirm}
               >
                 {type}
               </Label>
+              <div className="ml-auto">{inventoryLabel}</div>
             </div>
             <p className="text-xs mb-2">{t("basic.treasure.congratsKey")}</p>
             <p className="text-xs mb-2">{t("basic.treasure.openChest")}</p>

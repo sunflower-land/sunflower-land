@@ -32,7 +32,6 @@ import {
 import {
   ANIMAL_LEVELS,
   ANIMAL_RESOURCE_DROP,
-  ANIMALS,
   type AnimalLevel,
 } from "features/game/types/animals";
 import {
@@ -52,11 +51,20 @@ import { formatNumber } from "lib/utils/formatNumber";
 const ProductionResource: React.FC<{
   resource: AnimalResource;
   amount: number;
+  baseAmount: number;
   boosts: { name: BoostName; value: string }[];
   state: GameState;
   showBoosts: boolean;
   onToggle: () => void;
-}> = ({ resource, amount, boosts, state, showBoosts, onToggle }) => {
+}> = ({
+  resource,
+  amount,
+  baseAmount,
+  boosts,
+  state,
+  showBoosts,
+  onToggle,
+}) => {
   const { t } = useAppTranslation();
   const anchorRef = useRef<HTMLButtonElement>(null);
   const hasBoosts = boosts.length > 0;
@@ -104,6 +112,10 @@ const ProductionResource: React.FC<{
       {content}
       <BoostsDisplay
         boosts={boosts}
+        base={{
+          value: formatNumber(baseAmount),
+          icon: ITEM_DETAILS[resource].image,
+        }}
         show={showBoosts}
         state={state}
         onClick={onToggle}
@@ -184,11 +196,7 @@ export const SleepingAnimalModal = ({
     );
   }
 
-  const favouriteFood = getAnimalFavoriteFood(
-    animal.type,
-    animal.experience,
-    state,
-  );
+  const favouriteFood = getAnimalFavoriteFood(animal.type, animal.experience);
 
   // Get the XP for the current love item
   const { animalXP } = getAnimalXP({
@@ -199,12 +207,8 @@ export const SleepingAnimalModal = ({
 
   const hasTool = getCountAndType(state, animal.item).count.gt(0);
 
-  const level = getAnimalLevel(animal.experience, animal.type, state);
-  const isMaxLevel = isMaxAnimalLevel(animal.type, level, state);
-  // At MAX but below the top of its XP table: held there by its building's
-  // level (a Pig by its Pigpen), so an upgrade still raises it.
-  const isCappedByBuilding =
-    isMaxLevel && level < Object.keys(ANIMAL_LEVELS[animal.type]).length - 1;
+  const level = getAnimalLevel(animal.experience, animal.type);
+  const isMaxLevel = isMaxAnimalLevel(animal.type, level);
   const production = Object.entries(
     ANIMAL_RESOURCE_DROP[animal.type][level],
   ).map(([resource, baseAmount]) => {
@@ -272,21 +276,24 @@ export const SleepingAnimalModal = ({
               {":"}
             </span>
             <div className="flex flex-nowrap items-center gap-x-3 whitespace-nowrap">
-              {production.map(({ resource, amount, boostsUsed }) => (
-                <ProductionResource
-                  key={resource}
-                  resource={resource}
-                  amount={amount}
-                  boosts={boostsUsed}
-                  state={state}
-                  showBoosts={activeProductionResource === resource}
-                  onToggle={() =>
-                    setActiveProductionResource((active) =>
-                      active === resource ? null : resource,
-                    )
-                  }
-                />
-              ))}
+              {production.map(
+                ({ resource, amount, baseAmount, boostsUsed }) => (
+                  <ProductionResource
+                    key={resource}
+                    resource={resource}
+                    amount={amount}
+                    baseAmount={baseAmount}
+                    boosts={boostsUsed}
+                    state={state}
+                    showBoosts={activeProductionResource === resource}
+                    onToggle={() =>
+                      setActiveProductionResource((active) =>
+                        active === resource ? null : resource,
+                      )
+                    }
+                  />
+                ),
+              )}
             </div>
           </div>
         )}
@@ -309,15 +316,6 @@ export const SleepingAnimalModal = ({
             )}
           </div>
         </div>
-        {isCappedByBuilding && (
-          <p className="text-xs px-1 pb-1">
-            {t("sleepingAnimal.levelCapped", {
-              building: getTranslatedItemName(
-                ANIMALS[animal.type].buildingRequired,
-              ),
-            })}
-          </p>
-        )}
         <div className="flex text-sm p-1 items-center">
           <img
             src={ITEM_DETAILS[favouriteFood].image}
@@ -410,8 +408,8 @@ export const SleepingAnimalModal = ({
                 {getTranslatedItemName("Mud")}
               </p>
               <span className="text-xs -top-0.5 relative">
-                {t("sleepingAnimal.mudFeedsLeft", {
-                  count: animal.mud.feedsRemaining,
+                {t("sleepingAnimal.mudHarvestsLeft", {
+                  count: animal.mud.harvestsRemaining,
                   percent: Math.round((MUD_XP_MULTIPLIER - 1) * 100),
                 })}
               </span>

@@ -73,8 +73,12 @@ const getFruitTreeStatus = (
     // its fill across a landscaping lift instead of snapping backward.
     totalSeconds = (baseDurationMs + (boostedTime ?? 0)) / 1000;
   } else {
+    // Legacy: `startedAt` is back-dated by the boost and `boostedTime` holds
+    // that DISCOUNT, so the bar's total is the real (boosted) cycle length.
+    // Dividing by the full `plantSeconds` instead would open the bar near-full
+    // on a heavily boosted patch and fill only the last sliver.
     timeLeft = Math.max((startedAt + plantSeconds * 1000 - now) / 1000, 0);
-    totalSeconds = plantSeconds;
+    totalSeconds = Math.max(plantSeconds - (boostedTime ?? 0) / 1000, 0);
   }
 
   if (timeLeft > 0) {

@@ -38,7 +38,11 @@ import xpIcon from "assets/icons/xp.png";
 import { Checkbox } from "components/ui/Checkbox";
 import { PetGuide, PetGuideButton } from "features/pets/petGuide/PetGuide";
 import { getObjectEntries } from "lib/object";
-import { capitalize } from "lib/utils/capitalize";
+import {
+  getPetCategoryLabel,
+  getPetTraitLabel,
+  getPetTypeLabel,
+} from "./lib/petLabels";
 import { useNow } from "lib/utils/hooks/useNow";
 import { isWearableActive } from "features/game/lib/wearables";
 import { getPetFoodRequests } from "features/game/events/pets/feedPet";
@@ -206,30 +210,30 @@ export const PetModal: React.FC<Props> = ({
               {/* Pet Type and Categories */}
               <div className="flex flex-wrap gap-1 mb-2">
                 <Label type="info" className="text-xs">
-                  {getPetType(data)}
+                  {getPetTypeLabel(type)}
                 </Label>
                 <Label type="chill" className="text-xs">
-                  {petCategory.primary}
+                  {getPetCategoryLabel(petCategory.primary)}
                 </Label>
                 {petCategory.secondary && (
                   <Label type="formula" className="text-xs">
-                    {petCategory.secondary}
+                    {getPetCategoryLabel(petCategory.secondary)}
                   </Label>
                 )}
                 {petCategory.tertiary && (
                   <Label type="vibrant" className="text-xs">
-                    {petCategory.tertiary}
+                    {getPetCategoryLabel(petCategory.tertiary)}
                   </Label>
                 )}
                 {isNFTPet &&
                   data.traits &&
-                  getObjectEntries(data.traits)
-                    .filter(([key]) => key !== "type")
-                    .map(([key, value]) => (
+                  getObjectEntries(data.traits).map(([key, value]) =>
+                    key === "type" ? null : (
                       <Label type="default" className="text-xs" key={key}>
-                        {`${value} ${key !== "aura" ? capitalize(key) : ""}`}
+                        {getPetTraitLabel(key, value)}
                       </Label>
-                    ))}
+                    ),
+                  )}
               </div>
 
               {/* Level and Experience */}

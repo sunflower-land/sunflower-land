@@ -26,7 +26,6 @@ import {
   SFTDetailPopoverLabel,
 } from "components/ui/SFTDetailPopover";
 import { _hasCheeredToday, PROJECT_IMAGES } from "./Project";
-import powerup from "assets/icons/level_up.png";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { FarmHelped } from "features/island/hud/components/FarmHelped";
 import helpIcon from "assets/icons/help.webp";
@@ -73,9 +72,23 @@ const ProjectModal: React.FC<{
       </div>
 
       {isProjectComplete && boostLabel && (
-        <Label type="success" icon={powerup} className="mb-1 ml-2">
-          {boostLabel[0].shortDescription}
-        </Label>
+        <div className="flex flex-col gap-1 mb-1 ml-2 items-start">
+          {boostLabel.map(
+            (
+              { labelType, boostTypeIcon, boostedItemIcon, shortDescription },
+              index,
+            ) => (
+              <Label
+                key={index}
+                type={labelType}
+                icon={boostTypeIcon}
+                secondaryIcon={boostedItemIcon}
+              >
+                {shortDescription}
+              </Label>
+            ),
+          )}
+        </div>
       )}
 
       <Button onClick={onClose}>{t("close")}</Button>

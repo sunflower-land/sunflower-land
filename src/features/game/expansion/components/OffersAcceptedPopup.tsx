@@ -76,7 +76,7 @@ export const OffersAcceptedPopup: React.FC = () => {
           const sfl = new Decimal(offer.sfl);
           const estTradePoints = calculateTradePoints({
             sfl: offer.sfl,
-            points: !offer.signature ? 2 : 4,
+            points: 2,
           }).multipliedPoints;
           const isResource = isTradeResource(KNOWN_ITEMS[Number(itemId)]);
 

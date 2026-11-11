@@ -114,7 +114,7 @@ export const AuctioneerModal: React.FC<Props> = ({
         bumpkinParts={NPC_WEARABLES["hammerin harry"]}
         secondaryAction={
           <a
-            href="https://docs.sunflower-land.com/getting-started/crypto-and-digital-collectibles"
+            href="https://docs.sunflower-land.com/web3-and-economy/wallets-and-collectibles"
             className="mx-auto text-xxs underline text-center"
             target="_blank"
             rel="noreferrer"

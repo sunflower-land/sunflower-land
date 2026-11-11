@@ -9,13 +9,20 @@ import { getSickAnimalRewardAmount } from "features/game/events/landExpansion/se
 import {
   generateBountyCoins,
   generateBountyTicket,
+  getBountyRewardBoosts,
 } from "features/game/events/landExpansion/sellBounty";
 import { Context } from "features/game/GameProvider";
 import {
   getAnimalLevel,
+  getPigBristles,
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
-import { ANIMALS, type AnimalType } from "features/game/types/animals";
+import {
+  ANIMALS,
+  PIG_TRADE_IN_BRISTLES_RANGE,
+  PIG_TRADE_IN_MIN_LEVEL,
+  type AnimalType,
+} from "features/game/types/animals";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { weekResetsAt } from "features/game/lib/factions";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -43,6 +50,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { BountyRewardLabel } from "./BountyRewardLabel";
 import chapterPoints from "assets/icons/red_medal_short.webp";
 
 import { getChapterTaskPoints } from "features/game/types/tracks";
@@ -54,6 +62,8 @@ interface Props {
   onExchanging: (deal: AnimalBounty) => void;
   reward?: "coins" | "tickets";
   readonly?: boolean;
+  /** Pigpen only: adds the always-available "Trade in" section above the board. */
+  onTradeIn?: () => void;
 }
 
 const ConfirmButton: React.FC<{
@@ -76,6 +86,7 @@ export const AnimalBounties: React.FC<Props> = ({
   onExchanging,
   reward,
   readonly,
+  onTradeIn,
 }) => {
   const { gameService } = useContext(Context);
   const exchange = useSelector(gameService, _exchange);
@@ -132,6 +143,21 @@ export const AnimalBounties: React.FC<Props> = ({
         "overflow-y-auto max-h-[500px] scrollable": !readonly,
       })}
     >
+      {onTradeIn && (
+        <div className="p-1 mb-2">
+          <Label
+            type="default"
+            icon={ITEM_DETAILS["Pig Bristles"].image}
+            className="mb-2"
+          >
+            {t("pigs.tradeIn")}
+          </Label>
+          <p className="text-xs mb-3">{t("pigs.tradeIn.board.info")}</p>
+          <div className="flex flex-wrap">
+            <TradeInCard onTradeIn={onTradeIn} />
+          </div>
+        </div>
+      )}
       <div className="p-1">
         <div className="flex justify-between items-center mb-2">
           <Label type="default">{t("bounties.board")}</Label>
@@ -182,6 +208,7 @@ export const AnimalBounties: React.FC<Props> = ({
                     onExchanging={onExchanging}
                     state={state}
                     now={now}
+                    readonly={readonly}
                   />
                 ))}
               </div>
@@ -282,6 +309,12 @@ export const AnimalDeal: React.FC<{
     bounty: deal,
   });
 
+  const rewardBoosts = getBountyRewardBoosts({
+    game: state,
+    bounty: deal,
+    now,
+  });
+
   const tickets = deal.items?.[chapterTicket] ?? 0;
   const chapter = getCurrentChapter(now);
 
@@ -302,6 +335,15 @@ export const AnimalDeal: React.FC<{
 
     pointsAwarded = getChapterTaskPoints({ task: "bounty", points });
   }
+
+  // A Pig bounty also pays the Pig's level-dependent Bristles (#7721); the
+  // sick cut is already inside `getPigBristles`, exact rather than floored.
+  const bristles =
+    animal.type === "Pig"
+      ? getPigBristles({ game: state, pig: animal })
+      : undefined;
+  const bristlesIcon = ITEM_DETAILS["Pig Bristles"].image;
+  const bristlesName = getTranslatedItemName("Pig Bristles");
 
   const renderSickReward = (amount: number, label: string, icon: string) => {
     const sickAmount = getSickAnimalRewardAmount(amount);
@@ -368,6 +410,23 @@ export const AnimalDeal: React.FC<{
                 );
               })}
 
+              {bristles && bristles.amount > 0 && (
+                <div className="flex items-center space-x-1">
+                  {bristles.beforeSickness !== bristles.amount && (
+                    <Label
+                      type="warning"
+                      icon={bristlesIcon}
+                      className="text-sm"
+                    >
+                      <span className="line-through">{`x ${bristles.beforeSickness} ${bristlesName}`}</span>
+                    </Label>
+                  )}
+                  <Label type="warning" icon={bristlesIcon} className="text-sm">
+                    {`x ${bristles.amount} ${bristlesName}`}
+                  </Label>
+                </div>
+              )}
+
               {!!deal.items?.[chapterTicket] && (
                 <Label type={"vibrant"} icon={chapterPoints} className="ml-2">
                   {t("bounties.chapterPoints.earned", {
@@ -379,6 +438,11 @@ export const AnimalDeal: React.FC<{
                 </Label>
               )}
             </div>
+            {bristles && bristles.amount > 0 && (
+              <p className="text-xs mb-1">
+                {t("pigs.tradeIn.bountyBristles", { amount: bristles.amount })}
+              </p>
+            )}
           </div>
           <div className="flex space-x-1">
             <Button onClick={onClose}>{t("cancel")}</Button>
@@ -402,21 +466,30 @@ export const AnimalDeal: React.FC<{
                 className="mr-2"
               >
                 {t("bounties.animal.levelLabel", {
-                  level: getAnimalLevel(animal.experience, animal.type, state),
+                  level: getAnimalLevel(animal.experience, animal.type),
                   animal: getTranslatedItemName(animal.type),
                 })}
               </Label>
               {!!deal.coins && (
-                <Label type="warning" icon={SUNNYSIDE.ui.coinsImg}>
+                <BountyRewardLabel
+                  icon={SUNNYSIDE.ui.coinsImg}
+                  boosts={rewardBoosts}
+                  base={`${deal.coins}`}
+                  state={state}
+                  interactive
+                >
                   {coins}
-                </Label>
+                </BountyRewardLabel>
               )}
 
               {getKeys(deal.items ?? {}).map((name) => (
-                <Label
+                <BountyRewardLabel
                   key={name}
-                  type="warning"
                   icon={ITEM_DETAILS[name].image}
+                  boosts={name === chapterTicket ? rewardBoosts : []}
+                  base={`${deal.items?.[name]}`}
+                  state={state}
+                  interactive
                 >
                   {name !== chapterTicket
                     ? deal.items?.[name]
@@ -425,8 +498,14 @@ export const AnimalDeal: React.FC<{
                         bounty: deal,
                         now,
                       })}
-                </Label>
+                </BountyRewardLabel>
               ))}
+
+              {bristles && bristles.amount > 0 && (
+                <Label type="warning" icon={bristlesIcon}>
+                  {bristles.amount}
+                </Label>
+              )}
 
               {!!deal.items?.[chapterTicket] && (
                 <Label type={"vibrant"} icon={chapterPoints} className="ml-2">
@@ -459,6 +538,11 @@ export const AnimalDeal: React.FC<{
                       .join(" - "),
                   })}
             </p>
+            {bristles && bristles.amount > 0 && (
+              <p className="text-xs mt-1">
+                {t("pigs.tradeIn.bountyBristles", { amount: bristles.amount })}
+              </p>
+            )}
           </div>
           <div className="flex">
             <Button className="mr-1" onClick={onClose}>
@@ -555,13 +639,56 @@ interface BountyCardProps {
   onExchanging: (deal: AnimalBounty) => void;
   state: MachineState["context"]["state"];
   now: number;
+  /** Read-only board (Codex): the reward label opens the boosts breakdown. */
+  readonly?: boolean;
 }
+
+/**
+ * The Pig trade-in, laid out like a bounty card: the Pig on the face, the
+ * level gate top-left and the reward along the bottom. The amount depends on
+ * the Pig picked, so the room shows the figures once a Pig is chosen.
+ */
+const TradeInCard: React.FC<{ onTradeIn: () => void }> = ({ onTradeIn }) => {
+  const { t } = useAppTranslation();
+  const { min, max } = PIG_TRADE_IN_BRISTLES_RANGE;
+
+  return (
+    <div className="w-1/3 sm:w-1/4 pr-1.5 pb-1.5">
+      <ButtonPanel variant="primary" onClick={onTradeIn}>
+        <div className="flex justify-center items-center my-2 mb-6">
+          <div className="relative">
+            <img src={ITEM_DETAILS.Pig.image} className="w-10 z-20" />
+          </div>
+        </div>
+
+        <Label type="formula" className="absolute -top-3.5 -left-2">
+          {t("level.short", { level: PIG_TRADE_IN_MIN_LEVEL }) + "+"}
+        </Label>
+
+        <Label
+          type="warning"
+          icon={ITEM_DETAILS["Pig Bristles"].image}
+          className="absolute -bottom-2 text-center p-1"
+          style={{
+            left: `${PIXEL_SCALE * -3}px`,
+            right: `${PIXEL_SCALE * -3}px`,
+            width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+            height: "25px",
+          }}
+        >
+          {`${min}-${max}`}
+        </Label>
+      </ButtonPanel>
+    </div>
+  );
+};
 
 const BountyCard: React.FC<BountyCardProps> = ({
   deal,
   onExchanging,
   state,
   now,
+  readonly,
 }) => {
   const { t } = useAppTranslation();
   const chapterTicket = getChapterTicket(now);
@@ -574,6 +701,17 @@ const BountyCard: React.FC<BountyCardProps> = ({
     game: state,
     bounty: deal,
   });
+  const rewardBoosts = getBountyRewardBoosts({
+    game: state,
+    bounty: deal,
+    now,
+  });
+  const cardRewardStyle: React.CSSProperties = {
+    left: `${PIXEL_SCALE * -3}px`,
+    right: `${PIXEL_SCALE * -3}px`,
+    width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+    height: "25px",
+  };
 
   return (
     <div
@@ -610,34 +748,32 @@ const BountyCard: React.FC<BountyCardProps> = ({
 
         {/* Show coins if it's a coin bounty */}
         {deal.coins && (
-          <Label
-            type="warning"
+          <BountyRewardLabel
             icon={SUNNYSIDE.ui.coinsImg}
-            className="absolute -bottom-2 text-center p-1"
-            style={{
-              left: `${PIXEL_SCALE * -3}px`,
-              right: `${PIXEL_SCALE * -3}px`,
-              width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
-              height: "25px",
-            }}
+            boosts={rewardBoosts}
+            base={`${deal.coins}`}
+            state={state}
+            interactive={readonly}
+            className="absolute -bottom-2"
+            style={cardRewardStyle}
+            labelClassName="w-full h-full text-center p-1"
           >
             {coins}
-          </Label>
+          </BountyRewardLabel>
         )}
 
         {/* Show items if it's an item bounty */}
         {getKeys(deal.items ?? {}).map((name) => (
-          <Label
+          <BountyRewardLabel
             key={name}
-            type="warning"
             icon={ITEM_DETAILS[name].image}
-            className="absolute -bottom-2 text-center p-1"
-            style={{
-              left: `${PIXEL_SCALE * -3}px`,
-              right: `${PIXEL_SCALE * -3}px`,
-              width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
-              height: "25px",
-            }}
+            boosts={name === chapterTicket ? rewardBoosts : []}
+            base={`${deal.items?.[name]}`}
+            state={state}
+            interactive={readonly}
+            className="absolute -bottom-2"
+            style={cardRewardStyle}
+            labelClassName="w-full h-full text-center p-1"
           >
             {name !== chapterTicket
               ? deal.items?.[name]
@@ -646,7 +782,7 @@ const BountyCard: React.FC<BountyCardProps> = ({
                   bounty: deal,
                   now,
                 })}
-          </Label>
+          </BountyRewardLabel>
         ))}
       </ButtonPanel>
     </div>

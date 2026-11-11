@@ -32,7 +32,7 @@ import { DesertNoticeboard } from "./beach/DesertNoticeboard";
 import { PirateChestModal } from "./chests/PirateChest";
 import { ExampleDonations } from "./donations/ExampleDonations";
 import { WorldMap } from "features/island/hud/components/deliveries/WorldMap";
-import { Colors2026 } from "./portals/Colors2026";
+import { Halloween2026 } from "./portals/Halloween2026";
 import { WeatherShop } from "features/game/expansion/components/temperateSeason/WeatherShop";
 import { PortalChooser } from "./portals/PortalChooser";
 import { EasterEggstravaganza } from "./portals/EasterEggstravaganza";
@@ -46,8 +46,8 @@ import { EventNoticeboard } from "./EventNoticeboard";
 import { PotionMaster } from "features/helios/components/potions/component/PotionHouseShopItems";
 import { PetShop } from "features/pets/petShop/PetShop";
 import { LoveIslandNoticeboard } from "./loveRewardShop/LoveIslandNoticeboard";
-import { Rarecrows } from "./Rarecrows";
 import { ChapterRaffles } from "./chapterRaffles/ChapterRaffles";
+import { ChapterCropWeekLeaderboard } from "./chapterCropWeek/ChapterCropWeekLeaderboard";
 import { DesignShowcaseContent } from "features/social/DesignShowcase";
 import { FreeTrial } from "./FreeTrial";
 import { Yakkamon } from "./yakkamon/Yakkamon";
@@ -124,7 +124,6 @@ type InteractableName =
   | "nightshades_faction"
   | "sunflorians_faction"
   | "chicken_rescue"
-  | "rarecrows"
   | "crops_and_chickens"
   | "fruit_dash"
   | "festival_of_colors"
@@ -156,8 +155,9 @@ type InteractableName =
   | "flower_exchange"
   | "event_store"
   | "event_noticeboard"
-  | "colors_2026"
+  | "halloween_2026"
   | "chapter_raffles"
+  | "chapter_crop_week_leaderboard"
   | "design_showcase"
   | "giveaway_board"
   | "free_trial"
@@ -260,13 +260,16 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         {" "}
         <ChapterRaffles onClose={closeModal} />
       </Modal>
+      <Modal
+        show={interactable === "chapter_crop_week_leaderboard"}
+        onHide={closeModal}
+      >
+        <ChapterCropWeekLeaderboard onClose={closeModal} />
+      </Modal>
       <Modal show={interactable === "design_showcase"} onHide={closeModal}>
         <CloseButtonPanel onClose={closeModal}>
           <DesignShowcaseContent />
         </CloseButtonPanel>
-      </Modal>
-      <Modal show={interactable === "rarecrows"} onHide={closeModal}>
-        <Rarecrows onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "yakkamon"} onHide={closeModal}>
         <Yakkamon onClose={closeModal} />
@@ -604,12 +607,12 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         </CloseButtonPanel>
       </Modal>
 
-      <Modal show={interactable === "colors_2026"}>
+      <Modal show={interactable === "halloween_2026"}>
         <CloseButtonPanel
           onClose={closeModal}
-          bumpkinParts={NPC_WEARABLES["Slime Joe"]}
+          bumpkinParts={NPC_WEARABLES["Skelly Joe"]}
         >
-          <Colors2026 onClose={closeModal} />
+          <Halloween2026 onClose={closeModal} />
         </CloseButtonPanel>
       </Modal>
 
@@ -718,7 +721,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
                   text: t("read.more"),
                   cb: () => {
                     window.open(
-                      "https://docs.sunflower-land.com/getting-started/crypto-and-digital-collectibles",
+                      "https://docs.sunflower-land.com/web3-and-economy/wallets-and-collectibles",
                       "_blank",
                     );
                   },

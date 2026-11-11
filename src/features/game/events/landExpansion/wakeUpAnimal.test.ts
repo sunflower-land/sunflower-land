@@ -319,7 +319,6 @@ describe("wakeAnimal", () => {
     expect(state.barn.animals["1"].awakeAt).toEqual(now);
     expect(state.inventory["Moo Doll"]).toEqual(new Decimal(1));
   });
-  // FE + BE jest run amoy, so SPEED_BOOSTS is ON by default here.
   it("clears the windowed marker so the animal wakes at exactly this instant", () => {
     const now = Date.now();
     const state = wakeAnimal({

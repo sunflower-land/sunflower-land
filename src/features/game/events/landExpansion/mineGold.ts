@@ -8,10 +8,7 @@ import {
   canUseYieldBoostAOE,
   setAOELastUsed,
 } from "features/game/lib/aoe";
-import {
-  isTemporaryCollectibleActive,
-  isCollectibleBuilt,
-} from "features/game/lib/collectibleBuilt";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { GOLD_RECOVERY_TIME } from "features/game/lib/constants";
 import { FACTION_ITEMS } from "features/game/lib/factions";
 import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
@@ -27,7 +24,6 @@ import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { produce } from "immer";
 import { prngChance } from "lib/prng";
 import cloneDeep from "lodash.clonedeep";
-import { hasFeatureAccess } from "lib/flags";
 import { canMine, getMineReadyAt } from "features/game/lib/resourceNodes";
 
 export type LandExpansionGoldMineAction = {
@@ -66,11 +62,9 @@ type GetMinedAtArgs = {
 export function getGoldRecoveryTimeForDisplay({
   game,
   prngArgs,
-  now,
 }: {
   game: GameState;
   prngArgs?: PrngArgs;
-  now: number;
 }): {
   baseTimeMs: number;
   recoveryTimeMs: number;
@@ -80,12 +74,11 @@ export function getGoldRecoveryTimeForDisplay({
   let totalSeconds = GOLD_RECOVERY_TIME;
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
-  // Under SPEED_BOOSTS the temporary gold boosts (totems, Ore Hourglass, Mole
-  // Shrine) are retroactive speed-rate windows (see boostWindows), so they're
-  // excluded from the baked recovery here — what remains is the permanent-boost-
-  // only base duration. Flag-off keeps the legacy discount-at-start. The Pickaxe
-  // Shark PRNG-instant early-return is a PERMANENT boost and stays unconditional.
-  const boostsWindowed = hasFeatureAccess(game, "SPEED_BOOSTS");
+  // The temporary gold boosts (totems, Ore Hourglass, Mole Shrine) are
+  // retroactive speed-rate windows (see boostWindows), so they're excluded from
+  // the baked recovery here — what remains is the permanent-boost-only base
+  // duration. The Pickaxe Shark PRNG-instant early-return is a PERMANENT boost
+  // and stays unconditional.
 
   if (
     isWearableActive({ name: "Pickaxe Shark", game }) &&
@@ -103,44 +96,9 @@ export function getGoldRecoveryTimeForDisplay({
     };
   }
 
-  const superTotemActive = isTemporaryCollectibleActive({
-    name: "Super Totem",
-    game,
-    now,
-  });
-  const timeWarpTotemActive = isTemporaryCollectibleActive({
-    name: "Time Warp Totem",
-    game,
-    now,
-  });
-
-  if (!boostsWindowed && (superTotemActive || timeWarpTotemActive)) {
-    totalSeconds = totalSeconds * 0.5;
-    if (superTotemActive)
-      boostsUsed.push({ name: "Super Totem", value: "x0.5" });
-    else if (timeWarpTotemActive)
-      boostsUsed.push({ name: "Time Warp Totem", value: "x0.5" });
-  }
-
-  if (
-    !boostsWindowed &&
-    isTemporaryCollectibleActive({ name: "Ore Hourglass", game, now })
-  ) {
-    totalSeconds = totalSeconds * 0.5;
-    boostsUsed.push({ name: "Ore Hourglass", value: "x0.5" });
-  }
-
   if (isWearableActive({ name: "Pickaxe Shark", game })) {
     totalSeconds = totalSeconds * 0.85;
     boostsUsed.push({ name: "Pickaxe Shark", value: "x0.85" });
-  }
-
-  if (
-    !boostsWindowed &&
-    isTemporaryCollectibleActive({ name: "Mole Shrine", game, now })
-  ) {
-    totalSeconds = totalSeconds * 0.75;
-    boostsUsed.push({ name: "Mole Shrine", value: "x0.75" });
   }
 
   const midasSprintLevel = getSkillLevel(game.bumpkin.skills, "Midas Sprint");
@@ -165,27 +123,23 @@ export function getGoldRecoveryTimeForDisplay({
 }
 
 /**
- * The mine time to persist, plus (under SPEED_BOOSTS) the base recovery duration.
+ * The mine time to persist, plus the base recovery duration.
  *
- * Legacy model: back-date `minedAt` into the past so the rock replenishes faster.
- * Speed-rate model (SPEED_BOOSTS): store the REAL mine time and a `baseDurationMs`
- * carrying only the permanent boosts; the temporary boosts are derived live from
+ * Speed-rate model: store the REAL mine time and a `baseDurationMs` carrying only
+ * the permanent boosts; the temporary boosts are derived live from
  * windows. Uses getGoldRecoveryTimeForDisplay for boost logic.
  */
 export function getMinedAt({ createdAt, game, prngArgs }: GetMinedAtArgs): {
   time: number;
-  baseDurationMs?: number;
+  baseDurationMs: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
-  const { baseTimeMs, recoveryTimeMs, boostsUsed } =
-    getGoldRecoveryTimeForDisplay({ game, prngArgs, now: createdAt });
+  const { recoveryTimeMs, boostsUsed } = getGoldRecoveryTimeForDisplay({
+    game,
+    prngArgs,
+  });
 
-  if (hasFeatureAccess(game, "SPEED_BOOSTS")) {
-    return { time: createdAt, baseDurationMs: recoveryTimeMs, boostsUsed };
-  }
-
-  const buffMs = baseTimeMs - recoveryTimeMs;
-  return { time: createdAt - buffMs, boostsUsed };
+  return { time: createdAt, baseDurationMs: recoveryTimeMs, boostsUsed };
 }
 
 type Options = {
@@ -431,26 +385,19 @@ export function mineGold({
       prngArgs: prngObject,
     });
 
-    const {
-      baseTimeMs,
-      recoveryTimeMs,
-      boostsUsed: boostedTimeBoostsUsed,
-    } = getGoldRecoveryTimeForDisplay({
-      game: stateCopy,
-      prngArgs: prngObject,
-      now: createdAt,
-    });
+    const { boostsUsed: boostedTimeBoostsUsed } = getGoldRecoveryTimeForDisplay(
+      {
+        game: stateCopy,
+        prngArgs: prngObject,
+      },
+    );
 
     goldRock.stone = { minedAt: time };
-    if (baseDurationMs !== undefined) {
-      // Speed-rate model: real minedAt + permanent-only baseDurationMs. Temporary
-      // boosts are derived live from windows, so there's no baked discount; keep
-      // boostedTime at 0 so the yield-AOE budget uses the real windowed duration.
-      goldRock.stone.baseDurationMs = baseDurationMs;
-      goldRock.stone.boostedTime = 0;
-    } else {
-      goldRock.stone.boostedTime = baseTimeMs - recoveryTimeMs;
-    }
+    // Speed-rate model: real minedAt + permanent-only baseDurationMs. Temporary
+    // boosts are derived live from windows, so there's no baked discount; keep
+    // boostedTime at 0 so the yield-AOE budget uses the real windowed duration.
+    goldRock.stone.baseDurationMs = baseDurationMs;
+    goldRock.stone.boostedTime = 0;
 
     stateCopy.farmActivity = trackFarmActivity(
       "Gold Mined",

@@ -35,8 +35,8 @@ type Options = {
 
 /**
  * Animal buildings whose capacity is a per-level table rather than the shared
- * `10 + 5*(level-1)` formula. The Pigpen is deliberately much tighter.
- * TODO(Chapter 16): 3/6/9 is the agreed value, not a spec'd one.
+ * `10 + 5*(level-1)` formula. The Pigpen is deliberately much tighter: 3/6/9
+ * (#7721 Balance Update).
  */
 const ANIMAL_BUILDING_CAPACITY: Partial<
   Record<AnimalBuildingKey, Record<number, number>>

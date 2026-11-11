@@ -1,8 +1,8 @@
 import Decimal from "decimal.js-light";
 import { feedMixed, getMaxFeedMixAmount } from "./feedMixed";
 import { INITIAL_FARM } from "features/game/lib/constants";
-import type { AnimalFoodName, GameState } from "features/game/types/game";
-import { CONFIG } from "lib/config";
+import { bulkMixFeed } from "./bulkMixFeed";
+import type { AnimalFoodName } from "features/game/types/game";
 
 describe("feedMixed", () => {
   it.each([0, -1, 1.5, Number.POSITIVE_INFINITY])(
@@ -164,109 +164,6 @@ describe("feedMixed", () => {
   });
 });
 
-describe("Beetle Feed", () => {
-  const BEETLE_FARM: GameState = {
-    ...INITIAL_FARM,
-    coins: 0,
-    inventory: {
-      "Brown Beetle": new Decimal(1),
-      "Blue Beetle": new Decimal(1),
-      "Pink Beetle": new Decimal(1),
-      "Amber Beetle": new Decimal(1),
-      Corn: new Decimal(10),
-      Wheat: new Decimal(10),
-      Barley: new Decimal(10),
-    },
-  };
-
-  const mix = (state: GameState, item: AnimalFoodName) =>
-    feedMixed({ state, action: { type: "feed.mixed", item, amount: 1 } });
-
-  it.each([
-    ["Brown Beetle Feed", "Brown Beetle", { Corn: 8, Wheat: 10, Barley: 10 }],
-    ["Blue Beetle Feed", "Blue Beetle", { Corn: 10, Wheat: 8, Barley: 10 }],
-    ["Pink Beetle Feed", "Pink Beetle", { Corn: 10, Wheat: 10, Barley: 8 }],
-    ["Amber Beetle Feed", "Amber Beetle", { Corn: 8, Wheat: 8, Barley: 8 }],
-  ] as const)(
-    "mixes %s from 1 %s and 2 of each crop",
-    (item, beetle, crops) => {
-      const state = mix(BEETLE_FARM, item);
-
-      expect(state.inventory[item]).toEqual(new Decimal(1));
-      expect(state.inventory[beetle]).toEqual(new Decimal(0));
-      expect(state.inventory.Corn).toEqual(new Decimal(crops.Corn));
-      expect(state.inventory.Wheat).toEqual(new Decimal(crops.Wheat));
-      expect(state.inventory.Barley).toEqual(new Decimal(crops.Barley));
-    },
-  );
-
-  it("does not mix a Beetle Feed without its Beetle", () => {
-    expect(() =>
-      mix(
-        { ...INITIAL_FARM, inventory: { Corn: new Decimal(10) } },
-        "Brown Beetle Feed",
-      ),
-    ).toThrow("Insufficient Ingredient: Brown Beetle");
-  });
-
-  it("does not apply Kale Mix to Amber Beetle Feed", () => {
-    const state = mix(
-      {
-        ...BEETLE_FARM,
-        bumpkin: { ...INITIAL_FARM.bumpkin, skills: { "Kale Mix": 1 } },
-        inventory: { ...BEETLE_FARM.inventory, Kale: new Decimal(10) },
-      },
-      "Amber Beetle Feed",
-    );
-
-    expect(state.inventory["Amber Beetle Feed"]).toEqual(new Decimal(1));
-    expect(state.inventory.Kale).toEqual(new Decimal(10));
-    expect(state.inventory.Corn).toEqual(new Decimal(8));
-  });
-
-  describe("off testnet", () => {
-    // jest runs on amoy, so the flag-off path is only reachable by pretending
-    // to be mainnet.
-    let previousNetwork: (typeof CONFIG)["NETWORK"];
-
-    beforeEach(() => {
-      previousNetwork = CONFIG.NETWORK;
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-    });
-
-    afterEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
-    });
-
-    it("does not mix a Beetle Feed without the BEETLE_FEED feature flag", () => {
-      expect(() => mix(BEETLE_FARM, "Brown Beetle Feed")).toThrow(
-        "Beetle Feed is not available",
-      );
-    });
-
-    it("is not unlocked by holding a Beta Pass", () => {
-      expect(() =>
-        mix(
-          {
-            ...BEETLE_FARM,
-            inventory: {
-              ...BEETLE_FARM.inventory,
-              "Beta Pass": new Decimal(1),
-            },
-          },
-          "Brown Beetle Feed",
-        ),
-      ).toThrow("Beetle Feed is not available");
-    });
-
-    it("still mixes the existing feeds", () => {
-      const state = mix(BEETLE_FARM, "Kernel Blend");
-
-      expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(1));
-    });
-  });
-});
-
 describe("getMaxFeedMixAmount", () => {
   it("uses the least available ingredient as the maximum", () => {
     expect(
@@ -331,5 +228,110 @@ describe("getMaxFeedMixAmount", () => {
         name: "Mixed Grain",
       }),
     ).toBe(5);
+  });
+});
+
+describe("feedMixed: Pig Slops", () => {
+  it("mixes a Slop from the chosen input in that input's quantity", () => {
+    const state = feedMixed({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          Sunflower: new Decimal(1800),
+          Potato: new Decimal(100),
+        },
+      },
+      action: {
+        type: "feed.mixed",
+        item: "Basic Slop",
+        ingredient: "Sunflower",
+        amount: 2,
+      },
+    });
+
+    expect(state.inventory["Basic Slop"]).toEqual(new Decimal(2));
+    expect(state.inventory.Sunflower).toEqual(new Decimal(200));
+    expect(state.inventory.Potato).toEqual(new Decimal(100));
+  });
+
+  it("mixes a tier 4 Slop from a crustacean", () => {
+    const state = feedMixed({
+      state: { ...INITIAL_FARM, inventory: { Lobster: new Decimal(3) } },
+      action: {
+        type: "feed.mixed",
+        item: "Gourmet Slop",
+        ingredient: "Lobster",
+      },
+    });
+
+    expect(state.inventory["Gourmet Slop"]).toEqual(new Decimal(1));
+    expect(state.inventory.Lobster).toEqual(new Decimal(2));
+  });
+
+  it("needs enough of the chosen input", () => {
+    expect(() =>
+      feedMixed({
+        state: { ...INITIAL_FARM, inventory: { Sunflower: new Decimal(799) } },
+        action: {
+          type: "feed.mixed",
+          item: "Basic Slop",
+          ingredient: "Sunflower",
+        },
+      }),
+    ).toThrow("Insufficient Ingredient: Sunflower");
+  });
+
+  it("needs an input", () => {
+    expect(() =>
+      feedMixed({
+        state: { ...INITIAL_FARM, inventory: { Sunflower: new Decimal(1000) } },
+        action: { type: "feed.mixed", item: "Basic Slop" },
+      }),
+    ).toThrow("Invalid ingredient");
+  });
+
+  it("rejects an input from another tier", () => {
+    expect(() =>
+      feedMixed({
+        state: { ...INITIAL_FARM, inventory: { Wheat: new Decimal(10) } },
+        action: {
+          type: "feed.mixed",
+          item: "Basic Slop",
+          ingredient: "Wheat",
+        },
+      }),
+    ).toThrow("Invalid ingredient");
+  });
+
+  it("rejects an input on a feed with a fixed recipe", () => {
+    expect(() =>
+      feedMixed({
+        state: { ...INITIAL_FARM, inventory: { Wheat: new Decimal(10) } },
+        action: { type: "feed.mixed", item: "Hay", ingredient: "Wheat" },
+      }),
+    ).toThrow("Invalid ingredient");
+  });
+
+  it("mixes Slops alongside other feeds in a bulk mix", () => {
+    const state = bulkMixFeed({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          Wheat: new Decimal(5),
+          Tomato: new Decimal(20),
+        },
+      },
+      action: {
+        type: "feeds.bulkMixed",
+        feeds: [
+          { item: "Hay", amount: 2 },
+          { item: "Hearty Slop", ingredient: "Tomato", amount: 1 },
+        ],
+      },
+    });
+
+    expect(state.inventory.Hay).toEqual(new Decimal(2));
+    expect(state.inventory["Hearty Slop"]).toEqual(new Decimal(1));
+    expect(state.inventory.Tomato).toEqual(new Decimal(0));
   });
 });

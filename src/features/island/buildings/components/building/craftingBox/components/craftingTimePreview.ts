@@ -52,25 +52,13 @@ export function getCraftingTimePreview({
   at: number;
 }): CraftingTimePreview {
   // No prngArgs: this is a preview, so it must not consume a Fox Shrine roll.
-  const {
-    seconds: bakedMs,
-    baseDurationMs,
-    boostsUsed,
-  } = getBoostedCraftingTime({
+  const { seconds: bakedMs, boostsUsed } = getBoostedCraftingTime({
     game: state,
     time: timeMs,
     now: at,
   });
 
-  // `baseDurationMs` is set only when the craft would be created as a WINDOWED
-  // one, so it doubles as the SPEED_BOOSTS gate. Nothing has STARTED here, so
-  // unlike the in-world timers there is no marker on a craft to read: flag off,
-  // the boosters are already baked into `bakedMs` and named in `boostsUsed`, and
-  // applying the windows on top would count them twice - the same hole
-  // `seedBoostWindows` closes for crops, flowers and resource nodes.
-  // `getCraftingBoostContributions` gates itself, so it needs no guard here.
-  const windows =
-    baseDurationMs === undefined ? [] : getCraftingBoostWindows(state);
+  const windows = getCraftingBoostWindows(state);
 
   const windowedBoosts = getBoostContributionEntries({
     contributions: getCraftingBoostContributions(state, at),

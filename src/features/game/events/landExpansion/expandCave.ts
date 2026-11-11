@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import type { GameState } from "features/game/types/game";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
-import { hasFeatureAccess } from "lib/flags";
+import { isCaveBuildingReady } from "features/game/lib/cave";
 import { getKeys } from "lib/object";
 import { CAVE_TIERS, getNextCaveTier } from "features/game/types/caveTiers";
 
@@ -17,7 +17,6 @@ type Options = {
 };
 
 export enum EXPAND_CAVE_ERRORS {
-  NO_FEATURE_ACCESS = "The Cave is not available for this player",
   NO_CAVE = "The Cave has not been built",
   ALREADY_EXPANDING = "The Cave is already being expanded",
   MAX_TIER = "The Cave is fully expanded",
@@ -28,7 +27,7 @@ export enum EXPAND_CAVE_ERRORS {
 
 /**
  * Start building the Cave's next tier. The cost is paid up front; the tier and
- * its Myco-Composter arrive with `cave.expansionCompleted` once built.
+ * its Myco Bin arrive with `cave.expansionCompleted` once built.
  */
 export function expandCave({
   state,
@@ -36,12 +35,8 @@ export function expandCave({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    if (!hasFeatureAccess(game, "CAVE")) {
-      throw new Error(EXPAND_CAVE_ERRORS.NO_FEATURE_ACCESS);
-    }
-
     const cave = game.cave;
-    if (!cave) {
+    if (!cave || !isCaveBuildingReady(game, createdAt)) {
       throw new Error(EXPAND_CAVE_ERRORS.NO_CAVE);
     }
 

@@ -1,3 +1,4 @@
+import { refreshBeehivesOnRateChange } from "features/game/lib/updateBeehives";
 import { getKeys } from "lib/object";
 import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
@@ -57,7 +58,7 @@ export function resetSkills({
   action,
   createdAt = Date.now(),
 }: Options) {
-  return produce(state, (game) => {
+  const gameAfter = produce(state, (game) => {
     const { bumpkin } = game;
     const {
       paidSkillResets = 0,
@@ -161,5 +162,11 @@ export function resetSkills({
     });
 
     return game;
+  });
+
+  return refreshBeehivesOnRateChange({
+    gameBefore: state,
+    gameAfter,
+    createdAt,
   });
 }

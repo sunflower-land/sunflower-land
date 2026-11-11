@@ -29,6 +29,7 @@ import {
   hasChapterEnded,
 } from "features/game/types/chapters";
 import { CHAPTER_COLLECTIONS } from "features/game/types/collections";
+import { EVENT_COLLECTIONS } from "features/game/types/eventCollections";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -54,6 +55,7 @@ export const Filters: React.FC<{
   const [queryParams] = useSearchParams();
   const filters = queryParams.get("filters");
   const chapterParam = queryParams.get("chapter") ?? "";
+  const eventParam = queryParams.get("event") ?? "";
   const ownershipParam = queryParams.get("ownership") ?? "";
   const { t } = useAppTranslation();
   const budTraitGroups = getBudTraitGroups(t);
@@ -73,6 +75,9 @@ export const Filters: React.FC<{
     Record<string, boolean>
   >({});
   const [userChapterExpanded, setUserChapterExpanded] = useState(false);
+  const [userChaptersGroupExpanded, setUserChaptersGroupExpanded] =
+    useState(false);
+  const [userEventsGroupExpanded, setUserEventsGroupExpanded] = useState(false);
   const [userProfileExpanded, setUserProfileExpanded] = useState(false);
   const [hasTradeHistory, setHasTradeHistory] = useState(false);
   const trades = useSelector(gameService, _trades);
@@ -105,7 +110,10 @@ export const Filters: React.FC<{
     };
   }, [farmId, pathname, token, userProfileExpanded]);
 
-  const isChapterExpanded = !!chapterParam || userChapterExpanded;
+  const isChapterExpanded =
+    !!chapterParam || !!eventParam || userChapterExpanded;
+  const isChaptersGroupExpanded = !!chapterParam || userChaptersGroupExpanded;
+  const isEventsGroupExpanded = !!eventParam || userEventsGroupExpanded;
   const isProfileExpanded =
     pathname.includes("/profile") || userProfileExpanded;
   const isMobileFilters = !!onClose;
@@ -320,7 +328,18 @@ export const Filters: React.FC<{
       };
     });
 
-  const handleChapterToggle = (value: string, checked: boolean) => {
+  const eventOptions = getKeys(EVENT_COLLECTIONS).map((event) => ({
+    label: event,
+    value: toTraitValueId(event),
+    icon: ITEM_DETAILS[EVENT_COLLECTIONS[event].token].image,
+  }));
+
+  // A chapter and an event collection can't both be selected
+  const handleCollectionToggle = (
+    param: "chapter" | "event",
+    value: string,
+    checked: boolean,
+  ) => {
     if (checked) {
       setExpandedTraitGroups({});
       setUserChapterExpanded(true);
@@ -328,7 +347,10 @@ export const Filters: React.FC<{
         path: "collection",
         filterParams: "collectibles,wearables",
         closeFilters: false,
-        extraParams: { chapter: value },
+        extraParams: {
+          chapter: param === "chapter" ? value : undefined,
+          event: param === "event" ? value : undefined,
+        },
       });
       return;
     }
@@ -341,7 +363,7 @@ export const Filters: React.FC<{
       path: "collection",
       filterParams: fallbackFilters,
       closeFilters: false,
-      extraParams: { chapter: undefined },
+      extraParams: { chapter: undefined, event: undefined },
     });
   };
 
@@ -520,17 +542,49 @@ export const Filters: React.FC<{
       icon: SUNNYSIDE.icons.treasure,
       label: t("marketplace.collections"),
       onClick: () => setUserChapterExpanded((prev) => !prev),
-      isActive: isChapterExpanded && !chapterParam,
+      isActive: isChapterExpanded && !chapterParam && !eventParam,
       hasOptions: true,
       options: isChapterExpanded
-        ? chapterOptions.map((option) => ({
-            icon: option.icon,
-            label: option.label,
-            onClick: () =>
-              handleChapterToggle(option.value, chapterParam !== option.value),
-            isActive: chapterParam === option.value,
-            hasOptions: chapterParam === option.value,
-          }))
+        ? [
+            {
+              label: t("season.codex.chapterCollections"),
+              onClick: () => setUserChaptersGroupExpanded((prev) => !prev),
+              hasOptions: true,
+              options: isChaptersGroupExpanded
+                ? chapterOptions.map((option) => ({
+                    icon: option.icon,
+                    label: option.label,
+                    onClick: () =>
+                      handleCollectionToggle(
+                        "chapter",
+                        option.value,
+                        chapterParam !== option.value,
+                      ),
+                    isActive: chapterParam === option.value,
+                    hasOptions: chapterParam === option.value,
+                  }))
+                : undefined,
+            },
+            {
+              label: t("season.codex.eventCollections"),
+              onClick: () => setUserEventsGroupExpanded((prev) => !prev),
+              hasOptions: true,
+              options: isEventsGroupExpanded
+                ? eventOptions.map((option) => ({
+                    icon: option.icon,
+                    label: option.label,
+                    onClick: () =>
+                      handleCollectionToggle(
+                        "event",
+                        option.value,
+                        eventParam !== option.value,
+                      ),
+                    isActive: eventParam === option.value,
+                    hasOptions: eventParam === option.value,
+                  }))
+                : undefined,
+            },
+          ]
         : undefined,
     },
     // Buds
@@ -606,6 +660,7 @@ export const Filters: React.FC<{
     activeCollection === "pets" ||
     isCosmeticsActive ||
     !!chapterParam ||
+    !!eventParam ||
     ownershipSelection.owned ||
     ownershipSelection.unowned;
 

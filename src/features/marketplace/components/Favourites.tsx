@@ -1,15 +1,18 @@
-import React, { useCallback, useContext } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
 import { useLocation, useNavigate } from "react-router";
 
 import { Button } from "components/ui/Button";
+import { Chip } from "components/ui/Chip";
 import { Context } from "features/game/GameProvider";
 import { isTradeResource } from "features/game/actions/tradeLimits";
 import type { MachineState } from "features/game/lib/gameMachine";
 import type { InventoryItemName } from "features/game/types/game";
 import type { Tradeable } from "features/game/types/marketplace";
+import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import bwHeart from "assets/icons/bw_heart.png";
+import wearableIcon from "assets/icons/wearables.webp";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import { Collection } from "./Collection";
@@ -29,14 +32,35 @@ const FAVORITE_COLLECTION_FILTERS = [
 
 const _farmId = (state: MachineState) => state.context.farmId ?? 0;
 
+type FavoriteCategory = "resources" | "collectibles" | "wearables";
+
+const FAVORITE_CATEGORIES: { id: FavoriteCategory; icon: string }[] = [
+  { id: "resources", icon: ITEM_DETAILS.Eggplant.image },
+  { id: "collectibles", icon: ITEM_DETAILS["Freya Fox"].image },
+  { id: "wearables", icon: wearableIcon },
+];
+
+const isResource = (item: Tradeable, display: TradeableDisplay) =>
+  item.collection === "collectibles" &&
+  (isTradeResource(display.name as InventoryItemName) ||
+    display.name === "CluckCoin");
+
+const getFavoriteCategory = (
+  item: Tradeable,
+  display: TradeableDisplay,
+): FavoriteCategory | undefined => {
+  if (isResource(item, display)) return "resources";
+  if (item.collection === "collectibles") return "collectibles";
+  if (item.collection === "wearables") return "wearables";
+
+  return undefined;
+};
+
 const getFavoriteCategoryRank = (
   item: Tradeable,
   display: TradeableDisplay,
 ) => {
-  const isResourceFavorite =
-    item.collection === "collectibles" &&
-    (isTradeResource(display.name as InventoryItemName) ||
-      display.name === "CluckCoin");
+  const isResourceFavorite = isResource(item, display);
   const isPowerUpFavorite =
     (item.collection === "collectibles" || item.collection === "wearables") &&
     display.buffs.length > 0 &&
@@ -63,6 +87,7 @@ export const Favourites: React.FC<{ hideLimited?: boolean }> = ({
   const farmId = useSelector(gameService, _farmId);
   const { favoriteKeys, favorites } = useMarketplaceFavorites(farmId);
   const { t } = useAppTranslation();
+  const [category, setCategory] = useState<FavoriteCategory>();
   const navigate = useNavigate();
   const isWorldRoute = useLocation().pathname.includes("/world");
   const filters = favorites.length
@@ -73,16 +98,18 @@ export const Favourites: React.FC<{ hideLimited?: boolean }> = ({
     : "";
 
   const filterFavorite = useCallback(
-    (item: Tradeable) => {
+    (item: Tradeable, display: TradeableDisplay) => {
       const key = getMarketplaceFavoriteKey({
         collection: item.collection,
         id: item.id,
         economy: item.collection === "economies" ? item.economy : undefined,
       });
 
-      return favoriteKeys.has(key);
+      if (!favoriteKeys.has(key)) return false;
+
+      return !category || getFavoriteCategory(item, display) === category;
     },
-    [favoriteKeys],
+    [favoriteKeys, category],
   );
 
   const sortFavorites = useCallback(
@@ -151,6 +178,23 @@ export const Favourites: React.FC<{ hideLimited?: boolean }> = ({
             />
             <p className="text-xs">{t("marketplace.favorites.beta")}</p>
           </div>
+          {favorites.length > 0 && (
+            <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2">
+              <Chip selected={!category} onClick={() => setCategory(undefined)}>
+                {t("inventory.all")}
+              </Chip>
+              {FAVORITE_CATEGORIES.map(({ id, icon }) => (
+                <Chip
+                  key={id}
+                  selected={category === id}
+                  icon={icon}
+                  onClick={() => setCategory(id)}
+                >
+                  {t(`marketplace.${id}`)}
+                </Chip>
+              ))}
+            </div>
+          )}
         </div>
       }
       emptyState={emptyState}

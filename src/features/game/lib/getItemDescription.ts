@@ -1,6 +1,6 @@
 import type { TemporaryCollectibleName } from "features/game/lib/collectibleBuilt";
 import {
-  getExpiryCooldown,
+  EXPIRY_COOLDOWNS,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 import type { BumpkinRevampSkillName } from "features/game/types/bumpkinSkills";
@@ -8,7 +8,6 @@ import type { CollectibleName } from "features/game/types/craftables";
 import type { GameState, InventoryItemName } from "features/game/types/game";
 import type { ItemDetails } from "features/game/types/images";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { hasFeatureAccess } from "lib/flags";
 import { translate } from "lib/i18n/translate";
 
 type DescriptionSource = Pick<
@@ -17,18 +16,17 @@ type DescriptionSource = Pick<
 >;
 
 /**
- * Prose descriptions that only hold under the `SPEED_BOOSTS` flag, mirroring the
- * `.speed` buff-label variants in `collectibleItemBuffs`. The legacy copy states a
- * time *reduction* ("-25% for 4 hours") while the windowed model grants a speed
- * *multiplier* over a rebalanced duration, so the two read as contradictions
- * side by side in the shop. Durations are interpolated from `getExpiryCooldown`
- * rather than hardcoded, so the next rebalance cannot drift the copy again.
+ * Prose descriptions for the windowed speed model, overriding the legacy
+ * `ITEM_DETAILS` copy, which states a time *reduction* ("-25% for 4 hours")
+ * while the windowed model grants a speed *multiplier* over a rebalanced
+ * duration. Durations are interpolated from `EXPIRY_COOLDOWNS` rather than
+ * hardcoded, so the next rebalance cannot drift the copy again.
  */
-function getSpeedBoostDescriptions(
-  game: GameState,
-): Partial<Record<InventoryItemName, DescriptionSource>> {
+function getSpeedBoostDescriptions(): Partial<
+  Record<InventoryItemName, DescriptionSource>
+> {
   const hours = (name: TemporaryCollectibleName) =>
-    getExpiryCooldown(name, game) / (60 * 60 * 1000);
+    EXPIRY_COOLDOWNS[name] / (60 * 60 * 1000);
 
   return {
     "Time Warp Totem": {
@@ -82,20 +80,16 @@ function getSpeedBoostDescriptions(
 }
 
 /**
- * The `SPEED_BOOSTS` rewrite of an item's description, or `undefined` when the
- * player is flag-off or the item has no rewrite. Surfaces that render their own
- * copy instead of `ITEM_DETAILS` (shop `shortDescription`s) fall back to theirs.
+ * The speed-model rewrite of an item's description, or `undefined` when the
+ * item has no rewrite. Surfaces that render their own copy instead of
+ * `ITEM_DETAILS` (shop `shortDescription`s) fall back to theirs.
  */
 export function getSpeedBoostDescription({
   item,
-  game,
 }: {
   item: InventoryItemName;
-  game: GameState;
 }): string | undefined {
-  if (!hasFeatureAccess(game, "SPEED_BOOSTS")) return undefined;
-
-  return getSpeedBoostDescriptions(game)[item]?.description;
+  return getSpeedBoostDescriptions()[item]?.description;
 }
 
 export function getItemDescription({
@@ -106,9 +100,7 @@ export function getItemDescription({
   game: GameState;
 }) {
   const details: DescriptionSource =
-    (hasFeatureAccess(game, "SPEED_BOOSTS")
-      ? getSpeedBoostDescriptions(game)[item]
-      : undefined) ?? ITEM_DETAILS[item];
+    getSpeedBoostDescriptions()[item] ?? ITEM_DETAILS[item];
 
   let description = details.description;
 

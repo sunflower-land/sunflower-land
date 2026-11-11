@@ -28,6 +28,10 @@ import type { BuildingName } from "features/game/types/buildings";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { BoostsDisplay } from "./BoostsDisplay";
 import { getItemDescription } from "features/game/lib/getItemDescription";
+import { secondsToString } from "lib/utils/time";
+import { formatNumber } from "lib/utils/formatNumber";
+import { SUNNYSIDE } from "assets/sunnyside";
+import levelup from "assets/icons/level_up.png";
 
 /**
  * The props for the details for items.
@@ -217,15 +221,24 @@ export const InventoryItemDetails: React.FC<Props> = ({
                   strikethrough
                 />
               )}
-            <BoostsDisplay
-              boosts={properties.timeBoostsUsed}
-              show={hasNamedBoosts && properties.showBoosts}
-              state={game}
-              onClick={() =>
-                hasNamedBoosts &&
-                properties.setShowBoosts?.(!properties.showBoosts)
-              }
-            />
+            {properties.baseTimeSeconds !== undefined && (
+              <BoostsDisplay
+                boosts={properties.timeBoostsUsed}
+                base={{
+                  value: secondsToString(properties.baseTimeSeconds, {
+                    length: "medium",
+                    removeTrailingZeros: true,
+                  }),
+                  icon: SUNNYSIDE.icons.stopwatch,
+                }}
+                show={hasNamedBoosts && properties.showBoosts}
+                state={game}
+                onClick={() =>
+                  hasNamedBoosts &&
+                  properties.setShowBoosts?.(!properties.showBoosts)
+                }
+              />
+            )}
           </div>
         );
       }
@@ -263,6 +276,10 @@ export const InventoryItemDetails: React.FC<Props> = ({
             />
             <BoostsDisplay
               boosts={properties.xpBoostsUsed}
+              base={{
+                value: `${formatNumber(properties.baseXp ?? 0)}XP`,
+                icon: levelup,
+              }}
               show={properties.showBoosts}
               state={game}
               onClick={() => properties.setShowBoosts?.(!properties.showBoosts)}

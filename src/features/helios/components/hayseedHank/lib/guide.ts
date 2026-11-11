@@ -90,7 +90,7 @@ export const GUIDE_PATHS: Record<
         text: translate("gathering.guide.three"),
       },
     ],
-    docs: "https://docs.sunflower-land.com/player-guides/gather-resources",
+    docs: "https://docs.sunflower-land.com/game-guides/resources-and-tools",
   },
   crops: {
     achievements: [
@@ -104,7 +104,7 @@ export const GUIDE_PATHS: Record<
       "Crop Champion",
     ],
     icon: SUNNYSIDE.icons.plant,
-    docs: "https://docs.sunflower-land.com/player-guides/planting-and-harvesting",
+    docs: "https://docs.sunflower-land.com/game-guides/crops-and-fruit",
     description: [
       {
         image: SUNNYSIDE.tutorial.harvesting,
@@ -119,7 +119,7 @@ ${translate("crops.guide.three")}`,
   building: {
     achievements: ["Well of Prosperity", "Contractor"],
     icon: SUNNYSIDE.icons.hammer,
-    docs: "https://docs.sunflower-land.com/player-guides/buildings",
+    docs: "https://docs.sunflower-land.com/game-guides/levels-and-unlocks#building-unlocks",
     description: [
       {
         text: `${translate("building.guide.one")}
@@ -137,7 +137,7 @@ ${translate("crops.guide.three")}`,
       "Chef de Cuisine",
     ],
     icon: SUNNYSIDE.icons.heart,
-    docs: "https://docs.sunflower-land.com/player-guides/cooking",
+    docs: "https://docs.sunflower-land.com/game-guides/cooking",
     description: [
       {
         image: SUNNYSIDE.tutorial.cooking,
@@ -156,7 +156,7 @@ ${translate("crops.guide.three")}`,
   animals: {
     achievements: ["Egg-cellent Collection"],
     icon: SUNNYSIDE.resource.chicken,
-    docs: "https://docs.sunflower-land.com/player-guides/animals",
+    docs: "https://docs.sunflower-land.com/game-guides/animals",
     description: [
       {
         text: `${translate("animals.guide.one")}
@@ -185,7 +185,7 @@ ${translate("crops.guide.three")}`,
   deliveries: {
     achievements: ["Delivery Dynamo", "Crowd Favourite"],
     icon: SUNNYSIDE.icons.player,
-    docs: "https://docs.sunflower-land.com/player-guides/deliveries",
+    docs: "https://docs.sunflower-land.com/game-guides/deliveries-and-bounties",
     description: [
       {
         text: `${translate("deliveries.guide.one")}
@@ -227,7 +227,7 @@ ${translate("crops.guide.three")}`,
     ${translate("fruit.guide.three")}`,
       },
     ],
-    docs: "https://docs.sunflower-land.com/player-guides/planting-and-harvesting#fruit",
+    docs: "https://docs.sunflower-land.com/game-guides/crops-and-fruit#fruit-patches",
   },
 
   chapters: {
@@ -242,6 +242,6 @@ ${translate("crops.guide.three")}`,
               ${translate("chapters.guide.three")}`,
       },
     ],
-    docs: "https://docs.sunflower-land.com/player-guides/chapters-whats-new",
+    docs: "https://docs.sunflower-land.com/chapters/chapters",
   },
 };

@@ -5,7 +5,6 @@ import { INITIAL_FARM, TREE_RECOVERY_TIME } from "features/game/lib/constants";
 import { KNOWN_IDS } from "features/game/types";
 import type { GameState, Tree } from "features/game/types/game";
 import { prngChance } from "lib/prng";
-import { CONFIG } from "lib/config";
 import {
   chop,
   type LandExpansionChopAction,
@@ -43,17 +42,6 @@ const GAME_STATE: GameState = {
 };
 
 describe("chop", () => {
-  // These tests assert the LEGACY back-dated recovery (the discount is baked into
-  // choppedAt at chop time). FE jest runs on amoy where SPEED_BOOSTS is on, so
-  // force the flag off here; the windowed model is covered in its own describe.
-  const originalNetwork = CONFIG.NETWORK;
-  beforeEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-  });
-  afterEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-  });
-
   const dateNow = now;
   const farmId = 1;
 
@@ -493,9 +481,9 @@ describe("chop", () => {
     const { trees } = game;
     const tree = (trees as Record<number, Tree>)[0];
 
-    // Should be set to now - add 5 ms to account for any CPU clock speed
-    const ONE_HOUR = 60 * 60 * 1000;
-    expect(tree.wood.choppedAt).toBeLessThan(now - ONE_HOUR + 5);
+    // The permanent Apprentice Beaver halves the stored baseDurationMs.
+    expect(tree.wood.choppedAt).toEqual(now);
+    expect(tree.wood.baseDurationMs).toEqual(TREE_RECOVERY_TIME * 1000 * 0.5);
   });
 
   it("chops trees without axes when Foreman Beaver is placed and ready", () => {
@@ -949,6 +937,9 @@ describe("chop", () => {
       },
     });
     expect(state1.trees[0].wood.choppedAt).toEqual(now);
+    expect(state1.trees[0].wood.baseDurationMs).toEqual(
+      TREE_RECOVERY_TIME * 1000,
+    );
     expect(state1.farmActivity["Basic Tree Chopped"]).toEqual(counter);
 
     state1 = chop({
@@ -961,9 +952,8 @@ describe("chop", () => {
         index: "1",
       },
     });
-    expect(state1.trees[1].wood.choppedAt).toEqual(
-      now - TREE_RECOVERY_TIME * 1000,
-    );
+    expect(state1.trees[1].wood.choppedAt).toEqual(now);
+    expect(state1.trees[1].wood.baseDurationMs).toEqual(0);
     expect(state1.farmActivity["Basic Tree Chopped"]).toEqual(counter + 1);
 
     let state2 = chop({
@@ -977,6 +967,9 @@ describe("chop", () => {
       },
     });
     expect(state2.trees[1].wood.choppedAt).toEqual(now);
+    expect(state2.trees[1].wood.baseDurationMs).toEqual(
+      TREE_RECOVERY_TIME * 1000,
+    );
     expect(state2.farmActivity["Basic Tree Chopped"]).toEqual(counter);
 
     state2 = chop({
@@ -989,38 +982,12 @@ describe("chop", () => {
         index: "0",
       },
     });
-    expect(state2.trees[0].wood.choppedAt).toEqual(
-      now - TREE_RECOVERY_TIME * 1000,
-    );
+    expect(state2.trees[0].wood.choppedAt).toEqual(now);
+    expect(state2.trees[0].wood.baseDurationMs).toEqual(0);
     expect(state2.farmActivity["Basic Tree Chopped"]).toEqual(counter + 1);
   });
 
   describe("getChoppedAt", () => {
-    it("applies a Timber Hourglass boost of -25% recovery time for 4 hours", () => {
-      const { time: createdAt } = getChoppedAt({
-        game: {
-          ...INITIAL_FARM,
-          collectibles: {
-            "Timber Hourglass": [
-              {
-                id: "123",
-                createdAt: now - 100,
-                coordinates: { x: 1, y: 1 },
-                readyAt: now - 100,
-              },
-            ],
-          },
-        },
-        createdAt: now,
-        prngArgs: { farmId, itemId: 0, counter: 0 },
-      });
-
-      const boostedRecoveryTime =
-        (TREE_RECOVERY_TIME - TREE_RECOVERY_TIME * 0.75) * 1000;
-
-      expect(createdAt).toEqual(now - boostedRecoveryTime);
-    });
-
     it("does not apply a Timber Hourglass boost if it has expired", () => {
       const fiveHoursAgo = now - 5 * 60 * 60 * 1000;
 
@@ -1043,23 +1010,6 @@ describe("chop", () => {
       });
 
       expect(createdAt).toEqual(now);
-    });
-
-    it("applies a 10% speed boost with Tree Charge skill", () => {
-      const { time } = getChoppedAt({
-        game: {
-          ...INITIAL_FARM,
-          bumpkin: {
-            ...TEST_BUMPKIN,
-            skills: { "Tree Charge": 1 },
-          },
-        },
-        createdAt: now,
-        prngArgs: { farmId, itemId: 0, counter: 0 },
-      });
-
-      const treeTimeWithBoost = TREE_RECOVERY_TIME * 1000 * 0.1;
-      expect(time).toEqual(now - treeTimeWithBoost);
     });
 
     it("applies an instant growth with Tree Turnaround skill", () => {
@@ -1086,7 +1036,7 @@ describe("chop", () => {
 
       const counter = getCounter();
 
-      const { time } = getChoppedAt({
+      const { time, baseDurationMs } = getChoppedAt({
         game: {
           ...INITIAL_FARM,
           bumpkin: {
@@ -1098,29 +1048,8 @@ describe("chop", () => {
         prngArgs: { farmId, itemId, counter },
       });
 
-      expect(time).toEqual(now - TREE_RECOVERY_TIME * 1000);
-    });
-
-    it("applies the Badger Shrine boost", () => {
-      const { time } = getChoppedAt({
-        game: {
-          ...INITIAL_FARM,
-          collectibles: {
-            "Badger Shrine": [
-              {
-                id: "123",
-                createdAt: now,
-                coordinates: { x: 1, y: 1 },
-                readyAt: now,
-              },
-            ],
-          },
-        },
-        createdAt: now,
-        prngArgs: { farmId, itemId: 0, counter: 0 },
-      });
-
-      expect(time).toEqual(now - TREE_RECOVERY_TIME * 0.25 * 1000);
+      expect(time).toEqual(now);
+      expect(baseDurationMs).toEqual(0);
     });
 
     it("does not apply the Badger Shrine boost if expired", () => {
@@ -1213,111 +1142,114 @@ describe("chop", () => {
   });
 
   it("tree replenishes faster with time warp", () => {
-    const { time } = getChoppedAt({
-      game: {
-        ...INITIAL_FARM,
-        collectibles: {
-          "Time Warp Totem": [
-            {
-              id: "123",
-              createdAt: now,
-              coordinates: { x: 1, y: 1 },
-              readyAt: now - 5 * 60 * 1000,
-            },
-          ],
-        },
+    const game: GameState = {
+      ...INITIAL_FARM,
+      collectibles: {
+        "Time Warp Totem": [
+          {
+            id: "1",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now,
+          },
+        ],
       },
+    };
+    const { time, baseDurationMs } = getChoppedAt({
+      game,
       createdAt: now,
       prngArgs: { farmId, itemId: 0, counter: 0 },
     });
 
-    expect(time).toEqual(now - (TREE_RECOVERY_TIME * 1000) / 2);
+    // The totem is a 2× window, not folded into baseDurationMs.
+    const BASE_MS = TREE_RECOVERY_TIME * 1000;
+    const windowMs = EXPIRY_COOLDOWNS["Time Warp Totem"];
+    const workInWindow = Math.min(BASE_MS, windowMs * 2);
+    expect(time).toEqual(now);
+    expect(baseDurationMs).toEqual(BASE_MS);
+    expect(
+      getTreeReadyAt(
+        { wood: { choppedAt: time, baseDurationMs }, x: 1, y: 1 },
+        game,
+      ),
+    ).toBeCloseTo(now + workInWindow / 2 + (BASE_MS - workInWindow), 0);
   });
 
   it("tree replenishes faster with Super Totem", () => {
-    const { time } = getChoppedAt({
-      game: {
-        ...INITIAL_FARM,
-        collectibles: {
-          "Super Totem": [
-            {
-              id: "123",
-              createdAt: now,
-              coordinates: { x: 1, y: 1 },
-              readyAt: now - 5 * 60 * 1000,
-            },
-          ],
-        },
+    const game: GameState = {
+      ...INITIAL_FARM,
+      collectibles: {
+        "Super Totem": [
+          {
+            id: "1",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now,
+          },
+        ],
       },
+    };
+    const { time, baseDurationMs } = getChoppedAt({
+      game,
       createdAt: now,
       prngArgs: { farmId, itemId: 0, counter: 0 },
     });
 
-    expect(time).toEqual(now - (TREE_RECOVERY_TIME * 1000) / 2);
-  });
-
-  it("doesn't stack Super Totem and Time warp totem", () => {
-    const { time } = getChoppedAt({
-      game: {
-        ...INITIAL_FARM,
-        collectibles: {
-          "Time Warp Totem": [
-            {
-              id: "123",
-              createdAt: now,
-              coordinates: { x: 1, y: 1 },
-              readyAt: now - 5 * 60 * 1000,
-            },
-          ],
-          "Super Totem": [
-            {
-              id: "123",
-              createdAt: now,
-              coordinates: { x: 1, y: 1 },
-              readyAt: now - 5 * 60 * 1000,
-            },
-          ],
-        },
-      },
-      createdAt: now,
-      prngArgs: { farmId, itemId: 0, counter: 0 },
-    });
-
-    const buff = TREE_RECOVERY_TIME - TREE_RECOVERY_TIME * 0.5;
-
-    expect(time).toEqual(now - buff * 1000);
+    // The totem is a 2× window, not folded into baseDurationMs.
+    const BASE_MS = TREE_RECOVERY_TIME * 1000;
+    const windowMs = EXPIRY_COOLDOWNS["Super Totem"];
+    const workInWindow = Math.min(BASE_MS, windowMs * 2);
+    expect(time).toEqual(now);
+    expect(baseDurationMs).toEqual(BASE_MS);
+    expect(
+      getTreeReadyAt(
+        { wood: { choppedAt: time, baseDurationMs }, x: 1, y: 1 },
+        game,
+      ),
+    ).toBeCloseTo(now + workInWindow / 2 + (BASE_MS - workInWindow), 0);
   });
 
   it("does not go negative with all buffs", () => {
-    const { time } = getChoppedAt({
-      game: {
-        ...INITIAL_FARM,
-        collectibles: {
-          "Apprentice Beaver": [
-            {
-              id: "123",
-              createdAt: now,
-              coordinates: { x: 1, y: 1 },
-              readyAt: now - 5 * 60 * 1000,
-            },
-          ],
-          "Time Warp Totem": [
-            {
-              id: "123",
-              createdAt: now,
-              coordinates: { x: 1, y: 1 },
-              readyAt: now - 5 * 60 * 1000,
-            },
-          ],
-        },
+    const game: GameState = {
+      ...INITIAL_FARM,
+      collectibles: {
+        "Apprentice Beaver": [
+          {
+            id: "1",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now,
+          },
+        ],
+        "Time Warp Totem": [
+          {
+            id: "2",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now,
+          },
+        ],
       },
+    };
+    const { time, baseDurationMs } = getChoppedAt({
+      game,
       createdAt: now,
       prngArgs: { farmId, itemId: 0, counter: 0 },
     });
 
-    const buff = TREE_RECOVERY_TIME - TREE_RECOVERY_TIME * 0.5 * 0.5;
-
-    expect(time).toEqual(now - buff * 1000);
+    // Apprentice Beaver (permanent) halves baseDurationMs; the totem is a 2×
+    // window on top, so the recovery stays positive.
+    const BASE_MS = TREE_RECOVERY_TIME * 1000 * 0.5;
+    const windowMs = EXPIRY_COOLDOWNS["Time Warp Totem"];
+    const workInWindow = Math.min(BASE_MS, windowMs * 2);
+    expect(time).toEqual(now);
+    expect(baseDurationMs).toEqual(BASE_MS);
+    expect(
+      getTreeReadyAt(
+        { wood: { choppedAt: time, baseDurationMs }, x: 1, y: 1 },
+        game,
+      ),
+    ).toBeCloseTo(now + workInWindow / 2 + (BASE_MS - workInWindow), 0);
   });
 
   describe("PRNG counter security", () => {
@@ -1416,9 +1348,8 @@ describe("chop", () => {
       });
 
       // Tree Turnaround should have triggered (instant regrowth)
-      expect(result.trees[0].wood.choppedAt).toEqual(
-        now - TREE_RECOVERY_TIME * 1000,
-      );
+      expect(result.trees[0].wood.choppedAt).toEqual(now);
+      expect(result.trees[0].wood.baseDurationMs).toEqual(0);
 
       // Counter should STILL increment
       expect(result.farmActivity["Basic Tree Chopped"]).toEqual(
@@ -1532,8 +1463,7 @@ describe("chop", () => {
       for (let i = 0; i < 5; i++) {
         const treeCounter = initialCounter + i;
         const shouldTrigger = triggeringCounters.includes(treeCounter);
-        const hasInstantRegrowth =
-          state.trees[i].wood.choppedAt === now - TREE_RECOVERY_TIME * 1000;
+        const hasInstantRegrowth = state.trees[i].wood.baseDurationMs === 0;
 
         expect(hasInstantRegrowth).toEqual(shouldTrigger);
       }
@@ -1637,19 +1567,10 @@ describe("chop", () => {
   });
 });
 
-describe("chop — SPEED_BOOSTS speed windows", () => {
+describe("chop — speed windows", () => {
   const farmId = 1;
   const ONE_HOUR = 60 * 60 * 1000;
   const BASE_MS = TREE_RECOVERY_TIME * 1000;
-  const originalNetwork = CONFIG.NETWORK;
-
-  beforeEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
-  });
-  afterEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-  });
-
   it("stores the real chop time + base recovery (no back-dating) with no boosts", () => {
     const game = chop({
       farmId,
@@ -1838,32 +1759,6 @@ describe("chop — SPEED_BOOSTS speed windows", () => {
   });
 });
 
-describe("getTreeReadyAt — baseDurationMs is a permanent per-tree marker", () => {
-  const BASE_MS = TREE_RECOVERY_TIME * 1000;
-  const originalNetwork = CONFIG.NETWORK;
-
-  beforeEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-  });
-  afterEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-  });
-
-  it("keeps using baseDurationMs with SPEED_BOOSTS off (no rollback to full base)", () => {
-    // A tree chopped while the flag was on stored its real choppedAt + a
-    // permanent-boost-only baseDurationMs (here half the base). With the flag
-    // off it must STILL ready at choppedAt + baseDurationMs, not choppedAt +
-    // full base recovery — the marker is intentionally flag-independent.
-    const tree: Tree = {
-      wood: { choppedAt: now, baseDurationMs: BASE_MS / 2 },
-      x: 1,
-      y: 1,
-    };
-
-    expect(getTreeReadyAt(tree, INITIAL_FARM)).toEqual(now + BASE_MS / 2);
-  });
-});
-
 // Rank-scaled Trees chopping skills. The skill's RANK is the number stored in
 // bumpkin.skills[name] (1/2/3); the source scales the effect via getSkillLevel +
 // SKILL_RANKS[name].ranks[level-1]. The PRNG proc skills (Tough Tree, Money Tree,
@@ -1872,10 +1767,7 @@ describe("getTreeReadyAt — baseDurationMs is a permanent per-tree marker", () 
 // depends only on (farmId, itemId, counter, criticalHitName) and `chance` is just
 // the threshold, we locate a genuine boundary counter where the higher rank's
 // chance procs but the lower rank's does not (same technique as the Golden
-// Sunflower tests in harvest.test.ts). The rank is read regardless of the
-// SPEED_BOOSTS flag, and every function exercised here (getWoodDropAmount,
-// getReward, getTreeRecoveryTimeForDisplay's Tree Charge/Tree Turnaround
-// branches) is flag-independent, so no NETWORK juggling is required.
+// Sunflower tests in harvest.test.ts).
 describe("chop — Trees skill rank upgrades", () => {
   const farmId = 1;
   const itemId = KNOWN_IDS["Tree"];
@@ -1928,7 +1820,6 @@ describe("chop — Trees skill rank upgrades", () => {
   describe("Tree Charge — recovery-time multiplier per rank", () => {
     const recoveryAtRank = (rank: number) =>
       getTreeRecoveryTimeForDisplay({
-        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           bumpkin: { ...TEST_BUMPKIN, skills: { "Tree Charge": rank } },
@@ -2181,7 +2072,6 @@ describe("chop — Trees skill rank upgrades", () => {
     // recovery (recoveryTimeMs = 0); otherwise the base recovery applies.
     const recoveryAtRank = (rank: number, counter: number) =>
       getTreeRecoveryTimeForDisplay({
-        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           bumpkin: { ...TEST_BUMPKIN, skills: { "Tree Turnaround": rank } },

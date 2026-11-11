@@ -279,3 +279,34 @@ describe("startSpiceRack", () => {
     ).toThrow("Insufficient ingredient");
   });
 });
+
+describe("startSpiceRack: Truffle Seasoning (Chapter 16)", () => {
+  const INPUTS = {
+    Truffle: new Decimal(10),
+    "Refined Salt": new Decimal(5),
+    "Wild Mushroom": new Decimal(5),
+  };
+
+  const season = (state = createFermentationTestState({ inventory: INPUTS })) =>
+    startSpiceRack({
+      state,
+      action: {
+        type: "spiceRack.started",
+        recipe: "Truffle Seasoning",
+        jobId: TEST_JOB_ID,
+      },
+      createdAt,
+    });
+
+  it("charges the Truffle, Refined Salt and Wild Mushroom and queues the job", () => {
+    const state = season();
+
+    expect(state.inventory.Truffle).toEqual(new Decimal(0));
+    expect(state.inventory["Refined Salt"]).toEqual(new Decimal(0));
+    expect(state.inventory["Wild Mushroom"]).toEqual(new Decimal(0));
+    expect(state.agingShed.racks.spice[0]).toMatchObject({
+      recipe: "Truffle Seasoning",
+      startedAt: createdAt,
+    });
+  });
+});

@@ -64,7 +64,6 @@ export function renewCollectible({
       !hasCollectibleExpired({
         name: action.name,
         collectible: collectibleToRenew,
-        game: stateCopy,
         now: createdAt,
       })
     ) {
@@ -90,7 +89,6 @@ export function renewCollectible({
         to: getCollectibleExpiry({
           name: action.name,
           collectible: collectibleToRenew,
-          game: stateCopy,
         }),
       },
       createdAt,

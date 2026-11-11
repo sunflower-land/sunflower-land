@@ -23,6 +23,7 @@ import type {
   AnimalFoodName,
   AnimalMedicineName,
   GameState,
+  InventoryItemName,
 } from "features/game/types/game";
 import type { CollectibleName } from "features/game/types/craftables";
 import {
@@ -33,8 +34,14 @@ import {
   type AnimalType,
   type FeedType,
 } from "features/game/types/animals";
+import {
+  isPigFeed,
+  PIG_FEEDS,
+  type PigFeedName,
+} from "features/game/types/pigFeeds";
 import { getKeys } from "lib/object";
 import { getIngredients } from "./feedMixed";
+import { MAX_BULK_MIX_AMOUNT } from "./bulkMixFeed";
 
 type FeedRequestName = AnimalFoodName | AnimalMedicineName;
 type RequestTotals = Partial<Record<FeedRequestName, Decimal>>;
@@ -46,6 +53,13 @@ type FeedRequest = { item: FeedRequestName; quantity: Decimal };
  */
 export type BulkMixFeed = {
   item: FeedRequestName;
+  /**
+   * What is actually mixed to cover `item`: the item itself, or Omnifeed when
+   * the player chose to cover a food with it (same quantity and XP).
+   */
+  mixAs: FeedRequestName;
+  /** The input a Pig Slop is mixed from; undefined for other feeds. */
+  ingredient?: InventoryItemName;
   type: FeedType;
   requested: Decimal;
   inInventory: Decimal;
@@ -54,8 +68,101 @@ export type BulkMixFeed = {
   coins: number;
 };
 
+export type BulkMixEntry = {
+  item: FeedRequestName;
+  ingredient?: InventoryItemName;
+  amount: number;
+};
+
+/**
+ * The `feeds.bulkMixed` entries for the selected feeds. Foods covered by
+ * Omnifeed share one Omnifeed entry, since the event takes each item once.
+ * Each entry is capped at the event's per-item limit; `capped` says whether
+ * anything was left over, which shows up again as a shortfall to mix next.
+ */
+export function getBulkMixEntries(
+  feeds: Pick<BulkMixFeed, "mixAs" | "ingredient" | "missing">[],
+): { entries: BulkMixEntry[]; capped: boolean } {
+  const grouped = feeds.reduce<BulkMixEntry[]>((acc, feed) => {
+    const entry = acc.find(({ item }) => item === feed.mixAs);
+    if (entry) {
+      entry.amount += feed.missing.toNumber();
+    } else {
+      acc.push({
+        item: feed.mixAs,
+        ingredient: feed.ingredient,
+        amount: feed.missing.toNumber(),
+      });
+    }
+    return acc;
+  }, []);
+
+  return {
+    entries: grouped.map((entry) => ({
+      ...entry,
+      amount: Math.min(entry.amount, MAX_BULK_MIX_AMOUNT),
+    })),
+    capped: grouped.some(({ amount }) => amount > MAX_BULK_MIX_AMOUNT),
+  };
+}
+
+/**
+ * What the given bulk mix entries cost: their ingredients and coins at the
+ * amounts actually submitted (combined and capped), not the rows' totals.
+ */
+export function getBulkMixEntriesCost(
+  game: GameState,
+  entries: BulkMixEntry[],
+): { ingredients: GameState["inventory"]; coins: number } {
+  const ingredients: GameState["inventory"] = {};
+  let coins = 0;
+
+  entries.forEach(({ item, ingredient, amount }) => {
+    const { ingredients: perFeed } = getIngredients({
+      state: game,
+      name: item,
+      ingredient,
+    });
+    coins += (ANIMAL_FOODS[item].coins ?? 0) * amount;
+    getKeys(perFeed).forEach((name) => {
+      ingredients[name] = (ingredients[name] ?? new Decimal(0)).add(
+        perFeed[name]?.mul(amount) ?? 0,
+      );
+    });
+  });
+
+  return { ingredients, coins };
+}
+
+/** Whether a requested feed can be mixed as Omnifeed instead: any food but a Slop. */
+export const canMixAsOmnifeed = (item: FeedRequestName) =>
+  ANIMAL_FOODS[item].type === "food" && !isPigFeed(item) && item !== "Omnifeed";
+
+/**
+ * A Slop's inputs, best first: the one with the most left over after mixing,
+ * counted in Slops' worth (held / quantity per Slop), leads. Every input loses
+ * the same number of Slops to a mix, so this is also the input that can make
+ * the most Slops. Ties (including holding none) keep the table order.
+ */
+export function getPigFeedIngredientOptions(
+  feed: PigFeedName,
+  inventory: GameState["inventory"],
+): InventoryItemName[] {
+  const { ingredients } = PIG_FEEDS[feed];
+  const mixes = (item: InventoryItemName) =>
+    (inventory[item] ?? new Decimal(0)).div(ingredients[item] ?? 1).toNumber();
+
+  return getKeys(ingredients)
+    .map((item, index) => ({ item, index, mixes: mixes(item) }))
+    .sort((a, b) => b.mixes - a.mixes || a.index - b.index)
+    .map(({ item }) => item);
+}
+
 const MAX_FEED_STEPS_TO_READY = 100;
 const MIX_AMOUNT_EPSILON = new Decimal("0.000000000001");
+
+const isAnimalAwake = (animal: Animal, game: GameState, now: number) =>
+  getAnimalReadyAt(animal, game) <= now;
 
 const isAnimalAwakeAndRequestingFood = (
   animal: Animal,
@@ -63,7 +170,7 @@ const isAnimalAwakeAndRequestingFood = (
   now: number,
 ) => {
   return (
-    getAnimalReadyAt(animal, game) <= now &&
+    isAnimalAwake(animal, game, now) &&
     (animal.state === "idle" ||
       animal.state === "happy" ||
       animal.state === "sad")
@@ -112,8 +219,6 @@ const isReadyAfterFoodXP = ({
   animal,
   experience,
   foodXp,
-  // A Pig capped by its Pigpen cycles at the cap, so the mixer must treat it
-  // as max level there rather than planning feed toward a level it cannot hit.
   maxLevel,
 }: {
   animal: AnimalType;
@@ -151,18 +256,18 @@ const getFeedRequestsUntilReady = ({
 }): FeedRequest[] => {
   const requests: FeedRequest[] = [];
   let experience = animal.experience;
-  // Mud boosts one feed per use, so the plan spends it the way feedAnimal does.
-  let mudFeeds = animal.mud?.feedsRemaining ?? 0;
 
   for (let step = 0; step < MAX_FEED_STEPS_TO_READY; step += 1) {
-    const level = getAnimalLevel(experience, animal.type, game);
-    const favouriteFood = getAnimalFavoriteFood(animal.type, experience, game);
+    const level = getAnimalLevel(experience, animal.type);
+    const favouriteFood = getAnimalFavoriteFood(animal.type, experience);
     const { foodXp } = handleFoodXP({
       state: game,
       animal: animal.type,
       level,
       food: favouriteFood,
-      mud: { feedsRemaining: mudFeeds },
+      // Feeding never spends a Mud charge (claiming does), so a muddy animal
+      // keeps the bonus for the whole plan.
+      mud: animal.mud,
     });
 
     if (foodXp <= 0) {
@@ -187,14 +292,13 @@ const getFeedRequestsUntilReady = ({
         animal: animal.type,
         experience,
         foodXp,
-        maxLevel: getAnimalMaxLevel(animal.type, game),
+        maxLevel: getAnimalMaxLevel(animal.type),
       })
     ) {
       break;
     }
 
     experience += foodXp;
-    mudFeeds = Math.max(mudFeeds - 1, 0);
   }
 
   return requests;
@@ -213,7 +317,23 @@ const getAnimalFeedRequests = ({
 }): FeedRequest[] => {
   if (animal.state === "sick") {
     const { amount } = getBarnDelightCost({ state: game });
-    return [{ item: "Barn Delight", quantity: new Decimal(amount) }];
+    const cureRequest: FeedRequest = {
+      item: "Barn Delight",
+      quantity: new Decimal(amount),
+    };
+
+    // Curing only returns the animal to idle; it still needs its normal feed
+    // immediately afterwards. Include that follow-up feed in the same plan
+    // when the animal will be eligible for feeding after it is cured.
+    if (
+      !isAnimalAwake(animal, game, now) ||
+      hasFreeFeedBoost(animal.type, game) ||
+      !isAnimalFeedable(buildingKey, game, animal.id)
+    ) {
+      return [cureRequest];
+    }
+
+    return [cureRequest, ...getFeedRequestsUntilReady({ animal, game, now })];
   }
 
   if (!isAnimalAwakeAndRequestingFood(animal, game, now)) {
@@ -269,6 +389,10 @@ export function getBulkMixRequirements(
   game: GameState,
   building: AnimalBuildingType,
   now: number,
+  /** The input the player picked for each Slop; unset means the best option. */
+  pigFeedInputs: Partial<Record<PigFeedName, InventoryItemName>> = {},
+  /** Foods the player chose to cover with Omnifeed instead of their recipe. */
+  omnifeedFoods: Partial<Record<FeedRequestName, boolean>> = {},
 ) {
   const buildingKey = makeAnimalBuildingKey(building);
   const animals = Object.values(game[buildingKey].animals);
@@ -302,10 +426,36 @@ export function getBulkMixRequirements(
   const ingredients: GameState["inventory"] = {};
   const feeds: BulkMixFeed[] = [];
   let coins = 0;
+  // Omnifeed already held feeds any of these animals, so it covers the
+  // shortfall of the foods switched to Omnifeed before anything is mixed
+  // (saving Gems). Feeding only uses Omnifeed when it is the selected item, so
+  // held Omnifeed never counts towards a food the player didn't switch.
+  const isSwitched = (item: FeedRequestName) =>
+    !!omnifeedFoods[item] && canMixAsOmnifeed(item);
+  const omnifeedCover: Partial<Record<FeedRequestName, Decimal>> = {};
+  let omnifeedLeft = game.inventory.Omnifeed ?? new Decimal(0);
+  getKeys(requests)
+    .filter(isSwitched)
+    .forEach((item) => {
+      const gap = (requests[item] ?? new Decimal(0)).sub(
+        game.inventory[item] ?? new Decimal(0),
+      );
+      const stillNeeded = gap.gt(0) ? gap : new Decimal(0);
+      const fromOmnifeed = stillNeeded.lt(omnifeedLeft)
+        ? stillNeeded
+        : omnifeedLeft;
+      omnifeedLeft = omnifeedLeft.sub(fromOmnifeed);
+      omnifeedCover[item] = fromOmnifeed;
+    });
 
   getKeys(requests).forEach((item) => {
     const requested = requests[item] ?? new Decimal(0);
-    const inInventory = game.inventory[item] ?? new Decimal(0);
+    // Omnifeed gives every animal its favourite food's XP for the same
+    // quantity, so it can stand in for any food (never for medicine or Slop).
+    const mixAs: FeedRequestName = isSwitched(item) ? "Omnifeed" : item;
+    const inInventory = (game.inventory[item] ?? new Decimal(0)).add(
+      omnifeedCover[item] ?? 0,
+    );
     const difference = requested.sub(inInventory);
     // Feeds are mixed in whole units, but boosts like Fat Chicken and Medic
     // Apron make the requirement fractional, so round the shortfall up. The
@@ -316,31 +466,43 @@ export function getBulkMixRequirements(
 
     const feedIngredients: GameState["inventory"] = {};
     let feedCoins = 0;
+    const ingredient = isPigFeed(item)
+      ? (pigFeedInputs[item] ??
+        getPigFeedIngredientOptions(item, game.inventory)[0])
+      : undefined;
 
     if (missing.gt(0)) {
       missingRequests[item] = missing;
 
       const { ingredients: mixIngredients } = getIngredients({
         state: game,
-        name: item,
+        name: mixAs,
+        ingredient,
       });
 
-      const feed = ANIMAL_FOODS[item];
-      feedCoins = (feed.coins ?? 0) * missing.toNumber();
-      coins += feedCoins;
+      const feed = ANIMAL_FOODS[mixAs];
+      // One bulk mix makes at most the event's per-item limit, so the row's
+      // own cost (what its selection is checked against) covers only that;
+      // the totals still plan the whole shortfall.
+      const mixAmount = missing.gt(MAX_BULK_MIX_AMOUNT)
+        ? new Decimal(MAX_BULK_MIX_AMOUNT)
+        : missing;
+      feedCoins = (feed.coins ?? 0) * mixAmount.toNumber();
+      coins += (feed.coins ?? 0) * missing.toNumber();
 
       getKeys(mixIngredients).forEach((ingredient) => {
-        const amount =
-          mixIngredients[ingredient]?.mul(missing) ?? new Decimal(0);
-        feedIngredients[ingredient] = amount;
+        const perFeed = mixIngredients[ingredient] ?? new Decimal(0);
+        feedIngredients[ingredient] = perFeed.mul(mixAmount);
         ingredients[ingredient] = (
           ingredients[ingredient] ?? new Decimal(0)
-        ).add(amount);
+        ).add(perFeed.mul(missing));
       });
     }
 
     feeds.push({
       item,
+      mixAs,
+      ingredient,
       type: ANIMAL_FOODS[item].type,
       requested,
       inInventory,

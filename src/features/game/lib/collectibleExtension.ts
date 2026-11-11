@@ -1,9 +1,8 @@
 import Decimal from "decimal.js-light";
 import type { InventoryItemName } from "features/game/types/game";
-import type { GameState } from "features/game/types/game";
 import { PET_SHOP_ITEMS } from "features/game/types/petShop";
 import {
-  getExpiryCooldown,
+  EXPIRY_COOLDOWNS,
   getPlacementGroup,
   isTotem,
   type TemporaryCollectibleName,
@@ -51,15 +50,13 @@ export const exceedsShrineExtensionCap = ({
   name,
   payWith,
   remainingMs,
-  game,
 }: {
   name: TemporaryCollectibleName;
   payWith: TemporaryCollectibleName;
   remainingMs: number;
-  game: GameState;
 }): boolean =>
   isShrine(name) &&
-  remainingMs + getExpiryCooldown(payWith, game) > SHRINE_MAX_ACTIVE_MS;
+  remainingMs + EXPIRY_COOLDOWNS[payWith] > SHRINE_MAX_ACTIVE_MS;
 
 export type ExtensionCost = {
   coins: number;
@@ -103,10 +100,9 @@ export const getExtensionCost = (
 export const getExtensionResult = (
   name: TemporaryCollectibleName,
   payWith: TemporaryCollectibleName,
-  game: GameState,
 ): TemporaryCollectibleName =>
   isTotem(name) &&
   isTotem(payWith) &&
-  getExpiryCooldown(payWith, game) > getExpiryCooldown(name, game)
+  EXPIRY_COOLDOWNS[payWith] > EXPIRY_COOLDOWNS[name]
     ? payWith
     : name;

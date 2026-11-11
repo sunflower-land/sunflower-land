@@ -1,3 +1,4 @@
+import { refreshBeehivesOnRateChange } from "features/game/lib/updateBeehives";
 import {
   type CollectibleName,
   COLLECTIBLES_DIMENSIONS,
@@ -68,8 +69,14 @@ export function placeCollectible(options: Options): GameState {
   const { state, createdAt = Date.now() } = options;
   const guardiansBefore = snapshotGuardianPlacements(state);
 
-  return produce(placeCollectibleOnLand(options), (game) => {
+  const gameAfter = produce(placeCollectibleOnLand(options), (game) => {
     syncGuardianPlacements(game, guardiansBefore, createdAt);
+  });
+
+  return refreshBeehivesOnRateChange({
+    gameBefore: state,
+    gameAfter,
+    createdAt,
   });
 }
 

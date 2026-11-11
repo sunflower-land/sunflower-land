@@ -52,7 +52,7 @@ type TradeableListingsProps = {
   onListClick: () => void;
   onListClose: () => void;
   reload: KeyedMutator<TradeableDetails>;
-  /** When true, buying is blocked (e.g. Saltwort without event access). */
+  /** When true, buying is blocked (e.g. Crystal Leaf without event access). */
   disabled?: boolean;
 };
 

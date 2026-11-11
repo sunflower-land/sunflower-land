@@ -1,6 +1,7 @@
 import { TEST_FARM } from "features/game/lib/constants";
 import { claimGift } from "./claimBumpkinGift";
 import Decimal from "decimal.js-light";
+import { BUMPKIN_GIFTS } from "features/game/types/gifts";
 
 describe("claimBumpkinGift", () => {
   it("requires a bumpkin exists", () => {
@@ -326,5 +327,98 @@ describe("claimBumpkinGift", () => {
     expect(state.craftingBox.recipes["Basic Bed"]).toBeDefined();
     expect(state.craftingBox.recipes["Doll"]).toBeDefined();
     expect(state.craftingBox.recipes["Buzz Doll"]).toBeDefined();
+  });
+
+  it("does not advertise a recipe on repeating gifts", () => {
+    // Recipes are only handed out from planned gifts, so a repeating gift
+    // must not promise one it can never deliver
+    Object.values(BUMPKIN_GIFTS).forEach((gifts) => {
+      expect(gifts?.repeats.recipe).toBeUndefined();
+    });
+  });
+
+  it("grants the Crude Doll recipe with the Blacksmith's final planned gift", () => {
+    const state = claimGift({
+      action: {
+        bumpkin: "blacksmith",
+        type: "gift.claimed",
+      },
+      state: {
+        ...TEST_FARM,
+        coins: 0,
+        inventory: {},
+        npcs: {
+          blacksmith: {
+            deliveryCount: 0,
+            friendship: {
+              points: 470,
+              updatedAt: 100002000,
+              giftClaimedAtPoints: 320,
+            },
+          },
+        },
+      },
+    });
+
+    expect(state.coins).toEqual(960);
+    expect(state.inventory["Treasure Key"]).toEqual(new Decimal(1));
+    expect(state.npcs?.blacksmith?.friendship?.giftClaimedAtPoints).toEqual(
+      470,
+    );
+    expect(state.craftingBox.recipes["Crude Doll"]).toBeDefined();
+  });
+
+  it("claims the Blacksmith's repeating gift after the planned gifts", () => {
+    const state = claimGift({
+      action: {
+        bumpkin: "blacksmith",
+        type: "gift.claimed",
+      },
+      state: {
+        ...TEST_FARM,
+        coins: 0,
+        inventory: {},
+        npcs: {
+          blacksmith: {
+            deliveryCount: 0,
+            friendship: {
+              points: 620,
+              updatedAt: 100002000,
+              giftClaimedAtPoints: 470,
+            },
+          },
+        },
+      },
+    });
+
+    expect(state.coins).toEqual(960);
+    expect(state.inventory["Treasure Key"]).toEqual(new Decimal(1));
+    expect(state.npcs?.blacksmith?.friendship?.giftClaimedAtPoints).toEqual(
+      620,
+    );
+  });
+
+  it("grants the Crude Doll recipe to players already past the milestone", () => {
+    const state = claimGift({
+      action: {
+        bumpkin: "blacksmith",
+        type: "gift.claimed",
+      },
+      state: {
+        ...TEST_FARM,
+        npcs: {
+          blacksmith: {
+            deliveryCount: 0,
+            friendship: {
+              points: 1000,
+              updatedAt: 100002000,
+              giftClaimedAtPoints: 770,
+            },
+          },
+        },
+      },
+    });
+
+    expect(state.craftingBox.recipes["Crude Doll"]).toBeDefined();
   });
 });

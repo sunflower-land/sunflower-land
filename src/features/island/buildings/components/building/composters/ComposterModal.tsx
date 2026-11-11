@@ -533,6 +533,16 @@ const ComposterModalContent: React.FC<{
                 />
                 <BoostsDisplay
                   boosts={boostsUsed}
+                  base={{
+                    value: secondsToString(
+                      baseTimeToFinishMilliseconds / 1000,
+                      {
+                        length: "medium",
+                        removeTrailingZeros: true,
+                      },
+                    ),
+                    icon: SUNNYSIDE.icons.stopwatch,
+                  }}
                   show={showBoosts}
                   state={state}
                   onClick={() => setShowBoosts(!showBoosts)}
@@ -601,7 +611,11 @@ export const ComposterModal: React.FC<Props> = ({
           setShowModal(false);
         }}
         tabs={[
-          { id: "composter", icon: compost, name: "Composter" },
+          {
+            id: "composter",
+            icon: compost,
+            name: getTranslatedItemName(composterName),
+          },
           {
             id: "guide",
             icon: SUNNYSIDE.icons.expression_confused,

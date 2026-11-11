@@ -508,6 +508,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
           bumpkinParts={NPC_WEARABLES["reelin roy"]}
         >
           <FishCaught
+            state={state}
             caught={fishing.wharf.caught ?? {}}
             shrimpOnesieBonus={fishing.wharf.shrimpOnesieBonus}
             ottyBonus={fishing.wharf.ottyBonus}

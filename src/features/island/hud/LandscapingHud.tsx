@@ -27,6 +27,7 @@ import {
   getRemoveAction,
   getSelectedCollectible,
   isCollectible,
+  isFlippable,
 } from "../collectibles/MovableComponent";
 import { RemoveKuebikoModal } from "../collectibles/RemoveKuebikoModal";
 import type { PlaceableLocation } from "features/game/types/collectibles";
@@ -248,12 +249,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
 
   const showRemove = isMobile && selectedItem && removeAction;
 
-  const showFlip =
-    isMobile &&
-    selectedItem &&
-    (isCollectible(selectedItem.name) ||
-      selectedItem.name === "FarmHand" ||
-      selectedItem.name === "Bumpkin");
+  const showFlip = isMobile && selectedItem && isFlippable(selectedItem.name);
 
   const remove = () => {
     const action = selectedItem && removeAction;
@@ -288,12 +284,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   };
 
   const flip = () => {
-    if (
-      selectedItem &&
-      (isCollectible(selectedItem.name) ||
-        selectedItem.name === "FarmHand" ||
-        selectedItem.name === "Bumpkin")
-    ) {
+    if (selectedItem && isFlippable(selectedItem.name)) {
       child.send("FLIP", {
         id: selectedItem.id,
         name: selectedItem.name,
@@ -311,6 +302,15 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
 
     if (selectedItem.name === "Bumpkin") {
       return !!state.context.state.bumpkin?.flipped;
+    }
+
+    if (selectedItem.name === "Bud") {
+      return !!state.context.state.buds?.[Number(selectedItem.id)]?.flipped;
+    }
+
+    if (selectedItem.name === "Pet") {
+      return !!state.context.state.pets?.nfts?.[Number(selectedItem.id)]
+        ?.flipped;
     }
 
     if (!isCollectible(selectedItem.name)) return false;

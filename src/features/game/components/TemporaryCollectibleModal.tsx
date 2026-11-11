@@ -19,7 +19,7 @@ import type { PlaceableLocation } from "../types/collectibles";
 import type { GameState, InventoryItemName } from "../types/game";
 import { COLLECTIBLE_BUFF_LABELS } from "../types/collectibleItemBuffs";
 import {
-  getExpiryCooldown,
+  EXPIRY_COOLDOWNS,
   type TemporaryCollectibleName,
 } from "../lib/collectibleBuilt";
 import {
@@ -41,8 +41,8 @@ type Props = {
   expiresAt: number;
   /**
    * Whether this player can pay to top the booster up right now. False when
-   * visiting or without the SPEED_BOOSTS flag, in which case this is a read-only
-   * detail panel — the boost and its time remaining, with nothing to buy.
+   * visiting or when the collectible isn't placed, in which case this is a
+   * read-only detail panel — the boost and its time remaining, with nothing to buy.
    */
   canExtend: boolean;
 };
@@ -107,9 +107,9 @@ const TemporaryCollectibleContent: React.FC<{
   const { totalSeconds: secondsToExpire } = useCountdown(expiresAt);
   const payments = getExtensionPayments(name);
   const { coins: coinCost, ingredients } = getExtensionCost(name, payWith);
-  const extraSeconds = getExpiryCooldown(payWith, gameState) / 1000;
+  const extraSeconds = EXPIRY_COOLDOWNS[payWith] / 1000;
   // Paying with the longer-lasting totem leaves THAT totem on the map.
-  const becomes = getExtensionResult(name, payWith, gameState);
+  const becomes = getExtensionResult(name, payWith);
 
   /**
    * The balance the reducer will actually charge against: unplaced copies for a
@@ -134,7 +134,6 @@ const TemporaryCollectibleContent: React.FC<{
     name,
     payWith,
     remainingMs: secondsToExpire * 1000,
-    game: gameState,
   });
 
   // Belt and braces: the host component swaps to its expired branch and unmounts

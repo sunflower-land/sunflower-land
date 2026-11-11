@@ -30,6 +30,8 @@ import {
   AnimalDeal,
   ExchangeHud,
 } from "features/barn/components/AnimalBounties";
+import { useBountySaleSelection } from "features/barn/lib/useBountySaleSelection";
+import { PendingSaleTag } from "features/barn/components/AnimalBountyQuickPanel";
 import { AnimalBountySellPanel } from "features/barn/components/AnimalBountySellPanel";
 import { Modal } from "components/ui/Modal";
 import classNames from "classnames";
@@ -38,7 +40,13 @@ import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { ANIMAL_HOUSE_BOUNDS } from "features/game/expansion/placeable/lib/collisionDetection";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { PlayerModal } from "features/social/PlayerModal";
+import { Discovery } from "features/social/Discovery";
 import { hasFeatureAccess } from "lib/flags";
+import { Label } from "components/ui/Label";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { canTradeInPig, getPigBristles } from "features/game/lib/animals";
+import { useNow } from "lib/utils/hooks/useNow";
+import { TradeInHud, TradeInPigModal } from "./components/TradeInPig";
 import { Context as AuthContext } from "features/auth/lib/Provider";
 import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { isBuildingDestroyed } from "features/island/buildings/components/building/Building";
@@ -69,6 +77,18 @@ export const PigpenInside: React.FC = () => {
   const [showSellPanel, setShowSellPanel] = useState(false);
   const [selectedAnimalId, setSelectedAnimalId] = useState<string>();
   const [deal, setDeal] = useState<AnimalBounty>();
+  const saleSelection = useBountySaleSelection("pigpen");
+  const pendingDealIdByAnimal = Object.fromEntries(
+    Object.entries(saleSelection.pending).map(([dealId, animalId]) => [
+      animalId,
+      dealId,
+    ]),
+  );
+  // Trade-in flow (ticket 390): the dock's first card enters a pick-a-Pig
+  // mode like a bounty; the chosen Pig is confirmed in its own modal.
+  const [tradeInMode, setTradeInMode] = useState(false);
+  const [tradeInPigId, setTradeInPigId] = useState<string>();
+  const now = useNow({ live: true, intervalMs: 60_000 });
   const { authService } = useContext(AuthContext);
   const loggedInFarmId = useSelector(gameService, _loggedInFarmId);
   const hasAirdropAccess = useSelector(gameService, _hasAirdropAccess);
@@ -79,6 +99,8 @@ export const PigpenInside: React.FC = () => {
   const game = useSelector(gameService, _game);
   const island = useSelector(gameService, _island);
   const level = pigpen.level;
+  // Either selection mode dims the room and makes the Pigs pickable.
+  const selecting = !!deal || tradeInMode;
 
   const [scrollIntoView] = useScrollIntoView();
   const navigate = useNavigate();
@@ -91,12 +113,14 @@ export const PigpenInside: React.FC = () => {
 
   const nextLevel = Math.min(level + 1, 3);
 
+  // Max capacity (9 Pigs) fits the level-1 room, so upgrades don't resize it.
+  const interior = ANIMAL_HOUSE_IMAGES[1];
   const {
     x: floorX,
     y: floorY,
     height: floorHeight,
     width: floorWidth,
-  } = ANIMAL_HOUSE_BOUNDS.pigpen[level];
+  } = ANIMAL_HOUSE_BOUNDS.pigpen[1];
 
   /**
    * Positions must not move while the player is in the room, so the order is
@@ -121,10 +145,13 @@ export const PigpenInside: React.FC = () => {
     [animalIds],
   );
 
-  // Organize the animals neatly in the pigpen
+  // Organize the animals in a centred 3x3 grid (max capacity is 9 Pigs)
   const organizedAnimals = useMemo(() => {
-    const maxAnimalsPerRow = Math.floor(floorWidth / ANIMALS.Pig.width);
-    const verticalGap = 0.5; // Add a 0.5 grid unit gap between rows
+    const maxAnimalsPerRow = 3;
+    const gap = 0.5; // 0.5 grid unit gap between rows and columns
+    const gridWidth =
+      maxAnimalsPerRow * ANIMALS.Pig.width + (maxAnimalsPerRow - 1) * gap;
+    const offsetX = (floorWidth - gridWidth) / 2;
 
     // Reads through `sortedAnimalIds` so the order is fixed, but depends on
     // `pigpen.animals` so the records it renders (experience, state) are fresh.
@@ -137,8 +164,8 @@ export const PigpenInside: React.FC = () => {
         return {
           ...animal,
           coordinates: {
-            x: col * ANIMALS.Pig.width,
-            y: row * (ANIMALS.Pig.height + verticalGap),
+            x: offsetX + col * (ANIMALS.Pig.width + gap),
+            y: row * (ANIMALS.Pig.height + gap),
           },
         };
       });
@@ -152,8 +179,18 @@ export const PigpenInside: React.FC = () => {
     ).length;
   }, [organizedAnimals, deal, game]);
 
-  // Quick-sell (panel) flow: sell on click, only confirming when the sale
-  // deserves a second look (sick animal discount / attached reward).
+  const tradeableCount = useMemo(
+    () =>
+      tradeInMode
+        ? organizedAnimals.filter((pig) => canTradeInPig({ pig, game, now }))
+            .length
+        : 0,
+    [organizedAnimals, tradeInMode, game, now],
+  );
+
+  // Quick-sell (panel) flow: a single sale always confirms through
+  // AnimalDeal, so a stray click never sells an animal. Bulk mode marks
+  // pairs instead and sells them together.
   const handleAnimalSale = (animalId: string) => {
     if (!deal) return;
 
@@ -171,16 +208,20 @@ export const PigpenInside: React.FC = () => {
       return;
     }
 
-    if (animal.state === "sick" || animal.reward?.items?.[0]?.name) {
-      setSelectedAnimalId(animalId);
+    // Bulk mode marks the pair; it sells from the panel's confirm button.
+    // Sick animals (reduced bounty) and animals with an attached reward
+    // always get the AnimalDeal confirmation.
+    if (
+      saleSelection.bulkMode &&
+      animal.state !== "sick" &&
+      !animal.reward?.items?.[0]?.name
+    ) {
+      saleSelection.select(deal.id, animalId);
+      setDeal(undefined);
       return;
     }
 
-    gameService.send("animal.sold", {
-      requestId: deal.id,
-      animalId,
-    });
-    setDeal(undefined);
+    setSelectedAnimalId(animalId);
   };
 
   if (isDestroyed) {
@@ -195,7 +236,13 @@ export const PigpenInside: React.FC = () => {
           onClose={() => setShowModal(false)}
           onExchanging={(deal) => {
             setShowModal(false);
+            setTradeInMode(false);
             setDeal(deal);
+          }}
+          onTradeIn={() => {
+            setShowModal(false);
+            setDeal(undefined);
+            setTradeInMode(true);
           }}
         />
       </Modal>
@@ -204,13 +251,50 @@ export const PigpenInside: React.FC = () => {
         <AnimalBountySellPanel
           animalTypes={["Pig"]}
           selectedDeal={deal}
-          onSelect={setDeal}
+          bulkMode={saleSelection.bulkMode}
+          onBulkModeChange={(enabled) => {
+            saleSelection.setBulkMode(enabled);
+            setTradeInMode(false);
+            setDeal(undefined);
+          }}
+          pendingSales={saleSelection.pending}
+          onSelect={(selected) => {
+            setTradeInMode(false);
+            if (selected && saleSelection.pending[selected.id]) {
+              saleSelection.unselect(selected.id);
+              setDeal(undefined);
+              return;
+            }
+            setDeal(selected);
+          }}
+          onSellPending={saleSelection.sellAll}
+          onClearPending={saleSelection.clear}
           onClose={() => {
             setShowSellPanel(false);
             setDeal(undefined);
+            setTradeInMode(false);
+            saleSelection.setBulkMode(false);
+          }}
+          tradeIn={{
+            selected: tradeInMode,
+            onSelect: () => {
+              setDeal(undefined);
+              setTradeInMode((selected) => !selected);
+            },
           }}
         />
       )}
+
+      <Modal show={!!tradeInPigId} onHide={() => setTradeInPigId(undefined)}>
+        <TradeInPigModal
+          pigId={tradeInPigId}
+          onClose={() => setTradeInPigId(undefined)}
+          onTradedIn={() => {
+            setTradeInPigId(undefined);
+            setTradeInMode(false);
+          }}
+        />
+      </Modal>
 
       <UpgradeBuildingModal
         buildingName="Pigpen"
@@ -252,13 +336,13 @@ export const PigpenInside: React.FC = () => {
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <div className="relative w-full h-full">
               <img
-                src={ANIMAL_HOUSE_IMAGES[level].src}
+                src={interior.src}
                 id={Section.GenesisBlock}
                 className="relative z-0"
                 style={{
-                  width: `${ANIMAL_HOUSE_IMAGES[level].width * PIXEL_SCALE}px`,
-                  height: `${ANIMAL_HOUSE_IMAGES[level].height * PIXEL_SCALE}px`,
-                  opacity: deal ? 0.5 : 1,
+                  width: `${interior.width * PIXEL_SCALE}px`,
+                  height: `${interior.height * PIXEL_SCALE}px`,
+                  opacity: selecting ? 0.5 : 1,
                 }}
               />
 
@@ -274,9 +358,13 @@ export const PigpenInside: React.FC = () => {
                 <FeederMachine building="Pigpen" />
               </div>
 
-              <div className="absolute -top-[11px] left-1/2 translate-x-[58px]">
-                <FeedAllButton building="Pigpen" />
-              </div>
+              {/* Hidden while selling so animals can't be fed mid-sale. */}
+
+              {!showSellPanel && (
+                <div className="absolute -top-[11px] left-1/2 translate-x-[58px]">
+                  <FeedAllButton building="Pigpen" />
+                </div>
+              )}
 
               {/* Mirrors the Feed All slot on the feeder's other side. */}
               <div className="absolute -top-[11px] right-1/2 -translate-x-[58px]">
@@ -291,7 +379,18 @@ export const PigpenInside: React.FC = () => {
               >
                 <div className="flex flex-wrap w-full h-full">
                   {organizedAnimals.map((animal) => {
-                    const isValid = deal && isValidDeal({ animal, deal, game });
+                    const isPendingSale = saleSelection.pendingAnimalIds.has(
+                      animal.id.toString(),
+                    );
+                    // A Pig marked for a bulk sale can't also be traded in.
+                    const isTradeable =
+                      tradeInMode &&
+                      !isPendingSale &&
+                      canTradeInPig({ pig: animal, game, now });
+                    // An animal already marked for another bounty can't be picked again.
+                    const isValid = deal
+                      ? !isPendingSale && isValidDeal({ animal, deal, game })
+                      : isTradeable;
                     const { width, height } = ANIMALS[animal.type];
 
                     return (
@@ -299,9 +398,11 @@ export const PigpenInside: React.FC = () => {
                         id={`${animal.type.toLowerCase()}-${animal.id}`}
                         key={`${animal.type.toLowerCase()}-${animal.id}`}
                         className={classNames("relative", {
-                          "opacity-50": deal && !isValid,
-                          "cursor-pointer": deal && isValid,
-                          "pointer-events-none": deal && !isValid,
+                          "opacity-50": selecting && !isValid,
+                          "cursor-pointer":
+                            (selecting && isValid) ||
+                            (!selecting && isPendingSale),
+                          "pointer-events-none": selecting && !isValid,
                         })}
                         style={{
                           position: "absolute",
@@ -311,26 +412,62 @@ export const PigpenInside: React.FC = () => {
                           height: `${height * GRID_WIDTH_PX}px`,
                         }}
                         onClick={(e) => {
-                          if (deal) {
+                          // Bulk mode: clicking a marked animal removes its mark.
+                          if (!selecting && isPendingSale) {
                             e.stopPropagation();
                             e.preventDefault();
-                            if (!isValid) return;
-                            if (showSellPanel) {
-                              handleAnimalSale(animal.id.toString());
-                            } else {
-                              setSelectedAnimalId(animal.id.toString());
-                            }
+                            saleSelection.unselect(
+                              pendingDealIdByAnimal[animal.id.toString()],
+                            );
+                            return;
+                          }
+                          if (!selecting) return;
+                          e.stopPropagation();
+                          e.preventDefault();
+                          if (!isValid) return;
+
+                          if (tradeInMode) {
+                            setTradeInPigId(animal.id.toString());
+                            return;
+                          }
+
+                          if (showSellPanel) {
+                            handleAnimalSale(animal.id.toString());
+                          } else {
+                            setSelectedAnimalId(animal.id.toString());
                           }
                         }}
                       >
-                        <Pig id={animal.id} disabled={!!deal} />
+                        {/* What this Pig pays, so the pick is informed. */}
+                        {isTradeable && (
+                          <Label
+                            type="warning"
+                            icon={ITEM_DETAILS["Pig Bristles"].image}
+                            className="absolute -top-5 left-1/2 -translate-x-1/2 z-30 whitespace-nowrap pointer-events-none"
+                          >
+                            {getPigBristles({ game, pig: animal }).amount}
+                          </Label>
+                        )}
+                        <Pig
+                          id={animal.id}
+                          disabled={selecting || showSellPanel}
+                        />
+                        {isPendingSale && (
+                          <PendingSaleTag
+                            dealId={pendingDealIdByAnimal[animal.id] ?? ""}
+                          />
+                        )}
                       </div>
                     );
                   })}
                 </div>
               </MapPlacement>
 
-              {!deal && !showSellPanel && (
+              {/* Both selection modes hide the room controls, as the Barn's
+                  bounty mode does - a trade-in pick must not open the shop,
+                  start a sale, upgrade or leave mid-pick. (Feed All and
+                  Apply Mud stay, like the Barn's Feed All.) */}
+              {!selecting && !showSellPanel && (
                 <>
                   <button
                     type="button"
@@ -394,7 +531,16 @@ export const PigpenInside: React.FC = () => {
         </div>
       </>
 
-      {!deal && !showSellPanel && <Hud isFarming={false} location="home" />}
+      {!selecting && !showSellPanel && (
+        <Hud isFarming={false} location="home" />
+      )}
+
+      {tradeInMode && (
+        <TradeInHud
+          eligibleCount={tradeableCount}
+          onClose={() => setTradeInMode(false)}
+        />
+      )}
 
       {deal && !showSellPanel && (
         <ExchangeHud
@@ -411,6 +557,7 @@ export const PigpenInside: React.FC = () => {
         token={token}
         hasAirdropAccess={hasAirdropAccess}
       />
+      <Discovery />
     </>
   );
 };

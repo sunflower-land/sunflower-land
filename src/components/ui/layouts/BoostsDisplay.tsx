@@ -13,7 +13,7 @@ import type { GameState } from "features/game/types/game";
 import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
 import { AnimatedPanel } from "features/world/ui/AnimatedPanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Label } from "../Label";
 import {
@@ -123,7 +123,12 @@ export const getBoostIcon = (boost: BoostName, state: GameState): string => {
 };
 
 export const BoostsDisplay: React.FC<{
-  boosts: { name: BoostName; value: string }[];
+  boosts: { name: BoostName; value: string; label?: string; icon?: string }[];
+  /**
+   * The un-boosted value the boosts are applied to (e.g. a level's base drop,
+   * a recipe's base time). Shown first so the rows add up to the boosted total.
+   */
+  base: { value: string; icon?: string };
   show: boolean;
   state: GameState;
   onClick: () => void;
@@ -134,6 +139,7 @@ export const BoostsDisplay: React.FC<{
   anchorRef?: React.RefObject<HTMLElement | null>;
 }> = ({
   boosts,
+  base,
   show,
   state,
   onClick,
@@ -145,6 +151,25 @@ export const BoostsDisplay: React.FC<{
   const { t } = useAppTranslation();
   const [portalStyle, setPortalStyle] = useState<React.CSSProperties>({});
   const [anchorVisible, setAnchorVisible] = useState(true);
+  const portalRef = useRef<HTMLDivElement>(null);
+
+  // In portal mode the panel's backdrop sits under any open modal (z-30 vs
+  // z-50), so clicks elsewhere in the modal never reach it. Close on any
+  // pointer down outside the panel and its trigger instead.
+  useEffect(() => {
+    if (!show || !anchorRef) return;
+
+    const handlePointerDown = (event: PointerEvent) => {
+      const target = event.target as Node;
+      if (portalRef.current?.contains(target)) return;
+      if (anchorRef.current?.contains(target)) return;
+      onClick();
+    };
+
+    document.addEventListener("pointerdown", handlePointerDown, true);
+    return () =>
+      document.removeEventListener("pointerdown", handlePointerDown, true);
+  }, [show, anchorRef, onClick]);
 
   useEffect(() => {
     if (!show || !anchorRef?.current) return;
@@ -266,14 +291,23 @@ export const BoostsDisplay: React.FC<{
           </span>
         </div>
         <div className="flex flex-col gap-3">
+          {base && (
+            <Label
+              type="transparent"
+              icon={base.icon ?? SUNNYSIDE.icons.lightning}
+              className="ml-3"
+            >
+              {`${t("boostsDisplay.base")}: ${base.value}`}
+            </Label>
+          )}
           {boosts.map((buff, index) => (
             <Label
               key={`${buff.name}-${buff.value}-${index}`}
               type="transparent"
-              icon={getBoostIcon(buff.name, state)}
+              icon={buff.icon ?? getBoostIcon(buff.name, state)}
               className="ml-3"
             >
-              {`${buff.value} ${getBoostLabel(buff.name, t)}${getSkillRankSuffix(buff.name, state)}`}
+              {`${buff.value} ${buff.label ?? `${getBoostLabel(buff.name, t)}${getSkillRankSuffix(buff.name, state)}`}`}
             </Label>
           ))}
         </div>
@@ -283,7 +317,10 @@ export const BoostsDisplay: React.FC<{
 
   if (anchorRef && show) {
     if (!anchorVisible) return null;
-    return createPortal(panelContent, document.body);
+    return createPortal(
+      <div ref={portalRef}>{panelContent}</div>,
+      document.body,
+    );
   }
 
   return panelContent;

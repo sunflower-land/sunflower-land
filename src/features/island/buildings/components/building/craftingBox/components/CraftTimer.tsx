@@ -62,6 +62,13 @@ const RecipeLabelContent: React.FC<{
         </span>
         <BoostsDisplay
           boosts={boosts}
+          base={{
+            value: secondsToString(baseSeconds, {
+              length: "medium",
+              isShortFormat: true,
+            }),
+            icon: SUNNYSIDE.icons.stopwatch,
+          }}
           show={showTimeBoosts}
           state={state}
           onClick={() => setShowTimeBoosts((prev) => !prev)}

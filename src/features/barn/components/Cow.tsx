@@ -1,9 +1,5 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
-import {
-  BEETLE_FEED_REPLACES,
-  isBeetleFeed,
-} from "features/game/types/beetleFeeds";
-import { hasFeatureAccess } from "lib/flags";
+import { isBeetle } from "features/game/types/beetles";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
@@ -22,7 +18,7 @@ import {
   getAnimalLevel,
   getBoostedFoodQuantity,
   getFeedItem,
-  isAnimalFood,
+  isFoodForAnimal,
   getFeedQuantity,
   resolveAnimal,
 } from "features/game/lib/animals";
@@ -49,6 +45,7 @@ import { InfoPopover } from "features/island/common/InfoPopover";
 import {
   getBarnDelightCost,
   handleFoodXP,
+  getFeedBatchSize,
   REQUIRED_FOOD_QTY,
 } from "features/game/events/landExpansion/feedAnimal";
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
@@ -164,6 +161,8 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const [showDrops, setShowDrops] = useState(false);
   const [showAnimalDetails, setShowAnimalDetails] = useState(false);
   const [showNoFoodSelected, setShowNoFoodSelected] = useState(false);
+  const [showFreeFeedTreat, setShowFreeFeedTreat] = useState(false);
+  const freeFeedTreatTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
   const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
   const [showNoMedicine, setShowNoMedicine] = useState(false);
   const [showLockedDetails, setShowLockedDetails] = useState(false);
@@ -243,13 +242,16 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   // animal) but can still be cured and sold to bounties.
   const isLocked = !isAnimalFeedable("barn", game, id);
 
-  const { foodQuantity: requiredFoodQty } = getBoostedFoodQuantity({
+  // One click feeds the whole batch that gets the Cow ready.
+  const feedBatchSize = getFeedBatchSize({ state: game, animal: cow });
+  const { foodQuantity: quantityPerFeed } = getBoostedFoodQuantity({
     animalType: "Cow",
     foodQuantity: REQUIRED_FOOD_QTY.Cow,
     game,
     animal: cow,
     now,
   });
+  const requiredFoodQty = quantityPerFeed.mul(feedBatchSize);
 
   const hasGoldenCow = isAnimalCoveredByGoldenAsset({
     state: game,
@@ -434,6 +436,10 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     // the game-state animal is already asleep, so any feed/claim event would
     // throw. Ignore clicks until the animation resolves.
     if (showDrops) return;
+    // A new click replaces an earlier Honey Treat notice, so it can't sit
+    // over whatever this click does.
+    clearTimeout(freeFeedTreatTimeout.current);
+    setShowFreeFeedTreat(false);
 
     const showNoFoodPrompt = async () => {
       setShowNoFoodSelected(true);
@@ -443,11 +449,8 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (sick) return onSickClick();
 
-    if (needsLove) {
-      if (!hasGoldenCow) return onLoveClick();
-
-      handleShowDetails();
-      return;
+    if (needsLove && !hasGoldenCow) {
+      return onLoveClick();
     }
 
     const hasBuffSelected = selectedItem && isAnimalFeedBuffItem(selectedItem);
@@ -455,6 +458,16 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     if (hasBuffSelected) {
       const buffItem = selectedItem as AnimalFeedBuffName;
       const buffCount = inventory[buffItem] ?? new Decimal(0);
+      // Honey Treat only cuts feed, and Golden Cow already makes it free.
+      if (buffItem === "Honey Treat" && hasGoldenCow) {
+        setShowFreeFeedTreat(true);
+        // Cleared on the next click, so an older timer can't hide a newer notice.
+        freeFeedTreatTimeout.current = setTimeout(
+          () => setShowFreeFeedTreat(false),
+          1000,
+        );
+        return;
+      }
       if (!cow.feedBuff && buffCount.gte(1)) {
         gameService.send({
           type: "animal.feedBuffApplied",
@@ -467,6 +480,11 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       }
 
       await showNoFoodPrompt();
+      return;
+    }
+
+    if (needsLove && hasGoldenCow) {
+      handleShowDetails();
       return;
     }
 
@@ -497,17 +515,18 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     // Auto-select the favourite food when it is held so a stale selection
     // (e.g. Hay left over from the barn) never feeds the wrong item.
     const feedItem = getFeedItem({
+      animal: "Cow",
       selectedItem,
       favouriteFood: favFood,
       inventory,
       requiredQty: requiredFoodQty,
-      hasBeetleFeedAccess: hasFeatureAccess(game, "BEETLE_FEED"),
     });
     if (feedItem && feedItem !== selectedItem) {
       shortcutItem(feedItem);
     }
 
-    const hasFoodSelected = feedItem && isAnimalFood(feedItem);
+    const hasFoodSelected =
+      feedItem && (isFoodForAnimal("Cow", feedItem) || isBeetle(feedItem));
 
     if (hasFoodSelected) {
       const foodCount = inventory[feedItem as AnimalFoodName] ?? new Decimal(0);
@@ -526,6 +545,8 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   };
 
   const getInfoPopoverMessage = () => {
+    if (showFreeFeedTreat)
+      return t("animal.honeyTreatFreeFeed", { item: "Golden Cow" });
     if (showNoFoodSelected) return t("animal.noFoodMessage");
     if (showNoMedicine) return t("animal.noMedicine");
     if (showNotEnoughFood)
@@ -542,7 +563,8 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       food: hasGoldenCow ? favFood : (item as AnimalFoodName),
     });
 
-    return foodXp;
+    // A Beetle is one per click; anything else is the whole batch.
+    return item && isBeetle(item) ? foodXp : foodXp * feedBatchSize;
   };
 
   const animalImageInfo = () => {
@@ -595,9 +617,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const xpIndicatorColor =
     favFood === selectedItem ||
     selectedItem === "Omnifeed" ||
-    (!!selectedItem &&
-      isBeetleFeed(selectedItem) &&
-      BEETLE_FEED_REPLACES[selectedItem] === favFood) ||
+    (!!selectedItem && isBeetle(selectedItem)) ||
     hasGoldenCow
       ? "#71e358"
       : "#fff";
@@ -718,7 +738,10 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
           </Modal>
           <InfoPopover
             showPopover={
-              showNoFoodSelected || showNoMedicine || showNotEnoughFood
+              showFreeFeedTreat ||
+              showNoFoodSelected ||
+              showNoMedicine ||
+              showNotEnoughFood
             }
             className="-top-10 left-1/2 transform -translate-x-1/2 z-20"
           >

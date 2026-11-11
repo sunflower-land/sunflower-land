@@ -9,7 +9,6 @@ import type {
   Inventory,
 } from "features/game/types/game";
 import type { BoostWindow } from "features/game/lib/boostWindows";
-import { hasFeatureAccess } from "lib/flags";
 import { projectSeconds } from "features/game/lib/timerDisplay";
 import { calculateCropProgress } from "./lib/calculateCropProgress";
 import {
@@ -79,6 +78,7 @@ interface Props {
   onClose: () => void;
   onAddSeeds: (seeds: AddSeedsInput) => void;
   onHarvestPack: (packIndex: number) => void;
+  onHarvestAll: () => void;
   onRemovePack: (packIndex: number) => void;
   onAddOil: (oil: number) => void;
 }
@@ -119,6 +119,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
   onClose,
   onAddSeeds,
   onHarvestPack: onHarvestPack,
+  onHarvestAll,
   onRemovePack,
   onAddOil,
 }) => {
@@ -272,6 +273,11 @@ export const CropMachineModalContent: React.FC<Props> = ({
     setSelectedPackIndex(0);
   };
 
+  const handleHarvestAll = () => {
+    onHarvestAll();
+    setSelectedPackIndex(0);
+  };
+
   const handleAddOil = () => {
     onAddOil(totalOil);
     setTotalOil(0);
@@ -284,19 +290,18 @@ export const CropMachineModalContent: React.FC<Props> = ({
   };
 
   const selectedPack = queue[selectedPackIndex];
+  const readyPackCount = queue.filter((pack) =>
+    isCropPackReady(pack, now),
+  ).length;
 
-  // The next supplied pack will be windowed if the machine already is, or the
-  // moment a flagged player supplies it (the event converts the machine) — so
-  // the pre-action preview excludes the Tortoise from the baked duration and
+  // The next supplied pack is always windowed (supplying converts the machine) —
+  // `calculateCropTime` never bakes the Tortoise in, so the pre-action preview
   // projects the actual time through its window instead.
-  const packWillBeWindowed =
-    windowed || hasFeatureAccess(state, "SPEED_BOOSTS");
-
+  //
   // A pack ALREADY in the queue is windowed only if it carries the per-pack
-  // MARKER — never because the flag is on. A legacy pack on a not-yet-converted
-  // machine still has the Tortoise baked into its stored duration, so treating
-  // it as windowed would take the shrine back out of `calculateCropTime` and
-  // then project it through the live window, counting it twice.
+  // MARKER. A legacy pack on a not-yet-converted machine still has the Tortoise
+  // baked into its stored schedule, so projecting it through the live window
+  // would count the shrine twice.
   const selectedPackWindowed = selectedPack?.baseDurationMs !== undefined;
 
   // Windows are sampled from the instant the pack actually GROWS, not from
@@ -317,15 +322,13 @@ export const CropMachineModalContent: React.FC<Props> = ({
   // everything already queued has finished. Any pack without a derived finish
   // is stalled, which leaves that instant unknowable: fall back to now.
   const nextPackStartsAt = useMemo(() => {
-    if (!packWillBeWindowed) return now;
-
     let startsAt = now;
     for (const pack of queue) {
       if (pack.readyAt === undefined) return now;
       startsAt = Math.max(startsAt, pack.readyAt);
     }
     return startsAt;
-  }, [packWillBeWindowed, queue, now]);
+  }, [queue, now]);
 
   // The machine's effective speed right now (1 unless a windowed pack is
   // actively growing under a Tortoise window) — drives the ⚡ label.
@@ -525,7 +528,10 @@ export const CropMachineModalContent: React.FC<Props> = ({
                     <div className="flex justify-between w-full my-1">
                       <Label type="default">
                         {t("cropMachine.addSeeds", {
-                          seedType: selectedSeed.toLocaleLowerCase(),
+                          seedType:
+                            getTranslatedItemName(
+                              selectedSeed,
+                            ).toLocaleLowerCase(),
                         })}
                       </Label>
                       <Label
@@ -565,11 +571,9 @@ export const CropMachineModalContent: React.FC<Props> = ({
                                     amount: totalSeeds,
                                   },
                                   state,
-                                  now,
-                                  { windowed: packWillBeWindowed },
                                 ).milliSeconds / 1000,
                                 {
-                                  windowed: packWillBeWindowed,
+                                  windowed: true,
                                   at: nextPackStartsAt,
                                 },
                               ),
@@ -654,8 +658,6 @@ export const CropMachineModalContent: React.FC<Props> = ({
                                   amount: selectedPack.seeds,
                                 },
                                 state,
-                                now,
-                                { windowed: selectedPackWindowed },
                               ).milliSeconds) / 1000,
                             {
                               windowed: selectedPackWindowed,
@@ -686,13 +688,24 @@ export const CropMachineModalContent: React.FC<Props> = ({
         </OuterPanel>
         {/* Queued packs */}
         <div className="flex flex-col">
-          <Label
-            type="default"
-            className="ml-1.5 mt-2 mb-1"
-            icon={SUNNYSIDE.icons.seedling}
-          >
-            {t("cropMachine.seedPacks")}
-          </Label>
+          <div className="flex items-center justify-between mt-2 mb-1">
+            <Label
+              type="default"
+              className="ml-1.5"
+              icon={SUNNYSIDE.icons.seedling}
+            >
+              {t("cropMachine.seedPacks")}
+            </Label>
+            {/* Shown whatever pack is selected, once several are ready. */}
+            {readyPackCount > 1 && (
+              <Button
+                className="w-auto px-2 py-1 whitespace-nowrap"
+                onClick={handleHarvestAll}
+              >
+                {t("cropMachine.harvestAll", { count: readyPackCount })}
+              </Button>
+            )}
+          </div>
           <div className="mt-1 flex flex-wrap gap-2 justify-start">
             {stackedQueue.map((item, index) => {
               return (
@@ -851,6 +864,7 @@ export const CropMachineModal: React.FC<Props> = ({
   onClose,
   onAddSeeds,
   onHarvestPack: onHarvestPack,
+  onHarvestAll,
   onRemovePack,
   onAddOil,
 }) => (
@@ -866,6 +880,7 @@ export const CropMachineModal: React.FC<Props> = ({
       onClose={onClose}
       onAddSeeds={onAddSeeds}
       onHarvestPack={onHarvestPack}
+      onHarvestAll={onHarvestAll}
       onRemovePack={onRemovePack}
       onAddOil={onAddOil}
     />

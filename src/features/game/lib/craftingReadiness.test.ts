@@ -1,4 +1,3 @@
-import { CONFIG } from "lib/config";
 import {
   getCraftingBoxFreeAt,
   getCraftingQueueReadyAts,
@@ -7,7 +6,7 @@ import {
   resolveCraftingQueueTimings,
 } from "./craftingReadiness";
 import { CRAFTING_BOOST_SPEED, getCraftingBoostWindows } from "./boostWindows";
-import { getExpiryCooldown } from "./collectibleBuilt";
+import { EXPIRY_COOLDOWNS } from "./collectibleBuilt";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import type { CraftingQueueItem, GameState } from "features/game/types/game";
 
@@ -49,17 +48,6 @@ const item = (
   }) as CraftingQueueItem;
 
 describe("crafting readiness", () => {
-  // Pins the flag ON rather than relying on `.env`: the windowed cooldowns
-  // (Time Warp Totem 4h vs 2h) and boost contributions are flag-gated, so a
-  // developer running with VITE_NETWORK=mainnet would otherwise see this fail.
-  const originalNetwork = CONFIG.NETWORK;
-  beforeEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
-  });
-  afterEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-  });
-
   describe("resolveCraftingQueueTimings", () => {
     it("returns the stored readyAt for legacy items (no baseDurationMs)", () => {
       const queue = [
@@ -127,7 +115,7 @@ describe("crafting readiness", () => {
     });
 
     it("credits only the overlap when the boost expires mid-queue", () => {
-      const cooldown = getExpiryCooldown("Time Warp Totem", INITIAL_FARM);
+      const cooldown = EXPIRY_COOLDOWNS["Time Warp Totem"];
       const game = withTotem(START);
       // One craft far longer than the totem's window.
       const queue = [

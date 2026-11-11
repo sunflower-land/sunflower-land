@@ -11,7 +11,11 @@ import { minigameDashboardBackdropStyle } from "features/minigame/lib/minigameBo
 
 import type { PlayerEconomyConfigRow } from "./lib/types";
 import { useEditorApi } from "./lib/useEditorApi";
-import { PlayerEconomyEditorSessionProvider } from "./PlayerEconomyEditorSessionContext";
+import {
+  PlayerEconomyEditorSessionProvider,
+  type PlayerEconomyEditorLocationState,
+} from "./PlayerEconomyEditorSessionContext";
+import { extractPrivateKeyFromEventData } from "./lib/editorApi";
 import { PlayerEconomyEditorSessionView } from "./PlayerEconomyEditorSessionView";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
@@ -159,8 +163,15 @@ export const PlayerEconomyEditorCreate: React.FC = () => {
     setCreating(true);
     setError(null);
     try {
-      await submitEvent({ type: "playerEconomy.created", slug: normalized });
-      navigate(`/economy-editor/edit/${normalized}`);
+      const result = await submitEvent({
+        type: "playerEconomy.created",
+        slug: normalized,
+      });
+      // The secret API key is only returned on create; hand it to the editor to show once.
+      const state: PlayerEconomyEditorLocationState = {
+        privateKey: extractPrivateKeyFromEventData(result.data),
+      };
+      navigate(`/economy-editor/edit/${normalized}`, { state });
     } catch (e) {
       setError(
         e instanceof Error ? e.message : t("playerEconomyEditor.error.create"),

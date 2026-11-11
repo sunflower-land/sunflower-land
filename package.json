@@ -30,7 +30,29 @@
       ".+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy"
     },
     "transform": {
-      "^.+\\.(js|jsx|ts|tsx)$": "esbuild-runner/jest"
+      "^.+\\.(js|jsx|ts|tsx)$": [
+        "@swc/jest",
+        {
+          "jsc": {
+            "parser": {
+              "syntax": "typescript",
+              "tsx": true
+            },
+            "transform": {
+              "react": {
+                "runtime": "automatic"
+              },
+              "optimizer": {
+                "globals": {
+                  "vars": {
+                    "import.meta.env": "process.env"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "testPathIgnorePatterns": [
       "/node_modules/",
@@ -123,6 +145,8 @@
     "@rsbuild/core": "^1.4.5",
     "@rsbuild/plugin-node-polyfill": "^1.4.2",
     "@rsbuild/plugin-react": "^1.3.4",
+    "@swc/core": "^1.16.18",
+    "@swc/jest": "^0.2.39",
     "@types/bad-words": "^3.0.1",
     "@types/canvas-confetti": "^1.6.4",
     "@types/howler": "^2.2.6",
@@ -144,7 +168,6 @@
     "babel-plugin-react-compiler": "^1.0.0",
     "dotenv": "^16.0.0",
     "esbuild": "^0.27.0",
-    "esbuild-runner": "^2.2.2",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "5.0.0",

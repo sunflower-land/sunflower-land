@@ -2,7 +2,7 @@ import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { expandLand, expansionRequirements } from "./expandLand";
 import { ascensionBaseline } from "features/game/lib/level";
 import Decimal from "decimal.js-light";
-import { BB_TO_GEM_RATIO } from "features/game/types/game";
+import { BB_TO_GEM_RATIO, type GameState } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 
 describe("expandLand", () => {
@@ -642,5 +642,251 @@ describe("Ascension Age VIP expansion time boost", () => {
       { name: "Grinx's Hammer", value: "x0.5" },
       { name: "VIP Access", value: "x0.9" },
     ]);
+  });
+});
+
+describe("Duende Monument", () => {
+  const withDuendeMonument = (game: GameState, cheers = 1000): GameState => ({
+    ...game,
+    collectibles: {
+      ...game.collectibles,
+      "Duende Monument": [
+        { coordinates: { x: 1, y: 1 }, createdAt: 0, id: "123", readyAt: 0 },
+      ],
+    },
+    socialFarming: {
+      ...game.socialFarming,
+      villageProjects: { "Duende Monument": { cheers } },
+    },
+  });
+
+  const SWAMP_FARM: GameState = {
+    ...TEST_FARM,
+    island: { type: "swamp", ascensionLevel: 1 },
+    inventory: { ...TEST_FARM.inventory, "Basic Land": new Decimal(30) },
+  };
+
+  it("reduces expansion resources and time by 10% once complete", () => {
+    const { requirements, timeBoostsUsed } = expansionRequirements({
+      game: withDuendeMonument(TEST_FARM),
+    });
+
+    expect(requirements?.resources).toEqual({ Wood: 2.7 });
+    expect(requirements?.seconds).toEqual(
+      (expansionRequirements({ game: TEST_FARM }).requirements?.seconds ?? 0) *
+        0.9,
+    );
+    expect(timeBoostsUsed).toContainEqual({
+      name: "Duende Monument",
+      value: "x0.9",
+    });
+  });
+
+  it("does not reduce the coin cost", () => {
+    const { requirements } = expansionRequirements({
+      game: withDuendeMonument(SWAMP_FARM),
+    });
+
+    expect(requirements?.resources).toEqual({
+      Crimstone: 9,
+      Oil: 45,
+      Obsidian: 1.8,
+    });
+    expect(requirements?.coins).toBe(5000);
+  });
+
+  it("does nothing while the monument is incomplete", () => {
+    const base = expansionRequirements({ game: TEST_FARM });
+
+    const { requirements, boostsUsed } = expansionRequirements({
+      game: withDuendeMonument(TEST_FARM, 999),
+    });
+
+    expect(requirements).toEqual(base.requirements);
+    expect(boostsUsed).toHaveLength(0);
+  });
+
+  it("skips the resource reduction when Grinx's Hammer is placed", () => {
+    const game = withDuendeMonument(SWAMP_FARM);
+    const { requirements } = expansionRequirements({
+      game: {
+        ...game,
+        collectibles: {
+          ...game.collectibles,
+          "Grinx's Hammer": [
+            {
+              coordinates: { x: 3, y: 3 },
+              createdAt: 0,
+              id: "456",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+    });
+
+    expect(requirements?.resources).toEqual({
+      Crimstone: 5,
+      Oil: 25,
+      Obsidian: 1,
+    });
+  });
+});
+
+describe("Cave Dwellers auction expansion boosts", () => {
+  const SWAMP_FARM: GameState = {
+    ...TEST_FARM,
+    island: { type: "swamp", ascensionLevel: 1 },
+    inventory: { ...TEST_FARM.inventory, "Basic Land": new Decimal(30) },
+  };
+
+  const withCollectible = (
+    game: GameState,
+    name: "Brick House" | "Stick House" | "Grinx's Hammer" | "Duende Monument",
+  ): GameState => ({
+    ...game,
+    collectibles: {
+      ...game.collectibles,
+      [name]: [
+        { coordinates: { x: 1, y: 1 }, createdAt: 0, id: name, readyAt: 0 },
+      ],
+    },
+  });
+
+  const withHerculesBeetleHat = (game: GameState): GameState => ({
+    ...game,
+    bumpkin: {
+      ...INITIAL_BUMPKIN,
+      equipped: { ...INITIAL_BUMPKIN.equipped, hat: "Hercules Beetle Hat" },
+    },
+  });
+
+  const base = expansionRequirements({ game: SWAMP_FARM });
+
+  it("Brick House reduces Crimstone by 25% and coins by 5%", () => {
+    const { requirements, boostsUsed } = expansionRequirements({
+      game: withCollectible(SWAMP_FARM, "Brick House"),
+    });
+
+    expect(requirements?.resources).toEqual({
+      Crimstone: 7.5,
+      Oil: 50,
+      Obsidian: 2,
+    });
+    expect(requirements?.coins).toBe(4750);
+    expect(requirements?.seconds).toEqual(base.requirements?.seconds);
+    expect(boostsUsed).toContainEqual({ name: "Brick House", value: "x0.75" });
+  });
+
+  it("Stick House reduces Oil by 25% and time by 10%", () => {
+    const { requirements, timeBoostsUsed } = expansionRequirements({
+      game: withCollectible(SWAMP_FARM, "Stick House"),
+    });
+
+    expect(requirements?.resources).toEqual({
+      Crimstone: 10,
+      Oil: 37.5,
+      Obsidian: 2,
+    });
+    expect(requirements?.coins).toBe(5000);
+    expect(requirements?.seconds).toEqual(
+      (base.requirements?.seconds ?? 0) * 0.9,
+    );
+    expect(timeBoostsUsed).toContainEqual({
+      name: "Stick House",
+      value: "x0.9",
+    });
+  });
+
+  it("Hercules Beetle Hat reduces Obsidian by 25%", () => {
+    const { requirements, boostsUsed } = expansionRequirements({
+      game: withHerculesBeetleHat(SWAMP_FARM),
+    });
+
+    expect(requirements?.resources).toEqual({
+      Crimstone: 10,
+      Oil: 50,
+      Obsidian: 1.5,
+    });
+    expect(boostsUsed).toContainEqual({
+      name: "Hercules Beetle Hat",
+      value: "x0.75",
+    });
+  });
+
+  it("skips the resource cuts when Grinx's Hammer is placed but keeps the coin and time cuts", () => {
+    const game = withHerculesBeetleHat(
+      withCollectible(
+        withCollectible(
+          withCollectible(SWAMP_FARM, "Brick House"),
+          "Stick House",
+        ),
+        "Grinx's Hammer",
+      ),
+    );
+
+    const { requirements, boostsUsed } = expansionRequirements({ game });
+
+    expect(requirements?.resources).toEqual({
+      Crimstone: 5,
+      Oil: 25,
+      Obsidian: 1,
+    });
+    expect(requirements?.coins).toBe(4750);
+    expect(requirements?.seconds).toEqual(
+      (base.requirements?.seconds ?? 0) * 0.9,
+    );
+    expect(boostsUsed).not.toContainEqual({
+      name: "Hercules Beetle Hat",
+      value: "x0.75",
+    });
+  });
+
+  it("stacks multiplicatively with the Duende Monument", () => {
+    const game = withCollectible(
+      withCollectible(
+        {
+          ...SWAMP_FARM,
+          socialFarming: {
+            ...SWAMP_FARM.socialFarming,
+            villageProjects: { "Duende Monument": { cheers: 1000 } },
+          },
+        },
+        "Duende Monument",
+      ),
+      "Stick House",
+    );
+
+    const { requirements } = expansionRequirements({ game });
+
+    expect(requirements?.resources).toEqual({
+      Crimstone: 9,
+      Oil: 33.75,
+      Obsidian: 1.8,
+    });
+    expect(requirements?.seconds).toEqual(
+      (base.requirements?.seconds ?? 0) * 0.9 * 0.9,
+    );
+  });
+
+  it("charges the Brick House coin discount when expanding", () => {
+    const state = expandLand({
+      action: { type: "land.expanded", farmId: 0 },
+      state: {
+        ...withCollectible(SWAMP_FARM, "Brick House"),
+        coins: 10000,
+        bumpkin: { ...INITIAL_BUMPKIN, experience: 100_000_000 },
+        inventory: {
+          ...SWAMP_FARM.inventory,
+          Crimstone: new Decimal(100),
+          Oil: new Decimal(100),
+          Obsidian: new Decimal(100),
+        },
+      },
+      createdAt: Date.now(),
+    });
+
+    expect(state.coins).toBe(5250);
+    expect(state.inventory.Crimstone).toEqual(new Decimal(92.5));
   });
 });

@@ -16,7 +16,7 @@ import { FRUITFUL_BLEND_YIELD } from "features/game/types/fertilisers";
 
 /**
  * LEGACY-model only: shifts plantedAt/harvestedAt so the remaining grow time is
- * multiplied by 0.8 (−20%), matching getFruitPatchTime. Under the speed-rate
+ * multiplied by 0.8 (−20%), the legacy discount-at-start. Under the speed-rate
  * model Turbofruit Mix is instead a live 1.25× speed window from `fertilisedAt`
  * (see getTurbofruitMixWindows), so no fruit mutation is needed on apply.
  */
@@ -27,12 +27,15 @@ function applyTurbofruitMixToRemainingGrowTime(
 ): PlantedFruit {
   const cycleMs = plantSeconds * 1000;
 
+  // Every back-date has to land in boostedTime too, or the progress bar jumps
+  // forward by the discount the moment the fertiliser is applied.
   if (now - fruit.plantedAt < cycleMs) {
     const cycleEnd = fruit.plantedAt + cycleMs;
     const timeReduction = (cycleEnd - now) * 0.2;
     return {
       ...fruit,
       plantedAt: fruit.plantedAt - timeReduction,
+      boostedTime: (fruit.boostedTime ?? 0) + timeReduction,
     };
   }
 
@@ -42,6 +45,7 @@ function applyTurbofruitMixToRemainingGrowTime(
     return {
       ...fruit,
       harvestedAt: fruit.harvestedAt - timeReduction,
+      boostedTime: (fruit.boostedTime ?? 0) + timeReduction,
     };
   }
 

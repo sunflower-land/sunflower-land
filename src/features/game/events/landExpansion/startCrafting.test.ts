@@ -1,5 +1,4 @@
 /* eslint-disable no-var */
-import { CONFIG } from "lib/config";
 import Decimal from "decimal.js-light";
 import type { GameState, InventoryItemName } from "features/game/types/game";
 import { startCrafting, type StartCraftingAction } from "./startCrafting";
@@ -13,18 +12,6 @@ import {
 } from "features/game/lib/crafting";
 
 describe("startCrafting", () => {
-  // These tests assert the LEGACY discount-at-start timing (every boost is baked
-  // into readyAt when the craft is queued). FE jest runs on amoy where
-  // SPEED_BOOSTS is on, so force the flag off here; the windowed model is covered
-  // in its own describe.
-  const originalNetwork = CONFIG.NETWORK;
-  beforeEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-  });
-  afterEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-  });
-
   const farmId = 1;
   let gameState: GameState;
 
@@ -1213,17 +1200,7 @@ describe("startCrafting", () => {
   });
 });
 
-describe("startCrafting — SPEED_BOOSTS", () => {
-  // Pins the flag ON rather than relying on `.env`: a developer running with
-  // VITE_NETWORK=mainnet would otherwise see this whole describe fail.
-  const originalNetwork = CONFIG.NETWORK;
-  beforeEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
-  });
-  afterEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-  });
-
+describe("startCrafting — speed windows", () => {
   const farmId = 1;
   const HOUR = 60 * 60 * 1000;
   const BASIC_BED_TIME = 8 * HOUR;

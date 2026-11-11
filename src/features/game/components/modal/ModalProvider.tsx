@@ -27,7 +27,7 @@ type GlobalModal =
   | "SECOND_LEVEL"
   | "FIREPIT"
   | "BETTY"
-  | "BETTY_SELL"
+  | "FIRST_DELIVERY"
   | "BETTY_BUY"
   | "BETTY_PLANT"
   | "FIREPIT_RHUBARB"
@@ -172,11 +172,13 @@ export const ModalProvider: FC<React.PropsWithChildren> = ({ children }) => {
         />
       </Modal>
 
-      <Modal show={opened === "BETTY_SELL"}>
+      {/* Betty announces the first delivery but points at Peggy, so the
+          player never confuses her market stall with the Plaza drop-off. */}
+      <Modal show={opened === "FIRST_DELIVERY"}>
         <SpeakingModal
           message={[
             {
-              text: translate("betty.market-intro.sell"),
+              text: translate("betty.market-intro.delivery"),
             },
           ]}
           onClose={handleClose}

@@ -1,104 +1,90 @@
+// Relative: jest maps the `assets/*` alias to a file stub.
+import mapJSON from "../../../../../assets/map/cave_interior.json";
 import {
-  CAVE_MACHINE_SIZE,
-  CAVE_MERCHANT_STALL,
-  CAVE_MERCHANT_STALL_SIZE,
+  getCaveConstructionSite,
+  getCaveMerchantAlcove,
+  getCaveSlotRects,
+  getCaveStair,
+  type CaveTiledMap,
+} from "features/cave/lib/caveMap";
+import {
+  CAVE_CONSTRUCTION_SITES,
+  CAVE_IMAGE_ORIGIN,
+  CAVE_IMAGE_SIZE,
+  CAVE_LADDER,
+  CAVE_MERCHANT_ALCOVE,
+  CAVE_MERCHANT_ALCOVE_TIER,
   CAVE_PATCH_SIZE,
-  CAVE_ROOM_TOP_Y,
   CAVE_SLOTS,
   caveSlotsForTier,
-  getCaveRoomBounds,
-  type CaveCoordinates,
 } from "./caveLayout";
 
-const TIERS = [1, 2, 3, 4, 5, 6, 7, 8];
+const map = mapJSON as unknown as CaveTiledMap;
+const TILE = 16;
 
-// Every cell a footprint covers: (x, y) is the top-left tile, y counts up.
-const cells = ({ x, y }: CaveCoordinates, width: number, height: number) =>
-  Array.from({ length: width * height }, (_, i) => ({
-    x: x + (i % width),
-    y: y - Math.floor(i / width),
-  }));
+// The map is in 16 px tiles from the map origin; the layout is in tiles from
+// the cropped image's origin.
+const toImageTiles = (px: { x: number; y: number }) => ({
+  x: px.x / TILE - CAVE_IMAGE_ORIGIN.x,
+  y: px.y / TILE - CAVE_IMAGE_ORIGIN.y,
+});
 
-const slotCells = (id: number) => [
-  ...cells(CAVE_SLOTS[id].patch, CAVE_PATCH_SIZE, CAVE_PATCH_SIZE),
-  ...cells(
-    CAVE_SLOTS[id].machine,
-    CAVE_MACHINE_SIZE.width,
-    CAVE_MACHINE_SIZE.height,
-  ),
-];
-
-describe("caveLayout", () => {
-  it("has eight slots, one per tier", () => {
-    expect(Object.keys(CAVE_SLOTS).map(Number)).toEqual(TIERS);
-    expect(caveSlotsForTier(8)).toEqual(TIERS);
+describe("caveLayout (pinned to the Tiled map)", () => {
+  it("crops the room image to the drawn walls", () => {
+    expect(CAVE_IMAGE_SIZE).toEqual({ width: 66, height: 55 });
+    expect(CAVE_PATCH_SIZE).toEqual(5);
   });
 
-  it("gives every slot a 25-tile patch", () => {
-    for (const id of TIERS) {
-      const patch = cells(
-        CAVE_SLOTS[id].patch,
-        CAVE_PATCH_SIZE,
-        CAVE_PATCH_SIZE,
-      );
-      expect(new Set(patch.map(({ x, y }) => `${x},${y}`)).size).toBe(25);
-    }
+  it("places every slot's sign and sand where the map draws them", () => {
+    const slots = getCaveSlotRects(map);
+
+    [1, 2, 3, 4, 5, 6, 7, 8].forEach((id) => {
+      expect(CAVE_SLOTS[id].patch).toEqual(toImageTiles(slots[id].dig));
+      expect(CAVE_SLOTS[id].sign).toEqual({
+        ...toImageTiles(slots[id].sign),
+        width: slots[id].sign.width / TILE,
+        height: slots[id].sign.height / TILE,
+      });
+    });
   });
 
-  it("never overlaps patches or machines", () => {
-    const all = TIERS.flatMap(slotCells).map(({ x, y }) => `${x},${y}`);
-    expect(new Set(all).size).toBe(all.length);
+  it("puts the expansion sign on each tier's barrier", () => {
+    [1, 2, 3, 4, 5, 6, 7].forEach((tier) => {
+      const site = getCaveConstructionSite(map, tier);
+      expect(site).toBeDefined();
+      expect(CAVE_CONSTRUCTION_SITES[tier]).toEqual({
+        ...toImageTiles(site as { x: number; y: number }),
+        width: (site as { width: number }).width / TILE,
+        height: (site as { height: number }).height / TILE,
+      });
+    });
+    expect(CAVE_CONSTRUCTION_SITES[8]).toBeUndefined();
   });
 
-  it("fits every slot inside the room from the tier that unlocks it", () => {
-    for (const id of TIERS) {
-      for (const tier of TIERS.filter((t) => t >= id)) {
-        const { width, height } = getCaveRoomBounds(tier);
-        for (const { x, y } of slotCells(id)) {
-          expect(x).toBeGreaterThanOrEqual(0);
-          expect(x).toBeLessThan(width);
-          expect(CAVE_ROOM_TOP_Y - y).toBeGreaterThanOrEqual(0);
-          expect(CAVE_ROOM_TOP_Y - y).toBeLessThan(height);
-        }
-      }
-    }
+  it("puts the Merchant in the alcove the room draws from tier I", () => {
+    expect(
+      getCaveMerchantAlcove(map, CAVE_MERCHANT_ALCOVE_TIER - 1),
+    ).toBeUndefined();
+    const alcove = getCaveMerchantAlcove(map, CAVE_MERCHANT_ALCOVE_TIER);
+    expect(CAVE_MERCHANT_ALCOVE).toEqual({
+      ...toImageTiles(alcove as { x: number; y: number }),
+      width: (alcove as { width: number }).width / TILE,
+      height: (alcove as { height: number }).height / TILE,
+    });
   });
 
-  it("keeps the merchant stall inside the Tier I room, clear of every slot", () => {
-    const stall = cells(
-      CAVE_MERCHANT_STALL,
-      CAVE_MERCHANT_STALL_SIZE.width,
-      CAVE_MERCHANT_STALL_SIZE.height,
-    );
-    const { width, height } = getCaveRoomBounds(1);
-    const slots = new Set(
-      TIERS.flatMap(slotCells).map(({ x, y }) => `${x},${y}`),
-    );
-    for (const { x, y } of stall) {
-      expect(slots.has(`${x},${y}`)).toBe(false);
-      expect(x).toBeGreaterThanOrEqual(0);
-      expect(x).toBeLessThan(width);
-      expect(CAVE_ROOM_TOP_Y - y).toBeGreaterThanOrEqual(0);
-      expect(CAVE_ROOM_TOP_Y - y).toBeLessThan(height);
-    }
+  it("puts the exit on the ladder", () => {
+    const stair = getCaveStair(map);
+    expect(CAVE_LADDER).toEqual({
+      ...toImageTiles(stair),
+      width: stair.width / TILE,
+      height: stair.height / TILE,
+    });
   });
 
-  it("only grows the room as tiers unlock", () => {
-    for (const tier of TIERS.slice(1)) {
-      const before = getCaveRoomBounds(tier - 1);
-      const after = getCaveRoomBounds(tier);
-      expect(after.width).toBeGreaterThanOrEqual(before.width);
-      expect(after.height).toBeGreaterThanOrEqual(before.height);
-    }
-  });
-
-  it("leaves the next slot outside the room until its tier", () => {
-    for (const tier of [1, 2, 3, 4]) {
-      const { width, height } = getCaveRoomBounds(tier);
-      const outside = slotCells(tier + 1).some(
-        ({ x, y }) => x >= width || CAVE_ROOM_TOP_Y - y >= height,
-      );
-      expect(outside).toBe(true);
-    }
+  it("unlocks one slot per tier, up to eight", () => {
+    expect(caveSlotsForTier(1)).toEqual([1]);
+    expect(caveSlotsForTier(5)).toEqual([1, 2, 3, 4, 5]);
+    expect(caveSlotsForTier(9)).toHaveLength(8);
   });
 });

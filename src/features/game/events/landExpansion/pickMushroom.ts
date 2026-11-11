@@ -1,6 +1,8 @@
 import Decimal from "decimal.js-light";
 import type { GameState } from "../../types/game";
 import { produce } from "immer";
+import { getMushroomYield } from "features/game/lib/mushrooms";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type PickMushroomAction = {
   type: "mushroom.picked";
@@ -32,8 +34,20 @@ export function pickMushroom({
 
     delete mushrooms[action.id];
 
+    // Yield is worked out at pick time, so boosts placed after the mushroom
+    // spawned still count (and removed ones no longer do).
+    const { amount, boostsUsed } = getMushroomYield({
+      name: mushroom.name,
+      game: copy,
+    });
+    copy.boostsUsedAt = updateBoostUsed({
+      game: copy,
+      boostNames: boostsUsed,
+      createdAt,
+    });
+
     const inventoryMushrooms = copy.inventory[mushroom.name] ?? new Decimal(0);
-    copy.inventory[mushroom.name] = inventoryMushrooms.add(mushroom.amount);
+    copy.inventory[mushroom.name] = inventoryMushrooms.add(amount);
 
     return copy;
   });

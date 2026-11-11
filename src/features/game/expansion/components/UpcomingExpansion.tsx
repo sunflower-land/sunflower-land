@@ -37,6 +37,7 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { useVisiting } from "lib/utils/visitUtils";
 import { useNow } from "lib/utils/hooks/useNow";
 import { useExpansionCoinCostWithVip } from "lib/utils/hooks/useVipAccess";
+import { getTutorialNudge } from "features/island/lib/tutorialNudge";
 import { OuterPanel } from "components/ui/Panel";
 
 interface ExpandIconProps {
@@ -295,11 +296,14 @@ export const UpcomingExpansion: React.FC = () => {
     : requirements;
   const canExpand = craftingRequirementsMet(state, requirementsWithVipCoins);
 
+  // The post-delivery expand-land nudge pulses even before the coins check
+  // passes - the requirement labels underneath show what is still missing.
   const showHelper =
-    canExpand &&
-    (state.farmActivity["Tree Chopped"] ?? 0) >= 3 &&
-    // Only pulsate first 5 times
-    state.inventory["Basic Land"]?.lte(4);
+    (canExpand &&
+      (state.farmActivity["Tree Chopped"] ?? 0) >= 3 &&
+      // Pulsate through the tutorial expansions (up to the stretch one)
+      (state.inventory["Basic Land"]?.lte(6) ?? false)) ||
+    getTutorialNudge(state) === "expand-land";
 
   const islandType = state.island.type;
   const maxExpanded =

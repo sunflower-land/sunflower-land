@@ -530,7 +530,12 @@ export const Wallet: React.FC<PropsWithChildren<Props>> = ({
   }
 
   if (requiresLinkedWalletSelected && !hasLinkedWalletSelected) {
-    return <SelectLinkedWallet linkedWallet={linkedAddress as `0x${string}`} />;
+    return (
+      <SelectLinkedWallet
+        linkedWallet={linkedAddress as `0x${string}`}
+        isWithdrawal={action === "withdrawFlower" || action === "withdrawItems"}
+      />
+    );
   }
 
   if (requiresChain && !hasChain) {

@@ -93,7 +93,7 @@ export const FaceRecognition: React.FC<{ skipIntro?: boolean }> = ({
   const [showMobileInstall, setShowMobileInstall] = useState(false);
   const { t } = useAppTranslation();
 
-  const now = useNow();
+  const now = useNow({ live: true });
 
   const { gameState, gameService } = useGame();
 
@@ -134,7 +134,10 @@ export const FaceRecognition: React.FC<{ skipIntro?: boolean }> = ({
           <Label type="info" icon={SUNNYSIDE.icons.search} className="mb-1">
             {t("faceRecognition.label")}
           </Label>
-          <p className="text-sm">{t("faceRecognition.introText")}</p>
+          <p className="text-sm mb-2">{t("faceRecognition.introText")}</p>
+          <Label type="warning" className="mb-1">
+            {t("faceRecognition.introWarning")}
+          </Label>
         </div>
         <Button onClick={() => setShowIntro(false)}>
           {t("faceRecognition.startButton")}
@@ -150,6 +153,7 @@ export const FaceRecognition: React.FC<{ skipIntro?: boolean }> = ({
 
       const cooldownUntil = faceCooldownUntil({
         game: gameState.context.state,
+        now,
       });
 
       const isOnCooldown = now < cooldownUntil;
@@ -280,7 +284,7 @@ export const RecognitionAttempt: React.FC<{
 }> = ({ game, event }) => {
   const { t } = useAppTranslation();
 
-  const now = useNow();
+  const now = useNow({ live: true });
 
   if (event.event === "succeeded") {
     return (
@@ -295,7 +299,7 @@ export const RecognitionAttempt: React.FC<{
     );
   }
 
-  const cooldownUntil = faceCooldownUntil({ game });
+  const cooldownUntil = faceCooldownUntil({ game, now });
   const isOnCooldown = now < cooldownUntil;
 
   if (isOnCooldown) {
@@ -320,6 +324,7 @@ export const RecognitionAttempt: React.FC<{
 
   const attemptsLeft = getFaceRecognitionAttemptsLeft({
     game,
+    now,
   });
 
   if (event.event === "duplicate") {

@@ -19,6 +19,7 @@ import xpIcon from "assets/icons/xp.png";
 import choresIcon from "assets/icons/chores.webp";
 import lightningIcon from "assets/icons/lightning.png";
 import deliveryIcon from "assets/icons/delivery.webp";
+import socialPointsIcon from "assets/icons/social_score.webp";
 
 export const BOARD_ICONS: Record<StatsLeaderboardName, string> = {
   coins: coinsIcon,
@@ -30,6 +31,7 @@ export const BOARD_ICONS: Record<StatsLeaderboardName, string> = {
   deliveries: deliveryIcon,
   dailyLoginStreak: lightningIcon,
   diggingStreak: SUNNYSIDE.tools.sand_shovel,
+  socialPoints: socialPointsIcon,
 };
 
 interface Props {
@@ -80,16 +82,23 @@ export const HallOfFameBoard: React.FC<Props> = ({
   );
 };
 
-const HallOfFameRow: React.FC<{
+/**
+ * One ranked player. Shared with the Chapter Crop Week cooking board, which
+ * highlights the viewing player's own row.
+ */
+export const HallOfFameRow: React.FC<{
   player: StatsLeaderboardPlayer;
   onClick: (player: PlayerModalPlayer) => void;
-}> = ({ player, onClick }) => {
+  /** Draw this row as the viewing player's own entry. */
+  highlight?: boolean;
+}> = ({ player, onClick, highlight = false }) => {
   const { rank, farmId, username, bumpkin, count } = player;
 
   return (
     <div
       className={classNames("flex items-center gap-1 px-1 py-0.5 text-xxs", {
-        "bg-[#ead4aa]": rank % 2 === 1,
+        "bg-[#ead4aa]": rank % 2 === 1 && !highlight,
+        "bg-[#f3b062]": highlight,
         // A deleted farm has no wearables - nothing to open.
         "cursor-pointer hover:brightness-95": !!bumpkin,
       })}

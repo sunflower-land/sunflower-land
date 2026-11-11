@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Transition } from "@headlessui/react";
+import classNames from "classnames";
 
 import emptyPot from "assets/greenhouse/greenhouse_pot.webp";
 import grapeSeedling from "assets/greenhouse/grape_seedling.webp";
@@ -177,9 +178,18 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
       ]
     : [];
   const baseDurationMs = growingPlant?.baseDurationMs;
-  // Work banked across Greenhouse building moves — folded into the bar's total
-  // so visual progress is preserved (readiness already accounts for it).
-  const bankedWorkMs = growingPlant?.boostedTime ?? 0;
+  // `boostedTime` carries a different quantity in each model, so split it here:
+  // - windowed: WORK banked across Greenhouse building moves, folded into the
+  //   bar's total so visual progress is preserved (readiness already accounts
+  //   for it).
+  // - legacy: the DISCOUNT baked in by back-dating `plantedAt` (plant time +
+  //   any mid-grow Greenhouse Glow). It is not growth already done, so the bar
+  //   has to un-back-date with it — otherwise a heavily boosted plant opens its
+  //   bar near-full and only ever fills the last sliver. Mirrors FertilePlot.
+  const bankedWorkMs =
+    baseDurationMs !== undefined ? (growingPlant?.boostedTime ?? 0) : 0;
+  const legacyOffsetMs =
+    baseDurationMs === undefined ? (growingPlant?.boostedTime ?? 0) : 0;
 
   const { now, workLeftSeconds, countdownSeconds } = useNodeTimer({
     startedAt: plantedAt,
@@ -200,7 +210,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
   const totalSeconds =
     baseDurationMs !== undefined
       ? (baseDurationMs + bankedWorkMs) / 1000
-      : Math.max((readyAt - plantedAt) / 1000, 0);
+      : Math.max((readyAt - plantedAt - legacyOffsetMs) / 1000, 0);
   const percentage =
     totalSeconds > 0
       ? clampPercentage(((totalSeconds - secondsLeft) / totalSeconds) * 100)
@@ -323,6 +333,19 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
         </Transition>
 
         <GreenhousePotFertiliserBadges fertiliser={potFertiliser} />
+        {/* Nothing planted: the same ! the Greenhouse shows on the farm. */}
+        <img
+          src={SUNNYSIDE.icons.expression_alerted}
+          alt=""
+          className={classNames("absolute pointer-events-none z-20", {
+            ready: showAnimations,
+          })}
+          style={{
+            width: `${PIXEL_SCALE * 4}px`,
+            left: `calc(50% - ${PIXEL_SCALE * 2}px)`,
+            top: `${PIXEL_SCALE * -10}px`,
+          }}
+        />
         <img
           src={emptyPot}
           className="cursor-pointer hover:img-highlight"

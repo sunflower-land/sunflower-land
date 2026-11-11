@@ -175,18 +175,17 @@ export const Basket: React.FC<Prop> = ({
 
   const getHarvestTime = (seedName: SeedName) => {
     if (isFlowerSeed(seedName)) {
-      return getFlowerTime(seedName, gameState, now);
+      return getFlowerTime(seedName, gameState);
     }
 
     if (isPatchFruitSeed(seedName)) {
-      return getFruitPatchTime(seedName, gameState, now);
+      return getFruitPatchTime(seedName, gameState);
     }
     if (seedName in GREENHOUSE_SEEDS || seedName in GREENHOUSE_FRUIT_SEEDS) {
       const plant = SEED_TO_PLANT[seedName as GreenHouseCropSeedName];
       return getGreenhouseCropTime({
         crop: plant,
         game: gameState,
-        now,
       });
     }
 

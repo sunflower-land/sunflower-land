@@ -42,6 +42,7 @@ import { isMobile } from "mobile-device-detect";
 import { ZoomContext } from "components/ZoomProvider";
 import { RemoveKuebikoModal } from "./RemoveKuebikoModal";
 import type { PlaceableLocation } from "features/game/types/collectibles";
+import type { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { RemoveHungryCaterpillarModal } from "./RemoveHungryCaterpillarModal";
 import flipped from "assets/icons/flipped.webp";
 import flipIcon from "assets/icons/flip.webp";
@@ -255,6 +256,16 @@ export function getRemoveAction(
 export const isCollectible = (
   name: LandscapingPlaceable,
 ): name is CollectibleName => name in COLLECTIBLES_DIMENSIONS;
+
+/** Placeables with a flip event: collectibles, people and Buds/Pet NFTs. */
+export const isFlippable = (
+  name: LandscapingPlaceable,
+): name is CollectibleName | "FarmHand" | "Bumpkin" | NFTName =>
+  isCollectible(name) ||
+  name === "FarmHand" ||
+  name === "Bumpkin" ||
+  name === "Bud" ||
+  name === "Pet";
 
 export interface MovableProps {
   name: LandscapingPlaceable;
@@ -618,12 +629,10 @@ export const MoveableComponent: React.FC<
 
   const hasRemovalAction = !!removeAction;
 
-  const hasFlipAction =
-    !isMobile &&
-    (isCollectible(name) || name === "FarmHand" || name === "Bumpkin");
+  const hasFlipAction = !isMobile && isFlippable(name);
 
   const flip = () => {
-    if (isCollectible(name) || name === "FarmHand" || name === "Bumpkin") {
+    if (isFlippable(name)) {
       landscapingMachine.send("FLIP", { id, name, location });
     }
   };
@@ -705,6 +714,14 @@ export const MoveableComponent: React.FC<
 
     if (name === "Bumpkin") {
       return !!state.context.state.bumpkin?.flipped;
+    }
+
+    if (name === "Bud") {
+      return !!state.context.state.buds?.[Number(id)]?.flipped;
+    }
+
+    if (name === "Pet") {
+      return !!state.context.state.pets?.nfts?.[Number(id)]?.flipped;
     }
 
     if (!isCollectible(name)) return false;

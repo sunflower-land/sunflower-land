@@ -44,6 +44,7 @@ export const SmoothieShack: React.FC<Props> = ({
   const smoothieShack = useSelector(gameService, _smoothieShack(buildingId));
   const { cooking, queuedRecipes, readyRecipes } = useCookingState(
     smoothieShack ?? {},
+    "Smoothie Shack",
   );
 
   const itemInProgress =

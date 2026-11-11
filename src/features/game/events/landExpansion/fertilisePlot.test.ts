@@ -313,8 +313,8 @@ describe("fertiliseCrop", () => {
   // Speed-rate model: a windowed crop (has `baseDurationMs`) is boosted by a live
   // 2× window from `fertilisedAt` (see getCropFertiliserWindows), so fertilising
   // it must NOT mutate the crop — only record the fertiliser. Keyed off
-  // `baseDurationMs`, not the flag.
-  describe("Rapid Root / Sproutroot Surprise — SPEED_BOOSTS (windowed)", () => {
+  // `baseDurationMs`.
+  describe("Rapid Root / Sproutroot Surprise — windowed", () => {
     const sunflowerMs = CROPS.Sunflower.harvestSeconds * 1000;
 
     const fertiliseWindowedCrop = (

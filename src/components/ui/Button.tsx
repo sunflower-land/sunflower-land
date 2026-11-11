@@ -22,6 +22,8 @@ interface Props {
   longPress?: boolean;
   longPressInterval?: number;
   contentAlign?: "start" | "center" | "end";
+  /** Focus on mount, e.g. a confirm step's primary action (Enter confirms). */
+  autoFocus?: boolean;
 }
 export const Button: React.FC<React.PropsWithChildren<Props>> = ({
   children,
@@ -34,6 +36,7 @@ export const Button: React.FC<React.PropsWithChildren<Props>> = ({
   variant = "primary",
   contentAlign = "center",
   "aria-label": ariaLabel,
+  autoFocus,
 }) => {
   const longPressEvents = useLongPress(
     (e) =>
@@ -81,6 +84,7 @@ export const Button: React.FC<React.PropsWithChildren<Props>> = ({
         aria-label={ariaLabel}
         type={type}
         disabled={disabled}
+        autoFocus={autoFocus}
         style={{
           ...buttonVariables,
           borderStyle: "solid",

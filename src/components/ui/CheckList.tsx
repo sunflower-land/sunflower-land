@@ -36,7 +36,14 @@ import {
   CHAPTER_ARTEFACT,
 } from "features/game/types/desert";
 import { getCurrentChapter } from "features/game/types/chapters";
-import { hasClaimedPetalPrize } from "features/game/events/landExpansion/claimPetalPrize";
+import { getFloatingIslandGameClaimsToday } from "features/game/events/landExpansion/claimFloatingIslandPrize";
+import {
+  getLoveIslandCentrePuzzle,
+  getLoveIslandDailyGame,
+  type LoveIslandCentrePuzzle,
+  type LoveIslandDailyGame,
+} from "features/world/lib/loveIsland";
+import type { FloatingIslandGameName } from "features/game/types/floatingIsland";
 import {
   getAscensionDisplayText,
   getAscensionLevel,
@@ -49,37 +56,72 @@ import { ChestRewardsList } from "./ChestRewardsList";
 import { translate } from "lib/i18n/translate";
 import { useNow } from "lib/utils/hooks/useNow";
 
-const loveIslandBoxStatus = (state: GameState) => {
+const CENTRE_PUZZLE_GAME: Partial<
+  Record<LoveIslandCentrePuzzle, FloatingIslandGameName>
+> = {
+  push: "love_push",
+  buttons: "love_buttons",
+};
+
+const DAILY_GAME: Record<LoveIslandDailyGame, FloatingIslandGameName> = {
+  boulder: "love_boulder",
+  kraken: "love_kraken",
+};
+
+const LOVE_ISLAND_GAME_NAME_KEYS = {
+  love_push: "lovePush.guide.title",
+  love_buttons: "loveButtons.guide.title",
+  love_boulder: "loveBoulder.title",
+  love_kraken: "loveKraken.title",
+} as const;
+
+const loveIslandBoxStatus = (state: GameState, now = Date.now()) => {
   const schedule = state.floatingIsland.schedule;
   const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
 
-  const isOpen = schedule.some((schedule) => {
-    const now = new Date();
-    const start = new Date(schedule.startAt);
-    const end = new Date(schedule.endAt);
+  const isOpen = schedule.some((s) => {
+    const start = new Date(s.startAt).getTime();
+    const end = new Date(s.endAt).getTime();
     return now >= start && now <= end;
   });
 
-  const nextScheduleTime = schedule.reduce((closestTime, schedule) => {
-    const now = new Date();
-    const start = new Date(schedule.startAt);
-
-    // If schedule hasn't started yet, compare its start time
+  const nextScheduleTime = schedule.reduce((closestTime, s) => {
+    const start = new Date(s.startAt).getTime();
     if (now < start) {
-      return closestTime === 0
-        ? start.getTime()
-        : Math.min(closestTime, start.getTime());
+      return closestTime === 0 ? start : Math.min(closestTime, start);
     }
 
     return closestTime;
   }, 0);
 
-  const hasClaimed = hasClaimedPetalPrize({
-    state,
-    createdAt: Date.now(),
+  const centreGame = CENTRE_PUZZLE_GAME[getLoveIslandCentrePuzzle(now)];
+  const todaysGames: FloatingIslandGameName[] = [
+    ...(centreGame ? [centreGame] : []),
+    DAILY_GAME[getLoveIslandDailyGame(now)],
+  ];
+
+  const games = todaysGames.map((game) => {
+    const claims = getFloatingIslandGameClaimsToday({
+      state,
+      game,
+      createdAt: Date.now(),
+    });
+    return { game, hasClaimed: claims.length > 0 };
   });
 
-  return { schedule, timeZone, isOpen, nextScheduleTime, hasClaimed };
+  const totalCount = games.length;
+  const claimedCount = games.filter((g) => g.hasClaimed).length;
+
+  return {
+    schedule,
+    timeZone,
+    isOpen,
+    nextScheduleTime,
+    games,
+    claimedCount,
+    totalCount,
+    hasClaimed: claimedCount === totalCount,
+  };
 };
 
 const budBoxStatus = (state: GameState) => {
@@ -179,7 +221,8 @@ export const checklistCount = (
   now: number,
 ) => {
   // Plaza Tasks
-  const hasNotClaimedLoveBox = !loveIslandBoxStatus(state).hasClaimed;
+  const { claimedCount, totalCount } = loveIslandBoxStatus(state, now);
+  const loveBoxesLeft = totalCount - claimedCount;
 
   const { hasBud, playerBudTypes, todayBud, hasOpened } = budBoxStatus(state);
   const hasNotClaimedBudBox =
@@ -187,7 +230,7 @@ export const checklistCount = (
 
   const completedPlazaTasksCount = () => {
     if (meetsLevelRequirement(ascension, { ascension: 0, level: 2 })) {
-      return (hasNotClaimedLoveBox ? 1 : 0) + (hasNotClaimedBudBox ? 1 : 0);
+      return loveBoxesLeft + (hasNotClaimedBudBox ? 1 : 0);
     }
     return 0;
   };
@@ -324,8 +367,16 @@ const LoveIslandBox: React.FC<{ ascension: AscensionLevel }> = ({
   const state = useSelector(gameService, (state) => state.context.state);
   const now = useNow();
 
-  const { schedule, timeZone, isOpen, nextScheduleTime, hasClaimed } =
-    loveIslandBoxStatus(state);
+  const {
+    schedule,
+    timeZone,
+    isOpen,
+    nextScheduleTime,
+    games,
+    claimedCount,
+    totalCount,
+    hasClaimed,
+  } = loveIslandBoxStatus(state, now);
 
   const [nextFlightTime, setNextFlightTime] = useState(
     (nextScheduleTime - now) / 1000,
@@ -338,7 +389,7 @@ const LoveIslandBox: React.FC<{ ascension: AscensionLevel }> = ({
     return () => clearInterval(interval);
   }, [nextScheduleTime]);
 
-  const labelText = `${hasClaimed ? "" : "0/1"} ${t("completed")}`;
+  const labelText = `${claimedCount}/${totalCount} ${t("completed")}`;
   const flightTimeText = `${
     isOpen
       ? t("checkList.loveIsland.flyNow")
@@ -378,6 +429,40 @@ const LoveIslandBox: React.FC<{ ascension: AscensionLevel }> = ({
           <p className="text-xs p-1 pb-2">
             {t("checkList.loveIsland.description")}
           </p>
+
+          {/* Today's games */}
+          <div className="flex flex-col gap-1 pb-2">
+            {games.map(({ game, hasClaimed: gameClaimed }) => {
+              const nameKey =
+                LOVE_ISLAND_GAME_NAME_KEYS[
+                  game as keyof typeof LOVE_ISLAND_GAME_NAME_KEYS
+                ];
+
+              return (
+                <OuterPanel
+                  key={game}
+                  className="flex justify-between items-center"
+                >
+                  <Label type="default">
+                    <p className="text-xxs sm:text-xs">
+                      {nameKey ? t(nameKey) : game}
+                    </p>
+                  </Label>
+                  <Label
+                    type={gameClaimed ? "success" : "warning"}
+                    secondaryIcon={
+                      gameClaimed ? SUNNYSIDE.icons.confirm : undefined
+                    }
+                  >
+                    <p className="text-xxs sm:text-xs">
+                      {gameClaimed ? t("completed") : `0/1 ${t("completed")}`}
+                    </p>
+                  </Label>
+                </OuterPanel>
+              );
+            })}
+          </div>
+
           <OuterPanel>
             <div className="py-0.5">
               <div className="flex justify-between mr-1">

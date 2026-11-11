@@ -4,20 +4,12 @@ import type { GameState } from "features/game/types/game";
 import { CROP_MACHINE_PLOTS } from "./supplyCropMachine";
 import { KNOWN_IDS } from "features/game/types";
 import { prngChance } from "lib/prng";
-import { CONFIG } from "lib/config";
 
 const GAME_STATE: GameState = { ...TEST_FARM, bumpkin: INITIAL_BUMPKIN };
 
-// These suites assert the LEGACY crop machine (boosts baked at supply time,
-// oil earmarked per pack). FE jest runs on amoy where SPEED_BOOSTS is on, so
-// force the flag off here; the windowed model is covered in its own describes.
-const originalNetwork = CONFIG.NETWORK;
-beforeEach(() => {
-  (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-});
-afterEach(() => {
-  (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-});
+// These suites assert the LEGACY crop machine (no `oilSettledAt`: boosts baked
+// at supply time, oil earmarked per pack), which stored machines can still be;
+// the windowed model is covered in its own describes.
 
 describe("harvestCropMachine", () => {
   it("throws an error if Crop Machine does not exist", () => {
@@ -550,11 +542,7 @@ describe("harvestCropMachine", () => {
   });
 });
 
-describe("harvestCropMachine (windowed SPEED_BOOSTS)", () => {
-  beforeEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
-  });
-
+describe("harvestCropMachine (windowed)", () => {
   const HOUR = 60 * 60 * 1000;
   const now = Date.now();
   const farmId = 1;

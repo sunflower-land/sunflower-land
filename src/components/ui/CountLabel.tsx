@@ -1,8 +1,18 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 import classNames from "classnames";
 import type Decimal from "decimal.js-light";
 import { Label, type LabelType } from "./Label";
 import { setPrecision, shortenCount } from "lib/utils/formatNumber";
+
+/** The nearest ancestor that clips its overflow, e.g. a scrollable grid. */
+const getClippingAncestor = (element: HTMLElement): HTMLElement | null => {
+  let parent = element.parentElement;
+  while (parent && parent !== document.body) {
+    if (getComputedStyle(parent).overflowX !== "visible") return parent;
+    parent = parent.parentElement;
+  }
+  return null;
+};
 
 interface CountLabelProps {
   isHover: boolean;
@@ -25,47 +35,37 @@ export const CountLabel: React.FC<CountLabelProps> = ({
   const [shortCount, setShortCount] = useState("");
 
   const labelRef = useRef<HTMLDivElement>(null);
-  const labelCheckerRef = useRef<HTMLDivElement>(null);
 
   const precisionCount = setPrecision(count, 4);
+  const fullCount = precisionCount.toString();
 
   useEffect(() => {
     setShortCount(shortenCount(precisionCount));
   }, [precisionCount]);
 
-  // Handle label positioning
   useEffect(() => {
     setShowHiddenCountLabel(false);
+  }, [isHover]);
 
-    if (!isHover && labelRef.current) {
-      labelRef.current.style.right = `${rightShiftPx}px`;
-      return;
+  // The hovered label shows the full count, which can be much wider than the
+  // short one. It grows leftwards from the box, so in a box near the left edge
+  // it would spill out of its panel or be cut off by a scrolling grid. Measure
+  // it once rendered and shift it right until it fits.
+  useLayoutEffect(() => {
+    const label = labelRef.current;
+    if (!label) return;
+
+    label.style.right = `${rightShiftPx}px`;
+    if (!isHover) return;
+
+    const container = parentDivRef?.current ?? getClippingAncestor(label);
+    const minLeft = Math.max(container?.getBoundingClientRect().left ?? 0, 0);
+    const overflow = minLeft - label.getBoundingClientRect().left;
+
+    if (overflow > 0) {
+      label.style.right = `${rightShiftPx - overflow}px`;
     }
-
-    if (!labelRef.current || !labelCheckerRef.current) {
-      return;
-    }
-
-    const hiddenCountLabelBounding =
-      labelCheckerRef.current.getBoundingClientRect();
-    const parentDivBounding = parentDivRef?.current?.getBoundingClientRect();
-
-    if (
-      parentDivBounding &&
-      hiddenCountLabelBounding.left < parentDivBounding.left
-    ) {
-      labelRef.current.style.right = `${
-        rightShiftPx + hiddenCountLabelBounding.left - parentDivBounding.left
-      }px`;
-      return;
-    }
-
-    if (hiddenCountLabelBounding?.left < 0) {
-      labelRef.current.style.right = `${
-        rightShiftPx + hiddenCountLabelBounding.left
-      }px`;
-    }
-  }, [isHover, rightShiftPx]);
+  }, [isHover, rightShiftPx, parentDivRef, showHiddenCountLabel, fullCount]);
 
   return (
     <div
@@ -94,34 +94,9 @@ export const CountLabel: React.FC<CountLabelProps> = ({
             height: "24px",
           }}
         >
-          {isHover && !showHiddenCountLabel
-            ? precisionCount.toString()
-            : shortCount}
+          {isHover && !showHiddenCountLabel ? fullCount : shortCount}
         </Label>
       </div>
-
-      {/* Hidden Label for Position Calculation */}
-      {showHiddenCountLabel && (
-        <div
-          ref={labelCheckerRef}
-          className="absolute opacity-0"
-          style={{
-            right: `${rightShiftPx}px`,
-            top: `${topShiftPx}px`,
-            pointerEvents: "none",
-          }}
-        >
-          <Label
-            type="default"
-            style={{
-              padding: "0 2.5",
-              height: "24px",
-            }}
-          >
-            {precisionCount.toString()}
-          </Label>
-        </div>
-      )}
     </div>
   );
 };

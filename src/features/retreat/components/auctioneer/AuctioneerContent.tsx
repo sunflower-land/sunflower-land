@@ -52,7 +52,7 @@ export const AuctioneerContent: React.FC<Props> = ({
           <p className="text-sm mb-2">{t("statements.auctioneer.one")}</p>
           <p className="text-sm mb-2">{t("statements.auctioneer.two")}</p>
           <a
-            href="https://docs.sunflower-land.com/getting-started/crypto-and-digital-collectibles"
+            href="https://docs.sunflower-land.com/web3-and-economy/wallets-and-collectibles"
             className="mx-auto text-xxs underline  pb-2 pt-2"
             target="_blank"
             rel="noreferrer"
@@ -97,7 +97,6 @@ export const AuctioneerContent: React.FC<Props> = ({
       <DraftBid
         gameState={gameState}
         auction={auction}
-        maxTickets={9999999} // TODO
         onBid={(tickets: number) => {
           auctionService.send("BID", { auctionId: auction.auctionId, tickets });
         }}

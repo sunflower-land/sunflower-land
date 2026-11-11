@@ -163,6 +163,12 @@ export type PlayerEconomyConfig = {
    * When `true` or omitted (legacy), may appear there.
    */
   enabled?: boolean;
+  /**
+   * When true, every minigames `POST /action` (actions, score submissions, generator
+   * collects) must send the economy secret key in the `x-economy-private-key` header,
+   * so only the creator's own game server can post.
+   */
+  requirePrivateKey?: boolean;
   /** Redeem economy balances for main-game inventory (`economies.exchanged`). */
   exchanges?: Record<
     string,

@@ -1,3 +1,4 @@
+import { refreshBeehivesOnRateChange } from "features/game/lib/updateBeehives";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import {
@@ -30,7 +31,7 @@ export function upgradeSkill({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  return produce(state, (game) => {
+  const gameAfter = produce(state, (game) => {
     const { bumpkin } = game;
 
     if (!bumpkin) {
@@ -115,5 +116,11 @@ export function upgradeSkill({
     }
 
     return game;
+  });
+
+  return refreshBeehivesOnRateChange({
+    gameBefore: state,
+    gameAfter,
+    createdAt,
   });
 }

@@ -10,12 +10,20 @@ import { WEATHER_SHOP_ITEM_COSTS } from "features/game/types/calendar";
 import { DOLLS } from "features/game/lib/crafting";
 import { LETTER_TILES } from "features/game/types/decorations";
 import { PET_TYPES } from "features/game/types/pets";
+import { RARECROW_IDS } from "features/game/types/rarecrows";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import lightning from "assets/icons/lightning.png";
 import { getChestFlowers } from "./inventory";
 import { hasBoost } from "./boosts";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
+
+// Rewards from the Rarecrows minigame sunset, before the crows were migrated.
+const SUNSET_RARECROWS: CollectibleName[] = [
+  "Champion Rarecrow",
+  "OG Rarecrow",
+  "Loyal Rarecrow",
+];
 
 /**
  * The collectible chest categories (id + icon) in display order.
@@ -38,6 +46,7 @@ const CHEST_CATEGORIES_META = [
   { id: "dolls", icon: ITEM_DETAILS["Doll"].image },
   { id: "flowers", icon: ITEM_DETAILS["Prism Petal"].image },
   { id: "letterTiles", icon: ITEM_DETAILS["Letter A Tile"].image },
+  { id: "rarecrows", icon: ITEM_DETAILS["Fox Rarecrow"].image },
   { id: "decorations", icon: ITEM_DETAILS["Basic Bear"].image },
 ] as const satisfies readonly { id: TranslationKeys; icon: string }[];
 
@@ -94,6 +103,9 @@ export const getChestCategories = (
   const dolls = collectibleNames.filter((name) => name in DOLLS);
   const pets = collectibleNames.filter((name) => name in PET_TYPES);
   const letterTiles = collectibleNames.filter((name) => name in LETTER_TILES);
+  const rarecrows = collectibleNames.filter(
+    (name) => name in RARECROW_IDS || SUNSET_RARECROWS.includes(name),
+  );
 
   // Sets for O(1) lookups when computing the catch-all categories below.
   const resourcesSet = new Set(resources);
@@ -107,6 +119,7 @@ export const getChestCategories = (
   const dollsSet = new Set(dolls);
   const petsSet = new Set(pets);
   const letterTilesSet = new Set(letterTiles);
+  const rarecrowsSet = new Set(rarecrows);
 
   // Totems, hourglasses and shrines expire and need re-triggering - split
   // them out from the "always on" boosts (EXPIRY_COOLDOWNS is the ground
@@ -156,7 +169,8 @@ export const getChestCategories = (
       !petsSet.has(name) &&
       !flowersSet.has(name) &&
       !villageProjectsSet.has(name) &&
-      !letterTilesSet.has(name),
+      !letterTilesSet.has(name) &&
+      !rarecrowsSet.has(name),
   );
 
   const itemsById: Record<ChestCategoryId, CollectibleName[]> = {
@@ -173,6 +187,7 @@ export const getChestCategories = (
     dolls,
     flowers,
     letterTiles,
+    rarecrows,
     decorations,
   };
 

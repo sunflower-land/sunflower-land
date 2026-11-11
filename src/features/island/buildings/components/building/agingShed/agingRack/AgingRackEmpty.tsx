@@ -39,6 +39,8 @@ import {
 import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 import classNames from "classnames";
+import levelup from "assets/icons/level_up.png";
+import { formatNumber } from "lib/utils/formatNumber";
 
 function getMergedInventory(state: GameState): Inventory {
   return {
@@ -89,7 +91,7 @@ export const AgingRackEmpty: React.FC<Props> = ({
     .map((fishName) => {
       const baseXP = getFishBaseXP(fishName);
       const { cost: saltCost } = getBoostedAgingSaltCost(baseXP, gameState);
-      const timeMs = getBoostedAgingTimeMs(baseXP, gameState);
+      const { timeMs } = getBoostedAgingTimeMs(baseXP, gameState);
       const saltLabel = getTranslatedItemName("Salt");
 
       return {
@@ -174,8 +176,8 @@ const SelectedFishDetails: React.FC<{
   gameState: GameState;
   now: number;
 }> = ({ selectedFish, merged, gameState, now }) => {
-  const [boostDisplayBoosts, setBoostsUsed] = useState<
-    { name: BoostName; value: string }[] | undefined
+  const [boostDisplay, setBoostDisplay] = useState<
+    { boosts: { name: BoostName; value: string }[]; baseXp: number } | undefined
   >(undefined);
   const { t } = useAppTranslation();
   const { chance: primeAgedChance } = getPrimeAgedChance(gameState);
@@ -187,7 +189,8 @@ const SelectedFishDetails: React.FC<{
           gameState,
         ).cost,
         fishCost: getBoostedAgingFishCost(gameState),
-        timeMs: getBoostedAgingTimeMs(getFishBaseXP(selectedFish), gameState),
+        timeMs: getBoostedAgingTimeMs(getFishBaseXP(selectedFish), gameState)
+          .timeMs,
       }
     : undefined;
   if (!recipeDef) {
@@ -249,7 +252,10 @@ const SelectedFishDetails: React.FC<{
           )}
           onClick={() =>
             isAgedFishXpBoosted
-              ? setBoostsUsed(boostedAgedFishXp.boostsUsed)
+              ? setBoostDisplay({
+                  boosts: boostedAgedFishXp.boostsUsed,
+                  baseXp: baseAgedFishXp,
+                })
               : undefined
           }
         >
@@ -290,7 +296,10 @@ const SelectedFishDetails: React.FC<{
           )}
           onClick={() =>
             isPrimeAgedFishXpBoosted
-              ? setBoostsUsed(boostedPrimeAgedFishXp.boostsUsed)
+              ? setBoostDisplay({
+                  boosts: boostedPrimeAgedFishXp.boostsUsed,
+                  baseXp: basePrimeAgedFishXp,
+                })
               : undefined
           }
         >
@@ -321,12 +330,16 @@ const SelectedFishDetails: React.FC<{
             )}
           </div>
         </div>
-        {boostDisplayBoosts && (
+        {boostDisplay && (
           <BoostsDisplay
-            boosts={boostDisplayBoosts}
-            show={!!boostDisplayBoosts}
+            boosts={boostDisplay.boosts}
+            base={{
+              value: `${formatNumber(boostDisplay.baseXp)}XP`,
+              icon: levelup,
+            }}
+            show={!!boostDisplay}
             state={gameState}
-            onClick={() => setBoostsUsed(undefined)}
+            onClick={() => setBoostDisplay(undefined)}
           />
         )}
       </div>

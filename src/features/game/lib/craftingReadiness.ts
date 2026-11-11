@@ -52,8 +52,7 @@ export type CraftingTiming = {
  * through its `boxFreeAt` cursor; this just derives it.
  *
  * Legacy crafts — those with no `baseDurationMs` — keep their stored `readyAt`,
- * keying off the marker's presence rather than the `SPEED_BOOSTS` flag, as every
- * other activity does. They still advance the cursor, so a queue part-way through
+ * keying off the marker's presence, as every other activity does. They still advance the cursor, so a queue part-way through
  * migration (legacy head, windowed tail) resolves correctly.
  */
 export const resolveCraftingQueueTimings = ({

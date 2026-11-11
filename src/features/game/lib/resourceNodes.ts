@@ -114,11 +114,10 @@ export const RESOURCE_RECOVERY_TIME: Record<RockName, number> = {
  * base recovery time.
  *
  * `baseDurationMs` is a PERMANENT per-rock migration marker: the read path keys off
- * its presence, NOT the `SPEED_BOOSTS` flag (matching `getTreeReadyAt`). A rock
- * mined while the flag was on therefore keeps windowed timing even if the flag is
- * later disabled — windowed rocks store the real `minedAt` + a permanent-boost-only
+ * its presence (matching `getTreeReadyAt`), so legacy-shaped rocks still use the
+ * old timing. Windowed rocks store the real `minedAt` + a permanent-boost-only
  * `baseDurationMs`, so falling back to `minedAt + base recovery` would drop their
- * baked permanent-boost credit and wrongly lengthen recovery on rollback.
+ * baked permanent-boost credit and wrongly lengthen recovery.
  */
 export function getMineReadyAt(
   rock: Rock,

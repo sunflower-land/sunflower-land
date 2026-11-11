@@ -2,7 +2,7 @@
 
 Welcome to the Portal Building Guide.
 
-To get setup, please refer to https://docs.sunflower-land.com/contributing/portals/getting-started
+To get setup, please refer to https://docs.sunflower-land.com/build-on-sunflower-land/portals/getting-started
 
 ## Now what?
 
@@ -12,7 +12,7 @@ We encourage builders to reuse UI components in this repo for consistency and sp
 
 ## APIs
 
-https://docs.sunflower-land.com/contributing/portals/portal-apis
+https://docs.sunflower-land.com/build-on-sunflower-land/portals/portal-apis
 
 `./actions/loadPortal.ts` to load a player's data
 

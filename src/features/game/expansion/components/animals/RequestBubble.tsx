@@ -6,17 +6,12 @@ import type {
   AnimalMedicineName,
   LoveAnimalItem,
 } from "features/game/types/game";
-import type { BeetleFeedName } from "features/game/types/beetleFeeds";
 
 import { ITEM_DETAILS } from "features/game/types/images";
 import { formatNumber } from "lib/utils/formatNumber";
 // TODO: Add love items
 
-// Animals only ever request their favourite food, never a Beetle Feed.
-type RequestItem =
-  | Exclude<AnimalFoodName, BeetleFeedName>
-  | AnimalMedicineName
-  | LoveAnimalItem;
+type RequestItem = AnimalFoodName | AnimalMedicineName | LoveAnimalItem;
 
 type RequestBubbleProps = {
   top: number;
@@ -57,6 +52,26 @@ const ANIMAL_REQUEST_IMAGES: Record<
   Omnifeed: {
     src: ITEM_DETAILS.Omnifeed.image,
     width: 11,
+    height: 16,
+  },
+  "Basic Slop": {
+    src: ITEM_DETAILS["Basic Slop"].image,
+    width: 14,
+    height: 12,
+  },
+  "Hearty Slop": {
+    src: ITEM_DETAILS["Hearty Slop"].image,
+    width: 14,
+    height: 18,
+  },
+  "Rich Slop": {
+    src: ITEM_DETAILS["Rich Slop"].image,
+    width: 16,
+    height: 16,
+  },
+  "Gourmet Slop": {
+    src: ITEM_DETAILS["Gourmet Slop"].image,
+    width: 14,
     height: 16,
   },
   "Petting Hand": {

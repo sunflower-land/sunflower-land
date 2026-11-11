@@ -29,6 +29,7 @@ import {
 import { EconomySiteFilesUpload } from "../components/EconomySiteFilesUpload";
 import { usePlayerEconomyEditorSession } from "../PlayerEconomyEditorSessionContext";
 import Switch from "components/ui/Switch";
+import { EconomyApiKeyPanel } from "../components/EconomyApiKeyPanel";
 
 const MAIN_CURRENCY_AUTO_VALUE = "__main_currency_auto__";
 
@@ -331,6 +332,14 @@ export const BasicsTab: React.FC<{
           />
         </FieldRow>
       </InnerPanel>
+
+      {/* Secret API key — the key exists once the economy is created. */}
+      {mode === "edit" && (
+        <EconomyApiKeyPanel
+          requirePrivateKey={form.requirePrivateKey}
+          onToggle={(requirePrivateKey) => onChange({ requirePrivateKey })}
+        />
+      )}
 
       {/* Reset Player Progress — owner-only, wipes supplies + runtime state; keeps config. */}
       {mode === "edit" && (

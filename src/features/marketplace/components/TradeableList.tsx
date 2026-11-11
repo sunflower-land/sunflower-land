@@ -44,6 +44,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { useNow } from "lib/utils/hooks/useNow";
+import { MAX_RESOURCE_LISTINGS } from "../lib/tradeLimits";
 import {
   Locked,
   useIsLocked,
@@ -136,14 +137,20 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     return count - totalListed;
   };
 
-  // For resources: cap at 20 listings per resource; when at 20, only 1 more allowed.
+  // For resources: bulk listing stops at 20 listings per resource; past that,
+  // listings can still be made one at a time.
   const currentListingCount = isResource
     ? Object.values(state.trades.listings ?? {}).filter(
         (listing) => (listing.items[display.name] ?? 0) > 0,
       ).length
     : 0;
   const maxMultiple =
-    currentListingCount >= 20 ? 1 : Math.min(20, 20 - currentListingCount);
+    currentListingCount >= MAX_RESOURCE_LISTINGS
+      ? 1
+      : Math.min(
+          MAX_RESOURCE_LISTINGS,
+          MAX_RESOURCE_LISTINGS - currentListingCount,
+        );
 
   // Otherwise show the list item UI
   const submitListing = () => {
@@ -176,6 +183,15 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
 
   const available = getAvailable();
 
+  const canSubmitListing =
+    !!price &&
+    !accountTradedRecently &&
+    !(isEconomyToken && (quantity < 1 || quantity > available));
+  // Enter in a price/quantity field lists, the same as pressing List.
+  const listOnEnter = () => {
+    if (canSubmitListing) submitListing();
+  };
+
   if (showItemInUseWarning) {
     return (
       <div className="flex flex-col">
@@ -193,7 +209,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
       ? 0
       : calculateTradePoints({
           sfl: price,
-          points: tradeType === "instant" ? 1 : 3,
+          points: 1,
         }).multipliedPoints;
 
   const isLessThanOffer = price <= highestOffer && !isResource;
@@ -372,6 +388,8 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
                     }
                     maxDecimalPlaces={0}
                     isOutOfRange={quantity > available || quantity < 1}
+                    autoFocus
+                    onEnter={listOnEnter}
                   />
                 </div>
               </>
@@ -385,6 +403,10 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
                 onValueChange={(decimal) => setPrice(decimal.toNumber())}
                 maxDecimalPlaces={tradeType === "onchain" ? 0 : 4}
                 icon={sflIcon}
+                // Economy tokens start on the quantity field above.
+                autoFocus={!isEconomyToken}
+                step={tradeType === "onchain" ? undefined : 0.0001}
+                onEnter={listOnEnter}
               />
               <p className="text-xxs ml-2">
                 {`$${new Decimal(usd).mul(price).toFixed(2)}`}
@@ -465,11 +487,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
           <div className="flex space-x-1">
             <Button onClick={onClose}>{t("close")}</Button>
             <Button
-              disabled={
-                !price ||
-                accountTradedRecently ||
-                (isEconomyToken && (quantity < 1 || quantity > available))
-              }
+              disabled={!canSubmitListing}
               onClick={submitListing}
               className="relative"
             >

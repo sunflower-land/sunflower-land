@@ -33,6 +33,7 @@ import {
   meetsLevelRequirement,
 } from "features/game/lib/level";
 import { getActiveFloatingIsland } from "features/game/types/floatingIsland";
+import { hasPlazaAccess } from "features/island/delivery/lib/onboarding";
 import { adminFeatureFlag } from "lib/flags";
 import { useVisiting } from "lib/utils/visitUtils";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -123,7 +124,7 @@ const SCENE_ACCESS: Partial<
   love_island: (game) =>
     !!getActiveFloatingIsland({ state: game }) || !!adminFeatureFlag(game),
   infernos: (game) => hasWorldLevel(game, 30),
-  plaza: (game) => hasWorldLevel(game, 2),
+  plaza: (game) => hasPlazaAccess(game),
   kingdom: (game) => hasWorldLevel(game, 7),
   beach: (game) => hasWorldLevel(game, 4),
   woodlands: (game) => hasWorldLevel(game, 6),

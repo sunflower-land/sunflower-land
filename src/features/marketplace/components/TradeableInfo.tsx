@@ -8,7 +8,11 @@ import {
   type TradeableDetails,
 } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { translate } from "lib/i18n/translate";
+import type { TranslationKeys } from "lib/i18n/dictionaries/types";
+import { getKeys } from "lib/object";
 import type { TradeableDisplay } from "../lib/tradeables";
+import { toTraitValueId } from "../lib/marketplaceFilters";
 
 import grassBg from "assets/ui/3x3_bg.png";
 import brownBg from "assets/brand/brown_background.png";
@@ -51,6 +55,11 @@ import {
 } from "features/game/types/pets";
 import { getPetTraits } from "features/pets/data/getPetTraits";
 import type { PetTraits } from "features/pets/data/types";
+import {
+  getPetCategoryLabel,
+  getPetTraitValueLabel,
+  getPetTypeLabel,
+} from "features/island/pets/lib/petLabels";
 import type { Bud } from "lib/buds/types";
 import { getBudTraits } from "features/game/types/budBuffs";
 import { setPrecision } from "lib/utils/formatNumber";
@@ -65,13 +74,42 @@ import {
 } from "./MinigameCurrencyDisclaimerPanel";
 import { MINIGAME_TOKEN_IMAGE_FALLBACK } from "features/minigame/lib/minigameTokenIcons";
 
-const formatDate = (date: Date) => {
-  return date.toLocaleDateString("en-US", {
+const formatLocalDate = (date: Date, language: string) => {
+  return date.toLocaleDateString(language, {
     weekday: "short",
     day: "numeric",
     month: "short",
   });
 };
+
+const getPetTraitLabels = (traits: PetTraits & PetCategory) => [
+  getPetTypeLabel(traits.type),
+  getPetCategoryLabel(traits.primary),
+  ...(traits.secondary ? [getPetCategoryLabel(traits.secondary)] : []),
+  ...(traits.tertiary ? [getPetCategoryLabel(traits.tertiary)] : []),
+  getPetTraitValueLabel("bib", traits.bib),
+  getPetTraitValueLabel("aura", traits.aura),
+  getPetTraitValueLabel("fur", traits.fur),
+  getPetTraitValueLabel("accessory", traits.accessory),
+];
+
+const BUD_TRAIT_PREFIX = {
+  type: "bud.type",
+  colour: "colour",
+  ears: "bud.ears",
+  stem: "bud.stem",
+  aura: "bud.aura",
+} as const;
+
+const getBudTraitLabels = (bud: Bud) =>
+  getKeys(BUD_TRAIT_PREFIX).map((trait) =>
+    // bud.aura.no-aura reads "None" for the marketplace filter, too bare here
+    trait === "aura" && bud.aura === "No Aura"
+      ? translate("pets.noAura")
+      : translate(
+          `${BUD_TRAIT_PREFIX[trait]}.${toTraitValueId(bud[trait])}` as TranslationKeys,
+        ),
+  );
 
 export const getNFTTraits = (
   display?: TradeableDisplay,
@@ -286,7 +324,8 @@ export const TradeableDescription: React.FC<{
   tradeable?: TradeableDetails;
   hideLimited?: boolean;
 }> = ({ display, tradeable, hideLimited }) => {
-  const { t } = useAppTranslation();
+  const { t, i18n } = useAppTranslation();
+  const formatDate = (date: Date) => formatLocalDate(date, i18n.language);
   const { gameService } = useContext(Context);
   const now = useNow();
 
@@ -404,13 +443,14 @@ export const TradeableDescription: React.FC<{
                   </Label>
                 ) : traits ? (
                   <div className="flex flex-row flex-wrap gap-1">
-                    {Object.values(traits)
-                      .filter((trait) => trait !== undefined)
-                      .map((trait) => (
-                        <Label key={trait} type="default">
-                          {trait}
-                        </Label>
-                      ))}
+                    {("primary" in traits
+                      ? getPetTraitLabels(traits)
+                      : getBudTraitLabels(traits)
+                    ).map((label, index) => (
+                      <Label key={`${index}-${label}`} type="default">
+                        {label}
+                      </Label>
+                    ))}
                   </div>
                 ) : (
                   <Label type="danger">{t("marketplace.pet.comingSoon")}</Label>
@@ -439,9 +479,11 @@ export const TradeableDescription: React.FC<{
           {tradeable?.expiresAt && !hideLimited && (
             <div className="p-2 pl-0 pb-0">
               <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-                {`${secondsToString((tradeable.expiresAt - now) / 1000, {
-                  length: "short",
-                })} left`}
+                {t("vipExpiry.timeLeft", {
+                  time: secondsToString((tradeable.expiresAt - now) / 1000, {
+                    length: "short",
+                  }),
+                })}
               </Label>
             </div>
           )}

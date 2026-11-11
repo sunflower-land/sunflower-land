@@ -41,10 +41,8 @@ describe("hasFeatureAccess", () => {
   // invoke feature-gated code with `{} as GameState` (no inventory). On mainnet
   // the beta flag must read inventory safely and return false, not crash.
   it("does not throw for a beta feature when the game has no inventory", () => {
-    expect(() =>
-      hasFeatureAccess({} as GameState, "SPEED_BOOSTS"),
-    ).not.toThrow();
-    expect(hasFeatureAccess({} as GameState, "SPEED_BOOSTS")).toBe(false);
+    expect(() => hasFeatureAccess({} as GameState, "JEST_TEST")).not.toThrow();
+    expect(hasFeatureAccess({} as GameState, "JEST_TEST")).toBe(false);
   });
 });
 
@@ -83,12 +81,12 @@ describe("hasTimeBasedFeatureAccess", () => {
     });
   });
 
-  describe("APRIL_FOOLS_EVENT_FLAG", () => {
+  describe("HALLOWEEN_2026_EVENT_FLAG", () => {
     it("is false for players without beta before the event start", () => {
       expect(
         hasTimeBasedFeatureAccess({
-          featureName: "APRIL_FOOLS_EVENT_FLAG",
-          now: new Date("2026-03-15T12:00:00Z").getTime(),
+          featureName: "HALLOWEEN_2026_EVENT_FLAG",
+          now: new Date("2026-10-20T12:00:00Z").getTime(),
           game: TEST_FARM,
         }),
       ).toBe(false);
@@ -97,8 +95,8 @@ describe("hasTimeBasedFeatureAccess", () => {
     it("is true for players with beta before the event start", () => {
       expect(
         hasTimeBasedFeatureAccess({
-          featureName: "APRIL_FOOLS_EVENT_FLAG",
-          now: new Date("2026-03-15T12:00:00Z").getTime(),
+          featureName: "HALLOWEEN_2026_EVENT_FLAG",
+          now: new Date("2026-10-20T12:00:00Z").getTime(),
           game: {
             ...TEST_FARM,
             inventory: {
@@ -110,21 +108,21 @@ describe("hasTimeBasedFeatureAccess", () => {
       ).toBe(true);
     });
 
-    it("is false at the exact public start instant without beta", () => {
+    it("is true at the exact public start instant without beta", () => {
       expect(
         hasTimeBasedFeatureAccess({
-          featureName: "APRIL_FOOLS_EVENT_FLAG",
-          now: new Date("2026-04-01T00:00:00Z").getTime(),
+          featureName: "HALLOWEEN_2026_EVENT_FLAG",
+          now: new Date("2026-10-26T00:00:00Z").getTime(),
           game: TEST_FARM,
         }),
-      ).toBe(false);
+      ).toBe(true);
     });
 
     it("is true during the window after public start for players without beta", () => {
       expect(
         hasTimeBasedFeatureAccess({
-          featureName: "APRIL_FOOLS_EVENT_FLAG",
-          now: new Date("2026-04-05T12:00:00Z").getTime(),
+          featureName: "HALLOWEEN_2026_EVENT_FLAG",
+          now: new Date("2026-10-29T12:00:00Z").getTime(),
           game: TEST_FARM,
         }),
       ).toBe(true);
@@ -133,28 +131,28 @@ describe("hasTimeBasedFeatureAccess", () => {
     it("is false from the end date onward", () => {
       expect(
         hasTimeBasedFeatureAccess({
-          featureName: "APRIL_FOOLS_EVENT_FLAG",
-          now: new Date("2026-04-08T00:00:00Z").getTime(),
+          featureName: "HALLOWEEN_2026_EVENT_FLAG",
+          now: new Date("2026-11-02T00:00:00Z").getTime(),
           game: TEST_FARM,
         }),
       ).toBe(false);
       expect(
         hasTimeBasedFeatureAccess({
-          featureName: "APRIL_FOOLS_EVENT_FLAG",
-          now: new Date("2026-04-10T00:00:00Z").getTime(),
+          featureName: "HALLOWEEN_2026_EVENT_FLAG",
+          now: new Date("2026-11-04T00:00:00Z").getTime(),
           game: TEST_FARM,
         }),
       ).toBe(false);
     });
   });
 
-  it("APRIL_FOOLS is true at mocked wall clock during the window", () => {
+  it("HALLOWEEN_2026 is true at mocked wall clock during the window", () => {
     jest.useFakeTimers();
-    const t = new Date("2026-04-05T12:00:00Z").getTime();
+    const t = new Date("2026-10-29T12:00:00Z").getTime();
     jest.setSystemTime(t);
     expect(
       hasTimeBasedFeatureAccess({
-        featureName: "APRIL_FOOLS_EVENT_FLAG",
+        featureName: "HALLOWEEN_2026_EVENT_FLAG",
         now: t,
         game: TEST_FARM,
       }),

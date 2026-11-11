@@ -54,7 +54,7 @@ export function claimProduce({
       throw new Error("Animal is not ready to claim produce");
     }
 
-    const level = getAnimalLevel(animal.experience, action.animal, copy);
+    const level = getAnimalLevel(animal.experience, action.animal);
 
     getKeys(ANIMAL_RESOURCE_DROP[action.animal][level]).forEach((resource) => {
       const baseAmount = ANIMAL_RESOURCE_DROP[action.animal][level][
@@ -101,10 +101,13 @@ export function claimProduce({
     }
 
     animal.asleepAt = createdAt;
+    // The treat is read BEFORE its charge is spent below, so a Truffle
+    // Seasoning's last charge still shortens this sleep.
     const { awakeAt, baseDurationMs, boostsUsed } = getBoostedAwakeAt({
       animalType: animal.type,
       createdAt,
       game: copy,
+      feedBuff: animal.feedBuff,
     });
     animal.awakeAt = awakeAt;
     // Windowed: keep the real `asleepAt` and the permanent-boost-only duration,
@@ -126,6 +129,14 @@ export function claimProduce({
       animal.feedBuff.harvestsRemaining -= 1;
       if (animal.feedBuff.harvestsRemaining <= 0) {
         delete animal.feedBuff;
+      }
+    }
+
+    // Mud's charges count down exactly like a treat's: one per claim.
+    if (animal.mud) {
+      animal.mud.harvestsRemaining -= 1;
+      if (animal.mud.harvestsRemaining <= 0) {
+        delete animal.mud;
       }
     }
 

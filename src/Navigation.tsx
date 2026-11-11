@@ -6,6 +6,7 @@ import * as AuthProvider from "features/auth/lib/Provider";
 
 import { Splash } from "features/auth/components/Splash";
 import { Auth } from "features/auth/Auth";
+import { ConsentBanner } from "features/auth/components/ConsentBanner";
 import { Forbidden } from "features/auth/components/Forbidden";
 import { LandExpansion } from "features/game/expansion/LandExpansion";
 import { CONFIG } from "lib/config";
@@ -122,6 +123,7 @@ export const Navigation: React.FC = () => {
               element={
                 <>
                   <Auth showOfflineModal={showConnectionModal} />
+                  <ConsentBanner />
                   {showGame ? (
                     <PWAInstallProvider>
                       <GameProvider>

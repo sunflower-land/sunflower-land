@@ -96,7 +96,6 @@ export function burnCollectible({
     const expiresAt = getCollectibleExpiry({
       name: action.name as TemporaryCollectibleName,
       collectible: collectibleToRemove,
-      game: stateCopy,
     });
 
     if (expiresAt > createdAt) {

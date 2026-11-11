@@ -10,9 +10,8 @@ import { computeReadyAt, getFlowerBoostWindows } from "./boostWindows";
  * are one-shot (no replenish), so the only phase is `plantedAt`.
  *
  * `baseDurationMs` is a PERMANENT per-flower migration marker: the read path keys
- * off its presence, NOT the `SPEED_BOOSTS` flag (matching `getFruitReadyAt` /
- * `getTreeReadyAt`). A flower planted while the flag was on therefore keeps
- * windowed timing even if the flag is later disabled — see
+ * off its presence (matching `getFruitReadyAt` / `getTreeReadyAt`), so
+ * legacy-shaped flowers still use the old timing — see
  * `PlantedFlower.baseDurationMs`. Lives in `lib` (not `events`) because it is
  * read-model logic consumed by `lib/updateBeehives` for hive pollination.
  */

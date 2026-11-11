@@ -54,6 +54,11 @@ import { getHelpLimit } from "features/game/types/monuments";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { PickServer } from "features/island/hud/components/settings-menu/plaza-settings/PickServer";
+import {
+  interactionBelongsInFeed,
+  mergeFeedUpdate,
+  milestoneBelongsInFeed,
+} from "./lib/feedUpdates";
 
 type Props = {
   type: "world" | "local";
@@ -96,22 +101,6 @@ const _game = (state: MachineState) =>
   state.context.visitorState ?? state.context.state;
 const _token = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
-
-const mergeUpdates = (
-  current: { feed: Interaction[]; following: number[] }[] | undefined,
-  update: Interaction,
-) => {
-  if (!current || current.length === 0) {
-    return [{ feed: [update], following: [] }];
-  }
-  return [
-    {
-      feed: [update, ...(current[0]?.feed ?? [])],
-      following: current[0]?.following ?? [],
-    },
-    ...current.slice(1),
-  ];
-};
 
 const getUTCDateKey = (timestamp: number) =>
   new Date(timestamp).toISOString().split("T")[0];
@@ -210,15 +199,35 @@ export const Feed: React.FC<Props> = ({
     farmId,
     callbacks: {
       onInteraction: async (update) => {
-        await mutate((current) => mergeUpdates(current, update), {
+        // Only the list for the selected filter takes the entry: a cheer has
+        // no place under "Helped"
+        if (
+          !interactionBelongsInFeed({
+            update,
+            filter: selectedFilter,
+            following,
+          })
+        ) {
+          return;
+        }
+
+        await mutate((current) => mergeFeedUpdate(current, update), {
           revalidate: false,
         });
       },
       onMilestone: async (update) => {
-        // Don't show global milestones for non-world feeds if you are not following the sender
-        if (update.isGlobal && !following.includes(update.sender.id)) return;
+        if (
+          !milestoneBelongsInFeed({
+            update,
+            filter: selectedFilter,
+            following,
+            isWorldFeed: type === "world",
+          })
+        ) {
+          return;
+        }
 
-        await mutate((current) => mergeUpdates(current, update), {
+        await mutate((current) => mergeFeedUpdate(current, update), {
           revalidate: false,
         });
       },

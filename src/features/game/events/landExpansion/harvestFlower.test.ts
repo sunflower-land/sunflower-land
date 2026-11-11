@@ -4,13 +4,8 @@ import Decimal from "decimal.js-light";
 import type { GameState } from "features/game/types/game";
 import { FLOWERS, FLOWER_SEEDS } from "features/game/types/flowers";
 import { getFlowerReadyAt } from "features/game/lib/flowerBedReadiness";
-import { CONFIG } from "lib/config";
 
 const GAME_STATE = { ...TEST_FARM, bumpkin: INITIAL_BUMPKIN };
-
-const setNetwork = (network: "mainnet" | "amoy") => {
-  (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = network;
-};
 
 describe("harvestFlower", () => {
   it("throws an error if the flower bed does not exist", () => {
@@ -344,11 +339,7 @@ describe("harvestFlower", () => {
   });
 });
 
-describe("harvestFlower — SPEED_BOOSTS speed windows", () => {
-  const originalNetwork = CONFIG.NETWORK;
-  beforeEach(() => setNetwork("amoy"));
-  afterAll(() => setNetwork(originalNetwork));
-
+describe("harvestFlower — speed windows", () => {
   const flowerName = "Red Pansy";
   const seed = FLOWERS[flowerName].seed;
   const baseMs = FLOWER_SEEDS[seed].plantSeconds * 1000;

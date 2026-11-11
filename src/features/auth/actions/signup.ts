@@ -3,6 +3,7 @@ import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 import { getMetaBrowserIdentifiers } from "lib/analytics/meta";
 import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import type { AttributionPayload } from "lib/analytics/attribution";
 
 export type UTM = {
   source?: string;
@@ -21,6 +22,8 @@ type Request = {
   transactionId: string;
   referrerId: string | null;
   utm?: UTM;
+  /** First / last touch and consent; see lib/analytics/attribution.ts */
+  attribution?: AttributionPayload;
   equipment?: BumpkinParts;
 };
 
@@ -29,6 +32,7 @@ export async function signUp({
   transactionId,
   referrerId,
   utm = {},
+  attribution,
   equipment,
 }: Request) {
   const { fbp, fbc } = getMetaBrowserIdentifiers();
@@ -47,6 +51,7 @@ export async function signUp({
         fbp: fbp,
         fbc: fbc,
       },
+      attribution,
       equipped: equipment ?? undefined,
     }),
   });

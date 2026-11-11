@@ -4,6 +4,10 @@ import { type CropName, CROPS } from "../../types/crops";
 import { sellCrop } from "./sellCrop";
 import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
 import { PATCH_FRUIT } from "features/game/types/fruits";
+import {
+  CHAPTER_CROP_WEEK,
+  CHAPTER_CROP_WEEK_CROP,
+} from "features/game/types/chapterCropWeek";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -25,6 +29,48 @@ describe("sell", () => {
         },
       }),
     ).toThrow("Not for sale");
+  });
+
+  it("does not sell a crop from a previous Chapter Crop Week", () => {
+    expect(() =>
+      sellCrop({
+        state: {
+          ...GAME_STATE,
+          inventory: { Saltwort: new Decimal(10) },
+        },
+        action: {
+          type: "crop.sold",
+          crop: "Saltwort",
+          amount: 1,
+        },
+      }),
+    ).toThrow("This crop is no longer sellable");
+  });
+
+  it("sells the current Chapter Crop Week crop during its run", () => {
+    const state = sellCrop({
+      state: {
+        ...GAME_STATE,
+        inventory: { [CHAPTER_CROP_WEEK_CROP]: new Decimal(10) },
+      },
+      action: { type: "crop.sold", crop: CHAPTER_CROP_WEEK_CROP, amount: 1 },
+      createdAt: CHAPTER_CROP_WEEK.startDate.getTime() + 1000,
+    });
+
+    expect(state.inventory[CHAPTER_CROP_WEEK_CROP]).toEqual(new Decimal(9));
+  });
+
+  it("does not sell the current Chapter Crop Week crop once its run ends", () => {
+    expect(() =>
+      sellCrop({
+        state: {
+          ...GAME_STATE,
+          inventory: { [CHAPTER_CROP_WEEK_CROP]: new Decimal(10) },
+        },
+        action: { type: "crop.sold", crop: CHAPTER_CROP_WEEK_CROP, amount: 1 },
+        createdAt: CHAPTER_CROP_WEEK.endDate.getTime(),
+      }),
+    ).toThrow("This crop is no longer sellable");
   });
 
   it("does not sell an unusual amount", () => {

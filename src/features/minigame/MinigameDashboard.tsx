@@ -620,7 +620,7 @@ export const MinigameDashboard: React.FC = () => {
   if (loading && !showPortal) {
     return (
       <div
-        className="relative flex min-h-screen flex-col items-center justify-center p-4"
+        className="fixed inset-0 flex flex-col items-center justify-center p-4"
         style={{ paddingTop: safeTop }}
       >
         <MinigameDashboardBackdrop />
@@ -636,7 +636,7 @@ export const MinigameDashboard: React.FC = () => {
   if (loadError || !payload || !runtime) {
     return (
       <div
-        className="relative flex min-h-screen flex-col items-center justify-center gap-2 p-4"
+        className="fixed inset-0 flex flex-col items-center justify-center gap-2 p-4"
         style={{ paddingTop: safeTop }}
       >
         <MinigameDashboardBackdrop />
@@ -665,9 +665,13 @@ export const MinigameDashboard: React.FC = () => {
       0,
   );
 
+  // `fixed inset-0` (not `h-screen`) so the shell matches the *visible* viewport.
+  // On mobile Safari and embedded wallet browsers 100vh includes the area under
+  // the browser toolbar, and `body` is overflow-hidden, so a 100vh column would
+  // push the Adventure/Play footer off-screen with no way to scroll to it.
   return (
     <div
-      className="relative flex h-screen w-full flex-col overflow-hidden"
+      className="fixed inset-0 flex w-full flex-col overflow-hidden"
       style={{ paddingTop: safeTop }}
     >
       <MinigameDashboardBackdrop />
@@ -751,7 +755,7 @@ export const MinigameDashboard: React.FC = () => {
             </div>
           )}
 
-          <div className="flex min-h-0 min-w-0 flex-1 flex-row gap-2 overflow-y-hidden px-2 pt-2 md:pl-0 md:pr-2 md:pt-0">
+          <div className="flex min-h-0 min-w-0 flex-1 flex-row gap-2 overflow-y-auto overflow-x-hidden px-2 pt-2 md:pl-0 md:pr-2 md:pt-0">
             <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden gap-2">
               <MinigameTrophySection
                 config={payload.config}

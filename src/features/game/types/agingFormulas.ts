@@ -44,18 +44,26 @@ export function getAgingSlotCount(agingShedLevel: number): number {
 export function getBoostedAgingTimeMs(
   baseXP: number,
   state: GameState,
-): number {
+): { timeMs: number; boostsUsed: { name: BoostName; value: string }[] } {
   const skills = state.bumpkin.skills;
   let timeMs = getAgingTimeMs(baseXP);
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   const speedyAgingLevel = getSkillLevel(skills, "Speedy Aging");
   if (speedyAgingLevel) {
-    timeMs *= SKILL_RANKS["Speedy Aging"].ranks[speedyAgingLevel - 1];
+    const m = SKILL_RANKS["Speedy Aging"].ranks[speedyAgingLevel - 1];
+    timeMs *= m;
+    boostsUsed.push({ name: "Speedy Aging", value: `x${m}` });
   }
   if ((state.sculptures?.["Salt Sculpture"]?.level ?? 0) >= 5) {
     timeMs *= 0.95;
+    boostsUsed.push({ name: "Salt Sculpture", value: "x0.95" });
   }
-  return timeMs;
+  if (isWearableActive({ game: state, name: "Fish Trap" })) {
+    timeMs *= 0.8;
+    boostsUsed.push({ name: "Fish Trap", value: "x0.8" });
+  }
+  return { timeMs, boostsUsed };
 }
 
 export function getPrimeAgedChance(state: GameState): {

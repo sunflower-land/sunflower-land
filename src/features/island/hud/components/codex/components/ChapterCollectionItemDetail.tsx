@@ -16,6 +16,7 @@ import {
   type ChapterName,
   hasChapterEnded,
 } from "features/game/types/chapters";
+import type { EventCollectionName } from "features/game/types/eventCollections";
 import { useNow } from "lib/utils/hooks/useNow";
 import type { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -29,10 +30,14 @@ import {
 
 export type ChapterCollectionItemType = "collectible" | "wearable";
 
+export type CollectionSource =
+  | { chapter: ChapterName }
+  | { event: EventCollectionName };
+
 type ContentProps = {
   itemName: InventoryItemName | BumpkinItem;
   type: ChapterCollectionItemType;
-  chapter: ChapterName;
+  collection: CollectionSource;
   state: GameState;
   onClose: () => void;
 };
@@ -52,7 +57,7 @@ const HOW_TO_OBTAIN_I18N_KEY: Record<
 const ChapterCollectionItemDetailContent: React.FC<ContentProps> = ({
   itemName,
   type,
-  chapter,
+  collection,
   state,
   onClose,
 }) => {
@@ -61,8 +66,13 @@ const ChapterCollectionItemDetailContent: React.FC<ContentProps> = ({
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const chapterEnded = hasChapterEnded(chapter, now);
-  const { source } = getChapterItemSource(chapter, itemName, type);
+  // Event collections only list past events, so treat them as ended
+  const chapterEnded =
+    "event" in collection || hasChapterEnded(collection.chapter, now);
+  const { source } =
+    "chapter" in collection
+      ? getChapterItemSource(collection.chapter, itemName, type)
+      : { source: "unknown" as const };
 
   const image =
     type === "wearable"
@@ -86,11 +96,12 @@ const ChapterCollectionItemDetailContent: React.FC<ContentProps> = ({
     type === "collectible"
       ? KNOWN_IDS[itemName as InventoryItemName]
       : ITEM_IDS[itemName as BumpkinItem];
-  const collection = type === "collectible" ? "collectibles" : "wearables";
+  const marketplaceCollection =
+    type === "collectible" ? "collectibles" : "wearables";
   const isWorldRoute = pathname.startsWith("/world");
   const marketplaceUrl =
     typeof marketplaceId === "number"
-      ? `${isWorldRoute ? "/world" : ""}/marketplace/${collection}/${marketplaceId}`
+      ? `${isWorldRoute ? "/world" : ""}/marketplace/${marketplaceCollection}/${marketplaceId}`
       : null;
 
   return (
@@ -175,7 +186,7 @@ type PopoverProps = ContentProps & {
 export const ChapterCollectionItemPopover: React.FC<PopoverProps> = ({
   itemName,
   type,
-  chapter,
+  collection,
   state,
   children,
   onClose,
@@ -189,7 +200,7 @@ export const ChapterCollectionItemPopover: React.FC<PopoverProps> = ({
         <ChapterCollectionItemDetailContent
           itemName={itemName}
           type={type}
-          chapter={chapter}
+          collection={collection}
           state={state}
           onClose={onClose}
         />

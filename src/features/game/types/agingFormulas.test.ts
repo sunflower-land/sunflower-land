@@ -324,9 +324,26 @@ describe("getAgingOutput", () => {
 describe("getBoostedAgingTimeMs", () => {
   const baseXP = 500;
 
+  const stateWithFishTrap = (overrides: Partial<GameState> = {}) =>
+    ({
+      ...INITIAL_FARM,
+      ...overrides,
+      bumpkin: {
+        ...INITIAL_FARM.bumpkin,
+        ...overrides.bumpkin,
+        equipped: {
+          ...INITIAL_FARM.bumpkin.equipped,
+          secondaryTool: "Fish Trap",
+        },
+      },
+    }) as GameState;
+
   it("matches base aging time with no boosts", () => {
     const state = stateWithSkills({} as Skills);
-    expect(getBoostedAgingTimeMs(baseXP, state)).toBe(getAgingTimeMs(baseXP));
+    expect(getBoostedAgingTimeMs(baseXP, state)).toEqual({
+      timeMs: getAgingTimeMs(baseXP),
+      boostsUsed: [],
+    });
   });
 
   it("applies Speedy Aging as 0.9×", () => {
@@ -336,25 +353,35 @@ describe("getBoostedAgingTimeMs", () => {
         baseXP,
         stateWithSkills({ "Speedy Aging": 1 } as Skills),
       ),
-    ).toBe(baseMs * 0.9);
+    ).toEqual({
+      timeMs: baseMs * 0.9,
+      boostsUsed: [{ name: "Speedy Aging", value: "x0.9" }],
+    });
   });
 
   it("applies Salt Sculpture level 5+ as 0.95×", () => {
     const baseMs = getAgingTimeMs(baseXP);
     const state = {
-      bumpkin: { skills: {} as Skills },
+      ...INITIAL_FARM,
       sculptures: { "Salt Sculpture": { level: 5 } },
     } as GameState;
-    expect(getBoostedAgingTimeMs(baseXP, state)).toBe(baseMs * 0.95);
+    expect(getBoostedAgingTimeMs(baseXP, state)).toEqual({
+      timeMs: baseMs * 0.95,
+      boostsUsed: [{ name: "Salt Sculpture", value: "x0.95" }],
+    });
   });
 
   it("stacks Speedy Aging and Salt Sculpture discounts", () => {
     const baseMs = getAgingTimeMs(baseXP);
     const state = {
-      bumpkin: { skills: { "Speedy Aging": 1 } as Skills },
+      ...INITIAL_FARM,
+      bumpkin: {
+        ...INITIAL_FARM.bumpkin,
+        skills: { "Speedy Aging": 1 } as Skills,
+      },
       sculptures: { "Salt Sculpture": { level: 5 } },
     } as GameState;
-    expect(getBoostedAgingTimeMs(baseXP, state)).toBeCloseTo(
+    expect(getBoostedAgingTimeMs(baseXP, state).timeMs).toBeCloseTo(
       baseMs * 0.9 * 0.95,
     );
   });
@@ -365,14 +392,57 @@ describe("getBoostedAgingTimeMs", () => {
       getBoostedAgingTimeMs(
         baseXP,
         stateWithSkills({ "Speedy Aging": 2 } as Skills),
-      ),
+      ).timeMs,
     ).toBeCloseTo(baseMs * 0.85);
     expect(
       getBoostedAgingTimeMs(
         baseXP,
         stateWithSkills({ "Speedy Aging": 3 } as Skills),
-      ),
+      ).timeMs,
     ).toBeCloseTo(baseMs * 0.8);
+  });
+
+  it("applies Fish Trap as 0.8× when equipped", () => {
+    expect(getBoostedAgingTimeMs(baseXP, stateWithFishTrap())).toEqual({
+      timeMs: getAgingTimeMs(baseXP) * 0.8,
+      boostsUsed: [{ name: "Fish Trap", value: "x0.8" }],
+    });
+  });
+
+  it("applies Fish Trap when a farm hand wears it", () => {
+    const state = {
+      ...INITIAL_FARM,
+      farmHands: {
+        bumpkins: {
+          "1": {
+            equipped: {
+              ...INITIAL_FARM.bumpkin.equipped,
+              secondaryTool: "Fish Trap",
+            },
+          },
+        },
+      },
+    } as GameState;
+    expect(getBoostedAgingTimeMs(baseXP, state).timeMs).toBe(
+      getAgingTimeMs(baseXP) * 0.8,
+    );
+  });
+
+  it("stacks Fish Trap with Speedy Aging and Salt Sculpture", () => {
+    const state = stateWithFishTrap({
+      bumpkin: {
+        ...INITIAL_FARM.bumpkin,
+        skills: { "Speedy Aging": 1 } as Skills,
+      },
+      sculptures: { "Salt Sculpture": { level: 5 } },
+    });
+    const { timeMs, boostsUsed } = getBoostedAgingTimeMs(baseXP, state);
+    expect(timeMs).toBeCloseTo(getAgingTimeMs(baseXP) * 0.9 * 0.95 * 0.8);
+    expect(boostsUsed.map(({ name }) => name)).toEqual([
+      "Speedy Aging",
+      "Salt Sculpture",
+      "Fish Trap",
+    ]);
   });
 });
 

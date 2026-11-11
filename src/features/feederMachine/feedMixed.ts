@@ -1,6 +1,7 @@
 import type {
   GameState,
   AnimalFoodName,
+  InventoryItemName,
   AnimalMedicineName,
 } from "features/game/types/game";
 import Decimal from "decimal.js-light";
@@ -8,13 +9,14 @@ import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { getKeys } from "lib/object";
 import { ANIMAL_FOODS } from "features/game/types/animals";
+import { getPigFeedIngredients, isPigFeed } from "features/game/types/pigFeeds";
 import { produce } from "immer";
-import { isBeetleFeed } from "features/game/types/beetleFeeds";
-import { hasFeatureAccess } from "lib/flags";
 
 export type FeedMixedAction = {
   type: "feed.mixed";
   item: AnimalFoodName | AnimalMedicineName;
+  /** The one input a Pig Slop is mixed from; never set for other feeds. */
+  ingredient?: InventoryItemName;
   amount?: number;
 };
 
@@ -26,10 +28,21 @@ type Options = {
 export function getIngredients({
   state,
   name,
+  ingredient,
 }: {
   state: GameState;
   name: AnimalFoodName | AnimalMedicineName;
+  ingredient?: InventoryItemName;
 }) {
+  if (isPigFeed(name)) {
+    const ingredients = getPigFeedIngredients(name, ingredient);
+    if (!ingredients) throw new Error("Invalid ingredient");
+
+    return { ingredients };
+  }
+
+  if (ingredient !== undefined) throw new Error("Invalid ingredient");
+
   let { ingredients } = ANIMAL_FOODS[name];
 
   const kaleMixLevel = getSkillLevel(state.bumpkin.skills, "Kale Mix");
@@ -53,12 +66,14 @@ export function getIngredients({
 export function getMaxFeedMixAmount({
   state,
   name,
+  ingredient,
 }: {
   state: GameState;
   name: AnimalFoodName | AnimalMedicineName;
+  ingredient?: InventoryItemName;
 }) {
   const { coins } = ANIMAL_FOODS[name];
-  const { ingredients } = getIngredients({ state, name });
+  const { ingredients } = getIngredients({ state, name, ingredient });
 
   const limits = getKeys(ingredients).reduce<number[]>(
     (amounts, ingredient) => {
@@ -97,8 +112,13 @@ export function applyMix(
   copy: GameState,
   {
     item,
+    ingredient,
     amount,
-  }: { item: AnimalFoodName | AnimalMedicineName; amount: number },
+  }: {
+    item: AnimalFoodName | AnimalMedicineName;
+    ingredient?: InventoryItemName;
+    amount: number;
+  },
 ) {
   const { bumpkin } = copy;
 
@@ -111,10 +131,6 @@ export function applyMix(
     throw new Error("Item is not a feed!");
   }
 
-  if (isBeetleFeed(item) && !hasFeatureAccess(copy, "BEETLE_FEED")) {
-    throw new Error("Beetle Feed is not available");
-  }
-
   const { coins } = selectedItem;
   const price = (coins ?? 0) * amount;
 
@@ -122,7 +138,11 @@ export function applyMix(
     throw new Error("Insufficient Coins");
   }
 
-  const { ingredients } = getIngredients({ state: copy, name: item });
+  const { ingredients } = getIngredients({
+    state: copy,
+    name: item,
+    ingredient,
+  });
 
   const subtractedInventory = getKeys(ingredients)?.reduce(
     (inventory, ingredient) => {
@@ -165,12 +185,12 @@ export function applyMix(
 
 export function feedMixed({ state, action }: Options) {
   return produce(state, (copy) => {
-    const { item, amount = 1 } = action;
+    const { item, ingredient, amount = 1 } = action;
 
     if (!Number.isSafeInteger(amount) || amount <= 0) {
       throw new Error("Invalid amount");
     }
 
-    return applyMix(copy, { item, amount });
+    return applyMix(copy, { item, ingredient, amount });
   });
 }

@@ -615,6 +615,15 @@ describe("getBudYieldBoosts", () => {
       ).toEqual({ budUsed: "Bud #1", yieldBoost: 0.2 });
     });
 
+    it("returns 0.2 Pig Bristles for a Retreat type", () => {
+      expect(
+        getBudYieldBoosts(
+          { 1: { ...NON_BOOSTED_TRAITS, type: "Retreat" } },
+          "Pig Bristles",
+        ),
+      ).toEqual({ budUsed: "Bud #1", yieldBoost: 0.2 });
+    });
+
     it("returns 0 Animal produce for a Plaza type", () => {
       expect(
         getBudYieldBoosts(

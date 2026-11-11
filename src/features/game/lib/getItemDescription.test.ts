@@ -6,8 +6,6 @@ import {
 } from "./getItemDescription";
 import { ITEM_DETAILS } from "features/game/types/images";
 
-// Jest runs on amoy, so `betaFeatureFlag` (and therefore SPEED_BOOSTS) is always
-// on - only the flag-on copy is reachable here.
 describe("getItemDescription", () => {
   it("describes an hourglass as a speed multiplier over its rebalanced duration", () => {
     expect(
@@ -79,11 +77,11 @@ describe("getItemDescription", () => {
 
 describe("getSpeedBoostDescription", () => {
   it("returns the rewrite only for items that have one", () => {
+    expect(getSpeedBoostDescription({ item: "Gourmet Hourglass" })).toBe(
+      "Cooks food 2x faster for 6 hours.",
+    );
     expect(
-      getSpeedBoostDescription({ item: "Gourmet Hourglass", game: TEST_FARM }),
-    ).toBe("Cooks food 2x faster for 6 hours.");
-    expect(
-      getSpeedBoostDescription({ item: "Fisher's Hourglass", game: TEST_FARM }),
+      getSpeedBoostDescription({ item: "Fisher's Hourglass" }),
     ).toBeUndefined();
   });
 });

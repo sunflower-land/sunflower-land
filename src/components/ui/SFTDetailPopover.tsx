@@ -2,7 +2,10 @@ import React, { useContext } from "react";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { InnerPanel } from "components/ui/Panel";
 import type { InventoryItemName } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { Label } from "./Label";
 import useSWR from "swr";
@@ -29,7 +32,9 @@ export const SFTDetailPopoverLabel = ({
         className="ml-2 underline"
         icon={ITEM_DETAILS[name].image}
       >
-        <span className="text-xs whitespace-nowrap">{name}</span>
+        <span className="text-xs whitespace-nowrap">
+          {getTranslatedItemName(name)}
+        </span>
       </Label>
     </div>
   );

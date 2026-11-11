@@ -2,11 +2,7 @@ import Decimal from "decimal.js-light";
 import type { CropSeedName } from "features/game/types/crops";
 import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
-import {
-  convertLegacyCropMachine,
-  updateCropMachine,
-} from "./supplyCropMachine";
-import { hasFeatureAccess } from "lib/flags";
+import { convertLegacyCropMachine } from "./supplyCropMachine";
 import { getCropMachineBoostWindows } from "features/game/lib/boostWindows";
 import {
   refreshCropMachineCaches,
@@ -53,65 +49,34 @@ export function removeCropMachinePack({
 
     const pack = cropMachine.queue[action.packIndex];
 
-    const windowed =
-      cropMachine.oilSettledAt !== undefined ||
-      hasFeatureAccess(stateCopy, "SPEED_BOOSTS");
+    const windows = getCropMachineBoostWindows(stateCopy);
+    convertLegacyCropMachine({
+      machine: cropMachine,
+      state: stateCopy,
+      windows,
+      now: createdAt,
+    });
+    settleCropMachine({ machine: cropMachine, windows, now: createdAt });
 
-    if (windowed) {
-      const windows = getCropMachineBoostWindows(stateCopy);
-      convertLegacyCropMachine({
-        machine: cropMachine,
-        state: stateCopy,
-        windows,
-        now: createdAt,
-      });
-      settleCropMachine({ machine: cropMachine, windows, now: createdAt });
-
-      // Started-check on the DERIVED timeline: after settling, a pack the
-      // fuel has reached starts at (or before) `createdAt`; only packs still
-      // queued behind others or unfunded are removable. A finalised pack (no
-      // marker) has certainly started.
-      //
-      // The derived start is not sufficient on its own: `resolveCropMachine`
-      // gives a pack it cannot fund no `startsAt` at all, so a pack that grew
-      // for a while and then STALLED with a dry tank would read as
-      // never-started and be removable for a full seed refund. Its stamped
-      // `startTime` survives settlement precisely because a past start is
-      // history (see `refreshCropMachineCaches`), so check it too — that is
-      // also the exact condition the legacy branch below uses.
-      const timing = resolveCropMachine({ machine: cropMachine, windows })
-        .packs[action.packIndex];
-      if (
-        pack.baseDurationMs === undefined ||
-        (pack.startTime !== undefined && pack.startTime <= createdAt) ||
-        (timing.startsAt !== undefined && timing.startsAt <= createdAt)
-      ) {
-        throw new Error("Pack has already started");
-      }
-
-      // Refund seeds to inventory
-      const seedName: CropSeedName = `${pack.crop} Seed`;
-      const seedsInInventory = stateCopy.inventory[seedName] ?? new Decimal(0);
-      stateCopy.inventory[seedName] = seedsInInventory.add(pack.seeds);
-
-      // No oil to refund: on a windowed machine fuel carries no per-pack
-      // earmarks, and an unstarted pack has burned nothing. Removing it needs
-      // no hand-rolled rescheduling either — the resolver re-chains whatever
-      // was queued behind it.
-      cropMachine.queue = cropMachine.queue.filter(
-        (_, index) => index !== action.packIndex,
-      );
-
-      refreshCropMachineCaches({
-        machine: cropMachine,
-        windows,
-        now: createdAt,
-      });
-
-      return;
-    }
-
-    if (pack.startTime !== undefined && pack.startTime <= createdAt) {
+    // Started-check on the DERIVED timeline: after settling, a pack the
+    // fuel has reached starts at (or before) `createdAt`; only packs still
+    // queued behind others or unfunded are removable. A finalised pack (no
+    // marker) has certainly started.
+    //
+    // The derived start is not sufficient on its own: `resolveCropMachine`
+    // gives a pack it cannot fund no `startsAt` at all, so a pack that grew
+    // for a while and then STALLED with a dry tank would read as
+    // never-started and be removable for a full seed refund. Its stamped
+    // `startTime` survives settlement precisely because a past start is
+    // history (see `refreshCropMachineCaches`), so check it too.
+    const timing = resolveCropMachine({ machine: cropMachine, windows }).packs[
+      action.packIndex
+    ];
+    if (
+      pack.baseDurationMs === undefined ||
+      (pack.startTime !== undefined && pack.startTime <= createdAt) ||
+      (timing.startsAt !== undefined && timing.startsAt <= createdAt)
+    ) {
       throw new Error("Pack has already started");
     }
 
@@ -120,50 +85,19 @@ export function removeCropMachinePack({
     const seedsInInventory = stateCopy.inventory[seedName] ?? new Decimal(0);
     stateCopy.inventory[seedName] = seedsInInventory.add(pack.seeds);
 
-    // Refund allocated oil if pack was scheduled
-    let allocatedOil = 0;
-    if (pack.startTime !== undefined && pack.startTime > createdAt) {
-      allocatedOil = pack.totalGrowTime - pack.growTimeRemaining;
-      cropMachine.unallocatedOilTime =
-        (cropMachine.unallocatedOilTime ?? 0) + allocatedOil;
-    }
-
-    // Remove pack from queue
+    // No oil to refund: on a windowed machine fuel carries no per-pack
+    // earmarks, and an unstarted pack has burned nothing. Removing it needs
+    // no hand-rolled rescheduling either — the resolver re-chains whatever
+    // was queued behind it.
     cropMachine.queue = cropMachine.queue.filter(
       (_, index) => index !== action.packIndex,
     );
 
-    // Reschedule downstream packs: their startTime/readyAt/growsUntil were
-    // based on the removed pack's schedule and must be recalculated.
-    const newQueue = cropMachine.queue;
-    for (let i = action.packIndex; i < newQueue.length; i++) {
-      const pack = newQueue[i];
-      if (pack.startTime === undefined) continue;
-
-      const prev = newQueue[i - 1];
-      const previousReadyAt = prev?.readyAt ?? prev?.growsUntil ?? createdAt;
-      const newStart = Math.max(previousReadyAt, createdAt);
-
-      pack.startTime = newStart;
-      if (pack.readyAt !== undefined) {
-        pack.readyAt = newStart + pack.totalGrowTime;
-      }
-      if (pack.growsUntil !== undefined) {
-        const allocatedOil = pack.totalGrowTime - pack.growTimeRemaining;
-        pack.growsUntil = newStart + allocatedOil;
-      }
-    }
-
-    const updatedCropMachine = updateCropMachine({
+    refreshCropMachineCaches({
+      machine: cropMachine,
+      windows,
       now: createdAt,
-      cropMachine,
     });
-
-    stateCopy.buildings["Crop Machine"] = stateCopy.buildings[
-      "Crop Machine"
-    ].map((machine) =>
-      machine.id === cropMachine.id ? updatedCropMachine : machine,
-    );
 
     return stateCopy;
   });

@@ -76,6 +76,7 @@ export type Bud = {
   ears: EarTrait;
   coordinates?: Coordinates;
   location?: PlaceableLocation;
+  flipped?: boolean;
 };
 
 export type BudName = `Bud-${number}`;

@@ -411,25 +411,14 @@ export const ANIMAL_HOUSE_BOUNDS: Record<
       y: 7,
     },
   },
-  // TODO(Chapter 16): placeholder floor bounds, cloned from the Barn.
+  // The Pigpen tops out at 9 Pigs, which fit on the level-1 floor, so every
+  // level shares the level-1 interior.
   pigpen: {
     1: {
       height: 8,
       width: 8,
       x: -4,
       y: 5,
-    },
-    2: {
-      height: 10,
-      width: 10,
-      x: -5,
-      y: 6,
-    },
-    3: {
-      height: 12,
-      width: 12,
-      x: -6,
-      y: 7,
     },
   },
 };

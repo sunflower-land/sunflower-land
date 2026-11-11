@@ -19,6 +19,11 @@ export function getObsidianYield({ game }: { game: GameState }) {
     boostsUsed.push({ name: "Magma Stone", value: "+0.15" });
   }
 
+  if (isCollectibleBuilt({ name: "Macropinna", game })) {
+    amount += 0.1;
+    boostsUsed.push({ name: "Macropinna", value: "+0.1" });
+  }
+
   return { amount, boostsUsed };
 }
 

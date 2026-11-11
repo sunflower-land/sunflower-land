@@ -115,6 +115,15 @@ export function getGreenhouseCropYieldAmount({
     boostsUsed.push({ name: "Pharaoh Gnome", value: "+2" });
   }
 
+  if (
+    crop === "Grape" &&
+    isWearableActive({ name: "Antique Dress", game }) &&
+    criticalDrop("Antique Dress", 10)
+  ) {
+    amount += 10;
+    boostsUsed.push({ name: "Antique Dress", value: "+10" });
+  }
+
   const glassRoomLevel = getSkillLevel(skills, "Glass Room");
   if (glassRoomLevel) {
     const v = SKILL_RANKS["Glass Room"].ranks[glassRoomLevel - 1];

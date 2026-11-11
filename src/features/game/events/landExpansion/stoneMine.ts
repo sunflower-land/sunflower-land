@@ -37,7 +37,6 @@ import { KNOWN_IDS } from "features/game/types";
 import { prngChance } from "lib/prng";
 import { produce } from "immer";
 import { STONE_RECOVERY_TIME } from "features/game/lib/constants";
-import { hasFeatureAccess } from "lib/flags";
 import { canMine, getMineReadyAt } from "features/game/lib/resourceNodes";
 import { mfTrack } from "lib/moonforgeAnalytics";
 
@@ -74,13 +73,7 @@ type GetMinedAtArgs = {
 /**
  * Single source of truth for stone recovery boosts. Used by both getMinedAt (game) and UI.
  */
-export function getStoneRecoveryTimeForDisplay({
-  game,
-  now,
-}: {
-  game: GameState;
-  now: number;
-}): {
+export function getStoneRecoveryTimeForDisplay({ game }: { game: GameState }): {
   baseTimeMs: number;
   recoveryTimeMs: number;
   boostsUsed: { name: BoostName; value: string }[];
@@ -97,45 +90,10 @@ export function getStoneRecoveryTimeForDisplay({
     boostsUsed.push({ name: "Speed Miner", value: `x${v}` });
   }
 
-  // Under SPEED_BOOSTS the temporary stone boosts (totems, Ore Hourglass, Badger
-  // Shrine) are retroactive speed-rate windows (see boostWindows), so they're
-  // excluded from the baked recovery here — what remains is the permanent-boost-
-  // only base duration. Flag-off keeps the legacy discount-at-start.
-  const boostsWindowed = hasFeatureAccess(game, "SPEED_BOOSTS");
-
-  const superTotem = isTemporaryCollectibleActive({
-    name: "Super Totem",
-    game,
-    now,
-  });
-  const timeWarpTotem = isTemporaryCollectibleActive({
-    name: "Time Warp Totem",
-    game,
-    now,
-  });
-
-  if (!boostsWindowed && (superTotem || timeWarpTotem)) {
-    totalSeconds = totalSeconds * 0.5;
-    if (superTotem) boostsUsed.push({ name: "Super Totem", value: "x0.5" });
-    else if (timeWarpTotem)
-      boostsUsed.push({ name: "Time Warp Totem", value: "x0.5" });
-  }
-
-  if (
-    !boostsWindowed &&
-    isTemporaryCollectibleActive({ name: "Ore Hourglass", game, now })
-  ) {
-    totalSeconds = totalSeconds * 0.5;
-    boostsUsed.push({ name: "Ore Hourglass", value: "x0.5" });
-  }
-
-  if (
-    !boostsWindowed &&
-    isTemporaryCollectibleActive({ name: "Badger Shrine", game, now })
-  ) {
-    totalSeconds = totalSeconds * 0.75;
-    boostsUsed.push({ name: "Badger Shrine", value: "x0.75" });
-  }
+  // The temporary stone boosts (totems, Ore Hourglass, Badger Shrine) are
+  // retroactive speed-rate windows (see boostWindows), so they're excluded from
+  // the baked recovery here — what remains is the permanent-boost-only base
+  // duration.
 
   return {
     baseTimeMs,
@@ -145,27 +103,22 @@ export function getStoneRecoveryTimeForDisplay({
 }
 
 /**
- * The mine time to persist, plus (under SPEED_BOOSTS) the base recovery duration.
+ * The mine time to persist, plus the base recovery duration.
  *
- * Legacy model: back-date `minedAt` into the past so the rock replenishes faster.
- * Speed-rate model (SPEED_BOOSTS): store the REAL mine time and a `baseDurationMs`
- * carrying only the permanent boosts; the temporary boosts are derived live from
+ * Speed-rate model: store the REAL mine time and a `baseDurationMs` carrying only
+ * the permanent boosts; the temporary boosts are derived live from
  * windows. Uses getStoneRecoveryTimeForDisplay for boost logic.
  */
 export function getMinedAt({ createdAt, game }: GetMinedAtArgs): {
   time: number;
-  baseDurationMs?: number;
+  baseDurationMs: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
-  const { baseTimeMs, recoveryTimeMs, boostsUsed } =
-    getStoneRecoveryTimeForDisplay({ game, now: createdAt });
+  const { recoveryTimeMs, boostsUsed } = getStoneRecoveryTimeForDisplay({
+    game,
+  });
 
-  if (hasFeatureAccess(game, "SPEED_BOOSTS")) {
-    return { time: createdAt, baseDurationMs: recoveryTimeMs, boostsUsed };
-  }
-
-  const buffMs = baseTimeMs - recoveryTimeMs;
-  return { time: createdAt - buffMs, boostsUsed };
+  return { time: createdAt, baseDurationMs: recoveryTimeMs, boostsUsed };
 }
 
 /**
@@ -490,22 +443,15 @@ export function mineStone({
       createdAt,
       game: stateCopy,
     });
-    const {
-      baseTimeMs,
-      recoveryTimeMs,
-      boostsUsed: boostedTimeBoostsUsed,
-    } = getStoneRecoveryTimeForDisplay({ game: stateCopy, now: createdAt });
+    const { boostsUsed: boostedTimeBoostsUsed } =
+      getStoneRecoveryTimeForDisplay({ game: stateCopy });
 
     rock.stone = { minedAt: time };
-    if (baseDurationMs !== undefined) {
-      // Speed-rate model: real minedAt + permanent-only baseDurationMs. Temporary
-      // boosts are derived live from windows, so there's no baked discount; keep
-      // boostedTime at 0 so the yield-AOE budget uses the real windowed duration.
-      rock.stone.baseDurationMs = baseDurationMs;
-      rock.stone.boostedTime = 0;
-    } else {
-      rock.stone.boostedTime = baseTimeMs - recoveryTimeMs;
-    }
+    // Speed-rate model: real minedAt + permanent-only baseDurationMs. Temporary
+    // boosts are derived live from windows, so there's no baked discount; keep
+    // boostedTime at 0 so the yield-AOE budget uses the real windowed duration.
+    rock.stone.baseDurationMs = baseDurationMs;
+    rock.stone.boostedTime = 0;
 
     stateCopy.farmActivity = trackFarmActivity(
       "Stone Mined",

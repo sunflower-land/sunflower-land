@@ -9,6 +9,7 @@ import { useNavigate } from "react-router";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { getKeys } from "lib/object";
 import { isGreenhouseReady } from "features/game/events/landExpansion/greenhouseReadiness";
+import { MAX_POTS } from "features/game/events/landExpansion/plantGreenhouse";
 import type { GreenHouseCropName } from "features/game/types/crops";
 import type { GreenHouseFruitName } from "features/game/types/fruits";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -26,6 +27,11 @@ export const Greenhouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
 
   const { pots } = gameState.greenhouse;
   const hasActivePlants = Object.values(pots).some((pot) => !!pot.plant);
+  // Pots are only recorded once planted, so count the empties by id.
+  const hasEmptyPot = Array.from(
+    { length: MAX_POTS },
+    (_, i) => !pots[i + 1]?.plant,
+  ).some(Boolean);
 
   // Readiness is derived in-render (windowed plants become ready earlier than
   // their stored plantedAt implies) off a live clock, so the ready indicators
@@ -62,7 +68,13 @@ export const Greenhouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
 
   return (
     <div className="absolute h-full w-full">
-      <BuildingImageWrapper name="Greenhouse" onClick={handleClick}>
+      <BuildingImageWrapper
+        name="Greenhouse"
+        onClick={handleClick}
+        // An empty pot shows the ! the other buildings use: come plant one.
+        // Ready plants show as their own images below it.
+        ready={isBuilt && hasEmptyPot}
+      >
         {hasActivePlants && (
           <img
             src={SUNNYSIDE.building.smoke}

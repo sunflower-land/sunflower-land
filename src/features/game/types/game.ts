@@ -89,7 +89,7 @@ import type {
 import type { FermentationProductName } from "./fermentationProducts";
 import type { SpiceRackProductName } from "./spiceRackProducts";
 import type { BeetleName } from "./beetles";
-import type { BeetleFeedName } from "./beetleFeeds";
+import type { CaveTile } from "./cavePatch";
 import type { PickledCropName } from "./pickled";
 import { translate } from "lib/i18n/translate";
 import { capitalize } from "lib/utils/capitalize";
@@ -163,7 +163,7 @@ export type CraftingQueueItem = {
    * The craft's un-boosted duration with PERMANENT boosts (Sol & Luna, Architect
    * Ruler) already folded in. Present only on crafts queued under the speed-rate
    * model; its absence selects the legacy baked timing, so the read path keys off
-   * this marker, NOT the `SPEED_BOOSTS` flag — matching every other activity.
+   * this marker — matching every other activity.
    *
    * Zero means a Fox Shrine instant proc: no work to do, so it is ready at its own
    * anchor and never occupies the box.
@@ -291,7 +291,8 @@ export type MutantChicken =
   | "Sleepy Chicken"
   | "Squid Chicken"
   | "Flamingo Chicken"
-  | "Ascended Chicken";
+  | "Ascended Chicken"
+  | "Mushroom Chicken";
 
 export type MutantCow =
   | "Mootant"
@@ -301,7 +302,8 @@ export type MutantCow =
   | "Astronaut Cow"
   | "Mermaid Cow"
   | "Spa Cow"
-  | "Ascended Cow";
+  | "Ascended Cow"
+  | "Ladybug Cow";
 
 export type MutantSheep =
   | "Toxic Tuft"
@@ -311,7 +313,8 @@ export type MutantSheep =
   | "Astronaut Sheep"
   | "Mermaid Sheep"
   | "Spa Sheep"
-  | "Ascended Sheep";
+  | "Ascended Sheep"
+  | "Beetle Sheep";
 
 export type MutantAnimal = MutantChicken | MutantCow | MutantSheep;
 
@@ -353,6 +356,8 @@ export type Coupons =
   | "April Fools Ticket 2026"
   | "Colors Token 2026"
   | "Colors Ticket 2026"
+  | "Halloween Token 2026"
+  | "Halloween Ticket 2026"
   | "Cheer"
   | "CluckCoin"
   | Keys
@@ -532,11 +537,21 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Ascension Age Raffle Ticket": {
     description: translate("description.ascensionAgeRaffleTicket"),
   },
+  "Duende Cap": { description: translate("description.duendeCap") },
+  "Cave Dwellers Raffle Ticket": {
+    description: translate("description.caveDwellersRaffleTicket"),
+  },
   "Colors Token 2026": {
     description: translate("description.colorsToken2026"),
   },
   "Colors Ticket 2026": {
     description: translate("description.colorsTicket2026"),
+  },
+  "Halloween Token 2026": {
+    description: translate("description.halloweenToken2025"),
+  },
+  "Halloween Ticket 2026": {
+    description: translate("description.halloweenTicket2025"),
   },
 };
 
@@ -757,8 +772,7 @@ export type InventoryItemName =
   | PickledCropName
   | FermentationProductName
   | SpiceRackProductName
-  | BeetleName
-  | BeetleFeedName;
+  | BeetleName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -837,21 +851,28 @@ export type PlantedFruit = {
   criticalHit?: CriticalHit;
   amount?: number;
   /**
-   * Work (ms) banked when the patch was lifted mid-grow/replenish (windowed
-   * fruit freeze accrued WORK, not wall-clock progress, while the patch sits in
-   * inventory). Display-only: the patch UI folds it into the progress bar;
-   * readiness ignores it — the banked work is already subtracted from
-   * `baseDurationMs`. Reset when a new phase begins (harvest → replenish).
+   * Display-only in both models (readiness ignores it), but it carries a
+   * different quantity in each — the patch UI branches on `baseDurationMs`:
+   * - Windowed: WORK (ms) banked when the patch was lifted mid-grow/replenish
+   *   (windowed fruit freeze accrued WORK, not wall-clock progress, while the
+   *   patch sits in inventory). Already subtracted from `baseDurationMs`, so
+   *   the bar folds it back into its total.
+   * - Legacy: the total DISCOUNT (ms) baked in by back-dating the active
+   *   phase's start — plant/replenish-time boosts plus any mid-cycle
+   *   Turbofruit Mix. It is NOT growth already done, so the bar un-back-dates
+   *   with it; without that a heavily boosted patch opens its bar near-full.
+   *   Same meaning (and reason) as `PlantedCrop.boostedTime`.
+   * Replaced when a new phase begins (harvest → replenish); absent when the
+   *   phase had no boost at all.
    */
   boostedTime?: number;
   /**
    * Unboosted-by-windowed-collectibles grow/replenish duration (ms), with all
    * permanent (discount-at-start) boosts already folded in. Present only on
-   * fruit planted/harvested under the speed-rate model; its presence — NOT the
-   * `SPEED_BOOSTS` flag — selects `computeReadyAt` (over the legacy back-dated
-   * `plantedAt`/`harvestedAt` readiness check), so a fruit planted while the flag
-   * was on keeps windowed timing on rollback and retains its baked permanent
-   * boosts. Applies to whichever phase is active (`harvestedAt || plantedAt`).
+   * fruit planted/harvested under the speed-rate model; its presence selects
+   * `computeReadyAt` (over the legacy back-dated `plantedAt`/`harvestedAt`
+   * readiness check), so legacy-shaped fruit still use the old timing. Applies
+   * to whichever phase is active (`harvestedAt || plantedAt`).
    */
   baseDurationMs?: number;
 };
@@ -948,20 +969,25 @@ export type GreenhousePlant = {
   criticalHit?: CriticalHit;
   amount?: number;
   /**
-   * Work (ms) banked when the Greenhouse building was moved mid-grow (windowed
-   * plants freeze accrued WORK, not wall-clock progress, while the building
-   * sits in inventory). Display-only: the pot UI folds it into the progress
-   * bar; readiness ignores it — the banked work is already subtracted from
-   * `baseDurationMs`.
+   * Display-only in both models (readiness ignores it), but it carries a
+   * different quantity in each — the pot UI branches on `baseDurationMs`:
+   * - Windowed: WORK (ms) banked when the Greenhouse building was moved
+   *   mid-grow (windowed plants freeze accrued WORK, not wall-clock progress,
+   *   while the building sits in inventory). Already subtracted from
+   *   `baseDurationMs`, so the bar folds it back into its total.
+   * - Legacy: the total DISCOUNT (ms) baked in by back-dating `plantedAt` —
+   *   plant-time boosts plus any mid-grow Greenhouse Glow. It is NOT growth
+   *   already done, so the bar un-back-dates with it; without that a heavily
+   *   boosted plant opens its bar near-full. Same meaning (and same reason) as
+   *   `PlantedCrop.boostedTime`. Absent when nothing boosted the grow.
    */
   boostedTime?: number;
   /**
    * Unboosted-by-windowed-collectibles grow duration (ms), with all permanent
    * (discount-at-start) boosts already folded in. Present only on plants sown
-   * under the speed-rate model; its presence — NOT the `SPEED_BOOSTS` flag —
-   * selects `computeReadyAt` (over the legacy back-dated `plantedAt` readiness
-   * check), so a plant sown while the flag was on keeps windowed timing on
-   * rollback and retains its baked permanent boosts.
+   * under the speed-rate model; its presence selects `computeReadyAt` (over the
+   * legacy back-dated `plantedAt` readiness check), so legacy-shaped plants
+   * still use the old timing.
    */
   baseDurationMs?: number;
 };
@@ -1003,10 +1029,23 @@ export type BuildingProduct = {
    * The recipe's un-boosted cook time with PERMANENT boosts (wearables, Desert
    * Gnome, Fast Feasts/Frosted Cakes, building oil) already folded in. Present only
    * on recipes queued under the speed-rate model; its absence selects the legacy
-   * baked timing, so the read path keys off this marker, NOT the `SPEED_BOOSTS`
-   * flag — matching every other activity.
+   * baked timing, so the read path keys off this marker — matching every other
+   * activity.
    */
   baseDurationMs?: number;
+  /**
+   * The building-oil boost (e.g. 0.4 = 40%) snapshotted when the recipe was queued
+   * on a clock-drain building. Presence = the recipe draws oil LAZILY from the tank
+   * while it cooks, at a speed of `1 / (1 - oilBoost)`. Absent on recipes whose oil
+   * was deducted up front and baked into their duration.
+   */
+  oilBoost?: number;
+  /**
+   * Oil the recipe burns per day of cooking work, snapshotted with `oilBoost`: the
+   * building's daily rate scaled up by any permanent cut to its duration, so the
+   * dish costs the same oil as a recipe whose oil is deducted up front.
+   */
+  oilRate?: number;
   requirements?: Inventory;
 };
 
@@ -1037,7 +1076,18 @@ export type PlacedItem = {
   cancelled?: Cancelled;
   crafting?: BuildingProduct[];
   processing?: BuildingProduct[];
+  /**
+   * Oil in the building's tank. On a clock-drain cooking building (`oilSettledAt`
+   * set) this is the level at `oilSettledAt` — a ledger, not the live level, which
+   * is derived (see `getCookingOilAt`).
+   */
   oil?: number;
+  /**
+   * The instant `oil` was last settled. Presence = the building burns oil by the
+   * clock while it cooks (cooking oil as a speed boost) rather than deducting it
+   * per recipe when queued.
+   */
+  oilSettledAt?: number;
   flipped?: boolean;
   /**
    * Weather-protection collectible (e.g. Tornado Pinwheel) consumed by its
@@ -1097,12 +1147,12 @@ export type CropMachineQueueItem = {
   pausedTimeRemaining?: number;
   /**
    * Remaining WORK (permanent-boosted ms, temporary boosts excluded) as of the
-   * machine's `oilSettledAt`. Presence = this pack is windowed (SPEED_BOOSTS):
+   * machine's `oilSettledAt`. Presence = this pack is windowed (speed-rate model):
    * its timing derives from `resolveCropMachine` and the stored
    * `startTime`/`growsUntil`/`readyAt`/`growTimeRemaining` become refreshed
    * caches. Deleted when the pack completes, at which point `readyAt` becomes
-   * immutable history. Permanent per-pack marker — read paths key off it, NOT
-   * the flag, so a windowed pack keeps windowed timing on a flag rollback.
+   * immutable history. Permanent per-pack marker — read paths key off it, so a
+   * legacy-shaped pack (unset) still uses the old timing.
    */
   baseDurationMs?: number;
 };
@@ -1111,7 +1161,7 @@ export type CropMachineBuilding = PlacedItem & {
   queue?: CropMachineQueueItem[];
   unallocatedOilTime?: number;
   /**
-   * Presence = this MACHINE is windowed (SPEED_BOOSTS). The tank is
+   * Presence = this MACHINE is windowed (speed-rate model). The tank is
    * machine-wide, so the fuel ledger's discriminator is too: when set,
    * `unallocatedOilTime` means the WHOLE tank — wall-clock ms of unburned fuel,
    * with no per-pack earmarks — as of this instant, and every windowed pack's
@@ -1161,9 +1211,9 @@ export type LayoutPlacement = Pick<PlacedItem, "id" | "flipped"> & {
 };
 
 /**
- * A restorable position for a placeable that can also be flipped (the player's
- * Bumpkin and FarmHands). Buds/Pet NFTs aren't flippable so they store bare
- * {@link LayoutCoordinates} instead.
+ * A restorable position for a placeable that is keyed by id rather than by
+ * name and can also be flipped (the player's Bumpkin, FarmHands, Buds and Pet
+ * NFTs).
  */
 export type LayoutFlippablePlacement = LayoutCoordinates & {
   flipped?: boolean;
@@ -1204,10 +1254,10 @@ export type SavedLayout = {
     flowerBeds: Record<string, LayoutCoordinates>;
     lavaPits: Record<string, LayoutCoordinates>;
   };
-  /** Placed Buds, keyed by bud id (not flippable). Farm-placed only. */
-  buds?: Record<string, LayoutCoordinates>;
-  /** Placed Pet NFTs, keyed by pet nft id (not flippable). Farm-placed only. */
-  petNFTs?: Record<string, LayoutCoordinates>;
+  /** Placed Buds, keyed by bud id. Farm-placed only. */
+  buds?: Record<string, LayoutFlippablePlacement>;
+  /** Placed Pet NFTs, keyed by pet nft id. Farm-placed only. */
+  petNFTs?: Record<string, LayoutFlippablePlacement>;
   /** Placed FarmHands (extra bumpkins), keyed by id. Farm-placed only. */
   farmHands?: Record<string, LayoutFlippablePlacement>;
   /** The player's own Bumpkin (single). Present only when placed on the farm. */
@@ -1325,7 +1375,6 @@ export type FarmHand = {
 
 export type Mushroom = {
   name: MushroomName;
-  amount: number;
   x: number;
   y: number;
 };
@@ -1374,13 +1423,20 @@ export type LanternName =
   | "Betty Lantern"
   | "Bumpkin Lantern";
 
+/** The four tier feeds only Pigs eat (types/pigFeeds.ts). */
+export type PigFeedName =
+  | "Basic Slop"
+  | "Hearty Slop"
+  | "Rich Slop"
+  | "Gourmet Slop";
+
 export type AnimalFoodName =
   | "Hay"
   | "Kernel Blend"
   | "NutriBarley"
   | "Mixed Grain"
   | "Omnifeed"
-  | BeetleFeedName;
+  | PigFeedName;
 
 export type AnimalMedicineName = "Barn Delight";
 
@@ -1397,7 +1453,8 @@ export type BedName =
   | "Double Bed"
   | "Messy Bed"
   | "Salt Crystal Bed"
-  | "Cloud Bed";
+  | "Cloud Bed"
+  | "Spooky Bed";
 
 export type RecipeCraftableName =
   | "Cushion"
@@ -1595,6 +1652,11 @@ export type CommunityIsland = {
   };
 };
 
+export type MinigamePrizeTier = {
+  score: number;
+  items: Partial<Record<InventoryItemName, number>>;
+};
+
 export type MinigamePrize = {
   startAt: number;
   endAt: number;
@@ -1602,12 +1664,20 @@ export type MinigamePrize = {
   coins: number;
   items: Partial<Record<InventoryItemName, number>>;
   wearables: Wardrobe;
+  /**
+   * Ascending by score. When set, a claim pays the highest tier the latest
+   * run (`MinigameHistory.lastScore`) reached instead of `items`; `score` and
+   * `items` mirror the lowest tier.
+   */
+  tiers?: MinigamePrizeTier[];
 };
 
 export type MinigameHistory = {
   highscore: number;
   attempts: number;
   prizeClaimedAt?: number;
+  /** The latest run's score - only recorded while today's prize has tiers */
+  lastScore?: number;
 };
 
 export type Minigame = {
@@ -1877,11 +1947,11 @@ export type Interior = {
   expansion?: HomeExpansionTier;
 };
 
-/** The three Myco-Composter recipes; see `CAVE_RECIPES` for their composition. */
+/** The three Myco Bin recipes; see `CAVE_RECIPES` for their composition. */
 export type CaveRecipeName = "Mushroom" | "Beetle" | "Mud";
 
 /**
- * A running (or finished) Myco-Composter batch. The 25-tile board is derived
+ * A running (or finished) Myco Bin batch. The 25-tile board is derived
  * from `seed`, and every tile count is fixed by the recipe (see `CAVE_RECIPES`).
  * `readyAt = startedAt + 12h`.
  */
@@ -1896,14 +1966,36 @@ export type CaveBatch = {
    * `cave.batchStarted` returns.
    */
   seed?: string;
-  /** Dug tiles keyed "x,y"; what each held is derived from the seed. */
+  /** Dug tiles keyed "x,y", with what each held (see `CaveDugTile`). */
   dug?: Record<string, CaveDugTile>;
+  /** The board-shaping Cave skills this batch started with. */
+  skills?: CaveBatchSkills;
 };
 
-export type CaveDugTile = { dugAt: number };
+/**
+ * Cave skills that shape a batch's board, snapshotted when the batch starts so
+ * a board never changes once it is seeded (a later rank-up cannot move tiles
+ * that were already dug). Absent when none applied.
+ */
+export type CaveBatchSkills = {
+  /** Mushroom Bloom: Mushroom tiles added in place of Mud. */
+  extraMushroomTiles?: number;
+  /** Beetle Nest: Beetle tiles added in place of Mud. */
+  extraBeetleTiles?: number;
+  /** Rare Breeds: Beetle rarity weights (percent) replacing the base table. */
+  beetleRarity?: Record<BeetleName, number>;
+};
 
 /**
- * A Myco-Composter machine inside the Cave. One is created with each tier; it
+ * A dug tile. `tile` and `clue` are what the dig revealed, recorded because
+ * the undug part of the board is re-sampled on every dig (`revealCavePatch`).
+ * Tiles dug before boards were sampled have neither: they are read from the
+ * seed's board (`generateCavePatch`).
+ */
+export type CaveDugTile = { dugAt: number; tile?: CaveTile; clue?: number };
+
+/**
+ * A Myco Bin machine inside the Cave. One is created with each tier; it
  * sits directly above its own 5x5 digging patch. `batch` is present while a
  * batch is growing, ready or being dug, until the next batch replaces it.
  */
@@ -1918,20 +2010,41 @@ export type CaveConstruction = {
   readyAt: number;
 };
 
-/** The Goblin Cave Merchant's offers; see `CAVE_MERCHANT_OFFERS`. */
-export type CaveMerchantOfferId =
-  | "sand-drills"
-  | "truffles"
-  | "rawhide"
-  | "crimstone"
-  | "obsidian";
-
 /**
- * What the player has bought from the Goblin Cave Merchant, keyed by limit
- * period (the week key for now). Only the current period is kept.
+ * What the player has bought from the Goblin Cave Merchant: claims per offer
+ * slot, keyed by the visit index (`cave.merchantVisit.index`). Only the current
+ * visit is kept.
  */
 export type CaveMerchant = {
-  purchases: Record<string, Partial<Record<CaveMerchantOfferId, number>>>;
+  purchases: Record<string, Partial<Record<number, number>>>;
+};
+
+/** One trade the Goblin Cave Merchant offers this visit. */
+export type CaveMerchantOffer = {
+  /** 1-based; Cave tier N unlocks slots 1..N. */
+  slot: number;
+  cost: { item: InventoryItemName; amount: number };
+  reward: { item: InventoryItemName; amount: number };
+  /** Claims per player per visit. */
+  limit: number;
+  curiosity: boolean;
+};
+
+/**
+ * The Merchant's visit open (or last opened) when the farm was loaded, and
+ * its stock. Built by the API on every load and never saved, like Love
+ * Island's shop: how the stock is priced and rolled stays on the server.
+ */
+export type CaveMerchantVisitState = {
+  /** Visit 0 opens at launch. */
+  index: number;
+  opensAt: number;
+  closesAt: number;
+  nextOpensAt: number;
+  /** A long enough wait that this visit's deals are badged generous. */
+  generous: boolean;
+  /** All eight slots while he is in town, none while he is away. */
+  offers: CaveMerchantOffer[];
 };
 
 /**
@@ -1946,6 +2059,8 @@ export type Cave = {
   machines: Record<string, CaveMachine>;
   construction?: CaveConstruction;
   merchant?: CaveMerchant;
+  /** Computed by the API on load, never saved (see `CaveMerchantVisitState`). */
+  merchantVisit?: CaveMerchantVisitState;
 };
 
 export type PlantedFlower = {
@@ -1957,20 +2072,26 @@ export type PlantedFlower = {
   criticalHit?: CriticalHit;
   amount?: number;
   /**
-   * Work (ms) banked when the flower bed was lifted mid-grow (windowed flowers
-   * freeze accrued WORK, not wall-clock progress, while the bed sits in
-   * inventory). Display-only: the bed UI folds it into the progress bar;
-   * readiness ignores it — the banked work is already subtracted from
-   * `baseDurationMs`. Flowers are one-shot, so it never needs resetting.
+   * Display-only in both models (readiness ignores it), but it carries a
+   * different quantity in each — the bed UI branches on `baseDurationMs`:
+   * - Windowed: WORK (ms) banked when the bed was lifted mid-grow (windowed
+   *   flowers freeze accrued WORK, not wall-clock progress, while the bed sits
+   *   in inventory). Already subtracted from `baseDurationMs`, so the bar folds
+   *   it back into its total.
+   * - Legacy: the total DISCOUNT (ms) baked in by back-dating `plantedAt` —
+   *   plant-time boosts, plus the full grow time on an insta-grow. It is NOT
+   *   growth already done, so the bar un-back-dates with it; without that a
+   *   heavily boosted flower opens its bar near-full. Same meaning (and reason)
+   *   as `PlantedCrop.boostedTime`.
+   * Flowers are one-shot, so it never needs resetting; absent when unboosted.
    */
   boostedTime?: number;
   /**
    * Unboosted-by-windowed-collectibles grow duration (ms), with all permanent
    * (discount-at-start) boosts already folded in. Present only on flowers planted
-   * under the speed-rate model; its presence — NOT the `SPEED_BOOSTS` flag —
-   * selects `computeReadyAt` (over the legacy back-dated `plantedAt` readiness
-   * check), so a flower planted while the flag was on keeps windowed timing on
-   * rollback and retains its baked permanent boosts.
+   * under the speed-rate model; its presence selects `computeReadyAt` (over the
+   * legacy back-dated `plantedAt` readiness check), so legacy-shaped flowers
+   * still use the old timing.
    */
   baseDurationMs?: number;
 };
@@ -2096,11 +2217,14 @@ export type AnimalResource =
   | "Merino Wool"
   | "Feather"
   | "Milk"
-  | "Rawhide"
+  | "Pig Bristles"
   | "Truffle";
 export type AnimalState = "idle" | "happy" | "sad" | "ready" | "sick";
 
-export type AnimalFeedBuffName = "Salt Lick" | "Honey Treat";
+export type AnimalFeedBuffName =
+  | "Salt Lick"
+  | "Honey Treat"
+  | "Truffle Seasoning";
 
 export type AnimalFeedBuff = {
   name: AnimalFeedBuffName;
@@ -2108,11 +2232,12 @@ export type AnimalFeedBuff = {
 };
 
 /**
- * A Pig's Mud: 1 Mud grants a few feeds of bonus XP. A separate slot from
- * `feedBuff`, so a spice-rack treat can run on top of it.
+ * A Pig's Mud: bonus feed XP and no sickness until its charges run out. Charges
+ * work exactly like a spice-rack treat's - one is spent per produce claim - but
+ * in a separate slot from `feedBuff`, so a treat can run on top of it.
  */
 export type AnimalMud = {
-  feedsRemaining: number;
+  harvestsRemaining: number;
 };
 
 export type Animal = {
@@ -2131,6 +2256,13 @@ export type Animal = {
    */
   awakeAt: number;
   lovedAt: number;
+  /**
+   * How many times the animal has been loved in its current sleep — two at
+   * most. Not reset on falling asleep: it only counts while `lovedAt` is at or
+   * after `asleepAt` (read it through `getLovesThisSleep`). Absent on animals
+   * last loved before the count existed.
+   */
+  lovesThisSleep?: number;
   item: LoveAnimalItem;
   /**
    * The sleep's un-boosted work with permanent boosts folded in. Present only on
@@ -2253,14 +2385,15 @@ export type BoostUsedAt = Partial<Record<BoostName, number>>;
  * A finalised [from, to] interval during which a boost was active. Stored in
  * `GameState.boostHistory` so the boost's contribution to in-progress timers
  * survives its source going away — a temporary collectible being burned
- * (deleted) or renewed (createdAt reset), a season Guardian being lifted, or the
- * sunshower calendar entry being deleted after its day. Activity-agnostic — the
- * per-activity speed is applied when the window is read.
+ * (deleted) or renewed (createdAt reset), a season Guardian being lifted, the
+ * sunshower calendar entry being deleted after its day, or a Power Hour buff
+ * being replaced by the next one. Activity-agnostic — the per-activity speed is
+ * applied when the window is read.
  */
 export type BoostHistoryWindow = { from: number; to: number };
 
 /** The boosts `GameState.boostHistory` records windows for. */
-export type BoostHistoryName = CollectibleName | "Sunshower";
+export type BoostHistoryName = CollectibleName | "Sunshower" | "Power hour";
 
 type ClutterCoordinates = {
   type: ClutterName;
@@ -2568,8 +2701,10 @@ export interface GameState {
 
   ban: {
     /**
-     * `lock` is a support hold. It blocks play like `investigating` does, but
-     * verifying socials or a face does not lift it - only support can.
+     * `lock` is a support hold and `investigating` a soft ban. Neither stops
+     * play; both stop value leaving the account (withdrawals, trades,
+     * transfers). Verifying socials and a face lifts a soft ban; only support
+     * lifts a lock.
      */
     status: "investigating" | "permanent" | "ok" | "lock";
     isSocialVerified?: boolean;
