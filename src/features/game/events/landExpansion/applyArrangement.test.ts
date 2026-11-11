@@ -485,6 +485,7 @@ describe("applyArrangement", () => {
           coordinates: { x: -3, y: 3 },
           createdAt,
           readyAt: createdAt,
+          oilSettledAt: createdAt,
         },
       ]);
     });

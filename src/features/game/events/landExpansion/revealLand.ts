@@ -25,6 +25,7 @@ import {
   TREE_RECOVERY_TIME,
 } from "features/game/lib/constants";
 import { OIL_RESERVE_RECOVERY_TIME } from "./drillOilReserve";
+import { getInitialOilLedger } from "./isCookingBuilding";
 
 // Preloaded crops that will appear on plots when they reveal
 const EXPANSION_CROPS: Record<number, CropName> = {
@@ -387,6 +388,7 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
           createdAt,
           id: "123",
           readyAt: createdAt,
+          ...getInitialOilLedger("Fire Pit", createdAt),
         },
       ];
     }

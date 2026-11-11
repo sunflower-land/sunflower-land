@@ -54,6 +54,29 @@ describe("Place building", () => {
     expect(state.buildings["Water Well"]).toHaveLength(1);
   });
 
+  it("starts a new cooking building on the oil ledger", () => {
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Fire Pit": new Decimal(1),
+          "Basic Land": new Decimal(10),
+        },
+        buildings: {},
+      },
+      action: {
+        id: "123",
+        type: "building.placed",
+        name: "Fire Pit",
+        coordinates: { x: 2, y: 2 },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.buildings["Fire Pit"]?.[0].oilSettledAt).toEqual(dateNow);
+  });
+
   it("places multiple buildings", () => {
     const state = {
       ...GAME_STATE,

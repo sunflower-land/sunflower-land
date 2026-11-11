@@ -13,6 +13,7 @@ import { getObjectEntries } from "lib/object";
 import { isAnimalBuildingType } from "../../types/animals";
 import { makeAnimalBuilding, makeAnimalBuildingKey } from "../../lib/animals";
 import { getKeys } from "lib/object";
+import { getInitialOilLedger } from "./isCookingBuilding";
 
 export enum CONSTRUCT_BUILDING_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -105,6 +106,7 @@ export function constructBuilding({
       createdAt: createdAt,
       ...(action.coordinates ? { coordinates: action.coordinates } : {}),
       readyAt: createdAt + buildingToConstruct.constructionSeconds * 1000,
+      ...getInitialOilLedger(action.name, createdAt),
     };
 
     stateCopy.farmActivity = trackFarmActivity(
