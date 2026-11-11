@@ -3,18 +3,8 @@ import { getGreenhouseCropTime, plantGreenhouse } from "./plantGreenhouse";
 import Decimal from "decimal.js-light";
 import type { GameState } from "features/game/types/game";
 import { GREENHOUSE_CROP_TIME_SECONDS } from "features/game/lib/greenhouseGrowTimes";
-import { CONFIG } from "lib/config";
-
-// Pin the legacy (mainnet, SPEED_BOOSTS off) behaviour for this file's existing
-// tests — jest runs on amoy where the flag is ON. The windowed model is covered
-// in the dedicated SPEED_BOOSTS describes.
-const originalNetwork = CONFIG.NETWORK;
-beforeAll(() => {
-  (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-});
-afterAll(() => {
-  (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-});
+import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
+import { getGreenhouseReadyAt } from "./greenhouseReadiness";
 
 const farm: GameState = {
   ...TEST_FARM,
@@ -184,47 +174,6 @@ describe("plantGreenhouse", () => {
     ).toThrow("Plant already exists");
   });
 
-  it("plants", () => {
-    const now = Date.now();
-    const state = plantGreenhouse({
-      action: {
-        type: "greenhouse.planted",
-        id: 1,
-        seed: "Rice Seed",
-      },
-      state: {
-        ...farm,
-        inventory: {
-          "Rice Seed": new Decimal(1),
-        },
-        greenhouse: {
-          oil: 50,
-          pots: {
-            1: {},
-          },
-        },
-        buildings: {
-          Greenhouse: [
-            {
-              coordinates: { x: 0, y: 0 },
-              id: "1",
-              createdAt: 0,
-              readyAt: 0,
-            },
-          ],
-        },
-      },
-      createdAt: now,
-    });
-
-    expect(state.greenhouse.pots[1]).toEqual({
-      plant: {
-        name: "Rice",
-        plantedAt: now,
-      },
-    });
-  });
-
   it("subtracts seed", () => {
     const now = Date.now();
     const state = plantGreenhouse({
@@ -341,6 +290,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Rice",
         plantedAt: now,
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Rice * 1000,
       },
     });
   });
@@ -395,6 +345,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Rice",
         plantedAt: now,
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Rice * 1000,
       },
     });
   });
@@ -443,6 +394,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Grape",
         plantedAt: now,
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Grape * 1000,
       },
     });
   });
@@ -497,6 +449,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Grape",
         plantedAt: now,
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Grape * 1000,
       },
     });
   });
@@ -551,6 +504,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Grape",
         plantedAt: now,
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Grape * 1000,
       },
     });
   });
@@ -599,6 +553,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Grape",
         plantedAt: now,
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Grape * 1000,
       },
     });
   });
@@ -653,6 +608,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Olive",
         plantedAt: now,
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Olive * 1000,
       },
     });
   });
@@ -707,6 +663,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Olive",
         plantedAt: now,
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Olive * 1000,
       },
     });
   });
@@ -755,103 +712,9 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Olive",
         plantedAt: now,
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Olive * 1000,
       },
     });
-  });
-
-  it("gives a 50% time boost when Turbo Sprout is placed", () => {
-    const now = Date.now();
-    const state = plantGreenhouse({
-      action: {
-        type: "greenhouse.planted",
-        id: 1,
-        seed: "Rice Seed",
-      },
-      state: {
-        ...farm,
-        inventory: {
-          "Rice Seed": new Decimal(1),
-        },
-        greenhouse: {
-          oil: 50,
-          pots: {
-            1: {},
-          },
-        },
-        buildings: {
-          Greenhouse: [
-            {
-              coordinates: { x: 0, y: 0 },
-              id: "1",
-              createdAt: 0,
-              readyAt: 0,
-            },
-          ],
-        },
-        collectibles: {
-          "Turbo Sprout": [
-            { id: "1", createdAt: 0, coordinates: { x: 0, y: 0 }, readyAt: 0 },
-          ],
-        },
-      },
-      createdAt: now,
-    });
-
-    const boostedTime = (GREENHOUSE_CROP_TIME_SECONDS["Rice"] * 1000) / 2;
-    expect(state.greenhouse.pots[1]).toEqual({
-      plant: {
-        name: "Rice",
-        plantedAt: now - boostedTime,
-        boostedTime,
-      },
-    });
-  });
-
-  it("records the back-date offset as boostedTime so the progress bar starts empty", () => {
-    const now = Date.now();
-    const state = plantGreenhouse({
-      action: {
-        type: "greenhouse.planted",
-        id: 1,
-        seed: "Rice Seed",
-      },
-      state: {
-        ...farm,
-        inventory: {
-          "Rice Seed": new Decimal(1),
-        },
-        greenhouse: {
-          oil: 50,
-          pots: {
-            1: {},
-          },
-        },
-        buildings: {
-          Greenhouse: [
-            {
-              coordinates: { x: 0, y: 0 },
-              id: "1",
-              createdAt: 0,
-              readyAt: 0,
-            },
-          ],
-        },
-        collectibles: {
-          "Turbo Sprout": [
-            { id: "1", createdAt: 0, coordinates: { x: 0, y: 0 }, readyAt: 0 },
-          ],
-        },
-      },
-      createdAt: now,
-    });
-
-    const plant = state.greenhouse.pots[1]?.plant;
-    const offset = (GREENHOUSE_CROP_TIME_SECONDS["Rice"] * 1000) / 2;
-
-    // The offset is the DISCOUNT, not growth already done: un-back-dating with
-    // it recovers the real plant time and the real (boosted) grow duration.
-    expect(plant?.boostedTime).toEqual(offset);
-    expect(plant!.plantedAt + plant!.boostedTime!).toEqual(now);
   });
 
   it("omits boostedTime when nothing boosts the grow time", () => {
@@ -891,6 +754,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Rice",
         plantedAt: now,
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Rice * 1000,
       },
     });
   });
@@ -942,6 +806,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Grape",
         plantedAt: now,
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Grape * 1000,
       },
     });
   });
@@ -988,6 +853,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Grape",
         plantedAt: now,
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Grape * 1000,
       },
     });
   });
@@ -1034,6 +900,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Grape",
         plantedAt: now,
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Grape * 1000,
       },
     });
   });
@@ -1082,6 +949,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Grape",
         plantedAt: now,
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Grape * 1000,
       },
     });
   });
@@ -1130,6 +998,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Olive",
         plantedAt: now,
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Olive * 1000,
       },
     });
   });
@@ -1176,6 +1045,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Rice",
         plantedAt: now,
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Rice * 1000,
       },
     });
   });
@@ -1259,13 +1129,12 @@ describe("plantGreenhouse", () => {
       createdAt: now,
     });
 
-    expect(state.greenhouse.pots[1]).toEqual({
-      plant: {
-        name: "Rice",
-        plantedAt: expect.any(Number),
-        boostedTime: expect.any(Number),
-      },
-    });
+    // Scarecrow's speed half is permanent, so it is baked into the duration.
+    const plant = state.greenhouse.pots[1].plant;
+    expect(plant?.plantedAt).toEqual(now);
+    expect(plant?.baseDurationMs).toBeLessThan(
+      GREENHOUSE_CROP_TIME_SECONDS.Rice * 1000,
+    );
   });
 
   it("does not apply Castle bud crop yield boost", () => {
@@ -1319,6 +1188,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Rice",
         plantedAt: expect.any(Number),
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Rice * 1000,
       },
     });
   });
@@ -1370,6 +1240,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Grape",
         plantedAt: now,
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Grape * 1000,
       },
     });
   });
@@ -1417,13 +1288,21 @@ describe("plantGreenhouse", () => {
       createdAt: now,
     });
 
-    expect(state.greenhouse.pots[1]).toEqual({
-      plant: {
-        name: "Rice",
-        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.5 * 1000,
-        boostedTime: GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.5 * 1000,
-      },
+    const plant = state.greenhouse.pots[1].plant!;
+    const base = GREENHOUSE_CROP_TIME_SECONDS.Rice * 1000;
+
+    // Totems are windowed: nothing is baked into the stored duration…
+    expect(plant).toEqual({
+      name: "Rice",
+      plantedAt: now,
+      baseDurationMs: base,
     });
+    // …but the totem's 2× window brings readiness forward: it grows two
+    // window-lengths during the window, then the rest at 1×.
+    const window = EXPIRY_COOLDOWNS["Time Warp Totem"];
+    expect(getGreenhouseReadyAt(plant, state)).toEqual(
+      now + window + (base - 2 * window),
+    );
   });
 
   it("applies Super Totem speed boost", () => {
@@ -1469,13 +1348,17 @@ describe("plantGreenhouse", () => {
       createdAt: now,
     });
 
-    expect(state.greenhouse.pots[1]).toEqual({
-      plant: {
-        name: "Rice",
-        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.5 * 1000,
-        boostedTime: GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.5 * 1000,
-      },
+    const plant = state.greenhouse.pots[1].plant!;
+    const base = GREENHOUSE_CROP_TIME_SECONDS.Rice * 1000;
+
+    // Totems are windowed: nothing is baked into the stored duration…
+    expect(plant).toEqual({
+      name: "Rice",
+      plantedAt: now,
+      baseDurationMs: base,
     });
+    // …but the 2× window (longer than the whole grow) halves the time to ready.
+    expect(getGreenhouseReadyAt(plant, state)).toEqual(now + base / 2);
   });
 
   it("doesn't stack Super Totem and Time Warp totem", () => {
@@ -1529,13 +1412,17 @@ describe("plantGreenhouse", () => {
       createdAt: now,
     });
 
-    expect(state.greenhouse.pots[1]).toEqual({
-      plant: {
-        name: "Rice",
-        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.5 * 1000,
-        boostedTime: GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.5 * 1000,
-      },
+    const plant = state.greenhouse.pots[1].plant!;
+    const base = GREENHOUSE_CROP_TIME_SECONDS.Rice * 1000;
+
+    // Totems are windowed: nothing is baked into the stored duration…
+    expect(plant).toEqual({
+      name: "Rice",
+      plantedAt: now,
+      baseDurationMs: base,
     });
+    // …and the two totems' windows merge into one 2× (not 4×).
+    expect(getGreenhouseReadyAt(plant, state)).toEqual(now + base / 2);
   });
 
   it("applies Saphiro bud speed boost", () => {
@@ -1587,8 +1474,8 @@ describe("plantGreenhouse", () => {
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
         name: "Rice",
-        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.1 * 1000,
-        boostedTime: GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.1 * 1000,
+        plantedAt: now,
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.9 * 1000,
       },
     });
   });
@@ -1636,13 +1523,21 @@ describe("plantGreenhouse", () => {
       createdAt: now,
     });
 
-    expect(state.greenhouse.pots[1]).toEqual({
-      plant: {
-        name: "Grape",
-        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Grape * 0.5 * 1000,
-        boostedTime: GREENHOUSE_CROP_TIME_SECONDS.Grape * 0.5 * 1000,
-      },
+    const plant = state.greenhouse.pots[1].plant!;
+    const base = GREENHOUSE_CROP_TIME_SECONDS.Grape * 1000;
+
+    // Totems are windowed: nothing is baked into the stored duration…
+    expect(plant).toEqual({
+      name: "Grape",
+      plantedAt: now,
+      baseDurationMs: base,
     });
+    // …but the totem's 2× window brings readiness forward: it grows two
+    // window-lengths during the window, then the rest at 1×.
+    const window = EXPIRY_COOLDOWNS["Time Warp Totem"];
+    expect(getGreenhouseReadyAt(plant, state)).toEqual(
+      now + window + (base - 2 * window),
+    );
   });
 
   it("applies Super Totem normal fruit speed boosts", () => {
@@ -1688,13 +1583,17 @@ describe("plantGreenhouse", () => {
       createdAt: now,
     });
 
-    expect(state.greenhouse.pots[1]).toEqual({
-      plant: {
-        name: "Grape",
-        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Grape * 0.5 * 1000,
-        boostedTime: GREENHOUSE_CROP_TIME_SECONDS.Grape * 0.5 * 1000,
-      },
+    const plant = state.greenhouse.pots[1].plant!;
+    const base = GREENHOUSE_CROP_TIME_SECONDS.Grape * 1000;
+
+    // Totems are windowed: nothing is baked into the stored duration…
+    expect(plant).toEqual({
+      name: "Grape",
+      plantedAt: now,
+      baseDurationMs: base,
     });
+    // …but the 2× window (longer than the whole grow) halves the time to ready.
+    expect(getGreenhouseReadyAt(plant, state)).toEqual(now + base / 2);
   });
 
   it("boosts Olive growth speed by 10% with Olive Express skill", () => {
@@ -1739,8 +1638,8 @@ describe("plantGreenhouse", () => {
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
         name: "Olive",
-        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Olive * 0.1 * 1000,
-        boostedTime: GREENHOUSE_CROP_TIME_SECONDS.Olive * 0.1 * 1000,
+        plantedAt: now,
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Olive * 0.9 * 1000,
       },
     });
   });
@@ -1787,8 +1686,8 @@ describe("plantGreenhouse", () => {
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
         name: "Rice",
-        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.1 * 1000,
-        boostedTime: GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.1 * 1000,
+        plantedAt: now,
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.9 * 1000,
       },
     });
   });
@@ -1835,8 +1734,8 @@ describe("plantGreenhouse", () => {
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
         name: "Grape",
-        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Grape * 0.1 * 1000,
-        boostedTime: GREENHOUSE_CROP_TIME_SECONDS.Grape * 0.1 * 1000,
+        plantedAt: now,
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Grape * 0.9 * 1000,
       },
     });
   });
@@ -2061,6 +1960,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Rice",
         plantedAt: now,
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Rice * 1000,
       },
     });
   });
@@ -2114,6 +2014,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Rice",
         plantedAt: now,
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Rice * 1000,
       },
     });
   });
@@ -2167,6 +2068,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Grape",
         plantedAt: now,
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Grape * 1000,
       },
     });
   });
@@ -2220,6 +2122,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Rice",
         plantedAt: now,
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Rice * 1000,
       },
     });
   });
@@ -2273,6 +2176,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Rice",
         plantedAt: now,
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Rice * 1000,
       },
     });
   });
@@ -2326,6 +2230,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Grape",
         plantedAt: now,
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Grape * 1000,
       },
     });
   });
@@ -2373,6 +2278,7 @@ describe("plantGreenhouse", () => {
       plant: {
         name: "Rice",
         plantedAt: now,
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Rice * 1000,
       },
     });
   });
@@ -2408,16 +2314,12 @@ describe("plantGreenhouse ascension skill ranks", () => {
       },
     });
 
-  // Replicates the consumer's growth math exactly so the expected plantedAt is
-  // bit-identical (offset = cropTime - cropTime * multiplier).
-  const plantedAtWithMultiplier = (
+  // Replicates the consumer's growth math exactly so the expected
+  // baseDurationMs is bit-identical (cropTime * multiplier, in ms).
+  const baseDurationWithMultiplier = (
     crop: keyof typeof GREENHOUSE_CROP_TIME_SECONDS,
     mult: number,
-    now: number,
-  ) => {
-    const t = GREENHOUSE_CROP_TIME_SECONDS[crop];
-    return now - (t - t * mult) * 1000;
-  };
+  ) => GREENHOUSE_CROP_TIME_SECONDS[crop] * mult * 1000;
 
   // Rice and Shine — all greenhouse produce, x0.95/x0.94/x0.925 (rank 1 == now).
   it("scales Rice and Shine growth with rank (x0.95/x0.94/x0.925)", () => {
@@ -2432,8 +2334,8 @@ describe("plantGreenhouse ascension skill ranks", () => {
         skills: { "Rice and Shine": rank },
         now,
       });
-      expect(state.greenhouse.pots[1]?.plant?.plantedAt).toEqual(
-        plantedAtWithMultiplier("Rice", mult, now),
+      expect(state.greenhouse.pots[1]?.plant?.baseDurationMs).toEqual(
+        baseDurationWithMultiplier("Rice", mult),
       );
     });
   });
@@ -2451,8 +2353,8 @@ describe("plantGreenhouse ascension skill ranks", () => {
         skills: { "Olive Express": rank },
         now,
       });
-      expect(state.greenhouse.pots[1]?.plant?.plantedAt).toEqual(
-        plantedAtWithMultiplier("Olive", mult, now),
+      expect(state.greenhouse.pots[1]?.plant?.baseDurationMs).toEqual(
+        baseDurationWithMultiplier("Olive", mult),
       );
     });
   });
@@ -2470,8 +2372,8 @@ describe("plantGreenhouse ascension skill ranks", () => {
         skills: { "Rice Rocket": rank },
         now,
       });
-      expect(state.greenhouse.pots[1]?.plant?.plantedAt).toEqual(
-        plantedAtWithMultiplier("Rice", mult, now),
+      expect(state.greenhouse.pots[1]?.plant?.baseDurationMs).toEqual(
+        baseDurationWithMultiplier("Rice", mult),
       );
     });
   });
@@ -2489,8 +2391,8 @@ describe("plantGreenhouse ascension skill ranks", () => {
         skills: { "Vine Velocity": rank },
         now,
       });
-      expect(state.greenhouse.pots[1]?.plant?.plantedAt).toEqual(
-        plantedAtWithMultiplier("Grape", mult, now),
+      expect(state.greenhouse.pots[1]?.plant?.baseDurationMs).toEqual(
+        baseDurationWithMultiplier("Grape", mult),
       );
     });
   });
@@ -2558,14 +2460,7 @@ describe("plantGreenhouse ascension skill ranks", () => {
   });
 });
 
-describe("plantGreenhouse under SPEED_BOOSTS (windowed)", () => {
-  beforeAll(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
-  });
-  afterAll(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-  });
-
+describe("plantGreenhouse (windowed)", () => {
   const greenhouseState = (extra: Partial<GameState> = {}): GameState => ({
     ...farm,
     inventory: {
@@ -2695,12 +2590,12 @@ describe("Duende Hat", () => {
       },
     };
 
-    expect(
-      getGreenhouseCropTime({ crop: "Rice", game, now: Date.now() }).seconds,
-    ).toEqual(GREENHOUSE_CROP_TIME_SECONDS.Rice);
-    expect(
-      getGreenhouseCropTime({ crop: "Grape", game, now: Date.now() }).seconds,
-    ).toEqual(GREENHOUSE_CROP_TIME_SECONDS.Grape);
+    expect(getGreenhouseCropTime({ crop: "Rice", game }).seconds).toEqual(
+      GREENHOUSE_CROP_TIME_SECONDS.Rice,
+    );
+    expect(getGreenhouseCropTime({ crop: "Grape", game }).seconds).toEqual(
+      GREENHOUSE_CROP_TIME_SECONDS.Grape,
+    );
   });
 });
 
@@ -2717,7 +2612,6 @@ describe("Antique Dress", () => {
     const { seconds, boostsUsed } = getGreenhouseCropTime({
       crop: "Grape",
       game,
-      now: Date.now(),
     });
 
     expect(seconds).toEqual(GREENHOUSE_CROP_TIME_SECONDS.Grape * 0.7);
@@ -2725,8 +2619,8 @@ describe("Antique Dress", () => {
   });
 
   it("does not reduce other greenhouse crops", () => {
-    expect(
-      getGreenhouseCropTime({ crop: "Rice", game, now: Date.now() }).seconds,
-    ).toEqual(GREENHOUSE_CROP_TIME_SECONDS.Rice);
+    expect(getGreenhouseCropTime({ crop: "Rice", game }).seconds).toEqual(
+      GREENHOUSE_CROP_TIME_SECONDS.Rice,
+    );
   });
 });

@@ -14,7 +14,6 @@ import {
 } from "./mineCrimstone";
 import { KNOWN_IDS } from "features/game/types";
 import { prngChance } from "lib/prng";
-import { CONFIG } from "lib/config";
 import { getMineReadyAt } from "features/game/lib/resourceNodes";
 
 const GAME_STATE: GameState = {
@@ -41,18 +40,8 @@ const GAME_STATE: GameState = {
 const FARM_ID = 1;
 
 describe("mineCrimstone", () => {
-  // These tests assert the LEGACY back-dated recovery (the discount is baked into
-  // minedAt at mine time). FE jest runs on amoy where SPEED_BOOSTS is on, so
-  // force the flag off here; the windowed model is covered in its own describe.
-  const originalNetwork = CONFIG.NETWORK;
   beforeAll(() => {
     jest.useFakeTimers();
-  });
-  beforeEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-  });
-  afterEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
   });
 
   it("throws an error if no gold pickaxes are left", () => {
@@ -329,81 +318,34 @@ describe("mineCrimstone", () => {
   });
 
   describe("getMinedAt", () => {
-    it("crimstone replenishes faster with Crimstone Amulet", () => {
-      const now = Date.now();
-
-      const { time } = getMinedAt({
-        game: {
-          ...TEST_FARM,
-          bumpkin: {
-            ...INITIAL_BUMPKIN,
-            equipped: {
-              ...INITIAL_BUMPKIN.equipped,
-              necklace: "Crimstone Amulet",
-            },
-          },
-        },
-        createdAt: now,
-        prngArgs: {
-          farmId: FARM_ID,
-          itemId: KNOWN_IDS["Crimstone Rock"],
-          counter: 0,
-        },
-      });
-
-      expect(time).toEqual(now - CRIMSTONE_RECOVERY_TIME * 0.2 * 1000);
-    });
-    it("crimstone replenishes faster with Fireside Alchemist", () => {
-      const now = Date.now();
-
-      const { time } = getMinedAt({
-        game: {
-          ...GAME_STATE,
-          bumpkin: {
-            ...GAME_STATE.bumpkin,
-            skills: {
-              "Fireside Alchemist": 1,
-            },
-          },
-        },
-        createdAt: now,
-        prngArgs: {
-          farmId: FARM_ID,
-          itemId: KNOWN_IDS["Crimstone Rock"],
-          counter: 0,
-        },
-      });
-
-      expect(time).toEqual(now - CRIMSTONE_RECOVERY_TIME * 0.15 * 1000);
-    });
-
     it("crimstone replenishes faster with Fireside Alchemist, Crimstone Amulet and Mole Shrine", () => {
       const now = Date.now();
-
-      const { time } = getMinedAt({
-        game: {
-          ...GAME_STATE,
-          bumpkin: {
-            ...GAME_STATE.bumpkin,
-            skills: {
-              "Fireside Alchemist": 1,
-            },
-            equipped: {
-              ...GAME_STATE.bumpkin.equipped,
-              necklace: "Crimstone Amulet",
-            },
+      const game: GameState = {
+        ...GAME_STATE,
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: {
+            "Fireside Alchemist": 1,
           },
-          collectibles: {
-            "Mole Shrine": [
-              {
-                coordinates: { x: 0, y: 0 },
-                createdAt: now,
-                id: "12",
-                readyAt: now,
-              },
-            ],
+          equipped: {
+            ...GAME_STATE.bumpkin.equipped,
+            necklace: "Crimstone Amulet",
           },
         },
+        collectibles: {
+          "Mole Shrine": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: now,
+              id: "12",
+              readyAt: now,
+            },
+          ],
+        },
+      };
+
+      const { time, baseDurationMs } = getMinedAt({
+        game,
         createdAt: now,
         prngArgs: {
           farmId: FARM_ID,
@@ -412,16 +354,27 @@ describe("mineCrimstone", () => {
         },
       });
 
-      const expectedCooldownTime =
-        CRIMSTONE_RECOVERY_TIME - CRIMSTONE_RECOVERY_TIME * 0.8 * 0.85 * 0.75;
-
-      expect(time).toEqual(now - expectedCooldownTime * 1000);
+      // Permanent boosts fold into baseDurationMs; Mole Shrine is a window.
+      const expectedBaseMs = CRIMSTONE_RECOVERY_TIME * 1000 * 0.8 * 0.85;
+      expect(time).toEqual(now);
+      expect(baseDurationMs).toEqual(expectedBaseMs);
+      expect(
+        getMineReadyAt(
+          {
+            stone: { minedAt: time, baseDurationMs },
+            x: 1,
+            y: 1,
+          },
+          "Crimstone Rock",
+          game,
+        ),
+      ).toBeCloseTo(now + expectedBaseMs / 1.35, 0);
     });
 
     it("crimstone replenishes faster with Crimstone Clam", () => {
       const now = Date.now();
 
-      const { time } = getMinedAt({
+      const { time, baseDurationMs } = getMinedAt({
         game: {
           ...TEST_FARM,
           collectibles: {
@@ -443,7 +396,8 @@ describe("mineCrimstone", () => {
         },
       });
 
-      expect(time).toEqual(now - CRIMSTONE_RECOVERY_TIME * 0.1 * 1000);
+      expect(time).toEqual(now);
+      expect(baseDurationMs).toEqual(CRIMSTONE_RECOVERY_TIME * 1000 * 0.9);
     });
 
     it("instantly respawns with Crimstone Clam", () => {
@@ -470,7 +424,7 @@ describe("mineCrimstone", () => {
 
       const counter = getCounter();
 
-      const { time } = getMinedAt({
+      const { time, baseDurationMs } = getMinedAt({
         game: {
           ...TEST_FARM,
           collectibles: {
@@ -492,23 +446,16 @@ describe("mineCrimstone", () => {
         },
       });
 
-      expect(time).toEqual(now - CRIMSTONE_RECOVERY_TIME * 1000);
+      expect(time).toEqual(now);
+      expect(baseDurationMs).toEqual(0);
     });
   });
 });
 
-describe("mineCrimstone — SPEED_BOOSTS speed windows", () => {
+describe("mineCrimstone — speed windows", () => {
   const now = Date.now();
   const ONE_HOUR = 60 * 60 * 1000;
   const BASE_MS = CRIMSTONE_RECOVERY_TIME * 1000;
-  const originalNetwork = CONFIG.NETWORK;
-
-  beforeEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
-  });
-  afterEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-  });
 
   const baseState: GameState = {
     ...GAME_STATE,
@@ -695,32 +642,6 @@ describe("mineCrimstone — SPEED_BOOSTS speed windows", () => {
     };
     expect(getMineReadyAt(rock, "Crimstone Rock", INITIAL_FARM)).toEqual(
       now + BASE_MS,
-    );
-  });
-});
-
-describe("getMineReadyAt — baseDurationMs is a permanent per-rock marker (crimstone)", () => {
-  const now = Date.now();
-  const BASE_MS = CRIMSTONE_RECOVERY_TIME * 1000;
-  const originalNetwork = CONFIG.NETWORK;
-
-  beforeEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-  });
-  afterEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-  });
-
-  it("keeps using baseDurationMs with SPEED_BOOSTS off (no rollback to full base)", () => {
-    const rock: FiniteResource = {
-      stone: { minedAt: now, baseDurationMs: BASE_MS / 2 },
-      x: 1,
-      y: 1,
-      minesLeft: 5,
-    };
-
-    expect(getMineReadyAt(rock, "Crimstone Rock", INITIAL_FARM)).toEqual(
-      now + BASE_MS / 2,
     );
   });
 });

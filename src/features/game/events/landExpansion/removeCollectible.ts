@@ -120,7 +120,6 @@ export function removeCollectible({
       const expiresAt = getCollectibleExpiry({
         name: action.name as TemporaryCollectibleName,
         collectible,
-        game: stateCopy,
       });
 
       if (!cooldown || expiresAt > createdAt) {

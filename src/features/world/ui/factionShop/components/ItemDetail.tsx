@@ -336,7 +336,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                       {(item &&
                         getSpeedBoostDescription({
                           item: item.name as InventoryItemName,
-                          game: state,
                         })) ??
                         item?.shortDescription}
                     </span>

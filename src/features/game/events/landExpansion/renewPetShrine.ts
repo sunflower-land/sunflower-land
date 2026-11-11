@@ -52,7 +52,6 @@ export function renewPetShrine({
     const expiresAt = getCollectibleExpiry({
       name: action.name,
       collectible: collectibleToRenew,
-      game: stateCopy,
     });
 
     if (expiresAt > createdAt) {

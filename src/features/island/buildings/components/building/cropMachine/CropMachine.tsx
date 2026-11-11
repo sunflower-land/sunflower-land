@@ -58,7 +58,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
     gameService,
     _cropMachine(id),
   ) as CropMachineBuilding;
-  // On a windowed machine (SPEED_BOOSTS) the stored pack timings are caches
+  // On a windowed machine (speed-rate model) the stored pack timings are caches
   // refreshed only on events; the view substitutes the DERIVED timings so a
   // Tortoise Shrine placed or expiring mid-grow is reflected live.
   const { queue, windowed, windows } = useCropMachineView(cropMachine);

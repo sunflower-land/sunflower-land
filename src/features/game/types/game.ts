@@ -163,7 +163,7 @@ export type CraftingQueueItem = {
    * The craft's un-boosted duration with PERMANENT boosts (Sol & Luna, Architect
    * Ruler) already folded in. Present only on crafts queued under the speed-rate
    * model; its absence selects the legacy baked timing, so the read path keys off
-   * this marker, NOT the `SPEED_BOOSTS` flag — matching every other activity.
+   * this marker — matching every other activity.
    *
    * Zero means a Fox Shrine instant proc: no work to do, so it is ready at its own
    * anchor and never occupies the box.
@@ -869,11 +869,10 @@ export type PlantedFruit = {
   /**
    * Unboosted-by-windowed-collectibles grow/replenish duration (ms), with all
    * permanent (discount-at-start) boosts already folded in. Present only on
-   * fruit planted/harvested under the speed-rate model; its presence — NOT the
-   * `SPEED_BOOSTS` flag — selects `computeReadyAt` (over the legacy back-dated
-   * `plantedAt`/`harvestedAt` readiness check), so a fruit planted while the flag
-   * was on keeps windowed timing on rollback and retains its baked permanent
-   * boosts. Applies to whichever phase is active (`harvestedAt || plantedAt`).
+   * fruit planted/harvested under the speed-rate model; its presence selects
+   * `computeReadyAt` (over the legacy back-dated `plantedAt`/`harvestedAt`
+   * readiness check), so legacy-shaped fruit still use the old timing. Applies
+   * to whichever phase is active (`harvestedAt || plantedAt`).
    */
   baseDurationMs?: number;
 };
@@ -986,10 +985,9 @@ export type GreenhousePlant = {
   /**
    * Unboosted-by-windowed-collectibles grow duration (ms), with all permanent
    * (discount-at-start) boosts already folded in. Present only on plants sown
-   * under the speed-rate model; its presence — NOT the `SPEED_BOOSTS` flag —
-   * selects `computeReadyAt` (over the legacy back-dated `plantedAt` readiness
-   * check), so a plant sown while the flag was on keeps windowed timing on
-   * rollback and retains its baked permanent boosts.
+   * under the speed-rate model; its presence selects `computeReadyAt` (over the
+   * legacy back-dated `plantedAt` readiness check), so legacy-shaped plants
+   * still use the old timing.
    */
   baseDurationMs?: number;
 };
@@ -1031,8 +1029,8 @@ export type BuildingProduct = {
    * The recipe's un-boosted cook time with PERMANENT boosts (wearables, Desert
    * Gnome, Fast Feasts/Frosted Cakes, building oil) already folded in. Present only
    * on recipes queued under the speed-rate model; its absence selects the legacy
-   * baked timing, so the read path keys off this marker, NOT the `SPEED_BOOSTS`
-   * flag — matching every other activity.
+   * baked timing, so the read path keys off this marker — matching every other
+   * activity.
    */
   baseDurationMs?: number;
   /**
@@ -1149,12 +1147,12 @@ export type CropMachineQueueItem = {
   pausedTimeRemaining?: number;
   /**
    * Remaining WORK (permanent-boosted ms, temporary boosts excluded) as of the
-   * machine's `oilSettledAt`. Presence = this pack is windowed (SPEED_BOOSTS):
+   * machine's `oilSettledAt`. Presence = this pack is windowed (speed-rate model):
    * its timing derives from `resolveCropMachine` and the stored
    * `startTime`/`growsUntil`/`readyAt`/`growTimeRemaining` become refreshed
    * caches. Deleted when the pack completes, at which point `readyAt` becomes
-   * immutable history. Permanent per-pack marker — read paths key off it, NOT
-   * the flag, so a windowed pack keeps windowed timing on a flag rollback.
+   * immutable history. Permanent per-pack marker — read paths key off it, so a
+   * legacy-shaped pack (unset) still uses the old timing.
    */
   baseDurationMs?: number;
 };
@@ -1163,7 +1161,7 @@ export type CropMachineBuilding = PlacedItem & {
   queue?: CropMachineQueueItem[];
   unallocatedOilTime?: number;
   /**
-   * Presence = this MACHINE is windowed (SPEED_BOOSTS). The tank is
+   * Presence = this MACHINE is windowed (speed-rate model). The tank is
    * machine-wide, so the fuel ledger's discriminator is too: when set,
    * `unallocatedOilTime` means the WHOLE tank — wall-clock ms of unburned fuel,
    * with no per-pack earmarks — as of this instant, and every windowed pack's
@@ -2091,10 +2089,9 @@ export type PlantedFlower = {
   /**
    * Unboosted-by-windowed-collectibles grow duration (ms), with all permanent
    * (discount-at-start) boosts already folded in. Present only on flowers planted
-   * under the speed-rate model; its presence — NOT the `SPEED_BOOSTS` flag —
-   * selects `computeReadyAt` (over the legacy back-dated `plantedAt` readiness
-   * check), so a flower planted while the flag was on keeps windowed timing on
-   * rollback and retains its baked permanent boosts.
+   * under the speed-rate model; its presence selects `computeReadyAt` (over the
+   * legacy back-dated `plantedAt` readiness check), so legacy-shaped flowers
+   * still use the old timing.
    */
   baseDurationMs?: number;
 };

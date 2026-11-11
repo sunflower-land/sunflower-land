@@ -11,7 +11,6 @@ import {
   type MineSunstoneAction,
   mineSunstone,
 } from "./mineSunstone";
-import { CONFIG } from "lib/config";
 import { getMineReadyAt } from "features/game/lib/resourceNodes";
 
 const GAME_STATE: GameState = {
@@ -201,17 +200,9 @@ describe("mineSunstone", () => {
   });
 });
 
-describe("mineSunstone — SPEED_BOOSTS speed windows", () => {
+describe("mineSunstone — speed windows", () => {
   const now = Date.now();
   const BASE_MS = SUNSTONE_RECOVERY_TIME * 1000;
-  const originalNetwork = CONFIG.NETWORK;
-
-  beforeEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
-  });
-  afterEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-  });
 
   it("stores the real mine time + base recovery (no back-dating), no boosts", () => {
     const game = mineSunstone({
@@ -301,16 +292,8 @@ describe("mineSunstone — SPEED_BOOSTS speed windows", () => {
 describe("getMineReadyAt — baseDurationMs is a permanent per-rock marker (sunstone)", () => {
   const now = Date.now();
   const BASE_MS = SUNSTONE_RECOVERY_TIME * 1000;
-  const originalNetwork = CONFIG.NETWORK;
 
-  beforeEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-  });
-  afterEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-  });
-
-  it("keeps using baseDurationMs with SPEED_BOOSTS off (no rollback to full base)", () => {
+  it("reads the stored baseDurationMs, not the base recovery", () => {
     const rock: FiniteResource = {
       stone: { minedAt: now, baseDurationMs: BASE_MS / 2 },
       x: 1,

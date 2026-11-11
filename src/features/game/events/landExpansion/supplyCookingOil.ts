@@ -76,18 +76,15 @@ export function supplyCookingOil({
 
     // Settle the tank to its live level before topping it up, so the new oil only
     // flows from now — and speeds up whatever is already cooking.
-    const oilByTheClock =
-      settleCookingOil({
-        game: stateCopy,
-        building,
-        buildingName: action.building,
-        at: createdAt,
-        convert: true,
-      }) !== undefined;
+    settleCookingOil({
+      game: stateCopy,
+      building,
+      buildingName: action.building,
+      at: createdAt,
+      convert: true,
+    });
 
-    const oilCapacity = oilByTheClock
-      ? COOKING_OIL_CAPACITY[action.building]
-      : BUILDING_DAILY_OIL_CAPACITY[action.building];
+    const oilCapacity = COOKING_OIL_CAPACITY[action.building];
     const oilInBuilding = building.oil || 0;
 
     if (oilInBuilding + action.oilQuantity > oilCapacity) {
@@ -98,13 +95,11 @@ export function supplyCookingOil({
 
     building.oil = oilInBuilding + action.oilQuantity;
 
-    if (oilByTheClock) {
-      refreshCookingQueue({
-        building,
-        buildingName: action.building,
-        windows: getCookingBoostWindows(stateCopy),
-      });
-    }
+    refreshCookingQueue({
+      building,
+      buildingName: action.building,
+      windows: getCookingBoostWindows(stateCopy),
+    });
 
     return stateCopy;
   });

@@ -12,13 +12,10 @@ import {
   resolveCookingQueueTimings,
   type CookingTiming,
 } from "features/game/lib/cookingReadiness";
-import { BUILDING_DAILY_OIL_CAPACITY } from "features/game/events/landExpansion/supplyCookingOil";
 import {
-  BUILDING_DAILY_OIL_CONSUMPTION,
   getRecipeOilBoost,
   getRecipeOilRate,
 } from "features/game/events/landExpansion/cook";
-import { hasFeatureAccess } from "lib/flags";
 
 /**
  * What a cooking building's oil tank shows at `at`.
@@ -29,12 +26,10 @@ import { hasFeatureAccess } from "lib/flags";
  *   queued dish has committed shows the moment it is queued. Equal to `level` on a
  *   building that deducts per recipe, which has already paid.
  * - `capacity`: the most oil the tank holds.
- * - `ratePerDay`: oil burned per day of recipe time, whether the building burns it
- *   as it cooks (clock drain) or deducts it per recipe.
+ * - `ratePerDay`: oil burned per day of recipe time.
  *
- * A building converts to clock drain the next time it cooks or is filled once
- * SPEED_BOOSTS is on, so with the flag on an unconverted tank already shows the
- * clock-drain level it is about to be held to.
+ * A building converts to clock drain the next time it cooks or is filled, so an
+ * unconverted tank already shows the clock-drain level it is about to be held to.
  */
 export const getCookingOilTank = ({
   game,
@@ -48,8 +43,6 @@ export const getCookingOilTank = ({
   at: number;
 }) => {
   const oil = building && getCookingOil({ building, buildingName });
-  const byTheClock =
-    oil !== undefined || hasFeatureAccess(game, "SPEED_BOOSTS");
   const levelAt = (when: number) =>
     oil
       ? getCookingOilAt({
@@ -61,15 +54,10 @@ export const getCookingOilTank = ({
       : (building?.oil ?? 0);
 
   return {
-    byTheClock,
     level: levelAt(at),
     afterQueue: levelAt(Infinity),
-    capacity: byTheClock
-      ? COOKING_OIL_CAPACITY[buildingName]
-      : BUILDING_DAILY_OIL_CAPACITY[buildingName],
-    ratePerDay: byTheClock
-      ? COOKING_OIL_RATE[buildingName]
-      : BUILDING_DAILY_OIL_CONSUMPTION[buildingName],
+    capacity: COOKING_OIL_CAPACITY[buildingName],
+    ratePerDay: COOKING_OIL_RATE[buildingName],
   };
 };
 
@@ -78,8 +66,7 @@ export const getCookingOilTank = ({
  * what `cook` does: its oil speed window and the rate it burns oil at. The tank is
  * burned in queue order, so the recipe gets whatever the queue ahead of it leaves.
  *
- * Undefined while the building still deducts oil per recipe (the oil is baked
- * into the preview duration instead), or when no oil would reach the recipe.
+ * Undefined when no oil would reach the recipe.
  */
 export const getPreviewOilTiming = ({
   game,
@@ -98,13 +85,12 @@ export const getPreviewOilTiming = ({
 }): CookingTiming | undefined => {
   if (!building || baseDurationMs <= 0) return undefined;
 
-  const { byTheClock, ratePerDay } = getCookingOilTank({
+  const { ratePerDay } = getCookingOilTank({
     game,
     building,
     buildingName,
     at: now,
   });
-  if (!byTheClock) return undefined;
 
   // An unconverted building converts when this recipe is cooked, starting its
   // ledger now.

@@ -4,8 +4,8 @@ import { GOLD_RECOVERY_TIME, INITIAL_FARM } from "features/game/lib/constants";
 import { KNOWN_IDS } from "features/game/types";
 import type { GameState, Rock } from "features/game/types/game";
 import { prngChance } from "lib/prng";
-import { CONFIG } from "lib/config";
 import { getMineReadyAt } from "features/game/lib/resourceNodes";
+import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import {
   mineGold,
   type LandExpansionGoldMineAction,
@@ -38,18 +38,6 @@ const GAME_STATE: GameState = {
 };
 
 describe("mineGold", () => {
-  // These tests assert the LEGACY back-dated recovery (the discount is baked into
-  // minedAt/boostedTime at mine time). FE jest runs on amoy where SPEED_BOOSTS is
-  // on, so force the flag off here; the windowed model is covered in its own
-  // describe.
-  const originalNetwork = CONFIG.NETWORK;
-  beforeEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-  });
-  afterEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-  });
-
   const itemId = KNOWN_IDS["Gold Rock"];
 
   // Helper to find a counter that doesn't trigger Native
@@ -1025,42 +1013,6 @@ describe("mineGold", () => {
     expect(game.inventory.Gold).toEqual(new Decimal(1.2));
   });
 
-  it("stores the boostedTime on the gold", () => {
-    const counter = findNonCriticalCounter();
-    const testNow = Date.now();
-
-    const state = mineGold({
-      farmId,
-      state: {
-        ...GAME_STATE,
-        bumpkin: TEST_BUMPKIN,
-        inventory: {
-          "Iron Pickaxe": new Decimal(1),
-        },
-        collectibles: {
-          "Time Warp Totem": [
-            {
-              id: "123",
-              createdAt: testNow,
-              coordinates: { x: 1, y: 1 },
-              readyAt: testNow - 5 * 60 * 1000,
-            },
-          ],
-        },
-        farmActivity: { "Gold Rock Mined": counter },
-      },
-      action: {
-        type: "goldRock.mined",
-        index: "0",
-      } as LandExpansionGoldMineAction,
-      createdAt: testNow,
-    });
-
-    expect(state.gold[0].stone.boostedTime).toEqual(
-      GOLD_RECOVERY_TIME * 0.5 * 1000,
-    );
-  });
-
   describe("BumpkinActivity", () => {
     it("increments Gold mined activity by 1", () => {
       const counter = findNonCriticalCounter();
@@ -1149,126 +1101,117 @@ describe("mineGold", () => {
 
   it("gold replenishes faster with time warp", () => {
     const now = Date.now();
-
-    const { time } = getMinedAt({
-      prngArgs: {
-        farmId: 1,
-        itemId: KNOWN_IDS["Gold Rock"],
-        counter: 0,
+    const game: GameState = {
+      ...INITIAL_FARM,
+      collectibles: {
+        "Time Warp Totem": [
+          {
+            id: "123",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now,
+          },
+        ],
       },
-      game: {
-        ...INITIAL_FARM,
-        collectibles: {
-          "Time Warp Totem": [
-            {
-              id: "123",
-              createdAt: now,
-              coordinates: { x: 1, y: 1 },
-              readyAt: now - 5 * 60 * 1000,
-            },
-          ],
+    };
+    const { time, baseDurationMs } = getMinedAt({ game, createdAt: now });
+
+    // The totem is a 2× window, not folded into baseDurationMs; any recovery
+    // left after the window accrues at 1×.
+    const BASE_MS = GOLD_RECOVERY_TIME * 1000;
+    const windowMs = EXPIRY_COOLDOWNS["Time Warp Totem"];
+    const workInWindow = Math.min(BASE_MS, windowMs * 2);
+    expect(time).toEqual(now);
+    expect(baseDurationMs).toEqual(BASE_MS);
+    expect(
+      getMineReadyAt(
+        {
+          stone: { minedAt: time, baseDurationMs },
+          x: 1,
+          y: 1,
         },
-      },
-      createdAt: now,
-    });
-
-    expect(time).toEqual(now - (GOLD_RECOVERY_TIME * 1000) / 2);
+        "Gold Rock",
+        game,
+      ),
+    ).toBeCloseTo(now + workInWindow / 2 + (BASE_MS - workInWindow), 0);
   });
 
   it("gold replenishes faster with Super Totem", () => {
     const now = Date.now();
-
-    const { time } = getMinedAt({
-      prngArgs: {
-        farmId: 1,
-        itemId: KNOWN_IDS["Gold Rock"],
-        counter: 0,
+    const game: GameState = {
+      ...INITIAL_FARM,
+      collectibles: {
+        "Super Totem": [
+          {
+            id: "123",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now,
+          },
+        ],
       },
-      game: {
-        ...INITIAL_FARM,
-        collectibles: {
-          "Super Totem": [
-            {
-              id: "123",
-              createdAt: now,
-              coordinates: { x: 1, y: 1 },
-              readyAt: now - 5 * 60 * 1000,
-            },
-          ],
+    };
+    const { time, baseDurationMs } = getMinedAt({ game, createdAt: now });
+
+    // The totem is a 2× window, not folded into baseDurationMs.
+    const BASE_MS = GOLD_RECOVERY_TIME * 1000;
+    const windowMs = EXPIRY_COOLDOWNS["Super Totem"];
+    const workInWindow = Math.min(BASE_MS, windowMs * 2);
+    expect(time).toEqual(now);
+    expect(baseDurationMs).toEqual(BASE_MS);
+    expect(
+      getMineReadyAt(
+        {
+          stone: { minedAt: time, baseDurationMs },
+          x: 1,
+          y: 1,
         },
-      },
-      createdAt: now,
-    });
-
-    expect(time).toEqual(now - (GOLD_RECOVERY_TIME * 1000) / 2);
-  });
-
-  it("doesn't stack Super Totem and Time Warp Totem", () => {
-    const now = Date.now();
-
-    const { time } = getMinedAt({
-      prngArgs: {
-        farmId: 1,
-        itemId: KNOWN_IDS["Gold Rock"],
-        counter: 0,
-      },
-      game: {
-        ...INITIAL_FARM,
-        collectibles: {
-          "Time Warp Totem": [
-            {
-              id: "123",
-              createdAt: now,
-              coordinates: { x: 1, y: 1 },
-              readyAt: now - 5 * 60 * 1000,
-            },
-          ],
-          "Super Totem": [
-            {
-              id: "123",
-              createdAt: now,
-              coordinates: { x: 1, y: 1 },
-              readyAt: now - 5 * 60 * 1000,
-            },
-          ],
-        },
-      },
-      createdAt: now,
-    });
-
-    expect(time).toEqual(now - (GOLD_RECOVERY_TIME * 1000) / 2);
+        "Gold Rock",
+        game,
+      ),
+    ).toBeCloseTo(now + workInWindow / 2 + (BASE_MS - workInWindow), 0);
   });
 
   it("applies a Ore Hourglass boost of -50% recovery time for 3 hours", () => {
     const now = Date.now();
-    const { time } = getMinedAt({
-      prngArgs: {
-        farmId: 1,
-        itemId: KNOWN_IDS["Gold Rock"],
-        counter: 0,
+    const game: GameState = {
+      ...INITIAL_FARM,
+      collectibles: {
+        "Ore Hourglass": [
+          {
+            id: "123",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now,
+          },
+        ],
       },
-      game: {
-        ...INITIAL_FARM,
-        collectibles: {
-          "Ore Hourglass": [
-            {
-              id: "123",
-              createdAt: now,
-              coordinates: { x: 1, y: 1 },
-              readyAt: now,
-            },
-          ],
-        },
-      },
-      createdAt: now,
-    });
+    };
+    const { time, baseDurationMs } = getMinedAt({ game, createdAt: now });
 
-    expect(time).toEqual(now - (GOLD_RECOVERY_TIME * 1000) / 2);
+    // A 2× window, not folded into baseDurationMs; any recovery left after the
+    // window accrues at 1×.
+    const BASE_MS = GOLD_RECOVERY_TIME * 1000;
+    const windowMs = EXPIRY_COOLDOWNS["Ore Hourglass"];
+    const workInWindow = Math.min(BASE_MS, windowMs * 2);
+    expect(time).toEqual(now);
+    expect(baseDurationMs).toEqual(BASE_MS);
+    expect(
+      getMineReadyAt(
+        {
+          stone: { minedAt: time, baseDurationMs },
+          x: 1,
+          y: 1,
+        },
+        "Gold Rock",
+        game,
+      ),
+    ).toBeCloseTo(now + workInWindow / 2 + (BASE_MS - workInWindow), 0);
   });
 
   it("applies a boost of -10% recovery time when Midas Sprint skill is active", () => {
     const now = Date.now();
-    const { time } = getMinedAt({
+    const { time, baseDurationMs } = getMinedAt({
       prngArgs: {
         farmId: 1,
         itemId: KNOWN_IDS["Gold Rock"],
@@ -1284,12 +1227,13 @@ describe("mineGold", () => {
       createdAt: now,
     });
 
-    expect(time).toEqual(now - GOLD_RECOVERY_TIME * 1000 * 0.1);
+    expect(time).toEqual(now);
+    expect(baseDurationMs).toEqual(GOLD_RECOVERY_TIME * 1000 * 0.9);
   });
 
   const goldRecoveryReductionWithSkills = (skills: Record<string, number>) => {
     const now = Date.now();
-    const { time } = getMinedAt({
+    const { time, baseDurationMs } = getMinedAt({
       prngArgs: { farmId: 1, itemId: KNOWN_IDS["Gold Rock"], counter: 0 },
       game: {
         ...INITIAL_FARM,
@@ -1297,8 +1241,9 @@ describe("mineGold", () => {
       },
       createdAt: now,
     });
-    // Return the elapsed reduction as a fraction of the base recovery time.
-    return (now - time) / (GOLD_RECOVERY_TIME * 1000);
+    expect(time).toEqual(now);
+    // Return the baked reduction as a fraction of the base recovery time.
+    return 1 - (baseDurationMs ?? 0) / (GOLD_RECOVERY_TIME * 1000);
   };
 
   it("applies -12.5% recovery time with Midas Sprint at rank 2", () => {
@@ -1340,7 +1285,7 @@ describe("mineGold", () => {
 
   it("applies a boost of -15% recovery time when Pickaxe Shark is equipped", () => {
     const now = Date.now();
-    const { time } = getMinedAt({
+    const { time, baseDurationMs } = getMinedAt({
       prngArgs: {
         farmId: 1,
         itemId: KNOWN_IDS["Gold Rock"],
@@ -1359,7 +1304,8 @@ describe("mineGold", () => {
       createdAt: now,
     });
 
-    expect(time).toEqual(now - GOLD_RECOVERY_TIME * 1000 * 0.15);
+    expect(time).toEqual(now);
+    expect(baseDurationMs).toEqual(GOLD_RECOVERY_TIME * 1000 * 0.85);
   });
 
   it("has a 10% chance to instant regrow when Pickaxe Shark is equipped", () => {
@@ -1382,7 +1328,7 @@ describe("mineGold", () => {
       }
     }
     const now = Date.now();
-    const { time } = getMinedAt({
+    const { time, baseDurationMs } = getMinedAt({
       prngArgs: {
         farmId: 1,
         itemId: KNOWN_IDS["Gold Rock"],
@@ -1401,7 +1347,8 @@ describe("mineGold", () => {
       createdAt: now,
     });
 
-    expect(time).toEqual(now - GOLD_RECOVERY_TIME * 1000);
+    expect(time).toEqual(now);
+    expect(baseDurationMs).toEqual(0);
   });
 
   it("does not apply an Ore Hourglass boost if expired", () => {
@@ -1573,9 +1520,8 @@ describe("mineGold", () => {
       });
 
       // Pickaxe Shark should have triggered (instant regrowth)
-      expect(result.gold[0].stone.minedAt).toEqual(
-        now - GOLD_RECOVERY_TIME * 1000,
-      );
+      expect(result.gold[0].stone.minedAt).toEqual(now);
+      expect(result.gold[0].stone.baseDurationMs).toEqual(0);
 
       // Counter should STILL increment
       expect(result.farmActivity["Gold Rock Mined"]).toEqual(
@@ -1744,18 +1690,9 @@ describe("mineGold", () => {
   });
 });
 
-describe("mineGold — SPEED_BOOSTS speed windows", () => {
+describe("mineGold — speed windows", () => {
   const ONE_HOUR = 60 * 60 * 1000;
   const BASE_MS = GOLD_RECOVERY_TIME * 1000;
-  const originalNetwork = CONFIG.NETWORK;
-
-  beforeEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
-  });
-  afterEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-  });
-
   const mineFirstGold = (state: GameState) =>
     mineGold({
       state: {
@@ -1948,30 +1885,6 @@ describe("mineGold — SPEED_BOOSTS speed windows", () => {
     const rock: Rock = { stone: { minedAt: now }, x: 1, y: 1 };
     expect(getMineReadyAt(rock, "Gold Rock", INITIAL_FARM)).toEqual(
       now + BASE_MS,
-    );
-  });
-});
-
-describe("getMineReadyAt — baseDurationMs is a permanent per-rock marker (gold)", () => {
-  const BASE_MS = GOLD_RECOVERY_TIME * 1000;
-  const originalNetwork = CONFIG.NETWORK;
-
-  beforeEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-  });
-  afterEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-  });
-
-  it("keeps using baseDurationMs with SPEED_BOOSTS off (no rollback to full base)", () => {
-    const rock: Rock = {
-      stone: { minedAt: now, baseDurationMs: BASE_MS / 2 },
-      x: 1,
-      y: 1,
-    };
-
-    expect(getMineReadyAt(rock, "Gold Rock", INITIAL_FARM)).toEqual(
-      now + BASE_MS / 2,
     );
   });
 });

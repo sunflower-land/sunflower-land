@@ -13,7 +13,7 @@ import { getNextLoveAvailableAt, isAnimalNeedingLove } from "./loveAnimal";
 import { placeBuilding } from "./placeBuilding";
 import { RECIPES } from "features/game/lib/crafting";
 import { getCookingQueueReadyAts } from "features/game/lib/cookingReadiness";
-import { getExpiryCooldown } from "features/game/lib/collectibleBuilt";
+import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -536,7 +536,7 @@ describe("Place building", () => {
         ...GAME_STATE,
         inventory: { "Fire Pit": new Decimal(1) },
       };
-      const cooldown = getExpiryCooldown("Gourmet Hourglass", base);
+      const cooldown = EXPIRY_COOLDOWNS["Gourmet Hourglass"];
 
       const state = place({
         ...base,
@@ -1382,7 +1382,6 @@ describe("Place building", () => {
     expect(state.henHouse.animals["456"].asleepAt).toEqual(dateNow - 180000);
     expect(state.henHouse.animals["789"].asleepAt).toEqual(dateNow - 180000);
   });
-  // FE + BE jest run amoy, so SPEED_BOOSTS is ON by default here.
   it("shifts a windowed animal's sleep across a lift without losing duration", () => {
     const SLEEP = 24 * 60 * 60 * 1000;
     const state = placeBuilding({
@@ -1538,8 +1537,7 @@ describe("Place building", () => {
       "Bantam Shrine": [
         {
           id: "b",
-          createdAt:
-            asleepAt + 12 * HOUR - getExpiryCooldown("Bantam Shrine", base),
+          createdAt: asleepAt + 12 * HOUR - EXPIRY_COOLDOWNS["Bantam Shrine"],
           readyAt: 0,
           coordinates: { x: 5, y: 5 },
         },

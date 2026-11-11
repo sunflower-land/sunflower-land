@@ -348,11 +348,11 @@ export const SeasonalSeeds: React.FC = () => {
     boostsUsed: { name: BoostName; value: string }[];
   } => {
     if (selectedName in FLOWER_SEEDS) {
-      return getFlowerTime(selectedName as FlowerSeedName, state, now);
+      return getFlowerTime(selectedName as FlowerSeedName, state);
     }
 
     if (yields && yields in PATCH_FRUIT)
-      return getFruitPatchTime(selectedName as PatchFruitSeedName, state, now);
+      return getFruitPatchTime(selectedName as PatchFruitSeedName, state);
 
     if (
       selectedName in GREENHOUSE_SEEDS ||
@@ -362,7 +362,6 @@ export const SeasonalSeeds: React.FC = () => {
       return getGreenhouseCropTime({
         crop: plant,
         game: state,
-        now,
       });
     }
 

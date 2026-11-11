@@ -163,11 +163,6 @@ const FEATURE_FLAGS = {
   MODERATOR: (game) =>
     !!((game.wardrobe.Halo ?? 0) > 0) && !!game.inventory["Beta Pass"]?.gt(0),
 
-  // Speed-rate (Clash-of-Clans potion) model for time-based boosts — starting
-  // with the Sparrow Shrine on crops. When on, planting stores the new
-  // baseDurationMs + true plantedAt model; when off, boosts stay discount-at-start.
-  SPEED_BOOSTS: betaFeatureFlag,
-
   // Admin testers (Gift Giver + Beta Pass, or testnet) can buy, grow, cook and
   // trade the Chapter Crop Week items before CHAPTER_CROP_WEEK.startDate so the
   // run can be tested on mainnet. Everyone else waits for the event window —

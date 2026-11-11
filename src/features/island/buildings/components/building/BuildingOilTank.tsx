@@ -83,7 +83,7 @@ export const BuildingOilTank: React.FC<OilTankProps> = ({
     const hoursPerDay = 24;
     // A clock-drain tank burns per day of recipe time, which the oil itself cooks
     // through 1 / (1 - boost) faster than real time.
-    const realTimeShare = tank.byTheClock ? 1 - oilBoost : 1;
+    const realTimeShare = 1 - oilBoost;
     const oilTimeInHours =
       (oil / dailyOilConsumption) * hoursPerDay * realTimeShare;
 
@@ -151,7 +151,6 @@ export const BuildingOilTank: React.FC<OilTankProps> = ({
 
   const oilInTank = calculatePercentageFull(buildingName);
   const runtime = calculateOilTimeRemaining();
-  const boostPercentage = oilBoost * 100;
 
   useUiRefresher();
 
@@ -196,20 +195,12 @@ export const BuildingOilTank: React.FC<OilTankProps> = ({
                       {/* A clock-drain tank only burns while something cooks, so
                           a runtime would sit still whenever the building is idle:
                           show the oil itself, the unit a recipe's cost is in. */}
-                      {tank?.byTheClock
-                        ? t("cooking.building.oil.level", {
-                            oil: formatOil(oilRemainingInBuilding),
-                            capacity: formatOil(oilCapacity),
-                          })
-                        : t("cooking.building.runtime", {
-                            time: secondsToString(runtime, {
-                              length: "medium",
-                              isShortFormat: true,
-                              removeTrailingZeros: true,
-                            }),
-                          })}
+                      {t("cooking.building.oil.level", {
+                        oil: formatOil(oilRemainingInBuilding),
+                        capacity: formatOil(oilCapacity),
+                      })}
                     </div>
-                    {tank?.byTheClock &&
+                    {tank &&
                       tank.afterQueue < oilRemainingInBuilding - 0.005 && (
                         <div className="text-xxs">
                           {t("cooking.building.oil.afterQueue", {
@@ -260,15 +251,10 @@ export const BuildingOilTank: React.FC<OilTankProps> = ({
                 />
               </div>
               <span className="px-2 text-xs pb-1">
-                {tank?.byTheClock
-                  ? t("cooking.building.oil.description.work", {
-                      speed: Number((1 / (1 - oilBoost)).toFixed(2)).toString(),
-                      buildingName: buildingName,
-                    })
-                  : t("cooking.building.oil.description", {
-                      boost: boostPercentage,
-                      buildingName: buildingName,
-                    })}
+                {t("cooking.building.oil.description.work", {
+                  speed: Number((1 / (1 - oilBoost)).toFixed(2)).toString(),
+                  buildingName: buildingName,
+                })}
               </span>
               <div className="flex justify-between items-center">
                 <Label

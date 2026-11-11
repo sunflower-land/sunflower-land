@@ -640,7 +640,6 @@ describe("getNextLoveAvailableAt", () => {
     ).toBeGreaterThanOrEqual(awakeAt);
   });
 });
-// FE + BE jest run amoy, so SPEED_BOOSTS is ON by default here.
 describe("love cadence under a windowed sleep", () => {
   const SLEEP = 24 * 60 * 60 * 1000;
   const now = Date.now();

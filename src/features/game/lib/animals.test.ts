@@ -592,8 +592,7 @@ describe("Animals skill ranks", () => {
   });
 });
 
-// FE + BE jest run amoy, so SPEED_BOOSTS is ON by default here.
-describe("SPEED_BOOSTS (windowed animal sleep)", () => {
+describe("windowed animal sleep", () => {
   const HOUR = 60 * 60 * 1000;
   const now = Date.now();
 

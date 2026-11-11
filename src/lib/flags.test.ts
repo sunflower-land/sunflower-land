@@ -41,10 +41,8 @@ describe("hasFeatureAccess", () => {
   // invoke feature-gated code with `{} as GameState` (no inventory). On mainnet
   // the beta flag must read inventory safely and return false, not crash.
   it("does not throw for a beta feature when the game has no inventory", () => {
-    expect(() =>
-      hasFeatureAccess({} as GameState, "SPEED_BOOSTS"),
-    ).not.toThrow();
-    expect(hasFeatureAccess({} as GameState, "SPEED_BOOSTS")).toBe(false);
+    expect(() => hasFeatureAccess({} as GameState, "JEST_TEST")).not.toThrow();
+    expect(hasFeatureAccess({} as GameState, "JEST_TEST")).toBe(false);
   });
 });
 

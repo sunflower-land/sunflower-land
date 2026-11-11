@@ -13,13 +13,9 @@ import type {
 } from "features/game/types/game";
 import { produce } from "immer";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
-import {
-  isTemporaryCollectibleActive,
-  isCollectibleBuilt,
-} from "features/game/lib/collectibleBuilt";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
-import { hasFeatureAccess } from "lib/flags";
 import {
   getCropMachineBoostWindows,
   type BoostWindow,
@@ -120,13 +116,6 @@ export function calculateCropTime(
     amount: number;
   },
   state: GameState,
-  now: number,
-  // Under SPEED_BOOSTS the Tortoise Shrine is a live window credited over the
-  // pack's whole grow (see cropMachineReadiness.ts), so it must not ALSO be
-  // baked into the duration here — only the permanent boosts are. It is
-  // likewise excluded from boostUsed: a windowed boost isn't "consumed" at
-  // supply time, and the boost panel lists it via boostContributions instead.
-  { windowed = false }: { windowed?: boolean } = {},
 ): { milliSeconds: number; boostUsed: { name: BoostName; value: string }[] } {
   const boostUsed: { name: BoostName; value: string }[] = [];
   // Derive the crop from the seed definition rather than the seed's first word
@@ -158,14 +147,11 @@ export function calculateCropTime(
     boostUsed.push({ name: "Groovy Gramophone", value: "x0.5" });
   }
 
-  if (
-    !windowed &&
-    isTemporaryCollectibleActive({ name: "Tortoise Shrine", game: state, now })
-  ) {
-    milliSeconds = milliSeconds * 0.9;
-    boostUsed.push({ name: "Tortoise Shrine", value: "x0.9" });
-  }
-
+  // The Tortoise Shrine is never baked in here: it is a live window credited
+  // over the pack's whole grow (see cropMachineReadiness.ts), so only the
+  // permanent boosts are. It is likewise left out of boostUsed: a windowed boost
+  // isn't "consumed" at supply time, and the boost panel lists it via
+  // boostContributions instead.
   return {
     milliSeconds: (milliSeconds * seeds.amount) / CROP_MACHINE_PLOTS(state),
     boostUsed,
@@ -221,8 +207,6 @@ export function convertLegacyCropMachine({
     const { milliSeconds } = calculateCropTime(
       { type: `${pack.crop} Seed`, amount: pack.seeds },
       state,
-      now,
-      { windowed: true },
     );
     pack.totalGrowTime = milliSeconds;
     pack.baseDurationMs = milliSeconds;
@@ -498,65 +482,33 @@ export function supplyCropMachine({
 
     const crop = CROP_SEEDS[seedName].yield as CropName;
 
-    // A machine already carrying the windowed marker stays windowed even on a
-    // flag rollback; a legacy machine converts the moment a flagged player
-    // touches it (normally the load migration got there first — this covers a
-    // mid-session flag flip, deterministically on both FE and BE).
-    const windowed =
-      cropMachine.oilSettledAt !== undefined ||
-      hasFeatureAccess(stateCopy, "SPEED_BOOSTS");
+    const { milliSeconds, boostUsed } = calculateCropTime(seedsAdded, state);
 
-    const { milliSeconds, boostUsed } = calculateCropTime(
-      seedsAdded,
-      state,
-      createdAt,
-      { windowed },
-    );
+    // A legacy machine converts the moment it is touched (normally the load
+    // migration got there first).
+    const windows = getCropMachineBoostWindows(stateCopy);
+    convertLegacyCropMachine({
+      machine: cropMachine,
+      state: stateCopy,
+      windows,
+      now: createdAt,
+    });
+    settleCropMachine({ machine: cropMachine, windows, now: createdAt });
 
-    if (windowed) {
-      const windows = getCropMachineBoostWindows(stateCopy);
-      convertLegacyCropMachine({
-        machine: cropMachine,
-        state: stateCopy,
-        windows,
-        now: createdAt,
-      });
-      settleCropMachine({ machine: cropMachine, windows, now: createdAt });
+    queue.push({
+      seeds: seedsAdded.amount,
+      crop,
+      growTimeRemaining: milliSeconds,
+      totalGrowTime: milliSeconds,
+      baseDurationMs: milliSeconds,
+    });
+    cropMachine.queue = queue;
 
-      queue.push({
-        seeds: seedsAdded.amount,
-        crop,
-        growTimeRemaining: milliSeconds,
-        totalGrowTime: milliSeconds,
-        baseDurationMs: milliSeconds,
-      });
-      cropMachine.queue = queue;
-
-      refreshCropMachineCaches({
-        machine: cropMachine,
-        windows,
-        now: createdAt,
-      });
-    } else {
-      queue.push({
-        seeds: seedsAdded.amount,
-        crop,
-        growTimeRemaining: milliSeconds,
-        totalGrowTime: milliSeconds,
-      });
-      cropMachine.queue = queue;
-
-      const updatedCropMachine = updateCropMachine({
-        now: createdAt,
-        cropMachine,
-      });
-
-      stateCopy.buildings["Crop Machine"] = stateCopy.buildings[
-        "Crop Machine"
-      ].map((machine) =>
-        machine.id === cropMachine.id ? updatedCropMachine : machine,
-      );
-    }
+    refreshCropMachineCaches({
+      machine: cropMachine,
+      windows,
+      now: createdAt,
+    });
 
     stateCopy.boostsUsedAt = updateBoostUsed({
       game: stateCopy,

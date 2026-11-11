@@ -70,7 +70,6 @@ import {
 } from "features/game/lib/cookingReadiness";
 import {
   formatOil,
-  getCookingOilTank,
   getPreviewOilTiming,
 } from "features/island/buildings/lib/cookingOilTank";
 import {
@@ -198,22 +197,14 @@ export const Recipes: React.FC<Props> = ({
   };
 
   const recipeStartAt = getNewRecipeStartAt() ?? now;
-  const { byTheClock: oilByTheClock } = getCookingOilTank({
-    game: state,
-    building: selectedBuilding,
-    buildingName,
-    at: now,
-  });
   const {
     reducedSecs: cookingTime,
     baseDurationMs,
     boostsUsed: timeBoostsUsed,
   } = getReadyAt({
-    buildingId: buildingId ?? "",
     item: selected.name,
     createdAt: recipeStartAt,
     game: state,
-    oilByTheClock,
   });
   // On a clock-drain building the oil is a live speed rather than a cut baked into
   // the duration, so the preview cooks under it like any other window.

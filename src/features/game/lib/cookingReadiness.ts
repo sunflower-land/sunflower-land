@@ -10,7 +10,6 @@ import {
   workAccruedAt,
   type BoostWindow,
 } from "./boostWindows";
-import { hasFeatureAccess } from "lib/flags";
 
 const DAY = 24 * 60 * 60 * 1000;
 
@@ -125,8 +124,7 @@ export type CookingTiming = {
  * an hour after the previous one finished would be born part-cooked.
  *
  * Legacy recipes — those with no `baseDurationMs` — keep their stored `readyAt`,
- * keying off the marker's presence rather than the `SPEED_BOOSTS` flag, as every
- * other activity does. They still contribute their ready time to the chain, so a
+ * keying off the marker's presence, as every other activity does. They still contribute their ready time to the chain, so a
  * queue part-way through migration (legacy head, windowed tail) resolves correctly.
  *
  * On a clock-drain building (`oil` passed) the tank is resolved in the same pass.
@@ -629,13 +627,11 @@ export const refreshCookingQueue = ({
  * Settle a cooking building's oil at `at` before an event changes its tank or
  * queue (see `settleCookingBuilding`).
  *
- * With `convert`, a building still deducting oil per recipe is CONVERTED here once
- * SPEED_BOOSTS is on: its tank is already net of every recipe that paid up front,
- * and those keep the cut they paid for, so converting is just starting the ledger.
- * Only the events that put oil or recipes INTO the building convert it; until then
- * it has nothing that draws from the tank, so there is nothing to settle. A converted
- * building stays on clock drain whatever the flag says, so a rollback can never
- * deduct from a tank that is draining.
+ * With `convert`, a building still deducting oil per recipe is CONVERTED here: its
+ * tank is already net of every recipe that paid up front, and those keep the cut
+ * they paid for, so converting is just starting the ledger. Only the events that
+ * put oil or recipes INTO the building convert it; until then it has nothing that
+ * draws from the tank, so there is nothing to settle.
  *
  * A lifted building is settled at the lift: it neither cooks nor burns oil until
  * it is placed again, which settles the downtime away.
@@ -662,7 +658,7 @@ export const settleCookingOil = ({
       : at;
 
   if (building.oilSettledAt === undefined) {
-    if (convert && hasFeatureAccess(game, "SPEED_BOOSTS")) {
+    if (convert) {
       building.oilSettledAt = settleAt;
     }
   } else {

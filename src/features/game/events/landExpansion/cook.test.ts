@@ -10,31 +10,11 @@ import type {
   GameState,
   PlacedItem,
 } from "features/game/types/game";
-import {
-  cook,
-  getCookingOilBoost,
-  getOilConsumption,
-  getReadyAt,
-} from "./cook";
-import {
-  EXPIRY_COOLDOWNS,
-  getExpiryCooldown,
-} from "features/game/lib/collectibleBuilt";
+import { cook, getOilConsumption, getReadyAt, getRecipeOilBoost } from "./cook";
+import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { getCookingTime } from "features/game/expansion/lib/boosts";
 import { CHAPTER_CROP_WEEK } from "features/game/types/chapterCropWeek";
 import { getCookingQueueReadyAts } from "features/game/lib/cookingReadiness";
-import { CONFIG } from "lib/config";
-
-/** Run `fn` as mainnet, where SPEED_BOOSTS is off without a Beta Pass. */
-const onMainnet = <T>(fn: () => T): T => {
-  const network = CONFIG.NETWORK;
-  (CONFIG as { NETWORK: string }).NETWORK = "mainnet";
-  try {
-    return fn();
-  } finally {
-    (CONFIG as { NETWORK: string }).NETWORK = network;
-  }
-};
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -272,43 +252,6 @@ describe("cook", () => {
         readyAt: expect.any(Number),
       }),
     );
-  });
-
-  it("subtracts oil from building when SPEED_BOOSTS is off", () => {
-    const state = onMainnet(() =>
-      cook({
-        state: {
-          ...GAME_STATE,
-          inventory: {
-            Egg: new Decimal(20),
-          },
-          buildings: {
-            "Fire Pit": [
-              {
-                coordinates: {
-                  x: 2,
-                  y: 3,
-                },
-                readyAt: 1000,
-                createdAt: 1000,
-                id: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
-                oil: 10,
-              },
-            ],
-          },
-        },
-        action: {
-          type: "recipe.cooked",
-          item: "Boiled Eggs",
-          buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
-        },
-        farmId: 1,
-        createdAt,
-      }),
-    );
-
-    const oilconsumed = getOilConsumption("Fire Pit", "Boiled Eggs");
-    expect(state.buildings["Fire Pit"]?.[0].oil).toEqual(10 - oilconsumed);
   });
 
   it("applies partial boost if not enough oil", () => {
@@ -768,7 +711,6 @@ describe("getReadyAt", () => {
     const now = createdAt;
 
     const { createdAt: time } = getReadyAt({
-      buildingId: "123",
       item: "Boiled Eggs",
       game: {
         ...TEST_FARM,
@@ -793,7 +735,6 @@ describe("getReadyAt", () => {
     const now = createdAt;
 
     const { createdAt: time } = getReadyAt({
-      buildingId: "1",
       item: "Boiled Eggs",
       createdAt: now,
       game: {
@@ -851,7 +792,6 @@ describe("getReadyAt", () => {
       seconds: COOKABLES["Fermented Fish"].cookingSeconds,
       item: "Fermented Fish",
       game: state,
-      cookStartAt: now,
     }).reducedSecs;
 
     expect(time).toEqual(COOKABLES["Fermented Fish"].cookingSeconds * 0.85);
@@ -861,7 +801,6 @@ describe("getReadyAt", () => {
     const now = createdAt;
 
     const { createdAt: time } = getReadyAt({
-      buildingId: "1",
       item: "Boiled Eggs",
       createdAt: now,
       game: {
@@ -891,7 +830,6 @@ describe("getReadyAt", () => {
     const now = createdAt;
 
     const { createdAt: time } = getReadyAt({
-      buildingId: "1",
       item: "Boiled Eggs",
       createdAt: now,
       game: {
@@ -915,7 +853,6 @@ describe("getReadyAt", () => {
     const now = createdAt;
 
     const { createdAt: time } = getReadyAt({
-      buildingId: "123",
       item: "Boiled Eggs",
       game: {
         ...TEST_FARM,
@@ -945,7 +882,6 @@ describe("getReadyAt", () => {
     const now = createdAt;
 
     const { createdAt: time } = getReadyAt({
-      buildingId: "123",
       item: "Boiled Eggs",
       game: {
         ...TEST_FARM,
@@ -975,7 +911,6 @@ describe("getReadyAt", () => {
     const now = createdAt;
 
     const { createdAt: time } = getReadyAt({
-      buildingId: "123",
       item: "Boiled Eggs",
       game: {
         ...TEST_FARM,
@@ -1013,7 +948,6 @@ describe("getReadyAt", () => {
     const now = createdAt;
 
     const { createdAt: time } = getReadyAt({
-      buildingId: "123",
       item: "Boiled Eggs",
       createdAt: now,
       game: {
@@ -1037,33 +971,6 @@ describe("getReadyAt", () => {
       now + (COOKABLES["Boiled Eggs"].cookingSeconds - boost) * 1000;
 
     expect(time).toEqual(readyAt);
-  });
-
-  it("boosts Fire Pit time by 20% with enough oil to finish cooking", () => {
-    const now = createdAt;
-    const FirePit = {
-      coordinates: { x: 1, y: 1 },
-      createdAt: createdAt,
-      id: "1",
-      readyAt: createdAt,
-      oil: 10,
-    };
-
-    const { createdAt: result } = getReadyAt({
-      buildingId: "1",
-      item: "Boiled Eggs",
-      createdAt: now,
-      game: {
-        ...TEST_FARM,
-        buildings: {
-          "Fire Pit": [FirePit],
-        },
-      },
-    });
-
-    const readyAt = now + COOKABLES["Boiled Eggs"].cookingSeconds * 0.8 * 1000;
-
-    expect(result).toEqual(readyAt);
   });
 
   it("applies Gourmet Hourglass boost of +50% cooking speed for 4 hours", () => {
@@ -1098,7 +1005,6 @@ describe("getReadyAt", () => {
     };
 
     const { createdAt: boostedTime } = getReadyAt({
-      buildingId: "1",
       item: "Boiled Eggs",
       createdAt: now,
       game: state,
@@ -1117,8 +1023,7 @@ describe("getReadyAt", () => {
   it("does not apply expired Gourmet Hourglass boost of +50% cooking speed for 4 hours", () => {
     const now = createdAt;
     // Placed longer ago than the (flag-gated) Gourmet window so the boost is expired.
-    const fiveHoursAgo =
-      now - getExpiryCooldown("Gourmet Hourglass", GAME_STATE) - 1000;
+    const fiveHoursAgo = now - EXPIRY_COOLDOWNS["Gourmet Hourglass"] - 1000;
 
     const state: GameState = {
       ...GAME_STATE,
@@ -1146,7 +1051,6 @@ describe("getReadyAt", () => {
     };
 
     const { createdAt: time } = getReadyAt({
-      buildingId: "1",
       item: "Boiled Eggs",
       createdAt: now,
       game: state,
@@ -1161,7 +1065,6 @@ describe("getReadyAt", () => {
     const now = createdAt;
 
     const { createdAt: time } = getReadyAt({
-      buildingId: "123",
       item: "Boiled Eggs",
       createdAt: now,
       game: {
@@ -1182,7 +1085,6 @@ describe("getReadyAt", () => {
     const now = createdAt;
 
     const { createdAt: time } = getReadyAt({
-      buildingId: "123",
       item: "Sunflower Crunch",
       createdAt: now,
       game: {
@@ -1202,59 +1104,25 @@ describe("getReadyAt", () => {
   it("applies a 40% speed boost on Fire Pit when using oil with Swift Sizzle skill", () => {
     const game: GameState = {
       ...TEST_FARM,
-      bumpkin: {
-        ...TEST_FARM.bumpkin,
-        skills: { "Swift Sizzle": 1 },
-      },
-      buildings: {
-        "Fire Pit": [
-          {
-            coordinates: { x: 0, y: 0 },
-            createdAt: createdAt,
-            id: "1",
-            readyAt: 0,
-            oil: 1,
-          },
-        ],
-      },
+      bumpkin: { ...TEST_FARM.bumpkin, skills: { "Swift Sizzle": 1 } },
     };
 
-    const time = getCookingOilBoost("Boiled Eggs", game, "1").timeToCook;
-
-    expect(time).toEqual(60 * 60 * 0.6);
+    expect(getRecipeOilBoost("Boiled Eggs", game)).toEqual(0.4);
   });
 
   it("applies a 50% Fire Pit oil boost with Swift Sizzle rank 3", () => {
     const game: GameState = {
       ...TEST_FARM,
-      bumpkin: {
-        ...TEST_FARM.bumpkin,
-        skills: { "Swift Sizzle": 3 },
-      },
-      buildings: {
-        "Fire Pit": [
-          {
-            coordinates: { x: 0, y: 0 },
-            createdAt: createdAt,
-            id: "1",
-            readyAt: 0,
-            oil: 1,
-          },
-        ],
-      },
+      bumpkin: { ...TEST_FARM.bumpkin, skills: { "Swift Sizzle": 3 } },
     };
 
-    const time = getCookingOilBoost("Boiled Eggs", game, "1").timeToCook;
-
-    // rank 3 = 50% reduction
-    expect(time).toEqual(60 * 60 * 0.5);
+    expect(getRecipeOilBoost("Boiled Eggs", game)).toEqual(0.5);
   });
 
   it("does not apply Swift Sizzle boost on Kitchen", () => {
     const now = createdAt;
 
     const { createdAt: time } = getReadyAt({
-      buildingId: "123",
       item: "Sunflower Crunch",
       createdAt: now,
       game: {
@@ -1272,7 +1140,6 @@ describe("getReadyAt", () => {
     const now = createdAt;
 
     const { createdAt: time } = getReadyAt({
-      buildingId: "123",
       item: "Parsnip Cake",
       createdAt: now,
       game: {
@@ -1293,7 +1160,6 @@ describe("getReadyAt", () => {
     const now = createdAt;
 
     const { createdAt: time } = getReadyAt({
-      buildingId: "123",
       item: "Parsnip Cake",
       createdAt: now,
       game: {
@@ -1313,35 +1179,16 @@ describe("getReadyAt", () => {
   it("applies a 50% speed boost on Kitchen when using oil with Turbo Fry skill", () => {
     const game: GameState = {
       ...TEST_FARM,
-      bumpkin: {
-        ...TEST_FARM.bumpkin,
-        skills: {
-          "Turbo Fry": 1,
-        },
-      },
-      buildings: {
-        Kitchen: [
-          {
-            coordinates: { x: 0, y: 0 },
-            createdAt: createdAt,
-            id: "1",
-            readyAt: 0,
-            oil: 10,
-          },
-        ],
-      },
+      bumpkin: { ...TEST_FARM.bumpkin, skills: { "Turbo Fry": 1 } },
     };
 
-    const time = getCookingOilBoost("Fruit Salad", game, "1").timeToCook;
-
-    expect(time).toEqual(COOKABLES["Fruit Salad"].cookingSeconds * 0.5);
+    expect(getRecipeOilBoost("Fruit Salad", game)).toEqual(0.5);
   });
 
   it("does not apply Turbo Fry boost on Fire Pit", () => {
     const now = createdAt;
 
     const { createdAt: time } = getReadyAt({
-      buildingId: "123",
       item: "Boiled Eggs",
       createdAt: now,
       game: {
@@ -1358,55 +1205,10 @@ describe("getReadyAt", () => {
   it("applies a 60% speed boost on Deli meals when using Oil with Fry Frenzy skill", () => {
     const game: GameState = {
       ...TEST_FARM,
-      bumpkin: {
-        ...TEST_FARM.bumpkin,
-        skills: {
-          "Fry Frenzy": 1,
-        },
-      },
-      buildings: {
-        Deli: [
-          {
-            coordinates: { x: 0, y: 0 },
-            createdAt: createdAt,
-            id: "1",
-            readyAt: 0,
-            oil: 24,
-          },
-        ],
-      },
+      bumpkin: { ...TEST_FARM.bumpkin, skills: { "Fry Frenzy": 1 } },
     };
 
-    const time = getCookingOilBoost("Fermented Fish", game, "1").timeToCook;
-
-    expect(time).toEqual(COOKABLES["Fermented Fish"].cookingSeconds * 0.4);
-  });
-
-  it("partial boost if oil is less than cooking required oil", () => {
-    const game = {
-      ...TEST_FARM,
-      buildings: {
-        Deli: [
-          {
-            coordinates: { x: 0, y: 0 },
-            createdAt: createdAt,
-            id: "1",
-            readyAt: 0,
-            oil: 6,
-          },
-        ],
-      },
-    };
-
-    const boost = getCookingOilBoost("Fermented Carrots", game, "1");
-
-    // Deli consumption is 12 oil per day
-    // Deli boost is 0.4 (40% speed boost, meaning 60% of the original time)
-    // Full boosted time will be 14.4 hours (86400 * 0.6 = 51840 seconds)
-    // With half the oil (6 out of 12), the boost should be half as effective (20% boost)
-    // Expected time = 86400 * 0.8 = 69120 seconds = 19.2 hours
-    expect(boost.timeToCook).toEqual(60 * 60 * 19.2);
-    expect(boost.oilConsumed).toEqual(6);
+    expect(getRecipeOilBoost("Fermented Fish", game)).toEqual(0.6);
   });
 
   it("does not apply Gourmet Hourglass boost to queued recipe when boost expires before cooking starts", () => {
@@ -1417,7 +1219,7 @@ describe("getReadyAt", () => {
 
     // Hourglass expires in 1 second
     const hourglassCreatedAt =
-      now - getExpiryCooldown("Gourmet Hourglass", TEST_FARM) + 1 * 1000;
+      now - EXPIRY_COOLDOWNS["Gourmet Hourglass"] + 1 * 1000;
 
     const mashedPotatoCookingTime =
       COOKABLES["Mashed Potato"].cookingSeconds * 1000;
@@ -1482,13 +1284,13 @@ describe("getReadyAt", () => {
   });
 
   // Legacy behaviour handed a queued recipe the FULL 50% discount as long as the
-  // hourglass had not expired before it started, ignoring expiry mid-cook. Under
-  // SPEED_BOOSTS it is credited only for the overlap.
+  // hourglass had not expired before it started, ignoring expiry mid-cook. Now it
+  // is credited only for the overlap.
   it("credits a queued recipe only for the hourglass window it actually overlaps", () => {
     const now = createdAt;
     // Hourglass expires in 30 minutes
     const hourglassCreatedAt =
-      now - getExpiryCooldown("Gourmet Hourglass", TEST_FARM) + 30 * 60 * 1000;
+      now - EXPIRY_COOLDOWNS["Gourmet Hourglass"] + 30 * 60 * 1000;
     const cookTimeMs = COOKABLES["Boiled Eggs"].cookingSeconds * 1000;
 
     const state = cook({
@@ -1553,7 +1355,6 @@ describe("getReadyAt", () => {
     const cookTimeMs = COOKABLES["Boiled Eggs"].cookingSeconds * 1000;
 
     const { createdAt: time } = getReadyAt({
-      buildingId: "1",
       item: "Boiled Eggs",
       createdAt,
       game: {
@@ -1578,7 +1379,6 @@ describe("getReadyAt", () => {
     const cookTimeMs = COOKABLES["Boiled Eggs"].cookingSeconds * 1000;
 
     const { createdAt: time } = getReadyAt({
-      buildingId: "1",
       item: "Boiled Eggs",
       createdAt,
       game: {
@@ -1600,70 +1400,6 @@ describe("getReadyAt", () => {
   });
 });
 
-describe("getCookingOilBoost", () => {
-  it("returns 60 minutes for Boiled Egg if no oil", () => {
-    const result = getCookingOilBoost("Boiled Eggs", TEST_FARM, "1");
-
-    expect(result.timeToCook).toEqual(60 * 60);
-    expect(result.percent).toBeUndefined();
-  });
-
-  it("returns timeToCook only and no percent when no buildingId", () => {
-    const result = getCookingOilBoost("Boiled Eggs", TEST_FARM, undefined);
-
-    expect(result.timeToCook).toEqual(60 * 60);
-    expect(result.oilConsumed).toEqual(0);
-    expect(result.percent).toBeUndefined();
-  });
-
-  it("boosts Fire Pit time by 20% with oil and returns percent", () => {
-    const game = {
-      ...TEST_FARM,
-      buildings: {
-        "Fire Pit": [
-          {
-            coordinates: { x: 0, y: 0 },
-            createdAt: createdAt,
-            id: "1",
-            readyAt: 0,
-            oil: 1,
-          },
-        ],
-      },
-    };
-
-    const result = getCookingOilBoost("Boiled Eggs", game, "1");
-
-    expect(result.timeToCook).toEqual(60 * 60 * 0.8);
-    expect(result.percent).toEqual(0.2);
-  });
-
-  it("returns effective percent for partial oil", () => {
-    const itemOilConsumption = (1 * (60 * 60)) / 86400;
-    const oilRemaining = itemOilConsumption * 0.5;
-    const game = {
-      ...TEST_FARM,
-      buildings: {
-        "Fire Pit": [
-          {
-            coordinates: { x: 0, y: 0 },
-            createdAt: createdAt,
-            id: "1",
-            readyAt: 0,
-            oil: oilRemaining,
-          },
-        ],
-      },
-    };
-
-    const result = getCookingOilBoost("Boiled Eggs", game, "1");
-    const expectedEffectivePercent = 0.5 * 0.2;
-
-    expect(result.percent).toEqual(expectedEffectivePercent);
-    expect(result.timeToCook).toEqual(60 * 60 * (1 - expectedEffectivePercent));
-  });
-});
-
 describe("getOilConsumption", () => {
   it("consumes 1 oil for Boiled Egg", () => {
     const oil = getOilConsumption("Deli", "Fermented Carrots");
@@ -1678,8 +1414,7 @@ describe("getOilConsumption", () => {
   });
 });
 
-// FE + BE jest run amoy, so SPEED_BOOSTS is ON by default here.
-describe("cook (SPEED_BOOSTS windowed)", () => {
+describe("cook (speed windows)", () => {
   const HOUR = 60 * 60 * 1000;
   const EGG_MS = COOKABLES["Boiled Eggs"].cookingSeconds * 1000;
 
@@ -1799,7 +1534,6 @@ describe("cook (SPEED_BOOSTS windowed)", () => {
     };
 
     const { baseDurationMs, boostsUsed } = getReadyAt({
-      buildingId: "1",
       item: "Boiled Eggs",
       createdAt: now,
       game,
@@ -1987,39 +1721,6 @@ describe("cook (oil by the clock)", () => {
     ]?.[0];
 
     expect(firePit?.crafting?.[0].readyAt).toEqual(createdAt + EGG_MS);
-  });
-
-  it("keeps burning oil by the clock once converted, even with SPEED_BOOSTS off", () => {
-    const firePit = onMainnet(() =>
-      cookEggs(firePitFarm({ oilSettledAt: createdAt - 1000 })),
-    ).buildings["Fire Pit"]?.[0];
-
-    expect(firePit?.oil).toEqual(5);
-    expect(firePit?.crafting?.[0]).toMatchObject({
-      oilBoost: 0.2,
-      baseDurationMs: EGG_MS,
-      readyAt: createdAt + EGG_MS * 0.8,
-    });
-  });
-
-  it("leaves temporary boosts out of the duration on rollback, so they apply once", () => {
-    const firePit = onMainnet(() =>
-      cookEggs({
-        ...firePitFarm({ oilSettledAt: createdAt - 1000 }),
-        collectibles: {
-          "Legendary Shrine": [
-            {
-              id: "1",
-              coordinates: { x: 5, y: 5 },
-              createdAt: createdAt - 1000,
-              readyAt: createdAt - 1000,
-            },
-          ],
-        },
-      }),
-    ).buildings["Fire Pit"]?.[0];
-
-    expect(firePit?.crafting?.[0].baseDurationMs).toEqual(EGG_MS);
   });
 
   it("charges nothing for a recipe queued behind one that paid up front", () => {
