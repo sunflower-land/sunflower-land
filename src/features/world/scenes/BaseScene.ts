@@ -8,6 +8,7 @@ import type { PetNFTType } from "features/game/types/pets";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { type NPCName, NPC_WEARABLES } from "lib/npcs";
 import { npcModalManager } from "../ui/NPCModals";
+import { getKeys } from "lib/object";
 import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import type { EventObject } from "xstate";
 import { isTouchDevice } from "../lib/device";
@@ -124,6 +125,35 @@ type OutgoingMicroInteractionState = {
 
 const MICRO_INTERACTION_TIMEOUT_MS = 5000;
 
+/** Lets the NPC modal fade out before the NPC behind it celebrates. */
+const NPC_DANCE_DELAY_MS = 300;
+
+/** How close the player comes before an NPC with a delivery waves at them. */
+const NPC_GREETING_DISTANCE = 80;
+/**
+ * How far the player goes before that NPC will wave at them again. Further
+ * than the greeting distance, so pacing along its edge doesn't set them off.
+ */
+const NPC_GREETING_RESET_DISTANCE = 110;
+
+type NPCCelebration = {
+  giftedAt: number;
+  friendship: number;
+  deliveries: number;
+};
+
+/**
+ * When the NPC was last gifted a flower, their friendship after it, and how
+ * many deliveries the player has made to them.
+ */
+const getNPCCelebration = (game: GameState, npc: NPCName): NPCCelebration => ({
+  giftedAt: game.npcs?.[npc]?.friendship?.giftedAt ?? 0,
+  friendship: game.npcs?.[npc]?.friendship?.points ?? 0,
+  deliveries: game.npcs?.[npc]?.deliveryCount ?? 0,
+});
+
+type PendingNPCCelebration = "gift" | "delivery";
+
 export abstract class BaseScene extends Phaser.Scene {
   abstract sceneId: SceneId;
   eventListener?: (event: EventObject) => void;
@@ -140,6 +170,9 @@ export abstract class BaseScene extends Phaser.Scene {
   private activeInteractionTarget?: BumpkinContainer;
 
   npcs: Partial<Record<NPCName, BumpkinContainer>> = {};
+  private npcCelebrations: Partial<Record<NPCName, NPCCelebration>> = {};
+  private pendingNPCCelebrations = new Map<NPCName, PendingNPCCelebration>();
+  private greetedNPCs = new Set<NPCName>();
 
   currentPlayer: BumpkinContainer | undefined;
   isFacingLeft = false;
@@ -402,8 +435,17 @@ export abstract class BaseScene extends Phaser.Scene {
 
       // When game state updates (e.g. after completing a delivery), refresh NPC delivery icons
       this.game.events.on("gameStateUpdated", this.refreshDeliveryIcons, this);
+      this.game.events.on("gameStateUpdated", this.celebrateNPCs, this);
+      const stopListeningToNPCModal = npcModalManager.onClose(
+        this.playPendingNPCCelebrations,
+      );
       this.events.once("shutdown", () => {
         this.game.events.off("gameStateUpdated", this.refreshDeliveryIcons);
+        this.game.events.off("gameStateUpdated", this.celebrateNPCs, this);
+        stopListeningToNPCModal();
+        this.pendingNPCCelebrations.clear();
+        this.npcCelebrations = {};
+        this.greetedNPCs.clear();
       });
 
       // handles player modal
@@ -1855,6 +1897,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.switchScene();
     this.updatePlayer();
     this.updateOtherPlayers();
+    this.greetNearbyNPCs();
     this.updateShaders();
     this.updateUsernames();
     this.updateFactions();
@@ -2380,6 +2423,88 @@ export abstract class BaseScene extends Phaser.Scene {
       this.colliders?.add(container);
       this.triggerColliders?.add(container);
       this.npcs[bumpkin.npc] = container;
+      this.npcCelebrations[bumpkin.npc] = getNPCCelebration(
+        gameState,
+        bumpkin.npc,
+      );
+    });
+  }
+
+  /**
+   * An NPC in this scene dances when the player gifts them a flower, and
+   * hops with a heart when the player delivers to them.
+   */
+  private celebrateNPCs = () => {
+    const gameState = this.gameState;
+    if (!gameState) return;
+
+    getKeys(this.npcCelebrations).forEach((npc) => {
+      const previous = this.npcCelebrations[npc];
+      const current = getNPCCelebration(gameState, npc);
+      this.npcCelebrations[npc] = current;
+
+      if (!previous) return;
+
+      // A delivery also raises friendship, but only a gift moves `giftedAt`
+      const gifted =
+        current.giftedAt > previous.giftedAt &&
+        current.friendship > previous.friendship;
+
+      if (gifted) {
+        this.pendingNPCCelebrations.set(npc, "gift");
+      } else if (current.deliveries > previous.deliveries) {
+        this.pendingNPCCelebrations.set(npc, "delivery");
+      }
+    });
+
+    // The NPC is hidden behind their modal - wait until it closes
+    if (!npcModalManager.isOpen) {
+      this.playPendingNPCCelebrations();
+    }
+  };
+
+  private playPendingNPCCelebrations = () => {
+    if (this.pendingNPCCelebrations.size === 0) return;
+
+    const celebrations = [...this.pendingNPCCelebrations];
+    this.pendingNPCCelebrations.clear();
+
+    this.time.delayedCall(NPC_DANCE_DELAY_MS, () => {
+      celebrations.forEach(([npc, celebration]) => {
+        const container = this.npcs[npc];
+        if (!container?.active) return;
+
+        if (celebration === "gift") container.dance();
+        else container.receive();
+      });
+    });
+  };
+
+  /**
+   * An NPC the player can deliver to waves each time the player comes near.
+   */
+  private greetNearbyNPCs() {
+    const player = this.currentPlayer;
+    if (!player) return;
+
+    getKeys(this.npcs).forEach((npc) => {
+      const container = this.npcs[npc];
+      if (!container?.active) return;
+
+      const distance = Phaser.Math.Distance.BetweenPoints(container, player);
+
+      if (this.greetedNPCs.has(npc)) {
+        // The player has walked off - wave again when they come back
+        if (distance > NPC_GREETING_RESET_DISTANCE) {
+          this.greetedNPCs.delete(npc);
+        }
+        return;
+      }
+
+      if (!container.hasDelivery || distance > NPC_GREETING_DISTANCE) return;
+
+      // Not ready to wave yet (still loading) - try again on a later tick
+      if (container.greet(player)) this.greetedNPCs.add(npc);
     });
   }
 
