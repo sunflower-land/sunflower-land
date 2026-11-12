@@ -9052,5 +9052,6 @@
   "statements.blacklist.tos.automation": "使用自动化违反了我们的服务条款。向日葵之地本来是手工玩的。脚本、宏、自动点击器和其他第三方工具会给你带来不公平的优势，破坏游戏的完整性，并对所有玩家产生负面影响。此限制旨在为社区维持公平的环境。",
   "statsLeaderboard.board.socialPoints": "社交积分",
   "statsLeaderboard.title.socialPoints": "大多数社交积分",
-  "statsLeaderboard.description.socialPoints": "一直赚取的社交积分"
+  "statsLeaderboard.description.socialPoints": "一直赚取的社交积分",
+  "cropMachine.harvestAllConfirm": "你确定要收获所有 {{count}} 现成包吗？"
 }

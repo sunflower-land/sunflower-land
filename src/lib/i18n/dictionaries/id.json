@@ -9052,5 +9052,6 @@
   "statements.blacklist.tos.automation": "Menggunakan otomatisasi merupakan pelanggaran terhadap Ketentuan Layanan kami. Sunflower Land dimaksudkan untuk dimainkan dengan tangan. Skrip, makro, klik otomatis, dan alat pihak ketiga lainnya yang bermain untuk Anda memberikan keuntungan yang tidak adil, merusak integritas permainan, dan berdampak negatif pada semua pemain. Pembatasan ini telah diterapkan untuk menjaga lingkungan yang adil bagi masyarakat.",
   "statsLeaderboard.board.socialPoints": "Poin sosial",
   "statsLeaderboard.title.socialPoints": "Poin Soal Paling Banyak",
-  "statsLeaderboard.description.socialPoints": "Poin sosial yang diperoleh, sepanjang waktu"
+  "statsLeaderboard.description.socialPoints": "Poin sosial yang diperoleh, sepanjang waktu",
+  "cropMachine.harvestAllConfirm": "Apakah Anda yakin ingin memanen semua paket siap pakai {{count}}?"
 }

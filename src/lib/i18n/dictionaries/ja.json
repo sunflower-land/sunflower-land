@@ -9052,5 +9052,6 @@
   "statements.blacklist.tos.automation": "オートメーションの使用は、当社の利用規約に違反します。サンフラワーランドはハンドプレイを目的としています。スクリプト、マクロ、オートクリッカー、その他のサードパーティ製のツールは、不当なアドバンテージをもたらし、ゲームの完全性を損ない、すべてのプレイヤーに悪影響を及ぼします。この制限は、コミュニティにとって公平な環境を維持するために適用されました。",
   "statsLeaderboard.board.socialPoints": "ソーシャル・ポイント",
   "statsLeaderboard.title.socialPoints": "ほとんどのソーシャルポイント",
-  "statsLeaderboard.description.socialPoints": "常に獲得できるソーシャルポイント"
+  "statsLeaderboard.description.socialPoints": "常に獲得できるソーシャルポイント",
+  "cropMachine.harvestAllConfirm": "{{count}} 個の準備完了パックをすべて収穫してもよろしいですか？"
 }

@@ -9052,5 +9052,6 @@
   "statements.blacklist.tos.automation": "L'utilisation de l'automatisation constitue une violation de nos conditions d'utilisation. Sunflower Land est conçu pour être joué à la main. Les scripts, macros, outils de clic automatique et autres outils tiers qui jouent pour vous donnent un avantage injuste, portent atteinte à l'intégrité du jeu et ont un impact négatif sur tous les joueurs. Cette restriction a été appliquée afin de maintenir un environnement équitable pour la communauté.",
   "statsLeaderboard.board.socialPoints": "Points sociaux",
   "statsLeaderboard.title.socialPoints": "La plupart des points sociaux",
-  "statsLeaderboard.description.socialPoints": "Points sociaux gagnés, à tout moment"
+  "statsLeaderboard.description.socialPoints": "Points sociaux gagnés, à tout moment",
+  "cropMachine.harvestAllConfirm": "Êtes-vous sûr de vouloir récolter tous les emballages prêts à l'emploi {{count}} ?"
 }

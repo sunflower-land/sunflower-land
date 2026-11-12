@@ -9052,5 +9052,6 @@
   "statements.blacklist.tos.automation": "Usar a automação é uma violação dos nossos Termos de Serviço. Sunflower Land foi feito para ser jogado à mão. Scripts, macros, cliques automáticos e outras ferramentas de terceiros que funcionam para você oferecem uma vantagem injusta, prejudicam a integridade do jogo e afetam negativamente todos os jogadores. Essa restrição foi aplicada para manter um ambiente justo para a comunidade.",
   "statsLeaderboard.board.socialPoints": "Pontos sociais",
   "statsLeaderboard.title.socialPoints": "A maioria dos pontos sociais",
-  "statsLeaderboard.description.socialPoints": "Pontos sociais ganhos, o tempo todo"
+  "statsLeaderboard.description.socialPoints": "Pontos sociais ganhos, o tempo todo",
+  "cropMachine.harvestAllConfirm": "Tem certeza de que deseja colher todos os pacotes {{count}} prontos?"
 }
