@@ -295,6 +295,11 @@ export function cancelQueuedCrafting({
       game.farmActivity,
       new Decimal(-1),
     );
+    // The next start of this recipe takes this craft's place - see startCrafting.
+    game.farmActivity = trackFarmActivity(
+      `${item.name} Crafting Cancelled`,
+      game.farmActivity,
+    );
 
     game.craftingBox.queue = recalculateCraftingQueue({
       queue: updatedQueue,

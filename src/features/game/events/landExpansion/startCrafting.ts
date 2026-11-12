@@ -220,6 +220,20 @@ export function startCrafting({
     const isChained = boxFreeAt !== undefined && boxFreeAt > createdAt;
     const recipeStartAt = isChained ? boxFreeAt : createdAt;
 
+    // A craft started in place of a cancelled one takes over that craft's
+    // outcome rather than getting a Fox Shrine roll of its own: the cancelled
+    // craft already had its roll, so every other start rolls on the next unused
+    // `<Name> Crafting Started` counter.
+    const isRestart =
+      (state.farmActivity[`${recipe.name} Crafting Cancelled`] ?? 0) > 0;
+    if (isRestart) {
+      copy.farmActivity = trackFarmActivity(
+        `${recipe.name} Crafting Cancelled`,
+        copy.farmActivity,
+        new Decimal(-1),
+      );
+    }
+
     const {
       seconds: recipeTime,
       baseDurationMs,
@@ -227,14 +241,16 @@ export function startCrafting({
     } = getBoostedCraftingTime({
       game: state,
       time: recipe.time,
-      prngArgs: {
-        farmId,
-        itemId:
-          recipe.type === "collectible"
-            ? KNOWN_IDS[recipe.name as InventoryItemName]
-            : ITEM_IDS[recipe.name as BumpkinItem],
-        counter: state.farmActivity[`${recipe.name} Crafting Started`] ?? 0,
-      },
+      prngArgs: isRestart
+        ? undefined
+        : {
+            farmId,
+            itemId:
+              recipe.type === "collectible"
+                ? KNOWN_IDS[recipe.name as InventoryItemName]
+                : ITEM_IDS[recipe.name as BumpkinItem],
+            counter: state.farmActivity[`${recipe.name} Crafting Started`] ?? 0,
+          },
       now: createdAt,
     });
 
