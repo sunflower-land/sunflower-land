@@ -1462,8 +1462,7 @@ describe("Place building", () => {
   });
   // Regression: the lift must not hand back a love slot. `asleepAt` is the love
   // cadence anchor as well as the sleep timer's start, so moving it forward
-  // compresses the cycle and re-opens slots the player already spent — the same
-  // reason migrateSpeedBoosts refuses to freeze animals.
+  // compresses the cycle and re-opens slots the player already spent.
   it("does not grant an extra love slot when a windowed animal's building is lifted", () => {
     const HOUR = 60 * 60 * 1000;
     const SLEEP = 24 * HOUR;

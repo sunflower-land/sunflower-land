@@ -796,11 +796,10 @@ const MAX_BOOST_HISTORY_AGE_MS = 7 * 24 * 60 * 60 * 1000;
  *
  * A windowed crop machine banks work FORWARD from `oilSettledAt`, re-deriving
  * it from the windows each time, so every window ending after that anchor is
- * still load-bearing. The anchor only advances when the machine is settled (a
- * crop-machine event, or the BE load-time `migrateSpeedBoosts`), while the prune
- * below runs on any event. Once that load-time call is removed, a machine left
- * untouched longer than `MAX_BOOST_HISTORY_AGE_MS` would otherwise lose windows
- * it still depends on.
+ * still load-bearing. The anchor only advances when a crop-machine event
+ * settles the machine, while the prune below runs on any event, so a machine
+ * left untouched longer than `MAX_BOOST_HISTORY_AGE_MS` would otherwise lose
+ * windows it still depends on.
  *
  * The crop machine is the only activity that needs this: its packs can stall
  * on an empty tank indefinitely, so its anchor can be arbitrarily old. Every
