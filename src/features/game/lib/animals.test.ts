@@ -7,6 +7,7 @@ import {
   getBoostedAwakeAt,
   getBoostedFoodQuantity,
   getResourceDropAmount,
+  makeAnimalBuilding,
   makeAnimalBuildingKey,
   ANIMAL_BUILDING_KEYS,
   isFoodForAnimal,
@@ -1420,5 +1421,20 @@ describe("Beetle Sheep", () => {
     });
 
     expect(baseDurationMs).toEqual(ANIMAL_SLEEP_DURATION);
+  });
+});
+
+describe("makeAnimalBuilding", () => {
+  it("starts the starter herd awake on the speed-rate model", () => {
+    const { animals } = makeAnimalBuilding("Hen House", 0);
+
+    expect(Object.keys(animals).length).toBeGreaterThan(0);
+    for (const animal of Object.values(animals)) {
+      expect(animal).toMatchObject({
+        asleepAt: 0,
+        awakeAt: 0,
+        baseDurationMs: 0,
+      });
+    }
   });
 });

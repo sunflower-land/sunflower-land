@@ -7,6 +7,7 @@ import {
   pauseWindowedTimer,
 } from "features/game/lib/boostWindows";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { freshRockTimer } from "features/game/lib/freshNodes";
 
 export type PlaceSunstoneAction = {
   type: "sunstone.placed";
@@ -73,9 +74,7 @@ export function placeSunstone({
       createdAt,
       x: action.coordinates.x,
       y: action.coordinates.y,
-      stone: {
-        minedAt: 0,
-      },
+      stone: freshRockTimer("Sunstone Rock"),
       minesLeft: 10,
     };
 

@@ -390,7 +390,8 @@ describe("layouts lib (applyFarmLayout)", () => {
     expect(placed).toHaveLength(2);
     placed.forEach((t) => {
       expect(t.name).toEqual("Tree");
-      expect(t.wood).toBeDefined();
+      // Created ready on the speed-rate model: 2h.
+      expect(t.wood.baseDurationMs).toEqual(2 * 60 * 60 * 1000);
     });
   });
 

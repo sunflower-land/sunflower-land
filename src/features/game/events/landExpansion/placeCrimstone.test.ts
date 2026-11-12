@@ -95,6 +95,8 @@ describe("placeRuby", () => {
         createdAt: expect.any(Number),
         stone: {
           minedAt: 0,
+          // Created ready, already on the speed-rate model (Crimstone Rock: 24h).
+          baseDurationMs: 24 * 60 * 60 * 1000,
         },
         x: 2,
         y: 2,

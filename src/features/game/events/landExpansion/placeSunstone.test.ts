@@ -94,6 +94,8 @@ describe("placeSunstone", () => {
         createdAt: expect.any(Number),
         stone: {
           minedAt: 0,
+          // Created ready, already on the speed-rate model (Sunstone Rock: 3 days).
+          baseDurationMs: 3 * 24 * 60 * 60 * 1000,
         },
         minesLeft: 10,
         x: 2,

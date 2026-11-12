@@ -15,6 +15,7 @@ import {
   pauseWindowedTimer,
 } from "features/game/lib/boostWindows";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { freshTreeTimer } from "features/game/lib/freshNodes";
 
 export type PlaceTreeAction = {
   type: "tree.placed";
@@ -77,7 +78,7 @@ export function placeTree({
       createdAt,
       x: action.coordinates.x,
       y: action.coordinates.y,
-      wood: { choppedAt: 0 },
+      wood: freshTreeTimer(),
       name: action.name,
       multiplier: RESOURCE_MULTIPLIER[action.name],
       tier: ADVANCED_RESOURCES[action.name as UpgradedResourceName]?.tier ?? 1,
