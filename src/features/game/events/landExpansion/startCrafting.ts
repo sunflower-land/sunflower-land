@@ -40,27 +40,6 @@ type Options = {
   createdAt?: number;
 };
 
-/**
- * Keeps the per-recipe started counter and the proc count in separate ranges of
- * the prng seed, so a seed is only ever reused when both are the same.
- */
-const FOX_SHRINE_PROC_STRIDE = 1_000_000;
-
-/**
- * The counter the Fox Shrine instant-craft roll is seeded with: the recipe's
- * `<Name> Crafting Started` count, offset by the procs already granted. A craft
- * that is cancelled and started again keeps the roll it had.
- */
-function getFoxShrineRollCounter({
-  started,
-  procs,
-}: {
-  started: number;
-  procs: number;
-}) {
-  return started + procs * FOX_SHRINE_PROC_STRIDE;
-}
-
 export function getBoostedCraftingTime({
   game,
   time,
@@ -241,6 +220,20 @@ export function startCrafting({
     const isChained = boxFreeAt !== undefined && boxFreeAt > createdAt;
     const recipeStartAt = isChained ? boxFreeAt : createdAt;
 
+    // A craft started in place of a cancelled one takes over that craft's
+    // outcome rather than getting a Fox Shrine roll of its own: the cancelled
+    // craft already had its roll, so every other start rolls on the next unused
+    // `<Name> Crafting Started` counter.
+    const isRestart =
+      (state.farmActivity[`${recipe.name} Crafting Cancelled`] ?? 0) > 0;
+    if (isRestart) {
+      copy.farmActivity = trackFarmActivity(
+        `${recipe.name} Crafting Cancelled`,
+        copy.farmActivity,
+        new Decimal(-1),
+      );
+    }
+
     const {
       seconds: recipeTime,
       baseDurationMs,
@@ -248,28 +241,20 @@ export function startCrafting({
     } = getBoostedCraftingTime({
       game: state,
       time: recipe.time,
-      prngArgs: {
-        farmId,
-        itemId:
-          recipe.type === "collectible"
-            ? KNOWN_IDS[recipe.name as InventoryItemName]
-            : ITEM_IDS[recipe.name as BumpkinItem],
-        counter: getFoxShrineRollCounter({
-          started: state.farmActivity[`${recipe.name} Crafting Started`] ?? 0,
-          procs: state.farmActivity["Fox Shrine Triggered"] ?? 0,
-        }),
-      },
+      prngArgs: isRestart
+        ? undefined
+        : {
+            farmId,
+            itemId:
+              recipe.type === "collectible"
+                ? KNOWN_IDS[recipe.name as InventoryItemName]
+                : ITEM_IDS[recipe.name as BumpkinItem],
+            counter: state.farmActivity[`${recipe.name} Crafting Started`] ?? 0,
+          },
       now: createdAt,
     });
 
     const isInstant = recipeTime === 0;
-
-    if (isInstant) {
-      copy.farmActivity = trackFarmActivity(
-        "Fox Shrine Triggered",
-        copy.farmActivity ?? {},
-      );
-    }
 
     // The stored `readyAt` is a CACHE of the derived chain, so it must be written
     // through the windows - otherwise a craft queued under an active booster would
