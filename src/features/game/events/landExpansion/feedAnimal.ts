@@ -239,6 +239,70 @@ export function getFeedBatchSize({
   );
 }
 
+/**
+ * How many `beetle`s get `animal` ready: a Beetle is one per feed, so the
+ * Beetle feeding mode sends this many feeds in one click.
+ */
+export function getBeetleBatchSize({
+  state,
+  animal,
+  beetle,
+}: {
+  state: GameState;
+  animal: Animal;
+  beetle: BeetleName;
+}): number {
+  const { foodXp } = handleFoodXP({
+    state,
+    animal: animal.type,
+    level: getAnimalLevel(animal.experience, animal.type),
+    food: beetle,
+    mud: animal.mud,
+  });
+
+  return Math.max(
+    1,
+    new Decimal(getXpUntilReady(animal.type, animal.experience))
+      .div(foodXp)
+      .toDecimalPlaces(0, Decimal.ROUND_CEIL)
+      .toNumber(),
+  );
+}
+
+/**
+ * How many levels feeding `feeds` `beetle`s raises `animal`: a batch can
+ * overshoot several level thresholds at once, so the Beetle feeding mode
+ * confirms with the player before feeding when this is more than one.
+ */
+export function getBeetleLevelGain({
+  state,
+  animal,
+  beetle,
+  feeds,
+}: {
+  state: GameState;
+  animal: Animal;
+  beetle: BeetleName;
+  feeds: number;
+}): number {
+  const { foodXp } = handleFoodXP({
+    state,
+    animal: animal.type,
+    level: getAnimalLevel(animal.experience, animal.type),
+    food: beetle,
+    mud: animal.mud,
+  });
+
+  const afterFeedXp = new Decimal(animal.experience).add(
+    new Decimal(foodXp).mul(feeds),
+  );
+
+  return (
+    getAnimalLevel(afterFeedXp.toNumber(), animal.type) -
+    getAnimalLevel(animal.experience, animal.type)
+  );
+}
+
 export function getBarnDelightCost({ state }: { state: GameState }): {
   amount: number;
   boostsUsed: { name: BoostName; value: string }[];

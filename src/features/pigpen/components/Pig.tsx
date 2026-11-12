@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
-import { isBeetle } from "features/game/types/beetles";
+import { type BeetleName, isBeetle } from "features/game/types/beetles";
 import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -48,6 +48,8 @@ import { InfoPopover } from "features/island/common/InfoPopover";
 import {
   getBarnDelightCost,
   handleFoodXP,
+  getBeetleBatchSize,
+  getBeetleLevelGain,
   getFeedBatchSize,
   REQUIRED_FOOD_QTY,
 } from "features/game/events/landExpansion/feedAnimal";
@@ -58,6 +60,7 @@ import { MutantSparkles } from "features/farming/animals/components/MutantSparkl
 import { isAnimalCoveredByGoldenAsset } from "features/game/events/landExpansion/feedAllAnimals";
 import { isWearableActive } from "features/game/lib/wearables";
 import { Modal } from "components/ui/Modal";
+import { Button } from "components/ui/Button";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel } from "components/ui/Panel";
 import { SleepingAnimalModal } from "features/barn/components/SleepingAnimalModal";
@@ -81,10 +84,14 @@ const _pig = (id: string) => (state: MachineState) =>
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _game = (state: MachineState) => state.context.state;
 
-export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
-  id,
-  disabled,
-}) => {
+export const Pig: React.FC<{
+  id: string;
+  disabled: boolean;
+  /** Beetle feeding mode: asks for, and feeds, this Beetle. */
+  beetle?: BeetleName;
+  /** Opens the Beetle picker when the selected Beetle runs out. */
+  onBeetlesEmpty?: () => void;
+}> = ({ id, disabled, beetle, onBeetlesEmpty }) => {
   // No time-limited feed discount covers Pigs today (the Collie and Bantam
   // Shrine discounts are type-gated), but the required-food display stays on a
   // LIVE clock like every other animal so a future Pig boost can't show a
@@ -112,6 +119,9 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
   const [feedXPAmount, setFeedXPAmount] = useState(0);
   const [showLoveItem, setShowLoveItem] = useState<LoveAnimalItem>();
   const [showMutantAnimalModal, setShowMutantAnimalModal] = useState(false);
+  // Beetle feeding mode: a batch that overshoots several levels waits here
+  // for the player's confirmation before any Beetle is spent.
+  const [pendingBeetleFeeds, setPendingBeetleFeeds] = useState<number>();
 
   useEffect(() => {
     if (pig.awakeAt < Date.now() && pigMachineState === "sleeping") {
@@ -235,6 +245,12 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
     animalType: "Pig",
   });
 
+  // Beetle feeding mode, unless a golden asset feeds this animal for free.
+  const beetleMode = beetle && !hasGoldenPig ? beetle : undefined;
+  const beetleFeeds = beetleMode
+    ? getBeetleBatchSize({ state: game, animal: pig, beetle: beetleMode })
+    : 0;
+
   const hasOracleSyringeEquipped = isWearableActive({
     name: "Oracle Syringe",
     game,
@@ -247,15 +263,19 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
     game,
   });
 
-  const feedPig = (item?: InventoryItemName) => {
-    setFeedXPAmount(getAnimalXPEarned(item));
+  const feedPig = (item?: InventoryItemName, feeds = 1) => {
+    setFeedXPAmount(getAnimalXPEarned(item) * feeds);
 
-    const updatedState = gameService.send({
-      type: "animal.fed",
-      animal: "Pig",
-      item: item ? (item as AnimalFoodName) : undefined,
-      id: pig.id,
-    });
+    // A Beetle is one per feed, so Beetle feeding mode sends several.
+    let updatedState = gameService.getSnapshot();
+    for (let i = 0; i < feeds; i++) {
+      updatedState = gameService.send({
+        type: "animal.fed",
+        animal: "Pig",
+        item: item ? (item as AnimalFoodName) : undefined,
+        id: pig.id,
+      });
+    }
 
     setShowFeedXP(true);
     setTimeout(() => setShowFeedXP(false), 700);
@@ -492,6 +512,39 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
       return;
     }
 
+    if (beetleMode) {
+      const owned = inventory[beetleMode] ?? new Decimal(0);
+      if (owned.lt(1)) {
+        // Running dry opens the building's picker so another Beetle kind can
+        // take over; without that hook, fall back to the no-food popover.
+        if (onBeetlesEmpty) {
+          onBeetlesEmpty();
+        } else {
+          await showNoFoodPrompt();
+        }
+        return;
+      }
+
+      // As many as get it ready, or all the player has if that is fewer.
+      const feeds = Math.min(beetleFeeds, owned.toNumber());
+
+      // Overshooting several levels at once is a big spend: confirm first.
+      if (
+        getBeetleLevelGain({
+          state: game,
+          animal: pig,
+          beetle: beetleMode,
+          feeds,
+        }) > 1
+      ) {
+        setPendingBeetleFeeds(feeds);
+        return;
+      }
+
+      feedPig(beetleMode, feeds);
+      return;
+    }
+
     // Auto-select the favourite food when it is held so a stale selection
     // (e.g. Hay left over from another building) never feeds the wrong item.
     const feedItem = getFeedItem({
@@ -590,6 +643,7 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
   const requestBubbleRequest = () => {
     if (sick) return "Barn Delight";
     if (needsLove) return pig.item;
+    if (beetleMode) return beetleMode;
     return favFood;
   };
   const showRequestBubble =
@@ -677,7 +731,11 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
               left={PIXEL_SCALE * 23}
               request={requestBubbleRequest()}
               quantity={
-                idle && !hasGoldenPig ? requiredFoodQty.toNumber() : undefined
+                idle && !hasGoldenPig
+                  ? beetleMode
+                    ? beetleFeeds
+                    : requiredFoodQty.toNumber()
+                  : undefined
               }
             />
           )}
@@ -719,6 +777,40 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
               onClose={() => setShowLockedDetails(false)}
             >
               <LockedAnimalModal animal={pig} />
+            </CloseButtonPanel>
+          </Modal>
+          {/* Beetle feeding mode: confirm before a batch overshoots several levels */}
+          <Modal
+            show={pendingBeetleFeeds !== undefined}
+            onHide={() => setPendingBeetleFeeds(undefined)}
+          >
+            <CloseButtonPanel
+              onClose={() => setPendingBeetleFeeds(undefined)}
+              title={t("animals.beetleMode")}
+            >
+              <div className="flex flex-col gap-2 p-2">
+                <p className="text-xs">
+                  {t("animals.beetleMode.multiLevel", {
+                    animal: t("animal.pig"),
+                    levels: pendingBeetleFeeds ?? 0,
+                  })}
+                </p>
+                <div className="flex gap-1">
+                  <Button
+                    onClick={() => {
+                      const feeds = pendingBeetleFeeds;
+                      setPendingBeetleFeeds(undefined);
+                      // The mode may have been switched off while the modal was up.
+                      if (feeds && beetleMode) feedPig(beetleMode, feeds);
+                    }}
+                  >
+                    {t("confirm")}
+                  </Button>
+                  <Button onClick={() => setPendingBeetleFeeds(undefined)}>
+                    {t("cancel")}
+                  </Button>
+                </div>
+              </div>
             </CloseButtonPanel>
           </Modal>
           <InfoPopover

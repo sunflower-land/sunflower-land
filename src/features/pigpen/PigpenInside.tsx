@@ -21,6 +21,8 @@ import {
 } from "features/game/expansion/components/animals/AnimalBuildingModal";
 import { FeederMachine } from "features/feederMachine/FeederMachine";
 import { FeedAllButton } from "features/game/expansion/components/animals/FeedAllButton";
+import { BeetleFeedingButton } from "features/game/expansion/components/animals/BeetleFeedingButton";
+import type { BeetleName } from "features/game/types/beetles";
 import { ApplyMudButton } from "./components/ApplyMudButton";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
@@ -75,6 +77,11 @@ export const PigpenInside: React.FC = () => {
   // Bonus quick-sell flow: the skull disc docks the bounty cards at the
   // bottom of the screen instead of opening the shop modal's Sell tab.
   const [showSellPanel, setShowSellPanel] = useState(false);
+  // Beetle feeding mode: the Beetle every animal here asks for.
+  const [beetleMode, setBeetleMode] = useState<BeetleName>();
+  // The picker opens from the button, or by itself when the selected Beetle
+  // runs out mid-feeding so another kind can take over.
+  const [showBeetlePicker, setShowBeetlePicker] = useState(false);
   const [selectedAnimalId, setSelectedAnimalId] = useState<string>();
   const [deal, setDeal] = useState<AnimalBounty>();
   const saleSelection = useBountySaleSelection("pigpen");
@@ -375,6 +382,17 @@ export const PigpenInside: React.FC = () => {
                 </div>
               )}
 
+              {!showSellPanel && (
+                <div className="absolute -top-[11px] right-1/2 -translate-x-[134px]">
+                  <BeetleFeedingButton
+                    beetle={beetleMode}
+                    onChange={setBeetleMode}
+                    showPicker={showBeetlePicker}
+                    onShowPickerChange={setShowBeetlePicker}
+                  />
+                </div>
+              )}
+
               {/* Mirrors the Feed All slot on the feeder's other side. */}
               <div className="absolute -top-[11px] right-1/2 -translate-x-[58px]">
                 <ApplyMudButton />
@@ -460,6 +478,8 @@ export const PigpenInside: React.FC = () => {
                         <Pig
                           id={animal.id}
                           disabled={selecting || showSellPanel}
+                          beetle={beetleMode}
+                          onBeetlesEmpty={() => setShowBeetlePicker(true)}
                         />
                         {isPendingSale && (
                           <PendingSaleTag

@@ -3,6 +3,8 @@ import { CONFIG } from "lib/config";
 import {
   ANIMAL_SLEEP_DURATION,
   feedAnimal,
+  getBeetleBatchSize,
+  getBeetleLevelGain,
   getFeedBatchSize,
   handleFoodXP,
 } from "./feedAnimal";
@@ -3381,5 +3383,107 @@ describe("Pig Onesie", () => {
     expect(cow.experience).toEqual(
       Math.ceil(ANIMAL_LEVELS.Cow[1] / 31.5) * 31.5,
     );
+  });
+});
+
+describe("getBeetleBatchSize", () => {
+  // Level 9 Chicken: 240 XP to its next level.
+  const chicken = (mud?: Animal["mud"]): Animal => ({
+    id: "1",
+    type: "Chicken",
+    state: "idle",
+    createdAt: 0,
+    experience: 1200,
+    asleepAt: 0,
+    awakeAt: 0,
+    lovedAt: 0,
+    item: "Petting Hand",
+    mud,
+  });
+
+  it.each([
+    ["Green Beetle", 3],
+    ["Blue Beetle", 2],
+    ["Pink Beetle", 1],
+    ["Amber Beetle", 1],
+  ] as const)("feeds enough %s to get ready", (beetle, expected) => {
+    expect(
+      getBeetleBatchSize({ state: INITIAL_FARM, animal: chicken(), beetle }),
+    ).toBe(expected);
+  });
+
+  it("counts Mud's bonus XP", () => {
+    // 100 XP x1.25 = 125 a Green Beetle: two cover the 240 XP.
+    expect(
+      getBeetleBatchSize({
+        state: INITIAL_FARM,
+        animal: chicken({ harvestsRemaining: 1 }),
+        beetle: "Green Beetle",
+      }),
+    ).toBe(2);
+  });
+});
+
+describe("getBeetleLevelGain", () => {
+  const chicken = (experience: number, mud?: Animal["mud"]): Animal => ({
+    id: "1",
+    type: "Chicken",
+    state: "idle",
+    createdAt: 0,
+    experience,
+    asleepAt: 0,
+    awakeAt: 0,
+    lovedAt: 0,
+    item: "Petting Hand",
+    mud,
+  });
+
+  it("gains one level for a single level's batch", () => {
+    // A fresh Chicken needs 60 XP to level 1; one Green Beetle (100 XP) covers it.
+    expect(
+      getBeetleLevelGain({
+        state: INITIAL_FARM,
+        animal: chicken(0),
+        beetle: "Green Beetle",
+        feeds: 1,
+      }),
+    ).toBe(1);
+  });
+
+  it("gains several levels when a batch overshoots", () => {
+    // One Amber Beetle is 800 XP: a fresh Chicken lands on level 6.
+    expect(
+      getBeetleLevelGain({
+        state: INITIAL_FARM,
+        animal: chicken(0),
+        beetle: "Amber Beetle",
+        feeds: 1,
+      }),
+    ).toBe(6);
+  });
+
+  it("gains fewer levels when the player has fewer Beetles than the batch", () => {
+    // Two Green Beetles (200 XP) stop at level 2; the full batch of three
+    // would reach level 3.
+    expect(
+      getBeetleLevelGain({
+        state: INITIAL_FARM,
+        animal: chicken(0),
+        beetle: "Green Beetle",
+        feeds: 2,
+      }),
+    ).toBe(2);
+  });
+
+  it("counts Mud's bonus XP", () => {
+    // Two muddy Green Beetles (250 XP) reach level 3; dry ones stop at 2.
+    expect(
+      getBeetleLevelGain({
+        state: INITIAL_FARM,
+        animal: chicken(0, { harvestsRemaining: 1 }),
+        beetle: "Green Beetle",
+        feeds: 2,
+      }),
+    ).toBe(3);
   });
 });
