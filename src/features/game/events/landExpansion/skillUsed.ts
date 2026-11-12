@@ -86,8 +86,11 @@ function useInstantGrowth({
       // duration is 0 (mirrors usePetalBlessed / useGreenhouseGuru).
       // Back-dating plantedAt instead would re-price the grow against past
       // boost windows and leave the duration at the FULL base grow time.
+      // Work banked by a landscaping lift is cleared too, since the grow
+      // duration adds it back.
       plantedCrop.baseDurationMs = 0;
       plantedCrop.plantedAt = createdAt;
+      delete plantedCrop.boostedTime;
     } else {
       // Legacy: back-date to make it ready, and bank the full grow time as
       // boostedTime so the duration (base - boosted) is likewise 0.

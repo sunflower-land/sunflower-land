@@ -405,6 +405,62 @@ describe("skillUse", () => {
       expect(stateAfterHarvest.inventory.Kale).toEqual(new Decimal(1.5));
     });
 
+    it("frees the yield AOE for a windowed crop that was lifted mid-grow", () => {
+      const base = CROPS["Kale"].harvestSeconds * 1000;
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Instant Growth": 1 },
+          },
+          inventory: {
+            Kale: new Decimal(0),
+          },
+          crops: {
+            "123": {
+              crop: {
+                id: "456",
+                name: "Kale",
+                plantedAt: dateNow,
+                // Half the grow was banked by a landscaping lift.
+                baseDurationMs: base / 2,
+                boostedTime: base / 2,
+              },
+              createdAt: dateNow,
+              x: 1,
+              y: 0,
+            },
+          },
+          collectibles: {
+            "Sir Goldensnout": [
+              {
+                id: "123",
+                createdAt: dateNow,
+                readyAt: dateNow,
+                coordinates: { x: 0, y: 0 },
+              },
+            ],
+          },
+          aoe: { "Sir Goldensnout": { 1: { 0: dateNow } } },
+        },
+        action: {
+          type: "skill.used",
+          skill: "Instant Growth",
+        },
+        createdAt: dateNow,
+      });
+
+      const stateAfterHarvest = harvest({
+        farmId: 1,
+        state,
+        action: { type: "crop.harvested", index: "123" },
+        createdAt: dateNow,
+      });
+
+      expect(stateAfterHarvest.inventory.Kale).toEqual(new Decimal(1.5));
+    });
+
     it("leaves the yield AOE of a plot it did not grow untouched", () => {
       const state = skillUse({
         state: {

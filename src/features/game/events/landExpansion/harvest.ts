@@ -171,6 +171,11 @@ export function isCropGrowing(plot: CropPlot, game: GameState) {
  * Sparrow Shrine shortens it to match the actual time-to-harvest (matching how
  * legacy crops folded the shrine into `boostedTime`); legacy crops keep their
  * back-dated boosted time.
+ *
+ * A landscaping lift banks the work done so far into `boostedTime` and shrinks
+ * `baseDurationMs` to what's left (see `pauseWindowedTimer`), so the banked work
+ * is added back here: the duration covers the whole grow, not just the part
+ * after the crop was re-placed.
  */
 const getCropGrowDurationMs = (
   cropName: CropName | GreenHouseCropName,
@@ -179,10 +184,18 @@ const getCropGrowDurationMs = (
   fertiliser?: CropFertiliser,
 ): number => {
   const cropDetails = CROPS[cropName as CropName];
-  return plantedCrop?.baseDurationMs !== undefined
-    ? getCropReadyAt(plantedCrop, cropDetails, game, fertiliser) -
-        plantedCrop.plantedAt
-    : cropDetails.harvestSeconds * 1000 - (plantedCrop?.boostedTime ?? 0);
+  if (plantedCrop?.baseDurationMs === undefined) {
+    return cropDetails.harvestSeconds * 1000 - (plantedCrop?.boostedTime ?? 0);
+  }
+
+  const fullGrow: PlantedCrop = {
+    ...plantedCrop,
+    baseDurationMs: plantedCrop.baseDurationMs + (plantedCrop.boostedTime ?? 0),
+  };
+  return (
+    getCropReadyAt(fullGrow, cropDetails, game, fertiliser) -
+    plantedCrop.plantedAt
+  );
 };
 
 type CropYieldAmountArgs = {

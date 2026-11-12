@@ -57,11 +57,25 @@ type GetMinedAtArgs = {
  * Windowed rocks derive it from the live speed windows so an active boost shortens
  * it to match the actual recovery (matching how legacy rocks folded the discount
  * into `boostedTime`); legacy rocks keep their back-dated boosted time.
+ *
+ * A landscaping lift banks the work done so far into `boostedTime` and shrinks
+ * `baseDurationMs` to what's left (see `pauseWindowedTimer`), so the banked work
+ * is added back here: the duration covers the whole recovery, not just the part
+ * after the rock was re-placed.
  */
 function getIronRecoveryDurationMs(rock: Rock, game: GameState): number {
-  return rock.stone.baseDurationMs !== undefined
-    ? getMineReadyAt(rock, "Iron Rock", game) - rock.stone.minedAt
-    : IRON_RECOVERY_TIME * 1000 - (rock?.stone?.boostedTime ?? 0);
+  if (rock.stone.baseDurationMs === undefined) {
+    return IRON_RECOVERY_TIME * 1000 - (rock?.stone?.boostedTime ?? 0);
+  }
+
+  const fullRecovery: Rock = {
+    ...rock,
+    stone: {
+      ...rock.stone,
+      baseDurationMs: rock.stone.baseDurationMs + (rock.stone.boostedTime ?? 0),
+    },
+  };
+  return getMineReadyAt(fullRecovery, "Iron Rock", game) - rock.stone.minedAt;
 }
 
 /**
