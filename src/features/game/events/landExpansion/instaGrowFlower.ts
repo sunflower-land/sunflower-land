@@ -1,6 +1,5 @@
 import type { GameState } from "../../types/game";
 import { produce } from "immer";
-import { FLOWERS, FLOWER_SEEDS } from "../../types/flowers";
 import Decimal from "decimal.js-light";
 import { translate } from "lib/i18n/translate";
 import { updateBeehives } from "features/game/lib/updateBeehives";
@@ -60,24 +59,12 @@ export function instaGrowFlower({
 
     stateCopy.inventory.Obsidian = playerObsidian.sub(obsidianCost);
 
-    if (flower.baseDurationMs !== undefined) {
-      // Speed-rate model: zero the remaining work AND re-anchor the start to now
-      // so computeReadyAt resolves to `createdAt` (ready now), not the original
-      // (past) plantedAt. Anchoring to now matches the legacy branch's
-      // `readyAt === createdAt`, so updateBeehives credits honey accrued up to
-      // the insta-grow instead of clamping it to a past readyAt.
-      flower.baseDurationMs = 0;
-      flower.plantedAt = createdAt;
-    } else {
-      // Legacy: back-date plantedAt so plantedAt + base grow time === createdAt.
-      // `boostedTime` tracks the TOTAL back-date (the bar un-back-dates with
-      // it), so it has to absorb this one too rather than keep the plant-time
-      // value.
-      const growTimeMs =
-        FLOWER_SEEDS[FLOWERS[flower.name].seed].plantSeconds * 1000;
-      flower.plantedAt = createdAt - growTimeMs;
-      flower.boostedTime = growTimeMs;
-    }
+    // Zero the remaining work AND re-anchor the start to now so computeReadyAt
+    // resolves to `createdAt` (ready now), not the original (past) plantedAt, so
+    // updateBeehives credits honey accrued up to the insta-grow instead of
+    // clamping it to a past readyAt.
+    flower.baseDurationMs = 0;
+    flower.plantedAt = createdAt;
 
     stateCopy.beehives = updateBeehives({ game: stateCopy, createdAt });
   });

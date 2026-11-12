@@ -126,15 +126,11 @@ export function getMineReadyAt(
 ): number {
   const { baseDurationMs, minedAt } = rock.stone;
 
-  if (baseDurationMs !== undefined) {
-    return computeReadyAt({
-      startedAt: minedAt,
-      baseDurationMs,
-      windows: getMineBoostWindows(game, rockName),
-    });
-  }
-
-  return minedAt + RESOURCE_RECOVERY_TIME[rockName] * 1000;
+  return computeReadyAt({
+    startedAt: minedAt,
+    baseDurationMs: baseDurationMs ?? RESOURCE_RECOVERY_TIME[rockName] * 1000,
+    windows: getMineBoostWindows(game, rockName),
+  });
 }
 
 export function canMine(

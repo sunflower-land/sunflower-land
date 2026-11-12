@@ -352,15 +352,11 @@ export function getChoppedAt({ game, createdAt, prngArgs }: GetChoppedAtArgs): {
 export function getTreeReadyAt(tree: Tree, game: GameState): number {
   const { baseDurationMs, choppedAt } = tree.wood;
 
-  if (baseDurationMs !== undefined) {
-    return computeReadyAt({
-      startedAt: choppedAt,
-      baseDurationMs,
-      windows: getTreeBoostWindows(game),
-    });
-  }
-
-  return choppedAt + TREE_RECOVERY_TIME * 1000;
+  return computeReadyAt({
+    startedAt: choppedAt,
+    baseDurationMs: baseDurationMs ?? TREE_RECOVERY_TIME * 1000,
+    windows: getTreeBoostWindows(game),
+  });
 }
 
 /**

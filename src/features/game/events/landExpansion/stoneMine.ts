@@ -59,9 +59,7 @@ type Options = {
  * into `boostedTime`); legacy rocks keep their back-dated boosted time.
  */
 function getStoneRecoveryDurationMs(rock: Rock, game: GameState): number {
-  return rock.stone.baseDurationMs !== undefined
-    ? getMineReadyAt(rock, "Stone Rock", game) - rock.stone.minedAt
-    : STONE_RECOVERY_TIME * 1000 - (rock?.stone?.boostedTime ?? 0);
+  return getMineReadyAt(rock, "Stone Rock", game) - rock.stone.minedAt;
 }
 
 type GetMinedAtArgs = {

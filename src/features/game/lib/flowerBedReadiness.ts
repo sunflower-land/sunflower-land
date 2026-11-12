@@ -19,16 +19,12 @@ export const getFlowerReadyAt = (
   flower: PlantedFlower,
   game: GameState,
 ): number => {
-  if (flower.baseDurationMs !== undefined) {
-    return computeReadyAt({
-      startedAt: flower.plantedAt,
-      baseDurationMs: flower.baseDurationMs,
-      windows: getFlowerBoostWindows(game),
-    });
-  }
-
   const { plantSeconds } = FLOWER_SEEDS[FLOWERS[flower.name].seed];
-  return flower.plantedAt + plantSeconds * 1000;
+  return computeReadyAt({
+    startedAt: flower.plantedAt,
+    baseDurationMs: flower.baseDurationMs ?? plantSeconds * 1000,
+    windows: getFlowerBoostWindows(game),
+  });
 };
 
 /**

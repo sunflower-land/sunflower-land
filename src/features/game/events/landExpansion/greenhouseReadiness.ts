@@ -28,18 +28,15 @@ export const getGreenhouseReadyAt = (
   game: GameState,
   fertiliser?: GreenhouseFertiliser,
 ): number => {
-  if (plant.baseDurationMs !== undefined) {
-    return computeReadyAt({
-      startedAt: plant.plantedAt,
-      baseDurationMs: plant.baseDurationMs,
-      windows: [
-        ...getGreenhouseBoostWindows(game, plant.name),
-        ...getGreenhouseGlowWindows(fertiliser),
-      ],
-    });
-  }
-
-  return plant.plantedAt + GREENHOUSE_CROP_TIME_SECONDS[plant.name] * 1000;
+  return computeReadyAt({
+    startedAt: plant.plantedAt,
+    baseDurationMs:
+      plant.baseDurationMs ?? GREENHOUSE_CROP_TIME_SECONDS[plant.name] * 1000,
+    windows: [
+      ...getGreenhouseBoostWindows(game, plant.name),
+      ...getGreenhouseGlowWindows(fertiliser),
+    ],
+  });
 };
 
 export const getGreenhousePotReadyAt = (pot: GreenhousePot, game: GameState) =>

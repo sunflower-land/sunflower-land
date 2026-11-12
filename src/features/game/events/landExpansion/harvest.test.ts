@@ -1580,7 +1580,9 @@ describe("harvest", () => {
       expect(state.inventory.Cabbage).toEqual(new Decimal(1.2));
     });
 
-    it("applies the AOE on a crop with boosted time", () => {
+    it("applies the AOE on a crop with a permanently shortened grow time", () => {
+      // The AOE re-arms after the crop's real grow duration, which a permanent
+      // boost (folded into baseDurationMs) shortens — here to half.
       const boostedTime = CROPS["Cabbage"].harvestSeconds * 1000 * 0.5;
 
       const state = harvest({
@@ -1620,8 +1622,10 @@ describe("harvest", () => {
               crop: {
                 name: "Cabbage",
                 plantedAt:
-                  dateNow - (CROPS["Cabbage"].harvestSeconds ?? 0) * 1000,
-                boostedTime,
+                  dateNow -
+                  (CROPS["Cabbage"].harvestSeconds * 1000 - boostedTime),
+                baseDurationMs:
+                  CROPS["Cabbage"].harvestSeconds * 1000 - boostedTime,
               },
             },
           },
@@ -4217,16 +4221,6 @@ describe("harvest", () => {
           baseDurationMs: base,
           collectibles: sparrowShrine(plantedAt, removedAt),
         }),
-      ).toThrow("Not ready");
-    });
-
-    it("does not apply the speed window to legacy crops (no baseDurationMs)", () => {
-      // Legacy crop (no baseDurationMs) stays on the back-dated model: base/speed
-      // elapsed < base and the window does not apply, so it is not ready.
-      const plantedAt = dateNow - base / speed;
-
-      expect(() =>
-        harvestSunflower({ plantedAt, collectibles: sparrowShrine(plantedAt) }),
       ).toThrow("Not ready");
     });
 

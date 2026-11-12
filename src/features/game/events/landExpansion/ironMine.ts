@@ -59,9 +59,7 @@ type GetMinedAtArgs = {
  * into `boostedTime`); legacy rocks keep their back-dated boosted time.
  */
 function getIronRecoveryDurationMs(rock: Rock, game: GameState): number {
-  return rock.stone.baseDurationMs !== undefined
-    ? getMineReadyAt(rock, "Iron Rock", game) - rock.stone.minedAt
-    : IRON_RECOVERY_TIME * 1000 - (rock?.stone?.boostedTime ?? 0);
+  return getMineReadyAt(rock, "Iron Rock", game) - rock.stone.minedAt;
 }
 
 /**

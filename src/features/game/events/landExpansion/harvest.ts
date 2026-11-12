@@ -127,18 +127,15 @@ export const getCropReadyAt = (
   game: GameState,
   fertiliser?: CropFertiliser,
 ): number => {
-  if (plantedCrop.baseDurationMs !== undefined) {
-    return computeReadyAt({
-      startedAt: plantedCrop.plantedAt,
-      baseDurationMs: plantedCrop.baseDurationMs,
-      windows: [
-        ...getCropPlotBoostWindows(game),
-        ...getCropFertiliserWindows(fertiliser),
-      ],
-    });
-  }
-
-  return plantedCrop.plantedAt + cropDetails.harvestSeconds * 1000;
+  return computeReadyAt({
+    startedAt: plantedCrop.plantedAt,
+    baseDurationMs:
+      plantedCrop.baseDurationMs ?? cropDetails.harvestSeconds * 1000,
+    windows: [
+      ...getCropPlotBoostWindows(game),
+      ...getCropFertiliserWindows(fertiliser),
+    ],
+  });
 };
 
 export const isReadyToHarvest = (
@@ -179,10 +176,10 @@ const getCropGrowDurationMs = (
   fertiliser?: CropFertiliser,
 ): number => {
   const cropDetails = CROPS[cropName as CropName];
-  return plantedCrop?.baseDurationMs !== undefined
+  return plantedCrop
     ? getCropReadyAt(plantedCrop, cropDetails, game, fertiliser) -
         plantedCrop.plantedAt
-    : cropDetails.harvestSeconds * 1000 - (plantedCrop?.boostedTime ?? 0);
+    : cropDetails.harvestSeconds * 1000;
 };
 
 type CropYieldAmountArgs = {

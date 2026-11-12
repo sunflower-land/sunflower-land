@@ -38,9 +38,7 @@ export type LandExpansionGoldMineAction = {
  * into `boostedTime`); legacy rocks keep their back-dated boosted time.
  */
 function getGoldRecoveryDurationMs(rock: Rock, game: GameState): number {
-  return rock.stone.baseDurationMs !== undefined
-    ? getMineReadyAt(rock, "Gold Rock", game) - rock.stone.minedAt
-    : GOLD_RECOVERY_TIME * 1000 - (rock?.stone?.boostedTime ?? 0);
+  return getMineReadyAt(rock, "Gold Rock", game) - rock.stone.minedAt;
 }
 
 type PrngArgs = {

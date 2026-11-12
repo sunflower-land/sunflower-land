@@ -33,18 +33,14 @@ export const getFruitReadyAt = (
 
   const startedAt = plantedFruit.harvestedAt || plantedFruit.plantedAt;
 
-  if (plantedFruit.baseDurationMs !== undefined) {
-    return computeReadyAt({
-      startedAt,
-      baseDurationMs: plantedFruit.baseDurationMs,
-      windows: [
-        ...getFruitBoostWindows(game),
-        ...getTurbofruitMixWindows(fertiliser),
-      ],
-    });
-  }
-
-  return startedAt + plantSeconds * 1000;
+  return computeReadyAt({
+    startedAt,
+    baseDurationMs: plantedFruit.baseDurationMs ?? plantSeconds * 1000,
+    windows: [
+      ...getFruitBoostWindows(game),
+      ...getTurbofruitMixWindows(fertiliser),
+    ],
+  });
 };
 
 export const isFruitReadyToHarvest = (

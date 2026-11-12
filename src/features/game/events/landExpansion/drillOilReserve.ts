@@ -113,15 +113,11 @@ export function getOilReserveReadyAt(
 ): number {
   const { baseDurationMs, drilledAt } = reserve.oil;
 
-  if (baseDurationMs !== undefined) {
-    return computeReadyAt({
-      startedAt: drilledAt,
-      baseDurationMs,
-      windows: getOilBoostWindows(game),
-    });
-  }
-
-  return drilledAt + OIL_RESERVE_RECOVERY_TIME * 1000;
+  return computeReadyAt({
+    startedAt: drilledAt,
+    baseDurationMs: baseDurationMs ?? OIL_RESERVE_RECOVERY_TIME * 1000,
+    windows: getOilBoostWindows(game),
+  });
 }
 
 export function canDrillOilReserve(
