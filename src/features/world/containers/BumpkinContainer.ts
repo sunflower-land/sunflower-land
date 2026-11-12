@@ -1175,6 +1175,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       if (file.key !== key) return;
 
       stopListening();
+      // Let the next dance ask for the sheet again
+      this.danceSheetRequested = false;
       if (this.scene && this.sprite?.active) this.hop();
     };
 
