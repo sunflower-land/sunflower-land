@@ -816,6 +816,8 @@ export function getDailyFishingCount(state: GameState): number {
   return state.fishing.dailyAttempts?.[today] ?? 0;
 }
 
+export const BASE_DAILY_FISHING_LIMIT = 20;
+
 export function getDailyFishingLimit(
   game: GameState,
   createdAt: number,
@@ -823,7 +825,7 @@ export function getDailyFishingLimit(
   limit: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
-  let limit = 20;
+  let limit = BASE_DAILY_FISHING_LIMIT;
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
   // +10 daily limit if player has Angler Waders
@@ -1028,6 +1030,15 @@ const CHAPTER_MAP_PIECE_TRIGGERS: Partial<
     Napoleanfish: { marvel: "Dumbo Octopus", odds: 0.005 },
     Angelfish: { marvel: "Seahorse Dad", odds: 0.001 },
     Porgy: { marvel: "Seahorse Dad", odds: 0.01 },
+  },
+  "Cave Dwellers": {
+    "Moray Eel": { marvel: "Macropinna", odds: 0.015 },
+    Coelacanth: { marvel: "Macropinna", odds: 0.01 },
+    "Zebra Turkeyfish": { marvel: "Betta", odds: 0.01 },
+    Muskellunge: { marvel: "Betta", odds: 0.02 },
+    Blowfish: { marvel: "Betta", odds: 0.01 },
+    "Whale Shark": { marvel: "Manatee", odds: 0.01 },
+    "Sea Bass": { marvel: "Manatee", odds: 0.002 },
   },
 };
 

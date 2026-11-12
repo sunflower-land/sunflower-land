@@ -1,3 +1,4 @@
+import { refreshBeehivesOnRateChange } from "features/game/lib/updateBeehives";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { getTotalBumpkinLevel } from "features/game/lib/level";
 import {
@@ -11,7 +12,6 @@ import {
 import type { Bumpkin, GameState } from "features/game/types/game";
 import { populateSaltFarm } from "features/game/types/salt";
 import { produce } from "immer";
-import { hasSkillAccess } from "features/game/lib/skillAccess";
 
 export type ChoseSkillAction = {
   type: "skill.chosen";
@@ -125,7 +125,7 @@ export const getUnlockedTierForTree = (
 };
 
 export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
-  return produce(state, (stateCopy) => {
+  const gameAfter = produce(state, (stateCopy) => {
     const { bumpkin, island } = stateCopy;
 
     if (!bumpkin) {
@@ -155,10 +155,6 @@ export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
       throw new Error("This skill is disabled");
     }
 
-    if (!hasSkillAccess(stateCopy, action.skill, createdAt)) {
-      throw new Error("This skill is not available");
-    }
-
     if (bumpkinHasSkill) {
       throw new Error("You already have this skill");
     }
@@ -175,5 +171,11 @@ export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
     });
 
     return stateCopy;
+  });
+
+  return refreshBeehivesOnRateChange({
+    gameBefore: state,
+    gameAfter,
+    createdAt,
   });
 }

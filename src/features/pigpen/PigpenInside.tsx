@@ -42,8 +42,8 @@ import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { ANIMAL_HOUSE_BOUNDS } from "features/game/expansion/placeable/lib/collisionDetection";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { PlayerModal } from "features/social/PlayerModal";
+import { Discovery } from "features/social/Discovery";
 import { hasFeatureAccess } from "lib/flags";
-import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { canTradeInPig, getPigBristles } from "features/game/lib/animals";
@@ -106,10 +106,6 @@ export const PigpenInside: React.FC = () => {
   const game = useSelector(gameService, _game);
   const island = useSelector(gameService, _island);
   const level = pigpen.level;
-  const hasPigpenAccess = useTimeBasedFeatureAccess({
-    featureName: "PIGPEN",
-    game,
-  });
   // Either selection mode dims the room and makes the Pigs pickable.
   const selecting = !!deal || tradeInMode;
 
@@ -156,10 +152,13 @@ export const PigpenInside: React.FC = () => {
     [animalIds],
   );
 
-  // Organize the animals neatly in the pigpen
+  // Organize the animals in a centred 3x3 grid (max capacity is 9 Pigs)
   const organizedAnimals = useMemo(() => {
-    const maxAnimalsPerRow = Math.floor(floorWidth / ANIMALS.Pig.width);
-    const verticalGap = 0.5; // Add a 0.5 grid unit gap between rows
+    const maxAnimalsPerRow = 3;
+    const gap = 0.5; // 0.5 grid unit gap between rows and columns
+    const gridWidth =
+      maxAnimalsPerRow * ANIMALS.Pig.width + (maxAnimalsPerRow - 1) * gap;
+    const offsetX = (floorWidth - gridWidth) / 2;
 
     // Reads through `sortedAnimalIds` so the order is fixed, but depends on
     // `pigpen.animals` so the records it renders (experience, state) are fresh.
@@ -172,8 +171,8 @@ export const PigpenInside: React.FC = () => {
         return {
           ...animal,
           coordinates: {
-            x: col * ANIMALS.Pig.width,
-            y: row * (ANIMALS.Pig.height + verticalGap),
+            x: offsetX + col * (ANIMALS.Pig.width + gap),
+            y: row * (ANIMALS.Pig.height + gap),
           },
         };
       });
@@ -247,15 +246,11 @@ export const PigpenInside: React.FC = () => {
             setTradeInMode(false);
             setDeal(deal);
           }}
-          onTradeIn={
-            hasPigpenAccess
-              ? () => {
-                  setShowModal(false);
-                  setDeal(undefined);
-                  setTradeInMode(true);
-                }
-              : undefined
-          }
+          onTradeIn={() => {
+            setShowModal(false);
+            setDeal(undefined);
+            setTradeInMode(true);
+          }}
         />
       </Modal>
 
@@ -287,17 +282,13 @@ export const PigpenInside: React.FC = () => {
             setTradeInMode(false);
             saleSelection.setBulkMode(false);
           }}
-          tradeIn={
-            hasPigpenAccess
-              ? {
-                  selected: tradeInMode,
-                  onSelect: () => {
-                    setDeal(undefined);
-                    setTradeInMode((selected) => !selected);
-                  },
-                }
-              : undefined
-          }
+          tradeIn={{
+            selected: tradeInMode,
+            onSelect: () => {
+              setDeal(undefined);
+              setTradeInMode((selected) => !selected);
+            },
+          }}
         />
       )}
 
@@ -586,6 +577,7 @@ export const PigpenInside: React.FC = () => {
         token={token}
         hasAirdropAccess={hasAirdropAccess}
       />
+      <Discovery />
     </>
   );
 };

@@ -12,8 +12,9 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { ZoomContext } from "components/ZoomProvider";
+import { RoundButton } from "components/ui/RoundButton";
+import shopIcon from "assets/icons/shop.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 import { isCaveBuildingReady } from "features/game/lib/cave";
 import { isCavePatchCleared } from "features/game/types/caveRecipes";
 import { isCaveMachineIdle } from "features/game/lib/cave";
@@ -56,6 +57,21 @@ import {
   type CaveTutorialSeen,
 } from "./lib/onboarding";
 
+import { useCaveMerchantOffers } from "./hooks/useCaveMerchantOffers";
+import { PlayerModal } from "features/social/PlayerModal";
+import { hasFeatureAccess } from "lib/flags";
+import { Discovery } from "features/social/Discovery";
+import { Context as AuthContext } from "features/auth/lib/Provider";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
+
+const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
+const _loggedInFarmId = (state: MachineState) =>
+  state.context.visitorId ?? state.context.farmId;
+const _hasAirdropAccess = (state: MachineState) =>
+  hasFeatureAccess(
+    state.context.visitorState ?? state.context.state,
+    "AIRDROP_PLAYER",
+  );
 const _cave = (state: MachineState) => state.context.state.cave;
 const _buildings = (state: MachineState) => state.context.state.buildings;
 const _state = (state: MachineState) => state.context.state;
@@ -113,16 +129,18 @@ export const Cave: React.FC = () => {
   const cave = useSelector(gameService, _cave);
   const buildings = useSelector(gameService, _buildings);
   const state = useSelector(gameService, _state);
-  const hasCaveAccess = useTimeBasedFeatureAccess({
-    featureName: "CAVE",
-    game: state,
-  });
   const shovels = useSelector(gameService, _shovels);
   const drills = useSelector(gameService, _drills);
+  const { authService } = useContext(AuthContext);
+  const token = useSelector(authService, _token);
+  const loggedInFarmId = useSelector(gameService, _loggedInFarmId);
+  const hasAirdropAccess = useSelector(gameService, _hasAirdropAccess);
   const now = useNow({ live: true });
+  const { hasUnseenOffers } = useCaveMerchantOffers(cave, now);
   const [selectedMachine, setSelectedMachine] = useState<string>();
   const [showExpansion, setShowExpansion] = useState(false);
   const [showMerchant, setShowMerchant] = useState(false);
+  const [lastDugMachine, setLastDugMachine] = useState<string>();
   const [tutorialSeen, setTutorialSeen] = useState(getCaveTutorialSeen);
   const tutorialStep = useSelector(gameService, (state: MachineState) =>
     getCaveTutorialStep(state.context.state, now, tutorialSeen),
@@ -150,7 +168,7 @@ export const Cave: React.FC = () => {
 
   // Reached by URL without access or before the Cave building is placed and
   // finished — send the player back to the farm.
-  if (!hasCaveAccess || !cave || !isCaveBuildingReady({ buildings }, now)) {
+  if (!cave || !isCaveBuildingReady({ buildings }, now)) {
     return <Navigate to="/" replace />;
   }
 
@@ -175,9 +193,31 @@ export const Cave: React.FC = () => {
     !showMerchant;
   const guiding =
     tutorialStep && tutorialSeen[tutorialStep] ? tutorialStep : undefined;
+  // Match the tutorial: either digging tool lets the player continue.
+  const outOfShovels = shovels < 1 && drills < 1;
+  const readyMachines = slots.filter((id) => {
+    const batch = cave.machines[String(id)]?.batch;
+    return batch && batch.readyAt <= now && !isCavePatchCleared(batch);
+  });
+  const needsShovels = outOfShovels && readyMachines.length > 0;
+  // Keep one shortcut beside the last patch dug while it is still ready.
+  // Otherwise use the first ready, incomplete patch.
+  const shopMachine = (
+    readyMachines.find((id) => String(id) === lastDugMachine) ??
+    readyMachines[0]
+  )?.toString();
+  const merchantSpeech = guiding
+    ? t(CAVE_TUTORIAL_BUBBLES[guiding])
+    : needsShovels
+      ? t("cave.merchant.noShovels")
+      : undefined;
 
   return (
-    <div className="absolute inset-0 bg-[#181425] overflow-hidden">
+    // Sized to #root (`h-full`), not the viewport (`absolute inset-0`): on
+    // phones the PWA makes the document taller than the viewport by the top
+    // safe-area inset (see `html` in styles.css), and a viewport-sized box
+    // left that extra height uncovered as a white strip under the room.
+    <div className="relative w-full h-full bg-[#181425] overflow-hidden">
       {/* Same scroll setup as the home Interior: click-and-drag panning over a
           big gameboard with the room centred in it. */}
       <ScrollContainer
@@ -257,14 +297,30 @@ export const Cave: React.FC = () => {
                 }}
                 onClick={() => setShowMerchant(true)}
               >
-                {guiding && (
-                  <NPCSpeechBubble
-                    text={t(CAVE_TUTORIAL_BUBBLES[guiding])}
-                    // Anchored top-left (Gloomwick hangs below this button's
-                    // top edge) so the tail sits just over his head however
-                    // long the text is.
+                {merchantSpeech &&
+                  !showTutorialPopup &&
+                  !selectedMachine &&
+                  !showExpansion &&
+                  !showMerchant && (
+                    <NPCSpeechBubble
+                      text={merchantSpeech}
+                      // Anchored top-left (Gloomwick hangs below this button's
+                      // top edge) so the tail sits just over his head however
+                      // long the text is.
+                      style={{
+                        top: `${PIXEL_SCALE * -6}px`,
+                        left: `${PIXEL_SCALE * 6}px`,
+                      }}
+                    />
+                  )}
+                {hasUnseenOffers && (
+                  <img
+                    src={SUNNYSIDE.icons.expression_alerted}
+                    alt=""
+                    className={`absolute max-w-none pointer-events-none z-30 ${showAnimations ? "ready" : ""}`}
                     style={{
-                      top: `${PIXEL_SCALE * -6}px`,
+                      width: `${PIXEL_SCALE * 4}px`,
+                      top: `${PIXEL_SCALE * -12}px`,
                       left: `${PIXEL_SCALE * 6}px`,
                     }}
                   />
@@ -278,6 +334,8 @@ export const Cave: React.FC = () => {
               {slots.map((id) => {
                 const slot = CAVE_SLOTS[id];
                 const batch = cave.machines[String(id)]?.batch;
+                const showShopShortcut =
+                  !tutorialStep && needsShovels && shopMachine === String(id);
 
                 return (
                   <React.Fragment key={`slot-${id}`}>
@@ -333,12 +391,35 @@ export const Cave: React.FC = () => {
                         now={now}
                         hasShovel={shovels > 0}
                         hasDrill={drills > 0}
+                        onDig={() => setLastDugMachine(String(id))}
                         tutorialTile={
                           id === 1 && guiding === "dig"
                             ? { x: 2, y: 2 }
                             : undefined
                         }
                       />
+                      {showShopShortcut && (
+                        <button
+                          type="button"
+                          aria-label={t("cave.merchant.title")}
+                          data-prevent-drag-scroll
+                          className="absolute z-10 bg-transparent border-0 p-0 -translate-y-1/2"
+                          style={{
+                            left: `calc(100% + ${PIXEL_SCALE * 4}px)`,
+                            top: "50%",
+                          }}
+                          onClick={() => setShowMerchant(true)}
+                        >
+                          <RoundButton>
+                            <img
+                              src={shopIcon}
+                              alt=""
+                              className="absolute inset-0 m-auto group-active:translate-y-[2px]"
+                              style={{ width: `${PIXEL_SCALE * 14}px` }}
+                            />
+                          </RoundButton>
+                        </button>
+                      )}
                     </div>
                   </React.Fragment>
                 );
@@ -422,6 +503,15 @@ export const Cave: React.FC = () => {
       {/* Same HUD as the other interiors (barn, greenhouse, …): the travel slot
           becomes a "back to farm" button for non-farm locations. */}
       <Hud isFarming={false} location="home" />
+
+      {/* The HUD's social Feed opens these through modal managers; each scene
+          mounts its own listeners, so without them feed clicks do nothing. */}
+      <PlayerModal
+        loggedInFarmId={loggedInFarmId}
+        token={token}
+        hasAirdropAccess={hasAirdropAccess}
+      />
+      <Discovery />
     </div>
   );
 };

@@ -18,7 +18,6 @@ import {
   getCollectiblesAcrossLocations,
 } from "features/game/lib/collectibleBuilt";
 import { TemporaryCollectibleModal } from "features/game/components/TemporaryCollectibleModal";
-import { hasFeatureAccess } from "lib/flags";
 import { Modal } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
@@ -141,15 +140,13 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
   const expiresAt = getCollectibleExpiry({
     name: "Obsidian Shrine",
     collectible: placed ?? { createdAt },
-    game: state,
   });
   const { totalSeconds: secondsToExpire } = useCountdown(expiresAt);
   const durationSeconds =
     ((EXPIRY_COOLDOWNS["Obsidian Shrine"] ?? 0) + extendedMs) / 1000;
   const percentage = 100 - (secondsToExpire / durationSeconds) * 100;
   const hasExpired = secondsToExpire <= 0;
-  const canExtend =
-    !isVisiting && hasFeatureAccess(state, "SPEED_BOOSTS") && !!placed;
+  const canExtend = !isVisiting && !!placed;
 
   const now = useNow({ live: !hasExpired, autoEndAt: expiresAt });
 

@@ -182,6 +182,8 @@ export const Chicken: React.FC<{
   // Captured when feeding: a level-up changes what the same feed is worth.
   const [feedXPAmount, setFeedXPAmount] = useState(0);
   const [showNoFoodSelected, setShowNoFoodSelected] = useState(false);
+  const [showFreeFeedTreat, setShowFreeFeedTreat] = useState(false);
+  const freeFeedTreatTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
   const [showLoveItem, setShowLoveItem] = useState<LoveAnimalItem>();
   const [showMutantAnimalModal, setShowMutantAnimalModal] = useState(false);
   // Beetle feeding mode: a batch that overshoots several levels waits here
@@ -482,6 +484,10 @@ export const Chicken: React.FC<{
     // the game-state animal is already asleep, so any feed/claim event would
     // throw. Ignore clicks until the animation resolves.
     if (showDrops) return;
+    // A new click replaces an earlier Honey Treat notice, so it can't sit
+    // over whatever this click does.
+    clearTimeout(freeFeedTreatTimeout.current);
+    setShowFreeFeedTreat(false);
 
     const showNoFoodPrompt = async () => {
       setShowNoFoodSelected(true);
@@ -491,11 +497,8 @@ export const Chicken: React.FC<{
 
     if (sick) return onSickClick();
 
-    if (needsLove) {
-      if (!hasGoldEgg) return onLoveClick();
-
-      handleShowDetails();
-      return;
+    if (needsLove && !hasGoldEgg) {
+      return onLoveClick();
     }
 
     const hasBuffSelected = selectedItem && isAnimalFeedBuffItem(selectedItem);
@@ -503,6 +506,16 @@ export const Chicken: React.FC<{
     if (hasBuffSelected) {
       const buffItem = selectedItem as AnimalFeedBuffName;
       const buffCount = inventory[buffItem] ?? new Decimal(0);
+      // Honey Treat only cuts feed, and Gold Egg already makes it free.
+      if (buffItem === "Honey Treat" && hasGoldEgg) {
+        setShowFreeFeedTreat(true);
+        // Cleared on the next click, so an older timer can't hide a newer notice.
+        freeFeedTreatTimeout.current = setTimeout(
+          () => setShowFreeFeedTreat(false),
+          1000,
+        );
+        return;
+      }
       if (!chicken.feedBuff && buffCount.gte(1)) {
         gameService.send({
           type: "animal.feedBuffApplied",
@@ -515,6 +528,11 @@ export const Chicken: React.FC<{
       }
 
       await showNoFoodPrompt();
+      return;
+    }
+
+    if (needsLove && hasGoldEgg) {
+      handleShowDetails();
       return;
     }
 
@@ -583,18 +601,13 @@ export const Chicken: React.FC<{
       favouriteFood: favFood,
       inventory,
       requiredQty: requiredFoodQty,
-      hasBeetleFeedingAccess,
     });
     if (feedItem && feedItem !== selectedItem) {
       shortcutItem(feedItem);
     }
 
-    // Without access a Beetle is not food here, so the click falls through to
-    // the no-food prompt instead of an event the reducer would reject.
     const hasFoodSelected =
-      feedItem &&
-      (isFoodForAnimal("Chicken", feedItem) ||
-        (hasBeetleFeedingAccess && isBeetle(feedItem)));
+      feedItem && (isFoodForAnimal("Chicken", feedItem) || isBeetle(feedItem));
 
     if (hasFoodSelected) {
       const foodCount = inventory[feedItem as AnimalFoodName] ?? new Decimal(0);
@@ -613,6 +626,8 @@ export const Chicken: React.FC<{
   };
 
   const getInfoPopoverMessage = () => {
+    if (showFreeFeedTreat)
+      return t("animal.honeyTreatFreeFeed", { item: "Gold Egg" });
     if (showNoFoodSelected) return t("animal.noFoodMessage");
     if (showNoMedicine) return t("animal.noMedicine");
     if (showNotEnoughFood)
@@ -684,7 +699,7 @@ export const Chicken: React.FC<{
   const xpIndicatorColor =
     favFood === selectedItem ||
     selectedItem === "Omnifeed" ||
-    (hasBeetleFeedingAccess && !!selectedItem && isBeetle(selectedItem)) ||
+    (!!selectedItem && isBeetle(selectedItem)) ||
     hasGoldEgg
       ? "#71e358"
       : "#fff";
@@ -800,7 +815,10 @@ export const Chicken: React.FC<{
         </div>
         <InfoPopover
           showPopover={
-            showNoFoodSelected || showNoMedicine || showNotEnoughFood
+            showFreeFeedTreat ||
+            showNoFoodSelected ||
+            showNoMedicine ||
+            showNotEnoughFood
           }
           className="-top-10 left-1/2 transform -translate-x-1/2 z-20"
         >

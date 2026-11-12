@@ -4,7 +4,6 @@ import {
   type CookableName,
   COOKABLES,
   isInstantFishRecipe,
-  isTruffleRecipe,
 } from "features/game/types/consumables";
 import type {
   BuildingProduct,
@@ -14,13 +13,15 @@ import type {
   Skills,
 } from "features/game/types/game";
 import { getCookingTime } from "features/game/expansion/lib/boosts";
-import { hasFeatureAccess, hasTimeBasedFeatureAccess } from "lib/flags";
 import {
   computeReadyAt,
   getCookingBoostWindows,
 } from "features/game/lib/boostWindows";
-import { getCookingQueueReadyAts } from "features/game/lib/cookingReadiness";
-import { setPrecision } from "lib/utils/formatNumber";
+import {
+  getCookingQueueReadyAts,
+  refreshCookingQueue,
+  settleCookingOil,
+} from "features/game/lib/cookingReadiness";
 import { translate } from "lib/i18n/translate";
 import type { CookingBuildingName } from "features/game/types/buildings";
 import { produce } from "immer";
@@ -28,11 +29,7 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getCookingAmount } from "./collectRecipe";
 import { isCookingBuilding } from "./isCookingBuilding";
-import {
-  SKILL_RANKS,
-  getSkillLevel,
-  downgradeChapterCropWeekSkills,
-} from "features/game/types/bumpkinSkills";
+import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import {
   CHAPTER_CROP_WEEK_RECIPE,
@@ -56,7 +53,6 @@ type Options = {
 };
 
 type GetReadyAtArgs = {
-  buildingId: string;
   item: CookableName;
   createdAt: number;
   game: GameState;
@@ -87,64 +83,24 @@ export const BUILDING_OIL_BOOSTS: (
   };
 };
 
-export function getCookingOilBoost(
-  item: CookableName,
-  game: GameState,
-  buildingId?: string,
-): { timeToCook: number; oilConsumed: number; percent?: number } {
+/**
+ * The building-oil boost a recipe cooks with (e.g. 0.4 = 40%), from the bumpkin's
+ * oil skills.
+ */
+export function getRecipeOilBoost(item: CookableName, game: GameState): number {
   const buildingName = COOKABLES[item].building;
+  if (!isCookingBuilding(buildingName)) return 0;
 
-  if (!isCookingBuilding(buildingName) || !buildingId) {
-    return { timeToCook: COOKABLES[item].cookingSeconds, oilConsumed: 0 };
-  }
-
-  const building = game.buildings?.[buildingName]?.find(
-    (building) => building.id === buildingId,
-  );
-
-  const itemCookingTime = COOKABLES[item].cookingSeconds;
-
-  const itemOilConsumption = getOilConsumption(buildingName, item);
-  const oilRemaining = building?.oil || 0;
-
-  // Crystal Cookie (the CHAPTER_CROP_WEEK event recipe) ignores upgraded Cooking-skill
-  // ranks (base skill still applies), so its oil boost caps at rank 1.
-  const oilSkills =
-    item === CHAPTER_CROP_WEEK_RECIPE
-      ? downgradeChapterCropWeekSkills(game.bumpkin.skills)
-      : game.bumpkin.skills;
-  const boostValue = BUILDING_OIL_BOOSTS(oilSkills)[buildingName];
-  const boostedCookingTime = itemCookingTime * (1 - boostValue);
-
-  if (oilRemaining >= itemOilConsumption) {
-    return {
-      timeToCook: boostedCookingTime,
-      oilConsumed: itemOilConsumption,
-      percent: boostValue,
-    };
-  }
-
-  // Calculate the partial boost based on remaining oil
-  const effectiveBoostValue = (oilRemaining / itemOilConsumption) * boostValue;
-  const partialBoostedCookingTime = itemCookingTime * (1 - effectiveBoostValue);
-
-  return {
-    timeToCook: partialBoostedCookingTime,
-    oilConsumed: (oilRemaining / itemOilConsumption) * itemOilConsumption,
-    percent: effectiveBoostValue > 0 ? effectiveBoostValue : undefined,
-  };
+  return BUILDING_OIL_BOOSTS(game.bumpkin.skills)[buildingName];
 }
 
 /**
- * When a recipe started at `createdAt` will be ready, across both boost models.
+ * When a recipe started at `createdAt` will be ready.
  *
- * Legacy: every boost is baked into `reducedSecs` and the ready time is simply
- * `createdAt + reducedSecs`.
- *
- * Speed-rate model (SPEED_BOOSTS): `getCookingTime` returns the PERMANENT-only
- * duration — wearables, Desert Gnome, the cooking skills and (for now) the building
- * oil discount — which becomes the recipe's `baseDurationMs`. The temporary boosts
- * are applied live as speed windows, so the ready time is derived rather than
+ * `getCookingTime` returns the PERMANENT-only duration — wearables, Desert Gnome
+ * and the cooking skills — which becomes the recipe's `baseDurationMs`. The
+ * temporary boosts are applied live as speed windows, and the building oil burns
+ * by the clock (see `settleCookingOil`), so the ready time is derived rather than
  * frozen and a boost placed mid-cook pulls it forward.
  *
  * NOTE the derived time here assumes the recipe starts at `createdAt`. For a recipe
@@ -152,48 +108,26 @@ export function getCookingOilBoost(
  * time, so the queue as a whole must be resolved with `getCookingQueueReadyAts` —
  * the value returned here is that chain's input, not its answer.
  */
-export const getReadyAt = ({
-  buildingId,
-  item,
-  createdAt,
-  game,
-}: GetReadyAtArgs) => {
-  const oilBoostResult = getCookingOilBoost(item, game, buildingId);
-
+export const getReadyAt = ({ item, createdAt, game }: GetReadyAtArgs) => {
   const { reducedSecs, boostsUsed } = getCookingTime({
-    seconds: oilBoostResult.timeToCook,
+    seconds: COOKABLES[item].cookingSeconds,
     item,
     game,
-    cookStartAt: createdAt,
   });
 
-  const oilEntry =
-    oilBoostResult.percent != null && oilBoostResult.percent > 0
-      ? [
-          {
-            name: "Building Oil" as const,
-            value: "x" + setPrecision(1 - oilBoostResult.percent, 2),
-          },
-        ]
-      : [];
+  const baseDurationMs = reducedSecs * 1000;
 
-  const boostsWindowed = hasFeatureAccess(game, "SPEED_BOOSTS");
-  const baseDurationMs = boostsWindowed ? reducedSecs * 1000 : undefined;
-
-  const readyAt =
-    baseDurationMs === undefined
-      ? createdAt + reducedSecs * 1000
-      : computeReadyAt({
-          startedAt: createdAt,
-          baseDurationMs,
-          windows: getCookingBoostWindows(game),
-        });
+  const readyAt = computeReadyAt({
+    startedAt: createdAt,
+    baseDurationMs,
+    windows: getCookingBoostWindows(game),
+  });
 
   return {
     createdAt: readyAt,
     reducedSecs,
     baseDurationMs,
-    boostsUsed: [...oilEntry, ...boostsUsed],
+    boostsUsed,
   };
 };
 
@@ -207,6 +141,25 @@ export const BUILDING_DAILY_OIL_CONSUMPTION: Record<
   Bakery: 10,
   Deli: 12,
 };
+
+/**
+ * Oil a clock-drain recipe burns per day of cooking work: its up-front cost
+ * (`getOilConsumption`) spread over its work, which a permanent boost may have cut,
+ * so the dish costs the same oil either way.
+ */
+export function getRecipeOilRate(
+  buildingName: CookingBuildingName,
+  food: CookableName,
+  baseDurationMs: number,
+) {
+  // A recipe with no work to do burns no oil.
+  if (baseDurationMs <= 0) return 0;
+
+  return (
+    (getOilConsumption(buildingName, food) * 24 * 60 * 60 * 1000) /
+    baseDurationMs
+  );
+}
 
 export function getOilConsumption(
   buildingName: CookingBuildingName,
@@ -233,14 +186,7 @@ export function getCookingRequirements({
   let { ingredients } = COOKABLES[item];
   const { bumpkin } = state;
 
-  // Crystal Cookie (the CHAPTER_CROP_WEEK event recipe) ignores upgraded Double Nom
-  // ranks — the ingredient cost (and the +food payout, snapshotted at cook time)
-  // both fall back to rank 1. `doubleNomLevel`, when passed (cancel/refund), keeps
-  // honoring the rank actually paid on the recipe.
-  const skills =
-    item === CHAPTER_CROP_WEEK_RECIPE
-      ? downgradeChapterCropWeekSkills(bumpkin.skills)
-      : bumpkin.skills;
+  const skills = bumpkin.skills;
   const level = doubleNomLevel ?? getSkillLevel(skills, "Double Nom");
   // Double Nom - 2x/3x/4x ingredients (scales with rank)
   const multiplier = level
@@ -271,8 +217,8 @@ export function cook({
   return produce(state, (stateCopy) => {
     const { item, buildingId } = action;
 
-    // Recipes from previous Chapter Crop Week runs can never be cooked again
-    if (isRetiredChapterCropWeekItem(item)) {
+    // Recipes from ended Chapter Crop Week runs can never be cooked again
+    if (isRetiredChapterCropWeekItem(item, createdAt)) {
       throw new Error("This recipe is no longer available");
     }
 
@@ -283,18 +229,6 @@ export function cook({
       !hasChapterCropWeekAccess(state, createdAt)
     ) {
       throw new Error("Chapter Crop Week is not active");
-    }
-
-    // Truffle recipes ride on the Pigs' flag: Truffle only exists behind it
-    if (
-      isTruffleRecipe(item) &&
-      !hasTimeBasedFeatureAccess({
-        featureName: "PIGPEN",
-        game: state,
-        now: createdAt,
-      })
-    ) {
-      throw new Error("Truffle recipes are not available yet");
     }
 
     const { building: requiredBuilding } = COOKABLES[item];
@@ -317,13 +251,7 @@ export function cook({
       throw new Error("You do not have a Bumpkin!");
     }
 
-    // Crystal Cookie (the CHAPTER_CROP_WEEK event recipe) ignores upgraded Double Nom
-    // ranks — snapshot rank 1 on the recipe so cancel/collect stay consistent with
-    // the (rank-1) ingredient cost charged above.
-    const cookSkills =
-      item === CHAPTER_CROP_WEEK_RECIPE
-        ? downgradeChapterCropWeekSkills(bumpkin.skills)
-        : bumpkin.skills;
+    const cookSkills = bumpkin.skills;
 
     if (!building) {
       throw new Error(translate("error.requiredBuildingNotExist"));
@@ -339,7 +267,18 @@ export function cook({
       throw new Error(translate("error.noAvailableSlots"));
     }
 
-    const { oilConsumed } = getCookingOilBoost(item, stateCopy, buildingId);
+    // A clock-drain building burns its oil while recipes cook rather than charging
+    // each one when it is queued. Settle the tank first so this recipe draws from
+    // what is left now — which also converts the building.
+    const oil = isCookingBuilding(requiredBuilding)
+      ? settleCookingOil({
+          game: stateCopy,
+          building,
+          buildingName: requiredBuilding,
+          at: createdAt,
+          convert: true,
+        })
+      : undefined;
 
     stateCopy.inventory = Object.entries(ingredients).reduce(
       (inventory, [ingredient, amount]) => {
@@ -397,6 +336,7 @@ export function cook({
     const queueReadyAts = getCookingQueueReadyAts({
       crafting,
       game: stateCopy,
+      oil,
     });
     const lastRecipeReadyAt =
       queueReadyAts[queueReadyAts.length - 1] ?? createdAt;
@@ -411,7 +351,6 @@ export function cook({
       baseDurationMs,
       boostsUsed,
     } = getReadyAt({
-      buildingId: buildingId,
       item,
       createdAt: recipeStartAt,
       game: stateCopy,
@@ -425,7 +364,21 @@ export function cook({
         // `plant.ts`'s cropId) with a server-side fallback.
         id: action.recipeId ?? uuidv4().slice(0, 8),
         name: item,
-        boost: { Oil: oilConsumed },
+        // A recipe in a non-cooking building takes no oil at all.
+        ...(isCookingBuilding(requiredBuilding)
+          ? {
+              oilBoost: getRecipeOilBoost(item, stateCopy),
+              ...(baseDurationMs
+                ? {
+                    oilRate: getRecipeOilRate(
+                      requiredBuilding,
+                      item,
+                      baseDurationMs,
+                    ),
+                  }
+                : {}),
+            }
+          : {}),
         // Marks whether the Double Nom skill was applied at the time of cooking
         skills: { "Double Nom": getSkillLevel(cookSkills, "Double Nom") },
         // Anchored only when this recipe starts cooking right now; a queued recipe
@@ -437,9 +390,15 @@ export function cook({
       },
     ];
 
-    const previousOilRemaining = building.oil || 0;
-
-    building.oil = previousOilRemaining - oilConsumed;
+    if (isCookingBuilding(requiredBuilding)) {
+      // The new recipe takes whatever the tank has left once the queue ahead of it
+      // has cooked, so its ready time comes from the whole chain.
+      refreshCookingQueue({
+        building,
+        buildingName: requiredBuilding,
+        windows: getCookingBoostWindows(stateCopy),
+      });
+    }
 
     // Delete cancelled property since no longer used
     delete building.cancelled;

@@ -15,7 +15,7 @@ export const CAVE_DRILL_COST = 1;
 
 /**
  * How long a batch grows before its patch is ready to dig, before Cave skills.
- * Existing time boosts (shrines, hourglasses, SPEED_BOOSTS) do NOT apply; only
+ * Existing time boosts (shrines, hourglasses, speed boosts) do NOT apply; only
  * the Rapid Mycelium Cave skill shortens it (`getCaveBatchDuration`).
  */
 export const CAVE_BATCH_DURATION_MS = 12 * 60 * 60 * 1000;

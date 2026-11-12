@@ -29,6 +29,8 @@ import type { PlaceableLocation } from "features/game/types/collectibles";
 import type { FlipCollectibleAction } from "features/game/events/landExpansion/flipCollectible";
 import type { FlipFarmHandAction } from "features/game/events/landExpansion/flipFarmHand";
 import type { FlipBumpkinAction } from "features/game/events/landExpansion/flipBumpkin";
+import type { FlipNFTAction } from "features/game/events/landExpansion/flipNFT";
+import type { NFTName } from "features/game/events/landExpansion/placeNFT";
 
 // Placement-event building lives in a leaf module so it can be unit-tested;
 // re-exported here because this is where the rest of the app imports it from.
@@ -115,7 +117,7 @@ type RemoveAllEvent = {
 type FlipEvent = {
   type: "FLIP";
   id: string;
-  name: CollectibleName | "FarmHand" | "Bumpkin";
+  name: CollectibleName | "FarmHand" | "Bumpkin" | NFTName;
   location: PlaceableLocation;
 };
 
@@ -295,25 +297,33 @@ export const landscapingMachine = createMachine<
             FLIP: {
               target: "idle",
               actions: [
-                sendParent(
-                  (_, event) =>
-                    ({
-                      type:
-                        event.name === "FarmHand"
-                          ? "farmHand.flipped"
-                          : event.name === "Bumpkin"
-                            ? "bumpkin.flipped"
-                            : "collectible.flipped",
-                      ...(event.name !== "Bumpkin" ? { id: event.id } : {}),
-                      ...(event.name !== "FarmHand" && event.name !== "Bumpkin"
-                        ? { name: event.name }
-                        : {}),
+                sendParent((_, event) => {
+                  if (event.name === "Bud" || event.name === "Pet") {
+                    return {
+                      type: "nft.flipped",
+                      id: event.id,
+                      nft: event.name,
                       location: event.location,
-                    }) as
-                      | FlipCollectibleAction
-                      | FlipFarmHandAction
-                      | FlipBumpkinAction,
-                ),
+                    } as FlipNFTAction;
+                  }
+
+                  return {
+                    type:
+                      event.name === "FarmHand"
+                        ? "farmHand.flipped"
+                        : event.name === "Bumpkin"
+                          ? "bumpkin.flipped"
+                          : "collectible.flipped",
+                    ...(event.name !== "Bumpkin" ? { id: event.id } : {}),
+                    ...(event.name !== "FarmHand" && event.name !== "Bumpkin"
+                      ? { name: event.name }
+                      : {}),
+                    location: event.location,
+                  } as
+                    | FlipCollectibleAction
+                    | FlipFarmHandAction
+                    | FlipBumpkinAction;
+                }),
               ],
             },
             REMOVE: {

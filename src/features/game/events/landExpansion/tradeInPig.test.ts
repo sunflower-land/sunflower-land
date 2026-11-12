@@ -1,5 +1,4 @@
 import Decimal from "decimal.js-light";
-import { CONFIG } from "lib/config";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { ANIMAL_LEVELS, type AnimalLevel } from "features/game/types/animals";
 import type { Animal, GameState } from "features/game/types/game";
@@ -127,23 +126,5 @@ describe("tradeInPig", () => {
     const state = tradeIn(farm());
 
     expect(state.farmActivity["Pig Bristles Collected"]).toEqual(1);
-  });
-
-  describe("off testnet", () => {
-    const network = CONFIG.NETWORK;
-
-    beforeEach(() => {
-      CONFIG.NETWORK = "mainnet";
-    });
-
-    afterEach(() => {
-      CONFIG.NETWORK = network;
-    });
-
-    it("is not available", () => {
-      expect(() => tradeIn(farm())).toThrow(
-        TRADE_IN_PIG_ERRORS.NO_FEATURE_ACCESS,
-      );
-    });
   });
 });

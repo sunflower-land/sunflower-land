@@ -485,6 +485,7 @@ describe("applyArrangement", () => {
           coordinates: { x: -3, y: 3 },
           createdAt,
           readyAt: createdAt,
+          oilSettledAt: createdAt,
         },
       ]);
     });
@@ -825,6 +826,125 @@ describe("applyArrangement", () => {
 
       expect(result.collectibles.Rug![0].coordinates).toEqual({ x: 0, y: 0 });
     });
+
+    describe("items the arrangement leaves where they are", () => {
+      // A footprint can grow after an item is placed (e.g. a decoration's
+      // dimensions are corrected), leaving stored items overlapping or past
+      // the land edge. Those must not block saves of unrelated changes.
+      it("lets already-overlapping items stay while something else moves", () => {
+        const state = withInventory(
+          {
+            ...baseFarm,
+            collectibles: {
+              "Potato Statue": [
+                { id: "a", coordinates: { x: 0, y: 0 } },
+                { id: "b", coordinates: { x: 1, y: 0 } },
+              ],
+              "Basic Bear": [{ id: "c", coordinates: { x: 4, y: 0 } }],
+            },
+          },
+          { "Potato Statue": 2, "Basic Bear": 1 },
+        );
+        const arrangement = snapshotSurface(state, "farm");
+        arrangement.collectibles["Basic Bear"]![0].coordinates = { x: 4, y: 2 };
+
+        const result = apply(state, arrangement);
+
+        expect(result.collectibles["Basic Bear"]![0].coordinates).toEqual({
+          x: 4,
+          y: 2,
+        });
+        expect(result.collectibles["Potato Statue"]).toEqual(
+          state.collectibles["Potato Statue"],
+        );
+      });
+
+      it("still reports an overlapping item once it moves", () => {
+        const state = withInventory(
+          {
+            ...baseFarm,
+            collectibles: {
+              "Potato Statue": [
+                { id: "a", coordinates: { x: 0, y: 0 } },
+                { id: "b", coordinates: { x: 1, y: 0 } },
+              ],
+            },
+          },
+          { "Potato Statue": 2 },
+        );
+        const arrangement = snapshotSurface(state, "farm");
+        arrangement.collectibles["Potato Statue"]![1].coordinates = {
+          x: 0,
+          y: 0,
+        };
+
+        const conflicts = conflictsOf(() => apply(state, arrangement));
+
+        expect(conflicts).toEqual([
+          {
+            code: "COLLISION",
+            name: "Potato Statue",
+            id: "b",
+            coordinates: { x: 0, y: 0 },
+            with: { name: "Potato Statue", id: "a" },
+          },
+        ]);
+      });
+
+      it("still reports a new placement onto an already-overlapping item", () => {
+        const state = withInventory(
+          {
+            ...baseFarm,
+            collectibles: {
+              "Potato Statue": [
+                { id: "a", coordinates: { x: 0, y: 0 } },
+                { id: "b", coordinates: { x: 1, y: 0 } },
+              ],
+            },
+          },
+          { "Potato Statue": 2, "Basic Bear": 1 },
+        );
+        const arrangement = snapshotSurface(state, "farm");
+        arrangement.collectibles["Basic Bear"] = [
+          { id: "new", coordinates: { x: 0, y: 0 } },
+        ];
+
+        const conflicts = conflictsOf(() => apply(state, arrangement));
+
+        expect(conflicts).toEqual([
+          expect.objectContaining({
+            code: "COLLISION",
+            name: "Basic Bear",
+            id: "new",
+            with: { name: "Potato Statue", id: "a" },
+          }),
+        ]);
+      });
+
+      it("lets an item already past the land edge stay while something else moves", () => {
+        const state = withInventory(
+          {
+            ...baseFarm,
+            collectibles: {
+              "Basic Bear": [
+                { id: "a", coordinates: { x: 50, y: 50 } },
+                { id: "b", coordinates: { x: 0, y: 0 } },
+              ],
+            },
+          },
+          { "Basic Bear": 2 },
+        );
+        const arrangement = snapshotSurface(state, "farm");
+        arrangement.collectibles["Basic Bear"]![1].coordinates = { x: 1, y: 0 };
+
+        const result = apply(state, arrangement);
+
+        expect(result.collectibles["Basic Bear"]).toEqual([
+          { id: "a", coordinates: { x: 50, y: 50 } },
+          { id: "b", coordinates: { x: 1, y: 0 } },
+        ]);
+      });
+    });
   });
 
   describe("buds, pets, farm hands and the bumpkin", () => {
@@ -869,6 +989,91 @@ describe("applyArrangement", () => {
           reason: "This NFT does not exist",
         },
       ]);
+    });
+
+    it("flips a bud and a pet NFT in place", () => {
+      const pet = {
+        id: 1,
+        name: "Pet #1",
+        requests: { food: [], fedAt: 0 },
+        energy: 100,
+        experience: 0,
+        pettedAt: 0,
+      } as NonNullable<NonNullable<GameState["pets"]>["nfts"]>[number];
+      const state: GameState = {
+        ...baseFarm,
+        buds: { 1: { ...bud, coordinates: { x: 0, y: 0 }, location: "farm" } },
+        pets: {
+          ...baseFarm.pets,
+          nfts: {
+            1: { ...pet, coordinates: { x: 3, y: 3 }, location: "farm" },
+          },
+        },
+      };
+      const arrangement = snapshotSurface(state, "farm");
+      arrangement.buds = { 1: { x: 0, y: 0, flipped: true } };
+      arrangement.petNFTs = { 1: { x: 3, y: 3, flipped: true } };
+
+      const result = apply(state, arrangement);
+
+      expect(result.buds?.[1].flipped).toBe(true);
+      expect(result.buds?.[1].coordinates).toEqual({ x: 0, y: 0 });
+      expect(result.pets?.nfts?.[1].flipped).toBe(true);
+      expect(result.pets?.nfts?.[1].coordinates).toEqual({ x: 3, y: 3 });
+    });
+
+    it("keeps a bud's pixel offset when only its flip changes", () => {
+      const state: GameState = {
+        ...baseFarm,
+        buds: {
+          1: {
+            ...bud,
+            coordinates: { x: 0, y: 0, oX: 3, oY: -2 },
+            location: "farm",
+          },
+        },
+      };
+      const arrangement = snapshotSurface(state, "farm");
+      arrangement.buds = { 1: { x: 0, y: 0, oX: 3, oY: -2, flipped: true } };
+
+      const result = apply(state, arrangement);
+
+      expect(result.buds?.[1].coordinates).toEqual({
+        x: 0,
+        y: 0,
+        oX: 3,
+        oY: -2,
+      });
+      expect(result.buds?.[1].flipped).toBe(true);
+    });
+
+    it("drops a stale flip when a bud is placed without one", () => {
+      const state: GameState = {
+        ...baseFarm,
+        buds: { 1: { ...bud, flipped: true } },
+      };
+      const arrangement = snapshotSurface(state, "farm");
+      arrangement.buds = { 1: { x: 1, y: 1 } };
+
+      const result = apply(state, arrangement);
+
+      expect(result.buds?.[1].coordinates).toEqual({ x: 1, y: 1 });
+      expect(result.buds?.[1].flipped).toBeUndefined();
+    });
+
+    it("places a bud from the chest with its flip", () => {
+      const state: GameState = { ...baseFarm, buds: { 1: { ...bud } } };
+      const arrangement = snapshotSurface(state, "farm");
+      arrangement.buds = { 1: { x: 1, y: 1, flipped: true } };
+
+      const result = apply(state, arrangement);
+
+      expect(result.buds?.[1]).toEqual({
+        ...bud,
+        coordinates: { x: 1, y: 1 },
+        location: "farm",
+        flipped: true,
+      });
     });
 
     it("places a farm hand with its flip", () => {

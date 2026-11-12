@@ -39,7 +39,10 @@ export const Deli: React.FC<Props> = ({
 
   const deli = useSelector(gameService, _deli(buildingId));
   const [showModal, setShowModal] = useState(false);
-  const { cooking, queuedRecipes, readyRecipes } = useCookingState(deli ?? {});
+  const { cooking, queuedRecipes, readyRecipes } = useCookingState(
+    deli ?? {},
+    "Deli",
+  );
 
   const itemInProgress =
     cooking?.name && cooking.name in COOKABLES

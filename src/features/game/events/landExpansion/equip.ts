@@ -1,3 +1,4 @@
+import { refreshBeehivesOnRateChange } from "features/game/lib/updateBeehives";
 import type { Equipped } from "features/game/types/bumpkin";
 import { getKeys } from "lib/object";
 import type { Bumpkin, GameState, Wardrobe } from "features/game/types/game";
@@ -21,7 +22,7 @@ export function equip({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  return produce(state, (game) => {
+  const gameAfter = produce(state, (game) => {
     const { bumpkin } = game;
 
     if (bumpkin === undefined) {
@@ -35,6 +36,12 @@ export function equip({
     populateSaltFarm({ gameBefore: state, gameAfter: game, now: createdAt });
 
     return game;
+  });
+
+  return refreshBeehivesOnRateChange({
+    gameBefore: state,
+    gameAfter,
+    createdAt,
   });
 }
 

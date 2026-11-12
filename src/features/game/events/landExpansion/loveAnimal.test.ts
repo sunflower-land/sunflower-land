@@ -1,5 +1,6 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
 import {
+  getAnimalXP,
   getNextLoveAvailableAt,
   isAnimalNeedingLove,
   isAnimalReadyForLove,
@@ -639,7 +640,6 @@ describe("getNextLoveAvailableAt", () => {
     ).toBeGreaterThanOrEqual(awakeAt);
   });
 });
-// FE + BE jest run amoy, so SPEED_BOOSTS is ON by default here.
 describe("love cadence under a windowed sleep", () => {
   const SLEEP = 24 * 60 * 60 * 1000;
   const now = Date.now();
@@ -704,5 +704,198 @@ describe("love cadence under a windowed sleep", () => {
 
     expect(readyAt).toEqual(legacy.awakeAt);
     expect(getNextLoveAvailableAt(legacy, readyAt)).toEqual(now + SLEEP / 3);
+  });
+});
+
+describe("two loves per sleep", () => {
+  const HOUR = 60 * 60 * 1000;
+  const SLEEP = 24 * HOUR;
+  const now = Date.now();
+  const asleepAt = now - 20 * HOUR;
+
+  const chicken: Animal = {
+    id: "c1",
+    type: "Chicken",
+    state: "idle",
+    createdAt: 0,
+    experience: 1000,
+    asleepAt,
+    awakeAt: asleepAt + SLEEP,
+    lovedAt: 0,
+    item: "Petting Hand",
+  };
+
+  const gameWith = (animal: Animal): GameState => ({
+    ...INITIAL_FARM,
+    inventory: {
+      ...INITIAL_FARM.inventory,
+      "Petting Hand": new Decimal(10),
+      Brush: new Decimal(10),
+      "Music Box": new Decimal(10),
+    },
+    henHouse: { ...INITIAL_FARM.henHouse, animals: { c1: animal } },
+  });
+
+  const love = (game: GameState, createdAt: number) =>
+    loveAnimal({
+      state: game,
+      action: {
+        type: "animal.loved",
+        animal: "Chicken",
+        id: "c1",
+        item: game.henHouse.animals.c1.item,
+      },
+      createdAt,
+    });
+
+  it("counts each love in the sleep", () => {
+    const once = love(gameWith(chicken), asleepAt + 8 * HOUR);
+    const twice = love(once, asleepAt + 16 * HOUR);
+
+    expect(once.henHouse.animals.c1.lovesThisSleep).toBe(1);
+    expect(twice.henHouse.animals.c1.lovesThisSleep).toBe(2);
+  });
+
+  it("starts the count over in a new sleep", () => {
+    const game = gameWith({
+      ...chicken,
+      lovedAt: asleepAt - HOUR,
+      lovesThisSleep: 2,
+    });
+
+    expect(
+      love(game, asleepAt + 8 * HOUR).henHouse.animals.c1.lovesThisSleep,
+    ).toBe(1);
+  });
+
+  it("opens no slot once both are spent, even if the wake time moves later", () => {
+    // Both loves spent at 8h and 16h, then the sleep stretched to 30h (e.g. a
+    // shrine's coverage lost to a building lift): a third of it is now 10h.
+    const animal: Animal = {
+      ...chicken,
+      awakeAt: asleepAt + 30 * HOUR,
+      lovedAt: asleepAt + 16 * HOUR,
+      lovesThisSleep: 2,
+    };
+    const readyAt = getAnimalReadyAt(animal, gameWith(animal));
+
+    expect(getNextLoveAvailableAt(animal, readyAt)).toBeGreaterThanOrEqual(
+      readyAt,
+    );
+    expect(() => love(gameWith(animal), asleepAt + 26 * HOUR)).toThrow(
+      "The animal cannot be loved yet",
+    );
+  });
+
+  it("starts the count over when the new sleep begins on the last love's timestamp", () => {
+    // A love that completes the cycle can be claimed in the same millisecond.
+    const game = gameWith({ ...chicken, lovedAt: asleepAt, lovesThisSleep: 2 });
+
+    expect(
+      love(game, asleepAt + 8 * HOUR).henHouse.animals.c1.lovesThisSleep,
+    ).toBe(1);
+  });
+
+  it("rejects a third love at exactly the wake time", () => {
+    const animal: Animal = {
+      ...chicken,
+      lovedAt: asleepAt + 16 * HOUR,
+      lovesThisSleep: 2,
+    };
+
+    expect(() => love(gameWith(animal), asleepAt + SLEEP)).toThrow(
+      "The animal cannot be loved yet",
+    );
+  });
+
+  it("treats a love from before the count existed as one love", () => {
+    const game = gameWith({ ...chicken, lovedAt: asleepAt + 8 * HOUR });
+
+    expect(
+      love(game, asleepAt + 16 * HOUR).henHouse.animals.c1.lovesThisSleep,
+    ).toBe(2);
+  });
+});
+
+describe("getAnimalXP — flat bonuses are not scaled by Heartwarming Instruments", () => {
+  const withPlaced = (
+    name: "Baby Cow" | "Spa Sheep",
+    rank: number,
+  ): GameState => ({
+    ...INITIAL_FARM,
+    bumpkin: {
+      ...INITIAL_FARM.bumpkin,
+      skills: { "Heartwarming Instruments": rank },
+    },
+    inventory: { ...INITIAL_FARM.inventory, [name]: new Decimal(1) },
+    collectibles: {
+      [name]: [
+        { id: "1", coordinates: { x: 0, y: 0 }, createdAt: 0, readyAt: 0 },
+      ],
+    },
+  });
+
+  it("adds Baby Cow +10 after the Heartwarming multiplier", () => {
+    // Music Box 50 × 1.7 (rank 3) + 10 = 95, not (50 + 10) × 1.7 = 102.
+    expect(
+      getAnimalXP({
+        name: "Music Box",
+        animal: "Cow",
+        state: withPlaced("Baby Cow", 3),
+      }).animalXP,
+    ).toEqual(95);
+  });
+
+  it("adds Spa Sheep +5 after the Heartwarming multiplier", () => {
+    // Brush 40 × 1.5 (rank 1) + 5 = 65, not (40 + 5) × 1.5 = 67.5.
+    expect(
+      getAnimalXP({
+        name: "Brush",
+        animal: "Sheep",
+        state: withPlaced("Spa Sheep", 1),
+      }).animalXP,
+    ).toEqual(65);
+  });
+
+  it("passes the reordered XP to the level-up check in loveAnimal", () => {
+    // Cow level 14 starts at 7200 XP. From 7100, Music Box + Baby Cow +
+    // Heartwarming rank 3 gives 95 (7195, no level-up); the old order gave
+    // 102 (7202), which would have levelled the Cow up and woken it ready.
+    const now = Date.now();
+    const state = loveAnimal({
+      state: {
+        ...withPlaced("Baby Cow", 3),
+        inventory: {
+          ...withPlaced("Baby Cow", 3).inventory,
+          "Music Box": new Decimal(1),
+        },
+        barn: {
+          level: 1,
+          animals: {
+            "1": {
+              id: "1",
+              type: "Cow",
+              asleepAt: now - 9 * 60 * 60 * 1000,
+              lovedAt: 0,
+              awakeAt: now - 9 * 60 * 60 * 1000 + ANIMAL_SLEEP_DURATION,
+              createdAt: 0,
+              experience: 7100,
+              state: "happy",
+              item: "Music Box",
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.loved",
+        animal: "Cow",
+        id: "1",
+        item: "Music Box",
+      },
+      createdAt: now,
+    });
+
+    expect(state.barn.animals["1"].experience).toEqual(7195);
+    expect(state.barn.animals["1"].state).toBe("happy");
   });
 });

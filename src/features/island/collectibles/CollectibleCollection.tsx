@@ -4780,12 +4780,12 @@ export const COLLECTIBLE_COMPONENTS: Record<
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
+        width: `${PIXEL_SCALE * 18}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
         left: `${PIXEL_SCALE * 0}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
+        width: `${PIXEL_SCALE * 18}px`,
       }}
       image={ITEM_DETAILS["Zombie Hand Toy"].image}
       alt="Zombie Hand Toy"
@@ -4840,12 +4840,12 @@ export const COLLECTIBLE_COMPONENTS: Record<
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
+        width: `${PIXEL_SCALE * 17}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
         left: `${PIXEL_SCALE * 0}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
+        width: `${PIXEL_SCALE * 17}px`,
       }}
       image={ITEM_DETAILS["Plague Crow"].image}
       alt="Plague Crow"
@@ -4870,12 +4870,12 @@ export const COLLECTIBLE_COMPONENTS: Record<
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
+        width: `${PIXEL_SCALE * 20}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
         left: `${PIXEL_SCALE * 0}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
+        width: `${PIXEL_SCALE * 20}px`,
       }}
       image={ITEM_DETAILS["Witch Crow"].image}
       alt="Witch Crow"
@@ -4885,12 +4885,12 @@ export const COLLECTIBLE_COMPONENTS: Record<
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
+        width: `${PIXEL_SCALE * 26}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
         left: `${PIXEL_SCALE * 0}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
+        width: `${PIXEL_SCALE * 26}px`,
       }}
       image={ITEM_DETAILS["Fisherbird Crow"].image}
       alt="Fisherbird Crow"
@@ -4900,12 +4900,12 @@ export const COLLECTIBLE_COMPONENTS: Record<
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
+        width: `${PIXEL_SCALE * 26}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
         left: `${PIXEL_SCALE * 0}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
+        width: `${PIXEL_SCALE * 26}px`,
       }}
       image={ITEM_DETAILS["Chained Crow"].image}
       alt="Chained Crow"
@@ -4915,12 +4915,12 @@ export const COLLECTIBLE_COMPONENTS: Record<
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
+        width: `${PIXEL_SCALE * 26}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
         left: `${PIXEL_SCALE * 0}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
+        width: `${PIXEL_SCALE * 26}px`,
       }}
       image={ITEM_DETAILS["Count Vlad Crow"].image}
       alt="Count Vlad Crow"
@@ -4945,12 +4945,12 @@ export const COLLECTIBLE_COMPONENTS: Record<
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
+        width: `${PIXEL_SCALE * 17}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
         left: `${PIXEL_SCALE * 0}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 16}px`,
+        width: `${PIXEL_SCALE * 17}px`,
       }}
       image={ITEM_DETAILS["King Crow"].image}
       alt="King Crow"

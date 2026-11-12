@@ -4,8 +4,6 @@ import {
   ascensionBaseline,
   levelXp,
 } from "features/game/lib/level";
-import Decimal from "decimal.js-light";
-import { CONFIG } from "lib/config";
 import type { GameState } from "features/game/types/game";
 import { BUMPKIN_REVAMP_SKILL_TREE } from "features/game/types/bumpkinSkills";
 import {
@@ -254,50 +252,6 @@ describe("choseSkill", () => {
         expect(choose(skill).bumpkin.skills[skill]).toEqual(1);
       },
     );
-
-    describe("off testnet", () => {
-      let previousNetwork: (typeof CONFIG)["NETWORK"];
-
-      beforeEach(() => {
-        previousNetwork = CONFIG.NETWORK;
-        (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-      });
-
-      afterEach(() => {
-        (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
-      });
-
-      it.each(["Swill Savvy", "Truffle Yield", "Bristle Payout"] as const)(
-        "rejects %s",
-        (skill) => {
-          expect(() => choose(skill)).toThrow("This skill is not available");
-        },
-      );
-
-      it("accepts a Pig skill with a Beta Pass", () => {
-        expect(() =>
-          choose(
-            "Truffle Yield",
-            pigFarm({
-              inventory: {
-                ...TEST_FARM.inventory,
-                "Beta Pass": new Decimal(1),
-              },
-            }),
-          ),
-        ).not.toThrow();
-      });
-
-      it("still lets other Animals skills be claimed", () => {
-        expect(() =>
-          choseSkill({
-            state: pigFarm(),
-            action: { type: "skill.chosen", skill: "Chonky Feed" },
-            createdAt: dateNow,
-          }),
-        ).not.toThrow();
-      });
-    });
   });
 
   describe("Cave skills", () => {
@@ -376,25 +330,6 @@ describe("choseSkill", () => {
           "Rare Breeds"
         ],
       ).toEqual(1);
-    });
-
-    describe("off testnet", () => {
-      let previousNetwork: (typeof CONFIG)["NETWORK"];
-
-      beforeEach(() => {
-        previousNetwork = CONFIG.NETWORK;
-        (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-      });
-
-      afterEach(() => {
-        (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
-      });
-
-      it("rejects every Cave skill", () => {
-        expect(() => choose("Lean Compost", caveFarm())).toThrow(
-          "This skill is not available",
-        );
-      });
     });
   });
 
@@ -618,5 +553,61 @@ describe("choseSkill", () => {
       expect(result.bumpkin.skills["Generous Orchard"]).toEqual(1);
       expect(result.bumpkin.skills["Long Pickings"]).toEqual(1);
     });
+  });
+});
+
+const HOUR = 60 * 60 * 1000;
+const honeyFarm = (now: number) => ({
+  flowers: {
+    discovered: {},
+    flowerBeds: {
+      f1: {
+        createdAt: 0,
+        x: 0,
+        y: 0,
+        flower: { name: "Red Pansy" as const, plantedAt: now - HOUR },
+      },
+    },
+  },
+  beehives: {
+    h1: {
+      swarm: false,
+      x: 3,
+      y: 3,
+      honey: { updatedAt: now - HOUR, produced: 0 },
+      flowers: [
+        {
+          id: "f1",
+          attachedAt: now - HOUR,
+          attachedUntil: now + 11 * HOUR,
+          rate: 1,
+        },
+      ],
+    },
+  },
+});
+
+describe("choseSkill honey rate", () => {
+  it("applies the Hyper Bees honey rate from the moment it is chosen", () => {
+    const now = Date.now();
+    const state = choseSkill({
+      state: {
+        ...TEST_FARM,
+        ...honeyFarm(now),
+        island: { ...TEST_FARM.island, type: "spring" },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: LEVEL_EXPERIENCE[2],
+          skills: {},
+        },
+      },
+      action: { type: "skill.chosen", skill: "Hyper Bees" },
+      createdAt: now,
+    });
+
+    expect(state.beehives.h1.honey.produced).toEqual(HOUR);
+    expect(state.beehives.h1.flowers[0]).toEqual(
+      expect.objectContaining({ attachedAt: now, rate: 1.1 }),
+    );
   });
 });

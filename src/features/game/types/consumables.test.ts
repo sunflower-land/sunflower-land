@@ -3,9 +3,7 @@ import {
   BAKERY_COOKABLES,
   COOKABLE_CAKES,
   FIRE_PIT_COOKABLES,
-  isTruffleRecipe,
   KITCHEN_COOKABLES,
-  TRUFFLE_RECIPES,
 } from "./consumables";
 import { isFoodMadeWithHoney } from "features/game/expansion/lib/boosts";
 
@@ -59,15 +57,5 @@ describe("Truffle recipes (Chapter 16)", () => {
       BAKERY_COOKABLES["Truffle Cake"],
     );
     expect(isFoodMadeWithHoney(BAKERY_COOKABLES["Truffle Cake"])).toBe(true);
-  });
-
-  it("lists exactly the three Truffle recipes", () => {
-    expect(TRUFFLE_RECIPES).toEqual([
-      "Ember-Roasted Truffle Potatoes",
-      "Truffle Cake",
-      "Creamy Truffle Risotto",
-    ]);
-    expect(isTruffleRecipe("Truffle Cake")).toBe(true);
-    expect(isTruffleRecipe("Boiled Eggs")).toBe(false);
   });
 });

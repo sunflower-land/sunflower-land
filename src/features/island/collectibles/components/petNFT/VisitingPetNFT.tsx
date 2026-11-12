@@ -113,6 +113,7 @@ export const VisitingPetNFT: React.FC<{
         isTypeFed={isTypeFed}
         onClick={handlePetClick}
         clickable={canHelp}
+        flipped={petNFTData.flipped}
       />
 
       {canHelp && petNFTData && (

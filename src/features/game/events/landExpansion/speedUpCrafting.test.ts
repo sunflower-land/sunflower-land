@@ -1,4 +1,3 @@
-import { CONFIG } from "lib/config";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { RECIPES } from "features/game/lib/crafting";
 import {
@@ -12,18 +11,6 @@ import type { CraftingQueueItem, GameState } from "features/game/types/game";
 import { getCraftingQueueReadyAts } from "features/game/lib/craftingReadiness";
 const createdAt = Date.now();
 describe("speedUpCrafting", () => {
-  // These tests assert the LEGACY discount-at-start timing (every boost is baked
-  // into readyAt when the craft is queued). FE jest runs on amoy where
-  // SPEED_BOOSTS is on, so force the flag off here; the windowed model is covered
-  // in its own describe.
-  const originalNetwork = CONFIG.NETWORK;
-  beforeEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-  });
-  afterEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-  });
-
   it("throws an error if crafting box is not crafting", () => {
     expect(() =>
       speedUpCrafting({
@@ -772,17 +759,7 @@ describe("speedUpCrafting", () => {
   });
 });
 
-describe("speedUpCrafting — SPEED_BOOSTS", () => {
-  // Pins the flag ON rather than relying on `.env`: a developer running with
-  // VITE_NETWORK=mainnet would otherwise see this whole describe fail.
-  const originalNetwork = CONFIG.NETWORK;
-  beforeEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
-  });
-  afterEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-  });
-
+describe("speedUpCrafting — speed windows", () => {
   const HOUR = 60 * 60 * 1000;
   const farmId = 1;
 

@@ -15,20 +15,8 @@ import type {
   CropMachineQueueItem,
   GameState,
 } from "features/game/types/game";
-import { CONFIG } from "lib/config";
 
 const GAME_STATE: GameState = { ...TEST_FARM, bumpkin: INITIAL_BUMPKIN };
-
-// These suites assert the LEGACY crop machine (boosts baked at supply time,
-// oil earmarked per pack). FE jest runs on amoy where SPEED_BOOSTS is on, so
-// force the flag off here; the windowed model is covered in its own describes.
-const originalNetwork = CONFIG.NETWORK;
-beforeEach(() => {
-  (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-});
-afterEach(() => {
-  (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-});
 
 describe("supplyCropMachineOil", () => {
   it("throws an error if Crop Machine does not exist", () => {
@@ -227,6 +215,7 @@ describe("supplyCropMachineOil", () => {
       crop: "Sunflower",
       totalGrowTime: sunflowerPackGrowTime,
       growTimeRemaining: 0,
+      baseDurationMs: sunflowerPackGrowTime,
       startTime: Date.now(),
       readyAt: Date.now() + sunflowerPackGrowTime,
       seeds: 100,
@@ -243,6 +232,7 @@ describe("supplyCropMachineOil", () => {
             readyAt: Date.now(),
             id: "1",
             unallocatedOilTime: 0,
+            oilSettledAt: Date.now(),
             queue: eightPacks,
           },
         ],
@@ -502,11 +492,7 @@ describe("supplyCropMachineOil", () => {
   });
 });
 
-describe("supplyCropMachineOil (windowed SPEED_BOOSTS)", () => {
-  beforeEach(() => {
-    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
-  });
-
+describe("supplyCropMachineOil (windowed)", () => {
   const now = Date.now();
   const HOUR = 60 * 60 * 1000;
 

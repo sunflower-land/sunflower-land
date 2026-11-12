@@ -1007,7 +1007,7 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "Otty the Otter": { width: 1, height: 1 },
   "Salt Worker Gnome": { width: 1, height: 1 },
   "Shards Turtle": { width: 1, height: 2 },
-  Vibraphone: { width: 2, height: 2 },
+  Vibraphone: { width: 2, height: 1 },
   "Winged Vase": { width: 1, height: 1 },
   // Cave Dwellers
   "Giant Truffle": { width: 2, height: 2 },
@@ -1996,18 +1996,18 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   },
   "Witch Crow": {
     width: 1,
-    height: 1,
+    height: 2,
   },
   "Fisherbird Crow": {
-    width: 1,
+    width: 2,
     height: 1,
   },
   "Chained Crow": {
-    width: 1,
+    width: 2,
     height: 1,
   },
   "Count Vlad Crow": {
-    width: 1,
+    width: 2,
     height: 1,
   },
   "Lual Crow": {

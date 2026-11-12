@@ -8,7 +8,7 @@ import type {
   PlacedItem,
 } from "features/game/types/game";
 import {
-  BUILDING_OIL_BOOSTS,
+  getRecipeOilBoost,
   getCookingRequirements,
   getOilConsumption,
 } from "./cook";
@@ -22,12 +22,14 @@ import {
 } from "features/game/types/consumables";
 import { getCookingTime } from "features/game/expansion/lib/boosts";
 import { getObjectEntries } from "lib/object";
-import { hasFeatureAccess } from "lib/flags";
 import { getCookingBoostWindows } from "features/game/lib/boostWindows";
 import {
+  type CookingOil,
   getCookingQueueReadyAts,
   resolveCookingQueue,
+  settleCookingOil,
 } from "features/game/lib/cookingReadiness";
+import { isCookingBuilding } from "./isCookingBuilding";
 
 export type CancelQueuedRecipeAction = {
   type: "recipe.cancelled";
@@ -47,18 +49,16 @@ function getQueueItemCookingSeconds({
   appliedOilBoost,
   game,
   buildingName,
-  createdAt,
 }: {
   name: CookableName;
   appliedOilBoost: number;
   game: GameState;
   buildingName: CookingBuildingName;
-  createdAt: number;
 }) {
-  const skills = game.bumpkin.skills;
   const itemOilConsumption = getOilConsumption(buildingName, name);
   const itemCookingSeconds = COOKABLES[name].cookingSeconds;
-  const boostValue = BUILDING_OIL_BOOSTS(skills)[buildingName];
+  // Same cap as at cook time (the Crystal Cookie ignores upgraded ranks).
+  const boostValue = getRecipeOilBoost(name, game);
   let boostedCookingSeconds = itemCookingSeconds;
 
   if (appliedOilBoost >= itemOilConsumption) {
@@ -74,43 +74,16 @@ function getQueueItemCookingSeconds({
     seconds: boostedCookingSeconds,
     item: name,
     game,
-    cookStartAt: createdAt,
   });
 
   return { seconds };
-}
-
-function getUpdatedReadyAt({
-  name,
-  startAt,
-  appliedOilBoost,
-  game,
-  buildingName,
-  createdAt,
-}: {
-  name: CookableName;
-  startAt: number;
-  appliedOilBoost: number;
-  game: GameState;
-  buildingName: CookingBuildingName;
-  createdAt: number;
-}) {
-  const { seconds } = getQueueItemCookingSeconds({
-    name,
-    appliedOilBoost,
-    game,
-    buildingName,
-    createdAt,
-  });
-
-  return startAt + seconds * 1000;
 }
 
 /**
  * Recalculates the queue after a recipe has been modified (cancelled, sped up, etc.)
  * Returns a new queue with updated readyAt times
  *
- * Under SPEED_BOOSTS this also MIGRATES the recipes it rewrites onto the speed-rate
+ * This also MIGRATES the recipes it rewrites onto the speed-rate
  * model. That is load-bearing, not incidental: `getCookingTime` no longer bakes the
  * temporary boosts in, so re-deriving a legacy recipe's duration here without also
  * giving it a `baseDurationMs` would silently strip its Gourmet Hourglass / totem /
@@ -122,20 +95,23 @@ export function recalculateQueue({
   buildingName,
   game,
   isInstantCook,
+  oil,
 }: {
   queue: BuildingProduct[];
   createdAt: number;
   buildingName: CookingBuildingName;
   isInstantCook?: boolean;
   game: GameState;
+  /** The building's oil ledger, settled at `createdAt` (see `settleCookingOil`). */
+  oil?: CookingOil;
 }): BuildingProduct[] {
   // Readiness comes from the DERIVED chain, not each recipe's stored `readyAt`. That
   // value is only a cache, and it can only ever be stale-FUTURE (a boost window is
   // added, never removed), so splitting on it puts a recipe that has actually
   // finished in the upcoming half - where an instant cook re-anchors it and restarts
   // a cook the player already paid for. With no `baseDurationMs` the derived value
-  // is the stored one, so the legacy paths below are unaffected.
-  const readyAts = getCookingQueueReadyAts({ crafting: queue, game });
+  // is the stored one.
+  const readyAts = getCookingQueueReadyAts({ crafting: queue, game, oil });
 
   // Keep only ready recipes
   const readyRecipes = queue.filter((_, index) => readyAts[index] <= createdAt);
@@ -145,95 +121,48 @@ export function recalculateQueue({
     (_, index) => readyAts[index] > createdAt,
   );
 
-  if (hasFeatureAccess(game, "SPEED_BOOSTS")) {
-    const rebuilt = upcomingRecipes.map((recipe, index) => {
-      // The recipe already cooking keeps its own timer — it is mid-cook and must not
-      // be restarted. An instant cook removed the previous head, so whatever is
-      // promoted into its place starts NOW and is anchored there.
-      if (index === 0 && !isInstantCook) return recipe;
+  const rebuilt = upcomingRecipes.map((recipe, index) => {
+    // The recipe already cooking keeps its own timer — it is mid-cook and must not
+    // be restarted. An instant cook removed the previous head, so whatever is
+    // promoted into its place starts NOW and is anchored there.
+    if (index === 0 && !isInstantCook) return recipe;
 
-      // `baseDurationMs` is snapshotted when the recipe is queued, like the Double
-      // Nom rank beside it. Only DERIVE one for a legacy recipe being migrated —
-      // re-deriving an existing value would re-apply today's permanent boosts, so
-      // swapping a wearable and cancelling something unrelated would silently
-      // change the duration of everything queued behind it.
-      const baseDurationMs =
-        recipe.baseDurationMs ??
-        getQueueItemCookingSeconds({
-          name: assertCookableName(recipe.name),
-          appliedOilBoost: recipe.boost?.Oil ?? 0,
-          buildingName,
-          game,
-          createdAt,
-        }).seconds * 1000;
-
-      // Everything behind the head is CHAINED: no `startedAt`, so its start tracks
-      // the derived ready time of the recipe ahead of it.
-      const { startedAt: _discarded, ...chained } = recipe;
-
-      return index === 0
-        ? { ...chained, startedAt: createdAt, baseDurationMs }
-        : { ...chained, baseDurationMs };
-    });
-
-    const nextQueue = [...readyRecipes, ...rebuilt];
-    const readyAts = resolveCookingQueue({
-      crafting: nextQueue,
-      windows: getCookingBoostWindows(game),
-    });
-
-    // Refresh the cached `readyAt` on every entry so the persisted value matches
-    // what the chain currently derives.
-    return nextQueue.map((recipe, index) => ({
-      ...recipe,
-      readyAt: readyAts[index],
-    }));
-  }
-
-  if (isInstantCook) {
-    const updatedRecipes = upcomingRecipes.reduce((recipes, recipe, index) => {
-      const startAt = index === 0 ? createdAt : recipes[index - 1].readyAt;
-
-      const readyAt = getUpdatedReadyAt({
+    // `baseDurationMs` is snapshotted when the recipe is queued, like the Double
+    // Nom rank beside it. Only DERIVE one for a legacy recipe being migrated —
+    // re-deriving an existing value would re-apply today's permanent boosts, so
+    // swapping a wearable and cancelling something unrelated would silently
+    // change the duration of everything queued behind it.
+    const baseDurationMs =
+      recipe.baseDurationMs ??
+      getQueueItemCookingSeconds({
         name: assertCookableName(recipe.name),
-        startAt,
         appliedOilBoost: recipe.boost?.Oil ?? 0,
         buildingName,
         game,
-        createdAt,
-      });
+      }).seconds * 1000;
 
-      return [...recipes, { ...recipe, readyAt }];
-    }, [] as BuildingProduct[]);
+    // Everything behind the head is CHAINED: no `startedAt`, so its start tracks
+    // the derived ready time of the recipe ahead of it.
+    const { startedAt: _discarded, ...chained } = recipe;
 
-    return [...readyRecipes, ...updatedRecipes];
-  }
+    return index === 0
+      ? { ...chained, startedAt: createdAt, baseDurationMs }
+      : { ...chained, baseDurationMs };
+  });
 
-  // Currently cooking
-  const currentRecipe = upcomingRecipes[0];
-  const remainingRecipes = upcomingRecipes.slice(1);
+  const nextQueue = [...readyRecipes, ...rebuilt];
+  const nextReadyAts = resolveCookingQueue({
+    crafting: nextQueue,
+    windows: getCookingBoostWindows(game),
+    oil,
+  });
 
-  // Recalculate readyAt times for remaining recipes
-  const updatedRemainingRecipes = remainingRecipes.reduce(
-    (recipes, recipe, index) => {
-      const startAt =
-        index === 0 ? currentRecipe.readyAt : recipes[index - 1].readyAt;
-
-      const readyAt = getUpdatedReadyAt({
-        name: assertCookableName(recipe.name),
-        startAt,
-        appliedOilBoost: recipe.boost?.Oil ?? 0,
-        buildingName,
-        game,
-        createdAt,
-      });
-
-      return [...recipes, { ...recipe, readyAt }];
-    },
-    [] as BuildingProduct[],
-  );
-
-  return [...readyRecipes, currentRecipe, ...updatedRemainingRecipes];
+  // Refresh the cached `readyAt` on every entry so the persisted value matches
+  // what the chain currently derives.
+  return nextQueue.map((recipe, index) => ({
+    ...recipe,
+    readyAt: nextReadyAts[index],
+  }));
 }
 
 /**
@@ -255,16 +184,18 @@ export function getCurrentCookingItem({
   building,
   createdAt,
   game,
+  oil,
 }: {
   building: PlacedItem;
   createdAt: number;
   game: GameState;
+  oil?: CookingOil;
 }): { index: number; recipe: BuildingProduct; readyAt: number } | undefined {
   const queue = building.crafting;
 
   if (!queue?.length) return;
 
-  const readyAts = getCookingQueueReadyAts({ crafting: queue, game });
+  const readyAts = getCookingQueueReadyAts({ crafting: queue, game, oil });
   const index = readyAts.findIndex((readyAt) => readyAt > createdAt);
 
   if (index === -1) return;
@@ -286,11 +217,16 @@ export function cancelQueuedRecipe({
       throw new Error("Building does not exist");
     }
 
-    const queue = building.crafting;
-
-    if (!queue) {
+    if (!building.crafting) {
       throw new Error("No queue exists");
     }
+
+    // Settle the oil before the queue changes shape: a recipe that has not started
+    // has burned nothing, but everything ahead of it may have.
+    const oil = isCookingBuilding(buildingName)
+      ? settleCookingOil({ game, building, buildingName, at: createdAt })
+      : undefined;
+    const queue = building.crafting;
 
     // Address the recipe by its stable `id` where there is one. Deep equality no
     // longer works: the queue is rewritten in place (gaining `baseDurationMs`, a
@@ -315,6 +251,7 @@ export function cancelQueuedRecipe({
       building,
       createdAt,
       game,
+      oil,
     });
 
     const recipe = queue[recipeIndex];
@@ -334,7 +271,7 @@ export function cancelQueuedRecipe({
     // no `startedAt` of its own — a windowed head the resolver can only paper over
     // by freezing its stored `readyAt`, which the cooking modal then renders as
     // "0 secs" with a full bar (the reported stuck-kitchen bug).
-    const readyAts = getCookingQueueReadyAts({ crafting: queue, game });
+    const readyAts = getCookingQueueReadyAts({ crafting: queue, game, oil });
     if (readyAts[recipeIndex] <= createdAt) {
       throw new Error(
         `Recipe ${queueItem.name} has already finished cooking and cannot be cancelled`,
@@ -356,6 +293,8 @@ export function cancelQueuedRecipe({
       game.inventory[ingredient] = count.add(amount ?? 0);
     });
 
+    // Only a recipe that paid for its oil when it was queued gets any back; one
+    // drawing from the tank has burned none of it yet.
     if (recipe.boost?.Oil) {
       building.oil = (building.oil ?? 0) + recipe.boost.Oil;
     }
@@ -368,6 +307,7 @@ export function cancelQueuedRecipe({
       buildingName: buildingName as CookingBuildingName,
       isInstantCook: false,
       game,
+      oil: oil && { ...oil, tank: building.oil ?? 0 },
     });
 
     return game;

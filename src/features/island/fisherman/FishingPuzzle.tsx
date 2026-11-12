@@ -192,6 +192,7 @@ export const FishermanPuzzle: React.FC<{
             ? [{ name: "Anemone Flower", value: "+1 Attempt" }]
             : []
         }
+        baseAttempts={anemoneFlowerBuilt ? attemptLimit - 1 : attemptLimit}
         gameState={gameState.context.state}
       />
 
@@ -265,6 +266,8 @@ interface FishingMinigameProps {
   }) => void;
   difficultCatch: (FishName | MarineMarvelName)[];
   boosts: { name: BoostName; value: string }[];
+  /** The attempt limit before boosts (retries included). */
+  baseAttempts: number;
   gameState: GameState;
 }
 
@@ -279,6 +282,7 @@ const FishingPuzzle: React.FC<FishingMinigameProps> = ({
   difficultCatch,
   onPuzzleStarted,
   boosts,
+  baseAttempts,
 }) => {
   const [dimensions, setDimensions] = useState({
     rows: clampValue(rows, MIN_ROWS, MAX_ROWS),
@@ -504,6 +508,7 @@ const FishingPuzzle: React.FC<FishingMinigameProps> = ({
       </Label>
       <BoostsDisplay
         boosts={boosts}
+        base={{ value: `${baseAttempts}` }}
         show={showBoostPopover}
         state={gameState}
         onClick={() => {

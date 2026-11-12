@@ -1,3 +1,4 @@
+import { refreshBeehivesOnRateChange } from "features/game/lib/updateBeehives";
 import { Decimal } from "decimal.js-light";
 import { getCollectibleExpiry } from "features/game/lib/collectibleBuilt";
 import { getKeys } from "lib/object";
@@ -26,7 +27,7 @@ export function renewPetShrine({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  return produce(state, (stateCopy) => {
+  const gameAfter = produce(state, (stateCopy) => {
     const collectibleGroup =
       action.location === "home"
         ? stateCopy.home.collectibles[action.name]
@@ -51,7 +52,6 @@ export function renewPetShrine({
     const expiresAt = getCollectibleExpiry({
       name: action.name,
       collectible: collectibleToRenew,
-      game: stateCopy,
     });
 
     if (expiresAt > createdAt) {
@@ -102,5 +102,11 @@ export function renewPetShrine({
     delete collectibleToRenew.extendedMs;
 
     return stateCopy;
+  });
+
+  return refreshBeehivesOnRateChange({
+    gameBefore: state,
+    gameAfter,
+    createdAt,
   });
 }

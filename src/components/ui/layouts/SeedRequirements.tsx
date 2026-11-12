@@ -50,7 +50,6 @@ import {
 } from "features/game/events/landExpansion/supplyCropMachine";
 import { useActiveBuff } from "features/game/types/buffs";
 import { useNow } from "lib/utils/hooks/useNow";
-import { hasFeatureAccess } from "lib/flags";
 
 /**
  * The props for the details for items.
@@ -305,20 +304,13 @@ export const SeedRequirements: React.FC<Props> = ({
       if (isSeedCropMachine(details.item)) {
         const cropMachinePackSize = CROP_MACHINE_PLOTS(gameState);
 
-        // A pack supplied now WILL be windowed under SPEED_BOOSTS — the supply
-        // event converts the machine — so this pre-action preview gates on the
-        // FLAG (there is no pack yet to carry a marker). The Tortoise is then a
-        // live window rather than a baked ×0.9, so it must come out of the
-        // duration here and be credited over the grow instead.
-        const isCropMachineWindowed = hasFeatureAccess(
-          gameState,
-          "SPEED_BOOSTS",
-        );
+        // A pack supplied now WILL be windowed — the supply event converts the
+        // machine. The Tortoise is then a live window rather than a baked ×0.9:
+        // `calculateCropTime` leaves it out of the duration, and it is credited
+        // over the grow instead.
         const cropMachineTime = calculateCropTime(
           { type: details.item, amount: cropMachinePackSize },
           gameState,
-          now,
-          { windowed: isCropMachineWindowed },
         );
         const cropMachineSeconds = cropMachineTime.milliSeconds / 1000;
         const cropMachineBaseTime = baseTimeSeconds;
@@ -345,9 +337,7 @@ export const SeedRequirements: React.FC<Props> = ({
           seconds: cropMachineSeconds,
           baseSeconds: cropMachineBaseTime,
           namedBoostCount: cropMachineBoostsUsed.length,
-          windows: isCropMachineWindowed
-            ? getCropMachineBoostWindows(gameState)
-            : [],
+          windows: getCropMachineBoostWindows(gameState),
           at: now,
         });
 
@@ -377,12 +367,21 @@ export const SeedRequirements: React.FC<Props> = ({
                 strikethrough={isCropMachineTimeBoosted}
               />
             )}
-            <BoostsDisplay
-              boosts={cropMachineBoostsUsed}
-              show={showBoosts}
-              state={gameState}
-              onClick={() => setShowBoosts(!showBoosts)}
-            />
+            {!!cropMachineBaseTime && (
+              <BoostsDisplay
+                boosts={cropMachineBoostsUsed}
+                base={{
+                  value: secondsToString(cropMachineBaseTime, {
+                    length: "medium",
+                    removeTrailingZeros: true,
+                  }),
+                  icon: SUNNYSIDE.icons.stopwatch,
+                }}
+                show={showBoosts}
+                state={gameState}
+                onClick={() => setShowBoosts(!showBoosts)}
+              />
+            )}
           </div>
         );
       }
@@ -406,12 +405,21 @@ export const SeedRequirements: React.FC<Props> = ({
               strikethrough={isTimeBoosted}
             />
           )}
-          <BoostsDisplay
-            boosts={time?.boostsUsed ?? []}
-            show={hasNamedBoosts && showBoosts}
-            state={gameState}
-            onClick={() => setShowBoosts(!showBoosts)}
-          />
+          {!!baseTimeSeconds && (
+            <BoostsDisplay
+              boosts={time?.boostsUsed ?? []}
+              base={{
+                value: secondsToString(baseTimeSeconds, {
+                  length: "medium",
+                  removeTrailingZeros: true,
+                }),
+                icon: SUNNYSIDE.icons.stopwatch,
+              }}
+              show={hasNamedBoosts && showBoosts}
+              state={gameState}
+              onClick={() => setShowBoosts(!showBoosts)}
+            />
+          )}
         </div>
       );
     };

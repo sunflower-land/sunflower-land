@@ -845,7 +845,7 @@ describe("plant", () => {
         expect(time).toEqual(60);
       });
 
-      it("does not bake the Time Warp Totem into the plot time under SPEED_BOOSTS", () => {
+      it("does not bake the Time Warp Totem into the plot time", () => {
         const now = Date.now();
 
         const { time } = getCropPlotTime({
@@ -871,7 +871,7 @@ describe("plant", () => {
         // Windowed (2×) for plot crops, so the base time is unchanged here.
         expect(time).toEqual(60);
       });
-      it("does not bake the Super Totem into the plot time under SPEED_BOOSTS", () => {
+      it("does not bake the Super Totem into the plot time", () => {
         const now = Date.now();
 
         const { time } = getCropPlotTime({
@@ -946,7 +946,7 @@ describe("plant", () => {
       expect(time).toEqual(60 * 60);
     });
 
-    it("does not bake Rapid Root into the plot time under SPEED_BOOSTS", () => {
+    it("does not bake Rapid Root into the plot time", () => {
       const { time } = getCropPlotTime({
         crop: "Carrot",
         game: FARM_WITH_PLOTS,
@@ -962,7 +962,7 @@ describe("plant", () => {
       expect(time).toEqual(60 * 60);
     });
 
-    it("does not bake Sproutroot Surprise into the plot time under SPEED_BOOSTS", () => {
+    it("does not bake Sproutroot Surprise into the plot time", () => {
       const { time } = getCropPlotTime({
         crop: "Carrot",
         game: FARM_WITH_PLOTS,
@@ -1370,7 +1370,7 @@ describe("plant", () => {
       expect(time).toEqual(baseHarvestSeconds * 0.5);
     });
 
-    it("does not reduce the base plot time for Harvest Hourglass under SPEED_BOOSTS (applied as a speed window)", () => {
+    it("does not reduce the base plot time for Harvest Hourglass (applied as a speed window)", () => {
       const dateNow = Date.now();
       const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
 
@@ -1396,13 +1396,12 @@ describe("plant", () => {
       expect(time).toEqual(baseHarvestSeconds);
     });
 
-    it("excludes the Harvest Hourglass from greenhouse crops under SPEED_BOOSTS (windowed)", () => {
+    it("excludes the Harvest Hourglass from greenhouse crops (windowed)", () => {
       const dateNow = Date.now();
 
       // Greenhouse crops joined the windowed model: the hourglass applies live
       // via getGreenhouseBoostWindows, so it's no longer baked here either.
       const { multiplier, boostsUsed } = getCropTime({
-        now: Date.now(),
         crop: "Rice",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1426,7 +1425,7 @@ describe("plant", () => {
       });
     });
 
-    it("does not reduce the base plot time for a totem under SPEED_BOOSTS (applied as a speed window)", () => {
+    it("does not reduce the base plot time for a totem (applied as a speed window)", () => {
       const dateNow = Date.now();
       const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
 
@@ -1452,11 +1451,10 @@ describe("plant", () => {
       expect(time).toEqual(baseHarvestSeconds);
     });
 
-    it("excludes the totems from greenhouse crops under SPEED_BOOSTS (windowed)", () => {
+    it("excludes the totems from greenhouse crops (windowed)", () => {
       const dateNow = Date.now();
 
       const { multiplier, boostsUsed } = getCropTime({
-        now: Date.now(),
         crop: "Rice",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1585,7 +1583,7 @@ describe("plant", () => {
       expect(time).toEqual(baseHarvestSeconds * 0.925);
     });
 
-    it("neutralises a rank 3 Green Thumb on the Crystal Leaf event crop (x0.95, not x0.925)", () => {
+    it("applies a rank 3 Green Thumb to the Crystal Leaf event crop (x0.925)", () => {
       const baseHarvestSeconds = CROPS["Crystal Leaf"].harvestSeconds;
       const { time } = getCropPlotTime({
         crop: "Crystal Leaf",
@@ -1603,9 +1601,7 @@ describe("plant", () => {
         createdAt: dateNow,
       });
 
-      // Crystal Leaf (event crop) uses the rank-1 multiplier (x0.95); Corn above
-      // (a non-event crop) still gets the full rank-3 x0.925.
-      expect(time).toEqual(baseHarvestSeconds * 0.95);
+      expect(time).toEqual(baseHarvestSeconds * 0.925);
     });
 
     it("applies a +12.5% speed boost on advanced crops with rank 2 Strong Roots skill", () => {
@@ -1671,7 +1667,7 @@ describe("plant", () => {
       expect(time).toEqual(baseHarvestSeconds);
     });
 
-    it("does not reduce the base plot time for Sunshower under SPEED_BOOSTS (applied as a speed window)", () => {
+    it("does not reduce the base plot time for Sunshower (applied as a speed window)", () => {
       const baseHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
       const { time } = getCropPlotTime({
         crop: "Sunflower",
@@ -1828,58 +1824,36 @@ describe("plant", () => {
     expect(crops[firstId].crop?.baseDurationMs).toBe(plantTime * 0.5);
   });
 
-  describe("SPEED_BOOSTS feature gate", () => {
-    const originalNetwork = CONFIG.NETWORK;
-    afterEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-    });
-
-    const plantSunflowerWithSparrow = () =>
-      plant({
-        state: {
-          ...GAME_STATE,
-          bumpkin: TEST_BUMPKIN,
-          inventory: { "Sunflower Seed": new Decimal(1) },
-          collectibles: {
-            "Sparrow Shrine": [
-              {
-                id: "1",
-                coordinates: { x: 3, y: 3 },
-                createdAt: dateNow,
-                readyAt: dateNow,
-              },
-            ],
-          },
+  it("plants with the speed-rate model when Sparrow Shrine is placed", () => {
+    const crop = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: TEST_BUMPKIN,
+        inventory: { "Sunflower Seed": new Decimal(1) },
+        collectibles: {
+          "Sparrow Shrine": [
+            {
+              id: "1",
+              coordinates: { x: 3, y: 3 },
+              createdAt: dateNow,
+              readyAt: dateNow,
+            },
+          ],
         },
-        createdAt: dateNow,
-        action: {
-          type: "seed.planted",
-          cropId: "123",
-          index: Object.keys(GAME_STATE.crops)[0],
-          item: "Sunflower Seed",
-        },
-      });
+      },
+      createdAt: dateNow,
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: Object.keys(GAME_STATE.crops)[0],
+        item: "Sunflower Seed",
+      },
+    }).crops[firstId].crop;
 
-    it("uses the speed-rate model when the flag is on (amoy)", () => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
-      const crop = plantSunflowerWithSparrow().crops[firstId].crop;
-
-      // True plant time + baseDurationMs (Sparrow excluded from the base).
-      expect(crop?.plantedAt).toBe(dateNow);
-      expect(crop?.baseDurationMs).toBe(CROPS.Sunflower.harvestSeconds * 1000);
-      expect(crop?.boostedTime).toBeUndefined();
-    });
-
-    it("falls back to legacy discount-at-start when the flag is off (mainnet)", () => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-      const crop = plantSunflowerWithSparrow().crops[firstId].crop;
-
-      // Sparrow folded in as ×0.75: back-dated plantedAt + boostedTime, no baseDurationMs.
-      const sunflowerTime = CROPS.Sunflower.harvestSeconds * 1000;
-      expect(crop?.baseDurationMs).toBeUndefined();
-      expect(crop?.boostedTime).toBe(sunflowerTime * 0.25);
-      expect(crop?.plantedAt).toBe(dateNow - sunflowerTime * 0.25);
-    });
+    // True plant time + baseDurationMs (Sparrow excluded from the base).
+    expect(crop?.plantedAt).toBe(dateNow);
+    expect(crop?.baseDurationMs).toBe(CROPS.Sunflower.harvestSeconds * 1000);
+    expect(crop?.boostedTime).toBeUndefined();
   });
 });
 

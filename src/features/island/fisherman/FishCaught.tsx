@@ -22,10 +22,13 @@ import mapIcon from "assets/icons/map.webp";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 
 const CatchBoost: React.FC<{
+  name: InventoryItemName;
+  /** The caught amount, bonuses included. */
+  amount: number;
   shrimpBonus: number;
   otterBonus: number;
   state: GameState;
-}> = ({ shrimpBonus, otterBonus, state }) => {
+}> = ({ name, amount, shrimpBonus, otterBonus, state }) => {
   const { t } = useAppTranslation();
   const [showBoosts, setShowBoosts] = useState(false);
   const anchorRef = useRef<HTMLButtonElement>(null);
@@ -60,6 +63,10 @@ const CatchBoost: React.FC<{
       </button>
       <BoostsDisplay
         boosts={boosts}
+        base={{
+          value: `${amount - shrimpBonus - otterBonus}`,
+          icon: ITEM_DETAILS[name]?.image,
+        }}
         show={showBoosts}
         state={state}
         onClick={() => setShowBoosts(false)}
@@ -219,6 +226,8 @@ export const FishCaught: React.FC<Props> = ({
                           </span>
                           <div className="flex shrink-0 items-center gap-1">
                             <CatchBoost
+                              name={name}
+                              amount={amount}
                               shrimpBonus={shrimpBonus}
                               otterBonus={otterBonus}
                               state={state}
@@ -307,6 +316,8 @@ export const FishCaught: React.FC<Props> = ({
               {(shrimpBonus > 0 || otterBonus > 0) && (
                 <div className="mb-2">
                   <CatchBoost
+                    name={name}
+                    amount={caught[name] ?? 0}
                     shrimpBonus={shrimpBonus}
                     otterBonus={otterBonus}
                     state={state}

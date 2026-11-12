@@ -10,6 +10,10 @@ import {
   snapshotGuardianPlacements,
   syncGuardianPlacements,
 } from "features/game/lib/guardianPlacements";
+import {
+  snapshotCookingPlacements,
+  syncCookingPlacements,
+} from "features/game/lib/cookingReadiness";
 import { getChestItemCount } from "features/island/hud/components/inventory/utils/inventory";
 import { isCollectibleWithTimestamps } from "features/game/events/landExpansion/placeCollectible";
 import { getAvailableNodes } from "features/game/lib/resourceNodes";
@@ -20,6 +24,7 @@ import {
   RESOURCE_DIMENSIONS,
   RESOURCE_MULTIPLIER,
   type ResourceName,
+  type RockName,
   type UpgradeableResource,
 } from "features/game/types/resources";
 import { PET_NFT_DIMENSIONS } from "features/game/types/pets";
@@ -30,6 +35,11 @@ import {
 } from "features/game/expansion/placeable/lib/collisionDetection";
 import type { LandscapingPlaceable } from "features/game/expansion/placeable/landscapingMachine";
 import { getObjectEntries } from "lib/object";
+import {
+  freshOilTimer,
+  freshRockTimer,
+  freshTreeTimer,
+} from "features/game/lib/freshNodes";
 
 /**
  * Collision dimensions for the placeables that aren't in
@@ -135,7 +145,7 @@ const createResourceNode = (
     case "trees":
       return {
         ...base,
-        wood: { choppedAt: 0 },
+        wood: freshTreeTimer(),
         name: resourceName,
         multiplier: RESOURCE_MULTIPLIER[resourceName as UpgradeableResource],
         tier: 1,
@@ -145,23 +155,35 @@ const createResourceNode = (
     case "iron":
       return {
         ...base,
-        stone: { minedAt: 0 },
+        stone: freshRockTimer(resourceName as RockName),
         name: resourceName,
         multiplier: RESOURCE_MULTIPLIER[resourceName as UpgradeableResource],
         tier: 1,
       } as PlacedResource;
     case "crimstones":
-      return { ...base, stone: { minedAt: 0 }, minesLeft: 5 } as PlacedResource;
+      return {
+        ...base,
+        stone: freshRockTimer("Crimstone Rock"),
+        minesLeft: 5,
+      } as PlacedResource;
     case "sunstones":
       return {
         ...base,
-        stone: { minedAt: 0 },
+        stone: freshRockTimer("Sunstone Rock"),
         minesLeft: 10,
       } as PlacedResource;
     case "ascensionCrystals":
-      return { ...base, stone: { minedAt: 0 }, minesLeft: 1 } as PlacedResource;
+      return {
+        ...base,
+        stone: freshRockTimer("Ascension Crystal"),
+        minesLeft: 1,
+      } as PlacedResource;
     case "oilReserves":
-      return { ...base, oil: { drilledAt: 0 }, drilled: 0 } as PlacedResource;
+      return {
+        ...base,
+        oil: freshOilTimer(),
+        drilled: 0,
+      } as PlacedResource;
     case "beehives":
       return {
         x: c.x,
@@ -301,13 +323,16 @@ export function snapshotFarm(
   });
 
   // Buds and Pet NFTs: single bucket each, distinguished from home/interior
-  // copies by `location`. Neither is flippable, so store bare coordinates.
+  // copies by `location`. Both carry a `flipped` flag like the Bumpkin.
   const buds: NonNullable<SavedLayout["buds"]> = {};
   Object.entries(state.buds ?? {}).forEach(([id, bud]) => {
     if (!isOnFarm(bud)) return;
     const coordinates = bud.coordinates as LayoutCoordinates;
     if (!isKept(coordinates, "Bud", maxExpansions)) return;
-    buds[id] = { ...coordinates };
+    buds[id] = {
+      ...coordinates,
+      ...(bud.flipped !== undefined ? { flipped: bud.flipped } : {}),
+    };
   });
 
   const petNFTs: NonNullable<SavedLayout["petNFTs"]> = {};
@@ -320,7 +345,10 @@ export function snapshotFarm(
     ) {
       return;
     }
-    petNFTs[id] = { ...coordinates };
+    petNFTs[id] = {
+      ...coordinates,
+      ...(pet.flipped !== undefined ? { flipped: pet.flipped } : {}),
+    };
   });
 
   // FarmHands (extra bumpkins) carry a `flipped` flag like the main Bumpkin.
@@ -566,26 +594,28 @@ export function layoutItemRects(
   });
 
   // Buds & Pet NFTs — sprite resolved from the entity id in the preview.
-  Object.entries(layout.buds ?? {}).forEach(([id, coordinates]) =>
+  Object.entries(layout.buds ?? {}).forEach(([id, placement]) =>
     rects.push({
-      x: coordinates.x,
-      y: coordinates.y,
+      x: placement.x,
+      y: placement.y,
       width: BUD_DIMENSIONS.width,
       height: BUD_DIMENSIONS.height,
       category: "nft",
       name: "Bud",
       id,
+      flipped: placement.flipped,
     }),
   );
-  Object.entries(layout.petNFTs ?? {}).forEach(([id, coordinates]) =>
+  Object.entries(layout.petNFTs ?? {}).forEach(([id, placement]) =>
     rects.push({
-      x: coordinates.x,
-      y: coordinates.y,
+      x: placement.x,
+      y: placement.y,
       width: PET_NFT_DIMENSIONS.width,
       height: PET_NFT_DIMENSIONS.height,
       category: "nft",
       name: "Pet",
       id,
+      flipped: placement.flipped,
     }),
   );
 
@@ -664,6 +694,7 @@ export function applyFarmLayout(
   createdAt: number,
 ): { applied: number; skipped: number; noInventory: number } {
   const guardiansBefore = snapshotGuardianPlacements(state);
+  const cookingBefore = snapshotCookingPlacements(state);
   const slots: LayoutSlot[] = [];
   let noInventory = 0;
 
@@ -881,16 +912,17 @@ export function applyFarmLayout(
 
   // Buds & Pet NFTs: by id ownership (shared-layout ids you don't own are
   // skipped silently). Pets must be revealed to be placed.
-  Object.entries(layout.buds ?? {}).forEach(([id, coordinates]) => {
+  Object.entries(layout.buds ?? {}).forEach(([id, placement]) => {
     const bud = state.buds?.[Number(id)];
-    if (!bud) return;
+    if (!bud || (bud.coordinates && !isOnFarm(bud))) return;
     const original = bud.coordinates;
     bud.coordinates = undefined; // lift
     slots.push({
       name: "Bud",
-      position: { ...coordinates, ...BUD_DIMENSIONS },
+      position: { x: placement.x, y: placement.y, ...BUD_DIMENSIONS },
       place: () => {
-        bud.coordinates = { x: coordinates.x, y: coordinates.y };
+        bud.coordinates = { x: placement.x, y: placement.y };
+        bud.flipped = placement.flipped;
         bud.location = "farm";
       },
       restore: original
@@ -904,17 +936,18 @@ export function applyFarmLayout(
         : undefined,
     });
   });
-  Object.entries(layout.petNFTs ?? {}).forEach(([id, coordinates]) => {
+  Object.entries(layout.petNFTs ?? {}).forEach(([id, placement]) => {
     // Owned by id (a pet in a layout was placed once, so it's already revealed).
     const pet = state.pets?.nfts?.[Number(id)];
-    if (!pet) return;
+    if (!pet || (pet.coordinates && !isOnFarm(pet))) return;
     const original = pet.coordinates;
     pet.coordinates = undefined; // lift
     slots.push({
       name: "Pet",
-      position: { ...coordinates, ...PET_NFT_DIMENSIONS },
+      position: { x: placement.x, y: placement.y, ...PET_NFT_DIMENSIONS },
       place: () => {
-        pet.coordinates = { x: coordinates.x, y: coordinates.y };
+        pet.coordinates = { x: placement.x, y: placement.y };
+        pet.flipped = placement.flipped;
         pet.location = "farm";
       },
       restore: original
@@ -929,12 +962,17 @@ export function applyFarmLayout(
     });
   });
 
-  // FarmHands: prefer the saved farmhand id if the player owns it (keeps each
-  // bumpkin's equipment + flip at its saved spot), else bind any other unlocked
-  // farmhand by count. No creation — you can't mint farmhands.
-  const farmHandIds = Object.keys(state.farmHands?.bumpkins ?? {}).sort(
-    (a, b) => a.localeCompare(b),
-  );
+  // FarmHands: prefer the saved farmhand id when it is available to the farm
+  // (keeps each bumpkin's equipment + flip at its saved spot), else bind any
+  // other unlocked farmhand by count. Farmhands placed in another location are
+  // not available. No creation — you can't mint farmhands.
+  const farmHandIds = Object.keys(state.farmHands?.bumpkins ?? {})
+    .filter((id) => {
+      const farmHand = state.farmHands.bumpkins[id];
+      return !farmHand.coordinates || isOnFarm(farmHand);
+    })
+    .sort((a, b) => a.localeCompare(b));
+  const availableFarmHandIds = new Set(farmHandIds);
   const farmHandOriginals = new Map(
     farmHandIds.map((id) => [id, state.farmHands.bumpkins[id].coordinates]),
   );
@@ -945,24 +983,18 @@ export function applyFarmLayout(
   const fhEntries = Object.entries(layout.farmHands ?? {}).sort(
     ([, a], [, b]) => byPosition(a, b),
   );
-  const fhCapacity = Math.min(fhEntries.length, farmHandIds.length);
+  // Reserve every saved id that is available first, so an unavailable slot
+  // earlier in the layout can't take a hand away from its own saved spot.
+  // Other slots then draw from the hands left over; extra slots are skipped.
   const ownedFarmHandIds = new Set(
-    fhEntries
-      .slice(0, fhCapacity)
-      .map(([id]) => id)
-      .filter((id) => state.farmHands.bumpkins[id] !== undefined),
+    fhEntries.map(([id]) => id).filter((id) => availableFarmHandIds.has(id)),
   );
   const farmHandPool = farmHandIds.filter((id) => !ownedFarmHandIds.has(id));
   let fhPoolIdx = 0;
-  fhEntries.forEach(([savedId, placement], i) => {
-    if (i >= fhCapacity) {
-      noInventory += 1;
-      return;
-    }
-    const id =
-      state.farmHands.bumpkins[savedId] !== undefined
-        ? savedId
-        : farmHandPool[fhPoolIdx++];
+  fhEntries.forEach(([savedId, placement]) => {
+    const id = ownedFarmHandIds.has(savedId)
+      ? savedId
+      : farmHandPool[fhPoolIdx++];
     if (id === undefined) {
       noInventory += 1;
       return;
@@ -1015,11 +1047,13 @@ export function applyFarmLayout(
     });
   }
 
-  // Exact restore: applying a layout yields exactly the saved snapshot, so lift
-  // every placed item the layout does NOT represent too — its instance (with any
-  // timers) is kept; it simply returns to inventory. Resources are lifted in full
-  // above; mirror that for the name/id-keyed categories. The player's own Bumpkin
-  // is intentionally left alone — it is the avatar and is always captured on-farm.
+  // Exact restore: applying a layout yields exactly the saved farm snapshot, so
+  // lift every item placed on the farm that the layout does NOT represent too —
+  // its instance (with any timers) is kept; it simply returns to inventory.
+  // Resources are lifted in full above; mirror that for the name/id-keyed
+  // categories without touching placements in other locations. The player's own
+  // Bumpkin is intentionally left alone — it is the avatar and is always captured
+  // on-farm.
   getObjectEntries(state.collectibles).forEach(([name, items]) => {
     if (layout.collectibles[name]) return;
     items?.forEach((item) => {
@@ -1033,13 +1067,13 @@ export function applyFarmLayout(
     });
   });
   Object.entries(state.buds ?? {}).forEach(([id, bud]) => {
-    if (!layout.buds?.[id]) bud.coordinates = undefined;
+    if (!layout.buds?.[id] && isOnFarm(bud)) bud.coordinates = undefined;
   });
   Object.entries(state.pets?.nfts ?? {}).forEach(([id, pet]) => {
-    if (!layout.petNFTs?.[id]) pet.coordinates = undefined;
+    if (!layout.petNFTs?.[id] && isOnFarm(pet)) pet.coordinates = undefined;
   });
   Object.entries(state.farmHands?.bumpkins ?? {}).forEach(([id, fh]) => {
-    if (!layout.farmHands?.[id]) fh.coordinates = undefined;
+    if (!layout.farmHands?.[id] && isOnFarm(fh)) fh.coordinates = undefined;
   });
 
   // Everything is now lifted. Place each slot in turn against the live draft
@@ -1086,6 +1120,7 @@ export function applyFarmLayout(
   }
 
   syncGuardianPlacements(state, guardiansBefore, createdAt);
+  syncCookingPlacements(state, cookingBefore, createdAt);
 
   return { applied, skipped, noInventory };
 }

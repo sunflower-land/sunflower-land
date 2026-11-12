@@ -1,6 +1,6 @@
+import { refreshBeehivesOnRateChange } from "features/game/lib/updateBeehives";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
-import { hasSkillAccess } from "features/game/lib/skillAccess";
 import {
   type BumpkinRevampSkillName,
   type BumpkinSkillRevamp,
@@ -31,7 +31,7 @@ export function upgradeSkill({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  return produce(state, (game) => {
+  const gameAfter = produce(state, (game) => {
     const { bumpkin } = game;
 
     if (!bumpkin) {
@@ -43,10 +43,6 @@ export function upgradeSkill({
 
     if (!skillData) {
       throw new Error("Skill does not exist");
-    }
-
-    if (!hasSkillAccess(game, action.skill, createdAt)) {
-      throw new Error("This skill is not available");
     }
 
     const { upgrade } = skillData;
@@ -120,5 +116,11 @@ export function upgradeSkill({
     }
 
     return game;
+  });
+
+  return refreshBeehivesOnRateChange({
+    gameBefore: state,
+    gameAfter,
+    createdAt,
   });
 }

@@ -51,11 +51,20 @@ import { formatNumber } from "lib/utils/formatNumber";
 const ProductionResource: React.FC<{
   resource: AnimalResource;
   amount: number;
+  baseAmount: number;
   boosts: { name: BoostName; value: string }[];
   state: GameState;
   showBoosts: boolean;
   onToggle: () => void;
-}> = ({ resource, amount, boosts, state, showBoosts, onToggle }) => {
+}> = ({
+  resource,
+  amount,
+  baseAmount,
+  boosts,
+  state,
+  showBoosts,
+  onToggle,
+}) => {
   const { t } = useAppTranslation();
   const anchorRef = useRef<HTMLButtonElement>(null);
   const hasBoosts = boosts.length > 0;
@@ -103,6 +112,10 @@ const ProductionResource: React.FC<{
       {content}
       <BoostsDisplay
         boosts={boosts}
+        base={{
+          value: formatNumber(baseAmount),
+          icon: ITEM_DETAILS[resource].image,
+        }}
         show={showBoosts}
         state={state}
         onClick={onToggle}
@@ -263,21 +276,24 @@ export const SleepingAnimalModal = ({
               {":"}
             </span>
             <div className="flex flex-nowrap items-center gap-x-3 whitespace-nowrap">
-              {production.map(({ resource, amount, boostsUsed }) => (
-                <ProductionResource
-                  key={resource}
-                  resource={resource}
-                  amount={amount}
-                  boosts={boostsUsed}
-                  state={state}
-                  showBoosts={activeProductionResource === resource}
-                  onToggle={() =>
-                    setActiveProductionResource((active) =>
-                      active === resource ? null : resource,
-                    )
-                  }
-                />
-              ))}
+              {production.map(
+                ({ resource, amount, baseAmount, boostsUsed }) => (
+                  <ProductionResource
+                    key={resource}
+                    resource={resource}
+                    amount={amount}
+                    baseAmount={baseAmount}
+                    boosts={boostsUsed}
+                    state={state}
+                    showBoosts={activeProductionResource === resource}
+                    onToggle={() =>
+                      setActiveProductionResource((active) =>
+                        active === resource ? null : resource,
+                      )
+                    }
+                  />
+                ),
+              )}
             </div>
           </div>
         )}

@@ -17,7 +17,6 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { isTemporaryCollectibleActive } from "features/game/lib/collectibleBuilt";
-import { hasFeatureAccess } from "lib/flags";
 import {
   computeReadyAt,
   getCraftingBoostWindows,
@@ -52,22 +51,18 @@ export function getBoostedCraftingTime({
   prngArgs?: { farmId: number; itemId: number; counter: number };
   now: number;
 }) {
-  // Under SPEED_BOOSTS the temporary craft-time boosts (Fox Shrine's x0.75 half and
-  // the two totems) are windowed speeds applied live by `getCraftingQueueReadyAts`,
-  // so they must NOT be baked in here - what this returns becomes the craft's
-  // `baseDurationMs` (permanent boosts only). They are likewise excluded from
-  // `boostsUsed`, matching every other slice.
-  const boostsWindowed = hasFeatureAccess(game, "SPEED_BOOSTS");
-
+  // The temporary craft-time boosts (Fox Shrine's x0.75 half and the two totems)
+  // are windowed speeds applied live by `getCraftingQueueReadyAts`, so they must
+  // NOT be baked in here - what this returns becomes the craft's `baseDurationMs`
+  // (permanent boosts only). They are likewise excluded from `boostsUsed`,
+  // matching every other slice.
   let seconds = time;
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isTemporaryCollectibleActive({ name: "Fox Shrine", game, now })) {
-    // The roll happens under BOTH models, and deliberately so: it consumes the
-    // same `<Name> Crafting Started` counter either way, so the sequence of
-    // outcomes a farm sees cannot change with the flag. The proc is a discrete
-    // outcome rather than a rate, so it can never be a window - it stays a
-    // start-time roll that zeroes the work and keeps its `boostsUsed` entry.
+    // The proc is a discrete outcome rather than a rate, so it can never be a
+    // window - it stays a start-time roll that zeroes the work and keeps its
+    // `boostsUsed` entry.
     if (
       prngArgs &&
       prngChance({
@@ -80,14 +75,9 @@ export function getBoostedCraftingTime({
       boostsUsed.push({ name: "Fox Shrine", value: "x0" });
       return {
         seconds,
-        baseDurationMs: boostsWindowed ? 0 : undefined,
+        baseDurationMs: 0,
         boostsUsed,
       };
-    }
-
-    if (!boostsWindowed) {
-      seconds *= 0.75;
-      boostsUsed.push({ name: "Fox Shrine", value: "x0.75" });
     }
   }
 
@@ -102,24 +92,9 @@ export function getBoostedCraftingTime({
     boostsUsed.push({ name: "Architect Ruler", value: "x0.75" });
   }
 
-  if (
-    !boostsWindowed &&
-    (isTemporaryCollectibleActive({ name: "Time Warp Totem", game, now }) ||
-      isTemporaryCollectibleActive({ name: "Super Totem", game, now }))
-  ) {
-    seconds *= 0.5;
-    if (isTemporaryCollectibleActive({ name: "Time Warp Totem", game, now })) {
-      boostsUsed.push({ name: "Time Warp Totem", value: "x0.5" });
-    } else if (
-      isTemporaryCollectibleActive({ name: "Super Totem", game, now })
-    ) {
-      boostsUsed.push({ name: "Super Totem", value: "x0.5" });
-    }
-  }
-
   return {
     seconds,
-    baseDurationMs: boostsWindowed ? seconds : undefined,
+    baseDurationMs: seconds,
     boostsUsed,
   };
 }
@@ -245,6 +220,20 @@ export function startCrafting({
     const isChained = boxFreeAt !== undefined && boxFreeAt > createdAt;
     const recipeStartAt = isChained ? boxFreeAt : createdAt;
 
+    // A craft started in place of a cancelled one takes over that craft's
+    // outcome rather than getting a Fox Shrine roll of its own: the cancelled
+    // craft already had its roll, so every other start rolls on the next unused
+    // `<Name> Crafting Started` counter.
+    const isRestart =
+      (state.farmActivity[`${recipe.name} Crafting Cancelled`] ?? 0) > 0;
+    if (isRestart) {
+      copy.farmActivity = trackFarmActivity(
+        `${recipe.name} Crafting Cancelled`,
+        copy.farmActivity,
+        new Decimal(-1),
+      );
+    }
+
     const {
       seconds: recipeTime,
       baseDurationMs,
@@ -252,14 +241,16 @@ export function startCrafting({
     } = getBoostedCraftingTime({
       game: state,
       time: recipe.time,
-      prngArgs: {
-        farmId,
-        itemId:
-          recipe.type === "collectible"
-            ? KNOWN_IDS[recipe.name as InventoryItemName]
-            : ITEM_IDS[recipe.name as BumpkinItem],
-        counter: state.farmActivity[`${recipe.name} Crafting Started`] ?? 0,
-      },
+      prngArgs: isRestart
+        ? undefined
+        : {
+            farmId,
+            itemId:
+              recipe.type === "collectible"
+                ? KNOWN_IDS[recipe.name as InventoryItemName]
+                : ITEM_IDS[recipe.name as BumpkinItem],
+            counter: state.farmActivity[`${recipe.name} Crafting Started`] ?? 0,
+          },
       now: createdAt,
     });
 
@@ -270,21 +261,18 @@ export function startCrafting({
     // persist an unboosted time and only snap forward on the next rewrite.
     const readyAt = isInstant
       ? createdAt
-      : baseDurationMs === undefined
-        ? recipeStartAt + recipeTime
-        : computeReadyAt({
-            startedAt: recipeStartAt,
-            baseDurationMs,
-            windows,
-          });
+      : computeReadyAt({
+          startedAt: recipeStartAt,
+          baseDurationMs,
+          windows,
+        });
 
-    // A windowed craft queued behind another carries NO `startedAt` so its start
-    // tracks the box-free time as that moves. Everything else is anchored: legacy
-    // crafts (which have always stored one), a craft starting on a free box, and
-    // an instant proc - which is anchored at its own creation, does zero work and
-    // so never holds the box.
+    // A craft queued behind another carries NO `startedAt` so its start tracks the
+    // box-free time as that moves. Everything else is anchored: a craft starting
+    // on a free box, and an instant proc - which is anchored at its own creation,
+    // does zero work and so never holds the box.
     const startedAt =
-      baseDurationMs === undefined || isInstant || !isChained
+      isInstant || !isChained
         ? isInstant
           ? createdAt
           : recipeStartAt

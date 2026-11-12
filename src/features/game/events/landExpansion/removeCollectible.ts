@@ -1,3 +1,4 @@
+import { refreshBeehivesOnRateChange } from "features/game/lib/updateBeehives";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import type { CollectibleName } from "features/game/types/craftables";
 import type {
@@ -48,7 +49,7 @@ export function removeCollectible({
   action,
   createdAt = Date.now(),
 }: Options) {
-  return produce(state, (stateCopy) => {
+  const gameAfter = produce(state, (stateCopy) => {
     const { bumpkin } = stateCopy;
 
     const getCollectibleGroup = (
@@ -119,7 +120,6 @@ export function removeCollectible({
       const expiresAt = getCollectibleExpiry({
         name: action.name as TemporaryCollectibleName,
         collectible,
-        game: stateCopy,
       });
 
       if (!cooldown || expiresAt > createdAt) {
@@ -148,5 +148,11 @@ export function removeCollectible({
     );
 
     return stateCopy;
+  });
+
+  return refreshBeehivesOnRateChange({
+    gameBefore: state,
+    gameAfter,
+    createdAt,
   });
 }

@@ -17,6 +17,7 @@ import {
   canUpgrade,
   getUpgradeableNodes,
 } from "features/game/lib/resourceNodes";
+import { freshTreeTimer } from "features/game/lib/freshNodes";
 
 export type UpgradeTreeAction = {
   type: "tree.upgraded";
@@ -106,7 +107,7 @@ export function upgradeTree({
     if (placement) {
       const newTree: Tree = {
         createdAt,
-        wood: { choppedAt: 0 },
+        wood: freshTreeTimer(),
         x: placement.x,
         y: placement.y,
         tier: advancedResource.preRequires.tier === 1 ? 2 : 3,

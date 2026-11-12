@@ -7,6 +7,7 @@ import { getKeys } from "lib/object";
 import type { BoostName, GameState } from "features/game/types/game";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { trackTutorialStep } from "lib/moonforgeTutorial";
+import { META_EVENT_IDS, trackMetaCustomEvent } from "lib/analytics/meta";
 
 import {
   getExpansionRequirements,
@@ -44,7 +45,7 @@ type Options = {
  * @returns The updated game state
  * @throws When the island expansion cap is reached, no expansions remain available, land is missing, an expansion is already in progress, the bumpkin level is insufficient, coins are insufficient, or any required resource is insufficient
  */
-export function expandLand({ state, createdAt = Date.now() }: Options) {
+export function expandLand({ state, action, createdAt = Date.now() }: Options) {
   return produce(state, (game) => {
     // At an island's expansion cap the player must upgrade to gain more land.
     // Legacy farms already beyond the cap may remain but cannot expand further.
@@ -124,6 +125,14 @@ export function expandLand({ state, createdAt = Date.now() }: Options) {
     if (game.inventory["Basic Land"]?.eq(3)) {
       onboardingAnalytics.logEvent("tutorial_complete");
       trackTutorialStep("expand_to_3_land");
+      // Mirror of the server's `sl_tutorial_complete` (Conversions API) with
+      // the same event id, so Meta counts it once. The server's trigger is
+      // the same third Basic Land (TUTORIAL_COMPLETE_BASIC_LAND in the API).
+      trackMetaCustomEvent(
+        "sl_tutorial_complete",
+        {},
+        META_EVENT_IDS.tutorialComplete(action.farmId),
+      );
     }
 
     //developers.google.com/analytics/devguides/collection/ga4/reference/events?sjid=11955999175679069053-AP&client_type=gtag#level_up

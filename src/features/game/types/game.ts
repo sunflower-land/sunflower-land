@@ -163,7 +163,7 @@ export type CraftingQueueItem = {
    * The craft's un-boosted duration with PERMANENT boosts (Sol & Luna, Architect
    * Ruler) already folded in. Present only on crafts queued under the speed-rate
    * model; its absence selects the legacy baked timing, so the read path keys off
-   * this marker, NOT the `SPEED_BOOSTS` flag — matching every other activity.
+   * this marker — matching every other activity.
    *
    * Zero means a Fox Shrine instant proc: no work to do, so it is ready at its own
    * anchor and never occupies the box.
@@ -869,11 +869,10 @@ export type PlantedFruit = {
   /**
    * Unboosted-by-windowed-collectibles grow/replenish duration (ms), with all
    * permanent (discount-at-start) boosts already folded in. Present only on
-   * fruit planted/harvested under the speed-rate model; its presence — NOT the
-   * `SPEED_BOOSTS` flag — selects `computeReadyAt` (over the legacy back-dated
-   * `plantedAt`/`harvestedAt` readiness check), so a fruit planted while the flag
-   * was on keeps windowed timing on rollback and retains its baked permanent
-   * boosts. Applies to whichever phase is active (`harvestedAt || plantedAt`).
+   * fruit planted/harvested under the speed-rate model; its presence selects
+   * `computeReadyAt` (over the legacy back-dated `plantedAt`/`harvestedAt`
+   * readiness check), so legacy-shaped fruit still use the old timing. Applies
+   * to whichever phase is active (`harvestedAt || plantedAt`).
    */
   baseDurationMs?: number;
 };
@@ -986,10 +985,9 @@ export type GreenhousePlant = {
   /**
    * Unboosted-by-windowed-collectibles grow duration (ms), with all permanent
    * (discount-at-start) boosts already folded in. Present only on plants sown
-   * under the speed-rate model; its presence — NOT the `SPEED_BOOSTS` flag —
-   * selects `computeReadyAt` (over the legacy back-dated `plantedAt` readiness
-   * check), so a plant sown while the flag was on keeps windowed timing on
-   * rollback and retains its baked permanent boosts.
+   * under the speed-rate model; its presence selects `computeReadyAt` (over the
+   * legacy back-dated `plantedAt` readiness check), so legacy-shaped plants
+   * still use the old timing.
    */
   baseDurationMs?: number;
 };
@@ -1031,10 +1029,23 @@ export type BuildingProduct = {
    * The recipe's un-boosted cook time with PERMANENT boosts (wearables, Desert
    * Gnome, Fast Feasts/Frosted Cakes, building oil) already folded in. Present only
    * on recipes queued under the speed-rate model; its absence selects the legacy
-   * baked timing, so the read path keys off this marker, NOT the `SPEED_BOOSTS`
-   * flag — matching every other activity.
+   * baked timing, so the read path keys off this marker — matching every other
+   * activity.
    */
   baseDurationMs?: number;
+  /**
+   * The building-oil boost (e.g. 0.4 = 40%) snapshotted when the recipe was queued
+   * on a clock-drain building. Presence = the recipe draws oil LAZILY from the tank
+   * while it cooks, at a speed of `1 / (1 - oilBoost)`. Absent on recipes whose oil
+   * was deducted up front and baked into their duration.
+   */
+  oilBoost?: number;
+  /**
+   * Oil the recipe burns per day of cooking work, snapshotted with `oilBoost`: the
+   * building's daily rate scaled up by any permanent cut to its duration, so the
+   * dish costs the same oil as a recipe whose oil is deducted up front.
+   */
+  oilRate?: number;
   requirements?: Inventory;
 };
 
@@ -1065,7 +1076,18 @@ export type PlacedItem = {
   cancelled?: Cancelled;
   crafting?: BuildingProduct[];
   processing?: BuildingProduct[];
+  /**
+   * Oil in the building's tank. On a clock-drain cooking building (`oilSettledAt`
+   * set) this is the level at `oilSettledAt` — a ledger, not the live level, which
+   * is derived (see `getCookingOilAt`).
+   */
   oil?: number;
+  /**
+   * The instant `oil` was last settled. Presence = the building burns oil by the
+   * clock while it cooks (cooking oil as a speed boost) rather than deducting it
+   * per recipe when queued.
+   */
+  oilSettledAt?: number;
   flipped?: boolean;
   /**
    * Weather-protection collectible (e.g. Tornado Pinwheel) consumed by its
@@ -1125,12 +1147,12 @@ export type CropMachineQueueItem = {
   pausedTimeRemaining?: number;
   /**
    * Remaining WORK (permanent-boosted ms, temporary boosts excluded) as of the
-   * machine's `oilSettledAt`. Presence = this pack is windowed (SPEED_BOOSTS):
+   * machine's `oilSettledAt`. Presence = this pack is windowed (speed-rate model):
    * its timing derives from `resolveCropMachine` and the stored
    * `startTime`/`growsUntil`/`readyAt`/`growTimeRemaining` become refreshed
    * caches. Deleted when the pack completes, at which point `readyAt` becomes
-   * immutable history. Permanent per-pack marker — read paths key off it, NOT
-   * the flag, so a windowed pack keeps windowed timing on a flag rollback.
+   * immutable history. Permanent per-pack marker — read paths key off it, so a
+   * legacy-shaped pack (unset) still uses the old timing.
    */
   baseDurationMs?: number;
 };
@@ -1139,7 +1161,7 @@ export type CropMachineBuilding = PlacedItem & {
   queue?: CropMachineQueueItem[];
   unallocatedOilTime?: number;
   /**
-   * Presence = this MACHINE is windowed (SPEED_BOOSTS). The tank is
+   * Presence = this MACHINE is windowed (speed-rate model). The tank is
    * machine-wide, so the fuel ledger's discriminator is too: when set,
    * `unallocatedOilTime` means the WHOLE tank — wall-clock ms of unburned fuel,
    * with no per-pack earmarks — as of this instant, and every windowed pack's
@@ -1189,9 +1211,9 @@ export type LayoutPlacement = Pick<PlacedItem, "id" | "flipped"> & {
 };
 
 /**
- * A restorable position for a placeable that can also be flipped (the player's
- * Bumpkin and FarmHands). Buds/Pet NFTs aren't flippable so they store bare
- * {@link LayoutCoordinates} instead.
+ * A restorable position for a placeable that is keyed by id rather than by
+ * name and can also be flipped (the player's Bumpkin, FarmHands, Buds and Pet
+ * NFTs).
  */
 export type LayoutFlippablePlacement = LayoutCoordinates & {
   flipped?: boolean;
@@ -1232,10 +1254,10 @@ export type SavedLayout = {
     flowerBeds: Record<string, LayoutCoordinates>;
     lavaPits: Record<string, LayoutCoordinates>;
   };
-  /** Placed Buds, keyed by bud id (not flippable). Farm-placed only. */
-  buds?: Record<string, LayoutCoordinates>;
-  /** Placed Pet NFTs, keyed by pet nft id (not flippable). Farm-placed only. */
-  petNFTs?: Record<string, LayoutCoordinates>;
+  /** Placed Buds, keyed by bud id. Farm-placed only. */
+  buds?: Record<string, LayoutFlippablePlacement>;
+  /** Placed Pet NFTs, keyed by pet nft id. Farm-placed only. */
+  petNFTs?: Record<string, LayoutFlippablePlacement>;
   /** Placed FarmHands (extra bumpkins), keyed by id. Farm-placed only. */
   farmHands?: Record<string, LayoutFlippablePlacement>;
   /** The player's own Bumpkin (single). Present only when placed on the farm. */
@@ -1432,7 +1454,7 @@ export type BedName =
   | "Messy Bed"
   | "Salt Crystal Bed"
   | "Cloud Bed"
-  | "Miner's Bed";
+  | "Spooky Bed";
 
 export type RecipeCraftableName =
   | "Cushion"
@@ -2014,7 +2036,7 @@ export type CaveMerchantOffer = {
  * Island's shop: how the stock is priced and rolled stays on the server.
  */
 export type CaveMerchantVisitState = {
-  /** Visit 0 opens at launch; pre-launch restocks count down from -1. */
+  /** Visit 0 opens at launch. */
   index: number;
   opensAt: number;
   closesAt: number;
@@ -2067,10 +2089,9 @@ export type PlantedFlower = {
   /**
    * Unboosted-by-windowed-collectibles grow duration (ms), with all permanent
    * (discount-at-start) boosts already folded in. Present only on flowers planted
-   * under the speed-rate model; its presence — NOT the `SPEED_BOOSTS` flag —
-   * selects `computeReadyAt` (over the legacy back-dated `plantedAt` readiness
-   * check), so a flower planted while the flag was on keeps windowed timing on
-   * rollback and retains its baked permanent boosts.
+   * under the speed-rate model; its presence selects `computeReadyAt` (over the
+   * legacy back-dated `plantedAt` readiness check), so legacy-shaped flowers
+   * still use the old timing.
    */
   baseDurationMs?: number;
 };
@@ -2235,6 +2256,13 @@ export type Animal = {
    */
   awakeAt: number;
   lovedAt: number;
+  /**
+   * How many times the animal has been loved in its current sleep — two at
+   * most. Not reset on falling asleep: it only counts while `lovedAt` is at or
+   * after `asleepAt` (read it through `getLovesThisSleep`). Absent on animals
+   * last loved before the count existed.
+   */
+  lovesThisSleep?: number;
   item: LoveAnimalItem;
   /**
    * The sleep's un-boosted work with permanent boosts folded in. Present only on

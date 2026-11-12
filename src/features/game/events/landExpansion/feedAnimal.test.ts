@@ -1,5 +1,4 @@
 import Decimal from "decimal.js-light";
-import { CONFIG } from "lib/config";
 import {
   ANIMAL_SLEEP_DURATION,
   feedAnimal,
@@ -3129,42 +3128,6 @@ describe("feedAnimal: direct Beetle feeding", () => {
     expect(state.barn.animals["1"].experience).toEqual(
       ANIMAL_LEVELS.Cow[15] + 800,
     );
-  });
-
-  describe("off testnet", () => {
-    // jest runs on amoy, so the flag-off path is only reachable by pretending
-    // to be mainnet.
-    let previousNetwork: (typeof CONFIG)["NETWORK"];
-
-    beforeEach(() => {
-      previousNetwork = CONFIG.NETWORK;
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-    });
-
-    afterEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = previousNetwork;
-    });
-
-    it("does not feed a Beetle without the BEETLE_FEEDING feature flag", () => {
-      expect(() => feed(cowFarm(0))).toThrow("Beetle feeding is not available");
-    });
-
-    it("is unlocked by holding a Beta Pass", () => {
-      const state = cowFarm(0);
-
-      expect(() =>
-        feed({
-          ...state,
-          inventory: { ...state.inventory, "Beta Pass": new Decimal(1) },
-        }),
-      ).not.toThrow();
-    });
-
-    it("rejects a Beetle even when a Golden Cow feeds for free", () => {
-      expect(() =>
-        feed(cowFarm(0, { collectibles: { "Golden Cow": PLACED } })),
-      ).toThrow("Beetle feeding is not available");
-    });
   });
 });
 

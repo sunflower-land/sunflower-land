@@ -8,6 +8,11 @@ import { harvest } from "./harvest";
 import { BUILDING_DAILY_OIL_CAPACITY } from "./supplyCookingOil";
 import { getKeys } from "lib/object";
 import Decimal from "decimal.js-light";
+import type {
+  BuildingProduct,
+  GameState,
+  PlacedItem,
+} from "features/game/types/game";
 
 describe("skillUse", () => {
   const dateNow = Date.now();
@@ -1619,6 +1624,8 @@ describe("skillUse", () => {
         createdAt: dateNow,
       });
       expect(state.henHouse.animals["123"].awakeAt).toEqual(dateNow);
+      // Stays on the speed-rate model: it fell asleep just now, so no work.
+      expect(state.henHouse.animals["123"].baseDurationMs).toEqual(0);
     });
   });
 
@@ -1974,5 +1981,171 @@ describe("Ascension Staff", () => {
         skillName: "Instant Growth",
       }),
     ).toEqual(32.4 * HOUR);
+  });
+});
+
+describe("Instant Gratification (oil by the clock)", () => {
+  const HOUR = 60 * 60 * 1000;
+  const T0 = Date.now();
+
+  const lazy = (fields: Partial<BuildingProduct>): BuildingProduct => ({
+    name: "Fermented Fish",
+    oilBoost: 0.4,
+    readyAt: 0,
+    ...fields,
+  });
+
+  const deliFarm = (base: GameState, deli: Partial<PlacedItem>): GameState => ({
+    ...base,
+    buildings: {
+      Deli: [
+        {
+          id: "1",
+          coordinates: { x: 0, y: 0 },
+          createdAt: 0,
+          readyAt: 0,
+          oil: 20,
+          oilSettledAt: T0,
+          ...deli,
+        },
+      ],
+    },
+  });
+
+  it("burns the oil the rest of the recipe would have used", () => {
+    const state = skillUse({
+      state: deliFarm(
+        {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Instant Gratification": 1 },
+          },
+        },
+        {
+          crafting: [
+            lazy({ startedAt: T0, baseDurationMs: 10 * HOUR }),
+            lazy({ baseDurationMs: 10 * HOUR }),
+          ],
+        },
+      ),
+      action: { type: "skill.used", skill: "Instant Gratification" },
+      createdAt: T0 + HOUR,
+    });
+
+    const deli = state.buildings.Deli?.[0];
+    // The head takes 6h on oil (5 oil): 1h cooked, 5h skipped, all of it paid.
+    expect(deli?.oil).toBeCloseTo(15);
+    expect(deli?.crafting?.[0].readyAt).toEqual(T0 + HOUR);
+    expect(deli?.crafting?.[1].readyAt).toEqual(T0 + 7 * HOUR);
+  });
+
+  it("cannot be used when the only cooking building is lifted", () => {
+    expect(() =>
+      skillUse({
+        state: deliFarm(
+          {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...INITIAL_FARM.bumpkin,
+              skills: { "Instant Gratification": 1 },
+            },
+          },
+          {
+            coordinates: undefined,
+            removedAt: T0,
+            crafting: [lazy({ startedAt: T0, baseDurationMs: 10 * HOUR })],
+          },
+        ),
+        action: { type: "skill.used", skill: "Instant Gratification" },
+        createdAt: T0 + HOUR,
+      }),
+    ).toThrow(/No buildings are cooking/);
+  });
+
+  it("cannot be used when the queue is empty", () => {
+    expect(() =>
+      skillUse({
+        state: deliFarm(
+          {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...INITIAL_FARM.bumpkin,
+              skills: { "Instant Gratification": 1 },
+            },
+          },
+          { crafting: [] },
+        ),
+        action: { type: "skill.used", skill: "Instant Gratification" },
+        createdAt: T0 + HOUR,
+      }),
+    ).toThrow(/No buildings are cooking/);
+  });
+
+  it("cannot be used when every queued recipe has finished", () => {
+    expect(() =>
+      skillUse({
+        state: deliFarm(
+          {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...INITIAL_FARM.bumpkin,
+              skills: { "Instant Gratification": 1 },
+            },
+          },
+          // Finished an hour in; the cached `readyAt` is stale on purpose, so
+          // only the derived readiness says it is done.
+          {
+            crafting: [
+              lazy({
+                startedAt: T0,
+                baseDurationMs: HOUR,
+                readyAt: T0 + 10 * HOUR,
+              }),
+            ],
+          },
+        ),
+        action: { type: "skill.used", skill: "Instant Gratification" },
+        createdAt: T0 + 2 * HOUR,
+      }),
+    ).toThrow(/No buildings are cooking/);
+  });
+
+  it("leaves a lifted building alone", () => {
+    const lifted = deliFarm(
+      {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: { "Instant Gratification": 1 },
+        },
+      },
+      {
+        coordinates: undefined,
+        removedAt: T0,
+        crafting: [lazy({ startedAt: T0, baseDurationMs: 10 * HOUR })],
+      },
+    );
+    const state = skillUse({
+      state: {
+        ...lifted,
+        buildings: {
+          ...lifted.buildings,
+          "Fire Pit": [
+            {
+              id: "fp",
+              coordinates: { x: 4, y: 4 },
+              createdAt: 0,
+              readyAt: 0,
+              crafting: [{ name: "Boiled Eggs", readyAt: T0 + 10 * HOUR }],
+            },
+          ],
+        },
+      },
+      action: { type: "skill.used", skill: "Instant Gratification" },
+      createdAt: T0 + HOUR,
+    });
+
+    expect(state.buildings.Deli?.[0]).toEqual(lifted.buildings.Deli?.[0]);
   });
 });

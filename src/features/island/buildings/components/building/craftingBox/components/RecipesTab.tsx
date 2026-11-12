@@ -465,18 +465,27 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
                                   </span>
                                 </div>
                               )}
-                              <BoostsDisplay
-                                boosts={boostsUsed}
-                                show={showBoostsRecipeName === recipe.name}
-                                state={state}
-                                onClick={() =>
-                                  setShowBoostsRecipeName(
-                                    showBoostsRecipeName === recipe.name
-                                      ? null
-                                      : recipe.name,
-                                  )
-                                }
-                              />
+                              {recipe.time > 0 && (
+                                <BoostsDisplay
+                                  boosts={boostsUsed}
+                                  base={{
+                                    value: secondsToString(recipe.time / 1000, {
+                                      length: "medium",
+                                      isShortFormat: true,
+                                    }),
+                                    icon: SUNNYSIDE.icons.stopwatch,
+                                  }}
+                                  show={showBoostsRecipeName === recipe.name}
+                                  state={state}
+                                  onClick={() =>
+                                    setShowBoostsRecipeName(
+                                      showBoostsRecipeName === recipe.name
+                                        ? null
+                                        : recipe.name,
+                                    )
+                                  }
+                                />
+                              )}
                             </div>
                           ) : (
                             <div className="flex">
@@ -795,18 +804,27 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
                                   </span>
                                 </div>
                               )}
-                              <BoostsDisplay
-                                boosts={boostsUsed}
-                                show={showBoostsRecipeName === recipe.name}
-                                state={state}
-                                onClick={() =>
-                                  setShowBoostsRecipeName(
-                                    showBoostsRecipeName === recipe.name
-                                      ? null
-                                      : recipe.name,
-                                  )
-                                }
-                              />
+                              {recipe.time > 0 && (
+                                <BoostsDisplay
+                                  boosts={boostsUsed}
+                                  base={{
+                                    value: secondsToString(recipe.time / 1000, {
+                                      length: "medium",
+                                      isShortFormat: true,
+                                    }),
+                                    icon: SUNNYSIDE.icons.stopwatch,
+                                  }}
+                                  show={showBoostsRecipeName === recipe.name}
+                                  state={state}
+                                  onClick={() =>
+                                    setShowBoostsRecipeName(
+                                      showBoostsRecipeName === recipe.name
+                                        ? null
+                                        : recipe.name,
+                                    )
+                                  }
+                                />
+                              )}
                             </div>
                           ) : (
                             <div className="flex">

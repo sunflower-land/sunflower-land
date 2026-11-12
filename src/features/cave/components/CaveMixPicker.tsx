@@ -34,6 +34,7 @@ import {
   getTranslatedItemName,
 } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { secondsToString } from "lib/utils/time";
 import { formatNumber } from "lib/utils/formatNumber";
 
 import { Button } from "components/ui/Button";
@@ -118,7 +119,7 @@ export const CaveMixPicker: React.FC<Props> = ({
   // What a new batch would bury and cost, with the player's Cave skills.
   const buriedCounts = getCavePatchComposition(
     recipe,
-    getCaveBatchSkills(game).skills,
+    getCaveBatchSkills(game, recipe).skills,
   );
 
   const { mudYieldMultiplier } = CAVE_RECIPES[recipe];
@@ -205,7 +206,9 @@ export const CaveMixPicker: React.FC<Props> = ({
           </Label>
         )}
         <CaveBuriedTiles counts={buriedCounts} />
-        <CaveBeetleOdds odds={getCaveBatchSkills(game).skills?.beetleRarity} />
+        <CaveBeetleOdds
+          odds={getCaveBatchSkills(game, recipe).skills?.beetleRarity}
+        />
       </InnerPanel>
 
       {recipe === "Mud" && (
@@ -272,6 +275,13 @@ export const CaveMixPicker: React.FC<Props> = ({
               {showTimeBoosts && (
                 <BoostsDisplay
                   boosts={timeBoostsUsed}
+                  base={{
+                    value: secondsToString(CAVE_BATCH_DURATION_MS / 1000, {
+                      length: "medium",
+                      removeTrailingZeros: true,
+                    }),
+                    icon: SUNNYSIDE.icons.stopwatch,
+                  }}
                   show={showTimeBoosts}
                   state={game}
                   onClick={() => setShowTimeBoosts((prev) => !prev)}

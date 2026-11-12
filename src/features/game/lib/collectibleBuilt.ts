@@ -5,7 +5,6 @@ import type { GameState, InventoryItemName, PlacedItem } from "../types/game";
 import { PET_SHRINES, type PetShrineName } from "../types/pets";
 import { isPetCollectible } from "../events/landExpansion/placeCollectible";
 import { getCollectiblesAcrossLocations } from "./getCollectiblesAcrossLocations";
-import { hasFeatureAccess } from "lib/flags";
 
 export { getCollectiblesAcrossLocations };
 
@@ -43,13 +42,13 @@ export type TemporaryCollectibleName = Extract<
 >;
 
 export const EXPIRY_COOLDOWNS: Record<TemporaryCollectibleName, number> = {
-  "Time Warp Totem": 2 * 60 * 60 * 1000,
-  "Gourmet Hourglass": 4 * 60 * 60 * 1000,
-  "Harvest Hourglass": 6 * 60 * 60 * 1000,
+  "Time Warp Totem": 4 * 60 * 60 * 1000,
+  "Gourmet Hourglass": 6 * 60 * 60 * 1000,
+  "Harvest Hourglass": 9 * 60 * 60 * 1000,
   "Timber Hourglass": 4 * 60 * 60 * 1000,
-  "Ore Hourglass": 3 * 60 * 60 * 1000,
-  "Orchard Hourglass": 6 * 60 * 60 * 1000,
-  "Blossom Hourglass": 4 * 60 * 60 * 1000,
+  "Ore Hourglass": 5 * 60 * 60 * 1000,
+  "Orchard Hourglass": 8 * 60 * 60 * 1000,
+  "Blossom Hourglass": 12 * 60 * 60 * 1000,
   "Fisher's Hourglass": 4 * 60 * 60 * 1000,
   "Super Totem": 7 * 24 * 60 * 60 * 1000,
   // All pet shrines have 7 day cooldown
@@ -66,43 +65,6 @@ export const EXPIRY_COOLDOWNS: Record<TemporaryCollectibleName, number> = {
   "Obsidian Shrine": 14 * 24 * 60 * 60 * 1000,
   "Trading Shrine": 30 * 24 * 60 * 60 * 1000,
 };
-
-/**
- * Rebalanced (longer) durations applied ONLY under the `SPEED_BOOSTS` flag (via
- * `getExpiryCooldown`). The windowed model credits only the overlap, so the short
- * boosters are extended to still bank a worthwhile chunk on longer tasks (agreed
- * in Discussion #7393). Flag-off / production keeps `EXPIRY_COOLDOWNS` unchanged.
- * Only the entries that actually change are listed; everything else falls through
- * to `EXPIRY_COOLDOWNS`.
- */
-export const SPEED_BOOST_EXPIRY_COOLDOWNS: Partial<
-  Record<TemporaryCollectibleName, number>
-> = {
-  "Time Warp Totem": 4 * 60 * 60 * 1000,
-  "Gourmet Hourglass": 6 * 60 * 60 * 1000,
-  "Harvest Hourglass": 9 * 60 * 60 * 1000,
-  "Ore Hourglass": 5 * 60 * 60 * 1000,
-  "Orchard Hourglass": 8 * 60 * 60 * 1000,
-  "Blossom Hourglass": 12 * 60 * 60 * 1000,
-};
-
-/**
- * A temporary collectible's active-lifetime / boost-window duration, flag-gated:
- * `SPEED_BOOSTS` players get the rebalanced durations, everyone else keeps the
- * legacy `EXPIRY_COOLDOWNS`. Every timing consumer that has `game` (boost windows,
- * the active check, cooking, boostHistory writers) routes through this so a
- * boost's window, active state and recorded history stay consistent.
- */
-export function getExpiryCooldown(
-  name: TemporaryCollectibleName,
-  game: GameState,
-): number {
-  if (hasFeatureAccess(game, "SPEED_BOOSTS")) {
-    return SPEED_BOOST_EXPIRY_COOLDOWNS[name] ?? EXPIRY_COOLDOWNS[name];
-  }
-
-  return EXPIRY_COOLDOWNS[name];
-}
 
 /**
  * Whether a collectible is one of the time-limited boosters — the items that
@@ -145,15 +107,13 @@ export const getPlacementGroup = (
 export function getCollectibleExpiry({
   name,
   collectible,
-  game,
 }: {
   name: TemporaryCollectibleName;
   collectible: Pick<PlacedItem, "createdAt" | "extendedMs">;
-  game: GameState;
 }): number {
   return (
     (collectible.createdAt ?? 0) +
-    getExpiryCooldown(name, game) +
+    EXPIRY_COOLDOWNS[name] +
     (collectible.extendedMs ?? 0)
   );
 }
@@ -172,6 +132,6 @@ export function isTemporaryCollectibleActive({
   now: number;
 }) {
   return getCollectiblesAcrossLocations(game, name).some(
-    (placed) => getCollectibleExpiry({ name, collectible: placed, game }) > now,
+    (placed) => getCollectibleExpiry({ name, collectible: placed }) > now,
   );
 }

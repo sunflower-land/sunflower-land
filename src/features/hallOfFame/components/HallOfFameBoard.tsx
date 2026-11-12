@@ -19,6 +19,7 @@ import xpIcon from "assets/icons/xp.png";
 import choresIcon from "assets/icons/chores.webp";
 import lightningIcon from "assets/icons/lightning.png";
 import deliveryIcon from "assets/icons/delivery.webp";
+import socialPointsIcon from "assets/icons/social_score.webp";
 
 export const BOARD_ICONS: Record<StatsLeaderboardName, string> = {
   coins: coinsIcon,
@@ -30,6 +31,7 @@ export const BOARD_ICONS: Record<StatsLeaderboardName, string> = {
   deliveries: deliveryIcon,
   dailyLoginStreak: lightningIcon,
   diggingStreak: SUNNYSIDE.tools.sand_shovel,
+  socialPoints: socialPointsIcon,
 };
 
 interface Props {

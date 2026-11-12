@@ -27,7 +27,13 @@ import {
   getBoostContributionEntries,
   getNodeBoostContributions,
 } from "features/game/lib/boostContributions";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import {
+  INITIAL_STOCK,
+  PIXEL_SCALE,
+  isBuildingReady,
+} from "features/game/lib/constants";
+import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
+import stockIcon from "assets/icons/stock.webp";
 import { getTreeRecoveryTimeForDisplay } from "features/game/events/landExpansion/chop";
 import { getStoneRecoveryTimeForDisplay } from "features/game/events/landExpansion/stoneMine";
 import { getIronRecoveryTimeForDisplay } from "features/game/events/landExpansion/ironMine";
@@ -69,7 +75,7 @@ type GuideNodeWithRecovery = {
   resourceImage?: string;
   resourceLabelKey?: TranslationKeys;
   toolName: WorkbenchToolName;
-  getRecovery: (opts: { game: GameState; now: number }) => {
+  getRecovery: (opts: { game: GameState }) => {
     baseTimeMs: number;
     recoveryTimeMs: number;
     boostsUsed: { name: BoostName; value: string }[];
@@ -81,54 +87,49 @@ const LAND_NODES_WITH_RECOVERY: GuideNodeWithRecovery[] = [
     nodeName: "Tree",
     resourceName: "Wood",
     toolName: "Axe",
-    getRecovery: ({ game, now }) =>
-      getTreeRecoveryTimeForDisplay({ game, now }),
+    getRecovery: ({ game }) => getTreeRecoveryTimeForDisplay({ game }),
     recoveryLabelKey: "resource.treeRecoveryTime",
   },
   {
     nodeName: "Stone Rock",
     resourceName: "Stone",
     toolName: "Pickaxe",
-    getRecovery: ({ game, now }) =>
-      getStoneRecoveryTimeForDisplay({ game, now }),
+    getRecovery: ({ game }) => getStoneRecoveryTimeForDisplay({ game }),
     recoveryLabelKey: "resource.stoneRecoveryTime",
   },
   {
     nodeName: "Iron Rock",
     resourceName: "Iron",
     toolName: "Stone Pickaxe",
-    getRecovery: ({ game, now }) =>
-      getIronRecoveryTimeForDisplay({ game, now }),
+    getRecovery: ({ game }) => getIronRecoveryTimeForDisplay({ game }),
     recoveryLabelKey: "resource.ironRecoveryTime",
   },
   {
     nodeName: "Gold Rock",
     resourceName: "Gold",
     toolName: "Iron Pickaxe",
-    getRecovery: ({ game, now }) =>
-      getGoldRecoveryTimeForDisplay({ game, now }),
+    getRecovery: ({ game }) => getGoldRecoveryTimeForDisplay({ game }),
     recoveryLabelKey: "resource.goldRecoveryTime",
   },
   {
     nodeName: "Crimstone Rock",
     toolName: "Gold Pickaxe",
     resourceName: "Crimstone",
-    getRecovery: ({ game, now }) =>
-      getCrimstoneRecoveryTimeForDisplay({ game, now }),
+    getRecovery: ({ game }) => getCrimstoneRecoveryTimeForDisplay({ game }),
     recoveryLabelKey: "resource.crimstoneRecoveryTime",
   },
   {
     nodeName: "Sunstone Rock",
     toolName: "Gold Pickaxe",
     resourceName: "Sunstone",
-    getRecovery: ({ game }) => getSunstoneRecoveryTimeForDisplay(game),
+    getRecovery: () => getSunstoneRecoveryTimeForDisplay(),
     recoveryLabelKey: "resource.sunstoneRecoveryTime",
   },
   {
     nodeName: "Oil Reserve",
     toolName: "Oil Drill",
     resourceName: "Oil",
-    getRecovery: ({ game, now }) => getOilRecoveryTimeForDisplay({ game, now }),
+    getRecovery: ({ game }) => getOilRecoveryTimeForDisplay({ game }),
     recoveryLabelKey: "resource.oilRecoveryTime",
   },
 ];
@@ -245,6 +246,100 @@ export const ToolsGuide: React.FC = () => {
 
 const CELL_CLASS = "py-0 align-middle";
 
+/**
+ * What raises a tool's daily stock, mirroring INITIAL_STOCK: a ready Toolshed
+ * (+50% on every tool) and the More Axes / More Picks skills (flat, by rank).
+ */
+const getToolStockBoosts = (state: GameState, tool: WorkbenchToolName) => {
+  const boosts: { name: BoostName; value: string }[] = [];
+
+  if (isBuildingReady(state.buildings.Toolshed ?? [])) {
+    boosts.push({ name: "Toolshed", value: "+50%" });
+  }
+
+  const moreAxesLevel = getSkillLevel(state.bumpkin.skills, "More Axes");
+  if (tool === "Axe" && moreAxesLevel) {
+    const bonus = SKILL_RANKS["More Axes"].ranks.Axe[moreAxesLevel - 1];
+    if (bonus) boosts.push({ name: "More Axes", value: `+${bonus}` });
+  }
+
+  const morePicksLevel = getSkillLevel(state.bumpkin.skills, "More Picks");
+  const morePicksRanks = SKILL_RANKS["More Picks"].ranks as Partial<
+    Record<WorkbenchToolName, readonly number[]>
+  >;
+  const morePicksBonus = morePicksLevel
+    ? morePicksRanks[tool]?.[morePicksLevel - 1]
+    : undefined;
+  if (morePicksBonus) {
+    boosts.push({ name: "More Picks", value: `+${morePicksBonus}` });
+  }
+
+  return boosts;
+};
+
+const StockAmount: React.FC<{ amount: string }> = ({ amount }) => (
+  <div className="flex items-center">
+    <img
+      src={stockIcon}
+      className="w-3 mr-1 flex-shrink-0"
+      alt={translate("restock")}
+    />
+    <span className="text-xs">{amount}</span>
+  </div>
+);
+
+/** The tool's daily stock; when boosted, the base is struck through. */
+const StockCell: React.FC<{
+  toolName: WorkbenchToolName;
+  boostsKey: string;
+  showBoostsKey: string | null;
+  setShowBoostsKey: (key: string | null) => void;
+  state: GameState;
+}> = ({ toolName, boostsKey, showBoostsKey, setShowBoostsKey, state }) => {
+  const anchorRef = useRef<HTMLButtonElement>(null);
+  const stock = INITIAL_STOCK(state)[toolName];
+  const baseStock = INITIAL_STOCK()[toolName];
+  const boosts = getToolStockBoosts(state, toolName);
+  // Only a raised stock counts: the tutorial cap can lower it below the base.
+  const isBoosted = stock.greaterThan(baseStock) && boosts.length > 0;
+
+  if (!isBoosted) return <StockAmount amount={stock.toString()} />;
+
+  return (
+    <button
+      ref={anchorRef}
+      type="button"
+      className="flex items-center cursor-pointer relative"
+      aria-expanded={showBoostsKey === boostsKey}
+      aria-label={`${getTranslatedItemName(toolName)}: ${translate("restock")} ${stock.toString()}. ${translate("boosts")}`}
+      onClick={(e) => {
+        e.stopPropagation();
+        setShowBoostsKey(showBoostsKey === boostsKey ? null : boostsKey);
+      }}
+    >
+      <StockAmount amount={stock.toString()} />
+      <img
+        src={SUNNYSIDE.icons.lightning}
+        className="w-3 mx-1 flex-shrink-0"
+        alt=""
+      />
+      <span className="text-xxs line-through">{baseStock.toString()}</span>
+      <BoostsDisplay
+        boosts={boosts}
+        base={{ value: baseStock.toString(), icon: stockIcon }}
+        show={showBoostsKey === boostsKey}
+        state={state}
+        onClick={() =>
+          setShowBoostsKey(showBoostsKey === boostsKey ? null : boostsKey)
+        }
+        className="-translate-x-1/2"
+        portalAlign="center"
+        anchorRef={anchorRef}
+      />
+    </button>
+  );
+};
+
 const NodeToolIcon: React.FC<{
   nodeIcon?: string;
   toolIcon?: string;
@@ -345,16 +440,19 @@ const CooldownCell: React.FC<{
             </div>
           )}
         </div>
-        <BoostsDisplay
-          boosts={cooldown.boostsUsed}
-          show={hasNamedBoosts && showBoostsKey === boostsKey}
-          state={state}
-          onClick={() =>
-            setShowBoostsKey(showBoostsKey === boostsKey ? null : boostsKey)
-          }
-          className="right-0 left-auto"
-          anchorRef={anchorRef}
-        />
+        {cooldown.baseSeconds > 0 && (
+          <BoostsDisplay
+            boosts={cooldown.boostsUsed}
+            base={{ value: baseTimeStr, icon: SUNNYSIDE.icons.stopwatch }}
+            show={hasNamedBoosts && showBoostsKey === boostsKey}
+            state={state}
+            onClick={() =>
+              setShowBoostsKey(showBoostsKey === boostsKey ? null : boostsKey)
+            }
+            className="right-0 left-auto"
+            anchorRef={anchorRef}
+          />
+        )}
       </div>
     );
   }
@@ -383,7 +481,6 @@ const NodeRow: React.FC<NodeRowProps> = ({
 }) => {
   const { baseTimeMs, recoveryTimeMs, boostsUsed } = node.getRecovery({
     game: state,
-    now,
   });
 
   // A live speed window (hourglass / totem / shrine) is NOT folded into
@@ -461,6 +558,20 @@ const NodeRow: React.FC<NodeRowProps> = ({
           />
         )}
         <p className="text-xs">{resourceName}</p>
+      </div>
+      <div
+        className={classNames(
+          CELL_CLASS,
+          "w-24 flex-shrink-0 flex items-center",
+        )}
+      >
+        <StockCell
+          toolName={node.toolName}
+          boostsKey={`${node.toolName}-${resourceName}-stock`}
+          showBoostsKey={showBoostsKey}
+          setShowBoostsKey={setShowBoostsKey}
+          state={state}
+        />
       </div>
       <div
         className={classNames(

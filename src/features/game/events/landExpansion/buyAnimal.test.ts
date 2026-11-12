@@ -194,6 +194,10 @@ describe("buyAnimal", () => {
         type: "Cow",
         state: "idle",
         createdAt: expect.any(Number),
+        // Awake, on the speed-rate model: no sleep to do.
+        asleepAt: 0,
+        awakeAt: 0,
+        baseDurationMs: 0,
       },
     });
   });

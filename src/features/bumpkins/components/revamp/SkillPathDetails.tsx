@@ -247,8 +247,14 @@ export const SkillPathDetails: React.FC<Props> = ({
     : undefined;
   const isRankSkill = canUpgradeHere && rankSkillName !== undefined;
   const rankKind = rankSkillName ? SKILL_RANKS[rankSkillName].kind : undefined;
+  // The oil skills' static copy is a time cut; oil is now a speed, so they
+  // always take the ranked (speed) wording instead.
+  const isOilSkill =
+    rankSkillName === "Swift Sizzle" ||
+    rankSkillName === "Turbo Fry" ||
+    rankSkillName === "Fry Frenzy";
   const currentRankDescription =
-    isRankSkill && rankSkillName && rankKind !== "cooldown"
+    rankSkillName && rankKind !== "cooldown" && (isRankSkill || isOilSkill)
       ? getSkillRankDescription(rankSkillName, Math.max(currentLevel, 1), t)
       : undefined;
   // Boost copy for the rank currently being previewed (any rank 1..maxLevel).

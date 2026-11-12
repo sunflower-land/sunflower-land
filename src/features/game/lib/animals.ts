@@ -29,8 +29,11 @@ import {
 } from "./collectibleBuilt";
 import { getBudYieldBoosts } from "./getBudYieldBoosts";
 import { isWearableActive } from "./wearables";
-import { computeReadyAt, getAnimalBoostWindows } from "./boostWindows";
-import { hasFeatureAccess } from "lib/flags";
+import {
+  computeReadyAt,
+  getAnimalBoostWindows,
+  workAccruedAt,
+} from "./boostWindows";
 import { isBeetle } from "../types/beetles";
 import Decimal from "decimal.js-light";
 import { getSkillLevel, SKILL_RANKS } from "../types/bumpkinSkills";
@@ -128,6 +131,7 @@ export function makeAnimalBuilding(
           item: "Petting Hand",
           lovedAt: 0,
           awakeAt: 0,
+          baseDurationMs: 0,
         },
       };
     }, {});
@@ -273,19 +277,17 @@ export function getFeedItem({
   favouriteFood,
   inventory,
   requiredQty,
-  hasBeetleFeedingAccess,
 }: {
   animal: AnimalType;
   selectedItem?: InventoryItemName;
   favouriteFood: AnimalFoodName;
   inventory: Inventory;
   requiredQty: Decimal;
-  hasBeetleFeedingAccess: boolean;
 }): InventoryItemName | undefined {
   if (
     selectedItem === favouriteFood ||
     (selectedItem === "Omnifeed" && isFoodForAnimal(animal, selectedItem)) ||
-    (hasBeetleFeedingAccess && !!selectedItem && isBeetle(selectedItem))
+    (!!selectedItem && isBeetle(selectedItem))
   ) {
     return selectedItem;
   }
@@ -579,8 +581,7 @@ function getLeatherYieldBoosts(game: GameState): {
 }
 
 // Truffle Yield / Bristle Payout are multiplicative, unlike the flat yield
-// helpers above, so they return a multiplier for the caller to apply AFTER
-// the flat produce boosts.
+// helpers above, so they return a multiplier for the caller to apply.
 function getTruffleYieldBoosts(game: GameState): {
   multiplier: number;
   boostsUsed: { name: BoostName; value: string }[];
@@ -643,6 +644,40 @@ export function getResourceDropAmount({
   const isCow = animalType === "Cow";
   const isSheep = animalType === "Sheep";
   const isPig = animalType === "Pig";
+
+  // Every multiplier scales the base, then the flat bonuses are added, so no
+  // multiplier ever scales a flat bonus.
+
+  // Truffle Yield Boost (#7721)
+  if (isPig && resource === "Truffle") {
+    const { multiplier: truffleMultiplier, boostsUsed: truffleBoostsUsed } =
+      getTruffleYieldBoosts(game);
+    amount = amount.mul(truffleMultiplier);
+    boostsUsed.push(...truffleBoostsUsed);
+  }
+
+  // Pig Bristles Yield Boost (#7721), before the sickness cut in
+  // `getPigBristles`.
+  if (isPig && resource === "Pig Bristles") {
+    const { multiplier: bristlesMultiplier, boostsUsed: bristlesBoostsUsed } =
+      getPigBristlesYieldBoosts(game);
+    amount = amount.mul(bristlesMultiplier);
+    boostsUsed.push(...bristlesBoostsUsed);
+  }
+
+  if (multiplier) {
+    amount = amount.mul(multiplier);
+    if (multiplier !== 1) {
+      boostsUsed.push({ name: "Buckaroo", value: `x${multiplier}` });
+    }
+  }
+
+  if (animal.feedBuff?.name === "Salt Lick") {
+    amount = amount.mul(1.05);
+    boostsUsed.push({ name: "Salt Lick", value: "x1.05" });
+  }
+
+  // Flat bonuses from here on.
 
   // Egg yield boosts
   if (isChicken && resource === "Egg") {
@@ -749,41 +784,11 @@ export function getResourceDropAmount({
     boostsUsed.push({ name: "Barn Manager", value: "+0.1" });
   }
 
-  // Truffle Yield Boost (#7721) scales the Truffles after the flat produce boosts.
-  if (isPig && resource === "Truffle") {
-    const { multiplier: truffleMultiplier, boostsUsed: truffleBoostsUsed } =
-      getTruffleYieldBoosts(game);
-    amount = amount.mul(truffleMultiplier);
-    boostsUsed.push(...truffleBoostsUsed);
-  }
-
-  // Pig Bristles Yield Boost (#7721) scales the Bristles the same way, after
-  // the flat produce boosts and before the sickness cut in `getPigBristles`.
-  if (isPig && resource === "Pig Bristles") {
-    const { multiplier: bristlesMultiplier, boostsUsed: bristlesBoostsUsed } =
-      getPigBristlesYieldBoosts(game);
-    amount = amount.mul(bristlesMultiplier);
-    boostsUsed.push(...bristlesBoostsUsed);
-  }
-
-  // Bud yield boosts are flat and sit after the Pig multipliers so they are
-  // not scaled by Truffle Yield / Bristle Payout.
+  // Bud yield boosts
   const { yieldBoost, budUsed } = getBudYieldBoosts(buds, resource);
   amount = amount.plus(yieldBoost);
   if (budUsed)
     boostsUsed.push({ name: budUsed, value: `+${yieldBoost.toString()}` });
-
-  if (multiplier) {
-    amount = amount.mul(multiplier);
-    if (multiplier !== 1) {
-      boostsUsed.push({ name: "Buckaroo", value: `x${multiplier}` });
-    }
-  }
-
-  if (animal.feedBuff?.name === "Salt Lick") {
-    amount = amount.mul(1.05);
-    boostsUsed.push({ name: "Salt Lick", value: "x1.05" });
-  }
 
   return { amount: Number(amount.toFixed(2)), boostsUsed };
 }
@@ -911,12 +916,10 @@ export function getBoostedFoodQuantity({
  * The animal's sleep duration with its boosts applied, plus the wake time that
  * follows from starting it at `createdAt`.
  *
- * Legacy model: every boost — including the two temporary pet shrines — is baked
- * into the returned duration. Speed-rate model (SPEED_BOOSTS): the shrines are
- * excluded from BOTH the duration and `boostsUsed` and derived live from windows
- * instead, so what remains is the permanent-boost-only base duration returned as
- * `baseDurationMs`. Mirrors `getOilRecoveryTimeForDisplay`; returns no
- * `baseDurationMs` flag-off, so a flag-off re-sleep reverts the animal to legacy.
+ * The two temporary pet shrines are excluded from BOTH the duration and
+ * `boostsUsed` and derived live from windows instead, so what remains is the
+ * permanent-boost-only base duration returned as `baseDurationMs`. Mirrors
+ * `getOilRecoveryTimeForDisplay`.
  *
  * `feedBuff` is the treat the animal carries INTO this sleep: a Truffle
  * Seasoning halves it. `claimProduce` passes the treat before spending its
@@ -934,11 +937,10 @@ export function getBoostedAwakeAt({
   feedBuff?: Animal["feedBuff"];
 }): {
   awakeAt: number;
-  baseDurationMs?: number;
+  baseDurationMs: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
   const sleepDuration = ANIMAL_SLEEP_DURATION;
-  const boostsWindowed = hasFeatureAccess(game, "SPEED_BOOSTS");
   const { bumpkin } = game;
   const twoHoursInMs = 2 * 60 * 60 * 1000;
 
@@ -1019,55 +1021,23 @@ export function getBoostedAwakeAt({
   }
 
   // Truffle Seasoning: -50% on the sleep it is spent on. Baked in like the
-  // permanent boosts, so under the speed-rate model the shrines still stack
-  // live on top of it.
+  // permanent boosts, so the shrines still stack live on top of it.
   if (feedBuff?.name === "Truffle Seasoning") {
     totalDuration *= 0.5;
     boostsUsed.push({ name: "Truffle Seasoning", value: "x0.5" });
   }
 
-  if (
-    !boostsWindowed &&
-    (isCow || isSheep) &&
-    isTemporaryCollectibleActive({
-      name: "Collie Shrine",
-      game,
-      now: createdAt,
-    })
-  ) {
-    totalDuration *= 0.75;
-    boostsUsed.push({ name: "Collie Shrine", value: "x0.75" });
-  }
-
-  if (
-    !boostsWindowed &&
-    isChicken &&
-    isTemporaryCollectibleActive({
-      name: "Bantam Shrine",
-      game,
-      now: createdAt,
-    })
-  ) {
-    totalDuration *= 0.75;
-    boostsUsed.push({ name: "Bantam Shrine", value: "x0.75" });
-  }
-
-  if (boostsWindowed) {
-    // The stored wake time is only a cache of the projection made now (see
-    // `Animal.awakeAt`); `getAnimalReadyAt` re-derives it live off the windows.
-    return {
-      awakeAt: computeReadyAt({
-        startedAt: createdAt,
-        baseDurationMs: totalDuration,
-        windows: getAnimalBoostWindows(game, animalType),
-      }),
+  // The stored wake time is only a cache of the projection made now (see
+  // `Animal.awakeAt`); `getAnimalReadyAt` re-derives it live off the windows.
+  return {
+    awakeAt: computeReadyAt({
+      startedAt: createdAt,
       baseDurationMs: totalDuration,
-      boostsUsed,
-    };
-  }
-
-  // Add the boosted duration to the created time
-  return { awakeAt: createdAt + totalDuration, boostsUsed };
+      windows: getAnimalBoostWindows(game, animalType),
+    }),
+    baseDurationMs: totalDuration,
+    boostsUsed,
+  };
 }
 
 /**
@@ -1076,12 +1046,11 @@ export function getBoostedAwakeAt({
  * live from the shrine windows; legacy animals use their baked `awakeAt`.
  *
  * `baseDurationMs` is a PERMANENT per-animal migration marker: the read path keys
- * off its presence, NOT the `SPEED_BOOSTS` flag (matching `getMineReadyAt`). An
- * animal put to sleep while the flag was on therefore keeps windowed timing even
- * if the flag is later disabled — it stores the real `asleepAt` plus a
- * permanent-boost-only `baseDurationMs`, so falling back to the cached `awakeAt`
- * would freeze it at whatever projection happened to be made at sleep. Instant
- * wake (doll / Barnyard Rouse) clears the marker, so this returns that instant.
+ * off its presence (matching `getMineReadyAt`). A windowed animal stores the real
+ * `asleepAt` plus a permanent-boost-only `baseDurationMs`, so falling back to the
+ * cached `awakeAt` would freeze it at whatever projection happened to be made at
+ * sleep. Instant wake (doll / Barnyard Rouse) clears the marker, so this returns
+ * that instant.
  */
 export function getAnimalReadyAt(animal: Animal, game: GameState): number {
   const { baseDurationMs, asleepAt, awakeAt } = animal;
@@ -1226,4 +1195,23 @@ export function canTradeInPig({
   }
 
   return PIG_BRISTLES_PER_LEVEL[getBountyLevel(pig)] > 0;
+}
+
+/**
+ * Wake a sleeping animal at `at` (Doll, Barnyard Rouse), in place. It stays on
+ * the speed-rate model: its sleep becomes exactly the work it has done since
+ * `asleepAt`, so the windows derive a wake time of `at` rather than a later one.
+ * `asleepAt` stays put because it anchors the love cadence. Mirrors the API.
+ */
+export function wakeAnimalAt(
+  animal: Animal,
+  game: GameState,
+  at: number,
+): void {
+  animal.awakeAt = at;
+  animal.baseDurationMs = workAccruedAt({
+    startedAt: animal.asleepAt,
+    at,
+    windows: getAnimalBoostWindows(game, animal.type),
+  });
 }

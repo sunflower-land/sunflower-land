@@ -93,6 +93,8 @@ describe("placeIron", () => {
         createdAt: expect.any(Number),
         stone: {
           minedAt: 0,
+          // Created ready, already on the speed-rate model (Iron Rock: 8h).
+          baseDurationMs: 8 * 60 * 60 * 1000,
         },
         x: 2,
         y: 2,

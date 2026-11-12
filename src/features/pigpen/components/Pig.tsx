@@ -553,18 +553,13 @@ export const Pig: React.FC<{
       favouriteFood: favFood,
       inventory,
       requiredQty: requiredFoodQty,
-      hasBeetleFeedingAccess,
     });
     if (feedItem && feedItem !== selectedItem) {
       shortcutItem(feedItem);
     }
 
-    // Without access a Beetle is not food here, so the click falls through to
-    // the no-food prompt instead of an event the reducer would reject.
     const hasFoodSelected =
-      feedItem &&
-      (isFoodForAnimal("Pig", feedItem) ||
-        (hasBeetleFeedingAccess && isBeetle(feedItem)));
+      feedItem && (isFoodForAnimal("Pig", feedItem) || isBeetle(feedItem));
 
     if (hasFoodSelected) {
       const foodCount = inventory[feedItem as AnimalFoodName] ?? new Decimal(0);
@@ -655,7 +650,7 @@ export const Pig: React.FC<{
   const xpIndicatorColor =
     favFood === selectedItem ||
     selectedItem === "Omnifeed" ||
-    (hasBeetleFeedingAccess && !!selectedItem && isBeetle(selectedItem)) ||
+    (!!selectedItem && isBeetle(selectedItem)) ||
     hasGoldenPig
       ? "#71e358"
       : "#fff";

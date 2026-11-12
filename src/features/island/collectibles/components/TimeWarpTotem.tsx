@@ -17,10 +17,9 @@ import { getChestItems } from "features/island/hud/components/inventory/utils/in
 import {
   getCollectibleExpiry,
   getCollectiblesAcrossLocations,
-  getExpiryCooldown,
+  EXPIRY_COOLDOWNS,
 } from "features/game/lib/collectibleBuilt";
 import { TemporaryCollectibleModal } from "features/game/components/TemporaryCollectibleModal";
-import { hasFeatureAccess } from "lib/flags";
 
 const _gameState = (state: MachineState) => state.context.state;
 
@@ -35,7 +34,7 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({
   const [showRenewModal, setShowRenewModal] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const chestItems = getChestItems(gameState);
-  const duration = getExpiryCooldown("Time Warp Totem", gameState);
+  const duration = EXPIRY_COOLDOWNS["Time Warp Totem"];
   // Read the placement so any time bought via `collectible.extended` is included
   // in the countdown rather than the totem appearing to expire early.
   const placed = getCollectiblesAcrossLocations(
@@ -45,10 +44,8 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({
   const expiresAt = getCollectibleExpiry({
     name: "Time Warp Totem",
     collectible: placed ?? { createdAt },
-    game: gameState,
   });
-  const canExtend =
-    !isVisiting && hasFeatureAccess(gameState, "SPEED_BOOSTS") && !!placed;
+  const canExtend = !isVisiting && !!placed;
   const { totalSeconds: secondsToExpire } = useCountdown(expiresAt);
   const durationSeconds = (duration + (placed?.extendedMs ?? 0)) / 1000;
   const percentage = 100 - (secondsToExpire / durationSeconds) * 100;

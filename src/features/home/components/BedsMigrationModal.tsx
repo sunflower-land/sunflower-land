@@ -194,10 +194,13 @@ export const BedsMigrationModal: React.FC<Props> = ({ show, onHide }) => {
           <BumpkinEquip
             farmHandId={selected?.type === "farmHand" ? selected.id : undefined}
             equipment={selectedEquipment as BumpkinParts}
-            onEquip={(equipment) => {
-              if (selected?.type === "farmHand") {
+            onSelect={(id) =>
+              setSelected(id ? { type: "farmHand", id } : { type: "bumpkin" })
+            }
+            onEquip={(equipment, farmHandId) => {
+              if (farmHandId) {
                 gameService.send("farmHand.equipped", {
-                  id: selected.id,
+                  id: farmHandId,
                   equipment,
                 });
               } else {

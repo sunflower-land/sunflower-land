@@ -61,12 +61,7 @@ import {
   type FarmActivityName,
 } from "features/game/types/farmActivity";
 import { isBuffActive } from "features/game/types/buffs";
-import {
-  SKILL_RANKS,
-  getSkillLevel,
-  downgradeChapterCropWeekSkills,
-} from "features/game/types/bumpkinSkills";
-import { CHAPTER_CROP_WEEK_CROP } from "features/game/types/chapterCropWeek";
+import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
 import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
 import { mfTrack } from "lib/moonforgeAnalytics";
@@ -121,12 +116,10 @@ export const isWinterCrop = (
  * plus any per-plot fertiliser (Rapid Root / Sproutroot Surprise) window; legacy
  * crops use their back-dated `plantedAt` + base grow time.
  *
- * Branching on `baseDurationMs` — NOT the `SPEED_BOOSTS` flag — is intentional:
- * the marker makes a crop permanently speed-rate, so it keeps windowed timing
- * (and its baked permanent boosts) even if the flag is rolled back, matching every
- * other windowed activity. The fertiliser windows are merged unconditionally here
- * for the same reason as the collectible windows; only the plant / fertilise WRITE
- * paths gate on the flag.
+ * Branching on `baseDurationMs` is intentional: the marker makes a crop
+ * permanently speed-rate, while legacy-shaped crops still use the old timing,
+ * matching every other windowed activity. The fertiliser windows are merged
+ * unconditionally here for the same reason as the collectible windows.
  */
 export const getCropReadyAt = (
   plantedCrop: PlantedCrop,
@@ -326,13 +319,7 @@ export function getCropYieldAmount({
 
   const { bumpkin, buds, aoe } = game;
   const updatedAoe = cloneDeep(aoe);
-  // Crystal Leaf (the CHAPTER_CROP_WEEK event crop) ignores upgraded Crops-skill ranks
-  // (base skill still applies) — cap here so every downstream yield/AOE read uses
-  // the neutralised ranks without touching the player's stored skills.
-  const skills =
-    crop === CHAPTER_CROP_WEEK_CROP
-      ? downgradeChapterCropWeekSkills(bumpkin?.skills ?? {})
-      : (bumpkin?.skills ?? {});
+  const skills = bumpkin?.skills ?? {};
   const itemId = KNOWN_IDS[crop];
   const criticalDrop = (
     criticalHitName: CriticalHitName,

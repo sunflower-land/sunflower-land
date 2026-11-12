@@ -7,6 +7,37 @@ import type { GameState } from "features/game/types/game";
 import { PET_SHRINES } from "features/game/types/pets";
 import { renewPetShrine } from "./renewPetShrine";
 
+const HOUR = 60 * 60 * 1000;
+const honeyFarm = (now: number) => ({
+  flowers: {
+    discovered: {},
+    flowerBeds: {
+      f1: {
+        createdAt: 0,
+        x: 0,
+        y: 0,
+        flower: { name: "Red Pansy" as const, plantedAt: now - HOUR },
+      },
+    },
+  },
+  beehives: {
+    h1: {
+      swarm: false,
+      x: 3,
+      y: 3,
+      honey: { updatedAt: now - HOUR, produced: 0 },
+      flowers: [
+        {
+          id: "f1",
+          attachedAt: now - HOUR,
+          attachedUntil: now + 11 * HOUR,
+          rate: 1,
+        },
+      ],
+    },
+  },
+});
+
 describe("renewPetShrine", () => {
   const now = Date.now();
   it("requires that the pet shrine is placed", () => {
@@ -198,5 +229,39 @@ describe("renewPetShrine", () => {
     expect(newState.boostHistory?.["Sparrow Shrine"]).toEqual([
       { from: expiredCreatedAt, to: expiredCreatedAt + cooldown },
     ]);
+  });
+
+  it("applies the Bear Shrine honey rate from the moment it is renewed", () => {
+    const now = Date.now();
+    const expiredAt = now - EXPIRY_COOLDOWNS["Bear Shrine"]! - 1;
+    const state = renewPetShrine({
+      state: {
+        ...INITIAL_FARM,
+        ...honeyFarm(now),
+        collectibles: {
+          "Bear Shrine": [
+            {
+              id: "1",
+              createdAt: expiredAt,
+              coordinates: { x: 10, y: 10 },
+              readyAt: expiredAt,
+            },
+          ],
+        },
+        inventory: { ...PET_SHRINES["Bear Shrine"].ingredients },
+      },
+      action: {
+        type: "petShrine.renewed",
+        name: "Bear Shrine",
+        location: "farm",
+        id: "1",
+      },
+      createdAt: now,
+    });
+
+    expect(state.beehives.h1.honey.produced).toEqual(HOUR);
+    expect(state.beehives.h1.flowers[0]).toEqual(
+      expect.objectContaining({ attachedAt: now, rate: 1.5 }),
+    );
   });
 });

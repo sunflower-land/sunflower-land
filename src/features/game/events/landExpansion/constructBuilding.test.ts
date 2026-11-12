@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
-import { CONFIG } from "lib/config";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
-import { BUILDINGS } from "features/game/types/buildings";
+import { BUILDINGS, type BuildingName } from "features/game/types/buildings";
 import { INITIAL_FARM, TEST_FARM } from "../../lib/constants";
 import type { GameState } from "../../types/game";
 import {
@@ -300,6 +299,7 @@ describe("Construct building", () => {
       coordinates: { x: 1, y: 1 },
       readyAt: expect.any(Number),
       createdAt: date,
+      oilSettledAt: date,
     });
   });
 
@@ -781,7 +781,7 @@ describe("constructBuilding: Pigpen gating", () => {
 
   // The Pigpen is testnet-only, and jest runs on amoy, so the flag is on for
   // every test below without any inventory item granting it.
-  it("builds a Pigpen on testnet", () => {
+  it("builds a Pigpen", () => {
     expect(build(farm).buildings.Pigpen).toHaveLength(1);
   });
 
@@ -852,35 +852,6 @@ describe("constructBuilding: Pigpen gating", () => {
     expect(Object.keys(state.pigpen.animals)).toEqual(["9"]);
     expect(state.pigpen.animals["9"].experience).toEqual(500);
   });
-
-  describe("off testnet", () => {
-    // jest runs on amoy, so the flag-off path is only reachable by pretending
-    // to be mainnet.
-    const originalNetwork = CONFIG.NETWORK;
-
-    beforeEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-    });
-
-    afterEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-    });
-
-    it("throws without the PIGPEN feature flag", () => {
-      expect(() => build(farm)).toThrow(
-        CONSTRUCT_BUILDING_ERRORS.NO_FEATURE_ACCESS,
-      );
-    });
-
-    it("is unlocked by a Beta Pass", () => {
-      expect(() =>
-        build({
-          ...farm,
-          inventory: { ...farm.inventory, "Beta Pass": new Decimal(1) },
-        }),
-      ).not.toThrow();
-    });
-  });
 });
 
 describe("constructBuilding: Cave", () => {
@@ -910,7 +881,7 @@ describe("constructBuilding: Cave", () => {
       createdAt: dateNow,
     });
 
-  it("builds a Cave on testnet", () => {
+  it("builds a Cave", () => {
     const state = build(farm);
 
     expect(state.buildings.Cave).toHaveLength(1);
@@ -988,22 +959,56 @@ describe("constructBuilding: Cave", () => {
       }),
     ).toThrow(CONSTRUCT_BUILDING_ERRORS.BUMPKIN_LEVEL_NOT_MET);
   });
+});
 
-  describe("off testnet", () => {
-    const originalNetwork = CONFIG.NETWORK;
+describe("constructBuilding: oil ledger", () => {
+  const now = Date.now();
 
-    beforeEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-    });
+  // Enough of everything to build `name` on a desert island at level 64.
+  const build = (name: BuildingName, coordinates?: { x: number; y: number }) =>
+    constructBuilding({
+      state: {
+        ...GAME_STATE,
+        buildings: {},
+        trees: {},
+        stones: {},
+        coins: 100_000,
+        inventory: {
+          ...(BUILDINGS[name].ingredients as GameState["inventory"]),
+          "Basic Land": new Decimal(5),
+        },
+        bumpkin: { ...TEST_BUMPKIN, experience: LEVEL_EXPERIENCE[64] },
+        island: { type: "desert" },
+      },
+      action: {
+        type: "building.constructed",
+        id: "123",
+        name,
+        coordinates,
+      },
+      createdAt: now,
+    }).buildings[name]?.[0];
 
-    afterEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-    });
+  // Otherwise the building reads as one still deducting oil per recipe until
+  // its first cook, supply or load converts it.
+  // Fire Pit is not constructable: it comes with land 5 (`revealLand`).
+  it.each([
+    "Kitchen",
+    "Bakery",
+    "Deli",
+    "Smoothie Shack",
+    "Crop Machine",
+  ] as const)("starts %s on the oil ledger", (name) => {
+    expect(build(name, { x: 1, y: 1 })?.oilSettledAt).toEqual(now);
+  });
 
-    it("throws without the CAVE feature flag", () => {
-      expect(() => build(farm)).toThrow(
-        CONSTRUCT_BUILDING_ERRORS.NO_FEATURE_ACCESS,
-      );
-    });
+  it("starts the ledger for a building constructed into the chest", () => {
+    expect(build("Bakery")?.oilSettledAt).toEqual(now);
+  });
+
+  it("leaves buildings without an oil tank alone", () => {
+    expect(build("Water Well", { x: 1, y: 1 })).not.toHaveProperty(
+      "oilSettledAt",
+    );
   });
 });

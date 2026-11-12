@@ -22,20 +22,15 @@ export type BulkMixFeedAction = {
 type Options = {
   state: Readonly<GameState>;
   action: BulkMixFeedAction;
-  createdAt?: number;
 };
 
 // Defensive upper bounds matching the backend autosave schema, so the handler
 // rejects malformed input early regardless of where it is called (the FE path
 // has no schema validation).
 const MAX_BULK_MIX_ENTRIES = getKeys(ANIMAL_FOODS).length;
-const MAX_BULK_MIX_AMOUNT = 1000;
+export const MAX_BULK_MIX_AMOUNT = 1000;
 
-export function bulkMixFeed({
-  state,
-  action,
-  createdAt = Date.now(),
-}: Options) {
+export function bulkMixFeed({ state, action }: Options) {
   if (action.feeds.length < 1 || action.feeds.length > MAX_BULK_MIX_ENTRIES) {
     throw new Error("Invalid bulk mix entries");
   }
@@ -61,6 +56,6 @@ export function bulkMixFeed({
   // covers the whole mix. Throwing part way through discards the draft, which
   // rejects the whole event rather than committing a partial mix.
   return produce(state, (copy) => {
-    action.feeds.forEach((feed) => applyMix(copy, feed, createdAt));
+    action.feeds.forEach((feed) => applyMix(copy, feed));
   });
 }

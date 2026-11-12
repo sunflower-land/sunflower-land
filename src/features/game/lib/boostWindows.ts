@@ -770,7 +770,7 @@ export function getBoostWindows({
     )
     .map((placed) => {
       const from = placed.createdAt;
-      const expiry = getCollectibleExpiry({ name, collectible: placed, game });
+      const expiry = getCollectibleExpiry({ name, collectible: placed });
       const to =
         placed.removedAt !== undefined
           ? Math.min(expiry, placed.removedAt)
@@ -796,11 +796,11 @@ const MAX_BOOST_HISTORY_AGE_MS = 7 * 24 * 60 * 60 * 1000;
  *
  * A windowed crop machine banks work FORWARD from `oilSettledAt`, re-deriving
  * it from the windows each time, so every window ending after that anchor is
- * still load-bearing. The anchor normally tracks the last event or flagged
- * load, but it can fall behind the prune horizon — `migrateSpeedBoosts`
- * returns early when SPEED_BOOSTS is off, while the prune below is not
- * flag-gated, so a rollback longer than `MAX_BOOST_HISTORY_AGE_MS` would
- * otherwise drop windows a still-windowed machine depends on.
+ * still load-bearing. The anchor only advances when the machine is settled (a
+ * crop-machine event, or the BE load-time `migrateSpeedBoosts`), while the prune
+ * below runs on any event. Once that load-time call is removed, a machine left
+ * untouched longer than `MAX_BOOST_HISTORY_AGE_MS` would otherwise lose windows
+ * it still depends on.
  *
  * The crop machine is the only activity that needs this: its packs can stall
  * on an empty tank indefinitely, so its anchor can be arbitrarily old. Every
