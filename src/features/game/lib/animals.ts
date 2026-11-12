@@ -29,7 +29,11 @@ import {
 } from "./collectibleBuilt";
 import { getBudYieldBoosts } from "./getBudYieldBoosts";
 import { isWearableActive } from "./wearables";
-import { computeReadyAt, getAnimalBoostWindows } from "./boostWindows";
+import {
+  computeReadyAt,
+  getAnimalBoostWindows,
+  workAccruedAt,
+} from "./boostWindows";
 import { isBeetle } from "../types/beetles";
 import Decimal from "decimal.js-light";
 import { getSkillLevel, SKILL_RANKS } from "../types/bumpkinSkills";
@@ -127,6 +131,7 @@ export function makeAnimalBuilding(
           item: "Petting Hand",
           lovedAt: 0,
           awakeAt: 0,
+          baseDurationMs: 0,
         },
       };
     }, {});
@@ -1190,4 +1195,23 @@ export function canTradeInPig({
   }
 
   return PIG_BRISTLES_PER_LEVEL[getBountyLevel(pig)] > 0;
+}
+
+/**
+ * Wake a sleeping animal at `at` (Doll, Barnyard Rouse), in place. It stays on
+ * the speed-rate model: its sleep becomes exactly the work it has done since
+ * `asleepAt`, so the windows derive a wake time of `at` rather than a later one.
+ * `asleepAt` stays put because it anchors the love cadence. Mirrors the API.
+ */
+export function wakeAnimalAt(
+  animal: Animal,
+  game: GameState,
+  at: number,
+): void {
+  animal.awakeAt = at;
+  animal.baseDurationMs = workAccruedAt({
+    startedAt: animal.asleepAt,
+    at,
+    windows: getAnimalBoostWindows(game, animal.type),
+  });
 }

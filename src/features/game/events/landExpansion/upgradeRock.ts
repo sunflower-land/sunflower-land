@@ -17,6 +17,7 @@ import {
   canUpgrade,
   getUpgradeableNodes,
 } from "features/game/lib/resourceNodes";
+import { freshRockTimer } from "features/game/lib/freshNodes";
 
 export type UpgradeRockAction = {
   type: "rock.upgraded";
@@ -115,7 +116,7 @@ export function upgradeRock({
     if (placement) {
       const newRock: Rock = {
         createdAt,
-        stone: { minedAt: 0 },
+        stone: freshRockTimer(action.upgradeTo),
         x: placement.x,
         y: placement.y,
         tier: advancedResource.preRequires.tier === 1 ? 2 : 3,

@@ -96,6 +96,8 @@ describe("placeTree", () => {
         createdAt,
         wood: {
           choppedAt: 0,
+          // Created ready, already on the speed-rate model (Tree: 2h).
+          baseDurationMs: 2 * 60 * 60 * 1000,
         },
         x: 2,
         y: 2,

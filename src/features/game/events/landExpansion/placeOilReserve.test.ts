@@ -92,6 +92,8 @@ describe("placeOil", () => {
         createdAt: expect.any(Number),
         oil: {
           drilledAt: 0,
+          // Created ready, already on the speed-rate model (Oil Reserve: 20h).
+          baseDurationMs: 20 * 60 * 60 * 1000,
         },
         x: 2,
         y: 2,

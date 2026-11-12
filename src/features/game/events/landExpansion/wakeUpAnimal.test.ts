@@ -141,6 +141,8 @@ describe("wakeAnimal", () => {
     });
 
     expect(state.henHouse.animals["1"].awakeAt).toEqual(now);
+    // Stays on the speed-rate model: the 1s it slept is its whole sleep.
+    expect(state.henHouse.animals["1"].baseDurationMs).toEqual(1000);
     expect(state.inventory.Doll).toEqual(new Decimal(1));
   });
 
@@ -319,7 +321,7 @@ describe("wakeAnimal", () => {
     expect(state.barn.animals["1"].awakeAt).toEqual(now);
     expect(state.inventory["Moo Doll"]).toEqual(new Decimal(1));
   });
-  it("clears the windowed marker so the animal wakes at exactly this instant", () => {
+  it("keeps the animal on the speed-rate model and wakes it at exactly this instant", () => {
     const now = Date.now();
     const state = wakeAnimal({
       state: {
@@ -358,10 +360,10 @@ describe("wakeAnimal", () => {
     });
 
     const animal = state.henHouse.animals["1"];
-    expect(animal.baseDurationMs).toBeUndefined();
+    // The marker becomes the work done so far (none: it fell asleep just now),
+    // so the shrine windows can't re-derive a future wake time.
+    expect(animal.baseDurationMs).toEqual(0);
     expect(animal.awakeAt).toEqual(now);
-    // Without clearing the marker the shrine windows would re-derive a future
-    // wake time and the doll would have done nothing.
     expect(getAnimalReadyAt(animal, state)).toEqual(now);
   });
 });

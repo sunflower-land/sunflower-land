@@ -9,6 +9,7 @@ import {
 import {
   ANIMAL_BUILDING_KEYS,
   getAnimalReadyAt,
+  wakeAnimalAt,
 } from "features/game/lib/animals";
 import { getKeys } from "lib/object";
 import type {
@@ -282,10 +283,7 @@ function useBarnyardRouse({
     // Process each animal
     Object.values(animals).forEach((animal) => {
       if (getAnimalReadyAt(animal, game) < createdAt) return;
-      animal.awakeAt = createdAt;
-      // Drop the windowed marker so the wake time is exactly this instant rather
-      // than being re-derived from `asleepAt` + the shrine windows.
-      delete animal.baseDurationMs;
+      wakeAnimalAt(animal, game, createdAt);
     });
   });
 

@@ -1624,6 +1624,8 @@ describe("skillUse", () => {
         createdAt: dateNow,
       });
       expect(state.henHouse.animals["123"].awakeAt).toEqual(dateNow);
+      // Stays on the speed-rate model: it fell asleep just now, so no work.
+      expect(state.henHouse.animals["123"].baseDurationMs).toEqual(0);
     });
   });
 
