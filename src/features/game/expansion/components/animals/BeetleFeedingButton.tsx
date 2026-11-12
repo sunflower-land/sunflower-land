@@ -12,7 +12,6 @@ import {
 } from "features/game/types/beetles";
 import { getKeys } from "lib/object";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Box } from "components/ui/Box";
@@ -36,12 +35,6 @@ export const BeetleFeedingButton: React.FC<{
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
   const game = useSelector(gameService, _game);
-
-  const hasAccess = useTimeBasedFeatureAccess({
-    featureName: "BEETLE_FEEDING",
-    game,
-  });
-  if (!hasAccess) return null;
 
   return (
     <>

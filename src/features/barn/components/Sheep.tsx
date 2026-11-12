@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { type BeetleName, isBeetle } from "features/game/types/beetles";
-import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -251,11 +250,6 @@ export const Sheep: React.FC<{
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sheep.state, sheep.experience]);
-
-  const hasBeetleFeedingAccess = useTimeBasedFeatureAccess({
-    featureName: "BEETLE_FEEDING",
-    game,
-  });
 
   const feedSheep = (item?: InventoryItemName, feeds = 1) => {
     setFeedXPAmount(getAnimalXPEarned(item) * feeds);

@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { type BeetleName, isBeetle } from "features/game/types/beetles";
-import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
@@ -281,11 +280,6 @@ export const Cow: React.FC<{
   });
 
   const { name: mutantName } = cow.reward?.items?.[0] ?? {};
-
-  const hasBeetleFeedingAccess = useTimeBasedFeatureAccess({
-    featureName: "BEETLE_FEEDING",
-    game,
-  });
 
   const feedCow = (item?: InventoryItemName, feeds = 1) => {
     setFeedXPAmount(getAnimalXPEarned(item) * feeds);
