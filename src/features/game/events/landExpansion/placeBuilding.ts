@@ -26,6 +26,7 @@ import { pauseCraftingQueue } from "features/game/lib/craftingReadiness";
 import { refreshCropMachineCaches } from "features/game/lib/cropMachineReadiness";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { mfTrack } from "lib/moonforgeAnalytics";
+import { GREENHOUSE_CROP_TIME_SECONDS } from "features/game/lib/greenhouseGrowTimes";
 
 export enum PLACE_BUILDING_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -171,6 +172,7 @@ export function placeBuilding({
               startedAt: plant.plantedAt,
               removedAt: existingBuilding.removedAt,
               createdAt,
+              rawBaseMs: GREENHOUSE_CROP_TIME_SECONDS[plant.name] * 1000,
               windows: [
                 ...getGreenhouseBoostWindows(stateCopy, plant.name),
                 ...getGreenhouseGlowWindows(pot.fertiliser),

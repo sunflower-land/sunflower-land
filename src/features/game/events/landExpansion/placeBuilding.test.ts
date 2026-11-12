@@ -721,9 +721,11 @@ describe("Place building", () => {
       createdAt: dateNow,
     });
 
-    expect(state.greenhouse.pots["123"].plant?.plantedAt).toEqual(
-      dateNow - 60000,
-    );
+    expect(state.greenhouse.pots["123"].plant).toMatchObject({
+      plantedAt: dateNow,
+      // 44h raw Olive grow, less the 1 min banked before the lift.
+      baseDurationMs: 44 * 60 * 60 * 1000 - 60000,
+    });
   });
 
   it("banks accrued work for windowed greenhouse plants on move", () => {

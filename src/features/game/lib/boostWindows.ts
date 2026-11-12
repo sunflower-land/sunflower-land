@@ -1035,20 +1035,18 @@ export function workAccruedAt({
  * start timestamp the caller should write back to the node's phase field
  * (minedAt / choppedAt / plantedAt / harvestedAt).
  *
- * - Windowed node (`timer.baseDurationMs` set): bank the work accrued before
- *   removal against `windows` and shrink `baseDurationMs` in place (mutates
- *   `timer`), then resume from `createdAt` — so the lifted interval is excluded
- *   and boost credit earned before the lift is neither lost nor re-applied over
- *   a different part of the windows.
- * - Legacy node (no `baseDurationMs`): back-date the start so the lifted
- *   interval doesn't count (wall-clock elapsed === work when unboosted).
+ * Banks the work accrued before removal against `windows` and shrinks
+ * `baseDurationMs` in place (mutates `timer`), then resumes from `createdAt` — so
+ * the lifted interval is excluded and boost credit earned before the lift is
+ * neither lost nor re-applied over a different part of the windows. A timer with
+ * no `baseDurationMs` starts from `rawBaseMs`.
  *
  * The caller owns which field is the start timestamp (and, for multi-phase fruit,
  * which phase is active), so it passes `startedAt` and writes the returned value
  * back to that same field. `trackProgress` additionally banks the accrued work
  * into `timer.boostedTime` for the growth bar — used by the crop / greenhouse
  * plant handlers, which carry that field; resource nodes omit it. Shared by every
- * resource place handler to keep the bank/shrink/back-date logic in one place.
+ * resource place handler to keep the bank/shrink logic in one place.
  */
 export function pauseWindowedTimer({
   timer,
@@ -1056,6 +1054,7 @@ export function pauseWindowedTimer({
   removedAt,
   createdAt,
   windows,
+  rawBaseMs,
   trackProgress = false,
 }: {
   timer: { baseDurationMs?: number; boostedTime?: number };
@@ -1063,17 +1062,16 @@ export function pauseWindowedTimer({
   removedAt: number;
   createdAt: number;
   windows: BoostWindow[];
+  /** The node's raw base duration, for a timer with no `baseDurationMs`. */
+  rawBaseMs: number;
   trackProgress?: boolean;
 }): number {
-  if (timer.baseDurationMs === undefined) {
-    return createdAt - (removedAt - startedAt);
-  }
-
+  const baseDurationMs = timer.baseDurationMs ?? rawBaseMs;
   const banked = Math.min(
     workAccruedAt({ startedAt, at: removedAt, windows }),
-    timer.baseDurationMs,
+    baseDurationMs,
   );
-  timer.baseDurationMs -= banked;
+  timer.baseDurationMs = baseDurationMs - banked;
   if (trackProgress) {
     timer.boostedTime = (timer.boostedTime ?? 0) + banked;
   }

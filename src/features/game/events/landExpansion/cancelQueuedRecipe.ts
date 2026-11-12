@@ -7,19 +7,11 @@ import type {
   GameState,
   PlacedItem,
 } from "features/game/types/game";
-import {
-  getRecipeOilBoost,
-  getCookingRequirements,
-  getOilConsumption,
-} from "./cook";
+import { getCookingRequirements } from "./cook";
 import { getRecipeDoubleNomLevel } from "./collectRecipe";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
-import {
-  assertCookableName,
-  type CookableName,
-  COOKABLES,
-} from "features/game/types/consumables";
+import { assertCookableName, COOKABLES } from "features/game/types/consumables";
 import { getCookingTime } from "features/game/expansion/lib/boosts";
 import { getObjectEntries } from "lib/object";
 import { getCookingBoostWindows } from "features/game/lib/boostWindows";
@@ -43,41 +35,6 @@ type Options = {
   action: CancelQueuedRecipeAction;
   createdAt?: number;
 };
-
-function getQueueItemCookingSeconds({
-  name,
-  appliedOilBoost,
-  game,
-  buildingName,
-}: {
-  name: CookableName;
-  appliedOilBoost: number;
-  game: GameState;
-  buildingName: CookingBuildingName;
-}) {
-  const itemOilConsumption = getOilConsumption(buildingName, name);
-  const itemCookingSeconds = COOKABLES[name].cookingSeconds;
-  // Same cap as at cook time (the Crystal Cookie ignores upgraded ranks).
-  const boostValue = getRecipeOilBoost(name, game);
-  let boostedCookingSeconds = itemCookingSeconds;
-
-  if (appliedOilBoost >= itemOilConsumption) {
-    boostedCookingSeconds = itemCookingSeconds * (1 - boostValue);
-  } else {
-    const effectiveBoostValue =
-      (appliedOilBoost / itemOilConsumption) * boostValue;
-    boostedCookingSeconds = itemCookingSeconds * (1 - effectiveBoostValue);
-  }
-
-  // We don't need to pass in boostUsed as cancelling recipes shouldn't mark boost as being used
-  const { reducedSecs: seconds } = getCookingTime({
-    seconds: boostedCookingSeconds,
-    item: name,
-    game,
-  });
-
-  return { seconds };
-}
 
 /**
  * Recalculates the queue after a recipe has been modified (cancelled, sped up, etc.)
@@ -128,18 +85,18 @@ export function recalculateQueue({
     if (index === 0 && !isInstantCook) return recipe;
 
     // `baseDurationMs` is snapshotted when the recipe is queued, like the Double
-    // Nom rank beside it. Only DERIVE one for a legacy recipe being migrated —
-    // re-deriving an existing value would re-apply today's permanent boosts, so
-    // swapping a wearable and cancelling something unrelated would silently
-    // change the duration of everything queued behind it.
+    // Nom rank beside it; re-deriving it would re-apply today's permanent boosts,
+    // so swapping a wearable and cancelling something unrelated would silently
+    // change the duration of everything queued behind it. A recipe with no
+    // marker takes what `cook` would stamp today.
+    const name = assertCookableName(recipe.name);
     const baseDurationMs =
       recipe.baseDurationMs ??
-      getQueueItemCookingSeconds({
-        name: assertCookableName(recipe.name),
-        appliedOilBoost: recipe.boost?.Oil ?? 0,
-        buildingName,
+      getCookingTime({
+        seconds: COOKABLES[name].cookingSeconds,
+        item: name,
         game,
-      }).seconds * 1000;
+      }).reducedSecs * 1000;
 
     // Everything behind the head is CHAINED: no `startedAt`, so its start tracks
     // the derived ready time of the recipe ahead of it.

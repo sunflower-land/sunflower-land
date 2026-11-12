@@ -217,17 +217,15 @@ function useInstantGratification({
     });
 
     queue[recipeIndex].readyAt = createdAt;
-    // Windowed (`baseDurationMs` set): also zero the remaining work, or the queue
-    // resolver would re-derive this recipe's ready time from its start + duration and
-    // undo the instant completion (mirrors the oil reserve above / instaGrowFlower).
-    if (queue[recipeIndex].baseDurationMs !== undefined) {
-      queue[recipeIndex].baseDurationMs = 0;
-      // Complete at activation, not at the old start: `recalculateQueue` splits
-      // ready/upcoming on the DERIVED chain, and a zero-work recipe derives
-      // `readyAt = startedAt`, so a stale start would drag every chained recipe
-      // behind this one into the ready half.
-      queue[recipeIndex].startedAt = createdAt;
-    }
+    // Also zero the remaining work, or the queue resolver would re-derive this
+    // recipe's ready time from its start + duration and undo the instant
+    // completion (mirrors the oil reserve above / instaGrowFlower).
+    queue[recipeIndex].baseDurationMs = 0;
+    // Complete at activation, not at the old start: `recalculateQueue` splits
+    // ready/upcoming on the DERIVED chain, and a zero-work recipe derives
+    // `readyAt = startedAt`, so a stale start would drag every chained recipe
+    // behind this one into the ready half.
+    queue[recipeIndex].startedAt = createdAt;
 
     building.crafting = recalculateQueue({
       queue,

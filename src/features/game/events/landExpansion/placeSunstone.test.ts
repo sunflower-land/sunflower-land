@@ -146,7 +146,9 @@ describe("placeSunstone", () => {
       "123": {
         createdAt: expect.any(Number),
         stone: {
-          minedAt: dateNow - 60000,
+          minedAt: dateNow,
+          // 72h raw sunstone recovery, less the 1 min banked before the lift.
+          baseDurationMs: 72 * 60 * 60 * 1000 - 60000,
         },
         x: 2,
         y: 2,
