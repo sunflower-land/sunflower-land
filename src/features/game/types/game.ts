@@ -810,10 +810,9 @@ export type Wood = {
   criticalHit?: CriticalHit;
   amount?: number;
   /**
-   * Unboosted-by-windowed-collectibles recovery duration (ms), with all
-   * permanent (discount-at-start) boosts already folded in. Present only on
-   * trees chopped under the speed-rate model; its presence selects
-   * `computeReadyAt` over the legacy back-dated `choppedAt` readiness check.
+   * The work (ms) from the start timestamp to ready, with permanent boosts
+   * folded in; temporary boosts apply live as speed windows (`computeReadyAt`).
+   * A record with no marker reads as the raw base duration.
    */
   baseDurationMs?: number;
 };
@@ -835,10 +834,9 @@ export type PlantedCrop = {
   amount?: number;
   boostedTime?: number;
   /**
-   * Unboosted-by-windowed-collectibles grow duration (ms), with all other
-   * (discount-at-start) boosts already folded in. Present only on crops planted
-   * under the speed-rate model; its presence selects `computeReadyAt` over the
-   * legacy back-dated `plantedAt`/`boostedTime` readiness check.
+   * The work (ms) from the start timestamp to ready, with permanent boosts
+   * folded in; temporary boosts apply live as speed windows (`computeReadyAt`).
+   * A record with no marker reads as the raw base duration.
    */
   baseDurationMs?: number;
 };
@@ -851,28 +849,18 @@ export type PlantedFruit = {
   criticalHit?: CriticalHit;
   amount?: number;
   /**
-   * Display-only in both models (readiness ignores it), but it carries a
-   * different quantity in each — the patch UI branches on `baseDurationMs`:
-   * - Windowed: WORK (ms) banked when the patch was lifted mid-grow/replenish
-   *   (windowed fruit freeze accrued WORK, not wall-clock progress, while the
-   *   patch sits in inventory). Already subtracted from `baseDurationMs`, so
-   *   the bar folds it back into its total.
-   * - Legacy: the total DISCOUNT (ms) baked in by back-dating the active
-   *   phase's start — plant/replenish-time boosts plus any mid-cycle
-   *   Turbofruit Mix. It is NOT growth already done, so the bar un-back-dates
-   *   with it; without that a heavily boosted patch opens its bar near-full.
-   *   Same meaning (and reason) as `PlantedCrop.boostedTime`.
+   * Display-only (readiness ignores it): WORK (ms) banked when the patch was
+   * lifted mid-grow/replenish (windowed fruit freeze accrued WORK, not
+   * wall-clock progress, while the patch sits in inventory). Already subtracted
+   * from `baseDurationMs`, so the bar folds it back into its total.
    * Replaced when a new phase begins (harvest → replenish); absent when the
-   *   phase had no boost at all.
+   * phase was never lifted.
    */
   boostedTime?: number;
   /**
-   * Unboosted-by-windowed-collectibles grow/replenish duration (ms), with all
-   * permanent (discount-at-start) boosts already folded in. Present only on
-   * fruit planted/harvested under the speed-rate model; its presence selects
-   * `computeReadyAt` (over the legacy back-dated `plantedAt`/`harvestedAt`
-   * readiness check), so legacy-shaped fruit still use the old timing. Applies
-   * to whichever phase is active (`harvestedAt || plantedAt`).
+   * The work (ms) from the start timestamp to ready, with permanent boosts
+   * folded in; temporary boosts apply live as speed windows (`computeReadyAt`).
+   * A record with no marker reads as the raw base duration.
    */
   baseDurationMs?: number;
 };
@@ -905,10 +893,9 @@ export type Stone = {
   amount?: number;
   boostedTime?: number;
   /**
-   * Unboosted-by-windowed-collectibles recovery duration (ms), with all
-   * permanent (discount-at-start) boosts already folded in. Present only on
-   * rocks mined under the speed-rate model; its presence selects
-   * `computeReadyAt` over the legacy back-dated `minedAt` readiness check.
+   * The work (ms) from the start timestamp to ready, with permanent boosts
+   * folded in; temporary boosts apply live as speed windows (`computeReadyAt`).
+   * A record with no marker reads as the raw base duration.
    */
   baseDurationMs?: number;
 };
@@ -929,17 +916,9 @@ export type Rock = {
 export type Oil = {
   drilledAt: number;
   /**
-   * Unboosted-by-windowed-collectibles recovery duration (ms), with all
-   * permanent (discount-at-start) boosts already folded in. Present only on
-   * reserves drilled under the speed-rate model; its presence selects
-   * `computeReadyAt` over the legacy back-dated `drilledAt` readiness check.
-   * Oil has no progress-fill bar (countdown only), so — like `Wood` — it
-   * carries no `boostedTime`.
-   *
-   * Lifecycle: each drill rebuilds the timer, so a flag-off re-drill CLEARS this
-   * and reverts the reserve to legacy — mirrors the stone/tree resource nodes
-   * (`rock.stone` rebuild / `delete tree.wood.baseDurationMs`). The read path stays
-   * windowed on the marker's presence until that next drill.
+   * The work (ms) from the start timestamp to ready, with permanent boosts
+   * folded in; temporary boosts apply live as speed windows (`computeReadyAt`).
+   * A record with no marker reads as the raw base duration.
    */
   baseDurationMs?: number;
 };
@@ -969,25 +948,16 @@ export type GreenhousePlant = {
   criticalHit?: CriticalHit;
   amount?: number;
   /**
-   * Display-only in both models (readiness ignores it), but it carries a
-   * different quantity in each — the pot UI branches on `baseDurationMs`:
-   * - Windowed: WORK (ms) banked when the Greenhouse building was moved
-   *   mid-grow (windowed plants freeze accrued WORK, not wall-clock progress,
-   *   while the building sits in inventory). Already subtracted from
-   *   `baseDurationMs`, so the bar folds it back into its total.
-   * - Legacy: the total DISCOUNT (ms) baked in by back-dating `plantedAt` —
-   *   plant-time boosts plus any mid-grow Greenhouse Glow. It is NOT growth
-   *   already done, so the bar un-back-dates with it; without that a heavily
-   *   boosted plant opens its bar near-full. Same meaning (and same reason) as
-   *   `PlantedCrop.boostedTime`. Absent when nothing boosted the grow.
+   * Display-only (readiness ignores it): WORK (ms) banked when the Greenhouse
+   * building was moved mid-grow (windowed plants freeze accrued WORK, not
+   * wall-clock progress, while the building sits in inventory). Already
+   * subtracted from `baseDurationMs`, so the bar folds it back into its total.
    */
   boostedTime?: number;
   /**
-   * Unboosted-by-windowed-collectibles grow duration (ms), with all permanent
-   * (discount-at-start) boosts already folded in. Present only on plants sown
-   * under the speed-rate model; its presence selects `computeReadyAt` (over the
-   * legacy back-dated `plantedAt` readiness check), so legacy-shaped plants
-   * still use the old timing.
+   * The work (ms) from the start timestamp to ready, with permanent boosts
+   * folded in; temporary boosts apply live as speed windows (`computeReadyAt`).
+   * A record with no marker reads as the raw base duration.
    */
   baseDurationMs?: number;
 };
@@ -2072,26 +2042,17 @@ export type PlantedFlower = {
   criticalHit?: CriticalHit;
   amount?: number;
   /**
-   * Display-only in both models (readiness ignores it), but it carries a
-   * different quantity in each — the bed UI branches on `baseDurationMs`:
-   * - Windowed: WORK (ms) banked when the bed was lifted mid-grow (windowed
-   *   flowers freeze accrued WORK, not wall-clock progress, while the bed sits
-   *   in inventory). Already subtracted from `baseDurationMs`, so the bar folds
-   *   it back into its total.
-   * - Legacy: the total DISCOUNT (ms) baked in by back-dating `plantedAt` —
-   *   plant-time boosts, plus the full grow time on an insta-grow. It is NOT
-   *   growth already done, so the bar un-back-dates with it; without that a
-   *   heavily boosted flower opens its bar near-full. Same meaning (and reason)
-   *   as `PlantedCrop.boostedTime`.
-   * Flowers are one-shot, so it never needs resetting; absent when unboosted.
+   * Display-only (readiness ignores it): WORK (ms) banked when the bed was
+   * lifted mid-grow (windowed flowers freeze accrued WORK, not wall-clock
+   * progress, while the bed sits in inventory). Already subtracted from
+   * `baseDurationMs`, so the bar folds it back into its total.
+   * Flowers are one-shot, so it never needs resetting; absent when never lifted.
    */
   boostedTime?: number;
   /**
-   * Unboosted-by-windowed-collectibles grow duration (ms), with all permanent
-   * (discount-at-start) boosts already folded in. Present only on flowers planted
-   * under the speed-rate model; its presence selects `computeReadyAt` (over the
-   * legacy back-dated `plantedAt` readiness check), so legacy-shaped flowers
-   * still use the old timing.
+   * The work (ms) from the start timestamp to ready, with permanent boosts
+   * folded in; temporary boosts apply live as speed windows (`computeReadyAt`).
+   * A record with no marker reads as the raw base duration.
    */
   baseDurationMs?: number;
 };
@@ -2265,10 +2226,10 @@ export type Animal = {
   lovesThisSleep?: number;
   item: LoveAnimalItem;
   /**
-   * The sleep's un-boosted work with permanent boosts folded in. Present only on
-   * sleeps started under the speed-rate model; its absence selects the legacy
-   * baked `awakeAt` (the read path keys off the marker, NOT the flag). No
-   * `boostedTime` counterpart — animal sleep has no progress bar.
+   * The sleep's work (ms) from `asleepAt`, with permanent boosts folded in; the
+   * shrine windows apply live. An animal with no marker reads as its stored
+   * sleep (`awakeAt - asleepAt`). No `boostedTime` counterpart — animal sleep
+   * has no progress bar.
    */
   baseDurationMs?: number;
   multiplier?: number;
