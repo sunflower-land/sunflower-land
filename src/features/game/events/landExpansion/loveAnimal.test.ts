@@ -693,7 +693,6 @@ describe("love cadence under a windowed sleep", () => {
     expect(secondAt).toBeLessThan(readyAt);
     expect(isAnimalReadyForLove(afterFirst, secondAt, readyAt)).toBe(true);
   });
-
 });
 
 describe("two loves per sleep", () => {

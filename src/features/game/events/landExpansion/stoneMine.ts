@@ -53,10 +53,9 @@ type Options = {
 };
 
 /**
- * The stone's real recovery duration (ms), for gating the yield-AOE re-use.
- * Windowed rocks derive it from the live speed windows so an active boost shortens
- * it to match the actual recovery (matching how legacy rocks folded the discount
- * into `boostedTime`); legacy rocks keep their back-dated boosted time.
+ * The stone's real recovery duration (ms), for gating the yield-AOE re-use. It
+ * is derived from the live speed windows, so an active boost shortens it to match
+ * the actual recovery.
  */
 function getStoneRecoveryDurationMs(rock: Rock, game: GameState): number {
   return getMineReadyAt(rock, "Stone Rock", game) - rock.stone.minedAt;

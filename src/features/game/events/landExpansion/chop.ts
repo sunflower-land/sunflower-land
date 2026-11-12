@@ -340,14 +340,9 @@ export function getChoppedAt({ game, createdAt, prngArgs }: GetChoppedAtArgs): {
 }
 
 /**
- * When a chopped tree is ready to chop again, across both boost models. Trees
- * chopped under the speed-rate model (with `baseDurationMs`) derive their ready
- * time live from the tree boost windows; legacy trees use their back-dated
- * `choppedAt` + base recovery time.
- *
- * `baseDurationMs` is a PERMANENT per-tree migration marker: the read path keys
- * off its presence (matching `getCropReadyAt`), so legacy trees chopped before
- * the speed-rate model keep their back-dated timing.
+ * When a chopped tree is ready to chop again: `choppedAt` plus `baseDurationMs`
+ * of work, derived live from the tree boost windows. A tree with no marker reads
+ * as the raw recovery time.
  */
 export function getTreeReadyAt(tree: Tree, game: GameState): number {
   const { baseDurationMs, choppedAt } = tree.wood;

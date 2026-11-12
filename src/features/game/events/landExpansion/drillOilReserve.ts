@@ -98,14 +98,9 @@ export function isNextDrillHasBonus(reserve: OilReserve): boolean {
 }
 
 /**
- * When a drilled reserve is ready to drill again, across both boost models.
- * Reserves drilled under the speed-rate model (with `oil.baseDurationMs`) derive
- * their ready time live from the oil boost windows; legacy reserves use their
- * back-dated `drilledAt` + base recovery time.
- *
- * `baseDurationMs` is a PERMANENT per-reserve migration marker: the read path keys
- * off its presence (matching `getTreeReadyAt`), so legacy reserves drilled before
- * the speed-rate model keep their back-dated timing.
+ * When a drilled reserve is ready to drill again: `drilledAt` plus
+ * `baseDurationMs` of work, derived live from the oil boost windows. A reserve
+ * with no marker reads as the raw recovery time.
  */
 export function getOilReserveReadyAt(
   reserve: OilReserve,

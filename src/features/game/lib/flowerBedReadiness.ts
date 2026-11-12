@@ -3,17 +3,11 @@ import type { GameState, PlantedFlower } from "features/game/types/game";
 import { computeReadyAt, getFlowerBoostWindows } from "./boostWindows";
 
 /**
- * The instant a planted flower is ready to harvest, across both boost models.
- * Flowers planted under the speed-rate model (with `baseDurationMs`) derive their
- * ready time live from the flower boost windows (Blossom Hourglass / Moth Shrine);
- * legacy flowers use their back-dated `plantedAt` + base grow duration. Flowers
- * are one-shot (no replenish), so the only phase is `plantedAt`.
- *
- * `baseDurationMs` is a PERMANENT per-flower migration marker: the read path keys
- * off its presence (matching `getFruitReadyAt` / `getTreeReadyAt`), so
- * legacy-shaped flowers still use the old timing — see
- * `PlantedFlower.baseDurationMs`. Lives in `lib` (not `events`) because it is
- * read-model logic consumed by `lib/updateBeehives` for hive pollination.
+ * The instant a planted flower is ready to harvest: `plantedAt` plus
+ * `baseDurationMs` of work, derived live from the flower boost windows (Blossom
+ * Hourglass / Moth Shrine). A flower with no marker reads as the raw grow time.
+ * Lives in `lib` (not `events`) because it is read-model logic consumed by
+ * `lib/updateBeehives` for hive pollination.
  */
 export const getFlowerReadyAt = (
   flower: PlantedFlower,
