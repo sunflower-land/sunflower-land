@@ -1,11 +1,7 @@
 /* eslint-disable no-var */
 import Decimal from "decimal.js-light";
 import type { GameState, InventoryItemName } from "features/game/types/game";
-import {
-  getFoxShrineRollCounter,
-  startCrafting,
-  type StartCraftingAction,
-} from "./startCrafting";
+import { startCrafting, type StartCraftingAction } from "./startCrafting";
 import { cancelQueuedCrafting } from "./cancelQueuedCrafting";
 import { getCraftingQueueReadyAts } from "features/game/lib/craftingReadiness";
 import { INITIAL_FARM } from "features/game/lib/constants";
@@ -948,19 +944,14 @@ describe("startCrafting", () => {
 
     // A counter whose roll procs, preceded by one that misses. The roll after a
     // proc moves onto a new sequence, so make sure that one misses too, or the
-    // assertions below would be at the mercy of a genuine 10% hit.
+    // assertions below would be at the mercy of a genuine 10% hit. One proc
+    // shifts the seed by the 1,000,000 stride: counter c with 1 proc rolls on
+    // c + 1_000_000. Bounded, so a broken seed fails here instead of hanging.
     const procCounter = (() => {
-      let c = 1;
-      while (
-        !(
-          rolls(c) &&
-          !rolls(c - 1) &&
-          !rolls(getFoxShrineRollCounter({ started: c, procs: 1 }))
-        )
-      ) {
-        c++;
+      for (let c = 1; c < 10_000; c++) {
+        if (rolls(c) && !rolls(c - 1) && !rolls(c + 1_000_000)) return c;
       }
-      return c;
+      throw new Error("No suitable Fox Shrine proc counter found");
     })();
 
     const now = Date.now();

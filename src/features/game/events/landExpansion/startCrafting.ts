@@ -47,18 +47,11 @@ type Options = {
 const FOX_SHRINE_PROC_STRIDE = 1_000_000;
 
 /**
- * The counter the Fox Shrine instant-craft roll is seeded with.
- *
- * `<Name> Crafting Started` alone is not safe to roll on: cancelling a queued
- * craft takes one back off it, so once a proc has fired at counter k, cancelling
- * any EARLIER queued craft of that recipe drops the counter back to k and the
- * next start replays the proc - for as many queued crafts as there are to cancel.
- * Folding in the number of procs already granted moves every roll after a proc
- * onto a new sequence, so a proc can never be reproduced, while a craft that is
- * cancelled and started again with no proc in between still lands on exactly the
- * roll it had - a cancel is not a re-roll either.
+ * The counter the Fox Shrine instant-craft roll is seeded with: the recipe's
+ * `<Name> Crafting Started` count, offset by the procs already granted. A craft
+ * that is cancelled and started again keeps the roll it had.
  */
-export function getFoxShrineRollCounter({
+function getFoxShrineRollCounter({
   started,
   procs,
 }: {
