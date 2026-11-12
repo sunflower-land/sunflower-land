@@ -1140,9 +1140,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   /**
    * A short celebration, then back to idle. The dance frames live on their
    * own sheet, fetched the first time a Bumpkin is asked to dance. Until the
-   * sheet is available the Bumpkin hops on the spot instead.
+   * sheet is available the Bumpkin hops on the spot instead. `onDone` runs
+   * once they are back in idle.
    */
-  public dance() {
+  public dance(onDone?: () => void) {
     const scene = this.scene;
     const key = this.spriteKey4;
     const animation = this.danceAnimationKey;
@@ -1151,13 +1152,13 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     if (this.isInteracting()) return;
 
     if (scene.anims.exists(animation)) {
-      this.playDance();
+      this.playDance(onDone);
       return;
     }
 
     if (scene.textures.exists(key)) {
       this.createDanceAnimation();
-      this.playDance();
+      this.playDance(onDone);
       return;
     }
 
@@ -1177,7 +1178,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       stopListening();
       // Let the next dance ask for the sheet again
       this.danceSheetRequested = false;
-      if (this.scene && this.sprite?.active) this.hop();
+      if (this.scene && this.sprite?.active) this.hop(onDone);
     };
 
     const onLoad = () => {
@@ -1186,7 +1187,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       if (!scene.textures.exists(key)) return;
 
       this.createDanceAnimation();
-      this.playDance();
+      this.playDance(onDone);
     };
 
     const stopListening = () => {
@@ -1219,14 +1220,14 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     });
   }
 
-  private playDance() {
-    this.playThenIdle(this.danceAnimationKey);
+  private playDance(onDone?: () => void) {
+    this.playThenIdle(this.danceAnimationKey, onDone);
   }
 
   /**
-   * Plays an animation through, then goes back to idle. Returns false when
-   * it could not start: the animation is not loaded yet, or the Bumpkin is
-   * busy with another one.
+   * Plays an animation through, then goes back to idle and runs `onFinish`.
+   * Returns false when it could not start: the animation is not loaded yet,
+   * or the Bumpkin is busy with another one.
    */
   private playThenIdle(animation: string | undefined, onFinish?: () => void) {
     const sprite = this.sprite;
@@ -1241,8 +1242,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       sprite.off(events.ANIMATION_COMPLETE, finish);
       sprite.off(events.ANIMATION_STOP, stopListening);
       if (!sprite.active) return;
-      onFinish?.();
+      // Idle first - `onFinish` may start the next animation
       this.idle();
+      onFinish?.();
     };
     const stopListening = () => {
       sprite.off(events.ANIMATION_COMPLETE, finish);
@@ -1260,10 +1262,11 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
   /**
    * Hops on the spot, then idles. As the first hop leaves the ground a heart
-   * pops out from behind their name, then drifts up and fades.
+   * pops out from behind their name, then drifts up and fades. `onDone` runs
+   * once they are back in idle.
    */
-  public receive() {
-    if (!this.playThenIdle(this.cheerAnimationKey)) return;
+  public receive(onDone?: () => void) {
+    if (!this.playThenIdle(this.cheerAnimationKey, onDone)) return;
 
     this.react("heart");
 
@@ -1314,7 +1317,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
    * Stand-in for the dance when its sheet cannot be fetched: hop on the spot,
    * turning on every hop, then settle back into idle facing the original way.
    */
-  private hop() {
+  private hop(onDone?: () => void) {
     const key = this.cheerAnimationKey;
     const sprite = this.sprite;
 
@@ -1348,7 +1351,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
     const finish = () => {
       cleanUp();
-      if (sprite.active) this.idle();
+      if (!sprite.active) return;
+      this.idle();
+      onDone?.();
     };
 
     sprite.anims.play(key, true);

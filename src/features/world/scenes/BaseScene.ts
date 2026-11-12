@@ -171,7 +171,7 @@ export abstract class BaseScene extends Phaser.Scene {
 
   npcs: Partial<Record<NPCName, BumpkinContainer>> = {};
   private npcCelebrations: Partial<Record<NPCName, NPCCelebration>> = {};
-  private pendingNPCCelebrations = new Map<NPCName, PendingNPCCelebration>();
+  private pendingNPCCelebrations = new Map<NPCName, PendingNPCCelebration[]>();
   private greetedNPCs = new Set<NPCName>();
 
   currentPlayer: BumpkinContainer | undefined;
@@ -2450,10 +2450,17 @@ export abstract class BaseScene extends Phaser.Scene {
         current.giftedAt > previous.giftedAt &&
         current.friendship > previous.friendship;
 
-      if (gifted) {
-        this.pendingNPCCelebrations.set(npc, "gift");
-      } else if (current.deliveries > previous.deliveries) {
-        this.pendingNPCCelebrations.set(npc, "delivery");
+      const celebration: PendingNPCCelebration | undefined = gifted
+        ? "gift"
+        : current.deliveries > previous.deliveries
+          ? "delivery"
+          : undefined;
+      if (!celebration) return;
+
+      // A gift and a delivery made in one visit both play, in that order
+      const pending = this.pendingNPCCelebrations.get(npc) ?? [];
+      if (!pending.includes(celebration)) {
+        this.pendingNPCCelebrations.set(npc, [...pending, celebration]);
       }
     });
 
@@ -2470,12 +2477,17 @@ export abstract class BaseScene extends Phaser.Scene {
     this.pendingNPCCelebrations.clear();
 
     this.time.delayedCall(NPC_DANCE_DELAY_MS, () => {
-      celebrations.forEach(([npc, celebration]) => {
-        const container = this.npcs[npc];
-        if (!container?.active) return;
+      celebrations.forEach(([npc, pending]) => {
+        const playNext = ([celebration, ...rest]: PendingNPCCelebration[]) => {
+          const container = this.npcs[npc];
+          if (!celebration || !container?.active) return;
 
-        if (celebration === "gift") container.dance();
-        else container.receive();
+          const next = () => playNext(rest);
+          if (celebration === "gift") container.dance(next);
+          else container.receive(next);
+        };
+
+        playNext(pending);
       });
     });
   };
