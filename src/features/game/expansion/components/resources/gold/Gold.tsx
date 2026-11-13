@@ -10,7 +10,6 @@ import Decimal from "decimal.js-light";
 import { DepletedGold } from "./components/DepletedGold";
 import { DepletingGold } from "./components/DepletingGold";
 import { RecoveredGold } from "./components/RecoveredGold";
-import { canMine } from "features/game/lib/resourceNodes";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getGoldDropAmount } from "features/game/events/landExpansion/mineGold";
 import type { GoldRockName } from "features/game/types/resources";
@@ -134,12 +133,18 @@ export const Gold: React.FC<Props> = ({ id }) => {
   const hasTool = HasTool(inventory, resource);
 
   const { minedAt, baseDurationMs } = resource.stone;
-  const { now, countdownSeconds: timeLeft } = useNodeTimer({
+  const {
+    now,
+    readyAt,
+    countdownSeconds: timeLeft,
+  } = useNodeTimer({
     startedAt: minedAt,
     baseDurationMs: baseDurationMs ?? GOLD_RECOVERY_TIME * 1000,
     windows: mineBoostWindows,
   });
-  const mined = !canMine(resource, goldRockName, state, now);
+  // Read readiness off the timer's live readyAt (same live mine windows as the
+  // countdown), so the rock unlocks the moment the countdown hits zero.
+  const mined = now <= readyAt;
   // The timer's `now` freezes once the rock is ready (autoEndAt), so the
   // harvest popup needs a LIVE clock for time-based yield boosts.
   const liveNow = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
