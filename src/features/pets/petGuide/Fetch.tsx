@@ -35,7 +35,7 @@ export const Fetch: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   }, []);
 
   return (
-    <InnerPanel className="relative overflow-y-auto max-h-[400px] scrollable gap-2">
+    <InnerPanel className="relative overflow-y-auto max-h-[70vh] scrollable gap-2">
       <div className="flex items-center gap-2">
         <img
           src={SUNNYSIDE.icons.arrow_left}
