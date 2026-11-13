@@ -33,6 +33,7 @@ import {
 } from "features/game/lib/level";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { CrustaceanGuide } from "./CrustaceanGuide";
+import { WaterTrapRecipes } from "./WaterTrapRecipes";
 import { getKeys } from "lib/object";
 import { useLocalStorage } from "lib/utils/hooks/useLocalStorage";
 
@@ -109,7 +110,7 @@ interface Props {
   onClose: () => void;
 }
 
-type Tab = "crustaceans" | "guide";
+type Tab = "crustaceans" | "recipes" | "guide";
 
 export const WaterTrapModal: React.FC<Props> = ({
   waterTrap,
@@ -238,6 +239,11 @@ export const WaterTrapModal: React.FC<Props> = ({
           id: "crustaceans",
           icon: ITEM_DETAILS["Crab Pot"].image,
           name: t("crustaceans"),
+        },
+        {
+          id: "recipes",
+          icon: SUNNYSIDE.icons.basket,
+          name: t("recipes"),
         },
         {
           id: "guide",
@@ -405,6 +411,16 @@ export const WaterTrapModal: React.FC<Props> = ({
               : t("waterTrap.place")}
           </Button>
         </div>
+      )}
+      {tab === "recipes" && (
+        <InnerPanel>
+          <WaterTrapRecipes
+            onSelect={(trap, chum) => {
+              setStored({ trap, chum });
+              setTab("crustaceans");
+            }}
+          />
+        </InnerPanel>
       )}
       {tab === "guide" && (
         <InnerPanel>
