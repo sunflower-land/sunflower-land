@@ -15,7 +15,6 @@ import Decimal from "decimal.js-light";
 import { DepletedStone } from "./components/DepletedStone";
 import { DepletingStone } from "./components/DepletingStone";
 import { RecoveredStone } from "./components/RecoveredStone";
-import { canMine } from "features/game/lib/resourceNodes";
 import { useSound } from "lib/utils/hooks/useSound";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import {
@@ -143,12 +142,18 @@ export const Stone: React.FC<Props> = ({ id }) => {
   const hasTool = HasTool(inventory, game, id);
 
   const { minedAt, baseDurationMs } = resource.stone;
-  const { now, countdownSeconds: timeLeft } = useNodeTimer({
+  const {
+    now,
+    readyAt,
+    countdownSeconds: timeLeft,
+  } = useNodeTimer({
     startedAt: minedAt,
     baseDurationMs: baseDurationMs ?? STONE_RECOVERY_TIME * 1000,
     windows: mineBoostWindows,
   });
-  const mined = !canMine(resource, name, game, now);
+  // Read readiness off the timer's live readyAt (same live mine windows as the
+  // countdown), so the rock unlocks the moment the countdown hits zero.
+  const mined = now <= readyAt;
 
   const strike = () => {
     if (!hasTool) return;

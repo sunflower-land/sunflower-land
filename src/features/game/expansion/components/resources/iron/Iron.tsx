@@ -9,7 +9,6 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
 import { DepletedIron } from "./components/DepletedIron";
 import { DepletingIron } from "./components/DepletingIron";
-import { canMine } from "features/game/lib/resourceNodes";
 import { RecoveredIron } from "./components/RecoveredIron";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getIronDropAmount } from "features/game/events/landExpansion/ironMine";
@@ -129,12 +128,18 @@ export const Iron: React.FC<Props> = ({ id }) => {
   const hasTool = HasTool(inventory, resource);
 
   const { minedAt, baseDurationMs } = resource.stone;
-  const { now, countdownSeconds: timeLeft } = useNodeTimer({
+  const {
+    now,
+    readyAt,
+    countdownSeconds: timeLeft,
+  } = useNodeTimer({
     startedAt: minedAt,
     baseDurationMs: baseDurationMs ?? IRON_RECOVERY_TIME * 1000,
     windows: mineBoostWindows,
   });
-  const mined = !canMine(resource, ironRockName, state, now);
+  // Read readiness off the timer's live readyAt (same live mine windows as the
+  // countdown), so the rock unlocks the moment the countdown hits zero.
+  const mined = now <= readyAt;
 
   const strike = () => {
     if (!hasTool) return;
