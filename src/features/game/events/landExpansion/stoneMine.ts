@@ -56,9 +56,26 @@ type Options = {
  * The stone's real recovery duration (ms), for gating the yield-AOE re-use. It
  * is derived from the live speed windows, so an active boost shortens it to match
  * the actual recovery.
+ *
+ * A landscaping lift banks the work done so far into `boostedTime` and shrinks
+ * `baseDurationMs` to what's left (see `pauseWindowedTimer`), so the banked work
+ * is added back here: the duration covers the whole recovery, not just the part
+ * after the rock was re-placed. A rock with no `baseDurationMs` was never
+ * lifted, so it has no banked work to add.
  */
 function getStoneRecoveryDurationMs(rock: Rock, game: GameState): number {
-  return getMineReadyAt(rock, "Stone Rock", game) - rock.stone.minedAt;
+  const { baseDurationMs, boostedTime } = rock.stone;
+  const fullRecovery: Rock =
+    baseDurationMs === undefined
+      ? rock
+      : {
+          ...rock,
+          stone: {
+            ...rock.stone,
+            baseDurationMs: baseDurationMs + (boostedTime ?? 0),
+          },
+        };
+  return getMineReadyAt(fullRecovery, "Stone Rock", game) - rock.stone.minedAt;
 }
 
 type GetMinedAtArgs = {

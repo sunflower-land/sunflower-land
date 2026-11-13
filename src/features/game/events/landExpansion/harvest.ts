@@ -160,6 +160,12 @@ export function isCropGrowing(plot: CropPlot, game: GameState) {
  * The crop's real grow duration (ms), used to gate AOE yield-boost
  * re-availability. It is derived from the live speed windows, so an active
  * Sparrow Shrine shortens it to match the actual time-to-harvest.
+ *
+ * A landscaping lift banks the work done so far into `boostedTime` and shrinks
+ * `baseDurationMs` to what's left (see `pauseWindowedTimer`), so the banked work
+ * is added back here: the duration covers the whole grow, not just the part
+ * after the crop was re-placed. A crop with no `baseDurationMs` was never
+ * lifted, so it has no banked work to add.
  */
 const getCropGrowDurationMs = (
   cropName: CropName | GreenHouseCropName,
@@ -168,10 +174,20 @@ const getCropGrowDurationMs = (
   fertiliser?: CropFertiliser,
 ): number => {
   const cropDetails = CROPS[cropName as CropName];
-  return plantedCrop
-    ? getCropReadyAt(plantedCrop, cropDetails, game, fertiliser) -
-        plantedCrop.plantedAt
-    : cropDetails.harvestSeconds * 1000;
+  if (!plantedCrop) return cropDetails.harvestSeconds * 1000;
+
+  const fullGrow: PlantedCrop =
+    plantedCrop.baseDurationMs === undefined
+      ? plantedCrop
+      : {
+          ...plantedCrop,
+          baseDurationMs:
+            plantedCrop.baseDurationMs + (plantedCrop.boostedTime ?? 0),
+        };
+  return (
+    getCropReadyAt(fullGrow, cropDetails, game, fertiliser) -
+    plantedCrop.plantedAt
+  );
 };
 
 type CropYieldAmountArgs = {

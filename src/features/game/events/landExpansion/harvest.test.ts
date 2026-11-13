@@ -3,6 +3,7 @@ import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import type { CropPlot, GameState, Skills } from "features/game/types/game";
 import { harvest } from "./harvest";
+import { placePlot } from "./placePlot";
 import { CROPS } from "features/game/types/crops";
 import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
@@ -4467,6 +4468,100 @@ describe("harvest", () => {
       });
 
       expect(state.crops[0].crop).toBeUndefined();
+    });
+  });
+
+  describe("yield AOE cooldown after a landscaping lift", () => {
+    const base = CROPS.Cabbage.harvestSeconds * 1000;
+    const plantedAt = dateNow - 10 * base;
+    const placedAt = plantedAt + 5 * base;
+    const firstId = "12";
+
+    // Lift the plot at `removedAt`, re-place it at `placedAt`, then harvest at
+    // `harvestAt` with Sir Goldensnout's cell last used at `aoeLastUsedAt`.
+    const liftPlaceAndHarvest = ({
+      removedAt,
+      harvestAt,
+      aoeLastUsedAt,
+    }: {
+      removedAt: number;
+      harvestAt: number;
+      aoeLastUsedAt: number;
+    }) => {
+      const placed = placePlot({
+        state: {
+          ...GAME_STATE,
+          buildings: {},
+          inventory: { "Crop Plot": new Decimal(2) },
+          season: { season: "spring", startedAt: 0 },
+          collectibles: {
+            "Sir Goldensnout": [
+              {
+                id: "123",
+                createdAt: plantedAt,
+                coordinates: { x: 0, y: 0 },
+                readyAt: plantedAt,
+              },
+            ],
+          },
+          aoe: { "Sir Goldensnout": { 0: { [-2]: aoeLastUsedAt } } },
+          crops: {
+            "0": GAME_STATE.crops["0"],
+            [firstId]: {
+              createdAt: plantedAt,
+              removedAt,
+              crop: { name: "Cabbage", plantedAt, baseDurationMs: base },
+            },
+          },
+        },
+        action: {
+          type: "plot.placed",
+          name: "Crop Plot",
+          id: firstId,
+          coordinates: { x: 0, y: -2 },
+        },
+        createdAt: placedAt,
+      });
+
+      return harvest({
+        state: placed,
+        action: { type: "crop.harvested", index: firstId },
+        createdAt: harvestAt,
+      });
+    };
+
+    it("keeps the full grow time as the cooldown when lifted mid-grow", () => {
+      // Half grown before the lift, the other half after re-placing.
+      const harvestAt = placedAt + base / 2;
+      const state = liftPlaceAndHarvest({
+        removedAt: plantedAt + base / 2,
+        harvestAt,
+        // 0.75 of a grow since the last use: still cooling down.
+        aoeLastUsedAt: harvestAt - 0.75 * base,
+      });
+
+      expect(state.inventory.Cabbage).toEqual(new Decimal(1));
+    });
+
+    it("keeps the full grow time as the cooldown when lifted after finishing", () => {
+      const state = liftPlaceAndHarvest({
+        removedAt: plantedAt + 2 * base,
+        harvestAt: placedAt,
+        aoeLastUsedAt: placedAt - 0.5 * base,
+      });
+
+      expect(state.inventory.Cabbage).toEqual(new Decimal(1));
+    });
+
+    it("re-arms once a full grow time has passed", () => {
+      const harvestAt = placedAt + base / 2;
+      const state = liftPlaceAndHarvest({
+        removedAt: plantedAt + base / 2,
+        harvestAt,
+        aoeLastUsedAt: harvestAt - base,
+      });
+
+      expect(state.inventory.Cabbage).toEqual(new Decimal(1.5));
     });
   });
 });

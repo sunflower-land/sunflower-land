@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { placeStone } from "./placeStone";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { INITIAL_FARM, STONE_RECOVERY_TIME } from "features/game/lib/constants";
@@ -1936,5 +1937,101 @@ describe("mineStone — speed windows", () => {
     expect(getMineReadyAt(rock, "Stone Rock", INITIAL_FARM)).toEqual(
       now + BASE_MS,
     );
+  });
+
+  describe("Emerald Turtle cooldown after a landscaping lift", () => {
+    const base = STONE_RECOVERY_TIME * 1000;
+    const minedAt = now - 10 * base;
+    const placedAt = minedAt + 5 * base;
+
+    // Lift rock "0" at `removedAt`, re-place it at `placedAt`, then mine it at
+    // `mineAt` with the Emerald Turtle cell last used at `aoeLastUsedAt`.
+    const liftPlaceAndMine = ({
+      removedAt,
+      mineAt,
+      aoeLastUsedAt,
+    }: {
+      removedAt: number;
+      mineAt: number;
+      aoeLastUsedAt: number;
+    }) => {
+      const placed = placeStone({
+        state: {
+          ...GAME_STATE,
+          buildings: {},
+          bumpkin: TEST_BUMPKIN,
+          inventory: {
+            "Stone Rock": new Decimal(2),
+            Pickaxe: new Decimal(1),
+          },
+          collectibles: {
+            "Emerald Turtle": [
+              {
+                id: "123",
+                createdAt: minedAt,
+                coordinates: { x: 2, y: 1 },
+                readyAt: minedAt,
+              },
+            ],
+          },
+          aoe: { "Emerald Turtle": { "-1": { "0": aoeLastUsedAt } } },
+          stones: {
+            0: {
+              createdAt: minedAt,
+              stone: { minedAt, baseDurationMs: base },
+              removedAt,
+            },
+            1: GAME_STATE.stones[1],
+          },
+        },
+        action: {
+          type: "stone.placed",
+          name: "Stone Rock",
+          id: "0",
+          coordinates: { x: 1, y: 1 },
+        },
+        createdAt: placedAt,
+      });
+
+      return mineStone({
+        state: placed,
+        action: { type: "stoneRock.mined", index: "0" },
+        createdAt: mineAt,
+        farmId,
+      });
+    };
+
+    it("keeps the full recovery time as the cooldown when lifted mid-recovery", () => {
+      const aoeLastUsedAt = placedAt + base / 2 - 0.75 * base;
+      const game = liftPlaceAndMine({
+        removedAt: minedAt + base / 2,
+        mineAt: placedAt + base / 2 + 1,
+        aoeLastUsedAt,
+      });
+
+      expect(game.aoe["Emerald Turtle"]?.["-1"]?.["0"]).toBe(aoeLastUsedAt);
+    });
+
+    it("keeps the full recovery time as the cooldown when lifted after recovering", () => {
+      const aoeLastUsedAt = placedAt - 0.5 * base;
+      const game = liftPlaceAndMine({
+        removedAt: minedAt + 2 * base,
+        mineAt: placedAt + 1,
+        aoeLastUsedAt,
+      });
+
+      expect(game.aoe["Emerald Turtle"]?.["-1"]?.["0"]).toBe(aoeLastUsedAt);
+    });
+
+    it("re-arms once a full recovery time has passed", () => {
+      const mineAt = placedAt + base / 2 + 1;
+      const game = liftPlaceAndMine({
+        removedAt: minedAt + base / 2,
+        mineAt,
+        aoeLastUsedAt: mineAt - base,
+      });
+
+      expect(game.aoe["Emerald Turtle"]?.["-1"]?.["0"]).toBe(mineAt);
+    });
   });
 });

@@ -1049,9 +1049,11 @@ export function workAccruedAt({
  * The caller owns which field is the start timestamp (and, for multi-phase fruit,
  * which phase is active), so it passes `startedAt` and writes the returned value
  * back to that same field. `trackProgress` additionally banks the accrued work
- * into `timer.boostedTime` for the growth bar — used by the crop / greenhouse
- * plant handlers, which carry that field; resource nodes omit it. Shared by every
- * resource place handler to keep the bank/shrink logic in one place.
+ * into `timer.boostedTime`. The plot, fruit patch, flower bed and greenhouse
+ * (placeBuilding) handlers pass it for the growth bar, and plots also for the
+ * yield-AOE cooldown; the stone / iron / gold handlers pass it for the yield-AOE
+ * cooldown. Other nodes omit it. Shared by every resource place handler to keep
+ * the bank/shrink logic in one place.
  */
 export function pauseWindowedTimer({
   timer,

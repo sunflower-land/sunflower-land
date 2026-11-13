@@ -83,9 +83,11 @@ function useInstantGrowth({
     // resolves to `createdAt` exactly and the grow duration is 0 (mirrors
     // usePetalBlessed / useGreenhouseGuru). Back-dating plantedAt instead would
     // re-price the grow against past boost windows and leave the duration at
-    // the FULL base grow time.
+    // the FULL base grow time. Work banked by a landscaping lift is cleared
+    // too, since the grow duration adds it back.
     plantedCrop.baseDurationMs = 0;
     plantedCrop.plantedAt = createdAt;
+    delete plantedCrop.boostedTime;
   });
 
   const basicScarecrowAOE = aoe["Basic Scarecrow"] ?? {};

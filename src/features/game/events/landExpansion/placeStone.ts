@@ -60,6 +60,8 @@ export function placeStone({
 
       if (updatedStone.stone && updatedStone.removedAt) {
         // Pause recovery across the lift (windowed banking or legacy back-date).
+        // trackProgress banks the pre-lift work into boostedTime, so the yield-AOE
+        // cooldown can still cover the full recovery.
         updatedStone.stone.minedAt = pauseWindowedTimer({
           timer: updatedStone.stone,
           startedAt: updatedStone.stone.minedAt,
@@ -67,6 +69,7 @@ export function placeStone({
           createdAt,
           rawBaseMs: RESOURCE_RECOVERY_TIME[action.name] * 1000,
           windows: getMineBoostWindows(game, action.name),
+          trackProgress: true,
         });
       }
       delete updatedStone.removedAt;
