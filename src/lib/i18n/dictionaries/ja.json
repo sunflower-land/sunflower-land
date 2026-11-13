@@ -9056,5 +9056,7 @@
   "cropMachine.harvestAllConfirm": "{{count}} 個の準備完了パックをすべて収穫してもよろしいですか？",
   "flowerBedRecipes.pickFlower": "育てた花を選んでレシピを見てください。",
   "flowerBedRecipes.tapRecipe": "レシピをタップして花壇をいっぱいにしましょう。",
-  "flowerBedRecipes.outOfSeason": "{{seed}} 今シーズンは植えられません"
+  "flowerBedRecipes.outOfSeason": "{{seed}} 今シーズンは植えられません",
+  "waterTrapRecipes.pickCrustacean": "釣った甲殻類を選んでレシピを見てみよう。",
+  "waterTrapRecipes.tapRecipe": "レシピをタップしてトラップを設定します。"
 }

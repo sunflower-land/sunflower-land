@@ -9056,5 +9056,7 @@
   "cropMachine.harvestAllConfirm": "Bist du sicher, dass du alle {{count}} fertigen Pakete ernten willst?",
   "flowerBedRecipes.pickFlower": "Wähle eine Blume aus, die du angebaut hast, um ihre Rezepte zu sehen.",
   "flowerBedRecipes.tapRecipe": "Tippe auf ein Rezept, um dein Blumenbeet zu füllen.",
-  "flowerBedRecipes.outOfSeason": "{{seed}} kann in dieser Saison nicht gepflanzt werden"
+  "flowerBedRecipes.outOfSeason": "{{seed}} kann in dieser Saison nicht gepflanzt werden",
+  "waterTrapRecipes.pickCrustacean": "Wählen Sie ein Krebstier aus, das Sie gefangen haben, um seine Rezepte zu sehen.",
+  "waterTrapRecipes.tapRecipe": "Tippe auf ein Rezept, um deine Falle aufzustellen."
 }

@@ -9056,5 +9056,7 @@
   "cropMachine.harvestAllConfirm": "Tem certeza de que deseja colher todos os pacotes {{count}} prontos?",
   "flowerBedRecipes.pickFlower": "Escolha uma flor que você cultivou para ver suas receitas.",
   "flowerBedRecipes.tapRecipe": "Toque em uma receita para encher seu canteiro de flores.",
-  "flowerBedRecipes.outOfSeason": "{{seed}} não pode ser plantado nesta temporada"
+  "flowerBedRecipes.outOfSeason": "{{seed}} não pode ser plantado nesta temporada",
+  "waterTrapRecipes.pickCrustacean": "Escolha um crustáceo que você pegou para ver suas receitas.",
+  "waterTrapRecipes.tapRecipe": "Toque em uma receita para montar sua armadilha."
 }

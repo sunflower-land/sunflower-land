@@ -9056,5 +9056,7 @@
   "cropMachine.harvestAllConfirm": "Tüm {{count}} hazır paketleri hasat etmek istediğinizden emin misiniz?",
   "flowerBedRecipes.pickFlower": "Tariflerini görmek için yetiştirdiğiniz bir çiçek seçin.",
   "flowerBedRecipes.tapRecipe": "Çiçek tarhınızı doldurmak için bir tarife dokunun.",
-  "flowerBedRecipes.outOfSeason": "{{seed}} bu sezon ekilemez"
+  "flowerBedRecipes.outOfSeason": "{{seed}} bu sezon ekilemez",
+  "waterTrapRecipes.pickCrustacean": "Tariflerini görmek için yakaladığınız bir kabukluları seçin.",
+  "waterTrapRecipes.tapRecipe": "Tuzağınızı kurmak için bir tarife dokunun."
 }

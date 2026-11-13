@@ -9056,5 +9056,7 @@
   "cropMachine.harvestAllConfirm": "Apakah Anda yakin ingin memanen semua paket siap pakai {{count}}?",
   "flowerBedRecipes.pickFlower": "Pilih bunga yang telah Anda tanam untuk melihat resepnya.",
   "flowerBedRecipes.tapRecipe": "Ketuk resep untuk mengisi hamparan bunga Anda.",
-  "flowerBedRecipes.outOfSeason": "{{seed}} tidak bisa ditanam musim ini"
+  "flowerBedRecipes.outOfSeason": "{{seed}} tidak bisa ditanam musim ini",
+  "waterTrapRecipes.pickCrustacean": "Pilih krustasea yang telah Anda tangkap untuk melihat resepnya.",
+  "waterTrapRecipes.tapRecipe": "Ketuk resep untuk mengatur jebakan Anda."
 }

@@ -9056,5 +9056,7 @@
   "cropMachine.harvestAllConfirm": "Sei sicuro di voler raccogliere tutte le confezioni {{count}} pronte?",
   "flowerBedRecipes.pickFlower": "Scegli un fiore che hai coltivato per vedere le sue ricette.",
   "flowerBedRecipes.tapRecipe": "Tocca una ricetta per riempire la tua aiuola.",
-  "flowerBedRecipes.outOfSeason": "{{seed}} non può essere piantato in questa stagione"
+  "flowerBedRecipes.outOfSeason": "{{seed}} non può essere piantato in questa stagione",
+  "waterTrapRecipes.pickCrustacean": "Scegli un crostaceo che hai pescato per vedere le sue ricette.",
+  "waterTrapRecipes.tapRecipe": "Tocca una ricetta per preparare la trappola."
 }
