@@ -145,7 +145,9 @@ describe("placeOil", () => {
       "123": {
         createdAt: expect.any(Number),
         oil: {
-          drilledAt: dateNow - 60000,
+          drilledAt: dateNow,
+          // 20h raw oil reserve recovery, less the 1 min banked before the lift.
+          baseDurationMs: 20 * 60 * 60 * 1000 - 60000,
         },
         x: 2,
         y: 2,

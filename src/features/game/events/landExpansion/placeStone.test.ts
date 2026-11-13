@@ -146,7 +146,11 @@ describe("placeStone", () => {
       "123": {
         createdAt: expect.any(Number),
         stone: {
-          minedAt: dateNow - 60000,
+          minedAt: dateNow,
+          // 4h raw stone recovery, less the 1 min banked before the lift.
+          baseDurationMs: 4 * 60 * 60 * 1000 - 60000,
+          // The banked minute is kept for the yield-AOE cooldown.
+          boostedTime: 60000,
         },
         x: 2,
         y: 2,

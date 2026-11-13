@@ -16,6 +16,7 @@ import {
 } from "features/game/lib/boostWindows";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { freshRockTimer } from "features/game/lib/freshNodes";
+import { RESOURCE_RECOVERY_TIME } from "features/game/lib/resourceNodes";
 
 export type PlaceGoldAction = {
   type: "gold.placed";
@@ -66,6 +67,7 @@ export function placeGold({
           startedAt: updatedGold.stone.minedAt,
           removedAt: updatedGold.removedAt,
           createdAt,
+          rawBaseMs: RESOURCE_RECOVERY_TIME[action.name] * 1000,
           windows: getMineBoostWindows(game, action.name),
           trackProgress: true,
         });

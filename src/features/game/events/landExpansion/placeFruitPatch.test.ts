@@ -131,7 +131,11 @@ describe("placeFruitPatch", () => {
       },
       createdAt: dateNow,
     });
-    expect(state.fruitPatches["123"].fruit?.plantedAt).toBe(dateNow - 60000);
+    expect(state.fruitPatches["123"].fruit).toMatchObject({
+      plantedAt: dateNow,
+      // 12h raw Apple grow, less the 1 min banked before the lift.
+      baseDurationMs: 12 * 60 * 60 * 1000 - 60000,
+    });
   });
 
   it("reinstates current progress when fruit was harvested", () => {
@@ -166,7 +170,11 @@ describe("placeFruitPatch", () => {
       },
       createdAt: dateNow,
     });
-    expect(state.fruitPatches["123"].fruit?.harvestedAt).toBe(dateNow - 60000);
+    expect(state.fruitPatches["123"].fruit).toMatchObject({
+      harvestedAt: dateNow,
+      // 12h raw Apple replenish, less the 1 min banked before the lift.
+      baseDurationMs: 12 * 60 * 60 * 1000 - 60000,
+    });
   });
 
   it("banks boosted work when a fruit speed window covered the pre-lift period", () => {

@@ -173,9 +173,11 @@ describe("placeFlowerBed", () => {
       createdAt,
     });
 
-    expect(state.flowers.flowerBeds["123"].flower?.plantedAt).toBe(
-      dateNow - 60000,
-    );
+    expect(state.flowers.flowerBeds["123"].flower).toMatchObject({
+      plantedAt: dateNow,
+      // 1 day raw Sunpetal grow, less the 1 min banked before the lift.
+      baseDurationMs: 24 * 60 * 60 * 1000 - 60000,
+    });
   });
 
   it("banks boosted work when a flower speed window covered the pre-lift period", () => {

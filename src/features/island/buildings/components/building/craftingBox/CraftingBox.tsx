@@ -35,7 +35,7 @@ const CraftingTimer: React.FC<CraftingTimerProps> = ({
     startedAt: startedAt ?? item.readyAt,
     baseDurationMs: item.baseDurationMs,
     windows,
-    legacyReadyAt: item.readyAt,
+    fallbackReadyAt: item.readyAt,
   });
 
   // How full the bar is tracks remaining WORK, never the displayed reading - the

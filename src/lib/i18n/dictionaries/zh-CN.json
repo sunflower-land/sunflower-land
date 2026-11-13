@@ -9053,5 +9053,8 @@
   "statsLeaderboard.board.socialPoints": "社交积分",
   "statsLeaderboard.title.socialPoints": "大多数社交积分",
   "statsLeaderboard.description.socialPoints": "一直赚取的社交积分",
-  "cropMachine.harvestAllConfirm": "你确定要收获所有 {{count}} 现成包吗？"
+  "cropMachine.harvestAllConfirm": "你确定要收获所有 {{count}} 现成包吗？",
+  "flowerBedRecipes.pickFlower": "挑一朵你种的花，看看它的配方。",
+  "flowerBedRecipes.tapRecipe": "点击食谱来填满你的花坛。",
+  "flowerBedRecipes.outOfSeason": "{{seed}} 这个季节不能种植"
 }

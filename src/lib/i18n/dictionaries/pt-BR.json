@@ -9053,5 +9053,8 @@
   "statsLeaderboard.board.socialPoints": "Pontos sociais",
   "statsLeaderboard.title.socialPoints": "A maioria dos pontos sociais",
   "statsLeaderboard.description.socialPoints": "Pontos sociais ganhos, o tempo todo",
-  "cropMachine.harvestAllConfirm": "Tem certeza de que deseja colher todos os pacotes {{count}} prontos?"
+  "cropMachine.harvestAllConfirm": "Tem certeza de que deseja colher todos os pacotes {{count}} prontos?",
+  "flowerBedRecipes.pickFlower": "Escolha uma flor que você cultivou para ver suas receitas.",
+  "flowerBedRecipes.tapRecipe": "Toque em uma receita para encher seu canteiro de flores.",
+  "flowerBedRecipes.outOfSeason": "{{seed}} não pode ser plantado nesta temporada"
 }

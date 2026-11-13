@@ -152,7 +152,7 @@ export const SleepingAnimalModal = ({
     startedAt: animal.asleepAt,
     baseDurationMs: animal.baseDurationMs,
     windows: getAnimalBoostWindows(state, animal.type),
-    legacyReadyAt: awakeAt,
+    fallbackReadyAt: awakeAt,
   });
   // The love slot is a wall-clock boundary, not a work timer.
   const { totalSeconds: secondsUntilLove } = useCountdown(

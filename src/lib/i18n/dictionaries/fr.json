@@ -9053,5 +9053,8 @@
   "statsLeaderboard.board.socialPoints": "Points sociaux",
   "statsLeaderboard.title.socialPoints": "La plupart des points sociaux",
   "statsLeaderboard.description.socialPoints": "Points sociaux gagnés, à tout moment",
-  "cropMachine.harvestAllConfirm": "Êtes-vous sûr de vouloir récolter tous les emballages prêts à l'emploi {{count}} ?"
+  "cropMachine.harvestAllConfirm": "Êtes-vous sûr de vouloir récolter tous les emballages prêts à l'emploi {{count}} ?",
+  "flowerBedRecipes.pickFlower": "Choisissez une fleur que vous avez cultivée pour voir ses recettes.",
+  "flowerBedRecipes.tapRecipe": "Appuyez sur une recette pour remplir votre parterre de fleurs.",
+  "flowerBedRecipes.outOfSeason": "{{seed}} ne peut pas être planté cette saison"
 }

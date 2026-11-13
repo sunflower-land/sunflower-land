@@ -693,18 +693,6 @@ describe("love cadence under a windowed sleep", () => {
     expect(secondAt).toBeLessThan(readyAt);
     expect(isAnimalReadyForLove(afterFirst, secondAt, readyAt)).toBe(true);
   });
-
-  it("is unchanged for a legacy (unmarked) animal", () => {
-    const legacy: Animal = {
-      ...animal,
-      awakeAt: now + SLEEP,
-      baseDurationMs: undefined,
-    };
-    const readyAt = getAnimalReadyAt(legacy, withShrine);
-
-    expect(readyAt).toEqual(legacy.awakeAt);
-    expect(getNextLoveAvailableAt(legacy, readyAt)).toEqual(now + SLEEP / 3);
-  });
 });
 
 describe("two loves per sleep", () => {

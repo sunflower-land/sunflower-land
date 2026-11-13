@@ -9053,5 +9053,8 @@
   "statsLeaderboard.board.socialPoints": "Social Points",
   "statsLeaderboard.title.socialPoints": "Most Social Points",
   "statsLeaderboard.description.socialPoints": "Social points earned, all time",
-  "cropMachine.harvestAllConfirm": "Are you sure you want to harvest all {{count}} ready packs?"
+  "cropMachine.harvestAllConfirm": "Are you sure you want to harvest all {{count}} ready packs?",
+  "flowerBedRecipes.pickFlower": "Pick a flower you have grown to see its recipes.",
+  "flowerBedRecipes.tapRecipe": "Tap a recipe to fill your flower bed.",
+  "flowerBedRecipes.outOfSeason": "{{seed}} can't be planted this season"
 }

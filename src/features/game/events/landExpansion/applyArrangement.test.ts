@@ -605,8 +605,12 @@ describe("applyArrangement", () => {
 
       expect(result.trees.t1.x).toBe(0);
       expect(result.trees.t1.removedAt).toBeUndefined();
-      // Legacy (non-windowed) pause: the lift's downtime is added back.
-      expect(result.trees.t1.wood.choppedAt).toBe(createdAt - 4000);
+      // No marker: starts from the 2h raw recovery, less the 4s banked before
+      // the lift, and resumes from the placement.
+      expect(result.trees.t1.wood).toMatchObject({
+        choppedAt: createdAt,
+        baseDurationMs: 2 * 60 * 60 * 1000 - 4000,
+      });
     });
 
     it("reports a placement the player cannot afford", () => {

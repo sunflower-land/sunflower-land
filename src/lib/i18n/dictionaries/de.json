@@ -9053,5 +9053,8 @@
   "statsLeaderboard.board.socialPoints": "Soziale Punkte",
   "statsLeaderboard.title.socialPoints": "Die meisten sozialen Punkte",
   "statsLeaderboard.description.socialPoints": "Alle Zeiten gesammelte Social Points",
-  "cropMachine.harvestAllConfirm": "Bist du sicher, dass du alle {{count}} fertigen Pakete ernten willst?"
+  "cropMachine.harvestAllConfirm": "Bist du sicher, dass du alle {{count}} fertigen Pakete ernten willst?",
+  "flowerBedRecipes.pickFlower": "Wähle eine Blume aus, die du angebaut hast, um ihre Rezepte zu sehen.",
+  "flowerBedRecipes.tapRecipe": "Tippe auf ein Rezept, um dein Blumenbeet zu füllen.",
+  "flowerBedRecipes.outOfSeason": "{{seed}} kann in dieser Saison nicht gepflanzt werden"
 }
