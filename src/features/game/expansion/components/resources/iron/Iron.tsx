@@ -20,6 +20,8 @@ import {
   type BoostWindow,
 } from "features/game/lib/boostWindows";
 import { useNodeTimer } from "features/game/lib/useNodeTimer";
+import { useNow } from "lib/utils/hooks/useNow";
+import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
 
 const HITS = 3;
 const tool = "Stone Pickaxe";
@@ -136,6 +138,9 @@ export const Iron: React.FC<Props> = ({ id }) => {
     legacyReadyAt: minedAt + IRON_RECOVERY_TIME * 1000,
   });
   const mined = !canMine(resource, ironRockName, state, now);
+  // The timer's `now` freezes once the rock is ready (autoEndAt), so the
+  // harvest popup needs a LIVE clock for time-based yield boosts.
+  const liveNow = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
 
   const strike = () => {
     if (!hasTool) return;
@@ -164,7 +169,7 @@ export const Iron: React.FC<Props> = ({ id }) => {
         getIronDropAmount({
           game: state,
           rock: resource,
-          createdAt: now,
+          createdAt: liveNow,
           farmId,
           counter: activityCount,
           itemId,

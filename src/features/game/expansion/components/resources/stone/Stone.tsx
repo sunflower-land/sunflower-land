@@ -3,19 +3,13 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { STONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 
-import type {
-  GameState,
-  InventoryItemName,
-  Rock,
-  Skills,
-} from "features/game/types/game";
+import type { InventoryItemName, Rock, Skills } from "features/game/types/game";
 import { useSelector } from "@xstate/react";
 import type { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
 import { DepletedStone } from "./components/DepletedStone";
 import { DepletingStone } from "./components/DepletingStone";
 import { RecoveredStone } from "./components/RecoveredStone";
-import { canMine } from "features/game/lib/resourceNodes";
 import { useSound } from "lib/utils/hooks/useSound";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import {
@@ -29,6 +23,8 @@ import {
   type BoostWindow,
 } from "features/game/lib/boostWindows";
 import { useNodeTimer } from "features/game/lib/useNodeTimer";
+import { useNow } from "lib/utils/hooks/useNow";
+import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
 
 const HITS = 3;
 const tool = "Pickaxe";
@@ -49,13 +45,8 @@ const areBoostWindowsEqual = (a: BoostWindow[], b: BoostWindow[]) =>
 
 const HasTool = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
-  gameState: GameState,
-  id: string,
+  requiredToolAmount: Decimal,
 ) => {
-  const { amount: requiredToolAmount } = getRequiredPickaxeAmount(
-    gameState,
-    id,
-  );
   if (requiredToolAmount.lte(0)) return true;
   return (inventory[tool] ?? new Decimal(0)).gte(requiredToolAmount);
 };
@@ -65,10 +56,7 @@ const compareResource = (prev: Rock, next: Rock) => {
   return JSON.stringify(prev) === JSON.stringify(next);
 };
 
-const _state = (state: MachineState) => state.context.state;
-const _compareQuarryExistence = (prev: GameState, next: GameState) =>
-  isCollectibleBuilt({ name: "Quarry", game: prev }) ===
-  isCollectibleBuilt({ name: "Quarry", game: next });
+const compareDecimal = (prev: Decimal, next: Decimal) => prev.equals(next);
 
 const selectSkills = (state: MachineState) =>
   state.context.state.bumpkin?.skills;
@@ -110,7 +98,6 @@ export const Stone: React.FC<Props> = ({ id }) => {
     };
   }, []);
 
-  const game = useSelector(gameService, _state, _compareQuarryExistence);
   const farmId = useSelector(gameService, selectFarmId);
   const resource = useSelector(
     gameService,
@@ -122,11 +109,18 @@ export const Stone: React.FC<Props> = ({ id }) => {
     const rockName = state.context.state.stones[id]?.name ?? "Stone Rock";
     return state.context.state.farmActivity[`${rockName} Mined`] ?? 0;
   });
+  // Pickaxes the next strike costs (0 with a Quarry). Read from live state so a
+  // Quarry placed or a rock upgraded mid-session updates the requirement.
+  const requiredToolAmount = useSelector(
+    gameService,
+    (state) => getRequiredPickaxeAmount(state.context.state, id).amount,
+    compareDecimal,
+  );
   const inventory = useSelector(
     gameService,
     selectInventory,
     (prev, next) =>
-      HasTool(prev, game, id) === HasTool(next, game, id) &&
+      HasTool(prev, requiredToolAmount) === HasTool(next, requiredToolAmount) &&
       (prev.Logger ?? new Decimal(0)).equals(next.Logger ?? new Decimal(0)),
   );
   const skills = useSelector(gameService, selectSkills, compareSkills);
@@ -140,19 +134,32 @@ export const Stone: React.FC<Props> = ({ id }) => {
     (state) => getMineBoostWindows(state.context.state, name),
     areBoostWindowsEqual,
   );
-  const hasTool = HasTool(inventory, game, id);
+  const hasTool = HasTool(inventory, requiredToolAmount);
 
   const { minedAt, baseDurationMs } = resource.stone;
-  const { now, countdownSeconds: timeLeft } = useNodeTimer({
+  const {
+    now,
+    readyAt,
+    countdownSeconds: timeLeft,
+  } = useNodeTimer({
     startedAt: minedAt,
     baseDurationMs,
     windows: mineBoostWindows,
     legacyReadyAt: minedAt + STONE_RECOVERY_TIME * 1000,
   });
-  const mined = !canMine(resource, name, game, now);
+  // Read readiness off the timer's live readyAt (same live mine windows as the
+  // countdown), so the rock unlocks the moment the countdown hits zero.
+  const mined = now <= readyAt;
+  // The timer's `now` freezes once the rock is ready (autoEndAt), so the
+  // harvest popup needs a LIVE clock for time-based yield boosts.
+  const liveNow = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
 
   const strike = () => {
-    if (!hasTool) return;
+    // Click-time checks read fresh state, like the reducer will.
+    const game = gameService.getSnapshot().context.state;
+    if (!HasTool(game.inventory, getRequiredPickaxeAmount(game, id).amount)) {
+      return;
+    }
 
     if (!isCollectibleBuilt({ name: "Quarry", game })) {
       shortcutItem(tool);
@@ -173,13 +180,14 @@ export const Stone: React.FC<Props> = ({ id }) => {
   };
 
   const mine = async () => {
+    const game = gameService.getSnapshot().context.state;
     const stoneName: RockName = resource.name ?? "Stone Rock";
     const stoneMined = new Decimal(
       resource.stone.amount ??
         getStoneDropAmount({
           game,
           rock: resource,
-          createdAt: now,
+          createdAt: liveNow,
           id,
           farmId,
           counter: activityCount,
@@ -217,7 +225,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
             touchCount={touchCount}
             showHelper={false} // FUTURE ENHANCEMENT
             stoneRockName={name}
-            requiredToolAmount={getRequiredPickaxeAmount(game, id).amount}
+            requiredToolAmount={requiredToolAmount}
             inventory={inventory}
           />
         </div>
