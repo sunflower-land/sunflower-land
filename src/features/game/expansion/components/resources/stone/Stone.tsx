@@ -12,19 +12,13 @@ import { DepletingStone } from "./components/DepletingStone";
 import { RecoveredStone } from "./components/RecoveredStone";
 import { useSound } from "lib/utils/hooks/useSound";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import {
-  getRequiredPickaxeAmount,
-  getStoneDropAmount,
-} from "features/game/events/landExpansion/stoneMine";
-import type { RockName, StoneRockName } from "features/game/types/resources";
-import { KNOWN_IDS } from "features/game/types";
+import { getRequiredPickaxeAmount } from "features/game/events/landExpansion/stoneMine";
+import type { StoneRockName } from "features/game/types/resources";
 import {
   getMineBoostWindows,
   type BoostWindow,
 } from "features/game/lib/boostWindows";
 import { useNodeTimer } from "features/game/lib/useNodeTimer";
-import { useNow } from "lib/utils/hooks/useNow";
-import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
 
 const HITS = 3;
 const tool = "Pickaxe";
@@ -67,7 +61,6 @@ const compareSkills = (prev: Skills, next: Skills) =>
 const _selectSeason = (state: MachineState) =>
   state.context.state.season.season;
 const _selectIsland = (state: MachineState) => state.context.state.island;
-const selectFarmId = (state: MachineState) => state.context.farmId;
 
 interface Props {
   id: string;
@@ -98,17 +91,12 @@ export const Stone: React.FC<Props> = ({ id }) => {
     };
   }, []);
 
-  const farmId = useSelector(gameService, selectFarmId);
   const resource = useSelector(
     gameService,
     (state) => state.context.state.stones[id],
     compareResource,
   );
   const name = (resource.name ?? "Stone Rock") as StoneRockName;
-  const activityCount = useSelector(gameService, (state) => {
-    const rockName = state.context.state.stones[id]?.name ?? "Stone Rock";
-    return state.context.state.farmActivity[`${rockName} Mined`] ?? 0;
-  });
   // Pickaxes the next strike costs (0 with a Quarry). Read from live state so a
   // Quarry placed or a rock upgraded mid-session updates the requirement.
   const requiredToolAmount = useSelector(
@@ -149,9 +137,6 @@ export const Stone: React.FC<Props> = ({ id }) => {
   // Read readiness off the timer's live readyAt (same live mine windows as the
   // countdown), so the rock unlocks the moment the countdown hits zero.
   const mined = now <= readyAt;
-  // The timer's `now` freezes once the rock is ready (autoEndAt), so the
-  // harvest popup needs a LIVE clock for time-based yield boosts.
-  const liveNow = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
 
   const strike = () => {
     // Click-time checks read fresh state, like the reducer will.
@@ -179,24 +164,16 @@ export const Stone: React.FC<Props> = ({ id }) => {
   };
 
   const mine = async () => {
-    const game = gameService.getSnapshot().context.state;
-    const stoneName: RockName = resource.name ?? "Stone Rock";
-    const stoneMined = new Decimal(
-      resource.stone.amount ??
-        getStoneDropAmount({
-          game,
-          rock: resource,
-          createdAt: liveNow,
-          id,
-          farmId,
-          counter: activityCount,
-          itemId: KNOWN_IDS[stoneName],
-        }).amount,
-    );
-
+    // Read the popup amount off the reducer's result, so it shows exactly what
+    // was added (same timestamp, boosts and rolls as the mined event).
+    const before =
+      gameService.getSnapshot().context.state.inventory.Stone ?? new Decimal(0);
     gameService.send("stoneRock.mined", {
       index: id,
     });
+    const stoneMined = (
+      gameService.getSnapshot().context.state.inventory.Stone ?? new Decimal(0)
+    ).minus(before);
 
     if (showAnimations) {
       setCollecting(true);

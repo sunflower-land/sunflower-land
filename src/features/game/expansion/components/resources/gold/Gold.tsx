@@ -11,18 +11,14 @@ import { DepletedGold } from "./components/DepletedGold";
 import { DepletingGold } from "./components/DepletingGold";
 import { RecoveredGold } from "./components/RecoveredGold";
 import { useSound } from "lib/utils/hooks/useSound";
-import { getGoldDropAmount } from "features/game/events/landExpansion/mineGold";
 import type { GoldRockName } from "features/game/types/resources";
 import { Transition } from "@headlessui/react";
 import lightning from "assets/icons/lightning.png";
-import { KNOWN_IDS } from "features/game/types";
 import {
   getMineBoostWindows,
   type BoostWindow,
 } from "features/game/lib/boostWindows";
 import { useNodeTimer } from "features/game/lib/useNodeTimer";
-import { useNow } from "lib/utils/hooks/useNow";
-import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
 
 const HITS = 3;
 const tool = "Iron Pickaxe";
@@ -51,7 +47,6 @@ const HasTool = (
 };
 
 const selectInventory = (state: MachineState) => state.context.state.inventory;
-const selectGame = (state: MachineState) => state.context.state;
 
 const compareResource = (prev: Rock, next: Rock) => {
   return JSON.stringify(prev) === JSON.stringify(next);
@@ -66,7 +61,6 @@ const compareSkills = (prev: Skills, next: Skills) =>
 const _selectSeason = (state: MachineState) =>
   state.context.state.season.season;
 const _selectIsland = (state: MachineState) => state.context.state.island;
-const selectFarmId = (state: MachineState) => state.context.farmId;
 
 interface Props {
   id: string;
@@ -112,14 +106,8 @@ export const Gold: React.FC<Props> = ({ id }) => {
       (prev.Logger ?? new Decimal(0)).equals(next.Logger ?? new Decimal(0)),
   );
   const skills = useSelector(gameService, selectSkills, compareSkills);
-  const state = useSelector(gameService, selectGame);
-  const currentCounter = useSelector(gameService, (state) => {
-    const rockName = state.context.state.gold[id]?.name ?? "Gold Rock";
-    return state.context.state.farmActivity[`${rockName} Mined`] ?? 0;
-  });
   const season = useSelector(gameService, _selectSeason);
   const island = useSelector(gameService, _selectIsland);
-  const farmId = useSelector(gameService, selectFarmId);
   const goldRockName = (resource.name ?? "Gold Rock") as GoldRockName;
   // Live windowed mine-recovery speed boosts (Ore Hourglass, Mole Shrine,
   // totems). Recomputed from full state but only re-renders when the windows
@@ -145,9 +133,6 @@ export const Gold: React.FC<Props> = ({ id }) => {
   // Read readiness off the timer's live readyAt (same live mine windows as the
   // countdown), so the rock unlocks the moment the countdown hits zero.
   const mined = now <= readyAt;
-  // The timer's `now` freezes once the rock is ready (autoEndAt), so the
-  // harvest popup needs a LIVE clock for time-based yield boosts.
-  const liveNow = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
 
   const [isAnimationRunning, setIsAnimationRunning] = useState(false);
   const [isRecentlyMined, setIsRecentlyMined] = useState(false);
@@ -197,22 +182,16 @@ export const Gold: React.FC<Props> = ({ id }) => {
   };
 
   const mine = async () => {
-    const goldRockName = resource.name ?? "Gold Rock";
-    const itemId = KNOWN_IDS[goldRockName];
-    const goldMined = new Decimal(
-      resource.stone.amount ??
-        getGoldDropAmount({
-          game: state,
-          rock: resource,
-          createdAt: liveNow,
-          farmId,
-          itemId,
-          counter: currentCounter,
-        }).amount,
-    );
+    // Read the popup amount off the reducer's result, so it shows exactly what
+    // was added (same timestamp, boosts and rolls as the mined event).
+    const before =
+      gameService.getSnapshot().context.state.inventory.Gold ?? new Decimal(0);
     gameService.send("goldRock.mined", {
       index: id,
     });
+    const goldMined = (
+      gameService.getSnapshot().context.state.inventory.Gold ?? new Decimal(0)
+    ).minus(before);
 
     if (showAnimations) {
       setCollecting(true);
