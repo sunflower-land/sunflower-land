@@ -15,6 +15,11 @@ import crabChapterBanner from "assets/decorations/banners/crap_chapter_banner.we
 import saltAwakeningBanner from "assets/decorations/banners/salt_awakening_banner.webp";
 import ascensionAgeBanner from "assets/decorations/banners/ascension_banner.webp";
 import caveDwellersBanner from "assets/decorations/banners/cave_dwellers_banner.webp";
+// chapter dashboard logos
+import crabsAndTrapsLogo from "assets/brand/crabs_and_traps.png";
+import saltAwakeningLogo from "assets/brand/salt_awakening.png";
+import ascensionAgeLogo from "assets/brand/ascension_age.png";
+import caveDwellersLogo from "assets/brand/cave_dwellers.png";
 import type { BeachBountyChapterArtefact } from "./treasure";
 import { getKeys } from "lib/object";
 import type { ChapterFish } from "./fishing";
@@ -361,6 +366,34 @@ export const CHAPTER_BANNER_IMAGES: Record<ChapterBanner, string> = {
 
 export function getChapterBannerImage(now: number) {
   return CHAPTER_BANNER_IMAGES[getChapterBanner(now)];
+}
+
+/**
+ * Chapter Dashboard header logo for each chapter. Keyed by every chapter, so
+ * adding a new chapter fails to compile until it gets a logo (or an explicit
+ * `undefined`, for the chapters before the dashboard existed).
+ */
+export const CHAPTER_LOGOS: Record<ChapterName, string | undefined> = {
+  "Solar Flare": undefined,
+  "Dawn Breaker": undefined,
+  "Witches' Eve": undefined,
+  "Catch the Kraken": undefined,
+  "Spring Blossom": undefined,
+  "Clash of Factions": undefined,
+  "Pharaoh's Treasure": undefined,
+  "Bull Run": undefined,
+  "Winds of Change": undefined,
+  "Great Bloom": undefined,
+  "Better Together": undefined,
+  "Paw Prints": undefined,
+  "Crabs and Traps": crabsAndTrapsLogo,
+  "Salt Awakening": saltAwakeningLogo,
+  "Ascension Age": ascensionAgeLogo,
+  "Cave Dwellers": caveDwellersLogo,
+};
+
+export function getChapterLogo(now: number) {
+  return CHAPTER_LOGOS[getCurrentChapter(now)];
 }
 
 function getPreviousChapter(now: number): ChapterName {
