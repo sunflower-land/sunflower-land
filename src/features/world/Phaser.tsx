@@ -306,7 +306,7 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
   }, [mmoService.getSnapshot().context.server]);
 
   useEffect(() => {
-    const item = toastsList.filter((toast) => !toast.hidden)[0];
+    const item = toastsList[0];
 
     if (item && item.difference.gt(0)) {
       mmoService.getSnapshot().context.server?.send(0, {
