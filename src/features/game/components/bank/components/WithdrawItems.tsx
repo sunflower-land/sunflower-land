@@ -22,6 +22,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { INVENTORY_RELEASES } from "features/game/types/withdrawables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
+import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { getChestItemCount } from "features/island/hud/components/inventory/utils/inventory";
@@ -89,7 +90,8 @@ export const WithdrawItems: React.FC<Props> = ({
   withdrawDisabled,
 }) => {
   const { t } = useAppTranslation();
-  const now = useNow();
+  // Live: Grand Harvester can rest on VIP points that expire mid-session.
+  const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
 
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
@@ -223,12 +225,17 @@ export const WithdrawItems: React.FC<Props> = ({
 
   const hasAccess = hasReputation({
     game: state,
-    reputation: Reputation.Seedling,
+    reputation: Reputation.GrandHarvester,
     now,
   });
 
   if (!hasAccess) {
-    return <RequiredReputation reputation={Reputation.Seedling} />;
+    return (
+      <RequiredReputation
+        reputation={Reputation.GrandHarvester}
+        text={t("withdraw.items.upgrade")}
+      />
+    );
   }
 
   if (!isFaceVerified({ game: state })) {

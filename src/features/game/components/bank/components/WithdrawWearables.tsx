@@ -22,6 +22,7 @@ import { hasBoostRestriction } from "features/game/types/withdrawRestrictions";
 import { secondsToString } from "lib/utils/time";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { useNow } from "lib/utils/hooks/useNow";
+import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
 import { MAX_MINT_AMOUNT } from "lib/blockchain/Withdrawals";
 import vipIcon from "assets/icons/vip.webp";
 
@@ -71,7 +72,8 @@ export const WithdrawWearables: React.FC<Props> = ({
   );
   const [selected, setSelected] = useState<Wardrobe>({});
 
-  const now = useNow();
+  // Live: Grand Harvester can rest on VIP points that expire mid-session.
+  const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
 
   const withdraw = () => {
     const ids = getKeys(selected).map((item) => ITEM_IDS[item]);
@@ -195,12 +197,17 @@ export const WithdrawWearables: React.FC<Props> = ({
 
   const hasAccess = hasReputation({
     game: state,
-    reputation: Reputation.Seedling,
+    reputation: Reputation.GrandHarvester,
     now,
   });
 
   if (!hasAccess) {
-    return <RequiredReputation reputation={Reputation.Seedling} />;
+    return (
+      <RequiredReputation
+        reputation={Reputation.GrandHarvester}
+        text={t("withdraw.wearables.upgrade")}
+      />
+    );
   }
 
   if (!isFaceVerified({ game: state })) {
