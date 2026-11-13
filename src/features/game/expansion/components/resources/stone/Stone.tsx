@@ -143,9 +143,8 @@ export const Stone: React.FC<Props> = ({ id }) => {
     countdownSeconds: timeLeft,
   } = useNodeTimer({
     startedAt: minedAt,
-    baseDurationMs,
+    baseDurationMs: baseDurationMs ?? STONE_RECOVERY_TIME * 1000,
     windows: mineBoostWindows,
-    legacyReadyAt: minedAt + STONE_RECOVERY_TIME * 1000,
   });
   // Read readiness off the timer's live readyAt (same live mine windows as the
   // countdown), so the rock unlocks the moment the countdown hits zero.

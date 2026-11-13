@@ -1041,25 +1041,18 @@ export function getBoostedAwakeAt({
 }
 
 /**
- * When a sleeping animal actually wakes, across both boost models. Animals put to
- * sleep under the speed-rate model (with `baseDurationMs`) derive their wake time
- * live from the shrine windows; legacy animals use their baked `awakeAt`.
- *
- * `baseDurationMs` is a PERMANENT per-animal migration marker: the read path keys
- * off its presence (matching `getMineReadyAt`). A windowed animal stores the real
- * `asleepAt` plus a permanent-boost-only `baseDurationMs`, so falling back to the
- * cached `awakeAt` would freeze it at whatever projection happened to be made at
- * sleep. Instant wake (doll / Barnyard Rouse) clears the marker, so this returns
- * that instant.
+ * When a sleeping animal actually wakes: its real `asleepAt` plus
+ * `baseDurationMs` of work (permanent boosts folded in), with the shrine windows
+ * credited live. An instant wake (Doll / Barnyard Rouse) records the work done
+ * since `asleepAt`, so this resolves to that instant. A record with no marker
+ * reads as its stored sleep (`awakeAt - asleepAt`).
  */
 export function getAnimalReadyAt(animal: Animal, game: GameState): number {
   const { baseDurationMs, asleepAt, awakeAt } = animal;
 
-  if (baseDurationMs === undefined) return awakeAt;
-
   return computeReadyAt({
     startedAt: asleepAt,
-    baseDurationMs,
+    baseDurationMs: baseDurationMs ?? Math.max(awakeAt - asleepAt, 0),
     windows: getAnimalBoostWindows(game, animal.type),
   });
 }
@@ -1093,10 +1086,9 @@ export function getAnimalMaturityTimeForDisplay({
   maturityTimeMs: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
-  const createdAt = 0;
-  const { awakeAt, baseDurationMs, boostsUsed } = getBoostedAwakeAt({
+  const { baseDurationMs, boostsUsed } = getBoostedAwakeAt({
     animalType,
-    createdAt,
+    createdAt: 0,
     game,
   });
 
@@ -1105,7 +1097,7 @@ export function getAnimalMaturityTimeForDisplay({
     // Windowed: the permanent-boost-only duration. The shrines are excluded here
     // and surfaced by the caller as a live projection instead — projecting off a
     // `createdAt` of 0 would sit an epoch away from any real window.
-    maturityTimeMs: baseDurationMs ?? awakeAt - createdAt,
+    maturityTimeMs: baseDurationMs,
     boostsUsed,
   };
 }

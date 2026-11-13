@@ -370,12 +370,8 @@ export function harvestFruit({
     delete patch.fruit.boostedTime;
     patch.fruit.harvestedAt = newPlantedAt;
     // Replenish stores the real harvestedAt + a permanent-boost-only base
-    // recovery; without one, clear any stale baseDurationMs.
-    if (newBaseDurationMs !== undefined) {
-      patch.fruit.baseDurationMs = newBaseDurationMs;
-    } else {
-      delete patch.fruit.baseDurationMs;
-    }
+    // recovery.
+    patch.fruit.baseDurationMs = newBaseDurationMs;
 
     const activityName: FarmActivityName = `${name} Harvested`;
 

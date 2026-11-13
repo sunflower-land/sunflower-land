@@ -9053,5 +9053,8 @@
   "statsLeaderboard.board.socialPoints": "Sosyal Puanlar",
   "statsLeaderboard.title.socialPoints": "En Çok Sosyal Puan",
   "statsLeaderboard.description.socialPoints": "Her zaman kazanılan sosyal puanlar",
-  "cropMachine.harvestAllConfirm": "Tüm {{count}} hazır paketleri hasat etmek istediğinizden emin misiniz?"
+  "cropMachine.harvestAllConfirm": "Tüm {{count}} hazır paketleri hasat etmek istediğinizden emin misiniz?",
+  "flowerBedRecipes.pickFlower": "Tariflerini görmek için yetiştirdiğiniz bir çiçek seçin.",
+  "flowerBedRecipes.tapRecipe": "Çiçek tarhınızı doldurmak için bir tarife dokunun.",
+  "flowerBedRecipes.outOfSeason": "{{seed}} bu sezon ekilemez"
 }

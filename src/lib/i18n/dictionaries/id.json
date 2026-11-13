@@ -9053,5 +9053,8 @@
   "statsLeaderboard.board.socialPoints": "Poin sosial",
   "statsLeaderboard.title.socialPoints": "Poin Soal Paling Banyak",
   "statsLeaderboard.description.socialPoints": "Poin sosial yang diperoleh, sepanjang waktu",
-  "cropMachine.harvestAllConfirm": "Apakah Anda yakin ingin memanen semua paket siap pakai {{count}}?"
+  "cropMachine.harvestAllConfirm": "Apakah Anda yakin ingin memanen semua paket siap pakai {{count}}?",
+  "flowerBedRecipes.pickFlower": "Pilih bunga yang telah Anda tanam untuk melihat resepnya.",
+  "flowerBedRecipes.tapRecipe": "Ketuk resep untuk mengisi hamparan bunga Anda.",
+  "flowerBedRecipes.outOfSeason": "{{seed}} tidak bisa ditanam musim ini"
 }

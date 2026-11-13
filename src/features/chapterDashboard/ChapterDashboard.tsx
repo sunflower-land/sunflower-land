@@ -2,8 +2,6 @@ import React, { useCallback, useEffect, useContext } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { useSafeAreaPaddingTop } from "lib/utils/hooks/useSafeAreaPaddingTop";
 
-import logo from "assets/brand/ascension_age.png";
-
 import { OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -13,7 +11,13 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import type { AuthMachineState } from "features/auth/lib/authMachine";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { useNow } from "lib/utils/hooks/useNow";
-import { getCurrentChapter } from "features/game/types/chapters";
+import {
+  getChapterLogo,
+  getCurrentChapter,
+} from "features/game/types/chapters";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import type { TranslationKeys } from "lib/i18n/dictionaries/types";
+import { toTraitValueId } from "features/marketplace/lib/marketplaceFilters";
 import { MutantsSection } from "./components/MutantsSection";
 import { AuctionsSection } from "./components/AuctionsSection";
 import { RafflesSection } from "./components/RafflesSection";
@@ -35,6 +39,7 @@ const _token = (state: AuthMachineState) =>
  * Player-facing chapter dashboard at /chapter.
  */
 export const ChapterDashboard: React.FC = () => {
+  const { t } = useAppTranslation();
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { gameService, fromRoute } = useContext(GameContext);
@@ -44,6 +49,7 @@ export const ChapterDashboard: React.FC = () => {
   const token = useSelector(authService, _token);
   const now = useNow({ live: true });
   const chapter = getCurrentChapter(now);
+  const logo = getChapterLogo(now);
   const _isOffline = !CONFIG.API_URL;
 
   const effectiveFarmId = farmId || 1;
@@ -98,17 +104,21 @@ export const ChapterDashboard: React.FC = () => {
             <ChapterTimer />
           </div>
 
-          <div className="absolute mx-12 inset-0 flex h-[70px] items-center justify-center z-10 pointer-events-none">
-            <img
-              src={logo}
-              alt="Chapter"
-              className="mt-2 object-contain"
-              style={{
-                height: `${PIXEL_SCALE * 28}px`,
-                width: "auto",
-              }}
-            />
-          </div>
+          {logo && (
+            <div className="absolute mx-12 inset-0 flex h-[70px] items-center justify-center z-10 pointer-events-none">
+              <img
+                src={logo}
+                alt={t(
+                  `chapter.name.${toTraitValueId(chapter)}` as TranslationKeys,
+                )}
+                className="mt-2 object-contain"
+                style={{
+                  height: `${PIXEL_SCALE * 28}px`,
+                  width: "auto",
+                }}
+              />
+            </div>
+          )}
 
           {showClose && (
             <img

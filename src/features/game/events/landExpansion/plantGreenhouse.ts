@@ -82,11 +82,9 @@ type GetPlantedAtArgs = {
 
 function getPlantedAt({ crop, game, createdAt }: GetPlantedAtArgs): {
   plantedAt: number;
-  baseDurationMs?: number;
+  baseDurationMs: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
-  if (!crop) return { plantedAt: 0, boostsUsed: [] };
-
   const { seconds: boostedTime, boostsUsed } = getGreenhouseCropTime({
     crop,
     game,
@@ -284,7 +282,7 @@ export function plantGreenhouse({
       plant: {
         name: plantName,
         plantedAt,
-        ...(baseDurationMs !== undefined ? { baseDurationMs } : {}),
+        baseDurationMs,
       },
     };
 

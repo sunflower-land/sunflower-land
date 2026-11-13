@@ -133,9 +133,8 @@ export const Iron: React.FC<Props> = ({ id }) => {
   const { minedAt, baseDurationMs } = resource.stone;
   const { now, countdownSeconds: timeLeft } = useNodeTimer({
     startedAt: minedAt,
-    baseDurationMs,
+    baseDurationMs: baseDurationMs ?? IRON_RECOVERY_TIME * 1000,
     windows: mineBoostWindows,
-    legacyReadyAt: minedAt + IRON_RECOVERY_TIME * 1000,
   });
   const mined = !canMine(resource, ironRockName, state, now);
   // The timer's `now` freezes once the rock is ready (autoEndAt), so the

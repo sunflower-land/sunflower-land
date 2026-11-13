@@ -313,11 +313,10 @@ export function settleCropMachine({
   // it BACKWARDS would keep that banked work while restarting the clock ahead
   // of it — free progress, compounding every time it happens.
   //
-  // This is not hypothetical. The BE settles on load (`migrateSpeedBoosts`) at
-  // SERVER time and only then replays the batch's actions, each at its own
-  // CLIENT `createdAt`, which may be up to `MILLISECONDS_TO_SAVE` older. A
-  // full no-op is what keeps the boost credit: clamping `now` up to the anchor
-  // inside the banking arithmetic instead would re-bank the same interval.
+  // Actions replay at their own client `createdAt`, so a settle can arrive
+  // stamped before the machine's current anchor. A full no-op is what keeps
+  // the boost credit: clamping `now` up to the anchor inside the banking
+  // arithmetic instead would re-bank the same interval.
   if (now < machine.oilSettledAt) return;
 
   const { packs } = resolveCropMachine({ machine, windows });
@@ -394,10 +393,9 @@ export function settleCropMachine({
  * `readyAt`/`growsUntil` schedule exactly — the reclamation is what makes that
  * identity hold, and it is the guard against minting or burning oil.
  *
- * Runs on load for flagged players (BE `migrateSpeedBoosts`) and defensively
- * at the top of every crop-machine event (a mid-session flag flip would
- * otherwise hit an unconverted machine); events replay on the BE with the same
- * `createdAt`, so both sides convert identically. Ready packs are skipped and
+ * Runs at the top of every crop-machine event, so a machine converts the first
+ * time it is used; events replay on the BE with the same `createdAt`, so both
+ * sides convert identically. Ready packs are skipped and
  * kept as legacy completed history — they gain nothing from windowing and
  * freezing them would move a past `readyAt` forward.
  */

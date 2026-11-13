@@ -8,6 +8,8 @@ import {
   pauseWindowedTimer,
 } from "features/game/lib/boostWindows";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { PATCH_FRUIT_SEEDS } from "features/game/types/fruits";
+import { PATCH_FRUIT } from "features/game/types/fruits";
 
 export type PlaceFruitPatchAction = {
   type: "fruitPatch.placed";
@@ -62,6 +64,8 @@ export function placeFruitPatch({
           startedAt: isReplenishing ? fruit.harvestedAt : fruit.plantedAt,
           removedAt: existingPatch.removedAt,
           createdAt,
+          rawBaseMs:
+            PATCH_FRUIT_SEEDS[PATCH_FRUIT[fruit.name].seed].plantSeconds * 1000,
           windows: [
             ...getFruitBoostWindows(game),
             ...getTurbofruitMixWindows(existingPatch.fertiliser),

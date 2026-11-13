@@ -208,17 +208,14 @@ export const Recipes: React.FC<Props> = ({
   });
   // On a clock-drain building the oil is a live speed rather than a cut baked into
   // the duration, so the preview cooks under it like any other window.
-  const previewOilTiming =
-    baseDurationMs === undefined
-      ? undefined
-      : getPreviewOilTiming({
-          game: state,
-          building: selectedBuilding,
-          buildingName,
-          item: selected.name,
-          baseDurationMs,
-          now,
-        });
+  const previewOilTiming = getPreviewOilTiming({
+    game: state,
+    building: selectedBuilding,
+    buildingName,
+    item: selected.name,
+    baseDurationMs,
+    now,
+  });
   const previewOilWindow = previewOilTiming?.oilWindow;
   const previewWindows = previewOilWindow
     ? [...cookingBoostWindows, previewOilWindow]
@@ -262,37 +259,30 @@ export const Recipes: React.FC<Props> = ({
   // than being baked into it), so name them for the boost panel with the time
   // each one actually saves. Evaluated at the recipe's START, so a booster that
   // will have expired by the time a queued recipe begins is correctly left out.
-  const cookingWindowedBoosts =
-    baseDurationMs === undefined
-      ? []
-      : getBoostContributionEntries({
-          contributions: [
-            ...getCookingBoostContributions(state, recipeStartAt),
-            ...(previewOilWindow
-              ? [{ name: "Building Oil" as const, windows: [previewOilWindow] }]
-              : []),
-          ],
-          seconds: baseDurationMs / 1000,
-          at: recipeStartAt,
-          formatSeconds: (seconds) =>
-            secondsToString(seconds, { length: "medium" }),
-        });
+  const cookingWindowedBoosts = getBoostContributionEntries({
+    contributions: [
+      ...getCookingBoostContributions(state, recipeStartAt),
+      ...(previewOilWindow
+        ? [{ name: "Building Oil" as const, windows: [previewOilWindow] }]
+        : []),
+    ],
+    seconds: baseDurationMs / 1000,
+    at: recipeStartAt,
+    formatSeconds: (seconds) => secondsToString(seconds, { length: "medium" }),
+  });
 
   const allTimeBoostsUsed = [...timeBoostsUsed, ...cookingWindowedBoosts];
 
   // Project the preview from when this recipe would actually START — the end of the
   // current queue, not now. A boost running today may well have expired by the time
   // a recipe queued behind three others begins, and the projection has to say so.
-  const timeDisplay =
-    baseDurationMs === undefined
-      ? undefined
-      : getPreActionDisplay({
-          seconds: baseDurationMs / 1000,
-          baseSeconds: baseTimeSeconds,
-          namedBoostCount: allTimeBoostsUsed.length,
-          windows: previewWindows,
-          at: recipeStartAt,
-        });
+  const timeDisplay = getPreActionDisplay({
+    seconds: baseDurationMs / 1000,
+    baseSeconds: baseTimeSeconds,
+    namedBoostCount: allTimeBoostsUsed.length,
+    windows: previewWindows,
+    at: recipeStartAt,
+  });
 
   const cook = () => onCook(selected.name);
 

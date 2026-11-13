@@ -125,9 +125,8 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
     countdownSeconds: timeLeft,
   } = useNodeTimer({
     startedAt: minedAt,
-    baseDurationMs,
+    baseDurationMs: baseDurationMs ?? CRIMSTONE_RECOVERY_TIME * 1000,
     windows: mineBoostWindows,
-    legacyReadyAt: minedAt + CRIMSTONE_RECOVERY_TIME * 1000,
   });
 
   // Keyed off the wall clock and readyAt, so the art is unaffected by which
