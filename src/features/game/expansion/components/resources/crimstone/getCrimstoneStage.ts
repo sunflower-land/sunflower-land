@@ -1,3 +1,6 @@
+/** How long after `readyAt` an unmined crimstone resets to a fresh stage 1. */
+export const CRIMSTONE_RESET_MS = 24 * 60 * 60 * 1000;
+
 /**
  * Visual depletion stage (1-6) for a crimstone, derived from minesLeft + whether
  * it is still recovering. `now` and `readyAt` are passed in (from the component
@@ -23,7 +26,7 @@ export const getCrimstoneStage = (
   // this off the actual (windowed) readyAt rather than `minedAt + base recovery`,
   // so a boosted rock resets 24h after it truly recovered (legacy:
   // readyAt === minedAt + base recovery, so behaviour is unchanged).
-  const timeToReset = readyAt + 24 * 60 * 60 * 1000;
+  const timeToReset = readyAt + CRIMSTONE_RESET_MS;
   if (now > timeToReset) {
     return 1;
   }

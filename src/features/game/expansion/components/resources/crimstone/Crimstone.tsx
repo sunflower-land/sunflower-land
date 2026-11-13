@@ -15,7 +15,7 @@ import { canMine } from "features/game/lib/resourceNodes";
 import { RecoveredCrimstone } from "./components/RecoveredCrimstone";
 import { DepletingCrimstone } from "./components/DepletingCrimstone";
 import { DepletedCrimstone } from "./components/DepletedCrimstone";
-import { getCrimstoneStage } from "./getCrimstoneStage";
+import { CRIMSTONE_RESET_MS, getCrimstoneStage } from "./getCrimstoneStage";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getCrimstoneDropAmount } from "features/game/events/landExpansion/mineCrimstone";
 import { isWearableActive } from "features/game/lib/wearables";
@@ -26,6 +26,8 @@ import {
   type BoostWindow,
 } from "features/game/lib/boostWindows";
 import { useNodeTimer } from "features/game/lib/useNodeTimer";
+import { useNow } from "lib/utils/hooks/useNow";
+import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
 
 const HITS = 3;
 const tool = "Gold Pickaxe";
@@ -130,9 +132,23 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
     legacyReadyAt: minedAt + CRIMSTONE_RECOVERY_TIME * 1000,
   });
 
+  // useNodeTimer's clock stops at readyAt, but the rock still resets to stage 1
+  // a day later. A slow clock runs until that reset so the art picks it up
+  // without a remount; the per-second `now` wins while the rock is recovering.
+  const resetClock = useNow({
+    live: true,
+    intervalMs: PRE_ACTION_TICK_MS,
+    autoEndAt: readyAt + CRIMSTONE_RESET_MS,
+  });
+  const stageNow = Math.max(now, resetClock);
+
   // Keyed off the wall clock and readyAt, so the art is unaffected by which
   // reading the timer label is showing.
-  const crimstoneStage = getCrimstoneStage(resource.minesLeft, now, readyAt);
+  const crimstoneStage = getCrimstoneStage(
+    resource.minesLeft,
+    stageNow,
+    readyAt,
+  );
 
   const mined = !canMine(resource, "Crimstone Rock", state, now);
 
@@ -231,7 +247,7 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
             hasTool={hasTool}
             touchCount={touchCount}
             minesLeft={resource.minesLeft}
-            now={now}
+            now={stageNow}
             readyAt={readyAt}
           />
         </div>
@@ -242,7 +258,7 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
         <DepletingCrimstone
           resourceAmount={harvested.current}
           minesLeft={resource.minesLeft}
-          now={now}
+          now={stageNow}
           readyAt={readyAt}
         />
       )}
@@ -252,7 +268,7 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
         <DepletedCrimstone
           timeLeft={timeLeft}
           minesLeft={resource.minesLeft}
-          now={now}
+          now={stageNow}
           readyAt={readyAt}
         />
       )}
