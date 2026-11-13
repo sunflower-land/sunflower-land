@@ -143,8 +143,12 @@ export const Cow: React.FC<{
   const [showLoveItem, setShowLoveItem] = useState<LoveAnimalItem>();
   const [showMutantAnimalModal, setShowMutantAnimalModal] = useState(false);
   // Beetle feeding mode: a batch that overshoots several levels waits here
-  // for the player's confirmation before any Beetle is spent.
-  const [pendingBeetleFeeds, setPendingBeetleFeeds] = useState<number>();
+  // for the player's confirmation before any Beetle is spent. `levels` is
+  // the level gain, which the feed count can overshoot.
+  const [pendingBeetleBatch, setPendingBeetleBatch] = useState<{
+    feeds: number;
+    levels: number;
+  }>();
 
   useEffect(() => {
     if (cow.awakeAt < Date.now() && cowMachineState === "sleeping") {
@@ -312,6 +316,8 @@ export const Cow: React.FC<{
     });
 
     playFeedAnimal();
+
+    return updatedState;
   };
 
   const onLoveClick = async () => {
@@ -475,7 +481,9 @@ export const Cow: React.FC<{
 
     const hasBuffSelected = selectedItem && isAnimalFeedBuffItem(selectedItem);
 
-    if (hasBuffSelected) {
+    // Beetle mode shows a Beetle in the request bubble, so it takes
+    // precedence over a held feed buff.
+    if (hasBuffSelected && !beetleMode) {
       const buffItem = selectedItem as AnimalFeedBuffName;
       const buffCount = inventory[buffItem] ?? new Decimal(0);
       // Honey Treat only cuts feed, and Golden Cow already makes it free.
@@ -549,19 +557,27 @@ export const Cow: React.FC<{
       const feeds = Math.min(beetleFeeds, owned.toNumber());
 
       // Overshooting several levels at once is a big spend: confirm first.
-      if (
-        getBeetleLevelGain({
-          state: game,
-          animal: cow,
-          beetle: beetleMode,
-          feeds,
-        }) > 1
-      ) {
-        setPendingBeetleFeeds(feeds);
+      const levels = getBeetleLevelGain({
+        state: game,
+        animal: cow,
+        beetle: beetleMode,
+        feeds,
+      });
+      if (levels > 1) {
+        setPendingBeetleBatch({ feeds, levels });
         return;
       }
 
-      feedCow(beetleMode, feeds);
+      const updatedState = feedCow(beetleMode, feeds);
+      // Feeding the last owned Beetle reopens the picker so another kind
+      // can take over without a wasted tap.
+      if (
+        (updatedState.context.state.inventory[beetleMode] ?? new Decimal(0)).lt(
+          1,
+        )
+      ) {
+        onBeetlesEmpty?.();
+      }
       return;
     }
 
@@ -796,32 +812,43 @@ export const Cow: React.FC<{
           </Modal>
           {/* Beetle feeding mode: confirm before a batch overshoots several levels */}
           <Modal
-            show={pendingBeetleFeeds !== undefined}
-            onHide={() => setPendingBeetleFeeds(undefined)}
+            show={pendingBeetleBatch !== undefined}
+            onHide={() => setPendingBeetleBatch(undefined)}
           >
             <CloseButtonPanel
-              onClose={() => setPendingBeetleFeeds(undefined)}
+              onClose={() => setPendingBeetleBatch(undefined)}
               title={t("animals.beetleMode")}
             >
               <div className="flex flex-col gap-2 p-2">
                 <p className="text-xs">
                   {t("animals.beetleMode.multiLevel", {
                     animal: t("animal.cow"),
-                    levels: pendingBeetleFeeds ?? 0,
+                    levels: pendingBeetleBatch?.levels ?? 0,
                   })}
                 </p>
                 <div className="flex gap-1">
                   <Button
                     onClick={() => {
-                      const feeds = pendingBeetleFeeds;
-                      setPendingBeetleFeeds(undefined);
+                      const batch = pendingBeetleBatch;
+                      setPendingBeetleBatch(undefined);
                       // The mode may have been switched off while the modal was up.
-                      if (feeds && beetleMode) feedCow(beetleMode, feeds);
+                      if (batch && beetleMode) {
+                        const updatedState = feedCow(beetleMode, batch.feeds);
+                        // Feeding the last owned Beetle reopens the picker.
+                        if (
+                          (
+                            updatedState.context.state.inventory[beetleMode] ??
+                            new Decimal(0)
+                          ).lt(1)
+                        ) {
+                          onBeetlesEmpty?.();
+                        }
+                      }
                     }}
                   >
                     {t("confirm")}
                   </Button>
-                  <Button onClick={() => setPendingBeetleFeeds(undefined)}>
+                  <Button onClick={() => setPendingBeetleBatch(undefined)}>
                     {t("cancel")}
                   </Button>
                 </div>
