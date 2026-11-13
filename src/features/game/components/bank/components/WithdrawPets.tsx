@@ -125,12 +125,17 @@ export const WithdrawPets: React.FC<Props> = ({
 
   const hasAccess = hasReputation({
     game: state,
-    reputation: Reputation.Seedling,
+    reputation: Reputation.GrandHarvester,
     now,
   });
 
   if (!hasAccess) {
-    return <RequiredReputation reputation={Reputation.Seedling} />;
+    return (
+      <RequiredReputation
+        reputation={Reputation.GrandHarvester}
+        text={t("withdraw.pets.upgrade")}
+      />
+    );
   }
 
   const getRestrictionStatus = (itemName: BoostName) => {

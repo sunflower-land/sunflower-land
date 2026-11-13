@@ -114,9 +114,7 @@ export const ReputationSystem: React.FC<{
 
 export const ReputationTiers: React.FC = () => {
   const { t } = useAppTranslation();
-  const [showInfo, setShowInfo] = useState<
-    "seedling" | "grandHarvester" | null
-  >(null);
+  const [showInfo, setShowInfo] = useState<"grandHarvester" | null>(null);
 
   return (
     <>
@@ -142,37 +140,6 @@ export const ReputationTiers: React.FC = () => {
             {
               text: t("reputation.seedling.trades"),
               icon: tradeIcon,
-            },
-
-            {
-              text: (
-                <span
-                  onClick={() => {
-                    if (showInfo === "seedling") {
-                      setShowInfo(null);
-                    } else {
-                      setShowInfo("seedling");
-                    }
-                  }}
-                  className="flex items-center cursor-pointer"
-                >
-                  {t("reputation.seedling.nft")}
-                  <div className="relative">
-                    <img src={infoIcon} className="w-5 ml-2" />
-                    <AnimatedPanel
-                      show={showInfo === "seedling"}
-                      className="top-0 left-8 w-20"
-                      onClick={() => setShowInfo(null)}
-                      onBackdropClick={() => setShowInfo(null)}
-                    >
-                      <div className="text-xxs p-0.5">
-                        {t("proof.of.humanity.required")}
-                      </div>
-                    </AnimatedPanel>
-                  </div>
-                </span>
-              ),
-              icon: ITEM_DETAILS["Grinx's Hammer"].image,
             },
             {
               text: t("reputation.seedling.farmNFT"),
