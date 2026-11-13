@@ -15,7 +15,7 @@ import { canMine } from "features/game/lib/resourceNodes";
 import { RecoveredCrimstone } from "./components/RecoveredCrimstone";
 import { DepletingCrimstone } from "./components/DepletingCrimstone";
 import { DepletedCrimstone } from "./components/DepletedCrimstone";
-import { getCrimstoneResetAt, getCrimstoneStage } from "./getCrimstoneStage";
+import { getCrimstoneResetAt } from "./getCrimstoneStage";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getCrimstoneDropAmount } from "features/game/events/landExpansion/mineCrimstone";
 import { isWearableActive } from "features/game/lib/wearables";
@@ -133,7 +133,8 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
 
   // useNodeTimer's clock stops at readyAt, but the rock still resets to stage 1
   // later. A slow clock runs until that reset so the art picks it up without a
-  // remount; the per-second `now` wins while the rock is recovering.
+  // remount; the per-second `now` wins while the rock is recovering. The child
+  // views key the art off this and readyAt, not off the timer label's reading.
   const resetAt = getCrimstoneResetAt(minedAt);
   const resetClock = useNow({
     live: true,
@@ -141,15 +142,6 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
     autoEndAt: resetAt,
   });
   const stageNow = Math.max(now, resetClock);
-
-  // Keyed off the wall clock and readyAt, so the art is unaffected by which
-  // reading the timer label is showing.
-  const crimstoneStage = getCrimstoneStage(
-    resource.minesLeft,
-    stageNow,
-    readyAt,
-    resetAt,
-  );
 
   const mined = !canMine(resource, "Crimstone Rock", state, now);
 
@@ -200,16 +192,22 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
   };
 
   const mine = async () => {
+    gameService.send("crimstoneRock.mined", {
+      index: id,
+    });
+
+    // The reducer stamps the rock with the action's createdAt. Read it back to
+    // apply the same minesLeft reset the reducer just did: the art's clock can
+    // lag the reset by up to a minute. `state` and `resource` are still the
+    // pre-hit values from this render.
+    const actionAt =
+      gameService.getSnapshot().context.state.crimstones[id].stone.minedAt;
     const { amount: crimstoneMined } = getCrimstoneDropAmount({
       game: state,
       rock: {
         ...resource,
-        // Set minesLeft to 5 if the stage is 1, otherwise use the current minesLeft
-        ...{ minesLeft: crimstoneStage === 1 ? 5 : resource.minesLeft },
+        minesLeft: actionAt > resetAt ? 5 : resource.minesLeft,
       },
-    });
-    gameService.send("crimstoneRock.mined", {
-      index: id,
     });
 
     if (showAnimations) {
