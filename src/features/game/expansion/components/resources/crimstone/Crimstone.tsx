@@ -15,7 +15,7 @@ import { canMine } from "features/game/lib/resourceNodes";
 import { RecoveredCrimstone } from "./components/RecoveredCrimstone";
 import { DepletingCrimstone } from "./components/DepletingCrimstone";
 import { DepletedCrimstone } from "./components/DepletedCrimstone";
-import { CRIMSTONE_RESET_MS, getCrimstoneStage } from "./getCrimstoneStage";
+import { getCrimstoneResetAt, getCrimstoneStage } from "./getCrimstoneStage";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getCrimstoneDropAmount } from "features/game/events/landExpansion/mineCrimstone";
 import { isWearableActive } from "features/game/lib/wearables";
@@ -132,12 +132,13 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
   });
 
   // useNodeTimer's clock stops at readyAt, but the rock still resets to stage 1
-  // a day later. A slow clock runs until that reset so the art picks it up
-  // without a remount; the per-second `now` wins while the rock is recovering.
+  // later. A slow clock runs until that reset so the art picks it up without a
+  // remount; the per-second `now` wins while the rock is recovering.
+  const resetAt = getCrimstoneResetAt(minedAt);
   const resetClock = useNow({
     live: true,
     intervalMs: PRE_ACTION_TICK_MS,
-    autoEndAt: readyAt + CRIMSTONE_RESET_MS,
+    autoEndAt: resetAt,
   });
   const stageNow = Math.max(now, resetClock);
 
@@ -147,6 +148,7 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
     resource.minesLeft,
     stageNow,
     readyAt,
+    resetAt,
   );
 
   const mined = !canMine(resource, "Crimstone Rock", state, now);
@@ -248,6 +250,7 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
             minesLeft={resource.minesLeft}
             now={stageNow}
             readyAt={readyAt}
+            resetAt={resetAt}
           />
         </div>
       )}
@@ -259,6 +262,7 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
           minesLeft={resource.minesLeft}
           now={stageNow}
           readyAt={readyAt}
+          resetAt={resetAt}
         />
       )}
 
@@ -269,6 +273,7 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
           minesLeft={resource.minesLeft}
           now={stageNow}
           readyAt={readyAt}
+          resetAt={resetAt}
         />
       )}
     </div>

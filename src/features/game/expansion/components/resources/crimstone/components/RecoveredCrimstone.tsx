@@ -34,6 +34,7 @@ interface Props {
   minesLeft: number;
   now: number;
   readyAt: number;
+  resetAt: number;
 }
 
 const RecoveredCrimstoneComponent: React.FC<Props> = ({
@@ -42,6 +43,7 @@ const RecoveredCrimstoneComponent: React.FC<Props> = ({
   minesLeft,
   now,
   readyAt,
+  resetAt,
 }) => {
   const { scale } = useContext(ZoomContext);
   const [showEquipTool, setShowEquipTool] = useState(false);
@@ -64,7 +66,7 @@ const RecoveredCrimstoneComponent: React.FC<Props> = ({
     crimstone_3,
     crimstone_4,
     crimstone_5,
-  ][getCrimstoneStage(minesLeft, now, readyAt) - 1];
+  ][getCrimstoneStage(minesLeft, now, readyAt, resetAt) - 1];
 
   useEffect(() => {
     if (touchCount > 0) {
