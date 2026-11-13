@@ -43,7 +43,6 @@ import {
 } from "features/game/events/landExpansion/plantGreenhouse";
 import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
 import { useNow } from "lib/utils/hooks/useNow";
-import classNames from "classnames";
 import {
   getPreActionDisplay,
   PRE_ACTION_TICK_MS,
@@ -444,7 +443,7 @@ export const CropRow: React.FC<{
 
   return (
     <div
-      className={`flex flex-wrap justify-between items-center p-1 ${
+      className={`flex justify-between items-center p-1 ${
         alternateBg ? "bg-[#ead4aa] rounded-md" : ""
       }`}
     >
@@ -525,7 +524,7 @@ export const FlowerRow: React.FC<{
 
   return (
     <div
-      className={`flex flex-wrap justify-between items-center p-1 ${
+      className={`flex justify-between items-center p-1 ${
         alternateBg ? "bg-[#ead4aa] rounded-md" : ""
       }`}
     >
@@ -799,11 +798,7 @@ const GrowthTimeCell: React.FC<{
     formatSeconds: (seconds) => secondsToString(seconds, { length: "medium" }),
   });
   const boostsUsed = [...boostedTime.boostsUsed, ...windowedBoosts];
-  const {
-    displaySeconds,
-    hasNamedBoosts,
-    isBoosted: isTimeBoosted,
-  } = getPreActionDisplay({
+  const { displaySeconds, isBoosted: isTimeBoosted } = getPreActionDisplay({
     seconds: boostedTime.seconds,
     baseSeconds,
     namedBoostCount: boostsUsed.length,
@@ -829,15 +824,10 @@ const GrowthTimeCell: React.FC<{
     <button
       ref={anchorRef}
       type="button"
-      className={classNames("flex items-center mr-2 relative", {
-        // Only named boosts can be itemised, so only they open the breakdown.
-        "cursor-pointer": hasNamedBoosts,
-      })}
-      disabled={!hasNamedBoosts}
-      aria-expanded={hasNamedBoosts && showBoostsKey === boostKey}
+      className="flex items-center mr-2 relative cursor-pointer"
+      aria-expanded={showBoostsKey === boostKey}
       aria-controls={`${boostKey}-panel`}
       onClick={(e) => {
-        if (!hasNamedBoosts) return;
         e.stopPropagation();
         setShowBoostsKey(showBoostsKey === boostKey ? null : boostKey);
       }}
@@ -849,9 +839,10 @@ const GrowthTimeCell: React.FC<{
             length: showMediumTime ? "medium" : "short",
           })}
         </p>
-        {/* No inline strikethrough base time: it doubles the row's width and
-            squeezes the tag icons off the panel on narrow screens. The base
-            time is still shown in the boosts panel. */}
+        {/* No inline strikethrough base time: it doubles the row's width on
+            narrow screens. The base time is shown in the boosts panel, which
+            opens for any boosted row — even one with only unnamed (window)
+            boosts — so the base is never inaccessible. */}
         <img src={SUNNYSIDE.icons.lightning} className="w-3 mx-1" />
       </div>
       <BoostsDisplay
@@ -862,7 +853,7 @@ const GrowthTimeCell: React.FC<{
           }),
           icon: SUNNYSIDE.icons.stopwatch,
         }}
-        show={hasNamedBoosts && showBoostsKey === boostKey}
+        show={showBoostsKey === boostKey}
         state={state}
         onClick={() =>
           setShowBoostsKey(showBoostsKey === boostKey ? null : boostKey)
@@ -883,7 +874,7 @@ export const ExoticRow: React.FC<{
   const { t } = useAppTranslation();
   return (
     <div
-      className={`flex flex-wrap justify-between items-center p-1 ${
+      className={`flex justify-between items-center p-1 ${
         alternateBg ? "bg-[#ead4aa] rounded-md" : ""
       }`}
     >
