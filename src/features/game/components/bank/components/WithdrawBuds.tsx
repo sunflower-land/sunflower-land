@@ -16,6 +16,7 @@ import { secondsToString } from "lib/utils/time";
 import type { BoostName } from "features/game/types/game";
 import { getBudImage } from "lib/buds/types";
 import { useNow } from "lib/utils/hooks/useNow";
+import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
 import vipIcon from "assets/icons/vip.webp";
 
 import { WithdrawCollection } from "./withdraw/WithdrawCollection";
@@ -67,7 +68,8 @@ export const WithdrawBuds: React.FC<Props> = ({
     setSelected((prev) => prev.filter((bud) => bud !== budId));
   };
 
-  const now = useNow();
+  // Live: Grand Harvester can rest on VIP points that expire mid-session.
+  const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
 
   const hasAccess = hasReputation({
     game: state,
