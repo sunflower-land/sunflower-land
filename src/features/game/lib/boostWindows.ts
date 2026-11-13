@@ -803,7 +803,9 @@ const MAX_BOOST_HISTORY_AGE_MS = 7 * 24 * 60 * 60 * 1000;
  *
  * The crop machine is the only activity that needs this: its packs can stall
  * on an empty tank indefinitely, so its anchor can be arbitrarily old. Every
- * other windowed node runs to completion on its own schedule.
+ * other windowed node runs to completion on its own schedule. Only a machine
+ * with a pack still carrying `baseDurationMs` re-derives work from the windows:
+ * finished packs keep a fixed `readyAt`, so an idle machine pins nothing.
  */
 function getEarliestLedgerAnchor(game: GameState): number | undefined {
   let earliest: number | undefined;
@@ -811,6 +813,9 @@ function getEarliestLedgerAnchor(game: GameState): number | undefined {
   for (const machine of game.buildings?.["Crop Machine"] ?? []) {
     const anchor = machine.oilSettledAt;
     if (anchor === undefined) continue;
+    if (!machine.queue?.some((pack) => pack.baseDurationMs !== undefined)) {
+      continue;
+    }
     if (earliest === undefined || anchor < earliest) earliest = anchor;
   }
 

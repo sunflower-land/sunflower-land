@@ -40,11 +40,8 @@ type Options = {
  * Recalculates the queue after a recipe has been modified (cancelled, sped up, etc.)
  * Returns a new queue with updated readyAt times
  *
- * This also MIGRATES the recipes it rewrites onto the speed-rate
- * model. That is load-bearing, not incidental: `getCookingTime` no longer bakes the
- * temporary boosts in, so re-deriving a legacy recipe's duration here without also
- * giving it a `baseDurationMs` would silently strip its Gourmet Hourglass / totem /
- * shrine boost — the recipe would neither keep the baked discount nor gain a window.
+ * Every recipe it rewrites carries a `baseDurationMs`, so the temporary boosts
+ * (Gourmet Hourglass / totems / shrine) keep applying to it live as windows.
  */
 export function recalculateQueue({
   queue,
