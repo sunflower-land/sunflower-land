@@ -69,6 +69,13 @@ export const FlowerBedRecipes: React.FC<Props> = ({ onSelect }) => {
                   key={name}
                   image={ITEM_DETAILS[name].image}
                   silhouette={!isFound(name)}
+                  // `SimpleBox` renders a falsy count as "0", so pass
+                  // undefined when the player has none.
+                  inventoryCount={
+                    inventory[name]?.gt(0)
+                      ? inventory[name]?.toNumber()
+                      : undefined
+                  }
                   onClick={isFound(name) ? () => setFlower(name) : undefined}
                 />
               ))}
