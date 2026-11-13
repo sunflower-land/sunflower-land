@@ -681,12 +681,10 @@ describe("windowed animal sleep", () => {
   });
 
   describe("getAnimalReadyAt", () => {
-    it("falls back to the stored awakeAt for a legacy (unmarked) animal", () => {
+    it("reads an unmarked animal as its stored sleep", () => {
       const animal = sleeping({ type: "Sheep" });
 
-      expect(
-        getAnimalReadyAt(animal, withShrine("Collie Shrine", now)),
-      ).toEqual(animal.awakeAt);
+      expect(getAnimalReadyAt(animal, INITIAL_FARM)).toEqual(animal.awakeAt);
     });
 
     it("runs a fully-covered sleep at the shrine's rate", () => {

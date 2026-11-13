@@ -53,15 +53,12 @@ type GetMinedAtArgs = {
 };
 
 /**
- * The iron rock's real recovery duration (ms), for gating the yield-AOE re-use.
- * Windowed rocks derive it from the live speed windows so an active boost shortens
- * it to match the actual recovery (matching how legacy rocks folded the discount
- * into `boostedTime`); legacy rocks keep their back-dated boosted time.
+ * The iron's real recovery duration (ms), for gating the yield-AOE re-use. It
+ * is derived from the live speed windows, so an active boost shortens it to match
+ * the actual recovery.
  */
 function getIronRecoveryDurationMs(rock: Rock, game: GameState): number {
-  return rock.stone.baseDurationMs !== undefined
-    ? getMineReadyAt(rock, "Iron Rock", game) - rock.stone.minedAt
-    : IRON_RECOVERY_TIME * 1000 - (rock?.stone?.boostedTime ?? 0);
+  return getMineReadyAt(rock, "Iron Rock", game) - rock.stone.minedAt;
 }
 
 /**

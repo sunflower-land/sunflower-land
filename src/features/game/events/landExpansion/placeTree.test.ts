@@ -151,7 +151,9 @@ describe("placeTree", () => {
       "123": {
         createdAt,
         wood: {
-          choppedAt: dateNow - 60000,
+          choppedAt: dateNow,
+          // 2h raw tree recovery, less the 1 min banked before the lift.
+          baseDurationMs: 2 * 60 * 60 * 1000 - 60000,
         },
         x: 2,
         y: 2,

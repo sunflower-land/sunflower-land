@@ -11,17 +11,10 @@ import {
 } from "features/game/lib/boostWindows";
 
 /**
- * The instant a planted fruit is ready to harvest, across both boost models.
- * Fruit planted/harvested under the speed-rate model (with `baseDurationMs`)
- * derive their ready time live from the fruit boost windows (totems / Orchard
- * Hourglass / Toucan Shrine + the patch's Turbofruit Mix fertiliser); legacy
- * fruit use their back-dated plant/harvest time + base grow duration. Reads off
- * whichever phase is active (`harvestedAt || plantedAt`).
- *
- * `baseDurationMs` is a PERMANENT per-fruit migration marker: the read path keys
- * off its presence (matching `getTreeReadyAt` / `getCropReadyAt`), so
- * legacy-shaped fruit still use the old timing — see
- * `PlantedFruit.baseDurationMs`.
+ * The instant a planted fruit is ready to harvest: the active phase's start
+ * (`harvestedAt || plantedAt`) plus `baseDurationMs` of work, derived live from
+ * the fruit boost windows and the patch's Turbofruit Mix. A fruit with no marker
+ * reads as the raw grow time.
  */
 export const getFruitReadyAt = (
   plantedFruit: PlantedFruit,
@@ -33,18 +26,14 @@ export const getFruitReadyAt = (
 
   const startedAt = plantedFruit.harvestedAt || plantedFruit.plantedAt;
 
-  if (plantedFruit.baseDurationMs !== undefined) {
-    return computeReadyAt({
-      startedAt,
-      baseDurationMs: plantedFruit.baseDurationMs,
-      windows: [
-        ...getFruitBoostWindows(game),
-        ...getTurbofruitMixWindows(fertiliser),
-      ],
-    });
-  }
-
-  return startedAt + plantSeconds * 1000;
+  return computeReadyAt({
+    startedAt,
+    baseDurationMs: plantedFruit.baseDurationMs ?? plantSeconds * 1000,
+    windows: [
+      ...getFruitBoostWindows(game),
+      ...getTurbofruitMixWindows(fertiliser),
+    ],
+  });
 };
 
 export const isFruitReadyToHarvest = (

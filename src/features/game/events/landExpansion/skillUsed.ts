@@ -37,7 +37,6 @@ import {
   getCookingOil,
   settleCookingOil,
 } from "features/game/lib/cookingReadiness";
-import { FLOWER_SEEDS, FLOWERS } from "features/game/types/flowers";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 import { isWearableActive } from "features/game/lib/wearables";
 import type { BumpkinItem } from "features/game/types/bumpkin";
@@ -80,20 +79,13 @@ function useInstantGrowth({
     const plantedCrop = crops[plot].crop;
     if (!plantedCrop) return;
 
-    if (plantedCrop.baseDurationMs !== undefined) {
-      // Windowed (speed-rate model): zero the remaining work AND re-anchor the
-      // start to now, so readyAt resolves to `createdAt` exactly and the grow
-      // duration is 0 (mirrors usePetalBlessed / useGreenhouseGuru).
-      // Back-dating plantedAt instead would re-price the grow against past
-      // boost windows and leave the duration at the FULL base grow time.
-      plantedCrop.baseDurationMs = 0;
-      plantedCrop.plantedAt = createdAt;
-    } else {
-      // Legacy: back-date to make it ready, and bank the full grow time as
-      // boostedTime so the duration (base - boosted) is likewise 0.
-      plantedCrop.plantedAt = 1;
-      plantedCrop.boostedTime = CROPS[plantedCrop.name].harvestSeconds * 1000;
-    }
+    // Zero the remaining work AND re-anchor the start to now, so readyAt
+    // resolves to `createdAt` exactly and the grow duration is 0 (mirrors
+    // usePetalBlessed / useGreenhouseGuru). Back-dating plantedAt instead would
+    // re-price the grow against past boost windows and leave the duration at
+    // the FULL base grow time.
+    plantedCrop.baseDurationMs = 0;
+    plantedCrop.plantedAt = createdAt;
   });
 
   const basicScarecrowAOE = aoe["Basic Scarecrow"] ?? {};
@@ -129,15 +121,10 @@ function useGreenhouseGuru({
   getKeys(greenhousePot).forEach((pot) => {
     const { plant } = greenhousePot[pot];
     if (plant) {
-      // Windowed plants (speed-rate model) are made instantly ready by zeroing
-      // the remaining work — back-dating plantedAt would instead re-price the
-      // grow against past boost windows (mirrors instaGrowFlower). Legacy
-      // plants keep the plantedAt back-date.
-      if (plant.baseDurationMs !== undefined) {
-        plant.baseDurationMs = 0;
-      } else {
-        plant.plantedAt = 1;
-      }
+      // Made instantly ready by zeroing the remaining work — back-dating
+      // plantedAt would instead re-price the grow against past boost windows
+      // (mirrors instaGrowFlower).
+      plant.baseDurationMs = 0;
     }
   });
 
@@ -156,24 +143,14 @@ function usePetalBlessed({
     .forEach((bed) => {
       const { flower } = bed;
       if (flower) {
-        if (flower.baseDurationMs !== undefined) {
-          // Windowed (speed-rate model): zero the remaining work AND re-anchor
-          // the start to now so readyAt resolves to `createdAt` exactly.
-          // Back-dating plantedAt by the BASE grow time would instead re-price
-          // the grow against past boost windows — and leave a flower whose
-          // baked `baseDurationMs` EXCEEDS the base time (Flowery Abode's
-          // +growth-time debuff) still growing (mirrors instaGrowFlower).
-          flower.baseDurationMs = 0;
-          flower.plantedAt = createdAt;
-        } else {
-          // Legacy: back-date so plantedAt + base grow time === createdAt, and
-          // bank the full grow time as boostedTime so the total back-date the
-          // progress bar undoes stays accurate (mirrors useInstantGrowth).
-          const growTime =
-            FLOWER_SEEDS[FLOWERS[flower.name].seed].plantSeconds * 1000;
-          flower.plantedAt = createdAt - growTime;
-          flower.boostedTime = growTime;
-        }
+        // Zero the remaining work AND re-anchor the start to now so readyAt
+        // resolves to `createdAt` exactly. Back-dating plantedAt by the BASE
+        // grow time would instead re-price the grow against past boost windows
+        // — and leave a flower whose baked `baseDurationMs` EXCEEDS the base
+        // time (Flowery Abode's +growth-time debuff) still growing (mirrors
+        // instaGrowFlower).
+        flower.baseDurationMs = 0;
+        flower.plantedAt = createdAt;
       }
     });
   return flowerBeds;
@@ -187,14 +164,11 @@ function useGreaseLightning({
   getKeys(oilReserves).forEach((reserve) => {
     const { oil } = oilReserves[reserve];
     if (oil) {
-      // Instant recovery. Legacy: a far-past `drilledAt` makes the fixed recovery
-      // window already elapsed. Windowed (`baseDurationMs` set): also zero the
-      // remaining work so `computeReadyAt` collapses `readyAt` to `drilledAt`
-      // (mirrors instaGrowFlower / Greenhouse Guru).
+      // Instant recovery: zero the remaining work so `computeReadyAt`
+      // collapses `readyAt` to `drilledAt` (mirrors instaGrowFlower /
+      // Greenhouse Guru).
       oil.drilledAt = 1;
-      if (oil.baseDurationMs !== undefined) {
-        oil.baseDurationMs = 0;
-      }
+      oil.baseDurationMs = 0;
     }
   });
   return oilReserves;
@@ -243,17 +217,15 @@ function useInstantGratification({
     });
 
     queue[recipeIndex].readyAt = createdAt;
-    // Windowed (`baseDurationMs` set): also zero the remaining work, or the queue
-    // resolver would re-derive this recipe's ready time from its start + duration and
-    // undo the instant completion (mirrors the oil reserve above / instaGrowFlower).
-    if (queue[recipeIndex].baseDurationMs !== undefined) {
-      queue[recipeIndex].baseDurationMs = 0;
-      // Complete at activation, not at the old start: `recalculateQueue` splits
-      // ready/upcoming on the DERIVED chain, and a zero-work recipe derives
-      // `readyAt = startedAt`, so a stale start would drag every chained recipe
-      // behind this one into the ready half.
-      queue[recipeIndex].startedAt = createdAt;
-    }
+    // Also zero the remaining work, or the queue resolver would re-derive this
+    // recipe's ready time from its start + duration and undo the instant
+    // completion (mirrors the oil reserve above / instaGrowFlower).
+    queue[recipeIndex].baseDurationMs = 0;
+    // Complete at activation, not at the old start: `recalculateQueue` splits
+    // ready/upcoming on the DERIVED chain, and a zero-work recipe derives
+    // `readyAt = startedAt`, so a stale start would drag every chained recipe
+    // behind this one into the ready half.
+    queue[recipeIndex].startedAt = createdAt;
 
     building.crafting = recalculateQueue({
       queue,

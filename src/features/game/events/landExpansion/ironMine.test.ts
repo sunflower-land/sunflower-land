@@ -866,62 +866,6 @@ describe("mineIron", () => {
     expect(game.inventory.Iron).toEqual(new Decimal(1.5));
   });
 
-  it("applies the AOE on a iron with boosted time", () => {
-    const boostedTime = IRON_RECOVERY_TIME * 1000 * 0.5;
-    const counter = findNonCriticalCounter();
-
-    const payload = {
-      state: {
-        ...GAME_STATE,
-        bumpkin: TEST_BUMPKIN,
-        inventory: {
-          "Stone Pickaxe": new Decimal(1),
-        },
-        iron: {
-          0: {
-            createdAt: now,
-            stone: {
-              // 1ms past the recovery boundary so the legacy rock is ready
-              // (canMine is strictly `now > readyAt`).
-              minedAt: now - IRON_RECOVERY_TIME * 1000 - 1,
-              boostedTime,
-            },
-            x: 1,
-            y: 1,
-          },
-        },
-        collectibles: {
-          "Emerald Turtle": [
-            {
-              id: "123",
-              createdAt: now,
-              coordinates: { x: 2, y: 1 },
-              readyAt: now - 5 * 60 * 1000,
-            },
-          ],
-        },
-        aoe: {
-          "Emerald Turtle": {
-            "-1": {
-              "0": now - (IRON_RECOVERY_TIME * 1000 - boostedTime),
-            },
-          },
-        },
-        farmActivity: { "Iron Rock Mined": counter },
-      },
-      createdAt: now,
-      action: {
-        type: "ironRock.mined",
-        index: "0",
-      } as LandExpansionIronMineAction,
-      farmId,
-    };
-
-    const game = mineIron(payload);
-
-    expect(game.inventory.Iron).toEqual(new Decimal(1.5));
-  });
-
   it("adds +0.1 iron when Radiant Ray is placed", () => {
     const counter = findNonCriticalCounter();
     const payload = {

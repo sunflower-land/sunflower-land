@@ -110,14 +110,9 @@ export function claimProduce({
       feedBuff: animal.feedBuff,
     });
     animal.awakeAt = awakeAt;
-    // Windowed: keep the real `asleepAt` and the permanent-boost-only duration,
-    // so the shrines are credited live. Flag-off the marker is dropped, which
-    // reverts the animal to the legacy baked `awakeAt` on its next sleep.
-    if (baseDurationMs !== undefined) {
-      animal.baseDurationMs = baseDurationMs;
-    } else {
-      delete animal.baseDurationMs;
-    }
+    // Keep the real `asleepAt` and the permanent-boost-only duration, so the
+    // shrines are credited live.
+    animal.baseDurationMs = baseDurationMs;
     copy.boostsUsedAt = updateBoostUsed({
       game: copy,
       boostNames: boostsUsed,

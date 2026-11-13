@@ -67,41 +67,24 @@ const getHarvestMetrics = ({
   plantedAt?: number;
 }): {
   harvestSeconds: number;
-  /** Ready time for a legacy crop; unused (0) when `baseDurationMs` is set —
-   * `useNodeTimer` derives the windowed ready time live from the windows. */
-  legacyReadyAt: number;
   startAt: number;
-  baseDurationMs?: number;
+  baseDurationMs: number;
 } => {
   const plantedTimestamp = plantedAt ?? plot.crop?.plantedAt ?? 0;
 
   if (!cropName || !plantedTimestamp) {
-    return { harvestSeconds: 0, legacyReadyAt: 0, startAt: 0 };
+    return { harvestSeconds: 0, startAt: 0, baseDurationMs: 0 };
   }
 
+  // A crop with no marker reads as its raw grow time.
   const baseDurationMs =
-    plot.crop?.name === cropName ? plot.crop?.baseDurationMs : undefined;
-
-  if (baseDurationMs !== undefined) {
-    return {
-      baseDurationMs,
-      harvestSeconds: baseDurationMs / 1000,
-      legacyReadyAt: 0,
-      startAt: plantedTimestamp,
-    };
-  }
-
-  // Legacy model: back-dated plantedAt + base grow time.
-  const baseHarvestSeconds = CROPS[cropName].harvestSeconds;
-  const boostOffsetMs =
-    plot.crop?.name === cropName ? (plot.crop?.boostedTime ?? 0) : 0;
-  const harvestSeconds = Math.max(baseHarvestSeconds - boostOffsetMs / 1000, 0);
-  const startAt = plantedTimestamp + boostOffsetMs;
+    (plot.crop?.name === cropName ? plot.crop?.baseDurationMs : undefined) ??
+    CROPS[cropName].harvestSeconds * 1000;
 
   return {
-    harvestSeconds,
-    legacyReadyAt: startAt + harvestSeconds * 1000,
-    startAt,
+    baseDurationMs,
+    harvestSeconds: baseDurationMs / 1000,
+    startAt: plantedTimestamp,
   };
 };
 
@@ -126,7 +109,7 @@ export const FertilePlot: React.FC<Props> = ({
   const calendar = useSelector(gameService, _calendar);
 
   const [showTimerPopover, setShowTimerPopover] = useState(false);
-  const { harvestSeconds, legacyReadyAt, startAt, baseDurationMs } = useMemo(
+  const { harvestSeconds, startAt, baseDurationMs } = useMemo(
     () => getHarvestMetrics({ cropName, plot, plantedAt }),
     [cropName, plantedAt, plot],
   );
@@ -138,7 +121,6 @@ export const FertilePlot: React.FC<Props> = ({
     startedAt: startAt,
     baseDurationMs,
     windows: boostWindows,
-    legacyReadyAt,
     live: startAt > 0,
   });
   const isGrowing = harvestSeconds > 0 ? readyAt > currentTime : false;
@@ -147,26 +129,19 @@ export const FertilePlot: React.FC<Props> = ({
   // wall-clock rate while a boost window is running.
   let growPercentage = 100;
   if (readyAt > 0 && harvestSeconds > 0) {
-    if (baseDurationMs !== undefined) {
-      // Work banked before a landscaping lift (see placePlot): already done, so
-      // it counts toward the displayed progress but not toward the remaining
-      // time. Undefined for crops that were never lifted.
-      const bankedMs =
-        plot.crop?.name === cropName ? (plot.crop?.boostedTime ?? 0) : 0;
-      const workDoneMs = workAccruedAt({
-        startedAt: startAt,
-        at: currentTime,
-        windows: boostWindows,
-      });
-      growPercentage = clampPercentage(
-        ((bankedMs + workDoneMs) / (baseDurationMs + bankedMs)) * 100,
-      );
-    } else {
-      growPercentage = clampPercentage(
-        100 -
-          (Math.max((readyAt - currentTime) / 1000, 0) / harvestSeconds) * 100,
-      );
-    }
+    // Work banked before a landscaping lift (see placePlot): already done, so
+    // it counts toward the displayed progress but not toward the remaining
+    // time. Undefined for crops that were never lifted.
+    const bankedMs =
+      plot.crop?.name === cropName ? (plot.crop?.boostedTime ?? 0) : 0;
+    const workDoneMs = workAccruedAt({
+      startedAt: startAt,
+      at: currentTime,
+      windows: boostWindows,
+    });
+    growPercentage = clampPercentage(
+      ((bankedMs + workDoneMs) / (baseDurationMs + bankedMs)) * 100,
+    );
   }
   const timeLeft = readyAt > 0 && harvestSeconds > 0 ? countdownSeconds : 0;
 

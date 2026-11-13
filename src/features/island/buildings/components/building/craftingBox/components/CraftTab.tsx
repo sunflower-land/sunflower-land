@@ -371,21 +371,14 @@ export const CraftTab: React.FC<Props> = ({
       const newItem: CraftingQueueItem = {
         id: queueItemId,
         ...currentRecipe,
-        startedAt:
-          baseDurationMs === undefined || isInstant || !isChained
-            ? isInstant
-              ? now
-              : recipeStartAt
-            : undefined,
+        startedAt: isInstant ? now : isChained ? undefined : recipeStartAt,
         readyAt: isInstant
           ? now
-          : baseDurationMs === undefined
-            ? recipeStartAt + recipeTime
-            : computeReadyAt({
-                startedAt: recipeStartAt,
-                baseDurationMs,
-                windows,
-              }),
+          : computeReadyAt({
+              startedAt: recipeStartAt,
+              baseDurationMs,
+              windows,
+            }),
         baseDurationMs,
       };
 

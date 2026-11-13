@@ -698,62 +698,6 @@ describe("mineStone", () => {
     expect(game.inventory.Stone).toEqual(new Decimal(1.5));
   });
 
-  it("applies the AOE on a stone with boosted time", () => {
-    const boostedTime = STONE_RECOVERY_TIME * 1000 * 0.5;
-    const counter = findNonCriticalCounter();
-
-    const payload = {
-      state: {
-        ...GAME_STATE,
-        bumpkin: TEST_BUMPKIN,
-        inventory: {
-          Pickaxe: new Decimal(1),
-        },
-        stones: {
-          0: {
-            createdAt: now,
-            stone: {
-              // 1ms past the recovery boundary so the legacy rock is ready
-              // (canMine is strictly `now > readyAt`).
-              minedAt: now - STONE_RECOVERY_TIME * 1000 - 1,
-              boostedTime,
-            },
-            x: 1,
-            y: 1,
-          },
-        },
-        collectibles: {
-          "Emerald Turtle": [
-            {
-              id: "123",
-              createdAt: now,
-              coordinates: { x: 2, y: 1 },
-              readyAt: now - 5 * 60 * 1000,
-            },
-          ],
-        },
-        aoe: {
-          "Emerald Turtle": {
-            "-1": {
-              "0": now - (STONE_RECOVERY_TIME * 1000 - boostedTime),
-            },
-          },
-        },
-        farmActivity: { "Stone Rock Mined": counter },
-      },
-      createdAt: now,
-      action: {
-        type: "stoneRock.mined",
-        index: "0",
-      } as LandExpansionStoneMineAction,
-      farmId,
-    };
-
-    const game = mineStone(payload);
-
-    expect(game.inventory.Stone).toEqual(new Decimal(1.5));
-  });
-
   it("uses the WINDOWED recovery duration for the yield-AOE budget", () => {
     // A Super Totem (2× stone) covering the whole recovery halves it: the rock is
     // ready — and the AOE position frees up — after baseDurationMs/2, NOT the full

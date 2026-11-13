@@ -104,9 +104,8 @@ export const Sunstone: React.FC<Props> = ({ id, index }) => {
     countdownSeconds: timeLeft,
   } = useNodeTimer({
     startedAt: minedAt,
-    baseDurationMs,
+    baseDurationMs: baseDurationMs ?? SUNSTONE_RECOVERY_TIME * 1000,
     windows: mineBoostWindows,
-    legacyReadyAt: minedAt + SUNSTONE_RECOVERY_TIME * 1000,
   });
   // Sunstone has no recovery boost, so readiness is purely `now` vs the local
   // readyAt — no need to subscribe to (or pass) the full game state. Equivalent to

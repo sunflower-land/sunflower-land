@@ -174,7 +174,7 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
   const growSeconds = FLOWER_SEEDS[FLOWERS[flower.name].seed].plantSeconds;
   const growTimeMs = growSeconds * 1000;
 
-  const baseDurationMs = flower.baseDurationMs;
+  const baseDurationMs = flower.baseDurationMs ?? growTimeMs;
   const startedAt = flower.plantedAt;
 
   // `secondsLeft` is the remaining WORK: it drives the growth stage and the
@@ -185,18 +185,10 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
     startedAt,
     baseDurationMs,
     windows: flowerBoostWindows,
-    legacyReadyAt: startedAt + growTimeMs,
   });
-  // `boostedTime` carries a different quantity in each model:
-  // - windowed: pre-lift banked WORK, folded into the denominator so the bar
-  //   retains its fill across a landscaping lift instead of snapping backward.
-  // - legacy: the DISCOUNT baked in by back-dating `plantedAt`. It is not
-  //   growth already done, so it comes OFF the total — dividing by the full
-  //   `growSeconds` would open the bar near-full on a boosted flower.
-  const totalSeconds =
-    baseDurationMs !== undefined
-      ? (baseDurationMs + (flower.boostedTime ?? 0)) / 1000
-      : Math.max(growSeconds - (flower.boostedTime ?? 0) / 1000, 0);
+  // `boostedTime` is pre-lift banked WORK, folded into the denominator so the bar
+  // retains its fill across a landscaping lift instead of snapping backward.
+  const totalSeconds = (baseDurationMs + (flower.boostedTime ?? 0)) / 1000;
   // Guard the zero-duration case (an insta-grown windowed flower has
   // baseDurationMs === 0): 0 / 0 would be NaN, which makes getGrowthStage fall
   // through to "sprout" for a flower that is actually ready.
