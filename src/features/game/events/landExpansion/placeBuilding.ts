@@ -26,6 +26,7 @@ import { pauseCraftingQueue } from "features/game/lib/craftingReadiness";
 import { refreshCropMachineCaches } from "features/game/lib/cropMachineReadiness";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { mfTrack } from "lib/moonforgeAnalytics";
+import { GREENHOUSE_CROP_TIME_SECONDS } from "features/game/lib/greenhouseGrowTimes";
 
 export enum PLACE_BUILDING_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -171,6 +172,7 @@ export function placeBuilding({
               startedAt: plant.plantedAt,
               removedAt: existingBuilding.removedAt,
               createdAt,
+              rawBaseMs: GREENHOUSE_CROP_TIME_SECONDS[plant.name] * 1000,
               windows: [
                 ...getGreenhouseBoostWindows(stateCopy, plant.name),
                 ...getGreenhouseGlowWindows(pot.fertiliser),
@@ -196,8 +198,7 @@ export function placeBuilding({
             // `pauseWindowedTimer`, even when windowed. `asleepAt` is the
             // love-cadence anchor as well as the sleep timer's start, so moving
             // it independently of `awakeAt`/`lovedAt` compresses the cycle and
-            // re-opens love slots the player has already spent — the same
-            // reason `migrateSpeedBoosts` refuses to freeze animals. A windowed
+            // re-opens love slots the player has already spent. A windowed
             // sleep keeps its full `baseDurationMs` and resumes from the
             // shifted start, so the lifted interval still doesn't count toward
             // it; the cost is that boost credit re-accrues over a shifted

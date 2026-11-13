@@ -134,9 +134,8 @@ export const Gold: React.FC<Props> = ({ id }) => {
   const { minedAt, baseDurationMs } = resource.stone;
   const { now, countdownSeconds: timeLeft } = useNodeTimer({
     startedAt: minedAt,
-    baseDurationMs,
+    baseDurationMs: baseDurationMs ?? GOLD_RECOVERY_TIME * 1000,
     windows: mineBoostWindows,
-    legacyReadyAt: minedAt + GOLD_RECOVERY_TIME * 1000,
   });
   const mined = !canMine(resource, goldRockName, state, now);
 

@@ -796,15 +796,16 @@ const MAX_BOOST_HISTORY_AGE_MS = 7 * 24 * 60 * 60 * 1000;
  *
  * A windowed crop machine banks work FORWARD from `oilSettledAt`, re-deriving
  * it from the windows each time, so every window ending after that anchor is
- * still load-bearing. The anchor only advances when the machine is settled (a
- * crop-machine event, or the BE load-time `migrateSpeedBoosts`), while the prune
- * below runs on any event. Once that load-time call is removed, a machine left
- * untouched longer than `MAX_BOOST_HISTORY_AGE_MS` would otherwise lose windows
- * it still depends on.
+ * still load-bearing. The anchor only advances when a crop-machine event
+ * settles the machine, while the prune below runs on any event, so a machine
+ * left untouched longer than `MAX_BOOST_HISTORY_AGE_MS` would otherwise lose
+ * windows it still depends on.
  *
  * The crop machine is the only activity that needs this: its packs can stall
  * on an empty tank indefinitely, so its anchor can be arbitrarily old. Every
- * other windowed node runs to completion on its own schedule.
+ * other windowed node runs to completion on its own schedule. Only a machine
+ * with a pack still carrying `baseDurationMs` re-derives work from the windows:
+ * finished packs keep a fixed `readyAt`, so an idle machine pins nothing.
  */
 function getEarliestLedgerAnchor(game: GameState): number | undefined {
   let earliest: number | undefined;
@@ -812,6 +813,9 @@ function getEarliestLedgerAnchor(game: GameState): number | undefined {
   for (const machine of game.buildings?.["Crop Machine"] ?? []) {
     const anchor = machine.oilSettledAt;
     if (anchor === undefined) continue;
+    if (!machine.queue?.some((pack) => pack.baseDurationMs !== undefined)) {
+      continue;
+    }
     if (earliest === undefined || anchor < earliest) earliest = anchor;
   }
 
@@ -1036,20 +1040,18 @@ export function workAccruedAt({
  * start timestamp the caller should write back to the node's phase field
  * (minedAt / choppedAt / plantedAt / harvestedAt).
  *
- * - Windowed node (`timer.baseDurationMs` set): bank the work accrued before
- *   removal against `windows` and shrink `baseDurationMs` in place (mutates
- *   `timer`), then resume from `createdAt` — so the lifted interval is excluded
- *   and boost credit earned before the lift is neither lost nor re-applied over
- *   a different part of the windows.
- * - Legacy node (no `baseDurationMs`): back-date the start so the lifted
- *   interval doesn't count (wall-clock elapsed === work when unboosted).
+ * Banks the work accrued before removal against `windows` and shrinks
+ * `baseDurationMs` in place (mutates `timer`), then resumes from `createdAt` — so
+ * the lifted interval is excluded and boost credit earned before the lift is
+ * neither lost nor re-applied over a different part of the windows. A timer with
+ * no `baseDurationMs` starts from `rawBaseMs`.
  *
  * The caller owns which field is the start timestamp (and, for multi-phase fruit,
  * which phase is active), so it passes `startedAt` and writes the returned value
  * back to that same field. `trackProgress` additionally banks the accrued work
  * into `timer.boostedTime` for the growth bar — used by the crop / greenhouse
  * plant handlers, which carry that field; resource nodes omit it. Shared by every
- * resource place handler to keep the bank/shrink/back-date logic in one place.
+ * resource place handler to keep the bank/shrink logic in one place.
  */
 export function pauseWindowedTimer({
   timer,
@@ -1057,6 +1059,7 @@ export function pauseWindowedTimer({
   removedAt,
   createdAt,
   windows,
+  rawBaseMs,
   trackProgress = false,
 }: {
   timer: { baseDurationMs?: number; boostedTime?: number };
@@ -1064,17 +1067,16 @@ export function pauseWindowedTimer({
   removedAt: number;
   createdAt: number;
   windows: BoostWindow[];
+  /** The node's raw base duration, for a timer with no `baseDurationMs`. */
+  rawBaseMs: number;
   trackProgress?: boolean;
 }): number {
-  if (timer.baseDurationMs === undefined) {
-    return createdAt - (removedAt - startedAt);
-  }
-
+  const baseDurationMs = timer.baseDurationMs ?? rawBaseMs;
   const banked = Math.min(
     workAccruedAt({ startedAt, at: removedAt, windows }),
-    timer.baseDurationMs,
+    baseDurationMs,
   );
-  timer.baseDurationMs -= banked;
+  timer.baseDurationMs = baseDurationMs - banked;
   if (trackProgress) {
     timer.boostedTime = (timer.boostedTime ?? 0) + banked;
   }

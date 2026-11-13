@@ -145,7 +145,9 @@ describe("placeIron", () => {
       "123": {
         createdAt: expect.any(Number),
         stone: {
-          minedAt: dateNow - 60000,
+          minedAt: dateNow,
+          // 8h raw iron recovery, less the 1 min banked before the lift.
+          baseDurationMs: 8 * 60 * 60 * 1000 - 60000,
         },
         x: 2,
         y: 2,

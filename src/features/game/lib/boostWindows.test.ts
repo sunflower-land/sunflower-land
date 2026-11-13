@@ -413,7 +413,17 @@ describe("appendBoostHistory", () => {
             readyAt: 0,
             oilSettledAt: anchor,
             unallocatedOilTime: 0,
-            queue: [],
+            // A pack still in flight (stalled on an empty tank) reads the
+            // windows from the anchor on.
+            queue: [
+              {
+                crop: "Sunflower",
+                seeds: 10,
+                growTimeRemaining: 0,
+                totalGrowTime: 4 * HOUR,
+                baseDurationMs: 4 * HOUR,
+              },
+            ],
           },
         ],
       },
@@ -434,6 +444,60 @@ describe("appendBoostHistory", () => {
       { from: now - 500, to: now },
     ]);
   });
+
+  it.each([
+    ["an empty queue", []],
+    [
+      "only finished packs",
+      [
+        {
+          crop: "Sunflower",
+          seeds: 10,
+          growTimeRemaining: 0,
+          totalGrowTime: 4 * HOUR,
+          readyAt: 1000,
+        },
+      ],
+    ],
+  ])(
+    "does not hold history back for an idle crop machine (%s)",
+    (_label, queue) => {
+      // Only a pack still carrying `baseDurationMs` re-derives work from the
+      // windows; an idle machine's anchor must not pin history forever.
+      const now = 100 * DAY;
+      const anchor = now - 30 * DAY;
+      const game = {
+        ...TEST_FARM,
+        buildings: {
+          "Crop Machine": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+              oilSettledAt: anchor,
+              unallocatedOilTime: 0,
+              queue,
+            },
+          ],
+        },
+        boostHistory: {
+          "Tortoise Shrine": [{ from: anchor, to: anchor + HOUR }],
+        },
+      } as unknown as GameState;
+
+      appendBoostHistory(
+        game,
+        "Tortoise Shrine",
+        { from: now - 500, to: now },
+        now,
+      );
+
+      expect(game.boostHistory?.["Tortoise Shrine"]).toEqual([
+        { from: now - 500, to: now },
+      ]);
+    },
+  );
 
   it("still prunes a window that predates even the oldest ledger anchor", () => {
     const now = 100 * DAY;

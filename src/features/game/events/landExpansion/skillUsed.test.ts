@@ -209,8 +209,14 @@ describe("skillUse", () => {
         createdAt: dateNow,
       });
 
-      expect(state.crops["123"].crop?.plantedAt).toEqual(1);
-      expect(state.crops["789"].crop?.plantedAt).toEqual(1);
+      expect(state.crops["123"].crop).toMatchObject({
+        plantedAt: dateNow,
+        baseDurationMs: 0,
+      });
+      expect(state.crops["789"].crop).toMatchObject({
+        plantedAt: dateNow,
+        baseDurationMs: 0,
+      });
     });
 
     it("doesn't activate Instant Growth if they have a different skill", () => {
@@ -610,7 +616,7 @@ describe("skillUse", () => {
         createdAt: dateNow,
       });
 
-      expect(state.greenhouse.pots[1].plant?.plantedAt).toEqual(1);
+      expect(state.greenhouse.pots[1].plant?.baseDurationMs).toEqual(0);
     });
 
     it("zeroes the remaining work for windowed plants (speed-rate model)", () => {
@@ -758,9 +764,8 @@ describe("skillUse", () => {
         createdAt: dateNow,
       });
 
-      const expectedTime =
-        dateNow -
-        FLOWER_SEEDS[FLOWERS["Yellow Carnation"].seed].plantSeconds * 1000;
+      // Instantly grown: re-anchored to now with no work left.
+      const expectedTime = dateNow;
 
       expect(state.flowers.flowerBeds["123"].flower?.plantedAt).toEqual(
         expectedTime,
@@ -923,9 +928,8 @@ describe("skillUse", () => {
         createdAt: dateNow,
       });
 
-      const expectedTime =
-        dateNow -
-        FLOWER_SEEDS[FLOWERS["Yellow Carnation"].seed].plantSeconds * 1000;
+      // Instantly grown: re-anchored to now with no work left.
+      const expectedTime = dateNow;
 
       expect(state.flowers.flowerBeds["123"].flower?.plantedAt).toEqual(
         expectedTime,
@@ -1036,9 +1040,8 @@ describe("skillUse", () => {
         createdAt: dateNow,
       });
 
-      const expectedTime =
-        dateNow -
-        FLOWER_SEEDS[FLOWERS["Yellow Carnation"].seed].plantSeconds * 1000;
+      // Instantly grown: re-anchored to now with no work left.
+      const expectedTime = dateNow;
 
       expect(state.flowers.flowerBeds["123"].flower?.plantedAt).toEqual(
         expectedTime,
