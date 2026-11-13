@@ -2,8 +2,6 @@ import React, { useCallback, useEffect, useContext } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { useSafeAreaPaddingTop } from "lib/utils/hooks/useSafeAreaPaddingTop";
 
-import logo from "assets/brand/ascension_age.png";
-
 import { OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -13,7 +11,10 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import type { AuthMachineState } from "features/auth/lib/authMachine";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { useNow } from "lib/utils/hooks/useNow";
-import { getCurrentChapter } from "features/game/types/chapters";
+import {
+  getChapterLogo,
+  getCurrentChapter,
+} from "features/game/types/chapters";
 import { MutantsSection } from "./components/MutantsSection";
 import { AuctionsSection } from "./components/AuctionsSection";
 import { RafflesSection } from "./components/RafflesSection";
@@ -44,6 +45,7 @@ export const ChapterDashboard: React.FC = () => {
   const token = useSelector(authService, _token);
   const now = useNow({ live: true });
   const chapter = getCurrentChapter(now);
+  const logo = getChapterLogo(now);
   const _isOffline = !CONFIG.API_URL;
 
   const effectiveFarmId = farmId || 1;
@@ -98,17 +100,19 @@ export const ChapterDashboard: React.FC = () => {
             <ChapterTimer />
           </div>
 
-          <div className="absolute mx-12 inset-0 flex h-[70px] items-center justify-center z-10 pointer-events-none">
-            <img
-              src={logo}
-              alt="Chapter"
-              className="mt-2 object-contain"
-              style={{
-                height: `${PIXEL_SCALE * 28}px`,
-                width: "auto",
-              }}
-            />
-          </div>
+          {logo && (
+            <div className="absolute mx-12 inset-0 flex h-[70px] items-center justify-center z-10 pointer-events-none">
+              <img
+                src={logo}
+                alt={chapter}
+                className="mt-2 object-contain"
+                style={{
+                  height: `${PIXEL_SCALE * 28}px`,
+                  width: "auto",
+                }}
+              />
+            </div>
+          )}
 
           {showClose && (
             <img
