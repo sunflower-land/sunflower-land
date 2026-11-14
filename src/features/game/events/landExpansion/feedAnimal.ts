@@ -212,20 +212,24 @@ export function handleFoodXP({
 /**
  * How many feeds one click gives `animal`: an animal asks for as many of its
  * favourite food (with Chonky Feed and Mud) as it takes to get ready, and one
- * click feeds them all. Feeding a different food uses the same count.
+ * click feeds them all. Feeding a different food uses the same count. A Beetle
+ * is one per feed, so Beetle feeding mode passes a `food` Beetle to send this
+ * many feeds in one click.
  */
 export function getFeedBatchSize({
   state,
   animal,
+  food,
 }: {
   state: GameState;
   animal: Animal;
+  food?: AnimalFoodName | BeetleName;
 }): number {
   const { foodXp } = handleFoodXP({
     state,
     animal: animal.type,
     level: getAnimalLevel(animal.experience, animal.type),
-    food: getAnimalFavoriteFood(animal.type, animal.experience),
+    food: food ?? getAnimalFavoriteFood(animal.type, animal.experience),
     mud: animal.mud,
   });
 
@@ -235,70 +239,6 @@ export function getFeedBatchSize({
       .div(foodXp)
       .toDecimalPlaces(0, Decimal.ROUND_CEIL)
       .toNumber(),
-  );
-}
-
-/**
- * How many `beetle`s get `animal` ready: a Beetle is one per feed, so the
- * Beetle feeding mode sends this many feeds in one click.
- */
-export function getBeetleBatchSize({
-  state,
-  animal,
-  beetle,
-}: {
-  state: GameState;
-  animal: Animal;
-  beetle: BeetleName;
-}): number {
-  const { foodXp } = handleFoodXP({
-    state,
-    animal: animal.type,
-    level: getAnimalLevel(animal.experience, animal.type),
-    food: beetle,
-    mud: animal.mud,
-  });
-
-  return Math.max(
-    1,
-    new Decimal(getXpUntilReady(animal.type, animal.experience))
-      .div(foodXp)
-      .toDecimalPlaces(0, Decimal.ROUND_CEIL)
-      .toNumber(),
-  );
-}
-
-/**
- * How many levels feeding `feeds` `beetle`s raises `animal`: a batch can
- * overshoot several level thresholds at once, so the Beetle feeding mode
- * confirms with the player before feeding when this is more than one.
- */
-export function getBeetleLevelGain({
-  state,
-  animal,
-  beetle,
-  feeds,
-}: {
-  state: GameState;
-  animal: Animal;
-  beetle: BeetleName;
-  feeds: number;
-}): number {
-  const { foodXp } = handleFoodXP({
-    state,
-    animal: animal.type,
-    level: getAnimalLevel(animal.experience, animal.type),
-    food: beetle,
-    mud: animal.mud,
-  });
-
-  const afterFeedXp = new Decimal(animal.experience).add(
-    new Decimal(foodXp).mul(feeds),
-  );
-
-  return (
-    getAnimalLevel(afterFeedXp.toNumber(), animal.type) -
-    getAnimalLevel(animal.experience, animal.type)
   );
 }
 

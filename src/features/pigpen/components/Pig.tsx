@@ -47,8 +47,6 @@ import { InfoPopover } from "features/island/common/InfoPopover";
 import {
   getBarnDelightCost,
   handleFoodXP,
-  getBeetleBatchSize,
-  getBeetleLevelGain,
   getFeedBatchSize,
   REQUIRED_FOOD_QTY,
 } from "features/game/events/landExpansion/feedAnimal";
@@ -58,8 +56,8 @@ import { MutantAnimalModal } from "features/farming/animals/components/MutantAni
 import { MutantSparkles } from "features/farming/animals/components/MutantSparkles";
 import { isAnimalCoveredByGoldenAsset } from "features/game/events/landExpansion/feedAllAnimals";
 import { isWearableActive } from "features/game/lib/wearables";
+import { useBeetleFeeding } from "features/game/expansion/components/animals/useBeetleFeeding";
 import { Modal } from "components/ui/Modal";
-import { Button } from "components/ui/Button";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel } from "components/ui/Panel";
 import { SleepingAnimalModal } from "features/barn/components/SleepingAnimalModal";
@@ -118,13 +116,6 @@ export const Pig: React.FC<{
   const [feedXPAmount, setFeedXPAmount] = useState(0);
   const [showLoveItem, setShowLoveItem] = useState<LoveAnimalItem>();
   const [showMutantAnimalModal, setShowMutantAnimalModal] = useState(false);
-  // Beetle feeding mode: a batch that overshoots several levels waits here
-  // for the player's confirmation before any Beetle is spent. `levels` is
-  // the level gain, which the feed count can overshoot.
-  const [pendingBeetleBatch, setPendingBeetleBatch] = useState<{
-    feeds: number;
-    levels: number;
-  }>();
 
   useEffect(() => {
     if (pig.awakeAt < Date.now() && pigMachineState === "sleeping") {
@@ -248,11 +239,23 @@ export const Pig: React.FC<{
     animalType: "Pig",
   });
 
-  // Beetle feeding mode, unless a golden asset feeds this animal for free.
-  const beetleMode = beetle && !hasGoldenPig ? beetle : undefined;
-  const beetleFeeds = beetleMode
-    ? getBeetleBatchSize({ state: game, animal: pig, beetle: beetleMode })
-    : 0;
+  const showNoFoodPrompt = async () => {
+    setShowNoFoodSelected(true);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    setShowNoFoodSelected(false);
+  };
+
+  // Beetle feeding mode, unless a golden asset feeds this Pig for free.
+  const { beetleMode, beetleFeeds, handleBeetleClick, confirmModal } =
+    useBeetleFeeding({
+      animal: pig,
+      animalName: t("animal.pig"),
+      beetle,
+      hasGoldenAsset: hasGoldenPig,
+      feed: (item, feeds) => feedPig(item, feeds),
+      onBeetlesEmpty,
+      showNoFoodPrompt,
+    });
 
   const hasOracleSyringeEquipped = isWearableActive({
     name: "Oracle Syringe",
@@ -439,12 +442,6 @@ export const Pig: React.FC<{
     // throw. Ignore clicks until the animation resolves.
     if (showDrops) return;
 
-    const showNoFoodPrompt = async () => {
-      setShowNoFoodSelected(true);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      setShowNoFoodSelected(false);
-    };
-
     if (sick) return onSickClick();
 
     if (needsLove) {
@@ -515,46 +512,7 @@ export const Pig: React.FC<{
       return;
     }
 
-    if (beetleMode) {
-      const owned = inventory[beetleMode] ?? new Decimal(0);
-      if (owned.lt(1)) {
-        // Running dry opens the building's picker so another Beetle kind can
-        // take over; without that hook, fall back to the no-food popover.
-        if (onBeetlesEmpty) {
-          onBeetlesEmpty();
-        } else {
-          await showNoFoodPrompt();
-        }
-        return;
-      }
-
-      // As many as get it ready, or all the player has if that is fewer.
-      const feeds = Math.min(beetleFeeds, owned.toNumber());
-
-      // Overshooting several levels at once is a big spend: confirm first.
-      const levels = getBeetleLevelGain({
-        state: game,
-        animal: pig,
-        beetle: beetleMode,
-        feeds,
-      });
-      if (levels > 1) {
-        setPendingBeetleBatch({ feeds, levels });
-        return;
-      }
-
-      const updatedState = feedPig(beetleMode, feeds);
-      // Feeding the last owned Beetle reopens the picker so another kind
-      // can take over without a wasted tap.
-      if (
-        (updatedState.context.state.inventory[beetleMode] ?? new Decimal(0)).lt(
-          1,
-        )
-      ) {
-        onBeetlesEmpty?.();
-      }
-      return;
-    }
+    if (await handleBeetleClick()) return;
 
     // Auto-select the favourite food when it is held so a stale selection
     // (e.g. Hay left over from another building) never feeds the wrong item.
@@ -662,6 +620,7 @@ export const Pig: React.FC<{
     favFood === selectedItem ||
     selectedItem === "Omnifeed" ||
     (!!selectedItem && isBeetle(selectedItem)) ||
+    !!beetleMode ||
     hasGoldenPig
       ? "#71e358"
       : "#fff";
@@ -786,50 +745,7 @@ export const Pig: React.FC<{
             </CloseButtonPanel>
           </Modal>
           {/* Beetle feeding mode: confirm before a batch overshoots several levels */}
-          <Modal
-            show={pendingBeetleBatch !== undefined}
-            onHide={() => setPendingBeetleBatch(undefined)}
-          >
-            <CloseButtonPanel
-              onClose={() => setPendingBeetleBatch(undefined)}
-              title={t("animals.beetleMode")}
-            >
-              <div className="flex flex-col gap-2 p-2">
-                <p className="text-xs">
-                  {t("animals.beetleMode.multiLevel", {
-                    animal: t("animal.pig"),
-                    levels: pendingBeetleBatch?.levels ?? 0,
-                  })}
-                </p>
-                <div className="flex gap-1">
-                  <Button
-                    onClick={() => {
-                      const batch = pendingBeetleBatch;
-                      setPendingBeetleBatch(undefined);
-                      // The mode may have been switched off while the modal was up.
-                      if (batch && beetleMode) {
-                        const updatedState = feedPig(beetleMode, batch.feeds);
-                        // Feeding the last owned Beetle reopens the picker.
-                        if (
-                          (
-                            updatedState.context.state.inventory[beetleMode] ??
-                            new Decimal(0)
-                          ).lt(1)
-                        ) {
-                          onBeetlesEmpty?.();
-                        }
-                      }
-                    }}
-                  >
-                    {t("confirm")}
-                  </Button>
-                  <Button onClick={() => setPendingBeetleBatch(undefined)}>
-                    {t("cancel")}
-                  </Button>
-                </div>
-              </div>
-            </CloseButtonPanel>
-          </Modal>
+          {confirmModal}
           <InfoPopover
             showPopover={
               showNoFoodSelected || showNoMedicine || showNotEnoughFood

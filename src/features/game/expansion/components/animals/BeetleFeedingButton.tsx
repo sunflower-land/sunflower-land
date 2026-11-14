@@ -17,7 +17,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Box } from "components/ui/Box";
 import { Label } from "components/ui/Label";
 
-const _game = (state: MachineState) => state.context.state;
+const _inventory = (state: MachineState) => state.context.state.inventory;
 
 /**
  * Building-level Beetle feeding mode. Off, a tap picks the Beetle to feed;
@@ -34,7 +34,7 @@ export const BeetleFeedingButton: React.FC<{
 }> = ({ beetle, onChange, showPicker, onShowPickerChange }) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
-  const game = useSelector(gameService, _game);
+  const inventory = useSelector(gameService, _inventory);
 
   return (
     <>
@@ -81,14 +81,18 @@ export const BeetleFeedingButton: React.FC<{
                 <div key={name} className="flex flex-col items-center">
                   <Box
                     image={ITEM_DETAILS[name].image}
-                    count={game.inventory[name]}
-                    disabled={!game.inventory[name]?.gte(1)}
+                    count={inventory[name]}
+                    disabled={!inventory[name]?.gte(1)}
                     onClick={() => {
                       onShowPickerChange(false);
                       onChange(name);
                     }}
                   />
-                  <span className="text-xxs">{`${BEETLE_FEEDING_XP[name]} XP`}</span>
+                  <span className="text-xxs">
+                    {t("animals.beetleMode.xpValue", {
+                      xp: BEETLE_FEEDING_XP[name],
+                    })}
+                  </span>
                 </div>
               ))}
             </div>
