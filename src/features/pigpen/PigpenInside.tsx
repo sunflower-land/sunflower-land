@@ -379,7 +379,13 @@ export const PigpenInside: React.FC = () => {
                     beetle={beetleMode}
                     onChange={setBeetleMode}
                     showPicker={showBeetlePicker}
-                    onShowPickerChange={setShowBeetlePicker}
+                    onShowPickerChange={(show) => {
+                      setShowBeetlePicker(show);
+                      // The picker is only open while the mode is on when it
+                      // opened itself because the selected Beetle ran out;
+                      // closing it without a pick turns the mode off.
+                      if (!show) setBeetleMode(undefined);
+                    }}
                   />
                 </div>
               )}
