@@ -17,6 +17,8 @@ import shopDisc from "assets/icons/shop_disc.png";
 import { AnimalBuildingModal } from "features/game/expansion/components/animals/AnimalBuildingModal";
 import { FeederMachine } from "features/feederMachine/FeederMachine";
 import { FeedAllButton } from "features/game/expansion/components/animals/FeedAllButton";
+import { BeetleFeedingButton } from "features/game/expansion/components/animals/BeetleFeedingButton";
+import type { BeetleName } from "features/game/types/beetles";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
 import { Modal } from "components/ui/Modal";
 import {
@@ -61,6 +63,11 @@ export const HenHouseInside: React.FC = () => {
   // Bonus quick-sell flow: the skull disc docks the bounty cards at the
   // bottom of the screen instead of opening the shop modal's Sell tab.
   const [showSellPanel, setShowSellPanel] = useState(false);
+  // Beetle feeding mode: the Beetle every animal here asks for.
+  const [beetleMode, setBeetleMode] = useState<BeetleName>();
+  // The picker opens from the button, or by itself when the selected Beetle
+  // runs out mid-feeding so another kind can take over.
+  const [showBeetlePicker, setShowBeetlePicker] = useState(false);
   const [deal, setDeal] = useState<AnimalBounty>();
   const saleSelection = useBountySaleSelection("henHouse");
   const pendingDealIdByAnimal = Object.fromEntries(
@@ -352,6 +359,23 @@ export const HenHouseInside: React.FC = () => {
                 </div>
               )}
 
+              {!showSellPanel && (
+                <div className="absolute -top-[11px] right-1/2 -translate-x-[58px]">
+                  <BeetleFeedingButton
+                    beetle={beetleMode}
+                    onChange={setBeetleMode}
+                    showPicker={showBeetlePicker}
+                    onShowPickerChange={(show) => {
+                      setShowBeetlePicker(show);
+                      // The picker is only open while the mode is on when it
+                      // opened itself because the selected Beetle ran out;
+                      // closing it without a pick turns the mode off.
+                      if (!show) setBeetleMode(undefined);
+                    }}
+                  />
+                </div>
+              )}
+
               <MapPlacement
                 x={floorX}
                 y={floorY}
@@ -415,6 +439,8 @@ export const HenHouseInside: React.FC = () => {
                         <Chicken
                           disabled={!!deal || showSellPanel}
                           id={animal.id}
+                          beetle={beetleMode}
+                          onBeetlesEmpty={() => setShowBeetlePicker(true)}
                         />
                         {isPendingSale && (
                           <PendingSaleTag

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
-import { isBeetle } from "features/game/types/beetles";
+import { type BeetleName, isBeetle } from "features/game/types/beetles";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
@@ -54,6 +54,7 @@ import { MutantAnimalModal } from "features/farming/animals/components/MutantAni
 import { MutantSparkles } from "features/farming/animals/components/MutantSparkles";
 import { isAnimalCoveredByGoldenAsset } from "features/game/events/landExpansion/feedAllAnimals";
 import { isWearableActive } from "features/game/lib/wearables";
+import { useBeetleFeeding } from "features/game/expansion/components/animals/useBeetleFeeding";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel } from "components/ui/Panel";
@@ -105,10 +106,14 @@ const _cow = (id: string) => (state: MachineState) =>
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _game = (state: MachineState) => state.context.state;
 
-export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
-  id,
-  disabled,
-}) => {
+export const Cow: React.FC<{
+  id: string;
+  disabled: boolean;
+  /** Beetle feeding mode: asks for, and feeds, this Beetle. */
+  beetle?: BeetleName;
+  /** Opens the Beetle picker when the selected Beetle runs out. */
+  onBeetlesEmpty?: () => void;
+}> = ({ id, disabled, beetle, onBeetlesEmpty }) => {
   // The Collie Shrine's -5% feed cost only applies while the shrine is active,
   // so the required-food display needs a LIVE clock — a mount snapshot would
   // keep showing the discount after the shrine expired. One tick a minute is
@@ -258,6 +263,24 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     animalType: "Cow",
   });
 
+  const showNoFoodPrompt = async () => {
+    setShowNoFoodSelected(true);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    setShowNoFoodSelected(false);
+  };
+
+  // Beetle feeding mode, unless a golden asset feeds this Cow for free.
+  const { beetleMode, beetleFeeds, handleBeetleClick, confirmModal } =
+    useBeetleFeeding({
+      animal: cow,
+      animalName: t("animal.cow"),
+      beetle,
+      hasGoldenAsset: hasGoldenCow,
+      feed: (item, feeds) => feedCow(item, feeds),
+      onBeetlesEmpty,
+      showNoFoodPrompt,
+    });
+
   const hasOracleSyringeEquipped = isWearableActive({
     name: "Oracle Syringe",
     game,
@@ -265,15 +288,19 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
   const { name: mutantName } = cow.reward?.items?.[0] ?? {};
 
-  const feedCow = (item?: InventoryItemName) => {
-    setFeedXPAmount(getAnimalXPEarned(item));
+  const feedCow = (item?: InventoryItemName, feeds = 1) => {
+    setFeedXPAmount(getAnimalXPEarned(item) * feeds);
 
-    const updatedState = gameService.send({
-      type: "animal.fed",
-      animal: "Cow",
-      item: item ? (item as AnimalFoodName) : undefined,
-      id: cow.id,
-    });
+    // A Beetle is one per feed, so Beetle feeding mode sends several.
+    let updatedState = gameService.getSnapshot();
+    for (let i = 0; i < feeds; i++) {
+      updatedState = gameService.send({
+        type: "animal.fed",
+        animal: "Cow",
+        item: item ? (item as AnimalFoodName) : undefined,
+        id: cow.id,
+      });
+    }
 
     setShowFeedXP(true);
     setTimeout(() => setShowFeedXP(false), 700);
@@ -292,6 +319,8 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     });
 
     playFeedAnimal();
+
+    return updatedState;
   };
 
   const onLoveClick = async () => {
@@ -441,12 +470,6 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     clearTimeout(freeFeedTreatTimeout.current);
     setShowFreeFeedTreat(false);
 
-    const showNoFoodPrompt = async () => {
-      setShowNoFoodSelected(true);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      setShowNoFoodSelected(false);
-    };
-
     if (sick) return onSickClick();
 
     if (needsLove && !hasGoldenCow) {
@@ -455,7 +478,9 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
     const hasBuffSelected = selectedItem && isAnimalFeedBuffItem(selectedItem);
 
-    if (hasBuffSelected) {
+    // Beetle mode shows a Beetle in the request bubble, so it takes
+    // precedence over a held feed buff.
+    if (hasBuffSelected && !beetleMode) {
       const buffItem = selectedItem as AnimalFeedBuffName;
       const buffCount = inventory[buffItem] ?? new Decimal(0);
       // Honey Treat only cuts feed, and Golden Cow already makes it free.
@@ -511,6 +536,8 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       feedCow();
       return;
     }
+
+    if (await handleBeetleClick()) return;
 
     // Auto-select the favourite food when it is held so a stale selection
     // (e.g. Hay left over from the barn) never feeds the wrong item.
@@ -606,6 +633,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const requestBubbleRequest = () => {
     if (sick) return "Barn Delight";
     if (needsLove) return cow.item;
+    if (beetleMode) return beetleMode;
     return favFood;
   };
   const showRequestBubble =
@@ -618,6 +646,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     favFood === selectedItem ||
     selectedItem === "Omnifeed" ||
     (!!selectedItem && isBeetle(selectedItem)) ||
+    !!beetleMode ||
     hasGoldenCow
       ? "#71e358"
       : "#fff";
@@ -692,7 +721,11 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
               left={PIXEL_SCALE * 23}
               request={requestBubbleRequest()}
               quantity={
-                idle && !hasGoldenCow ? requiredFoodQty.toNumber() : undefined
+                idle && !hasGoldenCow
+                  ? beetleMode
+                    ? beetleFeeds
+                    : requiredFoodQty.toNumber()
+                  : undefined
               }
             />
           )}
@@ -736,6 +769,8 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
               <LockedAnimalModal animal={cow} />
             </CloseButtonPanel>
           </Modal>
+          {/* Beetle feeding mode: confirm before a batch overshoots several levels */}
+          {confirmModal}
           <InfoPopover
             showPopover={
               showFreeFeedTreat ||

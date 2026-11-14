@@ -3346,3 +3346,41 @@ describe("Pig Onesie", () => {
     );
   });
 });
+
+describe("getFeedBatchSize with a Beetle food", () => {
+  // Level 9 Chicken: 240 XP to its next level.
+  const chicken = (mud?: Animal["mud"]): Animal => ({
+    id: "1",
+    type: "Chicken",
+    state: "idle",
+    createdAt: 0,
+    experience: 1200,
+    asleepAt: 0,
+    awakeAt: 0,
+    lovedAt: 0,
+    item: "Petting Hand",
+    mud,
+  });
+
+  it.each([
+    ["Green Beetle", 3],
+    ["Blue Beetle", 2],
+    ["Pink Beetle", 1],
+    ["Amber Beetle", 1],
+  ] as const)("feeds enough %s to get ready", (food, expected) => {
+    expect(
+      getFeedBatchSize({ state: INITIAL_FARM, animal: chicken(), food }),
+    ).toBe(expected);
+  });
+
+  it("counts Mud's bonus XP", () => {
+    // 100 XP x1.25 = 125 a Green Beetle: two cover the 240 XP.
+    expect(
+      getFeedBatchSize({
+        state: INITIAL_FARM,
+        animal: chicken({ harvestsRemaining: 1 }),
+        food: "Green Beetle",
+      }),
+    ).toBe(2);
+  });
+});

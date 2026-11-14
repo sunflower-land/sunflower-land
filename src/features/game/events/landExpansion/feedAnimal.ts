@@ -212,20 +212,24 @@ export function handleFoodXP({
 /**
  * How many feeds one click gives `animal`: an animal asks for as many of its
  * favourite food (with Chonky Feed and Mud) as it takes to get ready, and one
- * click feeds them all. Feeding a different food uses the same count.
+ * click feeds them all. Feeding a different food uses the same count. A Beetle
+ * is one per feed, so Beetle feeding mode passes a `food` Beetle to send this
+ * many feeds in one click.
  */
 export function getFeedBatchSize({
   state,
   animal,
+  food,
 }: {
   state: GameState;
   animal: Animal;
+  food?: AnimalFoodName | BeetleName;
 }): number {
   const { foodXp } = handleFoodXP({
     state,
     animal: animal.type,
     level: getAnimalLevel(animal.experience, animal.type),
-    food: getAnimalFavoriteFood(animal.type, animal.experience),
+    food: food ?? getAnimalFavoriteFood(animal.type, animal.experience),
     mud: animal.mud,
   });
 
