@@ -75,6 +75,15 @@ export function useLocalStorage<T>(
 
   const setValue = useCallback(
     (value: T | ((prev: T) => T)) => {
+      // Write a plain value straight away: an updater never runs if the
+      // component unmounts in the same tick (e.g. a modal that closes after
+      // saving), so the write would be lost.
+      if (typeof value !== "function") {
+        writeToStorage(key, value, serialize);
+        setState(value);
+        return;
+      }
+
       setState((prev) => {
         const next =
           typeof value === "function" ? (value as (prev: T) => T)(prev) : value;

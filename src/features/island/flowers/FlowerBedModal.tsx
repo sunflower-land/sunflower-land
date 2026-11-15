@@ -22,8 +22,9 @@ import { useLocalStorage } from "lib/utils/hooks/useLocalStorage";
 
 type Recipe = { seed: FlowerSeedName; crossbreed: FlowerCrossBreedName };
 
-// The last recipe picked on the Recipes tab, kept so every flower bed opens
-// with it filled in and players can replant a row of beds quickly.
+// The last recipe picked on the Recipes tab or planted from the Plant tab,
+// kept so every flower bed opens with it filled in and players can replant a
+// row of beds quickly.
 const LAST_RECIPE_KEY = "flowerBedLastRecipe";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
@@ -107,6 +108,7 @@ export const FlowerBedModal: React.FC<Props> = ({ onClose, id }) => {
           onClose={onClose}
           initialSeed={recipe?.seed}
           initialCrossbreed={recipe?.crossbreed}
+          onPlant={(seed, crossbreed) => setStored({ seed, crossbreed })}
         />
       )}
 

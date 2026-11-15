@@ -46,6 +46,8 @@ interface Props {
   /** Pre-fill both slots, e.g. from a recipe on the Recipes tab. */
   initialSeed?: FlowerSeedName;
   initialCrossbreed?: FlowerCrossBreedName;
+  /** Called with what was planted, e.g. to remember it for the next bed. */
+  onPlant?: (seed: FlowerSeedName, crossbreed: FlowerCrossBreedName) => void;
 }
 
 /**
@@ -73,6 +75,7 @@ export const FlowerBedContent: React.FC<Props> = ({
   onClose,
   initialSeed,
   initialCrossbreed,
+  onPlant,
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
@@ -118,6 +121,7 @@ export const FlowerBedContent: React.FC<Props> = ({
       seed: seed as FlowerSeedName,
       crossbreed: crossbreed as FlowerCrossBreedName,
     });
+    onPlant?.(seed as FlowerSeedName, crossbreed as FlowerCrossBreedName);
     onClose();
   };
 
