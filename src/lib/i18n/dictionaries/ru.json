@@ -9056,5 +9056,7 @@
   "cropMachine.harvestAllConfirm": "Are you sure you want to harvest all {{count}} ready packs?",
   "flowerBedRecipes.pickFlower": "Pick a flower you have grown to see its recipes.",
   "flowerBedRecipes.tapRecipe": "Tap a recipe to fill your flower bed.",
-  "flowerBedRecipes.outOfSeason": "{{seed}} can't be planted this season"
+  "flowerBedRecipes.outOfSeason": "{{seed}} can't be planted this season",
+  "waterTrapRecipes.pickCrustacean": "Pick a crustacean you have caught to see its recipes.",
+  "waterTrapRecipes.tapRecipe": "Tap a recipe to set up your trap."
 }

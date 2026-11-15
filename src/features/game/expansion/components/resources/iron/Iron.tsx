@@ -9,12 +9,9 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
 import { DepletedIron } from "./components/DepletedIron";
 import { DepletingIron } from "./components/DepletingIron";
-import { canMine } from "features/game/lib/resourceNodes";
 import { RecoveredIron } from "./components/RecoveredIron";
 import { useSound } from "lib/utils/hooks/useSound";
-import { getIronDropAmount } from "features/game/events/landExpansion/ironMine";
-import type { IronRockName, RockName } from "features/game/types/resources";
-import { KNOWN_IDS } from "features/game/types";
+import type { IronRockName } from "features/game/types/resources";
 import {
   getMineBoostWindows,
   type BoostWindow,
@@ -48,7 +45,6 @@ const HasTool = (
 };
 
 const selectInventory = (state: MachineState) => state.context.state.inventory;
-const selectGame = (state: MachineState) => state.context.state;
 
 const compareResource = (prev: Rock, next: Rock) => {
   return JSON.stringify(prev) === JSON.stringify(next);
@@ -63,7 +59,6 @@ const compareSkills = (prev: Skills, next: Skills) =>
 const _selectSeason = (state: MachineState) =>
   state.context.state.season.season;
 const _selectIsland = (state: MachineState) => state.context.state.island;
-const selectFarmId = (state: MachineState) => state.context.farmId;
 interface Props {
   id: string;
 }
@@ -94,20 +89,14 @@ export const Iron: React.FC<Props> = ({ id }) => {
     };
   }, []);
 
-  const state = useSelector(gameService, selectGame);
   const season = useSelector(gameService, _selectSeason);
   const island = useSelector(gameService, _selectIsland);
-  const farmId = useSelector(gameService, selectFarmId);
   const resource = useSelector(
     gameService,
     (state) => state.context.state.iron[id],
     compareResource,
   );
   const ironRockName = (resource.name ?? "Iron Rock") as IronRockName;
-  const activityCount = useSelector(gameService, (state) => {
-    const rockName = state.context.state.iron[id]?.name ?? "Iron Rock";
-    return state.context.state.farmActivity[`${rockName} Mined`] ?? 0;
-  });
   const inventory = useSelector(
     gameService,
     selectInventory,
@@ -129,12 +118,18 @@ export const Iron: React.FC<Props> = ({ id }) => {
   const hasTool = HasTool(inventory, resource);
 
   const { minedAt, baseDurationMs } = resource.stone;
-  const { now, countdownSeconds: timeLeft } = useNodeTimer({
+  const {
+    now,
+    readyAt,
+    countdownSeconds: timeLeft,
+  } = useNodeTimer({
     startedAt: minedAt,
     baseDurationMs: baseDurationMs ?? IRON_RECOVERY_TIME * 1000,
     windows: mineBoostWindows,
   });
-  const mined = !canMine(resource, ironRockName, state, now);
+  // Read readiness off the timer's live readyAt (same live mine windows as the
+  // countdown), so the rock unlocks the moment the countdown hits zero.
+  const mined = now <= readyAt;
 
   const strike = () => {
     if (!hasTool) return;
@@ -156,22 +151,16 @@ export const Iron: React.FC<Props> = ({ id }) => {
   };
 
   const mine = async () => {
-    const ironName: RockName = resource.name ?? "Iron Rock";
-    const itemId = KNOWN_IDS[ironName];
-    const ironMined = new Decimal(
-      resource.stone.amount ??
-        getIronDropAmount({
-          game: state,
-          rock: resource,
-          createdAt: now,
-          farmId,
-          counter: activityCount,
-          itemId,
-        }).amount,
-    );
+    // Read the popup amount off the reducer's result, so it shows exactly what
+    // was added (same timestamp, boosts and rolls as the mined event).
+    const before =
+      gameService.getSnapshot().context.state.inventory.Iron ?? new Decimal(0);
     gameService.send("ironRock.mined", {
       index: id,
     });
+    const ironMined = (
+      gameService.getSnapshot().context.state.inventory.Iron ?? new Decimal(0)
+    ).minus(before);
 
     if (showAnimations) {
       setCollecting(true);

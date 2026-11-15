@@ -9056,5 +9056,7 @@
   "cropMachine.harvestAllConfirm": "¿Estás seguro de que quieres cosechar todos los paquetes listos de {{count}}?",
   "flowerBedRecipes.pickFlower": "Elige una flor que hayas cultivado para ver sus recetas.",
   "flowerBedRecipes.tapRecipe": "Toca una receta para llenar tu macizo de flores.",
-  "flowerBedRecipes.outOfSeason": "{{seed}} no se puede plantar esta temporada"
+  "flowerBedRecipes.outOfSeason": "{{seed}} no se puede plantar esta temporada",
+  "waterTrapRecipes.pickCrustacean": "Elige un crustáceo que hayas capturado para ver sus recetas.",
+  "waterTrapRecipes.tapRecipe": "Pulsa una receta para configurar tu trampa."
 }

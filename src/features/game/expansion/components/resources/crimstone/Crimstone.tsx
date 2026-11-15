@@ -11,7 +11,6 @@ import type {
 import { useSelector } from "@xstate/react";
 import type { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
-import { canMine } from "features/game/lib/resourceNodes";
 import { RecoveredCrimstone } from "./components/RecoveredCrimstone";
 import { DepletingCrimstone } from "./components/DepletingCrimstone";
 import { DepletedCrimstone } from "./components/DepletedCrimstone";
@@ -143,7 +142,9 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
   });
   const stageNow = Math.max(now, resetClock);
 
-  const mined = !canMine(resource, "Crimstone Rock", state, now);
+  // Read readiness off the timer's live readyAt (same live mine windows as the
+  // countdown), so the rock unlocks the moment the countdown hits zero.
+  const mined = now <= readyAt;
 
   const [isAnimationRunning, setIsAnimationRunning] = useState(false);
   const [isRecentlyMined, setIsRecentlyMined] = useState(false);
