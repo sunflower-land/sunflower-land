@@ -3,12 +3,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { STONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 
-import type {
-  GameState,
-  InventoryItemName,
-  Rock,
-  Skills,
-} from "features/game/types/game";
+import type { InventoryItemName, Rock, Skills } from "features/game/types/game";
 import { useSelector } from "@xstate/react";
 import type { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
@@ -17,12 +12,8 @@ import { DepletingStone } from "./components/DepletingStone";
 import { RecoveredStone } from "./components/RecoveredStone";
 import { useSound } from "lib/utils/hooks/useSound";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import {
-  getRequiredPickaxeAmount,
-  getStoneDropAmount,
-} from "features/game/events/landExpansion/stoneMine";
-import type { RockName, StoneRockName } from "features/game/types/resources";
-import { KNOWN_IDS } from "features/game/types";
+import { getRequiredPickaxeAmount } from "features/game/events/landExpansion/stoneMine";
+import type { StoneRockName } from "features/game/types/resources";
 import {
   getMineBoostWindows,
   type BoostWindow,
@@ -48,13 +39,8 @@ const areBoostWindowsEqual = (a: BoostWindow[], b: BoostWindow[]) =>
 
 const HasTool = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
-  gameState: GameState,
-  id: string,
+  requiredToolAmount: Decimal,
 ) => {
-  const { amount: requiredToolAmount } = getRequiredPickaxeAmount(
-    gameState,
-    id,
-  );
   if (requiredToolAmount.lte(0)) return true;
   return (inventory[tool] ?? new Decimal(0)).gte(requiredToolAmount);
 };
@@ -64,10 +50,7 @@ const compareResource = (prev: Rock, next: Rock) => {
   return JSON.stringify(prev) === JSON.stringify(next);
 };
 
-const _state = (state: MachineState) => state.context.state;
-const _compareQuarryExistence = (prev: GameState, next: GameState) =>
-  isCollectibleBuilt({ name: "Quarry", game: prev }) ===
-  isCollectibleBuilt({ name: "Quarry", game: next });
+const compareDecimal = (prev: Decimal, next: Decimal) => prev.equals(next);
 
 const selectSkills = (state: MachineState) =>
   state.context.state.bumpkin?.skills;
@@ -78,7 +61,6 @@ const compareSkills = (prev: Skills, next: Skills) =>
 const _selectSeason = (state: MachineState) =>
   state.context.state.season.season;
 const _selectIsland = (state: MachineState) => state.context.state.island;
-const selectFarmId = (state: MachineState) => state.context.farmId;
 
 interface Props {
   id: string;
@@ -109,23 +91,24 @@ export const Stone: React.FC<Props> = ({ id }) => {
     };
   }, []);
 
-  const game = useSelector(gameService, _state, _compareQuarryExistence);
-  const farmId = useSelector(gameService, selectFarmId);
   const resource = useSelector(
     gameService,
     (state) => state.context.state.stones[id],
     compareResource,
   );
   const name = (resource.name ?? "Stone Rock") as StoneRockName;
-  const activityCount = useSelector(gameService, (state) => {
-    const rockName = state.context.state.stones[id]?.name ?? "Stone Rock";
-    return state.context.state.farmActivity[`${rockName} Mined`] ?? 0;
-  });
+  // Pickaxes the next strike costs (0 with a Quarry). Read from live state so a
+  // Quarry placed or a rock upgraded mid-session updates the requirement.
+  const requiredToolAmount = useSelector(
+    gameService,
+    (state) => getRequiredPickaxeAmount(state.context.state, id).amount,
+    compareDecimal,
+  );
   const inventory = useSelector(
     gameService,
     selectInventory,
     (prev, next) =>
-      HasTool(prev, game, id) === HasTool(next, game, id) &&
+      HasTool(prev, requiredToolAmount) === HasTool(next, requiredToolAmount) &&
       (prev.Logger ?? new Decimal(0)).equals(next.Logger ?? new Decimal(0)),
   );
   const skills = useSelector(gameService, selectSkills, compareSkills);
@@ -139,7 +122,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
     (state) => getMineBoostWindows(state.context.state, name),
     areBoostWindowsEqual,
   );
-  const hasTool = HasTool(inventory, game, id);
+  const hasTool = HasTool(inventory, requiredToolAmount);
 
   const { minedAt, baseDurationMs } = resource.stone;
   const {
@@ -156,7 +139,11 @@ export const Stone: React.FC<Props> = ({ id }) => {
   const mined = now <= readyAt;
 
   const strike = () => {
-    if (!hasTool) return;
+    // Click-time checks read fresh state, like the reducer will.
+    const game = gameService.getSnapshot().context.state;
+    if (!HasTool(game.inventory, getRequiredPickaxeAmount(game, id).amount)) {
+      return;
+    }
 
     if (!isCollectibleBuilt({ name: "Quarry", game })) {
       shortcutItem(tool);
@@ -177,23 +164,16 @@ export const Stone: React.FC<Props> = ({ id }) => {
   };
 
   const mine = async () => {
-    const stoneName: RockName = resource.name ?? "Stone Rock";
-    const stoneMined = new Decimal(
-      resource.stone.amount ??
-        getStoneDropAmount({
-          game,
-          rock: resource,
-          createdAt: now,
-          id,
-          farmId,
-          counter: activityCount,
-          itemId: KNOWN_IDS[stoneName],
-        }).amount,
-    );
-
+    // Read the popup amount off the reducer's result, so it shows exactly what
+    // was added (same timestamp, boosts and rolls as the mined event).
+    const before =
+      gameService.getSnapshot().context.state.inventory.Stone ?? new Decimal(0);
     gameService.send("stoneRock.mined", {
       index: id,
     });
+    const stoneMined = (
+      gameService.getSnapshot().context.state.inventory.Stone ?? new Decimal(0)
+    ).minus(before);
 
     if (showAnimations) {
       setCollecting(true);
@@ -221,7 +201,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
             touchCount={touchCount}
             showHelper={false} // FUTURE ENHANCEMENT
             stoneRockName={name}
-            requiredToolAmount={getRequiredPickaxeAmount(game, id).amount}
+            requiredToolAmount={requiredToolAmount}
             inventory={inventory}
           />
         </div>
