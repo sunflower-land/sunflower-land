@@ -77,15 +77,22 @@ export const WaterTrapRecipes: React.FC<Props> = ({ onSelect }) => {
 
   const { farmActivity, inventory } = state;
 
-  // A no-chum recipe only ever catches its own crustacean (Isopod, Barnacle),
-  // so its plain catch count is enough to know it was found.
-  const isFound = (name: CrustaceanName, recipe: Recipe) =>
-    (recipe.chum
-      ? (farmActivity[`${name} Caught with ${recipe.chum}`] ?? 0)
-      : (farmActivity[`${name} Caught`] ?? 0)) > 0;
+  // Same rules as the Codex: a crustacean counts as caught from its catch
+  // count, and the chums shown are the ones it was caught with. Early catches
+  // didn't record the chum, so when there's no per-chum record every chum
+  // for it is shown. A no-chum recipe only catches its own crustacean
+  // (Isopod, Barnacle), so it needs no per-chum record.
+  const foundRecipes = (name: CrustaceanName) => {
+    if ((farmActivity[`${name} Caught`] ?? 0) <= 0) return [];
 
-  const foundRecipes = (name: CrustaceanName) =>
-    (RECIPES[name] ?? []).filter((recipe) => isFound(name, recipe));
+    const recipes = RECIPES[name] ?? [];
+    const recorded = recipes.filter(
+      ({ chum }) =>
+        !chum || (farmActivity[`${name} Caught with ${chum}`] ?? 0) > 0,
+    );
+
+    return recorded.length > 0 ? recorded : recipes;
+  };
 
   const trapName = (trap: WaterTrapName) =>
     t(trap === "Crab Pot" ? "crustaceans.crabPot" : "crustaceans.marinerPot");
@@ -194,13 +201,12 @@ export const WaterTrapRecipes: React.FC<Props> = ({ onSelect }) => {
             >
               <div className="flex items-center gap-1 min-w-0">
                 <SquareIcon icon={ITEM_DETAILS[trap].image} width={10} />
-                <span className="text-xs">{"+"}</span>
-                <SquareIcon
-                  icon={
-                    chum ? ITEM_DETAILS[chum].image : SUNNYSIDE.icons.cancel
-                  }
-                  width={10}
-                />
+                {chum && (
+                  <>
+                    <span className="text-xs">{"+"}</span>
+                    <SquareIcon icon={ITEM_DETAILS[chum].image} width={10} />
+                  </>
+                )}
                 <span className="text-xs ml-1">
                   {chum
                     ? getTranslatedItemName(chum)
