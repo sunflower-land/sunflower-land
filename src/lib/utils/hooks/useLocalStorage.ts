@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 
 export interface UseLocalStorageOptions<T> {
   parse?: (raw: string) => T;
@@ -73,23 +73,22 @@ export function useLocalStorage<T>(
     return value;
   });
 
+  // The latest value, updated synchronously by every set. Each update is
+  // resolved against it and written straight away, so storage always matches
+  // the final state, even when several sets happen in one tick or the
+  // component unmounts before re-rendering (e.g. a modal that closes after
+  // saving).
+  const latest = useRef(state);
+
   const setValue = useCallback(
     (value: T | ((prev: T) => T)) => {
-      // Write a plain value straight away: an updater never runs if the
-      // component unmounts in the same tick (e.g. a modal that closes after
-      // saving), so the write would be lost.
-      if (typeof value !== "function") {
-        writeToStorage(key, value, serialize);
-        setState(value);
-        return;
-      }
-
-      setState((prev) => {
-        const next =
-          typeof value === "function" ? (value as (prev: T) => T)(prev) : value;
-        writeToStorage(key, next, serialize);
-        return next;
-      });
+      const next =
+        typeof value === "function"
+          ? (value as (prev: T) => T)(latest.current)
+          : value;
+      latest.current = next;
+      writeToStorage(key, next, serialize);
+      setState(next);
     },
     [key, serialize],
   );
