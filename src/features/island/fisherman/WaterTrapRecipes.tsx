@@ -64,9 +64,10 @@ interface Props {
 }
 
 /**
- * Lists the pot + chum combinations the player has already caught each
- * crustacean with, so they can set the same trap again in one tap. Only reads
- * the player's catch history, so nothing uncaught is revealed.
+ * Lists pot + chum combinations for the crustaceans the player has caught, so
+ * they can set the same trap again in one tap. Shows the chums each was caught
+ * with, or every chum for it when the catch predates per-chum records (as the
+ * Codex does). Only reads catch history, so nothing uncaught is revealed.
  */
 export const WaterTrapRecipes: React.FC<Props> = ({ onSelect }) => {
   const { t } = useAppTranslation();

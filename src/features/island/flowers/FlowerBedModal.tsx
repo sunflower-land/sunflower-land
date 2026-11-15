@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { useSelector } from "@xstate/react";
 
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -12,6 +13,10 @@ import {
   type FlowerCrossBreedName,
   type FlowerSeedName,
 } from "features/game/types/flowers";
+import { SEASONAL_SEEDS } from "features/game/types/seeds";
+import type { Inventory, TemperateSeasonName } from "features/game/types/game";
+import { Context } from "features/game/GameProvider";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useLocalStorage } from "lib/utils/hooks/useLocalStorage";
 
@@ -21,10 +26,27 @@ type Recipe = { seed: FlowerSeedName; crossbreed: FlowerCrossBreedName };
 // with it filled in and players can replant a row of beds quickly.
 const LAST_RECIPE_KEY = "flowerBedLastRecipe";
 
-const isValidRecipe = (recipe: Recipe | null): recipe is Recipe =>
-  !!recipe &&
-  recipe.seed in FLOWER_SEEDS &&
-  recipe.crossbreed in (FLOWER_CROSS_BREED_AMOUNTS[recipe.seed] ?? {});
+const _inventory = (state: MachineState) => state.context.state.inventory;
+const _season = (state: MachineState) => state.context.state.season.season;
+
+// Same check as an enabled row on the Recipes tab: a saved recipe only fills
+// the bed when it can be planted now (in season, a seed, enough crossbreed).
+const isPlantable = (
+  recipe: Recipe | null,
+  inventory: Inventory,
+  season: TemperateSeasonName,
+): recipe is Recipe => {
+  if (!recipe || !(recipe.seed in FLOWER_SEEDS)) return false;
+
+  const amount = FLOWER_CROSS_BREED_AMOUNTS[recipe.seed]?.[recipe.crossbreed];
+  if (amount === undefined) return false;
+
+  return (
+    SEASONAL_SEEDS[season].includes(recipe.seed) &&
+    !!inventory[recipe.seed]?.gte(1) &&
+    !!inventory[recipe.crossbreed]?.gte(amount)
+  );
+};
 
 interface Props {
   id: string;
@@ -35,11 +57,18 @@ export const FlowerBedModal: React.FC<Props> = ({ onClose, id }) => {
   const { t } = useAppTranslation();
   type Tab = "plant" | "recipes" | "guide";
   const [tab, setTab] = useState<Tab>("plant");
-  const [stored, setRecipe] = useLocalStorage<Recipe | null>(
+  const { gameService } = useContext(Context);
+  const inventory = useSelector(gameService, _inventory);
+  const season = useSelector(gameService, _season);
+  const [stored, setStored] = useLocalStorage<Recipe | null>(
     LAST_RECIPE_KEY,
     null,
   );
-  const recipe = isValidRecipe(stored) ? stored : undefined;
+  // Decided once when the bed opens, so the Plant tab doesn't reset while the
+  // modal is open if inventory changes.
+  const [recipe, setRecipe] = useState<Recipe | undefined>(() =>
+    isPlantable(stored, inventory, season) ? stored : undefined,
+  );
 
   return (
     <CloseButtonPanel
@@ -72,6 +101,7 @@ export const FlowerBedModal: React.FC<Props> = ({ onClose, id }) => {
         <FlowerBedRecipes
           onSelect={(seed, crossbreed) => {
             setRecipe({ seed, crossbreed });
+            setStored({ seed, crossbreed });
             setTab("plant");
           }}
         />
