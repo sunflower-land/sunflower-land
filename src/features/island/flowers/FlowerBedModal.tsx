@@ -31,20 +31,33 @@ const _season = (state: MachineState) => state.context.state.season.season;
 
 // Same check as an enabled row on the Recipes tab: a saved recipe only fills
 // the bed when it can be planted now (in season, a seed, enough crossbreed).
+// The saved value comes from local storage, so check its shape and use own
+// keys only before trusting it.
+const hasOwn = (object: object, key: string) =>
+  Object.prototype.hasOwnProperty.call(object, key);
+
 const isPlantable = (
-  recipe: Recipe | null,
+  recipe: unknown,
   inventory: Inventory,
   season: TemperateSeasonName,
 ): recipe is Recipe => {
-  if (!recipe || !(recipe.seed in FLOWER_SEEDS)) return false;
+  if (typeof recipe !== "object" || recipe === null) return false;
 
-  const amount = FLOWER_CROSS_BREED_AMOUNTS[recipe.seed]?.[recipe.crossbreed];
-  if (amount === undefined) return false;
+  const { seed, crossbreed } = recipe as Record<string, unknown>;
+  if (typeof seed !== "string" || typeof crossbreed !== "string") return false;
+  if (!hasOwn(FLOWER_SEEDS, seed)) return false;
+
+  const amounts = FLOWER_CROSS_BREED_AMOUNTS[seed as FlowerSeedName];
+  if (!amounts || !hasOwn(amounts, crossbreed)) return false;
+
+  const amount = amounts[crossbreed as FlowerCrossBreedName] ?? 0;
+  const recipeSeed = seed as FlowerSeedName;
+  const recipeCrossbreed = crossbreed as FlowerCrossBreedName;
 
   return (
-    SEASONAL_SEEDS[season].includes(recipe.seed) &&
-    !!inventory[recipe.seed]?.gte(1) &&
-    !!inventory[recipe.crossbreed]?.gte(amount)
+    SEASONAL_SEEDS[season].includes(recipeSeed) &&
+    !!inventory[recipeSeed]?.gte(1) &&
+    !!inventory[recipeCrossbreed]?.gte(amount)
   );
 };
 
