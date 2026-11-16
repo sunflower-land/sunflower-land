@@ -8,6 +8,9 @@ import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
 import { applyBuff } from "features/game/types/buffs";
 import { CROP_PLOT_BOOST_SPEED } from "features/game/lib/boostWindows";
+import { GUARDIAN_BOOST } from "features/game/lib/getActiveGuardian";
+import { populateSeason } from "features/game/lib/season";
+import { getKeys } from "lib/object";
 
 const dateNow = Date.now();
 const GAME_STATE: GameState = {
@@ -4331,16 +4334,26 @@ describe("harvest", () => {
     });
 
     it("grows at 4× with sunshower and a matching season Guardian", () => {
+      // The Guardian stacks its ×2 on the sunshower's ×2: 60s / 4 = 15s.
       const plantedAt =
-        sunshowerNow - base / CROP_PLOT_BOOST_SPEED.sunshowerGuardian;
+        sunshowerNow -
+        base /
+          (CROP_PLOT_BOOST_SPEED.sunshower *
+            CROP_PLOT_BOOST_SPEED.sunshowerGuardian);
+      // Seasons rotate weekly; the Guardian that counts is the one for the
+      // sunshower day's season.
+      const season = populateSeason(startOfUtcDay);
+      const guardian = getKeys(GUARDIAN_BOOST).find(
+        (name) => GUARDIAN_BOOST[name].season === season.season,
+      )!;
       const state = harvest({
         state: {
           ...GAME_STATE,
           inventory: { Sunflower: new Decimal(0) },
-          season: { season: "winter", startedAt: dateNow },
+          season,
           calendar: sunshowerToday(),
           collectibles: {
-            "Winter Guardian": [
+            [guardian]: [
               {
                 id: "wg",
                 coordinates: { x: 5, y: 5 },
