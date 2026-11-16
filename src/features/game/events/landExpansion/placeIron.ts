@@ -60,8 +60,6 @@ export function placeIron({
 
       if (updatedIron.stone && updatedIron.removedAt) {
         // Pause recovery across the lift (windowed banking or legacy back-date).
-        // trackProgress banks the pre-lift work into boostedTime, so the yield-AOE
-        // cooldown can still cover the full recovery.
         updatedIron.stone.minedAt = pauseWindowedTimer({
           timer: updatedIron.stone,
           startedAt: updatedIron.stone.minedAt,
@@ -69,7 +67,6 @@ export function placeIron({
           createdAt,
           rawBaseMs: RESOURCE_RECOVERY_TIME[action.name] * 1000,
           windows: getMineBoostWindows(game, action.name),
-          trackProgress: true,
         });
       }
       delete updatedIron.removedAt;

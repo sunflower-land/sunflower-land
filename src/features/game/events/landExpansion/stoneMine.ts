@@ -30,6 +30,7 @@ import cloneDeep from "lodash.clonedeep";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import {
   canUseYieldBoostAOE,
+  getRockCycleStartedAt,
   isCollectibleOnFarm,
   setAOELastUsed,
 } from "features/game/lib/aoe";
@@ -37,7 +38,7 @@ import { KNOWN_IDS } from "features/game/types";
 import { prngChance } from "lib/prng";
 import { produce } from "immer";
 import { STONE_RECOVERY_TIME } from "features/game/lib/constants";
-import { canMine, getMineReadyAt } from "features/game/lib/resourceNodes";
+import { canMine } from "features/game/lib/resourceNodes";
 import { mfTrack } from "lib/moonforgeAnalytics";
 
 export type LandExpansionStoneMineAction = {
@@ -51,32 +52,6 @@ type Options = {
   createdAt?: number;
   farmId: number;
 };
-
-/**
- * The stone's real recovery duration (ms), for gating the yield-AOE re-use. It
- * is derived from the live speed windows, so an active boost shortens it to match
- * the actual recovery.
- *
- * A landscaping lift banks the work done so far into `boostedTime` and shrinks
- * `baseDurationMs` to what's left (see `pauseWindowedTimer`), so the banked work
- * is added back here: the duration covers the whole recovery, not just the part
- * after the rock was re-placed. A rock with no `baseDurationMs` was never
- * lifted, so it has no banked work to add.
- */
-function getStoneRecoveryDurationMs(rock: Rock, game: GameState): number {
-  const { baseDurationMs, boostedTime } = rock.stone;
-  const fullRecovery: Rock =
-    baseDurationMs === undefined
-      ? rock
-      : {
-          ...rock,
-          stone: {
-            ...rock.stone,
-            baseDurationMs: baseDurationMs + (boostedTime ?? 0),
-          },
-        };
-  return getMineReadyAt(fullRecovery, "Stone Rock", game) - rock.stone.minedAt;
-}
 
 type GetMinedAtArgs = {
   skills: Skills;
@@ -270,8 +245,7 @@ export function getStoneDropAmount({
         updatedAoe,
         "Emerald Turtle",
         { dx, dy },
-        getStoneRecoveryDurationMs(rock, game),
-        createdAt,
+        getRockCycleStartedAt(rock),
       );
 
       if (canUseAoe) {
@@ -307,8 +281,7 @@ export function getStoneDropAmount({
         updatedAoe,
         "Tin Turtle",
         { dx, dy },
-        getStoneRecoveryDurationMs(rock, game),
-        createdAt,
+        getRockCycleStartedAt(rock),
       );
 
       if (canUseAoe) {
@@ -460,10 +433,10 @@ export function mineStone({
     const { boostsUsed: boostedTimeBoostsUsed } =
       getStoneRecoveryTimeForDisplay({ game: stateCopy });
 
-    rock.stone = { minedAt: time };
+    rock.stone = { minedAt: time, cycleStartedAt: createdAt };
     // Speed-rate model: real minedAt + permanent-only baseDurationMs. Temporary
     // boosts are derived live from windows, so there's no baked discount; keep
-    // boostedTime at 0 so the yield-AOE budget uses the real windowed duration.
+    // boostedTime at 0.
     rock.stone.baseDurationMs = baseDurationMs;
     rock.stone.boostedTime = 0;
 

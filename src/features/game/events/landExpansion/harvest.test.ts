@@ -4471,20 +4471,92 @@ describe("harvest", () => {
     });
   });
 
-  describe("yield AOE cooldown after a landscaping lift", () => {
+  describe("yield AOE: once per crop cycle", () => {
     const base = CROPS.Cabbage.harvestSeconds * 1000;
-    const plantedAt = dateNow - 10 * base;
-    const placedAt = plantedAt + 5 * base;
     const firstId = "12";
+    const t0 = dateNow - 20 * base;
+
+    const goldensnout = {
+      "Sir Goldensnout": [
+        {
+          id: "123",
+          createdAt: t0,
+          coordinates: { x: 0, y: 0 },
+          readyAt: t0,
+        },
+      ],
+    };
+
+    // Sir Goldensnout at (0, 0); plot 12 at (0, -2) is in its AOE.
+    const harvestCabbage = ({
+      crop,
+      aoeLastUsedAt,
+      harvestAt,
+    }: {
+      crop: CropPlot["crop"];
+      aoeLastUsedAt: number;
+      harvestAt: number;
+    }) =>
+      harvest({
+        state: {
+          ...GAME_STATE,
+          season: { season: "spring", startedAt: 0 },
+          collectibles: goldensnout,
+          aoe: { "Sir Goldensnout": { 0: { [-2]: aoeLastUsedAt } } },
+          crops: {
+            ...GAME_STATE.crops,
+            [firstId]: { ...GAME_STATE.crops[firstId], crop },
+          },
+        },
+        action: { type: "crop.harvested", index: firstId },
+        createdAt: harvestAt,
+      });
+
+    it("applies when the tile's last bonus came before the crop was planted", () => {
+      const plantedAt = t0 + base;
+      const state = harvestCabbage({
+        crop: { name: "Cabbage", plantedAt, cycleStartedAt: plantedAt },
+        aoeLastUsedAt: plantedAt - 1,
+        harvestAt: plantedAt + base,
+      });
+
+      expect(state.inventory.Cabbage).toEqual(new Decimal(1.5));
+    });
+
+    it("does not apply when the tile's last bonus came after the crop was planted, however long ago", () => {
+      const plantedAt = t0;
+      const state = harvestCabbage({
+        crop: { name: "Cabbage", plantedAt, cycleStartedAt: plantedAt },
+        aoeLastUsedAt: plantedAt + 1,
+        harvestAt: plantedAt + 10 * base,
+      });
+
+      expect(state.inventory.Cabbage).toEqual(new Decimal(1));
+    });
+
+    it("falls back to plantedAt for a crop with no cycleStartedAt", () => {
+      const plantedAt = t0;
+      const state = harvestCabbage({
+        crop: { name: "Cabbage", plantedAt },
+        aoeLastUsedAt: plantedAt + 1,
+        harvestAt: plantedAt + 10 * base,
+      });
+
+      expect(state.inventory.Cabbage).toEqual(new Decimal(1));
+    });
 
     // Lift the plot at `removedAt`, re-place it at `placedAt`, then harvest at
     // `harvestAt` with Sir Goldensnout's cell last used at `aoeLastUsedAt`.
     const liftPlaceAndHarvest = ({
+      plantedAt,
       removedAt,
+      placedAt,
       harvestAt,
       aoeLastUsedAt,
     }: {
+      plantedAt: number;
       removedAt: number;
+      placedAt: number;
       harvestAt: number;
       aoeLastUsedAt: number;
     }) => {
@@ -4494,23 +4566,19 @@ describe("harvest", () => {
           buildings: {},
           inventory: { "Crop Plot": new Decimal(2) },
           season: { season: "spring", startedAt: 0 },
-          collectibles: {
-            "Sir Goldensnout": [
-              {
-                id: "123",
-                createdAt: plantedAt,
-                coordinates: { x: 0, y: 0 },
-                readyAt: plantedAt,
-              },
-            ],
-          },
+          collectibles: goldensnout,
           aoe: { "Sir Goldensnout": { 0: { [-2]: aoeLastUsedAt } } },
           crops: {
             "0": GAME_STATE.crops["0"],
             [firstId]: {
               createdAt: plantedAt,
               removedAt,
-              crop: { name: "Cabbage", plantedAt, baseDurationMs: base },
+              crop: {
+                name: "Cabbage",
+                plantedAt,
+                cycleStartedAt: plantedAt,
+                baseDurationMs: base,
+              },
             },
           },
         },
@@ -4530,35 +4598,43 @@ describe("harvest", () => {
       });
     };
 
-    it("keeps the full grow time as the cooldown when lifted mid-grow", () => {
-      // Half grown before the lift, the other half after re-placing.
-      const harvestAt = placedAt + base / 2;
+    it("does not apply to a crop lifted mid-grow onto a tile that paid out after it was planted", () => {
+      const plantedAt = t0;
+      const placedAt = t0 + 5 * base;
       const state = liftPlaceAndHarvest({
+        plantedAt,
         removedAt: plantedAt + base / 2,
-        harvestAt,
-        // 0.75 of a grow since the last use: still cooling down.
-        aoeLastUsedAt: harvestAt - 0.75 * base,
+        placedAt,
+        harvestAt: placedAt + base / 2,
+        aoeLastUsedAt: plantedAt + base,
       });
 
       expect(state.inventory.Cabbage).toEqual(new Decimal(1));
     });
 
-    it("keeps the full grow time as the cooldown when lifted after finishing", () => {
+    it("does not apply to a crop lifted after finishing onto a tile that paid out after it was planted", () => {
+      const plantedAt = t0;
+      const placedAt = t0 + 5 * base;
       const state = liftPlaceAndHarvest({
+        plantedAt,
         removedAt: plantedAt + 2 * base,
+        placedAt,
         harvestAt: placedAt,
-        aoeLastUsedAt: placedAt - 0.5 * base,
+        aoeLastUsedAt: plantedAt + 3 * base,
       });
 
       expect(state.inventory.Cabbage).toEqual(new Decimal(1));
     });
 
-    it("re-arms once a full grow time has passed", () => {
-      const harvestAt = placedAt + base / 2;
+    it("applies to a lifted crop that was planted after the tile's last bonus", () => {
+      const plantedAt = t0;
+      const placedAt = t0 + 5 * base;
       const state = liftPlaceAndHarvest({
+        plantedAt,
         removedAt: plantedAt + base / 2,
-        harvestAt,
-        aoeLastUsedAt: harvestAt - base,
+        placedAt,
+        harvestAt: placedAt + base / 2,
+        aoeLastUsedAt: plantedAt - 1,
       });
 
       expect(state.inventory.Cabbage).toEqual(new Decimal(1.5));

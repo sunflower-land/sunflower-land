@@ -70,11 +70,9 @@ function useInstantGrowth({
   createdAt?: number;
 }): Record<string, CropPlot> {
   // Make every growing crop ready, and leave it with a grow duration of 0.
-  // `getCropGrowDurationMs` is what gates the crop-yield AOEs (Laurie, Sir
-  // Goldensnout, Gnome, ...): they only re-arm once a full grow duration has
-  // passed since their last use. An instant-grown crop is harvested early by
-  // design, so unless the duration collapses to 0 the harvest silently loses
-  // every AOE bonus.
+  // The crop-yield AOEs (Laurie, Sir Goldensnout, Gnome, ...) key off the
+  // crop's `cycleStartedAt`, which this leaves alone, so an instant-grown crop
+  // keeps any AOE bonus it would otherwise get.
   getKeys(crops).forEach((plot) => {
     const plantedCrop = crops[plot].crop;
     if (!plantedCrop) return;
@@ -83,11 +81,9 @@ function useInstantGrowth({
     // resolves to `createdAt` exactly and the grow duration is 0 (mirrors
     // usePetalBlessed / useGreenhouseGuru). Back-dating plantedAt instead would
     // re-price the grow against past boost windows and leave the duration at
-    // the FULL base grow time. Work banked by a landscaping lift is cleared
-    // too, since the grow duration adds it back.
+    // the FULL base grow time.
     plantedCrop.baseDurationMs = 0;
     plantedCrop.plantedAt = createdAt;
-    delete plantedCrop.boostedTime;
   });
 
   const basicScarecrowAOE = aoe["Basic Scarecrow"] ?? {};

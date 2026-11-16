@@ -731,7 +731,7 @@ describe("mineIron", () => {
     });
   });
 
-  it("does not apply the AOE if the AOE is not ready", () => {
+  it("does not apply the AOE if the tile paid out after the rock was mined", () => {
     const counter = findNonCriticalCounter();
     const payload = {
       state: {
@@ -739,6 +739,13 @@ describe("mineIron", () => {
         bumpkin: TEST_BUMPKIN,
         inventory: {
           "Stone Pickaxe": new Decimal(1),
+        },
+        iron: {
+          ...GAME_STATE.iron,
+          0: {
+            ...GAME_STATE.iron[0],
+            stone: { minedAt: now - IRON_RECOVERY_TIME * 1000 - 1 },
+          },
         },
         collectibles: {
           "Emerald Turtle": [
@@ -813,11 +820,10 @@ describe("mineIron", () => {
     expect(game.inventory.Iron).toEqual(new Decimal(1.5));
   });
 
-  it("uses the WINDOWED recovery duration for the yield-AOE budget", () => {
-    // A Super Totem (2× iron) covering the whole recovery halves it: the Emerald
-    // Turtle position frees up after baseDurationMs/2, NOT the full
-    // IRON_RECOVERY_TIME. Last used exactly baseDurationMs/2 ago, so the AOE
-    // re-applies only if the budget uses the windowed (boosted) duration.
+  it("applies after a speed-boosted recovery when the tile paid out as the rock was mined", () => {
+    // A Super Totem (2×) covering the whole recovery halves it. The tile paid out
+    // when the rock was last mined, so the AOE applies again however fast the
+    // rock recovered: no recovery duration is involved.
     const baseDurationMs = IRON_RECOVERY_TIME * 1000;
     const windowedDuration = baseDurationMs / 2;
     const counter = findNonCriticalCounter();
@@ -853,7 +859,9 @@ describe("mineIron", () => {
             },
           ],
         },
-        aoe: { "Emerald Turtle": { "-1": { "0": now - windowedDuration } } },
+        aoe: {
+          "Emerald Turtle": { "-1": { "0": now - windowedDuration - 1 } },
+        },
         farmActivity: { "Iron Rock Mined": counter },
       },
       createdAt: now,
@@ -1853,46 +1861,133 @@ describe("mineIron — speed windows", () => {
     );
   });
 
-  describe("Emerald Turtle cooldown after a landscaping lift", () => {
+  describe("Emerald Turtle: once per rock cycle", () => {
     const base = IRON_RECOVERY_TIME * 1000;
-    const minedAt = now - 10 * base;
-    const placedAt = minedAt + 5 * base;
+    const t0 = now - 20 * base;
+
+    const turtleState = (aoeLastUsedAt: number) => ({
+      ...GAME_STATE,
+      bumpkin: TEST_BUMPKIN,
+      inventory: {
+        "Iron Rock": new Decimal(2),
+        "Stone Pickaxe": new Decimal(1),
+      },
+      collectibles: {
+        "Emerald Turtle": [
+          {
+            id: "123",
+            createdAt: t0,
+            coordinates: { x: 2, y: 1 },
+            readyAt: t0,
+          },
+        ],
+      },
+      aoe: { "Emerald Turtle": { "-1": { "0": aoeLastUsedAt } } },
+    });
+
+    // Rock "0" sits at (1, 1), inside the Emerald Turtle's AOE at (2, 1).
+    const mineRock = ({
+      rock,
+      aoeLastUsedAt,
+      mineAt,
+    }: {
+      rock: Rock;
+      aoeLastUsedAt: number;
+      mineAt: number;
+    }) =>
+      mineIron({
+        state: {
+          ...turtleState(aoeLastUsedAt),
+          iron: { ...GAME_STATE.iron, 0: { ...rock, x: 1, y: 1 } },
+        },
+        action: { type: "ironRock.mined", index: "0" },
+        createdAt: mineAt,
+        farmId,
+      });
+
+    const turtleCell = (game: GameState) =>
+      game.aoe["Emerald Turtle"]?.["-1"]?.["0"];
+
+    it("records when the rock's next cycle started", () => {
+      const mineAt = t0 + base + 1;
+      const game = mineRock({
+        rock: { createdAt: t0, stone: { minedAt: t0, baseDurationMs: base } },
+        aoeLastUsedAt: t0 - 1,
+        mineAt,
+      });
+
+      expect(game.iron[0].stone.cycleStartedAt).toBe(mineAt);
+    });
+
+    it("applies when the rock's cycle started at the tile's last bonus", () => {
+      const mineAt = t0 + base + 1;
+      const game = mineRock({
+        rock: {
+          createdAt: t0,
+          stone: { minedAt: t0, cycleStartedAt: t0, baseDurationMs: base },
+        },
+        aoeLastUsedAt: t0,
+        mineAt,
+      });
+
+      expect(turtleCell(game)).toBe(mineAt);
+    });
+
+    it("does not apply when the tile's last bonus came after the rock's cycle started, however long ago", () => {
+      const game = mineRock({
+        rock: {
+          createdAt: t0,
+          stone: { minedAt: t0, cycleStartedAt: t0, baseDurationMs: base },
+        },
+        aoeLastUsedAt: t0 + 1,
+        mineAt: t0 + 10 * base,
+      });
+
+      expect(turtleCell(game)).toBe(t0 + 1);
+    });
+
+    it("applies to a never-mined rock created after the tile's last bonus", () => {
+      const mineAt = t0 + base;
+      const game = mineRock({
+        rock: { createdAt: t0 + 1, stone: { minedAt: 0 } },
+        aoeLastUsedAt: t0,
+        mineAt,
+      });
+
+      expect(turtleCell(game)).toBe(mineAt);
+    });
+
+    it("does not apply to a never-mined rock created before the tile's last bonus", () => {
+      const game = mineRock({
+        rock: { createdAt: t0, stone: { minedAt: 0 } },
+        aoeLastUsedAt: t0 + 1,
+        mineAt: t0 + 10 * base,
+      });
+
+      expect(turtleCell(game)).toBe(t0 + 1);
+    });
 
     // Lift rock "0" at `removedAt`, re-place it at `placedAt`, then mine it at
     // `mineAt` with the Emerald Turtle cell last used at `aoeLastUsedAt`.
     const liftPlaceAndMine = ({
       removedAt,
+      placedAt,
       mineAt,
       aoeLastUsedAt,
     }: {
       removedAt: number;
+      placedAt: number;
       mineAt: number;
       aoeLastUsedAt: number;
     }) => {
       const placed = placeIron({
         state: {
-          ...GAME_STATE,
+          ...turtleState(aoeLastUsedAt),
           buildings: {},
-          bumpkin: TEST_BUMPKIN,
-          inventory: {
-            "Iron Rock": new Decimal(2),
-            "Stone Pickaxe": new Decimal(1),
-          },
-          collectibles: {
-            "Emerald Turtle": [
-              {
-                id: "123",
-                createdAt: minedAt,
-                coordinates: { x: 2, y: 1 },
-                readyAt: minedAt,
-              },
-            ],
-          },
-          aoe: { "Emerald Turtle": { "-1": { "0": aoeLastUsedAt } } },
           iron: {
             0: {
-              createdAt: minedAt,
-              stone: { minedAt, baseDurationMs: base },
+              createdAt: t0,
+              stone: { minedAt: t0, cycleStartedAt: t0, baseDurationMs: base },
               removedAt,
             },
             1: GAME_STATE.iron[1],
@@ -1915,37 +2010,41 @@ describe("mineIron — speed windows", () => {
       });
     };
 
-    it("keeps the full recovery time as the cooldown when lifted mid-recovery", () => {
-      const aoeLastUsedAt = placedAt + base / 2 - 0.75 * base;
+    it("does not apply to a rock lifted mid-recovery onto a tile that paid out after it was mined", () => {
+      const placedAt = t0 + 5 * base;
       const game = liftPlaceAndMine({
-        removedAt: minedAt + base / 2,
+        removedAt: t0 + base / 2,
+        placedAt,
         mineAt: placedAt + base / 2 + 1,
-        aoeLastUsedAt,
+        aoeLastUsedAt: t0 + base,
       });
 
-      expect(game.aoe["Emerald Turtle"]?.["-1"]?.["0"]).toBe(aoeLastUsedAt);
+      expect(turtleCell(game)).toBe(t0 + base);
     });
 
-    it("keeps the full recovery time as the cooldown when lifted after recovering", () => {
-      const aoeLastUsedAt = placedAt - 0.5 * base;
+    it("does not apply to a rock lifted after recovering onto a tile that paid out after it was mined", () => {
+      const placedAt = t0 + 5 * base;
       const game = liftPlaceAndMine({
-        removedAt: minedAt + 2 * base,
+        removedAt: t0 + 2 * base,
+        placedAt,
         mineAt: placedAt + 1,
-        aoeLastUsedAt,
+        aoeLastUsedAt: t0 + 3 * base,
       });
 
-      expect(game.aoe["Emerald Turtle"]?.["-1"]?.["0"]).toBe(aoeLastUsedAt);
+      expect(turtleCell(game)).toBe(t0 + 3 * base);
     });
 
-    it("re-arms once a full recovery time has passed", () => {
+    it("applies to a lifted rock that was mined after the tile's last bonus", () => {
+      const placedAt = t0 + 5 * base;
       const mineAt = placedAt + base / 2 + 1;
       const game = liftPlaceAndMine({
-        removedAt: minedAt + base / 2,
+        removedAt: t0 + base / 2,
+        placedAt,
         mineAt,
-        aoeLastUsedAt: mineAt - base,
+        aoeLastUsedAt: t0 - 1,
       });
 
-      expect(game.aoe["Emerald Turtle"]?.["-1"]?.["0"]).toBe(mineAt);
+      expect(turtleCell(game)).toBe(mineAt);
     });
   });
 });

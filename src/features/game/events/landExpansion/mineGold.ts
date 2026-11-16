@@ -6,6 +6,7 @@ import {
 import {
   isCollectibleOnFarm,
   canUseYieldBoostAOE,
+  getRockCycleStartedAt,
   setAOELastUsed,
 } from "features/game/lib/aoe";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
@@ -24,38 +25,12 @@ import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { produce } from "immer";
 import { prngChance } from "lib/prng";
 import cloneDeep from "lodash.clonedeep";
-import { canMine, getMineReadyAt } from "features/game/lib/resourceNodes";
+import { canMine } from "features/game/lib/resourceNodes";
 
 export type LandExpansionGoldMineAction = {
   type: "goldRock.mined";
   index: string;
 };
-
-/**
- * The gold's real recovery duration (ms), for gating the yield-AOE re-use. It
- * is derived from the live speed windows, so an active boost shortens it to match
- * the actual recovery.
- *
- * A landscaping lift banks the work done so far into `boostedTime` and shrinks
- * `baseDurationMs` to what's left (see `pauseWindowedTimer`), so the banked work
- * is added back here: the duration covers the whole recovery, not just the part
- * after the rock was re-placed. A rock with no `baseDurationMs` was never
- * lifted, so it has no banked work to add.
- */
-function getGoldRecoveryDurationMs(rock: Rock, game: GameState): number {
-  const { baseDurationMs, boostedTime } = rock.stone;
-  const fullRecovery: Rock =
-    baseDurationMs === undefined
-      ? rock
-      : {
-          ...rock,
-          stone: {
-            ...rock.stone,
-            baseDurationMs: baseDurationMs + (boostedTime ?? 0),
-          },
-        };
-  return getMineReadyAt(fullRecovery, "Gold Rock", game) - rock.stone.minedAt;
-}
 
 type PrngArgs = {
   farmId: number;
@@ -268,8 +243,7 @@ export function getGoldDropAmount({
         updatedAoe,
         "Emerald Turtle",
         { dx, dy },
-        getGoldRecoveryDurationMs(rock, game),
-        createdAt,
+        getRockCycleStartedAt(rock),
       );
 
       if (canUseAoe) {
@@ -406,10 +380,10 @@ export function mineGold({
       },
     );
 
-    goldRock.stone = { minedAt: time };
+    goldRock.stone = { minedAt: time, cycleStartedAt: createdAt };
     // Speed-rate model: real minedAt + permanent-only baseDurationMs. Temporary
     // boosts are derived live from windows, so there's no baked discount; keep
-    // boostedTime at 0 so the yield-AOE budget uses the real windowed duration.
+    // boostedTime at 0.
     goldRock.stone.baseDurationMs = baseDurationMs;
     goldRock.stone.boostedTime = 0;
 

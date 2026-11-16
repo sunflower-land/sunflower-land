@@ -548,6 +548,7 @@ export function plantCropOnPlot({
       // True plant time — Sparrow Shrine speed-up is derived live from
       // windows rather than baked in by back-dating plantedAt.
       plantedAt: createdAt,
+      cycleStartedAt: createdAt,
       baseDurationMs: boostedTime * 1000,
       name: cropName,
     },
