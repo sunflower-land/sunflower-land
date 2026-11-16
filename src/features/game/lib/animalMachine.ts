@@ -342,6 +342,13 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
         },
       },
       on: {
+        // A cure while asleep and unloved keeps the cured animal, so a banked
+        // animal still wakes as ready.
+        CURE: {
+          actions: assign({
+            animal: (_, event) => (event as AnimalCureEvent).animal,
+          }),
+        },
         TICK: [
           // A banked animal is still ready when it wakes unloved.
           {
