@@ -818,9 +818,12 @@ const COOKING_BUILDINGS = getKeys({
  * for the first recipe of each chain, whose start is exact (its own anchor, or
  * a legacy predecessor's fixed ready time) — so the earliest start found is
  * the earliest any recipe really has. And losing windows (or oil) only ever
- * makes a recipe later, so the unboosted chain end bounds every ready time:
- * once it has passed — by now, or by the lift for a lifted building — no window
- * can change anything, and an uncollected dish pins nothing.
+ * makes a recipe later, so the latest unboosted end bounds every ready time.
+ * That is the latest over the whole walk, not the last recipe's: a recipe
+ * cooked on an idle building is anchored after the one ahead was ready, so it
+ * can end before that one's unboosted end. Once the latest has passed — by
+ * now, or by the lift for a lifted building — no window can change anything,
+ * and an uncollected dish pins nothing.
  *
  * Except its oil: a recipe queued before the work burn (`oilBoost` without
  * `oilRate`) burns oil per REAL day until it is ready, so how much it burned
@@ -835,6 +838,7 @@ function getCookingQueueAnchor(
 ): number | undefined {
   let earliest: number | undefined;
   let previousEnd: number | undefined;
+  let latestEnd: number | undefined;
   let burnsOilByTheClock = false;
 
   for (const recipe of building.crafting ?? []) {
@@ -861,6 +865,9 @@ function getCookingQueueAnchor(
       burnsOilByTheClock = true;
     }
     previousEnd = startedAt + baseDurationMs;
+    if (latestEnd === undefined || previousEnd > latestEnd) {
+      latestEnd = previousEnd;
+    }
   }
 
   const doneBy =
@@ -868,7 +875,7 @@ function getCookingQueueAnchor(
       ? building.removedAt
       : now;
   if (burnsOilByTheClock) return earliest;
-  if (previousEnd === undefined || previousEnd <= doneBy) return undefined;
+  if (latestEnd === undefined || latestEnd <= doneBy) return undefined;
 
   return earliest;
 }

@@ -632,6 +632,40 @@ describe("appendBoostHistory", () => {
       ]);
     });
 
+    it("keeps a window an earlier recipe still needs when a later one is anchored", () => {
+      // The hourglass makes the head ready at T0 + 42h (unboosted T0 + 48h). A
+      // 1h recipe cooked on the then-idle Kitchen is anchored at T0 + 43h, and the
+      // Kitchen is lifted at T0 + 44h. The LAST recipe's unboosted end is the
+      // lift, but the head's is 4h after it: on placement it banks the work done
+      // by the lift through the windows, and without the hourglass it would come
+      // back with 4h left to cook.
+      const now = T0 + 60 * DAY;
+      const game = farm({
+        crafting: [
+          {
+            name: "Creamy Truffle Risotto",
+            readyAt: 0,
+            startedAt: T0,
+            baseDurationMs: RISOTTO,
+          },
+          {
+            name: "Creamy Truffle Risotto",
+            readyAt: 0,
+            startedAt: T0 + 43 * HOUR,
+            baseDurationMs: HOUR,
+          },
+        ],
+        lifted: { removedAt: T0 + 44 * HOUR },
+      });
+
+      appendBoostHistory(game, "Gourmet Hourglass", BURNED, now);
+
+      expect(game.boostHistory?.["Gourmet Hourglass"]).toEqual([
+        HOURGLASS,
+        BURNED,
+      ]);
+    });
+
     it("keeps a window an unsettled clock-burn recipe still burns oil by", () => {
       // A recipe queued before the work burn (`oilBoost` but no `oilRate`) burns
       // its oil per REAL day until it is ready, so its window decides how much
