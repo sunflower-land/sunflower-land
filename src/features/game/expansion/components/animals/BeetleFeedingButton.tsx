@@ -41,9 +41,12 @@ export const BeetleFeedingButton: React.FC<{
   // mode ends so a leftover Beetle does not keep being fed.
   const previousSelection = useRef<InventoryItemName | undefined>(undefined);
   const selectedItemRef = useRef(selectedItem);
-  selectedItemRef.current = selectedItem;
   const beetleRef = useRef(beetle);
-  beetleRef.current = beetle;
+
+  useEffect(() => {
+    selectedItemRef.current = selectedItem;
+    beetleRef.current = beetle;
+  });
 
   const restoreHand = (beetle: BeetleName) => {
     const previous = previousSelection.current;
