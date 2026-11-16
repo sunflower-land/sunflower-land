@@ -98,13 +98,75 @@ export abstract class EntityRenderer<Slice> {
     return true;
   }
 
+  /**
+   * Settles when this renderer's first sync has finished (its initial
+   * textures arrived and its objects exist) or failed. The scene gathers
+   * these to know when the surface is ready to reveal.
+   */
+  firstSync: Promise<void> = Promise.resolve();
+
+  /**
+   * Opt-in for renderers whose slice is costly to derive and not
+   * latency-critical (the coastal cast, the expansion pontoon): instead of
+   * running the selector inside every machine transition, note that
+   * something changed and derive the slice at most once per interval, from
+   * the frame loop.
+   *
+   * Selectors run synchronously inside gameService.send — on the player's
+   * tap. Two of them recomputing expansion requirements, restock lists and
+   * hint text cost about a millisecond of every harvest and chop, for
+   * visuals that change a few times a session.
+   */
+  protected selectorIntervalMs = 0;
+  private deferredDirty = false;
+  private deferredSlice: Slice | undefined;
+  private lastDeferredAt = 0;
+
   mount() {
-    this.unsubscribe = this.bridge.subscribe(
-      (state) => this.selector(state),
-      (slice) => void this.sync(slice),
-      this.equals,
-    );
-    void this.sync(this.bridge.select((state) => this.selector(state)));
+    const initial = this.bridge.select((state) => this.selector(state));
+    if (this.selectorIntervalMs > 0) {
+      this.deferredSlice = initial;
+      // Every transition yields a new state object, so this only flags.
+      this.unsubscribe = this.bridge.subscribe(
+        (state) => state,
+        () => {
+          this.deferredDirty = true;
+        },
+      );
+    } else {
+      this.unsubscribe = this.bridge.subscribe(
+        (state) => this.selector(state),
+        (slice) => void this.runSync(slice),
+        this.equals,
+      );
+    }
+    this.firstSync = this.runSync(initial);
+  }
+
+  /** Called by the scene every frame; derives a deferred slice when due. */
+  flushDeferred(now: number) {
+    if (!this.deferredDirty) return;
+    if (now - this.lastDeferredAt < this.selectorIntervalMs) return;
+    this.deferredDirty = false;
+    this.lastDeferredAt = now;
+    const next = this.bridge.select((state) => this.selector(state));
+    if (this.equals(this.deferredSlice as Slice, next)) return;
+    this.deferredSlice = next;
+    void this.runSync(next);
+  }
+
+  /**
+   * One renderer failing must not take the surface down with it: an escaped
+   * throw used to leave the boot cover up forever (the scene never counted
+   * as loaded) and every other renderer half-built.
+   */
+  private async runSync(slice: Slice): Promise<void> {
+    try {
+      await this.sync(slice);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(`[farmEngine] ${this.constructor.name} sync failed`, error);
+    }
   }
 
   destroy() {

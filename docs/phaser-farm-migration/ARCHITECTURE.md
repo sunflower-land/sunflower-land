@@ -232,6 +232,30 @@ Strict parity means **the same PNGs**. The existing code imports them as URLs vi
 - Spritesheets already used by `SpriteAnimator` (mushrooms, harvest proc, tree shake, depleting animations) map 1:1 onto `Phaser.Textures` spritesheet loading with the same frame counts.
 - Later optimization (post-parity): atlas packing. Not during the port.
 
+## Engine lifetime, loading and surface transitions (2026-11-16)
+
+**One `Phaser.Game` for the session** — `core/engineHost.ts`. Each surface (farm, home, barn, …) is a `FarmScene` added to that game on mount and removed on unmount; the canvas is re-parented into the mounting `FarmPhaser`'s container. The WebGL context, compiled pipelines, global animations and the texture cache therefore outlive a hop. The game is destroyed only when nothing re-acquires it within `RELEASE_GRACE_MS` (leaving for a non-farm route). Consequences to keep in mind:
+
+- Scene keys are unique per mount (`nextSceneKey`). Never look a scene up by a fixed key or assume `game.scene.scenes[0]` — use `window.__farmScene` (harness) or `game.scene.getScenes(true)[0]`.
+- Anything registered on the **game** (not the scene) must be idempotent or removed on scene teardown: input pointers, pipelines, `game.events` listeners, textures created under fixed keys.
+- `FarmScene.dispose()` is called by the mount **before** the scene is stopped. Phaser's own plugins handle `SHUTDOWN` first, so a teardown hung off `SHUTDOWN` finds the camera already gone.
+
+**Loading is per renderer, not per scene** — `core/assets.ts`. `queueImage` / `queueSpritesheet` record what a caller queued; `runLoader(scene)` resolves when _that caller's_ files have settled (loaded or failed), not when the scene's loader drains. The queue calls and the `runLoader` call must sit in the same synchronous block. A failed file settles too, so one bad URL can't hang a renderer.
+
+**Reveal** — a scene starts veiled (camera faded to `VEIL_COLOR`), renderers build the surface behind it, and `revealWhenReady` dissolves in once every renderer's `firstSync` has settled — or, past `REVEAL_CAP_MS`, once only a straggler or two is outstanding (`REVEAL_NEARLY_READY`), with `REVEAL_HARD_CAP_MS` as the backstop. Late arrivals simply appear (NPCs fade in). `EntityRenderer.mount()` wraps `sync` so a throwing renderer logs and settles instead of blocking the reveal.
+
+**Leaving** — route changes started by the engine or its overlay go through `bridge.navigateTo`, which runs `scene.leave()` (a short dissolve to the veil) before navigating. Use it rather than `useNavigate` for any surface-to-surface hop.
+
+**Boot cover** — `overlay/FarmLoading.tsx` is opaque only on a cold boot (engine just created), shows real progress (`loadProgress`), and lifts with `scene.revealed`. On a warm hop it renders nothing unless the surface is slow.
+
+**Per-action cost rules** (measured on a production build; the dev build's React overhead hides everything):
+
+- Renderer selectors run synchronously inside `gameService.send`, i.e. on the player's tap. Keep them to cheap slice reads. A selector that has to _derive_ something expensive sets `selectorIntervalMs` and is evaluated from the frame loop instead (`BoatsLayer`, `UpcomingExpansionRenderer`).
+- React overlay components must not subscribe to the whole game state while idle. `FarmModals` mounts its body only while a modal is open; `CropsUI` mounts only the hovered plot.
+- `FarmPhaser` is memoised because `Game.tsx`'s `GameContent` re-renders on every machine transition.
+
+**Measuring** — set `localStorage["phaserFarm.hooks"] = "1"` to expose `__farmGame` / `__farmScene` / `__farmBridge` on a production build. `performance.getEntriesByType("mark")` has `farm:scene-create:<surface>`, `farm:scene-ready:<surface>`, `farm:cover-lift` (and per-renderer `farm:first-sync:*` in dev).
+
 ## How to add things (the recipes)
 
 **A new resource** (e.g. a new rock type):

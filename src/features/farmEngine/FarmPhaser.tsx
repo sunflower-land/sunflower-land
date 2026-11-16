@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import { createPortal } from "react-dom";
 import { useNavigate, useOutlet } from "react-router";
-import Phaser from "phaser";
+import type Phaser from "phaser";
 import { Context } from "features/game/GameProvider";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { Hud } from "features/island/hud/Hud";
@@ -18,7 +18,14 @@ import { useVisiting } from "lib/utils/visitUtils";
 import { useSelector } from "@xstate/react";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { createGameBridge, type GameBridge } from "./bridge/GameBridge";
-import { DPR, IS_COARSE_POINTER } from "./core/rendering";
+import {
+  acquireEngine,
+  devHooksEnabled,
+  nextSceneKey,
+  releaseEngine,
+  startScene,
+  stopScene,
+} from "./core/engineHost";
 import { FarmScene } from "./scenes/FarmScene";
 import {
   HOME_RENDERERS,
@@ -70,14 +77,31 @@ const INTERIOR_RENDERERS: Partial<
   level_one: INTERIOR_FLOOR_RENDERERS,
 };
 
-export const FarmPhaser: React.FC<{
+const FarmPhaserRoot: React.FC<{
   /**
    * Which placement surface to render. "farm" is the island; "home" is the
    * house interior [home/Home.tsx], which swaps the world layers for the
    * room backdrop and points every placement renderer at `game.home`.
    */
   surface?: FarmSurface;
-}> = ({ surface = "farm" }) => {
+}> = ({ surface = "farm" }) => (
+  // Keyed by surface: the routes all render <FarmPhaser> at the same spot in
+  // the tree, so without a key React would reuse one instance — and its
+  // bridge, which the unmount disposes — across surfaces. Each surface gets
+  // a clean mount; the engine underneath persists.
+  <FarmPhaserSurface key={surface} surface={surface} />
+);
+
+/**
+ * Memoised: the route component above [Game.tsx GameContent] re-renders on
+ * every machine transition (it reads the whole actor), which would otherwise
+ * re-render this whole subtree — the overlay, the modal host, the HUD shell
+ * — from the top after each harvest or chop. Everything in here that needs
+ * game state subscribes to its own slice.
+ */
+export const FarmPhaser = React.memo(FarmPhaserRoot);
+
+const FarmPhaserSurface: React.FC<{ surface: FarmSurface }> = ({ surface }) => {
   const {
     gameService,
     selectedItem,
@@ -99,7 +123,7 @@ export const FarmPhaser: React.FC<{
 
   const navigate = useNavigate();
 
-  // openModal/shortcutItem/navigate come from provider state; keep the bridge
+  // openModal/shortcutItem come from provider state; keep the bridge
   // pointing at the latest without rebuilding it.
   useEffect(() => {
     setOpenModal(openModal);
@@ -107,9 +131,6 @@ export const FarmPhaser: React.FC<{
   useEffect(() => {
     setSelectItem(shortcutItem);
   }, [shortcutItem, setSelectItem]);
-  useEffect(() => {
-    setNavigate(navigate);
-  }, [navigate, setNavigate]);
 
   const uiPrefs = useMemo(
     () => ({
@@ -135,88 +156,55 @@ export const FarmPhaser: React.FC<{
     : "home";
 
   const gameRef = useRef<Phaser.Game | undefined>(undefined);
+  const sceneRef = useRef<FarmScene | undefined>(undefined);
+  // The running scene, and whether the engine was already warm when this
+  // surface mounted — the boot cover behaves differently for a hop.
+  const [mounted, setMounted] = useState<{
+    scene: FarmScene | undefined;
+    warm: boolean;
+  }>({ scene: undefined, warm: false });
+
+  // Leaving for another surface dissolves this one out first. Every route
+  // change the engine or its overlay starts goes through bridge.navigateTo.
+  useEffect(() => {
+    setNavigate((path) => {
+      const scene = sceneRef.current;
+      if (scene) scene.leave(() => navigate(path));
+      else navigate(path);
+    });
+  }, [navigate, setNavigate]);
 
   useEffect(() => {
-    // Backing store at physical resolution, squeezed back via zoom — see
-    // core/rendering.ts for why. pixelArt must be explicitly false: it
-    // defaults to true whenever scale.zoom !== 1 and force-disables
-    // antialiasing. NEAREST is opted into per texture in core/assets.ts.
-    const game = new Phaser.Game({
-      type: Phaser.AUTO,
-      parent: containerRef.current ?? undefined,
-      render: {
-        pixelArt: false,
-        antialias: true,
-        // MSAA buffers on top of a DPR-supersampled canvas are pure memory
-        // cost on phones — the supersample already smooths the downscale.
-        antialiasGL: !IS_COARSE_POINTER,
-        roundPixels: true,
-      },
-      loader: {
-        // Phaser's default of 32 parallel loads lands decode + GPU-upload
-        // spikes all at once during the boot burst — enough to jetsam a
-        // mobile WebKit tab. Trickle instead.
-        maxParallelDownloads: IS_COARSE_POINTER ? 8 : 32,
-      },
-      // CRITICAL: Phaser defaults to ALSO listening at window level, so
-      // clicks on the HUD and modals would pan the camera and click plots
-      // through the UI. Listen on the canvas only.
-      input: {
-        windowEvents: false,
-      },
-      scale: {
-        mode: Phaser.Scale.NONE,
-        width: Math.round(window.innerWidth * DPR),
-        height: Math.round(window.innerHeight * DPR),
-        zoom: 1 / DPR,
-      },
-      scene: [
-        new FarmScene(bridge, {
-          key: surface,
-          location: surface,
-          renderers: INTERIOR_RENDERERS[surface],
-        }),
-      ],
+    const container = containerRef.current;
+    if (!container) return;
+
+    // One game for the whole session; each surface is a scene on it, so the
+    // texture cache and GL state survive a hop [core/engineHost.ts].
+    const { game, warm } = acquireEngine(container);
+    const scene = new FarmScene(bridge, {
+      key: nextSceneKey(surface),
+      location: surface,
+      renderers: INTERIOR_RENDERERS[surface],
     });
     gameRef.current = game;
-    if (import.meta.env.DEV) {
-      // Parity/perf harness hooks (docs/phaser-farm-migration/scripts).
-      (window as { __farmGame?: Phaser.Game }).__farmGame = game;
+    sceneRef.current = scene;
+    startScene(game, scene);
+    setMounted({ scene, warm });
+    if (devHooksEnabled()) {
       (window as { __farmBridge?: GameBridge }).__farmBridge = bridge;
     }
 
-    // With canvas-only input, a drag released over a DOM element would lose
-    // its pointerup and leave the camera panning. Capture the pointer on the
-    // canvas for the duration of each press so the release always lands.
-    game.events.once(Phaser.Core.Events.READY, () => {
-      game.canvas.addEventListener("pointerdown", (event) => {
-        game.canvas.setPointerCapture(event.pointerId);
-      });
-    });
-
-    const onResize = () => {
-      game.scale.resize(
-        Math.round(window.innerWidth * DPR),
-        Math.round(window.innerHeight * DPR),
-      );
-    };
-    window.addEventListener("resize", onResize);
-
     return () => {
-      window.removeEventListener("resize", onResize);
       gameRef.current = undefined;
-      const hooks = window as {
-        __farmGame?: Phaser.Game;
-        __farmBridge?: GameBridge;
-      };
-      // Clear the dev hooks — a stale global pins the destroyed game's memory.
-      if (hooks.__farmGame === game) delete hooks.__farmGame;
+      sceneRef.current = undefined;
+      const hooks = window as { __farmBridge?: GameBridge };
       if (hooks.__farmBridge === bridge) delete hooks.__farmBridge;
-      game.destroy(true);
+      stopScene(game, scene);
+      releaseEngine(game);
       bridge.dispose();
     };
-    // The bridge is created once with the component; the engine mounts once
-    // per surface (the route swaps surfaces, remounting the scene).
+    // The bridge is created once with the component, and FarmPhaser remounts
+    // per surface (keyed below), so this runs once per mount.
   }, [bridge, surface]);
 
   // While an in-world modal is open — or a nested route like the marketplace
@@ -314,7 +302,7 @@ export const FarmPhaser: React.FC<{
         </div>
       )}
       {/* Boot cover — above the HUD until the engine's first loads settle */}
-      <FarmLoading getGame={() => gameRef.current} />
+      <FarmLoading scene={mounted.scene} warm={mounted.warm} />
     </div>,
     document.body,
   );

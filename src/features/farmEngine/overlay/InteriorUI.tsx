@@ -151,7 +151,8 @@ export const InteriorUI: React.FC<{
           >
             <Button
               onClick={() =>
-                navigate(
+                // Through the bridge so the room dissolves out first.
+                bridge.navigateTo(
                   isVisiting
                     ? `/visit/${gameService.getSnapshot().context.farmId}`
                     : "/",

@@ -154,26 +154,29 @@ const PlotStatus: React.FC<{
   );
 };
 
-export const CropsUI: React.FC<{ bridge: GameBridge }> = ({ bridge }) => {
+/**
+ * The one plot under the pointer. Everything this overlay shows for a crop is
+ * a hover popover, so only the hovered plot is mounted.
+ *
+ * The first version mounted a PlotStatus for EVERY planted plot: each one
+ * rebuilt its boost windows on every game-state change, ran its own live
+ * timer, and — while growing — subscribed to its world anchor, so a farm of
+ * 99 growing crops re-rendered 99 React components on every pan pointermove
+ * and after every harvest, all to draw nothing.
+ */
+const HoveredPlot: React.FC<{ id: string }> = ({ id }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
+  const plot = state.crops[id];
+  if (!plot) return null;
+  return <PlotStatus id={id} plot={plot} game={state} hovered />;
+};
 
+export const CropsUI: React.FC<{ bridge: GameBridge }> = ({ bridge }) => {
   const [hovered, setHovered] = useState<HoveredEntity>(bridge.hover.get());
   useEffect(() => bridge.hover.subscribe(setHovered), [bridge]);
 
-  return (
-    <>
-      {Object.entries(state.crops).map(([id, plot]) =>
-        plot.crop ? (
-          <PlotStatus
-            key={id}
-            id={id}
-            plot={plot}
-            game={state}
-            hovered={hovered?.type === "crop" && hovered.id === id}
-          />
-        ) : null,
-      )}
-    </>
-  );
+  if (hovered?.type !== "crop") return null;
+  // Keyed so the timer state never carries over between plots.
+  return <HoveredPlot key={hovered.id} id={hovered.id} />;
 };

@@ -8,6 +8,94 @@ import Phaser from "phaser";
  */
 
 /**
+ * Per-scene load tracking. Renderers queue what their slice needs and then
+ * await `runLoader` — which resolves when THEIR files have settled, not when
+ * the scene's whole loader drains.
+ *
+ * Awaiting the loader's COMPLETE event (the first version) tied every
+ * renderer to the slowest file anyone had queued: at boot all ~30 renderers
+ * queue in the same tick, so the ocean, the land and every crop waited on the
+ * last CDN pet sheet before a single object was created. Measured on a home
+ * interior's first visit: 3.7s of empty screen for 114 files, though the room
+ * art itself arrived in the first few hundred ms.
+ */
+type LoadTracker = {
+  /** Keys queued since the last runLoader call — the caller's batch. */
+  batch: Set<string>;
+  /** Resolvers for keys still in flight, shared by every batch awaiting them. */
+  pending: Map<string, { promise: Promise<void>; resolve: () => void }>;
+  /** Files asked for / settled over the scene's lifetime, for boot progress. */
+  requested: number;
+  settled: number;
+};
+
+const trackers = new WeakMap<Phaser.Scene, LoadTracker>();
+
+function trackerFor(scene: Phaser.Scene): LoadTracker {
+  const existing = trackers.get(scene);
+  if (existing) return existing;
+
+  const tracker: LoadTracker = {
+    batch: new Set(),
+    pending: new Map(),
+    requested: 0,
+    settled: 0,
+  };
+  trackers.set(scene, tracker);
+
+  const settle = (key: string) => {
+    const entry = tracker.pending.get(key);
+    if (!entry) return;
+    tracker.pending.delete(key);
+    tracker.settled += 1;
+    entry.resolve();
+  };
+  const settleAll = () => [...tracker.pending.keys()].forEach(settle);
+
+  // FILE_COMPLETE fires before the per-key `filecomplete-<type>-<key>` event
+  // in the same call stack, and awaiters resume on a microtask — so the
+  // NEAREST filter and frame extrusion below have always run by then.
+  scene.load.on(Phaser.Loader.Events.FILE_COMPLETE, settle);
+  // A failed file settles too: its renderer carries on without the texture
+  // rather than hanging (and holding the boot cover up) forever.
+  scene.load.on(
+    Phaser.Loader.Events.FILE_LOAD_ERROR,
+    (file: Phaser.Loader.File) => settle(file.key),
+  );
+  // Belt and braces — nothing may stay pending once the loader is idle or
+  // the scene is gone.
+  scene.load.on(Phaser.Loader.Events.COMPLETE, settleAll);
+  scene.events.once(Phaser.Scenes.Events.SHUTDOWN, settleAll);
+  scene.events.once(Phaser.Scenes.Events.DESTROY, settleAll);
+
+  return tracker;
+}
+
+/** Note a not-yet-loaded key as part of the caller's current batch. */
+function track(scene: Phaser.Scene, key: string) {
+  const tracker = trackerFor(scene);
+  if (!tracker.pending.has(key)) {
+    let resolve!: () => void;
+    const promise = new Promise<void>((done) => (resolve = done));
+    tracker.pending.set(key, { promise, resolve });
+    tracker.requested += 1;
+  }
+  tracker.batch.add(key);
+}
+
+/** Files settled vs asked for on this scene so far — real boot progress. */
+export function loadProgress(scene: Phaser.Scene): {
+  requested: number;
+  settled: number;
+} {
+  const tracker = trackers.get(scene);
+  return {
+    requested: tracker?.requested ?? 0,
+    settled: tracker?.settled ?? 0,
+  };
+}
+
+/**
  * The engine renders with LINEAR filtering globally (vector debug graphics,
  * possible painted art later); pixel art opts into NEAREST per texture — the
  * project-ii pattern. Since everything loaded through these helpers IS farm
@@ -22,8 +110,14 @@ const nearestOnLoad = (scene: Phaser.Scene, type: string, key: string) => {
 /** Queue an image if the texture isn't already present. Returns the key. */
 export function queueImage(scene: Phaser.Scene, url: string): string {
   if (!scene.textures.exists(url)) {
-    scene.load.image(url, url);
-    nearestOnLoad(scene, "image", url);
+    // Track before queueing: a key another renderer already has in flight
+    // still belongs to this caller's batch.
+    const inFlight = trackerFor(scene).pending.has(url);
+    track(scene, url);
+    if (!inFlight) {
+      scene.load.image(url, url);
+      nearestOnLoad(scene, "image", url);
+    }
   }
   return url;
 }
@@ -129,28 +223,40 @@ export function queueSpritesheet(
   frameConfig: FrameSize,
 ): string {
   if (!scene.textures.exists(url)) {
-    scene.load.spritesheet(url, url, frameConfig);
-    nearestOnLoad(scene, "spritesheet", url);
-    scene.load.once(`filecomplete-spritesheet-${url}`, () =>
-      extrudeFrames(scene, url, frameConfig),
-    );
+    const inFlight = trackerFor(scene).pending.has(url);
+    track(scene, url);
+    if (!inFlight) {
+      scene.load.spritesheet(url, url, frameConfig);
+      nearestOnLoad(scene, "spritesheet", url);
+      scene.load.once(`filecomplete-spritesheet-${url}`, () =>
+        extrudeFrames(scene, url, frameConfig),
+      );
+    }
   }
   return url;
 }
 
 /**
- * Start the loader if anything is queued and resolve when it settles. Safe to
- * call repeatedly — renderers queue what their current slice needs, then await
- * this before creating sprites (lazy loading is the norm: load the farm's
- * placed items, not the catalogue).
+ * Start the loader and resolve once everything THIS caller queued since its
+ * last call has settled (loaded or failed). Safe to call repeatedly —
+ * renderers queue what their current slice needs, then await this before
+ * creating sprites (lazy loading is the norm: load the farm's placed items,
+ * not the catalogue).
+ *
+ * The queue calls and this call must sit in the same synchronous block: the
+ * batch is whatever was queued on the scene since the previous runLoader.
  */
 export function runLoader(scene: Phaser.Scene): Promise<void> {
-  return new Promise((resolve) => {
-    if (!scene.load.list.size && !scene.load.inflight.size) {
-      resolve();
-      return;
-    }
-    scene.load.once(Phaser.Loader.Events.COMPLETE, () => resolve());
-    scene.load.start();
-  });
+  const tracker = trackerFor(scene);
+  const waits: Promise<void>[] = [];
+  for (const key of tracker.batch) {
+    const entry = tracker.pending.get(key);
+    if (entry) waits.push(entry.promise);
+  }
+  tracker.batch = new Set();
+
+  if (!waits.length) return Promise.resolve();
+  // No-op while the loader is already running; files added mid-load join it.
+  scene.load.start();
+  return Promise.all(waits).then(() => undefined);
 }

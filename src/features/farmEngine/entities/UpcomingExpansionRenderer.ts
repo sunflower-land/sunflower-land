@@ -58,6 +58,10 @@ export class UpcomingExpansionRenderer extends EntityRenderer<Slice> {
   private pontoonTiming: { createdAt: number; readyAt: number } | undefined;
   private chips: LabelChip[] = [];
 
+  // Derived from several farm-wide checks; nothing here needs to react
+  // within the same frame as the tap that changed it.
+  protected selectorIntervalMs = 250;
+
   selector(state: MachineState): Slice {
     const game = state.context.state;
     const basicLand = game.inventory["Basic Land"]?.toNumber() ?? 3;

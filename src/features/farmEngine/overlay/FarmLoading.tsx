@@ -1,72 +1,68 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import type Phaser from "phaser";
 
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Panel } from "components/ui/Panel";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { loadProgress } from "../core/assets";
+import type { FarmScene } from "../scenes/FarmScene";
 
 /**
- * Full-screen boot cover for the Phaser farm. Sits above EVERYTHING (HUD,
- * overlay, dev panel) until the engine has finished its initial texture
- * loads, then fades out.
+ * What the player sees while a surface's first textures arrive.
  *
- * Readiness: the renderers load lazily in bursts, so "loaded" = the scene
- * exists and its loader has been idle (no queued or in-flight files) for two
- * consecutive checks after at least one burst completed. The bar eases
- * toward 90% while loading and snaps to 100% on ready — smooth, never stuck.
+ * The scene itself starts veiled and dissolves in when it is ready
+ * [FarmScene.revealWhenReady], so this component only has to cover what the
+ * canvas can't:
+ *
+ * - Cold boot (the engine was just created): an opaque cover above
+ *   EVERYTHING — the HUD would otherwise sit over an empty world — in the
+ *   veil's own tone, lifting in step with the scene's dissolve.
+ * - Warm hop (farm <-> interior on a running engine): nothing at all. The
+ *   textures are cached, the scene is ready within a frame or two and the
+ *   camera dissolve is the whole transition. Only if a surface's first visit
+ *   is slow does a small label appear, so the veil never reads as a hang.
+ *
+ * Readiness and progress are the scene's real state, not a guess: the first
+ * version polled the loader every 150ms for two idle readings behind a bar
+ * easing toward 90%, with a 600ms minimum — up to a second of cover over a
+ * world that was already drawn.
  */
 
-const POLL_MS = 150;
-const MIN_SHOW_MS = 600;
-const FADE_MS = 400;
+/** Cold boot: hold the panel back so a fast load only shows the tone. */
+const PANEL_DELAY_MS = 350;
+/** Warm hop: how long the veil may sit bare before the label explains it. */
+const HOP_LABEL_DELAY_MS = 600;
+const FADE_MS = 220;
+const PROGRESS_POLL_MS = 80;
+
+type Phase = "covering" | "fading" | "done";
 
 export const FarmLoading: React.FC<{
-  getGame: () => Phaser.Game | undefined;
-}> = ({ getGame }) => {
+  /** The mounted scene, once the engine has started it. */
+  scene: FarmScene | undefined;
+  /** True when the engine was already running (a hop, not a boot). */
+  warm: boolean;
+}> = ({ scene, warm }) => {
   const { t } = useAppTranslation();
+  const [phase, setPhase] = useState<Phase>("covering");
+  const [showDetail, setShowDetail] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [phase, setPhase] = useState<"loading" | "fading" | "done">("loading");
-  const idleChecks = useRef(0);
-  const sawActivity = useRef(false);
-  const mountedAt = useRef(0);
 
+  // Lift with the scene's own reveal.
   useEffect(() => {
-    if (phase !== "loading") return;
-    if (!mountedAt.current) mountedAt.current = Date.now();
-
-    const interval = setInterval(() => {
-      // Ease toward 90% while we wait.
-      setProgress((current) => current + (90 - current) * 0.06);
-
-      const game = getGame();
-      const scene = game?.scene?.scenes?.[0] as
-        | { load?: { list: Set<unknown>; inflight: Set<unknown> } }
-        | undefined;
-      const loader = scene?.load;
-      if (!loader) return;
-
-      const busy = loader.list.size > 0 || loader.inflight.size > 0;
-      if (busy) {
-        sawActivity.current = true;
-        idleChecks.current = 0;
-        return;
-      }
-      if (!sawActivity.current) return;
-
-      idleChecks.current += 1;
-      if (
-        idleChecks.current >= 2 &&
-        Date.now() - mountedAt.current >= MIN_SHOW_MS
-      ) {
-        setProgress(100);
-        setPhase("fading");
-      }
-    }, POLL_MS);
-
-    return () => clearInterval(interval);
-  }, [phase, getGame]);
+    if (!scene) return;
+    let cancelled = false;
+    scene.revealed.then(() => {
+      if (cancelled) return;
+      performance.mark("farm:cover-lift");
+      setProgress(100);
+      setPhase("fading");
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [scene]);
 
   useEffect(() => {
     if (phase !== "fading") return;
@@ -74,15 +70,47 @@ export const FarmLoading: React.FC<{
     return () => clearTimeout(timer);
   }, [phase]);
 
+  // The panel / label only appear if the wait is long enough to notice.
+  useEffect(() => {
+    if (phase !== "covering") return;
+    const timer = setTimeout(
+      () => setShowDetail(true),
+      warm ? HOP_LABEL_DELAY_MS : PANEL_DELAY_MS,
+    );
+    return () => clearTimeout(timer);
+  }, [phase, warm]);
+
+  // Real progress: files settled over files asked for. The total grows as
+  // renderers queue their slices, so only ever move the bar forward.
+  useEffect(() => {
+    if (phase !== "covering" || !scene || warm) return;
+    const interval = setInterval(() => {
+      const { requested, settled } = loadProgress(scene);
+      if (!requested) return;
+      const percentage = Math.min(99, (settled / requested) * 100);
+      setProgress((current) => Math.max(current, percentage));
+    }, PROGRESS_POLL_MS);
+    return () => clearInterval(interval);
+  }, [phase, scene, warm]);
+
   if (phase === "done") return null;
+
+  if (warm) {
+    if (!showDetail || phase !== "covering") return null;
+    return (
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <span className="text-sm text-white text-shadow">{t("loading")}</span>
+      </div>
+    );
+  }
 
   // Own body portal: the HUD portals to <body> with its own z-index, so the
   // cover must too (a child z-index inside the engine wrapper loses).
   return createPortal(
     <div
-      className="fixed inset-0 flex items-center justify-center transition-opacity"
+      className="fixed inset-0 flex items-center justify-center transition-opacity ease-out"
       style={{
-        // The night-ocean tone the world fades in over.
+        // The veil tone the world dissolves in from [FarmScene VEIL_COLOR].
         backgroundColor: "#0e4a6d",
         zIndex: 2000,
         opacity: phase === "fading" ? 0 : 1,
@@ -90,7 +118,10 @@ export const FarmLoading: React.FC<{
         pointerEvents: phase === "fading" ? "none" : "auto",
       }}
     >
-      <div className="w-72 max-w-[80vw]">
+      <div
+        className="w-72 max-w-[80vw] transition-opacity duration-200"
+        style={{ opacity: showDetail ? 1 : 0 }}
+      >
         <Panel>
           <div className="flex flex-col items-center p-3 gap-3">
             <img

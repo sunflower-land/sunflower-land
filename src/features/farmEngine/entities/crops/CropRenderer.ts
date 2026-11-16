@@ -194,12 +194,22 @@ export class CropRenderer extends EntityRenderer<Slice> {
       this.clickedAt.delete(id);
     }
 
+    // Farm-wide, so resolved once per sync (on first use) rather than once
+    // per plot: every harvest re-syncs all the plots.
+    let plotWindows: ReturnType<typeof getCropPlotBoostWindows> | undefined;
+    const getPlotWindows = () =>
+      (plotWindows ??= getCropPlotBoostWindows(this.gameState()));
     for (const id of Object.keys(slice.crops)) {
-      this.syncPlot(id, slice, biome);
+      this.syncPlot(id, slice, biome, getPlotWindows);
     }
   }
 
-  private syncPlot(id: string, slice: Slice, biome: LandBiomeName) {
+  private syncPlot(
+    id: string,
+    slice: Slice,
+    biome: LandBiomeName,
+    getPlotWindows: () => ReturnType<typeof getCropPlotBoostWindows>,
+  ) {
     const plot = slice.crops[id];
     const world = gridToWorld({ x: plot.x ?? 0, y: plot.y ?? 0 });
 
@@ -288,7 +298,7 @@ export class CropRenderer extends EntityRenderer<Slice> {
     }
 
     const windows = [
-      ...getCropPlotBoostWindows(game),
+      ...getPlotWindows(),
       ...getCropFertiliserWindows(plot.fertiliser),
     ];
     const metrics = getHarvestMetrics({

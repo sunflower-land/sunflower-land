@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { useSelector } from "@xstate/react";
-import { useNavigate } from "react-router";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
@@ -90,7 +89,6 @@ export const InteriorFloorUI: React.FC<{
   floor: "interior" | "level_one";
 }> = ({ bridge, floor }) => {
   const { gameService } = useContext(Context);
-  const navigate = useNavigate();
   const { isVisiting, visitedFarmId } = useVisiting();
 
   const landscaping = useSelector(gameService, _landscaping);
@@ -106,7 +104,9 @@ export const InteriorFloorUI: React.FC<{
         line1={"Home interiors aren't available yet."}
         line2={"This feature is in beta. Check back soon."}
         button={"Back to farm"}
-        onClick={() => navigate(getInteriorExitRoute({ visitedFarmId }))}
+        onClick={() =>
+          bridge.navigateTo(getInteriorExitRoute({ visitedFarmId }))
+        }
       />
     );
   }
@@ -127,7 +127,9 @@ export const InteriorFloorUI: React.FC<{
         }
         button={"Go to interior"}
         onClick={() =>
-          navigate(getInteriorRoute({ floor: "ground", visitedFarmId }))
+          bridge.navigateTo(
+            getInteriorRoute({ floor: "ground", visitedFarmId }),
+          )
         }
       />
     );
@@ -181,7 +183,9 @@ export const InteriorFloorUI: React.FC<{
           <div
             className="h-full w-full cursor-pointer relative"
             onClick={() =>
-              navigate(getInteriorRoute({ floor: "level_one", visitedFarmId }))
+              bridge.navigateTo(
+                getInteriorRoute({ floor: "level_one", visitedFarmId }),
+              )
             }
           >
             <img
@@ -209,7 +213,9 @@ export const InteriorFloorUI: React.FC<{
           <div
             className="h-full w-full cursor-pointer relative"
             onClick={() =>
-              navigate(getInteriorRoute({ floor: "ground", visitedFarmId }))
+              bridge.navigateTo(
+                getInteriorRoute({ floor: "ground", visitedFarmId }),
+              )
             }
           >
             <img

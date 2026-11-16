@@ -38,6 +38,36 @@ const CLEAR_COLOR: Partial<Record<FarmSurface, string>> = {
 };
 const INTERIOR_CLEAR_COLOR = "#0e4a6d";
 
+/**
+ * The tone a surface fades in from and out to — the boot cover's own colour
+ * [FarmLoading], so a cold boot, a warm hop and the cover lifting all read as
+ * one continuous dissolve.
+ */
+export const VEIL_COLOR = 0x0e4a6d;
+const VEIL_RGB = [
+  (VEIL_COLOR >> 16) & 0xff,
+  (VEIL_COLOR >> 8) & 0xff,
+  VEIL_COLOR & 0xff,
+] as const;
+
+/** Dissolve from the veil into the surface once it is ready. */
+export const REVEAL_MS = 220;
+/** Dissolve out to the veil before leaving for another surface. */
+const LEAVE_MS = 140;
+
+/**
+ * How long a surface waits, veiled, for ALL its first textures. Past this
+ * the world shows without the stragglers (a CDN pet sheet, an outfit the
+ * animation service is still composing), which appear as they land — one
+ * slow file must not hold the whole farm hostage.
+ */
+const REVEAL_CAP_MS = 5000;
+/** ...but only once this share of the renderers is in — a world that is
+ * still mostly missing stays veiled rather than assembling in view. */
+const REVEAL_NEARLY_READY = 0.9;
+/** Whatever is missing, never hold the veil longer than this. */
+const REVEAL_HARD_CAP_MS = 15000;
+
 export class FarmScene extends Phaser.Scene {
   readonly farmCamera: FarmCameraController;
   private yieldEventFloats?: YieldEventFloats;
@@ -64,6 +94,16 @@ export class FarmScene extends Phaser.Scene {
   readonly location: FarmSurface;
   private readonly rendererSet: Record<string, RendererFactory>;
 
+  /**
+   * Resolves when the surface is revealed: every renderer's first sync has
+   * settled (or the cap ran out) and the camera has begun dissolving in.
+   */
+  readonly revealed: Promise<void>;
+  private resolveRevealed!: () => void;
+  private created = false;
+  private tornDown = false;
+  private leaving = false;
+
   constructor(
     public readonly bridge: GameBridge,
     options: {
@@ -76,12 +116,18 @@ export class FarmScene extends Phaser.Scene {
     this.location = options.location ?? "farm";
     this.rendererSet = options.renderers ?? RENDERERS;
     this.farmCamera = new FarmCameraController(this, bridge.anchors);
+    this.revealed = new Promise((resolve) => (this.resolveRevealed = resolve));
   }
 
   create() {
+    this.created = true;
+    performance.mark(`farm:scene-create:${this.location}`);
     this.cameras.main.setBackgroundColor(
       CLEAR_COLOR[this.location] ?? INTERIOR_CLEAR_COLOR,
     );
+    // Start fully veiled: renderers fill the surface in behind it, so the
+    // player never watches the world assemble group by group.
+    this.cameras.main.fadeOut(1, ...VEIL_RGB);
 
     this.visitingActive = this.bridge.select(
       (state) => state.context.visitorId !== undefined,
@@ -125,15 +171,103 @@ export class FarmScene extends Phaser.Scene {
       void this.stressBumpkins.create();
     }
 
-    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => this.teardown());
+    // Fallbacks only — the mount calls dispose() before stopping the scene.
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => this.dispose());
+    this.events.once(Phaser.Scenes.Events.DESTROY, () => this.dispose());
+
+    void this.revealWhenReady();
+  }
+
+  private async revealWhenReady() {
+    if (import.meta.env.DEV) {
+      // Per-renderer boot timeline: `performance.getEntriesByType("mark")`.
+      this.renderers.forEach((renderer) =>
+        renderer.firstSync.then(() =>
+          performance.mark(`farm:first-sync:${renderer.constructor.name}`),
+        ),
+      );
+    }
+    // Reveal when everything has settled; or, past the soft cap, once only a
+    // straggler or two is outstanding; or at the hard cap regardless.
+    const total = this.renderers.length;
+    let settled = 0;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    await new Promise<void>((resolve) => {
+      const startedAt = performance.now();
+      const check = () => {
+        const elapsed = performance.now() - startedAt;
+        const nearlyThere = settled >= total * REVEAL_NEARLY_READY;
+        if (
+          this.tornDown ||
+          settled === total ||
+          (elapsed >= REVEAL_CAP_MS && nearlyThere) ||
+          elapsed >= REVEAL_HARD_CAP_MS
+        ) {
+          resolve();
+        }
+      };
+      this.renderers.forEach((renderer) =>
+        renderer.firstSync.then(() => {
+          settled += 1;
+          check();
+        }),
+      );
+      // Wall clock, not the scene clock: Phaser caps each frame's delta, so
+      // under exactly the load this guards against scene time runs slow.
+      timer = setInterval(check, 250);
+      check();
+    });
+    clearInterval(timer);
+    if (this.tornDown) return;
+    performance.mark(`farm:scene-ready:${this.location}`);
+    // One frame for the objects just created to reach the display list and
+    // their textures the GPU, so the dissolve starts on a settled frame.
+    this.events.once(Phaser.Scenes.Events.POST_UPDATE, () => {
+      if (this.tornDown || this.leaving) return;
+      this.cameras.main.fadeIn(REVEAL_MS, ...VEIL_RGB);
+      this.resolveRevealed();
+    });
+  }
+
+  /**
+   * Dissolve to the veil, then run `then` (a route change to another
+   * surface). Input goes deaf for the duration so a second tap can't land on
+   * a world that is on its way out.
+   */
+  leave(then: () => void) {
+    if (this.leaving || this.tornDown || !this.created) {
+      then();
+      return;
+    }
+    this.leaving = true;
+    this.input.enabled = false;
+    const camera = this.cameras.main;
+    camera.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, then);
+    camera.fadeOut(LEAVE_MS, ...VEIL_RGB);
   }
 
   update(time: number, delta: number) {
     this.clock.tick(delta);
-    this.renderers.forEach((renderer) => renderer.update(time, delta));
+    for (const renderer of this.renderers) {
+      renderer.flushDeferred(time);
+      renderer.update(time, delta);
+    }
   }
 
-  private teardown() {
+  /**
+   * Tear down everything the scene owns. Called by the mount BEFORE the
+   * scene is stopped: Phaser's own plugins listen to SHUTDOWN first (they
+   * registered at boot), so by the time a SHUTDOWN handler of ours ran the
+   * camera would already be gone and its position could not be saved.
+   */
+  dispose() {
+    if (this.tornDown) return;
+    this.tornDown = true;
+    // Anything still awaiting the reveal (the boot cover) must not hang.
+    this.resolveRevealed();
+    // Stopped before create ran (unmounted mid-boot): nothing was built, and
+    // saving the untouched camera would overwrite the player's real position.
+    if (!this.created) return;
     this.landscaping?.destroy();
     this.landscaping = undefined;
     this.renderers.forEach((renderer) => renderer.destroy());

@@ -1,4 +1,10 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, {
+  Fragment,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
 import { useSelector } from "@xstate/react";
 import { Transition } from "@headlessui/react";
@@ -235,23 +241,78 @@ const RemoveWarningHost: React.FC<{
   return <RemoveHungryCaterpillarModal onClose={onClose} onRemove={onRemove} />;
 };
 
+/** How long the body stays mounted after closing, for the Modal's exit fade. */
+const EXIT_LINGER_MS = 400;
+
+/**
+ * Host for every in-world modal. This shell is all that stays mounted: it
+ * tracks which modal is open and mounts the body only while one is (plus the
+ * exit fade).
+ *
+ * The body subscribes to the whole game state and holds ~40 <Modal>s. Left
+ * mounted, it re-rendered all of them after every harvest, chop and plant —
+ * React work on each in-world action for modals nobody had open.
+ */
 export const FarmModals: React.FC<{
   bridge: GameBridge;
   /** Fires when any farm modal opens/closes, so the engine can gate input. */
   onOpenChange?: (open: boolean) => void;
 }> = ({ bridge, onOpenChange }) => {
-  const { t } = useAppTranslation();
-  const { gameService, showAnimations, selectedItem } = useContext(Context);
-  const state = useSelector(gameService, _state);
-
   const [open, setOpen] = useState<FarmModalRequest | undefined>();
+  // Flows inside the body that outlive `open` (the island-upgrade sequence).
+  const [busy, setBusy] = useState(false);
 
   useEffect(
     () => bridge.farmModal.subscribe((request) => setOpen(request)),
     [bridge],
   );
 
-  const close = () => setOpen(undefined);
+  const close = useCallback(() => setOpen(undefined), []);
+
+  const anyOpen = open !== undefined || busy;
+  useEffect(() => {
+    onOpenChange?.(anyOpen);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [anyOpen]);
+
+  const [lingering, setLingering] = useState(false);
+  useEffect(() => {
+    if (anyOpen) {
+      setLingering(true);
+      return;
+    }
+    const timer = setTimeout(() => setLingering(false), EXIT_LINGER_MS);
+    return () => clearTimeout(timer);
+  }, [anyOpen]);
+
+  return (
+    <>
+      {/* [PlayerNPC.tsx] global social singletons the DOM mounts alongside
+          the player bumpkin — the visited-player profile and Discovery. They
+          open through playerModalManager, not the bridge, so they stay
+          mounted. */}
+      <PlayerModalHost />
+      {(anyOpen || lingering) && (
+        <FarmModalsBody
+          bridge={bridge}
+          open={open}
+          close={close}
+          onBusyChange={setBusy}
+        />
+      )}
+    </>
+  );
+};
+
+const FarmModalsBody: React.FC<{
+  bridge: GameBridge;
+  open: FarmModalRequest | undefined;
+  close: () => void;
+  onBusyChange: (busy: boolean) => void;
+}> = ({ bridge, open, close, onBusyChange }) => {
+  const { t } = useAppTranslation();
+  const { gameService, showAnimations, selectedItem } = useContext(Context);
+  const state = useSelector(gameService, _state);
 
   // [TravelTeaser.tsx] tabs
   const [peteTab, setPeteTab] = useState<"explore" | "guide">("explore");
@@ -261,11 +322,10 @@ export const FarmModals: React.FC<{
   const [showTravelAnimation, setShowTravelAnimation] = useState(false);
   const [showUpgraded, setShowUpgraded] = useState(false);
 
-  const anyOpen = open !== undefined || showTravelAnimation || showUpgraded;
+  const busy = showTravelAnimation || showUpgraded;
   useEffect(() => {
-    onOpenChange?.(anyOpen);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [anyOpen]);
+    onBusyChange(busy);
+  }, [busy, onBusyChange]);
 
   const now = useNow();
   const { requirements, baseTimeSeconds, timeBoostsUsed } =
@@ -656,10 +716,6 @@ export const FarmModals: React.FC<{
           <BumpkinPainting bumpkin={state.bumpkin} onClose={close} />
         )}
       </Modal>
-
-      {/* [PlayerNPC.tsx] global social singletons the DOM mounts alongside
-          the player bumpkin — the visited-player profile and Discovery. */}
-      <PlayerModalHost />
 
       {/* [GreenhouseOil.tsx] the add-oil modal */}
       <GreenhouseOilModal

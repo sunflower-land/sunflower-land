@@ -60,6 +60,10 @@ export class BoatsLayer extends EntityRenderer<Slice> {
 
   private objects: { destroy(): void }[] = [];
 
+  // Derived from several farm-wide checks; nothing here needs to react
+  // within the same frame as the tap that changed it.
+  protected selectorIntervalMs = 250;
+
   selector(state: MachineState): Slice {
     const game = state.context.state;
     const laTomatina = game.specialEvents.current["La Tomatina"];

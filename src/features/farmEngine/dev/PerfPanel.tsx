@@ -50,7 +50,8 @@ const readStats = (
   fpsWindow: number[],
   longTasks: number,
 ): Stats => {
-  const scene = game.scene.scenes[0];
+  // The engine keeps one game across surfaces; read the scene now running.
+  const scene = game.scene.getScenes(true)[0] ?? game.scene.scenes[0];
   const memory = (performance as { memory?: { usedJSHeapSize: number } })
     .memory;
   return {

@@ -125,7 +125,9 @@ export class FarmCameraController {
     this.anchors.setProjection((world) => this.projectWorldRect(world));
 
     const input = this.scene.input;
-    input.addPointer(1); // two active pointers for pinch
+    // Two active pointers for pinch. Pointers belong to the game-wide input
+    // manager, which now outlives a scene — only add the second one once.
+    if (input.manager.pointersTotal < 2) input.addPointer(1);
 
     const onPointerDown = (pointer: Phaser.Input.Pointer) => {
       this.panArmed = false;
@@ -282,7 +284,8 @@ export class FarmCameraController {
 
   /** Persist viewport for the next farm mount (called on scene shutdown). */
   save() {
-    const camera = this.scene.cameras.main;
+    const camera = this.scene.cameras?.main;
+    if (!camera) return; // scene already shut down
     const saved: SavedCamera = {
       scrollX: camera.scrollX,
       scrollY: camera.scrollY,

@@ -62,6 +62,9 @@ type NPCSpriteOptions = {
   shadowAboveScenery?: boolean;
 };
 
+/** Fade for an NPC whose sheet loaded after the scene was already showing. */
+const LATE_ARRIVAL_FADE_MS = 160;
+
 export class NPCSprite {
   private sprite: Phaser.GameObjects.Sprite | undefined;
 
@@ -88,6 +91,9 @@ export class NPCSprite {
   async create() {
     const { parts, flipX, depth, onClick, container } = this.options;
     const url = getAnimationUrl(parts, ["idle"]);
+    // Sheets come from the animation service, so on a first visit the NPC
+    // lands some time after the world has been revealed.
+    const arrivesLate = !this.scene.textures.exists(url);
 
     queueSpritesheet(this.scene, url, {
       frameWidth: FRAME_WIDTH,
@@ -206,6 +212,23 @@ export class NPCSprite {
     if (onClick) {
       makeClickable(this.scene, this.sprite, onClick, {
         glow: () => this.sprite,
+      });
+    }
+
+    // Ease a late arrival in rather than popping it onto a settled scene.
+    if (arrivesLate) {
+      const layers = [
+        this.sprite,
+        this.shadow,
+        this.auraBack,
+        this.auraFront,
+      ].filter((layer) => !!layer);
+      layers.forEach((layer) => layer.setAlpha(0));
+      this.scene.tweens.add({
+        targets: layers,
+        alpha: 1,
+        duration: LATE_ARRIVAL_FADE_MS,
+        ease: "Sine.easeOut",
       });
     }
   }
