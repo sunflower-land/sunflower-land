@@ -4553,12 +4553,15 @@ describe("harvest", () => {
       placedAt,
       harvestAt,
       aoeLastUsedAt,
+      withCycleStart = true,
     }: {
       plantedAt: number;
       removedAt: number;
       placedAt: number;
       harvestAt: number;
       aoeLastUsedAt: number;
+      // false: a crop planted before `cycleStartedAt` existed.
+      withCycleStart?: boolean;
     }) => {
       const placed = placePlot({
         state: {
@@ -4576,7 +4579,7 @@ describe("harvest", () => {
               crop: {
                 name: "Cabbage",
                 plantedAt,
-                cycleStartedAt: plantedAt,
+                ...(withCycleStart ? { cycleStartedAt: plantedAt } : {}),
                 baseDurationMs: base,
               },
             },
@@ -4621,6 +4624,21 @@ describe("harvest", () => {
         placedAt,
         harvestAt: placedAt,
         aoeLastUsedAt: plantedAt + 3 * base,
+      });
+
+      expect(state.inventory.Cabbage).toEqual(new Decimal(1));
+    });
+
+    it("does not apply to an older crop (no cycleStartedAt) lifted onto a tile that paid out after it was planted", () => {
+      const plantedAt = t0;
+      const placedAt = t0 + 5 * base;
+      const state = liftPlaceAndHarvest({
+        plantedAt,
+        removedAt: plantedAt + base / 2,
+        placedAt,
+        harvestAt: placedAt + base / 2,
+        aoeLastUsedAt: plantedAt + base,
+        withCycleStart: false,
       });
 
       expect(state.inventory.Cabbage).toEqual(new Decimal(1));

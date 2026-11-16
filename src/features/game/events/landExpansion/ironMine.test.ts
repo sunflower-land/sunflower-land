@@ -1974,11 +1974,14 @@ describe("mineIron — speed windows", () => {
       placedAt,
       mineAt,
       aoeLastUsedAt,
+      withCycleStart = true,
     }: {
       removedAt: number;
       placedAt: number;
       mineAt: number;
       aoeLastUsedAt: number;
+      // false: a rock mined before `cycleStartedAt` existed.
+      withCycleStart?: boolean;
     }) => {
       const placed = placeIron({
         state: {
@@ -1987,7 +1990,11 @@ describe("mineIron — speed windows", () => {
           iron: {
             0: {
               createdAt: t0,
-              stone: { minedAt: t0, cycleStartedAt: t0, baseDurationMs: base },
+              stone: {
+                minedAt: t0,
+                ...(withCycleStart ? { cycleStartedAt: t0 } : {}),
+                baseDurationMs: base,
+              },
               removedAt,
             },
             1: GAME_STATE.iron[1],
@@ -2032,6 +2039,19 @@ describe("mineIron — speed windows", () => {
       });
 
       expect(turtleCell(game)).toBe(t0 + 3 * base);
+    });
+
+    it("does not apply to an older rock (no cycleStartedAt) lifted onto a tile that paid out after it was mined", () => {
+      const placedAt = t0 + 5 * base;
+      const game = liftPlaceAndMine({
+        removedAt: t0 + base / 2,
+        placedAt,
+        mineAt: placedAt + base / 2 + 1,
+        aoeLastUsedAt: t0 + base,
+        withCycleStart: false,
+      });
+
+      expect(turtleCell(game)).toBe(t0 + base);
     });
 
     it("applies to a lifted rock that was mined after the tile's last bonus", () => {

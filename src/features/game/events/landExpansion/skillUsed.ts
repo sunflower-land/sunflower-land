@@ -12,6 +12,7 @@ import {
   wakeAnimalAt,
 } from "features/game/lib/animals";
 import { getKeys } from "lib/object";
+import { getCropCycleStartedAt } from "features/game/lib/aoe";
 import type {
   GameState,
   CropPlot,
@@ -82,6 +83,7 @@ function useInstantGrowth({
     // usePetalBlessed / useGreenhouseGuru). Back-dating plantedAt instead would
     // re-price the grow against past boost windows and leave the duration at
     // the FULL base grow time.
+    plantedCrop.cycleStartedAt = getCropCycleStartedAt(plantedCrop);
     plantedCrop.baseDurationMs = 0;
     plantedCrop.plantedAt = createdAt;
   });

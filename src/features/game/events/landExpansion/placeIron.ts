@@ -14,6 +14,7 @@ import {
   getMineBoostWindows,
   pauseWindowedTimer,
 } from "features/game/lib/boostWindows";
+import { getRockCycleStartedAt } from "features/game/lib/aoe";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { freshRockTimer } from "features/game/lib/freshNodes";
 import { RESOURCE_RECOVERY_TIME } from "features/game/lib/resourceNodes";
@@ -59,6 +60,8 @@ export function placeIron({
       };
 
       if (updatedIron.stone && updatedIron.removedAt) {
+        // Keep the cycle start the yield AOEs read before minedAt moves.
+        updatedIron.stone.cycleStartedAt = getRockCycleStartedAt(updatedIron);
         // Pause recovery across the lift (windowed banking or legacy back-date).
         updatedIron.stone.minedAt = pauseWindowedTimer({
           timer: updatedIron.stone,

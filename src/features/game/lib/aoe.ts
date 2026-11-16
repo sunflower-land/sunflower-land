@@ -29,7 +29,8 @@ export const canUseYieldBoostAOE = (
 
 /**
  * When a planted crop's current cycle began. Crops planted before
- * `cycleStartedAt` existed fall back to `plantedAt`.
+ * `cycleStartedAt` existed fall back to `plantedAt`; anything that moves
+ * `plantedAt` (a lift, Instant Growth) records this first.
  */
 export const getCropCycleStartedAt = (crop: PlantedCrop): number =>
   crop.cycleStartedAt ?? crop.plantedAt;
@@ -37,7 +38,8 @@ export const getCropCycleStartedAt = (crop: PlantedCrop): number =>
 /**
  * When a rock's current cycle began. Rocks mined before `cycleStartedAt`
  * existed fall back to `minedAt`; a rock that has never been mined (`minedAt`
- * 0) falls back to when the rock was created.
+ * 0) falls back to when the rock was created. A lift records this before it
+ * moves `minedAt`.
  */
 export const getRockCycleStartedAt = (rock: Rock): number =>
   rock.stone.cycleStartedAt ?? (rock.stone.minedAt || (rock.createdAt ?? 0));
