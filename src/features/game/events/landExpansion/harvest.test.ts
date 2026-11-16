@@ -4295,20 +4295,22 @@ describe("harvest", () => {
       expect(state.crops[0].crop).toBeUndefined();
     });
 
-    // Sunshower window = [startedAt, end of that UTC day]; startedAt = midnight of
-    // today, so the short grow ending "now" is fully inside the window.
+    // Sunshower window = [startedAt, end of that UTC day], with startedAt at
+    // today's UTC midnight. The grow (60s Sunflower at 2× = 30s) has to fit
+    // inside that day. Harvest at 01:00 UTC today rather than at dateNow, which
+    // is less than 30s past midnight when the suite starts just after it:
+    // planted at 00:59:30, harvested at 01:00:00.
+    const startOfUtcDay = new Date(
+      new Date(dateNow).toISOString().split("T")[0],
+    ).getTime();
+    const sunshowerNow = startOfUtcDay + 60 * 60 * 1000;
     const sunshowerToday = () => ({
       dates: [],
-      sunshower: {
-        startedAt: new Date(
-          new Date(dateNow).toISOString().split("T")[0],
-        ).getTime(),
-        triggeredAt: dateNow,
-      },
+      sunshower: { startedAt: startOfUtcDay, triggeredAt: startOfUtcDay },
     });
 
     it("grows at 2× with an active sunshower", () => {
-      const plantedAt = dateNow - base / CROP_PLOT_BOOST_SPEED.sunshower;
+      const plantedAt = sunshowerNow - base / CROP_PLOT_BOOST_SPEED.sunshower;
       const state = harvest({
         state: {
           ...GAME_STATE,
@@ -4322,7 +4324,7 @@ describe("harvest", () => {
           },
         },
         action: { type: "crop.harvested", index: "0" },
-        createdAt: dateNow,
+        createdAt: sunshowerNow,
       });
 
       expect(state.crops[0].crop).toBeUndefined();
@@ -4330,7 +4332,7 @@ describe("harvest", () => {
 
     it("grows at 4× with sunshower and a matching season Guardian", () => {
       const plantedAt =
-        dateNow - base / CROP_PLOT_BOOST_SPEED.sunshowerGuardian;
+        sunshowerNow - base / CROP_PLOT_BOOST_SPEED.sunshowerGuardian;
       const state = harvest({
         state: {
           ...GAME_STATE,
@@ -4355,7 +4357,7 @@ describe("harvest", () => {
           },
         },
         action: { type: "crop.harvested", index: "0" },
-        createdAt: dateNow,
+        createdAt: sunshowerNow,
       });
 
       expect(state.crops[0].crop).toBeUndefined();
