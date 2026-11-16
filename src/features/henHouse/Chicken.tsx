@@ -17,12 +17,15 @@ import {
 import {
   getAnimalFavoriteFood,
   getAnimalLevel,
+  getClaimedExperience,
+  getNextClaimLevel,
   getBoostedFoodQuantity,
   getFeedItem,
   isFoodForAnimal,
   getFeedQuantity,
   resolveAnimal,
 } from "features/game/lib/animals";
+import type { AnimalLevel } from "features/game/types/animals";
 import classNames from "classnames";
 import { LevelProgress } from "features/game/expansion/components/animals/LevelProgress";
 import { RequestBubble } from "features/game/expansion/components/animals/RequestBubble";
@@ -166,6 +169,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   }, [chicken.state]);
 
   const [showDrops, setShowDrops] = useState(false);
+  // The level whose produce the drop animation shows.
+  const [dropsLevel, setDropsLevel] = useState<AnimalLevel>();
   const [showAnimalDetails, setShowAnimalDetails] = useState(false);
   const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
   const [showNoMedicine, setShowNoMedicine] = useState(false);
@@ -200,6 +205,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const lastSynced = useRef({
     state: chicken.state,
     experience: chicken.experience,
+    claimedExperience: chicken.claimedExperience,
   });
 
   // Sync the local machine when game state changes underneath it,
@@ -209,11 +215,13 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     lastSynced.current = {
       state: chicken.state,
       experience: chicken.experience,
+      claimedExperience: chicken.claimedExperience,
     };
 
     if (
       prev.state === chicken.state &&
-      prev.experience === chicken.experience
+      prev.experience === chicken.experience &&
+      prev.claimedExperience === chicken.claimedExperience
     ) {
       return;
     }
@@ -229,6 +237,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     const animateBulkClaim = async (
       event: "CLAIM_PRODUCE" | "INSTANT_WAKE_UP",
     ) => {
+      // Already claimed: the level just paid.
+      setDropsLevel(getAnimalLevel(getClaimedExperience(chicken), "Chicken"));
       setShowDrops(true);
       playProduceDrop();
       await new Promise((resolve) => setTimeout(resolve, 500));
@@ -239,30 +249,39 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       setShowDrops(false);
     };
 
-    if (machineState() === "ready" && chicken.state === "idle") {
+    // A banked claim leaves the animal ready (asleep until its next claim),
+    // so the claimed mark moving on is what shows a claim happened.
+    if (
+      machineState() === "ready" &&
+      (chicken.state === "idle" ||
+        (chicken.state === "ready" &&
+          prev.claimedExperience !== chicken.claimedExperience))
+    ) {
       animateBulkClaim("CLAIM_PRODUCE");
     }
 
     if (
       ["idle", "happy", "sad"].includes(machineState() as string) &&
-      chicken.state === "idle" &&
+      (chicken.state === "idle" || chicken.state === "ready") &&
       Date.now() < chicken.awakeAt
     ) {
       // Bulk feeding can level an animal to ready and claim its produce in
       // the same event; INSTANT_WAKE_UP re-derives the machine state from
-      // the animal, which maps an asleep animal to "sleeping".
+      // the animal, which maps an asleep animal to "sleeping". A feed that
+      // banked several claims leaves it ready but asleep after the first.
       animateBulkClaim("INSTANT_WAKE_UP");
     }
 
     if (
       ["idle", "happy", "sad"].includes(machineState() as string) &&
       ["happy", "sad", "ready"].includes(chicken.state) &&
-      machineState() !== chicken.state
+      machineState() !== chicken.state &&
+      Date.now() >= chicken.awakeAt
     ) {
       chickenService.send({ type: "FEED", animal: chicken });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chicken.state, chicken.experience]);
+  }, [chicken.state, chicken.experience, chicken.claimedExperience]);
 
   // One click feeds the whole batch that gets the Chicken ready.
   const feedBatchSize = getFeedBatchSize({ state: game, animal: chicken });
@@ -438,6 +457,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       return;
     }
 
+    setDropsLevel(getNextClaimLevel(chicken));
     setShowDrops(true);
     playProduceDrop();
     await new Promise((resolve) => setTimeout(resolve, 500));
@@ -682,7 +702,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
             <ProduceDrops
               animal={chicken}
               multiplier={chicken.multiplier ?? 0}
-              level={level}
+              level={dropsLevel ?? level}
               animalType="Chicken"
               className="bottom-0 left-1/2 -translate-x-1/2"
             />

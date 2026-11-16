@@ -12,6 +12,7 @@ import {
   getAnimalMaxLevel,
   getAnimalReadyAt,
   getBoostedFoodQuantity,
+  getPendingClaims,
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
@@ -325,7 +326,10 @@ const getAnimalFeedRequests = ({
     // Curing only returns the animal to idle; it still needs its normal feed
     // immediately afterwards. Include that follow-up feed in the same plan
     // when the animal will be eligible for feeding after it is cured.
+    // An animal with banked claims is cured back to ready - it is claimed,
+    // not fed.
     if (
+      getPendingClaims(animal) > 0 ||
       !isAnimalAwake(animal, game, now) ||
       hasFreeFeedBoost(animal.type, game) ||
       !isAnimalFeedable(buildingKey, game, animal.id)
