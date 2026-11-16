@@ -26,6 +26,7 @@ import {
 } from "features/game/types/pets";
 import { getPetReleases } from "features/game/types/withdrawables";
 import { useNow } from "lib/utils/hooks/useNow";
+import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
 import petNFTEgg from "assets/icons/pet_nft_egg.png";
 import vipIcon from "assets/icons/vip.webp";
 
@@ -68,7 +69,8 @@ export const WithdrawPets: React.FC<Props> = ({
   const [confirmationStep, setConfirmationStep] = useState<1 | 2 | null>(null);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
-  const now = useNow();
+  // Live: Grand Harvester can rest on VIP points that expire mid-session.
+  const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
 
   const { petsToShow, petRowById } = useMemo(() => {
     const nowDate = new Date(now);
@@ -125,12 +127,17 @@ export const WithdrawPets: React.FC<Props> = ({
 
   const hasAccess = hasReputation({
     game: state,
-    reputation: Reputation.Seedling,
+    reputation: Reputation.GrandHarvester,
     now,
   });
 
   if (!hasAccess) {
-    return <RequiredReputation reputation={Reputation.Seedling} />;
+    return (
+      <RequiredReputation
+        reputation={Reputation.GrandHarvester}
+        text={t("withdraw.pets.upgrade")}
+      />
+    );
   }
 
   const getRestrictionStatus = (itemName: BoostName) => {
