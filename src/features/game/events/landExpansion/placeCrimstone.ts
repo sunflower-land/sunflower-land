@@ -8,6 +8,7 @@ import {
 } from "features/game/lib/boostWindows";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { freshRockTimer } from "features/game/lib/freshNodes";
+import { RESOURCE_RECOVERY_TIME } from "features/game/lib/resourceNodes";
 
 export type PlaceCrimstoneAction = {
   type: "crimstone.placed";
@@ -60,6 +61,7 @@ export function placeCrimstone({
           startedAt: updatedCrimstone.stone.minedAt,
           removedAt: updatedCrimstone.removedAt,
           createdAt,
+          rawBaseMs: RESOURCE_RECOVERY_TIME["Crimstone Rock"] * 1000,
           windows: getMineBoostWindows(game, "Crimstone Rock"),
         });
       }

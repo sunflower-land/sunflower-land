@@ -167,6 +167,117 @@ export function getAnimalLevel(experience: number, animal: AnimalType) {
   return currentLevel;
 }
 
+/** XP of one produce cycle past the max level: the gap between the top two. */
+function getMaxLevelCycleXp(animal: AnimalType): number {
+  const maxLevel = getAnimalMaxLevel(animal);
+
+  return (
+    ANIMAL_LEVELS[animal][maxLevel] -
+    ANIMAL_LEVELS[animal][(maxLevel - 1) as AnimalLevel]
+  );
+}
+
+/**
+ * Produce marks are the XP points that each earn the animal one claim: every
+ * level threshold, then one more per max-level cycle. How many marks
+ * `experience` has passed.
+ */
+export function getProduceMarkCount(
+  animal: AnimalType,
+  experience: number,
+): number {
+  const maxLevel = getAnimalMaxLevel(animal);
+  const maxLevelXp = ANIMAL_LEVELS[animal][maxLevel];
+
+  if (experience < maxLevelXp) return getAnimalLevel(experience, animal);
+
+  return (
+    maxLevel +
+    new Decimal(experience)
+      .sub(maxLevelXp)
+      .div(getMaxLevelCycleXp(animal))
+      .toDecimalPlaces(0, Decimal.ROUND_FLOOR)
+      .toNumber()
+  );
+}
+
+/** The XP of the `count`th produce mark. */
+export function getProduceMarkExperience(
+  animal: AnimalType,
+  count: number,
+): number {
+  const maxLevel = getAnimalMaxLevel(animal);
+
+  if (count <= maxLevel) return ANIMAL_LEVELS[animal][count as AnimalLevel];
+
+  return (
+    ANIMAL_LEVELS[animal][maxLevel] +
+    (count - maxLevel) * getMaxLevelCycleXp(animal)
+  );
+}
+
+type BankedAnimal = Pick<
+  Animal,
+  "type" | "experience" | "state" | "claimedExperience"
+>;
+
+/**
+ * The produce mark the animal has been paid up to. An animal with no stored
+ * mark predates banking: a ready one owes the single claim it levelled into,
+ * anything else is paid up to its XP.
+ */
+export function getClaimedExperience(animal: BankedAnimal): number {
+  if (animal.claimedExperience !== undefined) return animal.claimedExperience;
+
+  const marks = getProduceMarkCount(animal.type, animal.experience);
+  const owed = animal.state === "ready" ? 1 : 0;
+
+  return getProduceMarkExperience(animal.type, Math.max(marks - owed, 0));
+}
+
+/**
+ * Claims the animal has banked: one per produce mark between the claimed mark
+ * and its XP. A feed or pet that crosses several levels pays every one of
+ * them, one claim per wake, rather than only the level it lands on.
+ */
+export function getPendingClaims(animal: BankedAnimal): number {
+  return Math.max(
+    getProduceMarkCount(animal.type, animal.experience) -
+      getProduceMarkCount(animal.type, getClaimedExperience(animal)),
+    0,
+  );
+}
+
+/**
+ * The level whose produce the next claim pays: the level after the claimed
+ * mark while claims are banked (capped at the max level for banked cycles),
+ * otherwise the XP level. Without a bank this is always `getAnimalLevel`.
+ */
+export function getNextClaimLevel(animal: BankedAnimal): AnimalLevel {
+  if (getPendingClaims(animal) === 0) {
+    return getAnimalLevel(animal.experience, animal.type);
+  }
+
+  const next =
+    getProduceMarkCount(animal.type, getClaimedExperience(animal)) + 1;
+
+  return Math.min(next, getAnimalMaxLevel(animal.type)) as AnimalLevel;
+}
+
+/**
+ * The level the player sees: an animal with a claim waiting shows the level
+ * before the one that claim pays, so it levels up as it is claimed. A banked
+ * animal climbs one level per claim. The max level is shown as soon as it is
+ * owed, as before banking.
+ */
+export function getAnimalShownLevel(animal: BankedAnimal): AnimalLevel {
+  const next = getNextClaimLevel(animal);
+
+  return getPendingClaims(animal) > 0 && !isMaxLevel(animal.type, next)
+    ? ((next - 1) as AnimalLevel)
+    : next;
+}
+
 /**
  * XP the animal still needs before it is ready: to its next level, or at the
  * max level to the end of its current produce cycle.
@@ -185,44 +296,6 @@ export function getXpUntilReady(animalType: AnimalType, xp: number): number {
   const cycleXP = maxLevelXp - levelBeforeMaxXp;
 
   return cycleXP - ((xp - maxLevelXp) % cycleXP);
-}
-
-/**
- * Whether gaining `gainedXp` on top of `beforeXp` earns the animal its produce:
- * a level-up below the top of the table, or, at max level, one more full cycle
- * of the final level's XP. Shared by feeding and petting so EITHER can flip the
- * animal to "ready" - petting alone used to check only for a level change, so
- * a max-level animal whose pet crossed the cycle line kept accruing XP but
- * never produced, and the next feed restarted the cycle from the wrap-around.
- *
- * XP keeps accruing past max level rather than being held inside one cycle,
- * so progress is always `excess % cycleXP` and nothing is ever rewritten.
- */
-export function hasAnimalCompletedCycle({
-  animalType,
-  beforeXp,
-  gainedXp,
-}: {
-  animalType: AnimalType;
-  beforeXp: number;
-  gainedXp: number;
-}): boolean {
-  const maxLevel = getAnimalMaxLevel(animalType);
-  const maxLevelXp = ANIMAL_LEVELS[animalType][maxLevel];
-
-  if (beforeXp < maxLevelXp) {
-    return (
-      getAnimalLevel(beforeXp, animalType) !==
-      getAnimalLevel(beforeXp + gainedXp, animalType)
-    );
-  }
-
-  const levelBeforeMaxXp =
-    ANIMAL_LEVELS[animalType][(maxLevel - 1) as AnimalLevel];
-  const cycleXP = maxLevelXp - levelBeforeMaxXp;
-  const currentCycleProgress = (beforeXp - maxLevelXp) % cycleXP;
-
-  return currentCycleProgress + gainedXp >= cycleXP;
 }
 
 export function getAnimalFavoriteFood(type: AnimalType, animalXP: number) {
@@ -1041,25 +1114,18 @@ export function getBoostedAwakeAt({
 }
 
 /**
- * When a sleeping animal actually wakes, across both boost models. Animals put to
- * sleep under the speed-rate model (with `baseDurationMs`) derive their wake time
- * live from the shrine windows; legacy animals use their baked `awakeAt`.
- *
- * `baseDurationMs` is a PERMANENT per-animal migration marker: the read path keys
- * off its presence (matching `getMineReadyAt`). A windowed animal stores the real
- * `asleepAt` plus a permanent-boost-only `baseDurationMs`, so falling back to the
- * cached `awakeAt` would freeze it at whatever projection happened to be made at
- * sleep. Instant wake (doll / Barnyard Rouse) clears the marker, so this returns
- * that instant.
+ * When a sleeping animal actually wakes: its real `asleepAt` plus
+ * `baseDurationMs` of work (permanent boosts folded in), with the shrine windows
+ * credited live. An instant wake (Doll / Barnyard Rouse) records the work done
+ * since `asleepAt`, so this resolves to that instant. A record with no marker
+ * reads as its stored sleep (`awakeAt - asleepAt`).
  */
 export function getAnimalReadyAt(animal: Animal, game: GameState): number {
   const { baseDurationMs, asleepAt, awakeAt } = animal;
 
-  if (baseDurationMs === undefined) return awakeAt;
-
   return computeReadyAt({
     startedAt: asleepAt,
-    baseDurationMs,
+    baseDurationMs: baseDurationMs ?? Math.max(awakeAt - asleepAt, 0),
     windows: getAnimalBoostWindows(game, animal.type),
   });
 }
@@ -1093,10 +1159,9 @@ export function getAnimalMaturityTimeForDisplay({
   maturityTimeMs: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
-  const createdAt = 0;
-  const { awakeAt, baseDurationMs, boostsUsed } = getBoostedAwakeAt({
+  const { baseDurationMs, boostsUsed } = getBoostedAwakeAt({
     animalType,
-    createdAt,
+    createdAt: 0,
     game,
   });
 
@@ -1105,7 +1170,7 @@ export function getAnimalMaturityTimeForDisplay({
     // Windowed: the permanent-boost-only duration. The shrines are excluded here
     // and surfaced by the caller as a live projection instead — projecting off a
     // `createdAt` of 0 would sit an epoch away from any real window.
-    maturityTimeMs: baseDurationMs ?? awakeAt - createdAt,
+    maturityTimeMs: baseDurationMs,
     boostsUsed,
   };
 }
@@ -1120,14 +1185,8 @@ export const SICK_ANIMAL_REWARD_MULTIPLIER = 0.75;
  * a produce cycle completed - so the adjustment does not apply. This mirrors
  * the badge, which guards its own `- 1` the same way.
  */
-export function getBountyLevel(
-  animal: Pick<Animal, "type" | "experience" | "state">,
-): AnimalLevel {
-  const level = getAnimalLevel(animal.experience, animal.type);
-
-  return animal.state === "ready" && level < getAnimalMaxLevel(animal.type)
-    ? ((level - 1) as AnimalLevel)
-    : level;
+export function getBountyLevel(animal: BankedAnimal): AnimalLevel {
+  return getAnimalShownLevel(animal);
 }
 
 /**

@@ -6,6 +6,7 @@ import { INITIAL_FARM } from "features/game/lib/constants";
 import { getFlowerReadyAt } from "features/game/lib/flowerBedReadiness";
 
 const GAME_STATE: GameState = {
+  ...INITIAL_FARM,
   flowers: {
     discovered: {},
     flowerBeds: {},
@@ -163,11 +164,9 @@ describe("instaGrowFlower", () => {
 
     expect(result.inventory.Obsidian).toEqual(new Decimal(1).sub(expectedCost));
 
-    const newTimeLeft =
-      result.flowers.flowerBeds[flowerBedId].flower!.plantedAt +
-      growTime -
-      Date.now();
-    expect(newTimeLeft).toBeLessThanOrEqual(0);
+    const flower = result.flowers.flowerBeds[flowerBedId].flower!;
+    expect(flower.baseDurationMs).toEqual(0);
+    expect(getFlowerReadyAt(flower, result)).toBeLessThanOrEqual(Date.now());
   });
 
   it("updates the beehives after a flower is instagrown", () => {

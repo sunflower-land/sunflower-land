@@ -15,6 +15,12 @@ import {
   getBountyLevel,
   getPigBristles,
   canTradeInPig,
+  getProduceMarkCount,
+  getProduceMarkExperience,
+  getClaimedExperience,
+  getPendingClaims,
+  getNextClaimLevel,
+  getAnimalShownLevel,
 } from "../lib/animals";
 import { BUMPKIN_REVAMP_SKILL_TREE, SKILL_RANKS } from "../types/bumpkinSkills";
 import {
@@ -681,12 +687,10 @@ describe("windowed animal sleep", () => {
   });
 
   describe("getAnimalReadyAt", () => {
-    it("falls back to the stored awakeAt for a legacy (unmarked) animal", () => {
+    it("reads an unmarked animal as its stored sleep", () => {
       const animal = sleeping({ type: "Sheep" });
 
-      expect(
-        getAnimalReadyAt(animal, withShrine("Collie Shrine", now)),
-      ).toEqual(animal.awakeAt);
+      expect(getAnimalReadyAt(animal, INITIAL_FARM)).toEqual(animal.awakeAt);
     });
 
     it("runs a fully-covered sleep at the shrine's rate", () => {
@@ -1436,5 +1440,168 @@ describe("makeAnimalBuilding", () => {
         baseDurationMs: 0,
       });
     }
+  });
+});
+
+/**
+ * Banked claims. Chicken thresholds: L1 60, L2 120, L3 240 ... L7 840,
+ * L14 2400, L15 2720. Past L15 one more mark every 320 XP (2720 - 2400).
+ */
+describe("banked produce claims", () => {
+  const chicken = (overrides: Partial<Animal> = {}): Animal => ({
+    ...ANIMAL,
+    ...overrides,
+  });
+
+  describe("getProduceMarkCount", () => {
+    it("counts one mark per level threshold passed", () => {
+      expect(getProduceMarkCount("Chicken", 0)).toEqual(0);
+      expect(getProduceMarkCount("Chicken", 59)).toEqual(0);
+      expect(getProduceMarkCount("Chicken", 60)).toEqual(1);
+      expect(getProduceMarkCount("Chicken", 239.5)).toEqual(2);
+      expect(getProduceMarkCount("Chicken", 2720)).toEqual(15);
+    });
+
+    it("keeps counting one mark per 320 XP cycle past the max level", () => {
+      // 3039 = 2720 + 319, 3040 = 2720 + 320, 3360 = 2720 + 2 * 320
+      expect(getProduceMarkCount("Chicken", 3039)).toEqual(15);
+      expect(getProduceMarkCount("Chicken", 3040)).toEqual(16);
+      expect(getProduceMarkCount("Chicken", 3360)).toEqual(17);
+    });
+  });
+
+  describe("getProduceMarkExperience", () => {
+    it("is the XP of each mark", () => {
+      expect(getProduceMarkExperience("Chicken", 0)).toEqual(0);
+      expect(getProduceMarkExperience("Chicken", 1)).toEqual(60);
+      expect(getProduceMarkExperience("Chicken", 15)).toEqual(2720);
+      expect(getProduceMarkExperience("Chicken", 16)).toEqual(3040);
+      expect(getProduceMarkExperience("Chicken", 17)).toEqual(3360);
+    });
+  });
+
+  describe("getClaimedExperience", () => {
+    it("uses the stored mark", () => {
+      expect(
+        getClaimedExperience(
+          chicken({ experience: 860, claimedExperience: 60 }),
+        ),
+      ).toEqual(60);
+    });
+
+    it("reads an animal with no stored mark as paid up to its XP", () => {
+      expect(getClaimedExperience(chicken({ experience: 100 }))).toEqual(60);
+    });
+
+    it("reads a ready animal with no stored mark as owing one claim", () => {
+      // 130 XP is level 2 (120): the claim owed is level 2, paid up to level 1
+      expect(
+        getClaimedExperience(chicken({ experience: 130, state: "ready" })),
+      ).toEqual(60);
+      // 3100 XP is mark 16 (3040): paid up to mark 15 (2720)
+      expect(
+        getClaimedExperience(chicken({ experience: 3100, state: "ready" })),
+      ).toEqual(2720);
+    });
+  });
+
+  describe("getPendingClaims", () => {
+    it("is one claim per mark between the claimed mark and the XP", () => {
+      // Level 1 (60) fed to level 7 (860 >= 840): levels 2-7 owed
+      expect(
+        getPendingClaims(chicken({ experience: 860, claimedExperience: 60 })),
+      ).toEqual(6);
+    });
+
+    it("counts max-level cycles too", () => {
+      // Claimed to level 14 (2400); 3400 XP is mark 15 + floor(680 / 320) = 17
+      expect(
+        getPendingClaims(
+          chicken({ experience: 3400, claimedExperience: 2400 }),
+        ),
+      ).toEqual(3);
+    });
+
+    it("is one for a ready animal with no stored mark and none otherwise", () => {
+      expect(
+        getPendingClaims(chicken({ experience: 130, state: "ready" })),
+      ).toEqual(1);
+      expect(getPendingClaims(chicken({ experience: 130 }))).toEqual(0);
+      expect(
+        getPendingClaims(chicken({ experience: 130, state: "sick" })),
+      ).toEqual(0);
+    });
+  });
+
+  describe("getNextClaimLevel", () => {
+    it("is the level after the claimed mark while claims are banked", () => {
+      expect(
+        getNextClaimLevel(chicken({ experience: 860, claimedExperience: 60 })),
+      ).toEqual(2);
+      expect(
+        getNextClaimLevel(chicken({ experience: 860, claimedExperience: 660 })),
+      ).toEqual(7);
+    });
+
+    it("stays at the max level for banked max-level cycles", () => {
+      expect(
+        getNextClaimLevel(
+          chicken({ experience: 3400, claimedExperience: 2720 }),
+        ),
+      ).toEqual(15);
+    });
+
+    it("is the XP level when nothing is banked", () => {
+      expect(getNextClaimLevel(chicken({ experience: 860 }))).toEqual(7);
+      expect(
+        getNextClaimLevel(chicken({ experience: 130, state: "ready" })),
+      ).toEqual(2);
+    });
+  });
+
+  describe("getAnimalShownLevel", () => {
+    it("shows the last claimed level while claims are banked", () => {
+      expect(
+        getAnimalShownLevel(
+          chicken({ experience: 860, claimedExperience: 60, state: "ready" }),
+        ),
+      ).toEqual(1);
+      expect(
+        getAnimalShownLevel(
+          chicken({ experience: 860, claimedExperience: 120, state: "ready" }),
+        ),
+      ).toEqual(2);
+    });
+
+    it("shows the XP level once the bank is empty", () => {
+      expect(
+        getAnimalShownLevel(
+          chicken({ experience: 860, claimedExperience: 840 }),
+        ),
+      ).toEqual(7);
+    });
+
+    it("matches the bounty level", () => {
+      const banked = chicken({
+        experience: 860,
+        claimedExperience: 60,
+        state: "ready",
+      });
+      expect(getBountyLevel(banked)).toEqual(getAnimalShownLevel(banked));
+      expect(getBountyLevel(banked)).toEqual(1);
+    });
+
+    it("keeps a banked claim of the max level at the max level", () => {
+      // Claimed to 14 (2400), XP past 15 (2720): next claim is 15
+      expect(
+        getAnimalShownLevel(
+          chicken({
+            experience: 2800,
+            claimedExperience: 2400,
+            state: "ready",
+          }),
+        ),
+      ).toEqual(15);
+    });
   });
 });

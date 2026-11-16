@@ -6,6 +6,7 @@ import {
 import {
   isCollectibleOnFarm,
   canUseYieldBoostAOE,
+  getRockCycleStartedAt,
   setAOELastUsed,
 } from "features/game/lib/aoe";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
@@ -24,24 +25,12 @@ import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { produce } from "immer";
 import { prngChance } from "lib/prng";
 import cloneDeep from "lodash.clonedeep";
-import { canMine, getMineReadyAt } from "features/game/lib/resourceNodes";
+import { canMine } from "features/game/lib/resourceNodes";
 
 export type LandExpansionGoldMineAction = {
   type: "goldRock.mined";
   index: string;
 };
-
-/**
- * The gold rock's real recovery duration (ms), for gating the yield-AOE re-use.
- * Windowed rocks derive it from the live speed windows so an active boost shortens
- * it to match the actual recovery (matching how legacy rocks folded the discount
- * into `boostedTime`); legacy rocks keep their back-dated boosted time.
- */
-function getGoldRecoveryDurationMs(rock: Rock, game: GameState): number {
-  return rock.stone.baseDurationMs !== undefined
-    ? getMineReadyAt(rock, "Gold Rock", game) - rock.stone.minedAt
-    : GOLD_RECOVERY_TIME * 1000 - (rock?.stone?.boostedTime ?? 0);
-}
 
 type PrngArgs = {
   farmId: number;
@@ -254,8 +243,7 @@ export function getGoldDropAmount({
         updatedAoe,
         "Emerald Turtle",
         { dx, dy },
-        getGoldRecoveryDurationMs(rock, game),
-        createdAt,
+        getRockCycleStartedAt(rock),
       );
 
       if (canUseAoe) {
@@ -392,10 +380,10 @@ export function mineGold({
       },
     );
 
-    goldRock.stone = { minedAt: time };
+    goldRock.stone = { minedAt: time, cycleStartedAt: createdAt };
     // Speed-rate model: real minedAt + permanent-only baseDurationMs. Temporary
     // boosts are derived live from windows, so there's no baked discount; keep
-    // boostedTime at 0 so the yield-AOE budget uses the real windowed duration.
+    // boostedTime at 0.
     goldRock.stone.baseDurationMs = baseDurationMs;
     goldRock.stone.boostedTime = 0;
 

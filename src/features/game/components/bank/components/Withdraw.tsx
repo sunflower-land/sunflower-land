@@ -31,6 +31,9 @@ import petNFTEgg from "assets/icons/pet_nft_egg.png";
 import vipIcon from "assets/icons/vip.webp";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { useVipAccess } from "lib/utils/hooks/useVipAccess";
+import { useNow } from "lib/utils/hooks/useNow";
+import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
+import { hasReputation, Reputation } from "features/game/lib/reputation";
 
 const getPageIcon = (page: Page) => {
   switch (page) {
@@ -229,6 +232,14 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   // The trial doesn't exempt a player, so check for full VIP - matching the
   // API's own check.
   const isVip = useVipAccess({ game, type: "full" });
+  // Same live check as the collection pages, which show a lock panel without
+  // their own back button when the player is below Grand Harvester.
+  const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
+  const hasWithdrawReputation = hasReputation({
+    game,
+    reputation: Reputation.GrandHarvester,
+    now,
+  });
 
   const accountTradedRecently = useSelector(gameService, (s) =>
     isAccountTradedWithin90Days(s.context),
@@ -310,10 +321,12 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
           showMarketplaceCooldownNotice={!isVip}
         />
       )}
-      {/* Collection pages own their back navigation inside WithdrawCollection;
-          other pages keep the shared back/title header. */}
+      {/* Collection pages own their back navigation inside WithdrawCollection,
+          except for the reputation lock panel; other pages keep the shared
+          back/title header. */}
       {page !== "main" &&
-        !["items", "wearables", "buds", "pets"].includes(page) && (
+        (!hasWithdrawReputation ||
+          !["items", "wearables", "buds", "pets"].includes(page)) && (
           <NavigationMenu page={page} setPage={setPage} />
         )}
       {page === "tokens" && (

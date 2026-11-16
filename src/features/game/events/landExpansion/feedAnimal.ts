@@ -22,8 +22,9 @@ import {
   getAnimalMaxLevel,
   getAnimalReadyAt,
   getBoostedFoodQuantity,
+  getClaimedExperience,
+  getPendingClaims,
   getXpUntilReady,
-  hasAnimalCompletedCycle,
   isFoodForAnimal,
   isMuddy,
   makeAnimalBuildingKey,
@@ -74,20 +75,15 @@ export function isMaxLevel(
   return experience >= ANIMAL_LEVELS[animal][maxLevel];
 }
 
-/** Applies the feed's XP and reports whether it earned produce. */
-const handleAnimalExperience = (
-  animal: Animal,
-  animalType: AnimalType,
-  beforeFeedXp: number,
-  foodXp: number,
-): boolean => {
+/**
+ * Applies the feed's XP and reports whether it earned produce. The claimed
+ * mark is pinned first, so every level the feed crosses is banked as a claim.
+ */
+const handleAnimalExperience = (animal: Animal, foodXp: number): boolean => {
+  animal.claimedExperience = getClaimedExperience(animal);
   animal.experience = new Decimal(animal.experience).add(foodXp).toNumber();
 
-  return hasAnimalCompletedCycle({
-    animalType,
-    beforeXp: beforeFeedXp,
-    gainedXp: foodXp,
-  });
+  return getPendingClaims(animal) > 0;
 };
 
 const handleFreeFeeding = ({
@@ -112,13 +108,13 @@ const handleFreeFeeding = ({
   const maxLevel = getAnimalMaxLevel(animalType);
   let isReady = false;
 
-  // Is max level (or capped there by its building)
+  // Is max level: feed exactly to the end of the current cycle, so a free
+  // feed earns one claim (max-level cycles bank like levels do).
   if (nextLevel > maxLevel) {
-    const maxLevelXp = ANIMAL_LEVELS[animalType][maxLevel];
-    const currentCycleProgress = new Decimal(beforeFeedXp).mod(maxLevelXp);
-    const xpDiff = new Decimal(maxLevelXp).sub(currentCycleProgress).toNumber();
-
-    isReady = handleAnimalExperience(animal, animalType, beforeFeedXp, xpDiff);
+    isReady = handleAnimalExperience(
+      animal,
+      getXpUntilReady(animalType, beforeFeedXp),
+    );
   } else {
     const nextLevelXp = ANIMAL_LEVELS[animalType][nextLevel];
     const xpDiff = new Decimal(nextLevelXp).sub(beforeFeedXp);
@@ -138,12 +134,7 @@ const handleFreeFeeding = ({
     // Decimal keeps fractional feed XP (e.g. 31.5) exact.
     const noOfFeed = xpDiff.div(foodXp).toDecimalPlaces(0, Decimal.ROUND_CEIL);
     const xpToFeed = noOfFeed.mul(foodXp).toNumber();
-    isReady = handleAnimalExperience(
-      animal,
-      animalType,
-      beforeFeedXp,
-      xpToFeed,
-    );
+    isReady = handleAnimalExperience(animal, xpToFeed);
   }
 
   animal.state = isReady ? "ready" : "happy";
@@ -287,8 +278,6 @@ export function feedAnimal({
       );
     }
 
-    const beforeFeedXp = animal.experience;
-
     if (createdAt < getAnimalReadyAt(animal, copy) && animal.state !== "sick") {
       throw new Error("Animal is asleep");
     }
@@ -309,7 +298,8 @@ export function feedAnimal({
       }
 
       copy.inventory["Barn Delight"] = barnDelightAmount.sub(barnDelightCost);
-      animal.state = "idle";
+      // Sickness does not cancel banked claims: the animal is ready again.
+      animal.state = getPendingClaims(animal) > 0 ? "ready" : "idle";
 
       copy.farmActivity = trackFarmActivity(
         `${action.animal} Cured`,
@@ -335,6 +325,11 @@ export function feedAnimal({
     // Handle feeding
     if (animal.state === "sick") {
       throw new Error("Cannot feed a sick animal");
+    }
+
+    // A ready animal - including one with banked claims - is claimed, not fed.
+    if (getPendingClaims(animal) > 0) {
+      throw new Error("Animal has produce to claim");
     }
 
     const level = getAnimalLevel(animal.experience, animal.type);
@@ -440,12 +435,7 @@ export function feedAnimal({
 
     boostsUsed.push(...foodBoostsUsed, ...xpBoostsUsed);
 
-    const isReady = handleAnimalExperience(
-      animal,
-      action.animal,
-      beforeFeedXp,
-      foodXp,
-    );
+    const isReady = handleAnimalExperience(animal, foodXp);
 
     // Only set happy/sad state if animal isn't ready
     if (!isReady) {

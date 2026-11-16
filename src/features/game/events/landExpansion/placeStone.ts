@@ -14,8 +14,10 @@ import {
   getMineBoostWindows,
   pauseWindowedTimer,
 } from "features/game/lib/boostWindows";
+import { getRockCycleStartedAt } from "features/game/lib/aoe";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { freshRockTimer } from "features/game/lib/freshNodes";
+import { RESOURCE_RECOVERY_TIME } from "features/game/lib/resourceNodes";
 
 export type PlaceStoneAction = {
   type: "stone.placed";
@@ -58,12 +60,15 @@ export function placeStone({
       };
 
       if (updatedStone.stone && updatedStone.removedAt) {
+        // Keep the cycle start the yield AOEs read before minedAt moves.
+        updatedStone.stone.cycleStartedAt = getRockCycleStartedAt(updatedStone);
         // Pause recovery across the lift (windowed banking or legacy back-date).
         updatedStone.stone.minedAt = pauseWindowedTimer({
           timer: updatedStone.stone,
           startedAt: updatedStone.stone.minedAt,
           removedAt: updatedStone.removedAt,
           createdAt,
+          rawBaseMs: RESOURCE_RECOVERY_TIME[action.name] * 1000,
           windows: getMineBoostWindows(game, action.name),
         });
       }

@@ -491,6 +491,59 @@ describe("cook", () => {
     );
   });
 
+  it("queues a fourth 48h Creamy Truffle Risotto in a VIP Kitchen", () => {
+    const HOUR = 60 * 60 * 1000;
+    const RISOTTO_MS = 48 * HOUR;
+    const queued = (): BuildingProduct => ({
+      name: "Creamy Truffle Risotto",
+      readyAt: 0,
+      baseDurationMs: RISOTTO_MS,
+    });
+
+    const state = cook({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Truffle: new Decimal(8),
+          Rice: new Decimal(3),
+          "Wild Mushroom": new Decimal(5),
+        },
+        vip: {
+          bundles: [{ name: "1_MONTH", boughtAt: createdAt }],
+          expiresAt: createdAt + 31 * 24 * HOUR,
+        },
+        buildings: {
+          Kitchen: [
+            {
+              coordinates: { x: 2, y: 3 },
+              readyAt: 0,
+              createdAt: 0,
+              id: "kitchen",
+              crafting: [
+                { ...queued(), startedAt: createdAt },
+                queued(),
+                queued(),
+              ],
+            },
+          ],
+        },
+      },
+      action: {
+        type: "recipe.cooked",
+        item: "Creamy Truffle Risotto",
+        buildingId: "kitchen",
+      },
+      farmId: 1,
+      createdAt,
+    });
+
+    // Three 48h risottos ahead (start at now + 144h), plus 48h for this one = now + 192h (8 days).
+    expect(state.buildings.Kitchen?.[0].crafting?.[3]).toMatchObject({
+      name: "Creamy Truffle Risotto",
+      readyAt: createdAt + 192 * HOUR,
+    });
+  });
+
   it("adds the correct readyAt for the second recipe when a recipe is already cooking", () => {
     const firstReadyAt = createdAt + 60 * 1000;
     const cookingSeconds = COOKABLES["Mashed Potato"].cookingSeconds;

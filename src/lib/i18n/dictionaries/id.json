@@ -3370,7 +3370,6 @@
   "reputation.points.title": "Reputasi - {{name}}",
   "reputation.points.amount": "{{points}} Poin Reputasi",
   "reputation.points.description": "Dapatkan poin reputasi dengan menyelesaikan tugas.",
-  "reputation.seedling.nft": "Tarik NFT",
   "reputation.unlock.desert": "Mencapai Desert Island - {{points}} poin",
   "reputation.unlock.volcano": "Mencapai Pulau Gunung Berapi - {{points}} poin",
   "reputation.unlock.humanity": "Bukti Kemanusiaan Lengkap - {{points}} poin",
@@ -9053,5 +9052,15 @@
   "statsLeaderboard.board.socialPoints": "Poin sosial",
   "statsLeaderboard.title.socialPoints": "Poin Soal Paling Banyak",
   "statsLeaderboard.description.socialPoints": "Poin sosial yang diperoleh, sepanjang waktu",
-  "cropMachine.harvestAllConfirm": "Apakah Anda yakin ingin memanen semua paket siap pakai {{count}}?"
+  "cropMachine.harvestAllConfirm": "Apakah Anda yakin ingin memanen semua paket siap pakai {{count}}?",
+  "flowerBedRecipes.pickFlower": "Pilih bunga yang telah Anda tanam untuk melihat resepnya.",
+  "flowerBedRecipes.tapRecipe": "Ketuk resep untuk mengisi hamparan bunga Anda.",
+  "flowerBedRecipes.outOfSeason": "{{seed}} tidak bisa ditanam musim ini",
+  "waterTrapRecipes.pickCrustacean": "Pilih krustasea yang telah Anda tangkap untuk melihat resepnya.",
+  "waterTrapRecipes.tapRecipe": "Ketuk resep untuk mengatur jebakan Anda.",
+  "withdraw.items.upgrade": "Jangkau Grand Harvester untuk menarik koleksi dari permainan.",
+  "withdraw.wearables.upgrade": "Raih Grand Harvester untuk menarik perangkat yang dapat dikenakan dari permainan.",
+  "withdraw.buds.upgrade": "Jangkau Grand Harvester untuk menarik Buds dari permainan.",
+  "withdraw.pets.upgrade": "Raih Grand Harvester untuk menarik hewan peliharaan dari permainan.",
+  "reputation.grandHarvester.withdrawItems": "Tarik Barang Koleksi, Perangkat yang Dapat Dipakai, Tunas & Hewan Peliharaan"
 }

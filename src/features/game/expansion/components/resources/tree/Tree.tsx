@@ -170,9 +170,8 @@ export const Tree: React.FC<Props> = ({ id }) => {
     countdownSeconds: timeLeft,
   } = useNodeTimer({
     startedAt: choppedAt,
-    baseDurationMs,
+    baseDurationMs: baseDurationMs ?? TREE_RECOVERY_TIME * 1000,
     windows: treeBoostWindows,
-    legacyReadyAt: choppedAt + TREE_RECOVERY_TIME * 1000,
   });
   // The timer's `now` freezes once the tree is ready (autoEndAt), so boost
   // checks need a LIVE clock — a frozen one would keep promising a shrine's

@@ -12,34 +12,25 @@ import {
 import { GREENHOUSE_CROP_TIME_SECONDS } from "features/game/lib/greenhouseGrowTimes";
 
 /**
- * The instant a greenhouse plant is ready to harvest, across both boost models.
- * Plants sown under the speed-rate model (with `baseDurationMs`) derive their
- * ready time live from the greenhouse boost windows (totems / Tortoise Shrine /
- * Harvest Hourglass for the crops + the pot's Greenhouse Glow fertiliser);
- * legacy plants use their back-dated `plantedAt` + base grow duration.
- *
- * `baseDurationMs` is a PERMANENT per-plant migration marker: the read path
- * keys off its presence (matching `getFruitReadyAt` / `getCropReadyAt`), so
- * legacy-shaped plants still use the old timing — see
- * `GreenhousePlant.baseDurationMs`.
+ * The instant a greenhouse plant is ready to harvest: `plantedAt` plus
+ * `baseDurationMs` of work, derived live from the greenhouse boost windows
+ * (totems / Tortoise Shrine / Harvest Hourglass for the crops + the pot's
+ * Greenhouse Glow fertiliser). A plant with no marker reads as the raw grow time.
  */
 export const getGreenhouseReadyAt = (
   plant: GreenhousePlant,
   game: GameState,
   fertiliser?: GreenhouseFertiliser,
 ): number => {
-  if (plant.baseDurationMs !== undefined) {
-    return computeReadyAt({
-      startedAt: plant.plantedAt,
-      baseDurationMs: plant.baseDurationMs,
-      windows: [
-        ...getGreenhouseBoostWindows(game, plant.name),
-        ...getGreenhouseGlowWindows(fertiliser),
-      ],
-    });
-  }
-
-  return plant.plantedAt + GREENHOUSE_CROP_TIME_SECONDS[plant.name] * 1000;
+  return computeReadyAt({
+    startedAt: plant.plantedAt,
+    baseDurationMs:
+      plant.baseDurationMs ?? GREENHOUSE_CROP_TIME_SECONDS[plant.name] * 1000,
+    windows: [
+      ...getGreenhouseBoostWindows(game, plant.name),
+      ...getGreenhouseGlowWindows(fertiliser),
+    ],
+  });
 };
 
 export const getGreenhousePotReadyAt = (pot: GreenhousePot, game: GameState) =>

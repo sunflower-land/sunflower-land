@@ -137,7 +137,11 @@ describe("placePlot", () => {
       createdAt,
     });
 
-    expect(state.crops["123"].crop?.plantedAt).toBe(dateNow - 60000);
+    expect(state.crops["123"].crop).toMatchObject({
+      plantedAt: dateNow,
+      // 30 min raw Pumpkin grow, less the 1 min banked before the lift.
+      baseDurationMs: 30 * 60 * 1000 - 60000,
+    });
   });
 
   it("pauses a windowed crop on lift and resumes the remaining work on replace", () => {

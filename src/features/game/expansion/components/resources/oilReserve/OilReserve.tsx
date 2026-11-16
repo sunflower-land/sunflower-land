@@ -74,22 +74,20 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
     areBoostWindowsEqual,
   );
 
-  const { drilledAt, baseDurationMs } = reserve.oil;
+  const { drilledAt } = reserve.oil;
+  const baseDurationMs =
+    reserve.oil.baseDurationMs ?? OIL_RESERVE_RECOVERY_TIME * 1000;
   const { workLeftSeconds, countdownSeconds: timeLeft } = useNodeTimer({
     startedAt: drilledAt,
     baseDurationMs,
     windows: oilBoostWindows,
-    legacyReadyAt: drilledAt + OIL_RESERVE_RECOVERY_TIME * 1000,
   });
 
   // Readiness and the half-recovery art both key off remaining WORK, not the
   // wall-clock countdown — work does not drain at wall-clock rate while a boost
   // window is running. The threshold is the midpoint of that work.
   const ready = workLeftSeconds <= 0;
-  const halfThreshold =
-    baseDurationMs !== undefined
-      ? baseDurationMs / 2000
-      : OIL_RESERVE_RECOVERY_TIME / 2;
+  const halfThreshold = baseDurationMs / 2000;
   const halfReady = !ready && workLeftSeconds <= halfThreshold;
 
   const handleDrill = async () => {

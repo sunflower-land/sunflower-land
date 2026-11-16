@@ -52,6 +52,7 @@ import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import cloneDeep from "lodash.clonedeep";
 import {
   canUseYieldBoostAOE,
+  getCropCycleStartedAt,
   isCollectibleOnFarm,
   setAOELastUsed,
 } from "features/game/lib/aoe";
@@ -111,15 +112,9 @@ export const isWinterCrop = (
 };
 
 /**
- * When a planted crop is ready, across both boost models. New crops (with
- * `baseDurationMs`) derive their ready time live from the crop-plot speed windows
- * plus any per-plot fertiliser (Rapid Root / Sproutroot Surprise) window; legacy
- * crops use their back-dated `plantedAt` + base grow time.
- *
- * Branching on `baseDurationMs` is intentional: the marker makes a crop
- * permanently speed-rate, while legacy-shaped crops still use the old timing,
- * matching every other windowed activity. The fertiliser windows are merged
- * unconditionally here for the same reason as the collectible windows.
+ * When a planted crop is ready: `plantedAt` plus `baseDurationMs` of work,
+ * derived live from the crop speed windows and the plot's fertiliser. A crop with
+ * no marker reads as the raw grow time.
  */
 export const getCropReadyAt = (
   plantedCrop: PlantedCrop,
@@ -127,18 +122,15 @@ export const getCropReadyAt = (
   game: GameState,
   fertiliser?: CropFertiliser,
 ): number => {
-  if (plantedCrop.baseDurationMs !== undefined) {
-    return computeReadyAt({
-      startedAt: plantedCrop.plantedAt,
-      baseDurationMs: plantedCrop.baseDurationMs,
-      windows: [
-        ...getCropPlotBoostWindows(game),
-        ...getCropFertiliserWindows(fertiliser),
-      ],
-    });
-  }
-
-  return plantedCrop.plantedAt + cropDetails.harvestSeconds * 1000;
+  return computeReadyAt({
+    startedAt: plantedCrop.plantedAt,
+    baseDurationMs:
+      plantedCrop.baseDurationMs ?? cropDetails.harvestSeconds * 1000,
+    windows: [
+      ...getCropPlotBoostWindows(game),
+      ...getCropFertiliserWindows(fertiliser),
+    ],
+  });
 };
 
 export const isReadyToHarvest = (
@@ -164,26 +156,6 @@ export function isCropGrowing(plot: CropPlot, game: GameState) {
     plot.fertiliser,
   );
 }
-
-/**
- * The crop's real grow duration (ms), used to gate AOE yield-boost
- * re-availability. New crops derive it from the live speed windows so an active
- * Sparrow Shrine shortens it to match the actual time-to-harvest (matching how
- * legacy crops folded the shrine into `boostedTime`); legacy crops keep their
- * back-dated boosted time.
- */
-const getCropGrowDurationMs = (
-  cropName: CropName | GreenHouseCropName,
-  plantedCrop: PlantedCrop | undefined,
-  game: GameState,
-  fertiliser?: CropFertiliser,
-): number => {
-  const cropDetails = CROPS[cropName as CropName];
-  return plantedCrop?.baseDurationMs !== undefined
-    ? getCropReadyAt(plantedCrop, cropDetails, game, fertiliser) -
-        plantedCrop.plantedAt
-    : cropDetails.harvestSeconds * 1000 - (plantedCrop?.boostedTime ?? 0);
-};
 
 type CropYieldAmountArgs = {
   crop: CropName | GreenHouseCropName;
@@ -570,8 +542,7 @@ export function getCropYieldAmount({
         updatedAoe,
         "Scary Mike",
         { dx, dy },
-        getCropGrowDurationMs(crop, plot?.crop, game, plot?.fertiliser),
-        createdAt,
+        plot?.crop ? getCropCycleStartedAt(plot.crop) : createdAt,
       );
 
       if (canUseAoe) {
@@ -640,8 +611,7 @@ export function getCropYieldAmount({
         updatedAoe,
         "Chonky Scarecrow",
         { dx, dy },
-        getCropGrowDurationMs(crop, plot?.crop, game, plot?.fertiliser),
-        createdAt,
+        plot?.crop ? getCropCycleStartedAt(plot.crop) : createdAt,
       );
 
       if (canUseAoe) {
@@ -686,8 +656,7 @@ export function getCropYieldAmount({
         updatedAoe,
         "Sir Goldensnout",
         { dx, dy },
-        getCropGrowDurationMs(crop, plot?.crop, game, plot?.fertiliser),
-        createdAt,
+        plot?.crop ? getCropCycleStartedAt(plot.crop) : createdAt,
       );
 
       if (canUseAoe) {
@@ -735,8 +704,7 @@ export function getCropYieldAmount({
         updatedAoe,
         "Laurie the Chuckle Crow",
         { dx, dy },
-        getCropGrowDurationMs(crop, plot.crop, game, plot.fertiliser),
-        createdAt,
+        plot?.crop ? getCropCycleStartedAt(plot.crop) : createdAt,
       );
 
       if (canUseAoe) {
@@ -795,8 +763,7 @@ export function getCropYieldAmount({
         updatedAoe,
         "Queen Cornelia",
         { dx, dy },
-        getCropGrowDurationMs(crop, plot?.crop, game, plot?.fertiliser),
-        createdAt,
+        plot?.crop ? getCropCycleStartedAt(plot.crop) : createdAt,
       );
 
       if (canUseAoe) {
@@ -853,8 +820,7 @@ export function getCropYieldAmount({
         updatedAoe,
         "Gnome",
         { dx, dy },
-        getCropGrowDurationMs(crop, plot?.crop, game, plot?.fertiliser),
-        createdAt,
+        plot?.crop ? getCropCycleStartedAt(plot.crop) : createdAt,
       );
       if (canUseAoe) {
         setAOELastUsed(updatedAoe, "Gnome", { dx, dy }, createdAt);

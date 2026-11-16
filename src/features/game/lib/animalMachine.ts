@@ -144,12 +144,22 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
     sick: {
       id: "sick",
       on: {
-        CURE: {
-          target: "idle",
-          actions: assign({
-            animal: (_, event) => (event as AnimalCureEvent).animal,
-          }),
-        },
+        // An animal with banked claims is cured back to ready.
+        CURE: [
+          {
+            target: "ready",
+            cond: (_, event) => event.animal.state === "ready",
+            actions: assign({
+              animal: (_, event) => (event as AnimalCureEvent).animal,
+            }),
+          },
+          {
+            target: "idle",
+            actions: assign({
+              animal: (_, event) => (event as AnimalCureEvent).animal,
+            }),
+          },
+        ],
       },
     },
     ready: {
@@ -332,7 +342,20 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
         },
       },
       on: {
+        // A cure while asleep and unloved keeps the cured animal, so a banked
+        // animal still wakes as ready.
+        CURE: {
+          actions: assign({
+            animal: (_, event) => (event as AnimalCureEvent).animal,
+          }),
+        },
         TICK: [
+          // A banked animal is still ready when it wakes unloved.
+          {
+            target: "ready",
+            cond: (context) =>
+              !isAnimalSleeping(context) && context.animal?.state === "ready",
+          },
           {
             target: "idle",
             cond: (context) => !isAnimalSleeping(context),

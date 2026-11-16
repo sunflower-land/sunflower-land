@@ -74,11 +74,9 @@ export function getPlantedAt(
   createdAt: number,
 ): {
   plantedAt: number;
-  baseDurationMs?: number;
+  baseDurationMs: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
-  if (!patchFruitSeedName) return { plantedAt: createdAt, boostsUsed: [] };
-
   const { seconds: boostedTime, boostsUsed } = getFruitPatchTime(
     patchFruitSeedName,
     game,
@@ -313,9 +311,9 @@ export function plantFruit({
       harvestedAt: 0,
       // Value will be overridden by BE
       harvestsLeft: harvestCount,
-      // Speed-rate model marker: real plantedAt + permanent-boost-only base
-      // duration; the windowed temp boosts are derived live at read time.
-      ...(baseDurationMs !== undefined ? { baseDurationMs } : {}),
+      // Real plantedAt + permanent-boost-only base duration; the temporary
+      // boosts are derived live from windows at read time.
+      baseDurationMs,
     };
 
     stateCopy.farmActivity = trackFarmActivity(

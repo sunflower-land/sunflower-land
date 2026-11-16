@@ -9,6 +9,8 @@ import {
 import {
   getAnimalLevel,
   getAnimalMaxLevel,
+  getAnimalShownLevel,
+  getPendingClaims,
   isMaxLevel,
 } from "features/game/lib/animals";
 import type { TState } from "features/game/lib/animalMachine";
@@ -81,20 +83,20 @@ export const LevelProgress = ({
 
   const level = getAnimalLevel(experience, animal.type);
 
-  // An animal get xp on every feed so they may already be in the next level
-  // however, we want to have them interact with the "level up"
-  // so if an animal is ready, we want to show the previous level
-  const displayLevel =
-    animal.state === "ready" && !isMaxLevel(animal.type, level)
-      ? level - 1
-      : level;
+  // An animal gets XP on every feed so it may already be in the next level,
+  // but it should level up as its produce is claimed: a ready animal shows
+  // the level before its claim, and one with banked claims climbs one level
+  // per claim.
+  const displayLevel = getAnimalShownLevel(animal);
+  const hasBankedClaims = getPendingClaims(animal) > 0;
 
   const hasLeveledUp =
     animalState === "ready" ||
     (animalState === "sleeping" && animal.state === "ready");
 
   const getProgressPercentage = () => {
-    if (animalState === "ready") {
+    // Full until every banked claim is paid.
+    if (animalState === "ready" || hasBankedClaims) {
       return 100;
     }
 
@@ -138,7 +140,9 @@ export const LevelProgress = ({
             color: "#71e358",
           }}
         >
-          {isMaxLevel(animal.type, level) ? t("levelUpMax") : t("levelUp")}
+          {isMaxLevel(animal.type, displayLevel)
+            ? t("levelUpMax")
+            : t("levelUp")}
         </span>
       </Transition>
 

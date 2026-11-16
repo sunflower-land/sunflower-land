@@ -7,8 +7,13 @@ import {
 } from "features/game/types/animals";
 import type { GameState } from "features/game/types/game";
 import {
-  getAnimalLevel,
+  getAnimalReadyAt,
   getBoostedAwakeAt,
+  getClaimedExperience,
+  getNextClaimLevel,
+  getPendingClaims,
+  getProduceMarkCount,
+  getProduceMarkExperience,
   getResourceDropAmount,
 } from "features/game/lib/animals";
 import { makeAnimalBuildingKey } from "features/game/lib/animals";
@@ -54,7 +59,24 @@ export function claimProduce({
       throw new Error("Animal is not ready to claim produce");
     }
 
-    const level = getAnimalLevel(animal.experience, action.animal);
+    // A banked animal stays "ready" through its sleep, so ready alone no
+    // longer means awake.
+    if (createdAt < getAnimalReadyAt(animal, copy)) {
+      throw new Error("Animal is asleep");
+    }
+
+    // Pays the next unpaid level - every level a feed crossed is paid in
+    // turn, one per claim - then moves the claimed mark on by one, never past
+    // the animal's XP.
+    const level = getNextClaimLevel(animal);
+    animal.claimedExperience = getProduceMarkExperience(
+      animal.type,
+      Math.min(
+        getProduceMarkCount(animal.type, getClaimedExperience(animal)) + 1,
+        getProduceMarkCount(animal.type, animal.experience),
+      ),
+    );
+    const hasBankedClaims = getPendingClaims(animal) > 0;
 
     getKeys(ANIMAL_RESOURCE_DROP[action.animal][level]).forEach((resource) => {
       const baseAmount = ANIMAL_RESOURCE_DROP[action.animal][level][
@@ -110,22 +132,23 @@ export function claimProduce({
       feedBuff: animal.feedBuff,
     });
     animal.awakeAt = awakeAt;
-    // Windowed: keep the real `asleepAt` and the permanent-boost-only duration,
-    // so the shrines are credited live. Flag-off the marker is dropped, which
-    // reverts the animal to the legacy baked `awakeAt` on its next sleep.
-    if (baseDurationMs !== undefined) {
-      animal.baseDurationMs = baseDurationMs;
-    } else {
-      delete animal.baseDurationMs;
-    }
+    // Keep the real `asleepAt` and the permanent-boost-only duration, so the
+    // shrines are credited live.
+    animal.baseDurationMs = baseDurationMs;
     copy.boostsUsedAt = updateBoostUsed({
       game: copy,
       boostNames: boostsUsed,
       createdAt,
     });
-    animal.state = "idle";
+    // Still owed a claim: wake up ready to claim it, without being fed.
+    animal.state = hasBankedClaims ? "ready" : "idle";
 
-    if (animal.feedBuff) {
+    // A Honey Treat only cuts feed, and no feed happens between banked claims,
+    // so its charge is spent on the claim that empties the bank.
+    const spendsFeedBuff =
+      animal.feedBuff?.name !== "Honey Treat" || !hasBankedClaims;
+
+    if (animal.feedBuff && spendsFeedBuff) {
       animal.feedBuff.harvestsRemaining -= 1;
       if (animal.feedBuff.harvestsRemaining <= 0) {
         delete animal.feedBuff;

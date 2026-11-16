@@ -61,25 +61,15 @@ const getFruitTreeStatus = (
   const isReplenishing = !!harvestedAt;
   const startedAt = harvestedAt || plantedAt;
 
-  let timeLeft: number;
-  let totalSeconds: number;
-
-  if (baseDurationMs !== undefined) {
-    // Speed-rate model: remaining time is remaining *work* (in base duration),
-    // so it ticks down faster while a boost window is active.
-    const workDoneMs = workAccruedAt({ startedAt, at: now, windows });
-    timeLeft = Math.max((baseDurationMs - workDoneMs) / 1000, 0);
-    // Fold pre-lift banked work into the denominator so the progress bar retains
-    // its fill across a landscaping lift instead of snapping backward.
-    totalSeconds = (baseDurationMs + (boostedTime ?? 0)) / 1000;
-  } else {
-    // Legacy: `startedAt` is back-dated by the boost and `boostedTime` holds
-    // that DISCOUNT, so the bar's total is the real (boosted) cycle length.
-    // Dividing by the full `plantSeconds` instead would open the bar near-full
-    // on a heavily boosted patch and fill only the last sliver.
-    timeLeft = Math.max((startedAt + plantSeconds * 1000 - now) / 1000, 0);
-    totalSeconds = Math.max(plantSeconds - (boostedTime ?? 0) / 1000, 0);
-  }
+  // Remaining time is remaining *work* (in base duration), so it ticks down
+  // faster while a boost window is active. A fruit with no marker reads as its
+  // raw base duration.
+  const workMs = baseDurationMs ?? plantSeconds * 1000;
+  const workDoneMs = workAccruedAt({ startedAt, at: now, windows });
+  const timeLeft = Math.max((workMs - workDoneMs) / 1000, 0);
+  // Fold pre-lift banked work into the denominator so the progress bar retains
+  // its fill across a landscaping lift instead of snapping backward.
+  const totalSeconds = (workMs + (boostedTime ?? 0)) / 1000;
 
   if (timeLeft > 0) {
     return {
@@ -145,9 +135,8 @@ export const FruitTree: React.FC<Props> = ({
       : 0;
   const { now, countdownSeconds } = useNodeTimer({
     startedAt,
-    baseDurationMs,
+    baseDurationMs: baseDurationMs ?? plantSeconds * 1000,
     windows: fruitBoostWindows,
-    legacyReadyAt: startedAt + plantSeconds * 1000,
     live: isGrowing,
   });
   const treeStatus = getFruitTreeStatus(plantedFruit, now, fruitBoostWindows);

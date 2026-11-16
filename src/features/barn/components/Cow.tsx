@@ -16,12 +16,15 @@ import {
 import {
   getAnimalFavoriteFood,
   getAnimalLevel,
+  getClaimedExperience,
+  getNextClaimLevel,
   getBoostedFoodQuantity,
   getFeedItem,
   isFoodForAnimal,
   getFeedQuantity,
   resolveAnimal,
 } from "features/game/lib/animals";
+import type { AnimalLevel } from "features/game/types/animals";
 import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
 import { RequestBubble } from "features/game/expansion/components/animals/RequestBubble";
@@ -164,6 +167,8 @@ export const Cow: React.FC<{
   const { t } = useAppTranslation();
 
   const [showDrops, setShowDrops] = useState(false);
+  // The level whose produce the drop animation shows.
+  const [dropsLevel, setDropsLevel] = useState<AnimalLevel>();
   const [showAnimalDetails, setShowAnimalDetails] = useState(false);
   const [showNoFoodSelected, setShowNoFoodSelected] = useState(false);
   const [showFreeFeedTreat, setShowFreeFeedTreat] = useState(false);
@@ -178,15 +183,27 @@ export const Cow: React.FC<{
   const { play: playLevelUp } = useSound("level_up");
   const { play: playCureAnimal } = useSound("cure_animal");
 
-  const lastSynced = useRef({ state: cow.state, experience: cow.experience });
+  const lastSynced = useRef({
+    state: cow.state,
+    experience: cow.experience,
+    claimedExperience: cow.claimedExperience,
+  });
 
   // Sync the local machine when game state changes underneath it,
   // e.g. via the Feed All button (bulk feed/cure/claim without a click).
   useEffect(() => {
     const prev = lastSynced.current;
-    lastSynced.current = { state: cow.state, experience: cow.experience };
+    lastSynced.current = {
+      state: cow.state,
+      experience: cow.experience,
+      claimedExperience: cow.claimedExperience,
+    };
 
-    if (prev.state === cow.state && prev.experience === cow.experience) {
+    if (
+      prev.state === cow.state &&
+      prev.experience === cow.experience &&
+      prev.claimedExperience === cow.claimedExperience
+    ) {
       return;
     }
 
@@ -201,6 +218,8 @@ export const Cow: React.FC<{
     const animateBulkClaim = async (
       event: "CLAIM_PRODUCE" | "INSTANT_WAKE_UP",
     ) => {
+      // Already claimed: the level just paid.
+      setDropsLevel(getAnimalLevel(getClaimedExperience(cow), "Cow"));
       setShowDrops(true);
       playProduceDrop();
       await new Promise((resolve) => setTimeout(resolve, 500));
@@ -211,30 +230,42 @@ export const Cow: React.FC<{
       setShowDrops(false);
     };
 
-    if (machineState() === "ready" && cow.state === "idle") {
+    // A banked claim leaves the animal ready (asleep until its next claim),
+    // so the claimed mark moving on is what shows a claim happened. A mark
+    // that was unset (an animal from before banking) is set by its first
+    // feed, which is not a claim.
+    if (
+      machineState() === "ready" &&
+      (cow.state === "idle" ||
+        (cow.state === "ready" &&
+          prev.claimedExperience !== undefined &&
+          prev.claimedExperience !== cow.claimedExperience))
+    ) {
       animateBulkClaim("CLAIM_PRODUCE");
     }
 
     if (
       ["idle", "happy", "sad"].includes(machineState() as string) &&
-      cow.state === "idle" &&
+      (cow.state === "idle" || cow.state === "ready") &&
       Date.now() < cow.awakeAt
     ) {
       // Bulk feeding can level an animal to ready and claim its produce in
       // the same event; INSTANT_WAKE_UP re-derives the machine state from
-      // the animal, which maps an asleep animal to "sleeping".
+      // the animal, which maps an asleep animal to "sleeping". A feed that
+      // banked several claims leaves it ready but asleep after the first.
       animateBulkClaim("INSTANT_WAKE_UP");
     }
 
     if (
       ["idle", "happy", "sad"].includes(machineState() as string) &&
       ["happy", "sad", "ready"].includes(cow.state) &&
-      machineState() !== cow.state
+      machineState() !== cow.state &&
+      Date.now() >= cow.awakeAt
     ) {
       cowService.send({ type: "FEED", animal: cow });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cow.state, cow.experience]);
+  }, [cow.state, cow.experience, cow.claimedExperience]);
 
   const favFood = getAnimalFavoriteFood("Cow", cow.experience);
   const sleeping = cowMachineState === "sleeping";
@@ -445,6 +476,7 @@ export const Cow: React.FC<{
       return;
     }
 
+    setDropsLevel(getNextClaimLevel(cow));
     setShowDrops(true);
     playProduceDrop();
     await new Promise((resolve) => setTimeout(resolve, 500));
@@ -683,7 +715,7 @@ export const Cow: React.FC<{
             <ProduceDrops
               animal={cow}
               multiplier={cow.multiplier ?? 0}
-              level={level}
+              level={dropsLevel ?? level}
               animalType="Cow"
               className="bottom-0 left-4 top-4"
             />
