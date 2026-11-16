@@ -839,6 +839,13 @@ export type PlantedCrop = {
    * A record with no marker reads as the raw base duration.
    */
   baseDurationMs?: number;
+  /**
+   * When this crop or rock's current cycle began (planted / mined). Unlike the
+   * start timestamp, nothing re-anchors it (landscaping lifts, Instant Growth),
+   * so the yield AOEs can tell whether a tile already paid out during this
+   * cycle. Missing on records from before it existed; see `aoe.ts`.
+   */
+  cycleStartedAt?: number;
 };
 
 export type PlantedFruit = {
@@ -898,6 +905,13 @@ export type Stone = {
    * A record with no marker reads as the raw base duration.
    */
   baseDurationMs?: number;
+  /**
+   * When this crop or rock's current cycle began (planted / mined). Unlike the
+   * start timestamp, nothing re-anchors it (landscaping lifts, Instant Growth),
+   * so the yield AOEs can tell whether a tile already paid out during this
+   * cycle. Missing on records from before it existed; see `aoe.ts`.
+   */
+  cycleStartedAt?: number;
 };
 
 export type FiniteResource = {

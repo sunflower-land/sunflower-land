@@ -1,6 +1,6 @@
 import type { AOEItemName } from "../expansion/placeable/lib/collisionDetection";
 import type { CollectibleName } from "../types/craftables";
-import type { AOE, GameState } from "../types/game";
+import type { AOE, GameState, PlantedCrop, Rock } from "../types/game";
 import { CROPS } from "../types/crops";
 import {
   computeReadyAt,
@@ -10,17 +10,39 @@ import {
 
 /**
  * Important: for yield boosts, the gameState.aoe object contains when the boost was last used.
+ *
+ * A tile pays out at most once per crop or rock cycle: the boost applies only if
+ * the tile's last payout came no later than when the node's current cycle
+ * started. Moving a node (or the collectible) never earns an extra payout, and no
+ * grow or recovery duration is involved, so speed boosts and instant-ready
+ * effects need no special handling. "No later than" because mining stamps the
+ * tile's last payout and the rock's next cycle start with the same createdAt.
  */
 export const canUseYieldBoostAOE = (
   aoe: AOE,
   item: AOEItemName,
   { dx, dy }: { dx: number; dy: number },
-  cooldownTime: number,
-  createdAt: number,
+  cycleStartedAt: number,
 ) => {
-  const aoeIdleTime = createdAt - (aoe[item]?.[dx]?.[dy] ?? 0);
-  return aoeIdleTime >= cooldownTime;
+  return (aoe[item]?.[dx]?.[dy] ?? 0) <= cycleStartedAt;
 };
+
+/**
+ * When a planted crop's current cycle began. Crops planted before
+ * `cycleStartedAt` existed fall back to `plantedAt`; anything that moves
+ * `plantedAt` (a lift, Instant Growth) records this first.
+ */
+export const getCropCycleStartedAt = (crop: PlantedCrop): number =>
+  crop.cycleStartedAt ?? crop.plantedAt;
+
+/**
+ * When a rock's current cycle began. Rocks mined before `cycleStartedAt`
+ * existed fall back to `minedAt`; a rock that has never been mined (`minedAt`
+ * 0) falls back to when the rock was created. A lift records this before it
+ * moves `minedAt`.
+ */
+export const getRockCycleStartedAt = (rock: Rock): number =>
+  rock.stone.cycleStartedAt ?? (rock.stone.minedAt || (rock.createdAt ?? 0));
 
 /**
  * Important: for time boosts, the gameState.aoe object contains when the boost is next available.
