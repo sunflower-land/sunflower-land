@@ -394,10 +394,10 @@ const CooldownCell: React.FC<{
   const { t } = useAppTranslation();
   const anchorRef = useRef<HTMLDivElement>(null);
   const boostsKey = `${toolName}-${cooldown.nodeLabel}`;
-  // Named boosts are the ones the popover can itemise; a live speed window has
-  // no name attached to it, so it shortens the time without making the cell
-  // clickable.
   const hasNamedBoosts = cooldown.boostsUsed.length > 0;
+  // Named boosts can be itemised in the panel; a live speed window cannot, but
+  // the panel still opens for it — it carries the base time, which no longer
+  // appears inline.
   const hasBoosts = isPreActionBoosted({
     displaySeconds: cooldown.recoverySeconds,
     baseSeconds: cooldown.baseSeconds,
@@ -415,11 +415,8 @@ const CooldownCell: React.FC<{
     return (
       <div
         ref={anchorRef}
-        className={classNames("flex items-center gap-1.5 relative", {
-          "cursor-pointer": hasNamedBoosts,
-        })}
+        className="flex items-center gap-1.5 relative cursor-pointer"
         onClick={(e) => {
-          if (!hasNamedBoosts) return;
           e.stopPropagation();
           setShowBoostsKey(showBoostsKey === boostsKey ? null : boostsKey);
         }}
@@ -442,7 +439,7 @@ const CooldownCell: React.FC<{
           <BoostsDisplay
             boosts={cooldown.boostsUsed}
             base={{ value: baseTimeStr, icon: SUNNYSIDE.icons.stopwatch }}
-            show={hasNamedBoosts && showBoostsKey === boostsKey}
+            show={showBoostsKey === boostsKey}
             state={state}
             onClick={() =>
               setShowBoostsKey(showBoostsKey === boostsKey ? null : boostsKey)
