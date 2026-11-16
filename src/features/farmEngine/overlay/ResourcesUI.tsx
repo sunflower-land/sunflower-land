@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { QuickSelect } from "features/greenhouse/QuickSelect";
 import {
+  PATCH_FRUIT,
   PATCH_FRUIT_SEEDS,
   type PatchFruitSeedName,
 } from "features/game/types/fruits";
@@ -18,10 +19,12 @@ import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { PIXEL_SCALE, TREE_RECOVERY_TIME } from "features/game/lib/constants";
 import type { GameState, InventoryItemName } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  getTranslatedItemName,
+  ITEM_DETAILS,
+} from "features/game/types/images";
 import {
   computeReadyAt,
-  getFlowerBoostWindows,
   getFruitBoostWindows,
   getMineBoostWindows,
   getOilBoostWindows,
@@ -31,7 +34,7 @@ import {
 } from "features/game/lib/boostWindows";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getFruitTreeStatus } from "features/island/fruit/FruitTree";
-import { FLOWER_SEEDS, FLOWERS } from "features/game/types/flowers";
+import { getFlowerReadyAt } from "features/game/lib/flowerBedReadiness";
 import { DEFAULT_HONEY_PRODUCTION_TIME } from "features/game/lib/updateBeehives";
 import { getCurrentHoneyProduced } from "features/game/lib/beehiveProduction";
 import {
@@ -95,11 +98,11 @@ const readNode = (
         windows: getTreeBoostWindows(game),
         recoverySeconds: TREE_RECOVERY_TIME,
         image: ITEM_DETAILS.Wood.image,
-        description: node.name ?? "Tree",
+        description: getTranslatedItemName(node.name ?? "Tree"),
         popoverTop: -10,
         tilesWide: 2,
         hasTool: !!game.inventory.Axe?.gte(1),
-        noToolText: `${t("craft")} axe`,
+        noToolText: `${t("craft")} ${getTranslatedItemName("Axe").toLowerCase()}`,
       };
     }
     case "stone":
@@ -134,11 +137,11 @@ const readNode = (
         recoverySeconds:
           RESOURCE_RECOVERY_TIME[name as keyof typeof RESOURCE_RECOVERY_TIME],
         image: ITEM_DETAILS[item].image,
-        description: name,
+        description: getTranslatedItemName(name as InventoryItemName),
         popoverTop: -20,
         tilesWide: 1,
         hasTool: !!game.inventory[tool]?.gte(1),
-        noToolText: `${t("craft")} ${tool.toLowerCase()}`,
+        noToolText: `${t("craft")} ${getTranslatedItemName(tool).toLowerCase()}`,
       };
     }
     case "crimstone": {
@@ -149,11 +152,11 @@ const readNode = (
         windows: getMineBoostWindows(game, "Crimstone Rock"),
         recoverySeconds: RESOURCE_RECOVERY_TIME["Crimstone Rock"],
         image: ITEM_DETAILS.Crimstone.image,
-        description: "Crimstone Rock",
+        description: getTranslatedItemName("Crimstone Rock"),
         popoverTop: -20,
         tilesWide: 2,
         hasTool: !!game.inventory["Gold Pickaxe"]?.gte(1),
-        noToolText: `${t("craft")} gold pickaxe`,
+        noToolText: `${t("craft")} ${getTranslatedItemName("Gold Pickaxe").toLowerCase()}`,
       };
     }
     case "sunstone": {
@@ -164,11 +167,11 @@ const readNode = (
         windows: [],
         recoverySeconds: RESOURCE_RECOVERY_TIME["Sunstone Rock"],
         image: ITEM_DETAILS.Sunstone.image,
-        description: "Sunstone Rock",
+        description: getTranslatedItemName("Sunstone Rock"),
         popoverTop: -20,
         tilesWide: 2,
         hasTool: !!game.inventory["Gold Pickaxe"]?.gte(1),
-        noToolText: `${t("craft")} gold pickaxe`,
+        noToolText: `${t("craft")} ${getTranslatedItemName("Gold Pickaxe").toLowerCase()}`,
       };
     }
     case "ascensionCrystal": {
@@ -183,7 +186,7 @@ const readNode = (
         popoverTop: -14,
         tilesWide: 2,
         hasTool: !!game.inventory["Gold Pickaxe"]?.gte(1),
-        noToolText: `${t("craft")} gold pickaxe`,
+        noToolText: `${t("craft")} ${getTranslatedItemName("Gold Pickaxe").toLowerCase()}`,
       };
     }
     case "oil": {
@@ -197,11 +200,11 @@ const readNode = (
         windows: getOilBoostWindows(game),
         recoverySeconds: OIL_RESERVE_RECOVERY_TIME,
         image: ITEM_DETAILS.Oil.image,
-        description: "Oil Reserve",
+        description: getTranslatedItemName("Oil Reserve"),
         popoverTop: -16,
         tilesWide: 2,
         hasTool: !!game.inventory["Oil Drill"]?.gte(1),
-        noToolText: `${t("craft")} oil drill`,
+        noToolText: `${t("craft")} ${getTranslatedItemName("Oil Drill").toLowerCase()}`,
       };
     }
   }
@@ -267,21 +270,24 @@ const CompoundPopover: React.FC<{
       status.stage === "Replenishing"
         ? `${name} Replenishing`
         : `${name} Growing`;
-    // Wall-clock countdown [FruitTree.tsx useNodeTimer]: windowed fruit
-    // derives its ready time live from the boost windows; legacy timeLeft is
-    // already wall-clock.
-    const fruitReadyAt =
-      node.fruit?.baseDurationMs !== undefined
-        ? computeReadyAt({
+    // Wall-clock countdown [FruitTree.tsx useNodeTimer]: the ready time is
+    // derived live from the boost windows; a fruit with no marker reads as
+    // its raw base duration.
+    const fruitCountdown = node.fruit
+      ? Math.max(
+          (computeReadyAt({
             startedAt: node.fruit.harvestedAt || node.fruit.plantedAt,
-            baseDurationMs: node.fruit.baseDurationMs,
+            baseDurationMs:
+              node.fruit.baseDurationMs ??
+              PATCH_FRUIT_SEEDS[PATCH_FRUIT[node.fruit.name].seed]
+                .plantSeconds * 1000,
             windows,
-          })
-        : undefined;
-    const fruitCountdown =
-      fruitReadyAt !== undefined
-        ? Math.max((fruitReadyAt - now) / 1000, 0)
-        : (status.timeLeft ?? 0);
+          }) -
+            now) /
+            1000,
+          0,
+        )
+      : 0;
     return (
       <AnchoredScaled anchorId={anchorId} tilesWide={2}>
         <div
@@ -303,17 +309,9 @@ const CompoundPopover: React.FC<{
     const node = game.flowers.flowerBeds[id];
     const flower = node?.flower;
     if (!flower || flower.dirty) return null;
-    const growSeconds = FLOWER_SEEDS[FLOWERS[flower.name].seed].plantSeconds;
-    const windows = getFlowerBoostWindows(game);
-    // Wall-clock countdown [FlowerBed.tsx useNodeTimer countdownSeconds].
-    const flowerReadyAt =
-      flower.baseDurationMs !== undefined
-        ? computeReadyAt({
-            startedAt: flower.plantedAt,
-            baseDurationMs: flower.baseDurationMs,
-            windows,
-          })
-        : flower.plantedAt + growSeconds * 1000;
+    // Wall-clock countdown [FlowerBed.tsx useNodeTimer countdownSeconds]; a
+    // flower with no marker reads as its raw grow time.
+    const flowerReadyAt = getFlowerReadyAt(flower, game);
     const secondsLeft = Math.max((flowerReadyAt - now) / 1000, 0);
     if (secondsLeft <= 0) return null;
     const known = (game.farmActivity[`${flower.name} Harvested`] ?? 0) > 0;
@@ -327,7 +325,7 @@ const CompoundPopover: React.FC<{
             image={
               known ? ITEM_DETAILS[flower.name].image : SUNNYSIDE.icons.search
             }
-            description={known ? flower.name : "Unknown"}
+            description={known ? getTranslatedItemName(flower.name) : "Unknown"}
             showPopover={true}
             timeLeft={secondsLeft}
           />
@@ -423,7 +421,11 @@ const CompoundPopover: React.FC<{
                 ? ITEM_DETAILS[caught as InventoryItemName]?.image
                 : SUNNYSIDE.icons.expression_confused
             }
-            description={known && caught ? caught : ""}
+            description={
+              known && caught
+                ? getTranslatedItemName(caught as InventoryItemName)
+                : ""
+            }
             showPopover={true}
             timeLeft={Math.max((waterTrap.readyAt - now) / 1000, 0)}
           />
@@ -510,7 +512,7 @@ const FruitQuickSelect: React.FC<{
   anchorId: string;
   patchId: string;
 }> = ({ bridge, anchorId, patchId }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, showFullMoonSeedsInQuickSelect } = useContext(Context);
   const season = useSelector(
     gameService,
     (state: MachineState) => state.context.state.season.season,
@@ -530,7 +532,8 @@ const FruitQuickSelect: React.FC<{
           options={getKeys(PATCH_FRUIT_SEEDS)
             .filter(
               (seed) =>
-                SEASONAL_SEEDS[season].includes(seed) || isFullMoonBerry(seed),
+                SEASONAL_SEEDS[season].includes(seed) ||
+                (showFullMoonSeedsInQuickSelect && isFullMoonBerry(seed)),
             )
             .map((seed) => ({
               name: seed as InventoryItemName,

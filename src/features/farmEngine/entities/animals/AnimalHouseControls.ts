@@ -19,7 +19,7 @@ import { EntityRenderer } from "../EntityRenderer";
 
 /**
  * The animal house's in-room controls: the feeder machine, Feed All, and the
- * shop / upgrade discs [BarnInside.tsx + HenHouseInside.tsx].
+ * shop / quick-sell / upgrade discs [BarnInside.tsx + HenHouseInside.tsx].
  *
  * These sit ON the room — they pan and zoom with it — so by the engine's
  * boundary rule they're Phaser. They used to be DOM elements in
@@ -45,6 +45,9 @@ const DISC = 18;
 const MACHINE = 30;
 const GRINDER = 18;
 const LIGHTNING = 8;
+const SKULL = 7;
+/** The quick-sell disc's right edge sits this far left of the shop disc's. */
+const SELL_DISC_GAP = 19;
 
 /**
  * The DOM laid this chrome out in CSS px against a SCREEN rect; here it is
@@ -106,6 +109,8 @@ export class AnimalHouseControls extends EntityRenderer<Slice> {
     const token = this.beginSync();
     [
       shopDisc,
+      SUNNYSIDE.icons.disc,
+      SUNNYSIDE.icons.death,
       SUNNYSIDE.icons.upgrade_disc,
       SUNNYSIDE.building.feederMachine,
       SUNNYSIDE.animalFoods.grinder,
@@ -116,9 +121,6 @@ export class AnimalHouseControls extends EntityRenderer<Slice> {
 
     this.clear();
 
-    // [BarnInside.tsx] the room chrome hides while a bounty deal is running.
-    if (this.bridge.animalDeal.get()) return;
-
     const room = interiorRoomRect(
       this.scene.location,
       slice.islandType,
@@ -126,9 +128,13 @@ export class AnimalHouseControls extends EntityRenderer<Slice> {
     );
     if (!room) return;
 
+    // [BarnInside.tsx] the feeder machine always stays; Feed All hides while
+    // the quick-sell panel is open so animals can't be fed mid-sale; the
+    // discs hide for a bounty deal and for the panel.
+    const sale = this.bridge.animalDeal.get();
     this.addFeederMachine(room);
-    this.addFeedAll(room, slice);
-    this.addDiscs(room);
+    if (!sale?.sellPanel) this.addFeedAll(room, slice);
+    if (!sale) this.addDiscs(room);
   }
 
   /** Top-centre of the room, hanging 4px above its top edge. */
@@ -234,7 +240,10 @@ export class AnimalHouseControls extends EntityRenderer<Slice> {
     );
   }
 
-  /** Shop top-right, upgrade top-left [AnimalHouseUI]. */
+  /**
+   * Shop top-right with the quick-sell disc beside it, upgrade top-left
+   * [BarnInside.tsx].
+   */
   private addDiscs(room: { x: number; y: number; width: number }) {
     const shop = this.image(
       shopDisc,
@@ -249,6 +258,39 @@ export class AnimalHouseControls extends EntityRenderer<Slice> {
         shop,
         () => this.bridge.animalHouseModal.set("shop"),
         { glow: () => shop },
+      );
+    }
+
+    // [BarnInside.tsx] the skull disc docks the bounty cards at the bottom of
+    // the screen. The shop disc has a 2px bag sprite above its disc, so the
+    // plain disc sits 2px lower to line the two faces up, 19px to its left.
+    const sell = this.image(
+      SUNNYSIDE.icons.disc,
+      room.x + room.width - DISC_INSET - SELL_DISC_GAP - DISC,
+      room.y + DISC_INSET + 2,
+      DISC,
+      CONTROL_DEPTH,
+    );
+    if (sell) {
+      // The skull is centred on the disc face.
+      const skull = this.image(
+        SUNNYSIDE.icons.death,
+        0,
+        0,
+        SKULL,
+        CONTROL_DEPTH + 1,
+      );
+      skull
+        ?.setOrigin(0.5, 0.5)
+        .setPosition(
+          sell.x + sell.displayWidth / 2,
+          sell.y + sell.displayHeight / 2,
+        );
+      makeClickable(
+        this.scene,
+        sell,
+        () => this.bridge.animalDeal.set({ sellPanel: true }),
+        { glow: () => sell },
       );
     }
 

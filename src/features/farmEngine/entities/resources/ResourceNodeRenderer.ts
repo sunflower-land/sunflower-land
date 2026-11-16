@@ -17,6 +17,7 @@ import { ProgressBarSprite } from "../../components/ProgressBarSprite";
 import type { ResourceHoverKind } from "../../bridge/GameBridge";
 import { EntityRenderer } from "../EntityRenderer";
 import { applyArt, type ArtSpec, type NodeBox } from "./lib";
+import { burst, hitFlash, type ChipMaterial } from "../../core/juice";
 
 /**
  * Base for every resource node (trees, rocks, oil...): reconciles a
@@ -274,6 +275,34 @@ export abstract class ResourceNodeRenderer<
           });
         },
       });
+    });
+  }
+
+  /**
+   * Feedback for a tool landing on a node: the art flashes and a few chips
+   * of the node's material fly off. "break" is the final blow — more chips,
+   * thrown wider. Cosmetic only; honours the animations preference.
+   */
+  protected impact(
+    id: string,
+    material: ChipMaterial,
+    strength: "tap" | "break" = "tap",
+  ) {
+    if (!this.bridge.ui.get().showAnimations) return;
+    const box = this.boxOf(id);
+    if (!box) return;
+    const art = this.glowTarget(id);
+    if (art && strength === "tap") hitFlash(this.scene, art);
+    const heavy = strength === "break";
+    burst(this.scene, {
+      x: box.x + box.width / 2,
+      y: box.y + box.height / 2,
+      material,
+      depth: DEPTHS.ENTITY_BASE + box.y + box.height + 4,
+      count: heavy ? 10 : 5,
+      spread: heavy ? 14 : 8,
+      lift: heavy ? 12 : 8,
+      durationMs: heavy ? 460 : 340,
     });
   }
 

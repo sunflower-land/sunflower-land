@@ -268,8 +268,12 @@ export class WaterTrapRenderer extends EntityRenderer<Slice> {
       const caught =
         waterTrap.caught ?? caughtCrustacean(waterTrap.type, waterTrap.chum);
       const [item, amount] = getObjectEntries(caught)[0] ?? [];
+      // [WaterTrapSpot.tsx] only a first-ever catch gets the modal; read the
+      // counter BEFORE the collect bumps it.
+      const isNewCatch =
+        !!item && (game.farmActivity[`${item} Caught`] ?? 0) === 0;
       this.bridge.dispatch({ type: "waterTrap.collected", trapId: id });
-      if (item) {
+      if (item && isNewCatch) {
         this.bridge.farmModal.open("crustaceanCaught", {
           item,
           amount: amount ?? 1,

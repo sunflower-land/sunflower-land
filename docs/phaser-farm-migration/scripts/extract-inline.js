@@ -1,6 +1,9 @@
 /* Extract inline ImageStyle + TemplateCollectible entries from CollectibleCollection.tsx */
 const fs = require("fs");
-const FILE = "/Users/adamhannigan/Documents/workspace/sunflower-land/src/features/island/collectibles/CollectibleCollection.tsx";
+const path = require("path");
+// Repo root, so the scripts work from any checkout or worktree.
+const ROOT = path.join(__dirname, "../../..");
+const FILE = path.join(ROOT, "src/features/island/collectibles/CollectibleCollection.tsx");
 const src = fs.readFileSync(FILE, "utf8");
 
 const imports = {};

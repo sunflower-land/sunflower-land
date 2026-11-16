@@ -9,13 +9,10 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { ITEM_DETAILS } from "features/game/types/images";
-import type { InventoryItemName } from "features/game/types/game";
-import { FLOWER_SEEDS, FLOWERS } from "features/game/types/flowers";
+import type { GameState, InventoryItemName } from "features/game/types/game";
+import { FISH } from "features/game/types/fishing";
 import { calculateInstaGrowCost } from "features/game/events/landExpansion/instaGrowFlower";
-import {
-  getFlowerBoostWindows,
-  workAccruedAt,
-} from "features/game/lib/boostWindows";
+import { getFlowerReadyAt } from "features/game/lib/flowerBedReadiness";
 import { DEFAULT_HONEY_PRODUCTION_TIME } from "features/game/lib/updateBeehives";
 import {
   getCurrentHoneyProduced,
@@ -23,6 +20,7 @@ import {
 } from "features/game/lib/beehiveProduction";
 import { getFullHiveHoneyYield } from "features/game/events/landExpansion/harvestBeehive";
 import { NPC_WEARABLES } from "lib/npcs";
+import { gameAnalytics } from "lib/gameAnalytics";
 import { getKeys } from "lib/object";
 import { formatNumber } from "lib/utils/formatNumber";
 import { secondsToString } from "lib/utils/time";
@@ -51,20 +49,12 @@ export const FlowerInstaGrow: React.FC<{ id: string; onClose: () => void }> = ({
   const flower = bed?.flower;
   if (!flower) return null;
 
-  const growSeconds = FLOWER_SEEDS[FLOWERS[flower.name].seed].plantSeconds;
-  const secondsLeft =
-    flower.baseDurationMs !== undefined
-      ? Math.max(
-          (flower.baseDurationMs -
-            workAccruedAt({
-              startedAt: flower.plantedAt,
-              at: now,
-              windows: getFlowerBoostWindows(state),
-            })) /
-            1000,
-          0,
-        )
-      : Math.max((flower.plantedAt + growSeconds * 1000 - now) / 1000, 0);
+  // [FlowerBed.tsx] insta-grow is priced from — and the label shows — the
+  // wall-clock countdown (instaGrowFlower charges on readyAt - now).
+  const secondsLeft = Math.max(
+    (getFlowerReadyAt(flower, state) - now) / 1000,
+    0,
+  );
 
   const cost = calculateInstaGrowCost(secondsLeft);
   const obsidian = state.inventory.Obsidian ?? new Decimal(0);
@@ -212,7 +202,25 @@ export const FishermanCaught: React.FC<{ onClose: () => void }> = ({
         </div>
         <Button
           onClick={() => {
-            gameService.send("rod.reeled");
+            // [FishermanNPC.tsx claim] catches are counted in units, so the
+            // first reel is "from none to some", not a total of exactly 1.
+            const countFishCaught = (activity: GameState["farmActivity"]) =>
+              getKeys(FISH).reduce(
+                (total, name) => total + (activity[`${name} Caught`] ?? 0),
+                0,
+              );
+            const caughtBefore = countFishCaught(
+              gameService.getSnapshot().context.state.farmActivity,
+            );
+            const reeled = gameService.send("rod.reeled");
+            const caughtAfter = countFishCaught(
+              reeled.context.state.farmActivity,
+            );
+            if (caughtBefore === 0 && caughtAfter > 0) {
+              gameAnalytics.trackMilestone({
+                event: "Tutorial:Fishing:Completed",
+              });
+            }
             onClose();
           }}
         >

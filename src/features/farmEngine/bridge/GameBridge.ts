@@ -80,6 +80,7 @@ export type FarmModalName =
   // Collectibles (Phase 6)
   | "collectibleConstructing"
   | "renewCollectible"
+  | "temporaryCollectible"
   | "letterBox"
   | "saltSculpture"
   | "genieLamp"
@@ -126,9 +127,21 @@ export type LandscapingControls = {
 /** The animal house's React panels, opened from the in-room Phaser controls. */
 export type AnimalHouseModal = "shop" | "upgrade" | "feeder" | null;
 
+/**
+ * Non-null exactly while a bounty deal is picked or the quick-sell panel is
+ * open — the two states that replace the room's normal chrome.
+ */
 export type AnimalDealState = {
-  deal: AnimalBounty;
+  /** The bounty being exchanged; unset while the sell panel waits for one. */
+  deal?: AnimalBounty;
+  /** React: the animal whose AnimalDeal confirmation is showing. */
   selectedId?: string;
+  /** [BarnInside.tsx showSellPanel] the quick-sell panel is docked. */
+  sellPanel?: boolean;
+  /** Bulk sell marks, bounty id -> animal id [useBountySaleSelection]. */
+  pending?: Record<string, string>;
+  /** Phaser -> React: the animal just clicked; React consumes and clears it. */
+  clickedId?: string;
 } | null;
 
 export type FarmModalBridge = {
@@ -279,9 +292,11 @@ export interface GameBridge {
   /** Chest-reward handoff: Phaser click -> React chest/captcha -> back. */
   chestReward: ValueStore<PendingChestReward>;
   /**
-   * Animal-bounty exchange mode [BarnInside.tsx `deal`]: React (the shop
-   * modal's sell tab) sets the deal; Phaser dims invalid animals and reports
-   * the clicked one back via `selectedId`; React shows the AnimalDeal modal.
+   * Animal-bounty exchange mode [BarnInside.tsx `deal` + `showSellPanel`]:
+   * React (the shop modal's sell tab, or the quick-sell panel) sets the deal;
+   * Phaser dims invalid animals and reports the clicked one back via
+   * `clickedId`; React confirms through the AnimalDeal modal or, in bulk
+   * mode, marks the pair.
    */
   animalDeal: ValueStore<AnimalDealState>;
   /**

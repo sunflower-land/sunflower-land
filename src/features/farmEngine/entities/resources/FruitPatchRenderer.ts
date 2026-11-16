@@ -4,6 +4,7 @@ import powerup from "assets/icons/level_up.png";
 import type { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
+  PATCH_FRUIT,
   PATCH_FRUIT_SEEDS,
   type PatchFruitName,
 } from "features/game/types/fruits";
@@ -100,9 +101,7 @@ const fruitGeom = (
 
 type PatchTiming = {
   startedAt: number;
-  baseDurationMs?: number;
-  legacyReadyAt: number;
-  totalSeconds: number;
+  baseDurationMs: number;
 };
 
 export class FruitPatchRenderer extends ResourceNodeRenderer<FruitNode> {
@@ -196,12 +195,13 @@ export class FruitPatchRenderer extends ResourceNodeRenderer<FruitNode> {
 
     if (growing && node.fruit) {
       const startedAt = node.fruit.harvestedAt || node.fruit.plantedAt;
-      const timing: PatchTiming = {
-        startedAt,
-        baseDurationMs: node.fruit.baseDurationMs,
-        legacyReadyAt: startedAt + (status.totalSeconds ?? 0) * 1000,
-        totalSeconds: status.totalSeconds ?? 0,
-      };
+      // [FruitTree.tsx] a fruit with no marker reads as its raw base
+      // duration; work accrues through the same windows either way.
+      const baseDurationMs =
+        node.fruit.baseDurationMs ??
+        PATCH_FRUIT_SEEDS[PATCH_FRUIT[node.fruit.name].seed].plantSeconds *
+          1000;
+      const timing: PatchTiming = { startedAt, baseDurationMs };
       this.timings.set(id, timing);
 
       // Stage flips (Seedling art thresholds + the Replenished flip).
@@ -211,9 +211,11 @@ export class FruitPatchRenderer extends ResourceNodeRenderer<FruitNode> {
           `fruitPatch-${id}`,
           {
             startedAt,
-            baseDurationMs: node.fruit.baseDurationMs,
+            baseDurationMs,
+            // Pre-lift banked work moves the art thresholds, like the DOM's
+            // totalSeconds [getFruitTreeStatus].
+            bankedMs: node.fruit.boostedTime ?? 0,
             windows,
-            legacyReadyAt: timing.legacyReadyAt,
             stageFractions: status.stage === "Seedling" ? [0.25, 0.5, 1] : [1],
           },
           () =>
@@ -356,14 +358,11 @@ export class FruitPatchRenderer extends ResourceNodeRenderer<FruitNode> {
       Math.max(100 - (timeLeft / total) * 100, 0),
       100,
     );
-    const readyAt =
-      timing.baseDurationMs !== undefined
-        ? computeReadyAt({
-            startedAt: timing.startedAt,
-            baseDurationMs: timing.baseDurationMs,
-            windows,
-          })
-        : timing.legacyReadyAt;
+    const readyAt = computeReadyAt({
+      startedAt: timing.startedAt,
+      baseDurationMs: timing.baseDurationMs,
+      windows,
+    });
     bar.set(percentage, Math.max((readyAt - now) / 1000, 0));
   }
 
@@ -427,6 +426,7 @@ export class FruitPatchRenderer extends ResourceNodeRenderer<FruitNode> {
       if (!selected || !(selected in PATCH_FRUIT_SEEDS)) return;
       this.bridge.dispatch("fruit.planted", { index: id, seed: selected });
       playSound("plant");
+      this.impact(id, "soil");
       return;
     }
 
@@ -448,6 +448,7 @@ export class FruitPatchRenderer extends ResourceNodeRenderer<FruitNode> {
         selectedItem: "Axe",
       });
       playSound("tree_fall");
+      this.impact(id, "wood", "break");
       if (this.bridge.ui.get().showAnimations) {
         const { woodReward } = getWoodReward({ state: game });
         const box = this.boxOf(id) ?? this.boxFor(node);
@@ -483,6 +484,7 @@ export class FruitPatchRenderer extends ResourceNodeRenderer<FruitNode> {
       this.shakeNode(id);
       this.bridge.dispatch("fruit.harvested", { index: id });
       playSound("harvest");
+      this.impact(id, "leaf");
       if (this.bridge.ui.get().showAnimations) {
         const box = this.boxOf(id) ?? this.boxFor(node);
         playYieldFloat(this.scene, {

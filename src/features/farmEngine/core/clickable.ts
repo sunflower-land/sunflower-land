@@ -2,6 +2,7 @@ import type Phaser from "phaser";
 import { PAN_DEAD_ZONE_CSS_PX } from "./camera";
 import { DPR } from "./rendering";
 import { applyHoverGlow, clearHoverGlow, type GlowTarget } from "./hoverGlow";
+import { press } from "./juice";
 
 /**
  * The engine's clickable affordance: hand cursor + click + hover callback +
@@ -76,8 +77,25 @@ export function makeClickable(
   // Stamping the press identity (downTime changes on every real press) ties
   // the guard to THIS press and makes staleness impossible.
   let pressStamp: number | undefined;
+  // Press feedback: the art sinks a pixel while held [core/juice.ts].
+  let releasePress: (() => void) | undefined;
+  const endPress = () => {
+    releasePress?.();
+    releasePress = undefined;
+  };
   obj.on("pointerdown", (pointer: Phaser.Input.Pointer) => {
     pressStamp = pointer.downTime;
+    endPress();
+    const flags = scene as {
+      landscapingActive?: boolean;
+      visitingActive?: boolean;
+      bridge?: { ui: { get(): { showAnimations: boolean } } };
+    };
+    if (flags.landscapingActive) return;
+    if (flags.visitingActive && !visitClickable) return;
+    if (flags.bridge && !flags.bridge.ui.get().showAnimations) return;
+    const art = glow?.();
+    if (art) releasePress = press(art);
   });
 
   obj.on("pointerup", (pointer: Phaser.Input.Pointer) => {
@@ -90,6 +108,7 @@ export function makeClickable(
     const samePress =
       pressStamp !== undefined && pressStamp === pointer.downTime;
     pressStamp = undefined;
+    endPress();
     if (flags.landscapingActive) return;
     if (flags.visitingActive && !visitClickable) return;
     // The press has to have started on us, and stayed put.
@@ -113,8 +132,12 @@ export function makeClickable(
   });
   obj.on("pointerout", () => {
     hoverSuppressed = false;
+    endPress();
     hideGlow();
     onHoverChange?.(false);
   });
-  obj.once("destroy", hideGlow);
+  obj.once("destroy", () => {
+    endPress();
+    hideGlow();
+  });
 }

@@ -29,8 +29,12 @@ import type { FarmScene } from "../scenes/FarmScene";
  * world that was already drawn.
  */
 
-/** Cold boot: hold the panel back so a fast load only shows the tone. */
-const PANEL_DELAY_MS = 350;
+/**
+ * Cold boot: hold the panel back so a fast load only shows the tone. Longer
+ * than a typical warm-cache boot (~350ms): at that length the panel faded in
+ * just as the farm was ready and flashed for a couple of hundred ms.
+ */
+const PANEL_DELAY_MS = 900;
 /** Warm hop: how long the veil may sit bare before the label explains it. */
 const HOP_LABEL_DELAY_MS = 600;
 const FADE_MS = 220;

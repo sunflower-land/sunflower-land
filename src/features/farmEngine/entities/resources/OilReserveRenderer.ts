@@ -52,20 +52,21 @@ export class OilReserveRenderer extends ResourceNodeRenderer<OilNode> {
     queueArt(this.scene, spurtingWell);
   }
 
+  /**
+   * [OilReserve.tsx] the reserve's un-boosted work; one with no marker reads
+   * as the raw recovery time.
+   */
+  private baseDurationMs(node: OilNode) {
+    return node.oil.baseDurationMs ?? OIL_RESERVE_RECOVERY_TIME * 1000;
+  }
+
   private workLeftSeconds(node: OilNode, game: GameState, now: number) {
-    const { drilledAt, baseDurationMs } = node.oil;
-    if (baseDurationMs !== undefined) {
-      const done = workAccruedAt({
-        startedAt: drilledAt,
-        at: now,
-        windows: getOilBoostWindows(game),
-      });
-      return Math.max((baseDurationMs - done) / 1000, 0);
-    }
-    return Math.max(
-      (drilledAt + OIL_RESERVE_RECOVERY_TIME * 1000 - now) / 1000,
-      0,
-    );
+    const done = workAccruedAt({
+      startedAt: node.oil.drilledAt,
+      at: now,
+      windows: getOilBoostWindows(game),
+    });
+    return Math.max((this.baseDurationMs(node) - done) / 1000, 0);
   }
 
   protected renderNode(
@@ -80,10 +81,7 @@ export class OilReserveRenderer extends ResourceNodeRenderer<OilNode> {
     const game = this.game();
     const now = Date.now();
     const workLeft = this.workLeftSeconds(node, game, now);
-    const halfThreshold =
-      node.oil.baseDurationMs !== undefined
-        ? node.oil.baseDurationMs / 2000
-        : OIL_RESERVE_RECOVERY_TIME / 2;
+    const halfThreshold = this.baseDurationMs(node) / 2000;
 
     const spurt = objects.extras.get("spurt");
     spurt?.destroy();

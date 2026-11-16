@@ -266,7 +266,11 @@ const FarmPhaserSurface: React.FC<{ surface: FarmSurface }> = ({ surface }) => {
         {import.meta.env.DEV && <DevPanel />}
         {import.meta.env.DEV && <PerfPanel getGame={() => gameRef.current} />}
       </FarmOverlay>
-      <FarmModals bridge={bridge} onOpenChange={onModalOpenChange} />
+      <FarmModals
+        bridge={bridge}
+        onOpenChange={onModalOpenChange}
+        hasNestedRoute={hasNestedRoute}
+      />
       {/* [Land.tsx:1348-1352] edit/visit modes swap the HUD. The fixed rooms
           (greenhouse, animal houses) pass location="home" and isFarming=false,
           exactly as their DOM screens do. A nested route (marketplace,

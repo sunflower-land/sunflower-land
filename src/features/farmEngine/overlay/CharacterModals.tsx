@@ -112,9 +112,18 @@ const FarmHandEquipHost: React.FC<{ id: string; onClose: () => void }> = ({
         <BumpkinEquip
           farmHandId={id}
           equipment={farmHand.equipped as BumpkinParts}
-          onEquip={(equipment) =>
-            gameService.send("farmHand.equipped", { id, equipment })
-          }
+          // [FarmHand.tsx] the modal can switch to the Bumpkin or another
+          // farm hand; it reports which one was dressed.
+          onEquip={(equipment, farmHandId) => {
+            if (farmHandId) {
+              gameService.send("farmHand.equipped", {
+                id: farmHandId,
+                equipment,
+              });
+            } else {
+              gameService.send("bumpkin.equipped", { equipment });
+            }
+          }}
         />
       </CloseButtonPanel>
     </Modal>

@@ -1,3 +1,4 @@
+import { CHIPS, type ChipMaterial } from "../../core/juice";
 import Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";
 import ironOre from "assets/resources/iron_ore.png";
@@ -29,19 +30,11 @@ import type {
   InventoryItemName,
   Rock,
 } from "features/game/types/game";
-import { KNOWN_IDS } from "features/game/types";
 import { ITEM_DETAILS } from "features/game/types/images";
-import {
-  getMineBoostWindows,
-  computeReadyAt,
-  type BoostWindow,
-} from "features/game/lib/boostWindows";
+import type { RockName } from "features/game/types/resources";
 import { canMine, getMineReadyAt } from "features/game/lib/resourceNodes";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { isWearableActive } from "features/game/lib/wearables";
-import { getStoneDropAmount } from "features/game/events/landExpansion/stoneMine";
-import { getIronDropAmount } from "features/game/events/landExpansion/ironMine";
-import { getGoldDropAmount } from "features/game/events/landExpansion/mineGold";
 import { getCrimstoneDropAmount } from "features/game/events/landExpansion/mineCrimstone";
 import {
   getCrimstoneResetAt,
@@ -90,8 +83,13 @@ export type MineralConfig = {
   yieldFx: (node: MineralNode) => { icon: string; iconWidth: number };
   allAssets: (slice: NodeSlice<MineralNode>) => string[];
   allSheets: (slice: NodeSlice<MineralNode>) => SheetSpec[];
-  recoverySeconds: number;
-  windows: (game: GameState, node: MineralNode) => BoostWindow[];
+  /** The rock's name, for the windowed ready time [getMineReadyAt]. */
+  rockName: (node: MineralNode) => RockName;
+  /**
+   * When a RECOVERED node's art next changes on its own (crimstone's reset
+   * to stage 1) — the renderer re-syncs just after it.
+   */
+  nextArtChangeAt?: (node: MineralNode) => number;
   isDepleted: (node: MineralNode, game: GameState, now: number) => boolean;
   hasTool: (game: GameState, node: MineralNode) => boolean;
   /** Item to auto-select on strike (undefined = skip, per Quarry rule). */
@@ -102,11 +100,17 @@ export type MineralConfig = {
     id: string,
     node: MineralNode,
     game: GameState,
-    farmId: number,
   ) => number; // dispatches the event, returns the drop amount for the float
 };
 
 export class MineralRenderer extends ResourceNodeRenderer<MineralNode> {
+  /** Chip colours for strike feedback, by mineral. */
+  private chipMaterial(): ChipMaterial {
+    return this.config.key in CHIPS
+      ? (this.config.key as ChipMaterial)
+      : "stone";
+  }
+
   protected readonly rendererKey: string;
   protected readonly tileDims: { width: number; height: number };
   protected readonly hoverKind: ResourceHoverKind;
@@ -171,14 +175,9 @@ export class MineralRenderer extends ResourceNodeRenderer<MineralNode> {
       objects.bar = undefined;
       this.setArt(objects, ctx, { ...art, alpha: 0.5 });
 
-      const readyAt =
-        node.stone.baseDurationMs !== undefined
-          ? computeReadyAt({
-              startedAt: node.stone.minedAt,
-              baseDurationMs: node.stone.baseDurationMs,
-              windows: this.config.windows(game, node),
-            })
-          : node.stone.minedAt + this.config.recoverySeconds * 1000;
+      // Windowed, like isDepleted; a rock with no marker reads as its raw
+      // recovery time [getMineReadyAt].
+      const readyAt = getMineReadyAt(node, this.config.rockName(node), game);
       const timer = this.scene.time.delayedCall(
         Math.max(readyAt - now, 0) + 100,
         () =>
@@ -203,6 +202,18 @@ export class MineralRenderer extends ResourceNodeRenderer<MineralNode> {
       objects.strike?.destroy();
       objects.strike = undefined;
     }
+
+    // [Crimstone.tsx resetClock] art that changes with no state change (the
+    // reset to stage 1) needs its own wake-up once the rock has recovered.
+    const artChangeAt = this.config.nextArtChangeAt?.(node);
+    if (artChangeAt !== undefined && now <= artChangeAt) {
+      const timer = this.scene.time.delayedCall(
+        artChangeAt - now + 100,
+        () =>
+          void this.sync(this.bridge.select((state) => this.selector(state))),
+      );
+      this.recoveryTimers.set(id, () => timer.remove());
+    }
   }
 
   protected onNodeClick(id: string) {
@@ -219,6 +230,7 @@ export class MineralRenderer extends ResourceNodeRenderer<MineralNode> {
     if (tool) this.bridge.selectItem(tool);
 
     playSound("mining");
+    this.impact(id, this.chipMaterial());
 
     if (this.config.instaMine(game)) {
       this.mine(id);
@@ -232,27 +244,24 @@ export class MineralRenderer extends ResourceNodeRenderer<MineralNode> {
   }
 
   private mine(id: string) {
-    const machine = this.bridge.select((state) => state);
-    const game = machine.context.state;
+    const game = this.game();
     const node = this.config.selectNodes(game)[id];
     if (!node) return;
 
-    const now = Date.now();
-    const amount = this.config.collect(
-      this.bridge,
-      id,
-      node,
-      game,
-      machine.context.farmId,
-    );
+    const amount = this.config.collect(this.bridge, id, node, game);
     playSound("mining_fall");
+    this.impact(id, this.chipMaterial(), "break");
 
     if (this.bridge.ui.get().showAnimations) {
       const box = this.boxOf(id) ?? this.boxFor(node);
+      // The drop sheet is picked off the POST-hit rock, like the DOM's
+      // depleting view which renders after the event [DepletingCrimstone.tsx].
+      const minedGame = this.game();
+      const minedNode = this.config.selectNodes(minedGame)[id] ?? node;
       playDropSheet(
         this.scene,
         box,
-        this.config.dropSheet(node, game, now),
+        this.config.dropSheet(minedNode, minedGame, Date.now()),
         box.y + 100_000, // well above the entity band, like the DOM z-40
       );
       const fx = this.config.yieldFx(node);
@@ -350,9 +359,7 @@ export const STONE_CONFIG: MineralConfig = {
     ...Object.values(slice.nodes).map((node) => STONE_CONFIG.strikeSheet(node)),
     { url: SUNNYSIDE.resource.stoneDropSheet, ...BIG_DROP },
   ],
-  recoverySeconds: 4 * 60 * 60,
-  windows: (game, node) =>
-    getMineBoostWindows(game, nodeName(node, "Stone Rock") as never),
+  rockName: (node) => nodeName(node, "Stone Rock") as RockName,
   isDepleted: (node, game, now) =>
     !canMine(node, nodeName(node, "Stone Rock") as never, game, now),
   hasTool: (game, node) => {
@@ -367,20 +374,14 @@ export const STONE_CONFIG: MineralConfig = {
   toolToSelect: (game) =>
     isCollectibleBuilt({ name: "Quarry", game }) ? undefined : "Pickaxe",
   instaMine: (game) => !!game.bumpkin?.skills["Tap Prospector"],
-  collect: (bridge, id, node, game, farmId) => {
-    const amount =
-      node.stone.amount ??
-      getStoneDropAmount({
-        game,
-        rock: node,
-        createdAt: Date.now(),
-        id,
-        farmId,
-        counter: game.farmActivity["Stone Mined"] ?? 0,
-        itemId: KNOWN_IDS[nodeName(node, "Stone Rock") as InventoryItemName],
-      }).amount.toNumber();
-    bridge.dispatch("stoneRock.mined", { index: id });
-    return Number(amount);
+  // [Stone.tsx] the float reads what the reducer actually added: same
+  // timestamp, boosts and rolls as the mined event.
+  collect: (bridge, id, _node, game) => {
+    const before = game.inventory.Stone ?? new Decimal(0);
+    const newState = bridge.dispatch("stoneRock.mined", { index: id });
+    return (newState.context.state.inventory.Stone ?? new Decimal(0))
+      .minus(before)
+      .toNumber();
   },
 };
 
@@ -404,9 +405,7 @@ export const IRON_CONFIG: MineralConfig = {
     { url: SUNNYSIDE.resource.ironStrikeSheet, ...BIG_STRIKE },
     { url: SUNNYSIDE.resource.ironDropSheet, ...BIG_DROP },
   ],
-  recoverySeconds: 8 * 60 * 60,
-  windows: (game, node) =>
-    getMineBoostWindows(game, nodeName(node, "Iron Rock") as never),
+  rockName: (node) => nodeName(node, "Iron Rock") as RockName,
   isDepleted: (node, game, now) =>
     !canMine(node, nodeName(node, "Iron Rock") as never, game, now),
   hasTool: (game, node) =>
@@ -415,19 +414,14 @@ export const IRON_CONFIG: MineralConfig = {
       node.multiplier ?? 1,
     ),
   toolToSelect: () => "Stone Pickaxe",
-  collect: (bridge, id, node, game, farmId) => {
-    const amount =
-      node.stone.amount ??
-      getIronDropAmount({
-        game,
-        rock: node,
-        createdAt: Date.now(),
-        farmId,
-        counter: game.farmActivity["Iron Mined"] ?? 0,
-        itemId: KNOWN_IDS[nodeName(node, "Iron Rock") as InventoryItemName],
-      }).amount.toNumber();
-    bridge.dispatch("ironRock.mined", { index: id });
-    return Number(amount);
+  // [Iron.tsx] the float reads what the reducer actually added: same
+  // timestamp, boosts and rolls as the mined event.
+  collect: (bridge, id, _node, game) => {
+    const before = game.inventory.Iron ?? new Decimal(0);
+    const newState = bridge.dispatch("ironRock.mined", { index: id });
+    return (newState.context.state.inventory.Iron ?? new Decimal(0))
+      .minus(before)
+      .toNumber();
   },
 };
 
@@ -451,9 +445,7 @@ export const GOLD_CONFIG: MineralConfig = {
     { url: SUNNYSIDE.resource.goldStrikeSheet, ...BIG_STRIKE },
     { url: SUNNYSIDE.resource.goldDropSheet, ...BIG_DROP },
   ],
-  recoverySeconds: 24 * 60 * 60,
-  windows: (game, node) =>
-    getMineBoostWindows(game, nodeName(node, "Gold Rock") as never),
+  rockName: (node) => nodeName(node, "Gold Rock") as RockName,
   isDepleted: (node, game, now) =>
     !canMine(node, nodeName(node, "Gold Rock") as never, game, now),
   hasTool: (game, node) =>
@@ -462,19 +454,14 @@ export const GOLD_CONFIG: MineralConfig = {
       node.multiplier ?? 1,
     ),
   toolToSelect: () => "Iron Pickaxe",
-  collect: (bridge, id, node, game, farmId) => {
-    const amount =
-      node.stone.amount ??
-      getGoldDropAmount({
-        game,
-        rock: node,
-        createdAt: Date.now(),
-        farmId,
-        counter: game.farmActivity["Gold Mined"] ?? 0,
-        itemId: KNOWN_IDS[nodeName(node, "Gold Rock") as InventoryItemName],
-      }).amount.toNumber();
-    bridge.dispatch("goldRock.mined", { index: id });
-    return Number(amount);
+  // [Gold.tsx] the float reads what the reducer actually added: same
+  // timestamp, boosts and rolls as the mined event.
+  collect: (bridge, id, _node, game) => {
+    const before = game.inventory.Gold ?? new Decimal(0);
+    const newState = bridge.dispatch("goldRock.mined", { index: id });
+    return (newState.context.state.inventory.Gold ?? new Decimal(0))
+      .minus(before)
+      .toNumber();
   },
 };
 
@@ -566,8 +553,8 @@ export const CRIMSTONE_CONFIG: MineralConfig = {
       steps: 10,
     },
   ],
-  recoverySeconds: 24 * 60 * 60,
-  windows: (game) => getMineBoostWindows(game, "Crimstone Rock"),
+  rockName: () => "Crimstone Rock",
+  nextArtChangeAt: (node) => getCrimstoneResetAt(node.stone.minedAt),
   isDepleted: (node, game, now) => !canMine(node, "Crimstone Rock", game, now),
   hasTool: (game) =>
     isWearableActive({ name: "Crimstone Spikes Hair", game }) ||
@@ -632,8 +619,7 @@ export const SUNSTONE_CONFIG: MineralConfig = {
     SUNSTONE_CONFIG.strikeSheet({} as MineralNode),
     SUNSTONE_CONFIG.dropSheet({} as MineralNode, {} as GameState, 0),
   ],
-  recoverySeconds: 3 * 24 * 60 * 60,
-  windows: (game) => getMineBoostWindows(game, "Sunstone Rock"),
+  rockName: () => "Sunstone Rock",
   // Sunstone deliberately uses now <= readyAt, not canMine (Sunstone.tsx).
   isDepleted: (node, game, now) =>
     now <= getMineReadyAt(node as never, "Sunstone Rock", game),

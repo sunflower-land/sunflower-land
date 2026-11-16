@@ -1,7 +1,9 @@
 /* Extract layout config from the static collectible components. */
 const fs = require("fs");
 const path = require("path");
-const DIR = "/Users/adamhannigan/Documents/workspace/sunflower-land/src/features/island/collectibles/components";
+// Repo root, so the scripts work from any checkout or worktree.
+const ROOT = path.join(__dirname, "../../..");
+const DIR = path.join(ROOT, "src/features/island/collectibles/components");
 
 const INTERACTIVE = new Set(["Bean.tsx","Bed.tsx","Bud.tsx","Bush.tsx","FestiveTree.tsx","Fountain.tsx","GenieLamp.tsx","GoldEgg.tsx","Hourglass.tsx","ManekiNeko.tsx","Monument.tsx","NyonStatue.tsx","Observatory.tsx","ObsidianShrine.tsx","PetShrine.tsx","Project.tsx","RockGolem.tsx","SaltSculpture.tsx","Sign.tsx","SuperTotem.tsx","TimeWarpTotem.tsx","TomatoBombard.tsx","Wardrobe.tsx","WeatherProtection.tsx","WindsOfChangeBanner.tsx"]);
 const SHEET = new Set(["SquirrelMonkey.tsx","WickerMan.tsx"]);

@@ -5,6 +5,8 @@ import tsunamiIcon from "assets/icons/tsunami.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
 import type { MachineState } from "features/game/lib/gameMachine";
 import type {
+  BuildingProduct,
+  CropMachineBuilding,
   GameState,
   PlacedItem,
   TemperateSeasonName,
@@ -36,6 +38,30 @@ import {
   findGrowingCropPackIndex,
   isCropPackReady,
 } from "features/island/buildings/components/building/cropMachine/lib/cropMachine";
+import { getResolvedCropMachineQueue } from "features/island/buildings/components/building/cropMachine/lib/cropMachineView";
+import {
+  computeReadyAt,
+  getCookingBoostWindows,
+  getCraftingBoostWindows,
+  getCropMachineBoostWindows,
+  workAccruedAt,
+} from "features/game/lib/boostWindows";
+import {
+  getCookingOil,
+  resolveCookingQueueTimings,
+} from "features/game/lib/cookingReadiness";
+import { resolveCraftingQueueTimings } from "features/game/lib/craftingReadiness";
+import { MAX_POTS } from "features/game/events/landExpansion/plantGreenhouse";
+import { getTutorialNudge } from "features/island/lib/tutorialNudge";
+import { hasCollectedFirstTart } from "features/island/buildings/components/building/firePit/lib/onboarding";
+import { getKeys } from "lib/object";
+import { isCavePatchCleared } from "features/game/types/caveRecipes";
+import { hasIdleCaveMachine } from "features/game/lib/cave";
+import { hasUnseenCaveMerchantOffers } from "features/game/types/caveMerchant";
+import {
+  parseCaveMerchantSeen,
+  readCaveMerchantSeen,
+} from "features/cave/lib/merchantOffers";
 import type { CropMachineQueueItem } from "features/game/types/game";
 import { isAnimalReadyForLove } from "features/game/events/landExpansion/loveAnimal";
 import { getAnimalReadyAt } from "features/game/lib/animals";
@@ -84,6 +110,7 @@ type Slice = {
   season: TemperateSeasonName;
   henHouseLevel: number;
   barnLevel: number;
+  pigpenLevel: number;
   waterWell: GameState["waterWell"];
   petHouseLevel: number;
   agingShedLevel: number;
@@ -103,6 +130,8 @@ type BuildingObjects = {
   extras: Map<string, ArtObject>;
   bar?: ProgressBarSprite;
   alertTween?: Phaser.Tweens.Tween;
+  /** Pulse on the tutorial click pointer [FirePit.tsx / WorkBench.tsx]. */
+  helperTween?: Phaser.Tweens.Tween;
   /** Crop Machine growth-stage loop sheet. */
   stageSheet?: Phaser.GameObjects.Sprite;
   /**
@@ -120,6 +149,7 @@ type BuildingObjects = {
 };
 
 const READY_ALERT = "readyAlert";
+const TUTORIAL_HELPER = "tutorialHelper";
 
 /**
  * Per-home-building wrapper offsets for the daily chest / bumpkin row /
@@ -196,6 +226,7 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
       season: game.season.season,
       henHouseLevel: game.henHouse.level,
       barnLevel: game.barn.level,
+      pigpenLevel: game.pigpen.level,
       waterWell: game.waterWell,
       petHouseLevel: game.petHouse.level ?? 1,
       agingShedLevel: game.agingShed.level,
@@ -215,6 +246,7 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
     a.season === b.season &&
     a.henHouseLevel === b.henHouseLevel &&
     a.barnLevel === b.barnLevel &&
+    a.pigpenLevel === b.pigpenLevel &&
     a.waterWell === b.waterWell &&
     a.petHouseLevel === b.petHouseLevel &&
     a.agingShedLevel === b.agingShedLevel &&
@@ -230,6 +262,7 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
       season: slice.season,
       henHouseLevel: slice.henHouseLevel,
       barnLevel: slice.barnLevel,
+      pigpenLevel: slice.pigpenLevel,
       waterWellLevel: upgrading
         ? slice.waterWell.level - 1
         : slice.waterWell.level,
@@ -272,7 +305,8 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
       SUNNYSIDE.icons.expression_chat,
       SUNNYSIDE.icons.heart,
       SUNNYSIDE.icons.click_icon,
-      SUNNYSIDE.icons.money_icon,
+      SUNNYSIDE.npcs.betty,
+      SUNNYSIDE.npcs.blacksmith_npc,
       SUNNYSIDE.decorations.treasure_chest,
       SUNNYSIDE.decorations.treasure_chest_opened,
       mailboxImg,
@@ -489,6 +523,10 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
     }
 
     this.sweepExtras(objects);
+    if (objects.helperTween && !objects.extras.has(TUTORIAL_HELPER)) {
+      objects.helperTween.remove();
+      objects.helperTween = undefined;
+    }
   }
 
   /**
@@ -510,43 +548,71 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
       return null;
     }
 
-    if (name === "Hen House" || name === "Barn") {
+    if (name === "Hen House" || name === "Barn" || name === "Pigpen") {
       this.refreshAnimalAlerts(objects, name, now, depth);
       return null;
     }
 
-    // [Market.tsx] first-sale tutorial: click + coin icons once 9 sunflowers
-    // are harvested and none sold.
+    // [Market.tsx] Betty and her shadow in front of the stall.
     if (name === "Market") {
-      const activity = this.bridge.select(
-        (state) => state.context.state.farmActivity,
-      );
+      this.addExtra(objects, "shadow", shadow, {
+        ...this.anchored(box, { bottom: 6, right: 9 }, 15),
+        width: 15,
+        depth: depth + 1,
+      });
+      this.addExtra(objects, "npc", SUNNYSIDE.npcs.betty, {
+        ...this.anchored(box, { bottom: 8, right: 8 }, 16),
+        width: 16,
+        depth: depth + 2,
+        flip: true,
+      });
+      return null;
+    }
+
+    // [WorkBench.tsx] the blacksmith and his shadow, plus the tutorial
+    // pointer while a workbench step is the farm's active nudge.
+    if (name === "Workbench") {
+      this.addExtra(objects, "shadow", shadow, {
+        ...this.anchored(box, { bottom: 14, right: 11 }, 15),
+        width: 15,
+        depth: depth + 1,
+      });
+      this.addExtra(objects, "npc", SUNNYSIDE.npcs.blacksmith_npc, {
+        ...this.anchored(box, { bottom: 16, right: 12 }, 14),
+        width: 14,
+        depth: depth + 2,
+      });
+      const nudge = getTutorialNudge(this.game());
       if (
-        activity["Sunflower Harvested"] === 9 &&
-        !activity["Sunflower Sold"]
+        nudge === "workbench-axes" ||
+        nudge === "workbench-scarecrow" ||
+        nudge === "workbench-well"
       ) {
-        this.addExtra(
-          objects,
-          "market-helper-click",
-          SUNNYSIDE.icons.click_icon,
-          {
-            x: box.x + box.width + 8 - 18,
-            y: box.y + 20,
-            width: 18,
-            depth: depth + 2,
-          },
+        this.addTutorialHelper(objects, depth);
+      }
+      return null;
+    }
+
+    // [CaveBuilding.tsx] ready alert: a patch to collect, an idle machine, or
+    // merchant offers the player has not looked at yet (own farm only).
+    if (name === "Cave") {
+      const machine = this.bridge.select((state) => state);
+      const cave = machine.context.state.cave;
+      const hasReadyPatch =
+        !!cave &&
+        getKeys(cave.machines).some((id) => {
+          const batch = cave.machines[id].batch;
+          return !!batch && batch.readyAt <= now && !isCavePatchCleared(batch);
+        });
+      const hasUnseenOffers =
+        machine.context.visitorId === undefined &&
+        hasUnseenCaveMerchantOffers(
+          cave,
+          now,
+          parseCaveMerchantSeen(readCaveMerchantSeen(machine.context.farmId)),
         );
-        this.addExtra(
-          objects,
-          "market-helper-money",
-          SUNNYSIDE.icons.money_icon,
-          {
-            x: box.x + box.width - 8 - 18,
-            y: box.y + 20,
-            width: 18,
-            depth: depth + 2,
-          },
-        );
+      if (hasReadyPatch || hasIdleCaveMachine(cave) || hasUnseenOffers) {
+        this.addReadyAlert(objects, depth);
       }
       return null;
     }
@@ -650,25 +716,61 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
     }
 
     if (name === "Crafting Box") {
-      const queue = slice.craftingBoxQueue ?? [];
-      const inProgress = queue.filter((i) => i.readyAt > now);
+      // [useCraftingQueue.ts] each craft's stored readyAt is only a cache of
+      // the boost windows; ready / in-progress key off the derived value.
+      const rawQueue = slice.craftingBoxQueue ?? [];
+      const windows = getCraftingBoostWindows(this.game());
+      const timings = resolveCraftingQueueTimings({ queue: rawQueue, windows });
+      const queue = rawQueue.map((craft, index) =>
+        timings[index].readyAt === craft.readyAt
+          ? craft
+          : { ...craft, readyAt: timings[index].readyAt },
+      );
+      const inProgressIndex = queue.findIndex((i) => i.readyAt > now);
       const ready = queue.filter((i) => i.readyAt <= now);
       if (ready.length > 0) {
         // [CraftingBox.tsx] alert at -top-8 (≈12 src px), always shaking.
         this.addReadyAlert(objects, depth, 12);
       }
-      if (showTimers && inProgress.length > 0) {
-        const job = inProgress[0];
-        const total = Math.max(
-          (job.readyAt - (job.startedAt ?? job.readyAt)) / 1000,
-          1,
-        );
-        const secondsLeft = (job.readyAt - now) / 1000;
+      if (showTimers && inProgressIndex >= 0) {
+        // [CraftingBox.tsx CraftingTimer + useNodeTimer] a windowed craft
+        // (baseDurationMs set) fills by WORK done and reads the boosted
+        // countdown; a legacy one counts down to its readyAt for both.
+        const job = queue[inProgressIndex];
+        const startedAt = timings[inProgressIndex]?.startedAt;
+        const timerStartedAt = startedAt ?? job.readyAt;
+        const { baseDurationMs } = job;
+        const readyAt =
+          baseDurationMs !== undefined
+            ? computeReadyAt({
+                startedAt: timerStartedAt,
+                baseDurationMs,
+                windows,
+              })
+            : job.readyAt;
+        const countdownSeconds = Math.max((readyAt - now) / 1000, 0);
+        const workLeftSeconds =
+          baseDurationMs !== undefined
+            ? Math.max(
+                (baseDurationMs -
+                  workAccruedAt({
+                    startedAt: timerStartedAt,
+                    at: now,
+                    windows,
+                  })) /
+                  1000,
+                0,
+              )
+            : countdownSeconds;
+        const total =
+          baseDurationMs === undefined
+            ? Math.max((job.readyAt - (startedAt ?? job.readyAt)) / 1000, 1)
+            : Math.max(baseDurationMs / 1000, 1);
         return {
           x: box.x + 0.5 + 23 - 7.5,
           y: box.y + box.height - 7,
-          pct: Math.min(((total - secondsLeft) / total) * 100, 100),
-          seconds: secondsLeft,
+          pct: Math.min(((total - workLeftSeconds) / total) * 100, 100),
+          seconds: countdownSeconds,
         };
       }
       return null;
@@ -677,6 +779,14 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
     if (name === "Greenhouse") {
       const pots = Object.values(slice.greenhousePots ?? {});
       const hasActive = pots.some((pot) => pot.plant);
+      // [Greenhouse.tsx] pots are only recorded once planted, so the empties
+      // are counted by id; an empty pot shows the standard ready alert.
+      const potsById = slice.greenhousePots ?? {};
+      const hasEmptyPot = Array.from(
+        { length: MAX_POTS },
+        (_, i) => !potsById[i + 1]?.plant,
+      ).some(Boolean);
+      if (hasEmptyPot) this.addReadyAlert(objects, depth);
       if (hasActive) {
         this.addExtra(objects, "smoke", SUNNYSIDE.building.smoke, {
           x: box.x + 26 - 50 / PIXEL_SCALE,
@@ -746,18 +856,29 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
       depth: depth - 1,
     });
 
-    const queue = (item as { queue?: CropMachineQueueItem[] }).queue ?? [];
+    // [CropMachine.tsx useCropMachineView] on a windowed machine the stored
+    // pack timings are caches; the DERIVED ones drive the stage, the ready
+    // icons and the harvest overlay. A legacy machine's queue passes through.
+    const queue = getResolvedCropMachineQueue(
+      item as CropMachineBuilding,
+      getCropMachineBoostWindows(this.game()),
+    );
 
     // Growth-stage sheet over the machine [Planting/Sprouting/Maturing/
-    // Harvesting] — thirds of totalGrowTime, harvesting the last 5s.
+    // Harvesting]. [cropMachine.ts getGrowingCropPackStage] a windowed pack's
+    // stages are thirds of its real start->readyAt interval, a legacy pack's
+    // thirds of totalGrowTime; harvesting is the last 5s either way.
     const growingIndex = findGrowingCropPackIndex(queue, now);
     const growing =
       growingIndex !== undefined ? queue[growingIndex] : undefined;
     if (growing?.startTime) {
-      const stageDuration = growing.totalGrowTime / 3;
+      const stageDuration =
+        growing.baseDurationMs !== undefined && growing.readyAt !== undefined
+          ? (growing.readyAt - growing.startTime) / 3
+          : growing.totalGrowTime / 3;
       const stage1 = growing.startTime + stageDuration;
       const stage2 = stage1 + stageDuration;
-      const harvestAt = growing.startTime + growing.totalGrowTime - 5000;
+      const harvestAt = growing.startTime + stageDuration * 3 - 5000;
       const stage =
         now < stage1
           ? "planting"
@@ -802,6 +923,12 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
         }
         objects.stageSheet.setPosition(box.x, box.y + box.height);
         objects.stageSheet.setDepth(depth + 1);
+        // [cropMachine.ts needsOilToFinishPack -> <Planting paused />] a pack
+        // that ran out of oil keeps its stage sheet but stops animating.
+        const paused =
+          !growing.readyAt && !!growing.growsUntil && growing.growsUntil <= now;
+        if (paused) objects.stageSheet.anims.pause();
+        else objects.stageSheet.anims.resume();
       }
     } else {
       objects.stageSheet?.destroy();
@@ -852,7 +979,7 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
     const name = objects.name as CookingBuilding;
     const { box } = objects;
     const layout = COOKING_LAYOUT[name];
-    const crafting = item.crafting ?? [];
+    const crafting = this.resolvedCrafting(item, name);
     const cooking = crafting.find((product) => product.readyAt > now);
     const ready = crafting.filter((product) => product.readyAt <= now);
 
@@ -927,6 +1054,82 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
       depth,
     );
     if (ready.length > 0) this.addReadyAlert(objects, depth);
+
+    // [FirePit.tsx showHelper] one nudge at a time across the whole farm.
+    if (
+      name === "Fire Pit" &&
+      !cooking &&
+      getTutorialNudge(this.game()) === "firepit-cook"
+    ) {
+      this.addTutorialHelper(objects, depth);
+    }
+  }
+
+  /**
+   * [useCookingState.ts] a cooking building's queue with each recipe's ready
+   * time DERIVED from the live cooking boost windows (and the oil in the
+   * tank) rather than read off its stored `readyAt`, which is only a cache.
+   */
+  private resolvedCrafting(
+    item: PlacedItem,
+    name: CookingBuilding,
+  ): BuildingProduct[] {
+    const crafting = item.crafting ?? [];
+    const timings = resolveCookingQueueTimings({
+      crafting,
+      windows: getCookingBoostWindows(this.game()),
+      oil: getCookingOil({ building: item, buildingName: name }),
+    });
+    return crafting.map((recipe, index) =>
+      timings[index].readyAt === recipe.readyAt
+        ? recipe
+        : { ...recipe, readyAt: timings[index].readyAt },
+    );
+  }
+
+  /**
+   * [FirePit.tsx / WorkBench.tsx] tutorial pointer: click_icon, width 18,
+   * right -8, top 20, pulsating — same tween as the crop tutorial icon
+   * [CropRenderer.syncTutorialIcon]. Clicks on it reach the building, as the
+   * DOM's icon sits inside the building's click wrapper.
+   */
+  private addTutorialHelper(objects: BuildingObjects, depth: number) {
+    const { box } = objects;
+    const previous = objects.extras.get(TUTORIAL_HELPER);
+    // addExtra re-applies native scale every pass; hand the running pulse its
+    // value back so the icon doesn't snap to rest once a second.
+    const pulseScale = objects.helperTween ? previous?.scale : undefined;
+    const icon = this.addExtra(
+      objects,
+      TUTORIAL_HELPER,
+      SUNNYSIDE.icons.click_icon,
+      {
+        x: box.x + box.width + 8 - 18,
+        y: box.y + 20,
+        width: 18,
+        depth: depth + 5,
+        onClick: () =>
+          this.onBuildingClick(objects.name, objects.id, objects.index),
+      },
+    );
+    if (!icon) return;
+    const animate = this.bridge.ui.get().showAnimations;
+    if (icon !== previous || !animate) {
+      objects.helperTween?.remove();
+      objects.helperTween = undefined;
+    }
+    if (!animate) return;
+    if (objects.helperTween) {
+      if (pulseScale !== undefined) icon.setScale(pulseScale);
+      return;
+    }
+    objects.helperTween = this.scene.tweens.add({
+      targets: icon,
+      scale: icon.scale * 1.15,
+      duration: 500,
+      yoyo: true,
+      repeat: -1,
+    });
   }
 
   /** [ReadyRecipes.tsx] floating item icons hanging below the box. */
@@ -1113,8 +1316,10 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
       );
     }
 
-    // Collect heart [recipes.collected], shown for 3s.
-    if (this.heartShownUntil > now) {
+    // Collect heart [recipes.collected], shown for 3s — only while the
+    // Bumpkin stands by the house [House.tsx]; a Bumpkin placed on the farm
+    // gets the heart above it instead [PlacedBumpkin.tsx -> PlayerRenderer].
+    if (this.heartShownUntil > now && !game.bumpkin.coordinates) {
       this.addExtra(objects, "collect-heart", SUNNYSIDE.icons.heart, {
         x: box.x + 8,
         y: box.y + 10,
@@ -1125,27 +1330,30 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
   }
 
   /**
-   * [HenHouse.tsx / Barn.tsx] hungry / sick / needs-love icon row, centred
+   * [HenHouse.tsx / Barn.tsx / Pigpen.tsx] hungry / sick / needs-love icon row, centred
    * above the building (-top-2, gap-2). Reads live state each 1s tick so
    * time-gated flags (awakeAt, love window) flip on schedule. Icons stay
    * static — animated alerts read as jitter.
    */
   private refreshAnimalAlerts(
     objects: BuildingObjects,
-    name: "Hen House" | "Barn",
+    name: "Hen House" | "Barn" | "Pigpen",
     now: number,
     depth: number,
   ) {
     const { box } = objects;
     const game = this.bridge.select((state) => state.context.state);
-    const buildingKey = name === "Hen House" ? "henHouse" : "barn";
+    const buildingKey =
+      name === "Hen House" ? "henHouse" : name === "Barn" ? "barn" : "pigpen";
     const animals = Object.values(game[buildingKey].animals);
     const lockedIds = getOverCapacityAnimalIds(buildingKey, game);
 
     const icons: { key: string; src: string; width: number }[] = [];
     if (
       animals.some(
-        (animal) => animal.awakeAt < now && !lockedIds.has(animal.id),
+        // [_hasHungryAnimals] the DERIVED ready time, not the stored awakeAt.
+        (animal) =>
+          getAnimalReadyAt(animal, game) < now && !lockedIds.has(animal.id),
       )
     ) {
       icons.push({
@@ -1378,15 +1586,24 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
     }
 
     if (isCookingBuilding(name)) {
-      const crafting = item.crafting ?? [];
+      // [useCookingState.ts] derived ready times, same as the art above.
+      const crafting = this.resolvedCrafting(item, name);
       const cooking = crafting.find((product) => product.readyAt > now);
       const ready = crafting.filter((product) => product.readyAt <= now);
       if (!cooking && ready.length > 0) {
-        this.bridge.dispatch({
+        const after = this.bridge.dispatch({
           type: "recipes.collected",
           building: name,
           buildingId: id,
         });
+        // [FirePit.tsx handleCollect] tutorial: first tart in hand, Bruce
+        // tells the player to eat it.
+        if (
+          name === "Fire Pit" &&
+          hasCollectedFirstTart(game, after.context.state)
+        ) {
+          this.bridge.openModal("FIREPIT_EAT");
+        }
         return;
       }
       playSound("bakery");
@@ -1400,6 +1617,7 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
         this.bridge.farmModal.open("market");
         return;
       case "Workbench":
+        playSound("shop");
         this.bridge.farmModal.open("workbench");
         return;
       case "Water Well":
@@ -1445,6 +1663,14 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
       case "Barn":
         playSound("barn");
         this.bridge.navigateTo("/barn");
+        return;
+      case "Pigpen":
+        // [Pigpen.tsx] no pen-gate clip, so it shares the Barn door.
+        playSound("barn");
+        this.bridge.navigateTo("/pigpen");
+        return;
+      case "Cave":
+        this.bridge.navigateTo("/cave");
         return;
       case "Greenhouse":
         this.bridge.navigateTo("/greenhouse");
@@ -1497,6 +1723,7 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
     objects.extras.clear();
     objects.bar?.destroy();
     objects.alertTween?.remove();
+    objects.helperTween?.remove();
     objects.letterZone?.destroy();
     objects.mailAlertHop?.remove();
     objects.mailAlert?.destroy();

@@ -123,7 +123,19 @@ export abstract class EntityRenderer<Slice> {
   private lastDeferredAt = 0;
 
   mount() {
-    const initial = this.bridge.select((state) => this.selector(state));
+    let initial: Slice;
+    try {
+      initial = this.bridge.select((state) => this.selector(state));
+    } catch (error) {
+      // A selector that throws on this farm's data takes out only its own
+      // renderer — not scene creation, which would leave the veil up forever.
+      // eslint-disable-next-line no-console
+      console.error(
+        `[farmEngine] ${this.constructor.name} selector failed`,
+        error,
+      );
+      return;
+    }
     if (this.selectorIntervalMs > 0) {
       this.deferredSlice = initial;
       // Every transition yields a new state object, so this only flags.

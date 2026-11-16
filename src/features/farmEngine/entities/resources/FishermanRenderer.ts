@@ -89,9 +89,15 @@ const wharfArt = (
     return { texture: springWharf, width: 44.476, top: 1.128, right: 41.286 };
   }
   if (hasRequiredIslandExpansion(island, "volcano")) {
-    return expansions <= 7
-      ? { texture: volcanoWharf, width: 76, top: 24, right: 10.619 }
-      : { texture: volcanoWharf, width: 76, top: 24, right: 11.76 };
+    // The volcano cliff sits lower than the swamp / ascension shoreline, so
+    // the dock is lifted and shifted east to rest the ladder on the cliff.
+    const lift = island === "volcano" ? { top: 3.4, right: 1.5 } : undefined;
+    return {
+      texture: volcanoWharf,
+      width: 76,
+      top: 24 - (lift?.top ?? 0),
+      right: (expansions <= 7 ? 10.619 : 11.76) - (lift?.right ?? 0),
+    };
   }
   if (island === "desert") {
     if (expansions <= 10)

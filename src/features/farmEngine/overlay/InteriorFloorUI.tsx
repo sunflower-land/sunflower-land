@@ -153,7 +153,9 @@ export const InteriorFloorUI: React.FC<{
     upgradePosition &&
     (floor === "level_one" || !expansion);
 
+  // [Interior.tsx] the stairs step aside while landscaping.
   const showStairsUp =
+    !landscaping &&
     floor === "interior" &&
     !!expansion &&
     hasRequiredIslandExpansion(island.type, "volcano");

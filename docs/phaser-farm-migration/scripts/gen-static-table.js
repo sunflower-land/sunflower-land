@@ -1,5 +1,8 @@
 /* Generate staticCollectibles.ts from the extracted data. */
 const fs = require("fs");
+const path = require("path");
+// Repo root, so the scripts work from any checkout or worktree.
+const ROOT = path.join(__dirname, "../../..");
 const data = JSON.parse(fs.readFileSync(__dirname + "/collectibles-static.json", "utf8"));
 const inlineData = JSON.parse(fs.readFileSync(__dirname + "/collectibles-inline.json", "utf8"));
 for (const [k, v] of Object.entries(inlineData.inline)) if (!data[k]) data[k] = v;
@@ -41,6 +44,11 @@ for (const name of sortedNames) {
   if (cfg.centered && wrapper && img.width !== undefined && img.width !== wrapper.width) {
     parts.push(`centeredIn: ${wrapper.width}`);
   }
+  // `left-1/2 -translate-x-1/2` with no wrapper: centred in the placement
+  // box itself, whose width only the engine knows.
+  if (cfg.centered && !wrapper && img.left === undefined && img.right === undefined) {
+    parts.push("centered: true");
+  }
   if (cfg.shadow) {
     const s = [];
     for (const k of ["width", "bottom", "left", "right", "top"]) {
@@ -72,6 +80,8 @@ export type StaticCollectibleSpec = {
   right?: number;
   top?: number;
   centeredIn?: number;
+  /** The DOM centres the image horizontally in its placement box. */
+  centered?: boolean;
   /** npcs/shadow.png underlay (the DOM's two-img beaver template). */
   shadow?: {
     width: number;
@@ -98,9 +108,9 @@ export const TEMPLATE_COLLECTIBLES: CollectibleName[] = [
 ${templates.map((t) => `  "${t}",`).join("\n")}
 ];
 `;
-fs.mkdirSync("/Users/adamhannigan/Documents/workspace/sunflower-land/src/features/farmEngine/entities/collectibles", { recursive: true });
+fs.mkdirSync(path.join(ROOT, "src/features/farmEngine/entities/collectibles"), { recursive: true });
 fs.writeFileSync(
-  "/Users/adamhannigan/Documents/workspace/sunflower-land/src/features/farmEngine/entities/collectibles/staticCollectibles.ts",
+  path.join(ROOT, "src/features/farmEngine/entities/collectibles/staticCollectibles.ts"),
   out,
 );
 console.log("entries:", entries.length, "imports:", importLines.length);

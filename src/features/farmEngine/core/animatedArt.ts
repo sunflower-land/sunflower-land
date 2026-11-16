@@ -69,6 +69,7 @@ import sftsCerberusGif from "assets/sfts/cerberus.webp";
 import sftsCetusGif from "assets/sfts/cetus.webp";
 import sftsCluckulatorGif from "assets/sfts/cluckulator.webp";
 import sftsColorWheelGif from "assets/sfts/color_wheel.webp";
+import sftsCoolZombieTombstoneGif from "assets/sfts/cool_zombie_tombstone.webp";
 import sftsEasterEasterBunnyEggsGif from "assets/sfts/easter/easter_bunny_eggs.webp";
 import sftsEasterDonationEggGif from "assets/sfts/easter_donation_egg.webp";
 import sftsFarmCatGif from "assets/sfts/farm_cat.webp";
@@ -125,6 +126,7 @@ import sftsGreenPaintBucketGif from "assets/sfts/green_paint_bucket.webp";
 import sftsGuillotineGif from "assets/sfts/guillotine.webp";
 import sftsHauntedHouseGif from "assets/sfts/haunted_house.webp";
 import sftsHauntedTombGif from "assets/sfts/haunted_tomb.webp";
+import sftsHugeJackolanternGif from "assets/sfts/huge_jackolantern.webp";
 import sftsHummingbirdGif from "assets/sfts/hummingbird.webp";
 import sftsJellyLampGif from "assets/sfts/jelly_lamp.webp";
 import sftsKiteGif from "assets/sfts/kite.webp";
@@ -188,6 +190,50 @@ import sftsQueenBeeGif from "assets/sfts/queen_bee.webp";
 import sftsRadishMutantGif from "assets/sfts/radish_mutant.webp";
 import sftsRainbowFlowerGif from "assets/sfts/rainbow_flower.webp";
 import sftsRainbowPorkJellyGif from "assets/sfts/rainbow_pork_jelly.webp";
+import sftsRarecrowsCoinAlienCrowGif from "assets/sfts/rarecrows/coin_alien_crow.webp";
+import sftsRarecrowsCoinCoconutCrowGif from "assets/sfts/rarecrows/coin_coconut_crow.webp";
+import sftsRarecrowsCoinEgyptianCrowGif from "assets/sfts/rarecrows/coin_egyptian_crow.webp";
+import sftsRarecrowsCoinElfCrowGif from "assets/sfts/rarecrows/coin_elf_crow.webp";
+import sftsRarecrowsCoinFrostScarecrowGif from "assets/sfts/rarecrows/coin_frost_scarecrow.webp";
+import sftsRarecrowsCoinGothScarecrowGif from "assets/sfts/rarecrows/coin_goth_scarecrow.webp";
+import sftsRarecrowsCoinHotdogCrowGif from "assets/sfts/rarecrows/coin_hotdog_crow.webp";
+import sftsRarecrowsCoinKingScarecrowGif from "assets/sfts/rarecrows/coin_king_scarecrow.webp";
+import sftsRarecrowsCoinMythicalCrowGif from "assets/sfts/rarecrows/coin_mythical_crow.webp";
+import sftsRarecrowsCoinNightshadeCrowGif from "assets/sfts/rarecrows/coin_nightshade_crow.webp";
+import sftsRarecrowsCoinOrangeFishCrowGif from "assets/sfts/rarecrows/coin_orange_fish_crow.webp";
+import sftsRarecrowsCoinRoyalCrowGif from "assets/sfts/rarecrows/coin_royal_crow.webp";
+import sftsRarecrowsCoinSharkCrowGif from "assets/sfts/rarecrows/coin_shark_crow.webp";
+import sftsRarecrowsCoinSkullCrowGif from "assets/sfts/rarecrows/coin_skull_crow.webp";
+import sftsRarecrowsCoinStoneGolemScarecrowGif from "assets/sfts/rarecrows/coin_stone_golem_scarecrow.webp";
+import sftsRarecrowsCoinStonedCrowGif from "assets/sfts/rarecrows/coin_stoned_crow.webp";
+import sftsRarecrowsLoveBoxingCrowGif from "assets/sfts/rarecrows/love_boxing_crow.webp";
+import sftsRarecrowsLoveBumpkinCrowGif from "assets/sfts/rarecrows/love_bumpkin_crow.webp";
+import sftsRarecrowsLoveCookiesCrowGif from "assets/sfts/rarecrows/love_cookies_crow.webp";
+import sftsRarecrowsLoveCupCrowGif from "assets/sfts/rarecrows/love_cup_crow.webp";
+import sftsRarecrowsLoveDarkFishCrowGif from "assets/sfts/rarecrows/love_dark_fish_crow.webp";
+import sftsRarecrowsLoveDrScarecrowGif from "assets/sfts/rarecrows/love_dr_scarecrow.webp";
+import sftsRarecrowsLoveElfCrowGif from "assets/sfts/rarecrows/love_elf_crow.webp";
+import sftsRarecrowsLoveFrostScarecrowGif from "assets/sfts/rarecrows/love_frost_scarecrow.webp";
+import sftsRarecrowsLoveGoblinVikingCrowGif from "assets/sfts/rarecrows/love_goblin_viking_crow.webp";
+import sftsRarecrowsLoveGrapesCrowGif from "assets/sfts/rarecrows/love_grapes_crow.webp";
+import sftsRarecrowsLoveGrimScarecrowGif from "assets/sfts/rarecrows/love_grim_scarecrow.webp";
+import sftsRarecrowsLoveGuardianCrowGif from "assets/sfts/rarecrows/love_guardian_crow.webp";
+import sftsRarecrowsLoveHaloCrowGif from "assets/sfts/rarecrows/love_halo_crow.webp";
+import sftsRarecrowsLoveInfernalScarecrowGif from "assets/sfts/rarecrows/love_infernal_scarecrow.webp";
+import sftsRarecrowsLoveLionCrowGif from "assets/sfts/rarecrows/love_lion_crow.webp";
+import sftsRarecrowsLoveMythicalCrowGif from "assets/sfts/rarecrows/love_mythical_crow.webp";
+import sftsRarecrowsLoveNightshadeCrowGif from "assets/sfts/rarecrows/love_nightshade_crow.webp";
+import sftsRarecrowsLoveOliveCrowGif from "assets/sfts/rarecrows/love_olive_crow.webp";
+import sftsRarecrowsLovePirateCrowGif from "assets/sfts/rarecrows/love_pirate_Crow.webp";
+import sftsRarecrowsLoveRoyalCrowGif from "assets/sfts/rarecrows/love_royal_crow.webp";
+import sftsRarecrowsLoveSadCrowGif from "assets/sfts/rarecrows/love_sad_crow.webp";
+import sftsRarecrowsLoveSflCrowGif from "assets/sfts/rarecrows/love_sfl_crow.webp";
+import sftsRarecrowsLoveSpectralScarecrowGif from "assets/sfts/rarecrows/love_spectral_scarecrow.webp";
+import sftsRarecrowsLoveStPatricksCrowGif from "assets/sfts/rarecrows/love_st_patricks_crow.webp";
+import sftsRarecrowsSparkleDonkeyCrowGif from "assets/sfts/rarecrows/sparkle_donkey_crow.webp";
+import sftsRarecrowsSparkleGrimScarecrowGif from "assets/sfts/rarecrows/sparkle_grim_scarecrow.webp";
+import sftsRarecrowsSparkleHaloCrowGif from "assets/sfts/rarecrows/sparkle_halo_crow.webp";
+import sftsRarecrowsSparkleStonedCrowGif from "assets/sfts/rarecrows/sparkle_stoned_crow.webp";
 import sftsRaveyardGif from "assets/sfts/raveyard.webp";
 import sftsRedNoseReindeerGif from "assets/sfts/red_nose_reindeer.webp";
 import sftsRedSlimeBalloonGif from "assets/sfts/red_slime_balloon.webp";
@@ -269,6 +315,7 @@ import sftsCerberus from "assets/animations/sfts_cerberus.png";
 import sftsCetus from "assets/animations/sfts_cetus.png";
 import sftsCluckulator from "assets/animations/sfts_cluckulator.png";
 import sftsColorWheel from "assets/animations/sfts_color_wheel.png";
+import sftsCoolZombieTombstone from "assets/animations/sfts_cool_zombie_tombstone.png";
 import sftsEasterEasterBunnyEggs from "assets/animations/sfts_easter_easter_bunny_eggs.png";
 import sftsEasterDonationEgg from "assets/animations/sfts_easter_donation_egg.png";
 import sftsFarmCat from "assets/animations/sfts_farm_cat.png";
@@ -325,6 +372,7 @@ import sftsGreenPaintBucket from "assets/animations/sfts_green_paint_bucket.png"
 import sftsGuillotine from "assets/animations/sfts_guillotine.png";
 import sftsHauntedHouse from "assets/animations/sfts_haunted_house.png";
 import sftsHauntedTomb from "assets/animations/sfts_haunted_tomb.png";
+import sftsHugeJackolantern from "assets/animations/sfts_huge_jackolantern.png";
 import sftsHummingbird from "assets/animations/sfts_hummingbird.png";
 import sftsJellyLamp from "assets/animations/sfts_jelly_lamp.png";
 import sftsKite from "assets/animations/sfts_kite.png";
@@ -388,6 +436,50 @@ import sftsQueenBee from "assets/animations/sfts_queen_bee.png";
 import sftsRadishMutant from "assets/animations/sfts_radish_mutant.png";
 import sftsRainbowFlower from "assets/animations/sfts_rainbow_flower.png";
 import sftsRainbowPorkJelly from "assets/animations/sfts_rainbow_pork_jelly.png";
+import sftsRarecrowsCoinAlienCrow from "assets/animations/sfts_rarecrows_coin_alien_crow.png";
+import sftsRarecrowsCoinCoconutCrow from "assets/animations/sfts_rarecrows_coin_coconut_crow.png";
+import sftsRarecrowsCoinEgyptianCrow from "assets/animations/sfts_rarecrows_coin_egyptian_crow.png";
+import sftsRarecrowsCoinElfCrow from "assets/animations/sfts_rarecrows_coin_elf_crow.png";
+import sftsRarecrowsCoinFrostScarecrow from "assets/animations/sfts_rarecrows_coin_frost_scarecrow.png";
+import sftsRarecrowsCoinGothScarecrow from "assets/animations/sfts_rarecrows_coin_goth_scarecrow.png";
+import sftsRarecrowsCoinHotdogCrow from "assets/animations/sfts_rarecrows_coin_hotdog_crow.png";
+import sftsRarecrowsCoinKingScarecrow from "assets/animations/sfts_rarecrows_coin_king_scarecrow.png";
+import sftsRarecrowsCoinMythicalCrow from "assets/animations/sfts_rarecrows_coin_mythical_crow.png";
+import sftsRarecrowsCoinNightshadeCrow from "assets/animations/sfts_rarecrows_coin_nightshade_crow.png";
+import sftsRarecrowsCoinOrangeFishCrow from "assets/animations/sfts_rarecrows_coin_orange_fish_crow.png";
+import sftsRarecrowsCoinRoyalCrow from "assets/animations/sfts_rarecrows_coin_royal_crow.png";
+import sftsRarecrowsCoinSharkCrow from "assets/animations/sfts_rarecrows_coin_shark_crow.png";
+import sftsRarecrowsCoinSkullCrow from "assets/animations/sfts_rarecrows_coin_skull_crow.png";
+import sftsRarecrowsCoinStoneGolemScarecrow from "assets/animations/sfts_rarecrows_coin_stone_golem_scarecrow.png";
+import sftsRarecrowsCoinStonedCrow from "assets/animations/sfts_rarecrows_coin_stoned_crow.png";
+import sftsRarecrowsLoveBoxingCrow from "assets/animations/sfts_rarecrows_love_boxing_crow.png";
+import sftsRarecrowsLoveBumpkinCrow from "assets/animations/sfts_rarecrows_love_bumpkin_crow.png";
+import sftsRarecrowsLoveCookiesCrow from "assets/animations/sfts_rarecrows_love_cookies_crow.png";
+import sftsRarecrowsLoveCupCrow from "assets/animations/sfts_rarecrows_love_cup_crow.png";
+import sftsRarecrowsLoveDarkFishCrow from "assets/animations/sfts_rarecrows_love_dark_fish_crow.png";
+import sftsRarecrowsLoveDrScarecrow from "assets/animations/sfts_rarecrows_love_dr_scarecrow.png";
+import sftsRarecrowsLoveElfCrow from "assets/animations/sfts_rarecrows_love_elf_crow.png";
+import sftsRarecrowsLoveFrostScarecrow from "assets/animations/sfts_rarecrows_love_frost_scarecrow.png";
+import sftsRarecrowsLoveGoblinVikingCrow from "assets/animations/sfts_rarecrows_love_goblin_viking_crow.png";
+import sftsRarecrowsLoveGrapesCrow from "assets/animations/sfts_rarecrows_love_grapes_crow.png";
+import sftsRarecrowsLoveGrimScarecrow from "assets/animations/sfts_rarecrows_love_grim_scarecrow.png";
+import sftsRarecrowsLoveGuardianCrow from "assets/animations/sfts_rarecrows_love_guardian_crow.png";
+import sftsRarecrowsLoveHaloCrow from "assets/animations/sfts_rarecrows_love_halo_crow.png";
+import sftsRarecrowsLoveInfernalScarecrow from "assets/animations/sfts_rarecrows_love_infernal_scarecrow.png";
+import sftsRarecrowsLoveLionCrow from "assets/animations/sfts_rarecrows_love_lion_crow.png";
+import sftsRarecrowsLoveMythicalCrow from "assets/animations/sfts_rarecrows_love_mythical_crow.png";
+import sftsRarecrowsLoveNightshadeCrow from "assets/animations/sfts_rarecrows_love_nightshade_crow.png";
+import sftsRarecrowsLoveOliveCrow from "assets/animations/sfts_rarecrows_love_olive_crow.png";
+import sftsRarecrowsLovePirateCrow from "assets/animations/sfts_rarecrows_love_pirate_Crow.png";
+import sftsRarecrowsLoveRoyalCrow from "assets/animations/sfts_rarecrows_love_royal_crow.png";
+import sftsRarecrowsLoveSadCrow from "assets/animations/sfts_rarecrows_love_sad_crow.png";
+import sftsRarecrowsLoveSflCrow from "assets/animations/sfts_rarecrows_love_sfl_crow.png";
+import sftsRarecrowsLoveSpectralScarecrow from "assets/animations/sfts_rarecrows_love_spectral_scarecrow.png";
+import sftsRarecrowsLoveStPatricksCrow from "assets/animations/sfts_rarecrows_love_st_patricks_crow.png";
+import sftsRarecrowsSparkleDonkeyCrow from "assets/animations/sfts_rarecrows_sparkle_donkey_crow.png";
+import sftsRarecrowsSparkleGrimScarecrow from "assets/animations/sfts_rarecrows_sparkle_grim_scarecrow.png";
+import sftsRarecrowsSparkleHaloCrow from "assets/animations/sfts_rarecrows_sparkle_halo_crow.png";
+import sftsRarecrowsSparkleStonedCrow from "assets/animations/sfts_rarecrows_sparkle_stoned_crow.png";
 import sftsRaveyard from "assets/animations/sfts_raveyard.png";
 import sftsRedNoseReindeer from "assets/animations/sfts_red_nose_reindeer.png";
 import sftsRedSlimeBalloon from "assets/animations/sfts_red_slime_balloon.png";
@@ -1069,6 +1161,16 @@ export const ANIMATED_ART: Record<string, AnimatedArt> = Object.fromEntries([
     },
   ],
   [
+    sftsCoolZombieTombstoneGif,
+    {
+      sheet: sftsCoolZombieTombstone,
+      frameWidth: 16,
+      frameHeight: 32,
+      frames: 6,
+      fps: 4,
+    },
+  ],
+  [
     sftsEasterEasterBunnyEggsGif,
     {
       sheet: sftsEasterEasterBunnyEggs,
@@ -1637,6 +1739,20 @@ export const ANIMATED_ART: Record<string, AnimatedArt> = Object.fromEntries([
       frameHeight: 30,
       frames: 8,
       fps: 10,
+    },
+  ],
+  [
+    sftsHugeJackolanternGif,
+    {
+      sheet: sftsHugeJackolantern,
+      frameWidth: 32,
+      frameHeight: 32,
+      frames: 22,
+      fps: 4,
+      delays: [
+        250, 250, 250, 250, 500, 250, 250, 250, 250, 750, 250, 250, 250, 250,
+        250, 250, 250, 250, 250, 250, 250, 250,
+      ],
     },
   ],
   [
@@ -2273,6 +2389,446 @@ export const ANIMATED_ART: Record<string, AnimatedArt> = Object.fromEntries([
       frameHeight: 16,
       frames: 9,
       fps: 14,
+    },
+  ],
+  [
+    sftsRarecrowsCoinAlienCrowGif,
+    {
+      sheet: sftsRarecrowsCoinAlienCrow,
+      frameWidth: 24,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsCoinCoconutCrowGif,
+    {
+      sheet: sftsRarecrowsCoinCoconutCrow,
+      frameWidth: 22,
+      frameHeight: 31,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsCoinEgyptianCrowGif,
+    {
+      sheet: sftsRarecrowsCoinEgyptianCrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsCoinElfCrowGif,
+    {
+      sheet: sftsRarecrowsCoinElfCrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsCoinFrostScarecrowGif,
+    {
+      sheet: sftsRarecrowsCoinFrostScarecrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsCoinGothScarecrowGif,
+    {
+      sheet: sftsRarecrowsCoinGothScarecrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsCoinHotdogCrowGif,
+    {
+      sheet: sftsRarecrowsCoinHotdogCrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsCoinKingScarecrowGif,
+    {
+      sheet: sftsRarecrowsCoinKingScarecrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsCoinMythicalCrowGif,
+    {
+      sheet: sftsRarecrowsCoinMythicalCrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsCoinNightshadeCrowGif,
+    {
+      sheet: sftsRarecrowsCoinNightshadeCrow,
+      frameWidth: 24,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsCoinOrangeFishCrowGif,
+    {
+      sheet: sftsRarecrowsCoinOrangeFishCrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsCoinRoyalCrowGif,
+    {
+      sheet: sftsRarecrowsCoinRoyalCrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsCoinSharkCrowGif,
+    {
+      sheet: sftsRarecrowsCoinSharkCrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsCoinSkullCrowGif,
+    {
+      sheet: sftsRarecrowsCoinSkullCrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsCoinStoneGolemScarecrowGif,
+    {
+      sheet: sftsRarecrowsCoinStoneGolemScarecrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsCoinStonedCrowGif,
+    {
+      sheet: sftsRarecrowsCoinStonedCrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsLoveBoxingCrowGif,
+    {
+      sheet: sftsRarecrowsLoveBoxingCrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsLoveBumpkinCrowGif,
+    {
+      sheet: sftsRarecrowsLoveBumpkinCrow,
+      frameWidth: 24,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsLoveCookiesCrowGif,
+    {
+      sheet: sftsRarecrowsLoveCookiesCrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsLoveCupCrowGif,
+    {
+      sheet: sftsRarecrowsLoveCupCrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsLoveDarkFishCrowGif,
+    {
+      sheet: sftsRarecrowsLoveDarkFishCrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsLoveDrScarecrowGif,
+    {
+      sheet: sftsRarecrowsLoveDrScarecrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsLoveElfCrowGif,
+    {
+      sheet: sftsRarecrowsLoveElfCrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsLoveFrostScarecrowGif,
+    {
+      sheet: sftsRarecrowsLoveFrostScarecrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsLoveGoblinVikingCrowGif,
+    {
+      sheet: sftsRarecrowsLoveGoblinVikingCrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsLoveGrapesCrowGif,
+    {
+      sheet: sftsRarecrowsLoveGrapesCrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsLoveGrimScarecrowGif,
+    {
+      sheet: sftsRarecrowsLoveGrimScarecrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsLoveGuardianCrowGif,
+    {
+      sheet: sftsRarecrowsLoveGuardianCrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsLoveHaloCrowGif,
+    {
+      sheet: sftsRarecrowsLoveHaloCrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsLoveInfernalScarecrowGif,
+    {
+      sheet: sftsRarecrowsLoveInfernalScarecrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsLoveLionCrowGif,
+    {
+      sheet: sftsRarecrowsLoveLionCrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsLoveMythicalCrowGif,
+    {
+      sheet: sftsRarecrowsLoveMythicalCrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsLoveNightshadeCrowGif,
+    {
+      sheet: sftsRarecrowsLoveNightshadeCrow,
+      frameWidth: 24,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsLoveOliveCrowGif,
+    {
+      sheet: sftsRarecrowsLoveOliveCrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsLovePirateCrowGif,
+    {
+      sheet: sftsRarecrowsLovePirateCrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsLoveRoyalCrowGif,
+    {
+      sheet: sftsRarecrowsLoveRoyalCrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsLoveSadCrowGif,
+    {
+      sheet: sftsRarecrowsLoveSadCrow,
+      frameWidth: 24,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsLoveSflCrowGif,
+    {
+      sheet: sftsRarecrowsLoveSflCrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsLoveSpectralScarecrowGif,
+    {
+      sheet: sftsRarecrowsLoveSpectralScarecrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsLoveStPatricksCrowGif,
+    {
+      sheet: sftsRarecrowsLoveStPatricksCrow,
+      frameWidth: 22,
+      frameHeight: 31,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsSparkleDonkeyCrowGif,
+    {
+      sheet: sftsRarecrowsSparkleDonkeyCrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsSparkleGrimScarecrowGif,
+    {
+      sheet: sftsRarecrowsSparkleGrimScarecrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsSparkleHaloCrowGif,
+    {
+      sheet: sftsRarecrowsSparkleHaloCrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRarecrowsSparkleStonedCrowGif,
+    {
+      sheet: sftsRarecrowsSparkleStonedCrow,
+      frameWidth: 23,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
     },
   ],
   [

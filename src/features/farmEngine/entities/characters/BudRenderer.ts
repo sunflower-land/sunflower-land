@@ -108,6 +108,8 @@ export class BudRenderer extends EntityRenderer<Slice> {
           world.y - 16 + (bud.type === "Retreat" ? 4 / 2.625 : 0),
         );
         entry.art.setDepth(depth);
+        // [Bud.tsx] scaleX(-1) when flipped in landscaping.
+        entry.art.setFlipX(!!bud.flipped);
       }
     }
   }

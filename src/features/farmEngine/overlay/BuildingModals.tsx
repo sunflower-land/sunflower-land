@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { useSelector } from "@xstate/react";
 import { useInterpret } from "@xstate/react";
 
@@ -44,6 +45,12 @@ import { BakeryModal } from "features/island/buildings/components/building/baker
 import { DeliModal } from "features/island/buildings/components/building/deli/DeliModal";
 import { SmoothieShackModal } from "features/island/buildings/components/building/smoothieShack/SmoothieShackModal";
 import { ShopItems } from "features/island/buildings/components/building/market/ShopItems";
+import { needsFirstSeedPurchase } from "features/island/buildings/components/building/market/lib/onboarding";
+import {
+  needsFirstCook,
+  TUTORIAL_RECIPE,
+} from "features/island/buildings/components/building/firePit/lib/onboarding";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { WorkbenchModal } from "features/island/buildings/components/building/workBench/components/WorkbenchModal";
 import { ComposterModal } from "features/island/buildings/components/building/composters/ComposterModal";
 import { CraftingBoxModalContent } from "features/island/buildings/components/building/craftingBox/components/CraftingBoxModalContent";
@@ -90,10 +97,6 @@ const _state = (state: MachineState) => state.context.state;
 const hasSoldCropsBefore = (farmActivity: GameState["farmActivity"]) =>
   !!getKeys(CROPS).find((crop) =>
     getKeys(farmActivity).includes(`${crop} Sold`),
-  );
-const hasBoughtCropsBefore = (farmActivity: GameState["farmActivity"]) =>
-  !!getKeys(CROPS).find((crop) =>
-    getKeys(farmActivity).includes(`${crop} Seed Bought`),
   );
 
 /** The shared props of the five cooking modals [FirePitModal.tsx:42-51]. */
@@ -151,9 +154,11 @@ const MarketSaleLabels: React.FC = () => {
           className="absolute right-0 -top-7 shadow-md"
           style={{ wordSpacing: 0 }}
         >
-          {`${t("2x.sale")}: ${secondsToString(cropShortageSecondsLeft, {
-            length: "medium",
-          })} left`}
+          {`${t("2x.sale")}: ${t("vipExpiry.timeLeft", {
+            time: secondsToString(cropShortageSecondsLeft, {
+              length: "medium",
+            }),
+          })}`}
         </Label>
       )}
       {boostItem && (
@@ -197,10 +202,8 @@ export const BuildingModals: React.FC<{
         <ShopItems
           onClose={onClose}
           hasSoldBefore={hasSoldCropsBefore(state.farmActivity)}
-          showBuyHelper={
-            !hasBoughtCropsBefore(state.farmActivity) &&
-            hasSoldCropsBefore(state.farmActivity)
-          }
+          showBuyHelper={needsFirstSeedPurchase(state)}
+          showBuyTabHelper={needsFirstSeedPurchase(state)}
         />
         <MarketSaleLabels />
       </Modal>
@@ -310,6 +313,7 @@ const CookingModalHost: React.FC<{
   onClose: () => void;
 }> = ({ building, buildingId, onClose }) => {
   const { gameService } = useContext(Context);
+  const { openModal } = useContext(ModalContext);
   const state = useSelector(gameService, _state);
   const entry = state.buildings[building]?.find((b) => b.id === buildingId);
   const { cooking, queuedRecipes, readyRecipes } = useCookingState(
@@ -320,7 +324,27 @@ const CookingModalHost: React.FC<{
   const CookingModal = COOKING_MODALS[building];
 
   const handleCook = (item: CookableName) => {
-    gameService.send({ type: "recipe.cooked", item, buildingId });
+    gameService.send({
+      type: "recipe.cooked",
+      item,
+      buildingId,
+      // Client-generated so the local reducer and the server agree on the id
+      // when the event is replayed [FirePit.tsx & siblings].
+      recipeId: uuidv4().slice(0, 8),
+    });
+
+    // [FirePit.tsx handleCook] the tutorial's first meal.
+    if (building !== "Fire Pit") return;
+
+    if (item === "Rhubarb Tart" && !state.farmActivity["Rhubarb Tart Cooked"]) {
+      gameAnalytics.trackMilestone({ event: "Tutorial:Cooked:Completed" });
+    }
+
+    // The first tart is on the fire, so Bruce mentions the shortcut. `state`
+    // is the render's snapshot, i.e. the farm before this cook.
+    if (item === TUTORIAL_RECIPE && needsFirstCook(state)) {
+      openModal("FIREPIT_SPEEDUP");
+    }
   };
 
   return (

@@ -5,17 +5,24 @@ import type {
   AnimalFoodName,
   AnimalMedicineName,
   GameState,
+  InventoryItemName,
   LoveAnimalItem,
 } from "features/game/types/game";
-import type { AnimalType } from "features/game/types/animals";
+import type { AnimalLevel, AnimalType } from "features/game/types/animals";
+import { isBeetle } from "features/game/types/beetles";
 import {
   getAnimalFavoriteFood,
+  getAnimalLevel,
   getBoostedFoodQuantity,
-  isAnimalFood,
+  getFeedItem,
+  getFeedQuantity,
+  getNextClaimLevel,
+  isFoodForAnimal,
   resolveAnimal,
 } from "features/game/lib/animals";
 import {
   getBarnDelightCost,
+  getFeedBatchSize,
   handleFoodXP,
   REQUIRED_FOOD_QTY,
 } from "features/game/events/landExpansion/feedAnimal";
@@ -30,7 +37,6 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { translate } from "lib/i18n/translate";
 import type { GameBridge } from "../../bridge/GameBridge";
 import { playSound } from "../../core/sounds";
-import { getAnimalLevel } from "features/game/lib/animals";
 
 /**
  * The animal click decision tree [barn/components/Cow.tsx handleClick — the
@@ -46,20 +52,31 @@ import { getAnimalLevel } from "features/game/lib/animals";
 
 export type AnimalBuildingKey = "barn" | "henHouse";
 
+/**
+ * World anchor over an animal marked for a bulk sale — the renderer registers
+ * it, overlay/AnimalHouseUI.tsx hangs the PendingSaleTag off it.
+ */
+export const animalSaleAnchorId = (id: string) => `animal-sale-${id}`;
+
 /** The renderer-side visual effects the tree triggers. */
 export type AnimalEffects = {
   /** 2s happy/sad emotion after a feed [animalMachine happy/sad states]. */
   showReaction(id: string, reaction: "happy" | "sad"): void;
   /** Floating "+N" XP text (green when the food matches). */
   showXP(id: string, amount: number, color: string): void;
-  /** 1s info message (no food selected / not enough / no medicine). */
-  showMessage(id: string, message: string): void;
   /**
-   * The claim animation [Cow.tsx onReadyClick]: drops + sounds over 1.4s.
-   * The tree dispatches `produce.claimed` when the promise resolves; clicks
-   * on the animal are ignored while it runs.
+   * 1s info message (no food selected / not enough / no medicine / Honey
+   * Treat on a golden-covered animal). Replaces the animal's earlier one.
    */
-  playDrops(id: string): Promise<void>;
+  showMessage(id: string, message: string): void;
+  /** Drop the animal's info message early. */
+  clearMessage(id: string): void;
+  /**
+   * The claim animation [Cow.tsx onReadyClick]: the produce of `level` drops
+   * with sounds over 1.4s. The tree dispatches `produce.claimed` when the
+   * promise resolves; clicks on the animal are ignored while it runs.
+   */
+  playDrops(id: string, level: AnimalLevel): Promise<void>;
   openDetails(id: string): void;
   openLocked(id: string): void;
   /** Mutant reward intercept — claim continues from the modal's button. */
@@ -76,6 +93,13 @@ const COLLECT_SOUND: Record<
   Chicken: "chicken_collect",
 };
 
+/** [Cow.tsx / Sheep.tsx / Chicken.tsx getInfoPopoverMessage] */
+const GOLDEN_ASSET: Record<Exclude<AnimalType, "Pig">, string> = {
+  Cow: "Golden Cow",
+  Sheep: "Golden Sheep",
+  Chicken: "Gold Egg",
+};
+
 /** [Cow.tsx handleShowDetails] suppress the modal right after an event. */
 const firedRecently = (bridge: GameBridge) => {
   const actions = bridge.select((state) => state.context.actions);
@@ -88,6 +112,10 @@ const firedRecently = (bridge: GameBridge) => {
 export class AnimalInteraction {
   /** Animals with a claim animation in flight — their clicks are ignored. */
   private animating = new Set<string>();
+  /** Animals showing the Honey Treat notice — the next click clears it. */
+  private freeFeedNotices = new Set<string>();
+  /** Click-claims the renderer has not yet seen land in game state. */
+  private clickClaimed = new Set<string>();
 
   constructor(
     private readonly bridge: GameBridge,
@@ -97,6 +125,16 @@ export class AnimalInteraction {
 
   isAnimating(id: string) {
     return this.animating.has(id);
+  }
+
+  /**
+   * True once for a claim this tree animated and dispatched itself. The DOM
+   * machine is already asleep when its bulk-claim effect runs after a click
+   * [Cow.tsx lastSynced effect], so that claim never animates twice; the
+   * renderer asks here before treating a claim as a bulk one.
+   */
+  consumeClickClaim(id: string) {
+    return this.clickClaimed.delete(id);
   }
 
   private game(): GameState {
@@ -111,18 +149,30 @@ export class AnimalInteraction {
     return animal && resolveAnimal(animal, game);
   }
 
-  /** [Cow.tsx handleClick] the full tree, in the DOM's order. */
+  /**
+   * [Cow.tsx handleClick] the full tree, in the DOM's order. The DOM branches
+   * on its animal machine's state; each machine state is derived here:
+   *  - needsLove: asleep with love available — whatever `animal.state` is, so
+   *    a banked (ready-but-asleep) animal can still be petted
+   *    [animalMachine sleeping TICK -> needsLove];
+   *  - sleeping: asleep otherwise;
+   *  - ready: `state: "ready"` and awake;
+   *  - sick: `animal.state === "sick"`, asleep or not [Cow.tsx `sick`].
+   */
   async onClick(id: string) {
     const game = this.game();
     const animal = this.animal(id);
     if (!animal) return;
+    // [Cow.tsx `if (showDrops) return`] a claim animation is in flight.
     if (this.animating.has(id)) return;
+    // [Cow.tsx] a new click replaces an earlier Honey Treat notice.
+    if (this.freeFeedNotices.delete(id)) this.effects.clearMessage(id);
 
     const type = animal.type;
-    const sleeping = animal.awakeAt > Date.now();
+    const asleep = animal.awakeAt > Date.now();
     const sick = animal.state === "sick";
-    const ready = animal.state === "ready";
-    const needsLove = sleeping && this.needsLove(animal);
+    const needsLove = asleep && this.needsLove(animal);
+    const ready = animal.state === "ready" && !asleep;
     const locked = !isAnimalFeedable(this.building, game, id);
     const golden = isAnimalCoveredByGoldenAsset({
       state: game,
@@ -130,25 +180,31 @@ export class AnimalInteraction {
     });
     const selectedItem = this.bridge.ui.get().selectedItem;
 
-    // Ready wins over everything, sick included [animalMachine initial].
-    if (ready && !sleeping) return this.claim(id, animal);
-    if (ready && sleeping) return this.details(id);
+    if (sick) return this.cure(id, animal);
 
-    if (sick && !sleeping && !needsLove) return this.cure(id, animal);
+    if (needsLove && !golden) return this.love(id, animal);
 
-    if (needsLove) {
-      if (golden) return this.details(id);
-      return this.love(id, animal);
-    }
-
-    // Feed buffs apply from any awake state [Cow.tsx hasBuffSelected].
+    // A selected feed buff wins over details, claiming and feeding
+    // [Cow.tsx hasBuffSelected].
     if (selectedItem && isAnimalFeedBuffItem(selectedItem)) {
-      const count = game.inventory[selectedItem] ?? new Decimal(0);
+      const buffItem = selectedItem as AnimalFeedBuffName;
+      const count = game.inventory[buffItem] ?? new Decimal(0);
+      // Honey Treat only cuts feed, and the golden asset already makes it
+      // free.
+      if (buffItem === "Honey Treat" && golden) {
+        this.freeFeedNotices.add(id);
+        return this.effects.showMessage(
+          id,
+          translate("animal.honeyTreatFreeFeed", {
+            item: GOLDEN_ASSET[type as Exclude<AnimalType, "Pig">],
+          }),
+        );
+      }
       if (!animal.feedBuff && count.gte(1)) {
         this.bridge.dispatch("animal.feedBuffApplied", {
           animal: type,
           id,
-          item: selectedItem as AnimalFeedBuffName,
+          item: buffItem,
         });
         playSound("feed_animal");
         return;
@@ -156,32 +212,54 @@ export class AnimalInteraction {
       return this.effects.showMessage(id, translate("animal.noFoodMessage"));
     }
 
-    if (sleeping) return this.details(id);
+    if (needsLove && golden) return this.details(id);
+
+    if (asleep) return this.details(id);
+
+    if (ready) return this.claim(id, animal);
 
     if (locked) return this.effects.openLocked(id);
 
-    // Awake and hungry: feed.
-    const { foodQuantity: requiredQty } = getBoostedFoodQuantity({
+    // Awake and hungry: one click feeds the whole batch that gets the animal
+    // ready [Cow.tsx requiredFoodQty].
+    const batch = getFeedBatchSize({ state: game, animal });
+
+    if (golden) return this.feed(id, animal, undefined, batch);
+
+    const { foodQuantity: perFeedQty } = getBoostedFoodQuantity({
       animalType: type,
       foodQuantity: REQUIRED_FOOD_QTY[type],
       game,
       animal,
       now: Date.now(),
     });
+    const requiredQty = perFeedQty.mul(batch);
 
-    if (golden) return this.feed(id, animal, undefined);
+    // Auto-select the favourite food when it is held so a stale selection
+    // never feeds the wrong item [Cow.tsx getFeedItem]. `ui.selectedItem` is
+    // stale for the rest of this tick, so the chosen item is carried locally.
+    const feedItem = getFeedItem({
+      animal: type,
+      selectedItem,
+      favouriteFood: getAnimalFavoriteFood(type, animal.experience),
+      inventory: game.inventory,
+      requiredQty,
+    });
+    if (feedItem && feedItem !== selectedItem) {
+      this.bridge.selectItem(feedItem);
+    }
 
-    if (selectedItem && isAnimalFood(selectedItem)) {
-      const count = game.inventory[selectedItem] ?? new Decimal(0);
-      if (count.lt(requiredQty)) {
+    if (feedItem && (isFoodForAnimal(type, feedItem) || isBeetle(feedItem))) {
+      const count = game.inventory[feedItem] ?? new Decimal(0);
+      // A Beetle is one per click; anything else is the whole batch.
+      const needed = getFeedQuantity(feedItem, requiredQty);
+      if (count.lt(needed)) {
         return this.effects.showMessage(
           id,
-          translate("animal.notEnoughFood", {
-            amount: requiredQty.toNumber(),
-          }),
+          translate("animal.notEnoughFood", { amount: needed.toNumber() }),
         );
       }
-      return this.feed(id, animal, selectedItem as AnimalFoodName);
+      return this.feed(id, animal, feedItem, batch);
     }
 
     this.effects.showMessage(id, translate("animal.noFoodMessage"));
@@ -191,8 +269,13 @@ export class AnimalInteraction {
     return getNextLoveAvailableAt(animal, animal.awakeAt) < Date.now();
   }
 
-  /** [Cow.tsx feedCow] */
-  private feed(id: string, animal: Animal, item: AnimalFoodName | undefined) {
+  /** [Cow.tsx feedCow + getAnimalXPEarned] */
+  private feed(
+    id: string,
+    animal: Animal,
+    item: InventoryItemName | undefined,
+    batch: number,
+  ) {
     const game = this.game();
     const golden = isAnimalCoveredByGoldenAsset({
       state: game,
@@ -201,22 +284,31 @@ export class AnimalInteraction {
     const favFood = getAnimalFavoriteFood(animal.type, animal.experience);
     const level = getAnimalLevel(animal.experience, animal.type);
 
-    const updated = this.bridge.dispatch("animal.fed", {
-      animal: animal.type,
-      id,
-      item,
-    });
-    playSound("feed_animal");
-
+    // Captured before feeding: a level-up changes what the same feed is
+    // worth. A Beetle is one per click; anything else is the whole batch.
     const { foodXp } = handleFoodXP({
       state: game,
       animal: animal.type,
       level,
       food: golden ? favFood : (item as AnimalFoodName),
     });
-    const matched = item === favFood || item === "Omnifeed" || golden;
-    if (foodXp) {
-      this.effects.showXP(id, foodXp, matched ? "#71e358" : "#ffffff");
+    const xp = item && isBeetle(item) ? foodXp : foodXp * batch;
+
+    const updated = this.bridge.dispatch("animal.fed", {
+      animal: animal.type,
+      id,
+      item: item ? (item as AnimalFoodName) : undefined,
+    });
+    playSound("feed_animal");
+
+    // [Cow.tsx xpIndicatorColor]
+    const matched =
+      item === favFood ||
+      item === "Omnifeed" ||
+      (!!item && isBeetle(item)) ||
+      golden;
+    if (xp) {
+      this.effects.showXP(id, xp, matched ? "#71e358" : "#ffffff");
     }
 
     // The persisted state after a feed is the reaction [animalMachine FEED].
@@ -286,13 +378,18 @@ export class AnimalInteraction {
     this.animating.add(id);
     try {
       playSound("produce_drop");
-      const drops = this.effects.playDrops(id);
+      // Read BEFORE the claim: the level this claim pays [Cow.tsx
+      // `setDropsLevel(getNextClaimLevel(cow))`].
+      const drops = this.effects.playDrops(id, getNextClaimLevel(animal));
       await wait(500);
       playSound(COLLECT_SOUND[animal.type as Exclude<AnimalType, "Pig">]);
       await wait(900);
       playSound("level_up");
       await drops;
       this.bridge.dispatch("produce.claimed", { animal: animal.type, id });
+      // Only once the claim went through: the renderer must not replay the
+      // drops for it as a bulk claim.
+      this.clickClaimed.add(id);
     } finally {
       this.animating.delete(id);
     }

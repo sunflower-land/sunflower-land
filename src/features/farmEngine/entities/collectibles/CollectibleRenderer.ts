@@ -1,3 +1,4 @@
+import { isPlacementSurface } from "../../core/surface";
 import Phaser from "phaser";
 import shadowArt from "assets/npcs/shadow.png";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -648,6 +649,9 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
       let x: number;
       if (spec.centeredIn !== undefined) {
         x = box.x + (spec.left ?? 0) + (spec.centeredIn - width) / 2;
+      } else if (spec.centered) {
+        // [e.g. RoyalThrone.tsx] left-1/2 -translate-x-1/2 in the box.
+        x = box.x + (box.width - width) / 2;
       } else if (spec.right !== undefined) {
         x = box.x + box.width - spec.right - width;
       } else {
@@ -1278,8 +1282,8 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
       const hasExpired = expiresAt <= Date.now();
       if (!hasExpired) {
         // [ObsidianShrine.tsx] the active shrine opens the bulk-actions
-        // modal; other active boosts show the SFT popover with the
-        // remaining time [TimeWarpTotem.tsx / PetShrine.tsx].
+        // modal; other active boosts open their detail modal
+        // [TimeWarpTotem.tsx / Hourglass.tsx / PetShrine.tsx].
         if (name === "Obsidian Shrine") {
           this.bridge.farmModal.open("obsidianShrine", {
             id,
@@ -1287,7 +1291,15 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
           });
           return;
         }
-        this.openSftPopover(name, id, expiresAt);
+        // The detail modal, where the booster can also be extended
+        // [TemporaryCollectibleModal].
+        this.bridge.farmModal.open("temporaryCollectible", {
+          name,
+          id,
+          location: isPlacementSurface(this.scene.location)
+            ? this.scene.location
+            : "farm",
+        });
         return;
       }
       if (cfg.renewFlow === "petShrine") {

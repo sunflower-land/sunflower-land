@@ -18,6 +18,7 @@ import {
 } from "../../core/coordinates";
 import { DEPTHS } from "../../core/depths";
 import { makeClickable } from "../../core/clickable";
+import { nativeScale } from "../../core/pixelArt";
 import { EntityRenderer } from "../EntityRenderer";
 import { NPCSprite } from "../npc/NPCSprite";
 
@@ -94,6 +95,73 @@ type Entry = {
 
 export class PlayerRenderer extends EntityRenderer<Slice> {
   private entries = new Map<string, Entry>();
+  /**
+   * [PlacedBumpkin.tsx] heart over the PLACED bumpkin for 3s after
+   * recipes.collected (by the house it is drawn by BuildingRenderer).
+   */
+  private heart?: Phaser.GameObjects.Image;
+  private heartTween?: Phaser.Tweens.Tween;
+  /** Pending hide; defined exactly while the heart is due to be shown. */
+  private heartHide?: Phaser.Time.TimerEvent;
+  private unsubscribeEvents: (() => void) | undefined;
+
+  mount() {
+    super.mount();
+    this.unsubscribeEvents = this.bridge.onGameEvent((event) => {
+      if (event.type !== "recipes.collected") return;
+      this.heartHide?.remove();
+      this.heartHide = this.scene.time.delayedCall(3000, () => {
+        this.heartHide = undefined;
+        this.syncHeart();
+      });
+      this.syncHeart();
+    });
+  }
+
+  /**
+   * Draw, move or drop the collect heart: width 10, top -8, left 3 of the
+   * DOM's `top: -24px` wrapper around the placed bumpkin; not shown while
+   * landscaping (the DOM renders the moveable branch, which has no heart).
+   */
+  private syncHeart() {
+    const entry = this.entries.get("bumpkin");
+    const show =
+      !!this.heartHide &&
+      !!entry &&
+      !this.bridge.select((state) => state.matches("landscaping")) &&
+      this.scene.textures.exists(SUNNYSIDE.icons.heart);
+    if (!show || !entry) {
+      this.heartTween?.remove();
+      this.heartTween = undefined;
+      this.heart?.destroy();
+      this.heart = undefined;
+      return;
+    }
+    // The zone sits at the bumpkin's world position, NPC_FIGURE.above higher.
+    const tileY = entry.zone.y + NPC_FIGURE.above - BUMPKIN_Y_NUDGE;
+    const y = tileY - 24 / PIXEL_SCALE - 8;
+    this.heart ??= this.scene.add
+      .image(0, 0, SUNNYSIDE.icons.heart)
+      .setOrigin(0, 0);
+    const x = entry.zone.x + 3 + nativeScale(this.heart, 10);
+    this.heart.setDepth(DEPTHS.ENTITY_BASE + entry.zone.y + 2);
+    // Already floating at this spot (the tween owns y, so compare the rest y).
+    if (this.heart.x === x && this.heart.getData("restY") === y) return;
+    this.heartTween?.remove();
+    this.heartTween = undefined;
+    this.heart.setPosition(x, y).setData("restY", y);
+    // [animate-float] 0 -> 6 CSS px -> 0 over 3s, ease-in-out.
+    if (this.bridge.ui.get().showAnimations) {
+      this.heartTween = this.scene.tweens.add({
+        targets: this.heart,
+        y: y + 6 / PIXEL_SCALE,
+        duration: 1500,
+        ease: "Sine.easeInOut",
+        yoyo: true,
+        repeat: -1,
+      });
+    }
+  }
 
   selector(state: MachineState): Slice {
     const game = state.context.state;
@@ -137,8 +205,10 @@ export class PlayerRenderer extends EntityRenderer<Slice> {
 
     const bumpkin = slice.bumpkin;
     const onThisSurface = (location?: string) =>
+      // [Land.tsx] the farm draws only characters placed ON the farm — one
+      // standing on an interior floor belongs to that surface.
       this.scene.location === "farm"
-        ? location !== "home"
+        ? (location ?? "farm") === "farm"
         : location === this.scene.location;
 
     if (bumpkin?.coordinates && onThisSurface(bumpkin.location)) {
@@ -286,6 +356,10 @@ export class PlayerRenderer extends EntityRenderer<Slice> {
       }
       this.entries.set(key, entry);
     }
+
+    // Follow the bumpkin if it moved (or was lifted) mid-heart.
+    queueImage(this.scene, SUNNYSIDE.icons.heart);
+    if (this.heartHide) this.syncHeart();
   }
 
   /**
@@ -311,6 +385,13 @@ export class PlayerRenderer extends EntityRenderer<Slice> {
   }
 
   protected onDestroy() {
+    this.unsubscribeEvents?.();
+    this.unsubscribeEvents = undefined;
+    this.heartHide?.remove();
+    this.heartHide = undefined;
+    this.heartTween?.remove();
+    this.heart?.destroy();
+    this.heart = undefined;
     this.entries.forEach((entry) => {
       entry.sprite.destroy();
       entry.zone.destroy();

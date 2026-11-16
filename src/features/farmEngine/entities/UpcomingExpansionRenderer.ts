@@ -1,3 +1,4 @@
+import { getTutorialNudge } from "features/island/lib/tutorialNudge";
 import type Phaser from "phaser";
 import confetti from "canvas-confetti";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -73,10 +74,12 @@ export class UpcomingExpansionRenderer extends EntityRenderer<Slice> {
     // ExpandIcon's pulsate helper (VIP coin discount folded in at render time
     // via getExpansionCoinCostWithVip; the pulsate gate ignores it).
     const canExpand = craftingRequirementsMet(game, requirements);
+    // [UpcomingExpansion.tsx] also pulses while the tutorial points here.
     const showHelper =
-      canExpand &&
-      (game.farmActivity["Tree Chopped"] ?? 0) >= 3 &&
-      !!game.inventory["Basic Land"]?.lte(4);
+      (canExpand &&
+        (game.farmActivity["Tree Chopped"] ?? 0) >= 3 &&
+        !!game.inventory["Basic Land"]?.lte(6)) ||
+      getTutorialNudge(game) === "expand-land";
 
     return {
       landscaping: state.matches("landscaping"),
@@ -266,7 +269,7 @@ export class UpcomingExpansionRenderer extends EntityRenderer<Slice> {
 
     const expansions = slice.basicLand + 1;
     if (expansions === 4) this.bridge.openModal("BETTY");
-    if (expansions === 5) this.bridge.openModal("FIREPIT");
+    if (expansions === 5) this.bridge.openModal("FIREPIT_RHUBARB");
   }
 
   private createExpandIcon(

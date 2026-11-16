@@ -1,8 +1,11 @@
 const fs = require("fs");
+const path = require("path");
+// Repo root, so the scripts work from any checkout or worktree.
+const ROOT = path.join(__dirname, "../../..");
 const data = JSON.parse(fs.readFileSync(__dirname + "/collectibles-static.json", "utf8"));
 const inlineData = JSON.parse(fs.readFileSync(__dirname + "/collectibles-inline.json", "utf8"));
 for (const [k, v] of Object.entries(inlineData.inline)) if (!data[k]) data[k] = v;
-const imagesTs = fs.readFileSync("/Users/adamhannigan/Documents/workspace/sunflower-land/src/features/game/types/images.ts", "utf8");
+const imagesTs = fs.readFileSync(path.join(ROOT, "src/features/game/types/images.ts"), "utf8");
 
 // var -> path
 const importMap = {};

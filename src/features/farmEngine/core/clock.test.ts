@@ -1,9 +1,9 @@
 import { FarmClock, readNodeTimer } from "./clock";
 
 describe("readNodeTimer", () => {
-  it("uses legacy back-dated timing when baseDurationMs is absent", () => {
+  it("counts down to fallbackReadyAt when the task has no work model", () => {
     const reading = readNodeTimer(
-      { startedAt: 0, windows: [], legacyReadyAt: 100_000 },
+      { startedAt: 0, windows: [], fallbackReadyAt: 100_000 },
       25_000,
     );
 
@@ -19,12 +19,30 @@ describe("readNodeTimer", () => {
       startedAt: 0,
       baseDurationMs: 100_000,
       windows: [{ from: 0, to: 25_000, speed: 2 }],
-      legacyReadyAt: 999_999_999, // must be ignored on this model
+      fallbackReadyAt: 999_999_999, // must be ignored on this model
     };
 
     expect(readNodeTimer(spec, 0).readyAt).toEqual(75_000);
     expect(readNodeTimer(spec, 25_000).progress).toBeCloseTo(0.5);
-    expect(readNodeTimer(spec, 75_000).ready).toBe(true);
+    // Strictly past the end time, like the hook's clock [useNow autoEndAt].
+    expect(readNodeTimer(spec, 75_000).ready).toBe(false);
+    expect(readNodeTimer(spec, 75_001).ready).toBe(true);
+  });
+
+  it("counts banked work toward progress but not toward readyAt", () => {
+    // 60s of work left after a lift that banked 40s. At t=30s:
+    // (40s banked + 30s done) / (60s base + 40s banked) = 0.7
+    const spec = {
+      startedAt: 0,
+      baseDurationMs: 60_000,
+      bankedMs: 40_000,
+      windows: [],
+    };
+
+    expect(readNodeTimer(spec, 0).readyAt).toEqual(60_000);
+    expect(readNodeTimer(spec, 0).progress).toBeCloseTo(0.4);
+    expect(readNodeTimer(spec, 30_000).progress).toBeCloseTo(0.7);
+    expect(readNodeTimer(spec, 60_000).progress).toBeCloseTo(1);
   });
 });
 
@@ -41,7 +59,7 @@ describe("FarmClock", () => {
   const makeSpec = () => ({
     startedAt: 0,
     windows: [],
-    legacyReadyAt: 100_000,
+    fallbackReadyAt: 100_000,
     stageFractions: [0.25, 0.5, 1],
   });
 

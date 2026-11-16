@@ -22,6 +22,7 @@ import {
   WORKBENCH_VARIANTS,
 } from "features/island/lib/alternateArt";
 import { BARN_IMAGES } from "features/island/buildings/components/building/barn/Barn";
+import { PIGPEN_IMAGES } from "features/island/buildings/components/building/pigpen/Pigpen";
 import { COMPOSTER_IMAGES } from "features/island/buildings/components/building/composters/ComposterModal";
 
 /**
@@ -38,6 +39,7 @@ export type BuildingArtContext = {
   season: TemperateSeasonName;
   henHouseLevel: number;
   barnLevel: number;
+  pigpenLevel: number;
   /** Upgrade-adjusted current level [WaterWell.tsx: level-1 while upgrading]. */
   waterWellLevel: number;
   petHouseLevel: number;
@@ -122,6 +124,20 @@ export const BUILDING_BASE_ART: Partial<
   Barn: ({ biome, season, barnLevel }) => ({
     texture: BARN_IMAGES[biome][season][clampLevel(barnLevel, 3)],
     width: 64,
+    bottom: 0,
+    left: 0,
+  }),
+  // [Pigpen.tsx] 50x50 art drawn at its own width, bottom 0, no left offset.
+  Pigpen: ({ biome, season, pigpenLevel }) => ({
+    texture: PIGPEN_IMAGES[biome][season][clampLevel(pigpenLevel, 3)],
+    width: 50,
+    bottom: 0,
+    left: 0,
+  }),
+  // [CaveBuilding.tsx] 50x55 art drawn at its own width, bottom 0.
+  Cave: () => ({
+    texture: SUNNYSIDE.building.cave,
+    width: 50,
     bottom: 0,
     left: 0,
   }),

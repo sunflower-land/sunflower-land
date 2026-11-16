@@ -1,3 +1,13 @@
+import { TemporaryCollectibleModal } from "features/game/components/TemporaryCollectibleModal";
+import {
+  getCollectibleExpiry,
+  getCollectiblesAcrossLocations,
+  type TemporaryCollectibleName,
+} from "features/game/lib/collectibleBuilt";
+import { ProjectModal } from "features/island/collectibles/components/Monument";
+import type { MonumentName } from "features/game/types/monuments";
+import type { PlaceableLocation } from "features/game/types/collectibles";
+import { useVisiting } from "lib/utils/visitUtils";
 import React, {
   Fragment,
   useCallback,
@@ -105,6 +115,42 @@ import { CharacterModals } from "./CharacterModals";
  */
 
 const _state = (state: MachineState) => state.context.state;
+
+/**
+ * [TimeWarpTotem.tsx / SuperTotem.tsx / Hourglass.tsx / PetShrine.tsx] the
+ * detail view an ACTIVE booster opens: what it boosts, time left, and the
+ * option to extend it.
+ */
+const TemporaryCollectibleHost: React.FC<{
+  data: {
+    name: TemporaryCollectibleName;
+    id: string;
+    location: PlaceableLocation;
+  };
+  onClose: () => void;
+}> = ({ data, onClose }) => {
+  const { gameService } = useContext(Context);
+  const game = useSelector(gameService, _state);
+  const { isVisiting } = useVisiting();
+  const placed = getCollectiblesAcrossLocations(game, data.name).find(
+    (collectible) => collectible.id === data.id,
+  );
+  if (!placed) return null;
+  return (
+    <TemporaryCollectibleModal
+      show
+      onHide={onClose}
+      name={data.name}
+      id={data.id}
+      location={data.location}
+      expiresAt={getCollectibleExpiry({
+        name: data.name,
+        collectible: placed,
+      })}
+      canExtend={!isVisiting}
+    />
+  );
+};
 
 /** [Bed.tsx] the unlock-farmhand modal against the UNCHANGED machine. */
 const BedFarmhandHost: React.FC<{ name: BedName; onClose: () => void }> = ({
@@ -257,7 +303,9 @@ export const FarmModals: React.FC<{
   bridge: GameBridge;
   /** Fires when any farm modal opens/closes, so the engine can gate input. */
   onOpenChange?: (open: boolean) => void;
-}> = ({ bridge, onOpenChange }) => {
+  /** A nested page (marketplace, dashboards) is covering the farm. */
+  hasNestedRoute?: boolean;
+}> = ({ bridge, onOpenChange, hasNestedRoute }) => {
   const [open, setOpen] = useState<FarmModalRequest | undefined>();
   // Flows inside the body that outlive `open` (the island-upgrade sequence).
   const [busy, setBusy] = useState(false);
@@ -291,7 +339,8 @@ export const FarmModals: React.FC<{
           the player bumpkin — the visited-player profile and Discovery. They
           open through playerModalManager, not the bridge, so they stay
           mounted. */}
-      <PlayerModalHost />
+      {/* [Land.tsx] nested pages mount their own player modal. */}
+      {!hasNestedRoute && <PlayerModalHost />}
       {(anyOpen || lingering) && (
         <FarmModalsBody
           bridge={bridge}
@@ -798,6 +847,38 @@ const FarmModalsBody: React.FC<{
           location="farm"
         />
       )}
+
+      {/* Active boosters: details + extend */}
+      {open?.name === "temporaryCollectible" && (
+        <TemporaryCollectibleHost
+          data={
+            open.data as {
+              name: TemporaryCollectibleName;
+              id: string;
+              location: PlaceableLocation;
+            }
+          }
+          onClose={close}
+        />
+      )}
+
+      {/* [Monument.tsx] a completed monument's boost details */}
+      <Modal show={open?.name === "projectComplete"} onHide={close}>
+        {open?.name === "projectComplete" &&
+          (() => {
+            const { project } = open.data as { project: MonumentName };
+            return (
+              <ProjectModal
+                project={project}
+                onClose={close}
+                state={state}
+                cheers={
+                  state.socialFarming.villageProjects[project]?.cheers ?? 0
+                }
+              />
+            );
+          })()}
+      </Modal>
 
       {/* [ObsidianShrine.tsx] active bulk plant/harvest/fertilise */}
       {open?.name === "obsidianShrine" && (

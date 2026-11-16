@@ -12,7 +12,6 @@ import { getActiveCalendarEvent } from "features/game/types/calendar";
 import type { MachineState } from "features/game/lib/gameMachine";
 import type { GameState } from "features/game/types/game";
 import { CROPS, type CropName } from "features/game/types/crops";
-import { getKeys } from "lib/object";
 import {
   getAffectedWeather,
   isPlotFertile,
@@ -44,6 +43,15 @@ import {
 } from "features/island/plots/lib/plant";
 import { getYieldColour } from "features/island/plots/Plot";
 import {
+  getTotalCropsPlanted,
+  getTutorialHarvestPlot,
+  getTutorialPlantPlot,
+  isHarvestingFirstRhubarb,
+  TUTORIAL_PLOT_COUNT,
+  TUTORIAL_RHUBARB_COUNT,
+} from "features/island/plots/lib/tutorialPlots";
+import { getTutorialNudge } from "features/island/lib/tutorialNudge";
+import {
   getGrowthStage,
   getHarvestMetrics,
 } from "features/island/plots/components/FertilePlot";
@@ -60,6 +68,7 @@ import { gridToWorld, WORLD_TILE } from "../../core/coordinates";
 import { DEPTHS } from "../../core/depths";
 import { playSound } from "../../core/sounds";
 import { playYieldFloat } from "../../components/YieldFloat";
+import { burst, type ChipMaterial } from "../../core/juice";
 import { ProgressBarSprite } from "../../components/ProgressBarSprite";
 import type { Unsubscribe } from "../../bridge/subscriptions";
 import { EntityRenderer } from "../EntityRenderer";
@@ -75,7 +84,7 @@ import { EntityRenderer } from "../EntityRenderer";
  * click dispatches the same machine events the DOM plot does.
  *
  * DEFERRED (tracked in the checklist): calendar-weather plot states
- * (tornado/tsunami/great-freeze art), the tutorial dig/click pulsate icons.
+ * (tornado/tsunami/great-freeze art).
  */
 
 type Slice = {
@@ -86,13 +95,22 @@ type Slice = {
   // Boost windows and fertility read wider state; collectibles is the ref
   // that changes when boost sources are placed or removed.
   collectibles: GameState["collectibles"];
+  // Inputs of the tutorial arrow [Plot.tsx getTutorialNudge + the target-plot
+  // helpers]. Only a basic island can carry a plot nudge, so these stay
+  // undefined everywhere else and established farms never re-sync on them.
+  farmActivity?: GameState["farmActivity"];
+  inventory?: GameState["inventory"];
+  experience?: number;
+  deliveriesFulfilled?: number;
+  expansionConstruction?: GameState["expansionConstruction"];
 };
 
 type PlotTiming = {
   startedAt: number;
-  baseDurationMs?: number;
+  baseDurationMs: number;
+  /** Work banked before a landscaping lift [FertilePlot.tsx bankedMs]. */
+  bankedMs: number;
   windows: BoostWindow[];
-  harvestSeconds: number;
 };
 
 type PlotObjects = {
@@ -102,7 +120,12 @@ type PlotObjects = {
   bar?: ProgressBarSprite;
   timing?: PlotTiming;
   cornerIcons: Phaser.GameObjects.Image[];
-  /** Tutorial dig/click helper [Plot.tsx harvestCount/plantCount gates]. */
+  /**
+   * Whether the plot renders as a FertilePlot — Plot.tsx returns the
+   * non-fertile / weather plots before it ever draws the tutorial arrow.
+   */
+  arrowEligible: boolean;
+  /** Tutorial click arrow [Plot.tsx showHarvestArrow / showPlantArrow]. */
   tutorialIcon?: Phaser.GameObjects.Image;
   tutorialTween?: Phaser.Tweens.Tween;
 };
@@ -118,6 +141,8 @@ export class CropRenderer extends EntityRenderer<Slice> {
   // swallow rapid taps across DIFFERENT plots.
   private clickedAt = new Map<string, number>();
   private unsubscribeUi: Unsubscribe | undefined;
+  /** A crop just became ready — the tutorial arrow may have a new target. */
+  private tutorialDirty = false;
 
   mount() {
     super.mount();
@@ -129,12 +154,22 @@ export class CropRenderer extends EntityRenderer<Slice> {
 
   selector(state: MachineState): Slice {
     const game = state.context.state;
+    const tutorialIsland = game.island.type === "basic";
     return {
       crops: game.crops,
       island: game.island,
       waterWell: game.waterWell,
       buildings: game.buildings,
       collectibles: game.collectibles,
+      farmActivity: tutorialIsland ? game.farmActivity : undefined,
+      inventory: tutorialIsland ? game.inventory : undefined,
+      experience: tutorialIsland ? game.bumpkin.experience : undefined,
+      deliveriesFulfilled: tutorialIsland
+        ? game.delivery.fulfilledCount
+        : undefined,
+      expansionConstruction: tutorialIsland
+        ? game.expansionConstruction
+        : undefined,
     };
   }
 
@@ -143,7 +178,12 @@ export class CropRenderer extends EntityRenderer<Slice> {
     a.island === b.island &&
     a.waterWell === b.waterWell &&
     a.buildings === b.buildings &&
-    a.collectibles === b.collectibles;
+    a.collectibles === b.collectibles &&
+    a.farmActivity === b.farmActivity &&
+    a.inventory === b.inventory &&
+    a.experience === b.experience &&
+    a.deliveriesFulfilled === b.deliveriesFulfilled &&
+    a.expansionConstruction === b.expansionConstruction;
 
   async sync(slice: Slice) {
     const token = this.beginSync();
@@ -162,7 +202,6 @@ export class CropRenderer extends EntityRenderer<Slice> {
       tornadoIcon,
       tsunamiIcon,
       greatFreezeIcon,
-      SUNNYSIDE.icons.dig_icon,
       SUNNYSIDE.icons.click_icon,
     ].forEach((url) => queueImage(this.scene, url));
     for (const plot of Object.values(slice.crops)) {
@@ -202,6 +241,9 @@ export class CropRenderer extends EntityRenderer<Slice> {
     for (const id of Object.keys(slice.crops)) {
       this.syncPlot(id, slice, biome, getPlotWindows);
     }
+
+    this.tutorialDirty = false;
+    this.syncTutorialIcons();
   }
 
   private syncPlot(
@@ -226,7 +268,7 @@ export class CropRenderer extends EntityRenderer<Slice> {
           this.bridge.hover.set(hovered ? { type: "crop", id } : null),
         glow: () => this.plots.get(id)?.art,
       });
-      objects = { art, zone, cornerIcons: [] };
+      objects = { art, zone, cornerIcons: [], arrowEligible: false };
       this.plots.set(id, objects);
     }
 
@@ -240,8 +282,6 @@ export class CropRenderer extends EntityRenderer<Slice> {
       width: WORLD_TILE,
       height: WORLD_TILE,
     });
-
-    this.syncTutorialIcon(id, objects, world);
 
     objects.unregisterClock?.();
     objects.unregisterClock = undefined;
@@ -260,11 +300,12 @@ export class CropRenderer extends EntityRenderer<Slice> {
     // Weather-destroyed plot [TornadoPlot/TsunamiPlot/GreatFreezePlot]: dry
     // soil + the event icon top-right; click opens the affected modal.
     const weather = getAffectedWeather({ id, game });
-    if (
+    const weatherAffected =
       weather === "tornado" ||
       weather === "tsunami" ||
-      weather === "greatFreeze"
-    ) {
+      weather === "greatFreeze";
+    objects.arrowEligible = fertile && !weatherAffected;
+    if (weatherAffected) {
       this.setArt(objects, world, SOIL_IMAGES[biome].dry, DRY_TOP_OFFSET);
       this.clearBar(objects);
       const iconSrc =
@@ -306,9 +347,13 @@ export class CropRenderer extends EntityRenderer<Slice> {
       plot,
       plantedAt: crop.plantedAt,
     });
+    // Work banked before a landscaping lift counts toward the displayed
+    // growth, not toward the remaining time [FertilePlot.tsx].
+    const bankedMs = crop.boostedTime ?? 0;
     const spec = {
       startedAt: metrics.startAt,
       baseDurationMs: metrics.baseDurationMs,
+      bankedMs,
       windows,
       stageFractions: [0.25, 0.5, 1],
     };
@@ -324,21 +369,26 @@ export class CropRenderer extends EntityRenderer<Slice> {
         CROP_LIFECYCLE[biome][crop.name][stage],
         ART_TOP_OFFSET,
       );
+      return progress;
     };
 
     applyStage();
     objects.unregisterClock = this.scene.clock.register(
       `crop-${id}`,
       spec,
-      applyStage,
+      () => {
+        // A crop turning ready can move the tutorial harvest arrow; the pass
+        // runs once on the next update however many plots ripen together.
+        if (applyStage() >= 100) this.tutorialDirty = true;
+      },
     );
 
     // In-scene progress bar under the growing crop [FertilePlot.tsx].
     objects.timing = {
       startedAt: metrics.startAt,
       baseDurationMs: metrics.baseDurationMs,
+      bankedMs,
       windows,
-      harvestSeconds: metrics.harvestSeconds,
     };
     if (
       this.bridge.ui.get().showTimers &&
@@ -367,67 +417,71 @@ export class CropRenderer extends EntityRenderer<Slice> {
   }
 
   /**
-   * [Plot.tsx] the tutorial dig / click helper over the next plot in the
-   * first-harvest and first-plant sequences.
+   * [Plot.tsx] the tutorial arrow: a single click icon walks the first crops
+   * one plot at a time, gated on the farm-wide nudge. The target is resolved
+   * once per pass, not per plot.
    */
-  private syncTutorialIcon(
-    id: string,
-    objects: PlotObjects,
-    world: { x: number; y: number },
-  ) {
+  private syncTutorialIcons() {
     const game = this.gameState();
-    const activity = game.farmActivity ?? {};
-    const harvestCount = getKeys(CROPS).reduce(
-      (total, crop) => total + (activity[`${crop} Harvested`] ?? 0),
-      0,
-    );
-    const plantCount = getKeys(CROPS).reduce(
-      (total, crop) => total + (activity[`${crop} Planted`] ?? 0),
-      0,
-    );
-    const soldCount = activity["Sunflower Sold"] ?? 0;
+    const nudge = getTutorialNudge(game);
+    const now = Date.now();
+    const target =
+      nudge === "harvest-plot"
+        ? getTutorialHarvestPlot({ game, now })
+        : nudge === "plant-plot"
+          ? getTutorialPlantPlot({ game, now })
+          : undefined;
 
-    const showDig =
-      harvestCount < 3 &&
-      harvestCount + 1 === Number(id) &&
-      !!game.inventory.Shovel;
-    const showClick =
-      plantCount < 3 && plantCount + 1 === Number(id) && soldCount > 0;
+    for (const [id, objects] of this.plots) {
+      this.syncTutorialIcon(
+        objects,
+        game.crops[id],
+        id === target && objects.arrowEligible,
+      );
+    }
+  }
 
-    const wanted = showDig
-      ? { src: SUNNYSIDE.icons.dig_icon, top: -14 }
-      : showClick
-        ? { src: SUNNYSIDE.icons.click_icon, top: 6 }
-        : undefined;
-
-    if (objects.tutorialIcon?.texture.key !== wanted?.src) {
+  private syncTutorialIcon(
+    objects: PlotObjects,
+    plot: GameState["crops"][string] | undefined,
+    wanted: boolean,
+  ) {
+    if (!wanted || !plot) {
       objects.tutorialTween?.remove();
       objects.tutorialTween = undefined;
       objects.tutorialIcon?.destroy();
       objects.tutorialIcon = undefined;
+      return;
     }
-    if (
-      wanted &&
-      !objects.tutorialIcon &&
-      this.scene.textures.exists(wanted.src)
-    ) {
-      // 18px, right -8 of the tile, pulsating.
-      const icon = this.scene.add
-        .image(world.x + WORLD_TILE + 8 - 18, world.y + wanted.top, wanted.src)
-        .setOrigin(0, 0)
-        .setDepth(DEPTHS.ENTITY_BASE + world.y + 2);
-      nativeScale(icon, 18);
-      if (this.bridge.ui.get().showAnimations) {
-        objects.tutorialTween = this.scene.tweens.add({
-          targets: icon,
-          scale: icon.scale * 1.15,
-          duration: 500,
-          yoyo: true,
-          repeat: -1,
-        });
-      }
-      objects.tutorialIcon = icon;
+
+    const src = SUNNYSIDE.icons.click_icon;
+    const world = gridToWorld({ x: plot.x ?? 0, y: plot.y ?? 0 });
+    // 18px, right -8 / top 6 of the tile, pulsating.
+    const x = world.x + WORLD_TILE + 8 - 18;
+    const y = world.y + 6;
+    const depth = DEPTHS.ENTITY_BASE + world.y + 2;
+
+    if (objects.tutorialIcon) {
+      objects.tutorialIcon.setPosition(x, y).setDepth(depth);
+      return;
     }
+    if (!this.scene.textures.exists(src)) return;
+
+    const icon = this.scene.add
+      .image(x, y, src)
+      .setOrigin(0, 0)
+      .setDepth(depth);
+    nativeScale(icon, 18);
+    if (this.bridge.ui.get().showAnimations) {
+      objects.tutorialTween = this.scene.tweens.add({
+        targets: icon,
+        scale: icon.scale * 1.15,
+        duration: 500,
+        yoyo: true,
+        repeat: -1,
+      });
+    }
+    objects.tutorialIcon = icon;
   }
 
   private clearBar(objects: PlotObjects) {
@@ -507,14 +561,11 @@ export class CropRenderer extends EntityRenderer<Slice> {
     if (!timing || !objects.bar) return;
 
     const now = Date.now();
-    const windowed = timing.baseDurationMs !== undefined;
-    const readyAt = windowed
-      ? computeReadyAt({
-          startedAt: timing.startedAt,
-          baseDurationMs: timing.baseDurationMs as number,
-          windows: timing.windows,
-        })
-      : timing.startedAt;
+    const readyAt = computeReadyAt({
+      startedAt: timing.startedAt,
+      baseDurationMs: timing.baseDurationMs,
+      windows: timing.windows,
+    });
 
     if (now >= readyAt) {
       this.clearBar(objects);
@@ -522,21 +573,20 @@ export class CropRenderer extends EntityRenderer<Slice> {
     }
 
     const countdownSeconds = Math.max((readyAt - now) / 1000, 0);
-    const workLeftSeconds = windowed
-      ? Math.max(
-          ((timing.baseDurationMs as number) -
-            workAccruedAt({
-              startedAt: timing.startedAt,
-              at: now,
-              windows: timing.windows,
-            })) /
-            1000,
-          0,
-        )
-      : countdownSeconds;
-
+    // Fill is measured in WORK, with any banked work folded into both sides
+    // [FertilePlot.tsx growPercentage].
+    const workDoneMs = workAccruedAt({
+      startedAt: timing.startedAt,
+      at: now,
+      windows: timing.windows,
+    });
     const percentage = Math.min(
-      Math.max(100 - (workLeftSeconds / timing.harvestSeconds) * 100, 0),
+      Math.max(
+        ((timing.bankedMs + workDoneMs) /
+          (timing.baseDurationMs + timing.bankedMs)) *
+          100,
+        0,
+      ),
       100,
     );
     objects.bar.set(percentage, countdownSeconds);
@@ -544,6 +594,10 @@ export class CropRenderer extends EntityRenderer<Slice> {
 
   /** Tick the visible progress bars once a second. */
   update(_time: number, delta: number) {
+    if (this.tutorialDirty) {
+      this.tutorialDirty = false;
+      this.syncTutorialIcons();
+    }
     if (!this.secondElapsed(delta)) return;
     for (const objects of this.plots.values()) {
       this.updateBar(objects);
@@ -670,6 +724,7 @@ export class CropRenderer extends EntityRenderer<Slice> {
         cropId: uuidv4().slice(0, 8),
       });
       playSound("plant");
+      this.puff(id, "soil");
 
       const planted =
         newState.context.state.farmActivity?.["Sunflower Planted"] ?? 0;
@@ -678,10 +733,11 @@ export class CropRenderer extends EntityRenderer<Slice> {
           event: "Tutorial:SunflowerPlanted:Completed",
         });
       }
+      // [Plot.tsx] with the first field replanted, the blacksmith offers a
+      // scarecrow. Keyed on the exact planting so it only ever fires once.
       if (
-        planted >= 3 &&
-        seed === "Sunflower Seed" &&
-        !newState.context.state.inventory["Sunflower Seed"]?.gt(0) &&
+        newState.context.state.island.type === "basic" &&
+        getTotalCropsPlanted(newState.context.state) === TUTORIAL_PLOT_COUNT &&
         !newState.context.state.inventory["Basic Scarecrow"]
       ) {
         this.bridge.openModal("BLACKSMITH");
@@ -692,6 +748,24 @@ export class CropRenderer extends EntityRenderer<Slice> {
     if (readyToHarvest) {
       this.harvestCrop(id);
     }
+  }
+
+  /** A few chips off the plot: soil when planting, leaves when harvesting. */
+  private puff(id: string, material: ChipMaterial) {
+    if (!this.bridge.ui.get().showAnimations) return;
+    const plot = this.gameState().crops[id];
+    if (!plot) return;
+    const world = gridToWorld({ x: plot.x ?? 0, y: plot.y ?? 0 });
+    burst(this.scene, {
+      x: world.x + WORLD_TILE / 2,
+      y: world.y + WORLD_TILE / 2 - 2,
+      material,
+      depth: DEPTHS.ENTITY_BASE + world.y + WORLD_TILE + 4,
+      count: 5,
+      spread: 7,
+      lift: 7,
+      durationMs: 320,
+    });
   }
 
   /** Port of Plot.tsx's harvestCrop. */
@@ -705,6 +779,7 @@ export class CropRenderer extends EntityRenderer<Slice> {
     const counter = game.farmActivity[`${crop.name} Harvested`] ?? 0;
     const newState = this.bridge.dispatch("crop.harvested", { index: id });
     playSound("harvest");
+    this.puff(id, "leaf");
 
     const amount =
       crop.amount ??
@@ -726,6 +801,28 @@ export class CropRenderer extends EntityRenderer<Slice> {
       gameAnalytics.trackMilestone({
         event: "Tutorial:SunflowerHarvested:Completed",
       });
+    }
+
+    // [Plot.tsx] once the last of the first Sunflowers is in, Betty sends the
+    // player off to deliver them.
+    if (
+      crop.name === "Sunflower" &&
+      newState.context.state.island.type === "basic" &&
+      (newState.context.state.farmActivity?.["Sunflower Harvested"] ?? 0) ===
+        TUTORIAL_PLOT_COUNT
+    ) {
+      this.bridge.openModal("FIRST_DELIVERY");
+    }
+
+    // [Plot.tsx] the last of the first Rhubarb is Bruce's cue. `game` is the
+    // state before the harvest, so it fires exactly once.
+    if (
+      crop.name === "Rhubarb" &&
+      isHarvestingFirstRhubarb(game) &&
+      (newState.context.state.farmActivity?.["Rhubarb Harvested"] ?? 0) >=
+        TUTORIAL_RHUBARB_COUNT
+    ) {
+      this.bridge.openModal("FIREPIT");
     }
 
     if (showAnimations) {

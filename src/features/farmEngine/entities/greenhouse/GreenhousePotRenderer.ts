@@ -7,6 +7,7 @@ import {
   GREENHOUSE_EMPTY_POT,
 } from "features/greenhouse/GreenhousePot";
 import { getGreenhouseReadyAt } from "features/game/events/landExpansion/greenhouseReadiness";
+import { GREENHOUSE_CROP_TIME_SECONDS } from "features/game/lib/greenhouseGrowTimes";
 import {
   getGreenhouseBoostWindows,
   getGreenhouseGlowWindows,
@@ -73,6 +74,8 @@ type PotObjects = {
   bar?: ProgressBarSprite;
   fertiliser?: Phaser.GameObjects.Image;
   fertiliserName?: string;
+  /** The "nothing planted" ! over an empty pot [GreenhousePot.tsx]. */
+  alert?: Phaser.GameObjects.Image;
 };
 
 export class GreenhousePotRenderer extends EntityRenderer<Slice> {
@@ -103,6 +106,7 @@ export class GreenhousePotRenderer extends EntityRenderer<Slice> {
     queueImage(this.scene, SUNNYSIDE.ui.emptyBar);
     queueImage(this.scene, powerup);
     queueImage(this.scene, SUNNY.icons.stopwatch);
+    queueImage(this.scene, SUNNYSIDE.icons.expression_alerted);
     LabelChip.queueAssets(this.scene);
     for (const pot of Object.values(slice.pots)) {
       const name = pot?.plant?.name;
@@ -161,8 +165,11 @@ export class GreenhousePotRenderer extends EntityRenderer<Slice> {
       objects.art.setScale(1);
       objects.art.setX(x + (POT_WIDTH - objects.art.width) / 2);
       this.clearExtras(objects);
+      this.syncEmptyAlert(objects, x, bottom, depth);
       return;
     }
+    objects.alert?.destroy();
+    objects.alert = undefined;
 
     const windows = [
       ...getGreenhouseBoostWindows(game, plant.name),
@@ -172,9 +179,13 @@ export class GreenhousePotRenderer extends EntityRenderer<Slice> {
     const reading = readNodeTimer(
       {
         startedAt: plant.plantedAt,
-        baseDurationMs: plant.baseDurationMs,
+        // [GreenhousePot.tsx] a plant with no marker reads as its raw grow
+        // time; work banked across Greenhouse moves is folded into the fill.
+        baseDurationMs:
+          plant.baseDurationMs ??
+          GREENHOUSE_CROP_TIME_SECONDS[plant.name] * 1000,
+        bankedMs: plant.boostedTime ?? 0,
         windows,
-        legacyReadyAt: readyAt,
       },
       Date.now(),
     );
@@ -199,7 +210,7 @@ export class GreenhousePotRenderer extends EntityRenderer<Slice> {
     }
 
     const now = Date.now();
-    const secondsLeft = Math.max(Math.ceil((reading.readyAt - now) / 1000), 0);
+    const secondsLeft = Math.max(Math.ceil((readyAt - now) / 1000), 0);
 
     // [GreenhousePot.tsx] bar at (left 6.5, bottom 2.5), 15 wide.
     if (this.bridge.ui.get().showTimers && secondsLeft > 0) {
@@ -323,6 +334,28 @@ export class GreenhousePotRenderer extends EntityRenderer<Slice> {
     objects.fertiliser.setDepth(depth + 2);
   }
 
+  /**
+   * [GreenhousePot.tsx] nothing planted: the same ! the Greenhouse shows on
+   * the farm — 4px wide, centred, top -10 of the 28px-wide pot box.
+   */
+  private syncEmptyAlert(
+    objects: PotObjects,
+    x: number,
+    bottom: number,
+    depth: number,
+  ) {
+    const texture = SUNNYSIDE.icons.expression_alerted;
+    if (!objects.alert) {
+      if (!this.scene.textures.exists(texture)) return;
+      objects.alert = this.scene.add.image(0, 0, texture).setOrigin(0, 0);
+      objects.alert.setScale(4 / objects.alert.width);
+    }
+    // The DOM box is as tall as the empty pot drawn 28 wide.
+    const potHeight = (POT_WIDTH * objects.art.height) / objects.art.width;
+    objects.alert.setPosition(x + POT_WIDTH / 2 - 2, bottom - potHeight - 10);
+    objects.alert.setDepth(depth + 2);
+  }
+
   /** Transient chip over a pot (oil warning / time remaining), 2s. */
   private showPotLabel(id: number, text: string, type: LabelChipType) {
     const { x, bottom } = this.potOrigin(id);
@@ -354,6 +387,7 @@ export class GreenhousePotRenderer extends EntityRenderer<Slice> {
       objects.art.destroy();
       objects.zone.destroy();
       objects.fertiliser?.destroy();
+      objects.alert?.destroy();
       this.clearExtras(objects);
       this.bridge.anchors.removeAnchor(`greenhouse-pot-${id}`);
     });

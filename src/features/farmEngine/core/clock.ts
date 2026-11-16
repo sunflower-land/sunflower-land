@@ -10,20 +10,32 @@ import {
  * renderers know when a node crosses an art threshold, without per-entity
  * intervals: one pass per second over cheap precomputed boundaries.
  *
- * Mirrors useNodeTimer's two timing models: speed-rate when baseDurationMs is
- * present (readyAt derived live from boost windows), legacy back-dated
- * readyAt otherwise. The read path keys off the marker, not the flag, exactly
- * like the hook.
+ * Mirrors useNodeTimer: readyAt is derived live from the boost windows over
+ * the task's baseDurationMs. A node with no stored marker passes its raw base
+ * duration; only a task with no work model at all counts down to
+ * fallbackReadyAt instead.
  */
 export type NodeTimerSpec = {
   /** When the task began — plantedAt / choppedAt / minedAt / drilledAt. */
   startedAt: number;
-  /** Present only on speed-rate nodes; absence selects legacy timing. */
+  /**
+   * The task's un-boosted work. Absent only for a task with no work model,
+   * which counts down to fallbackReadyAt [useNodeTimer].
+   */
   baseDurationMs?: number;
-  /** The activity's live speed windows (speed-rate model only). */
+  /** The activity's live speed windows. */
   windows: BoostWindow[];
-  /** Ready time for a legacy node; defaults to startedAt [useNodeTimer]. */
-  legacyReadyAt?: number;
+  /**
+   * Ready time for a task with no baseDurationMs — only for tasks with no
+   * work model; defaults to startedAt [useNodeTimer].
+   */
+  fallbackReadyAt?: number;
+  /**
+   * Work banked before a landscaping lift (the node's boostedTime): already
+   * done, so it counts toward progress but not toward the remaining time
+   * [FertilePlot.tsx / FruitTree.tsx / FlowerBed.tsx / GreenhousePot.tsx].
+   */
+  bankedMs?: number;
   /**
    * Work-progress fractions at which onStage must fire, e.g. crop art stages
    * [0.25, 0.5, 1]. Completion (progress 1) always fires even if omitted.
@@ -44,20 +56,26 @@ export const readNodeTimer = (
   now: number,
 ): NodeTimerReading => {
   const { startedAt, baseDurationMs, windows } = spec;
-  const legacyReadyAt = spec.legacyReadyAt ?? startedAt;
+  const fallbackReadyAt = spec.fallbackReadyAt ?? startedAt;
+  const bankedMs = spec.bankedMs ?? 0;
   const windowed = baseDurationMs !== undefined;
 
   const readyAt = windowed
     ? computeReadyAt({ startedAt, baseDurationMs, windows })
-    : legacyReadyAt;
+    : fallbackReadyAt;
 
-  const total = windowed ? baseDurationMs : legacyReadyAt - startedAt;
+  // Banked work is folded into both sides, so it moves the art thresholds
+  // without moving readyAt.
+  const total = windowed
+    ? baseDurationMs + bankedMs
+    : fallbackReadyAt - startedAt;
   const done = windowed
-    ? workAccruedAt({ startedAt, at: now, windows })
+    ? bankedMs + workAccruedAt({ startedAt, at: now, windows })
     : now - startedAt;
   const progress = total <= 0 ? 1 : Math.min(Math.max(done / total, 0), 1);
 
-  return { now, readyAt, progress, ready: now >= readyAt };
+  // Strictly past, like the hook's clock [useNow autoEndAt].
+  return { now, readyAt, progress, ready: now > readyAt };
 };
 
 type Entry = {

@@ -32,8 +32,9 @@ type FlowerBedNode = GameState["flowers"]["flowerBeds"][string];
 
 type BedTiming = {
   startedAt: number;
-  baseDurationMs?: number;
-  legacyReadyAt: number;
+  baseDurationMs: number;
+  /** Pre-lift banked work, folded into the fill [FlowerBed.tsx]. */
+  bankedMs: number;
   totalSeconds: number;
 };
 
@@ -85,29 +86,25 @@ export class FlowerBedRenderer extends ResourceNodeRenderer<FlowerBedNode> {
     const flower = node.flower;
     if (!flower) return null;
     const growSeconds = FLOWER_SEEDS[FLOWERS[flower.name].seed].plantSeconds;
-    const baseDurationMs = flower.baseDurationMs;
-    const totalSeconds =
-      baseDurationMs !== undefined
-        ? (baseDurationMs + (flower.boostedTime ?? 0)) / 1000
-        : growSeconds;
+    // [FlowerBed.tsx] a flower with no marker reads as its raw grow time.
+    const baseDurationMs = flower.baseDurationMs ?? growSeconds * 1000;
+    const bankedMs = flower.boostedTime ?? 0;
     return {
       startedAt: flower.plantedAt,
       baseDurationMs,
-      legacyReadyAt: flower.plantedAt + growSeconds * 1000,
-      totalSeconds,
+      bankedMs,
+      totalSeconds: (baseDurationMs + bankedMs) / 1000,
     };
   }
 
+  /** Remaining WORK — drives the growth stage and the fill. */
   private secondsLeft(timing: BedTiming, game: GameState, now: number) {
-    if (timing.baseDurationMs !== undefined) {
-      const done = workAccruedAt({
-        startedAt: timing.startedAt,
-        at: now,
-        windows: getFlowerBoostWindows(game),
-      });
-      return Math.max((timing.baseDurationMs - done) / 1000, 0);
-    }
-    return Math.max((timing.legacyReadyAt - now) / 1000, 0);
+    const done = workAccruedAt({
+      startedAt: timing.startedAt,
+      at: now,
+      windows: getFlowerBoostWindows(game),
+    });
+    return Math.max((timing.baseDurationMs - done) / 1000, 0);
   }
 
   protected renderNode(
@@ -170,8 +167,8 @@ export class FlowerBedRenderer extends ResourceNodeRenderer<FlowerBedNode> {
         {
           startedAt: timing.startedAt,
           baseDurationMs: timing.baseDurationMs,
+          bankedMs: timing.bankedMs,
           windows,
-          legacyReadyAt: timing.legacyReadyAt,
           stageFractions: [0.44, 0.66, 1],
         },
         () =>
@@ -218,14 +215,11 @@ export class FlowerBedRenderer extends ResourceNodeRenderer<FlowerBedNode> {
       timing.totalSeconds <= 0
         ? 100
         : Math.min(100 - (secondsLeft / timing.totalSeconds) * 100, 100);
-    const readyAt =
-      timing.baseDurationMs !== undefined
-        ? computeReadyAt({
-            startedAt: timing.startedAt,
-            baseDurationMs: timing.baseDurationMs,
-            windows: getFlowerBoostWindows(game),
-          })
-        : timing.legacyReadyAt;
+    const readyAt = computeReadyAt({
+      startedAt: timing.startedAt,
+      baseDurationMs: timing.baseDurationMs,
+      windows: getFlowerBoostWindows(game),
+    });
     const displaySeconds = node.flower.dirty
       ? 0
       : Math.max((readyAt - now) / 1000, 0);

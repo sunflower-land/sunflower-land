@@ -1,3 +1,4 @@
+import { INITIAL_FARM } from "../constants";
 import type { GameState } from "../../types/game";
 import { makeGame } from "../transforms";
 import { getLastTemperateSeasonStartedAt } from "../temperateSeason";
@@ -36,6 +37,9 @@ const fromExport = (raw: unknown): GameState => {
   const game = makeGame(raw);
   return {
     ...game,
+    // These captures predate the pigpen. The API hydrates a missing `pigpen`
+    // from INITIAL_FARM for real saves; do the same for the fixtures.
+    pigpen: game.pigpen ?? INITIAL_FARM.pigpen,
     tcsAcknowledged: Date.now(),
     season: {
       ...game.season,

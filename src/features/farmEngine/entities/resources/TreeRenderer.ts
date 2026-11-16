@@ -1,16 +1,17 @@
+import Phaser from "phaser";
 import { SUNNYSIDE } from "assets/sunnyside";
+import type { MachineState } from "features/game/lib/gameMachine";
 import type { GameState, InventoryItemName } from "features/game/types/game";
+import type { FarmActivityName } from "features/game/types/farmActivity";
 import { KNOWN_IDS } from "features/game/types";
-import { TREE_RECOVERY_TIME } from "features/game/lib/constants";
-import {
-  getTreeBoostWindows,
-  computeReadyAt,
-} from "features/game/lib/boostWindows";
 import {
   getRequiredAxeAmount,
+  getTreeReadyAt,
   getWoodDropAmount,
   getReward,
+  TUTORIAL_WOOD_NATIVE_BONUS,
 } from "features/game/events/landExpansion/chop";
+import { getTutorialNudge } from "features/island/lib/tutorialNudge";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { isSeasonedPlayer } from "features/game/lib/seasonedPlayer";
 import {
@@ -24,6 +25,7 @@ import { setPrecision } from "lib/utils/formatNumber";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { queueImage } from "../../core/assets";
+import { nativeScale } from "../../core/pixelArt";
 import { DEPTHS } from "../../core/depths";
 import { playSound } from "../../core/sounds";
 import { playYieldFloat } from "../../components/YieldFloat";
@@ -47,16 +49,85 @@ type TreeNode = GameState["trees"][string];
 
 const treeName = (node: TreeNode) => node.name ?? "Tree";
 
+/** [Tree.tsx activityCount] the per-tree-type counter behind the PRNG rolls. */
+const choppedCounter = (game: GameState, node: TreeNode) => {
+  const name = treeName(node);
+  const key =
+    `${name === "Tree" ? "Basic Tree" : name} Chopped` as FarmActivityName;
+  return game.farmActivity[key] ?? 0;
+};
+
+/**
+ * The node slice plus the narrow inputs of the tutorial chop helper
+ * [Tree.tsx showHelper]: the chop count for the first-three walk, and, on a
+ * basic island only, what getTutorialNudge reads. Off the tutorial they stay
+ * undefined so established farms never re-sync on them.
+ */
+type TreeSlice = NodeSlice<TreeNode> & {
+  treesChopped: number;
+  inventory?: GameState["inventory"];
+  farmActivity?: GameState["farmActivity"];
+  crops?: GameState["crops"];
+  experience?: number;
+  deliveriesFulfilled?: number;
+  expansionConstruction?: GameState["expansionConstruction"];
+};
+
+const HELPER_KEY = "helper";
+
 export class TreeRenderer extends ResourceNodeRenderer<TreeNode> {
   protected readonly rendererKey = "tree";
   protected readonly tileDims = { width: 2, height: 2 };
   protected readonly hoverKind = "tree" as const;
 
   private recoveryTimers = new Map<string, () => void>();
+  /** Farm-wide helper inputs, resolved once per game state, not per tree. */
+  private helperCache:
+    | { game: GameState; treesChopped: number; chopNudge: boolean }
+    | undefined;
 
   protected selectNodes(game: GameState) {
     return game.trees;
   }
+
+  selector(state: MachineState): TreeSlice {
+    const game = state.context.state;
+    const treesChopped = game.farmActivity["Tree Chopped"] ?? 0;
+    const tutorialIsland = game.island.type === "basic";
+    return {
+      ...super.selector(state),
+      treesChopped,
+      inventory:
+        tutorialIsland || treesChopped < 3 ? game.inventory : undefined,
+      farmActivity: tutorialIsland ? game.farmActivity : undefined,
+      crops: tutorialIsland ? game.crops : undefined,
+      experience: tutorialIsland ? game.bumpkin.experience : undefined,
+      deliveriesFulfilled: tutorialIsland
+        ? game.delivery.fulfilledCount
+        : undefined,
+      expansionConstruction: tutorialIsland
+        ? game.expansionConstruction
+        : undefined,
+    };
+  }
+
+  equals = (a: NodeSlice<TreeNode>, b: NodeSlice<TreeNode>) => {
+    const prev = a as TreeSlice;
+    const next = b as TreeSlice;
+    return (
+      prev.nodes === next.nodes &&
+      prev.island === next.island &&
+      prev.season === next.season &&
+      prev.collectibles === next.collectibles &&
+      prev.treesChopped === next.treesChopped &&
+      prev.inventory === next.inventory &&
+      prev.farmActivity === next.farmActivity &&
+      prev.crops === next.crops &&
+      prev.experience === next.experience &&
+      prev.deliveriesFulfilled === next.deliveriesFulfilled &&
+      prev.expansionConstruction === next.expansionConstruction
+    );
+  };
 
   protected collectAssets(slice: NodeSlice<TreeNode>) {
     const biome = this.biomeOf(slice);
@@ -69,6 +140,7 @@ export class TreeRenderer extends ResourceNodeRenderer<TreeNode> {
     queueSheet(this.scene, this.choppedSheet(slice.season));
     queueImage(this.scene, SUNNYSIDE.ui.emptyBar);
     queueImage(this.scene, SUNNYSIDE.resource.wood); // chop yield float
+    queueImage(this.scene, SUNNYSIDE.icons.chop_icon); // tutorial helper
   }
 
   private biomeOf(slice: NodeSlice<TreeNode>) {
@@ -103,15 +175,85 @@ export class TreeRenderer extends ResourceNodeRenderer<TreeNode> {
     };
   }
 
+  /** Windowed recovery; a tree with no marker reads as the raw time. */
   private readyAt(node: TreeNode, game: GameState): number {
-    const { choppedAt, baseDurationMs } = node.wood;
-    return baseDurationMs !== undefined
-      ? computeReadyAt({
-          startedAt: choppedAt,
-          baseDurationMs,
-          windows: getTreeBoostWindows(game),
-        })
-      : choppedAt + TREE_RECOVERY_TIME * 1000;
+    return getTreeReadyAt(node, game);
+  }
+
+  /** Tool gate [Tree.tsx HasTool / chop.ts getRequiredAxeAmount]. */
+  private hasTool(game: GameState, id: string): boolean {
+    const { amount: required } = getRequiredAxeAmount(game.inventory, game, id);
+    return required.lte(0) || !!game.inventory.Axe?.gte(required);
+  }
+
+  /**
+   * [Tree.tsx showHelper] the first-three walk steps tree by tree; the
+   * post-delivery chop-trees nudge lights every standing tree.
+   */
+  private showHelper(id: string): boolean {
+    const game = this.game();
+    if (this.helperCache?.game !== game) {
+      this.helperCache = {
+        game,
+        treesChopped: game.farmActivity["Tree Chopped"] ?? 0,
+        chopNudge: getTutorialNudge(game) === "chop-trees",
+      };
+    }
+    const { treesChopped, chopNudge } = this.helperCache;
+    return (
+      this.hasTool(game, id) &&
+      ((treesChopped < 3 && treesChopped + 1 === Number(id)) || chopNudge)
+    );
+  }
+
+  /**
+   * [RecoveredTree.tsx] the pulsating chop icon: 18px, right -4, top -4 of
+   * the 2x2 box.
+   */
+  private syncHelper(
+    id: string,
+    objects: NodeObjects,
+    ctx: RenderContext,
+    recovered: boolean,
+  ) {
+    const texture = SUNNYSIDE.icons.chop_icon;
+    const existing = objects.extras.get(HELPER_KEY) as
+      | Phaser.GameObjects.Image
+      | undefined;
+    const wanted =
+      recovered && this.showHelper(id) && this.scene.textures.exists(texture);
+
+    if (!wanted) {
+      existing?.destroy();
+      objects.extras.delete(HELPER_KEY);
+      return;
+    }
+
+    const x = ctx.box.x + ctx.box.width + 4 - 18;
+    const y = ctx.box.y - 4;
+    if (existing) {
+      existing.setPosition(x, y).setDepth(ctx.depth + 2);
+      return;
+    }
+
+    const icon = this.scene.add
+      .image(x, y, texture)
+      .setOrigin(0, 0)
+      .setDepth(ctx.depth + 2);
+    nativeScale(icon, 18);
+    if (this.bridge.ui.get().showAnimations) {
+      this.scene.tweens.add({
+        targets: icon,
+        scale: icon.scale * 1.15,
+        duration: 500,
+        yoyo: true,
+        repeat: -1,
+      });
+      icon.once(Phaser.GameObjects.Events.DESTROY, () =>
+        this.scene.tweens.killTweensOf(icon),
+      );
+    }
+    objects.extras.set(HELPER_KEY, icon);
   }
 
   protected renderNode(
@@ -137,6 +279,8 @@ export class TreeRenderer extends ResourceNodeRenderer<TreeNode> {
     const readyAt = this.readyAt(node, game);
     const chopped = now <= readyAt;
     const name = treeName(node);
+
+    this.syncHelper(id, objects, ctx, !chopped);
 
     if (chopped) {
       objects.strike?.destroy();
@@ -201,15 +345,14 @@ export class TreeRenderer extends ResourceNodeRenderer<TreeNode> {
     if (now <= this.readyAt(node, game)) return; // stump — nothing to do
 
     // Tool gate [chop.ts getRequiredAxeAmount].
-    const { amount: required } = getRequiredAxeAmount(game.inventory, game, id);
-    const hasTool = required.lte(0) || !!game.inventory.Axe?.gte(required);
-    if (!hasTool) return;
+    if (!this.hasTool(game, id)) return;
 
     if (!isCollectibleBuilt({ name: "Foreman Beaver", game })) {
       this.bridge.selectItem("Axe");
     }
 
     playSound("chop");
+    this.impact(id, "wood");
     const instaChop = !!game.bumpkin?.skills["Insta-Chop"];
     const fire = instaChop || this.bumpTouch(id);
 
@@ -219,7 +362,7 @@ export class TreeRenderer extends ResourceNodeRenderer<TreeNode> {
     if (!fire) return;
 
     const name = treeName(node);
-    const counter = game.farmActivity["Tree Chopped"] ?? 0;
+    const counter = choppedCounter(game, node);
     const expectedReward =
       node.wood.reward ??
       getReward({
@@ -257,7 +400,7 @@ export class TreeRenderer extends ResourceNodeRenderer<TreeNode> {
     if (!node) return;
 
     const name = treeName(node);
-    const counter = game.farmActivity["Tree Chopped"] ?? 0;
+    const counter = choppedCounter(game, node);
     const woodAmount =
       node.wood.amount ??
       getWoodDropAmount({
@@ -274,6 +417,21 @@ export class TreeRenderer extends ResourceNodeRenderer<TreeNode> {
       item: "Axe",
     });
     playSound("tree_fall");
+    this.impact(id, "leaf", "break");
+
+    // [Tree.tsx] tutorial popups open as soon as the chop lands. The three
+    // starting trees are exactly the first expansion's cost.
+    const treesChopped =
+      newState.context.state.farmActivity["Tree Chopped"] ?? 0;
+    if (treesChopped === 3) {
+      this.bridge.openModal("EXPAND_LAND");
+    }
+    // The first scripted +1 wood is the cue to explain the native bonus.
+    const basicTreesChopped =
+      newState.context.state.farmActivity["Basic Tree Chopped"] ?? 0;
+    if (basicTreesChopped === TUTORIAL_WOOD_NATIVE_BONUS.indexOf(true) + 1) {
+      this.bridge.openModal("NATIVE_BONUS");
+    }
 
     const { showAnimations } = this.bridge.ui.get();
     if (showAnimations) {
@@ -296,7 +454,7 @@ export class TreeRenderer extends ResourceNodeRenderer<TreeNode> {
       });
     }
 
-    if (newState.context.state.farmActivity?.["Tree Chopped"] === 1) {
+    if (treesChopped === 1) {
       gameAnalytics.trackMilestone({
         event: "Tutorial:TreeChopped:Completed",
       });

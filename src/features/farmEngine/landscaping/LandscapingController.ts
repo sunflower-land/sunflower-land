@@ -113,6 +113,9 @@ export class LandscapingController {
   private dim: Phaser.GameObjects.Rectangle | undefined;
   private grid: Phaser.GameObjects.Graphics | undefined;
   private aoeOverlays: Phaser.GameObjects.GameObject[] = [];
+  /** Red tints over items the server refused in the last save. */
+  private conflictOverlays: Phaser.GameObjects.Rectangle[] = [];
+  private drawnConflicts: unknown;
   private gridRemoval = false;
 
   private ghost:
@@ -227,6 +230,7 @@ export class LandscapingController {
     // the machine (a throw mid-refresh used to be enough) the whole farm goes
     // click-dead while still panning, with no way back. Cheap, and self-heals.
     this.scene.landscapingActive = snapshot.active;
+    this.syncConflictOverlays(snapshot.active);
 
     if (snapshot.active !== previous.active) {
       if (snapshot.active) {
@@ -317,6 +321,39 @@ export class LandscapingController {
   }
 
   /**
+   * [MovableComponent isConflicting] items the server refused in the last
+   * landscaping save stay tinted red until the player edits again.
+   */
+  private syncConflictOverlays(active: boolean) {
+    const conflicts = active
+      ? this.bridge.select((state) => state.context.arrangementConflicts)
+      : undefined;
+    // The machine replaces the array when it changes; nothing to do otherwise.
+    if (conflicts === this.drawnConflicts) return;
+    this.drawnConflicts = conflicts;
+    this.conflictOverlays.forEach((overlay) => overlay.destroy());
+    this.conflictOverlays = [];
+    if (!conflicts?.length) return;
+
+    const game = this.bridge.select((state) => state.context.state);
+    const placements = this.placements(game);
+    for (const conflict of conflicts) {
+      const placement = placements.find(
+        (candidate) =>
+          candidate.id === conflict.id && candidate.name === conflict.name,
+      );
+      if (!placement) continue;
+      const box = gridRectToWorld(placement.coordinates, placement.dims);
+      this.conflictOverlays.push(
+        this.scene.add
+          .rectangle(box.x, box.y, box.width, box.height, GHOST_BAD, 0.5)
+          .setOrigin(0, 0)
+          .setDepth(DEPTHS.ALWAYS_ON_TOP + 90),
+      );
+    }
+  }
+
+  /**
    * [CollectibleCollection.tsx ScarecrowAOEOverlay] pulsing blue AOE boxes
    * under the three scarecrow-type placeables while landscaping — the same
    * getAOEExtent the gameplay gate uses, so the drawn area can't drift.
@@ -386,6 +423,9 @@ export class LandscapingController {
   private hideChrome() {
     this.aoeOverlays.forEach((object) => object.destroy());
     this.aoeOverlays = [];
+    this.conflictOverlays.forEach((overlay) => overlay.destroy());
+    this.conflictOverlays = [];
+    this.drawnConflicts = undefined;
     this.dim?.destroy();
     this.dim = undefined;
     this.grid?.destroy();
@@ -415,6 +455,7 @@ export class LandscapingController {
         season: game.season.season,
         henHouseLevel: game.henHouse.level,
         barnLevel: game.barn.level,
+        pigpenLevel: game.pigpen.level,
         waterWellLevel: game.waterWell.level,
         petHouseLevel: game.petHouse.level ?? 1,
         agingShedLevel: game.agingShed.level,
@@ -426,12 +467,16 @@ export class LandscapingController {
     if (staticSpec) {
       // Carry the FULL spec so the preview sits exactly where the renderer
       // will draw the real item — dropping the offsets made placements jump
-      // a pixel or two on drop. `centeredIn` folds into `left`.
+      // a pixel or two on drop. `centeredIn` / `centered` fold into `left`.
       const left =
         staticSpec.centeredIn !== undefined
           ? (staticSpec.left ?? 0) +
             (staticSpec.centeredIn - staticSpec.width) / 2
-          : staticSpec.left;
+          : staticSpec.centered
+            ? (placeableDimensions(name).width * WORLD_TILE -
+                staticSpec.width) /
+              2
+            : staticSpec.left;
       return {
         texture: staticSpec.art ?? ITEM_DETAILS[name as CollectibleName].image,
         width: staticSpec.width,
@@ -1097,6 +1142,12 @@ export class LandscapingController {
     if (placement.name === "FarmHand") {
       return !!game.farmHands.bumpkins?.[placement.id]?.flipped;
     }
+    if (placement.name === "Bud") {
+      return !!game.buds?.[Number(placement.id)]?.flipped;
+    }
+    if (placement.name === "Pet") {
+      return !!game.pets?.nfts?.[Number(placement.id)]?.flipped;
+    }
     return !!game.collectibles[placement.name as CollectibleName]?.find(
       (item) => item.id === placement.id,
     )?.flipped;
@@ -1138,10 +1189,13 @@ export class LandscapingController {
         x: box.x + pixelDelta.x,
         y: box.y - pixelDelta.y,
       },
+      // [MovableComponent isFlippable]
       hasFlip:
         placement.name in COLLECTIBLES_DIMENSIONS ||
         placement.name === "FarmHand" ||
-        placement.name === "Bumpkin",
+        placement.name === "Bumpkin" ||
+        placement.name === "Bud" ||
+        placement.name === "Pet",
       isFlipped: this.isFlipped(placement),
       canRemove: !!getRemoveAction(
         placement.name,

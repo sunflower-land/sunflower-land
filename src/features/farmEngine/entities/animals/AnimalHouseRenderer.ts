@@ -25,11 +25,18 @@ import {
   getBoostedFoodQuantity,
   getAnimalFavoriteFood,
   getAnimalLevel,
+  getAnimalShownLevel,
+  getClaimedExperience,
+  getNextClaimLevel,
+  getPendingClaims,
   getResourceDropAmount,
   isMaxLevel,
   resolveAnimal,
 } from "features/game/lib/animals";
-import { REQUIRED_FOOD_QTY } from "features/game/events/landExpansion/feedAnimal";
+import {
+  getFeedBatchSize,
+  REQUIRED_FOOD_QTY,
+} from "features/game/events/landExpansion/feedAnimal";
 import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
 import { ANIMAL_REQUEST_IMAGES } from "features/game/expansion/components/animals/RequestBubble";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -51,7 +58,12 @@ import { RequestBubbleSprite } from "../../components/RequestBubbleSprite";
 import { playYieldFloat } from "../../components/YieldFloat";
 import { outlinedText } from "../../components/outlinedText";
 import { pixelText } from "../../components/pixelText";
-import { AnimalInteraction, type AnimalBuildingKey } from "./animalInteraction";
+import type { AnimalDealState } from "../../bridge/GameBridge";
+import {
+  AnimalInteraction,
+  animalSaleAnchorId,
+  type AnimalBuildingKey,
+} from "./animalInteraction";
 
 /**
  * The animals inside the barn and hen house [barn/BarnInside.tsx +
@@ -209,9 +221,22 @@ type AnimalObjects = {
   barFill2?: Phaser.GameObjects.Rectangle;
   levelText?: Phaser.GameObjects.Text;
   sparkle?: Phaser.GameObjects.Sprite;
-  /** Visual state last synced, for bulk-claim detection. */
-  lastState?: AnimalVisualState;
+  /** What was last synced, for bulk-claim detection [Cow.tsx lastSynced]. */
+  last?: {
+    visual: AnimalVisualState;
+    state: Animal["state"];
+    experience: number;
+    claimedExperience?: number;
+  };
+  /** The 1s info message currently over the animal. */
+  message?: Phaser.GameObjects.Container;
+  /** Anchor the React PendingSaleTag hangs off while marked for bulk sale. */
+  saleAnchor?: string;
 };
+
+/** [BarnInside.tsx isPendingSale] marked for a bounty in bulk sell mode. */
+const isPendingSale = (sale: AnimalDealState, id: string) =>
+  Object.values(sale?.pending ?? {}).includes(id);
 
 export class AnimalHouseRenderer extends EntityRenderer<Slice> {
   private animals = new Map<string, AnimalObjects>();
@@ -222,6 +247,8 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
     { state: "happy" | "sad"; until: number }
   >();
   private unsubscribeDeal?: () => void;
+  /** The room order, recomputed only when herd membership changes. */
+  private sortedIds?: { key: string; ids: string[] };
 
   private get buildingKey(): AnimalBuildingKey {
     return this.scene.location === "barn" ? "barn" : "henHouse";
@@ -256,13 +283,29 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
     const perRow = Math.max(1, Math.floor(bounds.width / cellTiles.width));
     const verticalGap = 0.5;
 
-    const sorted = getKeys(slice.animals)
+    // [BarnInside.tsx sortedAnimalIds] positions must not move while the
+    // player is in the room, so the order is recomputed only when the herd's
+    // MEMBERSHIP changes — never when an animal's experience does. Keyed on
+    // the id list, so selling one animal and buying another cannot leave a
+    // stale id behind.
+    const key = getKeys(slice.animals).sort().join(",");
+    if (this.sortedIds?.key !== key) {
+      this.sortedIds = {
+        key,
+        ids: getKeys(slice.animals)
+          .map((id) => slice.animals[id])
+          .sort((a, b) =>
+            a.type === b.type
+              ? b.experience - a.experience
+              : a.type.localeCompare(b.type),
+          )
+          .map((animal) => animal.id),
+      };
+    }
+    // The order is fixed, the records are fresh.
+    const sorted = this.sortedIds.ids
       .map((id) => slice.animals[id])
-      .sort((a, b) =>
-        a.type === b.type
-          ? b.experience - a.experience
-          : a.type.localeCompare(b.type),
-      );
+      .filter(Boolean);
 
     const floor = gridToWorld({ x: bounds.x, y: bounds.y });
     return sorted.map((animal, index) => {
@@ -277,8 +320,10 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
   }
 
   /**
-   * [animalMachine `initial`] the visual state, in the machine's priority
-   * order, plus the transient post-feed reaction.
+   * [animalMachine] the visual state, in the machine's priority order, plus
+   * the transient post-feed reaction. An asleep animal that can be petted is
+   * "needsLove" whatever its `state` — a banked animal stays `ready` while it
+   * sleeps and the machine's sleeping state still moves it to needsLove.
    */
   private stateOf(animal: Animal): AnimalVisualState {
     const reaction = this.reactions.get(animal.id);
@@ -288,9 +333,9 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
     const needsLove =
       getNextLoveAvailableAt(animal, animal.awakeAt) < Date.now();
 
+    if (sleeping && needsLove) return "needsLove";
     if (animal.state === "ready" && sleeping) return "sleeping";
     if (animal.state === "ready") return "ready";
-    if (sleeping && needsLove) return "needsLove";
     if (sleeping) return "sleeping";
     if (animal.state === "sick") return "sick";
     return "idle";
@@ -321,11 +366,17 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
       const animal = resolveAnimal(stored, game);
       const request = this.requestFor(animal, game);
       if (request) queueImage(this.scene, ITEM_DETAILS[request].image);
-      const level = getAnimalLevel(animal.experience, animal.type);
-      const drops = ANIMAL_RESOURCE_DROP[animal.type][level as AnimalLevel];
-      Object.keys(drops ?? {}).forEach((item) =>
-        queueImage(this.scene, ITEM_DETAILS[item as InventoryItemName].image),
-      );
+      // The levels a drop animation can show: the next click-claim's, and
+      // the one a bulk claim just paid [Cow.tsx dropsLevel].
+      for (const level of [
+        getNextClaimLevel(animal),
+        getAnimalLevel(getClaimedExperience(animal), animal.type),
+      ]) {
+        const drops = ANIMAL_RESOURCE_DROP[animal.type][level];
+        Object.keys(drops ?? {}).forEach((item) =>
+          queueImage(this.scene, ITEM_DETAILS[item as InventoryItemName].image),
+        );
+      }
     }
     await runLoader(this.scene);
     if (this.isStale(token)) return;
@@ -341,11 +392,11 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
       this.animals.delete(id);
     }
 
-    const deal = this.bridge.animalDeal.get();
+    const sale = this.bridge.animalDeal.get();
     for (const { animal, x, y } of placed) {
       // Stored awakeAt goes stale under live boost windows [Cow.tsx
       // resolveAnimal] — resolve before any state/time reads.
-      this.syncAnimal(resolveAnimal(animal, game), x, y, game, !!deal);
+      this.syncAnimal(resolveAnimal(animal, game), x, y, game, sale);
     }
   }
 
@@ -361,7 +412,8 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
     });
     const locked = !isAnimalFeedable(this.buildingKey, game, animal.id);
 
-    if (state === "sick") return "Barn Delight";
+    // [Cow.tsx `sick`] a sick animal asks for medicine even while asleep.
+    if (state === "sick" || animal.state === "sick") return "Barn Delight";
     if (state === "needsLove" && !golden) return animal.item;
     if (
       state === "idle" &&
@@ -378,18 +430,54 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
     x: number,
     y: number,
     game: GameState,
-    dealActive: boolean,
+    sale: AnimalDealState,
   ) {
     const id = animal.id;
+    const deal = sale?.deal;
+    const dealActive = !!deal;
     const state = this.stateOf(animal);
     const locked = !isAnimalFeedable(this.buildingKey, game, id);
     const animating = this.interaction?.isAnimating(id) ?? false;
 
     // Bulk operations (Feed All) claim without a click — play the same drop
-    // animation the DOM does when ready flips to asleep underneath us.
+    // animation the DOM does [Cow.tsx lastSynced effect].
     const objects0 = this.animals.get(id);
-    if (objects0?.lastState === "ready" && state === "sleeping" && !animating) {
-      this.playDropsVisual(id);
+    const prev = objects0?.last;
+    if (
+      prev &&
+      (prev.state !== animal.state ||
+        prev.experience !== animal.experience ||
+        prev.claimedExperience !== animal.claimedExperience)
+    ) {
+      const asleep = animal.awakeAt > Date.now();
+      // A banked claim leaves the animal ready (asleep until its next
+      // claim), so the claimed mark moving on is what shows a claim happened.
+      // A mark that was unset (an animal from before banking) is set by its
+      // first feed, which is not a claim.
+      const claimed =
+        prev.visual === "ready" &&
+        (animal.state === "idle" ||
+          (animal.state === "ready" &&
+            prev.claimedExperience !== undefined &&
+            prev.claimedExperience !== animal.claimedExperience));
+      // Bulk feeding can level an animal to ready and claim its produce in
+      // the same event.
+      const fedAndClaimed =
+        (prev.visual === "idle" ||
+          prev.visual === "happy" ||
+          prev.visual === "sad") &&
+        (animal.state === "idle" || animal.state === "ready") &&
+        asleep;
+      // A click-claim already played its drops before dispatching — the DOM
+      // machine is asleep by the time this check runs, so it never replays.
+      const clicked = this.interaction?.consumeClickClaim(id) ?? false;
+      if ((claimed || fedAndClaimed) && !clicked && !animating) {
+        // Already claimed: the level just paid.
+        void this.playDropsVisual(
+          id,
+          getAnimalLevel(getClaimedExperience(animal), animal.type),
+        );
+      }
     }
 
     const artState =
@@ -417,7 +505,12 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
       objects = { container, zone };
       this.animals.set(id, objects);
     }
-    objects.lastState = state;
+    objects.last = {
+      visual: state,
+      state: animal.state,
+      experience: animal.experience,
+      claimedExperience: animal.claimedExperience,
+    };
 
     const depth = DEPTHS.ENTITY_BASE + y;
     objects.container.setPosition(x, y);
@@ -454,10 +547,26 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
     artObject.setPosition(CELL / 2 + 0.4, CELL / 2 + 0.8);
 
     // Deal mode [BarnInside.tsx]: invalid animals dim to 50% and are inert.
-    const validForDeal = dealActive
-      ? isValidDeal({ animal, deal: this.bridge.animalDeal.get()!.deal, game })
-      : true;
+    // An animal already marked for another bounty can't be picked again.
+    const pendingSale = isPendingSale(sale, id);
+    const validForDeal =
+      !!deal && !pendingSale && isValidDeal({ animal, deal, game });
     objects.container.setAlpha(dealActive && !validForDeal ? 0.5 : 1);
+
+    // [BarnInside.tsx PendingSaleTag] the tag itself is a React Label
+    // (overlay/AnimalHouseUI.tsx) anchored to the marked animal's cell.
+    if (pendingSale) {
+      objects.saleAnchor = animalSaleAnchorId(id);
+      this.bridge.anchors.setAnchor(objects.saleAnchor, {
+        x,
+        y,
+        width: CELL,
+        height: CELL,
+      });
+    } else if (objects.saleAnchor) {
+      this.bridge.anchors.removeAnchor(objects.saleAnchor);
+      objects.saleAnchor = undefined;
+    }
 
     // Emotion badge, offset from the inner div's top-right [Cow.tsx
     // ANIMAL_EMOTION_ICONS / Chicken.tsx CHICKEN_EMOTION_ICONS].
@@ -465,7 +574,8 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
     const emotion =
       emotionState === "idle" ||
       emotionState === "needsLove" ||
-      emotionState === "sick"
+      emotionState === "sick" ||
+      animal.state === "sick"
         ? undefined
         : EMOTION_ICONS[this.buildingKey][emotionState];
     if (emotion && this.scene.textures.exists(emotion.icon)) {
@@ -521,7 +631,8 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
     }
 
     // Request bubble [RequestBubble.tsx] at (left 23, top 1); quantity only
-    // for a hungry animal without golden cover.
+    // for a hungry animal without golden cover — the whole batch one click
+    // feeds [Cow.tsx requiredFoodQty].
     const request = dealActive ? undefined : this.requestFor(animal, game);
     const golden = isAnimalCoveredByGoldenAsset({
       state: game,
@@ -535,7 +646,9 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
             game,
             animal,
             now: Date.now(),
-          }).foodQuantity.toNumber()
+          })
+            .foodQuantity.mul(getFeedBatchSize({ state: game, animal }))
+            .toNumber()
         : undefined;
     const bubbleKey = request ? `${request}#${quantity ?? ""}` : undefined;
     if (bubbleKey !== objects.bubbleKey) {
@@ -583,9 +696,10 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
   }
 
   /**
-   * [LevelProgress.tsx] the XP bar + level number under the animal. The bar
-   * shows progress into the current level (100% when ready); a ready animal
-   * displays the previous level until it wakes.
+   * [LevelProgress.tsx] the XP bar + level number under the animal. An animal
+   * levels up as its produce is claimed: one with a claim waiting shows the
+   * level before that claim, a banked one climbs one level per claim, and the
+   * bar stays full until every banked claim is paid.
    */
   private syncLevelProgress(
     objects: AnimalObjects,
@@ -593,13 +707,10 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
     state: AnimalVisualState,
   ) {
     const level = getAnimalLevel(animal.experience, animal.type);
-    const displayLevel =
-      animal.state === "ready" && !isMaxLevel(animal.type, level)
-        ? level - 1
-        : level;
+    const displayLevel = getAnimalShownLevel(animal);
 
     const percentage = (() => {
-      if (state === "ready") return 100;
+      if (state === "ready" || getPendingClaims(animal) > 0) return 100;
       if (isMaxLevel(animal.type, level)) {
         const maxLevel = (getKeys(ANIMAL_LEVELS[animal.type]).length -
           1) as AnimalLevel;
@@ -688,17 +799,38 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
     );
   }
 
-  /** Clicks: bounty-deal selection when a deal is active, else the tree. */
+  /**
+   * Clicks [BarnInside.tsx animal wrapper onClick]: bounty selection while a
+   * deal or the quick-sell panel is live, else the tree. React decides what a
+   * reported click does (confirm, mark, unmark) from `clickedId`.
+   */
   private onAnimalClick(id: string) {
-    const deal = this.bridge.animalDeal.get();
-    if (deal) {
-      const game = this.bridge.select((state) => state.context.state);
-      const animal = game[this.buildingKey].animals[id];
-      if (!animal || !isValidDeal({ animal, deal: deal.deal, game })) return;
-      this.bridge.animalDeal.set({ ...deal, selectedId: id });
+    const sale = this.bridge.animalDeal.get();
+    if (!sale) {
+      void this.interaction?.onClick(id);
       return;
     }
-    void this.interaction?.onClick(id);
+
+    const pendingSale = isPendingSale(sale, id);
+    // Bulk mode: clicking a marked animal removes its mark.
+    if (!sale.deal && pendingSale) {
+      this.bridge.animalDeal.set({ ...sale, clickedId: id });
+      return;
+    }
+    if (sale.deal) {
+      const game = this.bridge.select((state) => state.context.state);
+      const animal = game[this.buildingKey].animals[id];
+      if (
+        !animal ||
+        pendingSale ||
+        !isValidDeal({ animal, deal: sale.deal, game })
+      ) {
+        return;
+      }
+      this.bridge.animalDeal.set({ ...sale, clickedId: id });
+    }
+    // The sell panel with no bounty picked: animals are disabled [Cow.tsx
+    // `disabled`].
   }
 
   private ensureInteraction() {
@@ -721,7 +853,8 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
         });
       },
       showMessage: (id, message) => this.showMessage(id, message),
-      playDrops: (id) => this.playDropsVisual(id),
+      clearMessage: (id) => this.clearMessage(id),
+      playDrops: (id, level) => this.playDropsVisual(id, level),
       openDetails: (id) =>
         this.bridge.farmModal.open("animalDetails", {
           building: this.buildingKey,
@@ -744,6 +877,8 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
   private showMessage(id: string, message: string) {
     const objects = this.animals.get(id);
     if (!objects) return;
+    // One message per animal [Cow.tsx InfoPopover] — a newer one replaces it.
+    this.clearMessage(id);
     const label = pixelText(this.scene, 0, 0, message, {
       color: "#ffffff",
     }).setOrigin(0.5, 1);
@@ -765,21 +900,30 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
       [back, label],
     );
     group.setDepth(objects.container.depth + 6);
-    this.scene.time.delayedCall(1000, () => group.destroy());
+    objects.message = group;
+    this.scene.time.delayedCall(1000, () => {
+      if (objects.message === group) objects.message = undefined;
+      group.destroy();
+    });
+  }
+
+  private clearMessage(id: string) {
+    const objects = this.animals.get(id);
+    objects?.message?.destroy();
+    if (objects) objects.message = undefined;
   }
 
   /**
    * [ProduceDrops.tsx + Cow.tsx onReadyClick timing] the 1.4s drop
-   * animation: each drop item floats up staggered by 400ms.
+   * animation: each of `level`'s drop items floats up staggered by 400ms.
    */
-  private playDropsVisual(id: string): Promise<void> {
+  private playDropsVisual(id: string, level: AnimalLevel): Promise<void> {
     const objects = this.animals.get(id);
     const game = this.bridge.select((state) => state.context.state);
     const animal = game[this.buildingKey].animals[id];
     if (!objects || !animal) return Promise.resolve();
 
-    const level = getAnimalLevel(animal.experience, animal.type);
-    const drops = ANIMAL_RESOURCE_DROP[animal.type][level as AnimalLevel] ?? {};
+    const drops = ANIMAL_RESOURCE_DROP[animal.type][level] ?? {};
 
     Object.entries(drops).forEach(([item, amount], index) => {
       const { amount: boosted } = getResourceDropAmount({
@@ -841,6 +985,9 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
 
   private destroyAnimal(objects: AnimalObjects) {
     objects.bubble?.destroy();
+    objects.message?.destroy();
+    if (objects.saleAnchor)
+      this.bridge.anchors.removeAnchor(objects.saleAnchor);
     objects.container.destroy(); // children go with it
     objects.zone.destroy();
   }

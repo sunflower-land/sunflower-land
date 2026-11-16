@@ -1,3 +1,5 @@
+import hungerIcon from "assets/food/chicken_drumstick.png";
+import { RequestBubbleSprite } from "../../components/RequestBubbleSprite";
 import type Phaser from "phaser";
 import petEgg from "assets/icons/pet_nft_egg.png";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -13,6 +15,7 @@ import {
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import {
   getPetImage,
+  isPetHungry,
   petImageDomain,
   PETS_STYLES,
   PET_STATE_IMAGES,
@@ -82,9 +85,16 @@ type Entry = {
   art?: ArtObject;
   sheet?: Phaser.GameObjects.Sprite;
   icon?: Phaser.GameObjects.Image;
+  /** [PetSprite.tsx] "not fed today" food bubble. */
+  hunger?: RequestBubbleSprite;
   discs?: Phaser.GameObjects.Image[];
   zone: Phaser.GameObjects.Zone;
 };
+
+/** [PetSprite.tsx] the drumstick renders 18 css px wide in the bubble. */
+const HUNGER_ICON_WIDTH = 18 / 2.625;
+/** Bubble width: 5 + 2 border slices, content pulled 3px into the tail. */
+const HUNGER_BUBBLE_WIDTH = 5 + 2 - 3 + HUNGER_ICON_WIDTH;
 
 export class PetRenderer extends EntityRenderer<Slice> {
   private entries = new Map<string, Entry>();
@@ -148,6 +158,8 @@ export class PetRenderer extends EntityRenderer<Slice> {
     queueImage(this.scene, petEgg);
     queueImage(this.scene, SUNNYSIDE.icons.expression_stress);
     queueImage(this.scene, SUNNYSIDE.icons.sleeping);
+    queueImage(this.scene, hungerIcon);
+    RequestBubbleSprite.queueAssets(this.scene);
     queueHelpDiscAssets(this.scene);
     for (const [id] of nfts) {
       const numeric = Number(id);
@@ -234,6 +246,8 @@ export class PetRenderer extends EntityRenderer<Slice> {
       entry.sheet.setVisible(true);
       entry.sheet.setPosition(spriteX, spriteY);
       entry.sheet.setDepth(depth);
+      // [PetSprite.tsx] scaleX(-1) when flipped in landscaping.
+      entry.sheet.setFlipX(!!pet.flipped);
     } else {
       const texture = revealed ? getPetImage("asleep", numeric) : petEgg;
       entry.art = resolveArtObject(this.scene, entry.art, texture);
@@ -243,6 +257,7 @@ export class PetRenderer extends EntityRenderer<Slice> {
       entry.art.setScale(NFT_FRAME / entry.art.width);
       entry.art.setPosition(spriteX, spriteY);
       entry.art.setDepth(depth);
+      entry.art.setFlipX(!!pet.flipped);
     }
 
     this.refreshIcon(entry, {
@@ -252,6 +267,13 @@ export class PetRenderer extends EntityRenderer<Slice> {
       y: spriteY - NFT_FRAME,
       positions: pet.traits ? NFT_ICON_POSITIONS[pet.traits.type] : undefined,
       depth: depth + 1,
+      mirrorIn: pet.flipped ? NFT_FRAME : undefined,
+    });
+    this.refreshHunger(entry, {
+      hungry: !asleep && isPetHungry(pet, now),
+      centreX: spriteX + NFT_FRAME / 2,
+      top: spriteY - NFT_FRAME,
+      depth: depth + 2,
     });
     this.refreshHelpDisc(entry, box, depth, !pet.visitedAt);
   }
@@ -321,6 +343,12 @@ export class PetRenderer extends EntityRenderer<Slice> {
       positions: undefined, // commons: -8 css px both axes
       depth: depth + 1,
     });
+    this.refreshHunger(entry, {
+      hungry: !!pet && !asleep && isPetHungry(pet, now),
+      centreX: artX + (style?.width ?? 16) / 2,
+      top: artY,
+      depth: depth + 2,
+    });
     this.refreshHelpDisc(entry, box, depth, !pet?.visitedAt);
   }
 
@@ -336,6 +364,11 @@ export class PetRenderer extends EntityRenderer<Slice> {
         neglected: { top: number; left: number };
       };
       depth: number;
+      /**
+       * Width of the pet's box when it is flipped: the icon mirrors with the
+       * pet so it stays by its head [PetSprite.tsx].
+       */
+      mirrorIn?: number;
     },
   ) {
     entry.icon?.destroy();
@@ -353,9 +386,13 @@ export class PetRenderer extends EntityRenderer<Slice> {
         ? options.positions.neglected
         : options.positions.nap
       : { top: -8, left: -8 };
+    const left = cssPos.left / 2.625;
     const icon = this.scene.add
       .image(
-        options.x + cssPos.left / 2.625,
+        options.x +
+          (options.mirrorIn !== undefined
+            ? options.mirrorIn - left - width
+            : left),
         options.y + cssPos.top / 2.625,
         texture,
       )
@@ -363,6 +400,31 @@ export class PetRenderer extends EntityRenderer<Slice> {
       .setDepth(options.depth);
     icon.setScale(width / icon.width);
     entry.icon = icon;
+  }
+
+  /**
+   * [PetSprite.tsx] a pet that hasn't been fed today asks with a food
+   * bubble, centred 11px above its box. Own farm only — the DOM's visiting
+   * pets never pass `isHungry`.
+   */
+  private refreshHunger(
+    entry: Entry,
+    options: { hungry: boolean; centreX: number; top: number; depth: number },
+  ) {
+    entry.hunger?.destroy();
+    entry.hunger = undefined;
+    if (!options.hungry) return;
+    const visiting = this.bridge.select(
+      (state) => state.context.visitorId !== undefined,
+    );
+    if (visiting) return;
+    entry.hunger = new RequestBubbleSprite(this.scene, {
+      x: options.centreX - HUNGER_BUBBLE_WIDTH / 2,
+      y: options.top - 11,
+      icon: hungerIcon,
+      iconWidth: HUNGER_ICON_WIDTH,
+      depth: options.depth,
+    });
   }
 
   private ensureEntry(
@@ -524,6 +586,7 @@ export class PetRenderer extends EntityRenderer<Slice> {
     entry.art?.destroy();
     entry.sheet?.destroy();
     entry.icon?.destroy();
+    entry.hunger?.destroy();
     entry.discs?.forEach((disc) => disc.destroy());
   }
 

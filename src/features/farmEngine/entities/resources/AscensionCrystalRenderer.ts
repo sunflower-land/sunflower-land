@@ -124,11 +124,14 @@ export class AscensionCrystalRenderer extends ResourceNodeRenderer<CrystalNode> 
 
     this.bridge.selectItem("Gold Pickaxe");
     playSound("mining");
+    this.impact(id, "crystal");
 
     const fire = this.bumpTouch(id);
     void this.sync(this.bridge.select((state) => this.selector(state)));
     if (!fire) return;
 
+    // Before the dispatch: mining deletes the node, and with it its box.
+    this.impact(id, "crystal", "break");
     this.bridge.dispatch("ascensionCrystal.mined", { index: id });
     playSound("mining_fall");
   }
