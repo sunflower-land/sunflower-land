@@ -21,6 +21,8 @@ import { getDirtTiles, type DirtSlice } from "./dirtTiles";
  * internal texel grid, so the seams can't happen.
  */
 export class DirtLayer extends EntityRenderer<DirtSlice> {
+  readonly gatesReveal = true;
+
   private surface: Phaser.GameObjects.RenderTexture | undefined;
 
   selector(state: MachineState): DirtSlice {

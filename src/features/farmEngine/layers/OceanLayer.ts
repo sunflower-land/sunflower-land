@@ -35,6 +35,8 @@ const getOceanTexture = ({ season, islandType }: OceanSlice): string => {
 };
 
 export class OceanLayer extends EntityRenderer<OceanSlice> {
+  readonly gatesReveal = true;
+
   private surface: Phaser.GameObjects.RenderTexture | undefined;
 
   selector(state: MachineState): OceanSlice {

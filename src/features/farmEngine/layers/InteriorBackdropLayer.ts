@@ -170,6 +170,8 @@ export function interiorRoomRect(
 }
 
 export class InteriorBackdropLayer extends EntityRenderer<Slice> {
+  readonly gatesReveal = true;
+
   private objects: Phaser.GameObjects.GameObject[] = [];
 
   selector(state: MachineState): Slice {

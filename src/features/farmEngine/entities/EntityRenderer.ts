@@ -58,6 +58,13 @@ export abstract class EntityRenderer<Slice> {
     return this.destroyed || token !== this.syncToken;
   }
 
+  /**
+   * True for the renderers that draw a surface's GROUND (ocean, land, dirt,
+   * a room's backdrop). The scene reveals as soon as these have drawn and
+   * lets everything else fade in as it arrives [FarmScene.revealWhenReady].
+   */
+  readonly gatesReveal: boolean = false;
+
   /** This renderer's slice, e.g. (state) => state.context.state.crops */
   abstract selector(state: MachineState): Slice;
 

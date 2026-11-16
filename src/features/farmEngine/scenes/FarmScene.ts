@@ -56,17 +56,29 @@ export const REVEAL_MS = 220;
 const LEAVE_MS = 140;
 
 /**
- * How long a surface waits, veiled, for ALL its first textures. Past this
- * the world shows without the stragglers (a CDN pet sheet, an outfit the
- * animation service is still composing), which appear as they land — one
- * slow file must not hold the whole farm hostage.
+ * The surface is revealed as soon as its GROUND is drawn (the renderers
+ * flagged `gatesReveal`: ocean, land, dirt, the room backdrop), not when
+ * everything on it has loaded. Whatever is still on its way fades in as it
+ * arrives [fadeArrivals].
+ *
+ * Waiting for every renderer made the cover's length the slowest file's:
+ * a real farm pulls pet, bud and collectible art from several CDNs, and
+ * one slow host held the whole screen for seconds over a world that was
+ * 95% drawn.
  */
+
+/**
+ * After the ground is in, wait this long for the rest. On a warm cache
+ * everything lands inside it and the farm appears complete in one dissolve;
+ * past it, the reveal goes ahead without the stragglers.
+ */
+const REVEAL_GRACE_MS = 300;
+/** If even the ground hasn't arrived by now, reveal regardless. */
 const REVEAL_CAP_MS = 5000;
-/** ...but only once this share of the renderers is in — a world that is
- * still mostly missing stays veiled rather than assembling in view. */
-const REVEAL_NEARLY_READY = 0.9;
-/** Whatever is missing, never hold the veil longer than this. */
-const REVEAL_HARD_CAP_MS = 15000;
+/** Fade for objects that arrive after the reveal. */
+const ARRIVAL_FADE_MS = 200;
+/** Stop fading arrivals after this long, whatever is still outstanding. */
+const ARRIVAL_WINDOW_MS = 20000;
 
 export class FarmScene extends Phaser.Scene {
   readonly farmCamera: FarmCameraController;
@@ -100,6 +112,7 @@ export class FarmScene extends Phaser.Scene {
    */
   readonly revealed: Promise<void>;
   private resolveRevealed!: () => void;
+  private stopArrivals: (() => void) | undefined;
   private created = false;
   private tornDown = false;
   private leaving = false;
@@ -187,34 +200,48 @@ export class FarmScene extends Phaser.Scene {
         ),
       );
     }
-    // Reveal when everything has settled; or, past the soft cap, once only a
-    // straggler or two is outstanding; or at the hard cap regardless.
-    const total = this.renderers.length;
-    let settled = 0;
+    const everything = Promise.all(
+      this.renderers.map((renderer) => renderer.firstSync),
+    );
+    // Renderers that must be in before the surface is shown; if a surface
+    // flags none, everything gates.
+    const flagged = this.renderers.filter((renderer) => renderer.gatesReveal);
+    const gates = flagged.length ? flagged : this.renderers;
+
+    let allSettled = false;
+    let groundAt: number | undefined;
+    let gatesLeft = gates.length;
     let timer: ReturnType<typeof setTimeout> | undefined;
     await new Promise<void>((resolve) => {
       const startedAt = performance.now();
       const check = () => {
-        const elapsed = performance.now() - startedAt;
-        const nearlyThere = settled >= total * REVEAL_NEARLY_READY;
+        const now = performance.now();
         if (
           this.tornDown ||
-          settled === total ||
-          (elapsed >= REVEAL_CAP_MS && nearlyThere) ||
-          elapsed >= REVEAL_HARD_CAP_MS
+          allSettled ||
+          (groundAt !== undefined && now - groundAt >= REVEAL_GRACE_MS) ||
+          now - startedAt >= REVEAL_CAP_MS
         ) {
           resolve();
         }
       };
-      this.renderers.forEach((renderer) =>
+      gates.forEach((renderer) =>
         renderer.firstSync.then(() => {
-          settled += 1;
+          gatesLeft -= 1;
+          if (gatesLeft === 0) {
+            groundAt = performance.now();
+            performance.mark(`farm:ground-ready:${this.location}`);
+          }
           check();
         }),
       );
+      void everything.then(() => {
+        allSettled = true;
+        check();
+      });
       // Wall clock, not the scene clock: Phaser caps each frame's delta, so
       // under exactly the load this guards against scene time runs slow.
-      timer = setInterval(check, 250);
+      timer = setInterval(check, 50);
       check();
     });
     clearInterval(timer);
@@ -226,7 +253,68 @@ export class FarmScene extends Phaser.Scene {
       if (this.tornDown || this.leaving) return;
       this.cameras.main.fadeIn(REVEAL_MS, ...VEIL_RGB);
       this.resolveRevealed();
+      if (!allSettled) this.fadeArrivals(everything);
     });
+  }
+
+  /**
+   * Until the remaining first syncs settle, ease in whatever gets added to
+   * the scene instead of letting it pop onto a world already in view.
+   *
+   * Each new top-level object fades from 0 to the alpha its renderer gave
+   * it. The alpha is read at pre-render — after the renderer has finished
+   * setting the object up this tick — so a deliberately dimmed object (a
+   * building under construction) lands at its own alpha, not at 1.
+   */
+  private fadeArrivals(everything: Promise<unknown>) {
+    type Fadeable = Phaser.GameObjects.GameObject & {
+      alpha: number;
+      visible: boolean;
+      setAlpha(alpha: number): unknown;
+    };
+    const arrived: Phaser.GameObjects.GameObject[] = [];
+    const onAdded = (object: Phaser.GameObjects.GameObject) => {
+      arrived.push(object);
+    };
+    const flush = () => {
+      for (const object of arrived.splice(0)) {
+        const candidate = object as Partial<Fadeable> &
+          Phaser.GameObjects.GameObject;
+        if (
+          !candidate.active ||
+          candidate.parentContainer ||
+          candidate.type === "Zone" ||
+          typeof candidate.setAlpha !== "function" ||
+          !candidate.visible ||
+          !candidate.alpha
+        ) {
+          continue;
+        }
+        const target = candidate.alpha;
+        candidate.setAlpha(0);
+        this.tweens.add({
+          targets: candidate,
+          alpha: target,
+          duration: ARRIVAL_FADE_MS,
+          ease: "Sine.easeOut",
+        });
+      }
+    };
+    this.events.on(Phaser.Scenes.Events.ADDED_TO_SCENE, onAdded);
+    this.events.on(Phaser.Scenes.Events.PRE_RENDER, flush);
+
+    let stopped = false;
+    const stop = () => {
+      if (stopped) return;
+      stopped = true;
+      clearTimeout(windowTimer);
+      this.events.off(Phaser.Scenes.Events.ADDED_TO_SCENE, onAdded);
+      this.events.off(Phaser.Scenes.Events.PRE_RENDER, flush);
+      performance.mark(`farm:arrivals-done:${this.location}`);
+    };
+    const windowTimer = setTimeout(stop, ARRIVAL_WINDOW_MS);
+    void everything.then(stop);
+    this.stopArrivals = stop;
   }
 
   /**
@@ -265,6 +353,7 @@ export class FarmScene extends Phaser.Scene {
     this.tornDown = true;
     // Anything still awaiting the reveal (the boot cover) must not hang.
     this.resolveRevealed();
+    this.stopArrivals?.();
     // Stopped before create ran (unmounted mid-boot): nothing was built, and
     // saving the untouched camera would overwrite the player's real position.
     if (!this.created) return;

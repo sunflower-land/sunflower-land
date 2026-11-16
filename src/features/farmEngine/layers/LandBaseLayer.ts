@@ -20,6 +20,8 @@ type Slice = {
 };
 
 export class LandBaseLayer extends EntityRenderer<Slice> {
+  readonly gatesReveal = true;
+
   private sprite: Phaser.GameObjects.Image | undefined;
 
   selector(state: MachineState): Slice {

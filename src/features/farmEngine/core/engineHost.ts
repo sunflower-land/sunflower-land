@@ -76,10 +76,13 @@ function createHost(parent: HTMLElement): Host {
       roundPixels: true,
     },
     loader: {
-      // Phaser's default of 32 parallel loads lands decode + GPU-upload
-      // spikes all at once during the boot burst — enough to jetsam a
-      // mobile WebKit tab. Trickle instead.
-      maxParallelDownloads: IS_COARSE_POINTER ? 8 : 32,
+      // Boot is ~200 tiny image requests (median 21x21px), so it is bound by
+      // round trips, not bytes: the time is (requests / parallel) x latency.
+      // At 150ms latency a cap of 8 took 4.5s to fill the farm in; the whole
+      // set is 14MB of texture memory and ~20ms of GPU upload, so there is no
+      // decode spike to trickle. (The earlier mobile cap of 8 dated from
+      // multi-megabyte animation strips, which the converter now refuses.)
+      maxParallelDownloads: IS_COARSE_POINTER ? 32 : 64,
     },
     // CRITICAL: Phaser defaults to ALSO listening at window level, so clicks
     // on the HUD and modals would pan the camera and click plots through the
