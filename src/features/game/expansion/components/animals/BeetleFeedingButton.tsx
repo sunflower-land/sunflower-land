@@ -32,7 +32,7 @@ export const BeetleFeedingButton: React.FC<{
   showPicker: boolean;
   onShowPickerChange: (show: boolean) => void;
 }> = ({ beetle, onChange, showPicker, onShowPickerChange }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, shortcutItem } = useContext(Context);
   const { t } = useAppTranslation();
   const inventory = useSelector(gameService, _inventory);
 
@@ -86,6 +86,9 @@ export const BeetleFeedingButton: React.FC<{
                     onClick={() => {
                       onShowPickerChange(false);
                       onChange(name);
+                      // Hold the picked Beetle, so the HUD selection matches
+                      // the mode instead of a stale Slop or treat selection.
+                      shortcutItem(name);
                     }}
                   />
                   <span className="text-xxs">
