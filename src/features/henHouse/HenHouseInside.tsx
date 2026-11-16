@@ -295,7 +295,12 @@ export const HenHouseInside: React.FC = () => {
                       width: `${PIXEL_SCALE * 18}px`,
                       right: `${18 + PIXEL_SCALE * 19}px`,
                     }}
-                    onClick={() => setShowSellPanel(true)}
+                    onClick={() => {
+                      setShowSellPanel(true);
+                      // Selling interrupts feeding: end the mode so the hand
+                      // the button restores on unmount matches no active mode.
+                      setBeetleMode(undefined);
+                    }}
                   >
                     <img
                       className="block w-full"
