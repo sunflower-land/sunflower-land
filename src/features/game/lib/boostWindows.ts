@@ -897,10 +897,13 @@ function getCookingQueueAnchor(
  * finished packs keep a fixed `readyAt`, so an idle machine pins nothing.
  *
  * A cooking queue chains every recipe off the head's start (see
- * `getCookingQueueAnchor`).
+ * `getCookingQueueAnchor`). It only reads the cooking boosts, so it only holds
+ * back their history (`readsCooking`): a building can sit lifted for months,
+ * and an Ore Hourglass or a Sunshower can't change a recipe.
  */
 function getEarliestLedgerAnchor(
   game: GameState,
+  readsCooking: boolean,
   now: number,
 ): number | undefined {
   let earliest: number | undefined;
@@ -916,9 +919,11 @@ function getEarliestLedgerAnchor(
     pin(machine.oilSettledAt);
   }
 
-  for (const name of COOKING_BUILDINGS) {
-    for (const building of game.buildings?.[name] ?? []) {
-      pin(getCookingQueueAnchor(building, now));
+  if (readsCooking) {
+    for (const name of COOKING_BUILDINGS) {
+      for (const building of game.buildings?.[name] ?? []) {
+        pin(getCookingQueueAnchor(building, now));
+      }
     }
   }
 
@@ -951,7 +956,11 @@ export function appendBoostHistory(
 
   // Never prune below a ledger anchor that still reads this history — losing
   // such a window would silently un-do growth a machine already completed.
-  const anchor = getEarliestLedgerAnchor(game, now);
+  const anchor = getEarliestLedgerAnchor(
+    game,
+    name in COOKING_BOOST_SPEED,
+    now,
+  );
   const horizon = Math.min(
     now - MAX_BOOST_HISTORY_AGE_MS,
     anchor ?? Number.POSITIVE_INFINITY,

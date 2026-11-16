@@ -632,6 +632,22 @@ describe("appendBoostHistory", () => {
       ]);
     });
 
+    it("only holds back the history of boosts that speed up cooking", () => {
+      // The same lifted Kitchen pins its cooking windows for as long as it sits
+      // in the inventory, but an Ore Hourglass can't change a recipe, so its
+      // history still prunes on the usual 7-day horizon.
+      const now = T0 + 60 * DAY;
+      const game = farm({ lifted: { removedAt: T0 + 100 * HOUR } });
+      game.boostHistory = {
+        ...game.boostHistory,
+        "Ore Hourglass": [HOURGLASS],
+      };
+
+      appendBoostHistory(game, "Ore Hourglass", BURNED, now);
+
+      expect(game.boostHistory?.["Ore Hourglass"]).toEqual([BURNED]);
+    });
+
     it("keeps a window an earlier recipe still needs when a later one is anchored", () => {
       // The hourglass makes the head ready at T0 + 42h (unboosted T0 + 48h). A
       // 1h recipe cooked on the then-idle Kitchen is anchored at T0 + 43h, and the
