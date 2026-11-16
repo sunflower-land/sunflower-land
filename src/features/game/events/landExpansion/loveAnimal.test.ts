@@ -950,6 +950,18 @@ describe("loveAnimal: banked claims", () => {
     expect(getPendingClaims(chicken)).toEqual(1);
   });
 
+  it("leaves a sick banked animal sick: only a cure makes it ready", () => {
+    // Claimed to L6 (660) with 1010 XP (L7), sick. +25 = 1035 (L8): two owed
+    const chicken = love({
+      experience: 1010,
+      claimedExperience: 660,
+      state: "sick",
+    });
+
+    expect(chicken.state).toEqual("sick");
+    expect(getPendingClaims(chicken)).toEqual(2);
+  });
+
   it("keeps the one claim a ready animal from before banking owes", () => {
     // Ready at 1030 XP (L8): owes L8. +25 = 1055, still L8
     const chicken = love({ experience: 1030, state: "ready" });

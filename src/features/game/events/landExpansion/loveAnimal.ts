@@ -154,8 +154,9 @@ export function loveAnimal({
     animal.item = getAnimalItem(getNextClaimLevel(animal), Math.random);
 
     // Same as feeding: a level-up, or at max level a completed XP cycle, means
-    // the animal wakes with produce rather than a wrapped-around bar.
-    if (getPendingClaims(animal) > 0) {
+    // the animal wakes with produce rather than a wrapped-around bar. A sick
+    // animal stays sick: only a cure makes it ready again.
+    if (animal.state !== "sick" && getPendingClaims(animal) > 0) {
       animal.state = "ready";
     }
 
