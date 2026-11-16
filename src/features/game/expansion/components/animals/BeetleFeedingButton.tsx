@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -40,12 +40,16 @@ export const BeetleFeedingButton: React.FC<{
   // The held item before Beetle mode took over the hand, restored when the
   // mode ends so a leftover Beetle does not keep being fed.
   const previousSelection = useRef<InventoryItemName | undefined>(undefined);
+  const selectedItemRef = useRef(selectedItem);
+  selectedItemRef.current = selectedItem;
+  const beetleRef = useRef(beetle);
+  beetleRef.current = beetle;
 
   const restoreHand = (beetle: BeetleName) => {
     const previous = previousSelection.current;
     previousSelection.current = undefined;
     // The player may have changed the held item since: leave their pick.
-    if (selectedItem !== beetle) return;
+    if (selectedItemRef.current !== beetle) return;
 
     if (previous) {
       shortcutItem(previous);
@@ -53,6 +57,14 @@ export const BeetleFeedingButton: React.FC<{
       removeShortcut(beetle);
     }
   };
+
+  // Leaving the building drops the mode state with this component: put the
+  // hand back so the Beetle does not stay selected in the next building.
+  useEffect(() => {
+    return () => {
+      if (beetleRef.current) restoreHand(beetleRef.current);
+    };
+  }, []);
 
   const closePicker = () => {
     onShowPickerChange(false);
