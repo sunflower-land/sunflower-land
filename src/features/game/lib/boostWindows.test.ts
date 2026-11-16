@@ -20,6 +20,7 @@ import {
   getOilBoostWindows,
   OIL_BOOST_SPEED,
   appendBoostHistory,
+  getCookingBoostWindows,
   getCropPlotBoostWindows,
   getPowerHourWindows,
   getSunshowerGuardianWindows,
@@ -29,7 +30,11 @@ import {
   type BoostWindow,
 } from "./boostWindows";
 import { GUARDIAN_BOOST } from "./getActiveGuardian";
-import { getCookingQueueReadyAts } from "./cookingReadiness";
+import {
+  getCookingOil,
+  getCookingOilAt,
+  getCookingQueueReadyAts,
+} from "./cookingReadiness";
 import { populateSeason } from "./season";
 import { getObjectEntries } from "lib/object";
 import { EXPIRY_COOLDOWNS } from "./collectibleBuilt";
@@ -627,6 +632,47 @@ describe("appendBoostHistory", () => {
       ]);
     });
 
+    it("keeps a window an unsettled clock-burn recipe still burns oil by", () => {
+      // A recipe queued before the work burn (`oilBoost` but no `oilRate`) burns
+      // its oil per REAL day until it is ready, so its window decides how much
+      // oil it burned even once it is done - until a settle pins that down.
+      const recipe: BuildingProduct = {
+        name: "Creamy Truffle Risotto",
+        readyAt: 0,
+        startedAt: T0,
+        baseDurationMs: RISOTTO,
+        oilBoost: 0.25,
+      };
+      const game = farm({ crafting: [recipe] });
+      const kitchen = game.buildings.Kitchen?.[0];
+      if (!kitchen) throw new Error("No Kitchen");
+      kitchen.oil = 20;
+      kitchen.oilSettledAt = T0;
+
+      const oilAt = (at: number) =>
+        getCookingOilAt({
+          crafting: [recipe],
+          windows: getCookingBoostWindows(game),
+          oil: getCookingOil({ building: kitchen, buildingName: "Kitchen" })!,
+          at,
+        });
+
+      // Oil speeds it up 1 / (1 - 0.25) = 4/3x. The 6h hourglass at 2x does
+      // 6 x 2 x 4/3 = 16h of work; the other 32h take 32 / (4/3) = 24h, so it is
+      // ready at T0 + 30h (T0 + 36h unboosted) - well before now, unboosted or
+      // not. It burned 30h x 6.75/day = 8.4375 oil, leaving 11.5625.
+      const now = T0 + 8 * DAY;
+      expect(oilAt(now)).toBeCloseTo(11.5625);
+
+      appendBoostHistory(game, "Gourmet Hourglass", BURNED, now);
+
+      expect(game.boostHistory?.["Gourmet Hourglass"]).toEqual([
+        HOURGLASS,
+        BURNED,
+      ]);
+      expect(oilAt(now)).toBeCloseTo(11.5625);
+    });
+
     it.each([
       [
         "every recipe would be ready by now even unboosted",
@@ -638,6 +684,78 @@ describe("appendBoostHistory", () => {
         "a lifted building whose queue was done by the lift even unboosted",
         () => farm({ lifted: { removedAt: T0 + 192 * HOUR } }),
         T0 + 60 * DAY,
+      ],
+      [
+        "a finished recipe on the work burn (same oil however fast it cooked)",
+        () => {
+          const game = farm({
+            crafting: [
+              {
+                name: "Creamy Truffle Risotto",
+                readyAt: 0,
+                startedAt: T0,
+                baseDurationMs: RISOTTO,
+                oilBoost: 0.25,
+                oilRate: 5,
+              },
+            ],
+          });
+          const kitchen = game.buildings.Kitchen?.[0];
+          if (kitchen) {
+            kitchen.oil = 20;
+            kitchen.oilSettledAt = T0;
+          }
+          return game;
+        },
+        T0 + 8 * DAY,
+      ],
+      [
+        "a finished oil-boosted recipe in a building that still deducts oil per recipe",
+        () =>
+          farm({
+            crafting: [
+              {
+                name: "Creamy Truffle Risotto",
+                readyAt: 0,
+                startedAt: T0,
+                baseDurationMs: RISOTTO,
+                oilBoost: 0.25,
+              },
+            ],
+          }),
+        T0 + 8 * DAY,
+      ],
+      [
+        "a clock-burn recipe a settle has already pinned (zero work)",
+        () => {
+          // Settled at T0 + 2h: the clock-burn head was pinned at its finish,
+          // and the work-burn recipe behind it finished long ago.
+          const game = farm({
+            crafting: [
+              {
+                name: "Creamy Truffle Risotto",
+                readyAt: T0 + HOUR,
+                startedAt: T0 + HOUR,
+                baseDurationMs: 0,
+                oilBoost: 0.25,
+              },
+              {
+                name: "Creamy Truffle Risotto",
+                readyAt: 0,
+                baseDurationMs: RISOTTO,
+                oilBoost: 0.25,
+                oilRate: 5,
+              },
+            ],
+          });
+          const kitchen = game.buildings.Kitchen?.[0];
+          if (kitchen) {
+            kitchen.oil = 20;
+            kitchen.oilSettledAt = T0 + 2 * HOUR;
+          }
+          return game;
+        },
+        T0 + 8 * DAY,
       ],
       [
         "a legacy queue (fixed ready times)",

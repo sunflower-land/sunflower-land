@@ -821,6 +821,13 @@ const COOKING_BUILDINGS = getKeys({
  * makes a recipe later, so the unboosted chain end bounds every ready time:
  * once it has passed — by now, or by the lift for a lifted building — no window
  * can change anything, and an uncollected dish pins nothing.
+ *
+ * Except its oil: a recipe queued before the work burn (`oilBoost` without
+ * `oilRate`) burns oil per REAL day until it is ready, so how much it burned
+ * hangs on the windows even once it is done. It holds history until a settle
+ * writes that burn down and pins the recipe (zero work), which drops it from
+ * this walk. A work burn needs no such hold: it costs the same oil however
+ * fast the recipe cooks.
  */
 function getCookingQueueAnchor(
   building: PlacedItem,
@@ -828,6 +835,7 @@ function getCookingQueueAnchor(
 ): number | undefined {
   let earliest: number | undefined;
   let previousEnd: number | undefined;
+  let burnsOilByTheClock = false;
 
   for (const recipe of building.crafting ?? []) {
     const { baseDurationMs } = recipe;
@@ -844,6 +852,14 @@ function getCookingQueueAnchor(
     ) {
       earliest = startedAt;
     }
+    if (
+      baseDurationMs > 0 &&
+      building.oilSettledAt !== undefined &&
+      recipe.oilBoost !== undefined &&
+      recipe.oilRate === undefined
+    ) {
+      burnsOilByTheClock = true;
+    }
     previousEnd = startedAt + baseDurationMs;
   }
 
@@ -851,6 +867,7 @@ function getCookingQueueAnchor(
     !building.coordinates && building.removedAt !== undefined
       ? building.removedAt
       : now;
+  if (burnsOilByTheClock) return earliest;
   if (previousEnd === undefined || previousEnd <= doneBy) return undefined;
 
   return earliest;
