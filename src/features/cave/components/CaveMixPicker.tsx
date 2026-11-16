@@ -267,11 +267,6 @@ export const CaveMixPicker: React.FC<Props> = ({
                 waitSeconds={durationSeconds}
                 boosted
               />
-              <RequirementLabel
-                type="time"
-                waitSeconds={CAVE_BATCH_DURATION_MS / 1000}
-                strikethrough
-              />
               {showTimeBoosts && (
                 <BoostsDisplay
                   boosts={timeBoostsUsed}

@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import Decimal from "decimal.js-light";
+import type Decimal from "decimal.js-light";
 import type {
   BoostName,
   GameState,
@@ -55,12 +55,12 @@ interface HarvestsRequirementProps {
 /**
  * The props for the inventory properties.
  * @param timeSeconds The wait time in seconds for using the item.
- * @param baseTimeSeconds The base wait time before boosts (for strikethrough display).
+ * @param baseTimeSeconds The base wait time before boosts (shown in the boosts panel).
  * @param timeBoostsUsed The boosts applied to the grow time (for clickable boost display).
  * @param harvests The min/max harvests for the item.
  * @param xp The XP gained for consuming the item.
  * @param xpBoostsUsed The boosts applied to food XP (for clickable boost display).
- * @param baseXp The base XP before boosts (for strikethrough display).
+ * @param baseXp The base XP before boosts (shown in the boosts panel).
  * @param showBoosts Whether the boost panel is visible.
  * @param setShowBoosts Callback to toggle the boost panel.
  * @param onMarketplaceClick Callback to open the item in the marketplace. The link is hidden when not provided.
@@ -198,29 +198,14 @@ export const InventoryItemDetails: React.FC<Props> = ({
       ) {
         return (
           <div
-            className={classNames("flex flex-col items-center", {
-              // Only itemisable (named) boosts open the breakdown; a live speed
-              // window has no name to list.
-              "cursor-pointer": hasNamedBoosts,
-            })}
-            onClick={() =>
-              hasNamedBoosts &&
-              properties.setShowBoosts?.(!properties.showBoosts)
-            }
+            className="flex flex-col items-center cursor-pointer"
+            onClick={() => properties.setShowBoosts?.(!properties.showBoosts)}
           >
             <RequirementLabel
               type="time"
               waitSeconds={properties.timeSeconds}
               boosted
             />
-            {properties.baseTimeSeconds !== undefined &&
-              properties.timeSeconds !== properties.baseTimeSeconds && (
-                <RequirementLabel
-                  type="time"
-                  waitSeconds={properties.baseTimeSeconds}
-                  strikethrough
-                />
-              )}
             {properties.baseTimeSeconds !== undefined && (
               <BoostsDisplay
                 boosts={properties.timeBoostsUsed}
@@ -231,10 +216,9 @@ export const InventoryItemDetails: React.FC<Props> = ({
                   }),
                   icon: SUNNYSIDE.icons.stopwatch,
                 }}
-                show={hasNamedBoosts && properties.showBoosts}
+                show={properties.showBoosts}
                 state={game}
                 onClick={() =>
-                  hasNamedBoosts &&
                   properties.setShowBoosts?.(!properties.showBoosts)
                 }
               />
@@ -269,11 +253,6 @@ export const InventoryItemDetails: React.FC<Props> = ({
             onClick={() => properties.setShowBoosts?.(!properties.showBoosts)}
           >
             <RequirementLabel type="xp" xp={properties.xp} boosted />
-            <RequirementLabel
-              type="xp"
-              xp={new Decimal(properties.baseXp ?? 0)}
-              strikethrough
-            />
             <BoostsDisplay
               boosts={properties.xpBoostsUsed}
               base={{

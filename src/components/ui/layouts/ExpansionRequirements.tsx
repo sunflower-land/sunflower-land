@@ -173,18 +173,15 @@ export const ExpansionRequirements: React.FC<Props> = ({
                 : undefined
             }
           >
-            {isTimeBoosted && (
+            {isTimeBoosted ? (
               <RequirementLabel
                 type="time"
                 waitSeconds={requirements.seconds}
                 boosted
               />
+            ) : (
+              <RequirementLabel type="time" waitSeconds={baseTimeSeconds} />
             )}
-            <RequirementLabel
-              type="time"
-              waitSeconds={baseTimeSeconds}
-              strikethrough={isTimeBoosted}
-            />
             <BoostsDisplay
               boosts={timeBoostsUsed}
               base={{

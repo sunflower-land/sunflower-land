@@ -54,12 +54,6 @@ const RecipeLabelContent: React.FC<{
             isShortFormat: true,
           })}
         </span>
-        <span className="text-xxs line-through">
-          {secondsToString(baseSeconds, {
-            length: "medium",
-            isShortFormat: true,
-          })}
-        </span>
         <BoostsDisplay
           boosts={boosts}
           base={{

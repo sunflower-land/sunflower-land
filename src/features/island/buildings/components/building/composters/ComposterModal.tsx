@@ -519,18 +519,18 @@ const ComposterModalContent: React.FC<{
                     : undefined
                 }
               >
-                {isCompostTimeBoosted && (
+                {isCompostTimeBoosted ? (
                   <RequirementLabel
                     type="time"
                     waitSeconds={timeToFinishMilliseconds / 1000}
                     boosted
                   />
+                ) : (
+                  <RequirementLabel
+                    type="time"
+                    waitSeconds={baseTimeToFinishMilliseconds / 1000}
+                  />
                 )}
-                <RequirementLabel
-                  type="time"
-                  waitSeconds={baseTimeToFinishMilliseconds / 1000}
-                  strikethrough={isCompostTimeBoosted}
-                />
                 <BoostsDisplay
                   boosts={boostsUsed}
                   base={{

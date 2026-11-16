@@ -100,17 +100,11 @@ export const FeedBumpkinDetails: React.FC<Props> = ({
             : undefined
         }
       >
-        {isXpBoosted && (
+        {isXpBoosted ? (
           <RequirementLabel type="xp" xp={properties.xp} boosted />
-        )}
-        {properties.baseXp !== undefined && (
-          <RequirementLabel
-            type="xp"
-            xp={new Decimal(properties.baseXp)}
-            strikethrough={!!isXpBoosted}
-          />
-        )}
-        {properties.baseXp === undefined && (
+        ) : properties.baseXp !== undefined ? (
+          <RequirementLabel type="xp" xp={new Decimal(properties.baseXp)} />
+        ) : (
           <RequirementLabel type="xp" xp={properties.xp} />
         )}
         {isXpBoosted &&

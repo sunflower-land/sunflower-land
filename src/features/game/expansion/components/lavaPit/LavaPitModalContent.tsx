@@ -186,18 +186,18 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
                       : undefined
                   }
                 >
-                  {isLavaPitTimeBoosted && (
+                  {isLavaPitTimeBoosted ? (
                     <RequirementLabel
                       type="time"
                       waitSeconds={lavaPitTime / 1000}
                       boosted
                     />
+                  ) : (
+                    <RequirementLabel
+                      type="time"
+                      waitSeconds={LAVA_PIT_TIME / 1000}
+                    />
                   )}
-                  <RequirementLabel
-                    type="time"
-                    waitSeconds={LAVA_PIT_TIME / 1000}
-                    strikethrough={isLavaPitTimeBoosted}
-                  />
                   <BoostsDisplay
                     boosts={boostsUsed}
                     base={{

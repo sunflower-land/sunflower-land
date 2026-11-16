@@ -481,11 +481,6 @@ export const CraftingRequirements: React.FC<Props> = ({
                     onClick={() => setShowBoosts(!showBoosts)}
                   >
                     <RequirementLabel type="xp" xp={requirements.xp} boosted />
-                    <RequirementLabel
-                      type="xp"
-                      xp={new Decimal(requirements.baseXp ?? 0)}
-                      strikethrough
-                    />
                     <BoostsDisplay
                       boosts={requirements.xpBoostsUsed}
                       base={{
@@ -528,51 +523,32 @@ export const CraftingRequirements: React.FC<Props> = ({
                 return (
                   <div
                     ref={timeBoostsRef}
-                    className={classNames(
-                      "flex flex-row sm:flex-col items-center",
-                      {
-                        // Only itemisable (named) boosts open the breakdown; a
-                        // live speed window has no name to list.
-                        "cursor-pointer": hasNamedBoosts,
-                      },
-                    )}
-                    onClick={() =>
-                      hasNamedBoosts && setShowTimeBoosts(!showTimeBoosts)
-                    }
+                    className="flex flex-row sm:flex-col items-center cursor-pointer"
+                    onClick={() => setShowTimeBoosts(!showTimeBoosts)}
                   >
                     <RequirementLabel
                       type="time"
                       waitSeconds={requirements.timeSeconds}
                       boosted
                     />
-                    {baseTimeSeconds !== undefined &&
-                      requirements.timeSeconds !== baseTimeSeconds && (
-                        <RequirementLabel
-                          type="time"
-                          waitSeconds={baseTimeSeconds}
-                          strikethrough
-                        />
-                      )}
-                    {hasNamedBoosts &&
-                      showTimeBoosts &&
-                      baseTimeSeconds !== undefined && (
-                        <BoostsDisplay
-                          boosts={timeBoostsUsed ?? []}
-                          base={{
-                            value: secondsToString(baseTimeSeconds, {
-                              length: "medium",
-                              removeTrailingZeros: true,
-                            }),
-                            icon: SUNNYSIDE.icons.stopwatch,
-                          }}
-                          show={showTimeBoosts}
-                          state={gameState}
-                          onClick={() => setShowTimeBoosts((prev) => !prev)}
-                          anchorRef={timeBoostsRef}
-                          portalAlign="center"
-                          portalPlacement="above"
-                        />
-                      )}
+                    {showTimeBoosts && baseTimeSeconds !== undefined && (
+                      <BoostsDisplay
+                        boosts={timeBoostsUsed ?? []}
+                        base={{
+                          value: secondsToString(baseTimeSeconds, {
+                            length: "medium",
+                            removeTrailingZeros: true,
+                          }),
+                          icon: SUNNYSIDE.icons.stopwatch,
+                        }}
+                        show={showTimeBoosts}
+                        state={gameState}
+                        onClick={() => setShowTimeBoosts((prev) => !prev)}
+                        anchorRef={timeBoostsRef}
+                        portalAlign="center"
+                        portalPlacement="above"
+                      />
+                    )}
                   </div>
                 );
               }
