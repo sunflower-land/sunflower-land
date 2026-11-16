@@ -1,3 +1,4 @@
+import { burst } from "../core/juice";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getAOEExtent } from "features/game/expansion/placeable/lib/collisionDetection";
 import Phaser from "phaser";
@@ -318,6 +319,28 @@ export class LandscapingController {
     this.grid = this.scene.add.graphics().setDepth(DEPTHS.ALWAYS_ON_TOP + 101);
     this.drawGrid(this.last.removalMode);
     this.drawAoeOverlays();
+  }
+
+  /**
+   * Something was just set down: a low puff of dust along its base, so a
+   * drop reads as landing rather than teleporting [core/juice.ts].
+   */
+  private thud(
+    coordinates: { x: number; y: number },
+    dims: { width: number; height: number },
+  ) {
+    if (!this.bridge.ui.get().showAnimations) return;
+    const box = gridRectToWorld(coordinates, dims);
+    burst(this.scene, {
+      x: box.x + box.width / 2,
+      y: box.y + box.height - 1,
+      material: "soil",
+      depth: DEPTHS.ALWAYS_ON_TOP + 95,
+      count: Math.min(12, 5 + dims.width * 2),
+      spread: box.width / 2 + 4,
+      lift: 5,
+      durationMs: 360,
+    });
   }
 
   /**
@@ -693,6 +716,12 @@ export class LandscapingController {
           location: this.location,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any);
+        if (this.last.placeableName) {
+          this.thud(
+            this.last.coordinates,
+            placeableDimensions(this.last.placeableName),
+          );
+        }
       }
     };
 
@@ -1358,6 +1387,7 @@ export class LandscapingController {
 
     const isResource = placement.name in RESOURCE_MOVE_EVENTS;
     const isNFT = placement.name === "Bud" || placement.name === "Pet";
+    this.thud({ x: target.x, y: target.y }, placement.dims);
     this.bridge.dispatch({
       type: getMoveAction(placement.name, this.location),
       ...(isResource

@@ -38,6 +38,8 @@ const MIN_USER_ZOOM = 0.5;
 const MAX_USER_ZOOM = 1;
 /** Multiplicative pinch feel: zoom *= exp(-delta * this). */
 const PINCH_ZOOM_SENSITIVITY = 0.01;
+/** Time constant of the eased wheel zoom (63% of the way per this many ms). */
+const ZOOM_EASE_MS = 55;
 
 /**
  * Dead zone before a press turns into a pan, in CSS px (scaled by DPR into
@@ -89,6 +91,12 @@ export class FarmCameraController {
   /** True once the current gesture has left the tap dead zone. */
   private panArmed = false;
 
+  /** Eased wheel zoom: where it is heading, and the screen point it pins. */
+  private zoomTarget: number | undefined;
+  private zoomAnchor:
+    | { x: number; y: number; worldX: number; worldY: number }
+    | undefined;
+
   /** Recent pointer positions (buffer px) for release-velocity sampling. */
   private panSamples: PanSample[] = [];
 
@@ -115,6 +123,7 @@ export class FarmCameraController {
   ) {}
 
   attach(expansionCount: number) {
+    this.keepTrueScroll();
     this.setExpansionCount(expansionCount);
     this.applyZoom();
 
@@ -218,9 +227,18 @@ export class FarmCameraController {
       const native = pointer.event as WheelEvent | undefined;
       if (native?.ctrlKey || native?.metaKey) {
         native.preventDefault?.();
-        this.setUserZoom(
-          this.userZoom * Math.exp(-deltaY * PINCH_ZOOM_SENSITIVITY),
+        // Ease toward the target and keep the point under the cursor fixed:
+        // a mouse wheel arrives in coarse notches, and one notch applied
+        // directly jumped most of the zoom range about the screen centre.
+        this.zoomTarget = Phaser.Math.Clamp(
+          (this.zoomTarget ?? this.userZoom) *
+            Math.exp(-deltaY * PINCH_ZOOM_SENSITIVITY),
+          MIN_USER_ZOOM,
+          MAX_USER_ZOOM,
         );
+        this.pinZoom(pointer.x, pointer.y);
+        this.stopGlide();
+        this.onUserGesture?.();
         return;
       }
       if (this.panSuspended) return;
@@ -238,7 +256,10 @@ export class FarmCameraController {
     input.on(Phaser.Input.Events.POINTER_UP, onPointerUp);
     input.on(Phaser.Input.Events.POINTER_WHEEL, onWheel);
 
-    const onUpdate = (_time: number, delta: number) => this.tickGlide(delta);
+    const onUpdate = (_time: number, delta: number) => {
+      this.tickZoom(delta);
+      this.tickGlide(delta);
+    };
     this.scene.events.on(Phaser.Scenes.Events.UPDATE, onUpdate);
 
     const onResize = () => this.anchors.reprojectAll();
@@ -257,6 +278,44 @@ export class FarmCameraController {
   }
 
   /** Re-clamp the viewport when land expands (bounds grow with the board). */
+  /**
+   * Stop the renderer quantising the camera's position.
+   *
+   * With `roundPixels` on, Phaser's Camera.preRender FLOORS scrollX/Y to
+   * whole world units every frame and writes the result back to the camera.
+   * A world unit here is a source pixel — 5.25 device px at DPR 2 — so:
+   *  - the view could only move in 2.6 CSS-px jumps; and
+   *  - any movement of less than one source pixel per frame was either
+   *    thrown away (toward +scroll: floor lands back where it started) or
+   *    rounded up to a whole one (toward -scroll).
+   * Measured: a slow drag left did not move the farm at all, the same drag
+   * right moved it 2.6x too far, and every glide or eased pan stalled or
+   * lurched as it slowed. This was the "doesn't feel smooth".
+   *
+   * Instead the camera keeps its true, fractional position, and only the
+   * frame being drawn is snapped — to the DEVICE pixel grid, with
+   * round-to-nearest. Art stays as crisp as before (its texels already
+   * straddle device pixels at this fractional zoom) and motion resolves
+   * 5x finer with no directional bias.
+   */
+  private keepTrueScroll() {
+    const camera = this.scene.cameras.main;
+    camera.roundPixels = false;
+    const preRender = camera.preRender.bind(camera);
+    camera.preRender = () => {
+      const trueX = camera.scrollX;
+      const trueY = camera.scrollY;
+      const zoom = camera.zoom;
+      camera.scrollX = Math.round(trueX * zoom) / zoom;
+      camera.scrollY = Math.round(trueY * zoom) / zoom;
+      preRender();
+      // preRender wrote the (bounds-clamped) snapped value back; restore the
+      // true position, clamped the same way.
+      camera.scrollX = camera.useBounds ? camera.clampX(trueX) : trueX;
+      camera.scrollY = camera.useBounds ? camera.clampY(trueY) : trueY;
+    };
+  }
+
   setExpansionCount(expansionCount: number) {
     const bounds = getGameboardWorldBounds(expansionCount);
     this.scene.cameras.main.setBounds(
@@ -272,6 +331,9 @@ export class FarmCameraController {
   }
 
   setUserZoom(zoom: number) {
+    // A direct set (pinch, restore) overrides any wheel ease in flight.
+    this.zoomTarget = undefined;
+    this.zoomAnchor = undefined;
     const clamped = Phaser.Math.Clamp(zoom, MIN_USER_ZOOM, MAX_USER_ZOOM);
     if (clamped === this.userZoom) return;
     this.userZoom = clamped;
@@ -435,6 +497,70 @@ export class FarmCameraController {
     camera.scrollY = tween.fromY + (tween.toY - tween.fromY) * eased;
     if (tween.elapsed >= CENTER_PAN_MS) this.panTween = undefined;
 
+    this.anchors.reprojectAll();
+  }
+
+  /**
+   * Pin the world point under a screen position for the zoom in flight. The
+   * world point is captured ONCE per gesture, not re-derived each frame, so
+   * no per-frame rounding or clamping can walk it away.
+   */
+  private pinZoom(x: number, y: number) {
+    const pinned = this.zoomAnchor;
+    if (pinned && Math.abs(pinned.x - x) < 2 && Math.abs(pinned.y - y) < 2) {
+      return;
+    }
+    const camera = this.scene.cameras.main;
+    this.zoomAnchor = {
+      x,
+      y,
+      worldX:
+        camera.scrollX +
+        camera.width / 2 +
+        (x - camera.width / 2) / camera.zoom,
+      worldY:
+        camera.scrollY +
+        camera.height / 2 +
+        (y - camera.height / 2) / camera.zoom,
+    };
+  }
+
+  /**
+   * Step the eased wheel zoom. Exponential approach (frame-rate independent)
+   * with a short time constant, so a trackpad pinch still tracks the fingers
+   * while a wheel notch glides.
+   */
+  private tickZoom(delta: number) {
+    if (this.zoomTarget === undefined) return;
+    const remaining = this.zoomTarget - this.userZoom;
+    const next =
+      Math.abs(remaining) < 0.002
+        ? this.zoomTarget
+        : this.userZoom + remaining * (1 - Math.exp(-delta / ZOOM_EASE_MS));
+    if (next === this.zoomTarget) this.zoomTarget = undefined;
+
+    this.userZoom = next;
+    this.applyZoom();
+
+    const camera = this.scene.cameras.main;
+    const anchor = this.zoomAnchor;
+    if (anchor) {
+      // Zoom is applied about the camera midpoint:
+      //   world = midpoint + (screen - viewport / 2) / zoom
+      // so place the midpoint where the pinned world point lands back
+      // under the anchor.
+      camera.scrollX = camera.clampX(
+        anchor.worldX -
+          (anchor.x - camera.width / 2) / camera.zoom -
+          camera.width / 2,
+      );
+      camera.scrollY = camera.clampY(
+        anchor.worldY -
+          (anchor.y - camera.height / 2) / camera.zoom -
+          camera.height / 2,
+      );
+    }
+    if (this.zoomTarget === undefined) this.zoomAnchor = undefined;
     this.anchors.reprojectAll();
   }
 

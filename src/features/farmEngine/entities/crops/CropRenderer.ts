@@ -68,7 +68,7 @@ import { gridToWorld, WORLD_TILE } from "../../core/coordinates";
 import { DEPTHS } from "../../core/depths";
 import { playSound } from "../../core/sounds";
 import { playYieldFloat } from "../../components/YieldFloat";
-import { burst, type ChipMaterial } from "../../core/juice";
+import { burst, hop, type ChipMaterial } from "../../core/juice";
 import { ProgressBarSprite } from "../../components/ProgressBarSprite";
 import type { Unsubscribe } from "../../bridge/subscriptions";
 import { EntityRenderer } from "../EntityRenderer";
@@ -379,7 +379,16 @@ export class CropRenderer extends EntityRenderer<Slice> {
       () => {
         // A crop turning ready can move the tutorial harvest arrow; the pass
         // runs once on the next update however many plots ripen together.
+        const before = objects.art.texture.key;
         if (applyStage() >= 100) this.tutorialDirty = true;
+        // A little hop as the crop steps up a growth stage: the field
+        // visibly comes on while the player is looking at it.
+        if (
+          objects.art.texture.key !== before &&
+          this.bridge.ui.get().showAnimations
+        ) {
+          hop(this.scene, objects.art);
+        }
       },
     );
 

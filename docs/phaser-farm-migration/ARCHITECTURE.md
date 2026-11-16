@@ -254,6 +254,12 @@ Strict parity means **the same PNGs**. The existing code imports them as URLs vi
 - React overlay components must not subscribe to the whole game state while idle. `FarmModals` mounts its body only while a modal is open; `CropsUI` mounts only the hovered plot.
 - `FarmPhaser` is memoised because `Game.tsx`'s `GameContent` re-renders on every machine transition.
 
+**Camera position is fractional; only the drawn frame is snapped** — `FarmCameraController.keepTrueScroll`. Phaser's `roundPixels` floors the camera scroll to whole WORLD units (source pixels, 5.25 device px) every frame and writes it back, which made slow pans dead in one direction, 2.6x too fast in the other, and stalled every glide. The camera's `roundPixels` is off; `preRender` is wrapped to snap to the device-pixel grid for drawing and then restore the true scroll. Don't re-enable `roundPixels` on the camera, and don't derive anything from a scroll value read back across frames expecting it to be whole.
+
+**Zoom** — wheel/trackpad zoom eases toward a target (`tickZoom`) and pins the world point under the cursor, captured once per gesture (`pinZoom`).
+
+**Feedback effects** — `core/juice.ts`: `press` (1px dip while held, wired into `makeClickable`), `hitFlash`, `burst` (1px palette chips), `hop`/`settle` (whole-pixel steps). Rules: whole source pixels, no scale tweens, no glows, no camera shake, always gated on `showAnimations`. Resource nodes call `this.impact(id, material, "tap" | "break")`; crops `puff`; landscaping `thud` on a drop.
+
 **Measuring** — set `localStorage["phaserFarm.hooks"] = "1"` to expose `__farmGame` / `__farmScene` / `__farmBridge` on a production build. `performance.getEntriesByType("mark")` has `farm:scene-create:<surface>`, `farm:scene-ready:<surface>`, `farm:cover-lift` (and per-renderer `farm:first-sync:*` in dev).
 
 ## How to add things (the recipes)
