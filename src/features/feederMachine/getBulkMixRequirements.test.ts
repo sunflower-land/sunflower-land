@@ -259,6 +259,27 @@ describe("getBulkMixRequirements", () => {
     expect(missingRequests["Kernel Blend"]).toEqual(new Decimal(1));
   });
 
+  it("does not include post-cure feed for a sick animal with banked claims", () => {
+    // A cure leaves it ready to claim (60 -> 860 XP banks levels 2-7), not fed
+    const { requests } = getBulkMixRequirements(
+      {
+        ...INITIAL_FARM,
+        inventory: {},
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "0": { ...chicken("sick"), experience: 860, claimedExperience: 60 },
+          },
+        },
+      },
+      "Hen House",
+      Date.now(),
+    );
+
+    expect(Object.keys(requests)).toEqual(["Barn Delight"]);
+    expect(requests["Barn Delight"]).toEqual(new Decimal(1));
+  });
+
   it("does not include post-cure feed while a sick animal is asleep", () => {
     const now = Date.now();
     const sleeping = { ...chicken("sick"), awakeAt: now + 60_000 };

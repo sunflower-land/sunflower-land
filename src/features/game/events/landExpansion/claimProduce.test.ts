@@ -2679,3 +2679,196 @@ describe("claimProduce: Truffle Seasoning (Chapter 16)", () => {
     ).toEqual(ANIMAL_SLEEP_DURATION);
   });
 });
+
+/**
+ * Chicken thresholds: L1 60, L2 120, L3 240, L4 360, L5 480, L6 660, L7 840,
+ * L14 2400, L15 2720, then one max-level cycle every 320 XP.
+ * Drops: L2 1 Egg; L3 1 Egg + 1 Feather; L4-L7 2 Eggs + 1 Feather;
+ * L15 5 Eggs + 3 Feathers.
+ */
+describe("claimProduce: banked claims", () => {
+  const now = Date.now();
+  const chickenId = "banked";
+
+  const farm = (chicken: Partial<Animal>): GameState => ({
+    ...FARM_WITH_HERDS,
+    buildings: {
+      "Hen House": [
+        {
+          id: "henHouse",
+          readyAt: 0,
+          createdAt: 0,
+          coordinates: { x: 0, y: 0 },
+        },
+      ],
+    },
+    inventory: {},
+    henHouse: {
+      ...FARM_WITH_HERDS.henHouse,
+      animals: {
+        [chickenId]: {
+          id: chickenId,
+          type: "Chicken",
+          createdAt: 0,
+          state: "ready",
+          experience: 0,
+          asleepAt: 0,
+          awakeAt: 0,
+          lovedAt: 0,
+          item: "Petting Hand",
+          ...chicken,
+        },
+      },
+    },
+  });
+
+  const claim = (state: GameState, createdAt = now) =>
+    claimProduce({
+      createdAt,
+      state,
+      action: { type: "produce.claimed", animal: "Chicken", id: chickenId },
+    });
+
+  /** Claims every banked claim, waking the animal between each. */
+  const claimAll = (state: GameState, from = now) => {
+    let game = state;
+    let createdAt = from;
+    let claims = 0;
+
+    while (game.henHouse.animals[chickenId].state === "ready") {
+      game = claim(game, createdAt);
+      createdAt += ANIMAL_SLEEP_DURATION;
+      claims += 1;
+    }
+
+    return { game, claims };
+  };
+
+  it("pays the level after the claimed mark, not the XP level", () => {
+    // Level 1 (60) fed to level 7 (860): the first claim pays level 2
+    const state = claim(farm({ experience: 860, claimedExperience: 60 }));
+
+    expect(state.inventory.Egg).toEqual(new Decimal(1));
+    expect(state.inventory.Feather).toBeUndefined();
+    expect(state.henHouse.animals[chickenId].claimedExperience).toEqual(120);
+  });
+
+  it("stays ready through its sleep while claims are banked", () => {
+    const chicken = claim(farm({ experience: 860, claimedExperience: 60 }))
+      .henHouse.animals[chickenId];
+
+    expect(chicken.state).toEqual("ready");
+    expect(chicken.asleepAt).toEqual(now);
+    expect(chicken.awakeAt).toEqual(now + ANIMAL_SLEEP_DURATION);
+  });
+
+  it("pays every level from 2 to 7, one claim per wake", () => {
+    const { game, claims } = claimAll(
+      farm({ experience: 860, claimedExperience: 60 }),
+    );
+
+    expect(claims).toEqual(6);
+    // Eggs 1 + 1 + 2 + 2 + 2 + 2, Feathers 0 + 1 + 1 + 1 + 1 + 1
+    expect(game.inventory.Egg).toEqual(new Decimal(10));
+    expect(game.inventory.Feather).toEqual(new Decimal(5));
+    expect(game.henHouse.animals[chickenId].state).toEqual("idle");
+    expect(game.henHouse.animals[chickenId].claimedExperience).toEqual(840);
+  });
+
+  it("banks max-level cycles too", () => {
+    // Claimed to mark 15 (2720); 3400 XP is mark 17: two L15 claims
+    const { game, claims } = claimAll(
+      farm({ experience: 3400, claimedExperience: 2720 }),
+    );
+
+    expect(claims).toEqual(2);
+    expect(game.inventory.Egg).toEqual(new Decimal(10));
+    expect(game.inventory.Feather).toEqual(new Decimal(6));
+    expect(game.henHouse.animals[chickenId].claimedExperience).toEqual(3360);
+  });
+
+  it("cannot claim while the animal sleeps", () => {
+    const asleep = claim(farm({ experience: 860, claimedExperience: 60 }));
+
+    expect(() => claim(asleep, now + ANIMAL_SLEEP_DURATION - 1)).toThrow(
+      "Animal is asleep",
+    );
+  });
+
+  it("claims an animal from before banking once, at its XP level", () => {
+    const state = claim(farm({ experience: 130 }));
+
+    // Level 2 pays 1 Egg
+    expect(state.inventory.Egg).toEqual(new Decimal(1));
+    expect(state.henHouse.animals[chickenId].state).toEqual("idle");
+    expect(state.henHouse.animals[chickenId].claimedExperience).toEqual(120);
+  });
+
+  it("never moves the claimed mark past the XP", () => {
+    // Inconsistent record: ready with nothing banked
+    const state = claim(farm({ experience: 130, claimedExperience: 120 }));
+
+    expect(state.henHouse.animals[chickenId].claimedExperience).toEqual(120);
+    expect(state.henHouse.animals[chickenId].state).toEqual("idle");
+  });
+
+  describe("charges", () => {
+    const banked = (feedBuff: Animal["feedBuff"], mud?: Animal["mud"]) =>
+      farm({ experience: 860, claimedExperience: 60, feedBuff, mud });
+
+    it("spends a Salt Lick charge and its bonus on every claim", () => {
+      const state = claim(banked({ name: "Salt Lick", harvestsRemaining: 3 }));
+
+      // Level 2: 1 Egg x 1.05
+      expect(state.inventory.Egg).toEqual(new Decimal(1.05));
+      expect(state.henHouse.animals[chickenId].feedBuff).toEqual({
+        name: "Salt Lick",
+        harvestsRemaining: 2,
+      });
+    });
+
+    it("spends a Truffle Seasoning charge on every banked sleep", () => {
+      const chicken = claim(
+        banked({ name: "Truffle Seasoning", harvestsRemaining: 2 }),
+      ).henHouse.animals[chickenId];
+
+      expect(chicken.baseDurationMs).toEqual(ANIMAL_SLEEP_DURATION / 2);
+      expect(chicken.feedBuff).toEqual({
+        name: "Truffle Seasoning",
+        harvestsRemaining: 1,
+      });
+    });
+
+    it("keeps a Honey Treat charge until the claim that empties the bank", () => {
+      const first = claim(
+        banked({ name: "Honey Treat", harvestsRemaining: 2 }),
+      );
+
+      expect(first.henHouse.animals[chickenId].feedBuff).toEqual({
+        name: "Honey Treat",
+        harvestsRemaining: 2,
+      });
+
+      const { game } = claimAll(first, now + ANIMAL_SLEEP_DURATION);
+
+      expect(game.henHouse.animals[chickenId].feedBuff).toEqual({
+        name: "Honey Treat",
+        harvestsRemaining: 1,
+      });
+    });
+
+    it("spends a Honey Treat charge on a claim with nothing banked", () => {
+      const state = claim(
+        farm({
+          experience: 130,
+          feedBuff: { name: "Honey Treat", harvestsRemaining: 2 },
+        }),
+      );
+
+      expect(state.henHouse.animals[chickenId].feedBuff).toEqual({
+        name: "Honey Treat",
+        harvestsRemaining: 1,
+      });
+    });
+  });
+});

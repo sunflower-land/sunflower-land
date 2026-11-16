@@ -553,6 +553,38 @@ describe("feedAllAnimals", () => {
     expect(state.farmActivity["Chicken Cured"]).toEqual(1);
   });
 
+  it("cures a sick animal with banked claims and claims it instead of feeding it", () => {
+    // Claimed to level 2 (120) with 860 XP (level 7): levels 3-7 banked
+    const state = feedAllAnimals({
+      createdAt: now,
+      state: withOracleSyringe(
+        withGoldEgg({
+          ...GAME_STATE,
+          henHouse: {
+            ...GAME_STATE.henHouse,
+            animals: {
+              sick: makeAnimal({
+                id: "sick",
+                type: "Chicken",
+                state: "sick",
+                experience: 860,
+                claimedExperience: 120,
+              }),
+            },
+          },
+        }),
+      ),
+      action: { type: "animals.fedAll", building: "Hen House" },
+    });
+
+    const chicken = state.henHouse.animals["sick"];
+    // Not fed; level 3 claimed (240), still banked so asleep and ready
+    expect(chicken.experience).toEqual(860);
+    expect(chicken.claimedExperience).toEqual(240);
+    expect(chicken.state).toEqual("ready");
+    expect(chicken.asleepAt).toEqual(now);
+  });
+
   it("does not feed over-capacity animals", () => {
     const animals: Record<string, Animal> = {};
     for (let i = 0; i < 11; i++) {

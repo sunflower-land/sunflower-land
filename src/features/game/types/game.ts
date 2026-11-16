@@ -2232,6 +2232,14 @@ export type Animal = {
    * has no progress bar.
    */
   baseDurationMs?: number;
+  /**
+   * The produce mark (a level threshold, or a max-level cycle) the animal's
+   * produce has been claimed up to. Every mark between this and `experience`
+   * is a banked claim, paid one per wake. Absent on animals that have not
+   * been fed, loved or claimed since banking existed - read it through
+   * `getClaimedExperience`.
+   */
+  claimedExperience?: number;
   multiplier?: number;
   reward?: Reward;
   feedBuff?: AnimalFeedBuff;

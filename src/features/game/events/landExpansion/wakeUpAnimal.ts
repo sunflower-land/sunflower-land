@@ -2,8 +2,8 @@ import { produce } from "immer";
 import { ANIMALS, type AnimalType } from "features/game/types/animals";
 import type { Animal, GameState } from "features/game/types/game";
 import {
-  getAnimalLevel,
   getAnimalReadyAt,
+  getNextClaimLevel,
   makeAnimalBuildingKey,
   wakeAnimalAt,
 } from "features/game/lib/animals";
@@ -18,7 +18,8 @@ const DEFAULT_TOY: DollName = "Gilded Doll";
  * Returns the toy that an animal will wake up and play with
  */
 export function getAnimalToy({ animal }: { animal: Animal }): DollName {
-  const level = getAnimalLevel(animal.experience, animal.type);
+  // A banked animal is woken at the level its next claim pays.
+  const level = getNextClaimLevel(animal);
 
   // Every 5 levels, require a gilded doll
   if (level % 5 === 0 && level > 0) {
@@ -84,7 +85,7 @@ export function wakeAnimal({
       throw new Error("Animal not asleep");
     }
 
-    const level = getAnimalLevel(animal.experience, animal.type);
+    const level = getNextClaimLevel(animal);
 
     if (level >= 15) {
       throw new Error("Animal is too old to wake up");
