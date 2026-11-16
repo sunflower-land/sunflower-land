@@ -3370,7 +3370,6 @@
   "reputation.points.title": "İtibar - {{name}}",
   "reputation.points.amount": "{{points}} İtibar Puanları",
   "reputation.points.description": "Görevleri tamamlayarak itibar puanları kazanın.",
-  "reputation.seedling.nft": "NFT'leri geri çekin",
   "reputation.unlock.desert": "Çöl Adası'na ulaşın - {{points}} puan",
   "reputation.unlock.volcano": "Volcano Island'a ulaşın - {{points}} puan",
   "reputation.unlock.humanity": "Tam İnsanlık Kanıtı - {{points}} puan",
@@ -9058,5 +9057,10 @@
   "flowerBedRecipes.tapRecipe": "Çiçek tarhınızı doldurmak için bir tarife dokunun.",
   "flowerBedRecipes.outOfSeason": "{{seed}} bu sezon ekilemez",
   "waterTrapRecipes.pickCrustacean": "Tariflerini görmek için yakaladığınız bir kabukluları seçin.",
-  "waterTrapRecipes.tapRecipe": "Tuzağınızı kurmak için bir tarife dokunun."
+  "waterTrapRecipes.tapRecipe": "Tuzağınızı kurmak için bir tarife dokunun.",
+  "withdraw.items.upgrade": "Koleksiyon parçalarını oyundan çekmek için Grand Harvester\"a ulaşın.",
+  "withdraw.wearables.upgrade": "Giyilebilir cihazları oyundan çekmek için Grand Harvester'a ulaşın.",
+  "withdraw.buds.upgrade": "Buds\"u oyundan çekmek için Grand Harvester\"a ulaşın.",
+  "withdraw.pets.upgrade": "Evcil hayvanları oyundan çekmek için Grand Harvester'a ulaşın.",
+  "reputation.grandHarvester.withdrawItems": "Koleksiyon Ürünleri, Giyilebilir Cihazları, Tomurcukları ve Evcil Hayvanları Geri"
 }

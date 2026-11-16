@@ -4433,7 +4433,6 @@
   "reputation.points.amount": "{{points}} Очки репутации",
   "reputation.points.description": "Зарабатывай очки репутации, выполняя задания.",
   "reputation.seedling.trades": "2 объявления на торговых площадках в день",
-  "reputation.seedling.nft": "Вывод NFT",
   "reputation.seedling.farmNFT": "Ончейн-ферма",
   "reputation.unlock.spring": "Достичь Лепесткового рая - {{points}} баллов",
   "reputation.unlock.desert": "Достичь Пустынного острова  - {{points}} очков",
@@ -9058,5 +9057,10 @@
   "flowerBedRecipes.tapRecipe": "Tap a recipe to fill your flower bed.",
   "flowerBedRecipes.outOfSeason": "{{seed}} can't be planted this season",
   "waterTrapRecipes.pickCrustacean": "Pick a crustacean you have caught to see its recipes.",
-  "waterTrapRecipes.tapRecipe": "Tap a recipe to set up your trap."
+  "waterTrapRecipes.tapRecipe": "Tap a recipe to set up your trap.",
+  "withdraw.items.upgrade": "Reach Grand Harvester to withdraw collectibles from the game.",
+  "withdraw.wearables.upgrade": "Reach Grand Harvester to withdraw wearables from the game.",
+  "withdraw.buds.upgrade": "Reach Grand Harvester to withdraw Buds from the game.",
+  "withdraw.pets.upgrade": "Reach Grand Harvester to withdraw pets from the game.",
+  "reputation.grandHarvester.withdrawItems": "Withdraw Collectibles, Wearables, Buds & Pets"
 }

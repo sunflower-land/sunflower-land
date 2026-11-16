@@ -3370,7 +3370,6 @@
   "reputation.points.title": "レピュテーション-{{name}}",
   "reputation.points.amount": "{{points}} レピュテーションポイント",
   "reputation.points.description": "タスクを完了することで評判ポイントを獲得できます。",
-  "reputation.seedling.nft": "NFTを出金する",
   "reputation.unlock.desert": "デザートアイランドに到達-{{points}} ポイント",
   "reputation.unlock.volcano": "火山島に到達-{{points}} ポイント",
   "reputation.unlock.humanity": "完全な人間性の証明-{{points}} ポイント",
@@ -9058,5 +9057,10 @@
   "flowerBedRecipes.tapRecipe": "レシピをタップして花壇をいっぱいにしましょう。",
   "flowerBedRecipes.outOfSeason": "{{seed}} 今シーズンは植えられません",
   "waterTrapRecipes.pickCrustacean": "釣った甲殻類を選んでレシピを見てみよう。",
-  "waterTrapRecipes.tapRecipe": "レシピをタップしてトラップを設定します。"
+  "waterTrapRecipes.tapRecipe": "レシピをタップしてトラップを設定します。",
+  "withdraw.items.upgrade": "グランドハーベスターに到達して、ゲームから収集品を引き出してください。",
+  "withdraw.wearables.upgrade": "グランドハーベスターに連絡して、ウェアラブル端末をゲームから撤退させてください。",
+  "withdraw.buds.upgrade": "グランドハーベスターに到達してバッドをゲームから撤退させる。",
+  "withdraw.pets.upgrade": "グランドハーベスターに到達して、ゲームからペットを撤退させてください。",
+  "reputation.grandHarvester.withdrawItems": "収集品、ウェアラブル、イヤホン、ペットを引き出す"
 }

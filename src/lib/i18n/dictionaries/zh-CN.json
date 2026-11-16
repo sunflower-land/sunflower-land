@@ -3370,7 +3370,6 @@
   "reputation.points.title": "声誉 - {{name}}",
   "reputation.points.amount": "{{points}} 声誉积分",
   "reputation.points.description": "通过完成任务获得声誉积分。",
-  "reputation.seedling.nft": "提取 NFT",
   "reputation.unlock.desert": "到达黄沙岛 - {{points}} 点积分",
   "reputation.unlock.volcano": "到达火山岛 - {{points}} 积分",
   "reputation.unlock.humanity": "完整的人性证明 - {{points}} 积分",
@@ -9058,5 +9057,10 @@
   "flowerBedRecipes.tapRecipe": "点击食谱来填满你的花坛。",
   "flowerBedRecipes.outOfSeason": "{{seed}} 这个季节不能种植",
   "waterTrapRecipes.pickCrustacean": "挑选一只你捕获的甲壳类动物，看看它的食谱。",
-  "waterTrapRecipes.tapRecipe": "点击食谱来设置陷阱。"
+  "waterTrapRecipes.tapRecipe": "点击食谱来设置陷阱。",
+  "withdraw.items.upgrade": "到达 Grand Harvester 从游戏中提取收藏品。",
+  "withdraw.wearables.upgrade": "到达 Grand Harvester 将可穿戴设备从游戏中撤出。",
+  "withdraw.buds.upgrade": "到达 Grand Harvester 将 Buds 从游戏中撤出。",
+  "withdraw.pets.upgrade": "到达 Grand Harvester 将宠物从游戏中撤出。",
+  "reputation.grandHarvester.withdrawItems": "提取收藏品、可穿戴设备、花蕾和宠物"
 }
