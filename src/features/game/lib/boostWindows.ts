@@ -15,6 +15,7 @@ import {
 } from "./collectibleBuilt";
 import { getCollectiblesAcrossLocations } from "./getCollectiblesAcrossLocations";
 import type { AnimalType } from "../types/animals";
+import type { CookingBuildingName } from "../types/buildings";
 import type { RockName } from "../types/resources";
 import type { GreenHouseCropName } from "../types/crops";
 import type { GreenHouseFruitName } from "../types/fruits";
@@ -791,32 +792,110 @@ export function getBoostWindows({
  *  in-progress timer, so they're pruned from `boostHistory`. */
 const MAX_BOOST_HISTORY_AGE_MS = 7 * 24 * 60 * 60 * 1000;
 
+/** Every cooking building: each keeps a queue that chains through the windows. */
+const COOKING_BUILDINGS = getKeys({
+  "Fire Pit": true,
+  Kitchen: true,
+  Bakery: true,
+  Deli: true,
+  "Smoothie Shack": true,
+} satisfies Record<CookingBuildingName, true>);
+
+/**
+ * The earliest instant a cooking queue still re-derives from the windows, or
+ * undefined once nothing in it can change.
+ *
+ * Unlike a crop or a rock, a chained recipe has no start of its own: its start
+ * IS the derived ready time of the recipe ahead (see
+ * `resolveCookingQueueTimings`). So a window in the head's first hours still
+ * decides when the LAST recipe is ready, and an uncollected chain of four 48h
+ * recipes outlives `MAX_BOOST_HISTORY_AGE_MS`. A lifted building with no oil
+ * ledger is worse: it banks the work it did before the lift only when it is
+ * placed again, through the windows, however long it sat in the inventory.
+ *
+ * Walking the chain with every window ignored gives both answers at once. The
+ * windowed recipes' starts come out no earlier than their real ones, except
+ * for the first recipe of each chain, whose start is exact (its own anchor, or
+ * a legacy predecessor's fixed ready time) — so the earliest start found is
+ * the earliest any recipe really has. And losing windows (or oil) only ever
+ * makes a recipe later, so the unboosted chain end bounds every ready time:
+ * once it has passed — by now, or by the lift for a lifted building — no window
+ * can change anything, and an uncollected dish pins nothing.
+ */
+function getCookingQueueAnchor(
+  building: PlacedItem,
+  now: number,
+): number | undefined {
+  let earliest: number | undefined;
+  let previousEnd: number | undefined;
+
+  for (const recipe of building.crafting ?? []) {
+    const { baseDurationMs } = recipe;
+    const startedAt = recipe.startedAt ?? previousEnd;
+
+    if (baseDurationMs === undefined || startedAt === undefined) {
+      previousEnd = recipe.readyAt;
+      continue;
+    }
+
+    if (
+      baseDurationMs > 0 &&
+      (earliest === undefined || startedAt < earliest)
+    ) {
+      earliest = startedAt;
+    }
+    previousEnd = startedAt + baseDurationMs;
+  }
+
+  const doneBy =
+    !building.coordinates && building.removedAt !== undefined
+      ? building.removedAt
+      : now;
+  if (previousEnd === undefined || previousEnd <= doneBy) return undefined;
+
+  return earliest;
+}
+
 /**
  * The earliest instant any windowed ledger still needs boost history for.
+ *
+ * Almost every windowed node runs to completion on its own schedule, within
+ * `MAX_BOOST_HISTORY_AGE_MS`. Two don't:
  *
  * A windowed crop machine banks work FORWARD from `oilSettledAt`, re-deriving
  * it from the windows each time, so every window ending after that anchor is
  * still load-bearing. The anchor only advances when a crop-machine event
  * settles the machine, while the prune below runs on any event, so a machine
  * left untouched longer than `MAX_BOOST_HISTORY_AGE_MS` would otherwise lose
- * windows it still depends on.
- *
- * The crop machine is the only activity that needs this: its packs can stall
- * on an empty tank indefinitely, so its anchor can be arbitrarily old. Every
- * other windowed node runs to completion on its own schedule. Only a machine
- * with a pack still carrying `baseDurationMs` re-derives work from the windows:
+ * windows it still depends on. Its packs can stall on an empty tank
+ * indefinitely, so its anchor can be arbitrarily old. Only a machine with a
+ * pack still carrying `baseDurationMs` re-derives work from the windows:
  * finished packs keep a fixed `readyAt`, so an idle machine pins nothing.
+ *
+ * A cooking queue chains every recipe off the head's start (see
+ * `getCookingQueueAnchor`).
  */
-function getEarliestLedgerAnchor(game: GameState): number | undefined {
+function getEarliestLedgerAnchor(
+  game: GameState,
+  now: number,
+): number | undefined {
   let earliest: number | undefined;
+  const pin = (anchor: number | undefined) => {
+    if (anchor === undefined) return;
+    if (earliest === undefined || anchor < earliest) earliest = anchor;
+  };
 
   for (const machine of game.buildings?.["Crop Machine"] ?? []) {
-    const anchor = machine.oilSettledAt;
-    if (anchor === undefined) continue;
     if (!machine.queue?.some((pack) => pack.baseDurationMs !== undefined)) {
       continue;
     }
-    if (earliest === undefined || anchor < earliest) earliest = anchor;
+    pin(machine.oilSettledAt);
+  }
+
+  for (const name of COOKING_BUILDINGS) {
+    for (const building of game.buildings?.[name] ?? []) {
+      pin(getCookingQueueAnchor(building, now));
+    }
   }
 
   return earliest;
@@ -848,7 +927,7 @@ export function appendBoostHistory(
 
   // Never prune below a ledger anchor that still reads this history — losing
   // such a window would silently un-do growth a machine already completed.
-  const anchor = getEarliestLedgerAnchor(game);
+  const anchor = getEarliestLedgerAnchor(game, now);
   const horizon = Math.min(
     now - MAX_BOOST_HISTORY_AGE_MS,
     anchor ?? Number.POSITIVE_INFINITY,
