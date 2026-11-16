@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
+import type { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   BEETLE_FEEDING_XP,
@@ -32,9 +33,36 @@ export const BeetleFeedingButton: React.FC<{
   showPicker: boolean;
   onShowPickerChange: (show: boolean) => void;
 }> = ({ beetle, onChange, showPicker, onShowPickerChange }) => {
-  const { gameService, shortcutItem } = useContext(Context);
+  const { gameService, shortcutItem, removeShortcut, selectedItem } =
+    useContext(Context);
   const { t } = useAppTranslation();
   const inventory = useSelector(gameService, _inventory);
+  // The held item before Beetle mode took over the hand, restored when the
+  // mode ends so a leftover Beetle does not keep being fed.
+  const previousSelection = useRef<InventoryItemName | undefined>(undefined);
+
+  const restoreHand = (beetle: BeetleName) => {
+    const previous = previousSelection.current;
+    previousSelection.current = undefined;
+    // The player may have changed the held item since: leave their pick.
+    if (selectedItem !== beetle) return;
+
+    if (previous) {
+      shortcutItem(previous);
+    } else {
+      removeShortcut(beetle);
+    }
+  };
+
+  const closePicker = () => {
+    onShowPickerChange(false);
+    // The picker is only open while the mode is on when it opened itself
+    // because the Beetles ran out; closing it ends the mode.
+    if (beetle) {
+      onChange(undefined);
+      restoreHand(beetle);
+    }
+  };
 
   return (
     <>
@@ -43,9 +71,14 @@ export const BeetleFeedingButton: React.FC<{
         aria-label={t("animals.beetleMode")}
         className="relative z-10 border-0 bg-transparent p-0 cursor-pointer hover:img-highlight"
         style={{ width: `${PIXEL_SCALE * 18}px` }}
-        onClick={() =>
-          beetle ? onChange(undefined) : onShowPickerChange(true)
-        }
+        onClick={() => {
+          if (beetle) {
+            onChange(undefined);
+            restoreHand(beetle);
+          } else {
+            onShowPickerChange(true);
+          }
+        }}
       >
         <img className="block w-full" src={SUNNYSIDE.icons.disc} alt="" />
         <img
@@ -67,8 +100,8 @@ export const BeetleFeedingButton: React.FC<{
         )}
       </button>
 
-      <Modal show={showPicker} onHide={() => onShowPickerChange(false)}>
-        <CloseButtonPanel onClose={() => onShowPickerChange(false)}>
+      <Modal show={showPicker} onHide={closePicker}>
+        <CloseButtonPanel onClose={closePicker}>
           <div className="flex flex-col gap-1 p-1">
             <Label type="default" icon={ITEM_DETAILS["Green Beetle"].image}>
               {t("animals.beetleMode")}
@@ -84,6 +117,7 @@ export const BeetleFeedingButton: React.FC<{
                     count={inventory[name]}
                     disabled={!inventory[name]?.gte(1)}
                     onClick={() => {
+                      if (!beetle) previousSelection.current = selectedItem;
                       onShowPickerChange(false);
                       onChange(name);
                       // Hold the picked Beetle, so the HUD selection matches

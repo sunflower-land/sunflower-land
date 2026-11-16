@@ -25,7 +25,7 @@ describe("getBeetleLevelGain", () => {
         beetle: "Green Beetle",
         feeds: 1,
       }),
-    ).toBe(1);
+    ).toEqual({ levels: 1, cycles: 0 });
   });
 
   it("gains several levels when a batch overshoots", () => {
@@ -37,7 +37,7 @@ describe("getBeetleLevelGain", () => {
         beetle: "Amber Beetle",
         feeds: 1,
       }),
-    ).toBe(6);
+    ).toEqual({ levels: 6, cycles: 0 });
   });
 
   it("gains fewer levels when the player has fewer Beetles than the batch", () => {
@@ -50,7 +50,7 @@ describe("getBeetleLevelGain", () => {
         beetle: "Green Beetle",
         feeds: 2,
       }),
-    ).toBe(2);
+    ).toEqual({ levels: 2, cycles: 0 });
   });
 
   it("counts Mud's bonus XP", () => {
@@ -62,7 +62,7 @@ describe("getBeetleLevelGain", () => {
         beetle: "Green Beetle",
         feeds: 2,
       }),
-    ).toBe(3);
+    ).toEqual({ levels: 3, cycles: 0 });
   });
 
   it("counts produce cycles at max level instead of levels", () => {
@@ -75,10 +75,10 @@ describe("getBeetleLevelGain", () => {
         beetle: "Amber Beetle",
         feeds: 1,
       }),
-    ).toBe(2);
+    ).toEqual({ levels: 0, cycles: 2 });
   });
 
-  it("counts the cycles past max on the way to max level", () => {
+  it("keeps the level gain and the cycles past max separate", () => {
     // Level 14 is 2400 XP; one Amber Beetle reaches max (one level) and the
     // remaining 480 XP covers a second full 320 XP cycle.
     expect(
@@ -88,7 +88,7 @@ describe("getBeetleLevelGain", () => {
         beetle: "Amber Beetle",
         feeds: 1,
       }),
-    ).toBe(2);
+    ).toEqual({ levels: 1, cycles: 1 });
   });
 
   it("gains nothing for less than a cycle at max level", () => {
@@ -100,6 +100,6 @@ describe("getBeetleLevelGain", () => {
         beetle: "Green Beetle",
         feeds: 1,
       }),
-    ).toBe(0);
+    ).toEqual({ levels: 0, cycles: 0 });
   });
 });

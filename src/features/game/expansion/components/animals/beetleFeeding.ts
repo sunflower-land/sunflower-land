@@ -6,11 +6,12 @@ import { handleFoodXP } from "features/game/events/landExpansion/feedAnimal";
 import type { BeetleName } from "features/game/types/beetles";
 
 /**
- * How many levels feeding `feeds` `beetle`s raises `animal`: a batch can
- * overshoot several level thresholds at once, so the Beetle feeding mode
- * confirms with the player before feeding when this is more than one.
- * Client-only: it never runs inside the `animal.fed` reducer, so it lives
- * outside the event file the server mirrors.
+ * How feeding `feeds` `beetle`s raises `animal`, as levels and produce
+ * cycles separately: a batch can overshoot several level thresholds at once,
+ * so the Beetle feeding mode confirms with the player before feeding when
+ * the total is more than one. Client-only: it never runs inside the
+ * `animal.fed` reducer, so it lives outside the event file the server
+ * mirrors.
  *
  * `getAnimalLevel` caps at max level, where levels stop rising and every
  * `cycleXP` of XP is one produce cycle instead (see `hasAnimalCompletedCycle`
@@ -27,7 +28,7 @@ export function getBeetleLevelGain({
   animal: Animal;
   beetle: BeetleName;
   feeds: number;
-}): number {
+}): { levels: number; cycles: number } {
   const { foodXp } = handleFoodXP({
     state,
     animal: animal.type,
@@ -42,7 +43,7 @@ export function getBeetleLevelGain({
     .add(new Decimal(foodXp).mul(feeds))
     .toNumber();
 
-  const levelGain =
+  const levels =
     getAnimalLevel(afterFeedXp, animalType) -
     getAnimalLevel(beforeFeedXp, animalType);
 
@@ -61,5 +62,5 @@ export function getBeetleLevelGain({
       ? Math.floor((afterFeedXp - maxLevelXp) / cycleXp)
       : 0;
 
-  return levelGain + Math.max(0, cyclesAfter - cyclesBefore);
+  return { levels, cycles: Math.max(0, cyclesAfter - cyclesBefore) };
 }

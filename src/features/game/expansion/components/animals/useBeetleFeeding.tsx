@@ -6,11 +6,8 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import type { Animal } from "features/game/types/game";
 import type { BeetleName } from "features/game/types/beetles";
 import { getFeedBatchSize } from "features/game/events/landExpansion/feedAnimal";
-import { getAnimalLevel, isMaxLevel } from "features/game/lib/animals";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { Modal } from "components/ui/Modal";
-import { Button } from "components/ui/Button";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { getBeetleLevelGain } from "./beetleFeeding";
 
 const _game = (state: MachineState) => state.context.state;
@@ -18,9 +15,9 @@ const _inventory = (state: MachineState) => state.context.state.inventory;
 
 export type PendingBeetleBatch = {
   feeds: number;
-  /** The overshoot count the player is asked to approve (levels, or produce
-   * cycles at max level). */
+  /** Levels and produce cycles the player is asked to approve. */
   levels: number;
+  cycles: number;
   /** The Beetle the batch was calculated for, so switching Beetles while the
    * dialog is open can't feed a different one with the old count. */
   beetle: BeetleName;
@@ -102,14 +99,14 @@ export function useBeetleFeeding({
     const feeds = Math.min(beetleFeeds, owned.toNumber());
 
     // Overshooting several levels at once is a big spend: confirm first.
-    const levels = getBeetleLevelGain({
+    const { levels, cycles } = getBeetleLevelGain({
       state: game,
       animal,
       beetle: beetleMode,
       feeds,
     });
-    if (levels > 1) {
-      setPendingBatch({ feeds, levels, beetle: beetleMode });
+    if (levels + cycles > 1) {
+      setPendingBatch({ feeds, levels, cycles, beetle: beetleMode });
       return true;
     }
 
@@ -117,55 +114,41 @@ export function useBeetleFeeding({
     return true;
   };
 
-  const atMaxLevel = isMaxLevel(
-    animal.type,
-    getAnimalLevel(animal.experience, animal.type),
-  );
+  // The wording the batch deserves: levels only, cycles only (at max level),
+  // or both when a batch reaches max and keeps blasting through cycles.
+  const batch = pendingBatch;
+  const messageKey =
+    batch?.levels === 0
+      ? "animals.beetleMode.maxLevel"
+      : batch && batch.cycles > 0
+        ? "animals.beetleMode.mixedLevel"
+        : "animals.beetleMode.multiLevel";
 
   const confirmModal = (
-    <Modal
-      show={pendingBatch !== undefined}
+    <ConfirmationModal
+      show={batch !== undefined}
       onHide={() => setPendingBatch(undefined)}
-    >
-      <CloseButtonPanel
-        onClose={() => setPendingBatch(undefined)}
-        title={t("animals.beetleMode")}
-      >
-        <div className="flex flex-col gap-2 p-2">
-          <p className="text-xs">
-            {t(
-              atMaxLevel
-                ? "animals.beetleMode.maxLevel"
-                : "animals.beetleMode.multiLevel",
-              {
-                animal: animalName,
-                levels: pendingBatch?.levels ?? 0,
-              },
-            )}
-          </p>
-          <div className="flex gap-1">
-            <Button
-              onClick={() => {
-                const batch = pendingBatch;
-                setPendingBatch(undefined);
-                if (!batch) return;
-                // The stored Beetle is fed even if the mode changed while the
-                // dialog was up; skip when the batch is no longer affordable.
-                const owned = inventory[batch.beetle] ?? new Decimal(0);
-                if (owned.gte(batch.feeds)) {
-                  feedAndReopen(batch.beetle, batch.feeds);
-                }
-              }}
-            >
-              {t("confirm")}
-            </Button>
-            <Button onClick={() => setPendingBatch(undefined)}>
-              {t("cancel")}
-            </Button>
-          </div>
-        </div>
-      </CloseButtonPanel>
-    </Modal>
+      onCancel={() => setPendingBatch(undefined)}
+      confirmButtonLabel={t("confirm")}
+      messages={[
+        t(messageKey, {
+          animal: animalName,
+          levels: batch?.levels ?? 0,
+          cycles: batch?.cycles ?? 0,
+        }),
+      ]}
+      onConfirm={() => {
+        const confirmed = batch;
+        setPendingBatch(undefined);
+        if (!confirmed) return;
+        // The stored Beetle is fed even if the mode changed while the
+        // dialog was up; skip when the batch is no longer affordable.
+        const owned = inventory[confirmed.beetle] ?? new Decimal(0);
+        if (owned.gte(confirmed.feeds)) {
+          feedAndReopen(confirmed.beetle, confirmed.feeds);
+        }
+      }}
+    />
   );
 
   return { beetleMode, beetleFeeds, handleBeetleClick, confirmModal };
