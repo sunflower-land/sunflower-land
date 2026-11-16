@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import type { GameState } from "../../types/game";
 import type { CropCompostName } from "features/game/types/composters";
-import { CROPS, type Crop, isBasicCrop } from "features/game/types/crops";
+import { CROPS, isBasicCrop } from "features/game/types/crops";
 import { getCropReadyAt, isReadyToHarvest } from "./harvest";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { produce } from "immer";
@@ -37,22 +37,6 @@ export enum FERTILISE_CROP_ERRORS {
   PLOT_NOT_PLACED = "Plot not placed!",
 }
 
-const getPlantedAt = (
-  fertiliser: CropCompostName,
-  plantedAt: number,
-  fertilisedAt: number,
-  cropDetails: Crop,
-) => {
-  const timeToHarvest = cropDetails.harvestSeconds * 1000;
-  const harvestTime = plantedAt + timeToHarvest;
-  const timeReduction = (harvestTime - fertilisedAt) / 2;
-  if (fertiliser === "Rapid Root" || fertiliser === "Sproutroot Surprise") {
-    return { newPlantedAt: plantedAt - timeReduction, timeReduction };
-  }
-
-  return { newPlantedAt: plantedAt, timeReduction: 0 };
-};
-
 type ApplyFertiliserArgs = {
   game: GameState;
   plotId: string;
@@ -82,21 +66,9 @@ export function applyFertiliserToPlot({
     (fertiliser === "Rapid Root" || fertiliser === "Sproutroot Surprise") &&
     cropDetails
   ) {
-    // Speed-rate model: the fertiliser is a live 2× window from `fertilisedAt`
-    // (recorded on `plot.fertiliser` above), so a windowed crop needs no mutation
-    // — its readyAt is derived live via getCropFertiliserWindows. Only legacy
-    // crops back-date plantedAt.
-    if (crop.baseDurationMs === undefined) {
-      const { newPlantedAt, timeReduction } = getPlantedAt(
-        fertiliser,
-        crop.plantedAt,
-        createdAt,
-        cropDetails,
-      );
-
-      crop.plantedAt = newPlantedAt;
-      crop.boostedTime = (crop.boostedTime ?? 0) + timeReduction;
-    }
+    // The fertiliser is a live 2× window from `fertilisedAt` (recorded on
+    // `plot.fertiliser` above), so the crop needs no mutation: its readyAt is
+    // derived live via getCropFertiliserWindows.
 
     if (
       isCollectibleOnFarm({ name: "Basic Scarecrow", game }) &&

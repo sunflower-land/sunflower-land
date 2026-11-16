@@ -7,6 +7,8 @@ import {
   pauseWindowedTimer,
 } from "features/game/lib/boostWindows";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { FLOWER_SEEDS } from "features/game/types/flowers";
+import { FLOWERS } from "features/game/types/flowers";
 
 export type PlaceFlowerBedAction = {
   type: "flowerBed.placed";
@@ -62,6 +64,9 @@ export function placeFlowerBed({
           startedAt: updatedFlowerBed.flower.plantedAt,
           removedAt: updatedFlowerBed.removedAt,
           createdAt,
+          rawBaseMs:
+            FLOWER_SEEDS[FLOWERS[updatedFlowerBed.flower.name].seed]
+              .plantSeconds * 1000,
           windows: getFlowerBoostWindows(game),
           trackProgress: true,
         });

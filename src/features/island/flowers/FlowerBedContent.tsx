@@ -43,6 +43,11 @@ const isFlower = (name: FlowerCrossBreedName): name is FlowerName =>
 interface Props {
   id: string;
   onClose: () => void;
+  /** Pre-fill both slots, e.g. from a recipe on the Recipes tab. */
+  initialSeed?: FlowerSeedName;
+  initialCrossbreed?: FlowerCrossBreedName;
+  /** Called with what was planted, e.g. to remember it for the next bed. */
+  onPlant?: (seed: FlowerSeedName, crossbreed: FlowerCrossBreedName) => void;
 }
 
 /**
@@ -65,18 +70,26 @@ const useFlowerSeedTime = (state: GameState, seed?: FlowerSeedName) => {
   });
 };
 
-export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
+export const FlowerBedContent: React.FC<Props> = ({
+  id,
+  onClose,
+  initialSeed,
+  initialCrossbreed,
+  onPlant,
+}) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
   const { inventory, flowers } = state;
 
   const [selecting, setSelecting] = useState<"seed" | "crossbreed" | null>(
-    "seed",
+    initialSeed ? "crossbreed" : "seed",
   );
-  const [seed, setSeed] = useState<FlowerSeedName>();
+  const [seed, setSeed] = useState<FlowerSeedName | undefined>(initialSeed);
 
-  const [crossbreed, setCrossBreed] = useState<FlowerCrossBreedName>();
+  const [crossbreed, setCrossBreed] = useState<
+    FlowerCrossBreedName | undefined
+  >(initialCrossbreed);
   const selectedSeedTime = useFlowerSeedTime(state, seed);
 
   const selectSeed = (name: FlowerSeedName) => {
@@ -108,6 +121,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
       seed: seed as FlowerSeedName,
       crossbreed: crossbreed as FlowerCrossBreedName,
     });
+    onPlant?.(seed as FlowerSeedName, crossbreed as FlowerCrossBreedName);
     onClose();
   };
 

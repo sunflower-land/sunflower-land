@@ -209,8 +209,14 @@ describe("skillUse", () => {
         createdAt: dateNow,
       });
 
-      expect(state.crops["123"].crop?.plantedAt).toEqual(1);
-      expect(state.crops["789"].crop?.plantedAt).toEqual(1);
+      expect(state.crops["123"].crop).toMatchObject({
+        plantedAt: dateNow,
+        baseDurationMs: 0,
+      });
+      expect(state.crops["789"].crop).toMatchObject({
+        plantedAt: dateNow,
+        baseDurationMs: 0,
+      });
     });
 
     it("doesn't activate Instant Growth if they have a different skill", () => {
@@ -403,6 +409,120 @@ describe("skillUse", () => {
       });
 
       expect(stateAfterHarvest.inventory.Kale).toEqual(new Decimal(1.5));
+    });
+
+    it("frees the yield AOE for a windowed crop that was lifted mid-grow", () => {
+      const base = CROPS["Kale"].harvestSeconds * 1000;
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Instant Growth": 1 },
+          },
+          inventory: {
+            Kale: new Decimal(0),
+          },
+          crops: {
+            "123": {
+              crop: {
+                id: "456",
+                name: "Kale",
+                plantedAt: dateNow,
+                // Half the grow was banked by a landscaping lift.
+                baseDurationMs: base / 2,
+                boostedTime: base / 2,
+              },
+              createdAt: dateNow,
+              x: 1,
+              y: 0,
+            },
+          },
+          collectibles: {
+            "Sir Goldensnout": [
+              {
+                id: "123",
+                createdAt: dateNow,
+                readyAt: dateNow,
+                coordinates: { x: 0, y: 0 },
+              },
+            ],
+          },
+          aoe: { "Sir Goldensnout": { 1: { 0: dateNow } } },
+        },
+        action: {
+          type: "skill.used",
+          skill: "Instant Growth",
+        },
+        createdAt: dateNow,
+      });
+
+      const stateAfterHarvest = harvest({
+        farmId: 1,
+        state,
+        action: { type: "crop.harvested", index: "123" },
+        createdAt: dateNow,
+      });
+
+      expect(stateAfterHarvest.inventory.Kale).toEqual(new Decimal(1.5));
+    });
+
+    it("keeps an older crop's cycle start (no cycleStartedAt) through Instant Growth", () => {
+      // Planted before the tile's last bonus, so it must not pay out again just
+      // because Instant Growth re-anchors plantedAt.
+      const plantedAt = dateNow - 1000;
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Instant Growth": 1 },
+          },
+          inventory: {
+            Kale: new Decimal(0),
+          },
+          crops: {
+            "123": {
+              crop: {
+                id: "456",
+                name: "Kale",
+                plantedAt,
+                baseDurationMs: CROPS["Kale"].harvestSeconds * 1000,
+              },
+              createdAt: dateNow,
+              x: 1,
+              y: 0,
+            },
+          },
+          collectibles: {
+            "Sir Goldensnout": [
+              {
+                id: "123",
+                createdAt: dateNow,
+                readyAt: dateNow,
+                coordinates: { x: 0, y: 0 },
+              },
+            ],
+          },
+          aoe: { "Sir Goldensnout": { 1: { 0: plantedAt + 1 } } },
+        },
+        action: {
+          type: "skill.used",
+          skill: "Instant Growth",
+        },
+        createdAt: dateNow,
+      });
+
+      expect(state.crops["123"].crop?.cycleStartedAt).toBe(plantedAt);
+
+      const stateAfterHarvest = harvest({
+        farmId: 1,
+        state,
+        action: { type: "crop.harvested", index: "123" },
+        createdAt: dateNow,
+      });
+
+      expect(stateAfterHarvest.inventory.Kale).toEqual(new Decimal(1));
     });
 
     it("leaves the yield AOE of a plot it did not grow untouched", () => {
@@ -610,7 +730,7 @@ describe("skillUse", () => {
         createdAt: dateNow,
       });
 
-      expect(state.greenhouse.pots[1].plant?.plantedAt).toEqual(1);
+      expect(state.greenhouse.pots[1].plant?.baseDurationMs).toEqual(0);
     });
 
     it("zeroes the remaining work for windowed plants (speed-rate model)", () => {
@@ -758,9 +878,8 @@ describe("skillUse", () => {
         createdAt: dateNow,
       });
 
-      const expectedTime =
-        dateNow -
-        FLOWER_SEEDS[FLOWERS["Yellow Carnation"].seed].plantSeconds * 1000;
+      // Instantly grown: re-anchored to now with no work left.
+      const expectedTime = dateNow;
 
       expect(state.flowers.flowerBeds["123"].flower?.plantedAt).toEqual(
         expectedTime,
@@ -923,9 +1042,8 @@ describe("skillUse", () => {
         createdAt: dateNow,
       });
 
-      const expectedTime =
-        dateNow -
-        FLOWER_SEEDS[FLOWERS["Yellow Carnation"].seed].plantSeconds * 1000;
+      // Instantly grown: re-anchored to now with no work left.
+      const expectedTime = dateNow;
 
       expect(state.flowers.flowerBeds["123"].flower?.plantedAt).toEqual(
         expectedTime,
@@ -1036,9 +1154,8 @@ describe("skillUse", () => {
         createdAt: dateNow,
       });
 
-      const expectedTime =
-        dateNow -
-        FLOWER_SEEDS[FLOWERS["Yellow Carnation"].seed].plantSeconds * 1000;
+      // Instantly grown: re-anchored to now with no work left.
+      const expectedTime = dateNow;
 
       expect(state.flowers.flowerBeds["123"].flower?.plantedAt).toEqual(
         expectedTime,
@@ -1624,6 +1741,8 @@ describe("skillUse", () => {
         createdAt: dateNow,
       });
       expect(state.henHouse.animals["123"].awakeAt).toEqual(dateNow);
+      // Stays on the speed-rate model: it fell asleep just now, so no work.
+      expect(state.henHouse.animals["123"].baseDurationMs).toEqual(0);
     });
   });
 

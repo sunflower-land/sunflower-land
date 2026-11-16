@@ -94,6 +94,8 @@ describe("placeSunstone", () => {
         createdAt: expect.any(Number),
         stone: {
           minedAt: 0,
+          // Created ready, already on the speed-rate model (Sunstone Rock: 3 days).
+          baseDurationMs: 3 * 24 * 60 * 60 * 1000,
         },
         minesLeft: 10,
         x: 2,
@@ -144,7 +146,9 @@ describe("placeSunstone", () => {
       "123": {
         createdAt: expect.any(Number),
         stone: {
-          minedAt: dateNow - 60000,
+          minedAt: dateNow,
+          // 72h raw sunstone recovery, less the 1 min banked before the lift.
+          baseDurationMs: 72 * 60 * 60 * 1000 - 60000,
         },
         x: 2,
         y: 2,

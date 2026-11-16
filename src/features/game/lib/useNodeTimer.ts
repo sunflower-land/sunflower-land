@@ -9,15 +9,15 @@ type UseNodeTimerArgs = {
   /** When the task began — plantedAt / choppedAt / minedAt / drilledAt. */
   startedAt: number;
   /**
-   * The task's un-boosted work, with permanent boosts folded in. Present only on
-   * nodes started under the speed-rate model; its absence selects the legacy
-   * back-dated timing (the read path keys off the marker, NOT the flag).
+   * The task's un-boosted work, with permanent boosts folded in. Absent only for
+   * a task with no work model (fish processing, an entry chained without a start
+   * of its own), which counts down to `fallbackReadyAt` instead.
    */
   baseDurationMs?: number;
   /** The activity's live speed windows (e.g. getTreeBoostWindows). */
   windows: BoostWindow[];
-  /** Ready time for a legacy node, used when `baseDurationMs` is absent. */
-  legacyReadyAt: number;
+  /** Ready time for a task with no `baseDurationMs`. */
+  fallbackReadyAt?: number;
   /**
    * Whether anything is actually running. False for an empty plot/patch, so the
    * component doesn't re-render on a clock it isn't showing. Defaults to true.
@@ -51,14 +51,14 @@ export function useNodeTimer({
   startedAt,
   baseDurationMs,
   windows,
-  legacyReadyAt,
+  fallbackReadyAt,
   live = true,
 }: UseNodeTimerArgs): NodeTimer {
   const windowed = baseDurationMs !== undefined;
 
   const readyAt = windowed
     ? computeReadyAt({ startedAt, baseDurationMs, windows })
-    : legacyReadyAt;
+    : (fallbackReadyAt ?? startedAt);
 
   const now = useNow({ live, autoEndAt: readyAt });
 

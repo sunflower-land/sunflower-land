@@ -3370,7 +3370,6 @@
   "reputation.points.title": "İtibar - {{name}}",
   "reputation.points.amount": "{{points}} İtibar Puanları",
   "reputation.points.description": "Görevleri tamamlayarak itibar puanları kazanın.",
-  "reputation.seedling.nft": "NFT'leri geri çekin",
   "reputation.unlock.desert": "Çöl Adası'na ulaşın - {{points}} puan",
   "reputation.unlock.volcano": "Volcano Island'a ulaşın - {{points}} puan",
   "reputation.unlock.humanity": "Tam İnsanlık Kanıtı - {{points}} puan",
@@ -9052,5 +9051,16 @@
   "statements.blacklist.tos.automation": "Otomasyonu kullanmak Hizmet Koşullarımızın ihlalidir. Ayçiçeği Ülkesi elle oynanmak içindir. Sizin için oynayan komut dosyaları, makrolar, otomatik tıklayıcılar ve diğer üçüncü taraf araçları haksız bir avantaj sağlar, oyunun bütünlüğünü zayıflatır ve tüm oyuncuları olumsuz etkiler. Bu kısıtlama, topluluk için adil bir ortam sağlamak için uygulanmıştır..",
   "statsLeaderboard.board.socialPoints": "Sosyal Puanlar",
   "statsLeaderboard.title.socialPoints": "En Çok Sosyal Puan",
-  "statsLeaderboard.description.socialPoints": "Her zaman kazanılan sosyal puanlar"
+  "statsLeaderboard.description.socialPoints": "Her zaman kazanılan sosyal puanlar",
+  "cropMachine.harvestAllConfirm": "Tüm {{count}} hazır paketleri hasat etmek istediğinizden emin misiniz?",
+  "flowerBedRecipes.pickFlower": "Tariflerini görmek için yetiştirdiğiniz bir çiçek seçin.",
+  "flowerBedRecipes.tapRecipe": "Çiçek tarhınızı doldurmak için bir tarife dokunun.",
+  "flowerBedRecipes.outOfSeason": "{{seed}} bu sezon ekilemez",
+  "waterTrapRecipes.pickCrustacean": "Tariflerini görmek için yakaladığınız bir kabukluları seçin.",
+  "waterTrapRecipes.tapRecipe": "Tuzağınızı kurmak için bir tarife dokunun.",
+  "withdraw.items.upgrade": "Koleksiyon parçalarını oyundan çekmek için Grand Harvester\"a ulaşın.",
+  "withdraw.wearables.upgrade": "Giyilebilir cihazları oyundan çekmek için Grand Harvester'a ulaşın.",
+  "withdraw.buds.upgrade": "Buds\"u oyundan çekmek için Grand Harvester\"a ulaşın.",
+  "withdraw.pets.upgrade": "Evcil hayvanları oyundan çekmek için Grand Harvester'a ulaşın.",
+  "reputation.grandHarvester.withdrawItems": "Koleksiyon Ürünleri, Giyilebilir Cihazları, Tomurcukları ve Evcil Hayvanları Geri"
 }

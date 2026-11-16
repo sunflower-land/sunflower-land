@@ -10,13 +10,20 @@ import {
   TREE_RECOVERY_TIME,
 } from "features/game/lib/constants";
 import {
+  DESERT_LAYOUTS,
   EXPANSION_REQUIREMENTS,
   SPRING_LAYOUTS,
   TOTAL_EXPANSION_NODES,
   getBasicLand,
 } from "features/game/types/expansions";
 import type { Nodes } from "features/game/expansion/lib/expansionNodes";
-import { BB_TO_GEM_RATIO, type FiniteResource } from "features/game/types/game";
+import {
+  BB_TO_GEM_RATIO,
+  type FiniteResource,
+  type GameState,
+} from "features/game/types/game";
+import { CROPS } from "features/game/types/crops";
+import { getKeys } from "lib/object";
 import { OIL_RESERVE_RECOVERY_TIME } from "./drillOilReserve";
 
 describe("getRewards", () => {
@@ -177,6 +184,62 @@ describe("totalExpansions", () => {
 });
 
 describe("revealLand", () => {
+  it("creates every timed node already on the speed-rate model", () => {
+    const HOUR = 60 * 60 * 1000;
+    // Raw base durations: what the node would read as with no marker.
+    const ROCKS = {
+      stones: 4 * HOUR,
+      iron: 8 * HOUR,
+      gold: 24 * HOUR,
+      crimstones: 24 * HOUR,
+      sunstones: 3 * 24 * HOUR,
+    } as const;
+
+    let game: GameState = {
+      ...TEST_FARM,
+      island: { type: "desert" },
+      inventory: { "Basic Land": new Decimal(4) },
+      crops: {},
+      trees: {},
+      stones: {},
+      iron: {},
+      gold: {},
+      crimstones: {},
+      sunstones: {},
+      fruitPatches: {},
+      oilReserves: {},
+    };
+    // Reveal every desert expansion in turn.
+    while (DESERT_LAYOUTS()[game.inventory["Basic Land"]!.toNumber() + 1]) {
+      game = revealLand({
+        action: { type: "land.revealed" },
+        state: { ...game, expansionConstruction: { createdAt: 0, readyAt: 0 } },
+      });
+    }
+
+    for (const key of getKeys(ROCKS)) {
+      expect(Object.keys(game[key]).length).toBeGreaterThan(0);
+      for (const rock of Object.values(game[key])) {
+        expect(rock.stone.baseDurationMs).toEqual(ROCKS[key]);
+      }
+    }
+    for (const tree of Object.values(game.trees)) {
+      expect(tree.wood.baseDurationMs).toEqual(2 * HOUR);
+    }
+    for (const reserve of Object.values(game.oilReserves)) {
+      expect(reserve.oil.baseDurationMs).toEqual(20 * HOUR);
+    }
+    for (const plot of Object.values(game.crops)) {
+      expect(plot.crop?.baseDurationMs).toEqual(
+        CROPS[plot.crop!.name].harvestSeconds * 1000,
+      );
+    }
+    for (const patch of Object.values(game.fruitPatches)) {
+      // Apple: 12h.
+      expect(patch.fruit?.baseDurationMs).toEqual(12 * HOUR);
+    }
+  });
+
   it("requires land exists", () => {
     expect(() =>
       revealLand({
@@ -227,6 +290,27 @@ describe("revealLand", () => {
     });
 
     expect(state.expansionConstruction).toBeUndefined();
+  });
+
+  it("starts the land 5 Fire Pit on the oil ledger", () => {
+    const createdAt = Date.now();
+    const state = revealLand({
+      action: {
+        type: "land.revealed",
+      },
+      state: {
+        ...TEST_FARM,
+        inventory: { "Basic Land": new Decimal(4) },
+        buildings: {},
+        expansionConstruction: { createdAt: 0, readyAt: 0 },
+      },
+      createdAt,
+    });
+
+    expect(state.buildings["Fire Pit"]?.[0]).toMatchObject({
+      createdAt,
+      oilSettledAt: createdAt,
+    });
   });
 
   it("adds basic land", () => {

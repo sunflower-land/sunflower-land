@@ -170,8 +170,7 @@ export function recalculateCraftingQueue({
     // NOT migrate it onto the windowed model, unlike cooking's `recalculateQueue`:
     // that has to, because `getCookingTime` stopped baking the temporary boosts in,
     // so re-deriving a legacy recipe's duration would strip its boost. Here nothing
-    // is ever re-derived from the recipe, so a legacy craft stays legacy safely and
-    // `migrateSpeedBoosts` picks it up on the next load.
+    // is ever re-derived from the recipe, so a legacy craft stays legacy safely.
     const recipe = getRecipeByName(item.name, game);
     if (!recipe) continue;
 
@@ -294,6 +293,11 @@ export function cancelQueuedCrafting({
       `${item.name} Crafting Started`,
       game.farmActivity,
       new Decimal(-1),
+    );
+    // The next start of this recipe takes this craft's place - see startCrafting.
+    game.farmActivity = trackFarmActivity(
+      `${item.name} Crafting Cancelled`,
+      game.farmActivity,
     );
 
     game.craftingBox.queue = recalculateCraftingQueue({

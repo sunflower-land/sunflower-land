@@ -1,9 +1,10 @@
 import Decimal from "decimal.js-light";
 import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
 import {
-  getAnimalLevel,
   getAnimalReadyAt,
-  hasAnimalCompletedCycle,
+  getClaimedExperience,
+  getNextClaimLevel,
+  getPendingClaims,
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
@@ -138,32 +139,24 @@ export function loveAnimal({
       throw new Error(`Missing item, ${action.item}`);
     }
 
-    const beforeLoveXp = animal.experience;
-
     const { animalXP } = getAnimalXP({
       name: action.item,
       state: copy,
       animal: action.animal,
     });
 
+    // Pin the claimed mark first, so a level the pet crosses is banked.
+    animal.claimedExperience = getClaimedExperience(animal);
     animal.experience += animalXP;
     animal.lovesThisSleep = getLovesThisSleep(animal) + 1;
     animal.lovedAt = createdAt;
 
-    animal.item = getAnimalItem(
-      getAnimalLevel(animal.experience, action.animal),
-      Math.random,
-    );
+    animal.item = getAnimalItem(getNextClaimLevel(animal), Math.random);
 
-    // Same test as feeding: a level-up, or at max level a completed XP cycle,
-    // means the animal wakes with produce rather than a wrapped-around bar.
-    if (
-      hasAnimalCompletedCycle({
-        animalType: animal.type,
-        beforeXp: beforeLoveXp,
-        gainedXp: animalXP,
-      })
-    ) {
+    // Same as feeding: a level-up, or at max level a completed XP cycle, means
+    // the animal wakes with produce rather than a wrapped-around bar. A sick
+    // animal stays sick: only a cure makes it ready again.
+    if (animal.state !== "sick" && getPendingClaims(animal) > 0) {
       animal.state = "ready";
     }
 

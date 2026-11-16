@@ -6,6 +6,8 @@ import {
   getOilBoostWindows,
   pauseWindowedTimer,
 } from "features/game/lib/boostWindows";
+import { freshOilTimer } from "features/game/lib/freshNodes";
+import { OIL_RESERVE_RECOVERY_TIME } from "./drillOilReserve";
 
 export type PlaceOilReserveAction = {
   type: "oilReserve.placed";
@@ -58,6 +60,7 @@ export function placeOilReserve({
           startedAt: updatedOilReserve.oil.drilledAt,
           removedAt: updatedOilReserve.removedAt,
           createdAt,
+          rawBaseMs: OIL_RESERVE_RECOVERY_TIME * 1000,
           windows: getOilBoostWindows(game),
         });
       }
@@ -72,9 +75,7 @@ export function placeOilReserve({
       createdAt,
       x: action.coordinates.x,
       y: action.coordinates.y,
-      oil: {
-        drilledAt: 0,
-      },
+      oil: freshOilTimer(),
       drilled: 0,
     };
 

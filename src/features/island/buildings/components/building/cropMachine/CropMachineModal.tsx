@@ -63,6 +63,7 @@ import { TimeRemainingLabel } from "./components/TimeRemainingLabel";
 import { OilTank } from "./components/OilTank";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 import { getPackYieldAmount } from "features/game/events/landExpansion/harvestCropMachine";
+import { ConfirmationModal } from "components/ui/ConfirmationModal";
 
 interface Props {
   show: boolean;
@@ -139,6 +140,8 @@ export const CropMachineModalContent: React.FC<Props> = ({
   );
   const [selectedSeed, setSelectedSeed] = useState<CropSeedName>();
   const [showOverlayScreen, setShowOverlayScreen] = useState<boolean>(false);
+  const [showHarvestAllConfirm, setShowHarvestAllConfirm] =
+    useState<boolean>(false);
   const [totalSeeds, setTotalSeeds] = useState(0);
   const [totalOil, setTotalOil] = useState(0);
   type Tab = "cropMachine";
@@ -276,6 +279,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
   const handleHarvestAll = () => {
     onHarvestAll();
     setSelectedPackIndex(0);
+    setShowHarvestAllConfirm(false);
   };
 
   const handleAddOil = () => {
@@ -700,7 +704,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
             {readyPackCount > 1 && (
               <Button
                 className="w-auto px-2 py-1 whitespace-nowrap"
-                onClick={handleHarvestAll}
+                onClick={() => setShowHarvestAllConfirm(true)}
               >
                 {t("cropMachine.harvestAll", { count: readyPackCount })}
               </Button>
@@ -849,6 +853,18 @@ export const CropMachineModalContent: React.FC<Props> = ({
           </div>
         </InnerPanel>
       </ModalOverlay>
+      <ConfirmationModal
+        show={showHarvestAllConfirm}
+        onHide={() => setShowHarvestAllConfirm(false)}
+        messages={[
+          t("cropMachine.harvestAllConfirm", { count: readyPackCount }),
+        ]}
+        onCancel={() => setShowHarvestAllConfirm(false)}
+        onConfirm={handleHarvestAll}
+        confirmButtonLabel={t("cropMachine.harvestAll", {
+          count: readyPackCount,
+        })}
+      />
     </CloseButtonPanel>
   );
 };

@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
-import { BUILDINGS } from "features/game/types/buildings";
+import { BUILDINGS, type BuildingName } from "features/game/types/buildings";
 import { INITIAL_FARM, TEST_FARM } from "../../lib/constants";
 import type { GameState } from "../../types/game";
 import {
@@ -299,6 +299,7 @@ describe("Construct building", () => {
       coordinates: { x: 1, y: 1 },
       readyAt: expect.any(Number),
       createdAt: date,
+      oilSettledAt: date,
     });
   });
 
@@ -957,5 +958,57 @@ describe("constructBuilding: Cave", () => {
         bumpkin: { ...TEST_BUMPKIN, experience: LEVEL_EXPERIENCE[10] },
       }),
     ).toThrow(CONSTRUCT_BUILDING_ERRORS.BUMPKIN_LEVEL_NOT_MET);
+  });
+});
+
+describe("constructBuilding: oil ledger", () => {
+  const now = Date.now();
+
+  // Enough of everything to build `name` on a desert island at level 64.
+  const build = (name: BuildingName, coordinates?: { x: number; y: number }) =>
+    constructBuilding({
+      state: {
+        ...GAME_STATE,
+        buildings: {},
+        trees: {},
+        stones: {},
+        coins: 100_000,
+        inventory: {
+          ...(BUILDINGS[name].ingredients as GameState["inventory"]),
+          "Basic Land": new Decimal(5),
+        },
+        bumpkin: { ...TEST_BUMPKIN, experience: LEVEL_EXPERIENCE[64] },
+        island: { type: "desert" },
+      },
+      action: {
+        type: "building.constructed",
+        id: "123",
+        name,
+        coordinates,
+      },
+      createdAt: now,
+    }).buildings[name]?.[0];
+
+  // Otherwise the building reads as one still deducting oil per recipe until
+  // its first cook, supply or load converts it.
+  // Fire Pit is not constructable: it comes with land 5 (`revealLand`).
+  it.each([
+    "Kitchen",
+    "Bakery",
+    "Deli",
+    "Smoothie Shack",
+    "Crop Machine",
+  ] as const)("starts %s on the oil ledger", (name) => {
+    expect(build(name, { x: 1, y: 1 })?.oilSettledAt).toEqual(now);
+  });
+
+  it("starts the ledger for a building constructed into the chest", () => {
+    expect(build("Bakery")?.oilSettledAt).toEqual(now);
+  });
+
+  it("leaves buildings without an oil tank alone", () => {
+    expect(build("Water Well", { x: 1, y: 1 })).not.toHaveProperty(
+      "oilSettledAt",
+    );
   });
 });

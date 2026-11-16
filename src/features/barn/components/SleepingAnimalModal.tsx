@@ -23,7 +23,9 @@ import type {
 } from "features/game/types/game";
 import {
   getAnimalFavoriteFood,
-  getAnimalLevel,
+  getAnimalShownLevel,
+  getNextClaimLevel,
+  getPendingClaims,
   getResourceDropAmount,
   isMaxLevel as isMaxAnimalLevel,
   isMuddy,
@@ -152,7 +154,7 @@ export const SleepingAnimalModal = ({
     startedAt: animal.asleepAt,
     baseDurationMs: animal.baseDurationMs,
     windows: getAnimalBoostWindows(state, animal.type),
-    legacyReadyAt: awakeAt,
+    fallbackReadyAt: awakeAt,
   });
   // The love slot is a wall-clock boundary, not a work timer.
   const { totalSeconds: secondsUntilLove } = useCountdown(
@@ -207,10 +209,13 @@ export const SleepingAnimalModal = ({
 
   const hasTool = getCountAndType(state, animal.item).count.gt(0);
 
-  const level = getAnimalLevel(animal.experience, animal.type);
+  // The level the player sees, and the level whose produce the next claim
+  // pays - they differ while the animal has a claim waiting.
+  const level = getAnimalShownLevel(animal);
   const isMaxLevel = isMaxAnimalLevel(animal.type, level);
+  const hasBankedClaims = getPendingClaims(animal) > 0;
   const production = Object.entries(
-    ANIMAL_RESOURCE_DROP[animal.type][level],
+    ANIMAL_RESOURCE_DROP[animal.type][getNextClaimLevel(animal)],
   ).map(([resource, baseAmount]) => {
     const result = getResourceDropAmount({
       game: state,
@@ -228,17 +233,20 @@ export const SleepingAnimalModal = ({
     };
   });
 
-  const xpToNext = isMaxLevel
-    ? (() => {
-        const levelBeforeMaxXP =
-          ANIMAL_LEVELS[animal.type][(level - 1) as AnimalLevel];
-        const maxLevelXP = ANIMAL_LEVELS[animal.type][level as AnimalLevel];
-        const cycleXP = maxLevelXP - levelBeforeMaxXP;
-        const excessXP = animal.experience - maxLevelXP;
-        return cycleXP - (excessXP % cycleXP);
-      })()
-    : ANIMAL_LEVELS[animal.type][(level + 1) as AnimalLevel] -
-      animal.experience;
+  // A banked claim has already earned its XP: nothing left to the next level.
+  const xpToNext = hasBankedClaims
+    ? 0
+    : isMaxLevel
+      ? (() => {
+          const levelBeforeMaxXP =
+            ANIMAL_LEVELS[animal.type][(level - 1) as AnimalLevel];
+          const maxLevelXP = ANIMAL_LEVELS[animal.type][level as AnimalLevel];
+          const cycleXP = maxLevelXP - levelBeforeMaxXP;
+          const excessXP = animal.experience - maxLevelXP;
+          return cycleXP - (excessXP % cycleXP);
+        })()
+      : ANIMAL_LEVELS[animal.type][(level + 1) as AnimalLevel] -
+        animal.experience;
 
   const { name: mutantName } = animal.reward?.items?.[0] ?? {};
 

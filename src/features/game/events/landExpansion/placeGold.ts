@@ -14,7 +14,10 @@ import {
   getMineBoostWindows,
   pauseWindowedTimer,
 } from "features/game/lib/boostWindows";
+import { getRockCycleStartedAt } from "features/game/lib/aoe";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { freshRockTimer } from "features/game/lib/freshNodes";
+import { RESOURCE_RECOVERY_TIME } from "features/game/lib/resourceNodes";
 
 export type PlaceGoldAction = {
   type: "gold.placed";
@@ -57,12 +60,15 @@ export function placeGold({
       };
 
       if (updatedGold.stone && updatedGold.removedAt) {
+        // Keep the cycle start the yield AOEs read before minedAt moves.
+        updatedGold.stone.cycleStartedAt = getRockCycleStartedAt(updatedGold);
         // Pause recovery across the lift (windowed banking or legacy back-date).
         updatedGold.stone.minedAt = pauseWindowedTimer({
           timer: updatedGold.stone,
           startedAt: updatedGold.stone.minedAt,
           removedAt: updatedGold.removedAt,
           createdAt,
+          rawBaseMs: RESOURCE_RECOVERY_TIME[action.name] * 1000,
           windows: getMineBoostWindows(game, action.name),
         });
       }
@@ -77,9 +83,7 @@ export function placeGold({
       createdAt,
       x: action.coordinates.x,
       y: action.coordinates.y,
-      stone: {
-        minedAt: 0,
-      },
+      stone: freshRockTimer(action.name),
       tier: ADVANCED_RESOURCES[action.name as UpgradedResourceName]?.tier ?? 1,
       name: action.name,
       multiplier: RESOURCE_MULTIPLIER[action.name],

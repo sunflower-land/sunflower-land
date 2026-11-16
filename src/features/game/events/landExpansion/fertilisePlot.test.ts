@@ -122,43 +122,6 @@ describe("fertiliseCrop", () => {
     ).toThrow(FERTILISE_CROP_ERRORS.NOT_ENOUGH_FERTILISER);
   });
 
-  it("fertilises a crop with Rapid Root", () => {
-    const sunflowerPlantedAt = dateNow - 40 * 1000;
-    const gameState = fertilisePlot({
-      state: {
-        ...GAME_STATE,
-        inventory: {
-          ...inventory,
-          "Rapid Root": new Decimal(5),
-        },
-        crops: {
-          0: {
-            ...plot,
-            crop: {
-              name: "Sunflower",
-              plantedAt: sunflowerPlantedAt,
-            },
-          },
-        },
-      },
-      action: {
-        type: "plot.fertilised",
-        plotID: "0",
-
-        fertiliser: "Rapid Root",
-      },
-      createdAt: dateNow,
-    });
-
-    const cropTime = CROPS["Sunflower"].harvestSeconds * 1000;
-    const harvestTime = sunflowerPlantedAt + cropTime;
-
-    expect(gameState.crops["0"].crop?.plantedAt).toEqual(
-      sunflowerPlantedAt - (harvestTime - dateNow) / 2,
-    );
-    expect(gameState.inventory["Rapid Root"]).toEqual(new Decimal(4));
-  });
-
   it("fertilises a crop with Sprout Mix", () => {
     const sunflowerPlantedAt = dateNow - 40 * 1000;
     const gameState = fertilisePlot({
@@ -249,67 +212,6 @@ describe("fertiliseCrop", () => {
       dateNow + 10 * 1000,
     );
   });
-  it("adds to the boosted time in plots when rapid root is used", () => {
-    const sunflowerPlantedAt = dateNow - 40 * 1000;
-    const gameState = fertilisePlot({
-      state: {
-        ...GAME_STATE,
-        inventory: {
-          ...inventory,
-          "Rapid Root": new Decimal(5),
-        },
-        crops: {
-          0: {
-            ...plot,
-            crop: {
-              name: "Sunflower",
-              plantedAt: sunflowerPlantedAt,
-              boostedTime: 0,
-            },
-          },
-        },
-      },
-      action: {
-        type: "plot.fertilised",
-        plotID: "0",
-
-        fertiliser: "Rapid Root",
-      },
-      createdAt: dateNow,
-    });
-    expect(gameState.crops[0].crop?.boostedTime).toEqual(10 * 1000);
-  });
-
-  it("adds to the boosted time in plots when Sproutroot Surprise is used", () => {
-    const sunflowerPlantedAt = dateNow - 40 * 1000;
-    const gameState = fertilisePlot({
-      state: {
-        ...GAME_STATE,
-        inventory: {
-          ...inventory,
-          "Sproutroot Surprise": new Decimal(5),
-        },
-        crops: {
-          0: {
-            ...plot,
-            crop: {
-              name: "Sunflower",
-              plantedAt: sunflowerPlantedAt,
-              boostedTime: 0,
-            },
-          },
-        },
-      },
-      action: {
-        type: "plot.fertilised",
-        plotID: "0",
-        fertiliser: "Sproutroot Surprise",
-      },
-      createdAt: dateNow,
-    });
-    expect(gameState.crops[0].crop?.boostedTime).toEqual(10 * 1000);
-  });
-
   // Speed-rate model: a windowed crop (has `baseDurationMs`) is boosted by a live
   // 2× window from `fertilisedAt` (see getCropFertiliserWindows), so fertilising
   // it must NOT mutate the crop — only record the fertiliser. Keyed off

@@ -49,6 +49,7 @@ describe("applyBuff", () => {
           crop: {
             name: "Sunflower",
             plantedAt,
+            baseDurationMs: cropTime,
           },
         },
       },
@@ -60,7 +61,8 @@ describe("applyBuff", () => {
       now: dateNow,
     });
 
-    expect(stateWithPowerHour.crops[0].crop?.boostedTime).toBe(timeReduction);
+    // The crop itself isn't back-dated: the Power Hour window speeds it live.
+    expect(stateWithPowerHour.crops[0].crop?.plantedAt).toBe(plantedAt);
     expect(stateWithPowerHour.aoe["Basic Scarecrow"]?.[0]?.["-2"]).toBe(
       dateNow + timeReduction,
     );

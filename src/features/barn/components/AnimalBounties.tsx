@@ -13,7 +13,7 @@ import {
 } from "features/game/events/landExpansion/sellBounty";
 import { Context } from "features/game/GameProvider";
 import {
-  getAnimalLevel,
+  getBountyLevel,
   getPigBristles,
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
@@ -466,7 +466,7 @@ export const AnimalDeal: React.FC<{
                 className="mr-2"
               >
                 {t("bounties.animal.levelLabel", {
-                  level: getAnimalLevel(animal.experience, animal.type),
+                  level: getBountyLevel(animal),
                   animal: getTranslatedItemName(animal.type),
                 })}
               </Label>

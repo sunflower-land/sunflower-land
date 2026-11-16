@@ -30,6 +30,7 @@ import cloneDeep from "lodash.clonedeep";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import {
   canUseYieldBoostAOE,
+  getRockCycleStartedAt,
   isCollectibleOnFarm,
   setAOELastUsed,
 } from "features/game/lib/aoe";
@@ -37,7 +38,7 @@ import { KNOWN_IDS } from "features/game/types";
 import { prngChance } from "lib/prng";
 import { produce } from "immer";
 import { STONE_RECOVERY_TIME } from "features/game/lib/constants";
-import { canMine, getMineReadyAt } from "features/game/lib/resourceNodes";
+import { canMine } from "features/game/lib/resourceNodes";
 import { mfTrack } from "lib/moonforgeAnalytics";
 
 export type LandExpansionStoneMineAction = {
@@ -51,18 +52,6 @@ type Options = {
   createdAt?: number;
   farmId: number;
 };
-
-/**
- * The stone's real recovery duration (ms), for gating the yield-AOE re-use.
- * Windowed rocks derive it from the live speed windows so an active boost shortens
- * it to match the actual recovery (matching how legacy rocks folded the discount
- * into `boostedTime`); legacy rocks keep their back-dated boosted time.
- */
-function getStoneRecoveryDurationMs(rock: Rock, game: GameState): number {
-  return rock.stone.baseDurationMs !== undefined
-    ? getMineReadyAt(rock, "Stone Rock", game) - rock.stone.minedAt
-    : STONE_RECOVERY_TIME * 1000 - (rock?.stone?.boostedTime ?? 0);
-}
 
 type GetMinedAtArgs = {
   skills: Skills;
@@ -256,8 +245,7 @@ export function getStoneDropAmount({
         updatedAoe,
         "Emerald Turtle",
         { dx, dy },
-        getStoneRecoveryDurationMs(rock, game),
-        createdAt,
+        getRockCycleStartedAt(rock),
       );
 
       if (canUseAoe) {
@@ -293,8 +281,7 @@ export function getStoneDropAmount({
         updatedAoe,
         "Tin Turtle",
         { dx, dy },
-        getStoneRecoveryDurationMs(rock, game),
-        createdAt,
+        getRockCycleStartedAt(rock),
       );
 
       if (canUseAoe) {
@@ -446,10 +433,10 @@ export function mineStone({
     const { boostsUsed: boostedTimeBoostsUsed } =
       getStoneRecoveryTimeForDisplay({ game: stateCopy });
 
-    rock.stone = { minedAt: time };
+    rock.stone = { minedAt: time, cycleStartedAt: createdAt };
     // Speed-rate model: real minedAt + permanent-only baseDurationMs. Temporary
     // boosts are derived live from windows, so there's no baked discount; keep
-    // boostedTime at 0 so the yield-AOE budget uses the real windowed duration.
+    // boostedTime at 0.
     rock.stone.baseDurationMs = baseDurationMs;
     rock.stone.boostedTime = 0;
 

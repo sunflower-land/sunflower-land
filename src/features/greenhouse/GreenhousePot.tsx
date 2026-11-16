@@ -35,6 +35,7 @@ import {
   getGreenhouseGlowWindows,
 } from "features/game/lib/boostWindows";
 import { useNodeTimer } from "features/game/lib/useNodeTimer";
+import { GREENHOUSE_CROP_TIME_SECONDS } from "features/game/lib/greenhouseGrowTimes";
 import {
   ITEM_DETAILS,
   getTranslatedItemName,
@@ -162,8 +163,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
   const potFertiliser = pot?.fertiliser;
 
   const plantedAt = growingPlant?.plantedAt ?? 0;
-  // Windowed plants (speed-rate model) derive their ready time live from the
-  // boost windows; legacy plants use their back-dated plantedAt + base time.
+  // The ready time is derived live from the boost windows.
   const readyAt = growingPlant
     ? getGreenhouseReadyAt(growingPlant, state, potFertiliser)
     : 0;
@@ -177,25 +177,21 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
         ...getGreenhouseGlowWindows(potFertiliser),
       ]
     : [];
-  const baseDurationMs = growingPlant?.baseDurationMs;
-  // `boostedTime` carries a different quantity in each model, so split it here:
-  // - windowed: WORK banked across Greenhouse building moves, folded into the
-  //   bar's total so visual progress is preserved (readiness already accounts
-  //   for it).
-  // - legacy: the DISCOUNT baked in by back-dating `plantedAt` (plant time +
-  //   any mid-grow Greenhouse Glow). It is not growth already done, so the bar
-  //   has to un-back-date with it — otherwise a heavily boosted plant opens its
-  //   bar near-full and only ever fills the last sliver. Mirrors FertilePlot.
-  const bankedWorkMs =
-    baseDurationMs !== undefined ? (growingPlant?.boostedTime ?? 0) : 0;
-  const legacyOffsetMs =
-    baseDurationMs === undefined ? (growingPlant?.boostedTime ?? 0) : 0;
+  // A plant with no marker reads as its raw grow time.
+  const baseDurationMs = growingPlant
+    ? (growingPlant.baseDurationMs ??
+      GREENHOUSE_CROP_TIME_SECONDS[growingPlant.name] * 1000)
+    : undefined;
+  // `boostedTime` is WORK banked across Greenhouse building moves, folded into
+  // the bar's total so visual progress is preserved (readiness already accounts
+  // for it).
+  const bankedWorkMs = growingPlant?.boostedTime ?? 0;
 
   const { now, workLeftSeconds, countdownSeconds } = useNodeTimer({
     startedAt: plantedAt,
     baseDurationMs,
     windows: boostWindows,
-    legacyReadyAt: readyAt,
+    fallbackReadyAt: readyAt,
     live: !!growingPlant,
   });
 
@@ -208,9 +204,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
   // The wall-clock reading, for the labels.
   const displaySecondsLeft = Math.max(Math.ceil(countdownSeconds), 0);
   const totalSeconds =
-    baseDurationMs !== undefined
-      ? (baseDurationMs + bankedWorkMs) / 1000
-      : Math.max((readyAt - plantedAt - legacyOffsetMs) / 1000, 0);
+    baseDurationMs !== undefined ? (baseDurationMs + bankedWorkMs) / 1000 : 0;
   const percentage =
     totalSeconds > 0
       ? clampPercentage(((totalSeconds - secondsLeft) / totalSeconds) * 100)

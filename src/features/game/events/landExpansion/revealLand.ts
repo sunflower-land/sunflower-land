@@ -25,6 +25,14 @@ import {
   TREE_RECOVERY_TIME,
 } from "features/game/lib/constants";
 import { OIL_RESERVE_RECOVERY_TIME } from "./drillOilReserve";
+import { getInitialOilLedger } from "./isCookingBuilding";
+import {
+  freshCropTimer,
+  freshFruitTimer,
+  freshOilTimer,
+  freshRockTimer,
+  freshTreeTimer,
+} from "features/game/lib/freshNodes";
 
 // Preloaded crops that will appear on plots when they reveal
 const EXPANSION_CROPS: Record<number, CropName> = {
@@ -102,7 +110,7 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
       game.trees[randomUUID().slice(0, 8)] = {
         x: coords.x + origin.x,
         y: coords.y + origin.y,
-        wood: { choppedAt: 0 },
+        wood: freshTreeTimer(),
       };
     });
     inventory.Tree = (inventory.Tree || new Decimal(0)).add(land.trees.length);
@@ -112,7 +120,7 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
       game.stones[randomUUID().slice(0, 8)] = {
         x: coords.x + origin.x,
         y: coords.y + origin.y,
-        stone: { minedAt: 0 },
+        stone: freshRockTimer("Stone Rock"),
       };
     });
     inventory["Stone Rock"] = (inventory["Stone Rock"] || new Decimal(0)).add(
@@ -124,7 +132,7 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
       game.iron[randomUUID().slice(0, 8)] = {
         x: coords.x + origin.x,
         y: coords.y + origin.y,
-        stone: { minedAt: 0 },
+        stone: freshRockTimer("Iron Rock"),
       };
     });
     inventory["Iron Rock"] = (inventory["Iron Rock"] || new Decimal(0)).add(
@@ -136,7 +144,7 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
       game.gold[randomUUID().slice(0, 8)] = {
         x: coords.x + origin.x,
         y: coords.y + origin.y,
-        stone: { minedAt: 0 },
+        stone: freshRockTimer("Gold Rock"),
       };
     });
     inventory["Gold Rock"] = (inventory["Gold Rock"] || new Decimal(0)).add(
@@ -148,7 +156,7 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
       game.crimstones[randomUUID().slice(0, 8)] = {
         x: coords.x + origin.x,
         y: coords.y + origin.y,
-        stone: { minedAt: 0 },
+        stone: freshRockTimer("Crimstone Rock"),
         minesLeft: 5,
       };
     });
@@ -162,10 +170,7 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
         createdAt: Date.now(),
         x: coords.x + origin.x,
         y: coords.y + origin.y,
-        crop: {
-          name: EXPANSION_CROPS[landCount] ?? "Sunflower",
-          plantedAt: 0,
-        },
+        crop: freshCropTimer(EXPANSION_CROPS[landCount] ?? "Sunflower"),
       };
     });
 
@@ -179,12 +184,7 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
         createdAt: Date.now(),
         x: coords.x + origin.x,
         y: coords.y + origin.y,
-        fruit: {
-          harvestedAt: 0,
-          harvestsLeft: 3,
-          name: "Apple",
-          plantedAt: 0,
-        },
+        fruit: { ...freshFruitTimer("Apple"), harvestsLeft: 3 },
       };
     });
     inventory["Fruit Patch"] = (inventory["Fruit Patch"] || new Decimal(0)).add(
@@ -197,7 +197,7 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
       game.sunstones[id] = {
         x: coords.x + origin.x,
         y: coords.y + origin.y,
-        stone: { minedAt: 0 },
+        stone: freshRockTimer("Sunstone Rock"),
         minesLeft: SUNSTONE_MINES,
       };
     });
@@ -213,7 +213,7 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
         game.ascensionCrystals[randomUUID()] = {
           x: coords.x + origin.x,
           y: coords.y + origin.y,
-          stone: { minedAt: 0 },
+          stone: freshRockTimer("Ascension Crystal"),
           minesLeft: 1,
         };
       });
@@ -257,9 +257,7 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
         y: coords.y + origin.y,
         createdAt,
         drilled: 0,
-        oil: {
-          drilledAt: 0,
-        },
+        oil: freshOilTimer(),
       };
     });
     inventory["Oil Reserve"] = (inventory["Oil Reserve"] || new Decimal(0)).add(
@@ -387,6 +385,7 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
           createdAt,
           id: "123",
           readyAt: createdAt,
+          ...getInitialOilLedger("Fire Pit", createdAt),
         },
       ];
     }

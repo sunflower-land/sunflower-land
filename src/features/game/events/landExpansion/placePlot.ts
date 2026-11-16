@@ -8,6 +8,8 @@ import {
   getCropPlotBoostWindows,
   pauseWindowedTimer,
 } from "features/game/lib/boostWindows";
+import { CROPS } from "features/game/types/crops";
+import { getCropCycleStartedAt } from "features/game/lib/aoe";
 
 export type PlacePlotAction = {
   type: "plot.placed";
@@ -51,6 +53,10 @@ export function placePlot({
       };
 
       if (updatedPlot.crop && updatedPlot.removedAt) {
+        // Keep the cycle start the yield AOEs read before plantedAt moves.
+        updatedPlot.crop.cycleStartedAt = getCropCycleStartedAt(
+          updatedPlot.crop,
+        );
         // Pause growth across the lift (windowed banking or legacy back-date).
         // trackProgress banks the pre-lift work into boostedTime for the growth bar.
         updatedPlot.crop.plantedAt = pauseWindowedTimer({
@@ -58,6 +64,7 @@ export function placePlot({
           startedAt: updatedPlot.crop.plantedAt,
           removedAt: updatedPlot.removedAt,
           createdAt,
+          rawBaseMs: CROPS[updatedPlot.crop.name].harvestSeconds * 1000,
           windows: [
             ...getCropPlotBoostWindows(game),
             ...getCropFertiliserWindows(updatedPlot.fertiliser),

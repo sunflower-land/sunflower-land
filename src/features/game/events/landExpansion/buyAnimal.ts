@@ -239,6 +239,8 @@ export function buyAnimal({
       experience: 0,
       asleepAt: 0,
       awakeAt: 0,
+      // Awake, on the speed-rate model: no sleep to do.
+      baseDurationMs: 0,
       lovedAt: 0,
       item: "Petting Hand",
     };

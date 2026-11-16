@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { placeGold } from "./placeGold";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { GOLD_RECOVERY_TIME, INITIAL_FARM } from "features/game/lib/constants";
 import { KNOWN_IDS } from "features/game/types";
@@ -576,7 +577,7 @@ describe("mineGold", () => {
     });
   });
 
-  it("does not apply the AOE if the AOE is not ready", () => {
+  it("does not apply the AOE if the tile paid out after the rock was mined", () => {
     const counter = findNonCriticalCounter();
     const payload = {
       farmId,
@@ -585,6 +586,13 @@ describe("mineGold", () => {
         bumpkin: TEST_BUMPKIN,
         inventory: {
           "Iron Pickaxe": new Decimal(1),
+        },
+        gold: {
+          ...GAME_STATE.gold,
+          0: {
+            ...GAME_STATE.gold[0],
+            stone: { minedAt: now - GOLD_RECOVERY_TIME * 1000 - 1 },
+          },
         },
         collectibles: {
           "Emerald Turtle": [
@@ -658,11 +666,10 @@ describe("mineGold", () => {
     expect(game.inventory.Gold).toEqual(new Decimal(1.5));
   });
 
-  it("uses the WINDOWED recovery duration for the yield-AOE budget", () => {
-    // A Super Totem (2× gold) covering the whole recovery halves it: the Emerald
-    // Turtle position frees up after baseDurationMs/2, NOT the full
-    // GOLD_RECOVERY_TIME. Last used exactly baseDurationMs/2 ago, so the AOE
-    // re-applies only if the budget uses the windowed (boosted) duration.
+  it("applies after a speed-boosted recovery when the tile paid out as the rock was mined", () => {
+    // A Super Totem (2×) covering the whole recovery halves it. The tile paid out
+    // when the rock was last mined, so the AOE applies again however fast the
+    // rock recovered: no recovery duration is involved.
     const baseDurationMs = GOLD_RECOVERY_TIME * 1000;
     const windowedDuration = baseDurationMs / 2;
     const counter = findNonCriticalCounter();
@@ -699,7 +706,9 @@ describe("mineGold", () => {
             },
           ],
         },
-        aoe: { "Emerald Turtle": { "-1": { "0": now - windowedDuration } } },
+        aoe: {
+          "Emerald Turtle": { "-1": { "0": now - windowedDuration - 1 } },
+        },
         farmActivity: { "Gold Rock Mined": counter },
       },
       createdAt: now,
@@ -708,62 +717,6 @@ describe("mineGold", () => {
         index: "0",
       } as LandExpansionGoldMineAction,
     });
-
-    expect(game.inventory.Gold).toEqual(new Decimal(1.5));
-  });
-
-  it("applies the AOE on a gold with boosted time", () => {
-    const boostedTime = GOLD_RECOVERY_TIME * 1000 * 0.5;
-    const counter = findNonCriticalCounter();
-
-    const payload = {
-      farmId,
-      state: {
-        ...GAME_STATE,
-        bumpkin: TEST_BUMPKIN,
-        inventory: {
-          "Iron Pickaxe": new Decimal(1),
-        },
-        gold: {
-          0: {
-            createdAt: now,
-            stone: {
-              // 1ms past the recovery boundary so the legacy rock is ready
-              // (canMine is strictly `now > readyAt`).
-              minedAt: now - GOLD_RECOVERY_TIME * 1000 - 1,
-              boostedTime,
-            },
-            x: 1,
-            y: 1,
-          },
-        },
-        collectibles: {
-          "Emerald Turtle": [
-            {
-              id: "123",
-              createdAt: now,
-              coordinates: { x: 2, y: 1 },
-              readyAt: now - 5 * 60 * 1000,
-            },
-          ],
-        },
-        aoe: {
-          "Emerald Turtle": {
-            "-1": {
-              "0": now - (GOLD_RECOVERY_TIME * 1000 - boostedTime),
-            },
-          },
-        },
-        farmActivity: { "Gold Rock Mined": counter },
-      },
-      createdAt: now,
-      action: {
-        type: "goldRock.mined",
-        index: "0",
-      } as LandExpansionGoldMineAction,
-    };
-
-    const game = mineGold(payload);
 
     expect(game.inventory.Gold).toEqual(new Decimal(1.5));
   });
@@ -1886,5 +1839,212 @@ describe("mineGold — speed windows", () => {
     expect(getMineReadyAt(rock, "Gold Rock", INITIAL_FARM)).toEqual(
       now + BASE_MS,
     );
+  });
+
+  describe("Emerald Turtle: once per rock cycle", () => {
+    const base = GOLD_RECOVERY_TIME * 1000;
+    const t0 = now - 20 * base;
+
+    const turtleState = (aoeLastUsedAt: number) => ({
+      ...GAME_STATE,
+      bumpkin: TEST_BUMPKIN,
+      inventory: {
+        "Gold Rock": new Decimal(2),
+        "Iron Pickaxe": new Decimal(1),
+      },
+      collectibles: {
+        "Emerald Turtle": [
+          {
+            id: "123",
+            createdAt: t0,
+            coordinates: { x: 2, y: 1 },
+            readyAt: t0,
+          },
+        ],
+      },
+      aoe: { "Emerald Turtle": { "-1": { "0": aoeLastUsedAt } } },
+    });
+
+    // Rock "0" sits at (1, 1), inside the Emerald Turtle's AOE at (2, 1).
+    const mineRock = ({
+      rock,
+      aoeLastUsedAt,
+      mineAt,
+    }: {
+      rock: Rock;
+      aoeLastUsedAt: number;
+      mineAt: number;
+    }) =>
+      mineGold({
+        state: {
+          ...turtleState(aoeLastUsedAt),
+          gold: { ...GAME_STATE.gold, 0: { ...rock, x: 1, y: 1 } },
+        },
+        action: { type: "goldRock.mined", index: "0" },
+        createdAt: mineAt,
+        farmId,
+      });
+
+    const turtleCell = (game: GameState) =>
+      game.aoe["Emerald Turtle"]?.["-1"]?.["0"];
+
+    it("records when the rock's next cycle started", () => {
+      const mineAt = t0 + base + 1;
+      const game = mineRock({
+        rock: { createdAt: t0, stone: { minedAt: t0, baseDurationMs: base } },
+        aoeLastUsedAt: t0 - 1,
+        mineAt,
+      });
+
+      expect(game.gold[0].stone.cycleStartedAt).toBe(mineAt);
+    });
+
+    it("applies when the rock's cycle started at the tile's last bonus", () => {
+      const mineAt = t0 + base + 1;
+      const game = mineRock({
+        rock: {
+          createdAt: t0,
+          stone: { minedAt: t0, cycleStartedAt: t0, baseDurationMs: base },
+        },
+        aoeLastUsedAt: t0,
+        mineAt,
+      });
+
+      expect(turtleCell(game)).toBe(mineAt);
+    });
+
+    it("does not apply when the tile's last bonus came after the rock's cycle started, however long ago", () => {
+      const game = mineRock({
+        rock: {
+          createdAt: t0,
+          stone: { minedAt: t0, cycleStartedAt: t0, baseDurationMs: base },
+        },
+        aoeLastUsedAt: t0 + 1,
+        mineAt: t0 + 10 * base,
+      });
+
+      expect(turtleCell(game)).toBe(t0 + 1);
+    });
+
+    it("applies to a never-mined rock created after the tile's last bonus", () => {
+      const mineAt = t0 + base;
+      const game = mineRock({
+        rock: { createdAt: t0 + 1, stone: { minedAt: 0 } },
+        aoeLastUsedAt: t0,
+        mineAt,
+      });
+
+      expect(turtleCell(game)).toBe(mineAt);
+    });
+
+    it("does not apply to a never-mined rock created before the tile's last bonus", () => {
+      const game = mineRock({
+        rock: { createdAt: t0, stone: { minedAt: 0 } },
+        aoeLastUsedAt: t0 + 1,
+        mineAt: t0 + 10 * base,
+      });
+
+      expect(turtleCell(game)).toBe(t0 + 1);
+    });
+
+    // Lift rock "0" at `removedAt`, re-place it at `placedAt`, then mine it at
+    // `mineAt` with the Emerald Turtle cell last used at `aoeLastUsedAt`.
+    const liftPlaceAndMine = ({
+      removedAt,
+      placedAt,
+      mineAt,
+      aoeLastUsedAt,
+      withCycleStart = true,
+    }: {
+      removedAt: number;
+      placedAt: number;
+      mineAt: number;
+      aoeLastUsedAt: number;
+      // false: a rock mined before `cycleStartedAt` existed.
+      withCycleStart?: boolean;
+    }) => {
+      const placed = placeGold({
+        state: {
+          ...turtleState(aoeLastUsedAt),
+          buildings: {},
+          gold: {
+            0: {
+              createdAt: t0,
+              stone: {
+                minedAt: t0,
+                ...(withCycleStart ? { cycleStartedAt: t0 } : {}),
+                baseDurationMs: base,
+              },
+              removedAt,
+            },
+            1: GAME_STATE.gold[1],
+          },
+        },
+        action: {
+          type: "gold.placed",
+          name: "Gold Rock",
+          id: "0",
+          coordinates: { x: 1, y: 1 },
+        },
+        createdAt: placedAt,
+      });
+
+      return mineGold({
+        state: placed,
+        action: { type: "goldRock.mined", index: "0" },
+        createdAt: mineAt,
+        farmId,
+      });
+    };
+
+    it("does not apply to a rock lifted mid-recovery onto a tile that paid out after it was mined", () => {
+      const placedAt = t0 + 5 * base;
+      const game = liftPlaceAndMine({
+        removedAt: t0 + base / 2,
+        placedAt,
+        mineAt: placedAt + base / 2 + 1,
+        aoeLastUsedAt: t0 + base,
+      });
+
+      expect(turtleCell(game)).toBe(t0 + base);
+    });
+
+    it("does not apply to a rock lifted after recovering onto a tile that paid out after it was mined", () => {
+      const placedAt = t0 + 5 * base;
+      const game = liftPlaceAndMine({
+        removedAt: t0 + 2 * base,
+        placedAt,
+        mineAt: placedAt + 1,
+        aoeLastUsedAt: t0 + 3 * base,
+      });
+
+      expect(turtleCell(game)).toBe(t0 + 3 * base);
+    });
+
+    it("does not apply to an older rock (no cycleStartedAt) lifted onto a tile that paid out after it was mined", () => {
+      const placedAt = t0 + 5 * base;
+      const game = liftPlaceAndMine({
+        removedAt: t0 + base / 2,
+        placedAt,
+        mineAt: placedAt + base / 2 + 1,
+        aoeLastUsedAt: t0 + base,
+        withCycleStart: false,
+      });
+
+      expect(turtleCell(game)).toBe(t0 + base);
+    });
+
+    it("applies to a lifted rock that was mined after the tile's last bonus", () => {
+      const placedAt = t0 + 5 * base;
+      const mineAt = placedAt + base / 2 + 1;
+      const game = liftPlaceAndMine({
+        removedAt: t0 + base / 2,
+        placedAt,
+        mineAt,
+        aoeLastUsedAt: t0 - 1,
+      });
+
+      expect(turtleCell(game)).toBe(mineAt);
+    });
   });
 });

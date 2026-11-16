@@ -8,7 +8,7 @@ import {
 } from "./loveAnimal";
 import Decimal from "decimal.js-light";
 import { ANIMAL_SLEEP_DURATION } from "./feedAnimal";
-import { getAnimalReadyAt } from "features/game/lib/animals";
+import { getAnimalReadyAt, getPendingClaims } from "features/game/lib/animals";
 import type { Animal, GameState } from "features/game/types/game";
 import { ANIMAL_LEVELS } from "features/game/types/animals";
 
@@ -693,18 +693,6 @@ describe("love cadence under a windowed sleep", () => {
     expect(secondAt).toBeLessThan(readyAt);
     expect(isAnimalReadyForLove(afterFirst, secondAt, readyAt)).toBe(true);
   });
-
-  it("is unchanged for a legacy (unmarked) animal", () => {
-    const legacy: Animal = {
-      ...animal,
-      awakeAt: now + SLEEP,
-      baseDurationMs: undefined,
-    };
-    const readyAt = getAnimalReadyAt(legacy, withShrine);
-
-    expect(readyAt).toEqual(legacy.awakeAt);
-    expect(getNextLoveAvailableAt(legacy, readyAt)).toEqual(now + SLEEP / 3);
-  });
 });
 
 describe("two loves per sleep", () => {
@@ -897,5 +885,89 @@ describe("getAnimalXP — flat bonuses are not scaled by Heartwarming Instrument
 
     expect(state.barn.animals["1"].experience).toEqual(7195);
     expect(state.barn.animals["1"].state).toBe("happy");
+  });
+});
+
+/**
+ * Chicken thresholds: L6 660, L7 840, L8 1020. A Petting Hand is 25 XP.
+ */
+describe("loveAnimal: banked claims", () => {
+  const HOUR = 60 * 60 * 1000;
+  const now = Date.now();
+  const asleepAt = now - 20 * HOUR;
+
+  const love = (chicken: Partial<Animal>) =>
+    loveAnimal({
+      state: {
+        ...INITIAL_FARM,
+        inventory: { "Petting Hand": new Decimal(1) },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            c1: {
+              id: "c1",
+              type: "Chicken",
+              state: "idle",
+              createdAt: 0,
+              experience: 1000,
+              asleepAt,
+              awakeAt: asleepAt + 24 * HOUR,
+              lovedAt: 0,
+              item: "Petting Hand",
+              ...chicken,
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.loved",
+        animal: "Chicken",
+        id: "c1",
+        item: "Petting Hand",
+      },
+      createdAt: now,
+    }).henHouse.animals.c1;
+
+  it("banks another claim when a banked animal's pet crosses a level", () => {
+    // Claimed to L6 (660) with 1010 XP (L7): one owed. +25 = 1035 (L8): two
+    const chicken = love({
+      experience: 1010,
+      claimedExperience: 660,
+      state: "ready",
+    });
+
+    expect(chicken.state).toEqual("ready");
+    expect(chicken.claimedExperience).toEqual(660);
+    expect(getPendingClaims(chicken)).toEqual(2);
+  });
+
+  it("pins the claimed mark when a pet levels up an animal", () => {
+    // 1000 XP (L7) + 25 = 1025 (L8)
+    const chicken = love({});
+
+    expect(chicken.state).toEqual("ready");
+    expect(chicken.claimedExperience).toEqual(840);
+    expect(getPendingClaims(chicken)).toEqual(1);
+  });
+
+  it("leaves a sick banked animal sick: only a cure makes it ready", () => {
+    // Claimed to L6 (660) with 1010 XP (L7), sick. +25 = 1035 (L8): two owed
+    const chicken = love({
+      experience: 1010,
+      claimedExperience: 660,
+      state: "sick",
+    });
+
+    expect(chicken.state).toEqual("sick");
+    expect(getPendingClaims(chicken)).toEqual(2);
+  });
+
+  it("keeps the one claim a ready animal from before banking owes", () => {
+    // Ready at 1030 XP (L8): owes L8. +25 = 1055, still L8
+    const chicken = love({ experience: 1030, state: "ready" });
+
+    expect(chicken.state).toEqual("ready");
+    expect(chicken.claimedExperience).toEqual(840);
+    expect(getPendingClaims(chicken)).toEqual(1);
   });
 });

@@ -336,6 +336,25 @@ describe("plant", () => {
     );
   });
 
+  it("records when the crop's cycle started, for the yield AOEs", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: TEST_BUMPKIN,
+        inventory: { "Sunflower Seed": new Decimal(1) },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: Object.keys(GAME_STATE.crops)[0],
+        item: "Sunflower Seed",
+      },
+    });
+
+    expect(state.crops[firstId].crop?.cycleStartedAt).toBe(dateNow);
+  });
+
   it("plants a normal cauliflower", () => {
     const state = plant({
       state: {

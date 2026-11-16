@@ -4,7 +4,7 @@ import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getAnimalLevel } from "features/game/lib/animals";
+import { getAnimalShownLevel } from "features/game/lib/animals";
 import type { Animal } from "features/game/types/game";
 import { getTranslatedItemName } from "features/game/types/images";
 
@@ -14,7 +14,7 @@ interface Props {
 
 export const LockedAnimalModal = ({ animal }: Props) => {
   const { t } = useAppTranslation();
-  const level = getAnimalLevel(animal.experience, animal.type);
+  const level = getAnimalShownLevel(animal);
 
   return (
     <InnerPanel>

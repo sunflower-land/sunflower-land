@@ -69,7 +69,8 @@ describe("upgradeRock", () => {
       // Should place new fused stone rock
       expect(state.stones["fused-1"]).toEqual({
         createdAt: expect.any(Number),
-        stone: { minedAt: 0 },
+        // Created ready on the speed-rate model: Fused Stone Rock = 4h.
+        stone: { minedAt: 0, baseDurationMs: 4 * 60 * 60 * 1000 },
         x: 1,
         y: 1,
         tier: 2,
@@ -233,7 +234,8 @@ describe("upgradeRock", () => {
       // Should place new reinforced stone rock
       expect(state.stones["reinforced-1"]).toEqual({
         createdAt: now,
-        stone: { minedAt: 0 },
+        // Created ready on the speed-rate model: Reinforced Stone Rock = 4h.
+        stone: { minedAt: 0, baseDurationMs: 4 * 60 * 60 * 1000 },
         x: 1,
         y: 1,
         tier: 3,
@@ -298,7 +300,8 @@ describe("upgradeRock", () => {
       // Should place new refined iron rock in iron state
       expect(state.iron["refined-iron-1"]).toEqual({
         createdAt: now,
-        stone: { minedAt: 0 },
+        // Created ready on the speed-rate model: Refined Iron Rock = 8h.
+        stone: { minedAt: 0, baseDurationMs: 8 * 60 * 60 * 1000 },
         x: 1,
         y: 1,
         tier: 2,
@@ -366,7 +369,8 @@ describe("upgradeRock", () => {
       // Should place new pure gold rock in gold state
       expect(state.gold["pure-gold-1"]).toEqual({
         createdAt: now,
-        stone: { minedAt: 0 },
+        // Created ready on the speed-rate model: Pure Gold Rock = 24h.
+        stone: { minedAt: 0, baseDurationMs: 24 * 60 * 60 * 1000 },
         x: 1,
         y: 1,
         tier: 2,
@@ -429,7 +433,8 @@ describe("upgradeRock", () => {
       // Should place new prime gold rock in gold state
       expect(state.gold["prime-gold-1"]).toEqual({
         createdAt: now,
-        stone: { minedAt: 0 },
+        // Created ready on the speed-rate model: Prime Gold Rock = 24h.
+        stone: { minedAt: 0, baseDurationMs: 24 * 60 * 60 * 1000 },
         x: 1,
         y: 1,
         tier: 3,

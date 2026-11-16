@@ -93,6 +93,8 @@ describe("placeIron", () => {
         createdAt: expect.any(Number),
         stone: {
           minedAt: 0,
+          // Created ready, already on the speed-rate model (Iron Rock: 8h).
+          baseDurationMs: 8 * 60 * 60 * 1000,
         },
         x: 2,
         y: 2,
@@ -143,7 +145,11 @@ describe("placeIron", () => {
       "123": {
         createdAt: expect.any(Number),
         stone: {
-          minedAt: dateNow - 60000,
+          minedAt: dateNow,
+          // 8h raw iron recovery, less the 1 min banked before the lift.
+          baseDurationMs: 8 * 60 * 60 * 1000 - 60000,
+          // The original mine time, kept for the yield AOEs.
+          cycleStartedAt: dateNow - 180000,
         },
         x: 2,
         y: 2,

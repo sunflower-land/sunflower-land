@@ -3,38 +3,10 @@ import {
   GREENHOUSE_COMPOST,
   type GreenhouseCompostName,
 } from "features/game/types/composters";
-import type { GameState, GreenhousePlant } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
-import { getGreenhouseReadyAt, isGreenhouseReady } from "./greenhouseReadiness";
+import { isGreenhouseReady } from "./greenhouseReadiness";
 import { MAX_POTS } from "./plantGreenhouse";
-
-/**
- * Legacy (baked) model only: shifts `plantedAt` so the remaining grow time is
- * multiplied by 0.8 (−20%). Windowed plants (`baseDurationMs` set) get NO
- * mutation — the pot's open-ended `[fertilisedAt, ∞)` Greenhouse Glow window
- * (see getGreenhouseGlowWindows) speeds up the remaining grow live instead.
- */
-function applyGreenhouseGlowToRemainingGrowTime(
-  game: GameState,
-  plant: GreenhousePlant,
-  now: number,
-): GreenhousePlant {
-  if (plant.baseDurationMs !== undefined) return plant;
-
-  const readyAt = getGreenhouseReadyAt(plant, game);
-  if (now < readyAt) {
-    const timeReduction = (readyAt - now) * 0.2;
-    return {
-      ...plant,
-      plantedAt: plant.plantedAt - timeReduction,
-      // Bank the back-date alongside it: `boostedTime` is the running total of
-      // the DISCOUNT, which the pot's progress bar un-back-dates with. Without
-      // this the bar would jump forward the moment the Glow is applied.
-      boostedTime: (plant.boostedTime ?? 0) + timeReduction,
-    };
-  }
-  return plant;
-}
 
 export enum FERTILISE_GREENHOUSE_ERRORS {
   NO_BUMPKIN = "No Bumpkin",
@@ -103,23 +75,14 @@ export function fertiliseGreenhouse({
       throw new Error(FERTILISE_GREENHOUSE_ERRORS.NOT_ENOUGH_FERTILISER);
     }
 
-    const plant = pot.plant;
     if (isGreenhouseReady(createdAt, pot, game)) {
       throw new Error(FERTILISE_GREENHOUSE_ERRORS.READY_TO_HARVEST);
     }
 
-    let nextPlant = plant;
-    if (plant && action.fertiliser === "Greenhouse Glow") {
-      nextPlant = applyGreenhouseGlowToRemainingGrowTime(
-        game,
-        plant,
-        createdAt,
-      );
-    }
-
+    // Greenhouse Glow is an open-ended `[fertilisedAt, ∞)` window on the pot
+    // (getGreenhouseGlowWindows), so the plant itself needs no mutation.
     game.greenhouse.pots[potId] = {
       ...pot,
-      ...(nextPlant !== plant && nextPlant ? { plant: nextPlant } : {}),
       fertiliser: {
         name: action.fertiliser,
         fertilisedAt: createdAt,

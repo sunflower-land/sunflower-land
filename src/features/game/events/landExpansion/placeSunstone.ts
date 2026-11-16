@@ -7,6 +7,8 @@ import {
   pauseWindowedTimer,
 } from "features/game/lib/boostWindows";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { freshRockTimer } from "features/game/lib/freshNodes";
+import { RESOURCE_RECOVERY_TIME } from "features/game/lib/resourceNodes";
 
 export type PlaceSunstoneAction = {
   type: "sunstone.placed";
@@ -59,6 +61,7 @@ export function placeSunstone({
           startedAt: updatedSunstone.stone.minedAt,
           removedAt: updatedSunstone.removedAt,
           createdAt,
+          rawBaseMs: RESOURCE_RECOVERY_TIME["Sunstone Rock"] * 1000,
           windows: getMineBoostWindows(game, "Sunstone Rock"),
         });
       }
@@ -73,9 +76,7 @@ export function placeSunstone({
       createdAt,
       x: action.coordinates.x,
       y: action.coordinates.y,
-      stone: {
-        minedAt: 0,
-      },
+      stone: freshRockTimer("Sunstone Rock"),
       minesLeft: 10,
     };
 

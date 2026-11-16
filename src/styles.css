@@ -191,6 +191,10 @@
 
 html {
   min-height: calc(100% + env(safe-area-inset-top));
+  /* Stop browser double-tap zoom (iPad Safari ignores user-scalable=0), which
+     zooms the page and leaves the view stuck in a corner. Panning and pinch
+     still work. */
+  touch-action: manipulation;
 }
 
 body {

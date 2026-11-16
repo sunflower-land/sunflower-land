@@ -2,6 +2,8 @@ import { CROPS } from "../types/crops";
 import {
   canUseTimeBoostAOE,
   canUseYieldBoostAOE,
+  getCropCycleStartedAt,
+  getRockCycleStartedAt,
   refreshBasicScarecrowTimeAOE,
 } from "./aoe";
 import {
@@ -17,99 +19,128 @@ import {
 import type { GameState } from "../types/game";
 
 describe("canUseYieldAOE", () => {
+  const now = Date.now();
+
   it("returns true for the Emerald Turtle if the boost has not been used", () => {
-    const now = Date.now();
-
-    const canUse = canUseYieldBoostAOE(
-      {},
-      "Emerald Turtle",
-      { dx: 0, dy: 0 },
-      STONE_RECOVERY_TIME,
-      now,
-    );
-
-    expect(canUse).toBe(true);
+    expect(
+      canUseYieldBoostAOE({}, "Emerald Turtle", { dx: 0, dy: 0 }, now),
+    ).toBe(true);
   });
 
-  it("returns false for the Emerald Turtle if the emerald turtle boost has already been used", () => {
-    const now = Date.now();
-
+  it("returns false if the tile's last bonus came after the rock's cycle started", () => {
     const canUse = canUseYieldBoostAOE(
-      {
-        "Emerald Turtle": {
-          "0": {
-            "0": now,
-          },
-        },
-      },
+      { "Emerald Turtle": { "0": { "0": now } } },
       "Emerald Turtle",
       { dx: 0, dy: 0 },
-      STONE_RECOVERY_TIME,
-      now,
+      now - 1,
     );
 
     expect(canUse).toBe(false);
   });
 
-  it("returns true if the Emerald Turtle boost has been used on the first rock and is ready to be used again", () => {
-    const now = Date.now();
+  it("returns false even when a full recovery has passed since the tile's last bonus", () => {
+    // The rock started its cycle before the tile paid out, so that cycle has
+    // already been paid for, however long ago.
+    const lastBonus = now - 10 * STONE_RECOVERY_TIME * 1000;
 
     const canUse = canUseYieldBoostAOE(
-      {
-        "Emerald Turtle": {
-          "0": {
-            "0": now - STONE_RECOVERY_TIME,
-          },
-        },
-      },
+      { "Emerald Turtle": { "0": { "0": lastBonus } } },
       "Emerald Turtle",
       { dx: 0, dy: 0 },
-      STONE_RECOVERY_TIME,
+      lastBonus - 1,
+    );
+
+    expect(canUse).toBe(false);
+  });
+
+  it("returns true when the rock's cycle started at the tile's last bonus", () => {
+    // Mining stamps the tile's last bonus and the rock's new cycle start with
+    // the same createdAt, so the next mine of that rock must still qualify.
+    const canUse = canUseYieldBoostAOE(
+      { "Emerald Turtle": { "0": { "0": now } } },
+      "Emerald Turtle",
+      { dx: 0, dy: 0 },
       now,
     );
 
     expect(canUse).toBe(true);
   });
 
-  it("returns true for the Emerald Turtle if the emerald turtle boost has not been used on the second rock", () => {
-    const now = Date.now();
-
+  it("returns true when the rock's cycle started after the tile's last bonus", () => {
     const canUse = canUseYieldBoostAOE(
-      {
-        "Emerald Turtle": {
-          "0": {
-            "0": now,
-          },
-        },
-      },
+      { "Emerald Turtle": { "0": { "0": now - 1 } } },
+      "Emerald Turtle",
+      { dx: 0, dy: 0 },
+      now,
+    );
+
+    expect(canUse).toBe(true);
+  });
+
+  it("returns true for the Emerald Turtle on a tile it has not paid out on", () => {
+    const canUse = canUseYieldBoostAOE(
+      { "Emerald Turtle": { "0": { "0": now } } },
       "Emerald Turtle",
       { dx: 0, dy: 1 },
-      STONE_RECOVERY_TIME,
-      now,
+      now - 1,
     );
 
     expect(canUse).toBe(true);
   });
 
-  it("returns false if the Emerald Turtle boost was used to mine stone, but now the player is trying to mine iron while still in the cooldown period", () => {
-    const now = Date.now();
-    const startTime = now - IRON_RECOVERY_TIME;
+  it("returns false for an iron rock moved onto a tile that paid out on stone after the iron rock was mined", () => {
+    // The Emerald Turtle's tiles are shared by every rock family.
+    const ironMinedAt = now - IRON_RECOVERY_TIME * 1000;
 
     const canUse = canUseYieldBoostAOE(
-      {
-        "Emerald Turtle": {
-          "0": {
-            "0": startTime + STONE_RECOVERY_TIME,
-          },
-        },
-      },
+      { "Emerald Turtle": { "0": { "0": ironMinedAt + 1 } } },
       "Emerald Turtle",
       { dx: 0, dy: 0 },
-      IRON_RECOVERY_TIME,
-      startTime + IRON_RECOVERY_TIME,
+      ironMinedAt,
     );
 
     expect(canUse).toBe(false);
+  });
+});
+
+describe("getCropCycleStartedAt", () => {
+  it("returns the recorded cycle start", () => {
+    expect(
+      getCropCycleStartedAt({
+        name: "Sunflower",
+        plantedAt: 5000,
+        cycleStartedAt: 1000,
+      }),
+    ).toBe(1000);
+  });
+
+  it("falls back to plantedAt for a crop planted before the field existed", () => {
+    expect(getCropCycleStartedAt({ name: "Sunflower", plantedAt: 5000 })).toBe(
+      5000,
+    );
+  });
+});
+
+describe("getRockCycleStartedAt", () => {
+  it("returns the recorded cycle start", () => {
+    expect(
+      getRockCycleStartedAt({
+        createdAt: 100,
+        stone: { minedAt: 5000, cycleStartedAt: 1000 },
+      }),
+    ).toBe(1000);
+  });
+
+  it("falls back to minedAt for a rock mined before the field existed", () => {
+    expect(
+      getRockCycleStartedAt({ createdAt: 100, stone: { minedAt: 5000 } }),
+    ).toBe(5000);
+  });
+
+  it("falls back to the rock's createdAt for a rock that has never been mined", () => {
+    expect(
+      getRockCycleStartedAt({ createdAt: 100, stone: { minedAt: 0 } }),
+    ).toBe(100);
   });
 });
 
@@ -234,25 +265,6 @@ describe("refreshBasicScarecrowTimeAOE", () => {
       now + base / CROP_PLOT_BOOST_SPEED["Sparrow Shrine"],
       0,
     );
-  });
-
-  it("leaves legacy crops (no baseDurationMs) untouched", () => {
-    const stale = now + base;
-    const game = gameWith({
-      crops: {
-        "1": {
-          createdAt: now,
-          x: 1,
-          y: 0,
-          crop: { name: "Sunflower", plantedAt: now },
-        },
-      },
-      aoe: { "Basic Scarecrow": { 1: { 0: stale } } },
-    });
-
-    refreshBasicScarecrowTimeAOE(game);
-
-    expect(game.aoe["Basic Scarecrow"]![1]![0]).toBe(stale);
   });
 
   it("does nothing when there is no Basic Scarecrow", () => {

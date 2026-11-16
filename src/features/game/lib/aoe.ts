@@ -1,6 +1,7 @@
 import type { AOEItemName } from "../expansion/placeable/lib/collisionDetection";
 import type { CollectibleName } from "../types/craftables";
-import type { AOE, GameState } from "../types/game";
+import type { AOE, GameState, PlantedCrop, Rock } from "../types/game";
+import { CROPS } from "../types/crops";
 import {
   computeReadyAt,
   getCropFertiliserWindows,
@@ -9,17 +10,39 @@ import {
 
 /**
  * Important: for yield boosts, the gameState.aoe object contains when the boost was last used.
+ *
+ * A tile pays out at most once per crop or rock cycle: the boost applies only if
+ * the tile's last payout came no later than when the node's current cycle
+ * started. Moving a node (or the collectible) never earns an extra payout, and no
+ * grow or recovery duration is involved, so speed boosts and instant-ready
+ * effects need no special handling. "No later than" because mining stamps the
+ * tile's last payout and the rock's next cycle start with the same createdAt.
  */
 export const canUseYieldBoostAOE = (
   aoe: AOE,
   item: AOEItemName,
   { dx, dy }: { dx: number; dy: number },
-  cooldownTime: number,
-  createdAt: number,
+  cycleStartedAt: number,
 ) => {
-  const aoeIdleTime = createdAt - (aoe[item]?.[dx]?.[dy] ?? 0);
-  return aoeIdleTime >= cooldownTime;
+  return (aoe[item]?.[dx]?.[dy] ?? 0) <= cycleStartedAt;
 };
+
+/**
+ * When a planted crop's current cycle began. Crops planted before
+ * `cycleStartedAt` existed fall back to `plantedAt`; anything that moves
+ * `plantedAt` (a lift, Instant Growth) records this first.
+ */
+export const getCropCycleStartedAt = (crop: PlantedCrop): number =>
+  crop.cycleStartedAt ?? crop.plantedAt;
+
+/**
+ * When a rock's current cycle began. Rocks mined before `cycleStartedAt`
+ * existed fall back to `minedAt`; a rock that has never been mined (`minedAt`
+ * 0) falls back to when the rock was created. A lift records this before it
+ * moves `minedAt`.
+ */
+export const getRockCycleStartedAt = (rock: Rock): number =>
+  rock.stone.cycleStartedAt ?? (rock.stone.minedAt || (rock.createdAt ?? 0));
 
 /**
  * Important: for time boosts, the gameState.aoe object contains when the boost is next available.
@@ -64,9 +87,8 @@ export const setAOEAvailableAt = (
  * Hour / sunshower started). Without it, a crop that speeds up mid-grow leaves
  * its cell's AOE frozen at the old, later ready time, and a replant in the gap is
  * wrongly denied the Basic Scarecrow boost. Only cells that already hold an AOE
- * entry (the crop was planted with the boost) are touched. Legacy crops (no
- * `baseDurationMs`) are untouched — their ready time doesn't move. Idempotent
- * when the windows are unchanged.
+ * entry (the crop was planted with the boost) are touched. Idempotent when the
+ * windows are unchanged.
  */
 export function refreshBasicScarecrowTimeAOE(game: GameState): void {
   const scarecrow = game.collectibles["Basic Scarecrow"]?.[0];
@@ -76,14 +98,7 @@ export function refreshBasicScarecrowTimeAOE(game: GameState): void {
 
   Object.values(game.crops).forEach((plot) => {
     const crop = plot.crop;
-    if (
-      !crop ||
-      crop.baseDurationMs === undefined ||
-      plot.x === undefined ||
-      plot.y === undefined
-    ) {
-      return;
-    }
+    if (!crop || plot.x === undefined || plot.y === undefined) return;
 
     const dx = plot.x - scarecrow.coordinates!.x;
     const dy = plot.y - scarecrow.coordinates!.y;
@@ -91,7 +106,8 @@ export function refreshBasicScarecrowTimeAOE(game: GameState): void {
 
     game.aoe["Basic Scarecrow"]![dx]![dy] = computeReadyAt({
       startedAt: crop.plantedAt,
-      baseDurationMs: crop.baseDurationMs,
+      baseDurationMs:
+        crop.baseDurationMs ?? CROPS[crop.name].harvestSeconds * 1000,
       windows: [...windows, ...getCropFertiliserWindows(plot.fertiliser)],
     });
   });

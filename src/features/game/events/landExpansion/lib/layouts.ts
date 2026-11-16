@@ -24,6 +24,7 @@ import {
   RESOURCE_DIMENSIONS,
   RESOURCE_MULTIPLIER,
   type ResourceName,
+  type RockName,
   type UpgradeableResource,
 } from "features/game/types/resources";
 import { PET_NFT_DIMENSIONS } from "features/game/types/pets";
@@ -34,6 +35,11 @@ import {
 } from "features/game/expansion/placeable/lib/collisionDetection";
 import type { LandscapingPlaceable } from "features/game/expansion/placeable/landscapingMachine";
 import { getObjectEntries } from "lib/object";
+import {
+  freshOilTimer,
+  freshRockTimer,
+  freshTreeTimer,
+} from "features/game/lib/freshNodes";
 
 /**
  * Collision dimensions for the placeables that aren't in
@@ -139,7 +145,7 @@ const createResourceNode = (
     case "trees":
       return {
         ...base,
-        wood: { choppedAt: 0 },
+        wood: freshTreeTimer(),
         name: resourceName,
         multiplier: RESOURCE_MULTIPLIER[resourceName as UpgradeableResource],
         tier: 1,
@@ -149,23 +155,35 @@ const createResourceNode = (
     case "iron":
       return {
         ...base,
-        stone: { minedAt: 0 },
+        stone: freshRockTimer(resourceName as RockName),
         name: resourceName,
         multiplier: RESOURCE_MULTIPLIER[resourceName as UpgradeableResource],
         tier: 1,
       } as PlacedResource;
     case "crimstones":
-      return { ...base, stone: { minedAt: 0 }, minesLeft: 5 } as PlacedResource;
+      return {
+        ...base,
+        stone: freshRockTimer("Crimstone Rock"),
+        minesLeft: 5,
+      } as PlacedResource;
     case "sunstones":
       return {
         ...base,
-        stone: { minedAt: 0 },
+        stone: freshRockTimer("Sunstone Rock"),
         minesLeft: 10,
       } as PlacedResource;
     case "ascensionCrystals":
-      return { ...base, stone: { minedAt: 0 }, minesLeft: 1 } as PlacedResource;
+      return {
+        ...base,
+        stone: freshRockTimer("Ascension Crystal"),
+        minesLeft: 1,
+      } as PlacedResource;
     case "oilReserves":
-      return { ...base, oil: { drilledAt: 0 }, drilled: 0 } as PlacedResource;
+      return {
+        ...base,
+        oil: freshOilTimer(),
+        drilled: 0,
+      } as PlacedResource;
     case "beehives":
       return {
         x: c.x,

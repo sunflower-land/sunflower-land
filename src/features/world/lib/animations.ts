@@ -10,6 +10,7 @@ export enum ANIMATION {
   "carry-none-idle" = "carry-none-idle",
   casting = "casting",
   caught = "caught",
+  dance = "dance",
   death = "death",
   dig = "dig",
   doing = "doing",

@@ -54,6 +54,29 @@ describe("Place building", () => {
     expect(state.buildings["Water Well"]).toHaveLength(1);
   });
 
+  it("starts a new cooking building on the oil ledger", () => {
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Fire Pit": new Decimal(1),
+          "Basic Land": new Decimal(10),
+        },
+        buildings: {},
+      },
+      action: {
+        id: "123",
+        type: "building.placed",
+        name: "Fire Pit",
+        coordinates: { x: 2, y: 2 },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.buildings["Fire Pit"]?.[0].oilSettledAt).toEqual(dateNow);
+  });
+
   it("places multiple buildings", () => {
     const state = {
       ...GAME_STATE,
@@ -698,9 +721,11 @@ describe("Place building", () => {
       createdAt: dateNow,
     });
 
-    expect(state.greenhouse.pots["123"].plant?.plantedAt).toEqual(
-      dateNow - 60000,
-    );
+    expect(state.greenhouse.pots["123"].plant).toMatchObject({
+      plantedAt: dateNow,
+      // 44h raw Olive grow, less the 1 min banked before the lift.
+      baseDurationMs: 44 * 60 * 60 * 1000 - 60000,
+    });
   });
 
   it("banks accrued work for windowed greenhouse plants on move", () => {
@@ -1439,8 +1464,7 @@ describe("Place building", () => {
   });
   // Regression: the lift must not hand back a love slot. `asleepAt` is the love
   // cadence anchor as well as the sleep timer's start, so moving it forward
-  // compresses the cycle and re-opens slots the player already spent — the same
-  // reason migrateSpeedBoosts refuses to freeze animals.
+  // compresses the cycle and re-opens slots the player already spent.
   it("does not grant an extra love slot when a windowed animal's building is lifted", () => {
     const HOUR = 60 * 60 * 1000;
     const SLEEP = 24 * HOUR;

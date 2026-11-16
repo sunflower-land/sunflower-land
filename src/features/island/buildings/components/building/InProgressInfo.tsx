@@ -82,7 +82,7 @@ export const InProgressInfo: React.FC<Props> = ({
     startedAt: startedAt ?? product.readyAt,
     baseDurationMs: windowed ? product.baseDurationMs : undefined,
     windows,
-    legacyReadyAt: product.readyAt,
+    fallbackReadyAt: product.readyAt,
   });
 
   // How full the bar is tracks remaining WORK, which does not drain at
