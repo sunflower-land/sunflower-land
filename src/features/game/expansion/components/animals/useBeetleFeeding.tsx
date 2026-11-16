@@ -6,6 +6,8 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import type { Animal } from "features/game/types/game";
 import type { BeetleName } from "features/game/types/beetles";
 import { getFeedBatchSize } from "features/game/events/landExpansion/feedAnimal";
+import { makeAnimalBuildingKey } from "features/game/lib/animals";
+import { ANIMALS } from "features/game/types/animals";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { getBeetleLevelGain } from "./beetleFeeding";
@@ -142,11 +144,21 @@ export function useBeetleFeeding({
         setPendingBatch(undefined);
         if (!confirmed) return;
         // The stored Beetle is fed even if the mode changed while the
-        // dialog was up; skip when the batch is no longer affordable.
+        // dialog was up; skip when the batch is no longer affordable or
+        // the animal stopped being feedable (e.g. it turned sick).
         const owned = inventory[confirmed.beetle] ?? new Decimal(0);
-        if (owned.gte(confirmed.feeds)) {
-          feedAndReopen(confirmed.beetle, confirmed.feeds);
+        if (!owned.gte(confirmed.feeds)) return;
+
+        const key = makeAnimalBuildingKey(
+          ANIMALS[animal.type].buildingRequired,
+        );
+        const latest =
+          gameService.getSnapshot().context.state[key].animals[animal.id];
+        if (!latest || !["idle", "happy", "sad"].includes(latest.state)) {
+          return;
         }
+
+        feedAndReopen(confirmed.beetle, confirmed.feeds);
       }}
     />
   );
