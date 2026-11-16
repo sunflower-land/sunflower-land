@@ -487,6 +487,61 @@ describe("applyAnimalFeedBuff", () => {
 
       expect(state.barn.animals[sheepId].feedBuff?.name).toBe("Honey Treat");
     });
+
+    // A golden animal can never be petted (the UI hides the request), so an
+    // open love window must not block its feed buffs — otherwise Salt Lick
+    // would be unusable for the whole night.
+    const barnInLoveWindow = (collectible?: "Golden Sheep"): GameState => {
+      const farm = barnWith("Golden Sheep");
+      return {
+        ...farm,
+        collectibles: collectible ? farm.collectibles : {},
+        inventory: { "Salt Lick": new Decimal(1) },
+        barn: {
+          ...farm.barn,
+          animals: {
+            [sheepId]: {
+              ...farm.barn.animals[sheepId],
+              // One sleep third has elapsed, so the love window is open, and
+              // two thirds remain, so the sheep is still asleep.
+              asleepAt: now - 100_000,
+              awakeAt: now + 200_000,
+              lovedAt: now - 100_000,
+            },
+          },
+        },
+      };
+    };
+
+    it("applies a Salt Lick to a covered sheep while the love window is open", () => {
+      const state = applyAnimalFeedBuff({
+        createdAt: now,
+        state: barnInLoveWindow("Golden Sheep"),
+        action: {
+          type: "animal.feedBuffApplied",
+          animal: "Sheep",
+          id: sheepId,
+          item: "Salt Lick",
+        },
+      });
+
+      expect(state.barn.animals[sheepId].feedBuff?.name).toBe("Salt Lick");
+    });
+
+    it("still demands pets for an uncovered sheep while the love window is open", () => {
+      expect(() =>
+        applyAnimalFeedBuff({
+          createdAt: now,
+          state: barnInLoveWindow(),
+          action: {
+            type: "animal.feedBuffApplied",
+            animal: "Sheep",
+            id: sheepId,
+            item: "Salt Lick",
+          },
+        }),
+      ).toThrow(APPLY_ANIMAL_FEED_BUFF_ERRORS.NEEDS_LOVE);
+    });
   });
 
   it("doubles the feed buff duration to 6 harvests when Vibraphone is placed", () => {
