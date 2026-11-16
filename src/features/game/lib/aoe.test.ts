@@ -236,25 +236,6 @@ describe("refreshBasicScarecrowTimeAOE", () => {
     );
   });
 
-  it("leaves legacy crops (no baseDurationMs) untouched", () => {
-    const stale = now + base;
-    const game = gameWith({
-      crops: {
-        "1": {
-          createdAt: now,
-          x: 1,
-          y: 0,
-          crop: { name: "Sunflower", plantedAt: now },
-        },
-      },
-      aoe: { "Basic Scarecrow": { 1: { 0: stale } } },
-    });
-
-    refreshBasicScarecrowTimeAOE(game);
-
-    expect(game.aoe["Basic Scarecrow"]![1]![0]).toBe(stale);
-  });
-
   it("does nothing when there is no Basic Scarecrow", () => {
     const stale = now + base;
     const game = gameWith({

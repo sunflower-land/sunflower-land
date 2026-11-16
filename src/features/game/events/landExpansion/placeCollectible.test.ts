@@ -9,6 +9,37 @@ import type { Pet, PetName } from "features/game/types/pets";
 
 const date = Date.now();
 const GAME_STATE: GameState = TEST_FARM;
+const HOUR = 60 * 60 * 1000;
+const honeyFarm = (now: number) => ({
+  flowers: {
+    discovered: {},
+    flowerBeds: {
+      f1: {
+        createdAt: 0,
+        x: 20,
+        y: 20,
+        flower: { name: "Red Pansy" as const, plantedAt: now - HOUR },
+      },
+    },
+  },
+  beehives: {
+    h1: {
+      swarm: false,
+      x: 20,
+      y: 25,
+      honey: { updatedAt: now - HOUR, produced: 0 },
+      flowers: [
+        {
+          id: "f1",
+          attachedAt: now - HOUR,
+          attachedUntil: now + 11 * HOUR,
+          rate: 1,
+        },
+      ],
+    },
+  },
+});
+
 describe("Place Collectible", () => {
   it("Requires a collectible is not already placed", () => {
     expect(() =>
@@ -926,5 +957,29 @@ describe("Place Collectible", () => {
         }),
       ).toThrow("Level one floor has not been unlocked");
     });
+  });
+  it("applies the Queen Bee honey rate from the moment it is placed", () => {
+    const dateNow = Date.now();
+    const state = placeCollectible({
+      state: {
+        ...GAME_STATE,
+        ...honeyFarm(dateNow),
+        inventory: { "Queen Bee": new Decimal(1) },
+        collectibles: {},
+      },
+      action: {
+        id: "123",
+        type: "collectible.placed",
+        name: "Queen Bee",
+        coordinates: { x: 4, y: 0 },
+        location: "farm",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.beehives.h1.honey.produced).toEqual(HOUR);
+    expect(state.beehives.h1.flowers[0]).toEqual(
+      expect.objectContaining({ attachedAt: dateNow, rate: 2 }),
+    );
   });
 });

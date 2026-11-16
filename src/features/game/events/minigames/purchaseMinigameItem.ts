@@ -11,15 +11,21 @@ import { COMMODITIES, type CommodityName } from "features/game/types/resources";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { produce } from "immer";
 
-export type MinigameCurrency = CropName | PatchFruitName | CommodityName;
+/** Mud is excluded until it is released - it is not a minigame currency. */
+export type MinigameCurrency =
+  | CropName
+  | PatchFruitName
+  | Exclude<CommodityName, "Mud">;
 
 const SFL_LIMIT = 200;
 
 export const MINIGAME_CURRENCY_LIMITS: Record<MinigameCurrency, number> = {
-  ...getKeys(COMMODITIES).reduce(
-    (acc, name) => ({ ...acc, [name]: 1000 }),
-    {} as Record<PatchFruitName, number>,
-  ),
+  ...getKeys(COMMODITIES)
+    .filter((name): name is Exclude<CommodityName, "Mud"> => name !== "Mud")
+    .reduce(
+      (acc, name) => ({ ...acc, [name]: 1000 }),
+      {} as Record<PatchFruitName, number>,
+    ),
   ...getKeys(PATCH_FRUIT).reduce(
     (acc, name) => ({ ...acc, [name]: 1000 }),
     {} as Record<CommodityName, number>,

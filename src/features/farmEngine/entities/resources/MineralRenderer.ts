@@ -43,7 +43,10 @@ import { getStoneDropAmount } from "features/game/events/landExpansion/stoneMine
 import { getIronDropAmount } from "features/game/events/landExpansion/ironMine";
 import { getGoldDropAmount } from "features/game/events/landExpansion/mineGold";
 import { getCrimstoneDropAmount } from "features/game/events/landExpansion/mineCrimstone";
-import { getCrimstoneStage } from "features/game/expansion/components/resources/crimstone/getCrimstoneStage";
+import {
+  getCrimstoneResetAt,
+  getCrimstoneStage,
+} from "features/game/expansion/components/resources/crimstone/getCrimstoneStage";
 import { getSunstoneStage } from "features/game/expansion/components/resources/sunstone/getSunstoneStage";
 import type { GameBridge } from "../../bridge/GameBridge";
 import type { ResourceHoverKind } from "../../bridge/GameBridge";
@@ -509,6 +512,7 @@ export const CRIMSTONE_CONFIG: MineralConfig = {
       node.minesLeft ?? 5,
       now,
       crimstoneReadyAt(node, game),
+      getCrimstoneResetAt(node.stone.minedAt),
     );
     return {
       texture: CRIMSTONE_STAGES[stage - 1],
@@ -532,6 +536,7 @@ export const CRIMSTONE_CONFIG: MineralConfig = {
         node.minesLeft ?? 5,
         now,
         crimstoneReadyAt(node, game),
+        getCrimstoneResetAt(node.stone.minedAt),
       ) === 6
         ? crimstoneThreeDrop
         : crimstoneOneDrop,
@@ -578,6 +583,7 @@ export const CRIMSTONE_CONFIG: MineralConfig = {
       node.minesLeft ?? 5,
       now,
       crimstoneReadyAt(node, game),
+      getCrimstoneResetAt(node.stone.minedAt),
     );
     const amount = getCrimstoneDropAmount({
       game,

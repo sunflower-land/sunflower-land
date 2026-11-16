@@ -36,7 +36,6 @@ import {
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
 import { getAnimalBoostWindows } from "features/game/lib/boostWindows";
-import { hasFeatureAccess } from "lib/flags";
 import {
   getBoostContributionEntries,
   getAnimalBoostContributions,
@@ -53,7 +52,10 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { isMobile } from "mobile-device-detect";
-import { SICK_ANIMAL_REWARD_MULTIPLIER } from "features/game/events/landExpansion/sellAnimal";
+import {
+  MUD_XP_MULTIPLIER,
+  SICK_ANIMAL_REWARD_MULTIPLIER,
+} from "features/game/lib/animals";
 import { formatNumber } from "lib/utils/formatNumber";
 import { SquareIcon } from "components/ui/SquareIcon";
 
@@ -80,6 +82,8 @@ type Props = {
   buildingName: AnimalBuildingType;
   onClose: () => void;
   onExchanging: (deal: AnimalBounty) => void;
+  /** Pigpen only: the Sell tab's "Trade in" section. */
+  onTradeIn?: () => void;
 };
 
 const _state = (state: MachineState) => state.context.state;
@@ -91,6 +95,7 @@ export const AnimalBuildingModal: React.FC<Props> = ({
   buildingName,
   onClose,
   onExchanging,
+  onTradeIn,
 }) => {
   const { gameService } = useContext(Context);
   const [showIntro, setShowIntro] = useState(!hasReadIntro());
@@ -151,23 +156,14 @@ export const AnimalBuildingModal: React.FC<Props> = ({
     animalType: selectedName,
     game: state,
   });
-  // Gate on the SAME flag `getBoostedAwakeAt` uses to decide what it bakes.
-  // Flag-off it still bakes the shrine into `maturityTimeMs`, so projecting
-  // through the windows as well would count it twice (and list a boost the
-  // player isn't on). The windows themselves exist regardless of the flag.
-  const boostsWindowed = hasFeatureAccess(state, "SPEED_BOOSTS");
-  const maturityWindows = boostsWindowed
-    ? getAnimalBoostWindows(state, selectedName)
-    : [];
+  const maturityWindows = getAnimalBoostWindows(state, selectedName);
   // The windowed shrine isn't in `boostsUsed` (it applies over the sleep rather
   // than being baked into it), so name it for the boost panel: the time it
   // actually saves.
   const maturityBoostsUsed = [
     ...maturityTime.boostsUsed,
     ...getBoostContributionEntries({
-      contributions: boostsWindowed
-        ? getAnimalBoostContributions(state, selectedName)
-        : [],
+      contributions: getAnimalBoostContributions(state, selectedName),
       seconds: maturityTime.maturityTimeMs / 1000,
       at: now,
       formatSeconds: (seconds) =>
@@ -221,6 +217,16 @@ export const AnimalBuildingModal: React.FC<Props> = ({
       icon: SUNNYSIDE.animalFoods.barn_delight,
       text: t("animals.guide.sickness"),
     },
+    ...(buildingName === "Pigpen"
+      ? [
+          {
+            icon: ITEM_DETAILS.Mud.image,
+            text: t("animals.guide.mud", {
+              percent: Math.round((MUD_XP_MULTIPLIER - 1) * 100),
+            }),
+          },
+        ]
+      : []),
     {
       icon: SUNNYSIDE.icons.death,
       text: t("animals.guide.bounties", {
@@ -325,8 +331,13 @@ export const AnimalBuildingModal: React.FC<Props> = ({
 
       {currentTab === "sell" && (
         <AnimalBounties
-          type={buildingName === "Barn" ? ["Cow", "Sheep"] : ["Chicken"]}
+          // Derived from ANIMALS rather than listed per building, so a new
+          // animal shows its bounties in its own house automatically.
+          type={getKeys(ANIMALS).filter(
+            (animal) => ANIMALS[animal].buildingRequired === buildingName,
+          )}
           onExchanging={onExchanging}
+          onTradeIn={onTradeIn}
         />
       )}
 

@@ -26,7 +26,10 @@ export function useNow({
       setTime(() => {
         const now = Date.now();
 
-        if (autoEndAt !== undefined && now >= autoEndAt) {
+        // Strictly past, not `>=`: rocks, trees, oil, flowers and animals are
+        // only ready once `now > readyAt`, so a tick landing exactly on the end
+        // time would freeze the clock on a 0s countdown that never unlocks.
+        if (autoEndAt !== undefined && now > autoEndAt) {
           // Stop the interval immediately when end time is reached
           // (cleanup function will also clear if effect re-runs, but null check prevents double-clearing)
           if (intervalIdRef.current !== null) {

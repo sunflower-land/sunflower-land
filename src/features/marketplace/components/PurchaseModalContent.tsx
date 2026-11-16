@@ -17,6 +17,7 @@ import {
   Locked,
   useIsLocked,
 } from "features/retreat/components/personhood/Locked";
+import { WithdrawCooldownNotice } from "./WithdrawCooldownNotice";
 
 type PurchaseModalContentProps = {
   authToken: string;
@@ -65,7 +66,7 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
       ? 0
       : calculateTradePoints({
           sfl: price,
-          points: listing.type === "instant" ? 2 : 4,
+          points: 2,
         }).multipliedPoints;
 
   // Buying is a trade, so a hold stops it here rather than at the API. Gated
@@ -93,6 +94,7 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
         {showsMinigameCurrencyDisclaimer(display.name) && (
           <MinigameCurrencyDisclaimerPanel className="mt-3" />
         )}
+        <WithdrawCooldownNotice display={display} className="mt-2" />
       </div>
       <div className="flex space-x-1">
         <Button onClick={onClose}>{t("cancel")}</Button>

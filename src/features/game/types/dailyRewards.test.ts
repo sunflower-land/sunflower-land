@@ -242,3 +242,78 @@ describe("getRewardsForStreak — Growth Feast XP scaling", () => {
     expect(xp).toBe(103_768);
   });
 });
+
+describe("getRewardsForStreak — Gems are VIP only", () => {
+  const NOW = PAW_PRINTS_NOW;
+
+  const rewardsFor = (game: GameState, streak: number) =>
+    getRewardsForStreak({
+      game,
+      streak,
+      currentDate: new Date(NOW).toISOString(),
+      now: NOW,
+    }).rewards;
+
+  const gemsIn = (game: GameState, streak: number) =>
+    rewardsFor(game, streak).reduce(
+      (total, reward) => total + (reward.items?.Gem ?? 0),
+      0,
+    );
+
+  it("strips the day 7 onboarding Gems for a non-VIP", () => {
+    const finale = rewardsFor(TEST_FARM, 6).find(
+      (r) => r.id === "onboarding-day-7-first-week-finale",
+    )!;
+
+    expect(finale.items?.Gem).toBeUndefined();
+    // The rest of the reward survives
+    expect(finale.items?.["Weekly Mega Box"]).toBe(1);
+  });
+
+  it("grants the day 7 onboarding Gems to a VIP", () => {
+    const finale = rewardsFor(vipFarm(NOW), 6).find(
+      (r) => r.id === "onboarding-day-7-first-week-finale",
+    )!;
+
+    expect(finale.items?.Gem).toBe(50);
+  });
+
+  it("strips streak milestone Gems for a non-VIP but keeps the rest", () => {
+    const milestone = rewardsFor(TEST_FARM, 729).find(
+      (r) => r.id === "streak-two-year",
+    )!;
+
+    expect(milestone.items?.Gem).toBeUndefined();
+    expect(milestone.coins).toBe(10000);
+    expect(milestone.items?.["Super Totem"]).toBe(1);
+  });
+
+  it("grants streak milestone Gems to a VIP", () => {
+    const milestone = rewardsFor(vipFarm(NOW), 729).find(
+      (r) => r.id === "streak-two-year",
+    )!;
+
+    expect(milestone.items?.Gem).toBe(320);
+  });
+
+  it("does not honour a VIP trial", () => {
+    const trialFarm: GameState = {
+      ...TEST_FARM,
+      vip: { trialStartedAt: NOW, expiresAt: 0, bundles: [] },
+    };
+
+    expect(gemsIn(trialFarm, 6)).toBe(0);
+  });
+
+  it("never leaves a Gem in any daily reward for a non-VIP", () => {
+    for (let streak = 0; streak <= 1459; streak += 1) {
+      expect(gemsIn(TEST_FARM, streak)).toBe(0);
+    }
+  });
+
+  it("does not mutate the shared reward definitions", () => {
+    // Non-VIP first, so a mutating implementation would poison the VIP read
+    expect(gemsIn(TEST_FARM, 6)).toBe(0);
+    expect(gemsIn(vipFarm(NOW), 6)).toBe(50);
+  });
+});

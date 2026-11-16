@@ -4,7 +4,10 @@ import { Box } from "components/ui/Box";
 
 import { Context } from "features/game/GameProvider";
 import { getKeys, getObjectEntries } from "lib/object";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -105,7 +108,9 @@ export const BeachBaitShop: React.FC = () => {
               </div>
             ) : (
               <>
-                <p className="text-xs mb-2 px-1 text-center">{`Choose your purchase option:`}</p>
+                <p className="text-xs mb-2 px-1 text-center">
+                  {t("purchaseOption.choose")}
+                </p>
                 <div className="flex flex-row sm:flex-col gap-1">
                   {getKeys(purchaseOptions).map((type) => {
                     return (
@@ -115,7 +120,7 @@ export const BeachBaitShop: React.FC = () => {
                         onClick={() => setPurchaseType(type)}
                       >
                         <div className="flex items-center">
-                          <p>{type}</p>
+                          <p>{getTranslatedItemName(type)}</p>
                           <img
                             src={ITEM_DETAILS[type].image}
                             className="h-5 absolute right-1 top-1"

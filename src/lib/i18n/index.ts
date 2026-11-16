@@ -11,6 +11,13 @@ if (process.env.NODE_ENV !== "metadata") {
     localStorage.setItem("language", lng);
   }
 
+  // LanguageCode values are valid BCP-47 tags ("pt-BR", "zh-CN", …). Without
+  // this the document permanently claims to be English while rendering one of
+  // the other languages, which is what makes the browser offer to translate
+  // the page — and browser translation moves the DOM nodes React tracks.
+  // Also lets screen readers pronounce the UI correctly.
+  document.documentElement.setAttribute("lang", lng);
+
   i18n.use(initReactI18next).init(
     {
       resources,

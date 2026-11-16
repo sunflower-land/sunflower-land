@@ -1,5 +1,13 @@
 import Decimal from "decimal.js-light";
-import { getAnimalLevel, getAnimalReadyAt } from "features/game/lib/animals";
+import {
+  getAnimalReadyAt,
+  getBountyLevel,
+  getPigBristles,
+  makeAnimalBuildingKey,
+  SICK_ANIMAL_REWARD_MULTIPLIER,
+} from "features/game/lib/animals";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { ANIMALS, type AnimalType } from "features/game/types/animals";
 import { getKeys } from "lib/object";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import type {
@@ -29,18 +37,10 @@ export function isValidDeal({
     return false;
   }
 
-  /**
-   * If animal is ready, it would normally show its previous level until they claim yield.
-   * Hence we should check their effective level to be the previous level.
-   */
-  if (
-    animal.state === "ready" &&
-    getAnimalLevel(animal.experience, animal.type) - 1 < deal.level
-  ) {
-    return false;
-  }
+  // A ready animal counts one level lower until its yield is claimed.
+  const effectiveLevel = getBountyLevel(animal);
 
-  if (getAnimalLevel(animal.experience, animal.type) < deal.level) {
+  if (effectiveLevel < deal.level) {
     return false;
   }
 
@@ -65,8 +65,6 @@ type Options = {
   action: SellAnimalAction;
   createdAt?: number;
 };
-
-export const SICK_ANIMAL_REWARD_MULTIPLIER = 0.75;
 
 export function getSickAnimalRewardAmount(amount: number) {
   return Math.floor(amount * SICK_ANIMAL_REWARD_MULTIPLIER);
@@ -93,7 +91,16 @@ export function sellAnimal({
       throw new Error("Bounty already completed");
     }
 
-    const { animals } = request.name === "Chicken" ? game.henHouse : game.barn;
+    // `request` is the full BountyRequest union, so `name` may be a flower, a
+    // fish, an Obsidian... Guard explicitly rather than indexing a building by
+    // elimination: the old `Chicken ? henHouse : barn` routed every non-Chicken
+    // bounty at the barn and relied on the lookup below to throw.
+    if (!(request.name in ANIMALS)) {
+      throw new Error("Animal does not exist");
+    }
+
+    const { buildingRequired } = ANIMALS[request.name as AnimalType];
+    const { animals } = game[makeAnimalBuildingKey(buildingRequired)];
 
     const animal = animals[action.animalId];
     if (!animal) {
@@ -105,6 +112,14 @@ export function sellAnimal({
     }
 
     const isSick = animal.state === "sick";
+
+    // A Pig also pays its level's Bristles (#7721) - the generic produce boosts,
+    // Bristle Payout and the sickness cut are all inside `getPigBristles`. Read
+    // before the delete so the Pig is still on the draft.
+    const bristles =
+      animal.type === "Pig"
+        ? getPigBristles({ game: state, pig: animal })
+        : undefined;
 
     delete animals[action.animalId];
 
@@ -154,6 +169,21 @@ export function sellAnimal({
         isSick ? getSickAnimalRewardAmount(amount) : amount,
       );
     });
+
+    if (bristles && bristles.amount > 0) {
+      game.inventory["Pig Bristles"] = (
+        game.inventory["Pig Bristles"] ?? new Decimal(0)
+      ).add(bristles.amount);
+      game.farmActivity = trackFarmActivity(
+        "Pig Bristles Collected",
+        game.farmActivity,
+      );
+      game.boostsUsedAt = updateBoostUsed({
+        game,
+        boostNames: bristles.boostsUsed,
+        createdAt,
+      });
+    }
 
     game.bounties.completed = [
       ...game.bounties.completed,

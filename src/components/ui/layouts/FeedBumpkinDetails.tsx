@@ -8,6 +8,8 @@ import { BoostsDisplay } from "./BoostsDisplay";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
 import { getItemDescription } from "features/game/lib/getItemDescription";
+import { formatNumber } from "lib/utils/formatNumber";
+import levelup from "assets/icons/level_up.png";
 
 /**
  * The props for the details for items.
@@ -117,6 +119,10 @@ export const FeedBumpkinDetails: React.FC<Props> = ({
           properties.gameState && (
             <BoostsDisplay
               boosts={properties.boostsUsed}
+              base={{
+                value: `${formatNumber(properties.baseXp ?? 0)}XP`,
+                icon: levelup,
+              }}
               show={properties.showBoosts ?? false}
               state={properties.gameState}
               onClick={() => properties.setShowBoosts?.(!properties.showBoosts)}

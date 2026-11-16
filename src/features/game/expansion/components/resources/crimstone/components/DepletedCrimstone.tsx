@@ -18,6 +18,7 @@ interface Props {
   minesLeft: number;
   now: number;
   readyAt: number;
+  resetAt: number;
 }
 
 const DepletedCrimstoneComponent: React.FC<Props> = ({
@@ -25,6 +26,7 @@ const DepletedCrimstoneComponent: React.FC<Props> = ({
   minesLeft,
   now,
   readyAt,
+  resetAt,
 }) => {
   const [showTimeLeft, setShowTimeLeft] = useState(false);
 
@@ -35,7 +37,7 @@ const DepletedCrimstoneComponent: React.FC<Props> = ({
     crimstone_4,
     crimstone_5,
     crimstone_6,
-  ][getCrimstoneStage(minesLeft, now, readyAt) - 1];
+  ][getCrimstoneStage(minesLeft, now, readyAt, resetAt) - 1];
 
   return (
     <div

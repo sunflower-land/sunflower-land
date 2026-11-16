@@ -156,3 +156,78 @@ describe("equipFarmHand", () => {
     });
   });
 });
+
+const HOUR = 60 * 60 * 1000;
+const honeyFarm = (now: number) => ({
+  flowers: {
+    discovered: {},
+    flowerBeds: {
+      f1: {
+        createdAt: 0,
+        x: 0,
+        y: 0,
+        flower: { name: "Red Pansy" as const, plantedAt: now - HOUR },
+      },
+    },
+  },
+  beehives: {
+    h1: {
+      swarm: false,
+      x: 3,
+      y: 3,
+      honey: { updatedAt: now - HOUR, produced: 0 },
+      flowers: [
+        {
+          id: "f1",
+          attachedAt: now - HOUR,
+          attachedUntil: now + 11 * HOUR,
+          rate: 1,
+        },
+      ],
+    },
+  },
+});
+
+describe("equipFarmHand honey rate", () => {
+  it("applies the Beekeeper Hat honey rate when a farm hand equips it", () => {
+    const now = Date.now();
+    const equipped = {
+      background: "Cemetery Background",
+      body: "Beige Farmer Potion",
+      hair: "Basic Hair",
+      shoes: "Black Farmer Boots",
+      tool: "Farmer Pitchfork",
+      shirt: "Yellow Farmer Shirt",
+      pants: "Farmer Overalls",
+    } as const;
+
+    const state = equipFarmhand({
+      action: {
+        type: "farmHand.equipped",
+        equipment: { ...equipped, hat: "Beekeeper Hat" },
+        id: "65",
+      },
+      state: {
+        ...TEST_FARM,
+        ...honeyFarm(now),
+        farmHands: { bumpkins: { "65": { equipped } } },
+        wardrobe: {
+          "Cemetery Background": 1,
+          "Beige Farmer Potion": 1,
+          "Basic Hair": 1,
+          "Black Farmer Boots": 1,
+          "Farmer Pitchfork": 1,
+          "Yellow Farmer Shirt": 1,
+          "Farmer Overalls": 1,
+          "Beekeeper Hat": 1,
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.beehives.h1.honey.produced).toEqual(HOUR);
+    expect(state.beehives.h1.flowers[0]).toEqual(
+      expect.objectContaining({ attachedAt: now, rate: 1.2 }),
+    );
+  });
+});

@@ -15,6 +15,37 @@ const GAME_STATE: GameState = {
   },
 };
 
+const HOUR = 60 * 60 * 1000;
+const honeyFarm = (now: number) => ({
+  flowers: {
+    discovered: {},
+    flowerBeds: {
+      f1: {
+        createdAt: 0,
+        x: 0,
+        y: 0,
+        flower: { name: "Red Pansy" as const, plantedAt: now - HOUR },
+      },
+    },
+  },
+  beehives: {
+    h1: {
+      swarm: false,
+      x: 3,
+      y: 3,
+      honey: { updatedAt: now - HOUR, produced: 0 },
+      flowers: [
+        {
+          id: "f1",
+          attachedAt: now - HOUR,
+          attachedUntil: now + 11 * HOUR,
+          rate: 1,
+        },
+      ],
+    },
+  },
+});
+
 describe("removeCollectible", () => {
   it("does not remove non-existent collectible ", () => {
     expect(() =>
@@ -358,5 +389,36 @@ describe("removeCollectible", () => {
         },
       }),
     ).toThrow("Level one floor has not been unlocked");
+  });
+  it("lowers the honey rate from the moment the Queen Bee is removed", () => {
+    const now = Date.now();
+    const farm = honeyFarm(now);
+    farm.beehives.h1.flowers[0].rate = 2;
+    farm.beehives.h1.flowers[0].attachedUntil = now + 5 * HOUR;
+
+    const state = removeCollectible({
+      state: {
+        ...GAME_STATE,
+        ...farm,
+        inventory: { "Queen Bee": new Decimal(1) },
+        collectibles: {
+          "Queen Bee": [
+            { id: "1", createdAt: 0, coordinates: { x: 0, y: 0 }, readyAt: 0 },
+          ],
+        },
+      },
+      action: {
+        location: "farm",
+        type: "collectible.removed",
+        name: "Queen Bee",
+        id: "1",
+      },
+      createdAt: now,
+    });
+
+    expect(state.beehives.h1.honey.produced).toEqual(2 * HOUR);
+    expect(state.beehives.h1.flowers[0]).toEqual(
+      expect.objectContaining({ attachedAt: now, rate: 1 }),
+    );
   });
 });

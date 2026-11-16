@@ -30,10 +30,12 @@ import { RequiredReputation } from "features/island/hud/components/reputation/Re
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getKeys } from "lib/object";
 import { useNow } from "lib/utils/hooks/useNow";
+import { MAX_ITEM_OFFERS } from "../lib/tradeLimits";
 import {
   Locked,
   useIsLocked,
 } from "features/retreat/components/personhood/Locked";
+import { WithdrawCooldownNotice } from "./WithdrawCooldownNotice";
 
 const _balance = (state: MachineState) => state.context.state.balance;
 const _usd = (state: MachineState) => state.context.prices.sfl?.usd ?? 0.0;
@@ -107,7 +109,7 @@ export const MakeOffer: React.FC<{
       ? 0
       : calculateTradePoints({
           sfl: offer,
-          points: tradeType === "instant" ? 2 : 4,
+          points: 2,
         }).multipliedPoints;
 
   const needsLinkedWallet =
@@ -127,7 +129,7 @@ export const MakeOffer: React.FC<{
     );
   }
 
-  if (itemOfferCount >= 5) {
+  if (itemOfferCount >= MAX_ITEM_OFFERS) {
     return (
       <>
         <div className="p-2">
@@ -162,6 +164,7 @@ export const MakeOffer: React.FC<{
               <img src={SUNNYSIDE.icons.search} className="h-6 mr-2" />
               <p className="text-xs mb-2">{t("marketplace.dodgyTrades")}</p>
             </div>
+            <WithdrawCooldownNotice display={display} />
           </div>
 
           <div className="flex">
@@ -191,6 +194,7 @@ export const MakeOffer: React.FC<{
             <img src={SUNNYSIDE.icons.search} className="h-6 mr-2" />
             <p className="text-xs mb-2">{t("marketplace.dodgyTrades")}</p>
           </div>
+          <WithdrawCooldownNotice display={display} />
         </div>
 
         <div className="flex">

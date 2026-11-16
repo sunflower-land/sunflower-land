@@ -66,8 +66,9 @@ export type AnimalEffects = {
   openMutant(id: string, mutant: string, onContinue: () => void): void;
 };
 
+// Pigs live only in the DOM /pigpen route — the engine never renders them.
 const COLLECT_SOUND: Record<
-  AnimalType,
+  Exclude<AnimalType, "Pig">,
   "cow_collect" | "sheep_collect" | "chicken_collect"
 > = {
   Cow: "cow_collect",
@@ -287,7 +288,7 @@ export class AnimalInteraction {
       playSound("produce_drop");
       const drops = this.effects.playDrops(id);
       await wait(500);
-      playSound(COLLECT_SOUND[animal.type]);
+      playSound(COLLECT_SOUND[animal.type as Exclude<AnimalType, "Pig">]);
       await wait(900);
       playSound("level_up");
       await drops;

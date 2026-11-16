@@ -14,6 +14,12 @@ import pawPrintsBanner from "assets/decorations/banners/paw_prints_banner.webp";
 import crabChapterBanner from "assets/decorations/banners/crap_chapter_banner.webp";
 import saltAwakeningBanner from "assets/decorations/banners/salt_awakening_banner.webp";
 import ascensionAgeBanner from "assets/decorations/banners/ascension_banner.webp";
+import caveDwellersBanner from "assets/decorations/banners/cave_dwellers_banner.webp";
+// chapter dashboard logos
+import crabsAndTrapsLogo from "assets/brand/crabs_and_traps.png";
+import saltAwakeningLogo from "assets/brand/salt_awakening.png";
+import ascensionAgeLogo from "assets/brand/ascension_age.png";
+import caveDwellersLogo from "assets/brand/cave_dwellers.png";
 import type { BeachBountyChapterArtefact } from "./treasure";
 import { getKeys } from "lib/object";
 import type { ChapterFish } from "./fishing";
@@ -35,7 +41,8 @@ export type ChapterName =
   | "Paw Prints"
   | "Crabs and Traps"
   | "Salt Awakening"
-  | "Ascension Age";
+  | "Ascension Age"
+  | "Cave Dwellers";
 
 export const CHAPTER_ORDER: Record<ChapterName, number> = {
   "Solar Flare": 1,
@@ -53,6 +60,7 @@ export const CHAPTER_ORDER: Record<ChapterName, number> = {
   "Crabs and Traps": 13,
   "Salt Awakening": 14,
   "Ascension Age": 15,
+  "Cave Dwellers": 16,
 };
 
 type ChapterDates = { startDate: Date; endDate: Date; tasksBegin?: Date };
@@ -121,6 +129,11 @@ export const CHAPTERS: Record<ChapterName, ChapterDates> = {
     tasksBegin: new Date("2026-08-10T00:00:00.000Z"), // Visual only
     endDate: new Date("2026-11-02T00:00:00.000Z"),
   },
+  "Cave Dwellers": {
+    startDate: new Date("2026-11-02T00:00:00.000Z"),
+    tasksBegin: new Date("2026-11-09T00:00:00.000Z"), // Visual only
+    endDate: new Date("2027-02-01T00:00:00.000Z"),
+  },
 };
 
 export type ChapterTicket =
@@ -138,13 +151,15 @@ export type ChapterTicket =
   | "Pet Cookie"
   | "Floater"
   | "Salt Rock"
-  | "Shiny Feather";
+  | "Shiny Feather"
+  | "Duende Cap";
 
 export type ChapterRaffleTicket =
   | "Paw Prints Raffle Ticket"
   | "Crabs and Traps Raffle Ticket"
   | "Salt Awakening Raffle Ticket"
-  | "Ascension Age Raffle Ticket";
+  | "Ascension Age Raffle Ticket"
+  | "Cave Dwellers Raffle Ticket";
 
 export type ChapterBanner = `${ChapterName} Banner`;
 
@@ -164,6 +179,7 @@ export const CHAPTER_BANNERS: Record<ChapterBanner, ChapterName> = {
   "Crabs and Traps Banner": "Crabs and Traps",
   "Salt Awakening Banner": "Salt Awakening",
   "Ascension Age Banner": "Ascension Age",
+  "Cave Dwellers Banner": "Cave Dwellers",
 };
 
 export const CHAPTER_TICKET_NAME: Record<ChapterName, ChapterTicket> = {
@@ -182,6 +198,7 @@ export const CHAPTER_TICKET_NAME: Record<ChapterName, ChapterTicket> = {
   "Crabs and Traps": "Floater",
   "Salt Awakening": "Salt Rock",
   "Ascension Age": "Shiny Feather",
+  "Cave Dwellers": "Duende Cap",
 };
 
 export const CHAPTER_RAFFLE_TICKET_NAME: Record<
@@ -203,6 +220,7 @@ export const CHAPTER_RAFFLE_TICKET_NAME: Record<
   "Crabs and Traps": "Crabs and Traps Raffle Ticket",
   "Salt Awakening": "Salt Awakening Raffle Ticket",
   "Ascension Age": "Ascension Age Raffle Ticket",
+  "Cave Dwellers": "Cave Dwellers Raffle Ticket",
 };
 
 export const CHAPTER_ARTEFACT_NAME: Record<
@@ -224,6 +242,7 @@ export const CHAPTER_ARTEFACT_NAME: Record<
   "Crabs and Traps": "Ammonite Shell",
   "Salt Awakening": "Salt Dino Egg",
   "Ascension Age": "Otter Pebble",
+  "Cave Dwellers": "Clover Coin",
 };
 
 export const CHAPTER_MARVEL_FISH: Record<ChapterName, ChapterFish> = {
@@ -242,6 +261,7 @@ export const CHAPTER_MARVEL_FISH: Record<ChapterName, ChapterFish> = {
   "Crabs and Traps": "Giant Isopod",
   "Salt Awakening": "Deep Sea Pig",
   "Ascension Age": "Seahorse Dad",
+  "Cave Dwellers": "Manatee",
 };
 
 export function getChapterMarvelFish(now: number): ChapterFish {
@@ -341,10 +361,39 @@ export const CHAPTER_BANNER_IMAGES: Record<ChapterBanner, string> = {
   "Crabs and Traps Banner": crabChapterBanner,
   "Salt Awakening Banner": saltAwakeningBanner,
   "Ascension Age Banner": ascensionAgeBanner,
+  "Cave Dwellers Banner": caveDwellersBanner,
 };
 
 export function getChapterBannerImage(now: number) {
   return CHAPTER_BANNER_IMAGES[getChapterBanner(now)];
+}
+
+/**
+ * Chapter Dashboard header logo for each chapter. Keyed by every chapter, so
+ * adding a new chapter fails to compile until it gets a logo (or an explicit
+ * `undefined`, for the chapters before the dashboard existed).
+ */
+export const CHAPTER_LOGOS: Record<ChapterName, string | undefined> = {
+  "Solar Flare": undefined,
+  "Dawn Breaker": undefined,
+  "Witches' Eve": undefined,
+  "Catch the Kraken": undefined,
+  "Spring Blossom": undefined,
+  "Clash of Factions": undefined,
+  "Pharaoh's Treasure": undefined,
+  "Bull Run": undefined,
+  "Winds of Change": undefined,
+  "Great Bloom": undefined,
+  "Better Together": undefined,
+  "Paw Prints": undefined,
+  "Crabs and Traps": crabsAndTrapsLogo,
+  "Salt Awakening": saltAwakeningLogo,
+  "Ascension Age": ascensionAgeLogo,
+  "Cave Dwellers": caveDwellersLogo,
+};
+
+export function getChapterLogo(now: number) {
+  return CHAPTER_LOGOS[getCurrentChapter(now)];
 }
 
 function getPreviousChapter(now: number): ChapterName {

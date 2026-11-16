@@ -2,6 +2,8 @@
 import Decimal from "decimal.js-light";
 import type { GameState, InventoryItemName } from "features/game/types/game";
 import { startCrafting, type StartCraftingAction } from "./startCrafting";
+import { cancelQueuedCrafting } from "./cancelQueuedCrafting";
+import { getCraftingQueueReadyAts } from "features/game/lib/craftingReadiness";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { KNOWN_IDS } from "features/game/types";
 import { prngChance } from "lib/prng";
@@ -266,7 +268,6 @@ describe("startCrafting", () => {
 
   it("does not change status when invalid recipe is attempted with non-empty queue", () => {
     const now = Date.now();
-    gameState.inventory["Beta Pass"] = new Decimal(1);
     gameState.vip = { bundles: [], expiresAt: now + 86400000 };
     gameState.craftingBox = {
       status: "crafting",
@@ -731,7 +732,6 @@ describe("startCrafting", () => {
       },
     };
     gameState.inventory = {
-      "Beta Pass": new Decimal(1),
       Leather: new Decimal(10),
       Wool: new Decimal(10),
     };
@@ -816,7 +816,6 @@ describe("startCrafting", () => {
       },
     };
     gameState.inventory = {
-      "Beta Pass": new Decimal(1),
       Leather: new Decimal(10),
       Wool: new Decimal(10),
     };
@@ -877,7 +876,6 @@ describe("startCrafting", () => {
       },
     };
     gameState.inventory = {
-      "Beta Pass": new Decimal(1),
       Leather: new Decimal(20),
       Wool: new Decimal(25),
     };
@@ -920,6 +918,179 @@ describe("startCrafting", () => {
     const readyAts = state.craftingBox.queue!.map((q) => q.readyAt);
     const uniqueReadyAts = new Set(readyAts);
     expect(uniqueReadyAts.size).toBeGreaterThan(1);
+  });
+
+  describe("Fox Shrine roll after a cancel", () => {
+    const dollIngredients = [
+      { collectible: "Leather" as const },
+      { collectible: "Wool" as const },
+      { collectible: "Leather" as const },
+      { collectible: "Wool" as const },
+      { collectible: "Wool" as const },
+      { collectible: "Wool" as const },
+      { collectible: "Leather" as const },
+      { collectible: "Wool" as const },
+      { collectible: "Leather" as const },
+    ];
+
+    const rolls = (counter: number) =>
+      prngChance({
+        farmId,
+        itemId: KNOWN_IDS["Doll"],
+        counter,
+        chance: 10,
+        criticalHitName: "Fox Shrine",
+      });
+
+    // A counter whose roll procs, preceded by one that misses. Bounded, so a
+    // farmId with no such counter fails here instead of hanging.
+    const procCounter = (() => {
+      for (let c = 1; c < 10_000; c++) {
+        if (rolls(c) && !rolls(c - 1)) return c;
+      }
+      throw new Error("No suitable Fox Shrine proc counter found");
+    })();
+
+    const now = Date.now();
+
+    const withRunningCraft = (started: number): GameState => ({
+      ...gameState,
+      vip: { bundles: [], expiresAt: now + 86400000 },
+      craftingBox: {
+        status: "crafting",
+        queue: [
+          {
+            id: "running",
+            name: "Basic Bed",
+            readyAt: now + 60 * 60 * 1000,
+            startedAt: now,
+            type: "collectible",
+          },
+        ],
+        // RECIPES on the FE carries no ingredients, so the discovered recipe
+        // must hold them for the match (and the cancel refund) to work.
+        recipes: {
+          Doll: {
+            name: "Doll",
+            type: "collectible",
+            ingredients: dollIngredients,
+            time: 2 * 60 * 60 * 1000,
+          },
+        },
+      },
+      inventory: { Leather: new Decimal(50), Wool: new Decimal(50) },
+      collectibles: {
+        "Fox Shrine": [
+          {
+            id: "123",
+            coordinates: { x: 0, y: 0 },
+            createdAt: now,
+            readyAt: now,
+          },
+        ],
+      },
+      farmActivity: { "Doll Crafting Started": started },
+    });
+
+    const start = (state: GameState, queueItemId: string) =>
+      startCrafting({
+        state,
+        action: {
+          type: "crafting.started",
+          queueItemId,
+          ingredients: dollIngredients,
+        },
+        createdAt: now,
+        farmId,
+      });
+
+    const queued = (state: GameState, id: string) =>
+      state.craftingBox.queue!.find((q) => q.id === id)!;
+
+    const cancel = (state: GameState, queueItemId: string) =>
+      cancelQueuedCrafting({
+        state,
+        action: { type: "crafting.cancelled", queueItemId },
+        createdAt: now,
+      });
+
+    it("does not replay a proc when an earlier queued craft is cancelled", () => {
+      let state = withRunningCraft(procCounter - 1);
+
+      state = start(state, "miss");
+      expect(queued(state, "miss").readyAt).toBeGreaterThan(now);
+
+      state = start(state, "proc");
+      expect(queued(state, "proc").readyAt).toBe(now);
+
+      state = cancel(state, "miss");
+      expect(state.farmActivity["Doll Crafting Started"]).toBe(procCounter);
+      expect(state.farmActivity["Doll Crafting Cancelled"]).toBe(1);
+
+      state = start(state, "again");
+      expect(queued(state, "again").readyAt).toBeGreaterThan(now);
+      expect(state.farmActivity["Doll Crafting Started"]).toBe(procCounter + 1);
+      expect(state.farmActivity["Doll Crafting Cancelled"]).toBe(0);
+
+      // The next craft rolls on the next unused counter, procCounter + 1.
+      state = start(state, "next");
+      expect(queued(state, "next").readyAt === now).toBe(
+        rolls(procCounter + 1),
+      );
+    });
+
+    it("gives a cancelled and restarted craft the same outcome", () => {
+      let state = withRunningCraft(procCounter - 1);
+
+      state = start(state, "first");
+      const firstReadyAt = queued(state, "first").readyAt;
+      expect(firstReadyAt).toBeGreaterThan(now);
+
+      state = cancel(state, "first");
+
+      state = start(state, "second");
+      expect(queued(state, "second").readyAt).toBe(firstReadyAt);
+
+      // The proc counter is still next in line, untouched by the cancel.
+      state = start(state, "proc");
+      expect(queued(state, "proc").readyAt).toBe(now);
+    });
+
+    it("never makes a craft started in place of a cancelled one instant", () => {
+      // The first 20 counters that proc with two misses right before them.
+      const procs: number[] = [];
+      for (let c = 2; c < 10_000 && procs.length < 20; c++) {
+        if (rolls(c) && !rolls(c - 1) && !rolls(c - 2)) procs.push(c);
+      }
+      expect(procs).toHaveLength(20);
+
+      const run = (c: number) => {
+        let state = withRunningCraft(c - 2);
+        state = start(state, "miss-1");
+        state = start(state, "miss-2");
+        state = start(state, "proc");
+        expect(queued(state, "proc").readyAt).toBe(now);
+
+        state = cancel(state, "miss-1");
+        state = cancel(state, "miss-2");
+        state = start(state, "restart-1");
+        state = start(state, "restart-2");
+        return state;
+      };
+
+      const instantRestarts = procs.flatMap((c) => {
+        const state = run(c);
+        return ["restart-1", "restart-2"]
+          .filter((id) => queued(state, id).readyAt === now)
+          .map((id) => `${id} at ${c}`);
+      });
+      expect(instantRestarts).toEqual([]);
+
+      // c - 2 + 3 starts - 2 cancels + 2 restarts = c + 1.
+      const state = run(procs[0]);
+      expect(state.farmActivity["Doll Crafting Started"]).toBe(procs[0] + 1);
+      expect(state.farmActivity["Doll Crafting Cancelled"]).toBe(0);
+    });
   });
 
   it("applies a 10% chance to instantly craft a recipe when Fox Shrine is active", () => {
@@ -1080,7 +1251,6 @@ describe("startCrafting", () => {
       },
     };
     gameState.inventory = {
-      "Beta Pass": new Decimal(1),
       Cushion: new Decimal(4),
       Timber: new Decimal(5),
       Leather: new Decimal(10),
@@ -1201,5 +1371,304 @@ describe("startCrafting", () => {
     // Must start now and take the full 2h — not inherit the 4h waited.
     expect(newItem?.startedAt).toBe(now);
     expect(newItem?.readyAt).toBe(now + twoHours);
+  });
+});
+
+describe("startCrafting — speed windows", () => {
+  const farmId = 1;
+  const HOUR = 60 * 60 * 1000;
+  const BASIC_BED_TIME = 8 * HOUR;
+
+  const basicBedIngredients = [
+    { collectible: "Cushion" as const },
+    { collectible: "Cushion" as const },
+    { collectible: "Cushion" as const },
+    { collectible: "Timber" as const },
+    { collectible: "Cushion" as const },
+    { collectible: "Timber" as const },
+    { collectible: "Timber" as const },
+    { collectible: "Timber" as const },
+    { collectible: "Timber" as const },
+  ];
+
+  // The FE matches against DISCOVERED recipes (the static RECIPES carry no
+  // ingredients on this side), so the recipe has to be seeded on state.
+  const basicBedRecipe = {
+    name: "Basic Bed" as const,
+    type: "collectible" as const,
+    ingredients: basicBedIngredients,
+    time: BASIC_BED_TIME,
+  };
+
+  const basicBedAction: StartCraftingAction = {
+    type: "crafting.started",
+    queueItemId: "test-id",
+    ingredients: basicBedIngredients,
+  };
+
+  let gameState: GameState;
+
+  beforeEach(() => {
+    gameState = {
+      ...INITIAL_FARM,
+      bumpkin: INITIAL_FARM.bumpkin,
+      buildings: {
+        "Crafting Box": [
+          { id: "123", coordinates: { x: 0, y: 0 }, createdAt: 0, readyAt: 0 },
+        ],
+      },
+      inventory: { Cushion: new Decimal(40), Timber: new Decimal(50) },
+      // VIP unlocks the 4-slot queue, which the chaining tests need.
+      vip: { bundles: [], expiresAt: Date.now() + 30 * 24 * 60 * 60 * 1000 },
+      craftingBox: {
+        status: "idle",
+        recipes: { "Basic Bed": basicBedRecipe },
+      },
+    };
+  });
+
+  const withCollectible = (
+    game: GameState,
+    name: "Fox Shrine" | "Time Warp Totem" | "Super Totem",
+    createdAt: number,
+  ): GameState => ({
+    ...game,
+    collectibles: {
+      ...game.collectibles,
+      [name]: [
+        {
+          id: "c1",
+          coordinates: { x: 3, y: 3 },
+          createdAt,
+          readyAt: createdAt,
+        },
+      ],
+    },
+  });
+
+  it("stores the unboosted duration as baseDurationMs", () => {
+    const now = Date.now();
+    const state = startCrafting({
+      state: gameState,
+      action: basicBedAction,
+      createdAt: now,
+      farmId,
+    });
+
+    const [craft] = state.craftingBox.queue ?? [];
+    expect(craft.baseDurationMs).toEqual(BASIC_BED_TIME);
+    expect(craft.startedAt).toEqual(now);
+    expect(craft.readyAt).toEqual(now + BASIC_BED_TIME);
+  });
+
+  it("bakes Sol & Luna into baseDurationMs and keeps it in boostsUsed", () => {
+    const now = Date.now();
+    const state = startCrafting({
+      state: {
+        ...gameState,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: { ...INITIAL_FARM.bumpkin.equipped, wings: "Sol & Luna" },
+        },
+      },
+      action: basicBedAction,
+      createdAt: now,
+      farmId,
+    });
+
+    const [craft] = state.craftingBox.queue ?? [];
+    expect(craft.baseDurationMs).toEqual(BASIC_BED_TIME * 0.5);
+    expect(state.boostsUsedAt?.["Sol & Luna"]).toBeDefined();
+  });
+
+  it("bakes Architect Ruler into baseDurationMs and keeps it in boostsUsed", () => {
+    const now = Date.now();
+    const state = startCrafting({
+      state: {
+        ...gameState,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin.equipped,
+            tool: "Architect Ruler",
+          },
+        },
+      },
+      action: basicBedAction,
+      createdAt: now,
+      farmId,
+    });
+
+    const [craft] = state.craftingBox.queue ?? [];
+    expect(craft.baseDurationMs).toEqual(BASIC_BED_TIME * 0.75);
+    expect(state.boostsUsedAt?.["Architect Ruler"]).toBeDefined();
+  });
+
+  it("does NOT bake a totem in, and leaves it out of boostsUsed", () => {
+    const now = Date.now();
+    const state = startCrafting({
+      state: withCollectible(gameState, "Time Warp Totem", now),
+      action: basicBedAction,
+      createdAt: now,
+      farmId,
+    });
+
+    const [craft] = state.craftingBox.queue ?? [];
+    // The full base duration is stored; the 2x is applied live by the windows.
+    expect(craft.baseDurationMs).toEqual(BASIC_BED_TIME);
+    expect(craft.readyAt).toEqual(now + BASIC_BED_TIME / 2);
+    expect(state.boostsUsedAt?.["Time Warp Totem"]).toBeUndefined();
+  });
+
+  /**
+   * The Fox Shrine roll is real (this suite does not mock the prng), so seek a
+   * `<Name> Crafting Started` counter that lands on the wanted outcome and seed
+   * farmActivity with it.
+   */
+  const counterFor = (proc: boolean): number => {
+    let counter = 0;
+    while (
+      prngChance({
+        farmId,
+        itemId: KNOWN_IDS["Basic Bed"],
+        counter,
+        chance: 10,
+        criticalHitName: "Fox Shrine",
+      }) !== proc
+    ) {
+      counter++;
+    }
+    return counter;
+  };
+
+  it("applies the Fox Shrine window at 1.35x without baking it in", () => {
+    const now = Date.now();
+
+    const state = startCrafting({
+      state: {
+        ...withCollectible(gameState, "Fox Shrine", now),
+        farmActivity: { "Basic Bed Crafting Started": counterFor(false) },
+      },
+      action: basicBedAction,
+      createdAt: now,
+      farmId,
+    });
+
+    const [craft] = state.craftingBox.queue ?? [];
+    expect(craft.baseDurationMs).toEqual(BASIC_BED_TIME);
+    expect(craft.readyAt).toEqual(now + BASIC_BED_TIME / 1.35);
+    expect(state.boostsUsedAt?.["Fox Shrine"]).toBeUndefined();
+  });
+
+  it("still fires the Fox Shrine instant proc, with zero work", () => {
+    const now = Date.now();
+
+    const state = startCrafting({
+      state: {
+        ...withCollectible(gameState, "Fox Shrine", now),
+        farmActivity: { "Basic Bed Crafting Started": counterFor(true) },
+      },
+      action: basicBedAction,
+      createdAt: now,
+      farmId,
+    });
+
+    const [craft] = state.craftingBox.queue ?? [];
+    expect(craft.baseDurationMs).toEqual(0);
+    expect(craft.startedAt).toEqual(now);
+    expect(craft.readyAt).toEqual(now);
+    // The proc is a discrete outcome, so it stays a named boost.
+    expect(state.boostsUsedAt?.["Fox Shrine"]).toBeDefined();
+  });
+
+  it("anchors on a free box and chains behind a running craft", () => {
+    const now = Date.now();
+
+    const first = startCrafting({
+      state: gameState,
+      action: basicBedAction,
+      createdAt: now,
+      farmId,
+    });
+    expect(first.craftingBox.queue?.[0].startedAt).toEqual(now);
+
+    const second = startCrafting({
+      state: first,
+      action: { ...basicBedAction, queueItemId: "test-id-2" },
+      createdAt: now,
+      farmId,
+    });
+
+    // Queued behind the first, so it carries no anchor of its own.
+    expect(second.craftingBox.queue?.[1].startedAt).toBeUndefined();
+    expect(second.craftingBox.queue?.[1].baseDurationMs).toEqual(
+      BASIC_BED_TIME,
+    );
+  });
+
+  it("anchors the next craft when a finished one is left uncollected", () => {
+    const now = Date.now();
+
+    const first = startCrafting({
+      state: gameState,
+      action: basicBedAction,
+      createdAt: now,
+      farmId,
+    });
+
+    // Long after the first finished, and never collected.
+    const later = now + BASIC_BED_TIME + 5 * HOUR;
+    const second = startCrafting({
+      state: first,
+      action: { ...basicBedAction, queueItemId: "test-id-2" },
+      createdAt: later,
+      farmId,
+    });
+
+    // Anchored at `later`, NOT back-dated to the stale readyAt.
+    expect(second.craftingBox.queue?.[1].startedAt).toEqual(later);
+    expect(second.craftingBox.queue?.[1].readyAt).toEqual(
+      later + BASIC_BED_TIME,
+    );
+  });
+
+  it("pulls the WHOLE queue forward when a totem is placed mid-queue", () => {
+    const now = Date.now();
+
+    const queued = startCrafting({
+      state: startCrafting({
+        state: gameState,
+        action: basicBedAction,
+        createdAt: now,
+        farmId,
+      }),
+      action: { ...basicBedAction, queueItemId: "test-id-2" },
+      createdAt: now,
+      farmId,
+    });
+
+    const before = getCraftingQueueReadyAts({
+      queue: queued.craftingBox.queue ?? [],
+      game: queued,
+    });
+    expect(before).toEqual([now + BASIC_BED_TIME, now + 2 * BASIC_BED_TIME]);
+
+    // The totem arrives after both were queued.
+    const boosted = withCollectible(queued, "Time Warp Totem", now);
+    const after = getCraftingQueueReadyAts({
+      queue: boosted.craftingBox.queue ?? [],
+      game: boosted,
+    });
+
+    // Both move, not just the head - that is the point of the slice. The head is
+    // fully inside the totem's window, so it halves outright.
+    expect(after[0]).toEqual(now + BASIC_BED_TIME / 2);
+    expect(after[1]).toBeLessThan(before[1]);
+
+    // The head's 8h of work at 2x consumes the totem's entire 4h window, so the
+    // tail is credited nothing of its own and runs at 1x - it moves only because
+    // the box freed up sooner. Per-craft acceleration of a QUEUED craft is covered
+    // in craftingReadiness.test.ts, where the window outlasts the head.
+    expect(after[1]).toEqual(after[0] + BASIC_BED_TIME);
   });
 });

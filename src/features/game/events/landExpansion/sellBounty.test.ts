@@ -454,4 +454,38 @@ describe("sellBounty", () => {
 
     expect(result.inventory[getChapterTicket(now)]).toEqual(new Decimal(9));
   });
+
+  it("applies the chapter ticket boost from createdAt, not the clock", () => {
+    // The clock is in Ascension Age, the action is in Cave Dwellers.
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date("2026-10-01T00:00:00Z"));
+    const createdAt = new Date("2026-12-01T00:00:00Z").getTime();
+
+    const result = sellBounty({
+      state: {
+        ...GAME_STATE,
+        bounties: {
+          ...GAME_STATE.bounties,
+          requests: GAME_STATE.bounties.requests.map((request) =>
+            request.id === "3"
+              ? { ...request, items: { "Duende Cap": 1 } }
+              : request,
+          ),
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            shoes: "Duende Shoes",
+            pants: "Duende Pants",
+            shirt: "Duende Shirt",
+          },
+        },
+      },
+      action: { type: "bounty.sold", requestId: "3" },
+      createdAt,
+    });
+
+    expect(result.inventory["Duende Cap"]).toEqual(new Decimal(4));
+  });
 });

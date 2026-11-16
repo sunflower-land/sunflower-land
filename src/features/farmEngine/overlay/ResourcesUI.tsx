@@ -455,10 +455,11 @@ const ResourcePopover: React.FC<{
   const timing = reading?.node;
   const { now, readyAt, countdownSeconds } = useNodeTimer({
     startedAt: timing?.minedAt ?? 0,
-    baseDurationMs: timing?.baseDurationMs,
+    // A node with no marker reads as its raw recovery time [Stone.tsx].
+    baseDurationMs: timing
+      ? (timing.baseDurationMs ?? (reading?.recoverySeconds ?? 0) * 1000)
+      : undefined,
     windows: reading?.windows ?? [],
-    legacyReadyAt:
-      (timing?.minedAt ?? 0) + (reading?.recoverySeconds ?? 0) * 1000,
     live: !!timing,
   });
 

@@ -34,6 +34,7 @@ import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandE
 import vipIcon from "assets/icons/vip.webp";
 import coinsIcon from "assets/icons/coins.webp";
 import { formatNumber } from "lib/utils/formatNumber";
+import { secondsToString } from "lib/utils/time";
 import {
   useExpansionCoinCostWithVip,
   useVipAccess,
@@ -186,6 +187,13 @@ export const ExpansionRequirements: React.FC<Props> = ({
             />
             <BoostsDisplay
               boosts={timeBoostsUsed}
+              base={{
+                value: secondsToString(baseTimeSeconds, {
+                  length: "medium",
+                  removeTrailingZeros: true,
+                }),
+                icon: SUNNYSIDE.icons.stopwatch,
+              }}
               show={showTimeBoosts}
               state={state}
               onClick={() => setShowTimeBoosts(!showTimeBoosts)}

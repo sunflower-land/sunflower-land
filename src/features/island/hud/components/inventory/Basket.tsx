@@ -95,6 +95,7 @@ import {
 import { PROCESSED_RESOURCES } from "features/game/types/processedFood";
 import { CRUSTACEANS_DESCRIPTIONS } from "features/game/types/crustaceans";
 import { FERMENTATION_PRODUCTS } from "features/game/types/fermentationProducts";
+import { BEETLES } from "features/game/types/beetles";
 import {
   PICKLED_CROPS,
   type PickledCropName,
@@ -174,18 +175,17 @@ export const Basket: React.FC<Prop> = ({
 
   const getHarvestTime = (seedName: SeedName) => {
     if (isFlowerSeed(seedName)) {
-      return getFlowerTime(seedName, gameState, now);
+      return getFlowerTime(seedName, gameState);
     }
 
     if (isPatchFruitSeed(seedName)) {
-      return getFruitPatchTime(seedName, gameState, now);
+      return getFruitPatchTime(seedName, gameState);
     }
     if (seedName in GREENHOUSE_SEEDS || seedName in GREENHOUSE_FRUIT_SEEDS) {
       const plant = SEED_TO_PLANT[seedName as GreenHouseCropSeedName];
       return getGreenhouseCropTime({
         crop: plant,
         game: gameState,
-        now,
       });
     }
 
@@ -344,7 +344,9 @@ export const Basket: React.FC<Prop> = ({
     ...greenhouseSeeds,
   ];
   const allTools = [...workbenchTools, ...treasureTools, ...animalTools];
-  const allResources = [...resources, ...craftingResources];
+  const beetles = getItems([...BEETLES]);
+
+  const allResources = [...resources, ...craftingResources, ...beetles];
 
   const clutter = getItems(CLUTTER);
 
@@ -425,7 +427,7 @@ export const Basket: React.FC<Prop> = ({
       id: "feeds",
       label: t("feeds"),
       icon: ITEM_DETAILS.Hay.image,
-      items: [...animalFeeds],
+      items: animalFeeds,
     },
     {
       id: "spices",

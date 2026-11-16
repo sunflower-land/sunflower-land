@@ -95,7 +95,6 @@ const PlotStatus: React.FC<{
     startedAt: metrics.startAt,
     baseDurationMs: metrics.baseDurationMs,
     windows,
-    legacyReadyAt: metrics.legacyReadyAt,
     live: metrics.startAt > 0,
   });
 

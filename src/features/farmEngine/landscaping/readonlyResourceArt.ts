@@ -151,7 +151,7 @@ export function readonlyResourceArt(
   if (TREE_NAMES.includes(name as TreeName)) {
     const biome = getCurrentBiome(game.island);
     const tree = name as TreeName;
-    const { width, height } = TREE_SIZE_VARIANTS(biome, tree);
+    const { width, height } = TREE_SIZE_VARIANTS(biome, season, tree);
     // [Resource.tsx treeStyle] centre the trunk, drop the base on the tile.
     return {
       texture: TREE_VARIANTS(biome, season, tree),

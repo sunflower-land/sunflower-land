@@ -1,6 +1,7 @@
 import type { AOEItemName } from "../expansion/placeable/lib/collisionDetection";
 import type { CollectibleName } from "../types/craftables";
 import type { AOE, GameState } from "../types/game";
+import { CROPS } from "../types/crops";
 import {
   computeReadyAt,
   getCropFertiliserWindows,
@@ -64,9 +65,8 @@ export const setAOEAvailableAt = (
  * Hour / sunshower started). Without it, a crop that speeds up mid-grow leaves
  * its cell's AOE frozen at the old, later ready time, and a replant in the gap is
  * wrongly denied the Basic Scarecrow boost. Only cells that already hold an AOE
- * entry (the crop was planted with the boost) are touched. Legacy crops (no
- * `baseDurationMs`) are untouched — their ready time doesn't move. Idempotent
- * when the windows are unchanged.
+ * entry (the crop was planted with the boost) are touched. Idempotent when the
+ * windows are unchanged.
  */
 export function refreshBasicScarecrowTimeAOE(game: GameState): void {
   const scarecrow = game.collectibles["Basic Scarecrow"]?.[0];
@@ -76,14 +76,7 @@ export function refreshBasicScarecrowTimeAOE(game: GameState): void {
 
   Object.values(game.crops).forEach((plot) => {
     const crop = plot.crop;
-    if (
-      !crop ||
-      crop.baseDurationMs === undefined ||
-      plot.x === undefined ||
-      plot.y === undefined
-    ) {
-      return;
-    }
+    if (!crop || plot.x === undefined || plot.y === undefined) return;
 
     const dx = plot.x - scarecrow.coordinates!.x;
     const dy = plot.y - scarecrow.coordinates!.y;
@@ -91,7 +84,8 @@ export function refreshBasicScarecrowTimeAOE(game: GameState): void {
 
     game.aoe["Basic Scarecrow"]![dx]![dy] = computeReadyAt({
       startedAt: crop.plantedAt,
-      baseDurationMs: crop.baseDurationMs,
+      baseDurationMs:
+        crop.baseDurationMs ?? CROPS[crop.name].harvestSeconds * 1000,
       windows: [...windows, ...getCropFertiliserWindows(plot.fertiliser)],
     });
   });

@@ -21,7 +21,15 @@ import { SquareIcon } from "../SquareIcon";
 import { formatDateRange, secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
-import { isPreActionBoosted } from "features/game/lib/timerDisplay";
+import {
+  getPreActionDisplay,
+  isPreActionBoosted,
+} from "features/game/lib/timerDisplay";
+import { getCropMachineBoostWindows } from "features/game/lib/boostWindows";
+import {
+  getBoostContributionEntries,
+  getCropMachineBoostContributions,
+} from "features/game/lib/boostContributions";
 import emptyPot from "assets/greenhouse/greenhouse_pot.webp";
 import flowerBed from "assets/flowers/empty_flowerbed.webp";
 
@@ -289,32 +297,66 @@ export const SeedRequirements: React.FC<Props> = ({
         hasNamedBoosts,
       });
 
-    const RequirementLabels: React.FC = () => {
+    // A plain render helper, not a nested component: a component declared here
+    // is a new type every render, so each `now` tick would remount the subtree
+    // and replay the boosts panel's appear transition (it flashes every second).
+    const getRequirementLabels = () => {
       if (isSeedCropMachine(details.item)) {
         const cropMachinePackSize = CROP_MACHINE_PLOTS(gameState);
-        const cropMachineBoostedTime = calculateCropTime(
+
+        // A pack supplied now WILL be windowed — the supply event converts the
+        // machine. The Tortoise is then a live window rather than a baked ×0.9:
+        // `calculateCropTime` leaves it out of the duration, and it is credited
+        // over the grow instead.
+        const cropMachineTime = calculateCropTime(
           { type: details.item, amount: cropMachinePackSize },
           gameState,
-          now,
         );
+        const cropMachineSeconds = cropMachineTime.milliSeconds / 1000;
         const cropMachineBaseTime = baseTimeSeconds;
-        const isCropMachineTimeBoosted =
-          cropMachineBoostedTime.milliSeconds / 1000 !== cropMachineBaseTime;
+
+        // Name the windowed Tortoise by the time it actually saves ("-1hr
+        // 12mins Tortoise Shrine"), matching every other windowed boost in the
+        // seed shop, instead of the legacy "x0.9" multiplier.
+        const cropMachineBoostsUsed = [
+          ...cropMachineTime.boostUsed,
+          ...getBoostContributionEntries({
+            contributions: getCropMachineBoostContributions(gameState),
+            seconds: cropMachineSeconds,
+            at: now,
+            formatSeconds: (seconds) =>
+              secondsToString(seconds, { length: "medium" }),
+          }),
+        ];
+
+        const {
+          displaySeconds: cropMachineDisplaySeconds,
+          hasNamedBoosts: cropMachineHasNamedBoosts,
+          isBoosted: isCropMachineTimeBoosted,
+        } = getPreActionDisplay({
+          seconds: cropMachineSeconds,
+          baseSeconds: cropMachineBaseTime,
+          namedBoostCount: cropMachineBoostsUsed.length,
+          windows: getCropMachineBoostWindows(gameState),
+          at: now,
+        });
 
         return (
           <div
-            className="flex flex-col items-center cursor-pointer"
+            className={classNames("flex flex-col items-center", {
+              "cursor-pointer": cropMachineHasNamedBoosts,
+            })}
             onClick={
-              isCropMachineTimeBoosted
+              cropMachineHasNamedBoosts
                 ? () => setShowBoosts(!showBoosts)
                 : undefined
             }
           >
             <p className="text-xxs">{`Time to grow ${cropMachinePackSize}x: `}</p>
-            {!!cropMachineBoostedTime && isCropMachineTimeBoosted && (
+            {isCropMachineTimeBoosted && (
               <RequirementLabel
                 type="time"
-                waitSeconds={cropMachineBoostedTime.milliSeconds / 1000}
+                waitSeconds={cropMachineDisplaySeconds}
                 boosted
               />
             )}
@@ -325,12 +367,21 @@ export const SeedRequirements: React.FC<Props> = ({
                 strikethrough={isCropMachineTimeBoosted}
               />
             )}
-            <BoostsDisplay
-              boosts={cropMachineBoostedTime.boostUsed ?? []}
-              show={showBoosts}
-              state={gameState}
-              onClick={() => setShowBoosts(!showBoosts)}
-            />
+            {!!cropMachineBaseTime && (
+              <BoostsDisplay
+                boosts={cropMachineBoostsUsed}
+                base={{
+                  value: secondsToString(cropMachineBaseTime, {
+                    length: "medium",
+                    removeTrailingZeros: true,
+                  }),
+                  icon: SUNNYSIDE.icons.stopwatch,
+                }}
+                show={showBoosts}
+                state={gameState}
+                onClick={() => setShowBoosts(!showBoosts)}
+              />
+            )}
           </div>
         );
       }
@@ -354,12 +405,21 @@ export const SeedRequirements: React.FC<Props> = ({
               strikethrough={isTimeBoosted}
             />
           )}
-          <BoostsDisplay
-            boosts={time?.boostsUsed ?? []}
-            show={hasNamedBoosts && showBoosts}
-            state={gameState}
-            onClick={() => setShowBoosts(!showBoosts)}
-          />
+          {!!baseTimeSeconds && (
+            <BoostsDisplay
+              boosts={time?.boostsUsed ?? []}
+              base={{
+                value: secondsToString(baseTimeSeconds, {
+                  length: "medium",
+                  removeTrailingZeros: true,
+                }),
+                icon: SUNNYSIDE.icons.stopwatch,
+              }}
+              show={hasNamedBoosts && showBoosts}
+              state={gameState}
+              onClick={() => setShowBoosts(!showBoosts)}
+            />
+          )}
         </div>
       );
     };
@@ -367,7 +427,7 @@ export const SeedRequirements: React.FC<Props> = ({
     return (
       <div className="w-full mb-2 flex justify-center gap-x-3 gap-y-0 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap my-1">
         {/* Time requirement display */}
-        <RequirementLabels />
+        {getRequirementLabels()}
         {/* Level requirement */}
         {!!level && (
           <RequirementLabel

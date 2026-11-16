@@ -8,6 +8,7 @@ import {
   getCropPlotBoostWindows,
   pauseWindowedTimer,
 } from "features/game/lib/boostWindows";
+import { CROPS } from "features/game/types/crops";
 
 export type PlacePlotAction = {
   type: "plot.placed";
@@ -58,6 +59,7 @@ export function placePlot({
           startedAt: updatedPlot.crop.plantedAt,
           removedAt: updatedPlot.removedAt,
           createdAt,
+          rawBaseMs: CROPS[updatedPlot.crop.name].harvestSeconds * 1000,
           windows: [
             ...getCropPlotBoostWindows(game),
             ...getCropFertiliserWindows(updatedPlot.fertiliser),

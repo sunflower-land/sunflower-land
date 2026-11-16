@@ -11,6 +11,9 @@ export const ERRORS = {
   BLOCKED: "BLOCKED",
   NETWORK_CONGESTED: "NETWORK_CONGESTED",
   WITHDRAW_DUPLICATE: "WITHDRAW_DUPLICATE",
+  // Non-VIP farms can't withdraw an item for 90 days after buying it on the
+  // marketplace. The 400 carries `data.items` (name -> withdrawable-at ms).
+  WITHDRAW_MARKETPLACE_COOLDOWN: "WITHDRAW_MARKETPLACE_COOLDOWN",
   RAFFLE_RESULTS_SERVER_ERROR: "RAFFLE_RESULTS_SERVER_ERROR",
 
   // Blockchain session has changed - they are doing something sneaky refreshing the browser
@@ -23,6 +26,10 @@ export const ERRORS = {
   MAINTENANCE: "MAINTENANCE",
   MULTIPLE_DEVICES_OPEN: "MULTIPLE_DEVICES_OPEN",
   UNAUTHORIZED: "UNAUTHORIZED",
+
+  // We aborted the autosave ourselves after AUTO_SAVE_INTERVAL - used as the
+  // AbortController reason so the failure is self-describing, see autosave.ts
+  AUTOSAVE_TIMEOUT: "AUTOSAVE_TIMEOUT",
 
   // Trade errors
   TRADE_NOT_FOUND: "TRADE_NOT_FOUND",
@@ -77,10 +84,38 @@ export const ERRORS = {
   // Player has disabled Google as a login method on this farm
   GOOGLE_LOGIN_DISABLED: "GOOGLE_LOGIN_DISABLED",
 
+  // A browser extension or the browser's own page translation moved the DOM
+  // nodes React tracks, blowing up its commit phase. Not a game bug.
+  EXTERNAL_DOM_MUTATION: "EXTERNAL_DOM_MUTATION",
+
   // Twitter showcase (Community feed) errors
   TWITTER_NOT_CONNECTED: "TWITTER_NOT_CONNECTED",
   TWITTER_ALREADY_SHOWCASED: "TWITTER_ALREADY_SHOWCASED",
   TWITTER_INVALID_URL: "TWITTER_INVALID_URL",
+
+  // Linking / unlinking Discord, Telegram and X. Cooldown and reclaimed
+  // errors carry `availableAt` (epoch ms) - as `data.availableAt` on a
+  // Telegram 400, or `?availableAt=` on the Discord / X OAuth redirect.
+  SOCIAL_ALREADY_LINKED: "SOCIAL_ALREADY_LINKED",
+  SOCIAL_NOT_LINKED: "SOCIAL_NOT_LINKED",
+  SOCIAL_ACCOUNT_COOLDOWN: "SOCIAL_ACCOUNT_COOLDOWN",
+  SOCIAL_ACCOUNT_RECLAIMED: "SOCIAL_ACCOUNT_RECLAIMED",
 };
 
 export type ErrorCode = keyof typeof ERRORS;
+
+/**
+ * Errors a social *link* attempt can come back with. These are outcomes for
+ * a signed-in player (not login refusals), so the OAuth redirect variants
+ * must reach the game machine rather than the auth machine - see
+ * `getUrlErrorCode` in authMachine.ts.
+ */
+export const SOCIAL_LINK_ERRORS: ReadonlySet<string> = new Set([
+  ERRORS.SOCIAL_ALREADY_LINKED,
+  ERRORS.SOCIAL_NOT_LINKED,
+  ERRORS.SOCIAL_ACCOUNT_COOLDOWN,
+  ERRORS.SOCIAL_ACCOUNT_RECLAIMED,
+]);
+
+export const isSocialLinkError = (code?: string): boolean =>
+  !!code && SOCIAL_LINK_ERRORS.has(code);

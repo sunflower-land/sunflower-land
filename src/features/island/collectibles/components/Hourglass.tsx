@@ -39,11 +39,10 @@ import Decimal from "decimal.js-light";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import {
   getCollectibleExpiry,
-  getExpiryCooldown,
+  EXPIRY_COOLDOWNS,
   getCollectiblesAcrossLocations,
 } from "features/game/lib/collectibleBuilt";
 import { TemporaryCollectibleModal } from "features/game/components/TemporaryCollectibleModal";
-import { hasFeatureAccess } from "lib/flags";
 
 export type HourglassType =
   | "Gourmet Hourglass"
@@ -117,7 +116,7 @@ export const Hourglass: React.FC<HourglassProps> = ({
   const [showDetails, setShowDetails] = useState(false);
   const chestItems = getChestItems(gameState);
 
-  const boostMillis = getExpiryCooldown(hourglass, gameState);
+  const boostMillis = EXPIRY_COOLDOWNS[hourglass];
   // Read the placement so any time bought via `collectible.extended` is included
   // in the countdown rather than the hourglass appearing to expire early.
   const placed = getCollectiblesAcrossLocations(gameState, hourglass).find(
@@ -127,10 +126,8 @@ export const Hourglass: React.FC<HourglassProps> = ({
   const expiresAt = getCollectibleExpiry({
     name: hourglass,
     collectible: placed ?? { createdAt },
-    game: gameState,
   });
-  const canExtend =
-    !isVisiting && hasFeatureAccess(gameState, "SPEED_BOOSTS") && !!placed;
+  const canExtend = !isVisiting && !!placed;
   const { totalSeconds: secondsToExpire } = useCountdown(expiresAt);
   const durationSeconds = (boostMillis + extendedMs) / 1000;
   const percentage = 100 - (secondsToExpire / durationSeconds) * 100;

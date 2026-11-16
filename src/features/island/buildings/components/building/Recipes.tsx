@@ -5,6 +5,13 @@ import React, {
   useState,
 } from "react";
 import { useSelector } from "@xstate/react";
+import {
+  hasCollectedFirstTart,
+  needsFirstCook,
+  TUTORIAL_RECIPE,
+} from "./firePit/lib/onboarding";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
@@ -15,6 +22,7 @@ import {
   COOKABLES,
   type Cookable,
   type CookableName,
+  isInstantFishRecipe,
 } from "features/game/types/consumables";
 
 import { InProgressInfo } from "./InProgressInfo";
@@ -28,12 +36,7 @@ import {
   MAX_COOKING_SLOTS,
 } from "features/game/events/landExpansion/cook";
 import type { CookingBuildingName } from "features/game/types/buildings";
-import {
-  SKILL_RANKS,
-  getSkillLevel,
-  downgradeChapterCropWeekSkills,
-  hasUpgradedChapterCropWeekSkill,
-} from "features/game/types/bumpkinSkills";
+import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
 import { BuildingOilTank } from "./BuildingOilTank";
 import pumpkinSoup from "assets/food/pumpkin_soup.png";
 import powerup from "assets/icons/level_up.png";
@@ -60,7 +63,15 @@ import {
   getCookingBoostWindows,
 } from "features/game/lib/boostWindows";
 import { getPreActionDisplay } from "features/game/lib/timerDisplay";
-import { resolveCookingQueueTimings } from "features/game/lib/cookingReadiness";
+import {
+  getCookingOil,
+  getRecipeOilBurned,
+  resolveCookingQueueTimings,
+} from "features/game/lib/cookingReadiness";
+import {
+  formatOil,
+  getPreviewOilTiming,
+} from "features/island/buildings/lib/cookingOilTank";
 import {
   getBoostContributionEntries,
   getCookingBoostContributions,
@@ -71,12 +82,12 @@ import type { MachineState } from "features/game/lib/gameMachine";
 const _cookingBoostWindows = (state: MachineState) =>
   getCookingBoostWindows(state.context.state);
 
-const _buildingCrafting =
+const _building =
   (buildingName: CookingBuildingName, buildingId?: string) =>
   (state: MachineState) =>
     state.context.state.buildings[buildingName]?.find(
       (building) => building.id === buildingId,
-    )?.crafting;
+    );
 
 interface Props {
   selected: Cookable;
@@ -125,13 +136,18 @@ export const Recipes: React.FC<Props> = ({
   // The building's raw queue, so the cooking recipe's real start can be resolved from
   // the chain. A queued recipe carries no `startedAt` of its own — its start IS the
   // ready time of the recipe ahead of it — so it cannot be read off `cooking`.
-  const buildingCraftingQueue = useSelector(
+  const selectedBuilding = useSelector(
     gameService,
-    _buildingCrafting(buildingName, buildingId),
+    _building(buildingName, buildingId),
   );
+  const buildingCraftingQueue = selectedBuilding?.crafting;
   const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
   const state = useSelector(gameService, (state) => state.context.state);
+
+  // Tutorial: walk a new player through cooking their first Rhubarb Tart.
+  const showCookHelper =
+    buildingName === "Fire Pit" && !cooking && needsFirstCook(state);
   const { inventory, buildings, bumpkin } = state;
   const [showQueueInformation, setShowQueueInformation] = useState(false);
   const [showBoosts, setShowBoosts] = useState(false);
@@ -156,10 +172,13 @@ export const Recipes: React.FC<Props> = ({
     item: selected.name,
   });
 
-  const lessIngredients = () =>
-    Object.entries(ingredients).some(([name, amount]) =>
-      amount.greaterThan(inventory[name as InventoryItemName] ?? 0),
+  const hasLessIngredients = (item: CookableName) =>
+    Object.entries(getCookingRequirements({ state, item })).some(
+      ([name, amount]) =>
+        amount.greaterThan(inventory[name as InventoryItemName] ?? 0),
     );
+
+  const lessIngredients = () => hasLessIngredients(selected.name);
 
   const getNewRecipeStartAt = () => {
     if (!cooking) return;
@@ -183,16 +202,39 @@ export const Recipes: React.FC<Props> = ({
     baseDurationMs,
     boostsUsed: timeBoostsUsed,
   } = getReadyAt({
-    buildingId: buildingId ?? "",
     item: selected.name,
     createdAt: recipeStartAt,
     game: state,
   });
+  // On a clock-drain building the oil is a live speed rather than a cut baked into
+  // the duration, so the preview cooks under it like any other window.
+  const previewOilTiming = getPreviewOilTiming({
+    game: state,
+    building: selectedBuilding,
+    buildingName,
+    item: selected.name,
+    baseDurationMs,
+    now,
+  });
+  const previewOilWindow = previewOilTiming?.oilWindow;
+  const previewWindows = previewOilWindow
+    ? [...cookingBoostWindows, previewOilWindow]
+    : cookingBoostWindows;
+  // The oil this recipe would take from the tank: comparable to the old up-front
+  // cost, where a per-day burn rate is not.
+  const previewOilBurn =
+    previewOilTiming?.oilWindow &&
+    getRecipeOilBurned({
+      timing: previewOilTiming,
+      windows: cookingBoostWindows,
+      at: previewOilTiming.oilWindow.to,
+    });
 
   const baseTimeSeconds = COOKABLES[selected.name].cookingSeconds;
 
-  const cookingStartedAt = (() => {
-    if (!cooking || !buildingCraftingQueue) return undefined;
+  const cookingTiming = (() => {
+    if (!cooking || !buildingCraftingQueue || !selectedBuilding)
+      return undefined;
 
     const index = buildingCraftingQueue.findIndex((recipe) =>
       cooking.id !== undefined
@@ -204,58 +246,77 @@ export const Recipes: React.FC<Props> = ({
     return resolveCookingQueueTimings({
       crafting: buildingCraftingQueue,
       windows: cookingBoostWindows,
-    })[index].startedAt;
+      oil: getCookingOil({ building: selectedBuilding, buildingName }),
+    })[index];
   })();
+  const cookingStartedAt = cookingTiming?.startedAt;
+  // The recipe in the oven counts down under the oil as well as the boost windows.
+  const cookingWindows = cookingTiming?.oilWindow
+    ? [...cookingBoostWindows, cookingTiming.oilWindow]
+    : cookingBoostWindows;
 
   // The windowed boosters aren't in `boostsUsed` (they apply over the cook rather
   // than being baked into it), so name them for the boost panel with the time
   // each one actually saves. Evaluated at the recipe's START, so a booster that
   // will have expired by the time a queued recipe begins is correctly left out.
-  const cookingWindowedBoosts =
-    baseDurationMs === undefined
-      ? []
-      : getBoostContributionEntries({
-          contributions: getCookingBoostContributions(state, recipeStartAt),
-          seconds: baseDurationMs / 1000,
-          at: recipeStartAt,
-          formatSeconds: (seconds) =>
-            secondsToString(seconds, { length: "medium" }),
-        });
+  const cookingWindowedBoosts = getBoostContributionEntries({
+    contributions: [
+      ...getCookingBoostContributions(state, recipeStartAt),
+      ...(previewOilWindow
+        ? [{ name: "Building Oil" as const, windows: [previewOilWindow] }]
+        : []),
+    ],
+    seconds: baseDurationMs / 1000,
+    at: recipeStartAt,
+    formatSeconds: (seconds) => secondsToString(seconds, { length: "medium" }),
+  });
 
   const allTimeBoostsUsed = [...timeBoostsUsed, ...cookingWindowedBoosts];
 
   // Project the preview from when this recipe would actually START — the end of the
   // current queue, not now. A boost running today may well have expired by the time
   // a recipe queued behind three others begins, and the projection has to say so.
-  const timeDisplay =
-    baseDurationMs === undefined
-      ? undefined
-      : getPreActionDisplay({
-          seconds: baseDurationMs / 1000,
-          baseSeconds: baseTimeSeconds,
-          namedBoostCount: allTimeBoostsUsed.length,
-          windows: cookingBoostWindows,
-          at: recipeStartAt,
-        });
+  const timeDisplay = getPreActionDisplay({
+    seconds: baseDurationMs / 1000,
+    baseSeconds: baseTimeSeconds,
+    namedBoostCount: allTimeBoostsUsed.length,
+    windows: previewWindows,
+    at: recipeStartAt,
+  });
 
   const cook = () => onCook(selected.name);
 
   const collect = () => {
-    gameService.send("recipes.collected", {
+    const before = gameService.getSnapshot().context.state;
+
+    const after = gameService.send("recipes.collected", {
       buildingId,
       building: buildingName,
     });
+
+    // Tutorial: first tart in hand, Bruce tells the player to eat it.
+    if (hasCollectedFirstTart(before, after.context.state)) {
+      openModal("FIREPIT_EAT");
+    }
   };
 
   const handleInstantCook = (
     cost: number,
     paymentMethod: "gems" | "coins" = "gems",
   ) => {
-    gameService.send("recipe.spedUp", {
+    const before = gameService.getSnapshot().context.state;
+
+    const after = gameService.send("recipe.spedUp", {
       buildingId,
       buildingName,
       paymentMethod,
     });
+
+    // Tutorial: speeding up puts the food straight into the inventory with no
+    // collect step, so this is the third way a first tart can arrive.
+    if (hasCollectedFirstTart(before, after.context.state)) {
+      openModal("FIREPIT_EAT");
+    }
 
     gameAnalytics.trackSink({
       currency: paymentMethod === "coins" ? "Coins" : "Gem",
@@ -276,24 +337,19 @@ export const Recipes: React.FC<Props> = ({
 
   const building = buildings?.[buildingName]?.[0];
   const buildingCrafting = building?.crafting ?? [];
-  const isOilBoosted = buildingCrafting.find(
-    (recipe) => recipe.name === selected.name && recipe.boost?.["Oil"],
-  );
-  // Saltbite (the CHAPTER_CROP_WEEK event recipe) neutralises upgraded Cooking
-  // ranks, so preview the Double Nom label at its downgraded (applied) rank and
-  // surface a notice when a real upgraded rank is being suppressed.
-  const isEventRecipe = selected.name === CHAPTER_CROP_WEEK_RECIPE;
-  const doubleNomLevel = getSkillLevel(
-    isEventRecipe
-      ? downgradeChapterCropWeekSkills(bumpkin.skills)
-      : bumpkin.skills,
-    "Double Nom",
-  );
-  const showAscensionPausedNotice =
-    isEventRecipe && hasUpgradedChapterCropWeekSkill(bumpkin.skills, "Cooking");
+  const isOilBoosted =
+    buildingCrafting.find(
+      (recipe) => recipe.name === selected.name && recipe.boost?.["Oil"],
+    ) ||
+    (cookingTiming?.oilWindow && cookingTiming.oilWindow.to > now);
+  const doubleNomLevel = getSkillLevel(bumpkin.skills, "Double Nom");
   const isVIP = useVipAccess({ game: state });
   const isQueueFull =
     [...readyRecipes, ...queue].length + (cooking ? 1 : 0) >= availableSlots;
+  // Instant recipes skip the chef's queue entirely, so they can always be
+  // cooked straight away, even while the chef is busy or the queue is full.
+  const isInstant = isInstantFishRecipe(selected.name);
+  const isQueuing = !!cooking && !isInstant;
 
   return (
     <>
@@ -322,10 +378,14 @@ export const Recipes: React.FC<Props> = ({
               setShowTimeBoosts={setShowTimeBoosts}
               actionView={
                 <>
-                  {showAscensionPausedNotice && (
-                    <Label type="warning">
-                      {t("chapterCropWeek.ascensionBoostsPaused")}
-                    </Label>
+                  {previewOilBurn !== undefined && (
+                    <div className="flex justify-center mb-1">
+                      <Label type="default" icon={ITEM_DETAILS.Oil.image}>
+                        {t("cooking.building.oil.uses", {
+                          oil: formatOil(previewOilBurn),
+                        })}
+                      </Label>
+                    </div>
                   )}
                   {doubleNomLevel > 0 && (
                     <Label type="success" icon={powerup}>
@@ -340,34 +400,53 @@ export const Recipes: React.FC<Props> = ({
                       })})`}
                     </Label>
                   )}
-                  {cooking && (
+                  {isQueuing && (
                     <p className="sm:text-xs text-center my-1">
                       {t("sceneDialogues.chefIsBusy")}
                     </p>
                   )}
-                  <Button
-                    disabled={
-                      lessIngredients() || selected.disabled || isQueueFull
-                    }
-                    className="text-xxs sm:text-sm mt-1 whitespace-nowrap relative"
-                    onClick={!cooking ? cook : handleAddToQueue}
-                  >
-                    {cooking && (
+                  <div className="relative">
+                    <Button
+                      disabled={
+                        lessIngredients() ||
+                        selected.disabled ||
+                        (isQueueFull && !isInstant)
+                      }
+                      className="text-xxs sm:text-sm mt-1 whitespace-nowrap relative"
+                      onClick={isQueuing ? handleAddToQueue : cook}
+                    >
+                      {isQueuing && (
+                        <img
+                          src={vipIcon}
+                          alt="VIP"
+                          className="absolute w-6 sm:w-4 -top-[1px] -right-[2px]"
+                        />
+                      )}
+                      <span>
+                        {isQueuing ? t("recipes.addToQueue") : t("cook")}
+                      </span>
+                    </Button>
+                    {showCookHelper && selected.name === TUTORIAL_RECIPE && (
                       <img
-                        src={vipIcon}
-                        alt="VIP"
-                        className="absolute w-6 sm:w-4 -top-[1px] -right-[2px]"
+                        className="absolute pointer-events-none z-30 animate-pulsate"
+                        src={SUNNYSIDE.icons.click_icon}
+                        style={{
+                          width: `${PIXEL_SCALE * 18}px`,
+                          right: `${PIXEL_SCALE * -4}px`,
+                          top: `${PIXEL_SCALE * 4}px`,
+                        }}
                       />
                     )}
-                    <span>{cooking ? t("recipes.addToQueue") : t("cook")}</span>
-                  </Button>
-                  <Button
-                    disabled={readyRecipes.length === 0}
-                    className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
-                    onClick={() => collect()}
-                  >
-                    {t("collect")}
-                  </Button>
+                  </div>
+                  {!isInstant && (
+                    <Button
+                      disabled={readyRecipes.length === 0}
+                      className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
+                      onClick={() => collect()}
+                    >
+                      {t("collect")}
+                    </Button>
+                  )}
                 </>
               }
             />
@@ -383,7 +462,7 @@ export const Recipes: React.FC<Props> = ({
                 onInstantReady={handleInstantCook}
                 state={state}
                 startedAt={cookingStartedAt}
-                windows={cookingBoostWindows}
+                windows={cookingWindows}
               />
             )}
 
@@ -429,6 +508,7 @@ export const Recipes: React.FC<Props> = ({
                     }}
                     image={ITEM_DETAILS[item.name].image}
                     count={inventory[item.name]}
+                    missingRequirements={hasLessIngredients(item.name)}
                   />
                 ))}
             </div>

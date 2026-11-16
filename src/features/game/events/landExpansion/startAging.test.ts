@@ -316,8 +316,33 @@ describe("startAging", () => {
     const baseXP = getFishBaseXP("Tuna");
     const slot = state.agingShed.racks.aging[0];
     expect(slot.readyAt).toBe(
-      createdAt + getBoostedAgingTimeMs(baseXP, baseState),
+      createdAt + getBoostedAgingTimeMs(baseXP, baseState).timeMs,
     );
+  });
+
+  it("applies Fish Trap to reduce readyAt by 20% and records it", () => {
+    const state = startAging({
+      state: createFermentationTestState({
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: { ...INITIAL_BUMPKIN.equipped, secondaryTool: "Fish Trap" },
+        },
+        inventory: { Anchovy: new Decimal(1), Salt: new Decimal(100) },
+      }),
+      action: {
+        type: "agingRack.started",
+        fish: "Anchovy",
+        slotId: TEST_SLOT_ID,
+      },
+      farmId: 1,
+      createdAt,
+    });
+
+    const baseTime = getAgingTimeMs(getFishBaseXP("Anchovy"));
+    expect(state.agingShed.racks.aging[0].readyAt).toBe(
+      createdAt + baseTime * 0.8,
+    );
+    expect(state.boostsUsedAt?.["Fish Trap"]).toBe(createdAt);
   });
 
   it("applies Ager skill to double salt and fish cost", () => {

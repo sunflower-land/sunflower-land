@@ -17,7 +17,7 @@ export const AuctionsComingSoon: React.FC = () => {
         {secondsToString(secondsLeftInChapter(now), { length: "full" })}
       </Label>
       <a
-        href="https://docs.sunflower-land.com/getting-started/crypto-and-digital-collectibles"
+        href="https://docs.sunflower-land.com/web3-and-economy/wallets-and-collectibles"
         target="_blank"
         rel="noopener noreferrer"
         className="text-xs underline"

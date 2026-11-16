@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  type BumpkinSkillRevamp,
   type BumpkinRevampSkillTree,
   getRevampSkills,
 } from "features/game/types/bumpkinSkills";
@@ -15,14 +14,12 @@ interface Props {
 export const Skills: React.FC<Props> = ({ readonly }) => {
   const [selectedSkillPath, setSelectedSkillPath] =
     useState<BumpkinRevampSkillTree | null>(null);
-  const [skillsInPath, setSkillsInTree] = useState<BumpkinSkillRevamp[]>([]);
+  const skillsInPath = selectedSkillPath
+    ? getRevampSkills(selectedSkillPath)
+    : [];
 
   const onSkillCategoryClickHandler = (category: BumpkinRevampSkillTree) => {
     setSelectedSkillPath(category);
-
-    const skillsInCategory: BumpkinSkillRevamp[] = getRevampSkills(category);
-
-    setSkillsInTree(skillsInCategory);
   };
 
   const handleBackToSkillList = () => {

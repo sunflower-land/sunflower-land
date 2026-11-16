@@ -22,8 +22,8 @@ export type NodeTimerSpec = {
   baseDurationMs?: number;
   /** The activity's live speed windows (speed-rate model only). */
   windows: BoostWindow[];
-  /** Ready time for a legacy node. */
-  legacyReadyAt: number;
+  /** Ready time for a legacy node; defaults to startedAt [useNodeTimer]. */
+  legacyReadyAt?: number;
   /**
    * Work-progress fractions at which onStage must fire, e.g. crop art stages
    * [0.25, 0.5, 1]. Completion (progress 1) always fires even if omitted.
@@ -43,7 +43,8 @@ export const readNodeTimer = (
   spec: NodeTimerSpec,
   now: number,
 ): NodeTimerReading => {
-  const { startedAt, baseDurationMs, windows, legacyReadyAt } = spec;
+  const { startedAt, baseDurationMs, windows } = spec;
+  const legacyReadyAt = spec.legacyReadyAt ?? startedAt;
   const windowed = baseDurationMs !== undefined;
 
   const readyAt = windowed

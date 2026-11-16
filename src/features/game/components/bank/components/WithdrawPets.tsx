@@ -26,10 +26,16 @@ import {
 } from "features/game/types/pets";
 import { getPetReleases } from "features/game/types/withdrawables";
 import { useNow } from "lib/utils/hooks/useNow";
+import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
 import petNFTEgg from "assets/icons/pet_nft_egg.png";
+import vipIcon from "assets/icons/vip.webp";
 
 import { WithdrawCollection } from "./withdraw/WithdrawCollection";
 import type { WithdrawEntry } from "./withdraw/types";
+import {
+  formatWithdrawableDate,
+  getMarketplaceWithdrawBlock,
+} from "features/game/lib/withdrawCooldown";
 
 interface Props {
   onWithdraw: (ids: number[]) => void;
@@ -38,6 +44,8 @@ interface Props {
 }
 
 const _state = (state: MachineState) => state.context.state;
+const _withdrawCooldowns = (state: MachineState) =>
+  state.context.withdrawCooldowns;
 
 export const WithdrawPets: React.FC<Props> = ({
   onWithdraw,
@@ -48,6 +56,7 @@ export const WithdrawPets: React.FC<Props> = ({
 
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
+  const withdrawCooldowns = useSelector(gameService, _withdrawCooldowns);
 
   const nfts = state.pets?.nfts ?? {};
 
@@ -60,7 +69,8 @@ export const WithdrawPets: React.FC<Props> = ({
   const [confirmationStep, setConfirmationStep] = useState<1 | 2 | null>(null);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
-  const now = useNow();
+  // Live: Grand Harvester can rest on VIP points that expire mid-session.
+  const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
 
   const { petsToShow, petRowById } = useMemo(() => {
     const nowDate = new Date(now);
@@ -117,12 +127,17 @@ export const WithdrawPets: React.FC<Props> = ({
 
   const hasAccess = hasReputation({
     game: state,
-    reputation: Reputation.Seedling,
+    reputation: Reputation.GrandHarvester,
     now,
   });
 
   if (!hasAccess) {
-    return <RequiredReputation reputation={Reputation.Seedling} />;
+    return (
+      <RequiredReputation
+        reputation={Reputation.GrandHarvester}
+        text={t("withdraw.pets.upgrade")}
+      />
+    );
   }
 
   const getRestrictionStatus = (itemName: BoostName) => {
@@ -229,7 +244,25 @@ export const WithdrawPets: React.FC<Props> = ({
     const isRevealedButNotWithdrawable =
       row?.isRevealedButNotWithdrawable ?? false;
 
-    const locked = isRestricted || !isRevealed || isRevealedButNotWithdrawable;
+    // Bought on the marketplace recently without VIP - only known once the
+    // API has refused it, see withdrawCooldown.ts. The API keys pets by the
+    // same `Pet #id` label we display.
+    const marketplaceBlockedUntil = getMarketplaceWithdrawBlock({
+      game: state,
+      cooldowns: withdrawCooldowns,
+      name: petName,
+      now,
+    });
+    const marketplaceDate =
+      marketplaceBlockedUntil !== undefined
+        ? formatWithdrawableDate(marketplaceBlockedUntil)
+        : undefined;
+
+    const locked =
+      isRestricted ||
+      !isRevealed ||
+      isRevealedButNotWithdrawable ||
+      marketplaceDate !== undefined;
 
     const cooldownText = secondsToString(cooldownTimeLeft / 1000, {
       length: "medium",
@@ -247,7 +280,11 @@ export const WithdrawPets: React.FC<Props> = ({
           ? t("withdraw.pet.withdrawableFrom", {
               date: withdrawAt.toLocaleDateString(),
             })
-          : undefined;
+          : marketplaceDate !== undefined
+            ? t("withdraw.marketplaceCooldown.lockReason", {
+                date: marketplaceDate,
+              })
+            : undefined;
 
     // A placed pet is removed from the farm when withdrawn — warn on select.
     const isPlaced = !!nfts[petId]?.coordinates;
@@ -269,16 +306,24 @@ export const WithdrawPets: React.FC<Props> = ({
             icon: SUNNYSIDE.icons.timer,
             text: t("withdraw.status.cooldown", { time: cooldownText }),
           }
-        : locked
+        : !isRevealed || isRevealedButNotWithdrawable
           ? {
               type: "warning" as const,
               icon: SUNNYSIDE.icons.timer,
               text: t("withdraw.status.soon"),
             }
-          : {
-              type: "success" as const,
-              text: t("withdraw.status.withdrawable"),
-            },
+          : marketplaceDate !== undefined
+            ? {
+                type: "warning" as const,
+                icon: vipIcon,
+                text: t("withdraw.status.marketplaceCooldown", {
+                  date: marketplaceDate,
+                }),
+              }
+            : {
+                type: "success" as const,
+                text: t("withdraw.status.withdrawable"),
+              },
     };
   });
 

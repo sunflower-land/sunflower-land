@@ -1,8 +1,9 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useState } from "react";
 import classNames from "classnames";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import type { CollectibleProps } from "../Collectible";
+import type { PlaceableLocation } from "features/game/types/collectibles";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Context } from "features/game/GameProvider";
@@ -18,7 +19,6 @@ import {
   getCollectiblesAcrossLocations,
 } from "features/game/lib/collectibleBuilt";
 import { TemporaryCollectibleModal } from "features/game/components/TemporaryCollectibleModal";
-import { hasFeatureAccess } from "lib/flags";
 import { Modal } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
@@ -29,7 +29,7 @@ import { SEASONAL_SEEDS, SEEDS } from "features/game/types/seeds";
 import type { CropName } from "features/game/types/crops";
 import {
   CHAPTER_CROP_WEEK_SEED,
-  isChapterCropWeekActive,
+  hasChapterCropWeekAccess,
 } from "features/game/types/chapterCropWeek";
 import { Box } from "components/ui/Box";
 import { Decimal } from "decimal.js-light";
@@ -44,7 +44,10 @@ import { getCropPlotTime } from "features/game/events/landExpansion/plant";
 import { projectSeconds } from "features/game/lib/timerDisplay";
 import { getSeedBoostWindows } from "features/game/lib/seedBoostWindows";
 import { getAvailablePlots } from "features/game/events/landExpansion/bulkPlant";
-import { getCropsToHarvest } from "features/game/events/landExpansion/bulkHarvest";
+import {
+  bulkHarvest,
+  getCropsToHarvest,
+} from "features/game/events/landExpansion/bulkHarvest";
 import { getReward } from "features/game/events/landExpansion/harvest";
 import { getPlotsToFertilise } from "features/game/events/landExpansion/bulkFertilisePlot";
 import {
@@ -67,6 +70,44 @@ import { ChestReward } from "features/island/common/chest-reward/ChestReward";
 import type { FarmActivityName } from "features/game/types/farmActivity";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { isWearableActive } from "features/game/lib/wearables";
+
+/**
+ * Yield is rolled at harvest time (PRNG + AOE), so dry-run the real event and
+ * diff the inventory to show exactly what Harvest All will give.
+ */
+const getCropYields = ({
+  state,
+  readyCrops,
+  now,
+  farmId,
+}: {
+  state: GameState;
+  readyCrops: Record<CropName, number>;
+  now: number;
+  farmId: number;
+}): Record<CropName, number> => {
+  try {
+    const harvested = bulkHarvest({
+      state,
+      action: { type: "crops.bulkHarvested" },
+      createdAt: now,
+      farmId,
+    });
+
+    return (Object.keys(readyCrops) as CropName[]).reduce(
+      (yields, crop) => {
+        const before = state.inventory[crop] ?? new Decimal(0);
+        const after = harvested.inventory[crop] ?? new Decimal(0);
+        yields[crop] = after.sub(before).toNumber();
+        return yields;
+      },
+      {} as Record<CropName, number>,
+    );
+  } catch {
+    // Fall back to the plot count if the dry run fails
+    return readyCrops;
+  }
+};
 
 type AnyCompostName =
   | CropCompostName
@@ -100,15 +141,13 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
   const expiresAt = getCollectibleExpiry({
     name: "Obsidian Shrine",
     collectible: placed ?? { createdAt },
-    game: state,
   });
   const { totalSeconds: secondsToExpire } = useCountdown(expiresAt);
   const durationSeconds =
     ((EXPIRY_COOLDOWNS["Obsidian Shrine"] ?? 0) + extendedMs) / 1000;
   const percentage = 100 - (secondsToExpire / durationSeconds) * 100;
   const hasExpired = secondsToExpire <= 0;
-  const canExtend =
-    !isVisiting && hasFeatureAccess(state, "SPEED_BOOSTS") && !!placed;
+  const canExtend = !isVisiting && !!placed;
 
   const now = useNow({ live: !hasExpired, autoEndAt: expiresAt });
 
@@ -120,7 +159,7 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
   const { readyCrops, readyPlots } = getCropsToHarvest(state, now);
   const hasReadyCrops = Object.keys(readyCrops).length > 0;
 
-  const combinedReward = useMemo(() => {
+  const combinedReward = (() => {
     const rewardItems: Partial<Record<InventoryItemName, Decimal>> = {};
     let coins = 0;
     let hasReward = false;
@@ -171,7 +210,12 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
     if (items.length > 0) combined.items = items;
     if (coins > 0) combined.coins = coins;
     return combined;
-  }, [readyPlots, state.bumpkin?.skills, state.farmActivity, farmId]);
+  })();
+
+  const cropYields =
+    show && hasReadyCrops
+      ? getCropYields({ state, readyCrops, now, farmId })
+      : readyCrops;
 
   const doHarvestAll = () => {
     gameService.send("crops.bulkHarvested", {});
@@ -331,7 +375,11 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
               />
             </InnerPanel>
           ) : hasReadyCrops ? (
-            <HarvestSection readyCrops={readyCrops} onHarvest={harvestAll} />
+            <HarvestSection
+              readyCrops={readyCrops}
+              cropYields={cropYields}
+              onHarvest={harvestAll}
+            />
           ) : availablePlots.length > 0 ? (
             <PlantSection state={state} availablePlots={availablePlots} />
           ) : (
@@ -378,8 +426,9 @@ const SectionHeader: React.FC<{
 
 const HarvestSection: React.FC<{
   readyCrops: Record<CropName, number>;
+  cropYields: Record<CropName, number>;
   onHarvest: () => void;
-}> = ({ readyCrops, onHarvest }) => {
+}> = ({ readyCrops, cropYields, onHarvest }) => {
   const { t } = useAppTranslation();
   const totalReady = Object.values(readyCrops).reduce((s, n) => s + n, 0);
   const hasReady = totalReady > 0;
@@ -402,7 +451,7 @@ const HarvestSection: React.FC<{
               <Box
                 key={crop}
                 image={ITEM_DETAILS[crop as CropName].image}
-                count={new Decimal(count)}
+                count={new Decimal(cropYields[crop as CropName] ?? count)}
               />
             ))}
           </div>
@@ -463,9 +512,10 @@ const PlantSection: React.FC<{
     (seed) => SEEDS[seed].plantingSpot === "Crop Plot",
   ) as CropSeedName[];
 
-  // Include the limited-time Chapter Crop Week seed (Saltwort) while the event
-  // is active, even though it is not part of the current season.
-  const plantableSeeds: CropSeedName[] = isChapterCropWeekActive(now)
+  // Include the limited-time Chapter Crop Week seed (Crystal Leaf) while the event
+  // is active (admin testers get early access), even though it is not part of
+  // the current season.
+  const plantableSeeds: CropSeedName[] = hasChapterCropWeekAccess(state, now)
     ? [...seasonalSeeds, CHAPTER_CROP_WEEK_SEED as CropSeedName]
     : seasonalSeeds;
 
@@ -780,16 +830,31 @@ export const ObsidianShrineModal: React.FC<{
   show: boolean;
   onClose: () => void;
   createdAt: number;
-}> = ({ show, onClose, createdAt }) => {
+  /** The placement — needed to read and buy extensions. */
+  id?: string;
+  location?: PlaceableLocation;
+}> = ({ show, onClose, createdAt, id, location }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
+  const { isVisiting } = useVisiting();
+  const [showExtendModal, setShowExtendModal] = useState(false);
   const [reward, setReward] = useState<Reward>();
 
-  const expiresAt = createdAt + (EXPIRY_COOLDOWNS["Obsidian Shrine"] ?? 0);
+  const state = useSelector(gameService, selectGameState);
+
+  // Read the placement so any time bought via `collectible.extended` is included
+  // in the countdown rather than the shrine appearing to expire early.
+  const placed = getCollectiblesAcrossLocations(state, "Obsidian Shrine").find(
+    (collectible) => collectible.id === id,
+  );
+  const expiresAt = getCollectibleExpiry({
+    name: "Obsidian Shrine",
+    collectible: placed ?? { createdAt },
+  });
   const { totalSeconds: secondsToExpire } = useCountdown(expiresAt);
+  const canExtend = !isVisiting && !!placed && !!id && !!location;
   const now = useNow({ live: secondsToExpire > 0, autoEndAt: expiresAt });
 
-  const state = useSelector(gameService, selectGameState);
   const verified = useSelector(gameService, selectVerified);
   const farmId = useSelector(gameService, (s) => s.context.farmId);
   const isSeasoned = isSeasonedPlayer({ game: state, verified, now });
@@ -798,7 +863,7 @@ export const ObsidianShrineModal: React.FC<{
   const { readyCrops, readyPlots } = getCropsToHarvest(state, now);
   const hasReadyCrops = Object.keys(readyCrops).length > 0;
 
-  const combinedReward = useMemo(() => {
+  const combinedReward = (() => {
     const rewardItems: Partial<Record<InventoryItemName, Decimal>> = {};
     let coins = 0;
     let hasReward = false;
@@ -849,7 +914,12 @@ export const ObsidianShrineModal: React.FC<{
     if (items.length > 0) combined.items = items;
     if (coins > 0) combined.coins = coins;
     return combined;
-  }, [readyPlots, state.bumpkin?.skills, state.farmActivity, farmId]);
+  })();
+
+  const cropYields =
+    show && hasReadyCrops
+      ? getCropYields({ state, readyCrops, now, farmId })
+      : readyCrops;
 
   const doHarvestAll = () => {
     gameService.send("crops.bulkHarvested", {});
@@ -869,46 +939,74 @@ export const ObsidianShrineModal: React.FC<{
   };
 
   return (
-    <Modal show={show} onHide={close}>
-      <OuterPanel>
-        <div className="flex items-center justify-between flex-wrap gap-1 px-1 mb-1">
-          <Label type="default" icon={ITEM_DETAILS["Obsidian Shrine"].image}>
-            {"Obsidian Shrine"}
-          </Label>
-          <Label type="info" secondaryIcon={SUNNYSIDE.icons.stopwatch}>
-            {t("time.remaining", {
-              time: secondsToString(secondsToExpire, {
-                length: "medium",
-                isShortFormat: true,
-                removeTrailingZeros: true,
-              }),
-            })}
-          </Label>
-        </div>
+    <>
+      <Modal show={show} onHide={close}>
+        <OuterPanel>
+          <div className="flex items-center justify-between flex-wrap gap-1 px-1 mb-1">
+            <Label type="default" icon={ITEM_DETAILS["Obsidian Shrine"].image}>
+              {getTranslatedItemName("Obsidian Shrine")}
+            </Label>
+            <div className="flex items-center gap-1">
+              <Label type="info" secondaryIcon={SUNNYSIDE.icons.stopwatch}>
+                {t("time.remaining", {
+                  time: secondsToString(secondsToExpire, {
+                    length: "medium",
+                    isShortFormat: true,
+                    removeTrailingZeros: true,
+                  }),
+                })}
+              </Label>
+              {canExtend && (
+                <Button
+                  className="w-auto h-8 px-2 text-xs"
+                  onClick={() => setShowExtendModal(true)}
+                >
+                  {t("extend")}
+                </Button>
+              )}
+            </div>
+          </div>
 
-        {reward ? (
-          <InnerPanel>
-            <ChestReward
-              inline
-              collectedItem={undefined}
-              reward={reward}
-              onCollected={(success) => {
-                setReward(undefined);
-                if (success) doHarvestAll();
-              }}
-              onOpen={() => {
-                // No-op - reward is applied in bulk harvest
-              }}
+          {reward ? (
+            <InnerPanel>
+              <ChestReward
+                inline
+                collectedItem={undefined}
+                reward={reward}
+                onCollected={(success) => {
+                  setReward(undefined);
+                  if (success) doHarvestAll();
+                }}
+                onOpen={() => {
+                  // No-op - reward is applied in bulk harvest
+                }}
+              />
+            </InnerPanel>
+          ) : hasReadyCrops ? (
+            <HarvestSection
+              readyCrops={readyCrops}
+              cropYields={cropYields}
+              onHarvest={harvestAll}
             />
-          </InnerPanel>
-        ) : hasReadyCrops ? (
-          <HarvestSection readyCrops={readyCrops} onHarvest={harvestAll} />
-        ) : availablePlots.length > 0 ? (
-          <PlantSection state={state} availablePlots={availablePlots} />
-        ) : (
-          <FertiliseSection state={state} />
-        )}
-      </OuterPanel>
-    </Modal>
+          ) : availablePlots.length > 0 ? (
+            <PlantSection state={state} availablePlots={availablePlots} />
+          ) : (
+            <FertiliseSection state={state} />
+          )}
+        </OuterPanel>
+      </Modal>
+
+      {canExtend && (
+        <TemporaryCollectibleModal
+          show={showExtendModal}
+          onHide={() => setShowExtendModal(false)}
+          name="Obsidian Shrine"
+          id={id}
+          location={location}
+          expiresAt={expiresAt}
+          canExtend={canExtend}
+        />
+      )}
+    </>
   );
 };

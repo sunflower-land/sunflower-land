@@ -113,6 +113,15 @@ export const ListViewCard: React.FC<Props> = ({
         onClick={onClick}
         variant="card"
         className="h-full flex flex-col"
+        // Reachable and openable from the keyboard (Tab, then Enter/Space).
+        data-marketplace-card
+        role={onClick ? "button" : undefined}
+        tabIndex={onClick ? 0 : undefined}
+        onKeyDown={(e) => {
+          if (!onClick || (e.key !== "Enter" && e.key !== " ")) return;
+          e.preventDefault();
+          onClick();
+        }}
       >
         <div
           className={classNames("flex flex-col items-center relative", {
@@ -225,9 +234,11 @@ export const ListViewCard: React.FC<Props> = ({
               <img src={SUNNYSIDE.icons.stopwatch} className="h-4 mr-1" />
               <p className="text-xs truncate pb-0.5">
                 {" "}
-                {`${secondsToString((expiresAt - now) / 1000, {
-                  length: "short",
-                })} left`}
+                {t("vipExpiry.timeLeft", {
+                  time: secondsToString((expiresAt - now) / 1000, {
+                    length: "short",
+                  }),
+                })}
               </p>
             </div>
           )}
@@ -246,9 +257,9 @@ export const ListViewCard: React.FC<Props> = ({
 
           {lastSalePrice?.gt(0) && (
             <p className="text-xxs truncate pb-0.5">
-              {`Last sale: ${formatNumber(lastSalePrice, {
-                decimalPlaces: 4,
-              })} FLOWER`}
+              {t("marketplace.lastSale", {
+                price: formatNumber(lastSalePrice, { decimalPlaces: 4 }),
+              })}
             </p>
           )}
         </div>

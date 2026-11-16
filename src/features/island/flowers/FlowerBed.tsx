@@ -174,24 +174,21 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
   const growSeconds = FLOWER_SEEDS[FLOWERS[flower.name].seed].plantSeconds;
   const growTimeMs = growSeconds * 1000;
 
-  const baseDurationMs = flower.baseDurationMs;
+  const baseDurationMs = flower.baseDurationMs ?? growTimeMs;
   const startedAt = flower.plantedAt;
 
-  // `secondsLeft` is the remaining WORK: it drives the growth stage, the progress
-  // fill and the insta-grow cost — work does not drain at wall-clock rate while
-  // a boost window is running. `countdownSeconds` is the reading shown.
+  // `secondsLeft` is the remaining WORK: it drives the growth stage and the
+  // progress fill — work does not drain at wall-clock rate while a boost window
+  // is running. `countdownSeconds` is the reading shown, and what insta-grow is
+  // priced from (instaGrowFlower charges on readyAt - now).
   const { workLeftSeconds: secondsLeft, countdownSeconds } = useNodeTimer({
     startedAt,
     baseDurationMs,
     windows: flowerBoostWindows,
-    legacyReadyAt: startedAt + growTimeMs,
   });
-  // Fold pre-lift banked work into the denominator so the progress bar retains
-  // its fill across a landscaping lift instead of snapping backward.
-  const totalSeconds =
-    baseDurationMs !== undefined
-      ? (baseDurationMs + (flower.boostedTime ?? 0)) / 1000
-      : growSeconds;
+  // `boostedTime` is pre-lift banked WORK, folded into the denominator so the bar
+  // retains its fill across a landscaping lift instead of snapping backward.
+  const totalSeconds = (baseDurationMs + (flower.boostedTime ?? 0)) / 1000;
   // Guard the zero-duration case (an insta-grown windowed flower has
   // baseDurationMs === 0): 0 / 0 would be NaN, which makes getGrowthStage fall
   // through to "sprout" for a flower that is actually ready.
@@ -227,7 +224,7 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
   const hasHarvestedBefore = !!farmActivity[`${flower.name} Harvested`];
   const reward = flower.reward;
 
-  const instaGrowCost = calculateInstaGrowCost(secondsLeft);
+  const instaGrowCost = calculateInstaGrowCost(countdownSeconds);
   const playerObsidian = inventory.Obsidian ?? new Decimal(0);
 
   const handlePlotClick = () => {
@@ -432,11 +429,8 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
             <div className="flex flex-col gap-1 sm:flex-row sm:gap-2">
               <Label type="vibrant">{t("instaGrow")}</Label>
               <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-                {/* Deliberately the WORK reading, not the player's display
-                    setting: it is the quantity the Obsidian cost below is
-                    calculated from, so the two must agree. */}
                 {t("instaGrow.timeRemaining", {
-                  time: secondsToString(secondsLeft, { length: "medium" }),
+                  time: secondsToString(countdownSeconds, { length: "medium" }),
                 })}
               </Label>
             </div>

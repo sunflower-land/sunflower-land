@@ -7,7 +7,6 @@ import { TREE_RECOVERY_TIME } from "features/game/lib/constants";
 import { FACTION_ITEMS } from "features/game/lib/factions";
 import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { isWearableActive } from "features/game/lib/wearables";
-import { hasFeatureAccess } from "lib/flags";
 import {
   computeReadyAt,
   getTreeBoostWindows,
@@ -29,6 +28,7 @@ import type {
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { produce } from "immer";
 import { prngChance } from "lib/prng";
+import type { TreeName } from "features/game/types/resources";
 import { mfTrack } from "lib/moonforgeAnalytics";
 
 export enum CHOP_ERRORS {
@@ -66,6 +66,25 @@ type Options = {
 export function canChop(tree: Tree, game: GameState, now: number = Date.now()) {
   return now > getTreeReadyAt(tree, game);
 }
+
+/**
+ * Whether the Native +1 wood bonus fires on each of a new player's first basic
+ * tree chops, indexed by the lifetime "Basic Tree Chopped" counter (0-based,
+ * the same counter the PRNG uses, so FE and BE agree). The first three chops
+ * give exactly the 3 wood the first expansion costs; the next five give
+ * 1,1,1,2,2 so the following expansion is always affordable and the player
+ * sees the bonus before the real 20% roll takes over from chop nine.
+ */
+export const TUTORIAL_WOOD_NATIVE_BONUS: readonly boolean[] = [
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  true,
+  true,
+];
 
 /**
  * Sets the drop amount for the current chop event on the tree
@@ -191,8 +210,12 @@ export function getWoodDropAmount({
     });
   }
 
-  // Native 1 in 5 chance of getting 1 extra wood
-  if (getPrngChance(20, "Native")) {
+  // Native 1 in 5 chance of getting 1 extra wood. A new player's first basic
+  // tree chops are scripted instead (see TUTORIAL_WOOD_NATIVE_BONUS).
+  const treeName: TreeName = tree?.name ?? "Tree";
+  const scriptedNative =
+    treeName === "Tree" ? TUTORIAL_WOOD_NATIVE_BONUS[counter] : undefined;
+  if (scriptedNative ?? getPrngChance(20, "Native")) {
     amount = amount.add(1);
     boostsUsed.push({ name: "Native", value: "+1" });
   }
@@ -229,11 +252,9 @@ export function getWoodDropAmount({
 export function getTreeRecoveryTimeForDisplay({
   game,
   prngArgs,
-  now,
 }: {
   game: GameState;
   prngArgs?: PrngArgs;
-  now: number;
 }): {
   baseTimeMs: number;
   recoveryTimeMs: number;
@@ -284,49 +305,11 @@ export function getTreeRecoveryTimeForDisplay({
     totalSeconds = totalSeconds * m;
   }
 
-  // Under SPEED_BOOSTS the temporary tree boosts (totems, Timber Hourglass,
-  // Badger Shrine) are retroactive speed-rate windows (see boostWindows), so
-  // they're excluded from the baked recovery here — the recovery left is the
-  // permanent-boost-only base duration. Flag-off keeps the discount-at-start.
-  // Not recorded in boostsUsed for the windowed case; their contribution is
-  // derived over the recovery, not baked at chop time.
-  const boostsWindowed = hasFeatureAccess(game, "SPEED_BOOSTS");
-
-  const hasSuperTotem = isTemporaryCollectibleActive({
-    name: "Super Totem",
-    game,
-    now,
-  });
-  const hasTimeWarpTotem = isTemporaryCollectibleActive({
-    name: "Time Warp Totem",
-    game,
-    now,
-  });
-
-  const hasSuperTotemOrTimeWarpTotem = hasSuperTotem || hasTimeWarpTotem;
-
-  if (!boostsWindowed && hasSuperTotemOrTimeWarpTotem) {
-    totalSeconds = totalSeconds * 0.5;
-    if (hasSuperTotem) boostsUsed.push({ name: "Super Totem", value: "x0.5" });
-    else if (hasTimeWarpTotem)
-      boostsUsed.push({ name: "Time Warp Totem", value: "x0.5" });
-  }
-
-  if (
-    !boostsWindowed &&
-    isTemporaryCollectibleActive({ name: "Timber Hourglass", game, now })
-  ) {
-    totalSeconds = totalSeconds * 0.75;
-    boostsUsed.push({ name: "Timber Hourglass", value: "x0.75" });
-  }
-
-  if (
-    !boostsWindowed &&
-    isTemporaryCollectibleActive({ name: "Badger Shrine", game, now })
-  ) {
-    totalSeconds = totalSeconds * 0.75;
-    boostsUsed.push({ name: "Badger Shrine", value: "x0.75" });
-  }
+  // The temporary tree boosts (totems, Timber Hourglass, Badger Shrine) are
+  // retroactive speed-rate windows (see boostWindows), so they're excluded from
+  // the baked recovery here — the recovery left is the permanent-boost-only base
+  // duration. Not recorded in boostsUsed; their contribution is derived over the
+  // recovery, not baked at chop time.
 
   return {
     baseTimeMs,
@@ -336,59 +319,39 @@ export function getTreeRecoveryTimeForDisplay({
 }
 
 /**
- * The chop time to persist, plus (under SPEED_BOOSTS) the base recovery duration.
+ * The chop time to persist, plus the base recovery duration.
  *
- * Legacy model: back-date `choppedAt` into the past so the tree replenishes
- * faster — the temporary boost discount is baked in at chop time.
- *
- * Speed-rate model (SPEED_BOOSTS): store the REAL chop time and a
- * `baseDurationMs` carrying only the permanent boosts; the temporary boosts
- * (totems/Timber Hourglass/Badger Shrine) are derived live from windows so they
- * credit only the overlap and apply retroactively. Uses
- * getTreeRecoveryTimeForDisplay for boost logic.
+ * Speed-rate model: store the REAL chop time and a `baseDurationMs` carrying
+ * only the permanent boosts; the temporary boosts (totems/Timber Hourglass/
+ * Badger Shrine) are derived live from windows so they credit only the overlap
+ * and apply retroactively. Uses getTreeRecoveryTimeForDisplay for boost logic.
  */
 export function getChoppedAt({ game, createdAt, prngArgs }: GetChoppedAtArgs): {
   time: number;
-  baseDurationMs?: number;
+  baseDurationMs: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
-  const { baseTimeMs, recoveryTimeMs, boostsUsed } =
-    getTreeRecoveryTimeForDisplay({ game, prngArgs, now: createdAt });
+  const { recoveryTimeMs, boostsUsed } = getTreeRecoveryTimeForDisplay({
+    game,
+    prngArgs,
+  });
 
-  if (hasFeatureAccess(game, "SPEED_BOOSTS")) {
-    return { time: createdAt, baseDurationMs: recoveryTimeMs, boostsUsed };
-  }
-
-  const buffMs = baseTimeMs - recoveryTimeMs;
-  return { time: createdAt - buffMs, boostsUsed };
+  return { time: createdAt, baseDurationMs: recoveryTimeMs, boostsUsed };
 }
 
 /**
- * When a chopped tree is ready to chop again, across both boost models. Trees
- * chopped under the speed-rate model (with `baseDurationMs`) derive their ready
- * time live from the tree boost windows; legacy trees use their back-dated
- * `choppedAt` + base recovery time.
- *
- * `baseDurationMs` is a PERMANENT per-tree migration marker: the read path keys
- * off its presence, NOT the `SPEED_BOOSTS` flag (matching `getCropReadyAt`). A
- * tree chopped while the flag was on therefore keeps windowed timing even if the
- * flag is later disabled. This is intentional — windowed trees store the real
- * `choppedAt` + a permanent-boost-only `baseDurationMs`, so falling back to
- * `choppedAt + base recovery` would drop their baked permanent-boost credit and
- * wrongly lengthen recovery on rollback.
+ * When a chopped tree is ready to chop again: `choppedAt` plus `baseDurationMs`
+ * of work, derived live from the tree boost windows. A tree with no marker reads
+ * as the raw recovery time.
  */
 export function getTreeReadyAt(tree: Tree, game: GameState): number {
   const { baseDurationMs, choppedAt } = tree.wood;
 
-  if (baseDurationMs !== undefined) {
-    return computeReadyAt({
-      startedAt: choppedAt,
-      baseDurationMs,
-      windows: getTreeBoostWindows(game),
-    });
-  }
-
-  return choppedAt + TREE_RECOVERY_TIME * 1000;
+  return computeReadyAt({
+    startedAt: choppedAt,
+    baseDurationMs: baseDurationMs ?? TREE_RECOVERY_TIME * 1000,
+    windows: getTreeBoostWindows(game),
+  });
 }
 
 /**
@@ -519,13 +482,8 @@ export function chop({
     });
 
     tree.wood.choppedAt = time;
-    // Speed-rate model stores the base recovery; legacy/flag-off back-dates
-    // choppedAt instead, so clear any stale baseDurationMs from a prior chop.
-    if (baseDurationMs !== undefined) {
-      tree.wood.baseDurationMs = baseDurationMs;
-    } else {
-      delete tree.wood.baseDurationMs;
-    }
+    // Speed-rate model: real choppedAt + the base recovery duration.
+    tree.wood.baseDurationMs = baseDurationMs;
 
     inventory.Axe = axeAmount.sub(requiredAxes);
     inventory.Wood = woodAmount.add(woodHarvested);

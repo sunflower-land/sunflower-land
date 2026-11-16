@@ -498,7 +498,7 @@ const DepositOptions: React.FC<Props> = ({
               <a
                 target="_blank"
                 className="underline text-xxs hover:text-blue-500"
-                href={`https://docs.sunflower-land.com/getting-started/crypto-and-digital-collectibles`}
+                href={`https://docs.sunflower-land.com/web3-and-economy/wallets-and-collectibles`}
                 rel="noreferrer"
               >
                 {t("deposit.depositDidNotArrive")}

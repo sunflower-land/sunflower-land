@@ -81,7 +81,7 @@ export function generateDeliveryTickets({
     const chapter = getCurrentChapter(now);
     const chapterBoost = CHAPTER_TICKET_BOOST_ITEMS[chapter];
 
-    Object.values(chapterBoost).forEach((item) => {
+    Object.values(chapterBoost ?? {}).forEach((item) => {
       if (isCollectible(item)) {
         if (isCollectibleBuilt({ game, name: item })) {
           amount += 1;
@@ -436,6 +436,12 @@ export function deliverOrder({
 
     if (order.completedAt) {
       throw new Error("Order is already completed");
+    }
+
+    // A soft ban keeps the player farming but holds value until they verify:
+    // FLOWER orders stay closed, coin and ticket orders are unaffected.
+    if (order.reward.sfl && game.ban.status === "investigating") {
+      throw new Error("Soft banned farms cannot deliver FLOWER orders");
     }
 
     const ticketTasksAreFrozen = areBumpkinsOnHoliday(createdAt);

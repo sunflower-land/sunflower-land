@@ -35,7 +35,6 @@ type Response = {
   nftId?: number;
   purchases: Purchase[];
   discordId?: string;
-  fslId?: string;
   socialDetails?: SocialDetails;
   oauthNonce: string;
   prices: {
@@ -143,7 +142,6 @@ export async function loadSession(request: Request): Promise<Response> {
     nftId,
     purchases,
     discordId,
-    fslId,
     socialDetails,
     oauthNonce,
     prices,
@@ -153,6 +151,7 @@ export async function loadSession(request: Request): Promise<Response> {
     banMessage,
     sessionCode,
     sessionCodeExpiresAt,
+    startedAt,
   } = await sanitizeHTTPResponse<{
     farm: any;
     startedAt: string;
@@ -171,7 +170,6 @@ export async function loadSession(request: Request): Promise<Response> {
     wallet?: string;
     purchases: Purchase[];
     discordId?: string;
-    fslId?: string;
     socialDetails?: SocialDetails;
     oauthNonce: string;
     prices: {
@@ -193,8 +191,18 @@ export async function loadSession(request: Request): Promise<Response> {
   }>(response);
 
   // Initialise request tokens before any protected request can fire. The
-  // code is not part of this function's return value by design.
-  await initRequestTokens({ sessionCode, sessionCodeExpiresAt });
+  // code is not part of this function's return value by design. The API
+  // URL and JWT let the layer refresh the code via POST /session-code
+  // before it expires; `startedAt` is the server's clock, which is what
+  // the code's expiry is measured against.
+  const serverTime = Date.parse(startedAt);
+  await initRequestTokens({
+    sessionCode,
+    sessionCodeExpiresAt,
+    apiUrl: API_URL,
+    token: request.token,
+    serverTime: Number.isNaN(serverTime) ? undefined : serverTime,
+  });
 
   saveSession(farm.id);
 
@@ -212,7 +220,6 @@ export async function loadSession(request: Request): Promise<Response> {
     wallet,
     nftId,
     purchases,
-    fslId,
     discordId,
     socialDetails,
     oauthNonce,

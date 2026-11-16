@@ -25,6 +25,12 @@ interface GiveawayContextValue {
   countdownMs: number;
   /** ms left on the 30s race clock (0 unless racing). */
   raceRemainingMs: number;
+  /**
+   * Whether the mini-game's clock has run out, so ANY player may now finalise
+   * the event (the server enforces the same instant). Admins can finish at any
+   * time regardless — see GiveawayGame.
+   */
+  canFinalise: boolean;
   /** Live score for the HUD, updated as the mini-game plays. */
   displayScore: number;
   /** The score the local player achieved, once they finish. */
@@ -87,6 +93,13 @@ export const GiveawayProvider: React.FC<
           Math.min(RACE_DURATION_MS, board.startAt + RACE_DURATION_MS - now),
         )
       : 0;
+
+  // `finalisableAt` is computed by the API from the giveaway's own mini-game, so
+  // this matches what the server will accept to the millisecond rather than
+  // re-deriving it from local constants. Legacy giveaways (created before the
+  // API stored the mini-game) come back with a deliberately far-off value, which
+  // keeps them admin-only — exactly as before.
+  const canFinalise = !!board && now >= board.finalisableAt;
 
   // Keep a ref of the latest board so the (stable) bridge getters see fresh data.
   const boardRef = useRef(board);
@@ -165,6 +178,7 @@ export const GiveawayProvider: React.FC<
     phase,
     countdownMs,
     raceRemainingMs,
+    canFinalise,
     displayScore,
     playerScore,
     isSubmitting,

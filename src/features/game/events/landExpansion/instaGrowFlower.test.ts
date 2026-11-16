@@ -4,13 +4,9 @@ import { FLOWER_SEEDS, FLOWERS, type FlowerName } from "../../types/flowers";
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { getFlowerReadyAt } from "features/game/lib/flowerBedReadiness";
-import { CONFIG } from "lib/config";
-
-const setNetwork = (network: "mainnet" | "amoy") => {
-  (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = network;
-};
 
 const GAME_STATE: GameState = {
+  ...INITIAL_FARM,
   flowers: {
     discovered: {},
     flowerBeds: {},
@@ -168,11 +164,9 @@ describe("instaGrowFlower", () => {
 
     expect(result.inventory.Obsidian).toEqual(new Decimal(1).sub(expectedCost));
 
-    const newTimeLeft =
-      result.flowers.flowerBeds[flowerBedId].flower!.plantedAt +
-      growTime -
-      Date.now();
-    expect(newTimeLeft).toBeLessThanOrEqual(0);
+    const flower = result.flowers.flowerBeds[flowerBedId].flower!;
+    expect(flower.baseDurationMs).toEqual(0);
+    expect(getFlowerReadyAt(flower, result)).toBeLessThanOrEqual(Date.now());
   });
 
   it("updates the beehives after a flower is instagrown", () => {
@@ -229,11 +223,7 @@ describe("instaGrowFlower", () => {
   });
 });
 
-describe("instaGrowFlower — SPEED_BOOSTS speed windows", () => {
-  const originalNetwork = CONFIG.NETWORK;
-  beforeEach(() => setNetwork("amoy"));
-  afterAll(() => setNetwork(originalNetwork));
-
+describe("instaGrowFlower — speed windows", () => {
   const flowerName: FlowerName = "Red Pansy";
   const baseMs = FLOWER_SEEDS[FLOWERS[flowerName].seed].plantSeconds * 1000;
 

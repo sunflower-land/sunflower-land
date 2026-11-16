@@ -5,6 +5,7 @@ import { TEST_FARM } from "features/game/lib/constants";
 import type {
   GameState,
   InventoryItemName,
+  PlacedItem,
   SavedLayout,
 } from "features/game/types/game";
 import { applyFarmLayout, snapshotFarm } from "./layouts";
@@ -389,7 +390,8 @@ describe("layouts lib (applyFarmLayout)", () => {
     expect(placed).toHaveLength(2);
     placed.forEach((t) => {
       expect(t.name).toEqual("Tree");
-      expect(t.wood).toBeDefined();
+      // Created ready on the speed-rate model: 2h.
+      expect(t.wood.baseDurationMs).toEqual(2 * 60 * 60 * 1000);
     });
   });
 
@@ -478,8 +480,15 @@ describe("layouts lib (applyFarmLayout)", () => {
   it("places owned buds, pet NFTs, farmhands and the bumpkin (with flip)", () => {
     const saved = withSavedLayout({
       ...baseFarm,
-      buds: { 1: { ...BUD, coordinates: { x: 2, y: 2 }, location: "farm" } },
-      pets: { nfts: { 1: petNFT({ x: -1, y: 1 }) } },
+      buds: {
+        1: {
+          ...BUD,
+          coordinates: { x: 2, y: 2 },
+          location: "farm",
+          flipped: true,
+        },
+      },
+      pets: { nfts: { 1: { ...petNFT({ x: -1, y: 1 }), flipped: true } } },
       farmHands: {
         bumpkins: {
           "fh-1": {
@@ -500,7 +509,9 @@ describe("layouts lib (applyFarmLayout)", () => {
 
     const moved = cloneDeep(saved);
     moved.buds![1].coordinates = { x: -3, y: 0 };
+    moved.buds![1].flipped = false;
     moved.pets!.nfts![1].coordinates = { x: 1, y: 2 };
+    moved.pets!.nfts![1].flipped = false;
     moved.farmHands.bumpkins["fh-1"].coordinates = { x: -2, y: 0 };
     moved.farmHands.bumpkins["fh-1"].flipped = false;
     moved.bumpkin.coordinates = { x: -1, y: 2 };
@@ -512,7 +523,9 @@ describe("layouts lib (applyFarmLayout)", () => {
     });
 
     expect(result.buds![1].coordinates).toEqual({ x: 2, y: 2 });
+    expect(result.buds![1].flipped).toEqual(true);
     expect(result.pets!.nfts![1].coordinates).toEqual({ x: -1, y: 1 });
+    expect(result.pets!.nfts![1].flipped).toEqual(true);
     expect(result.farmHands.bumpkins["fh-1"].coordinates).toEqual({
       x: 1,
       y: 0,
@@ -520,6 +533,137 @@ describe("layouts lib (applyFarmLayout)", () => {
     expect(result.farmHands.bumpkins["fh-1"].flipped).toEqual(true);
     expect(result.bumpkin.coordinates).toEqual({ x: 2, y: 0 });
     expect(result.bumpkin.flipped).toEqual(true);
+  });
+
+  it("preserves buds, pet NFTs and farmhands placed outside the farm", () => {
+    const saved = withSavedLayout({
+      ...baseFarm,
+      buds: {
+        1: { ...BUD, coordinates: { x: 1, y: 1 }, location: "home" },
+      },
+      pets: {
+        nfts: {
+          1: {
+            ...petNFT({ x: 2, y: 2 }),
+            location: "petHouse" as const,
+          },
+        },
+      },
+      farmHands: {
+        bumpkins: {
+          "fh-1": {
+            equipped: EQUIPPED,
+            coordinates: { x: 3, y: 3 },
+            location: "home",
+          },
+        },
+      },
+    });
+
+    const result = applyLayout({ state: cloneDeep(saved) });
+
+    expect(result.buds![1]).toMatchObject({
+      coordinates: { x: 1, y: 1 },
+      location: "home",
+    });
+    expect(result.pets!.nfts![1]).toMatchObject({
+      coordinates: { x: 2, y: 2 },
+      location: "petHouse",
+    });
+    expect(result.farmHands.bumpkins["fh-1"]).toMatchObject({
+      coordinates: { x: 3, y: 3 },
+      location: "home",
+    });
+  });
+
+  it("does not pull layout entities out of other locations", () => {
+    const saved = withSavedLayout({
+      ...baseFarm,
+      buds: {
+        1: { ...BUD, coordinates: { x: 1, y: 1 }, location: "farm" },
+      },
+      pets: { nfts: { 1: petNFT({ x: 2, y: 2 }) } },
+      farmHands: {
+        bumpkins: {
+          "fh-1": {
+            equipped: EQUIPPED,
+            coordinates: { x: 3, y: 3 },
+            location: "farm",
+          },
+        },
+      },
+    });
+    const moved = cloneDeep(saved);
+    moved.buds![1] = {
+      ...moved.buds![1],
+      coordinates: { x: -1, y: -1 },
+      location: "home",
+    };
+    moved.pets!.nfts![1] = {
+      ...moved.pets!.nfts![1],
+      coordinates: { x: -2, y: -2 },
+      location: "petHouse",
+    };
+    moved.farmHands.bumpkins["fh-1"] = {
+      ...moved.farmHands.bumpkins["fh-1"],
+      coordinates: { x: -3, y: -3 },
+      location: "home",
+    };
+
+    const result = applyLayout({ state: moved });
+
+    expect(result.buds![1]).toMatchObject({
+      coordinates: { x: -1, y: -1 },
+      location: "home",
+    });
+    expect(result.pets!.nfts![1]).toMatchObject({
+      coordinates: { x: -2, y: -2 },
+      location: "petHouse",
+    });
+    expect(result.farmHands.bumpkins["fh-1"]).toMatchObject({
+      coordinates: { x: -3, y: -3 },
+      location: "home",
+    });
+  });
+
+  it("keeps an available farmhand on its own saved spot when an earlier one is away", () => {
+    const saved = withSavedLayout({
+      ...baseFarm,
+      farmHands: {
+        bumpkins: {
+          "fh-a": {
+            equipped: EQUIPPED,
+            coordinates: { x: 1, y: 0 },
+            location: "farm",
+          },
+          "fh-b": {
+            equipped: EQUIPPED,
+            coordinates: { x: 2, y: 0 },
+            location: "farm",
+          },
+        },
+      },
+    });
+    const moved = cloneDeep(saved);
+    // A goes into the Home; B is moved elsewhere on the farm.
+    moved.farmHands.bumpkins["fh-a"] = {
+      ...moved.farmHands.bumpkins["fh-a"],
+      coordinates: { x: -3, y: -3 },
+      location: "home",
+    };
+    moved.farmHands.bumpkins["fh-b"].coordinates = { x: -2, y: 0 };
+
+    const result = applyLayout({ state: moved });
+
+    // B returns to its own spot rather than filling A's.
+    expect(result.farmHands.bumpkins["fh-b"]).toMatchObject({
+      coordinates: { x: 2, y: 0 },
+      location: "farm",
+    });
+    expect(result.farmHands.bumpkins["fh-a"]).toMatchObject({
+      coordinates: { x: -3, y: -3 },
+      location: "home",
+    });
   });
 
   it("places farmhands by count, ignoring the saved id", () => {
@@ -726,5 +870,124 @@ describe("layouts lib (applyFarmLayout)", () => {
 
     expect(result.farmHands.bumpkins.z.coordinates).toEqual({ x: 0, y: 0 });
     expect(result.farmHands.bumpkins.a.coordinates).toEqual({ x: 1, y: 0 });
+  });
+});
+
+describe("layouts lib (cooking buildings)", () => {
+  const HOUR = 60 * 60 * 1000;
+
+  // A clock-drain Deli: 20 oil burns in a real day of cooking at 5/3x speed.
+  const deli = (fields: Partial<PlacedItem>): PlacedItem => ({
+    id: "deli",
+    createdAt: 0,
+    readyAt: 0,
+    oil: 20,
+    crafting: [
+      {
+        name: "Fermented Fish",
+        readyAt: 0,
+        baseDurationMs: 24 * HOUR,
+        oilBoost: 0.4,
+      },
+    ],
+    ...fields,
+  });
+
+  it("pauses a cooking building the layout leaves off the farm", () => {
+    const saved = withSavedLayout(withInventory({ Deli: 1 }));
+    const farm: TestState = {
+      ...saved,
+      buildings: {
+        Deli: [
+          deli({
+            coordinates: { x: -3, y: 0 },
+            oilSettledAt: createdAt - HOUR,
+            crafting: [
+              {
+                name: "Fermented Fish",
+                readyAt: 0,
+                baseDurationMs: 24 * HOUR,
+                oilBoost: 0.4,
+                startedAt: createdAt - HOUR,
+              },
+            ],
+          }),
+        ],
+      },
+    };
+
+    const building = applyLayout({ state: farm }).buildings.Deli![0];
+
+    expect(building.coordinates).toBeUndefined();
+    expect(building.removedAt).toEqual(createdAt);
+    // Settled at the lift: an hour of oil burned, and the work it did banked.
+    expect(building.oilSettledAt).toEqual(createdAt);
+    expect(building.oil).toBeCloseTo(20 - 20 / 24);
+    expect(building.crafting![0].startedAt).toEqual(createdAt);
+    expect(building.crafting![0].baseDurationMs).toBeCloseTo(
+      24 * HOUR - HOUR / 0.6,
+    );
+  });
+
+  it("resumes a lifted cooking building the layout places back", () => {
+    const liftedAt = createdAt - 10 * HOUR;
+    const saved = withSavedLayout({
+      ...withInventory({ Deli: 1 }),
+      buildings: { Deli: [deli({ coordinates: { x: -3, y: 0 } })] },
+    });
+    const farm = cloneDeep(saved);
+    farm.buildings.Deli = [
+      deli({
+        removedAt: liftedAt,
+        oilSettledAt: liftedAt,
+        crafting: [
+          {
+            name: "Fermented Fish",
+            readyAt: liftedAt + 14.4 * HOUR,
+            baseDurationMs: 24 * HOUR,
+            oilBoost: 0.4,
+            startedAt: liftedAt,
+          },
+        ],
+      }),
+    ];
+
+    const building = applyLayout({ state: farm }).buildings.Deli![0];
+
+    expect(building.coordinates).toEqual({ x: -3, y: 0 });
+    expect(building.removedAt).toBeUndefined();
+    // The 10 hours off the farm neither cooked nor burned oil.
+    expect(building.oilSettledAt).toEqual(createdAt);
+    expect(building.oil).toEqual(20);
+    expect(building.crafting![0].startedAt).toEqual(createdAt);
+    expect(building.crafting![0].readyAt).toEqual(createdAt + 14.4 * HOUR);
+  });
+
+  it("leaves a cooking building the layout only moves cooking", () => {
+    const saved = withSavedLayout({
+      ...withInventory({ Deli: 1 }),
+      buildings: { Deli: [deli({ coordinates: { x: -3, y: 0 } })] },
+    });
+    const farm = cloneDeep(saved);
+    farm.buildings.Deli = [
+      deli({
+        coordinates: { x: -2, y: 1 },
+        oilSettledAt: createdAt - HOUR,
+        crafting: [
+          {
+            name: "Fermented Fish",
+            readyAt: createdAt - HOUR + 14.4 * HOUR,
+            baseDurationMs: 24 * HOUR,
+            oilBoost: 0.4,
+            startedAt: createdAt - HOUR,
+          },
+        ],
+      }),
+    ];
+    const before = cloneDeep(farm.buildings.Deli[0]);
+
+    const building = applyLayout({ state: farm }).buildings.Deli![0];
+
+    expect(building).toEqual({ ...before, coordinates: { x: -3, y: 0 } });
   });
 });

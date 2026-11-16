@@ -1,5 +1,7 @@
+import Decimal from "decimal.js-light";
 import {
   getMaxSpiceRackSlots,
+  getSpiceRackRecipe,
   MAX_SPICE_RACK_SLOTS,
   isSpiceRackRecipeName,
   isStartableSpiceRackRecipeName,
@@ -61,5 +63,23 @@ describe("getMaxSpiceRackSlots", () => {
     expect(getMaxSpiceRackSlots(MAX_SPICE_RACK_SLOTS + 1)).toEqual(
       MAX_SPICE_RACK_SLOTS,
     );
+  });
+});
+
+describe("Truffle Seasoning recipe (Chapter 16)", () => {
+  it("is startable", () => {
+    expect(isStartableSpiceRackRecipeName("Truffle Seasoning")).toBe(true);
+  });
+
+  it("turns 10 Truffle, 5 Refined Salt and 5 Wild Mushroom into 5 Seasonings in an hour", () => {
+    expect(getSpiceRackRecipe("Truffle Seasoning")).toEqual({
+      durationSeconds: 60 * 60,
+      ingredients: {
+        Truffle: new Decimal(10),
+        "Refined Salt": new Decimal(5),
+        "Wild Mushroom": new Decimal(5),
+      },
+      outputs: { "Truffle Seasoning": new Decimal(5) },
+    });
   });
 });

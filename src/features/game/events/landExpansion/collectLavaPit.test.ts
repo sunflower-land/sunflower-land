@@ -1,5 +1,5 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { collectLavaPit } from "./collectLavaPit";
+import { collectLavaPit, getObsidianYield } from "./collectLavaPit";
 import Decimal from "decimal.js-light";
 
 describe("collectLavaPit", () => {
@@ -240,5 +240,23 @@ describe("collectLavaPit", () => {
     });
 
     expect(result.inventory.Obsidian).toEqual(new Decimal(1.15));
+  });
+});
+
+describe("Macropinna", () => {
+  it("gives +0.1 Obsidian", () => {
+    const { amount, boostsUsed } = getObsidianYield({
+      game: {
+        ...INITIAL_FARM,
+        collectibles: {
+          Macropinna: [
+            { id: "1", createdAt: 0, coordinates: { x: 0, y: 0 }, readyAt: 0 },
+          ],
+        },
+      },
+    });
+
+    expect(amount).toEqual(1.1);
+    expect(boostsUsed).toContainEqual({ name: "Macropinna", value: "+0.1" });
   });
 });

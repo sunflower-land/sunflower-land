@@ -92,7 +92,6 @@ type PlotTiming = {
   startedAt: number;
   baseDurationMs?: number;
   windows: BoostWindow[];
-  legacyReadyAt: number;
   harvestSeconds: number;
 };
 
@@ -301,7 +300,6 @@ export class CropRenderer extends EntityRenderer<Slice> {
       startedAt: metrics.startAt,
       baseDurationMs: metrics.baseDurationMs,
       windows,
-      legacyReadyAt: metrics.legacyReadyAt,
       stageFractions: [0.25, 0.5, 1],
     };
     // Windowed ready time derived live from the boost windows [useNodeTimer].
@@ -330,7 +328,6 @@ export class CropRenderer extends EntityRenderer<Slice> {
       startedAt: metrics.startAt,
       baseDurationMs: metrics.baseDurationMs,
       windows,
-      legacyReadyAt: metrics.legacyReadyAt,
       harvestSeconds: metrics.harvestSeconds,
     };
     if (
@@ -507,7 +504,7 @@ export class CropRenderer extends EntityRenderer<Slice> {
           baseDurationMs: timing.baseDurationMs as number,
           windows: timing.windows,
         })
-      : timing.legacyReadyAt;
+      : timing.startedAt;
 
     if (now >= readyAt) {
       this.clearBar(objects);

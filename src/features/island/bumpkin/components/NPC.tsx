@@ -148,7 +148,10 @@ export const NPCIcon: React.FC<NPCProps> = ({
     `${CONFIG.PROTECTED_IMAGE_URL}/aura/front/${ITEM_IDS[parts.aura]}.png`;
 
   return (
-    <div>
+    // The auras are absolutely positioned, so the icon itself must be their
+    // containing block - otherwise they anchor to whatever positioned parent
+    // the caller happens to have, and drift when that parent centres the icon.
+    <div className="relative" style={{ width: `${width}px` }}>
       {auraBack && (
         <Spritesheet
           className="absolute w-full inset-0 pointer-events-none"

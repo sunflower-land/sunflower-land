@@ -2,6 +2,7 @@ import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import {
   CROP_MACHINE_PLOTS,
   getOilTimeInMillis,
+  MAX_OIL_CAPACITY_IN_MILLIS,
   OIL_PER_HOUR_CONSUMPTION,
 } from "./supplyCropMachine";
 import {
@@ -214,6 +215,7 @@ describe("supplyCropMachineOil", () => {
       crop: "Sunflower",
       totalGrowTime: sunflowerPackGrowTime,
       growTimeRemaining: 0,
+      baseDurationMs: sunflowerPackGrowTime,
       startTime: Date.now(),
       readyAt: Date.now() + sunflowerPackGrowTime,
       seeds: 100,
@@ -230,6 +232,7 @@ describe("supplyCropMachineOil", () => {
             readyAt: Date.now(),
             id: "1",
             unallocatedOilTime: 0,
+            oilSettledAt: Date.now(),
             queue: eightPacks,
           },
         ],
@@ -486,5 +489,74 @@ describe("supplyCropMachineOil", () => {
       const result = getTotalOilMillisInMachine(queue, unallocatedOilTime, now);
       expect(result).toBe(packGrowTime + 1000);
     });
+  });
+});
+
+describe("supplyCropMachineOil (windowed)", () => {
+  const now = Date.now();
+  const HOUR = 60 * 60 * 1000;
+
+  const stateWithMachine = (
+    machine: Partial<CropMachineBuilding>,
+  ): GameState => ({
+    ...GAME_STATE,
+    inventory: { ...GAME_STATE.inventory, Oil: new Decimal(100) },
+    buildings: {
+      "Crop Machine": [
+        {
+          coordinates: { x: 0, y: 0 },
+          createdAt: 0,
+          id: "1",
+          readyAt: 0,
+          ...machine,
+        },
+      ],
+    },
+  });
+
+  it("settles then checks capacity against the tank, and a stalled pack resumes from the refuel", () => {
+    // Pack ran [now - 2h, now - 1h] then stalled; 1 oil = 1h of fuel.
+    const state = supplyCropMachineOil({
+      state: stateWithMachine({
+        oilSettledAt: now - 2 * HOUR,
+        unallocatedOilTime: HOUR,
+        queue: [
+          {
+            crop: "Sunflower",
+            seeds: 10,
+            growTimeRemaining: 0,
+            totalGrowTime: 4 * HOUR,
+            baseDurationMs: 4 * HOUR,
+          },
+        ],
+      }),
+      action: { type: "cropMachine.oilSupplied", oil: 1, machineId: "1" },
+      createdAt: now,
+    });
+
+    const machine = state.buildings["Crop Machine"]?.[0];
+    const pack = machine?.queue?.[0];
+
+    expect(machine?.oilSettledAt).toBe(now);
+    // The settle banked the fuelled hour and burned it; the new oil is the tank.
+    expect(machine?.unallocatedOilTime).toBe(HOUR);
+    expect(pack?.baseDurationMs).toBe(3 * HOUR);
+    // The stall gap cost nothing; the remainder resumes here until the new
+    // fuel runs out again.
+    expect(pack?.growsUntil).toBe(now + HOUR);
+    expect(pack?.growTimeRemaining).toBe(2 * HOUR);
+  });
+
+  it("throws when the tank cannot hold the oil", () => {
+    expect(() =>
+      supplyCropMachineOil({
+        state: stateWithMachine({
+          oilSettledAt: now,
+          unallocatedOilTime: MAX_OIL_CAPACITY_IN_MILLIS(GAME_STATE),
+        }),
+        action: { type: "cropMachine.oilSupplied", oil: 1, machineId: "1" },
+        createdAt: now,
+      }),
+    ).toThrow("Oil capacity exceeded");
   });
 });

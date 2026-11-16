@@ -12,6 +12,7 @@ import {
 } from "features/game/types/chapterCropWeek";
 
 import { planSeedPurchases } from "./planSeedPurchases";
+import { CONFIG } from "lib/config";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -218,42 +219,67 @@ describe("planSeedPurchases", () => {
     expect(plan.purchases[0].seedName).toBe("Celestine Seed");
   });
 
-  it("skips the Chapter Crop Week seed outside of the event window", () => {
-    jest.useFakeTimers();
-    jest.setSystemTime(CHAPTER_CROP_WEEK.startDate.getTime() - 1);
+  describe("Chapter Crop Week seed", () => {
+    // adminFeatureFlag is always on for testnet (CI runs with VITE_NETWORK=amoy),
+    // so pin mainnet to exercise the real Gift Giver + Beta Pass rule. Restored
+    // in afterEach (with the fake timers) so a failing assertion can't leak
+    // either into later tests.
+    let previousNetwork: (typeof CONFIG)["NETWORK"];
+    beforeEach(() => {
+      previousNetwork = CONFIG.NETWORK;
+      CONFIG.NETWORK = "mainnet";
+      jest.useFakeTimers();
+    });
+    afterEach(() => {
+      jest.useRealTimers();
+      CONFIG.NETWORK = previousNetwork;
+    });
 
-    const state: GameState = {
+    const stocked: GameState = {
       ...GAME_STATE,
       stock: {
         ...GAME_STATE.stock,
         [CHAPTER_CROP_WEEK_SEED]: new Decimal(5),
       },
     };
-
-    const plan = planSeedPurchases(state, [CHAPTER_CROP_WEEK_SEED]);
-
-    expect(plan.purchases).toHaveLength(0);
-
-    jest.useRealTimers();
-  });
-
-  it("includes the Chapter Crop Week seed during the event window", () => {
-    jest.useFakeTimers();
-    jest.setSystemTime(CHAPTER_CROP_WEEK.startDate.getTime());
-
-    const state: GameState = {
-      ...GAME_STATE,
-      stock: {
-        ...GAME_STATE.stock,
-        [CHAPTER_CROP_WEEK_SEED]: new Decimal(5),
-      },
+    const admin: GameState = {
+      ...stocked,
+      wardrobe: { ...stocked.wardrobe, "Gift Giver": 1 },
+      inventory: { ...stocked.inventory, "Beta Pass": new Decimal(1) },
     };
 
-    const plan = planSeedPurchases(state, [CHAPTER_CROP_WEEK_SEED]);
+    it("skips the seed for regular players outside of the event window", () => {
+      jest.setSystemTime(CHAPTER_CROP_WEEK.startDate.getTime() - 1);
 
-    expect(plan.purchases).toHaveLength(1);
-    expect(plan.purchases[0].seedName).toBe(CHAPTER_CROP_WEEK_SEED);
+      const plan = planSeedPurchases(stocked, [CHAPTER_CROP_WEEK_SEED]);
 
-    jest.useRealTimers();
+      expect(plan.purchases).toHaveLength(0);
+    });
+
+    it("includes the seed for admin testers before the event window", () => {
+      jest.setSystemTime(CHAPTER_CROP_WEEK.startDate.getTime() - 1);
+
+      const plan = planSeedPurchases(admin, [CHAPTER_CROP_WEEK_SEED]);
+
+      expect(plan.purchases).toHaveLength(1);
+      expect(plan.purchases[0].seedName).toBe(CHAPTER_CROP_WEEK_SEED);
+    });
+
+    it("includes the seed for everyone during the event window", () => {
+      jest.setSystemTime(CHAPTER_CROP_WEEK.startDate.getTime());
+
+      const plan = planSeedPurchases(stocked, [CHAPTER_CROP_WEEK_SEED]);
+
+      expect(plan.purchases).toHaveLength(1);
+      expect(plan.purchases[0].seedName).toBe(CHAPTER_CROP_WEEK_SEED);
+    });
+
+    it("skips the seed for everyone, admins included, after the event ends", () => {
+      jest.setSystemTime(CHAPTER_CROP_WEEK.endDate.getTime());
+
+      expect(
+        planSeedPurchases(admin, [CHAPTER_CROP_WEEK_SEED]).purchases,
+      ).toHaveLength(0);
+    });
   });
 });

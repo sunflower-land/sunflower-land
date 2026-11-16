@@ -47,9 +47,7 @@ export const BuyGemsWidget: React.FC = () => {
           </p>
         )}
         <a
-          href={
-            "https://docs.sunflower-land.com/getting-started/usdflower-erc20"
-          }
+          href={"https://docs.sunflower-land.com/web3-and-economy/flower-erc20"}
           target="_blank"
           rel="noopener noreferrer"
           className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500 mb-2 text-white"

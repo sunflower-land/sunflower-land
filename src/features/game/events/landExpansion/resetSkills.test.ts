@@ -429,3 +429,57 @@ describe("resetSkills", () => {
     });
   });
 });
+
+const HOUR = 60 * 60 * 1000;
+const honeyFarm = (now: number) => ({
+  flowers: {
+    discovered: {},
+    flowerBeds: {
+      f1: {
+        createdAt: 0,
+        x: 0,
+        y: 0,
+        flower: { name: "Red Pansy" as const, plantedAt: now - HOUR },
+      },
+    },
+  },
+  beehives: {
+    h1: {
+      swarm: false,
+      x: 3,
+      y: 3,
+      honey: { updatedAt: now - HOUR, produced: 0 },
+      flowers: [
+        {
+          id: "f1",
+          attachedAt: now - HOUR,
+          attachedUntil: now + 11 * HOUR,
+          rate: 1,
+        },
+      ],
+    },
+  },
+});
+
+describe("resetSkills honey rate", () => {
+  it("lowers the honey rate from the moment skills are reset", () => {
+    const now = Date.now();
+    const farm = honeyFarm(now);
+    farm.beehives.h1.flowers[0].rate = 1.1;
+
+    const state = resetSkills({
+      state: {
+        ...INITIAL_FARM,
+        ...farm,
+        bumpkin: { ...TEST_BUMPKIN, skills: { "Hyper Bees": 1 } },
+      },
+      action: { type: "skills.reset", paymentType: "free" },
+      createdAt: now,
+    });
+
+    expect(state.beehives.h1.honey.produced).toBeCloseTo(1.1 * HOUR);
+    expect(state.beehives.h1.flowers[0]).toEqual(
+      expect.objectContaining({ attachedAt: now, rate: 1 }),
+    );
+  });
+});

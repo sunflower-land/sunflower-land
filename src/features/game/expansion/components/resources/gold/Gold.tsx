@@ -10,13 +10,10 @@ import Decimal from "decimal.js-light";
 import { DepletedGold } from "./components/DepletedGold";
 import { DepletingGold } from "./components/DepletingGold";
 import { RecoveredGold } from "./components/RecoveredGold";
-import { canMine } from "features/game/lib/resourceNodes";
 import { useSound } from "lib/utils/hooks/useSound";
-import { getGoldDropAmount } from "features/game/events/landExpansion/mineGold";
 import type { GoldRockName } from "features/game/types/resources";
 import { Transition } from "@headlessui/react";
 import lightning from "assets/icons/lightning.png";
-import { KNOWN_IDS } from "features/game/types";
 import {
   getMineBoostWindows,
   type BoostWindow,
@@ -50,7 +47,6 @@ const HasTool = (
 };
 
 const selectInventory = (state: MachineState) => state.context.state.inventory;
-const selectGame = (state: MachineState) => state.context.state;
 
 const compareResource = (prev: Rock, next: Rock) => {
   return JSON.stringify(prev) === JSON.stringify(next);
@@ -65,7 +61,6 @@ const compareSkills = (prev: Skills, next: Skills) =>
 const _selectSeason = (state: MachineState) =>
   state.context.state.season.season;
 const _selectIsland = (state: MachineState) => state.context.state.island;
-const selectFarmId = (state: MachineState) => state.context.farmId;
 
 interface Props {
   id: string;
@@ -111,14 +106,8 @@ export const Gold: React.FC<Props> = ({ id }) => {
       (prev.Logger ?? new Decimal(0)).equals(next.Logger ?? new Decimal(0)),
   );
   const skills = useSelector(gameService, selectSkills, compareSkills);
-  const state = useSelector(gameService, selectGame);
-  const currentCounter = useSelector(gameService, (state) => {
-    const rockName = state.context.state.gold[id]?.name ?? "Gold Rock";
-    return state.context.state.farmActivity[`${rockName} Mined`] ?? 0;
-  });
   const season = useSelector(gameService, _selectSeason);
   const island = useSelector(gameService, _selectIsland);
-  const farmId = useSelector(gameService, selectFarmId);
   const goldRockName = (resource.name ?? "Gold Rock") as GoldRockName;
   // Live windowed mine-recovery speed boosts (Ore Hourglass, Mole Shrine,
   // totems). Recomputed from full state but only re-renders when the windows
@@ -132,13 +121,18 @@ export const Gold: React.FC<Props> = ({ id }) => {
   const hasTool = HasTool(inventory, resource);
 
   const { minedAt, baseDurationMs } = resource.stone;
-  const { now, countdownSeconds: timeLeft } = useNodeTimer({
+  const {
+    now,
+    readyAt,
+    countdownSeconds: timeLeft,
+  } = useNodeTimer({
     startedAt: minedAt,
-    baseDurationMs,
+    baseDurationMs: baseDurationMs ?? GOLD_RECOVERY_TIME * 1000,
     windows: mineBoostWindows,
-    legacyReadyAt: minedAt + GOLD_RECOVERY_TIME * 1000,
   });
-  const mined = !canMine(resource, goldRockName, state, now);
+  // Read readiness off the timer's live readyAt (same live mine windows as the
+  // countdown), so the rock unlocks the moment the countdown hits zero.
+  const mined = now <= readyAt;
 
   const [isAnimationRunning, setIsAnimationRunning] = useState(false);
   const [isRecentlyMined, setIsRecentlyMined] = useState(false);
@@ -188,22 +182,16 @@ export const Gold: React.FC<Props> = ({ id }) => {
   };
 
   const mine = async () => {
-    const goldRockName = resource.name ?? "Gold Rock";
-    const itemId = KNOWN_IDS[goldRockName];
-    const goldMined = new Decimal(
-      resource.stone.amount ??
-        getGoldDropAmount({
-          game: state,
-          rock: resource,
-          createdAt: now,
-          farmId,
-          itemId,
-          counter: currentCounter,
-        }).amount,
-    );
+    // Read the popup amount off the reducer's result, so it shows exactly what
+    // was added (same timestamp, boosts and rolls as the mined event).
+    const before =
+      gameService.getSnapshot().context.state.inventory.Gold ?? new Decimal(0);
     gameService.send("goldRock.mined", {
       index: id,
     });
+    const goldMined = (
+      gameService.getSnapshot().context.state.inventory.Gold ?? new Decimal(0)
+    ).minus(before);
 
     if (showAnimations) {
       setCollecting(true);

@@ -22,6 +22,7 @@ import { getChapterTicket } from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { needsBasicScarecrow } from "features/island/buildings/components/building/workBench/lib/onboarding";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 import {
   type MonumentName,
   REQUIRED_CHEERS,
@@ -132,6 +133,7 @@ export const IslandBlacksmithItems: React.FC<Props> = ({ onClose }) => {
     HeliosBlacksmithItem | WorkbenchMonumentName
   >("Basic Scarecrow");
   const { gameService, shortcutItem } = useContext(Context);
+  const { openModal } = useContext(ModalContext);
   const state = useSelector(gameService, _state);
   const now = useNow();
   const ticket = getChapterTicket(now);
@@ -220,6 +222,13 @@ export const IslandBlacksmithItems: React.FC<Props> = ({ onClose }) => {
     shortcutItem(selectedName);
 
     onClose();
+
+    // Tutorial: the first scarecrow drops the player into placement mode, so
+    // the blacksmith explains where it goes. `showScarecrowHelper` was read
+    // before the craft, so this fires for the first scarecrow only.
+    if (showScarecrowHelper) {
+      openModal("BLACKSMITH_PLACE");
+    }
   };
 
   const hasBuiltMonument = () => {

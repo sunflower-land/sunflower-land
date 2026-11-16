@@ -749,6 +749,8 @@ export const FarmModals: React.FC<{
           show
           onClose={close}
           createdAt={(open.data as { createdAt: number }).createdAt}
+          id={(open.data as { id: string }).id}
+          location="farm"
         />
       )}
 

@@ -9,11 +9,9 @@ import type {
   IslandType,
   Inventory,
   InventoryItemName,
-  Season,
-  TemperateSeasonName,
 } from "features/game/types/game";
 import { ASCENSION_ISLANDS } from "features/game/types/game";
-import { hasTimeBasedFeatureAccess } from "lib/flags";
+import { populateSeason } from "features/game/lib/season";
 import { getAscensionLevel } from "features/game/lib/level";
 import {
   getTotalBaseResourceEquivalents,
@@ -988,35 +986,6 @@ function ascensionUpgrade(state: GameState, target: UpgradeTarget) {
   return game;
 }
 
-export const SEASON_ROTATION: TemperateSeasonName[] = [
-  "spring",
-  "summer",
-  "autumn",
-  "winter",
-];
-
-const FIRST_WEEK_START_AT = new Date("2024-12-16T00:00:00Z").getTime();
-export const populateSeason = (createdAt: number): Season => {
-  // Get days since first week start
-  const daysSinceStart = Math.floor(
-    (createdAt - FIRST_WEEK_START_AT) / (24 * 60 * 60 * 1000),
-  );
-
-  // Round down to nearest week by getting number of complete weeks
-  const weeksSinceStart = Math.max(Math.floor(daysSinceStart / 7), 0);
-
-  // Calculate start timestamp of current week by adding complete weeks to first week
-  const startAt =
-    FIRST_WEEK_START_AT + weeksSinceStart * 7 * 24 * 60 * 60 * 1000;
-
-  // Get season index (0-3) by taking modulo 4 of weeks passed
-  const seasonIndex = weeksSinceStart % 4;
-
-  const season = SEASON_ROTATION[seasonIndex];
-
-  return { startedAt: startAt, season };
-};
-
 type IslandSetup = {
   /** Expansions (Basic Land) the player starts the new island with. */
   startingExpansions: number;
@@ -1309,20 +1278,6 @@ export function upgrade({ state, createdAt = Date.now(), farmId }: Options) {
   const targetIsAscension = (ASCENSION_ISLANDS as readonly string[]).includes(
     upcoming.upgrade,
   );
-
-  // Temporary: ascending from Swamp (A1) into the next island (A2) is gated behind
-  // the SPOOKY_ASCENSION window (testnet bypasses). The first ascension (A0 → A1)
-  // is unaffected.
-  if (
-    (game.island.ascensionLevel ?? 0) + 1 === 2 &&
-    !hasTimeBasedFeatureAccess({
-      featureName: "SPOOKY_ASCENSION",
-      now: createdAt,
-      game,
-    })
-  ) {
-    throw new Error("Ascension to the next island is not yet available");
-  }
 
   // Ascension islands require the player to have maxed their current ascension band
   // before ascending again (pre-swamp: Bumpkin level 150; ascension >= 1: level 50 of

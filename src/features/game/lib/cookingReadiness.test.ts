@@ -1,6 +1,6 @@
 import { getCookingQueueReadyAts, pauseCookingQueue } from "./cookingReadiness";
 import { COOKING_BOOST_SPEED } from "./boostWindows";
-import { getExpiryCooldown } from "./collectibleBuilt";
+import { EXPIRY_COOLDOWNS } from "./collectibleBuilt";
 import { TEST_FARM } from "./constants";
 import type { BuildingProduct, GameState } from "../types/game";
 
@@ -73,9 +73,7 @@ describe("getCookingQueueReadyAts", () => {
   it("pulls the WHOLE queue forward when a boost covers it", () => {
     const game = withHourglass(START);
     // Sanity: the hourglass must outlast the whole (boosted) queue.
-    expect(getExpiryCooldown("Gourmet Hourglass", game)).toBeGreaterThan(
-      3 * HOUR,
-    );
+    expect(EXPIRY_COOLDOWNS["Gourmet Hourglass"]).toBeGreaterThan(3 * HOUR);
 
     const crafting: BuildingProduct[] = [
       {
@@ -99,7 +97,7 @@ describe("getCookingQueueReadyAts", () => {
   });
 
   it("credits only the overlap when the boost expires mid-queue", () => {
-    const cooldown = getExpiryCooldown("Gourmet Hourglass", TEST_FARM);
+    const cooldown = EXPIRY_COOLDOWNS["Gourmet Hourglass"];
     // Hourglass placed 1h before the cook starts, so only its tail overlaps.
     const game = withHourglass(START - cooldown + 1 * HOUR);
 

@@ -4,9 +4,18 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "components/ui/Modal";
 import type {
   Bumpkin,
+  CropMachineBuilding,
   CropMachineQueueItem,
   Inventory,
 } from "features/game/types/game";
+import type { BoostWindow } from "features/game/lib/boostWindows";
+import { projectSeconds } from "features/game/lib/timerDisplay";
+import { calculateCropProgress } from "./lib/calculateCropProgress";
+import {
+  getCropMachineFuelAt,
+  getCropMachinePackProgress,
+  getCropMachineSpeedAt,
+} from "./lib/cropMachineView";
 import {
   type CropMachineState,
   type MachineInterpreter,
@@ -54,16 +63,23 @@ import { TimeRemainingLabel } from "./components/TimeRemainingLabel";
 import { OilTank } from "./components/OilTank";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 import { getPackYieldAmount } from "features/game/events/landExpansion/harvestCropMachine";
+import { ConfirmationModal } from "components/ui/ConfirmationModal";
 
 interface Props {
   show: boolean;
+  /** The RESOLVED queue from `useCropMachineView` (derived timings substituted). */
   queue: CropMachineQueueItem[];
   unallocatedOilTime: number;
+  /** The stored building — the fuel/progress helpers derive from its anchors. */
+  machine: CropMachineBuilding;
+  windowed: boolean;
+  windows: BoostWindow[];
   growingCropPackIndex?: number;
   service: MachineInterpreter;
   onClose: () => void;
   onAddSeeds: (seeds: AddSeedsInput) => void;
   onHarvestPack: (packIndex: number) => void;
+  onHarvestAll: () => void;
   onRemovePack: (packIndex: number) => void;
   onAddOil: (oil: number) => void;
 }
@@ -98,9 +114,13 @@ export const CropMachineModalContent: React.FC<Props> = ({
   queue,
   service,
   unallocatedOilTime,
+  machine,
+  windowed,
+  windows,
   onClose,
   onAddSeeds,
   onHarvestPack: onHarvestPack,
+  onHarvestAll,
   onRemovePack,
   onAddOil,
 }) => {
@@ -120,6 +140,8 @@ export const CropMachineModalContent: React.FC<Props> = ({
   );
   const [selectedSeed, setSelectedSeed] = useState<CropSeedName>();
   const [showOverlayScreen, setShowOverlayScreen] = useState<boolean>(false);
+  const [showHarvestAllConfirm, setShowHarvestAllConfirm] =
+    useState<boolean>(false);
   const [totalSeeds, setTotalSeeds] = useState(0);
   const [totalOil, setTotalOil] = useState(0);
   type Tab = "cropMachine";
@@ -137,9 +159,10 @@ export const CropMachineModalContent: React.FC<Props> = ({
   const seedBalance = selectedSeed
     ? (inventory[selectedSeed] ?? new Decimal(0))
     : new Decimal(0);
-  const maxSupplyable = Math.min(
-    seedBalance.toNumber(),
-    packSeedLimit.toNumber(),
+  // Seed balances can carry a fractional remainder; the machine only
+  // accepts whole seeds, so the "All" button must not send a fraction.
+  const maxSupplyable = Math.floor(
+    Math.min(seedBalance.toNumber(), packSeedLimit.toNumber()),
   );
 
   useLayoutEffect(() => {
@@ -154,6 +177,15 @@ export const CropMachineModalContent: React.FC<Props> = ({
 
   const getProjectedOilTimeMillis = () => {
     const projectedOilTime = getOilTimeInMillis(totalOil, state);
+
+    // Windowed machine: the tank has no per-pack earmarks — its level derives
+    // from the settled anchors; getTotalOilMillisInMachine is legacy-only.
+    if (windowed) {
+      return (
+        getCropMachineFuelAt({ machine, windows, at: now }) + projectedOilTime
+      );
+    }
+
     const projectedTotalOilTime = getTotalOilMillisInMachine(
       queue,
       unallocatedOilTime + projectedOilTime,
@@ -244,6 +276,12 @@ export const CropMachineModalContent: React.FC<Props> = ({
     setSelectedPackIndex(0);
   };
 
+  const handleHarvestAll = () => {
+    onHarvestAll();
+    setSelectedPackIndex(0);
+    setShowHarvestAllConfirm(false);
+  };
+
   const handleAddOil = () => {
     onAddOil(totalOil);
     setTotalOil(0);
@@ -256,6 +294,73 @@ export const CropMachineModalContent: React.FC<Props> = ({
   };
 
   const selectedPack = queue[selectedPackIndex];
+  const readyPackCount = queue.filter((pack) =>
+    isCropPackReady(pack, now),
+  ).length;
+
+  // The next supplied pack is always windowed (supplying converts the machine) —
+  // `calculateCropTime` never bakes the Tortoise in, so the pre-action preview
+  // projects the actual time through its window instead.
+  //
+  // A pack ALREADY in the queue is windowed only if it carries the per-pack
+  // MARKER. A legacy pack on a not-yet-converted machine still has the Tortoise
+  // baked into its stored schedule, so projecting it through the live window
+  // would count the shrine twice.
+  const selectedPackWindowed = selectedPack?.baseDurationMs !== undefined;
+
+  // Windows are sampled from the instant the pack actually GROWS, not from
+  // `now`: packs run sequentially, so a queued pack starts only once those
+  // ahead of it finish. Anchoring at `now` would credit it a window that will
+  // have expired by then (or miss one that only opens later).
+  const projectPackSeconds = (
+    seconds: number,
+    { windowed: isWindowed, at }: { windowed: boolean; at: number },
+  ) => (isWindowed ? projectSeconds({ seconds, windows, at }) : seconds);
+
+  // On a resolved windowed pack that has not begun, `startTime` IS its derived
+  // start (see `getResolvedCropMachineQueue`). A pack the fuel cannot reach has
+  // none — its start depends on a refuel and is unknowable — so fall back to now.
+  const selectedPackStartsAt = selectedPack?.startTime ?? now;
+
+  // A newly supplied pack joins the BACK of the queue, so it starts when
+  // everything already queued has finished. Any pack without a derived finish
+  // is stalled, which leaves that instant unknowable: fall back to now.
+  const nextPackStartsAt = useMemo(() => {
+    let startsAt = now;
+    for (const pack of queue) {
+      if (pack.readyAt === undefined) return now;
+      startsAt = Math.max(startsAt, pack.readyAt);
+    }
+    return startsAt;
+  }, [queue, now]);
+
+  // The machine's effective speed right now (1 unless a windowed pack is
+  // actively growing under a Tortoise window) — drives the ⚡ label.
+  const machineSpeed = windowed
+    ? getCropMachineSpeedAt({ machine, windows, at: now })
+    : 1;
+
+  // Fill-bar progress for the growing pack: WORK-based for a windowed pack
+  // (the bar fills faster while boosted), the legacy arithmetic otherwise.
+  const growingPackProgress =
+    selectedPackIndex === growingCropPackIndex && selectedPack
+      ? windowed
+        ? getCropMachinePackProgress({
+            machine,
+            index: selectedPackIndex,
+            windows,
+            at: now,
+          })
+        : calculateCropProgress({
+            startTime: selectedPack.startTime,
+            totalGrowTime: selectedPack.totalGrowTime,
+            readyAt: selectedPack.readyAt,
+            growsUntil: selectedPack.growsUntil,
+            growTimeRemaining: selectedPack.growTimeRemaining,
+            now,
+          })
+      : 0;
+
   const stackedQueue: (CropMachineQueueItem | null)[] = [
     ...queue,
     ...new Array(Math.max(0, MAX_QUEUE_SIZE(state) - queue.length)).fill(null),
@@ -326,7 +431,13 @@ export const CropMachineModalContent: React.FC<Props> = ({
                     startTime={selectedPack.startTime as number}
                     totalGrowTime={selectedPack.totalGrowTime}
                     growTimeRemaining={selectedPack.growTimeRemaining}
+                    now={now}
                   />
+                  {machineSpeed > 1 && (
+                    <Label type="vibrant" icon={lightning}>
+                      {t("cropMachine.boosted")}
+                    </Label>
+                  )}
                   {paused && (
                     <Label type="default">{t("cropMachine.paused")}</Label>
                   )}
@@ -339,14 +450,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
                     {`${t("growing")} ${getTranslatedItemName(selectedPack.crop)}`}
                   </span>
                   {show && (
-                    <PackGrowthProgressBar
-                      paused={paused}
-                      growsUntil={selectedPack.growsUntil}
-                      startTime={selectedPack.startTime as number}
-                      totalGrowTime={selectedPack.totalGrowTime}
-                      readyAt={selectedPack.readyAt}
-                      growTimeRemaining={selectedPack.growTimeRemaining}
-                    />
+                    <PackGrowthProgressBar progress={growingPackProgress} />
                   )}
                 </div>
               </div>
@@ -428,7 +532,10 @@ export const CropMachineModalContent: React.FC<Props> = ({
                     <div className="flex justify-between w-full my-1">
                       <Label type="default">
                         {t("cropMachine.addSeeds", {
-                          seedType: selectedSeed.toLocaleLowerCase(),
+                          seedType:
+                            getTranslatedItemName(
+                              selectedSeed,
+                            ).toLocaleLowerCase(),
                         })}
                       </Label>
                       <Label
@@ -461,14 +568,19 @@ export const CropMachineModalContent: React.FC<Props> = ({
                         <span>
                           {t("cropMachine.growTime", {
                             time: secondsToString(
-                              calculateCropTime(
+                              projectPackSeconds(
+                                calculateCropTime(
+                                  {
+                                    type: selectedSeed,
+                                    amount: totalSeeds,
+                                  },
+                                  state,
+                                ).milliSeconds / 1000,
                                 {
-                                  type: selectedSeed,
-                                  amount: totalSeeds,
+                                  windowed: true,
+                                  at: nextPackStartsAt,
                                 },
-                                state,
-                                now,
-                              ).milliSeconds / 1000,
+                              ),
                               {
                                 length: "medium",
                                 isShortFormat: true,
@@ -542,14 +654,20 @@ export const CropMachineModalContent: React.FC<Props> = ({
                     <span>
                       {t("cropMachine.growTime", {
                         time: secondsToString(
-                          calculateCropTime(
+                          projectPackSeconds(
+                            (selectedPack.baseDurationMs ??
+                              calculateCropTime(
+                                {
+                                  type: `${selectedPack.crop} Seed`,
+                                  amount: selectedPack.seeds,
+                                },
+                                state,
+                              ).milliSeconds) / 1000,
                             {
-                              type: `${selectedPack.crop} Seed`,
-                              amount: selectedPack.seeds,
+                              windowed: selectedPackWindowed,
+                              at: selectedPackStartsAt,
                             },
-                            state,
-                            now,
-                          ).milliSeconds / 1000,
+                          ),
                           {
                             length: "medium",
                             isShortFormat: true,
@@ -574,13 +692,24 @@ export const CropMachineModalContent: React.FC<Props> = ({
         </OuterPanel>
         {/* Queued packs */}
         <div className="flex flex-col">
-          <Label
-            type="default"
-            className="ml-1.5 mt-2 mb-1"
-            icon={SUNNYSIDE.icons.seedling}
-          >
-            {t("cropMachine.seedPacks")}
-          </Label>
+          <div className="flex items-center justify-between mt-2 mb-1">
+            <Label
+              type="default"
+              className="ml-1.5"
+              icon={SUNNYSIDE.icons.seedling}
+            >
+              {t("cropMachine.seedPacks")}
+            </Label>
+            {/* Shown whatever pack is selected, once several are ready. */}
+            {readyPackCount > 1 && (
+              <Button
+                className="w-auto px-2 py-1 whitespace-nowrap"
+                onClick={() => setShowHarvestAllConfirm(true)}
+              >
+                {t("cropMachine.harvestAll", { count: readyPackCount })}
+              </Button>
+            )}
+          </div>
           <div className="mt-1 flex flex-wrap gap-2 justify-start">
             {stackedQueue.map((item, index) => {
               return (
@@ -602,6 +731,9 @@ export const CropMachineModalContent: React.FC<Props> = ({
               stopped={paused || idle}
               queue={queue}
               unallocatedOilTime={unallocatedOilTime}
+              machine={machine}
+              windowed={windowed}
+              windows={windows}
               onAddOil={() => {
                 // Reset Oil Before showing Overlay to Prevent accidental adding
                 setTotalOil(0);
@@ -721,6 +853,18 @@ export const CropMachineModalContent: React.FC<Props> = ({
           </div>
         </InnerPanel>
       </ModalOverlay>
+      <ConfirmationModal
+        show={showHarvestAllConfirm}
+        onHide={() => setShowHarvestAllConfirm(false)}
+        messages={[
+          t("cropMachine.harvestAllConfirm", { count: readyPackCount }),
+        ]}
+        onCancel={() => setShowHarvestAllConfirm(false)}
+        onConfirm={handleHarvestAll}
+        confirmButtonLabel={t("cropMachine.harvestAll", {
+          count: readyPackCount,
+        })}
+      />
     </CloseButtonPanel>
   );
 };
@@ -730,9 +874,13 @@ export const CropMachineModal: React.FC<Props> = ({
   queue,
   service,
   unallocatedOilTime,
+  machine,
+  windowed,
+  windows,
   onClose,
   onAddSeeds,
   onHarvestPack: onHarvestPack,
+  onHarvestAll,
   onRemovePack,
   onAddOil,
 }) => (
@@ -741,10 +889,14 @@ export const CropMachineModal: React.FC<Props> = ({
       show={show}
       queue={queue}
       unallocatedOilTime={unallocatedOilTime}
+      machine={machine}
+      windowed={windowed}
+      windows={windows}
       service={service}
       onClose={onClose}
       onAddSeeds={onAddSeeds}
       onHarvestPack={onHarvestPack}
+      onHarvestAll={onHarvestAll}
       onRemovePack={onRemovePack}
       onAddOil={onAddOil}
     />

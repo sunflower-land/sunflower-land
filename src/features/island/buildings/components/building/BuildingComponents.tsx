@@ -38,6 +38,9 @@ import {
 import { Greenhouse } from "./greenhouse/Greenhouse";
 import { CropMachine } from "./cropMachine/CropMachine";
 import { Barn, BARN_IMAGES } from "./barn/Barn";
+import { Pigpen, PIGPEN_IMAGES } from "./pigpen/Pigpen";
+import { CaveBuilding } from "./cave/CaveBuilding";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { CraftingBox } from "./craftingBox/CraftingBox";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { PetHouse } from "./petHouse/PetHouse";
@@ -73,11 +76,21 @@ export const BUILDING_COMPONENTS: Record<
       island={island}
     />
   ),
-  Deli: ({ buildingId, isBuilt, season }: BuildingProps) => (
-    <Deli buildingId={buildingId} isBuilt={!!isBuilt} season={season} />
+  Deli: ({ buildingId, isBuilt, season, island }: BuildingProps) => (
+    <Deli
+      buildingId={buildingId}
+      isBuilt={!!isBuilt}
+      season={season}
+      island={island}
+    />
   ),
-  Bakery: ({ buildingId, isBuilt, season }: BuildingProps) => (
-    <Bakery isBuilt={!!isBuilt} buildingId={buildingId} season={season} />
+  Bakery: ({ buildingId, isBuilt, season, island }: BuildingProps) => (
+    <Bakery
+      isBuilt={!!isBuilt}
+      buildingId={buildingId}
+      season={season}
+      island={island}
+    />
   ),
   "Smoothie Shack": ({
     buildingId,
@@ -102,6 +115,8 @@ export const BUILDING_COMPONENTS: Record<
   Toolshed: Toolshed,
   "Hen House": ChickenHouse,
   Barn: Barn,
+  Pigpen: Pigpen,
+  Cave: CaveBuilding,
   "Compost Bin": () => <Composter name="Compost Bin" />,
   "Turbo Composter": () => <Composter name="Turbo Composter" />,
   "Premium Composter": () => <Composter name="Premium Composter" />,
@@ -122,6 +137,7 @@ type ReadonlyBuildingArgs = {
   season: TemperateSeasonName;
   henHouseLevel: number;
   barnLevel: number;
+  pigpenLevel: number;
 };
 
 export const READONLY_BUILDINGS: ({
@@ -129,11 +145,13 @@ export const READONLY_BUILDINGS: ({
   season,
   henHouseLevel,
   barnLevel,
+  pigpenLevel,
 }: ReadonlyBuildingArgs) => Record<BuildingName, React.FC<BuildingProps>> = ({
   island,
   season,
   henHouseLevel,
   barnLevel,
+  pigpenLevel,
 }) => {
   const biome = getCurrentBiome(island);
 
@@ -206,7 +224,7 @@ export const READONLY_BUILDINGS: ({
     ),
     Bakery: () => (
       <img
-        src={BAKERY_VARIANTS[season]}
+        src={BAKERY_VARIANTS[biome][season]}
         className="absolute bottom-0"
         style={{
           width: `${PIXEL_SCALE * 62}px`,
@@ -217,7 +235,7 @@ export const READONLY_BUILDINGS: ({
     ),
     Deli: () => (
       <img
-        src={DELI_VARIANTS[season]}
+        src={DELI_VARIANTS[biome][season]}
         className="absolute bottom-0"
         style={{ width: `${PIXEL_SCALE * 64}px` }}
       />
@@ -293,6 +311,25 @@ export const READONLY_BUILDINGS: ({
           style={{ width: `${PIXEL_SCALE * 64}px` }}
         />
       </div>
+    ),
+    Pigpen: () => (
+      <div
+        className="absolute bottom-0"
+        style={{ width: `${PIXEL_SCALE * 50}px` }}
+      >
+        <img
+          src={PIGPEN_IMAGES[biome][season][pigpenLevel]}
+          className="absolute bottom-0"
+          style={{ width: `${PIXEL_SCALE * 50}px` }}
+        />
+      </div>
+    ),
+    Cave: () => (
+      <img
+        src={SUNNYSIDE.building.cave}
+        className="absolute bottom-0"
+        style={{ width: `${PIXEL_SCALE * 50}px` }}
+      />
     ),
     "Crop Machine": () => (
       <div

@@ -357,36 +357,21 @@ export function harvestFruit({
       stateCopy.inventory[name]?.add(amount) ?? new Decimal(amount);
 
     patch.fruit.harvestsLeft = patch.fruit.harvestsLeft - 1;
-    // A fruit already on the windowed model (baseDurationMs set) stays windowed
-    // for its remaining harvests even if SPEED_BOOSTS is later rolled back —
-    // otherwise the read path (which keys off baseDurationMs) would keep windowed
-    // timing while the write silently reverted it to legacy mid-life. Patch
-    // fertiliser persists across harvests; passing it into getPlantedAt applies
-    // Turbofruit Mix to replenishment timing for every remaining harvest.
-    const forceWindowed = patch.fruit.baseDurationMs !== undefined;
+    // Patch fertiliser persists across harvests; Turbofruit Mix speeds every
+    // remaining replenish live through its window (see getTurbofruitMixWindows).
     const {
       plantedAt: newPlantedAt,
       baseDurationMs: newBaseDurationMs,
       boostsUsed: fruitPlantedBoostsUsed,
-    } = getPlantedAt(
-      seed,
-      stateCopy,
-      createdAt,
-      patch.fertiliser?.name,
-      forceWindowed,
-    );
+    } = getPlantedAt(seed, stateCopy, createdAt);
     delete patch.fruit.amount;
-    // New replenish phase starts with a fresh progress bar (no banked work yet).
+    // New replenish phase starts with a fresh progress bar: drop the previous
+    // phase's value (banked work, or a back-date on legacy-shaped data).
     delete patch.fruit.boostedTime;
     patch.fruit.harvestedAt = newPlantedAt;
-    // Windowed replenish stores the real harvestedAt + a permanent-boost-only
-    // base recovery; a legacy (never-windowed) fruit under flag-off back-dates
-    // harvestedAt instead, so clear any baseDurationMs.
-    if (newBaseDurationMs !== undefined) {
-      patch.fruit.baseDurationMs = newBaseDurationMs;
-    } else {
-      delete patch.fruit.baseDurationMs;
-    }
+    // Replenish stores the real harvestedAt + a permanent-boost-only base
+    // recovery.
+    patch.fruit.baseDurationMs = newBaseDurationMs;
 
     const activityName: FarmActivityName = `${name} Harvested`;
 

@@ -184,7 +184,12 @@ export const MarketplaceNavigation: React.FC = () => {
       <div className="flex h-[calc(100%-50px)] lg:h-full">
         <div className="w-64  mr-1 hidden lg:flex flex-col">
           <InnerPanel className="w-full flex-col mb-1">
-            <MarketplaceSearch search={search} setSearch={setSearch} />
+            {/* Desktop only: on phones focusing would pop the keyboard. */}
+            <MarketplaceSearch
+              search={search}
+              setSearch={setSearch}
+              autoFocus
+            />
             <div className="flex-1">
               <Filters farmId={farmId} hideLimited={hideLimited} />
             </div>

@@ -66,4 +66,23 @@ describe("getChestCategories", () => {
     expect(letterTiles?.items).toHaveLength(3);
     expect(decorations?.items).not.toContain("Letter A Tile");
   });
+
+  it("groups Rarecrows (migrated and sunset rewards) into their own category", () => {
+    const categories = getChestCategories(state, [
+      "Fox Rarecrow",
+      "Sparkle Halo Rarecrow",
+      "Champion Rarecrow",
+      "Basic Bear",
+    ]);
+
+    const rarecrows = categories.find((c) => c.id === "rarecrows");
+    const decorations = categories.find((c) => c.id === "decorations");
+
+    expect(rarecrows?.items).toEqual([
+      "Fox Rarecrow",
+      "Sparkle Halo Rarecrow",
+      "Champion Rarecrow",
+    ]);
+    expect(decorations?.items).toEqual(["Basic Bear"]);
+  });
 });

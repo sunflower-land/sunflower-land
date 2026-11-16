@@ -12,7 +12,6 @@ import {
   getCollectiblesAcrossLocations,
 } from "features/game/lib/collectibleBuilt";
 import { TemporaryCollectibleModal } from "features/game/components/TemporaryCollectibleModal";
-import { hasFeatureAccess } from "lib/flags";
 import { useSelector } from "@xstate/react";
 import type { MachineState } from "features/game/lib/gameMachine";
 import type { PetShrineName } from "features/game/types/pets";
@@ -89,10 +88,8 @@ export const PetShrine: React.FC<
   const expiresAt = getCollectibleExpiry({
     name,
     collectible: placed ?? { createdAt },
-    game: gameState,
   });
-  const canExtend =
-    !isVisiting && hasFeatureAccess(gameState, "SPEED_BOOSTS") && !!placed;
+  const canExtend = !isVisiting && !!placed;
 
   const { totalSeconds: secondsToExpire } = useCountdown(expiresAt);
   const durationSeconds = ((EXPIRY_COOLDOWNS[name] ?? 0) + extendedMs) / 1000;

@@ -57,6 +57,7 @@ export const EXPECTED_ERROR_CODES: ReadonlySet<string> = new Set([
   ERRORS.RESET_MARKETPLACE_UNCLAIMED_LISTINGS,
   // Withdrawals
   ERRORS.WITHDRAW_DUPLICATE,
+  ERRORS.WITHDRAW_MARKETPLACE_COOLDOWN,
   "WITHDRAW_DAILY_LIMIT",
   // Accounts / linking / social login
   "USERNAME_TAKEN",
@@ -74,6 +75,10 @@ export const EXPECTED_ERROR_CODES: ReadonlySet<string> = new Set([
   ERRORS.GOOGLE_LOGIN_DISABLED,
   ERRORS.DISCORD_USER_EXISTS,
   ERRORS.DISCORD_NOT_ON_SERVER,
+  ERRORS.SOCIAL_ALREADY_LINKED,
+  ERRORS.SOCIAL_NOT_LINKED,
+  ERRORS.SOCIAL_ACCOUNT_COOLDOWN,
+  ERRORS.SOCIAL_ACCOUNT_RECLAIMED,
   "REFERRAL_CODE_NOT_FOUND",
   "ECONOMY_INVALIDATE_COOLDOWN",
   // Twitter showcase
@@ -83,6 +88,10 @@ export const EXPECTED_ERROR_CODES: ReadonlySet<string> = new Set([
   "TWITTER_NOT_SHOWCASED",
   // Session / rate limiting / maintenance — handled with dedicated UI
   ERRORS.SESSION_EXPIRED,
+  // A 401 on a read endpoint: the JWT expired while the tab sat open, or
+  // the player signed out in another tab. The answer is always "log in
+  // again", never a code change, so it is an outcome like the rest here.
+  ERRORS.UNAUTHORIZED,
   ERRORS.MULTIPLE_DEVICES_OPEN,
   ERRORS.TOO_MANY_REQUESTS,
   ERRORS.EFFECT_TOO_MANY_REQUESTS,
@@ -118,23 +127,84 @@ const NETWORK_ERROR_MESSAGES = [
 ];
 
 /**
- * True when the error is a browser-level network failure. Accepts anything
- * `createErrorLogger` accepts (Error, string, or the report object).
+ * Aborted requests. The player navigated away, refreshed, or backgrounded the
+ * tab mid-flight, or we cancelled the request ourselves on a timeout. Like the
+ * failures above, the request never got a response — there is nothing for the
+ * API to act on, so these are shown as a connection problem and never reported.
+ *
+ * An abort surfaces as a DOMException named "AbortError" (matched by name in
+ * `isNetworkError`), but by the time an error reaches the modal it is often
+ * only the message string, and each browser words it differently.
+ */
+const ABORT_ERROR_MESSAGES = [
+  /^signal is aborted without reason$/i, // Chrome / Edge
+  /^the operation was aborted/i, // Firefox / Safari
+  /^the user aborted a request/i, // Older Firefox / node-fetch
+  new RegExp(`^${ERRORS.AUTOSAVE_TIMEOUT}$`), // Our own abort reason, see autosaveRequest
+];
+
+/** Pulls the message out of anything `createErrorLogger` accepts. */
+const getErrorMessage = (input: unknown): unknown =>
+  input instanceof Error
+    ? input.message
+    : typeof input === "string"
+      ? input
+      : input && typeof input === "object"
+        ? ((input as { message?: unknown; error?: unknown }).message ??
+          (input as { error?: unknown }).error)
+        : undefined;
+
+/**
+ * True when the error is a browser-level network failure or an aborted
+ * request. Accepts anything `createErrorLogger` accepts (Error, string, or
+ * the report object).
  */
 export const isNetworkError = (input: unknown): boolean => {
-  const message =
-    input instanceof Error
-      ? input.message
-      : typeof input === "string"
-        ? input
-        : input && typeof input === "object"
-          ? ((input as { message?: unknown; error?: unknown }).message ??
-            (input as { error?: unknown }).error)
-          : undefined;
+  // The message of an aborted fetch varies by browser; the name does not.
+  if (
+    input &&
+    typeof input === "object" &&
+    (input as { name?: unknown }).name === "AbortError"
+  ) {
+    return true;
+  }
+
+  const message = getErrorMessage(input);
 
   return (
     typeof message === "string" &&
-    NETWORK_ERROR_MESSAGES.some((re) => re.test(message.trim()))
+    [...NETWORK_ERROR_MESSAGES, ...ABORT_ERROR_MESSAGES].some((re) =>
+      re.test(message.trim()),
+    )
+  );
+};
+
+/**
+ * React's commit phase throws these when something outside React has moved the
+ * DOM nodes it is tracking — a browser extension, or the browser's own page
+ * translation replacing text nodes with <font> wrappers. React then calls
+ * insertBefore/removeChild with a reference node that is no longer a child of
+ * its parent. Nothing in the fiber tree can be fixed to prevent it, so these
+ * are reported under their own code rather than as game crashes.
+ */
+const EXTERNAL_DOM_MUTATION_MESSAGES = [
+  /Failed to execute '(insertBefore|removeChild|appendChild)' on 'Node'/i,
+  /The node (before which the new node is to be inserted|to be removed) is not a child of this node/i,
+  // Firefox / Safari wording for the same DOM exception
+  /Node was not found/i,
+  /The object can not be found here/i,
+];
+
+/**
+ * True when the error came from external DOM mutation rather than the game.
+ * Accepts anything `createErrorLogger` accepts (Error, string, report object).
+ */
+export const isExternalDomMutationError = (input: unknown): boolean => {
+  const message = getErrorMessage(input);
+
+  return (
+    typeof message === "string" &&
+    EXTERNAL_DOM_MUTATION_MESSAGES.some((re) => re.test(message))
   );
 };
 
@@ -217,6 +287,15 @@ export const createErrorLogger = (source: Source, farmId: number) => {
       if (isNetworkError(input)) return;
 
       const report = buildErrorReport(source, farmId, input);
+
+      // Crashes caused by extensions / browser page translation are not game
+      // bugs. Still reported — we want to see whether the notranslate opt-out
+      // is working — but under their own code so they group separately
+      // instead of drowning out real crashes.
+      if (isExternalDomMutationError(input)) {
+        report.code = ERRORS.EXTERNAL_DOM_MUTATION;
+        report.error.code = ERRORS.EXTERNAL_DOM_MUTATION;
+      }
 
       // Deliberate backend rejections (already_bought, trade_not_found, …)
       // are outcomes the API already knows about — don't pollute the log.

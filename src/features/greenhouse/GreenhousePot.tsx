@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Transition } from "@headlessui/react";
+import classNames from "classnames";
 
 import emptyPot from "assets/greenhouse/greenhouse_pot.webp";
 export { default as GREENHOUSE_EMPTY_POT } from "assets/greenhouse/greenhouse_pot.webp";
@@ -35,6 +36,7 @@ import {
   getGreenhouseGlowWindows,
 } from "features/game/lib/boostWindows";
 import { useNodeTimer } from "features/game/lib/useNodeTimer";
+import { GREENHOUSE_CROP_TIME_SECONDS } from "features/game/lib/greenhouseGrowTimes";
 import {
   ITEM_DETAILS,
   getTranslatedItemName,
@@ -162,8 +164,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
   const potFertiliser = pot?.fertiliser;
 
   const plantedAt = growingPlant?.plantedAt ?? 0;
-  // Windowed plants (speed-rate model) derive their ready time live from the
-  // boost windows; legacy plants use their back-dated plantedAt + base time.
+  // The ready time is derived live from the boost windows.
   const readyAt = growingPlant
     ? getGreenhouseReadyAt(growingPlant, state, potFertiliser)
     : 0;
@@ -177,16 +178,21 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
         ...getGreenhouseGlowWindows(potFertiliser),
       ]
     : [];
-  const baseDurationMs = growingPlant?.baseDurationMs;
-  // Work banked across Greenhouse building moves — folded into the bar's total
-  // so visual progress is preserved (readiness already accounts for it).
+  // A plant with no marker reads as its raw grow time.
+  const baseDurationMs = growingPlant
+    ? (growingPlant.baseDurationMs ??
+      GREENHOUSE_CROP_TIME_SECONDS[growingPlant.name] * 1000)
+    : undefined;
+  // `boostedTime` is WORK banked across Greenhouse building moves, folded into
+  // the bar's total so visual progress is preserved (readiness already accounts
+  // for it).
   const bankedWorkMs = growingPlant?.boostedTime ?? 0;
 
   const { now, workLeftSeconds, countdownSeconds } = useNodeTimer({
     startedAt: plantedAt,
     baseDurationMs,
     windows: boostWindows,
-    legacyReadyAt: readyAt,
+    fallbackReadyAt: readyAt,
     live: !!growingPlant,
   });
 
@@ -199,9 +205,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
   // The wall-clock reading, for the labels.
   const displaySecondsLeft = Math.max(Math.ceil(countdownSeconds), 0);
   const totalSeconds =
-    baseDurationMs !== undefined
-      ? (baseDurationMs + bankedWorkMs) / 1000
-      : Math.max((readyAt - plantedAt) / 1000, 0);
+    baseDurationMs !== undefined ? (baseDurationMs + bankedWorkMs) / 1000 : 0;
   const percentage =
     totalSeconds > 0
       ? clampPercentage(((totalSeconds - secondsLeft) / totalSeconds) * 100)
@@ -324,6 +328,19 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
         </Transition>
 
         <GreenhousePotFertiliserBadges fertiliser={potFertiliser} />
+        {/* Nothing planted: the same ! the Greenhouse shows on the farm. */}
+        <img
+          src={SUNNYSIDE.icons.expression_alerted}
+          alt=""
+          className={classNames("absolute pointer-events-none z-20", {
+            ready: showAnimations,
+          })}
+          style={{
+            width: `${PIXEL_SCALE * 4}px`,
+            left: `calc(50% - ${PIXEL_SCALE * 2}px)`,
+            top: `${PIXEL_SCALE * -10}px`,
+          }}
+        />
         <img
           src={emptyPot}
           className="cursor-pointer hover:img-highlight"

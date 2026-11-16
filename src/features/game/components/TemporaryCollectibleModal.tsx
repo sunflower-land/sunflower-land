@@ -19,10 +19,11 @@ import type { PlaceableLocation } from "../types/collectibles";
 import type { GameState, InventoryItemName } from "../types/game";
 import { COLLECTIBLE_BUFF_LABELS } from "../types/collectibleItemBuffs";
 import {
-  getExpiryCooldown,
+  EXPIRY_COOLDOWNS,
   type TemporaryCollectibleName,
 } from "../lib/collectibleBuilt";
 import {
+  exceedsShrineExtensionCap,
   getExtensionCost,
   getExtensionPayments,
   getExtensionResult,
@@ -40,8 +41,8 @@ type Props = {
   expiresAt: number;
   /**
    * Whether this player can pay to top the booster up right now. False when
-   * visiting or without the SPEED_BOOSTS flag, in which case this is a read-only
-   * detail panel — the boost and its time remaining, with nothing to buy.
+   * visiting or when the collectible isn't placed, in which case this is a
+   * read-only detail panel — the boost and its time remaining, with nothing to buy.
    */
   canExtend: boolean;
 };
@@ -106,9 +107,9 @@ const TemporaryCollectibleContent: React.FC<{
   const { totalSeconds: secondsToExpire } = useCountdown(expiresAt);
   const payments = getExtensionPayments(name);
   const { coins: coinCost, ingredients } = getExtensionCost(name, payWith);
-  const extraSeconds = getExpiryCooldown(payWith, gameState) / 1000;
+  const extraSeconds = EXPIRY_COOLDOWNS[payWith] / 1000;
   // Paying with the longer-lasting totem leaves THAT totem on the map.
-  const becomes = getExtensionResult(name, payWith, gameState);
+  const becomes = getExtensionResult(name, payWith);
 
   /**
    * The balance the reducer will actually charge against: unplaced copies for a
@@ -127,10 +128,19 @@ const TemporaryCollectibleContent: React.FC<{
       balanceOf(itemName).gte(ingredients[itemName] ?? new Decimal(0)),
     );
 
+  // A shrine can only be kept alive up to 30 days from now, so once topping it up
+  // again would cross that ceiling the reducer rejects it - mirror that here.
+  const capReached = exceedsShrineExtensionCap({
+    name,
+    payWith,
+    remainingMs: secondsToExpire * 1000,
+  });
+
   // Belt and braces: the host component swaps to its expired branch and unmounts
   // this modal the moment the booster lapses, but its countdown and the one above
   // tick on separate intervals - so refuse an extension the reducer would reject.
-  const canPayNow = canExtend && canAfford && secondsToExpire > 0;
+  const canPayNow =
+    canExtend && canAfford && secondsToExpire > 0 && !capReached;
 
   const buffLabels = COLLECTIBLE_BUFF_LABELS[name]?.(gameState);
   const addedTime = secondsToString(extraSeconds, {
@@ -191,11 +201,16 @@ const TemporaryCollectibleContent: React.FC<{
               }),
             })}
           </Label>
-          {canExtend && (
-            <Label type="success" icon={SUNNYSIDE.icons.stopwatch}>
-              {t("extend.collectible.added", { time: addedTime })}
-            </Label>
-          )}
+          {canExtend &&
+            (capReached ? (
+              <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
+                {t("extend.collectible.maxReached")}
+              </Label>
+            ) : (
+              <Label type="success" icon={SUNNYSIDE.icons.stopwatch}>
+                {t("extend.collectible.added", { time: addedTime })}
+              </Label>
+            ))}
         </div>
 
         {canExtend && payments.length > 1 && (

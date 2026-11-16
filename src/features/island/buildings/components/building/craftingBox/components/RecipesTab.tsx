@@ -30,7 +30,7 @@ import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { RecipeInfoPanel } from "./RecipeInfoPanel";
 import type { CollectibleName } from "features/game/types/craftables";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
-import { getBoostedCraftingTime } from "features/game/events/landExpansion/startCrafting";
+import { getCraftingTimePreview } from "./craftingTimePreview";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import lightningIcon from "assets/icons/lightning.png";
 import type {
@@ -326,12 +326,16 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
                   recipe,
                   canCraft,
                 });
-                const { seconds: boostedCraftTime, boostsUsed } =
-                  getBoostedCraftingTime({
-                    game: state,
-                    time: recipe.time,
-                    now,
+                // Windowed boosts (Fox Shrine, totems) are a live rate rather
+                // than part of the duration, so they are named separately - see
+                // getCraftingTimePreview.
+                const { displaySeconds, boosts: boostsUsed } =
+                  getCraftingTimePreview({
+                    state,
+                    timeMs: recipe.time,
+                    at: now,
                   });
+                const boostedCraftTime = displaySeconds * 1000;
 
                 return (
                   <div
@@ -461,18 +465,27 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
                                   </span>
                                 </div>
                               )}
-                              <BoostsDisplay
-                                boosts={boostsUsed}
-                                show={showBoostsRecipeName === recipe.name}
-                                state={state}
-                                onClick={() =>
-                                  setShowBoostsRecipeName(
-                                    showBoostsRecipeName === recipe.name
-                                      ? null
-                                      : recipe.name,
-                                  )
-                                }
-                              />
+                              {recipe.time > 0 && (
+                                <BoostsDisplay
+                                  boosts={boostsUsed}
+                                  base={{
+                                    value: secondsToString(recipe.time / 1000, {
+                                      length: "medium",
+                                      isShortFormat: true,
+                                    }),
+                                    icon: SUNNYSIDE.icons.stopwatch,
+                                  }}
+                                  show={showBoostsRecipeName === recipe.name}
+                                  state={state}
+                                  onClick={() =>
+                                    setShowBoostsRecipeName(
+                                      showBoostsRecipeName === recipe.name
+                                        ? null
+                                        : recipe.name,
+                                    )
+                                  }
+                                />
+                              )}
                             </div>
                           ) : (
                             <div className="flex">
@@ -646,12 +659,16 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
                   canCraft,
                   isDiscovered,
                 });
-                const { seconds: boostedCraftTime, boostsUsed } =
-                  getBoostedCraftingTime({
-                    game: state,
-                    time: recipe.time,
-                    now,
+                // Windowed boosts (Fox Shrine, totems) are a live rate rather
+                // than part of the duration, so they are named separately - see
+                // getCraftingTimePreview.
+                const { displaySeconds, boosts: boostsUsed } =
+                  getCraftingTimePreview({
+                    state,
+                    timeMs: recipe.time,
+                    at: now,
                   });
+                const boostedCraftTime = displaySeconds * 1000;
 
                 return (
                   <div
@@ -787,18 +804,27 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
                                   </span>
                                 </div>
                               )}
-                              <BoostsDisplay
-                                boosts={boostsUsed}
-                                show={showBoostsRecipeName === recipe.name}
-                                state={state}
-                                onClick={() =>
-                                  setShowBoostsRecipeName(
-                                    showBoostsRecipeName === recipe.name
-                                      ? null
-                                      : recipe.name,
-                                  )
-                                }
-                              />
+                              {recipe.time > 0 && (
+                                <BoostsDisplay
+                                  boosts={boostsUsed}
+                                  base={{
+                                    value: secondsToString(recipe.time / 1000, {
+                                      length: "medium",
+                                      isShortFormat: true,
+                                    }),
+                                    icon: SUNNYSIDE.icons.stopwatch,
+                                  }}
+                                  show={showBoostsRecipeName === recipe.name}
+                                  state={state}
+                                  onClick={() =>
+                                    setShowBoostsRecipeName(
+                                      showBoostsRecipeName === recipe.name
+                                        ? null
+                                        : recipe.name,
+                                    )
+                                  }
+                                />
+                              )}
                             </div>
                           ) : (
                             <div className="flex">

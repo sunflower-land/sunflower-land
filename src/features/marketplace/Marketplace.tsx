@@ -14,6 +14,7 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { PlayerModal } from "features/social/PlayerModal";
 import * as Auth from "features/auth/lib/Provider";
 import { getMarketplaceNavigationState } from "./lib/navigation";
+import { getMarketplaceReturnRoute } from "./lib/marketplaceReturnRoute";
 
 const _balance = (state: MachineState) => state.context.state.balance;
 const _farmId = (state: MachineState) => state.context.farmId ?? 0;
@@ -35,12 +36,11 @@ export const Marketplace: React.FC = () => {
   );
 
   const handleClose = useCallback(() => {
-    const defaultRoute = location.pathname.includes("/world")
-      ? "/world/plaza"
-      : "/";
-
-    const returnTo =
-      marketplaceNavigation.current?.returnTo ?? fromRoute ?? defaultRoute;
+    const returnTo = getMarketplaceReturnRoute({
+      pathname: location.pathname,
+      navigation: marketplaceNavigation.current,
+      fromRoute,
+    });
 
     navigate(returnTo, {
       replace: true,

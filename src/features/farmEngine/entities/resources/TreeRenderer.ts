@@ -179,7 +179,7 @@ export class TreeRenderer extends ResourceNodeRenderer<TreeNode> {
 
     objects.strike?.destroy();
     objects.strike = undefined;
-    const size = TREE_SIZE_VARIANTS(ctx.biome, name as never);
+    const size = TREE_SIZE_VARIANTS(ctx.biome, ctx.season, name as never);
     // [Resource.tsx treeStyle] relative-flow math lands the art bottom flush
     // with the box bottom — matching the shake sheet, so tapping doesn't
     // shift the tree.

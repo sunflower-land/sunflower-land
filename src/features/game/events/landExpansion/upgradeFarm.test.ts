@@ -11,11 +11,6 @@ import {
   ascensionBaseline,
   bandXp,
 } from "features/game/lib/level";
-import { CONFIG } from "lib/config";
-import { TIME_BASED_FEATURE_FLAG_WINDOWS } from "lib/flags";
-
-const SPOOKY_ASCENSION_START =
-  TIME_BASED_FEATURE_FLAG_WINDOWS.SPOOKY_ASCENSION.start.getTime();
 import { getLand, TOTAL_EXPANSION_NODES } from "features/game/types/expansions";
 import {
   getIslandAnchorX,
@@ -115,7 +110,6 @@ describe("upgradeFarm", () => {
         mushrooms: {
           mushrooms: {
             1: {
-              amount: 1,
               name: "Wild Mushroom",
               x: 1,
               y: 1,
@@ -293,9 +287,9 @@ describe("upgradeFarm", () => {
           spawnedAt: 1234,
           mushrooms: {
             // On the main land
-            1: { amount: 1, name: "Wild Mushroom", x: 1, y: 1 },
+            1: { name: "Wild Mushroom", x: 1, y: 1 },
             // Stranded on the previous island
-            2: { amount: 2, name: "Magic Mushroom", x: -9, y: 5 },
+            2: { name: "Magic Mushroom", x: -9, y: 5 },
           },
         },
       },
@@ -315,9 +309,9 @@ describe("upgradeFarm", () => {
     // spawnedAt carries across the upgrade
     expect(state.mushrooms?.spawnedAt).toEqual(1234);
 
-    // Names & amounts are preserved
-    expect(mushrooms["1"]).toMatchObject({ name: "Wild Mushroom", amount: 1 });
-    expect(mushrooms["2"]).toMatchObject({ name: "Magic Mushroom", amount: 2 });
+    // Names are preserved
+    expect(mushrooms["1"]).toMatchObject({ name: "Wild Mushroom" });
+    expect(mushrooms["2"]).toMatchObject({ name: "Magic Mushroom" });
 
     // Every mushroom now sits on a distinct island spawn tile
     const positions = entries.map((m) => `${m.x},${m.y}`);
@@ -414,8 +408,8 @@ describe("upgradeFarm", () => {
           spawnedAt: 1234,
           mushrooms: {
             // Sitting on the source (25-expansion) island's tiles
-            1: { amount: 1, name: "Wild Mushroom", ...sourceTiles[0] },
-            2: { amount: 2, name: "Magic Mushroom", ...sourceTiles[1] },
+            1: { name: "Wild Mushroom", ...sourceTiles[0] },
+            2: { name: "Magic Mushroom", ...sourceTiles[1] },
           },
         },
         socialFarming: {
@@ -482,6 +476,38 @@ describe("upgradeFarm", () => {
     expect(state.flowers.discovered).toEqual({
       "Blue Balloon Flower": ["Apple"],
     });
+  });
+
+  it("preserves the cave across ascension", () => {
+    const cave = {
+      builtAt: 123,
+      tier: 1,
+      machines: {
+        "1": {
+          batch: {
+            recipe: "Mushroom" as const,
+            startedAt: 100,
+            readyAt: 100 + 12 * 60 * 60 * 1000,
+          },
+        },
+      },
+    };
+    const state = upgrade({
+      farmId,
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          "Basic Land": new Decimal(9),
+          Gold: new Decimal(15),
+        },
+        cave,
+      },
+    });
+
+    expect(state.cave).toEqual(cave);
   });
 
   it("upgrades to spring island", () => {
@@ -1376,7 +1402,7 @@ describe("upgradeFarm", () => {
   });
 
   it("does not re-grant crystals already pending in an un-collected chest", () => {
-    const createdAt = SPOOKY_ASCENSION_START;
+    const createdAt = Date.now();
     const readyXp = ascensionBaseline(1) + bandXp(1);
     // On swamp (A1) with an un-collected volcano→swamp chest holding the 4
     // crystals the player was already owed.
@@ -1604,77 +1630,6 @@ describe("upgradeFarm", () => {
     ).toThrow("Player has not met the level requirements");
   });
 
-  describe("swamp->spooky (A2) temporary lock", () => {
-    // Readies the bumpkin for the swamp band so the temporary gate — not the level
-    // gate — is what's under test.
-    const readyXp = ascensionBaseline(1) + bandXp(1);
-    const swampState = {
-      ...INITIAL_FARM,
-      coins: 10000,
-      bumpkin: {
-        ...INITIAL_FARM.bumpkin,
-        experience: readyXp,
-      },
-      island: {
-        type: "swamp" as const,
-        ascensionLevel: 1,
-      },
-      inventory: {
-        ...INITIAL_FARM.inventory,
-        // Meets the expansion requirement but holds no ascension-cost items, so a
-        // player past the temporary gate lands on the cost check.
-        "Basic Land": new Decimal(42),
-      },
-    };
-
-    let previousNetwork: (typeof CONFIG)["NETWORK"];
-    beforeEach(() => {
-      previousNetwork = CONFIG.NETWORK;
-    });
-    afterEach(() => {
-      CONFIG.NETWORK = previousNetwork;
-    });
-
-    it("blocks swamp->spooky before the unlock date on mainnet", () => {
-      CONFIG.NETWORK = "mainnet";
-
-      expect(() =>
-        upgrade({
-          farmId,
-          action: { type: "farm.upgraded" },
-          state: swampState,
-          createdAt: SPOOKY_ASCENSION_START - 1,
-        }),
-      ).toThrow("Ascension to the next island is not yet available");
-    });
-
-    it("allows swamp->spooky once the unlock date passes on mainnet", () => {
-      CONFIG.NETWORK = "mainnet";
-
-      expect(() =>
-        upgrade({
-          farmId,
-          action: { type: "farm.upgraded" },
-          state: swampState,
-          createdAt: SPOOKY_ASCENSION_START,
-        }),
-      ).toThrow("Insufficient Crimstone");
-    });
-
-    it("lets testnet bypass the lock before the unlock date", () => {
-      CONFIG.NETWORK = "amoy";
-
-      expect(() =>
-        upgrade({
-          farmId,
-          action: { type: "farm.upgraded" },
-          state: swampState,
-          createdAt: SPOOKY_ASCENSION_START - 1,
-        }),
-      ).toThrow("Insufficient Crimstone");
-    });
-  });
-
   it("preserves crop growth timers across the first ascension (no instant growth)", () => {
     const createdAt = Date.now();
     const plantedAt = createdAt - 60 * 1000;
@@ -1714,7 +1669,7 @@ describe("upgradeFarm", () => {
   });
 
   it("resets later ascensions to the initial land (re-applying a layout is an explicit effect)", () => {
-    const createdAt = SPOOKY_ASCENSION_START;
+    const createdAt = Date.now();
     const readyXp = ascensionBaseline(1) + bandXp(1);
 
     const state = upgrade({

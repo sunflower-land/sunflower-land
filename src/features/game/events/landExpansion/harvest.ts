@@ -61,12 +61,7 @@ import {
   type FarmActivityName,
 } from "features/game/types/farmActivity";
 import { isBuffActive } from "features/game/types/buffs";
-import {
-  SKILL_RANKS,
-  getSkillLevel,
-  downgradeChapterCropWeekSkills,
-} from "features/game/types/bumpkinSkills";
-import { CHAPTER_CROP_WEEK_CROP } from "features/game/types/chapterCropWeek";
+import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
 import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
 import { mfTrack } from "lib/moonforgeAnalytics";
@@ -116,17 +111,9 @@ export const isWinterCrop = (
 };
 
 /**
- * When a planted crop is ready, across both boost models. New crops (with
- * `baseDurationMs`) derive their ready time live from the crop-plot speed windows
- * plus any per-plot fertiliser (Rapid Root / Sproutroot Surprise) window; legacy
- * crops use their back-dated `plantedAt` + base grow time.
- *
- * Branching on `baseDurationMs` — NOT the `SPEED_BOOSTS` flag — is intentional:
- * the marker makes a crop permanently speed-rate, so it keeps windowed timing
- * (and its baked permanent boosts) even if the flag is rolled back, matching every
- * other windowed activity. The fertiliser windows are merged unconditionally here
- * for the same reason as the collectible windows; only the plant / fertilise WRITE
- * paths gate on the flag.
+ * When a planted crop is ready: `plantedAt` plus `baseDurationMs` of work,
+ * derived live from the crop speed windows and the plot's fertiliser. A crop with
+ * no marker reads as the raw grow time.
  */
 export const getCropReadyAt = (
   plantedCrop: PlantedCrop,
@@ -134,18 +121,15 @@ export const getCropReadyAt = (
   game: GameState,
   fertiliser?: CropFertiliser,
 ): number => {
-  if (plantedCrop.baseDurationMs !== undefined) {
-    return computeReadyAt({
-      startedAt: plantedCrop.plantedAt,
-      baseDurationMs: plantedCrop.baseDurationMs,
-      windows: [
-        ...getCropPlotBoostWindows(game),
-        ...getCropFertiliserWindows(fertiliser),
-      ],
-    });
-  }
-
-  return plantedCrop.plantedAt + cropDetails.harvestSeconds * 1000;
+  return computeReadyAt({
+    startedAt: plantedCrop.plantedAt,
+    baseDurationMs:
+      plantedCrop.baseDurationMs ?? cropDetails.harvestSeconds * 1000,
+    windows: [
+      ...getCropPlotBoostWindows(game),
+      ...getCropFertiliserWindows(fertiliser),
+    ],
+  });
 };
 
 export const isReadyToHarvest = (
@@ -174,10 +158,8 @@ export function isCropGrowing(plot: CropPlot, game: GameState) {
 
 /**
  * The crop's real grow duration (ms), used to gate AOE yield-boost
- * re-availability. New crops derive it from the live speed windows so an active
- * Sparrow Shrine shortens it to match the actual time-to-harvest (matching how
- * legacy crops folded the shrine into `boostedTime`); legacy crops keep their
- * back-dated boosted time.
+ * re-availability. It is derived from the live speed windows, so an active
+ * Sparrow Shrine shortens it to match the actual time-to-harvest.
  */
 const getCropGrowDurationMs = (
   cropName: CropName | GreenHouseCropName,
@@ -186,10 +168,10 @@ const getCropGrowDurationMs = (
   fertiliser?: CropFertiliser,
 ): number => {
   const cropDetails = CROPS[cropName as CropName];
-  return plantedCrop?.baseDurationMs !== undefined
+  return plantedCrop
     ? getCropReadyAt(plantedCrop, cropDetails, game, fertiliser) -
         plantedCrop.plantedAt
-    : cropDetails.harvestSeconds * 1000 - (plantedCrop?.boostedTime ?? 0);
+    : cropDetails.harvestSeconds * 1000;
 };
 
 type CropYieldAmountArgs = {
@@ -326,13 +308,7 @@ export function getCropYieldAmount({
 
   const { bumpkin, buds, aoe } = game;
   const updatedAoe = cloneDeep(aoe);
-  // Saltwort (the CHAPTER_CROP_WEEK event crop) ignores upgraded Crops-skill ranks
-  // (base skill still applies) — cap here so every downstream yield/AOE read uses
-  // the neutralised ranks without touching the player's stored skills.
-  const skills =
-    crop === CHAPTER_CROP_WEEK_CROP
-      ? downgradeChapterCropWeekSkills(bumpkin?.skills ?? {})
-      : (bumpkin?.skills ?? {});
+  const skills = bumpkin?.skills ?? {};
   const itemId = KNOWN_IDS[crop];
   const criticalDrop = (
     criticalHitName: CriticalHitName,

@@ -12,15 +12,11 @@ import {
 } from "features/game/types/flowers";
 import type { BoostName, GameState } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
-import {
-  isTemporaryCollectibleActive,
-  isCollectibleBuilt,
-} from "features/game/lib/collectibleBuilt";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { produce } from "immer";
 import { SEASONAL_SEEDS } from "features/game/types/seeds";
 import { getKeys } from "lib/object";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
-import { hasFeatureAccess } from "lib/flags";
 import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
 
 export type PlantFlowerAction = {
@@ -39,17 +35,13 @@ type Options = {
 export const getFlowerTime = (
   seed: FlowerSeedName,
   game: GameState,
-  now: number,
-  /**
-   * Whether the windowed speed-rate model applies. Defaults to the SPEED_BOOSTS
-   * flag. When true, the temporary boosts (Blossom Hourglass + Moth Shrine's TIME
-   * half) are EXCLUDED from the baked time — they're derived live from boost
-   * windows instead (see getFlowerBoostWindows) — leaving only permanent boosts.
-   */
-  windowed = hasFeatureAccess(game, "SPEED_BOOSTS"),
 ): { seconds: number; boostsUsed: { name: BoostName; value: string }[] } => {
   const { bumpkin } = game;
 
+  // Only permanent boosts are baked in. The temporary ones (Blossom Hourglass
+  // and Moth Shrine's grow-TIME half) are windowed, derived live from boost
+  // windows (see getFlowerBoostWindows), so they're excluded here and from
+  // boostsUsed; Moth Shrine's +1-flower yield still fires at harvest.
   let seconds = FLOWER_SEEDS[seed].plantSeconds;
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
@@ -59,29 +51,10 @@ export const getFlowerTime = (
     boostsUsed.push({ name: "Flower Crown", value: "x0.5" });
   }
 
-  // Moth Shrine's grow-TIME half is windowed under the speed-rate model, so it's
-  // excluded here (and from boostsUsed); its +1-flower yield still fires at harvest.
-  if (
-    !windowed &&
-    isTemporaryCollectibleActive({ name: "Moth Shrine", game, now })
-  ) {
-    seconds *= 0.75;
-    boostsUsed.push({ name: "Moth Shrine", value: "x0.75" });
-  }
-
   // If Flower Fox is built gives 10% speed boost
   if (isCollectibleBuilt({ name: "Flower Fox", game })) {
     seconds *= 0.9;
     boostsUsed.push({ name: "Flower Fox", value: "x0.9" });
-  }
-
-  // Blossom Hourglass is windowed under the speed-rate model (excluded here).
-  if (
-    !windowed &&
-    isTemporaryCollectibleActive({ name: "Blossom Hourglass", game, now })
-  ) {
-    seconds *= 0.75;
-    boostsUsed.push({ name: "Blossom Hourglass", value: "x0.75" });
   }
 
   const bloomingBoostLevel = getSkillLevel(bumpkin.skills, "Blooming Boost");
@@ -117,41 +90,25 @@ type GetPlantedAtArgs = {
 };
 
 /**
- * Resolve a flower's stored timing at plant time, across both boost models.
+ * Resolve a flower's stored timing at plant time.
  *
- * Speed-rate model (SPEED_BOOSTS on): store the REAL plantedAt + a `baseDurationMs`
- * carrying only the permanent boosts. The temporary boosts (Blossom Hourglass /
- * Moth Shrine) are derived live from windows so they credit only the overlap and
- * apply retroactively. Legacy / flag-off back-dates plantedAt into the past so the
- * flower grows faster. Flowers are one-shot (no replenish), so there is no
- * forceWindowed / stickiness — every plant is a fresh windowed-or-legacy decision.
+ * Speed-rate model: store the REAL plantedAt + a `baseDurationMs` carrying only
+ * the permanent boosts. The temporary boosts (Blossom Hourglass / Moth Shrine)
+ * are derived live from windows so they credit only the overlap and apply
+ * retroactively.
  */
 export function getPlantedAt({ seed, game, createdAt }: GetPlantedAtArgs): {
   plantedAt: number;
-  baseDurationMs?: number;
+  baseDurationMs: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
-  const windowed = hasFeatureAccess(game, "SPEED_BOOSTS");
+  const { seconds: boostedTime, boostsUsed } = getFlowerTime(seed, game);
 
-  const flowerTime = FLOWER_SEEDS[seed].plantSeconds;
-  const { seconds: boostedTime, boostsUsed } = getFlowerTime(
-    seed,
-    game,
-    createdAt,
-    windowed,
-  );
-
-  if (windowed) {
-    return {
-      plantedAt: createdAt,
-      baseDurationMs: boostedTime * 1000,
-      boostsUsed,
-    };
-  }
-
-  const offset = flowerTime - boostedTime;
-
-  return { plantedAt: createdAt - offset * 1000, boostsUsed };
+  return {
+    plantedAt: createdAt,
+    baseDurationMs: boostedTime * 1000,
+    boostsUsed,
+  };
 }
 
 export function plantFlower({
@@ -229,7 +186,7 @@ export function plantFlower({
       name: flower ?? "Red Lotus",
       crossbreed: action.crossbreed,
       dirty: !flower,
-      ...(baseDurationMs !== undefined ? { baseDurationMs } : {}),
+      baseDurationMs,
     };
 
     stateCopy.farmActivity = trackFarmActivity(

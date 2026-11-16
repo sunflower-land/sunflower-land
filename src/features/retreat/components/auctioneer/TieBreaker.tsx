@@ -56,7 +56,7 @@ export const TieBreaker: React.FC<Props> = ({
       </p>
       <a
         className="underline hover:text-blue-500 text-xxs text-center"
-        href="https://docs.sunflower-land.com/getting-started/crypto-and-digital-collectibles"
+        href="https://docs.sunflower-land.com/web3-and-economy/wallets-and-collectibles"
         target="_blank"
         rel="noreferrer"
       >

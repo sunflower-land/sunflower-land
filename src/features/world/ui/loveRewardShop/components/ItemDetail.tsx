@@ -39,6 +39,7 @@ interface ItemOverlayProps {
 }
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
+const _game = (state: MachineState) => state.context.state;
 
 const ItemDetailItemRequirements: React.FC<{
   item: FloatingShopItem | null;
@@ -190,12 +191,13 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 }) => {
   const { shortcutItem, gameService, showAnimations } = useContext(Context);
   const inventory = useSelector(gameService, _inventory);
+  const game = useSelector(gameService, _game);
 
   const [imageWidth, setImageWidth] = useState<number>(0);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
   const [confirmBuy, setConfirmBuy] = useState<boolean>(false);
 
-  const description = getItemDescription(item);
+  const description = getItemDescription(item, game);
   const rewardBoxName =
     item && !isWearable && isDisplayableRewardBoxName(item.name)
       ? item.name

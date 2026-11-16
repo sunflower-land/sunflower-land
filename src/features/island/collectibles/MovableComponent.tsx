@@ -42,6 +42,7 @@ import { isMobile } from "mobile-device-detect";
 import { ZoomContext } from "components/ZoomProvider";
 import { RemoveKuebikoModal } from "./RemoveKuebikoModal";
 import type { PlaceableLocation } from "features/game/types/collectibles";
+import type { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { RemoveHungryCaterpillarModal } from "./RemoveHungryCaterpillarModal";
 import flipped from "assets/icons/flipped.webp";
 import flipIcon from "assets/icons/flip.webp";
@@ -255,6 +256,16 @@ export function getRemoveAction(
 export const isCollectible = (
   name: LandscapingPlaceable,
 ): name is CollectibleName => name in COLLECTIBLES_DIMENSIONS;
+
+/** Placeables with a flip event: collectibles, people and Buds/Pet NFTs. */
+export const isFlippable = (
+  name: LandscapingPlaceable,
+): name is CollectibleName | "FarmHand" | "Bumpkin" | NFTName =>
+  isCollectible(name) ||
+  name === "FarmHand" ||
+  name === "Bumpkin" ||
+  name === "Bud" ||
+  name === "Pet";
 
 export interface MovableProps {
   name: LandscapingPlaceable;
@@ -481,6 +492,16 @@ export const MoveableComponent: React.FC<
 
   const isSelected = movingItem?.id === id && movingItem?.name === name;
 
+  // The server refused the last landscaping save because of this item - keep
+  // it tinted red until the player edits again (see ArrangementConflictsPanel).
+  const isConflicting = useSelector(
+    gameService,
+    (state) =>
+      !!state.context.arrangementConflicts?.some(
+        (conflict) => conflict.id === id && conflict.name === name,
+      ),
+  );
+
   // Elevate the nearest MapPlacement ancestor when selected so the disc panel
   // and pixel-perfect arrows always render above sibling collectibles. Without
   // this, react-draggable's CSS transform creates a stacking context on each
@@ -608,12 +629,10 @@ export const MoveableComponent: React.FC<
 
   const hasRemovalAction = !!removeAction;
 
-  const hasFlipAction =
-    !isMobile &&
-    (isCollectible(name) || name === "FarmHand" || name === "Bumpkin");
+  const hasFlipAction = !isMobile && isFlippable(name);
 
   const flip = () => {
-    if (isCollectible(name) || name === "FarmHand" || name === "Bumpkin") {
+    if (isFlippable(name)) {
       landscapingMachine.send("FLIP", { id, name, location });
     }
   };
@@ -695,6 +714,14 @@ export const MoveableComponent: React.FC<
 
     if (name === "Bumpkin") {
       return !!state.context.state.bumpkin?.flipped;
+    }
+
+    if (name === "Bud") {
+      return !!state.context.state.buds?.[Number(id)]?.flipped;
+    }
+
+    if (name === "Pet") {
+      return !!state.context.state.pets?.nfts?.[Number(id)]?.flipped;
     }
 
     if (!isCollectible(name)) return false;
@@ -1541,7 +1568,7 @@ export const MoveableComponent: React.FC<
           stored in source pixels, so the screen translation is multiplied by
           PIXEL_SCALE.
         */}
-        {isSelected &&
+        {(isSelected || isConflicting) &&
           (() => {
             const tintTransform =
               savedOX !== 0 || savedOY !== 0
@@ -1554,8 +1581,9 @@ export const MoveableComponent: React.FC<
                 className={classNames(
                   "absolute inset-0 pointer-events-none z-0",
                   {
-                    "bg-red-500 bg-opacity-75": isColliding,
-                    "bg-green-300 bg-opacity-50": !isColliding,
+                    "bg-red-500 bg-opacity-75": isColliding || isConflicting,
+                    "bg-green-300 bg-opacity-50":
+                      !isColliding && !isConflicting,
                   },
                 )}
                 style={{ transform: tintTransform }}

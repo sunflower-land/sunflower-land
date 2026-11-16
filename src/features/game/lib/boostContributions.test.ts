@@ -2,6 +2,8 @@ import {
   getAnimalBoostContributions,
   getBoostContributionEntries,
   getCookingBoostContributions,
+  getCraftingBoostContributions,
+  getCropMachineBoostContributions,
   getNodeBoostContributions,
   getSeedBoostContributions,
 } from "./boostContributions";
@@ -12,12 +14,15 @@ import type { GameState } from "../types/game";
 import type { SeedName } from "../types/seeds";
 import type { ResourceName } from "../types/resources";
 import type { AnimalType } from "../types/animals";
-import { getAnimalBoostWindows, getCookingBoostWindows } from "./boostWindows";
-import { CONFIG } from "lib/config";
-
-const setNetwork = (network: "mainnet" | "amoy") => {
-  (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = network;
-};
+import {
+  getAnimalBoostWindows,
+  getCookingBoostWindows,
+  getCraftingBoostWindows,
+  getCropMachineBoostWindows,
+} from "./boostWindows";
+import { GUARDIAN_BOOST } from "./getActiveGuardian";
+import { populateSeason } from "./season";
+import { getKeys } from "lib/object";
 
 const createdAt = 1_000_000;
 const at = createdAt + 1000;
@@ -50,6 +55,7 @@ const BOOSTED: GameState = {
     "Gourmet Hourglass": place("16", 15),
     "Legendary Shrine": place("17", 16),
     "Boar Shrine": place("18", 17),
+    "Fox Shrine": place("19", 18),
   },
 };
 
@@ -94,6 +100,18 @@ describe("contributions match the window builders", () => {
   it("cooking", () => {
     expect(flatten(getCookingBoostContributions(BOOSTED, at))).toEqual(
       getCookingBoostWindows(BOOSTED),
+    );
+  });
+
+  it("crafting", () => {
+    expect(flatten(getCraftingBoostContributions(BOOSTED, at))).toEqual(
+      getCraftingBoostWindows(BOOSTED),
+    );
+  });
+
+  it("crop machine", () => {
+    expect(flatten(getCropMachineBoostContributions(BOOSTED))).toEqual(
+      getCropMachineBoostWindows(BOOSTED),
     );
   });
 });
@@ -231,37 +249,98 @@ describe("totem attribution", () => {
   });
 });
 
-// The contributions name the windows for the boost panel, so they have to
-// disappear with them: without `SPEED_BOOSTS` the boosters are baked into the
-// time and already listed in `boostsUsed`, and a savings row beside that would
-// claim the same boost a second time.
-describe("without SPEED_BOOSTS", () => {
-  const originalNetwork = CONFIG.NETWORK;
-  beforeEach(() => setNetwork("mainnet"));
-  afterAll(() => setNetwork(originalNetwork));
+describe("sunshower Guardian attribution", () => {
+  const eventDay = Date.UTC(2026, 5, 27);
+  const now = eventDay + 6 * 60 * 60 * 1000;
+  const guardianFor = (time: number) =>
+    getKeys(GUARDIAN_BOOST).find(
+      (name) => GUARDIAN_BOOST[name].season === populateSeason(time).season,
+    )!;
+  const guardian = guardianFor(eventDay);
 
-  it("names no boosters for a seed", () => {
-    expect(getSeedBoostContributions(BOOSTED, "Sunpetal Seed", at)).toEqual([]);
-    expect(getSeedBoostContributions(BOOSTED, "Grape Seed", at)).toEqual([]);
+  const game: GameState = {
+    ...TEST_FARM,
+    season: populateSeason(eventDay),
+    calendar: {
+      dates: [],
+      sunshower: { startedAt: eventDay, triggeredAt: eventDay },
+    },
+    collectibles: {
+      ...TEST_FARM.collectibles,
+      [guardian]: [{ id: "g", coordinates: { x: 0, y: 0 } }],
+    },
+  };
+
+  it("lists the sunshower and the placed Guardian, splitting the saving between them", () => {
+    const seconds = 4 * HOUR;
+
+    const entries = getBoostContributionEntries({
+      contributions: getSeedBoostContributions(game, "Wheat Seed", now),
+      seconds,
+      at: now,
+      formatSeconds: (value) => String(value),
+    });
+
+    expect(entries.map((entry) => entry.name)).toEqual(["sunshower", guardian]);
+
+    // Both are 2× over the whole task (4× together, so 4h takes 1h): the 3h
+    // saving splits evenly between them.
+    const saved = entries.map((entry) => Number(entry.value.replace("-", "")));
+    expect(saved[0]).toBeCloseTo(1.5 * HOUR, 6);
+    expect(saved[1]).toBeCloseTo(1.5 * HOUR, 6);
   });
 
-  it("names no boosters for a node", () => {
-    expect(getNodeBoostContributions(BOOSTED, "Tree", at)).toEqual([]);
+  it("does not credit a Guardian from another season", () => {
+    const otherGuardian = getKeys(GUARDIAN_BOOST).find(
+      (name) => name !== guardian,
+    )!;
+
+    const entries = getBoostContributionEntries({
+      contributions: getSeedBoostContributions(
+        {
+          ...game,
+          collectibles: {
+            ...TEST_FARM.collectibles,
+            [otherGuardian]: [{ id: "g", coordinates: { x: 0, y: 0 } }],
+          },
+        },
+        "Wheat Seed",
+        now,
+      ),
+      seconds: 4 * HOUR,
+      at: now,
+      formatSeconds: (value) => String(value),
+    });
+
+    expect(entries.map((entry) => entry.name)).toEqual(["sunshower"]);
+  });
+});
+
+describe("Power Hour attribution", () => {
+  const hour = HOUR * 1000;
+  const game: GameState = {
+    ...TEST_FARM,
+    buffs: { "Power hour": { startedAt: createdAt, durationMS: hour } },
+    boostHistory: {
+      "Power hour": [
+        { from: createdAt - 48 * hour, to: createdAt - 47 * hour },
+      ],
+    },
+  };
+
+  const names = (at: number) =>
+    getBoostContributionEntries({
+      contributions: getSeedBoostContributions(game, "Wheat Seed", at),
+      seconds: 4 * HOUR,
+      at,
+      formatSeconds: (value) => String(value),
+    }).map((entry) => entry.name);
+
+  it("credits the running Power Hour", () => {
+    expect(names(at)).toEqual(["Power hour"]);
   });
 
-  it("names no boosters for cooking or an animal", () => {
-    expect(getCookingBoostContributions(BOOSTED, at)).toEqual([]);
-    expect(getAnimalBoostContributions(BOOSTED, "Chicken")).toEqual([]);
-  });
-
-  it("leaves the panel with nothing to add", () => {
-    expect(
-      getBoostContributionEntries({
-        contributions: getNodeBoostContributions(BOOSTED, "Tree", at),
-        seconds: 4 * HOUR,
-        at,
-        formatSeconds: (seconds) => `${Math.round(seconds / 60)}m`,
-      }),
-    ).toEqual([]);
+  it("does not credit a replaced Power Hour once the new one has ended", () => {
+    expect(names(createdAt + 2 * hour)).toEqual([]);
   });
 });

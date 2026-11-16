@@ -41,6 +41,7 @@ export const Kitchen: React.FC<Props> = ({
   const kitchen = useSelector(gameService, _kitchen(buildingId));
   const { cooking, queuedRecipes, readyRecipes } = useCookingState(
     kitchen ?? {},
+    "Kitchen",
   );
   const itemInProgress =
     cooking?.name && cooking.name in COOKABLES

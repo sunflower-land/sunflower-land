@@ -51,6 +51,31 @@ import {
   upgradeInterior,
   type UpgradeInteriorAction,
 } from "./landExpansion/upgradeInterior";
+import {
+  startCaveBatch,
+  type StartCaveBatchAction,
+} from "./landExpansion/startCaveBatch";
+import {
+  digCaveTile,
+  type DigCaveTileAction,
+} from "./landExpansion/digCaveTile";
+import {
+  drillCaveTiles,
+  type DrillCaveTilesAction,
+} from "./landExpansion/drillCaveTiles";
+import { expandCave, type ExpandCaveAction } from "./landExpansion/expandCave";
+import {
+  speedUpCaveExpansion,
+  type SpeedUpCaveExpansionAction,
+} from "./landExpansion/speedUpCaveExpansion";
+import {
+  completeCaveExpansion,
+  type CompleteCaveExpansionAction,
+} from "./landExpansion/completeCaveExpansion";
+import {
+  buyCaveMerchantOffer,
+  type BuyCaveMerchantOfferAction,
+} from "./landExpansion/buyCaveMerchantOffer";
 import { cook, type RecipeCookedAction } from "./landExpansion/cook";
 import {
   collectRecipe,
@@ -519,6 +544,12 @@ import {
   applyAnimalFeedBuff,
   type ApplyAnimalFeedBuffAction,
 } from "./landExpansion/applyAnimalFeedBuff";
+import { applyMud, type ApplyMudAction } from "./landExpansion/applyMud";
+import { tradeInPig, type TradeInPigAction } from "./landExpansion/tradeInPig";
+import {
+  bulkApplyMud,
+  type BulkApplyMudAction,
+} from "./landExpansion/bulkApplyMud";
 import { sellBounty, type SellBountyAction } from "./landExpansion/sellBounty";
 import {
   bulkSellBounty,
@@ -627,6 +658,10 @@ import {
   type InteriorsEnabledAction,
 } from "./updateInteriorsEnabled";
 import {
+  updateExperiment,
+  type ExperimentToggledAction,
+} from "./updateExperiment";
+import {
   updateToolShopSettings,
   type UpdateToolShopSettingsAction,
 } from "./updateToolShopSettings";
@@ -646,6 +681,10 @@ import {
   claimPetalPrize,
   type ClaimPetalPrizeAction,
 } from "./landExpansion/claimPetalPrize";
+import {
+  claimFloatingIslandPrize,
+  type ClaimFloatingIslandPrizeAction,
+} from "./landExpansion/claimFloatingIslandPrize";
 import {
   buyOptionPurchaseItem,
   type BuyOptionPurchaseItemAction,
@@ -715,6 +754,7 @@ import {
   flipFarmHand,
   type FlipFarmHandAction,
 } from "./landExpansion/flipFarmHand";
+import { flipNFT, type FlipNFTAction } from "./landExpansion/flipNFT";
 import {
   flipBumpkin,
   type FlipBumpkinAction,
@@ -742,6 +782,10 @@ import {
   startProject,
   type StartProjectAction,
 } from "./landExpansion/startProject";
+import {
+  collectProject,
+  type CollectProjectAction,
+} from "./landExpansion/collectProject";
 import {
   instaGrowFlower,
   type InstaGrowFlowerAction,
@@ -983,6 +1027,9 @@ export type PlayingEvent =
   | CompleteNPCChoreAction
   | ClaimProduceAction
   | ApplyAnimalFeedBuffAction
+  | ApplyMudAction
+  | BulkApplyMudAction
+  | TradeInPigAction
   | BuyChapterItemAction
   | ClaimPurchaseAction
   | RedeemTradeRewardsAction
@@ -1001,11 +1048,13 @@ export type PlayingEvent =
   | UpdateNetworkAction
   | EconomiesEnabledAction
   | InteriorsEnabledAction
+  | ExperimentToggledAction
   | UpdateToolShopSettingsAction
   | BuyMinigameItemAction
   | AcknowledgeRewardBoxAction
   | OpenRewardBoxAction
   | ClaimPetalPrizeAction
+  | ClaimFloatingIslandPrizeAction
   | BuyOptionPurchaseItemAction
   | InstantCraftAction
   | BuyBiomeAction
@@ -1015,6 +1064,7 @@ export type PlayingEvent =
   | BurnClutterAction
   | InstantGrowProjectAction
   | StartProjectAction
+  | CollectProjectAction
   | InstaGrowFlowerAction
   | UpgradeRockAction
   | UpgradeTreeAction
@@ -1039,7 +1089,14 @@ export type PlayingEvent =
   | ClaimTrackMilestoneAction
   | StartTrialAction
   | UpgradeSaltSculptureAction
-  | UpgradeInteriorAction;
+  | UpgradeInteriorAction
+  | StartCaveBatchAction
+  | DigCaveTileAction
+  | DrillCaveTilesAction
+  | ExpandCaveAction
+  | SpeedUpCaveExpansionAction
+  | CompleteCaveExpansionAction
+  | BuyCaveMerchantOfferAction;
 
 export type LocalVisitingEvent =
   | CollectGarbageAction
@@ -1106,6 +1163,7 @@ export type PlacementEvent =
   | FlipCollectibleAction
   | FlipFarmHandAction
   | FlipBumpkinAction
+  | FlipNFTAction
   | PlaceFarmHandAction
   | MoveFarmHandAction
   | RemoveFarmHandAction
@@ -1288,6 +1346,9 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "chore.fulfilled": completeNPCChore,
   "produce.claimed": claimProduce,
   "animal.feedBuffApplied": applyAnimalFeedBuff,
+  "animal.mudApplied": applyMud,
+  "pigs.bulkMudApplied": bulkApplyMud,
+  "pig.tradedIn": tradeInPig,
   "chapterItem.bought": buyChapterItem,
   "purchase.claimed": claimPurchase,
   "reward.redeemed": redeemTradeReward,
@@ -1307,12 +1368,14 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "network.updated": updateNetwork,
   "economies.enabled": updateEconomiesEnabled,
   "interiors.enabled": updateInteriorsEnabled,
+  "experiment.toggled": updateExperiment,
   "toolShop.settingsUpdated": updateToolShopSettings,
   "minigameItem.bought": buyEventShopItem,
   "rewardBox.acknowledged": acknowledgeRewardBox,
   "rewardBox.opened": openRewardBox,
   "claim.bountyBoardBonus": claimBountyBonus,
   "petalPuzzle.solved": claimPetalPrize,
+  "floatingIslandPrize.claimed": claimFloatingIslandPrize,
   "optionPurchaseItem.bought": buyOptionPurchaseItem,
   "crafting.spedUp": speedUpCrafting,
   "biome.bought": buyBiome,
@@ -1322,6 +1385,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "clutter.burned": burnClutter,
   "project.instantGrow": instantGrowProject,
   "project.started": startProject,
+  "project.collected": collectProject,
   "trial.started": startTrial,
   "rock.upgraded": upgradeRock,
   "tree.upgraded": upgradeTree,
@@ -1340,6 +1404,13 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "farmhand.promoted": promoteFarmhand,
   "saltSculpture.upgraded": upgradeSaltSculpture,
   "interior.upgrade": upgradeInterior,
+  "cave.batchStarted": startCaveBatch,
+  "cave.dug": digCaveTile,
+  "cave.drilled": drillCaveTiles,
+  "cave.expanded": expandCave,
+  "cave.expansionSpedUp": speedUpCaveExpansion,
+  "cave.expansionCompleted": completeCaveExpansion,
+  "cave.merchantOfferBought": buyCaveMerchantOffer,
 };
 
 export const LOCAL_VISITING_EVENTS: Handlers<LocalVisitingEvent> = {
@@ -1382,6 +1453,7 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "nft.placed": placeNFT,
   "nft.moved": moveBud,
   "nft.removed": removeNFT,
+  "nft.flipped": flipNFT,
   "farmHand.placed": placeFarmHand,
   "farmHand.moved": moveFarmHand,
   "farmHand.removed": removeFarmHand,

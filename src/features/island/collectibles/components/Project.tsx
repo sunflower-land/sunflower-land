@@ -19,9 +19,9 @@ import Decimal from "decimal.js-light";
 import classNames from "classnames";
 import {
   getProjectReward,
+  hasProjectRaffle,
   isHelpComplete,
   type MonumentName,
-  RAFFLE_REWARDS,
   REQUIRED_CHEERS,
   REWARD_ITEMS,
   type VillageProjectName,
@@ -71,6 +71,9 @@ import crystalAltarThree from "assets/monuments/crystal_altar_3.webp";
 import ascensionMonumentOne from "assets/monuments/ascension_monument_stage1.webp";
 import ascensionMonumentTwo from "assets/monuments/ascension_monument_stage2.webp";
 import ascensionMonumentThree from "assets/monuments/ascension_monument_stage3.webp";
+import duendeMonumentOne from "assets/monuments/duende_monument_stage1.webp";
+import duendeMonumentTwo from "assets/monuments/duende_monument_stage2.webp";
+import duendeMonumentThree from "assets/monuments/duende_monument_stage3.webp";
 
 import { getPlayer } from "features/social/actions/getPlayer";
 import { useAuth } from "features/auth/lib/Provider";
@@ -166,6 +169,11 @@ export const PROJECT_IMAGES: Record<
     halfway: ascensionMonumentTwo,
     ready: ascensionMonumentThree,
   },
+  "Duende Monument": {
+    empty: duendeMonumentOne,
+    halfway: duendeMonumentTwo,
+    ready: duendeMonumentThree,
+  },
 };
 
 const ProjectComplete: React.FC<{
@@ -251,7 +259,7 @@ const ProjectComplete: React.FC<{
         </span>
       </div>
 
-      {isProjectComplete && RAFFLE_REWARDS[project] && !!winner && (
+      {isProjectComplete && hasProjectRaffle(project) && !!winner && (
         <>
           <div className="flex justify-between flex-wrap">
             <Label
@@ -591,13 +599,26 @@ export const Project: React.FC<ProjectProps> = (input) => {
   const [showHelped, setShowHelped] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
 
-  const handleComplete = async () => {
-    gameService.send("project.completed", {
-      effect: {
-        type: "project.completed",
-        project: input.project,
-      },
-    });
+  const handleComplete = () => {
+    /**
+     * A raffle project also pays out the winner, which is another player's
+     * farm, so it has to be settled server side. Everything else is purely the
+     * owner's own state: complete it locally and let autosave catch up.
+     */
+    if (hasProjectRaffle(input.project)) {
+      gameService.send("project.completed", {
+        effect: {
+          type: "project.completed",
+          project: input.project,
+        },
+      });
+
+      return;
+    }
+
+    // Keep the modal open: collecting clears the project, so it switches to
+    // the start prompt and the player can begin the next one right away.
+    gameService.send("project.collected", { project: input.project });
   };
 
   const handleStartProject = () => {

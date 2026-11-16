@@ -1,7 +1,15 @@
 <!doctype html>
-<html lang="en" class="h-full w-full">
+<!--
+  translate="no" / notranslate: the game ships its own translations, so browser
+  page translation adds nothing. It also rewrites React-owned text nodes into
+  <font> wrappers, which makes React's commit phase throw
+  "Failed to execute 'insertBefore' on 'Node'". `lang` is kept in sync with the
+  selected language in lib/i18n so the browser stops offering to translate.
+-->
+<html lang="en" class="h-full w-full notranslate" translate="no">
   <head>
     <meta charset="UTF-8" />
+    <meta name="google" content="notranslate" />
     <link rel="icon" href="/pwa/icons/favicon.ico" sizes="48x48" />
     <link
       rel="icon"

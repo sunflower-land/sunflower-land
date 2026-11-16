@@ -90,7 +90,7 @@ export const MarketplaceSalesPopup: React.FC = () => {
             const sfl = new Decimal(listing.sfl).sub(tax);
             const estTradePoints = calculateTradePoints({
               sfl: listing.sfl,
-              points: !listing.signature ? 1 : 3,
+              points: 1,
             }).multipliedPoints;
 
             const isResource = isTradeResource(KNOWN_ITEMS[Number(itemId)]);

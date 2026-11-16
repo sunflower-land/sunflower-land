@@ -15,6 +15,8 @@ import {
   pauseWindowedTimer,
 } from "features/game/lib/boostWindows";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { freshRockTimer } from "features/game/lib/freshNodes";
+import { RESOURCE_RECOVERY_TIME } from "features/game/lib/resourceNodes";
 
 export type PlaceIronAction = {
   type: "iron.placed";
@@ -63,6 +65,7 @@ export function placeIron({
           startedAt: updatedIron.stone.minedAt,
           removedAt: updatedIron.removedAt,
           createdAt,
+          rawBaseMs: RESOURCE_RECOVERY_TIME[action.name] * 1000,
           windows: getMineBoostWindows(game, action.name),
         });
       }
@@ -77,9 +80,7 @@ export function placeIron({
       createdAt,
       x: action.coordinates.x,
       y: action.coordinates.y,
-      stone: {
-        minedAt: 0,
-      },
+      stone: freshRockTimer(action.name),
       tier: ADVANCED_RESOURCES[action.name as UpgradedResourceName]?.tier ?? 1,
       name: action.name,
       multiplier: RESOURCE_MULTIPLIER[action.name],

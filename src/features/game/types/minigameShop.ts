@@ -14,7 +14,9 @@ export type EventShopItemName =
   | AprilFoolsShopCollectibleName
   | AprilFoolsShopWearableName
   | Colors2026ShopCollectibleName
-  | Colors2026ShopWearableName;
+  | Colors2026ShopWearableName
+  | Halloween2026ShopCollectibleName
+  | Halloween2026ShopWearableName;
 
 export type EasterShopCollectibleName = Extract<
   InventoryItemName,
@@ -118,6 +120,28 @@ export type Colors2026ShopCollectibleName = Extract<
   | "Giant Donut"
 >;
 
+export type Halloween2026ShopCollectibleName = Extract<
+  InventoryItemName,
+  | "Super Totem"
+  | "Treasure Key"
+  | "Rare Key"
+  | "Luxury Key"
+  | "Huge Jack-o'-lantern"
+  | "Haunted TV"
+  | "Zombie Hand Toy"
+  | "Cool Zombie Tombstone"
+  | "Destroyed Sign"
+  | "Skull Candles"
+  | "Plague Crow"
+  | "Skeleton Crow"
+  | "Witch Crow"
+  | "Fisherbird Crow"
+  | "Chained Crow"
+  | "Count Vlad Crow"
+  | "Lual Crow"
+  | "Halloween Ticket 2026"
+>;
+
 export type EasterShopWearableName = Extract<
   BumpkinItem,
   | "Bunny Pants"
@@ -202,6 +226,21 @@ export type Colors2026ShopWearableName = Extract<
   | "Red Jelly Pants"
 >;
 
+export type Halloween2026ShopWearableName = Extract<
+  BumpkinItem,
+  | "Vampire Headwear"
+  | "Butcher Knife"
+  | "Skeleton Mask"
+  | "Vampire Breeches"
+  | "Scary Nights Background"
+  | "Vampire Garments"
+  | "Hook and Chain"
+  | "Vampire Footwear"
+  | "Skeleton Costume"
+  | "Sky Tearer Wings"
+  | "Bat Aura"
+>;
+
 export type EasterShopItemName =
   | EasterShopCollectibleName
   | EasterShopWearableName;
@@ -225,6 +264,10 @@ export type AprilFoolsShopItemName =
 export type Colors2026ShopItemName =
   | Colors2026ShopCollectibleName
   | Colors2026ShopWearableName;
+
+export type Halloween2026ShopItemName =
+  | Halloween2026ShopCollectibleName
+  | Halloween2026ShopWearableName;
 
 type EventShopBase = {
   cost: { sfl: number; items: Partial<Record<InventoryItemName, number>> };
@@ -1145,6 +1188,191 @@ export const COLORS_2026_STORE: MinigameShop<Colors2026ShopItemName> = {
   },
 };
 
+export const HALLOWEEN_2026_STORE: MinigameShop<Halloween2026ShopItemName> = {
+  // basic
+  "Treasure Key": {
+    cost: { sfl: 0, items: { "Halloween Token 2026": 200 } },
+    max: 1,
+    type: "collectible",
+    name: "Treasure Key",
+  },
+  "Halloween Ticket 2026": {
+    cost: { sfl: 0, items: { "Halloween Token 2026": 100 } },
+    max: 10000,
+    type: "collectible",
+    name: "Halloween Ticket 2026",
+  },
+  "Destroyed Sign": {
+    cost: { sfl: 10, items: {} },
+    max: 5,
+    type: "collectible",
+    name: "Destroyed Sign",
+  },
+  "Zombie Hand Toy": {
+    cost: { sfl: 0, items: { "Halloween Token 2026": 300 } },
+    max: 1,
+    type: "collectible",
+    name: "Zombie Hand Toy",
+  },
+  "Skull Candles": {
+    cost: { sfl: 20, items: {} },
+    max: 10,
+    type: "collectible",
+    name: "Skull Candles",
+  },
+  "Count Vlad Crow": {
+    cost: { sfl: 0, items: { "Halloween Token 2026": 200 } },
+    max: 1,
+    type: "collectible",
+    name: "Count Vlad Crow",
+  },
+  "Lual Crow": {
+    cost: { sfl: 0, items: { "Halloween Token 2026": 100 } },
+    max: 1,
+    type: "collectible",
+    name: "Lual Crow",
+  },
+  "Butcher Knife": {
+    cost: { sfl: 30, items: {} },
+    max: 1,
+    type: "wearable",
+    name: "Butcher Knife",
+  },
+  "Vampire Footwear": {
+    cost: { sfl: 0, items: { "Halloween Token 2026": 100 } },
+    max: 1,
+    type: "wearable",
+    name: "Vampire Footwear",
+  },
+  // rare
+  "Rare Key": {
+    cost: { sfl: 0, items: { "Halloween Token 2026": 400 } },
+    max: 1,
+    type: "collectible",
+    name: "Rare Key",
+  },
+  "Skeleton Crow": {
+    cost: { sfl: 20, items: {} },
+    max: 1,
+    type: "collectible",
+    name: "Skeleton Crow",
+  },
+  "Fisherbird Crow": {
+    cost: { sfl: 0, items: { "Halloween Token 2026": 400 } },
+    max: 1,
+    type: "collectible",
+    name: "Fisherbird Crow",
+  },
+  "Chained Crow": {
+    cost: {
+      sfl: 0,
+      items: { "Halloween Token 2026": 300 },
+    },
+    max: 1,
+    type: "collectible",
+    name: "Chained Crow",
+  },
+  "Cool Zombie Tombstone": {
+    cost: { sfl: 0, items: { "Halloween Token 2026": 500 } },
+    max: 1,
+    type: "collectible",
+    name: "Cool Zombie Tombstone",
+  },
+  "Hook and Chain": {
+    cost: { sfl: 30, items: {} },
+    max: 1,
+    type: "wearable",
+    name: "Hook and Chain",
+  },
+  "Skeleton Mask": {
+    cost: { sfl: 40, items: {} },
+    max: 1,
+    type: "wearable",
+    name: "Skeleton Mask",
+  },
+  "Vampire Headwear": {
+    cost: { sfl: 0, items: { "Halloween Token 2026": 300 } },
+    max: 1,
+    type: "wearable",
+    name: "Vampire Headwear",
+  },
+  "Vampire Breeches": {
+    cost: { sfl: 0, items: { "Halloween Token 2026": 200 } },
+    max: 1,
+    type: "wearable",
+    name: "Vampire Breeches",
+  },
+  // epic
+  "Luxury Key": {
+    cost: { sfl: 0, items: { "Halloween Token 2026": 700 } },
+    max: 1,
+    type: "collectible",
+    name: "Luxury Key",
+  },
+  "Haunted TV": {
+    cost: { sfl: 0, items: { "Halloween Token 2026": 400 } },
+    max: 1,
+    type: "collectible",
+    name: "Haunted TV",
+  },
+  "Witch Crow": {
+    cost: { sfl: 0, items: { "Halloween Token 2026": 400 } },
+    max: 1,
+    type: "collectible",
+    name: "Witch Crow",
+  },
+  "Plague Crow": {
+    cost: { sfl: 0, items: { "Halloween Token 2026": 400 } },
+    max: 1,
+    type: "collectible",
+    name: "Plague Crow",
+  },
+  "Vampire Garments": {
+    cost: { sfl: 50, items: {} },
+    max: 1,
+    type: "wearable",
+    name: "Vampire Garments",
+  },
+  "Skeleton Costume": {
+    cost: { sfl: 50, items: {} },
+    max: 1,
+    type: "wearable",
+    name: "Skeleton Costume",
+  },
+  // mega
+  "Super Totem": {
+    cost: { sfl: 0, items: { "Halloween Token 2026": 2000 } },
+    max: 1,
+    type: "collectible",
+    name: "Super Totem",
+  },
+  "Sky Tearer Wings": {
+    cost: { sfl: 300, items: {} },
+    max: 1,
+    type: "wearable",
+    name: "Sky Tearer Wings",
+  },
+  "Bat Aura": {
+    cost: { sfl: 600, items: {} },
+    max: 1,
+    type: "wearable",
+    name: "Bat Aura",
+  },
+  "Scary Nights Background": {
+    cost: { sfl: 0, items: { "Halloween Token 2026": 1000 } },
+    max: 1,
+    type: "wearable",
+    name: "Scary Nights Background",
+  },
+  // extra
+  "Huge Jack-o'-lantern": {
+    cost: { sfl: 1, items: {} },
+    max: 1,
+    type: "collectible",
+    name: "Huge Jack-o'-lantern",
+  },
+};
+
 export const MINIGAME_SHOP_ITEMS: Partial<
   Record<MinigameName, AnyMinigameShop>
 > = {
@@ -1154,4 +1382,5 @@ export const MINIGAME_SHOP_ITEMS: Partial<
   "holiday-puzzle-2025": HOLIDAY_STORE,
   "april-fools": APRIL_FOOLS_STORE,
   "colors-2026": COLORS_2026_STORE,
+  "halloween-2026-game-2": HALLOWEEN_2026_STORE,
 };

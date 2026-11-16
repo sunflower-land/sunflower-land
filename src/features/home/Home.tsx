@@ -43,6 +43,7 @@ import { useVisiting } from "lib/utils/visitUtils";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { getObjectEntries } from "lib/object";
 import { PlayerModal } from "features/social/PlayerModal";
+import { Discovery } from "features/social/Discovery";
 import { hasFeatureAccess } from "lib/flags";
 import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { Context as AuthContext } from "features/auth/lib/Provider";
@@ -423,6 +424,7 @@ export const Home: React.FC = () => {
           token={token}
           hasAirdropAccess={hasAirdropAccess}
         />
+        <Discovery />
       </>
     </>
   );

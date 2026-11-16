@@ -8,6 +8,7 @@ import type { PetNFTType } from "features/game/types/pets";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { type NPCName, NPC_WEARABLES } from "lib/npcs";
 import { npcModalManager } from "../ui/NPCModals";
+import { getKeys } from "lib/object";
 import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import type { EventObject } from "xstate";
 import { isTouchDevice } from "../lib/device";
@@ -31,7 +32,7 @@ import type {
   Order,
 } from "features/game/types/game";
 import { hasOrderRequirements } from "features/island/delivery/components/Orders";
-import { translateForBubble } from "lib/i18n/translate";
+import { translate } from "lib/i18n/translate";
 import type { Room } from "colyseus.js";
 
 import defaultTilesetConfig from "assets/map/tileset.json";
@@ -124,6 +125,35 @@ type OutgoingMicroInteractionState = {
 
 const MICRO_INTERACTION_TIMEOUT_MS = 5000;
 
+/** Lets the NPC modal fade out before the NPC behind it celebrates. */
+const NPC_DANCE_DELAY_MS = 300;
+
+/** How close the player comes before an NPC with a delivery waves at them. */
+const NPC_GREETING_DISTANCE = 80;
+/**
+ * How far the player goes before that NPC will wave at them again. Further
+ * than the greeting distance, so pacing along its edge doesn't set them off.
+ */
+const NPC_GREETING_RESET_DISTANCE = 110;
+
+type NPCCelebration = {
+  giftedAt: number;
+  friendship: number;
+  deliveries: number;
+};
+
+/**
+ * When the NPC was last gifted a flower, their friendship after it, and how
+ * many deliveries the player has made to them.
+ */
+const getNPCCelebration = (game: GameState, npc: NPCName): NPCCelebration => ({
+  giftedAt: game.npcs?.[npc]?.friendship?.giftedAt ?? 0,
+  friendship: game.npcs?.[npc]?.friendship?.points ?? 0,
+  deliveries: game.npcs?.[npc]?.deliveryCount ?? 0,
+});
+
+type PendingNPCCelebration = "gift" | "delivery";
+
 export abstract class BaseScene extends Phaser.Scene {
   abstract sceneId: SceneId;
   eventListener?: (event: EventObject) => void;
@@ -140,6 +170,9 @@ export abstract class BaseScene extends Phaser.Scene {
   private activeInteractionTarget?: BumpkinContainer;
 
   npcs: Partial<Record<NPCName, BumpkinContainer>> = {};
+  private npcCelebrations: Partial<Record<NPCName, NPCCelebration>> = {};
+  private pendingNPCCelebrations = new Map<NPCName, PendingNPCCelebration[]>();
+  private greetedNPCs = new Set<NPCName>();
 
   currentPlayer: BumpkinContainer | undefined;
   isFacingLeft = false;
@@ -371,10 +404,10 @@ export abstract class BaseScene extends Phaser.Scene {
 
       let spawn = this.options.player.spawn;
 
-      if (SPAWNS()[this.sceneId]) {
+      const spawns = SPAWNS(this.gameState.bumpkin?.experience);
+      if (spawns[this.sceneId]) {
         spawn =
-          (from && SPAWNS()[this.sceneId][from]) ??
-          SPAWNS()[this.sceneId].default;
+          (from && spawns[this.sceneId][from]) ?? spawns[this.sceneId].default;
       }
 
       this.createPlayer({
@@ -402,8 +435,17 @@ export abstract class BaseScene extends Phaser.Scene {
 
       // When game state updates (e.g. after completing a delivery), refresh NPC delivery icons
       this.game.events.on("gameStateUpdated", this.refreshDeliveryIcons, this);
+      this.game.events.on("gameStateUpdated", this.celebrateNPCs, this);
+      const stopListeningToNPCModal = npcModalManager.onClose(
+        this.playPendingNPCCelebrations,
+      );
       this.events.once("shutdown", () => {
         this.game.events.off("gameStateUpdated", this.refreshDeliveryIcons);
+        this.game.events.off("gameStateUpdated", this.celebrateNPCs, this);
+        stopListeningToNPCModal();
+        this.pendingNPCCelebrations.clear();
+        this.npcCelebrations = {};
+        this.greetedNPCs.clear();
       });
 
       // handles player modal
@@ -497,7 +539,7 @@ export abstract class BaseScene extends Phaser.Scene {
           );
 
           if (distance > 50) {
-            this.currentPlayer?.speak(translateForBubble("base.far.away"));
+            this.currentPlayer?.speak(translate("base.far.away"));
             return;
           }
 
@@ -533,7 +575,7 @@ export abstract class BaseScene extends Phaser.Scene {
         );
 
         if (closestDistance > 50) {
-          this.currentPlayer?.speak(translateForBubble("base.far.away"));
+          this.currentPlayer?.speak(translate("base.far.away"));
           return;
         }
 
@@ -1049,7 +1091,7 @@ export abstract class BaseScene extends Phaser.Scene {
     const sender = this.findBumpkinByFarmId(interaction.senderId);
 
     if (reason === "timeout") {
-      sender?.speak(translateForBubble("microInteraction.maybe.later"));
+      sender?.speak(translate("microInteraction.maybe.later"));
     }
   }
 
@@ -1085,8 +1127,8 @@ export abstract class BaseScene extends Phaser.Scene {
     ) {
       switch (interaction) {
         case "wave_ack": {
-          sender.speak(translateForBubble("microInteraction.great.to.see.you"));
-          receiver.speak(translateForBubble("microInteraction.hey.there"));
+          sender.speak(translate("microInteraction.great.to.see.you"));
+          receiver.speak(translate("microInteraction.hey.there"));
 
           // Determine the other participant for wave tracking
           const currentFarmId = this.currentPlayer?.farmId;
@@ -1186,11 +1228,9 @@ export abstract class BaseScene extends Phaser.Scene {
           break;
         }
         case "cheer_ack":
-          sender.speak(
-            translateForBubble("microInteraction.here.s.a.cheer.for.you"),
-          );
+          sender.speak(translate("microInteraction.here.s.a.cheer.for.you"));
           setTimeout(() => {
-            receiver.speak(translateForBubble("microInteraction.thanks"));
+            receiver.speak(translate("microInteraction.thanks"));
           }, 1000);
           if (this.currentPlayer?.farmId === receiverId) {
             setTimeout(() => {
@@ -1363,9 +1403,7 @@ export abstract class BaseScene extends Phaser.Scene {
               );
 
               if (distance > 50) {
-                this.currentPlayer?.speak(
-                  translateForBubble("base.iam.far.away"),
-                );
+                this.currentPlayer?.speak(translate("base.iam.far.away"));
                 return;
               }
 
@@ -1692,7 +1730,7 @@ export abstract class BaseScene extends Phaser.Scene {
       if (!npc) return;
 
       if (distance > 50) {
-        entity.speak(translateForBubble("base.far.away"));
+        entity.speak(translate("base.far.away"));
         return;
       }
 
@@ -1859,6 +1897,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.switchScene();
     this.updatePlayer();
     this.updateOtherPlayers();
+    this.greetNearbyNPCs();
     this.updateShaders();
     this.updateUsernames();
     this.updateFactions();
@@ -2295,8 +2334,9 @@ export abstract class BaseScene extends Phaser.Scene {
       this.switchToScene = undefined;
 
       let spawn = this.options.player.spawn;
-      if (SPAWNS()[warpTo]) {
-        spawn = SPAWNS()[warpTo][this.sceneId] ?? SPAWNS()[warpTo].default;
+      const spawns = SPAWNS(this.gameState.bumpkin?.experience);
+      if (spawns[warpTo]) {
+        spawn = spawns[warpTo][this.sceneId] ?? spawns[warpTo].default;
       }
       // This will cause a loop
       // this.registry.get("navigate")(`/world/${warpTo}`);
@@ -2352,7 +2392,7 @@ export abstract class BaseScene extends Phaser.Scene {
         );
 
         if (distance > 50) {
-          container.speak(translateForBubble("base.far.away"));
+          container.speak(translate("base.far.away"));
           return;
         }
         npcModalManager.open(bumpkin.npc);
@@ -2383,6 +2423,100 @@ export abstract class BaseScene extends Phaser.Scene {
       this.colliders?.add(container);
       this.triggerColliders?.add(container);
       this.npcs[bumpkin.npc] = container;
+      this.npcCelebrations[bumpkin.npc] = getNPCCelebration(
+        gameState,
+        bumpkin.npc,
+      );
+    });
+  }
+
+  /**
+   * An NPC in this scene dances when the player gifts them a flower, and
+   * hops with a heart when the player delivers to them.
+   */
+  private celebrateNPCs = () => {
+    const gameState = this.gameState;
+    if (!gameState) return;
+
+    getKeys(this.npcCelebrations).forEach((npc) => {
+      const previous = this.npcCelebrations[npc];
+      const current = getNPCCelebration(gameState, npc);
+      this.npcCelebrations[npc] = current;
+
+      if (!previous) return;
+
+      // A delivery also raises friendship, but only a gift moves `giftedAt`
+      const gifted =
+        current.giftedAt > previous.giftedAt &&
+        current.friendship > previous.friendship;
+
+      const celebration: PendingNPCCelebration | undefined = gifted
+        ? "gift"
+        : current.deliveries > previous.deliveries
+          ? "delivery"
+          : undefined;
+      if (!celebration) return;
+
+      // A gift and a delivery made in one visit both play, in that order
+      const pending = this.pendingNPCCelebrations.get(npc) ?? [];
+      if (!pending.includes(celebration)) {
+        this.pendingNPCCelebrations.set(npc, [...pending, celebration]);
+      }
+    });
+
+    // The NPC is hidden behind their modal - wait until it closes
+    if (!npcModalManager.isOpen) {
+      this.playPendingNPCCelebrations();
+    }
+  };
+
+  private playPendingNPCCelebrations = () => {
+    if (this.pendingNPCCelebrations.size === 0) return;
+
+    const celebrations = [...this.pendingNPCCelebrations];
+    this.pendingNPCCelebrations.clear();
+
+    this.time.delayedCall(NPC_DANCE_DELAY_MS, () => {
+      celebrations.forEach(([npc, pending]) => {
+        const playNext = ([celebration, ...rest]: PendingNPCCelebration[]) => {
+          const container = this.npcs[npc];
+          if (!celebration || !container?.active) return;
+
+          const next = () => playNext(rest);
+          if (celebration === "gift") container.dance(next);
+          else container.receive(next);
+        };
+
+        playNext(pending);
+      });
+    });
+  };
+
+  /**
+   * An NPC the player can deliver to waves each time the player comes near.
+   */
+  private greetNearbyNPCs() {
+    const player = this.currentPlayer;
+    if (!player) return;
+
+    getKeys(this.npcs).forEach((npc) => {
+      const container = this.npcs[npc];
+      if (!container?.active) return;
+
+      const distance = Phaser.Math.Distance.BetweenPoints(container, player);
+
+      if (this.greetedNPCs.has(npc)) {
+        // The player has walked off - wave again when they come back
+        if (distance > NPC_GREETING_RESET_DISTANCE) {
+          this.greetedNPCs.delete(npc);
+        }
+        return;
+      }
+
+      if (!container.hasDelivery || distance > NPC_GREETING_DISTANCE) return;
+
+      // Not ready to wave yet (still loading) - try again on a later tick
+      if (container.greet(player)) this.greetedNPCs.add(npc);
     });
   }
 

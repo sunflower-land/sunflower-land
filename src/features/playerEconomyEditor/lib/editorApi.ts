@@ -24,7 +24,8 @@ export type PlayerEconomyEditorClientEvent =
       files: { path: string; contentType: string }[];
     }
   | { type: "economy.invalidated"; slug: string }
-  | { type: "economy.reset"; slug: string };
+  | { type: "economy.reset"; slug: string }
+  | { type: "economy.privateKeyReset"; slug: string };
 
 /** Parsed from POST /event/:farmId JSON (same envelope as other game effects). */
 export type PlayerEconomyEditorEventResult = {
@@ -120,6 +121,9 @@ export function ensurePlayerEconomyConfig(raw: unknown): PlayerEconomyConfig {
       ? { purchases: base.purchases as PlayerEconomyConfig["purchases"] }
       : {}),
     ...(typeof base.enabled === "boolean" ? { enabled: base.enabled } : {}),
+    ...(typeof base.requirePrivateKey === "boolean"
+      ? { requirePrivateKey: base.requirePrivateKey }
+      : {}),
   };
 
   return migrateLegacyPlayerEconomyConfigFields(input);
@@ -158,6 +162,11 @@ export function toPlayerEconomyConfigRow(
       ? r.invalidatedAt.trim()
       : undefined;
 
+  const privateKeyCreatedAt =
+    typeof r.privateKeyCreatedAt === "string" && r.privateKeyCreatedAt.trim()
+      ? r.privateKeyCreatedAt.trim()
+      : undefined;
+
   return {
     slug: r.slug.trim(),
     farmId: Number(r.farmId ?? 0),
@@ -168,6 +177,8 @@ export function toPlayerEconomyConfigRow(
     config: ensurePlayerEconomyConfig(r.config),
     ...(hostedSiteIndex !== undefined ? { hostedSiteIndex } : {}),
     ...(invalidatedAt !== undefined ? { invalidatedAt } : {}),
+    hasPrivateKey: r.hasPrivateKey === true,
+    ...(privateKeyCreatedAt !== undefined ? { privateKeyCreatedAt } : {}),
   };
 }
 
@@ -212,4 +223,16 @@ export function extractSavedEditorFromEventData(
     savedRow: row,
     savedConfig: config,
   };
+}
+
+/**
+ * Plaintext economy secret key from `playerEconomy.created` / `economy.privateKeyReset`.
+ * The API only stores a hash, so this is the one time the key is visible.
+ */
+export function extractPrivateKeyFromEventData(
+  data: unknown,
+): string | undefined {
+  if (!data || typeof data !== "object") return undefined;
+  const key = (data as Record<string, unknown>).privateKey;
+  return typeof key === "string" && key.trim() ? key.trim() : undefined;
 }

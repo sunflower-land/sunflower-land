@@ -3,15 +3,15 @@ import type { PlaceableLocation } from "features/game/types/collectibles";
 import type { GameState, PlacedItem } from "features/game/types/game";
 import { produce } from "immer";
 import { getKeys } from "lib/object";
-import { hasFeatureAccess } from "lib/flags";
 import { getChestItemCount } from "features/island/hud/components/inventory/utils/inventory";
 import {
   getCollectibleExpiry,
-  getExpiryCooldown,
+  EXPIRY_COOLDOWNS,
   isTemporaryCollectible,
   type TemporaryCollectibleName,
 } from "features/game/lib/collectibleBuilt";
 import {
+  exceedsShrineExtensionCap,
   getExtensionCost,
   getExtensionPayments,
   getExtensionResult,
@@ -54,10 +54,6 @@ export function extendCollectible({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    if (!hasFeatureAccess(game, "SPEED_BOOSTS")) {
-      throw new Error("Collectible cannot be extended");
-    }
-
     if (!isTemporaryCollectible(action.name)) {
       throw new Error("Collectible cannot be extended");
     }
@@ -124,11 +120,21 @@ export function extendCollectible({
     const expiresAt = getCollectibleExpiry({
       name: action.name,
       collectible: collectibleToExtend,
-      game,
     });
 
     if (expiresAt <= createdAt) {
       throw new Error("Collectible has expired");
+    }
+
+    // Shrines can only be kept alive up to 30 days from now.
+    if (
+      exceedsShrineExtensionCap({
+        name: action.name,
+        payWith,
+        remainingMs: expiresAt - createdAt,
+      })
+    ) {
+      throw new Error("Shrine extension exceeds maximum duration");
     }
 
     const { coins, ingredients } = getExtensionCost(action.name, payWith);
@@ -149,7 +155,7 @@ export function extendCollectible({
       }
     });
 
-    const result = getExtensionResult(action.name, payWith, game);
+    const result = getExtensionResult(action.name, payWith);
     const isPromotion = result !== action.name;
 
     if (isPromotion) {
@@ -175,13 +181,13 @@ export function extendCollectible({
      * silently re-timing it. With no promotion this is the plain
      * `extendedMs + addedMs`.
      */
-    const addedMs = getExpiryCooldown(payWith, game);
+    const addedMs = EXPIRY_COOLDOWNS[payWith];
     const extendedMs = Math.max(
       0,
-      getExpiryCooldown(action.name, game) +
+      EXPIRY_COOLDOWNS[action.name] +
         (collectibleToExtend.extendedMs ?? 0) +
         addedMs -
-        getExpiryCooldown(result, game),
+        EXPIRY_COOLDOWNS[result],
     );
 
     if (!isPromotion) {

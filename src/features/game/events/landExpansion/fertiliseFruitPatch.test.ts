@@ -8,7 +8,6 @@ import {
 } from "./fertiliseFruitPatch";
 import { PATCH_FRUIT_SEEDS } from "features/game/types/fruits";
 import { getFruitReadyAt } from "./fruitPatchReadiness";
-import { CONFIG } from "lib/config";
 
 const dateNow = Date.now();
 const appleMs = PATCH_FRUIT_SEEDS["Apple Seed"].plantSeconds * 1000;
@@ -136,48 +135,7 @@ describe("fertiliseFruitPatch", () => {
     expect(state.inventory["Fruitful Blend"]).toEqual(new Decimal(4));
   });
 
-  describe("Turbofruit Mix — LEGACY (mainnet, back-dated deduction)", () => {
-    const originalNetwork = CONFIG.NETWORK;
-    beforeEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-    });
-    afterEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-    });
-
-    it("back-dates plantedAt so the remaining grow time is ×0.8", () => {
-      const plantedAt = dateNow - appleMs / 2;
-      const state = fertiliseFruitPatch({
-        state: withPatch({
-          name: "Apple",
-          plantedAt,
-          harvestedAt: 0,
-          harvestsLeft: 3,
-        }),
-        action: {
-          type: "fruitPatch.fertilised",
-          patchID: "0",
-          fertiliser: "Turbofruit Mix",
-        },
-        createdAt: dateNow,
-      });
-
-      const remainingMs = plantedAt + appleMs - dateNow;
-      expect(state.fruitPatches["0"].fruit?.plantedAt).toEqual(
-        plantedAt - remainingMs * 0.2,
-      );
-    });
-  });
-
-  describe("Turbofruit Mix — SPEED_BOOSTS (amoy, live window)", () => {
-    const originalNetwork = CONFIG.NETWORK;
-    beforeEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
-    });
-    afterEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-    });
-
+  describe("Turbofruit Mix — live window", () => {
     it("does NOT mutate the fruit — just records the fertiliser at fertilisedAt", () => {
       const plantedAt = dateNow - appleMs / 2;
       const state = fertiliseFruitPatch({

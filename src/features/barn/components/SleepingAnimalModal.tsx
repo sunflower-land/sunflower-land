@@ -26,6 +26,8 @@ import {
   getAnimalLevel,
   getResourceDropAmount,
   isMaxLevel as isMaxAnimalLevel,
+  isMuddy,
+  MUD_XP_MULTIPLIER,
 } from "features/game/lib/animals";
 import {
   ANIMAL_LEVELS,
@@ -49,11 +51,20 @@ import { formatNumber } from "lib/utils/formatNumber";
 const ProductionResource: React.FC<{
   resource: AnimalResource;
   amount: number;
+  baseAmount: number;
   boosts: { name: BoostName; value: string }[];
   state: GameState;
   showBoosts: boolean;
   onToggle: () => void;
-}> = ({ resource, amount, boosts, state, showBoosts, onToggle }) => {
+}> = ({
+  resource,
+  amount,
+  baseAmount,
+  boosts,
+  state,
+  showBoosts,
+  onToggle,
+}) => {
   const { t } = useAppTranslation();
   const anchorRef = useRef<HTMLButtonElement>(null);
   const hasBoosts = boosts.length > 0;
@@ -101,6 +112,10 @@ const ProductionResource: React.FC<{
       {content}
       <BoostsDisplay
         boosts={boosts}
+        base={{
+          value: formatNumber(baseAmount),
+          icon: ITEM_DETAILS[resource].image,
+        }}
         show={showBoosts}
         state={state}
         onClick={onToggle}
@@ -137,7 +152,7 @@ export const SleepingAnimalModal = ({
     startedAt: animal.asleepAt,
     baseDurationMs: animal.baseDurationMs,
     windows: getAnimalBoostWindows(state, animal.type),
-    legacyReadyAt: awakeAt,
+    fallbackReadyAt: awakeAt,
   });
   // The love slot is a wall-clock boundary, not a work timer.
   const { totalSeconds: secondsUntilLove } = useCountdown(
@@ -261,21 +276,24 @@ export const SleepingAnimalModal = ({
               {":"}
             </span>
             <div className="flex flex-nowrap items-center gap-x-3 whitespace-nowrap">
-              {production.map(({ resource, amount, boostsUsed }) => (
-                <ProductionResource
-                  key={resource}
-                  resource={resource}
-                  amount={amount}
-                  boosts={boostsUsed}
-                  state={state}
-                  showBoosts={activeProductionResource === resource}
-                  onToggle={() =>
-                    setActiveProductionResource((active) =>
-                      active === resource ? null : resource,
-                    )
-                  }
-                />
-              ))}
+              {production.map(
+                ({ resource, amount, baseAmount, boostsUsed }) => (
+                  <ProductionResource
+                    key={resource}
+                    resource={resource}
+                    amount={amount}
+                    baseAmount={baseAmount}
+                    boosts={boostsUsed}
+                    state={state}
+                    showBoosts={activeProductionResource === resource}
+                    onToggle={() =>
+                      setActiveProductionResource((active) =>
+                        active === resource ? null : resource,
+                      )
+                    }
+                  />
+                ),
+              )}
             </div>
           </div>
         )}
@@ -372,6 +390,27 @@ export const SleepingAnimalModal = ({
               <span className="text-xs -top-0.5 relative">
                 {t("sleepingAnimal.harvestsLeft", {
                   count: animal.feedBuff.harvestsRemaining,
+                })}
+              </span>
+            </div>
+          </div>
+        )}
+
+        {animal.mud && isMuddy(animal) && (
+          <div className="flex text-sm p-1 items-center">
+            <img
+              src={ITEM_DETAILS.Mud.image}
+              alt={getTranslatedItemName("Mud")}
+              className="w-6 mr-2"
+            />
+            <div>
+              <p className="text-sm font-secondary">
+                {getTranslatedItemName("Mud")}
+              </p>
+              <span className="text-xs -top-0.5 relative">
+                {t("sleepingAnimal.mudHarvestsLeft", {
+                  count: animal.mud.harvestsRemaining,
+                  percent: Math.round((MUD_XP_MULTIPLIER - 1) * 100),
                 })}
               </span>
             </div>

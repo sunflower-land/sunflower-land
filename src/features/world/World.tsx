@@ -1,4 +1,5 @@
 import { Context } from "features/game/GameProvider";
+import { CONFIG } from "lib/config";
 import { ModalProvider } from "features/game/components/modal/ModalProvider";
 import React, { createContext, useContext, useEffect } from "react";
 import { PhaserComponent } from "./Phaser";
@@ -32,12 +33,35 @@ import {
   meetsLevelRequirement,
 } from "features/game/lib/level";
 import { getActiveFloatingIsland } from "features/game/types/floatingIsland";
+import { hasPlazaAccess } from "features/island/delivery/lib/onboarding";
 import { adminFeatureFlag } from "lib/flags";
 import { useVisiting } from "lib/utils/visitUtils";
 import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   isCommunity?: boolean;
+}
+
+/**
+ * Art mode (no API) loads one offline farm, so every tab would join the MMO
+ * as the same player - and the island puzzles count players by farm id. Give
+ * each tab its own id, kept for the tab's life, so one tester can open a few
+ * tabs and be a crowd.
+ */
+function getArtModeFarmId(): number {
+  const key = "art_mode_farm_id";
+
+  try {
+    const saved = Number(sessionStorage.getItem(key));
+    if (saved > 0) return saved;
+
+    const fresh = 1_000_000 + Math.floor(Math.random() * 1_000_000);
+    sessionStorage.setItem(key, String(fresh));
+
+    return fresh;
+  } catch {
+    return 1_000_000 + Math.floor(Math.random() * 1_000_000);
+  }
 }
 
 export const WorldContext = createContext<{ isCommunity: boolean }>({
@@ -100,7 +124,7 @@ const SCENE_ACCESS: Partial<
   love_island: (game) =>
     !!getActiveFloatingIsland({ state: game }) || !!adminFeatureFlag(game),
   infernos: (game) => hasWorldLevel(game, 30),
-  plaza: (game) => hasWorldLevel(game, 2),
+  plaza: (game) => hasPlazaAccess(game),
   kingdom: (game) => hasWorldLevel(game, 7),
   beach: (game) => hasWorldLevel(game, 4),
   woodlands: (game) => hasWorldLevel(game, 6),
@@ -123,7 +147,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   const mmoService = useInterpret(mmoMachine, {
     context: {
       jwt: authState.context.user.rawToken,
-      farmId: gameState.context.farmId,
+      farmId: CONFIG.API_URL ? gameState.context.farmId : getArtModeFarmId(),
       bumpkin: gameState.context.state.bumpkin,
       pets: gameState.context.state.pets,
       faction: gameState.context.state.faction?.name,
@@ -140,7 +164,8 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
     if (
       mmoState.context.sceneId &&
       !location.pathname.includes("marketplace") &&
-      !location.pathname.includes("chapter")
+      !location.pathname.includes("chapter") &&
+      !location.pathname.includes("hall-of-fame")
     ) {
       navigate(`/world/${mmoState.context.sceneId}`);
     }

@@ -46,6 +46,8 @@ export type LeaderboardBid = {
   rank: number;
   tickets: number;
   experience: number;
+  /** Ascension snapshotted on the bid — read with `experience` to derive the level. */
+  ascensionLevel?: number;
   sfl: number;
   items: Partial<Record<InventoryItemName, number>>;
   farmId: number;

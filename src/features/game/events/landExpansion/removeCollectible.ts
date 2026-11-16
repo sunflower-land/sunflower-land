@@ -1,3 +1,4 @@
+import { refreshBeehivesOnRateChange } from "features/game/lib/updateBeehives";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import type { CollectibleName } from "features/game/types/craftables";
 import type {
@@ -16,6 +17,10 @@ import {
 } from "features/game/lib/collectibleBuilt";
 import { PET_SHRINES } from "features/game/types/pets";
 import { populateSaltFarm } from "features/game/types/salt";
+import {
+  snapshotGuardianPlacements,
+  syncGuardianPlacements,
+} from "features/game/lib/guardianPlacements";
 import { isPetCollectible } from "./placeCollectible";
 
 export enum REMOVE_COLLECTIBLE_ERRORS {
@@ -44,7 +49,7 @@ export function removeCollectible({
   action,
   createdAt = Date.now(),
 }: Options) {
-  return produce(state, (stateCopy) => {
+  const gameAfter = produce(state, (stateCopy) => {
     const { bumpkin } = stateCopy;
 
     const getCollectibleGroup = (
@@ -115,7 +120,6 @@ export function removeCollectible({
       const expiresAt = getCollectibleExpiry({
         name: action.name as TemporaryCollectibleName,
         collectible,
-        game: stateCopy,
       });
 
       if (!cooldown || expiresAt > createdAt) {
@@ -137,6 +141,18 @@ export function removeCollectible({
       now: createdAt,
     });
 
+    syncGuardianPlacements(
+      stateCopy,
+      snapshotGuardianPlacements(state),
+      createdAt,
+    );
+
     return stateCopy;
+  });
+
+  return refreshBeehivesOnRateChange({
+    gameBefore: state,
+    gameAfter,
+    createdAt,
   });
 }

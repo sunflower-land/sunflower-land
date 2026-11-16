@@ -5,7 +5,7 @@ import { SomethingWentWrong } from "./components/SomethingWentWrong";
 import { DuplicateUser } from "./components/DuplicateUser";
 import { Congestion } from "./components/Congestion";
 import { SessionExpired } from "./components/SessionExpired";
-import { type ErrorCode, ERRORS } from "lib/errors";
+import { type ErrorCode, ERRORS, isSocialLinkError } from "lib/errors";
 import { TooManyRequests } from "./components/TooManyRequests";
 import { Maintenance } from "./components/Maintenance";
 import { MultipleDevices } from "./components/MultipleDevices";
@@ -24,6 +24,8 @@ import { SocialIdentityHasFarm } from "./components/SocialIdentityHasFarm";
 import { LinkedWalletHasFarm } from "./components/LinkedWalletHasFarm";
 import { GoogleLoginDisabled } from "./components/GoogleLoginDisabled";
 import { TwitterShowcaseError } from "./components/TwitterShowcaseError";
+import { MarketplaceWithdrawCooldown } from "./components/MarketplaceWithdrawCooldown";
+import { SocialLinkError } from "./components/SocialLinkError";
 
 interface Props {
   errorCode: ErrorCode;
@@ -45,6 +47,10 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
 
   if (errorCode === ERRORS.WITHDRAW_DUPLICATE) {
     return <DuplicateWithdraw />;
+  }
+
+  if (errorCode === ERRORS.WITHDRAW_MARKETPLACE_COOLDOWN) {
+    return <MarketplaceWithdrawCooldown />;
   }
 
   if (errorCode === ERRORS.NO_FARM) {
@@ -83,6 +89,10 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
     return <NotOnDiscordServer />;
   }
 
+  if (isSocialLinkError(errorCode)) {
+    return <SocialLinkError errorCode={errorCode} />;
+  }
+
   if (errorCode === ERRORS.NETWORK_CONGESTED) {
     return <Congestion />;
   }
@@ -106,7 +116,13 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
     return <MultipleDevices />;
   }
 
-  if (errorCode === ERRORS.AUTOSAVE_CLOCK_ERROR) {
+  // The event API only answers 400 with EF-002 when the request's
+  // `createdAt` falls outside its clock window, so it is the same device
+  // clock problem autosave reports as AS-002.
+  if (
+    errorCode === ERRORS.AUTOSAVE_CLOCK_ERROR ||
+    errorCode === ERRORS.EFFECT_BAD_REQUEST
+  ) {
     return <ClockIssue />;
   }
 

@@ -40,14 +40,35 @@ import { IncineratorModal } from "features/goblins/incinerator";
 import { Context } from "features/game/GameProvider";
 import { PetShop } from "features/pets/petShop/PetShop";
 import { Streams } from "features/game/components/modal/components/Streams";
+import { HalloweenGift } from "./HalloweenGift";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
+  private closeListeners = new Set<() => void>();
+  private opened = false;
+
+  public get isOpen() {
+    return this.opened;
+  }
 
   public open(npc: NPCName) {
     if (this.listener) {
+      this.opened = true;
       this.listener(npc, true);
     }
+  }
+
+  public close() {
+    this.opened = false;
+    this.closeListeners.forEach((cb) => cb());
+  }
+
+  /** Runs `cb` each time the NPC modal closes. Returns an unsubscribe. */
+  public onClose(cb: () => void) {
+    this.closeListeners.add(cb);
+    return () => {
+      this.closeListeners.delete(cb);
+    };
   }
 
   public listen(cb: (npc: NPCName, isOpen: boolean) => void) {
@@ -76,6 +97,8 @@ export const NPCModals: React.FC<Props> = ({ id }) => {
     npcModalManager.listen((npc) => {
       setNpc(npc);
     });
+
+    return () => npcModalManager.close();
   }, []);
 
   const closeModal = () => {
@@ -83,6 +106,7 @@ export const NPCModals: React.FC<Props> = ({ id }) => {
       acknowledgeNPC(npc);
     }
     setNpc(undefined);
+    npcModalManager.close();
   };
 
   const isSeparateModal = npc === "Chun Long" || npc === "hammerin harry";
@@ -305,6 +329,21 @@ export const NPCModals: React.FC<Props> = ({ id }) => {
             message={[
               {
                 text: translate("npc.Modal.slimeJoe"),
+              },
+            ]}
+          />
+        )}
+
+        {npc === "Vampire Jim" && (
+          <HalloweenGift npc="Vampire Jim" onClose={closeModal} />
+        )}
+        {npc === "Skelly Joe" && (
+          <SpeakingModal
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES["Skelly Joe"]}
+            message={[
+              {
+                text: translate("npc.Modal.skellyJoe"),
               },
             ]}
           />

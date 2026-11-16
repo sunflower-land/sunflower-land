@@ -93,8 +93,11 @@ type AnimalVisualState =
  * again), so barn animals draw ~2.6x the chicken convention — that double
  * size is the shipped look, so it's baked in here.
  */
+// Pigs live only in the DOM /pigpen route — the engine never renders them.
+type EngineAnimalType = Exclude<AnimalType, "Pig">;
+
 const ANIMAL_ART: Record<
-  AnimalType,
+  EngineAnimalType,
   Record<
     "ready" | "sleeping" | "sick" | "idle",
     { image: string; width: number }
@@ -170,6 +173,7 @@ const EMOTION_ICONS: Record<
 const BUFF_ICON: Record<AnimalFeedBuffName, string> = {
   "Salt Lick": powerup,
   "Honey Treat": SUNNYSIDE.icons.lightning,
+  "Truffle Seasoning": SUNNYSIDE.icons.stopwatch,
 };
 
 const CELL = 2 * WORLD_TILE; // animals sit in a 2x2-tile cell
@@ -397,7 +401,10 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
             ? "sleeping"
             : "idle";
     // While the claim animation runs the animal still looks ready.
-    const art = ANIMAL_ART[animal.type][animating ? "ready" : artState];
+    const art =
+      ANIMAL_ART[animal.type as EngineAnimalType][
+        animating ? "ready" : artState
+      ];
     if (!this.scene.textures.exists(artTexture(art.image))) return;
 
     let objects = objects0;

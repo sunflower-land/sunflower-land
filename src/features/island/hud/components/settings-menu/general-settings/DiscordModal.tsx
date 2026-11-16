@@ -22,6 +22,8 @@ import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { ButtonPanel } from "components/ui/Panel";
+import { SocialUnlinkGate } from "features/auth/components/SocialUnlink";
+import type { ContentComponentProps } from "../types";
 
 const GROUPS: {
   channel: string;
@@ -56,7 +58,18 @@ function getFactionImage(faction: FactionName) {
       return "";
   }
 }
-export const Discord: React.FC = () => {
+export const Discord: React.FC<Partial<ContentComponentProps>> = ({
+  onSubMenuClick,
+}) => (
+  <SocialUnlinkGate
+    provider="discord"
+    onDone={() => onSubMenuClick?.("linkedAccounts")}
+  >
+    <DiscordRoles />
+  </SocialUnlinkGate>
+);
+
+const DiscordRoles: React.FC = () => {
   const { authService } = useContext(Auth.Context);
   const { t } = useAppTranslation();
   const [authState] = useActor(authService);
@@ -69,9 +82,15 @@ export const Discord: React.FC = () => {
   // distinction.
   const isDiscordConnected = !!gameState.context.state.discord?.connected;
 
-  const [state, setState] = useState<
-    "idle" | "noDiscord" | "joining" | "joined" | "error"
-  >(isDiscordConnected ? "idle" : "noDiscord");
+  const [progress, setProgress] = useState<
+    "idle" | "joining" | "joined" | "error"
+  >("idle");
+
+  // Derived rather than seeded into local state so an unlink (which drops
+  // `state.discord`) flips the panel back to "connect" without a remount.
+  const state =
+    progress === "idle" && !isDiscordConnected ? "noDiscord" : progress;
+  const setState = setProgress;
 
   const inventory = gameState.context.state.inventory;
   const faction = gameState.context.state.faction?.name;
@@ -83,7 +102,8 @@ export const Discord: React.FC = () => {
 
   const addRole = async (role: DiscordRole) => {
     if (!isDiscordConnected) {
-      setState("noDiscord");
+      // `state` derives "noDiscord" from the missing link
+      setState("idle");
       return;
     }
 

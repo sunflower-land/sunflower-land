@@ -69,7 +69,10 @@ import {
   BED_WIDTH,
   BED_HEIGHT,
 } from "features/island/collectibles/components/Bed";
-import { getExpiryCooldown } from "features/game/lib/collectibleBuilt";
+import {
+  EXPIRY_COOLDOWNS,
+  getCollectibleExpiry,
+} from "features/game/lib/collectibleBuilt";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import { EntityRenderer } from "../EntityRenderer";
 import squirrelMonkeySheet from "assets/sfts/squirrel_monkey_sheet.png";
@@ -849,8 +852,9 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
     const depth = DEPTHS.ENTITY_BASE + box.y;
     const game = this.bridge.select((state) => state.context.state);
 
-    const duration = getExpiryCooldown(name, game);
-    const expiresAt = (item.createdAt ?? 0) + duration;
+    // Extensions bank extra time on the placement [getCollectibleExpiry].
+    const expiresAt = getCollectibleExpiry({ name, collectible: item });
+    const duration = EXPIRY_COOLDOWNS[name] + (item.extendedMs ?? 0);
     const secondsToExpire = (expiresAt - now) / 1000;
     const hasExpired = secondsToExpire <= 0;
     const hasReplacement = !!this.chestItems(game)[name]?.gt(0);
@@ -1270,8 +1274,8 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
     // renew when a replacement waits in the chest, otherwise burn.
     if (isExpiringCollectible(name)) {
       const cfg = EXPIRING_COLLECTIBLES[name]!;
-      const duration = getExpiryCooldown(name, game);
-      const hasExpired = (item.createdAt ?? 0) + duration <= Date.now();
+      const expiresAt = getCollectibleExpiry({ name, collectible: item });
+      const hasExpired = expiresAt <= Date.now();
       if (!hasExpired) {
         // [ObsidianShrine.tsx] the active shrine opens the bulk-actions
         // modal; other active boosts show the SFT popover with the
@@ -1283,7 +1287,7 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
           });
           return;
         }
-        this.openSftPopover(name, id, (item.createdAt ?? 0) + duration);
+        this.openSftPopover(name, id, expiresAt);
         return;
       }
       if (cfg.renewFlow === "petShrine") {

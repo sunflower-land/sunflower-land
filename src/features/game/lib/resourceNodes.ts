@@ -108,17 +108,9 @@ export const RESOURCE_RECOVERY_TIME: Record<RockName, number> = {
 };
 
 /**
- * When a mined rock is ready to mine again, across both boost models. Rocks mined
- * under the speed-rate model (with `stone.baseDurationMs`) derive their ready time
- * live from the mine boost windows; legacy rocks use their back-dated `minedAt` +
- * base recovery time.
- *
- * `baseDurationMs` is a PERMANENT per-rock migration marker: the read path keys off
- * its presence, NOT the `SPEED_BOOSTS` flag (matching `getTreeReadyAt`). A rock
- * mined while the flag was on therefore keeps windowed timing even if the flag is
- * later disabled — windowed rocks store the real `minedAt` + a permanent-boost-only
- * `baseDurationMs`, so falling back to `minedAt + base recovery` would drop their
- * baked permanent-boost credit and wrongly lengthen recovery on rollback.
+ * When a mined rock is ready to mine again: `minedAt` plus `baseDurationMs` of
+ * work, derived live from the mine boost windows. A rock with no marker reads as
+ * the raw recovery time.
  */
 export function getMineReadyAt(
   rock: Rock,
@@ -127,15 +119,11 @@ export function getMineReadyAt(
 ): number {
   const { baseDurationMs, minedAt } = rock.stone;
 
-  if (baseDurationMs !== undefined) {
-    return computeReadyAt({
-      startedAt: minedAt,
-      baseDurationMs,
-      windows: getMineBoostWindows(game, rockName),
-    });
-  }
-
-  return minedAt + RESOURCE_RECOVERY_TIME[rockName] * 1000;
+  return computeReadyAt({
+    startedAt: minedAt,
+    baseDurationMs: baseDurationMs ?? RESOURCE_RECOVERY_TIME[rockName] * 1000,
+    windows: getMineBoostWindows(game, rockName),
+  });
 }
 
 export function canMine(

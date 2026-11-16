@@ -9,15 +9,11 @@ import walletIcon from "assets/icons/wallet.png";
 import { GameWallet } from "features/wallet/Wallet";
 import { formatDateTime } from "lib/utils/time";
 
-const FSL_WECHAT_DEPRECATION_DATE = new Date("2025-12-10");
+const WECHAT_DEPRECATION_DATE = new Date("2025-12-10");
 
 export const MigrateToLinkedWallet: React.FC = () => {
   const { gameService } = useContext(Context);
 
-  const isFSL = useSelector(
-    gameService,
-    (state) => state.context.method === "fsl",
-  );
   const isWechat = useSelector(
     gameService,
     (state) => state.context.method === "wechat",
@@ -26,7 +22,7 @@ export const MigrateToLinkedWallet: React.FC = () => {
   const [showLinkingWallet, setShowLinkingWallet] = useState(false);
   const { t } = useAppTranslation();
 
-  const title = isFSL ? "FSL" : isWechat ? "Wechat" : "this";
+  const title = isWechat ? "Wechat" : "this";
 
   if (showLinkingWallet) {
     return (
@@ -61,7 +57,7 @@ export const MigrateToLinkedWallet: React.FC = () => {
       <div className="flex flex-col p-2 text-xs space-y-1 mb-1">
         <span>
           {t("description.fslWechatDeprecation", {
-            date: formatDateTime(FSL_WECHAT_DEPRECATION_DATE.toISOString()),
+            date: formatDateTime(WECHAT_DEPRECATION_DATE.toISOString()),
             title: title,
           })}
         </span>

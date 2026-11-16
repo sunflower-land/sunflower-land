@@ -60,6 +60,7 @@ import { WaveModal } from "features/social/WaveModal";
 import { Discovery } from "features/social/Discovery";
 import { SPAWNS, type SpawnFromId } from "./lib/spawn";
 import { PlayerInteractionMenu } from "./ui/player/PlayerInteractionMenu";
+import { LoveButtonsHud } from "./ui/LoveButtonsHud";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -258,7 +259,8 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
     // The spawn-lookup key may be a non-scene sentinel like "digging" or
     // "default" supplied via location.state.
     const spawnFromKey = previousSceneOverride ?? autoDerivedPreviousSceneId;
-    const spawn = SPAWNS()[route][spawnFromKey] ?? SPAWNS()[route].default;
+    const spawns = SPAWNS(state.bumpkin?.experience);
+    const spawn = spawns[route][spawnFromKey] ?? spawns[route].default;
 
     if (activeScene && activeScene.scene.key !== route) {
       // Stash the override so the destination scene's BaseScene.create() can
@@ -304,7 +306,7 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
   }, [mmoService.getSnapshot().context.server]);
 
   useEffect(() => {
-    const item = toastsList.filter((toast) => !toast.hidden)[0];
+    const item = toastsList[0];
 
     if (item && item.difference.gt(0)) {
       mmoService.getSnapshot().context.server?.send(0, {
@@ -330,6 +332,9 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
       <HudContainer>
         <CommunityToasts />
         <PlayerInteractionMenu />
+        <LoveButtonsHud
+          lower={mmoState === "connecting" || mmoState === "error"}
+        />
 
         {mmoState === "connecting" && (
           <Label

@@ -84,8 +84,13 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
   // promising the bonus long after the shrine expired. One tick a minute is
   // enough for a boost that flips at most a few times a day.
   const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
-  const { gameService, selectedItem, shortcutItem, enableQuickSelect } =
-    useContext(Context);
+  const {
+    gameService,
+    selectedItem,
+    shortcutItem,
+    enableQuickSelect,
+    showFullMoonSeedsInQuickSelect,
+  } = useContext(Context);
   const farmId = useSelector(gameService, _farmId);
   const { t } = useAppTranslation();
 
@@ -321,7 +326,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
             .filter(
               (seed) =>
                 SEASONAL_SEEDS[game.season.season].includes(seed) ||
-                isFullMoonBerry(seed),
+                (showFullMoonSeedsInQuickSelect && isFullMoonBerry(seed)),
             )
             .map((seed) => ({
               name: seed as InventoryItemName,

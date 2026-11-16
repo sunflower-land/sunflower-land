@@ -3,6 +3,7 @@ import React from "react";
 import { Button } from "./Button";
 import { Panel } from "./Panel";
 import type { Equipped } from "features/game/types/bumpkin";
+import { DialogTitle } from "@headlessui/react";
 import { Modal } from "./Modal";
 
 /**
@@ -52,12 +53,16 @@ export const ConfirmationModal: React.FC<ConfirmProps> = ({
       <Panel className="sm:w-4/5 m-auto" bumpkinParts={bumpkinParts}>
         <div className="flex flex-col p-2 items-center">
           {icon && <img src={icon} style={imageStyle} />}
-          {/* Convert each message into separate spans */}
-          {messages.map((msg, index) => (
-            <span key={index} className="text-sm text-start w-full m-1">
-              {msg}
-            </span>
-          ))}
+          {/* Convert each message into separate spans; the DialogTitle gives
+              screen readers an accessible dialog name (Headless UI
+              associates it with the Dialog). */}
+          <DialogTitle as="div" className="contents">
+            {messages.map((msg, index) => (
+              <span key={index} className="text-sm text-start w-full m-1">
+                {msg}
+              </span>
+            ))}
+          </DialogTitle>
           {bodyContent}
         </div>
         <div className="flex justify-content-around mt-2 space-x-1">

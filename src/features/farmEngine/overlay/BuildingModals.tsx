@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useSelector } from "@xstate/react";
 import { useInterpret } from "@xstate/react";
 
@@ -54,10 +54,16 @@ import {
   cropStateMachine,
   findGrowingCropPackIndex,
   hasReadyCrops,
+  isCropPackReady,
   useCropMachineLiveNow,
   type Context as CropMachineContext,
   type MachineInterpreter as CropMachineInterpreter,
 } from "features/island/buildings/components/building/cropMachine/lib/cropMachine";
+import {
+  getResolvedCropMachineQueue,
+  useCropMachineView,
+} from "features/island/buildings/components/building/cropMachine/lib/cropMachineView";
+import { getCropMachineBoostWindows } from "features/game/lib/boostWindows";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
 import { WeatherAffectedModal } from "features/island/plots/components/AffectedModal";
 import { useCookingState } from "features/island/buildings/lib/useCookingState";
@@ -306,7 +312,10 @@ const CookingModalHost: React.FC<{
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
   const entry = state.buildings[building]?.find((b) => b.id === buildingId);
-  const { cooking, queuedRecipes, readyRecipes } = useCookingState(entry ?? {});
+  const { cooking, queuedRecipes, readyRecipes } = useCookingState(
+    entry ?? {},
+    building,
+  );
 
   const CookingModal = COOKING_MODALS[building];
 
@@ -482,7 +491,8 @@ const CropMachineModalHost: React.FC<{
   const cropMachine = state.buildings["Crop Machine"]?.find(
     (machine) => machine.id === buildingId,
   ) as CropMachineBuilding | undefined;
-  const queue = cropMachine?.queue ?? [];
+  // [CropMachine.tsx] resolved queue: derived timings on a windowed machine.
+  const { queue, windowed, windows } = useCropMachineView(cropMachine);
   const now = useCropMachineLiveNow(queue);
 
   const cropMachineContext: CropMachineContext = {
@@ -495,6 +505,20 @@ const CropMachineModalHost: React.FC<{
   const cropMachineService = useInterpret(cropStateMachine, {
     context: cropMachineContext,
   }) as unknown as CropMachineInterpreter;
+
+  // [CropMachine.tsx] a windowed queue can change with no crop-machine event
+  // (boost placed/expired mid-grow) — push the re-derived queue to the service.
+  const syncedQueue = useRef(queue);
+  useEffect(() => {
+    if (syncedQueue.current === queue) return;
+    syncedQueue.current = queue;
+
+    cropMachineService.send({
+      type: "SUPPLY_MACHINE",
+      updatedQueue: queue,
+      updatedUnallocatedOilTime: cropMachine?.unallocatedOilTime ?? 0,
+    });
+  }, [queue, cropMachineService, cropMachine?.unallocatedOilTime]);
 
   const syncMachine = (type: "SUPPLY_MACHINE" | "HARVEST_CROPS") => {
     const machines = gameService.getSnapshot().context.state.buildings[
@@ -509,13 +533,47 @@ const CropMachineModalHost: React.FC<{
     });
   };
 
+  // [CropMachine.tsx handleHarvestAll] harvest every ready pack, one event
+  // each; readiness comes from the resolved queue, same as the modal.
+  const handleHarvestAll = () => {
+    for (let i = 0; i < 100; i++) {
+      const game = gameService.getSnapshot().context.state;
+      const machine = (
+        game.buildings["Crop Machine"] as CropMachineBuilding[] | undefined
+      )?.find((m) => m.id === buildingId);
+      const resolvedQueue = machine
+        ? getResolvedCropMachineQueue(machine, getCropMachineBoostWindows(game))
+        : [];
+
+      // Resolved packs map 1:1 onto the stored queue, so indices line up.
+      const packIndex = resolvedQueue.findIndex((pack) =>
+        isCropPackReady(pack, Date.now()),
+      );
+      if (packIndex < 0) break;
+
+      gameService.send({
+        type: "cropMachine.harvested",
+        packIndex,
+        machineId: buildingId,
+      });
+    }
+
+    syncMachine("HARVEST_CROPS");
+  };
+
   const growingCropPackIndex = findGrowingCropPackIndex(queue, now);
+
+  if (!cropMachine) return null;
 
   return (
     <CropMachineModal
       show
       queue={queue}
-      unallocatedOilTime={cropMachine?.unallocatedOilTime ?? 0}
+      unallocatedOilTime={cropMachine.unallocatedOilTime ?? 0}
+      machine={cropMachine}
+      windowed={windowed}
+      windows={windows}
+      onHarvestAll={handleHarvestAll}
       growingCropPackIndex={
         growingCropPackIndex === -1 ? undefined : growingCropPackIndex
       }

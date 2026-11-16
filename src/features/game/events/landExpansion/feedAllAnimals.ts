@@ -16,7 +16,14 @@ import { isAnimalFeedable } from "./buyAnimal";
 import { claimProduce } from "./claimProduce";
 import { feedAnimal } from "./feedAnimal";
 
-export const GOLDEN_ANIMAL_ASSETS: Record<AnimalType, CollectibleName> = {
+/**
+ * The collectible that feeds an animal type for free. Partial because there is
+ * no Golden Pig: an animal with no entry is simply never covered, rather than
+ * falling back to another animal's collectible.
+ */
+export const GOLDEN_ANIMAL_ASSETS: Partial<
+  Record<AnimalType, CollectibleName>
+> = {
   Chicken: "Gold Egg",
   Cow: "Golden Cow",
   Sheep: "Golden Sheep",
@@ -29,10 +36,10 @@ export function isAnimalCoveredByGoldenAsset({
   state: GameState;
   animalType: AnimalType;
 }): boolean {
-  return isCollectibleBuilt({
-    name: GOLDEN_ANIMAL_ASSETS[animalType],
-    game: state,
-  });
+  const name = GOLDEN_ANIMAL_ASSETS[animalType];
+  if (!name) return false;
+
+  return isCollectibleBuilt({ name, game: state });
 }
 
 export function getCoveredAnimalTypes({

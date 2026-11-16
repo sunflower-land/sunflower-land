@@ -2,10 +2,21 @@ import Decimal from "decimal.js-light";
 import { CROPS } from "features/game/types/crops";
 import { INITIAL_FARM } from "../../lib/constants";
 import type { GameState, CropPlot } from "../../types/game";
-import { getCropPlotTime, getCropTime, plant } from "./plant";
+import {
+  getAffectedWeather,
+  getCropPlotTime,
+  getCropTime,
+  isPlotFertile,
+  plant,
+} from "./plant";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { CONFIG } from "lib/config";
 import { CROP_PLOT_BOOST_SPEED } from "features/game/lib/boostWindows";
+import {
+  CHAPTER_CROP_WEEK,
+  CHAPTER_CROP_WEEK_CROP,
+  CHAPTER_CROP_WEEK_SEED,
+} from "features/game/types/chapterCropWeek";
 
 const FARM_WITH_PLOTS: GameState = {
   ...INITIAL_FARM,
@@ -178,6 +189,81 @@ describe("plant", () => {
         },
       }),
     ).toThrow("This seed is not available in this season");
+  });
+
+  describe("Chapter Crop Week seed", () => {
+    // adminFeatureFlag is always on for testnet (CI runs with VITE_NETWORK=amoy),
+    // so pin mainnet to exercise the real Gift Giver + Beta Pass rule.
+    let previousNetwork: (typeof CONFIG)["NETWORK"];
+    beforeEach(() => {
+      previousNetwork = CONFIG.NETWORK;
+      CONFIG.NETWORK = "mainnet";
+    });
+    afterEach(() => {
+      CONFIG.NETWORK = previousNetwork;
+    });
+
+    const plantEventSeed = (game: Partial<GameState>, createdAt: number) =>
+      plant({
+        state: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          inventory: { [CHAPTER_CROP_WEEK_SEED]: new Decimal(3) },
+          // Deliberately not the seed's season: the event seed is exempt.
+          season: { season: "spring", startedAt: 0 },
+          ...game,
+        },
+        createdAt,
+        action: {
+          type: "seed.planted",
+          cropId: "123",
+          index: firstId,
+          item: CHAPTER_CROP_WEEK_SEED,
+        },
+      });
+
+    it("plants the multi-word event crop during the event", () => {
+      const state = plantEventSeed({}, CHAPTER_CROP_WEEK.startDate.getTime());
+
+      expect(state.inventory[CHAPTER_CROP_WEEK_SEED]).toEqual(new Decimal(2));
+      expect(state.crops[firstId].crop?.name).toBe(CHAPTER_CROP_WEEK_CROP);
+    });
+
+    it("cannot be planted by regular players before the event starts", () => {
+      expect(() =>
+        plantEventSeed({}, CHAPTER_CROP_WEEK.startDate.getTime() - 1),
+      ).toThrow("Chapter Crop Week is not active");
+    });
+
+    it("can be planted by admin testers before the event starts", () => {
+      const state = plantEventSeed(
+        {
+          wardrobe: { "Gift Giver": 1 },
+          inventory: {
+            [CHAPTER_CROP_WEEK_SEED]: new Decimal(3),
+            "Beta Pass": new Decimal(1),
+          },
+        },
+        CHAPTER_CROP_WEEK.startDate.getTime() - 1,
+      );
+
+      expect(state.crops[firstId].crop?.name).toBe(CHAPTER_CROP_WEEK_CROP);
+    });
+
+    it("cannot be planted by anyone after the event ends", () => {
+      expect(() =>
+        plantEventSeed(
+          {
+            wardrobe: { "Gift Giver": 1 },
+            inventory: {
+              [CHAPTER_CROP_WEEK_SEED]: new Decimal(3),
+              "Beta Pass": new Decimal(1),
+            },
+          },
+          CHAPTER_CROP_WEEK.endDate.getTime(),
+        ),
+      ).toThrow("Chapter Crop Week is not active");
+    });
   });
 
   it("plants a seed", () => {
@@ -759,7 +845,7 @@ describe("plant", () => {
         expect(time).toEqual(60);
       });
 
-      it("does not bake the Time Warp Totem into the plot time under SPEED_BOOSTS", () => {
+      it("does not bake the Time Warp Totem into the plot time", () => {
         const now = Date.now();
 
         const { time } = getCropPlotTime({
@@ -785,7 +871,7 @@ describe("plant", () => {
         // Windowed (2×) for plot crops, so the base time is unchanged here.
         expect(time).toEqual(60);
       });
-      it("does not bake the Super Totem into the plot time under SPEED_BOOSTS", () => {
+      it("does not bake the Super Totem into the plot time", () => {
         const now = Date.now();
 
         const { time } = getCropPlotTime({
@@ -860,7 +946,7 @@ describe("plant", () => {
       expect(time).toEqual(60 * 60);
     });
 
-    it("does not bake Rapid Root into the plot time under SPEED_BOOSTS", () => {
+    it("does not bake Rapid Root into the plot time", () => {
       const { time } = getCropPlotTime({
         crop: "Carrot",
         game: FARM_WITH_PLOTS,
@@ -876,7 +962,7 @@ describe("plant", () => {
       expect(time).toEqual(60 * 60);
     });
 
-    it("does not bake Sproutroot Surprise into the plot time under SPEED_BOOSTS", () => {
+    it("does not bake Sproutroot Surprise into the plot time", () => {
       const { time } = getCropPlotTime({
         crop: "Carrot",
         game: FARM_WITH_PLOTS,
@@ -1284,7 +1370,7 @@ describe("plant", () => {
       expect(time).toEqual(baseHarvestSeconds * 0.5);
     });
 
-    it("does not reduce the base plot time for Harvest Hourglass under SPEED_BOOSTS (applied as a speed window)", () => {
+    it("does not reduce the base plot time for Harvest Hourglass (applied as a speed window)", () => {
       const dateNow = Date.now();
       const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
 
@@ -1310,13 +1396,12 @@ describe("plant", () => {
       expect(time).toEqual(baseHarvestSeconds);
     });
 
-    it("excludes the Harvest Hourglass from greenhouse crops under SPEED_BOOSTS (windowed)", () => {
+    it("excludes the Harvest Hourglass from greenhouse crops (windowed)", () => {
       const dateNow = Date.now();
 
       // Greenhouse crops joined the windowed model: the hourglass applies live
       // via getGreenhouseBoostWindows, so it's no longer baked here either.
       const { multiplier, boostsUsed } = getCropTime({
-        now: Date.now(),
         crop: "Rice",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1340,7 +1425,7 @@ describe("plant", () => {
       });
     });
 
-    it("does not reduce the base plot time for a totem under SPEED_BOOSTS (applied as a speed window)", () => {
+    it("does not reduce the base plot time for a totem (applied as a speed window)", () => {
       const dateNow = Date.now();
       const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
 
@@ -1366,11 +1451,10 @@ describe("plant", () => {
       expect(time).toEqual(baseHarvestSeconds);
     });
 
-    it("excludes the totems from greenhouse crops under SPEED_BOOSTS (windowed)", () => {
+    it("excludes the totems from greenhouse crops (windowed)", () => {
       const dateNow = Date.now();
 
       const { multiplier, boostsUsed } = getCropTime({
-        now: Date.now(),
         crop: "Rice",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1499,10 +1583,10 @@ describe("plant", () => {
       expect(time).toEqual(baseHarvestSeconds * 0.925);
     });
 
-    it("neutralises a rank 3 Green Thumb on the Saltwort event crop (x0.95, not x0.925)", () => {
-      const baseHarvestSeconds = CROPS["Saltwort"].harvestSeconds;
+    it("applies a rank 3 Green Thumb to the Crystal Leaf event crop (x0.925)", () => {
+      const baseHarvestSeconds = CROPS["Crystal Leaf"].harvestSeconds;
       const { time } = getCropPlotTime({
-        crop: "Saltwort",
+        crop: "Crystal Leaf",
         game: {
           ...FARM_WITH_PLOTS,
           collectibles: {},
@@ -1517,9 +1601,7 @@ describe("plant", () => {
         createdAt: dateNow,
       });
 
-      // Saltwort (event crop) uses the rank-1 multiplier (x0.95); Corn above
-      // (a non-event crop) still gets the full rank-3 x0.925.
-      expect(time).toEqual(baseHarvestSeconds * 0.95);
+      expect(time).toEqual(baseHarvestSeconds * 0.925);
     });
 
     it("applies a +12.5% speed boost on advanced crops with rank 2 Strong Roots skill", () => {
@@ -1585,7 +1667,7 @@ describe("plant", () => {
       expect(time).toEqual(baseHarvestSeconds);
     });
 
-    it("does not reduce the base plot time for Sunshower under SPEED_BOOSTS (applied as a speed window)", () => {
+    it("does not reduce the base plot time for Sunshower (applied as a speed window)", () => {
       const baseHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
       const { time } = getCropPlotTime({
         crop: "Sunflower",
@@ -1742,57 +1824,156 @@ describe("plant", () => {
     expect(crops[firstId].crop?.baseDurationMs).toBe(plantTime * 0.5);
   });
 
-  describe("SPEED_BOOSTS feature gate", () => {
-    const originalNetwork = CONFIG.NETWORK;
-    afterEach(() => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
-    });
-
-    const plantSunflowerWithSparrow = () =>
-      plant({
-        state: {
-          ...GAME_STATE,
-          bumpkin: TEST_BUMPKIN,
-          inventory: { "Sunflower Seed": new Decimal(1) },
-          collectibles: {
-            "Sparrow Shrine": [
-              {
-                id: "1",
-                coordinates: { x: 3, y: 3 },
-                createdAt: dateNow,
-                readyAt: dateNow,
-              },
-            ],
-          },
+  it("plants with the speed-rate model when Sparrow Shrine is placed", () => {
+    const crop = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: TEST_BUMPKIN,
+        inventory: { "Sunflower Seed": new Decimal(1) },
+        collectibles: {
+          "Sparrow Shrine": [
+            {
+              id: "1",
+              coordinates: { x: 3, y: 3 },
+              createdAt: dateNow,
+              readyAt: dateNow,
+            },
+          ],
         },
-        createdAt: dateNow,
-        action: {
-          type: "seed.planted",
-          cropId: "123",
-          index: Object.keys(GAME_STATE.crops)[0],
-          item: "Sunflower Seed",
+      },
+      createdAt: dateNow,
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: Object.keys(GAME_STATE.crops)[0],
+        item: "Sunflower Seed",
+      },
+    }).crops[firstId].crop;
+
+    // True plant time + baseDurationMs (Sparrow excluded from the base).
+    expect(crop?.plantedAt).toBe(dateNow);
+    expect(crop?.baseDurationMs).toBe(CROPS.Sunflower.harvestSeconds * 1000);
+    expect(crop?.boostedTime).toBeUndefined();
+  });
+});
+
+/**
+ * A spec-compliant sort that is not V8's TimSort - stands in for the
+ * algorithms other engines (e.g. Firefox's SpiderMonkey) use.
+ */
+function insertionSort<T>(this: T[], compare: (a: T, b: T) => number) {
+  for (let i = 1; i < this.length; i++) {
+    for (let j = i; j > 0 && compare(this[j - 1], this[j]) > 0; j--) {
+      [this[j - 1], this[j]] = [this[j], this[j - 1]];
+    }
+  }
+
+  return this;
+}
+
+describe("getAffectedWeather", () => {
+  const crops: GameState["crops"] = {
+    a: { createdAt: 1, x: 0, y: 0 },
+    b: { createdAt: 1, x: 1, y: 0 },
+    c: { createdAt: 5, x: 2, y: 0 },
+    d: { createdAt: 5, x: 3, y: 0 },
+    e: { createdAt: 5, x: 4, y: 0 },
+    f: { createdAt: 5, x: 5, y: 0 },
+  };
+  const game: GameState = {
+    ...INITIAL_FARM,
+    crops,
+    calendar: {
+      dates: [],
+      greatFreeze: { startedAt: 1, triggeredAt: 1, protected: false },
+    },
+  };
+
+  const frozen = () =>
+    Object.keys(crops).filter((id) => getAffectedWeather({ id, game }));
+
+  it("freezes the oldest half, keeping tied plots in insertion order", () => {
+    expect(frozen()).toEqual(["a", "b", "c"]);
+  });
+
+  it("freezes the same plots regardless of the engine's sort algorithm", () => {
+    const nativeSort = Array.prototype.sort;
+    // eslint-disable-next-line no-extend-native
+    Array.prototype.sort = insertionSort as typeof nativeSort;
+
+    try {
+      expect(frozen()).toEqual(["a", "b", "c"]);
+    } finally {
+      // eslint-disable-next-line no-extend-native
+      Array.prototype.sort = nativeSort;
+    }
+  });
+});
+
+describe("isPlotFertile", () => {
+  const crops: GameState["crops"] = Object.fromEntries(
+    Array.from({ length: 150 }, (_, i) => [
+      `${i + 1}`,
+      { x: 0, y: 0, createdAt: i + 1 },
+    ]),
+  );
+  const buildings: GameState["buildings"] = {
+    "Water Well": [
+      { id: "1", coordinates: { x: 0, y: 0 }, createdAt: 0, readyAt: 0 },
+    ],
+  };
+
+  it("waters every plot at well level 4", () => {
+    expect(
+      isPlotFertile({
+        plotIndex: "150",
+        crops,
+        wellLevel: 4,
+        buildings,
+        island: "desert",
+      }),
+    ).toBe(true);
+  });
+
+  it("does not water plots beyond the level 3 limit", () => {
+    // 18 initial plots + 3 * 8 well plots = 42
+    expect(
+      isPlotFertile({
+        plotIndex: "42",
+        crops,
+        wellLevel: 3,
+        buildings,
+        island: "desert",
+      }),
+    ).toBe(true);
+    expect(
+      isPlotFertile({
+        plotIndex: "43",
+        crops,
+        wellLevel: 3,
+        buildings,
+        island: "desert",
+      }),
+    ).toBe(false);
+  });
+});
+
+describe("Duende Hat", () => {
+  it("applies x0.9 crop plot growth time", () => {
+    const { time, boostsUsed } = getCropPlotTime({
+      crop: "Sunflower",
+      game: {
+        ...FARM_WITH_PLOTS,
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          equipped: { ...TEST_BUMPKIN.equipped, hat: "Duende Hat" },
         },
-      });
-
-    it("uses the speed-rate model when the flag is on (amoy)", () => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
-      const crop = plantSunflowerWithSparrow().crops[firstId].crop;
-
-      // True plant time + baseDurationMs (Sparrow excluded from the base).
-      expect(crop?.plantedAt).toBe(dateNow);
-      expect(crop?.baseDurationMs).toBe(CROPS.Sunflower.harvestSeconds * 1000);
-      expect(crop?.boostedTime).toBeUndefined();
+      },
+      plot: GAME_STATE.crops[firstId],
+      createdAt: Date.now(),
     });
 
-    it("falls back to legacy discount-at-start when the flag is off (mainnet)", () => {
-      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
-      const crop = plantSunflowerWithSparrow().crops[firstId].crop;
-
-      // Sparrow folded in as ×0.75: back-dated plantedAt + boostedTime, no baseDurationMs.
-      const sunflowerTime = CROPS.Sunflower.harvestSeconds * 1000;
-      expect(crop?.baseDurationMs).toBeUndefined();
-      expect(crop?.boostedTime).toBe(sunflowerTime * 0.25);
-      expect(crop?.plantedAt).toBe(dateNow - sunflowerTime * 0.25);
-    });
+    expect(time).toEqual(CROPS.Sunflower.harvestSeconds * 0.9);
+    expect(boostsUsed).toContainEqual({ name: "Duende Hat", value: "x0.9" });
   });
 });

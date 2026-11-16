@@ -1,4 +1,3 @@
-import { hasFeatureAccess } from "lib/flags";
 import type { BoostName, GameState } from "../types/game";
 import type { ResourceName, RockName } from "../types/resources";
 import type { SeedName } from "../types/seeds";
@@ -11,7 +10,10 @@ import type { GreenHouseFruitName } from "../types/fruits";
 import type { AnimalType } from "../types/animals";
 import {
   ANIMAL_BOOST_SPEED,
+  ANIMAL_SLEEP_SHRINE,
   COOKING_BOOST_SPEED,
+  CRAFTING_BOOST_SPEED,
+  CROP_MACHINE_BOOST_SPEED,
   CROP_PLOT_BOOST_SPEED,
   FLOWER_BOOST_SPEED,
   FRUIT_BOOST_SPEED,
@@ -23,9 +25,12 @@ import {
   getEffectiveSpeedAt,
   getMergedTotemWindows,
   getPowerHourWindows,
+  getSunshowerGuardianWindows,
   getSunshowerWindows,
   type BoostWindow,
 } from "./boostWindows";
+import { GUARDIAN_BOOST } from "./getActiveGuardian";
+import { getKeys } from "lib/object";
 import { projectSeconds } from "./timerDisplay";
 import type { TemporaryCollectibleName } from "./collectibleBuilt";
 
@@ -89,9 +94,13 @@ const cropPlot = (game: GameState, at: number): BoostContribution[] => [
   ),
   totems(game, CROP_PLOT_BOOST_SPEED["Super Totem"], at),
   { name: "Power hour", windows: getPowerHourWindows(game) },
-  // A season Guardian doubles the sunshower rate rather than adding a window of
-  // its own, so the whole thing is attributed to the event.
   { name: "sunshower", windows: getSunshowerWindows(game) },
+  // Only the Guardian placed during a sunshower speeds crops up, and only for
+  // the time it was out — so it gets its own windows, credited to the Guardian.
+  ...getKeys(GUARDIAN_BOOST).map((guardian) => ({
+    name: guardian,
+    windows: getSunshowerGuardianWindows(game, guardian),
+  })),
 ];
 
 const tree = (game: GameState, at: number): BoostContribution[] => [
@@ -120,14 +129,16 @@ const flower = (game: GameState, at: number): BoostContribution[] => [
 ];
 
 /**
- * Animal sleep has exactly one temporary boost, decided by the animal's type, so
- * there is nothing for the totem merge to do here — mirrors `getAnimalBoostWindows`.
+ * Animal sleep has at most one temporary boost, decided by the animal's type
+ * (Pigs have none), so there is nothing for the totem merge to do here —
+ * mirrors `getAnimalBoostWindows`.
  */
 const animal = (
   game: GameState,
   animalType: AnimalType,
 ): BoostContribution[] => {
-  const name = animalType === "Chicken" ? "Bantam Shrine" : "Collie Shrine";
+  const name = ANIMAL_SLEEP_SHRINE[animalType];
+  if (!name) return [];
 
   return [collectible(game, name, ANIMAL_BOOST_SPEED[name])];
 };
@@ -152,8 +163,32 @@ const cooking = (game: GameState, at: number): BoostContribution[] => [
   collectible(game, "Boar Shrine", COOKING_BOOST_SPEED["Boar Shrine"]),
 ];
 
+/**
+ * Crafting's windowed boosts — mirrors `getCraftingBoostWindows`, in the same
+ * order. Fox Shrine is a MIXED boost: only its craft-TIME half is a window, so
+ * only that half is named here; its 10% instant-craft proc is a discrete roll and
+ * stays in `boostsUsed`.
+ */
+const crafting = (game: GameState, at: number): BoostContribution[] => [
+  totems(game, CRAFTING_BOOST_SPEED["Super Totem"], at),
+  collectible(game, "Fox Shrine", CRAFTING_BOOST_SPEED["Fox Shrine"]),
+];
+
 const oil = (game: GameState, at: number): BoostContribution[] => [
   collectible(game, "Stag Shrine", OIL_BOOST_SPEED["Stag Shrine"]),
+];
+
+/**
+ * The crop machine's windowed boosts — mirrors `getCropMachineBoostWindows`:
+ * the Tortoise Shrine alone (no totems, no hourglasses). Only its crop-machine
+ * half is named here; the greenhouse half is listed by `greenhouse` above.
+ */
+const cropMachine = (game: GameState): BoostContribution[] => [
+  collectible(
+    game,
+    "Tortoise Shrine",
+    CROP_MACHINE_BOOST_SPEED["Tortoise Shrine"],
+  ),
 ];
 
 const greenhouse = (
@@ -217,19 +252,12 @@ const mine = (
 
 /**
  * The named boosts that would speed up this seed — mirrors getSeedBoostWindows.
- *
- * Gated on `SPEED_BOOSTS` alongside the windows these name (see
- * `getSeedBoostWindows` for why the pre-action path keys off the flag rather than
- * a `baseDurationMs` marker). Without it the boosters are baked into the time and
- * already listed in `boostsUsed`, so a rate row here would claim them twice.
  */
 export function getSeedBoostContributions(
   game: GameState,
   seed: SeedName,
   at: number,
 ): BoostContribution[] {
-  if (!hasFeatureAccess(game, "SPEED_BOOSTS")) return [];
-
   if (isFlowerSeed(seed)) return flower(game, at);
   if (isPatchFruitSeed(seed)) return fruit(game, at);
   if (seed in GREENHOUSE_SEEDS || seed in GREENHOUSE_FRUIT_SEEDS) {
@@ -248,9 +276,22 @@ export function getCookingBoostContributions(
   game: GameState,
   at: number,
 ): BoostContribution[] {
-  if (!hasFeatureAccess(game, "SPEED_BOOSTS")) return [];
-
   return cooking(game, at);
+}
+
+/** The named boosts that would speed up a craft — mirrors getCraftingBoostWindows. */
+export function getCraftingBoostContributions(
+  game: GameState,
+  at: number,
+): BoostContribution[] {
+  return crafting(game, at);
+}
+
+/** The named boosts that would speed up a crop machine pack — mirrors getCropMachineBoostWindows. */
+export function getCropMachineBoostContributions(
+  game: GameState,
+): BoostContribution[] {
+  return cropMachine(game);
 }
 
 /** The named boosts that would speed up this animal's sleep. */
@@ -258,8 +299,6 @@ export function getAnimalBoostContributions(
   game: GameState,
   animalType: AnimalType,
 ): BoostContribution[] {
-  if (!hasFeatureAccess(game, "SPEED_BOOSTS")) return [];
-
   return animal(game, animalType);
 }
 
@@ -269,8 +308,6 @@ export function getNodeBoostContributions(
   node: ResourceName,
   at: number,
 ): BoostContribution[] {
-  if (!hasFeatureAccess(game, "SPEED_BOOSTS")) return [];
-
   if (node === "Tree") return tree(game, at);
   if (node === "Oil Reserve") return oil(game, at);
   if (node.endsWith("Rock")) return mine(game, node as RockName, at);

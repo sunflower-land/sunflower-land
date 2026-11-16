@@ -5,6 +5,8 @@ import type {
 import { CONFIG } from "lib/config";
 import { secureFetch } from "lib/requestToken";
 import { ERRORS } from "lib/errors";
+import { apiError } from "lib/apiError";
+import { randomID } from "lib/utils/random";
 
 const API_URL = CONFIG.API_URL;
 
@@ -48,10 +50,12 @@ export async function loadTradeable({
     url.searchParams.set("economy", economy);
   }
 
+  const transactionId = randomID();
   const response = await secureFetch(url.toString(), {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",
+      "X-Transaction-ID": transactionId,
       Authorization: `Bearer ${token}`,
     },
   });
@@ -72,7 +76,11 @@ export async function loadTradeable({
   }
 
   if (response.status >= 400) {
-    throw new Error(ERRORS.FAILED_REQUEST);
+    throw await apiError(response, {
+      endpoint: `GET /collection/:type/:id`,
+      transactionId,
+      meta: { collection: type, itemId: id, economy, hasToken: !!token },
+    });
   }
 
   return await response.json();

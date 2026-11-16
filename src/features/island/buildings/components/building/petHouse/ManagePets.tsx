@@ -191,7 +191,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
           const { level: petLevel } = getPetLevel(pet.experience);
           const requests = getPetFoodRequests(pet, petLevel);
           requests.forEach((food) => {
-            const isAlreadyFed = isFoodAlreadyFed(pet, food, now);
+            const isAlreadyFed = isFoodAlreadyFed(pet, food);
             if (!isAlreadyFed) {
               foodRequests.push({ petId, food });
               if (!foodAllocation[food]) {
@@ -300,7 +300,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
         const { level: petLevel } = getPetLevel(pet.experience);
         const requests = getPetFoodRequests(pet, petLevel);
         requests.forEach((food) => {
-          if (!isFoodAlreadyFed(pet, food, now)) {
+          if (!isFoodAlreadyFed(pet, food)) {
             foodRequests.push({ petId, food });
             if (!foodAllocation[food]) foodAllocation[food] = 0;
           }

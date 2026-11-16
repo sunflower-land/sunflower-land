@@ -16,9 +16,15 @@ import { secondsToString } from "lib/utils/time";
 import type { BoostName } from "features/game/types/game";
 import { getBudImage } from "lib/buds/types";
 import { useNow } from "lib/utils/hooks/useNow";
+import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
+import vipIcon from "assets/icons/vip.webp";
 
 import { WithdrawCollection } from "./withdraw/WithdrawCollection";
 import type { WithdrawEntry } from "./withdraw/types";
+import {
+  formatWithdrawableDate,
+  getMarketplaceWithdrawBlock,
+} from "features/game/lib/withdrawCooldown";
 
 interface Props {
   onWithdraw: (ids: number[]) => void;
@@ -27,6 +33,8 @@ interface Props {
 }
 
 const _state = (state: MachineState) => state.context.state;
+const _withdrawCooldowns = (state: MachineState) =>
+  state.context.withdrawCooldowns;
 
 const BUD_ICON_CLASS = "scale-[1.8] origin-bottom absolute";
 
@@ -39,6 +47,7 @@ export const WithdrawBuds: React.FC<Props> = ({
 
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
+  const withdrawCooldowns = useSelector(gameService, _withdrawCooldowns);
 
   const buds = state.buds ?? {};
 
@@ -59,16 +68,22 @@ export const WithdrawBuds: React.FC<Props> = ({
     setSelected((prev) => prev.filter((bud) => bud !== budId));
   };
 
-  const now = useNow();
+  // Live: Grand Harvester can rest on VIP points that expire mid-session.
+  const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
 
   const hasAccess = hasReputation({
     game: state,
-    reputation: Reputation.Seedling,
+    reputation: Reputation.GrandHarvester,
     now,
   });
 
   if (!hasAccess) {
-    return <RequiredReputation reputation={Reputation.Seedling} />;
+    return (
+      <RequiredReputation
+        reputation={Reputation.GrandHarvester}
+        text={t("withdraw.buds.upgrade")}
+      />
+    );
   }
 
   const getRestrictionStatus = (itemName: BoostName) => {
@@ -133,6 +148,20 @@ export const WithdrawBuds: React.FC<Props> = ({
     // A placed Bud is removed from the farm when withdrawn — warn on select.
     const isPlaced = !!buds[budId]?.coordinates;
 
+    // Bought on the marketplace recently without VIP - only known once the
+    // API has refused it, see withdrawCooldown.ts. The API keys buds by the
+    // same `Bud #id` label we display.
+    const marketplaceBlockedUntil = getMarketplaceWithdrawBlock({
+      game: state,
+      cooldowns: withdrawCooldowns,
+      name: budName,
+      now,
+    });
+    const marketplaceDate =
+      marketplaceBlockedUntil !== undefined
+        ? formatWithdrawableDate(marketplaceBlockedUntil)
+        : undefined;
+
     return {
       key: `bud-${budId}`,
       id: budId,
@@ -143,17 +172,32 @@ export const WithdrawBuds: React.FC<Props> = ({
       unique: true,
       safeWithdrawCount: isPlaced ? 0 : 1,
       inUseWarning: isPlaced ? t("withdraw.placedBud.warning") : undefined,
-      locked: isRestricted,
+      locked: isRestricted || marketplaceDate !== undefined,
       lockReason: isRestricted
         ? t("withdraw.boostedItem.timeLeft", { time: cooldownText })
-        : undefined,
+        : marketplaceDate !== undefined
+          ? t("withdraw.marketplaceCooldown.lockReason", {
+              date: marketplaceDate,
+            })
+          : undefined,
       status: isRestricted
         ? {
             type: "warning" as const,
             icon: SUNNYSIDE.icons.timer,
             text: t("withdraw.status.cooldown", { time: cooldownText }),
           }
-        : { type: "success" as const, text: t("withdraw.status.withdrawable") },
+        : marketplaceDate !== undefined
+          ? {
+              type: "warning" as const,
+              icon: vipIcon,
+              text: t("withdraw.status.marketplaceCooldown", {
+                date: marketplaceDate,
+              }),
+            }
+          : {
+              type: "success" as const,
+              text: t("withdraw.status.withdrawable"),
+            },
     };
   });
 

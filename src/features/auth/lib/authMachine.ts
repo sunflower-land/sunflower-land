@@ -1,6 +1,6 @@
 import { createMachine, type Interpreter, type State, assign } from "xstate";
 import { CONFIG } from "lib/config";
-import { ERRORS, type ErrorCode } from "lib/errors";
+import { ERRORS, type ErrorCode, isSocialLinkError } from "lib/errors";
 
 import {
   saveReferrerId,
@@ -16,6 +16,13 @@ import {
 import type { loadSession } from "features/game/actions/loadSession";
 import { getToken, removeJWT, saveJWT } from "../actions/social";
 import { signUp, type UTM } from "../actions/signup";
+import {
+  captureTouch,
+  getAttributionPayload,
+  getFirstTouch,
+} from "lib/analytics/attribution";
+import { hasAdConsent } from "lib/analytics/consent";
+import { META_EVENT_IDS, trackMetaEvent } from "lib/analytics/meta";
 import { claimFarm } from "../actions/claimFarm";
 import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { removeMinigameJWTs } from "features/world/ui/community/actions/portal";
@@ -68,9 +75,21 @@ const getDiscordCode = () => {
   return code;
 };
 
+/**
+ * Errors the API can put on the OAuth redirect for a signed-in player who
+ * was *linking* a social account (Discord / X), as opposed to logging in.
+ * Their error screens need the game context (settings, refresh), so they
+ * are left in the URL for the game machine to pick up in `loading`.
+ */
+const isInGameOAuthError = (code: string) =>
+  isSocialLinkError(code) ||
+  code === ERRORS.DISCORD_USER_EXISTS ||
+  code === ERRORS.DISCORD_NOT_ON_SERVER;
+
 const getUrlErrorCode = (): ErrorCode | undefined => {
   const errorParam = new URLSearchParams(window.location.search).get("error");
   if (!errorParam) return undefined;
+  if (isInGameOAuthError(errorParam)) return undefined;
   // hasOwn — `in` also matches inherited props like `toString`, which
   // would let any URL param masquerade as a valid error code.
   return Object.prototype.hasOwnProperty.call(ERRORS, errorParam)
@@ -90,38 +109,29 @@ const getReferrerID = () => {
   return code;
 };
 
-const storeUTMs = () => {
-  const urlParams = new URLSearchParams(window.location.search);
-
-  const utm_source = urlParams.get("utm_source");
-  if (utm_source) localStorage.setItem("utm_source", utm_source);
-
-  const utm_medium = urlParams.get("utm_medium");
-  if (utm_medium) localStorage.setItem("utm_medium", utm_medium);
-
-  const utm_campaign = urlParams.get("utm_campaign");
-  if (utm_campaign) localStorage.setItem("utm_campaign", utm_campaign);
-
-  const utm_content = urlParams.get("utm_content");
-  if (utm_content) localStorage.setItem("utm_content", utm_content);
-
-  const utm_term = urlParams.get("utm_term");
-  if (utm_term) localStorage.setItem("utm_term", utm_term);
-};
-
+/**
+ * Legacy `utm` object for the signup request, now derived from the frozen
+ * first touch (first touch wins; the old per-key localStorage approach kept
+ * the most recent value). Falls back to the old keys for players who landed
+ * before this change and sign up after it.
+ */
 const getUTMs = (): UTM => {
-  const utm_source = localStorage.getItem("utm_source");
-  const utm_medium = localStorage.getItem("utm_medium");
-  const utm_campaign = localStorage.getItem("utm_campaign");
-  const utm_content = localStorage.getItem("utm_content");
-  const utm_term = localStorage.getItem("utm_term");
-
+  const first = getFirstTouch();
+  if (first) {
+    return {
+      source: first.utm_source,
+      medium: first.utm_medium,
+      campaign: first.utm_campaign,
+      content: first.utm_content,
+      term: first.utm_term,
+    };
+  }
   return {
-    source: utm_source ?? undefined,
-    medium: utm_medium ?? undefined,
-    campaign: utm_campaign ?? undefined,
-    content: utm_content ?? undefined,
-    term: utm_term ?? undefined,
+    source: localStorage.getItem("utm_source") ?? undefined,
+    medium: localStorage.getItem("utm_medium") ?? undefined,
+    campaign: localStorage.getItem("utm_campaign") ?? undefined,
+    content: localStorage.getItem("utm_content") ?? undefined,
+    term: localStorage.getItem("utm_term") ?? undefined,
   };
 };
 
@@ -262,7 +272,9 @@ export const authMachine = createMachine(
             saveReferrerId(referrerId);
           }
 
-          storeUTMs();
+          // Idempotent: first touch is never overwritten, so passing through
+          // idle again (OAuth return, retry) is safe.
+          captureTouch();
         },
         always: [
           {
@@ -441,13 +453,23 @@ export const authMachine = createMachine(
         invoke: {
           src: async (context, event) => {
             const createEvent = event as CreateFarmEvent;
-            const { token } = await signUp({
+            const { token, farm } = await signUp({
               token: context.user.rawToken as string,
               transactionId: context.transactionId as string,
               referrerId: getReferrerIdFromLS(),
               utm: getUTMs(),
+              attribution: getAttributionPayload(hasAdConsent()),
               equipment: createEvent.equipment,
             });
+
+            // Mirror of the server's CompleteRegistration (Conversions API)
+            // with the same event id, so Meta counts the signup once.
+            if (farm?.id) {
+              trackMetaEvent(
+                "CompleteRegistration",
+                META_EVENT_IDS.completeRegistration(farm.id),
+              );
+            }
 
             return { token };
           },

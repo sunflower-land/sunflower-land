@@ -1,0 +1,50 @@
+name: Fire the community PR UI review for fork pull requests
+
+# The Claude Code routine "Community PR UI review" has a built-in GitHub
+# trigger, but it does not fire for pull requests opened from forks. This
+# workflow covers that gap by calling the routine's API trigger.
+#
+# pull_request_target runs in the context of the base repository, so the
+# secret is available for fork pull requests. This workflow must never check
+# out or run code from the pull request.
+
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize, edited, ready_for_review]
+
+permissions: {}
+
+concurrency:
+  group: community-pr-ui-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  fire-routine:
+    # Non-fork pull requests already reach the routine through its GitHub trigger.
+    if: github.event.pull_request.head.repo.fork && !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Fire routine
+        env:
+          ROUTINE_ID: trig_01VYPTaRLr8kxbexuU6U3YJ3
+          ROUTINE_TOKEN: ${{ secrets.CLAUDE_ROUTINE_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          EVENT_ACTION: ${{ github.event.action }}
+        run: |
+          if [ -z "$ROUTINE_TOKEN" ]; then
+            echo "::error::The CLAUDE_ROUTINE_TOKEN secret is not set."
+            exit 1
+          fi
+
+          body=$(jq -n \
+            --arg text "GitHub pull request event: pull request #${PR_NUMBER} in ${GITHUB_REPOSITORY} (action: ${EVENT_ACTION}). The pull request number is ${PR_NUMBER}." \
+            '{text: $text}')
+
+          curl --fail-with-body --silent --show-error \
+            -X POST "https://api.anthropic.com/v1/claude_code/routines/${ROUTINE_ID}/fire" \
+            -H "Authorization: Bearer ${ROUTINE_TOKEN}" \
+            -H "anthropic-version: 2023-06-01" \
+            -H "anthropic-beta: experimental-cc-routine-2026-04-01" \
+            -H "Content-Type: application/json" \
+            -d "$body"

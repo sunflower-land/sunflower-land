@@ -580,7 +580,7 @@ const BASE_OFFLINE_FARM: GameState = {
   mushrooms: {
     spawnedAt: 0,
     mushrooms: {
-      "1": { name: "Wild Mushroom", amount: 1, x: -1, y: 4 },
+      "1": { name: "Wild Mushroom", x: -1, y: 4 },
     },
   },
   crabTraps: {

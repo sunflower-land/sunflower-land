@@ -95,7 +95,9 @@ export async function autosaveRequest(
 
   const controller = new AbortController();
   const timeoutId = setTimeout(() => {
-    controller.abort();
+    // Abort with a reason so the rejection says why it was cancelled instead of
+    // the anonymous, browser-specific "signal is aborted without reason".
+    controller.abort(new Error(ERRORS.AUTOSAVE_TIMEOUT));
   }, AUTO_SAVE_INTERVAL);
 
   try {

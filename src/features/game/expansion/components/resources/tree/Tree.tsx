@@ -13,6 +13,7 @@ import {
   getRequiredAxeAmount,
   getReward,
   getWoodDropAmount,
+  TUTORIAL_WOOD_NATIVE_BONUS,
 } from "features/game/events/landExpansion/chop";
 import {
   getTreeBoostWindows,
@@ -37,6 +38,8 @@ import { DepletedTree } from "./components/DepletedTree";
 import { DepletingTree } from "./components/DepletingTree";
 import { RecoveredTree } from "./components/RecoveredTree";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { getTutorialNudge } from "features/island/lib/tutorialNudge";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { useSound } from "lib/utils/hooks/useSound";
 import { setPrecision } from "lib/utils/formatNumber";
 import { Transition } from "@headlessui/react";
@@ -65,6 +68,8 @@ const selectSeason = (state: MachineState) => state.context.state.season.season;
 const selectInventory = (state: MachineState) => state.context.state.inventory;
 const selectTreesChopped = (state: MachineState) =>
   state.context.state.farmActivity["Tree Chopped"] ?? 0;
+const selectActiveNudge = (state: MachineState) =>
+  getTutorialNudge(state.context.state);
 const selectFarmId = (state: MachineState) => state.context.farmId;
 
 const compareResource = (prev: TreeType, next: TreeType) => {
@@ -96,6 +101,7 @@ interface Props {
 
 export const Tree: React.FC<Props> = ({ id }) => {
   const { gameService, shortcutItem, showAnimations } = useContext(Context);
+  const { openModal } = useContext(ModalContext);
 
   const [touchCount, setTouchCount] = useState(0);
   const [reward, setReward] = useState<Reward>();
@@ -137,6 +143,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
   );
 
   const treesChopped = useSelector(gameService, selectTreesChopped);
+  const activeNudge = useSelector(gameService, selectActiveNudge);
   const activityCount = useSelector(gameService, (state) => {
     const treeName = state.context.state.trees[id]?.name ?? "Tree";
     const activityKey =
@@ -163,9 +170,8 @@ export const Tree: React.FC<Props> = ({ id }) => {
     countdownSeconds: timeLeft,
   } = useNodeTimer({
     startedAt: choppedAt,
-    baseDurationMs,
+    baseDurationMs: baseDurationMs ?? TREE_RECOVERY_TIME * 1000,
     windows: treeBoostWindows,
-    legacyReadyAt: choppedAt + TREE_RECOVERY_TIME * 1000,
   });
   // The timer's `now` freezes once the tree is ready (autoEndAt), so boost
   // checks need a LIVE clock — a frozen one would keep promising a shrine's
@@ -265,6 +271,25 @@ export const Tree: React.FC<Props> = ({ id }) => {
       item: "Axe",
     });
 
+    const treesChopped =
+      newState.context.state.farmActivity["Tree Chopped"] ?? 0;
+
+    // Tutorial popups open as soon as the chop lands, not after the 3 second
+    // collecting animation below.
+
+    // The three starting trees are exactly the first expansion's cost, so once
+    // they are down Grimbly points the player at the expansion.
+    if (treesChopped === 3) {
+      openModal("EXPAND_LAND");
+    }
+
+    // The first scripted +1 wood is Pete's cue to explain the native bonus.
+    const basicTreesChopped =
+      newState.context.state.farmActivity["Basic Tree Chopped"] ?? 0;
+    if (basicTreesChopped === TUTORIAL_WOOD_NATIVE_BONUS.indexOf(true) + 1) {
+      openModal("NATIVE_BONUS");
+    }
+
     if (showAnimations) {
       setCollecting(true);
       harvested.current = setPrecision(woodDropAmount, 2).toNumber();
@@ -278,7 +303,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
       harvested.current = 0;
     }
 
-    if (newState.context.state.farmActivity["Tree Chopped"] === 1) {
+    if (treesChopped === 1) {
       gameAnalytics.trackMilestone({ event: "Tutorial:TreeChopped:Completed" });
     }
   };
@@ -304,7 +329,14 @@ export const Tree: React.FC<Props> = ({ id }) => {
           <RecoveredTree
             hasTool={hasTool}
             touchCount={touchCount}
-            showHelper={treesChopped < 3 && treesChopped + 1 === Number(id)}
+            // The first-three walk steps tree by tree; the post-delivery
+            // chop-trees nudge lights every standing tree, since any of them
+            // yields the expansion's Wood.
+            showHelper={
+              hasTool &&
+              ((treesChopped < 3 && treesChopped + 1 === Number(id)) ||
+                activeNudge === "chop-trees")
+            }
             island={island}
             season={season}
             id={id}

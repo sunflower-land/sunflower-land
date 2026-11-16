@@ -23,12 +23,12 @@ import confetti from "canvas-confetti";
 import type { BumpkinItem } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
-  COLORS_2026_EVENT_ITEMS,
+  HALLOWEEN_2026_EVENT_ITEMS,
   type EventStoreCollectible,
   type EventStoreItem,
   type EventStoreWearable,
   type EventTierItemName,
-} from "features/game/types/colors2026EventShop";
+} from "features/game/types/halloween2026EventShop";
 import { getItemDescription } from "../EventStore";
 import { getKeys } from "lib/object";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
@@ -74,7 +74,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const now = useNow();
   const chapterTicket = getChapterTicket(now);
   const chapterArtefact = getChapterArtefact(now);
-  const eventStore = COLORS_2026_EVENT_ITEMS;
+  const eventStore = HALLOWEEN_2026_EVENT_ITEMS;
   const tiers =
     tier === "basic"
       ? "basic"
@@ -89,8 +89,9 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
               : "basic";
 
   const shop =
-    gameService.getSnapshot().context.state.minigames.games["colors-2026"]
-      ?.shop;
+    gameService.getSnapshot().context.state.minigames.games[
+      "halloween-2026-game-2"
+    ]?.shop;
 
   const eventCollectiblesCrafted = Object.keys(shop?.items ?? {}).length;
   const eventWearablesCrafted = Object.keys(shop?.wearables ?? {}).length;
@@ -113,19 +114,20 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     tier === "extra" && eventItemsCrafted >= eventStore.extra.requirement;
 
   const itemsCrafted = isWearable
-    ? (state.minigames.games["colors-2026"]?.shop?.wearables?.[
+    ? (state.minigames.games["halloween-2026-game-2"]?.shop?.wearables?.[
         itemName as BumpkinItem
       ] ?? 0)
-    : (state.minigames.games["colors-2026"]?.shop?.items?.[
+    : (state.minigames.games["halloween-2026-game-2"]?.shop?.items?.[
         itemName as InventoryItemName
       ] ?? 0);
 
   const canCraftMore =
     itemsCrafted <
-    (MINIGAME_SHOP_ITEMS["colors-2026"]?.[itemName as EventTierItemName]?.max ??
-      1);
+    (MINIGAME_SHOP_ITEMS["halloween-2026-game-2"]?.[
+      itemName as EventTierItemName
+    ]?.max ?? 1);
 
-  const description = getItemDescription(item);
+  const description = getItemDescription(item, state);
   const { sfl = 0 } = item?.cost || {};
   const itemReq = item?.cost?.items;
 
@@ -210,7 +212,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     if (!item) return;
 
     gameService.send("minigameItem.bought", {
-      id: "colors-2026",
+      id: "halloween-2026-game-2",
       name: itemName,
     });
 
@@ -354,7 +356,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                       {t("season.megastore.crafting.limit.max", {
                         limit: itemsCrafted,
                         max:
-                          MINIGAME_SHOP_ITEMS["colors-2026"]?.[
+                          MINIGAME_SHOP_ITEMS["halloween-2026-game-2"]?.[
                             itemName as EventTierItemName
                           ]?.max ?? 1,
                       })}

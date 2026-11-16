@@ -5,6 +5,7 @@ import {
   getAnimalLevel,
   getAnimalReadyAt,
   makeAnimalBuildingKey,
+  wakeAnimalAt,
 } from "features/game/lib/animals";
 import type { DollName } from "features/game/lib/crafting";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
@@ -99,10 +100,7 @@ export function wakeAnimal({
 
     copy.inventory[toy] = (copy.inventory[toy] ?? new Decimal(0)).minus(1);
 
-    animal.awakeAt = createdAt;
-    // Drop the windowed marker so the wake time is exactly this instant rather
-    // than being re-derived from `asleepAt` + the shrine windows.
-    delete animal.baseDurationMs;
+    wakeAnimalAt(animal, copy, createdAt);
 
     return copy;
   });

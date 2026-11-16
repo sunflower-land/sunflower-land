@@ -4,6 +4,7 @@ import useSWRImmutable from "swr/immutable";
 import * as Auth from "features/auth/lib/Provider";
 import type { Marketplace } from "features/game/types/marketplace";
 import { CONFIG } from "lib/config";
+import { useRequestTokensReady } from "lib/requestToken/useRequestTokensReady";
 import { loadMarketplace } from "../actions/loadMarketplace";
 import type { MarketplaceItemTarget } from "./navigation";
 
@@ -59,6 +60,12 @@ export const useMarketplaceTradeables = ({
   const [authState] = useActor(authService);
   const token = authState.context.user.rawToken as string | undefined;
   const [ready, setReady] = useState(false);
+  // `/marketplace` is request-token protected. Keying on the session
+  // handshake — not just the JWT — means a request never fires before
+  // there is a code to sign it with. That matters doubly here: the key is
+  // immutable, so a rejection at mount would otherwise stand for the
+  // page's life and the tradeable badges with it.
+  const sessionReady = useRequestTokensReady();
 
   useEffect(() => {
     // Let the interface paint before starting the optional marketplace lookup.
@@ -68,7 +75,7 @@ export const useMarketplaceTradeables = ({
   }, []);
 
   const isEnabled = (filter: MarketplaceTradeableFilter) =>
-    ready && enabled && filters.includes(filter);
+    ready && sessionReady && enabled && filters.includes(filter);
 
   const collectibles = useFilter(
     "collectibles",

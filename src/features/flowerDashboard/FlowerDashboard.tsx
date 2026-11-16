@@ -414,7 +414,7 @@ export const FlowerDashboard = () => {
                     className="text-xxs absolute top-1 right-1 underline cursor-pointer"
                     onClick={() => {
                       window.open(
-                        `https://docs.sunflower-land.com/getting-started/usdflower-erc20`,
+                        `https://docs.sunflower-land.com/web3-and-economy/flower-erc20`,
                         "_blank",
                       );
                     }}

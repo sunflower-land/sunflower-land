@@ -103,9 +103,11 @@ export const FactionLeaderboard: React.FC<Props> = ({
         <div className="flex justify-between">
           <Label type="default">{`Weekly War`}</Label>
           <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-            {`${secondsToString(secondsTillWeekReset(), {
-              length: "short",
-            })} left`}
+            {t("vipExpiry.timeLeft", {
+              time: secondsToString(secondsTillWeekReset(), {
+                length: "short",
+              }),
+            })}
           </Label>
         </div>
         <span className="text-xs mb-1">

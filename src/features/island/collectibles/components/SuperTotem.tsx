@@ -17,10 +17,9 @@ import { getChestItems } from "features/island/hud/components/inventory/utils/in
 import {
   getCollectibleExpiry,
   getCollectiblesAcrossLocations,
-  getExpiryCooldown,
+  EXPIRY_COOLDOWNS,
 } from "features/game/lib/collectibleBuilt";
 import { TemporaryCollectibleModal } from "features/game/components/TemporaryCollectibleModal";
-import { hasFeatureAccess } from "lib/flags";
 
 const _gameState = (state: MachineState) => state.context.state;
 
@@ -36,7 +35,7 @@ export const SuperTotem: React.FC<CollectibleProps> = ({
   const [showDetails, setShowDetails] = useState(false);
   const chestItems = getChestItems(gameState);
 
-  const duration = getExpiryCooldown("Super Totem", gameState);
+  const duration = EXPIRY_COOLDOWNS["Super Totem"];
   // Read the placement so any time bought via `collectible.extended` is included
   // in the countdown rather than the totem appearing to expire early.
   const placed = getCollectiblesAcrossLocations(gameState, "Super Totem").find(
@@ -45,14 +44,12 @@ export const SuperTotem: React.FC<CollectibleProps> = ({
   const expiresAt = getCollectibleExpiry({
     name: "Super Totem",
     collectible: placed ?? { createdAt },
-    game: gameState,
   });
   const { totalSeconds: secondsToExpire } = useCountdown(expiresAt);
   const hasExpired = secondsToExpire <= 0;
   const durationSeconds = (duration + (placed?.extendedMs ?? 0)) / 1000;
   const percentage = 100 - (secondsToExpire / durationSeconds) * 100;
-  const canExtend =
-    !isVisiting && hasFeatureAccess(gameState, "SPEED_BOOSTS") && !!placed;
+  const canExtend = !isVisiting && !!placed;
   const hasReplacement = (chestItems["Super Totem"] ?? new Decimal(0)).gt(0);
 
   const handleRemove = () => {

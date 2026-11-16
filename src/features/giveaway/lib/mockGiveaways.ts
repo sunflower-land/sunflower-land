@@ -53,6 +53,14 @@ const PRIZES: PrizeTier[] = [
   { from: 4, to: 10, coins: 100 },
 ];
 
+/**
+ * Offline there's no server to compute this, so mirror what the API does for a
+ * race: the game clock plus the same grace period, from `startAt`. Keeps the
+ * "Finish" button appearing at the right moment in UI mode.
+ */
+const FINALISE_GRACE_MS = 15000;
+const finalisableAt = (s: number) => s + 30000 + FINALISE_GRACE_MS;
+
 export function mockGiveaways(): GiveawaysResponse {
   const s = startAt();
   return {
@@ -64,6 +72,8 @@ export function mockGiveaways(): GiveawaysResponse {
         status: Date.now() >= s ? "live" : "upcoming",
         startAt: s,
         endAt: s + DURATION_MS,
+        minigame: "race",
+        finalisableAt: finalisableAt(s),
         prizes: PRIZES,
       },
     ],
@@ -74,6 +84,8 @@ export function mockGiveaways(): GiveawaysResponse {
         status: "complete",
         startAt: s - DURATION_MS,
         endAt: s - 1000,
+        minigame: "race",
+        finalisableAt: finalisableAt(s - DURATION_MS),
         endedAt: s - 1000,
         prizes: PRIZES,
       },
@@ -93,6 +105,11 @@ export function mockGiveawayLeaderboard(
     status: isPast ? "complete" : Date.now() >= s ? "live" : "upcoming",
     startAt: isPast ? s - DURATION_MS : s,
     endAt: isPast ? s - 1000 : s + DURATION_MS,
+    // Offline you can open any mini-game via `?type=`, but the fixture only
+    // models a race — so the finish button unlocks on race timing whatever
+    // you're playing. Harmless: there's no server here to disagree with it.
+    finishesAt: (isPast ? s - DURATION_MS : s) + 30000,
+    finalisableAt: finalisableAt(isPast ? s - DURATION_MS : s),
     prizes: PRIZES,
     // The race scene always adds the local player, so an empty participant list
     // means "just me". A finished mock giveaway shows a sample winner board.

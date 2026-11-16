@@ -29,6 +29,7 @@ import {
   isGuaranteedBait,
 } from "features/game/types/fishing";
 import { isWearableActive } from "features/game/lib/wearables";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   getBasketItems,
@@ -46,12 +47,12 @@ import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 import { Checkbox } from "components/ui/Checkbox";
 import { SmallBox } from "components/ui/SmallBox";
 import { ChumSelection } from "./ChumSelection";
-import { DropdownPanel } from "components/ui/DropdownPanel";
 import { EXTRA_REELS_AMOUNT } from "features/game/events/landExpansion/castRod";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useNow } from "lib/utils/hooks/useNow";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { ReelsRemainingBadge } from "./ReelsRemainingBadge";
 
 const BAIT: FishingBait[] = [
   "Earthworm",
@@ -127,7 +128,7 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
 
   const isVip = useVipAccess({ game: state });
   const currentSeason = state.season.season;
-  const now = useNow();
+  const now = useNow({ live: true });
 
   const getGuaranteedOptions = (bait: FishingBait) => {
     return isGuaranteedBait(bait) ? getSeasonalGuaranteedCatch(bait) : [];
@@ -181,7 +182,7 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
     }
   };
 
-  const reelsLeft = getRemainingReels(state);
+  const reelsLeft = getRemainingReels(state, new Date(now));
   const effectiveMultiplier = isVip ? multiplier : 1;
   const effectiveChum = isGuaranteedBait(selectedBait) ? undefined : chum;
 
@@ -199,20 +200,19 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
   const fishingLimitReached = reelsLeft <= 0 || effectiveMultiplier > reelsLeft;
   const hasAncientRod = isWearableActive({ name: "Ancient Rod", game: state });
 
-  // Shrimp Onesie: every 15th lifetime reel awards +1 of every fish caught on
-  // that reel. The actual bonus is computed server-side in castRod against the
-  // "Rod Casted" farm activity counter; here we just preview how many of the
-  // upcoming reels in this cast would land on a milestone.
-  const SHRIMP_ONESIE_REEL_INTERVAL = 15;
-  const shrimpOnesieActive = isWearableActive({
-    name: "Shrimp Onesie",
-    game: state,
-  });
+  // Shrimp Onesie and Otty the Otter each award +1 random fish on every 15th
+  // lifetime reel, and they stack. The actual bonus is computed server-side in
+  // castRod against the "Rod Casted" farm activity counter; here we just
+  // preview how many of the upcoming reels in this cast would land on a
+  // milestone, and how many fish each of those reels adds.
+  const REEL_BONUS_INTERVAL = 15;
+  const reelBonusFish =
+    (isWearableActive({ name: "Shrimp Onesie", game: state }) ? 1 : 0) +
+    (isCollectibleBuilt({ name: "Otty the Otter", game: state }) ? 1 : 0);
   const previousCasts = state.farmActivity["Rod Casted"] ?? 0;
-  const shrimpOnesieMilestones = shrimpOnesieActive
-    ? Math.floor(
-        (previousCasts + effectiveMultiplier) / SHRIMP_ONESIE_REEL_INTERVAL,
-      ) - Math.floor(previousCasts / SHRIMP_ONESIE_REEL_INTERVAL)
+  const reelBonusMilestones = reelBonusFish
+    ? Math.floor((previousCasts + effectiveMultiplier) / REEL_BONUS_INTERVAL) -
+      Math.floor(previousCasts / REEL_BONUS_INTERVAL)
     : 0;
 
   const { rodCost: rodsRequired } = getRodCost({
@@ -365,47 +365,56 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
               )}
             </div>
 
-            <Label
-              icon={SUNNYSIDE.tools.fishing_rod}
-              type={reelsLeft <= 0 ? "danger" : "default"}
-            >
-              {reelsLeft === 1
-                ? t("fishing.oneReelLeft")
-                : t("fishing.reelsLeft", { reelsLeft })}
-            </Label>
-            {shrimpOnesieMilestones > 0 && (
+            <ReelsRemainingBadge
+              state={state}
+              reelsLeft={reelsLeft}
+              now={now}
+            />
+            {reelBonusMilestones > 0 && (
               <Label icon={lightning} type="vibrant">
-                {shrimpOnesieMilestones === 1
-                  ? t("fishing.shrimpOnesie.singleReel")
-                  : t("fishing.shrimpOnesie.bulkReel", {
-                      reels: shrimpOnesieMilestones,
+                {reelBonusMilestones === 1
+                  ? t("fishing.reelBonus.singleReel", { amount: reelBonusFish })
+                  : t("fishing.reelBonus.bulkReel", {
+                      amount: reelBonusFish,
+                      reels: reelBonusMilestones,
                     })}
               </Label>
             )}
           </div>
         </InnerPanel>
-        <DropdownPanel
-          options={BAIT.map((bait) => ({
-            value: bait,
-            label: (
-              <div className="flex flex-col gap-1">
-                <p className="text-xs">{`${effectiveMultiplier} x ${getTranslatedItemName(bait)} (${items[bait]?.toString() ?? 0})`}</p>
-                <p className="text-xxs">{ITEM_DETAILS[bait].description}</p>
-              </div>
-            ),
-            icon: ITEM_DETAILS[bait].image,
-          }))}
-          value={selectedBait}
-          placeholder={t("fishing.select.your.bait")}
-          onChange={(bait) => handleBaitChange(bait as FishingBait)}
-        />
-        {notEnoughBait && (
-          <Label className="ml-1" type="danger">
-            {t("fishing.dont.have.enough.bait", {
-              bait: getTranslatedItemName(selectedBait),
-            })}
-          </Label>
-        )}
+        <InnerPanel>
+          <p className="mb-1 p-1 text-xs">{t("fishing.select.your.bait")}</p>
+          <div className="flex flex-wrap items-center">
+            {BAIT.map((bait) => (
+              <Box
+                key={bait}
+                image={ITEM_DETAILS[bait].image}
+                count={items[bait] ?? new Decimal(0)}
+                onClick={() => handleBaitChange(bait)}
+                isSelected={selectedBait === bait}
+                missingRequirements={(items[bait] ?? new Decimal(0)).lt(
+                  effectiveMultiplier,
+                )}
+                tooltip={getTranslatedItemName(bait)}
+              />
+            ))}
+          </div>
+          {selectedBait && (
+            <div className="flex flex-col gap-1 p-1">
+              <p className="text-xs">{`${effectiveMultiplier} x ${getTranslatedItemName(selectedBait)}`}</p>
+              <p className="text-xxs">
+                {ITEM_DETAILS[selectedBait].description}
+              </p>
+            </div>
+          )}
+          {notEnoughBait && (
+            <Label className="ml-1" type="danger">
+              {t("fishing.dont.have.enough.bait", {
+                bait: getTranslatedItemName(selectedBait),
+              })}
+            </Label>
+          )}
+        </InnerPanel>
         {selectedBait && isGuaranteedBait(selectedBait) && guaranteedCatch && (
           <InnerPanel>
             <Label

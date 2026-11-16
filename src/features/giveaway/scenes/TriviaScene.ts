@@ -37,10 +37,10 @@ const QUADRANT = [
  * Trivia.
  *
  * A question appears; tap one of four quadrants and your Bumpkin pops into that
- * quadrant, so everyone can see what everyone's picking in real time. You keep
- * your pick between questions and can change it until the 10s is up, then a 3s
- * reveal cheers the right answerers and topples the wrong ones — faster correct
- * answers score more (Kahoot-style).
+ * quadrant, so everyone can see what everyone's picking in real time. Your first
+ * pick is locked in — no changing it — until the 10s is up, then a 3s reveal
+ * cheers the right answerers and topples the wrong ones — faster correct answers
+ * score more (Kahoot-style).
  *
  * Networking: we broadcast the ANSWER INDEX as X (0-3, or -1 for none) so remote
  * Bumpkins can be placed in the right quadrant, and our accumulating SCORE as Y,
@@ -182,11 +182,14 @@ export class TriviaScene extends BaseScene {
     return Phaser.Math.Clamp(Math.round(x), 0, 3);
   }
 
-  /** Move into an answer's quadrant (during the answer window only). */
+  /**
+   * Move into an answer's quadrant (during the answer window only). The first
+   * pick is locked in until the next question resets it — no changing answers.
+   */
   private applyPick(answer: number) {
     const player = this.currentPlayer;
     if (!player || this.phase !== "answer" || this.finished) return;
-    if (answer === this.currentAnswer) return;
+    if (this.currentAnswer !== null) return;
 
     // Record how quickly we locked this in (for speed-based points).
     const bridge = this.bridge;

@@ -56,7 +56,7 @@ const DECORATIVE_FLOWER_NAMES: CollectibleName[] = [
 
 export const MUTANT_FLOWER_NAMES: MutantFlowerName[] = getValues(
   CHAPTER_MUTANTS,
-).map(({ Flower }) => Flower);
+).flatMap(({ Flower }) => (Flower ? [Flower] : []));
 
 export const CHEST_FLOWER_NAMES: CollectibleName[] = [
   ...DECORATIVE_FLOWER_NAMES,

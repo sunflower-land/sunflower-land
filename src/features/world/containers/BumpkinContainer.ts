@@ -68,12 +68,28 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   // Animation Keys
   private spriteKey: string | undefined;
   private spriteKey2: string | undefined;
+  /** Fishing sheet - only loaded once a scene actually asks for a cast. */
+  private spriteKey3: string | undefined;
+  private spriteKey4: string | undefined;
+  private danceAnimationKey: string | undefined;
+  private danceSheetRequested = false;
+  /** An NPC the player can deliver to right now - it shows the delivery icon */
+  public hasDelivery = false;
   private idleAnimationKey: string | undefined;
   private walkingAnimationKey: string | undefined;
   private digAnimationKey: string | undefined;
   private drillAnimationKey: string | undefined;
   private waveAnimationKey: string | undefined;
   private cheerAnimationKey: string | undefined;
+  private castingAnimationKey: string | undefined;
+  private waitingAnimationKey: string | undefined;
+  private reelingAnimationKey: string | undefined;
+  /** True from the first cast until the line comes in. */
+  private fishing = false;
+  /** Whether the fishing sheet has already been asked for this outfit. */
+  private fishingSheetRequested = false;
+  /** True while a scene is walking this Bumpkin somewhere under its own steam. */
+  private scriptedWalk = false;
   private backAuraKey: string | undefined;
   private frontAuraKey: string | undefined;
   private frontAuraAnimationKey: string | undefined;
@@ -148,6 +164,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.isVip = isVip;
     this.createdAt = createdAt;
     this.islandType = islandType;
+    this.hasDelivery = !!showDeliveryIcon;
 
     if (name) {
       const text = NAME_ALIASES[name as NPCName] ?? name;
@@ -246,6 +263,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     );
     const showDeliveryIcon =
       !!order && hasOrderRequirements({ order, state: gameState });
+    this.hasDelivery = showDeliveryIcon;
     this.label.setIconVisible(showDeliveryIcon);
   }
 
@@ -262,6 +280,12 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.drillAnimationKey = `${this.spriteKey}-bumpkin-drilling`;
     this.waveAnimationKey = `${this.spriteKey}-bumpkin-wave`;
     this.cheerAnimationKey = `${this.spriteKey}-bumpkin-cheer`; // Jump animation for now
+    this.spriteKey3 = `${this.spriteKey}-3`;
+    this.spriteKey4 = `${this.spriteKey}-4`;
+    this.danceAnimationKey = `${this.spriteKey}-bumpkin-dance`;
+    this.castingAnimationKey = `${this.spriteKey}-bumpkin-casting`;
+    this.waitingAnimationKey = `${this.spriteKey}-bumpkin-waiting`;
+    this.reelingAnimationKey = `${this.spriteKey}-bumpkin-reeling`;
 
     await buildNPCSheets({
       parts: this.clothing,
@@ -489,6 +513,11 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
     if (tokenUriBuilder(clothing) === tokenUriBuilder(this.clothing)) return;
     this.ready = false;
+    // The new outfit has its own sheets - the rod goes away with the old one
+    this.fishing = false;
+    this.fishingSheetRequested = false;
+    this.danceSheetRequested = false;
+    this.scriptedWalk = false;
     if (this.sprite?.active) {
       this.sprite?.destroy();
     }
@@ -888,6 +917,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     }
   }
 
+  private static REACTION_LABEL_LIFT = 13;
+
   private _react(
     react: ReactionName | InventoryItemName | "Social Point",
     quantity?: number,
@@ -900,11 +931,14 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       return;
     }
 
+    // A named Bumpkin wears a label where the reaction goes - sit above it
+    const lift = this.label ? BumpkinContainer.REACTION_LABEL_LIFT : 0;
+
     let offsetReaction = false;
     if (quantity) {
       const label = this.scene.add.bitmapText(
         0,
-        -16,
+        -16 - lift,
         "Teeny Tiny Pixls",
         `+${formatNumber(quantity)}`,
         5,
@@ -917,7 +951,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.reaction.add(label);
     }
 
-    const reaction = this.scene.add.sprite(0, -14, react);
+    const reaction = this.scene.add.sprite(0, -14 - lift, react);
     if (reaction.displayWidth > reaction.displayHeight) {
       reaction.displayWidth = 10;
       reaction.scaleY = reaction.scaleX;
@@ -1009,6 +1043,12 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   }
 
   public walk() {
+    // The scene is driving - it started the legs and will stop them
+    if (this.scriptedWalk) return;
+
+    // Walking off takes the line out of the water
+    if (this.fishing) this.stopFishing();
+
     if (
       this.sprite?.anims &&
       this.scene?.anims.exists(this.walkingAnimationKey as string) &&
@@ -1035,6 +1075,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     const interactionAnimations = [
       this.waveAnimationKey,
       this.cheerAnimationKey,
+      this.danceAnimationKey,
     ];
 
     return (
@@ -1044,6 +1085,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   }
 
   public idle() {
+    // Standing still with the line out is the point - don't drop the rod
+    if (this.fishing || this.scriptedWalk) return;
+
     if (
       this.sprite?.anims &&
       this.scene?.anims.exists(this.idleAnimationKey as string) &&
@@ -1088,6 +1132,455 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.sprite.anims.play(this.cheerAnimationKey, true);
       return;
     }
+  }
+
+  /** Frames on the `dance` sheet, and how many extra times the loop plays. */
+  private static DANCE = { start: 0, end: 7, repeat: 2 };
+
+  /**
+   * A short celebration, then back to idle. The dance frames live on their
+   * own sheet, fetched the first time a Bumpkin is asked to dance. Until the
+   * sheet is available the Bumpkin hops on the spot instead. `onDone` runs
+   * once they are back in idle.
+   */
+  public dance(onDone?: () => void) {
+    const scene = this.scene;
+    const key = this.spriteKey4;
+    const animation = this.danceAnimationKey;
+
+    if (!scene || !this.sprite || !key || !animation) return;
+    if (this.isInteracting()) return;
+
+    if (scene.anims.exists(animation)) {
+      this.playDance(onDone);
+      return;
+    }
+
+    if (scene.textures.exists(key)) {
+      this.createDanceAnimation();
+      this.playDance(onDone);
+      return;
+    }
+
+    // Already on its way - the request that started it will play the dance
+    if (this.danceSheetRequested) return;
+    this.danceSheetRequested = true;
+
+    const loader = scene.load.spritesheet(
+      key,
+      getAnimationUrl(this.clothing, ["dance"]),
+      { frameWidth: 96, frameHeight: 64 },
+    );
+
+    const onError = (file: Phaser.Loader.File) => {
+      if (file.key !== key) return;
+
+      stopListening();
+      // Let the next dance ask for the sheet again
+      this.danceSheetRequested = false;
+      if (this.scene && this.sprite?.active) this.hop(onDone);
+    };
+
+    const onLoad = () => {
+      stopListening();
+      if (!this.scene || !this.sprite?.active) return;
+      if (!scene.textures.exists(key)) return;
+
+      this.createDanceAnimation();
+      this.playDance(onDone);
+    };
+
+    const stopListening = () => {
+      loader.off(`filecomplete-spritesheet-${key}`, onLoad);
+      loader.off(Phaser.Loader.Events.FILE_LOAD_ERROR, onError);
+    };
+
+    loader.once(`filecomplete-spritesheet-${key}`, onLoad);
+    loader.on(Phaser.Loader.Events.FILE_LOAD_ERROR, onError);
+
+    scene.load.start();
+  }
+
+  private createDanceAnimation() {
+    const scene = this.scene;
+    const key = this.spriteKey4;
+    const animation = this.danceAnimationKey;
+
+    if (!scene?.anims || !key || !animation) return;
+    if (scene.anims.exists(animation)) return;
+
+    scene.anims.create({
+      key: animation,
+      frames: scene.anims.generateFrameNumbers(key, {
+        start: BumpkinContainer.DANCE.start,
+        end: BumpkinContainer.DANCE.end,
+      }),
+      repeat: BumpkinContainer.DANCE.repeat,
+      frameRate: 10,
+    });
+  }
+
+  private playDance(onDone?: () => void) {
+    this.playThenIdle(this.danceAnimationKey, onDone);
+  }
+
+  /**
+   * Plays an animation through, then goes back to idle and runs `onFinish`.
+   * Returns false when it could not start: the animation is not loaded yet,
+   * or the Bumpkin is busy with another one.
+   */
+  private playThenIdle(animation: string | undefined, onFinish?: () => void) {
+    const sprite = this.sprite;
+
+    if (!sprite || !animation || !this.scene?.anims.exists(animation)) {
+      return false;
+    }
+    if (this.isInteracting()) return false;
+
+    const events = Phaser.Animations.Events;
+    const finish = () => {
+      sprite.off(events.ANIMATION_COMPLETE, finish);
+      sprite.off(events.ANIMATION_STOP, stopListening);
+      if (!sprite.active) return;
+      // Idle first - `onFinish` may start the next animation
+      this.idle();
+      onFinish?.();
+    };
+    const stopListening = () => {
+      sprite.off(events.ANIMATION_COMPLETE, finish);
+    };
+
+    sprite.anims.play(animation, true);
+
+    // Listen only once it is playing - starting it stops the idle animation,
+    // which would otherwise end this one straight away.
+    sprite.once(events.ANIMATION_COMPLETE, finish);
+    sprite.once(events.ANIMATION_STOP, stopListening);
+
+    return true;
+  }
+
+  /**
+   * Hops on the spot, then idles. As the first hop leaves the ground a heart
+   * pops out from behind their name, then drifts up and fades. `onDone` runs
+   * once they are back in idle.
+   */
+  public receive(onDone?: () => void) {
+    if (!this.playThenIdle(this.cheerAnimationKey, onDone)) return;
+
+    this.react("heart");
+
+    const [heart] = this.reaction.getChildren() as Phaser.GameObjects.Sprite[];
+    if (!heart) return;
+
+    // Where it comes to rest once clear of the name, and where it hides
+    const clear = heart.y;
+    if (this.label) {
+      heart.setY(this.label.y);
+      this.moveBelow<Phaser.GameObjects.GameObject>(heart, this.label);
+    }
+
+    this.scene.tweens.chain({
+      targets: heart,
+      tweens: [
+        // One hop is half a second - be out by the top of the first
+        { y: clear, duration: 250, ease: "Back.easeOut" },
+        { y: clear - 8, alpha: 0, duration: 1000, ease: "Sine.easeIn" },
+      ],
+      onComplete: () => {
+        // Something else may have replaced the heart in the meantime
+        if (heart.active) this.stopReaction();
+      },
+    });
+  }
+
+  /**
+   * Turns to whoever is at `target`, waves once, then turns back and idles.
+   * Returns false when the wave could not start.
+   */
+  public greet(target: { x: number }) {
+    const facing = this.direction;
+
+    const started = this.playThenIdle(this.waveAnimationKey, () => {
+      if (facing === "left") this.faceLeft();
+      else this.faceRight();
+    });
+    if (!started) return false;
+
+    if (target.x < this.x) this.faceLeft();
+    else if (target.x > this.x) this.faceRight();
+
+    return true;
+  }
+
+  /**
+   * Stand-in for the dance when its sheet cannot be fetched: hop on the spot,
+   * turning on every hop, then settle back into idle facing the original way.
+   */
+  private hop(onDone?: () => void) {
+    const key = this.cheerAnimationKey;
+    const sprite = this.sprite;
+
+    if (!this.scene || !sprite || !key || !this.scene.anims.exists(key)) return;
+    if (this.isInteracting()) return;
+
+    const facing = this.direction;
+    const events = Phaser.Animations.Events;
+
+    const turn = () => {
+      if (this.direction === "left") {
+        this.faceRight();
+      } else {
+        this.faceLeft();
+      }
+    };
+
+    const cleanUp = () => {
+      sprite.off(events.ANIMATION_REPEAT, turn);
+      sprite.off(events.ANIMATION_COMPLETE, finish);
+      sprite.off(events.ANIMATION_STOP, cleanUp);
+
+      if (!sprite.active) return;
+
+      if (facing === "left") {
+        this.faceLeft();
+      } else {
+        this.faceRight();
+      }
+    };
+
+    const finish = () => {
+      cleanUp();
+      if (!sprite.active) return;
+      this.idle();
+      onDone?.();
+    };
+
+    sprite.anims.play(key, true);
+
+    // Listen only once the hop is playing - starting it stops the idle
+    // animation, which would otherwise end the hop straight away.
+    sprite.on(events.ANIMATION_REPEAT, turn);
+    sprite.once(events.ANIMATION_COMPLETE, finish);
+    sprite.once(events.ANIMATION_STOP, cleanUp);
+  }
+
+  // -------------------------------------------------------------------
+  // Fishing
+  //
+  // The casting, waiting and reeling frames live on a third sheet, only
+  // fetched the first time a scene asks a Bumpkin to cast - most scenes
+  // never fish, and every player in the room would otherwise pull it.
+  // The line stays in the water between reels: `castRod` runs the cast and
+  // settles into the waiting loop, `reelRod` plays one pull and drops back
+  // into it, and walking anywhere takes the line out again.
+  // -------------------------------------------------------------------
+
+  /** Frame ranges on `casting_waiting_reeling`, in that order. */
+  private static FISHING_FRAMES = {
+    casting: { start: 0, end: 14 },
+    waiting: { start: 15, end: 23 },
+    reeling: { start: 24, end: 36 },
+  };
+
+  public get isFishing() {
+    return this.fishing;
+  }
+
+  /** Cast the line out and hold it there. Safe to call while already fishing. */
+  public castRod() {
+    if (!this.scene || !this.sprite) return;
+    this.fishing = true;
+
+    this.withFishingSheet(() => {
+      if (!this.fishing || !this.sprite?.anims) return;
+
+      // The line is already out - don't re-cast over a reel in progress
+      const playing = this.sprite.anims.getName();
+      if (
+        playing === this.castingAnimationKey ||
+        playing === this.waitingAnimationKey ||
+        playing === this.reelingAnimationKey
+      ) {
+        return;
+      }
+
+      this.playFishing(this.castingAnimationKey);
+    });
+  }
+
+  /** One pull on the rod, then back to holding the line out. */
+  public reelRod() {
+    if (!this.scene || !this.sprite) return;
+    this.fishing = true;
+
+    this.withFishingSheet(() => {
+      if (!this.fishing) return;
+      this.playFishing(this.reelingAnimationKey);
+    });
+  }
+
+  /** Line comes in - back to standing about. */
+  public stopFishing() {
+    if (!this.fishing) return;
+    this.fishing = false;
+
+    if (this.sprite?.anims && this.idleAnimationKey) {
+      this.sprite.anims.stop();
+      this.idle();
+    }
+  }
+
+  /**
+   * Play a one-shot fishing animation and settle into the waiting loop.
+   *
+   * A pull already under way is left alone: mashing the button through one
+   * reel would otherwise queue up a `waiting` chain per click, and since
+   * `waiting` loops forever none of them would ever be reached.
+   */
+  private playFishing(key: string | undefined) {
+    if (!key || !this.sprite?.anims || !this.scene?.anims.exists(key)) return;
+    if (this.sprite.anims.getName() === key && this.sprite.anims.isPlaying) {
+      return;
+    }
+
+    try {
+      this.sprite.anims.play(key);
+
+      if (
+        this.waitingAnimationKey &&
+        this.scene.anims.exists(this.waitingAnimationKey)
+      ) {
+        this.sprite.anims.chain(this.waitingAnimationKey);
+      }
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log("Bumpkin Container: Error playing fishing animation: ", e);
+    }
+  }
+
+  /**
+   * Run `onReady` once the fishing sheet and its animations exist. The sheet
+   * is fetched at most once per outfit; a failed fetch just leaves the
+   * Bumpkin standing there rather than breaking the cast.
+   */
+  private withFishingSheet(onReady: () => void) {
+    const scene = this.scene;
+    const key = this.spriteKey3;
+    if (!scene || !key) return;
+
+    if (
+      this.castingAnimationKey &&
+      scene.anims.exists(this.castingAnimationKey)
+    ) {
+      onReady();
+      return;
+    }
+
+    if (scene.textures.exists(key)) {
+      this.createFishingAnimations();
+      onReady();
+      return;
+    }
+
+    // Already on its way - the click that started it will run `onReady`
+    if (this.fishingSheetRequested) return;
+    this.fishingSheetRequested = true;
+
+    const url = getAnimationUrl(this.clothing, [
+      "casting",
+      "waiting",
+      "reeling",
+    ]);
+    const loader = scene.load.spritesheet(key, url, {
+      frameWidth: 96,
+      frameHeight: 64,
+    });
+
+    loader.once(`filecomplete-spritesheet-${key}`, () => {
+      if (!scene.textures.exists(key)) return;
+
+      this.createFishingAnimations();
+      onReady();
+    });
+
+    scene.load.start();
+  }
+
+  private createFishingAnimations() {
+    const scene = this.scene;
+    const sheet = this.spriteKey3;
+    if (!scene?.anims || !sheet) return;
+
+    const { casting, waiting, reeling } = BumpkinContainer.FISHING_FRAMES;
+
+    if (
+      this.castingAnimationKey &&
+      !scene.anims.exists(this.castingAnimationKey)
+    ) {
+      scene.anims.create({
+        key: this.castingAnimationKey,
+        frames: scene.anims.generateFrameNumbers(sheet, casting),
+        frameRate: 14,
+        repeat: 0,
+      });
+    }
+
+    if (
+      this.waitingAnimationKey &&
+      !scene.anims.exists(this.waitingAnimationKey)
+    ) {
+      scene.anims.create({
+        key: this.waitingAnimationKey,
+        frames: scene.anims.generateFrameNumbers(sheet, waiting),
+        frameRate: 8,
+        repeat: -1,
+      });
+    }
+
+    if (
+      this.reelingAnimationKey &&
+      !scene.anims.exists(this.reelingAnimationKey)
+    ) {
+      scene.anims.create({
+        key: this.reelingAnimationKey,
+        frames: scene.anims.generateFrameNumbers(sheet, reeling),
+        frameRate: 16,
+        repeat: 0,
+      });
+    }
+  }
+
+  // -------------------------------------------------------------------
+  // Scripted walking
+  //
+  // A scene sometimes needs to walk a Bumpkin somewhere itself - onto a
+  // fishing spot, say. While it does, `BaseScene.update` must not put the
+  // legs back to idle every frame, so `walk` and `idle` stand down and the
+  // scene owns the animation until it hands back.
+  // -------------------------------------------------------------------
+
+  public get isWalkingScripted() {
+    return this.scriptedWalk;
+  }
+
+  /** Start the legs and hold them going until `endScriptedWalk`. */
+  public startScriptedWalk() {
+    if (this.scriptedWalk) return;
+
+    // The rod comes out of the water first, and `walk` has to run before the
+    // flag is set or it would stand itself down
+    this.stopFishing();
+    this.walk();
+    this.scriptedWalk = true;
+  }
+
+  /** Hand the Bumpkin back - it stands where the scene left it. */
+  public endScriptedWalk() {
+    if (!this.scriptedWalk) return;
+
+    this.scriptedWalk = false;
+    this.idle();
   }
 
   public hitPlayer() {

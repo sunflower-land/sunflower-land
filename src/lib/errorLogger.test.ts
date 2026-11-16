@@ -1,8 +1,10 @@
 import {
   buildErrorReport,
   createErrorLogger,
+  isExternalDomMutationError,
   isNetworkError,
 } from "./errorLogger";
+import { ERRORS } from "./errors";
 
 describe("buildErrorReport", () => {
   it("sends the legacy modal shape as a code + transaction id", () => {
@@ -71,8 +73,27 @@ describe("isNetworkError", () => {
     ).toBe(true);
   });
 
+  it("recognises aborted requests by name and by each browser's message", () => {
+    const aborted = new Error("whatever this browser says");
+    aborted.name = "AbortError";
+    expect(isNetworkError(aborted)).toBe(true);
+
+    expect(isNetworkError("signal is aborted without reason")).toBe(true);
+    expect(isNetworkError("The operation was aborted.")).toBe(true);
+    expect(isNetworkError("The user aborted a request.")).toBe(true);
+  });
+
+  it("recognises our own autosave timeout abort reason", () => {
+    expect(isNetworkError(new Error(ERRORS.AUTOSAVE_TIMEOUT))).toBe(true);
+    expect(isNetworkError(ERRORS.AUTOSAVE_TIMEOUT)).toBe(true);
+  });
+
   it("does not match real errors", () => {
     expect(isNetworkError("EF-001")).toBe(false);
+    expect(isNetworkError("The operation completed")).toBe(false);
+    expect(isNetworkError(new Error("Autosave aborted the transaction"))).toBe(
+      false,
+    );
     expect(isNetworkError(new Error("Failed to fetch liquidity data"))).toBe(
       false,
     );
@@ -115,5 +136,47 @@ describe("createErrorLogger", () => {
     expect(fetchMock).toHaveBeenCalledTimes(1);
     const body = JSON.parse(fetchMock.mock.calls[0][1].body);
     expect(body.code).toBe("EF-001");
+  });
+
+  it("reports extension/translation crashes under their own code", async () => {
+    const log = createErrorLogger("react_error_modal", 1);
+    await log({
+      error:
+        "Failed to execute 'insertBefore' on 'Node': The node before which the new node is to be inserted is not a child of this node.",
+      transactionId: "t-dom-mutation",
+    });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+    expect(body.code).toBe("EXTERNAL_DOM_MUTATION");
+    expect(body.error.code).toBe("EXTERNAL_DOM_MUTATION");
+  });
+});
+
+describe("isExternalDomMutationError", () => {
+  it("matches the DOM exceptions React throws after outside mutation", () => {
+    expect(
+      isExternalDomMutationError(
+        new Error(
+          "Failed to execute 'insertBefore' on 'Node': The node before which the new node is to be inserted is not a child of this node.",
+        ),
+      ),
+    ).toBe(true);
+    expect(
+      isExternalDomMutationError(
+        "Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.",
+      ),
+    ).toBe(true);
+    // Firefox wording
+    expect(isExternalDomMutationError(new Error("Node was not found"))).toBe(
+      true,
+    );
+  });
+
+  it("does not match ordinary game errors", () => {
+    expect(isExternalDomMutationError(new Error("Failed to fetch"))).toBe(
+      false,
+    );
+    expect(isExternalDomMutationError({ error: "EF-001" })).toBe(false);
+    expect(isExternalDomMutationError(undefined)).toBe(false);
   });
 });

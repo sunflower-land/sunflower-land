@@ -12,7 +12,6 @@ import type {
 } from "features/game/types/game";
 import { produce } from "immer";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
-import { hasFeatureAccess } from "lib/flags";
 import {
   computeReadyAt,
   getOilBoostWindows,
@@ -56,6 +55,11 @@ export function getOilDropAmount(
     boostsUsed.push({ name: "Battle Fish", value: "+0.05" });
   }
 
+  if (isCollectibleBuilt({ name: "Ladybug Cow", game })) {
+    amount = amount.add(1);
+    boostsUsed.push({ name: "Ladybug Cow", value: "+1" });
+  }
+
   if (isCollectibleBuilt({ name: "Knight Chicken", game })) {
     amount = amount.add(0.1);
     boostsUsed.push({ name: "Knight Chicken", value: "+0.1" });
@@ -94,18 +98,9 @@ export function isNextDrillHasBonus(reserve: OilReserve): boolean {
 }
 
 /**
- * When a drilled reserve is ready to drill again, across both boost models.
- * Reserves drilled under the speed-rate model (with `oil.baseDurationMs`) derive
- * their ready time live from the oil boost windows; legacy reserves use their
- * back-dated `drilledAt` + base recovery time.
- *
- * `baseDurationMs` is a PERMANENT per-reserve migration marker: the read path keys
- * off its presence, NOT the `SPEED_BOOSTS` flag (matching `getTreeReadyAt`). A
- * reserve drilled while the flag was on therefore keeps windowed timing even if the
- * flag is later disabled — windowed reserves store the real `drilledAt` + a
- * permanent-boost-only `baseDurationMs`, so falling back to `drilledAt + base
- * recovery` would drop their baked permanent-boost credit and wrongly lengthen
- * recovery on rollback.
+ * When a drilled reserve is ready to drill again: `drilledAt` plus
+ * `baseDurationMs` of work, derived live from the oil boost windows. A reserve
+ * with no marker reads as the raw recovery time.
  */
 export function getOilReserveReadyAt(
   reserve: OilReserve,
@@ -113,15 +108,11 @@ export function getOilReserveReadyAt(
 ): number {
   const { baseDurationMs, drilledAt } = reserve.oil;
 
-  if (baseDurationMs !== undefined) {
-    return computeReadyAt({
-      startedAt: drilledAt,
-      baseDurationMs,
-      windows: getOilBoostWindows(game),
-    });
-  }
-
-  return drilledAt + OIL_RESERVE_RECOVERY_TIME * 1000;
+  return computeReadyAt({
+    startedAt: drilledAt,
+    baseDurationMs: baseDurationMs ?? OIL_RESERVE_RECOVERY_TIME * 1000,
+    windows: getOilBoostWindows(game),
+  });
 }
 
 export function canDrillOilReserve(
@@ -157,13 +148,7 @@ type getDrilledAtArgs = {
 /**
  * Single source of truth for oil recovery boosts. Used by both getDrilledAt (game) and UI.
  */
-export function getOilRecoveryTimeForDisplay({
-  game,
-  now,
-}: {
-  game: GameState;
-  now: number;
-}): {
+export function getOilRecoveryTimeForDisplay({ game }: { game: GameState }): {
   baseTimeMs: number;
   recoveryTimeMs: number;
   boostsUsed: { name: BoostName; value: string }[];
@@ -172,11 +157,9 @@ export function getOilRecoveryTimeForDisplay({
   let totalSeconds = OIL_RESERVE_RECOVERY_TIME;
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
-  // Under SPEED_BOOSTS the temporary Stag Shrine recovery boost is a retroactive
-  // speed-rate window (see boostWindows), so it's excluded from the baked recovery
-  // here — what remains is the permanent-boost-only base duration. Flag-off keeps
-  // the legacy discount-at-start.
-  const boostsWindowed = hasFeatureAccess(game, "SPEED_BOOSTS");
+  // The temporary Stag Shrine recovery boost is a retroactive speed-rate window
+  // (see boostWindows), so it's excluded from the baked recovery here — what
+  // remains is the permanent-boost-only base duration.
 
   if (isWearableActive({ game, name: "Dev Wrench" })) {
     totalSeconds = totalSeconds * 0.5;
@@ -189,14 +172,6 @@ export function getOilRecoveryTimeForDisplay({
     boostsUsed.push({ name: "Oil Be Back", value: `x${v}` });
   }
 
-  if (
-    !boostsWindowed &&
-    isTemporaryCollectibleActive({ name: "Stag Shrine", game, now })
-  ) {
-    totalSeconds = totalSeconds * 0.75;
-    boostsUsed.push({ name: "Stag Shrine", value: "x0.75" });
-  }
-
   return {
     baseTimeMs,
     recoveryTimeMs: totalSeconds * 1000,
@@ -205,30 +180,23 @@ export function getOilRecoveryTimeForDisplay({
 }
 
 /**
- * The drilled-at time to persist, plus (under SPEED_BOOSTS) the base recovery
- * duration.
+ * The drilled-at time to persist, plus the base recovery duration.
  *
- * Legacy model: back-date `drilledAt` into the past so the reserve replenishes
- * faster. Speed-rate model (SPEED_BOOSTS): store the REAL drill time and a
- * `baseDurationMs` carrying only the permanent boosts; the temporary Stag Shrine
- * boost is derived live from windows. Uses getOilRecoveryTimeForDisplay for boost
- * logic. Mirrors `getMinedAt`. Returns no `baseDurationMs` flag-off, so a
- * flag-off re-drill reverts the reserve to legacy (see the reducer).
+ * Speed-rate model: store the REAL drill time and a `baseDurationMs` carrying
+ * only the permanent boosts; the temporary Stag Shrine boost is derived live from
+ * windows. Uses getOilRecoveryTimeForDisplay for boost logic. Mirrors
+ * `getMinedAt`.
  */
 export function getDrilledAt({ createdAt, game }: getDrilledAtArgs): {
   time: number;
-  baseDurationMs?: number;
+  baseDurationMs: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
-  const { baseTimeMs, recoveryTimeMs, boostsUsed } =
-    getOilRecoveryTimeForDisplay({ game, now: createdAt });
+  const { recoveryTimeMs, boostsUsed } = getOilRecoveryTimeForDisplay({
+    game,
+  });
 
-  if (hasFeatureAccess(game, "SPEED_BOOSTS")) {
-    return { time: createdAt, baseDurationMs: recoveryTimeMs, boostsUsed };
-  }
-
-  const buffMs = baseTimeMs - recoveryTimeMs;
-  return { time: createdAt - buffMs, boostsUsed };
+  return { time: createdAt, baseDurationMs: recoveryTimeMs, boostsUsed };
 }
 
 export function drillOilReserve({
@@ -269,11 +237,7 @@ export function drillOilReserve({
     );
     // Take away one drill
     game.inventory["Oil Drill"] = drillAmount.sub(requiredDrills);
-    // Update drilled at time. A fresh drill rebuilds the timer from scratch, so a
-    // flag-off re-drill clears any prior windowed marker and reverts to legacy —
-    // mirrors stoneMine (`rock.stone = { minedAt }`) / chop (`delete baseDurationMs`),
-    // the resource-node family oil belongs to. (Without the clear, a stale marker —
-    // e.g. Grease Lightning's 0 — would mis-time the next recovery.)
+    // Update drilled at time: real drilledAt + the base recovery duration.
     const {
       time,
       baseDurationMs,
@@ -283,11 +247,7 @@ export function drillOilReserve({
       game,
     });
     oilReserve.oil.drilledAt = time;
-    if (baseDurationMs !== undefined) {
-      oilReserve.oil.baseDurationMs = baseDurationMs;
-    } else {
-      delete oilReserve.oil.baseDurationMs;
-    }
+    oilReserve.oil.baseDurationMs = baseDurationMs;
     // Increment drilled count
     oilReserve.drilled += 1;
 

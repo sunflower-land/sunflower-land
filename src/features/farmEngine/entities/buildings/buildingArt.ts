@@ -77,14 +77,14 @@ export const BUILDING_BASE_ART: Partial<
     bottom: 0,
     left: 0,
   }),
-  Bakery: ({ season }) => ({
-    texture: BAKERY_VARIANTS[season],
+  Bakery: ({ biome, season }) => ({
+    texture: BAKERY_VARIANTS[biome][season],
     width: 62,
     bottom: 0,
     left: 1,
   }),
-  Deli: ({ season }) => ({
-    texture: DELI_VARIANTS[season],
+  Deli: ({ biome, season }) => ({
+    texture: DELI_VARIANTS[biome][season],
     width: 64,
     bottom: 0,
     left: 0,

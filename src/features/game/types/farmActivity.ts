@@ -146,6 +146,9 @@ export type CraftedEvent = `${
 export type CraftingStartedEvent = `${
   | RecipeCollectibleName
   | BumpkinItem} Crafting Started`;
+export type CraftingCancelledEvent = `${
+  | RecipeCollectibleName
+  | BumpkinItem} Crafting Cancelled`;
 export type ConsumableEvent = `${ConsumableName} Collected`;
 export type SellEvent = `${SellableName} Sold`;
 export type TreasureEvent = `${TreasureName} Dug`;
@@ -170,6 +173,7 @@ export type FarmActivityName =
   | BountiedEvent
   | CraftedEvent
   | CraftingStartedEvent
+  | CraftingCancelledEvent
   | ResourceBought
   | BiomeBought
   | `${"Jigsaw" | "Rotate"} Captcha ${"Succeeded" | "Failed"}`
@@ -215,6 +219,7 @@ export type FarmActivityName =
   | "Egg Collected"
   | "Oil Drilled"
   | "Obsidian Collected"
+  | "Lava Pit Started"
   | "Potion Mixed"
   | "Salt Harvested"
 
@@ -235,6 +240,7 @@ export type FarmActivityName =
   | "Treasure Dug"
   | "Treasure Searched"
   | "Treasure Drilled"
+  | "Cave Tile Dug"
   | "Love Letter Collected"
   | "Easter Egg Collected"
   | "Chore Completed"

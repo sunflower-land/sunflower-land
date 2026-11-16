@@ -7,7 +7,13 @@ import type {
 } from "features/game/types/game";
 import { produce } from "immer";
 import { getCropYieldAmount } from "./harvest";
+import { convertLegacyCropMachine } from "./supplyCropMachine";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { getCropMachineBoostWindows } from "features/game/lib/boostWindows";
+import {
+  refreshCropMachineCaches,
+  settleCropMachine,
+} from "features/game/lib/cropMachineReadiness";
 
 export type HarvestCropMachineAction = {
   type: "cropMachine.harvested";
@@ -88,7 +94,27 @@ export function harvestCropMachine({
 
     const pack = cropMachine.queue[action.packIndex];
 
-    if (!pack.readyAt || (pack.readyAt && pack.readyAt > createdAt)) {
+    const windows = getCropMachineBoostWindows(stateCopy);
+
+    convertLegacyCropMachine({
+      machine: cropMachine,
+      state: stateCopy,
+      windows,
+      now: createdAt,
+    });
+    // Settle BEFORE gating: it finalises every pack whose DERIVED ready time
+    // has passed — a shrine placed since the last settlement can make a pack
+    // harvestable earlier than its stale cached readyAt — and banks every
+    // other pack's progress and the fuel burn through `createdAt`.
+    settleCropMachine({ machine: cropMachine, windows, now: createdAt });
+
+    // A completed pack was just finalised (marker dropped, readyAt stamped);
+    // one still carrying `baseDurationMs` is by definition not ready.
+    if (
+      pack.baseDurationMs !== undefined ||
+      !pack.readyAt ||
+      pack.readyAt > createdAt
+    ) {
       throw new Error("The pack is not ready yet");
     }
 
@@ -117,6 +143,15 @@ export function harvestCropMachine({
     cropMachine.queue = cropMachine.queue.filter(
       (_, index) => index !== action.packIndex,
     );
+
+    // Everything downstream was settled to `createdAt` above, so removing a
+    // finalised pack cannot disturb it — this only re-derives the caches for
+    // the new queue shape.
+    refreshCropMachineCaches({
+      machine: cropMachine,
+      windows,
+      now: createdAt,
+    });
 
     stateCopy.boostsUsedAt = updateBoostUsed({
       game: stateCopy,
