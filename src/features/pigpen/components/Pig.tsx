@@ -202,11 +202,14 @@ export const Pig: React.FC<{ id: string; disabled: boolean }> = ({
     };
 
     // A banked claim leaves the animal ready (asleep until its next claim),
-    // so the claimed mark moving on is what shows a claim happened.
+    // so the claimed mark moving on is what shows a claim happened. A mark
+    // that was unset (an animal from before banking) is set by its first
+    // feed, which is not a claim.
     if (
       machineState() === "ready" &&
       (pig.state === "idle" ||
         (pig.state === "ready" &&
+          prev.claimedExperience !== undefined &&
           prev.claimedExperience !== pig.claimedExperience))
     ) {
       animateBulkClaim("CLAIM_PRODUCE");
