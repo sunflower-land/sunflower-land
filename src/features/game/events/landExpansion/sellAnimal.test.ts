@@ -721,6 +721,17 @@ describe("isValidDeal: the ready-state level adjustment", () => {
     expect(valid(cow(ANIMAL_LEVELS.Cow[5], "idle"), 5)).toBe(true);
     expect(valid(cow(ANIMAL_LEVELS.Cow[5], "idle"), 6)).toBe(false);
   });
+
+  it("counts an animal with banked claims at its shown level", () => {
+    // XP at level 7 but claimed only to level 2: it shows 2 until claimed up
+    const banked: Animal = {
+      ...cow(ANIMAL_LEVELS.Cow[7], "ready"),
+      claimedExperience: ANIMAL_LEVELS.Cow[2],
+    };
+
+    expect(valid(banked, 2)).toBe(true);
+    expect(valid(banked, 3)).toBe(false);
+  });
 });
 
 describe("animal.sold: Pig bounties also pay Pig Bristles", () => {

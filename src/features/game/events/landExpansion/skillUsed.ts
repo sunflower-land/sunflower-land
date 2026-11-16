@@ -12,6 +12,7 @@ import {
   wakeAnimalAt,
 } from "features/game/lib/animals";
 import { getKeys } from "lib/object";
+import { getCropCycleStartedAt } from "features/game/lib/aoe";
 import type {
   GameState,
   CropPlot,
@@ -70,11 +71,9 @@ function useInstantGrowth({
   createdAt?: number;
 }): Record<string, CropPlot> {
   // Make every growing crop ready, and leave it with a grow duration of 0.
-  // `getCropGrowDurationMs` is what gates the crop-yield AOEs (Laurie, Sir
-  // Goldensnout, Gnome, ...): they only re-arm once a full grow duration has
-  // passed since their last use. An instant-grown crop is harvested early by
-  // design, so unless the duration collapses to 0 the harvest silently loses
-  // every AOE bonus.
+  // The crop-yield AOEs (Laurie, Sir Goldensnout, Gnome, ...) key off the
+  // crop's `cycleStartedAt`, which this leaves alone, so an instant-grown crop
+  // keeps any AOE bonus it would otherwise get.
   getKeys(crops).forEach((plot) => {
     const plantedCrop = crops[plot].crop;
     if (!plantedCrop) return;
@@ -84,6 +83,7 @@ function useInstantGrowth({
     // usePetalBlessed / useGreenhouseGuru). Back-dating plantedAt instead would
     // re-price the grow against past boost windows and leave the duration at
     // the FULL base grow time.
+    plantedCrop.cycleStartedAt = getCropCycleStartedAt(plantedCrop);
     plantedCrop.baseDurationMs = 0;
     plantedCrop.plantedAt = createdAt;
   });

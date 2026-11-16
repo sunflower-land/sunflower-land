@@ -839,6 +839,13 @@ export type PlantedCrop = {
    * A record with no marker reads as the raw base duration.
    */
   baseDurationMs?: number;
+  /**
+   * When this crop or rock's current cycle began (planted / mined). Unlike the
+   * start timestamp, nothing re-anchors it (landscaping lifts, Instant Growth),
+   * so the yield AOEs can tell whether a tile already paid out during this
+   * cycle. Missing on records from before it existed; see `aoe.ts`.
+   */
+  cycleStartedAt?: number;
 };
 
 export type PlantedFruit = {
@@ -898,6 +905,13 @@ export type Stone = {
    * A record with no marker reads as the raw base duration.
    */
   baseDurationMs?: number;
+  /**
+   * When this crop or rock's current cycle began (planted / mined). Unlike the
+   * start timestamp, nothing re-anchors it (landscaping lifts, Instant Growth),
+   * so the yield AOEs can tell whether a tile already paid out during this
+   * cycle. Missing on records from before it existed; see `aoe.ts`.
+   */
+  cycleStartedAt?: number;
 };
 
 export type FiniteResource = {
@@ -2232,6 +2246,14 @@ export type Animal = {
    * has no progress bar.
    */
   baseDurationMs?: number;
+  /**
+   * The produce mark (a level threshold, or a max-level cycle) the animal's
+   * produce has been claimed up to. Every mark between this and `experience`
+   * is a banked claim, paid one per wake. Absent on animals that have not
+   * been fed, loved or claimed since banking existed - read it through
+   * `getClaimedExperience`.
+   */
+  claimedExperience?: number;
   multiplier?: number;
   reward?: Reward;
   feedBuff?: AnimalFeedBuff;

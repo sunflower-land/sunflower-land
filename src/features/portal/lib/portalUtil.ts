@@ -107,12 +107,25 @@ export function isValidRedirect(url: string) {
     return true;
   }
 
-  // Define a regular expression for localhost URLs
-  const localhostRegex = /^http:\/\/localhost:\d+/;
+  let parsed: URL;
+  try {
+    parsed = new URL(url);
+  } catch {
+    return false;
+  }
 
-  // Define a regular expression for subdomains of "sunflower-land.com"
-  const subdomainRegex = /^https:\/\/([a-z0-9-]+\.)*sunflower-land\.com/;
+  // Compare the parsed hostname, not the raw string
+  const { protocol, hostname } = parsed;
 
-  // Check if the URL matches either pattern
-  return localhostRegex.test(url) || subdomainRegex.test(url);
+  // A local development server
+  if (protocol === "http:" && hostname === "localhost") {
+    return true;
+  }
+
+  // "sunflower-land.com" and its subdomains
+  return (
+    protocol === "https:" &&
+    (hostname === "sunflower-land.com" ||
+      hostname.endsWith(".sunflower-land.com"))
+  );
 }

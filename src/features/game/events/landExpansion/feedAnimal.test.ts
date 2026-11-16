@@ -12,7 +12,7 @@ import {
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ANIMAL_LEVELS, type AnimalType } from "features/game/types/animals";
-import { getAnimalLevel } from "features/game/lib/animals";
+import { getAnimalLevel, getPendingClaims } from "features/game/lib/animals";
 import type {
   Animal,
   AnimalFoodName,
@@ -1673,7 +1673,7 @@ describe("feedAnimal", () => {
     expect(state.barn.animals["0"].experience).toEqual(200);
   });
 
-  it("feeds a max level chicken the max level xp if the player has a Gold Egg", () => {
+  it("feeds a max level chicken to its next cycle if the player has a Gold Egg", () => {
     const maxLevelXP = ANIMAL_LEVELS["Chicken"][15];
 
     const state = feedAnimal({
@@ -1707,12 +1707,11 @@ describe("feedAnimal", () => {
       },
     });
 
-    expect(state.henHouse.animals["0"].experience).toEqual(
-      maxLevelXP + maxLevelXP,
-    );
+    // One Chicken max-level cycle: 2720 - 2400 = 320 XP, so one claim
+    expect(state.henHouse.animals["0"].experience).toEqual(maxLevelXP + 320);
   });
 
-  it("feeds a chicken that is over max level the max level xp if the player has a Gold Egg", () => {
+  it("feeds a chicken that is over max level to its next cycle if the player has a Gold Egg", () => {
     const maxLevelXP = ANIMAL_LEVELS["Chicken"][15];
 
     const state = feedAnimal({
@@ -1746,12 +1745,11 @@ describe("feedAnimal", () => {
       },
     });
 
-    expect(state.henHouse.animals["0"].experience).toEqual(
-      maxLevelXP + maxLevelXP,
-    );
+    // One Chicken max-level cycle: 2720 - 2400 = 320 XP, so one claim
+    expect(state.henHouse.animals["0"].experience).toEqual(maxLevelXP + 320);
   });
 
-  it("feeds a max level cow the max level xp if the player has a Golden Cow", () => {
+  it("feeds a max level cow to its next cycle if the player has a Golden Cow", () => {
     const maxLevelXP = ANIMAL_LEVELS["Cow"][15];
 
     const state = feedAnimal({
@@ -1785,10 +1783,11 @@ describe("feedAnimal", () => {
       },
     });
 
-    expect(state.barn.animals["0"].experience).toEqual(maxLevelXP + maxLevelXP);
+    // One Cow max-level cycle: 8160 - 7200 = 960 XP, so one claim
+    expect(state.barn.animals["0"].experience).toEqual(maxLevelXP + 960);
   });
 
-  it("feeds a cow that is over max level the max level xp if the player has a Golden Cow", () => {
+  it("feeds a cow that is over max level to its next cycle if the player has a Golden Cow", () => {
     const maxLevelXP = ANIMAL_LEVELS["Cow"][15];
 
     const state = feedAnimal({
@@ -1822,7 +1821,8 @@ describe("feedAnimal", () => {
       },
     });
 
-    expect(state.barn.animals["0"].experience).toEqual(maxLevelXP + maxLevelXP);
+    // One Cow max-level cycle: 8160 - 7200 = 960 XP, so one claim
+    expect(state.barn.animals["0"].experience).toEqual(maxLevelXP + 960);
   });
 
   it("feeds a sheep for free if the player has a Golden Sheep", () => {
@@ -3344,5 +3344,132 @@ describe("Pig Onesie", () => {
     expect(cow.experience).toEqual(
       Math.ceil(ANIMAL_LEVELS.Cow[1] / 31.5) * 31.5,
     );
+  });
+});
+
+/**
+ * Chicken thresholds: L1 60, L2 120, L3 240, L7 840, L15 2720, then one
+ * max-level cycle every 320 XP.
+ */
+describe("feedAnimal: banked claims", () => {
+  const now = Date.now();
+  const PLACED = [
+    { coordinates: { x: 0, y: 0 }, createdAt: 0, id: "0", readyAt: 0 },
+  ];
+
+  const farm = (
+    chicken: Partial<Animal>,
+    overrides: Partial<GameState> = {},
+  ): GameState => ({
+    ...FARM_WITH_HERDS,
+    inventory: {
+      "Amber Beetle": new Decimal(5),
+      "Kernel Blend": new Decimal(10),
+      "Barn Delight": new Decimal(5),
+    },
+    buildings: { ...FARM_WITH_HERDS.buildings, "Hen House": PLACED },
+    henHouse: {
+      ...FARM_WITH_HERDS.henHouse,
+      animals: {
+        "1": {
+          id: "1",
+          type: "Chicken",
+          state: "idle",
+          createdAt: 0,
+          experience: 60,
+          asleepAt: 0,
+          awakeAt: 0,
+          lovedAt: 0,
+          item: "Petting Hand",
+          ...chicken,
+        },
+      },
+    },
+    ...overrides,
+  });
+
+  const feed = (state: GameState, item?: Animal["item"] | string) =>
+    feedAnimal({
+      createdAt: now,
+      state,
+      action: {
+        type: "animal.fed",
+        animal: "Chicken",
+        id: "1",
+        item: item as never,
+      },
+    }).henHouse.animals["1"];
+
+  it("banks every level an Amber Beetle crosses", () => {
+    // Level 1 (60) + 800 = 860 XP, level 7 (840): levels 2-7 owed
+    const chicken = feed(farm({}), "Amber Beetle");
+
+    expect(chicken.experience).toEqual(860);
+    expect(chicken.claimedExperience).toEqual(60);
+    expect(chicken.state).toEqual("ready");
+    expect(getPendingClaims(chicken)).toEqual(6);
+  });
+
+  it("records the claimed mark on an ordinary feed", () => {
+    // Level 1 (60) + one 60 XP Kernel Blend = 120, level 2: one claim
+    const chicken = feed(farm({}), "Kernel Blend");
+
+    expect(chicken.claimedExperience).toEqual(60);
+    expect(chicken.state).toEqual("ready");
+    expect(getPendingClaims(chicken)).toEqual(1);
+  });
+
+  it("cannot feed an animal with banked claims", () => {
+    expect(() =>
+      feed(
+        farm({ experience: 860, claimedExperience: 120, state: "ready" }),
+        "Kernel Blend",
+      ),
+    ).toThrow("Animal has produce to claim");
+  });
+
+  it("cannot feed a ready animal from before banking", () => {
+    expect(() =>
+      feed(farm({ experience: 130, state: "ready" }), "Kernel Blend"),
+    ).toThrow("Animal has produce to claim");
+  });
+
+  it("cannot free-feed an animal with banked claims", () => {
+    expect(() =>
+      feed(
+        farm(
+          { experience: 860, claimedExperience: 120, state: "ready" },
+          { collectibles: { "Gold Egg": PLACED } },
+        ),
+      ),
+    ).toThrow("Animal has produce to claim");
+  });
+
+  it("free-feeds a max-level animal one cycle, for one claim", () => {
+    // 2720 + 100 is 220 XP short of the next cycle at 3040
+    const chicken = feed(
+      farm({ experience: 2820 }, { collectibles: { "Gold Egg": PLACED } }),
+    );
+
+    expect(chicken.experience).toEqual(3040);
+    expect(getPendingClaims(chicken)).toEqual(1);
+  });
+
+  it("cures a sick animal with banked claims back to ready", () => {
+    const chicken = feed(
+      farm({ experience: 860, claimedExperience: 120, state: "sick" }),
+      "Barn Delight",
+    );
+
+    expect(chicken.state).toEqual("ready");
+  });
+
+  it("cures a sick animal with nothing banked to idle", () => {
+    const chicken = feed(
+      farm({ experience: 130, claimedExperience: 120, state: "sick" }),
+      "Barn Delight",
+    );
+
+    expect(chicken.state).toEqual("idle");
   });
 });

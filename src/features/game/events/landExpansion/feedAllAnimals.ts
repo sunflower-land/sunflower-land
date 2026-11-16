@@ -175,7 +175,12 @@ export function feedAllAnimals({
       action: { type: "animal.fed", animal: type, id, item: "Barn Delight" },
       createdAt,
     });
-    if (isAnimalFeedable(buildingKey, game, id)) {
+    // A cure can leave the animal ready (it had banked claims): it is claimed
+    // below, not fed.
+    if (
+      game[buildingKey].animals[id].state !== "ready" &&
+      isAnimalFeedable(buildingKey, game, id)
+    ) {
       game = feedAnimal({
         state: game,
         action: { type: "animal.fed", animal: type, id },

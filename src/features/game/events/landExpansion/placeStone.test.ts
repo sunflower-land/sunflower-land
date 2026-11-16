@@ -149,6 +149,8 @@ describe("placeStone", () => {
           minedAt: dateNow,
           // 4h raw stone recovery, less the 1 min banked before the lift.
           baseDurationMs: 4 * 60 * 60 * 1000 - 60000,
+          // The original mine time, kept for the yield AOEs.
+          cycleStartedAt: dateNow - 180000,
         },
         x: 2,
         y: 2,

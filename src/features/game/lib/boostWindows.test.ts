@@ -20,6 +20,7 @@ import {
   getOilBoostWindows,
   OIL_BOOST_SPEED,
   appendBoostHistory,
+  getCookingBoostWindows,
   getCropPlotBoostWindows,
   getPowerHourWindows,
   getSunshowerGuardianWindows,
@@ -29,11 +30,17 @@ import {
   type BoostWindow,
 } from "./boostWindows";
 import { GUARDIAN_BOOST } from "./getActiveGuardian";
+import {
+  getCookingOil,
+  getCookingOilAt,
+  getCookingQueueReadyAts,
+} from "./cookingReadiness";
 import { populateSeason } from "./season";
 import { getObjectEntries } from "lib/object";
 import { EXPIRY_COOLDOWNS } from "./collectibleBuilt";
 import { TEST_FARM } from "./constants";
 import type {
+  BuildingProduct,
   CropFertiliser,
   GameState,
   GreenhouseFertiliser,
@@ -530,6 +537,295 @@ describe("appendBoostHistory", () => {
     expect(game.boostHistory?.["Tortoise Shrine"]).toEqual([
       { from: now - 500, to: now },
     ]);
+  });
+
+  describe("cooking queues", () => {
+    // A cooking queue is a chain: every chained recipe re-derives its start from
+    // the head's `startedAt` through the boost windows, so a window in the head's
+    // first hours still decides when the LAST recipe is ready. Four VIP slots of
+    // the 48h Creamy Truffle Risotto keep a chain alive for 8 days - longer than
+    // the 7-day prune horizon.
+    const T0 = 100 * DAY;
+    const RISOTTO = 48 * HOUR;
+    const HOURGLASS = { from: T0, to: T0 + 6 * HOUR };
+    // The window appended to trigger the prune: an hourglass that expired before
+    // the chain began, burned only now, so it doesn't move the chain itself.
+    const BURNED = { from: T0 - 10 * HOUR, to: T0 - 4 * HOUR };
+
+    const risottos = (): BuildingProduct[] => [
+      {
+        name: "Creamy Truffle Risotto",
+        readyAt: 0,
+        startedAt: T0,
+        baseDurationMs: RISOTTO,
+      },
+      ...[1, 2, 3].map(() => ({
+        name: "Creamy Truffle Risotto" as const,
+        readyAt: 0,
+        baseDurationMs: RISOTTO,
+      })),
+    ];
+
+    const farm = ({
+      crafting = risottos(),
+      lifted,
+    }: {
+      crafting?: BuildingProduct[];
+      lifted?: { removedAt: number };
+    } = {}) =>
+      ({
+        ...TEST_FARM,
+        buildings: {
+          ...TEST_FARM.buildings,
+          Kitchen: [
+            {
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+              ...(lifted
+                ? { removedAt: lifted.removedAt }
+                : { coordinates: { x: 0, y: 0 } }),
+              crafting,
+            },
+          ],
+        },
+        boostHistory: { "Gourmet Hourglass": [HOURGLASS] },
+      }) as unknown as GameState;
+
+    const tailReadyAt = (game: GameState) =>
+      getCookingQueueReadyAts({
+        crafting: game.buildings.Kitchen?.[0].crafting ?? [],
+        game,
+      })[3];
+
+    it("keeps a window an uncollected chain still re-derives from", () => {
+      // The 6h hourglass cooks 12h of the head's work in 6h, saving 6h on the
+      // whole chain: tail = T0 + 4 x 48h - 6h = T0 + 186h.
+      const game = farm();
+      expect(tailReadyAt(game)).toEqual(T0 + 186 * HOUR);
+
+      // At T0 + 187h the tail is ready and the hourglass window ended more than
+      // 7 days ago. Another Gourmet Hourglass being burned must not prune it -
+      // that would push the tail back to T0 + 192h and un-ready a finished dish.
+      const now = T0 + 187 * HOUR;
+      appendBoostHistory(game, "Gourmet Hourglass", BURNED, now);
+
+      expect(game.boostHistory?.["Gourmet Hourglass"]).toEqual([
+        HOURGLASS,
+        BURNED,
+      ]);
+      expect(tailReadyAt(game)).toEqual(T0 + 186 * HOUR);
+    });
+
+    it("keeps a window a lifted building still banks from on placement", () => {
+      // A lifted Kitchen with no oil ledger banks the work done before the lift
+      // only when it is placed again, re-deriving it through the windows - so it
+      // can need them for as long as it stays in the inventory.
+      const now = T0 + 60 * DAY;
+      const game = farm({ lifted: { removedAt: T0 + 100 * HOUR } });
+
+      appendBoostHistory(game, "Gourmet Hourglass", BURNED, now);
+
+      expect(game.boostHistory?.["Gourmet Hourglass"]).toEqual([
+        HOURGLASS,
+        BURNED,
+      ]);
+    });
+
+    it("only holds back the history of boosts that speed up cooking", () => {
+      // The same lifted Kitchen pins its cooking windows for as long as it sits
+      // in the inventory, but an Ore Hourglass can't change a recipe, so its
+      // history still prunes on the usual 7-day horizon.
+      const now = T0 + 60 * DAY;
+      const game = farm({ lifted: { removedAt: T0 + 100 * HOUR } });
+      game.boostHistory = {
+        ...game.boostHistory,
+        "Ore Hourglass": [HOURGLASS],
+      };
+
+      appendBoostHistory(game, "Ore Hourglass", BURNED, now);
+
+      expect(game.boostHistory?.["Ore Hourglass"]).toEqual([BURNED]);
+    });
+
+    it("keeps a window an earlier recipe still needs when a later one is anchored", () => {
+      // The hourglass makes the head ready at T0 + 42h (unboosted T0 + 48h). A
+      // 1h recipe cooked on the then-idle Kitchen is anchored at T0 + 43h, and the
+      // Kitchen is lifted at T0 + 44h. The LAST recipe's unboosted end is the
+      // lift, but the head's is 4h after it: on placement it banks the work done
+      // by the lift through the windows, and without the hourglass it would come
+      // back with 4h left to cook.
+      const now = T0 + 60 * DAY;
+      const game = farm({
+        crafting: [
+          {
+            name: "Creamy Truffle Risotto",
+            readyAt: 0,
+            startedAt: T0,
+            baseDurationMs: RISOTTO,
+          },
+          {
+            name: "Creamy Truffle Risotto",
+            readyAt: 0,
+            startedAt: T0 + 43 * HOUR,
+            baseDurationMs: HOUR,
+          },
+        ],
+        lifted: { removedAt: T0 + 44 * HOUR },
+      });
+
+      appendBoostHistory(game, "Gourmet Hourglass", BURNED, now);
+
+      expect(game.boostHistory?.["Gourmet Hourglass"]).toEqual([
+        HOURGLASS,
+        BURNED,
+      ]);
+    });
+
+    it("keeps a window an unsettled clock-burn recipe still burns oil by", () => {
+      // A recipe queued before the work burn (`oilBoost` but no `oilRate`) burns
+      // its oil per REAL day until it is ready, so its window decides how much
+      // oil it burned even once it is done - until a settle pins that down.
+      const recipe: BuildingProduct = {
+        name: "Creamy Truffle Risotto",
+        readyAt: 0,
+        startedAt: T0,
+        baseDurationMs: RISOTTO,
+        oilBoost: 0.25,
+      };
+      const game = farm({ crafting: [recipe] });
+      const kitchen = game.buildings.Kitchen?.[0];
+      if (!kitchen) throw new Error("No Kitchen");
+      kitchen.oil = 20;
+      kitchen.oilSettledAt = T0;
+
+      const oilAt = (at: number) =>
+        getCookingOilAt({
+          crafting: [recipe],
+          windows: getCookingBoostWindows(game),
+          oil: getCookingOil({ building: kitchen, buildingName: "Kitchen" })!,
+          at,
+        });
+
+      // Oil speeds it up 1 / (1 - 0.25) = 4/3x. The 6h hourglass at 2x does
+      // 6 x 2 x 4/3 = 16h of work; the other 32h take 32 / (4/3) = 24h, so it is
+      // ready at T0 + 30h (T0 + 36h unboosted) - well before now, unboosted or
+      // not. It burned 30h x 6.75/day = 8.4375 oil, leaving 11.5625.
+      const now = T0 + 8 * DAY;
+      expect(oilAt(now)).toBeCloseTo(11.5625);
+
+      appendBoostHistory(game, "Gourmet Hourglass", BURNED, now);
+
+      expect(game.boostHistory?.["Gourmet Hourglass"]).toEqual([
+        HOURGLASS,
+        BURNED,
+      ]);
+      expect(oilAt(now)).toBeCloseTo(11.5625);
+    });
+
+    it.each([
+      [
+        "every recipe would be ready by now even unboosted",
+        () => farm(),
+        // Unboosted tail = T0 + 192h.
+        T0 + 192 * HOUR,
+      ],
+      [
+        "a lifted building whose queue was done by the lift even unboosted",
+        () => farm({ lifted: { removedAt: T0 + 192 * HOUR } }),
+        T0 + 60 * DAY,
+      ],
+      [
+        "a finished recipe on the work burn (same oil however fast it cooked)",
+        () => {
+          const game = farm({
+            crafting: [
+              {
+                name: "Creamy Truffle Risotto",
+                readyAt: 0,
+                startedAt: T0,
+                baseDurationMs: RISOTTO,
+                oilBoost: 0.25,
+                oilRate: 5,
+              },
+            ],
+          });
+          const kitchen = game.buildings.Kitchen?.[0];
+          if (kitchen) {
+            kitchen.oil = 20;
+            kitchen.oilSettledAt = T0;
+          }
+          return game;
+        },
+        T0 + 8 * DAY,
+      ],
+      [
+        "a finished oil-boosted recipe in a building that still deducts oil per recipe",
+        () =>
+          farm({
+            crafting: [
+              {
+                name: "Creamy Truffle Risotto",
+                readyAt: 0,
+                startedAt: T0,
+                baseDurationMs: RISOTTO,
+                oilBoost: 0.25,
+              },
+            ],
+          }),
+        T0 + 8 * DAY,
+      ],
+      [
+        "a clock-burn recipe a settle has already pinned (zero work)",
+        () => {
+          // Settled at T0 + 2h: the clock-burn head was pinned at its finish,
+          // and the work-burn recipe behind it finished long ago.
+          const game = farm({
+            crafting: [
+              {
+                name: "Creamy Truffle Risotto",
+                readyAt: T0 + HOUR,
+                startedAt: T0 + HOUR,
+                baseDurationMs: 0,
+                oilBoost: 0.25,
+              },
+              {
+                name: "Creamy Truffle Risotto",
+                readyAt: 0,
+                baseDurationMs: RISOTTO,
+                oilBoost: 0.25,
+                oilRate: 5,
+              },
+            ],
+          });
+          const kitchen = game.buildings.Kitchen?.[0];
+          if (kitchen) {
+            kitchen.oil = 20;
+            kitchen.oilSettledAt = T0 + 2 * HOUR;
+          }
+          return game;
+        },
+        T0 + 8 * DAY,
+      ],
+      [
+        "a legacy queue (fixed ready times)",
+        () =>
+          farm({
+            crafting: [
+              { name: "Creamy Truffle Risotto", readyAt: T0 + 300 * HOUR },
+            ],
+          }),
+        T0 + 187 * HOUR,
+      ],
+    ])("does not hold history back for %s", (_label, makeGame, now) => {
+      // A finished queue cannot change readiness however many windows it loses,
+      // so an uncollected dish must not pin history forever.
+      const game = makeGame();
+
+      appendBoostHistory(game, "Gourmet Hourglass", BURNED, now);
+
+      expect(game.boostHistory?.["Gourmet Hourglass"]).toEqual([BURNED]);
+    });
   });
 
   it("records for any temporary collectible (future-proof, even if not windowed yet)", () => {
