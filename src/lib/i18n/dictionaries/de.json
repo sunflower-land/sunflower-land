@@ -3370,7 +3370,6 @@
   "reputation.points.title": "Ruf - {{name}}",
   "reputation.points.amount": "{{points}} Rufpunkte",
   "reputation.points.description": "Verdiene Reputationspunkte, indem du Aufgaben erfüllst.",
-  "reputation.seedling.nft": "NFTs abheben",
   "reputation.unlock.desert": "Erreiche Desert Island — {{points}} Punkte",
   "reputation.unlock.volcano": "Erreiche die Vulkaninsel — {{points}} Punkte",
   "reputation.unlock.humanity": "Vollständiger Beweis der Menschlichkeit — {{points}} Punkte",
@@ -9056,5 +9055,12 @@
   "cropMachine.harvestAllConfirm": "Bist du sicher, dass du alle {{count}} fertigen Pakete ernten willst?",
   "flowerBedRecipes.pickFlower": "Wähle eine Blume aus, die du angebaut hast, um ihre Rezepte zu sehen.",
   "flowerBedRecipes.tapRecipe": "Tippe auf ein Rezept, um dein Blumenbeet zu füllen.",
-  "flowerBedRecipes.outOfSeason": "{{seed}} kann in dieser Saison nicht gepflanzt werden"
+  "flowerBedRecipes.outOfSeason": "{{seed}} kann in dieser Saison nicht gepflanzt werden",
+  "waterTrapRecipes.pickCrustacean": "Wählen Sie ein Krebstier aus, das Sie gefangen haben, um seine Rezepte zu sehen.",
+  "waterTrapRecipes.tapRecipe": "Tippe auf ein Rezept, um deine Falle aufzustellen.",
+  "withdraw.items.upgrade": "Erreiche Grand Harvester, um Sammelobjekte aus dem Spiel abzuheben.",
+  "withdraw.wearables.upgrade": "Erreiche Grand Harvester, um Wearables aus dem Spiel zu nehmen.",
+  "withdraw.buds.upgrade": "Erreiche Grand Harvester, um Buds aus dem Spiel zu nehmen.",
+  "withdraw.pets.upgrade": "Erreiche Grand Harvester, um Haustiere aus dem Spiel zurückzuziehen.",
+  "reputation.grandHarvester.withdrawItems": "Hebe Sammlerstücke, Wearables, Kopfhörer und Haustiere ab"
 }

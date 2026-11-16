@@ -3370,7 +3370,6 @@
   "reputation.points.title": "Reputação - {{name}}",
   "reputation.points.amount": "{{points}} Pontos de reputação",
   "reputation.points.description": "Ganhe pontos de reputação ao concluir tarefas.",
-  "reputation.seedling.nft": "Retirar NFTs",
   "reputation.unlock.desert": "Chegue à Ilha Deserta - {{points}} pontos",
   "reputation.unlock.volcano": "Chegue à Ilha do Vulcão - {{points}} pontos",
   "reputation.unlock.humanity": "Prova Completa de Humanidade - {{points}} pontos",
@@ -9056,5 +9055,12 @@
   "cropMachine.harvestAllConfirm": "Tem certeza de que deseja colher todos os pacotes {{count}} prontos?",
   "flowerBedRecipes.pickFlower": "Escolha uma flor que você cultivou para ver suas receitas.",
   "flowerBedRecipes.tapRecipe": "Toque em uma receita para encher seu canteiro de flores.",
-  "flowerBedRecipes.outOfSeason": "{{seed}} não pode ser plantado nesta temporada"
+  "flowerBedRecipes.outOfSeason": "{{seed}} não pode ser plantado nesta temporada",
+  "waterTrapRecipes.pickCrustacean": "Escolha um crustáceo que você pegou para ver suas receitas.",
+  "waterTrapRecipes.tapRecipe": "Toque em uma receita para montar sua armadilha.",
+  "withdraw.items.upgrade": "Alcance o Grand Harvester para retirar itens colecionáveis do jogo.",
+  "withdraw.wearables.upgrade": "Alcance o Grand Harvester para retirar os wearables do jogo.",
+  "withdraw.buds.upgrade": "Alcance Grand Harvester para retirar Buds do jogo.",
+  "withdraw.pets.upgrade": "Alcance Grand Harvester para retirar animais de estimação do jogo.",
+  "reputation.grandHarvester.withdrawItems": "Retire itens colecionáveis, vestíveis, fones de estimação e animais de estimação"
 }

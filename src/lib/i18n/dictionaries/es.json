@@ -3370,7 +3370,6 @@
   "reputation.points.title": "Reputación - {{name}}",
   "reputation.points.amount": "{{points}} Puntos de reputación",
   "reputation.points.description": "Gana puntos de reputación completando tareas.",
-  "reputation.seedling.nft": "Retirar NFT",
   "reputation.unlock.desert": "Llegue a la Isla Desierta: puntos {{points}}",
   "reputation.unlock.volcano": "Llega a Volcano Island: puntos {{points}}",
   "reputation.unlock.humanity": "Prueba de humanidad completa: {{points}} puntos",
@@ -9056,5 +9055,12 @@
   "cropMachine.harvestAllConfirm": "¿Estás seguro de que quieres cosechar todos los paquetes listos de {{count}}?",
   "flowerBedRecipes.pickFlower": "Elige una flor que hayas cultivado para ver sus recetas.",
   "flowerBedRecipes.tapRecipe": "Toca una receta para llenar tu macizo de flores.",
-  "flowerBedRecipes.outOfSeason": "{{seed}} no se puede plantar esta temporada"
+  "flowerBedRecipes.outOfSeason": "{{seed}} no se puede plantar esta temporada",
+  "waterTrapRecipes.pickCrustacean": "Elige un crustáceo que hayas capturado para ver sus recetas.",
+  "waterTrapRecipes.tapRecipe": "Pulsa una receta para configurar tu trampa.",
+  "withdraw.items.upgrade": "Llega a Grand Harvester para retirar objetos coleccionables del juego.",
+  "withdraw.wearables.upgrade": "Llega a Grand Harvester para retirar los wearables del juego.",
+  "withdraw.buds.upgrade": "Llega a Grand Harvester para retirar a Buds del juego.",
+  "withdraw.pets.upgrade": "Llega a Grand Harvester para retirar a las mascotas del juego.",
+  "reputation.grandHarvester.withdrawItems": "Retira objetos coleccionables, prendas de vestir, auriculares y mascotas"
 }

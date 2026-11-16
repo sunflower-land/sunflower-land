@@ -3370,7 +3370,6 @@
   "reputation.points.title": "Reputazione - {{name}}",
   "reputation.points.amount": "{{points}} Punti reputazione",
   "reputation.points.description": "Guadagna punti reputazione completando le attività.",
-  "reputation.seedling.nft": "Preleva NFT",
   "reputation.unlock.desert": "Raggiungi Desert Island - {{points}} punti",
   "reputation.unlock.volcano": "Raggiungi Volcano Island - {{points}} punti",
   "reputation.unlock.humanity": "Prova completa dell'umanità - {{points}} punti",
@@ -9056,5 +9055,12 @@
   "cropMachine.harvestAllConfirm": "Sei sicuro di voler raccogliere tutte le confezioni {{count}} pronte?",
   "flowerBedRecipes.pickFlower": "Scegli un fiore che hai coltivato per vedere le sue ricette.",
   "flowerBedRecipes.tapRecipe": "Tocca una ricetta per riempire la tua aiuola.",
-  "flowerBedRecipes.outOfSeason": "{{seed}} non può essere piantato in questa stagione"
+  "flowerBedRecipes.outOfSeason": "{{seed}} non può essere piantato in questa stagione",
+  "waterTrapRecipes.pickCrustacean": "Scegli un crostaceo che hai pescato per vedere le sue ricette.",
+  "waterTrapRecipes.tapRecipe": "Tocca una ricetta per preparare la trappola.",
+  "withdraw.items.upgrade": "Raggiungi Grand Harvester per ritirare oggetti collezionabili dal gioco.",
+  "withdraw.wearables.upgrade": "Raggiungi Grand Harvester per ritirare i dispositivi indossabili dal gioco.",
+  "withdraw.buds.upgrade": "Raggiungi Grand Harvester per ritirare Buds dal gioco.",
+  "withdraw.pets.upgrade": "Raggiungi Grand Harvester per ritirare gli animali domestici dal gioco.",
+  "reputation.grandHarvester.withdrawItems": "Preleva oggetti da collezione, indossabili, gemme e animali domestici"
 }
