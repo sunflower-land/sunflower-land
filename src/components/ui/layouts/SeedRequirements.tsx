@@ -287,7 +287,8 @@ export const SeedRequirements: React.FC<Props> = ({
 
     // Named boosts are already folded into `time.seconds` and can be itemised; a
     // live speed window shows as a shorter projected time but has no name to
-    // list, so it must not make the block clickable on its own.
+    // list. Either way the boosts panel opens on click — it always carries the
+    // base time, which no longer appears inline.
     const hasNamedBoosts = (time?.boostsUsed.length ?? 0) > 0;
     const isTimeBoosted =
       !!time &&
@@ -331,7 +332,6 @@ export const SeedRequirements: React.FC<Props> = ({
 
         const {
           displaySeconds: cropMachineDisplaySeconds,
-          hasNamedBoosts: cropMachineHasNamedBoosts,
           isBoosted: isCropMachineTimeBoosted,
         } = getPreActionDisplay({
           seconds: cropMachineSeconds,
@@ -344,28 +344,28 @@ export const SeedRequirements: React.FC<Props> = ({
         return (
           <div
             className={classNames("flex flex-col items-center", {
-              "cursor-pointer": cropMachineHasNamedBoosts,
+              "cursor-pointer": isCropMachineTimeBoosted,
             })}
             onClick={
-              cropMachineHasNamedBoosts
+              isCropMachineTimeBoosted
                 ? () => setShowBoosts(!showBoosts)
                 : undefined
             }
           >
             <p className="text-xxs">{`Time to grow ${cropMachinePackSize}x: `}</p>
-            {isCropMachineTimeBoosted && (
+            {isCropMachineTimeBoosted ? (
               <RequirementLabel
                 type="time"
                 waitSeconds={cropMachineDisplaySeconds}
                 boosted
               />
-            )}
-            {!!cropMachineBaseTime && (
-              <RequirementLabel
-                type="time"
-                waitSeconds={cropMachineBaseTime}
-                strikethrough={isCropMachineTimeBoosted}
-              />
+            ) : (
+              !!cropMachineBaseTime && (
+                <RequirementLabel
+                  type="time"
+                  waitSeconds={cropMachineBaseTime}
+                />
+              )
             )}
             {!!cropMachineBaseTime && (
               <BoostsDisplay
@@ -389,21 +389,16 @@ export const SeedRequirements: React.FC<Props> = ({
       return (
         <div
           className={classNames("flex flex-col items-center", {
-            "cursor-pointer": hasNamedBoosts,
+            "cursor-pointer": isTimeBoosted,
           })}
-          onClick={
-            hasNamedBoosts ? () => setShowBoosts(!showBoosts) : undefined
-          }
+          onClick={isTimeBoosted ? () => setShowBoosts(!showBoosts) : undefined}
         >
-          {!!time && isTimeBoosted && (
+          {!!time && isTimeBoosted ? (
             <RequirementLabel type="time" waitSeconds={time.seconds} boosted />
-          )}
-          {!!baseTimeSeconds && (
-            <RequirementLabel
-              type="time"
-              waitSeconds={baseTimeSeconds}
-              strikethrough={isTimeBoosted}
-            />
+          ) : (
+            !!baseTimeSeconds && (
+              <RequirementLabel type="time" waitSeconds={baseTimeSeconds} />
+            )
           )}
           {!!baseTimeSeconds && (
             <BoostsDisplay
@@ -415,7 +410,7 @@ export const SeedRequirements: React.FC<Props> = ({
                 }),
                 icon: SUNNYSIDE.icons.stopwatch,
               }}
-              show={hasNamedBoosts && showBoosts}
+              show={showBoosts}
               state={gameState}
               onClick={() => setShowBoosts(!showBoosts)}
             />

@@ -124,7 +124,6 @@ interface WearableProps {
 interface TimeProps {
   type: "time";
   waitSeconds: number;
-  strikethrough?: boolean;
   boosted?: boolean;
 }
 
@@ -136,7 +135,6 @@ interface TimeProps {
 interface XPProps {
   type: "xp";
   xp: Decimal;
-  strikethrough?: boolean;
   boosted?: boolean;
 }
 
@@ -415,9 +413,6 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       <Label
         className={classNames("whitespace-nowrap font-secondary relative", {
           "ml-1": !requirementMet,
-          "line-through":
-            (props.type === "time" || props.type === "xp") &&
-            props.strikethrough,
         })}
         type={labelType()}
         secondaryIcon={

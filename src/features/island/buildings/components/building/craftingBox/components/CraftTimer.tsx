@@ -48,15 +48,14 @@ const RecipeLabelContent: React.FC<{
         className="flex flex-col items-center cursor-pointer"
         onClick={() => setShowTimeBoosts((prev) => !prev)}
       >
-        <span>
+        <span className="flex items-center">
+          <img
+            src={SUNNYSIDE.icons.lightning}
+            className="w-3 mr-1 flex-shrink-0"
+            alt=""
+          />
           {secondsToString(displaySeconds, {
             length: speed > 1 ? "full" : "medium",
-            isShortFormat: true,
-          })}
-        </span>
-        <span className="text-xxs line-through">
-          {secondsToString(baseSeconds, {
-            length: "medium",
             isShortFormat: true,
           })}
         </span>

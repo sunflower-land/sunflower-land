@@ -277,12 +277,8 @@ const SelectedFishDetails: React.FC<{
                 boosted
               />
             )}
-            {baseAgedFishXp !== undefined && (
-              <RequirementLabel
-                type="xp"
-                xp={new Decimal(baseAgedFishXp)}
-                strikethrough={!!isAgedFishXpBoosted}
-              />
+            {!isAgedFishXpBoosted && baseAgedFishXp !== undefined && (
+              <RequirementLabel type="xp" xp={new Decimal(baseAgedFishXp)} />
             )}
           </div>
         </div>
@@ -321,11 +317,10 @@ const SelectedFishDetails: React.FC<{
                 boosted
               />
             )}
-            {basePrimeAgedFishXp !== undefined && (
+            {!isPrimeAgedFishXpBoosted && basePrimeAgedFishXp !== undefined && (
               <RequirementLabel
                 type="xp"
                 xp={new Decimal(basePrimeAgedFishXp)}
-                strikethrough={!!isPrimeAgedFishXpBoosted}
               />
             )}
           </div>

@@ -450,21 +450,9 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
                                     : "Instant"}
                                 </span>
                               </div>
-                              {recipe.time > 0 && (
-                                <div className="flex">
-                                  <img
-                                    src={SUNNYSIDE.icons.stopwatch}
-                                    className="w-3 h-3 mr-1"
-                                    alt="Crafting time"
-                                  />
-                                  <span className="text-xxs line-through">
-                                    {secondsToString(recipe.time / 1000, {
-                                      length: "medium",
-                                      isShortFormat: true,
-                                    })}
-                                  </span>
-                                </div>
-                              )}
+                              {/* No inline strikethrough base time: the base
+                                  time is shown in the boosts panel instead,
+                                  keeping the compact recipe row narrow. */}
                               {recipe.time > 0 && (
                                 <BoostsDisplay
                                   boosts={boostsUsed}
@@ -789,21 +777,9 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
                                     : "Instant"}
                                 </span>
                               </div>
-                              {recipe.time > 0 && (
-                                <div className="flex">
-                                  <img
-                                    src={SUNNYSIDE.icons.stopwatch}
-                                    className="w-3 h-3 mr-1"
-                                    alt="Crafting time"
-                                  />
-                                  <span className="text-xxs line-through">
-                                    {secondsToString(recipe.time / 1000, {
-                                      length: "medium",
-                                      isShortFormat: true,
-                                    })}
-                                  </span>
-                                </div>
-                              )}
+                              {/* No inline strikethrough base time: the base
+                                  time is shown in the boosts panel instead,
+                                  keeping the compact recipe row narrow. */}
                               {recipe.time > 0 && (
                                 <BoostsDisplay
                                   boosts={boostsUsed}

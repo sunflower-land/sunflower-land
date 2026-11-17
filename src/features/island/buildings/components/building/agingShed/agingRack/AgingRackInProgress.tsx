@@ -110,15 +110,12 @@ export const AgingRackInProgress: React.FC<Props> = ({
                 isXpBoosted ? setShowBoosts(!showBoosts) : undefined
               }
             >
-              {isXpBoosted && (
+              {isXpBoosted ? (
                 <RequirementLabel type="xp" xp={boostedXp.boostedExp} boosted />
-              )}
-              {baseXp !== undefined && (
-                <RequirementLabel
-                  type="xp"
-                  xp={new Decimal(baseXp)}
-                  strikethrough={!!isXpBoosted}
-                />
+              ) : (
+                baseXp !== undefined && (
+                  <RequirementLabel type="xp" xp={new Decimal(baseXp)} />
+                )
               )}
               {isXpBoosted && showBoosts && (
                 <BoostsDisplay

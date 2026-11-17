@@ -323,7 +323,8 @@ const StockCell: React.FC<{
         className="w-3 mx-1 flex-shrink-0"
         alt=""
       />
-      <span className="text-xxs line-through">{baseStock.toString()}</span>
+      {/* No inline strikethrough base stock: the compact guide row can't fit
+          it on narrow screens; the base is still shown in the boosts panel. */}
       <BoostsDisplay
         boosts={boosts}
         base={{ value: baseStock.toString(), icon: stockIcon }}
@@ -388,10 +389,10 @@ const CooldownCell: React.FC<{
   const { t } = useAppTranslation();
   const anchorRef = useRef<HTMLDivElement>(null);
   const boostsKey = `${toolName}-${cooldown.nodeLabel}`;
-  // Named boosts are the ones the popover can itemise; a live speed window has
-  // no name attached to it, so it shortens the time without making the cell
-  // clickable.
   const hasNamedBoosts = cooldown.boostsUsed.length > 0;
+  // Named boosts can be itemised in the panel; a live speed window cannot, but
+  // the panel still opens for it — it carries the base time, which no longer
+  // appears inline.
   const hasBoosts = isPreActionBoosted({
     displaySeconds: cooldown.recoverySeconds,
     baseSeconds: cooldown.baseSeconds,
@@ -409,11 +410,8 @@ const CooldownCell: React.FC<{
     return (
       <div
         ref={anchorRef}
-        className={classNames("flex items-center gap-1.5 relative", {
-          "cursor-pointer": hasNamedBoosts,
-        })}
+        className="flex items-center gap-1.5 relative cursor-pointer"
         onClick={(e) => {
-          if (!hasNamedBoosts) return;
           e.stopPropagation();
           setShowBoostsKey(showBoostsKey === boostsKey ? null : boostsKey);
         }}
@@ -429,22 +427,14 @@ const CooldownCell: React.FC<{
               {cooldown.recoverySeconds > 0 ? recoveryTimeStr : t("instant")}
             </span>
           </div>
-          {cooldown.baseSeconds > 0 && (
-            <div className="flex items-center">
-              <img
-                src={SUNNYSIDE.icons.stopwatch}
-                className="w-3 mr-1 flex-shrink-0"
-                alt=""
-              />
-              <span className="text-xxs line-through">{baseTimeStr}</span>
-            </div>
-          )}
+          {/* No inline strikethrough base time: the base time is shown in the
+              boosts panel instead, keeping the compact guide row narrow. */}
         </div>
         {cooldown.baseSeconds > 0 && (
           <BoostsDisplay
             boosts={cooldown.boostsUsed}
             base={{ value: baseTimeStr, icon: SUNNYSIDE.icons.stopwatch }}
-            show={hasNamedBoosts && showBoostsKey === boostsKey}
+            show={showBoostsKey === boostsKey}
             state={state}
             onClick={() =>
               setShowBoostsKey(showBoostsKey === boostsKey ? null : boostsKey)
