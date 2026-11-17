@@ -48,7 +48,7 @@ Write the way a casual mobile game is normally written in the target language, i
 
 ## Reference strings
 
-A request may also include reference strings: strings that are already in the game, close to the new ones, each with its current translation. Use them to see where the new strings sit and to stay consistent with what players already read: when a reference already has a word for something, use that word. The references were machine-translated, so if one is clearly wrong, do not copy the mistake. They are context only. Do not translate them again and do not return them.
+A request may also include reference strings: strings that are already in the game, close to the new ones, each with its current translation. Use them to see where the new strings sit and to stay consistent with what players already read: when a reference already has a word for something, use that word. Some references are names of items, buildings or characters that a new string mentions: write those names exactly as the reference translates them, adjusting only for grammar. The references were machine-translated, so if one is clearly wrong, do not copy the mistake. They are context only. Do not translate them again and do not return them.
 
 Return one translation for every string you are asked to translate, under the same key, with nothing added around the text.`;
 

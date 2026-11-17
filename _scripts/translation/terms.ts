@@ -206,3 +206,110 @@ export function getReferenceTerms<K extends string>({
       translation: kept[key] ?? "",
     }));
 }
+
+// A name in the dictionary: an item, building or character, such as
+// "Carrot Juice" or "Spaghetti al Limone". Short, starts with a capital and
+// is not a sentence.
+function isName(text: string): boolean {
+  return (
+    text.length <= 40 &&
+    text.split(/\s+/).length <= 4 &&
+    /^\p{Lu}/u.test(text) &&
+    !/[.!?:;,{}\n]/.test(text)
+  );
+}
+
+function escapeRegExp(text: string): string {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+/**
+ * Picks names that the pending strings mention ("Cook Carrot Juice 20 times"
+ * mentions "Carrot Juice") and sends their current translation along, so the
+ * name reads the same in the new string as everywhere else in the game.
+ *
+ * Matching is by whole words with the same capitals. A one-word name at the
+ * very start of a string is skipped, since that capital says nothing. The
+ * longest name wins over a name inside it.
+ */
+export function getNameReferences<K extends string>({
+  pending,
+  english,
+  kept,
+  perTerm = 6,
+  limit = 40,
+}: {
+  pending: K[];
+  english: Record<K, string>;
+  kept: Terms<K>;
+  perTerm?: number;
+  limit?: number;
+}): ReferenceTerm[] {
+  const waiting = new Set(pending);
+
+  // For each name, how often each translation is used and its first key.
+  const usage = new Map<string, Map<string, { key: K; count: number }>>();
+  getKeys(english).forEach((key) => {
+    const name = english[key].trim();
+    const translation = kept[key];
+    if (waiting.has(key) || !Object.hasOwn(kept, key) || !translation) return;
+    if (!isName(name)) return;
+
+    const translations = usage.get(name) ?? new Map();
+    const seen = translations.get(translation);
+    translations.set(translation, {
+      key: seen?.key ?? key,
+      count: (seen?.count ?? 0) + 1,
+    });
+    usage.set(name, translations);
+  });
+
+  // Each name once, with the translation most of its entries use.
+  const names = [...usage.entries()]
+    .map(([name, translations]) => {
+      const [translation, { key }] = [...translations.entries()].reduce(
+        (best, entry) => (entry[1].count > best[1].count ? entry : best),
+      );
+      return { name, translation, key };
+    })
+    // Longest first, so "Carrot Juice" is matched before "Juice".
+    .sort((a, b) => b.name.length - a.name.length);
+
+  const chosen = new Map<K, ReferenceTerm>();
+
+  for (const key of pending) {
+    const text = english[key];
+    const covered: [number, number][] = [];
+    let found = 0;
+
+    for (const { name, translation, key: nameKey } of names) {
+      if (found >= perTerm) break;
+      if (!text.includes(name)) continue;
+
+      const pattern = new RegExp(
+        `(?<![\\p{L}\\p{N}])${escapeRegExp(name)}(?![\\p{L}\\p{N}])`,
+        "gu",
+      );
+      const singleWord = !/\s/.test(name);
+      const match = [...text.matchAll(pattern)].find(
+        ({ index }) =>
+          !(singleWord && index === 0) &&
+          !covered.some(
+            ([start, end]) => index < end && index + name.length > start,
+          ),
+      );
+      if (!match) continue;
+
+      covered.push([match.index, match.index + name.length]);
+      found++;
+      if (!chosen.has(nameKey)) {
+        if (chosen.size >= limit) break;
+        chosen.set(nameKey, { key: nameKey, english: name, translation });
+      }
+    }
+  }
+
+  return getKeys(english)
+    .filter((key) => chosen.has(key))
+    .map((key) => chosen.get(key) as ReferenceTerm);
+}

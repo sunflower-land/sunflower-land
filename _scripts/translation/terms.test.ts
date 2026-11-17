@@ -1,4 +1,5 @@
 import {
+  getNameReferences,
   getPlaceholders,
   getReferenceTerms,
   mergeTranslations,
@@ -433,5 +434,121 @@ describe("getReferenceTerms", () => {
     });
 
     expect(references).toEqual([]);
+  });
+});
+
+describe("getNameReferences", () => {
+  const english = {
+    "drink.carrotJuice": "Carrot Juice",
+    "drink.juice": "Juice",
+    "crop.potato": "Potato",
+    clear: "Clear",
+    welcome: "Welcome back!",
+    "chore.carrotJuice": "Cook Carrot Juice 20 times",
+    "chore.potato": "Harvest Potato 100 times",
+    "chore.clear": "Clear the field",
+    "chore.potatoes": "Harvest Potatoes",
+    "chore.salad": "Make a potato salad",
+    "chore.welcome": "Say Welcome back! to Betty",
+  };
+  const kept = {
+    "drink.carrotJuice": "Karottensaft",
+    "drink.juice": "Saft",
+    "crop.potato": "Kartoffel",
+    clear: "Leeren",
+    welcome: "Willkommen zurück!",
+  };
+
+  it("sends the translation of a name the new string mentions", () => {
+    const references = getNameReferences<string>({
+      pending: ["chore.potato"],
+      english,
+      kept,
+    });
+
+    expect(references).toEqual([
+      { key: "crop.potato", english: "Potato", translation: "Kartoffel" },
+    ]);
+  });
+
+  it("prefers the longest name over a name inside it", () => {
+    const references = getNameReferences<string>({
+      pending: ["chore.carrotJuice"],
+      english,
+      kept,
+    });
+
+    expect(references.map(({ key }) => key)).toEqual(["drink.carrotJuice"]);
+  });
+
+  it("does not treat a one-word name at the start of a string as a name", () => {
+    const references = getNameReferences<string>({
+      pending: ["chore.clear"],
+      english,
+      kept,
+    });
+
+    expect(references).toEqual([]);
+  });
+
+  it("matches whole words with the same capitals only", () => {
+    const references = getNameReferences<string>({
+      pending: ["chore.potatoes", "chore.salad"],
+      english,
+      kept,
+    });
+
+    expect(references).toEqual([]);
+  });
+
+  it("does not treat a sentence as a name", () => {
+    const references = getNameReferences<string>({
+      pending: ["chore.welcome"],
+      english,
+      kept,
+    });
+
+    expect(references).toEqual([]);
+  });
+
+  it("skips names that have no translation yet or are waiting for one", () => {
+    const references = getNameReferences<string>({
+      pending: ["chore.potato", "crop.potato"],
+      english,
+      kept: {},
+    });
+
+    expect(references).toEqual([]);
+  });
+
+  it("uses the most common translation when a name has several", () => {
+    const references = getNameReferences<string>({
+      pending: ["chore.potato"],
+      english: {
+        ...english,
+        "bud.potato": "Potato",
+        "market.potato": "Potato",
+      },
+      kept: {
+        "crop.potato": "Erdapfel",
+        "bud.potato": "Kartoffel",
+        "market.potato": "Kartoffel",
+      },
+    });
+
+    expect(references).toEqual([
+      { key: "bud.potato", english: "Potato", translation: "Kartoffel" },
+    ]);
+  });
+
+  it("limits the names sent for one string", () => {
+    const references = getNameReferences<string>({
+      pending: ["chore.both"],
+      english: { ...english, "chore.both": "Trade Potato for Carrot Juice" },
+      kept,
+      perTerm: 1,
+    });
+
+    expect(references.map(({ key }) => key)).toEqual(["drink.carrotJuice"]);
   });
 });
