@@ -76,6 +76,7 @@ export class BeachScene extends BaseScene {
   dugItems: Phaser.GameObjects.Image[] = [];
   currentSelectedItem: InventoryItemName | undefined;
   isRevealing = false;
+  controlsEnabled = true;
   coordsToDig:
     | { x: number; y: number }
     | { x: number; y: number }[]
@@ -784,6 +785,8 @@ export class BeachScene extends BaseScene {
   };
 
   public disableControls() {
+    this.controlsEnabled = false;
+
     if (this.input.keyboard) {
       this.input.keyboard.enabled = false;
     }
@@ -794,12 +797,23 @@ export class BeachScene extends BaseScene {
   }
 
   public enableControls() {
+    this.controlsEnabled = true;
+
     if (this.input.keyboard) {
       this.input.keyboard.enabled = true;
     }
 
     if (this.joystick) {
       this.joystick.setEnable(true);
+    }
+  }
+
+  public initialiseJoystick() {
+    super.initialiseJoystick();
+
+    // A joystick created on the first touch mid-dig must stay disabled
+    if (!this.controlsEnabled) {
+      this.joystick?.setEnable(false);
     }
   }
 

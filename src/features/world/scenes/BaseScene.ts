@@ -1615,6 +1615,12 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   public initialiseControls() {
+    // Scenes are restarted on the same instance and the joystick's display
+    // objects are destroyed with the scene, so drop the stale reference.
+    this.events.once("shutdown", () => {
+      this.joystick = undefined;
+    });
+
     if (isTouchDevice()) {
       this.initialiseJoystick();
     } else {
