@@ -9062,5 +9062,12 @@
   "withdraw.wearables.upgrade": "达到大收割者即可从游戏中提取穿戴品。",
   "withdraw.buds.upgrade": "达到大收割者即可从游戏中提取 NFT 蕾芽。",
   "withdraw.pets.upgrade": "达到大收割者即可从游戏中提取 NFT 宠物。",
-  "reputation.grandHarvester.withdrawItems": "提取收藏品、穿戴品、NFT 蕾芽与 NFT 宠物"
+  "reputation.grandHarvester.withdrawItems": "提取收藏品、穿戴品、NFT 蕾芽与 NFT 宠物",
+  "description.sandbag": "装满沙子的坚固麻袋。",
+  "description.balk": "厚实的木梁，经过切割和支撑。",
+  "description.pestSmoker": "一个让虫子猜测的烟雾弥漫的烟雾弥漫的花盆。",
+  "description.thawStone": "一块触感温暖的宝石。",
+  "description.merinoWoolInsulation": "柔软、温暖的羊毛卷得很紧。",
+  "description.shadeCloth": "布制遮阳篷伸展在杆子上。",
+  "description.wildflowerLure": "一束带有甜味的野花。"
 }
