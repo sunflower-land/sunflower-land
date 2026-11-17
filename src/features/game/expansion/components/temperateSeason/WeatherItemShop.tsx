@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import React, { useContext, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { useSelector } from "@xstate/react";
 
 import { Box } from "components/ui/Box";
@@ -39,22 +39,31 @@ const canAffordOption = (
 ) => owned(game, option).gte(WEATHER_ITEM_RECIPES[item].choice?.[option] ?? 0);
 
 /**
- * What the player can pick for `item`, the affordable ones first. Flowers come
- * in dozens of kinds, so only the ones the player holds are offered.
+ * What the player can pick for `item`, in table order. Flowers come in dozens
+ * of kinds, so only the ones the player holds are offered.
  */
-const getOptions = (
+const getOfferedOptions = (
   game: GameState,
   item: WeatherItemName,
 ): InventoryItemName[] => {
   const { choice } = WEATHER_ITEM_RECIPES[item];
   if (!choice) return [];
 
+  return item === "Wildflower Lure"
+    ? getKeys(choice).filter((flower) => owned(game, flower).gt(0))
+    : getKeys(choice);
+};
+
+/** Flowers the player holds most of first, then the affordable ones first. */
+const sortOptions = (
+  game: GameState,
+  item: WeatherItemName,
+  offered: InventoryItemName[],
+): InventoryItemName[] => {
   const options =
     item === "Wildflower Lure"
-      ? getKeys(choice)
-          .filter((flower) => owned(game, flower).gt(0))
-          .sort((a, b) => owned(game, b).cmp(owned(game, a)))
-      : getKeys(choice);
+      ? [...offered].sort((a, b) => owned(game, b).cmp(owned(game, a)))
+      : offered;
 
   return [
     ...options.filter((option) => canAffordOption(game, item, option)),
@@ -71,7 +80,15 @@ export const WeatherItemShop: React.FC = () => {
   const [picked, setPicked] = useState<InventoryItemName>();
 
   const { choice } = WEATHER_ITEM_RECIPES[selected];
-  const options = getOptions(game, selected);
+  const offered = getOfferedOptions(game, selected);
+  const offeredKey = offered.join("|");
+  // Sorted when an item is selected or its options change, not on every count
+  // change, so crafting never moves the options under the player.
+  const options = useMemo(
+    () => sortOptions(game, selected, offered),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [selected, offeredKey],
+  );
   // Keep the pick while it is still on offer, else default to the first one.
   const ingredient =
     picked && options.includes(picked) ? picked : (options[0] ?? undefined);
