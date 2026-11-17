@@ -23,6 +23,7 @@ export function makeGame(farm: any): GameState {
     ),
     wardrobe: farm.wardrobe,
     calendar: farm.calendar,
+    weather: farm.weather,
     vip: farm.vip,
     previousWardrobe: farm.previousWardrobe,
     competitions: farm.competitions,
