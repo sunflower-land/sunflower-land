@@ -81,8 +81,8 @@ export function mergeTranslations<K extends string>({
 
 /**
  * Checks what the model returned against what was asked for. A translation is
- * accepted only if its key was requested, it is not empty and it uses exactly
- * the placeholders of the English text.
+ * accepted only if its key was requested, it is not empty and it uses each
+ * placeholder of the English text the same number of times.
  */
 export function validateTranslations<K extends string>({
   requested,
@@ -107,11 +107,13 @@ export function validateTranslations<K extends string>({
       return;
     }
 
-    const expected = new Set(getPlaceholders(requested[key] ?? ""));
-    const actual = new Set(getPlaceholders(translation));
+    // Sorted, not de-duplicated: a placeholder the English uses twice must
+    // appear twice, in any order.
+    const expected = getPlaceholders(requested[key] ?? "").sort();
+    const actual = getPlaceholders(translation).sort();
     const samePlaceholders =
-      expected.size === actual.size &&
-      [...expected].every((placeholder) => actual.has(placeholder));
+      expected.length === actual.length &&
+      expected.every((placeholder, index) => placeholder === actual[index]);
     if (!samePlaceholders) {
       reasons[key] = "placeholders";
       return;

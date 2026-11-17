@@ -169,6 +169,40 @@ describe("validateTranslations", () => {
     expect(result.rejected).toEqual([{ key: "hello", reason: "placeholders" }]);
   });
 
+  it("accepts a translation that repeats a placeholder as often as the English", () => {
+    const result = validateTranslations({
+      requested: { failed: "Your {{type}} failed. Retry the {{type}}." },
+      returned: [
+        {
+          key: "failed",
+          text: "{{type}} fehlgeschlagen. {{type}} wiederholen.",
+        },
+      ],
+    });
+
+    expect(result.rejected).toEqual([]);
+  });
+
+  it("rejects a translation that uses a repeated placeholder only once", () => {
+    const result = validateTranslations({
+      requested: { failed: "Your {{type}} failed. Retry the {{type}}." },
+      returned: [{ key: "failed", text: "{{type}} fehlgeschlagen." }],
+    });
+
+    expect(result.rejected).toEqual([
+      { key: "failed", reason: "placeholders" },
+    ]);
+  });
+
+  it("rejects a translation that uses a placeholder more often than the English", () => {
+    const result = validateTranslations({
+      requested: { cost: "Costs {{gems}} Gems" },
+      returned: [{ key: "cost", text: "{{gems}} Edelsteine, {{gems}}" }],
+    });
+
+    expect(result.rejected).toEqual([{ key: "cost", reason: "placeholders" }]);
+  });
+
   it("rejects an empty translation", () => {
     const result = validateTranslations({
       requested: { hello: "Hello" },
