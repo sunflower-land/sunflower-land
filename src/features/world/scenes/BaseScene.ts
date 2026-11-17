@@ -1439,12 +1439,16 @@ export abstract class BaseScene extends Phaser.Scene {
     // The canvas size is fixed at boot (Phaser.tsx), so the zoom must be
     // based on the game size, not the current window size — the window may
     // have been resized since the game was created.
-    this.zoom = getWorldZoom({
-      screenWidth: this.scale.width,
-      screenHeight: this.scale.height,
-      mapWidth: this.map.width * SQUARE_WIDTH,
-      mapHeight: this.map.height * SQUARE_WIDTH,
-    });
+    // Only recompute when the scene kept the default zoom: subclasses like
+    // PopScene set their own (e.g. 1.8/2.2) and must keep it.
+    if (this.zoom === getBaseWorldZoom(this.scale.width)) {
+      this.zoom = getWorldZoom({
+        screenWidth: this.scale.width,
+        screenHeight: this.scale.height,
+        mapWidth: this.map.width * SQUARE_WIDTH,
+        mapHeight: this.map.height * SQUARE_WIDTH,
+      });
+    }
   }
 
   public initialiseCamera() {
