@@ -1703,6 +1703,14 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Warning Sign": 3276,
   // Chapter Crop Week #2 leaderboard reward
   "Crystal Cookie Champion": 3277,
+
+  Sandbag: 3278,
+  Balk: 3279,
+  "Pest Smoker": 3280,
+  "Thaw Stone": 3281,
+  "Merino Wool Insulation": 3282,
+  "Shade Cloth": 3283,
+  "Wildflower Lure": 3284,
 };
 
 // The reverse of above

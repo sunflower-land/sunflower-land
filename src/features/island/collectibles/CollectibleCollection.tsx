@@ -614,6 +614,15 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Mangrove: (props: CollectibleProps) => (
     <WeatherProtection {...props} name="Mangrove" />
   ),
+  Sandbag: () => <TemplateCollectible name="Sandbag" />,
+  Balk: () => <TemplateCollectible name="Balk" />,
+  "Pest Smoker": () => <TemplateCollectible name="Pest Smoker" />,
+  "Thaw Stone": () => <TemplateCollectible name="Thaw Stone" />,
+  "Merino Wool Insulation": () => (
+    <TemplateCollectible name="Merino Wool Insulation" />
+  ),
+  "Shade Cloth": () => <TemplateCollectible name="Shade Cloth" />,
+  "Wildflower Lure": () => <TemplateCollectible name="Wildflower Lure" />,
   "Thermal Stone": (props: CollectibleProps) => (
     <WeatherProtection {...props} name="Thermal Stone" />
   ),
