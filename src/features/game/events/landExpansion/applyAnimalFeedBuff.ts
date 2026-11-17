@@ -134,7 +134,14 @@ export function applyAnimalFeedBuff({
 
     if (
       isAnimalAsleep(createdAt, readyAt) &&
-      isAnimalNeedingLove(animal, createdAt, readyAt)
+      isAnimalNeedingLove(animal, createdAt, readyAt) &&
+      // Golden asset animals are never petted (the UI hides the request), so
+      // their love window can never be cleared — don't let it block feed
+      // buffs for the whole night.
+      !isAnimalCoveredByGoldenAsset({
+        state: copy,
+        animalType: animal.type,
+      })
     ) {
       throw new Error(APPLY_ANIMAL_FEED_BUFF_ERRORS.NEEDS_LOVE);
     }
