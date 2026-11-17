@@ -93,7 +93,11 @@ export const WeatherItemShop: React.FC = () => {
   const ingredient =
     picked && options.includes(picked) ? picked : (options[0] ?? undefined);
 
-  const ingredients = getWeatherItemIngredients(selected, ingredient) ?? {};
+  // With nothing to pick (no flowers held), still show the fixed ingredients;
+  // canCraft stays false because the recipe needs a pick.
+  const ingredients =
+    getWeatherItemIngredients(selected, ingredient) ??
+    WEATHER_ITEM_RECIPES[selected].ingredients;
   const resources = getKeys(ingredients).reduce(
     (acc, name) => ({ ...acc, [name]: new Decimal(ingredients[name] ?? 0) }),
     {} as Partial<Record<InventoryItemName, Decimal>>,
