@@ -39,31 +39,20 @@ const canAffordOption = (
 ) => owned(game, option).gte(WEATHER_ITEM_RECIPES[item].choice?.[option] ?? 0);
 
 /**
- * What the player can pick for `item`, in table order. Flowers come in dozens
- * of kinds, so only the ones the player holds are offered.
+ * Every option `item` offers, the ones the player can afford first (flowers
+ * by how many the player holds).
  */
-const getOfferedOptions = (
+const sortOptions = (
   game: GameState,
   item: WeatherItemName,
 ): InventoryItemName[] => {
   const { choice } = WEATHER_ITEM_RECIPES[item];
   if (!choice) return [];
 
-  return item === "Wildflower Lure"
-    ? getKeys(choice).filter((flower) => owned(game, flower).gt(0))
-    : getKeys(choice);
-};
-
-/** Flowers the player holds most of first, then the affordable ones first. */
-const sortOptions = (
-  game: GameState,
-  item: WeatherItemName,
-  offered: InventoryItemName[],
-): InventoryItemName[] => {
   const options =
     item === "Wildflower Lure"
-      ? [...offered].sort((a, b) => owned(game, b).cmp(owned(game, a)))
-      : offered;
+      ? getKeys(choice).sort((a, b) => owned(game, b).cmp(owned(game, a)))
+      : getKeys(choice);
 
   return [
     ...options.filter((option) => canAffordOption(game, item, option)),
@@ -80,20 +69,20 @@ export const WeatherItemShop: React.FC = () => {
   const [picked, setPicked] = useState<InventoryItemName>();
 
   const { choice } = WEATHER_ITEM_RECIPES[selected];
-  const offered = getOfferedOptions(game, selected);
-  const offeredKey = offered.join("|");
-  // Sorted when an item is selected or its options change, not on every count
-  // change, so crafting never moves the options under the player.
+  // Sorted when an item is selected, not on every count change, so crafting
+  // never moves the options under the player.
   const options = useMemo(
-    () => sortOptions(game, selected, offered),
+    () => sortOptions(game, selected),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [selected, offeredKey],
+    [selected],
   );
-  // Keep the pick while it is still on offer, else default to the first one.
-  const ingredient =
-    picked && options.includes(picked) ? picked : (options[0] ?? undefined);
+  // Only an option the player can pay for can be picked; keep the pick while
+  // it still is, else default to the first one that is.
+  const canPick = (option: InventoryItemName) =>
+    canAffordOption(game, selected, option);
+  const ingredient = picked && canPick(picked) ? picked : options.find(canPick);
 
-  // With nothing to pick (no flowers held), still show the fixed ingredients;
+  // With nothing pickable, still show the fixed ingredients;
   // canCraft stays false because the recipe needs a pick.
   const ingredients =
     getWeatherItemIngredients(selected, ingredient) ??
@@ -167,34 +156,27 @@ export const WeatherItemShop: React.FC = () => {
                   </Label>
                 )}
               </div>
-              {options.length === 0 ? (
-                <p className="text-xs ml-1 mb-1">
-                  {t("weatherShop.noFlowers")}
-                </p>
-              ) : (
-                <div className="flex flex-wrap gap-1 px-1 pt-2 pb-1">
-                  {options.map((option) => (
-                    <div key={option} className="flex flex-col items-center">
-                      <Box
-                        image={ITEM_DETAILS[option].image}
-                        count={game.inventory[option]}
-                        isSelected={ingredient === option}
-                        secondaryImage={
-                          canAffordOption(game, selected, option)
-                            ? undefined
-                            : SUNNYSIDE.icons.cancel
-                        }
-                        onClick={() => setPicked(option)}
-                      />
-                      <span className="text-xxs leading-tight">
-                        {t("weatherShop.amount", {
-                          amount: formatNumber(choice[option] ?? 0),
-                        })}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              )}
+              <div className="flex flex-wrap gap-1 px-1 pt-2 pb-1 overflow-y-auto max-h-56 scrollable">
+                {options.map((option) => (
+                  <div key={option} className="flex flex-col items-center">
+                    <Box
+                      image={ITEM_DETAILS[option].image}
+                      count={game.inventory[option]}
+                      isSelected={ingredient === option}
+                      disabled={!canPick(option)}
+                      secondaryImage={
+                        canPick(option) ? undefined : SUNNYSIDE.icons.cancel
+                      }
+                      onClick={() => setPicked(option)}
+                    />
+                    <span className="text-xxs leading-tight">
+                      {t("weatherShop.amount", {
+                        amount: formatNumber(choice[option] ?? 0),
+                      })}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </InnerPanel>
           )}
         </div>
