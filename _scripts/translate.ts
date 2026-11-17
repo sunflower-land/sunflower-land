@@ -17,9 +17,11 @@ import {
 } from "./translation/prompt";
 import { getAnswerText, parseTranslations } from "./translation/response";
 import {
+  getReferenceTerms,
   mergeTranslations,
   planTranslation,
   validateTranslations,
+  type ReferenceTerm,
   type ReturnedTranslation,
 } from "./translation/terms";
 
@@ -98,6 +100,7 @@ function isFatal(error: unknown) {
 async function requestTranslations(
   language: TargetLanguage,
   terms: Record<string, string>,
+  references: ReferenceTerm[],
 ): Promise<ReturnedTranslation[]> {
   const message = await getClient()
     .beta.messages.stream({
@@ -112,7 +115,12 @@ async function requestTranslations(
         effort: "medium",
         format: { type: "json_schema", schema: TRANSLATIONS_SCHEMA },
       },
-      messages: [{ role: "user", content: buildUserMessage(language, terms) }],
+      messages: [
+        {
+          role: "user",
+          content: buildUserMessage(language, terms, references),
+        },
+      ],
     })
     .finalMessage();
 
@@ -164,7 +172,18 @@ async function translateLanguage(
       });
 
       try {
-        const returned = await requestTranslations(language, requested);
+        // Translated strings from the same part of the game, as context.
+        const references = getReferenceTerms({
+          pending: batch,
+          english: ENGLISH_TERMS,
+          kept,
+        });
+
+        const returned = await requestTranslations(
+          language,
+          requested,
+          references,
+        );
         const { accepted, rejected } = validateTranslations({
           requested,
           returned,

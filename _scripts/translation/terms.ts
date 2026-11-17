@@ -132,3 +132,77 @@ export function validateTranslations<K extends string>({
 
   return { accepted, rejected };
 }
+
+export type ReferenceTerm = {
+  key: string;
+  english: string;
+  translation: string;
+};
+
+// A reference is there to show wording, so a paragraph of dialogue is not
+// worth the room it takes in the prompt.
+const MAX_REFERENCE_LENGTH = 200;
+
+/**
+ * Picks strings the locale has already translated to send along as context
+ * for the pending ones: those whose key shares the longest prefix with a
+ * pending key ("market.buy.*" before "market.*").
+ *
+ * They show where a new string sits and how the locale already words things.
+ * New strings in the same group share their references.
+ */
+export function getReferenceTerms<K extends string>({
+  pending,
+  english,
+  kept,
+  perTerm = 4,
+  limit = 80,
+}: {
+  pending: K[];
+  english: Record<K, string>;
+  kept: Terms<K>;
+  perTerm?: number;
+  limit?: number;
+}): ReferenceTerm[] {
+  const waiting = new Set(pending);
+  const candidates = getKeys(english).filter(
+    (key) =>
+      !waiting.has(key) &&
+      Object.hasOwn(kept, key) &&
+      !!kept[key] &&
+      english[key].length <= MAX_REFERENCE_LENGTH,
+  );
+
+  const chosen = new Set<K>();
+
+  for (const key of pending) {
+    const parts = key.split(".");
+    // A shorter prefix matches the longer one's strings again, so remember
+    // which ones already count for this key.
+    const found = new Set<K>();
+
+    // Longest prefix first, then one segment shorter at a time.
+    for (let depth = parts.length - 1; depth >= 1; depth--) {
+      const prefix = `${parts.slice(0, depth).join(".")}.`;
+
+      for (const candidate of candidates) {
+        if (found.size >= perTerm) break;
+        if (found.has(candidate) || !candidate.startsWith(prefix)) continue;
+
+        if (!chosen.has(candidate)) {
+          if (chosen.size >= limit) break;
+          chosen.add(candidate);
+        }
+        found.add(candidate);
+      }
+    }
+  }
+
+  return candidates
+    .filter((key) => chosen.has(key))
+    .map((key) => ({
+      key,
+      english: english[key],
+      translation: kept[key] ?? "",
+    }));
+}

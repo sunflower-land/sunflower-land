@@ -1,5 +1,7 @@
 import type { LanguageCode } from "../../src/lib/i18n/dictionaries/language";
 
+import type { ReferenceTerm } from "./terms";
+
 export type TargetLanguage = Exclude<LanguageCode, "en">;
 
 export const LANGUAGE_NAMES: Record<TargetLanguage, string> = {
@@ -44,15 +46,31 @@ Write the way a casual mobile game is normally written in the target language, i
 - Keep HTML tags, line breaks, emoji, numbers and symbols such as "+20%" or "x1.2" as they are.
 - If a string is only a name, a number or a symbol that should not change, return it unchanged.
 
-Return one translation for every string you are given, under the same key, with nothing added around the text.`;
+## Reference strings
+
+A request may also include reference strings: strings that are already in the game, close to the new ones, each with its current translation. Use them to see where the new strings sit and to stay consistent with what players already read: when a reference already has a word for something, use that word. The references were machine-translated, so if one is clearly wrong, do not copy the mistake. They are context only. Do not translate them again and do not return them.
+
+Return one translation for every string you are asked to translate, under the same key, with nothing added around the text.`;
 
 export function buildUserMessage(
   language: TargetLanguage,
   terms: Record<string, string>,
+  references: ReferenceTerm[] = [],
 ): string {
   const strings = Object.entries(terms).map(([key, text]) => ({ key, text }));
 
-  return `Translate these strings into ${LANGUAGE_NAMES[language]} (${language}).
+  const reference =
+    references.length > 0
+      ? `
+
+These strings are already in the game, for reference only:
+
+<reference>
+${JSON.stringify(references, null, 2)}
+</reference>`
+      : "";
+
+  return `Translate the strings in <strings> into ${LANGUAGE_NAMES[language]} (${language}).${reference}
 
 <strings>
 ${JSON.stringify(strings, null, 2)}
