@@ -313,3 +313,29 @@ export function getNameReferences<K extends string>({
     .filter((key) => chosen.has(key))
     .map((key) => chosen.get(key) as ReferenceTerm);
 }
+
+/**
+ * All the context sent with a batch: the names its strings mention, then
+ * translated strings from the same part of the game. A nearby string that is
+ * one of those names but translated differently is left out, so the request
+ * never shows two translations for the same name.
+ */
+export function getContextReferences<K extends string>(options: {
+  pending: K[];
+  english: Record<K, string>;
+  kept: Terms<K>;
+}): ReferenceTerm[] {
+  const names = getNameReferences(options);
+  const chosen = new Map(names.map((name) => [name.english, name.translation]));
+
+  const nearby = getReferenceTerms(options).filter((reference) => {
+    const translation = chosen.get(reference.english.trim());
+    return translation === undefined || translation === reference.translation;
+  });
+
+  return [
+    ...new Map(
+      [...names, ...nearby].map((reference) => [reference.key, reference]),
+    ).values(),
+  ];
+}
