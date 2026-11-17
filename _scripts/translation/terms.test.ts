@@ -1,5 +1,6 @@
 import {
   getPlaceholders,
+  getReferenceTerms,
   mergeTranslations,
   planTranslation,
   validateTranslations,
@@ -299,5 +300,138 @@ describe("keys named like inherited object properties", () => {
     expect(result.rejected).toEqual([
       { key: "constructor", reason: "missing" },
     ]);
+  });
+});
+
+describe("getReferenceTerms", () => {
+  const english = {
+    "market.buy.title": "Buy",
+    "market.buy.confirm": "Confirm purchase",
+    "market.buy.cancel": "Cancel",
+    "market.sell.title": "Sell",
+    "barn.title": "Barn",
+    landTools: "Land Tools",
+  };
+
+  it("returns translated strings that share the new string\u0027s prefix", () => {
+    const references = getReferenceTerms<string>({
+      pending: ["market.buy.cancel"],
+      english,
+      kept: {
+        "market.buy.title": "Kaufen",
+        "market.buy.confirm": "Kauf bestätigen",
+        "barn.title": "Scheune",
+      },
+    });
+
+    expect(references).toEqual([
+      { key: "market.buy.title", english: "Buy", translation: "Kaufen" },
+      {
+        key: "market.buy.confirm",
+        english: "Confirm purchase",
+        translation: "Kauf bestätigen",
+      },
+    ]);
+  });
+
+  it("falls back to a shorter prefix when the closest group is too small", () => {
+    const references = getReferenceTerms<string>({
+      pending: ["market.buy.cancel"],
+      english,
+      kept: { "market.sell.title": "Verkaufen", "barn.title": "Scheune" },
+    });
+
+    expect(references.map(({ key }) => key)).toEqual(["market.sell.title"]);
+  });
+
+  it("fills up from a shorter prefix without counting a string twice", () => {
+    const references = getReferenceTerms<string>({
+      pending: ["market.buy.cancel"],
+      english,
+      kept: { "market.buy.title": "Kaufen", "market.sell.title": "Verkaufen" },
+      perTerm: 2,
+    });
+
+    expect(references.map(({ key }) => key)).toEqual([
+      "market.buy.title",
+      "market.sell.title",
+    ]);
+  });
+
+  it("returns nothing for a key with no prefix", () => {
+    const references = getReferenceTerms<string>({
+      pending: ["landTools"],
+      english,
+      kept: { "barn.title": "Scheune" },
+    });
+
+    expect(references).toEqual([]);
+  });
+
+  it("never uses a string that is itself waiting for translation", () => {
+    const references = getReferenceTerms<string>({
+      pending: ["market.buy.cancel", "market.buy.confirm"],
+      english,
+      kept: { "market.buy.title": "Kaufen" },
+    });
+
+    expect(references.map(({ key }) => key)).toEqual(["market.buy.title"]);
+  });
+
+  it("shares references between new strings in the same group", () => {
+    const references = getReferenceTerms<string>({
+      pending: ["market.buy.cancel", "market.buy.confirm"],
+      english,
+      kept: { "market.buy.title": "Kaufen", "market.sell.title": "Verkaufen" },
+      perTerm: 1,
+    });
+
+    expect(references.map(({ key }) => key)).toEqual(["market.buy.title"]);
+  });
+
+  it("limits the references for one string", () => {
+    const references = getReferenceTerms<string>({
+      pending: ["market.buy.cancel"],
+      english,
+      kept: {
+        "market.buy.title": "Kaufen",
+        "market.buy.confirm": "Kauf bestätigen",
+        "market.sell.title": "Verkaufen",
+      },
+      perTerm: 2,
+    });
+
+    expect(references.map(({ key }) => key)).toEqual([
+      "market.buy.title",
+      "market.buy.confirm",
+    ]);
+  });
+
+  it("limits the references for a whole request", () => {
+    const references = getReferenceTerms<string>({
+      pending: ["market.buy.cancel", "barn.door"],
+      english: { ...english, "barn.door": "Door" },
+      kept: {
+        "market.buy.title": "Kaufen",
+        "market.buy.confirm": "Kauf bestätigen",
+        "barn.title": "Scheune",
+      },
+      limit: 2,
+    });
+
+    expect(references.map(({ key }) => key)).toEqual([
+      "market.buy.title",
+      "market.buy.confirm",
+    ]);
+  });
+
+  it("skips long strings", () => {
+    const references = getReferenceTerms<string>({
+      pending: ["market.buy.cancel"],
+      english: { ...english, "market.buy.title": "Buy ".repeat(100) },
+      kept: { "market.buy.title": "Kaufen ".repeat(100) },
+    });
+
+    expect(references).toEqual([]);
   });
 });
