@@ -29,13 +29,6 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-2
-
       - name: Configure Git user
         run: |
           git config --global user.name "Translator Bot"
@@ -49,9 +42,16 @@ jobs:
           git pull origin main
 
       - name: Run translation script
+        id: translate
         run: yarn translate
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
 
+      # The script fails the job when a term could not be translated, but it
+      # still writes the terms that were. Commit those, so only the missing
+      # ones are left for the next run.
       - uses: EndBug/add-and-commit@v9
+        if: ${{ !cancelled() && steps.translate.conclusion != 'skipped' }}
         with:
           message: "[BOT] Update translations [skip ci]"
           committer_name: Translator Bot
