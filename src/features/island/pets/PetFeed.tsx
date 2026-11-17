@@ -83,7 +83,7 @@ export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
       isRequested && (data.requests.foodFed?.includes(food) ?? false);
 
     const baseFoodXp = getPetRequestXP(food);
-    const foodXp = getPetExperience({
+    const { experience: foodXp } = getPetExperience({
       basePetXP: baseFoodXp,
       game,
       petLevel: level,
@@ -91,7 +91,7 @@ export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
       food,
       now,
     });
-    const petEnergy = getPetEnergy({
+    const { energy: petEnergy } = getPetEnergy({
       game,
       petLevel: level,
       basePetEnergy: baseFoodXp,
