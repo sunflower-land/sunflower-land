@@ -139,7 +139,10 @@ export const WeatherItemShop: React.FC = () => {
                 </Label>
                 {ingredient && (
                   <Label type="default" icon={ITEM_DETAILS[ingredient].image}>
-                    {`${getTranslatedItemName(ingredient)} x${formatNumber(choice[ingredient] ?? 0)}`}
+                    {t("weatherShop.ingredientAmount", {
+                      item: getTranslatedItemName(ingredient),
+                      amount: formatNumber(choice[ingredient] ?? 0),
+                    })}
                   </Label>
                 )}
               </div>
@@ -163,7 +166,9 @@ export const WeatherItemShop: React.FC = () => {
                         onClick={() => setPicked(option)}
                       />
                       <span className="text-xxs leading-tight">
-                        {`x${formatNumber(choice[option] ?? 0)}`}
+                        {t("weatherShop.amount", {
+                          amount: formatNumber(choice[option] ?? 0),
+                        })}
                       </span>
                     </div>
                   ))}
