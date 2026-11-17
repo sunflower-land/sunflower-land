@@ -17,6 +17,7 @@ import {
 } from "./translation/prompt";
 import { getAnswerText, parseTranslations } from "./translation/response";
 import {
+  getNameReferences,
   getReferenceTerms,
   mergeTranslations,
   planTranslation,
@@ -172,12 +173,24 @@ async function translateLanguage(
       });
 
       try {
-        // Translated strings from the same part of the game, as context.
-        const references = getReferenceTerms({
-          pending: batch,
-          english: ENGLISH_TERMS,
-          kept,
-        });
+        // Context: the current translation of names the new strings
+        // mention, then translated strings from the same part of the game.
+        const references = [
+          ...new Map(
+            [
+              ...getNameReferences({
+                pending: batch,
+                english: ENGLISH_TERMS,
+                kept,
+              }),
+              ...getReferenceTerms({
+                pending: batch,
+                english: ENGLISH_TERMS,
+                kept,
+              }),
+            ].map((reference) => [reference.key, reference]),
+          ).values(),
+        ];
 
         const returned = await requestTranslations(
           language,
