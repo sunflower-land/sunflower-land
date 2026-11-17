@@ -3,8 +3,6 @@ import * as fs from "fs";
 import * as path from "path";
 
 import Anthropic from "@anthropic-ai/sdk";
-// The ".mjs" is needed: vite-node cannot resolve this subpath without it.
-import { betaJSONSchemaOutputFormat } from "@anthropic-ai/sdk/helpers/beta/json-schema.mjs";
 
 import ENGLISH_TERMS from "../src/lib/i18n/dictionaries/dictionary.json";
 import { LANGUAGE_DETAILS } from "../src/lib/i18n/dictionaries/language";
@@ -17,6 +15,7 @@ import {
   SYSTEM_PROMPT,
   type TargetLanguage,
 } from "./translation/prompt";
+import { getAnswerText, parseTranslations } from "./translation/response";
 import {
   mergeTranslations,
   planTranslation,
@@ -40,7 +39,9 @@ const excludedLanguages: TargetLanguage[] = ["ru"];
 
 const DICTIONARIES = path.join(__dirname, "../src/lib/i18n/dictionaries");
 
-const TRANSLATIONS_FORMAT = betaJSONSchemaOutputFormat({
+// A plain schema, not the SDK helper that also parses the response: the answer
+// is parsed here, so text from a model that declined part-way is left out.
+const TRANSLATIONS_SCHEMA = {
   type: "object",
   properties: {
     translations: {
@@ -58,7 +59,7 @@ const TRANSLATIONS_FORMAT = betaJSONSchemaOutputFormat({
   },
   required: ["translations"],
   additionalProperties: false,
-});
+};
 
 // Created on first use, so a run with nothing to translate needs no API key.
 let client: Anthropic | undefined;
@@ -107,7 +108,10 @@ async function requestTranslations(
       betas: ["server-side-fallback-2026-07-01"],
       fallbacks: "default",
       system: SYSTEM_PROMPT,
-      output_config: { effort: "medium", format: TRANSLATIONS_FORMAT },
+      output_config: {
+        effort: "medium",
+        format: { type: "json_schema", schema: TRANSLATIONS_SCHEMA },
+      },
       messages: [{ role: "user", content: buildUserMessage(language, terms) }],
     })
     .finalMessage();
@@ -115,11 +119,11 @@ async function requestTranslations(
   usage.input += message.usage.input_tokens;
   usage.output += message.usage.output_tokens;
 
-  if (message.stop_reason !== "end_turn" || !message.parsed_output) {
+  if (message.stop_reason !== "end_turn") {
     throw new Error(`Response stopped with "${message.stop_reason}"`);
   }
 
-  return message.parsed_output.translations;
+  return parseTranslations(getAnswerText(message.content));
 }
 
 /**
