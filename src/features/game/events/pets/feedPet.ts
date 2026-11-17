@@ -6,7 +6,7 @@ import {
 import { isWearableActive } from "features/game/lib/wearables";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import type { CookableName } from "features/game/types/consumables";
-import type { GameState } from "features/game/types/game";
+import type { BoostName, GameState } from "features/game/types/game";
 import {
   getPetLevel,
   getPetRequestXP,
@@ -21,6 +21,7 @@ import {
   type PetRequestDifficulty,
 } from "features/game/types/pets";
 import { getCurrentChapter } from "features/game/types/chapters";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import type { AuraTrait, BibTrait } from "features/pets/data/types";
 import { produce } from "immer";
 import { setPrecision } from "lib/utils/formatNumber";
@@ -55,7 +56,8 @@ export function getPetEnergy({
   petLevel: number;
   petData: Pet | PetNFT;
   createdAt?: number;
-}) {
+}): { energy: number; boostsUsed: { name: BoostName; value: string }[] } {
+  const boostsUsed: { name: BoostName; value: string }[] = [];
   let boostEnergy = 0;
 
   if (petLevel >= 5) {
@@ -84,13 +86,15 @@ export function getPetEnergy({
     getCurrentChapter(createdAt) === "Paw Prints"
   ) {
     energy += 5;
+    boostsUsed.push({ name: "VIP Access", value: "+5" });
   }
 
   if (isWearableActive({ game, name: "Walrus Onesie" })) {
     energy += 5;
+    boostsUsed.push({ name: "Walrus Onesie", value: "+5" });
   }
 
-  return setPrecision(energy, 2).toNumber();
+  return { energy: setPrecision(energy, 2).toNumber(), boostsUsed };
 }
 
 const BIB_EXPERIENCE_BONUS: Record<BibTrait, number> = {
@@ -113,7 +117,8 @@ export function getPetExperience({
   petData: Pet | PetNFT;
   food: CookableName;
   now: number;
-}) {
+}): { experience: number; boostsUsed: { name: BoostName; value: string }[] } {
+  const boostsUsed: { name: BoostName; value: string }[] = [];
   let experience = basePetXP;
   let experienceBoost = 1;
 
@@ -135,19 +140,23 @@ export function getPetExperience({
 
   if (isTemporaryCollectibleActive({ name: "Hound Shrine", game, now })) {
     experience += 100;
+    boostsUsed.push({ name: "Hound Shrine", value: "+100" });
   }
 
   if (isCollectibleBuilt({ name: "Pet Bowls", game })) {
     experience += 10;
+    boostsUsed.push({ name: "Pet Bowls", value: "+10" });
   }
 
   if (isWearableActive({ game, name: "Beast Shoes" })) {
     const foodDifficulty = FOOD_TO_DIFFICULTY.get(food);
     if (foodDifficulty === "medium") {
       experience += 100;
+      boostsUsed.push({ name: "Beast Shoes", value: "+100" });
     }
     if (foodDifficulty === "hard") {
       experience += 250;
+      boostsUsed.push({ name: "Beast Shoes", value: "+250" });
     }
   }
 
@@ -155,7 +164,7 @@ export function getPetExperience({
     experience += BIB_EXPERIENCE_BONUS[petData.traits.bib];
   }
 
-  return setPrecision(experience, 2).toNumber();
+  return { experience: setPrecision(experience, 2).toNumber(), boostsUsed };
 }
 /**
  * Returns the pet's food requests based on its level and type (Pet or PetNFT).
@@ -354,7 +363,7 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
     // Get base pet XP/Energy
     const basePetXP = getPetRequestXP(food);
 
-    const experience = getPetExperience({
+    const { experience, boostsUsed: experienceBoostsUsed } = getPetExperience({
       basePetXP,
       game: stateCopy,
       petLevel,
@@ -362,7 +371,7 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
       food,
       now: createdAt,
     });
-    const energy = getPetEnergy({
+    const { energy, boostsUsed: energyBoostsUsed } = getPetEnergy({
       game: stateCopy,
       petLevel,
       basePetEnergy: basePetXP,
@@ -371,6 +380,18 @@ export function feedPet({ state, action, createdAt = Date.now() }: Options) {
     });
     petData.experience += experience;
     petData.energy += energy;
+
+    stateCopy.boostsUsedAt = updateBoostUsed({
+      game: stateCopy,
+      boostNames: [
+        ...(requiredAmount === 0
+          ? [{ name: "Paw Aura" as const, value: "x0" }]
+          : []),
+        ...experienceBoostsUsed,
+        ...energyBoostsUsed,
+      ],
+      createdAt,
+    });
 
     return stateCopy;
   });
