@@ -1436,9 +1436,12 @@ export abstract class BaseScene extends Phaser.Scene {
       this.map.height * SQUARE_WIDTH,
     );
 
+    // The canvas size is fixed at boot (Phaser.tsx), so the zoom must be
+    // based on the game size, not the current window size — the window may
+    // have been resized since the game was created.
     this.zoom = getWorldZoom({
-      screenWidth: window.innerWidth,
-      screenHeight: window.innerHeight,
+      screenWidth: this.scale.width,
+      screenHeight: this.scale.height,
       mapWidth: this.map.width * SQUARE_WIDTH,
       mapHeight: this.map.height * SQUARE_WIDTH,
     });
@@ -1458,9 +1461,9 @@ export abstract class BaseScene extends Phaser.Scene {
 
     // Center it on canvas
     const offsetX =
-      (window.innerWidth - this.map.width * this.zoom * SQUARE_WIDTH) / 2;
+      (this.scale.width - this.map.width * this.zoom * SQUARE_WIDTH) / 2;
     const offsetY =
-      (window.innerHeight - this.map.height * this.zoom * SQUARE_WIDTH) / 2;
+      (this.scale.height - this.map.height * this.zoom * SQUARE_WIDTH) / 2;
     camera.setPosition(Math.max(offsetX, 0), Math.max(offsetY, 0));
 
     camera.fadeIn(500);
