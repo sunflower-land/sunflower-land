@@ -257,3 +257,47 @@ describe("validateTranslations", () => {
     expect(result.accepted).toEqual({ hello: "Hallo" });
   });
 });
+
+// A dictionary key can share its name with something every object inherits.
+describe("keys named like inherited object properties", () => {
+  it("plans a new term named constructor for translation", () => {
+    const plan = planTranslation({
+      english: { constructor: "Build" },
+      snapshot: {},
+      existing: {},
+    });
+
+    expect(plan.pending).toEqual(["constructor"]);
+  });
+
+  it("merges a translated term named toString", () => {
+    const merged = mergeTranslations({
+      english: { toString: "Text" },
+      kept: {},
+      translated: { toString: "Texto" },
+    });
+
+    expect(Object.entries(merged)).toEqual([["toString", "Texto"]]);
+  });
+
+  it("accepts a translation for a term named constructor", () => {
+    const result = validateTranslations({
+      requested: { constructor: "Build" },
+      returned: [{ key: "constructor", text: "Bauen" }],
+    });
+
+    expect(Object.entries(result.accepted)).toEqual([["constructor", "Bauen"]]);
+    expect(result.rejected).toEqual([]);
+  });
+
+  it("rejects a term named constructor that was not returned", () => {
+    const result = validateTranslations({
+      requested: { constructor: "Build" },
+      returned: [],
+    });
+
+    expect(result.rejected).toEqual([
+      { key: "constructor", reason: "missing" },
+    ]);
+  });
+});

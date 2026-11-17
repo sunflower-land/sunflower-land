@@ -188,7 +188,7 @@ async function translateLanguage(
       }
     }
 
-    remaining = remaining.filter((key) => translated[key] === undefined);
+    remaining = remaining.filter((key) => !Object.hasOwn(translated, key));
   }
 
   writeTerms(

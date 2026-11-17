@@ -1,5 +1,8 @@
 import { getKeys } from "../../src/lib/object";
 
+// Whether a term is in one of these maps is always checked with
+// Object.hasOwn: a key such as "constructor" or "toString" would otherwise
+// read as present on every object.
 type Terms<K extends string> = Partial<Record<K, string>>;
 
 export type ReturnedTranslation = { key: string; text: string };
@@ -44,7 +47,7 @@ export function planTranslation<K extends string>({
   });
 
   const pending = getKeys(english).filter(
-    (key) => kept[key] === undefined && english[key].trim() !== "",
+    (key) => !Object.hasOwn(kept, key) && english[key].trim() !== "",
   );
 
   return { kept, pending };
@@ -67,11 +70,11 @@ export function mergeTranslations<K extends string>({
   const merged: Terms<K> = { ...kept };
 
   getKeys(english).forEach((key) => {
-    if (merged[key] !== undefined) return;
+    if (Object.hasOwn(merged, key)) return;
 
     if (english[key].trim() === "") {
       merged[key] = "";
-    } else if (translated[key] !== undefined) {
+    } else if (Object.hasOwn(translated, key)) {
       merged[key] = translated[key];
     }
   });
@@ -92,18 +95,18 @@ export function validateTranslations<K extends string>({
   returned: ReturnedTranslation[];
 }): { accepted: Terms<K>; rejected: { key: K; reason: RejectionReason }[] } {
   const accepted: Terms<K> = {};
-  const reasons: Partial<Record<K, RejectionReason>> = {};
+  const reasons = new Map<K, RejectionReason>();
 
   // The keys come back from the model, so "constructor" and the like must not
   // pass as requested terms.
   const isRequested = (key: string): key is K => Object.hasOwn(requested, key);
 
   returned.forEach(({ key, text }) => {
-    if (!isRequested(key) || accepted[key] !== undefined) return;
+    if (!isRequested(key) || Object.hasOwn(accepted, key)) return;
 
     const translation = text.trim();
     if (!translation) {
-      reasons[key] = "empty";
+      reasons.set(key, "empty");
       return;
     }
 
@@ -115,17 +118,17 @@ export function validateTranslations<K extends string>({
       expected.length === actual.length &&
       expected.every((placeholder, index) => placeholder === actual[index]);
     if (!samePlaceholders) {
-      reasons[key] = "placeholders";
+      reasons.set(key, "placeholders");
       return;
     }
 
     accepted[key] = translation;
-    delete reasons[key];
+    reasons.delete(key);
   });
 
   const rejected = getKeys(requested)
-    .filter((key) => accepted[key] === undefined)
-    .map((key) => ({ key, reason: reasons[key] ?? ("missing" as const) }));
+    .filter((key) => !Object.hasOwn(accepted, key))
+    .map((key) => ({ key, reason: reasons.get(key) ?? ("missing" as const) }));
 
   return { accepted, rejected };
 }
