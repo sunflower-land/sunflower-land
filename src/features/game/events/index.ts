@@ -135,6 +135,10 @@ import {
 } from "./landExpansion/claimAchievement";
 import { craftTool, type CraftToolAction } from "./landExpansion/craftTool";
 import {
+  craftWeatherItem,
+  type CraftWeatherItemAction,
+} from "./landExpansion/craftWeatherItem";
+import {
   buyDecoration,
   type BuyDecorationAction,
 } from "./landExpansion/buyDecoration";
@@ -939,6 +943,7 @@ export type PlayingEvent =
   | SeedBoughtAction
   | ClaimAchievementAction
   | CraftToolAction
+  | CraftWeatherItemAction
   | BuyDecorationAction
   | BuyMonumentAction
   | SellCropAction
@@ -1260,6 +1265,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "seed.bought": seedBought,
   "achievement.claimed": claimAchievement,
   "tool.crafted": craftTool,
+  "weatherItem.crafted": craftWeatherItem,
   "decoration.bought": buyDecoration,
   "monument.bought": buyMonument,
   "crop.sold": sellCrop,

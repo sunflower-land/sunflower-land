@@ -1,3 +1,4 @@
+import type { WeatherItemName } from "./weatherItems";
 import type { GameState, InventoryItemName, RecipeCraftableName } from "./game";
 import type { DollName, RecipeCollectibleName } from "../lib/crafting";
 import type {
@@ -136,6 +137,7 @@ export type CraftedEvent = `${
   | HeliosBlacksmithItem
   | TreasureCollectibleItem
   | PotionHouseItemName
+  | WeatherItemName
   | LanternName
   | Keys
   | PurchaseableBait
