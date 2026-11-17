@@ -1,4 +1,5 @@
 import {
+  getContextReferences,
   getNameReferences,
   getPlaceholders,
   getReferenceTerms,
@@ -550,5 +551,47 @@ describe("getNameReferences", () => {
     });
 
     expect(references.map(({ key }) => key)).toEqual(["drink.carrotJuice"]);
+  });
+});
+
+describe("getContextReferences", () => {
+  const english = {
+    "crop.potato": "Potato",
+    "crop.wheat": "Wheat",
+    "bud.potato": "Potato",
+    "market.potato": "Potato",
+    "crop.task": "Plant a Potato seed",
+  };
+  const kept = {
+    "crop.potato": "Erdapfel",
+    "crop.wheat": "Weizen",
+    "bud.potato": "Kartoffel",
+    "market.potato": "Kartoffel",
+  };
+
+  it("keeps a name to the translation chosen for it", () => {
+    const references = getContextReferences<string>({
+      pending: ["crop.task"],
+      english,
+      kept,
+    });
+
+    expect(references).toEqual([
+      { key: "bud.potato", english: "Potato", translation: "Kartoffel" },
+      { key: "crop.wheat", english: "Wheat", translation: "Weizen" },
+    ]);
+  });
+
+  it("sends each string only once", () => {
+    const references = getContextReferences<string>({
+      pending: ["crop.task"],
+      english,
+      kept: { ...kept, "crop.potato": "Kartoffel" },
+    });
+
+    expect(references.map(({ key }) => key)).toEqual([
+      "crop.potato",
+      "crop.wheat",
+    ]);
   });
 });
