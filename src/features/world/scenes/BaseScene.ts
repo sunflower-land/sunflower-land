@@ -1600,18 +1600,34 @@ export abstract class BaseScene extends Phaser.Scene {
     );
   }
 
+  public initialiseJoystick() {
+    if (this.joystick) return;
+
+    const { centerX, centerY, height } = this.cameras.main;
+    this.joystick = new VirtualJoystick(this, {
+      x: centerX,
+      y: centerY - 35 + height / this.zoom / 2,
+      radius: 15,
+      base: this.add.circle(0, 0, 15, 0x000000, 0.2).setDepth(1000000000),
+      thumb: this.add.circle(0, 0, 7, 0xffffff, 0.2).setDepth(1000000000),
+      forceMin: 2,
+    });
+  }
+
   public initialiseControls() {
     if (isTouchDevice()) {
-      // Initialise joystick
-      const { centerX, centerY, height } = this.cameras.main;
-      this.joystick = new VirtualJoystick(this, {
-        x: centerX,
-        y: centerY - 35 + height / this.zoom / 2,
-        radius: 15,
-        base: this.add.circle(0, 0, 15, 0x000000, 0.2).setDepth(1000000000),
-        thumb: this.add.circle(0, 0, 7, 0xffffff, 0.2).setDepth(1000000000),
-        forceMin: 2,
-      });
+      this.initialiseJoystick();
+    } else {
+      // Some touch-only devices report a fine pointer and a desktop user
+      // agent. The joystick is their only way to move, so create it the first
+      // time a touch actually happens.
+      const onPointerDown = (pointer: Phaser.Input.Pointer) => {
+        if (!pointer.wasTouch) return;
+
+        this.initialiseJoystick();
+        this.input.off("pointerdown", onPointerDown);
+      };
+      this.input.on("pointerdown", onPointerDown);
     }
 
     // Initialise Keyboard
