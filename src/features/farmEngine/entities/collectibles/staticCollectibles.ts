@@ -704,9 +704,14 @@ export const STATIC_COLLECTIBLES: Partial<
  * treatment at runtime.
  */
 export const TEMPLATE_COLLECTIBLES: CollectibleName[] = [
+  "Merino Wool Insulation",
   "Speckled Kissing Fish",
   "Dark Eyed Kissing Fish",
   "Yellow Submarine Trophy",
+  "Pest Smoker",
+  "Thaw Stone",
+  "Shade Cloth",
+  "Wildflower Lure",
   "Fisherman's Boat",
   "Sea Arch",
   "Crabs and Fish Rug",
