@@ -40,7 +40,7 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { Button } from "components/ui/Button";
 import { Box } from "components/ui/Box";
 import { Label } from "components/ui/Label";
-import { InnerPanel } from "components/ui/Panel";
+import { StackedPanelView } from "components/ui/StackedPanelView";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
@@ -155,24 +155,26 @@ export const CaveMixPicker: React.FC<Props> = ({
   };
 
   return (
-    <>
-      <InnerPanel className="mb-1">
-        {canReplace && (
-          <>
-            <Label
-              type="success"
-              icon={ITEM_DETAILS["Green Beetle"].image}
-              className="ml-1 mb-1"
-            >
-              {t("cave.dig.allBeetlesFound")}
-            </Label>
-            <p className="text-xs ml-1 mb-2">{t("cave.batch.replaceHint")}</p>
-          </>
-        )}
-        <Label type="default" className="ml-1 mb-2">
-          {t("cave.batch.chooseRecipe")}
-        </Label>
-        <div className="flex flex-wrap gap-1 px-1 mb-2">
+    <StackedPanelView
+      notice={
+        <>
+          {canReplace && (
+            <>
+              <Label
+                type="success"
+                icon={ITEM_DETAILS["Green Beetle"].image}
+                className="ml-1 mb-1"
+              >
+                {t("cave.dig.allBeetlesFound")}
+              </Label>
+              <p className="text-xs ml-1 mb-2">{t("cave.batch.replaceHint")}</p>
+            </>
+          )}
+        </>
+      }
+      title={t("cave.batch.chooseRecipe")}
+      options={
+        <>
           {recipes.map((name) => (
             <Box
               key={name}
@@ -182,175 +184,186 @@ export const CaveMixPicker: React.FC<Props> = ({
               onClick={() => setRecipe(name)}
             />
           ))}
-        </div>
-        <Label
-          type="default"
-          icon={ITEM_DETAILS[RECIPE_IMAGE[recipe]].image}
-          className="ml-1 mb-1"
-        >
-          {t(`cave.recipe.${recipe}` as const)}
-        </Label>
-        {recipe !== "Mud" && (
-          <p className="text-xs ml-1 mb-2">
-            {t(`cave.recipe.${recipe}.description` as const)}
-          </p>
-        )}
-        {mudYieldMultiplier > 1 && (
+        </>
+      }
+      belowOptions={
+        <>
           <Label
-            type="success"
-            icon={powerup}
-            secondaryIcon={ITEM_DETAILS.Mud.image}
-            className="ml-1 mb-2"
+            type="default"
+            icon={ITEM_DETAILS[RECIPE_IMAGE[recipe]].image}
+            className="ml-1 mb-1"
           >
-            {t("cave.recipe.mudYield", { multiplier: mudYieldMultiplier })}
+            {t(`cave.recipe.${recipe}` as const)}
           </Label>
-        )}
-        <CaveBuriedTiles counts={buriedCounts} />
-        <CaveBeetleOdds
-          odds={getCaveBatchSkills(game, recipe).skills?.beetleRarity}
-        />
-      </InnerPanel>
-
-      {recipe === "Mud" && (
-        <InnerPanel className="mb-1">
-          <div className="flex flex-wrap items-center justify-between gap-1 ml-1 mb-1">
-            <Label type="default">{t("cave.batch.chooseCrop")}</Label>
-            <Label type="default" icon={ITEM_DETAILS[crop].image}>
-              {`${getTranslatedItemName(crop)} x${formatNumber(getMudCropCost(game, crop))}`}
-            </Label>
-          </div>
-          <div className="flex flex-wrap gap-1 px-1 pt-2 pb-1 overflow-y-auto max-h-56 scrollable">
-            {sortMudCrops(game).map((name) => (
-              <div key={name} className="flex flex-col items-center">
-                <Box
-                  image={ITEM_DETAILS[name].image}
-                  count={game.inventory[name]}
-                  isSelected={crop === name}
-                  secondaryImage={
-                    canAffordMudCrop(game, name)
-                      ? undefined
-                      : SUNNYSIDE.icons.cancel
-                  }
-                  onClick={() => setCrop(name)}
-                />
-                <span className="text-xxs leading-tight">
-                  {`x${formatNumber(getMudCropCost(game, name))}`}
-                </span>
-              </div>
-            ))}
-          </div>
-        </InnerPanel>
-      )}
-
-      <InnerPanel className="mb-1">
-        <Label type="default" className="ml-1 mb-1">
-          {t("requirements")}
-        </Label>
-        <div className="flex flex-wrap gap-2 p-1">
-          {getKeys(ingredients).map((item) => (
-            <RequirementLabel
-              key={item}
-              type="item"
-              item={item}
-              balance={game.inventory[item] ?? new Decimal(0)}
-              requirement={ingredients[item] ?? new Decimal(0)}
-            />
-          ))}
-          {isTimeBoosted ? (
-            <div
-              ref={timeBoostsRef}
-              className="flex flex-row items-center gap-2 cursor-pointer"
-              onClick={() => setShowTimeBoosts(!showTimeBoosts)}
+          {recipe !== "Mud" && (
+            <p className="text-xs ml-1 mb-2">
+              {t(`cave.recipe.${recipe}.description` as const)}
+            </p>
+          )}
+          {mudYieldMultiplier > 1 && (
+            <Label
+              type="success"
+              icon={powerup}
+              secondaryIcon={ITEM_DETAILS.Mud.image}
+              className="ml-1 mb-2"
             >
-              <RequirementLabel
-                type="time"
-                waitSeconds={durationSeconds}
-                boosted
-              />
-              <RequirementLabel
-                type="time"
-                waitSeconds={CAVE_BATCH_DURATION_MS / 1000}
-                strikethrough
-              />
-              {showTimeBoosts && (
-                <BoostsDisplay
-                  boosts={timeBoostsUsed}
-                  base={{
-                    value: secondsToString(CAVE_BATCH_DURATION_MS / 1000, {
-                      length: "medium",
-                      removeTrailingZeros: true,
-                    }),
-                    icon: SUNNYSIDE.icons.stopwatch,
-                  }}
-                  show={showTimeBoosts}
-                  state={game}
-                  onClick={() => setShowTimeBoosts((prev) => !prev)}
-                  anchorRef={timeBoostsRef}
-                  portalAlign="center"
-                  portalPlacement="auto"
+              {t("cave.recipe.mudYield", { multiplier: mudYieldMultiplier })}
+            </Label>
+          )}
+          <CaveBuriedTiles counts={buriedCounts} />
+          <CaveBeetleOdds
+            odds={getCaveBatchSkills(game, recipe).skills?.beetleRarity}
+          />
+        </>
+      }
+      panels={[
+        recipe === "Mud" && {
+          id: "crop",
+          content: (
+            <>
+              <div className="flex flex-wrap items-center justify-between gap-1 ml-1 mb-1">
+                <Label type="default">{t("cave.batch.chooseCrop")}</Label>
+                <Label type="default" icon={ITEM_DETAILS[crop].image}>
+                  {`${getTranslatedItemName(crop)} x${formatNumber(getMudCropCost(game, crop))}`}
+                </Label>
+              </div>
+              <div className="flex flex-wrap gap-1 px-1 pt-2 pb-1 overflow-y-auto max-h-56 scrollable">
+                {sortMudCrops(game).map((name) => (
+                  <div key={name} className="flex flex-col items-center">
+                    <Box
+                      image={ITEM_DETAILS[name].image}
+                      count={game.inventory[name]}
+                      isSelected={crop === name}
+                      secondaryImage={
+                        canAffordMudCrop(game, name)
+                          ? undefined
+                          : SUNNYSIDE.icons.cancel
+                      }
+                      onClick={() => setCrop(name)}
+                    />
+                    <span className="text-xxs leading-tight">
+                      {`x${formatNumber(getMudCropCost(game, name))}`}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </>
+          ),
+        },
+        {
+          id: "requirements",
+          title: t("requirements"),
+          content: (
+            <div className="flex flex-wrap gap-2 p-1">
+              {getKeys(ingredients).map((item) => (
+                <RequirementLabel
+                  key={item}
+                  type="item"
+                  item={item}
+                  balance={game.inventory[item] ?? new Decimal(0)}
+                  requirement={ingredients[item] ?? new Decimal(0)}
                 />
+              ))}
+              {isTimeBoosted ? (
+                <div
+                  ref={timeBoostsRef}
+                  className="flex flex-row items-center gap-2 cursor-pointer"
+                  onClick={() => setShowTimeBoosts(!showTimeBoosts)}
+                >
+                  <RequirementLabel
+                    type="time"
+                    waitSeconds={durationSeconds}
+                    boosted
+                  />
+                  <RequirementLabel
+                    type="time"
+                    waitSeconds={CAVE_BATCH_DURATION_MS / 1000}
+                    strikethrough
+                  />
+                  {showTimeBoosts && (
+                    <BoostsDisplay
+                      boosts={timeBoostsUsed}
+                      base={{
+                        value: secondsToString(CAVE_BATCH_DURATION_MS / 1000, {
+                          length: "medium",
+                          removeTrailingZeros: true,
+                        }),
+                        icon: SUNNYSIDE.icons.stopwatch,
+                      }}
+                      show={showTimeBoosts}
+                      state={game}
+                      onClick={() => setShowTimeBoosts((prev) => !prev)}
+                      anchorRef={timeBoostsRef}
+                      portalAlign="center"
+                      portalPlacement="auto"
+                    />
+                  )}
+                </div>
+              ) : (
+                <RequirementLabel type="time" waitSeconds={durationSeconds} />
               )}
             </div>
-          ) : (
-            <RequirementLabel type="time" waitSeconds={durationSeconds} />
+          ),
+        },
+      ]}
+      errors={[
+        hasLeftovers && undug && (
+          <Label
+            type="danger"
+            icon={TILE_IMAGE.Mushroom}
+            className="text-xs mx-auto mb-1"
+          >
+            {t("cave.batch.leftoverMushrooms", { count: undug.Mushroom })}
+          </Label>
+        ),
+      ]}
+      action={
+        <div className="relative">
+          <Button
+            disabled={!canAfford}
+            onClick={() =>
+              hasLeftovers ? setShowReplaceConfirm(true) : startBatch()
+            }
+          >
+            {t("cave.batch.start")}
+          </Button>
+          {/* The panel scrolls, so a slightly smaller hand sits inside the
+            button's corner rather than hanging off the bottom. */}
+          {showTutorialHand && canAfford && (
+            <CaveTutorialHand
+              style={{
+                width: `${PIXEL_SCALE * 14}px`,
+                left: "auto",
+                top: "auto",
+                right: `${PIXEL_SCALE * 2}px`,
+                bottom: `${PIXEL_SCALE * 2}px`,
+              }}
+            />
           )}
         </div>
-      </InnerPanel>
-
-      {hasLeftovers && undug && (
-        <Label
-          type="danger"
-          icon={TILE_IMAGE.Mushroom}
-          className="text-xs mx-auto mb-1"
-        >
-          {t("cave.batch.leftoverMushrooms", { count: undug.Mushroom })}
-        </Label>
-      )}
-
-      <div className="relative">
-        <Button
-          disabled={!canAfford}
-          onClick={() =>
-            hasLeftovers ? setShowReplaceConfirm(true) : startBatch()
+      }
+      footer={
+        <ConfirmationModal
+          show={showReplaceConfirm}
+          onHide={() => setShowReplaceConfirm(false)}
+          onCancel={() => setShowReplaceConfirm(false)}
+          onConfirm={() => {
+            setShowReplaceConfirm(false);
+            startBatch();
+          }}
+          messages={[t("cave.batch.confirmReplace")]}
+          confirmButtonLabel={t("cave.batch.start")}
+          bodyContent={
+            <div className="flex flex-wrap justify-center gap-1">
+              {!!undug?.Mushroom && (
+                <Label type="danger" icon={TILE_IMAGE.Mushroom}>
+                  {undug.Mushroom}
+                </Label>
+              )}
+            </div>
           }
-        >
-          {t("cave.batch.start")}
-        </Button>
-        {/* The panel scrolls, so a slightly smaller hand sits inside the
-            button's corner rather than hanging off the bottom. */}
-        {showTutorialHand && canAfford && (
-          <CaveTutorialHand
-            style={{
-              width: `${PIXEL_SCALE * 14}px`,
-              left: "auto",
-              top: "auto",
-              right: `${PIXEL_SCALE * 2}px`,
-              bottom: `${PIXEL_SCALE * 2}px`,
-            }}
-          />
-        )}
-      </div>
-
-      <ConfirmationModal
-        show={showReplaceConfirm}
-        onHide={() => setShowReplaceConfirm(false)}
-        onCancel={() => setShowReplaceConfirm(false)}
-        onConfirm={() => {
-          setShowReplaceConfirm(false);
-          startBatch();
-        }}
-        messages={[t("cave.batch.confirmReplace")]}
-        confirmButtonLabel={t("cave.batch.start")}
-        bodyContent={
-          <div className="flex flex-wrap justify-center gap-1">
-            {!!undug?.Mushroom && (
-              <Label type="danger" icon={TILE_IMAGE.Mushroom}>
-                {undug.Mushroom}
-              </Label>
-            )}
-          </div>
-        }
-      />
-    </>
+        />
+      }
+    />
   );
 };

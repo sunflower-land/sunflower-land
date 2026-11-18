@@ -3,7 +3,7 @@ import Decimal from "decimal.js-light";
 
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
-import { InnerPanel } from "components/ui/Panel";
+import { StackedPanelView } from "components/ui/StackedPanelView";
 import { Label } from "components/ui/Label";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { getFishBaseXP } from "features/game/types/aging";
@@ -106,67 +106,57 @@ export const AgingRackEmpty: React.FC<Props> = ({
     });
 
   return (
-    <>
-      <InnerPanel className="mb-1">
-        <Label
-          type={selectedFish ? "info" : "default"}
-          className="text-xs mb-2 ml-1"
-          icon={selectedFish && ITEM_DETAILS[selectedFish]?.image}
-        >
-          {selectedFish
-            ? getTranslatedItemName(selectedFish)
-            : t("agingShed.agingRack.selectFish")}
-        </Label>
-        <div className="flex flex-wrap gap-1 px-1 pb-1 overflow-auto max-h-48 scrollable items-start">
-          {fishOptions.map((opt) => {
-            const fishName = opt.value;
+    <StackedPanelView
+      title={
+        selectedFish
+          ? getTranslatedItemName(selectedFish)
+          : t("agingShed.agingRack.selectFish")
+      }
+      titleIcon={selectedFish && ITEM_DETAILS[selectedFish]?.image}
+      selected={!!selectedFish}
+      options={fishOptions.map((opt) => {
+        const fishName = opt.value;
 
-            return (
-              <div
-                key={fishName}
-                className="flex flex-col items-center shrink-0 max-w-[72px]"
-              >
-                <Box
-                  image={opt.icon}
-                  count={merged[fishName]}
-                  isSelected={selectedFish === fishName}
-                  onClick={() => onSelectFish(fishName)}
-                  secondaryImage={
-                    hasEnoughAgingIngredients(merged, fishName, gameState)
-                      ? SUNNYSIDE.icons.confirm
-                      : SUNNYSIDE.icons.cancel
-                  }
-                />
-              </div>
-            );
-          })}
-        </div>
-      </InnerPanel>
-
-      {selectedFish && (
-        <SelectedFishDetails
-          selectedFish={selectedFish}
-          merged={merged}
-          gameState={gameState}
-          now={now}
-        />
-      )}
-
-      {validationMessage && (
-        <Label type="danger" className="text-xs px-1 mb-1">
-          {validationMessage}
-        </Label>
-      )}
-      {startError && (
-        <Label type="danger" className="text-xs px-1 mb-1">
-          {startError}
-        </Label>
-      )}
-
-      <Button disabled={startDisabled} onClick={onStart}>
-        {t("agingShed.agingRack.startAging")}
-      </Button>
-    </>
+        return (
+          <div
+            key={fishName}
+            className="flex flex-col items-center shrink-0 max-w-[72px]"
+          >
+            <Box
+              image={opt.icon}
+              count={merged[fishName]}
+              isSelected={selectedFish === fishName}
+              onClick={() => onSelectFish(fishName)}
+              secondaryImage={
+                hasEnoughAgingIngredients(merged, fishName, gameState)
+                  ? SUNNYSIDE.icons.confirm
+                  : SUNNYSIDE.icons.cancel
+              }
+            />
+          </div>
+        );
+      })}
+      panels={[
+        selectedFish && {
+          id: "details",
+          title: t("agingShed.agingRack.requirements"),
+          content: (
+            <SelectedFishDetails
+              selectedFish={selectedFish}
+              merged={merged}
+              gameState={gameState}
+              now={now}
+            />
+          ),
+        },
+      ]}
+      errors={[validationMessage, startError]}
+      action={
+        <Button disabled={startDisabled} onClick={onStart}>
+          {t("agingShed.agingRack.startAging")}
+        </Button>
+      }
+    />
   );
 };
 
@@ -218,11 +208,8 @@ const SelectedFishDetails: React.FC<{
   const isPrimeAgedFishXpBoosted = boostedPrimeAgedFishXp.boostsUsed.length > 0;
 
   return (
-    <InnerPanel className="mb-1">
+    <>
       <div className="flex flex-col justify-between items-start">
-        <Label type="default" className="text-xs ml-1">
-          {t("agingShed.agingRack.requirements")}
-        </Label>
         <div className="flex flex-wrap p-2 gap-2">
           <RequirementLabel
             type="item"
@@ -343,6 +330,6 @@ const SelectedFishDetails: React.FC<{
           />
         )}
       </div>
-    </InnerPanel>
+    </>
   );
 };

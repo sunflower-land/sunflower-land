@@ -4,7 +4,7 @@ import Decimal from "decimal.js-light";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { IngredientsPopover } from "components/ui/IngredientsPopover";
-import { InnerPanel } from "components/ui/Panel";
+import { StackedPanelView } from "components/ui/StackedPanelView";
 import { Label } from "components/ui/Label";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { hasPlacedAgingShed } from "features/game/events/landExpansion/hasPlacedAgingShed";
@@ -93,18 +93,16 @@ export const SpiceRackEmpty: React.FC<Props> = ({
     : undefined;
 
   return (
-    <>
-      <InnerPanel className="mb-1 gap-1">
-        <div className="flex flex-col gap-1 mb-1">
-          <Label
-            type={selectedRecipeId ? "info" : "default"}
-            className="text-xs ml-1"
-            icon={selectedRecipeId && ITEM_DETAILS[selectedRecipeId]?.image}
-          >
-            {selectedRecipeId
-              ? `${getTranslatedItemName(selectedRecipeId)}${recipeOutputQuantity ? ` x ${recipeOutputQuantity.toString()}` : ""}`
-              : t("agingShed.spice.selectRecipe")}
-          </Label>
+    <StackedPanelView
+      title={
+        selectedRecipeId
+          ? `${getTranslatedItemName(selectedRecipeId)}${recipeOutputQuantity ? ` x ${recipeOutputQuantity.toString()}` : ""}`
+          : t("agingShed.spice.selectRecipe")
+      }
+      titleIcon={selectedRecipeId && ITEM_DETAILS[selectedRecipeId]?.image}
+      selected={!!selectedRecipeId}
+      details={
+        <>
           {selectedRecipeId && (
             <>
               {COLLECTIBLE_BUFF_LABELS[selectedRecipeId]?.(gameState).map(
@@ -127,8 +125,10 @@ export const SpiceRackEmpty: React.FC<Props> = ({
               </p>
             </>
           )}
-        </div>
-        <div className="flex flex-wrap gap-1 px-1 pb-1 overflow-auto max-h-48 scrollable items-start">
+        </>
+      }
+      options={
+        <>
           {SPICE_RACK_RECIPE_IDS.map((recipeId) => {
             const outputItem = getPrimaryOutputItem(recipeId);
 
@@ -146,86 +146,80 @@ export const SpiceRackEmpty: React.FC<Props> = ({
               </div>
             );
           })}
-        </div>
-      </InnerPanel>
-
-      {selectedRecipeId && recipeDef && (
-        <InnerPanel className="mb-1">
-          <Label type="default" className="text-xs mb-2 ml-1">
-            {t("agingShed.spice.requirementsTitle")}
-          </Label>
-
-          {canShowRequirements && (
-            <div
-              className="flex flex-wrap p-2 gap-2 cursor-pointer"
-              onClick={() => setShowIngredients(!showIngredients)}
-            >
-              <IngredientsPopover
-                show={showIngredients}
-                ingredients={ingredientKeys}
-                onClick={() => setShowIngredients(false)}
-              />
-              {getObjectEntries(recipeDef.ingredients).map(
-                ([itemName, need]) => (
-                  <RequirementLabel
-                    key={String(itemName)}
-                    type="item"
-                    item={itemName as InventoryItemName}
-                    balance={
-                      merged[itemName as InventoryItemName] ?? new Decimal(0)
-                    }
-                    requirement={(need ?? new Decimal(0)).mul(
-                      getAgingInputMultiplier(gameState),
+        </>
+      }
+      panels={[
+        !!selectedRecipeId &&
+          !!recipeDef && {
+            id: "requirements",
+            title: t("agingShed.spice.requirementsTitle"),
+            content: (
+              <>
+                {canShowRequirements && (
+                  <div
+                    className="flex flex-wrap p-2 gap-2 cursor-pointer"
+                    onClick={() => setShowIngredients(!showIngredients)}
+                  >
+                    <IngredientsPopover
+                      show={showIngredients}
+                      ingredients={ingredientKeys}
+                      onClick={() => setShowIngredients(false)}
+                    />
+                    {getObjectEntries(recipeDef.ingredients).map(
+                      ([itemName, need]) => (
+                        <RequirementLabel
+                          key={String(itemName)}
+                          type="item"
+                          item={itemName as InventoryItemName}
+                          balance={
+                            merged[itemName as InventoryItemName] ??
+                            new Decimal(0)
+                          }
+                          requirement={(need ?? new Decimal(0)).mul(
+                            getAgingInputMultiplier(gameState),
+                          )}
+                        />
+                      ),
                     )}
-                  />
-                ),
-              )}
-              <RequirementLabel
-                type="time"
-                waitSeconds={recipeDef.durationSeconds}
-              />
-            </div>
-          )}
+                    <RequirementLabel
+                      type="time"
+                      waitSeconds={recipeDef.durationSeconds}
+                    />
+                  </div>
+                )}
 
-          {canShowRequirements &&
-            selectedRecipeId === "Refined Salt" &&
-            getRefinedSaltChance(gameState) > 0 && (
-              <Label type="vibrant" className="text-xxs mx-2 mb-1">
-                {t("agingShed.spice.bonusChance", {
-                  chance: getRefinedSaltChance(gameState),
-                  item: getTranslatedItemName("Refined Salt"),
-                })}
-              </Label>
-            )}
+                {canShowRequirements &&
+                  selectedRecipeId === "Refined Salt" &&
+                  getRefinedSaltChance(gameState) > 0 && (
+                    <Label type="vibrant" className="text-xxs mx-2 mb-1">
+                      {t("agingShed.spice.bonusChance", {
+                        chance: getRefinedSaltChance(gameState),
+                        item: getTranslatedItemName("Refined Salt"),
+                      })}
+                    </Label>
+                  )}
 
-          {canShowRequirements && getAstrolabeDoubleChance(gameState) > 0 && (
-            <Label type="vibrant" className="text-xxs mx-2 mb-1">
-              {t("agingShed.astrolabe.doubleChance", {
-                chance: getAstrolabeDoubleChance(gameState),
-              })}
-            </Label>
-          )}
-        </InnerPanel>
-      )}
-
-      {validationMessage && (
-        <Label type="danger" className="text-xs px-1 mb-1">
-          {validationMessage}
-        </Label>
-      )}
-
-      {startError && (
-        <Label type="danger" className="text-xs px-1 mb-1">
-          {startError}
-        </Label>
-      )}
-
-      <Button
-        disabled={startDisabled}
-        onClick={() => selectedRecipeId && onStart(selectedRecipeId)}
-      >
-        {t("agingShed.spice.start")}
-      </Button>
-    </>
+                {canShowRequirements &&
+                  getAstrolabeDoubleChance(gameState) > 0 && (
+                    <Label type="vibrant" className="text-xxs mx-2 mb-1">
+                      {t("agingShed.astrolabe.doubleChance", {
+                        chance: getAstrolabeDoubleChance(gameState),
+                      })}
+                    </Label>
+                  )}
+              </>
+            ),
+          },
+      ]}
+      errors={[validationMessage, startError]}
+      action={
+        <Button
+          disabled={startDisabled}
+          onClick={() => selectedRecipeId && onStart(selectedRecipeId)}
+        >
+          {t("agingShed.spice.start")}
+        </Button>
+      }
+    />
   );
 };
