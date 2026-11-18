@@ -24,9 +24,9 @@ export const ExperimentsSettings: React.FC<ContentComponentProps> = ({
       </Button>
       <Button
         className="self-start"
-        onClick={() => onSubMenuClick("landscapingExperiment")}
+        onClick={() => onSubMenuClick("savedLayoutsExperiment")}
       >
-        <span>{t("gameOptions.experiments.landscaping")}</span>
+        <span>{t("gameOptions.experiments.savedLayouts")}</span>
       </Button>
       <Button
         className="self-start"

@@ -66,7 +66,7 @@ import { ExperimentsSettings } from "./experiments-settings/ExperimentsSettings"
 import { BetaFeatures } from "./beta-features/BetaFeatures";
 import { EconomyEditorExperimentSettings } from "./experiments-settings/EconomyEditorExperimentSettings";
 import { InteriorExperimentSettings } from "./experiments-settings/InteriorExperimentSettings";
-import { LandscapingExperimentSettings } from "./experiments-settings/LandscapingExperimentSettings";
+import { SavedLayoutsExperimentSettings } from "./experiments-settings/SavedLayoutsExperimentSettings";
 import { ToolShopBuyAllExperimentSettings } from "./experiments-settings/ToolShopBuyAllExperimentSettings";
 import { StatsLeaderboardExperimentSettings } from "./experiments-settings/StatsLeaderboardExperimentSettings";
 import { AuctionCalendarExperimentSettings } from "./experiments-settings/AuctionCalendarExperimentSettings";
@@ -411,10 +411,10 @@ export const SETTING_MENUS: Record<SettingMenuId, SettingMenu> = {
     parent: "experiments",
     content: InteriorExperimentSettings,
   },
-  landscapingExperiment: {
-    title: translate("gameOptions.experiments.landscaping"),
+  savedLayoutsExperiment: {
+    title: translate("gameOptions.experiments.savedLayouts"),
     parent: "experiments",
-    content: LandscapingExperimentSettings,
+    content: SavedLayoutsExperimentSettings,
   },
   toolShopBuyAll: {
     title: translate("gameOptions.experiments.toolShopBuyAll"),

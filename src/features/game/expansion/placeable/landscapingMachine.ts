@@ -59,14 +59,6 @@ export interface Context {
   maximum?: number;
 
   /**
-   * The landscaping sandbox experiment is on for this player: placements are
-   * drafted by the parent and only reach the server on Save. With it off the
-   * machine keeps its pre-sandbox behaviour - a purchase places the item in
-   * one live event and hands the player straight back to playing.
-   */
-  sandbox?: boolean;
-
-  /**
    * Bulk-removal mode. When true, the landscaping HUD collapses to a single
    * "exit" button and a red banner, and any click on a placed item dispatches
    * the matching `*.removed` event directly instead of selecting the item.
@@ -400,26 +392,8 @@ export const landscapingMachine = createMachine<
                 ],
               },
               {
-                // Sandbox experiment off: crafting or constructing places the
-                // item in one live event and hands the player back to playing,
-                // the way landscaping worked before the sandbox.
-                target: ["#saving.done", "done"],
-                cond: (context) =>
-                  !context.sandbox &&
-                  (context.action === "collectible.crafted" ||
-                    context.action === "building.constructed"),
-                actions: [
-                  sendParent((context, e) =>
-                    settlePlacementEvent(context, e.location),
-                  ),
-                  assign({
-                    placeable: (_) => undefined,
-                  }),
-                ],
-              },
-              {
                 // Stay in landscaping (the `saving` region keeps flushing live
-                // actions). In the sandbox a purchase is sent live WITHOUT
+                // actions). A purchase is sent live WITHOUT
                 // coordinates - the item lands in the chest - followed by a
                 // draft placement at the chosen tile, so Cancel keeps the
                 // purchase but not the placement. See lib/landscapingDraft.ts.

@@ -1,5 +1,4 @@
 import type { GameState } from "features/game/types/game";
-import { hasExperiment } from "features/game/types/experiments";
 import type { PlaceableLocation } from "features/game/types/collectibles";
 import { PLACEMENT_EVENTS, type GameEvent } from "features/game/events";
 import { processEvent } from "features/game/lib/processEvent";
@@ -81,28 +80,19 @@ export const isDraftEvent = (
 export const isDraftDirty = (context: Pick<DraftContext, "draftActions">) =>
   context.draftActions.length > 0;
 
-/**
- * Enter landscaping. The sandbox is an opt-in experiment while it rolls out:
- * with it off nothing is keyed to a surface, so `isDraftEvent` is false for
- * every edit and landscaping streams live events exactly as it did before.
- * This is the single gate - everything downstream keys off
- * `landscapingLocation` being set.
- */
+/** Enter landscaping, keyed to the surface being arranged. */
 export const beginDraft = (
   state: GameState,
   location: PlaceableLocation,
 ): Pick<
   DraftContext,
   "baseState" | "draftActions" | "landscapingLocation" | "arrangementConflicts"
-> => {
-  const sandboxed = hasExperiment(state, "newLandscaping");
-  return {
-    baseState: sandboxed ? state : undefined,
-    draftActions: [],
-    landscapingLocation: sandboxed ? location : undefined,
-    arrangementConflicts: undefined,
-  };
-};
+> => ({
+  baseState: state,
+  draftActions: [],
+  landscapingLocation: location,
+  arrangementConflicts: undefined,
+});
 
 const run = (
   state: GameState,

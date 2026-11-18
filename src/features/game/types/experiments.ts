@@ -16,14 +16,10 @@ import type { GameState } from "features/game/types/game";
  */
 export const EXPERIMENT_DEFAULTS = {
   /**
-   * Landscaping as a sandbox: edits are drafted client-side and committed in
-   * one `arrangement.saved` event when the player saves, so they can cancel
-   * out of the whole session. Saved Layouts rides along with it - re-applying
-   * a layout is the same commit path. Off = the legacy live-event
-   * landscaping, where every move is already saved and there is nothing to
-   * cancel, and the layouts button is hidden.
+   * Saved Layouts: keep up to three named farm arrangements and re-apply one
+   * from landscaping. Off = the layouts button is hidden.
    */
-  newLandscaping: false,
+  savedLayouts: false,
   /**
    * Calendar icon on each upcoming drop in the auction schedule: iOS opens
    * Apple Calendar via the API's `/auction/:id/calendar`, Android the default
