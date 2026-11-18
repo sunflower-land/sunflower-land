@@ -108,28 +108,32 @@ jobs:
             };
           }
 
-          function getChangedFiles(sha) {
-            // For a merge commit, list what the merged branch brought in.
-            const output = git(["show", "--name-only", "--diff-merges=first-parent", "--format=", sha]);
+          function isMergeCommit(sha) {
+            return git(["rev-list", "--no-walk", "--parents", sha]).split(" ").length > 2;
+          }
+
+          // With a baseSha, cover every commit in baseSha..sha (a rebase merge
+          // spreads one PR over several commits). Without one, cover the single
+          // commit; for a merge commit, that is what the merged branch brought in.
+          function getChangedFiles(sha, baseSha) {
+            const output = baseSha
+              ? git(["diff", "--name-only", baseSha, sha])
+              : git(["show", "--name-only", "--diff-merges=first-parent", "--format=", sha]);
             return output
               .split("\n")
               .map((line) => line.trim())
               .filter(Boolean);
           }
 
-          function getDiffForSummary(sha) {
-            return truncate(
-              git([
-                "show",
-                "--format=fuller",
-                "--stat=120,200",
-                "--summary",
-                "--unified=1",
-                "--diff-merges=first-parent",
-                sha,
-              ]),
-              15000,
-            );
+          function getDiffForSummary(sha, baseSha) {
+            const diffOptions = ["--stat=120,200", "--summary", "--unified=1"];
+            const output = baseSha
+              ? [
+                  git(["log", "--format=fuller", `${baseSha}..${sha}`]),
+                  git(["diff", ...diffOptions, baseSha, sha]),
+                ].join("\n\n")
+              : git(["show", "--format=fuller", ...diffOptions, "--diff-merges=first-parent", sha]);
+            return truncate(output, 15000);
           }
 
           function getCommitUrl(sha) {
@@ -529,16 +533,30 @@ jobs:
             // A merge-commit or rebase merge pushes every commit of the PR, and
             // each one resolves to the same PR. Alert once per PR, on its last
             // commit (the merge commit, or the final rebased commit).
+            const firstShaByPr = new Map();
             const lastIndexByPr = new Map();
             suspiciousCommits.forEach((commit, index) => {
               if (commit.pullRequest) {
+                if (!firstShaByPr.has(commit.pullRequest.number)) {
+                  firstShaByPr.set(commit.pullRequest.number, commit.sha);
+                }
                 lastIndexByPr.set(commit.pullRequest.number, index);
               }
             });
-            const alerts = suspiciousCommits.filter(
-              (commit, index) =>
-                !commit.pullRequest || lastIndexByPr.get(commit.pullRequest.number) === index,
-            );
+            const alerts = suspiciousCommits
+              .filter(
+                (commit, index) =>
+                  !commit.pullRequest || lastIndexByPr.get(commit.pullRequest.number) === index,
+              )
+              .map((commit) => {
+                // A rebase merge: summarise all of the PR's commits, not just the
+                // last. A merge commit's first-parent diff already covers them.
+                const firstSha = commit.pullRequest && firstShaByPr.get(commit.pullRequest.number);
+                if (!firstSha || firstSha === commit.sha || isMergeCommit(commit.sha)) {
+                  return commit;
+                }
+                return { ...commit, baseSha: `${firstSha}^` };
+              });
 
             appendSummary([
               "## Main commit alerts",
@@ -549,8 +567,8 @@ jobs:
             ]);
 
             for (const metadata of alerts) {
-              const files = getChangedFiles(metadata.sha);
-              const diff = getDiffForSummary(metadata.sha);
+              const files = getChangedFiles(metadata.sha, metadata.baseSha);
+              const diff = getDiffForSummary(metadata.sha, metadata.baseSha);
 
               let result;
               try {
