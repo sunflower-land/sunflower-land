@@ -9062,5 +9062,12 @@
   "withdraw.wearables.upgrade": "Atteignez Grand Harvester pour retirer les appareils portables du jeu.",
   "withdraw.buds.upgrade": "Atteignez Grand Harvester pour retirer les Buds du jeu.",
   "withdraw.pets.upgrade": "Atteignez Grand Harvester pour retirer les animaux de compagnie du jeu.",
-  "reputation.grandHarvester.withdrawItems": "Retirez les objets de collection, les appareils portables, les écouteurs et les animaux de compagnie"
+  "reputation.grandHarvester.withdrawItems": "Retirez les objets de collection, les appareils portables, les écouteurs et les animaux de compagnie",
+  "description.sandbag": "Un sac robuste rempli de sable.",
+  "description.balk": "Poutres en bois épaisses, découpées et contreventées.",
+  "description.pestSmoker": "Un pot enfumé qui laisse les insectes deviner.",
+  "description.thawStone": "Une pierre qui reste chaude au toucher.",
+  "description.merinoWoolInsulation": "Laine douce et chaude enroulée.",
+  "description.shadeCloth": "Un auvent en tissu tendu sur des poteaux.",
+  "description.wildflowerLure": "Un bouquet de fleurs sauvages au doux parfum."
 }

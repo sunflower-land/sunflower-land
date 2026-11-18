@@ -194,5 +194,6 @@ describe("bulkFeedPets", () => {
     expect(resultState.pets?.common?.Meowchi?.requests.foodFed).toEqual([
       "Bumpkin Salad",
     ]);
+    expect(resultState.boostsUsedAt?.["Paw Aura"]).toEqual(now);
   });
 });

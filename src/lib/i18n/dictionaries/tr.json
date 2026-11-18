@@ -9062,5 +9062,12 @@
   "withdraw.wearables.upgrade": "Giyilebilir cihazları oyundan çekmek için Grand Harvester'a ulaşın.",
   "withdraw.buds.upgrade": "Buds\"u oyundan çekmek için Grand Harvester\"a ulaşın.",
   "withdraw.pets.upgrade": "Evcil hayvanları oyundan çekmek için Grand Harvester'a ulaşın.",
-  "reputation.grandHarvester.withdrawItems": "Koleksiyon Ürünleri, Giyilebilir Cihazları, Tomurcukları ve Evcil Hayvanları Geri"
+  "reputation.grandHarvester.withdrawItems": "Koleksiyon Ürünleri, Giyilebilir Cihazları, Tomurcukları ve Evcil Hayvanları Geri",
+  "description.sandbag": "Kumla dolu sağlam bir çuval.",
+  "description.balk": "Kalın ahşap kirişler, kesilmiş ve desteklenmiş.",
+  "description.pestSmoker": "Böceklerin tahmin etmesini sağlayan dumanlı bir kap.",
+  "description.thawStone": "Dokunulduğunda sıcak kalan bir taş.",
+  "description.merinoWoolInsulation": "Yumuşak, sıcak yün sıkıca sarılır.",
+  "description.shadeCloth": "Direklerin üzerine gerilmiş bir bez gölgelik.",
+  "description.wildflowerLure": "Tatlı bir kokuya sahip bir demet kır çiçeği."
 }

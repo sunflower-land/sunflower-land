@@ -9062,5 +9062,12 @@
   "withdraw.wearables.upgrade": "Raggiungi Grand Harvester per ritirare i dispositivi indossabili dal gioco.",
   "withdraw.buds.upgrade": "Raggiungi Grand Harvester per ritirare Buds dal gioco.",
   "withdraw.pets.upgrade": "Raggiungi Grand Harvester per ritirare gli animali domestici dal gioco.",
-  "reputation.grandHarvester.withdrawItems": "Preleva oggetti da collezione, indossabili, gemme e animali domestici"
+  "reputation.grandHarvester.withdrawItems": "Preleva oggetti da collezione, indossabili, gemme e animali domestici",
+  "description.sandbag": "Un robusto sacco pieno di sabbia.",
+  "description.balk": "Travi in legno spesse, tagliate e controventate.",
+  "description.pestSmoker": "Una pentola fumosa che fa indovinare gli insetti.",
+  "description.thawStone": "Una pietra che rimane calda al tatto.",
+  "description.merinoWoolInsulation": "Lana morbida e calda arrotolata bene.",
+  "description.shadeCloth": "Un baldacchino di stoffa teso su pali.",
+  "description.wildflowerLure": "Un mazzo di fiori selvatici dal profumo dolce."
 }

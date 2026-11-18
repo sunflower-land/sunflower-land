@@ -9062,5 +9062,12 @@
   "withdraw.wearables.upgrade": "Reach Grand Harvester to withdraw wearables from the game.",
   "withdraw.buds.upgrade": "Reach Grand Harvester to withdraw Buds from the game.",
   "withdraw.pets.upgrade": "Reach Grand Harvester to withdraw pets from the game.",
-  "reputation.grandHarvester.withdrawItems": "Withdraw Collectibles, Wearables, Buds & Pets"
+  "reputation.grandHarvester.withdrawItems": "Withdraw Collectibles, Wearables, Buds & Pets",
+  "description.sandbag": "A sturdy sack packed with sand.",
+  "description.balk": "Thick wooden beams, cut and braced.",
+  "description.pestSmoker": "A smoky pot that keeps the bugs guessing.",
+  "description.thawStone": "A stone that stays warm to the touch.",
+  "description.merinoWoolInsulation": "Soft, warm wool rolled up tight.",
+  "description.shadeCloth": "A cloth canopy stretched over poles.",
+  "description.wildflowerLure": "A bundle of wildflowers with a sweet scent."
 }

@@ -9062,5 +9062,12 @@
   "withdraw.wearables.upgrade": "Alcance o Grand Harvester para retirar os wearables do jogo.",
   "withdraw.buds.upgrade": "Alcance Grand Harvester para retirar Buds do jogo.",
   "withdraw.pets.upgrade": "Alcance Grand Harvester para retirar animais de estimação do jogo.",
-  "reputation.grandHarvester.withdrawItems": "Retire itens colecionáveis, vestíveis, fones de estimação e animais de estimação"
+  "reputation.grandHarvester.withdrawItems": "Retire itens colecionáveis, vestíveis, fones de estimação e animais de estimação",
+  "description.sandbag": "Um saco resistente cheio de areia.",
+  "description.balk": "Vigas grossas de madeira, cortadas e reforçadas.",
+  "description.pestSmoker": "Uma panela enfumaçada que mantém os insetos na dúvida.",
+  "description.thawStone": "Uma pedra que permanece quente ao toque.",
+  "description.merinoWoolInsulation": "Lã macia e quente enrolada firmemente.",
+  "description.shadeCloth": "Um dossel de tecido estendido sobre postes.",
+  "description.wildflowerLure": "Um pacote de flores silvestres com um aroma doce."
 }

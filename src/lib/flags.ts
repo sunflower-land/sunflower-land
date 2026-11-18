@@ -159,6 +159,7 @@ const FEATURE_FLAGS = {
   // The developer-options button that forces a captcha on your own farm
   TRIGGER_CAPTCHA: betaFeatureFlag,
   LEDGER: testnetLocalStorageFeatureFlag("ledger"),
+  WEATHER: testnetFeatureFlag,
 
   /**
    * Renders the farm with the Phaser engine (src/features/farmEngine) instead

@@ -9062,5 +9062,12 @@
   "withdraw.wearables.upgrade": "グランドハーベスターに連絡して、ウェアラブル端末をゲームから撤退させてください。",
   "withdraw.buds.upgrade": "グランドハーベスターに到達してバッドをゲームから撤退させる。",
   "withdraw.pets.upgrade": "グランドハーベスターに到達して、ゲームからペットを撤退させてください。",
-  "reputation.grandHarvester.withdrawItems": "収集品、ウェアラブル、イヤホン、ペットを引き出す"
+  "reputation.grandHarvester.withdrawItems": "収集品、ウェアラブル、イヤホン、ペットを引き出す",
+  "description.sandbag": "砂が詰まった丈夫な袋。",
+  "description.balk": "太い木製の梁、カットして支えます。",
+  "description.pestSmoker": "虫を当て続けるスモーキーポット。",
+  "description.thawStone": "手触りが暖かく保たれる石。",
+  "description.merinoWoolInsulation": "柔らかく暖かいウールをしっかりと巻き上げました。",
+  "description.shadeCloth": "ポールの上には布製の天蓋が張っていた。",
+  "description.wildflowerLure": "甘い香りのする野生の花の束です。"
 }

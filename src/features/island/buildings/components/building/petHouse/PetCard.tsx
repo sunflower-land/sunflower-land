@@ -237,7 +237,7 @@ export const PetCard: React.FC<Props> = ({
             const isDisabled =
               (!canFeed && !isSelected) || alreadyFed || isFoodLocked;
 
-            const xp = getPetExperience({
+            const { experience: xp } = getPetExperience({
               basePetXP: getPetRequestXP(food),
               game: state,
               petLevel,
@@ -246,7 +246,7 @@ export const PetCard: React.FC<Props> = ({
               now,
             });
 
-            const energy = getPetEnergy({
+            const { energy } = getPetEnergy({
               game: state,
               basePetEnergy: getPetRequestXP(food),
               petLevel,

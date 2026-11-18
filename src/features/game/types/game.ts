@@ -120,6 +120,7 @@ import type {
   CalendarEventName,
   SeasonalEventName,
 } from "./calendar";
+import type { Weather } from "./weather";
 import type { VipBundle } from "../lib/vipAccess";
 import type { InGameTaskName } from "../events/landExpansion/completeSocialTask";
 import type { TwitterPost, TwitterPostName } from "./social";
@@ -2447,6 +2448,7 @@ export interface GameState {
   };
 
   calendar: Calendar;
+  weather?: Weather;
   vip?: VIP;
   shipments: {
     restockedAt?: number;
