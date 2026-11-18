@@ -2,6 +2,7 @@ import { INITIAL_FARM } from "./constants";
 import type { GameState, PlacedItem } from "../types/game";
 import type { ScheduledWeatherEvent } from "../types/weather";
 import {
+  findUsedEvent,
   getUsedUntil,
   getWeatherItemCover,
   isWeatherItemGreyed,
@@ -154,6 +155,27 @@ describe("weather item cover", () => {
     expect(isWeatherItemGreyed({ ...args, now: FLOOD.endAt + HOUR })).toBe(
       false,
     );
+  });
+
+  it("doesn't use a copy lifted at the very moment its event starts", () => {
+    expect(
+      findUsedEvent({
+        game: farm(),
+        item: "Sandbag",
+        from: FLOOD.startAt - HOUR,
+        to: FLOOD.startAt,
+        events: EVENTS,
+      }),
+    ).toBeUndefined();
+    expect(
+      findUsedEvent({
+        game: farm(),
+        item: "Sandbag",
+        from: FLOOD.startAt - HOUR,
+        to: FLOOD.startAt + 1,
+        events: EVENTS,
+      }),
+    ).toEqual(FLOOD);
   });
 
   it("is used on the first of two events and doesn't cover the second", () => {

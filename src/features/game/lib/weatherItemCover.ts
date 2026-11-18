@@ -56,8 +56,9 @@ function isCoveredByGuardian(
 }
 
 /**
- * The event a copy placed over `[from, to]` was used on: the first matching
- * event that had started by `to` and was still running after `from`.
+ * The event a copy placed over `[from, to)` was used on: the first matching
+ * event it was out for any part of. Lifted at the very moment an event
+ * starts, it never covered it.
  */
 export function findUsedEvent({
   game,
@@ -77,7 +78,7 @@ export function findUsedEvent({
   return events.find(
     (event) =>
       event.name === name &&
-      event.startAt <= to &&
+      event.startAt < to &&
       from < event.endAt &&
       !isCoveredByGuardian(game, event),
   );

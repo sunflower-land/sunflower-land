@@ -2,7 +2,10 @@ import React, { useCallback, useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { useVisiting } from "lib/utils/visitUtils";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { setImageWidth } from "lib/images";
 import type { CollectibleProps } from "../Collectible";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -74,6 +77,7 @@ export const WeatherItem: React.FC<Props> = ({ name, id, location }) => {
         >
           <img
             src={SUNNYSIDE.icons.expression_alerted}
+            alt=""
             className={showAnimations ? "ready" : ""}
             style={{
               width: `${PIXEL_SCALE * 4}px`,
@@ -84,7 +88,7 @@ export const WeatherItem: React.FC<Props> = ({ name, id, location }) => {
         <img
           src={ITEM_DETAILS[name].image}
           className="absolute left-1/2 transform -translate-x-1/2"
-          alt={name}
+          alt={getTranslatedItemName(name)}
           style={{
             maxWidth: "none",
             bottom: 0,
