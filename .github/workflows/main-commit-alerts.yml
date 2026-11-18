@@ -201,6 +201,7 @@ jobs:
                           url
                           mergedAt
                           baseRefName
+                          isCrossRepository
                         }
                       }
                     }
@@ -240,6 +241,8 @@ jobs:
                   url: pullRequest.html_url,
                   mergedAt: pullRequest.merged_at,
                   baseRefName: pullRequest.base.ref,
+                  // A deleted fork leaves `head.repo` null; that still counts as a fork.
+                  isCrossRepository: pullRequest.head?.repo?.full_name !== REPOSITORY,
                 };
               }
             } catch (error) {
@@ -396,9 +399,11 @@ jobs:
                 "https://cdn.discordapp.com/avatars/487431320314576937/bd64361e4ba6313d561d54e78c9e7171.png",
               embeds: [
                 {
-                  title: pullRequest
-                    ? "Unapproved PR merge to main detected"
-                    : "Direct commit to main detected",
+                  title: metadata.community
+                    ? "Community PR merged to main"
+                    : pullRequest
+                      ? "Unapproved PR merge to main detected"
+                      : "Direct commit to main detected",
                   url: pullRequest ? pullRequest.url : getCommitUrl(metadata.sha),
                   color: embedColor,
                   description: truncate(summary, 4000),
@@ -409,6 +414,15 @@ jobs:
                           {
                             name: "Pull Request",
                             value: `[#${pullRequest.number} - ${escapeDiscord(truncate(pullRequest.title, 100))}](${pullRequest.url})`,
+                            inline: true,
+                          },
+                        ]
+                      : []),
+                    ...(metadata.community
+                      ? [
+                          {
+                            name: "Approved",
+                            value: metadata.approved ? "Yes" : "No",
                             inline: true,
                           },
                         ]
@@ -448,7 +462,7 @@ jobs:
                     },
                   ],
                   footer: {
-                    text: "Alerts on direct commits and unapproved PR merges to main.",
+                    text: "Alerts on direct commits, unapproved PR merges and community PR merges to main.",
                   },
                   timestamp: new Date().toISOString(),
                 },
@@ -499,6 +513,12 @@ jobs:
               const pullRequest = await findAssociatedPullRequest(sha, metadata.subject);
               if (pullRequest) {
                 const approved = await isPrApproved(pullRequest.number);
+                // Community PRs come from forks. Alert on every one that
+                // lands, approved or not, however it was merged.
+                if (pullRequest.isCrossRepository) {
+                  suspiciousCommits.push({ ...metadata, pullRequest, community: true, approved });
+                  continue;
+                }
                 if (approved) {
                   continue;
                 }
@@ -513,7 +533,7 @@ jobs:
               "",
               `Processed ${commitRange.length} commit(s).`,
               `Skipped ${skippedBots} known bot commit(s).`,
-              `Flagged ${suspiciousCommits.length} suspicious commit(s) to \`main\`.`,
+              `Flagged ${suspiciousCommits.length} commit(s) to \`main\`, ${suspiciousCommits.filter((commit) => commit.community).length} of them from community PRs.`,
             ]);
 
             for (const metadata of suspiciousCommits) {
