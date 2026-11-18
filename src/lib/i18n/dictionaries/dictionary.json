@@ -6195,6 +6195,8 @@
   "weatherShop.chooseBeetle": "Choose a beetle",
   "weatherShop.chooseFlower": "Choose a flower",
   "weatherShop.ingredientAmount": "{{item}} x{{amount}}",
+  "weatherShop.onePerFarm": "Max 1 per farm",
+  "weatherShop.owned": "Already owned",
   "season.welcomeToTheWeatherShop": "Welcome to the Weather Shop! Here you can purchase equipment to help you survive special weather events.",
   "season.PlaceProtectiveEquipment": "To survive weather events, place protective equipment on the farm or inside the house just before the event occurs.",
   "bounties.sfl.intro.one": "I'm Gilda, the bounty hunter of Infernos.",

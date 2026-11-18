@@ -6,8 +6,7 @@ import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
-import { SplitScreenView } from "components/ui/SplitScreenView";
-import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
+import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -60,6 +59,17 @@ const sortOptions = (
   ];
 };
 
+/** Whether the player can pay for `item` with at least one of its options. */
+const canAffordItem = (game: GameState, item: WeatherItemName) => {
+  const { ingredients, choice } = WEATHER_ITEM_RECIPES[item];
+  const fixed = getKeys(ingredients).every((name) =>
+    owned(game, name).gte(ingredients[name] ?? 0),
+  );
+  if (!choice) return fixed;
+
+  return fixed && getKeys(choice).some((o) => canAffordOption(game, item, o));
+};
+
 export const WeatherItemShop: React.FC = () => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
@@ -87,16 +97,13 @@ export const WeatherItemShop: React.FC = () => {
   const ingredients =
     getWeatherItemIngredients(selected, ingredient) ??
     WEATHER_ITEM_RECIPES[selected].ingredients;
-  const resources = getKeys(ingredients).reduce(
-    (acc, name) => ({ ...acc, [name]: new Decimal(ingredients[name] ?? 0) }),
-    {} as Partial<Record<InventoryItemName, Decimal>>,
-  );
 
   const hasItem = owned(game, selected).gte(1);
   const canCraft =
+    !hasItem &&
     (!choice || !!ingredient) &&
-    getKeys(resources).every((name) =>
-      owned(game, name).gte(resources[name] ?? 0),
+    getKeys(ingredients).every((name) =>
+      owned(game, name).gte(ingredients[name] ?? 0),
     );
 
   const craft = () => {
@@ -109,78 +116,104 @@ export const WeatherItemShop: React.FC = () => {
   };
 
   return (
-    <SplitScreenView
-      panel={
-        <CraftingRequirements
-          gameState={game}
-          details={{ item: selected }}
-          limit={1}
-          requirements={{ resources }}
-          actionView={
-            hasItem ? undefined : (
-              <Button disabled={!canCraft} onClick={craft}>
-                {t("craft")}
-              </Button>
-            )
-          }
-        />
-      }
-      content={
-        <div className="flex flex-col w-full">
-          <div className="flex flex-wrap">
-            {ITEMS.map((item) => (
-              <Box
-                isSelected={selected === item}
-                key={item}
-                onClick={() => selectItem(item)}
-                image={ITEM_DETAILS[item].image}
-                count={game.inventory[item]}
-              />
+    <>
+      <InnerPanel className="mb-1">
+        <Label
+          type="info"
+          className="text-xs mb-1 ml-1"
+          icon={ITEM_DETAILS[selected].image}
+        >
+          {getTranslatedItemName(selected)}
+        </Label>
+        <p className="text-xs mx-1 mb-1">
+          {ITEM_DETAILS[selected].description}
+        </p>
+        <p className="text-xxs mx-1 mb-2">{t("weatherShop.onePerFarm")}</p>
+        <div className="flex flex-wrap gap-1 px-1 pb-1 items-start">
+          {ITEMS.map((item) => (
+            <Box
+              key={item}
+              image={ITEM_DETAILS[item].image}
+              count={game.inventory[item]}
+              isSelected={selected === item}
+              onClick={() => selectItem(item)}
+              secondaryImage={
+                owned(game, item).gte(1)
+                  ? undefined
+                  : canAffordItem(game, item)
+                    ? SUNNYSIDE.icons.confirm
+                    : SUNNYSIDE.icons.cancel
+              }
+            />
+          ))}
+        </div>
+      </InnerPanel>
+
+      {choice && (
+        <InnerPanel className="mb-1">
+          <div className="flex flex-wrap items-center justify-between gap-1 ml-1 mb-1">
+            <Label type="default" className="text-xs">
+              {selected === "Wildflower Lure"
+                ? t("weatherShop.chooseFlower")
+                : t("weatherShop.chooseBeetle")}
+            </Label>
+            {ingredient && (
+              <Label
+                type="default"
+                className="text-xs"
+                icon={ITEM_DETAILS[ingredient].image}
+              >
+                {t("weatherShop.ingredientAmount", {
+                  item: getTranslatedItemName(ingredient),
+                  amount: formatNumber(choice[ingredient] ?? 0),
+                })}
+              </Label>
+            )}
+          </div>
+          <div className="flex flex-wrap gap-1 px-1 pt-2 pb-1 overflow-y-auto max-h-48 scrollable items-start">
+            {options.map((option) => (
+              <div key={option} className="flex flex-col items-center">
+                <Box
+                  image={ITEM_DETAILS[option].image}
+                  count={game.inventory[option]}
+                  isSelected={ingredient === option}
+                  disabled={!canPick(option)}
+                  secondaryImage={
+                    canPick(option) ? undefined : SUNNYSIDE.icons.cancel
+                  }
+                  onClick={() => setPicked(option)}
+                />
+                <span className="text-xxs leading-tight">
+                  {t("weatherShop.amount", {
+                    amount: formatNumber(choice[option] ?? 0),
+                  })}
+                </span>
+              </div>
             ))}
           </div>
+        </InnerPanel>
+      )}
 
-          {choice && (
-            <InnerPanel className="mt-1">
-              <div className="flex flex-wrap items-center justify-between gap-1 ml-1 mb-1">
-                <Label type="default">
-                  {selected === "Wildflower Lure"
-                    ? t("weatherShop.chooseFlower")
-                    : t("weatherShop.chooseBeetle")}
-                </Label>
-                {ingredient && (
-                  <Label type="default" icon={ITEM_DETAILS[ingredient].image}>
-                    {t("weatherShop.ingredientAmount", {
-                      item: getTranslatedItemName(ingredient),
-                      amount: formatNumber(choice[ingredient] ?? 0),
-                    })}
-                  </Label>
-                )}
-              </div>
-              <div className="flex flex-wrap gap-1 px-1 pt-2 pb-1 overflow-y-auto max-h-56 scrollable">
-                {options.map((option) => (
-                  <div key={option} className="flex flex-col items-center">
-                    <Box
-                      image={ITEM_DETAILS[option].image}
-                      count={game.inventory[option]}
-                      isSelected={ingredient === option}
-                      disabled={!canPick(option)}
-                      secondaryImage={
-                        canPick(option) ? undefined : SUNNYSIDE.icons.cancel
-                      }
-                      onClick={() => setPicked(option)}
-                    />
-                    <span className="text-xxs leading-tight">
-                      {t("weatherShop.amount", {
-                        amount: formatNumber(choice[option] ?? 0),
-                      })}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </InnerPanel>
-          )}
+      <InnerPanel className="mb-1">
+        <Label type="default" className="text-xs ml-1">
+          {t("requirements")}
+        </Label>
+        <div className="flex flex-wrap p-2 gap-2">
+          {getKeys(ingredients).map((name) => (
+            <RequirementLabel
+              key={name}
+              type="item"
+              item={name}
+              balance={owned(game, name)}
+              requirement={new Decimal(ingredients[name] ?? 0)}
+            />
+          ))}
         </div>
-      }
-    />
+      </InnerPanel>
+
+      <Button disabled={!canCraft} onClick={craft}>
+        {hasItem ? t("weatherShop.owned") : t("craft")}
+      </Button>
+    </>
   );
 };
