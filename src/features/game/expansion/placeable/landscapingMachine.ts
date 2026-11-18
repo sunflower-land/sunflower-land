@@ -64,6 +64,18 @@ export interface Context {
    * the matching `*.removed` event directly instead of selecting the item.
    */
   removalMode?: boolean;
+
+  /**
+   * Landscaping was opened just to place this item (bought from a shop, or
+   * placed from the chest), not with the hammer. Once the player is done
+   * placing, `placementDone` asks the HUD to save and leave, so the item
+   * doesn't sit unsaved in a draft the player never meant to open.
+   */
+  quickPlace?: boolean;
+  /** At least one item was dropped in this quick-place session. */
+  quickPlaced?: boolean;
+  /** The quick-place session is over; the HUD saves and leaves. */
+  placementDone?: boolean;
 }
 
 type SelectEvent = {
@@ -147,7 +159,8 @@ export type BlockchainEvent =
   | FlipEvent
   | { type: "TOGGLE_REMOVAL_MODE" }
   | { type: "CANCEL" }
-  | { type: "BACK" };
+  | { type: "BACK" }
+  | { type: "PLACEMENT_SETTLED" };
 
 export type BlockchainState = {
   value:
@@ -185,6 +198,15 @@ export const landscapingMachine = createMachine<
   on: {
     CANCEL: {
       target: ["saving.done", "editing.done"],
+    },
+    // The HUD has started the save for a finished quick-place session; from
+    // here on this is an ordinary landscaping session.
+    PLACEMENT_SETTLED: {
+      actions: assign({
+        quickPlace: (_) => false,
+        quickPlaced: (_) => false,
+        placementDone: (_) => false,
+      }),
     },
   },
   states: {
@@ -357,6 +379,11 @@ export const landscapingMachine = createMachine<
               target: "idle",
               actions: assign({
                 placeable: (_) => undefined,
+                // Stopping a quick-place session after dropping something
+                // saves what was dropped; backing out before any drop just
+                // returns to landscaping as before.
+                placementDone: (context) =>
+                  !!context.quickPlace && !!context.quickPlaced,
               }),
             },
             DRAG: {
@@ -388,6 +415,7 @@ export const landscapingMachine = createMachine<
                     origin: (_, event) => event.nextOrigin ?? { x: 0, y: 0 },
                     coordinates: (_, event) =>
                       event.nextOrigin ?? { x: 0, y: 0 },
+                    quickPlaced: (context) => !!context.quickPlace,
                   }),
                 ],
               },
@@ -412,6 +440,8 @@ export const landscapingMachine = createMachine<
                   ]),
                   assign({
                     placeable: (_) => undefined,
+                    // The last drop of a quick-place session.
+                    placementDone: (context) => !!context.quickPlace,
                   }),
                 ],
               },

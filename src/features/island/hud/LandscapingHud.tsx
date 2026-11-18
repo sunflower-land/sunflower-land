@@ -77,6 +77,8 @@ const compareBlockBucks = (prev: Decimal, next: Decimal) => {
 const selectMovingItem = (state: MachineState) => state.context.moving;
 const isIdle = (state: MachineState) => state.matches({ editing: "idle" });
 const selectRemovalMode = (state: MachineState) => !!state.context.removalMode;
+const selectPlacementDone = (state: MachineState) =>
+  !!state.context.placementDone;
 /** Carried when a failed floor arrival sends the player back. */
 type SurfaceRouteState = { landscapingSaveFailed?: boolean };
 
@@ -208,6 +210,18 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
       setSaving(false);
     }
   };
+
+  // Landscaping was opened just to place a purchase or a chest item, and the
+  // player is done placing: save it and leave, as if they had pressed the
+  // tick, without the confirmation. A conflict or error keeps them here with
+  // the usual panel or message.
+  const placementDone = useSelector(child, selectPlacementDone);
+  useEffect(() => {
+    if (!placementDone || saving || saveInFlight) return;
+    child.send("PLACEMENT_SETTLED");
+    void commitNow();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [placementDone, saving, saveInFlight]);
 
   /**
    * Move the draft to another surface. A clean draft is simply re-keyed; a

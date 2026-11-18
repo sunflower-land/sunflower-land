@@ -2852,6 +2852,10 @@ export function startGame(authContext: AuthContext) {
               multiple: (_: Context, event: LandscapeEvent) => event.multiple,
               maximum: (_: Context, event: LandscapeEvent) => event.maximum,
               location: (_: Context, event: LandscapeEvent) => event.location,
+              // Opened to place one thing (a purchase or a chest item) rather
+              // than with the hammer: the HUD saves and leaves once it's down.
+              quickPlace: (_: Context, event: LandscapeEvent) =>
+                !!event.placeable,
             },
             // The child finishing is the Cancel path: the draft is discarded
             // (see `exit`) and any pending live actions are flushed (a no-op
