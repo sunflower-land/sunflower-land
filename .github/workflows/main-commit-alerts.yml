@@ -510,6 +510,8 @@ jobs:
                     .filter(Boolean);
 
             const suspiciousCommits = [];
+            const firstShaByPr = new Map();
+            const approvalByPr = new Map();
             let skippedBots = 0;
 
             for (const sha of commitRange) {
@@ -517,6 +519,12 @@ jobs:
               const pullRequest = await findAssociatedPullRequest(sha, metadata.subject);
 
               // Bot commits are skipped, but a community PR always alerts.
+              // Note where each PR starts before any filtering, so a rebase
+              // summary covers every commit even if the first is a bot's.
+              if (pullRequest && !firstShaByPr.has(pullRequest.number)) {
+                firstShaByPr.set(pullRequest.number, sha);
+              }
+
               const fromCommunityPr = pullRequest?.isCrossRepository && pullRequest.verified;
               if (!fromCommunityPr && shouldSkipCommit(metadata)) {
                 skippedBots += 1;
@@ -524,7 +532,11 @@ jobs:
               }
 
               if (pullRequest) {
-                const approved = await isPrApproved(pullRequest.number);
+                // Check once per PR, so every commit of a PR gets the same answer.
+                if (!approvalByPr.has(pullRequest.number)) {
+                  approvalByPr.set(pullRequest.number, await isPrApproved(pullRequest.number));
+                }
+                const approved = approvalByPr.get(pullRequest.number);
                 // Community PRs come from forks. Alert on every one that
                 // lands, approved or not, however it was merged.
                 if (pullRequest.isCrossRepository) {
@@ -543,13 +555,9 @@ jobs:
             // A merge-commit or rebase merge pushes every commit of the PR, and
             // each one resolves to the same PR. Alert once per PR, on its last
             // commit (the merge commit, or the final rebased commit).
-            const firstShaByPr = new Map();
             const lastIndexByPr = new Map();
             suspiciousCommits.forEach((commit, index) => {
               if (commit.pullRequest) {
-                if (!firstShaByPr.has(commit.pullRequest.number)) {
-                  firstShaByPr.set(commit.pullRequest.number, commit.sha);
-                }
                 lastIndexByPr.set(commit.pullRequest.number, index);
               }
             });
