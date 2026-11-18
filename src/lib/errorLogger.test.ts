@@ -138,6 +138,20 @@ describe("createErrorLogger", () => {
     expect(body.code).toBe("EF-001");
   });
 
+  it("reports minigame load timeouts with the portal that failed", async () => {
+    const log = createErrorLogger("react_portal", 1);
+    await log({
+      code: "PL-002",
+      message: "Minigame chicken-rescue did not load within 30000ms",
+      meta: { portal: "chicken-rescue", attempt: 0 },
+    });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+    expect(body.source).toBe("react_portal");
+    expect(body.code).toBe("PL-002");
+    expect(body.meta).toEqual({ portal: "chicken-rescue", attempt: 0 });
+  });
+
   it("reports extension/translation crashes under their own code", async () => {
     const log = createErrorLogger("react_error_modal", 1);
     await log({

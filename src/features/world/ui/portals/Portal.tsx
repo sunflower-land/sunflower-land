@@ -20,6 +20,8 @@ import { Label } from "components/ui/Label";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CONFIG } from "lib/config";
+import { ERRORS } from "lib/errors";
+import { createErrorLogger } from "lib/errorLogger";
 
 import { portal } from "../community/actions/portal";
 import { Loading } from "features/auth/components";
@@ -177,10 +179,20 @@ export const Portal: React.FC<Props> = ({
         if (!cancelled) {
           setUrl(nextUrl);
         }
-      } catch {
+      } catch (error) {
         if (!cancelled) {
           setLoading(false);
           setLoadFailed(true);
+          // Network failures are filtered inside the logger.
+          createErrorLogger(
+            "react_portal",
+            farmIdRef.current,
+          )({
+            error: error instanceof Error ? error.message : String(error),
+            stack: error instanceof Error ? error.stack : undefined,
+            endpoint: `POST /portal/${portalName}/login`,
+            meta: { portal: portalName, attempt: loadAttempt },
+          });
         }
       }
     };
@@ -265,10 +277,18 @@ export const Portal: React.FC<Props> = ({
     const timeout = window.setTimeout(() => {
       setLoading(false);
       setLoadFailed(true);
+      createErrorLogger(
+        "react_portal",
+        farmIdRef.current,
+      )({
+        code: ERRORS.PORTAL_LOAD_ERROR,
+        message: `Minigame ${portalName} did not load within ${PORTAL_LOAD_TIMEOUT_MS}ms`,
+        meta: { portal: portalName, attempt: loadAttempt },
+      });
     }, PORTAL_LOAD_TIMEOUT_MS);
 
     return () => window.clearTimeout(timeout);
-  }, [loading, url]);
+  }, [loading, url, portalName, loadAttempt]);
 
   const confirmPurchase = () => {
     gameService.send("minigame.itemPurchased", {

@@ -5,7 +5,8 @@ import { ERRORS } from "./errors";
 type Source =
   | "phaser_preloader_scene"
   | "phaser_base_scene"
-  | "react_error_modal";
+  | "react_error_modal"
+  | "react_portal";
 
 /**
  * Anything we might want to report. Errors are serialised; plain strings are
