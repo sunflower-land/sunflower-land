@@ -22,6 +22,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { createErrorLogger, isNetworkError } from "lib/errorLogger";
+import { getApiErrorDetail } from "lib/apiError";
 
 import { portal } from "../community/actions/portal";
 import { Loading } from "features/auth/components";
@@ -183,26 +184,29 @@ export const Portal: React.FC<Props> = ({
         if (!cancelled) {
           setLoading(false);
           setLoadFailed(true);
-          // A dropped connection or an expired session is an outcome, not a
-          // bug: the player reconnects or logs in again. Everything else is
-          // reported, with the portal and attempt in the message so retries
-          // are not deduplicated.
-          const status = (error as { status?: number } | null)?.status;
-          const cause = error instanceof Error ? error.message : String(error);
-          const isLoginRejection = cause === ERRORS.PORTAL_LOGIN_ERROR;
-          if (!isNetworkError(error) && status !== 401) {
+          // A dropped connection is not reported. Expected API outcomes (an
+          // expired session, maintenance, rate limiting) carry their own
+          // codes, which the logger already filters. The portal and attempt
+          // are part of the message so retries are not deduplicated.
+          if (!isNetworkError(error)) {
+            const detail = getApiErrorDetail(error);
+            const cause =
+              error instanceof Error ? error.message : String(error);
             createErrorLogger(
               "react_portal",
               farmIdRef.current,
             )({
-              code: isLoginRejection ? ERRORS.PORTAL_LOGIN_ERROR : undefined,
+              code: detail?.code,
               message: `Minigame ${portalName} failed to open (attempt ${loadAttempt + 1}): ${cause}`,
-              status,
+              status: detail?.status,
+              endpoint: detail?.endpoint,
+              transactionId: detail?.transactionId,
               stack: error instanceof Error ? error.stack : undefined,
-              endpoint: isLoginRejection
-                ? `POST /portal/${portalName}/login`
-                : undefined,
-              meta: { portal: portalName, attempt: loadAttempt },
+              meta: {
+                ...detail?.meta,
+                portal: portalName,
+                attempt: loadAttempt,
+              },
             });
           }
         }
