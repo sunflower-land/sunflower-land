@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useInterval } from "lib/utils/hooks/useInterval";
 import { Balances } from "components/Balances";
 import { useActor, useSelector } from "@xstate/react";
@@ -221,17 +221,19 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   //
   // This is about how the player arrived, not later changes, so it settles
   // once. If they arrive mid-save it waits for that save to land rather than
-  // giving up; once it has run, a conflict is left to the panel and never
-  // re-committed.
-  const arrivalSettled = useRef(false);
+  // giving up, with the saving overlay up so nothing is edited on this floor
+  // meanwhile (those edits would be keyed to the floor being left and wiped
+  // by its commit). Once it has run, a conflict is left to the panel and
+  // never re-committed.
+  const [arrivalPending, setArrivalPending] = useState(
+    () => !!landscapingLocation && landscapingLocation !== location,
+  );
   useEffect(() => {
-    if (arrivalSettled.current || saving || saveInFlight) return;
-    arrivalSettled.current = true;
-    if (landscapingLocation && landscapingLocation !== location) {
-      void switchSurface(location);
-    }
+    if (!arrivalPending || saving || saveInFlight) return;
+    setArrivalPending(false);
+    void switchSurface(location);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [saving, saveInFlight]);
+  }, [arrivalPending, saving, saveInFlight]);
   const gameState = useSelector(gameService, (state) => state.context.state);
   const farmHandIds = getKeys(gameState.farmHands.bumpkins);
 
@@ -686,7 +688,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
         tick feels dead for the ~1s it takes. Dim the screen and block input
         until the response (success, conflicts, or failure) arrives.
       */}
-      {saving && (
+      {(saving || arrivalPending) && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black bg-opacity-50">
           <Panel>
             <Loading text={t("landscaping.saving")} />

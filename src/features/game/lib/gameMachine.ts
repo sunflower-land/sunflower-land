@@ -2834,6 +2834,11 @@ export function startGame(authContext: AuthContext) {
           },
         },
         landscaping: {
+          // Every way out drops the draft - Cancel, but also the captcha jump
+          // and errors - so unsaved positions never linger on the farm. Exit
+          // runs before the transition's own actions, so a successful Save
+          // still ends on the server's farm (commitDraft assigns it after).
+          exit: assign((context: Context) => discardDraft(context)),
           invoke: {
             id: "landscaping",
             src: landscapingMachine,
@@ -2849,10 +2854,10 @@ export function startGame(authContext: AuthContext) {
               location: (_: Context, event: LandscapeEvent) => event.location,
             },
             // The child finishing is the Cancel path: the draft is discarded
-            // and any pending live actions are flushed (a no-op when none).
+            // (see `exit`) and any pending live actions are flushed (a no-op
+            // when none).
             onDone: {
               target: "autosaving",
-              actions: assign((context) => discardDraft(context)),
             },
             onError: [
               {
