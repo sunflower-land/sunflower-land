@@ -4,6 +4,7 @@ import { getObjectEntries } from "lib/object";
 import type { GameState, InventoryItemName } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
 import { trackFarmActivity } from "features/game/types/farmActivity";
+import { getChestItemCount } from "features/island/hud/components/inventory/utils/inventory";
 import {
   getWeatherItemIngredients,
   isWeatherItemName,
@@ -47,9 +48,10 @@ export function craftWeatherItem({ state, action }: Options): GameState {
       throw new Error("Invalid ingredient");
     }
 
-    // Check everything before taking anything.
+    // Check everything before taking anything. Only unplaced items count:
+    // flowers, for one, can be placed on the farm.
     getObjectEntries(ingredients).forEach(([name, amount]) => {
-      if ((game.inventory[name] ?? new Decimal(0)).lt(amount ?? 0)) {
+      if (getChestItemCount(game, name).lt(amount ?? 0)) {
         throw new Error(`Insufficient ingredient: ${name}`);
       }
     });

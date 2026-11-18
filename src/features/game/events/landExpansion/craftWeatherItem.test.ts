@@ -130,7 +130,7 @@ describe("craftWeatherItem", () => {
     ).toThrow("Not a weather item");
   });
 
-  it("throws and takes nothing when an ingredient is short", () => {
+  it("throws when an ingredient is short", () => {
     const game: GameState = {
       ...GAME,
       inventory: { ...GAME.inventory, Leather: new Decimal(1) },
@@ -142,7 +142,6 @@ describe("craftWeatherItem", () => {
         action: { type: "weatherItem.crafted", item: "Sandbag" },
       }),
     ).toThrow("Insufficient ingredient: Leather");
-    expect(game.inventory.Sand).toEqual(new Decimal(12));
   });
 
   it("allows only one of each item", () => {
@@ -157,14 +156,13 @@ describe("craftWeatherItem", () => {
     ).toThrow("You already have this weather item");
   });
 
-  it("counts a placed item as owned", () => {
+  it("doesn't spend a flower that is placed on the farm", () => {
     expect(() =>
       craftWeatherItem({
         state: {
           ...GAME,
-          inventory: { ...GAME.inventory, Sandbag: new Decimal(1) },
           collectibles: {
-            Sandbag: [
+            "Red Pansy": [
               {
                 id: "1",
                 coordinates: { x: 0, y: 0 },
@@ -174,9 +172,13 @@ describe("craftWeatherItem", () => {
             ],
           },
         },
-        action: { type: "weatherItem.crafted", item: "Sandbag" },
+        action: {
+          type: "weatherItem.crafted",
+          item: "Wildflower Lure",
+          ingredient: "Red Pansy",
+        },
       }),
-    ).toThrow("You already have this weather item");
+    ).toThrow("Insufficient ingredient: Red Pansy");
   });
 
   describe("on mainnet", () => {

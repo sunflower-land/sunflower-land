@@ -36,8 +36,7 @@ const LURE_FLOWERS = getKeys(FLOWERS).reduce(
 // island.
 export const WEATHER_ITEM_RECIPES: Record<WeatherItemName, WeatherItemRecipe> =
   {
-    // Sandbag and Balk amounts are provisional, pending a rebalance now that
-    // each covers the whole farm.
+    // Sandbag and Balk amounts are provisional, pending a rebalance.
     Sandbag: { ingredients: { Sand: 10, Leather: 2 } },
     Balk: { ingredients: { Wood: 10, Leather: 2 } },
     "Pest Smoker": {

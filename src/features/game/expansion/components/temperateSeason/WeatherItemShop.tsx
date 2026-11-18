@@ -23,6 +23,7 @@ import {
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getKeys } from "lib/object";
 import { formatNumber } from "lib/utils/formatNumber";
+import { getChestItemCount } from "features/island/hud/components/inventory/utils/inventory";
 
 const ITEMS = getKeys(WEATHER_ITEM_RECIPES);
 
@@ -31,11 +32,16 @@ const _game = (state: MachineState) => state.context.state;
 const owned = (game: GameState, item: InventoryItemName) =>
   game.inventory[item] ?? new Decimal(0);
 
+/** What the player can spend: placed items (flowers, for one) don't count. */
+const available = (game: GameState, item: InventoryItemName) =>
+  getChestItemCount(game, item);
+
 const canAffordOption = (
   game: GameState,
   item: WeatherItemName,
   option: InventoryItemName,
-) => owned(game, option).gte(WEATHER_ITEM_RECIPES[item].choice?.[option] ?? 0);
+) =>
+  available(game, option).gte(WEATHER_ITEM_RECIPES[item].choice?.[option] ?? 0);
 
 /**
  * Every option `item` offers, the ones the player can afford first (flowers
@@ -50,7 +56,9 @@ const sortOptions = (
 
   const options =
     item === "Wildflower Lure"
-      ? getKeys(choice).sort((a, b) => owned(game, b).cmp(owned(game, a)))
+      ? getKeys(choice).sort((a, b) =>
+          available(game, b).cmp(available(game, a)),
+        )
       : getKeys(choice);
 
   return [
@@ -63,7 +71,7 @@ const sortOptions = (
 const canAffordItem = (game: GameState, item: WeatherItemName) => {
   const { ingredients, choice } = WEATHER_ITEM_RECIPES[item];
   const fixed = getKeys(ingredients).every((name) =>
-    owned(game, name).gte(ingredients[name] ?? 0),
+    available(game, name).gte(ingredients[name] ?? 0),
   );
   if (!choice) return fixed;
 
@@ -103,7 +111,7 @@ export const WeatherItemShop: React.FC = () => {
     !hasItem &&
     (!choice || !!ingredient) &&
     getKeys(ingredients).every((name) =>
-      owned(game, name).gte(ingredients[name] ?? 0),
+      available(game, name).gte(ingredients[name] ?? 0),
     );
 
   const craft = () => {
@@ -175,7 +183,7 @@ export const WeatherItemShop: React.FC = () => {
               <div key={option} className="flex flex-col items-center">
                 <Box
                   image={ITEM_DETAILS[option].image}
-                  count={game.inventory[option]}
+                  count={available(game, option)}
                   isSelected={ingredient === option}
                   disabled={!canPick(option)}
                   secondaryImage={
@@ -204,7 +212,7 @@ export const WeatherItemShop: React.FC = () => {
               key={name}
               type="item"
               item={name}
-              balance={owned(game, name)}
+              balance={available(game, name)}
               requirement={new Decimal(ingredients[name] ?? 0)}
             />
           ))}
