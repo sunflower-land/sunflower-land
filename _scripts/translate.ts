@@ -2,182 +2,268 @@
 import * as fs from "fs";
 import * as path from "path";
 
+import Anthropic from "@anthropic-ai/sdk";
+
 import ENGLISH_TERMS from "../src/lib/i18n/dictionaries/dictionary.json";
-import {
-  type LanguageCode,
-  LANGUAGE_DETAILS,
-} from "../src/lib/i18n/dictionaries/language";
+import { LANGUAGE_DETAILS } from "../src/lib/i18n/dictionaries/language";
 import type { TranslationKeys } from "../src/lib/i18n/dictionaries/types";
 import { getKeys } from "../src/lib/object";
 
 import {
-  TranslateClient,
-  TranslateTextCommand,
-} from "@aws-sdk/client-translate";
+  buildUserMessage,
+  LANGUAGE_NAMES,
+  SYSTEM_PROMPT,
+  type TargetLanguage,
+} from "./translation/prompt";
+import { getAnswerText, parseTranslations } from "./translation/response";
+import {
+  getContextReferences,
+  mergeTranslations,
+  planTranslation,
+  validateTranslations,
+  type ReferenceTerm,
+  type ReturnedTranslation,
+} from "./translation/terms";
 
-// Set up the Translate client
-const client = new TranslateClient({ region: "ap-southeast-2" });
+type Terms = Partial<Record<TranslationKeys, string>>;
 
-// Utility function for sleep (backoff)
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+const MODEL = "claude-opus-5-5";
+
+// Terms sent in one request. A normal run is a single request per language;
+// this only splits a large catch-up, such as a newly added language.
+const BATCH_SIZE = 100;
+
+// How many times a language asks again for the terms it could not accept.
+const MAX_ATTEMPTS = 3;
 
 // Languages to exclude from translation (keep new terms in English)
-const excludedLanguages: LanguageCode[] = ["ru"];
+const excludedLanguages: TargetLanguage[] = ["ru"];
 
-async function translateTerms(targetLanguage: LanguageCode) {
-  const translatedTerms: Partial<Record<TranslationKeys, string>> = {};
+const DICTIONARIES = path.join(__dirname, "../src/lib/i18n/dictionaries");
 
-  const languageJson = path.join(
-    __dirname,
-    `../src/lib/i18n/dictionaries/${targetLanguage}.json`,
+// A plain schema, not the SDK helper that also parses the response: the answer
+// is parsed here, so text from a model that declined part-way is left out.
+const TRANSLATIONS_SCHEMA = {
+  type: "object",
+  properties: {
+    translations: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          key: { type: "string" },
+          text: { type: "string" },
+        },
+        required: ["key", "text"],
+        additionalProperties: false,
+      },
+    },
+  },
+  required: ["translations"],
+  additionalProperties: false,
+};
+
+// Created on first use, so a run with nothing to translate needs no API key.
+let client: Anthropic | undefined;
+const getClient = () => (client ??= new Anthropic());
+
+const usage = { input: 0, output: 0 };
+
+function readTerms(file: string): Terms {
+  return fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, "utf-8")) : {};
+}
+
+function writeTerms(file: string, terms: Terms) {
+  fs.writeFileSync(file, `${JSON.stringify(terms, null, 2)}\n`);
+}
+
+function chunk<T>(items: T[], size: number): T[][] {
+  const chunks: T[][] = [];
+  for (let i = 0; i < items.length; i += size) {
+    chunks.push(items.slice(i, i + size));
+  }
+  return chunks;
+}
+
+// A bad key or a malformed request fails the same way every time. Anything
+// else (rate limits, server errors, a response that could not be used) is
+// worth another attempt.
+function isFatal(error: unknown) {
+  return (
+    error instanceof Anthropic.BadRequestError ||
+    error instanceof Anthropic.AuthenticationError ||
+    error instanceof Anthropic.PermissionDeniedError ||
+    error instanceof Anthropic.NotFoundError
   );
+}
 
-  const englishJson = path.join(
-    __dirname,
-    `../src/lib/i18n/dictionaries/en.json`,
-  );
+async function requestTranslations(
+  language: TargetLanguage,
+  terms: Record<string, string>,
+  references: ReferenceTerm[],
+): Promise<ReturnedTranslation[]> {
+  const message = await getClient()
+    .beta.messages.stream({
+      model: MODEL,
+      max_tokens: 64000,
+      // If the model declines a request, the API runs it again on its
+      // default fallback model instead of returning the refusal.
+      betas: ["server-side-fallback-2026-07-01"],
+      fallbacks: "default",
+      system: SYSTEM_PROMPT,
+      output_config: {
+        effort: "medium",
+        format: { type: "json_schema", schema: TRANSLATIONS_SCHEMA },
+      },
+      messages: [
+        {
+          role: "user",
+          content: buildUserMessage(language, terms, references),
+        },
+      ],
+    })
+    .finalMessage();
 
-  const englishTermKeys = getKeys(ENGLISH_TERMS);
-  const existingEnglishTerms = JSON.parse(
-    fs.readFileSync(englishJson, "utf-8"),
-  );
-  // Check if the target language file already exists
-  if (fs.existsSync(languageJson)) {
-    const existingTerms = JSON.parse(fs.readFileSync(languageJson, "utf-8"));
-    const existingTermKeys = getKeys(existingTerms) as TranslationKeys[];
-    existingTermKeys.forEach((term) => {
-      if (
-        englishTermKeys.includes(term) &&
-        existingTerms[term] &&
-        existingEnglishTerms[term] === ENGLISH_TERMS[term]
-      ) {
-        translatedTerms[term] = existingTerms[term];
-      }
+  usage.input += message.usage.input_tokens;
+  usage.output += message.usage.output_tokens;
+
+  if (message.stop_reason !== "end_turn") {
+    throw new Error(`Response stopped with "${message.stop_reason}"`);
+  }
+
+  return parseTranslations(getAnswerText(message.content));
+}
+
+/**
+ * Translates the terms a locale is missing and rewrites its file. Returns the
+ * terms that could not be translated; they are left out of the file, so the
+ * next run picks them up again.
+ */
+async function translateLanguage(
+  language: TargetLanguage,
+  snapshot: Terms,
+): Promise<TranslationKeys[]> {
+  const file = path.join(DICTIONARIES, `${language}.json`);
+
+  const { kept, pending } = planTranslation({
+    english: ENGLISH_TERMS,
+    snapshot,
+    existing: readTerms(file),
+  });
+
+  const translated: Terms = {};
+  let remaining = pending;
+
+  if (excludedLanguages.includes(language)) {
+    pending.forEach((key) => {
+      translated[key] = ENGLISH_TERMS[key].trim();
     });
+    remaining = [];
   }
 
-  // Group terms into batches (e.g., 10 terms per batch)
-  const batchSize = 10;
-  const termBatches: TranslationKeys[][] = [];
-  for (let i = 0; i < englishTermKeys.length; i += batchSize) {
-    termBatches.push(englishTermKeys.slice(i, i + batchSize));
-  }
+  let stopped = false;
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS && !stopped; attempt++) {
+    if (remaining.length === 0) break;
 
-  // Sequentially process each batch
-  for (const termBatch of termBatches) {
-    for (const term of termBatch) {
-      if (translatedTerms[term]) {
-        // Term already translated (either from existing file or skipped)
-        continue;
-      }
-
-      let englishText = ENGLISH_TERMS[term].trim();
-      if (!englishText) {
-        console.warn("Skipping empty term:", term);
-        translatedTerms[term] = ""; // Return an empty string for empty terms
-        continue;
-      }
-
-      if (excludedLanguages.includes(targetLanguage)) {
-        // Skip translation for excluded languages
-        translatedTerms[term] = englishText;
-        continue;
-      }
-
-      const regex = /{{(.*?)}}/g;
-      // Extract all placeholders
-      const placeholders: string[] = [];
-      let match: RegExpExecArray | null;
-      while ((match = regex.exec(englishText)) !== null) {
-        placeholders.push(match[0]); // match[0] contains the full placeholder, e.g., "{{name}}"
-      }
-
-      // Replace all of our placeholders with some other string that won't get translated
-      placeholders.forEach((str, index) => {
-        const token = `[${index}@/$]`; // [0@/$], [1@/$], [2@/$] etc.
-        englishText = englishText.replace(str, token);
+    for (const batch of chunk(remaining, BATCH_SIZE)) {
+      const requested: Terms = {};
+      batch.forEach((key) => {
+        requested[key] = ENGLISH_TERMS[key].trim();
       });
 
-      const params = {
-        Text: englishText,
-        SourceLanguageCode: "en",
-        TargetLanguageCode: targetLanguage,
-      };
-      const command = new TranslateTextCommand(params);
-
       try {
-        const response = await client.send(command);
-        let translatedText = response.TranslatedText || "";
-        placeholders.forEach((str, index) => {
-          const token = `[${index}@/$]`;
-          translatedText = translatedText.replace(token, str);
+        // Names the new strings mention and nearby translated strings.
+        const references = getContextReferences({
+          pending: batch,
+          english: ENGLISH_TERMS,
+          kept,
         });
-        // Put all of our placeholders back into the string
-        translatedTerms[term] = translatedText;
-        console.log(`'${term}': '${translatedText}'`);
+
+        const returned = await requestTranslations(
+          language,
+          requested,
+          references,
+        );
+        const { accepted, rejected } = validateTranslations({
+          requested,
+          returned,
+        });
+
+        Object.assign(translated, accepted);
+        getKeys(accepted).forEach((key) =>
+          console.log(`[${language}] '${key}': '${accepted[key]}'`),
+        );
+        rejected.forEach(({ key, reason }) =>
+          console.warn(
+            `[${language}] Rejected '${key}' (${reason}), attempt ${attempt}`,
+          ),
+        );
       } catch (error) {
         console.error(
-          "Translation error for term",
-          term,
-          targetLanguage,
-          ":",
+          `[${language}] Translation request failed, attempt ${attempt}:`,
           error instanceof Error ? error.message : String(error),
         );
 
-        // Implement exponential backoff with a maximum retry count
-        const maxRetries = 5;
-        let retries = 0;
-        while (retries < maxRetries) {
-          const backoffTime = Math.pow(2, retries) * 100; // Exponential backoff
-          await sleep(backoffTime);
-          try {
-            const response = await client.send(command);
-            translatedTerms[term] = response.TranslatedText;
-            break;
-          } catch (retryError) {
-            console.error(
-              "Retry translation error for term",
-              term,
-              targetLanguage,
-              ":",
-              retryError instanceof Error
-                ? retryError.message
-                : String(retryError),
-            );
-            retries++;
-          }
+        if (isFatal(error)) {
+          stopped = true;
+          break;
         }
       }
     }
+
+    remaining = remaining.filter((key) => !Object.hasOwn(translated, key));
   }
 
-  fs.writeFile(
-    languageJson,
-    `${JSON.stringify(translatedTerms, null, 2)}\n`,
-    () => undefined,
+  writeTerms(
+    file,
+    mergeTranslations({ english: ENGLISH_TERMS, kept, translated }),
   );
-}
 
-async function englishToJSON() {
-  const languageJson = path.join(
-    __dirname,
-    `../src/lib/i18n/dictionaries/en.json`,
-  );
-  fs.writeFileSync(languageJson, `${JSON.stringify(ENGLISH_TERMS, null, 2)}\n`);
+  return remaining;
 }
 
 async function runTranslations() {
-  const languages = getKeys(LANGUAGE_DETAILS);
+  const languages = getKeys(LANGUAGE_DETAILS).filter(
+    (language): language is TargetLanguage => language !== "en",
+  );
 
-  // Translate all languages except English first
-  for (const lang of languages) {
-    if (lang !== "en") {
-      await translateTerms(lang);
-    }
+  // This folder is not type-checked in CI, so a language added to
+  // LANGUAGE_DETAILS without a name here would otherwise go unnoticed.
+  const unnamed = languages.filter((language) => !LANGUAGE_NAMES[language]);
+  if (unnamed.length > 0) {
+    throw new Error(`Add ${unnamed.join(", ")} to LANGUAGE_NAMES`);
   }
 
+  // en.json is the English text the locales were last translated from.
+  const englishJson = path.join(DICTIONARIES, "en.json");
+  const snapshot = readTerms(englishJson);
+
+  const results = await Promise.all(
+    languages.map(async (language) => ({
+      language,
+      failed: await translateLanguage(language, snapshot),
+    })),
+  );
+
   // Process English last
-  await englishToJSON();
+  writeTerms(englishJson, ENGLISH_TERMS);
+
+  if (usage.input > 0) {
+    console.log(`Tokens used: ${usage.input} in, ${usage.output} out`);
+  }
+
+  const failures = results.filter(({ failed }) => failed.length > 0);
+  failures.forEach(({ language, failed }) =>
+    console.error(
+      `[${language}] ${failed.length} terms not translated: ${failed.join(", ")}`,
+    ),
+  );
+  if (failures.length > 0) {
+    process.exitCode = 1;
+  }
 }
 
-runTranslations();
+runTranslations().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
