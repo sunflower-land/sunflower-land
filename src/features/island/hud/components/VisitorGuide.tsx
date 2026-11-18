@@ -15,6 +15,9 @@ import { getObjectEntries } from "lib/object";
 import { HELP_LIMIT_COST } from "features/game/events/landExpansion/increaseHelpLimit";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { secondsTillReset, secondsToString } from "lib/utils/time";
+import { getUTCDateString } from "lib/utils/time";
+import { Checkbox } from "components/ui/Checkbox";
+import { readLocalStorageJSON, writeLocalStorageJSON } from "lib/localStorage";
 import { useSelector } from "@xstate/react";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { ProgressBar } from "components/ui/ProgressBar";
@@ -42,6 +45,11 @@ const _game = (state: MachineState) => state.context.state;
 const _username = (state: MachineState) =>
   state.context.state.username ?? `#${state.context.farmId}`;
 
+const SKIP_CONFIRMATION_KEY = "helpLimit.skipConfirmation";
+
+const hasSkippedConfirmationToday = () =>
+  readLocalStorageJSON<string>(SKIP_CONFIRMATION_KEY) === getUTCDateString();
+
 export const VisitorGuide: React.FC<VisitorGuideProps> = ({
   farmHelpRequired,
   homeHelpRequired,
@@ -51,6 +59,7 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({
   const { gameState, gameService } = useGame();
 
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [skipConfirmation, setSkipConfirmation] = useState(false);
 
   const { t } = useAppTranslation();
 
@@ -68,6 +77,24 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({
   const handleIncreaseLimit = () => {
     gameService.send("helpLimit.increased");
     setShowConfirmation(false);
+    setSkipConfirmation(false);
+  };
+
+  const onIncreaseLimitClick = () => {
+    if (hasSkippedConfirmationToday()) {
+      handleIncreaseLimit();
+      return;
+    }
+
+    setShowConfirmation(true);
+  };
+
+  const onConfirm = () => {
+    if (skipConfirmation) {
+      writeLocalStorageJSON(SKIP_CONFIRMATION_KEY, getUTCDateString());
+    }
+
+    handleIncreaseLimit();
   };
 
   const hasResources = getObjectEntries(HELP_LIMIT_COST).every(
@@ -94,12 +121,22 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({
               {`${amount} x ${item}`}
             </span>
           ))}
+          <div className="flex items-center gap-2 my-1">
+            <Checkbox
+              checked={skipConfirmation}
+              onChange={setSkipConfirmation}
+              aria-label={t("help.increaseLimit.dontAskAgain")}
+            />
+            <span className="text-xs sm:text-sm">
+              {t("help.increaseLimit.dontAskAgain")}
+            </span>
+          </div>
         </div>
         <div className="flex">
           <Button className="mr-1" onClick={() => setShowConfirmation(false)}>
             {t("cancel")}
           </Button>
-          <Button onClick={handleIncreaseLimit}>{t("confirm")}</Button>
+          <Button onClick={onConfirm}>{t("confirm")}</Button>
         </div>
       </InnerPanel>
     );
@@ -173,10 +210,7 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({
             <Button disabled={!hasResources} className="mr-1" onClick={onClose}>
               {t("close")}
             </Button>
-            <Button
-              disabled={!hasResources}
-              onClick={() => setShowConfirmation(true)}
-            >
+            <Button disabled={!hasResources} onClick={onIncreaseLimitClick}>
               {t("help.increaseLimit")}
             </Button>
           </div>
