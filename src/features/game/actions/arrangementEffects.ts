@@ -97,6 +97,19 @@ export async function saveArrangementEffect({
  */
 const runCommitsInOrder = serializeByKey<MachineInterpreter>();
 
+/**
+ * True while any arrangement commit for this game is queued or in flight,
+ * from any HUD. A HUD mounted meanwhile must not accept edits: the pending
+ * reply replaces the draft (and may re-key it to another floor).
+ */
+export const isArrangementCommitPending = (gameService: MachineInterpreter) =>
+  runCommitsInOrder.isPending(gameService);
+
+export const subscribeArrangementCommits = (
+  gameService: MachineInterpreter,
+  listener: () => void,
+) => runCommitsInOrder.subscribe(gameService, listener);
+
 export function commitArrangement(
   gameService: MachineInterpreter,
   options: { nextLocation?: PlaceableLocation } = {},

@@ -70,3 +70,45 @@ describe("serializeByKey", () => {
     blocked.resolve("a");
   });
 });
+
+describe("serializeByKey pending state", () => {
+  it("reports a key as pending until its last queued task settles", async () => {
+    const run = serializeByKey<object>();
+    const key = {};
+    const first = deferred();
+    const second = deferred();
+
+    expect(run.isPending(key)).toBe(false);
+
+    const a = run(key, () => first.promise);
+    const b = run(key, () => second.promise);
+    expect(run.isPending(key)).toBe(true);
+
+    first.resolve("a");
+    await a;
+    expect(run.isPending(key)).toBe(true);
+
+    second.reject(new Error("save failed"));
+    await expect(b).rejects.toThrow("save failed");
+    expect(run.isPending(key)).toBe(false);
+  });
+
+  it("notifies subscribers when a key starts and stops being pending", async () => {
+    const run = serializeByKey<object>();
+    const key = {};
+    const task = deferred();
+    const seen: boolean[] = [];
+
+    const unsubscribe = run.subscribe(key, () => seen.push(run.isPending(key)));
+    const done = run(key, () => task.promise);
+    task.resolve("a");
+    await done;
+    await flush();
+
+    expect(seen).toEqual([true, false]);
+
+    unsubscribe();
+    await run(key, async () => "b");
+    expect(seen).toEqual([true, false]);
+  });
+});
