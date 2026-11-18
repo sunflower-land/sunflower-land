@@ -130,8 +130,8 @@ export const WeatherItemShop: React.FC = () => {
       selected
       details={
         <>
-          <p className="text-xs ml-1">{ITEM_DETAILS[selected].description}</p>
-          <p className="text-xxs ml-1">{t("weatherShop.onePerFarm")}</p>
+          <p className="text-xs mx-1">{ITEM_DETAILS[selected].description}</p>
+          <p className="text-xxs mx-1 mb-1">{t("weatherShop.onePerFarm")}</p>
         </>
       }
       options={
