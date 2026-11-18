@@ -11,6 +11,7 @@ import { ART_MODE } from "features/auth/lib/authMachine";
 import { randomID } from "lib/utils/random";
 import { createEffectError, postEffect, type EffectError } from "./effect";
 import { flushPendingActions } from "./layoutEffects";
+import { serializeByKey } from "lib/utils/serializeByKey";
 
 /**
  * The landscaping sandbox commit. Like the layout effects, this is posted
@@ -87,10 +88,27 @@ export async function saveArrangementEffect({
  * With `nextLocation` the player is switching interior floors: the current
  * surface is saved and landscaping continues on `nextLocation` instead of
  * ending. The caller navigates only when this resolves `true`.
+ *
+ * Commits for one game run one at a time, each reading the machine only once
+ * the previous one has landed. Two HUDs can each start one (a floor button,
+ * then a browser-back arrival on a freshly mounted HUD); without the queue
+ * their responses could land out of order and an older reply would re-key
+ * the draft to a floor the player has already left.
  */
-export async function commitArrangement(
+const runCommitsInOrder = serializeByKey<MachineInterpreter>();
+
+export function commitArrangement(
   gameService: MachineInterpreter,
-  { nextLocation }: { nextLocation?: PlaceableLocation } = {},
+  options: { nextLocation?: PlaceableLocation } = {},
+): Promise<boolean> {
+  return runCommitsInOrder(gameService, () =>
+    commitArrangementNow(gameService, options),
+  );
+}
+
+async function commitArrangementNow(
+  gameService: MachineInterpreter,
+  { nextLocation }: { nextLocation?: PlaceableLocation },
 ): Promise<boolean> {
   await flushPendingActions(gameService);
 
