@@ -86,6 +86,8 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({
       return;
     }
 
+    // Discard a selection the player cancelled earlier
+    setSkipConfirmation(false);
     setShowConfirmation(true);
   };
 
