@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import Decimal from "decimal.js-light";
 
-import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { IngredientsPopover } from "components/ui/IngredientsPopover";
-import { InnerPanel } from "components/ui/Panel";
+import {
+  StackedOptionGrid,
+  StackedPanelView,
+} from "components/ui/StackedPanelView";
 import { Label } from "components/ui/Label";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { hasPlacedAgingShed } from "features/game/events/landExpansion/hasPlacedAgingShed";
@@ -31,7 +33,6 @@ import {
   getAgingOutput,
   getAstrolabeDoubleChance,
 } from "features/game/types/agingFormulas";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useVisiting } from "lib/utils/visitUtils";
 import { getObjectEntries } from "lib/object";
@@ -135,18 +136,15 @@ export const FermentationRackEmpty: React.FC<Props> = ({
       : undefined;
 
   return (
-    <>
-      <InnerPanel className="mb-1">
-        <div className="flex flex-col gap-1 mb-1">
-          <Label
-            type={"default"}
-            className="text-xs ml-1"
-            icon={selectedItem ? ITEM_DETAILS[selectedItem]?.image : undefined}
-          >
-            {selectedGroup
-              ? `${getTranslatedItemName(selectedGroup.item)}${recipeOutputQuantity ? ` x ${recipeOutputQuantity.toString()}` : ""}`
-              : t("agingShed.fermentation.selectFermentationOutput")}
-          </Label>
+    <StackedPanelView
+      title={
+        selectedGroup
+          ? `${getTranslatedItemName(selectedGroup.item)}${recipeOutputQuantity ? ` x ${recipeOutputQuantity.toString()}` : ""}`
+          : t("agingShed.fermentation.selectFermentationOutput")
+      }
+      titleIcon={selectedItem ? ITEM_DETAILS[selectedItem]?.image : undefined}
+      details={
+        <>
           {selectedItem && (
             <>
               {COLLECTIBLE_BUFF_LABELS[selectedItem]?.(gameState)?.map(
@@ -167,121 +165,96 @@ export const FermentationRackEmpty: React.FC<Props> = ({
               </p>
             </>
           )}
-        </div>
-        <div className="flex flex-wrap gap-1 px-1 pb-1 overflow-auto max-h-48 scrollable items-start">
-          {groups.map((g) => {
-            return (
-              <div
-                key={g.signature}
-                className="flex flex-col items-center shrink-0 max-w-[72px]"
-              >
-                <Box
-                  image={ITEM_DETAILS[g.item]?.image}
-                  isSelected={selectedSignature === g.signature}
-                  count={gameState.inventory[g.item]}
-                  onClick={() => onSelectOutput(g.signature)}
-                />
-              </div>
-            );
-          })}
-        </div>
-      </InnerPanel>
-
-      {selectedGroup && (
-        <InnerPanel className="mb-1">
-          <Label type="default" className="text-xs mb-2 ml-1">
-            {selectedGroup.recipeIds.length > 1
+        </>
+      }
+      options={groups.map((g) => ({
+        id: g.signature,
+        image: ITEM_DETAILS[g.item]?.image,
+        count: gameState.inventory[g.item],
+        selected: selectedSignature === g.signature,
+        onClick: () => onSelectOutput(g.signature),
+      }))}
+      panels={[
+        selectedGroup && {
+          id: "recipe",
+          title:
+            selectedGroup.recipeIds.length > 1
               ? t("agingShed.fermentation.selectRecipe")
-              : t("agingShed.fermentation.requirementsTitle")}
-          </Label>
-
-          {selectedGroup.recipeIds.length > 1 && (
-            <div className="flex flex-wrap gap-1 overflow-auto max-h-48 scrollable">
-              {selectedGroup.recipeIds.map((id) => {
-                const image = getFirstIngredientImage(id);
-
-                return (
-                  <div
-                    key={id}
-                    className="flex flex-col items-center shrink-0 max-w-[76px]"
-                  >
-                    <Box
-                      image={image}
-                      hideCount
-                      isSelected={recipeId === id}
-                      onClick={() => onSelectVariant(id)}
-                      secondaryImage={
-                        hasEnoughFermentationIngredients(merged, id, gameState)
-                          ? SUNNYSIDE.icons.confirm
-                          : SUNNYSIDE.icons.cancel
-                      }
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          )}
-
-          {canShowRequirements && recipeDef && (
-            <div
-              className="flex flex-wrap p-2 gap-2 cursor-pointer"
-              onClick={() => setShowIngredients(!showIngredients)}
-            >
-              <IngredientsPopover
-                show={showIngredients}
-                ingredients={ingredientKeys}
-                onClick={() => setShowIngredients(false)}
-              />
-              {getObjectEntries(recipeDef.ingredients).map(
-                ([itemName, need]) => (
-                  <RequirementLabel
-                    key={String(itemName)}
-                    type="item"
-                    item={itemName as InventoryItemName}
-                    balance={
-                      merged[itemName as InventoryItemName] ?? new Decimal(0)
-                    }
-                    requirement={(need ?? new Decimal(0)).mul(
-                      getAgingInputMultiplier(gameState),
-                    )}
-                  />
-                ),
+              : t("agingShed.fermentation.requirementsTitle"),
+          content: (
+            <>
+              {selectedGroup.recipeIds.length > 1 && (
+                <StackedOptionGrid
+                  options={selectedGroup.recipeIds.map((id) => ({
+                    id,
+                    image: getFirstIngredientImage(id),
+                    hideCount: true,
+                    selected: recipeId === id,
+                    onClick: () => onSelectVariant(id),
+                    status: hasEnoughFermentationIngredients(
+                      merged,
+                      id,
+                      gameState,
+                    )
+                      ? "ready"
+                      : "missing",
+                  }))}
+                />
               )}
-              <RequirementLabel
-                type="time"
-                waitSeconds={recipeDef.durationSeconds}
-              />
-            </div>
-          )}
 
-          {getAstrolabeDoubleChance(gameState) > 0 && (
-            <Label type="vibrant" className="text-xxs mx-2 mb-1">
-              {t("agingShed.astrolabe.doubleChance", {
-                chance: getAstrolabeDoubleChance(gameState),
-              })}
-            </Label>
-          )}
-        </InnerPanel>
-      )}
+              {canShowRequirements && recipeDef && (
+                <div
+                  className="flex flex-wrap p-2 gap-2 cursor-pointer"
+                  onClick={() => setShowIngredients(!showIngredients)}
+                >
+                  <IngredientsPopover
+                    show={showIngredients}
+                    ingredients={ingredientKeys}
+                    onClick={() => setShowIngredients(false)}
+                  />
+                  {getObjectEntries(recipeDef.ingredients).map(
+                    ([itemName, need]) => (
+                      <RequirementLabel
+                        key={String(itemName)}
+                        type="item"
+                        item={itemName as InventoryItemName}
+                        balance={
+                          merged[itemName as InventoryItemName] ??
+                          new Decimal(0)
+                        }
+                        requirement={(need ?? new Decimal(0)).mul(
+                          getAgingInputMultiplier(gameState),
+                        )}
+                      />
+                    ),
+                  )}
+                  <RequirementLabel
+                    type="time"
+                    waitSeconds={recipeDef.durationSeconds}
+                  />
+                </div>
+              )}
 
-      {validationMessage && (
-        <Label type="danger" className="text-xs px-1 mb-1">
-          {validationMessage}
-        </Label>
-      )}
-
-      {startError && (
-        <Label type="danger" className="text-xs px-1 mb-1">
-          {startError}
-        </Label>
-      )}
-
-      <Button
-        disabled={startDisabled}
-        onClick={() => recipeId && onStart(recipeId)}
-      >
-        {t("agingShed.fermentation.start")}
-      </Button>
-    </>
+              {getAstrolabeDoubleChance(gameState) > 0 && (
+                <Label type="vibrant" className="text-xxs mx-2 mb-1">
+                  {t("agingShed.astrolabe.doubleChance", {
+                    chance: getAstrolabeDoubleChance(gameState),
+                  })}
+                </Label>
+              )}
+            </>
+          ),
+        },
+      ]}
+      errors={[validationMessage, startError]}
+      action={
+        <Button
+          disabled={startDisabled}
+          onClick={() => recipeId && onStart(recipeId)}
+        >
+          {t("agingShed.fermentation.start")}
+        </Button>
+      }
+    />
   );
 };
