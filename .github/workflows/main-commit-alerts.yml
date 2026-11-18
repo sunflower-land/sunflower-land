@@ -228,8 +228,7 @@ jobs:
                 ) ?? [];
 
               if (pullRequests.length > 0) {
-                // GitHub links this commit to the PR itself.
-                return { ...pullRequests[0], verified: true };
+                return pullRequests[0];
               }
             } catch (error) {
               console.log(`GraphQL association lookup failed for ${sha}: ${error.message}`);
@@ -245,7 +244,13 @@ jobs:
 
             try {
               const pullRequest = await githubRequest(`/repos/${owner}/${repo}/pulls/${match[1]}`);
-              if (pullRequest.merged_at && pullRequest.base?.ref === "main") {
+              // The subject alone doesn't prove this commit came from the PR, so
+              // require it to be the PR's recorded merge (or squash) commit.
+              if (
+                pullRequest.merged_at &&
+                pullRequest.base?.ref === "main" &&
+                pullRequest.merge_commit_sha === sha
+              ) {
                 return {
                   number: pullRequest.number,
                   title: pullRequest.title,
@@ -254,8 +259,6 @@ jobs:
                   baseRefName: pullRequest.base.ref,
                   // A deleted fork leaves `head.repo` null; that still counts as a fork.
                   isCrossRepository: pullRequest.head?.repo?.full_name !== REPOSITORY,
-                  // The subject alone doesn't prove this commit came from the PR.
-                  verified: pullRequest.merge_commit_sha === sha,
                 };
               }
             } catch (error) {
@@ -520,14 +523,12 @@ jobs:
 
               // Bot commits are skipped, but a community PR always alerts.
               // Note where each PR starts before any filtering, so a rebase
-              // summary covers every commit even if the first is a bot's. Only
-              // a verified link counts, or an unrelated commit could widen the range.
-              if (pullRequest?.verified && !firstShaByPr.has(pullRequest.number)) {
+              // summary covers every commit even if the first is a bot's.
+              if (pullRequest && !firstShaByPr.has(pullRequest.number)) {
                 firstShaByPr.set(pullRequest.number, sha);
               }
 
-              const fromCommunityPr = pullRequest?.isCrossRepository && pullRequest.verified;
-              if (!fromCommunityPr && shouldSkipCommit(metadata)) {
+              if (!pullRequest?.isCrossRepository && shouldSkipCommit(metadata)) {
                 skippedBots += 1;
                 continue;
               }
