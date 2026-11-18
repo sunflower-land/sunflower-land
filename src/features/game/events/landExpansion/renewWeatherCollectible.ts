@@ -89,6 +89,7 @@ function renewWeatherItem(
   );
   placement.placedAt = createdAt;
   delete placement.usedUntil;
+  delete placement.weatherCheckedUntil;
 }
 
 export function renewWeatherCollectible({

@@ -1098,6 +1098,12 @@ export type PlacedItem = {
    * Absent while unused; the client derives it until the server stores it.
    */
   usedUntil?: number;
+  /**
+   * Weather item: matching events that ended by this time are settled — the
+   * copy wasn't used on them (a Guardian covered them). Stored on load, so the
+   * decision survives the Guardian's history being pruned.
+   */
+  weatherCheckedUntil?: number;
 };
 
 export type ShakeItem = PlacedItem & { shakenAt?: number };

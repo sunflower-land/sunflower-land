@@ -9,7 +9,11 @@ import {
   type WeatherItemName,
 } from "../types/weatherItems";
 import { hasFeatureAccess } from "lib/flags";
-import { findUsedEvent, getWeatherEvents } from "./weatherItemCover";
+import {
+  findUsedEvent,
+  getUnsettledFrom,
+  getWeatherEvents,
+} from "./weatherItemCover";
 
 /** `placedAt` of every placed tracked item, keyed by `${name}:${id}`. */
 export type GuardianPlacements = Map<string, number | undefined>;
@@ -77,7 +81,7 @@ export function syncGuardianPlacements(
           const used = findUsedEvent({
             game,
             item: name,
-            from,
+            from: getUnsettledFrom(placement, from),
             to: now,
             events: getWeatherEvents(game),
           });

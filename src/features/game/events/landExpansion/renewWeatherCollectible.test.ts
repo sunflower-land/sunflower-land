@@ -295,10 +295,17 @@ describe("renewWeatherCollectible (weather items)", () => {
 
   it("renews a copy with a stored mark", () => {
     const state = renew(
-      farm(sandbag({ placedAt: AFTER_FLOOD - 1, usedUntil: FLOOD_END })),
+      farm(
+        sandbag({
+          placedAt: AFTER_FLOOD - 1,
+          usedUntil: FLOOD_END,
+          weatherCheckedUntil: FLOOD_START,
+        }),
+      ),
     );
 
     expect(state.collectibles.Sandbag?.[0].usedUntil).toBeUndefined();
+    expect(state.collectibles.Sandbag?.[0].weatherCheckedUntil).toBeUndefined();
   });
 
   it("throws while the copy is still covering its event", () => {

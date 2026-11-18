@@ -85,6 +85,15 @@ export function findUsedEvent({
 }
 
 /**
+ * Where to look for the event a copy was used on: since it was placed, or
+ * since the events the server already settled, whichever is later.
+ */
+export const getUnsettledFrom = (
+  placement: Pick<PlacedItem, "placedAt" | "weatherCheckedUntil">,
+  placedAt = placement.placedAt,
+) => Math.max(placedAt ?? 0, placement.weatherCheckedUntil ?? 0);
+
+/**
  * The end of the event this copy was used on, or undefined while it's unused.
  * A stored `usedUntil` wins; otherwise it's derived from the copy's current
  * placement.
@@ -108,7 +117,7 @@ export function getUsedUntil({
   return findUsedEvent({
     game,
     item,
-    from: placement.placedAt ?? 0,
+    from: getUnsettledFrom(placement),
     to: now,
     events,
   })?.endAt;

@@ -298,6 +298,26 @@ describe("weather item cover", () => {
     });
   });
 
+  it("doesn't look at events settled before weatherCheckedUntil", () => {
+    // Placed through the flood, which a Guardian covered; the Guardian's
+    // history has since been pruned, but the server recorded the decision.
+    const sandbag = copy({
+      placedAt: FLOOD.startAt - HOUR,
+      weatherCheckedUntil: FLOOD.endAt,
+    });
+    const game = farm({ collectibles: { Sandbag: [sandbag] } });
+
+    expect(
+      isWeatherItemGreyed({
+        game,
+        item: "Sandbag",
+        placement: sandbag,
+        events: EVENTS,
+        now: FLOOD.endAt + HOUR,
+      }),
+    ).toBe(false);
+  });
+
   it("goes by a stored usedUntil over what it would derive", () => {
     const sandbag = copy({
       placedAt: FLOOD.startAt - HOUR,
