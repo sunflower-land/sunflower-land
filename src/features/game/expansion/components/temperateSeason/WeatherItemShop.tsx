@@ -2,12 +2,13 @@ import Decimal from "decimal.js-light";
 import React, { useContext, useMemo, useState } from "react";
 import { useSelector } from "@xstate/react";
 
-import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
-import { StackedPanelView } from "components/ui/StackedPanelView";
+import {
+  StackedOptionGrid,
+  StackedPanelView,
+} from "components/ui/StackedPanelView";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import type { GameState, InventoryItemName } from "features/game/types/game";
@@ -134,26 +135,18 @@ export const WeatherItemShop: React.FC = () => {
           <p className="text-xxs mx-1 mb-1">{t("weatherShop.onePerFarm")}</p>
         </>
       }
-      options={
-        <>
-          {ITEMS.map((item) => (
-            <Box
-              key={item}
-              image={ITEM_DETAILS[item].image}
-              count={game.inventory[item]}
-              isSelected={selected === item}
-              onClick={() => selectItem(item)}
-              secondaryImage={
-                owned(game, item).gte(1)
-                  ? undefined
-                  : canAffordItem(game, item)
-                    ? SUNNYSIDE.icons.confirm
-                    : SUNNYSIDE.icons.cancel
-              }
-            />
-          ))}
-        </>
-      }
+      options={ITEMS.map((item) => ({
+        id: item,
+        image: ITEM_DETAILS[item].image,
+        count: game.inventory[item],
+        selected: selected === item,
+        onClick: () => selectItem(item),
+        status: owned(game, item).gte(1)
+          ? undefined
+          : canAffordItem(game, item)
+            ? "ready"
+            : "missing",
+      }))}
       panels={[
         !!choice && {
           id: "choice",
@@ -178,27 +171,20 @@ export const WeatherItemShop: React.FC = () => {
                   </Label>
                 )}
               </div>
-              <div className="flex flex-wrap gap-1 px-1 pt-2 pb-1 overflow-y-auto max-h-48 scrollable items-start">
-                {options.map((option) => (
-                  <div key={option} className="flex flex-col items-center">
-                    <Box
-                      image={ITEM_DETAILS[option].image}
-                      count={available(game, option)}
-                      isSelected={ingredient === option}
-                      disabled={!canPick(option)}
-                      secondaryImage={
-                        canPick(option) ? undefined : SUNNYSIDE.icons.cancel
-                      }
-                      onClick={() => setPicked(option)}
-                    />
-                    <span className="text-xxs leading-tight">
-                      {t("weatherShop.amount", {
-                        amount: formatNumber(choice[option] ?? 0),
-                      })}
-                    </span>
-                  </div>
-                ))}
-              </div>
+              <StackedOptionGrid
+                options={options.map((option) => ({
+                  id: option,
+                  image: ITEM_DETAILS[option].image,
+                  count: available(game, option),
+                  selected: ingredient === option,
+                  onClick: () => setPicked(option),
+                  disabled: !canPick(option),
+                  status: canPick(option) ? undefined : "missing",
+                  caption: t("weatherShop.amount", {
+                    amount: formatNumber(choice[option] ?? 0),
+                  }),
+                }))}
+              />
             </>
           ),
         },

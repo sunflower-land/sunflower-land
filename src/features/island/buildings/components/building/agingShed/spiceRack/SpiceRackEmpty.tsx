@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Decimal from "decimal.js-light";
 
-import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { IngredientsPopover } from "components/ui/IngredientsPopover";
 import { StackedPanelView } from "components/ui/StackedPanelView";
@@ -127,27 +126,17 @@ export const SpiceRackEmpty: React.FC<Props> = ({
           )}
         </>
       }
-      options={
-        <>
-          {SPICE_RACK_RECIPE_IDS.map((recipeId) => {
-            const outputItem = getPrimaryOutputItem(recipeId);
+      options={SPICE_RACK_RECIPE_IDS.map((recipeId) => {
+        const outputItem = getPrimaryOutputItem(recipeId);
 
-            return (
-              <div
-                key={recipeId}
-                className="flex flex-col items-center shrink-0 max-w-[72px]"
-              >
-                <Box
-                  image={ITEM_DETAILS[outputItem]?.image}
-                  isSelected={selectedRecipeId === recipeId}
-                  count={gameState.inventory[outputItem]}
-                  onClick={() => onSelectRecipe(recipeId)}
-                />
-              </div>
-            );
-          })}
-        </>
-      }
+        return {
+          id: recipeId,
+          image: ITEM_DETAILS[outputItem]?.image,
+          count: gameState.inventory[outputItem],
+          selected: selectedRecipeId === recipeId,
+          onClick: () => onSelectRecipe(recipeId),
+        };
+      })}
       panels={[
         !!selectedRecipeId &&
           !!recipeDef && {

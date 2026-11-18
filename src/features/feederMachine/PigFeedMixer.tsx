@@ -1,12 +1,13 @@
 import React from "react";
 import Decimal from "decimal.js-light";
 
-import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
-import { StackedPanelView } from "components/ui/StackedPanelView";
+import {
+  StackedOptionGrid,
+  StackedPanelView,
+} from "components/ui/StackedPanelView";
 import { Label } from "components/ui/Label";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { ANIMAL_FOODS } from "features/game/types/animals";
 import type { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -63,15 +64,13 @@ export const PigFeedMixer: React.FC<Props> = ({
           </Label>
         </>
       }
-      options={SLOPS.map((item) => (
-        <Box
-          key={item}
-          image={ITEM_DETAILS[item].image}
-          isSelected={selected === item}
-          count={state.inventory[item]}
-          onClick={() => onSelect(item)}
-        />
-      ))}
+      options={SLOPS.map((item) => ({
+        id: item,
+        image: ITEM_DETAILS[item].image,
+        count: state.inventory[item],
+        selected: selected === item,
+        onClick: () => onSelect(item),
+      }))}
       panels={[
         ingredient && {
           id: "input",
@@ -117,22 +116,18 @@ const SlopInputPicker: React.FC<{
 }> = ({ state, slop, ingredient, ingredients, onSelectIngredient }) => {
   return (
     <>
-      <div className="flex flex-wrap gap-1 overflow-auto max-h-48 scrollable">
-        {getKeys(PIG_FEEDS[slop].ingredients).map((item) => (
-          <Box
-            key={item}
-            image={ITEM_DETAILS[item].image}
-            count={state.inventory[item]}
-            isSelected={ingredient === item}
-            onClick={() => onSelectIngredient(item)}
-            secondaryImage={
-              canAffordInput(state.inventory, slop, item)
-                ? SUNNYSIDE.icons.confirm
-                : SUNNYSIDE.icons.cancel
-            }
-          />
-        ))}
-      </div>
+      <StackedOptionGrid
+        options={getKeys(PIG_FEEDS[slop].ingredients).map((item) => ({
+          id: item,
+          image: ITEM_DETAILS[item].image,
+          count: state.inventory[item],
+          selected: ingredient === item,
+          onClick: () => onSelectIngredient(item),
+          status: canAffordInput(state.inventory, slop, item)
+            ? "ready"
+            : "missing",
+        }))}
+      />
       <div className="flex flex-wrap p-2 gap-2">
         {getKeys(ingredients).map((item) => (
           <RequirementLabel

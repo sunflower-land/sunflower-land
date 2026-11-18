@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import Decimal from "decimal.js-light";
 
-import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { IngredientsPopover } from "components/ui/IngredientsPopover";
-import { StackedPanelView } from "components/ui/StackedPanelView";
+import {
+  StackedOptionGrid,
+  StackedPanelView,
+} from "components/ui/StackedPanelView";
 import { Label } from "components/ui/Label";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { hasPlacedAgingShed } from "features/game/events/landExpansion/hasPlacedAgingShed";
@@ -31,7 +33,6 @@ import {
   getAgingOutput,
   getAstrolabeDoubleChance,
 } from "features/game/types/agingFormulas";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useVisiting } from "lib/utils/visitUtils";
 import { getObjectEntries } from "lib/object";
@@ -166,25 +167,13 @@ export const FermentationRackEmpty: React.FC<Props> = ({
           )}
         </>
       }
-      options={
-        <>
-          {groups.map((g) => {
-            return (
-              <div
-                key={g.signature}
-                className="flex flex-col items-center shrink-0 max-w-[72px]"
-              >
-                <Box
-                  image={ITEM_DETAILS[g.item]?.image}
-                  isSelected={selectedSignature === g.signature}
-                  count={gameState.inventory[g.item]}
-                  onClick={() => onSelectOutput(g.signature)}
-                />
-              </div>
-            );
-          })}
-        </>
-      }
+      options={groups.map((g) => ({
+        id: g.signature,
+        image: ITEM_DETAILS[g.item]?.image,
+        count: gameState.inventory[g.item],
+        selected: selectedSignature === g.signature,
+        onClick: () => onSelectOutput(g.signature),
+      }))}
       panels={[
         selectedGroup && {
           id: "recipe",
@@ -195,34 +184,22 @@ export const FermentationRackEmpty: React.FC<Props> = ({
           content: (
             <>
               {selectedGroup.recipeIds.length > 1 && (
-                <div className="flex flex-wrap gap-1 overflow-auto max-h-48 scrollable">
-                  {selectedGroup.recipeIds.map((id) => {
-                    const image = getFirstIngredientImage(id);
-
-                    return (
-                      <div
-                        key={id}
-                        className="flex flex-col items-center shrink-0 max-w-[76px]"
-                      >
-                        <Box
-                          image={image}
-                          hideCount
-                          isSelected={recipeId === id}
-                          onClick={() => onSelectVariant(id)}
-                          secondaryImage={
-                            hasEnoughFermentationIngredients(
-                              merged,
-                              id,
-                              gameState,
-                            )
-                              ? SUNNYSIDE.icons.confirm
-                              : SUNNYSIDE.icons.cancel
-                          }
-                        />
-                      </div>
-                    );
-                  })}
-                </div>
+                <StackedOptionGrid
+                  options={selectedGroup.recipeIds.map((id) => ({
+                    id,
+                    image: getFirstIngredientImage(id),
+                    hideCount: true,
+                    selected: recipeId === id,
+                    onClick: () => onSelectVariant(id),
+                    status: hasEnoughFermentationIngredients(
+                      merged,
+                      id,
+                      gameState,
+                    )
+                      ? "ready"
+                      : "missing",
+                  }))}
+                />
               )}
 
               {canShowRequirements && recipeDef && (

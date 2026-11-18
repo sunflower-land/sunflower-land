@@ -38,9 +38,11 @@ import { secondsToString } from "lib/utils/time";
 import { formatNumber } from "lib/utils/formatNumber";
 
 import { Button } from "components/ui/Button";
-import { Box } from "components/ui/Box";
 import { Label } from "components/ui/Label";
-import { StackedPanelView } from "components/ui/StackedPanelView";
+import {
+  StackedOptionGrid,
+  StackedPanelView,
+} from "components/ui/StackedPanelView";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
@@ -173,19 +175,13 @@ export const CaveMixPicker: React.FC<Props> = ({
         </>
       }
       title={t("cave.batch.chooseRecipe")}
-      options={
-        <>
-          {recipes.map((name) => (
-            <Box
-              key={name}
-              image={ITEM_DETAILS[RECIPE_IMAGE[name]].image}
-              hideCount
-              isSelected={recipe === name}
-              onClick={() => setRecipe(name)}
-            />
-          ))}
-        </>
-      }
+      options={recipes.map((name) => ({
+        id: name,
+        image: ITEM_DETAILS[RECIPE_IMAGE[name]].image,
+        hideCount: true,
+        selected: recipe === name,
+        onClick: () => setRecipe(name),
+      }))}
       belowOptions={
         <>
           <Label
@@ -227,26 +223,17 @@ export const CaveMixPicker: React.FC<Props> = ({
                   {`${getTranslatedItemName(crop)} x${formatNumber(getMudCropCost(game, crop))}`}
                 </Label>
               </div>
-              <div className="flex flex-wrap gap-1 px-1 pt-2 pb-1 overflow-y-auto max-h-56 scrollable">
-                {sortMudCrops(game).map((name) => (
-                  <div key={name} className="flex flex-col items-center">
-                    <Box
-                      image={ITEM_DETAILS[name].image}
-                      count={game.inventory[name]}
-                      isSelected={crop === name}
-                      secondaryImage={
-                        canAffordMudCrop(game, name)
-                          ? undefined
-                          : SUNNYSIDE.icons.cancel
-                      }
-                      onClick={() => setCrop(name)}
-                    />
-                    <span className="text-xxs leading-tight">
-                      {`x${formatNumber(getMudCropCost(game, name))}`}
-                    </span>
-                  </div>
-                ))}
-              </div>
+              <StackedOptionGrid
+                options={sortMudCrops(game).map((name) => ({
+                  id: name,
+                  image: ITEM_DETAILS[name].image,
+                  count: game.inventory[name],
+                  selected: crop === name,
+                  onClick: () => setCrop(name),
+                  status: canAffordMudCrop(game, name) ? undefined : "missing",
+                  caption: `x${formatNumber(getMudCropCost(game, name))}`,
+                }))}
+              />
             </>
           ),
         },
@@ -307,15 +294,11 @@ export const CaveMixPicker: React.FC<Props> = ({
         },
       ]}
       errors={[
-        hasLeftovers && undug && (
-          <Label
-            type="danger"
-            icon={TILE_IMAGE.Mushroom}
-            className="text-xs mx-auto mb-1"
-          >
-            {t("cave.batch.leftoverMushrooms", { count: undug.Mushroom })}
-          </Label>
-        ),
+        hasLeftovers &&
+          !!undug && {
+            text: t("cave.batch.leftoverMushrooms", { count: undug.Mushroom }),
+            icon: TILE_IMAGE.Mushroom,
+          },
       ]}
       action={
         <div className="relative">

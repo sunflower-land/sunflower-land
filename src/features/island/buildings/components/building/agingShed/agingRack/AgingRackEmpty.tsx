@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Decimal from "decimal.js-light";
 
-import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { StackedPanelView } from "components/ui/StackedPanelView";
 import { Label } from "components/ui/Label";
@@ -30,7 +29,6 @@ import {
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { secondsToString } from "lib/utils/time";
 import { getKeys } from "lib/object";
-import { SUNNYSIDE } from "assets/sunnyside";
 import {
   type Consumable,
   CONSUMABLES,
@@ -114,28 +112,16 @@ export const AgingRackEmpty: React.FC<Props> = ({
       }
       titleIcon={selectedFish && ITEM_DETAILS[selectedFish]?.image}
       selected={!!selectedFish}
-      options={fishOptions.map((opt) => {
-        const fishName = opt.value;
-
-        return (
-          <div
-            key={fishName}
-            className="flex flex-col items-center shrink-0 max-w-[72px]"
-          >
-            <Box
-              image={opt.icon}
-              count={merged[fishName]}
-              isSelected={selectedFish === fishName}
-              onClick={() => onSelectFish(fishName)}
-              secondaryImage={
-                hasEnoughAgingIngredients(merged, fishName, gameState)
-                  ? SUNNYSIDE.icons.confirm
-                  : SUNNYSIDE.icons.cancel
-              }
-            />
-          </div>
-        );
-      })}
+      options={fishOptions.map((opt) => ({
+        id: opt.value,
+        image: opt.icon,
+        count: merged[opt.value],
+        selected: selectedFish === opt.value,
+        onClick: () => onSelectFish(opt.value),
+        status: hasEnoughAgingIngredients(merged, opt.value, gameState)
+          ? "ready"
+          : "missing",
+      }))}
       panels={[
         selectedFish && {
           id: "details",
