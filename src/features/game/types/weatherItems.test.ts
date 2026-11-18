@@ -5,8 +5,8 @@ import {
 } from "./weatherItems";
 
 describe("WEATHER_ITEM_RECIPES", () => {
-  // Pinned by hand from the spec rather than derived, so a changed amount
-  // has to be changed here on purpose.
+  // Pinned by hand rather than derived, so a changed amount has to be changed
+  // here on purpose. Sandbag and Balk are provisional (see the recipe table).
   it("lists the fixed ingredients of each item", () => {
     expect(WEATHER_ITEM_RECIPES.Sandbag.ingredients).toEqual({
       Sand: 10,
