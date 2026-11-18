@@ -109,7 +109,8 @@ jobs:
           }
 
           function getChangedFiles(sha) {
-            const output = git(["show", "--name-only", "--format=", sha]);
+            // For a merge commit, list what the merged branch brought in.
+            const output = git(["show", "--name-only", "--diff-merges=first-parent", "--format=", sha]);
             return output
               .split("\n")
               .map((line) => line.trim())
@@ -124,6 +125,7 @@ jobs:
                 "--stat=120,200",
                 "--summary",
                 "--unified=1",
+                "--diff-merges=first-parent",
                 sha,
               ]),
               15000,
@@ -528,15 +530,29 @@ jobs:
               }
             }
 
+            // A merge-commit or rebase merge pushes every commit of the PR, and
+            // each one resolves to the same PR. Alert once per PR, on its last
+            // commit (the merge commit, or the final rebased commit).
+            const lastIndexByPr = new Map();
+            suspiciousCommits.forEach((commit, index) => {
+              if (commit.pullRequest) {
+                lastIndexByPr.set(commit.pullRequest.number, index);
+              }
+            });
+            const alerts = suspiciousCommits.filter(
+              (commit, index) =>
+                !commit.pullRequest || lastIndexByPr.get(commit.pullRequest.number) === index,
+            );
+
             appendSummary([
               "## Main commit alerts",
               "",
               `Processed ${commitRange.length} commit(s).`,
               `Skipped ${skippedBots} known bot commit(s).`,
-              `Flagged ${suspiciousCommits.length} commit(s) to \`main\`, ${suspiciousCommits.filter((commit) => commit.community).length} of them from community PRs.`,
+              `Flagged ${alerts.length} change(s) to \`main\`, ${alerts.filter((commit) => commit.community).length} of them from community PRs.`,
             ]);
 
-            for (const metadata of suspiciousCommits) {
+            for (const metadata of alerts) {
               const files = getChangedFiles(metadata.sha);
               const diff = getDiffForSummary(metadata.sha);
 
