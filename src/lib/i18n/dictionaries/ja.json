@@ -9075,5 +9075,6 @@
   "weatherShop.chooseFlower": "花を選ぶ",
   "weatherShop.ingredientAmount": "{{item}} x {{amount}}",
   "weatherShop.onePerFarm": "ファームあたり最大 1",
-  "weatherShop.owned": "すでに所有しています"
+  "weatherShop.owned": "すでに所有しています",
+  "weatherItem.renew.message": "{{name}} は前回の気象イベントで使用されました。更新して次のイベントで使用してください。"
 }

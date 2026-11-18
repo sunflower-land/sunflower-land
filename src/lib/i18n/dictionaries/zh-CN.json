@@ -9075,5 +9075,6 @@
   "weatherShop.chooseFlower": "选择一朵花",
   "weatherShop.ingredientAmount": "{{item}} x {{amount}}",
   "weatherShop.onePerFarm": "每个农场最多 1 个",
-  "weatherShop.owned": "已经拥有"
+  "weatherShop.owned": "已经拥有",
+  "weatherItem.renew.message": "{{name}} 在上次天气事件中使用。将其续订以用于下一个版本。"
 }
