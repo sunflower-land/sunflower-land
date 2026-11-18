@@ -142,7 +142,8 @@ describe("createErrorLogger", () => {
     const log = createErrorLogger("react_portal", 1);
     await log({
       code: "PL-002",
-      message: "Minigame chicken-rescue did not load within 30000ms",
+      message:
+        "Minigame chicken-rescue did not load within 30000ms (attempt 1)",
       meta: { portal: "chicken-rescue", attempt: 0 },
     });
     expect(fetchMock).toHaveBeenCalledTimes(1);
@@ -150,6 +151,25 @@ describe("createErrorLogger", () => {
     expect(body.source).toBe("react_portal");
     expect(body.code).toBe("PL-002");
     expect(body.meta).toEqual({ portal: "chicken-rescue", attempt: 0 });
+  });
+
+  it("reports each retry of a minigame load when the attempt is in the message", async () => {
+    const log = createErrorLogger("react_portal", 1);
+    await log({
+      code: "PL-002",
+      message: "Minigame fruit-dash did not load within 30000ms (attempt 1)",
+      meta: { portal: "fruit-dash", attempt: 0 },
+    });
+    await log({
+      code: "PL-002",
+      message: "Minigame fruit-dash did not load within 30000ms (attempt 2)",
+      meta: { portal: "fruit-dash", attempt: 1 },
+    });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    const attempts = fetchMock.mock.calls.map(
+      (call) => JSON.parse(call[1].body).meta.attempt,
+    );
+    expect(attempts).toEqual([0, 1]);
   });
 
   it("reports extension/translation crashes under their own code", async () => {

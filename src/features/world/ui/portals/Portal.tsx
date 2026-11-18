@@ -183,12 +183,14 @@ export const Portal: React.FC<Props> = ({
         if (!cancelled) {
           setLoading(false);
           setLoadFailed(true);
-          // Network failures are filtered inside the logger.
+          // Network failures are filtered inside the logger. The portal and
+          // attempt are part of the message so retries are not deduplicated.
           createErrorLogger(
             "react_portal",
             farmIdRef.current,
           )({
-            error: error instanceof Error ? error.message : String(error),
+            code: ERRORS.PORTAL_LOGIN_ERROR,
+            message: `Minigame ${portalName} login failed (attempt ${loadAttempt + 1})`,
             stack: error instanceof Error ? error.stack : undefined,
             endpoint: `POST /portal/${portalName}/login`,
             meta: { portal: portalName, attempt: loadAttempt },
@@ -282,7 +284,7 @@ export const Portal: React.FC<Props> = ({
         farmIdRef.current,
       )({
         code: ERRORS.PORTAL_LOAD_ERROR,
-        message: `Minigame ${portalName} did not load within ${PORTAL_LOAD_TIMEOUT_MS}ms`,
+        message: `Minigame ${portalName} did not load within ${PORTAL_LOAD_TIMEOUT_MS}ms (attempt ${loadAttempt + 1})`,
         meta: { portal: portalName, attempt: loadAttempt },
       });
     }, PORTAL_LOAD_TIMEOUT_MS);
