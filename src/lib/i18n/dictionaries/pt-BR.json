@@ -9069,5 +9069,11 @@
   "description.thawStone": "Uma pedra que permanece quente ao toque.",
   "description.merinoWoolInsulation": "Lã macia e quente enrolada firmemente.",
   "description.shadeCloth": "Um dossel de tecido estendido sobre postes.",
-  "description.wildflowerLure": "Um pacote de flores silvestres com um aroma doce."
+  "description.wildflowerLure": "Um pacote de flores silvestres com um aroma doce.",
+  "weatherShop.amount": "x {{amount}}",
+  "weatherShop.chooseBeetle": "Escolha um besouro",
+  "weatherShop.chooseFlower": "Escolha uma flor",
+  "weatherShop.ingredientAmount": "{{item}} x {{amount}}",
+  "weatherShop.onePerFarm": "Máximo de 1 por fazenda",
+  "weatherShop.owned": "Já possuído"
 }

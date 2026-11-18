@@ -9069,5 +9069,11 @@
   "description.thawStone": "Una pietra che rimane calda al tatto.",
   "description.merinoWoolInsulation": "Lana morbida e calda arrotolata bene.",
   "description.shadeCloth": "Un baldacchino di stoffa teso su pali.",
-  "description.wildflowerLure": "Un mazzo di fiori selvatici dal profumo dolce."
+  "description.wildflowerLure": "Un mazzo di fiori selvatici dal profumo dolce.",
+  "weatherShop.amount": "x {{amount}}",
+  "weatherShop.chooseBeetle": "Scegli un coleottero",
+  "weatherShop.chooseFlower": "Scegli un fiore",
+  "weatherShop.ingredientAmount": "{{item}} x {{amount}}",
+  "weatherShop.onePerFarm": "Max 1 per azienda",
+  "weatherShop.owned": "Già posseduto"
 }

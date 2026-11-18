@@ -9069,5 +9069,11 @@
   "description.thawStone": "一块触感温暖的宝石。",
   "description.merinoWoolInsulation": "柔软、温暖的羊毛卷得很紧。",
   "description.shadeCloth": "布制遮阳篷伸展在杆子上。",
-  "description.wildflowerLure": "一束带有甜味的野花。"
+  "description.wildflowerLure": "一束带有甜味的野花。",
+  "weatherShop.amount": "x {{amount}}",
+  "weatherShop.chooseBeetle": "选择一只甲虫",
+  "weatherShop.chooseFlower": "选择一朵花",
+  "weatherShop.ingredientAmount": "{{item}} x {{amount}}",
+  "weatherShop.onePerFarm": "每个农场最多 1 个",
+  "weatherShop.owned": "已经拥有"
 }

@@ -9069,5 +9069,11 @@
   "description.thawStone": "Dokunulduğunda sıcak kalan bir taş.",
   "description.merinoWoolInsulation": "Yumuşak, sıcak yün sıkıca sarılır.",
   "description.shadeCloth": "Direklerin üzerine gerilmiş bir bez gölgelik.",
-  "description.wildflowerLure": "Tatlı bir kokuya sahip bir demet kır çiçeği."
+  "description.wildflowerLure": "Tatlı bir kokuya sahip bir demet kır çiçeği.",
+  "weatherShop.amount": "x {{amount}}",
+  "weatherShop.chooseBeetle": "Bir böcek seçin",
+  "weatherShop.chooseFlower": "Bir çiçek seç",
+  "weatherShop.ingredientAmount": "{{item}} x {{amount}}",
+  "weatherShop.onePerFarm": "Çiftlik başına en fazla 1",
+  "weatherShop.owned": "Zaten sahip olundu"
 }

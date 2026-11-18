@@ -9069,5 +9069,11 @@
   "description.thawStone": "Ein Stein, der sich warm anfühlt.",
   "description.merinoWoolInsulation": "Weiche, warme Wolle, eng zusammengerollt.",
   "description.shadeCloth": "Ein Stoffdach spannte sich über Stangen.",
-  "description.wildflowerLure": "Ein Bündel Wildblumen mit süßem Duft."
+  "description.wildflowerLure": "Ein Bündel Wildblumen mit süßem Duft.",
+  "weatherShop.amount": "x {{amount}}",
+  "weatherShop.chooseBeetle": "Wähle einen Käfer",
+  "weatherShop.chooseFlower": "Wähle eine Blume",
+  "weatherShop.ingredientAmount": "{{item}} x {{amount}}",
+  "weatherShop.onePerFarm": "Max. 1 pro Betrieb",
+  "weatherShop.owned": "Bereits im Besitz"
 }
