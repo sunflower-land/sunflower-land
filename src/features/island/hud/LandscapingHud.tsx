@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useInterval } from "lib/utils/hooks/useInterval";
 import { Balances } from "components/Balances";
 import { useActor, useSelector } from "@xstate/react";
@@ -77,6 +77,9 @@ const compareBlockBucks = (prev: Decimal, next: Decimal) => {
 const selectMovingItem = (state: MachineState) => state.context.moving;
 const isIdle = (state: MachineState) => state.matches({ editing: "idle" });
 const selectRemovalMode = (state: MachineState) => !!state.context.removalMode;
+/** Carried when a failed floor arrival sends the player back. */
+type SurfaceRouteState = { landscapingSaveFailed?: boolean };
+
 /** Where each landscaping surface lives, for sending a player back to one. */
 const SURFACE_ROUTES: Record<PlaceableLocation, string> = {
   farm: "/",
@@ -108,7 +111,14 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   const [showDiscardConfirmation, setShowDiscardConfirmation] = useState(false);
   const [showSaveConfirmation, setShowSaveConfirmation] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [saveFailed, setSaveFailed] = useState(false);
+  // Also set when a failed floor arrival sent the player back here.
+  const { pathname, state: routeState } = useLocation() as {
+    pathname: string;
+    state: SurfaceRouteState | null;
+  };
+  const [saveFailed, setSaveFailed] = useState(
+    () => !!routeState?.landscapingSaveFailed,
+  );
   const [quickDragging, setQuickDragging] = useState(false);
   const button = useSound("button");
 
@@ -203,21 +213,27 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
    * Move the draft to another surface. A clean draft is simply re-keyed; a
    * dirty one saves the surface being left first (same overlay as Save) and
    * only reports success when the server accepted it - a conflict keeps the
-   * player where they are with the panel showing.
+   * player where they are with the panel showing. "rejected" covers a
+   * conflict or a save already running; "failed" is any other error.
    */
-  const switchSurface = async (next: PlaceableLocation): Promise<boolean> => {
-    if (saving || saveInFlight) return false;
+  const switchSurface = async (
+    next: PlaceableLocation,
+  ): Promise<"switched" | "rejected" | "failed"> => {
+    if (saving || saveInFlight) return "rejected";
     if (!isDirty) {
       gameService.send({ type: "SURFACE_CHANGED", location: next });
-      return true;
+      return "switched";
     }
     setSaving(true);
     setSaveFailed(false);
     try {
-      return await commitArrangement(gameService, { nextLocation: next });
+      const saved = await commitArrangement(gameService, {
+        nextLocation: next,
+      });
+      return saved ? "switched" : "rejected";
     } catch {
       setSaveFailed(true);
-      return false;
+      return "failed";
     } finally {
       setSaving(false);
     }
@@ -236,19 +252,44 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   // sent back to the surface the draft belongs to - the same outcome as the
   // floor buttons, which never leave on a failed save - where the conflicts
   // panel, Save and Cancel apply. A conflict is never re-committed.
+  //
+  // The overlay is never lowered on the way back: the redirect unmounts this
+  // HUD, so the surface it lands on takes over. A save error rides along in
+  // the route state (see `saveFailed`) for that HUD to show. If the player
+  // has already left this surface when the save resolves, nothing happens.
   const navigate = useNavigate();
   const [arrivalPending, setArrivalPending] = useState(
     () => !!landscapingLocation && landscapingLocation !== location,
   );
   const arrivalStarted = useRef(false);
+  const mounted = useRef(true);
+  useEffect(() => {
+    mounted.current = true;
+    // The error flag has been read into `saveFailed`; drop it from history so
+    // revisiting this entry later doesn't show a stale error.
+    if (routeState?.landscapingSaveFailed) {
+      navigate(pathname, { replace: true, state: null });
+    }
+    return () => {
+      mounted.current = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   useEffect(() => {
     if (!arrivalPending || arrivalStarted.current) return;
     if (saving || saveInFlight) return;
     arrivalStarted.current = true;
     const source = landscapingLocation;
-    void switchSurface(location).then((switched) => {
-      if (!switched && source) navigate(SURFACE_ROUTES[source]);
-      setArrivalPending(false);
+    void switchSurface(location).then((result) => {
+      if (!mounted.current) return;
+      if (result === "switched" || !source) {
+        setArrivalPending(false);
+        return;
+      }
+      const state: SurfaceRouteState = {
+        landscapingSaveFailed: result === "failed",
+      };
+      navigate(SURFACE_ROUTES[source], { state });
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [arrivalPending, saving, saveInFlight]);
@@ -375,8 +416,10 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
         <div className="absolute bottom-0 p-2.5 left-0 flex flex-col space-y-2.5">
           <InteriorFloorNav
             floor={location === "interior" ? "ground" : "level_one"}
-            beforeNavigate={(to) =>
-              switchSurface(to === "ground" ? "interior" : "level_one")
+            beforeNavigate={async (to) =>
+              (await switchSurface(
+                to === "ground" ? "interior" : "level_one",
+              )) === "switched"
             }
           />
         </div>
