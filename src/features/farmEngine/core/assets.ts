@@ -1,4 +1,6 @@
 import Phaser from "phaser";
+import { CONFIG } from "lib/config";
+import { ATLAS_FRAMES, ATLAS_PAGES } from "./atlasManifest";
 
 /**
  * Loading helpers for the engine. Strict-parity rule: textures come from the
@@ -27,6 +29,10 @@ type LoadTracker = {
   /** Files asked for / settled over the scene's lifetime, for boot progress. */
   requested: number;
   settled: number;
+  /** Resolve one pending key. */
+  settle: (key: string) => void;
+  /** URLs waiting on an atlas page this scene is loading, by page. */
+  atlasWaiters: Map<number, Map<string, AtlasFrame>>;
 };
 
 const trackers = new WeakMap<Phaser.Scene, LoadTracker>();
@@ -40,6 +46,8 @@ function trackerFor(scene: Phaser.Scene): LoadTracker {
     pending: new Map(),
     requested: 0,
     settled: 0,
+    settle: (key) => settle(key),
+    atlasWaiters: new Map(),
   };
   trackers.set(scene, tracker);
 
@@ -107,17 +115,137 @@ const nearestOnLoad = (scene: Phaser.Scene, type: string, key: string) => {
   });
 };
 
+/**
+ * TEXTURE ATLAS. Most of what a farm draws is tiny shared art on the image
+ * CDN — ~200 files at boot, one request each, so boot was bound by round
+ * trips. `scripts/atlas/pack.js` packs every small static image there into a
+ * few pages; here each CDN URL becomes an ALIAS texture: its own key (so no
+ * call site changes — `add.image(x, y, url)` still works) whose single frame
+ * is a rectangle of the shared page.
+ *
+ * Aliases share the page's TextureSource, so there is one GPU texture per
+ * page: one request and one upload instead of hundreds, and sprites from the
+ * same page batch into the same draw call.
+ *
+ * Because an alias's source is the whole page, never size anything from
+ * `getSourceImage()` — use the frame (`textures.get(key).get().width`).
+ */
+type AtlasFrame = readonly [number, number, number, number, number];
+
+const ATLAS_ROOT = `${CONFIG.PROTECTED_IMAGE_URL}/`;
+const atlasPageKey = (page: number) => `farm-atlas-${page}`;
+/** Pages that failed to load this session: their art loads file by file. */
+const failedAtlasPages = new Set<number>();
+
+/** `localStorage["phaserFarm.atlas"] = "off"` loads every file on its own. */
+const atlasEnabled = (() => {
+  try {
+    return localStorage.getItem("phaserFarm.atlas") !== "off";
+  } catch {
+    return true;
+  }
+})();
+
+const atlasFrameFor = (url: string): AtlasFrame | undefined => {
+  if (!atlasEnabled || !url.startsWith(ATLAS_ROOT)) return undefined;
+  const frame = ATLAS_FRAMES[url.slice(ATLAS_ROOT.length)];
+  return frame && !failedAtlasPages.has(frame[0]) ? frame : undefined;
+};
+
+const isAtlasAlias = (texture: Phaser.Textures.Texture) =>
+  !!(texture.customData as { atlasAlias?: boolean }).atlasAlias;
+
+/** Register `url` as a texture whose one frame is a rect of a loaded page. */
+function addAtlasAlias(scene: Phaser.Scene, url: string, frame: AtlasFrame) {
+  const manager = scene.textures;
+  if (manager.exists(url)) return;
+  const [page, x, y, width, height] = frame;
+  const source = manager.get(atlasPageKey(page)).source[0];
+
+  // No sources of its own (an empty list uploads nothing); borrow the page's.
+  const alias = new Phaser.Textures.Texture(manager, url, [], width, height);
+  alias.source = [source];
+  alias.add("__BASE", 0, x, y, width, height);
+  (alias.customData as { atlasAlias?: boolean }).atlasAlias = true;
+  // Texture.destroy destroys its sources; an alias must let go of the shared
+  // one first, or removing any alias would take the page's GPU texture —
+  // and every other alias — with it.
+  const destroy = alias.destroy.bind(alias);
+  alias.destroy = () => {
+    alias.source = [];
+    destroy();
+  };
+
+  // TextureManager has no public way to adopt a ready-made Texture; this is
+  // what its own add* methods do after building one.
+  (manager.list as Record<string, Phaser.Textures.Texture>)[url] = alias;
+  manager.emit(Phaser.Textures.Events.ADD, url, alias);
+  manager.emit(`${Phaser.Textures.Events.ADD_KEY}${url}`, alias);
+}
+
+/** Queue one image the normal way: its own request, its own texture. */
+function queueOwnImage(scene: Phaser.Scene, url: string) {
+  scene.load.image(url, url);
+  nearestOnLoad(scene, "image", url);
+}
+
+/** Serve `url` from its atlas page, loading the page if this is the first ask. */
+function queueFromAtlas(scene: Phaser.Scene, url: string, frame: AtlasFrame) {
+  const page = frame[0];
+  const key = atlasPageKey(page);
+  if (scene.textures.exists(key)) {
+    // Page already in memory: the texture exists before this call returns.
+    addAtlasAlias(scene, url, frame);
+    return;
+  }
+
+  const tracker = trackerFor(scene);
+  track(scene, url);
+  const waiting = tracker.atlasWaiters.get(page);
+  if (waiting) {
+    waiting.set(url, frame);
+    return;
+  }
+
+  const waiters = new Map<string, AtlasFrame>([[url, frame]]);
+  tracker.atlasWaiters.set(page, waiters);
+  scene.load.image(key, ATLAS_PAGES[page]);
+
+  const onError = (file: Phaser.Loader.File) => {
+    if (file.key !== key) return;
+    scene.load.off(Phaser.Loader.Events.FILE_LOAD_ERROR, onError);
+    // Fall back to the individual files; they are still pending and settle
+    // as each one lands.
+    failedAtlasPages.add(page);
+    tracker.atlasWaiters.delete(page);
+    waiters.forEach((_frame, waiter) => queueOwnImage(scene, waiter));
+    scene.load.start();
+  };
+  scene.load.on(Phaser.Loader.Events.FILE_LOAD_ERROR, onError);
+  scene.load.once(`filecomplete-image-${key}`, () => {
+    scene.load.off(Phaser.Loader.Events.FILE_LOAD_ERROR, onError);
+    scene.textures.get(key).setFilter(Phaser.Textures.FilterMode.NEAREST);
+    tracker.atlasWaiters.delete(page);
+    waiters.forEach((waiterFrame, waiter) => {
+      addAtlasAlias(scene, waiter, waiterFrame);
+      tracker.settle(waiter);
+    });
+  });
+}
+
 /** Queue an image if the texture isn't already present. Returns the key. */
 export function queueImage(scene: Phaser.Scene, url: string): string {
   if (!scene.textures.exists(url)) {
+    const frame = atlasFrameFor(url);
+    if (frame) {
+      queueFromAtlas(scene, url, frame);
+      return url;
+    }
     // Track before queueing: a key another renderer already has in flight
     // still belongs to this caller's batch.
     const inFlight = trackerFor(scene).pending.has(url);
     track(scene, url);
-    if (!inFlight) {
-      scene.load.image(url, url);
-      nearestOnLoad(scene, "image", url);
-    }
+    if (!inFlight) queueOwnImage(scene, url);
   }
   return url;
 }
@@ -222,6 +350,12 @@ export function queueSpritesheet(
   url: string,
   frameConfig: FrameSize,
 ): string {
+  // The atlas holds every small image as ONE frame. Something asking for the
+  // same file as a sheet needs the real file with its frames cut.
+  if (scene.textures.exists(url) && isAtlasAlias(scene.textures.get(url))) {
+    scene.textures.remove(url);
+  }
+  trackers.get(scene)?.atlasWaiters.forEach((waiters) => waiters.delete(url));
   if (!scene.textures.exists(url)) {
     const inFlight = trackerFor(scene).pending.has(url);
     track(scene, url);

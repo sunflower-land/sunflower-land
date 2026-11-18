@@ -70,7 +70,7 @@ export class OceanLayer extends EntityRenderer<OceanSlice> {
     this.surface.texture.setFilter(Phaser.Textures.FilterMode.NEAREST);
 
     // CSS renders the tile at 64 src px regardless of the file's size.
-    const source = this.scene.textures.get(texture).getSourceImage();
+    const source = this.scene.textures.get(texture).get();
     const stamp = this.scene.make
       .image({ key: texture, add: false })
       .setOrigin(0, 0)

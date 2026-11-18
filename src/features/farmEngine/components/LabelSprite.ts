@@ -102,7 +102,7 @@ export class LabelChip {
     const borderTexture = style.border?.();
     if (borderTexture && scene.textures.exists(borderTexture)) {
       // borderImage `url(...) 20%` on a 2px border [style.ts].
-      const source = scene.textures.get(borderTexture).getSourceImage();
+      const source = scene.textures.get(borderTexture).get();
       const slice = Math.max(1, Math.round(source.width * 0.2));
       const border = scene.add
         .nineslice(

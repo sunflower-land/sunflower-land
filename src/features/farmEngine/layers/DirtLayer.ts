@@ -73,7 +73,7 @@ export class DirtLayer extends EntityRenderer<DirtSlice> {
     const stampFor = (texture: string) => {
       let stamp = stamps.get(texture);
       if (!stamp) {
-        const source = this.scene.textures.get(texture).getSourceImage();
+        const source = this.scene.textures.get(texture).get();
         stamp = this.scene.make
           .image({ key: texture, add: false })
           .setOrigin(0, 0)

@@ -37,8 +37,12 @@ const estimateTextureBytes = (game: Phaser.Game): number => {
     game.textures.list,
   ) as Phaser.Textures.Texture[];
   let bytes = 0;
+  const seen = new Set<unknown>();
   for (const texture of textures) {
     for (const source of texture.source ?? []) {
+      // Atlas aliases share one source — count it once.
+      if (seen.has(source)) continue;
+      seen.add(source);
       bytes += (source.width ?? 0) * (source.height ?? 0) * 4;
     }
   }

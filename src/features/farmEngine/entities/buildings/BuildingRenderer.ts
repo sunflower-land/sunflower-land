@@ -667,7 +667,7 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
           this.addExtra(objects, "processingIcon", icon, {
             x: box.x + 36 / PIXEL_SCALE / 2,
             y: box.y + box.height - 8 / PIXEL_SCALE,
-            width: 0.8 * this.scene.textures.get(icon).getSourceImage().width,
+            width: 0.8 * this.scene.textures.get(icon).get().width,
             depth: depth + 2,
           });
         }
@@ -1028,7 +1028,7 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
     if (cooking) {
       const icon = ITEM_DETAILS[cooking.name].image;
       if (this.scene.textures.exists(icon)) {
-        const w = this.scene.textures.get(icon).getSourceImage().width;
+        const w = this.scene.textures.get(icon).get().width;
         let x: number;
         if (layout.icon.anchor === "left") {
           x = box.x + Math.floor(layout.icon.base - w / 2);
@@ -1143,7 +1143,7 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
     names.forEach((itemName, index) => {
       const icon = ITEM_DETAILS[itemName as keyof typeof ITEM_DETAILS]?.image;
       if (!icon || !this.scene.textures.exists(icon)) return;
-      const w = this.scene.textures.get(icon).getSourceImage().width;
+      const w = this.scene.textures.get(icon).get().width;
       this.addExtra(objects, `readyRow-${index}`, icon, {
         x: box.x + (w / 2) * index + leftOffsetCss / PIXEL_SCALE,
         y: box.y + box.height + 3.8,
