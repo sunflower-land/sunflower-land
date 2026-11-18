@@ -594,7 +594,8 @@ export const MilestoneDetails: React.FC<{
     claimed < details.milestone &&
     claimed === details.milestone - 1;
   const isClaimed = claimed >= details.milestone;
-  const needsPreviousReward = !isClaimed && claimed < details.milestone - 1;
+  const needsPreviousReward =
+    !isClaimed && hasReachedPoints && claimed < details.milestone - 1;
 
   return (
     <CloseButtonPanel onClose={onClose}>
@@ -852,7 +853,7 @@ export const ChapterTracksPreview: React.FC = () => {
                 key={`${text}-${index}`}
               >
                 <p className="text-xs truncate mr-1 flex-1 min-w-0">{text}</p>
-                <div className="flex w-16 justify-end shrink-0">
+                <div className="flex min-w-16 justify-end shrink-0">
                   <Label type="success">{t("free")}</Label>
                   {freeClaimed && (
                     <img
