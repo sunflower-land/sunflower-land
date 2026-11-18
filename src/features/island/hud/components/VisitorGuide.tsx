@@ -129,7 +129,10 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({
               onChange={setSkipConfirmation}
               aria-label={t("help.increaseLimit.dontAskAgain")}
             />
-            <span className="text-xs sm:text-sm">
+            <span
+              className="text-xs sm:text-sm cursor-pointer"
+              onClick={() => setSkipConfirmation((prev) => !prev)}
+            >
               {t("help.increaseLimit.dontAskAgain")}
             </span>
           </div>
