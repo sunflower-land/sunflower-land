@@ -1,14 +1,9 @@
 import Decimal from "decimal.js-light";
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
 
 import { Button } from "components/ui/Button";
-import { Label } from "components/ui/Label";
-import {
-  StackedOptionGrid,
-  StackedPanelView,
-} from "components/ui/StackedPanelView";
-import { RequirementLabel } from "components/ui/RequirementsLabel";
+import { StackedPanelView } from "components/ui/StackedPanelView";
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import type { GameState, InventoryItemName } from "features/game/types/game";
@@ -17,14 +12,17 @@ import {
   getTranslatedItemName,
 } from "features/game/types/images";
 import {
-  getWeatherItemIngredients,
   WEATHER_ITEM_RECIPES,
   type WeatherItemName,
 } from "features/game/types/weatherItems";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getKeys } from "lib/object";
-import { formatNumber } from "lib/utils/formatNumber";
-import { getChestItemCount } from "features/island/hud/components/inventory/utils/inventory";
+import {
+  canAffordItem,
+  useWeatherItemPick,
+  WeatherItemChoice,
+  WeatherItemRequirements,
+} from "./WeatherItemRecipe";
 
 const ITEMS = getKeys(WEATHER_ITEM_RECIPES);
 
@@ -33,95 +31,22 @@ const _game = (state: MachineState) => state.context.state;
 const owned = (game: GameState, item: InventoryItemName) =>
   game.inventory[item] ?? new Decimal(0);
 
-/** What the player can spend: placed items (flowers, for one) don't count. */
-const available = (game: GameState, item: InventoryItemName) =>
-  getChestItemCount(game, item);
-
-const canAffordOption = (
-  game: GameState,
-  item: WeatherItemName,
-  option: InventoryItemName,
-) =>
-  available(game, option).gte(WEATHER_ITEM_RECIPES[item].choice?.[option] ?? 0);
-
-/**
- * Every option `item` offers, the ones the player can afford first (flowers
- * by how many the player holds).
- */
-const sortOptions = (
-  game: GameState,
-  item: WeatherItemName,
-): InventoryItemName[] => {
-  const { choice } = WEATHER_ITEM_RECIPES[item];
-  if (!choice) return [];
-
-  const options =
-    item === "Wildflower Lure"
-      ? getKeys(choice).sort((a, b) =>
-          available(game, b).cmp(available(game, a)),
-        )
-      : getKeys(choice);
-
-  return [
-    ...options.filter((option) => canAffordOption(game, item, option)),
-    ...options.filter((option) => !canAffordOption(game, item, option)),
-  ];
-};
-
-/** Whether the player can pay for `item` with at least one of its options. */
-const canAffordItem = (game: GameState, item: WeatherItemName) => {
-  const { ingredients, choice } = WEATHER_ITEM_RECIPES[item];
-  const fixed = getKeys(ingredients).every((name) =>
-    available(game, name).gte(ingredients[name] ?? 0),
-  );
-  if (!choice) return fixed;
-
-  return fixed && getKeys(choice).some((o) => canAffordOption(game, item, o));
-};
-
 export const WeatherItemShop: React.FC = () => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
   const game = useSelector(gameService, _game);
 
   const [selected, setSelected] = useState<WeatherItemName>("Sandbag");
-  const [picked, setPicked] = useState<InventoryItemName>();
-
-  const { choice } = WEATHER_ITEM_RECIPES[selected];
-  // Sorted when an item is selected, not on every count change, so crafting
-  // never moves the options under the player.
-  const options = useMemo(
-    () => sortOptions(game, selected),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [selected],
-  );
-  // Only an option the player can pay for can be picked; keep the pick while
-  // it still is, else default to the first one that is.
-  const canPick = (option: InventoryItemName) =>
-    canAffordOption(game, selected, option);
-  const ingredient = picked && canPick(picked) ? picked : options.find(canPick);
-
-  // With nothing pickable, still show the fixed ingredients;
-  // canCraft stays false because the recipe needs a pick.
-  const ingredients =
-    getWeatherItemIngredients(selected, ingredient) ??
-    WEATHER_ITEM_RECIPES[selected].ingredients;
+  const pick = useWeatherItemPick(game, selected);
 
   const hasItem = owned(game, selected).gte(1);
-  const canCraft =
-    !hasItem &&
-    (!choice || !!ingredient) &&
-    getKeys(ingredients).every((name) =>
-      available(game, name).gte(ingredients[name] ?? 0),
-    );
+  const canCraft = !hasItem && pick.canPay;
 
   const craft = () => {
-    gameService.send("weatherItem.crafted", { item: selected, ingredient });
-  };
-
-  const selectItem = (item: WeatherItemName) => {
-    setSelected(item);
-    setPicked(undefined);
+    gameService.send("weatherItem.crafted", {
+      item: selected,
+      ingredient: pick.ingredient,
+    });
   };
 
   return (
@@ -140,7 +65,7 @@ export const WeatherItemShop: React.FC = () => {
         image: ITEM_DETAILS[item].image,
         count: game.inventory[item],
         selected: selected === item,
-        onClick: () => selectItem(item),
+        onClick: () => setSelected(item),
         status: owned(game, item).gte(1)
           ? undefined
           : canAffordItem(game, item)
@@ -148,61 +73,20 @@ export const WeatherItemShop: React.FC = () => {
             : "missing",
       }))}
       panels={[
-        !!choice && {
+        !!WEATHER_ITEM_RECIPES[selected].choice && {
           id: "choice",
           content: (
-            <>
-              <div className="flex flex-wrap items-center justify-between gap-1 ml-1 mb-1">
-                <Label type="default" className="text-xs">
-                  {selected === "Wildflower Lure"
-                    ? t("weatherShop.chooseFlower")
-                    : t("weatherShop.chooseBeetle")}
-                </Label>
-                {ingredient && (
-                  <Label
-                    type="default"
-                    className="text-xs"
-                    icon={ITEM_DETAILS[ingredient].image}
-                  >
-                    {t("weatherShop.ingredientAmount", {
-                      item: getTranslatedItemName(ingredient),
-                      amount: formatNumber(choice[ingredient] ?? 0),
-                    })}
-                  </Label>
-                )}
-              </div>
-              <StackedOptionGrid
-                options={options.map((option) => ({
-                  id: option,
-                  image: ITEM_DETAILS[option].image,
-                  count: available(game, option),
-                  selected: ingredient === option,
-                  onClick: () => setPicked(option),
-                  disabled: !canPick(option),
-                  status: canPick(option) ? undefined : "missing",
-                  caption: t("weatherShop.amount", {
-                    amount: formatNumber(choice[option] ?? 0),
-                  }),
-                }))}
-              />
-            </>
+            <WeatherItemChoice game={game} item={selected} pick={pick} />
           ),
         },
         {
           id: "requirements",
           title: t("requirements"),
           content: (
-            <div className="flex flex-wrap p-2 gap-2">
-              {getKeys(ingredients).map((name) => (
-                <RequirementLabel
-                  key={name}
-                  type="item"
-                  item={name}
-                  balance={available(game, name)}
-                  requirement={new Decimal(ingredients[name] ?? 0)}
-                />
-              ))}
-            </div>
+            <WeatherItemRequirements
+              game={game}
+              ingredients={pick.ingredients}
+            />
           ),
         },
       ]}

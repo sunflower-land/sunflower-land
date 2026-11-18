@@ -1087,11 +1087,17 @@ export type PlacedItem = {
    */
   extendedMs?: number;
   /**
-   * When a season Guardian was last placed, so its sunshower boost only covers
-   * the time it was actually out — see `syncGuardianPlacements`. Absent on a
-   * Guardian placed before this was tracked (counts as placed since 0).
+   * When a season Guardian or a weather item was last placed, so its effect
+   * only covers the time it was actually out — see `syncGuardianPlacements`.
+   * Absent on one placed before this was tracked (counts as placed since 0).
    */
   placedAt?: number;
+  /**
+   * Weather item: the end of the event this copy was used on. It covers that
+   * event and greys out once it ends, until renewed — see `weatherItemCover`.
+   * Absent while unused; the client derives it until the server stores it.
+   */
+  usedUntil?: number;
 };
 
 export type ShakeItem = PlacedItem & { shakenAt?: number };

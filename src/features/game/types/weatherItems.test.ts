@@ -1,6 +1,7 @@
 import {
   getWeatherItemIngredients,
   isWeatherItemName,
+  WEATHER_ITEM_EVENTS,
   WEATHER_ITEM_RECIPES,
 } from "./weatherItems";
 
@@ -110,5 +111,19 @@ describe("getWeatherItemIngredients", () => {
     expect(
       getWeatherItemIngredients("Wildflower Lure", "Sunflower"),
     ).toBeUndefined();
+  });
+});
+
+describe("WEATHER_ITEM_EVENTS", () => {
+  it("pairs each item with the event it covers", () => {
+    expect(WEATHER_ITEM_EVENTS).toEqual({
+      Sandbag: "flood",
+      Balk: "tornado",
+      "Pest Smoker": "insectPlague",
+      "Thaw Stone": "greatFreeze",
+      "Merino Wool Insulation": "heavyRains",
+      "Shade Cloth": "sunshower",
+      "Wildflower Lure": "beeMigration",
+    });
   });
 });

@@ -1,4 +1,5 @@
 import { GUARDIAN_BOOST, type SeasonGuardianName } from "./getActiveGuardian";
+import type { WeatherItemName } from "../types/weatherItems";
 import { getKeys } from "lib/object";
 import { populateSeason } from "./season";
 import type {
@@ -945,6 +946,7 @@ export function appendBoostHistory(
   name:
     | TemporaryCollectibleName
     | SeasonGuardianName
+    | WeatherItemName
     | "Sunshower"
     | "Power hour",
   window: BoostHistoryWindow,
