@@ -380,7 +380,7 @@ jobs:
             HIGH: 15158332,
           };
 
-          async function sendDiscordAlert(metadata, files, summary, risk, pullRequest) {
+          async function sendDiscordAlert(metadata, summary, risk, pullRequest) {
             const embedColor = risk ? (RISK_COLORS[risk] ?? 15158332) : 15158332;
             const riskField = {
               name: "Risk Score",
@@ -457,10 +457,6 @@ jobs:
                     {
                       name: "Message",
                       value: escapeDiscord(truncate(metadata.subject, 1024)),
-                    },
-                    {
-                      name: "Files",
-                      value: escapeDiscord(truncate(files.join("\n") || "No files detected", 1024)),
                     },
                   ],
                   footer: {
@@ -567,7 +563,7 @@ jobs:
                 result = fallbackSummary(metadata, files);
               }
 
-              await sendDiscordAlert(metadata, files, result.summary, result.risk, metadata.pullRequest);
+              await sendDiscordAlert(metadata, result.summary, result.risk, metadata.pullRequest);
             }
           }
 
