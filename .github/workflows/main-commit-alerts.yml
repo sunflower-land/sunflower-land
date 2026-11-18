@@ -127,13 +127,17 @@ jobs:
 
           function getDiffForSummary(sha, baseSha) {
             const diffOptions = ["--stat=120,200", "--summary", "--unified=1"];
-            const output = baseSha
-              ? [
-                  git(["log", "--format=fuller", `${baseSha}..${sha}`]),
-                  git(["diff", ...diffOptions, baseSha, sha]),
-                ].join("\n\n")
-              : git(["show", "--format=fuller", ...diffOptions, "--diff-merges=first-parent", sha]);
-            return truncate(output, 15000);
+            if (!baseSha) {
+              return truncate(
+                git(["show", "--format=fuller", ...diffOptions, "--diff-merges=first-parent", sha]),
+                15000,
+              );
+            }
+            // Separate budgets, so a long commit log can't crowd out the patch.
+            return [
+              truncate(git(["log", "--format=fuller", `${baseSha}..${sha}`]), 3000),
+              truncate(git(["diff", ...diffOptions, baseSha, sha]), 12000),
+            ].join("\n\n");
           }
 
           function getCommitUrl(sha) {
@@ -278,7 +282,8 @@ jobs:
               return hasApproval && !hasChangesRequested;
             } catch (error) {
               console.log(`Review lookup failed for PR #${prNumber}: ${error.message}`);
-              return false;
+              // Unknown. Team PRs still alert, since only a confirmed approval skips them.
+              return null;
             }
           }
 
@@ -428,7 +433,7 @@ jobs:
                       ? [
                           {
                             name: "Approved",
-                            value: metadata.approved ? "Yes" : "No",
+                            value: metadata.approved === null ? "Unknown" : metadata.approved ? "Yes" : "No",
                             inline: true,
                           },
                         ]
@@ -497,7 +502,7 @@ jobs:
             const commitRange =
               !BEFORE_SHA || BEFORE_SHA === ZERO_SHA
                 ? [AFTER_SHA]
-                : git(["rev-list", "--reverse", `${BEFORE_SHA}..${AFTER_SHA}`])
+                : git(["rev-list", "--reverse", "--topo-order", `${BEFORE_SHA}..${AFTER_SHA}`])
                     .split("\n")
                     .filter(Boolean);
 
@@ -506,13 +511,14 @@ jobs:
 
             for (const sha of commitRange) {
               const metadata = getCommitMetadata(sha);
+              const pullRequest = await findAssociatedPullRequest(sha, metadata.subject);
 
-              if (shouldSkipCommit(metadata)) {
+              // Bot commits are skipped, but a community PR always alerts.
+              if (!pullRequest?.isCrossRepository && shouldSkipCommit(metadata)) {
                 skippedBots += 1;
                 continue;
               }
 
-              const pullRequest = await findAssociatedPullRequest(sha, metadata.subject);
               if (pullRequest) {
                 const approved = await isPrApproved(pullRequest.number);
                 // Community PRs come from forks. Alert on every one that
@@ -567,8 +573,16 @@ jobs:
             ]);
 
             for (const metadata of alerts) {
-              const files = getChangedFiles(metadata.sha, metadata.baseSha);
-              const diff = getDiffForSummary(metadata.sha, metadata.baseSha);
+              // A huge patch can overflow git's output buffer. Send the alert
+              // with whatever was collected rather than dropping it.
+              let files = [];
+              let diff = "";
+              try {
+                files = getChangedFiles(metadata.sha, metadata.baseSha);
+                diff = getDiffForSummary(metadata.sha, metadata.baseSha);
+              } catch (error) {
+                console.log(`Diff collection failed for ${metadata.sha}: ${error.message}`);
+              }
 
               let result;
               try {
