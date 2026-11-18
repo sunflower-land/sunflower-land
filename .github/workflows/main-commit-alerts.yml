@@ -228,7 +228,8 @@ jobs:
                 ) ?? [];
 
               if (pullRequests.length > 0) {
-                return pullRequests[0];
+                // GitHub links this commit to the PR itself.
+                return { ...pullRequests[0], verified: true };
               }
             } catch (error) {
               console.log(`GraphQL association lookup failed for ${sha}: ${error.message}`);
@@ -253,6 +254,8 @@ jobs:
                   baseRefName: pullRequest.base.ref,
                   // A deleted fork leaves `head.repo` null; that still counts as a fork.
                   isCrossRepository: pullRequest.head?.repo?.full_name !== REPOSITORY,
+                  // The subject alone doesn't prove this commit came from the PR.
+                  verified: pullRequest.merge_commit_sha === sha,
                 };
               }
             } catch (error) {
@@ -514,7 +517,8 @@ jobs:
               const pullRequest = await findAssociatedPullRequest(sha, metadata.subject);
 
               // Bot commits are skipped, but a community PR always alerts.
-              if (!pullRequest?.isCrossRepository && shouldSkipCommit(metadata)) {
+              const fromCommunityPr = pullRequest?.isCrossRepository && pullRequest.verified;
+              if (!fromCommunityPr && shouldSkipCommit(metadata)) {
                 skippedBots += 1;
                 continue;
               }
@@ -572,6 +576,7 @@ jobs:
               `Flagged ${alerts.length} change(s) to \`main\`, ${alerts.filter((commit) => commit.community).length} of them from community PRs.`,
             ]);
 
+            let failedAlerts = 0;
             for (const metadata of alerts) {
               // A huge patch can overflow git's output buffer. Send the alert
               // with whatever was collected rather than dropping it.
@@ -595,7 +600,17 @@ jobs:
                 result = fallbackSummary(metadata, files);
               }
 
-              await sendDiscordAlert(metadata, result.summary, result.risk, metadata.pullRequest);
+              // One rejected alert shouldn't drop the rest of the push.
+              try {
+                await sendDiscordAlert(metadata, result.summary, result.risk, metadata.pullRequest);
+              } catch (error) {
+                console.error(`Discord alert failed for ${metadata.sha}: ${error.message}`);
+                failedAlerts += 1;
+              }
+            }
+
+            if (failedAlerts > 0) {
+              throw new Error(`${failedAlerts} Discord alert(s) failed to send.`);
             }
           }
 
