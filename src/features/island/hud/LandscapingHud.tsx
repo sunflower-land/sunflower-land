@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router";
 import { useInterval } from "lib/utils/hooks/useInterval";
 import { Balances } from "components/Balances";
 import { useActor, useSelector } from "@xstate/react";
@@ -76,6 +77,14 @@ const compareBlockBucks = (prev: Decimal, next: Decimal) => {
 const selectMovingItem = (state: MachineState) => state.context.moving;
 const isIdle = (state: MachineState) => state.matches({ editing: "idle" });
 const selectRemovalMode = (state: MachineState) => !!state.context.removalMode;
+/** Where each landscaping surface lives, for sending a player back to one. */
+const SURFACE_ROUTES: Record<PlaceableLocation, string> = {
+  farm: "/",
+  home: "/home",
+  petHouse: "/pet-house",
+  interior: "/interior",
+  level_one: "/level_one",
+};
 const _hasSavedLayouts = (state: GameMachineState) =>
   hasExperiment(state.context.state, "savedLayouts");
 
@@ -220,18 +229,27 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   // way: save that surface, then continue here.
   //
   // This is about how the player arrived, not later changes, so it settles
-  // once. If they arrive mid-save it waits for that save to land rather than
-  // giving up, with the saving overlay up so nothing is edited on this floor
-  // meanwhile (those edits would be keyed to the floor being left and wiped
-  // by its commit). Once it has run, a conflict is left to the panel and
-  // never re-committed.
+  // once. Until it has, the saving overlay stays up so nothing is edited on
+  // this surface: those edits would be keyed to the surface being left and
+  // wiped by its commit. If they arrive mid-save it waits for that save to
+  // land rather than giving up. If the save is rejected or fails, they are
+  // sent back to the surface the draft belongs to - the same outcome as the
+  // floor buttons, which never leave on a failed save - where the conflicts
+  // panel, Save and Cancel apply. A conflict is never re-committed.
+  const navigate = useNavigate();
   const [arrivalPending, setArrivalPending] = useState(
     () => !!landscapingLocation && landscapingLocation !== location,
   );
+  const arrivalStarted = useRef(false);
   useEffect(() => {
-    if (!arrivalPending || saving || saveInFlight) return;
-    setArrivalPending(false);
-    void switchSurface(location);
+    if (!arrivalPending || arrivalStarted.current) return;
+    if (saving || saveInFlight) return;
+    arrivalStarted.current = true;
+    const source = landscapingLocation;
+    void switchSurface(location).then((switched) => {
+      if (!switched && source) navigate(SURFACE_ROUTES[source]);
+      setArrivalPending(false);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [arrivalPending, saving, saveInFlight]);
   const gameState = useSelector(gameService, (state) => state.context.state);
