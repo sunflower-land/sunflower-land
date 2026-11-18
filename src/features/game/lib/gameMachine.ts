@@ -1189,6 +1189,13 @@ export function startGame(authContext: AuthContext) {
               }),
             },
             {
+              // ART_MODE can also boot a friend visit straight from the URL
+              // (#/visit/<id>), shaped by the same preview params as the
+              // offline farm (?fixture, ?patch, ?ls) plus ?helpedToday.
+              target: "loadLandToVisit",
+              cond: () => ART_MODE && window.location.href.includes("visit"),
+            },
+            {
               target: "notifying",
               cond: () => ART_MODE,
               // ART_MODE boots the offline farm, optionally shaped by the
@@ -1309,6 +1316,36 @@ export function startGame(authContext: AuthContext) {
         loadLandToVisit: {
           invoke: {
             src: async (context, event) => {
+              // ART_MODE has no API: fabricate the visit from the preview
+              // fixture so visit flows can be checked offline.
+              if (ART_MODE) {
+                let farmId: number;
+
+                if (!(event as VisitEvent).landId) {
+                  farmId = Number(
+                    window.location.href.split("/visit/").pop()?.split("/")[0],
+                  );
+                } else {
+                  farmId = (event as VisitEvent).landId;
+                }
+
+                const farm = getPreviewFarm();
+
+                return {
+                  state: farm,
+                  farmId,
+                  hasHelpedPlayerToday: false,
+                  totalHelpedToday: Number(
+                    new URLSearchParams(window.location.search).get(
+                      "helpedToday",
+                    ) ?? 0,
+                  ),
+                  visitorId: farmId,
+                  visitorState: farm,
+                  visitedFarmNftId: 1,
+                };
+              }
+
               // Autosave just in case
               if (context.actions.length > 0) {
                 await autosave({
