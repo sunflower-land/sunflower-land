@@ -381,8 +381,11 @@ export const landscapingMachine = createMachine<
                 placeable: (_) => undefined,
                 // Stopping a quick-place session after dropping something
                 // saves what was dropped; backing out before any drop just
-                // returns to landscaping as before.
+                // returns to landscaping as an ordinary session, so later
+                // placements there stay a draft until Save.
                 placementDone: (context) =>
+                  !!context.quickPlace && !!context.quickPlaced,
+                quickPlace: (context) =>
                   !!context.quickPlace && !!context.quickPlaced,
               }),
             },
