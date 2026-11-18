@@ -340,6 +340,11 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [arrivalPending, saving, saveInFlight, commitPending]);
+
+  // While a save or a floor arrival is settling, nothing may change the draft:
+  // the dimmed overlay blocks clicks, and the placement controller (whose
+  // Enter/Escape shortcuts listen on window) is unmounted until it lifts.
+  const locked = saving || arrivalPending || commitPending;
   const gameState = useSelector(gameService, (state) => state.context.state);
   const farmHandIds = getKeys(gameState.farmHands.bumpkins);
 
@@ -796,7 +801,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
         tick feels dead for the ~1s it takes. Dim the screen and block input
         until the response (success, conflicts, or failure) arrives.
       */}
-      {(saving || arrivalPending || commitPending) && (
+      {locked && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black bg-opacity-50">
           <Panel>
             <Loading text={t("landscaping.saving")} />
@@ -858,7 +863,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
         />
       )}
 
-      {!removalMode && !quickDragging && (
+      {!removalMode && !quickDragging && !locked && (
         <PlaceableController location={location} />
       )}
     </HudContainer>
