@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useInterval } from "lib/utils/hooks/useInterval";
 import { Balances } from "components/Balances";
 import { useActor, useSelector } from "@xstate/react";
@@ -218,13 +218,20 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   // URL can land the player on another surface with landscaping still
   // active and the draft still keyed to the one they left. Settle it the same
   // way: save that surface, then continue here.
+  //
+  // This is about how the player arrived, not later changes, so it settles
+  // once. If they arrive mid-save it waits for that save to land rather than
+  // giving up; once it has run, a conflict is left to the panel and never
+  // re-committed.
+  const arrivalSettled = useRef(false);
   useEffect(() => {
+    if (arrivalSettled.current || saving || saveInFlight) return;
+    arrivalSettled.current = true;
     if (landscapingLocation && landscapingLocation !== location) {
       void switchSurface(location);
     }
-    // Mount only: this is about how the player arrived, not later changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [saving, saveInFlight]);
   const gameState = useSelector(gameService, (state) => state.context.state);
   const farmHandIds = getKeys(gameState.farmHands.bumpkins);
 
