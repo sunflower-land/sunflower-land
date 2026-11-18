@@ -9075,5 +9075,6 @@
   "weatherShop.chooseFlower": "Choose a flower",
   "weatherShop.ingredientAmount": "{{item}} x{{amount}}",
   "weatherShop.onePerFarm": "Max 1 per farm",
-  "weatherShop.owned": "Already owned"
+  "weatherShop.owned": "Already owned",
+  "weatherItem.renew.message": "{{name}} was used on its last weather event. Renew it to use it on the next one."
 }

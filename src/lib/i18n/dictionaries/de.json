@@ -9075,5 +9075,6 @@
   "weatherShop.chooseFlower": "Wähle eine Blume",
   "weatherShop.ingredientAmount": "{{item}} x {{amount}}",
   "weatherShop.onePerFarm": "Max. 1 pro Betrieb",
-  "weatherShop.owned": "Bereits im Besitz"
+  "weatherShop.owned": "Bereits im Besitz",
+  "weatherItem.renew.message": "{{name}} wurde bei seinem letzten Wetterereignis verwendet. Erneuern Sie es, um es beim nächsten zu verwenden."
 }

@@ -9075,5 +9075,6 @@
   "weatherShop.chooseFlower": "Scegli un fiore",
   "weatherShop.ingredientAmount": "{{item}} x {{amount}}",
   "weatherShop.onePerFarm": "Max 1 per azienda",
-  "weatherShop.owned": "Già posseduto"
+  "weatherShop.owned": "Già posseduto",
+  "weatherItem.renew.message": "{{name}} è stato utilizzato nel suo ultimo evento meteorologico. Rinnovalo per utilizzarlo in quello successivo."
 }

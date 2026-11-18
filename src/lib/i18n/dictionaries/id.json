@@ -9075,5 +9075,6 @@
   "weatherShop.chooseFlower": "Pilih bunga",
   "weatherShop.ingredientAmount": "{{item}} x {{amount}}",
   "weatherShop.onePerFarm": "Maks 1 per peternakan",
-  "weatherShop.owned": "Sudah dimiliki"
+  "weatherShop.owned": "Sudah dimiliki",
+  "weatherItem.renew.message": "{{name}} digunakan pada acara cuaca terakhirnya. Perbarui untuk menggunakannya pada yang berikutnya."
 }

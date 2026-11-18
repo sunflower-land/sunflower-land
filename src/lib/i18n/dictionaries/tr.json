@@ -9075,5 +9075,6 @@
   "weatherShop.chooseFlower": "Bir çiçek seç",
   "weatherShop.ingredientAmount": "{{item}} x {{amount}}",
   "weatherShop.onePerFarm": "Çiftlik başına en fazla 1",
-  "weatherShop.owned": "Zaten sahip olundu"
+  "weatherShop.owned": "Zaten sahip olundu",
+  "weatherItem.renew.message": "{{name}} son hava olayında kullanıldı. Bir sonrakinde kullanmak için yenileyin."
 }
