@@ -45,7 +45,11 @@ export async function portal(request: Request) {
   );
 
   if (response.status >= 400) {
-    throw new Error(ERRORS.PORTAL_LOGIN_ERROR);
+    const error = new Error(ERRORS.PORTAL_LOGIN_ERROR) as Error & {
+      status?: number;
+    };
+    error.status = response.status;
+    throw error;
   }
 
   const data: { token: string } = await response.json();
