@@ -9,6 +9,24 @@ export type WeatherEventName =
   | "bountifulHarvest"
   | "fishFrenzy";
 
+export type WeatherEventKind = "threat" | "positive";
+
+/** Whether each event is a threat or a positive event. */
+export const WEATHER_EVENTS: Record<
+  WeatherEventName,
+  { kind: WeatherEventKind }
+> = {
+  flood: { kind: "threat" },
+  insectPlague: { kind: "threat" },
+  tornado: { kind: "threat" },
+  greatFreeze: { kind: "threat" },
+  beeMigration: { kind: "positive" },
+  heavyRains: { kind: "positive" },
+  sunshower: { kind: "positive" },
+  bountifulHarvest: { kind: "positive" },
+  fishFrenzy: { kind: "positive" },
+};
+
 /** `startAt` is inclusive, `endAt` exclusive. Events never overlap. */
 export type ScheduledWeatherEvent = {
   name: WeatherEventName;

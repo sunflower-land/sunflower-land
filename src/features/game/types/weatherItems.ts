@@ -2,6 +2,7 @@ import { getKeys } from "lib/object";
 import type { InventoryItemName } from "./game";
 import type { BeetleName } from "./beetles";
 import { FLOWERS, type FlowerName } from "./flowers";
+import type { WeatherEventName } from "./weather";
 
 export type WeatherItemName =
   | "Sandbag"
@@ -57,6 +58,17 @@ export const WEATHER_ITEM_RECIPES: Record<WeatherItemName, WeatherItemRecipe> =
       choice: LURE_FLOWERS,
     },
   };
+
+/** The event each item covers while it is placed. */
+export const WEATHER_ITEM_EVENTS: Record<WeatherItemName, WeatherEventName> = {
+  Sandbag: "flood",
+  Balk: "tornado",
+  "Pest Smoker": "insectPlague",
+  "Thaw Stone": "greatFreeze",
+  "Merino Wool Insulation": "heavyRains",
+  "Shade Cloth": "sunshower",
+  "Wildflower Lure": "beeMigration",
+};
 
 export const isWeatherItemName = (name: string): name is WeatherItemName =>
   Object.prototype.hasOwnProperty.call(WEATHER_ITEM_RECIPES, name);
