@@ -516,6 +516,7 @@ jobs:
 
             const suspiciousCommits = [];
             const firstShaByPr = new Map();
+            const lastShaByPr = new Map();
             const approvalByPr = new Map();
             let skippedBots = 0;
 
@@ -523,10 +524,14 @@ jobs:
               const metadata = getCommitMetadata(sha);
               const pullRequest = await findAssociatedPullRequest(sha, metadata.subject);
 
-              // Note where each PR starts before any filtering, so a rebase
-              // summary covers every commit even if the first is a bot's.
-              if (pullRequest && !firstShaByPr.has(pullRequest.number)) {
-                firstShaByPr.set(pullRequest.number, sha);
+              // Note where each PR starts and ends before any filtering, so a
+              // rebase summary covers every commit even if the first or last is
+              // a bot's.
+              if (pullRequest) {
+                if (!firstShaByPr.has(pullRequest.number)) {
+                  firstShaByPr.set(pullRequest.number, sha);
+                }
+                lastShaByPr.set(pullRequest.number, sha);
               }
 
               // Bot commits are skipped, but a community PR always alerts.
@@ -580,10 +585,12 @@ jobs:
                   return { ...commit, firstParent: true };
                 }
                 const firstSha = firstShaByPr.get(commit.pullRequest.number);
-                if (!firstSha || firstSha === commit.sha) {
+                const lastSha = lastShaByPr.get(commit.pullRequest.number);
+                if (firstSha === lastSha) {
                   return commit;
                 }
-                return { ...commit, baseSha: `${firstSha}^` };
+                // lastSha can be a later bot commit that the filter dropped.
+                return { ...commit, baseSha: `${firstSha}^`, headSha: lastSha };
               });
 
             appendSummary([
@@ -601,8 +608,8 @@ jobs:
               let files = [];
               let diff = "";
               try {
-                files = getChangedFiles(metadata.sha, metadata);
-                diff = getDiffForSummary(metadata.sha, metadata);
+                files = getChangedFiles(metadata.headSha ?? metadata.sha, metadata);
+                diff = getDiffForSummary(metadata.headSha ?? metadata.sha, metadata);
               } catch (error) {
                 console.log(`Diff collection failed for ${metadata.sha}: ${error.message}`);
               }
