@@ -1,3 +1,8 @@
+import {
+  getUnprotectedThreat,
+  getWeatherEvents,
+} from "features/game/lib/weatherItemCover";
+import { hasFeatureAccess } from "lib/flags";
 import type {
   BoostName,
   CriticalHitName,
@@ -148,6 +153,21 @@ export function getGreenhouseCropYieldAmount({
   if (fertiliser === "Greenhouse Goodie") {
     amount += 0.2;
     boostsUsed.push({ name: "Greenhouse Goodie", value: "+0.2" });
+  }
+
+  // The insect plague's x0.5 comes last, after the Greenhouse bonuses (with the
+  // Weather flag; getCropYieldAmount leaves Greenhouse crops to this).
+  if (
+    isGreenhouseCrop(crop) &&
+    hasFeatureAccess(game, "WEATHER") &&
+    getUnprotectedThreat({
+      game,
+      name: "insectPlague",
+      events: getWeatherEvents(game),
+      now: createdAt,
+    })
+  ) {
+    amount = amount * 0.5;
   }
 
   return { amount, boostsUsed };
