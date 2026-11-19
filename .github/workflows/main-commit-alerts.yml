@@ -114,24 +114,26 @@ jobs:
 
           // With a baseSha, cover every commit in baseSha..sha (a rebase merge
           // spreads one PR over several commits). Without one, cover the single
-          // commit; for a merge commit, that is what the merged branch brought in.
-          function getChangedFiles(sha, baseSha) {
+          // commit. firstParent is set only for a PR's merge commit, so its diff is
+          // what the PR brought in. Any other merge (say a local `git pull` pushed
+          // straight to main) keeps git's default, which shows only what the merge
+          // itself changed, not everything main gained since the local branch split.
+          function getChangedFiles(sha, { baseSha, firstParent } = {}) {
+            const mergeOptions = firstParent ? ["--diff-merges=first-parent"] : [];
             const output = baseSha
               ? git(["diff", "--name-only", baseSha, sha])
-              : git(["show", "--name-only", "--diff-merges=first-parent", "--format=", sha]);
+              : git(["show", "--name-only", ...mergeOptions, "--format=", sha]);
             return output
               .split("\n")
               .map((line) => line.trim())
               .filter(Boolean);
           }
 
-          function getDiffForSummary(sha, baseSha) {
+          function getDiffForSummary(sha, { baseSha, firstParent } = {}) {
             const diffOptions = ["--stat=120,200", "--summary", "--unified=1"];
             if (!baseSha) {
-              return truncate(
-                git(["show", "--format=fuller", ...diffOptions, "--diff-merges=first-parent", sha]),
-                15000,
-              );
+              const mergeOptions = firstParent ? ["--diff-merges=first-parent"] : [];
+              return truncate(git(["show", "--format=fuller", ...diffOptions, ...mergeOptions, sha]), 15000);
             }
             // Separate budgets, so a long commit log can't crowd out the patch.
             return [
@@ -571,8 +573,14 @@ jobs:
               .map((commit) => {
                 // A rebase merge: summarise all of the PR's commits, not just the
                 // last. A merge commit's first-parent diff already covers them.
-                const firstSha = commit.pullRequest && firstShaByPr.get(commit.pullRequest.number);
-                if (!firstSha || firstSha === commit.sha || isMergeCommit(commit.sha)) {
+                if (!commit.pullRequest) {
+                  return commit;
+                }
+                if (isMergeCommit(commit.sha)) {
+                  return { ...commit, firstParent: true };
+                }
+                const firstSha = firstShaByPr.get(commit.pullRequest.number);
+                if (!firstSha || firstSha === commit.sha) {
                   return commit;
                 }
                 return { ...commit, baseSha: `${firstSha}^` };
@@ -593,8 +601,8 @@ jobs:
               let files = [];
               let diff = "";
               try {
-                files = getChangedFiles(metadata.sha, metadata.baseSha);
-                diff = getDiffForSummary(metadata.sha, metadata.baseSha);
+                files = getChangedFiles(metadata.sha, metadata);
+                diff = getDiffForSummary(metadata.sha, metadata);
               } catch (error) {
                 console.log(`Diff collection failed for ${metadata.sha}: ${error.message}`);
               }
