@@ -57,6 +57,9 @@ interface Props {
 const _island = (state: MachineState) => state.context.state.island;
 const _calendar = (state: MachineState) => state.context.state.calendar;
 
+const _weatherOn = (state: MachineState) =>
+  hasFeatureAccess(state.context.state, "WEATHER");
+
 /** The weather insect plague is running and nothing covers it. */
 const isWeatherPlagueAt = (state: MachineState, now: number) => {
   const game = state.context.state;
@@ -133,6 +136,7 @@ export const FertilePlot: React.FC<Props> = ({
 
   const island = useSelector(gameService, _island);
   const calendar = useSelector(gameService, _calendar);
+  const weatherOn = useSelector(gameService, _weatherOn);
 
   const [showTimerPopover, setShowTimerPopover] = useState(false);
   const { harvestSeconds, startAt, baseDurationMs } = useMemo(
@@ -183,6 +187,11 @@ export const FertilePlot: React.FC<Props> = ({
       [plagueNow],
     ),
   );
+  // Branch on the flag as harvest does: under Weather only the weather
+  // plague affects yield, so only it shows.
+  const showPlague = weatherOn
+    ? weatherPlague
+    : activeInsectPlague && !isProtected;
   const stage = getGrowthStage(cropName, growPercentage);
 
   const isSunshower = getActiveCalendarEvent({ calendar }) === "sunshower";
@@ -209,12 +218,7 @@ export const FertilePlot: React.FC<Props> = ({
           ? [SPROUT_MIX_ICON, RAPID_ROOT_ICON]
           : [];
 
-  const weatherIcon =
-    weatherPlague || (activeInsectPlague && !isProtected)
-      ? locust
-      : isSunshower
-        ? sunshower
-        : undefined;
+  const weatherIcon = showPlague ? locust : isSunshower ? sunshower : undefined;
 
   // Each icon is its own entry in priority order and takes the next free
   // corner. Any overflow beyond four shares the last corner.
