@@ -62,6 +62,29 @@ describe("insect plague (weather)", () => {
     expect(amount).toBe(2);
   });
 
+  it("halves after a calendar Bountiful Harvest bonus too", () => {
+    // A leftover calendar record (from before the flag) can still be active.
+    // The client checks it against the clock, so pin it to the harvest.
+    jest.useFakeTimers({ now: MID_PLAGUE });
+    try {
+      const game: GameState = {
+        ...farm(),
+        calendar: {
+          dates: [],
+          bountifulHarvest: {
+            startedAt: MID_PLAGUE - HOUR,
+            triggeredAt: MID_PLAGUE - HOUR,
+          },
+        },
+      };
+
+      // Sunflower 1 + Bountiful Harvest 1 = 2, halved = 1 (not 1 × 0.5 + 1).
+      expect(sunflowers(game)).toBe(1);
+    } finally {
+      jest.useRealTimers();
+    }
+  });
+
   describe("in the Greenhouse", () => {
     const greenhouse = (
       crop: "Rice" | "Grape",

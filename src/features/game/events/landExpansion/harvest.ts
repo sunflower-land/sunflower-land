@@ -958,21 +958,8 @@ export function getCropYieldAmount({
    * Calendar events should be applied below this comment
    */
 
-  // Insect plague: a final ×0.5 on the fully boosted yield. With the Weather
-  // flag it comes from the weather schedule (Pest Smoker / Guardian cover);
-  // otherwise from the calendar event.
-  if (hasFeatureAccess(game, "WEATHER")) {
-    const plague = getUnprotectedThreat({
-      game,
-      name: "insectPlague",
-      events: getWeatherEvents(game),
-      now: createdAt,
-    });
-
-    // Greenhouse crops are halved in getGreenhouseCropYieldAmount instead,
-    // after their Greenhouse bonuses.
-    if (plague && !isGreenhouseCrop(crop)) amount = amount * 0.5;
-  } else {
+  // Insect plague (calendar, Weather flag off): ×0.5 on the boosted yield.
+  if (!hasFeatureAccess(game, "WEATHER")) {
     const isInsectPlagueActive =
       getActiveCalendarEvent({ calendar: game.calendar }) === "insectPlague";
     const isProtected = game.calendar.insectPlague?.protected;
@@ -994,6 +981,22 @@ export function getCropYieldAmount({
       amount += 1;
       boostsUsed.push({ name: activeGuardian, value: "+1" });
     }
+  }
+
+  // Weather insect plague: the final ×0.5, after every bonus above (Pest Smoker
+  // / Guardian cover). Greenhouse crops are halved in
+  // getGreenhouseCropYieldAmount instead, after their Greenhouse bonuses.
+  if (
+    hasFeatureAccess(game, "WEATHER") &&
+    !isGreenhouseCrop(crop) &&
+    getUnprotectedThreat({
+      game,
+      name: "insectPlague",
+      events: getWeatherEvents(game),
+      now: createdAt,
+    })
+  ) {
+    amount = amount * 0.5;
   }
 
   return {
