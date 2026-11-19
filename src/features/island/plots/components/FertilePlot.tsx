@@ -178,8 +178,9 @@ export const FertilePlot: React.FC<Props> = ({
   const activeInsectPlague =
     getActiveCalendarEvent({ calendar }) === "insectPlague";
   const isProtected = calendar.insectPlague?.protected;
-  // Its own live clock: the node timer's stops once the crop is ready.
-  const plagueNow = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
+  // Its own live clock (the node timer's stops once the crop is ready), only
+  // running while the Weather flag is on.
+  const plagueNow = useNow({ live: weatherOn, intervalMs: PRE_ACTION_TICK_MS });
   const weatherPlague = useSelector(
     gameService,
     useCallback(
