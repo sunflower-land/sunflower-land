@@ -521,13 +521,13 @@ jobs:
               const metadata = getCommitMetadata(sha);
               const pullRequest = await findAssociatedPullRequest(sha, metadata.subject);
 
-              // Bot commits are skipped, but a community PR always alerts.
               // Note where each PR starts before any filtering, so a rebase
               // summary covers every commit even if the first is a bot's.
               if (pullRequest && !firstShaByPr.has(pullRequest.number)) {
                 firstShaByPr.set(pullRequest.number, sha);
               }
 
+              // Bot commits are skipped, but a community PR always alerts.
               if (!pullRequest?.isCrossRepository && shouldSkipCommit(metadata)) {
                 skippedBots += 1;
                 continue;
