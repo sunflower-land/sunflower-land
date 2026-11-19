@@ -1,3 +1,8 @@
+import {
+  getUnprotectedThreat,
+  getWeatherEvents,
+} from "features/game/lib/weatherItemCover";
+import { hasFeatureAccess } from "lib/flags";
 import type {
   AOE,
   BoostName,
@@ -953,13 +958,26 @@ export function getCropYieldAmount({
    * Calendar events should be applied below this comment
    */
 
-  // Insect plague
-  const isInsectPlagueActive =
-    getActiveCalendarEvent({ calendar: game.calendar }) === "insectPlague";
-  const isProtected = game.calendar.insectPlague?.protected;
+  // Insect plague: a final ×0.5 on the fully boosted yield. With the Weather
+  // flag it comes from the weather schedule (Pest Smoker / Guardian cover);
+  // otherwise from the calendar event.
+  if (hasFeatureAccess(game, "WEATHER")) {
+    const plague = getUnprotectedThreat({
+      game,
+      name: "insectPlague",
+      events: getWeatherEvents(game),
+      now: createdAt,
+    });
 
-  if (isInsectPlagueActive && !isProtected) {
-    amount = amount * 0.5;
+    if (plague) amount = amount * 0.5;
+  } else {
+    const isInsectPlagueActive =
+      getActiveCalendarEvent({ calendar: game.calendar }) === "insectPlague";
+    const isProtected = game.calendar.insectPlague?.protected;
+
+    if (isInsectPlagueActive && !isProtected) {
+      amount = amount * 0.5;
+    }
   }
 
   if (

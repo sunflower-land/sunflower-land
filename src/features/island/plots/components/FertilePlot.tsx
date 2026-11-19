@@ -1,4 +1,10 @@
-import React, { useContext, useMemo, useState, type JSX } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+  type JSX,
+} from "react";
 
 import { CROPS, type CropName } from "features/game/types/crops";
 import {
@@ -28,6 +34,13 @@ import {
   type BoostWindow,
 } from "features/game/lib/boostWindows";
 import { useNodeTimer } from "features/game/lib/useNodeTimer";
+import { useNow } from "lib/utils/hooks/useNow";
+import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
+import { hasFeatureAccess } from "lib/flags";
+import {
+  getUnprotectedThreat,
+  getWeatherEvents,
+} from "features/game/lib/weatherItemCover";
 
 interface Props {
   cropName?: CropName;
@@ -43,6 +56,19 @@ interface Props {
 
 const _island = (state: MachineState) => state.context.state.island;
 const _calendar = (state: MachineState) => state.context.state.calendar;
+
+/** The weather insect plague is running and nothing covers it. */
+const isWeatherPlagueAt = (state: MachineState, now: number) => {
+  const game = state.context.state;
+  if (!hasFeatureAccess(game, "WEATHER")) return false;
+
+  return !!getUnprotectedThreat({
+    game,
+    name: "insectPlague",
+    events: getWeatherEvents(game),
+    now,
+  });
+};
 
 const clampPercentage = (value: number) => Math.min(Math.max(value, 0), 100);
 
@@ -148,6 +174,15 @@ export const FertilePlot: React.FC<Props> = ({
   const activeInsectPlague =
     getActiveCalendarEvent({ calendar }) === "insectPlague";
   const isProtected = calendar.insectPlague?.protected;
+  // Its own live clock: the node timer's stops once the crop is ready.
+  const plagueNow = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
+  const weatherPlague = useSelector(
+    gameService,
+    useCallback(
+      (state: MachineState) => isWeatherPlagueAt(state, plagueNow),
+      [plagueNow],
+    ),
+  );
   const stage = getGrowthStage(cropName, growPercentage);
 
   const isSunshower = getActiveCalendarEvent({ calendar }) === "sunshower";
@@ -175,7 +210,7 @@ export const FertilePlot: React.FC<Props> = ({
           : [];
 
   const weatherIcon =
-    activeInsectPlague && !isProtected
+    weatherPlague || (activeInsectPlague && !isProtected)
       ? locust
       : isSunshower
         ? sunshower

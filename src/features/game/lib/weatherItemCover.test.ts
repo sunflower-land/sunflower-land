@@ -3,6 +3,7 @@ import type { GameState, PlacedItem } from "../types/game";
 import type { ScheduledWeatherEvent } from "../types/weather";
 import {
   findUsedEvent,
+  getUnprotectedThreat,
   getUsedUntil,
   getWeatherItemCover,
   isWeatherItemGreyed,
@@ -346,5 +347,49 @@ describe("weather item cover", () => {
         now: MID_FLOOD,
       }),
     ).toEqual(FLOOD);
+  });
+
+  describe("getUnprotectedThreat", () => {
+    const args = { name: "flood" as const, events: EVENTS, now: MID_FLOOD };
+
+    it("returns the threat while it runs", () => {
+      expect(getUnprotectedThreat({ ...args, game: farm() })).toEqual(FLOOD);
+    });
+
+    it("returns nothing when that threat isn't running", () => {
+      expect(
+        getUnprotectedThreat({ ...args, game: farm(), now: FLOOD.endAt }),
+      ).toBeUndefined();
+    });
+
+    it("returns nothing while its item covers it", () => {
+      const game = farm({
+        collectibles: { Sandbag: [copy({ placedAt: MID_FLOOD - HOUR })] },
+      });
+
+      expect(getUnprotectedThreat({ ...args, game })).toBeUndefined();
+    });
+
+    it("returns nothing when the season's Guardian was out at its start", () => {
+      const game = farm({
+        collectibles: {
+          "Spring Guardian": [copy({ placedAt: FLOOD.startAt - HOUR })],
+        },
+      });
+
+      expect(getUnprotectedThreat({ ...args, game })).toBeUndefined();
+    });
+
+    it("returns the threat when its item was used on an earlier event", () => {
+      const game = farm({
+        collectibles: {
+          Sandbag: [
+            copy({ placedAt: FLOOD.startAt - HOUR, usedUntil: BEES_1.endAt }),
+          ],
+        },
+      });
+
+      expect(getUnprotectedThreat({ ...args, game })).toEqual(FLOOD);
+    });
   });
 });

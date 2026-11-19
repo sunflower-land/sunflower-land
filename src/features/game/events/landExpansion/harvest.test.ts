@@ -1,3 +1,4 @@
+import { CONFIG } from "lib/config";
 import Decimal from "decimal.js-light";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { INITIAL_FARM } from "features/game/lib/constants";
@@ -4044,92 +4045,104 @@ describe("harvest", () => {
       expect(state.inventory.Sunflower).toEqual(new Decimal(3));
     });
 
-    it("yield -0.5 if insect plague is active", () => {
-      const state = harvest({
-        state: {
-          ...GAME_STATE,
-          calendar: {
-            dates: [
-              {
-                name: "insectPlague",
-                date: new Date().toISOString().split("T")[0],
-              },
-            ],
-            insectPlague: {
-              startedAt: new Date().getTime(),
-              triggeredAt: Date.now(),
-              protected: false,
-            },
-          },
-          inventory: {
-            "Sunflower Seed": new Decimal(1),
-          },
-          crops: {
-            [firstId]: {
-              ...GAME_STATE.crops[firstId],
-              crop: {
-                name: "Sunflower",
-                plantedAt:
-                  dateNow - (CROPS["Sunflower"].harvestSeconds ?? 0) * 1000,
-              },
-            },
-          },
-        },
-        action: {
-          type: "crop.harvested",
-          index: firstId,
-        },
-        createdAt: dateNow,
+    // The calendar plague: with the Weather flag (on in jest) the plague comes
+    // from the weather schedule instead (harvestInsectPlague.test.ts).
+    describe("calendar insect plague (Weather flag off)", () => {
+      const network = CONFIG.NETWORK;
+      beforeAll(() => {
+        CONFIG.NETWORK = "mainnet";
+      });
+      afterAll(() => {
+        CONFIG.NETWORK = network;
       });
 
-      const crops = state.crops;
-
-      expect(crops[firstId].crop).toBeUndefined();
-      expect(state.inventory.Sunflower).toEqual(new Decimal(0.5));
-    });
-
-    it("should not deduct 0.5 if insect plague is active and farm is protected", () => {
-      const state = harvest({
-        state: {
-          ...GAME_STATE,
-          calendar: {
-            dates: [
-              {
-                name: "insectPlague",
-                date: new Date().toISOString().split("T")[0],
+      it("yield -0.5 if insect plague is active", () => {
+        const state = harvest({
+          state: {
+            ...GAME_STATE,
+            calendar: {
+              dates: [
+                {
+                  name: "insectPlague",
+                  date: new Date().toISOString().split("T")[0],
+                },
+              ],
+              insectPlague: {
+                startedAt: new Date().getTime(),
+                triggeredAt: Date.now(),
+                protected: false,
               },
-            ],
-            insectPlague: {
-              startedAt: new Date().getTime(),
-              triggeredAt: Date.now(),
-              protected: true,
             },
-          },
-          inventory: {
-            "Sunflower Seed": new Decimal(1),
-          },
-          crops: {
-            [firstId]: {
-              ...GAME_STATE.crops[firstId],
-              crop: {
-                name: "Sunflower",
-                plantedAt:
-                  dateNow - (CROPS["Sunflower"].harvestSeconds ?? 0) * 1000,
+            inventory: {
+              "Sunflower Seed": new Decimal(1),
+            },
+            crops: {
+              [firstId]: {
+                ...GAME_STATE.crops[firstId],
+                crop: {
+                  name: "Sunflower",
+                  plantedAt:
+                    dateNow - (CROPS["Sunflower"].harvestSeconds ?? 0) * 1000,
+                },
               },
             },
           },
-        },
-        action: {
-          type: "crop.harvested",
-          index: firstId,
-        },
-        createdAt: dateNow,
+          action: {
+            type: "crop.harvested",
+            index: firstId,
+          },
+          createdAt: dateNow,
+        });
+
+        const crops = state.crops;
+
+        expect(crops[firstId].crop).toBeUndefined();
+        expect(state.inventory.Sunflower).toEqual(new Decimal(0.5));
       });
 
-      const crops = state.crops;
+      it("should not deduct 0.5 if insect plague is active and farm is protected", () => {
+        const state = harvest({
+          state: {
+            ...GAME_STATE,
+            calendar: {
+              dates: [
+                {
+                  name: "insectPlague",
+                  date: new Date().toISOString().split("T")[0],
+                },
+              ],
+              insectPlague: {
+                startedAt: new Date().getTime(),
+                triggeredAt: Date.now(),
+                protected: true,
+              },
+            },
+            inventory: {
+              "Sunflower Seed": new Decimal(1),
+            },
+            crops: {
+              [firstId]: {
+                ...GAME_STATE.crops[firstId],
+                crop: {
+                  name: "Sunflower",
+                  plantedAt:
+                    dateNow - (CROPS["Sunflower"].harvestSeconds ?? 0) * 1000,
+                },
+              },
+            },
+          },
+          action: {
+            type: "crop.harvested",
+            index: firstId,
+          },
+          createdAt: dateNow,
+        });
 
-      expect(crops[firstId].crop).toBeUndefined();
-      expect(state.inventory.Sunflower).toEqual(new Decimal(1));
+        const crops = state.crops;
+
+        expect(crops[firstId].crop).toBeUndefined();
+        expect(state.inventory.Sunflower).toEqual(new Decimal(1));
+      });
     });
   });
 

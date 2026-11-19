@@ -1,6 +1,10 @@
 import { getKeys } from "lib/object";
 import type { GameState, PlacedItem } from "../types/game";
-import { WEATHER_EVENTS, type ScheduledWeatherEvent } from "../types/weather";
+import {
+  WEATHER_EVENTS,
+  type ScheduledWeatherEvent,
+  type WeatherEventName,
+} from "../types/weather";
 import {
   WEATHER_ITEM_EVENTS,
   type WeatherItemName,
@@ -167,4 +171,35 @@ export function getWeatherItemCover({
   );
 
   return covers ? event : undefined;
+}
+
+/**
+ * The threat `name` running at `now`, unless it's covered: by the season's
+ * Guardian out when it started, or by its weather item placed now. The event
+ * tickets apply their penalty while this returns an event.
+ */
+export function getUnprotectedThreat({
+  game,
+  name,
+  events,
+  now,
+}: {
+  game: Game;
+  name: WeatherEventName;
+  events: WeatherEvents;
+  now: number;
+}): Readonly<ScheduledWeatherEvent> | undefined {
+  const event = events.find(
+    (event) => event.name === name && event.startAt <= now && now < event.endAt,
+  );
+  if (!event || isCoveredByGuardian(game, event)) return undefined;
+
+  const item = getKeys(WEATHER_ITEM_EVENTS).find(
+    (item) => WEATHER_ITEM_EVENTS[item] === name,
+  );
+  if (item && getWeatherItemCover({ game, item, events, now })) {
+    return undefined;
+  }
+
+  return event;
 }
