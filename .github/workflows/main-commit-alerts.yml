@@ -108,26 +108,38 @@ jobs:
             };
           }
 
-          function getChangedFiles(sha) {
-            const output = git(["show", "--name-only", "--format=", sha]);
+          function isMergeCommit(sha) {
+            return git(["rev-list", "--no-walk", "--parents", sha]).split(" ").length > 2;
+          }
+
+          // With a baseSha, cover every commit in baseSha..sha (a rebase merge
+          // spreads one PR over several commits). Without one, cover the single
+          // commit. firstParent is set only for a PR's merge commit, so its diff is
+          // what the PR brought in. Any other merge (say a local `git pull` pushed
+          // straight to main) keeps git's default, which shows only what the merge
+          // itself changed, not everything main gained since the local branch split.
+          function getChangedFiles(sha, { baseSha, firstParent } = {}) {
+            const mergeOptions = firstParent ? ["--diff-merges=first-parent"] : [];
+            const output = baseSha
+              ? git(["diff", "--name-only", baseSha, sha])
+              : git(["show", "--name-only", ...mergeOptions, "--format=", sha]);
             return output
               .split("\n")
               .map((line) => line.trim())
               .filter(Boolean);
           }
 
-          function getDiffForSummary(sha) {
-            return truncate(
-              git([
-                "show",
-                "--format=fuller",
-                "--stat=120,200",
-                "--summary",
-                "--unified=1",
-                sha,
-              ]),
-              15000,
-            );
+          function getDiffForSummary(sha, { baseSha, firstParent } = {}) {
+            const diffOptions = ["--stat=120,200", "--summary", "--unified=1"];
+            if (!baseSha) {
+              const mergeOptions = firstParent ? ["--diff-merges=first-parent"] : [];
+              return truncate(git(["show", "--format=fuller", ...diffOptions, ...mergeOptions, sha]), 15000);
+            }
+            // Separate budgets, so a long commit log can't crowd out the patch.
+            return [
+              truncate(git(["log", "--format=fuller", `${baseSha}..${sha}`]), 3000),
+              truncate(git(["diff", ...diffOptions, baseSha, sha]), 12000),
+            ].join("\n\n");
           }
 
           function getCommitUrl(sha) {
@@ -201,6 +213,7 @@ jobs:
                           url
                           mergedAt
                           baseRefName
+                          isCrossRepository
                         }
                       }
                     }
@@ -233,13 +246,21 @@ jobs:
 
             try {
               const pullRequest = await githubRequest(`/repos/${owner}/${repo}/pulls/${match[1]}`);
-              if (pullRequest.merged_at && pullRequest.base?.ref === "main") {
+              // The subject alone doesn't prove this commit came from the PR, so
+              // require it to be the PR's recorded merge (or squash) commit.
+              if (
+                pullRequest.merged_at &&
+                pullRequest.base?.ref === "main" &&
+                pullRequest.merge_commit_sha === sha
+              ) {
                 return {
                   number: pullRequest.number,
                   title: pullRequest.title,
                   url: pullRequest.html_url,
                   mergedAt: pullRequest.merged_at,
                   baseRefName: pullRequest.base.ref,
+                  // A deleted fork leaves `head.repo` null; that still counts as a fork.
+                  isCrossRepository: pullRequest.head?.repo?.full_name !== REPOSITORY,
                 };
               }
             } catch (error) {
@@ -269,7 +290,8 @@ jobs:
               return hasApproval && !hasChangesRequested;
             } catch (error) {
               console.log(`Review lookup failed for PR #${prNumber}: ${error.message}`);
-              return false;
+              // Unknown. Team PRs still alert, since only a confirmed approval skips them.
+              return null;
             }
           }
 
@@ -375,7 +397,7 @@ jobs:
             HIGH: 15158332,
           };
 
-          async function sendDiscordAlert(metadata, files, summary, risk, pullRequest) {
+          async function sendDiscordAlert(metadata, summary, risk, pullRequest) {
             const embedColor = risk ? (RISK_COLORS[risk] ?? 15158332) : 15158332;
             const riskField = {
               name: "Risk Score",
@@ -396,9 +418,11 @@ jobs:
                 "https://cdn.discordapp.com/avatars/487431320314576937/bd64361e4ba6313d561d54e78c9e7171.png",
               embeds: [
                 {
-                  title: pullRequest
-                    ? "Unapproved PR merge to main detected"
-                    : "Direct commit to main detected",
+                  title: metadata.community
+                    ? "Community PR merged to main"
+                    : pullRequest
+                      ? "Unapproved PR merge to main detected"
+                      : "Direct commit to main detected",
                   url: pullRequest ? pullRequest.url : getCommitUrl(metadata.sha),
                   color: embedColor,
                   description: truncate(summary, 4000),
@@ -409,6 +433,15 @@ jobs:
                           {
                             name: "Pull Request",
                             value: `[#${pullRequest.number} - ${escapeDiscord(truncate(pullRequest.title, 100))}](${pullRequest.url})`,
+                            inline: true,
+                          },
+                        ]
+                      : []),
+                    ...(metadata.community
+                      ? [
+                          {
+                            name: "Approved",
+                            value: metadata.approved === null ? "Unknown" : metadata.approved ? "Yes" : "No",
                             inline: true,
                           },
                         ]
@@ -442,13 +475,9 @@ jobs:
                       name: "Message",
                       value: escapeDiscord(truncate(metadata.subject, 1024)),
                     },
-                    {
-                      name: "Files",
-                      value: escapeDiscord(truncate(files.join("\n") || "No files detected", 1024)),
-                    },
                   ],
                   footer: {
-                    text: "Alerts on direct commits and unapproved PR merges to main.",
+                    text: "Alerts on direct commits, unapproved PR merges and community PR merges to main.",
                   },
                   timestamp: new Date().toISOString(),
                 },
@@ -481,24 +510,48 @@ jobs:
             const commitRange =
               !BEFORE_SHA || BEFORE_SHA === ZERO_SHA
                 ? [AFTER_SHA]
-                : git(["rev-list", "--reverse", `${BEFORE_SHA}..${AFTER_SHA}`])
+                : git(["rev-list", "--reverse", "--topo-order", `${BEFORE_SHA}..${AFTER_SHA}`])
                     .split("\n")
                     .filter(Boolean);
 
             const suspiciousCommits = [];
+            const firstShaByPr = new Map();
+            const lastShaByPr = new Map();
+            const approvalByPr = new Map();
             let skippedBots = 0;
 
             for (const sha of commitRange) {
               const metadata = getCommitMetadata(sha);
+              const pullRequest = await findAssociatedPullRequest(sha, metadata.subject);
 
-              if (shouldSkipCommit(metadata)) {
+              // Note where each PR starts and ends before any filtering, so a
+              // rebase summary covers every commit even if the first or last is
+              // a bot's.
+              if (pullRequest) {
+                if (!firstShaByPr.has(pullRequest.number)) {
+                  firstShaByPr.set(pullRequest.number, sha);
+                }
+                lastShaByPr.set(pullRequest.number, sha);
+              }
+
+              // Bot commits are skipped, but a community PR always alerts.
+              if (!pullRequest?.isCrossRepository && shouldSkipCommit(metadata)) {
                 skippedBots += 1;
                 continue;
               }
 
-              const pullRequest = await findAssociatedPullRequest(sha, metadata.subject);
               if (pullRequest) {
-                const approved = await isPrApproved(pullRequest.number);
+                // Check once per PR, so every commit of a PR gets the same answer.
+                if (!approvalByPr.has(pullRequest.number)) {
+                  approvalByPr.set(pullRequest.number, await isPrApproved(pullRequest.number));
+                }
+                const approved = approvalByPr.get(pullRequest.number);
+                // Community PRs come from forks. Alert on every one that
+                // lands, approved or not, however it was merged.
+                if (pullRequest.isCrossRepository) {
+                  suspiciousCommits.push({ ...metadata, pullRequest, community: true, approved });
+                  continue;
+                }
                 if (approved) {
                   continue;
                 }
@@ -508,17 +561,58 @@ jobs:
               }
             }
 
+            // A merge-commit or rebase merge pushes every commit of the PR, and
+            // each one resolves to the same PR. Alert once per PR, on its last
+            // commit (the merge commit, or the final rebased commit).
+            const lastIndexByPr = new Map();
+            suspiciousCommits.forEach((commit, index) => {
+              if (commit.pullRequest) {
+                lastIndexByPr.set(commit.pullRequest.number, index);
+              }
+            });
+            const alerts = suspiciousCommits
+              .filter(
+                (commit, index) =>
+                  !commit.pullRequest || lastIndexByPr.get(commit.pullRequest.number) === index,
+              )
+              .map((commit) => {
+                // A rebase merge: summarise all of the PR's commits, not just the
+                // last. A merge commit's first-parent diff already covers them.
+                if (!commit.pullRequest) {
+                  return commit;
+                }
+                if (isMergeCommit(commit.sha)) {
+                  return { ...commit, firstParent: true };
+                }
+                const firstSha = firstShaByPr.get(commit.pullRequest.number);
+                const lastSha = lastShaByPr.get(commit.pullRequest.number);
+                if (firstSha === lastSha) {
+                  return commit;
+                }
+                // lastSha can be a later bot commit that the filter dropped.
+                return { ...commit, baseSha: `${firstSha}^`, headSha: lastSha };
+              });
+
             appendSummary([
               "## Main commit alerts",
               "",
               `Processed ${commitRange.length} commit(s).`,
               `Skipped ${skippedBots} known bot commit(s).`,
-              `Flagged ${suspiciousCommits.length} suspicious commit(s) to \`main\`.`,
+              `Flagged ${alerts.length} change(s) to \`main\`, ${alerts.filter((commit) => commit.community).length} of them from community PRs.`,
             ]);
 
-            for (const metadata of suspiciousCommits) {
-              const files = getChangedFiles(metadata.sha);
-              const diff = getDiffForSummary(metadata.sha);
+            let failedAlerts = 0;
+            for (const metadata of alerts) {
+              // A huge patch can overflow git's output buffer. Send the alert
+              // with whatever was collected rather than dropping it.
+              let files = [];
+              let diff = "";
+              try {
+                files = getChangedFiles(metadata.headSha ?? metadata.sha, metadata);
+                diff = getDiffForSummary(metadata.headSha ?? metadata.sha, metadata);
+              } catch (error) {
+                console.log(`Diff collection failed for ${metadata.sha}: ${error.message}`);
+              }
 
               let result;
               try {
@@ -531,7 +625,17 @@ jobs:
                 result = fallbackSummary(metadata, files);
               }
 
-              await sendDiscordAlert(metadata, files, result.summary, result.risk, metadata.pullRequest);
+              // One rejected alert shouldn't drop the rest of the push.
+              try {
+                await sendDiscordAlert(metadata, result.summary, result.risk, metadata.pullRequest);
+              } catch (error) {
+                console.error(`Discord alert failed for ${metadata.sha}: ${error.message}`);
+                failedAlerts += 1;
+              }
+            }
+
+            if (failedAlerts > 0) {
+              throw new Error(`${failedAlerts} Discord alert(s) failed to send.`);
             }
           }
 
