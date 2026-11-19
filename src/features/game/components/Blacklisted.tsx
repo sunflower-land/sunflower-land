@@ -83,7 +83,7 @@ export const Blacklisted: React.FC<Props> = ({ banReason, banMessage }) => {
           */}
           {!banMessage && <p className="text-xs mb-2">{t(copy.tos)}</p>}
           <a
-            href="https://tripy-discord-bot-production.up.railway.app/chat"
+            href="https://sunflower-land.com/support/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-xxs underline self-end"

@@ -387,6 +387,7 @@ import { Poseidon } from "./components/Poseidon";
 import { Project } from "./components/Project";
 import { PetShrine } from "./components/PetShrine";
 import { WeatherProtection } from "./components/WeatherProtection";
+import { WeatherItem } from "./components/WeatherItem";
 import { ObsidianShrine } from "./components/ObsidianShrine";
 import { Pet } from "../pets/Pet";
 import { type PetName, PET_TYPES } from "features/game/types/pets";
@@ -614,15 +615,26 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Mangrove: (props: CollectibleProps) => (
     <WeatherProtection {...props} name="Mangrove" />
   ),
-  Sandbag: () => <TemplateCollectible name="Sandbag" />,
-  Balk: () => <TemplateCollectible name="Balk" />,
-  "Pest Smoker": () => <TemplateCollectible name="Pest Smoker" />,
-  "Thaw Stone": () => <TemplateCollectible name="Thaw Stone" />,
-  "Merino Wool Insulation": () => (
-    <TemplateCollectible name="Merino Wool Insulation" />
+  // Weather items: greyed out once used, until renewed.
+  Sandbag: (props: CollectibleProps) => (
+    <WeatherItem {...props} name="Sandbag" />
   ),
-  "Shade Cloth": () => <TemplateCollectible name="Shade Cloth" />,
-  "Wildflower Lure": () => <TemplateCollectible name="Wildflower Lure" />,
+  Balk: (props: CollectibleProps) => <WeatherItem {...props} name="Balk" />,
+  "Pest Smoker": (props: CollectibleProps) => (
+    <WeatherItem {...props} name="Pest Smoker" />
+  ),
+  "Thaw Stone": (props: CollectibleProps) => (
+    <WeatherItem {...props} name="Thaw Stone" />
+  ),
+  "Merino Wool Insulation": (props: CollectibleProps) => (
+    <WeatherItem {...props} name="Merino Wool Insulation" />
+  ),
+  "Shade Cloth": (props: CollectibleProps) => (
+    <WeatherItem {...props} name="Shade Cloth" />
+  ),
+  "Wildflower Lure": (props: CollectibleProps) => (
+    <WeatherItem {...props} name="Wildflower Lure" />
+  ),
   "Thermal Stone": (props: CollectibleProps) => (
     <WeatherProtection {...props} name="Thermal Stone" />
   ),

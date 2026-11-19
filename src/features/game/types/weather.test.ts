@@ -1,4 +1,5 @@
 import {
+  WEATHER_EVENTS,
   getActiveWeather,
   type ScheduledWeatherEvent,
   type Weather,
@@ -46,5 +47,21 @@ describe("getActiveWeather", () => {
 
   it("returns nothing once the last event has ended", () => {
     expect(getActiveWeather({ weather, now: second.endAt })).toBeUndefined();
+  });
+});
+
+describe("WEATHER_EVENTS", () => {
+  it("marks the four threats", () => {
+    expect(WEATHER_EVENTS).toEqual({
+      flood: { kind: "threat" },
+      insectPlague: { kind: "threat" },
+      tornado: { kind: "threat" },
+      greatFreeze: { kind: "threat" },
+      beeMigration: { kind: "positive" },
+      heavyRains: { kind: "positive" },
+      sunshower: { kind: "positive" },
+      bountifulHarvest: { kind: "positive" },
+      fishFrenzy: { kind: "positive" },
+    });
   });
 });

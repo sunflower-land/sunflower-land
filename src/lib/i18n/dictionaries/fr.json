@@ -9069,5 +9069,12 @@
   "description.thawStone": "Une pierre qui reste chaude au toucher.",
   "description.merinoWoolInsulation": "Laine douce et chaude enroulée.",
   "description.shadeCloth": "Un auvent en tissu tendu sur des poteaux.",
-  "description.wildflowerLure": "Un bouquet de fleurs sauvages au doux parfum."
+  "description.wildflowerLure": "Un bouquet de fleurs sauvages au doux parfum.",
+  "weatherShop.amount": "x {{amount}}",
+  "weatherShop.chooseBeetle": "Choisissez un scarabée",
+  "weatherShop.chooseFlower": "Choisissez une fleur",
+  "weatherShop.ingredientAmount": "{{item}} x {{amount}}",
+  "weatherShop.onePerFarm": "Maximum 1 par exploitation",
+  "weatherShop.owned": "Déjà possédé",
+  "weatherItem.renew.message": "{{name}} a été utilisé lors de son dernier événement météorologique. Renouvelez-le pour l'utiliser sur le suivant."
 }

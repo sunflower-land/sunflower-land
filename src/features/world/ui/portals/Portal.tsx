@@ -20,6 +20,9 @@ import { Label } from "components/ui/Label";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CONFIG } from "lib/config";
+import { ERRORS } from "lib/errors";
+import { createErrorLogger, isNetworkError } from "lib/errorLogger";
+import { getApiErrorDetail } from "lib/apiError";
 
 import { portal } from "../community/actions/portal";
 import { Loading } from "features/auth/components";
@@ -177,10 +180,35 @@ export const Portal: React.FC<Props> = ({
         if (!cancelled) {
           setUrl(nextUrl);
         }
-      } catch {
+      } catch (error) {
         if (!cancelled) {
           setLoading(false);
           setLoadFailed(true);
+          // A dropped connection is not reported. Expected API outcomes (an
+          // expired session, maintenance, rate limiting) carry their own
+          // codes, which the logger already filters. The portal and attempt
+          // are part of the message so retries are not deduplicated.
+          if (!isNetworkError(error)) {
+            const detail = getApiErrorDetail(error);
+            const cause =
+              error instanceof Error ? error.message : String(error);
+            createErrorLogger(
+              "react_portal",
+              farmIdRef.current,
+            )({
+              code: detail?.code,
+              message: `Minigame ${portalName} failed to open (attempt ${loadAttempt + 1}): ${cause}`,
+              status: detail?.status,
+              endpoint: detail?.endpoint,
+              transactionId: detail?.transactionId,
+              stack: error instanceof Error ? error.stack : undefined,
+              meta: {
+                ...detail?.meta,
+                portal: portalName,
+                attempt: loadAttempt,
+              },
+            });
+          }
         }
       }
     };
@@ -265,10 +293,18 @@ export const Portal: React.FC<Props> = ({
     const timeout = window.setTimeout(() => {
       setLoading(false);
       setLoadFailed(true);
+      createErrorLogger(
+        "react_portal",
+        farmIdRef.current,
+      )({
+        code: ERRORS.PORTAL_LOAD_ERROR,
+        message: `Minigame ${portalName} did not load within ${PORTAL_LOAD_TIMEOUT_MS}ms (attempt ${loadAttempt + 1})`,
+        meta: { portal: portalName, attempt: loadAttempt },
+      });
     }, PORTAL_LOAD_TIMEOUT_MS);
 
     return () => window.clearTimeout(timeout);
-  }, [loading, url]);
+  }, [loading, url, portalName, loadAttempt]);
 
   const confirmPurchase = () => {
     gameService.send("minigame.itemPurchased", {
