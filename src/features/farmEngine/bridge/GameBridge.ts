@@ -6,6 +6,7 @@ import type {
   AnimalBounty,
 } from "features/game/types/game";
 import type { GlobalModal } from "features/game/components/modal/ModalProvider";
+import type { CaveTutorialSeen } from "features/cave/lib/onboarding";
 import {
   subscribeSelector,
   type EqualityFn,
@@ -125,11 +126,18 @@ export type LandscapingControls = {
 };
 
 /** The animal house's React panels, opened from the in-room Phaser controls. */
-export type AnimalHouseModal = "shop" | "upgrade" | "feeder" | null;
+export type AnimalHouseModal =
+  | "shop"
+  | "upgrade"
+  | "feeder"
+  // [ApplyMudButton.tsx] the pigpen's Apply Mud flow.
+  | "applyMud"
+  | null;
 
 /**
- * Non-null exactly while a bounty deal is picked or the quick-sell panel is
- * open — the two states that replace the room's normal chrome.
+ * Non-null exactly while a bounty deal is picked, the quick-sell panel is
+ * open or a Pig is being picked for a trade-in — the states that replace the
+ * room's normal chrome.
  */
 export type AnimalDealState = {
   /** The bounty being exchanged; unset while the sell panel waits for one. */
@@ -142,7 +150,26 @@ export type AnimalDealState = {
   pending?: Record<string, string>;
   /** Phaser -> React: the animal just clicked; React consumes and clears it. */
   clickedId?: string;
+  /** [PigpenInside.tsx tradeInMode] picking a Pig to trade in. */
+  tradeIn?: boolean;
 } | null;
+
+/** Which of the Cave's React panels is open [Cave.tsx modal state]. */
+export type CaveModal =
+  | { name: "machine"; machineId: string }
+  | { name: "expansion" }
+  | { name: "merchant" }
+  | null;
+
+/**
+ * What the Cave's in-room pieces and its React panels share [Cave.tsx]:
+ * the open panel (Phaser opens, React closes) and which tutorial steps were
+ * acknowledged (unset until either side has read them from storage).
+ */
+export type CaveUiState = {
+  modal: CaveModal;
+  tutorialSeen?: CaveTutorialSeen;
+};
 
 export type FarmModalBridge = {
   open(modal: FarmModalName, data?: unknown): void;
@@ -284,6 +311,8 @@ export interface GameBridge {
    * React still owns the panels.
    */
   animalHouseModal: ValueStore<AnimalHouseModal>;
+  /** The Cave's open panel + tutorial acknowledgements [CaveUI]. */
+  caveUi: ValueStore<CaveUiState>;
   /**
    * Listen to every event sent to the game machine (xstate onEvent) — for
    * transient reactions like the home building's collect heart.
@@ -433,6 +462,7 @@ export function createGameBridge({
     quickSelect: createValueStore<QuickSelectRequest>(null),
     modalOpen: createValueStore<boolean>(false),
     animalHouseModal: createValueStore<AnimalHouseModal>(null),
+    caveUi: createValueStore<CaveUiState>({ modal: null }),
     animalDeal: createValueStore<AnimalDealState>(null),
     landscapingMoving: createValueStore<{
       id: string;

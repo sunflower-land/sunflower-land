@@ -1,3 +1,5 @@
+import { getCaveRoomImage } from "features/cave/lib/caveImages";
+import { CAVE_IMAGE_SIZE } from "features/game/expansion/placeable/lib/caveLayout";
 import type Phaser from "phaser";
 import { SUNNYSIDE } from "assets/sunnyside";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -41,6 +43,8 @@ type Slice = {
   henHouseLevel: number;
   /** [interior/LevelOne.tsx] the active home-expansion tier, if bought. */
   expansion?: HomeExpansionTier;
+  /** [Cave.tsx] how many slots are dug out; picks the room art. */
+  caveTier: number;
 };
 
 /** [Home.tsx BACKGROUND_IMAGE] the room art per island tier. */
@@ -95,6 +99,15 @@ const ROOMS: Partial<
     };
   },
   barn: (slice) => animalHouseRoom(slice.barnLevel),
+  // [PigpenInside.tsx] nine Pigs fit the level-1 room, so upgrades never
+  // resize it.
+  pigpen: () => animalHouseRoom(1),
+  // [Cave.tsx] the art team's render of the room at this tier, 66x55 tiles.
+  cave: (slice) => ({
+    texture: getCaveRoomImage(slice.caveTier),
+    width: CAVE_IMAGE_SIZE.width * WORLD_TILE,
+    height: CAVE_IMAGE_SIZE.height * WORLD_TILE,
+  }),
   henHouse: (slice) => animalHouseRoom(slice.henHouseLevel),
   interior: (slice) => ({
     // [Interior.tsx] 380x320 art, bottom-left anchored on the 384x384 canvas.
@@ -151,6 +164,7 @@ export function interiorRoomRect(
   islandType: IslandType,
   petHouseLevel: number,
   expansion?: HomeExpansionTier,
+  caveTier = 1,
 ): { x: number; y: number; width: number; height: number } | undefined {
   const room = ROOMS[location]?.({
     islandType,
@@ -159,6 +173,7 @@ export function interiorRoomRect(
     barnLevel: petHouseLevel,
     henHouseLevel: petHouseLevel,
     expansion,
+    caveTier,
   });
   if (!room) return undefined;
   return {
@@ -173,6 +188,30 @@ export class InteriorBackdropLayer extends EntityRenderer<Slice> {
   readonly gatesReveal = true;
 
   private objects: Phaser.GameObjects.GameObject[] = [];
+  private roomImage: Phaser.GameObjects.Image | undefined;
+  private unsubscribeDeal: (() => void) | undefined;
+
+  mount() {
+    super.mount();
+    this.unsubscribeDeal = this.bridge.animalDeal.subscribe(() =>
+      this.applyDim(),
+    );
+  }
+
+  /**
+   * [BarnInside / HenHouseInside / PigpenInside.tsx] the room fades to 50%
+   * while the player picks an animal for a bounty or a trade-in, so the
+   * animals that qualify stand out.
+   */
+  private applyDim() {
+    if (!this.roomImage?.active) return;
+    const { location } = this.scene;
+    const animalHouse =
+      location === "barn" || location === "henHouse" || location === "pigpen";
+    const sale = this.bridge.animalDeal.get();
+    const picking = animalHouse && !!(sale?.deal || sale?.tradeIn);
+    this.roomImage.setAlpha(picking ? 0.5 : 1);
+  }
 
   selector(state: MachineState): Slice {
     const game = state.context.state;
@@ -183,6 +222,7 @@ export class InteriorBackdropLayer extends EntityRenderer<Slice> {
       barnLevel: game.barn.level,
       henHouseLevel: game.henHouse.level,
       expansion: game.interior.expansion,
+      caveTier: game.cave?.tier ?? 1,
     };
   }
 
@@ -192,7 +232,8 @@ export class InteriorBackdropLayer extends EntityRenderer<Slice> {
     a.petHouseLevel === b.petHouseLevel &&
     a.barnLevel === b.barnLevel &&
     a.henHouseLevel === b.henHouseLevel &&
-    a.expansion === b.expansion;
+    a.expansion === b.expansion &&
+    a.caveTier === b.caveTier;
 
   async sync(slice: Slice) {
     const token = this.beginSync();
@@ -207,10 +248,13 @@ export class InteriorBackdropLayer extends EntityRenderer<Slice> {
 
     this.clear();
 
-    // [Interior.tsx] the interior floors sit in a dark void, not on the
-    // island; every other interior repeats the exterior backdrop.
+    // [Interior.tsx / Cave.tsx] the interior floors and the cave sit in a
+    // dark void, not on the island; every other interior repeats the
+    // exterior backdrop.
     const darkVoid =
-      this.scene.location === "interior" || this.scene.location === "level_one";
+      this.scene.location === "interior" ||
+      this.scene.location === "level_one" ||
+      this.scene.location === "cave";
     if (darkVoid) {
       const span = 120 * WORLD_TILE;
       this.objects.push(
@@ -248,6 +292,8 @@ export class InteriorBackdropLayer extends EntityRenderer<Slice> {
       .setDepth(DEPTHS.LAND_BASE);
     image.setDisplaySize(room.width, room.height);
     this.objects.push(image);
+    this.roomImage = image;
+    this.applyDim();
 
     // [Home.tsx] the clickable painting on the wall, 11px at (30, 4).
     if (this.scene.location === "home") {
@@ -269,9 +315,12 @@ export class InteriorBackdropLayer extends EntityRenderer<Slice> {
   private clear() {
     this.objects.forEach((object) => object.destroy());
     this.objects = [];
+    this.roomImage = undefined;
   }
 
   protected onDestroy() {
+    this.unsubscribeDeal?.();
+    this.unsubscribeDeal = undefined;
     this.clear();
   }
 }

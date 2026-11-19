@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import type {
   Animal,
   AnimalFeedBuffName,
+  AnimalBuildingKey,
   AnimalFoodName,
   AnimalMedicineName,
   GameState,
@@ -18,6 +19,8 @@ import {
   getFeedQuantity,
   getNextClaimLevel,
   isFoodForAnimal,
+  isMuddy,
+  MUD_PER_APPLICATION,
   resolveAnimal,
 } from "features/game/lib/animals";
 import {
@@ -40,7 +43,8 @@ import { playSound } from "../../core/sounds";
 
 /**
  * The animal click decision tree [barn/components/Cow.tsx handleClick — the
- * Sheep and Chicken trees are copies with the type swapped].
+ * Sheep and Chicken trees are copies with the type swapped; the Pig's
+ * [pigpen/components/Pig.tsx] differs in the few places marked below].
  *
  * The DOM runs an xstate machine per animal, but the machine only mirrors
  * game state plus two purely-visual bits (the 2s happy/sad reaction after a
@@ -50,13 +54,19 @@ import { playSound } from "../../core/sounds";
  * lifecycle to keep in sync.
  */
 
-export type AnimalBuildingKey = "barn" | "henHouse";
+export type { AnimalBuildingKey };
 
 /**
  * World anchor over an animal marked for a bulk sale — the renderer registers
  * it, overlay/AnimalHouseUI.tsx hangs the PendingSaleTag off it.
  */
 export const animalSaleAnchorId = (id: string) => `animal-sale-${id}`;
+
+/**
+ * World anchor over a Pig that can be traded in [PigpenInside.tsx
+ * isTradeable] — overlay/AnimalHouseUI.tsx hangs the Bristles Label off it.
+ */
+export const animalTradeInAnchorId = (id: string) => `animal-trade-in-${id}`;
 
 /** The renderer-side visual effects the tree triggers. */
 export type AnimalEffects = {
@@ -83,17 +93,38 @@ export type AnimalEffects = {
   openMutant(id: string, mutant: string, onContinue: () => void): void;
 };
 
-// Pigs live only in the DOM /pigpen route — the engine never renders them.
 const COLLECT_SOUND: Record<
-  Exclude<AnimalType, "Pig">,
-  "cow_collect" | "sheep_collect" | "chicken_collect"
+  AnimalType,
+  "cow_collect" | "sheep_collect" | "chicken_collect" | "pig_collect"
 > = {
   Cow: "cow_collect",
   Sheep: "sheep_collect",
   Chicken: "chicken_collect",
+  Pig: "pig_collect",
 };
 
-/** [Cow.tsx / Sheep.tsx / Chicken.tsx getInfoPopoverMessage] */
+/**
+ * [Pig.tsx] only an actual feed grunts and a cure squeals; love, Mud and
+ * treats keep the generic clip, as every other animal does throughout.
+ */
+const FEED_SOUND: Record<AnimalType, "feed_animal" | "pig_feed"> = {
+  Cow: "feed_animal",
+  Sheep: "feed_animal",
+  Chicken: "feed_animal",
+  Pig: "pig_feed",
+};
+const CURE_SOUND: Record<AnimalType, "cure_animal" | "pig_cure"> = {
+  Cow: "cure_animal",
+  Sheep: "cure_animal",
+  Chicken: "cure_animal",
+  Pig: "pig_cure",
+};
+
+/**
+ * [Cow.tsx / Sheep.tsx / Chicken.tsx getInfoPopoverMessage] the Honey Treat
+ * notice names the golden asset. [Pig.tsx] has no such notice: a treat goes
+ * on a Pig whether or not its feed is free.
+ */
 const GOLDEN_ASSET: Record<Exclude<AnimalType, "Pig">, string> = {
   Cow: "Golden Cow",
   Sheep: "Golden Sheep",
@@ -184,6 +215,24 @@ export class AnimalInteraction {
 
     if (needsLove && !golden) return this.love(id, animal);
 
+    if (type === "Pig") {
+      // [Pig.tsx] a Pig waiting to be petted never reaches the Mud or treat
+      // branches: with its feed covered the click only shows its details.
+      if (needsLove) return this.details(id);
+
+      // [Pig.tsx] Mud goes on exactly like a treat: after the love flow and
+      // with no capacity check.
+      if (selectedItem === "Mud") {
+        const mud = game.inventory.Mud ?? new Decimal(0);
+        if (!isMuddy(animal) && mud.gte(MUD_PER_APPLICATION)) {
+          this.bridge.dispatch("animal.mudApplied", { id });
+          playSound("feed_animal");
+          return;
+        }
+        return this.effects.showMessage(id, translate("animal.noFoodMessage"));
+      }
+    }
+
     // A selected feed buff wins over details, claiming and feeding
     // [Cow.tsx hasBuffSelected].
     if (selectedItem && isAnimalFeedBuffItem(selectedItem)) {
@@ -191,12 +240,12 @@ export class AnimalInteraction {
       const count = game.inventory[buffItem] ?? new Decimal(0);
       // Honey Treat only cuts feed, and the golden asset already makes it
       // free.
-      if (buffItem === "Honey Treat" && golden) {
+      if (buffItem === "Honey Treat" && golden && type !== "Pig") {
         this.freeFeedNotices.add(id);
         return this.effects.showMessage(
           id,
           translate("animal.honeyTreatFreeFeed", {
-            item: GOLDEN_ASSET[type as Exclude<AnimalType, "Pig">],
+            item: GOLDEN_ASSET[type],
           }),
         );
       }
@@ -291,6 +340,8 @@ export class AnimalInteraction {
       animal: animal.type,
       level,
       food: golden ? favFood : (item as AnimalFoodName),
+      // [Pig.tsx getAnimalXPEarned] a muddy Pig's feed is worth more.
+      ...(animal.type === "Pig" ? { mud: animal.mud } : {}),
     });
     const xp = item && isBeetle(item) ? foodXp : foodXp * batch;
 
@@ -299,7 +350,7 @@ export class AnimalInteraction {
       id,
       item: item ? (item as AnimalFoodName) : undefined,
     });
-    playSound("feed_animal");
+    playSound(FEED_SOUND[animal.type]);
 
     // [Cow.tsx xpIndicatorColor]
     const matched =
@@ -350,7 +401,7 @@ export class AnimalInteraction {
     const hasSyringe = isWearableActive({ name: "Oracle Syringe", game });
 
     if (hasSyringe || medicine.gte(cost)) {
-      playSound("cure_animal");
+      playSound(CURE_SOUND[animal.type]);
       this.bridge.dispatch("animal.fed", {
         animal: animal.type,
         id,
@@ -382,7 +433,7 @@ export class AnimalInteraction {
       // `setDropsLevel(getNextClaimLevel(cow))`].
       const drops = this.effects.playDrops(id, getNextClaimLevel(animal));
       await wait(500);
-      playSound(COLLECT_SOUND[animal.type as Exclude<AnimalType, "Pig">]);
+      playSound(COLLECT_SOUND[animal.type]);
       await wait(900);
       playSound("level_up");
       await drops;

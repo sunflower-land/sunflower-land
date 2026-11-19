@@ -32,6 +32,7 @@ import {
   PET_HOUSE_RENDERERS,
   GREENHOUSE_RENDERERS,
   ANIMAL_HOUSE_RENDERERS,
+  CAVE_RENDERERS,
   INTERIOR_FLOOR_RENDERERS,
   type RendererFactory,
 } from "./entities/registry";
@@ -45,6 +46,7 @@ import { ResourcesUI } from "./overlay/ResourcesUI";
 import { LandscapingUI } from "./overlay/LandscapingUI";
 import { InteriorUI } from "./overlay/InteriorUI";
 import { AnimalHouseUI } from "./overlay/AnimalHouseUI";
+import { CaveUI } from "./overlay/CaveUI";
 import { InteriorFloorUI } from "./overlay/InteriorFloorUI";
 import { GreenhouseUI } from "./overlay/GreenhouseUI";
 import { PetHouseUI } from "./overlay/PetHouseUI";
@@ -73,6 +75,8 @@ const INTERIOR_RENDERERS: Partial<
   greenhouse: GREENHOUSE_RENDERERS,
   barn: ANIMAL_HOUSE_RENDERERS,
   henHouse: ANIMAL_HOUSE_RENDERERS,
+  pigpen: ANIMAL_HOUSE_RENDERERS,
+  cave: CAVE_RENDERERS,
   interior: INTERIOR_FLOOR_RENDERERS,
   level_one: INTERIOR_FLOOR_RENDERERS,
 };
@@ -251,9 +255,12 @@ const FarmPhaserSurface: React.FC<{ surface: FarmSurface }> = ({ surface }) => {
         {surface !== "farm" && (
           <InteriorUI bridge={bridge} location={surface} />
         )}
-        {(surface === "barn" || surface === "henHouse") && (
+        {(surface === "barn" ||
+          surface === "henHouse" ||
+          surface === "pigpen") && (
           <AnimalHouseUI bridge={bridge} building={surface} />
         )}
+        {surface === "cave" && <CaveUI bridge={bridge} />}
         {(surface === "interior" || surface === "level_one") && (
           <InteriorFloorUI bridge={bridge} floor={surface} />
         )}
@@ -318,7 +325,7 @@ const FarmPhaserSurface: React.FC<{ surface: FarmSurface }> = ({ surface }) => {
  * PHASER_FARM check happens here where the machine context is available.
  */
 export const PhaserInteriorRoute: React.FC<{
-  floor: "interior" | "level_one";
+  floor: "interior" | "level_one" | "cave";
   /** The DOM component to fall back to when the flag is off. */
   fallback: React.ReactNode;
 }> = ({ floor, fallback }) => {

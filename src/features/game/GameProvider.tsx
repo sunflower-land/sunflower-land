@@ -67,8 +67,16 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
 
   useEffect(() => {
     initInteractionMetrics();
-    if (import.meta.env.DEV) {
-      // Dispatch-parity harness hook (docs/phaser-farm-migration/scripts).
+    // Harness hook (docs/phaser-farm-migration/scripts): always in dev, and
+    // in a production build only with localStorage["phaserFarm.hooks"] set,
+    // so the React and Phaser farms can be profiled from the same bundle.
+    let harness = import.meta.env.DEV;
+    try {
+      harness ||= !!localStorage.getItem("phaserFarm.hooks");
+    } catch {
+      // storage unavailable
+    }
+    if (harness) {
       (window as { __gameService?: MachineInterpreter }).__gameService =
         gameService;
     }

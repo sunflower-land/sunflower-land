@@ -82,6 +82,7 @@ export const InteriorUI: React.FC<{
   const DESTRUCTIBLE: Partial<Record<FarmSurface, BuildingName>> = {
     barn: "Barn",
     greenhouse: "Greenhouse",
+    pigpen: "Pigpen",
   };
   const buildingName = DESTRUCTIBLE[location];
   const destroyed = useSelector(
@@ -140,7 +141,9 @@ export const InteriorUI: React.FC<{
       {!landscaping &&
         !dealActive &&
         location !== "interior" &&
-        location !== "level_one" && (
+        location !== "level_one" &&
+        // [Cave.tsx] the cave is left by its ladder, drawn in the scene.
+        location !== "cave" && (
           <div
             className="absolute pointer-events-auto"
             style={{

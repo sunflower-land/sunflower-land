@@ -36,7 +36,7 @@ import { OuterPanel } from "components/ui/Panel";
 import { GreenhouseOilModal } from "features/greenhouse/GreenhouseOilModal";
 import { LockedAnimalModal } from "features/barn/components/LockedAnimalModal";
 import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
-import type { MutantAnimal } from "features/game/types/game";
+import type { AnimalBuildingKey, MutantAnimal } from "features/game/types/game";
 import { PlayerModal } from "features/social/PlayerModal";
 import { Discovery } from "features/social/Discovery";
 import { Context as AuthContext } from "features/auth/lib/Provider";
@@ -777,7 +777,7 @@ const FarmModalsBody: React.FC<{
         {open?.name === "animalDetails" &&
           (() => {
             const { building, id } = open.data as {
-              building: "barn" | "henHouse";
+              building: AnimalBuildingKey;
               id: string;
             };
             const animal = state[building].animals[id];
@@ -800,7 +800,7 @@ const FarmModalsBody: React.FC<{
         {open?.name === "animalLocked" &&
           (() => {
             const { building, id } = open.data as {
-              building: "barn" | "henHouse";
+              building: AnimalBuildingKey;
               id: string;
             };
             const animal = state[building].animals[id];

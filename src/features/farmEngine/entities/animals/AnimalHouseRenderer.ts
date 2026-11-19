@@ -26,11 +26,13 @@ import {
   getAnimalFavoriteFood,
   getAnimalLevel,
   getAnimalShownLevel,
+  canTradeInPig,
   getClaimedExperience,
   getNextClaimLevel,
   getPendingClaims,
   getResourceDropAmount,
   isMaxLevel,
+  isMuddy,
   resolveAnimal,
 } from "features/game/lib/animals";
 import {
@@ -62,16 +64,18 @@ import type { AnimalDealState } from "../../bridge/GameBridge";
 import {
   AnimalInteraction,
   animalSaleAnchorId,
+  animalTradeInAnchorId,
   type AnimalBuildingKey,
 } from "./animalInteraction";
 
 /**
- * The animals inside the barn and hen house [barn/BarnInside.tsx +
- * henHouse/HenHouseInside.tsx], interaction included.
+ * The animals inside the barn, hen house and pigpen [barn/BarnInside.tsx +
+ * henHouse/HenHouseInside.tsx + pigpen/PigpenInside.tsx], interaction
+ * included.
  *
  * Animals aren't placed by the player: the DOM sorts them (type, then
- * experience) and flows them across the floor bounds, so the same layout is
- * computed here. Their look is a pure function of the animal record (the
+ * experience) and flows them across the floor bounds (the pigpen centres a
+ * 3x3 grid instead), so the same layout is computed here. Their look is a pure function of the animal record (the
  * DOM's per-animal xstate machine mirrors game state plus two visual-only
  * bits — the 2s happy/sad reaction and the claim drop animation — which live
  * here as transient effects instead). Clicks route through
@@ -99,17 +103,14 @@ type AnimalVisualState =
   | "sad";
 
 /**
- * [Cow.tsx / Sheep.tsx / Chicken.tsx animalImageInfo] art per state; `width`
- * is the DOM's rendered width in world px. Cow.tsx and Sheep.tsx multiply
- * PIXEL_SCALE TWICE (the info width already carries it and the style adds it
- * again), so barn animals draw ~2.6x the chicken convention — that double
- * size is the shipped look, so it's baked in here.
+ * [Cow.tsx / Sheep.tsx / Pig.tsx / Chicken.tsx animalImageInfo] art per
+ * state; `width` is the DOM's rendered width in world px. Cow.tsx, Sheep.tsx
+ * and Pig.tsx multiply PIXEL_SCALE TWICE (the info width already carries it
+ * and the style adds it again), so those animals draw ~2.6x the chicken
+ * convention — that double size is the shipped look, so it's baked in here.
  */
-// Pigs live only in the DOM /pigpen route — the engine never renders them.
-type EngineAnimalType = Exclude<AnimalType, "Pig">;
-
 const ANIMAL_ART: Record<
-  EngineAnimalType,
+  AnimalType,
   Record<
     "ready" | "sleeping" | "sick" | "idle",
     { image: string; width: number }
@@ -133,6 +134,15 @@ const ANIMAL_ART: Record<
     sick: { image: SUNNYSIDE.animals.sheepSick, width: 11 * PIXEL_SCALE },
     idle: { image: SUNNYSIDE.animals.sheepIdle, width: 11 * PIXEL_SCALE },
   },
+  Pig: {
+    ready: { image: SUNNYSIDE.animals.pigReady, width: 13 * PIXEL_SCALE },
+    sleeping: {
+      image: SUNNYSIDE.animals.pigSleeping,
+      width: 13 * PIXEL_SCALE,
+    },
+    sick: { image: SUNNYSIDE.animals.pigSick, width: 11 * PIXEL_SCALE },
+    idle: { image: SUNNYSIDE.animals.pigIdle, width: 11 * PIXEL_SCALE },
+  },
   Chicken: {
     ready: { image: SUNNYSIDE.animals.chickenReady, width: 13 },
     sleeping: { image: SUNNYSIDE.animals.chickenAsleep, width: 13 },
@@ -144,12 +154,24 @@ const ANIMAL_ART: Record<
 type EmotionIcon = { icon: string; width: number; top: number; right: number };
 
 /**
+ * The two DOM animal layouts: Cow.tsx, Sheep.tsx and Pig.tsx share one (Pig
+ * imports Cow's ANIMAL_EMOTION_ICONS and repeats its offsets), Chicken.tsx
+ * has its own.
+ */
+type AnimalStyle = "barn" | "henHouse";
+const STYLE: Record<AnimalBuildingKey, AnimalStyle> = {
+  barn: "barn",
+  pigpen: "barn",
+  henHouse: "henHouse",
+};
+
+/**
  * [Cow.tsx ANIMAL_EMOTION_ICONS / Chicken.tsx CHICKEN_EMOTION_ICONS] the
  * badge over the animal, in world px from the animal's inner-div top-right —
  * the two components position them differently.
  */
 const EMOTION_ICONS: Record<
-  "barn" | "henHouse",
+  AnimalStyle,
   Partial<Record<AnimalVisualState, EmotionIcon>>
 > = {
   barn: {
@@ -215,6 +237,7 @@ type AnimalObjects = {
   emotion?: Phaser.GameObjects.Image;
   lock?: Phaser.GameObjects.Image;
   buff?: Phaser.GameObjects.Image;
+  mud?: Phaser.GameObjects.Image;
   bubble?: RequestBubbleSprite;
   bubbleKey?: string;
   barFill?: Phaser.GameObjects.Rectangle;
@@ -232,6 +255,8 @@ type AnimalObjects = {
   message?: Phaser.GameObjects.Container;
   /** Anchor the React PendingSaleTag hangs off while marked for bulk sale. */
   saleAnchor?: string;
+  /** Anchor the React trade-in Label hangs off while the Pig is pickable. */
+  tradeInAnchor?: string;
 };
 
 /** [BarnInside.tsx isPendingSale] marked for a bounty in bulk sell mode. */
@@ -251,7 +276,12 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
   private sortedIds?: { key: string; ids: string[] };
 
   private get buildingKey(): AnimalBuildingKey {
-    return this.scene.location === "barn" ? "barn" : "henHouse";
+    const { location } = this.scene;
+    return location === "barn" || location === "pigpen" ? location : "henHouse";
+  }
+
+  private get style(): AnimalStyle {
+    return STYLE[this.buildingKey];
   }
 
   selector(state: MachineState): Slice {
@@ -275,13 +305,26 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
     a.inventory === b.inventory &&
     a.selectedItem === b.selectedItem;
 
-  /** [BarnInside.tsx] sort by type then experience, flow across the floor. */
+  /**
+   * [BarnInside.tsx] sort by type then experience, flow across the floor.
+   * [PigpenInside.tsx] the same order in a centred 3x3 grid: nine Pigs fit
+   * the level-1 room, so its floor never grows, and rows AND columns are half
+   * a tile apart.
+   */
   private layout(slice: Slice) {
-    const bounds =
-      ANIMAL_HOUSE_BOUNDS[this.buildingKey][Math.min(slice.level, 3)];
-    const cellTiles = ANIMALS.Cow; // both houses lay out on 2x2 cells
-    const perRow = Math.max(1, Math.floor(bounds.width / cellTiles.width));
+    const pigpen = this.buildingKey === "pigpen";
+    const bounds = pigpen
+      ? ANIMAL_HOUSE_BOUNDS.pigpen[1]
+      : ANIMAL_HOUSE_BOUNDS[this.buildingKey][Math.min(slice.level, 3)];
+    const cellTiles = pigpen ? ANIMALS.Pig : ANIMALS.Cow; // all 2x2 cells
+    const perRow = pigpen
+      ? 3
+      : Math.max(1, Math.floor(bounds.width / cellTiles.width));
     const verticalGap = 0.5;
+    const horizontalGap = pigpen ? 0.5 : 0;
+    // [PigpenInside.tsx offsetX] the grid is centred on the floor.
+    const gridWidth = perRow * cellTiles.width + (perRow - 1) * horizontalGap;
+    const offsetX = pigpen ? (bounds.width - gridWidth) / 2 : 0;
 
     // [BarnInside.tsx sortedAnimalIds] positions must not move while the
     // player is in the room, so the order is recomputed only when the herd's
@@ -313,7 +356,9 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
       const col = index % perRow;
       return {
         animal,
-        x: floor.x + col * cellTiles.width * WORLD_TILE,
+        x:
+          floor.x +
+          (offsetX + col * (cellTiles.width + horizontalGap)) * WORLD_TILE,
         y: floor.y + row * (cellTiles.height + verticalGap) * WORLD_TILE,
       };
     });
@@ -354,6 +399,7 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
     );
     Object.values(BUFF_ICON).forEach((icon) => queueImage(this.scene, icon));
     queueImage(this.scene, SUNNYSIDE.icons.lock);
+    queueImage(this.scene, ITEM_DETAILS.Mud.image);
     queueImage(this.scene, SUNNYSIDE.ui.emptyBar);
     RequestBubbleSprite.queueAssets(this.scene);
     queueSpritesheet(this.scene, sparkleSheet, {
@@ -434,7 +480,9 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
   ) {
     const id = animal.id;
     const deal = sale?.deal;
-    const dealActive = !!deal;
+    // [PigpenInside.tsx `selecting`] a bounty deal or the trade-in pick.
+    const tradeIn = !deal && !!sale?.tradeIn;
+    const dealActive = !!deal || tradeIn;
     const state = this.stateOf(animal);
     const locked = !isAnimalFeedable(this.buildingKey, game, id);
     const animating = this.interaction?.isAnimating(id) ?? false;
@@ -489,10 +537,7 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
             ? "sleeping"
             : "idle";
     // While the claim animation runs the animal still looks ready.
-    const art =
-      ANIMAL_ART[animal.type as EngineAnimalType][
-        animating ? "ready" : artState
-      ];
+    const art = ANIMAL_ART[animal.type][animating ? "ready" : artState];
     if (!this.scene.textures.exists(artTexture(art.image))) return;
 
     let objects = objects0;
@@ -549,9 +594,32 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
     // Deal mode [BarnInside.tsx]: invalid animals dim to 50% and are inert.
     // An animal already marked for another bounty can't be picked again.
     const pendingSale = isPendingSale(sale, id);
-    const validForDeal =
-      !!deal && !pendingSale && isValidDeal({ animal, deal, game });
+    // [PigpenInside.tsx isTradeable] a Pig marked for a bulk sale can't also
+    // be traded in.
+    const tradeable =
+      tradeIn &&
+      !pendingSale &&
+      canTradeInPig({ pig: animal, game, now: Date.now() });
+    const validForDeal = deal
+      ? !pendingSale && isValidDeal({ animal, deal, game })
+      : tradeable;
     objects.container.setAlpha(dealActive && !validForDeal ? 0.5 : 1);
+
+    // [PigpenInside.tsx] what a tradeable Pig pays: the Label is React
+    // (overlay/AnimalHouseUI.tsx), anchored to the Pig's cell like the
+    // PendingSaleTag below.
+    if (tradeable) {
+      objects.tradeInAnchor = animalTradeInAnchorId(id);
+      this.bridge.anchors.setAnchor(objects.tradeInAnchor, {
+        x,
+        y,
+        width: CELL,
+        height: CELL,
+      });
+    } else if (objects.tradeInAnchor) {
+      this.bridge.anchors.removeAnchor(objects.tradeInAnchor);
+      objects.tradeInAnchor = undefined;
+    }
 
     // [BarnInside.tsx PendingSaleTag] the tag itself is a React Label
     // (overlay/AnimalHouseUI.tsx) anchored to the marked animal's cell.
@@ -577,7 +645,7 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
       emotionState === "sick" ||
       animal.state === "sick"
         ? undefined
-        : EMOTION_ICONS[this.buildingKey][emotionState];
+        : EMOTION_ICONS[this.style][emotionState];
     if (emotion && this.scene.textures.exists(emotion.icon)) {
       if (!objects.emotion) {
         objects.emotion = this.scene.add
@@ -589,7 +657,7 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
       objects.emotion.setScale(emotion.width / objects.emotion.width);
       objects.emotion.setPosition(
         CELL - emotion.right - emotion.width,
-        emotion.top + INNER_TOP[this.buildingKey],
+        emotion.top + INNER_TOP[this.style],
       );
       objects.emotion.setVisible(true);
     } else {
@@ -604,7 +672,7 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
           .image(0, 0, SUNNYSIDE.icons.lock)
           .setOrigin(1, 0);
         objects.lock.setScale(7 / objects.lock.width);
-        objects.lock.setPosition(CELL - 1, 1 + INNER_TOP[this.buildingKey]);
+        objects.lock.setPosition(CELL - 1, 1 + INNER_TOP[this.style]);
         objects.container.add(objects.lock);
       }
       objects.lock.setVisible(true);
@@ -624,16 +692,35 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
       }
       objects.buff.setTexture(buffIcon);
       objects.buff.setScale(7 / objects.buff.width);
-      objects.buff.setPosition(CELL, INNER_BOTTOM[this.buildingKey]);
+      objects.buff.setPosition(CELL, INNER_BOTTOM[this.style]);
       objects.buff.setVisible(true);
     } else {
       objects.buff?.setVisible(false);
     }
 
+    // Mud badge [AnimalMudBadge.tsx], w7 at the inner div's bottom-left — its
+    // own slot, so a muddy Pig can carry a treat badge at the same time.
+    const mudIcon = ITEM_DETAILS.Mud.image;
+    if (isMuddy(animal) && this.scene.textures.exists(mudIcon)) {
+      if (!objects.mud) {
+        objects.mud = this.scene.add.image(0, 0, mudIcon).setOrigin(0, 1);
+        objects.mud.setScale(7 / objects.mud.width);
+        objects.mud.setPosition(0, INNER_BOTTOM[this.style]);
+        objects.container.add(objects.mud);
+      }
+      objects.mud.setVisible(true);
+    } else {
+      objects.mud?.setVisible(false);
+    }
+
     // Request bubble [RequestBubble.tsx] at (left 23, top 1); quantity only
     // for a hungry animal without golden cover — the whole batch one click
     // feeds [Cow.tsx requiredFoodQty].
-    const request = dealActive ? undefined : this.requestFor(animal, game);
+    // [Pig.tsx showRequestBubble] a Pig keeps its bubble while one is being
+    // picked for a bounty or a trade-in; it dims with the Pig.
+    const pigpen = this.buildingKey === "pigpen";
+    const request =
+      dealActive && !pigpen ? undefined : this.requestFor(animal, game);
     const golden = isAnimalCoveredByGoldenAsset({
       state: game,
       animalType: animal.type,
@@ -674,8 +761,10 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
     // [Cow.tsx] (23, 1) against the full-cell inner div; [Chicken.tsx]
     // (20, -3.5) against a 19px-tall centred inner div -> (20, 3) in cell
     // space.
-    const barn = this.buildingKey === "barn";
+    const barn = this.style === "barn";
     objects.bubble?.setPosition(x + (barn ? 23 : 20), y + (barn ? 1 : 3));
+    // The bubble sits outside the animal's container, so it dims separately.
+    objects.bubble?.container.setAlpha(objects.container.alpha);
 
     // Mutant sparkles [MutantSparkles.tsx] when a mutant reward is waiting.
     const mutant = animal.reward?.items?.[0]?.name;
@@ -730,7 +819,7 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
     // frame, no time label]. DOM anchors, converted to world px: the barn
     // hangs the bar off the cell bottom (-bottom-2.5, ml-1), the hen house
     // tucks it just inside (bottom-1, ml-0.5).
-    const barn = this.buildingKey === "barn";
+    const barn = this.style === "barn";
     const barX = (CELL - BAR.width) / 2 + (barn ? 4 : 2) / PIXEL_SCALE;
     const barY = barn
       ? CELL + 10 / PIXEL_SCALE - 7
@@ -812,6 +901,25 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
     }
 
     const pendingSale = isPendingSale(sale, id);
+    // [PigpenInside.tsx tradeInMode] picking a Pig to trade in: only a
+    // tradeable one reacts, and React opens its confirmation.
+    if (!sale.deal && sale.tradeIn) {
+      const game = this.bridge.select((state) => state.context.state);
+      const stored = game[this.buildingKey].animals[id];
+      if (
+        !stored ||
+        pendingSale ||
+        !canTradeInPig({
+          pig: resolveAnimal(stored, game),
+          game,
+          now: Date.now(),
+        })
+      ) {
+        return;
+      }
+      this.bridge.animalDeal.set({ ...sale, clickedId: id });
+      return;
+    }
     // Bulk mode: clicking a marked animal removes its mark.
     if (!sale.deal && pendingSale) {
       this.bridge.animalDeal.set({ ...sale, clickedId: id });
@@ -988,6 +1096,8 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
     objects.message?.destroy();
     if (objects.saleAnchor)
       this.bridge.anchors.removeAnchor(objects.saleAnchor);
+    if (objects.tradeInAnchor)
+      this.bridge.anchors.removeAnchor(objects.tradeInAnchor);
     objects.container.destroy(); // children go with it
     objects.zone.destroy();
   }

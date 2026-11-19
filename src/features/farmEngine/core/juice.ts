@@ -155,6 +155,76 @@ export function settle(scene: Phaser.Scene, target: Movable) {
   stepOffsets(scene, target, [-3, -1, 1, 0], 40);
 }
 
+type Positioned = Phaser.GameObjects.GameObject &
+  Phaser.GameObjects.Components.Transform;
+
+/**
+ * The DOM's `.ready` attention shake [styles.css ready-shake]: once a period,
+ * three 1px side-to-side jolts over the first 14% of it, then still. The CSS
+ * moves by PIXEL_SCALE CSS px, which is one source pixel, so this is the same
+ * motion in whole pixels. Stops itself when the target is destroyed.
+ */
+export function readyShake(
+  scene: Phaser.Scene,
+  target: Positioned,
+  periodMs = 4000,
+) {
+  const stepMs = periodMs * 0.02;
+  const offsets = [1, -1, 1, -1, 1, -1, 0];
+  const baseX = target.x;
+  const shake = () =>
+    offsets.forEach((offset, index) =>
+      scene.time.delayedCall((index + 1) * stepMs, () => {
+        if (target.active) target.x = baseX + offset;
+      }),
+    );
+  shake();
+  const loop = scene.time.addEvent({
+    delay: periodMs,
+    loop: true,
+    callback: shake,
+  });
+  target.once("destroy", () => loop.remove());
+}
+
+/**
+ * The DOM's `animate-float` [styles.css floating]: a slow bob down and back.
+ * CSS eases through 6 CSS px (~2 source px); here the offset steps through
+ * whole pixels on the same curve. If something else moves the target, the
+ * bob carries on from its new position. Stops when the target is destroyed.
+ */
+export function floatBob(
+  scene: Phaser.Scene,
+  target: Positioned,
+  {
+    periodMs = 3000,
+    amplitude = 2,
+  }: { periodMs?: number; amplitude?: number } = {},
+) {
+  let base = target.y;
+  let applied = 0;
+  const start = scene.time.now;
+  const loop = scene.time.addEvent({
+    delay: 50,
+    loop: true,
+    callback: () => {
+      if (!target.active) return;
+      if (target.y !== base + applied) {
+        base = target.y;
+        applied = 0;
+      }
+      const t = ((scene.time.now - start) % periodMs) / periodMs;
+      const offset = Math.round(
+        (amplitude * (1 - Math.cos(2 * Math.PI * t))) / 2,
+      );
+      if (offset === applied) return;
+      target.y = base + offset;
+      applied = offset;
+    },
+  });
+  target.once("destroy", () => loop.remove());
+}
+
 /**
  * Press feedback: art sinks 1px while the pointer is held on it and springs
  * back on release. Clicks fire on release (so a pan that starts on an entity

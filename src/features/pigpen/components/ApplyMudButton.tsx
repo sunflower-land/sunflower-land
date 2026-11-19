@@ -6,7 +6,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
-import type { GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getPigsNeedingMud } from "features/game/events/landExpansion/bulkApplyMud";
 import { getMudHarvests } from "features/game/events/landExpansion/applyAnimalFeedBuff";
@@ -14,6 +13,7 @@ import {
   MUD_PER_APPLICATION,
   MUD_XP_MULTIPLIER,
 } from "features/game/lib/animals";
+import { canApplyMud } from "features/pigpen/lib/applyMud";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -42,19 +42,16 @@ const skipConfirm = () => {
   }
 };
 
-const canApplyMud = (game: GameState, now: number) =>
-  (game.inventory.Mud ?? new Decimal(0)).gte(MUD_PER_APPLICATION) &&
-  getPigsNeedingMud(game, now).length > 0;
-
 /**
  * Building-level Apply Mud: muds every Pig that needs it, as far as the Mud
- * goes. Greyed out (like FeedAllButton) when there is no Mud or no Pig to mud.
- * The first clicks open a confirmation that explains Mud and its cost, until
- * the player ticks "Don't ask again".
+ * goes. The first requests open a confirmation that explains Mud and its
+ * cost, until the player ticks "Don't ask again".
+ *
+ * `confirm` is the confirmation modal; render it wherever the request comes
+ * from (this button, or the Phaser farm's in-room disc).
  */
-export const ApplyMudButton: React.FC = () => {
+export const useApplyMud = () => {
   const { gameService } = useContext(Context);
-  const { t } = useAppTranslation();
   // A sleeping Pig's love window opens on its own, which can leave no Pig the
   // Mud may go on, so re-check every second.
   const now = useNow({ live: true, intervalMs: 1000 });
@@ -78,7 +75,7 @@ export const ApplyMudButton: React.FC = () => {
     return true;
   };
 
-  const handleClick = () => {
+  const request = () => {
     if (!enabled) return;
 
     if (hasSkippedConfirm()) {
@@ -88,6 +85,31 @@ export const ApplyMudButton: React.FC = () => {
 
     setShowConfirm(true);
   };
+
+  const confirm = (
+    <Modal show={showConfirm} onHide={() => setShowConfirm(false)}>
+      <ApplyMudConfirm
+        now={now}
+        onClose={() => setShowConfirm(false)}
+        onConfirm={(dontAskAgain) => {
+          setShowConfirm(false);
+          // Only remember the choice once the Mud was actually applied.
+          if (applyMud() && dontAskAgain) skipConfirm();
+        }}
+      />
+    </Modal>
+  );
+
+  return { enabled, request, confirm };
+};
+
+/**
+ * The Apply Mud disc. Greyed out (like FeedAllButton) when there is no Mud
+ * or no Pig to mud.
+ */
+export const ApplyMudButton: React.FC = () => {
+  const { t } = useAppTranslation();
+  const { enabled, request, confirm } = useApplyMud();
 
   return (
     <>
@@ -101,7 +123,7 @@ export const ApplyMudButton: React.FC = () => {
         // The white round-button disc, icon centred with a lightning corner
         // badge - the same frame as the pet house's feed-all button.
         style={{ width: `${PIXEL_SCALE * 18}px` }}
-        onClick={handleClick}
+        onClick={request}
       >
         <img className="block w-full" src={SUNNYSIDE.icons.disc} alt="" />
         <img
@@ -121,17 +143,7 @@ export const ApplyMudButton: React.FC = () => {
         />
       </button>
 
-      <Modal show={showConfirm} onHide={() => setShowConfirm(false)}>
-        <ApplyMudConfirm
-          now={now}
-          onClose={() => setShowConfirm(false)}
-          onConfirm={(dontAskAgain) => {
-            setShowConfirm(false);
-            // Only remember the choice once the Mud was actually applied.
-            if (applyMud() && dontAskAgain) skipConfirm();
-          }}
-        />
-      </Modal>
+      {confirm}
     </>
   );
 };

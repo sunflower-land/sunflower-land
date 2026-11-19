@@ -70,6 +70,17 @@ type PanSample = { time: number; x: number; y: number };
 
 type SavedCamera = { scrollX: number; scrollY: number; userZoom: number };
 
+/**
+ * A surface with a board of its own [Cave.tsx]: fixed bounds instead of the
+ * farm's gameboard, and a fixed opening view (the world point shown at the
+ * viewport's top-left, the DOM's `scrollIntoView` start/start) instead of the
+ * saved one. Such a surface neither reads nor writes the saved farm view.
+ */
+export type FixedCameraView = {
+  bounds: WorldRect;
+  openAt: { x: number; y: number };
+};
+
 export class FarmCameraController {
   private userZoom = 1;
 
@@ -117,17 +128,22 @@ export class FarmCameraController {
 
   private detachInput: (() => void) | undefined;
 
+  private fixedView: FixedCameraView | undefined;
+
   constructor(
     private readonly scene: Phaser.Scene,
     private readonly anchors: AnchorRegistry,
   ) {}
 
-  attach(expansionCount: number) {
+  attach(expansionCount: number, fixedView?: FixedCameraView) {
+    this.fixedView = fixedView;
     this.keepTrueScroll();
     this.setExpansionCount(expansionCount);
     this.applyZoom();
 
-    if (!this.restore()) {
+    if (fixedView) {
+      this.openAt(fixedView.openAt);
+    } else if (!this.restore()) {
       this.scene.cameras.main.centerOn(0, 0);
     }
 
@@ -317,7 +333,8 @@ export class FarmCameraController {
   }
 
   setExpansionCount(expansionCount: number) {
-    const bounds = getGameboardWorldBounds(expansionCount);
+    const bounds =
+      this.fixedView?.bounds ?? getGameboardWorldBounds(expansionCount);
     this.scene.cameras.main.setBounds(
       bounds.x,
       bounds.y,
@@ -346,6 +363,8 @@ export class FarmCameraController {
 
   /** Persist viewport for the next farm mount (called on scene shutdown). */
   save() {
+    // A fixed-view surface leaves the saved farm view for the farm.
+    if (this.fixedView) return;
     const camera = this.scene.cameras?.main;
     if (!camera) return; // scene already shut down
     const saved: SavedCamera = {
@@ -367,6 +386,19 @@ export class FarmCameraController {
     this.save();
     this.detachInput?.();
     this.detachInput = undefined;
+  }
+
+  /**
+   * Put a world point at the viewport's top-left, as far as the bounds allow.
+   * Zoom scales about the camera midpoint (see projectWorldRect), so the
+   * visible left edge is scroll + width / 2 - width / (2 * zoom).
+   */
+  private openAt(point: { x: number; y: number }) {
+    const camera = this.scene.cameras.main;
+    const scrollX = point.x - camera.width / 2 + camera.width / camera.zoom / 2;
+    const scrollY =
+      point.y - camera.height / 2 + camera.height / camera.zoom / 2;
+    camera.setScroll(camera.clampX(scrollX), camera.clampY(scrollY));
   }
 
   private restore(): boolean {

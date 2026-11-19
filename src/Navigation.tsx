@@ -298,7 +298,10 @@ export const Navigation: React.FC = () => {
                                   path="/cave"
                                   element={
                                     <GameWrapper>
-                                      <Cave />
+                                      <PhaserInteriorRoute
+                                        floor="cave"
+                                        fallback={<Cave />}
+                                      />
                                     </GameWrapper>
                                   }
                                 />

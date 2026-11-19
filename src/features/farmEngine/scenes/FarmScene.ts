@@ -10,6 +10,7 @@ import { RENDERERS, type RendererFactory } from "../entities/registry";
 import type { FarmSurface } from "../core/surface";
 import { LandscapingController } from "../landscaping/LandscapingController";
 import { DebugGrid } from "../dev/DebugGrid";
+import { CAVE_CAMERA_VIEW } from "../entities/cave/caveGeometry";
 import { StressBumpkins } from "../dev/StressBumpkins";
 
 /**
@@ -158,7 +159,11 @@ export class FarmScene extends Phaser.Scene {
     // renderer click or a React modal that closes right after.
     this.yieldEventFloats = new YieldEventFloats(this, this.bridge);
 
-    this.farmCamera.attach(this.bridge.select(_expansionCount));
+    this.farmCamera.attach(
+      this.bridge.select(_expansionCount),
+      // [Cave.tsx] the cave has its own board and opens on its ladder.
+      this.location === "cave" ? CAVE_CAMERA_VIEW : undefined,
+    );
     // Panning or zooming dismisses the SFT popover — a tooltip riding along
     // with the viewport reads as broken, especially on touch.
     this.farmCamera.onUserGesture = () => this.bridge.sftPopover.set(null);

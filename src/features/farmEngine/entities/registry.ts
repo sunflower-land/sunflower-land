@@ -11,6 +11,8 @@ import { GreenhousePotRenderer } from "./greenhouse/GreenhousePotRenderer";
 import { GreenhouseOilRenderer } from "./greenhouse/GreenhouseOilRenderer";
 import { AnimalHouseRenderer } from "./animals/AnimalHouseRenderer";
 import { AnimalHouseControls } from "./animals/AnimalHouseControls";
+import { CaveRoomRenderer } from "./cave/CaveRoomRenderer";
+import { CavePatchRenderer } from "./cave/CavePatchRenderer";
 import { WaterDecorLayer } from "../layers/WaterDecorLayer";
 import { BoatsLayer } from "../layers/BoatsLayer";
 import { UpcomingExpansionRenderer } from "./UpcomingExpansionRenderer";
@@ -92,6 +94,16 @@ export const ANIMAL_HOUSE_RENDERERS: Record<string, RendererFactory> = {
   interiorBackdrop: (scene, bridge) => new InteriorBackdropLayer(scene, bridge),
   animals: (scene, bridge) => new AnimalHouseRenderer(scene, bridge),
   animalControls: (scene, bridge) => new AnimalHouseControls(scene, bridge),
+};
+
+/**
+ * [cave/Cave.tsx] the Cave: the room at its tier, then the ladder, the
+ * merchant, the Myco Bins and the dig patches.
+ */
+export const CAVE_RENDERERS: Record<string, RendererFactory> = {
+  interiorBackdrop: (scene, bridge) => new InteriorBackdropLayer(scene, bridge),
+  caveRoom: (scene, bridge) => new CaveRoomRenderer(scene, bridge),
+  cavePatches: (scene, bridge) => new CavePatchRenderer(scene, bridge),
 };
 
 /** [interior/Interior.tsx + LevelOne.tsx] the interior floors. */

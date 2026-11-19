@@ -495,7 +495,16 @@ const GameContent: React.FC = () => {
             />
           )}
           {hasAccess("Pigpen") && (
-            <Route path="/pigpen" element={<PigpenInside />} />
+            <Route
+              path="/pigpen"
+              element={
+                hasFeatureAccess(gameState.context.state, "PHASER_FARM") ? (
+                  <FarmPhaser surface="pigpen" />
+                ) : (
+                  <PigpenInside />
+                )
+              }
+            />
           )}
           {hasAccess("HenHouse") && (
             <Route

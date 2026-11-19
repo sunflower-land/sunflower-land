@@ -2,9 +2,15 @@ import type Phaser from "phaser";
 import shopDisc from "assets/icons/shop_disc.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import type { MachineState } from "features/game/lib/gameMachine";
-import type { GameState, IslandType } from "features/game/types/game";
+import type {
+  AnimalBuildingKey,
+  GameState,
+  IslandType,
+} from "features/game/types/game";
 import type { AnimalBuildingType } from "features/game/types/animals";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { canApplyMud } from "features/pigpen/lib/applyMud";
 import {
   getCoveredAnimalTypes,
   getFeedAllTargets,
@@ -18,8 +24,9 @@ import { interiorRoomRect } from "../../layers/InteriorBackdropLayer";
 import { EntityRenderer } from "../EntityRenderer";
 
 /**
- * The animal house's in-room controls: the feeder machine, Feed All, and the
- * shop / quick-sell / upgrade discs [BarnInside.tsx + HenHouseInside.tsx].
+ * The animal house's in-room controls: the feeder machine, Feed All, the
+ * pigpen's Apply Mud, and the shop / quick-sell / upgrade discs
+ * [BarnInside.tsx + HenHouseInside.tsx + PigpenInside.tsx].
  *
  * These sit ON the room — they pan and zoom with it — so by the engine's
  * boundary rule they're Phaser. They used to be DOM elements in
@@ -61,6 +68,18 @@ const css = (px: number) => px / PIXEL_SCALE;
 const DISC_INSET = css(18);
 /** Feed All sits to the right of the feeder machine [AnimalHouseUI]. */
 const FEED_ALL_OFFSET = { x: css(58), y: css(11) };
+/** [ApplyMudButton.tsx] disc w18, Mud icon w10, lightning corner badge w6. */
+const MUD_ICON = 10;
+const MUD_LIGHTNING = 6;
+/** The badge overhangs the disc's top-right corner (`-top-0.5 -right-0.5`). */
+const MUD_BADGE_OVERHANG = css(2);
+
+const BUILDING_NAME: Record<AnimalBuildingKey, AnimalBuildingType> = {
+  barn: "Barn",
+  henHouse: "Hen House",
+  pigpen: "Pigpen",
+};
+
 /** The grinder badge overhangs the machine's right edge [FeederMachine]. */
 const GRINDER_OVERHANG = css(16);
 
@@ -69,16 +88,23 @@ const CONTROL_DEPTH = DEPTHS.ALWAYS_ON_TOP + 50;
 
 export class AnimalHouseControls extends EntityRenderer<Slice> {
   private objects: Phaser.GameObjects.Image[] = [];
-  private lightningTween: Phaser.Tweens.Tween | undefined;
+  private tweens: Phaser.Tweens.Tween[] = [];
   private dealUnsubscribe: (() => void) | undefined;
+  /** What Apply Mud last drew as, so the 1s re-check redraws only on a flip. */
+  private mudEnabled: boolean | undefined;
+
+  private get buildingKey(): AnimalBuildingKey {
+    const { location } = this.scene;
+    return location === "barn" || location === "pigpen" ? location : "henHouse";
+  }
 
   private get building(): AnimalBuildingType {
-    return this.scene.location === "barn" ? "Barn" : "Hen House";
+    return BUILDING_NAME[this.buildingKey];
   }
 
   selector(state: MachineState): Slice {
     const game = state.context.state;
-    const key = this.scene.location === "barn" ? "barn" : "henHouse";
+    const key = this.buildingKey;
     return {
       islandType: game.island.type,
       level: game[key].level,
@@ -109,6 +135,7 @@ export class AnimalHouseControls extends EntityRenderer<Slice> {
     const token = this.beginSync();
     [
       shopDisc,
+      ITEM_DETAILS.Mud.image,
       SUNNYSIDE.icons.disc,
       SUNNYSIDE.icons.death,
       SUNNYSIDE.icons.upgrade_disc,
@@ -130,11 +157,99 @@ export class AnimalHouseControls extends EntityRenderer<Slice> {
 
     // [BarnInside.tsx] the feeder machine always stays; Feed All hides while
     // the quick-sell panel is open so animals can't be fed mid-sale; the
-    // discs hide for a bounty deal and for the panel.
+    // discs hide for a bounty deal and for the panel. [PigpenInside.tsx] the
+    // same, the trade-in pick counting as a deal, and Apply Mud always stays.
     const sale = this.bridge.animalDeal.get();
     this.addFeederMachine(room);
     if (!sale?.sellPanel) this.addFeedAll(room, slice);
+    if (this.buildingKey === "pigpen") this.addApplyMud(room, slice);
     if (!sale) this.addDiscs(room);
+  }
+
+  /**
+   * [ApplyMudButton.tsx] mirrors the Feed All slot on the feeder's other
+   * side: the white round disc with the Mud icon centred and a lightning
+   * corner badge. Dimmed and inert with no Mud or no Pig to mud; the badge
+   * pulses when it can be used. The click asks React for the button's own
+   * flow (the confirmation, then `pigs.bulkMudApplied`).
+   */
+  private addApplyMud(
+    room: { x: number; y: number; width: number },
+    slice: Slice,
+  ) {
+    const enabled = canApplyMud(slice.game, Date.now());
+    this.mudEnabled = enabled;
+
+    // `right-1/2 -translate-x-[58px]`: the disc's RIGHT edge sits 58 CSS px
+    // left of the room's centre line.
+    const x = room.x + room.width / 2 - FEED_ALL_OFFSET.x - DISC;
+    const y = room.y - FEED_ALL_OFFSET.y;
+    const alpha = enabled ? 1 : 0.6;
+
+    const disc = this.image(
+      SUNNYSIDE.icons.disc,
+      x,
+      y,
+      DISC,
+      CONTROL_DEPTH + 2,
+    );
+    if (!disc) return;
+    disc.setAlpha(alpha);
+
+    this.image(ITEM_DETAILS.Mud.image, 0, 0, MUD_ICON, CONTROL_DEPTH + 3)
+      ?.setOrigin(0.5, 0.5)
+      .setPosition(x + disc.displayWidth / 2, y + disc.displayHeight / 2)
+      .setAlpha(alpha);
+
+    const bolt = this.image(
+      SUNNYSIDE.icons.lightning,
+      0,
+      0,
+      MUD_LIGHTNING,
+      CONTROL_DEPTH + 4,
+    );
+    if (bolt) {
+      // Centre origin so the pulse grows in place, as CSS scale does.
+      bolt
+        .setOrigin(0.5, 0.5)
+        .setPosition(
+          x + DISC + MUD_BADGE_OVERHANG - bolt.displayWidth / 2,
+          y - MUD_BADGE_OVERHANG + bolt.displayHeight / 2,
+        )
+        .setAlpha(alpha);
+      if (enabled) this.pulse(bolt);
+    }
+
+    if (!enabled) return;
+    makeClickable(
+      this.scene,
+      disc,
+      () => this.bridge.animalHouseModal.set("applyMud"),
+      { glow: () => disc },
+    );
+  }
+
+  private pulse(target: Phaser.GameObjects.Image) {
+    this.tweens.push(
+      this.scene.tweens.add({
+        targets: target,
+        scale: target.scale * 1.15,
+        duration: 500,
+        yoyo: true,
+        repeat: -1,
+        ease: "Sine.easeInOut",
+      }),
+    );
+  }
+
+  /**
+   * [ApplyMudButton.tsx `useNow` 1s] a sleeping Pig's love window opens on
+   * its own, which can leave no Pig the Mud may go on — re-check each second.
+   */
+  update(_time: number, delta: number) {
+    if (this.buildingKey !== "pigpen" || !this.secondElapsed(delta)) return;
+    const game = this.bridge.select((state) => state.context.state);
+    if (canApplyMud(game, Date.now()) !== this.mudEnabled) this.resync();
   }
 
   /** Top-centre of the room, hanging 4px above its top edge. */
@@ -204,16 +319,7 @@ export class AnimalHouseControls extends EntityRenderer<Slice> {
     );
     if (bolt) {
       bolt.setAlpha(enabled ? 1 : 0.6);
-      if (enabled) {
-        this.lightningTween = this.scene.tweens.add({
-          targets: bolt,
-          scale: bolt.scale * 1.15,
-          duration: 500,
-          yoyo: true,
-          repeat: -1,
-          ease: "Sine.easeInOut",
-        });
-      }
+      if (enabled) this.pulse(bolt);
     }
 
     if (!enabled) return;
@@ -329,8 +435,8 @@ export class AnimalHouseControls extends EntityRenderer<Slice> {
   }
 
   private clear() {
-    this.lightningTween?.remove();
-    this.lightningTween = undefined;
+    this.tweens.forEach((tween) => tween.remove());
+    this.tweens = [];
     this.objects.forEach((object) => object.destroy());
     this.objects = [];
   }
