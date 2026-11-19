@@ -336,7 +336,9 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
       const state: SurfaceRouteState = {
         landscapingSaveFailed: result === "failed",
       };
-      navigate(SURFACE_ROUTES[source], { state });
+      // Replace, so browser Back doesn't return to the surface that just
+      // failed and commit the same rejected arrangement again.
+      navigate(SURFACE_ROUTES[source], { replace: true, state });
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [arrivalPending, saving, saveInFlight, commitPending]);
@@ -471,7 +473,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
             beforeNavigate={async (to) =>
               (await switchSurface(
                 to === "ground" ? "interior" : "level_one",
-              )) === "switched"
+              )) === "switched" && mounted.current
             }
           />
         </div>
