@@ -79,8 +79,13 @@ jobs:
             return `${value.slice(0, limit - 3)}...`;
           }
 
+          // Keeps text from pinging anyone or turning into a clickable link.
+          function plainText(value) {
+            return value.replace(/@/g, "@\u200b").replace(/:\/\//g, ":\u200b//");
+          }
+
           function escapeDiscord(value) {
-            return value.replace(/@/g, "@\u200b").replace(/[`*_~|]/g, "\\$&");
+            return plainText(value).replace(/[`*_~|]/g, "\\$&");
           }
 
           function getCommitMetadata(sha) {
@@ -270,6 +275,18 @@ jobs:
             return null;
           }
 
+          const writeAccessByLogin = new Map();
+
+          async function hasWriteAccess(login) {
+            if (!writeAccessByLogin.has(login)) {
+              const { permission } = await githubRequest(
+                `/repos/${owner}/${repo}/collaborators/${encodeURIComponent(login)}/permission`,
+              );
+              writeAccessByLogin.set(login, permission === "admin" || permission === "write");
+            }
+            return writeAccessByLogin.get(login);
+          }
+
           async function isPrApproved(prNumber) {
             try {
               const reviews = await githubRequest(`/repos/${owner}/${repo}/pulls/${prNumber}/reviews?per_page=100`);
@@ -279,11 +296,17 @@ jobs:
                 if (!review.user) continue;
                 const state = review.state;
                 if (state === "APPROVED" || state === "CHANGES_REQUESTED" || state === "DISMISSED") {
-                  latestStateByReviewer.set(review.user.id, state);
+                  latestStateByReviewer.set(review.user.login, state);
                 }
               }
 
-              const states = [...latestStateByReviewer.values()];
+              // Only reviews from people with write access count, as in branch protection.
+              const states = [];
+              for (const [login, state] of latestStateByReviewer) {
+                if (await hasWriteAccess(login)) {
+                  states.push(state);
+                }
+              }
               const hasApproval = states.some((s) => s === "APPROVED");
               const hasChangesRequested = states.some((s) => s === "CHANGES_REQUESTED");
 
@@ -425,7 +448,7 @@ jobs:
                       : "Direct commit to main detected",
                   url: pullRequest ? pullRequest.url : getCommitUrl(metadata.sha),
                   color: embedColor,
-                  description: truncate(summary, 4000),
+                  description: truncate(plainText(summary), 4000),
                   fields: [
                     riskField,
                     ...(pullRequest
