@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { CONFIG } from "lib/config";
 import { WORKBENCH_TOOLS } from "features/game/types/tools";
 import { TEST_FARM } from "../../lib/constants";
 import type { GameState } from "../../types/game";
@@ -639,48 +640,38 @@ describe("craftTool", () => {
   });
 
   describe("weather items", () => {
-    it("crafts a weather item when the player does not own one", () => {
-      const state = craftTool({
-        state: {
-          ...GAME_STATE,
-          coins: 1000,
-          inventory: {
-            Wood: new Decimal(100),
-            Leather: new Decimal(100),
+    it("no longer sells the old weather items once Weather is on", () => {
+      expect(() =>
+        craftTool({
+          state: {
+            ...GAME_STATE,
+            coins: 1000,
+            inventory: {
+              Wood: new Decimal(100),
+              Leather: new Decimal(100),
+            },
           },
-        },
-        action: {
-          type: "tool.crafted",
-          tool: "Tornado Pinwheel",
-        },
+          action: {
+            type: "tool.crafted",
+            tool: "Tornado Pinwheel",
+          },
+        }),
+      ).toThrow("This weather item is no longer sold");
+    });
+
+    describe("on mainnet", () => {
+      const originalNetwork = CONFIG.NETWORK;
+
+      beforeAll(() => {
+        CONFIG.NETWORK = "mainnet";
       });
 
-      expect(state.inventory["Tornado Pinwheel"]).toStrictEqual(new Decimal(1));
-    });
+      afterAll(() => {
+        CONFIG.NETWORK = originalNetwork;
+      });
 
-    it("does not craft a weather item if the player already owns one", () => {
-      expect(() =>
-        craftTool({
-          state: {
-            ...GAME_STATE,
-            coins: 1000,
-            inventory: {
-              Wood: new Decimal(100),
-              Leather: new Decimal(100),
-              "Tornado Pinwheel": new Decimal(1),
-            },
-          },
-          action: {
-            type: "tool.crafted",
-            tool: "Tornado Pinwheel",
-          },
-        }),
-      ).toThrow("You can only have one of this weather item");
-    });
-
-    it("does not allow crafting two weather items at once", () => {
-      expect(() =>
-        craftTool({
+      it("crafts a weather item when the player does not own one", () => {
+        const state = craftTool({
           state: {
             ...GAME_STATE,
             coins: 1000,
@@ -692,10 +683,53 @@ describe("craftTool", () => {
           action: {
             type: "tool.crafted",
             tool: "Tornado Pinwheel",
-            amount: 2,
           },
-        }),
-      ).toThrow("You can only have one of this weather item");
+        });
+
+        expect(state.inventory["Tornado Pinwheel"]).toStrictEqual(
+          new Decimal(1),
+        );
+      });
+
+      it("does not craft a weather item if the player already owns one", () => {
+        expect(() =>
+          craftTool({
+            state: {
+              ...GAME_STATE,
+              coins: 1000,
+              inventory: {
+                Wood: new Decimal(100),
+                Leather: new Decimal(100),
+                "Tornado Pinwheel": new Decimal(1),
+              },
+            },
+            action: {
+              type: "tool.crafted",
+              tool: "Tornado Pinwheel",
+            },
+          }),
+        ).toThrow("You can only have one of this weather item");
+      });
+
+      it("does not allow crafting two weather items at once", () => {
+        expect(() =>
+          craftTool({
+            state: {
+              ...GAME_STATE,
+              coins: 1000,
+              inventory: {
+                Wood: new Decimal(100),
+                Leather: new Decimal(100),
+              },
+            },
+            action: {
+              type: "tool.crafted",
+              tool: "Tornado Pinwheel",
+              amount: 2,
+            },
+          }),
+        ).toThrow("You can only have one of this weather item");
+      });
     });
   });
 });

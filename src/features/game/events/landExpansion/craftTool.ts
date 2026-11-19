@@ -8,6 +8,7 @@ import {
   LOVE_ANIMAL_TOOLS,
 } from "features/game/types/tools";
 import { trackFarmActivity } from "features/game/types/farmActivity";
+import { hasFeatureAccess } from "lib/flags";
 import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
 import cloneDeep from "lodash.clonedeep";
 
@@ -252,6 +253,11 @@ export function craftTool({ state, action }: Options) {
   }
 
   const isWeatherItem = action.tool in getWeatherShop(stateCopy.island.type);
+  // The Weather Shop sells the new weather items (weatherItem.crafted) instead.
+  if (isWeatherItem && hasFeatureAccess(stateCopy, "WEATHER")) {
+    throw new Error("This weather item is no longer sold");
+  }
+
   if (
     isWeatherItem &&
     (stateCopy.inventory[action.tool] ?? new Decimal(0)).add(amount).gt(1)

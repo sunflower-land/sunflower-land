@@ -4,6 +4,7 @@ import { CONFIG } from "lib/config";
 import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 import { storagePathname } from "lib/phaserPreview";
+import { apiError, createApiError } from "lib/apiError";
 
 type Request = {
   portalId: string;
@@ -46,7 +47,20 @@ export async function portal(request: Request) {
   );
 
   if (response.status >= 400) {
-    throw new Error(ERRORS.PORTAL_LOGIN_ERROR);
+    const endpoint = `POST /portal/${request.portalId}/login`;
+
+    if (await isMaintenanceResponse(response)) {
+      throw createApiError({
+        code: ERRORS.MAINTENANCE,
+        status: response.status,
+        endpoint,
+      });
+    }
+
+    throw await apiError(response, {
+      endpoint,
+      fallbackCode: ERRORS.PORTAL_LOGIN_ERROR,
+    });
   }
 
   const data: { token: string } = await response.json();
@@ -55,6 +69,18 @@ export async function portal(request: Request) {
 
   return data;
 }
+
+/** `fetchWithRetry` hands a maintenance 503 straight back instead of retrying it. */
+const isMaintenanceResponse = async (response: Response): Promise<boolean> => {
+  if (response.status !== 503) return false;
+
+  const data = await response
+    .clone()
+    .json()
+    .catch(() => undefined);
+
+  return data?.message === "Temporary maintenance";
+};
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `sb_wiz.zpc.minigame.${host}-${storagePathname}`;

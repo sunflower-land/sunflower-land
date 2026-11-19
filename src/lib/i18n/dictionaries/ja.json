@@ -9069,5 +9069,12 @@
   "description.thawStone": "手触りが暖かく保たれる石。",
   "description.merinoWoolInsulation": "柔らかく暖かいウールをしっかりと巻き上げました。",
   "description.shadeCloth": "ポールの上には布製の天蓋が張っていた。",
-  "description.wildflowerLure": "甘い香りのする野生の花の束です。"
+  "description.wildflowerLure": "甘い香りのする野生の花の束です。",
+  "weatherShop.amount": "x {{amount}}",
+  "weatherShop.chooseBeetle": "カブトムシを選ぶ",
+  "weatherShop.chooseFlower": "花を選ぶ",
+  "weatherShop.ingredientAmount": "{{item}} x {{amount}}",
+  "weatherShop.onePerFarm": "ファームあたり最大 1",
+  "weatherShop.owned": "すでに所有しています",
+  "weatherItem.renew.message": "{{name}} は前回の気象イベントで使用されました。更新して次のイベントで使用してください。"
 }

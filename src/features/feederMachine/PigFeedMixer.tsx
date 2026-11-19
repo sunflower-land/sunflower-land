@@ -1,12 +1,13 @@
 import React from "react";
 import Decimal from "decimal.js-light";
 
-import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
-import { InnerPanel } from "components/ui/Panel";
+import {
+  StackedOptionGrid,
+  StackedPanelView,
+} from "components/ui/StackedPanelView";
 import { Label } from "components/ui/Label";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { ANIMAL_FOODS } from "features/game/types/animals";
 import type { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -52,58 +53,57 @@ export const PigFeedMixer: React.FC<Props> = ({
   const { t } = useAppTranslation();
 
   return (
-    <>
-      <InnerPanel className="mb-1">
-        <div className="flex flex-col gap-1 mb-1">
-          <Label
-            type="default"
-            className="text-xs ml-1"
-            icon={ITEM_DETAILS[selected].image}
-          >
-            {selected}
-          </Label>
+    <StackedPanelView
+      title={selected}
+      titleIcon={ITEM_DETAILS[selected].image}
+      details={
+        <>
           <p className="text-xs ml-1">{ANIMAL_FOODS[selected].description}</p>
-        </div>
-        <Label type="default" className="text-xs ml-1 mb-1">
-          {t("feeder.foodTypes.food")}
-        </Label>
-        <div className="flex flex-wrap gap-1 px-1 pb-1">
-          {SLOPS.map((item) => (
-            <Box
-              key={item}
-              image={ITEM_DETAILS[item].image}
-              isSelected={selected === item}
-              count={state.inventory[item]}
-              onClick={() => onSelect(item)}
+          <Label type="default" className="text-xs ml-1">
+            {t("feeder.foodTypes.food")}
+          </Label>
+        </>
+      }
+      options={SLOPS.map((item) => ({
+        id: item,
+        image: ITEM_DETAILS[item].image,
+        count: state.inventory[item],
+        selected: selected === item,
+        onClick: () => onSelect(item),
+      }))}
+      panels={[
+        ingredient && {
+          id: "input",
+          title: t("feeder.chooseSlopInput"),
+          content: (
+            <SlopInputPicker
+              state={state}
+              slop={selected}
+              ingredient={ingredient}
+              ingredients={ingredients}
+              onSelectIngredient={onSelectIngredient}
             />
-          ))}
-        </div>
-      </InnerPanel>
-
-      {ingredient && (
-        <SlopInputPicker
-          state={state}
-          slop={selected}
-          ingredient={ingredient}
-          ingredients={ingredients}
-          onSelectIngredient={onSelectIngredient}
-        />
-      )}
-
-      <div className="flex space-x-1 w-full">
-        <Button disabled={maxMixAmount < 1} onClick={() => onMix(1)}>
-          {t("mix.one")}
-        </Button>
-        <Button disabled={maxMixAmount < 10} onClick={() => onMix(10)}>
-          {t("mix.ten")}
-        </Button>
-      </div>
-      {maxMixAmount > 10 && (
-        <Button className="mt-1" onClick={onMixInBulk}>
-          {t("feeder.mixInBulk")}
-        </Button>
-      )}
-    </>
+          ),
+        },
+      ]}
+      action={
+        <>
+          <div className="flex space-x-1 w-full">
+            <Button disabled={maxMixAmount < 1} onClick={() => onMix(1)}>
+              {t("mix.one")}
+            </Button>
+            <Button disabled={maxMixAmount < 10} onClick={() => onMix(10)}>
+              {t("mix.ten")}
+            </Button>
+          </div>
+          {maxMixAmount > 10 && (
+            <Button className="mt-1" onClick={onMixInBulk}>
+              {t("feeder.mixInBulk")}
+            </Button>
+          )}
+        </>
+      }
+    />
   );
 };
 
@@ -114,29 +114,20 @@ const SlopInputPicker: React.FC<{
   ingredients: GameState["inventory"];
   onSelectIngredient: (item: InventoryItemName) => void;
 }> = ({ state, slop, ingredient, ingredients, onSelectIngredient }) => {
-  const { t } = useAppTranslation();
-
   return (
-    <InnerPanel className="mb-1">
-      <Label type="default" className="text-xs mb-2 ml-1">
-        {t("feeder.chooseSlopInput")}
-      </Label>
-      <div className="flex flex-wrap gap-1 overflow-auto max-h-48 scrollable">
-        {getKeys(PIG_FEEDS[slop].ingredients).map((item) => (
-          <Box
-            key={item}
-            image={ITEM_DETAILS[item].image}
-            count={state.inventory[item]}
-            isSelected={ingredient === item}
-            onClick={() => onSelectIngredient(item)}
-            secondaryImage={
-              canAffordInput(state.inventory, slop, item)
-                ? SUNNYSIDE.icons.confirm
-                : SUNNYSIDE.icons.cancel
-            }
-          />
-        ))}
-      </div>
+    <>
+      <StackedOptionGrid
+        options={getKeys(PIG_FEEDS[slop].ingredients).map((item) => ({
+          id: item,
+          image: ITEM_DETAILS[item].image,
+          count: state.inventory[item],
+          selected: ingredient === item,
+          onClick: () => onSelectIngredient(item),
+          status: canAffordInput(state.inventory, slop, item)
+            ? "ready"
+            : "missing",
+        }))}
+      />
       <div className="flex flex-wrap p-2 gap-2">
         {getKeys(ingredients).map((item) => (
           <RequirementLabel
@@ -148,6 +139,6 @@ const SlopInputPicker: React.FC<{
           />
         ))}
       </div>
-    </InnerPanel>
+    </>
   );
 };

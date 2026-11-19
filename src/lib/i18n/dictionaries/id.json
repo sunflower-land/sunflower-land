@@ -9069,5 +9069,12 @@
   "description.thawStone": "Batu yang tetap hangat saat disentuh.",
   "description.merinoWoolInsulation": "Wol lembut dan hangat digulung rapat.",
   "description.shadeCloth": "Kanopi kain membentang di atas tiang.",
-  "description.wildflowerLure": "Seikat bunga liar dengan aroma manis."
+  "description.wildflowerLure": "Seikat bunga liar dengan aroma manis.",
+  "weatherShop.amount": "x {{amount}}",
+  "weatherShop.chooseBeetle": "Pilih kumbang",
+  "weatherShop.chooseFlower": "Pilih bunga",
+  "weatherShop.ingredientAmount": "{{item}} x {{amount}}",
+  "weatherShop.onePerFarm": "Maks 1 per peternakan",
+  "weatherShop.owned": "Sudah dimiliki",
+  "weatherItem.renew.message": "{{name}} digunakan pada acara cuaca terakhirnya. Perbarui untuk menggunakannya pada yang berikutnya."
 }
