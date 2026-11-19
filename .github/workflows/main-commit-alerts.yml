@@ -81,7 +81,10 @@ jobs:
 
           // Keeps text from pinging anyone or turning into a clickable link.
           function plainText(value) {
-            return value.replace(/@/g, "@\u200b").replace(/:\/\//g, ":\u200b//");
+            return value
+              .replace(/@/g, "@\u200b")
+              .replace(/:\/\//g, ":\u200b//")
+              .replace(/\bwww\./gi, (match) => `${match}\u200b`);
           }
 
           function escapeDiscord(value) {
