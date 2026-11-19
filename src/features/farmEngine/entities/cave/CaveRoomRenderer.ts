@@ -285,7 +285,6 @@ export class CaveRoomRenderer extends EntityRenderer<Slice> {
         x: x + 6,
         y: y - 12,
         depth: CAVE_DEPTHS.ALERT,
-        animate,
       });
     } else if (!hasUnseenOffers && this.merchantAlert) {
       this.merchantAlert.destroy();
@@ -400,7 +399,6 @@ export class CaveRoomRenderer extends EntityRenderer<Slice> {
           x: rect.x + rect.width / 2 - 2,
           y: rect.y - 12,
           depth: CAVE_DEPTHS.ALERT,
-          animate,
         });
       } else if (!idle && objects.alert) {
         objects.alert.destroy();

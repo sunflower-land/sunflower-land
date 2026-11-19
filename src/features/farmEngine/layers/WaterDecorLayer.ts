@@ -23,9 +23,9 @@ import { EntityRenderer } from "../entities/EntityRenderer";
  * rendering is Phaser; the snorkler/shark click modals stay React, opened via
  * bridge.farmModal.
  *
- * KNOWN PARITY GAP: several source assets are animated GIF/WebP
- * (goblin_swimming, goblinSnorkling, swimmer1-4). Phaser renders their first
- * frame; their idle wiggles return when the art ships as spritesheets.
+ * Animated GIF/WebP cast members play their converted strips
+ * [core/animatedArt.ts]. goblin_swimming alone stays on its first frame: at
+ * 63 frames of 96x64 its strip would be the largest texture we ship.
  */
 
 // Water.tsx: offset pushing decorations out as the land grows (LAND_WIDTH 6).

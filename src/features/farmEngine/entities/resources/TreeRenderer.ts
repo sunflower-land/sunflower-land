@@ -324,13 +324,14 @@ export class TreeRenderer extends ResourceNodeRenderer<TreeNode> {
     objects.strike?.destroy();
     objects.strike = undefined;
     const size = TREE_SIZE_VARIANTS(ctx.biome, ctx.season, name as never);
-    // [Resource.tsx treeStyle] relative-flow math lands the art bottom flush
-    // with the box bottom — matching the shake sheet, so tapping doesn't
-    // shift the tree.
+    // [Resource.tsx treeStyle] the img sits in flow from the tile top,
+    // raised by (size.height - 32). Art whose canvas is taller than its
+    // listed size (the 26x35 ancient tree vs 26x34) therefore hangs that much
+    // below the box, as it does in the DOM.
     this.setArt(objects, ctx, {
       texture: TREE_VARIANTS(ctx.biome, ctx.season, name as never),
       width: size.width,
-      bottom: 0,
+      top: 32 - size.height,
       left: (32 - size.width) / 2,
     });
   }
@@ -342,10 +343,11 @@ export class TreeRenderer extends ResourceNodeRenderer<TreeNode> {
     if (!node) return;
 
     const now = Date.now();
-    if (now <= this.readyAt(node, game)) return; // stump — nothing to do
-
-    // Tool gate [chop.ts getRequiredAxeAmount].
-    if (!this.hasTool(game, id)) return;
+    // A stump or a missing axe can't chop: show the timer / "Craft axe".
+    if (now <= this.readyAt(node, game) || !this.hasTool(game, id)) {
+      this.showIdleClickPopover(id);
+      return;
+    }
 
     if (!isCollectibleBuilt({ name: "Foreman Beaver", game })) {
       this.bridge.selectItem("Axe");

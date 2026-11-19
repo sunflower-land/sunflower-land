@@ -515,6 +515,13 @@ import npcsNevilleDoing from "assets/animations/npcs_neville_doing.png";
 import npcsSmoothieMaking from "assets/animations/npcs_smoothie_making.png";
 import npcsSmoothie from "assets/animations/npcs_smoothie.png";
 import npcsSwimmer from "assets/animations/npcs_swimmer.png";
+import npcsSwimmer2 from "assets/animations/npcs_swimmer2.png";
+import npcsSwimmer3 from "assets/animations/npcs_swimmer3.png";
+import npcsSwimmer4 from "assets/animations/npcs_swimmer4.png";
+import npcsWinterSwimmer from "assets/animations/npcs_winter_swimmer.png";
+import decorationsFrozenCossies from "assets/animations/decorations_frozen_cossies.png";
+import decorationsMermaidFountain from "assets/animations/decorations_mermaid_fountain.png";
+import sftsEasterBush from "assets/animations/sfts_easter_bush.png";
 import npcsBetty from "assets/animations/npcs_betty.png";
 import npcsBlacksmith from "assets/animations/npcs_blacksmith.png";
 import animalsChickensIdleChicken from "assets/animations/animals_chickens_idle_chicken.png";
@@ -3178,6 +3185,71 @@ export const ANIMATED_ART: Record<string, AnimatedArt> = Object.fromEntries([
       frameHeight: 16,
       frames: 12,
       fps: 10,
+    },
+  ],
+  [
+    `${CONFIG.PROTECTED_IMAGE_URL}/npcs/swimmer2.webp`,
+    {
+      sheet: npcsSwimmer2,
+      frameWidth: 16,
+      frameHeight: 17,
+      frames: 9,
+      fps: 10,
+      delays: [200, 200, 100, 100, 100, 100, 100, 100, 200],
+    },
+  ],
+  [
+    `${CONFIG.PROTECTED_IMAGE_URL}/npcs/swimmer3.webp`,
+    { sheet: npcsSwimmer3, frameWidth: 16, frameHeight: 17, frames: 6, fps: 5 },
+  ],
+  [
+    `${CONFIG.PROTECTED_IMAGE_URL}/npcs/swimmer4.webp`,
+    { sheet: npcsSwimmer4, frameWidth: 16, frameHeight: 17, frames: 6, fps: 5 },
+  ],
+  [
+    `${CONFIG.PROTECTED_IMAGE_URL}/npcs/winter_swimmer.webp`,
+    {
+      sheet: npcsWinterSwimmer,
+      frameWidth: 43,
+      frameHeight: 32,
+      frames: 8,
+      fps: 5,
+      delays: [100, 100, 200, 200, 200, 200, 100, 100],
+    },
+  ],
+  [
+    `${CONFIG.PROTECTED_IMAGE_URL}/decorations/frozen_cossies.webp`,
+    {
+      sheet: decorationsFrozenCossies,
+      frameWidth: 28,
+      frameHeight: 16,
+      frames: 7,
+      fps: 5,
+      delays: [200, 200, 200, 200, 200, 100, 100],
+    },
+  ],
+  [
+    `${CONFIG.PROTECTED_IMAGE_URL}/decorations/mermaid_fountain.webp`,
+    {
+      sheet: decorationsMermaidFountain,
+      frameWidth: 36,
+      frameHeight: 54,
+      frames: 18,
+      fps: 10,
+    },
+  ],
+  [
+    `${CONFIG.PROTECTED_IMAGE_URL}/sfts/easter_bush.gif`,
+    {
+      sheet: sftsEasterBush,
+      frameWidth: 28,
+      frameHeight: 28,
+      frames: 23,
+      fps: 14,
+      delays: [
+        630, 70, 70, 70, 70, 140, 70, 70, 70, 70, 70, 70, 70, 70, 70, 140, 70,
+        70, 560, 70, 70, 70, 3360,
+      ],
     },
   ],
   [

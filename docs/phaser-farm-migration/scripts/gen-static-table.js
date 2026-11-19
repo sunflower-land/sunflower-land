@@ -1,4 +1,11 @@
-/* Generate staticCollectibles.ts from the extracted data. */
+/*
+ * Generate staticCollectibles.ts from the extracted data.
+ *
+ * NOTE: the checked-in table has since been corrected in place against the
+ * main build's rendered geometry (missed wrapper offsets, max-width clamps
+ * and `top` offsets). Regenerating overwrites those fixes; diff the output
+ * against the current table and keep the corrected entries.
+ */
 const fs = require("fs");
 const path = require("path");
 // Repo root, so the scripts work from any checkout or worktree.
@@ -71,6 +78,12 @@ import type { CollectibleName } from "features/game/types/craftables";
  * \`absolute bottom-0\` images. \`art\` omitted = ITEM_DETAILS[name].image
  * (verified identical import path); \`centeredIn\` = the DOM centres the image
  * horizontally inside a wrapper of that width.
+ *
+ * \`width\` is the width the DOM actually DISPLAYS (after its max-width clamp),
+ * used only to centre the native-size art [core/pixelArt.ts]. Entries whose
+ * extraction missed a wrapper offset, clamp or \`top\` were corrected in place
+ * from the main build's rendered geometry (centre-x and bottom edge measured
+ * per item), so re-running the generator would undo them.
  */
 export type StaticCollectibleSpec = {
   art?: string;
@@ -84,6 +97,8 @@ export type StaticCollectibleSpec = {
   centered?: boolean;
   /** npcs/shadow.png underlay (the DOM's two-img beaver template). */
   shadow?: {
+    /** A different shadow sprite than npcs/shadow.png. */
+    art?: string;
     width: number;
     bottom?: number;
     left?: number;

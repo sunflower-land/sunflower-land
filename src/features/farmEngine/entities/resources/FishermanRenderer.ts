@@ -19,6 +19,7 @@ import type {
   TemperateSeasonName,
 } from "features/game/types/game";
 import { getWharfCoordinates } from "features/game/expansion/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import {
   getAscensionLevel,
@@ -224,7 +225,9 @@ export class FishermanRenderer extends EntityRenderer<Slice> {
     // Bubble cluster (right/bottom anchored offsets from the box).
     const anchor = bubbleAnchor(slice.islandType);
     const clusterX = box.x + boxWidth - anchor.right;
-    const clusterY = box.y + 16 - anchor.bottom;
+    // [Fisherman.tsx] a zero-height `relative` div at the top of the box,
+    // nudged by right/bottom; the bubbles hang off its bottom edge.
+    const clusterY = box.y - anchor.bottom;
     if (slice.season === "winter") {
       const frozen = this.scene.add
         .image(clusterX - -13 - 57, clusterY - -12, frozenWharf)
@@ -237,6 +240,7 @@ export class FishermanRenderer extends EntityRenderer<Slice> {
         .setOrigin(0, 1)
         .setDepth(depth + 1);
       winterBub.setScale(37 / winterBub.width);
+      this.pulseBubbles(winterBub);
       this.objects.push(winterBub);
     } else {
       const bub = this.scene.add
@@ -244,22 +248,14 @@ export class FishermanRenderer extends EntityRenderer<Slice> {
         .setOrigin(0, 1)
         .setDepth(depth + 1);
       bub.setScale(37 / bub.width);
+      this.pulseBubbles(bub);
       this.objects.push(bub);
       const fish = this.scene.add
         .image(clusterX - 0 - 11, clusterY - -20, fishSilhouette)
         .setOrigin(0, 1)
         .setDepth(depth + 1);
       fish.setScale(11 / fish.width);
-      this.scene.tweens.add({
-        targets: fish,
-        x: fish.x - 20,
-        duration: 6000,
-        yoyo: true,
-        repeat: -1,
-        ease: "Sine.easeInOut",
-        onYoyo: () => fish.setFlipX(true),
-        onRepeat: () => fish.setFlipX(false),
-      });
+      this.swimFish(fish);
       this.objects.push(fish);
     }
 
@@ -417,5 +413,53 @@ export class FishermanRenderer extends EntityRenderer<Slice> {
 
   protected onDestroy() {
     this.clear();
+  }
+
+  /**
+   * [styles.css .skew-animation] opacity 1 <-> 0.5 over 2s, ease-in-out,
+   * alternating (starting from the end, as alternate-reverse does). The skew
+   * isn't a whole-pixel transform, so only the fade is kept.
+   */
+  private pulseBubbles(image: Phaser.GameObjects.Image) {
+    image.setAlpha(1);
+    const tween = this.scene.tweens.add({
+      targets: image,
+      alpha: 0.5,
+      duration: 2000,
+      ease: "Sine.easeInOut",
+      yoyo: true,
+      repeat: -1,
+    });
+    image.once(Phaser.GameObjects.Events.DESTROY, () => tween.remove());
+  }
+
+  /**
+   * [styles.css .fish-swimming / @keyframes swimming] a 10s linear loop: out
+   * 50 CSS px to the right fading 0.8 -> 0.1, flip at the far end, then back
+   * fading in. Position steps in whole source px.
+   */
+  private swimFish(fish: Phaser.GameObjects.Image) {
+    const baseX = fish.x;
+    const reach = 50 / PIXEL_SCALE;
+    const clock = { t: 0 };
+    const tween = this.scene.tweens.add({
+      targets: clock,
+      t: 1,
+      duration: 10_000,
+      ease: "Linear",
+      repeat: -1,
+      onUpdate: () => {
+        if (!fish.active) return;
+        const outbound = clock.t < 0.5;
+        // 0-49% out, 49-50% the flip, 50-100% back.
+        const progress = outbound
+          ? Math.min(clock.t / 0.49, 1)
+          : 1 - (clock.t - 0.5) / 0.5;
+        fish.setX(baseX + Math.round(progress * reach));
+        fish.setAlpha(0.8 - 0.7 * progress);
+        fish.setFlipX(!outbound);
+      },
+    });
+    fish.once(Phaser.GameObjects.Events.DESTROY, () => tween.remove());
   }
 }

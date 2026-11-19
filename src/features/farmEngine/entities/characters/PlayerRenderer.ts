@@ -237,8 +237,9 @@ export class PlayerRenderer extends EntityRenderer<Slice> {
     }
 
     // [HomeBumpkins.tsx] the unplaced bumpkin + farm hands lined up in front
-    // of the home building (16px slots + mr-1 gap, row bottom `bottomUp`
-    // above the box bottom; capacity-capped per island).
+    // of the home building (16px slots + mr-1 gap; capacity-capped per
+    // island). The DOM row is a zero-height div `bottomUp` above the box
+    // bottom and the NPC boxes hang BELOW it, so that line is their TOP.
     const homeName =
       this.scene.location !== "farm"
         ? undefined
@@ -258,7 +259,7 @@ export class PlayerRenderer extends EntityRenderer<Slice> {
         BUILDINGS_DIMENSIONS[homeName],
       );
       const offsets = HOME_EXTRA_OFFSETS[homeName];
-      const rowBottom = box.y + box.height - offsets.row.bottomUp;
+      const rowTop = box.y + box.height - offsets.row.bottomUp;
       let slotX = box.x + offsets.row.left;
       const advance = () => {
         const x = slotX;
@@ -269,7 +270,7 @@ export class PlayerRenderer extends EntityRenderer<Slice> {
       if (bumpkin && !bumpkin.coordinates) {
         wanted.set("home-bumpkin", {
           parts: bumpkin.equipped,
-          world: { x: advance(), y: rowBottom - 16 },
+          world: { x: advance(), y: rowTop },
           flipped: false,
           onClick: () => this.bridge.farmModal.open("bumpkinPlayer"),
         });
@@ -280,7 +281,7 @@ export class PlayerRenderer extends EntityRenderer<Slice> {
         .forEach(([id, hand]) => {
           wanted.set(`home-hand#${id}`, {
             parts: hand.equipped,
-            world: { x: advance(), y: rowBottom - 16 },
+            world: { x: advance(), y: rowTop },
             flipped: false,
             onClick: () => this.bridge.farmModal.open("farmHandEquip", { id }),
           });

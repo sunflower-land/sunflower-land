@@ -52,7 +52,23 @@ export type BuildingBaseArt = {
   width: number;
   bottom: number;
   left: number;
+  /**
+   * Width of the img's containing block when it is NOT the placement box
+   * (Toolshed / Warehouse / composters wrap the img in a div of its own
+   * width). Defaults to the box width.
+   */
+  containerWidth?: number;
 };
+
+/**
+ * The width the DOM actually DISPLAYS the art at: Tailwind's preflight gives
+ * every img `max-width: 100%`, so a width wider than its containing block
+ * (Mansion 98 in a 96 box, Greenhouse 78 in 64, Hen House 68 in 64...) is
+ * clamped to that block, left edge kept. The art still draws at native size
+ * [core/pixelArt.ts]; this is only the width it is centred on.
+ */
+export const displayedArtWidth = (art: BuildingBaseArt, boxWidth: number) =>
+  Math.min(art.width, art.containerWidth ?? boxWidth);
 
 const clampLevel = (level: number, max: number) =>
   Math.max(1, Math.min(level, max));
@@ -112,7 +128,8 @@ export const BUILDING_BASE_ART: Partial<
   Workbench: ({ biome }) => ({
     texture: WORKBENCH_VARIANTS[biome],
     width: 47,
-    bottom: 4,
+    // [WorkBench.tsx] bottom-0.
+    bottom: 0,
     left: 0,
   }),
   "Hen House": ({ season, henHouseLevel }) => ({
@@ -184,12 +201,14 @@ export const BUILDING_BASE_ART: Partial<
     width: 36,
     bottom: 0,
     left: -2,
+    containerWidth: 36,
   }),
   Warehouse: ({ season }) => ({
     texture: WAREHOUSE_VARIANTS[season],
     width: 50,
     bottom: 0,
     left: -1,
+    containerWidth: 50,
   }),
   Greenhouse: ({ season }) => ({
     texture: GREENHOUSE_VARIANTS[season],
@@ -237,6 +256,7 @@ export const composterBase = (
     width,
     bottom: 0,
     left: Math.round((32 - width) / 2),
+    containerWidth: width,
   };
 };
 

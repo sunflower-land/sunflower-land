@@ -9,6 +9,7 @@ import {
   getWaterTrapCoordinates,
 } from "features/game/types/crustaceans";
 import { getObjectEntries } from "lib/object";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { runLoader } from "../../core/assets";
 import {
   queueArt,
@@ -171,7 +172,9 @@ export class WaterTrapRenderer extends EntityRenderer<Slice> {
           )
           .setOrigin(0.5, 0.5)
           .setDepth(depth);
-        art.setDisplaySize(15, 20);
+        // [WaterTrapSpot.tsx] width 15 with height:auto (preflight) — the
+        // native art, centred; crab_spot_2 is 15x25, not 15x20.
+        art.setScale(1);
         objects.art = art;
         continue;
       }
@@ -202,19 +205,23 @@ export class WaterTrapRenderer extends EntityRenderer<Slice> {
           sparkle.setScale(6 / sparkle.width);
           objects.sparkle = sparkle;
         }
+        // [WaterTrapSpot.tsx] `-top-8 right-3.5`: CSS px (32 / 14), the
+        // icon's TOP-right corner.
         const alert = this.scene.add
           .image(
-            world.x + WORLD_TILE - 3.5,
-            world.y - 8,
+            world.x + WORLD_TILE - 14 / PIXEL_SCALE,
+            world.y - 32 / PIXEL_SCALE,
             SUNNYSIDE.icons.expression_alerted,
           )
-          .setOrigin(1, 1)
+          .setOrigin(1, 0)
           .setDepth(depth + 1);
         alert.setScale(4 / alert.width);
         objects.alert = alert;
       } else if (this.bridge.ui.get().showTimers) {
-        const barX = world.x + WORLD_TILE / 2 - 7.5;
-        const barY = world.y + WORLD_TILE - 7 - 4;
+        // [WaterTrapSpot.tsx] a zero-size flex wrapper at the tile's centre,
+        // bottom 4; the 14px bar root centres on it and hangs below.
+        const barX = world.x + WORLD_TILE / 2 - 7;
+        const barY = world.y + WORLD_TILE - 4;
         objects.bar ??= new ProgressBarSprite(this.scene, {
           x: barX,
           y: barY,

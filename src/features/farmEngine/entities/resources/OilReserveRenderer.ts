@@ -134,9 +134,15 @@ export class OilReserveRenderer extends ResourceNodeRenderer<OilNode> {
     if (!node) return;
 
     const now = Date.now();
-    if (!canDrillOilReserve(node, game, now)) return;
     const drills = game.inventory["Oil Drill"] ?? new Decimal(0);
-    if (drills.lt(getRequiredOilDrillAmount(game).amount)) return;
+    // Still recovering, or no drill: show the timer / "Craft drill" popover.
+    if (
+      !canDrillOilReserve(node, game, now) ||
+      drills.lt(getRequiredOilDrillAmount(game).amount)
+    ) {
+      this.showIdleClickPopover(id);
+      return;
+    }
 
     const amount = Number(getOilDropAmount(game, node, now).amount);
     this.bridge.dispatch({ type: "oilReserve.drilled", id });

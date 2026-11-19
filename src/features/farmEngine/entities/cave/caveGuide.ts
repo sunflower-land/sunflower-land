@@ -11,7 +11,6 @@ import { isCavePatchCleared } from "features/game/types/caveRecipes";
 import { caveSlotsForTier } from "features/game/expansion/placeable/lib/caveLayout";
 import type { GameState } from "features/game/types/game";
 import type { CaveModal, GameBridge } from "../../bridge/GameBridge";
-import { readyShake } from "../../core/juice";
 import { nativeScale } from "../../core/pixelArt";
 
 /**
@@ -132,12 +131,12 @@ export function createCaveHand(
 
 /**
  * The "!" alert [SUNNYSIDE.icons.expression_alerted] 4 source px wide with
- * its top-left at (x, y), with the DOM's `.ready` shake when animations are
- * on [Cave.tsx].
+ * its top-left at (x, y). Static, like the farm's other alerts: the DOM's
+ * `.ready` shake reads as jitter at the engine's zoom.
  */
 export function createCaveAlert(
   scene: Phaser.Scene,
-  options: { x: number; y: number; depth: number; animate: boolean },
+  options: { x: number; y: number; depth: number },
 ): Phaser.GameObjects.Image | undefined {
   const texture = SUNNYSIDE.icons.expression_alerted;
   if (!scene.textures.exists(texture)) return undefined;
@@ -146,6 +145,5 @@ export function createCaveAlert(
     .setOrigin(0, 0)
     .setDepth(options.depth);
   alert.setScale(4 / alert.width);
-  if (options.animate) readyShake(scene, alert);
   return alert;
 }

@@ -5,6 +5,8 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { queueImage } from "../../core/assets";
 import { queueArt } from "../../core/animated";
 import { ProgressBarSprite } from "../../components/ProgressBarSprite";
+import { fitWidth } from "../../core/pixelArt";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import {
   ResourceNodeRenderer,
   type NodeObjects,
@@ -52,9 +54,11 @@ export class LavaPitRenderer extends ResourceNodeRenderer<LavaPitNode> {
     const running = secondsToReady > 0;
     const ready = !!node?.readyAt && secondsToReady <= 0 && !node?.collectedAt;
 
+    // [LavaPit.tsx] width 36, but the img's max-width clamps it to the 32px
+    // box; the native art is centred on what the DOM shows.
     this.setArt(objects, ctx, {
       texture: running ? lavaPitAnimation : ITEM_DETAILS["Lava Pit"].image,
-      width: 36,
+      width: 32,
       top: 0,
       left: 0,
     });
@@ -63,23 +67,26 @@ export class LavaPitRenderer extends ResourceNodeRenderer<LavaPitNode> {
     alert?.destroy();
     objects.extras.delete("alert");
     if (ready) {
+      // [LavaPit.tsx] `-top-2` (8 CSS px) puts the icon's TOP above the box.
       const icon = this.scene.add
         .image(
           ctx.box.x + ctx.box.width / 2,
-          ctx.box.y - 2,
+          ctx.box.y - 8 / PIXEL_SCALE,
           SUNNYSIDE.icons.expression_alerted,
         )
-        .setOrigin(0.5, 1)
+        .setOrigin(0.5, 0)
         .setDepth(ctx.depth + 1);
-      icon.setScale(4 / icon.width);
+      fitWidth(icon, 4);
       objects.extras.set("alert", icon);
     }
 
     const bar = this.bars.get(id);
     if (running && this.bridge.ui.get().showTimers) {
-      // [LavaPit.tsx] centred bar near the pit's base.
-      const barX = ctx.box.x - 2 + (36 - 15) / 2;
-      const barY = ctx.box.y + ctx.box.height - 12 / 2.625 - 7;
+      // [LavaPit.tsx] a 36px flex row at left -2, bottom 12 CSS px; the
+      // 14px-wide bar root is centred in it and the row has no height (the
+      // root is absolute), so the bar's top edge sits on that bottom line.
+      const barX = ctx.box.x - 2 + (36 - 14) / 2;
+      const barY = ctx.box.y + ctx.box.height - 12 / PIXEL_SCALE;
       const sprite =
         bar ??
         new ProgressBarSprite(this.scene, {

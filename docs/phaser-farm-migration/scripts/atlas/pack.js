@@ -41,9 +41,21 @@ const MAX_SIDE = 128;
 const PAD = 1;
 /** Folders with nothing the farm draws. */
 const SKIP = new Set([
-  "announcements", "captcha", "brand", "tutorials", "telegram", "public",
-  "splash", "world", "fonts", "phaser", "ronin", "songs", "sfx",
-  "sound-effects", "videos",
+  "announcements",
+  "captcha",
+  "brand",
+  "tutorials",
+  "telegram",
+  "public",
+  "splash",
+  "world",
+  "fonts",
+  "phaser",
+  "ronin",
+  "songs",
+  "sfx",
+  "sound-effects",
+  "videos",
 ]);
 /** A page group loads only when one of its frames is first asked for. */
 const groupOf = (rel) => (rel.startsWith("flowers/") ? "flowers" : "core");
@@ -88,7 +100,8 @@ const walk = (dir, out = []) => {
   // Shelf packing, tallest first: simple, deterministic and within a few
   // percent of optimal for sprites this uniform.
   const groups = {};
-  for (const sprite of sprites) (groups[groupOf(sprite.rel)] ||= []).push(sprite);
+  for (const sprite of sprites)
+    (groups[groupOf(sprite.rel)] ||= []).push(sprite);
 
   const pages = [];
   const frames = {};
@@ -132,7 +145,13 @@ const walk = (dir, out = []) => {
           sprite.data.copy(page.buffer, to, from, from + 4);
         }
       }
-      frames[sprite.rel] = [pages.indexOf(page), x + PAD, y + PAD, sprite.w, sprite.h];
+      frames[sprite.rel] = [
+        pages.indexOf(page),
+        x + PAD,
+        y + PAD,
+        sprite.w,
+        sprite.h,
+      ];
       page.used = Math.max(page.used, y + ch);
       x += cw;
       shelf = Math.max(shelf, ch);
@@ -146,12 +165,19 @@ const walk = (dir, out = []) => {
   }
   for (const page of pages) {
     // Crop to the rows actually used, rounded up to a power of two.
-    page.height = Math.min(PAGE, 2 ** Math.ceil(Math.log2(Math.max(64, page.used))));
+    page.height = Math.min(
+      PAGE,
+      2 ** Math.ceil(Math.log2(Math.max(64, page.used))),
+    );
     const file = path.join(outDir, `${page.name}.png`);
     await sharp(page.buffer.subarray(0, PAGE * page.height * 4), {
       raw: { width: PAGE, height: page.height, channels: 4 },
     })
-      .png({ compressionLevel: 9, effort: 10 })
+      // Lossless truecolour. Do NOT pass `effort`, `quality` or `colours`:
+      // any of them switches sharp to palette mode, which quantised every
+      // page to 256 colours with dithering (the ocean came out a checkerboard
+      // and gradients across the farm were speckled).
+      .png({ compressionLevel: 9, palette: false })
       .toFile(file);
     page.bytes = fs.statSync(file).size;
   }
@@ -183,8 +209,12 @@ export const ATLAS_FRAMES: Record<
     manifest,
   );
 
-  console.log(`${sprites.length} sprites packed (${skippedAnimated} animated and ${skippedLarge} larger than ${MAX_SIDE}px left out)`);
+  console.log(
+    `${sprites.length} sprites packed (${skippedAnimated} animated and ${skippedLarge} larger than ${MAX_SIDE}px left out)`,
+  );
   for (const page of pages) {
-    console.log(`  ${page.name}.png  ${PAGE}x${page.height}  ${(page.bytes / 1024).toFixed(0)} KB  ${Object.values(frames).filter((f) => f[0] === pages.indexOf(page)).length} frames`);
+    console.log(
+      `  ${page.name}.png  ${PAGE}x${page.height}  ${(page.bytes / 1024).toFixed(0)} KB  ${Object.values(frames).filter((f) => f[0] === pages.indexOf(page)).length} frames`,
+    );
   }
 })();

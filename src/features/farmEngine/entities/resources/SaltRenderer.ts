@@ -16,7 +16,8 @@ import {
 } from "features/game/expansion/components/salt/saltNodeStage";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { queueImage, runLoader } from "../../core/assets";
-import { nativeScale } from "../../core/pixelArt";
+import { fitWidth, nativeScale } from "../../core/pixelArt";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { makeClickable } from "../../core/clickable";
 import { gridToWorld, WORLD_TILE } from "../../core/coordinates";
 import { DEPTHS } from "../../core/depths";
@@ -47,6 +48,25 @@ type SaltObjects = {
 };
 
 const TICK_MS = 30_000;
+
+/**
+ * [SaltNode.tsx] the sprite is given width 18 but its max-width clamps it to
+ * the 16px tile, top-left anchored. Draw it at native size with its centre
+ * and bottom edge where that clamped image's are.
+ */
+function placeLikeClampedImg(
+  art: Phaser.GameObjects.Image,
+  tileX: number,
+  tileY: number,
+) {
+  nativeScale(art);
+  const shownW = Math.min(18, WORLD_TILE);
+  const shownH = (art.height * shownW) / art.width;
+  art.setPosition(
+    tileX + (shownW - art.width) / 2,
+    tileY + shownH - art.height,
+  );
+}
 
 export class SaltRenderer extends EntityRenderer<Slice> {
   private nodes = new Map<string, SaltObjects>();
@@ -137,22 +157,23 @@ export class SaltRenderer extends EntityRenderer<Slice> {
       objects.zone.setPosition(world.x, world.y);
       objects.zone.setDepth(DEPTHS.ENTITY_BASE + world.y);
       objects.art.setTexture(getSaltNodeSprite(charges));
-      nativeScale(objects.art, 18);
-      objects.art.setPosition(world.x, world.y);
+      placeLikeClampedImg(objects.art, world.x, world.y);
       objects.art.setDepth(DEPTHS.ENTITY_BASE + world.y);
 
       objects.alert?.destroy();
       objects.alert = undefined;
       if (charges > 0) {
+        // [SaltNode.tsx] `-top-2` (8 CSS px) puts the icon's TOP above the
+        // tile.
         const alert = this.scene.add
           .image(
             world.x + WORLD_TILE / 2,
-            world.y - 2,
+            world.y - 8 / PIXEL_SCALE,
             SUNNYSIDE.icons.expression_alerted,
           )
-          .setOrigin(0.5, 1)
+          .setOrigin(0.5, 0)
           .setDepth(DEPTHS.ENTITY_BASE + world.y + 1);
-        alert.setScale(4 / alert.width);
+        fitWidth(alert, 4);
         objects.alert = alert;
       }
 

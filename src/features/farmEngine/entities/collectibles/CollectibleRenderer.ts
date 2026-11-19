@@ -38,7 +38,6 @@ import {
   type ArtObject,
 } from "../../core/animated";
 import { makeClickable } from "../../core/clickable";
-import { readyShake } from "../../core/juice";
 import { fitWidth, nativeScale } from "../../core/pixelArt";
 import {
   gridRectToWorld,
@@ -64,6 +63,10 @@ import wickerManFire from "assets/sfts/wicker_man_fire.png";
 import bombardClick from "assets/sfts/tomato_bombard_click.png";
 import bombardIdle from "assets/sfts/tomato_bombard_idle.png";
 import golemSheet from "assets/sfts/rock_golem.png";
+import goldEgg from "assets/sfts/gold_egg.png";
+import goldenCockerel from "assets/animals/chickens/golden_cockerel.webp";
+import manekiNekoGif from "assets/sfts/maneki_neko.gif";
+import shadow16 from "assets/npcs/shadow16px.png";
 import { canMine } from "features/game/lib/resourceNodes";
 import {
   BED_FARMHAND_COUNT,
@@ -265,6 +268,54 @@ const WEATHER_PROTECTION: WeatherShopItem[] = [
   "Protective Pesticide",
 ];
 
+/**
+ * CSS `saturate(s)` as a colour matrix (Filter Effects spec weights). Phaser's
+ * own grayscale/saturate average the channels equally, which reads lighter
+ * than the DOM's luminance-weighted filter on the same art.
+ */
+function cssSaturate(image: ArtObject, s: number) {
+  const r = 0.213,
+    g = 0.715,
+    b = 0.072;
+  image.preFX
+    ?.addColorMatrix()
+    .set([
+      r + (1 - r) * s,
+      g - g * s,
+      b - b * s,
+      0,
+      0,
+      r - r * s,
+      g + (1 - g) * s,
+      b - b * s,
+      0,
+      0,
+      r - r * s,
+      g - g * s,
+      b + (1 - b) * s,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+    ]);
+}
+
+/** CSS `grayscale(100%)` [Filter Effects spec luminance weights]. */
+function cssGrayscale(image: ArtObject) {
+  const row = [0.2126, 0.7152, 0.0722, 0, 0];
+  image.preFX?.addColorMatrix().set([...row, ...row, ...row, 0, 0, 0, 1, 0]);
+}
+
+/** [Sign.tsx] `.font-pixel` font size. */
+const SIGN_FONT_CSS_PX = 22;
+
+/** Placement box width in source px. */
+const box16 = (name: CollectibleName) =>
+  COLLECTIBLES_DIMENSIONS[name].width * WORLD_TILE;
+
 /** The collectibles map for a placement surface [Home.tsx / Interior.tsx]. */
 export const collectiblesAt = (
   game: GameState,
@@ -378,6 +429,7 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
     item: PlacedItem,
     grid: GameGrid,
     slice: Slice,
+    now: number,
   ): { texture: string; spec?: StaticCollectibleSpec; tile?: boolean } | null {
     // Season/level-dependent art [Bush.tsx / SaltSculpture.tsx].
     if (name === "Bush") {
@@ -425,6 +477,27 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
       return {
         texture: ITEM_DETAILS[name as CollectibleName]?.image,
         spec: { width: 30, left: 1, bottom: 2 },
+      };
+    }
+    // [GoldEgg.tsx] the egg until readyAt, then the hatched Golden Cockerel:
+    // 24px, centred, bottom 0 (animated strip).
+    if (name === "Gold Egg") {
+      return (item.readyAt ?? 0) <= now
+        ? {
+            texture: goldenCockerel,
+            spec: { width: 24, left: (box16(name) - 24) / 2, bottom: 0 },
+          }
+        : { texture: goldEgg, spec: { width: 10, left: 3, bottom: 2 } };
+    }
+    // [ManekiNeko.tsx] the waving gif at 16px, bottom 2, over the 16px shadow.
+    if (name === "Maneki Neko") {
+      return {
+        texture: manekiNekoGif,
+        spec: {
+          width: 16,
+          bottom: 2,
+          shadow: { art: shadow16, width: 16, bottom: 0, left: 0 },
+        },
       };
     }
     if (name === "Salt Sculpture") {
@@ -518,7 +591,9 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
           .forEach((url) => queueImage(this.scene, url));
         continue;
       }
-      const art = this.artFor(name, item, grid, slice);
+      if (name === "Gold Egg") queueArt(this.scene, goldenCockerel);
+      if (name === "Maneki Neko") queueImage(this.scene, shadow16);
+      const art = this.artFor(name, item, grid, slice, Date.now());
       if (art) queueArt(this.scene, art.texture);
     }
     await runLoader(this.scene);
@@ -605,7 +680,7 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
       return;
     }
 
-    const art = this.artFor(name, item, grid, slice);
+    const art = this.artFor(name, item, grid, slice, now);
     // Animated art loads under its strip's key, not the original GIF URL.
     if (!art || !this.scene.textures.exists(artTexture(art.texture))) return;
 
@@ -644,8 +719,18 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
       // adjacent tiles at fractional user zooms (each quad's edges round to
       // device pixels independently); NEAREST sampling just repeats the
       // border pixel, so the stretch is invisible.
+      // Floor tiles are a pixel taller than wide (a 1px lip, 16x17); the
+      // DOM [Tiles.tsx] draws them 16 wide from the box top and lets the lip
+      // hang below, so they keep their aspect. Fences [Fence.tsx] fill the
+      // 16x16 square.
+      const tileW = WORLD_TILE + 0.25;
       image.setOrigin(0, 0);
-      image.setDisplaySize(WORLD_TILE + 0.25, WORLD_TILE + 0.25);
+      image.setDisplaySize(
+        tileW,
+        TILE_NAMES.has(name)
+          ? (tileW * image.frame.height) / image.frame.width
+          : tileW,
+      );
       image.setPosition(box.x, box.y);
     } else if (spec) {
       const width = spec.width;
@@ -667,7 +752,7 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
 
       if (spec.shadow) {
         const shadow = this.scene.add
-          .image(0, 0, shadowArt)
+          .image(0, 0, spec.shadow.art ?? shadowArt)
           .setOrigin(0, 1)
           .setDepth(depth - 0.5);
         const shadowShift = nativeScale(shadow, spec.shadow.width);
@@ -711,7 +796,7 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
     if (name === "Genie Lamp") {
       const rubbed = ((item as { rubbedCount?: number }).rubbedCount ?? 0) > 0;
       if (rubbed && !objects.grayscaled) {
-        image.preFX?.addColorMatrix().saturate(-0.5);
+        cssSaturate(image, 0.5);
         objects.grayscaled = true;
       } else if (!rubbed && objects.grayscaled) {
         image.preFX?.clear();
@@ -724,7 +809,7 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
     if (WEATHER_PROTECTION.includes(name as WeatherShopItem)) {
       const spent = !!(item as { used?: boolean }).used;
       if (spent && !objects.grayscaled) {
-        image.preFX?.addColorMatrix().grayscale(1);
+        cssGrayscale(image);
         objects.grayscaled = true;
       } else if (!spent && objects.grayscaled) {
         image.preFX?.clear();
@@ -812,8 +897,13 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
         depth,
       );
       if (cheers < required && !inactive) {
-        const barX = box.x + box.width / 2 - 7.5;
-        const barY = box.y + box.height - 2 - 7;
+        // [Project.tsx / Monument.tsx] a 20px wrapper at bottom-2 left-1/2;
+        // the bar's className replaces its own `absolute`, so it is a block
+        // (20px less its ml-1) pulled back by half of that width, and its top
+        // edge sits on the wrapper's bottom-2 line.
+        const marginLeft = 4 / PIXEL_SCALE;
+        const barX = box.x + box.width / 2 + marginLeft - (20 - marginLeft) / 2;
+        const barY = box.y + box.height - 8 / PIXEL_SCALE;
         objects.bar ??= new ProgressBarSprite(this.scene, {
           x: barX,
           y: barY,
@@ -903,7 +993,7 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
 
     // DOM: filter grayscale(100%) on the expired art.
     if (hasExpired && !objects.grayscaled) {
-      image.preFX?.addColorMatrix().grayscale(1);
+      cssGrayscale(image);
       objects.grayscaled = true;
       // the countdown bar flips buff -> error at the same moment
       objects.bar?.destroy();
@@ -962,7 +1052,7 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
             repeat: -1,
           });
         }
-      } else if (hasExpired && !hasReplacement) {
+      } else if (wanted === SUNNYSIDE.icons.dig_icon) {
         // dig icon: 18px, right -8, top -8 of the box
         nativeScale(icon, 18);
         icon.setPosition(box.x + box.width + 8 - 18, box.y - 8);
@@ -976,8 +1066,9 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
           });
         }
       } else {
-        // "!" centred above (static — animated alerts read as jitter)
-        nativeScale(icon, 4);
+        // "!" centred above; shrines sit it at top -20 [PetShrine.tsx]
+        // (static — animated alerts read as jitter at this scale)
+        fitWidth(icon, 4);
         icon.setPosition(
           box.x + (box.width - 4) / 2,
           box.y + (cfg.alertTop ?? -12),
@@ -987,7 +1078,9 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
     }
 
     // Expiry countdown bar: bottom-left for totems/hourglasses, centred
-    // (bottom -3) for shrines, which also show it while active.
+    // (bottom -3) for shrines, which also show it while active. The shrine's
+    // wrapper has no height (the bar inside is absolute), so the bar's TOP
+    // edge sits 3px below the box.
     const showBar =
       this.bridge.ui.get().showTimers &&
       (cfg.activeBar || hasExpired || !cfg.renewFlow);
@@ -997,7 +1090,9 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
         Math.max(0, 100 - (secondsToExpire / (duration / 1000)) * 100),
       );
       const barX = cfg.activeBar ? box.x + box.width / 2 - 7.5 : box.x;
-      const barY = box.y + box.height + (cfg.activeBar ? 3 : 0) - 7;
+      const barY = cfg.activeBar
+        ? box.y + box.height + 3
+        : box.y + box.height - 7;
       const type = hasExpired
         ? "error"
         : cfg.renewFlow === "petShrine"
@@ -1499,14 +1594,18 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
     ];
     let displayName = names[Math.min(Math.max(index, 0), names.length - 1)];
     if (displayName === `#${farmId}` && String(farmId).length > 6) {
-      displayName = `#${String(farmId).slice(0, 4)}...`;
+      // [shortAddress(displayName, 4, 3)]
+      displayName = `${displayName.slice(0, 4)}...${displayName.slice(-3)}`;
     }
 
     if (!objects.signText) {
       objects.signText = this.scene.add
+        // [Sign.tsx] `text-xxs font-pixel`: Secondary at 22 CSS px (font-pixel
+        // overrides text-xxs's 20px) on a 12px line; the text object works in
+        // CSS px and is scaled down to source px.
         .text(0, 0, "", {
           fontFamily: "Secondary",
-          fontSize: "16px",
+          fontSize: `${SIGN_FONT_CSS_PX}px`,
           color: "#ead4aa",
           resolution: DPR * PIXEL_SCALE,
         })
@@ -1520,14 +1619,22 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
       }
     }
     objects.signText.setText(displayName);
-    // [Sign.tsx] 34px board at left -1, text ~4 src px below the board's top.
-    objects.signText.setPosition(box.x - 1 + 17, box.y + box.height - 20 + 4);
+    // [Sign.tsx] 34px board at left -1, bottom 0. The text's 12px line box
+    // starts 2px + mt-2 (8px) below the board's top, and the glyphs centre
+    // on that line (CSS half-leading), so they overflow it evenly.
+    const boardHeight = objects.art?.displayHeight ?? 20;
+    const lineTopCss = 2 + 8 + (12 - objects.signText.height) / 2;
+    objects.signText.setPosition(
+      box.x - 1 + 17,
+      box.y + box.height - boardHeight + lineTopCss / PIXEL_SCALE,
+    );
     objects.signText.setDepth(depth + 1);
   }
 
   /**
    * [Project.tsx] the "!" 4px wide, centred over the box at -top-4 with the
-   * cooking pots' own margins, shaking like the DOM's `.ready`.
+   * cooking pots' own margins. Static: the DOM's `.ready` shake reads as
+   * jitter at this scale.
    */
   private syncProjectAlert(
     objects: NodeObjects,
@@ -1551,7 +1658,6 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
       .setOrigin(0, 0)
       .setDepth(depth + 3);
     fitWidth(alert, 4);
-    if (this.bridge.ui.get().showAnimations) readyShake(this.scene, alert);
     objects.projectAlert = alert;
   }
 

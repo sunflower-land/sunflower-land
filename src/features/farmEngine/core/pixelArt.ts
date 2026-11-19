@@ -43,3 +43,94 @@ export function fitWidth(image: Positionable, width: number) {
   if (!native) return;
   image.setScale(width / native);
 }
+
+/** Texels per source px in an outlined texture (see outlinedTexture). */
+const OUTLINE_SUPERSAMPLE = 8;
+/** Phaser.Textures.FilterMode.NEAREST, without a runtime Phaser import. */
+const NEAREST_FILTER = 1;
+
+/**
+ * The DOM's `img-highlight` / `img-highlight-heavy` [styles.css]: three
+ * chained hard-edged white drop-shadows (1px or 2px CSS), which leave a crisp
+ * white rim on every side but the two diagonal corners. Reproduced as a baked
+ * texture rather than a shader so a farm full of ready items costs nothing
+ * per frame: the art is redrawn at OUTLINE_SUPERSAMPLE texels per source px
+ * (NEAREST, so the pixels stay square) and its white silhouette is stamped
+ * at the same six offsets the chained CSS shadows produce.
+ *
+ * `thickness` is in source px (CSS px / PIXEL_SCALE). Returns the outlined
+ * texture's key plus the scale and padding a caller needs to draw it over
+ * the original's footprint, or undefined when the art can't be baked
+ * (missing texture, or a multi-frame sheet).
+ */
+export function outlinedTexture(
+  scene: Phaser.Scene,
+  key: string,
+  thickness: number,
+): { key: string; scale: number; pad: number } | undefined {
+  const factor = OUTLINE_SUPERSAMPLE;
+  const rim = Math.max(1, Math.round(thickness * factor));
+  const outKey = `${key}#outline-${rim}`;
+  const result = { key: outKey, scale: 1 / factor, pad: rim / factor };
+  if (scene.textures.exists(outKey)) return result;
+  if (!scene.textures.exists(key)) return undefined;
+
+  const texture = scene.textures.get(key);
+  if (texture.frameTotal > 2) return undefined; // __BASE + one frame
+  const frame = texture.get();
+  const source = texture.getSourceImage() as CanvasImageSource;
+  const width = frame.cutWidth * factor;
+  const height = frame.cutHeight * factor;
+
+  const makeCanvas = () => {
+    const canvas = document.createElement("canvas");
+    canvas.width = width + rim * 2;
+    canvas.height = height + rim * 2;
+    const context = canvas.getContext("2d");
+    if (context) context.imageSmoothingEnabled = false;
+    return { canvas, context };
+  };
+  const drawArt = (context: CanvasRenderingContext2D) =>
+    context.drawImage(
+      source,
+      frame.cutX,
+      frame.cutY,
+      frame.cutWidth,
+      frame.cutHeight,
+      rim,
+      rim,
+      width,
+      height,
+    );
+
+  const silhouette = makeCanvas();
+  const out = makeCanvas();
+  if (!silhouette.context || !out.context) return undefined;
+  drawArt(silhouette.context);
+  silhouette.context.globalCompositeOperation = "source-in";
+  silhouette.context.fillStyle = "#ffffff";
+  silhouette.context.fillRect(
+    0,
+    0,
+    silhouette.canvas.width,
+    silhouette.canvas.height,
+  );
+
+  // drop-shadow(1 1) -> (-1 0) -> (0 -1), each shadowing the result so far.
+  const OFFSETS = [
+    [1, 1],
+    [1, 0],
+    [0, 1],
+    [0, -1],
+    [-1, 0],
+    [-1, -1],
+  ];
+  OFFSETS.forEach(([dx, dy]) =>
+    out.context!.drawImage(silhouette.canvas, dx * rim, dy * rim),
+  );
+  drawArt(out.context);
+
+  const added = scene.textures.addCanvas(outKey, out.canvas);
+  added?.setFilter(NEAREST_FILTER);
+  return result;
+}

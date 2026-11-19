@@ -65,6 +65,7 @@ import {
 import type { CropMachineQueueItem } from "features/game/types/game";
 import { isAnimalReadyForLove } from "features/game/events/landExpansion/loveAnimal";
 import { getAnimalReadyAt } from "features/game/lib/animals";
+import { isPetNapping, type PetName } from "features/game/types/pets";
 import { getOverCapacityAnimalIds } from "features/game/events/landExpansion/buyAnimal";
 import { isAnimalCoveredByGoldenAsset } from "features/game/events/landExpansion/feedAllAnimals";
 import { queueImage, queueSpritesheet, runLoader } from "../../core/assets";
@@ -76,7 +77,8 @@ import {
   type ArtObject,
 } from "../../core/animated";
 import { makeClickable } from "../../core/clickable";
-import { nativeScale } from "../../core/pixelArt";
+import { nativeScale, outlinedTexture } from "../../core/pixelArt";
+import { floatBob } from "../../core/juice";
 import { gridRectToWorld, type WorldRect } from "../../core/coordinates";
 import { DEPTHS } from "../../core/depths";
 import { playSound } from "../../core/sounds";
@@ -86,6 +88,7 @@ import {
   BUILDING_BASE_ART,
   COOKING_LAYOUT,
   composterBase,
+  displayedArtWidth,
   isCookingBuilding,
   type BuildingArtContext,
   type CookingBuilding,
@@ -149,6 +152,18 @@ type BuildingObjects = {
 };
 
 const READY_ALERT = "readyAlert";
+/** [styles.css] img-highlight / img-highlight-heavy rims, in source px. */
+const HIGHLIGHT = 1 / PIXEL_SCALE;
+const HIGHLIGHT_HEAVY = 2 / PIXEL_SCALE;
+/**
+ * Building placements are z-auto in the DOM [MapPlacement.tsx], so a z-indexed
+ * child (ReadyRecipes z-30, the Crop Machine crops z-10) joins the ROOT
+ * stacking context and paints over every unindexed entity on the farm. These
+ * bands sit above the entity band (ENTITY_BASE ± ~1000) and below
+ * ALWAYS_ON_TOP; the building's row depth is added so later rows still win.
+ */
+const READY_ROW_DEPTH = DEPTHS.ALWAYS_ON_TOP - 2_000;
+const Z10_DEPTH = DEPTHS.ALWAYS_ON_TOP - 3_000;
 const TUTORIAL_HELPER = "tutorialHelper";
 
 /**
@@ -305,6 +320,7 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
       SUNNYSIDE.icons.expression_chat,
       SUNNYSIDE.icons.heart,
       SUNNYSIDE.icons.click_icon,
+      SUNNYSIDE.icons.sleeping,
       SUNNYSIDE.npcs.betty,
       SUNNYSIDE.npcs.blacksmith_npc,
       SUNNYSIDE.decorations.treasure_chest,
@@ -455,8 +471,12 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
       objects.base = this.scene.add.image(0, 0, art.texture).setOrigin(0, 1);
     }
     objects.base.setTexture(art.texture);
-    // Native pixels; art.width only re-centres it [core/pixelArt.ts].
-    const baseShift = nativeScale(objects.base, art.width);
+    // Native pixels [core/pixelArt.ts], centred where the DOM displays the
+    // art — its width after the img max-width clamp, not the raw style width.
+    const baseShift = nativeScale(
+      objects.base,
+      displayedArtWidth(art, box.width),
+    );
     objects.base.setPosition(
       box.x + art.left + baseShift,
       box.y + box.height - art.bottom,
@@ -790,9 +810,10 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
       if (hasActive) {
         this.addExtra(objects, "smoke", SUNNYSIDE.building.smoke, {
           x: box.x + 26 - 50 / PIXEL_SCALE,
+          // The DOM's `bottom` is the smoke's bottom edge.
           y: box.y + box.height - (46 + 30 / PIXEL_SCALE),
           width: 20,
-          topAnchored: true,
+          bottomAnchored: true,
           depth: depth + 1,
         });
       }
@@ -800,24 +821,42 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
       const readyPlants = pots.filter(
         (pot) => pot.plant && isGreenhouseReady(now, pot, game),
       );
-      readyPlants.slice(0, 4).forEach((pot, index) => {
-        const icon = ITEM_DETAILS[pot.plant!.name].image;
-        if (!this.scene.textures.exists(icon)) return;
-        this.addExtra(objects, `ready-${index}`, icon, {
-          x:
-            box.x +
-            box.width / 2 +
-            (index - (Math.min(readyPlants.length, 4) - 1) / 2) * 13,
-          y: box.y + 14 + 6,
-          width: 12,
-          depth: depth + 2,
-        });
-      });
+      // [Greenhouse.tsx] a full-width flex row at top 14, centred both ways,
+      // of w-8 slots (32 CSS px). Native art, centred in its slot.
+      this.addIconRow(
+        objects,
+        "ready",
+        readyPlants
+          .slice(0, MAX_POTS)
+          .map((pot) => ITEM_DETAILS[pot.plant!.name].image),
+        { top: box.y + 14, margin: 0, depth: depth + 2 },
+      );
       return null;
     }
 
     if (name === "Crop Machine") {
       this.refreshCropMachine(objects, item, now, depth);
+      return null;
+    }
+
+    // [PetHouse.tsx] zZ over the house while a pet inside is napping (own
+    // farm only): width 10, top -8, left 1. Static — the DOM's
+    // animate-pulsate is a scale pulse, which the house rules rule out
+    // [core/juice.ts].
+    if (name === "Pet House") {
+      const machine = this.bridge.select((state) => state);
+      if (
+        machine.context.visitorId === undefined &&
+        this.hasNappingPetInHouse(machine.context.state, now)
+      ) {
+        this.addExtra(objects, "sleeping", SUNNYSIDE.icons.sleeping, {
+          x: box.x + 1,
+          y: box.y - 8,
+          width: 10,
+          topAnchored: true,
+          depth: depth + 2,
+        });
+      }
       return null;
     }
 
@@ -849,7 +888,8 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
   ) {
     const { box } = objects;
     this.addExtra(objects, "shadow", SUNNYSIDE.building.shadowCropMachine, {
-      x: box.x + box.width / 2 - 4 / PIXEL_SCALE,
+      // `bottom-0 right-1` inside the 80-wide machine div.
+      x: box.x + box.width - 80 - 4 / PIXEL_SCALE,
       y: box.y + box.height,
       width: 80,
       bottomAnchored: true,
@@ -950,21 +990,14 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
           depth: depth + 2,
         },
       );
-      // [CropMachine.tsx] centred icon row at top 16 (w-8 icons ≈ 12 src px).
-      const iconWidth = 12;
-      const totalWidth = readyCrops.length * (iconWidth + 1);
-      let x = box.x + (80 - totalWidth) / 2;
-      readyCrops.slice(0, 6).forEach((pack, index) => {
-        const icon = ITEM_DETAILS[pack.crop]?.image;
-        if (!icon || !this.scene.textures.exists(icon)) return;
-        this.addExtra(objects, `ready-crop-${index}`, icon, {
-          x,
-          y: box.y + 16,
-          width: iconWidth,
-          depth: depth + 3,
-        });
-        x += iconWidth + 1;
-      });
+      // [CropMachine.tsx] a wrapping, centred flex row at top 16 of w-8 m-0.5
+      // slots, z-10 (so it paints over neighbouring entities too).
+      this.addIconRow(
+        objects,
+        "ready-crop",
+        readyCrops.map((pack) => ITEM_DETAILS[pack.crop]?.image),
+        { top: box.y + 16, margin: 2 / PIXEL_SCALE, depth: Z10_DEPTH + depth },
+      );
     }
   }
 
@@ -1149,9 +1182,55 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
         y: box.y + box.height + 3.8,
         width: w,
         bottomAnchored: true,
-        depth: depth + 3 + index,
+        // z-30 in the DOM, and building placements are z-auto, so the row
+        // paints over every neighbouring building, not just its own.
+        depth: READY_ROW_DEPTH + depth + index * 0.01,
+        outline: HIGHLIGHT,
       });
     });
+  }
+
+  /**
+   * [Greenhouse.tsx / CropMachine.tsx] a centred, wrapping flex row of `w-8`
+   * icons (32 CSS px slots plus `margin` on every side) starting at `top`,
+   * each line centred vertically on its tallest icon. Icons draw at native
+   * size [core/pixelArt.ts], centred where the DOM displays them, with the
+   * img-highlight-heavy rim.
+   */
+  private addIconRow(
+    objects: BuildingObjects,
+    keyPrefix: string,
+    urls: (string | undefined)[],
+    options: { top: number; margin: number; depth: number },
+  ) {
+    const { box } = objects;
+    const display = 32 / PIXEL_SCALE;
+    const slot = display + options.margin * 2;
+    const perLine = Math.max(1, Math.floor(box.width / slot));
+    const icons = urls.flatMap((url) => {
+      if (!url || !this.scene.textures.exists(url)) return [];
+      const frame = this.scene.textures.get(url).get();
+      return [{ url, width: frame.width, height: frame.height }];
+    });
+    let lineTop = options.top;
+    for (let start = 0; start < icons.length; start += perLine) {
+      const line = icons.slice(start, start + perLine);
+      const lineHeight =
+        Math.max(...line.map((icon) => (display * icon.height) / icon.width)) +
+        options.margin * 2;
+      const lineLeft = box.x + (box.width - line.length * slot) / 2;
+      line.forEach((icon, column) => {
+        const index = start + column;
+        this.addExtra(objects, `${keyPrefix}-${index}`, icon.url, {
+          x: lineLeft + column * slot + slot / 2 - icon.width / 2,
+          y: lineTop + lineHeight / 2 - icon.height / 2,
+          width: icon.width,
+          depth: options.depth + index * 0.01,
+          outline: HIGHLIGHT_HEAVY,
+        });
+      });
+      lineTop += lineHeight;
+    }
   }
 
   /**
@@ -1208,7 +1287,8 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
         },
       );
       if (!collected) {
-        this.addExtra(
+        const previous = objects.extras.get("daily-alert");
+        const alert = this.addExtra(
           objects,
           "daily-alert",
           SUNNYSIDE.icons.expression_alerted,
@@ -1219,6 +1299,15 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
             depth: topDepth + 3,
           },
         );
+        // [DailyReward.tsx] animate-float when animations are on. Bound once
+        // per object; the bob re-bases itself when addExtra resets its y.
+        if (
+          alert &&
+          alert !== previous &&
+          this.bridge.ui.get().showAnimations
+        ) {
+          floatBob(this.scene, alert);
+        }
       }
     }
 
@@ -1386,8 +1475,15 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
       });
     }
 
-    // Row centred at box top: gap-2 = 8 CSS px ≈ 3 src px, -top-2 ≈ 3 above.
+    // Row centred at box top: gap-2 = 8 CSS px ≈ 3 src px. `-top-2` puts the
+    // row's TOP 8 CSS px above the box; icons are centred on its height.
     const GAP = 3;
+    const rowTop = box.y - 8 / PIXEL_SCALE;
+    const heightOf = (src: string) =>
+      this.scene.textures.exists(src)
+        ? this.scene.textures.get(src).get().height
+        : 0;
+    const rowHeight = Math.max(0, ...icons.map((icon) => heightOf(icon.src)));
     const totalWidth =
       icons.reduce((sum, icon) => sum + icon.width, 0) +
       GAP * Math.max(0, icons.length - 1);
@@ -1395,10 +1491,10 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
     for (const icon of icons) {
       this.addExtra(objects, `animal-alert-${icon.key}`, icon.src, {
         x,
-        y: box.y - 3,
+        y: rowTop + (rowHeight - heightOf(icon.src)) / 2,
         width: icon.width,
         depth: depth + 2,
-        bottomAnchored: true,
+        topAnchored: true,
       });
       x += icon.width + GAP;
     }
@@ -1440,6 +1536,8 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
       topAnchored?: boolean;
       bottomAnchored?: boolean;
       flip?: boolean;
+      /** White img-highlight rim, in source px [core/pixelArt.outlinedTexture]. */
+      outline?: number;
       /**
        * Bound ONCE, when the object is first created. Extras survive across
        * passes now, so a caller wiring its own makeClickable on the returned
@@ -1463,6 +1561,19 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
     // Native pixels, re-centred on the spot the DOM's width put it.
     const shift = nativeScale(image, options.width);
     image.setPosition(options.x + shift, options.y);
+    // Swap in the baked outlined texture, padded by the rim on every side, so
+    // the art itself keeps the footprint computed above.
+    const outlined =
+      options.outline && !("anims" in image)
+        ? outlinedTexture(this.scene, texture, options.outline)
+        : undefined;
+    if (outlined) {
+      image.setTexture(outlined.key).setScale(outlined.scale);
+      image.setPosition(
+        image.x - outlined.pad,
+        image.y + (options.bottomAnchored ? outlined.pad : -outlined.pad),
+      );
+    }
     if (options.onClick && image !== previous) {
       makeClickable(this.scene, image, options.onClick);
     }
@@ -1494,6 +1605,20 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
       return { x, y: box.y + box.height - anchor.bottom, bottomAnchored: true };
     }
     return { x, y: box.y + (anchor.top ?? 0), topAnchored: true };
+  }
+
+  /** [PetHouse.tsx useNappingPetInPetHouse] */
+  private hasNappingPetInHouse(game: GameState, now: number) {
+    const commonPets = game.pets?.common ?? {};
+    const placedCommon = Object.entries(game.petHouse?.pets ?? {}).some(
+      ([name, items]) =>
+        items?.some((item) => item.coordinates) &&
+        isPetNapping(commonPets[name as PetName], now),
+    );
+    if (placedCommon) return true;
+    return Object.values(game.pets?.nfts ?? {}).some(
+      (pet) => pet.location === "petHouse" && isPetNapping(pet, now),
+    );
   }
 
   private composterState(

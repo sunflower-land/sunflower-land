@@ -47,6 +47,7 @@ import { DPR } from "../core/rendering";
 import type { FarmScene } from "../scenes/FarmScene";
 import {
   BUILDING_BASE_ART,
+  displayedArtWidth,
   type BuildingArtContext,
 } from "../entities/buildings/buildingArt";
 import { STATIC_COLLECTIBLES } from "../entities/collectibles/staticCollectibles";
@@ -484,7 +485,17 @@ export class LandscapingController {
         agingShedLevel: game.agingShed.level,
       };
       const art = buildingArt(ctx);
-      return { texture: art.texture, width: art.width };
+      // Same placement as BuildingRenderer: centred on the width the DOM
+      // displays (after its max-width clamp), with the art's own offsets.
+      return {
+        texture: art.texture,
+        width: displayedArtWidth(
+          art,
+          placeableDimensions(name).width * WORLD_TILE,
+        ),
+        left: art.left,
+        bottom: art.bottom,
+      };
     }
     const staticSpec = STATIC_COLLECTIBLES[name as CollectibleName];
     if (staticSpec) {

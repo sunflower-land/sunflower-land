@@ -419,6 +419,15 @@ const ComposterModalHost: React.FC<{
   const state = useSelector(gameService, _state);
   const composter = state.buildings[name]?.[0] as CompostBuilding | undefined;
   const [, setRender] = useState(0);
+  // [Composter.tsx] the DOM mounts ComposterModal long before it opens, with
+  // showModal false, and the modal picks its first tab once, on mount — so
+  // players always land on the composter, not the guide. Mount hidden and
+  // open on the next frame to get the same first tab.
+  const [shown, setShown] = useState(false);
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setShown(true));
+    return () => cancelAnimationFrame(frame);
+  }, []);
 
   if (!composter) return null;
 
@@ -448,7 +457,7 @@ const ComposterModalHost: React.FC<{
   return (
     <ComposterModal
       composterName={name}
-      showModal
+      showModal={shown}
       setShowModal={(show) => !show && onClose()}
       startComposter={startComposter}
       readyAt={composter.producing?.readyAt}

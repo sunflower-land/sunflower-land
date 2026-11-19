@@ -21,7 +21,14 @@ import { makeClickable } from "../../core/clickable";
 const FRAME_WIDTH = 96;
 const FRAME_HEIGHT = 64;
 const IDLE_FRAMES = { start: 0, end: 8 };
-const IDLE_FRAME_RATE = 10;
+/**
+ * [NPC.tsx idle-small] the DOM's animated webp holds every one of these nine
+ * frames for 70ms (it stores 7 frames, merging two duplicate pairs into
+ * 140ms holds): a 630ms loop. 10fps made the farm's bumpkins breathe slow.
+ */
+const IDLE_FRAME_RATE = 1000 / 70;
+/** Other service animations (walking, axe...) keep their original pace. */
+const ACTION_FRAME_RATE = 10;
 
 /** [NPC.tsx] aura sheets: 20x19 frames, 8 steps at 14fps. */
 const AURA_FRAME = { frameWidth: 20, frameHeight: 19 };
@@ -301,7 +308,7 @@ export class NPCSprite {
           start: 0,
           end: frames - 1,
         }),
-        frameRate: IDLE_FRAME_RATE,
+        frameRate: animation === "idle" ? IDLE_FRAME_RATE : ACTION_FRAME_RATE,
         repeat: -1,
       });
     }

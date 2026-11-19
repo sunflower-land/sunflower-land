@@ -30,7 +30,7 @@ import { SOIL_IMAGES } from "features/island/plots/lib/plant";
 import { FRUIT_PATCH_VARIANTS } from "features/island/lib/alternateArt";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { queueImage } from "../../core/assets";
-import { nativeScale } from "../../core/pixelArt";
+import { fitWidth, nativeScale } from "../../core/pixelArt";
 import { playSound } from "../../core/sounds";
 import { playYieldFloat } from "../../components/YieldFloat";
 import { ProgressBarSprite } from "../../components/ProgressBarSprite";
@@ -190,6 +190,24 @@ export class FruitPatchRenderer extends ResourceNodeRenderer<FruitNode> {
     const art = this.artFor(status, node, ctx, lifecycle);
     this.setArt(objects, { ...ctx, depth: ctx.depth + 1 }, art);
 
+    // Fertiliser overlays [FruitPatch.tsx], in every stage.
+    const fert = node.fertiliser?.name;
+    if (fert === "Fruitful Blend") {
+      this.addOverlay(objects, "fert1", powerup, 5, ctx, {
+        bottom: 16,
+        right: 2,
+      });
+    } else if (fert === "Turbofruit Mix") {
+      this.addOverlay(objects, "fert1", powerup, 5, ctx, {
+        bottom: 16,
+        left: 2,
+      });
+      this.addOverlay(objects, "fert2", SUNNYSIDE.icons.stopwatch, 6, ctx, {
+        bottom: 16,
+        right: 2,
+      });
+    }
+
     const growing =
       status.stage === "Seedling" || status.stage === "Replenishing";
 
@@ -223,34 +241,20 @@ export class FruitPatchRenderer extends ResourceNodeRenderer<FruitNode> {
         ),
       );
 
-      // Fertiliser overlays [FruitPatch.tsx].
-      const fert = node.fertiliser?.name;
-      if (fert === "Fruitful Blend") {
-        this.addOverlay(objects, "fert1", powerup, 5, ctx, {
-          bottom: 16,
-          right: 2,
-        });
-      } else if (fert === "Turbofruit Mix") {
-        this.addOverlay(objects, "fert1", powerup, 5, ctx, {
-          bottom: 16,
-          left: 2,
-        });
-        this.addOverlay(objects, "fert2", SUNNYSIDE.icons.stopwatch, 6, ctx, {
-          bottom: 16,
-          right: 2,
-        });
-      }
-
       if (this.bridge.ui.get().showTimers) {
+        // [FruitSeedling.tsx / ReplenishingTree.tsx] wrapper at bottom 7,
+        // left 8; it has no height (the bar is absolute), so the bar's top
+        // edge sits on that bottom-7 line.
+        const barY = ctx.box.y + ctx.box.height - 7;
         const bar =
           this.bars.get(id) ??
           new ProgressBarSprite(this.scene, {
             x: ctx.box.x + 8,
-            y: ctx.box.y + ctx.box.height - 7 - 7,
+            y: barY,
             formatLength: "short",
             depth: ctx.depth + 2,
           });
-        bar.setPosition(ctx.box.x + 8, ctx.box.y + ctx.box.height - 7 - 7);
+        bar.setPosition(ctx.box.x + 8, barY);
         this.bars.set(id, bar);
         this.updateBar(id);
       } else {
@@ -323,7 +327,8 @@ export class FruitPatchRenderer extends ResourceNodeRenderer<FruitNode> {
       .image(0, 0, texture)
       .setOrigin(0, 0)
       .setDepth(ctx.depth + 3);
-    nativeScale(image, width);
+    // A UI-style status icon: drawn at the DOM's width, like other icons.
+    fitWidth(image, width);
     const x =
       pos.left !== undefined
         ? ctx.box.x + pos.left

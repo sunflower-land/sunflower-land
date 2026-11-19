@@ -121,12 +121,14 @@ export const EXPIRING_COLLECTIBLES: Partial<
 
 // Every pet shrine (incl. the Obsidian and event shrines) shares the
 // PetShrine.tsx layout: ITEM_DETAILS art at per-name width/left, active
-// progress bar, renew-only expiry.
+// progress bar, renew-only expiry. PetShrine.tsx spreads the same `left` onto
+// both the wrapper div and the img inside it, so the art sits 2 x left from
+// the box edge.
 getObjectEntries(PET_SHRINE_DIMENSIONS).forEach(([name, dims]) => {
   EXPIRING_COLLECTIBLES[name as CollectibleName] = {
     images: { full: ITEM_DETAILS[name as CollectibleName]?.image ?? "" },
     width: dims.width ?? 16,
-    left: dims.left,
+    left: dims.left !== undefined ? dims.left * 2 : undefined,
     bottom: 0,
     activeBar: true,
     renewFlow: "petShrine",

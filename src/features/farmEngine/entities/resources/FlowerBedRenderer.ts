@@ -176,10 +176,12 @@ export class FlowerBedRenderer extends ResourceNodeRenderer<FlowerBedNode> {
       ),
     );
 
-    // [FlowerBed.tsx] bar at bottom 3 / left 16 / width 16.
+    // [FlowerBed.tsx] bar wrapper at bottom 3 / left 16 / width 16. It has
+    // no height (the bar is absolute), so the bar's top edge sits on that
+    // bottom-3 line and the bar hangs below it.
     if (this.bridge.ui.get().showTimers) {
       const barX = ctx.box.x + 16;
-      const barY = ctx.box.y + ctx.box.height - 7 - 3;
+      const barY = ctx.box.y + ctx.box.height - 3;
       const bar =
         this.bars.get(id) ??
         new ProgressBarSprite(this.scene, {

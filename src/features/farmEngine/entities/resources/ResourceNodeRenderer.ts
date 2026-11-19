@@ -31,6 +31,9 @@ import { burst, hitFlash, type ChipMaterial } from "../../core/juice";
  * the DOM's document-level listener.
  */
 
+/** How long a touch tap's "why nothing happened" popover stays up. */
+const IDLE_POPOVER_TOUCH_MS = 3000;
+
 export type NodeSlice<N> = {
   nodes: Record<string, N>;
   island: GameState["island"];
@@ -216,7 +219,33 @@ export abstract class ResourceNodeRenderer<
     return objects;
   }
 
-  /** Main art helper (creates/reuses objects.art). */
+  /**
+   * A click that can't act (no tool, or the node is still recovering) shows
+   * the same popover hovering does [RecoveredTree.tsx "Craft axe" /
+   * DepletedTree.tsx timer], so the player sees why nothing happened.
+   * clickable.ts clears the hover just before onClick, so this is set after
+   * it. With a mouse, leaving the node clears it as usual; a touch tap has no
+   * hover to leave, so it closes itself after a few seconds.
+   */
+  protected showIdleClickPopover(id: string) {
+    const kind = this.hoverKind;
+    if (!kind) return;
+    const entity = { type: "resource" as const, kind, id };
+    if (!this.scene.input.activePointer.wasTouch) {
+      this.bridge.hover.set(entity);
+      return;
+    }
+    // Phaser sends a touch pointer "out" as the tap ends, which would clear
+    // the popover straight away, so it opens on the next tick.
+    this.scene.time.delayedCall(0, () => this.bridge.hover.set(entity));
+    this.scene.time.delayedCall(IDLE_POPOVER_TOUCH_MS, () => {
+      const current = this.bridge.hover.get();
+      if (current?.type === "resource" && current.id === id) {
+        if (current.kind === kind) this.bridge.hover.set(null);
+      }
+    });
+  }
+
   /** Art lit by the hover glow; subclasses with their own art maps override. */
   protected glowTarget(id: string): GlowTarget | undefined {
     return this.nodes.get(id)?.art;

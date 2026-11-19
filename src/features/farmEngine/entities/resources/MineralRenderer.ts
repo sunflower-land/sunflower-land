@@ -223,8 +223,14 @@ export class MineralRenderer extends ResourceNodeRenderer<MineralNode> {
     if (!node) return;
 
     const now = Date.now();
-    if (this.config.isDepleted(node, game, now)) return;
-    if (!this.config.hasTool(game, node)) return;
+    // Depleted, or no pickaxe: show the timer / "Craft pickaxe" popover.
+    if (
+      this.config.isDepleted(node, game, now) ||
+      !this.config.hasTool(game, node)
+    ) {
+      this.showIdleClickPopover(id);
+      return;
+    }
 
     const tool = this.config.toolToSelect(game);
     if (tool) this.bridge.selectItem(tool);

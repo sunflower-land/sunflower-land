@@ -27,6 +27,7 @@ import { queueArt, resolveArtObject } from "../core/animated";
 import { makeClickable } from "../core/clickable";
 import { ProgressBarSprite } from "../components/ProgressBarSprite";
 import { LabelChip } from "../components/LabelSprite";
+import { LabelBadge } from "../components/LabelBadge";
 import { gridToWorld, WORLD_TILE } from "../core/coordinates";
 import { DEPTHS } from "../core/depths";
 import { EntityRenderer } from "./EntityRenderer";
@@ -57,7 +58,7 @@ export class UpcomingExpansionRenderer extends EntityRenderer<Slice> {
   private readyTimer: Phaser.Time.TimerEvent | undefined;
   private pontoonBar: ProgressBarSprite | undefined;
   private pontoonTiming: { createdAt: number; readyAt: number } | undefined;
-  private chips: LabelChip[] = [];
+  private chips: (LabelChip | LabelBadge)[] = [];
 
   // Derived from several farm-wide checks; nothing here needs to react
   // within the same frame as the tap that changed it.
@@ -118,6 +119,7 @@ export class UpcomingExpansionRenderer extends EntityRenderer<Slice> {
       coinsIcon,
     ].forEach((texture) => queueArt(this.scene, texture));
     LabelChip.queueAssets(this.scene);
+    LabelBadge.queueAssets(this.scene);
 
     // Requirement-chip item icons for the current expansion.
     const game = this.bridge.select((state) => state.context.state);
@@ -341,6 +343,20 @@ export class UpcomingExpansionRenderer extends EntityRenderer<Slice> {
       this.chips.push(...chips);
       rowY += 10;
     };
+    // The DOM's real `Label`s (expand / level lock): the box is centred and
+    // its 9px icon hangs off the left edge [Label.tsx].
+    const addBadge = (text: string, icon: string) => {
+      const badge = new LabelBadge(this.scene, {
+        x: 0,
+        y: rowY,
+        text,
+        icon,
+        depth,
+      });
+      badge.setPosition(Math.round(centreX - badge.width / 2), rowY);
+      this.chips.push(badge);
+      rowY += LabelBadge.ROW_HEIGHT;
+    };
 
     const showRequirements = !!game.inventory["Basic Land"]?.lte(5);
 
@@ -388,16 +404,10 @@ export class UpcomingExpansionRenderer extends EntityRenderer<Slice> {
         ascensionLevel: game.island.ascensionLevel ?? 0,
       });
       if (!meetsLevelRequirement(playerLevel, requirements.bumpkinLevel)) {
-        addRow([
-          new LabelChip(this.scene, {
-            x: 0,
-            y: 0,
-            icon: SUNNYSIDE.icons.lock,
-            iconWidth: 6,
-            text: `Lvl ${requirements.bumpkinLevel.level}`,
-            depth,
-          }),
-        ]);
+        addBadge(
+          `${translate("lvl")} ${requirements.bumpkinLevel.level}`,
+          SUNNYSIDE.icons.lock,
+        );
       }
       return;
     }
@@ -411,16 +421,10 @@ export class UpcomingExpansionRenderer extends EntityRenderer<Slice> {
       ...requirements,
       coins: coinCost,
     });
-    addRow([
-      new LabelChip(this.scene, {
-        x: 0,
-        y: 0,
-        icon: canExpand ? SUNNYSIDE.icons.confirm : SUNNYSIDE.icons.cancel,
-        iconWidth: 6,
-        text: translate("expand"),
-        depth,
-      }),
-    ]);
+    addBadge(
+      translate("expand"),
+      canExpand ? SUNNYSIDE.icons.confirm : SUNNYSIDE.icons.cancel,
+    );
   }
 
   private clear() {

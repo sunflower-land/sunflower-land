@@ -170,6 +170,9 @@ export class YieldEventFloats {
   }
 
   private onEvent(event: TrackedEvent) {
+    // After the machine errors out ("Oops! Something went wrong") its
+    // context has no game state left to diff; nothing to float.
+    if (!this.bridge.select((state) => state.context.state?.inventory)) return;
     const previous = this.prevInventory;
     const current = this.inventory();
     // Re-snapshot on EVERY event so a tracked claim's delta is exactly its

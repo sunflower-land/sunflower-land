@@ -99,6 +99,21 @@ const REMOTE = [
   { key: "npcs.smoothieChefMaking", path: "/npcs/smoothie_making.gif" },
   { key: "npcs.smoothieChef", path: "/npcs/smoothie.gif" },
   { key: "npcs.swimmer", path: "/npcs/swimmer.gif" },
+  // Ocean cast [WaterDecorLayer] (goblin_swimming stays static, see above).
+  { key: "npcs.swimmer2", path: "/npcs/swimmer2.webp" },
+  { key: "npcs.swimmer3", path: "/npcs/swimmer3.webp" },
+  { key: "npcs.swimmer4", path: "/npcs/swimmer4.webp" },
+  { key: "npcs.frozen_swimmer", path: "/npcs/winter_swimmer.webp" },
+  {
+    key: "decorations.frozen_cossies",
+    path: "/decorations/frozen_cossies.webp",
+  },
+  // Collectibles drawn from CDN art [CollectibleRenderer].
+  {
+    key: "decorations.mermaidFountain",
+    path: "/decorations/mermaid_fountain.webp",
+  },
+  { key: "sfts.easterBush", path: "/sfts/easter_bush.gif" },
   // Market and Workbench keepers [BuildingRenderer].
   { key: "npcs.betty", path: "/npcs/betty.gif" },
   { key: "npcs.blacksmith_npc", path: "/npcs/blacksmith.gif" },
