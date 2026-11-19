@@ -499,7 +499,7 @@ jobs:
                     },
                     {
                       name: "Message",
-                      value: escapeDiscord(truncate(metadata.subject, 1024)),
+                      value: truncate(escapeDiscord(metadata.subject), 1024),
                     },
                   ],
                   footer: {
