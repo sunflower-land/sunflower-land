@@ -4,6 +4,7 @@ import { TEST_BUMPKIN } from "../../lib/bumpkinData";
 import type { GameState, PlacedItem } from "../../types/game";
 import type { ScheduledWeatherEvent } from "../../types/weather";
 import { getCropYieldAmount } from "./harvest";
+import { getGreenhouseCropYieldAmount } from "./harvestGreenHouse";
 
 const HOUR = 60 * 60 * 1000;
 
@@ -59,6 +60,35 @@ describe("insect plague (weather)", () => {
     }).amount;
 
     expect(amount).toBe(2);
+  });
+
+  describe("in the Greenhouse", () => {
+    const greenhouse = (
+      crop: "Rice" | "Grape",
+      game: GameState,
+      createdAt = MID_PLAGUE,
+    ) =>
+      getGreenhouseCropYieldAmount({
+        crop,
+        game,
+        createdAt,
+        prngArgs: { farmId: 1, counter: 0 },
+      }).amount;
+
+    it("halves a crop after its Greenhouse bonuses", () => {
+      // Rice 1 + Rice Panda 0.25 = 1.25, halved = 0.625 (not 1 × 0.5 + 0.25).
+      expect(greenhouse("Rice", farm({ "Rice Panda": [placed()] }))).toBe(
+        0.625,
+      );
+    });
+
+    it("leaves a Greenhouse fruit alone, as before", () => {
+      const game = farm();
+
+      expect(greenhouse("Grape", game)).toBe(
+        greenhouse("Grape", game, PLAGUE.endAt + HOUR),
+      );
+    });
   });
 
   it("is blocked by a Pest Smoker placed before the plague", () => {

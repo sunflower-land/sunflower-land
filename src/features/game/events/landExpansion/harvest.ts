@@ -969,7 +969,9 @@ export function getCropYieldAmount({
       now: createdAt,
     });
 
-    if (plague) amount = amount * 0.5;
+    // Greenhouse crops are halved in getGreenhouseCropYieldAmount instead,
+    // after their Greenhouse bonuses.
+    if (plague && !isGreenhouseCrop(crop)) amount = amount * 0.5;
   } else {
     const isInsectPlagueActive =
       getActiveCalendarEvent({ calendar: game.calendar }) === "insectPlague";
