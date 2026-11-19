@@ -8454,10 +8454,6 @@
   "interactableModals.bud.dailyPrizeAvailable": "Tu premio diario te espera dentro.",
   "lovePush.guide.push": "Camina hacia una roca para empujarla. Se necesitan {{pushers}} jugadores que empujen de la misma manera para moverla.",
   "lovePush.guide.prizes": "Empuja las rocas hacia el centro de la isla para ganar {{amount}} {{item}}, una vez al día.",
-  "gameOptions.experiments.landscaping": "Nuevo paisajismo",
-  "gameOptions.experiments.landscapingDescription": "Prueba el nuevo diseño paisajístico. Tus movimientos permanecen en la pantalla mientras los reorganizas, así que puedes guardar todo el diseño de una sola vez o cancelarlos y recuperar tu granja exactamente como estaba. Se incluye guardar y volver a aplicar diseños de granjas con nombre.",
-  "gameOptions.experiments.landscapingToggle": "Habilitar un nuevo paisajismo",
-  "gameOptions.experiments.landscapingDisclaimer": "Solo función experimental. Los datos y el progreso pueden restablecerse o perderse sin previo aviso. Al habilitar esta opción, usted acepta estos riesgos y procede bajo su propio riesgo.",
   "landscaping.save": "Guardar cambios",
   "landscaping.saveFailed": "No se pudo salvar tu granja. Por favor, inténtelo de nuevo.",
   "landscaping.saving": "Salvando tu granja",
@@ -9076,5 +9072,9 @@
   "weatherShop.ingredientAmount": "{{item}} x {{amount}}",
   "weatherShop.onePerFarm": "Máximo 1 por granja",
   "weatherShop.owned": "Ya poseído",
-  "weatherItem.renew.message": "{{name}} se usó en su último evento meteorológico. Renuévalo para usarlo en el siguiente."
+  "weatherItem.renew.message": "{{name}} se usó en su último evento meteorológico. Renuévalo para usarlo en el siguiente.",
+  "gameOptions.experiments.savedLayouts": "Diseños guardados",
+  "gameOptions.experiments.savedLayoutsDescription": "Guarda los diseños de tu granja y cambia entre ellos. Abre el paisaje de tu granja y toca el botón del mapa para guardar tu diseño actual o volver a aplicar uno guardado.",
+  "gameOptions.experiments.savedLayoutsToggle": "Habilitar diseños guardados",
+  "gameOptions.experiments.savedLayoutsDisclaimer": "Solo función experimental. Los datos y el progreso pueden restablecerse o perderse sin previo aviso. Al habilitar esta opción, usted acepta estos riesgos y procede bajo su propio riesgo."
 }

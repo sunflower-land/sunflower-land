@@ -8454,10 +8454,6 @@
   "interactableModals.bud.dailyPrizeAvailable": "Ihr Tagespreis wartet drinnen auf Sie.",
   "lovePush.guide.push": "Gehe in einen Felsbrocken, um ihn zu schieben. Um ihn zu bewegen, müssen {{pushers}} Spieler auf die gleiche Weise drücken.",
   "lovePush.guide.prizes": "Schieben Sie die Felsbrocken in die Inselmitte, um einmal am Tag {{amount}} {{item}} zu verdienen.",
-  "gameOptions.experiments.landscaping": "Neue Landschaftsgestaltung",
-  "gameOptions.experiments.landscapingDescription": "Probiere die neue Landschaftsgestaltung aus. Deine Züge bleiben auf deinem Bildschirm, während du sie neu anordnest. Du kannst also das gesamte Layout auf einmal speichern oder abbrechen und deine Farm wieder genau so bekommen, wie sie war. Das Speichern und erneutes Anwenden benannter Farm-Layouts ist enthalten.",
-  "gameOptions.experiments.landscapingToggle": "Neue Landschaftsgestaltung ermöglichen",
-  "gameOptions.experiments.landscapingDisclaimer": "Nur experimentelle Funktion. Daten und Fortschritt können ohne vorherige Ankündigung zurückgesetzt werden oder verloren gehen. Wenn Sie dies aktivieren, akzeptieren Sie diese Risiken und fahren auf eigenes Risiko fort.",
   "landscaping.save": "Änderungen speichern",
   "landscaping.saveFailed": "Deine Farm konnte nicht gerettet werden. Bitte versuchen Sie es erneut.",
   "landscaping.saving": "Rette deine Farm",
@@ -9076,5 +9072,9 @@
   "weatherShop.ingredientAmount": "{{item}} x {{amount}}",
   "weatherShop.onePerFarm": "Max. 1 pro Betrieb",
   "weatherShop.owned": "Bereits im Besitz",
-  "weatherItem.renew.message": "{{name}} wurde bei seinem letzten Wetterereignis verwendet. Erneuern Sie es, um es beim nächsten zu verwenden."
+  "weatherItem.renew.message": "{{name}} wurde bei seinem letzten Wetterereignis verwendet. Erneuern Sie es, um es beim nächsten zu verwenden.",
+  "gameOptions.experiments.savedLayouts": "Gespeicherte Layouts",
+  "gameOptions.experiments.savedLayoutsDescription": "Speichern Sie Ihre Farm-Layouts und wechseln Sie zwischen ihnen. Öffne die Landschaftsgestaltung auf deiner Farm und tippe auf die Kartenschaltfläche, um dein aktuelles Layout zu speichern oder ein gespeichertes Layout erneut anzuwenden.",
+  "gameOptions.experiments.savedLayoutsToggle": "Gespeicherte Layouts aktivieren",
+  "gameOptions.experiments.savedLayoutsDisclaimer": "Nur experimentelle Funktion. Daten und Fortschritt können ohne vorherige Ankündigung zurückgesetzt werden oder verloren gehen. Wenn Sie dies aktivieren, akzeptieren Sie diese Risiken und fahren auf eigenes Risiko fort."
 }

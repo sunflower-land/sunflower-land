@@ -8454,10 +8454,6 @@
   "interactableModals.bud.dailyPrizeAvailable": "Il tuo premio giornaliero ti aspetta all'interno.",
   "lovePush.guide.push": "Entra in un masso per spingerlo. Ci vogliono {{pushers}} giocatori che spingono nello stesso modo per spostarlo.",
   "lovePush.guide.prizes": "Spingi i massi al centro dell'isola per guadagnare {{amount}} {{item}}, una volta al giorno.",
-  "gameOptions.experiments.landscaping": "Nuova architettura paesaggistica",
-  "gameOptions.experiments.landscapingDescription": "Prova il nuovo paesaggio. Le tue mosse rimangono sullo schermo mentre le riorganizzi, così puoi salvare l'intero layout in una volta sola o annullare e riavere la fattoria esattamente com'era. Il salvataggio e la riapplicazione dei layout di farm denominati sono inclusi.",
-  "gameOptions.experiments.landscapingToggle": "Abilita un nuovo paesaggio",
-  "gameOptions.experiments.landscapingDisclaimer": "Solo funzionalità sperimentale. I dati e i progressi possono essere ripristinati o persi senza preavviso. Abilitando questa opzione, l'utente accetta questi rischi e procede a proprio rischio.",
   "landscaping.save": "Salva modifiche",
   "landscaping.saveFailed": "Non sono riuscito a salvare la tua fattoria. Per favore riprova.",
   "landscaping.saving": "Salvare la tua fattoria",
@@ -9076,5 +9072,9 @@
   "weatherShop.ingredientAmount": "{{item}} x {{amount}}",
   "weatherShop.onePerFarm": "Max 1 per azienda",
   "weatherShop.owned": "Già posseduto",
-  "weatherItem.renew.message": "{{name}} è stato utilizzato nel suo ultimo evento meteorologico. Rinnovalo per utilizzarlo in quello successivo."
+  "weatherItem.renew.message": "{{name}} è stato utilizzato nel suo ultimo evento meteorologico. Rinnovalo per utilizzarlo in quello successivo.",
+  "gameOptions.experiments.savedLayouts": "Layout salvati",
+  "gameOptions.experiments.savedLayoutsDescription": "Salva i layout della tua fattoria e passa da uno all'altro. Apri il paesaggio della tua fattoria e tocca il pulsante della mappa per salvare il layout attuale o riapplicarne uno salvato.",
+  "gameOptions.experiments.savedLayoutsToggle": "Abilita i layout salvati",
+  "gameOptions.experiments.savedLayoutsDisclaimer": "Solo funzionalità sperimentale. I dati e i progressi possono essere ripristinati o persi senza preavviso. Abilitando questa opzione, l'utente accetta questi rischi e procede a proprio rischio."
 }

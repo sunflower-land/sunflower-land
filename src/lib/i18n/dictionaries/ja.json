@@ -8454,10 +8454,6 @@
   "interactableModals.bud.dailyPrizeAvailable": "毎日の賞品が店内で待っています。",
   "lovePush.guide.push": "岩の中に入って押してください。{{pushers}} 人のプレイヤーが同じ方法でそれを動かす必要があります。",
   "lovePush.guide.prizes": "1日1回、岩を島の中心に押し込んで {{amount}} {{item}} を獲得してください。",
-  "gameOptions.experiments.landscaping": "新しい造園",
-  "gameOptions.experiments.landscapingDescription": "新しい造園を試してみてください。再配置中も移動は画面に表示されますので、レイアウト全体を一度に保存したり、キャンセルして農場を元の状態に戻したりできます。名前付きファームレイアウトの保存と再適用も含まれています。",
-  "gameOptions.experiments.landscapingToggle": "新しい造園を可能にする",
-  "gameOptions.experiments.landscapingDisclaimer": "実験的機能のみ。データや進行状況は予告なしにリセットまたは失われる可能性があります。これを有効にすると、これらのリスクを受け入れ、自己責任で続行することになります。",
   "landscaping.save": "変更を保存",
   "landscaping.saveFailed": "ファームを保存できませんでした。もう一度試してください。",
   "landscaping.saving": "農場を救おう",
@@ -9076,5 +9072,9 @@
   "weatherShop.ingredientAmount": "{{item}} x {{amount}}",
   "weatherShop.onePerFarm": "ファームあたり最大 1",
   "weatherShop.owned": "すでに所有しています",
-  "weatherItem.renew.message": "{{name}} は前回の気象イベントで使用されました。更新して次のイベントで使用してください。"
+  "weatherItem.renew.message": "{{name}} は前回の気象イベントで使用されました。更新して次のイベントで使用してください。",
+  "gameOptions.experiments.savedLayouts": "保存済みレイアウト",
+  "gameOptions.experiments.savedLayoutsDescription": "ファームレイアウトを保存して切り替えます。農場の造園を開き、マップボタンをタップして現在のレイアウトを保存するか、保存したレイアウトを再適用します。",
+  "gameOptions.experiments.savedLayoutsToggle": "保存したレイアウトを有効にする",
+  "gameOptions.experiments.savedLayoutsDisclaimer": "実験的機能のみ。データや進行状況は予告なしにリセットまたは失われる可能性があります。これを有効にすると、これらのリスクを受け入れ、自己責任で続行することになります。"
 }

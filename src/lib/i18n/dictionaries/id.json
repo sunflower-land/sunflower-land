@@ -8454,10 +8454,6 @@
   "interactableModals.bud.dailyPrizeAvailable": "Hadiah harian Anda menunggu Anda di dalam.",
   "lovePush.guide.push": "Berjalan ke batu besar untuk mendorongnya. Dibutuhkan pemain {{pushers}} mendorong dengan cara yang sama untuk memindahkannya.",
   "lovePush.guide.prizes": "Dorong batu-batu besar ke tengah pulau untuk mendapatkan {{amount}} {{item}}, sekali sehari.",
-  "gameOptions.experiments.landscaping": "Lansekap baru",
-  "gameOptions.experiments.landscapingDescription": "Coba lansekap baru. Gerakan Anda tetap berada di layar saat Anda mengatur ulang, sehingga Anda dapat menyimpan seluruh tata letak sekaligus atau membatalkan dan mendapatkan peternakan Anda kembali persis seperti semula. Menyimpan dan menerapkan kembali tata letak pertanian bernama disertakan.",
-  "gameOptions.experiments.landscapingToggle": "Aktifkan lansekap baru",
-  "gameOptions.experiments.landscapingDisclaimer": "Fitur eksperimental saja. Data dan kemajuan dapat diatur ulang atau hilang tanpa pemberitahuan. Dengan mengaktifkan ini, Anda menerima risiko ini dan melanjutkan dengan risiko Anda sendiri.",
   "landscaping.save": "Simpan perubahan",
   "landscaping.saveFailed": "Tidak bisa menyelamatkan peternakan Anda. Silakan coba lagi.",
   "landscaping.saving": "Menyelamatkan pertanian Anda",
@@ -9076,5 +9072,9 @@
   "weatherShop.ingredientAmount": "{{item}} x {{amount}}",
   "weatherShop.onePerFarm": "Maks 1 per peternakan",
   "weatherShop.owned": "Sudah dimiliki",
-  "weatherItem.renew.message": "{{name}} digunakan pada acara cuaca terakhirnya. Perbarui untuk menggunakannya pada yang berikutnya."
+  "weatherItem.renew.message": "{{name}} digunakan pada acara cuaca terakhirnya. Perbarui untuk menggunakannya pada yang berikutnya.",
+  "gameOptions.experiments.savedLayouts": "Tata letak yang disimpan",
+  "gameOptions.experiments.savedLayoutsDescription": "Simpan tata letak pertanian Anda dan beralih di antara mereka. Buka lansekap di pertanian Anda dan ketuk tombol peta untuk menyimpan tata letak Anda saat ini atau terapkan kembali yang disimpan.",
+  "gameOptions.experiments.savedLayoutsToggle": "Aktifkan tata letak yang disimpan",
+  "gameOptions.experiments.savedLayoutsDisclaimer": "Fitur eksperimental saja. Data dan kemajuan dapat diatur ulang atau hilang tanpa pemberitahuan. Dengan mengaktifkan ini, Anda menerima risiko ini dan melanjutkan dengan risiko Anda sendiri."
 }

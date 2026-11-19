@@ -8455,10 +8455,6 @@
   "interactableModals.bud.dailyPrizeAvailable": "您的每日奖励正在里面等着您。",
   "lovePush.guide.push": "走向巨石即可推动。需要 {{pushers}} 名玩家朝同一方向推动才能使其移动。",
   "lovePush.guide.prizes": "将巨石推至岛屿中心即可赢取 {{amount}} 个 {{item}}，每日限一次。",
-  "gameOptions.experiments.landscaping": "全新造景模式",
-  "gameOptions.experiments.landscapingDescription": "体验全新造景模式。在重新排列时，您的移动操作会暂时保留在屏幕上，因此您可以一次性保存整个布局，或随时取消以恢复农场的原样。此功能还支持保存并重新套用已命名的农场布局。",
-  "gameOptions.experiments.landscapingToggle": "启用全新造景模式",
-  "gameOptions.experiments.landscapingDisclaimer": "仅限实验性功能。数据与进度可能会在不另行通知的情况下被重置或丢失。启用此功能即表示您接受上述风险并自行承担后果。",
   "landscaping.save": "保存更改",
   "landscaping.saveFailed": "无法保存您的农场。请重试。",
   "landscaping.saving": "正在保存农场",
@@ -9076,5 +9072,9 @@
   "weatherShop.ingredientAmount": "{{item}} x {{amount}}",
   "weatherShop.onePerFarm": "每个农场最多 1 个",
   "weatherShop.owned": "已经拥有",
-  "weatherItem.renew.message": "{{name}} 在上次天气事件中使用。将其续订以用于下一个版本。"
+  "weatherItem.renew.message": "{{name}} 在上次天气事件中使用。将其续订以用于下一个版本。",
+  "gameOptions.experiments.savedLayouts": "保存的布局",
+  "gameOptions.experiments.savedLayoutsDescription": "保存您的农场布局并在它们之间切换。在农场上打开园林绿化并点击地图按钮以保存当前布局或重新应用已保存的布局。",
+  "gameOptions.experiments.savedLayoutsToggle": "启用保存的布局",
+  "gameOptions.experiments.savedLayoutsDisclaimer": "仅限实验功能。数据和进度可能会被重置或丢失，恕不另行通知。启用此功能即表示您接受这些风险，并自担风险。"
 }

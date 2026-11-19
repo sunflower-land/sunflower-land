@@ -8454,10 +8454,6 @@
   "interactableModals.bud.dailyPrizeAvailable": "Votre prix quotidien vous attend à l'intérieur.",
   "lovePush.guide.push": "Enfoncez un rocher pour le pousser. Il faut que {{pushers}} joueurs poussent de la même manière pour le déplacer.",
   "lovePush.guide.prizes": "Poussez les rochers jusqu'au centre de l'île pour gagner {{amount}} {{item}}, une fois par jour.",
-  "gameOptions.experiments.landscaping": "Nouvel aménagement paysager",
-  "gameOptions.experiments.landscapingDescription": "Essayez le nouvel aménagement paysager. Vos mouvements restent sur votre écran pendant que vous les réorganisez. Vous pouvez donc enregistrer l'ensemble de la mise en page en une seule fois ou annuler et retrouver votre ferme exactement comme elle était. L'enregistrement et la réapplication des plans de ferme nommés sont inclus.",
-  "gameOptions.experiments.landscapingToggle": "Permettre un nouvel aménagement paysager",
-  "gameOptions.experiments.landscapingDisclaimer": "Fonctionnalité expérimentale uniquement. Les données et la progression peuvent être réinitialisées ou perdues sans préavis. En activant cette option, vous acceptez ces risques et vous agissez à vos propres risques.",
   "landscaping.save": "Enregistrer les modifications",
   "landscaping.saveFailed": "Je n'ai pas pu sauver ta ferme. Veuillez réessayer.",
   "landscaping.saving": "Sauvez votre ferme",
@@ -9076,5 +9072,9 @@
   "weatherShop.ingredientAmount": "{{item}} x {{amount}}",
   "weatherShop.onePerFarm": "Maximum 1 par exploitation",
   "weatherShop.owned": "Déjà possédé",
-  "weatherItem.renew.message": "{{name}} a été utilisé lors de son dernier événement météorologique. Renouvelez-le pour l'utiliser sur le suivant."
+  "weatherItem.renew.message": "{{name}} a été utilisé lors de son dernier événement météorologique. Renouvelez-le pour l'utiliser sur le suivant.",
+  "gameOptions.experiments.savedLayouts": "Mises en page enregistrées",
+  "gameOptions.experiments.savedLayoutsDescription": "Enregistrez les configurations de votre ferme et passez de l'une à l'autre. Ouvrez l'aménagement paysager de votre ferme et appuyez sur le bouton de la carte pour enregistrer votre mise en page actuelle ou réappliquer une mise en page enregistrée.",
+  "gameOptions.experiments.savedLayoutsToggle": "Activer les mises en page enregistrées",
+  "gameOptions.experiments.savedLayoutsDisclaimer": "Fonctionnalité expérimentale uniquement. Les données et la progression peuvent être réinitialisées ou perdues sans préavis. En activant cette option, vous acceptez ces risques et vous agissez à vos propres risques."
 }

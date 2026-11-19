@@ -8454,10 +8454,6 @@
   "interactableModals.bud.dailyPrizeAvailable": "Günlük ödülünüz içeride sizi bekliyor.",
   "lovePush.guide.push": "İtmek için bir kayaya girin. Hareket etmek için {{pushers}} oyuncuların aynı şekilde bastırması gerekir.",
   "lovePush.guide.prizes": "Günde bir kez {{amount}} {{item}} kazanmak için kayaları adanın ortasına itin.",
-  "gameOptions.experiments.landscaping": "Yeni çevre düzenlemesi",
-  "gameOptions.experiments.landscapingDescription": "Yeni çevre düzenlemesini deneyin. Siz yeniden düzenlerken hareketleriniz ekranınızda kalır, böylece tüm düzeni tek seferde kaydedebilir veya iptal edebilir ve çiftliğinizi olduğu gibi geri alabilirsiniz. Adlandırılmış çiftlik düzenlerinin kaydedilmesi ve yeniden uygulanması dahildir.",
-  "gameOptions.experiments.landscapingToggle": "Yeni çevre düzenlemesini etkinleştirin",
-  "gameOptions.experiments.landscapingDisclaimer": "Yalnızca deneysel özellik. Veriler ve ilerleme önceden haber verilmeksizin sıfırlanabilir veya kaybolabilir. Bunu etkinleştirerek bu riskleri kabul edersiniz ve kendi sorumluluğunuzda ilerlersiniz.",
   "landscaping.save": "Değişiklikleri kaydet",
   "landscaping.saveFailed": "Çiftliğinizi kurtaramadınız. Lütfen tekrar deneyin.",
   "landscaping.saving": "Çiftliğinizi kurtarmak",
@@ -9076,5 +9072,9 @@
   "weatherShop.ingredientAmount": "{{item}} x {{amount}}",
   "weatherShop.onePerFarm": "Çiftlik başına en fazla 1",
   "weatherShop.owned": "Zaten sahip olundu",
-  "weatherItem.renew.message": "{{name}} son hava olayında kullanıldı. Bir sonrakinde kullanmak için yenileyin."
+  "weatherItem.renew.message": "{{name}} son hava olayında kullanıldı. Bir sonrakinde kullanmak için yenileyin.",
+  "gameOptions.experiments.savedLayouts": "Kaydedilmiş düzenler",
+  "gameOptions.experiments.savedLayoutsDescription": "Çiftlik düzenlerinizi kaydedin ve aralarında geçiş yapın. Çiftliğinizde çevre düzenlemesini açın ve mevcut düzeninizi kaydetmek veya kaydedilmiş bir düzeni yeniden uygulamak için harita düğmesine dokunun.",
+  "gameOptions.experiments.savedLayoutsToggle": "Kaydedilmiş düzenleri etkinleştir",
+  "gameOptions.experiments.savedLayoutsDisclaimer": "Yalnızca deneysel özellik. Veriler ve ilerleme önceden haber verilmeksizin sıfırlanabilir veya kaybolabilir. Bunu etkinleştirerek bu riskleri kabul edersiniz ve kendi sorumluluğunuzda ilerlersiniz."
 }
