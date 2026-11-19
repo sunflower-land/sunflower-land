@@ -346,7 +346,10 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   // While a save or a floor arrival is settling, nothing may change the draft:
   // the dimmed overlay blocks clicks, and the placement controller (whose
   // Enter/Escape shortcuts listen on window) is unmounted until it lifts.
-  const locked = saving || arrivalPending || commitPending;
+  // A finished quick-place session counts too: its save may be waiting for
+  // an in-flight autosave, and anything moved meanwhile would be committed
+  // without the confirmation.
+  const locked = saving || arrivalPending || commitPending || placementDone;
   const gameState = useSelector(gameService, (state) => state.context.state);
   const farmHandIds = getKeys(gameState.farmHands.bumpkins);
 
