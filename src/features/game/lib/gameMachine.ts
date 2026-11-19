@@ -52,7 +52,6 @@ import {
   rekeyDraft,
   settleLandscapingSave,
 } from "./landscapingDraft";
-import { hasExperiment } from "features/game/types/experiments";
 import type { ArrangementConflict } from "features/game/events/landExpansion/applyArrangement";
 import {
   landscapingMachine,
@@ -2835,6 +2834,11 @@ export function startGame(authContext: AuthContext) {
           },
         },
         landscaping: {
+          // Every way out drops the draft - Cancel, but also the captcha jump
+          // and errors - so unsaved positions never linger on the farm. Exit
+          // runs before the transition's own actions, so a successful Save
+          // still ends on the server's farm (commitDraft assigns it after).
+          exit: assign((context: Context) => discardDraft(context)),
           invoke: {
             id: "landscaping",
             src: landscapingMachine,
@@ -2848,16 +2852,16 @@ export function startGame(authContext: AuthContext) {
               multiple: (_: Context, event: LandscapeEvent) => event.multiple,
               maximum: (_: Context, event: LandscapeEvent) => event.maximum,
               location: (_: Context, event: LandscapeEvent) => event.location,
-              // Keeps the child's pre-sandbox branches alive for players who
-              // have not opted in (see types/experiments.ts).
-              sandbox: (context: Context) =>
-                hasExperiment(context.state, "newLandscaping"),
+              // Opened to place one thing (a purchase or a chest item) rather
+              // than with the hammer: the HUD saves and leaves once it's down.
+              quickPlace: (_: Context, event: LandscapeEvent) =>
+                !!event.placeable,
             },
             // The child finishing is the Cancel path: the draft is discarded
-            // and any pending live actions are flushed (a no-op when none).
+            // (see `exit`) and any pending live actions are flushed (a no-op
+            // when none).
             onDone: {
               target: "autosaving",
-              actions: assign((context) => discardDraft(context)),
             },
             onError: [
               {
@@ -2936,8 +2940,6 @@ export function startGame(authContext: AuthContext) {
               // as the farm and must change nothing - see
               // settleLandscapingSave.
               actions: assign((context: Context, event: any) => {
-                if (!context.baseState)
-                  return handleSuccessfulSave(context, event);
                 if (event.data.skipped) return {};
                 const saved = handleSuccessfulSave(context, event);
                 return {

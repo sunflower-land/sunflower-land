@@ -15,10 +15,16 @@ import {
   syncCookingPlacements,
 } from "features/game/lib/cookingReadiness";
 import { getChestItemCount } from "features/island/hud/components/inventory/utils/inventory";
-import { isCollectibleWithTimestamps } from "features/game/events/landExpansion/placeCollectible";
+import {
+  isCollectibleWithTimestamps,
+  isPetCollectible,
+} from "features/game/events/landExpansion/placeCollectible";
 import { getAvailableNodes } from "features/game/lib/resourceNodes";
 import { updateBeehives } from "features/game/lib/updateBeehives";
-import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
+import {
+  COLLECTIBLES_DIMENSIONS,
+  type CollectibleName,
+} from "features/game/types/craftables";
 import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import {
   RESOURCE_DIMENSIONS,
@@ -711,6 +717,7 @@ export function applyFarmLayout(
     getBucket: (name: N) => PlacedItem[] | undefined,
     ensureBucket: (name: N) => PlacedItem[],
     newItem: (name: N, id: string) => PlacedItem,
+    takeLifted?: (name: N) => PlacedItem | undefined,
   ) => {
     getObjectEntries(layoutGroup).forEach(([name, entries]) => {
       const dimensions = PLACEABLE_DIMENSIONS[name];
@@ -765,7 +772,8 @@ export function applyFarmLayout(
             height: dimensions.height,
           },
           place: () => {
-            const item = reuse ?? newItem(name, newId(name, i));
+            const item =
+              reuse ?? takeLifted?.(name) ?? newItem(name, newId(name, i));
             if (!reuse) ensureBucket(name).push(item);
             item.coordinates = { ...entry.coordinates };
             item.flipped = entry.flipped;
@@ -790,12 +798,32 @@ export function applyFarmLayout(
       });
     });
   };
+  // A collectible lifted in another location is moved onto the farm rather
+  // than minted fresh, as placeCollectible does: a new record would drop the
+  // lifted one's per-instance state (a weather item's `usedUntil` / `used`,
+  // `extendedMs`, ...) - for weather items a free renewal - and orphan it.
+  const takeLiftedCollectible = (
+    name: CollectibleName,
+  ): PlacedItem | undefined => {
+    const elsewhere: (PlacedItem[] | undefined)[] = [
+      state.home?.collectibles[name],
+      isPetCollectible(name) ? state.petHouse?.pets[name] : undefined,
+      state.interior?.ground.collectibles[name],
+      state.interior?.level_one?.collectibles[name],
+    ];
+    for (const bucket of elsewhere) {
+      const index = bucket?.findIndex((item) => !item.coordinates) ?? -1;
+      if (bucket && index !== -1) return bucket.splice(index, 1)[0];
+    }
+    return undefined;
+  };
   addNamedSlots(
     layout.collectibles,
     (name) => state.collectibles[name],
     (name) => (state.collectibles[name] ??= []),
     (name, id) =>
       isCollectibleWithTimestamps(name) ? { id, createdAt } : { id },
+    takeLiftedCollectible,
   );
   addNamedSlots(
     layout.buildings,

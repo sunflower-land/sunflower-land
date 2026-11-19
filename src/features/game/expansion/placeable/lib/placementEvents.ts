@@ -94,21 +94,20 @@ export type PlacementContext = {
   action?: GameEventName<PlacementEvent>;
   coordinates: Coordinates;
   placeable?: LandscapingPlaceableType;
-  sandbox?: boolean;
 };
 
 /**
  * The event that settles a PLACE: what the player just dropped, at the tile
  * they dropped it on.
  *
- * Purchases are the exception in the sandbox. They are real transactions that
+ * Purchases are the exception. They are real transactions that
  * must survive Cancel, so they settle live WITHOUT coordinates - the item
  * lands in the chest - and `draftPlacementEvent` follows with the placement as
  * a draft edit. Buds, Pets, Bumpkins and farm hands are already-owned
  * instances and carry their own id rather than a fresh one.
  */
 export const settlePlacementEvent = (
-  { placeable, action, sandbox, coordinates: { x, y } }: PlacementContext,
+  { placeable, action, coordinates: { x, y } }: PlacementContext,
   location: PlaceableLocation,
 ): PlacementEvent => {
   if (placeable?.name === "Bud" || placeable?.name === "Pet") {
@@ -140,7 +139,7 @@ export const settlePlacementEvent = (
 
   const id = uuidv4().slice(0, 8);
 
-  if (sandbox && LIVE_LANDSCAPING_EVENTS.has(action as string)) {
+  if (LIVE_LANDSCAPING_EVENTS.has(action as string)) {
     return {
       type: action,
       name: placeable?.name,
@@ -159,14 +158,8 @@ export const settlePlacementEvent = (
 };
 
 /** True when `settlePlacementEvent` left the item in the chest. */
-export const needsDraftPlacement = ({
-  placeable,
-  action,
-  sandbox,
-}: PlacementContext) =>
-  !!sandbox &&
-  !!placeable?.name &&
-  LIVE_LANDSCAPING_EVENTS.has(action as string);
+export const needsDraftPlacement = ({ placeable, action }: PlacementContext) =>
+  !!placeable?.name && LIVE_LANDSCAPING_EVENTS.has(action as string);
 
 /**
  * The draft placement that follows a live purchase. The parent processes

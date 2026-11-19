@@ -1,4 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
+import { useLocation, useNavigate } from "react-router";
 import { useInterval } from "lib/utils/hooks/useInterval";
 import { Balances } from "components/Balances";
 import { useActor, useSelector } from "@xstate/react";
@@ -40,7 +48,11 @@ import { CraftDecorationsModal } from "./components/decorations/CraftDecorations
 import { RemoveAllConfirmation } from "../collectibles/RemoveAllConfirmation";
 import { LandscapingConfirmation } from "../collectibles/LandscapingConfirmation";
 import { ArrangementConflictsPanel } from "./components/ArrangementConflictsPanel";
-import { commitArrangement } from "features/game/actions/arrangementEffects";
+import {
+  commitArrangement,
+  isArrangementCommitPending,
+  subscribeArrangementCommits,
+} from "features/game/actions/arrangementEffects";
 import { isSaveInFlight } from "features/game/actions/layoutEffects";
 import { SavedLayoutsModal } from "./components/SavedLayoutsModal";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -56,6 +68,8 @@ import type { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { LandscapingChest } from "./components/LandscapingChest";
 import { LandscapingQuickPanel } from "./components/LandscapingQuickPanel";
 import { InteriorFloorNav } from "features/interior/components/InteriorFloorNav";
+import type { MachineState as GameMachineState } from "features/game/lib/gameMachine";
+import { hasExperiment } from "features/game/types/experiments";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -74,6 +88,21 @@ const compareBlockBucks = (prev: Decimal, next: Decimal) => {
 const selectMovingItem = (state: MachineState) => state.context.moving;
 const isIdle = (state: MachineState) => state.matches({ editing: "idle" });
 const selectRemovalMode = (state: MachineState) => !!state.context.removalMode;
+const selectPlacementDone = (state: MachineState) =>
+  !!state.context.placementDone;
+/** Carried when a failed floor arrival sends the player back. */
+type SurfaceRouteState = { landscapingSaveFailed?: boolean };
+
+/** Where each landscaping surface lives, for sending a player back to one. */
+const SURFACE_ROUTES: Record<PlaceableLocation, string> = {
+  farm: "/",
+  home: "/home",
+  petHouse: "/pet-house",
+  interior: "/interior",
+  level_one: "/level_one",
+};
+const _hasSavedLayouts = (state: GameMachineState) =>
+  hasExperiment(state.context.state, "savedLayouts");
 
 const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   location,
@@ -95,7 +124,14 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   const [showDiscardConfirmation, setShowDiscardConfirmation] = useState(false);
   const [showSaveConfirmation, setShowSaveConfirmation] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [saveFailed, setSaveFailed] = useState(false);
+  // Also set when a failed floor arrival sent the player back here.
+  const { pathname, state: routeState } = useLocation() as {
+    pathname: string;
+    state: SurfaceRouteState | null;
+  };
+  const [saveFailed, setSaveFailed] = useState(
+    () => !!routeState?.landscapingSaveFailed,
+  );
   const [quickDragging, setQuickDragging] = useState(false);
   const button = useSound("button");
 
@@ -110,15 +146,23 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   );
   // A live-action flush is mid-flight: leaving now would re-send its actions.
   const saveInFlight = useSelector(gameService, isSaveInFlight);
+  // An arrangement commit from any HUD - possibly one on a surface the player
+  // has since left - is still pending. Its reply replaces the draft, so no
+  // edits are accepted until it lands.
+  const commitPending = useSyncExternalStore(
+    useCallback(
+      (listener: () => void) =>
+        subscribeArrangementCommits(gameService, listener),
+      [gameService],
+    ),
+    () => isArrangementCommitPending(gameService),
+  );
   // The surface the draft is keyed to (set on LANDSCAPE, re-keyed on a switch).
   const landscapingLocation = useSelector(
     gameService,
     (state) => state.context.landscapingLocation,
   );
-  // Set only when the sandbox experiment is on (see lib/landscapingDraft.ts).
-  // With it off every edit is already saved, so there is no Save tick and
-  // nothing to discard - the HUD falls back to its pre-sandbox shape.
-  const sandbox = !!landscapingLocation;
+  const hasSavedLayouts = useSelector(gameService, _hasSavedLayouts);
 
   const child = gameService.getSnapshot().children
     .landscaping as MachineInterpreter;
@@ -150,11 +194,9 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
     child.send("TOGGLE_REMOVAL_MODE");
   };
 
-  // Outside the sandbox there is nothing in flight worth blocking on: every
-  // edit is already saved and Cancel is just "leave landscaping". Inside it,
   // CANCEL tears the child out of `saving.autosaving`, killing the invoked
   // save before its SAVE_SUCCESS/SAVE_ERROR can come back.
-  const cancelBlocked = sandbox && (saving || saveInFlight);
+  const cancelBlocked = saving || saveInFlight || commitPending;
 
   const cancel = () => {
     if (cancelBlocked) return;
@@ -191,25 +233,43 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
     }
   };
 
+  // Landscaping was opened just to place a purchase or a chest item, and the
+  // player is done placing: save it and leave, as if they had pressed the
+  // tick, without the confirmation. A conflict or error keeps them here with
+  // the usual panel or message.
+  const placementDone = useSelector(child, selectPlacementDone);
+  useEffect(() => {
+    if (!placementDone || saving || saveInFlight) return;
+    child.send("PLACEMENT_SETTLED");
+    void commitNow();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [placementDone, saving, saveInFlight]);
+
   /**
    * Move the draft to another surface. A clean draft is simply re-keyed; a
    * dirty one saves the surface being left first (same overlay as Save) and
    * only reports success when the server accepted it - a conflict keeps the
-   * player where they are with the panel showing.
+   * player where they are with the panel showing. "rejected" covers a
+   * conflict or a save already running; "failed" is any other error.
    */
-  const switchSurface = async (next: PlaceableLocation): Promise<boolean> => {
-    if (saving || saveInFlight) return false;
+  const switchSurface = async (
+    next: PlaceableLocation,
+  ): Promise<"switched" | "rejected" | "failed"> => {
+    if (saving || saveInFlight) return "rejected";
     if (!isDirty) {
       gameService.send({ type: "SURFACE_CHANGED", location: next });
-      return true;
+      return "switched";
     }
     setSaving(true);
     setSaveFailed(false);
     try {
-      return await commitArrangement(gameService, { nextLocation: next });
+      const saved = await commitArrangement(gameService, {
+        nextLocation: next,
+      });
+      return saved ? "switched" : "rejected";
     } catch {
       setSaveFailed(true);
-      return false;
+      return "failed";
     } finally {
       setSaving(false);
     }
@@ -219,13 +279,77 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   // URL can land the player on another surface with landscaping still
   // active and the draft still keyed to the one they left. Settle it the same
   // way: save that surface, then continue here.
+  //
+  // This is about how the player arrived, not later changes, so it settles
+  // once. Until it has, the saving overlay stays up so nothing is edited on
+  // this surface: those edits would be keyed to the surface being left and
+  // wiped by its commit. If they arrive mid-save it waits for that save to
+  // land rather than giving up. If the save is rejected or fails, they are
+  // sent back to the surface the draft belongs to - the same outcome as the
+  // floor buttons, which never leave on a failed save - where the conflicts
+  // panel, Save and Cancel apply. A conflict is never re-committed.
+  //
+  // The overlay is never lowered on the way back: the redirect unmounts this
+  // HUD, so the surface it lands on takes over. A save error rides along in
+  // the route state (see `saveFailed`) for that HUD to show. If the player
+  // has already left this surface when the save resolves, nothing happens.
+  //
+  // Arriving while another HUD's commit is still pending (left a floor, then
+  // came straight back) also waits: once it lands, the draft may have been
+  // re-keyed to the floor that was left, and is settled back to this one.
+  const navigate = useNavigate();
+  const [arrivalPending, setArrivalPending] = useState(
+    () =>
+      isArrangementCommitPending(gameService) ||
+      (!!landscapingLocation && landscapingLocation !== location),
+  );
+  const arrivalStarted = useRef(false);
+  const mounted = useRef(true);
   useEffect(() => {
-    if (landscapingLocation && landscapingLocation !== location) {
-      void switchSurface(location);
+    mounted.current = true;
+    // The error flag has been read into `saveFailed`; drop it from history so
+    // revisiting this entry later doesn't show a stale error.
+    if (routeState?.landscapingSaveFailed) {
+      navigate(pathname, { replace: true, state: null });
     }
-    // Mount only: this is about how the player arrived, not later changes.
+    return () => {
+      mounted.current = false;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(() => {
+    if (!arrivalPending || arrivalStarted.current) return;
+    if (saving || saveInFlight || commitPending) return;
+    arrivalStarted.current = true;
+    // Read fresh: a commit that just landed may have re-keyed the draft.
+    const source = gameService.getSnapshot().context.landscapingLocation;
+    if (!source || source === location) {
+      setArrivalPending(false);
+      return;
+    }
+    void switchSurface(location).then((result) => {
+      if (!mounted.current) return;
+      if (result === "switched") {
+        setArrivalPending(false);
+        return;
+      }
+      const state: SurfaceRouteState = {
+        landscapingSaveFailed: result === "failed",
+      };
+      // Replace, so browser Back doesn't return to the surface that just
+      // failed and commit the same rejected arrangement again.
+      navigate(SURFACE_ROUTES[source], { replace: true, state });
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [arrivalPending, saving, saveInFlight, commitPending]);
+
+  // While a save or a floor arrival is settling, nothing may change the draft:
+  // the dimmed overlay blocks clicks, and the placement controller (whose
+  // Enter/Escape shortcuts listen on window) is unmounted until it lifts.
+  // A finished quick-place session counts too: its save may be waiting for
+  // an in-flight autosave, and anything moved meanwhile would be committed
+  // without the confirmation.
+  const locked = saving || arrivalPending || commitPending || placementDone;
   const gameState = useSelector(gameService, (state) => state.context.state);
   const farmHandIds = getKeys(gameState.farmHands.bumpkins);
 
@@ -349,11 +473,10 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
         <div className="absolute bottom-0 p-2.5 left-0 flex flex-col space-y-2.5">
           <InteriorFloorNav
             floor={location === "interior" ? "ground" : "level_one"}
-            beforeNavigate={
-              sandbox
-                ? (to) =>
-                    switchSurface(to === "ground" ? "interior" : "level_one")
-                : undefined
+            beforeNavigate={async (to) =>
+              (await switchSurface(
+                to === "ground" ? "interior" : "level_one",
+              )) === "switched" && mounted.current
             }
           />
         </div>
@@ -418,23 +541,21 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                 top: `${PIXEL_SCALE * 31}px`,
               }}
             >
-              {sandbox && (
-                <RoundButton
-                  className="mb-3.5"
-                  disabled={saving || saveInFlight}
-                  onClick={save}
-                >
-                  <img
-                    src={SUNNYSIDE.icons.confirm}
-                    className="absolute group-active:translate-y-[2px]"
-                    style={{
-                      top: `${PIXEL_SCALE * 5.5}px`,
-                      left: `${PIXEL_SCALE * 5.5}px`,
-                      width: `${PIXEL_SCALE * 11}px`,
-                    }}
-                  />
-                </RoundButton>
-              )}
+              <RoundButton
+                className="mb-3.5"
+                disabled={saving || saveInFlight}
+                onClick={save}
+              >
+                <img
+                  src={SUNNYSIDE.icons.confirm}
+                  className="absolute group-active:translate-y-[2px]"
+                  style={{
+                    top: `${PIXEL_SCALE * 5.5}px`,
+                    left: `${PIXEL_SCALE * 5.5}px`,
+                    width: `${PIXEL_SCALE * 11}px`,
+                  }}
+                />
+              </RoundButton>
               <RoundButton
                 className="mb-3.5"
                 disabled={cancelBlocked}
@@ -505,9 +626,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                 </>
               )}
 
-              {/* Saved Layouts rides on the same experiment: it applies a
-                  whole arrangement, which only the sandbox can hold. */}
-              {location === "farm" && sandbox && (
+              {location === "farm" && hasSavedLayouts && (
                 <RoundButton
                   className="mb-3.5"
                   onClick={() => {
@@ -687,7 +806,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
         tick feels dead for the ~1s it takes. Dim the screen and block input
         until the response (success, conflicts, or failure) arrives.
       */}
-      {saving && (
+      {locked && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black bg-opacity-50">
           <Panel>
             <Loading text={t("landscaping.saving")} />
@@ -749,7 +868,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
         />
       )}
 
-      {!removalMode && !quickDragging && (
+      {!removalMode && !quickDragging && !locked && (
         <PlaceableController location={location} />
       )}
     </HudContainer>

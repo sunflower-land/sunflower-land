@@ -7,12 +7,12 @@ describe("experiment.toggled", () => {
       state: TEST_FARM,
       action: {
         type: "experiment.toggled",
-        experiment: "newLandscaping",
+        experiment: "savedLayouts",
         enabled: true,
       },
     });
 
-    expect(state.settings.experiments).toEqual({ newLandscaping: true });
+    expect(state.settings.experiments).toEqual({ savedLayouts: true });
   });
 
   it("turns an experiment back off", () => {
@@ -21,16 +21,16 @@ describe("experiment.toggled", () => {
         ...TEST_FARM,
         settings: {
           ...TEST_FARM.settings,
-          experiments: { newLandscaping: true },
+          experiments: { savedLayouts: true },
         },
       },
       action: {
         type: "experiment.toggled",
-        experiment: "newLandscaping",
+        experiment: "savedLayouts",
         enabled: false,
       },
     });
 
-    expect(state.settings.experiments).toEqual({ newLandscaping: false });
+    expect(state.settings.experiments).toEqual({ savedLayouts: false });
   });
 });

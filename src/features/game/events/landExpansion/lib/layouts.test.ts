@@ -991,3 +991,97 @@ describe("layouts lib (cooking buildings)", () => {
     expect(building).toEqual({ ...before, coordinates: { x: -3, y: 0 } });
   });
 });
+
+// A lifted record keeps per-instance state (a weather item's `usedUntil`,
+// `extendedMs`, ...). Applying a farm layout must move that record onto the
+// farm rather than mint a fresh one, or the state is dropped - for weather
+// items, a free renewal. Values mirrored in the BE events/layouts.test.ts.
+describe("layouts lib (collectibles lifted in another location)", () => {
+  const usedUntil = createdAt + 3 * 24 * 60 * 60 * 1000;
+
+  /** A layout with one Sandbag at (0, 0), saved from the farm. */
+  const sandbagLayout = makeLayout({
+    ...withInventory({ Sandbag: 1 }),
+    collectibles: {
+      Sandbag: [{ id: "saved-sandbag", coordinates: { x: 0, y: 0 } }],
+    },
+  });
+
+  const liftedSandbag: PlacedItem = {
+    id: "lifted-sandbag",
+    removedAt: createdAt - 1000,
+    usedUntil,
+  };
+
+  const apply = (state: GameState) =>
+    produce(state, (draft) => {
+      applyFarmLayout(draft, sandbagLayout, createdAt);
+    }) as GameState;
+
+  it("moves a Sandbag lifted in the home onto the farm, keeping usedUntil", () => {
+    const result = apply({
+      ...withInventory({ Sandbag: 1 }),
+      home: { collectibles: { Sandbag: [{ ...liftedSandbag }] } },
+    });
+
+    expect(result.collectibles.Sandbag).toHaveLength(1);
+    expect(result.collectibles.Sandbag![0]).toMatchObject({
+      id: "lifted-sandbag",
+      coordinates: { x: 0, y: 0 },
+      usedUntil,
+    });
+    expect(result.home.collectibles.Sandbag ?? []).toHaveLength(0);
+  });
+
+  it("moves a Sandbag lifted on the interior ground floor onto the farm", () => {
+    const result = apply({
+      ...withInventory({ Sandbag: 1 }),
+      interior: {
+        ...baseFarm.interior,
+        ground: { collectibles: { Sandbag: [{ ...liftedSandbag }] } },
+      },
+    });
+
+    expect(result.collectibles.Sandbag).toHaveLength(1);
+    expect(result.collectibles.Sandbag![0]).toMatchObject({
+      id: "lifted-sandbag",
+      coordinates: { x: 0, y: 0 },
+      usedUntil,
+    });
+    expect(result.interior.ground.collectibles.Sandbag ?? []).toHaveLength(0);
+  });
+
+  it("moves a Sandbag lifted on the interior level one onto the farm", () => {
+    const result = apply({
+      ...withInventory({ Sandbag: 1 }),
+      interior: {
+        ...baseFarm.interior,
+        level_one: { collectibles: { Sandbag: [{ ...liftedSandbag }] } },
+      },
+    });
+
+    expect(result.collectibles.Sandbag).toHaveLength(1);
+    expect(result.collectibles.Sandbag![0]).toMatchObject({
+      id: "lifted-sandbag",
+      coordinates: { x: 0, y: 0 },
+      usedUntil,
+    });
+    expect(result.interior.level_one!.collectibles.Sandbag ?? []).toHaveLength(
+      0,
+    );
+  });
+
+  it("still reuses a Sandbag lifted on the farm itself", () => {
+    const result = apply({
+      ...withInventory({ Sandbag: 1 }),
+      collectibles: { Sandbag: [{ ...liftedSandbag }] },
+    });
+
+    expect(result.collectibles.Sandbag).toHaveLength(1);
+    expect(result.collectibles.Sandbag![0]).toMatchObject({
+      id: "lifted-sandbag",
+      coordinates: { x: 0, y: 0 },
+      usedUntil,
+    });
+  });
+});
