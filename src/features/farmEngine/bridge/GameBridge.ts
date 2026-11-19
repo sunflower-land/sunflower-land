@@ -95,6 +95,7 @@ export type FarmModalName =
   | "fishingChallenge"
   | "bedFarmhand"
   | "projectComplete"
+  | "villageProject"
   | "renewWeather"
   | "bumpkinPainting"
   | "animalDetails"

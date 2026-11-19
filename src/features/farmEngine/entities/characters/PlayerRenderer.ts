@@ -68,8 +68,12 @@ const BACKYARD_CAPACITY: Record<IslandType, number> = {
 
 /**
  * How far a composed bumpkin's visible figure spills out of its 1x1 grid box,
- * in world px. The 64px-tall service frame is centred at y+16, so the body
- * runs ~16px above the box and the legs/feet ~16px below it.
+ * in world px. Measured from the drawn frames: the figure (16-18px wide,
+ * 15-19px tall) starts 4-8px inside the box top — hats reach the top — and
+ * its feet end ~7px below the box. The click zone is the box plus this.
+ *
+ * It was 16 above and 16 below (a 16x48 zone over a ~16x18 figure), which
+ * swallowed clicks on whatever stood above and below a bumpkin.
  *
  * Exported because landscaping hit-tests these NPCs itself
  * [LandscapingController.hitTest] — normal click zones are inert in edit mode
@@ -77,7 +81,7 @@ const BACKYARD_CAPACITY: Record<IslandType, number> = {
  * granted only the headroom, so a bumpkin could be grabbed by the head and
  * the air above it but not by the body it appears to stand on.
  */
-export const NPC_FIGURE = { above: 16, below: 16 } as const;
+export const NPC_FIGURE = { above: 0, below: 8 } as const;
 
 type Entry = {
   sprite: NPCSprite;
@@ -144,7 +148,8 @@ export class PlayerRenderer extends EntityRenderer<Slice> {
       .image(0, 0, SUNNYSIDE.icons.heart)
       .setOrigin(0, 0);
     const x = entry.zone.x + 3 + nativeScale(this.heart, 10);
-    this.heart.setDepth(DEPTHS.ENTITY_BASE + entry.zone.y + 2);
+    // Just in front of the bumpkin's row, as before the zone was trimmed.
+    this.heart.setDepth(DEPTHS.ENTITY_BASE + tileY - 14);
     // Already floating at this spot (the tween owns y, so compare the rest y).
     if (this.heart.x === x && this.heart.getData("restY") === y) return;
     this.heartTween?.remove();
@@ -311,7 +316,7 @@ export class PlayerRenderer extends EntityRenderer<Slice> {
         depth: DEPTHS.ENTITY_BASE + world.y,
       });
       void sprite.create();
-      // [NPCPlaceable] 16-wide box, full-figure height (see NPC_FIGURE).
+      // 16-wide box around the drawn figure (see NPC_FIGURE).
       const zone = this.scene.add
         .zone(
           world.x,

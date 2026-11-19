@@ -84,8 +84,10 @@ export class ProgressBarSprite {
 
     // Chunky display type with the black outline + hard drop, matching the
     // yield floats [outlinedText.ts] — Adam's call over the old pixel face.
+    // 12px: at 10 this face read noticeably smaller than the DOM's 16px
+    // pixel-font timer.
     this.label = outlinedText(scene, BAR.width / 2, 1, "", {
-      fontPx: 10,
+      fontPx: 12,
       shadowOffsetY: 1,
     }).setOrigin(0.5, 1);
 

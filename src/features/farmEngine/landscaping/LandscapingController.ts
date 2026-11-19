@@ -970,10 +970,8 @@ export class LandscapingController {
     const game = this.bridge.select((state) => state.context.state);
     const candidates = this.placements(game).filter((placement) => {
       const box = gridRectToWorld(placement.coordinates, placement.dims);
-      // Bumpkins overflow their tile in BOTH directions [NPCPlaceable] — the
-      // body sits above it and the legs below. Granting only the headroom
-      // made them grabbable by the head and the empty air over it, but not
-      // by the base they visibly stand on.
+      // Bumpkins' feet overflow their tile [NPC_FIGURE], so the hit box
+      // reaches below it to cover the figure they visibly stand on.
       const npc = placement.name === "Bumpkin" || placement.name === "FarmHand";
       const above = npc ? NPC_FIGURE.above : 0;
       const below = npc ? NPC_FIGURE.below : 0;

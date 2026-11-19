@@ -515,6 +515,8 @@ import npcsNevilleDoing from "assets/animations/npcs_neville_doing.png";
 import npcsSmoothieMaking from "assets/animations/npcs_smoothie_making.png";
 import npcsSmoothie from "assets/animations/npcs_smoothie.png";
 import npcsSwimmer from "assets/animations/npcs_swimmer.png";
+import npcsBetty from "assets/animations/npcs_betty.png";
+import npcsBlacksmith from "assets/animations/npcs_blacksmith.png";
 import animalsChickensIdleChicken from "assets/animations/animals_chickens_idle_chicken.png";
 import animalsChickensSleepingChicken from "assets/animations/animals_chickens_sleeping_chicken.png";
 import animalsChickensReady from "assets/animations/animals_chickens_ready.png";
@@ -3176,6 +3178,20 @@ export const ANIMATED_ART: Record<string, AnimatedArt> = Object.fromEntries([
       frameHeight: 16,
       frames: 12,
       fps: 10,
+    },
+  ],
+  [
+    `${CONFIG.PROTECTED_IMAGE_URL}/npcs/betty.gif`,
+    { sheet: npcsBetty, frameWidth: 16, frameHeight: 19, frames: 9, fps: 14 },
+  ],
+  [
+    `${CONFIG.PROTECTED_IMAGE_URL}/npcs/blacksmith.gif`,
+    {
+      sheet: npcsBlacksmith,
+      frameWidth: 14,
+      frameHeight: 16,
+      frames: 9,
+      fps: 14,
     },
   ],
   [

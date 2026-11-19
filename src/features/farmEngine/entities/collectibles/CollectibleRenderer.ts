@@ -25,7 +25,10 @@ import {
 } from "features/island/collectibles/components/Tiles";
 import type { TileName } from "features/game/types/decorations";
 import { isHelpComplete, REQUIRED_CHEERS } from "features/game/types/monuments";
-import { PROJECT_IMAGES } from "features/island/collectibles/components/Project";
+import {
+  isVillageProject,
+  PROJECT_IMAGES,
+} from "features/island/collectibles/components/Project";
 import type { MonumentName } from "features/game/types/monuments";
 import { queueImage, runLoader } from "../../core/assets";
 import {
@@ -35,7 +38,8 @@ import {
   type ArtObject,
 } from "../../core/animated";
 import { makeClickable } from "../../core/clickable";
-import { nativeScale } from "../../core/pixelArt";
+import { readyShake } from "../../core/juice";
+import { fitWidth, nativeScale } from "../../core/pixelArt";
 import {
   gridRectToWorld,
   WORLD_TILE,
@@ -190,6 +194,8 @@ type NodeObjects = {
   grayscaled?: boolean;
   /** [Sign.tsx] the Town Sign's painted display name. */
   signText?: Phaser.GameObjects.Text;
+  /** [Project.tsx] "!" over a village project to start or collect. */
+  projectAlert?: Phaser.GameObjects.Image;
 };
 
 /**
@@ -790,12 +796,22 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
       }
     }
 
-    // [Monument.tsx] cheer progress bar while the project is incomplete.
+    // [Monument.tsx / Project.tsx] cheer progress bar while the project is
+    // incomplete. A village project that is placed but not started has no
+    // bar; it and a finished one carry a "!" instead.
     if (name in REQUIRED_CHEERS) {
       const project = name as MonumentName;
       const cheers = slice.villageProjects[project]?.cheers ?? 0;
       const required = REQUIRED_CHEERS[project];
-      if (cheers < required) {
+      const villageProject = isVillageProject(name);
+      const inactive = villageProject && !slice.villageProjects[project];
+      this.syncProjectAlert(
+        objects,
+        villageProject && (inactive || cheers >= required),
+        name.endsWith("Pot"),
+        depth,
+      );
+      if (cheers < required && !inactive) {
         const barX = box.x + box.width / 2 - 7.5;
         const barY = box.y + box.height - 2 - 7;
         objects.bar ??= new ProgressBarSprite(this.scene, {
@@ -1216,6 +1232,8 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
         game.socialFarming?.villageProjects?.[
           name as keyof typeof REQUIRED_CHEERS
         ];
+      // [Project.tsx] a village project not started yet takes no help.
+      if (isVillageProject(name) && !project) return;
       if (project?.helpedAt) return; // already helped
       this.bridge.dispatch({
         type: "project.helped",
@@ -1337,6 +1355,13 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
 
     // [Monument.tsx] own-farm monuments: completion modal when done,
     // popover with cheer progress otherwise.
+    // [Project.tsx] village projects always open their details panel: the
+    // start prompt, progress, or collect/complete.
+    if (isVillageProject(name)) {
+      this.bridge.farmModal.open("villageProject", { project: name });
+      return;
+    }
+
     if (name in REQUIRED_CHEERS) {
       const project = name as MonumentName;
       const cheers = game.socialFarming.villageProjects[project]?.cheers ?? 0;
@@ -1500,8 +1525,39 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
     objects.signText.setDepth(depth + 1);
   }
 
+  /**
+   * [Project.tsx] the "!" 4px wide, centred over the box at -top-4 with the
+   * cooking pots' own margins, shaking like the DOM's `.ready`.
+   */
+  private syncProjectAlert(
+    objects: NodeObjects,
+    wanted: boolean,
+    cookingPot: boolean,
+    depth: number,
+  ) {
+    const texture = SUNNYSIDE.icons.expression_alerted;
+    if (!wanted || !this.scene.textures.exists(texture)) {
+      objects.projectAlert?.destroy();
+      objects.projectAlert = undefined;
+      return;
+    }
+    if (objects.projectAlert) return;
+    const { box } = objects;
+    // -top-4 is 16 CSS px; margins are in source px.
+    const top = -16 / PIXEL_SCALE + (cookingPot ? 2 : -2);
+    const left = box.width / 2 - 2 + (cookingPot ? -2 : -4);
+    const alert = this.scene.add
+      .image(box.x + left, box.y + top, texture)
+      .setOrigin(0, 0)
+      .setDepth(depth + 3);
+    fitWidth(alert, 4);
+    if (this.bridge.ui.get().showAnimations) readyShake(this.scene, alert);
+    objects.projectAlert = alert;
+  }
+
   private destroyNode(objects: NodeObjects) {
     objects.signText?.destroy();
+    objects.projectAlert?.destroy();
     objects.expiryIconTween?.remove();
     objects.expiryIcon?.destroy();
     objects.zone.destroy();

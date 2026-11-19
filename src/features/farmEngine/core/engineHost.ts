@@ -105,6 +105,7 @@ function createHost(parent: HTMLElement): Host {
     game.canvas.addEventListener("pointerdown", (event) => {
       game.canvas.setPointerCapture(event.pointerId);
     });
+    keepCustomCursor(game);
   });
 
   const onResize = () => {
@@ -114,6 +115,43 @@ function createHost(parent: HTMLElement): Host {
   window.addEventListener("resize", onResize);
 
   return { game, onResize, releaseTimer: undefined, scenesStarted: 0 };
+}
+
+/** Cursors the custom-cursor stylesheet draws with its own pointer art. */
+const CUSTOM_CURSOR_COVERS = new Set(["pointer", "grab", "grabbing"]);
+
+/**
+ * Keep the pixel-art cursor [styles.css .custom-cursor] over the world.
+ *
+ * Interactive objects (`useHandCursor`) make Phaser write `cursor: pointer`
+ * onto the canvas's inline style, which beats the stylesheet, so hovering
+ * anything in the world swapped the pixel cursor for the system hand. The
+ * DOM farm shows the same pointer art over clickable things, so while the
+ * custom cursor is on Phaser leaves the canvas alone and it inherits the
+ * stylesheet's cursor, pressed frame included. With the setting off the
+ * system hand shows, as before.
+ */
+function keepCustomCursor(game: Phaser.Game) {
+  const manager = game.input as Phaser.Input.InputManager & {
+    setCursor(interactiveObject: { cursor?: string | boolean }): void;
+  };
+  const covered = (cursor: unknown) =>
+    document.documentElement.classList.contains("custom-cursor") &&
+    typeof cursor === "string" &&
+    CUSTOM_CURSOR_COVERS.has(cursor);
+
+  const setCursor = manager.setCursor.bind(manager);
+  manager.setCursor = (interactiveObject) => {
+    if (covered(interactiveObject.cursor)) return;
+    setCursor(interactiveObject);
+  };
+
+  // Landscaping sets "grabbing" while dragging and "default" after. Written
+  // inline, "default" pinned the system arrow over the canvas for the rest
+  // of the session; an empty value inherits whichever cursor the page uses.
+  const setDefaultCursor = manager.setDefaultCursor.bind(manager);
+  manager.setDefaultCursor = (cursor: string) =>
+    setDefaultCursor(cursor === "default" || covered(cursor) ? "" : cursor);
 }
 
 function destroyHost() {

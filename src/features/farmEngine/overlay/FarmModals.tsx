@@ -5,7 +5,11 @@ import {
   type TemporaryCollectibleName,
 } from "features/game/lib/collectibleBuilt";
 import { ProjectModal } from "features/island/collectibles/components/Monument";
-import type { MonumentName } from "features/game/types/monuments";
+import type {
+  MonumentName,
+  VillageProjectName,
+} from "features/game/types/monuments";
+import { ProjectDetails } from "features/island/collectibles/components/Project";
 import type { PlaceableLocation } from "features/game/types/collectibles";
 import { useVisiting } from "lib/utils/visitUtils";
 import React, {
@@ -878,6 +882,16 @@ const FarmModalsBody: React.FC<{
               />
             );
           })()}
+      </Modal>
+
+      {/* [Project.tsx] a village project's details: start, progress, collect */}
+      <Modal show={open?.name === "villageProject"} onHide={close}>
+        {open?.name === "villageProject" && (
+          <ProjectDetails
+            project={(open.data as { project: VillageProjectName }).project}
+            onClose={close}
+          />
+        )}
       </Modal>
 
       {/* [ObsidianShrine.tsx] active bulk plant/harvest/fertilise */}

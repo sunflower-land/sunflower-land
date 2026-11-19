@@ -2,7 +2,7 @@ import Phaser from "phaser";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import type { AnchorRegistry, ScreenRect } from "../bridge/anchors";
 import { getGameboardWorldBounds, type WorldRect } from "./coordinates";
-import { DPR } from "./rendering";
+import { DPR, IS_COARSE_POINTER } from "./rendering";
 
 /**
  * Viewport parity with the DOM farm:
@@ -46,8 +46,27 @@ const ZOOM_EASE_MS = 55;
  * buffer px). Finger jitter during fast taps stays a tap; a deliberate drag
  * crosses it immediately. Shared with clickable.ts, which uses the same
  * threshold to tell a tap-release from a pan-release.
+ *
+ * Wider on touch: a thumb tapping quickly through a field of crops rolls a
+ * good 6-8px between landing and lifting, and at 6px those taps were being
+ * read as small drags.
  */
-export const PAN_DEAD_ZONE_CSS_PX = 6;
+export const PAN_DEAD_ZONE_CSS_PX = IS_COARSE_POINTER ? 12 : 6;
+
+/**
+ * A release only flings the camera after a real drag of at least this many
+ * CSS px. A fast tap that just clears the dead zone carries a high
+ * instantaneous speed, and gliding on it sent the farm sliding away
+ * mid-harvest. (No minimum duration: a deliberate flick is quick too.)
+ */
+const GLIDE_MIN_TRAVEL_CSS_PX = 40;
+
+/**
+ * Two fingers count as a pinch only once the distance between them changes
+ * by this much (CSS px). Rapid taps with alternating fingers overlap for a
+ * moment, and treating that as a pinch zoomed the view on every jitter.
+ */
+const PINCH_DEAD_ZONE_CSS_PX = 16;
 
 /** Duration of the ease when the camera centres on a clicked node. */
 const CENTER_PAN_MS = 450;
@@ -98,6 +117,8 @@ export class FarmCameraController {
   /** Pinch baseline, captured when a second pointer goes down. */
   private pinchStartDistance = 0;
   private pinchStartZoom = 1;
+  /** The pinch has cleared its dead zone and is driving the zoom. */
+  private pinchArmed = false;
 
   /** True once the current gesture has left the tap dead zone. */
   private panArmed = false;
@@ -170,6 +191,7 @@ export class FarmCameraController {
           second.y,
         );
         this.pinchStartZoom = this.userZoom;
+        this.pinchArmed = false;
       }
     };
 
@@ -183,11 +205,19 @@ export class FarmCameraController {
           second.x,
           second.y,
         );
-        if (this.pinchStartDistance > 0) {
-          this.setUserZoom(
-            this.pinchStartZoom * (distance / this.pinchStartDistance),
-          );
+        if (this.pinchStartDistance <= 0) return;
+        if (!this.pinchArmed) {
+          const change = Math.abs(distance - this.pinchStartDistance);
+          if (change < PINCH_DEAD_ZONE_CSS_PX * DPR) return;
+          // Measure from here, so the zoom doesn't jump by the dead zone.
+          this.pinchArmed = true;
+          this.pinchStartDistance = distance;
+          this.pinchStartZoom = this.userZoom;
+          return;
         }
+        this.setUserZoom(
+          this.pinchStartZoom * (distance / this.pinchStartDistance),
+        );
         return;
       }
 
@@ -220,7 +250,7 @@ export class FarmCameraController {
       );
     };
 
-    const onPointerUp = () => {
+    const onPointerUp = (pointer: Phaser.Input.Pointer) => {
       const wasPan = this.panArmed && !this.panSuspended;
       this.panArmed = false;
       const samples = this.panSamples;
@@ -228,7 +258,15 @@ export class FarmCameraController {
       // Only a clean single-pointer pan release flings; lifting one finger
       // of a pinch (or a tap) must not.
       const [remaining] = this.activePointers();
+      if (!remaining) this.pinchArmed = false;
       if (!wasPan || remaining) return;
+      const travelled = Phaser.Math.Distance.Between(
+        pointer.x,
+        pointer.y,
+        pointer.downX,
+        pointer.downY,
+      );
+      if (travelled < GLIDE_MIN_TRAVEL_CSS_PX * DPR) return;
       this.startGlide(samples);
     };
 

@@ -33,6 +33,7 @@ const nextTickPhase = () => {
  */
 export abstract class EntityRenderer<Slice> {
   private unsubscribe: Unsubscribe | undefined;
+  private unsubscribeTimers: Unsubscribe | undefined;
 
   /** Accumulator behind secondElapsed, seeded with this renderer's phase. */
   private tickMs = nextTickPhase();
@@ -160,6 +161,17 @@ export abstract class EntityRenderer<Slice> {
       );
     }
     this.firstSync = this.runSync(initial);
+
+    // Renderers read the player's "show timers" setting during sync, so a
+    // toggle must re-run it — otherwise bars (fruit patches, flower beds,
+    // buildings...) kept the old setting until their own state next changed.
+    let showTimers = this.bridge.ui.get().showTimers;
+    this.unsubscribeTimers = this.bridge.ui.subscribe(() => {
+      const next = this.bridge.ui.get().showTimers;
+      if (next === showTimers) return;
+      showTimers = next;
+      void this.runSync(this.bridge.select((state) => this.selector(state)));
+    });
   }
 
   /** Called by the scene every frame; derives a deferred slice when due. */
@@ -192,6 +204,8 @@ export abstract class EntityRenderer<Slice> {
     this.destroyed = true;
     this.unsubscribe?.();
     this.unsubscribe = undefined;
+    this.unsubscribeTimers?.();
+    this.unsubscribeTimers = undefined;
     this.onDestroy();
   }
 

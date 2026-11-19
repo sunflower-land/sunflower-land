@@ -566,10 +566,92 @@ type ProjectProps = React.ComponentProps<typeof ImageStyle> & {
   project: VillageProjectName;
 };
 
+/**
+ * The details modal's panel for a village project: the start prompt while it
+ * is placed but not started, its progress (or collect/complete) once
+ * running, and the server round trip for raffle projects. Shared with the
+ * Phaser farm, which opens it from its own click handling.
+ */
+export const ProjectDetails: React.FC<{
+  project: VillageProjectName;
+  onClose: () => void;
+}> = ({ project, onClose }) => {
+  const { gameService } = useContext(Context);
+  const { t } = useAppTranslation();
+
+  const projectCheers = useSelector(gameService, _cheers(project));
+  const isInactive = useSelector(gameService, _isInactive(project));
+  const completingProject = useSelector(gameService, _completingProject);
+  const completingProjectSuccess = useSelector(
+    gameService,
+    _completingProjectSuccess,
+  );
+  const state = useSelector(gameService, (state) => state.context.state);
+
+  const handleComplete = () => {
+    /**
+     * A raffle project also pays out the winner, which is another player's
+     * farm, so it has to be settled server side. Everything else is purely the
+     * owner's own state: complete it locally and let autosave catch up.
+     */
+    if (hasProjectRaffle(project)) {
+      gameService.send("project.completed", {
+        effect: {
+          type: "project.completed",
+          project,
+        },
+      });
+
+      return;
+    }
+
+    // Keep the modal open: collecting clears the project, so it switches to
+    // the start prompt and the player can begin the next one right away.
+    gameService.send("project.collected", { project });
+  };
+
+  const handleStartProject = () => {
+    onClose();
+    gameService.send("project.started", { project });
+  };
+
+  return (
+    <CloseButtonPanel
+      container={
+        completingProject || completingProjectSuccess ? undefined : OuterPanel
+      }
+    >
+      {completingProject ? (
+        <Loading text={t("completing.project")} />
+      ) : completingProjectSuccess ? (
+        <EffectSuccess state="completingProjectSuccess" />
+      ) : isInactive ? (
+        <InactiveProjectModal
+          state={state}
+          project={project}
+          onClose={onClose}
+          onStart={handleStartProject}
+        />
+      ) : (
+        <ProjectModal
+          state={state}
+          project={project}
+          onClose={onClose}
+          onComplete={handleComplete}
+          cheers={projectCheers}
+        />
+      )}
+    </CloseButtonPanel>
+  );
+};
+
+/** The collectibles drawn as village projects (rather than monuments). */
+export const isVillageProject = (name: string): name is VillageProjectName =>
+  name in REWARD_ITEMS;
+
 export const Project: React.FC<ProjectProps> = (input) => {
   const { isVisiting } = useVisiting();
   const { gameService } = useContext(Context);
-  const { t } = useAppTranslation();
 
   const projectCheers = useSelector(gameService, _cheers(input.project));
   const isInactive = useSelector(gameService, _isInactive(input.project));
@@ -577,11 +659,6 @@ export const Project: React.FC<ProjectProps> = (input) => {
   const hasCheeredProjectToday = useSelector(
     gameService,
     _hasCheeredToday(input.project),
-  );
-  const completingProject = useSelector(gameService, _completingProject);
-  const completingProjectSuccess = useSelector(
-    gameService,
-    _completingProjectSuccess,
   );
 
   const totalHelpedToday = useSelector(
@@ -598,35 +675,6 @@ export const Project: React.FC<ProjectProps> = (input) => {
 
   const [showHelped, setShowHelped] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
-
-  const handleComplete = () => {
-    /**
-     * A raffle project also pays out the winner, which is another player's
-     * farm, so it has to be settled server side. Everything else is purely the
-     * owner's own state: complete it locally and let autosave catch up.
-     */
-    if (hasProjectRaffle(input.project)) {
-      gameService.send("project.completed", {
-        effect: {
-          type: "project.completed",
-          project: input.project,
-        },
-      });
-
-      return;
-    }
-
-    // Keep the modal open: collecting clears the project, so it switches to
-    // the start prompt and the player can begin the next one right away.
-    gameService.send("project.collected", { project: input.project });
-  };
-
-  const handleStartProject = () => {
-    setShowDetails(false);
-    gameService.send("project.started", {
-      project: input.project,
-    });
-  };
 
   // V2 - local only event
   const handleHelpProject = async () => {
@@ -747,34 +795,10 @@ export const Project: React.FC<ProjectProps> = (input) => {
       </>
 
       <Modal show={showDetails} onHide={() => setShowDetails(false)}>
-        <CloseButtonPanel
-          container={
-            completingProject || completingProjectSuccess
-              ? undefined
-              : OuterPanel
-          }
-        >
-          {completingProject ? (
-            <Loading text={t("completing.project")} />
-          ) : completingProjectSuccess ? (
-            <EffectSuccess state="completingProjectSuccess" />
-          ) : isInactive ? (
-            <InactiveProjectModal
-              state={state}
-              project={input.project}
-              onClose={() => setShowDetails(false)}
-              onStart={handleStartProject}
-            />
-          ) : (
-            <ProjectModal
-              state={state}
-              project={input.project}
-              onClose={() => setShowDetails(false)}
-              onComplete={handleComplete}
-              cheers={projectCheers}
-            />
-          )}
-        </CloseButtonPanel>
+        <ProjectDetails
+          project={input.project}
+          onClose={() => setShowDetails(false)}
+        />
       </Modal>
     </>
   );
