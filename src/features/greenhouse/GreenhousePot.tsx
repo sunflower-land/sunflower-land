@@ -35,6 +35,9 @@ import {
   getGreenhouseGlowWindows,
 } from "features/game/lib/boostWindows";
 import { useNodeTimer } from "features/game/lib/useNodeTimer";
+import { useNow } from "lib/utils/hooks/useNow";
+import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
+import { hasFeatureAccess } from "lib/flags";
 import { GREENHOUSE_CROP_TIME_SECONDS } from "features/game/lib/greenhouseGrowTimes";
 import {
   ITEM_DETAILS,
@@ -193,6 +196,13 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
     windows: boostWindows,
     fallbackReadyAt: readyAt,
     live: !!growingPlant,
+  });
+  // `now` stops at readyAt, but under Weather the yield depends on the time
+  // (the insect plague), so the harvest popup reads its own live clock.
+  const weatherOn = hasFeatureAccess(state, "WEATHER");
+  const yieldNow = useNow({
+    live: weatherOn && !!growingPlant,
+    intervalMs: PRE_ACTION_TICK_MS,
   });
 
   // Remaining WORK — drives the progress fill and the "is it still growing"
@@ -379,7 +389,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
           prngArgs: { farmId, counter: activityCount },
           crop: pot.plant.name,
           game: state,
-          createdAt: now,
+          createdAt: weatherOn ? yieldNow : now,
           fertiliser: potFertiliser?.name,
         }).amount,
     );
