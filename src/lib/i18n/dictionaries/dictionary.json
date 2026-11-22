@@ -258,6 +258,7 @@
   "auction.raffle.claim": "Claim",
   "auction.raffle.levelShort": "Lvl{{level}}",
   "auction.title": "Auctions",
+  "auction.noWallet": "You need to link a wallet before you can bid in an auction.",
   "auction.addToCalendar": "Add to calendar",
   "auction.calendarEventTitle": "Sunflower Land auction: {{item}}",
   "auction.results": "Results",

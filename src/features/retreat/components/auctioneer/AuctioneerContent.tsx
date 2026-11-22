@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import type { Bid, GameState } from "features/game/types/game";
 import type {
@@ -23,6 +23,10 @@ import { GameWallet } from "features/wallet/Wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "features/auth/components";
 import { useScrollRestoration } from "lib/utils/hooks/useScrollRestoration";
+import { Context } from "features/game/GameProvider";
+import type { MachineState } from "features/game/lib/gameMachine";
+
+const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
 
 interface Props {
   auctionService: MachineInterpreter;
@@ -36,8 +40,11 @@ export const AuctioneerContent: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
   const [auctioneerState, send] = useActor(auctionService);
+  const { gameService } = useContext(Context);
+  const linkedWallet = useSelector(gameService, _linkedWallet);
 
   const [selectedAuctionId, setSelectedAuctionId] = useState<string>();
+  const [showLinkWallet, setShowLinkWallet] = useState(false);
   const { scrollContainerRef, handleScroll } =
     useScrollRestoration<HTMLDivElement>();
 
@@ -76,15 +83,25 @@ export const AuctioneerContent: React.FC<Props> = ({
     );
   }
 
-  if (auctioneerState.matches("noAccess")) {
+  if (auctioneerState.matches("noWallet") && showLinkWallet) {
     return (
-      <GameWallet action="auction">
-        <div className="p-2">
-          <Button onClick={() => auctionService.send("REFRESH")}>
-            {t("continue")}
-          </Button>
-        </div>
-      </GameWallet>
+      <>
+        <p className="text-sm p-2">{t("auction.noWallet")}</p>
+        <GameWallet action="auction">
+          <div className="p-2">
+            <Button
+              onClick={() =>
+                auctionService.send({
+                  type: "REFRESH",
+                  linkedAddress: linkedWallet,
+                })
+              }
+            >
+              {t("continue")}
+            </Button>
+          </div>
+        </GameWallet>
+      </>
     );
   }
 
@@ -183,6 +200,12 @@ export const AuctioneerContent: React.FC<Props> = ({
         auction={auction}
         game={gameState}
         onDraftBid={() => {
+          // Bidding needs a linked wallet
+          if (auctioneerState.matches("noWallet")) {
+            setShowLinkWallet(true);
+            return;
+          }
+
           auctionService.send("DRAFT_BID");
         }}
         isUpcomingItem={false}
