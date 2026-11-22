@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 
 import { useActor, useSelector } from "@xstate/react";
 import { Button } from "components/ui/Button";
+import { Label } from "components/ui/Label";
 import type { Bid, GameState } from "features/game/types/game";
 import type {
   AuctionResults,
@@ -90,12 +91,13 @@ export const AuctioneerContent: React.FC<Props> = ({
         <GameWallet action="auction">
           <div className="p-2">
             <Button
-              onClick={() =>
+              onClick={() => {
+                setShowLinkWallet(false);
                 auctionService.send({
                   type: "REFRESH",
                   linkedAddress: linkedWallet,
-                })
-              }
+                });
+              }}
             >
               {t("continue")}
             </Button>
@@ -190,37 +192,54 @@ export const AuctioneerContent: React.FC<Props> = ({
     );
   }
 
+  // Bidding needs a linked wallet, so say so before the player picks an auction
+  const walletNotice = auctioneerState.matches("noWallet") && (
+    <div className="flex flex-col items-start p-1 mb-1">
+      <Label type="danger" className="mb-1">
+        {t("auction.walletRequired")}
+      </Label>
+      <Button onClick={() => setShowLinkWallet(true)}>
+        {t("linkedAccounts.linkWallet")}
+      </Button>
+    </div>
+  );
+
   if (selectedAuctionId) {
     const auction = auctioneerState.context.auctions.find(
       (auction) => auction.auctionId === selectedAuctionId,
     ) as IAuction;
 
     return (
-      <AuctionDetails
-        auction={auction}
-        game={gameState}
-        onDraftBid={() => {
-          // Bidding needs a linked wallet
-          if (auctioneerState.matches("noWallet")) {
-            setShowLinkWallet(true);
-            return;
-          }
+      <>
+        {walletNotice}
+        <AuctionDetails
+          auction={auction}
+          game={gameState}
+          onDraftBid={() => {
+            if (auctioneerState.matches("noWallet")) {
+              setShowLinkWallet(true);
+              return;
+            }
 
-          auctionService.send("DRAFT_BID");
-        }}
-        isUpcomingItem={false}
-        onBack={() => setSelectedAuctionId(undefined)}
-      />
+            auctionService.send("DRAFT_BID");
+          }}
+          isUpcomingItem={false}
+          onBack={() => setSelectedAuctionId(undefined)}
+        />
+      </>
     );
   }
 
   return (
-    <Auctions
-      auctionService={auctionService}
-      onSelect={(id) => setSelectedAuctionId(id)}
-      game={gameState}
-      scrollContainerRef={scrollContainerRef}
-      onScroll={handleScroll}
-    />
+    <>
+      {walletNotice}
+      <Auctions
+        auctionService={auctionService}
+        onSelect={(id) => setSelectedAuctionId(id)}
+        game={gameState}
+        scrollContainerRef={scrollContainerRef}
+        onScroll={handleScroll}
+      />
+    </>
   );
 };
