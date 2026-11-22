@@ -93,6 +93,17 @@ export const AuctioneerContent: React.FC<Props> = ({
             <Button
               onClick={() => {
                 setShowLinkWallet(false);
+
+                // Linking a wallet or minting the farm NFT leaves the game
+                // waiting on its success screen
+                const game = gameService.getSnapshot();
+                if (
+                  game.matches("linkingWalletSuccess") ||
+                  game.matches("assigningNFTSuccess")
+                ) {
+                  gameService.send("CONTINUE");
+                }
+
                 auctionService.send({
                   type: "REFRESH",
                   linkedAddress: linkedWallet,
