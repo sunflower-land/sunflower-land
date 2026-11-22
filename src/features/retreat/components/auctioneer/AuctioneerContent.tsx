@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { useActor, useSelector } from "@xstate/react";
 import { Button } from "components/ui/Button";
@@ -28,6 +28,8 @@ import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
+const _walletStepDone = (state: MachineState) =>
+  state.matches("linkingWalletSuccess") || state.matches("assigningNFTSuccess");
 
 interface Props {
   auctionService: MachineInterpreter;
@@ -46,6 +48,16 @@ export const AuctioneerContent: React.FC<Props> = ({
 
   const [selectedAuctionId, setSelectedAuctionId] = useState<string>();
   const [showLinkWallet, setShowLinkWallet] = useState(false);
+
+  // The wallet prompt replaces the screens that normally confirm a linked
+  // wallet or minted farm NFT, so move the game on as soon as either succeeds
+  const walletStepDone = useSelector(gameService, _walletStepDone);
+  const isLinkingWallet = auctioneerState.matches("noWallet") && showLinkWallet;
+  useEffect(() => {
+    if (isLinkingWallet && walletStepDone) {
+      gameService.send("CONTINUE");
+    }
+  }, [isLinkingWallet, walletStepDone, gameService]);
   const { scrollContainerRef, handleScroll } =
     useScrollRestoration<HTMLDivElement>();
 
@@ -93,16 +105,6 @@ export const AuctioneerContent: React.FC<Props> = ({
             <Button
               onClick={() => {
                 setShowLinkWallet(false);
-
-                // Linking a wallet or minting the farm NFT leaves the game
-                // waiting on its success screen
-                const game = gameService.getSnapshot();
-                if (
-                  game.matches("linkingWalletSuccess") ||
-                  game.matches("assigningNFTSuccess")
-                ) {
-                  gameService.send("CONTINUE");
-                }
 
                 auctionService.send({
                   type: "REFRESH",
