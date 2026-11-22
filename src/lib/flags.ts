@@ -88,6 +88,13 @@ export const TIME_BASED_FEATURE_FLAG_WINDOWS = {
     start: new Date("2026-08-10T00:00:00Z"),
     end: new Date("2026-11-02T00:00:00Z"),
   },
+  // Cave Dwellers chapter VIP perk: a 10% chance of +1 Beetle per Beetle tile.
+  // Live from Mon 9th Nov 2026 (when the chapter's tasks begin) until the
+  // chapter ends - the end date must match CHAPTERS["Cave Dwellers"].endDate.
+  CAVE_DWELLERS_VIP_BEETLE: {
+    start: new Date("2026-11-09T00:00:00Z"),
+    end: new Date("2027-02-01T00:00:00Z"),
+  },
 } satisfies Record<string, TimeBasedFeatureWindow>;
 
 /** All time-based flags receive the full window; start-only helpers ignore `end`. */
@@ -105,6 +112,7 @@ export const TIME_BASED_FEATURE_FLAGS: Record<
   TICKETS_FROM_FLOWER_NPC: timePeriodFeatureFlag,
   HALLOWEEN_2026_EVENT_FLAG: betaTimePeriodFeatureFlag,
   ASCENSION_AGE_VIP_EXPANSION: timePeriodFeatureFlag,
+  CAVE_DWELLERS_VIP_BEETLE: timePeriodFeatureFlag,
 };
 
 /**

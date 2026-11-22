@@ -822,7 +822,8 @@ export type CriticalHitName =
   | InventoryItemName
   | BumpkinRevampSkillName
   | BumpkinItem
-  | "Native";
+  | "Native"
+  | "VIP Access";
 
 export type CriticalHit = Partial<Record<CriticalHitName, number>>;
 

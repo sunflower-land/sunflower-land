@@ -27,6 +27,10 @@ import type { TreasureToolName } from "features/game/types/tools";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { KNOWN_IDS } from "features/game/types";
 import { prngChance } from "lib/prng";
+import {
+  hasVipBeetleBonus,
+  VIP_BEETLE_BONUS_CHANCE,
+} from "features/game/lib/vipAccess";
 
 export type DigCaveTileAction = {
   type: "cave.dug";
@@ -179,7 +183,23 @@ export function awardCaveTile({
     })
   ) {
     items = { [name]: (items[name] ?? 0) + 1 };
-    boostsUsed = [{ name: "Twin Beetles", value: "+1" }];
+    boostsUsed = [...boostsUsed, { name: "Twin Beetles", value: "+1" }];
+  }
+
+  // Cave Dwellers chapter VIP perk: its own roll, so it stacks with Twin Beetles.
+  if (
+    tile.type === "Beetle" &&
+    hasVipBeetleBonus({ game, now: createdAt }) &&
+    prngChance({
+      farmId,
+      itemId: KNOWN_IDS[name as BeetleName],
+      counter: getCaveTilesDug(game),
+      chance: VIP_BEETLE_BONUS_CHANCE,
+      criticalHitName: "VIP Access",
+    })
+  ) {
+    items = { [name]: (items[name] ?? 0) + 1 };
+    boostsUsed = [...boostsUsed, { name: "VIP Access", value: "+1" }];
   }
 
   game.boostsUsedAt = updateBoostUsed({

@@ -101,3 +101,24 @@ export const hasVipExpansionSpeedBoost = ({
     game,
     now,
   });
+
+/** Cave Dwellers chapter perk: % chance of +1 Beetle per Beetle tile dug. */
+export const VIP_BEETLE_BONUS_CHANCE = 10;
+
+/**
+ * Whether the Cave Dwellers VIP Beetle perk applies at `now` - the player
+ * holds VIP and the chapter's boost window is open.
+ */
+export const hasVipBeetleBonus = ({
+  game,
+  now,
+}: {
+  game: GameState;
+  now: number;
+}): boolean =>
+  hasVipAccess({ game, now }) &&
+  hasTimeBasedFeatureAccess({
+    featureName: "CAVE_DWELLERS_VIP_BEETLE",
+    game,
+    now,
+  });
