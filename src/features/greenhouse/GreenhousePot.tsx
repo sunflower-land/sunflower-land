@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import Decimal from "decimal.js-light";
 import { Transition } from "@headlessui/react";
 import classNames from "classnames";
 
@@ -28,7 +29,6 @@ import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { ProgressBar } from "components/ui/ProgressBar";
-import { getGreenhouseCropYieldAmount } from "features/game/events/landExpansion/harvestGreenHouse";
 import { getGreenhouseReadyAt } from "features/game/events/landExpansion/greenhouseReadiness";
 import {
   getGreenhouseBoostWindows,
@@ -89,7 +89,6 @@ interface Props {
 }
 
 const _state = (state: MachineState) => state.context.state;
-const _farmId = (state: MachineState) => state.context.farmId;
 const clampPercentage = (value: number) => Math.min(Math.max(value, 0), 100);
 
 const GreenhousePotFertiliserBadges: React.FC<{
@@ -148,12 +147,6 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
   const [harvestedAmount, setHarvestedAmount] = useState<number>(0);
 
   const state = useSelector(gameService, _state);
-  const farmId = useSelector(gameService, _farmId);
-  const activityCount = useSelector(gameService, (state) => {
-    const cropName = state.context.state.greenhouse.pots[id]?.plant?.name;
-    if (!cropName) return 0;
-    return state.context.state.farmActivity[`${cropName} Harvested`] ?? 0;
-  });
 
   const { inventory, greenhouse } = state;
   const { pots } = greenhouse;
@@ -371,20 +364,15 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
       return;
     }
 
-    setHarvestedName(pot.plant.name);
+    const name = pot.plant.name;
+    const before = state.inventory[name] ?? new Decimal(0);
+    const newState = gameService.send("greenhouse.harvested", { id });
+    // Show what the harvest actually credited: the reducer runs at the click's
+    // time, which a preview clock can lag (the yield can depend on the time).
+    const after = newState.context.state.inventory[name] ?? new Decimal(0);
 
-    setHarvestedAmount(
-      pot.plant.amount ??
-        getGreenhouseCropYieldAmount({
-          prngArgs: { farmId, counter: activityCount },
-          crop: pot.plant.name,
-          game: state,
-          createdAt: now,
-          fertiliser: potFertiliser?.name,
-        }).amount,
-    );
-
-    gameService.send("greenhouse.harvested", { id });
+    setHarvestedName(name);
+    setHarvestedAmount(after.minus(before).toNumber());
 
     if (showAnimations) {
       setShowHarvested(true);

@@ -9,7 +9,12 @@ import type {
   Inventory,
 } from "features/game/types/game";
 import type { BoostWindow } from "features/game/lib/boostWindows";
-import { projectSeconds } from "features/game/lib/timerDisplay";
+import {
+  PRE_ACTION_TICK_MS,
+  projectSeconds,
+} from "features/game/lib/timerDisplay";
+import { useNow } from "lib/utils/hooks/useNow";
+import { hasFeatureAccess } from "lib/flags";
 import { calculateCropProgress } from "./lib/calculateCropProgress";
 import {
   getCropMachineFuelAt,
@@ -127,6 +132,13 @@ export const CropMachineModalContent: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
   const now = useCropMachineLiveNow(queue, { enabled: show });
+  // `now` stops once every pack is ready, but under Weather the yield depends
+  // on the time (the insect plague), so the yield preview reads a live clock.
+  const weatherOn = hasFeatureAccess(state, "WEATHER");
+  const yieldNow = useNow({
+    live: show && weatherOn,
+    intervalMs: PRE_ACTION_TICK_MS,
+  });
   const farmId = useSelector(gameService, _farmId);
   const growingCropPackIndex = useSelector(service, _growingCropPackIndex);
   const idle = useSelector(service, _idle);
@@ -397,7 +409,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
       getPackYieldAmount({
         state,
         pack: selectedPack,
-        createdAt: now,
+        createdAt: weatherOn ? yieldNow : now,
         prngArgs: { farmId, initialCounter },
       }).amount)
     : 0;
