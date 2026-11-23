@@ -397,6 +397,7 @@ export const DeliveryOrders: React.FC<Props> = ({
             return (
               <OrderCard
                 state={state}
+                now={now}
                 key={order.id}
                 order={order}
                 selected={previewOrder}
@@ -447,6 +448,7 @@ export const DeliveryOrders: React.FC<Props> = ({
             return (
               <OrderCard
                 state={state}
+                now={now}
                 key={order.id}
                 order={order}
                 selected={previewOrder}
@@ -478,6 +480,7 @@ export const DeliveryOrders: React.FC<Props> = ({
             return (
               <OrderCard
                 state={state}
+                now={now}
                 key={order.id}
                 order={order}
                 selected={previewOrder}

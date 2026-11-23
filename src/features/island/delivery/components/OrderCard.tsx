@@ -19,7 +19,6 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { Label } from "components/ui/Label";
 import type { Decimal } from "decimal.js-light";
 import { formatNumber } from "lib/utils/formatNumber";
-import { useNow } from "lib/utils/hooks/useNow";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { isTicketNPC } from "features/island/delivery/lib/delivery";
 
@@ -50,6 +49,8 @@ export type OrderCardProps = {
   selected: Order;
   onClick: (id: string) => void;
   state: GameState;
+  /** The parent's live clock, so Double Delivery flips while the card is open. */
+  now: number;
 };
 
 export const OrderCard: React.FC<OrderCardProps> = ({
@@ -57,8 +58,8 @@ export const OrderCard: React.FC<OrderCardProps> = ({
   selected,
   onClick,
   state,
+  now,
 }) => {
-  const now = useNow();
   const npcName = order.from;
   const { holiday } = getBumpkinHoliday({ now });
   const todayDate = new Date(now).toISOString().split("T")[0];

@@ -152,9 +152,10 @@ const OrderCard: React.FC<{
   game: GameState;
   onDeliver: () => void;
   hasRequirementsCheck: (order: Order) => boolean;
-}> = ({ order, game, hasRequirementsCheck }) => {
+  /** The parent's live clock, so Double Delivery flips while the card is open. */
+  now: number;
+}> = ({ order, game, hasRequirementsCheck, now }) => {
   const { balance, coins } = game;
-  const now = useNow();
 
   const makeRewardAmountForLabel = (order: Order) => {
     if (order.reward.sfl !== undefined) {
@@ -1259,6 +1260,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                       order={delivery as Order}
                       hasRequirementsCheck={() => true}
                       onDeliver={deliver}
+                      now={now}
                     />
                     {!delivery.completedAt &&
                       !isLocked &&
