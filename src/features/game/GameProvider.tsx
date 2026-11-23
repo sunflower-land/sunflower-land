@@ -80,15 +80,38 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
 
   useEffect(() => {
     const handleRouteChange = () => {
+      const snapshot = gameService.getSnapshot();
+
       if (
         !window.location.href.includes("visit") &&
-        gameService.getSnapshot().matches("visiting")
+        snapshot.matches("visiting")
       ) {
         gameService.send("END_VISIT");
+        return;
+      }
+
+      // The machine only reads a /visit/:id URL when the session first
+      // loads. A tab already running the game that lands on one without a
+      // reload (a pasted or clicked link only changes the hash, or Back to an
+      // earlier visit) has to start that visit itself, or the farm routes
+      // fall through to "Island not found".
+      if (ART_MODE) return;
+
+      const landId = Number(
+        window.location.hash.match(/^#\/visit\/(\d+)/)?.[1],
+      );
+      if (!landId) return;
+
+      if (
+        snapshot.matches("playing") ||
+        (snapshot.matches("visiting") && snapshot.context.farmId !== landId)
+      ) {
+        gameService.send("VISIT", { landId });
       }
     };
 
     window.addEventListener("popstate", handleRouteChange);
+    window.addEventListener("hashchange", handleRouteChange);
     window.addEventListener("pushstate", handleRouteChange);
     window.addEventListener("replacestate", handleRouteChange);
 
@@ -97,6 +120,7 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
 
     return () => {
       window.removeEventListener("popstate", handleRouteChange);
+      window.removeEventListener("hashchange", handleRouteChange);
       window.removeEventListener("pushstate", handleRouteChange);
       window.removeEventListener("replacestate", handleRouteChange);
     };
