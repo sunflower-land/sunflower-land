@@ -544,7 +544,7 @@ const clearBankedAttachments = (beehives: Beehives) => {
  * same honey, so placing a Lure before Bee Migration (which changes nothing
  * yet) still counts as a rate change.
  */
-const getHoneyRateSchedule = (game: GameState, now: number): string => {
+export const getHoneyRateSchedule = (game: GameState, now: number): string => {
   const times = [
     now,
     ...getWeatherHoneyBoundaries({
@@ -582,9 +582,26 @@ export function refreshBeehivesOnRateChange({
     return gameAfter;
   }
 
-  let beehives = updateProducedHoney({ game: gameAfter, createdAt });
-  beehives = clearBankedAttachments(beehives);
-  beehives = attachFlowers({ game: { ...gameAfter, beehives }, createdAt });
+  return {
+    ...gameAfter,
+    beehives: resettleBeehives({ game: gameAfter, createdAt }),
+  };
+}
 
-  return { ...gameAfter, beehives };
+/**
+ * Bank honey up to `createdAt` at the rates it was made at, then rebuild every
+ * hive's schedule at the rates from now on. For a change the place events
+ * don't cover, e.g. a saved layout placing a rate boost.
+ */
+export function resettleBeehives({
+  game,
+  createdAt,
+}: {
+  game: GameState;
+  createdAt: number;
+}): Beehives {
+  let beehives = updateProducedHoney({ game, createdAt });
+  beehives = clearBankedAttachments(beehives);
+
+  return attachFlowers({ game: { ...game, beehives }, createdAt });
 }

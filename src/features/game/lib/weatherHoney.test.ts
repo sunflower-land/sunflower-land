@@ -1,4 +1,9 @@
 import Decimal from "decimal.js-light";
+import { produce } from "immer";
+import {
+  applyFarmLayout,
+  snapshotFarm,
+} from "../events/landExpansion/lib/layouts";
 import { CONFIG } from "lib/config";
 import { TEST_FARM } from "./constants";
 import type { GameState, PlacedItem } from "../types/game";
@@ -18,6 +23,12 @@ const BEES: ScheduledWeatherEvent = {
   endAt: Date.UTC(2026, 11, 24),
 };
 const MID = BEES.startAt + 24 * HOUR;
+// An earlier Bee Migration, as the server's forecast can still list one.
+const EARLIER_BEES: ScheduledWeatherEvent = {
+  name: "beeMigration",
+  startAt: Date.UTC(2026, 10, 16),
+  endAt: Date.UTC(2026, 10, 19),
+};
 
 const placed = (fields: Partial<PlacedItem> = {}): PlacedItem => ({
   id: "1",
@@ -50,7 +61,7 @@ const farm = (fields: Partial<GameState> = {}): GameState => ({
   flowers: { ...TEST_FARM.flowers, flowerBeds: {} },
   boostHistory: undefined,
   // The client reads the forecast the server sends.
-  weather: { forecast: [BEES], overlays: [] },
+  weather: { forecast: [EARLIER_BEES, BEES], overlays: [] },
   ...fields,
 });
 
@@ -252,6 +263,55 @@ describe("honey during Bee Migration", () => {
 
     // 2h at 1 + 1h at 1.2.
     expect(later.honey.produced).toBeCloseTo(2 * HOUR + 1.2 * HOUR, 0);
+  });
+
+  it("re-splits at the Lure's rate when a saved layout places the Lure", () => {
+    const base = farm();
+    // The layout lifts and puts back the hive and flower bed too.
+    const game: GameState = {
+      ...base,
+      inventory: {
+        ...base.inventory,
+        Beehive: new Decimal(1),
+        "Flower Bed": new Decimal(1),
+      },
+    };
+    const withHive: GameState = {
+      ...game,
+      beehives: { h: hive(game) },
+      flowers: {
+        ...game.flowers,
+        flowerBeds: {
+          f: {
+            createdAt: attachedAt,
+            x: 0,
+            y: 3,
+            flower: { name: "Red Pansy", plantedAt: attachedAt },
+          },
+        },
+      },
+    };
+    // A layout saved with the Lure out, applied before Bee Migration.
+    const withLure = move(withHive, "Wildflower Lure", "placed", attachedAt);
+    const layout = {
+      id: "layout-1",
+      name: "L",
+      createdAt: attachedAt,
+      updatedAt: attachedAt,
+      ...snapshotFarm(withLure),
+    };
+
+    const state = produce(withHive, (draft) => {
+      applyFarmLayout(draft, layout, attachedAt + HOUR);
+    });
+    const after = state.beehives.h.flowers.filter(
+      ({ attachedAt }) => attachedAt >= BEES.startAt,
+    );
+
+    expect(
+      state.collectibles["Wildflower Lure"]?.[0].coordinates,
+    ).toBeDefined();
+    expect(after[0]?.rate).toBe(2.45);
   });
 
   it("re-splits at the Lure's rate when the Lure is placed before the event", () => {
