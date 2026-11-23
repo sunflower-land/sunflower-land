@@ -21,7 +21,10 @@ import {
   GREENHOUSE_SEEDS,
   type GreenHouseCropSeedName,
 } from "features/game/types/crops";
-import { isFullMoon } from "features/game/types/calendar";
+import {
+  getWeatherOverlays,
+  isWeatherOverlayActive,
+} from "features/game/lib/weatherOverlays";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
 import { INVENTORY_LIMIT } from "features/game/lib/constants";
@@ -143,7 +146,15 @@ export function seedBought({ state, action, createdAt = Date.now() }: Options) {
   return produce(state, (stateCopy) => {
     const { item, amount } = action;
 
-    if (isFullMoonBerry(item) && !isFullMoon(state)) {
+    if (
+      isFullMoonBerry(item) &&
+      !isWeatherOverlayActive({
+        game: state,
+        name: "fullMoon",
+        overlays: getWeatherOverlays(state),
+        now: createdAt,
+      })
+    ) {
       throw new Error("Not a full moon");
     }
 

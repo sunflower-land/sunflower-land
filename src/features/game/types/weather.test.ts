@@ -21,7 +21,7 @@ describe("getActiveWeather", () => {
     startAt: WEEK_START + 3 * DAY,
     endAt: WEEK_START + 7 * DAY,
   };
-  const weather: Weather = { forecast: [first, second] };
+  const weather: Weather = { forecast: [first, second], overlays: [] };
 
   it("returns nothing when the farm has no weather", () => {
     expect(

@@ -41,7 +41,11 @@ import {
   getRemainingReels,
   getRodCost,
 } from "features/game/events/landExpansion/castRod";
-import { isFishFrenzy, isFullMoon } from "features/game/types/calendar";
+import { isFishFrenzy } from "features/game/types/calendar";
+import {
+  getWeatherOverlays,
+  isWeatherOverlayActive,
+} from "features/game/lib/weatherOverlays";
 import { SEASON_ICONS } from "../buildings/components/building/market/SeasonalSeeds";
 import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 import { Checkbox } from "components/ui/Checkbox";
@@ -129,6 +133,12 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
   const isVip = useVipAccess({ game: state });
   const currentSeason = state.season.season;
   const now = useNow({ live: true });
+  const isFullMoon = isWeatherOverlayActive({
+    game: state,
+    name: "fullMoon",
+    overlays: getWeatherOverlays(state),
+    now,
+  });
 
   const getGuaranteedOptions = (bait: FishingBait) => {
     return isGuaranteedBait(bait) ? getSeasonalGuaranteedCatch(bait) : [];
@@ -358,7 +368,7 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
                   {t("calendar.events.fishFrenzy.title")}
                 </Label>
               )}
-              {isFullMoon(state) && (
+              {isFullMoon && (
                 <Label icon={fullMoon} type="vibrant">
                   {t("calendar.events.fullMoon.title")}
                 </Label>

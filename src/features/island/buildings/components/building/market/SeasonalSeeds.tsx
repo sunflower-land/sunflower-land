@@ -83,7 +83,10 @@ import {
   CROP_EXTENSION_MOD_II_SEEDS,
   CROP_EXTENSION_MOD_III_SEEDS,
 } from "features/game/events/landExpansion/supplyCropMachine";
-import { isFullMoon } from "features/game/types/calendar";
+import {
+  getWeatherOverlays,
+  isWeatherOverlayActive,
+} from "features/game/lib/weatherOverlays";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { useNow } from "lib/utils/hooks/useNow";
 import {
@@ -124,6 +127,12 @@ export const SeasonalSeeds: React.FC = () => {
   );
 
   const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
+  const isFullMoon = isWeatherOverlayActive({
+    game: state,
+    name: "fullMoon",
+    overlays: getWeatherOverlays(state),
+    now,
+  });
   const isCropWeek = hasChapterCropWeekAccess(state, now);
 
   const [selectedName, setSelectedName] = useState<SeedName>(
@@ -465,14 +474,18 @@ export const SeasonalSeeds: React.FC = () => {
 
   const buyAllPlan = useMemo(
     () =>
-      planSeedPurchases(state, [
-        ...currentSeasonSeeds,
-        ...cropMachineSeeds,
-        ...FULL_MOON_SEEDS,
-        ...(isCropWeek ? [CHAPTER_CROP_WEEK_SEED] : []),
-      ]),
+      planSeedPurchases(
+        state,
+        [
+          ...currentSeasonSeeds,
+          ...cropMachineSeeds,
+          ...FULL_MOON_SEEDS,
+          ...(isCropWeek ? [CHAPTER_CROP_WEEK_SEED] : []),
+        ],
+        now,
+      ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [state, currentSeasonSeeds, cropMachineSeeds, isCropWeek],
+    [state, currentSeasonSeeds, cropMachineSeeds, isCropWeek, now],
   );
 
   const buyAllSeeds = () => {
@@ -652,7 +665,7 @@ export const SeasonalSeeds: React.FC = () => {
               </div>
             </div>
           )}
-          {isFullMoon(state) && (
+          {isFullMoon && (
             <div id="Full Moon Seeds">
               <Label
                 icon={fullMoon}

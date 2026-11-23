@@ -6,7 +6,10 @@ import {
   getBuyPrice,
   isFullMoonBerry,
 } from "features/game/events/landExpansion/seedBought";
-import { isFullMoon } from "features/game/types/calendar";
+import {
+  getWeatherOverlays,
+  isWeatherOverlayActive,
+} from "features/game/lib/weatherOverlays";
 import {
   CHAPTER_CROP_WEEK_SEED,
   hasChapterCropWeekAccess,
@@ -50,6 +53,7 @@ function isSeedLocked(seedName: SeedName, state: GameState) {
 export function planSeedPurchases(
   state: GameState,
   seedNames: SeedName[],
+  now: number,
 ): SeedPurchasePlan {
   let remainingCoins = state.coins;
   const purchases: SeedPurchase[] = [];
@@ -68,7 +72,17 @@ export function planSeedPurchases(
     // during a Full Moon. In practice their stock is 0 outside one anyway,
     // but asserting this directly avoids relying on that as an implicit
     // guarantee.
-    if (isFullMoonBerry(seedName) && !isFullMoon(state)) return;
+    if (
+      isFullMoonBerry(seedName) &&
+      !isWeatherOverlayActive({
+        game: state,
+        name: "fullMoon",
+        overlays: getWeatherOverlays(state),
+        now,
+      })
+    ) {
+      return;
+    }
 
     // Mirrors seedBought.ts exactly: the Chapter Crop Week event seed is
     // only purchasable while the event is active (admin testers get early

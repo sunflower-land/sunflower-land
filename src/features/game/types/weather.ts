@@ -34,9 +34,24 @@ export type ScheduledWeatherEvent = {
   endAt: number;
 };
 
+/**
+ * One-day events that run on top of the weather, and of each other: an
+ * overlay can fall on any weather day.
+ */
+export type WeatherOverlayName = "fullMoon" | "doubleDelivery";
+
+/** `startAt` is inclusive, `endAt` exclusive. */
+export type ScheduledWeatherOverlay = {
+  name: WeatherOverlayName;
+  startAt: number;
+  endAt: number;
+};
+
 export type Weather = {
   /** Built by the server on every load. */
   forecast: ScheduledWeatherEvent[];
+  /** The overlays over the same weeks. Also built by the server on load. */
+  overlays: ScheduledWeatherOverlay[];
 };
 
 /**

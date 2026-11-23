@@ -168,7 +168,7 @@ describe("Weather item placement tracking", () => {
   // The client reads the forecast the server sent.
   const weatherFarm: GameState = {
     ...baseFarm,
-    weather: { forecast: [FLOOD as ScheduledWeatherEvent] },
+    weather: { forecast: [FLOOD as ScheduledWeatherEvent], overlays: [] },
   };
 
   const placeSandbag = (state: GameState, createdAt: number) =>

@@ -78,7 +78,10 @@ import {
 import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { calculateRelationshipPoints } from "features/game/events/landExpansion/giftFlowers";
 import { FriendshipInfoPanel } from "components/ui/FriendshipInfoPanel";
-import { getActiveCalendarEvent } from "features/game/types/calendar";
+import {
+  getWeatherOverlays,
+  isWeatherOverlayActive,
+} from "features/game/lib/weatherOverlays";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
@@ -149,9 +152,10 @@ const OrderCard: React.FC<{
   game: GameState;
   onDeliver: () => void;
   hasRequirementsCheck: (order: Order) => boolean;
-}> = ({ order, game, hasRequirementsCheck }) => {
+  /** The parent's live clock, so Double Delivery flips while the card is open. */
+  now: number;
+}> = ({ order, game, hasRequirementsCheck, now }) => {
   const { balance, coins } = game;
-  const now = useNow();
 
   const makeRewardAmountForLabel = (order: Order) => {
     if (order.reward.sfl !== undefined) {
@@ -921,6 +925,12 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const now = useNow({ live: true, intervalMs: 60_000 });
 
   const game = gameState.context.state;
+  const isDoubleDelivery = isWeatherOverlayActive({
+    game: game,
+    name: "doubleDelivery",
+    overlays: getWeatherOverlays(game),
+    now,
+  });
   const [showFlowers, setShowFlowers] = useState(false);
   const giftedToday = hasGiftedToday(game, npc, now);
   const [showSkipDialog, setShowSkipDialog] = useState(false);
@@ -1193,9 +1203,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
               <div className="px-2 ">
                 <div className="flex flex-col justify-between items-stretch mb-2 gap-1">
                   <div className="flex flex-row justify-between w-full">
-                    {getActiveCalendarEvent({
-                      calendar: gameState.context.state.calendar,
-                    }) === "doubleDelivery" && !hasClaimedBonus ? (
+                    {isDoubleDelivery && !hasClaimedBonus ? (
                       <Label type="vibrant" icon={lightning}>
                         {t("double.rewards.delivery")}
                       </Label>
@@ -1252,6 +1260,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                       order={delivery as Order}
                       hasRequirementsCheck={() => true}
                       onDeliver={deliver}
+                      now={now}
                     />
                     {!delivery.completedAt &&
                       !isLocked &&
