@@ -199,10 +199,13 @@ function reportCommitFailure(
 
   if (isNetworkError(error) || isNetworkError(syncCause)) return;
 
-  // The sync's own cause decides whether this is an outcome we never report.
-  if (isExpectedErrorCode(syncCause)) return;
-
   const detail = getApiErrorDetail(error);
+
+  // Outcomes we never report: the sync's own cause, or what the save
+  // request's status meant (an expired session, maintenance, ...).
+  if (isExpectedErrorCode(syncCause)) return;
+  if (isExpectedErrorCode(detail?.meta?.outcome)) return;
+
   const cause = error instanceof Error ? error.message : String(error);
 
   void createErrorLogger(

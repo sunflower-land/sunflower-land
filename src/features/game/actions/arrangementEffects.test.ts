@@ -188,6 +188,20 @@ describe("commitArrangement", () => {
     });
   });
 
+  it("does not report a save request that met an expected outcome", async () => {
+    (postEffect as jest.Mock).mockRejectedValue(
+      createApiError({
+        code: "EF-001",
+        status: 401,
+        meta: { outcome: ERRORS.SESSION_EXPIRED },
+      }),
+    );
+
+    await expect(commitArrangement(makeService())).rejects.toThrow("EF-001");
+
+    expect(report).not.toHaveBeenCalled();
+  });
+
   it("does not report a conflict", async () => {
     (postEffect as jest.Mock).mockRejectedValue(
       createEffectError(ARRANGEMENT_CONFLICT, { conflicts: [] }),
