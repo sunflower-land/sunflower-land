@@ -147,6 +147,7 @@ export const AuctioneerModal: React.FC<Props> = ({
                 auctionService={auctionService}
                 gameState={gameState}
                 onMint={onMint}
+                hasAuctionAccess={hasAuctionAccess}
               />
             </div>
           </div>

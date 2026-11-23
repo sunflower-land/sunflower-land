@@ -37,11 +37,13 @@ interface Props {
   auctionService: MachineInterpreter;
   gameState: GameState;
   onMint: (id: string) => void;
+  hasAuctionAccess: boolean;
 }
 export const AuctioneerContent: React.FC<Props> = ({
   auctionService,
   gameState,
   onMint,
+  hasAuctionAccess,
 }) => {
   const { t } = useAppTranslation();
   const [auctioneerState, send] = useActor(auctionService);
@@ -207,19 +209,21 @@ export const AuctioneerContent: React.FC<Props> = ({
     );
   }
 
-  // Bidding needs a linked wallet, so say so before the player picks an auction
-  const walletNotice = auctioneerState.matches("noWallet") && (
-    <div className="pt-2 pl-2">
-      <ButtonPanel onClick={() => setShowLinkWallet(true)}>
-        <div className="flex flex-col">
-          <Label type="default" icon={walletIcon}>
-            {t("auction.walletRequired")}
-          </Label>
-          <p className="text-xs">{t("auction.noWallet")}</p>
-        </div>
-      </ButtonPanel>
-    </div>
-  );
+  // Bidding needs a linked wallet, so say so before the player picks an auction.
+  // The reputation notice comes first, so only one notice shows at a time
+  const walletNotice = hasAuctionAccess &&
+    auctioneerState.matches("noWallet") && (
+      <div className="pt-2 pl-2">
+        <ButtonPanel onClick={() => setShowLinkWallet(true)}>
+          <div className="flex flex-col">
+            <Label type="default" icon={walletIcon}>
+              {t("auction.walletRequired")}
+            </Label>
+            <p className="text-xs">{t("auction.noWallet")}</p>
+          </div>
+        </ButtonPanel>
+      </div>
+    );
 
   if (selectedAuctionId) {
     const auction = auctioneerState.context.auctions.find(
