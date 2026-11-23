@@ -18,6 +18,9 @@ import type { Bud } from "features/game/types/buds";
 import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
 import { getMushroomYield } from "features/game/lib/mushrooms";
+import type { BeetleName } from "features/game/types/beetles";
+import type { CaveTileType } from "features/game/types/caveRecipes";
+import { CONFIG } from "lib/config";
 
 // The Cave building, placed and finished: every cave.* event requires it.
 const READY_CAVE = {
@@ -608,6 +611,173 @@ describe("digCaveTile: Cave skills", () => {
       expect(
         dig(state, 0, 0, { farmId: FARM_ID }).inventory.Mud?.toNumber(),
       ).toBe(1);
+    }
+  });
+});
+
+describe("digCaveTile: Cave Dwellers VIP Beetle bonus", () => {
+  // The window's testnet bypass would hide the start date (local .env runs
+  // jest on amoy), so exercise mainnet semantics here.
+  let previousNetwork: (typeof CONFIG)["NETWORK"];
+
+  beforeEach(() => {
+    previousNetwork = CONFIG.NETWORK;
+    CONFIG.NETWORK = "mainnet";
+  });
+
+  afterEach(() => {
+    CONFIG.NETWORK = previousNetwork;
+  });
+
+  const FARM_ID = 7;
+
+  // Golden timestamps for the boost window - if the dates in
+  // TIME_BASED_FEATURE_FLAG_WINDOWS.CAVE_DWELLERS_VIP_BEETLE move, these bite.
+  const BEFORE_START = new Date("2026-11-08T23:59:59Z").getTime();
+  const DURING = new Date("2026-11-22T00:00:00Z").getTime();
+  const AFTER_END = new Date("2027-02-01T00:00:01Z").getTime();
+
+  const withVip = (state: GameState, now: number): GameState => ({
+    ...state,
+    vip: { expiresAt: now + 86400000, bundles: [] },
+  });
+
+  const withTilesDug = (state: GameState, count: number): GameState => ({
+    ...state,
+    farmActivity: { ...state.farmActivity, "Cave Tile Dug": count },
+  });
+
+  const beetleState = () => readyState({ batch: { recipe: "Beetle" } });
+
+  /** The first tile that a dig at or just after `from` finds `type` on. */
+  const findTile = (
+    state: GameState,
+    from: number,
+    type: CaveTileType = "Beetle",
+  ) => {
+    for (let createdAt = from; createdAt < from + 50; createdAt += 1) {
+      for (let y = 0; y < 5; y += 1) {
+        for (let x = 0; x < 5; x += 1) {
+          const tile = resolveCaveTile(boardFor(state, x, y, createdAt), x, y);
+          if (tile.type === type) {
+            const [name] = Object.keys(tile.items) as BeetleName[];
+            return { x, y, createdAt, name };
+          }
+        }
+      }
+    }
+    throw new Error(`No ${type} tile found`);
+  };
+
+  const vipRoll = (name: BeetleName, counter: number) =>
+    prngChance({
+      farmId: FARM_ID,
+      itemId: KNOWN_IDS[name],
+      counter,
+      chance: 10,
+      criticalHitName: "VIP Access",
+    });
+
+  it("gives VIP holders one more Beetle exactly when the 10% roll hits", () => {
+    const { x, y, createdAt, name } = findTile(beetleState(), DURING);
+
+    let hits = 0;
+    for (let counter = 0; counter < 100; counter += 1) {
+      const hit = vipRoll(name, counter);
+      if (hit) hits += 1;
+
+      const next = dig(
+        withTilesDug(withVip(beetleState(), createdAt), counter),
+        x,
+        y,
+        { farmId: FARM_ID, createdAt },
+      );
+      expect(next.inventory[name]?.toNumber()).toBe(hit ? 2 : 1);
+      expect(next.boostsUsedAt?.["VIP Access"]).toBe(
+        hit ? createdAt : undefined,
+      );
+    }
+    expect(hits).toBeGreaterThan(0);
+    expect(hits).toBeLessThan(100);
+  });
+
+  it("stacks with Twin Beetles", () => {
+    const { x, y, createdAt, name } = findTile(beetleState(), DURING);
+    const state = withVip(
+      {
+        ...beetleState(),
+        bumpkin: { ...TEST_FARM.bumpkin, skills: { "Twin Beetles": 3 } },
+      },
+      createdAt,
+    );
+
+    let both = 0;
+    for (let counter = 0; counter < 300; counter += 1) {
+      const vip = vipRoll(name, counter);
+      const twin = prngChance({
+        farmId: FARM_ID,
+        itemId: KNOWN_IDS[name],
+        counter,
+        chance: 15,
+        criticalHitName: "Twin Beetles",
+      });
+      if (vip && twin) both += 1;
+
+      const next = dig(withTilesDug(state, counter), x, y, {
+        farmId: FARM_ID,
+        createdAt,
+      });
+      expect(next.inventory[name]?.toNumber()).toBe(
+        1 + (vip ? 1 : 0) + (twin ? 1 : 0),
+      );
+      expect(next.boostsUsedAt?.["VIP Access"]).toBe(
+        vip ? createdAt : undefined,
+      );
+      expect(next.boostsUsedAt?.["Twin Beetles"]).toBe(
+        twin ? createdAt : undefined,
+      );
+    }
+    expect(both).toBeGreaterThan(0);
+  });
+
+  it.each([
+    ["before the window opens", BEFORE_START],
+    ["after the chapter ends", AFTER_END],
+  ])("gives VIP holders no bonus %s", (_, now) => {
+    const { x, y, createdAt, name } = findTile(beetleState(), now);
+    for (let counter = 0; counter < 50; counter += 1) {
+      const next = dig(
+        withTilesDug(withVip(beetleState(), createdAt), counter),
+        x,
+        y,
+        { farmId: FARM_ID, createdAt },
+      );
+      expect(next.inventory[name]?.toNumber()).toBe(1);
+      expect(next.boostsUsedAt?.["VIP Access"]).toBeUndefined();
+    }
+  });
+
+  it("gives players without VIP no bonus", () => {
+    const { x, y, createdAt, name } = findTile(beetleState(), DURING);
+    for (let counter = 0; counter < 50; counter += 1) {
+      const next = dig(withTilesDug(beetleState(), counter), x, y, {
+        farmId: FARM_ID,
+        createdAt,
+      });
+      expect(next.inventory[name]?.toNumber()).toBe(1);
+      expect(next.boostsUsedAt?.["VIP Access"]).toBeUndefined();
+    }
+  });
+
+  it.each(["Mushroom", "Mud"] as const)("never adds to a %s tile", (type) => {
+    const state = withVip(readyState(), DURING);
+    const { x, y, createdAt } = findTile(state, DURING, type);
+    for (let counter = 0; counter < 50; counter += 1) {
+      const next = dig(withTilesDug(state, counter), x, y, {
+        farmId: FARM_ID,
+        createdAt,
+      });
+      expect(next.boostsUsedAt?.["VIP Access"]).toBeUndefined();
     }
   });
 });

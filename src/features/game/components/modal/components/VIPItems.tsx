@@ -28,6 +28,7 @@ import {
   EXPANSION_VIP_DISCOUNT_FIXED,
   EXPANSION_VIP_DISCOUNT_PERCENT,
   hasLifetimeFarmerBanner,
+  VIP_BEETLE_BONUS_CHANCE,
   VIP_PRICES,
   VIP_TRIAL_PERIOD_MS,
   type VipBundle,
@@ -372,6 +373,16 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
                     {
                       text: t("vip.benefit.expansionSpeed"),
                       icon: SUNNYSIDE.icons.stopwatch,
+                    },
+                  ]
+                : []),
+              ...(currentChapter === "Cave Dwellers"
+                ? [
+                    {
+                      text: t("vip.benefit.beetleBonus", {
+                        percent: VIP_BEETLE_BONUS_CHANCE,
+                      }),
+                      icon: ITEM_DETAILS["Green Beetle"].image,
                     },
                   ]
                 : []),
