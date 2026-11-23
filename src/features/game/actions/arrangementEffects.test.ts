@@ -100,6 +100,19 @@ describe("commitArrangement", () => {
     expect(report).not.toHaveBeenCalled();
   });
 
+  it("reports a sync timeout whatever error the machine last held", async () => {
+    (flushPendingActions as jest.Mock).mockRejectedValue(
+      new Error("SAVE_TIMED_OUT"),
+    );
+
+    await expect(
+      commitArrangement(makeService("Failed to fetch")),
+    ).rejects.toThrow("SAVE_TIMED_OUT");
+
+    expect(report).toHaveBeenCalledTimes(1);
+    expect(report.mock.calls[0][0].meta.syncCause).toBeUndefined();
+  });
+
   it("reports a failed save request", async () => {
     (postEffect as jest.Mock).mockRejectedValue(new Error("EF-001"));
 

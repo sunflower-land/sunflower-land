@@ -175,7 +175,12 @@ function reportCommitFailure(
   const { farmId, actions, landscapingLocation, errorCode } = snapshot.context;
 
   // A failed sync only says SAVE_FAILED; the machine holds what caused it.
-  const syncCause = stage === "flush" ? errorCode : undefined;
+  // A timeout sets nothing there, so an older error must not be read for it.
+  const syncFailed =
+    stage === "flush" &&
+    error instanceof Error &&
+    error.message === "SAVE_FAILED";
+  const syncCause = syncFailed ? errorCode : undefined;
 
   if (isNetworkError(error) || isNetworkError(syncCause)) return;
 
