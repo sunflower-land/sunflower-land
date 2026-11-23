@@ -459,6 +459,13 @@ const attachFlowers = ({ game, createdAt }: AttachFlowers) => {
       flowerDetail.flowerAvailableAt,
     );
 
+    // A flower keeps growing while it waits for the hive: count its time left
+    // from when the attachment starts. One that finished growing first gives
+    // this hive nothing.
+    flowerDetail.availableTime -= attachedAt - flowerDetail.flowerAvailableAt;
+    flowerDetail.flowerAvailableAt = attachedAt;
+    if (flowerDetail.availableTime <= 0) continue;
+
     const { rate, boostsUsed: productionBoostsUsed } = getHoneyRateAt(
       stateCopy,
       createdAt,

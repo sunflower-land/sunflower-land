@@ -117,7 +117,7 @@ describe("updateBeehives", () => {
     expect(Object.values(updatedBeehives)[1].flowers.length).toEqual(1);
   });
 
-  it("attaches two flowers to one beehive", () => {
+  it("doesn't attach a flower that finished growing while the hive was busy", () => {
     const flowerId1 = "123";
     const flowerId2 = "456";
     const beehiveId = "abc";
@@ -156,7 +156,59 @@ describe("updateBeehives", () => {
       createdAt: now,
     });
 
-    expect(updatedBeehives[beehiveId].flowers.length).toEqual(2);
+    // Flower 123 has 5m left and takes the hive until now + 5m. Flower 456 is
+    // ready at now + 2m, before the hive frees up, so it isn't attached.
+    // (Before, it was still attached from now + 5m to now + 7m, after it was
+    // ready, holding the hive for nothing.)
+    expect(updatedBeehives[beehiveId].flowers).toEqual([
+      {
+        id: flowerId1,
+        attachedAt: now,
+        attachedUntil: now + fiveMinutes,
+        rate: 1,
+      },
+    ]);
+  });
+
+  it("attaches a flower that waited for the hive only for the time it has left", () => {
+    const fiveMinutes = 5 * 60 * 1000;
+    const eightMinutes = 8 * 60 * 1000;
+
+    const beehives: Beehives = { abc: { ...DEFAULT_BEEHIVE } };
+    const flowerBeds: FlowerBeds = {
+      "123": {
+        ...DEFAULT_FLOWER_BED,
+        flower: {
+          name: "Red Pansy",
+          plantedAt: now - FLOWER_GROW_TIME + fiveMinutes,
+        },
+      },
+      "456": {
+        ...DEFAULT_FLOWER_BED,
+        flower: {
+          name: "Red Pansy",
+          plantedAt: now - FLOWER_GROW_TIME + eightMinutes,
+        },
+      },
+    };
+
+    const updatedBeehives = updateBeehives({
+      game: { ...TEST_FARM, beehives, flowers: { flowerBeds, discovered: {} } },
+      createdAt: now,
+    });
+
+    // Flower 123 has the hive from now to now + 5m. Flower 456 is ready at
+    // now + 8m, so once the hive frees up it has 3m left: now + 5m → now + 8m
+    // (not the 8m it had at the start, which would run to now + 13m).
+    expect(updatedBeehives.abc.flowers).toEqual([
+      { id: "123", attachedAt: now, attachedUntil: now + fiveMinutes, rate: 1 },
+      {
+        id: "456",
+        attachedAt: now + fiveMinutes,
+        attachedUntil: now + eightMinutes,
+        rate: 1,
+      },
+    ]);
   });
 
   it("attaches one flower to two beehives", () => {
