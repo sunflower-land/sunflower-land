@@ -279,6 +279,38 @@ describe("getWeatherSunShowerWindows", () => {
     ).toBe(SUN.startAt + 10 * HOUR);
   });
 
+  it("keeps the Basic Scarecrow's stored time in step when the Shade Cloth is placed", () => {
+    const next = NEXT_SUN;
+    const plantedAt = next.startAt + HOUR;
+    const base = 10 * HOUR;
+    const game: GameState = {
+      ...farm({
+        "Basic Scarecrow": [placed({ id: "s", coordinates: { x: -4, y: 3 } })],
+      }),
+      crops: {
+        "1": {
+          createdAt: 0,
+          x: -3,
+          y: 3,
+          crop: { name: "Sunflower", plantedAt, baseDurationMs: base },
+        },
+      },
+      aoe: { "Basic Scarecrow": { 1: { 0: plantedAt + base } } },
+    };
+
+    // Placed an hour after planting, during the Sun Shower: the cell's stored
+    // time must match the crop's live ready time (1.3× then 1.6×).
+    const state = move(game, "Shade Cloth", "1", "placed", plantedAt + HOUR);
+
+    expect(state.aoe["Basic Scarecrow"]?.[1]?.[0]).toBe(
+      computeReadyAt({
+        startedAt: plantedAt,
+        baseDurationMs: base,
+        windows: getCropPlotBoostWindows(state),
+      }),
+    );
+  });
+
   describe("without the Weather flag", () => {
     const network = CONFIG.NETWORK;
     beforeAll(() => {
