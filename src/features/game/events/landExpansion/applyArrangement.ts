@@ -1502,11 +1502,18 @@ function placeEntry(
       const next = knownUnplaced
         ? withIsolatedCollectible(state, name, entry.id, run)
         : thaw(run(state));
+      // Tiles and rugs can share a cell, so skip instances that were already
+      // placed before this call - only the one just placed takes the id.
+      const alreadyPlaced = (
+        SURFACES[location].getCollectibles(state)?.[name] ?? []
+      )
+        .filter((c) => !!c.coordinates)
+        .map((c) => c.id);
       const item = SURFACES[location]
         .getCollectibles(next)!
         [
           name
-        ]!.find((c) => !!c.coordinates && c.coordinates.x === coordinates.x && c.coordinates.y === coordinates.y)!;
+        ]!.find((c) => !!c.coordinates && c.coordinates.x === coordinates.x && c.coordinates.y === coordinates.y && !alreadyPlaced.includes(c.id))!;
       // The reducer may have reused another unplaced instance; the arrangement
       // is the contract, so the placed instance takes the requested id.
       item.id = entry.id;
