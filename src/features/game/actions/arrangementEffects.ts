@@ -12,6 +12,12 @@ import { randomID } from "lib/utils/random";
 import { createEffectError, postEffect, type EffectError } from "./effect";
 import { flushPendingActions } from "./layoutEffects";
 import { serializeByKey } from "lib/utils/serializeByKey";
+import {
+  createErrorLogger,
+  isExpectedErrorCode,
+  isNetworkError,
+} from "lib/errorLogger";
+import { getApiErrorDetail } from "lib/apiError";
 
 /**
  * The landscaping sandbox commit. Like the layout effects, this is posted
@@ -123,12 +129,23 @@ async function commitArrangementNow(
   gameService: MachineInterpreter,
   { nextLocation }: { nextLocation?: PlaceableLocation },
 ): Promise<boolean> {
-  await flushPendingActions(gameService);
+  // Which step a failure belongs to: syncing queued actions, or the post.
+  let stage: CommitStage = "flush";
 
-  const { farmId, rawToken, state, landscapingLocation } =
-    gameService.getSnapshot().context;
+  // Read up front: a failed sync leaves landscaping and clears both.
+  const before = gameService.getSnapshot().context;
+  const draft: CommitDraft = {
+    location: before.landscapingLocation ?? "farm",
+    pendingActions: before.actions.length,
+  };
 
   try {
+    await flushPendingActions(gameService);
+    stage = "post";
+
+    const { farmId, rawToken, state, landscapingLocation } =
+      gameService.getSnapshot().context;
+
     const { gameState } = await saveArrangementEffect({
       farmId,
       token: rawToken as string,
@@ -149,6 +166,65 @@ async function commitArrangementNow(
       });
       return false;
     }
+    reportCommitFailure(gameService, e, stage, draft);
     throw e;
   }
+}
+
+type CommitStage = "flush" | "post";
+
+/** What was being saved, as it stood when the commit started. */
+type CommitDraft = { location: PlaceableLocation; pendingActions: number };
+
+/**
+ * The HUD only shows a generic "could not save" message, so the reason is
+ * reported here. Connection problems are left out, as everywhere else.
+ */
+function reportCommitFailure(
+  gameService: MachineInterpreter,
+  error: unknown,
+  stage: CommitStage,
+  draft: CommitDraft,
+) {
+  const snapshot = gameService.getSnapshot();
+  const { farmId, errorCode } = snapshot.context;
+
+  // A failed sync only says SAVE_FAILED; the machine holds what caused it.
+  // A timeout sets nothing there, so an older error must not be read for it.
+  const syncFailed =
+    stage === "flush" &&
+    error instanceof Error &&
+    error.message === "SAVE_FAILED";
+  const syncCause = syncFailed ? errorCode : undefined;
+
+  if (isNetworkError(error) || isNetworkError(syncCause)) return;
+
+  const detail = getApiErrorDetail(error);
+
+  // Outcomes we never report: the sync's own cause, or what the save
+  // request's status meant (an expired session, maintenance, ...).
+  if (isExpectedErrorCode(syncCause)) return;
+  if (isExpectedErrorCode(detail?.meta?.outcome)) return;
+
+  const cause = error instanceof Error ? error.message : String(error);
+
+  void createErrorLogger(
+    "landscaping_save",
+    farmId,
+  )({
+    // Plain errors carry their code as the message (e.g. a rate limit).
+    code: detail?.code ?? cause,
+    message: `Landscaping save failed (${stage}): ${cause}`,
+    status: detail?.status,
+    endpoint: detail?.endpoint,
+    transactionId: detail?.transactionId,
+    stack: error instanceof Error ? error.stack : undefined,
+    meta: {
+      ...detail?.meta,
+      stage,
+      syncCause,
+      ...draft,
+      machineState: JSON.stringify(snapshot.value),
+    },
+  });
 }

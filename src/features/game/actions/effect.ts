@@ -4,6 +4,7 @@ import type { GameState } from "../types/game";
 import { makeGame } from "../lib/transforms";
 import { getRecordHash } from "lib/stateHash";
 import { secureFetch } from "lib/requestToken";
+import { createApiError } from "lib/apiError";
 
 const API_URL = CONFIG.API_URL;
 
@@ -300,6 +301,24 @@ type Request = {
   state?: GameState;
 };
 
+/**
+ * Statuses that are an outcome rather than a fault, named as autosave names
+ * them: an expired session, another device, or planned maintenance.
+ */
+async function getExpectedOutcome(
+  response: Response,
+): Promise<string | undefined> {
+  if (response.status === 401) return ERRORS.SESSION_EXPIRED;
+  if (response.status === 409) return ERRORS.MULTIPLE_DEVICES_OPEN;
+
+  if (response.status === 503) {
+    const body = await response.json().catch(() => null);
+    if (body?.message === "Temporary maintenance") return ERRORS.MAINTENANCE;
+  }
+
+  return undefined;
+}
+
 export async function postEffect(
   request: Request,
 ): Promise<{ gameState: GameState; data: any }> {
@@ -343,7 +362,17 @@ export async function postEffect(
   }
 
   if (response.status !== 200 || !response.ok) {
-    throw new Error(ERRORS.EFFECT_SERVER_ERROR);
+    // Same message as before; the request details ride along for reporting,
+    // with what the status means where autosave gives it a meaning.
+    const outcome = await getExpectedOutcome(response);
+
+    throw createApiError({
+      code: ERRORS.EFFECT_SERVER_ERROR,
+      status: response.status,
+      endpoint: "POST /event",
+      transactionId: request.transactionId,
+      ...(outcome ? { meta: { outcome } } : {}),
+    });
   }
 
   const { gameState, data } = await response.json();
