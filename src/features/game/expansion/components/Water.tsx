@@ -19,7 +19,12 @@ import { RestockBoat } from "./RestockBoat";
 import fins1 from "assets/decorations/fins_yellow.webp";
 import fins2 from "assets/decorations/fins_green.webp";
 import fins3 from "assets/decorations/fins2.webp";
-import { getActiveCalendarEvent } from "features/game/types/calendar";
+import {
+  getWeatherOverlays,
+  isWeatherOverlayActive,
+} from "features/game/lib/weatherOverlays";
+import { useNow } from "lib/utils/hooks/useNow";
+import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
 import { useVisiting } from "lib/utils/visitUtils";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
@@ -29,7 +34,7 @@ interface Props {
   expansionCount: number;
 }
 
-const _calendar = (state: MachineState) => state.context.state.calendar;
+const _game = (state: MachineState) => state.context.state;
 const _season = (state: MachineState) => state.context.state.season.season;
 const _laTomatina = (state: MachineState) =>
   state.context.state.specialEvents.current["La Tomatina"];
@@ -39,11 +44,17 @@ export const WaterComponent: React.FC<Props> = ({ expansionCount }) => {
   // As the land gets bigger, push the water decorations out
   const offset = Math.ceil((Math.sqrt(expansionCount) * LAND_WIDTH) / 2);
 
-  const calendar = useSelector(gameService, _calendar);
+  const game = useSelector(gameService, _game);
   const season = useSelector(gameService, _season);
   const laTomatina = useSelector(gameService, _laTomatina);
 
-  const weather = getActiveCalendarEvent({ calendar });
+  const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
+  const isFullMoon = isWeatherOverlayActive({
+    game,
+    name: "fullMoon",
+    overlays: getWeatherOverlays(game),
+    now,
+  });
   const { isVisiting } = useVisiting();
 
   return (
@@ -74,7 +85,7 @@ export const WaterComponent: React.FC<Props> = ({ expansionCount }) => {
           <SharkBumpkin x={-8} y={offset + 10} />
 
           {/* Marine Marvels when Full Moon */}
-          {weather === "fullMoon" && (
+          {isFullMoon && (
             <>
               <MapPlacement x={-7 - offset} y={9} width={2}>
                 <img
