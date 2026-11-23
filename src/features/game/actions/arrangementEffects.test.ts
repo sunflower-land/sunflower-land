@@ -26,7 +26,7 @@ jest.mock("lib/errorLogger", () => ({
 
 const FARM_ID = 123;
 
-const makeService = () =>
+const makeService = (errorCode?: string) =>
   ({
     getSnapshot: () => ({
       value: "landscaping",
@@ -36,6 +36,7 @@ const makeService = () =>
         state: INITIAL_FARM,
         landscapingLocation: "farm",
         actions: [{}, {}],
+        errorCode,
       },
     }),
     send: jest.fn(),
@@ -71,6 +72,32 @@ describe("commitArrangement", () => {
         machineState: '"landscaping"',
       },
     });
+  });
+
+  it("reports what made the sync fail", async () => {
+    (flushPendingActions as jest.Mock).mockRejectedValue(
+      new Error("SAVE_FAILED"),
+    );
+
+    await expect(commitArrangement(makeService("AS-001"))).rejects.toThrow(
+      "SAVE_FAILED",
+    );
+
+    expect(report.mock.calls[0][0]).toMatchObject({
+      meta: { stage: "flush", syncCause: "AS-001" },
+    });
+  });
+
+  it("does not report a sync that failed on a connection problem", async () => {
+    (flushPendingActions as jest.Mock).mockRejectedValue(
+      new Error("SAVE_FAILED"),
+    );
+
+    await expect(
+      commitArrangement(makeService("Failed to fetch")),
+    ).rejects.toThrow("SAVE_FAILED");
+
+    expect(report).not.toHaveBeenCalled();
   });
 
   it("reports a failed save request", async () => {

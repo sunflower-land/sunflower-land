@@ -171,10 +171,14 @@ function reportCommitFailure(
   error: unknown,
   stage: CommitStage,
 ) {
-  if (isNetworkError(error)) return;
-
   const snapshot = gameService.getSnapshot();
-  const { farmId, actions, landscapingLocation } = snapshot.context;
+  const { farmId, actions, landscapingLocation, errorCode } = snapshot.context;
+
+  // A failed sync only says SAVE_FAILED; the machine holds what caused it.
+  const syncCause = stage === "flush" ? errorCode : undefined;
+
+  if (isNetworkError(error) || isNetworkError(syncCause)) return;
+
   const detail = getApiErrorDetail(error);
   const cause = error instanceof Error ? error.message : String(error);
 
@@ -192,6 +196,7 @@ function reportCommitFailure(
     meta: {
       ...detail?.meta,
       stage,
+      syncCause,
       location: landscapingLocation ?? "farm",
       pendingActions: actions.length,
       machineState: JSON.stringify(snapshot.value),
