@@ -4003,46 +4003,58 @@ describe("harvest", () => {
       expect(state.inventory.Cabbage).toEqual(new Decimal(2));
     });
 
-    it("gives +1 and guardian boost when Bountiful Harvest and Spring Guardian active", () => {
-      const state = harvest({
-        state: {
-          ...GAME_STATE,
-          bumpkin: TEST_BUMPKIN,
-          inventory: { "Sunflower Seed": new Decimal(1) },
-          season: { season: "spring", startedAt: 0 },
-          calendar: {
-            ...GAME_STATE.calendar,
-            bountifulHarvest: {
-              startedAt: dateNow - 1000,
-              triggeredAt: dateNow,
-            },
-          },
-          collectibles: {
-            "Spring Guardian": [
-              {
-                id: "123",
-                createdAt: dateNow,
-                coordinates: { x: 1, y: 1 },
-                readyAt: dateNow - 5 * 60 * 1000,
-              },
-            ],
-          },
-          crops: {
-            [firstId]: {
-              ...GAME_STATE.crops[firstId],
-              crop: {
-                name: "Sunflower",
-                plantedAt:
-                  dateNow - (CROPS["Sunflower"].harvestSeconds ?? 0) * 1000,
-              },
-            },
-          },
-        },
-        createdAt: dateNow,
-        action: { type: "crop.harvested", index: firstId },
+    // The calendar Bountiful Harvest: with the Weather flag (on in jest) it comes
+    // from the weather schedule instead (weatherWindfalls.test.ts).
+    describe("calendar Bountiful Harvest (Weather flag off)", () => {
+      const network = CONFIG.NETWORK;
+      beforeAll(() => {
+        CONFIG.NETWORK = "mainnet";
       });
-      expect(state.crops[firstId].crop).toBeUndefined();
-      expect(state.inventory.Sunflower).toEqual(new Decimal(3));
+      afterAll(() => {
+        CONFIG.NETWORK = network;
+      });
+
+      it("gives +1 and guardian boost when Bountiful Harvest and Spring Guardian active", () => {
+        const state = harvest({
+          state: {
+            ...GAME_STATE,
+            bumpkin: TEST_BUMPKIN,
+            inventory: { "Sunflower Seed": new Decimal(1) },
+            season: { season: "spring", startedAt: 0 },
+            calendar: {
+              ...GAME_STATE.calendar,
+              bountifulHarvest: {
+                startedAt: dateNow - 1000,
+                triggeredAt: dateNow,
+              },
+            },
+            collectibles: {
+              "Spring Guardian": [
+                {
+                  id: "123",
+                  createdAt: dateNow,
+                  coordinates: { x: 1, y: 1 },
+                  readyAt: dateNow - 5 * 60 * 1000,
+                },
+              ],
+            },
+            crops: {
+              [firstId]: {
+                ...GAME_STATE.crops[firstId],
+                crop: {
+                  name: "Sunflower",
+                  plantedAt:
+                    dateNow - (CROPS["Sunflower"].harvestSeconds ?? 0) * 1000,
+                },
+              },
+            },
+          },
+          createdAt: dateNow,
+          action: { type: "crop.harvested", index: firstId },
+        });
+        expect(state.crops[firstId].crop).toBeUndefined();
+        expect(state.inventory.Sunflower).toEqual(new Decimal(3));
+      });
     });
 
     // The calendar plague: with the Weather flag (on in jest) the plague comes
