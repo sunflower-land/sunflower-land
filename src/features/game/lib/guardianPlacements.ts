@@ -11,6 +11,7 @@ import {
 import { hasFeatureAccess } from "lib/flags";
 import {
   findUsedEvent,
+  getCoveredWindow,
   getUnsettledFrom,
   getWeatherEvents,
 } from "./weatherItemCover";
@@ -77,18 +78,36 @@ export function syncGuardianPlacements(
       } else if (!placement.coordinates && wasPlaced) {
         const from = before.get(key) ?? 0;
 
-        if (isWeatherItemName(name) && placement.usedUntil === undefined) {
-          const used = findUsedEvent({
+        if (isWeatherItemName(name)) {
+          const events = getWeatherEvents(game);
+
+          if (placement.usedUntil === undefined) {
+            const used = findUsedEvent({
+              game,
+              item: name,
+              from: getUnsettledFrom(placement, from),
+              to: now,
+              events,
+            });
+            if (used) placement.usedUntil = used.endAt;
+          }
+
+          // Keep only the time it covered its event: that is all its
+          // windowed effects read back, and a copy placed back after it was
+          // used covers nothing.
+          const covered = getCoveredWindow({
             game,
             item: name,
-            from: getUnsettledFrom(placement, from),
+            placement,
+            from,
             to: now,
-            events: getWeatherEvents(game),
+            events,
           });
-          if (used) placement.usedUntil = used.endAt;
+          if (covered) appendBoostHistory(game, name, covered, now);
+        } else {
+          appendBoostHistory(game, name, { from, to: now }, now);
         }
 
-        appendBoostHistory(game, name, { from, to: now }, now);
         delete placement.placedAt;
       }
     });
@@ -99,6 +118,19 @@ export function syncGuardianPlacements(
 
     const name = names.find((item) => key.startsWith(`${item}:`));
     if (!name) return;
+
+    if (isWeatherItemName(name)) {
+      const covered = getCoveredWindow({
+        game,
+        item: name,
+        placement: { placedAt },
+        from: placedAt ?? 0,
+        to: now,
+        events: getWeatherEvents(game),
+      });
+      if (covered) appendBoostHistory(game, name, covered, now);
+      return;
+    }
 
     appendBoostHistory(game, name, { from: placedAt ?? 0, to: now }, now);
   });

@@ -15,6 +15,11 @@ import {
   type TemporaryCollectibleName,
 } from "./collectibleBuilt";
 import { getCollectiblesAcrossLocations } from "./getCollectiblesAcrossLocations";
+import { hasFeatureAccess } from "lib/flags";
+import {
+  getWeatherEvents,
+  getWeatherItemCoverWindows,
+} from "./weatherItemCover";
 import type { AnimalType } from "../types/animals";
 import type { CookingBuildingName } from "../types/buildings";
 import type { RockName } from "../types/resources";
@@ -296,6 +301,94 @@ export const getSunshowerWindows = (game: GameState): BoostWindow[] => {
   return [live, ...history];
 };
 
+/** The season Guardian of the season `at` falls in. */
+const getSeasonGuardian = (at: number): SeasonGuardianName | undefined => {
+  const { season } = populateSeason(at);
+
+  return getKeys(GUARDIAN_BOOST).find(
+    (name) => GUARDIAN_BOOST[name].season === season,
+  );
+};
+
+/**
+ * When a Guardian was placed: each placement since its `placedAt` (one placed
+ * before tracking existed counts as placed since 0) and, once lifted, its
+ * `boostHistory` periods (see `syncGuardianPlacements`).
+ */
+const getGuardianPlacedPeriods = (
+  game: GameState,
+  guardian: SeasonGuardianName,
+): { from: number; to: number }[] => [
+  ...getCollectiblesAcrossLocations(game, guardian)
+    .filter((placement) => !!placement.coordinates)
+    .map((placement) => ({
+      from: placement.placedAt ?? 0,
+      to: Number.MAX_SAFE_INTEGER,
+    })),
+  ...(game.boostHistory?.[guardian] ?? []),
+];
+
+/**
+ * Crop growth during a weather Sun Shower: 1.3×, 1.6× while either the Shade
+ * Cloth or the season's Guardian covers it, 2× while both do.
+ */
+export const SUN_SHOWER_SPEED = { base: 1.3, boosted: 1.6, both: 2 } as const;
+
+/**
+ * The crop-plot windows of every scheduled weather Sun Shower (Weather flag).
+ * Each Sun Shower is cut wherever the Shade Cloth's cover or the Guardian's
+ * placement starts or stops, and each piece gets one speed from
+ * `SUN_SHOWER_SPEED`, so the pieces never overlap each other.
+ */
+export const getWeatherSunShowerWindows = (game: GameState): BoostWindow[] => {
+  if (!hasFeatureAccess(game, "WEATHER")) return [];
+
+  const events = getWeatherEvents(game);
+  const cloth = getWeatherItemCoverWindows({
+    game,
+    item: "Shade Cloth",
+    events,
+  });
+  const covers = (periods: { from: number; to: number }[], at: number) =>
+    periods.some((period) => period.from <= at && at < period.to);
+
+  return events
+    .filter((event) => event.name === "sunshower")
+    .flatMap((event) => {
+      const guardian = getSeasonGuardian(event.startAt);
+      const placed = guardian ? getGuardianPlacedPeriods(game, guardian) : [];
+
+      const cuts = [
+        event.startAt,
+        event.endAt,
+        ...[...cloth, ...placed].flatMap(({ from, to }) => [from, to]),
+      ].filter((at) => at >= event.startAt && at <= event.endAt);
+      const points = [...new Set(cuts)].sort((a, b) => a - b);
+
+      const windows: BoostWindow[] = [];
+      points.slice(0, -1).forEach((from, index) => {
+        const to = points[index + 1];
+        const withCloth = covers(cloth, from);
+        const withGuardian = covers(placed, from);
+        const speed =
+          withCloth && withGuardian
+            ? SUN_SHOWER_SPEED.both
+            : withCloth || withGuardian
+              ? SUN_SHOWER_SPEED.boosted
+              : SUN_SHOWER_SPEED.base;
+
+        const last = windows[windows.length - 1];
+        if (last && last.to === from && last.speed === speed) {
+          last.to = to;
+        } else {
+          windows.push({ from, to, speed });
+        }
+      });
+
+      return windows;
+    });
+};
+
 /**
  * A season Guardian's own speed windows: each period a Guardian for the
  * sunshower day's season was placed, clipped to that sunshower. They stack on
@@ -314,23 +407,10 @@ export const getSunshowerGuardianWindows = (
 ): BoostWindow[] =>
   mergeWindows(
     getSunshowerWindows(game).flatMap((sunshower) => {
-      const { season } = populateSeason(sunshower.from);
-      const guardian = getKeys(GUARDIAN_BOOST).find(
-        (name) => GUARDIAN_BOOST[name].season === season,
-      );
+      const guardian = getSeasonGuardian(sunshower.from);
       if (!guardian || (only && guardian !== only)) return [];
 
-      const placed = [
-        ...getCollectiblesAcrossLocations(game, guardian)
-          .filter((placement) => !!placement.coordinates)
-          .map((placement) => ({
-            from: placement.placedAt ?? 0,
-            to: Number.MAX_SAFE_INTEGER,
-          })),
-        ...(game.boostHistory?.[guardian] ?? []),
-      ];
-
-      return placed
+      return getGuardianPlacedPeriods(game, guardian)
         .map((period) => ({
           from: Math.max(period.from, sunshower.from),
           to: Math.min(period.to, sunshower.to),
@@ -379,6 +459,7 @@ export const getCropPlotBoostWindows = (game: GameState): BoostWindow[] => [
   ...getPowerHourWindows(game),
   ...getSunshowerWindows(game),
   ...getSunshowerGuardianWindows(game),
+  ...getWeatherSunShowerWindows(game),
 ];
 
 /**

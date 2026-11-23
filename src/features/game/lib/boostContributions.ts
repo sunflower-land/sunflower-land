@@ -27,6 +27,7 @@ import {
   getPowerHourWindows,
   getSunshowerGuardianWindows,
   getSunshowerWindows,
+  getWeatherSunShowerWindows,
   type BoostWindow,
 } from "./boostWindows";
 import { GUARDIAN_BOOST } from "./getActiveGuardian";
@@ -101,6 +102,9 @@ const cropPlot = (game: GameState, at: number): BoostContribution[] => [
     name: guardian,
     windows: getSunshowerGuardianWindows(game, guardian),
   })),
+  // The weather Sun Shower's pieces already include the Shade Cloth and the
+  // Guardian (1.3× / 1.6× / 2×), so they're credited to it as one.
+  { name: "sunshower", windows: getWeatherSunShowerWindows(game) },
 ];
 
 const tree = (game: GameState, at: number): BoostContribution[] => [

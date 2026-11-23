@@ -208,8 +208,9 @@ describe("Weather item placement tracking", () => {
 
     expect(state.collectibles.Sandbag?.[0].usedUntil).toBe(FLOOD.endAt);
     expect(state.collectibles.Sandbag?.[0].placedAt).toBeUndefined();
+    // Only the time it covered the event is kept.
     expect(state.boostHistory?.Sandbag).toEqual([
-      { from: FLOOD.startAt - HOUR, to: MID_FLOOD },
+      { from: FLOOD.startAt, to: MID_FLOOD },
     ]);
   });
 
@@ -218,6 +219,7 @@ describe("Weather item placement tracking", () => {
     const state = removeSandbag(placed, FLOOD.startAt - HOUR);
 
     expect(state.collectibles.Sandbag?.[0].usedUntil).toBeUndefined();
+    expect(state.boostHistory?.Sandbag).toBeUndefined();
   });
 
   it("keeps the event a copy was used on when it is placed back", () => {
