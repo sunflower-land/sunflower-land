@@ -24,7 +24,10 @@ import { produce } from "immer";
 import type { BumpkinItem } from "features/game/types/bumpkin";
 import { FISH } from "features/game/types/fishing";
 import { hasVipAccess } from "features/game/lib/vipAccess";
-import { getActiveCalendarEvent } from "features/game/types/calendar";
+import {
+  getWeatherOverlays,
+  isWeatherOverlayActive,
+} from "features/game/lib/weatherOverlays";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
@@ -110,7 +113,12 @@ export function generateDeliveryTickets({
 
   // Leave this at the end as it will multiply the whole amount by 2
   if (
-    getActiveCalendarEvent({ calendar: game.calendar }) === "doubleDelivery" &&
+    isWeatherOverlayActive({
+      game,
+      name: "doubleDelivery",
+      overlays: getWeatherOverlays(game),
+      now,
+    }) &&
     !hasClaimedBonus
   ) {
     amount *= 2;
@@ -365,7 +373,12 @@ export function getOrderSellPrice<T>(
 
   // Leave this at the end as it will multiply the whole amount by 2
   if (
-    getActiveCalendarEvent({ calendar: game.calendar }) === "doubleDelivery" &&
+    isWeatherOverlayActive({
+      game,
+      name: "doubleDelivery",
+      overlays: getWeatherOverlays(game),
+      now: now.getTime(),
+    }) &&
     !hasClaimedBonus
   ) {
     mul *= 2;

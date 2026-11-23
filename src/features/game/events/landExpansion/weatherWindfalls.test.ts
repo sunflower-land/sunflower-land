@@ -41,7 +41,7 @@ const farm = (
   collectibles,
   boostHistory: undefined,
   // The client reads the forecast; the server reads the whole schedule.
-  weather: { forecast: [HARVEST, FRENZY] },
+  weather: { forecast: [HARVEST, FRENZY], overlays: [] },
 });
 
 const sunflowers = (game: GameState, createdAt = MID_HARVEST) =>

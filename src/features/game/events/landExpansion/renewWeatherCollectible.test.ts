@@ -269,7 +269,7 @@ describe("renewWeatherCollectible (weather items)", () => {
     } = {},
   ) =>
     renewWeatherCollectible({
-      state: { ...state, weather: { forecast: FORECAST } },
+      state: { ...state, weather: { forecast: FORECAST, overlays: [] } },
       action: {
         type: "weatherCollectible.renewed",
         name: extra.name ?? "Sandbag",

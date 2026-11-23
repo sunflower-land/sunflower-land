@@ -364,8 +364,5 @@ export const CALENDAR_EVENT_ICONS: Record<CalendarEventName, string> = {
   fishFrenzy: fishFrenzy,
 };
 
-export const isFullMoon = (game: GameState) =>
-  getActiveCalendarEvent({ calendar: game.calendar }) === "fullMoon";
-
 export const isFishFrenzy = (game: GameState) =>
   getActiveCalendarEvent({ calendar: game.calendar }) === "fishFrenzy";

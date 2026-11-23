@@ -30,7 +30,7 @@ const farm = (collectibles: GameState["collectibles"] = {}): GameState => ({
   collectibles,
   boostHistory: undefined,
   // The client reads the forecast; the server reads the whole schedule.
-  weather: { forecast: [PLAGUE] },
+  weather: { forecast: [PLAGUE], overlays: [] },
 });
 
 const sunflowers = (game: GameState, createdAt = MID_PLAGUE) =>

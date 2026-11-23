@@ -25,7 +25,7 @@ const GAME_STATE: GameState = {
 
 describe("planSeedPurchases", () => {
   it("plans the max affordable amount of an affordable seed", () => {
-    const plan = planSeedPurchases(GAME_STATE, ["Sunflower Seed"]);
+    const plan = planSeedPurchases(GAME_STATE, ["Sunflower Seed"], Date.now());
 
     expect(plan.purchases).toHaveLength(1);
     expect(plan.purchases[0].seedName).toBe("Sunflower Seed");
@@ -43,16 +43,21 @@ describe("planSeedPurchases", () => {
       bumpkin: { ...INITIAL_BUMPKIN, experience: 100 },
     };
 
-    const plan = planSeedPurchases(state, ["Sunflower Seed", "Pumpkin Seed"]);
+    const plan = planSeedPurchases(
+      state,
+      ["Sunflower Seed", "Pumpkin Seed"],
+      Date.now(),
+    );
 
     expect(plan.purchases.map((p) => p.seedName)).toEqual(["Sunflower Seed"]);
   });
 
   it("does not plan the same seed twice when it appears more than once in the input", () => {
-    const plan = planSeedPurchases(GAME_STATE, [
-      "Sunflower Seed",
-      "Sunflower Seed",
-    ]);
+    const plan = planSeedPurchases(
+      GAME_STATE,
+      ["Sunflower Seed", "Sunflower Seed"],
+      Date.now(),
+    );
 
     expect(plan.purchases).toHaveLength(1);
   });
@@ -73,7 +78,7 @@ describe("planSeedPurchases", () => {
       },
     };
 
-    const plan = planSeedPurchases(state, ["Sunflower Seed"]);
+    const plan = planSeedPurchases(state, ["Sunflower Seed"], Date.now());
 
     expect(plan.purchases).toHaveLength(1);
     expect(plan.purchases[0].price).toBe(0);
@@ -89,7 +94,7 @@ describe("planSeedPurchases", () => {
       },
     };
 
-    const plan = planSeedPurchases(state, ["Sunflower Seed"]);
+    const plan = planSeedPurchases(state, ["Sunflower Seed"], Date.now());
 
     expect(plan.purchases).toHaveLength(0);
   });
@@ -111,7 +116,7 @@ describe("planSeedPurchases", () => {
       },
     };
 
-    const plan = planSeedPurchases(state, ["Tomato Seed"]);
+    const plan = planSeedPurchases(state, ["Tomato Seed"], Date.now());
 
     expect(plan.purchases).toHaveLength(0);
   });
@@ -123,7 +128,7 @@ describe("planSeedPurchases", () => {
     };
 
     // Pumpkin Seed requires level 2
-    const plan = planSeedPurchases(state, ["Pumpkin Seed"]);
+    const plan = planSeedPurchases(state, ["Pumpkin Seed"], Date.now());
 
     expect(plan.purchases).toHaveLength(0);
   });
@@ -137,7 +142,7 @@ describe("planSeedPurchases", () => {
       },
     };
 
-    const plan = planSeedPurchases(state, ["Sunflower Seed"]);
+    const plan = planSeedPurchases(state, ["Sunflower Seed"], Date.now());
 
     expect(plan.purchases).toHaveLength(0);
   });
@@ -151,7 +156,7 @@ describe("planSeedPurchases", () => {
       },
     };
 
-    const plan = planSeedPurchases(state, ["Sunflower Seed"]);
+    const plan = planSeedPurchases(state, ["Sunflower Seed"], Date.now());
 
     expect(plan.purchases).toHaveLength(0);
   });
@@ -170,7 +175,7 @@ describe("planSeedPurchases", () => {
       },
     };
 
-    const plan = planSeedPurchases(state, ["Sunflower Seed"]);
+    const plan = planSeedPurchases(state, ["Sunflower Seed"], Date.now());
 
     expect(plan.purchases).toHaveLength(1);
     expect(plan.purchases[0].amount).toBe(1);
@@ -190,7 +195,7 @@ describe("planSeedPurchases", () => {
       },
     };
 
-    const plan = planSeedPurchases(state, ["Celestine Seed"]);
+    const plan = planSeedPurchases(state, ["Celestine Seed"], Date.now());
 
     expect(plan.purchases).toHaveLength(0);
   });
@@ -207,16 +212,56 @@ describe("planSeedPurchases", () => {
         ...GAME_STATE.stock,
         "Celestine Seed": new Decimal(5),
       },
-      calendar: {
-        ...GAME_STATE.calendar,
-        fullMoon: { startedAt: Date.now(), triggeredAt: Date.now() },
+      weather: {
+        forecast: [],
+        overlays: [
+          {
+            name: "fullMoon",
+            startAt: Date.now() - 60_000,
+            endAt: Date.now() + 60_000,
+          },
+        ],
       },
     };
 
-    const plan = planSeedPurchases(state, ["Celestine Seed"]);
+    const plan = planSeedPurchases(state, ["Celestine Seed"], Date.now());
 
     expect(plan.purchases).toHaveLength(1);
     expect(plan.purchases[0].seedName).toBe("Celestine Seed");
+  });
+
+  describe("without the Weather flag", () => {
+    const network = CONFIG.NETWORK;
+    beforeAll(() => {
+      CONFIG.NETWORK = "mainnet";
+    });
+    afterAll(() => {
+      CONFIG.NETWORK = network;
+    });
+
+    it("includes full moon seeds during a calendar full moon", () => {
+      const state: GameState = {
+        ...GAME_STATE,
+        bumpkin: { ...INITIAL_BUMPKIN, experience: 1_000_000 },
+        inventory: {
+          ...GAME_STATE.inventory,
+          "Fruit Patch": new Decimal(10),
+        },
+        stock: {
+          ...GAME_STATE.stock,
+          "Celestine Seed": new Decimal(5),
+        },
+        calendar: {
+          ...GAME_STATE.calendar,
+          fullMoon: { startedAt: Date.now(), triggeredAt: Date.now() },
+        },
+      };
+
+      const plan = planSeedPurchases(state, ["Celestine Seed"], Date.now());
+
+      expect(plan.purchases).toHaveLength(1);
+      expect(plan.purchases[0].seedName).toBe("Celestine Seed");
+    });
   });
 
   describe("Chapter Crop Week seed", () => {
@@ -251,7 +296,11 @@ describe("planSeedPurchases", () => {
     it("skips the seed for regular players outside of the event window", () => {
       jest.setSystemTime(CHAPTER_CROP_WEEK.startDate.getTime() - 1);
 
-      const plan = planSeedPurchases(stocked, [CHAPTER_CROP_WEEK_SEED]);
+      const plan = planSeedPurchases(
+        stocked,
+        [CHAPTER_CROP_WEEK_SEED],
+        Date.now(),
+      );
 
       expect(plan.purchases).toHaveLength(0);
     });
@@ -259,7 +308,11 @@ describe("planSeedPurchases", () => {
     it("includes the seed for admin testers before the event window", () => {
       jest.setSystemTime(CHAPTER_CROP_WEEK.startDate.getTime() - 1);
 
-      const plan = planSeedPurchases(admin, [CHAPTER_CROP_WEEK_SEED]);
+      const plan = planSeedPurchases(
+        admin,
+        [CHAPTER_CROP_WEEK_SEED],
+        Date.now(),
+      );
 
       expect(plan.purchases).toHaveLength(1);
       expect(plan.purchases[0].seedName).toBe(CHAPTER_CROP_WEEK_SEED);
@@ -268,7 +321,11 @@ describe("planSeedPurchases", () => {
     it("includes the seed for everyone during the event window", () => {
       jest.setSystemTime(CHAPTER_CROP_WEEK.startDate.getTime());
 
-      const plan = planSeedPurchases(stocked, [CHAPTER_CROP_WEEK_SEED]);
+      const plan = planSeedPurchases(
+        stocked,
+        [CHAPTER_CROP_WEEK_SEED],
+        Date.now(),
+      );
 
       expect(plan.purchases).toHaveLength(1);
       expect(plan.purchases[0].seedName).toBe(CHAPTER_CROP_WEEK_SEED);
@@ -278,7 +335,8 @@ describe("planSeedPurchases", () => {
       jest.setSystemTime(CHAPTER_CROP_WEEK.endDate.getTime());
 
       expect(
-        planSeedPurchases(admin, [CHAPTER_CROP_WEEK_SEED]).purchases,
+        planSeedPurchases(admin, [CHAPTER_CROP_WEEK_SEED], Date.now())
+          .purchases,
       ).toHaveLength(0);
     });
   });

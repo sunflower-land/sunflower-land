@@ -63,7 +63,10 @@ import { isMobile } from "mobile-device-detect";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { Context } from "features/game/GameProvider";
-import { getActiveCalendarEvent } from "features/game/types/calendar";
+import {
+  getWeatherOverlays,
+  isWeatherOverlayActive,
+} from "features/game/lib/weatherOverlays";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { useNow } from "lib/utils/hooks/useNow";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
@@ -141,6 +144,12 @@ export const DeliveryOrders: React.FC<Props> = ({
 
   const now = useNow({ live: true });
   const chapterTicket = getChapterTicket(now);
+  const isDoubleDelivery = isWeatherOverlayActive({
+    game: state,
+    name: "doubleDelivery",
+    overlays: getWeatherOverlays(state),
+    now,
+  });
 
   const orders = delivery.orders
     .filter((order) => now >= order.readyAt)
@@ -368,8 +377,7 @@ export const DeliveryOrders: React.FC<Props> = ({
         <div className="p-1">
           <div className="flex justify-between gap-1 flex-wrap w-full">
             <Label type="default">{t("deliveries")}</Label>
-            {getActiveCalendarEvent({ calendar: state.calendar }) ===
-              "doubleDelivery" && (
+            {isDoubleDelivery && (
               <Label type="vibrant" icon={lightning}>
                 {t("double.rewards.deliveries")}
               </Label>
@@ -747,13 +755,11 @@ export const DeliveryOrders: React.FC<Props> = ({
                   {/* Points are displayed below in the purple badge. */}
                 </div>
                 <div className="mb-1">
-                  {getActiveCalendarEvent({ calendar: state.calendar }) ===
-                    "doubleDelivery" &&
-                    !hasClaimedBonus && (
-                      <Label type="vibrant" icon={lightning}>
-                        {t("2x.rewards")}
-                      </Label>
-                    )}
+                  {isDoubleDelivery && !hasClaimedBonus && (
+                    <Label type="vibrant" icon={lightning}>
+                      {t("2x.rewards")}
+                    </Label>
+                  )}
                 </div>
                 <div>
                   {!previewOrder.completedAt &&

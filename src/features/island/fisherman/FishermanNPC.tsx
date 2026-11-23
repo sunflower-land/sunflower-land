@@ -39,7 +39,13 @@ import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import classNames from "classnames";
-import { isFishFrenzy, isFullMoon } from "features/game/types/calendar";
+import { isFishFrenzy } from "features/game/types/calendar";
+import {
+  getWeatherOverlays,
+  isWeatherOverlayActive,
+} from "features/game/lib/weatherOverlays";
+import { useNow } from "lib/utils/hooks/useNow";
+import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
 import { FishermanPuzzle } from "features/island/fisherman/FishingPuzzle";
 import { Panel } from "components/ui/Panel";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
@@ -130,6 +136,13 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
   const canFish = useSelector(gameService, _canFish);
+  const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
+  const isFullMoon = isWeatherOverlayActive({
+    game: state,
+    name: "fullMoon",
+    overlays: getWeatherOverlays(state),
+    now,
+  });
   const readyMarvel = useSelector(gameService, _marvel);
   const { fishing, farmActivity, island } = state;
 
@@ -372,7 +385,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
                 className="absolute pointer-events-none"
               />
             )}
-            {isFullMoon(state) && (
+            {isFullMoon && (
               <img
                 src={fullMoon}
                 style={{

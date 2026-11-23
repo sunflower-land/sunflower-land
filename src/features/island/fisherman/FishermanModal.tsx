@@ -17,7 +17,12 @@ import { type NPCName, NPC_WEARABLES } from "lib/npcs";
 import { FishingGuide } from "./FishingGuide";
 import { getDailyFishingCount } from "features/game/types/fishing";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { isFishFrenzy, isFullMoon } from "features/game/types/calendar";
+import { isFishFrenzy } from "features/game/types/calendar";
+import {
+  getWeatherOverlays,
+  isWeatherOverlayActive,
+} from "features/game/lib/weatherOverlays";
+import { useNow } from "lib/utils/hooks/useNow";
 import { capitalizeFirstLetters } from "lib/utils/capitalize";
 import { FishermanExtras } from "./FishermanExtras";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -75,8 +80,14 @@ export const FishermanModal: React.FC<Props> = ({
     isFishFrenzy(state) && dailyFishingCount === 0,
   );
 
+  const now = useNow();
   const [showFullMoon, setShowFullMoon] = React.useState(
-    isFullMoon(state) && dailyFishingCount === 0,
+    isWeatherOverlayActive({
+      game: state,
+      name: "fullMoon",
+      overlays: getWeatherOverlays(state),
+      now,
+    }) && dailyFishingCount === 0,
   );
 
   type Tab = "fish" | "guide" | "extras";
