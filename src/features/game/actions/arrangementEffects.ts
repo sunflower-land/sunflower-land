@@ -12,7 +12,11 @@ import { randomID } from "lib/utils/random";
 import { createEffectError, postEffect, type EffectError } from "./effect";
 import { flushPendingActions } from "./layoutEffects";
 import { serializeByKey } from "lib/utils/serializeByKey";
-import { createErrorLogger, isNetworkError } from "lib/errorLogger";
+import {
+  createErrorLogger,
+  isExpectedErrorCode,
+  isNetworkError,
+} from "lib/errorLogger";
 import { getApiErrorDetail } from "lib/apiError";
 
 /**
@@ -128,6 +132,13 @@ async function commitArrangementNow(
   // Which step a failure belongs to: syncing queued actions, or the post.
   let stage: CommitStage = "flush";
 
+  // Read up front: a failed sync leaves landscaping and clears both.
+  const before = gameService.getSnapshot().context;
+  const draft: CommitDraft = {
+    location: before.landscapingLocation ?? "farm",
+    pendingActions: before.actions.length,
+  };
+
   try {
     await flushPendingActions(gameService);
     stage = "post";
@@ -155,12 +166,15 @@ async function commitArrangementNow(
       });
       return false;
     }
-    reportCommitFailure(gameService, e, stage);
+    reportCommitFailure(gameService, e, stage, draft);
     throw e;
   }
 }
 
 type CommitStage = "flush" | "post";
+
+/** What was being saved, as it stood when the commit started. */
+type CommitDraft = { location: PlaceableLocation; pendingActions: number };
 
 /**
  * The HUD only shows a generic "could not save" message, so the reason is
@@ -170,9 +184,10 @@ function reportCommitFailure(
   gameService: MachineInterpreter,
   error: unknown,
   stage: CommitStage,
+  draft: CommitDraft,
 ) {
   const snapshot = gameService.getSnapshot();
-  const { farmId, actions, landscapingLocation, errorCode } = snapshot.context;
+  const { farmId, errorCode } = snapshot.context;
 
   // A failed sync only says SAVE_FAILED; the machine holds what caused it.
   // A timeout sets nothing there, so an older error must not be read for it.
@@ -183,6 +198,9 @@ function reportCommitFailure(
   const syncCause = syncFailed ? errorCode : undefined;
 
   if (isNetworkError(error) || isNetworkError(syncCause)) return;
+
+  // The sync's own cause decides whether this is an outcome we never report.
+  if (isExpectedErrorCode(syncCause)) return;
 
   const detail = getApiErrorDetail(error);
   const cause = error instanceof Error ? error.message : String(error);
@@ -202,8 +220,7 @@ function reportCommitFailure(
       ...detail?.meta,
       stage,
       syncCause,
-      location: landscapingLocation ?? "farm",
-      pendingActions: actions.length,
+      ...draft,
       machineState: JSON.stringify(snapshot.value),
     },
   });

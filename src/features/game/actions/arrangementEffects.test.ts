@@ -3,6 +3,7 @@ import { flushPendingActions } from "./layoutEffects";
 import { postEffect, createEffectError } from "./effect";
 import { createErrorLogger } from "lib/errorLogger";
 import { createApiError } from "lib/apiError";
+import { ERRORS } from "lib/errors";
 import type { MachineInterpreter } from "features/game/lib/gameMachine";
 import { INITIAL_FARM } from "features/game/lib/constants";
 
@@ -111,6 +112,47 @@ describe("commitArrangement", () => {
 
     expect(report).toHaveBeenCalledTimes(1);
     expect(report.mock.calls[0][0].meta.syncCause).toBeUndefined();
+  });
+
+  it("does not report a sync that failed on an expected outcome", async () => {
+    (flushPendingActions as jest.Mock).mockRejectedValue(
+      new Error("SAVE_FAILED"),
+    );
+
+    await expect(
+      commitArrangement(makeService(ERRORS.MULTIPLE_DEVICES_OPEN)),
+    ).rejects.toThrow("SAVE_FAILED");
+
+    expect(report).not.toHaveBeenCalled();
+  });
+
+  it("reports the surface and queue as they stood before the sync", async () => {
+    const context = {
+      farmId: FARM_ID,
+      rawToken: "token",
+      state: INITIAL_FARM,
+      landscapingLocation: "level_one" as string | undefined,
+      actions: [{}, {}, {}] as unknown[],
+      errorCode: undefined as string | undefined,
+    };
+    const service = {
+      getSnapshot: () => ({ value: "error", context }),
+      send: jest.fn(),
+    } as unknown as MachineInterpreter;
+
+    // A failed sync leaves landscaping: the machine clears both on the way.
+    (flushPendingActions as jest.Mock).mockImplementation(async () => {
+      context.landscapingLocation = undefined;
+      context.actions = [];
+      context.errorCode = "AS-001";
+      throw new Error("SAVE_FAILED");
+    });
+
+    await expect(commitArrangement(service)).rejects.toThrow("SAVE_FAILED");
+
+    expect(report.mock.calls[0][0]).toMatchObject({
+      meta: { location: "level_one", pendingActions: 3, syncCause: "AS-001" },
+    });
   });
 
   it("reports a failed save request", async () => {
