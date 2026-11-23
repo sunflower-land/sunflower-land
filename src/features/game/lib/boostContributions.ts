@@ -96,14 +96,19 @@ const cropPlot = (game: GameState, at: number): BoostContribution[] => [
   ),
   totems(game, CROP_PLOT_BOOST_SPEED["Super Totem"], at),
   { name: "Power hour", windows: getPowerHourWindows(game) },
-  // Calendar records only count where no weather Sun Shower runs (see
-  // getCalendarSunshowerWindows).
+  // One entry for both Sun Showers. Calendar records only count where no
+  // weather Sun Shower runs (see getCalendarSunshowerWindows), so the two never
+  // overlap. The weather pieces already include the Shade Cloth and the
+  // Guardian (1.3× / 1.6× / 2×).
   {
     name: "sunshower",
-    windows: withoutWindows(
-      getSunshowerWindows(game),
-      getWeatherSunShowerWindows(game),
-    ),
+    windows: [
+      ...withoutWindows(
+        getSunshowerWindows(game),
+        getWeatherSunShowerWindows(game),
+      ),
+      ...getWeatherSunShowerWindows(game),
+    ],
   },
   // Only the Guardian placed during a sunshower speeds crops up, and only for
   // the time it was out — so it gets its own windows, credited to the Guardian.
@@ -114,9 +119,6 @@ const cropPlot = (game: GameState, at: number): BoostContribution[] => [
       getWeatherSunShowerWindows(game),
     ),
   })),
-  // The weather Sun Shower's pieces already include the Shade Cloth and the
-  // Guardian (1.3× / 1.6× / 2×), so they're credited to it as one.
-  { name: "sunshower", windows: getWeatherSunShowerWindows(game) },
 ];
 
 const tree = (game: GameState, at: number): BoostContribution[] => [

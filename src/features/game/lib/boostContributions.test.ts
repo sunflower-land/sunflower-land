@@ -344,3 +344,47 @@ describe("Power Hour attribution", () => {
     expect(names(createdAt + 2 * hour)).toEqual([]);
   });
 });
+
+describe("Sun Shower attribution", () => {
+  it("credits a calendar Sun Shower and the weather one after it as one entry", () => {
+    const start = Date.UTC(2026, 11, 7) - 60 * 60 * 1000;
+    const hour = 60 * 60 * 1000;
+    // A calendar record (2×) covers the start; a weather Sun Shower (1.3×)
+    // begins an hour later and cuts the record off there.
+    const game: GameState = {
+      ...TEST_FARM,
+      boostHistory: {
+        Sunshower: [{ from: start - hour, to: start + 2 * hour }],
+      },
+      weather: {
+        forecast: [
+          {
+            name: "sunshower",
+            startAt: start + hour,
+            endAt: start + 25 * hour,
+          },
+        ],
+        overlays: [],
+      },
+    };
+
+    const contributions = getSeedBoostContributions(
+      game,
+      "Sunflower Seed",
+      start,
+    );
+    expect(
+      contributions.filter(({ name }) => name === "sunshower"),
+    ).toHaveLength(1);
+
+    // 4h of growth: 2h done in the first hour at 2×, the other 2h at 1.3×
+    // take 92m, so it's ready after 152m: 88m saved.
+    const entries = getBoostContributionEntries({
+      contributions,
+      seconds: 4 * 60 * 60,
+      at: start,
+      formatSeconds: (seconds) => `${Math.round(seconds / 60)}m`,
+    });
+    expect(entries).toEqual([{ name: "sunshower", value: "-88m" }]);
+  });
+});
