@@ -455,41 +455,40 @@ export const withoutWindows = (
   );
 
 /**
- * The calendar Sun Shower's windows (and its Guardian's), except where a
- * weather Sun Shower runs: a calendar record left from before the Weather
- * flag never multiplies with it.
- */
-export const getCalendarSunshowerWindows = (game: GameState): BoostWindow[] => {
-  const weather = getWeatherSunShowerWindows(game);
-
-  return withoutWindows(
-    [...getSunshowerWindows(game), ...getSunshowerGuardianWindows(game)],
-    weather,
-  );
-};
-
-/**
  * The windowed speed boosts that apply to (plot) crop growth. Each is its own
  * window so overlapping boosts stack multiplicatively (Sparrow 1.35 × Harvest
  * 1.35 = 1.8225×); placements of the same boost are merged within
  * `getBoostWindows`.
  */
-export const getCropPlotBoostWindows = (game: GameState): BoostWindow[] => [
-  ...getBoostWindows({
-    game,
-    name: "Sparrow Shrine",
-    speed: CROP_PLOT_BOOST_SPEED["Sparrow Shrine"],
-  }),
-  ...getBoostWindows({
-    game,
-    name: "Harvest Hourglass",
-    speed: CROP_PLOT_BOOST_SPEED["Harvest Hourglass"],
-  }),
-  ...getMergedTotemWindows(game, CROP_PLOT_BOOST_SPEED["Super Totem"]),
-  ...getPowerHourWindows(game),
-  ...getCalendarSunshowerWindows(game),
-  ...getWeatherSunShowerWindows(game),
-];
+export const getCropPlotBoostWindows = (game: GameState): BoostWindow[] => {
+  const weather = getWeatherSunShowerWindows(game);
+  // A calendar Sun Shower record (and its Guardian's) only counts where no
+  // weather Sun Shower runs, so one left from before the Weather flag never
+  // multiplies with it.
+  const sunShower = [
+    ...withoutWindows(
+      [...getSunshowerWindows(game), ...getSunshowerGuardianWindows(game)],
+      weather,
+    ),
+    ...weather,
+  ];
+
+  return [
+    ...getBoostWindows({
+      game,
+      name: "Sparrow Shrine",
+      speed: CROP_PLOT_BOOST_SPEED["Sparrow Shrine"],
+    }),
+    ...getBoostWindows({
+      game,
+      name: "Harvest Hourglass",
+      speed: CROP_PLOT_BOOST_SPEED["Harvest Hourglass"],
+    }),
+    ...getMergedTotemWindows(game, CROP_PLOT_BOOST_SPEED["Super Totem"]),
+    ...getPowerHourWindows(game),
+    ...sunShower,
+  ];
+};
 
 /**
  * The windowed speed boosts that apply to tree (wood) recovery. Each is its own

@@ -119,18 +119,10 @@ export function syncGuardianPlacements(
     const name = names.find((item) => key.startsWith(`${item}:`));
     if (!name) return;
 
-    if (isWeatherItemName(name)) {
-      const covered = getCoveredWindow({
-        game,
-        item: name,
-        placement: { placedAt },
-        from: placedAt ?? 0,
-        to: now,
-        events: getWeatherEvents(game),
-      });
-      if (covered) appendBoostHistory(game, name, covered, now);
-      return;
-    }
+    // A deleted weather item keeps nothing: without its record there's no
+    // `usedUntil` to tell which event it covered, and guessing could credit
+    // a used copy with a later one.
+    if (isWeatherItemName(name)) return;
 
     appendBoostHistory(game, name, { from: placedAt ?? 0, to: now }, now);
   });
