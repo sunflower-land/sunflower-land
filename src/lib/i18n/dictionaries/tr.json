@@ -9077,5 +9077,6 @@
   "gameOptions.experiments.savedLayoutsDescription": "Çiftlik düzenlerinizi kaydedin ve aralarında geçiş yapın. Çiftliğinizde çevre düzenlemesini açın ve mevcut düzeninizi kaydetmek veya kaydedilmiş bir düzeni yeniden uygulamak için harita düğmesine dokunun.",
   "gameOptions.experiments.savedLayoutsToggle": "Kaydedilmiş düzenleri etkinleştir",
   "gameOptions.experiments.savedLayoutsDisclaimer": "Yalnızca deneysel özellik. Veriler ve ilerleme önceden haber verilmeksizin sıfırlanabilir veya kaybolabilir. Bunu etkinleştirerek bu riskleri kabul edersiniz ve kendi sorumluluğunuzda ilerlersiniz.",
-  "vip.benefit.beetleBonus": "{{percent}} Mağara Sakinleri Bölümü sırasında Mağaradaki Böcekleri kazarken %+1 Böcek şansı"
+  "vip.benefit.beetleBonus": "{{percent}} Mağara Sakinleri Bölümü sırasında Mağaradaki Böcekleri kazarken %+1 Böcek şansı",
+  "help.increaseLimit.dontAskAgain": "Bugün bana bir daha sorma"
 }

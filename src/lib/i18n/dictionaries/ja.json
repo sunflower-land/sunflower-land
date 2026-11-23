@@ -9077,5 +9077,6 @@
   "gameOptions.experiments.savedLayoutsDescription": "ファームレイアウトを保存して切り替えます。農場の造園を開き、マップボタンをタップして現在のレイアウトを保存するか、保存したレイアウトを再適用します。",
   "gameOptions.experiments.savedLayoutsToggle": "保存したレイアウトを有効にする",
   "gameOptions.experiments.savedLayoutsDisclaimer": "実験的機能のみ。データや進行状況は予告なしにリセットまたは失われる可能性があります。これを有効にすると、これらのリスクを受け入れ、自己責任で続行することになります。",
-  "vip.benefit.beetleBonus": "洞窟住人編で洞窟のカブトムシを掘り起こすと {{percent}} %の確率でビートル1個を獲得できる"
+  "vip.benefit.beetleBonus": "洞窟住人編で洞窟のカブトムシを掘り起こすと {{percent}} %の確率でビートル1個を獲得できる",
+  "help.increaseLimit.dontAskAgain": "今日は二度と聞かないで"
 }

@@ -9077,5 +9077,6 @@
   "gameOptions.experiments.savedLayoutsDescription": "Speichern Sie Ihre Farm-Layouts und wechseln Sie zwischen ihnen. Öffne die Landschaftsgestaltung auf deiner Farm und tippe auf die Kartenschaltfläche, um dein aktuelles Layout zu speichern oder ein gespeichertes Layout erneut anzuwenden.",
   "gameOptions.experiments.savedLayoutsToggle": "Gespeicherte Layouts aktivieren",
   "gameOptions.experiments.savedLayoutsDisclaimer": "Nur experimentelle Funktion. Daten und Fortschritt können ohne vorherige Ankündigung zurückgesetzt werden oder verloren gehen. Wenn Sie dies aktivieren, akzeptieren Sie diese Risiken und fahren auf eigenes Risiko fort.",
-  "vip.benefit.beetleBonus": "{{percent}}% Chance auf +1 Käfer beim Ausgraben von Käfern in der Höhle im Kapitel „Höhlenbewohner“"
+  "vip.benefit.beetleBonus": "{{percent}}% Chance auf +1 Käfer beim Ausgraben von Käfern in der Höhle im Kapitel „Höhlenbewohner“",
+  "help.increaseLimit.dontAskAgain": "Frag mich heute nicht noch einmal"
 }

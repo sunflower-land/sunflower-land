@@ -9077,5 +9077,6 @@
   "gameOptions.experiments.savedLayoutsDescription": "保存您的农场布局并在它们之间切换。在农场上打开园林绿化并点击地图按钮以保存当前布局或重新应用已保存的布局。",
   "gameOptions.experiments.savedLayoutsToggle": "启用保存的布局",
   "gameOptions.experiments.savedLayoutsDisclaimer": "仅限实验功能。数据和进度可能会被重置或丢失，恕不另行通知。启用此功能即表示您接受这些风险，并自担风险。",
-  "vip.benefit.beetleBonus": "{{percent}} 在《洞穴居民》章节中，在洞穴中挖出甲壳虫时，有% 的几率获得 +1 个甲壳虫"
+  "vip.benefit.beetleBonus": "{{percent}} 在《洞穴居民》章节中，在洞穴中挖出甲壳虫时，有% 的几率获得 +1 个甲壳虫",
+  "help.increaseLimit.dontAskAgain": "今天别再问我了"
 }

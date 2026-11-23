@@ -9077,5 +9077,6 @@
   "gameOptions.experiments.savedLayoutsDescription": "Guarda los diseños de tu granja y cambia entre ellos. Abre el paisaje de tu granja y toca el botón del mapa para guardar tu diseño actual o volver a aplicar uno guardado.",
   "gameOptions.experiments.savedLayoutsToggle": "Habilitar diseños guardados",
   "gameOptions.experiments.savedLayoutsDisclaimer": "Solo función experimental. Los datos y el progreso pueden restablecerse o perderse sin previo aviso. Al habilitar esta opción, usted acepta estos riesgos y procede bajo su propio riesgo.",
-  "vip.benefit.beetleBonus": "{{percent}}% de probabilidad de obtener +1 escarabajo al desenterrar escarabajos en la cueva durante el capítulo de habitantes de las cavernas"
+  "vip.benefit.beetleBonus": "{{percent}}% de probabilidad de obtener +1 escarabajo al desenterrar escarabajos en la cueva durante el capítulo de habitantes de las cavernas",
+  "help.increaseLimit.dontAskAgain": "No me vuelvas a preguntar hoy"
 }

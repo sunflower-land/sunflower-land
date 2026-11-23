@@ -9077,5 +9077,6 @@
   "gameOptions.experiments.savedLayoutsDescription": "Сохраняй планировки фермы и переключайся между ними. Открой перепланировку на ферме и нажми кнопку с картой, чтобы сохранить текущую планировку или применить сохранённую.",
   "gameOptions.experiments.savedLayoutsToggle": "Включить сохранённые планировки",
   "gameOptions.experiments.savedLayoutsDisclaimer": "Экспериментальная функция. Данные и прогресс могут быть сброшены или потеряны без предупреждения. Включая её, ты принимаешь эти риски и используешь функцию на свой страх и риск.",
-  "vip.benefit.beetleBonus": "{{percent}}% chance of +1 Beetle when digging up Beetles in the Cave during Cave Dwellers Chapter"
+  "vip.benefit.beetleBonus": "{{percent}}% chance of +1 Beetle when digging up Beetles in the Cave during Cave Dwellers Chapter",
+  "help.increaseLimit.dontAskAgain": "Don't ask me again today"
 }

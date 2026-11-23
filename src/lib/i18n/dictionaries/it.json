@@ -9077,5 +9077,6 @@
   "gameOptions.experiments.savedLayoutsDescription": "Salva i layout della tua fattoria e passa da uno all'altro. Apri il paesaggio della tua fattoria e tocca il pulsante della mappa per salvare il layout attuale o riapplicarne uno salvato.",
   "gameOptions.experiments.savedLayoutsToggle": "Abilita i layout salvati",
   "gameOptions.experiments.savedLayoutsDisclaimer": "Solo funzionalità sperimentale. I dati e i progressi possono essere ripristinati o persi senza preavviso. Abilitando questa opzione, l'utente accetta questi rischi e procede a proprio rischio.",
-  "vip.benefit.beetleBonus": "{{percent}}% di probabilità di +1 Scarabeo quando si dissotterrano gli scarabei nella grotta durante il capitolo Abitanti delle caverne"
+  "vip.benefit.beetleBonus": "{{percent}}% di probabilità di +1 Scarabeo quando si dissotterrano gli scarabei nella grotta durante il capitolo Abitanti delle caverne",
+  "help.increaseLimit.dontAskAgain": "Non chiedermelo più oggi"
 }
