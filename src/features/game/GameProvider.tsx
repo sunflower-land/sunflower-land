@@ -65,9 +65,10 @@ export const Context = React.createContext<GameContext>({} as GameContext);
  * start that visit itself, or the farm routes fall through to "Island not
  * found".
  *
- * After a failed visit only a real navigation (`isNavigation`) may start
- * another: the failed /visit/:id is still in the URL, so re-checking it on a
- * transition would retry that farm forever.
+ * After a failed visit, a re-check on a transition may start any farm except
+ * the one that failed (a link that arrived while it was loading), since that
+ * /visit/:id can still be in the URL and would be retried forever. A real
+ * navigation (`isNavigation`) may retry it.
  *
  * `setFromRoute` is reset for a visit that starts from the player's own farm,
  * so "End visit" doesn't return to a route an earlier in-app visit stored.
@@ -87,7 +88,8 @@ const startVisitFromUrl = (
   if (
     snapshot.matches("playing") ||
     (snapshot.matches("visiting") && snapshot.context.farmId !== landId) ||
-    (isNavigation && snapshot.matches("landToVisitNotFound"))
+    (snapshot.matches("landToVisitNotFound") &&
+      (isNavigation || landId !== snapshot.context.failedVisitLandId))
   ) {
     if (snapshot.matches("playing")) setFromRoute("/");
 
