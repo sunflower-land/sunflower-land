@@ -20,7 +20,11 @@ import {
   isPetCollectible,
 } from "features/game/events/landExpansion/placeCollectible";
 import { getAvailableNodes } from "features/game/lib/resourceNodes";
-import { updateBeehives } from "features/game/lib/updateBeehives";
+import {
+  getHoneyRateSchedule,
+  resettleBeehives,
+  updateBeehives,
+} from "features/game/lib/updateBeehives";
 import {
   COLLECTIBLES_DIMENSIONS,
   type CollectibleName,
@@ -701,6 +705,7 @@ export function applyFarmLayout(
 ): { applied: number; skipped: number; noInventory: number } {
   const guardiansBefore = snapshotGuardianPlacements(state);
   const cookingBefore = snapshotCookingPlacements(state);
+  const honeyRateBefore = getHoneyRateSchedule(state, createdAt);
   const slots: LayoutSlot[] = [];
   let noInventory = 0;
 
@@ -1141,13 +1146,18 @@ export function applyFarmLayout(
     if (!stillBlocked) restore.apply();
   }
 
-  // Recompute honey now that beehives sit next to their flowers (mirrors the
-  // place events, which call this whenever a beehive or flower bed is placed).
-  if (affectsBeehives) {
+  syncGuardianPlacements(state, guardiansBefore, createdAt);
+
+  // A layout can place or lift a honey rate boost (Queen Bee, a Wildflower
+  // Lure, a Guardian): then bank honey at the old rates and rebuild every
+  // hive's schedule, like the place events do. Otherwise recompute honey only
+  // if beehives or flower beds moved. After the sync, so weather items are
+  // read from their `placedAt`.
+  if (getHoneyRateSchedule(state, createdAt) !== honeyRateBefore) {
+    state.beehives = resettleBeehives({ game: state, createdAt });
+  } else if (affectsBeehives) {
     state.beehives = updateBeehives({ game: state, createdAt });
   }
-
-  syncGuardianPlacements(state, guardiansBefore, createdAt);
   syncCookingPlacements(state, cookingBefore, createdAt);
 
   return { applied, skipped, noInventory };
