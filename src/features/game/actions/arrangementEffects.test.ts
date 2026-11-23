@@ -80,6 +80,7 @@ describe("commitArrangement", () => {
 
     expect(report).toHaveBeenCalledTimes(1);
     expect(report.mock.calls[0][0]).toMatchObject({
+      code: "EF-001",
       message: "Landscaping save failed (post): EF-001",
       meta: { stage: "post" },
     });

@@ -182,7 +182,8 @@ function reportCommitFailure(
     "landscaping_save",
     farmId,
   )({
-    code: detail?.code,
+    // Plain errors carry their code as the message (e.g. a rate limit).
+    code: detail?.code ?? cause,
     message: `Landscaping save failed (${stage}): ${cause}`,
     status: detail?.status,
     endpoint: detail?.endpoint,
