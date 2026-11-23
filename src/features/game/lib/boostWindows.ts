@@ -302,7 +302,9 @@ export const getSunshowerWindows = (game: GameState): BoostWindow[] => {
 };
 
 /** The season Guardian of the season `at` falls in. */
-const getSeasonGuardian = (at: number): SeasonGuardianName | undefined => {
+export const getSeasonGuardian = (
+  at: number,
+): SeasonGuardianName | undefined => {
   const { season } = populateSeason(at);
 
   return getKeys(GUARDIAN_BOOST).find(
@@ -315,7 +317,7 @@ const getSeasonGuardian = (at: number): SeasonGuardianName | undefined => {
  * before tracking existed counts as placed since 0) and, once lifted, its
  * `boostHistory` periods (see `syncGuardianPlacements`).
  */
-const getGuardianPlacedPeriods = (
+export const getGuardianPlacedPeriods = (
   game: GameState,
   guardian: SeasonGuardianName,
 ): { from: number; to: number }[] => [

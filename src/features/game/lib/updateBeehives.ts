@@ -15,6 +15,13 @@ import { isWearableActive } from "./wearables";
 import cloneDeep from "lodash.clonedeep";
 import { updateBoostUsed } from "../types/updateBoostUsed";
 import { SKILL_RANKS, getSkillLevel } from "../types/bumpkinSkills";
+import Decimal from "decimal.js-light";
+import { getWeatherEvents } from "./weatherItemCover";
+import {
+  BEE_MIGRATION_HONEY,
+  getWeatherHoneyBonus,
+  getWeatherHoneyBoundaries,
+} from "./weatherHoney";
 
 /**
  * updateBeehives runs on any event that changes the state for bees or flowers
@@ -66,6 +73,65 @@ const getHoneyProductionRate = (
   return { rate, boostsUsed };
 };
 
+/**
+ * The honey rate at `at`: the boosts as they stand at `now`, plus the
+ * weather's bonus at `at` (Bee Migration and the Wildflower Lure), which
+ * changes on its own at the times `getWeatherHoneyBoundaries` lists.
+ */
+const getHoneyRateAt = (
+  game: GameState,
+  now: number,
+  at: number,
+): { rate: number; boostsUsed: { name: BoostName; value: string }[] } => {
+  const base = getHoneyProductionRate(game, now);
+  const weather = getWeatherHoneyBonus({
+    game,
+    events: getWeatherEvents(game),
+    at,
+  });
+  if (weather.amount === 0) return base;
+
+  const lure = weather.boostsUsed.includes("Wildflower Lure");
+  return {
+    rate: new Decimal(base.rate).add(weather.amount).toNumber(),
+    boostsUsed: [
+      ...base.boostsUsed,
+      ...weather.boostsUsed.map((name) =>
+        name === "Wildflower Lure"
+          ? {
+              name,
+              value: `+${weather.boostsUsed.length > 1 ? BEE_MIGRATION_HONEY.lureBlessed : BEE_MIGRATION_HONEY.lure}`,
+            }
+          : {
+              // The Guardian's share: what "Blessed" adds to each part.
+              name,
+              value: `+${new Decimal(BEE_MIGRATION_HONEY.eventBlessed)
+                .sub(BEE_MIGRATION_HONEY.event)
+                .add(
+                  lure
+                    ? new Decimal(BEE_MIGRATION_HONEY.lureBlessed).sub(
+                        BEE_MIGRATION_HONEY.lure,
+                      )
+                    : 0,
+                )
+                .toNumber()}`,
+            },
+      ),
+    ],
+  };
+};
+
+/** The first time after `at` the honey rate changes by itself, if any. */
+const getNextHoneyRateChange = (
+  game: GameState,
+  at: number,
+): number | undefined =>
+  getWeatherHoneyBoundaries({
+    game,
+    events: getWeatherEvents(game),
+    from: at,
+  })[0];
+
 export const DEFAULT_HONEY_PRODUCTION_TIME = 24 * 60 * 60 * 1000;
 
 interface GetFlowerDetail {
@@ -113,7 +179,9 @@ interface UpdateBeehives {
 
 type BeehiveDetail = {
   beehiveAvailableAt: number;
+  /** Time left to fill the hive, at `rate`. */
   availableTime: number;
+  rate: number;
 };
 
 type FlowerDetail = {
@@ -296,15 +364,15 @@ const getBeehiveDetail = ({
   const lastAttachment = beehive.flowers
     .slice()
     .sort((a, b) => b.attachedUntil - a.attachedUntil)[0];
+  const beehiveAvailableAt = lastAttachment
+    ? lastAttachment.attachedUntil
+    : createdAt;
+  const { rate } = getHoneyRateAt(game, createdAt, beehiveAvailableAt);
 
   return {
-    beehiveAvailableAt: lastAttachment
-      ? lastAttachment.attachedUntil
-      : createdAt,
-    availableTime: Math.ceil(
-      (DEFAULT_HONEY_PRODUCTION_TIME - produced) /
-        getHoneyProductionRate(game, createdAt).rate,
-    ),
+    beehiveAvailableAt,
+    availableTime: Math.ceil((DEFAULT_HONEY_PRODUCTION_TIME - produced) / rate),
+    rate,
   };
 };
 
@@ -383,15 +451,31 @@ const attachFlowers = ({ game, createdAt }: AttachFlowers) => {
       hiveDetail.beehiveAvailableAt,
       flowerDetail.flowerAvailableAt,
     );
-    const attachedUntil =
-      attachedAt +
-      Math.min(hiveDetail.availableTime, flowerDetail.availableTime);
 
-    const { rate, boostsUsed: productionBoostsUsed } = getHoneyProductionRate(
+    const { rate, boostsUsed: productionBoostsUsed } = getHoneyRateAt(
       stateCopy,
       createdAt,
+      attachedAt,
     );
     boostsUsed.push(...productionBoostsUsed);
+
+    // The hive's time left was worked out at its previous rate: convert the
+    // honey that time stands for to the rate from here.
+    if (rate !== hiveDetail.rate) {
+      hiveDetail.availableTime = Math.ceil(
+        (hiveDetail.availableTime * hiveDetail.rate) / rate,
+      );
+      hiveDetail.rate = rate;
+    }
+
+    // Stop where the rate changes by itself (e.g. Bee Migration starting);
+    // the next round attaches the rest at the new rate.
+    const nextChange = getNextHoneyRateChange(stateCopy, attachedAt);
+    const attachedUntil = Math.min(
+      attachedAt +
+        Math.min(hiveDetail.availableTime, flowerDetail.availableTime),
+      nextChange ?? Number.MAX_SAFE_INTEGER,
+    );
 
     // Attach to hive
     activeBeehives[hiveId].flowers.push({
@@ -455,6 +539,27 @@ const clearBankedAttachments = (beehives: Beehives) => {
 };
 
 /**
+ * The honey rate from `now` on, as `time:rate` pairs at `now` and at every
+ * time it changes by itself. Two states with the same schedule produce the
+ * same honey, so placing a Lure before Bee Migration (which changes nothing
+ * yet) still counts as a rate change.
+ */
+const getHoneyRateSchedule = (game: GameState, now: number): string => {
+  const times = [
+    now,
+    ...getWeatherHoneyBoundaries({
+      game,
+      events: getWeatherEvents(game),
+      from: now,
+    }),
+  ];
+
+  return times
+    .map((at) => `${at}:${getHoneyRateAt(game, now, at).rate}`)
+    .join(",");
+};
+
+/**
  * Rate boosts (Queen Bee, Beekeeper Hat, Hyper Bees, Flowery Abode, Bear Shrine)
  * change through events that don't touch bees or flowers. When an event changes
  * the honey production rate, bank honey up to `createdAt` at the old rates and
@@ -470,10 +575,12 @@ export function refreshBeehivesOnRateChange({
   gameAfter: GameState;
   createdAt: number;
 }): GameState {
-  const before = getHoneyProductionRate(gameBefore, createdAt).rate;
-  const after = getHoneyProductionRate(gameAfter, createdAt).rate;
-
-  if (before === after) return gameAfter;
+  if (
+    getHoneyRateSchedule(gameBefore, createdAt) ===
+    getHoneyRateSchedule(gameAfter, createdAt)
+  ) {
+    return gameAfter;
+  }
 
   let beehives = updateProducedHoney({ game: gameAfter, createdAt });
   beehives = clearBankedAttachments(beehives);
