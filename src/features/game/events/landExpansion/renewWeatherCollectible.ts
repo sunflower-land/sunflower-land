@@ -1,4 +1,5 @@
 import { produce } from "immer";
+import { refreshBeehivesOnRateChange } from "features/game/lib/updateBeehives";
 import { Decimal } from "decimal.js-light";
 import { getKeys, getObjectEntries } from "lib/object";
 import type {
@@ -104,7 +105,7 @@ export function renewWeatherCollectible({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  return produce(state, (game) => {
+  const gameAfter = produce(state, (game) => {
     const isWeatherItem = isWeatherItemName(action.name);
 
     if (isWeatherItem && !hasFeatureAccess(game, "WEATHER")) {
@@ -190,5 +191,13 @@ export function renewWeatherCollectible({
     delete collectibleToRenew.used;
 
     return game;
+  });
+
+  // A renewed Wildflower Lure starts covering Bee Migration: re-settle the
+  // hives so honey already scheduled picks up the new rate.
+  return refreshBeehivesOnRateChange({
+    gameBefore: state as GameState,
+    gameAfter,
+    createdAt,
   });
 }

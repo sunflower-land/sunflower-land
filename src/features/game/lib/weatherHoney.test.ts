@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
+import { renewWeatherCollectible } from "../events/landExpansion/renewWeatherCollectible";
 import {
   applyFarmLayout,
   snapshotFarm,
@@ -311,6 +312,58 @@ describe("honey during Bee Migration", () => {
     expect(
       state.collectibles["Wildflower Lure"]?.[0].coordinates,
     ).toBeDefined();
+    expect(after[0]?.rate).toBe(2.45);
+  });
+
+  it("re-splits at the Lure's rate when a used Lure is renewed", () => {
+    const base = farm();
+    const game: GameState = {
+      ...base,
+      inventory: {
+        ...base.inventory,
+        Honey: new Decimal(5),
+        "Green Beetle": new Decimal(5),
+        "Red Pansy": new Decimal(1),
+      },
+      // Used up on an earlier Bee Migration: greyed, so it covers nothing.
+      collectibles: LURE({ placedAt: 0, usedUntil: EARLIER_BEES.endAt }),
+    };
+    const withHive: GameState = {
+      ...game,
+      beehives: { h: hive(game) },
+      flowers: {
+        ...game.flowers,
+        flowerBeds: {
+          f: {
+            createdAt: attachedAt,
+            x: 0,
+            y: 3,
+            flower: { name: "Red Pansy", plantedAt: attachedAt },
+          },
+        },
+      },
+    };
+    expect(
+      withHive.beehives.h.flowers.find(
+        ({ attachedAt }) => attachedAt >= BEES.startAt,
+      )?.rate,
+    ).toBe(1.2);
+
+    const state = renewWeatherCollectible({
+      state: withHive,
+      action: {
+        type: "weatherCollectible.renewed",
+        name: "Wildflower Lure",
+        location: "farm",
+        id: "1",
+        ingredient: "Red Pansy",
+      },
+      createdAt: attachedAt + HOUR,
+    });
+    const after = state.beehives.h.flowers.filter(
+      ({ attachedAt }) => attachedAt >= BEES.startAt,
+    );
+
     expect(after[0]?.rate).toBe(2.45);
   });
 

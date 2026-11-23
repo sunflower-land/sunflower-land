@@ -91,7 +91,6 @@ const getHoneyRateAt = (
   });
   if (weather.amount === 0) return base;
 
-  const lure = weather.boostsUsed.includes("Wildflower Lure");
   return {
     rate: new Decimal(base.rate).add(weather.amount).toNumber(),
     boostsUsed: [
@@ -100,20 +99,15 @@ const getHoneyRateAt = (
         name === "Wildflower Lure"
           ? {
               name,
+              // The Lure's whole part, Blessed when the Guardian is out too.
               value: `+${weather.boostsUsed.length > 1 ? BEE_MIGRATION_HONEY.lureBlessed : BEE_MIGRATION_HONEY.lure}`,
             }
           : {
-              // The Guardian's share: what "Blessed" adds to each part.
+              // The Guardian's share of the event's own part (+0.3 vs +0.2);
+              // its share of the Lure is already in the Lure's value.
               name,
               value: `+${new Decimal(BEE_MIGRATION_HONEY.eventBlessed)
                 .sub(BEE_MIGRATION_HONEY.event)
-                .add(
-                  lure
-                    ? new Decimal(BEE_MIGRATION_HONEY.lureBlessed).sub(
-                        BEE_MIGRATION_HONEY.lure,
-                      )
-                    : 0,
-                )
                 .toNumber()}`,
             },
       ),
