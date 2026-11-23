@@ -228,6 +228,9 @@ export interface Context {
   // their email through the LinkedAccounts UI while visiting, and don't
   // need a refetch on the way back.
   visitorSocialDetails?: SocialDetails;
+  // The farm whose visit last failed (landToVisitNotFound), so a URL re-check
+  // never retries it on its own.
+  failedVisitLandId?: number;
   hasHelpedPlayerToday?: boolean;
   totalHelpedToday?: number;
   method?: "google" | "wallet" | "wechat";
@@ -1308,18 +1311,27 @@ export function startGame(authContext: AuthContext) {
         loadLandToVisit: {
           invoke: {
             src: async (context, event) => {
-              // Autosave just in case
+              // Autosave just in case. A failure here is a save error, not a
+              // missing farm: tag it so onError keeps it off the not-found
+              // path, which treats the queue as saved.
               if (context.actions.length > 0) {
-                await autosave({
-                  farmId: Number(context.farmId),
-                  sessionId: context.sessionId as string,
-                  actions: context.actions,
-                  token: authContext.user.rawToken as string,
-                  fingerprint: context.fingerprint as string,
-                  deviceTrackerId: context.deviceTrackerId as string,
-                  transactionId: context.transactionId as string,
-                  state: context.state,
-                });
+                try {
+                  await autosave({
+                    farmId: Number(context.farmId),
+                    sessionId: context.sessionId as string,
+                    actions: context.actions,
+                    token: authContext.user.rawToken as string,
+                    fingerprint: context.fingerprint as string,
+                    deviceTrackerId: context.deviceTrackerId as string,
+                    transactionId: context.transactionId as string,
+                    state: context.state,
+                  });
+                } catch (error) {
+                  throw Object.assign(
+                    error instanceof Error ? error : new Error(String(error)),
+                    { autosaveFailed: true },
+                  );
+                }
               }
 
               let farmId: number;
@@ -1340,6 +1352,18 @@ export function startGame(authContext: AuthContext) {
                 farmId = (event as VisitEvent).landId;
               }
 
+              // Tag a failed load with its farm so the not-found state knows
+              // which visit failed.
+              const visit = await loadGameStateForVisit(
+                Number(farmId),
+                authContext.user.rawToken as string,
+              ).catch((error) => {
+                throw Object.assign(
+                  error instanceof Error ? error : new Error(String(error)),
+                  { landId: farmId },
+                );
+              });
+
               const {
                 visitedFarmState, // Their gameState
                 visitorFarmState, // Your gameState
@@ -1347,10 +1371,7 @@ export function startGame(authContext: AuthContext) {
                 totalHelpedToday,
                 visitorId,
                 visitedFarmNftId,
-              } = await loadGameStateForVisit(
-                Number(farmId),
-                authContext.user.rawToken as string,
-              );
+              } = visit;
 
               return {
                 state: visitedFarmState,
@@ -1385,18 +1406,49 @@ export function startGame(authContext: AuthContext) {
                 actions: () => [],
               }),
             },
-            onError: {
-              target: "landToVisitNotFound",
-            },
+            onError: [
+              {
+                // Same as a failed `autosaving`: the queue never reached the
+                // server, so show the save error rather than "not found".
+                target: "error",
+                cond: (_, event) => !!event.data?.autosaveFailed,
+                actions: "assignErrorMessage",
+              },
+              {
+                target: "landToVisitNotFound",
+                actions: assign({
+                  failedVisitLandId: (_, event) => event.data?.landId,
+                }),
+              },
+            ],
           },
         },
         landToVisitNotFound: {
-          entry: assign({
-            state: () => EMPTY,
-          }),
+          entry: assign((context) =>
+            context.visitorId
+              ? { state: EMPTY }
+              : {
+                  // The failed visit started from the player's own farm (a
+                  // link, or a direct load). Keep that farm the way
+                  // `visiting` does, so END_VISIT can bring it back.
+                  visitorId: context.farmId,
+                  visitorState: context.state,
+                  visitorNftId: context.nftId,
+                  visitorSocialDetails: context.socialDetails,
+                  socialDetails: undefined,
+                  state: EMPTY,
+                  // loadLandToVisit already autosaved these; a second VISIT
+                  // from here must not send them again.
+                  actions: [],
+                },
+          ),
           on: {
             VISIT: {
               target: "loadLandToVisit",
+            },
+            END_VISIT: {
+              target: "playing",
+              actions: "endVisit",
             },
           },
         },
@@ -1412,18 +1464,7 @@ export function startGame(authContext: AuthContext) {
             },
             END_VISIT: {
               target: "playing",
-              actions: assign((context) => ({
-                visitorId: undefined,
-                visitorState: undefined,
-                visitorNftId: undefined,
-                hasHelpedPlayerToday: undefined,
-                state: context.visitorState,
-                farmId: context.visitorId,
-                nftId: context.visitorNftId,
-                socialDetails: context.visitorSocialDetails,
-                visitorSocialDetails: undefined,
-                actions: [],
-              })),
+              actions: "endVisit",
             },
           },
         },
@@ -3013,6 +3054,18 @@ export function startGame(authContext: AuthContext) {
     },
     {
       actions: {
+        endVisit: assign((context) => ({
+          visitorId: undefined,
+          visitorState: undefined,
+          visitorNftId: undefined,
+          hasHelpedPlayerToday: undefined,
+          state: context.visitorState,
+          farmId: context.visitorId,
+          nftId: context.visitorNftId,
+          socialDetails: context.visitorSocialDetails,
+          visitorSocialDetails: undefined,
+          actions: [],
+        })),
         initialiseAnalytics: (context, event: any) => {
           if (!ART_MODE) {
             // Identify first: any event emitted after this attaches to a

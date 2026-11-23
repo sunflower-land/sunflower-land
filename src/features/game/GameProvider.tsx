@@ -11,7 +11,11 @@ import {
   cacheShortcuts,
   getShortcuts,
 } from "features/farming/hud/lib/shortcuts";
-import { startGame, type MachineInterpreter } from "./lib/gameMachine";
+import {
+  startGame,
+  type MachineInterpreter,
+  type MachineState,
+} from "./lib/gameMachine";
 import type { InventoryItemName } from "./types/game";
 import {
   cacheShowAnimationsSetting,
@@ -54,6 +58,49 @@ interface GameContext {
 
 export const Context = React.createContext<GameContext>({} as GameContext);
 
+/**
+ * The machine only reads a /visit/:id URL when the session first loads. A tab
+ * already running the game that lands on one without a reload (a pasted or
+ * clicked link only changes the hash, or Back to an earlier visit) has to
+ * start that visit itself, or the farm routes fall through to "Island not
+ * found".
+ *
+ * After a failed visit, a re-check on a transition may start any farm except
+ * the one that failed (a link that arrived while it was loading), since that
+ * /visit/:id can still be in the URL and would be retried forever. A real
+ * navigation (`isNavigation`) may retry it.
+ *
+ * `setFromRoute` is reset for a visit that starts from the player's own farm,
+ * so "End visit" doesn't return to a route an earlier in-app visit stored.
+ */
+const startVisitFromUrl = (
+  gameService: MachineInterpreter,
+  setFromRoute: (route: string) => void,
+  isNavigation = false,
+) => {
+  if (ART_MODE) return;
+
+  const landId = Number(window.location.hash.match(/^#\/visit\/(\d+)/)?.[1]);
+  if (!landId) return;
+
+  const snapshot = gameService.getSnapshot();
+
+  if (
+    snapshot.matches("playing") ||
+    (snapshot.matches("visiting") && snapshot.context.farmId !== landId) ||
+    (snapshot.matches("landToVisitNotFound") &&
+      (isNavigation || landId !== snapshot.context.failedVisitLandId))
+  ) {
+    if (snapshot.matches("playing")) setFromRoute("/");
+
+    gameService.send("VISIT", { landId });
+  }
+};
+
+// States that hold someone else's farm, which END_VISIT swaps back out.
+const isAwayFromOwnFarm = (state: MachineState) =>
+  state.matches("visiting") || state.matches("landToVisitNotFound");
+
 export const GameProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
@@ -64,6 +111,8 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
 
   // TODO - Typescript error
   const gameService = useInterpret(gameMachine) as MachineInterpreter;
+
+  const [fromRoute, setFromRoute] = useState<string | undefined>();
 
   useEffect(() => {
     initInteractionMetrics();
@@ -79,16 +128,24 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
   }, [gameService]);
 
   useEffect(() => {
-    const handleRouteChange = () => {
+    // Called with the browser event when the URL changes, and without one
+    // for the mount check below.
+    const handleRouteChange = (event?: Event) => {
+      const snapshot = gameService.getSnapshot();
+
       if (
         !window.location.href.includes("visit") &&
-        gameService.getSnapshot().matches("visiting")
+        isAwayFromOwnFarm(snapshot)
       ) {
         gameService.send("END_VISIT");
+        return;
       }
+
+      startVisitFromUrl(gameService, setFromRoute, !!event);
     };
 
     window.addEventListener("popstate", handleRouteChange);
+    window.addEventListener("hashchange", handleRouteChange);
     window.addEventListener("pushstate", handleRouteChange);
     window.addEventListener("replacestate", handleRouteChange);
 
@@ -97,10 +154,36 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
 
     return () => {
       window.removeEventListener("popstate", handleRouteChange);
+      window.removeEventListener("hashchange", handleRouteChange);
       window.removeEventListener("pushstate", handleRouteChange);
       window.removeEventListener("replacestate", handleRouteChange);
     };
   }, [gameService?.state?.value]);
+
+  // A link that arrives while the machine is busy (e.g. mid-autosave) can't
+  // be started then, and this component doesn't re-render on transitions, so
+  // check the URL again whenever the machine settles. END_VISIT is skipped:
+  // the Hud sends it before navigating away, while the URL is still /visit.
+  useEffect(() => {
+    const subscription = gameService.subscribe((state) => {
+      if (!state.changed || state.event.type === "END_VISIT") return;
+
+      // The player left /visit (e.g. pressed Back) while the farm was still
+      // loading, so the route handler had no visit to end yet.
+      if (
+        isAwayFromOwnFarm(state) &&
+        state.history?.matches("loadLandToVisit") &&
+        !window.location.href.includes("visit")
+      ) {
+        gameService.send("END_VISIT");
+        return;
+      }
+
+      startVisitFromUrl(gameService, setFromRoute);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [gameService]);
 
   const [shortcuts, setShortcuts] =
     useState<InventoryItemName[]>(getShortcuts());
@@ -113,7 +196,6 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
   const [showFullMoonSeedsInQuickSelect, setShowFullMoonSeedsInQuickSelect] =
     useState<boolean>(getShowFullMoonSeedsInQuickSelectSetting());
   const [showTimers, setShowTimers] = useState<boolean>(getShowTimersSetting());
-  const [fromRoute, setFromRoute] = useState<string | undefined>();
 
   const shortcutItem = useCallback((item: InventoryItemName) => {
     const originalShortcuts = getShortcuts();

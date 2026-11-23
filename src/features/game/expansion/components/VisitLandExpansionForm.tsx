@@ -53,6 +53,8 @@ export const VisitLandExpansionForm: React.FC<{ onBack?: () => void }> = ({
   const handleEndVisit = () => {
     if (authState.matches("connected")) {
       gameService.send("END_VISIT");
+      // Leave /visit too, or the farm id still in the URL is visited again.
+      navigate("/");
     } else {
       authService.send("RETURN");
     }
