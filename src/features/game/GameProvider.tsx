@@ -60,8 +60,15 @@ export const Context = React.createContext<GameContext>({} as GameContext);
  * clicked link only changes the hash, or Back to an earlier visit) has to
  * start that visit itself, or the farm routes fall through to "Island not
  * found".
+ *
+ * After a failed visit only a real navigation (`isNavigation`) may start
+ * another: the failed /visit/:id is still in the URL, so re-checking it on a
+ * transition would retry that farm forever.
  */
-const startVisitFromUrl = (gameService: MachineInterpreter) => {
+const startVisitFromUrl = (
+  gameService: MachineInterpreter,
+  isNavigation = false,
+) => {
   if (ART_MODE) return;
 
   const landId = Number(window.location.hash.match(/^#\/visit\/(\d+)/)?.[1]);
@@ -71,7 +78,8 @@ const startVisitFromUrl = (gameService: MachineInterpreter) => {
 
   if (
     snapshot.matches("playing") ||
-    (snapshot.matches("visiting") && snapshot.context.farmId !== landId)
+    (snapshot.matches("visiting") && snapshot.context.farmId !== landId) ||
+    (isNavigation && snapshot.matches("landToVisitNotFound"))
   ) {
     gameService.send("VISIT", { landId });
   }
@@ -102,7 +110,9 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
   }, [gameService]);
 
   useEffect(() => {
-    const handleRouteChange = () => {
+    // Called with the browser event when the URL changes, and without one
+    // for the mount check below.
+    const handleRouteChange = (event?: Event) => {
       const snapshot = gameService.getSnapshot();
 
       if (
@@ -113,7 +123,7 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
         return;
       }
 
-      startVisitFromUrl(gameService);
+      startVisitFromUrl(gameService, !!event);
     };
 
     window.addEventListener("popstate", handleRouteChange);
