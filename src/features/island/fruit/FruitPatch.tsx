@@ -14,8 +14,6 @@ import {
   getWoodReward,
 } from "features/game/events/landExpansion/fruitTreeRemoved";
 import { useSelector } from "@xstate/react";
-import { useNow } from "lib/utils/hooks/useNow";
-import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
 import type { MachineState } from "features/game/lib/gameMachine";
 import type {
   FruitPatch as Patch,
@@ -38,7 +36,6 @@ import { SeasonalSeed } from "../plots/components/SeasonalSeed";
 import { Modal } from "components/ui/Modal";
 import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
 import { getCurrentBiome } from "../biomes/biomes";
-import { getFruitYield } from "features/game/events/landExpansion/fruitHarvested";
 
 const HasAxes = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
@@ -73,17 +70,11 @@ const compareGame = (prev: GameState, next: GameState) =>
   isCollectibleBuilt({ name: "Foreman Beaver", game: next });
 
 const _island = (state: MachineState) => state.context.state.island;
-const _farmId = (state: MachineState) => state.context.farmId;
 interface Props {
   id: string;
 }
 
 export const FruitPatch: React.FC<Props> = ({ id }) => {
-  // The Legendary Shrine's +1 fruit only applies while the shrine is active, so
-  // the harvest preview needs a LIVE clock — a mount snapshot would keep
-  // promising the bonus long after the shrine expired. One tick a minute is
-  // enough for a boost that flips at most a few times a day.
-  const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
   const {
     gameService,
     selectedItem,
@@ -91,7 +82,6 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
     enableQuickSelect,
     showFullMoonSeedsInQuickSelect,
   } = useContext(Context);
-  const farmId = useSelector(gameService, _farmId);
   const { t } = useAppTranslation();
 
   const [playShakingAnimation, setPlayShakingAnimation] = useState(false);
@@ -110,11 +100,6 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
   );
   const { fruit, fertiliser } = fruitPatch;
   const game = useSelector(gameService, selectGame, compareGame);
-  const activityCount = useSelector(gameService, (state) => {
-    const fruitName = state.context.state.fruitPatches[id]?.fruit?.name;
-    if (!fruitName) return 0;
-    return state.context.state.farmActivity[`${fruitName} Harvested`] ?? 0;
-  });
   const inventory = useSelector(
     gameService,
     selectInventory,
@@ -176,23 +161,21 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
   };
 
   const harvestFruit = async () => {
-    if (!fruitPatch) return;
-    const amount =
-      fruit?.amount ??
-      getFruitYield({
-        game,
-        name: fruit?.name as PatchFruitName,
-        fertiliser: fertiliser?.name,
-        prngArgs: { farmId, counter: activityCount },
-        now,
-      }).amount;
-
-    gameService.send("fruit.harvested", {
+    if (!fruitPatch || !fruit) return;
+    const { name } = fruit;
+    const before =
+      gameService.getSnapshot().context.state.inventory[name] ?? new Decimal(0);
+    const newState = gameService.send("fruit.harvested", {
       index: id,
     });
+    // Show what the harvest actually credited: this component's `game` is a
+    // snapshot that only refreshes for Foreman Beaver, and the yield depends
+    // on more of the state (and on the time).
+    const after = newState.context.state.inventory[name] ?? new Decimal(0);
+    const amount = after.minus(before).toNumber();
 
     setCollectingFruit(true);
-    setCollectedFruitName(fruit?.name);
+    setCollectedFruitName(name);
     fruitHarvested.current += amount;
 
     harvestAudio();
