@@ -12,6 +12,8 @@ import { randomID } from "lib/utils/random";
 import { createEffectError, postEffect, type EffectError } from "./effect";
 import { flushPendingActions } from "./layoutEffects";
 import { serializeByKey } from "lib/utils/serializeByKey";
+import { createErrorLogger, isNetworkError } from "lib/errorLogger";
+import { getApiErrorDetail } from "lib/apiError";
 
 /**
  * The landscaping sandbox commit. Like the layout effects, this is posted
@@ -123,12 +125,16 @@ async function commitArrangementNow(
   gameService: MachineInterpreter,
   { nextLocation }: { nextLocation?: PlaceableLocation },
 ): Promise<boolean> {
-  await flushPendingActions(gameService);
-
-  const { farmId, rawToken, state, landscapingLocation } =
-    gameService.getSnapshot().context;
+  // Which step a failure belongs to: syncing queued actions, or the post.
+  let stage: CommitStage = "flush";
 
   try {
+    await flushPendingActions(gameService);
+    stage = "post";
+
+    const { farmId, rawToken, state, landscapingLocation } =
+      gameService.getSnapshot().context;
+
     const { gameState } = await saveArrangementEffect({
       farmId,
       token: rawToken as string,
@@ -149,6 +155,45 @@ async function commitArrangementNow(
       });
       return false;
     }
+    reportCommitFailure(gameService, e, stage);
     throw e;
   }
+}
+
+type CommitStage = "flush" | "post";
+
+/**
+ * The HUD only shows a generic "could not save" message, so the reason is
+ * reported here. Connection problems are left out, as everywhere else.
+ */
+function reportCommitFailure(
+  gameService: MachineInterpreter,
+  error: unknown,
+  stage: CommitStage,
+) {
+  if (isNetworkError(error)) return;
+
+  const snapshot = gameService.getSnapshot();
+  const { farmId, actions, landscapingLocation } = snapshot.context;
+  const detail = getApiErrorDetail(error);
+  const cause = error instanceof Error ? error.message : String(error);
+
+  void createErrorLogger(
+    "landscaping_save",
+    farmId,
+  )({
+    code: detail?.code,
+    message: `Landscaping save failed (${stage}): ${cause}`,
+    status: detail?.status,
+    endpoint: detail?.endpoint,
+    transactionId: detail?.transactionId,
+    stack: error instanceof Error ? error.stack : undefined,
+    meta: {
+      ...detail?.meta,
+      stage,
+      location: landscapingLocation ?? "farm",
+      pendingActions: actions.length,
+      machineState: JSON.stringify(snapshot.value),
+    },
+  });
 }
