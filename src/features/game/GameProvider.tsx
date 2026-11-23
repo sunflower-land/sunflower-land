@@ -54,6 +54,29 @@ interface GameContext {
 
 export const Context = React.createContext<GameContext>({} as GameContext);
 
+/**
+ * The machine only reads a /visit/:id URL when the session first loads. A tab
+ * already running the game that lands on one without a reload (a pasted or
+ * clicked link only changes the hash, or Back to an earlier visit) has to
+ * start that visit itself, or the farm routes fall through to "Island not
+ * found".
+ */
+const startVisitFromUrl = (gameService: MachineInterpreter) => {
+  if (ART_MODE) return;
+
+  const landId = Number(window.location.hash.match(/^#\/visit\/(\d+)/)?.[1]);
+  if (!landId) return;
+
+  const snapshot = gameService.getSnapshot();
+
+  if (
+    snapshot.matches("playing") ||
+    (snapshot.matches("visiting") && snapshot.context.farmId !== landId)
+  ) {
+    gameService.send("VISIT", { landId });
+  }
+};
+
 export const GameProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
@@ -90,24 +113,7 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
         return;
       }
 
-      // The machine only reads a /visit/:id URL when the session first
-      // loads. A tab already running the game that lands on one without a
-      // reload (a pasted or clicked link only changes the hash, or Back to an
-      // earlier visit) has to start that visit itself, or the farm routes
-      // fall through to "Island not found".
-      if (ART_MODE) return;
-
-      const landId = Number(
-        window.location.hash.match(/^#\/visit\/(\d+)/)?.[1],
-      );
-      if (!landId) return;
-
-      if (
-        snapshot.matches("playing") ||
-        (snapshot.matches("visiting") && snapshot.context.farmId !== landId)
-      ) {
-        gameService.send("VISIT", { landId });
-      }
+      startVisitFromUrl(gameService);
     };
 
     window.addEventListener("popstate", handleRouteChange);
@@ -125,6 +131,20 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
       window.removeEventListener("replacestate", handleRouteChange);
     };
   }, [gameService?.state?.value]);
+
+  // A link that arrives while the machine is busy (e.g. mid-autosave) can't
+  // be started then, and this component doesn't re-render on transitions, so
+  // check the URL again whenever the machine settles. END_VISIT is skipped:
+  // the Hud sends it before navigating away, while the URL is still /visit.
+  useEffect(() => {
+    const subscription = gameService.subscribe((state) => {
+      if (!state.changed || state.event.type === "END_VISIT") return;
+
+      startVisitFromUrl(gameService);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [gameService]);
 
   const [shortcuts, setShortcuts] =
     useState<InventoryItemName[]>(getShortcuts());
