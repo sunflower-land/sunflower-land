@@ -1391,12 +1391,31 @@ export function startGame(authContext: AuthContext) {
           },
         },
         landToVisitNotFound: {
-          entry: assign({
-            state: () => EMPTY,
-          }),
+          entry: assign((context) =>
+            context.visitorId
+              ? { state: EMPTY }
+              : {
+                  // The failed visit started from the player's own farm (a
+                  // link, or a direct load). Keep that farm the way
+                  // `visiting` does, so END_VISIT can bring it back.
+                  visitorId: context.farmId,
+                  visitorState: context.state,
+                  visitorNftId: context.nftId,
+                  visitorSocialDetails: context.socialDetails,
+                  socialDetails: undefined,
+                  state: EMPTY,
+                  // loadLandToVisit already autosaved these; a second VISIT
+                  // from here must not send them again.
+                  actions: [],
+                },
+          ),
           on: {
             VISIT: {
               target: "loadLandToVisit",
+            },
+            END_VISIT: {
+              target: "playing",
+              actions: "endVisit",
             },
           },
         },
@@ -1412,18 +1431,7 @@ export function startGame(authContext: AuthContext) {
             },
             END_VISIT: {
               target: "playing",
-              actions: assign((context) => ({
-                visitorId: undefined,
-                visitorState: undefined,
-                visitorNftId: undefined,
-                hasHelpedPlayerToday: undefined,
-                state: context.visitorState,
-                farmId: context.visitorId,
-                nftId: context.visitorNftId,
-                socialDetails: context.visitorSocialDetails,
-                visitorSocialDetails: undefined,
-                actions: [],
-              })),
+              actions: "endVisit",
             },
           },
         },
@@ -3013,6 +3021,18 @@ export function startGame(authContext: AuthContext) {
     },
     {
       actions: {
+        endVisit: assign((context) => ({
+          visitorId: undefined,
+          visitorState: undefined,
+          visitorNftId: undefined,
+          hasHelpedPlayerToday: undefined,
+          state: context.visitorState,
+          farmId: context.visitorId,
+          nftId: context.visitorNftId,
+          socialDetails: context.visitorSocialDetails,
+          visitorSocialDetails: undefined,
+          actions: [],
+        })),
         initialiseAnalytics: (context, event: any) => {
           if (!ART_MODE) {
             // Identify first: any event emitted after this attaches to a

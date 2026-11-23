@@ -11,7 +11,11 @@ import {
   cacheShortcuts,
   getShortcuts,
 } from "features/farming/hud/lib/shortcuts";
-import { startGame, type MachineInterpreter } from "./lib/gameMachine";
+import {
+  startGame,
+  type MachineInterpreter,
+  type MachineState,
+} from "./lib/gameMachine";
 import type { InventoryItemName } from "./types/game";
 import {
   cacheShowAnimationsSetting,
@@ -64,9 +68,13 @@ export const Context = React.createContext<GameContext>({} as GameContext);
  * After a failed visit only a real navigation (`isNavigation`) may start
  * another: the failed /visit/:id is still in the URL, so re-checking it on a
  * transition would retry that farm forever.
+ *
+ * `setFromRoute` is reset for a visit that starts from the player's own farm,
+ * so "End visit" doesn't return to a route an earlier in-app visit stored.
  */
 const startVisitFromUrl = (
   gameService: MachineInterpreter,
+  setFromRoute: (route: string) => void,
   isNavigation = false,
 ) => {
   if (ART_MODE) return;
@@ -81,9 +89,15 @@ const startVisitFromUrl = (
     (snapshot.matches("visiting") && snapshot.context.farmId !== landId) ||
     (isNavigation && snapshot.matches("landToVisitNotFound"))
   ) {
+    if (snapshot.matches("playing")) setFromRoute("/");
+
     gameService.send("VISIT", { landId });
   }
 };
+
+// States that hold someone else's farm, which END_VISIT swaps back out.
+const isAwayFromOwnFarm = (state: MachineState) =>
+  state.matches("visiting") || state.matches("landToVisitNotFound");
 
 export const GameProvider: React.FC<React.PropsWithChildren> = ({
   children,
@@ -95,6 +109,8 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
 
   // TODO - Typescript error
   const gameService = useInterpret(gameMachine) as MachineInterpreter;
+
+  const [fromRoute, setFromRoute] = useState<string | undefined>();
 
   useEffect(() => {
     initInteractionMetrics();
@@ -117,13 +133,13 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
 
       if (
         !window.location.href.includes("visit") &&
-        snapshot.matches("visiting")
+        isAwayFromOwnFarm(snapshot)
       ) {
         gameService.send("END_VISIT");
         return;
       }
 
-      startVisitFromUrl(gameService, !!event);
+      startVisitFromUrl(gameService, setFromRoute, !!event);
     };
 
     window.addEventListener("popstate", handleRouteChange);
@@ -153,7 +169,7 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
       // The player left /visit (e.g. pressed Back) while the farm was still
       // loading, so the route handler had no visit to end yet.
       if (
-        state.matches("visiting") &&
+        isAwayFromOwnFarm(state) &&
         state.history?.matches("loadLandToVisit") &&
         !window.location.href.includes("visit")
       ) {
@@ -161,7 +177,7 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
         return;
       }
 
-      startVisitFromUrl(gameService);
+      startVisitFromUrl(gameService, setFromRoute);
     });
 
     return () => subscription.unsubscribe();
@@ -178,7 +194,6 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
   const [showFullMoonSeedsInQuickSelect, setShowFullMoonSeedsInQuickSelect] =
     useState<boolean>(getShowFullMoonSeedsInQuickSelectSetting());
   const [showTimers, setShowTimers] = useState<boolean>(getShowTimersSetting());
-  const [fromRoute, setFromRoute] = useState<string | undefined>();
 
   const shortcutItem = useCallback((item: InventoryItemName) => {
     const originalShortcuts = getShortcuts();
