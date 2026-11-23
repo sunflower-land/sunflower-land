@@ -288,8 +288,9 @@ describe("renewWeatherCollectible (weather items)", () => {
     expect(state.inventory.Sandbag).toEqual(new Decimal(1));
     expect(state.collectibles.Sandbag?.[0].usedUntil).toBeUndefined();
     expect(state.collectibles.Sandbag?.[0].placedAt).toBe(AFTER_FLOOD);
+    // Only the time it covered the Flood is kept.
     expect(state.boostHistory?.Sandbag).toEqual([
-      { from: FLOOD_START - HOUR, to: AFTER_FLOOD },
+      { from: FLOOD_START, to: FLOOD_END },
     ]);
   });
 

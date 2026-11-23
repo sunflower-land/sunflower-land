@@ -133,6 +133,93 @@ export function getUsedUntil({
   })?.endAt;
 }
 
+/** A stretch of time a weather item covered its event. */
+export type CoverWindow = { from: number; to: number };
+
+/**
+ * The part of `[from, to)` a copy covered its event for: the event its
+ * stored mark points at, or else the first one it was out for. Nothing when
+ * it covered none, e.g. placed back after it was used.
+ */
+export function getCoveredWindow({
+  game,
+  item,
+  placement,
+  from,
+  to,
+  events,
+}: {
+  game: Game;
+  item: WeatherItemName;
+  placement: Pick<PlacedItem, "placedAt" | "usedUntil" | "weatherCheckedUntil">;
+  from: number;
+  to: number;
+  events: WeatherEvents;
+}): CoverWindow | undefined {
+  const event =
+    placement.usedUntil !== undefined
+      ? events.find(
+          (event) =>
+            event.name === WEATHER_ITEM_EVENTS[item] &&
+            event.endAt === placement.usedUntil,
+        )
+      : findUsedEvent({
+          game,
+          item,
+          from: getUnsettledFrom(placement, from),
+          to,
+          events,
+        });
+  if (!event) return undefined;
+
+  const window = {
+    from: Math.max(from, event.startAt),
+    to: Math.min(to, event.endAt),
+  };
+
+  return window.to > window.from ? window : undefined;
+}
+
+/**
+ * Every stretch the item covers its event for, for effects that run as time
+ * windows: the windows kept when copies were lifted or renewed, plus each
+ * placed copy's window on the event it is used on. An unused copy covers the
+ * next event in advance; lifting it ends the window there.
+ */
+export function getWeatherItemCoverWindows({
+  game,
+  item,
+  events,
+}: {
+  game: Game;
+  item: WeatherItemName;
+  events: WeatherEvents;
+}): CoverWindow[] {
+  const kept = (game.boostHistory?.[item] ?? []).map(({ from, to }) => ({
+    from,
+    to,
+  }));
+
+  const placed = getCollectiblesAcrossLocations(game, item).flatMap(
+    (placement) => {
+      if (!placement.coordinates) return [];
+
+      const window = getCoveredWindow({
+        game,
+        item,
+        placement,
+        from: placement.placedAt ?? 0,
+        to: Number.MAX_SAFE_INTEGER,
+        events,
+      });
+
+      return window ? [window] : [];
+    },
+  );
+
+  return [...kept, ...placed];
+}
+
 /** Used on an event that has ended, and not renewed since. */
 export function isWeatherItemGreyed(
   args: Parameters<typeof getUsedUntil>[0],

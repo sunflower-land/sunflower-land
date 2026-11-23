@@ -27,6 +27,8 @@ import {
   getPowerHourWindows,
   getSunshowerGuardianWindows,
   getSunshowerWindows,
+  getWeatherSunShowerWindows,
+  withoutWindows,
   type BoostWindow,
 } from "./boostWindows";
 import { GUARDIAN_BOOST } from "./getActiveGuardian";
@@ -85,23 +87,44 @@ const totems = (
   };
 };
 
-const cropPlot = (game: GameState, at: number): BoostContribution[] => [
-  collectible(game, "Sparrow Shrine", CROP_PLOT_BOOST_SPEED["Sparrow Shrine"]),
-  collectible(
-    game,
-    "Harvest Hourglass",
-    CROP_PLOT_BOOST_SPEED["Harvest Hourglass"],
-  ),
-  totems(game, CROP_PLOT_BOOST_SPEED["Super Totem"], at),
-  { name: "Power hour", windows: getPowerHourWindows(game) },
-  { name: "sunshower", windows: getSunshowerWindows(game) },
-  // Only the Guardian placed during a sunshower speeds crops up, and only for
-  // the time it was out — so it gets its own windows, credited to the Guardian.
-  ...getKeys(GUARDIAN_BOOST).map((guardian) => ({
-    name: guardian,
-    windows: getSunshowerGuardianWindows(game, guardian),
-  })),
-];
+const cropPlot = (game: GameState, at: number): BoostContribution[] => {
+  const weather = getWeatherSunShowerWindows(game);
+
+  return [
+    collectible(
+      game,
+      "Sparrow Shrine",
+      CROP_PLOT_BOOST_SPEED["Sparrow Shrine"],
+    ),
+    collectible(
+      game,
+      "Harvest Hourglass",
+      CROP_PLOT_BOOST_SPEED["Harvest Hourglass"],
+    ),
+    totems(game, CROP_PLOT_BOOST_SPEED["Super Totem"], at),
+    { name: "Power hour", windows: getPowerHourWindows(game) },
+    // One entry for both Sun Showers. Calendar records only count where no
+    // weather Sun Shower runs (see getCropPlotBoostWindows), so the two never
+    // overlap. The weather pieces already include the Shade Cloth and the
+    // Guardian (1.3× / 1.6× / 2×).
+    {
+      name: "sunshower",
+      windows: [
+        ...withoutWindows(getSunshowerWindows(game), weather),
+        ...weather,
+      ],
+    },
+    // Only the Guardian placed during a sunshower speeds crops up, and only for
+    // the time it was out — so it gets its own windows, credited to the Guardian.
+    ...getKeys(GUARDIAN_BOOST).map((guardian) => ({
+      name: guardian,
+      windows: withoutWindows(
+        getSunshowerGuardianWindows(game, guardian),
+        weather,
+      ),
+    })),
+  ];
+};
 
 const tree = (game: GameState, at: number): BoostContribution[] => [
   totems(game, TREE_BOOST_SPEED["Super Totem"], at),

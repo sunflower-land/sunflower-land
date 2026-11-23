@@ -48,7 +48,10 @@ export type ScheduledWeatherOverlay = {
 };
 
 export type Weather = {
-  /** Built by the server on every load. */
+  /**
+   * Last season-week's events, this week's and the next three weeks'. Built
+   * by the server on every load.
+   */
   forecast: ScheduledWeatherEvent[];
   /** The overlays over the same weeks. Also built by the server on load. */
   overlays: ScheduledWeatherOverlay[];

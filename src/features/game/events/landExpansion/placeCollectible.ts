@@ -71,6 +71,12 @@ export function placeCollectible(options: Options): GameState {
 
   const gameAfter = produce(placeCollectibleOnLand(options), (game) => {
     syncGuardianPlacements(game, guardiansBefore, createdAt);
+    // A boost collectible (shrine/totem/hourglass, a weather item) placed
+    // mid-grow shortens windowed crops' ready time — keep each cell's Basic
+    // Scarecrow time-AOE in sync so a replant in the gap isn't wrongly denied
+    // the boost. After the sync, so a weather item is read from its
+    // `placedAt`. Idempotent for non-boost placements (windows unchanged).
+    refreshBasicScarecrowTimeAOE(game);
   });
 
   return refreshBeehivesOnRateChange({
@@ -373,12 +379,6 @@ function placeCollectibleOnLand({
       gameAfter: stateCopy,
       now: createdAt,
     });
-
-    // A boost collectible (shrine/totem/hourglass) placed mid-grow shortens
-    // windowed crops' ready time — keep each cell's Basic Scarecrow time-AOE in
-    // sync so a replant in the gap isn't wrongly denied the boost. Idempotent
-    // for non-boost placements (windows unchanged).
-    refreshBasicScarecrowTimeAOE(stateCopy);
 
     return stateCopy;
   });

@@ -21,6 +21,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { getChestItemCount } from "features/island/hud/components/inventory/utils/inventory";
 import { appendBoostHistory } from "features/game/lib/boostWindows";
 import {
+  getCoveredWindow,
   getWeatherEvents,
   isWeatherItemGreyed,
 } from "features/game/lib/weatherItemCover";
@@ -81,12 +82,18 @@ function renewWeatherItem(
     );
   });
 
-  appendBoostHistory(
+  // Keep the time it covered the event it was used on (see
+  // syncGuardianPlacements).
+  const covered = getCoveredWindow({
     game,
-    name,
-    { from: placement.placedAt ?? 0, to: createdAt },
-    createdAt,
-  );
+    item: name,
+    placement,
+    from: placement.placedAt ?? 0,
+    to: createdAt,
+    events: getWeatherEvents(game),
+  });
+  if (covered) appendBoostHistory(game, name, covered, createdAt);
+
   placement.placedAt = createdAt;
   delete placement.usedUntil;
   delete placement.weatherCheckedUntil;
