@@ -9076,5 +9076,6 @@
   "gameOptions.experiments.savedLayouts": "Tata letak yang disimpan",
   "gameOptions.experiments.savedLayoutsDescription": "Simpan tata letak pertanian Anda dan beralih di antara mereka. Buka lansekap di pertanian Anda dan ketuk tombol peta untuk menyimpan tata letak Anda saat ini atau terapkan kembali yang disimpan.",
   "gameOptions.experiments.savedLayoutsToggle": "Aktifkan tata letak yang disimpan",
-  "gameOptions.experiments.savedLayoutsDisclaimer": "Fitur eksperimental saja. Data dan kemajuan dapat diatur ulang atau hilang tanpa pemberitahuan. Dengan mengaktifkan ini, Anda menerima risiko ini dan melanjutkan dengan risiko Anda sendiri."
+  "gameOptions.experiments.savedLayoutsDisclaimer": "Fitur eksperimental saja. Data dan kemajuan dapat diatur ulang atau hilang tanpa pemberitahuan. Dengan mengaktifkan ini, Anda menerima risiko ini dan melanjutkan dengan risiko Anda sendiri.",
+  "vip.benefit.beetleBonus": "{{percent}}% peluang +1 Kumbang saat menggali Kumbang di Gua selama Bab Penghuni Gua"
 }

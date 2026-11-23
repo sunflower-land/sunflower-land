@@ -5997,6 +5997,7 @@
   "vip.benefit.bonusDelivery": "Bonus Delivery & Chore Rewards",
   "vip.benefit.reputation": "{{points}} Reputation Points",
   "vip.benefit.expansionSpeed": "-10% Expansion time during Ascension Age Chapter (Starts on 10th August 2026 Midnight UTC)",
+  "vip.benefit.beetleBonus": "{{percent}}% chance of +1 Beetle when digging up Beetles in the Cave during Cave Dwellers Chapter",
   "vip.savings.title": "VIP Savings",
   "vip.savings.description": "Track how much you've saved and earned with VIP perks.",
   "vip.savings.coinsSaved": "Coins Saved",
