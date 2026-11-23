@@ -2,6 +2,7 @@ import { commitArrangement, ARRANGEMENT_CONFLICT } from "./arrangementEffects";
 import { flushPendingActions } from "./layoutEffects";
 import { postEffect, createEffectError } from "./effect";
 import { createErrorLogger } from "lib/errorLogger";
+import { createApiError } from "lib/apiError";
 import type { MachineInterpreter } from "features/game/lib/gameMachine";
 import { INITIAL_FARM } from "features/game/lib/constants";
 
@@ -81,6 +82,26 @@ describe("commitArrangement", () => {
     expect(report.mock.calls[0][0]).toMatchObject({
       message: "Landscaping save failed (post): EF-001",
       meta: { stage: "post" },
+    });
+  });
+
+  it("passes on the request details of a failed save request", async () => {
+    (postEffect as jest.Mock).mockRejectedValue(
+      createApiError({
+        code: "EF-001",
+        status: 500,
+        endpoint: "POST /event",
+        transactionId: "tx-1",
+      }),
+    );
+
+    await expect(commitArrangement(makeService())).rejects.toThrow("EF-001");
+
+    expect(report.mock.calls[0][0]).toMatchObject({
+      code: "EF-001",
+      status: 500,
+      endpoint: "POST /event",
+      transactionId: "tx-1",
     });
   });
 

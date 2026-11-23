@@ -1,5 +1,32 @@
 import { TEST_FARM } from "features/game/lib/constants";
-import { createEffectError, stripRemovedStateKeys } from "./effect";
+import { createEffectError, postEffect, stripRemovedStateKeys } from "./effect";
+import { secureFetch } from "lib/requestToken";
+import { ERRORS } from "lib/errors";
+
+jest.mock("lib/requestToken", () => ({
+  ...jest.requireActual("lib/requestToken"),
+  secureFetch: jest.fn(),
+}));
+
+describe("postEffect", () => {
+  it("keeps the request details on an unexpected response", async () => {
+    (secureFetch as jest.Mock).mockResolvedValue({ status: 500, ok: false });
+
+    await expect(
+      postEffect({
+        farmId: 1,
+        token: "token",
+        transactionId: "tx-1",
+        effect: { type: "layout.deleted" },
+      } as unknown as Parameters<typeof postEffect>[0]),
+    ).rejects.toMatchObject({
+      message: ERRORS.EFFECT_SERVER_ERROR,
+      status: 500,
+      endpoint: "POST /event",
+      transactionId: "tx-1",
+    });
+  });
+});
 
 describe("stripRemovedStateKeys", () => {
   const linked = {

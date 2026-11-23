@@ -4,6 +4,7 @@ import type { GameState } from "../types/game";
 import { makeGame } from "../lib/transforms";
 import { getRecordHash } from "lib/stateHash";
 import { secureFetch } from "lib/requestToken";
+import { createApiError } from "lib/apiError";
 
 const API_URL = CONFIG.API_URL;
 
@@ -343,7 +344,13 @@ export async function postEffect(
   }
 
   if (response.status !== 200 || !response.ok) {
-    throw new Error(ERRORS.EFFECT_SERVER_ERROR);
+    // Same message as before; the request details ride along for reporting.
+    throw createApiError({
+      code: ERRORS.EFFECT_SERVER_ERROR,
+      status: response.status,
+      endpoint: "POST /event",
+      transactionId: request.transactionId,
+    });
   }
 
   const { gameState, data } = await response.json();
