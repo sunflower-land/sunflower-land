@@ -150,6 +150,17 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
     const subscription = gameService.subscribe((state) => {
       if (!state.changed || state.event.type === "END_VISIT") return;
 
+      // The player left /visit (e.g. pressed Back) while the farm was still
+      // loading, so the route handler had no visit to end yet.
+      if (
+        state.matches("visiting") &&
+        state.history?.matches("loadLandToVisit") &&
+        !window.location.href.includes("visit")
+      ) {
+        gameService.send("END_VISIT");
+        return;
+      }
+
       startVisitFromUrl(gameService);
     });
 
