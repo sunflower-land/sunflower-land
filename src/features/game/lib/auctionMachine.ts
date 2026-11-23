@@ -477,7 +477,8 @@ export const createAuctioneerMachine = ({
         noWallet: {
           on: {
             REFRESH: {
-              target: "loading",
+              // The auctions are already loaded
+              target: "initialising",
               actions: assign({
                 linkedAddress: (context, event) =>
                   (event as RefreshEvent).linkedAddress ??
