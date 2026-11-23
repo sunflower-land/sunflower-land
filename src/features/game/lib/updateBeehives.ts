@@ -414,6 +414,10 @@ const attachFlowers = ({ game, createdAt }: AttachFlowers) => {
     createdAt,
   });
 
+  // Set when an attachment was cut where the rate changes: the next round
+  // carries on with the same flower and hive, as if it hadn't been cut.
+  let carryOn: { flowerId: string; hiveId: string } | undefined;
+
   // eslint-disable-next-line no-constant-condition
   while (true) {
     flowerDetails = Object.fromEntries(
@@ -427,13 +431,22 @@ const attachFlowers = ({ game, createdAt }: AttachFlowers) => {
       ),
     );
 
-    const flower = Object.entries(flowerDetails).sort(
-      (a, b) => a[1].flowerAvailableAt - b[1].flowerAvailableAt,
-    )[0];
+    const carried =
+      carryOn && flowerDetails[carryOn.flowerId] && hiveDetails[carryOn.hiveId]
+        ? carryOn
+        : undefined;
 
-    const hive = Object.entries(hiveDetails).sort(
-      (a, b) => a[1].beehiveAvailableAt - b[1].beehiveAvailableAt,
-    )[0];
+    const flower = carried
+      ? ([carried.flowerId, flowerDetails[carried.flowerId]] as const)
+      : Object.entries(flowerDetails).sort(
+          (a, b) => a[1].flowerAvailableAt - b[1].flowerAvailableAt,
+        )[0];
+
+    const hive = carried
+      ? ([carried.hiveId, hiveDetails[carried.hiveId]] as const)
+      : Object.entries(hiveDetails).sort(
+          (a, b) => a[1].beehiveAvailableAt - b[1].beehiveAvailableAt,
+        )[0];
 
     // Nothing more to be done
     if (!flower || !hive) break;
@@ -465,11 +478,14 @@ const attachFlowers = ({ game, createdAt }: AttachFlowers) => {
     // Stop where the rate changes by itself (e.g. Bee Migration starting);
     // the next round attaches the rest at the new rate.
     const nextChange = getNextHoneyRateChange(stateCopy, attachedAt);
-    const attachedUntil = Math.min(
+    const uncutUntil =
       attachedAt +
-        Math.min(hiveDetail.availableTime, flowerDetail.availableTime),
+      Math.min(hiveDetail.availableTime, flowerDetail.availableTime);
+    const attachedUntil = Math.min(
+      uncutUntil,
       nextChange ?? Number.MAX_SAFE_INTEGER,
     );
+    carryOn = attachedUntil < uncutUntil ? { flowerId, hiveId } : undefined;
 
     // Attach to hive
     activeBeehives[hiveId].flowers.push({

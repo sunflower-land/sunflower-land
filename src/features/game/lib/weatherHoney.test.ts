@@ -238,6 +238,47 @@ describe("honey during Bee Migration", () => {
     ]);
   });
 
+  it("keeps the same flower on the hive after a cut at the event start", () => {
+    // Flower a has the whole day left, flower b only its last hour. The hive
+    // takes a first; cutting a at the start must not hand the hive to b.
+    const game = farm();
+    const { flowers } = updateBeehives({
+      game: {
+        ...game,
+        beehives: {
+          h: {
+            swarm: false,
+            x: 3,
+            y: 3,
+            honey: { updatedAt: attachedAt, produced: 0 },
+            flowers: [],
+          },
+        },
+        flowers: {
+          ...game.flowers,
+          flowerBeds: {
+            a: {
+              createdAt: attachedAt,
+              x: 0,
+              y: 3,
+              flower: { name: "Red Pansy", plantedAt: attachedAt },
+            },
+            b: {
+              createdAt: attachedAt,
+              x: 0,
+              y: 5,
+              flower: { name: "Red Pansy", plantedAt: attachedAt - 23 * HOUR },
+            },
+          },
+        },
+      },
+      createdAt: attachedAt,
+    }).h;
+
+    expect(flowers.map(({ id }) => id)).toEqual(["a", "a"]);
+    expect(flowers[1]).toMatchObject({ attachedAt: BEES.startAt, rate: 1.2 });
+  });
+
   it("credits honey at 1.2 once Bee Migration starts", () => {
     const game = farm();
     const attached = { ...game, beehives: { h: hive(game) } };
