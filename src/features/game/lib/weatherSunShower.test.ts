@@ -257,6 +257,28 @@ describe("getWeatherSunShowerWindows", () => {
     );
   });
 
+  it("doesn't stack a calendar Sun Shower left from before the flag", () => {
+    // A calendar Sun Shower record (2×) from just before SUN until 1 day in.
+    const game: GameState = {
+      ...farm(),
+      boostHistory: {
+        Sunshower: [
+          { from: SUN.startAt - 10 * HOUR, to: SUN.startAt + 24 * HOUR },
+        ],
+      },
+    };
+
+    // Planted 10h before SUN: 10h at the calendar's 2× = 20h of growth, then
+    // 13h more at the weather 1.3× (not 2.6×) takes 10h.
+    expect(
+      computeReadyAt({
+        startedAt: SUN.startAt - 10 * HOUR,
+        baseDurationMs: 33 * HOUR,
+        windows: getCropPlotBoostWindows(game),
+      }),
+    ).toBe(SUN.startAt + 10 * HOUR);
+  });
+
   describe("without the Weather flag", () => {
     const network = CONFIG.NETWORK;
     beforeAll(() => {

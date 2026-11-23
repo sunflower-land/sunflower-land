@@ -28,6 +28,7 @@ import {
   getSunshowerGuardianWindows,
   getSunshowerWindows,
   getWeatherSunShowerWindows,
+  withoutWindows,
   type BoostWindow,
 } from "./boostWindows";
 import { GUARDIAN_BOOST } from "./getActiveGuardian";
@@ -95,12 +96,23 @@ const cropPlot = (game: GameState, at: number): BoostContribution[] => [
   ),
   totems(game, CROP_PLOT_BOOST_SPEED["Super Totem"], at),
   { name: "Power hour", windows: getPowerHourWindows(game) },
-  { name: "sunshower", windows: getSunshowerWindows(game) },
+  // Calendar records only count where no weather Sun Shower runs (see
+  // getCalendarSunshowerWindows).
+  {
+    name: "sunshower",
+    windows: withoutWindows(
+      getSunshowerWindows(game),
+      getWeatherSunShowerWindows(game),
+    ),
+  },
   // Only the Guardian placed during a sunshower speeds crops up, and only for
   // the time it was out — so it gets its own windows, credited to the Guardian.
   ...getKeys(GUARDIAN_BOOST).map((guardian) => ({
     name: guardian,
-    windows: getSunshowerGuardianWindows(game, guardian),
+    windows: withoutWindows(
+      getSunshowerGuardianWindows(game, guardian),
+      getWeatherSunShowerWindows(game),
+    ),
   })),
   // The weather Sun Shower's pieces already include the Shade Cloth and the
   // Guardian (1.3× / 1.6× / 2×), so they're credited to it as one.

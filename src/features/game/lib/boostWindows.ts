@@ -438,6 +438,36 @@ export const getMergedTotemWindows = (
     ...getBoostWindows({ game, name: "Time Warp Totem", speed }),
   ]);
 
+/** `windows` with the time any of `blockers` covers cut out. */
+export const withoutWindows = (
+  windows: BoostWindow[],
+  blockers: { from: number; to: number }[],
+): BoostWindow[] =>
+  blockers.reduce(
+    (pieces, blocker) =>
+      pieces.flatMap((piece) =>
+        [
+          { ...piece, to: Math.min(piece.to, blocker.from) },
+          { ...piece, from: Math.max(piece.from, blocker.to) },
+        ].filter((part) => part.to > part.from),
+      ),
+    windows,
+  );
+
+/**
+ * The calendar Sun Shower's windows (and its Guardian's), except where a
+ * weather Sun Shower runs: a calendar record left from before the Weather
+ * flag never multiplies with it.
+ */
+export const getCalendarSunshowerWindows = (game: GameState): BoostWindow[] => {
+  const weather = getWeatherSunShowerWindows(game);
+
+  return withoutWindows(
+    [...getSunshowerWindows(game), ...getSunshowerGuardianWindows(game)],
+    weather,
+  );
+};
+
 /**
  * The windowed speed boosts that apply to (plot) crop growth. Each is its own
  * window so overlapping boosts stack multiplicatively (Sparrow 1.35 × Harvest
@@ -457,8 +487,7 @@ export const getCropPlotBoostWindows = (game: GameState): BoostWindow[] => [
   }),
   ...getMergedTotemWindows(game, CROP_PLOT_BOOST_SPEED["Super Totem"]),
   ...getPowerHourWindows(game),
-  ...getSunshowerWindows(game),
-  ...getSunshowerGuardianWindows(game),
+  ...getCalendarSunshowerWindows(game),
   ...getWeatherSunShowerWindows(game),
 ];
 
