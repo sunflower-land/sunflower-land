@@ -3,6 +3,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { useActor, useSelector } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
+import { ButtonPanel } from "components/ui/Panel";
+import walletIcon from "assets/icons/wallet.png";
 import type { Bid, GameState } from "features/game/types/game";
 import type {
   AuctionResults,
@@ -207,13 +209,15 @@ export const AuctioneerContent: React.FC<Props> = ({
 
   // Bidding needs a linked wallet, so say so before the player picks an auction
   const walletNotice = auctioneerState.matches("noWallet") && (
-    <div className="flex flex-col items-start p-1 mb-1">
-      <Label type="danger" className="mb-1">
-        {t("auction.walletRequired")}
-      </Label>
-      <Button onClick={() => setShowLinkWallet(true)}>
-        {t("linkedAccounts.linkWallet")}
-      </Button>
+    <div className="pt-2 pl-2">
+      <ButtonPanel onClick={() => setShowLinkWallet(true)}>
+        <div className="flex flex-col">
+          <Label type="default" icon={walletIcon}>
+            {t("auction.walletRequired")}
+          </Label>
+          <p className="text-xs">{t("auction.noWallet")}</p>
+        </div>
+      </ButtonPanel>
     </div>
   );
 
