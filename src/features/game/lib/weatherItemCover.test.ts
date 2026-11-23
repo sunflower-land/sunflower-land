@@ -4,6 +4,7 @@ import type { ScheduledWeatherEvent } from "../types/weather";
 import {
   findUsedEvent,
   getUnprotectedThreat,
+  getWindfallBonus,
   getUsedUntil,
   getWeatherItemCover,
   isWeatherItemGreyed,
@@ -390,6 +391,115 @@ describe("weather item cover", () => {
       });
 
       expect(getUnprotectedThreat({ ...args, game })).toEqual(FLOOD);
+    });
+  });
+  describe("getWindfallBonus", () => {
+    // 2026-11-23 starts a summer week.
+    const HARVEST: ScheduledWeatherEvent = {
+      name: "bountifulHarvest",
+      startAt: Date.UTC(2026, 10, 23),
+      endAt: Date.UTC(2026, 10, 26),
+    };
+    const FRENZY: ScheduledWeatherEvent = {
+      name: "fishFrenzy",
+      startAt: Date.UTC(2026, 10, 26),
+      endAt: Date.UTC(2026, 10, 30),
+    };
+    const MID_HARVEST = HARVEST.startAt + 24 * HOUR;
+    const args = {
+      name: "bountifulHarvest" as const,
+      events: [HARVEST, FRENZY],
+      now: MID_HARVEST,
+    };
+
+    it("gives +0.4 while the windfall runs", () => {
+      expect(getWindfallBonus({ ...args, game: farm() })).toEqual({
+        amount: 0.4,
+      });
+    });
+
+    it("gives nothing before it starts or once it ends", () => {
+      const game = farm();
+
+      expect(
+        getWindfallBonus({ ...args, game, now: HARVEST.startAt - 1 }),
+      ).toEqual({ amount: 0 });
+      expect(getWindfallBonus({ ...args, game, now: HARVEST.startAt })).toEqual(
+        { amount: 0.4 },
+      );
+      expect(getWindfallBonus({ ...args, game, now: HARVEST.endAt })).toEqual({
+        amount: 0,
+      });
+    });
+
+    it("gives nothing while another event runs", () => {
+      expect(
+        getWindfallBonus({
+          ...args,
+          game: farm(),
+          now: FRENZY.startAt + HOUR,
+        }),
+      ).toEqual({ amount: 0 });
+    });
+
+    it("gives +0.4 for Fish Frenzy while it runs", () => {
+      expect(
+        getWindfallBonus({
+          ...args,
+          name: "fishFrenzy",
+          game: farm(),
+          now: FRENZY.startAt + HOUR,
+        }),
+      ).toEqual({ amount: 0.4 });
+    });
+
+    it("gives +0.8 when the season's Guardian was out at the start", () => {
+      const game = farm({
+        collectibles: {
+          "Summer Guardian": [copy({ placedAt: HARVEST.startAt - HOUR })],
+        },
+      });
+
+      expect(getWindfallBonus({ ...args, game })).toEqual({
+        amount: 0.8,
+        guardian: "Summer Guardian",
+      });
+    });
+
+    it("keeps +0.8 when that Guardian is lifted during the event", () => {
+      const game = farm({
+        collectibles: { "Summer Guardian": [lifted()] },
+        boostHistory: {
+          "Summer Guardian": [
+            { from: HARVEST.startAt - HOUR, to: MID_HARVEST - HOUR },
+          ],
+        },
+      });
+
+      expect(getWindfallBonus({ ...args, game })).toEqual({
+        amount: 0.8,
+        guardian: "Summer Guardian",
+      });
+    });
+
+    it("gives +0.4 when the Guardian was placed after the start", () => {
+      const game = farm({
+        collectibles: {
+          "Summer Guardian": [copy({ placedAt: HARVEST.startAt + HOUR })],
+        },
+      });
+
+      expect(getWindfallBonus({ ...args, game })).toEqual({ amount: 0.4 });
+    });
+
+    it("gives +0.4 when the Guardian is another season's", () => {
+      const game = farm({
+        collectibles: {
+          "Spring Guardian": [copy({ placedAt: HARVEST.startAt - HOUR })],
+        },
+      });
+
+      expect(getWindfallBonus({ ...args, game })).toEqual({ amount: 0.4 });
     });
   });
 });

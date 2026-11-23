@@ -30,6 +30,11 @@ import { FACTION_ITEMS } from "features/game/lib/factions";
 import { produce } from "immer";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { getActiveGuardian } from "features/game/lib/getActiveGuardian";
+import {
+  getWeatherEvents,
+  getWindfallBonus,
+} from "features/game/lib/weatherItemCover";
+import { hasFeatureAccess } from "lib/flags";
 import { getFruitfulBlendBuff } from "./fertiliseFruitPatch";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { prngChance } from "lib/prng";
@@ -273,7 +278,23 @@ export function getFruitYield({
     boostsUsed.push({ name: "Legendary Shrine", value: "+1" });
   }
 
-  if (
+  if (hasFeatureAccess(game, "WEATHER")) {
+    // Weather Bountiful Harvest: a flat bonus per harvest.
+    const windfall = getWindfallBonus({
+      game,
+      name: "bountifulHarvest",
+      events: getWeatherEvents(game),
+      now,
+    });
+    if (windfall.amount) {
+      // Decimal, so 2.3 + 0.4 is 2.7 rather than 2.6999999999999997.
+      amount = new Decimal(amount).add(windfall.amount).toNumber();
+      boostsUsed.push({
+        name: windfall.guardian ?? "bountifulHarvest",
+        value: `+${windfall.amount}`,
+      });
+    }
+  } else if (
     getActiveCalendarEvent({ calendar: game.calendar }) === "bountifulHarvest"
   ) {
     amount += 1;

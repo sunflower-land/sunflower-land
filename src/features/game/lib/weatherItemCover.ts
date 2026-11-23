@@ -9,7 +9,7 @@ import {
   WEATHER_ITEM_EVENTS,
   type WeatherItemName,
 } from "../types/weatherItems";
-import { GUARDIAN_BOOST } from "./getActiveGuardian";
+import { GUARDIAN_BOOST, type SeasonGuardianName } from "./getActiveGuardian";
 import { getCollectiblesAcrossLocations } from "./getCollectiblesAcrossLocations";
 import { populateSeason } from "./season";
 
@@ -26,13 +26,16 @@ type Game = GameState;
 export const getWeatherEvents = (game: Game): WeatherEvents =>
   game.weather?.forecast ?? [];
 
-/** Was the Guardian of `startAt`'s season placed at that instant? */
-function isGuardianOutAt(game: Game, startAt: number): boolean {
+/** The Guardian of `startAt`'s season, if it was placed at that instant. */
+function getGuardianOutAt(
+  game: Game,
+  startAt: number,
+): SeasonGuardianName | undefined {
   const { season } = populateSeason(startAt);
   const guardian = getKeys(GUARDIAN_BOOST).find(
     (name) => GUARDIAN_BOOST[name].season === season,
   );
-  if (!guardian) return false;
+  if (!guardian) return undefined;
 
   const placed = getCollectiblesAcrossLocations(game, guardian).some(
     (placement) =>
@@ -42,8 +45,11 @@ function isGuardianOutAt(game: Game, startAt: number): boolean {
     (window) => window.from <= startAt && startAt < window.to,
   );
 
-  return placed || wasPlaced;
+  return placed || wasPlaced ? guardian : undefined;
 }
+
+const isGuardianOutAt = (game: Game, startAt: number) =>
+  !!getGuardianOutAt(game, startAt);
 
 /**
  * A threat item isn't used on an event its season's Guardian already covered
@@ -202,4 +208,42 @@ export function getUnprotectedThreat({
   }
 
   return event;
+}
+
+export type WindfallName = Extract<
+  WeatherEventName,
+  "bountifulHarvest" | "fishFrenzy"
+>;
+
+/** What each windfall adds per harvest or catch, before the Guardian. */
+export const WINDFALL_BONUS: Record<WindfallName, number> = {
+  bountifulHarvest: 0.4,
+  fishFrenzy: 0.4,
+};
+
+/**
+ * What the windfall `name` adds at `now`: its bonus while it runs, doubled
+ * when its season's Guardian was out when it started (the Guardian is
+ * decided at the start, like for threats).
+ */
+export function getWindfallBonus({
+  game,
+  name,
+  events,
+  now,
+}: {
+  game: Game;
+  name: WindfallName;
+  events: WeatherEvents;
+  now: number;
+}): { amount: number; guardian?: SeasonGuardianName } {
+  const event = events.find(
+    (event) => event.name === name && event.startAt <= now && now < event.endAt,
+  );
+  if (!event) return { amount: 0 };
+
+  const guardian = getGuardianOutAt(game, event.startAt);
+  if (!guardian) return { amount: WINDFALL_BONUS[name] };
+
+  return { amount: WINDFALL_BONUS[name] * 2, guardian };
 }

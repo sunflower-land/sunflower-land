@@ -1,6 +1,7 @@
 import {
   getUnprotectedThreat,
   getWeatherEvents,
+  getWindfallBonus,
 } from "features/game/lib/weatherItemCover";
 import { hasFeatureAccess } from "lib/flags";
 import type {
@@ -969,7 +970,23 @@ export function getCropYieldAmount({
     }
   }
 
-  if (
+  if (hasFeatureAccess(game, "WEATHER")) {
+    // Weather Bountiful Harvest: a flat bonus per harvest.
+    const windfall = getWindfallBonus({
+      game,
+      name: "bountifulHarvest",
+      events: getWeatherEvents(game),
+      now: createdAt,
+    });
+    if (windfall.amount) {
+      // Decimal, so 2.3 + 0.4 is 2.7 rather than 2.6999999999999997.
+      amount = new Decimal(amount).add(windfall.amount).toNumber();
+      boostsUsed.push({
+        name: windfall.guardian ?? "bountifulHarvest",
+        value: `+${windfall.amount}`,
+      });
+    }
+  } else if (
     getActiveCalendarEvent({ calendar: game.calendar }) === "bountifulHarvest"
   ) {
     amount += 1;
