@@ -76,6 +76,32 @@ describe("Bountiful Harvest (weather)", () => {
     expect(apples(farm())).toBe(1.4);
   });
 
+  it("adds 0.4 without float noise", () => {
+    // Lemon 1 + Camel Onesie 0.1 + Lemon Shark 0.2 + Lemon Shield 1 = 2.3, and
+    // 2.3 + 0.4 in floats is 2.6999999999999997, which would truncate to 2.6999.
+    const base = farm({ "Lemon Shark": [placed()] });
+    const game: GameState = {
+      ...base,
+      bumpkin: {
+        ...base.bumpkin,
+        equipped: {
+          ...base.bumpkin.equipped,
+          onesie: "Camel Onesie",
+          secondaryTool: "Lemon Shield",
+        },
+      },
+    };
+
+    const amount = getFruitYield({
+      name: "Lemon",
+      game,
+      now: MID_HARVEST,
+      prngArgs: { farmId: 1, counter: 0 },
+    }).amount;
+
+    expect(amount).toBe(2.7);
+  });
+
   it("adds 0.4 to Greenhouse crops and fruit", () => {
     const greenhouse = (crop: "Rice" | "Grape") =>
       getGreenhouseCropYieldAmount({

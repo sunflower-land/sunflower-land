@@ -979,7 +979,8 @@ export function getCropYieldAmount({
       now: createdAt,
     });
     if (windfall.amount) {
-      amount += windfall.amount;
+      // Decimal, so 2.3 + 0.4 is 2.7 rather than 2.6999999999999997.
+      amount = new Decimal(amount).add(windfall.amount).toNumber();
       boostsUsed.push({
         name: windfall.guardian ?? "bountifulHarvest",
         value: `+${windfall.amount}`,

@@ -35,7 +35,6 @@ import {
   getWindfallBonus,
 } from "features/game/lib/weatherItemCover";
 import { hasFeatureAccess } from "lib/flags";
-import { setPrecision } from "lib/utils/formatNumber";
 import { getFruitfulBlendBuff } from "./fertiliseFruitPatch";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { prngChance } from "lib/prng";
@@ -288,7 +287,8 @@ export function getFruitYield({
       now,
     });
     if (windfall.amount) {
-      amount += windfall.amount;
+      // Decimal, so 2.3 + 0.4 is 2.7 rather than 2.6999999999999997.
+      amount = new Decimal(amount).add(windfall.amount).toNumber();
       boostsUsed.push({
         name: windfall.guardian ?? "bountifulHarvest",
         value: `+${windfall.amount}`,
@@ -308,7 +308,7 @@ export function getFruitYield({
     }
   }
 
-  return { amount: Number(setPrecision(amount)), boostsUsed };
+  return { amount, boostsUsed };
 }
 
 export function harvestFruit({
