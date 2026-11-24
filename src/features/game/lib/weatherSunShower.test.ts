@@ -5,6 +5,7 @@ import type { GameState, PlacedItem } from "../types/game";
 import type { ScheduledWeatherEvent } from "../types/weather";
 import { placeCollectible } from "../events/landExpansion/placeCollectible";
 import { removeCollectible } from "../events/landExpansion/removeCollectible";
+import { renewWeatherCollectible } from "../events/landExpansion/renewWeatherCollectible";
 import {
   computeReadyAt,
   getCropPlotBoostWindows,
@@ -309,6 +310,104 @@ describe("getWeatherSunShowerWindows", () => {
         windows: getCropPlotBoostWindows(state),
       }),
     );
+  });
+
+  it("keeps the Basic Scarecrow's stored time in step when the Shade Cloth is lifted", () => {
+    const plantedAt = SUN.startAt + HOUR;
+    const base = 10 * HOUR;
+    const planted: GameState = {
+      ...farm({
+        ...CLOTH(),
+        "Basic Scarecrow": [placed({ id: "s", coordinates: { x: -4, y: 3 } })],
+      }),
+      crops: {
+        "1": {
+          createdAt: 0,
+          x: -3,
+          y: 3,
+          crop: { name: "Sunflower", plantedAt, baseDurationMs: base },
+        },
+      },
+    };
+    // Planted with the Shade Cloth out, so the cell holds the 1.6× ready time.
+    const stale = computeReadyAt({
+      startedAt: plantedAt,
+      baseDurationMs: base,
+      windows: getCropPlotBoostWindows(planted),
+    });
+    const game: GameState = {
+      ...planted,
+      aoe: { "Basic Scarecrow": { 1: { 0: stale } } },
+    };
+
+    // Lifted an hour after planting: the rest of the grow runs at 1.3×, so the
+    // crop finishes later and the cell's stored time must follow it.
+    const state = move(game, "Shade Cloth", "1", "removed", plantedAt + HOUR);
+
+    const expected = computeReadyAt({
+      startedAt: plantedAt,
+      baseDurationMs: base,
+      windows: getCropPlotBoostWindows(state),
+    });
+    expect(expected).toBeGreaterThan(stale);
+    expect(state.aoe["Basic Scarecrow"]?.[1]?.[0]).toBe(expected);
+  });
+
+  it("keeps the Basic Scarecrow's stored time in step when a used Shade Cloth is renewed", () => {
+    const next = NEXT_SUN;
+    const plantedAt = next.startAt + HOUR;
+    const base = 10 * HOUR;
+    const planted: GameState = {
+      ...farm({
+        // Used up on the Sun Shower before, so greyed for this one.
+        ...CLOTH(),
+        "Basic Scarecrow": [placed({ id: "s", coordinates: { x: -4, y: 3 } })],
+      }),
+      crops: {
+        "1": {
+          createdAt: 0,
+          x: -3,
+          y: 3,
+          crop: { name: "Sunflower", plantedAt, baseDurationMs: base },
+        },
+      },
+    };
+    planted.inventory = {
+      ...planted.inventory,
+      "Pig Bristles": new Decimal(25),
+      "Merino Wool": new Decimal(10),
+    };
+    // Planted with the Shade Cloth greyed, so the cell holds the 1.3× ready time.
+    const stale = computeReadyAt({
+      startedAt: plantedAt,
+      baseDurationMs: base,
+      windows: getCropPlotBoostWindows(planted),
+    });
+    const game: GameState = {
+      ...planted,
+      aoe: { "Basic Scarecrow": { 1: { 0: stale } } },
+    };
+
+    // Renewed an hour after planting: the rest of the grow runs at 1.6×, so the
+    // crop finishes sooner and the cell's stored time must follow it.
+    const state = renewWeatherCollectible({
+      state: game,
+      action: {
+        type: "weatherCollectible.renewed",
+        name: "Shade Cloth",
+        location: "farm",
+        id: "1",
+      },
+      createdAt: plantedAt + HOUR,
+    });
+
+    const expected = computeReadyAt({
+      startedAt: plantedAt,
+      baseDurationMs: base,
+      windows: getCropPlotBoostWindows(state),
+    });
+    expect(expected).toBeLessThan(stale);
+    expect(state.aoe["Basic Scarecrow"]?.[1]?.[0]).toBe(expected);
   });
 
   describe("without the Weather flag", () => {

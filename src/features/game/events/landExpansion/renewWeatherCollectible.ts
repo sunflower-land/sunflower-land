@@ -21,6 +21,7 @@ import {
 import { hasFeatureAccess } from "lib/flags";
 import { getChestItemCount } from "features/island/hud/components/inventory/utils/inventory";
 import { appendBoostHistory } from "features/game/lib/boostWindows";
+import { refreshBasicScarecrowTimeAOE } from "features/game/lib/aoe";
 import {
   getCoveredWindow,
   getWeatherEvents,
@@ -149,6 +150,10 @@ export function renewWeatherCollectible({
         action.ingredient,
         createdAt,
       );
+      // A renewed Shade Cloth covers the Sun Shower again from now, so
+      // windowed crops finish sooner: keep each cell's Basic Scarecrow
+      // time-AOE in step, as placeCollectible does.
+      refreshBasicScarecrowTimeAOE(game);
       return game;
     }
 
