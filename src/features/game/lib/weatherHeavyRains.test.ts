@@ -107,7 +107,7 @@ const change = (game: GameState, at = MID) =>
 const harvest = (
   game: GameState,
   createdAt = MID,
-  crop: "Sunflower" | "Onion" = "Sunflower",
+  crop: "Sunflower" | "Onion" | "Cauliflower" = "Sunflower",
 ) =>
   getCropYieldAmount({
     crop,
@@ -248,10 +248,17 @@ describe("crop harvests during Heavy Rains", () => {
     });
   });
 
-  it("lands with the flat bonuses, after the multipliers", () => {
+  it("lands with the flat bonuses", () => {
     // Onion 1 + Giant Onion 3 - Heavy Rains 0.2 = 3.8.
     const giantOnion = { "Giant Onion": [placed({ id: "o" })] };
     expect(harvest(farm(giantOnion), MID, "Onion").amount).toBe(3.8);
+  });
+
+  it("comes after the multipliers", () => {
+    // Cauliflower 1 × Golden Cauliflower 2 - Heavy Rains 0.2 = 1.8 (not
+    // (1 - 0.2) × 2 = 1.6).
+    const golden = { "Golden Cauliflower": [placed({ id: "c" })] };
+    expect(harvest(farm(golden), MID, "Cauliflower").amount).toBe(1.8);
   });
 
   it("changes each seed of a Crop Machine pack", () => {
