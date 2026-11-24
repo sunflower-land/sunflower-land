@@ -490,6 +490,26 @@ describe("applyArrangement", () => {
       ]);
     });
 
+    it("keeps ids unique when a tile is placed on top of another tile", () => {
+      const state: GameState = {
+        ...withInventory(baseFarm, { "Yellow Tile": 2 }),
+        collectibles: {
+          "Yellow Tile": [{ id: "tile-1", coordinates: { x: 0, y: 0 } }],
+        },
+      };
+      const arrangement = snapshotSurface(state, "farm");
+      arrangement.collectibles["Yellow Tile"]!.push({
+        id: "tile-2",
+        coordinates: { x: 0, y: 0 },
+      });
+
+      const result = apply(state, arrangement);
+
+      expect(
+        result.collectibles["Yellow Tile"]!.map((tile) => tile.id).sort(),
+      ).toEqual(["tile-1", "tile-2"]);
+    });
+
     it("places a chest node under the tier the client named", () => {
       const state = withInventory(baseFarm, { "Ancient Tree": 1 });
       const arrangement = snapshotSurface(state, "farm");
