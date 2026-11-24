@@ -150,8 +150,8 @@ export function renewWeatherCollectible({
         action.ingredient,
         createdAt,
       );
-      // A renewed Shade Cloth covers the Sun Shower again from now, so
-      // windowed crops finish sooner: keep each cell's Basic Scarecrow
+      // A renewed weather item covers its event again from now (a Shade
+      // Cloth speeds crops up again): keep each cell's Basic Scarecrow
       // time-AOE in step, as placeCollectible does.
       refreshBasicScarecrowTimeAOE(game);
       return game;
