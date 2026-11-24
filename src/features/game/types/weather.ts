@@ -50,8 +50,8 @@ export type ScheduledWeatherOverlay = {
 };
 
 /**
- * The buildings a Tornado disables. The server picks them once, on the first
- * load during the Tornado, and the client only reads them.
+ * The buildings a Tornado disables. Set by the server; the client only reads
+ * them.
  */
 export type WeatherTornado = {
   /** The start of the Tornado this pick belongs to. */
