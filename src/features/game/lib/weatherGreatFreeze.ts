@@ -7,8 +7,8 @@ import { getUnprotectedThreat, getWeatherEvents } from "./weatherItemCover";
 export const GREAT_FREEZE_PLOT_SHARE = 0.3;
 
 /**
- * The Great Freeze running at `now` and the plots it locks: the ones the
- * server picked when it started. Nothing is locked while the season's Guardian
+ * The Great Freeze running at `now` and the plots it locks: the ones stored
+ * for it, placed or lifted. Nothing is locked while the season's Guardian
  * out at the start, or a Thaw Stone placed now, covers it.
  */
 export function getGreatFreezeLock({

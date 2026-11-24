@@ -299,14 +299,14 @@ describe("Great Freeze", () => {
   });
 
   describe("removing", () => {
-    it("can't remove a locked plot", () => {
-      expect(() =>
-        removePlot({
-          state: farm(),
-          action: { type: "plot.removed", id: "1" },
-          createdAt: MID,
-        }),
-      ).toThrow("Plot is affected by greatFreeze");
+    it("lifts a locked plot", () => {
+      const game = removePlot({
+        state: farm(),
+        action: { type: "plot.removed", id: "1" },
+        createdAt: MID,
+      });
+
+      expect(game.crops["1"].x).toBeUndefined();
     });
 
     it("removes a plot that isn't locked", () => {
@@ -320,14 +320,11 @@ describe("Great Freeze", () => {
     });
 
     it("keeps a locked plot locked when it's placed back", () => {
-      // Lifted while a Thaw Stone was out, then the stone was lifted too.
-      let game = farm({ collectibles: THAW_STONE() });
-      game = removePlot({
-        state: game,
+      let game = removePlot({
+        state: farm(),
         action: { type: "plot.removed", id: "1" },
         createdAt: MID,
       });
-      game = move(game, "removed", MID + HOUR);
       game = placePlot({
         state: game,
         action: {
@@ -336,11 +333,12 @@ describe("Great Freeze", () => {
           id: "new",
           coordinates: { x: 0, y: 2 },
         },
-        createdAt: MID + 2 * HOUR,
+        createdAt: MID + HOUR,
       });
 
       expect(game.crops.new).toBeUndefined();
-      expect(isPlotFrozen({ game, id: "1", now: MID + 2 * HOUR })).toBe(true);
+      expect(game.crops["1"].x).toBe(0);
+      expect(frozen(game, MID + HOUR)).toEqual(LOCKED);
     });
   });
 

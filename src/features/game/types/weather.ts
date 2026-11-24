@@ -56,8 +56,8 @@ export type Weather = {
   /** The overlays over the same weeks. Also built by the server on load. */
   overlays: ScheduledWeatherOverlay[];
   /**
-   * The crop plots the Great Freeze starting at `startAt` locks. The server
-   * picks them once, on the first load after it starts, and stores them.
+   * The crop plots the Great Freeze starting at `startAt` locks. Set by the
+   * server; the client only reads them.
    */
   greatFreeze?: GreatFreezePick;
 };
