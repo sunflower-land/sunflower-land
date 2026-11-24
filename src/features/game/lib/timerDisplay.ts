@@ -58,6 +58,10 @@ export function projectSeconds({
  * - A live speed WINDOW carries no name (a `BoostWindow` is just an interval and
  *   a rate), so it shows only as a shorter projected time, with nothing to
  *   itemise.
+ *
+ * A window below 1× (a weather Flood) makes the time longer instead. That's
+ * `isSlowed`, and a slower time never uses the boosted layout: a struck-through
+ * shorter base would read as a speed-up.
  */
 export function getPreActionDisplay({
   seconds,
@@ -78,9 +82,18 @@ export function getPreActionDisplay({
   hasNamedBoosts: boolean;
   /** Whether to use the boosted layout (struck-through base time). */
   isBoosted: boolean;
+  /** Whether a window below 1× (a Flood) made the time longer. */
+  isSlowed: boolean;
 } {
   const displaySeconds = projectSeconds({ seconds, windows, at });
   const hasNamedBoosts = namedBoostCount > 0;
+  const isSlowed =
+    displaySeconds >
+    projectSeconds({
+      seconds,
+      windows: windows.filter((window) => window.speed >= 1),
+      at,
+    });
 
   return {
     displaySeconds,
@@ -89,7 +102,9 @@ export function getPreActionDisplay({
       displaySeconds,
       baseSeconds,
       hasNamedBoosts,
+      isSlowed,
     }),
+    isSlowed,
   };
 }
 
@@ -102,15 +117,20 @@ export function isPreActionBoosted({
   displaySeconds,
   baseSeconds,
   hasNamedBoosts,
+  isSlowed = false,
 }: {
   displaySeconds: number;
   baseSeconds?: number;
   hasNamedBoosts: boolean;
+  /** A Flood made it longer (see `getPreActionDisplay`). */
+  isSlowed?: boolean;
 }): boolean {
   if (baseSeconds === undefined) return false;
 
   return (
     displaySeconds < baseSeconds ||
-    (hasNamedBoosts && displaySeconds > baseSeconds)
+    // A named debuff lengthening the time still lists its boosts; a Flood
+    // doesn't make a longer time look boosted.
+    (hasNamedBoosts && !isSlowed && displaySeconds > baseSeconds)
   );
 }

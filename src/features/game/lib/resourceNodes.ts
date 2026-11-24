@@ -126,6 +126,22 @@ export function getMineReadyAt(
   });
 }
 
+/**
+ * When a mined Crimstone's streak resets (`minesLeft` back to 5): 24h after it
+ * recovers. Recovery is the later of its base time and its windowed ready
+ * time, so a Flood that slows the rock extends the grace, and a boost that
+ * speeds it up doesn't shorten it.
+ */
+export const getCrimstoneResetAt = ({
+  minedAt,
+  readyAt,
+}: {
+  minedAt: number;
+  readyAt: number;
+}): number =>
+  Math.max(minedAt + CRIMSTONE_RECOVERY_TIME * 1000, readyAt) +
+  24 * 60 * 60 * 1000;
+
 export function canMine(
   rock: Rock,
   rockName: RockName,

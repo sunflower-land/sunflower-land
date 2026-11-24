@@ -57,6 +57,7 @@ interface HarvestsRequirementProps {
  * @param timeSeconds The wait time in seconds for using the item.
  * @param baseTimeSeconds The base wait time before boosts (for strikethrough display).
  * @param timeBoostsUsed The boosts applied to the grow time (for clickable boost display).
+ * @param timeIsSlowed Whether a Flood made the wait longer (see `getPreActionDisplay`).
  * @param harvests The min/max harvests for the item.
  * @param xp The XP gained for consuming the item.
  * @param xpBoostsUsed The boosts applied to food XP (for clickable boost display).
@@ -69,6 +70,7 @@ interface PropertiesProps {
   timeSeconds?: number;
   baseTimeSeconds?: number;
   timeBoostsUsed?: { name: BoostName; value: string }[];
+  timeIsSlowed?: boolean;
   harvests?: HarvestsRequirementProps;
   xp?: Decimal;
   xpBoostsUsed?: { name: BoostName; value: string }[];
@@ -188,6 +190,7 @@ export const InventoryItemDetails: React.FC<Props> = ({
         displaySeconds: properties.timeSeconds,
         baseSeconds: properties.baseTimeSeconds,
         hasNamedBoosts,
+        isSlowed: properties.timeIsSlowed,
       });
 
       if (

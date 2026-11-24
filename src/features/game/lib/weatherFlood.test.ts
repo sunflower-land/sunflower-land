@@ -6,7 +6,8 @@ import type { ScheduledWeatherEvent } from "../types/weather";
 import { placeCollectible } from "../events/landExpansion/placeCollectible";
 import { removeCollectible } from "../events/landExpansion/removeCollectible";
 import { getTreeReadyAt } from "../events/landExpansion/chop";
-import { getMineReadyAt } from "./resourceNodes";
+import { getCrimstoneResetAt, getMineReadyAt } from "./resourceNodes";
+import { mineCrimstone } from "../events/landExpansion/mineCrimstone";
 import type { RockName } from "../types/resources";
 import {
   getCropPlotBoostWindows,
@@ -362,5 +363,53 @@ describe("honey during a Flood", () => {
     it("keeps the honey rate", () => {
       expect(hive(farm()).flowers.map(({ rate }) => rate)).toEqual([1]);
     });
+  });
+});
+
+describe("the Crimstone streak during a Flood", () => {
+  // A Crimstone (24h recovery) mined at the start of the Flood, three mines
+  // into its streak. 24h of recovery at 0.5× take 48h.
+  const minedAt = FLOOD.startAt;
+  const crimstone = (game: GameState): GameState => ({
+    ...game,
+    inventory: { ...game.inventory, "Gold Pickaxe": new Decimal(5) },
+    crimstones: {
+      0: {
+        createdAt: 0,
+        x: 0,
+        y: 0,
+        minesLeft: 3,
+        stone: { minedAt, baseDurationMs: 24 * HOUR },
+      },
+    },
+  });
+  const mineAt = (createdAt: number) =>
+    mineCrimstone({
+      state: crimstone(farm()),
+      action: { type: "crimstoneRock.mined", index: 0 },
+      createdAt,
+      farmId: 1,
+    }).crimstones[0].minesLeft;
+
+  it("resets 24h after the rock recovers, not 24h after its base recovery", () => {
+    expect(getCrimstoneResetAt({ minedAt, readyAt: minedAt + 48 * HOUR })).toBe(
+      minedAt + 72 * HOUR,
+    );
+  });
+
+  it("never resets sooner than 24h after its base recovery", () => {
+    // Sped up to 12h, it still has until 24h + 24h.
+    expect(getCrimstoneResetAt({ minedAt, readyAt: minedAt + 12 * HOUR })).toBe(
+      minedAt + 48 * HOUR,
+    );
+  });
+
+  it("keeps the streak for a mine an hour after the flooded rock recovers", () => {
+    // Without the Flood, 49h after mining would be past the 48h reset.
+    expect(mineAt(minedAt + 49 * HOUR)).toBe(2);
+  });
+
+  it("still resets the streak 24h after the flooded rock recovers", () => {
+    expect(mineAt(minedAt + 72 * HOUR + 1)).toBe(4);
   });
 });

@@ -678,7 +678,7 @@ const GrowthTimeCell: React.FC<{
       <div className="flex items-center mr-2">
         <img src={SUNNYSIDE.icons.stopwatch} className="w-3 mr-1" />
         <p className="text-xxs">
-          {secondsToString(baseSeconds, {
+          {secondsToString(displaySeconds, {
             length: showMediumTime ? "medium" : "short",
           })}
         </p>

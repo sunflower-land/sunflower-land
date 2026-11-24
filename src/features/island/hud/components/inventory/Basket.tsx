@@ -630,6 +630,7 @@ export const Basket: React.FC<Prop> = ({
                   ? getBaseHarvestTime(selectedItem)
                   : undefined,
                 timeBoostsUsed: seedBoostsUsed,
+                timeIsSlowed: seedTimeDisplay?.isSlowed,
                 onMarketplaceClick:
                   onOpenMarketplace && canOpenMarketplace
                     ? () => onOpenMarketplace(selectedItem)
