@@ -1,3 +1,5 @@
+import type { BuildingName } from "./buildings";
+
 export type WeatherEventName =
   | "flood"
   | "tornado"
@@ -54,7 +56,8 @@ export type ScheduledWeatherOverlay = {
 export type WeatherTornado = {
   /** The start of the Tornado this pick belongs to. */
   startAt: number;
-  buildingIds: string[];
+  /** By name and id: ids are only unique within one building name. */
+  buildings: { name: BuildingName; id: string }[];
 };
 
 export type Weather = {

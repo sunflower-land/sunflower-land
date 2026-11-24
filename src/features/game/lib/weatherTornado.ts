@@ -29,11 +29,11 @@ export const TORNADO_BUILDINGS: readonly BuildingName[] = [
 export const TORNADO_DISABLED_SHARE = 0.3;
 
 /**
- * The ids of the buildings disabled at `now`: the stored pick, while its
- * Tornado runs and nothing covers it (the season's Guardian out when it
- * started, or a Balk placed now).
+ * The buildings disabled at `now`: the stored pick, while its Tornado runs
+ * and nothing covers it (the season's Guardian out when it started, or a
+ * Balk placed now).
  */
-export function getTornadoDisabledBuildingIds({
+export function getTornadoDisabledBuildings({
   game,
   now,
   events = getWeatherEvents(game),
@@ -41,14 +41,14 @@ export function getTornadoDisabledBuildingIds({
   game: GameState;
   now: number;
   events?: WeatherEvents;
-}): readonly string[] {
+}): readonly Readonly<{ name: BuildingName; id: string }>[] {
   if (!hasFeatureAccess(game, "WEATHER")) return [];
 
   const tornado = getUnprotectedThreat({ game, name: "tornado", events, now });
   const pick = game.weather?.tornado;
   if (!tornado || pick?.startAt !== tornado.startAt) return [];
 
-  return pick.buildingIds;
+  return pick.buildings;
 }
 
 /**
@@ -69,7 +69,7 @@ export function isBuildingDisabled({
   now: number;
   events?: WeatherEvents;
 }): boolean {
-  const disabled = getTornadoDisabledBuildingIds({ game, now, events });
+  const disabled = getTornadoDisabledBuildings({ game, now, events });
   if (disabled.length === 0) return false;
 
   const copies = (game.buildings[name] ?? []).filter(
@@ -79,7 +79,11 @@ export function isBuildingDisabled({
 
   return (
     copies.length > 0 &&
-    copies.every((building) => disabled.includes(building.id))
+    copies.every((building) =>
+      disabled.some(
+        (picked) => picked.name === name && picked.id === building.id,
+      ),
+    )
   );
 }
 

@@ -301,12 +301,16 @@ const _destroyedBy =
     isBuildingDestroyed({ name, id, game: state.context.state, now });
 
 /** When the Tornado ends, while its pick holds this building. */
-const _tornadoEndAt = (id: string) => (state: MachineState) => {
-  const game = state.context.state;
-  if (!game.weather?.tornado?.buildingIds.includes(id)) return undefined;
+const _tornadoEndAt =
+  (name: BuildingName, id: string) => (state: MachineState) => {
+    const game = state.context.state;
+    const picked = game.weather?.tornado?.buildings.some(
+      (building) => building.name === name && building.id === id,
+    );
+    if (!picked) return undefined;
 
-  return getStoredTornado(game)?.endAt;
-};
+    return getStoredTornado(game)?.endAt;
+  };
 
 const BuildingComponent: React.FC<Prop> = ({
   name,
@@ -328,7 +332,7 @@ const BuildingComponent: React.FC<Prop> = ({
 
   // Ticks only while the Tornado's pick holds this building, so it opens again
   // the moment the Tornado ends.
-  const tornadoEndAt = useSelector(gameService, _tornadoEndAt(id));
+  const tornadoEndAt = useSelector(gameService, _tornadoEndAt(name, id));
   const tornadoNow = useNow({
     live: tornadoEndAt !== undefined,
     autoEndAt: tornadoEndAt,

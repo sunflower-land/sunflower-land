@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { CONFIG } from "lib/config";
 import { TEST_FARM } from "./constants";
 import type { GameState, PlacedItem } from "../types/game";
+import type { BuildingName } from "../types/buildings";
 import type { ScheduledWeatherEvent } from "../types/weather";
 import { placeCollectible } from "../events/landExpansion/placeCollectible";
 import { removeCollectible } from "../events/landExpansion/removeCollectible";
@@ -59,7 +60,7 @@ import { buyCaveMerchantOffer } from "../events/landExpansion/buyCaveMerchantOff
 import { skillUse } from "../events/landExpansion/skillUsed";
 import {
   assertBuildingNotDisabled,
-  getTornadoDisabledBuildingIds,
+  getTornadoDisabledBuildings,
   isBuildingDisabled,
 } from "./weatherTornado";
 
@@ -72,6 +73,7 @@ const TORNADO: ScheduledWeatherEvent = {
   endAt: Date.UTC(2026, 11, 7),
 };
 const MID = TORNADO.startAt + 24 * HOUR;
+const KITCHEN = { name: "Kitchen" as const, id: "kitchen" };
 
 // The next Tornado on the schedule.
 const NEXT_TORNADO: ScheduledWeatherEvent = {
@@ -127,7 +129,7 @@ const farm = (fields: Partial<GameState> = {}): GameState => ({
   weather: {
     forecast: [TORNADO, NEXT_TORNADO],
     overlays: [],
-    tornado: { startAt: TORNADO.startAt, buildingIds: ["kitchen"] },
+    tornado: { startAt: TORNADO.startAt, buildings: [KITCHEN] },
   },
   ...fields,
 });
@@ -163,9 +165,7 @@ describe("weatherTornado", () => {
   it("disables the stored buildings while the Tornado runs", () => {
     const game = farm();
 
-    expect(getTornadoDisabledBuildingIds({ game, now: MID })).toEqual([
-      "kitchen",
-    ]);
+    expect(getTornadoDisabledBuildings({ game, now: MID })).toEqual([KITCHEN]);
     expect(isBuildingDisabled({ game, name: "Kitchen", now: MID })).toBe(true);
     expect(
       isBuildingDisabled({ game, name: "Kitchen", id: "kitchen", now: MID }),
@@ -181,18 +181,34 @@ describe("weatherTornado", () => {
     );
   });
 
+  it("reads the pick against the building's own name", () => {
+    // Ids are only unique within one building name: a Greenhouse sharing the
+    // picked Kitchen's id keeps working.
+    const game = farm({
+      buildings: {
+        Kitchen: [building("kitchen")],
+        Greenhouse: [building("kitchen")],
+      },
+    });
+
+    expect(isBuildingDisabled({ game, name: "Kitchen", now: MID })).toBe(true);
+    expect(
+      isBuildingDisabled({ game, name: "Greenhouse", id: "kitchen", now: MID }),
+    ).toBe(false);
+  });
+
   it("disables nothing before the Tornado starts or once it has ended", () => {
     const game = farm();
 
     expect(
-      getTornadoDisabledBuildingIds({ game, now: TORNADO.startAt - 1 }),
+      getTornadoDisabledBuildings({ game, now: TORNADO.startAt - 1 }),
     ).toEqual([]);
-    expect(getTornadoDisabledBuildingIds({ game, now: TORNADO.endAt })).toEqual(
+    expect(getTornadoDisabledBuildings({ game, now: TORNADO.endAt })).toEqual(
       [],
     );
-    expect(
-      getTornadoDisabledBuildingIds({ game, now: TORNADO.startAt }),
-    ).toEqual(["kitchen"]);
+    expect(getTornadoDisabledBuildings({ game, now: TORNADO.startAt })).toEqual(
+      [KITCHEN],
+    );
   });
 
   it("ignores a pick stored for another Tornado", () => {
@@ -200,19 +216,19 @@ describe("weatherTornado", () => {
       weather: {
         forecast: [TORNADO, NEXT_TORNADO],
         overlays: [],
-        tornado: { startAt: NEXT_TORNADO.startAt, buildingIds: ["kitchen"] },
+        tornado: { startAt: NEXT_TORNADO.startAt, buildings: [KITCHEN] },
       },
     });
 
-    expect(getTornadoDisabledBuildingIds({ game, now: MID })).toEqual([]);
+    expect(getTornadoDisabledBuildings({ game, now: MID })).toEqual([]);
     expect(
-      getTornadoDisabledBuildingIds({
+      getTornadoDisabledBuildings({
         game,
         now: NEXT_TORNADO.startAt + HOUR,
       }),
-    ).toEqual(["kitchen"]);
+    ).toEqual([KITCHEN]);
     expect(
-      getTornadoDisabledBuildingIds({
+      getTornadoDisabledBuildings({
         game: farm(),
         now: NEXT_TORNADO.startAt + HOUR,
       }),
@@ -222,7 +238,7 @@ describe("weatherTornado", () => {
   it("disables nothing without a stored pick", () => {
     const game = farm({ weather: { forecast: [TORNADO], overlays: [] } });
 
-    expect(getTornadoDisabledBuildingIds({ game, now: MID })).toEqual([]);
+    expect(getTornadoDisabledBuildings({ game, now: MID })).toEqual([]);
   });
 
   describe("Balk", () => {
@@ -231,19 +247,19 @@ describe("weatherTornado", () => {
         collectibles: { Balk: [placed("1", TORNADO.startAt - HOUR)] },
       });
 
-      expect(getTornadoDisabledBuildingIds({ game, now: MID })).toEqual([]);
+      expect(getTornadoDisabledBuildings({ game, now: MID })).toEqual([]);
     });
 
     it("re-enables the buildings from the moment it's placed mid-Tornado", () => {
       const before = farm();
       const game = move(before, "Balk", "placed", MID);
 
-      expect(getTornadoDisabledBuildingIds({ game: before, now: MID })).toEqual(
-        ["kitchen"],
-      );
-      expect(getTornadoDisabledBuildingIds({ game, now: MID })).toEqual([]);
+      expect(getTornadoDisabledBuildings({ game: before, now: MID })).toEqual([
+        KITCHEN,
+      ]);
+      expect(getTornadoDisabledBuildings({ game, now: MID })).toEqual([]);
       expect(
-        getTornadoDisabledBuildingIds({ game, now: TORNADO.endAt - 1 }),
+        getTornadoDisabledBuildings({ game, now: TORNADO.endAt - 1 }),
       ).toEqual([]);
     });
 
@@ -251,8 +267,8 @@ describe("weatherTornado", () => {
       const placedGame = move(farm(), "Balk", "placed", MID);
       const game = move(placedGame, "Balk", "removed", MID + HOUR);
 
-      expect(getTornadoDisabledBuildingIds({ game, now: MID + HOUR })).toEqual([
-        "kitchen",
+      expect(getTornadoDisabledBuildings({ game, now: MID + HOUR })).toEqual([
+        KITCHEN,
       ]);
     });
   });
@@ -265,14 +281,14 @@ describe("weatherTornado", () => {
         },
       });
 
-      expect(getTornadoDisabledBuildingIds({ game, now: MID })).toEqual([]);
+      expect(getTornadoDisabledBuildings({ game, now: MID })).toEqual([]);
     });
 
     it("doesn't protect it when placed after the start", () => {
       const game = move(farm(), "Autumn Guardian", "placed", MID);
 
-      expect(getTornadoDisabledBuildingIds({ game, now: MID + HOUR })).toEqual([
-        "kitchen",
+      expect(getTornadoDisabledBuildings({ game, now: MID + HOUR })).toEqual([
+        KITCHEN,
       ]);
     });
   });
@@ -300,7 +316,7 @@ describe("weatherTornado", () => {
     it("disables nothing", () => {
       const game = farm();
 
-      expect(getTornadoDisabledBuildingIds({ game, now: MID })).toEqual([]);
+      expect(getTornadoDisabledBuildings({ game, now: MID })).toEqual([]);
       expect(isBuildingDisabled({ game, name: "Kitchen", now: MID })).toBe(
         false,
       );
@@ -330,7 +346,7 @@ describe("actions on a disabled building", () => {
         overlays: [],
         tornado: {
           startAt: TORNADO.startAt,
-          buildingIds: [...TORNADO_BUILDINGS],
+          buildings: TORNADO_BUILDINGS.map((name) => ({ name, id: name })),
         },
       },
       ...fields,
@@ -946,7 +962,10 @@ describe("actions on a disabled building", () => {
       weather: {
         forecast: [TORNADO],
         overlays: [],
-        tornado: { startAt: TORNADO.startAt, buildingIds: ["Kitchen"] },
+        tornado: {
+          startAt: TORNADO.startAt,
+          buildings: [{ name: "Kitchen", id: "Kitchen" }],
+        },
       },
     });
 
@@ -974,7 +993,7 @@ describe("power skills during the Tornado", () => {
   // Every building disabled but the ones listed as working.
   const tornadoFarm = (
     skill: "Barnyard Rouse" | "Greenhouse Guru" | "Instant Gratification",
-    disabledIds: string[],
+    disabled: BuildingName[],
     fields: Partial<GameState> = {},
   ) =>
     farm({
@@ -992,7 +1011,10 @@ describe("power skills during the Tornado", () => {
       weather: {
         forecast: [TORNADO],
         overlays: [],
-        tornado: { startAt: TORNADO.startAt, buildingIds: disabledIds },
+        tornado: {
+          startAt: TORNADO.startAt,
+          buildings: disabled.map((name) => ({ name, id: name })),
+        },
       },
       ...fields,
     });
