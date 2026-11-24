@@ -9002,7 +9002,7 @@
   "cooking.building.oil.uses": "Расход нефти при готовке: {{oil}}",
   "cooking.building.oil.afterQueue": "После завершения очереди: {{oil}}",
   "fishing.reelBonus.singleReel": "Бонусная случайная рыба при следующей попытке: +{{amount}}",
-  "fishing.reelBonus.bulkReel": "Бонусная случайная рыба: +{{amount}} (попыток в этом забросе: {{reels}})",
+  "fishing.reelBonus.bulkReel": "Бонусная случайная рыба: +{{amount}} за каждую попытку с бонусом в этом забросе (таких попыток: {{reels}})",
   "marketplace.bulkTradingFee": "Общая торговая комиссия (объявлений: {{count}})",
   "marketplace.bulkYouWillReceive": "Всего ты получишь (объявлений: {{count}})",
   "vip.benefit.expansionCoinDiscount": "Скидка на расширение: {{coins}} монет или {{percent}}% - что выгоднее",
