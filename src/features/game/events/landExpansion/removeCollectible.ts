@@ -22,6 +22,7 @@ import {
   syncGuardianPlacements,
 } from "features/game/lib/guardianPlacements";
 import { isPetCollectible } from "./placeCollectible";
+import { refreshBasicScarecrowTimeAOE } from "features/game/lib/aoe";
 
 export enum REMOVE_COLLECTIBLE_ERRORS {
   INVALID_COLLECTIBLE = "This collectible does not exist",
@@ -146,6 +147,12 @@ export function removeCollectible({
       snapshotGuardianPlacements(state),
       createdAt,
     );
+
+    // Mirrors placeCollectible: lifting a boost collectible (a weather item,
+    // a Guardian) mid-grow lengthens windowed crops' ready time, so keep each
+    // cell's Basic Scarecrow time-AOE in step. After the guardian sync, so a
+    // weather item is read from its `placedAt`. Idempotent otherwise.
+    refreshBasicScarecrowTimeAOE(stateCopy);
 
     return stateCopy;
   });
