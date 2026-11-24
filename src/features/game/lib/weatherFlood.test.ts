@@ -541,6 +541,35 @@ describe("weather a week or more before the action", () => {
     ]);
   });
 
+  it("still keeps an old calendar Sun Shower out where a weather one ran", () => {
+    // The winter week of 2026-12-07 opens with a four-day Sun Shower. A
+    // calendar Sun Shower record (2×) from before the flag overlaps its first
+    // day.
+    const SUN = {
+      startAt: Date.UTC(2026, 11, 7),
+      endAt: Date.UTC(2026, 11, 11),
+    };
+    const game: GameState = {
+      ...farm({
+        weather: { forecast: [{ name: "sunshower", ...SUN }], overlays: [] },
+        boostHistory: {
+          Sunshower: [
+            { from: SUN.startAt - 10 * HOUR, to: SUN.startAt + 24 * HOUR },
+          ],
+        },
+      }),
+    };
+
+    // Read from over a week later, the weather Sun Shower is cut off, but the
+    // calendar record still only counts before it started.
+    const calendar = getCropPlotBoostWindows(game, SUN.endAt + 8 * DAY).filter(
+      (window) => window.speed === 2,
+    );
+    expect(calendar).toEqual([
+      { from: SUN.startAt - 10 * HOUR, to: SUN.startAt, speed: 2 },
+    ]);
+  });
+
   describe("placing back a tree lifted during the Flood", () => {
     // A tree (2h) chopped as the Flood starts and lifted an hour in: half an
     // hour of its work done at 0.5×.

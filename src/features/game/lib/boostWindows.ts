@@ -526,16 +526,17 @@ export const getCropPlotBoostWindows = (
   game: GameState,
   now?: number,
 ): BoostWindow[] => {
-  const weather = getWeatherSunShowerWindows(game, now);
+  const weather = getWeatherSunShowerWindows(game);
   // A calendar Sun Shower record (and its Guardian's) only counts where no
   // weather Sun Shower runs, so one left from before the Weather flag never
-  // multiplies with it.
+  // multiplies with it. Every weather Sun Shower blocks it, even one before
+  // the lookback; only the weather windows returned are cut there.
   const sunShower = [
     ...withoutWindows(
       [...getSunshowerWindows(game), ...getSunshowerGuardianWindows(game)],
       weather,
     ),
-    ...weather,
+    ...withinWeatherLookback(weather, now),
   ];
 
   return [
