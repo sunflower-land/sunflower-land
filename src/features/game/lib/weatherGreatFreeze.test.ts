@@ -230,6 +230,31 @@ describe("Great Freeze", () => {
       // Only the seven plots planted take a seed.
       expect(game.inventory["Potato Seed"]).toEqual(new Decimal(3));
     });
+    it("only takes a seed for each plot it plants in bulk", () => {
+      // Twenty plots and no Water Well: the last ones can't be planted, and
+      // with the locked plots skipped the bulk plant reaches them.
+      const crops = Object.fromEntries(
+        // Distinct ages, so the plots past the well's support are 18 to 20.
+        Array.from({ length: 20 }, (_, i) => [
+          `${i + 1}`,
+          plot(i, { createdAt: i }),
+        ]),
+      );
+      const state = farm({ crops });
+      state.inventory["Potato Seed"] = new Decimal(17);
+
+      const game = bulkPlant({
+        state,
+        action: { type: "seeds.bulkPlanted", seed: "Potato Seed" },
+        createdAt: MID,
+      });
+      const planted = Object.values(game.crops).filter((p) => !!p.crop);
+
+      expect(planted.length).toBeLessThan(17);
+      expect(game.inventory["Potato Seed"]).toEqual(
+        new Decimal(17 - planted.length),
+      );
+    });
   });
 
   describe("harvesting", () => {
