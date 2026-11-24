@@ -135,11 +135,6 @@ export function startComposter({
 }: Options): GameState {
   return produce(state, (stateCopy) => {
     const { building } = action;
-    assertBuildingNotDisabled({
-      game: stateCopy,
-      name: building,
-      now: createdAt,
-    });
 
     const buildings = stateCopy.buildings[building] as CompostBuilding[];
     if (!buildings?.some((building) => !!building.coordinates)) {
@@ -148,6 +143,12 @@ export function startComposter({
 
     const { inventory } = stateCopy;
     const composter = buildings[0];
+    assertBuildingNotDisabled({
+      game: stateCopy,
+      name: building,
+      id: composter.id,
+      now: createdAt,
+    });
     const { producing } = composter;
 
     if (producing) {

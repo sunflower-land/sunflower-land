@@ -7,7 +7,7 @@ import classNames from "classnames";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { GreenhousePot } from "./GreenhousePot";
 import { Hud } from "features/island/hud/Hud";
 import { GreenhouseOil } from "./GreenhouseOil";
@@ -57,7 +57,7 @@ export const GreenhouseInside: React.FC = () => {
   });
 
   if (calendarEvent) {
-    navigate("/");
+    return <Navigate to="/" replace />;
   }
 
   return (

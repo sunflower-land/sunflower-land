@@ -66,18 +66,18 @@ export function accelerateComposter({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    assertBuildingNotDisabled({
-      game: stateCopy,
-      name: action.building,
-      now: createdAt,
-    });
-
     const buildings = stateCopy.buildings[action.building] as CompostBuilding[];
     if (!buildings) {
       throw new Error(translate("error.composterNotExist"));
     }
 
     const composter = buildings[0];
+    assertBuildingNotDisabled({
+      game: stateCopy,
+      name: action.building,
+      id: composter.id,
+      now: createdAt,
+    });
     const { producing } = composter;
 
     if (!producing) {

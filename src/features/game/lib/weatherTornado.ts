@@ -53,8 +53,8 @@ export function getTornadoDisabledBuildings({
 
 /**
  * Whether the building is disabled by the Tornado at `now`, which works as
- * if it isn't placed. With an `id`, that copy; without one, every placed copy
- * of `name`.
+ * if it isn't placed. With an `id`, that copy, placed or lifted; without
+ * one, every placed copy of `name` (every copy while none is placed).
  */
 export function isBuildingDisabled({
   game,
@@ -73,13 +73,16 @@ export function isBuildingDisabled({
   if (disabled.length === 0) return false;
 
   const copies = (game.buildings[name] ?? []).filter(
-    (building) =>
-      !!building.coordinates && (id === undefined || building.id === id),
+    (building) => id === undefined || building.id === id,
   );
+  // A picked building stays disabled while it's lifted. Without an id, the
+  // placed copies decide while any is placed.
+  const placed = copies.filter((building) => !!building.coordinates);
+  const checked = id === undefined && placed.length > 0 ? placed : copies;
 
   return (
-    copies.length > 0 &&
-    copies.every((building) =>
+    checked.length > 0 &&
+    checked.every((building) =>
       disabled.some(
         (picked) => picked.name === name && picked.id === building.id,
       ),

@@ -197,6 +197,36 @@ describe("weatherTornado", () => {
     ).toBe(false);
   });
 
+  it("keeps a picked building disabled while it's lifted", () => {
+    const game = farm({
+      buildings: {
+        Kitchen: [building("kitchen", { coordinates: undefined })],
+      },
+    });
+
+    expect(isBuildingDisabled({ game, name: "Kitchen", now: MID })).toBe(true);
+    expect(
+      isBuildingDisabled({ game, name: "Kitchen", id: "kitchen", now: MID }),
+    ).toBe(true);
+  });
+
+  it("checks the placed copies while one is placed", () => {
+    const game = farm({
+      buildings: {
+        Kitchen: [
+          building("kitchen", { coordinates: undefined }),
+          building("kitchen-2"),
+        ],
+      },
+    });
+
+    // The placed, unpicked copy works; the lifted, picked one doesn't.
+    expect(isBuildingDisabled({ game, name: "Kitchen", now: MID })).toBe(false);
+    expect(
+      isBuildingDisabled({ game, name: "Kitchen", id: "kitchen", now: MID }),
+    ).toBe(true);
+  });
+
   it("disables nothing before the Tornado starts or once it has ended", () => {
     const game = farm();
 
@@ -955,6 +985,41 @@ describe("actions on a disabled building", () => {
 
   it.each(ACTIONS)("lets %s through behind a Balk", (_, act) => {
     expect(() => act(protectedByBalk())).not.toThrow(DISABLED);
+  });
+
+  it("checks the composter copy it would use", () => {
+    // Composters act on their first copy: only that copy's pick counts.
+    const withPick = (id: string) =>
+      disabled({
+        buildings: {
+          "Compost Bin": [building("first"), building("second")],
+        },
+        weather: {
+          forecast: [TORNADO],
+          overlays: [],
+          tornado: {
+            startAt: TORNADO.startAt,
+            buildings: [{ name: "Compost Bin", id }],
+          },
+        },
+      });
+    const start = (state: GameState) =>
+      startComposter({
+        state,
+        action: { type: "composter.started", building: "Compost Bin" },
+        createdAt: NOW,
+      });
+    const accelerate = (state: GameState) =>
+      accelerateComposter({
+        state,
+        action: { type: "compost.accelerated", building: "Compost Bin" },
+        createdAt: NOW,
+      });
+
+    expect(() => start(withPick("first"))).toThrow(DISABLED);
+    expect(() => accelerate(withPick("first"))).toThrow(DISABLED);
+    expect(() => start(withPick("second"))).not.toThrow(DISABLED);
+    expect(() => accelerate(withPick("second"))).not.toThrow(DISABLED);
   });
 
   it("leaves the buildings the Tornado didn't pick working", () => {
