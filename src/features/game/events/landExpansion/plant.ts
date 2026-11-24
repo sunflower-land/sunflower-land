@@ -60,6 +60,7 @@ import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
 import { isAutumnCrop, isSummerCrop } from "./harvest";
 import { getKeys } from "lib/object";
 import { mfTrack } from "lib/moonforgeAnalytics";
+import { isPlotFrozen } from "features/game/lib/weatherGreatFreeze";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -163,10 +164,15 @@ export function isPlotFertile({
 export function getAffectedWeather({
   id,
   game,
+  createdAt,
 }: {
   id: string;
   game: GameState;
+  createdAt: number;
 }): CalendarEventName | undefined {
+  // Weather Great Freeze: the plots the server picked stay locked.
+  if (isPlotFrozen({ game, id, now: createdAt })) return "greatFreeze";
+
   const weather = getActiveCalendarEvent({ calendar: game.calendar });
 
   if (
@@ -512,6 +518,7 @@ export function plantCropOnPlot({
   const cropAffectedBy = getAffectedWeather({
     id: plotId,
     game,
+    createdAt,
   });
 
   if (!!cropAffectedBy && cropAffectedBy !== "insectPlague") {

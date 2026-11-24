@@ -1122,6 +1122,7 @@ export function harvestCropFromPlot({
   const cropAffectedBy = getAffectedWeather({
     id: plotId,
     game,
+    createdAt,
   });
 
   if (cropAffectedBy) {

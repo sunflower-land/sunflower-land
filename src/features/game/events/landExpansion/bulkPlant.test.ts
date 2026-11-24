@@ -326,7 +326,7 @@ describe("getAvailablePlots", () => {
       },
     };
 
-    const plots = getAvailablePlots(state);
+    const plots = getAvailablePlots(state, Date.now());
     const plotIds = plots.map(([id]) => id);
 
     // Only "3" and "4" should be available; "1" and "2" are destroyed by tornado
@@ -352,7 +352,7 @@ describe("getAvailablePlots", () => {
       },
     };
 
-    const plots = getAvailablePlots(state);
+    const plots = getAvailablePlots(state, Date.now());
     const plotIds = plots.map(([id]) => id);
 
     expect(plotIds).toEqual(["3", "4"]);
@@ -377,7 +377,7 @@ describe("getAvailablePlots", () => {
       },
     };
 
-    const plots = getAvailablePlots(state);
+    const plots = getAvailablePlots(state, Date.now());
     const plotIds = plots.map(([id]) => id);
 
     expect(plotIds).toEqual(["3", "4"]);
@@ -401,7 +401,7 @@ describe("getAvailablePlots", () => {
       },
     };
 
-    const plots = getAvailablePlots(state);
+    const plots = getAvailablePlots(state, Date.now());
     // When protected, getAffectedWeather returns undefined, so all empty plots are available
     expect(plots).toHaveLength(2);
   });

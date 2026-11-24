@@ -24,11 +24,13 @@ type Options = {
   createdAt?: number;
 };
 
-export const getAvailablePlots = (state: GameState) => {
+export const getAvailablePlots = (state: GameState, now: number) => {
   return Object.entries(state.crops).filter(([plotId, plot]) => {
     if (plot.x === undefined || plot.y === undefined || plot.crop) return false;
     // Exclude plots destroyed or blocked by tornado, tsunami, greatFreeze
-    if (getAffectedWeather({ id: plotId, game: state })) return false;
+    if (getAffectedWeather({ id: plotId, game: state, createdAt: now })) {
+      return false;
+    }
     return true;
   });
 };
@@ -66,7 +68,7 @@ export function bulkPlant({
       throw new Error("This seed is not available in this season");
     }
 
-    const availablePlots = getAvailablePlots(stateCopy);
+    const availablePlots = getAvailablePlots(stateCopy, createdAt);
 
     const seedCount = stateCopy.inventory[action.seed] || new Decimal(0);
     const seedsToPlant = Math.min(seedCount.toNumber(), availablePlots.length);

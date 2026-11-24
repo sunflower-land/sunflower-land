@@ -168,11 +168,13 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
   if (!isFertile) return <NonFertilePlot />;
 
-  const weather = getAffectedWeather({ id, game: state });
+  const weather = getAffectedWeather({ id, game: state, createdAt: now });
 
   if (weather === "tornado") return <TornadoPlot game={state} />;
   if (weather === "tsunami") return <TsunamiPlot game={state} />;
-  if (weather === "greatFreeze") return <GreatFreezePlot game={state} />;
+  if (weather === "greatFreeze") {
+    return <GreatFreezePlot game={state} now={now} />;
+  }
 
   const harvestCrop = async (plot: CropPlot) => {
     if (!plot.crop) return;
