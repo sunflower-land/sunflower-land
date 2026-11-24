@@ -1,7 +1,11 @@
 import Decimal from "decimal.js-light";
 import { CRIMSTONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { canMine } from "features/game/lib/resourceNodes";
+import {
+  canMine,
+  getCrimstoneResetAt,
+  getMineReadyAt,
+} from "features/game/lib/resourceNodes";
 import type { BoostName, FiniteResource, GameState } from "../../types/game";
 import { isWearableActive } from "features/game/lib/wearables";
 import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
@@ -206,13 +210,12 @@ export function mineCrimstone({
       throw new Error("No gold pickaxes left");
     }
 
-    // if last minedAt is more than CRIMSTONE_RECOVERY_TIME + 24hrs, reset minesLeft to 5
-    // else, decrement minesLeft by 1
-    const twentyFourHrs = 24 * 60 * 60;
-
-    const timeToReset = (CRIMSTONE_RECOVERY_TIME + twentyFourHrs) * 1000;
-
-    if (createdAt - rock.stone.minedAt > timeToReset) {
+    // Left unmined for 24h after it recovered, the streak starts again.
+    const resetAt = getCrimstoneResetAt({
+      minedAt: rock.stone.minedAt,
+      readyAt: getMineReadyAt(rock, rock.name ?? "Crimstone Rock", stateCopy),
+    });
+    if (createdAt > resetAt) {
       rock.minesLeft = 5;
     }
 

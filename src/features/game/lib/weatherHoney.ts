@@ -5,7 +5,11 @@ import {
   getWeatherItemCoverWindows,
   type WeatherEvents,
 } from "./weatherItemCover";
-import { getGuardianPlacedPeriods, getSeasonGuardian } from "./boostWindows";
+import {
+  getGuardianPlacedPeriods,
+  getSeasonGuardian,
+  getWeatherFloodWindows,
+} from "./boostWindows";
 
 type Game = GameState;
 type Period = { from: number; to: number };
@@ -71,11 +75,29 @@ export function getWeatherHoneyBonus({
   };
 }
 
+/** What an unprotected Flood multiplies the whole honey rate by. */
+export const FLOOD_HONEY_FACTOR = 0.5;
+
 /**
- * The times after `from` at which the weather's honey bonus can change with
- * no player action: Bee Migration starting or ending, and the Lure's cover
- * and the Guardian's placement starting or ending. Honey attachments are cut
- * there, so each piece has one rate.
+ * What the weather multiplies the whole honey rate (base, permanent boosts
+ * and any bonus) by at `at` (Weather flag): `FLOOD_HONEY_FACTOR` while a
+ * Flood is unprotected, otherwise 1.
+ */
+export const getWeatherHoneyFactor = ({
+  game,
+  at,
+}: {
+  game: Game;
+  at: number;
+}): number =>
+  covers(getWeatherFloodWindows(game), at) ? FLOOD_HONEY_FACTOR : 1;
+
+/**
+ * The times after `from` at which the weather's honey rate can change with
+ * no player action: Bee Migration starting or ending, the Lure's cover and
+ * the Guardian's placement starting or ending, and an unprotected Flood
+ * starting or ending. Honey attachments are cut there, so each piece has one
+ * rate.
  */
 export function getWeatherHoneyBoundaries({
   game,
@@ -89,15 +111,23 @@ export function getWeatherHoneyBoundaries({
   if (!hasFeatureAccess(game, "WEATHER")) return [];
 
   const bees = events.filter((event) => event.name === "beeMigration");
-  if (bees.length === 0) return [];
 
   const periods: Period[] = [
-    ...bees.map(({ startAt, endAt }) => ({ from: startAt, to: endAt })),
-    ...getWeatherItemCoverWindows({ game, item: "Wildflower Lure", events }),
-    ...bees.flatMap((event) => {
-      const guardian = getSeasonGuardian(event.startAt);
-      return guardian ? getGuardianPlacedPeriods(game, guardian) : [];
-    }),
+    ...getWeatherFloodWindows(game),
+    ...(bees.length === 0
+      ? []
+      : [
+          ...bees.map(({ startAt, endAt }) => ({ from: startAt, to: endAt })),
+          ...getWeatherItemCoverWindows({
+            game,
+            item: "Wildflower Lure",
+            events,
+          }),
+          ...bees.flatMap((event) => {
+            const guardian = getSeasonGuardian(event.startAt);
+            return guardian ? getGuardianPlacedPeriods(game, guardian) : [];
+          }),
+        ]),
   ];
 
   const times = periods

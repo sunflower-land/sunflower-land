@@ -77,7 +77,7 @@ Other UI conventions:
 
 ## Game-logic rules
 
-- **Multipliers before additives.** Boosts apply as base × every multiplier, then + every flat bonus. Known exceptions, which act as a final multiplier on the fully boosted total: forged (Ancient/Sacred) tree and forged node multipliers, the insect plague ×0.5, and Double Delivery. Where existing code mixes the order and isn't on that list, ask before reordering it.
+- **Multipliers before additives.** Boosts apply as base × every multiplier, then + every flat bonus. Known exceptions, which act as a final multiplier on the fully boosted total: forged (Ancient/Sacred) tree and forged node multipliers, the insect plague ×0.5, the Flood ×0.5 on honey, and Double Delivery. Where existing code mixes the order and isn't on that list, ask before reordering it.
 - Use `getAOEExtent` for anything that needs a scarecrow-style AOE footprint (gameplay and the landscaping overlay). Don't re-derive tile counts or treat a skill as a boolean.
 - A tradable item needs a `tradeAt` in `INVENTORY_RELEASES` / `WEARABLE_RELEASES`. An item's trade type ("instant"/"onchain") only says _how_ it trades once allowed.
 - When a feature needs a balance number the spec doesn't give, say so and get it recorded. Don't let a placeholder quietly become canon.

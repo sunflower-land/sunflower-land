@@ -402,13 +402,14 @@ export const SeasonalSeeds: React.FC = () => {
         secondsToString(seconds, { length: "medium" }),
     }),
   ];
-  const { displaySeconds: plantDisplaySeconds } = getPreActionDisplay({
-    seconds: plantTime.seconds,
-    baseSeconds: baseTime,
-    namedBoostCount: plantBoostsUsed.length,
-    windows: getSeedBoostWindows(state, selectedName),
-    at: now,
-  });
+  const { displaySeconds: plantDisplaySeconds, isSlowed: plantIsSlowed } =
+    getPreActionDisplay({
+      seconds: plantTime.seconds,
+      baseSeconds: baseTime,
+      namedBoostCount: plantBoostsUsed.length,
+      windows: getSeedBoostWindows(state, selectedName),
+      at: now,
+    });
 
   const getHarvestCount = () => {
     if (!yields) return undefined;
@@ -563,6 +564,7 @@ export const SeasonalSeeds: React.FC = () => {
             time: {
               seconds: plantDisplaySeconds,
               boostsUsed: plantBoostsUsed,
+              isSlowed: plantIsSlowed,
             },
             baseTimeSeconds: baseTime,
             restriction: {

@@ -108,6 +108,7 @@ describe("getPreActionDisplay", () => {
       displaySeconds: base,
       hasNamedBoosts: false,
       isBoosted: false,
+      isSlowed: false,
     });
   });
 
@@ -118,6 +119,7 @@ describe("getPreActionDisplay", () => {
       displaySeconds: 2 * HOUR,
       hasNamedBoosts: false,
       isBoosted: true,
+      isSlowed: false,
     });
   });
 
@@ -139,6 +141,40 @@ describe("getPreActionDisplay", () => {
     expect(displaySeconds).toEqual(1.5 * HOUR);
     expect(isBoosted).toBe(true);
     expect(hasNamedBoosts).toBe(true);
+  });
+
+  describe("during a Flood (a window below 1×)", () => {
+    const flood: BoostWindow[] = [
+      { from: at, to: at + 10 * HOUR_MS, speed: 0.5 },
+    ];
+
+    it("shows the slower time without the boosted layout", () => {
+      expect(call({ windows: flood })).toEqual({
+        displaySeconds: 8 * HOUR,
+        hasNamedBoosts: false,
+        isBoosted: false,
+        isSlowed: true,
+      });
+    });
+
+    it("doesn't draw a slower time as a speed-up, even with named boosts", () => {
+      // 3h after the named boost, doubled by the Flood to 6h: longer than the
+      // 4h base.
+      expect(
+        call({ seconds: 3 * HOUR, namedBoostCount: 1, windows: flood }),
+      ).toMatchObject({ displaySeconds: 6 * HOUR, isBoosted: false });
+    });
+
+    it("keeps the boosted layout when the boosts still beat the base", () => {
+      // 1h after the named boost, 2h with the Flood: still under the 4h base.
+      expect(
+        call({ seconds: HOUR, namedBoostCount: 1, windows: flood }),
+      ).toMatchObject({ displaySeconds: 2 * HOUR, isBoosted: true });
+    });
+
+    it("isn't slowed by a speed-up window", () => {
+      expect(call({ windows: live })).toMatchObject({ isSlowed: false });
+    });
   });
 
   it("does not claim a boost for a debuffed (longer) time", () => {

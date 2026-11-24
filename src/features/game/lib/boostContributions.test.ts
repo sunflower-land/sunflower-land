@@ -59,6 +59,21 @@ const BOOSTED: GameState = {
   },
 };
 
+/** BOOSTED during a Flood (testnet Weather flag), which slows every node. */
+const FLOODED: GameState = {
+  ...BOOSTED,
+  weather: {
+    forecast: [
+      {
+        name: "flood",
+        startAt: createdAt,
+        endAt: createdAt + 24 * HOUR * 1000,
+      },
+    ],
+    overlays: [],
+  },
+};
+
 // The panel's names must describe the SAME windows the readiness maths uses, or
 // the list would explain a number it didn't produce. These pin the two together.
 describe("contributions match the window builders", () => {
@@ -72,14 +87,14 @@ describe("contributions match the window builders", () => {
     "Rice Seed",
     "Grape Seed",
   ])("%s", (seed) => {
-    expect(flatten(getSeedBoostContributions(BOOSTED, seed, at))).toEqual(
-      getSeedBoostWindows(BOOSTED, seed),
+    expect(flatten(getSeedBoostContributions(FLOODED, seed, at))).toEqual(
+      getSeedBoostWindows(FLOODED, seed),
     );
   });
 
   it.each<AnimalType>(["Chicken", "Cow", "Sheep"])("%s", (animalType) => {
-    expect(flatten(getAnimalBoostContributions(BOOSTED, animalType))).toEqual(
-      getAnimalBoostWindows(BOOSTED, animalType),
+    expect(flatten(getAnimalBoostContributions(FLOODED, animalType))).toEqual(
+      getAnimalBoostWindows(FLOODED, animalType),
     );
   });
 
@@ -92,26 +107,26 @@ describe("contributions match the window builders", () => {
     "Sunstone Rock",
     "Oil Reserve",
   ])("%s", (node) => {
-    expect(flatten(getNodeBoostContributions(BOOSTED, node, at))).toEqual(
-      getNodeBoostWindows(BOOSTED, node),
+    expect(flatten(getNodeBoostContributions(FLOODED, node, at))).toEqual(
+      getNodeBoostWindows(FLOODED, node),
     );
   });
 
   it("cooking", () => {
-    expect(flatten(getCookingBoostContributions(BOOSTED, at))).toEqual(
-      getCookingBoostWindows(BOOSTED),
+    expect(flatten(getCookingBoostContributions(FLOODED, at))).toEqual(
+      getCookingBoostWindows(FLOODED),
     );
   });
 
   it("crafting", () => {
-    expect(flatten(getCraftingBoostContributions(BOOSTED, at))).toEqual(
-      getCraftingBoostWindows(BOOSTED),
+    expect(flatten(getCraftingBoostContributions(FLOODED, at))).toEqual(
+      getCraftingBoostWindows(FLOODED),
     );
   });
 
   it("crop machine", () => {
-    expect(flatten(getCropMachineBoostContributions(BOOSTED))).toEqual(
-      getCropMachineBoostWindows(BOOSTED),
+    expect(flatten(getCropMachineBoostContributions(FLOODED))).toEqual(
+      getCropMachineBoostWindows(FLOODED),
     );
   });
 });
@@ -180,6 +195,49 @@ describe("getBoostContributionEntries", () => {
         windows: contributions.flatMap(({ windows }) => windows),
         at,
       });
+
+    expect(summed).toBeCloseTo(totalSaving, 6);
+  });
+
+  it("never lists the Flood, which slows rather than speeds", () => {
+    const listed = getBoostContributionEntries({
+      contributions: getNodeBoostContributions(FLOODED, "Tree", at),
+      seconds: 4 * HOUR,
+      at,
+      formatSeconds: format,
+    });
+
+    expect(listed.map((entry) => entry.name)).toEqual([
+      "Super Totem",
+      "Timber Hourglass",
+      "Badger Shrine",
+    ]);
+  });
+
+  // During a Flood the boosters speed up a task the Flood has already slowed,
+  // so each saving is measured from the Flood-slowed time.
+  it("splits the saving from the Flood-slowed time between the boosters", () => {
+    const seconds = 4 * HOUR;
+    const contributions = getNodeBoostContributions(FLOODED, "Tree", at);
+
+    const listed = getBoostContributionEntries({
+      contributions,
+      seconds,
+      at,
+      formatSeconds: (value) => String(value),
+    });
+    const summed = listed.reduce(
+      (total, entry) => total + Number(entry.value.replace("-", "")),
+      0,
+    );
+
+    const all = contributions.flatMap(({ windows }) => windows);
+    const flood = all.filter((window) => window.speed < 1);
+    expect(flood).not.toEqual([]);
+
+    const totalSaving =
+      projectSeconds({ seconds, windows: flood, at }) -
+      projectSeconds({ seconds, windows: all, at });
 
     expect(summed).toBeCloseTo(totalSaving, 6);
   });
@@ -374,7 +432,10 @@ describe("Sun Shower attribution", () => {
       start,
     );
     expect(
-      contributions.filter(({ name }) => name === "sunshower"),
+      contributions.filter(
+        (contribution) =>
+          "name" in contribution && contribution.name === "sunshower",
+      ),
     ).toHaveLength(1);
 
     // 4h of growth: 2h done in the first hour at 2×, the other 2h at 1.3×

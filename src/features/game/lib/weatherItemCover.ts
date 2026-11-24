@@ -55,7 +55,7 @@ const isGuardianOutAt = (game: Game, startAt: number) =>
  * A threat item isn't used on an event its season's Guardian already covered
  * from the start. Positive-event items stack with the Guardian, so they are.
  */
-function isCoveredByGuardian(
+export function isCoveredByGuardian(
   game: Game,
   event: Readonly<ScheduledWeatherEvent>,
 ): boolean {

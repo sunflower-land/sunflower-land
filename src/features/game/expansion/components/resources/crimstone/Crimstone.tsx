@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { CRIMSTONE_RECOVERY_TIME } from "features/game/lib/constants";
+import { getCrimstoneResetAt } from "features/game/lib/resourceNodes";
 import { Context } from "features/game/GameProvider";
 
 import type {
@@ -14,7 +15,6 @@ import Decimal from "decimal.js-light";
 import { RecoveredCrimstone } from "./components/RecoveredCrimstone";
 import { DepletingCrimstone } from "./components/DepletingCrimstone";
 import { DepletedCrimstone } from "./components/DepletedCrimstone";
-import { getCrimstoneResetAt } from "./getCrimstoneStage";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getCrimstoneDropAmount } from "features/game/events/landExpansion/mineCrimstone";
 import { isWearableActive } from "features/game/lib/wearables";
@@ -134,7 +134,7 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
   // later. A slow clock runs until that reset so the art picks it up without a
   // remount; the per-second `now` wins while the rock is recovering. The child
   // views key the art off this and readyAt, not off the timer label's reading.
-  const resetAt = getCrimstoneResetAt(minedAt);
+  const resetAt = getCrimstoneResetAt({ minedAt, readyAt });
   const resetClock = useNow({
     live: true,
     intervalMs: PRE_ACTION_TICK_MS,

@@ -13,8 +13,8 @@ import { RESOURCE_RECOVERY_TIME } from "./resourceNodes";
  * Timers for nodes created already READY: placed from the inventory, revealed
  * with new land, upgraded or laid out. Each starts with its full raw base
  * duration as `baseDurationMs`, so it is on the speed-rate model from the
- * moment it exists. Its start is 0, so it reads as ready; boost windows can
- * only bring a finish earlier.
+ * moment it exists. Its start is 0, so it reads as ready: every speed
+ * window, a Flood's slowdown included, falls long after it.
  *
  * The raw base (not the permanent-boosted one a harvest stamps) is what the
  * node would read as with no marker, so nothing about it changes for the player.

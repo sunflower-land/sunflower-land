@@ -62,6 +62,8 @@ type CooldownDisplay = {
   nodeLabel: string;
   baseSeconds: number;
   recoverySeconds: number;
+  /** A Flood made the recovery longer (see `getPreActionDisplay`). */
+  isSlowed: boolean;
   boostsUsed: { name: BoostName; value: string }[];
   image?: string;
 };
@@ -396,6 +398,7 @@ const CooldownCell: React.FC<{
     displaySeconds: cooldown.recoverySeconds,
     baseSeconds: cooldown.baseSeconds,
     hasNamedBoosts,
+    isSlowed: cooldown.isSlowed,
   });
 
   const recoveryTimeStr = secondsToString(cooldown.recoverySeconds, {
@@ -502,7 +505,7 @@ const NodeRow: React.FC<NodeRowProps> = ({
     formatSeconds: (seconds) => secondsToString(seconds, { length: "medium" }),
   });
   const allBoostsUsed = [...boostsUsed, ...windowedBoosts];
-  const { displaySeconds } = getPreActionDisplay({
+  const { displaySeconds, isSlowed } = getPreActionDisplay({
     seconds: recoveryTimeMs / 1000,
     baseSeconds: baseTimeMs / 1000,
     namedBoostCount: allBoostsUsed.length,
@@ -523,6 +526,7 @@ const NodeRow: React.FC<NodeRowProps> = ({
     nodeLabel: translate(node.recoveryLabelKey),
     baseSeconds: baseTimeMs / 1000,
     recoverySeconds: displaySeconds,
+    isSlowed,
     boostsUsed: allBoostsUsed,
   };
 

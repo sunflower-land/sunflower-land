@@ -97,7 +97,12 @@ interface RequirementsProps {
   coins?: number;
   showCoinsIfFree?: boolean;
   harvests?: HarvestsRequirementProps;
-  time?: { seconds: number; boostsUsed: { name: BoostName; value: string }[] };
+  time?: {
+    seconds: number;
+    boostsUsed: { name: BoostName; value: string }[];
+    /** A Flood made the time longer (see `getPreActionDisplay`). */
+    isSlowed?: boolean;
+  };
   baseTimeSeconds?: number;
   level?: LevelRequirement;
   restriction?: {
@@ -295,6 +300,7 @@ export const SeedRequirements: React.FC<Props> = ({
         displaySeconds: time.seconds,
         baseSeconds: baseTimeSeconds,
         hasNamedBoosts,
+        isSlowed: time.isSlowed,
       });
 
     // A plain render helper, not a nested component: a component declared here
@@ -401,7 +407,12 @@ export const SeedRequirements: React.FC<Props> = ({
           {!!baseTimeSeconds && (
             <RequirementLabel
               type="time"
-              waitSeconds={baseTimeSeconds}
+              // Unboosted, show the real time: a Flood can make it longer.
+              waitSeconds={
+                isTimeBoosted
+                  ? baseTimeSeconds
+                  : (time?.seconds ?? baseTimeSeconds)
+              }
               strikethrough={isTimeBoosted}
             />
           )}

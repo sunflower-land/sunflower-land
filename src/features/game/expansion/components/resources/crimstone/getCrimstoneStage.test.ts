@@ -1,10 +1,11 @@
 import { CRIMSTONE_RECOVERY_TIME } from "features/game/lib/constants";
-import { getCrimstoneResetAt, getCrimstoneStage } from "./getCrimstoneStage";
+import { getCrimstoneResetAt } from "features/game/lib/resourceNodes";
+import { getCrimstoneStage } from "./getCrimstoneStage";
 
 describe("getCrimstoneStage", () => {
   const recovery = CRIMSTONE_RECOVERY_TIME * 1000;
   const minedAt = 1_000_000;
-  const resetAt = getCrimstoneResetAt(minedAt);
+  const resetAt = getCrimstoneResetAt({ minedAt, readyAt: minedAt + recovery });
 
   it("returns a valid recovered stage (not 6) for a boosted rock that recovered early", () => {
     // A Mole Shrine pulled readyAt earlier than the base recovery.

@@ -21,6 +21,7 @@ import {
   BEE_MIGRATION_HONEY,
   getWeatherHoneyBonus,
   getWeatherHoneyBoundaries,
+  getWeatherHoneyFactor,
 } from "./weatherHoney";
 
 /**
@@ -75,8 +76,9 @@ const getHoneyProductionRate = (
 
 /**
  * The honey rate at `at`: the boosts as they stand at `now`, plus the
- * weather's bonus at `at` (Bee Migration and the Wildflower Lure), which
- * changes on its own at the times `getWeatherHoneyBoundaries` lists.
+ * weather's bonus at `at` (Bee Migration and the Wildflower Lure), all halved
+ * during an unprotected Flood. The weather's part changes on its own at the
+ * times `getWeatherHoneyBoundaries` lists.
  */
 const getHoneyRateAt = (
   game: GameState,
@@ -89,10 +91,12 @@ const getHoneyRateAt = (
     events: getWeatherEvents(game),
     at,
   });
-  if (weather.amount === 0) return base;
+  // An unprotected Flood halves the whole rate, as a final multiplier.
+  const factor = getWeatherHoneyFactor({ game, at });
+  if (weather.amount === 0 && factor === 1) return base;
 
   return {
-    rate: new Decimal(base.rate).add(weather.amount).toNumber(),
+    rate: new Decimal(base.rate).add(weather.amount).mul(factor).toNumber(),
     boostsUsed: [
       ...base.boostsUsed,
       ...weather.boostsUsed.map((name) =>

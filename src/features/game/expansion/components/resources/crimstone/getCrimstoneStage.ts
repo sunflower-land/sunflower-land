@@ -1,13 +1,3 @@
-import { CRIMSTONE_RECOVERY_TIME } from "features/game/lib/constants";
-
-/**
- * When an unmined crimstone resets to a fresh stage 1. Mirrors `mineCrimstone`,
- * which resets `minesLeft` once `createdAt - minedAt` passes the base recovery
- * plus 24h, whatever boost shortened the recovery.
- */
-export const getCrimstoneResetAt = (minedAt: number) =>
-  minedAt + (CRIMSTONE_RECOVERY_TIME + 24 * 60 * 60) * 1000;
-
 /**
  * Visual depletion stage (1-6) for a crimstone, derived from minesLeft + whether
  * it is still recovering. `now` and `readyAt` are passed in (from the component
@@ -31,7 +21,7 @@ export const getCrimstoneStage = (
   resetAt: number,
 ) => {
   // Left unmined long enough, the rock resets to a fresh stage 1. `resetAt` comes
-  // from getCrimstoneResetAt, so the art and the drop preview flip at the same
+  // from getCrimstoneResetAt (lib/resourceNodes), so the art and the drop preview flip at the same
   // moment the reducer resets minesLeft.
   if (now > resetAt) {
     return 1;
