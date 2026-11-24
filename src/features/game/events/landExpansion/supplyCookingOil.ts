@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import type { GameState } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 import type { CookingBuildingName } from "features/game/types/buildings";
@@ -63,6 +64,13 @@ export function supplyCookingOil({
     if (!building?.coordinates) {
       throw new Error(translate("error.buildingNotExist"));
     }
+
+    assertBuildingNotDisabled({
+      game: stateCopy,
+      name: action.building,
+      id: action.buildingId,
+      now: createdAt,
+    });
 
     if (!Number.isInteger(action.oilQuantity) || action.oilQuantity <= 0) {
       throw new Error("Invalid oil quantity");

@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
 import { hasPlacedAgingShed } from "./hasPlacedAgingShed";
@@ -26,6 +27,8 @@ export function collectFermentation({
     if (!hasPlacedAgingShed(game)) {
       throw new Error(translate("error.requiredBuildingNotExist"));
     }
+
+    assertBuildingNotDisabled({ game, name: "Aging Shed", now: createdAt });
 
     const queue = game.agingShed.racks.fermentation;
 

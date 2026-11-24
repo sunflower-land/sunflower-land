@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import {
   getAnimalReadyAt,
@@ -100,6 +101,12 @@ export function sellAnimal({
     }
 
     const { buildingRequired } = ANIMALS[request.name as AnimalType];
+    assertBuildingNotDisabled({
+      game,
+      name: buildingRequired,
+      now: createdAt,
+    });
+
     const { animals } = game[makeAnimalBuildingKey(buildingRequired)];
 
     const animal = animals[action.animalId];

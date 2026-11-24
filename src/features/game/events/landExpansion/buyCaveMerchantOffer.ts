@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import type { GameState } from "features/game/types/game";
@@ -49,6 +50,8 @@ export function buyCaveMerchantOffer({
     if (!cave || !isCaveBuildingReady(game, createdAt)) {
       throw new Error(BUY_CAVE_MERCHANT_OFFER_ERRORS.NO_CAVE);
     }
+
+    assertBuildingNotDisabled({ game, name: "Cave", now: createdAt });
 
     const { slot } = action;
     if (!Number.isInteger(slot) || slot < 1 || slot > CAVE_MAX_TIER) {

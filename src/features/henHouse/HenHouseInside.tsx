@@ -1,10 +1,12 @@
+import { isBuildingDestroyed } from "features/island/buildings/components/building/Building";
+import { useNow } from "lib/utils/hooks/useNow";
 import React, { useContext, useLayoutEffect, useMemo, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { Hud } from "features/island/hud/Hud";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
@@ -41,6 +43,8 @@ import { Context as AuthContext } from "features/auth/lib/Provider";
 
 const _henHouse = (state: MachineState) => state.context.state.henHouse;
 const _game = (state: MachineState) => state.context.state;
+const _isHenHouseDestroyed = (now: number) => (state: MachineState) =>
+  isBuildingDestroyed({ name: "Hen House", game: state.context.state, now });
 const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
 
 export const ANIMAL_HOUSE_IMAGES: Record<
@@ -72,6 +76,9 @@ export const HenHouseInside: React.FC = () => {
   const [selectedAnimalId, setSelectedAnimalId] = useState<string>();
 
   const henHouse = useSelector(gameService, _henHouse);
+  // Checked on entry: only a reload or a Balk placed on the farm changes it.
+  const enteredAt = useNow();
+  const isDestroyed = useSelector(gameService, _isHenHouseDestroyed(enteredAt));
   const game = useSelector(gameService, _game);
   const token = useSelector(authService, _token);
   const level = henHouse.level;
@@ -181,6 +188,10 @@ export const HenHouseInside: React.FC = () => {
 
     setSelectedAnimalId(animalId);
   };
+
+  if (isDestroyed) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <>

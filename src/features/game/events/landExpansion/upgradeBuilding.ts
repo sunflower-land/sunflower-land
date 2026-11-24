@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import {
   getAscensionLevel,
@@ -250,6 +251,12 @@ export function upgradeBuilding({
     if (!buildings[buildingType]) {
       throw new Error("Building not found");
     }
+
+    assertBuildingNotDisabled({
+      game: copy,
+      name: buildingType,
+      now: createdAt,
+    });
 
     const buildingKey = makeUpgradableBuildingKey(buildingType);
 

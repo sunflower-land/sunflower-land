@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
 import {
@@ -114,6 +115,12 @@ export function loveAnimal({
 }: Options): GameState {
   return produce(state, (copy) => {
     const { buildingRequired } = ANIMALS[action.animal];
+    assertBuildingNotDisabled({
+      game: copy,
+      name: buildingRequired,
+      now: createdAt,
+    });
+
     const buildingKey = makeAnimalBuildingKey(buildingRequired);
     const animal = copy[buildingKey].animals[action.id];
 

@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import type { GameState } from "features/game/types/game";
 import {
   makeUpgradableBuildingKey,
@@ -31,6 +32,8 @@ export function speedUpUpgrade({
 }: Options): GameState {
   return produce(state, (game) => {
     const buildingKey = makeUpgradableBuildingKey(action.name);
+    assertBuildingNotDisabled({ game, name: action.name, now: createdAt });
+
     const { upgradeReadyAt } = game[buildingKey];
 
     if (!upgradeReadyAt) {

@@ -47,6 +47,16 @@ export type ScheduledWeatherOverlay = {
   endAt: number;
 };
 
+/**
+ * The buildings a Tornado disables. The server picks them once, on the first
+ * load during the Tornado, and the client only reads them.
+ */
+export type WeatherTornado = {
+  /** The start of the Tornado this pick belongs to. */
+  startAt: number;
+  buildingIds: string[];
+};
+
 export type Weather = {
   /**
    * Last season-week's events, this week's and the next three weeks'. Built
@@ -55,6 +65,8 @@ export type Weather = {
   forecast: ScheduledWeatherEvent[];
   /** The overlays over the same weeks. Also built by the server on load. */
   overlays: ScheduledWeatherOverlay[];
+  /** Stored, unlike the forecast and overlays. */
+  tornado?: WeatherTornado;
 };
 
 /**

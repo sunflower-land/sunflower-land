@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import type { Animal, GameState } from "features/game/types/game";
@@ -64,6 +65,7 @@ export function applyMud({
 }: Options): GameState {
   return produce(state, (copy) => {
     assertCanApplyMud(copy);
+    assertBuildingNotDisabled({ game: copy, name: "Pigpen", now: createdAt });
 
     const pig = copy.pigpen.animals[action.id];
 

@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import type { ProcessedResource } from "features/game/types/processedFood";
 import type {
@@ -72,6 +73,13 @@ export function processProcessedResource({
     if (!building.coordinates) {
       throw new Error("Building is not placed");
     }
+
+    assertBuildingNotDisabled({
+      game,
+      name: action.buildingName,
+      id: buildingId,
+      now: createdAt,
+    });
 
     const processingQueue = building.processing ?? [];
     const availableSlots = hasVipAccess({ game, now: createdAt })

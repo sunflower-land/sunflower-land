@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import {
   type ComposterName,
@@ -65,6 +66,12 @@ export function accelerateComposter({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
+    assertBuildingNotDisabled({
+      game: stateCopy,
+      name: action.building,
+      now: createdAt,
+    });
+
     const buildings = stateCopy.buildings[action.building] as CompostBuilding[];
     if (!buildings) {
       throw new Error(translate("error.composterNotExist"));

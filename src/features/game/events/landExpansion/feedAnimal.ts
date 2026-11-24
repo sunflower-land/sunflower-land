@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
 import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
@@ -258,6 +259,11 @@ export function feedAnimal({
 }: Options): GameState {
   return produce(state, (copy) => {
     const { buildingRequired } = ANIMALS[action.animal];
+    assertBuildingNotDisabled({
+      game: copy,
+      name: buildingRequired,
+      now: createdAt,
+    });
 
     const buildings = copy.buildings[buildingRequired];
     if (!buildings?.some((building) => !!building.coordinates)) {

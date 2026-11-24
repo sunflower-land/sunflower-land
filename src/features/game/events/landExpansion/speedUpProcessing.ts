@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import type { ProcessingBuildingName } from "features/game/types/buildings";
 import type { BuildingProduct, GameState } from "features/game/types/game";
@@ -52,6 +53,13 @@ export const speedUpProcessing = ({
     if (!building) {
       throw new Error("Building does not exist");
     }
+
+    assertBuildingNotDisabled({
+      game,
+      name: action.buildingName,
+      id: action.buildingId,
+      now: createdAt,
+    });
 
     const currentProcessingItem = getCurrentProcessingItem({
       building,

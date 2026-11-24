@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import {
@@ -134,6 +135,12 @@ export function startComposter({
 }: Options): GameState {
   return produce(state, (stateCopy) => {
     const { building } = action;
+    assertBuildingNotDisabled({
+      game: stateCopy,
+      name: building,
+      now: createdAt,
+    });
+
     const buildings = stateCopy.buildings[building] as CompostBuilding[];
     if (!buildings?.some((building) => !!building.coordinates)) {
       throw new Error(translate("error.composterNotExist"));

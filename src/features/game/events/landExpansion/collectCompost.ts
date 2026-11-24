@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import {
@@ -47,6 +48,13 @@ export function collectCompost({
     if (!building.coordinates) {
       throw new Error("Composter is not placed");
     }
+
+    assertBuildingNotDisabled({
+      game: stateCopy,
+      name: action.building,
+      id: action.buildingId,
+      now: createdAt,
+    });
 
     if (!bumpkin) {
       throw new Error("You do not have a Bumpkin!");

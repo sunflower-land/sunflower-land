@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import type {
   BuildingName,
@@ -73,6 +74,13 @@ export function speedUpRecipe({
     if (!building.coordinates) {
       throw new Error("Building is not placed");
     }
+
+    assertBuildingNotDisabled({
+      game,
+      name: action.buildingName,
+      id: action.buildingId,
+      now: createdAt,
+    });
 
     // Settle the oil at the speed-up; the sped-up recipe then pays for the oil it
     // would have burned cooking out (see `burnRecipeOil`), and the recipe promoted

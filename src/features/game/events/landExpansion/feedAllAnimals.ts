@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import {
   ANIMALS,
   type AnimalBuildingType,
@@ -132,6 +133,12 @@ export function feedAllAnimals({
   if (!buildings?.some((building) => !!building.coordinates)) {
     throw new Error("Building does not exist");
   }
+
+  assertBuildingNotDisabled({
+    game: state,
+    name: action.building,
+    now: createdAt,
+  });
 
   if (
     getCoveredAnimalTypes({ state, building: action.building }).length === 0

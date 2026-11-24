@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import type { BoostName, GameState } from "features/game/types/game";
 
 import {
@@ -235,6 +236,8 @@ export function plantGreenhouse({
     ) {
       throw new Error("Greenhouse does not exist");
     }
+
+    assertBuildingNotDisabled({ game, name: "Greenhouse", now: createdAt });
 
     if (!game.bumpkin) {
       throw new Error("No Bumpkin");

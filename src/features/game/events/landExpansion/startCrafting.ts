@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import type {
   Recipe,
@@ -119,6 +120,12 @@ export function startCrafting({
     if (!isBuildingBuilt) {
       throw new Error("You do not have a Crafting Box");
     }
+
+    assertBuildingNotDisabled({
+      game: copy,
+      name: "Crafting Box",
+      now: createdAt,
+    });
 
     const effectiveQueue: CraftingQueueItem[] = copy.craftingBox.queue ?? [];
     if (effectiveQueue.find((q) => q.id === action.queueItemId)) {

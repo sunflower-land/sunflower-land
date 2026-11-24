@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import {
   CROPS,
@@ -436,6 +437,13 @@ export function supplyCropMachine({
     if (!cropMachine || !cropMachine.coordinates) {
       throw new Error("Crop Machine not found");
     }
+
+    assertBuildingNotDisabled({
+      game: stateCopy,
+      name: "Crop Machine",
+      id: cropMachine.id,
+      now: createdAt,
+    });
 
     const { queue = [] } = cropMachine;
     const seedName = seedsAdded.type;

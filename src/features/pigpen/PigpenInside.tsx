@@ -62,11 +62,8 @@ const _hasAirdropAccess = (state: MachineState) =>
     state.context.visitorState ?? state.context.state,
     "AIRDROP_PLAYER",
   );
-const _isPigpenDestroyed = (state: MachineState) =>
-  isBuildingDestroyed({
-    name: "Pigpen",
-    calendar: state.context.state.calendar,
-  });
+const _isPigpenDestroyed = (now: number) => (state: MachineState) =>
+  isBuildingDestroyed({ name: "Pigpen", game: state.context.state, now });
 
 export const PigpenInside: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -95,7 +92,7 @@ export const PigpenInside: React.FC = () => {
 
   const token = useSelector(authService, _token);
   const pigpen = useSelector(gameService, _pigpen);
-  const isDestroyed = useSelector(gameService, _isPigpenDestroyed);
+  const isDestroyed = useSelector(gameService, _isPigpenDestroyed(now));
   const game = useSelector(gameService, _game);
   const island = useSelector(gameService, _island);
   const level = pigpen.level;

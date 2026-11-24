@@ -20,6 +20,7 @@ import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { Context as AuthContext } from "features/auth/lib/Provider";
 import { useSelector } from "@xstate/react";
 import { isBuildingDestroyed } from "features/island/buildings/components/building/Building";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const background = SUNNYSIDE.land.greenhouse_inside;
 
@@ -47,9 +48,12 @@ export const GreenhouseInside: React.FC = () => {
     scrollIntoView(Section.GenesisBlock, "auto");
   }, []);
 
+  // Checked on entry: only a reload or a Balk placed on the farm changes it.
+  const enteredAt = useNow();
   const calendarEvent = isBuildingDestroyed({
     name: "Greenhouse",
-    calendar: context.state.calendar,
+    game: context.state,
+    now: enteredAt,
   });
 
   if (calendarEvent) {

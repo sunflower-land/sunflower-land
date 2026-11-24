@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import type {
   BuildingName,
   CookingBuildingName,
@@ -170,6 +171,13 @@ export function cancelQueuedRecipe({
     if (!building) {
       throw new Error("Building does not exist");
     }
+
+    assertBuildingNotDisabled({
+      game,
+      name: buildingName,
+      id: buildingId,
+      now: createdAt,
+    });
 
     if (!building.crafting) {
       throw new Error("No queue exists");
