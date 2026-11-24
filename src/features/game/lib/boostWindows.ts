@@ -20,6 +20,7 @@ import {
   getWeatherEvents,
   getWeatherItemCoverWindows,
   isCoveredByGuardian,
+  WEATHER_LOOKBACK_MS,
 } from "./weatherItemCover";
 import type { AnimalType } from "../types/animals";
 import type { CookingBuildingName } from "../types/buildings";
@@ -332,6 +333,24 @@ export const getGuardianPlacedPeriods = (
 ];
 
 /**
+ * `windows` from `WEATHER_LOOKBACK_MS` before `now` on, when `now` is given:
+ * what a node placed back at `now` banks its lifted work against. Without
+ * `now`, every window.
+ */
+const withinWeatherLookback = (
+  windows: BoostWindow[],
+  now?: number,
+): BoostWindow[] =>
+  now === undefined
+    ? windows
+    : windows
+        .map((window) => ({
+          ...window,
+          from: Math.max(window.from, now - WEATHER_LOOKBACK_MS),
+        }))
+        .filter((window) => window.to > window.from);
+
+/**
  * Crop growth during a weather Sun Shower: 1.3×, 1.6× while either the Shade
  * Cloth or the season's Guardian covers it, 2× while both do.
  */
@@ -343,7 +362,13 @@ export const SUN_SHOWER_SPEED = { base: 1.3, boosted: 1.6, both: 2 } as const;
  * placement starts or stops, and each piece gets one speed from
  * `SUN_SHOWER_SPEED`, so the pieces never overlap each other.
  */
-export const getWeatherSunShowerWindows = (game: GameState): BoostWindow[] => {
+export const getWeatherSunShowerWindows = (
+  game: GameState,
+  now?: number,
+): BoostWindow[] =>
+  withinWeatherLookback(getEveryWeatherSunShowerWindow(game), now);
+
+const getEveryWeatherSunShowerWindow = (game: GameState): BoostWindow[] => {
   if (!hasFeatureAccess(game, "WEATHER")) return [];
 
   const events = getWeatherEvents(game);
@@ -401,7 +426,13 @@ export const FLOOD_SPEED = 0.5;
  * start, minus the time a Sandbag covered it. Resource nodes run at
  * `FLOOD_SPEED` there, and honey at half rate.
  */
-export const getWeatherFloodWindows = (game: GameState): BoostWindow[] => {
+export const getWeatherFloodWindows = (
+  game: GameState,
+  now?: number,
+): BoostWindow[] =>
+  withinWeatherLookback(getEveryWeatherFloodWindow(game), now);
+
+const getEveryWeatherFloodWindow = (game: GameState): BoostWindow[] => {
   if (!hasFeatureAccess(game, "WEATHER")) return [];
 
   const events = getWeatherEvents(game);
@@ -491,17 +522,21 @@ export const withoutWindows = <T extends { from: number; to: number }>(
  * 1.35 = 1.8225×); placements of the same boost are merged within
  * `getBoostWindows`.
  */
-export const getCropPlotBoostWindows = (game: GameState): BoostWindow[] => {
+export const getCropPlotBoostWindows = (
+  game: GameState,
+  now?: number,
+): BoostWindow[] => {
   const weather = getWeatherSunShowerWindows(game);
   // A calendar Sun Shower record (and its Guardian's) only counts where no
   // weather Sun Shower runs, so one left from before the Weather flag never
-  // multiplies with it.
+  // multiplies with it. Every weather Sun Shower blocks it, even one before
+  // the lookback; only the weather windows returned are cut there.
   const sunShower = [
     ...withoutWindows(
       [...getSunshowerWindows(game), ...getSunshowerGuardianWindows(game)],
       weather,
     ),
-    ...weather,
+    ...withinWeatherLookback(weather, now),
   ];
 
   return [
@@ -518,7 +553,7 @@ export const getCropPlotBoostWindows = (game: GameState): BoostWindow[] => {
     ...getMergedTotemWindows(game, CROP_PLOT_BOOST_SPEED["Super Totem"]),
     ...getPowerHourWindows(game),
     ...sunShower,
-    ...getWeatherFloodWindows(game),
+    ...getWeatherFloodWindows(game, now),
   ];
 };
 
@@ -528,7 +563,10 @@ export const getCropPlotBoostWindows = (game: GameState): BoostWindow[] => {
  * they don't stack with each other (both 2×). Mirrors `getCropPlotBoostWindows`
  * for the trees activity.
  */
-export const getTreeBoostWindows = (game: GameState): BoostWindow[] => [
+export const getTreeBoostWindows = (
+  game: GameState,
+  now?: number,
+): BoostWindow[] => [
   ...getMergedTotemWindows(game, TREE_BOOST_SPEED["Super Totem"]),
   ...getBoostWindows({
     game,
@@ -540,7 +578,7 @@ export const getTreeBoostWindows = (game: GameState): BoostWindow[] => [
     name: "Badger Shrine",
     speed: TREE_BOOST_SPEED["Badger Shrine"],
   }),
-  ...getWeatherFloodWindows(game),
+  ...getWeatherFloodWindows(game, now),
 ];
 
 /**
@@ -550,7 +588,10 @@ export const getTreeBoostWindows = (game: GameState): BoostWindow[] => [
  * 2×). Mirrors `getTreeBoostWindows` for the fruit activity. This is assembled
  * for PATCH fruit only — greenhouse fruit uses `getGreenhouseBoostWindows`.
  */
-export const getFruitBoostWindows = (game: GameState): BoostWindow[] => [
+export const getFruitBoostWindows = (
+  game: GameState,
+  now?: number,
+): BoostWindow[] => [
   ...getMergedTotemWindows(game, FRUIT_BOOST_SPEED["Super Totem"]),
   ...getBoostWindows({
     game,
@@ -562,7 +603,7 @@ export const getFruitBoostWindows = (game: GameState): BoostWindow[] => [
     name: "Toucan Shrine",
     speed: FRUIT_BOOST_SPEED["Toucan Shrine"],
   }),
-  ...getWeatherFloodWindows(game),
+  ...getWeatherFloodWindows(game, now),
 ];
 
 /**
@@ -573,7 +614,10 @@ export const getFruitBoostWindows = (game: GameState): BoostWindow[] => [
  * fertiliser. Only Moth Shrine's grow-TIME half is windowed; its +1-flower yield
  * stays baked in getFlowerAmount. Mirrors `getFruitBoostWindows` for flowers.
  */
-export const getFlowerBoostWindows = (game: GameState): BoostWindow[] => [
+export const getFlowerBoostWindows = (
+  game: GameState,
+  now?: number,
+): BoostWindow[] => [
   ...getBoostWindows({
     game,
     name: "Blossom Hourglass",
@@ -584,7 +628,7 @@ export const getFlowerBoostWindows = (game: GameState): BoostWindow[] => [
     name: "Moth Shrine",
     speed: FLOWER_BOOST_SPEED["Moth Shrine"],
   }),
-  ...getWeatherFloodWindows(game),
+  ...getWeatherFloodWindows(game, now),
 ];
 
 /**
@@ -594,13 +638,16 @@ export const getFlowerBoostWindows = (game: GameState): BoostWindow[] => [
  * getOilDropAmount. Empty set (no Stag Shrine) makes `computeReadyAt` reduce to
  * `drilledAt + baseDurationMs`.
  */
-export const getOilBoostWindows = (game: GameState): BoostWindow[] => [
+export const getOilBoostWindows = (
+  game: GameState,
+  now?: number,
+): BoostWindow[] => [
   ...getBoostWindows({
     game,
     name: "Stag Shrine",
     speed: OIL_BOOST_SPEED["Stag Shrine"],
   }),
-  ...getWeatherFloodWindows(game),
+  ...getWeatherFloodWindows(game, now),
 ];
 
 /**
@@ -843,10 +890,14 @@ export const getGreenhouseBoostWindows = (
 export const getMineBoostWindows = (
   game: GameState,
   rockName: RockName,
+  now?: number,
 ): BoostWindow[] =>
   rockName === "Ascension Crystal"
     ? []
-    : [...getRockBoostWindows(game, rockName), ...getWeatherFloodWindows(game)];
+    : [
+        ...getRockBoostWindows(game, rockName),
+        ...getWeatherFloodWindows(game, now),
+      ];
 
 const getRockBoostWindows = (
   game: GameState,

@@ -19,10 +19,14 @@ import {
   getOilBoostWindows,
   getTreeBoostWindows,
   getWeatherFloodWindows,
+  getWeatherSunShowerWindows,
   computeReadyAt,
   pauseWindowedTimer,
 } from "./boostWindows";
 import { updateBeehives } from "./updateBeehives";
+import { placeTree } from "../events/landExpansion/placeTree";
+import { getWeatherEvents } from "./weatherItemCover";
+import { getWeatherHoneyBoundaries } from "./weatherHoney";
 
 const HOUR = 60 * 60 * 1000;
 
@@ -490,5 +494,127 @@ describe("land expansion during a Flood", () => {
         windows: getTreeBoostWindows(state),
       }),
     ).toBeLessThanOrEqual(placedAt);
+  });
+});
+
+describe("weather a week or more before the action", () => {
+  // The client's forecast always reaches a week back, so both sides read
+  // weather from 7 days before an action that banks old work.
+  const DAY = 24 * HOUR;
+
+  it("leaves a Flood that ended over a week ago out of the windows", () => {
+    expect(during({ ...farm() }).length).toBe(1);
+    expect(
+      getWeatherFloodWindows(farm(), FLOOD.endAt + 8 * DAY).filter(
+        (window) => window.from < FLOOD.endAt && FLOOD.startAt < window.to,
+      ),
+    ).toEqual([]);
+  });
+
+  it("keeps the part of a Flood less than a week ago", () => {
+    expect(
+      getWeatherFloodWindows(farm(), FLOOD.startAt + 8 * DAY),
+    ).toContainEqual({
+      from: FLOOD.startAt + DAY,
+      to: FLOOD.endAt,
+      speed: 0.5,
+    });
+  });
+
+  it("does the same for a Sun Shower", () => {
+    // The winter week of 2026-12-07 opens with a four-day Sun Shower.
+    const SUN = {
+      startAt: Date.UTC(2026, 11, 7),
+      endAt: Date.UTC(2026, 11, 11),
+    };
+    const inSun = (now: number) =>
+      getWeatherSunShowerWindows(
+        farm({
+          weather: { forecast: [{ name: "sunshower", ...SUN }], overlays: [] },
+        }),
+        now,
+      ).filter((window) => window.from < SUN.endAt && SUN.startAt < window.to);
+
+    expect(inSun(SUN.endAt + 8 * DAY)).toEqual([]);
+    expect(inSun(SUN.startAt + 8 * DAY)).toEqual([
+      { from: SUN.startAt + DAY, to: SUN.endAt, speed: 1.3 },
+    ]);
+  });
+
+  it("still keeps an old calendar Sun Shower out where a weather one ran", () => {
+    // The winter week of 2026-12-07 opens with a four-day Sun Shower. A
+    // calendar Sun Shower record (2×) from before the flag overlaps its first
+    // day.
+    const SUN = {
+      startAt: Date.UTC(2026, 11, 7),
+      endAt: Date.UTC(2026, 11, 11),
+    };
+    const game: GameState = {
+      ...farm({
+        weather: { forecast: [{ name: "sunshower", ...SUN }], overlays: [] },
+        boostHistory: {
+          Sunshower: [
+            { from: SUN.startAt - 10 * HOUR, to: SUN.startAt + 24 * HOUR },
+          ],
+        },
+      }),
+    };
+
+    // Read from over a week later, the weather Sun Shower is cut off, but the
+    // calendar record still only counts before it started.
+    const calendar = getCropPlotBoostWindows(game, SUN.endAt + 8 * DAY).filter(
+      (window) => window.speed === 2,
+    );
+    expect(calendar).toEqual([
+      { from: SUN.startAt - 10 * HOUR, to: SUN.startAt, speed: 2 },
+    ]);
+  });
+
+  describe("placing back a tree lifted during the Flood", () => {
+    // A tree (2h) chopped as the Flood starts and lifted an hour in: half an
+    // hour of its work done at 0.5×.
+    const placeBack = (placedAt: number) => {
+      const state = placeTree({
+        state: {
+          ...farm(),
+          inventory: { ...farm().inventory, Tree: new Decimal(1) },
+          trees: {
+            t: {
+              createdAt: 0,
+              removedAt: FLOOD.startAt + HOUR,
+              wood: { choppedAt: FLOOD.startAt, baseDurationMs: 2 * HOUR },
+            },
+          },
+        },
+        action: {
+          type: "tree.placed",
+          name: "Tree",
+          id: "t",
+          coordinates: { x: 0, y: 0 },
+        },
+        createdAt: placedAt,
+      });
+
+      return getTreeReadyAt(state.trees.t, state) - placedAt;
+    };
+
+    it("banks the Flood when placed back within a week", () => {
+      // 0.5h banked, so 1.5h of work is left.
+      expect(placeBack(FLOOD.endAt + DAY)).toBe(1.5 * HOUR);
+    });
+
+    it("banks the lifted hour at 1× once the Flood is over a week old", () => {
+      // The client's forecast no longer has this Flood: 1h banked, 1h left.
+      expect(placeBack(FLOOD.endAt + 10 * DAY)).toBe(HOUR);
+    });
+  });
+
+  it("only looks a week ahead for honey rate changes", () => {
+    const game = farm();
+    const boundaries = (from: number) =>
+      getWeatherHoneyBoundaries({ game, events: getWeatherEvents(game), from });
+
+    expect(boundaries(FLOOD.startAt - 6 * DAY)).toContain(FLOOD.startAt);
+    expect(boundaries(FLOOD.startAt - 8 * DAY)).not.toContain(FLOOD.startAt);
   });
 });

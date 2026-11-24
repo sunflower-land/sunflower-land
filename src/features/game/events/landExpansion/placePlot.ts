@@ -66,7 +66,7 @@ export function placePlot({
           createdAt,
           rawBaseMs: CROPS[updatedPlot.crop.name].harvestSeconds * 1000,
           windows: [
-            ...getCropPlotBoostWindows(game),
+            ...getCropPlotBoostWindows(game, createdAt),
             ...getCropFertiliserWindows(updatedPlot.fertiliser),
           ],
           trackProgress: true,

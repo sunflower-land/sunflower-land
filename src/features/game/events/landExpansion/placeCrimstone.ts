@@ -62,7 +62,7 @@ export function placeCrimstone({
           removedAt: updatedCrimstone.removedAt,
           createdAt,
           rawBaseMs: RESOURCE_RECOVERY_TIME["Crimstone Rock"] * 1000,
-          windows: getMineBoostWindows(game, "Crimstone Rock"),
+          windows: getMineBoostWindows(game, "Crimstone Rock", createdAt),
         });
       }
       delete updatedCrimstone.removedAt;

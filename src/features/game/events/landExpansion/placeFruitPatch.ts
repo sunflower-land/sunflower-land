@@ -67,7 +67,7 @@ export function placeFruitPatch({
           rawBaseMs:
             PATCH_FRUIT_SEEDS[PATCH_FRUIT[fruit.name].seed].plantSeconds * 1000,
           windows: [
-            ...getFruitBoostWindows(game),
+            ...getFruitBoostWindows(game, createdAt),
             ...getTurbofruitMixWindows(existingPatch.fertiliser),
           ],
           trackProgress: true,

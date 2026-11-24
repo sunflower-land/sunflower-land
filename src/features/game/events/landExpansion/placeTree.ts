@@ -66,7 +66,7 @@ export function placeTree({
           removedAt: updatedTree.removedAt,
           createdAt,
           rawBaseMs: TREE_RECOVERY_TIME * 1000,
-          windows: getTreeBoostWindows(game),
+          windows: getTreeBoostWindows(game, createdAt),
         });
       }
       delete updatedTree.removedAt;
