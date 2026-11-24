@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { useLocation, useNavigate } from "react-router";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -22,6 +23,23 @@ import choresIcon from "assets/icons/chores.webp";
 import giftIcon from "assets/icons/gift.png";
 import swordsIcon from "assets/icons/factions.webp";
 import budIcon from "assets/icons/bud.png";
+import { hasFeatureAccess } from "lib/flags";
+import { useNow } from "lib/utils/hooks/useNow";
+import {
+  getUnprotectedThreat,
+  getWeatherEvents,
+} from "features/game/lib/weatherItemCover";
+
+// The interiors of buildings a Tornado can disable. A Tornado starts with the
+// day, so continuing into one sends the player to the farm, where the
+// buildings it disables show once the new day's state comes back.
+const TORNADO_INTERIORS = [
+  "/barn",
+  "/hen-house",
+  "/pigpen",
+  "/greenhouse",
+  "/cave",
+];
 
 // Clouds stay closed through the save (`dailyResetting`) so the world only
 // reveals once the new day's game state has come back from the server
@@ -92,6 +110,10 @@ export const DailyResetModal: React.FC = () => {
   const isDailyReset = useSelector(gameService, _showDailyReset);
   const isDailyResetting = useSelector(gameService, _isDailyResetting);
   const state = useSelector(gameService, _state);
+  const navigate = useNavigate();
+  const location = useLocation();
+  // Ticks only while the reset is showing, for the check on Continue.
+  const now = useNow({ live: isDailyReset });
 
   const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
   const [loadingDots, setLoadingDots] = useState("");
@@ -201,6 +223,18 @@ export const DailyResetModal: React.FC = () => {
   const handleContinue = () => {
     gameService.send({ type: "daily.reset" });
     gameService.send({ type: "CONTINUE" });
+
+    const isTornadoDay =
+      hasFeatureAccess(state, "WEATHER") &&
+      !!getUnprotectedThreat({
+        game: state,
+        name: "tornado",
+        events: getWeatherEvents(state),
+        now,
+      });
+    if (isTornadoDay && TORNADO_INTERIORS.includes(location.pathname)) {
+      navigate("/");
+    }
   };
 
   const transitionStyle = (duration: number, delay: number) => ({
