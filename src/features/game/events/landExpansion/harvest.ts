@@ -3,6 +3,7 @@ import {
   getWeatherEvents,
   getWindfallBonus,
 } from "features/game/lib/weatherItemCover";
+import { getHeavyRainsCropYield } from "features/game/lib/weatherHeavyRains";
 import { hasFeatureAccess } from "lib/flags";
 import type {
   AOE,
@@ -986,6 +987,18 @@ export function getCropYieldAmount({
         value: `+${windfall.amount}`,
       });
     }
+
+    // Weather Heavy Rains: a flat change per harvest (Merino Wool Insulation
+    // / Guardian).
+    const rains = getHeavyRainsCropYield({
+      game,
+      events: getWeatherEvents(game),
+      at: createdAt,
+    });
+    amount = new Decimal(amount).add(rains.amount).toNumber();
+    rains.boostsUsed.forEach((name) =>
+      boostsUsed.push({ name, value: `+${rains.amount}` }),
+    );
   } else if (
     getActiveCalendarEvent({ calendar: game.calendar }) === "bountifulHarvest"
   ) {
