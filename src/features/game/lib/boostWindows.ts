@@ -19,6 +19,7 @@ import { hasFeatureAccess } from "lib/flags";
 import {
   getWeatherEvents,
   getWeatherItemCoverWindows,
+  isCoveredByGuardian,
 } from "./weatherItemCover";
 import type { AnimalType } from "../types/animals";
 import type { CookingBuildingName } from "../types/buildings";
@@ -391,6 +392,34 @@ export const getWeatherSunShowerWindows = (game: GameState): BoostWindow[] => {
     });
 };
 
+/** Every resource node's speed while a Flood is unprotected. */
+export const FLOOD_SPEED = 0.5;
+
+/**
+ * The stretches of every scheduled weather Flood that nothing protects
+ * (Weather flag): each Flood its season's Guardian wasn't out for at the
+ * start, minus the time a Sandbag covered it. Resource nodes run at
+ * `FLOOD_SPEED` there, and honey at half rate.
+ */
+export const getWeatherFloodWindows = (game: GameState): BoostWindow[] => {
+  if (!hasFeatureAccess(game, "WEATHER")) return [];
+
+  const events = getWeatherEvents(game);
+  const floods = events
+    .filter((event) => event.name === "flood")
+    .filter((event) => !isCoveredByGuardian(game, event))
+    .map((event) => ({
+      from: event.startAt,
+      to: event.endAt,
+      speed: FLOOD_SPEED,
+    }));
+
+  return withoutWindows(
+    floods,
+    getWeatherItemCoverWindows({ game, item: "Sandbag", events }),
+  );
+};
+
 /**
  * A season Guardian's own speed windows: each period a Guardian for the
  * sunshower day's season was placed, clipped to that sunshower. They stack on
@@ -441,10 +470,10 @@ export const getMergedTotemWindows = (
   ]);
 
 /** `windows` with the time any of `blockers` covers cut out. */
-export const withoutWindows = (
-  windows: BoostWindow[],
+export const withoutWindows = <T extends { from: number; to: number }>(
+  windows: T[],
   blockers: { from: number; to: number }[],
-): BoostWindow[] =>
+): T[] =>
   blockers.reduce(
     (pieces, blocker) =>
       pieces.flatMap((piece) =>
@@ -489,6 +518,7 @@ export const getCropPlotBoostWindows = (game: GameState): BoostWindow[] => {
     ...getMergedTotemWindows(game, CROP_PLOT_BOOST_SPEED["Super Totem"]),
     ...getPowerHourWindows(game),
     ...sunShower,
+    ...getWeatherFloodWindows(game),
   ];
 };
 
@@ -510,6 +540,7 @@ export const getTreeBoostWindows = (game: GameState): BoostWindow[] => [
     name: "Badger Shrine",
     speed: TREE_BOOST_SPEED["Badger Shrine"],
   }),
+  ...getWeatherFloodWindows(game),
 ];
 
 /**
@@ -531,6 +562,7 @@ export const getFruitBoostWindows = (game: GameState): BoostWindow[] => [
     name: "Toucan Shrine",
     speed: FRUIT_BOOST_SPEED["Toucan Shrine"],
   }),
+  ...getWeatherFloodWindows(game),
 ];
 
 /**
@@ -552,6 +584,7 @@ export const getFlowerBoostWindows = (game: GameState): BoostWindow[] => [
     name: "Moth Shrine",
     speed: FLOWER_BOOST_SPEED["Moth Shrine"],
   }),
+  ...getWeatherFloodWindows(game),
 ];
 
 /**
@@ -561,12 +594,14 @@ export const getFlowerBoostWindows = (game: GameState): BoostWindow[] => [
  * getOilDropAmount. Empty set (no Stag Shrine) makes `computeReadyAt` reduce to
  * `drilledAt + baseDurationMs`.
  */
-export const getOilBoostWindows = (game: GameState): BoostWindow[] =>
-  getBoostWindows({
+export const getOilBoostWindows = (game: GameState): BoostWindow[] => [
+  ...getBoostWindows({
     game,
     name: "Stag Shrine",
     speed: OIL_BOOST_SPEED["Stag Shrine"],
-  });
+  }),
+  ...getWeatherFloodWindows(game),
+];
 
 /**
  * The windowed speed boosts that apply to an animal's sleep. At most one shrine
@@ -797,9 +832,10 @@ export const getGreenhouseBoostWindows = (
 /**
  * The windowed speed boosts that apply to a rock's recovery, by resource family.
  * Coverage differs per resource: stone gets Badger Shrine (not Mole), iron & gold
- * get Mole Shrine (not Badger), crimstone gets Mole Shrine only, and sunstone (+
- * the unmigrated Ascension Crystal) have no temporary recovery boost — the empty
- * set makes `computeReadyAt` reduce to `minedAt + baseDurationMs`. The two totems
+ * get Mole Shrine (not Badger), crimstone gets Mole Shrine only, and sunstone has
+ * no temporary recovery boost. Every rock but the Ascension Crystal (which has no
+ * timer) is slowed by an unprotected weather Flood; an empty set makes
+ * `computeReadyAt` reduce to `minedAt + baseDurationMs`. The two totems
  * merge so they don't stack (both 2×); Ore Hourglass applies to stone/iron/gold.
  * Tier-2/3 rock names (e.g. Fused Stone, Prime Gold) map to their base family.
  * Mirrors `getTreeBoostWindows` for the mines activity.
@@ -807,6 +843,14 @@ export const getGreenhouseBoostWindows = (
 export const getMineBoostWindows = (
   game: GameState,
   rockName: RockName,
+): BoostWindow[] =>
+  rockName === "Ascension Crystal"
+    ? []
+    : [...getRockBoostWindows(game, rockName), ...getWeatherFloodWindows(game)];
+
+const getRockBoostWindows = (
+  game: GameState,
+  rockName: Exclude<RockName, "Ascension Crystal">,
 ): BoostWindow[] => {
   switch (rockName) {
     case "Stone Rock":
@@ -851,7 +895,6 @@ export const getMineBoostWindows = (
         speed: MINE_BOOST_SPEED["Mole Shrine"],
       });
     case "Sunstone Rock":
-    case "Ascension Crystal":
       return [];
   }
 };
