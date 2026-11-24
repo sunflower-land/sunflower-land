@@ -27,6 +27,7 @@ import {
   getPowerHourWindows,
   getSunshowerGuardianWindows,
   getSunshowerWindows,
+  getWeatherFloodWindows,
   getWeatherSunShowerWindows,
   withoutWindows,
   type BoostWindow,
@@ -46,11 +47,25 @@ import type { TemporaryCollectibleName } from "./collectibleBuilt";
  * The per-activity sets below mirror the builders in `boostWindows.ts` exactly;
  * `boostContributions.test.ts` asserts that flattening them reproduces the
  * builder's window set, so the two cannot drift apart.
+ *
+ * The Flood is in those sets too, as a `slowdown`: it slows the task rather
+ * than speeding it, so it's never listed. The boosters' savings are measured
+ * from the Flood-slowed time instead (see `getBoostContributionEntries`).
  */
-export type BoostContribution = {
-  name: BoostName;
-  windows: BoostWindow[];
-};
+export type BoostContribution = NamedContribution | Slowdown;
+
+type NamedContribution = { name: BoostName; windows: BoostWindow[] };
+type Slowdown = { slowdown: "flood"; windows: BoostWindow[] };
+
+const isSlowdown = (
+  contribution: BoostContribution,
+): contribution is Slowdown => "slowdown" in contribution;
+
+/** An unprotected weather Flood's 0.5× windows (see `getWeatherFloodWindows`). */
+const flood = (game: GameState): Slowdown => ({
+  slowdown: "flood",
+  windows: getWeatherFloodWindows(game),
+});
 
 const collectible = (
   game: GameState,
@@ -123,6 +138,7 @@ const cropPlot = (game: GameState, at: number): BoostContribution[] => {
         weather,
       ),
     })),
+    flood(game),
   ];
 };
 
@@ -130,6 +146,7 @@ const tree = (game: GameState, at: number): BoostContribution[] => [
   totems(game, TREE_BOOST_SPEED["Super Totem"], at),
   collectible(game, "Timber Hourglass", TREE_BOOST_SPEED["Timber Hourglass"]),
   collectible(game, "Badger Shrine", TREE_BOOST_SPEED["Badger Shrine"]),
+  flood(game),
 ];
 
 const fruit = (game: GameState, at: number): BoostContribution[] => [
@@ -140,6 +157,7 @@ const fruit = (game: GameState, at: number): BoostContribution[] => [
     FRUIT_BOOST_SPEED["Orchard Hourglass"],
   ),
   collectible(game, "Toucan Shrine", FRUIT_BOOST_SPEED["Toucan Shrine"]),
+  flood(game),
 ];
 
 const flower = (game: GameState, at: number): BoostContribution[] => [
@@ -149,6 +167,7 @@ const flower = (game: GameState, at: number): BoostContribution[] => [
     FLOWER_BOOST_SPEED["Blossom Hourglass"],
   ),
   collectible(game, "Moth Shrine", FLOWER_BOOST_SPEED["Moth Shrine"]),
+  flood(game),
 ];
 
 /**
@@ -199,6 +218,7 @@ const crafting = (game: GameState, at: number): BoostContribution[] => [
 
 const oil = (game: GameState, at: number): BoostContribution[] => [
   collectible(game, "Stag Shrine", OIL_BOOST_SPEED["Stag Shrine"]),
+  flood(game),
 ];
 
 /**
@@ -242,6 +262,15 @@ const mine = (
   game: GameState,
   rock: RockName,
   at: number,
+): BoostContribution[] =>
+  rock === "Ascension Crystal"
+    ? []
+    : [...rockBoosts(game, rock, at), flood(game)];
+
+const rockBoosts = (
+  game: GameState,
+  rock: Exclude<RockName, "Ascension Crystal">,
+  at: number,
 ): BoostContribution[] => {
   switch (rock) {
     case "Stone Rock":
@@ -268,7 +297,6 @@ const mine = (
         collectible(game, "Mole Shrine", MINE_BOOST_SPEED["Mole Shrine"]),
       ];
     case "Sunstone Rock":
-    case "Ascension Crystal":
       return [];
   }
 };
@@ -368,25 +396,32 @@ const subsetSize = (mask: number): number => {
  */
 function getShapleySavings({
   contributions,
+  baseline,
   seconds,
   at,
 }: {
   contributions: BoostContribution[];
+  /** Windows in force whichever boosts run (the Flood), measured from. */
+  baseline: BoostWindow[];
   seconds: number;
   at: number;
 }): number[] {
   const count = contributions.length;
   const savings = new Map<number, number>();
+  const baseSeconds = projectSeconds({ seconds, windows: baseline, at });
 
   /** Time saved by exactly the subset of boosts in `mask`. */
   const savingOf = (mask: number): number => {
     const cached = savings.get(mask);
     if (cached !== undefined) return cached;
 
-    const windows = contributions.flatMap((contribution, index) =>
-      (mask >> index) & 1 ? contribution.windows : [],
-    );
-    const saving = seconds - projectSeconds({ seconds, windows, at });
+    const windows = [
+      ...baseline,
+      ...contributions.flatMap((contribution, index) =>
+        (mask >> index) & 1 ? contribution.windows : [],
+      ),
+    ];
+    const saving = baseSeconds - projectSeconds({ seconds, windows, at });
 
     savings.set(mask, saving);
     return saving;
@@ -441,11 +476,24 @@ export function getBoostContributionEntries({
   formatSeconds: (seconds: number) => string;
 }): { name: BoostName; value: string }[] {
   const active = contributions.filter(
-    ({ windows }) => getEffectiveSpeedAt({ at, windows }) > 1,
+    (contribution): contribution is NamedContribution =>
+      !isSlowdown(contribution) &&
+      getEffectiveSpeedAt({ at, windows: contribution.windows }) > 1,
   );
   if (active.length === 0) return [];
 
-  const shares = getShapleySavings({ contributions: active, seconds, at });
+  // The Flood runs whichever boosts do, so every saving is measured from the
+  // Flood-slowed time.
+  const baseline = contributions
+    .filter(isSlowdown)
+    .flatMap(({ windows }) => windows);
+
+  const shares = getShapleySavings({
+    contributions: active,
+    baseline,
+    seconds,
+    at,
+  });
 
   return active.map(({ name }, index) => ({
     name,
