@@ -186,12 +186,13 @@ describe("totalExpansions", () => {
 describe("revealLand", () => {
   it("creates every timed node already on the speed-rate model", () => {
     const HOUR = 60 * 60 * 1000;
-    // Raw base durations: what the node would read as with no marker.
+    // Raw base durations: what the node would read as with no marker. Every
+    // reveal refills trees, rocks (not sunstones) and oil with no work left.
     const ROCKS = {
-      stones: 4 * HOUR,
-      iron: 8 * HOUR,
-      gold: 24 * HOUR,
-      crimstones: 24 * HOUR,
+      stones: 0,
+      iron: 0,
+      gold: 0,
+      crimstones: 0,
       sunstones: 3 * 24 * HOUR,
     } as const;
 
@@ -224,10 +225,10 @@ describe("revealLand", () => {
       }
     }
     for (const tree of Object.values(game.trees)) {
-      expect(tree.wood.baseDurationMs).toEqual(2 * HOUR);
+      expect(tree.wood.baseDurationMs).toEqual(0);
     }
     for (const reserve of Object.values(game.oilReserves)) {
-      expect(reserve.oil.baseDurationMs).toEqual(20 * HOUR);
+      expect(reserve.oil.baseDurationMs).toEqual(0);
     }
     for (const plot of Object.values(game.crops)) {
       expect(plot.crop?.baseDurationMs).toEqual(
@@ -696,6 +697,7 @@ describe("revealLand", () => {
     expect(state.crimstones[1]).toEqual<FiniteResource>({
       minesLeft: 1,
       stone: {
+        baseDurationMs: 0,
         minedAt: now - CRIMSTONE_RECOVERY_TIME * 1000,
         criticalHit: { Native: 1 },
       },
@@ -736,6 +738,7 @@ describe("revealLand", () => {
     expect(state.crimstones[1]).toEqual<FiniteResource>({
       minesLeft: 1,
       stone: {
+        baseDurationMs: 0,
         minedAt: now - 2 * 60 * 1000 - CRIMSTONE_RECOVERY_TIME * 1000,
         criticalHit: { Native: 1 },
       },

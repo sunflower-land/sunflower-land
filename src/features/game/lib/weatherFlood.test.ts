@@ -8,6 +8,8 @@ import { removeCollectible } from "../events/landExpansion/removeCollectible";
 import { getTreeReadyAt } from "../events/landExpansion/chop";
 import { getCrimstoneResetAt, getMineReadyAt } from "./resourceNodes";
 import { mineCrimstone } from "../events/landExpansion/mineCrimstone";
+import { revealLand } from "../events/landExpansion/revealLand";
+import { getOilReserveReadyAt } from "../events/landExpansion/drillOilReserve";
 import type { RockName } from "../types/resources";
 import {
   getCropPlotBoostWindows,
@@ -17,6 +19,8 @@ import {
   getOilBoostWindows,
   getTreeBoostWindows,
   getWeatherFloodWindows,
+  computeReadyAt,
+  pauseWindowedTimer,
 } from "./boostWindows";
 import { updateBeehives } from "./updateBeehives";
 
@@ -411,5 +415,80 @@ describe("the Crimstone streak during a Flood", () => {
 
   it("still resets the streak 24h after the flooded rock recovers", () => {
     expect(mineAt(minedAt + 72 * HOUR + 1)).toBe(4);
+  });
+});
+
+describe("land expansion during a Flood", () => {
+  // 3h into the Flood, the new land refills every tree, rock and oil reserve.
+  const createdAt = FLOOD.startAt + 3 * HOUR;
+  const node = { createdAt: 0, x: 0, y: 0 };
+  const reveal = () =>
+    revealLand({
+      action: { type: "land.revealed" },
+      state: {
+        ...farm(),
+        inventory: { ...farm().inventory, "Basic Land": new Decimal(3) },
+        expansionConstruction: { createdAt: 0, readyAt: 0 },
+        trees: {
+          t: { ...node, wood: { choppedAt: createdAt - HOUR } },
+          lifted: {
+            createdAt: 0,
+            removedAt: createdAt - HOUR,
+            wood: { choppedAt: createdAt - 2 * HOUR },
+          },
+        },
+        stones: { s: { ...node, stone: { minedAt: createdAt - HOUR } } },
+        crimstones: {
+          c: { ...node, minesLeft: 3, stone: { minedAt: createdAt - HOUR } },
+        },
+        oilReserves: {
+          o: { ...node, oil: { drilledAt: createdAt - HOUR }, drilled: 1 },
+        },
+      },
+      createdAt,
+    });
+
+  it("refills trees, rocks and oil even though the Flood slows them", () => {
+    const state = reveal();
+
+    expect(getTreeReadyAt(state.trees.t, state)).toBeLessThanOrEqual(createdAt);
+    expect(
+      getMineReadyAt(state.stones.s, "Stone Rock", state),
+    ).toBeLessThanOrEqual(createdAt);
+    expect(
+      getMineReadyAt(state.crimstones.c, "Crimstone Rock", state),
+    ).toBeLessThanOrEqual(createdAt);
+    expect(
+      getOilReserveReadyAt(state.oilReserves.o, state),
+    ).toBeLessThanOrEqual(createdAt);
+  });
+
+  it("keeps the Crimstone streak", () => {
+    expect(reveal().crimstones.c.minesLeft).toBe(3);
+  });
+
+  it("refills a lifted tree for when it's placed back", () => {
+    const state = reveal();
+    const { wood } = state.trees.lifted;
+    const placedAt = createdAt + HOUR;
+
+    // What placing it back does (see placeTree).
+    const timer = { ...wood };
+    const startedAt = pauseWindowedTimer({
+      timer,
+      startedAt: wood.choppedAt,
+      removedAt: createdAt - HOUR,
+      createdAt: placedAt,
+      rawBaseMs: 2 * HOUR,
+      windows: getTreeBoostWindows(state),
+    });
+
+    expect(
+      computeReadyAt({
+        startedAt,
+        baseDurationMs: timer.baseDurationMs ?? 2 * HOUR,
+        windows: getTreeBoostWindows(state),
+      }),
+    ).toBeLessThanOrEqual(placedAt);
   });
 });

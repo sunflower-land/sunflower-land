@@ -277,7 +277,9 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
       land.lavaPits?.length ?? 0,
     );
 
-    // Replenish all trees
+    // Replenish every tree, rock and oil reserve: back-date the start and
+    // leave no work, so it reads as ready whatever speed windows (e.g. a
+    // Flood's 0.5×) cover the look-back.
     game.trees = getKeys(game.trees).reduce<GameState["trees"]>((acc, id) => {
       return {
         ...acc,
@@ -288,6 +290,7 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
             choppedAt:
               (game.trees[id].removedAt ?? createdAt) -
               TREE_RECOVERY_TIME * 1000,
+            baseDurationMs: 0,
           },
         },
       };
@@ -304,6 +307,7 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
               minedAt:
                 (game.stones[id].removedAt ?? createdAt) -
                 STONE_RECOVERY_TIME * 1000,
+              baseDurationMs: 0,
             },
           },
         };
@@ -321,6 +325,7 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
             minedAt:
               (game.iron[id].removedAt ?? createdAt) -
               IRON_RECOVERY_TIME * 1000,
+            baseDurationMs: 0,
           },
         },
       };
@@ -336,6 +341,7 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
             minedAt:
               (game.gold[id].removedAt ?? createdAt) -
               GOLD_RECOVERY_TIME * 1000,
+            baseDurationMs: 0,
           },
         },
       };
@@ -352,6 +358,7 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
               minedAt:
                 (game.crimstones[id].removedAt ?? createdAt) -
                 CRIMSTONE_RECOVERY_TIME * 1000,
+              baseDurationMs: 0,
             },
           },
         };
@@ -371,6 +378,7 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
             drilledAt:
               (game.oilReserves[id].removedAt ?? createdAt) -
               OIL_RESERVE_RECOVERY_TIME * 1000,
+            baseDurationMs: 0,
           },
         },
       };
