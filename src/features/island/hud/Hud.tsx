@@ -20,6 +20,7 @@ import { CurrenciesModal } from "./components/CurrenciesModal";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { useSound } from "lib/utils/hooks/useSound";
 import { TransactionCountdown } from "./Transaction";
+import { GrantedWithdrawal } from "features/retreat/components/personhood/GrantedWithdrawal";
 import { MarketplaceButton } from "./components/MarketplaceButton";
 import { PowerSkillsButton } from "./components/PowerSkillsButton";
 import {
@@ -140,6 +141,7 @@ const HudComponent: React.FC<{
         )}
         <RaffleWidget />
         <TransactionCountdown />
+        <GrantedWithdrawal />
         <StreamCountdown />
         <AuctionCountdown />
         <VIPExpiryWidget />

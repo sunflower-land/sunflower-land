@@ -19,6 +19,7 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useLocation } from "react-router";
 import { TransactionCountdown } from "./Transaction";
+import { GrantedWithdrawal } from "features/retreat/components/personhood/GrantedWithdrawal";
 import { MarketplaceButton } from "./components/MarketplaceButton";
 
 import chest from "assets/icons/chest.png";
@@ -132,6 +133,7 @@ const HudComponent: React.FC<Props> = ({ server, scene }) => {
           )}
         >
           <TransactionCountdown />
+          <GrantedWithdrawal />
           <StreamCountdown />
           {/* Community games widget — only while in the Kingdom (polls every 30s). */}
           {scene === "kingdom" && <CommunityGameCountdown />}
