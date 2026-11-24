@@ -61,7 +61,7 @@ export function placeOilReserve({
           removedAt: updatedOilReserve.removedAt,
           createdAt,
           rawBaseMs: OIL_RESERVE_RECOVERY_TIME * 1000,
-          windows: getOilBoostWindows(game),
+          windows: getOilBoostWindows(game, createdAt),
         });
       }
       delete updatedOilReserve.removedAt;

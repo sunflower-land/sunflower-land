@@ -62,7 +62,7 @@ export function placeSunstone({
           removedAt: updatedSunstone.removedAt,
           createdAt,
           rawBaseMs: RESOURCE_RECOVERY_TIME["Sunstone Rock"] * 1000,
-          windows: getMineBoostWindows(game, "Sunstone Rock"),
+          windows: getMineBoostWindows(game, "Sunstone Rock", createdAt),
         });
       }
       delete updatedSunstone.removedAt;

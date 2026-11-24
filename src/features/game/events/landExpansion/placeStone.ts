@@ -69,7 +69,7 @@ export function placeStone({
           removedAt: updatedStone.removedAt,
           createdAt,
           rawBaseMs: RESOURCE_RECOVERY_TIME[action.name] * 1000,
-          windows: getMineBoostWindows(game, action.name),
+          windows: getMineBoostWindows(game, action.name, createdAt),
         });
       }
       delete updatedStone.removedAt;

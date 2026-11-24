@@ -4,6 +4,7 @@ import { hasFeatureAccess } from "lib/flags";
 import {
   getWeatherItemCoverWindows,
   type WeatherEvents,
+  WEATHER_LOOKAHEAD_MS,
 } from "./weatherItemCover";
 import {
   getGuardianPlacedPeriods,
@@ -132,7 +133,8 @@ export function getWeatherHoneyBoundaries({
 
   const times = periods
     .flatMap(({ from, to }) => [from, to])
-    .filter((at) => at > from && at < Number.MAX_SAFE_INTEGER);
+    // Only a week ahead: the client's forecast always has that much.
+    .filter((at) => at > from && at < from + WEATHER_LOOKAHEAD_MS);
 
   return [...new Set(times)].sort((a, b) => a - b);
 }

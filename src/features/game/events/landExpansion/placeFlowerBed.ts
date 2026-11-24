@@ -67,7 +67,7 @@ export function placeFlowerBed({
           rawBaseMs:
             FLOWER_SEEDS[FLOWERS[updatedFlowerBed.flower.name].seed]
               .plantSeconds * 1000,
-          windows: getFlowerBoostWindows(game),
+          windows: getFlowerBoostWindows(game, createdAt),
           trackProgress: true,
         });
       }

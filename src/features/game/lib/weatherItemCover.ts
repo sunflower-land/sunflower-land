@@ -26,6 +26,21 @@ type Game = GameState;
 export const getWeatherEvents = (game: Game): WeatherEvents =>
   game.weather?.forecast ?? [];
 
+/**
+ * How far back the client's forecast always reaches from any action: it
+ * starts the week before the week the game was loaded in. Old work a node
+ * banks when it's placed back is read against weather from this far back
+ * only, on both sides.
+ */
+export const WEATHER_LOOKBACK_MS = 7 * 24 * 60 * 60 * 1000;
+
+/**
+ * How far ahead both sides look for weather that changes a rate by itself
+ * (honey). The client's forecast reaches at least this far for a session up
+ * to two weeks old.
+ */
+export const WEATHER_LOOKAHEAD_MS = 7 * 24 * 60 * 60 * 1000;
+
 /** The Guardian of `startAt`'s season, if it was placed at that instant. */
 function getGuardianOutAt(
   game: Game,
