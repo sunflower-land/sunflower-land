@@ -16,6 +16,7 @@ import { RoundButton } from "components/ui/RoundButton";
 import shopIcon from "assets/icons/shop.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { isCaveBuildingReady } from "features/game/lib/cave";
+import { isBuildingDisabled } from "features/game/lib/weatherTornado";
 import { isCavePatchCleared } from "features/game/types/caveRecipes";
 import { isCaveMachineIdle } from "features/game/lib/cave";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -166,9 +167,14 @@ export const Cave: React.FC = () => {
     });
   }, []);
 
-  // Reached by URL without access or before the Cave building is placed and
-  // finished — send the player back to the farm.
-  if (!cave || !isCaveBuildingReady({ buildings }, now)) {
+  // Reached by URL without access, before the Cave building is placed and
+  // finished, or while the Tornado disables it — send the player back to the
+  // farm.
+  if (
+    !cave ||
+    !isCaveBuildingReady({ buildings }, now) ||
+    isBuildingDisabled({ game: state, name: "Cave", now })
+  ) {
     return <Navigate to="/" replace />;
   }
 

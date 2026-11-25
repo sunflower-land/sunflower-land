@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import type {
@@ -60,6 +61,12 @@ export function collectCrafting({
     ) {
       throw new Error("Crafting Box is not placed");
     }
+
+    assertBuildingNotDisabled({
+      game: copy,
+      name: "Crafting Box",
+      now: createdAt,
+    });
 
     // Readiness comes from the DERIVED chain, not each craft's stored `readyAt` -
     // that value is a cache, and a boost placed since the queue was last rewritten

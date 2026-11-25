@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import type {
@@ -83,6 +84,13 @@ export function harvestCropMachine({
     if (!cropMachine || !cropMachine.coordinates) {
       throw new Error("Crop Machine not found");
     }
+
+    assertBuildingNotDisabled({
+      game: stateCopy,
+      name: "Crop Machine",
+      id: cropMachine.id,
+      now: createdAt,
+    });
 
     if (!cropMachine.queue || cropMachine.queue?.length === 0) {
       throw new Error("Nothing in the queue");

@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import type { CraftingQueueItem, GameState } from "features/game/types/game";
@@ -225,6 +226,8 @@ export function cancelQueuedCrafting({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
+    assertBuildingNotDisabled({ game, name: "Crafting Box", now: createdAt });
+
     const { queueItemId } = action;
     const queue = game.craftingBox.queue ?? [];
 

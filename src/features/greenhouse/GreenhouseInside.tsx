@@ -7,7 +7,7 @@ import classNames from "classnames";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { GreenhousePot } from "./GreenhousePot";
 import { Hud } from "features/island/hud/Hud";
 import { GreenhouseOil } from "./GreenhouseOil";
@@ -20,6 +20,7 @@ import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { Context as AuthContext } from "features/auth/lib/Provider";
 import { useSelector } from "@xstate/react";
 import { isBuildingDestroyed } from "features/island/buildings/components/building/Building";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const background = SUNNYSIDE.land.greenhouse_inside;
 
@@ -47,13 +48,16 @@ export const GreenhouseInside: React.FC = () => {
     scrollIntoView(Section.GenesisBlock, "auto");
   }, []);
 
+  // Checked on entry: only a reload or a Balk placed on the farm changes it.
+  const enteredAt = useNow();
   const calendarEvent = isBuildingDestroyed({
     name: "Greenhouse",
-    calendar: context.state.calendar,
+    game: context.state,
+    now: enteredAt,
   });
 
   if (calendarEvent) {
-    navigate("/");
+    return <Navigate to="/" replace />;
   }
 
   return (

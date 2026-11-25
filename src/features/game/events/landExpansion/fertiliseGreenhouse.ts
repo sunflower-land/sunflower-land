@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import {
   GREENHOUSE_COMPOST,
@@ -46,6 +47,8 @@ export function fertiliseGreenhouse({
     ) {
       throw new Error(FERTILISE_GREENHOUSE_ERRORS.NO_GREENHOUSE);
     }
+
+    assertBuildingNotDisabled({ game, name: "Greenhouse", now: createdAt });
 
     const potId = action.id;
     if (!Number.isInteger(potId) || potId <= 0 || potId > MAX_POTS) {

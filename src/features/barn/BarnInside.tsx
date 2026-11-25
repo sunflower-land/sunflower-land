@@ -42,6 +42,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { Context as AuthContext } from "features/auth/lib/Provider";
 import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { isBuildingDestroyed } from "features/island/buildings/components/building/Building";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export const EXTERIOR_ISLAND_BG: Record<LandBiomeName, string> = {
   "Basic Biome": SUNNYSIDE.land.basic_building_bg,
@@ -67,11 +68,8 @@ const _hasAirdropAccess = (state: MachineState) =>
     state.context.visitorState ?? state.context.state,
     "AIRDROP_PLAYER",
   );
-const _isBarnDestroyed = (state: MachineState) =>
-  isBuildingDestroyed({
-    name: "Barn",
-    calendar: state.context.state.calendar,
-  });
+const _isBarnDestroyed = (now: number) => (state: MachineState) =>
+  isBuildingDestroyed({ name: "Barn", game: state.context.state, now });
 
 // An allowlist, not `Exclude<AnimalType, "Chicken">`: the Barn houses Cows and
 // Sheep specifically, and should not silently claim every animal added later.
@@ -104,7 +102,9 @@ export const BarnInside: React.FC = () => {
   const { authService } = useContext(AuthContext);
   const loggedInFarmId = useSelector(gameService, _loggedInFarmId);
   const hasAirdropAccess = useSelector(gameService, _hasAirdropAccess);
-  const isDestroyed = useSelector(gameService, _isBarnDestroyed);
+  // Checked on entry: only a reload or a Balk placed on the farm changes it.
+  const enteredAt = useNow();
+  const isDestroyed = useSelector(gameService, _isBarnDestroyed(enteredAt));
 
   const token = useSelector(authService, _token);
   const barn = useSelector(gameService, _barn);

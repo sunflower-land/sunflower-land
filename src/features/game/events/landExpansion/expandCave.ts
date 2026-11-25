@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import type { GameState } from "features/game/types/game";
@@ -39,6 +40,8 @@ export function expandCave({
     if (!cave || !isCaveBuildingReady(game, createdAt)) {
       throw new Error(EXPAND_CAVE_ERRORS.NO_CAVE);
     }
+
+    assertBuildingNotDisabled({ game, name: "Cave", now: createdAt });
 
     if (cave.construction) {
       throw new Error(EXPAND_CAVE_ERRORS.ALREADY_EXPANDING);

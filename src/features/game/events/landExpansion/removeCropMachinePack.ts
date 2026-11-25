@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import type { CropSeedName } from "features/game/types/crops";
 import type { GameState } from "features/game/types/game";
@@ -38,6 +39,13 @@ export function removeCropMachinePack({
     if (!cropMachine || !cropMachine.coordinates) {
       throw new Error("Crop Machine not found");
     }
+
+    assertBuildingNotDisabled({
+      game: stateCopy,
+      name: "Crop Machine",
+      id: cropMachine.id,
+      now: createdAt,
+    });
 
     if (!cropMachine.queue || cropMachine.queue.length === 0) {
       throw new Error("Nothing in the queue");

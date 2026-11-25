@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import { produce } from "immer";
 import type { GameState } from "features/game/types/game";
 import { isCaveBuildingReady } from "features/game/lib/cave";
@@ -31,6 +32,8 @@ export function completeCaveExpansion({
     if (!game.cave || !isCaveBuildingReady(game, createdAt)) {
       throw new Error(COMPLETE_CAVE_EXPANSION_ERRORS.NO_CAVE);
     }
+
+    assertBuildingNotDisabled({ game, name: "Cave", now: createdAt });
 
     const cave = game.cave;
     const construction = cave?.construction;

@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 
@@ -128,6 +129,13 @@ export function cancelProcessedResource({
     if (!building) {
       throw new Error("Required building does not exist");
     }
+
+    assertBuildingNotDisabled({
+      game,
+      name: buildingName,
+      id: buildingId,
+      now: createdAt,
+    });
 
     const queue = building.processing ?? [];
 

@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import { produce } from "immer";
 import { ANIMALS, type AnimalType } from "features/game/types/animals";
 import type { Animal, GameState } from "features/game/types/game";
@@ -72,6 +73,12 @@ export function wakeAnimal({
 }: Options): GameState {
   return produce(state, (copy) => {
     const { buildingRequired } = ANIMALS[action.animal];
+    assertBuildingNotDisabled({
+      game: copy,
+      name: buildingRequired,
+      now: createdAt,
+    });
+
     const buildingKey = makeAnimalBuildingKey(buildingRequired);
     const animal = copy[buildingKey].animals[action.id];
 

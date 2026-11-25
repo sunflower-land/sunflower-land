@@ -1,3 +1,5 @@
+import { isBuildingDisabled } from "features/game/lib/weatherTornado";
+import { ANIMAL_BUILDING_TYPES } from "features/game/types/animals";
 import {
   type BumpkinRevampSkillName,
   BUMPKIN_REVAMP_SKILL_TREE,
@@ -7,8 +9,8 @@ import {
   isUpgradeableSkillName,
 } from "features/game/types/bumpkinSkills";
 import {
-  ANIMAL_BUILDING_KEYS,
   getAnimalReadyAt,
+  makeAnimalBuildingKey,
   wakeAnimalAt,
 } from "features/game/lib/animals";
 import { getKeys } from "lib/object";
@@ -186,6 +188,16 @@ function useInstantGratification({
 
     // A lifted building is paused until it is placed again (see `placeBuilding`).
     if (!building?.crafting || !building.coordinates) return;
+    if (
+      isBuildingDisabled({
+        game,
+        name: buildingName,
+        id: building.id,
+        now: createdAt,
+      })
+    ) {
+      return;
+    }
 
     // Settle the oil at activation; the completed recipe then pays for the oil it
     // would have burned cooking out (see `burnRecipeOil`), and the recipe promoted
@@ -248,8 +260,11 @@ function useBarnyardRouse({
   createdAt?: number;
 }): GameState {
   // Every animal building, derived so a new one cannot be missed here.
-  ANIMAL_BUILDING_KEYS.forEach((building) => {
-    const { animals } = game[building];
+  ANIMAL_BUILDING_TYPES.forEach((name) => {
+    // A building the Tornado disables works as if it isn't placed.
+    if (isBuildingDisabled({ game, name, now: createdAt })) return;
+
+    const { animals } = game[makeAnimalBuildingKey(name)];
     if (!animals) return;
 
     // Process each animal
@@ -351,9 +366,12 @@ export function powerSkillDisabledConditions({
     flowers: { flowerBeds },
   } = state;
 
-  // Every animal across every animal building, derived rather than listed.
-  const allAnimals = ANIMAL_BUILDING_KEYS.flatMap((key) =>
-    Object.values(state[key].animals),
+  // Every animal across every animal building the Tornado leaves working,
+  // derived rather than listed.
+  const allAnimals = ANIMAL_BUILDING_TYPES.filter(
+    (name) => !isBuildingDisabled({ game: state, name, now: createdAt }),
+  ).flatMap((name) =>
+    Object.values(state[makeAnimalBuildingKey(name)].animals),
   );
   const { previousPowerUseAt } = bumpkin;
 
@@ -475,6 +493,15 @@ export function powerSkillDisabledConditions({
     }
 
     case "Greenhouse Guru": {
+      // A Greenhouse the Tornado disables works as if it isn't placed.
+      if (
+        isBuildingDisabled({ game: state, name: "Greenhouse", now: createdAt })
+      ) {
+        return {
+          disabled: true,
+          reason: translate("powerSkills.reason.greenhouseDisabledByTornado"),
+        };
+      }
       if (Object.values(pots).every((pot) => !pot.plant)) {
         return {
           disabled: true,
@@ -494,6 +521,12 @@ export function powerSkillDisabledConditions({
           const building = buildings[buildingName]?.[0];
           return (
             !building?.coordinates ||
+            isBuildingDisabled({
+              game: state,
+              name: buildingName,
+              id: building.id,
+              now: createdAt,
+            }) ||
             !getCurrentCookingItem({
               building,
               createdAt,
@@ -541,9 +574,20 @@ export function powerSkillDisabledConditions({
           (animal) => getAnimalReadyAt(animal, state) < createdAt,
         )
       ) {
+        // Asleep only in buildings the Tornado disables.
+        const asleepInDisabled = ANIMAL_BUILDING_TYPES.some(
+          (name) =>
+            isBuildingDisabled({ game: state, name, now: createdAt }) &&
+            Object.values(state[makeAnimalBuildingKey(name)].animals).some(
+              (animal) => getAnimalReadyAt(animal, state) >= createdAt,
+            ),
+        );
+
         return {
           disabled: true,
-          reason: translate("powerSkills.reason.animalsNotAsleep"),
+          reason: asleepInDisabled
+            ? translate("powerSkills.reason.animalBuildingsDisabledByTornado")
+            : translate("powerSkills.reason.animalsNotAsleep"),
         };
       }
       break;

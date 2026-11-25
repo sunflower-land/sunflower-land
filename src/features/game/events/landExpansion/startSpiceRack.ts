@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import type { SpiceRackJob } from "features/game/lib/agingShed";
@@ -36,6 +37,8 @@ export function startSpiceRack({
     if (!hasPlacedAgingShed(game)) {
       throw new Error("Required building does not exist");
     }
+
+    assertBuildingNotDisabled({ game, name: "Aging Shed", now: createdAt });
 
     if (!isSpiceRackRecipeName(action.recipe)) {
       throw new Error("Invalid spice rack recipe");

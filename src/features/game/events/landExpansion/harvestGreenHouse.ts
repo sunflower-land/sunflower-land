@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import {
   getUnprotectedThreat,
   getWeatherEvents,
@@ -204,6 +205,8 @@ export function harvestGreenHouse({
     if (!game.buildings.Greenhouse.some((b) => b.coordinates !== undefined)) {
       throw new Error("Greenhouse is not placed");
     }
+
+    assertBuildingNotDisabled({ game, name: "Greenhouse", now: createdAt });
 
     if (!game.bumpkin) {
       throw new Error("No Bumpkin");

@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
 import {
@@ -29,6 +30,8 @@ export function speedUpCrafting({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
+    assertBuildingNotDisabled({ game, name: "Crafting Box", now: createdAt });
+
     if (action.type !== "crafting.spedUp") {
       throw new Error("Invalid action");
     }

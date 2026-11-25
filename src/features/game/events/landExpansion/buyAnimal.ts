@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import { makeAnimalBuildingKey } from "features/game/lib/animals";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
@@ -201,6 +202,12 @@ export function buyAnimal({
     if (!buildings[buildingRequired]) {
       throw new Error(`You do not have a ${buildingRequired}`);
     }
+
+    assertBuildingNotDisabled({
+      game: copy,
+      name: buildingRequired,
+      now: createdAt,
+    });
 
     const ascension = getAscensionLevel({
       experience: bumpkin.experience,

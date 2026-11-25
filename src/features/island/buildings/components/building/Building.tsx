@@ -38,6 +38,12 @@ import {
 } from "features/game/events/landExpansion/upgradeBuilding";
 import { useNow } from "lib/utils/hooks/useNow";
 import { WeatherAffectedModal } from "features/island/plots/components/AffectedModal";
+import { hasFeatureAccess } from "lib/flags";
+import { isBuildingDisabled } from "features/game/lib/weatherTornado";
+import {
+  getUnprotectedThreat,
+  getWeatherEvents,
+} from "features/game/lib/weatherItemCover";
 
 interface Prop {
   name: BuildingName;
@@ -180,6 +186,7 @@ const DestroyedBuilding: React.FC<
   const { t } = useAppTranslation();
   const [showModal, setShowModal] = useState(false);
   const game = gameService.getSnapshot().context.state;
+  const tornado = getStoredTornado(game);
 
   return (
     <>
@@ -189,7 +196,8 @@ const DestroyedBuilding: React.FC<
         icon={DESTROYED_BUILDING_ICONS[calendarEvent]}
         title={t(calendarEvent)}
         description={t(`${calendarEvent}.building.destroyed.description`)}
-        startedAt={game.calendar[calendarEvent]!.startedAt}
+        startedAt={tornado?.startAt ?? game.calendar[calendarEvent]!.startedAt}
+        readyAt={tornado?.endAt}
       />
 
       <div
@@ -226,13 +234,43 @@ const DESTROYED_BUILDINGS: BuildingName[] = [
   "Deli",
 ];
 
+/**
+ * The Tornado the stored pick belongs to, with the Weather flag on. Its pick
+ * lists the buildings it disables.
+ */
+function getStoredTornado(game: GameState) {
+  if (!hasFeatureAccess(game, "WEATHER")) return undefined;
+
+  const pick = game.weather?.tornado;
+  if (!pick) return undefined;
+
+  return game.weather?.forecast.find(
+    (event) => event.name === "tornado" && event.startAt === pick.startAt,
+  );
+}
+
+/**
+ * Whether the building can't be used because of a weather event. With the
+ * Weather flag on, that's the Tornado disabling it (`now` matters); otherwise
+ * the calendar's Tornado or Tsunami.
+ */
 export function isBuildingDestroyed({
   name,
-  calendar,
+  id,
+  game,
+  now,
 }: {
   name: BuildingName;
-  calendar: GameState["calendar"];
+  id?: string;
+  game: GameState;
+  now: number;
 }): DestructiveEvent | false {
+  if (hasFeatureAccess(game, "WEATHER")) {
+    return isBuildingDisabled({ game, name, id, now }) ? "tornado" : false;
+  }
+
+  const { calendar } = game;
+
   if (!DESTROYED_BUILDINGS.includes(name)) {
     return false;
   }
@@ -262,16 +300,33 @@ export function isBuildingDestroyed({
   return false;
 }
 
-const _destroyedBy = (name: BuildingName) => (state: MachineState) => {
-  const calendarEvent = getActiveCalendarEvent({
-    calendar: state.context.state.calendar,
-  });
-  if (!calendarEvent) {
-    return false;
-  }
+const _destroyedBy =
+  (name: BuildingName, id: string, now: number) => (state: MachineState) =>
+    isBuildingDestroyed({ name, id, game: state.context.state, now });
 
-  return isBuildingDestroyed({ name, calendar: state.context.state.calendar });
-};
+/**
+ * When the Tornado ends, while its pick holds this building and nothing
+ * covers it. Cover read at the Tornado's start is cover now: the Guardian
+ * counts from the start, and a Balk counts while it's placed.
+ */
+const _tornadoEndAt =
+  (name: BuildingName, id: string) => (state: MachineState) => {
+    const game = state.context.state;
+    const picked = game.weather?.tornado?.buildings.some(
+      (building) => building.name === name && building.id === id,
+    );
+    const tornado = getStoredTornado(game);
+    if (!picked || !tornado) return undefined;
+
+    const uncovered = getUnprotectedThreat({
+      game,
+      name: "tornado",
+      events: getWeatherEvents(game),
+      now: tornado.startAt,
+    });
+
+    return uncovered ? tornado.endAt : undefined;
+  };
 
 const BuildingComponent: React.FC<Prop> = ({
   name,
@@ -291,7 +346,17 @@ const BuildingComponent: React.FC<Prop> = ({
   const now = useNow({ live: true, autoEndAt: readyAt });
   const inProgress = readyAt > now;
 
-  const destroyedBy = useSelector(gameService, _destroyedBy(name));
+  // Ticks only while the Tornado disables this building, so it opens again
+  // the moment the Tornado ends.
+  const tornadoEndAt = useSelector(gameService, _tornadoEndAt(name, id));
+  const tornadoNow = useNow({
+    live: tornadoEndAt !== undefined,
+    autoEndAt: tornadoEndAt,
+  });
+  const destroyedBy = useSelector(
+    gameService,
+    _destroyedBy(name, id, tornadoNow),
+  );
 
   if (destroyedBy) {
     return (

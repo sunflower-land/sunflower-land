@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import type { GameState } from "features/game/types/game";
@@ -37,6 +38,8 @@ export function tradeInPig({
     if (!copy.buildings.Pigpen?.some((building) => !!building.coordinates)) {
       throw new Error("Building does not exist");
     }
+
+    assertBuildingNotDisabled({ game: copy, name: "Pigpen", now: createdAt });
 
     const pig = copy.pigpen.animals[action.id];
 

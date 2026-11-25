@@ -1,3 +1,5 @@
+import type { BuildingName } from "./buildings";
+
 export type WeatherEventName =
   | "flood"
   | "tornado"
@@ -47,6 +49,17 @@ export type ScheduledWeatherOverlay = {
   endAt: number;
 };
 
+/**
+ * The buildings a Tornado disables. Set by the server; the client only reads
+ * them.
+ */
+export type WeatherTornado = {
+  /** The start of the Tornado this pick belongs to. */
+  startAt: number;
+  /** By name and id: ids are only unique within one building name. */
+  buildings: { name: BuildingName; id: string }[];
+};
+
 export type Weather = {
   /**
    * Last season-week's events, this week's and the next three weeks'. Built
@@ -60,6 +73,8 @@ export type Weather = {
    * server; the client only reads them.
    */
   greatFreeze?: GreatFreezePick;
+  /** Stored, unlike the forecast and overlays. */
+  tornado?: WeatherTornado;
 };
 
 export type GreatFreezePick = { startAt: number; plotIds: string[] };

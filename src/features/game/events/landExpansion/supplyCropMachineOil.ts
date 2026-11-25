@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import type { CropMachineQueueItem, GameState } from "features/game/types/game";
 import { produce } from "immer";
@@ -90,6 +91,13 @@ export function supplyCropMachineOil({
     if (!cropMachine || !cropMachine.coordinates) {
       throw new Error("Crop Machine not found");
     }
+
+    assertBuildingNotDisabled({
+      game: stateCopy,
+      name: "Crop Machine",
+      id: cropMachine.id,
+      now: createdAt,
+    });
 
     const previousOilInInventory = stateCopy.inventory["Oil"] ?? new Decimal(0);
 

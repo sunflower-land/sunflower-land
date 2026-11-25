@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import { KNOWN_IDS } from "features/game/types";
 import type { BuildingName } from "features/game/types/buildings";
@@ -132,6 +133,13 @@ export function collectRecipe({
     if (!building.coordinates) {
       throw new Error("Building is not placed");
     }
+
+    assertBuildingNotDisabled({
+      game,
+      name: action.building,
+      id: action.buildingId,
+      now: createdAt,
+    });
 
     const recipes = building.crafting ?? [];
     if (!recipes.length) {

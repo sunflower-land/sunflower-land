@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import type { GameState } from "features/game/types/game";
@@ -58,6 +59,8 @@ export function startCaveBatch({
     if (!cave || !isCaveBuildingReady(game, createdAt)) {
       throw new Error(START_CAVE_BATCH_ERRORS.NO_CAVE);
     }
+
+    assertBuildingNotDisabled({ game, name: "Cave", now: createdAt });
 
     const machine = cave.machines[action.machineId];
     if (!machine) {

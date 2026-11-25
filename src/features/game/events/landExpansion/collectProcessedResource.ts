@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import type { ProcessedResource } from "features/game/types/processedFood";
 import { trackFarmActivity } from "features/game/types/farmActivity";
@@ -89,6 +90,13 @@ export function collectProcessedResource({
     if (!building.coordinates) {
       throw new Error(`${action.buildingName} is not placed`);
     }
+
+    assertBuildingNotDisabled({
+      game,
+      name: action.buildingName,
+      id: action.buildingId,
+      now: createdAt,
+    });
 
     const processing: BuildingProduct[] = building.processing ?? [];
 

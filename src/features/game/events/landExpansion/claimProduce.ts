@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import {
@@ -40,6 +41,11 @@ export function claimProduce({
 }: Options): GameState {
   return produce(state, (copy) => {
     const { buildingRequired } = ANIMALS[action.animal];
+    assertBuildingNotDisabled({
+      game: copy,
+      name: buildingRequired,
+      now: createdAt,
+    });
 
     const buildings = copy.buildings[buildingRequired];
     if (!buildings?.some((building) => !!building.coordinates)) {

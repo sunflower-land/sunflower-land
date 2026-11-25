@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import type { GameState } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
@@ -21,6 +22,8 @@ export function oilGreenhouse({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
+    assertBuildingNotDisabled({ game, name: "Greenhouse", now: createdAt });
+
     const oil = game.inventory.Oil ?? new Decimal(0);
 
     if (oil.lt(action.amount)) {

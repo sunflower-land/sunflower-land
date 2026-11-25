@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { useLocation, useNavigate } from "react-router";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -22,6 +23,18 @@ import choresIcon from "assets/icons/chores.webp";
 import giftIcon from "assets/icons/gift.png";
 import swordsIcon from "assets/icons/factions.webp";
 import budIcon from "assets/icons/bud.png";
+import { useNow } from "lib/utils/hooks/useNow";
+import type { BuildingName } from "features/game/types/buildings";
+import { isBuildingDisabled } from "features/game/lib/weatherTornado";
+
+// The interiors of buildings a Tornado can disable, by route.
+const TORNADO_INTERIORS: Partial<Record<string, BuildingName>> = {
+  "/barn": "Barn",
+  "/hen-house": "Hen House",
+  "/pigpen": "Pigpen",
+  "/greenhouse": "Greenhouse",
+  "/cave": "Cave",
+};
 
 // Clouds stay closed through the save (`dailyResetting`) so the world only
 // reveals once the new day's game state has come back from the server
@@ -92,6 +105,11 @@ export const DailyResetModal: React.FC = () => {
   const isDailyReset = useSelector(gameService, _showDailyReset);
   const isDailyResetting = useSelector(gameService, _isDailyResetting);
   const state = useSelector(gameService, _state);
+  const navigate = useNavigate();
+  const location = useLocation();
+  // Ticks only while the reset is showing, for the check once it's saved.
+  const now = useNow({ live: isDailyReset });
+  const continuedReset = useRef(false);
 
   const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
   const [loadingDots, setLoadingDots] = useState("");
@@ -152,6 +170,18 @@ export const DailyResetModal: React.FC = () => {
     wasResetting.current = isDailyResetting;
   }, [isDailyResetting, playRooster]);
 
+  // The new day's save can bring the buildings a Tornado disables. Once it's
+  // back, leave an interior whose building is now disabled.
+  useEffect(() => {
+    if (isDailyResetting || !continuedReset.current) return;
+    continuedReset.current = false;
+
+    const name = TORNADO_INTERIORS[location.pathname];
+    if (name && isBuildingDisabled({ game: state, name, now })) {
+      navigate("/", { replace: true });
+    }
+  }, [isDailyResetting, state, now, location.pathname, navigate]);
+
   // Rotate through the flavour messages (with animated dots) while the new
   // day is saving
   useEffect(() => {
@@ -201,6 +231,8 @@ export const DailyResetModal: React.FC = () => {
   const handleContinue = () => {
     gameService.send({ type: "daily.reset" });
     gameService.send({ type: "CONTINUE" });
+
+    continuedReset.current = true;
   };
 
   const transitionStyle = (duration: number, delay: number) => ({

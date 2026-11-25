@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import type { GameState } from "features/game/types/game";
 import { isMuddy, MUD_PER_APPLICATION } from "features/game/lib/animals";
@@ -52,6 +53,7 @@ export function bulkApplyMud({
   createdAt = Date.now(),
 }: Options): GameState {
   assertCanApplyMud(state);
+  assertBuildingNotDisabled({ game: state, name: "Pigpen", now: createdAt });
 
   const eligible = getPigsNeedingMud(state, createdAt);
   if (eligible.length === 0) {

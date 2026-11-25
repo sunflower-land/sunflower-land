@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
@@ -41,6 +42,8 @@ export function startFermentation({
     if (!hasPlacedAgingShed(game)) {
       throw new Error(translate("error.requiredBuildingNotExist"));
     }
+
+    assertBuildingNotDisabled({ game, name: "Aging Shed", now: createdAt });
 
     if (!isFermentationRecipeName(action.recipe)) {
       throw new Error("Invalid fermentation recipe");

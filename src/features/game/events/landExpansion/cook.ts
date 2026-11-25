@@ -1,3 +1,4 @@
+import { assertBuildingNotDisabled } from "features/game/lib/weatherTornado";
 import Decimal from "decimal.js-light";
 import { v4 as uuidv4 } from "uuid";
 import {
@@ -260,6 +261,13 @@ export function cook({
     if (!building.coordinates) {
       throw new Error("Building is not placed");
     }
+
+    assertBuildingNotDisabled({
+      game: stateCopy,
+      name: requiredBuilding,
+      id: buildingId,
+      now: createdAt,
+    });
 
     const crafting = (building.crafting ?? []) as BuildingProduct[];
 
