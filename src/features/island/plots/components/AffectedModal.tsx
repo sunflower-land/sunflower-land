@@ -14,6 +14,8 @@ interface Props {
   title: string;
   description: string;
   startedAt: number;
+  /** When it's over. A day after `startedAt` unless given. */
+  readyAt?: number;
 }
 
 export const WeatherAffectedModal: React.FC<Props> = ({
@@ -23,6 +25,7 @@ export const WeatherAffectedModal: React.FC<Props> = ({
   title,
   description,
   startedAt,
+  readyAt,
 }) => (
   <Modal show={showModal} onHide={() => setShowModal(false)}>
     <CloseButtonPanel onClose={() => setShowModal(false)}>
@@ -31,7 +34,7 @@ export const WeatherAffectedModal: React.FC<Props> = ({
           {title}
         </Label>
         <p className="text-sm mb-3">{description}</p>
-        <TimeLabel startedAt={startedAt} />
+        <TimeLabel startedAt={startedAt} readyAt={readyAt} />
         <p className="text-xs"></p>
       </div>
     </CloseButtonPanel>
@@ -40,12 +43,13 @@ export const WeatherAffectedModal: React.FC<Props> = ({
 
 interface TimeLabelProps {
   startedAt: number;
+  readyAt?: number;
 }
 
-export const TimeLabel: React.FC<TimeLabelProps> = ({ startedAt }) => {
+export const TimeLabel: React.FC<TimeLabelProps> = ({ startedAt, readyAt }) => {
   const { t } = useAppTranslation();
   const { totalSeconds: secondsToReady } = useCountdown(
-    startedAt + 24 * 60 * 60 * 1000,
+    readyAt ?? startedAt + 24 * 60 * 60 * 1000,
   );
   return (
     <Label

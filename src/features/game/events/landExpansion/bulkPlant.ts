@@ -24,11 +24,13 @@ type Options = {
   createdAt?: number;
 };
 
-export const getAvailablePlots = (state: GameState) => {
+export const getAvailablePlots = (state: GameState, now: number) => {
   return Object.entries(state.crops).filter(([plotId, plot]) => {
     if (plot.x === undefined || plot.y === undefined || plot.crop) return false;
     // Exclude plots destroyed or blocked by tornado, tsunami, greatFreeze
-    if (getAffectedWeather({ id: plotId, game: state })) return false;
+    if (getAffectedWeather({ id: plotId, game: state, createdAt: now })) {
+      return false;
+    }
     return true;
   });
 };
@@ -66,7 +68,7 @@ export function bulkPlant({
       throw new Error("This seed is not available in this season");
     }
 
-    const availablePlots = getAvailablePlots(stateCopy);
+    const availablePlots = getAvailablePlots(stateCopy, createdAt);
 
     const seedCount = stateCopy.inventory[action.seed] || new Decimal(0);
     const seedsToPlant = Math.min(seedCount.toNumber(), availablePlots.length);
@@ -80,6 +82,9 @@ export function bulkPlant({
     const cropName = SEEDS[action.seed as SeedName].yield as CropName;
     const allBoostsUsed: { name: BoostName; value: string }[] = [];
 
+    // A plot that can't be planted (e.g. past the well's support) keeps its
+    // seed.
+    let planted = 0;
     for (let i = 0; i < seedsToPlant; i++) {
       const [plotId] = availablePlots[i];
       const cropId = uuidv4().slice(0, 8);
@@ -98,6 +103,7 @@ export function bulkPlant({
 
         stateCopy.aoe = aoe;
         plots[plotId] = updatedPlot;
+        planted += 1;
       } catch (error) {
         // ignore error
         continue;
@@ -105,7 +111,7 @@ export function bulkPlant({
     }
 
     stateCopy.inventory[action.seed] =
-      stateCopy.inventory[action.seed]?.minus(seedsToPlant);
+      stateCopy.inventory[action.seed]?.minus(planted);
 
     if (allBoostsUsed.length > 0) {
       stateCopy.boostsUsedAt = updateBoostUsed({

@@ -27,7 +27,9 @@ export const getCropsToHarvest = (state: GameState, now = Date.now()) => {
   Object.entries(state.crops).forEach(([plotId, plot]) => {
     if (!plot.crop) return;
     // Exclude plots destroyed by tornado, tsunami, greatFreeze
-    if (getAffectedWeather({ id: plotId, game: state })) return;
+    if (getAffectedWeather({ id: plotId, game: state, createdAt: now })) {
+      return;
+    }
 
     if (
       isReadyToHarvest(

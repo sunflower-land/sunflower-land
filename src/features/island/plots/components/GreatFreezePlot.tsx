@@ -9,8 +9,12 @@ import greatFreezeIcon from "assets/icons/great-freeze.webp";
 import { SOIL_IMAGES } from "../lib/plant";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { WeatherAffectedModal } from "./AffectedModal";
+import { getGreatFreezeLock } from "features/game/lib/weatherGreatFreeze";
 
-export const GreatFreezePlot: React.FC<{ game: GameState }> = ({ game }) => {
+export const GreatFreezePlot: React.FC<{ game: GameState; now: number }> = ({
+  game,
+  now,
+}) => {
   const [showModal, setShowModal] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
   const { t } = useAppTranslation();
@@ -23,6 +27,8 @@ export const GreatFreezePlot: React.FC<{ game: GameState }> = ({ game }) => {
   };
   const currentBiome = getCurrentBiome(game.island);
   const soilImage = SOIL_IMAGES[currentBiome].dry;
+  // A weather Great Freeze locks its plots until it ends.
+  const weatherFreeze = getGreatFreezeLock({ game, now })?.event;
 
   return (
     <>
@@ -75,7 +81,10 @@ export const GreatFreezePlot: React.FC<{ game: GameState }> = ({ game }) => {
         icon={greatFreezeIcon}
         title={t("calendar.events.greatFreeze.title")}
         description={t("calendar.events.greatFreeze.description")}
-        startedAt={game.calendar.greatFreeze!.startedAt}
+        startedAt={
+          weatherFreeze?.startAt ?? game.calendar.greatFreeze!.startedAt
+        }
+        readyAt={weatherFreeze?.endAt}
       />
     </>
   );
