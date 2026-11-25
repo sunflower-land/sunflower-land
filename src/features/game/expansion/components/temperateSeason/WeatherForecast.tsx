@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { useSelector } from "@xstate/react";
 
 import { Context } from "features/game/GameProvider";
@@ -113,16 +113,13 @@ type ForecastState = {
   guardianCovered: number[];
 };
 
-/**
- * What the calendar needs from the game state, as a string so the selector
- * only re-renders the modal when it changes.
- */
-const getForecastState = (game: GameState, now: number): string => {
+/** What the calendar needs from the game state at `now`. */
+const getForecastState = (game: GameState, now: number): ForecastState => {
   const events = getWeatherEvents(game);
   const active = events.find(
     (event) => event.startAt <= now && now < event.endAt,
   );
-  const state: ForecastState = {
+  return {
     events: [...events],
     overlays: [...(game.weather?.overlays ?? [])],
     items: getKeys(WEATHER_ITEM_EVENTS).reduce(
@@ -140,9 +137,15 @@ const getForecastState = (game: GameState, now: number): string => {
       .filter((event) => isCoveredByGuardian(game, event))
       .map((event) => event.startAt),
   };
-
-  return JSON.stringify(state);
 };
+
+// The slices the forecast reads: the weather, where weather items and
+// Guardians can be placed, and their placement history.
+const _weather = (state: MachineState) => state.context.state.weather;
+const _collectibles = (state: MachineState) => state.context.state.collectibles;
+const _home = (state: MachineState) => state.context.state.home;
+const _interior = (state: MachineState) => state.context.state.interior;
+const _boostHistory = (state: MachineState) => state.context.state.boostHistory;
 
 const DAY_FORMAT = new Intl.DateTimeFormat(navigator.language, {
   weekday: "short",
@@ -165,16 +168,17 @@ export const WeatherForecast: React.FC<Props> = ({ now }) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
 
-  const forecastJson = useSelector(
-    gameService,
-    useCallback(
-      (state: MachineState) => getForecastState(state.context.state, now),
-      [now],
-    ),
-  );
+  const weather = useSelector(gameService, _weather);
+  const collectibles = useSelector(gameService, _collectibles);
+  const home = useSelector(gameService, _home);
+  const interior = useSelector(gameService, _interior);
+  const boostHistory = useSelector(gameService, _boostHistory);
+
+  // Recomputed only when one of those slices or the clock changes.
   const { events, overlays, items, unprotected, guardianCovered } = useMemo(
-    () => JSON.parse(forecastJson) as ForecastState,
-    [forecastJson],
+    () => getForecastState(gameService.getSnapshot().context.state, now),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [weather, collectibles, home, interior, boostHistory, now],
   );
 
   const monday = populateSeason(now).startedAt;
@@ -310,9 +314,10 @@ export const WeatherForecast: React.FC<Props> = ({ now }) => {
               <ProtectionRow
                 event={event}
                 now={now}
+                events={events}
                 items={items}
                 unprotected={unprotected}
-                guardianCovered={guardianCovered.includes(event.startAt)}
+                guardianCovered={guardianCovered}
               />
             )}
           </>
@@ -375,20 +380,35 @@ const EventTimeLabel: React.FC<{
 const ProtectionRow: React.FC<{
   event: ScheduledWeatherEvent;
   now: number;
+  events: ScheduledWeatherEvent[];
   items: Record<WeatherItemName, ItemStatus>;
   unprotected: boolean;
-  /** The season's Guardian covers this threat. */
-  guardianCovered: boolean;
-}> = ({ event, now, items, unprotected, guardianCovered }) => {
+  /** The starts of the threats the season's Guardian covers. */
+  guardianCovered: number[];
+}> = ({ event, now, events, items, unprotected, guardianCovered }) => {
   const { t } = useAppTranslation();
 
   const item = EVENT_ITEMS[event.name];
   if (!item) return null;
 
   const isThreat = WEATHER_EVENTS[event.name].kind === "threat";
+  // Heavy Rains costs harvests without its item, like a threat.
+  const hurtsWithoutItem = isThreat || event.name === "heavyRains";
   const isActive = event.startAt <= now;
   const status = items[item];
-  const guardian = guardianCovered && getSeasonGuardian(event.startAt);
+  const guardian =
+    guardianCovered.includes(event.startAt) && getSeasonGuardian(event.startAt);
+  // A placed copy is used on the first matching event it meets, so an
+  // earlier one still to come uses it before this one.
+  const usedFirstBy =
+    !isActive &&
+    events.find(
+      (other) =>
+        other.name === event.name &&
+        other.startAt < event.startAt &&
+        other.endAt > now &&
+        !guardianCovered.includes(other.startAt),
+    );
 
   if (guardian) {
     return (
@@ -422,9 +442,18 @@ const ProtectionRow: React.FC<{
     ) : (
       <Label type="success">{t("weather.protected")}</Label>
     );
-    hint = unprotected
-      ? t("weather.hint.protect", { item })
-      : t("weather.hint.keep");
+    hint = !unprotected
+      ? t("weather.hint.keep")
+      : status === "used"
+        ? t("weather.hint.renew")
+        : t("weather.hint.protect", { item });
+  } else if (status === "placed" && usedFirstBy) {
+    label = (
+      <Label type="default">{t("weather.itemUsedFirst", { item })}</Label>
+    );
+    hint = t("weather.hint.renewAfter", {
+      day: formatDay(usedFirstBy.endAt - 1),
+    });
   } else if (status === "placed") {
     label = <Label type="success">{t("weather.itemPlaced", { item })}</Label>;
     hint = t("weather.hint.keep");
@@ -433,13 +462,15 @@ const ProtectionRow: React.FC<{
     hint = t("weather.hint.renew");
   } else {
     label = (
-      <Label type={isThreat ? "danger" : "default"}>
+      <Label type={hurtsWithoutItem ? "danger" : "default"}>
         {t("weather.noItem", { item })}
       </Label>
     );
     hint = isThreat
       ? t("weather.hint.protect", { item })
-      : t("weather.hint.boost", { item });
+      : hurtsWithoutItem
+        ? t("weather.hint.avoidLoss", { item })
+        : t("weather.hint.boost", { item });
   }
 
   return (
