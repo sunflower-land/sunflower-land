@@ -9080,5 +9080,8 @@
   "vip.benefit.beetleBonus": "洞窟住人編で洞窟のカブトムシを掘り起こすと {{percent}} %の確率でビートル1個を獲得できる",
   "help.increaseLimit.dontAskAgain": "今日は二度と聞かないで",
   "powerSkills.reason.animalBuildingsDisabledByTornado": "あなたの眠っている動物は、トルネードが無効になっている建物にいます",
-  "powerSkills.reason.greenhouseDisabledByTornado": "あなたの温室はトルネードによって無効になっています"
+  "powerSkills.reason.greenhouseDisabledByTornado": "あなたの温室はトルネードによって無効になっています",
+  "grantedWithdrawal.title": "出金準備完了",
+  "grantedWithdrawal.description": "取引はまだ保留中ですが、サポートはリンクされたウォレットへの出金を承認しました。",
+  "grantedWithdrawal.confirm": "出金を確認"
 }

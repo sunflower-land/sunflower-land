@@ -9080,5 +9080,8 @@
   "vip.benefit.beetleBonus": "{{percent}}% de chance de +1 besouro ao desenterrar besouros na caverna durante o capítulo Cave Dwellers",
   "help.increaseLimit.dontAskAgain": "Não me pergunte de novo hoje",
   "powerSkills.reason.animalBuildingsDisabledByTornado": "Seus animais adormecidos estão em prédios desativados pelo Tornado",
-  "powerSkills.reason.greenhouseDisabledByTornado": "Sua estufa foi desativada pelo Tornado"
+  "powerSkills.reason.greenhouseDisabledByTornado": "Sua estufa foi desativada pelo Tornado",
+  "grantedWithdrawal.title": "Pronto para retirada",
+  "grantedWithdrawal.description": "A negociação ainda está suspensa, mas o suporte aprovou essa retirada para sua carteira vinculada.",
+  "grantedWithdrawal.confirm": "Confirme a retirada"
 }

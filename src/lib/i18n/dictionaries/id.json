@@ -9080,5 +9080,8 @@
   "vip.benefit.beetleBonus": "{{percent}}% peluang +1 Kumbang saat menggali Kumbang di Gua selama Bab Penghuni Gua",
   "help.increaseLimit.dontAskAgain": "Jangan tanya aku lagi hari ini",
   "powerSkills.reason.animalBuildingsDisabledByTornado": "Hewan tidur Anda berada di gedung-gedung yang dinonaktifkan Tornado",
-  "powerSkills.reason.greenhouseDisabledByTornado": "Rumah Kaca Anda dinonaktifkan oleh Tornado"
+  "powerSkills.reason.greenhouseDisabledByTornado": "Rumah Kaca Anda dinonaktifkan oleh Tornado",
+  "grantedWithdrawal.title": "Penarikan siap",
+  "grantedWithdrawal.description": "Perdagangan masih ditunda, tetapi dukungan telah menyetujui penarikan ini ke dompet tertaut Anda.",
+  "grantedWithdrawal.confirm": "Konfirmasikan Penarikan"
 }

@@ -9080,5 +9080,8 @@
   "vip.benefit.beetleBonus": "{{percent}}% de probabilidad de obtener +1 escarabajo al desenterrar escarabajos en la cueva durante el capítulo de habitantes de las cavernas",
   "help.increaseLimit.dontAskAgain": "No me vuelvas a preguntar hoy",
   "powerSkills.reason.animalBuildingsDisabledByTornado": "Tus animales dormidos están en edificios que el Tornado desactivó",
-  "powerSkills.reason.greenhouseDisabledByTornado": "Tu invernadero está desactivado por el tornado"
+  "powerSkills.reason.greenhouseDisabledByTornado": "Tu invernadero está desactivado por el tornado",
+  "grantedWithdrawal.title": "Listo para la retirada",
+  "grantedWithdrawal.description": "Las operaciones siguen suspendidas, pero el equipo de soporte ha aprobado este retiro a tu monedero vinculado.",
+  "grantedWithdrawal.confirm": "Confirmar la retirada"
 }

@@ -9080,5 +9080,8 @@
   "vip.benefit.beetleBonus": "{{percent}}% шанс найти +1 жука при выкапывании жуков в пещере во время главы «Обитатели пещер»",
   "help.increaseLimit.dontAskAgain": "Больше не спрашивать сегодня",
   "powerSkills.reason.animalBuildingsDisabledByTornado": "Your sleeping animals are in buildings the Tornado disabled",
-  "powerSkills.reason.greenhouseDisabledByTornado": "Your Greenhouse is disabled by the Tornado"
+  "powerSkills.reason.greenhouseDisabledByTornado": "Your Greenhouse is disabled by the Tornado",
+  "grantedWithdrawal.title": "Withdrawal ready",
+  "grantedWithdrawal.description": "Trading is still on hold, but support has approved this withdrawal to your linked wallet.",
+  "grantedWithdrawal.confirm": "Confirm Withdrawal"
 }

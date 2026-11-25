@@ -9080,5 +9080,8 @@
   "vip.benefit.beetleBonus": "{{percent}} 在《洞穴居民》章节中，在洞穴中挖出甲壳虫时，有% 的几率获得 +1 个甲壳虫",
   "help.increaseLimit.dontAskAgain": "今天别再问我了",
   "powerSkills.reason.animalBuildingsDisabledByTornado": "你的睡觉动物在龙卷风禁用的建筑物里",
-  "powerSkills.reason.greenhouseDisabledByTornado": "你的温室被龙卷风禁用"
+  "powerSkills.reason.greenhouseDisabledByTornado": "你的温室被龙卷风禁用",
+  "grantedWithdrawal.title": "提款准备就绪",
+  "grantedWithdrawal.description": "交易仍处于暂停状态，但支持人员已批准将此提款到您的关联钱包。",
+  "grantedWithdrawal.confirm": "确认提款"
 }

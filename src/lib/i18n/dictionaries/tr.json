@@ -9080,5 +9080,8 @@
   "vip.benefit.beetleBonus": "{{percent}} Mağara Sakinleri Bölümü sırasında Mağaradaki Böcekleri kazarken %+1 Böcek şansı",
   "help.increaseLimit.dontAskAgain": "Bugün bana bir daha sorma",
   "powerSkills.reason.animalBuildingsDisabledByTornado": "Uyuyan hayvanlarınız Tornado'nun devre dışı bıraktığı binalarda",
-  "powerSkills.reason.greenhouseDisabledByTornado": "Seranız Tornado tarafından devre dışı bırakıldı"
+  "powerSkills.reason.greenhouseDisabledByTornado": "Seranız Tornado tarafından devre dışı bırakıldı",
+  "grantedWithdrawal.title": "Para çekme hazır",
+  "grantedWithdrawal.description": "Ticaret hala beklemede, ancak destek bu para çekme işlemini bağlantılı cüzdanınıza onayladı.",
+  "grantedWithdrawal.confirm": "Para Çekmeyi Onayla"
 }

@@ -9080,5 +9080,8 @@
   "vip.benefit.beetleBonus": "{{percent}}% di probabilità di +1 Scarabeo quando si dissotterrano gli scarabei nella grotta durante il capitolo Abitanti delle caverne",
   "help.increaseLimit.dontAskAgain": "Non chiedermelo più oggi",
   "powerSkills.reason.animalBuildingsDisabledByTornado": "I tuoi animali addormentati sono negli edifici disattivati dal Tornado",
-  "powerSkills.reason.greenhouseDisabledByTornado": "La tua serra è disattivata dal Tornado"
+  "powerSkills.reason.greenhouseDisabledByTornado": "La tua serra è disattivata dal Tornado",
+  "grantedWithdrawal.title": "Pronto per il ritiro",
+  "grantedWithdrawal.description": "Il trading è ancora sospeso, ma il supporto ha approvato questo prelievo sul tuo portafoglio collegato.",
+  "grantedWithdrawal.confirm": "Conferma il ritiro"
 }
