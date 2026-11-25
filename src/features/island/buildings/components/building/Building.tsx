@@ -193,7 +193,7 @@ const DestroyedBuilding: React.FC<
         title={t(calendarEvent)}
         description={t(`${calendarEvent}.building.destroyed.description`)}
         startedAt={tornado?.startAt ?? game.calendar[calendarEvent]!.startedAt}
-        endAt={tornado?.endAt}
+        readyAt={tornado?.endAt}
       />
 
       <div

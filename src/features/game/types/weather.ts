@@ -68,9 +68,16 @@ export type Weather = {
   forecast: ScheduledWeatherEvent[];
   /** The overlays over the same weeks. Also built by the server on load. */
   overlays: ScheduledWeatherOverlay[];
+  /**
+   * The crop plots the Great Freeze starting at `startAt` locks. Set by the
+   * server; the client only reads them.
+   */
+  greatFreeze?: GreatFreezePick;
   /** Stored, unlike the forecast and overlays. */
   tornado?: WeatherTornado;
 };
+
+export type GreatFreezePick = { startAt: number; plotIds: string[] };
 
 /**
  * The event running at `now`. Reducers pass their `createdAt`, so the client

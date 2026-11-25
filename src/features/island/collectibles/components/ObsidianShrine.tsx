@@ -154,7 +154,7 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
   const farmId = useSelector(gameService, (s) => s.context.farmId);
   const isSeasoned = isSeasonedPlayer({ game: state, verified, now });
 
-  const availablePlots = getAvailablePlots(state);
+  const availablePlots = getAvailablePlots(state, now);
   const { readyCrops, readyPlots } = getCropsToHarvest(state, now);
   const hasReadyCrops = Object.keys(readyCrops).length > 0;
 
@@ -554,7 +554,7 @@ const PlantSection: React.FC<{
       seed: effectiveSeed,
     });
 
-    const remainingPlots = getAvailablePlots(updatedState.context.state);
+    const remainingPlots = getAvailablePlots(updatedState.context.state, now);
     if (remainingPlots.length === 0) {
       const game = updatedState.context.state;
       const hasWings =

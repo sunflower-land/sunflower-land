@@ -1909,7 +1909,9 @@ describe("getAffectedWeather", () => {
   };
 
   const frozen = () =>
-    Object.keys(crops).filter((id) => getAffectedWeather({ id, game }));
+    Object.keys(crops).filter((id) =>
+      getAffectedWeather({ id, game, createdAt: Date.now() }),
+    );
 
   it("freezes the oldest half, keeping tied plots in insertion order", () => {
     expect(frozen()).toEqual(["a", "b", "c"]);
