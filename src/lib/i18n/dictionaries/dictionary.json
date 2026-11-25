@@ -5898,6 +5898,8 @@
   "powerSkills.reason.noFlowersGrowing": "No flowers are growing in flower beds",
   "powerSkills.reason.noOilreservesRefilling": "No oil reserves are refilling",
   "powerSkills.reason.animalsNotAsleep": "All your animals are not asleep",
+  "powerSkills.reason.animalBuildingsDisabledByTornado": "Your sleeping animals are in buildings the Tornado disabled",
+  "powerSkills.reason.greenhouseDisabledByTornado": "Your Greenhouse is disabled by the Tornado",
   "marketplace.withdrawComingSoon": "Withdraw date",
   "instantCook.confirmationMessage": "Are you sure you want to finish this item now?",
   "instantCook.costMessage": "This will cost you {{gems}} Gems",

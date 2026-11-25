@@ -178,7 +178,7 @@ export const DailyResetModal: React.FC = () => {
 
     const name = TORNADO_INTERIORS[location.pathname];
     if (name && isBuildingDisabled({ game: state, name, now })) {
-      navigate("/");
+      navigate("/", { replace: true });
     }
   }, [isDailyResetting, state, now, location.pathname, navigate]);
 

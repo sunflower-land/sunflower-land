@@ -495,9 +495,14 @@ export function powerSkillDisabledConditions({
     case "Greenhouse Guru": {
       // A Greenhouse the Tornado disables works as if it isn't placed.
       if (
-        Object.values(pots).every((pot) => !pot.plant) ||
         isBuildingDisabled({ game: state, name: "Greenhouse", now: createdAt })
       ) {
+        return {
+          disabled: true,
+          reason: translate("powerSkills.reason.greenhouseDisabledByTornado"),
+        };
+      }
+      if (Object.values(pots).every((pot) => !pot.plant)) {
         return {
           disabled: true,
           reason: translate("powerSkills.reason.noGreenhouseProduceGrowing"),
@@ -569,9 +574,20 @@ export function powerSkillDisabledConditions({
           (animal) => getAnimalReadyAt(animal, state) < createdAt,
         )
       ) {
+        // Asleep only in buildings the Tornado disables.
+        const asleepInDisabled = ANIMAL_BUILDING_TYPES.some(
+          (name) =>
+            isBuildingDisabled({ game: state, name, now: createdAt }) &&
+            Object.values(state[makeAnimalBuildingKey(name)].animals).some(
+              (animal) => getAnimalReadyAt(animal, state) >= createdAt,
+            ),
+        );
+
         return {
           disabled: true,
-          reason: translate("powerSkills.reason.animalsNotAsleep"),
+          reason: asleepInDisabled
+            ? translate("powerSkills.reason.animalBuildingsDisabledByTornado")
+            : translate("powerSkills.reason.animalsNotAsleep"),
         };
       }
       break;

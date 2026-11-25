@@ -1114,7 +1114,7 @@ describe("power skills during the Tornado", () => {
     });
 
     expect(() => use(game, "Barnyard Rouse")).toThrow(
-      "All your animals are not asleep",
+      "Your sleeping animals are in buildings the Tornado disabled",
     );
     expect(() =>
       use(
@@ -1132,7 +1132,9 @@ describe("power skills during the Tornado", () => {
       },
     });
 
-    expect(() => use(game, "Greenhouse Guru")).toThrow();
+    expect(() => use(game, "Greenhouse Guru")).toThrow(
+      "Your Greenhouse is disabled by the Tornado",
+    );
     expect(
       use(
         { ...game, weather: { forecast: [TORNADO], overlays: [] } },

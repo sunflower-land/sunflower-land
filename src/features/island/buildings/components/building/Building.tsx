@@ -40,6 +40,10 @@ import { useNow } from "lib/utils/hooks/useNow";
 import { WeatherAffectedModal } from "features/island/plots/components/AffectedModal";
 import { hasFeatureAccess } from "lib/flags";
 import { isBuildingDisabled } from "features/game/lib/weatherTornado";
+import {
+  getUnprotectedThreat,
+  getWeatherEvents,
+} from "features/game/lib/weatherItemCover";
 
 interface Prop {
   name: BuildingName;
@@ -300,16 +304,28 @@ const _destroyedBy =
   (name: BuildingName, id: string, now: number) => (state: MachineState) =>
     isBuildingDestroyed({ name, id, game: state.context.state, now });
 
-/** When the Tornado ends, while its pick holds this building. */
+/**
+ * When the Tornado ends, while its pick holds this building and nothing
+ * covers it. Cover read at the Tornado's start is cover now: the Guardian
+ * counts from the start, and a Balk counts while it's placed.
+ */
 const _tornadoEndAt =
   (name: BuildingName, id: string) => (state: MachineState) => {
     const game = state.context.state;
     const picked = game.weather?.tornado?.buildings.some(
       (building) => building.name === name && building.id === id,
     );
-    if (!picked) return undefined;
+    const tornado = getStoredTornado(game);
+    if (!picked || !tornado) return undefined;
 
-    return getStoredTornado(game)?.endAt;
+    const uncovered = getUnprotectedThreat({
+      game,
+      name: "tornado",
+      events: getWeatherEvents(game),
+      now: tornado.startAt,
+    });
+
+    return uncovered ? tornado.endAt : undefined;
   };
 
 const BuildingComponent: React.FC<Prop> = ({
@@ -330,7 +346,7 @@ const BuildingComponent: React.FC<Prop> = ({
   const now = useNow({ live: true, autoEndAt: readyAt });
   const inProgress = readyAt > now;
 
-  // Ticks only while the Tornado's pick holds this building, so it opens again
+  // Ticks only while the Tornado disables this building, so it opens again
   // the moment the Tornado ends.
   const tornadoEndAt = useSelector(gameService, _tornadoEndAt(name, id));
   const tornadoNow = useNow({
