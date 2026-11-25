@@ -9080,5 +9080,8 @@
   "consent.description": "We use Meta's pixel to measure which ads bring players who keep farming. Only with your OK. No wallet data is ever shared.",
   "consent.accept": "OK, measure ads",
   "consent.decline": "No thanks",
-  "consent.privacy": "Privacy policy"
+  "consent.privacy": "Privacy policy",
+  "grantedWithdrawal.title": "Withdrawal ready",
+  "grantedWithdrawal.description": "Trading is still on hold, but support has approved this withdrawal to your linked wallet.",
+  "grantedWithdrawal.confirm": "Confirm Withdrawal"
 }

@@ -2446,6 +2446,20 @@ export type FarmHands = {
   bumpkins: Record<string, FarmHand>;
 };
 
+/**
+ * One withdrawal support prepared for a locked farm, mirrored from the API's
+ * `domain/events/withdraw/lockWithdrawn.ts`. The player fires it with
+ * `lock.withdrawn`; the API signs exactly this and deletes it.
+ */
+export type LockedWithdrawal = {
+  grantedAt: number;
+  expiresAt: number;
+} & (
+  | { type: "items"; items: Partial<Record<InventoryItemName, number>> }
+  | { type: "wearables"; wearables: Partial<Record<BumpkinItem, number>> }
+  | { type: "flower"; flower: number }
+);
+
 export interface GameState {
   home: Home;
   interior: Interior;
@@ -2706,6 +2720,8 @@ export interface GameState {
      */
     status: "investigating" | "permanent" | "ok" | "lock";
     isSocialVerified?: boolean;
+    /** A withdrawal support prepared for a locked farm. Read-only. */
+    withdrawalGrant?: LockedWithdrawal;
   };
 
   henHouse: AnimalBuilding;
