@@ -6214,6 +6214,8 @@
   "weather.hint.boost": "Place a {{item}} for a bigger boost.",
   "weather.hint.keep": "Keep it on your land until the event ends.",
   "weather.hint.renew": "Tap it on your land to renew it.",
+  "weather.hint.guardianKeep": "Keep it placed until the event starts to protect your whole farm.",
+  "weather.hint.guardianProtects": "Your {{guardian}} protects your whole farm until it ends.",
   "weather.events.flood": "Flood",
   "weather.events.tornado": "Tornado",
   "weather.events.insectPlague": "Insect Plague",

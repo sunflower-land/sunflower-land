@@ -11,6 +11,7 @@ import { getRelativeTime, secondsToString } from "lib/utils/time";
 import { SEASON_DETAILS } from "features/game/types/calendar";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { populateSeason } from "features/game/lib/season";
+import { getSeasonGuardian } from "features/game/lib/boostWindows";
 import {
   WEATHER_EVENTS,
   type ScheduledWeatherEvent,
@@ -24,6 +25,7 @@ import {
 import {
   getUnprotectedThreat,
   getWeatherEvents,
+  isCoveredByGuardian,
   isWeatherItemGreyed,
 } from "features/game/lib/weatherItemCover";
 import { getCollectiblesAcrossLocations } from "features/game/lib/collectibleBuilt";
@@ -104,6 +106,11 @@ type ForecastState = {
   items: Record<WeatherItemName, ItemStatus>;
   /** Whether the threat running now is uncovered. */
   unprotected: boolean;
+  /**
+   * The starts of the threats the season's Guardian covers: out at the start,
+   * or placed now for one still to come.
+   */
+  guardianCovered: number[];
 };
 
 /**
@@ -129,6 +136,9 @@ const getForecastState = (game: GameState, now: number): string => {
       !!active &&
       WEATHER_EVENTS[active.name].kind === "threat" &&
       !!getUnprotectedThreat({ game, name: active.name, events, now }),
+    guardianCovered: events
+      .filter((event) => isCoveredByGuardian(game, event))
+      .map((event) => event.startAt),
   };
 
   return JSON.stringify(state);
@@ -161,7 +171,7 @@ export const WeatherForecast: React.FC<Props> = ({ now }) => {
       [now],
     ),
   );
-  const { events, overlays, items, unprotected } = JSON.parse(
+  const { events, overlays, items, unprotected, guardianCovered } = JSON.parse(
     forecastJson,
   ) as ForecastState;
 
@@ -295,6 +305,7 @@ export const WeatherForecast: React.FC<Props> = ({ now }) => {
                 now={now}
                 items={items}
                 unprotected={unprotected}
+                guardianCovered={guardianCovered.includes(event.startAt)}
               />
             )}
           </>
@@ -350,7 +361,9 @@ const ProtectionRow: React.FC<{
   now: number;
   items: Record<WeatherItemName, ItemStatus>;
   unprotected: boolean;
-}> = ({ event, now, items, unprotected }) => {
+  /** The season's Guardian covers this threat. */
+  guardianCovered: boolean;
+}> = ({ event, now, items, unprotected, guardianCovered }) => {
   const { t } = useAppTranslation();
 
   const item = EVENT_ITEMS[event.name];
@@ -359,6 +372,30 @@ const ProtectionRow: React.FC<{
   const isThreat = WEATHER_EVENTS[event.name].kind === "threat";
   const isActive = event.startAt <= now;
   const status = items[item];
+  const guardian = guardianCovered && getSeasonGuardian(event.startAt);
+
+  if (guardian) {
+    return (
+      <div className="flex items-center gap-2 ml-1">
+        <img
+          src={ITEM_DETAILS[guardian].image}
+          className="w-8 object-contain"
+        />
+        <div className="flex flex-col items-start gap-1">
+          <Label type="success">
+            {isActive
+              ? t("weather.protected")
+              : t("weather.itemPlaced", { item: guardian })}
+          </Label>
+          <span className="text-xxs">
+            {isActive
+              ? t("weather.hint.guardianProtects", { guardian })
+              : t("weather.hint.guardianKeep")}
+          </span>
+        </div>
+      </div>
+    );
+  }
 
   let label: React.ReactNode;
   let hint: string;
