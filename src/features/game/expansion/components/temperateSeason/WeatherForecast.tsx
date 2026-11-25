@@ -311,26 +311,35 @@ export const WeatherForecast: React.FC<Props> = ({ now }) => {
           </>
         )}
 
-        {day.overlays.length > 0 && (
-          <div className="flex flex-wrap gap-1">
-            {day.overlays.map((overlay) => (
-              <Label
-                key={overlay.name}
-                type="chill"
-                icon={OVERLAY_ICONS[overlay.name]}
-              >
+        {day.overlays.map((overlay) => (
+          <React.Fragment key={overlay.name}>
+            <div className="flex flex-wrap items-center gap-1">
+              <Label type="vibrant">
                 {t(`calendar.events.${overlay.name}.title`)}
               </Label>
-            ))}
-          </div>
-        )}
+              <EventTimeLabel event={overlay} now={now} />
+            </div>
+            <div className="flex items-center gap-2 ml-1">
+              <img
+                src={OVERLAY_ICONS[overlay.name]}
+                className="w-8 object-contain"
+              />
+              <div className="flex flex-col">
+                <span className="text-xs">
+                  {t(`calendar.events.${overlay.name}.description`)}
+                </span>
+                <span className="text-xxs">{formatDay(overlay.startAt)}</span>
+              </div>
+            </div>
+          </React.Fragment>
+        ))}
       </InnerPanel>
     </Panel>
   );
 };
 
 const EventTimeLabel: React.FC<{
-  event: ScheduledWeatherEvent;
+  event: { startAt: number; endAt: number };
   now: number;
 }> = ({ event, now }) => {
   const { t } = useAppTranslation();
