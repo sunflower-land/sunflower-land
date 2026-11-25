@@ -36,9 +36,6 @@ const BATCH_SIZE = 100;
 // How many times a language asks again for the terms it could not accept.
 const MAX_ATTEMPTS = 3;
 
-// Languages to exclude from translation (keep new terms in English)
-const excludedLanguages: TargetLanguage[] = ["ru"];
-
 const DICTIONARIES = path.join(__dirname, "../src/lib/i18n/dictionaries");
 
 // A plain schema, not the SDK helper that also parses the response: the answer
@@ -153,13 +150,6 @@ async function translateLanguage(
 
   const translated: Terms = {};
   let remaining = pending;
-
-  if (excludedLanguages.includes(language)) {
-    pending.forEach((key) => {
-      translated[key] = ENGLISH_TERMS[key].trim();
-    });
-    remaining = [];
-  }
 
   let stopped = false;
   for (let attempt = 1; attempt <= MAX_ATTEMPTS && !stopped; attempt++) {
