@@ -5,7 +5,9 @@ import {
   CYRILLIC_FONT_CONFIG,
   type Font,
   FONT_CONFIG,
+  getActiveFont,
   KOREAN_FONT_CONFIG,
+  VIETNAMESE_FONT_CONFIG,
 } from "lib/utils/fonts";
 import { getKeys } from "lib/object";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -25,12 +27,15 @@ export const FontSettings: React.FC = () => {
         return getKeys(CYRILLIC_FONT_CONFIG);
       case "ko":
         return getKeys(KOREAN_FONT_CONFIG);
+      case "vi":
+        return getKeys(VIETNAMESE_FONT_CONFIG);
       default:
         return getKeys(FONT_CONFIG);
     }
   }, [language]);
 
   const [font, setFont] = useState<Font>(() => getStoredFont());
+  const activeFont = getActiveFont(font, language);
 
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
@@ -55,9 +60,9 @@ export const FontSettings: React.FC = () => {
       <Dropdown
         onChange={handleFontChange}
         options={fonts}
-        value={font}
+        value={activeFont}
         className="w-48"
-        initialIndex={fonts.indexOf(font)}
+        initialIndex={fonts.indexOf(activeFont)}
         maxHeight={20}
       />
     </div>

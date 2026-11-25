@@ -14,6 +14,7 @@ export const LANGUAGE_NAMES: Record<TargetLanguage, string> = {
   "pt-BR": "Brazilian Portuguese",
   ru: "Russian",
   tr: "Turkish",
+  vi: "Vietnamese",
   "zh-CN": "Simplified Chinese",
 };
 

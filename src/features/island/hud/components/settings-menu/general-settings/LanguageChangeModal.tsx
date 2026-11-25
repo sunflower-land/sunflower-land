@@ -34,6 +34,9 @@ export const LanguageSwitcher: React.FC = () => {
     switch (languageCode) {
       case "ru":
         return `font-${languageCode}${formatedFontType}`;
+      case "vi":
+        // The Latin pixel fonts lack most Vietnamese letters
+        return "font-vi";
       default:
         return "";
     }
@@ -45,6 +48,8 @@ export const LanguageSwitcher: React.FC = () => {
         return "!text-[20px]";
       case "ru":
         return fontType === "Bold" ? "!text-[26px]" : "";
+      case "vi":
+        return "!text-[26px]";
       default:
         return "";
     }

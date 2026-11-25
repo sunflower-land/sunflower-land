@@ -130,6 +130,40 @@ export const CHINESE_FONT_CONFIG: Partial<Record<Font, FontSettings>> = {
   },
 };
 
+// The Latin pixel fonts (Basic, Secondary) only cover a fraction of the
+// Vietnamese alphabet, so missing letters would fall back to a system font
+// mid-word. Born2bSporty is the pixel font that carries every Vietnamese
+// letter; Paytone One ships a Vietnamese subset.
+export const VIETNAMESE_FONT_CONFIG: Partial<Record<Font, FontSettings>> = {
+  Default: {
+    fontFamily: "Born2bSporty",
+    xxxs: [14, 12],
+    xxs: [14, 12],
+    xs: [18, 16],
+    sm: [22, 20],
+    base: [30, 26],
+    lg: [34, 30],
+  },
+  "Sans Serif": {
+    fontFamily: "sans-serif",
+    xxxs: [10, 10],
+    xxs: [14, 14],
+    xs: [16, 16],
+    sm: [18, 18],
+    base: [25, 25],
+    lg: [30, 30],
+  },
+  "Chunky (Old)": {
+    fontFamily: "Paytone One",
+    xxxs: [10, 10],
+    xxs: [14, 14],
+    xs: [16, 16],
+    sm: [18, 18],
+    base: [25, 25],
+    lg: [30, 30],
+  },
+};
+
 export const KOREAN_FONT_CONFIG: Partial<Record<Font, FontSettings>> = {
   Default: {
     fontFamily: "Noto Serif KR",
@@ -226,8 +260,18 @@ function setFontProperties(config: FontSettings) {
   );
 }
 
-export function changeFont(font: Font) {
+/**
+ * The font shown for `lang`. A font saved under another language (e.g. Bold)
+ * may not exist for Vietnamese, which then uses its own Default rather than a
+ * system font. The saved choice itself is kept for when the language changes.
+ */
+export function getActiveFont(font: Font, lang: string): Font {
+  return lang === "vi" && !VIETNAMESE_FONT_CONFIG[font] ? "Default" : font;
+}
+
+export function changeFont(requestedFont: Font) {
   const lang = localStorage.getItem("language") || "en";
+  const font = getActiveFont(requestedFont, lang);
   const config = (() => {
     switch (lang) {
       case "ru":
@@ -236,6 +280,8 @@ export function changeFont(font: Font) {
         return CHINESE_FONT_CONFIG[font];
       case "ko":
         return KOREAN_FONT_CONFIG[font];
+      case "vi":
+        return VIETNAMESE_FONT_CONFIG[font];
       default:
         return FONT_CONFIG[font];
     }
@@ -256,5 +302,5 @@ export function changeFont(font: Font) {
     });
   }
 
-  cacheFont(font);
+  cacheFont(requestedFont);
 }
