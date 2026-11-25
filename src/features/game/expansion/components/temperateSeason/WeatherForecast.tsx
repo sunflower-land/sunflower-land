@@ -11,7 +11,14 @@ import { getRelativeTime, secondsToString } from "lib/utils/time";
 import { SEASON_DETAILS } from "features/game/types/calendar";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { populateSeason } from "features/game/lib/season";
-import { getSeasonGuardian } from "features/game/lib/boostWindows";
+import {
+  getGuardianPlacedPeriods,
+  getSeasonGuardian,
+} from "features/game/lib/boostWindows";
+import {
+  GUARDIAN_BOOST,
+  type SeasonGuardianName,
+} from "features/game/lib/getActiveGuardian";
 import {
   WEATHER_EVENTS,
   type ScheduledWeatherEvent,
@@ -111,6 +118,8 @@ type ForecastState = {
    * or placed now for one still to come.
    */
   guardianCovered: number[];
+  /** The season Guardians placed now (Heavy Rains counts them while placed). */
+  guardiansPlaced: SeasonGuardianName[];
 };
 
 /** What the calendar needs from the game state at `now`. */
@@ -136,6 +145,11 @@ const getForecastState = (game: GameState, now: number): ForecastState => {
     guardianCovered: events
       .filter((event) => isCoveredByGuardian(game, event))
       .map((event) => event.startAt),
+    guardiansPlaced: getKeys(GUARDIAN_BOOST).filter((guardian) =>
+      getGuardianPlacedPeriods(game, guardian).some(
+        (period) => period.from <= now && now < period.to,
+      ),
+    ),
   };
 };
 
@@ -175,7 +189,14 @@ export const WeatherForecast: React.FC<Props> = ({ now }) => {
   const boostHistory = useSelector(gameService, _boostHistory);
 
   // Recomputed only when one of those slices or the clock changes.
-  const { events, overlays, items, unprotected, guardianCovered } = useMemo(
+  const {
+    events,
+    overlays,
+    items,
+    unprotected,
+    guardianCovered,
+    guardiansPlaced,
+  } = useMemo(
     () => getForecastState(gameService.getSnapshot().context.state, now),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [weather, collectibles, home, interior, boostHistory, now],
@@ -318,6 +339,7 @@ export const WeatherForecast: React.FC<Props> = ({ now }) => {
                 items={items}
                 unprotected={unprotected}
                 guardianCovered={guardianCovered}
+                guardiansPlaced={guardiansPlaced}
               />
             )}
           </>
@@ -385,7 +407,16 @@ const ProtectionRow: React.FC<{
   unprotected: boolean;
   /** The starts of the threats the season's Guardian covers. */
   guardianCovered: number[];
-}> = ({ event, now, events, items, unprotected, guardianCovered }) => {
+  guardiansPlaced: SeasonGuardianName[];
+}> = ({
+  event,
+  now,
+  events,
+  items,
+  unprotected,
+  guardianCovered,
+  guardiansPlaced,
+}) => {
   const { t } = useAppTranslation();
 
   const item = EVENT_ITEMS[event.name];
@@ -412,24 +443,41 @@ const ProtectionRow: React.FC<{
 
   if (guardian) {
     return (
-      <div className="flex items-center gap-2 ml-1">
-        <img
-          src={ITEM_DETAILS[guardian].image}
-          className="w-8 object-contain"
-        />
-        <div className="flex flex-col items-start gap-1">
-          <Label type="success">
-            {isActive
-              ? t("weather.protected")
-              : t("weather.itemPlaced", { item: guardian })}
-          </Label>
-          <span className="text-xxs">
-            {isActive
-              ? t("weather.hint.guardianProtects", { guardian })
-              : t("weather.hint.guardianKeep")}
-          </span>
-        </div>
-      </div>
+      <GuardianRow
+        guardian={guardian}
+        label={
+          isActive
+            ? t("weather.protected")
+            : t("weather.itemPlaced", { item: guardian })
+        }
+        hint={
+          isActive
+            ? t("weather.hint.guardianProtects", { guardian })
+            : t("weather.hint.guardianKeep")
+        }
+      />
+    );
+  }
+
+  // Heavy Rains counts the Guardian while it's placed: it stops the loss, and
+  // the Insulation still adds the bonus.
+  const rainsGuardian =
+    event.name === "heavyRains" && getSeasonGuardian(event.startAt);
+  if (
+    rainsGuardian &&
+    status !== "placed" &&
+    guardiansPlaced.includes(rainsGuardian)
+  ) {
+    return (
+      <GuardianRow
+        guardian={rainsGuardian}
+        label={t("weather.itemPlaced", { item: rainsGuardian })}
+        hint={
+          status === "used"
+            ? t("weather.hint.guardianRainsRenew", { item })
+            : t("weather.hint.guardianRains", { item })
+        }
+      />
     );
   }
 
@@ -483,3 +531,17 @@ const ProtectionRow: React.FC<{
     </div>
   );
 };
+
+const GuardianRow: React.FC<{
+  guardian: SeasonGuardianName;
+  label: string;
+  hint: string;
+}> = ({ guardian, label, hint }) => (
+  <div className="flex items-center gap-2 ml-1">
+    <img src={ITEM_DETAILS[guardian].image} className="w-8 object-contain" />
+    <div className="flex flex-col items-start gap-1">
+      <Label type="success">{label}</Label>
+      <span className="text-xxs">{hint}</span>
+    </div>
+  </div>
+);
