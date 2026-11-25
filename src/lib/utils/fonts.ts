@@ -260,14 +260,18 @@ function setFontProperties(config: FontSettings) {
   );
 }
 
+/**
+ * The font shown for `lang`. A font saved under another language (e.g. Bold)
+ * may not exist for Vietnamese, which then uses its own Default rather than a
+ * system font. The saved choice itself is kept for when the language changes.
+ */
+export function getActiveFont(font: Font, lang: string): Font {
+  return lang === "vi" && !VIETNAMESE_FONT_CONFIG[font] ? "Default" : font;
+}
+
 export function changeFont(requestedFont: Font) {
   const lang = localStorage.getItem("language") || "en";
-  // A font saved under another language (e.g. Bold) may not exist for
-  // Vietnamese. Use the Vietnamese default rather than a system font.
-  const font: Font =
-    lang === "vi" && !VIETNAMESE_FONT_CONFIG[requestedFont]
-      ? "Default"
-      : requestedFont;
+  const font = getActiveFont(requestedFont, lang);
   const config = (() => {
     switch (lang) {
       case "ru":
@@ -298,5 +302,5 @@ export function changeFont(requestedFont: Font) {
     });
   }
 
-  cacheFont(font);
+  cacheFont(requestedFont);
 }
