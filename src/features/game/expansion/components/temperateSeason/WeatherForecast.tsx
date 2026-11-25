@@ -3,7 +3,7 @@ import { useSelector } from "@xstate/react";
 
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
-import { ButtonPanel, InnerPanel, Panel } from "components/ui/Panel";
+import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -206,67 +206,72 @@ export const WeatherForecast: React.FC<Props> = ({ now }) => {
   const today = days[todayIndex];
 
   return (
-    <Panel className="flex flex-col p-1">
-      <div className="flex items-center space-x-3 px-1 pb-2">
-        <div className="flex items-center space-x-1 text-xs sm:text-sm">
-          <span>{formatDay(now)}</span>
-          <img src={calendarIcon} className="h-6 sm:h-7" />
-        </div>
-        <div className="flex items-center space-x-1">
-          <span className="text-xs sm:text-sm">
-            {t(`season.${today.season}`)}
-          </span>
-          <img src={SEASON_DETAILS[today.season].icon} className="w-5 sm:w-6" />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-7 gap-2 mb-2">
-        {WEEKDAYS.map((weekday) => (
-          <div key={weekday} className="ml-1 text-xs sm:text-sm">
-            {t(weekday)}
+    <OuterPanel className="flex flex-col gap-1">
+      <InnerPanel className="flex flex-col p-1">
+        <div className="flex items-center space-x-3 px-1 pb-2">
+          <div className="flex items-center space-x-1 text-xs sm:text-sm">
+            <span>{formatDay(now)}</span>
+            <img src={calendarIcon} className="h-6 sm:h-7" />
           </div>
-        ))}
-      </div>
-      <div className="grid grid-cols-7 gap-1 sm:gap-2">
-        {days.map((date, index) => (
-          <ButtonPanel
-            key={date.startAt}
-            selected={index === selected}
-            variant={index < todayIndex ? "secondary" : "primary"}
-            className="min-h-[58px] w-full relative"
-            onClick={() => setPickedAt(date.startAt)}
-          >
-            <div className="flex items-center justify-center w-full h-full">
-              <span className="absolute text-xxs -top-1 -left-0.5">
-                {date.dateNumber}
-              </span>
-              {date.event && (
-                <img
-                  src={WEATHER_EVENT_ICONS[date.event.name]}
-                  className="w-5 mt-2.5 mb-1 object-contain"
-                />
-              )}
-              <img
-                src={SEASON_DETAILS[date.season].icon}
-                className="absolute h-[20px] -top-[11px] -right-[11px]"
-              />
-              {date.overlays.length > 0 && (
-                <div className="absolute flex -bottom-[9px] -right-[9px]">
-                  {date.overlays.map((overlay) => (
-                    <img
-                      key={overlay.name}
-                      src={OVERLAY_ICONS[overlay.name]}
-                      className="w-4 object-contain"
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
-          </ButtonPanel>
-        ))}
-      </div>
+          <div className="flex items-center space-x-1">
+            <span className="text-xs sm:text-sm">
+              {t(`season.${today.season}`)}
+            </span>
+            <img
+              src={SEASON_DETAILS[today.season].icon}
+              className="w-5 sm:w-6"
+            />
+          </div>
+        </div>
 
-      <InnerPanel className="flex flex-col gap-2 mt-2 p-2">
+        <div className="grid grid-cols-7 gap-2 mb-2">
+          {WEEKDAYS.map((weekday) => (
+            <div key={weekday} className="ml-1 text-xs sm:text-sm">
+              {t(weekday)}
+            </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-7 gap-1 sm:gap-2">
+          {days.map((date, index) => (
+            <ButtonPanel
+              key={date.startAt}
+              selected={index === selected}
+              variant={index < todayIndex ? "secondary" : "primary"}
+              className="min-h-[58px] w-full relative"
+              onClick={() => setPickedAt(date.startAt)}
+            >
+              <div className="flex items-center justify-center w-full h-full">
+                <span className="absolute text-xxs -top-1 -left-0.5">
+                  {date.dateNumber}
+                </span>
+                {date.event && (
+                  <img
+                    src={WEATHER_EVENT_ICONS[date.event.name]}
+                    className="w-5 mt-2.5 mb-1 object-contain"
+                  />
+                )}
+                <img
+                  src={SEASON_DETAILS[date.season].icon}
+                  className="absolute h-[20px] -top-[11px] -right-[11px]"
+                />
+                {date.overlays.length > 0 && (
+                  <div className="absolute flex -bottom-[9px] -right-[9px]">
+                    {date.overlays.map((overlay) => (
+                      <img
+                        key={overlay.name}
+                        src={OVERLAY_ICONS[overlay.name]}
+                        className="w-4 object-contain"
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            </ButtonPanel>
+          ))}
+        </div>
+      </InnerPanel>
+
+      <InnerPanel className="flex flex-col gap-2 p-2">
         <div>
           <Label type="default" icon={SEASON_DETAILS[day.season].icon}>
             {t("weather.dayInSeason", {
@@ -334,7 +339,7 @@ export const WeatherForecast: React.FC<Props> = ({ now }) => {
           </React.Fragment>
         ))}
       </InnerPanel>
-    </Panel>
+    </OuterPanel>
   );
 };
 
