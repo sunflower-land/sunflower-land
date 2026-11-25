@@ -51,6 +51,12 @@ type Usage = {
   output_tokens?: number;
 };
 
+/**
+ * Tokens used by every reply received this run, counted as soon as it arrives,
+ * so replies that were refused, cut off or unreadable are counted too.
+ */
+export const tokenUsage = { input: 0, output: 0 };
+
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function createResponse(
@@ -92,18 +98,14 @@ async function createResponse(
 
 /**
  * Asks the model to translate the terms into one language. Returns what it
- * sent back, unchecked, with the tokens the request used.
+ * sent back, unchecked. The tokens it used are added to tokenUsage.
  */
 export async function requestTranslations(
   language: TargetLanguage,
   terms: Record<string, string>,
   references: ReferenceTerm[],
   usages: Record<string, CodeSnippet[]> = {},
-): Promise<{
-  translations: ReturnedTranslation[];
-  inputTokens: number;
-  outputTokens: number;
-}> {
+): Promise<ReturnedTranslation[]> {
   const response = await createResponse({
     model: MODEL,
     max_output_tokens: 32000,
@@ -125,9 +127,8 @@ export async function requestTranslations(
     },
   });
 
-  return {
-    translations: parseTranslations(getOutputText(response)),
-    inputTokens: response.usage?.input_tokens ?? 0,
-    outputTokens: response.usage?.output_tokens ?? 0,
-  };
+  tokenUsage.input += response.usage?.input_tokens ?? 0;
+  tokenUsage.output += response.usage?.output_tokens ?? 0;
+
+  return parseTranslations(getOutputText(response));
 }

@@ -7,7 +7,12 @@ import { LANGUAGE_DETAILS } from "../src/lib/i18n/dictionaries/language";
 import type { TranslationKeys } from "../src/lib/i18n/dictionaries/types";
 import { getKeys } from "../src/lib/object";
 
-import { MODEL, OpenAIError, requestTranslations } from "./translation/openai";
+import {
+  MODEL,
+  OpenAIError,
+  requestTranslations,
+  tokenUsage,
+} from "./translation/openai";
 import { LANGUAGE_NAMES, type TargetLanguage } from "./translation/prompt";
 import {
   getContextReferences,
@@ -32,8 +37,6 @@ const BATCH_SIZE = 100;
 const MAX_ATTEMPTS = 3;
 
 const DICTIONARIES = path.join(__dirname, "../src/lib/i18n/dictionaries");
-
-const usage = { input: 0, output: 0 };
 
 // The game's source, read the first time a string needs translating, and the
 // code found for each key, which is the same for every language.
@@ -114,18 +117,16 @@ async function translateLanguage(
           kept,
         });
 
-        const response = await requestTranslations(
+        const returned = await requestTranslations(
           language,
           requested,
           references,
           getUsages(batch),
         );
-        usage.input += response.inputTokens;
-        usage.output += response.outputTokens;
 
         const { accepted, rejected } = validateTranslations({
           requested,
-          returned: response.translations,
+          returned,
         });
 
         Object.assign(translated, accepted);
@@ -187,9 +188,9 @@ async function runTranslations() {
   // Process English last
   writeTerms(englishJson, ENGLISH_TERMS);
 
-  if (usage.input > 0) {
+  if (tokenUsage.input > 0) {
     console.log(
-      `Tokens used with ${MODEL}: ${usage.input} in, ${usage.output} out`,
+      `Tokens used with ${MODEL}: ${tokenUsage.input} in, ${tokenUsage.output} out`,
     );
   }
 
