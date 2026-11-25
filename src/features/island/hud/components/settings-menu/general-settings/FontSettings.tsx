@@ -6,6 +6,7 @@ import {
   type Font,
   FONT_CONFIG,
   KOREAN_FONT_CONFIG,
+  VIETNAMESE_FONT_CONFIG,
 } from "lib/utils/fonts";
 import { getKeys } from "lib/object";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -25,6 +26,8 @@ export const FontSettings: React.FC = () => {
         return getKeys(CYRILLIC_FONT_CONFIG);
       case "ko":
         return getKeys(KOREAN_FONT_CONFIG);
+      case "vi":
+        return getKeys(VIETNAMESE_FONT_CONFIG);
       default:
         return getKeys(FONT_CONFIG);
     }
