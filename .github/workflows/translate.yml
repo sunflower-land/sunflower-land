@@ -32,8 +32,9 @@ jobs:
         with:
           node-version: "24"
 
+      # The translation needs no package install scripts.
       - name: Install dependencies
-        run: yarn install
+        run: yarn install --ignore-scripts
 
       - name: Configure Git user
         run: |
@@ -50,8 +51,6 @@ jobs:
       - name: Run translation script
         id: translate
         env:
-          # These IDs are not secrets. The federation rule only accepts this
-          # workflow, on main, in the develop environment.
           ANTHROPIC_FEDERATION_RULE_ID: ${{ vars.ANTHROPIC_FEDERATION_RULE_ID }}
           ANTHROPIC_ORGANIZATION_ID: ${{ vars.ANTHROPIC_ORGANIZATION_ID }}
           ANTHROPIC_IDENTITY_TOKEN_FILE: ${{ runner.temp }}/anthropic-identity-token
