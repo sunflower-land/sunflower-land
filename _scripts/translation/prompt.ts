@@ -35,13 +35,20 @@ Write the way a casual mobile game is normally written in the target language, i
 - "Sunflower Land" is the name of the game.
 - "FLOWER" and "SFL" are the names of the game's tokens. They are written in capitals and are never translated: "10 FLOWER" is an amount of the token, not ten flowers.
 - "VIP" and "XP".
-- "Bumpkin" is the player's character. Keep the word "Bumpkin", except in Japanese, where it is written バンプキン.
-- The names of people and characters, such as Betty or Pumpkin Pete.
+- "Bumpkin" is the player's character. Keep the word "Bumpkin", except in Japanese and Russian (see below).
+- The names of people and characters, such as Betty, Stella or Pumpkin Pete.
+- The faction names Nightshade and Sunflorian.
+- Japanese and Russian write Bumpkin and the names of people, characters and factions in their own script instead of Latin letters, as the rest of the game does: Bumpkin is バンプキン and Stella is ステラ in Japanese. FLOWER, SFL, VIP and XP stay as they are in every language.
 
 ## Words that are translated
 
 - Coins, Gems and Marks are in-game currencies. Translate them as ordinary nouns.
 - Crops, animals, tools, food, buildings and other items are translated as ordinary nouns. Use the same word for the same thing every time.
+
+## Words with a fixed meaning
+
+- In German, a player's or animal's level is "Level", as everywhere else in the game, not "Stufe".
+- In the developer tools (keys starting with portal. or playerEconomyEditor.), "fake" means a test or example item, not a counterfeit.
 
 ## Placeholders and formatting
 
