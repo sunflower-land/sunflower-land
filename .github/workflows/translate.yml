@@ -14,6 +14,12 @@ jobs:
     runs-on: ubuntu-24.04-arm
     environment: develop
     concurrency: testnet-translate
+    # id-token lets the job ask GitHub for an identity token, which the
+    # translate step exchanges for a short-lived Claude API token. No API key
+    # is stored. The checkout and the commit use TRANSLATOR_GITHUB_TOKEN.
+    permissions:
+      id-token: write
+      contents: read
 
     steps:
       - name: Checkout repository
@@ -29,13 +35,6 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-2
-
       - name: Configure Git user
         run: |
           git config --global user.name "Translator Bot"
@@ -49,9 +48,38 @@ jobs:
           git pull origin main
 
       - name: Run translation script
-        run: yarn translate
+        id: translate
+        env:
+          # These IDs are not secrets. The federation rule only accepts this
+          # workflow, on main, in the develop environment.
+          ANTHROPIC_FEDERATION_RULE_ID: ${{ vars.ANTHROPIC_FEDERATION_RULE_ID }}
+          ANTHROPIC_ORGANIZATION_ID: ${{ vars.ANTHROPIC_ORGANIZATION_ID }}
+          ANTHROPIC_IDENTITY_TOKEN_FILE: ${{ runner.temp }}/anthropic-identity-token
+        run: |
+          set -o pipefail
 
+          fetch_identity_token() {
+            curl -sSf -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+              "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=https://api.anthropic.com" \
+              | jq -er .value > "$ANTHROPIC_IDENTITY_TOKEN_FILE.tmp" \
+              && mv "$ANTHROPIC_IDENTITY_TOKEN_FILE.tmp" "$ANTHROPIC_IDENTITY_TOKEN_FILE"
+          }
+
+          fetch_identity_token
+
+          # A GitHub identity token lasts about five minutes and can be
+          # exchanged once, so keep a fresh one in the file for the SDK to
+          # pick up when a long run has to renew its API token.
+          (while sleep 60; do fetch_identity_token || true; done) &
+          trap "kill $!" EXIT
+
+          yarn translate
+
+      # The script fails the job when a term could not be translated, but it
+      # still writes the terms that were. Commit those, so only the missing
+      # ones are left for the next run.
       - uses: EndBug/add-and-commit@v9
+        if: ${{ !cancelled() && steps.translate.conclusion != 'skipped' }}
         with:
           message: "[BOT] Update translations [skip ci]"
           committer_name: Translator Bot
