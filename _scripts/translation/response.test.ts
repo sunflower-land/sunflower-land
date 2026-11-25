@@ -1,60 +1,75 @@
-import { getAnswerText, parseTranslations } from "./response";
+import { getOutputText, parseTranslations } from "./response";
 
 const ANSWER = '{"translations":[{"key":"hello","text":"Hallo"}]}';
 
-describe("getAnswerText", () => {
+const message = (
+  ...content: { type: string; text?: string; refusal?: string }[]
+) => ({
+  type: "message",
+  content,
+});
+
+describe("getOutputText", () => {
   it("returns the text of the answer", () => {
-    expect(getAnswerText([{ type: "text", text: ANSWER }])).toEqual(ANSWER);
-  });
-
-  it("ignores blocks that are not text", () => {
-    const text = getAnswerText([
-      { type: "thinking" },
-      { type: "text", text: ANSWER },
-    ]);
+    const text = getOutputText({
+      status: "completed",
+      output: [message({ type: "output_text", text: ANSWER })],
+    });
 
     expect(text).toEqual(ANSWER);
   });
 
-  it("joins an answer that arrives in several text blocks", () => {
-    const text = getAnswerText([
-      { type: "text", text: ANSWER.slice(0, 10) },
-      { type: "text", text: ANSWER.slice(10) },
-    ]);
+  it("ignores items that are not the message", () => {
+    const text = getOutputText({
+      status: "completed",
+      output: [
+        { type: "reasoning" },
+        message({ type: "output_text", text: ANSWER }),
+      ],
+    });
 
     expect(text).toEqual(ANSWER);
   });
 
-  it("leaves out what a model wrote before it declined", () => {
-    const text = getAnswerText([
-      { type: "text", text: '{"translations":[{"key":"hello","te' },
-      { type: "fallback" },
-      { type: "thinking" },
-      { type: "text", text: ANSWER },
-    ]);
+  it("joins an answer that arrives in several parts", () => {
+    const text = getOutputText({
+      status: "completed",
+      output: [
+        message(
+          { type: "output_text", text: ANSWER.slice(0, 10) },
+          { type: "output_text", text: ANSWER.slice(10) },
+        ),
+      ],
+    });
 
     expect(text).toEqual(ANSWER);
   });
 
-  it("uses the text after the last fallback when there are several", () => {
-    const text = getAnswerText([
-      { type: "text", text: '{"transl' },
-      { type: "fallback" },
-      { type: "text", text: '{"translations":[{"key"' },
-      { type: "fallback" },
-      { type: "text", text: ANSWER },
-    ]);
-
-    expect(text).toEqual(ANSWER);
+  it("throws when the model refused", () => {
+    expect(() =>
+      getOutputText({
+        status: "completed",
+        output: [
+          message({ type: "refusal", refusal: "I can't help with that" }),
+        ],
+      }),
+    ).toThrow("Refused: I can't help with that");
   });
 
-  it("returns nothing when the fallback model wrote no text", () => {
-    const text = getAnswerText([
-      { type: "text", text: '{"transl' },
-      { type: "fallback" },
-    ]);
+  it("throws when the answer was cut off", () => {
+    expect(() =>
+      getOutputText({
+        status: "incomplete",
+        incomplete_details: { reason: "max_output_tokens" },
+        output: [message({ type: "output_text", text: '{"transl' })],
+      }),
+    ).toThrow("Response incomplete: max_output_tokens");
+  });
 
-    expect(text).toEqual("");
+  it("throws when there is no answer", () => {
+    expect(() => getOutputText({ status: "completed", output: [] })).toThrow(
+      "Response had no text",
+    );
   });
 });
 

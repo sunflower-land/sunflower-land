@@ -2,32 +2,32 @@
 import * as fs from "fs";
 import * as path from "path";
 
-import Anthropic from "@anthropic-ai/sdk";
-
 import ENGLISH_TERMS from "../src/lib/i18n/dictionaries/dictionary.json";
 import { LANGUAGE_DETAILS } from "../src/lib/i18n/dictionaries/language";
 import type { TranslationKeys } from "../src/lib/i18n/dictionaries/types";
 import { getKeys } from "../src/lib/object";
 
 import {
-  buildUserMessage,
-  LANGUAGE_NAMES,
-  SYSTEM_PROMPT,
-  type TargetLanguage,
-} from "./translation/prompt";
-import { getAnswerText, parseTranslations } from "./translation/response";
+  MODEL,
+  OpenAIError,
+  requestTranslations,
+  tokenUsage,
+} from "./translation/openai";
+import { LANGUAGE_NAMES, type TargetLanguage } from "./translation/prompt";
 import {
   getContextReferences,
   mergeTranslations,
   planTranslation,
   validateTranslations,
-  type ReferenceTerm,
-  type ReturnedTranslation,
 } from "./translation/terms";
+import {
+  findKeyUsages,
+  readSourceFiles,
+  type CodeSnippet,
+  type SourceFile,
+} from "./translation/usages";
 
 type Terms = Partial<Record<TranslationKeys, string>>;
-
-const MODEL = "claude-opus-5-5";
 
 // Terms sent in one request. A normal run is a single request per language;
 // this only splits a large catch-up, such as a newly added language.
@@ -38,33 +38,21 @@ const MAX_ATTEMPTS = 3;
 
 const DICTIONARIES = path.join(__dirname, "../src/lib/i18n/dictionaries");
 
-// A plain schema, not the SDK helper that also parses the response: the answer
-// is parsed here, so text from a model that declined part-way is left out.
-const TRANSLATIONS_SCHEMA = {
-  type: "object",
-  properties: {
-    translations: {
-      type: "array",
-      items: {
-        type: "object",
-        properties: {
-          key: { type: "string" },
-          text: { type: "string" },
-        },
-        required: ["key", "text"],
-        additionalProperties: false,
-      },
-    },
-  },
-  required: ["translations"],
-  additionalProperties: false,
-};
+// The game's source, read the first time a string needs translating, and the
+// code found for each key, which is the same for every language.
+let sourceFiles: SourceFile[] | undefined;
+const usagesByKey = new Map<string, CodeSnippet[]>();
 
-// Created on first use, so a run with nothing to translate needs no API key.
-let client: Anthropic | undefined;
-const getClient = () => (client ??= new Anthropic());
-
-const usage = { input: 0, output: 0 };
+function getUsages(keys: string[]): Record<string, CodeSnippet[]> {
+  const files = (sourceFiles ??= readSourceFiles(path.join(__dirname, "..")));
+  const usages: Record<string, CodeSnippet[]> = {};
+  keys.forEach((key) => {
+    const found = usagesByKey.get(key) ?? findKeyUsages(key, files);
+    usagesByKey.set(key, found);
+    usages[key] = found;
+  });
+  return usages;
+}
 
 function readTerms(file: string): Terms {
   return fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, "utf-8")) : {};
@@ -83,52 +71,12 @@ function chunk<T>(items: T[], size: number): T[][] {
 }
 
 // A bad key or a malformed request fails the same way every time. Anything
-// else (rate limits, server errors, a response that could not be used) is
-// worth another attempt.
+// else (rate limits and server errors that outlast the retries, a response
+// that could not be used) is worth another attempt.
 function isFatal(error: unknown) {
   return (
-    error instanceof Anthropic.BadRequestError ||
-    error instanceof Anthropic.AuthenticationError ||
-    error instanceof Anthropic.PermissionDeniedError ||
-    error instanceof Anthropic.NotFoundError
+    error instanceof OpenAIError && [400, 401, 403, 404].includes(error.status)
   );
-}
-
-async function requestTranslations(
-  language: TargetLanguage,
-  terms: Record<string, string>,
-  references: ReferenceTerm[],
-): Promise<ReturnedTranslation[]> {
-  const message = await getClient()
-    .beta.messages.stream({
-      model: MODEL,
-      max_tokens: 64000,
-      // If the model declines a request, the API runs it again on its
-      // default fallback model instead of returning the refusal.
-      betas: ["server-side-fallback-2026-07-01"],
-      fallbacks: "default",
-      system: SYSTEM_PROMPT,
-      output_config: {
-        effort: "medium",
-        format: { type: "json_schema", schema: TRANSLATIONS_SCHEMA },
-      },
-      messages: [
-        {
-          role: "user",
-          content: buildUserMessage(language, terms, references),
-        },
-      ],
-    })
-    .finalMessage();
-
-  usage.input += message.usage.input_tokens;
-  usage.output += message.usage.output_tokens;
-
-  if (message.stop_reason !== "end_turn") {
-    throw new Error(`Response stopped with "${message.stop_reason}"`);
-  }
-
-  return parseTranslations(getAnswerText(message.content));
 }
 
 /**
@@ -173,7 +121,9 @@ async function translateLanguage(
           language,
           requested,
           references,
+          getUsages(batch),
         );
+
         const { accepted, rejected } = validateTranslations({
           requested,
           returned,
@@ -238,8 +188,10 @@ async function runTranslations() {
   // Process English last
   writeTerms(englishJson, ENGLISH_TERMS);
 
-  if (usage.input > 0) {
-    console.log(`Tokens used: ${usage.input} in, ${usage.output} out`);
+  if (tokenUsage.input > 0) {
+    console.log(
+      `Tokens used with ${MODEL}: ${tokenUsage.input} in, ${tokenUsage.output} out`,
+    );
   }
 
   const failures = results.filter(({ failed }) => failed.length > 0);

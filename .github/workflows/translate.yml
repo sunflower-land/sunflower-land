@@ -14,11 +14,8 @@ jobs:
     runs-on: ubuntu-24.04-arm
     environment: develop
     concurrency: testnet-translate
-    # id-token lets the job ask GitHub for an identity token, which the
-    # translate step exchanges for a short-lived Claude API token. No API key
-    # is stored. The checkout and the commit use TRANSLATOR_GITHUB_TOKEN.
+    # The checkout and the commit use TRANSLATOR_GITHUB_TOKEN.
     permissions:
-      id-token: write
       contents: read
 
     steps:
@@ -51,28 +48,8 @@ jobs:
       - name: Run translation script
         id: translate
         env:
-          ANTHROPIC_FEDERATION_RULE_ID: ${{ vars.ANTHROPIC_FEDERATION_RULE_ID }}
-          ANTHROPIC_ORGANIZATION_ID: ${{ vars.ANTHROPIC_ORGANIZATION_ID }}
-          ANTHROPIC_IDENTITY_TOKEN_FILE: ${{ runner.temp }}/anthropic-identity-token
-        run: |
-          set -o pipefail
-
-          fetch_identity_token() {
-            curl -sSf -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
-              "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=https://api.anthropic.com" \
-              | jq -er .value > "$ANTHROPIC_IDENTITY_TOKEN_FILE.tmp" \
-              && mv "$ANTHROPIC_IDENTITY_TOKEN_FILE.tmp" "$ANTHROPIC_IDENTITY_TOKEN_FILE"
-          }
-
-          fetch_identity_token
-
-          # A GitHub identity token lasts about five minutes and can be
-          # exchanged once, so keep a fresh one in the file for the SDK to
-          # pick up when a long run has to renew its API token.
-          (while sleep 60; do fetch_identity_token || true; done) &
-          trap "kill $!" EXIT
-
-          yarn translate
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: yarn translate
 
       # The script fails the job when a term could not be translated, but it
       # still writes the terms that were. Commit those, so only the missing
