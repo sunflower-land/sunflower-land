@@ -167,7 +167,9 @@ export const WeatherForecast: React.FC<Props> = ({ now }) => {
 
   const monday = populateSeason(now).startedAt;
   const todayIndex = Math.floor((now - monday) / DAY_MS);
-  const [selected, setSelected] = useState(todayIndex);
+  // The picked day by its start, so a new week (past Monday 00:00 UTC) falls
+  // back to today instead of keeping an index into the old week.
+  const [pickedAt, setPickedAt] = useState<number>();
 
   const days = Array.from({ length: CALENDAR_DAYS }, (_, index) => {
     const startAt = monday + index * DAY_MS;
@@ -179,15 +181,18 @@ export const WeatherForecast: React.FC<Props> = ({ now }) => {
       event: events.find(
         (event) => event.startAt <= startAt && startAt < event.endAt,
       ),
-      overlay: overlays.find(
+      // Overlays can share a day.
+      overlays: overlays.filter(
         (overlay) =>
           overlay.startAt >= startAt && overlay.startAt < startAt + DAY_MS,
       ),
     };
   });
 
+  const pickedIndex = days.findIndex((date) => date.startAt === pickedAt);
+  const selected = pickedIndex === -1 ? todayIndex : pickedIndex;
   const day = days[selected];
-  const { event, overlay } = day;
+  const { event } = day;
   const today = days[todayIndex];
 
   return (
@@ -219,7 +224,7 @@ export const WeatherForecast: React.FC<Props> = ({ now }) => {
             selected={index === selected}
             variant={index < todayIndex ? "secondary" : "primary"}
             className="min-h-[58px] w-full relative"
-            onClick={() => setSelected(index)}
+            onClick={() => setPickedAt(date.startAt)}
           >
             <div className="flex items-center justify-center w-full h-full">
               <span className="absolute text-xxs -top-1 -left-0.5">
@@ -235,11 +240,16 @@ export const WeatherForecast: React.FC<Props> = ({ now }) => {
                 src={SEASON_DETAILS[date.season].icon}
                 className="absolute h-[20px] -top-[11px] -right-[11px]"
               />
-              {date.overlay && (
-                <img
-                  src={OVERLAY_ICONS[date.overlay.name]}
-                  className="absolute w-4 -bottom-[9px] -right-[9px] object-contain"
-                />
+              {date.overlays.length > 0 && (
+                <div className="absolute flex -bottom-[9px] -right-[9px]">
+                  {date.overlays.map((overlay) => (
+                    <img
+                      key={overlay.name}
+                      src={OVERLAY_ICONS[overlay.name]}
+                      className="w-4 object-contain"
+                    />
+                  ))}
+                </div>
               )}
             </div>
           </ButtonPanel>
@@ -290,11 +300,17 @@ export const WeatherForecast: React.FC<Props> = ({ now }) => {
           </>
         )}
 
-        {overlay && (
-          <div>
-            <Label type="chill" icon={OVERLAY_ICONS[overlay.name]}>
-              {t(`calendar.events.${overlay.name}.title`)}
-            </Label>
+        {day.overlays.length > 0 && (
+          <div className="flex flex-wrap gap-1">
+            {day.overlays.map((overlay) => (
+              <Label
+                key={overlay.name}
+                type="chill"
+                icon={OVERLAY_ICONS[overlay.name]}
+              >
+                {t(`calendar.events.${overlay.name}.title`)}
+              </Label>
+            ))}
           </div>
         )}
       </InnerPanel>
