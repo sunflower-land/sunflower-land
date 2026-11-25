@@ -6873,7 +6873,7 @@
   "skill.ager.buff": "2× keluaran dari Aging Shed Racks",
   "playerEconomyEditor.actionRow.noCollectRows": "Tidak ada pengumpulan baris hadiah",
   "playerEconomyEditor.custom.requiresPlaceholder": "Pilih item",
-  "playerEconomyEditor.siteUpload.hint": "Unggah jenis file apa pun ke game yang Anda hosting di https://{{slug}}.[1@/ $]. Unggah folder — file disimpan di root situs (nama folder yang Anda pilih tidak disimpan; subfolder di dalamnya ada).",
+  "playerEconomyEditor.siteUpload.hint": "Unggah jenis file apa pun ke game yang Anda hosting di https://{{slug}}.{{host}}. Unggah folder — file disimpan di root situs (nama folder yang Anda pilih tidak disimpan; subfolder di dalamnya ada).",
   "playerEconomyEditor.siteUpload.uploadFolder": "Unggah folder",
   "playerEconomyEditor.siteUpload.playGame": "Mainkan permainan",
   "playerEconomyEditor.siteUpload.playGameLoading": "Memuat...",

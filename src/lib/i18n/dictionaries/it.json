@@ -6873,7 +6873,7 @@
   "skill.ager.buff": "2× uscita da Aging Shed Racks",
   "playerEconomyEditor.actionRow.noCollectRows": "Nessuna riga di raccolta delle ricompense",
   "playerEconomyEditor.custom.requiresPlaceholder": "Seleziona articolo",
-  "playerEconomyEditor.siteUpload.hint": "Carica qualsiasi tipo di file nel gioco ospitato all'indirizzo https://{{slug}}.[1@/ $]. Carica una cartella: i file vengono archiviati nella cartella principale del sito (il nome della cartella che scegli non viene conservato; le sottocartelle al suo interno lo sono).",
+  "playerEconomyEditor.siteUpload.hint": "Carica qualsiasi tipo di file nel gioco ospitato all'indirizzo https://{{slug}}.{{host}}. Carica una cartella: i file vengono archiviati nella cartella principale del sito (il nome della cartella che scegli non viene conservato; le sottocartelle al suo interno lo sono).",
   "playerEconomyEditor.siteUpload.uploadFolder": "Carica cartella",
   "playerEconomyEditor.siteUpload.playGame": "Gioca",
   "playerEconomyEditor.siteUpload.playGameLoading": "Caricamento...",

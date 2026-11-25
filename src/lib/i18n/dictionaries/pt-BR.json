@@ -6873,7 +6873,7 @@
   "skill.ager.buff": "Saída 2× da Aging Shed Racks",
   "playerEconomyEditor.actionRow.noCollectRows": "Não colete linhas de recompensa",
   "playerEconomyEditor.custom.requiresPlaceholder": "Selecionar item",
-  "playerEconomyEditor.siteUpload.hint": "Faça upload de qualquer tipo de arquivo para seu jogo hospedado em https://{{slug}}.[1@/ $]. Carregue uma pasta — os arquivos são armazenados na raiz do site (o nome da pasta que você escolhe não é mantido; as subpastas dentro dela são).",
+  "playerEconomyEditor.siteUpload.hint": "Faça upload de qualquer tipo de arquivo para seu jogo hospedado em https://{{slug}}.{{host}}. Carregue uma pasta — os arquivos são armazenados na raiz do site (o nome da pasta que você escolhe não é mantido; as subpastas dentro dela são).",
   "playerEconomyEditor.siteUpload.uploadFolder": "Carregar pasta",
   "playerEconomyEditor.siteUpload.playGame": "Jogue o jogo",
   "playerEconomyEditor.siteUpload.playGameLoading": "Carregando...",
