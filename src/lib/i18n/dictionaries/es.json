@@ -6873,7 +6873,7 @@
   "skill.ager.buff": "2 veces la producción de Aging Shed Racks",
   "playerEconomyEditor.actionRow.noCollectRows": "No hay filas de recompensas para acumular",
   "playerEconomyEditor.custom.requiresPlaceholder": "Seleccione un artículo",
-  "playerEconomyEditor.siteUpload.hint": "Sube cualquier tipo de archivo a tu juego hospedado en https://{{slug}}.[1@/ $]. Sube una carpeta: los archivos se almacenan en la raíz del sitio (no se guarda el nombre de la carpeta que hayas elegido, sino las subcarpetas que contenga).",
+  "playerEconomyEditor.siteUpload.hint": "Sube cualquier tipo de archivo a tu juego hospedado en https://{{slug}}.{{host}}. Sube una carpeta: los archivos se almacenan en la raíz del sitio (no se guarda el nombre de la carpeta que hayas elegido, sino las subcarpetas que contenga).",
   "playerEconomyEditor.siteUpload.uploadFolder": "Cargar carpeta",
   "playerEconomyEditor.siteUpload.playGame": "Jugar al juego",
   "playerEconomyEditor.siteUpload.playGameLoading": "Cargando...",

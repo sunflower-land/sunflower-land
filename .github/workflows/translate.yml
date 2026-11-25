@@ -29,8 +29,9 @@ jobs:
         with:
           node-version: "24"
 
+      # The translation needs no package install scripts.
       - name: Install dependencies
-        run: yarn install
+        run: yarn install --ignore-scripts
 
       - name: Configure Git user
         run: |

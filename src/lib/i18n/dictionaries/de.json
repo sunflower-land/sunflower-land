@@ -6873,7 +6873,7 @@
   "skill.ager.buff": "2× Leistung von Aging Shed Racks",
   "playerEconomyEditor.actionRow.noCollectRows": "Nein, sammle Belohnungsreihen",
   "playerEconomyEditor.custom.requiresPlaceholder": "Artikel wählen",
-  "playerEconomyEditor.siteUpload.hint": "Laden Sie einen beliebigen Dateityp auf https://{{slug}}.[1@/ $] in Ihr gehostetes Spiel hoch. Lade einen Ordner hoch — die Dateien werden im Stammverzeichnis der Website gespeichert (der von dir gewählte Ordnername wird nicht beibehalten, sondern die darin enthaltenen Unterordner).",
+  "playerEconomyEditor.siteUpload.hint": "Laden Sie einen beliebigen Dateityp auf https://{{slug}}.{{host}} in Ihr gehostetes Spiel hoch. Lade einen Ordner hoch — die Dateien werden im Stammverzeichnis der Website gespeichert (der von dir gewählte Ordnername wird nicht beibehalten, sondern die darin enthaltenen Unterordner).",
   "playerEconomyEditor.siteUpload.uploadFolder": "Ordner hochladen",
   "playerEconomyEditor.siteUpload.playGame": "Spiel spielen",
   "playerEconomyEditor.siteUpload.playGameLoading": "Wird geladen...",
