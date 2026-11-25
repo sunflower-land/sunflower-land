@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from "react";
+import React, { useCallback, useContext, useMemo, useState } from "react";
 import { useSelector } from "@xstate/react";
 
 import { Context } from "features/game/GameProvider";
@@ -144,13 +144,14 @@ const getForecastState = (game: GameState, now: number): string => {
   return JSON.stringify(state);
 };
 
-const formatDay = (at: number) =>
-  new Date(at).toLocaleString(navigator.language, {
-    weekday: "short",
-    day: "numeric",
-    month: "short",
-    timeZone: "UTC",
-  });
+const DAY_FORMAT = new Intl.DateTimeFormat(navigator.language, {
+  weekday: "short",
+  day: "numeric",
+  month: "short",
+  timeZone: "UTC",
+});
+
+const formatDay = (at: number) => DAY_FORMAT.format(at);
 
 interface Props {
   now: number;
@@ -171,9 +172,10 @@ export const WeatherForecast: React.FC<Props> = ({ now }) => {
       [now],
     ),
   );
-  const { events, overlays, items, unprotected, guardianCovered } = JSON.parse(
-    forecastJson,
-  ) as ForecastState;
+  const { events, overlays, items, unprotected, guardianCovered } = useMemo(
+    () => JSON.parse(forecastJson) as ForecastState,
+    [forecastJson],
+  );
 
   const monday = populateSeason(now).startedAt;
   const todayIndex = Math.floor((now - monday) / DAY_MS);
