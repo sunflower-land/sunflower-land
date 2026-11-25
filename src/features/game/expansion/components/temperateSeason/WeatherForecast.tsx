@@ -469,15 +469,28 @@ const ProtectionRow: React.FC<{
     guardiansPlaced.includes(rainsGuardian)
   ) {
     return (
-      <GuardianRow
-        guardian={rainsGuardian}
-        label={t("weather.itemPlaced", { item: rainsGuardian })}
-        hint={
-          status === "used"
-            ? t("weather.hint.guardianRainsRenew", { item })
-            : t("weather.hint.guardianRains", { item })
-        }
-      />
+      <>
+        <GuardianRow
+          guardian={rainsGuardian}
+          label={t("weather.itemPlaced", { item: rainsGuardian })}
+          hint={t("weather.hint.guardianRains")}
+        />
+        <div className="flex items-center gap-2 ml-1">
+          <img src={ITEM_DETAILS[item].image} className="w-8 object-contain" />
+          <div className="flex flex-col items-start gap-1">
+            <Label type="default">
+              {status === "used"
+                ? t("weather.itemUsed", { item })
+                : t("weather.noItem", { item })}
+            </Label>
+            <span className="text-xxs">
+              {status === "used"
+                ? t("weather.hint.renew")
+                : t("weather.hint.rainsBonus", { item })}
+            </span>
+          </div>
+        </div>
+      </>
     );
   }
 
