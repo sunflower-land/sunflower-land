@@ -9078,5 +9078,7 @@
   "gameOptions.experiments.savedLayoutsToggle": "Habilitar layouts salvos",
   "gameOptions.experiments.savedLayoutsDisclaimer": "Somente recurso experimental. Os dados e o progresso podem ser redefinidos ou perdidos sem aviso prévio. Ao ativar isso, você aceita esses riscos e procede por sua própria conta e risco.",
   "vip.benefit.beetleBonus": "{{percent}}% de chance de +1 besouro ao desenterrar besouros na caverna durante o capítulo Cave Dwellers",
-  "help.increaseLimit.dontAskAgain": "Não me pergunte de novo hoje"
+  "help.increaseLimit.dontAskAgain": "Não me pergunte de novo hoje",
+  "powerSkills.reason.animalBuildingsDisabledByTornado": "Seus animais adormecidos estão em prédios desativados pelo Tornado",
+  "powerSkills.reason.greenhouseDisabledByTornado": "Sua estufa foi desativada pelo Tornado"
 }

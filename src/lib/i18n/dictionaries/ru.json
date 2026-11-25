@@ -9078,5 +9078,7 @@
   "gameOptions.experiments.savedLayoutsToggle": "Включить сохранённые планировки",
   "gameOptions.experiments.savedLayoutsDisclaimer": "Экспериментальная функция. Данные и прогресс могут быть сброшены или потеряны без предупреждения. Включая её, ты принимаешь эти риски и используешь функцию на свой страх и риск.",
   "vip.benefit.beetleBonus": "{{percent}}% шанс найти +1 жука при выкапывании жуков в пещере во время главы «Обитатели пещер»",
-  "help.increaseLimit.dontAskAgain": "Больше не спрашивать сегодня"
+  "help.increaseLimit.dontAskAgain": "Больше не спрашивать сегодня",
+  "powerSkills.reason.animalBuildingsDisabledByTornado": "Your sleeping animals are in buildings the Tornado disabled",
+  "powerSkills.reason.greenhouseDisabledByTornado": "Your Greenhouse is disabled by the Tornado"
 }

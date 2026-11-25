@@ -9078,5 +9078,7 @@
   "gameOptions.experiments.savedLayoutsToggle": "Aktifkan tata letak yang disimpan",
   "gameOptions.experiments.savedLayoutsDisclaimer": "Fitur eksperimental saja. Data dan kemajuan dapat diatur ulang atau hilang tanpa pemberitahuan. Dengan mengaktifkan ini, Anda menerima risiko ini dan melanjutkan dengan risiko Anda sendiri.",
   "vip.benefit.beetleBonus": "{{percent}}% peluang +1 Kumbang saat menggali Kumbang di Gua selama Bab Penghuni Gua",
-  "help.increaseLimit.dontAskAgain": "Jangan tanya aku lagi hari ini"
+  "help.increaseLimit.dontAskAgain": "Jangan tanya aku lagi hari ini",
+  "powerSkills.reason.animalBuildingsDisabledByTornado": "Hewan tidur Anda berada di gedung-gedung yang dinonaktifkan Tornado",
+  "powerSkills.reason.greenhouseDisabledByTornado": "Rumah Kaca Anda dinonaktifkan oleh Tornado"
 }

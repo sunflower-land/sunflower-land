@@ -9078,5 +9078,7 @@
   "gameOptions.experiments.savedLayoutsToggle": "启用保存的布局",
   "gameOptions.experiments.savedLayoutsDisclaimer": "仅限实验功能。数据和进度可能会被重置或丢失，恕不另行通知。启用此功能即表示您接受这些风险，并自担风险。",
   "vip.benefit.beetleBonus": "{{percent}} 在《洞穴居民》章节中，在洞穴中挖出甲壳虫时，有% 的几率获得 +1 个甲壳虫",
-  "help.increaseLimit.dontAskAgain": "今天别再问我了"
+  "help.increaseLimit.dontAskAgain": "今天别再问我了",
+  "powerSkills.reason.animalBuildingsDisabledByTornado": "你的睡觉动物在龙卷风禁用的建筑物里",
+  "powerSkills.reason.greenhouseDisabledByTornado": "你的温室被龙卷风禁用"
 }

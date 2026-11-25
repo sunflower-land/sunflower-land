@@ -9078,5 +9078,7 @@
   "gameOptions.experiments.savedLayoutsToggle": "Gespeicherte Layouts aktivieren",
   "gameOptions.experiments.savedLayoutsDisclaimer": "Nur experimentelle Funktion. Daten und Fortschritt können ohne vorherige Ankündigung zurückgesetzt werden oder verloren gehen. Wenn Sie dies aktivieren, akzeptieren Sie diese Risiken und fahren auf eigenes Risiko fort.",
   "vip.benefit.beetleBonus": "{{percent}}% Chance auf +1 Käfer beim Ausgraben von Käfern in der Höhle im Kapitel „Höhlenbewohner“",
-  "help.increaseLimit.dontAskAgain": "Frag mich heute nicht noch einmal"
+  "help.increaseLimit.dontAskAgain": "Frag mich heute nicht noch einmal",
+  "powerSkills.reason.animalBuildingsDisabledByTornado": "Deine schlafenden Tiere sind in Gebäuden, die der Tornado deaktiviert hat",
+  "powerSkills.reason.greenhouseDisabledByTornado": "Dein Gewächshaus ist durch den Tornado deaktiviert"
 }

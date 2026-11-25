@@ -9078,5 +9078,7 @@
   "gameOptions.experiments.savedLayoutsToggle": "Kaydedilmiş düzenleri etkinleştir",
   "gameOptions.experiments.savedLayoutsDisclaimer": "Yalnızca deneysel özellik. Veriler ve ilerleme önceden haber verilmeksizin sıfırlanabilir veya kaybolabilir. Bunu etkinleştirerek bu riskleri kabul edersiniz ve kendi sorumluluğunuzda ilerlersiniz.",
   "vip.benefit.beetleBonus": "{{percent}} Mağara Sakinleri Bölümü sırasında Mağaradaki Böcekleri kazarken %+1 Böcek şansı",
-  "help.increaseLimit.dontAskAgain": "Bugün bana bir daha sorma"
+  "help.increaseLimit.dontAskAgain": "Bugün bana bir daha sorma",
+  "powerSkills.reason.animalBuildingsDisabledByTornado": "Uyuyan hayvanlarınız Tornado'nun devre dışı bıraktığı binalarda",
+  "powerSkills.reason.greenhouseDisabledByTornado": "Seranız Tornado tarafından devre dışı bırakıldı"
 }
