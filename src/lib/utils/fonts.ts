@@ -260,8 +260,14 @@ function setFontProperties(config: FontSettings) {
   );
 }
 
-export function changeFont(font: Font) {
+export function changeFont(requestedFont: Font) {
   const lang = localStorage.getItem("language") || "en";
+  // A font saved under another language (e.g. Bold) may not exist for
+  // Vietnamese. Use the Vietnamese default rather than a system font.
+  const font: Font =
+    lang === "vi" && !VIETNAMESE_FONT_CONFIG[requestedFont]
+      ? "Default"
+      : requestedFont;
   const config = (() => {
     switch (lang) {
       case "ru":
