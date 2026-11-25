@@ -64,8 +64,12 @@ describe("Bountiful Harvest (weather)", () => {
   it("leaves crops and fruit alone outside the event", () => {
     const game = farm();
 
-    expect(sunflowers(game, HARVEST.endAt + HOUR)).toBe(1);
-    expect(apples(game, HARVEST.endAt + HOUR)).toBe(1);
+    // The Flood the week before: Heavy Rains follows Bountiful Harvest, and
+    // changes crop harvests.
+    const outside = Date.UTC(2026, 10, 21);
+
+    expect(sunflowers(game, outside)).toBe(1);
+    expect(apples(game, outside)).toBe(1);
   });
 
   it("adds 0.4 to each crop harvest", () => {
