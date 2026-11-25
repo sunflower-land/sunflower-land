@@ -5,6 +5,7 @@ import {
   type ModelResponse,
 } from "./response";
 import type { ReferenceTerm, ReturnedTranslation } from "./terms";
+import type { CodeSnippet } from "./usages";
 
 // The model the repo's other OpenAI workflows use.
 export const MODEL = "gpt-5.6-sol";
@@ -97,6 +98,7 @@ export async function requestTranslations(
   language: TargetLanguage,
   terms: Record<string, string>,
   references: ReferenceTerm[],
+  usages: Record<string, CodeSnippet[]> = {},
 ): Promise<{
   translations: ReturnedTranslation[];
   inputTokens: number;
@@ -108,7 +110,10 @@ export async function requestTranslations(
     reasoning: { effort: "medium" },
     input: [
       { role: "system", content: SYSTEM_PROMPT },
-      { role: "user", content: buildUserMessage(language, terms, references) },
+      {
+        role: "user",
+        content: buildUserMessage(language, terms, references, usages),
+      },
     ],
     text: {
       format: {

@@ -1,6 +1,7 @@
 import type { LanguageCode } from "../../src/lib/i18n/dictionaries/language";
 
 import type { ReferenceTerm } from "./terms";
+import type { CodeSnippet } from "./usages";
 
 export type TargetLanguage = Exclude<LanguageCode, "en">;
 
@@ -22,6 +23,8 @@ export const SYSTEM_PROMPT = `You translate the interface text of Sunflower Land
 ## The strings
 
 Each string comes with a key. Players never see the key. Read it as a hint about where the string appears and what it refers to: a title, a button, a description, a line of dialogue, the item or building it belongs to.
+
+Most strings also come with usedIn: a few lines of the game's code where the string is shown. Read them as a hint in the same way. They show whether the string is a button, a heading, a label next to a number or a line of dialogue, what fills its placeholders, and how much room it has. Translate only the text, never the code.
 
 Most strings are labels, buttons, tooltips and item descriptions that sit in small panels on a phone screen, so a translation that runs much longer than the English can overflow. Prefer the shortest wording that still reads naturally, and translate a one-word label with a short label, not a sentence. Longer strings are mostly dialogue from the game's characters: keep those light, friendly and playful.
 
@@ -56,8 +59,12 @@ export function buildUserMessage(
   language: TargetLanguage,
   terms: Record<string, string>,
   references: ReferenceTerm[] = [],
+  usages: Record<string, CodeSnippet[]> = {},
 ): string {
-  const strings = Object.entries(terms).map(([key, text]) => ({ key, text }));
+  const strings = Object.entries(terms).map(([key, text]) => {
+    const usedIn = Object.hasOwn(usages, key) ? usages[key] : [];
+    return usedIn.length > 0 ? { key, text, usedIn } : { key, text };
+  });
 
   const reference =
     references.length > 0

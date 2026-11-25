@@ -15,6 +15,12 @@ import {
   planTranslation,
   validateTranslations,
 } from "./translation/terms";
+import {
+  findKeyUsages,
+  readSourceFiles,
+  type CodeSnippet,
+  type SourceFile,
+} from "./translation/usages";
 
 type Terms = Partial<Record<TranslationKeys, string>>;
 
@@ -28,6 +34,22 @@ const MAX_ATTEMPTS = 3;
 const DICTIONARIES = path.join(__dirname, "../src/lib/i18n/dictionaries");
 
 const usage = { input: 0, output: 0 };
+
+// The game's source, read the first time a string needs translating, and the
+// code found for each key, which is the same for every language.
+let sourceFiles: SourceFile[] | undefined;
+const usagesByKey = new Map<string, CodeSnippet[]>();
+
+function getUsages(keys: string[]): Record<string, CodeSnippet[]> {
+  const files = (sourceFiles ??= readSourceFiles(path.join(__dirname, "..")));
+  const usages: Record<string, CodeSnippet[]> = {};
+  keys.forEach((key) => {
+    const found = usagesByKey.get(key) ?? findKeyUsages(key, files);
+    usagesByKey.set(key, found);
+    usages[key] = found;
+  });
+  return usages;
+}
 
 function readTerms(file: string): Terms {
   return fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, "utf-8")) : {};
@@ -96,6 +118,7 @@ async function translateLanguage(
           language,
           requested,
           references,
+          getUsages(batch),
         );
         usage.input += response.inputTokens;
         usage.output += response.outputTokens;
