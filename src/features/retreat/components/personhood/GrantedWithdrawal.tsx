@@ -25,6 +25,16 @@ import { getPendingGrant, GRANT_TRANSACTION } from "./lib/lockedWithdrawal";
 const _ban = (state: MachineState) => state.context.state.ban;
 const _transaction = (state: MachineState) => state.context.state.transaction;
 const _farmId = (state: MachineState) => state.context.farmId;
+// The game machine only accepts TRANSACT while playing. Startup notifications
+// (daily reward, VIP, season change…) are their own states with their own
+// modals, so the popup waits for those to close instead of covering them and
+// sending an event the machine would drop. Autosaving and transacting are
+// brief stops on the way back to playing, so it stays up through them.
+const _canShow = (state: MachineState) =>
+  state.matches("playing") ||
+  state.matches("autosaving") ||
+  state.matches("transacting");
+const _canTransact = (state: MachineState) => state.matches("playing");
 
 /**
  * Shown to a locked farm that support has prepared a withdrawal for.
@@ -37,12 +47,13 @@ export const GrantedWithdrawal: React.FC = () => {
   const { gameService } = useContext(Context);
   const ban = useSelector(gameService, _ban);
   const transaction = useSelector(gameService, _transaction);
+  const canShow = useSelector(gameService, _canShow);
   // A minute is plenty: it only hides the popup once the grant expires.
   const now = useNow({ live: true, intervalMs: 60_000 });
 
   const grant = getPendingGrant({ game: { ban, transaction }, now });
 
-  if (!grant) return null;
+  if (!grant || !canShow) return null;
 
   return (
     <Modal show backdrop="static">
@@ -130,12 +141,14 @@ const ConfirmGrantedWithdrawal: React.FC<{ grant: LockedWithdrawal }> = ({
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const farmId = useSelector(gameService, _farmId);
+  const canTransact = useSelector(gameService, _canTransact);
   const { chain } = useConnection();
 
   const needsChain = grant.type === "flower";
+  const disabled = !canTransact || (needsChain && !chain);
 
   const withdraw = () => {
-    if (needsChain && !chain) return;
+    if (disabled) return;
 
     gameService.send("TRANSACT", {
       transaction: GRANT_TRANSACTION[grant.type],
@@ -150,7 +163,7 @@ const ConfirmGrantedWithdrawal: React.FC<{ grant: LockedWithdrawal }> = ({
   };
 
   return (
-    <Button disabled={needsChain && !chain} onClick={withdraw}>
+    <Button disabled={disabled} onClick={withdraw}>
       {t("grantedWithdrawal.confirm")}
     </Button>
   );
