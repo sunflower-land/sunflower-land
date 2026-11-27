@@ -131,6 +131,27 @@ describe("getTutorialNudge", () => {
     );
   });
 
+  it("sends the player back to Betty while a short purchase is still growing", () => {
+    // Bought 1 seed and planted it: 8 plots stay empty and no seeds are left.
+    const game = firstPlots({ planted: 1 });
+    game.farmActivity["Sunflower Seed Bought"] = 1;
+
+    expect(getTutorialNudge(game)).toBe("market-seeds");
+  });
+
+  it("keeps a part-harvested preloaded farm on the harvest walk", () => {
+    // First plots came with Sunflowers and 4 are harvested: never bought seeds.
+    const game = firstPlots();
+    Object.values(game.crops)
+      .slice(4)
+      .forEach((plot) => {
+        plot.crop = { name: "Sunflower", plantedAt: 0 };
+      });
+    game.farmActivity["Sunflower Harvested"] = 4;
+
+    expect(getTutorialNudge(game)).toBe("harvest-plot");
+  });
+
   it("keeps a farm with preloaded Sunflowers on the harvest walk", () => {
     const game = firstPlots();
     Object.values(game.crops).forEach((plot) => {

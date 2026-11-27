@@ -43,8 +43,9 @@ export const isFirstSeedPurchase = (game: GameState): boolean =>
  * for Peggy's first delivery. Also covers a player who runs out part-way.
  *
  * Farms whose first plots came preloaded with Sunflowers (before the plots
- * arrived empty) never match: their plots are full until they harvest, and
- * by then they have harvested the Sunflowers.
+ * arrived empty) never match while those crops stand: they have bought no
+ * Sunflower Seeds, so any growing crop is a preloaded one. A player who
+ * bought fewer seeds than plots goes back to Betty while their crops grow.
  */
 export const needsFirstSeedPurchase = (game: GameState): boolean => {
   if (game.island.type !== "basic") return false;
@@ -56,6 +57,8 @@ export const needsFirstSeedPurchase = (game: GameState): boolean => {
   if (getTotalCropsPlanted(game) >= TUTORIAL_PLOT_COUNT) return false;
   if (holdsCropSeeds(game)) return false;
   if (!hasEmptyPlot(game)) return false;
+
+  if ((game.farmActivity?.["Sunflower Seed Bought"] ?? 0) > 0) return true;
 
   return Object.values(game.crops).every((plot) => !plot.crop);
 };
