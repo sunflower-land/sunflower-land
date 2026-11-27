@@ -121,6 +121,13 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   const speedBreakdown = showHoneyLevelModal
     ? getHoneyRateBreakdown({ game: gameState, now, speed: currentSpeed })
     : undefined;
+  const hasSpeedRows = !!speedBreakdown && speedBreakdown.rows.length > 0;
+
+  // Close the panel when its rows go (e.g. Bee Migration ends while it's
+  // open), so it doesn't reopen by itself when a boost applies again.
+  useEffect(() => {
+    if (!hasSpeedRows) setShowSpeedBoosts(false);
+  }, [hasSpeedRows]);
 
   const handleBeeAnimationEnd = useCallback(() => {
     beehiveService.send("BEE_ANIMATION_DONE");
@@ -410,7 +417,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
                 <Label type="default" icon={lightning}>
                   {t("beehive.speed")}
                 </Label>
-                {speedBreakdown && speedBreakdown.rows.length > 0 ? (
+                {speedBreakdown && hasSpeedRows ? (
                   <button
                     ref={speedRef}
                     type="button"
@@ -435,7 +442,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
                 <BoostsDisplay
                   boosts={speedBreakdown.rows}
                   base={{ value: formatNumber(1) }}
-                  show={showSpeedBoosts}
+                  show={showSpeedBoosts && hasSpeedRows}
                   state={gameState}
                   onClick={() => setShowSpeedBoosts(false)}
                   anchorRef={speedRef}
