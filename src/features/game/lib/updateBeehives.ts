@@ -39,39 +39,39 @@ const getHoneyProductionRate = (
   now: number,
 ): { rate: number; boostsUsed: { name: BoostName; value: string }[] } => {
   const { bumpkin } = game;
-  let rate = 1;
+  let rate = new Decimal(1);
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isCollectibleBuilt({ name: "Queen Bee", game })) {
-    rate += 1;
+    rate = rate.add(1);
     boostsUsed.push({ name: "Queen Bee", value: "+1" });
   }
 
   if (isWearableActive({ name: "Beekeeper Hat", game })) {
-    rate += 0.2;
+    rate = rate.add(0.2);
     boostsUsed.push({ name: "Beekeeper Hat", value: "+0.2" });
   }
 
   const hyperBeesLevel = getSkillLevel(bumpkin.skills, "Hyper Bees");
   if (hyperBeesLevel) {
     const bonus = SKILL_RANKS["Hyper Bees"].ranks[hyperBeesLevel - 1];
-    rate += bonus;
+    rate = rate.add(bonus);
     boostsUsed.push({ name: "Hyper Bees", value: `+${bonus}` });
   }
 
   const floweryAbodeLevel = getSkillLevel(bumpkin.skills, "Flowery Abode");
   if (floweryAbodeLevel) {
     const bonus = SKILL_RANKS["Flowery Abode"].rate[floweryAbodeLevel - 1];
-    rate += bonus;
+    rate = rate.add(bonus);
     boostsUsed.push({ name: "Flowery Abode", value: `+${bonus}` });
   }
 
   if (isTemporaryCollectibleActive({ name: "Bear Shrine", game, now })) {
-    rate += 0.5;
+    rate = rate.add(0.5);
     boostsUsed.push({ name: "Bear Shrine", value: "+0.5" });
   }
 
-  return { rate, boostsUsed };
+  return { rate: rate.toNumber(), boostsUsed };
 };
 
 /**
@@ -80,7 +80,7 @@ const getHoneyProductionRate = (
  * during an unprotected Flood. The weather's part changes on its own at the
  * times `getWeatherHoneyBoundaries` lists.
  */
-const getHoneyRateAt = (
+export const getHoneyRateAt = (
   game: GameState,
   now: number,
   at: number,

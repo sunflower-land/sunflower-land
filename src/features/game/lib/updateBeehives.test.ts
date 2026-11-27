@@ -1215,6 +1215,35 @@ describe("updateBeehives", () => {
     });
   });
 
+  it("sums the honey rate without floating-point error", () => {
+    // 1 + 0.2 (Beekeeper Hat) + 0.15 (Hyper Bees rank 2) is
+    // 1.3499999999999999 when added as plain numbers.
+    const game = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        skills: { "Hyper Bees": 2 },
+        equipped: { ...INITIAL_BUMPKIN.equipped, hat: "Beekeeper Hat" },
+      },
+      beehives: {
+        abc: { ...DEFAULT_BEEHIVE, honey: { updatedAt: now, produced: 0 } },
+      },
+      flowers: {
+        flowerBeds: {
+          "123": {
+            ...DEFAULT_FLOWER_BED,
+            flower: { name: "Red Pansy", plantedAt: now },
+          },
+        },
+        discovered: {},
+      },
+    } as GameState;
+
+    const updatedBeehives = updateBeehives({ game, createdAt: now });
+
+    expect(updatedBeehives.abc.flowers[0].rate).toBe(1.35);
+  });
+
   // A windowed flower becomes ready earlier while a boost window is
   // active, so pollination must be bounded by the windowed readyAt (not the base
   // grow time) — otherwise the hive over-credits pollination time.
