@@ -199,8 +199,10 @@ export const InventoryItemDetails: React.FC<Props> = ({
         isSlowed: properties.timeIsSlowed,
       });
 
+      // A Flood can keep the time above base even with named boosts: show the
+      // plain time, but still let it open the breakdown.
       if (
-        isTimeBoosted &&
+        (isTimeBoosted || hasNamedBoosts) &&
         properties.timeBoostsUsed &&
         properties.setShowBoosts &&
         properties.showBoosts !== undefined
@@ -220,9 +222,10 @@ export const InventoryItemDetails: React.FC<Props> = ({
             <RequirementLabel
               type="time"
               waitSeconds={properties.timeSeconds}
-              boosted
+              boosted={isTimeBoosted}
             />
-            {properties.baseTimeSeconds !== undefined &&
+            {isTimeBoosted &&
+              properties.baseTimeSeconds !== undefined &&
               properties.timeSeconds !== properties.baseTimeSeconds && (
                 <RequirementLabel
                   type="time"

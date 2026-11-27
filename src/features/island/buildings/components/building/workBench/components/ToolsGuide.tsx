@@ -405,14 +405,18 @@ const CooldownCell: React.FC<{
     isSlowed: cooldown.isSlowed,
   });
 
+  // A Flood can keep the time above base even with named boosts; the cell then
+  // shows the plain time but still opens the breakdown.
+  const showsBreakdown = hasBoosts || hasNamedBoosts;
+
   const recoveryTimeStr = secondsToString(cooldown.recoverySeconds, {
-    length: hasBoosts ? "medium" : "short",
+    length: showsBreakdown ? "medium" : "short",
   });
   const baseTimeStr = secondsToString(cooldown.baseSeconds, {
-    length: hasBoosts ? "medium" : "short",
+    length: showsBreakdown ? "medium" : "short",
   });
 
-  if (hasBoosts) {
+  if (showsBreakdown) {
     return (
       <div
         ref={anchorRef}
@@ -428,7 +432,11 @@ const CooldownCell: React.FC<{
         <div className="flex items-center gap-1.5 flex-wrap">
           <div className="flex items-center">
             <img
-              src={SUNNYSIDE.icons.lightning}
+              src={
+                hasBoosts
+                  ? SUNNYSIDE.icons.lightning
+                  : SUNNYSIDE.icons.stopwatch
+              }
               className="w-3 mr-1 flex-shrink-0"
               alt=""
             />
@@ -436,7 +444,7 @@ const CooldownCell: React.FC<{
               {cooldown.recoverySeconds > 0 ? recoveryTimeStr : t("instant")}
             </span>
           </div>
-          {cooldown.baseSeconds > 0 && (
+          {hasBoosts && cooldown.baseSeconds > 0 && (
             <div className="flex items-center">
               <img
                 src={SUNNYSIDE.icons.stopwatch}

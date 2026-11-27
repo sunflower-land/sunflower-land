@@ -682,7 +682,9 @@ const GrowthTimeCell: React.FC<{
   });
   const showMediumTime = Math.max(baseSeconds, displaySeconds) > 24 * 60 * 60;
 
-  if (!isTimeBoosted) {
+  // A Flood can keep the time above base even with named boosts: show the plain
+  // time, but still let it open the breakdown.
+  if (!isTimeBoosted && !hasNamedBoosts) {
     return (
       <div className="flex items-center mr-2">
         <img src={SUNNYSIDE.icons.stopwatch} className="w-3 mr-1" />
@@ -721,16 +723,18 @@ const GrowthTimeCell: React.FC<{
             })}
           </p>
         </div>
-        <div className="flex items-center">
-          <img src={SUNNYSIDE.icons.lightning} className="w-3 mx-1" />
-          {displaySeconds !== baseSeconds && (
-            <p className="text-xxs line-through">
-              {secondsToString(baseSeconds, {
-                length: showMediumTime ? "medium" : "short",
-              })}
-            </p>
-          )}
-        </div>
+        {isTimeBoosted && (
+          <div className="flex items-center">
+            <img src={SUNNYSIDE.icons.lightning} className="w-3 mx-1" />
+            {displaySeconds !== baseSeconds && (
+              <p className="text-xxs line-through">
+                {secondsToString(baseSeconds, {
+                  length: showMediumTime ? "medium" : "short",
+                })}
+              </p>
+            )}
+          </div>
+        )}
       </div>
       <BoostsDisplay
         boosts={boostsUsed}
