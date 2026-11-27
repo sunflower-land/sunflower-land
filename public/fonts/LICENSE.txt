@@ -1,0 +1,15 @@
+Base font: m5x7 (Hint.ttf)
+Author: Daniel Linssen (managore)
+Source: https://managore.itch.io/m5x7
+Original License: Creative Commons Zero v1.0 Universal (CC0 1.0 Public Domain Dedication)
+License URL: https://creativecommons.org/publicdomain/zero/1.0/
+
+To the extent possible under law, the author has waived all copyright and related
+or neighboring rights to m5x7 (CC0 1.0). You may copy, modify, distribute, and
+use the font freely for commercial and non-commercial purposes without permission.
+
+Vietnamese Localization Extension:
+- Generated deterministically by scripts/build_hint_vn.py from scripts/Hint_base.ttf.
+- Preserves all 322 original m5x7 glyphs untouched (hhea ascent extended to 768 matching OS/2.sTypoAscender so uppercase Vietnamese caps keep full 7-px cap height).
+- Adds 94 precomposed NFC Vietnamese letters (completing all 134/134 Vietnamese alphabet forms) and 6 UI punctuation/currency symbols (• – — … → ₫).
+- Released under the same CC0 1.0 Universal terms and Sunflower Land contribution terms (docs/CODE_CONTRIBUTING.md).

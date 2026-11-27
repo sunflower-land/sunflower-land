@@ -130,19 +130,18 @@ export const CHINESE_FONT_CONFIG: Partial<Record<Font, FontSettings>> = {
   },
 };
 
-// The Latin pixel fonts (Basic, Secondary) only cover a fraction of the
-// Vietnamese alphabet, so missing letters would fall back to a system font
-// mid-word. Born2bSporty is the pixel font that carries every Vietnamese
-// letter; Paytone One ships a Vietnamese subset.
+// public/fonts/Hint.ttf ("BasicVi") extends m5x7 with all 134 Vietnamese
+// letters using taller line heights so stacked uppercase tones never touch the
+// previous line's descenders. Bold keeps Born2bSporty; Paytone One ships a subset.
 export const VIETNAMESE_FONT_CONFIG: Partial<Record<Font, FontSettings>> = {
   Default: {
-    fontFamily: "Born2bSporty",
-    xxxs: [14, 12],
-    xxs: [14, 12],
-    xs: [18, 16],
-    sm: [22, 20],
-    base: [30, 26],
-    lg: [34, 30],
+    fontFamily: "BasicVi",
+    xxxs: [14, 14],
+    xxs: [20, 19],
+    xs: [24, 23],
+    sm: [30, 28],
+    base: [36, 34],
+    lg: [42, 39],
   },
   "Sans Serif": {
     fontFamily: "sans-serif",
@@ -152,6 +151,15 @@ export const VIETNAMESE_FONT_CONFIG: Partial<Record<Font, FontSettings>> = {
     sm: [18, 18],
     base: [25, 25],
     lg: [30, 30],
+  },
+  Bold: {
+    fontFamily: "Born2bSporty",
+    xxxs: [14, 12],
+    xxs: [14, 12],
+    xs: [18, 16],
+    sm: [22, 20],
+    base: [30, 26],
+    lg: [34, 30],
   },
   "Chunky (Old)": {
     fontFamily: "Paytone One",

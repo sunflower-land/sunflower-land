@@ -59,7 +59,7 @@ module.exports = {
         ruSansSerif: ["sans-serif"],
         ruBold: ["Born2bSporty"],
         ruChunkyOld: ["Russo\\ One"],
-        vi: ["Born2bSporty"],
+        vi: ["BasicVi"],
       },
       colors: {
         "overlay-white": "rgba(255, 255, 255, 0.5)",

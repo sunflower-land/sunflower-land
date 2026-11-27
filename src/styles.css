@@ -170,6 +170,11 @@
 }
 
 @font-face {
+  font-family: "BasicVi";
+  src: url("/fonts/Hint.ttf") format("truetype");
+}
+
+@font-face {
   font-family: "Secondary";
   src: url("https://sunflower-land.com/testnet-assets/fonts/Secondary.ttf");
 }
