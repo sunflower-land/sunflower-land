@@ -119,7 +119,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
 
   // What makes up the speed shown in the modal, on the modal's live clock.
   const speedBreakdown = showHoneyLevelModal
-    ? getHoneyRateBreakdown({ game: gameState, now })
+    ? getHoneyRateBreakdown({ game: gameState, now, speed: currentSpeed })
     : undefined;
 
   const handleBeeAnimationEnd = useCallback(() => {

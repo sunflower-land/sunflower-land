@@ -20,15 +20,26 @@ export type HoneyRateRow =
  * the Guardian's and Lure's shares of it, then an unprotected Flood's final
  * multiplier. `boosted` is false when nothing but a Flood applies: that only
  * slows the hive.
+ *
+ * `speed` is the speed the hive shows (its attached flower's rate, set when
+ * the flower was attached). If the boosts as they stand now don't add up to
+ * it, e.g. a Bear Shrine expired mid-attachment, there are no rows rather
+ * than ones that don't add up.
  */
 export function getHoneyRateBreakdown({
   game,
   now,
+  speed,
 }: {
   game: GameState;
   now: number;
+  speed: number;
 }): { rows: HoneyRateRow[]; boosted: boolean } {
-  const { boostsUsed } = getHoneyRateAt(game, now, now);
+  const { rate, boostsUsed } = getHoneyRateAt(game, now, now);
+  if (!new Decimal(rate).sub(speed).abs().lt(1e-9)) {
+    return { rows: [], boosted: false };
+  }
+
   const weather = getWeatherHoneyBonus({
     game,
     events: getWeatherEvents(game),

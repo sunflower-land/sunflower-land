@@ -328,7 +328,10 @@ export const BoostsDisplay: React.FC<{
                 icon={WEATHER_EVENT_ICONS[buff.weatherEvent]}
                 className="ml-3"
               >
-                {`${buff.value} ${t(`weather.events.${buff.weatherEvent}`)}`}
+                {t("boostsDisplay.weatherEvent", {
+                  value: buff.value,
+                  event: t(`weather.events.${buff.weatherEvent}`),
+                })}
               </Label>
             ) : isSlowdownEntry(buff) ? (
               <Label

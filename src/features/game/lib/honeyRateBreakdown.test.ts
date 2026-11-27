@@ -69,7 +69,9 @@ const SPRING_GUARDIAN = {
 
 describe("getHoneyRateBreakdown", () => {
   it("has no rows for an unboosted hive in clear weather", () => {
-    expect(getHoneyRateBreakdown({ game: farm(), now: CLEAR })).toEqual({
+    expect(
+      getHoneyRateBreakdown({ game: farm(), now: CLEAR, speed: 1 }),
+    ).toEqual({
       rows: [],
       boosted: false,
     });
@@ -77,7 +79,7 @@ describe("getHoneyRateBreakdown", () => {
 
   it("lists a permanent boost", () => {
     expect(
-      getHoneyRateBreakdown({ game: farm(QUEEN_BEE), now: CLEAR }),
+      getHoneyRateBreakdown({ game: farm(QUEEN_BEE), now: CLEAR, speed: 2 }),
     ).toEqual({
       rows: [{ name: "Queen Bee", value: "+1" }],
       boosted: true,
@@ -85,7 +87,9 @@ describe("getHoneyRateBreakdown", () => {
   });
 
   it("lists Bee Migration's own +0.2 as a weather row", () => {
-    expect(getHoneyRateBreakdown({ game: farm(), now: MID_BEES })).toEqual({
+    expect(
+      getHoneyRateBreakdown({ game: farm(), now: MID_BEES, speed: 1.2 }),
+    ).toEqual({
       rows: [{ weatherEvent: "beeMigration", value: "+0.2" }],
       boosted: true,
     });
@@ -98,6 +102,7 @@ describe("getHoneyRateBreakdown", () => {
       getHoneyRateBreakdown({
         game: farm({ ...QUEEN_BEE, ...LURE, ...SUMMER_GUARDIAN }),
         now: MID_BEES,
+        speed: 4.175,
       }),
     ).toEqual({
       rows: [
@@ -112,7 +117,8 @@ describe("getHoneyRateBreakdown", () => {
 
   it("lists the Lure at +1.25 without the Guardian", () => {
     expect(
-      getHoneyRateBreakdown({ game: farm(LURE), now: MID_BEES }).rows,
+      getHoneyRateBreakdown({ game: farm(LURE), now: MID_BEES, speed: 2.45 })
+        .rows,
     ).toEqual([
       { weatherEvent: "beeMigration", value: "+0.2" },
       { name: "Wildflower Lure", value: "+1.25" },
@@ -120,7 +126,9 @@ describe("getHoneyRateBreakdown", () => {
   });
 
   it("lists a Flood as a final x0.5 row that is no boost", () => {
-    expect(getHoneyRateBreakdown({ game: farm(), now: MID_FLOOD })).toEqual({
+    expect(
+      getHoneyRateBreakdown({ game: farm(), now: MID_FLOOD, speed: 0.5 }),
+    ).toEqual({
       rows: [{ weatherEvent: "flood", value: "x0.5" }],
       boosted: false,
     });
@@ -128,7 +136,11 @@ describe("getHoneyRateBreakdown", () => {
 
   it("puts the Flood after the boosts it halves", () => {
     expect(
-      getHoneyRateBreakdown({ game: farm(QUEEN_BEE), now: MID_FLOOD }),
+      getHoneyRateBreakdown({
+        game: farm(QUEEN_BEE),
+        now: MID_FLOOD,
+        speed: 1,
+      }),
     ).toEqual({
       rows: [
         { name: "Queen Bee", value: "+1" },
@@ -140,9 +152,20 @@ describe("getHoneyRateBreakdown", () => {
 
   it("has no Flood row while the season's Guardian protects the farm", () => {
     expect(
-      getHoneyRateBreakdown({ game: farm(SPRING_GUARDIAN), now: MID_FLOOD })
-        .rows,
+      getHoneyRateBreakdown({
+        game: farm(SPRING_GUARDIAN),
+        now: MID_FLOOD,
+        speed: 1,
+      }).rows,
     ).toEqual([]);
+  });
+
+  it("has no rows when they wouldn't add up to the speed shown", () => {
+    // The hive's speed was set when its flower was attached, e.g. while a
+    // Bear Shrine (+0.5) that has since expired was still active: 1 + 1 + 0.5.
+    expect(
+      getHoneyRateBreakdown({ game: farm(QUEEN_BEE), now: CLEAR, speed: 2.5 }),
+    ).toEqual({ rows: [], boosted: false });
   });
 
   describe("without the Weather flag", () => {
@@ -156,10 +179,11 @@ describe("getHoneyRateBreakdown", () => {
 
     it("has no weather rows", () => {
       expect(
-        getHoneyRateBreakdown({ game: farm(LURE), now: MID_BEES }).rows,
+        getHoneyRateBreakdown({ game: farm(LURE), now: MID_BEES, speed: 1 })
+          .rows,
       ).toEqual([]);
       expect(
-        getHoneyRateBreakdown({ game: farm(), now: MID_FLOOD }).rows,
+        getHoneyRateBreakdown({ game: farm(), now: MID_FLOOD, speed: 1 }).rows,
       ).toEqual([]);
     });
   });
