@@ -23,7 +23,7 @@ from fontTools.ttLib import TTFont
 
 UNIT = 64
 MIN_PY = -2
-MAX_PY = 9  # Pixel [py, py + 1] spans up to (9 + 1) * 64 = 640 units.
+MAX_PY = 11  # Pixel [py, py + 1] spans up to (11 + 1) * 64 = 768 units (matches sTypoAscender).
 BASE_GLYPH_COUNT = 322
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -31,9 +31,9 @@ BASE_FONT_PATH = REPO_ROOT / "scripts" / "Hint_base.ttf"
 OUT_FONT_PATH = REPO_ROOT / "public" / "fonts" / "Hint.ttf"
 BASE_FONT_URL = "https://sunflower-land.com/testnet-assets/fonts/Hint.ttf"
 
-EXPECTED_HHEA = (682, -128, 92)
+EXPECTED_HHEA = (768, -128, 92)
 EXPECTED_TYPO = (768, -256, 92)
-EXPECTED_WIN = (682, 128)
+EXPECTED_WIN = (768, 128)
 
 VN_LOWER = "àáảãạăằắẳẵặâầấẩẫậđèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵ"
 VN_ALL = VN_LOWER + VN_LOWER.upper()
@@ -186,14 +186,6 @@ def build_tt_glyph(pixels: set[tuple[int, int]], glyf_table: object) -> object:
     return glyph
 
 
-# Compressed 6-px uppercase bases (y = 0..5, leaving y = 6 empty spacer below y = 7..9 marks).
-A_SHORT = pattern_to_pixels([".###.", "#...#", "#...#", "#####", "#...#", "#...#"])
-E_SHORT = pattern_to_pixels([".####", "#....", "####.", "#....", "#....", ".####"])
-I_SHORT = pattern_to_pixels(["#####", "..#..", "..#..", "..#..", "..#..", "#####"])
-O_SHORT = pattern_to_pixels([".###.", "#...#", "#...#", "#...#", "#...#", ".###."])
-U_SHORT = pattern_to_pixels(["#...#", "#...#", "#...#", "#...#", "#...#", ".###."])
-Y_SHORT = pattern_to_pixels(["#...#", "#...#", ".#.#.", "..#..", "..#..", "..#.."])
-
 # Compact y body for ỵ so the dot at y = -2 has a clean 1-px gap at y = -1.
 Y_COMPACT = pattern_to_pixels(["#...#", "#...#", ".#.#.", "..#..", ".#..."])
 
@@ -213,12 +205,12 @@ MARK_HORN_LOWER_ACUTE = pattern_to_pixels(["...#.", "..#.."], bottom_y=6)
 MARK_HORN_LOWER_TILDE = pattern_to_pixels([".#.#.", "#.#.."], bottom_y=6)
 MARK_HORN_LOWER_HOOK = pattern_to_pixels([".##..", "...#.", "..#.."], bottom_y=6)
 
-# Uppercase marks (y = 8..9 on normal 7-px caps; y = 7..9 on 6-px compressed caps).
+# Uppercase marks (y = 8..10 on full 7-px caps, leaving y = 7 empty).
 MARK_UPPER_GRAVE = pattern_to_pixels([".#...", "..#.."], bottom_y=8)
 MARK_UPPER_ACUTE = pattern_to_pixels(["...#.", "..#.."], bottom_y=8)
 MARK_UPPER_TILDE = pattern_to_pixels(["..#.#", ".#.#."], bottom_y=8)
 MARK_HORN_UPPER_TILDE = pattern_to_pixels([".#.#.", "#.#.."], bottom_y=8)
-MARK_UPPER_HOOK_SHORT = pattern_to_pixels([".##..", "...#.", "..#.."], bottom_y=7)
+MARK_UPPER_HOOK = pattern_to_pixels([".##..", "...#.", "..#.."], bottom_y=8)
 
 # Centered lowercase circumflex + breve matching native m5x7 positions (x = 1..3).
 LC_CIRC_CENTER: PixelSet = {(1, 6), (2, 7), (3, 6)}
@@ -236,20 +228,20 @@ STACK_LC_BREVE_ACUTE = LC_BREVE_CENTER | {(4, 9), (3, 8)}
 STACK_LC_BREVE_HOOK = LC_BREVE_CENTER | {(1, 9), (2, 9), (2, 8)}
 STACK_LC_BREVE_TILDE = LC_BREVE_CENTER | {(1, 9), (2, 8), (3, 9), (4, 8)}
 
-# Centered uppercase circumflex + breve over 6-px bases (y = 7..8, leaving y = 6 empty).
-UC_CIRC_CENTER: PixelSet = {(1, 7), (2, 8), (3, 7)}
-UC_BREVE_CENTER: PixelSet = {(1, 8), (2, 7), (3, 8)}
+# Centered uppercase circumflex + breve over full 7-px caps (y = 8..9, matching native Â/Ă/Ê/Ô).
+UC_CIRC_CENTER: PixelSet = {(1, 8), (2, 9), (3, 8)}
+UC_BREVE_CENTER: PixelSet = {(1, 9), (2, 8), (3, 9)}
 
-# Grave variants shift the 5-px body right +1 px so the mark sits cleanly at x = 0..1 while ^ / ˘ stays centered at x = 2..4.
-STACK_UC_CIRC_GRAVE = shift_x(UC_CIRC_CENTER, 1) | {(0, 9), (1, 8)}
-STACK_UC_CIRC_ACUTE = UC_CIRC_CENTER | {(5, 9), (4, 8)}
-STACK_UC_CIRC_HOOK = UC_CIRC_CENTER | {(4, 9), (5, 9), (5, 8)}
-STACK_UC_CIRC_TILDE = UC_CIRC_CENTER | {(4, 9), (5, 8), (6, 9)}
+# Stacked uppercase marks sit in y = 10..11 with y = 7 empty above full 7-px caps so heading cap lines stay flat.
+STACK_UC_CIRC_GRAVE = shift_x(UC_CIRC_CENTER, 1) | {(0, 11), (1, 10)}
+STACK_UC_CIRC_ACUTE = UC_CIRC_CENTER | {(5, 11), (4, 10)}
+STACK_UC_CIRC_HOOK = UC_CIRC_CENTER | {(4, 11), (5, 11), (5, 10)}
+STACK_UC_CIRC_TILDE = UC_CIRC_CENTER | {(4, 11), (5, 10), (6, 11)}
 
-STACK_UC_BREVE_GRAVE = shift_x(UC_BREVE_CENTER, 1) | {(0, 9), (1, 8)}
-STACK_UC_BREVE_ACUTE = UC_BREVE_CENTER | {(5, 9), (4, 8)}
-STACK_UC_BREVE_HOOK = UC_BREVE_CENTER | {(4, 9), (5, 9), (5, 8)}
-STACK_UC_BREVE_TILDE = UC_BREVE_CENTER | {(4, 9), (5, 8), (6, 9)}
+STACK_UC_BREVE_GRAVE = shift_x(UC_BREVE_CENTER, 1) | {(0, 11), (1, 10)}
+STACK_UC_BREVE_ACUTE = UC_BREVE_CENTER | {(5, 11), (4, 10)}
+STACK_UC_BREVE_HOOK = UC_BREVE_CENTER | {(4, 11), (5, 11), (5, 10)}
+STACK_UC_BREVE_TILDE = UC_BREVE_CENTER | {(4, 11), (5, 10), (6, 11)}
 
 DOT_BELOW_5 = {(2, -2)}
 
@@ -292,19 +284,19 @@ def generate_glyph_specs(font: TTFont) -> dict[int, tuple[int, set[tuple[int, in
     add("ỵ", 6, Y_COMPACT | DOT_BELOW_5)
 
     # --- Uppercase missing simple vowels & dots ---
-    add("Ả", 6, A_SHORT | MARK_UPPER_HOOK_SHORT)
+    add("Ả", 6, A | MARK_UPPER_HOOK)
     add("Ạ", 6, A | DOT_BELOW_5)
-    add("Ẻ", 6, E_SHORT | MARK_UPPER_HOOK_SHORT)
+    add("Ẻ", 6, E | MARK_UPPER_HOOK)
     add("Ẽ", 6, E | MARK_UPPER_TILDE)
     add("Ẹ", 6, E | DOT_BELOW_5)
-    add("Ỉ", 6, I_SHORT | MARK_UPPER_HOOK_SHORT)
+    add("Ỉ", 6, I | MARK_UPPER_HOOK)
     add("Ị", 6, I | DOT_BELOW_5)
-    add("Ỏ", 6, O_SHORT | MARK_UPPER_HOOK_SHORT)
+    add("Ỏ", 6, O | MARK_UPPER_HOOK)
     add("Ọ", 6, O | DOT_BELOW_5)
-    add("Ủ", 6, U_SHORT | MARK_UPPER_HOOK_SHORT)
+    add("Ủ", 6, U | MARK_UPPER_HOOK)
     add("Ụ", 6, U | DOT_BELOW_5)
     add("Ỳ", 6, Y | MARK_UPPER_GRAVE)
-    add("Ỷ", 6, Y_SHORT | MARK_UPPER_HOOK_SHORT)
+    add("Ỷ", 6, Y | MARK_UPPER_HOOK)
     add("Ỹ", 6, Y | MARK_UPPER_TILDE)
     add("Ỵ", 6, Y | DOT_BELOW_5)
 
@@ -333,22 +325,22 @@ def generate_glyph_specs(font: TTFont) -> dict[int, tuple[int, set[tuple[int, in
     add("ỗ", 6, o | STACK_LC_CIRC_TILDE)
     add("ộ", 6, ocirc | DOT_BELOW_5)
 
-    # --- Uppercase stacked Ă / Â / Ê / Ô (centered ^/˘ with 1 px clearance) ---
+    # --- Uppercase stacked Ă / Â / Ê / Ô (full 7-px caps, centered ^/˘) ---
     stacked_uc_groups = [
-        (("Ằ", "Ắ", "Ẳ", "Ẵ", "Ặ"), A_SHORT, Abreve, True),
-        (("Ầ", "Ấ", "Ẩ", "Ẫ", "Ậ"), A_SHORT, Acirc, False),
-        (("Ề", "Ế", "Ể", "Ễ", "Ệ"), E_SHORT, Ecirc, False),
-        (("Ồ", "Ố", "Ổ", "Ỗ", "Ộ"), O_SHORT, Ocirc, False),
+        (("Ằ", "Ắ", "Ẳ", "Ẵ", "Ặ"), A, Abreve, True),
+        (("Ầ", "Ấ", "Ẩ", "Ẫ", "Ậ"), A, Acirc, False),
+        (("Ề", "Ế", "Ể", "Ễ", "Ệ"), E, Ecirc, False),
+        (("Ồ", "Ố", "Ổ", "Ỗ", "Ộ"), O, Ocirc, False),
     ]
-    for (g_ch, a_ch, h_ch, t_ch, d_ch), short_base, full_circ, is_breve in stacked_uc_groups:
+    for (g_ch, a_ch, h_ch, t_ch, d_ch), cap_base, full_circ, is_breve in stacked_uc_groups:
         g_mark = STACK_UC_BREVE_GRAVE if is_breve else STACK_UC_CIRC_GRAVE
         a_mark = STACK_UC_BREVE_ACUTE if is_breve else STACK_UC_CIRC_ACUTE
         h_mark = STACK_UC_BREVE_HOOK if is_breve else STACK_UC_CIRC_HOOK
         t_mark = STACK_UC_BREVE_TILDE if is_breve else STACK_UC_CIRC_TILDE
-        add(g_ch, 7, shift_x(short_base, 1) | g_mark)
-        add(a_ch, 7, short_base | a_mark)
-        add(h_ch, 7, short_base | h_mark)
-        add(t_ch, 8, short_base | t_mark)
+        add(g_ch, 7, shift_x(cap_base, 1) | g_mark)
+        add(a_ch, 7, cap_base | a_mark)
+        add(h_ch, 7, cap_base | h_mark)
+        add(t_ch, 8, cap_base | t_mark)
         add(d_ch, 6, full_circ | DOT_BELOW_5)
 
     # --- Horned vowels ơ / Ơ / ư / Ư (adv = 7) ---
@@ -369,20 +361,18 @@ def generate_glyph_specs(font: TTFont) -> dict[int, tuple[int, set[tuple[int, in
     add("ự", 7, u_horn | DOT_BELOW_5)
 
     O_horn = O | {(5, 5), (5, 6)}
-    O_short_horn = O_SHORT | {(5, 4), (5, 5)}
     add("Ơ", 7, O_horn)
     add("Ờ", 7, O_horn | MARK_UPPER_GRAVE)
     add("Ớ", 7, O_horn | MARK_UPPER_ACUTE)
-    add("Ở", 7, O_short_horn | MARK_UPPER_HOOK_SHORT)
+    add("Ở", 7, O_horn | MARK_UPPER_HOOK)
     add("Ỡ", 7, O_horn | MARK_HORN_UPPER_TILDE)
     add("Ợ", 7, O_horn | DOT_BELOW_5)
 
     U_horn = U | {(5, 6), (5, 7)}
-    U_short_horn = U_SHORT | {(5, 5), (5, 6)}
     add("Ư", 7, U_horn)
     add("Ừ", 7, U_horn | MARK_UPPER_GRAVE)
     add("Ứ", 7, U_horn | MARK_UPPER_ACUTE)
-    add("Ử", 7, U_short_horn | MARK_UPPER_HOOK_SHORT)
+    add("Ử", 7, U_horn | MARK_UPPER_HOOK)
     add("Ữ", 7, U_horn | MARK_HORN_UPPER_TILDE)
     add("Ự", 7, U_horn | DOT_BELOW_5)
 
@@ -472,6 +462,8 @@ def build_font_bytes() -> tuple[bytes, set[int]]:
 
     hhea = font["hhea"]
     os2 = font["OS/2"]
+    hhea.ascent = EXPECTED_HHEA[0]
+    os2.usWinAscent = EXPECTED_WIN[0]
     if (hhea.ascent, hhea.descent, hhea.lineGap) != EXPECTED_HHEA:
         raise AssertionError(f"hhea mismatch: {(hhea.ascent, hhea.descent, hhea.lineGap)}")
     if (os2.sTypoAscender, os2.sTypoDescender, os2.sTypoLineGap) != EXPECTED_TYPO:
@@ -510,7 +502,9 @@ def verify_built_font(data: bytes, expected_new: set[int]) -> None:
         gl = glyf[gname]
         if gl.numberOfContours > 0:
             if gl.yMin < MIN_PY * UNIT or gl.yMax > (MAX_PY + 1) * UNIT:
-                raise AssertionError(f"{gname} bounds y=[{gl.yMin}, {gl.yMax}] exceed [-128, 640]")
+                raise AssertionError(
+                    f"{gname} bounds y=[{gl.yMin}, {gl.yMax}] exceed [{MIN_PY * UNIT}, {(MAX_PY + 1) * UNIT}]"
+                )
             if gname in generated_names:
                 coords, end_pts, _ = gl.getCoordinates(glyf)
                 for x, y in coords:

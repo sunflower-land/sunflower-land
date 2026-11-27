@@ -166,10 +166,12 @@
 
 @font-face {
   font-family: "Basic";
-  src:
-    url("/fonts/Hint.ttf") format("truetype"),
-    url("https://sunflower-land.com/testnet-assets/fonts/Hint.ttf")
-      format("truetype");
+  src: url("https://sunflower-land.com/testnet-assets/fonts/Hint.ttf");
+}
+
+@font-face {
+  font-family: "BasicVi";
+  src: url("/fonts/Hint.ttf") format("truetype");
 }
 
 @font-face {

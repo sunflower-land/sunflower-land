@@ -10,6 +10,6 @@ use the font freely for commercial and non-commercial purposes without permissio
 
 Vietnamese Localization Extension:
 - Generated deterministically by scripts/build_hint_vn.py from scripts/Hint_base.ttf.
-- Preserves all 322 original m5x7 glyphs and line metrics (hhea ascent=682, descent=-128, lineGap=92) unchanged.
+- Preserves all 322 original m5x7 glyphs untouched (hhea ascent extended to 768 matching OS/2.sTypoAscender so uppercase Vietnamese caps keep full 7-px cap height).
 - Adds 94 precomposed NFC Vietnamese letters (completing all 134/134 Vietnamese alphabet forms) and 6 UI punctuation/currency symbols (• – — … → ₫).
 - Released under the same CC0 1.0 Universal terms and Sunflower Land contribution terms (docs/CODE_CONTRIBUTING.md).

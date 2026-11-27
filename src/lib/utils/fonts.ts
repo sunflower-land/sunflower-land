@@ -130,18 +130,18 @@ export const CHINESE_FONT_CONFIG: Partial<Record<Font, FontSettings>> = {
   },
 };
 
-// public/fonts/Hint.ttf ("Basic") has been localized with all 134 Vietnamese
-// letters on the native pixel grid; Bold keeps Born2bSporty and Paytone One
-// ships a Vietnamese subset.
+// public/fonts/Hint.ttf ("BasicVi") extends m5x7 with all 134 Vietnamese
+// letters using taller line heights so stacked uppercase tones never touch the
+// previous line's descenders. Bold keeps Born2bSporty; Paytone One ships a subset.
 export const VIETNAMESE_FONT_CONFIG: Partial<Record<Font, FontSettings>> = {
   Default: {
-    fontFamily: "Basic",
-    xxxs: [14, 10],
-    xxs: [20, 14],
-    xs: [24, 16],
-    sm: [30, 20],
-    base: [36, 26],
-    lg: [42, 32],
+    fontFamily: "BasicVi",
+    xxxs: [14, 14],
+    xxs: [20, 19],
+    xs: [24, 23],
+    sm: [30, 28],
+    base: [36, 34],
+    lg: [42, 39],
   },
   "Sans Serif": {
     fontFamily: "sans-serif",

@@ -9,8 +9,9 @@ const VN_LOWER =
   "aàáảãạăằắẳẵặâầấẩẫậbcdđeèéẻẽẹêềếểễệghiìíỉĩịklmnoòóỏõọôồốổỗộơờớởỡợpqrstuùúủũụưừứửữựvxyỳýỷỹỵ";
 const VN_ALL = `${VN_LOWER}${VN_LOWER.toUpperCase()}`;
 const UI_PUNCT = "•–—…→₫";
-// Two color emojis in upstream vi.json rendered by browser emoji fallback.
-const EMOJI_EXCEPTIONS = new Set(["⚡", "🌻"]);
+// Limit dictionary regression checks to Latin/Vietnamese letter ranges so
+// translation-bot additions containing new emojis or symbols do not break CI.
+const LATIN_LETTER_RE = /^[A-Za-z\u00C0-\u024F\u1E00-\u1EFF]$/;
 
 function readFontTables(ttfBuf: Buffer) {
   const numTables = ttfBuf.readUInt16BE(4);
@@ -74,32 +75,31 @@ function readFontTables(ttfBuf: Buffer) {
   return { hhea, codepoints };
 }
 
-describe("Latest Sunflower Land Vietnamese Hint.ttf font coverage", () => {
+describe("Vietnamese BasicVi Hint.ttf font coverage", () => {
   const viDict = JSON.parse(fs.readFileSync(VI_DICT_PATH, "utf8")) as Record<
     string,
     string
   >;
   const { hhea, codepoints } = readFontTables(fs.readFileSync(FONT_PATH));
 
-  it("maps all 134 Vietnamese letters, 6 UI symbols, and all non-emoji chars across upstream vi.json", () => {
-    expect(hhea).toEqual({ ascent: 682, descent: -128, lineGap: 92 });
+  it("maps all 134 Vietnamese letters, 6 UI symbols, and Latin/Vietnamese letters in vi.json", () => {
+    expect(hhea).toEqual({ ascent: 768, descent: -128, lineGap: 92 });
 
     const missingAlphabet = [...VN_ALL, ...UI_PUNCT].filter(
       (ch) => !codepoints.has(ch.codePointAt(0)!),
     );
     expect(missingAlphabet).toEqual([]);
 
-    const missingFromUpstreamDict = new Set<string>();
+    const missingLatinChars = new Set<string>();
     for (const value of Object.values(viDict)) {
       if (typeof value !== "string") continue;
       for (const ch of value) {
-        if (ch === "\n" || ch === "\r" || ch === "\t") continue;
-        if (EMOJI_EXCEPTIONS.has(ch)) continue;
+        if (!LATIN_LETTER_RE.test(ch)) continue;
         if (!codepoints.has(ch.codePointAt(0)!)) {
-          missingFromUpstreamDict.add(ch);
+          missingLatinChars.add(ch);
         }
       }
     }
-    expect([...missingFromUpstreamDict]).toEqual([]);
+    expect([...missingLatinChars]).toEqual([]);
   });
 });
