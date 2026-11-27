@@ -117,6 +117,11 @@ export function renewWeatherCollectible({
       throw new Error("Not a weather protection collectible");
     }
 
+    // With the Weather flag on, the Weather Shop items are decorations.
+    if (!isWeatherItem && hasFeatureAccess(game, "WEATHER")) {
+      throw new Error("This item no longer protects");
+    }
+
     const collectibleGroup =
       action.location === "home"
         ? game.home.collectibles[action.name]
