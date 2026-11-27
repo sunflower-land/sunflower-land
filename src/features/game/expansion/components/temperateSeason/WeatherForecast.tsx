@@ -41,7 +41,7 @@ import { getKeys } from "lib/object";
 
 import calendarIcon from "assets/icons/calendar.webp";
 import tornado from "assets/icons/tornado.webp";
-import tsunami from "assets/icons/tsunami.webp";
+import flood from "assets/icons/flood.webp";
 import greatFreeze from "assets/icons/great-freeze.webp";
 import locust from "assets/icons/locust.webp";
 import sunshower from "assets/icons/sunshower.webp";
@@ -54,10 +54,10 @@ import doubleDelivery from "assets/icons/double_delivery_icon.webp";
 const DAY_MS = 24 * 60 * 60 * 1000;
 const CALENDAR_DAYS = 28;
 
-// TODO(Weather art): Flood, Heavy Rains and Bee Migration use stand-in icons
-// until their own art is decided.
+// TODO(Weather art): Heavy Rains and Bee Migration use stand-in icons until
+// their own art is decided.
 export const WEATHER_EVENT_ICONS: Record<WeatherEventName, string> = {
-  flood: tsunami,
+  flood,
   tornado,
   insectPlague: locust,
   greatFreeze,

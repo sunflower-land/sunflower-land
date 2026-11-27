@@ -49,6 +49,12 @@ import tornadoPinwheel from "assets/sfts/tornado_pinwheel.webp";
 import mangrove from "assets/sfts/mangrove.webp";
 import sandbag from "assets/sfts/sandbag.webp";
 import thermalStone from "assets/sfts/thermal_stone.webp";
+import balk from "assets/sfts/balk.webp";
+import pestSmoker from "assets/sfts/pest_smoker.webp";
+import thawStone from "assets/sfts/thaw_stone.webp";
+import merinoWoolInsulation from "assets/sfts/merino_wool_insulation.webp";
+import shadeCloth from "assets/sfts/shade_cloth.webp";
+import wildflowerLure from "assets/sfts/wildflower_lure.webp";
 import grinxsHammer from "assets/sfts/grinx_hammer.png";
 import chickenCoop from "assets/sfts/chicken_coop.png";
 import christmasTree from "assets/sfts/christmas_tree.png";
@@ -6678,33 +6684,27 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.sandbag"),
   },
   Balk: {
-    // TODO(Weather art)
-    image: SUNNYSIDE.icons.expression_confused,
+    image: balk,
     description: translate("description.balk"),
   },
   "Pest Smoker": {
-    // TODO(Weather art)
-    image: SUNNYSIDE.icons.expression_confused,
+    image: pestSmoker,
     description: translate("description.pestSmoker"),
   },
   "Thaw Stone": {
-    // TODO(Weather art)
-    image: SUNNYSIDE.icons.expression_confused,
+    image: thawStone,
     description: translate("description.thawStone"),
   },
   "Merino Wool Insulation": {
-    // TODO(Weather art)
-    image: SUNNYSIDE.icons.expression_confused,
+    image: merinoWoolInsulation,
     description: translate("description.merinoWoolInsulation"),
   },
   "Shade Cloth": {
-    // TODO(Weather art)
-    image: SUNNYSIDE.icons.expression_confused,
+    image: shadeCloth,
     description: translate("description.shadeCloth"),
   },
   "Wildflower Lure": {
-    // TODO(Weather art)
-    image: SUNNYSIDE.icons.expression_confused,
+    image: wildflowerLure,
     description: translate("description.wildflowerLure"),
   },
   "Thermal Stone": {
