@@ -34,7 +34,10 @@ import {
   WINDFALL_BONUS,
   type WindfallName,
 } from "features/game/lib/weatherItemCover";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  getTranslatedItemName,
+  ITEM_DETAILS,
+} from "features/game/types/images";
 import { WEATHER_EVENT_ICONS } from "./WeatherForecast";
 
 export const CALEDNAR_EVENT_INFORMATION: Partial<
@@ -201,7 +204,7 @@ export const SpecialEvents: React.FC<{
         return (
           <EventRow
             key={event}
-            index={index}
+            stripe={index % 2 === 0 ? "bg-[#ead4aa] rounded-md" : ""}
             icon={CALENDAR_EVENT_ICONS[event]}
             title={t(title)}
             seasons={seasons}
@@ -251,21 +254,22 @@ export const WeatherEvents: React.FC<{ names: WeatherEventName[] }> = ({
     <>
       {names.map((name, index) => {
         const item = WEATHER_EVENT_ITEMS[name];
+        const itemName = item ? getTranslatedItemName(item) : "";
         const isThreat = WEATHER_EVENTS[name].kind === "threat";
         // Same hints as the forecast: Heavy Rains shrinks harvests without
         // its item, so it reads like a threat.
         const itemHint =
           item &&
           (isThreat
-            ? t("weather.hint.protect", { item })
+            ? t("weather.hint.protect", { item: itemName })
             : name === "heavyRains"
-              ? t("weather.hint.avoidLoss", { item })
-              : t("weather.hint.boost", { item }));
+              ? t("weather.hint.avoidLoss", { item: itemName })
+              : t("weather.hint.boost", { item: itemName }));
 
         return (
           <EventRow
             key={name}
-            index={index}
+            stripe={index % 2 === 0 ? "bg-brown-100" : ""}
             icon={WEATHER_EVENT_ICONS[name]}
             title={t(`weather.events.${name}`)}
             seasons={WEATHER_EVENTS[name].seasons}
@@ -301,18 +305,15 @@ export const WeatherEvents: React.FC<{ names: WeatherEventName[] }> = ({
 
 const EventRow: React.FC<
   React.PropsWithChildren<{
-    index: number;
+    /** The alternating row background. */
+    stripe: string;
     icon: string;
     title: string;
     seasons: TemperateSeasonName[];
     description: string;
   }>
-> = ({ index, icon, title, seasons, description, children }) => (
-  <div
-    className={`flex justify-between items-start p-2 ${
-      index % 2 === 0 ? "bg-[#ead4aa] rounded-md" : ""
-    }`}
-  >
+> = ({ stripe, icon, title, seasons, description, children }) => (
+  <div className={`flex justify-between items-start p-2 ${stripe}`}>
     <img src={icon} className="w-8 mr-2" />
     <div className="flex-1">
       <div className="flex justify-between">
