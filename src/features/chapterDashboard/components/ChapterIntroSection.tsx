@@ -8,6 +8,7 @@ import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Bar } from "components/ui/ProgressBar";
+import { formatNumber } from "lib/utils/formatNumber";
 import { ColorPanel, OuterPanel } from "components/ui/Panel";
 import { getChapterCollectionForDisplay } from "features/game/types/collections";
 import {
@@ -16,7 +17,11 @@ import {
 } from "features/game/types/chapters";
 import { useNow } from "lib/utils/hooks/useNow";
 import { useGame } from "features/game/GameProvider";
-import { getTrackProgress } from "features/world/ui/tracks/ChapterTracks";
+import {
+  getTrackProgress,
+  getTrackRewardsState,
+} from "features/world/ui/tracks/ChapterTracks";
+import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 import { Modal } from "components/ui/Modal";
 import { ChapterCollections } from "features/island/hud/components/codex/pages/ChapterCollections";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -53,7 +58,12 @@ export const ChapterIntroSection: React.FC = () => {
     state: gameState.context.state,
     chapter,
   });
-  const rewardsClaimed = Math.max(trackProgress.premium, trackProgress.free);
+  const hasVip = useVipAccess({ game: gameState.context.state });
+  const { available, claimed } = getTrackRewardsState({
+    progress: trackProgress,
+    chapter,
+    hasVip,
+  });
 
   return (
     <>
@@ -170,7 +180,18 @@ export const ChapterIntroSection: React.FC = () => {
               <div className="flex justify-between items-center p-1 pl-2 bg-[#3e8948]">
                 <p className="text-xs text-white">{t("rewards")}</p>
                 <div className="flex  items-center">
-                  <p className="text-xs text-white mr-0.5">{rewardsClaimed}</p>
+                  <p className="text-xs text-white mr-0.5 text-right">
+                    {t(
+                      available > 0
+                        ? "tracks.availableCount"
+                        : "tracks.claimedCount",
+                      {
+                        count: formatNumber(
+                          available > 0 ? available : claimed,
+                        ),
+                      },
+                    )}
+                  </p>
                   <img src={giftIcon} className="h-5" />
                 </div>
               </div>
@@ -191,7 +212,11 @@ export const ChapterIntroSection: React.FC = () => {
                 {t("chapterDashboard.earnPointsForTasks", { chapter })}
               </p>
               <p className="text-xxs italic px-2 mb-2 mt-auto">
-                {t("chapterDashboard.viewRewardsBelow")}
+                {t(
+                  available > 0
+                    ? "chapter.claimRewards"
+                    : "chapterDashboard.viewRewardsBelow",
+                )}
               </p>
             </div>
           </ColorPanel>
