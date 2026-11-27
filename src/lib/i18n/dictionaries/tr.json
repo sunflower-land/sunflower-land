@@ -9122,5 +9122,10 @@
   "weather.effects.sunshower": "Ekinler daha hızlı büyür",
   "weather.effects.heavyRains": "Merinos Yünü Yalıtımı olmadan ekin hasadı azalır",
   "weather.effects.bountifulHarvest": "Daha büyük ekin ve meyve hasatları",
-  "weather.effects.fishFrenzy": "Balık tutarken daha büyük avlar"
+  "weather.effects.fishFrenzy": "Balık tutarken daha büyük avlar",
+  "fishermanModal.bonusFishWeather": "Acele et, her avda +{{amount}} balık kazanırsın!",
+  "weather.guide.duration": "Hava olayları birkaç gün sürer. Yaklaşanları görmek için takvime bak.",
+  "weather.guide.bountifulHarvest": "+{{amount}} ürün ve meyve",
+  "weather.guide.fishFrenzy": "+{{amount}} balık",
+  "weather.guide.guardianDoubles": "Başladığında sezonun Koruyucusu yerleştirilmişse iki katına çıkar."
 }

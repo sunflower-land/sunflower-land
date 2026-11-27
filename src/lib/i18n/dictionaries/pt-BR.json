@@ -9122,5 +9122,10 @@
   "weather.effects.sunshower": "As plantações crescem mais rápido",
   "weather.effects.heavyRains": "Colheitas menores sem Isolamento de Lã Merino",
   "weather.effects.bountifulHarvest": "Colheitas maiores de plantações e frutas",
-  "weather.effects.fishFrenzy": "Pescarias mais abundantes"
+  "weather.effects.fishFrenzy": "Pescarias mais abundantes",
+  "fishermanModal.bonusFishWeather": "Rápido, cada pesca dá +{{amount}} peixe!",
+  "weather.guide.duration": "Eventos climáticos duram alguns dias. Confira no calendário o que vem por aí.",
+  "weather.guide.bountifulHarvest": "+{{amount}} plantações e frutas",
+  "weather.guide.fishFrenzy": "+{{amount}} peixe",
+  "weather.guide.guardianDoubles": "Dobra se o Guardião da temporada estiver colocado quando o evento começar."
 }

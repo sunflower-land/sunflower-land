@@ -9122,5 +9122,10 @@
   "weather.effects.sunshower": "Los cultivos crecen más rápido",
   "weather.effects.heavyRains": "Cosechas de cultivos menores sin aislamiento de lana merino",
   "weather.effects.bountifulHarvest": "Cosechas de cultivos y frutas mayores",
-  "weather.effects.fishFrenzy": "Capturas mayores al pescar"
+  "weather.effects.fishFrenzy": "Capturas mayores al pescar",
+  "fishermanModal.bonusFishWeather": "¡Rápido, cada captura te da +{{amount}} peces!",
+  "weather.guide.duration": "Los eventos meteorológicos duran unos días. Consulta el calendario para ver los próximos.",
+  "weather.guide.bountifulHarvest": "+{{amount}} cultivos y frutas",
+  "weather.guide.fishFrenzy": "+{{amount}} peces",
+  "weather.guide.guardianDoubles": "Se duplica si el Guardián de la temporada está colocado cuando empieza."
 }

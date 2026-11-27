@@ -9122,5 +9122,10 @@
   "weather.effects.sunshower": "Le colture crescono più in fretta",
   "weather.effects.heavyRains": "Raccolti ridotti senza isolamento in lana Merino",
   "weather.effects.bountifulHarvest": "Raccolti di colture e frutta più abbondanti",
-  "weather.effects.fishFrenzy": "Catture più abbondanti durante la pesca"
+  "weather.effects.fishFrenzy": "Catture più abbondanti durante la pesca",
+  "fishermanModal.bonusFishWeather": "Presto, ogni cattura ti dà +{{amount}} pesci!",
+  "weather.guide.duration": "Gli eventi meteo durano alcuni giorni. Controlla il calendario per vedere i prossimi.",
+  "weather.guide.bountifulHarvest": "+{{amount}} colture e frutti",
+  "weather.guide.fishFrenzy": "+{{amount}} pesci",
+  "weather.guide.guardianDoubles": "Raddoppia se il Guardiano stagionale è presente all'inizio."
 }

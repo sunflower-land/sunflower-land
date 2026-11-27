@@ -9122,5 +9122,10 @@
   "weather.effects.sunshower": "作物の成長速度アップ",
   "weather.effects.heavyRains": "メリノウール断熱材がないと作物の収穫量が減少",
   "weather.effects.bountifulHarvest": "作物と果物の収穫量アップ",
-  "weather.effects.fishFrenzy": "釣りの漁獲量アップ"
+  "weather.effects.fishFrenzy": "釣りの漁獲量アップ",
+  "fishermanModal.bonusFishWeather": "急いで！1回釣るごとに魚が+{{amount}}匹！",
+  "weather.guide.duration": "天候イベントは数日間続きます。今後の予定はカレンダーで確認できます。",
+  "weather.guide.bountifulHarvest": "作物・果物 +{{amount}}個",
+  "weather.guide.fishFrenzy": "魚 +{{amount}}匹",
+  "weather.guide.guardianDoubles": "開始時にそのシーズンのガーディアンが設置されていると2倍になります。"
 }

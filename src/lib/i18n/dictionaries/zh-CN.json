@@ -9122,5 +9122,10 @@
   "weather.effects.sunshower": "作物生长更快",
   "weather.effects.heavyRains": "没有美利奴羊毛保温层时，作物收成减少",
   "weather.effects.bountifulHarvest": "作物和水果收成增加",
-  "weather.effects.fishFrenzy": "钓鱼收获增加"
+  "weather.effects.fishFrenzy": "钓鱼收获增加",
+  "fishermanModal.bonusFishWeather": "快，每次捕获都能额外获得 +{{amount}} 条鱼！",
+  "weather.guide.duration": "天气事件会持续数天。查看日历了解即将到来的天气。",
+  "weather.guide.bountifulHarvest": "+{{amount}} 作物和水果",
+  "weather.guide.fishFrenzy": "+{{amount}} 条鱼",
+  "weather.guide.guardianDoubles": "开始时若已放置本季守护者，效果翻倍。"
 }
