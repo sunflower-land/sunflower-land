@@ -44,6 +44,27 @@ export function getTotalCropsHarvested(game: GameState): number {
   );
 }
 
+/** Whether the player is holding any crop seeds. */
+export function holdsCropSeeds(game: GameState): boolean {
+  return getKeys(CROPS).some((crop) =>
+    game.inventory[`${crop} Seed`]?.greaterThan(0),
+  );
+}
+
+/** Whether a placed plot is waiting for a seed. */
+export function hasEmptyPlot(game: GameState): boolean {
+  return getKeys(game.crops).some((id) => {
+    const plot = game.crops[id];
+
+    return plot.x !== undefined && plot.y !== undefined && !plot.crop;
+  });
+}
+
+/** Whether any plot has a crop on it, growing or ready. */
+function hasCropOnPlots(game: GameState): boolean {
+  return Object.values(game.crops).some((plot) => !!plot.crop);
+}
+
 /**
  * Whether the player is still working through their first Rhubarb. Food is the
  * only source of experience and the Rhubarb is what the first meal is cooked
@@ -60,17 +81,20 @@ export function isHarvestingFirstRhubarb(game: GameState): boolean {
 
 /**
  * Whether the player is still working through the tutorial's harvest walks
- * (the preloaded Sunflowers, then the Rhubarb). A coarse, time-independent
+ * (the first Sunflowers, then the Rhubarb). A coarse, time-independent
  * companion to getTutorialHarvestPlot for nudge priority: true while a walk
- * is pending, even between harvests while crops regrow.
+ * is pending, even while the crops grow.
  *
- * The Rhubarb walk only counts once Rhubarb is actually on the farm - before
- * that expansion the player is off delivering their Sunflowers, and claiming
- * the walk early would keep the first-delivery nudge from ever showing.
+ * Each walk only counts once its crops are actually on the farm. The first
+ * plots arrive empty, so claiming the walk early would keep the seed and
+ * planting nudges from ever showing; and before the Rhubarb expansion the
+ * player is off delivering their Sunflowers.
  */
 export function isTutorialHarvestPhase(game: GameState): boolean {
   if (game.island.type !== "basic") return false;
-  if (getTotalCropsHarvested(game) < TUTORIAL_PLOT_COUNT) return true;
+  if (getTotalCropsHarvested(game) < TUTORIAL_PLOT_COUNT) {
+    return hasCropOnPlots(game);
+  }
 
   return (
     isHarvestingFirstRhubarb(game) &&
@@ -79,17 +103,16 @@ export function isTutorialHarvestPhase(game: GameState): boolean {
 }
 
 /**
- * Whether the player is still replanting their first field: seeds in hand and
- * fewer plantings than the first field holds. The coarse, time-independent
- * companion to getTutorialPlantPlot for nudge priority.
+ * Whether the player is still planting their first field: seeds in hand, an
+ * empty plot to put them in and fewer plantings than the first field holds.
+ * The coarse, time-independent companion to getTutorialPlantPlot for nudge
+ * priority.
  */
 export function isTutorialPlantPhase(game: GameState): boolean {
   if (game.island.type !== "basic") return false;
   if (getTotalCropsPlanted(game) >= TUTORIAL_PLOT_COUNT) return false;
 
-  return getKeys(CROPS).some((crop) =>
-    game.inventory[`${crop} Seed`]?.greaterThan(0),
-  );
+  return holdsCropSeeds(game) && hasEmptyPlot(game);
 }
 
 /**
@@ -145,24 +168,18 @@ export function getTotalCropsPlanted(game: GameState): number {
 /**
  * The one plot the tutorial arrow points at while a new player plants their
  * first seeds: the earliest empty plot in the snake, for as long as they are
- * holding crop seeds. Harvesting comes first - while a harvest arrow is due
- * there is no plant arrow, so only one arrow is ever on the farm.
+ * holding crop seeds. Planting comes first: the first Sunflowers ripen while
+ * the field is still being planted, and the farm-wide nudge (see
+ * getTutorialNudge) keeps the harvest arrow away until the field is full.
  */
 export function getTutorialPlantPlot({
   game,
-  now,
 }: {
   game: GameState;
-  now: number;
 }): string | undefined {
   if (game.island.type !== "basic") return undefined;
   if (getTotalCropsPlanted(game) >= TUTORIAL_PLOT_COUNT) return undefined;
-  if (getTutorialHarvestPlot({ game, now })) return undefined;
-
-  const hasSeeds = getKeys(CROPS).some((crop) =>
-    game.inventory[`${crop} Seed`]?.greaterThan(0),
-  );
-  if (!hasSeeds) return undefined;
+  if (!holdsCropSeeds(game)) return undefined;
 
   return getSnakeOrder(game.crops).find((id) => !game.crops[id].crop);
 }

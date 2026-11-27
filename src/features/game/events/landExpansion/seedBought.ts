@@ -40,6 +40,24 @@ export type SeedBoughtAction = {
   amount: number;
 };
 
+/** A new player's first Sunflower Seeds are on the house, like their first Axes. */
+export const TUTORIAL_FREE_SUNFLOWER_SEEDS = 10;
+
+/**
+ * How many free Sunflower Seeds a tutorial player has left. Offered while the
+ * player is on their first plots (expansion 4), which arrive empty for them to
+ * plant. Counted from lifetime purchases, so planting does not top the
+ * allowance back up.
+ */
+export function getFreeSunflowerSeedsLeft(game: Readonly<GameState>): number {
+  if (game.island.type !== "basic") return 0;
+  if (!game.inventory["Basic Land"]?.eq(4)) return 0;
+
+  const bought = game.farmActivity?.["Sunflower Seed Bought"] ?? 0;
+
+  return Math.max(0, TUTORIAL_FREE_SUNFLOWER_SEEDS - bought);
+}
+
 export function getBuyPrice(
   name: SeedName,
   seed: { price: number },
@@ -212,7 +230,12 @@ export function seedBought({ state, action, createdAt = Date.now() }: Options) {
     }
 
     const { price, boostsUsed } = getBuyPrice(item, seed, stateCopy);
-    const totalExpenses = price * amount;
+    // Read before the purchase is tracked below.
+    const freeAmount =
+      item === "Sunflower Seed"
+        ? Math.min(amount, getFreeSunflowerSeedsLeft(stateCopy))
+        : 0;
+    const totalExpenses = price * (amount - freeAmount);
 
     if (totalExpenses && stateCopy.coins < totalExpenses) {
       throw new Error("Insufficient tokens");

@@ -130,7 +130,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
     getTutorialHarvestPlot({ game: state, now }) === id;
   const showPlantArrow =
     activeNudge === "plant-plot" &&
-    getTutorialPlantPlot({ game: state, now }) === id;
+    getTutorialPlantPlot({ game: state }) === id;
 
   // Union the plot's own Rapid Root / Sproutroot Surprise fertiliser window
   // (per-plot, keyed off fertilisedAt) with the game-global crop boost windows,

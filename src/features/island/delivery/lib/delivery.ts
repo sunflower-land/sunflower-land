@@ -276,7 +276,8 @@ export function acknowledgeOrders(delivery: Delivery) {
 
 export const NPC_DELIVERY_LEVELS: Record<DeliveryNpcName, LevelRequirement> = {
   // Coins
-  // Peggy takes the tutorial's first delivery (the 9 preloaded Sunflowers).
+  // Peggy takes the tutorial's first delivery (the 9 Sunflowers grown from
+  // the free seeds).
   // She only exists at the Plaza, so she can never be confused with Betty's
   // market stall on the farm; her second order is the spare Rhubarb Tart.
   peggy: { ascension: 0, level: 1 },

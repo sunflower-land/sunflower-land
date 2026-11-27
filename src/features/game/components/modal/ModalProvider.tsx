@@ -164,7 +164,7 @@ export const ModalProvider: FC<React.PropsWithChildren> = ({ children }) => {
               text: translate("betty.market-intro.one"),
             },
             {
-              text: translate("betty.market-intro.harvest"),
+              text: translate("betty.market-intro.freeSeeds"),
             },
           ]}
           onClose={handleClose}
