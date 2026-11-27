@@ -9122,5 +9122,10 @@
   "weather.effects.sunshower": "Культуры растут быстрее",
   "weather.effects.heavyRains": "Без утеплителя из шерсти мериноса урожай культур меньше",
   "weather.effects.bountifulHarvest": "Урожай культур и фруктов больше",
-  "weather.effects.fishFrenzy": "Улов при рыбалке больше"
+  "weather.effects.fishFrenzy": "Улов при рыбалке больше",
+  "fishermanModal.bonusFishWeather": "Поторопись: каждый улов даёт +{{amount}} рыбы!",
+  "weather.guide.duration": "Погодные события длятся несколько дней. Загляни в календарь, чтобы узнать, что впереди.",
+  "weather.guide.bountifulHarvest": "+{{amount}} урожая и фруктов",
+  "weather.guide.fishFrenzy": "+{{amount}} рыбы",
+  "weather.guide.guardianDoubles": "Удваивается, если Страж сезона размещён к началу события."
 }

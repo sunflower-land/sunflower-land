@@ -9122,5 +9122,10 @@
   "weather.effects.sunshower": "Cây trồng lớn nhanh hơn",
   "weather.effects.heavyRains": "Sản lượng cây trồng giảm nếu không có lớp cách nhiệt bằng len Merino",
   "weather.effects.bountifulHarvest": "Thu hoạch được nhiều cây trồng và trái cây hơn",
-  "weather.effects.fishFrenzy": "Câu được nhiều cá hơn"
+  "weather.effects.fishFrenzy": "Câu được nhiều cá hơn",
+  "fishermanModal.bonusFishWeather": "Nhanh lên, mỗi lần câu được thêm +{{amount}} cá!",
+  "weather.guide.duration": "Sự kiện thời tiết kéo dài vài ngày. Xem lịch để biết sự kiện sắp tới.",
+  "weather.guide.bountifulHarvest": "+{{amount}} cây trồng & trái cây",
+  "weather.guide.fishFrenzy": "+{{amount}} cá",
+  "weather.guide.guardianDoubles": "Tăng gấp đôi nếu đặt Guardian của mùa khi sự kiện bắt đầu."
 }

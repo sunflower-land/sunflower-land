@@ -95,8 +95,10 @@ import {
 } from "features/game/lib/timerDisplay";
 import { getSeedBoostWindows } from "features/game/lib/seedBoostWindows";
 import {
+  countNamedBoosts,
   getBoostContributionEntries,
   getSeedBoostContributions,
+  getSlowdownEntries,
 } from "features/game/lib/boostContributions";
 import {
   CHAPTER_CROP_WEEK,
@@ -392,21 +394,25 @@ export const SeasonalSeeds: React.FC = () => {
   // The windowed boosters aren't in `boostsUsed` (they apply over the grow rather
   // than being baked into it), so name them for the boost panel with the time
   // each one actually saves.
+  // A Flood's added time sits between the baked and windowed boosts, so the
+  // panel's rows add up to the time shown.
+  const plantEntryArgs = {
+    contributions: getSeedBoostContributions(state, selectedName, now),
+    seconds: plantTime.seconds,
+    at: now,
+    formatSeconds: (seconds: number) =>
+      secondsToString(seconds, { length: "medium" }),
+  };
   const plantBoostsUsed = [
     ...plantTime.boostsUsed,
-    ...getBoostContributionEntries({
-      contributions: getSeedBoostContributions(state, selectedName, now),
-      seconds: plantTime.seconds,
-      at: now,
-      formatSeconds: (seconds) =>
-        secondsToString(seconds, { length: "medium" }),
-    }),
+    ...getSlowdownEntries(plantEntryArgs),
+    ...getBoostContributionEntries(plantEntryArgs),
   ];
   const { displaySeconds: plantDisplaySeconds, isSlowed: plantIsSlowed } =
     getPreActionDisplay({
       seconds: plantTime.seconds,
       baseSeconds: baseTime,
-      namedBoostCount: plantBoostsUsed.length,
+      namedBoostCount: countNamedBoosts(plantBoostsUsed),
       windows: getSeedBoostWindows(state, selectedName),
       at: now,
     });

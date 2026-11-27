@@ -8,6 +8,7 @@ import Decimal from "decimal.js-light";
 import type { BumpkinItem } from "./bumpkin";
 import { getObjectEntries } from "lib/object";
 import type { ClutterName } from "./clutter";
+import type { WeatherShopItem } from "./calendar";
 
 export type GarbageName =
   | Extract<
@@ -48,6 +49,7 @@ export type GarbageName =
       | "Halloween Ticket 2026"
       | ClutterName
     >
+  | WeatherShopItem
   | Extract<BumpkinItem, "Basic Hair">;
 
 export type Garbage = {
@@ -58,7 +60,27 @@ export type Garbage = {
   limit?: number;
 };
 
+/**
+ * The Weather Shop items, exchanged at Garbo once the Weather flag is on (they
+ * no longer protect). Only unplaced copies sell.
+ *
+ * PENDING BRYN: the exchange values aren't set yet. Until they are, Garbo pays
+ * 0 coins and no items.
+ */
+export const LEGACY_WEATHER_ITEM_GARBAGE: Record<WeatherShopItem, Garbage> = {
+  "Tornado Pinwheel": { sellPrice: 0, gems: 0 },
+  Mangrove: { sellPrice: 0, gems: 0 },
+  "Thermal Stone": { sellPrice: 0, gems: 0 },
+  "Protective Pesticide": { sellPrice: 0, gems: 0 },
+};
+
+export const isLegacyWeatherItemGarbage = (
+  item: GarbageName,
+): item is WeatherShopItem =>
+  Object.prototype.hasOwnProperty.call(LEGACY_WEATHER_ITEM_GARBAGE, item);
+
 export const GARBAGE: Record<GarbageName, Garbage> = {
+  ...LEGACY_WEATHER_ITEM_GARBAGE,
   "Block Buck": {
     sellPrice: 0,
     gems: BB_TO_GEM_RATIO,

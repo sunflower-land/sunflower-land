@@ -9122,5 +9122,10 @@
   "weather.effects.sunshower": "Feldfrüchte wachsen schneller",
   "weather.effects.heavyRains": "Kleinere Ernten ohne Merinowolle-Isolierung",
   "weather.effects.bountifulHarvest": "Größere Ernten von Feldfrüchten und Obst",
-  "weather.effects.fishFrenzy": "Größere Fänge beim Angeln"
+  "weather.effects.fishFrenzy": "Größere Fänge beim Angeln",
+  "fishermanModal.bonusFishWeather": "Schnell, jeder Fang bringt dir +{{amount}} Fische!",
+  "weather.guide.duration": "Wetterereignisse dauern einige Tage. Sieh im Kalender nach, was bevorsteht.",
+  "weather.guide.bountifulHarvest": "+{{amount}} Feldfrüchte & Obst",
+  "weather.guide.fishFrenzy": "+{{amount}} Fische",
+  "weather.guide.guardianDoubles": "Verdoppelt, wenn der Wächter der Saison zu Beginn aufgestellt ist."
 }

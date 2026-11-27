@@ -82,6 +82,7 @@ import { Marketplace } from "features/marketplace/Marketplace";
 import { CompetitionModal } from "features/competition/CompetitionBoard";
 import { SeasonChanged } from "./components/temperateSeason/SeasonChanged";
 import { CalendarEvent } from "./components/temperateSeason/CalendarEvent";
+import { WeatherEventPopup } from "./components/temperateSeason/WeatherEventPopup";
 import { DailyReset } from "../components/DailyReset";
 import { DailyResetModal } from "../components/DailyResetModal";
 import { RoninJinClaim } from "./components/RoninJinClaim";
@@ -334,6 +335,7 @@ const isTradesCleared = (state: MachineState) => state.matches("tradesCleared");
 const isCompetition = (state: MachineState) => state.matches("competition");
 const isSeasonChanged = (state: MachineState) => state.matches("seasonChanged");
 const isCalendarEvent = (state: MachineState) => state.matches("calendarEvent");
+const isWeatherEvent = (state: MachineState) => state.matches("weatherEvent");
 
 const isJinAirdrop = (state: MachineState) => state.matches("jinAirdrop");
 const isLinkWallet = (state: MachineState) => state.matches("linkWallet");
@@ -537,6 +539,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const competition = useSelector(gameService, isCompetition);
   const seasonChanged = useSelector(gameService, isSeasonChanged);
   const calendarEvent = useSelector(gameService, isCalendarEvent);
+  const weatherEvent = useSelector(gameService, isWeatherEvent);
   const jinAirdrop = useSelector(gameService, isJinAirdrop);
   const showPWAInstallPrompt = useSelector(authService, _showPWAInstallPrompt);
   const linkWallet = useSelector(gameService, isLinkWallet);
@@ -764,6 +767,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
         {seasonChanged && <SeasonChanged />}
         {roninMigration && <RoninWaypointLoginModal />}
         {calendarEvent && <CalendarEvent />}
+        {weatherEvent && <WeatherEventPopup />}
         {/* Always mounted so it can play the cloud dispersal after `dailyReset` exits; the clouds themselves only mount around the reset */}
         <DailyResetModal />
         {referralsAnnouncement && <ReferralsAnnouncement />}

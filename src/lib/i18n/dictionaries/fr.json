@@ -9122,5 +9122,10 @@
   "weather.effects.sunshower": "Les cultures poussent plus vite",
   "weather.effects.heavyRains": "Récoltes réduites sans isolation en laine mérinos",
   "weather.effects.bountifulHarvest": "Récoltes de cultures et de fruits plus grosses",
-  "weather.effects.fishFrenzy": "Plus grosses prises à la pêche"
+  "weather.effects.fishFrenzy": "Plus grosses prises à la pêche",
+  "fishermanModal.bonusFishWeather": "Vite, chaque prise vous rapporte +{{amount}} poisson !",
+  "weather.guide.duration": "Les événements météo durent quelques jours. Consultez le calendrier pour voir les prochains.",
+  "weather.guide.bountifulHarvest": "+{{amount}} cultures et fruits",
+  "weather.guide.fishFrenzy": "+{{amount}} poissons",
+  "weather.guide.guardianDoubles": "Doublé si le Gardien de la saison est en place au début."
 }

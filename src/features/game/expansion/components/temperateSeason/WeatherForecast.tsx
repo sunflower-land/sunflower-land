@@ -41,7 +41,7 @@ import { getKeys } from "lib/object";
 
 import calendarIcon from "assets/icons/calendar.webp";
 import tornado from "assets/icons/tornado.webp";
-import tsunami from "assets/icons/tsunami.webp";
+import flood from "assets/icons/flood.webp";
 import greatFreeze from "assets/icons/great-freeze.webp";
 import locust from "assets/icons/locust.webp";
 import sunshower from "assets/icons/sunshower.webp";
@@ -54,10 +54,10 @@ import doubleDelivery from "assets/icons/double_delivery_icon.webp";
 const DAY_MS = 24 * 60 * 60 * 1000;
 const CALENDAR_DAYS = 28;
 
-// TODO(Weather art): Flood, Heavy Rains and Bee Migration use stand-in icons
-// until their own art is decided.
+// TODO(Weather art): Heavy Rains and Bee Migration use stand-in icons until
+// their own art is decided.
 export const WEATHER_EVENT_ICONS: Record<WeatherEventName, string> = {
-  flood: tsunami,
+  flood,
   tornado,
   insectPlague: locust,
   greatFreeze,
@@ -181,6 +181,26 @@ const CLOCK_FORMAT = new Intl.DateTimeFormat(navigator.language, {
 const formatClock = (at: number) =>
   CLOCK_FORMAT.format(at).toLowerCase().replace(/\s/g, "");
 
+/**
+ * The forecast and the farm's readiness for it at `now`, recomputed only when
+ * the weather, a placement or the clock changes.
+ */
+export const useForecastState = (now: number): ForecastState => {
+  const { gameService } = useContext(Context);
+
+  const weather = useSelector(gameService, _weather);
+  const collectibles = useSelector(gameService, _collectibles);
+  const home = useSelector(gameService, _home);
+  const interior = useSelector(gameService, _interior);
+  const boostHistory = useSelector(gameService, _boostHistory);
+
+  return useMemo(
+    () => getForecastState(gameService.getSnapshot().context.state, now),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [weather, collectibles, home, interior, boostHistory, now],
+  );
+};
+
 interface Props {
   now: number;
 }
@@ -190,16 +210,8 @@ interface Props {
  * its event, and the details of the picked day (today by default).
  */
 export const WeatherForecast: React.FC<Props> = ({ now }) => {
-  const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
 
-  const weather = useSelector(gameService, _weather);
-  const collectibles = useSelector(gameService, _collectibles);
-  const home = useSelector(gameService, _home);
-  const interior = useSelector(gameService, _interior);
-  const boostHistory = useSelector(gameService, _boostHistory);
-
-  // Recomputed only when one of those slices or the clock changes.
   const {
     events,
     overlays,
@@ -207,11 +219,7 @@ export const WeatherForecast: React.FC<Props> = ({ now }) => {
     unprotected,
     guardianCovered,
     guardiansPlaced,
-  } = useMemo(
-    () => getForecastState(gameService.getSnapshot().context.state, now),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [weather, collectibles, home, interior, boostHistory, now],
-  );
+  } = useForecastState(now);
 
   const monday = populateSeason(now).startedAt;
   const todayIndex = Math.floor((now - monday) / DAY_MS);
@@ -397,7 +405,7 @@ export const WeatherForecast: React.FC<Props> = ({ now }) => {
   );
 };
 
-const EventTimeLabel: React.FC<{
+export const EventTimeLabel: React.FC<{
   event: { startAt: number; endAt: number };
   now: number;
 }> = ({ event, now }) => {
@@ -424,7 +432,7 @@ const EventTimeLabel: React.FC<{
 };
 
 /** The event's item, and whether the farm is ready for it. */
-const ProtectionRow: React.FC<{
+export const ProtectionRow: React.FC<{
   event: ScheduledWeatherEvent;
   now: number;
   events: ScheduledWeatherEvent[];

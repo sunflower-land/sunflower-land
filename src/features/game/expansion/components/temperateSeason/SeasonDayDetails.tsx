@@ -14,13 +14,21 @@ import type {
 import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getRelativeTime } from "lib/utils/time";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { useSelector } from "@xstate/react";
 import { useTranslation } from "react-i18next";
 import { CALEDNAR_EVENT_INFORMATION } from "./WeatherGuide";
-import { SpecialEvents } from "./WeatherGuide";
+import { SpecialEvents, WeatherEvents } from "./WeatherGuide";
+import { Context } from "features/game/GameProvider";
+import type { MachineState } from "features/game/lib/gameMachine";
+import { hasFeatureAccess } from "lib/flags";
+import { WEATHER_EVENTS } from "features/game/types/weather";
 import { getKeys } from "lib/object";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useNow } from "lib/utils/hooks/useNow";
+
+const _weatherOn = (state: MachineState) =>
+  hasFeatureAccess(state.context.state, "WEATHER");
 
 type Props = {
   season: TemperateSeasonName;
@@ -172,6 +180,8 @@ export const SeasonDayDetails: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation();
   const [page, setPage] = useState(0);
+  const { gameService } = useContext(Context);
+  const weatherOn = useSelector(gameService, _weatherOn);
 
   const seasonDetails = SEASON_DETAILS[season];
 
@@ -188,11 +198,19 @@ export const SeasonDayDetails: React.FC<Props> = ({
         <p className="text-xs mb-2 ml-1">
           {t("temperateSeason.possibleEventsDescription")}
         </p>
-        <SpecialEvents
-          names={getKeys(CALEDNAR_EVENT_INFORMATION).filter((name) =>
-            CALEDNAR_EVENT_INFORMATION[name]?.seasons.includes(season),
-          )}
-        />
+        {weatherOn ? (
+          <WeatherEvents
+            names={getKeys(WEATHER_EVENTS).filter((name) =>
+              WEATHER_EVENTS[name].seasons.includes(season),
+            )}
+          />
+        ) : (
+          <SpecialEvents
+            names={getKeys(CALEDNAR_EVENT_INFORMATION).filter((name) =>
+              CALEDNAR_EVENT_INFORMATION[name]?.seasons.includes(season),
+            )}
+          />
+        )}
         <div className="flex mt-1">
           <Button onClick={() => setPage(0)}>{t("back")}</Button>
         </div>

@@ -49,13 +49,36 @@ import type { TemporaryCollectibleName } from "./collectibleBuilt";
  * builder's window set, so the two cannot drift apart.
  *
  * The Flood is in those sets too, as a `slowdown`: it slows the task rather
- * than speeding it, so it's never listed. The boosters' savings are measured
- * from the Flood-slowed time instead (see `getBoostContributionEntries`).
+ * than speeding it, so it's never listed as a boost. The panel shows it as its
+ * own row instead (`getSlowdownEntries`), and the boosters' savings are
+ * measured from the Flood-slowed time (see `getBoostContributionEntries`).
  */
 export type BoostContribution = NamedContribution | Slowdown;
 
 type NamedContribution = { name: BoostName; windows: BoostWindow[] };
-type Slowdown = { slowdown: "flood"; windows: BoostWindow[] };
+type Slowdown = { slowdown: SlowdownName; windows: BoostWindow[] };
+
+/** What can slow a task down: an unprotected weather Flood. */
+export type SlowdownName = "flood";
+
+/** A boost-panel row for the time a slowdown adds, e.g. `+4hrs` for a Flood. */
+export type SlowdownEntry = { slowdown: SlowdownName; value: string };
+
+/** A boost-panel row: a named boost, or the time a slowdown adds. */
+export type BoostPanelEntry =
+  | { name: BoostName; value: string }
+  | SlowdownEntry;
+
+export const isSlowdownEntry = (entry: {
+  value: string;
+}): entry is SlowdownEntry => "slowdown" in entry;
+
+/**
+ * How many rows name a boost. A slowdown row explains a longer time but is no
+ * boost, so it doesn't make a panel clickable on its own.
+ */
+export const countNamedBoosts = (entries: { value: string }[]): number =>
+  entries.filter((entry) => !isSlowdownEntry(entry)).length;
 
 const isSlowdown = (
   contribution: BoostContribution,
@@ -499,4 +522,35 @@ export function getBoostContributionEntries({
     name,
     value: `-${formatSeconds(shares[index])}`,
   }));
+}
+
+/**
+ * Boost-panel rows for the time a slowdown (an unprotected Flood) adds to this
+ * task, measured on its own from the un-slowed `seconds`.
+ *
+ * The panel lists Base, the named boosts baked into `seconds`, this row, then
+ * the windowed boosters' savings, which are measured from the Flood-slowed
+ * time — so the rows add up to the projected time beside them.
+ *
+ * A slowdown not covering the task adds nothing and is left out.
+ */
+export function getSlowdownEntries({
+  contributions,
+  seconds,
+  at,
+  formatSeconds,
+}: {
+  contributions: BoostContribution[];
+  seconds: number;
+  at: number;
+  /** How to render a duration — the caller's `secondsToString`. */
+  formatSeconds: (seconds: number) => string;
+}): SlowdownEntry[] {
+  return contributions.filter(isSlowdown).flatMap(({ slowdown, windows }) => {
+    const added = projectSeconds({ seconds, windows, at }) - seconds;
+
+    // Under a second is float noise from projecting through a Flood window
+    // that doesn't cover the task (it would format as "+0secs").
+    return added >= 1 ? [{ slowdown, value: `+${formatSeconds(added)}` }] : [];
+  });
 }

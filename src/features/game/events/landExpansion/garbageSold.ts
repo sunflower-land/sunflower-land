@@ -2,12 +2,17 @@ import Decimal from "decimal.js-light";
 import type { BumpkinItem } from "features/game/types/bumpkin";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import type { GameState, InventoryItemName } from "features/game/types/game";
-import { GARBAGE, type GarbageName } from "features/game/types/garbage";
+import {
+  GARBAGE,
+  type GarbageName,
+  isLegacyWeatherItemGarbage,
+} from "features/game/types/garbage";
 import { produce } from "immer";
 import { KNOWN_IDS } from "features/game/types";
 import { availableWardrobe } from "./equip";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import { getObjectEntries } from "lib/object";
+import { hasFeatureAccess } from "lib/flags";
 
 export type SellGarbageAction = {
   type: "garbage.sold";
@@ -30,7 +35,10 @@ export const getItemCount = (item: GarbageName, state: GameState): Decimal => {
 
   // Get initial count based on item type
   const isChestItem =
-    item === "Water Well" || item === "Hen House" || item === "Tent";
+    item === "Water Well" ||
+    item === "Hen House" ||
+    item === "Tent" ||
+    isLegacyWeatherItemGarbage(item);
 
   if (!isCollectible(item)) {
     count = availableWardrobe(state)[item] ?? 0;
@@ -75,6 +83,14 @@ export function sellGarbage({ state, action }: Options) {
     }
 
     if (!(item in GARBAGE)) {
+      throw new Error("Not for sale");
+    }
+
+    // The Weather Shop items still protect while the Weather flag is off.
+    if (
+      isLegacyWeatherItemGarbage(item) &&
+      !hasFeatureAccess(game, "WEATHER")
+    ) {
       throw new Error("Not for sale");
     }
 

@@ -17,12 +17,13 @@ import { type NPCName, NPC_WEARABLES } from "lib/npcs";
 import { FishingGuide } from "./FishingGuide";
 import { getDailyFishingCount } from "features/game/types/fishing";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { isFishFrenzy } from "features/game/types/calendar";
+import { getFishFrenzy } from "./fishFrenzy";
 import {
   getWeatherOverlays,
   isWeatherOverlayActive,
 } from "features/game/lib/weatherOverlays";
 import { useNow } from "lib/utils/hooks/useNow";
+import { formatNumber } from "lib/utils/formatNumber";
 import { capitalizeFirstLetters } from "lib/utils/capitalize";
 import { FishermanExtras } from "./FishermanExtras";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -76,11 +77,12 @@ export const FishermanModal: React.FC<Props> = ({
 
   const dailyFishingCount = getDailyFishingCount(state);
 
+  const now = useNow();
+  const fishFrenzy = getFishFrenzy({ game: state, now });
   const [showFishFrenzy, setShowFishFrenzy] = React.useState(
-    isFishFrenzy(state) && dailyFishingCount === 0,
+    fishFrenzy.isActive && dailyFishingCount === 0,
   );
 
-  const now = useNow();
   const [showFullMoon, setShowFullMoon] = React.useState(
     isWeatherOverlayActive({
       game: state,
@@ -134,7 +136,13 @@ export const FishermanModal: React.FC<Props> = ({
               text: t("fishermanModal.crazyHappening"),
             },
             {
-              text: t("fishermanModal.bonusFish"),
+              // The weather Fish Frenzy adds a fraction of a fish per catch.
+              text:
+                fishFrenzy.bonus !== undefined
+                  ? t("fishermanModal.bonusFishWeather", {
+                      amount: formatNumber(fishFrenzy.bonus),
+                    })
+                  : t("fishermanModal.bonusFish"),
             },
           ]}
           onClose={() => {

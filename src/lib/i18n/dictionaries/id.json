@@ -9122,5 +9122,10 @@
   "weather.effects.sunshower": "Tanaman tumbuh lebih cepat",
   "weather.effects.heavyRains": "Panen tanaman lebih kecil tanpa Insulasi Wol Merino",
   "weather.effects.bountifulHarvest": "Panen tanaman dan buah lebih besar",
-  "weather.effects.fishFrenzy": "Tangkapan lebih besar saat memancing"
+  "weather.effects.fishFrenzy": "Tangkapan lebih besar saat memancing",
+  "fishermanModal.bonusFishWeather": "Cepat, tiap tangkapan memberimu +{{amount}} ikan!",
+  "weather.guide.duration": "Peristiwa cuaca berlangsung beberapa hari. Cek kalender untuk melihat yang akan datang.",
+  "weather.guide.bountifulHarvest": "+{{amount}} tanaman & buah",
+  "weather.guide.fishFrenzy": "+{{amount}} ikan",
+  "weather.guide.guardianDoubles": "Dua kali lipat jika Penjaga musim ditempatkan saat peristiwa dimulai."
 }
