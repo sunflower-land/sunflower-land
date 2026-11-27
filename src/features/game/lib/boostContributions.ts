@@ -549,6 +549,8 @@ export function getSlowdownEntries({
   return contributions.filter(isSlowdown).flatMap(({ slowdown, windows }) => {
     const added = projectSeconds({ seconds, windows, at }) - seconds;
 
-    return added > 0 ? [{ slowdown, value: `+${formatSeconds(added)}` }] : [];
+    // Under a second is float noise from projecting through a Flood window
+    // that doesn't cover the task (it would format as "+0secs").
+    return added >= 1 ? [{ slowdown, value: `+${formatSeconds(added)}` }] : [];
   });
 }

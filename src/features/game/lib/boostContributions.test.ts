@@ -294,6 +294,36 @@ describe("getSlowdownEntries", () => {
     ).toEqual([{ slowdown: "flood", value: "+30m" }]);
   });
 
+  it("lists nothing for a forecast Flood that starts after the task ends", () => {
+    // A real-world epoch and a boosted, non-whole duration (12h × 0.7 =
+    // 30239.999999999996s): projecting through the far-off Flood window leaves
+    // float noise, which must not show as a "+0secs" Flood row.
+    const now = 1_795_000_000_000;
+    const seconds = 12 * HOUR * 0.7;
+    const later: GameState = {
+      ...FLOODED,
+      weather: {
+        forecast: [
+          {
+            name: "flood",
+            startAt: now + 3 * 24 * HOUR * 1000,
+            endAt: now + 4 * 24 * HOUR * 1000,
+          },
+        ],
+        overlays: [],
+      },
+    };
+
+    expect(
+      getSlowdownEntries({
+        contributions: getNodeBoostContributions(later, "Tree", now),
+        seconds,
+        at: now,
+        formatSeconds: format,
+      }),
+    ).toEqual([]);
+  });
+
   it("lists nothing without a Flood", () => {
     expect(
       getSlowdownEntries({
