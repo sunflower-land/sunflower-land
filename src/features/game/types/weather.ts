@@ -75,6 +75,11 @@ export type Weather = {
   greatFreeze?: GreatFreezePick;
   /** Stored, unlike the forecast and overlays. */
   tornado?: WeatherTornado;
+  /**
+   * The start of the last event whose start popup the player closed, so it
+   * shows once per event. Stored.
+   */
+  acknowledged?: number;
 };
 
 export type GreatFreezePick = { startAt: number; plotIds: string[] };

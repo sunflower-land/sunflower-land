@@ -581,6 +581,10 @@ import {
   type AcknowledgeCalendarEventAction,
 } from "./landExpansion/acknowledgeCalendarEvent";
 import {
+  acknowledgeWeatherEvent,
+  type AcknowledgeWeatherEventAction,
+} from "./landExpansion/acknowledgeWeatherEvent";
+import {
   acknowledgeTcs,
   type AcknowledgeTcsAction,
 } from "./landExpansion/acknowledgeTcs";
@@ -1040,6 +1044,7 @@ export type PlayingEvent =
   | RedeemTradeRewardsAction
   | DailyResetAction
   | AcknowledgeCalendarEventAction
+  | AcknowledgeWeatherEventAction
   | AcknowledgeTcsAction
   | CollectLavaPitAction
   | StartLavaPitAction
@@ -1360,6 +1365,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "reward.redeemed": redeemTradeReward,
   "daily.reset": dailyReset,
   "calendarEvent.acknowledged": acknowledgeCalendarEvent,
+  "weather.acknowledged": acknowledgeWeatherEvent,
   "tcs.acknowledged": acknowledgeTcs,
   "lavaPit.collected": collectLavaPit,
   "lavaPit.started": startLavaPit,
