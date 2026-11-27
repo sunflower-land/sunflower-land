@@ -11,10 +11,15 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { RenewWeatherCollectible } from "features/game/components/RenewWeatherCollectible";
 import type { MachineState } from "features/game/lib/gameMachine";
 import type { WeatherShopItem } from "features/game/types/calendar";
+import { hasFeatureAccess } from "lib/flags";
 
 type Props = CollectibleProps & {
   name: WeatherShopItem;
 };
+
+// With the Weather flag on, these items are decorations: no renew.
+const _hasWeather = (state: MachineState) =>
+  hasFeatureAccess(state.context.state, "WEATHER");
 
 const selectWeatherProtectionUsed = (
   state: MachineState,
@@ -40,6 +45,7 @@ export const WeatherProtection: React.FC<Props> = ({ name, id, location }) => {
   const { isVisiting } = useVisiting();
   const [showRenewModal, setShowRenewModal] = useState(false);
 
+  const hasWeather = useSelector(gameService, _hasWeather);
   const isUsed = useSelector(
     gameService,
     useCallback(
@@ -49,7 +55,7 @@ export const WeatherProtection: React.FC<Props> = ({ name, id, location }) => {
     ),
   );
 
-  if (isUsed) {
+  if (isUsed && !hasWeather) {
     return (
       <>
         <div

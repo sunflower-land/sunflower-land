@@ -5,7 +5,16 @@ import type { ScheduledWeatherEvent } from "../../types/weather";
 import { CONFIG } from "lib/config";
 import { renewWeatherCollectible } from "./renewWeatherCollectible";
 
-describe("renewWeatherCollectible", () => {
+// The Weather Shop items renew only while the Weather flag is off.
+describe("renewWeatherCollectible (legacy items, without the Weather flag)", () => {
+  const network = CONFIG.NETWORK;
+  beforeAll(() => {
+    CONFIG.NETWORK = "mainnet";
+  });
+  afterAll(() => {
+    CONFIG.NETWORK = network;
+  });
+
   const now = Date.now();
 
   const usedPinwheelFarm = (overrides?: Partial<GameState>): GameState => ({
@@ -217,6 +226,46 @@ describe("renewWeatherCollectible", () => {
     expect(
       state.interior.ground.collectibles["Tornado Pinwheel"]?.[0].used,
     ).toBeUndefined();
+  });
+});
+
+describe("renewWeatherCollectible (legacy items, with the Weather flag)", () => {
+  const now = Date.now();
+
+  it.each([
+    "Tornado Pinwheel",
+    "Mangrove",
+    "Thermal Stone",
+    "Protective Pesticide",
+  ] as const)("doesn't renew a used %s", (name) => {
+    expect(() =>
+      renewWeatherCollectible({
+        state: {
+          ...TEST_FARM,
+          coins: 1000,
+          inventory: {
+            Wood: new Decimal(100),
+            Leather: new Decimal(100),
+            Stone: new Decimal(100),
+            Wool: new Decimal(100),
+            Feather: new Decimal(100),
+            [name]: new Decimal(1),
+          },
+          collectibles: {
+            [name]: [
+              { id: "1", coordinates: { x: 1, y: 1 }, readyAt: 0, used: true },
+            ],
+          },
+        },
+        action: {
+          type: "weatherCollectible.renewed",
+          name,
+          location: "farm",
+          id: "1",
+        },
+        createdAt: now,
+      }),
+    ).toThrow("This item no longer protects");
   });
 });
 
