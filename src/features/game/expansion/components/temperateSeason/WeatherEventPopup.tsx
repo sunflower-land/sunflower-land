@@ -4,7 +4,7 @@ import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { Modal } from "components/ui/Modal";
-import { Panel } from "components/ui/Panel";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -52,7 +52,7 @@ export const WeatherEventPopup: React.FC = () => {
 
   return (
     <Modal show>
-      <Panel>
+      <CloseButtonPanel onClose={close}>
         <div className="flex flex-col gap-2 p-1">
           {event && (
             <>
@@ -86,7 +86,7 @@ export const WeatherEventPopup: React.FC = () => {
           )}
         </div>
         <Button onClick={close}>{t("continue")}</Button>
-      </Panel>
+      </CloseButtonPanel>
     </Modal>
   );
 };
