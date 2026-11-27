@@ -39,4 +39,9 @@ describe("SYSTEM_PROMPT", () => {
   it("explains the code sent with a string", () => {
     expect(SYSTEM_PROMPT).toContain("usedIn");
   });
+
+  it("asks for the target language's number separators", () => {
+    expect(SYSTEM_PROMPT).not.toMatch(/numbers and symbols .* as they are/);
+    expect(SYSTEM_PROMPT).toContain('"7.500" in German');
+  });
 });
