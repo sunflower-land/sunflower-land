@@ -90,6 +90,7 @@ export type MintedEvent = {
 
 type RefreshEvent = {
   type: "REFRESH";
+  linkedAddress?: string;
 };
 
 type OpenEvent = {
@@ -111,6 +112,7 @@ export type AuctioneerMachineState = {
   value:
     | "idle"
     | "noAccess"
+    | "noWallet"
     | "introduction"
     | "loading"
     | "initialising"
@@ -472,7 +474,19 @@ export const createAuctioneerMachine = ({
 
         winner: {},
         noAccess: {},
-        noWallet: {},
+        noWallet: {
+          on: {
+            REFRESH: {
+              // The auctions are already loaded
+              target: "initialising",
+              actions: assign({
+                linkedAddress: (context, event) =>
+                  (event as RefreshEvent).linkedAddress ??
+                  context.linkedAddress,
+              }),
+            },
+          },
+        },
 
         missingAuction: {
           on: {

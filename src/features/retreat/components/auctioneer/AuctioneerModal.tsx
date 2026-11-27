@@ -4,7 +4,7 @@ import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { AuctioneerContent } from "./AuctioneerContent";
 import { AuctionHistory } from "./AuctionHistory";
-import { useActor, useInterpret } from "@xstate/react";
+import { useActor, useInterpret, useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import {
   type MachineInterpreter,
@@ -22,6 +22,11 @@ import { Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import choreIcon from "assets/icons/chores.webp";
 import { useNow } from "lib/utils/hooks/useNow";
+import { Context as GameContext } from "features/game/GameProvider";
+import type { MachineState } from "features/game/lib/gameMachine";
+
+const _walletStepDone = (state: MachineState) =>
+  state.matches("linkingWalletSuccess") || state.matches("assigningNFTSuccess");
 
 interface Props {
   gameState: GameState;
@@ -47,6 +52,7 @@ export const AuctioneerModal: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
+  const { gameService } = useContext(GameContext);
 
   type Tab = "auction" | "results";
   const [tab, setTab] = useState<Tab>("auction");
@@ -77,6 +83,18 @@ export const AuctioneerModal: React.FC<Props> = ({
     reputation: Reputation.Grower,
     now,
   });
+
+  // Kept here so they survive switching tabs. The wallet prompt replaces the
+  // screens that normally confirm a linked wallet or minted farm NFT, so move
+  // the game on as soon as either succeeds
+  const [showLinkWallet, setShowLinkWallet] = useState(false);
+  const walletStepDone = useSelector(gameService, _walletStepDone);
+  const isLinkingWallet = auctioneerState.matches("noWallet") && showLinkWallet;
+  useEffect(() => {
+    if (isLinkingWallet && walletStepDone) {
+      gameService.send("CONTINUE");
+    }
+  }, [isLinkingWallet, walletStepDone, gameService]);
 
   if (auctioneerState.matches("idle")) {
     return null;
@@ -147,6 +165,9 @@ export const AuctioneerModal: React.FC<Props> = ({
                 auctionService={auctionService}
                 gameState={gameState}
                 onMint={onMint}
+                hasAuctionAccess={hasAuctionAccess}
+                showLinkWallet={showLinkWallet}
+                setShowLinkWallet={setShowLinkWallet}
               />
             </div>
           </div>
