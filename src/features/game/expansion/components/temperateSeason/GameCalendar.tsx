@@ -25,6 +25,11 @@ import { SeasonsIntroduction } from "./SeasonsIntroduction";
 import { RoundButton } from "components/ui/RoundButton";
 import { isMobile } from "mobile-device-detect";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { hasFeatureAccess } from "lib/flags";
+import { useNow } from "lib/utils/hooks/useNow";
+import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
+import { getActiveWeather } from "features/game/types/weather";
+import { WeatherForecast, WEATHER_EVENT_ICONS } from "./WeatherForecast";
 
 export type LocalCalendarDetails = {
   dateNumber: number;
@@ -42,6 +47,11 @@ const _season = (state: MachineState) => {
 const _calendar = (state: MachineState) => {
   return state.context.state.calendar;
 };
+
+const _weatherOn = (state: MachineState) =>
+  hasFeatureAccess(state.context.state, "WEATHER");
+
+const _weather = (state: MachineState) => state.context.state.weather;
 
 const isPastDay = (date: Date, today: Date) => {
   return (
@@ -118,10 +128,13 @@ const ONE_MINUTE = 1000 * 60; // 1 minute
 interface GameCalendarButtonProps {
   onClick: () => void;
   showTutorial: boolean;
+  /** The running weather event's icon, shown on the button's corner. */
+  badge?: string;
 }
 const GameCalendarButton: React.FC<GameCalendarButtonProps> = ({
   onClick,
   showTutorial,
+  badge,
 }) => (
   <div
     className="absolute"
@@ -146,6 +159,18 @@ const GameCalendarButton: React.FC<GameCalendarButtonProps> = ({
           top: `${PIXEL_SCALE * (isMobile ? 2 : 3)}px`,
         }}
       />
+      {badge && (
+        <img
+          src={badge}
+          className="absolute object-contain group-active:translate-y-[2px]"
+          style={{
+            width: `${PIXEL_SCALE * (isMobile ? 7 : 8)}px`,
+            height: `${PIXEL_SCALE * (isMobile ? 7 : 8)}px`,
+            right: `${PIXEL_SCALE * -2}px`,
+            top: `${PIXEL_SCALE * -2}px`,
+          }}
+        />
+      )}
       {showTutorial && (
         <img
           className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
@@ -167,6 +192,16 @@ export const GameCalendar: React.FC = () => {
 
   const season = useSelector(gameService, _season);
   const calendar = useSelector(gameService, _calendar);
+  const weatherOn = useSelector(gameService, _weatherOn);
+  const weather = useSelector(gameService, _weather);
+  const weatherNow = useNow({
+    live: weatherOn,
+    intervalMs: PRE_ACTION_TICK_MS,
+  });
+  const activeWeather = weatherOn
+    ? getActiveWeather({ weather, now: weatherNow })
+    : undefined;
+  const badge = activeWeather && WEATHER_EVENT_ICONS[activeWeather.name];
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<LocalCalendarDetails>();
   const [hasReadTutorial, setHasReadTutorial] = useState(
@@ -215,6 +250,22 @@ export const GameCalendar: React.FC = () => {
         <GameCalendarButton
           onClick={() => setIsCalendarOpen(!isCalendarOpen)}
           showTutorial={true}
+          badge={badge}
+        />
+      </>
+    );
+  }
+
+  if (weatherOn) {
+    return (
+      <>
+        <Modal show={isCalendarOpen} onHide={() => setIsCalendarOpen(false)}>
+          <WeatherForecast now={weatherNow} />
+        </Modal>
+        <GameCalendarButton
+          onClick={() => setIsCalendarOpen(!isCalendarOpen)}
+          showTutorial={false}
+          badge={badge}
         />
       </>
     );
