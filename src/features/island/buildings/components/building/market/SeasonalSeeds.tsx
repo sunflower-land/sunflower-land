@@ -18,6 +18,7 @@ import { Decimal } from "decimal.js-light";
 import {
   FULL_MOON_SEEDS,
   getBuyPrice,
+  getFreeSunflowerSeedsLeft,
   isFullMoonBerry,
 } from "features/game/events/landExpansion/seedBought";
 import { getCropPlotTime } from "features/game/events/landExpansion/plant";
@@ -186,12 +187,22 @@ export const SeasonalSeeds: React.FC = () => {
     }
   };
 
+  // Tutorial: a new player's first Sunflower Seeds are free, so only the
+  // seeds beyond them cost coins.
+  const freeSeedsLeft =
+    selectedName === "Sunflower Seed" ? getFreeSunflowerSeedsLeft(state) : 0;
+
   const lessFunds = (amount = 1) => {
-    return coins < price * amount;
+    return coins < price * Math.max(0, amount - freeSeedsLeft);
   };
 
-  const lessFundsForSeed = (seedName: SeedName) =>
-    coins < getBuyPrice(seedName, SEEDS[seedName], state).price;
+  const lessFundsForSeed = (seedName: SeedName) => {
+    if (seedName === "Sunflower Seed" && getFreeSunflowerSeedsLeft(state) > 0) {
+      return false;
+    }
+
+    return coins < getBuyPrice(seedName, SEEDS[seedName], state).price;
+  };
 
   const stock = state.stock[selectedName] || new Decimal(0);
   const inventoryLimit = INVENTORY_LIMIT(state)[selectedName] ?? new Decimal(0);
@@ -248,6 +259,11 @@ export const SeasonalSeeds: React.FC = () => {
     // return buy buttons otherwise
     return (
       <>
+        {freeSeedsLeft > 0 && (
+          <Label type="success" className="mx-auto mb-1">
+            {t("tools.freeLeft", { amount: freeSeedsLeft })}
+          </Label>
+        )}
         <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
           <Button
             disabled={lessFunds() || stock.lessThan(1)}
@@ -550,7 +566,8 @@ export const SeasonalSeeds: React.FC = () => {
               : {}),
           }}
           requirements={{
-            coins: price,
+            // The next seed is free while the tutorial batch lasts
+            coins: freeSeedsLeft > 0 ? 0 : price,
             showCoinsIfFree: true,
             level: isSeedLocked(selectedName)
               ? selected.bumpkinLevel

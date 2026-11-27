@@ -34,9 +34,11 @@ import {
   freshTreeTimer,
 } from "features/game/lib/freshNodes";
 
-// Preloaded crops that will appear on plots when they reveal
-const EXPANSION_CROPS: Record<number, CropName> = {
-  4: "Sunflower",
+// Preloaded crops that will appear on plots when they reveal. The first plots
+// (expansion 4) arrive empty: the tutorial has the player plant them with the
+// free Sunflower Seeds (see getFreeSunflowerSeedsLeft).
+const EXPANSION_CROPS: Record<number, CropName | null> = {
+  4: null,
   5: "Rhubarb", // Spring-available crop for early cooking tutorial
   6: "Pumpkin",
   7: "Carrot",
@@ -165,12 +167,16 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
     ).add(land.crimstones?.length ?? 0);
 
     // Add Plots
+    const preloadedCrop =
+      EXPANSION_CROPS[landCount] === undefined
+        ? "Sunflower"
+        : EXPANSION_CROPS[landCount];
     land.plots?.forEach((coords) => {
       game.crops[randomUUID().slice(0, 8)] = {
         createdAt: Date.now(),
         x: coords.x + origin.x,
         y: coords.y + origin.y,
-        crop: freshCropTimer(EXPANSION_CROPS[landCount] ?? "Sunflower"),
+        ...(preloadedCrop && { crop: freshCropTimer(preloadedCrop) }),
       };
     });
 

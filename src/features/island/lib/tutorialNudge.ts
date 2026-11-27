@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import type { GameState } from "features/game/types/game";
 import { EXPANSION_REQUIREMENTS } from "features/game/types/expansions";
+import { HELIOS_BLACKSMITH_ITEMS } from "features/game/types/collectibles";
 import {
   isTutorialHarvestPhase,
   isTutorialPlantPhase,
@@ -12,14 +13,16 @@ import {
 } from "features/island/buildings/components/building/workBench/lib/onboarding";
 import { needsFirstCook } from "features/island/buildings/components/building/firePit/lib/onboarding";
 import { needsFirstDelivery } from "features/island/delivery/lib/onboarding";
+import { needsFirstSeedPurchase } from "features/island/buildings/components/building/market/lib/onboarding";
 
 export type TutorialNudge =
   | "workbench-axes"
+  | "market-seeds"
+  | "plant-plot"
   | "harvest-plot"
   | "travel-first-delivery"
   | "chop-trees"
   | "expand-land"
-  | "plant-plot"
   | "workbench-scarecrow"
   | "firepit-cook"
   | "workbench-well";
@@ -36,6 +39,24 @@ const needsPostDeliveryExpansion = (game: GameState): boolean =>
   !game.expansionConstruction;
 
 /**
+ * A tutorial step that costs Wood: point at the trees until the Wood is in,
+ * then at the step itself. No Axe makes a tree a dead end - the Workbench
+ * hands out the tutorial's free Axes (and sells more) before the trees take
+ * over.
+ */
+const afterGatheringWood = (
+  game: GameState,
+  requiredWood: Decimal,
+  nudge: TutorialNudge,
+): TutorialNudge => {
+  if ((game.inventory.Wood ?? new Decimal(0)).gte(requiredWood)) return nudge;
+
+  return (game.inventory.Axe ?? new Decimal(0)).gt(0)
+    ? "chop-trees"
+    : "workbench-axes";
+};
+
+/**
  * The single tutorial pointer the farm shows at any moment.
  *
  * Each building used to decide its own pointer from the shared onboarding
@@ -44,10 +65,11 @@ const needsPostDeliveryExpansion = (game: GameState): boolean =>
  * landing together after an expansion). Every pointer site asks this one
  * function instead, so at most the highest-priority step is ever shown.
  *
- * Ordered by the tutorial's own sequence: claim axes, harvest the preloaded
- * crops, deliver them, spend the coins on the next expansion (chopping the
- * Wood for it first), cook, replant, craft a scarecrow, with the
- * (non-tutorial) water well hint last.
+ * Ordered by the tutorial's own sequence: claim axes, collect the free
+ * Sunflower Seeds, plant the first plots, craft a scarecrow (the Blacksmith
+ * asks as the last seed goes in), harvest the Sunflowers, deliver them, spend
+ * the coins on the next expansion (chopping the Wood for both first), harvest
+ * the Rhubarb and cook, with the (non-tutorial) water well hint last.
  *
  * Deliberately time-independent: the plot phases are coarse gates (crops
  * pending, not crops ready this second) so the answer only changes with the
@@ -56,29 +78,37 @@ const needsPostDeliveryExpansion = (game: GameState): boolean =>
  */
 export function getTutorialNudge(game: GameState): TutorialNudge | undefined {
   if (needsFirstAxes(game)) return "workbench-axes";
+  if (needsFirstSeedPurchase(game)) return "market-seeds";
+  if (isTutorialPlantPhase(game)) return "plant-plot";
+
+  if (needsBasicScarecrow(game)) {
+    // Players past the tutorial island keep the plain Workbench pointer.
+    if (game.island.type !== "basic") return "workbench-scarecrow";
+
+    return afterGatheringWood(
+      game,
+      HELIOS_BLACKSMITH_ITEMS["Basic Scarecrow"].ingredients.Wood ??
+        new Decimal(0),
+      "workbench-scarecrow",
+    );
+  }
+
   if (isTutorialHarvestPhase(game)) return "harvest-plot";
   if (needsFirstDelivery(game)) return "travel-first-delivery";
 
   if (needsPostDeliveryExpansion(game)) {
     const nextExpansion = (game.inventory["Basic Land"]?.toNumber() ?? 3) + 1;
-    const requiredWood = new Decimal(
-      EXPANSION_REQUIREMENTS.basic[nextExpansion]?.resources.Wood ?? 0,
+
+    return afterGatheringWood(
+      game,
+      new Decimal(
+        EXPANSION_REQUIREMENTS.basic[nextExpansion]?.resources.Wood ?? 0,
+      ),
+      "expand-land",
     );
-
-    if ((game.inventory.Wood ?? new Decimal(0)).lt(requiredWood)) {
-      // No Axe makes a tree a dead end - the Workbench hands out the
-      // tutorial's free Axes (and sells more) before the trees take over.
-      return (game.inventory.Axe ?? new Decimal(0)).gt(0)
-        ? "chop-trees"
-        : "workbench-axes";
-    }
-
-    return "expand-land";
   }
 
   if (needsFirstCook(game)) return "firepit-cook";
-  if (isTutorialPlantPhase(game)) return "plant-plot";
-  if (needsBasicScarecrow(game)) return "workbench-scarecrow";
   if (needsWaterWell(game)) return "workbench-well";
 
   return undefined;

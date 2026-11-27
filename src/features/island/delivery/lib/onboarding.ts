@@ -11,8 +11,8 @@ import { TUTORIAL_PLOT_COUNT } from "features/island/plots/lib/tutorialPlots";
  * (market/lib/onboarding.ts, workBench/lib/onboarding.ts).
  *
  * Deliveries are the primary coin loop and the first one is the new player's
- * first coin task: harvest the 9 preloaded Sunflowers, then take them to
- * Betty at the Pumpkin Plaza.
+ * first coin task: harvest the 9 Sunflowers grown from the free seeds, then
+ * take them to Peggy at the Pumpkin Plaza.
  */
 
 const hasHarvestedTutorialSunflowers = (game: GameState): boolean =>
@@ -20,7 +20,7 @@ const hasHarvestedTutorialSunflowers = (game: GameState): boolean =>
 
 /**
  * Nudge a new player towards their first delivery: they are on the tutorial
- * island, have harvested the preloaded Sunflowers and have never fulfilled
+ * island, have harvested their first Sunflowers and have never fulfilled
  * a delivery.
  */
 export const needsFirstDelivery = (game: GameState): boolean =>

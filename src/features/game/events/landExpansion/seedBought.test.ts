@@ -8,7 +8,12 @@ import {
 import { type CropSeedName, CROP_SEEDS } from "features/game/types/crops";
 import type { GameState } from "features/game/types/game";
 
-import { getBuyPrice, seedBought } from "./seedBought";
+import {
+  getBuyPrice,
+  getFreeSunflowerSeedsLeft,
+  seedBought,
+  TUTORIAL_FREE_SUNFLOWER_SEEDS,
+} from "./seedBought";
 import { SEEDS } from "features/game/types/seeds";
 import { CHAPTER_CROP_WEEK } from "features/game/types/chapterCropWeek";
 import { CONFIG } from "lib/config";
@@ -827,5 +832,112 @@ describe("seedBought", () => {
     });
     const price = 10 - SEEDS["Onion Seed"].price * 0.75;
     expect(state.coins).toStrictEqual(price);
+  });
+
+  describe("tutorial free Sunflower Seeds", () => {
+    // A tutorial player whose first expansion just revealed their empty plots.
+    const FIRST_PLOTS_FARM: GameState = {
+      ...GAME_STATE,
+      coins: 0,
+      inventory: {
+        ...GAME_STATE.inventory,
+        "Basic Land": new Decimal(4),
+        "Crop Plot": new Decimal(9),
+      },
+      farmActivity: {},
+    };
+
+    const buySunflowerSeeds = (state: GameState, amount: number) =>
+      seedBought({
+        state,
+        action: { type: "seed.bought", item: "Sunflower Seed", amount },
+      });
+
+    it("gives 10 free Sunflower Seeds", () => {
+      expect(TUTORIAL_FREE_SUNFLOWER_SEEDS).toEqual(10);
+      expect(getFreeSunflowerSeedsLeft(FIRST_PLOTS_FARM)).toEqual(10);
+    });
+
+    it("gives a new player their first Sunflower Seeds for free once their first plots are revealed", () => {
+      const state = buySunflowerSeeds(FIRST_PLOTS_FARM, 10);
+
+      expect(state.coins).toEqual(0);
+      expect(state.inventory["Sunflower Seed"]).toEqual(new Decimal(10));
+      expect(state.farmActivity["Sunflower Seed Bought"]).toEqual(10);
+      expect(getFreeSunflowerSeedsLeft(state)).toEqual(0);
+    });
+
+    it("charges only for the Sunflower Seeds beyond the free ones", () => {
+      const price = CROP_SEEDS["Sunflower Seed"].price;
+      const state = buySunflowerSeeds(
+        {
+          ...FIRST_PLOTS_FARM,
+          coins: 1,
+          // 8 already claimed, so 2 of these 5 are free and 3 are paid
+          farmActivity: { "Sunflower Seed Bought": 8 },
+        },
+        5,
+      );
+
+      expect(state.coins).toEqual(1 - price * 3);
+      expect(state.inventory["Sunflower Seed"]).toEqual(new Decimal(5));
+    });
+
+    it("charges once the free Sunflower Seeds have been claimed", () => {
+      expect(() =>
+        buySunflowerSeeds(
+          {
+            ...FIRST_PLOTS_FARM,
+            farmActivity: { "Sunflower Seed Bought": 10 },
+          },
+          1,
+        ),
+      ).toThrow("Insufficient tokens");
+    });
+
+    it("does not give free Sunflower Seeds before the first plots are revealed", () => {
+      const state: GameState = {
+        ...FIRST_PLOTS_FARM,
+        inventory: {
+          ...FIRST_PLOTS_FARM.inventory,
+          "Basic Land": new Decimal(3),
+        },
+      };
+
+      expect(getFreeSunflowerSeedsLeft(state)).toEqual(0);
+      expect(() => buySunflowerSeeds(state, 1)).toThrow("Insufficient tokens");
+    });
+
+    it("does not give free Sunflower Seeds after the next expansion", () => {
+      const state: GameState = {
+        ...FIRST_PLOTS_FARM,
+        inventory: {
+          ...FIRST_PLOTS_FARM.inventory,
+          "Basic Land": new Decimal(5),
+        },
+      };
+
+      expect(getFreeSunflowerSeedsLeft(state)).toEqual(0);
+      expect(() => buySunflowerSeeds(state, 1)).toThrow("Insufficient tokens");
+    });
+
+    it("does not give free Sunflower Seeds off the basic island", () => {
+      const state: GameState = {
+        ...FIRST_PLOTS_FARM,
+        island: { type: "spring" },
+      };
+
+      expect(getFreeSunflowerSeedsLeft(state)).toEqual(0);
+      expect(() => buySunflowerSeeds(state, 1)).toThrow("Insufficient tokens");
+    });
+
+    it("does not give other seeds for free", () => {
+      expect(() =>
+        seedBought({
+          state: FIRST_PLOTS_FARM,
+          action: { type: "seed.bought", item: "Potato Seed", amount: 1 },
+        }),
+      ).toThrow("Insufficient tokens");
+    });
   });
 });

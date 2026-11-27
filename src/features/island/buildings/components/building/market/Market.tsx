@@ -24,8 +24,13 @@ import lightning from "assets/icons/lightning.png";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { getTutorialNudge } from "features/island/lib/tutorialNudge";
 
 const _season = (state: MachineState) => state.context.state.season.season;
+
+// Tutorial: Betty hands out the first Sunflower Seeds - see getTutorialNudge
+const _showSeedsHelper = (state: MachineState) =>
+  getTutorialNudge(state.context.state) === "market-seeds";
 
 const _specialEvents = (state: MachineState) =>
   Object.entries(state.context.state.specialEvents.current)
@@ -64,6 +69,7 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, island }) => {
   const specialEvents = useSelector(gameService, _specialEvents);
 
   const season = useSelector(gameService, _season);
+  const showSeedsHelper = useSelector(gameService, _showSeedsHelper);
   const { t } = useAppTranslation();
 
   const { play: shopAudio } = useSound("shop");
@@ -117,6 +123,18 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, island }) => {
           className="absolute pointer-events-none"
           style={bettyPosition}
         />
+
+        {isBuilt && showSeedsHelper && (
+          <img
+            className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
+            src={SUNNYSIDE.icons.click_icon}
+            style={{
+              width: `${PIXEL_SCALE * 18}px`,
+              right: `${PIXEL_SCALE * -8}px`,
+              top: `${PIXEL_SCALE * 20}px`,
+            }}
+          />
+        )}
       </BuildingImageWrapper>
       <Modal show={isOpen} onHide={() => setIsOpen(false)}>
         <ShopItems

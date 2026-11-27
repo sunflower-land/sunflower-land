@@ -4,9 +4,12 @@ import {
   getSnakeOrder,
   getTotalCropsHarvested,
   getTutorialHarvestPlot,
+  getTutorialPlantPlot,
   isTutorialHarvestPhase,
+  isTutorialPlantPhase,
   TUTORIAL_PLOT_COUNT,
 } from "./tutorialPlots";
+import Decimal from "decimal.js-light";
 
 const now = Date.now();
 
@@ -91,7 +94,76 @@ describe("getTotalCropsHarvested", () => {
   });
 });
 
+/**
+ * The first plots as revealLand leaves them - empty - with the given plots
+ * planted (and ready) and the rest still waiting for a seed.
+ */
+const makePlantingGame = (
+  planted: string[] = [],
+  seeds = TUTORIAL_PLOT_COUNT + 1 - planted.length,
+): GameState => ({
+  ...INITIAL_FARM,
+  island: { type: "basic" },
+  crops: Object.fromEntries(
+    Object.entries(GRID).map(([id, [x, y]]) => [
+      id,
+      planted.includes(id) ? readySunflower(x, y) : emptyPlot(x, y),
+    ]),
+  ),
+  inventory: {
+    ...INITIAL_FARM.inventory,
+    "Sunflower Seed": new Decimal(seeds),
+  },
+  farmActivity: planted.length ? { "Sunflower Planted": planted.length } : {},
+});
+
+describe("isTutorialPlantPhase", () => {
+  it("is active while the first plots are planted from the free seeds", () => {
+    expect(isTutorialPlantPhase(makePlantingGame())).toBe(true);
+  });
+
+  it("ends once the first field is planted, even with a seed to spare", () => {
+    expect(isTutorialPlantPhase(makePlantingGame(SNAKE))).toBe(false);
+  });
+
+  it("needs seeds in hand", () => {
+    expect(isTutorialPlantPhase(makePlantingGame([], 0))).toBe(false);
+  });
+
+  it("needs an empty plot, so preloaded crops stay on the harvest walk", () => {
+    const game = makeGame([], {
+      inventory: {
+        ...INITIAL_FARM.inventory,
+        "Sunflower Seed": new Decimal(10),
+      },
+    });
+
+    expect(isTutorialPlantPhase(game)).toBe(false);
+  });
+});
+
+describe("getTutorialPlantPlot", () => {
+  it("starts on the bottom right plot", () => {
+    expect(getTutorialPlantPlot({ game: makePlantingGame() })).toBe("br");
+  });
+
+  it("keeps walking the empty plots while the first plantings ripen", () => {
+    const game = makePlantingGame(SNAKE.slice(0, 2));
+
+    expect(getTutorialHarvestPlot({ game, now })).toBe("br");
+    expect(getTutorialPlantPlot({ game })).toBe("bl");
+  });
+});
+
 describe("isTutorialHarvestPhase", () => {
+  it("waits for the first plots to be planted", () => {
+    expect(isTutorialHarvestPhase(makePlantingGame())).toBe(false);
+  });
+
+  it("is active while the first planted Sunflowers grow", () => {
+    expect(isTutorialHarvestPhase(makePlantingGame(SNAKE))).toBe(true);
+  });
+
   it("is active while the first Sunflowers are being harvested", () => {
     expect(isTutorialHarvestPhase(makeGame(SNAKE.slice(0, 5)))).toBe(true);
   });

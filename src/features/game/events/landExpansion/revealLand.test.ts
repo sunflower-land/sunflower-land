@@ -437,6 +437,46 @@ describe("revealLand", () => {
     expect(Object.values(state.crops ?? {})).toHaveLength(9);
   });
 
+  it("reveals the first plots empty, for the tutorial's free Sunflower Seeds", () => {
+    const state = revealLand({
+      action: {
+        type: "land.revealed",
+      },
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Basic Land": new Decimal(3),
+        },
+        crops: {},
+        expansionConstruction: { createdAt: 0, readyAt: 0 },
+      },
+    });
+
+    const plots = Object.values(state.crops);
+    expect(plots).toHaveLength(9);
+    plots.forEach((plot) => expect(plot.crop).toBeUndefined());
+  });
+
+  it("preloads Rhubarb on the second set of plots", () => {
+    const state = revealLand({
+      action: {
+        type: "land.revealed",
+      },
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Basic Land": new Decimal(4),
+        },
+        crops: {},
+        expansionConstruction: { createdAt: 0, readyAt: 0 },
+      },
+    });
+
+    const plots = Object.values(state.crops);
+    expect(plots.length).toBeGreaterThan(0);
+    plots.forEach((plot) => expect(plot.crop?.name).toEqual("Rhubarb"));
+  });
+
   it("adds sunstones", () => {
     const state = revealLand({
       action: {
