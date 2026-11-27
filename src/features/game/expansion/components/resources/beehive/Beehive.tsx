@@ -45,6 +45,8 @@ import {
   getFullHiveHoneyYield,
 } from "features/game/events/landExpansion/harvestBeehive";
 import { useNow } from "lib/utils/hooks/useNow";
+import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
+import { getHoneyRateBreakdown } from "features/game/lib/honeyRateBreakdown";
 import {
   getCurrentHoneyProduced,
   getCurrentSpeed,
@@ -85,6 +87,8 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   const [showHoneyLevelPopover, setShowHoneyLevelPopover] = useState(false);
   const [showNoFlowerGrowingPopover, setShowNoFlowerGrowingPopover] =
     useState(false);
+  const [showSpeedBoosts, setShowSpeedBoosts] = useState(false);
+  const speedRef = useRef<HTMLButtonElement>(null);
 
   const landscaping = useSelector(gameService, _landscaping);
   const hive = useSelector(gameService, getBeehiveById(id), compareHive);
@@ -113,13 +117,23 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   // hive, which is exactly when Ruins Flower's flat bonus applies.
   const { yield: honeyPerFullHive } = getFullHiveHoneyYield(gameState);
 
+  // What makes up the speed shown in the modal, on the modal's live clock.
+  const speedBreakdown = showHoneyLevelModal
+    ? getHoneyRateBreakdown({ game: gameState, now })
+    : undefined;
+
   const handleBeeAnimationEnd = useCallback(() => {
     beehiveService.send("BEE_ANIMATION_DONE");
     if (!honeyReady) setShowProducingBee(true);
   }, [honeyReady, beehiveService]);
 
-  const handleHarvestHoney = () => {
+  const closeHoneyLevelModal = () => {
     setShowHoneyLevelModal(false);
+    setShowSpeedBoosts(false);
+  };
+
+  const handleHarvestHoney = () => {
+    closeHoneyLevelModal();
 
     const hadSwarm = hive.swarm;
     const state = gameService.send("beehive.harvested", { id });
@@ -216,6 +230,14 @@ export const Beehive: React.FC<Props> = ({ id }) => {
           0,
           (DEFAULT_HONEY_PRODUCTION_TIME - honeyProduced) / currentSpeed / 1000,
         );
+
+  const speedText = t("beehive.fullHivePerDay", {
+    speed: formatNumber(currentSpeed),
+    hive:
+      new Decimal(currentSpeed).toNumber() > 1
+        ? t("beehive.hives.plural")
+        : t("beehive.hive.singular"),
+  });
 
   if (hive.x === undefined || hive.y === undefined) return null;
 
@@ -324,11 +346,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
         </div>
       </div>
       {/* Harvest honey + honey level modal */}
-      <Modal
-        size="sm"
-        show={showHoneyLevelModal}
-        onHide={() => setShowHoneyLevelModal(false)}
-      >
+      <Modal size="sm" show={showHoneyLevelModal} onHide={closeHoneyLevelModal}>
         <Panel bumpkinParts={NPC_WEARABLES.stevie}>
           <div className="flex relative items-center justify-center py-1 overflow-hidden">
             <div className="flex w-full" style={{ ...progressBarBorderStyle }}>
@@ -392,16 +410,38 @@ export const Beehive: React.FC<Props> = ({ id }) => {
                 <Label type="default" icon={lightning}>
                   {t("beehive.speed")}
                 </Label>
-                <div className="text-xs mb-0.5">
-                  {t("beehive.fullHivePerDay", {
-                    speed: formatNumber(currentSpeed),
-                    hive:
-                      new Decimal(currentSpeed).toNumber() > 1
-                        ? t("beehive.hives.plural")
-                        : t("beehive.hive.singular"),
-                  })}
-                </div>
+                {speedBreakdown && speedBreakdown.rows.length > 0 ? (
+                  <button
+                    ref={speedRef}
+                    type="button"
+                    className="relative flex items-center text-xs mb-0.5 cursor-pointer"
+                    aria-expanded={showSpeedBoosts}
+                    onClick={() => setShowSpeedBoosts((show) => !show)}
+                  >
+                    {speedText}
+                    {speedBreakdown.boosted && (
+                      <img
+                        src={lightning}
+                        alt={t("cropMachine.boosted")}
+                        className="w-3 ml-1"
+                      />
+                    )}
+                  </button>
+                ) : (
+                  <div className="text-xs mb-0.5">{speedText}</div>
+                )}
               </div>
+              {speedBreakdown && (
+                <BoostsDisplay
+                  boosts={speedBreakdown.rows}
+                  base={{ value: formatNumber(1) }}
+                  show={showSpeedBoosts}
+                  state={gameState}
+                  onClick={() => setShowSpeedBoosts(false)}
+                  anchorRef={speedRef}
+                  portalAlign="left"
+                />
+              )}
             </>
           )}
           {currentSpeed === 0 && (

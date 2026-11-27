@@ -80,7 +80,7 @@ const getHoneyProductionRate = (
  * during an unprotected Flood. The weather's part changes on its own at the
  * times `getWeatherHoneyBoundaries` lists.
  */
-const getHoneyRateAt = (
+export const getHoneyRateAt = (
   game: GameState,
   now: number,
   at: number,

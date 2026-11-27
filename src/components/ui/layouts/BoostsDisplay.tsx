@@ -31,13 +31,23 @@ import {
   type SlowdownEntry,
 } from "features/game/lib/boostContributions";
 import { WEATHER_EVENT_ICONS } from "features/game/expansion/components/temperateSeason/WeatherForecast";
+import type { WeatherEventName } from "features/game/types/weather";
 
 const BOOSTS_PANEL_ESTIMATED_HEIGHT = 220;
 
-/** A boost-panel row: a named boost, or the time a Flood adds. */
+/**
+ * A boost-panel row: a named boost, the time a Flood adds, or a weather
+ * event's part of a value (e.g. the honey speed's "+0.2 Bee Migration").
+ */
 export type BoostRow =
   | { name: BoostName; value: string; label?: string; icon?: string }
-  | SlowdownEntry;
+  | SlowdownEntry
+  | WeatherEventRow;
+
+type WeatherEventRow = { weatherEvent: WeatherEventName; value: string };
+
+const isWeatherEventRow = (row: BoostRow): row is WeatherEventRow =>
+  "weatherEvent" in row;
 
 const isBumpkinSkill = (boost: BoostName): boost is BumpkinRevampSkillName =>
   boost in BUMPKIN_REVAMP_SKILL_TREE;
@@ -311,7 +321,16 @@ export const BoostsDisplay: React.FC<{
             </Label>
           )}
           {boosts.map((buff, index) =>
-            isSlowdownEntry(buff) ? (
+            isWeatherEventRow(buff) ? (
+              <Label
+                key={`${buff.weatherEvent}-${buff.value}-${index}`}
+                type="transparent"
+                icon={WEATHER_EVENT_ICONS[buff.weatherEvent]}
+                className="ml-3"
+              >
+                {`${buff.value} ${t(`weather.events.${buff.weatherEvent}`)}`}
+              </Label>
+            ) : isSlowdownEntry(buff) ? (
               <Label
                 key={`${buff.slowdown}-${buff.value}-${index}`}
                 type="transparent"
