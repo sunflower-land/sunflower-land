@@ -16,6 +16,10 @@ import { SquareIcon } from "../SquareIcon";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { Label } from "../Label";
 import { isPreActionBoosted } from "features/game/lib/timerDisplay";
+import {
+  countNamedBoosts,
+  type BoostPanelEntry,
+} from "features/game/lib/boostContributions";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
@@ -69,7 +73,8 @@ interface HarvestsRequirementProps {
 interface PropertiesProps {
   timeSeconds?: number;
   baseTimeSeconds?: number;
-  timeBoostsUsed?: { name: BoostName; value: string }[];
+  /** Named boosts, and the time a Flood adds (`getSlowdownEntries`). */
+  timeBoostsUsed?: BoostPanelEntry[];
   timeIsSlowed?: boolean;
   harvests?: HarvestsRequirementProps;
   xp?: Decimal;
@@ -185,7 +190,8 @@ export const InventoryItemDetails: React.FC<Props> = ({
     const getTimeDisplay = () => {
       if (!properties.timeSeconds) return <></>;
 
-      const hasNamedBoosts = (properties.timeBoostsUsed?.length ?? 0) > 0;
+      const hasNamedBoosts =
+        countNamedBoosts(properties.timeBoostsUsed ?? []) > 0;
       const isTimeBoosted = isPreActionBoosted({
         displaySeconds: properties.timeSeconds,
         baseSeconds: properties.baseTimeSeconds,

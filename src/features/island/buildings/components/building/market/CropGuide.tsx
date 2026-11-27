@@ -50,8 +50,10 @@ import {
 } from "features/game/lib/timerDisplay";
 import { getSeedBoostWindows } from "features/game/lib/seedBoostWindows";
 import {
+  countNamedBoosts,
   getBoostContributionEntries,
   getSeedBoostContributions,
+  getSlowdownEntries,
 } from "features/game/lib/boostContributions";
 import {
   INITIAL_STOCK,
@@ -653,13 +655,20 @@ const GrowthTimeCell: React.FC<{
   // booster still covers. The windowed boosters aren't in `boostsUsed` (they
   // apply over the grow rather than being baked into it), so name them for the
   // boost panel with the time each one actually saves.
-  const windowedBoosts = getBoostContributionEntries({
+  // A Flood's added time sits between the baked and windowed boosts, so the
+  // panel's rows add up to the time shown.
+  const entryArgs = {
     contributions: getSeedBoostContributions(state, seed, now),
     seconds: boostedTime.seconds,
     at: now,
-    formatSeconds: (seconds) => secondsToString(seconds, { length: "medium" }),
-  });
-  const boostsUsed = [...boostedTime.boostsUsed, ...windowedBoosts];
+    formatSeconds: (seconds: number) =>
+      secondsToString(seconds, { length: "medium" }),
+  };
+  const boostsUsed = [
+    ...boostedTime.boostsUsed,
+    ...getSlowdownEntries(entryArgs),
+    ...getBoostContributionEntries(entryArgs),
+  ];
   const {
     displaySeconds,
     hasNamedBoosts,
@@ -667,7 +676,7 @@ const GrowthTimeCell: React.FC<{
   } = getPreActionDisplay({
     seconds: boostedTime.seconds,
     baseSeconds,
-    namedBoostCount: boostsUsed.length,
+    namedBoostCount: countNamedBoosts(boostsUsed),
     windows: getSeedBoostWindows(state, seed),
     at: now,
   });

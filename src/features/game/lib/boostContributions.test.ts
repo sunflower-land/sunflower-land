@@ -6,6 +6,7 @@ import {
   getCropMachineBoostContributions,
   getNodeBoostContributions,
   getSeedBoostContributions,
+  getSlowdownEntries,
 } from "./boostContributions";
 import { getNodeBoostWindows, getSeedBoostWindows } from "./seedBoostWindows";
 import { TEST_FARM } from "./constants";
@@ -252,6 +253,101 @@ describe("getBoostContributionEntries", () => {
     });
 
     expect(none).toEqual([]);
+  });
+});
+
+describe("getSlowdownEntries", () => {
+  const format = (seconds: number) => `${Math.round(seconds / 60)}m`;
+
+  it("shows the time an unprotected Flood adds", () => {
+    // 4h of recovery at 0.5× takes 8h: the Flood adds 4h (240m).
+    expect(
+      getSlowdownEntries({
+        contributions: getNodeBoostContributions(FLOODED, "Tree", at),
+        seconds: 4 * HOUR,
+        at,
+        formatSeconds: format,
+      }),
+    ).toEqual([{ slowdown: "flood", value: "+240m" }]);
+  });
+
+  it("only counts the part of the task the Flood covers", () => {
+    // The Flood ends 1h after `at`: that hour does 30m of work, and the other
+    // 3h30m run at full speed, so 4h takes 4h30m and the Flood adds 30m.
+    const endingSoon: GameState = {
+      ...FLOODED,
+      weather: {
+        forecast: [
+          { name: "flood", startAt: createdAt, endAt: at + HOUR * 1000 },
+        ],
+        overlays: [],
+      },
+    };
+
+    expect(
+      getSlowdownEntries({
+        contributions: getNodeBoostContributions(endingSoon, "Tree", at),
+        seconds: 4 * HOUR,
+        at,
+        formatSeconds: format,
+      }),
+    ).toEqual([{ slowdown: "flood", value: "+30m" }]);
+  });
+
+  it("lists nothing without a Flood", () => {
+    expect(
+      getSlowdownEntries({
+        contributions: getNodeBoostContributions(BOOSTED, "Tree", at),
+        seconds: 4 * HOUR,
+        at,
+        formatSeconds: format,
+      }),
+    ).toEqual([]);
+  });
+
+  it("lists nothing for a node the Flood doesn't slow", () => {
+    expect(
+      getSlowdownEntries({
+        contributions: getNodeBoostContributions(
+          FLOODED,
+          "Ascension Crystal",
+          at,
+        ),
+        seconds: 4 * HOUR,
+        at,
+        formatSeconds: format,
+      }),
+    ).toEqual([]);
+  });
+
+  // The panel reads Base, then the Flood, then each booster's saving: together
+  // they must land on the projected time shown beside it.
+  it("adds up with the boosters' savings to the projected time", () => {
+    const seconds = 4 * HOUR;
+    const contributions = getNodeBoostContributions(FLOODED, "Tree", at);
+    const raw = (value: number) => String(value);
+
+    const [flood] = getSlowdownEntries({
+      contributions,
+      seconds,
+      at,
+      formatSeconds: raw,
+    });
+    const savings = getBoostContributionEntries({
+      contributions,
+      seconds,
+      at,
+      formatSeconds: raw,
+    }).reduce((total, entry) => total + Number(entry.value.slice(1)), 0);
+
+    expect(seconds + Number(flood.value.slice(1)) - savings).toBeCloseTo(
+      projectSeconds({
+        seconds,
+        windows: contributions.flatMap(({ windows }) => windows),
+        at,
+      }),
+      6,
+    );
   });
 });
 
