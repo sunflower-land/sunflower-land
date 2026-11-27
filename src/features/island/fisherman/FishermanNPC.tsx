@@ -39,7 +39,7 @@ import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import classNames from "classnames";
-import { isFishFrenzy } from "features/game/types/calendar";
+import { getFishFrenzy } from "./fishFrenzy";
 import {
   getWeatherOverlays,
   isWeatherOverlayActive,
@@ -143,6 +143,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     overlays: getWeatherOverlays(state),
     now,
   });
+  const isFishFrenzy = getFishFrenzy({ game: state, now }).isActive;
   const readyMarvel = useSelector(gameService, _marvel);
   const { fishing, farmActivity, island } = state;
 
@@ -372,7 +373,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
 
         {!showReelLabel && canFish && (
           <>
-            {isFishFrenzy(state) && (
+            {isFishFrenzy && (
               <img
                 src={lightning}
                 style={{

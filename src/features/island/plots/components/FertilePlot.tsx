@@ -41,6 +41,7 @@ import {
   getUnprotectedThreat,
   getWeatherEvents,
 } from "features/game/lib/weatherItemCover";
+import { getActiveWeather } from "features/game/types/weather";
 
 interface Props {
   cropName?: CropName;
@@ -72,6 +73,11 @@ const isWeatherPlagueAt = (state: MachineState, now: number) => {
     now,
   });
 };
+
+/** A weather Sun Shower is running. */
+const isWeatherSunshowerAt = (state: MachineState, now: number) =>
+  getActiveWeather({ weather: state.context.state.weather, now })?.name ===
+  "sunshower";
 
 const clampPercentage = (value: number) => Math.min(Math.max(value, 0), 100);
 
@@ -180,12 +186,22 @@ export const FertilePlot: React.FC<Props> = ({
   const isProtected = calendar.insectPlague?.protected;
   // Its own live clock (the node timer's stops once the crop is ready), only
   // running while the Weather flag is on.
-  const plagueNow = useNow({ live: weatherOn, intervalMs: PRE_ACTION_TICK_MS });
+  const weatherNow = useNow({
+    live: weatherOn,
+    intervalMs: PRE_ACTION_TICK_MS,
+  });
   const weatherPlague = useSelector(
     gameService,
     useCallback(
-      (state: MachineState) => isWeatherPlagueAt(state, plagueNow),
-      [plagueNow],
+      (state: MachineState) => isWeatherPlagueAt(state, weatherNow),
+      [weatherNow],
+    ),
+  );
+  const weatherSunshower = useSelector(
+    gameService,
+    useCallback(
+      (state: MachineState) => isWeatherSunshowerAt(state, weatherNow),
+      [weatherNow],
     ),
   );
   // Branch on the flag as harvest does: under Weather only the weather
@@ -195,7 +211,11 @@ export const FertilePlot: React.FC<Props> = ({
     : activeInsectPlague && !isProtected;
   const stage = getGrowthStage(cropName, growPercentage);
 
-  const isSunshower = getActiveCalendarEvent({ calendar }) === "sunshower";
+  // Under Weather only the weather Sun Shower speeds crops up, so only it
+  // shows.
+  const isSunshower = weatherOn
+    ? weatherSunshower
+    : getActiveCalendarEvent({ calendar }) === "sunshower";
 
   // Plot status indicators are packed into the four corners clockwise from the
   // top-left so they never overlap regardless of which are active.

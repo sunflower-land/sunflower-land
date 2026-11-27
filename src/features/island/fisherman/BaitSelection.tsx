@@ -41,7 +41,7 @@ import {
   getRemainingReels,
   getRodCost,
 } from "features/game/events/landExpansion/castRod";
-import { isFishFrenzy } from "features/game/types/calendar";
+import { getFishFrenzy } from "./fishFrenzy";
 import {
   getWeatherOverlays,
   isWeatherOverlayActive,
@@ -139,6 +139,7 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
     overlays: getWeatherOverlays(state),
     now,
   });
+  const isFishFrenzy = getFishFrenzy({ game: state, now }).isActive;
 
   const getGuaranteedOptions = (bait: FishingBait) => {
     return isGuaranteedBait(bait) ? getSeasonalGuaranteedCatch(bait) : [];
@@ -363,7 +364,7 @@ export const BaitSelection: React.FC<Props> = ({ onCast, state }) => {
               >
                 {t(`season.${currentSeason}`)}
               </Label>
-              {isFishFrenzy(state) && (
+              {isFishFrenzy && (
                 <Label icon={lightning} type="vibrant">
                   {t("calendar.events.fishFrenzy.title")}
                 </Label>

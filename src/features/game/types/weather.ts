@@ -1,3 +1,4 @@
+import type { TemperateSeasonName } from "./game";
 import type { BuildingName } from "./buildings";
 
 export type WeatherEventName =
@@ -13,20 +14,30 @@ export type WeatherEventName =
 
 export type WeatherEventKind = "threat" | "positive";
 
-/** Whether each event is a threat or a positive event. */
+/**
+ * Whether each event is a threat or a positive event, and the seasons it may
+ * be scheduled in. Every season has exactly one threat; a season-week holds
+ * that threat plus one positive event.
+ */
 export const WEATHER_EVENTS: Record<
   WeatherEventName,
-  { kind: WeatherEventKind }
+  { kind: WeatherEventKind; seasons: TemperateSeasonName[] }
 > = {
-  flood: { kind: "threat" },
-  insectPlague: { kind: "threat" },
-  tornado: { kind: "threat" },
-  greatFreeze: { kind: "threat" },
-  beeMigration: { kind: "positive" },
-  heavyRains: { kind: "positive" },
-  sunshower: { kind: "positive" },
-  bountifulHarvest: { kind: "positive" },
-  fishFrenzy: { kind: "positive" },
+  flood: { kind: "threat", seasons: ["spring"] },
+  insectPlague: { kind: "threat", seasons: ["summer"] },
+  tornado: { kind: "threat", seasons: ["autumn"] },
+  greatFreeze: { kind: "threat", seasons: ["winter"] },
+  beeMigration: { kind: "positive", seasons: ["spring", "summer", "autumn"] },
+  heavyRains: { kind: "positive", seasons: ["spring", "autumn"] },
+  sunshower: { kind: "positive", seasons: ["spring", "winter"] },
+  bountifulHarvest: {
+    kind: "positive",
+    seasons: ["summer", "autumn", "winter"],
+  },
+  fishFrenzy: {
+    kind: "positive",
+    seasons: ["spring", "summer", "autumn", "winter"],
+  },
 };
 
 /** `startAt` is inclusive, `endAt` exclusive. Events never overlap. */
