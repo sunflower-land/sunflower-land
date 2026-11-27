@@ -27,7 +27,7 @@ describe("weather.acknowledged", () => {
   it("records the start of the event running now", () => {
     const state = acknowledgeWeatherEvent({
       state: farm(WEATHER),
-      action: { type: "weather.acknowledged" },
+      action: { type: "weather.acknowledged", startAt: PLAGUE_START },
       createdAt: DURING_PLAGUE,
     });
 
@@ -38,34 +38,53 @@ describe("weather.acknowledged", () => {
     const tornado = { startAt: 1, buildings: [] };
     const state = acknowledgeWeatherEvent({
       state: farm({ ...WEATHER, tornado }),
-      action: { type: "weather.acknowledged" },
+      action: { type: "weather.acknowledged", startAt: PLAGUE_START },
       createdAt: DURING_PLAGUE,
     });
 
     expect(state.weather?.tornado).toEqual(tornado);
   });
 
-  it("throws when no event is running", () => {
-    // The roster starts on Monday 16 Nov 2026.
-    const beforeRoster = new Date("2026-11-01T00:00:00Z").getTime();
+  it("records the event even after it ended", () => {
+    // Closing a popup that stayed open past the event's end (Fri 00:00 UTC).
+    const afterPlague = new Date("2026-11-27T00:00:30Z").getTime();
+    const state = acknowledgeWeatherEvent({
+      state: farm(WEATHER),
+      action: { type: "weather.acknowledged", startAt: PLAGUE_START },
+      createdAt: afterPlague,
+    });
 
+    expect(state.weather?.acknowledged).toBe(PLAGUE_START);
+  });
+
+  it("throws for an event that isn't on the schedule", () => {
     expect(() =>
       acknowledgeWeatherEvent({
         state: farm(WEATHER),
-        action: { type: "weather.acknowledged" },
-        createdAt: beforeRoster,
+        action: { type: "weather.acknowledged", startAt: PLAGUE_START + 1 },
+        createdAt: DURING_PLAGUE,
       }),
-    ).toThrow("No weather event is running");
+    ).toThrow("Weather event not found");
+  });
+
+  it("throws for an event that hasn't started", () => {
+    expect(() =>
+      acknowledgeWeatherEvent({
+        state: farm(WEATHER),
+        action: { type: "weather.acknowledged", startAt: PLAGUE_START },
+        createdAt: PLAGUE_START - 1,
+      }),
+    ).toThrow("Weather event not found");
   });
 
   it("throws when the farm has no weather", () => {
     expect(() =>
       acknowledgeWeatherEvent({
         state: farm(undefined),
-        action: { type: "weather.acknowledged" },
+        action: { type: "weather.acknowledged", startAt: PLAGUE_START },
         createdAt: DURING_PLAGUE,
       }),
-    ).toThrow("No weather event is running");
+    ).toThrow("Weather event not found");
   });
 
   describe("without the Weather flag", () => {
@@ -81,7 +100,7 @@ describe("weather.acknowledged", () => {
       expect(() =>
         acknowledgeWeatherEvent({
           state: farm(WEATHER),
-          action: { type: "weather.acknowledged" },
+          action: { type: "weather.acknowledged", startAt: PLAGUE_START },
           createdAt: DURING_PLAGUE,
         }),
       ).toThrow("Weather is not available");

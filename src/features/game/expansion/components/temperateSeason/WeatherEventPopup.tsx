@@ -42,10 +42,13 @@ export const WeatherEventPopup: React.FC = () => {
   const event = running ?? opened;
 
   const close = () => {
-    // Only a running event can be acknowledged; one that ended while the
-    // popup was open needs nothing recorded.
-    if (running) {
-      gameService.send({ type: "weather.acknowledged" });
+    // Names the event shown, so a popup closed right as it ends still records
+    // that event and never the one starting next.
+    if (event) {
+      gameService.send({
+        type: "weather.acknowledged",
+        startAt: event.startAt,
+      });
     }
     gameService.send({ type: "ACKNOWLEDGE" });
   };

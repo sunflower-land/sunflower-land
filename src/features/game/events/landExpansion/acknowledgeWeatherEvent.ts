@@ -5,6 +5,8 @@ import { getWeatherEvents } from "features/game/lib/weatherItemCover";
 
 export type AcknowledgeWeatherEventAction = {
   type: "weather.acknowledged";
+  /** The start of the event whose popup was closed. */
+  startAt: number;
 };
 
 type Options = {
@@ -14,11 +16,13 @@ type Options = {
 };
 
 /**
- * Closes the start popup of the weather event running now, so it shows once
- * per event.
+ * Closes the start popup of a weather event that has started, so it shows
+ * once per event. The action names the event, so a popup closed just after
+ * its event ended still records that event, never the one starting next.
  */
 export function acknowledgeWeatherEvent({
   state,
+  action,
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
@@ -27,11 +31,11 @@ export function acknowledgeWeatherEvent({
     }
 
     const event = getWeatherEvents(game).find(
-      ({ startAt, endAt }) => startAt <= createdAt && createdAt < endAt,
+      ({ startAt }) => startAt === action.startAt && startAt <= createdAt,
     );
 
     if (!game.weather || !event) {
-      throw new Error("No weather event is running");
+      throw new Error("Weather event not found");
     }
 
     game.weather.acknowledged = event.startAt;
