@@ -133,6 +133,7 @@ import {
   getActiveCalendarEvent,
   type SeasonalEventName,
 } from "../types/calendar";
+import { getUnacknowledgedWeather } from "./weatherEventPopup";
 import { hasAcknowledgedTcs } from "../events/landExpansion/acknowledgeTcs";
 import { getConnection, getChainId } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
@@ -975,6 +976,7 @@ export type BlockchainState = {
     | "autosaving"
     | "buyingSFL"
     | "calendarEvent"
+    | "weatherEvent"
     | "revealing"
     | "revealed"
     | "genieRevealed"
@@ -1659,6 +1661,16 @@ export function startGame(authContext: AuthContext) {
             },
 
             {
+              target: "weatherEvent",
+              cond: (context) =>
+                !context.visitorState &&
+                !!getUnacknowledgedWeather({
+                  game: context.state,
+                  now: Date.now(),
+                }),
+            },
+
+            {
               target: "competition",
               cond: () => false,
             },
@@ -1861,6 +1873,16 @@ export function startGame(authContext: AuthContext) {
             },
             CONTINUE: {
               target: "autosaving",
+            },
+          },
+        },
+        weatherEvent: {
+          on: {
+            "weather.acknowledged": (GAME_EVENT_HANDLERS as any)[
+              "weather.acknowledged"
+            ],
+            ACKNOWLEDGE: {
+              target: "notifying",
             },
           },
         },
@@ -2220,6 +2242,18 @@ export function startGame(authContext: AuthContext) {
 
                   return !isAcknowledged;
                 },
+                actions: assign((context: Context, event) =>
+                  handleSuccessfulSave(context, event),
+                ),
+              },
+              {
+                target: "weatherEvent",
+                cond: (context, event) =>
+                  !context.visitorState &&
+                  !!getUnacknowledgedWeather({
+                    game: event.data.farm,
+                    now: Date.now(),
+                  }),
                 actions: assign((context: Context, event) =>
                   handleSuccessfulSave(context, event),
                 ),
