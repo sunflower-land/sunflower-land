@@ -124,7 +124,7 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, island }) => {
           style={bettyPosition}
         />
 
-        {isBuilt && showSeedsHelper && (
+        {isBuilt && showSeedsHelper && !isOpen && (
           <img
             className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
             src={SUNNYSIDE.icons.click_icon}
