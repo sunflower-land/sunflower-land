@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { formatNumber } from "lib/utils/formatNumber";
 import type { BoostName, GameState } from "../types/game";
 import type { WeatherEventName } from "../types/weather";
 import { getHoneyRateAt } from "./updateBeehives";
@@ -18,8 +19,11 @@ export type HoneyRateRow =
  * The rows that explain a hive's honey speed at `now`, on top of the base of
  * 1 full hive a day: the permanent boosts, then Bee Migration's own part and
  * the Guardian's and Lure's shares of it, then an unprotected Flood's final
- * multiplier. `boosted` is false when nothing but a Flood applies: that only
- * slows the hive.
+ * multiplier. `boosted` is true only when a boost applies and the speed
+ * still beats the base: a Flood can cancel the boosts out.
+ *
+ * Added values are rounded down to 2 places, the same way as the speed, so the
+ * rows add up to the speed shown.
  *
  * `speed` is the speed the hive shows (its attached flower's rate, set when
  * the flower was attached). If the boosts as they stand now don't add up to
@@ -48,8 +52,18 @@ export function getHoneyRateBreakdown({
   const factor = getWeatherHoneyFactor({ game, at: now });
 
   const fromWeather = (name: BoostName) => weather.boostsUsed.includes(name);
-  const permanent = boostsUsed.filter(({ name }) => !fromWeather(name));
-  const weatherShares = boostsUsed.filter(({ name }) => fromWeather(name));
+  const shown = ({ name, value }: { name: BoostName; value: string }) => ({
+    name,
+    value: value.startsWith("+")
+      ? `+${formatNumber(new Decimal(value.slice(1)))}`
+      : value,
+  });
+  const permanent = boostsUsed
+    .filter(({ name }) => !fromWeather(name))
+    .map(shown);
+  const weatherShares = boostsUsed
+    .filter(({ name }) => fromWeather(name))
+    .map(shown);
 
   const boosts: HoneyRateRow[] = [
     ...permanent,
@@ -76,6 +90,6 @@ export function getHoneyRateBreakdown({
           ]
         : []),
     ],
-    boosted: boosts.length > 0,
+    boosted: boosts.length > 0 && rate > 1,
   };
 }

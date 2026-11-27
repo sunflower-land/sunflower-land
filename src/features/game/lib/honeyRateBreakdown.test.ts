@@ -56,6 +56,11 @@ const farm = (
   ...fields,
 });
 
+const hyperBees: GameState["bumpkin"] = {
+  ...TEST_FARM.bumpkin,
+  skills: { "Hyper Bees": 1 },
+};
+
 const QUEEN_BEE = {
   "Queen Bee": [placed({ id: "q", coordinates: { x: 8, y: 0 } })],
 };
@@ -97,7 +102,8 @@ describe("getHoneyRateBreakdown", () => {
 
   it("lists the Guardian's and the Lure's shares after Bee Migration", () => {
     // 1 + 1 (Queen Bee) + 0.2 (event) + 0.1 (Guardian) + 1.875 (Lure, with
-    // the Guardian) = 4.175.
+    // the Guardian) = 4.175, shown rounded down to 2 places as "4.17", so the
+    // Lure's row reads +1.87 to add up to it.
     expect(
       getHoneyRateBreakdown({
         game: farm({ ...QUEEN_BEE, ...LURE, ...SUMMER_GUARDIAN }),
@@ -109,7 +115,7 @@ describe("getHoneyRateBreakdown", () => {
         { name: "Queen Bee", value: "+1" },
         { weatherEvent: "beeMigration", value: "+0.2" },
         { name: "Summer Guardian", value: "+0.1" },
-        { name: "Wildflower Lure", value: "+1.875" },
+        { name: "Wildflower Lure", value: "+1.87" },
       ],
       boosted: true,
     });
@@ -135,6 +141,7 @@ describe("getHoneyRateBreakdown", () => {
   });
 
   it("puts the Flood after the boosts it halves", () => {
+    // (1 + 1) x 0.5 = 1: the Flood cancels the Queen Bee out, so no boost.
     expect(
       getHoneyRateBreakdown({
         game: farm(QUEEN_BEE),
@@ -146,8 +153,36 @@ describe("getHoneyRateBreakdown", () => {
         { name: "Queen Bee", value: "+1" },
         { weatherEvent: "flood", value: "x0.5" },
       ],
-      boosted: true,
+      boosted: false,
     });
+  });
+
+  it("is no boost when the Flood takes the speed below the base", () => {
+    // (1 + 0.1) x 0.5 = 0.55.
+    expect(
+      getHoneyRateBreakdown({
+        game: farm({}, { bumpkin: hyperBees }),
+        now: MID_FLOOD,
+        speed: 0.55,
+      }),
+    ).toEqual({
+      rows: [
+        { name: "Hyper Bees", value: "+0.1" },
+        { weatherEvent: "flood", value: "x0.5" },
+      ],
+      boosted: false,
+    });
+  });
+
+  it("is a boost when the speed beats the base despite the Flood", () => {
+    // (1 + 1 + 0.1) x 0.5 = 1.05.
+    expect(
+      getHoneyRateBreakdown({
+        game: farm(QUEEN_BEE, { bumpkin: hyperBees }),
+        now: MID_FLOOD,
+        speed: 1.05,
+      }).boosted,
+    ).toBe(true);
   });
 
   it("has no Flood row while the season's Guardian protects the farm", () => {
