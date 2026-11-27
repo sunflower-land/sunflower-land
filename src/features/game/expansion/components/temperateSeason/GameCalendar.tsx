@@ -250,6 +250,7 @@ export const GameCalendar: React.FC = () => {
         <GameCalendarButton
           onClick={() => setIsCalendarOpen(!isCalendarOpen)}
           showTutorial={true}
+          badge={badge}
         />
       </>
     );

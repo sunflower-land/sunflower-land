@@ -484,13 +484,24 @@ const ProtectionRow: React.FC<{
     );
   }
 
+  // A copy renewed or placed now would go to that earlier event first.
+  const afterEarlierHint =
+    usedFirstBy &&
+    t(
+      status === "none" ? "weather.hint.placeAfter" : "weather.hint.renewAfter",
+      {
+        item,
+        day: formatDay(usedFirstBy.endAt - 1),
+      },
+    );
+
   // Heavy Rains counts the Guardian while it's placed: it stops the loss, and
   // the Insulation still adds the bonus.
   const rainsGuardian =
     event.name === "heavyRains" && getSeasonGuardian(event.startAt);
   if (
     rainsGuardian &&
-    status !== "placed" &&
+    (status !== "placed" || usedFirstBy) &&
     guardiansPlaced.includes(rainsGuardian)
   ) {
     return (
@@ -504,14 +515,18 @@ const ProtectionRow: React.FC<{
           <img src={ITEM_DETAILS[item].image} className="w-8 object-contain" />
           <div className="flex flex-col items-start gap-1">
             <Label type="default">
-              {status === "used"
-                ? t("weather.itemUsed", { item })
-                : t("weather.noItem", { item })}
+              {status === "placed"
+                ? t("weather.itemUsedFirst", { item })
+                : status === "used"
+                  ? t("weather.itemUsed", { item })
+                  : t("weather.noItem", { item })}
             </Label>
             <span className="text-xxs">
-              {status === "used"
-                ? t("weather.hint.renew")
-                : t("weather.hint.rainsBonus", { item })}
+              {usedFirstBy
+                ? afterEarlierHint
+                : status === "used"
+                  ? t("weather.hint.renew")
+                  : t("weather.hint.rainsBonus", { item })}
             </span>
           </div>
         </div>
@@ -533,30 +548,30 @@ const ProtectionRow: React.FC<{
       : status === "used"
         ? t("weather.hint.renew")
         : t("weather.hint.protect", { item });
-  } else if (status === "placed" && usedFirstBy) {
+  } else if (status === "placed" && afterEarlierHint) {
     label = (
       <Label type="default">{t("weather.itemUsedFirst", { item })}</Label>
     );
-    hint = t("weather.hint.renewAfter", {
-      day: formatDay(usedFirstBy.endAt - 1),
-    });
+    hint = afterEarlierHint;
   } else if (status === "placed") {
     label = <Label type="success">{t("weather.itemPlaced", { item })}</Label>;
     hint = t("weather.hint.keep");
   } else if (status === "used") {
     label = <Label type="default">{t("weather.itemUsed", { item })}</Label>;
-    hint = t("weather.hint.renew");
+    hint = afterEarlierHint || t("weather.hint.renew");
   } else {
     label = (
       <Label type={hurtsWithoutItem ? "danger" : "default"}>
         {t("weather.noItem", { item })}
       </Label>
     );
-    hint = isThreat
-      ? t("weather.hint.protect", { item })
-      : hurtsWithoutItem
-        ? t("weather.hint.avoidLoss", { item })
-        : t("weather.hint.boost", { item });
+    hint = afterEarlierHint
+      ? afterEarlierHint
+      : isThreat
+        ? t("weather.hint.protect", { item })
+        : hurtsWithoutItem
+          ? t("weather.hint.avoidLoss", { item })
+          : t("weather.hint.boost", { item });
   }
 
   return (
