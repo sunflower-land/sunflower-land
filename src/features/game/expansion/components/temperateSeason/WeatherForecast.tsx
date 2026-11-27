@@ -550,14 +550,20 @@ const ProtectionRow: React.FC<{
         : t("weather.hint.protect", { item });
   } else if (status === "placed" && afterEarlierHint) {
     label = (
-      <Label type="default">{t("weather.itemUsedFirst", { item })}</Label>
+      <Label type={hurtsWithoutItem ? "danger" : "default"}>
+        {t("weather.itemUsedFirst", { item })}
+      </Label>
     );
     hint = afterEarlierHint;
   } else if (status === "placed") {
     label = <Label type="success">{t("weather.itemPlaced", { item })}</Label>;
     hint = t("weather.hint.keep");
   } else if (status === "used") {
-    label = <Label type="default">{t("weather.itemUsed", { item })}</Label>;
+    label = (
+      <Label type={hurtsWithoutItem ? "danger" : "default"}>
+        {t("weather.itemUsed", { item })}
+      </Label>
+    );
     hint = afterEarlierHint || t("weather.hint.renew");
   } else {
     label = (
