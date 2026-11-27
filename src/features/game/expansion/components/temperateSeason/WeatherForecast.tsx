@@ -170,6 +170,17 @@ const DAY_FORMAT = new Intl.DateTimeFormat(navigator.language, {
 
 const formatDay = (at: number) => DAY_FORMAT.format(at);
 
+const CLOCK_FORMAT = new Intl.DateTimeFormat(navigator.language, {
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: true,
+  timeZone: "UTC",
+});
+
+/** The Sunflower Clock: UTC time, written like the old calendar's (06:29am). */
+const formatClock = (at: number) =>
+  CLOCK_FORMAT.format(at).toLowerCase().replace(/\s/g, "");
+
 interface Props {
   now: number;
 }
@@ -235,19 +246,33 @@ export const WeatherForecast: React.FC<Props> = ({ now }) => {
   return (
     <OuterPanel className="flex flex-col gap-1">
       <InnerPanel className="flex flex-col p-1">
-        <div className="flex items-center space-x-3 px-1 pb-2">
-          <div className="flex items-center space-x-1 text-xs sm:text-sm">
-            <span>{formatDay(now)}</span>
-            <img src={calendarIcon} className="h-6 sm:h-7" />
+        <div className="flex justify-between px-1 pb-2">
+          <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-1 text-xs sm:text-sm">
+              <span>{formatDay(now)}</span>
+              <img src={calendarIcon} className="h-6 sm:h-7" />
+            </div>
+            <div className="flex items-center space-x-1">
+              <span className="text-xs sm:text-sm">
+                {t(`season.${today.season}`)}
+              </span>
+              <img
+                src={SEASON_DETAILS[today.season].icon}
+                className="w-5 sm:w-6"
+              />
+            </div>
           </div>
-          <div className="flex items-center space-x-1">
-            <span className="text-xs sm:text-sm">
-              {t(`season.${today.season}`)}
-            </span>
-            <img
-              src={SEASON_DETAILS[today.season].icon}
-              className="w-5 sm:w-6"
-            />
+          <div className="flex flex-col items-end space-y-1">
+            <p className="text-xs whitespace-nowrap text-end">
+              {t("sunflowerClock")}
+            </p>
+            <div className="flex items-center">
+              <img
+                src={SUNNYSIDE.icons.stopwatch}
+                className="h-4 mr-1 object-contain"
+              />
+              <span className="text-xs">{formatClock(now)}</span>
+            </div>
           </div>
         </div>
 

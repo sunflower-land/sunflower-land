@@ -6230,7 +6230,7 @@
   "weather.events.heavyRains": "Heavy Rains",
   "weather.events.bountifulHarvest": "Bountiful Harvest",
   "weather.events.fishFrenzy": "Fish Frenzy",
-  "weather.effects.flood": "Resource nodes produce at half speed",
+  "weather.effects.flood": "Resource nodes and beehives produce at half speed",
   "weather.effects.tornado": "Some buildings are disabled",
   "weather.effects.insectPlague": "Crop harvests are halved",
   "weather.effects.greatFreeze": "Some crop plots are frozen",
