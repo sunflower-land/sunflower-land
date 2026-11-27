@@ -9,7 +9,12 @@ import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
 import type { Decimal } from "decimal.js-light";
 
-import { GARBAGE, type GarbageName } from "features/game/types/garbage";
+import {
+  GARBAGE,
+  type GarbageName,
+  isLegacyWeatherItemGarbage,
+} from "features/game/types/garbage";
+import { hasFeatureAccess } from "lib/flags";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { ShopSellDetails } from "components/ui/layouts/ShopSellDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -22,19 +27,22 @@ import {
 import { getWearableImage } from "features/game/lib/getWearableImage";
 
 export const GarbageSale: React.FC = () => {
-  const garbage = getKeys(GARBAGE).sort(
-    (a, b) => GARBAGE[a].sellPrice - GARBAGE[b].sellPrice,
-  );
-
-  const [selectedName, setSelectedName] = useState<GarbageName>(garbage[0]);
-
-  const selected = GARBAGE[selectedName];
   const { gameService } = useContext(Context);
   const [
     {
       context: { state },
     },
   ] = useActor(gameService);
+
+  // The Weather Shop items sell only once the Weather flag is on.
+  const hasWeather = hasFeatureAccess(state, "WEATHER");
+  const garbage = getKeys(GARBAGE)
+    .filter((name) => hasWeather || !isLegacyWeatherItemGarbage(name))
+    .sort((a, b) => GARBAGE[a].sellPrice - GARBAGE[b].sellPrice);
+
+  const [selectedName, setSelectedName] = useState<GarbageName>(garbage[0]);
+
+  const selected = GARBAGE[selectedName];
 
   // Undefined if zero
   const price = selected.sellPrice || undefined;
