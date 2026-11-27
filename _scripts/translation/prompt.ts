@@ -55,7 +55,8 @@ Write the way a casual mobile game is normally written in the target language, i
 
 - A placeholder such as {{name}} or {{count}} is replaced by the game when the string is shown. Copy every placeholder exactly as written, with the same braces and the same name inside. Move it wherever the target language's grammar needs it, but never translate, rename, add or drop one.
 - Keep HTML tags, line breaks, emoji and symbols such as "%", "+" or "x" as they are.
-- Keep the value of every number, but write its separators the way the target language does. "7,500" is "7.500" in German, "7 500" in French and stays "7,500" in Japanese; "x1.2" becomes "x1,2" in a language that uses a decimal comma. A reader must never take a thousands separator for a decimal point, or the reverse.
+- Keep the value of every number, but write its thousands separator the way the target language does: "7,500" is "7.500" in German, "7 500" in French and stays "7,500" in Japanese.
+- Keep every decimal point as a point, even in a language that normally uses a decimal comma: "x1.2" stays "x1.2" and "0.5" stays "0.5". The game fills numbers into placeholders with a point, and the static text has to match them.
 - If a string is only a name, a number or a symbol that should not change, return it unchanged.
 
 ## Reference strings
