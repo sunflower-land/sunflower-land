@@ -19,6 +19,8 @@ import shopDisc from "assets/icons/shop_disc.png";
 import { AnimalBuildingModal } from "features/game/expansion/components/animals/AnimalBuildingModal";
 import { FeederMachine } from "features/feederMachine/FeederMachine";
 import { FeedAllButton } from "features/game/expansion/components/animals/FeedAllButton";
+import { BeetleFeedingButton } from "features/game/expansion/components/animals/BeetleFeedingButton";
+import type { BeetleName } from "features/game/types/beetles";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
 import { Modal } from "components/ui/Modal";
 import {
@@ -65,6 +67,11 @@ export const HenHouseInside: React.FC = () => {
   // Bonus quick-sell flow: the skull disc docks the bounty cards at the
   // bottom of the screen instead of opening the shop modal's Sell tab.
   const [showSellPanel, setShowSellPanel] = useState(false);
+  // Beetle feeding mode: the Beetle every animal here asks for.
+  const [beetleMode, setBeetleMode] = useState<BeetleName>();
+  // The picker opens from the button, or by itself when the selected Beetle
+  // runs out mid-feeding so another kind can take over.
+  const [showBeetlePicker, setShowBeetlePicker] = useState(false);
   const [deal, setDeal] = useState<AnimalBounty>();
   const saleSelection = useBountySaleSelection("henHouse");
   const pendingDealIdByAnimal = Object.fromEntries(
@@ -299,7 +306,12 @@ export const HenHouseInside: React.FC = () => {
                       width: `${PIXEL_SCALE * 18}px`,
                       right: `${18 + PIXEL_SCALE * 19}px`,
                     }}
-                    onClick={() => setShowSellPanel(true)}
+                    onClick={() => {
+                      setShowSellPanel(true);
+                      // Selling interrupts feeding: end the mode so the hand
+                      // the button restores on unmount matches no active mode.
+                      setBeetleMode(undefined);
+                    }}
                   >
                     <img
                       className="block w-full"
@@ -360,6 +372,17 @@ export const HenHouseInside: React.FC = () => {
               {!showSellPanel && (
                 <div className="absolute -top-[11px] left-1/2 translate-x-[58px]">
                   <FeedAllButton building="Hen House" />
+                </div>
+              )}
+
+              {!showSellPanel && (
+                <div className="absolute -top-[11px] right-1/2 -translate-x-[58px]">
+                  <BeetleFeedingButton
+                    beetle={beetleMode}
+                    onChange={setBeetleMode}
+                    showPicker={showBeetlePicker}
+                    onShowPickerChange={setShowBeetlePicker}
+                  />
                 </div>
               )}
 
@@ -426,6 +449,8 @@ export const HenHouseInside: React.FC = () => {
                         <Chicken
                           disabled={!!deal || showSellPanel}
                           id={animal.id}
+                          beetle={beetleMode}
+                          onBeetlesEmpty={() => setShowBeetlePicker(true)}
                         />
                         {isPendingSale && (
                           <PendingSaleTag

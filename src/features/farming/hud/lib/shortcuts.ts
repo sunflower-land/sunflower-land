@@ -51,3 +51,11 @@ export function getShortcuts(): InventoryItemName[] {
 
   return JSON.parse(cached);
 }
+
+export function removeShortcut(item: InventoryItemName) {
+  const items = getShortcuts().filter((name) => name !== item);
+
+  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(items));
+
+  return items;
+}

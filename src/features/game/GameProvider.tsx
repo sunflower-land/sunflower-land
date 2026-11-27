@@ -10,6 +10,7 @@ import {
   cacheShortcutItems,
   cacheShortcuts,
   getShortcuts,
+  removeShortcut as removeShortcutFromCache,
 } from "features/farming/hud/lib/shortcuts";
 import {
   startGame,
@@ -41,6 +42,7 @@ interface GameContext {
     items: InventoryItemName[],
     options?: { activateFirst?: boolean },
   ) => void;
+  removeShortcut: (item: InventoryItemName) => void;
   shortcuts: InventoryItemName[];
   selectedItem?: InventoryItemName;
   gameService: MachineInterpreter;
@@ -227,6 +229,10 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
     [],
   );
 
+  const removeShortcut = useCallback((item: InventoryItemName) => {
+    setShortcuts(removeShortcutFromCache(item));
+  }, []);
+
   const toggleAnimations = () => {
     const newValue = !showAnimations;
 
@@ -262,6 +268,7 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
       value={{
         shortcutItem,
         shortcutItems,
+        removeShortcut,
         shortcuts,
         selectedItem,
         gameService,

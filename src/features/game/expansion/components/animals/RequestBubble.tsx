@@ -6,12 +6,17 @@ import type {
   AnimalMedicineName,
   LoveAnimalItem,
 } from "features/game/types/game";
+import type { BeetleName } from "features/game/types/beetles";
 
 import { ITEM_DETAILS } from "features/game/types/images";
 import { formatNumber } from "lib/utils/formatNumber";
 // TODO: Add love items
 
-type RequestItem = AnimalFoodName | AnimalMedicineName | LoveAnimalItem;
+type RequestItem =
+  | AnimalFoodName
+  | AnimalMedicineName
+  | LoveAnimalItem
+  | BeetleName;
 
 type RequestBubbleProps = {
   top: number;
@@ -83,6 +88,26 @@ const ANIMAL_REQUEST_IMAGES: Record<
     src: ITEM_DETAILS.Brush.image,
     width: 15,
     height: 16,
+  },
+  "Green Beetle": {
+    src: ITEM_DETAILS["Green Beetle"].image,
+    width: 14,
+    height: 14,
+  },
+  "Blue Beetle": {
+    src: ITEM_DETAILS["Blue Beetle"].image,
+    width: 14,
+    height: 14,
+  },
+  "Pink Beetle": {
+    src: ITEM_DETAILS["Pink Beetle"].image,
+    width: 14,
+    height: 14,
+  },
+  "Amber Beetle": {
+    src: ITEM_DETAILS["Amber Beetle"].image,
+    width: 14,
+    height: 14,
   },
   "Music Box": {
     src: ITEM_DETAILS["Music Box"].image,
