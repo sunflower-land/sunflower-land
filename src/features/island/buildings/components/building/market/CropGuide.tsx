@@ -50,8 +50,10 @@ import {
 } from "features/game/lib/timerDisplay";
 import { getSeedBoostWindows } from "features/game/lib/seedBoostWindows";
 import {
+  countNamedBoosts,
   getBoostContributionEntries,
   getSeedBoostContributions,
+  getSlowdownEntries,
 } from "features/game/lib/boostContributions";
 import {
   INITIAL_STOCK,
@@ -653,13 +655,20 @@ const GrowthTimeCell: React.FC<{
   // booster still covers. The windowed boosters aren't in `boostsUsed` (they
   // apply over the grow rather than being baked into it), so name them for the
   // boost panel with the time each one actually saves.
-  const windowedBoosts = getBoostContributionEntries({
+  // A Flood's added time sits between the baked and windowed boosts, so the
+  // panel's rows add up to the time shown.
+  const entryArgs = {
     contributions: getSeedBoostContributions(state, seed, now),
     seconds: boostedTime.seconds,
     at: now,
-    formatSeconds: (seconds) => secondsToString(seconds, { length: "medium" }),
-  });
-  const boostsUsed = [...boostedTime.boostsUsed, ...windowedBoosts];
+    formatSeconds: (seconds: number) =>
+      secondsToString(seconds, { length: "medium" }),
+  };
+  const boostsUsed = [
+    ...boostedTime.boostsUsed,
+    ...getSlowdownEntries(entryArgs),
+    ...getBoostContributionEntries(entryArgs),
+  ];
   const {
     displaySeconds,
     hasNamedBoosts,
@@ -667,13 +676,15 @@ const GrowthTimeCell: React.FC<{
   } = getPreActionDisplay({
     seconds: boostedTime.seconds,
     baseSeconds,
-    namedBoostCount: boostsUsed.length,
+    namedBoostCount: countNamedBoosts(boostsUsed),
     windows: getSeedBoostWindows(state, seed),
     at: now,
   });
   const showMediumTime = Math.max(baseSeconds, displaySeconds) > 24 * 60 * 60;
 
-  if (!isTimeBoosted) {
+  // A Flood can keep the time above base even with named boosts: show the plain
+  // time, but still let it open the breakdown.
+  if (!isTimeBoosted && !hasNamedBoosts) {
     return (
       <div className="flex items-center mr-2">
         <img src={SUNNYSIDE.icons.stopwatch} className="w-3 mr-1" />
@@ -712,16 +723,18 @@ const GrowthTimeCell: React.FC<{
             })}
           </p>
         </div>
-        <div className="flex items-center">
-          <img src={SUNNYSIDE.icons.lightning} className="w-3 mx-1" />
-          {displaySeconds !== baseSeconds && (
-            <p className="text-xxs line-through">
-              {secondsToString(baseSeconds, {
-                length: showMediumTime ? "medium" : "short",
-              })}
-            </p>
-          )}
-        </div>
+        {isTimeBoosted && (
+          <div className="flex items-center">
+            <img src={SUNNYSIDE.icons.lightning} className="w-3 mx-1" />
+            {displaySeconds !== baseSeconds && (
+              <p className="text-xxs line-through">
+                {secondsToString(baseSeconds, {
+                  length: showMediumTime ? "medium" : "short",
+                })}
+              </p>
+            )}
+          </div>
+        )}
       </div>
       <BoostsDisplay
         boosts={boostsUsed}

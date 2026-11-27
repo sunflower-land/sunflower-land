@@ -24,8 +24,11 @@ import {
 } from "features/game/lib/timerDisplay";
 import { getNodeBoostWindows } from "features/game/lib/seedBoostWindows";
 import {
+  countNamedBoosts,
   getBoostContributionEntries,
   getNodeBoostContributions,
+  getSlowdownEntries,
+  type BoostPanelEntry,
 } from "features/game/lib/boostContributions";
 import {
   INITIAL_STOCK,
@@ -64,7 +67,8 @@ type CooldownDisplay = {
   recoverySeconds: number;
   /** A Flood made the recovery longer (see `getPreActionDisplay`). */
   isSlowed: boolean;
-  boostsUsed: { name: BoostName; value: string }[];
+  /** Named boosts, and the time a Flood adds (`getSlowdownEntries`). */
+  boostsUsed: BoostPanelEntry[];
   image?: string;
 };
 
@@ -393,7 +397,7 @@ const CooldownCell: React.FC<{
   // Named boosts are the ones the popover can itemise; a live speed window has
   // no name attached to it, so it shortens the time without making the cell
   // clickable.
-  const hasNamedBoosts = cooldown.boostsUsed.length > 0;
+  const hasNamedBoosts = countNamedBoosts(cooldown.boostsUsed) > 0;
   const hasBoosts = isPreActionBoosted({
     displaySeconds: cooldown.recoverySeconds,
     baseSeconds: cooldown.baseSeconds,
@@ -401,14 +405,18 @@ const CooldownCell: React.FC<{
     isSlowed: cooldown.isSlowed,
   });
 
+  // A Flood can keep the time above base even with named boosts; the cell then
+  // shows the plain time but still opens the breakdown.
+  const showsBreakdown = hasBoosts || hasNamedBoosts;
+
   const recoveryTimeStr = secondsToString(cooldown.recoverySeconds, {
-    length: hasBoosts ? "medium" : "short",
+    length: showsBreakdown ? "medium" : "short",
   });
   const baseTimeStr = secondsToString(cooldown.baseSeconds, {
-    length: hasBoosts ? "medium" : "short",
+    length: showsBreakdown ? "medium" : "short",
   });
 
-  if (hasBoosts) {
+  if (showsBreakdown) {
     return (
       <div
         ref={anchorRef}
@@ -424,7 +432,11 @@ const CooldownCell: React.FC<{
         <div className="flex items-center gap-1.5 flex-wrap">
           <div className="flex items-center">
             <img
-              src={SUNNYSIDE.icons.lightning}
+              src={
+                hasBoosts
+                  ? SUNNYSIDE.icons.lightning
+                  : SUNNYSIDE.icons.stopwatch
+              }
               className="w-3 mr-1 flex-shrink-0"
               alt=""
             />
@@ -432,7 +444,7 @@ const CooldownCell: React.FC<{
               {cooldown.recoverySeconds > 0 ? recoveryTimeStr : t("instant")}
             </span>
           </div>
-          {cooldown.baseSeconds > 0 && (
+          {hasBoosts && cooldown.baseSeconds > 0 && (
             <div className="flex items-center">
               <img
                 src={SUNNYSIDE.icons.stopwatch}
@@ -496,19 +508,26 @@ const NodeRow: React.FC<NodeRowProps> = ({
   // The windowed boosters aren't in `boostsUsed` (they apply over the recovery
   // rather than being baked into it), so name them for the boost panel with the
   // time each one actually saves.
-  const windowedBoosts = getBoostContributionEntries({
+  // A Flood's added time sits between the baked and windowed boosts, so the
+  // panel's rows add up to the time shown.
+  const entryArgs = {
     contributions: node.nodeName
       ? getNodeBoostContributions(state, node.nodeName, now)
       : [],
     seconds: recoveryTimeMs / 1000,
     at: now,
-    formatSeconds: (seconds) => secondsToString(seconds, { length: "medium" }),
-  });
-  const allBoostsUsed = [...boostsUsed, ...windowedBoosts];
+    formatSeconds: (seconds: number) =>
+      secondsToString(seconds, { length: "medium" }),
+  };
+  const allBoostsUsed = [
+    ...boostsUsed,
+    ...getSlowdownEntries(entryArgs),
+    ...getBoostContributionEntries(entryArgs),
+  ];
   const { displaySeconds, isSlowed } = getPreActionDisplay({
     seconds: recoveryTimeMs / 1000,
     baseSeconds: baseTimeMs / 1000,
-    namedBoostCount: allBoostsUsed.length,
+    namedBoostCount: countNamedBoosts(allBoostsUsed),
     windows,
     at: now,
   });

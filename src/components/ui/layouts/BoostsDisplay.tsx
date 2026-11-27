@@ -26,8 +26,18 @@ import type { BudNFTName } from "features/game/types/marketplace";
 import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 import classNames from "classnames";
 import { getBudImage } from "lib/buds/types";
+import {
+  isSlowdownEntry,
+  type SlowdownEntry,
+} from "features/game/lib/boostContributions";
+import { WEATHER_EVENT_ICONS } from "features/game/expansion/components/temperateSeason/WeatherForecast";
 
 const BOOSTS_PANEL_ESTIMATED_HEIGHT = 220;
+
+/** A boost-panel row: a named boost, or the time a Flood adds. */
+export type BoostRow =
+  | { name: BoostName; value: string; label?: string; icon?: string }
+  | SlowdownEntry;
 
 const isBumpkinSkill = (boost: BoostName): boost is BumpkinRevampSkillName =>
   boost in BUMPKIN_REVAMP_SKILL_TREE;
@@ -123,7 +133,7 @@ export const getBoostIcon = (boost: BoostName, state: GameState): string => {
 };
 
 export const BoostsDisplay: React.FC<{
-  boosts: { name: BoostName; value: string; label?: string; icon?: string }[];
+  boosts: BoostRow[];
   /**
    * The un-boosted value the boosts are applied to (e.g. a level's base drop,
    * a recipe's base time). Shown first so the rows add up to the boosted total.
@@ -300,16 +310,27 @@ export const BoostsDisplay: React.FC<{
               {`${t("boostsDisplay.base")}: ${base.value}`}
             </Label>
           )}
-          {boosts.map((buff, index) => (
-            <Label
-              key={`${buff.name}-${buff.value}-${index}`}
-              type="transparent"
-              icon={buff.icon ?? getBoostIcon(buff.name, state)}
-              className="ml-3"
-            >
-              {`${buff.value} ${buff.label ?? `${getBoostLabel(buff.name, t)}${getSkillRankSuffix(buff.name, state)}`}`}
-            </Label>
-          ))}
+          {boosts.map((buff, index) =>
+            isSlowdownEntry(buff) ? (
+              <Label
+                key={`${buff.slowdown}-${buff.value}-${index}`}
+                type="transparent"
+                icon={WEATHER_EVENT_ICONS[buff.slowdown]}
+                className="ml-3"
+              >
+                {`${buff.value} ${t(`weather.events.${buff.slowdown}`)}`}
+              </Label>
+            ) : (
+              <Label
+                key={`${buff.name}-${buff.value}-${index}`}
+                type="transparent"
+                icon={buff.icon ?? getBoostIcon(buff.name, state)}
+                className="ml-3"
+              >
+                {`${buff.value} ${buff.label ?? `${getBoostLabel(buff.name, t)}${getSkillRankSuffix(buff.name, state)}`}`}
+              </Label>
+            ),
+          )}
         </div>
       </div>
     </AnimatedPanel>

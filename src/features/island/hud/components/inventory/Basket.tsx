@@ -89,8 +89,10 @@ import { secondsToString } from "lib/utils/time";
 import { getPreActionDisplay } from "features/game/lib/timerDisplay";
 import { getSeedBoostWindows } from "features/game/lib/seedBoostWindows";
 import {
+  countNamedBoosts,
   getBoostContributionEntries,
   getSeedBoostContributions,
+  getSlowdownEntries,
 } from "features/game/lib/boostContributions";
 import { PROCESSED_RESOURCES } from "features/game/types/processedFood";
 import { CRUSTACEANS_DESCRIPTIONS } from "features/game/types/crustaceans";
@@ -229,29 +231,32 @@ export const Basket: React.FC<Prop> = ({
   // still covers. The windowed boosters aren't in `boostsUsed` (they apply over
   // the grow rather than being baked into it), so name them for the boost
   // panel with the time each one actually saves.
-  const seedWindowedBoosts =
+  // A Flood's added time is listed between the baked and windowed boosts, so
+  // the panel's rows add up to the time shown.
+  const seedContributions =
     isSeed(selectedItem) && seedHarvestTime
-      ? getBoostContributionEntries({
-          contributions: getSeedBoostContributions(
-            gameState,
-            selectedItem,
-            now,
-          ),
-          seconds: seedHarvestTime.seconds,
-          at: now,
-          formatSeconds: (seconds) =>
-            secondsToString(seconds, { length: "medium" }),
-        })
+      ? getSeedBoostContributions(gameState, selectedItem, now)
       : [];
+  const seedEntryArgs = {
+    contributions: seedContributions,
+    seconds: seedHarvestTime?.seconds ?? 0,
+    at: now,
+    formatSeconds: (seconds: number) =>
+      secondsToString(seconds, { length: "medium" }),
+  };
   const seedBoostsUsed = seedHarvestTime
-    ? [...seedHarvestTime.boostsUsed, ...seedWindowedBoosts]
+    ? [
+        ...seedHarvestTime.boostsUsed,
+        ...getSlowdownEntries(seedEntryArgs),
+        ...getBoostContributionEntries(seedEntryArgs),
+      ]
     : undefined;
   const seedTimeDisplay =
     isSeed(selectedItem) && seedHarvestTime
       ? getPreActionDisplay({
           seconds: seedHarvestTime.seconds,
           baseSeconds: getBaseHarvestTime(selectedItem),
-          namedBoostCount: seedBoostsUsed?.length ?? 0,
+          namedBoostCount: countNamedBoosts(seedBoostsUsed ?? []),
           windows: getSeedBoostWindows(gameState, selectedItem),
           at: now,
         })

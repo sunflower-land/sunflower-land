@@ -5,7 +5,6 @@ import {
   type LevelRequirement,
 } from "features/game/lib/level";
 import type {
-  BoostName,
   GameState,
   InventoryItemName,
   TemperateSeasonName,
@@ -28,6 +27,8 @@ import {
 import { getCropMachineBoostWindows } from "features/game/lib/boostWindows";
 import {
   getBoostContributionEntries,
+  countNamedBoosts,
+  type BoostPanelEntry,
   getCropMachineBoostContributions,
 } from "features/game/lib/boostContributions";
 import emptyPot from "assets/greenhouse/greenhouse_pot.webp";
@@ -99,7 +100,8 @@ interface RequirementsProps {
   harvests?: HarvestsRequirementProps;
   time?: {
     seconds: number;
-    boostsUsed: { name: BoostName; value: string }[];
+    /** Named boosts, and the time a Flood adds (`getSlowdownEntries`). */
+    boostsUsed: BoostPanelEntry[];
     /** A Flood made the time longer (see `getPreActionDisplay`). */
     isSlowed?: boolean;
   };
@@ -293,7 +295,7 @@ export const SeedRequirements: React.FC<Props> = ({
     // Named boosts are already folded into `time.seconds` and can be itemised; a
     // live speed window shows as a shorter projected time but has no name to
     // list, so it must not make the block clickable on its own.
-    const hasNamedBoosts = (time?.boostsUsed.length ?? 0) > 0;
+    const hasNamedBoosts = countNamedBoosts(time?.boostsUsed ?? []) > 0;
     const isTimeBoosted =
       !!time &&
       isPreActionBoosted({
